@@ -133,12 +133,14 @@ int itkStreamingImageFilterTest2(int, char* [] )
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
-    short col = itk::Math::RoundHalfIntegerUp<short>( static_cast<float> (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
-                                                                   (shrink->GetShrinkFactors()[0] ) / 2.0 ) );
+    auto col = itk::Math::RoundHalfIntegerUp<short>(
+         static_cast<float> (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0]
+                             + (shrink->GetShrinkFactors()[0] ) / 2.0 ) );
     col += colOffset;
 
-    short row =  itk::Math::RoundHalfIntegerUp<short>( static_cast<float> (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
-                                                                    (shrink->GetShrinkFactors()[1] ) / 2.0 ) );
+    auto row =  itk::Math::RoundHalfIntegerUp<short>(
+         static_cast<float> (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]
+                             + (shrink->GetShrinkFactors()[1] ) / 2.0 ) );
     row += rowOffset;
     short trueValue = col + region.GetSize()[0] * row;
 

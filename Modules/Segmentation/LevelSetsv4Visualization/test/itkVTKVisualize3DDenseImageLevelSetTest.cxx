@@ -85,8 +85,7 @@ int itkVTKVisualize3DDenseImageLevelSetTest( int , char* [] )
   while( !it.IsAtEnd() )
     {
     LevelSetImageType::IndexType idx = it.GetIndex();
-    LevelSetOutputType value =
-        static_cast< LevelSetOutputType >( ( idx[0] - 25 ) * ( idx[0] - 25 ) +
+    auto value = static_cast< LevelSetOutputType >( ( idx[0] - 25 ) * ( idx[0] - 25 ) +
                                            ( idx[1] - 25 ) * ( idx[1] - 25 ) +
                                            ( idx[2] - 25 ) * ( idx[2] - 25 ) );
     value = std::sqrt( value ) - 20;

@@ -119,7 +119,7 @@ int itkResampleImageTest(int, char* [] )
     index  = iter2.GetIndex();
     value  = iter2.Get();
     pixval = value;
-    PixelType expectedValue = static_cast<PixelType>( (index[0] + index[1]) / 2.0 );
+    auto expectedValue = static_cast<PixelType>( (index[0] + index[1]) / 2.0 );
     if ( !itk::Math::FloatAlmostEqual( expectedValue, pixval, 10, tolerance ) )
       {
       std::cout << "Error in resampled image: Pixel " << index

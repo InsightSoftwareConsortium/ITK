@@ -44,9 +44,8 @@ void
 AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 ::InitializeIteration()
 {
-  AnisotropicDiffusionFunction< UpdateBufferType > *f =
-    dynamic_cast< AnisotropicDiffusionFunction< UpdateBufferType > * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast< AnisotropicDiffusionFunction< UpdateBufferType > * > (
+               this->GetDifferenceFunction().GetPointer() );
   if ( !f )
     {
     throw ExceptionObject(__FILE__, __LINE__, "Anisotropic diffusion function is not set.", ITK_LOCATION);

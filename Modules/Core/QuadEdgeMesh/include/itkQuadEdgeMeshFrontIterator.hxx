@@ -85,7 +85,7 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::operator++()
   // Sort on the Cost:
   m_Front->sort();
   // Consider the edge with lowest Cost:
-  FrontTypeIterator fit = m_Front->begin();
+  auto fit = m_Front->begin();
   QEType *          edge = fit->m_Edge;
 
   // Traverse the Onext ring in search of an unvisited Origin:
@@ -137,12 +137,12 @@ template< typename TMesh, typename TQE >
 typename QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::QEType *
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::FindDefaultSeed()
 {
-  if ( QEType * edge = dynamic_cast< QEType * >( m_Mesh->GetEdge() ) )
+  if ( auto * edge = dynamic_cast< QEType * >( m_Mesh->GetEdge() ) )
     {
     return edge;
     }
   using QEDual = typename QEType::DualType;
-  if ( QEDual * edge = dynamic_cast< QEDual * >( m_Mesh->GetEdge() ) )
+  if ( auto * edge = dynamic_cast< QEDual * >( m_Mesh->GetEdge() ) )
     {
     return edge->GetRot();
     }

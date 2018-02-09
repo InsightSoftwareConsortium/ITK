@@ -42,14 +42,14 @@ int itkSparseFrequencyContainer2Test(int, char* [] )
     for( unsigned int bin=0; bin < numberOfBins; bin++ )
       {
       // Compute any value as frequency just to test the SetFrequency() method
-      const AbsoluteFrequencyType frequency = static_cast<AbsoluteFrequencyType>( bin * bin );
+      const auto frequency = static_cast<AbsoluteFrequencyType>( bin * bin );
       container->SetFrequency( bin, frequency );
       }
 
     for( unsigned int bin=0; bin < numberOfBins; bin++ )
       {
       // Test if the values can be read back
-      const AbsoluteFrequencyType frequency = static_cast<AbsoluteFrequencyType>( bin * bin );
+      const auto frequency = static_cast<AbsoluteFrequencyType>( bin * bin );
       const AbsoluteFrequencyType stored    = container->GetFrequency( bin );
       if( stored != frequency )
         {
@@ -83,7 +83,7 @@ int itkSparseFrequencyContainer2Test(int, char* [] )
     for( unsigned int bin=0; bin < numberOfBins; bin++ )
       {
       // Compute any value as frequency just to test the SetFrequency() method
-      const AbsoluteFrequencyType frequency = static_cast<AbsoluteFrequencyType>( bin * bin );
+      const auto frequency = static_cast<AbsoluteFrequencyType>( bin * bin );
       container->SetFrequency( bin, frequency );
       }
 
@@ -91,7 +91,7 @@ int itkSparseFrequencyContainer2Test(int, char* [] )
     for( unsigned int bin=0; bin < numberOfBins; bin++ )
       {
       // Compute any value as frequency just to test the IncreaseFrequency() method
-      const AbsoluteFrequencyType frequency = static_cast<AbsoluteFrequencyType>( bin );
+      const auto frequency = static_cast<AbsoluteFrequencyType>( bin );
       container->IncreaseFrequency( bin, frequency );
       }
 
@@ -99,7 +99,7 @@ int itkSparseFrequencyContainer2Test(int, char* [] )
     // Test if the values can be read back
     for( unsigned int bin=0; bin < numberOfBins; bin++ )
       {
-      const AbsoluteFrequencyType frequency = static_cast<AbsoluteFrequencyType>( bin * bin + bin );
+      const auto frequency = static_cast<AbsoluteFrequencyType>( bin * bin + bin );
       const AbsoluteFrequencyType stored    = container->GetFrequency( bin );
       if( stored != frequency )
         {

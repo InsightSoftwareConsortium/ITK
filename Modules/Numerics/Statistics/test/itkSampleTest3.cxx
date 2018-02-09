@@ -83,8 +83,7 @@ public:
   TotalAbsoluteFrequencyType GetTotalFrequency() const override
     {
     TotalAbsoluteFrequencyType sum = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
-    using Iterator = typename std::vector< AbsoluteFrequencyType >::const_iterator;
-    Iterator itr = m_Frequencies.begin();
+    auto itr = m_Frequencies.begin();
     while( itr != m_Frequencies.end() )
       {
       sum += *itr;

@@ -31,7 +31,7 @@ struct node_type
 int itkSparseFieldLayerTest(int , char *[] )
 {
   unsigned int i, j;
-  node_type *store = new node_type[4000];
+  auto * store = new node_type[4000];
   itk::SparseFieldLayer<node_type>::RegionListType rlist;
 
   itk::SparseFieldLayer<node_type>::Pointer layer

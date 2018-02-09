@@ -72,8 +72,7 @@ int itkFrustumSpatialFunctionTest( int, char *[] )
 
   // Test for a rotation in the XZ plane
   //
-  FrustumSpatialFunctionType::FrustumRotationPlaneType rotationPlane =
-    static_cast< FrustumSpatialFunctionType::FrustumRotationPlaneType > ( 1 );
+  auto rotationPlane = static_cast< FrustumSpatialFunctionType::FrustumRotationPlaneType > ( 1 );
   frustrumSpatialFunction->SetRotationPlane( rotationPlane );
   TEST_SET_GET_VALUE( rotationPlane, frustrumSpatialFunction->GetRotationPlane() );
 

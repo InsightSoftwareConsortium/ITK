@@ -28,10 +28,10 @@ public:
 
   static PrimalType * MakeQuadEdges()
     {
-    PrimalType * e1 = new PrimalType();
-    DualType   * e2 = new DualType();
-    PrimalType * e3 = new PrimalType();
-    DualType   * e4 = new DualType();
+    auto * e1 = new PrimalType();
+    auto * e2 = new DualType();
+    auto * e3 = new PrimalType();
+    auto * e4 = new DualType();
 
     e1->SetRot( e2 );
     e2->SetRot( e3 );

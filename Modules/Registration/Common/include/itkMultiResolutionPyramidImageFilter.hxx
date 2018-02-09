@@ -79,7 +79,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   // set the required number of outputs
   this->SetNumberOfRequiredOutputs(m_NumberOfLevels);
 
-  unsigned int numOutputs = static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
+  auto numOutputs = static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
   unsigned int idx;
   if ( numOutputs < m_NumberOfLevels )
     {
@@ -403,7 +403,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 
     for ( unsigned int idim = 0; idim < OutputImageType::ImageDimension; idim++ )
       {
-      const double shrinkFactor = static_cast< double >( m_Schedule[ilevel][idim] );
+      const auto shrinkFactor = static_cast< double >( m_Schedule[ilevel][idim] );
       outputSpacing[idim] = inputSpacing[idim] * shrinkFactor;
 
       outputSize[idim] = static_cast< SizeValueType >(
@@ -445,14 +445,14 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateOutputRequestedRegion(refOutput);
 
   // find the index for this output
-  unsigned int refLevel = static_cast<unsigned int>( refOutput->GetSourceOutputIndex() );
+  auto refLevel = static_cast<unsigned int>( refOutput->GetSourceOutputIndex() );
 
   // compute baseIndex and baseSize
   using SizeType = typename OutputImageType::SizeType;
   using IndexType = typename OutputImageType::IndexType;
   using RegionType = typename OutputImageType::RegionType;
 
-  TOutputImage *ptr = itkDynamicCastInDebugMode< TOutputImage * >( refOutput );
+  auto * ptr = itkDynamicCastInDebugMode< TOutputImage * >( refOutput );
   if ( !ptr )
     {
     itkExceptionMacro(<< "Could not cast refOutput to TOutputImage*.");
@@ -496,7 +496,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 
       for ( idim = 0; idim < TOutputImage::ImageDimension; idim++ )
         {
-        double factor = static_cast< double >( m_Schedule[ilevel][idim] );
+        auto factor = static_cast< double >( m_Schedule[ilevel][idim] );
 
         outputSize[idim] = static_cast< SizeValueType >(
           std::floor(static_cast< double >( baseSize[idim] ) / factor) );
@@ -561,7 +561,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   using OutputPixelType = typename TOutputImage::PixelType;
   using OperatorType = GaussianOperator< OutputPixelType, ImageDimension >;
 
-  OperatorType *oper = new OperatorType;
+  auto * oper = new OperatorType;
 
   typename TInputImage::SizeType radius;
 

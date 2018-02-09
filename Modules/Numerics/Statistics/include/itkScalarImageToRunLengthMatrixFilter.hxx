@@ -47,7 +47,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   constexpr unsigned int measurementVectorSize = 2;
 
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput( 0 ) );
-  HistogramType *output = const_cast<HistogramType *>( this->GetOutput() );
+  auto * output = const_cast<HistogramType *>( this->GetOutput() );
   output->SetMeasurementVectorSize( measurementVectorSize );
 
   this->m_LowerBound.SetSize( measurementVectorSize );
@@ -117,8 +117,7 @@ const typename ScalarImageToRunLengthMatrixFilter<TImageType,
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::GetOutput() const
 {
-  const HistogramType *output =
-    static_cast<const HistogramType *>( this->ProcessObject::GetOutput( 0 ) );
+  const auto * output = static_cast<const HistogramType *>( this->ProcessObject::GetOutput( 0 ) );
   return output;
 }
 
@@ -136,8 +135,7 @@ void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::GenerateData()
 {
-  HistogramType *output =
-    static_cast<HistogramType *>( this->ProcessObject::GetOutput( 0 ) );
+  auto * output = static_cast<HistogramType *>( this->ProcessObject::GetOutput( 0 ) );
 
   const ImageType * inputImage = this->GetInput();
 

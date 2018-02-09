@@ -54,8 +54,7 @@ const typename StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, T
 StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::GetMaskImage() const
 {
-  const MaskImageType *maskImage =
-    dynamic_cast< const MaskImageType * >( this->ProcessObject::GetInput(1) );
+  const auto * maskImage = dynamic_cast< const MaskImageType * >( this->ProcessObject::GetInput(1) );
 
   return maskImage;
 }
@@ -206,7 +205,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
         sumXY += ( averageAbsoluteIntensityDifference[k] * distance );
         }
 
-      const RealType N = static_cast< RealType >( distances.size() );
+      const auto N = static_cast< RealType >( distances.size() );
 
       const RealType slope = ( N * sumXY - sumX * sumY ) / ( N * sumXX - sumX * sumX );
 

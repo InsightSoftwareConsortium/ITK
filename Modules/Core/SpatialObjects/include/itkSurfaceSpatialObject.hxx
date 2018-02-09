@@ -110,8 +110,8 @@ SurfaceSpatialObject< TDimension >
        || strstr( typeid( Self ).name(),
                   this->GetBoundingBoxChildrenName().c_str() ) )
     {
-    typename PointListType::const_iterator it  = m_Points.begin();
-    typename PointListType::const_iterator end = m_Points.end();
+    auto it  = m_Points.begin();
+    auto end = m_Points.end();
 
     if ( it == end )
       {
@@ -144,8 +144,8 @@ bool
 SurfaceSpatialObject< TDimension >
 ::IsInside(const PointType & point) const
 {
-  typename PointListType::const_iterator it = m_Points.begin();
-  typename PointListType::const_iterator itEnd = m_Points.end();
+  auto it = m_Points.begin();
+  auto itEnd = m_Points.end();
 
   if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {

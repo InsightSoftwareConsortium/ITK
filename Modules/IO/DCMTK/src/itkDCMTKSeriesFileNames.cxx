@@ -120,7 +120,7 @@ DCMTKSeriesFileNames
         {
         continue;
         }
-      DCMTKFileReader *reader = new DCMTKFileReader;
+      auto * reader = new DCMTKFileReader;
       try
         {
         reader->SetFileName(localFilePath);

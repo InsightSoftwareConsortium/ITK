@@ -109,7 +109,7 @@ int itkNthElementPixelAccessorTest(int, char* []) {
 
 
   // Set the values of the first component of myImage, using myAdaptor
-  const float MY_VALUE = float(0.4);
+  constexpr float MY_VALUE = 0.4F;
   it2.GoToBegin();
   while( !it2.IsAtEnd() )
     {

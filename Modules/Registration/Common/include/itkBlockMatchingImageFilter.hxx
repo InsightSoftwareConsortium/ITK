@@ -210,7 +210,7 @@ ITK_THREAD_RETURN_TYPE
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::ThreaderCallback(void *arg)
 {
-  ThreadStruct *str = (ThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  auto * str = (ThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
   ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   str->Filter->ThreadedGenerateData( threadId );

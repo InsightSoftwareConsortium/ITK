@@ -112,8 +112,7 @@ typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput(unsigned int idx)
 {
-  TOutputImage *out = dynamic_cast< TOutputImage * >
-                      ( this->ProcessObject::GetOutput(idx) );
+  auto * out = dynamic_cast< TOutputImage * > ( this->ProcessObject::GetOutput(idx) );
 
   if ( out == nullptr && this->ProcessObject::GetOutput(idx) != nullptr )
     {

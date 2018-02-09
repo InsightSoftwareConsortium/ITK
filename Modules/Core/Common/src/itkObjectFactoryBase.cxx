@@ -323,8 +323,7 @@ ObjectFactoryBase
 
   // Register all factories registered by the
   // "RegisterFactoryInternal" method
-  for ( std::list< ObjectFactoryBase * >::iterator i =
-          factoryBase->m_InternalFactories->begin();
+  for ( auto i = factoryBase->m_InternalFactories->begin();
         i != factoryBase->m_InternalFactories->end(); ++i )
     {
     factoryBase->m_RegisteredFactories->push_back( *i );
@@ -504,8 +503,7 @@ ObjectFactoryBase
         /**
          * Look for the symbol itkLoad in the library
          */
-        ITK_LOAD_FUNCTION loadfunction =
-          ( ITK_LOAD_FUNCTION ) DynamicLoader::GetSymbolAddress(lib, "itkLoad");
+        auto loadfunction = ( ITK_LOAD_FUNCTION ) DynamicLoader::GetSymbolAddress(lib, "itkLoad");
         /**
          * if the symbol is found call it to create the factory
          * from the library
@@ -683,8 +681,7 @@ ObjectFactoryBase
       const size_t numberOfFactories = factoryBase->m_RegisteredFactories->size();
       if( position < numberOfFactories )
         {
-        using FactoryIterator = FactoryListType::iterator;
-        FactoryIterator fitr = factoryBase->m_RegisteredFactories->begin();
+        auto fitr = factoryBase->m_RegisteredFactories->begin();
 
         while( position-- )
           {
@@ -717,7 +714,7 @@ ObjectFactoryBase
   os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << "\n";
   os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
-  int num = static_cast< int >( m_OverrideMap->size() );
+  auto num = static_cast< int >( m_OverrideMap->size() );
   os << indent << "Factory overides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();
@@ -763,8 +760,7 @@ ObjectFactoryBase
 
   if ( factoryBase->m_RegisteredFactories )
     {
-    for ( std::list< ObjectFactoryBase * >::iterator i =
-            factoryBase->m_RegisteredFactories->begin();
+    for ( auto i = factoryBase->m_RegisteredFactories->begin();
           i != factoryBase->m_RegisteredFactories->end(); ++i )
       {
       if ( factory == *i )
@@ -842,10 +838,10 @@ LightObject::Pointer
 ObjectFactoryBase
 ::CreateObject(const char *itkclassname)
 {
-  OverRideMap::iterator start = m_OverrideMap->lower_bound(itkclassname);
-  OverRideMap::iterator end = m_OverrideMap->upper_bound(itkclassname);
+  auto start = m_OverrideMap->lower_bound(itkclassname);
+  auto end = m_OverrideMap->upper_bound(itkclassname);
 
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  for ( auto i = start; i != end; ++i )
     {
     if ( i != m_OverrideMap->end() && ( *i ).second.m_EnabledFlag )
       {
@@ -859,12 +855,12 @@ std::list< LightObject::Pointer >
 ObjectFactoryBase
 ::CreateAllObject(const char *itkclassname)
 {
-  OverRideMap::iterator start = m_OverrideMap->lower_bound(itkclassname);
-  OverRideMap::iterator end = m_OverrideMap->upper_bound(itkclassname);
+  auto start = m_OverrideMap->lower_bound(itkclassname);
+  auto end = m_OverrideMap->upper_bound(itkclassname);
 
   std::list< LightObject::Pointer > created;
 
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  for ( auto i = start; i != end; ++i )
     {
     if ( i != m_OverrideMap->end() && ( *i ).second.m_EnabledFlag )
       {
@@ -883,10 +879,10 @@ ObjectFactoryBase
                 const char *className,
                 const char *subclassName)
 {
-  OverRideMap::iterator start = m_OverrideMap->lower_bound(className);
-  OverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  auto start = m_OverrideMap->lower_bound(className);
+  auto end = m_OverrideMap->upper_bound(className);
 
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  for ( auto i = start; i != end; ++i )
     {
     if ( ( *i ).second.m_OverrideWithName == subclassName )
       {
@@ -902,10 +898,10 @@ bool
 ObjectFactoryBase
 ::GetEnableFlag(const char *className, const char *subclassName)
 {
-  OverRideMap::iterator start = m_OverrideMap->lower_bound(className);
-  OverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  auto start = m_OverrideMap->lower_bound(className);
+  auto end = m_OverrideMap->upper_bound(className);
 
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  for ( auto i = start; i != end; ++i )
     {
     if ( ( *i ).second.m_OverrideWithName == subclassName )
       {
@@ -922,10 +918,10 @@ void
 ObjectFactoryBase
 ::Disable(const char *className)
 {
-  OverRideMap::iterator start = m_OverrideMap->lower_bound(className);
-  OverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  auto start = m_OverrideMap->lower_bound(className);
+  auto end = m_OverrideMap->upper_bound(className);
 
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  for ( auto i = start; i != end; ++i )
     {
     ( *i ).second.m_EnabledFlag = 0;
     }

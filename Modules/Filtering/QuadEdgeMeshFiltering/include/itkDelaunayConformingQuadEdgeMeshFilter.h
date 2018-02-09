@@ -164,9 +164,9 @@ protected:
     OutputCoordRepType sq_norm2A = v2A * v2A;
     OutputCoordRepType sq_norm2B = v2B * v2B;
 
-    CriterionValueType dotA = static_cast< CriterionValueType >( v1A * v2A );
-    CriterionValueType dotB = static_cast< CriterionValueType >( v1B * v2B );
-    CriterionValueType den  = static_cast< CriterionValueType >( sq_norm1A * sq_norm2A );
+    auto dotA = static_cast< CriterionValueType >( v1A * v2A );
+    auto dotB = static_cast< CriterionValueType >( v1B * v2B );
+    auto den  = static_cast< CriterionValueType >( sq_norm1A * sq_norm2A );
 
     if ( den != 0. )
       {

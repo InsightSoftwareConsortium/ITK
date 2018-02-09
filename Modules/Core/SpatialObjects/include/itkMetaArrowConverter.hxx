@@ -43,7 +43,7 @@ typename MetaArrowConverter< NDimensions >::SpatialObjectPointer
 MetaArrowConverter< NDimensions >
 ::MetaObjectToSpatialObject( const MetaObjectType *mo )
 {
-  const ArrowMetaObjectType *metaArrow = dynamic_cast<const MetaArrow *>(mo);
+  const auto * metaArrow = dynamic_cast<const MetaArrow *>(mo);
   if(metaArrow == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaArrow");
@@ -98,7 +98,7 @@ MetaArrowConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to ArrowSpatialObject");
     }
 
-  ArrowMetaObjectType *mo = new MetaArrow(NDimensions);
+  auto * mo = new MetaArrow(NDimensions);
 
   float length = arrowSO->GetLength();
 

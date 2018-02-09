@@ -88,12 +88,12 @@ ComposeImageFilter< TInputImage, TOutputImage >
 {
   // Check to verify all inputs are specified and have the same metadata,
   // spacing etc...
-  const unsigned int numberOfInputs = static_cast<const unsigned int>( this->GetNumberOfIndexedInputs() );
+  const auto numberOfInputs = static_cast<const unsigned int>( this->GetNumberOfIndexedInputs() );
   RegionType         region;
 
   for ( unsigned int i = 0; i < numberOfInputs; i++ )
     {
-    InputImageType *input = itkDynamicCastInDebugMode< InputImageType * >
+    auto * input = itkDynamicCastInDebugMode< InputImageType * >
       (this->ProcessObject::GetInput(i) );
     if ( !input )
       {

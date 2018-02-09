@@ -93,7 +93,7 @@ RealTimeStamp::~RealTimeStamp()
 RealTimeStamp::TimeRepresentationType
 RealTimeStamp::GetTimeInMicroSeconds() const
 {
-  TimeRepresentationType result = static_cast< TimeRepresentationType >( this->m_Seconds );
+  auto result = static_cast< TimeRepresentationType >( this->m_Seconds );
   result *= 1e6;
   result += static_cast< TimeRepresentationType >( this->m_MicroSeconds );
 
@@ -106,7 +106,7 @@ RealTimeStamp::GetTimeInMicroSeconds() const
 RealTimeStamp::TimeRepresentationType
 RealTimeStamp::GetTimeInMilliSeconds() const
 {
-  TimeRepresentationType result = static_cast< TimeRepresentationType >( this->m_Seconds );
+  auto result = static_cast< TimeRepresentationType >( this->m_Seconds );
   result *= 1e3;
   result += static_cast< TimeRepresentationType >( this->m_MicroSeconds ) / 1e3;
 
@@ -119,7 +119,7 @@ RealTimeStamp::GetTimeInMilliSeconds() const
 RealTimeStamp::TimeRepresentationType
 RealTimeStamp::GetTimeInSeconds() const
 {
-  TimeRepresentationType result = static_cast< TimeRepresentationType >( this->m_MicroSeconds );
+  auto result = static_cast< TimeRepresentationType >( this->m_MicroSeconds );
   result /= 1e6;
   result += static_cast< TimeRepresentationType >( this->m_Seconds );
 

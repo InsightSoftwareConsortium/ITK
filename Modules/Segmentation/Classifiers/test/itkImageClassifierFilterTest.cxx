@@ -200,10 +200,10 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   const ImageClassifierFilterType::MembershipFunctionVectorType
             membershipFunctions = membershipFunctionsObject->Get();
 
-  ImageClassifierFilterType::MembershipFunctionVectorType::const_iterator
+  auto
                     begin = membershipFunctions.begin();
 
-  ImageClassifierFilterType::MembershipFunctionVectorType::const_iterator
+  auto
                     end = membershipFunctions.end();
 
   ImageClassifierFilterType::MembershipFunctionVectorType::const_iterator functionIter;
@@ -215,7 +215,7 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   while( functionIter != end )
     {
     ImageClassifierFilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const EstimatorType::GaussianMembershipFunctionType *
+    const auto *
           gaussianMemberShpFunction =
         dynamic_cast<const EstimatorType::GaussianMembershipFunctionType*>(membershipFunction.GetPointer());
     std::cout << "\tMembership function:\t " << counter << std::endl;

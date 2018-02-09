@@ -132,10 +132,9 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
   while ( !inputIt.IsAtEnd() )
     {
     const InputPixelType x = inputIt.Get();
+    const RealType value = static_cast< RealType >( x ) * m_Scale + m_Shift;
 
-    const RealType value  = static_cast< RealType >( x ) * m_Scale + m_Shift;
-
-    OutputPixelType  result =  Math::Round< OutputPixelType >( value );
+    auto result = Math::Round< OutputPixelType >( value );
 
     result = ( result > m_OutputMaximum ) ? m_OutputMaximum : result;
     result = ( result < m_OutputMinimum ) ? m_OutputMinimum : result;

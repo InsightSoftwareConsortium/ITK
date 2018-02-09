@@ -205,9 +205,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   if( childrenList.size() == returnedList->size() )
     {
-    ChildrenListType::iterator itTest = returnedList->begin();
-    ChildrenListType::iterator it = childrenList.begin();
-    ChildrenListType::iterator end = childrenList.end();
+    auto itTest = returnedList->begin();
+    auto it = childrenList.begin();
+    auto end = childrenList.end();
 
     for(unsigned int i=0; it!=end; ++itTest,++it,i++ )
       {
@@ -248,9 +248,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   if( childrenList.size() == returnedList->size() )
     {
-    ChildrenListType::iterator itTest = returnedList->begin();
-    ChildrenListType::iterator it = childrenList.begin();
-    ChildrenListType::iterator end = childrenList.end();
+    auto itTest = returnedList->begin();
+    auto it = childrenList.begin();
+    auto end = childrenList.end();
 
     passed = true;
 

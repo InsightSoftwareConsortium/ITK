@@ -156,7 +156,7 @@ ImageMetricLoad<TMoving, TFixed>
   Element::MatrixType solmat;
   Element::Float      w;
 
-  Element::ArrayType::iterator elt = element->begin();
+  auto elt = element->begin();
   const unsigned int           Nnodes = ( *elt )->GetNumberOfNodes();
 
   solmat.set_size(Nnodes * ImageDimension, 1);
@@ -226,7 +226,7 @@ ImageMetricLoad<TMoving, TFixed>
   Element::MatrixType solmat;
   Element::Float      w;
 
-  Element::ArrayType::iterator elt = element->begin();
+  auto elt = element->begin();
   const unsigned int           Nnodes = ( *elt )->GetNumberOfNodes();
 
   solmat.set_size(Nnodes * ImageDimension, 1);

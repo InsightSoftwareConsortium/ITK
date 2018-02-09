@@ -83,8 +83,7 @@ template<typename TOutputVideoStream>
 TOutputVideoStream*
 VideoSource<TOutputVideoStream>::GetOutput(unsigned int idx)
 {
-  OutputVideoStreamType* out = dynamic_cast< OutputVideoStreamType* >
-    (this->TemporalProcessObject::GetOutput(idx) );
+  auto * out = dynamic_cast< OutputVideoStreamType* > (this->TemporalProcessObject::GetOutput(idx) );
 
   // Make sure there is at least 1 output
   if (out == nullptr)

@@ -131,8 +131,7 @@ WeightedCentroidKdTreeGenerator< TSample >
 
   using KdTreeNonterminalNodeType = KdTreeWeightedCentroidNonterminalNode< TSample >;
 
-  KdTreeNonterminalNodeType *nonTerminalNode =
-    new KdTreeNonterminalNodeType(partitionDimension,
+  auto * nonTerminalNode = new KdTreeNonterminalNodeType(partitionDimension,
                                   partitionValue,
                                   left, right,
                                   weightedCentroid,

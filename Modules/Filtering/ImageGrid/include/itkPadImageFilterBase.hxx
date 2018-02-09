@@ -109,7 +109,7 @@ PadImageFilterBase< TInputImage, TOutputImage >
     outIter.GoToBegin();
     while ( !outIter.IsAtEnd() )
       {
-      OutputImagePixelType value = static_cast< OutputImagePixelType >
+      auto value = static_cast< OutputImagePixelType >
         ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), inputPtr ) );
       outIter.Set( value );
       ++outIter;
@@ -126,7 +126,7 @@ PadImageFilterBase< TInputImage, TOutputImage >
     outIter.GoToBegin();
     while ( !outIter.IsAtEnd() )
       {
-      OutputImagePixelType value = static_cast< OutputImagePixelType >
+      auto value = static_cast< OutputImagePixelType >
         ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), inputPtr ) );
       outIter.Set( value );
       ++outIter;

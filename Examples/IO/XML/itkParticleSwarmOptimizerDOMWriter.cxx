@@ -37,7 +37,7 @@ ParticleSwarmOptimizerDOMWriter::GenerateData( DOMNodeType* outputdom, const voi
   // "const" modifier due to the use of itkGetMacro instead of itkGetConstMacro, so we
   // have to use a workaround here by temporarily removing the constness of the input object,
   // but users should never modify the input object during the writing process.
-  ParticleSwarmOptimizer* ipobj = const_cast<ParticleSwarmOptimizer*>(input);
+  auto * ipobj = const_cast<ParticleSwarmOptimizer*>(input);
 
   outputdom->SetName( "optimizer" );
   outputdom->SetAttribute( "type", "ParticleSwarmOptimizer" );

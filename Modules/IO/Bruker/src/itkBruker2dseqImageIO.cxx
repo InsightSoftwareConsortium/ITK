@@ -98,7 +98,7 @@ SwapSlicesAndVolumes(T *buffer, const int sizeX, const int sizeY, const int size
 
   // Now copy back to buffer
   toPixel = buffer;
-  for (typename std::vector<T>::iterator it = tempBuffer.begin(); it != tempBuffer.end(); ++it, ++toPixel)
+  for (auto it = tempBuffer.begin(); it != tempBuffer.end(); ++it, ++toPixel)
     {
     *toPixel = *it;
     }
@@ -140,7 +140,7 @@ template< typename PixelType >
 void
 CastCopy(float *to, void *from, size_t pixelCount)
 {
-  PixelType *tempFrom = static_cast< PixelType * >( from );
+  auto * tempFrom = static_cast< PixelType * >( from );
   for ( unsigned i = 0; i < pixelCount; ++i )
     {
     to[i] = static_cast< float >( tempFrom[i] );
@@ -485,7 +485,7 @@ void Bruker2dseqImageIO::Read(void *buffer)
 
     this->SwapBytesIfNecessary(dataFromDiskBuffer, numberOfComponents);
 
-    float *floatBuffer = static_cast<float *>(buffer);
+    auto * floatBuffer = static_cast<float *>(buffer);
     switch (m_OnDiskComponentType)
       {
       case CHAR:
@@ -524,7 +524,7 @@ void Bruker2dseqImageIO::Read(void *buffer)
   else
     {
       const int numberOfBytesOnDisk = this->GetImageSizeInBytes();
-      char *charBuffer = static_cast<char *>(buffer);
+      auto * charBuffer = static_cast<char *>(buffer);
       stream2Dseq.read(charBuffer, numberOfBytesOnDisk);
       if (stream2Dseq.fail())
         {

@@ -115,7 +115,7 @@ public:
   static KeypressPauseCommand * New()
     {
     // Create the visualizer
-    KeypressPauseCommand * keypressPauseCommand = new KeypressPauseCommand;
+    auto * keypressPauseCommand = new KeypressPauseCommand;
     keypressPauseCommand->m_Visualizer = VisualizationType::New();
     keypressPauseCommand->m_Visualizer->SetNumberOfLevels( 5 );
     keypressPauseCommand->m_Visualizer->SetLevelLimit( 4.0 );
@@ -311,10 +311,9 @@ struct VisualizationThreadData
 
 ITK_THREAD_RETURN_TYPE visualizationThreadRunner( void * threadInfo )
 {
-  itk::MultiThreader::ThreadInfoStruct* info =
-    static_cast<itk::MultiThreader::ThreadInfoStruct*>( threadInfo );
+  auto * info = static_cast<itk::MultiThreader::ThreadInfoStruct*>( threadInfo );
 
-  VisualizationThreadData * visualizationThreadData = static_cast< VisualizationThreadData * >( info->UserData );
+  auto * visualizationThreadData = static_cast< VisualizationThreadData * >( info->UserData );
   visualizeLevelSet< InputImageType, LevelSetType >( visualizationThreadData->m_InputImage,
     visualizationThreadData->m_NumberOfIterations,
     visualizationThreadData->m_ProcessingPauseCommand,

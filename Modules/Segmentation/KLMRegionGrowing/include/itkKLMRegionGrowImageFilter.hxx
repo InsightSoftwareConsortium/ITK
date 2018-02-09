@@ -732,10 +732,8 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 
   // Resolve region labels to contain only unique labels.
   // Go backward from largest to smallest region label
-  std::vector< KLMSegmentationRegionPtr >::reverse_iterator regionsPointerIt =
-    m_RegionsPointer.rbegin();
-  std::vector< KLMSegmentationRegionPtr >::reverse_iterator regionsPointerItEnd =
-    m_RegionsPointer.rend();
+  auto regionsPointerIt = m_RegionsPointer.rbegin();
+  auto regionsPointerItEnd = m_RegionsPointer.rend();
   RegionLabelType iregion = m_InitialNumberOfRegions;
   while ( regionsPointerIt != regionsPointerItEnd )
     {
@@ -817,7 +815,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   // Print the stats associated with all the regions
   for ( unsigned int k = 0; k < m_InitialNumberOfRegions; k++ )
     {
-    int i = static_cast<int>( m_RegionsPointer[k]->GetRegionBorderSize() );
+    auto i = static_cast<int>( m_RegionsPointer[k]->GetRegionBorderSize() );
     if ( i > 0 )
       {
       std::cout << "Stats for Region No: "

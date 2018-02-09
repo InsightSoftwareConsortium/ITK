@@ -62,7 +62,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( object );
+    auto optimizer = dynamic_cast< OptimizerPointer >( object );
     if( optimizer == nullptr )
       {
       itkExceptionMacro( "Could not cast optimizer." );

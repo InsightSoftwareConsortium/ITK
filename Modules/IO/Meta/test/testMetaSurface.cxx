@@ -28,7 +28,7 @@ int testMetaSurface(int argc, char * argv[])
     }
 
   std::cout << "Creating test file ...";
-  MetaSurface* surface = new MetaSurface(3);
+  auto * surface = new MetaSurface(3);
   surface->ID(0);
   SurfacePnt* pnt;
 
@@ -80,7 +80,7 @@ int testMetaSurface(int argc, char * argv[])
   delete surface;
 
   // Testing Binary Data
-  MetaSurface* surfaceBin = new MetaSurface(3);
+  auto * surfaceBin = new MetaSurface(3);
 
   for(i=0;i<10;i++)
   {

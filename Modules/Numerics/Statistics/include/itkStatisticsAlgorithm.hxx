@@ -516,7 +516,7 @@ NthElement(TSubsample *sample,
     const MeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
     const MeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
 
-    const MeasurementType tempMedian = MedianOfThree< MeasurementType >(v1, v2, v3);
+    const auto tempMedian = MedianOfThree< MeasurementType >(v1, v2, v3);
 
     int cut = UnguardedPartition(sample, activeDimension, beginElement,  endElement, tempMedian);
 

@@ -188,7 +188,7 @@ int ImageToImageMetricv4RegistrationTestRun( typename TMetric::Pointer metric, i
   std::cout << "metric value: initial: " << initialValue << ", final: " << finalValue << std::endl;
 
   // test that the final position is close to the truth
-  double tolerance = static_cast<double>(0.11);
+  auto tolerance = static_cast<double>(0.11);
   for( itk::SizeValueType n=0; n < Dimension; n++ )
     {
     if( std::fabs( 1.0 - ( static_cast<double>(imageShift[n]) / translationTransform->GetParameters()[n] ) ) > tolerance )

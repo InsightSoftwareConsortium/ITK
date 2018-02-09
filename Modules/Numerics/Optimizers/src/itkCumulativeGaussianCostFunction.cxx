@@ -161,7 +161,7 @@ CumulativeGaussianCostFunction
 
     if ( argument > 0 )
       {
-      int temp = (int)( argument * 100 );
+      auto temp = (int)( argument * 100 );
       if (Math::AlmostEquals( argument, temp ))
         {
         erfValue = .999976474;

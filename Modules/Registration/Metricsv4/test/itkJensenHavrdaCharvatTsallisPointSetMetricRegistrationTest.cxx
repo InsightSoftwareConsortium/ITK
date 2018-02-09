@@ -51,7 +51,7 @@ public:
       {
       return;
       }
-    const TFilter *optimizer = dynamic_cast< const TFilter * >( object );
+    const auto * optimizer = dynamic_cast< const TFilter * >( object );
 
     if( !optimizer )
       {

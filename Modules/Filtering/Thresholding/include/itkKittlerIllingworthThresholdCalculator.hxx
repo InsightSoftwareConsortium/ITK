@@ -33,7 +33,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 {
   const HistogramType * data = this->GetInput();
 
-  double tot = static_cast< double >( data->GetTotalFrequency() );
+  auto tot = static_cast< double >( data->GetTotalFrequency() );
   double sum = 0;
 
   for( InstanceIdentifier i = 0; i < data->GetSize(0); i++ )
@@ -94,7 +94,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
   double x = 0;
   for( InstanceIdentifier i = 0; i<=j; i++ )
     {
-    double temp = static_cast< double >( y->GetMeasurement(i, 0) );
+    auto temp = static_cast< double >( y->GetMeasurement(i, 0) );
     x += temp * temp * static_cast< double >( y->GetFrequency(i, 0) );
     }
   return x;

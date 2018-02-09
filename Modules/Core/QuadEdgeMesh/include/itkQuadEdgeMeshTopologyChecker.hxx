@@ -55,7 +55,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
   // Number of Boundaries
   typename BoundaryEdges::OutputType
   listOfBoundaries = boundaryEdges->Evaluate( ( *m_Mesh ) );
-  CellIdentifier numBounds = static_cast<CellIdentifier>( listOfBoundaries->size() );
+  auto numBounds = static_cast<CellIdentifier>( listOfBoundaries->size() );
   delete listOfBoundaries;
 
   /**
@@ -98,8 +98,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
   while ( cellIterator != cellEnd )
     {
     // Is the cell an Edge ?
-    if ( EdgeCellType * cell =
-           dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
+    if ( auto * cell = dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
       {
       if ( QEPrimal * edge = cell->GetQEGeom() )
         {

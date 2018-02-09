@@ -42,8 +42,7 @@ typename MetaVesselTubeConverter< NDimensions >::SpatialObjectPointer
 MetaVesselTubeConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const VesselTubeMetaObjectType *vesselTubeMO =
-    dynamic_cast<const VesselTubeMetaObjectType *>(mo);
+  const auto * vesselTubeMO = dynamic_cast<const VesselTubeMetaObjectType *>(mo);
   if(vesselTubeMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaVesselTube" );
@@ -73,8 +72,7 @@ MetaVesselTubeConverter< NDimensions >
 
   using VesselTubePointType = itk::VesselTubeSpatialObjectPoint< NDimensions >;
 
-  using ListType = VesselTubeMetaObjectType::PointListType;
-  ListType::const_iterator it2 = vesselTubeMO->GetPoints().begin();
+  auto it2 = vesselTubeMO->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
   itk::Vector< double, NDimensions >          t;
@@ -148,7 +146,7 @@ MetaVesselTubeConverter< NDimensions >
     {
     itkExceptionMacro(<< "Can't downcast SpatialObject to VesselTubeSpatialObject");
     }
-  MetaVesselTube *vesselTubeMO = new MetaVesselTube(NDimensions);
+  auto * vesselTubeMO = new MetaVesselTube(NDimensions);
 
   // fill in the tube information
 
@@ -157,7 +155,7 @@ MetaVesselTubeConverter< NDimensions >
         i != vesselTubeSO->GetPoints().end();
         i++ )
     {
-    VesselTubePnt *pnt = new VesselTubePnt(NDimensions);
+    auto * pnt = new VesselTubePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {

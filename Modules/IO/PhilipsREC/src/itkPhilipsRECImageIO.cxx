@@ -472,7 +472,7 @@ void PhilipsRECImageIO::Read(void *buffer)
     numberOfPixels *= this->m_Dimensions[dim];
     }
 
-  char *const p = static_cast< char * >( buffer );
+  auto *const p = static_cast< char * >( buffer );
   //8 cases to handle
   //1: given .PAR and image is .REC
   //2: given .PAR and image is .REC.gz
@@ -534,7 +534,7 @@ void PhilipsRECImageIO::Read(void *buffer)
                                 ITK_LOCATION);
       throw exception;
       }
-    const z_off_t offset =  Math::CastWithRangeCheck< z_off_t, SizeType >(realIndex * imageSliceSizeInBytes);
+    const auto offset =  Math::CastWithRangeCheck< z_off_t, SizeType >(realIndex * imageSliceSizeInBytes);
     gzseek(file_p, offset, SEEK_SET);
     gzread( file_p, p + ( slice * imageSliceSizeInBytes ),
               Math::CastWithRangeCheck< unsigned int, SizeType >(imageSliceSizeInBytes) );

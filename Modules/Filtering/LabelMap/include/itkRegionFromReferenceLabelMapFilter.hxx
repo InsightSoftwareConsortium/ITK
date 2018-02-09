@@ -60,7 +60,7 @@ const typename RegionFromReferenceLabelMapFilter< TInputImage >::ReferenceImageT
 RegionFromReferenceLabelMapFilter< TInputImage >
 ::GetReferenceImage() const
 {
-  Self *surrogate = const_cast< Self * >( this );
+  auto * surrogate = const_cast< Self * >( this );
 
   return itkDynamicCastInDebugMode<const ReferenceImageType *>(surrogate->ProcessObject::GetInput(1));
 }

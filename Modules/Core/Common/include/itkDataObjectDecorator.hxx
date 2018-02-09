@@ -132,7 +132,7 @@ void
 DataObjectDecorator< T >
 ::Graft( const DataObject *data )
 {
-  const Self *decorator = dynamic_cast< const Self * >( data );
+  const auto * decorator = dynamic_cast< const Self * >( data );
   this->Graft(decorator);
 }
 

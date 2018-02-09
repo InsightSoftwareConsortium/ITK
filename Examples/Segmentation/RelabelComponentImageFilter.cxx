@@ -131,8 +131,8 @@ int main( int argc, char * argv[] )
   const SizesInPixelsType & sizesInPixels
                                       = relabeler->GetSizeOfObjectsInPixels();
 
-  SizesInPixelsType::const_iterator sizeItr = sizesInPixels.begin();
-  SizesInPixelsType::const_iterator sizeEnd = sizesInPixels.end();
+  auto sizeItr = sizesInPixels.begin();
+  auto sizeEnd = sizesInPixels.end();
   std::cout << "Number of pixels per class " << std::endl;
   unsigned int kclass = 0;
   while (sizeItr != sizeEnd)
@@ -148,10 +148,8 @@ int main( int argc, char * argv[] )
   const SizesInPhysicalUnitsType sizesInUnits
                                = relabeler->GetSizeOfObjectsInPhysicalUnits();
 
-  SizesInPhysicalUnitsType::const_iterator physicalSizeItr
-                                                       = sizesInUnits.begin();
-  SizesInPhysicalUnitsType::const_iterator physicalSizeEnd
-                                                         = sizesInUnits.end();
+  auto physicalSizeItr = sizesInUnits.begin();
+  auto physicalSizeEnd = sizesInUnits.end();
 
   std::cout << "Area in Physical Units per class " << std::endl;
   unsigned int jclass = 0;

@@ -222,8 +222,7 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
   houghFilter->SetAngleResolution( angleResolution );
   TEST_SET_GET_VALUE( angleResolution, houghFilter->GetAngleResolution() );
 
-  HoughTransformFilterType::LinesListSizeType numberOfLines =
-    static_cast< HoughTransformFilterType::LinesListSizeType >( lines );
+  auto numberOfLines = static_cast< HoughTransformFilterType::LinesListSizeType >( lines );
   houghFilter->SetNumberOfLines( numberOfLines );
   TEST_SET_GET_VALUE( numberOfLines, houghFilter->GetNumberOfLines() );
 
@@ -324,7 +323,7 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
   } while( foundLines < lines );
 
   // Check the line detection
-  std::list< HoughPoint >::iterator it_list = linesList.begin();
+  auto it_list = linesList.begin();
 
   double angleTolerance = 0.1;
   double radiusTolerance = 1.0;

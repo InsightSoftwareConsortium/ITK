@@ -121,7 +121,7 @@ MRASlabIdentifier< TInputImage >
 
   // calculate overall average
   sum = 0.0;
-  std::vector< double >::iterator am_iter = avgMin.begin();
+  auto am_iter = avgMin.begin();
   while ( am_iter != avgMin.end() )
     {
     sum += *am_iter;

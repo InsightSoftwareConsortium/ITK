@@ -214,8 +214,7 @@ public:
 
   void Execute(const Object * object, const EventObject & event) override
   {
-    const ParticleSwarmOptimizerBase *optimizer =
-      static_cast<const ParticleSwarmOptimizerBase *>( object );
+    const auto * optimizer = static_cast<const ParticleSwarmOptimizerBase *>( object );
 
     if( dynamic_cast<const IterationEvent *>( &event ) != nullptr ||
           dynamic_cast<const StartEvent *>( &event ) != nullptr )

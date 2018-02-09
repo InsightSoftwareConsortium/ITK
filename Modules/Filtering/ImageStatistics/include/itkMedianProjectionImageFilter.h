@@ -71,8 +71,7 @@ public:
 
   inline TInputPixel GetValue()
   {
-    using ContainerIterator = typename std::vector< TInputPixel >::iterator;
-    ContainerIterator medianIterator = m_Values.begin() +  m_Values.size() / 2;
+    auto medianIterator = m_Values.begin() +  m_Values.size() / 2;
     std::nth_element( m_Values.begin(), medianIterator, m_Values.end() );
     return *medianIterator;
   }

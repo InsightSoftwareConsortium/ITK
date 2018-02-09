@@ -278,10 +278,9 @@ int itkImageRegionTest(int, char* [] )
       << "RoundHalfIntegerUp< TCoordRepType >(NaN) > static_cast<TCoordRepType> (0): "
       << ( itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN) >
       static_cast<TCoordRepType> (0) ) << std::endl;
-    TCoordRepType rf = itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN);
+    auto rf = itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN);
     std::cout << "TCoordRepType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
-    RegionType::IndexValueType rl =
-      itk::Math::RoundHalfIntegerUp< RegionType::IndexValueType, TCoordRepType >(NaN);
+    auto rl = itk::Math::RoundHalfIntegerUp< RegionType::IndexValueType, TCoordRepType >(NaN);
     std::cout << "RegionType::IndexValueType type = RoundHalfIntegerUp(NaN): "
               << rl << std::endl;
     std::cout << "static_cast<RegionType::IndexValueType>( NaN ): "

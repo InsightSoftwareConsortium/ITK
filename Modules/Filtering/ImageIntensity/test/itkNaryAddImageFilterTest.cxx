@@ -116,8 +116,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
   unsigned int failures = 0;
   while( !oIt.IsAtEnd() )
     {
-    OutputImageType::PixelType expectedValue =
-      static_cast< OutputImageType::PixelType >( iterA.Get() + iterB.Get() + iterC.Get() );
+    auto expectedValue = static_cast< OutputImageType::PixelType >( iterA.Get() + iterB.Get() + iterC.Get() );
     if( !itk::Math::FloatAlmostEqual( oIt.Get(), expectedValue, 10, epsilon ) )
       {
       ++failures;
@@ -149,8 +148,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
     {
     // Here we cannot test using the input iterators anymore since
     // inputImageA should have been overwritten
-    OutputImageType::PixelType expectedValue =
-      static_cast< OutputImageType::PixelType >( valueA + valueB + valueC );
+    auto expectedValue = static_cast< OutputImageType::PixelType >( valueA + valueB + valueC );
     if( !itk::Math::FloatAlmostEqual( oIt2.Get(), expectedValue, 10, epsilon ) )
       {
       ++failures;

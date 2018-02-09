@@ -61,9 +61,7 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
   Superclass::InitializeIteration();
 
   // set the gradient selection flag
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -90,9 +88,7 @@ double
 DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -111,9 +107,7 @@ double
 DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -132,9 +126,7 @@ void
 DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -162,9 +154,7 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 
   this->Superclass::ApplyUpdate(dt);
 
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {

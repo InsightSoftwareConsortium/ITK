@@ -144,7 +144,7 @@ void
 HistogramThresholdImageFilter<TInputImage, TOutputImage,TMaskImage>
 ::GenerateInputRequestedRegion()
 {
-  TInputImage * input = const_cast<TInputImage *>(this->GetInput());
+  auto * input = const_cast<TInputImage *>(this->GetInput());
   if( input )
     {
     input->SetRequestedRegionToLargestPossibleRegion();

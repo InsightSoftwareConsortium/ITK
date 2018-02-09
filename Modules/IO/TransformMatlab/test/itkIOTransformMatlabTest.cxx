@@ -90,7 +90,7 @@ static int oneTest(const char *goodname,const char *badname)
   try
     {
     const typename TransformReaderType::TransformListType * list = reader->GetTransformList();
-    typename TransformReaderType::TransformListType::const_iterator lit = list->begin();
+    auto lit = list->begin();
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );
@@ -207,8 +207,7 @@ int secondTest()
     reader->Update();
     std::cerr << "FAILED to throw expected exception" << std::endl;
     const typename TransformReaderType::TransformListType * list = reader->GetTransformList();
-    typename TransformReaderType::TransformListType::const_iterator lit =
-      list->begin();
+    auto lit = list->begin();
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );

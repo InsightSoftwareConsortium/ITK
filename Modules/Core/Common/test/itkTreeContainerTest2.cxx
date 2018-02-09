@@ -142,7 +142,7 @@ public:
   {
     std::cout << event.GetEventName();
 
-    const itk::TreeChangeEvent<TreeType>* e = static_cast<const itk::TreeChangeEvent<TreeType> * >(&event);
+    const auto * e = static_cast<const itk::TreeChangeEvent<TreeType> * >(&event);
 
     std::cout << *e->GetChangePosition().Get()  << std::endl;
   }
@@ -191,7 +191,7 @@ TreeType::Pointer CreateTree_1(NodeListType& internalList)
 
   itk::PostOrderTreeIterator<TreeType> it( tree );
 
-  TestData* newNode = new TestData(1);
+  auto * newNode = new TestData(1);
   internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(11);
@@ -254,7 +254,7 @@ TreeType::Pointer CreateTree_2(NodeListType& internalList)
   std::cout << "create tree 2" << std::endl;
 
   TreeType::Pointer tree = TreeType::New();
-  TestData* newNode = new TestData(9);
+  auto * newNode = new TestData(9);
   internalList.push_back(newNode);
   tree->SetRoot(newNode);
   itk::PostOrderTreeIterator<TreeType> it( tree );
@@ -391,11 +391,11 @@ int itkTreeContainerTest2(int, char* [])
   tree->RemoveObserver( tag );
 
   // Delete the list of pointer to TestData
-  std::list<TestData*>::iterator it = internalList.begin();
+  auto it = internalList.begin();
 
   while(it != internalList.end())
     {
-    std::list<TestData*>::iterator it2 = it;
+    auto it2 = it;
     ++it;
     TestData* t = *it2;
     internalList.erase(it2);

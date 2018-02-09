@@ -79,12 +79,10 @@ typename SpatialObjectTreeNode< TDimension >::ChildrenListType *
 SpatialObjectTreeNode< TDimension >
 ::GetChildren(unsigned int depth, char *name) const
 {
-  ChildrenListType *children = new ChildrenListType;
+  auto * children = new ChildrenListType;
 
-  typename ChildrenListType::const_iterator childrenListIt =
-    this->m_Children.begin();
-  typename ChildrenListType::const_iterator childrenListEnd =
-    this->m_Children.end();
+  auto childrenListIt = this->m_Children.begin();
+  auto childrenListEnd = this->m_Children.end();
 
   while ( childrenListIt != childrenListEnd )
     {

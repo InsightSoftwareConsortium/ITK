@@ -390,7 +390,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 
   os << indent << "LinesList: " << std::endl;
   unsigned int i = 0;
-  LinesListType::const_iterator it = m_LinesList.begin();
+  auto it = m_LinesList.begin();
   while( it != m_LinesList.end() )
     {
     os << indent << "[" << i << "]: " << *it << std::endl;

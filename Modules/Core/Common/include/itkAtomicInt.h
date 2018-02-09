@@ -188,7 +188,7 @@ public:
 
   T* operator++(int)
   {
-    T* val = reinterpret_cast<T*>(Impl::AddAndFetch(&this->m_Object, sizeof(T)));
+    auto * val = reinterpret_cast<T*>(Impl::AddAndFetch(&this->m_Object, sizeof(T)));
     return --val;
   }
 
@@ -199,7 +199,7 @@ public:
 
   T* operator--(int)
   {
-    T* val = reinterpret_cast<T*>(Impl::AddAndFetch(&this->m_Object, sizeof(T)));
+    auto * val = reinterpret_cast<T*>(Impl::AddAndFetch(&this->m_Object, sizeof(T)));
     return ++val;
   }
 

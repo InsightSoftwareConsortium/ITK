@@ -68,7 +68,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
   const double theta = m_StandardDeviation * m_StandardDeviation;
   const double k = 1 / theta;
 
-  const double floork = Math::Floor<double>( k );
+  const auto floork = Math::Floor<double>( k );
   const double delta = k - floork;
   const double v0 = Math::e / ( Math::e + delta );
 

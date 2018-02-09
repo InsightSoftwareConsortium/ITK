@@ -39,7 +39,7 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
 
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
     {
-    ImageIOBase *io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
+    auto * io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
     if ( io )
       {
       possibleImageIO.push_back(io);

@@ -64,7 +64,7 @@ NumericSeriesFileNames
                                              // absurdly long integer string.
       }
     OffsetValueType bufflen = nchars + 1;
-    char *temp = new char[bufflen];
+    auto * temp = new char[bufflen];
     OffsetValueType result = snprintf (temp, bufflen, m_SeriesFormat.c_str(), i);
     if(result < 0 || result >= bufflen)
       {

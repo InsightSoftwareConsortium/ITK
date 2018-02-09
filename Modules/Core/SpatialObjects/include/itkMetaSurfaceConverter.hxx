@@ -42,7 +42,7 @@ typename MetaSurfaceConverter< NDimensions >::SpatialObjectPointer
 MetaSurfaceConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const SurfaceMetaObjectType *surfaceMO = dynamic_cast<const SurfaceMetaObjectType *>(mo);
+  const auto * surfaceMO = dynamic_cast<const SurfaceMetaObjectType *>(mo);
   if(surfaceMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaSurface");
@@ -67,9 +67,7 @@ MetaSurfaceConverter< NDimensions >
 
   using SurfacePointType = typename SurfaceSpatialObjectType::SurfacePointType;
 
-  using ListType = SurfaceMetaObjectType::PointListType;
-
-  ListType::const_iterator it2 = surfaceMO->GetPoints().begin();
+  auto it2 = surfaceMO->GetPoints().begin();
 
   for ( unsigned int identifier = 0; identifier < surfaceMO->GetPoints().size(); identifier++ )
     {
@@ -118,7 +116,7 @@ MetaSurfaceConverter< NDimensions >
     {
     itkExceptionMacro(<< "Can't downcast SpatialObject to SurfaceSpatialObject");
     }
-  MetaSurface *surfaceMO = new MetaSurface(NDimensions);
+  auto * surfaceMO = new MetaSurface(NDimensions);
 
   // fill in the Surface information
   typename SurfaceSpatialObjectType::PointListType::const_iterator it;
@@ -126,7 +124,7 @@ MetaSurfaceConverter< NDimensions >
         it != surfaceSO->GetPoints().end();
         ++it )
     {
-    SurfacePnt *pnt = new SurfacePnt(NDimensions);
+    auto * pnt = new SurfacePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {

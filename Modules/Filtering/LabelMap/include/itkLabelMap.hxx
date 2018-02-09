@@ -109,7 +109,7 @@ LabelMap< TLabelObject >
     }
 
   // Attempt to cast data to an Image
-  const Self *imgData = dynamic_cast< const Self * >( data );
+  const auto * imgData = dynamic_cast< const Self * >( data );
 
   if ( imgData == nullptr )
     {
@@ -133,7 +133,7 @@ LabelMap< TLabelObject >
                       << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
                       << " is the background label.");
     }
-  LabelObjectContainerIterator it = m_LabelObjectContainer.find( label );
+  auto it = m_LabelObjectContainer.find( label );
   if ( it == m_LabelObjectContainer.end() )
     {
     itkExceptionMacro(<< "No label object with label "
@@ -156,7 +156,7 @@ LabelMap< TLabelObject >
                       << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
                       << " is the background label.");
     }
-  LabelObjectContainerConstIterator it = m_LabelObjectContainer.find( label );
+  auto it = m_LabelObjectContainer.find( label );
   if ( it == m_LabelObjectContainer.end() )
     {
     itkExceptionMacro(<< "No label object with label "
@@ -182,9 +182,9 @@ const typename LabelMap< TLabelObject >::LabelType &
 LabelMap< TLabelObject >
 ::GetPixel(const IndexType & idx) const
 {
-  LabelObjectContainerConstIterator end = m_LabelObjectContainer.end();
+  auto end = m_LabelObjectContainer.end();
 
-  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
+  for ( auto it = m_LabelObjectContainer.begin();
         it != end;
         ++it )
     {
@@ -204,7 +204,7 @@ LabelMap< TLabelObject >
 {
   SizeValueType i = 0;
 
-  for ( LabelObjectContainerIterator it = m_LabelObjectContainer.begin();
+  for ( auto it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -254,7 +254,7 @@ LabelMap< TLabelObject >
 {
   bool newLabel = true; // or can be initialized by ( iLabel == m_BackgroundValue )
 
-  LabelObjectContainerIterator it = m_LabelObjectContainer.begin();
+  auto it = m_LabelObjectContainer.begin();
 
   while( it != m_LabelObjectContainer.end() )
     {
@@ -263,7 +263,7 @@ LabelMap< TLabelObject >
     // iterator
       if( it->first != iLabel )
         {
-        LabelObjectContainerIterator tempIt = it;
+        auto tempIt = it;
         ++it;
         bool emitModifiedEvent = ( iLabel == m_BackgroundValue );
         this->RemovePixel( tempIt, idx, emitModifiedEvent );
@@ -384,7 +384,7 @@ LabelMap< TLabelObject >
     return;
     }
 
-  LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
+  auto it = m_LabelObjectContainer.find(label);
 
   if ( it != m_LabelObjectContainer.end() )
     {
@@ -409,7 +409,7 @@ typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetLabelObject(const IndexType & idx) const
 {
-  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
+  for ( auto it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -558,7 +558,7 @@ LabelMap< TLabelObject >
   LabelVectorType res;
 
   res.reserve( this->GetNumberOfLabelObjects() );
-  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
+  for ( auto it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -576,7 +576,7 @@ LabelMap< TLabelObject >
   LabelObjectVectorType res;
 
   res.reserve( this->GetNumberOfLabelObjects() );
-  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
+  for ( auto it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -591,7 +591,7 @@ void
 LabelMap< TLabelObject >
 ::PrintLabelObjects(std::ostream & os) const
 {
-  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
+  for ( auto it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {

@@ -140,7 +140,7 @@ std::slice Neighborhood< TPixel, VDimension, TContainer >
 ::GetSlice(unsigned int d) const
 {
   const OffsetValueType t = this->GetStride(d);
-  const OffsetValueType s = static_cast< OffsetValueType >( this->GetSize()[d] );
+  const auto s = static_cast< OffsetValueType >( this->GetSize()[d] );
 
   OffsetValueType n = this->Size() / 2;
   n -= t * s / 2;

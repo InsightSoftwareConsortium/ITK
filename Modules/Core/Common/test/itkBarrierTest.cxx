@@ -50,7 +50,7 @@ public:
 ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
 {
   itk::ThreadIdType threadId = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
-  BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
+  auto * data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
   for (unsigned int i = 0;  i < data->m_NumberOfIterations; i++)
@@ -68,7 +68,7 @@ ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
 
 ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
 {
-  BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
+  auto * data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
   for (unsigned int i = 0; i < data->m_NumberOfIterations; i++)
@@ -93,7 +93,7 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
 ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
 {
   itk::ThreadIdType threadId = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
-  BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
+  auto * data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
   if (threadId == data->m_NumberOfThreads - 1)
@@ -110,7 +110,7 @@ ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
 
 ITK_THREAD_RETURN_TYPE BarrierSpecialTest( void *ptr )
 {
-  BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
+  auto * data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
   for (unsigned int j = 0; j < 1000; j++ )

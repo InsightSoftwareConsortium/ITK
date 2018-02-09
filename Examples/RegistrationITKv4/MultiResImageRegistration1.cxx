@@ -204,9 +204,8 @@ public:
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    RegistrationPointer registration =
-      static_cast<RegistrationPointer>( object );
-    OptimizerPointer optimizer =  static_cast< OptimizerPointer >(
+    auto registration = static_cast<RegistrationPointer>( object );
+    auto optimizer =  static_cast< OptimizerPointer >(
         registration->GetModifiableOptimizer() );
     // Software Guide : EndCodeSnippet
 
@@ -293,7 +292,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
   {
-  OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+  auto optimizer = static_cast< OptimizerPointer >( object );
   if( !(itk::IterationEvent().CheckEvent( &event )) )
     {
     return;

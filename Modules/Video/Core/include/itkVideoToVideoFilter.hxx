@@ -222,8 +222,7 @@ GenerateInputRequestedRegion()
   for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
     {
     // Get the input and it's requeted temporal region
-    InputVideoStreamType* input = dynamic_cast<InputVideoStreamType*>(
-      this->ProcessObject::GetInput(i));
+    auto * input = dynamic_cast<InputVideoStreamType*>( this->ProcessObject::GetInput(i));
     if (!input)
       {
       continue;

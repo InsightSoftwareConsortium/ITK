@@ -76,8 +76,8 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
     }
 
   typename FFTWProxyType::PlanType plan;
-  InputPixelType * in = const_cast<InputPixelType*>(inputPtr->GetBufferPointer());
-  typename FFTWProxyType::ComplexType * out = (typename FFTWProxyType::ComplexType*) outputPtr->GetBufferPointer();
+  auto * in = const_cast<InputPixelType*>(inputPtr->GetBufferPointer());
+  auto * out = (typename FFTWProxyType::ComplexType*) outputPtr->GetBufferPointer();
   int flags = m_PlanRigor;
   if( !m_CanUseDestructiveAlgorithm )
     {

@@ -49,7 +49,7 @@ void
 LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
 ::Execute( Object* caller, const EventObject& event )
 {
-  IteratingFilterType * filter = dynamic_cast< IteratingFilterType * >( caller );
+  auto * filter = dynamic_cast< IteratingFilterType * >( caller );
 
   // Was filter->AddObserver() called correctly?
   itkAssertInDebugAndIgnoreInReleaseMacro( filter != nullptr );

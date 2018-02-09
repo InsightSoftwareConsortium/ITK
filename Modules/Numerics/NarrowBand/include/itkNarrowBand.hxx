@@ -47,8 +47,7 @@ NarrowBand< NodeType >
     t_n = t_size;
     }
 
-  SizeType regionsize =
-    static_cast< SizeType >(
+  auto regionsize = static_cast< SizeType >(
         std::floor( static_cast< float >( t_size ) / static_cast< float >( t_n ) ) );
 
   if ( regionsize == 0 )
@@ -57,7 +56,7 @@ NarrowBand< NodeType >
     }
 
   RegionType region;
-  Iterator   pos = this->Begin();
+  auto pos = this->Begin();
 
   for ( SizeType i = 0; i < t_n; ++i )
     {

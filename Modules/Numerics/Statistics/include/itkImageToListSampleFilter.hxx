@@ -124,8 +124,7 @@ void
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GenerateData()
 {
-  ListSampleType *output =
-    static_cast< ListSampleType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< ListSampleType * >( this->ProcessObject::GetOutput(0) );
 
   const ImageType *    input = this->GetInput();
   const MaskImageType *maskImage = nullptr;
@@ -185,8 +184,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
 {
   Superclass::GenerateOutputInformation();
 
-  ListSampleType *output =
-    static_cast< ListSampleType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< ListSampleType * >( this->ProcessObject::GetOutput(0) );
   output->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
 }
 
@@ -205,8 +203,7 @@ const typename ImageToListSampleFilter< TImage, TMaskImage >::ListSampleType *
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GetOutput() const
 {
-  const ListSampleType *output =
-    static_cast< const ListSampleType * >( this->ProcessObject::GetOutput(0) );
+  const auto * output = static_cast< const ListSampleType * >( this->ProcessObject::GetOutput(0) );
 
   return output;
 }

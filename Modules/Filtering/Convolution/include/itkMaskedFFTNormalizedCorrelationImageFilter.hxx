@@ -709,7 +709,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   region.SetSize(size);
   region.SetIndex( fixedImage->GetLargestPossibleRegion().GetIndex() );
 
-  OutputImageType* optr = dynamic_cast<OutputImageType*>(output);
+  auto * optr = dynamic_cast<OutputImageType*>(output);
   if (optr)
   {
     optr->SetRequestedRegion(region);

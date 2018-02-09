@@ -560,7 +560,8 @@ CompositeTransform<TParametersValueType, NDimensions>
 
   /* Copy the optimization flags */
   inverse->m_TransformsToOptimizeFlags.clear();
-  for( TransformsToOptimizeFlagsType::iterator ofit = this->m_TransformsToOptimizeFlags.begin(); ofit != this->m_TransformsToOptimizeFlags.end(); ofit++ )
+  for( auto ofit = this->m_TransformsToOptimizeFlags.begin();
+       ofit != this->m_TransformsToOptimizeFlags.end(); ofit++ )
     {
     inverse->m_TransformsToOptimizeFlags.push_front( *ofit );
     }
@@ -733,7 +734,7 @@ CompositeTransform<TParametersValueType, NDimensions>
 
     NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
-    typename TransformQueueType::const_iterator it = transforms.end();
+    auto it = transforms.end();
 
     do
       {
@@ -789,7 +790,7 @@ CompositeTransform<TParametersValueType, NDimensions>
   else
     {
     NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
-    typename TransformQueueType::iterator it = transforms.end();
+    auto it = transforms.end();
 
     do
       {
@@ -1002,8 +1003,8 @@ CompositeTransform<TParametersValueType, NDimensions>
        * NOTE: the use of const_cast is used to avoid a deep copy in the underlying vnl_vector
        * by using LetArrayManageMemory=false, and being very careful here we can
        * ensure that casting away consteness does not result in memory corruption. */
-      typename DerivativeType::ValueType * nonConstDataRefForPerformance =
-        const_cast< typename DerivativeType::ValueType * >( &( (update.data_block() )[offset]) );
+      auto * nonConstDataRefForPerformance = const_cast< typename DerivativeType::ValueType * >(
+                                               &( (update.data_block() )[offset]) );
       const DerivativeType subUpdate( nonConstDataRefForPerformance,
                                 subtransform->GetNumberOfParameters(), false );
       /* This call will also call SetParameters, so don't need to call it
@@ -1051,7 +1052,7 @@ CompositeTransform<TParametersValueType, NDimensions>
 
   for( SizeValueType m = 0; m < this->GetNumberOfTransforms(); m++ )
     {
-    Self * nestedCompositeTransform = dynamic_cast<Self *>( this->m_TransformQueue[m].GetPointer() );
+    auto * nestedCompositeTransform = dynamic_cast<Self *>( this->m_TransformQueue[m].GetPointer() );
     if( nestedCompositeTransform )
       {
       nestedCompositeTransform->FlattenTransformQueue();
@@ -1103,7 +1104,7 @@ CompositeTransform<TParametersValueType, NDimensions>
     }
 
   os << indent << "TransformsToOptimizeFlags, begin() to end(): " << std::endl << indent << indent;
-  for(  TransformsToOptimizeFlagsType::iterator
+  for(  auto
         it = this->m_TransformsToOptimizeFlags.begin();
         it != this->m_TransformsToOptimizeFlags.end(); it++ )
     {
@@ -1142,11 +1143,9 @@ CompositeTransform<TParametersValueType, NDimensions>
     itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
     }
 
-  typename TransformQueueType::iterator tqIt =
-    this->m_TransformQueue.begin();
+  auto tqIt = this->m_TransformQueue.begin();
 
-  typename TransformsToOptimizeFlagsType::iterator tfIt =
-    this->m_TransformsToOptimizeFlags.begin();
+  auto tfIt = this->m_TransformsToOptimizeFlags.begin();
 
   for(int i = 0; tqIt != this->m_TransformQueue.end() &&
         tfIt != this->m_TransformsToOptimizeFlags.end();

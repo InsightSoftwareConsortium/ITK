@@ -113,7 +113,7 @@ void
 VTKImageImport< TOutputImage >
 ::PropagateRequestedRegion(DataObject *outputPtr)
 {
-  OutputImageType *output = dynamic_cast< OutputImageType * >( outputPtr );
+  auto * output = dynamic_cast< OutputImageType * >( outputPtr );
 
   if ( !output )
     {
@@ -299,7 +299,7 @@ VTKImageImport< TOutputImage >
     output->SetBufferedRegion(region);
 
     void *           data = (m_BufferPointerCallback)( m_CallbackUserData );
-    OutputPixelType *importPointer = reinterpret_cast< OutputPixelType * >( data );
+    auto * importPointer = reinterpret_cast< OutputPixelType * >( data );
 
     // pass the pointer down to the output container during each
     // Update() since a call to Initialize() causes the container to

@@ -293,7 +293,7 @@ struct MapRecordPlusor {
 
   TFirstType operator()(TFirstType first, const MapRecord *const & second)
   {
-    std::map< std::string, MapRecord::MemoryLoadType >::const_iterator it = second->m_Tokens.find(m_Token);
+    auto it = second->m_Tokens.find(m_Token);
     return first + ( ( it != second->m_Tokens.end() ) ? it->second : 0 );
   }
 

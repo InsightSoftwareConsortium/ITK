@@ -161,7 +161,7 @@ int itkQuadEdgeMeshTest1( int , char* [] )
     // check with a disconnected edge
 
     // LightWeightDeleteEdge
-    QELineCellType * qeLineCell = new QELineCellType;
+    auto * qeLineCell = new QELineCellType;
     mesh->LightWeightDeleteEdge( (QEType *)nullptr );
     mesh->LightWeightDeleteEdge( qeLineCell->GetQEGeom( ) );
     mesh->LightWeightDeleteEdge( qeLineCell );

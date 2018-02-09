@@ -70,13 +70,12 @@ int itkHConvexImageFilterTest( int argc, char * argv[] )
   FilterWatcher watchConvex( hConvexFilter, "HConvexImageFilter" );
 
   // Set up the filter
-  HConvexFilterType::InputImagePixelType height =
-    static_cast< HConvexFilterType::InputImagePixelType >( atof( argv[3] ) );
+  auto height = static_cast< HConvexFilterType::InputImagePixelType >( atof( argv[3] ) );
 
   hConvexFilter->SetHeight( height );
   TEST_SET_GET_VALUE( height, hConvexFilter->GetHeight() );
 
-  bool fullyConnected = static_cast< bool >( atof( argv[4] ) );
+  auto fullyConnected = static_cast< bool >( atof( argv[4] ) );
   TEST_SET_GET_BOOLEAN( hConvexFilter, FullyConnected, fullyConnected );
 
 

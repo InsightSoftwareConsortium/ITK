@@ -55,7 +55,7 @@ public:
 
   inline TOutput operator()(const TInput & x) const
   {
-    TOutput result = static_cast< TOutput >( m_Maximum - x );
+    auto result = static_cast< TOutput >( m_Maximum - x );
 
     return result;
   }

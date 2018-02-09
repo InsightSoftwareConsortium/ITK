@@ -123,8 +123,7 @@ int itkDivideImageFilterTest2( int, char* [] )
 
   // Check the content of the result image
   //
-  const OutputImageType::PixelType::ValueType expectedValue =
-    static_cast< OutputImageType::PixelType::ValueType >( elementValueA / valueB );
+  const auto expectedValue = static_cast< OutputImageType::PixelType::ValueType >( elementValueA / valueB );
   const OutputImageType::PixelType::ValueType epsilon = 1e-6;
   while( !oIt.IsAtEnd() )
     {

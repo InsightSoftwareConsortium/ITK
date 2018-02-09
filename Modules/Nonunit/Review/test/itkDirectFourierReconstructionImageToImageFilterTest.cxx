@@ -61,7 +61,7 @@ protected:
 
   void Execute( const itk::Object * caller, const itk::EventObject & event ) override
     {
-    ReconstructionFilterPointer reconstructor = static_cast< ReconstructionFilterPointer >( caller );
+    auto reconstructor = static_cast< ReconstructionFilterPointer >( caller );
 
     if ( ! itk::ProgressEvent().CheckEvent( &event ) )
       {

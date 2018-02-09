@@ -203,7 +203,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       itkExceptionMacro( "The specified point " << params
         << " is outside the reparameterized domain [0, 1)." );
       }
-    CoordRepType numberOfSpans = static_cast<CoordRepType>(
+    auto numberOfSpans = static_cast<CoordRepType>(
       this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i] );
     if( !this->m_CloseDimension[i] )
       {
@@ -362,7 +362,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       itkExceptionMacro( "The specified point " << params
         << " is outside the reparameterized domain [0, 1)." );
       }
-    CoordRepType numberOfSpans = static_cast<CoordRepType>(
+    auto numberOfSpans = static_cast<CoordRepType>(
       this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i] );
     if( !this->m_CloseDimension[i] )
       {
@@ -542,7 +542,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       itkExceptionMacro( "The specified point " << params
         << " is outside the reparameterized domain [0, 1)." );
       }
-    CoordRepType numberOfSpans = static_cast<CoordRepType>(
+    auto numberOfSpans = static_cast<CoordRepType>(
       this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i] );
     if( !this->m_CloseDimension[i] )
       {

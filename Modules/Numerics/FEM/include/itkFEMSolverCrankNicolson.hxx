@@ -705,7 +705,7 @@ SolverCrankNicolson<VDimension>
       }
     DeformationEnergy += iSolVal * TempRowVal;
     }
-  Float Energy = (Float)std::fabs(DeformationEnergy - ForceEnergy);
+  auto Energy = (Float)std::fabs(DeformationEnergy - ForceEnergy);
   return Energy;
 }
 

@@ -159,7 +159,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
 
   // Traverse along the line that goes through mask boundaries and
   // check if the value and the mask is consistent
-  const int numberOfSteps = static_cast<int> (
+  const auto numberOfSteps = static_cast<int> (
     std::sqrt(double(INSIDE_SIZE*INSIDE_SIZE+
                     INSIDE_SIZE*INSIDE_SIZE+
                     INSIDE_SIZE*INSIDE_SIZE))*100.0

@@ -80,7 +80,7 @@ ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
     value += shape_term;
 
     // collect max change to be used for calculating the time step
-    ShapePriorGlobalDataStruct *globalData = (ShapePriorGlobalDataStruct *)gd;
+    auto * globalData = (ShapePriorGlobalDataStruct *)gd;
     globalData->m_MaxShapePriorChange =
       std::max( globalData->m_MaxShapePriorChange, itk::Math::abs(shape_term) );
     }
@@ -99,7 +99,7 @@ ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
   TimeStepType dt;
 
-  ShapePriorGlobalDataStruct *d = (ShapePriorGlobalDataStruct *)gd;
+  auto * d = (ShapePriorGlobalDataStruct *)gd;
 
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange + d->m_MaxShapePriorChange;
 

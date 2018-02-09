@@ -40,7 +40,7 @@ CustomColormapFunction< TScalar, TRGBPixel >
   for(size_t color = RED; color <= BLUE; ++color) //Go through all the colors
     {
     size_t size = ColorChannel[color]->size();
-    size_t index = Math::Ceil< size_t, RealType >( value * static_cast< RealType >( size - 1 ) );
+    auto index = Math::Ceil< size_t, RealType >( value * static_cast< RealType >( size - 1 ) );
 
     if ( size == 1 || index < 1 )
       {
@@ -59,7 +59,7 @@ CustomColormapFunction< TScalar, TRGBPixel >
   RGBPixelType pixel;
   NumericTraits<TRGBPixel>::SetLength(pixel, 3);
 
-  for( size_t color = static_cast< size_t >( RED ); color <= static_cast< size_t >( BLUE ); ++color )
+  for( auto color = static_cast< size_t >( RED ); color <= static_cast< size_t >( BLUE ); ++color )
     {
     pixel[color] = this->RescaleRGBComponentValue( RGBValue[color] );
     }

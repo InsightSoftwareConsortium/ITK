@@ -134,7 +134,7 @@ BoxAccumulateFunction(const TInputImage *inputImage,
 
   std::vector< int > weights;
   typename NOutputIterator::ConstIterator sIt;
-  for ( typename NOutputIterator::IndexListType::const_iterator idxIt = noutIt.GetActiveIndexList().begin();
+  for ( auto idxIt = noutIt.GetActiveIndexList().begin();
         idxIt != noutIt.GetActiveIndexList().end();
         idxIt++ )
     {
@@ -610,7 +610,7 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
 
   std::vector< int > weights;
   typename NOutputIterator::ConstIterator sIt;
-  for ( typename NOutputIterator::IndexListType::const_iterator idxIt = noutIt.GetActiveIndexList().begin();
+  for ( auto idxIt = noutIt.GetActiveIndexList().begin();
         idxIt != noutIt.GetActiveIndexList().end();
         idxIt++ )
     {

@@ -129,8 +129,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
 
     for( size_t i = 0; i < neighbors2.size(); ++i )
       {
-      TreeType::InstanceIdentifierVectorType::iterator temp_it =
-        std::find( neighbors1.begin(), neighbors1.end(), neighbors2[i] );
+      auto temp_it = std::find( neighbors1.begin(), neighbors1.end(), neighbors2[i] );
       if( temp_it == neighbors1.end() )
         {
         std::cerr << "neighbors2[" <<i << "] = " << neighbors2[i]
@@ -141,8 +140,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
 
     for( size_t i = 0; i < neighbors1.size(); ++i )
       {
-      TreeType::InstanceIdentifierVectorType::iterator temp_it =
-        std::find( neighbors2.begin(), neighbors2.end(), neighbors1[i] );
+      auto temp_it = std::find( neighbors2.begin(), neighbors2.end(), neighbors1[i] );
       if( temp_it == neighbors2.end() )
         {
         std::cerr << "neighbors1[" <<i << "] = " << neighbors1[i]
@@ -191,8 +189,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors2[i] ) );
       if( distance <= max_distance )
         {
-        TreeType::InstanceIdentifierVectorType::iterator temp_it =
-          std::find( neighbors1.begin(), neighbors1.end(), neighbors2[i] );
+        auto temp_it = std::find( neighbors1.begin(), neighbors1.end(), neighbors2[i] );
         if( temp_it == neighbors1.end() )
           {
           std::cerr << "neighbors2[" << i << "] = " << neighbors2[i]

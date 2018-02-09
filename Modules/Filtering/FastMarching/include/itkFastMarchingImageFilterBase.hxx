@@ -102,7 +102,7 @@ FastMarchingImageFilterBase< TInput, TOutput >::
 EnlargeOutputRequestedRegion( DataObject *output)
 {
   // Enlarge the requested region of the output to the whole data set
-  OutputImageType *imgData = dynamic_cast< OutputImageType * >( output );
+  auto * imgData = dynamic_cast< OutputImageType * >( output );
   if ( imgData )
     {
     imgData->SetRequestedRegionToLargestPossibleRegion();
@@ -211,8 +211,7 @@ UpdateValue( OutputImageType* oImage, const NodeType& iNode )
 
   GetInternalNodesUsed( oImage, iNode, NodesUsed );
 
-  OutputPixelType outputPixel =
-      static_cast< OutputPixelType >( Solve( oImage, iNode, NodesUsed ) );
+  auto outputPixel = static_cast< OutputPixelType >( Solve( oImage, iNode, NodesUsed ) );
 
   if ( outputPixel < this->m_LargeValue )
     {

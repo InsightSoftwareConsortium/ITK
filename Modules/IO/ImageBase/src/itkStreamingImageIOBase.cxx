@@ -36,7 +36,7 @@ bool StreamingImageIOBase
 {
   itkDebugMacro(<< "StreamingReadBufferAsBinary called");
 
-  char *buffer = static_cast< char * >( _buffer );
+  auto * buffer = static_cast< char * >( _buffer );
   // Offset into file
   std::streampos dataPos = this->GetDataPosition();
 
@@ -119,7 +119,7 @@ bool StreamingImageIOBase::ReadBufferAsBinary(std::istream & is, void *buffer, S
   // some systems have a limit of 2GB to be read at once
   const SizeType maxChunk = 1024 * 1024 * 1024;
 
-  std::streamsize bytesRemaining = static_cast< std::streamsize >( num );
+  auto bytesRemaining = static_cast< std::streamsize >( num );
 
   while ( bytesRemaining )
     {
@@ -172,7 +172,7 @@ bool StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const 
 {
   itkDebugMacro(<< "StreamingWriteBufferAsBinary called");
 
-  const char *buffer = static_cast< const char * >( _buffer );
+  const auto * buffer = static_cast< const char * >( _buffer );
   // Offset into file
   std::streampos dataPos = this->GetDataPosition();
 

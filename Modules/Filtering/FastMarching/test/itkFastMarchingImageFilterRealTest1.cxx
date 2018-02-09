@@ -177,7 +177,7 @@ int itkFastMarchingImageFilterRealTest1(int argc, char* argv[] )
       }
     distance = std::sqrt( distance );
 
-    double outputValue = static_cast< double >( iterator.Get() );
+    auto outputValue = static_cast< double >( iterator.Get() );
 
     //std::cout << iterator.GetIndex() <<" ** " <<outputValue <<std::endl;
     if (distance > itk::NumericTraits< double >::epsilon() )

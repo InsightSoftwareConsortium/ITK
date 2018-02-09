@@ -24,7 +24,7 @@ int itkMemoryLeakTest(int, char* [] )
   // Leak 10000 bytes of memory, a little at a time.
   for(unsigned int i=0; i < 100; ++i)
     {
-    char* leaker = new char[100];
+    auto * leaker = new char[100];
     *leaker = 0; // Prevent unused variable warning.
     }
 

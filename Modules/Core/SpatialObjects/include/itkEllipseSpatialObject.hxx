@@ -153,8 +153,7 @@ EllipseSpatialObject< TDimension >
 
     using PointsContainer = typename BoundingBoxType::PointsContainer;
     const PointsContainer *corners = bb->GetCorners();
-    typename BoundingBoxType::PointsContainer::const_iterator
-    it = corners->begin();
+    auto it = corners->begin();
     while ( it != corners->end() )
       {
       PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
@@ -214,7 +213,7 @@ void EllipseSpatialObject< TDimension >
 ::CopyInformation(const DataObject *data)
 {
   // check if we are the same type
-  const Self *source = dynamic_cast< const Self * >( data );
+  const auto * source = dynamic_cast< const Self * >( data );
 
   if ( !source )
     {

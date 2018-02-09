@@ -326,19 +326,19 @@ PipelineMonitorImageFilter<TImageType>
   os << indent << "m_ClearPipelineOnGenerateOutputInformation: " << m_ClearPipelineOnGenerateOutputInformation << std::endl;
 
   os << indent << "m_OutputRequestedRegions:"<< std::endl;
-  for (typename RegionVectorType::const_iterator i = m_OutputRequestedRegions.begin(); i != m_OutputRequestedRegions.end(); ++i)
+  for (auto i = m_OutputRequestedRegions.begin(); i != m_OutputRequestedRegions.end(); ++i)
     i->Print(os, indent.GetNextIndent());
 
   os << indent << "m_InputRequestedRegions:"<< std::endl;
-  for (typename RegionVectorType::const_iterator i = m_InputRequestedRegions.begin(); i != m_InputRequestedRegions.end(); ++i)
+  for (auto i = m_InputRequestedRegions.begin(); i != m_InputRequestedRegions.end(); ++i)
     i->Print(os, indent.GetNextIndent());
 
   os << indent << "m_UpdatedBufferedRegions:"<< std::endl;
-  for (typename RegionVectorType::const_iterator i = m_UpdatedBufferedRegions.begin(); i != m_UpdatedBufferedRegions.end(); ++i)
+  for (auto i = m_UpdatedBufferedRegions.begin(); i != m_UpdatedBufferedRegions.end(); ++i)
     i->Print(os, indent.GetNextIndent());
 
   os << indent << "m_UpdatedRequestedRegions:"<< std::endl;
-  for (typename RegionVectorType::const_iterator i = m_UpdatedRequestedRegions.begin(); i != m_UpdatedRequestedRegions.end(); ++i)
+  for (auto i = m_UpdatedRequestedRegions.begin(); i != m_UpdatedRequestedRegions.end(); ++i)
     i->Print(os, indent.GetNextIndent());
 
   os << indent << "m_UpdatedOutputOrigin:" << std::endl;

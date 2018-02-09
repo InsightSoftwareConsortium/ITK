@@ -88,7 +88,7 @@ LevelSetDenseImage< TImage >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = dynamic_cast< const Self * >( data );
+  const auto * LevelSet = dynamic_cast< const Self * >( data );
 
   if ( !LevelSet )
     {
@@ -106,7 +106,7 @@ LevelSetDenseImage< TImage >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = dynamic_cast< const Self* >( data );
+  const auto * LevelSet = dynamic_cast< const Self* >( data );
 
   if ( !LevelSet )
     {

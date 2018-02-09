@@ -73,7 +73,7 @@ QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {
   Superclass::DeletePoint(iIdToBeDeleted, iRemaining);
 
-  QuadricElementMapIterator it = m_Quadric.find(iIdToBeDeleted);
+  auto it = m_Quadric.find(iIdToBeDeleted);
   m_Quadric[iRemaining] += it->second;
   m_Quadric.erase(it);
 }

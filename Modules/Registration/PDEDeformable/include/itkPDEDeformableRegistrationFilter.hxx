@@ -199,9 +199,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
     }
 
   // update variables in the equation object
-  PDEDeformableRegistrationFunctionType *f =
-    dynamic_cast< PDEDeformableRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast< PDEDeformableRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !f )
     {
@@ -367,7 +365,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
     DisplacementFieldType,
     DisplacementFieldType >;
 
-  OperatorType *oper = new OperatorType;
+  auto * oper = new OperatorType;
   typename SmootherType::Pointer smoother = SmootherType::New();
 
   using PixelContainerPointer = typename DisplacementFieldType::PixelContainerPointer;

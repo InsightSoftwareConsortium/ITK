@@ -69,7 +69,7 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest3( int , char * [] )
       p[1] = static_cast< CoordType >( j );
       if( ( k % 2 == 0 ) && ( i != 0 ) && ( j != 0 ) )
         {
-        CoordType exp = static_cast< CoordType >( k / 2 );
+        auto exp = static_cast< CoordType >( k / 2 );
         CoordType delta = 0.1 * std::pow( -1., exp );
         p[0] += delta;
         p[1] += delta;

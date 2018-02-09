@@ -210,8 +210,7 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
 
 
   // Get the input arguments
-  FilterType::FunctorType::EigenValueOrderType order =
-    static_cast< FilterType::FunctorType::EigenValueOrderType >( atoi( argv[2] ) );
+  auto order = static_cast< FilterType::FunctorType::EigenValueOrderType >( atoi( argv[2] ) );
 
   std::string outputFilename = argv[1];
 

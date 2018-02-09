@@ -107,8 +107,8 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   statisticsFilter->SetLabelInput( maskReader->GetOutput() );
   statisticsFilter->Update();
 
-  const PixelType imageMin = static_cast<PixelType> ( statisticsFilter->GetMinimum(6) );
-  const PixelType imageMax = static_cast<PixelType> ( statisticsFilter->GetMaximum(6) );
+  const auto imageMin = static_cast<PixelType> ( statisticsFilter->GetMinimum(6) );
+  const auto imageMax = static_cast<PixelType> ( statisticsFilter->GetMaximum(6) );
   const StatisticRealType imageMean = statisticsFilter->GetMean(6);
   const StatisticRealType imageSigma = statisticsFilter->GetSigma(6);
 
@@ -125,8 +125,8 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   nonBrainStatisticsFilter->SetLabelInput( nonBrainMaskFilter->GetOutput() );
   nonBrainStatisticsFilter->Update();
 
-  const PixelType nonBrainImageMin = static_cast<PixelType> ( nonBrainStatisticsFilter->GetMinimum(1) );
-  const PixelType nonBrainImageMax = static_cast<PixelType> ( nonBrainStatisticsFilter->GetMaximum(1) );
+  const auto nonBrainImageMin = static_cast<PixelType> ( nonBrainStatisticsFilter->GetMinimum(1) );
+  const auto nonBrainImageMax = static_cast<PixelType> ( nonBrainStatisticsFilter->GetMaximum(1) );
   const StatisticRealType nonBrainImageMean = nonBrainStatisticsFilter->GetMean(1);
   const StatisticRealType nonBrainImageSigma = nonBrainStatisticsFilter->GetSigma(1);
 

@@ -60,9 +60,7 @@ typename DiffeomorphicDemonsRegistrationFilter< TFixedImage, TMovingImage,
 DiffeomorphicDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType()
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -83,9 +81,7 @@ const typename DiffeomorphicDemonsRegistrationFilter< TFixedImage, TMovingImage,
 DiffeomorphicDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType() const
 {
-  const DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< const DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  const auto * drfp = dynamic_cast< const DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {

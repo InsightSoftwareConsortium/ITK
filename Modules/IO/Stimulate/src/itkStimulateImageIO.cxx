@@ -520,12 +520,12 @@ void StimulateImageIO::Write(const void *buffer)
     }
 
   //preparation for writing buffer:
-  const SizeValueType numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
-  const SizeValueType numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
+  const auto numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+  const auto numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
 
   file << "\ndataType: ";
     {
-    char *tempmemory = new char[numberOfBytes];
+    auto * tempmemory = new char[numberOfBytes];
     memcpy(tempmemory, buffer, numberOfBytes);
     switch ( this->GetComponentType() )
       {

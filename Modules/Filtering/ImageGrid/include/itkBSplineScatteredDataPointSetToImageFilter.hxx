@@ -496,9 +496,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
     // Determine the actual number of pieces that will be generated
     typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-    unsigned int valuesPerThread = static_cast<unsigned int>( std::ceil(
+    auto valuesPerThread = static_cast<unsigned int>( std::ceil(
       range / static_cast<double>( num ) ) );
-    unsigned int maxThreadIdUsed = static_cast<unsigned int>( std::ceil(
+    auto maxThreadIdUsed = static_cast<unsigned int>( std::ceil(
       range / static_cast<double>( valuesPerThread ) ) - 1 );
 
     // Split the region
@@ -578,7 +578,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   // Determine which points should be handled by this particular thread.
 
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
-  SizeValueType numberOfPointsPerThread = static_cast<SizeValueType>(
+  auto numberOfPointsPerThread = static_cast<SizeValueType>(
     input->GetNumberOfPoints() / numberOfThreads );
 
   unsigned int start = threadId * numberOfPointsPerThread;

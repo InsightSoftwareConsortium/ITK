@@ -213,7 +213,7 @@ inline TReturn CastWithRangeCheck(TInput x)
   itkConceptMacro( OnlyDefinedForIntegerTypes2, ( itk::Concept::IsInteger< TInput > ) );
 #endif // ITK_USE_CONCEPT_CHECKING
 
-  TReturn ret = static_cast< TReturn >( x );
+  auto ret = static_cast< TReturn >( x );
   if ( sizeof( TReturn ) > sizeof( TInput )
        && !( !itk::NumericTraits< TReturn >::is_signed &&  itk::NumericTraits< TInput >::is_signed ) )
     {

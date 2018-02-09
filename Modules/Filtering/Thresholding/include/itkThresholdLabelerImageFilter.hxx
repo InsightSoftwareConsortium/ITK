@@ -47,7 +47,7 @@ void
 ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  unsigned int size = static_cast<unsigned int>( m_Thresholds.size() );
+  auto size = static_cast<unsigned int>( m_Thresholds.size() );
 
   for ( unsigned int i = 0; i < size - 1; i++ )
     {
@@ -70,7 +70,7 @@ ThresholdLabelerImageFilter< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Thresholds: ";
-  SizeValueType thresholdsSize = static_cast<SizeValueType>( m_Thresholds.size() );
+  auto thresholdsSize = static_cast<SizeValueType>( m_Thresholds.size() );
   for ( SizeValueType j = 0; j < thresholdsSize; j++ )
     {
     os << m_Thresholds[j] << " ";
@@ -78,7 +78,7 @@ ThresholdLabelerImageFilter< TInputImage, TOutputImage >
   os << std::endl;
 
   os << indent << "Real Thresholds: ";
-  SizeValueType realThresholdsSize = static_cast<SizeValueType>( m_RealThresholds.size() );
+  auto realThresholdsSize = static_cast<SizeValueType>( m_RealThresholds.size() );
   for ( SizeValueType i = 0; i < realThresholdsSize; i++ )
     {
     os << m_RealThresholds[i] << " ";

@@ -50,8 +50,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
+    const auto * filter = dynamic_cast< const TFilter * >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
 
@@ -75,7 +74,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   int numberOfDeformableIterationsLevel0 = 10;
   int numberOfDeformableIterationsLevel1 = 20;
   int numberOfDeformableIterationsLevel2 = 11;
-  double learningRate = static_cast<double>(0.5);
+  auto learningRate = static_cast<double>(0.5);
 
   if( argc >= 6 )
     {
@@ -137,7 +136,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
 
   // Set the number of iterations
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
-  GradientDescentOptimizerv4Type * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
+  auto * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
   TEST_EXPECT_TRUE( optimizer != nullptr );
   optimizer->SetNumberOfIterations( numberOfAffineIterations );
   std::cout << "number of affine iterations: " << numberOfAffineIterations << std::endl;

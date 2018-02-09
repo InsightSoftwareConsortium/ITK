@@ -174,7 +174,7 @@ ChangeInformationImageFilter< TInputImage >
     typename TInputImage::RegionType region;
     region.SetSize( this->GetOutput()->GetRequestedRegion().GetSize() );
     region.SetIndex(this->GetOutput()->GetRequestedRegion().GetIndex() - m_Shift);
-    InputImageType * input = const_cast< InputImageType * >( this->GetInput() );
+    auto * input = const_cast< InputImageType * >( this->GetInput() );
     input->SetRequestedRegion (region);
     }
 }
@@ -188,7 +188,7 @@ ChangeInformationImageFilter< TInputImage >
   OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
-  InputImageType * nonConstInput = const_cast< InputImageType * >( input );
+  auto * nonConstInput = const_cast< InputImageType * >( input );
 
   // No need to copy the bulk data
   output->SetPixelContainer( nonConstInput->GetPixelContainer() );

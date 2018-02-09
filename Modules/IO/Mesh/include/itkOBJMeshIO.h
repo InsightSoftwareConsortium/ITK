@@ -122,7 +122,7 @@ protected:
       {
       outputFile << "f ";
       index++;
-      unsigned int numberOfCellPoints = static_cast< unsigned int >( buffer[index++] );
+      auto numberOfCellPoints = static_cast< unsigned int >( buffer[index++] );
 
       for ( unsigned int jj = 0; jj < numberOfCellPoints; jj++ )
         {

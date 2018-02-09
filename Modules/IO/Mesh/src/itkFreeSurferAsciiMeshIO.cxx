@@ -152,7 +152,7 @@ FreeSurferAsciiMeshIO
 ::ReadPoints(void *buffer)
 {
   // Number of data array
-  float *data = static_cast< float * >( buffer );
+  auto * data = static_cast< float * >( buffer );
 
   // Read points
   m_InputFile.precision(12);
@@ -177,7 +177,7 @@ FreeSurferAsciiMeshIO
   m_InputFile.precision(12);
   SizeValueType      index = 0;
   constexpr unsigned int numberOfCellPoints = 3;
-  unsigned int *     data = new unsigned int[this->m_NumberOfCells * numberOfCellPoints];
+  auto * data = new unsigned int[this->m_NumberOfCells * numberOfCellPoints];
   float              value;
 
   for ( SizeValueType id = 0; id < this->m_NumberOfCells; id++ )

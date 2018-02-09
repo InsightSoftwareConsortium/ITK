@@ -62,9 +62,7 @@ CurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::InitializeIteration()
 {
   // update variables in the equation object
-  CurvatureFlowFunctionType *f =
-    dynamic_cast< CurvatureFlowFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast< CurvatureFlowFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !f )
     {

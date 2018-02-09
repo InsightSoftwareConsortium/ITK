@@ -31,7 +31,7 @@ PolyLineParametricPath< VDimension >
 ::Evaluate(const InputType & input) const
 {
   // Handle the endpoint carefully, since there is no following vertex
-  const InputType endPoint = static_cast< InputType >( m_VertexList->Size() - 1 );
+  const auto endPoint = static_cast< InputType >( m_VertexList->Size() - 1 );
   if ( input > endPoint || itk::Math::FloatAlmostEqual( input, endPoint ) )
     {
     return static_cast<const VertexListType*>(this->m_VertexList)->ElementAt(m_VertexList->Size() - 1); // the last vertex

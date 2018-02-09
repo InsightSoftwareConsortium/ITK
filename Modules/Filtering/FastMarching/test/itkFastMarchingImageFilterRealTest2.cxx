@@ -186,7 +186,7 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
   while( !iterator.IsAtEnd() )
     {
     FloatImageType::IndexType tempIndex = iterator.GetIndex();
-    double outputValue = static_cast< double >( iterator.Get() );
+    auto outputValue = static_cast< double >( iterator.Get() );
 
     if( ( ( tempIndex[0] > 22 ) && ( tempIndex [0] < 42 ) && ( tempIndex[1] > 27 ) && ( tempIndex[1] < 37 ) ) ||
         ( ( tempIndex[1] > 22 ) && ( tempIndex [1] < 42 ) && ( tempIndex[0] > 27 ) && ( tempIndex[0] < 37 ) ) )

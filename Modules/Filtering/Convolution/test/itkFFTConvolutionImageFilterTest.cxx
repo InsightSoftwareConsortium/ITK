@@ -112,7 +112,7 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
 
   if( argc >= 6 )
     {
-    bool normalize = static_cast<bool>( atoi( argv[5] ) );
+    auto normalize = static_cast<bool>( atoi( argv[5] ) );
     convoluter->SetNormalize( normalize );
     TEST_SET_GET_VALUE( normalize, convoluter->GetNormalize() );
 

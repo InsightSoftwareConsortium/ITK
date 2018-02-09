@@ -133,7 +133,7 @@ private:
       // shifting of signed integer gives undefined results, explicitly
       // cast to unsigned to get expected ( if two complement
       // representation ) results.
-      unsigned int uirs = static_cast<unsigned int>(irs);
+      auto uirs = static_cast<unsigned int>(irs);
       return static_cast<int>(( irs <= 0 ) ? ( (  uirs << 1 ) ^ 333556017 ) : ( uirs << 1 ));
     }
 

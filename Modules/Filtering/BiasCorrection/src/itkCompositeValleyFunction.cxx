@@ -62,7 +62,7 @@ void CompositeValleyFunction
 
   low = 0; high = 0;
 
-  SizeValueType noOfClasses = static_cast< SizeValueType >( m_Targets.size() );
+  auto noOfClasses = static_cast< SizeValueType >( m_Targets.size() );
 
   for ( i = 0; i < noOfClasses; i++ )
     {

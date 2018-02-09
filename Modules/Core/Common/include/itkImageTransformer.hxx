@@ -231,7 +231,7 @@ ImageTransformer< TInputImage >
   typename TInputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
   if ( num != 0 && range !=0 )
       {
-      unsigned int valuesPerThread = Math::Ceil< unsigned int >(range / (double)num);
+      auto valuesPerThread = Math::Ceil< unsigned int >(range / (double)num);
       unsigned int maxThreadIdUsed = Math::Ceil< unsigned int >(range / (double)valuesPerThread) - 1;
       // Split the region
       if ( i < maxThreadIdUsed )

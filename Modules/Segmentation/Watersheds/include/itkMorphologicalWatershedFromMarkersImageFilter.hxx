@@ -53,11 +53,9 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  LabelImageType * marker =
-    const_cast< LabelImageType * >( this->GetMarkerImage() );
+  auto * marker = const_cast< LabelImageType * >( this->GetMarkerImage() );
 
-  InputImageType * input =
-    const_cast< InputImageType * >( this->GetInput() );
+  auto * input = const_cast< InputImageType * >( this->GetInput() );
 
   if ( !marker || !input )
     {

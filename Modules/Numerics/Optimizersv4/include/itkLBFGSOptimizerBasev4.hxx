@@ -180,7 +180,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
   // assign to vnl cost-function adaptor
   const unsigned int numberOfParameters = metric->GetNumberOfParameters();
 
-  CostFunctionAdaptorType *adaptor = new CostFunctionAdaptorType( numberOfParameters );
+  auto * adaptor = new CostFunctionAdaptorType( numberOfParameters );
 
   adaptor->SetCostFunction( metric );
 

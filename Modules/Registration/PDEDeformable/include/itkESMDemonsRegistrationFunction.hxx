@@ -210,7 +210,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   PixelType         update;
   IndexType         FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   IndexType         LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex()
@@ -221,8 +221,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   // Get fixed image related information
   // Note: no need to check if the index is within
   // fixed image buffer. This is done by the external filter.
-  const double fixedValue = static_cast< double >(
-    this->GetFixedImage()->GetPixel(index) );
+  const auto fixedValue = static_cast< double >( this->GetFixedImage()->GetPixel(index) );
 
   // Get moving image related information
   // check if the point was mapped outside of the moving image using
@@ -236,7 +235,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     return update;
     }
 
-  const double movingValue = static_cast< double >( movingPixValue );
+  const auto movingValue = static_cast< double >( movingPixValue );
 
   // We compute the gradient more or less by hand.
   // We first start by ignoring the image orientation and introduce it
@@ -462,7 +461,7 @@ void
 ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
 
   m_MetricCalculationLock.Lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;

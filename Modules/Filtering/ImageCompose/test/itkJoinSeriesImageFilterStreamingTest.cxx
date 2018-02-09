@@ -49,7 +49,8 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
   reader->UpdateOutputInformation();
 
 
-  const unsigned int numberOfSlices = itk::Math::CastWithRangeCheck<unsigned int>(reader->GetOutput()->GetLargestPossibleRegion().GetSize(2));
+  const auto numberOfSlices = itk::Math::CastWithRangeCheck<unsigned int>(
+    reader->GetOutput()->GetLargestPossibleRegion().GetSize(2));
 
 
   itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor1 = itk::PipelineMonitorImageFilter<ImageType>::New();

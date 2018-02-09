@@ -108,7 +108,7 @@ bool TestClampFromTo()
     TOutputPixelType outValue      = ot.Value();
     TOutputPixelType expectedValue;
 
-    double dInValue = static_cast< double >( inValue );
+    auto dInValue = static_cast< double >( inValue );
     double expectedMin = itk::NumericTraits< TOutputPixelType >::NonpositiveMin();
     double expectedMax = itk::NumericTraits< TOutputPixelType >::max();
 
@@ -227,7 +227,7 @@ bool TestClampFromToWithCustomBounds()
     TOutputPixelType outValue      = ot.Value();
     TOutputPixelType expectedValue;
 
-    double dInValue = static_cast< double >( inValue );
+    auto dInValue = static_cast< double >( inValue );
     double expectedMin = filter->GetLowerBound();
     double expectedMax = filter->GetUpperBound();
 

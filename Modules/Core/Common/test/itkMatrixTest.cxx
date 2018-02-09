@@ -210,8 +210,8 @@ int itkMatrixTest(int, char* [] )
       {
       for(unsigned int c=0; c < nc; c++)
         {
-        const double fr = (double)r;
-        const double fc = (double)c;
+        const auto fr = (double)r;
+        const auto fc = (double)c;
         m1[r][c] = fr + fc;
         m2[r][c] = fr - fc;
         }

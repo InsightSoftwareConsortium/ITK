@@ -40,7 +40,7 @@ public:
 
 ITK_THREAD_RETURN_TYPE ConditionVariableTestIncCount( void *ptr )
 {
-  ConditionVariableTestUserData *data = static_cast<ConditionVariableTestUserData *>(
+  auto * data = static_cast<ConditionVariableTestUserData *>(
                        ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
   double v = 400.0;
@@ -73,7 +73,7 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestIncCount( void *ptr )
 
 ITK_THREAD_RETURN_TYPE ConditionVariableTestWatchCount( void *ptr )
 {
-  ConditionVariableTestUserData *data = static_cast<ConditionVariableTestUserData *>(
+  auto * data = static_cast<ConditionVariableTestUserData *>(
                            ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
   // Lock the mutex and wait for the signal.

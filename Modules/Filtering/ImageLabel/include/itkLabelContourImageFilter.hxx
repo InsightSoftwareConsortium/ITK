@@ -358,8 +358,8 @@ LabelContourImageFilter< TInputImage, TOutputImage >
     offset = 1;
     }
 
-  LineEncodingIterator cIt = current.begin();
-  LineEncodingIterator cEnd = current.end();
+  auto cIt = current.begin();
+  auto cEnd = current.end();
 
   // out marker iterator
 
@@ -373,7 +373,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
       bool lineCompleted = false;
       const LineEncodingConstIterator mEnd = Neighbour.end();
-      for(LineEncodingConstIterator mIt = Neighbour.begin();
+      for(auto mIt = Neighbour.begin();
         mIt != mEnd && !lineCompleted; ++mIt )
         {
         if ( mIt->label != cIt->label )

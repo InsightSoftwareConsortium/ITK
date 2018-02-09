@@ -61,7 +61,7 @@ int itkObjectStoreTest( int , char * [] )
       store->Print(std::cout);
 
       // Return all items
-      unsigned int sz = static_cast< unsigned int>( borrowed_list.size() );
+      auto sz = static_cast< unsigned int>( borrowed_list.size() );
       for (i = 0; i < sz; ++i)
         {
           store->Return(borrowed_list.back());

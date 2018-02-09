@@ -116,8 +116,7 @@ ImageToRGBVTKImageFilter< TInputImage >
         {
         for( int z = 0; z < dimension[2]; z++ )
           {
-          InputPixelType* vtkpixel =
-              static_cast<InputPixelType*>(m_Output->GetScalarPointer(x,y,z));
+          auto * vtkpixel = static_cast<InputPixelType*>(m_Output->GetScalarPointer(x,y,z));
           InputIndexType index;
           index[0] = x;
           index[1] = y;
@@ -131,8 +130,7 @@ ImageToRGBVTKImageFilter< TInputImage >
         }
       else
         {
-        InputPixelType* vtkpixel =
-            static_cast<InputPixelType*>(m_Output->GetScalarPointer(x,y,0));
+        auto * vtkpixel = static_cast<InputPixelType*>(m_Output->GetScalarPointer(x,y,0));
         InputIndexType index;
         index[0] = x;
         index[1] = y;

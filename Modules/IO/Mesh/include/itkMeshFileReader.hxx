@@ -146,18 +146,18 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   OutputCellIdentifier id = NumericTraits< OutputCellIdentifier >::ZeroValue();
   while ( index < m_MeshIO->GetCellBufferSize() )
     {
-    MeshIOBase::CellGeometryType type = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
+    auto type = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
     switch ( type )
       {
       case MeshIOBase::VERTEX_CELL:
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints != OutputVertexCellType::NumberOfPoints )
           {
           itkExceptionMacro(<< "Invalid Vertex Cell with number of points = " << numberOfPoints);
           }
         OutputCellAutoPointer cell;
-        OutputVertexCellType *vertexCell = new OutputVertexCellType;
+        auto * vertexCell = new OutputVertexCellType;
         for ( unsigned int jj = 0; jj < OutputVertexCellType::NumberOfPoints; jj++ )
           {
           vertexCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -170,16 +170,16 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       case MeshIOBase::LINE_CELL:
         {
         // for polylines will be loaded as individual edges.
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints < 2 )
           {
           itkExceptionMacro(<< "Invalid Line Cell with number of points = " << numberOfPoints);
           }
-        OutputPointIdentifier pointIDBuffer = static_cast< OutputPointIdentifier >( buffer[index++] );
+        auto pointIDBuffer = static_cast< OutputPointIdentifier >( buffer[index++] );
         for ( unsigned int jj = 1; jj < numberOfPoints; ++jj )
           {
           OutputCellAutoPointer cell;
-          OutputLineCellType *  lineCell = new OutputLineCellType;
+          auto * lineCell = new OutputLineCellType;
           lineCell->SetPointId(0, pointIDBuffer);
           pointIDBuffer = static_cast< OutputPointIdentifier >( buffer[index++] );
           lineCell->SetPointId(1, pointIDBuffer);
@@ -190,14 +190,14 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::TRIANGLE_CELL:
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints != OutputTriangleCellType::NumberOfPoints )
           {
           itkExceptionMacro(<< "Invalid Triangle Cell with number of points = " << numberOfPoints);
           }
 
         OutputCellAutoPointer   cell;
-        OutputTriangleCellType *triangleCell = new OutputTriangleCellType;
+        auto * triangleCell = new OutputTriangleCellType;
         for ( unsigned int jj = 0; jj < OutputTriangleCellType::NumberOfPoints; jj++ )
           {
           triangleCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -209,14 +209,14 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::QUADRILATERAL_CELL:
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints != OutputQuadrilateralCellType::NumberOfPoints )
           {
           itkExceptionMacro(<< "Invalid Quadrilateral Cell with number of points = " << numberOfPoints);
           }
 
         OutputCellAutoPointer        cell;
-        OutputQuadrilateralCellType *quadrilateralCell = new OutputQuadrilateralCellType;
+        auto * quadrilateralCell = new OutputQuadrilateralCellType;
         for ( unsigned int jj = 0; jj < OutputQuadrilateralCellType::NumberOfPoints; jj++ )
           {
           quadrilateralCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -231,10 +231,10 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         // For polyhedron, if the number of points is 3, then we treat it as
         // triangle cell
         OutputCellAutoPointer cell;
-        unsigned int          numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints == OutputTriangleCellType::NumberOfPoints )
           {
-          OutputTriangleCellType *triangleCell = new OutputTriangleCellType;
+          auto * triangleCell = new OutputTriangleCellType;
           for ( unsigned int jj = 0; jj < OutputTriangleCellType::NumberOfPoints; jj++ )
             {
             triangleCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -243,7 +243,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
           }
         else
           {
-          OutputPolygonCellType *polygonCell = new OutputPolygonCellType;
+          auto * polygonCell = new OutputPolygonCellType;
           for ( unsigned int jj = 0; jj < numberOfPoints; jj++ )
             {
             polygonCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -256,14 +256,14 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::TETRAHEDRON_CELL:
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints != OutputTetrahedronCellType::NumberOfPoints )
           {
           itkExceptionMacro(<< "Invalid Tetrahedron Cell with number of points = " << numberOfPoints);
           }
 
         OutputCellAutoPointer      cell;
-        OutputTetrahedronCellType *tetrahedronCell = new OutputTetrahedronCellType;
+        auto * tetrahedronCell = new OutputTetrahedronCellType;
         for ( unsigned int jj = 0; jj < OutputTetrahedronCellType::NumberOfPoints; jj++ )
           {
           tetrahedronCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -275,14 +275,14 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::HEXAHEDRON_CELL:
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints != OutputHexahedronCellType::NumberOfPoints )
           {
           itkExceptionMacro(<< "Invalid Hexahedron Cell with number of points = " << numberOfPoints);
           }
 
         OutputCellAutoPointer     cell;
-        OutputHexahedronCellType *hexahedronCell = new OutputHexahedronCellType;
+        auto * hexahedronCell = new OutputHexahedronCellType;
         for ( unsigned int jj = 0; jj < OutputHexahedronCellType::NumberOfPoints; jj++ )
           {
           hexahedronCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -294,14 +294,14 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::QUADRATIC_EDGE_CELL:
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints != OutputQuadraticEdgeCellType::NumberOfPoints )
           {
           itkExceptionMacro(<< "Invalid Quadratic edge Cell with number of points = " << numberOfPoints);
           }
 
         OutputCellAutoPointer        cell;
-        OutputQuadraticEdgeCellType *quadraticEdgeCell = new OutputQuadraticEdgeCellType;
+        auto * quadraticEdgeCell = new OutputQuadraticEdgeCellType;
         for ( unsigned int jj = 0; jj < OutputQuadraticEdgeCellType::NumberOfPoints; jj++ )
           {
           quadraticEdgeCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -313,14 +313,14 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::QUADRATIC_TRIANGLE_CELL:
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( buffer[index++] );
+        auto numberOfPoints = static_cast< unsigned int >( buffer[index++] );
         if ( numberOfPoints != OutputQuadraticTriangleCellType::NumberOfPoints )
           {
           itkExceptionMacro(<< "Invalid Quadratic triangle Cell with number of points = " << numberOfPoints);
           }
 
         OutputCellAutoPointer            cell;
-        OutputQuadraticTriangleCellType *quadraticTriangleCell = new OutputQuadraticTriangleCellType;
+        auto * quadraticTriangleCell = new OutputQuadraticTriangleCellType;
         for ( unsigned int jj = 0; jj < OutputQuadraticTriangleCellType::NumberOfPoints; jj++ )
           {
           quadraticTriangleCell->SetPointId( jj, static_cast< OutputPointIdentifier >( buffer[index++] ) );
@@ -346,7 +346,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   typename TOutputMesh::Pointer output = this->GetOutput();
 
   char *                inputPointDataBuffer = nullptr;
-  OutputPointPixelType *outputPointDataBuffer = new OutputPointPixelType[m_MeshIO->GetNumberOfPointPixels()];
+  auto * outputPointDataBuffer = new OutputPointPixelType[m_MeshIO->GetNumberOfPointPixels()];
 
   try
     {
@@ -415,7 +415,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   typename TOutputMesh::Pointer output = this->GetOutput();
 
   char *               inputCellDataBuffer = nullptr;
-  OutputCellPixelType *outputCellDataBuffer = new OutputCellPixelType[m_MeshIO->GetNumberOfCellPixels()];
+  auto * outputCellDataBuffer = new OutputCellPixelType[m_MeshIO->GetNumberOfCellPixels()];
 
   try
     {
@@ -514,7 +514,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       msg << "  Tried to create one of the following:" << std::endl;
       for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase") )
         {
-        MeshIOBase *io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
+        auto * io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
         msg << "    " << io->GetNameOfClass() << std::endl;
         }
       msg << "  You probably failed to set a file suffix, or" << std::endl;
@@ -567,7 +567,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       {
       case MeshIOBase::CHAR:
         {
-        char *pointsBuffer = new char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -575,7 +575,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::UCHAR:
         {
-        unsigned char *pointsBuffer = new unsigned char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new unsigned char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -583,7 +583,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::SHORT:
         {
-        short *pointsBuffer = new short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -591,7 +591,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::USHORT:
         {
-        unsigned short *pointsBuffer = new unsigned short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new unsigned short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -599,7 +599,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::INT:
         {
-        int *pointsBuffer = new int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -607,7 +607,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::UINT:
         {
-        unsigned int *pointsBuffer = new unsigned int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new unsigned int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -615,7 +615,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::LONG:
         {
-        long *pointsBuffer = new long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -623,7 +623,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::ULONG:
         {
-        unsigned long *pointsBuffer = new unsigned long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new unsigned long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -631,7 +631,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::LONGLONG:
         {
-        long long *pointsBuffer = new long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -639,7 +639,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::ULONGLONG:
         {
-        unsigned long long *pointsBuffer = new unsigned long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new unsigned long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -647,7 +647,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::FLOAT:
         {
-        float *pointsBuffer = new float[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new float[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -655,7 +655,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::DOUBLE:
         {
-        double *pointsBuffer = new double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -663,7 +663,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::LDOUBLE:
         {
-        long double *pointsBuffer = new long double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
+        auto * pointsBuffer = new long double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints( static_cast< void * >( pointsBuffer ) );
         ReadPoints(pointsBuffer);
         delete[] pointsBuffer;
@@ -684,7 +684,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       {
       case MeshIOBase::CHAR:
         {
-        char *cellsBuffer = new char[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new char[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -692,7 +692,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::UCHAR:
         {
-        unsigned char *cellsBuffer = new unsigned char[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new unsigned char[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -700,7 +700,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::SHORT:
         {
-        short *cellsBuffer = new short[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new short[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -708,7 +708,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::USHORT:
         {
-        unsigned short *cellsBuffer = new unsigned short[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new unsigned short[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -716,7 +716,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::INT:
         {
-        int *cellsBuffer = new int[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new int[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -724,7 +724,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::UINT:
         {
-        unsigned int *cellsBuffer = new unsigned int[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new unsigned int[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -732,7 +732,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::LONG:
         {
-        long *cellsBuffer = new long[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -740,7 +740,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::ULONG:
         {
-        unsigned long *cellsBuffer = new unsigned long[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new unsigned long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -748,7 +748,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::LONGLONG:
         {
-        long long *cellsBuffer = new long long[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new long long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -756,7 +756,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::ULONGLONG:
         {
-        unsigned long long *cellsBuffer = new unsigned long long[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new unsigned long long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -764,7 +764,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::FLOAT:
         {
-        float *cellsBuffer = new float[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new float[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -772,7 +772,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::DOUBLE:
         {
-        double *cellsBuffer = new double[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new double[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;
@@ -780,7 +780,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
         }
       case MeshIOBase::LDOUBLE:
         {
-        long double *cellsBuffer = new long double[m_MeshIO->GetCellBufferSize()];
+        auto * cellsBuffer = new long double[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells( static_cast< void * >( cellsBuffer ) );
         ReadCells(cellsBuffer);
         delete[] cellsBuffer;

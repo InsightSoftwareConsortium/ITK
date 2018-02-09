@@ -253,7 +253,7 @@ ProcessObject
       }
     }
 
-  DataObjectPointerMap::iterator it = m_Inputs.find(key);
+  auto it = m_Inputs.find(key);
 
   if ( it != m_Inputs.end() )
     {
@@ -286,7 +286,7 @@ ProcessObject
     {
     itkExceptionMacro("An empty string can't be used as an input identifier");
     }
-  DataObjectPointerMap::iterator it = m_Inputs.find(key);
+  auto it = m_Inputs.find(key);
   if( it == m_Inputs.end() )
     {
     // this is a whole new entry
@@ -407,7 +407,7 @@ ProcessObject
     }
 
 
-  DataObjectPointerMap::iterator it = m_Outputs.find(key);
+  auto it = m_Outputs.find(key);
 
   if ( it != m_Outputs.end() )
     {
@@ -590,7 +590,7 @@ DataObject *
 ProcessObject
 ::GetOutput(const DataObjectIdentifierType & key)
 {
-  DataObjectPointerMap::iterator it = m_Outputs.find(key);
+  auto it = m_Outputs.find(key);
   if ( it == m_Outputs.end() )
     {
     return nullptr;
@@ -603,7 +603,7 @@ const DataObject *
 ProcessObject
 ::GetOutput(const DataObjectIdentifierType & key) const
 {
-  DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
+  auto it = m_Outputs.find(key);
   if ( it == m_Outputs.end() )
     {
     return nullptr;
@@ -646,7 +646,7 @@ ProcessObject
     DataObjectPointerMap::value_type p(key, DataObjectPointer() );
 
     // note: insert will not change value if it's already there.
-    DataObjectPointerMap::iterator it = this->m_Outputs.insert( p ).first;
+    auto it = this->m_Outputs.insert( p ).first;
 
     if ( it->second.IsNull() )
       {
@@ -664,7 +664,7 @@ bool
 ProcessObject
 ::HasOutput( const DataObjectIdentifierType & key ) const
 {
-  DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
+  auto it = m_Outputs.find(key);
   return it != m_Outputs.end();
 }
 
@@ -777,7 +777,7 @@ DataObject *
 ProcessObject
 ::GetInput(const DataObjectIdentifierType & key)
 {
-  DataObjectPointerMap::iterator it = m_Inputs.find(key);
+  auto it = m_Inputs.find(key);
   if ( it == m_Inputs.end() )
     {
     return nullptr;
@@ -790,7 +790,7 @@ const DataObject *
 ProcessObject
 ::GetInput(const DataObjectIdentifierType & key) const
 {
-  DataObjectPointerMap::const_iterator it = m_Inputs.find(key);
+  auto it = m_Inputs.find(key);
   if ( it == m_Inputs.end() )
     {
     return nullptr;
@@ -824,7 +824,7 @@ bool
 ProcessObject
 ::HasInput( const DataObjectIdentifierType & key ) const
 {
-  DataObjectPointerMap::const_iterator it = m_Inputs.find(key);
+  auto it = m_Inputs.find(key);
   return it != m_Inputs.end();
 }
 
@@ -932,7 +932,7 @@ ProcessObject
 
   DataObjectPointerMap::value_type p(name, DataObjectPointer() );
   // note: insert will not change value if it's already in named inputs.
-  DataObjectPointerMap::iterator it = m_Inputs.insert(p).first;
+  auto it = m_Inputs.insert(p).first;
 
   if ( idx >= this->GetNumberOfIndexedInputs() )
     {
@@ -1292,7 +1292,7 @@ ProcessObject
 
   os << indent << "Indexed Inputs: " << std::endl;
   unsigned int idx = 0;
-  for ( std::vector< DataObjectPointerMap::iterator >::const_iterator it = m_IndexedInputs.begin();
+  for ( auto it = m_IndexedInputs.begin();
         it != m_IndexedInputs.end();
         ++it, ++idx)
     {
@@ -1302,7 +1302,7 @@ ProcessObject
   if( !m_RequiredInputNames.empty() )
     {
     os << indent << "Required Input Names: ";
-    for( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); ++it )
+    for( auto it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); ++it )
       {
       if( it != m_RequiredInputNames.begin() )
         {
@@ -1333,7 +1333,7 @@ ProcessObject
     }
   os << indent << "Indexed Outputs: " << std::endl;
   idx = 0;
-  for ( std::vector< DataObjectPointerMap::iterator >::const_iterator it = m_IndexedOutputs.begin();
+  for ( auto it = m_IndexedOutputs.begin();
         it != m_IndexedOutputs.end();
         ++it, ++idx)
     {
@@ -1428,7 +1428,7 @@ ProcessObject
   /**
    * Verify the require named inputs.
    */
-  NameSet::const_iterator i = m_RequiredInputNames.begin();
+  auto i = m_RequiredInputNames.begin();
   while (i != m_RequiredInputNames.end())
     {
     if ( this->GetInput(*i) == nullptr )

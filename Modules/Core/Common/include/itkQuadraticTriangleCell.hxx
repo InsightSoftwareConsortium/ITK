@@ -254,7 +254,7 @@ bool
 QuadraticTriangleCell< TCellInterface >
 ::GetVertex(CellFeatureIdentifier vertexId, VertexAutoPointer & vertexPointer)
 {
-  VertexType *vert = new VertexType;
+  auto * vert = new VertexType;
 
   vert->SetPointId(0, m_PointIds[vertexId]);
   vertexPointer.TakeOwnership(vert);
@@ -271,7 +271,7 @@ bool
 QuadraticTriangleCell< TCellInterface >
 ::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer)
 {
-  EdgeType *edge = new EdgeType;
+  auto * edge = new EdgeType;
 
   for ( unsigned int i = 0; i < EdgeType::NumberOfPoints; ++i )
     {

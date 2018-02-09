@@ -191,7 +191,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       // unbiased estimate of variance
       LabelStatistics & ls = mapIt->second;
       const RealType    sumSquared  = ls.m_Sum * ls.m_Sum;
-      const RealType    count       = static_cast< RealType >( ls.m_Count );
+      const auto count = static_cast< RealType >( ls.m_Count );
 
       ls.m_Variance = ( ls.m_SumOfSquares - sumSquared / count ) / ( count - 1.0 );
       }

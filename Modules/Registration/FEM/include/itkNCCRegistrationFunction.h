@@ -127,7 +127,7 @@ public:
    * this object from the solver at each calculation. */
   void * GetGlobalDataPointer() const override
     {
-    GlobalDataStruct *global = new GlobalDataStruct();
+    auto * global = new GlobalDataStruct();
 
     return global;
     }

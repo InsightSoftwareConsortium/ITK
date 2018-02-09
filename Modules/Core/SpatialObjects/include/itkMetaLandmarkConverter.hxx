@@ -42,8 +42,7 @@ typename MetaLandmarkConverter< NDimensions >::SpatialObjectPointer
 MetaLandmarkConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const LandmarkMetaObjectType *landmarkMO =
-    dynamic_cast<const LandmarkMetaObjectType *>(mo);
+  const auto * landmarkMO = dynamic_cast<const LandmarkMetaObjectType *>(mo);
   if(landmarkMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaLandmark");
@@ -69,8 +68,7 @@ MetaLandmarkConverter< NDimensions >
 
   using LandmarkPointType = itk::SpatialObjectPoint< NDimensions >;
 
-  typename LandmarkMetaObjectType::PointListType::const_iterator it2
-    = landmarkMO->GetPoints().begin();
+  auto it2 = landmarkMO->GetPoints().begin();
 
   for ( unsigned int identifier = 0; identifier < landmarkMO->GetPoints().size(); identifier++ )
     {
@@ -112,13 +110,13 @@ MetaLandmarkConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to LandmarkSpatialObject");
     }
 
-  MetaLandmark *landmarkMO = new MetaLandmark(NDimensions);
+  auto * landmarkMO = new MetaLandmark(NDimensions);
 
   // fill in the Landmark information
   typename LandmarkSpatialObjectType::PointListType::const_iterator it;
   for ( it = landmarkSO->GetPoints().begin(); it != landmarkSO->GetPoints().end(); ++it )
     {
-    LandmarkPnt *pnt = new LandmarkPnt(NDimensions);
+    auto * pnt = new LandmarkPnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {

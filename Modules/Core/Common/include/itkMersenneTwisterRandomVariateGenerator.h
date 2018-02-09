@@ -322,7 +322,7 @@ MersenneTwisterRandomVariateGenerator::reload()
   // matthew dot bellew at home dot com
 
   // get rid of VS warning
-  int index = static_cast< int >(
+  auto index = static_cast< int >(
     M - MersenneTwisterRandomVariateGenerator::StateVectorLength );
 
   IntegerType *p = state;

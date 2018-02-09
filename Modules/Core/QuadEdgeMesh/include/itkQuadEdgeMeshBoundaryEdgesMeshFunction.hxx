@@ -37,8 +37,7 @@ const
 
   while( cellIterator != cellEnd )
     {
-    if ( EdgeCellType * cell =
-           dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
+    if ( auto * cell = dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
       {
       QEPrimal *edge = cell->GetQEGeom();
       if ( !edge->IsInternal() )
@@ -49,13 +48,13 @@ const
     ++cellIterator;
     }
 
-  OutputType ResultList = new EdgeListType;
+  auto ResultList = new EdgeListType;
   while ( !boundaryList.empty() )
     {
     // Pop the first edge of list and make sure it has no face
     // on it's left [because we want to follow the boundary with
     // GeometricalQuadEdge::Lnext()]:
-    typename std::set< QEPrimal* >::iterator b = boundaryList.begin();
+    auto b = boundaryList.begin();
     QEPrimal *bdryEdge = *b;
     boundaryList.erase( b );
     if ( bdryEdge->IsLeftSet() )

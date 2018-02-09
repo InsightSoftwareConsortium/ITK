@@ -112,7 +112,8 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
     {
     itkDebugMacro( "Smooothing the update field." );
 
-    DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( const_cast<DerivativeType &>(update).data_block() );
+    auto * updateFieldPointer = reinterpret_cast<DisplacementVectorType *>(
+                                  const_cast<DerivativeType &>(update).data_block() );
 
     typename ImporterType::Pointer importer = ImporterType::New();
     importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
@@ -127,7 +128,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
 
     DisplacementFieldPointer updateSmoothField = this->BSplineSmoothDisplacementField( updateField, this->m_NumberOfControlPointsForTheUpdateField );
 
-    DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( updateSmoothField->GetBufferPointer() );
+    auto * updatePointer = reinterpret_cast<DerivativeValueType *>( updateSmoothField->GetBufferPointer() );
 
     // Add the update field to the current total field
     bool letArrayManageMemory = false;

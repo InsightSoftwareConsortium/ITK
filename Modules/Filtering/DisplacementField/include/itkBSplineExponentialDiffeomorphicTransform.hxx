@@ -109,7 +109,8 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
   const typename ConstantVelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
-  DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( const_cast<DerivativeType &>( update ).data_block() );
+  auto * updateFieldPointer = reinterpret_cast<DisplacementVectorType *>(
+                                const_cast<DerivativeType &>( update ).data_block() );
 
   using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions>;
   const bool importFilterWillReleaseMemory = false;

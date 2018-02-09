@@ -171,8 +171,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  unsigned int projectionDirection =
-    static_cast<unsigned int>( ::atoi( argv[3] ) );
+  auto projectionDirection = static_cast<unsigned int>( ::atoi( argv[3] ) );
 
   unsigned int i, j;
   unsigned int direction[2];

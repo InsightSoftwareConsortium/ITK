@@ -176,7 +176,7 @@ int itkFastMarchingTest2(int, char* [] )
   for(; !iterator.IsAtEnd(); ++iterator )
     {
     FloatImage::IndexType tempIndex = iterator.GetIndex();
-    float outputValue = (float) iterator.Get();
+    auto outputValue = (float) iterator.Get();
 
     if( ( ( tempIndex[0] > 22 ) && ( tempIndex [0] < 42 ) && ( tempIndex[1] > 27 ) && ( tempIndex[1] < 37 ) ) ||
         ( ( tempIndex[1] > 22 ) && ( tempIndex [1] < 42 ) && ( tempIndex[0] > 27 ) && ( tempIndex[0] < 37 ) ) )

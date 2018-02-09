@@ -51,7 +51,7 @@ typename MetaFEMObjectConverter<NDimensions>::SpatialObjectPointer
 MetaFEMObjectConverter<NDimensions>
 ::MetaObjectToSpatialObject(const MetaObjectType * mo)
 {
-  const MetaFEMObject *FEMmo = dynamic_cast<const MetaFEMObject *>(mo);
+  const auto * FEMmo = dynamic_cast<const MetaFEMObject *>(mo);
   if(FEMmo == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaFEMObject");
@@ -68,7 +68,7 @@ MetaFEMObjectConverter<NDimensions>
   using NodeListType = typename MetaFEMObject::NodeListType;
   const NodeListType nodelist = FEMmo->GetNodeList();
 
-  typename NodeListType::const_iterator it_nodes = nodelist.begin();
+  auto it_nodes = nodelist.begin();
 
   while(it_nodes != nodelist.end())
   {
@@ -95,7 +95,7 @@ MetaFEMObjectConverter<NDimensions>
   using MaterialListType = typename MetaFEMObject::MaterialListType;
   const MaterialListType materiallist = FEMmo->GetMaterialList();
 
-  typename MaterialListType::const_iterator it_material = materiallist.begin();
+  auto it_material = materiallist.begin();
 
   while(it_material != materiallist.end())
   {
@@ -118,7 +118,7 @@ MetaFEMObjectConverter<NDimensions>
   using ElementListType = typename MetaFEMObject::ElementListType;
   const ElementListType elementlist = FEMmo->GetElementList();
 
-  typename ElementListType::const_iterator it_elements = elementlist.begin();
+  auto it_elements = elementlist.begin();
 
   while(it_elements != elementlist.end())
   {
@@ -143,7 +143,7 @@ MetaFEMObjectConverter<NDimensions>
   using LoadListType = typename MetaFEMObject::LoadListType;
   const LoadListType loadlist = FEMmo->GetLoadList();
 
-  typename LoadListType::const_iterator it_load = loadlist.begin();
+  auto it_load = loadlist.begin();
 
    while(it_load != loadlist.end())
      {
@@ -202,8 +202,7 @@ MetaFEMObjectConverter<NDimensions>
 
        for ( int i = 0; i < NumLHS; i++ )
          {
-         FEMObjectMFCTerm *mfcTerm =
-           dynamic_cast< FEMObjectMFCTerm * > (load->m_LHS[i]);
+         auto * mfcTerm = dynamic_cast< FEMObjectMFCTerm * > (load->m_LHS[i]);
          elementGN = mfcTerm->m_ElementGN;
 
          DOF = mfcTerm->m_DOF;
@@ -240,7 +239,7 @@ MetaFEMObjectConverter<NDimensions>
        if(numRows)
          {
          METAIO_STL::vector<float> forcevector = force[0];
-         int numCols = static_cast<int>( forcevector.size() );
+         auto numCols = static_cast<int>( forcevector.size() );
          o1->GetForce().set_size(numRows, numCols);
          for ( int i = 0; i < numRows; i++ )
            {
@@ -279,7 +278,7 @@ MetaFEMObjectConverter<NDimensions>
        o1->SetEta(load->m_Variance);
        o1->GetElementArray().resize(1);
 
-       int dim = static_cast<int>( load->m_Undeformed.size() );
+       auto dim = static_cast<int>( load->m_Undeformed.size() );
        vnl_vector<double> source;
        vnl_vector<double> target;
        vnl_vector<double> point;
@@ -345,7 +344,7 @@ MetaFEMObjectConverter<NDimensions>
 
   FEMObjectConstPointer curFEMObject = FEMSO->GetFEMObject();
 
-  FEMObjectMetaObjectType * FEMmo = new MetaFEMObject(NDimensions);
+  auto * FEMmo = new MetaFEMObject(NDimensions);
 
   // copy the relevant info from spatial object to femobject
 
@@ -353,7 +352,7 @@ MetaFEMObjectConverter<NDimensions>
   const int numSONodes = curFEMObject->GetNumberOfNodes();
   for (int i=0; i<numSONodes; i++)
   {
-  FEMObjectNode *Node = new FEMObjectNode(NDimensions);
+  auto * Node = new FEMObjectNode(NDimensions);
   fem::Element::Node::ConstPointer SONode = curFEMObject->GetNode(i);
   fem::Element::VectorType pt = SONode->GetCoordinates();
 
@@ -370,7 +369,7 @@ MetaFEMObjectConverter<NDimensions>
    for (int i=0; i<numMaterial; i++)
    {
      fem::Material::ConstPointer SOMaterial = curFEMObject->GetMaterial(i);
-  FEMObjectMaterial *Material = new FEMObjectMaterial;
+  auto * Material = new FEMObjectMaterial;
 
   // check for the material type
   std::string mat_name = SOMaterial->GetNameOfClass();
@@ -397,7 +396,7 @@ MetaFEMObjectConverter<NDimensions>
   {
     fem::Element::ConstPointer SOElement = curFEMObject->GetElement(i);
     const int numNodes = SOElement->GetNumberOfNodes();
-  FEMObjectElement *Element = new FEMObjectElement(numNodes);
+  auto * Element = new FEMObjectElement(numNodes);
 
   Element->m_GN = SOElement->GetGlobalNumber();
   Element->m_Dim = NDimensions;
@@ -418,7 +417,7 @@ MetaFEMObjectConverter<NDimensions>
    for (int ll=0; ll<numLoads; ++ll)
      {
      fem::Load::ConstPointer SOLoad = curFEMObject->GetLoad(ll);
-     FEMObjectLoad *Load = new FEMObjectLoad;
+     auto * Load = new FEMObjectLoad;
 
      // check for the load/bc type
      std::string load_name = SOLoad->GetNameOfClass();
@@ -484,7 +483,7 @@ MetaFEMObjectConverter<NDimensions>
          Value = SOLoadCast->GetLeftHandSideTerm(i).value;
 
          /** add a new MFCTerm to the lhs */
-         FEMObjectMFCTerm *mfcTerm = new FEMObjectMFCTerm(elementGN, DOF, Value);
+         auto * mfcTerm = new FEMObjectMFCTerm(elementGN, DOF, Value);
          Load->m_LHS.push_back(mfcTerm);
          }
 
@@ -531,7 +530,7 @@ MetaFEMObjectConverter<NDimensions>
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
 
-       const int numLoadElements  = static_cast<const int>( SOLoadCast->GetElementArray().size() );
+       const auto numLoadElements = static_cast<const int>( SOLoadCast->GetElementArray().size() );
        Load->m_NumElements = numLoadElements;
        for (int i=0; i<numLoadElements; i++)
          {

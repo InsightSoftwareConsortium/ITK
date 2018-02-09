@@ -160,7 +160,7 @@ int itkTernaryMagnitudeSquaredImageFilterTest( int, char* [] )
   it3.GoToBegin();
   while( !oIt.IsAtEnd() )
     {
-    PixelType outputValue = static_cast< OutputImageType::PixelType >(
+    auto outputValue = static_cast< OutputImageType::PixelType >(
       it1.Get() * it1.Get() + it2.Get() * it2.Get() + it3.Get() * it3.Get() );
     if( !itk::Math::FloatAlmostEqual( oIt.Get(), outputValue, 10, epsilon ) )
       {

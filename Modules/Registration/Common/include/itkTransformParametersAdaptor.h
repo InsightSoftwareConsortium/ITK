@@ -81,7 +81,7 @@ public:
 
   void SetTransform( TransformBaseType * _arg, void * ) override
     {
-      TransformType *tx = dynamic_cast<TransformType *>(_arg);
+      auto * tx = dynamic_cast<TransformType *>(_arg);
       itkAssertOrThrowMacro( tx != nullptr, "Unable to convert Transform to require concrete transform!" );
       this->SetTransform(tx);
     }

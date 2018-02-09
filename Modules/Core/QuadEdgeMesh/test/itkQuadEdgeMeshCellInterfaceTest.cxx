@@ -117,7 +117,7 @@ template<typename TCell> int TestCellInterface(std::string name, TCell *aCell)
 
   using PointIdentifier = MeshType::PointIdentifier;
 
-  PointIdentifier *pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
+  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
   for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; i++)
     {
     pointIds[i] = i;
@@ -215,7 +215,7 @@ template<typename TCell> int TestQECellInterface(std::string name, TCell *aCell)
 
   using PointIdentifier = typename TCell::PointIdentifier;
 
-  PointIdentifier *pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
+  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
   for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; i++)
     {
     pointIds[i] = i;
@@ -343,7 +343,7 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
 
   // ITK QuadEdgeMesh CELLS - Standard cell API test
 
-  QEPolygonCellType* tempQEPolygon = new QEPolygonCellType;
+  auto * tempQEPolygon = new QEPolygonCellType;
   status = TestCellInterface("QuadEdgePolygonCell with 0 vertices",
                              tempQEPolygon);
   if (status != 0)
@@ -388,7 +388,7 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  QELineCellType* tempQELine = new QELineCellType;
+  auto * tempQELine = new QELineCellType;
   status = TestQECellInterface("QuadEdgeLineCell", tempQELine);
   delete tempQELine;
 
@@ -431,7 +431,7 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
   mesh->Accept(   multiVisitor );
 
   // test 4 very specific QELineCell destructor cases
-  QELineCellType* test = new QELineCellType();
+  auto * test = new QELineCellType();
   QEType* m_QuadEdgeGeom = test->GetQEGeom( );
   delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( );
   m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( nullptr );

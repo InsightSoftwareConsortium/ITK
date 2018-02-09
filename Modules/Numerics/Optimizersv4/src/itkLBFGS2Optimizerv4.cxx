@@ -147,7 +147,7 @@ LBFGS2Optimizerv4::EvaluateCostCallback( void *instance,
                                          const LBFGS2Optimizerv4::PrecisionType step
                                        )
 {
-  LBFGS2Optimizerv4 *optimizer = reinterpret_cast< LBFGS2Optimizerv4* >(instance);
+  auto * optimizer = reinterpret_cast< LBFGS2Optimizerv4* >(instance);
   return optimizer->EvaluateCost(x, g, n,step);
 }
 
@@ -187,7 +187,7 @@ LBFGS2Optimizerv4::UpdateProgressCallback( void *instance,
                                            int k,
                                            int ls
                                          ){
-  LBFGS2Optimizerv4 *optimizer = reinterpret_cast< LBFGS2Optimizerv4* >(instance);
+  auto * optimizer = reinterpret_cast< LBFGS2Optimizerv4* >(instance);
   return optimizer->UpdateProgress(x, g, fx, xnorm, gnorm, step, n, k, ls);
 }
 

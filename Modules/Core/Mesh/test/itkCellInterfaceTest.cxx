@@ -85,7 +85,7 @@ template<typename TCell> int TestCellInterface(std::string name, TCell *aCell)
 
   using PointIdentifier = typename TCell::PointIdentifier;
 
-  PointIdentifier *pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
+  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
 
   for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; i++)
     {

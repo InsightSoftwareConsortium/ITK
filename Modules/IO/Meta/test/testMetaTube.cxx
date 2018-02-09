@@ -39,7 +39,7 @@ int testMetaTube(int argc, char * argv[])
 
   // add two tube to the list of tubenet
   std::cout << "  Creating first tube ..." << std::endl;
-  MetaTube* tube1 = new MetaTube(3);
+  auto * tube1 = new MetaTube(3);
   tube1->ID(0);
   TubePnt* pnt;
 
@@ -53,7 +53,7 @@ int testMetaTube(int argc, char * argv[])
   }
 
   std::cout << "  Creating second tube ..." << std::endl;
-  MetaTube* tube2 = new MetaTube(3);
+  auto * tube2 = new MetaTube(3);
   tube2->ID(1);
   for(i=0;i<5;i++)
   {
@@ -65,7 +65,7 @@ int testMetaTube(int argc, char * argv[])
 
   // Add an ellipse
   std::cout << "  Creating ellipse ..." << std::endl;
-  MetaEllipse* ellipse = new MetaEllipse();
+  auto * ellipse = new MetaEllipse();
   std::cout << "    Initializing ellipse ..." << std::endl;
   ellipse->InitializeEssential(3);
   std::cout << "    Setting radius ..." << std::endl;
@@ -90,7 +90,7 @@ int testMetaTube(int argc, char * argv[])
 
   using ListType = MetaScene::ObjectListType;
   ListType * list = myScene2.GetObjectList();
-  ListType::iterator it = list->begin();
+  auto it = list->begin();
 
   std::cout << "  ... beginning loop " << std::endl;
   for(i=0;i< list->size();i++)
@@ -99,9 +99,8 @@ int testMetaTube(int argc, char * argv[])
     (*it)->PrintInfo();
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
-      using PointListType = MetaTube::PointListType;
-      MetaTube* tube = dynamic_cast<MetaTube*>(*it);
-      PointListType::iterator it2 = tube->GetPoints().begin();
+      auto * tube = dynamic_cast<MetaTube*>(*it);
+      auto it2 = tube->GetPoints().begin();
 
       for(unsigned int j=0;j< tube->GetPoints().size();j++)
       {

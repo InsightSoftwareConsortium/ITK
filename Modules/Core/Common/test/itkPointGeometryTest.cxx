@@ -134,8 +134,7 @@ int itkPointGeometryTest(int, char* [] )
   // Verification...
   for(unsigned int i=0; i<N; i++)
     {
-    FloatPointType::ValueType val =
-        static_cast< FloatPointType::ValueType >( dp[i] );
+    auto val = static_cast< FloatPointType::ValueType >( dp[i] );
     if( std::fabs ( val - fp[i] ) > tolerance )
       {
         std::cout << "Failed at component " << i << std::endl;

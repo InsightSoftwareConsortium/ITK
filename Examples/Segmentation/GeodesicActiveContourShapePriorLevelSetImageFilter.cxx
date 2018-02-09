@@ -179,7 +179,7 @@ public:
   void Execute(const itk::Object * object,
                const itk::EventObject & event) override
     {
-    const TFilter * filter = static_cast< const TFilter * >( object );
+    const auto * filter = static_cast< const TFilter * >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
 

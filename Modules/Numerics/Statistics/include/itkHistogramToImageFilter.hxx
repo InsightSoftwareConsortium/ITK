@@ -45,7 +45,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
 ::SetInput(const HistogramType *input)
 {
   // Process object is not const-correct so the const_cast is required here
-  HistogramType * histogram = const_cast< HistogramType * >( input );
+  auto * histogram = const_cast< HistogramType * >( input );
   this->ProcessObject::SetNthInput(0,  histogram);
 }
 

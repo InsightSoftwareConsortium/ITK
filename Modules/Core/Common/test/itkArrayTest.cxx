@@ -107,7 +107,7 @@ int itkArrayTest(int, char* [] )
   // maintain responsibility for deleting the array.
   constexpr size_t testSizeForArraySetDataSameSize = 10;
   FloatArrayType objectToCopy(testSizeForArraySetDataSameSize);
-  float* data = new float[testSizeForArraySetDataSameSize];
+  auto * data = new float[testSizeForArraySetDataSameSize];
   objectToCopy.SetDataSameSize(data); // This implictly means LetArrayManageMemory=false
 
   // Make a copy of the array which is not managing its own memory.

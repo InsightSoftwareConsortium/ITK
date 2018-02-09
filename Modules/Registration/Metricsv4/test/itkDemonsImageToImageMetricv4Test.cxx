@@ -261,7 +261,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
   TRY_EXPECT_EXCEPTION( metric->Initialize() );
 
   /* Exercise accessor method */
-  const MetricType::InternalComputationValueType testValue = static_cast<MetricType::InternalComputationValueType>(0.5);
+  const auto testValue = static_cast<MetricType::InternalComputationValueType>(0.5);
   metric->SetIntensityDifferenceThreshold( testValue );
   if( itk::Math::NotExactlyEquals(metric->GetIntensityDifferenceThreshold(), testValue) )
     {

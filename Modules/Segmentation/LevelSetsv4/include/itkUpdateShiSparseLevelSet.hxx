@@ -98,8 +98,8 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
  // Step 2.1.2 - for each point x in L_out
   LevelSetLayerType & listIn = this->m_OutputLevelSet->GetLayer( LevelSetType::MinusOneLayer() );
 
-  LevelSetLayerIterator nodeIt = listIn.begin();
-  LevelSetLayerIterator nodeEnd = listIn.end();
+  auto nodeIt = listIn.begin();
+  auto nodeEnd = listIn.end();
 
   LevelSetInputType inputIndex;
   while( nodeIt != nodeEnd )
@@ -128,7 +128,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 
       this->m_InternalImage->SetPixel( currentIndex, newValue );
 
-      LevelSetLayerIterator tempIt = nodeIt;
+      auto tempIt = nodeIt;
       ++nodeIt;
       listIn.erase( tempIt );
 
@@ -172,7 +172,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
       const LevelSetOutputType newValue = LevelSetType::PlusThreeLayer();
       this->m_InternalImage->SetPixel( currentIndex, newValue );
 
-      LevelSetLayerIterator tempIt = nodeIt;
+      auto tempIt = nodeIt;
       ++nodeIt;
       listOut.erase( tempIt );
 
@@ -229,8 +229,8 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
   LevelSetLayerType insertListIn;
   LevelSetLayerType insertListOut;
 
-  LevelSetLayerIterator nodeIt   = listOut.begin();
-  LevelSetLayerIterator nodeEnd  = listOut.end();
+  auto nodeIt   = listOut.begin();
+  auto nodeEnd  = listOut.end();
 
   LevelSetInputType inputIndex;
 
@@ -253,7 +253,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
         insertListIn.insert(
               NodePairType( currentIndex, LevelSetType::MinusOneLayer() ) );
 
-        LevelSetLayerIterator tempIt = nodeIt;
+        auto tempIt = nodeIt;
         ++nodeIt;
         listOut.erase( tempIt );
         erased = true;
@@ -346,8 +346,8 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
   LevelSetLayerType insertListIn;
   LevelSetLayerType insertListOut;
 
-  LevelSetLayerIterator nodeIt   = listIn.begin();
-  LevelSetLayerIterator nodeEnd  = listIn.end();
+  auto nodeIt   = listIn.begin();
+  auto nodeEnd  = listIn.end();
 
   // for each point in Lz
   while( nodeIt != nodeEnd )
@@ -368,7 +368,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
         insertListOut.insert(
               NodePairType( currentIndex, LevelSetType::PlusOneLayer() ) );
 
-        LevelSetLayerIterator tempIt = nodeIt;
+        auto tempIt = nodeIt;
         ++nodeIt;
         listIn.erase( tempIt );
 

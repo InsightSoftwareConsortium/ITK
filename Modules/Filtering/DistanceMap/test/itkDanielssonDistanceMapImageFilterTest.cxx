@@ -271,8 +271,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   filter2D->Update();
 
   index2D[1] = 5;
-  myImageType2D2::PixelType expectedValue =
-    static_cast<myImageType2D2::PixelType>(anisotropicSpacing[1]);
+  auto expectedValue = static_cast<myImageType2D2::PixelType>(anisotropicSpacing[1]);
   expectedValue *= expectedValue;
   myImageType2D2::PixelType pixelValue =
     filter2D->GetOutput()->GetPixel( index2D );

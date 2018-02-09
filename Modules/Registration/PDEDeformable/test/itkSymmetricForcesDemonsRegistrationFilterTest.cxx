@@ -168,8 +168,7 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
 
   std::cout << "\n\n\nPrinting function" << std::endl;
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
-  FunctionType * fptr =
-    dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
+  auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
   if(fptr != nullptr)
     {
     fptr->Print( std::cout );

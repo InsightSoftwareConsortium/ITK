@@ -264,9 +264,9 @@ void PNGImageIO::Read(void *buffer)
   // update the info now that we have defined the filters
   png_read_update_info(png_ptr, info_ptr);
 
-  SizeValueType  rowbytes = static_cast<SizeValueType>( png_get_rowbytes(png_ptr, info_ptr) );
-  unsigned char *tempImage = static_cast< unsigned char * >( buffer );
-  png_bytep *    row_pointers = new png_bytep[height];
+  auto rowbytes = static_cast<SizeValueType>( png_get_rowbytes(png_ptr, info_ptr) );
+  auto * tempImage = static_cast< unsigned char * >( buffer );
+  auto * row_pointers = new png_bytep[height];
   for ( unsigned int ui = 0; ui < height; ++ui )
     {
     row_pointers[ui] = tempImage + rowbytes * ui;
@@ -410,7 +410,7 @@ void PNGImageIO::ReadImageInformation()
       png_get_PLTE(png_ptr,info_ptr, &palette, &num_entry);
 
       if (num_entry<0) num_entry=0;
-      size_t num_entryI(static_cast<size_t>(num_entry));
+      auto num_entryI(static_cast<size_t>(num_entry));
 
       m_ColorPalette.resize(num_entryI);
       for ( size_t c = 0; c < num_entryI; ++c )
@@ -666,7 +666,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
     png_set_swap(png_ptr);
 #endif
     }
-  png_byte **row_pointers = new png_byte *[height];
+  auto * *row_pointers = new png_byte *[height];
 
     {
     const int        rowInc = width * numComp * bitDepth / 8;

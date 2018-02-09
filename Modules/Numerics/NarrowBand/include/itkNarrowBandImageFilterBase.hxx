@@ -116,8 +116,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 {
   ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
 
-  NarrowBandImageFilterBaseThreadStruct *str =
-    (NarrowBandImageFilterBaseThreadStruct *)
+  auto * str = (NarrowBandImageFilterBaseThreadStruct *)
     ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   str->Filter->ThreadedIterate(arg, threadId);
@@ -135,8 +134,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   //Implement iterative loop in thread function
   //ThreadedApplyUpdate and ThreadedCalculateChanged
   // is called instead of ApplyUpdate and CalculateChange
-  NarrowBandImageFilterBaseThreadStruct *str =
-    (NarrowBandImageFilterBaseThreadStruct *)
+  auto * str = (NarrowBandImageFilterBaseThreadStruct *)
     ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   IdentifierType iter = 0;

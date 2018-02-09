@@ -667,9 +667,8 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    * for temporary storage during set intersections below.
    */
   typename CellType::PointIdConstIterator pointId = boundary->PointIdsBegin();
-  PointCellLinksContainer *currentCells =
-    new PointCellLinksContainer( m_CellLinksContainer->GetElement(*pointId++) );
-  PointCellLinksContainer *tempCells = new PointCellLinksContainer();
+  auto * currentCells = new PointCellLinksContainer( m_CellLinksContainer->GetElement(*pointId++) );
+  auto * tempCells = new PointCellLinksContainer();
 
   /**
    * Next, loop over the other points, and intersect their cell links with
@@ -719,7 +718,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    * set, less the cell through which the request was made.
    */
   currentCells->erase(cellId);
-  CellIdentifier numberOfNeighboringCells = static_cast<CellIdentifier>( currentCells->size() );
+  auto numberOfNeighboringCells = static_cast<CellIdentifier>( currentCells->size() );
   if ( cellSet != nullptr )
     {
     *cellSet = *currentCells;
@@ -820,9 +819,8 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    * for temporary storage during set intersections below.
    */
   typename CellType::PointIdConstIterator pointId = cell->PointIdsBegin();
-  PointCellLinksContainer *currentCells =
-    new PointCellLinksContainer( m_CellLinksContainer->GetElement(*pointId++) );
-  PointCellLinksContainer *tempCells = new PointCellLinksContainer();
+  auto * currentCells = new PointCellLinksContainer( m_CellLinksContainer->GetElement(*pointId++) );
+  auto * tempCells = new PointCellLinksContainer();
 
   /**
    * Next, loop over the other points, and intersect their cell links with
@@ -868,7 +866,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    * the original cell determined by cellId.  We simply need to copy
    * this set to the output cell set.
    */
-  CellIdentifier numberOfNeighboringCells = static_cast<CellIdentifier>( currentCells->size() );
+  auto numberOfNeighboringCells = static_cast<CellIdentifier>( currentCells->size() );
   if ( cellSet != nullptr )
     {
     *cellSet = *currentCells;
@@ -1138,7 +1136,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 {
   this->Superclass::CopyInformation(data);
 
-  const Self *mesh = dynamic_cast< const Self * >( data );
+  const auto * mesh = dynamic_cast< const Self * >( data );
 
   if ( !mesh )
     {
@@ -1158,7 +1156,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 {
   this->Superclass::Graft(data);
 
-  const Self *mesh = dynamic_cast< const Self * >( data );
+  const auto * mesh = dynamic_cast< const Self * >( data );
 
   if ( !mesh )
     {

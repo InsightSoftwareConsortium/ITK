@@ -135,8 +135,8 @@ ITK_THREAD_RETURN_TYPE
 DomainThreader< TDomainPartitioner, TAssociate >
 ::ThreaderCallback( void* arg )
 {
-  MultiThreader::ThreadInfoStruct* info = static_cast<MultiThreader::ThreadInfoStruct *>(arg);
-  ThreadStruct *str = static_cast<ThreadStruct *>(info->UserData);
+  auto * info = static_cast<MultiThreader::ThreadInfoStruct *>(arg);
+  auto * str = static_cast<ThreadStruct *>(info->UserData);
   DomainThreader *thisDomainThreader = str->domainThreader;
   const ThreadIdType threadId    = info->ThreadID;
   const ThreadIdType threadCount = info->NumberOfThreads;

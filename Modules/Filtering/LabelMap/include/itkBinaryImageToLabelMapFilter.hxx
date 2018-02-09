@@ -121,7 +121,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   TOutputImage * output = this->GetOutput();
   const TInputImage * input = this->GetInput();
 
-  const SizeValueType nbOfThreads = static_cast<const SizeValueType>( this->m_NumberOfLabels.size() );
+  const auto nbOfThreads = static_cast<const SizeValueType>( this->m_NumberOfLabels.size() );
 
   // create a line iterator
   using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex< InputImageType >;
@@ -586,7 +586,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   for ( size_t i = 1; i < N; i++ )
     {
-    const size_t label = static_cast< size_t >( m_UnionFind[i] );
+    const auto label = static_cast< size_t >( m_UnionFind[i] );
     if ( label == i )
       {
       if ( consecutiveLabel == this->m_OutputBackgroundValue )

@@ -173,8 +173,7 @@ GaussianSpatialObject< TDimension >
 
     using PointsContainer = typename BoundingBoxType::PointsContainer;
     const PointsContainer *corners = bb->GetCorners();
-    typename BoundingBoxType::PointsContainer::const_iterator
-    it = corners->begin();
+    auto it = corners->begin();
     while ( it != corners->end() )
       {
       PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);

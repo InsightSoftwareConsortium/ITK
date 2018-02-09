@@ -107,14 +107,14 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   const size_t numberOfInputIndexes = this->GetNumberOfIndexedInputs();
 
   // Create and initialize all input image iterators
-  IteratorType *it = new IteratorType[numberOfInputIndexes];
+  auto * it = new IteratorType[numberOfInputIndexes];
   for ( size_t i = 0; i < numberOfInputIndexes; ++i )
     {
     it[i] = IteratorType(this->GetInput(i),
                          outputRegionForThread);
     }
 
-  unsigned int *votesByLabel = new unsigned int[this->m_TotalLabelCount];
+  auto * votesByLabel = new unsigned int[this->m_TotalLabelCount];
 
   OutIteratorType out = OutIteratorType(output, outputRegionForThread);
   for ( out.GoToBegin(); !out.IsAtEnd(); ++out )

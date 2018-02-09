@@ -86,10 +86,9 @@ bool
 LabelObject< TLabel, VImageDimension >
 ::HasIndex(const IndexType & idx) const
 {
-  using LineContainerConstIteratorType = typename LineContainerType::const_iterator;
-  LineContainerConstIteratorType end = m_LineContainer.end();
+  auto end = m_LineContainer.end();
 
-  for ( LineContainerConstIteratorType it = m_LineContainer.begin();
+  for ( auto it = m_LineContainer.begin();
         it != end;
         ++it )
     {
@@ -107,7 +106,7 @@ bool
 LabelObject< TLabel, VImageDimension >
 ::RemoveIndex(const IndexType & idx)
 {
-  typename LineContainerType::iterator it = m_LineContainer.begin();
+  auto it = m_LineContainer.begin();
 
   while( it != m_LineContainer.end() )
     {
@@ -232,7 +231,7 @@ LabelObject< TLabel, VImageDimension >
 {
   int size = 0;
 
-  for ( typename LineContainerType::const_iterator it = m_LineContainer.begin();
+  for ( auto it = m_LineContainer.begin();
         it != m_LineContainer.end();
         it++ )
     {
@@ -256,7 +255,7 @@ LabelObject< TLabel, VImageDimension >
 {
   SizeValueType o = offset;
 
-  typename LineContainerType::const_iterator it = this->m_LineContainer.begin();
+  auto it = this->m_LineContainer.begin();
 
   while ( it != m_LineContainer.end() )
     {
@@ -390,7 +389,7 @@ void
 LabelObject< TLabel, VImageDimension >
 ::Shift( OffsetType offset )
 {
-  for( typename LineContainerType::iterator it = m_LineContainer.begin();
+  for( auto it = m_LineContainer.begin();
        it != m_LineContainer.end();
        it++ )
     {

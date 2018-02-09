@@ -136,8 +136,7 @@ AmoebaOptimizer
 
                     //if cost function is nullptr this will throw an exception
                     //when the pointer is dereferenced
-  CostFunctionAdaptorType *adaptor =
-    new CostFunctionAdaptorType( costFunction->GetNumberOfParameters() );
+  auto * adaptor = new CostFunctionAdaptorType( costFunction->GetNumberOfParameters() );
   adaptor->SetCostFunction( costFunction );
               //our ancestor, SingleValuedNonLinearVnlOptimizer, will release
               //the adaptor's memory in its destructor or if it is set again
@@ -155,8 +154,7 @@ AmoebaOptimizer
   InternalParametersType delta( m_InitialSimplexDelta );
   SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *costFunction =
     this->GetCostFunctionAdaptor();
-  unsigned int n =
-    static_cast<unsigned int>( costFunction->get_number_of_unknowns() );
+  auto n = static_cast<unsigned int>( costFunction->get_number_of_unknowns() );
 
       //validate the settings (cost function is initialized, the size of its
       //expected parameter vector matches the one we have etc...)
@@ -232,7 +230,7 @@ AmoebaOptimizer
   if( this->m_OptimizeWithRestarts )
     {
     double currentValue;
-    unsigned int totalEvaluations = static_cast<unsigned int>
+    auto totalEvaluations = static_cast<unsigned int>
       (m_VnlOptimizer->get_num_evaluations());
     bool converged = false;
     unsigned int i=1;
@@ -316,8 +314,7 @@ AmoebaOptimizer
     }
   //if we got here it is safe to get the number of parameters the cost
   //function expects
-  unsigned int n =
-    static_cast<unsigned int>( (GetCostFunctionAdaptor() )->get_number_of_unknowns() );
+  auto n = static_cast<unsigned int>( (GetCostFunctionAdaptor() )->get_number_of_unknowns() );
 
   //check that the number of parameters match
   if( GetInitialPosition().Size() != n )

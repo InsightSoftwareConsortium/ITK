@@ -162,7 +162,7 @@ int main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels =  size[0] * size[1] * size[2];
-  PixelType * localBuffer = new PixelType[ numberOfPixels ];
+  auto * localBuffer = new PixelType[ numberOfPixels ];
   // Software Guide : EndCodeSnippet
 
   constexpr double radius  = 80.0;

@@ -175,10 +175,8 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
     ++it;
     }
 
-  using DomainIteratorType = DomainMapImageFilterType::DomainMapType::const_iterator;
-  DomainIteratorType map_it = domainMap.begin();
-  DomainIteratorType map_end = domainMap.end();
-
+  auto map_it = domainMap.begin();
+  auto map_end = domainMap.end();
   while( map_it != map_end )
     {
     const IdListImageType::RegionType temp_region = *(map_it->second.GetRegion());

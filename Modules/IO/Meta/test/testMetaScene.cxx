@@ -30,18 +30,18 @@ int testMetaScene(int argc, char * argv[])
     }
 
   std::cout << "Creating test scene ..." << std::endl;
-  MetaScene * s = new MetaScene(3);
+  auto * s = new MetaScene(3);
 
-  MetaEllipse * e1 = new MetaEllipse(3);
+  auto * e1 = new MetaEllipse(3);
   e1->ID(0);
   e1->Radius(3);
 
-  MetaEllipse * e2 = new MetaEllipse(3);
+  auto * e2 = new MetaEllipse(3);
   e2->ID(1);
   e2->Radius(4);
 
   MetaGroup g0;
-  MetaGroup * g1 = new MetaGroup(3);
+  auto * g1 = new MetaGroup(3);
   g1->FileName("MyFilename");
   g1->ID(2);
 

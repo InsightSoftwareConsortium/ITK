@@ -38,9 +38,8 @@ void
 SparseFrequencyContainer2
 ::SetToZero()
 {
-  using IteratorType = FrequencyContainerType::iterator;
-  IteratorType iter = m_FrequencyContainer.begin();
-  IteratorType end  = m_FrequencyContainer.end();
+  auto iter = m_FrequencyContainer.begin();
+  auto end  = m_FrequencyContainer.end();
   while ( iter != end )
     {
     iter->second = NumericTraits< AbsoluteFrequencyType >::ZeroValue();
@@ -66,7 +65,7 @@ SparseFrequencyContainer2::AbsoluteFrequencyType
 SparseFrequencyContainer2
 ::GetFrequency(const InstanceIdentifier id) const
 {
-  FrequencyContainerType::const_iterator iter = m_FrequencyContainer.find(id);
+  auto iter = m_FrequencyContainer.find(id);
 
   if ( iter != m_FrequencyContainer.end() )
     {

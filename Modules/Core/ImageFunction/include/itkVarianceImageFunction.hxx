@@ -86,12 +86,12 @@ VarianceImageFunction< TInputImage, TCoordRep >
   const unsigned int size = it.Size();
   for ( unsigned int i = 0; i < size; ++i )
     {
-    const RealType value = static_cast< RealType >( it.GetPixel(i) );
+    const auto value = static_cast< RealType >( it.GetPixel(i) );
     sum += value;
     sumOfSquares += value * value;
     }
 
-  const double num = static_cast< double >( size );
+  const auto num = static_cast< double >( size );
   var = ( sumOfSquares - ( sum * sum / num ) ) / ( num - 1.0 );
 
   return ( var );

@@ -138,7 +138,7 @@ int test_FileListVideoIO( const char* input,
 
     // Read the image using FileListVideoIO
     size_t bufferSize = fileListIO->GetImageSizeInBytes();
-    PixelType* buffer = new PixelType[bufferSize];
+    auto * buffer = new PixelType[bufferSize];
     fileListIO->Read(static_cast<void*>(buffer));
 
     // Compare Spacing, Origin, Direction
@@ -252,7 +252,7 @@ int test_FileListVideoIO( const char* input,
     {
     // Set up a buffer to read to
     size_t bufferSize = fileListIO2->GetImageSizeInBytes();
-    PixelType* buffer = new PixelType[bufferSize];
+    auto * buffer = new PixelType[bufferSize];
 
     // Read into the buffer
     fileListIO2->Read(static_cast<void*>(buffer));
@@ -262,7 +262,7 @@ int test_FileListVideoIO( const char* input,
 
     // Now, read back in from the written file and make sure the buffers match
     fileListIO3->ReadImageInformation();
-    PixelType* reReadBuffer = new PixelType[bufferSize];
+    auto * reReadBuffer = new PixelType[bufferSize];
     fileListIO3->Read(static_cast<void*>(reReadBuffer));
     if (memcmp(reinterpret_cast<void*>(buffer), reinterpret_cast<void*>(reReadBuffer), bufferSize))
       {

@@ -83,11 +83,11 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           }
         else
           {
-          const OffsetValueType OverlapHigh ( static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) ) );
-          if ( OverlapHigh < internalIndex[i] )
+          const auto overlapHigh ( static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) ) );
+          if ( overlapHigh < internalIndex[i] )
             {
             flag = false;
-            offset[i] =  OverlapHigh - internalIndex[i];
+            offset[i] =  overlapHigh - internalIndex[i];
             }
           else
             {
@@ -130,8 +130,8 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           }
         else
           {
-          const OffsetValueType OverlapHigh ( static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) ) );
-          if ( OverlapHigh < internalIndex[i] )
+          const auto overlapHigh ( static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) ) );
+          if ( overlapHigh < internalIndex[i] )
             {
             flag = false;
             }
@@ -187,9 +187,8 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 ::ComputeInternalIndex(const NeighborIndexType n) const
 {
   OffsetType ans;
-  const long D = (long)Dimension;
-  unsigned long r = (unsigned long)n;
-  for ( long i = D - 1; i >= 0; --i )
+  auto r = (unsigned long)n;
+  for ( long i = static_cast<long>(Dimension) - 1; i >= 0; --i )
     {
     ans[i] = static_cast< OffsetValueType >( r / this->GetStride(i) );
     r = r % this->GetStride(i);
@@ -447,9 +446,9 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   m_NeedToUseBoundaryCondition = false;
   for ( DimensionValueType i = 0; i < Dimension; ++i )
     {
-    const OffsetValueType overlapLow = static_cast< OffsetValueType >( ( rStart[i]
+    const auto overlapLow = static_cast< OffsetValueType >( ( rStart[i]
                                        - static_cast<OffsetValueType>( this->GetRadius(i) ) ) - bStart[i] );
-    const OffsetValueType overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] )
+    const auto overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] )
                                        - ( rStart[i] + rSize[i] + static_cast<OffsetValueType>( this->GetRadius(i) ) ) );
 
     if ( overlapLow < 0 ) // out of bounds condition, define a region of
@@ -698,7 +697,7 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 {
   const Iterator         _end = Superclass::End();
   InternalPixelType *    Iit;
-  ImageType *            ptr = const_cast< ImageType * >( m_ConstImage.GetPointer() );
+  auto * ptr = const_cast< ImageType * >( m_ConstImage.GetPointer() );
   const SizeType         size = this->GetSize();
   const OffsetValueType *OffsetTable = m_ConstImage->GetOffsetTable();
   const SizeType         radius = this->GetRadius();

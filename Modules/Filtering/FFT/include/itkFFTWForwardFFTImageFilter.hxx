@@ -94,7 +94,7 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
   fftwOutput->Allocate();
 
   typename FFTWProxyType::PlanType plan;
-  InputPixelType * in = const_cast<InputPixelType*>(inputPtr->GetBufferPointer());
+  auto * in = const_cast<InputPixelType*>(inputPtr->GetBufferPointer());
   int flags = m_PlanRigor;
   if( !m_CanUseDestructiveAlgorithm )
     {

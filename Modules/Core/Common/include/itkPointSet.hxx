@@ -374,7 +374,7 @@ void
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::CopyInformation(const DataObject *data)
 {
-  const PointSet *pointSet = dynamic_cast< const PointSet * >( data );
+  const auto * pointSet = dynamic_cast< const PointSet * >( data );
 
   if ( !pointSet )
     {
@@ -401,7 +401,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   // Copy Meta Data
   this->CopyInformation(data);
 
-  const Self *pointSet = dynamic_cast< const Self * >( data );
+  const auto * pointSet = dynamic_cast< const Self * >( data );
 
   if ( !pointSet )
     {
@@ -421,7 +421,7 @@ void
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::SetRequestedRegion(const DataObject *data)
 {
-  const Self *pointSet = dynamic_cast< const Self * >( data );
+  const auto * pointSet = dynamic_cast< const Self * >( data );
 
   if ( pointSet )
     {

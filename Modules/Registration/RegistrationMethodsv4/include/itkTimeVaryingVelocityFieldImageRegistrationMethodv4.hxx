@@ -287,7 +287,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       // at the max norm of the field.
 
       const bool importFilterWillReleaseMemory = false;
-      DisplacementVectorType *metricDerivativeFieldPointer = reinterpret_cast<DisplacementVectorType *>( metricDerivative.data_block() );
+      auto * metricDerivativeFieldPointer = reinterpret_cast<DisplacementVectorType *>( metricDerivative.data_block() );
 
       using ImporterType = ImportImageFilter<DisplacementVectorType, ImageDimension>;
       typename ImporterType::Pointer importer = ImporterType::New();

@@ -125,8 +125,8 @@ int itkAddImageAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
 
-    RealPixelType v1 = static_cast< RealPixelType >( dt.Get() );
-    RealPixelType v2 = static_cast< RealPixelType >( additiveConstant );
+    auto v1 = static_cast< RealPixelType >( dt.Get() );
+    auto v2 = static_cast< RealPixelType >( additiveConstant );
 
     RealPixelType diff = std::fabs( v1 - v2 );
 

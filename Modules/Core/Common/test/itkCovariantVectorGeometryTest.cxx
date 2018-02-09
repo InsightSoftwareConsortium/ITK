@@ -157,8 +157,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   std::cout << std::endl;
   for(unsigned int i=0; i<N; i++)
     {
-    FloatCovariantVectorType::ValueType val =
-        static_cast< FloatCovariantVectorType::ValueType >( dp[i] );
+    auto val = static_cast< FloatCovariantVectorType::ValueType >( dp[i] );
 
 //   std::cout << val   << std::endl;
 //   std::cout << fp[i] << std::endl;
@@ -248,8 +247,8 @@ int itkCovariantVectorGeometryTest(int, char* [] )
               << std::endl;
     return EXIT_FAILURE;
     }
-  char *compp = reinterpret_cast<char *>(&comp);
-  char *xp = reinterpret_cast<char *>(&x);
+  auto * compp = reinterpret_cast<char *>(&comp);
+  auto * xp = reinterpret_cast<char *>(&x);
   for(unsigned i = 0; i < sizeof(CovariantVectorType::ComponentType); i++)
     {
     if(compp[i] != xp[i])

@@ -86,7 +86,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 #define GE_PROD_STR    "SIEMENS"
 #define TEMPLEN 2048
   char tmpStr[TEMPLEN], tmpStr2[TEMPLEN], tmpStr3[TEMPLEN];
-  GEImageHeader *hdr = new GEImageHeader;
+  auto * hdr = new GEImageHeader;
   if ( hdr == nullptr )
     {
     RAISE_EXCEPTION();

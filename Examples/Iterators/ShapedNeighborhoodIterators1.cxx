@@ -144,7 +144,7 @@ int main( int argc, char ** argv )
 
   constexpr PixelType background_value  = 0;
   constexpr PixelType foreground_value  = 255;
-  const float rad = static_cast<float>(element_radius);
+  const auto rad = static_cast<float>(element_radius);
   // Software Guide : EndCodeSnippet
 
 

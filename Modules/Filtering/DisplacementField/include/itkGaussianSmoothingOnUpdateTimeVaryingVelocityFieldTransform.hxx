@@ -74,7 +74,8 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
     {
     itkDebugMacro( "Smooothing the update field." );
 
-    DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( const_cast<DerivativeType &>(update).data_block() );
+    auto * updateFieldPointer = reinterpret_cast<DisplacementVectorType *>(
+                                  const_cast<DerivativeType &>(update).data_block() );
 
     typename ImporterType::Pointer importer = ImporterType::New();
     importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );

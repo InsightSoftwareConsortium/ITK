@@ -46,11 +46,11 @@ ShiSparseLevelSetImage< VDimension >
 ::Evaluate( const InputType& inputIndex ) const
 {
   InputType mapIndex = inputIndex - this->m_DomainOffset;
-  LayerMapConstIterator layerIt = this->m_Layers.begin();
+  auto layerIt = this->m_Layers.begin();
 
   while( layerIt != this->m_Layers.end() )
     {
-    LayerConstIterator it = ( layerIt->second ).find( mapIndex );
+    auto it = ( layerIt->second ).find( mapIndex );
     if( it != ( layerIt->second ).end() )
       {
       return it->second;

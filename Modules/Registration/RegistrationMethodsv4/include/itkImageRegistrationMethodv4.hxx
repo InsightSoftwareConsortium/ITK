@@ -265,7 +265,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     if( this->m_OptimizerWeights.Size() > 0 )
       {
       using OptimizerWeightsValueType = typename OptimizerWeightsType::ValueType;
-      OptimizerWeightsValueType tolerance = static_cast<OptimizerWeightsValueType>( 1e-4 );
+      auto tolerance = static_cast<OptimizerWeightsValueType>( 1e-4 );
 
       for( SizeValueType i = 0; i < this->m_OptimizerWeights.Size(); i++ )
         {
@@ -335,8 +335,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     itkExceptionMacro( "The metric is not present." );
     }
 
-  InitialTransformType* movingInitialTransform = const_cast<InitialTransformType*>( this->GetMovingInitialTransform() );
-  InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
+  auto * movingInitialTransform = const_cast<InitialTransformType*>( this->GetMovingInitialTransform() );
+  auto * fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
   this->m_CurrentIteration = 0;
   this->m_CurrentMetricValue = 0.0;
@@ -745,7 +745,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           }
         }
 
-      const OutputTransformType * initialAsOutputTransform = dynamic_cast<const OutputTransformType*>( initialTransform );
+      const auto * initialAsOutputTransform = dynamic_cast<const OutputTransformType*>( initialTransform );
 
       if( initialAsOutputTransform )
         {
@@ -955,7 +955,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       {
       case REGULAR:
         {
-        const unsigned long sampleCount = static_cast<unsigned long>( std::ceil( 1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] ) );
+        const auto sampleCount = static_cast<unsigned long>(
+          std::ceil( 1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] ) );
         unsigned long count = sampleCount; //Start at sampleCount to keep behavior backwards identical, using first element.
         ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It( virtualImage, virtualDomainRegion );
         for( It.GoToBegin(); !It.IsAtEnd(); ++It )
@@ -984,7 +985,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       case RANDOM:
         {
         const unsigned long totalVirtualDomainVoxels = virtualDomainRegion.GetNumberOfPixels();
-        const unsigned long sampleCount = static_cast<unsigned long>( static_cast<float>( totalVirtualDomainVoxels ) * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
+        const auto sampleCount = static_cast<unsigned long>(
+         static_cast<float>( totalVirtualDomainVoxels )
+               * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
         ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR( virtualImage, virtualDomainRegion );
         if (m_ReseedIterator)
           {
@@ -1040,8 +1043,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   using MatrixOffsetTransformType = MatrixOffsetTransformBase<typename OutputTransformType::ScalarType,
     ImageDimension, ImageDimension>;
 
-  MatrixOffsetTransformType *matrixOffsetOutputTransform =
-    dynamic_cast<MatrixOffsetTransformType *>( this->GetModifiableTransform() );
+  auto * matrixOffsetOutputTransform = dynamic_cast<MatrixOffsetTransformType *>(
+                                         this->GetModifiableTransform() );
 
   if( ! matrixOffsetOutputTransform )
     {
@@ -1061,8 +1064,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   for( int i = numberOfTransforms - 1; i >= 0; i-- )
     {
-    MatrixOffsetTransformType *matrixOffsetTransform =
-      dynamic_cast<MatrixOffsetTransformType *>( this->m_CompositeTransform->GetNthTransformModifiablePointer( i ) );
+    auto * matrixOffsetTransform = dynamic_cast<MatrixOffsetTransformType *>(
+                                     this->m_CompositeTransform->GetNthTransformModifiablePointer( i ) );
     if( matrixOffsetTransform )
       {
       center = matrixOffsetTransform->GetCenter();

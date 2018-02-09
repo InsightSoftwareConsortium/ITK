@@ -422,7 +422,7 @@ public:
 
     bool SetFrequency(const AbsoluteFrequencyType value)
     {
-      Self *histogram = const_cast< Self * >( this->m_Histogram );
+      auto * histogram = const_cast< Self * >( this->m_Histogram );
 
       return histogram->SetFrequency(this->m_Id, value);
     }

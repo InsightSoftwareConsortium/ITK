@@ -90,8 +90,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
   if ( this->GetInput() )
     {
-    InputImageType * image =
-      const_cast< InputImageType * >( this->GetInput() );
+    auto * image = const_cast< InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }

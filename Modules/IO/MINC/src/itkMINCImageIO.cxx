@@ -111,8 +111,8 @@ void MINCImageIO::Read(void *buffer)
   const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int nComp = this->GetNumberOfComponents();
 
-  misize_t *start=new misize_t[nDims+(nComp>1 ? 1 : 0)];
-  misize_t *count=new misize_t[nDims+(nComp>1 ? 1 : 0)];
+  auto * start = new misize_t[nDims+(nComp>1 ? 1 : 0)];
+  auto * count = new misize_t[nDims+(nComp>1 ? 1 : 0)];
 
   for ( unsigned int i = 0; i < nDims; i++ )
     {
@@ -686,7 +686,7 @@ void MINCImageIO::ReadImageInformation()
   size_t minc_history_length=0;
   if(miget_attr_length(this->m_MINCPImpl->m_Volume,"","history",&minc_history_length) == MI_NOERROR)
     {
-    char *minc_history=new char[minc_history_length+1];
+    auto * minc_history = new char[minc_history_length+1];
     if( miget_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_STRING,"","history",minc_history_length+1,minc_history) == MI_NOERROR)
       {
       EncapsulateMetaData<std::string>(thisDic,"history", std::string(minc_history) );
@@ -784,7 +784,7 @@ void MINCImageIO::ReadImageInformation()
               {
               case MI_TYPE_STRING:
                 {
-                char *tmp=new char[att_length+1];
+                auto * tmp = new char[att_length+1];
                 if(miget_attr_values(this->m_MINCPImpl->m_Volume,att_data_type,group_name,attribute,att_length+1,tmp) == MI_NOERROR )
                   {
                   EncapsulateMetaData< std::string >( thisDic, entry_key, std::string(tmp) );
@@ -1307,7 +1307,7 @@ void MINCImageIO::WriteImageInformation(void)
 
 template<typename T> void get_buffer_min_max(const void* _buffer,size_t len,double &buf_min,double &buf_max)
 {
-  const T* buf=static_cast<const T*>(_buffer);
+  const auto * buf = static_cast<const T*>(_buffer);
 
   buf_min=buf_max=buf[0];
   for(size_t i=0; i<len; i++)
@@ -1323,8 +1323,8 @@ void MINCImageIO::Write(const void *buffer)
   const unsigned int nComp = this->GetNumberOfComponents();
   size_t             buffer_length=1;
 
-  misize_t *start=new misize_t[nDims+(nComp>1 ? 1 : 0)];
-  misize_t *count=new misize_t[nDims+(nComp>1 ? 1 : 0)];
+  auto * start = new misize_t[nDims+(nComp>1 ? 1 : 0)];
+  auto * count = new misize_t[nDims+(nComp>1 ? 1 : 0)];
 
   for ( unsigned int i = 0; i < nDims; i++ )
     {

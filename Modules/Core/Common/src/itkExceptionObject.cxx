@@ -171,8 +171,7 @@ ExceptionObject::GetExceptionData() const
   // been
   // used instead, which only does compile time checking. But we expect the
   // runtime overhead of this particular dynamic_cast to be insignificant.
-  const ExceptionData *thisData =
-    dynamic_cast< const ExceptionData * >( this->m_ExceptionData.GetPointer() );
+  const auto * thisData = dynamic_cast< const ExceptionData * >( this->m_ExceptionData.GetPointer() );
 
   return thisData;
 }

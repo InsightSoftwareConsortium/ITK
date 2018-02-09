@@ -70,13 +70,12 @@ int itkHMaximaImageFilterTest( int argc, char * argv[] )
   FilterWatcher watchHMaxima( hMaximaFilter, "HMaximaImageFilter" );
 
   // Set up the filter
-  HMaximaFilterType::InputImagePixelType height =
-    static_cast< HMaximaFilterType::InputImagePixelType >( atof( argv[3] ) );
+  auto height = static_cast< HMaximaFilterType::InputImagePixelType >( atof( argv[3] ) );
 
   hMaximaFilter->SetHeight( height );
   TEST_SET_GET_VALUE( height, hMaximaFilter->GetHeight() );
 
-  bool fullyConnected = static_cast< bool >( atof( argv[4] ) );
+  auto fullyConnected = static_cast< bool >( atof( argv[4] ) );
   TEST_SET_GET_BOOLEAN( hMaximaFilter, FullyConnected, fullyConnected );
 
 

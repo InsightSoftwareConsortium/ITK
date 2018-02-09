@@ -384,9 +384,9 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
 
   // determine the actual number of pieces that will be generated
   typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  unsigned int valuesPerThread = static_cast<unsigned int>( std::ceil(
+  auto valuesPerThread = static_cast<unsigned int>( std::ceil(
     range / static_cast<double>( num ) ) );
-  unsigned int maxThreadIdUsed = static_cast<unsigned int>( std::ceil(
+  auto maxThreadIdUsed = static_cast<unsigned int>( std::ceil(
     range / static_cast<double>( valuesPerThread ) ) - 1 );
 
   // Split the region

@@ -44,9 +44,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 ::InitializeIteration()
 {
   // update variables in the equation object
-  DemonsRegistrationFunctionType *f =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !f )
     {
@@ -75,9 +73,7 @@ double
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -96,9 +92,7 @@ double
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -117,9 +111,7 @@ void
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -138,9 +130,7 @@ const double &
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetRMSChange() const
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -168,9 +158,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 
   this->Superclass::ApplyUpdate(dt);
 
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {

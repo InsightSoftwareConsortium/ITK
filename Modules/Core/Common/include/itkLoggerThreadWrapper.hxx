@@ -170,12 +170,12 @@ LoggerThreadWrapper< SimpleLoggerType >::~LoggerThreadWrapper()
 template< typename SimpleLoggerType >
 ITK_THREAD_RETURN_TYPE LoggerThreadWrapper< SimpleLoggerType >::ThreadFunction(void *pInfoStruct)
 {
-  struct MultiThreader:: ThreadInfoStruct *pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
+  auto * pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
 
   if ( ( pInfo != nullptr ) && ( pInfo->UserData != nullptr ) )
     {
 
-    LoggerThreadWrapper *pLogger = (LoggerThreadWrapper *)pInfo->UserData;
+    auto * pLogger = (LoggerThreadWrapper *)pInfo->UserData;
 
     while ( 1 )
       {

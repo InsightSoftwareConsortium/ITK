@@ -282,7 +282,7 @@ int itkNiftiReadAnalyzeTest(int ac, char *av[])
     }
   //
   // compare read pixels with pixels in the array we wrote out.
-  const float *fPtr = reinterpret_cast<const float *>(LittleEndian_img);
+  const auto * fPtr = reinterpret_cast<const float *>(LittleEndian_img);
   itk::ImageRegionConstIterator<ImageType> it(img,img->GetLargestPossibleRegion());
   it.GoToBegin();
   for(; !it.IsAtEnd(); ++it,++fPtr)

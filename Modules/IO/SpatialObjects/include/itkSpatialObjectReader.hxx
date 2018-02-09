@@ -51,7 +51,7 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
   if ( m_Scene->GetNumberOfObjects(0) == 1 )
     {
     typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
-    typename SceneType::ObjectListType::iterator it = list->begin();
+    auto it = list->begin();
     if ( !strncmp( ( *it )->GetTypeName(), "Group", 5 ) )
       {
       m_Group = static_cast< GroupType * >( ( *it ).GetPointer() );
@@ -67,8 +67,8 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
     {
     m_Group = GroupType::New();
     typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
-    typename SceneType::ObjectListType::iterator it = list->begin();
-    typename SceneType::ObjectListType::iterator it_end = list->end();
+    auto it = list->begin();
+    auto it_end = list->end();
     while ( it != it_end )
       {
       m_Group->AddSpatialObject( static_cast< SpatialObjectType * >( *it ) );

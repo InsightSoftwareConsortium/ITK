@@ -113,9 +113,9 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
     }
 
   InputCoordRepType     max_length(0.0), length(0.0);
-  InputEdgeListIterator oborder_it = list->begin();
+  auto oborder_it = list->begin();
 
-  for ( InputEdgeListIterator b_it = list->begin();
+  for ( auto b_it = list->begin();
         b_it != list->end();
         ++b_it )
     {
@@ -170,9 +170,9 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
   SizeValueType max_id = 0L;
   SizeValueType k = 0L;
 
-  InputEdgeListIterator oborder_it = list->begin();
+  auto oborder_it = list->begin();
 
-  for ( InputEdgeListIterator b_it = list->begin();
+  for ( auto b_it = list->begin();
         b_it != list->end();
         ++b_it )
     {
@@ -206,7 +206,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
   InputMeshConstPointer input = this->GetInput();
 
-  InputPointIdentifier NbBoundaryPt = static_cast<InputPointIdentifier>( this->m_BoundaryPtMap.size() );
+  auto NbBoundaryPt = static_cast<InputPointIdentifier>( this->m_BoundaryPtMap.size() );
 
   InputCoordRepType r = this->RadiusMaxSquare();
 
@@ -225,7 +225,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   tetas[0] = static_cast< InputCoordRepType >(
     std::acos( ( two_r - dist ) * inv_two_r ) );
 
-  MapPointIdentifierIterator BoundaryPtIterator = this->m_BoundaryPtMap.begin();
+  auto BoundaryPtIterator = this->m_BoundaryPtMap.begin();
 
   ++BoundaryPtIterator;
 
@@ -253,7 +253,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     this->m_Radius = std::pow(std::sqrt(r), a);
     }
 
-  for ( MapPointIdentifierIterator
+  for ( auto
         BoundaryPtMapIterator = this->m_BoundaryPtMap.begin();
         BoundaryPtMapIterator != this->m_BoundaryPtMap.end();
         ++BoundaryPtMapIterator )
@@ -281,7 +281,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
   InputCoordRepType oRmax(0.), r;
 
-  for ( MapPointIdentifierIterator
+  for ( auto
         BoundaryPtIterator = this->m_BoundaryPtMap.begin();
         BoundaryPtIterator != this->m_BoundaryPtMap.end();
         ++BoundaryPtIterator )
@@ -380,7 +380,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
   InputQEType *bdryEdge = *( list->begin() );
 
-  InputPointIdentifier NbBoundaryPt = static_cast<InputPointIdentifier>( this->m_BoundaryPtMap.size() );
+  auto NbBoundaryPt = static_cast<InputPointIdentifier>( this->m_BoundaryPtMap.size() );
 
   std::vector< InputCoordRepType > Length(NbBoundaryPt + 1, 0.0);
 

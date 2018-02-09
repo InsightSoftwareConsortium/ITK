@@ -54,11 +54,10 @@ RegistrationParameterScalesFromIndexShift< TMetric >
 
   // We save the old parameters and apply the delta parameters to calculate the
   // voxel shift. After it is done, we will reset to the old parameters.
-  TransformBaseTemplate<typename TMetric::MeasureType> *transform =
-                                                  const_cast<TransformBaseTemplate<typename TMetric::MeasureType> *>(this->GetTransform());
+  auto * transform = const_cast<TransformBaseTemplate<typename TMetric::MeasureType> *>(this->GetTransform());
   const ParametersType oldParameters = transform->GetParameters();
 
-  const SizeValueType numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
+  const auto numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
 
   VirtualPointType point;
   TransformOutputType newMappedVoxel;

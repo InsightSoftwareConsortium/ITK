@@ -197,7 +197,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  OutputImagePixelType gradMag = static_cast<OutputImagePixelType>(0.0001); // alpha * alpha;
+  auto gradMag = static_cast<OutputImagePixelType>(0.0001); // alpha * alpha;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     deriv += dx[i] * dx[i] * dxx[i];

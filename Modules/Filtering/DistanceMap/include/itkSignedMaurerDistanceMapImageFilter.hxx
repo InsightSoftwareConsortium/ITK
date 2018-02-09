@@ -79,10 +79,9 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
     }
 
   // determine the actual number of pieces that will be generated
-  double range = static_cast< double >( requestedRegionSize[splitAxis] );
+  auto range = static_cast< double >( requestedRegionSize[splitAxis] );
 
-  unsigned int valuesPerThread =
-    static_cast< unsigned int >( std::ceil( range / static_cast< double >( num ) ) );
+  auto valuesPerThread = static_cast< unsigned int >( std::ceil( range / static_cast< double >( num ) ) );
   unsigned int maxThreadIdUsed =
     static_cast< unsigned int >( std::ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
 
@@ -214,8 +213,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
     {
     progressPerDimension = 0.67f / ( static_cast< float >( ImageDimension ) + 1 );
     }
-  ProgressReporter *progress =
-      new ProgressReporter(this,
+  auto * progress = new ProgressReporter(this,
                            threadId,
                            NumberOfRows[m_CurrentDimension],
                            30,
@@ -287,8 +285,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
     while ( !Ot.IsAtEnd() )
       {
       // cast to a real type is required on some platforms
-      const OutputPixelType outputValue =
-        static_cast< OutputPixelType >(
+      const auto outputValue = static_cast< OutputPixelType >(
           std::sqrt( static_cast< OutputRealType >( itk::Math::abs( Ot.Get() ) ) ) );
 
       if ( Math::NotExactlyEquals( It.Get(), this->m_BackgroundValue ) )

@@ -49,7 +49,7 @@ public:
       {
       return;
       }
-    const TFilter *optimizer = dynamic_cast< const TFilter * >( object );
+    const auto * optimizer = dynamic_cast< const TFilter * >( object );
 
     if( !optimizer )
       {
@@ -164,7 +164,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
   // applying the resultant transform and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
   bool passed = true;
-  typename PointType::ValueType tolerance = static_cast<typename PointType::ValueType>( 1e-4 );
+  auto tolerance = static_cast<typename PointType::ValueType>( 1e-4 );
   typename TTransform::InverseTransformBasePointer fixedInverse = metric->GetFixedTransform()->GetInverseTransform();
   for( unsigned int n=0; n < numberOfPoints; n++ )
     {
@@ -200,7 +200,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
   int finalResult = EXIT_SUCCESS;
 
   unsigned int numberOfIterations = 100;
-  double maximumPhysicalStepSize = static_cast<double>( 2.0 );
+  auto maximumPhysicalStepSize = static_cast<double>( 2.0 );
   if( argc > 1 )
     {
     numberOfIterations = atoi( argv[1] );
@@ -210,7 +210,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
     maximumPhysicalStepSize = atof( argv[2] );
     }
 
-  double pointMax = static_cast<double>( 100.0 );
+  auto pointMax = static_cast<double>( 100.0 );
 
   //
   // Test with affine transform

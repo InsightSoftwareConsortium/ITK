@@ -111,13 +111,13 @@ void
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::GenerateData()
 {
-  const ClassLabelVectorObjectType *classLabelsDecorated =
-    static_cast< const ClassLabelVectorObjectType * >( this->ProcessObject::GetInput(1) );
+  const auto * classLabelsDecorated = static_cast< const ClassLabelVectorObjectType * >(
+                                                 this->ProcessObject::GetInput(1) );
 
-  const MembershipFunctionVectorObjectType *membershipFunctionsDecorated =
-    static_cast< const MembershipFunctionVectorObjectType * >( this->ProcessObject::GetInput(2) );
+  const auto * membershipFunctionsDecorated = static_cast< const MembershipFunctionVectorObjectType * >(
+                                                 this->ProcessObject::GetInput(2) );
 
-  const MembershipFunctionsWeightsArrayObjectType *
+  const auto *
   membershipFunctionsWeightsArrayDecorated =
     static_cast< const MembershipFunctionsWeightsArrayObjectType * >( this->ProcessObject::GetInput(3) );
 
@@ -164,13 +164,12 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
                       number of classes "                                                                  );
     }
 
-  const InputImageType *inputImage =
-    static_cast< const InputImageType * >( this->ProcessObject::GetInput(0) );
+  const auto * inputImage = static_cast< const InputImageType * >( this->ProcessObject::GetInput(0) );
 
   std::vector< double > discriminantScores;
   discriminantScores.resize(this->m_NumberOfClasses);
 
-  OutputImageType *outputImage = dynamic_cast< OutputImageType * >(
+  auto * outputImage = dynamic_cast< OutputImageType * >(
     this->ProcessObject::GetOutput(0) );
 
   outputImage->CopyInformation(inputImage);
@@ -198,7 +197,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
     unsigned int classIndex;
     classIndex = static_cast<unsigned int>( m_DecisionRule->Evaluate(discriminantScores) );
 
-    OutputPixelType value = static_cast< OutputPixelType >( classLabels[classIndex] );
+    auto value = static_cast< OutputPixelType >( classLabels[classIndex] );
     outItr.Set(value);
 
     ++inpItr;

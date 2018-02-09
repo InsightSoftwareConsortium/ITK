@@ -206,7 +206,7 @@ void GiplImageIO::Read(void *buffer)
     numberOfPixels *= static_cast<uint32_t>(m_Dimensions[dim]);
     }
 
-  char *p = static_cast< char * >( buffer );
+  auto * p = static_cast< char * >( buffer );
   if ( m_IsCompressed )
     {
     gzread( m_Internal->m_GzFile, p, static_cast< unsigned int >( this->GetImageSizeInBytes() ) );
@@ -823,7 +823,7 @@ GiplImageIO
     {
     if ( i < nDims )
       {
-      float value = static_cast< float >( m_Spacing[i] );
+      auto value = static_cast< float >( m_Spacing[i] );
       if ( m_ByteOrder == BigEndian )
         {
         ByteSwapper< float >::SwapFromSystemToBigEndian( (float *)&value );
@@ -1038,13 +1038,13 @@ GiplImageIO
     }
   else //binary
     {
-    const SizeValueType numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
-    const SizeValueType numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
+    const auto numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+    const auto numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
 
     // Swap bytes if necessary
     if ( m_ByteOrder == LittleEndian )
       {
-      char *tempBuffer = new char[numberOfBytes];
+      auto * tempBuffer = new char[numberOfBytes];
       memcpy(tempBuffer, buffer, numberOfBytes);
       SwapBytesIfNecessary(tempBuffer, numberOfComponents);
       if ( m_IsCompressed )
@@ -1059,7 +1059,7 @@ GiplImageIO
       }
     else if ( m_ByteOrder == BigEndian )
       {
-      char *tempBuffer = new char[numberOfBytes];
+      auto * tempBuffer = new char[numberOfBytes];
       memcpy(tempBuffer, buffer, numberOfBytes);
       SwapBytesIfNecessary(tempBuffer, numberOfComponents);
       if ( m_IsCompressed )

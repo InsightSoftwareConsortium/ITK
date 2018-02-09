@@ -122,8 +122,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 {
   if( this->m_Heaviside.IsNotNull() )
     {
-    const LevelSetOutputRealType value =
-      static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( inputIndex ) );
+    const auto value = static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( inputIndex ) );
 
     const LevelSetOutputRealType d_val = this->m_Heaviside->EvaluateDerivative( -value );
 

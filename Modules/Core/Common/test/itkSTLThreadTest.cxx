@@ -71,7 +71,7 @@ int itkSTLThreadTest(int argc, char* argv[])
     }
 
   // Create result array.  Assume failure.
-  int* results = new int[numThreads];
+  auto * results = new int[numThreads];
   int i;
   for(i=0; i < numThreads; ++i)
     {
@@ -122,10 +122,9 @@ static ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
 {
   // Get the thread id and result pointer and run the method for this
   // thread.
-  itk::MultiThreader::ThreadInfoStruct* info =
-    static_cast<itk::MultiThreader::ThreadInfoStruct*>(infoIn);
+  auto * info = static_cast<itk::MultiThreader::ThreadInfoStruct*>(infoIn);
   itk::ThreadIdType tnum = info->ThreadID;
-  int* results = static_cast<int*>(info->UserData);
+  auto * results = static_cast<int*>(info->UserData);
   if(results)
     {
     results[tnum] = itkSTLThreadTestImpl::Thread(tnum);

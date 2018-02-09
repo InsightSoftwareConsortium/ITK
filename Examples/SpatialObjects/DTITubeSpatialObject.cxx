@@ -85,7 +85,7 @@ int main( int , char *[] )
     p.AddField("Lambda1",4*i);
     p.AddField("Lambda2",5*i);
     p.AddField("Lambda3",6*i);
-    float* v = new float[6];
+    auto * v = new float[6];
     for(unsigned int k=0;k<6;k++)
       {
       v[k] = k;

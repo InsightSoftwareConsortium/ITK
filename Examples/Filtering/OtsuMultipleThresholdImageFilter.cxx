@@ -195,9 +195,7 @@ int main( int argc, char * argv[] )
   InputPixelType upperThreshold;
 
   // Software Guide : BeginCodeSnippet
-  using ThresholdItType = CalculatorType::OutputType::const_iterator;
-
-  for( ThresholdItType itNum = thresholdVector.begin();
+  for( auto itNum = thresholdVector.begin();
        itNum != thresholdVector.end();
        ++itNum )
     {

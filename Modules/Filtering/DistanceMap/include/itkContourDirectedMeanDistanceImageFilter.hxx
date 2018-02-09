@@ -208,7 +208,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for ( typename FaceListType::iterator fit = faceList.begin(); fit != faceList.end(); ++fit )
+  for ( auto fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     ImageRegionConstIterator< DistanceMapType > it2 (m_DistanceMap, *fit);
     bit = ConstNeighborhoodIterator< InputImage1Type >(radius, input, *fit);

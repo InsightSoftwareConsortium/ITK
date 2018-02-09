@@ -263,7 +263,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 
   // each iteration of the following loop examines one edge of the
   // polygon, where the endpoints of the edge are p1 and p2
-  int       n = (int)( coords.size() );
+  auto n = (int)( coords.size() );
   PointType p0 = coords[0];
   PointType p1 = coords[n - 1];
   double    area = 0.0;
@@ -293,8 +293,8 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
       std::swap(p1, p2);
       }
 
-    int zmin = (int)( std::ceil(p1[2]) );
-    int zmax = (int)( std::ceil(p2[2]) );
+    auto zmin = (int)( std::ceil(p1[2]) );
+    auto zmax = (int)( std::ceil(p2[2]) );
 
     if ( zmin > extent[5] || zmax < extent[4] )
       {
@@ -371,8 +371,8 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
         continue;
         }
       double temp = 1.0 / ( Y2 - Y1 );
-      int    ymin = (int)( std::ceil(Y1) );
-      int    ymax = (int)( std::ceil(Y2) );
+      auto ymin = (int)( std::ceil(Y1) );
+      auto ymax = (int)( std::ceil(Y2) );
       for ( int y = ymin; y < ymax; y++ )
         {
         double r = ( Y2 - y ) * temp;
@@ -537,8 +537,8 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 
       for ( int i = 0; i < n; i++ )
         {
-        int x1 = (int)( std::ceil(nlist[2 * i]) );
-        int x2 = (int)( std::floor(nlist[2 * i + 1]) );
+        auto x1 = (int)( std::ceil(nlist[2 * i]) );
+        auto x2 = (int)( std::floor(nlist[2 * i + 1]) );
 
         if ( x2 < extent[0] || x1 > ( extent[1] ) )
           {

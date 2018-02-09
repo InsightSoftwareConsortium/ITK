@@ -59,12 +59,12 @@ public:
       {
       return;
       }
-    RegistrationPointer registration = static_cast<RegistrationPointer>( object );
+    auto registration = static_cast<RegistrationPointer>( object );
     if(registration == nullptr)
       {
       return;
       }
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
+    auto optimizer = static_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "
@@ -113,7 +113,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-      OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+      auto optimizer = static_cast< OptimizerPointer >( object );
       if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
         return;

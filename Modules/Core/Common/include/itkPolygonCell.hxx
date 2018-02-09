@@ -39,7 +39,7 @@ void
 PolygonCell< TCellInterface >
 ::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  Self *newPolygonCell = new Self;
+  auto * newPolygonCell = new Self;
 
   cellPointer.TakeOwnership(newPolygonCell);
   const PointIdentifier numberOfPoints = this->GetNumberOfPoints();
@@ -171,7 +171,7 @@ PolygonCell< TCellInterface >
   if ( m_PointIds.size() > 0 )
     {
     m_Edges.resize( m_PointIds.size() );
-    const unsigned int numberOfPoints = static_cast< unsigned int >( m_PointIds.size() );
+    const auto numberOfPoints = static_cast< unsigned int >( m_PointIds.size() );
     for ( unsigned int i = 1; i < numberOfPoints; i++ )
       {
       m_Edges[i - 1][0] = i - 1;
@@ -224,8 +224,7 @@ void
 PolygonCell< TCellInterface >
 ::RemovePointId(PointIdentifier ptID)
 {
-  typename std::vector< PointIdentifier >::iterator position =
-    std::find(m_PointIds.begin(), m_PointIds.end(), ptID);
+  auto position = std::find(m_PointIds.begin(), m_PointIds.end(), ptID);
   if ( position != m_PointIds.end() )
     {
     m_PointIds.erase(position);
@@ -395,7 +394,7 @@ bool
 PolygonCell< TCellInterface >
 ::GetVertex(CellFeatureIdentifier vertexId, VertexAutoPointer & vertexPointer)
 {
-  VertexType *vert = new VertexType;
+  auto * vert = new VertexType;
 
   vert->SetPointId(0, m_PointIds[vertexId]);
   vertexPointer.TakeOwnership(vert);
@@ -412,7 +411,7 @@ bool
 PolygonCell< TCellInterface >
 ::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer)
 {
-  EdgeType *   edge = new EdgeType;
+  auto * edge = new EdgeType;
   unsigned int max_pointId = this->GetNumberOfPoints() - 1;
 
   if ( edgeId < max_pointId )

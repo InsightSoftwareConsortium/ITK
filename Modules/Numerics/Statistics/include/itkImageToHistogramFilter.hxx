@@ -41,8 +41,7 @@ ImageToHistogramFilter< TImage >
   marginalScale->Set(100);
   this->ProcessObject::SetInput( "MarginalScale", marginalScale );
 
-  SimpleDataObjectDecorator<bool>::Pointer autoMinMax =
-    SimpleDataObjectDecorator<bool>::New();
+  SimpleDataObjectDecorator<bool>::Pointer autoMinMax = SimpleDataObjectDecorator<bool>::New();
   if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
     {
     autoMinMax->Set(false);
@@ -78,8 +77,7 @@ typename ImageToHistogramFilter< TImage >::HistogramType *
 ImageToHistogramFilter< TImage >
 ::GetOutput()
 {
-  HistogramType *output =
-    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   return output;
 }

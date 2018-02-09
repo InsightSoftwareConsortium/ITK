@@ -66,7 +66,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 
   using SOType = itk::SpatialObject< TInputSpatialObject::ObjectDimension >;
 
-  SOType *newSO = dynamic_cast< SOType * >( i.GetPointer() );
+  auto * newSO = dynamic_cast< SOType * >( i.GetPointer() );
   if ( newSO == nullptr )
     {
     WarnAndPrintFactories(value);

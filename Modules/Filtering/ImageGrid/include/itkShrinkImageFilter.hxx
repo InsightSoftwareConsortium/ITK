@@ -201,8 +201,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  InputImageType * inputPtr =
-    const_cast< InputImageType * >( this->GetInput() );
+  auto * inputPtr = const_cast< InputImageType * >( this->GetInput() );
   const OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != nullptr );

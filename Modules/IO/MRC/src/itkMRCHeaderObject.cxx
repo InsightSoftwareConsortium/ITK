@@ -59,7 +59,7 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
     return false;
     }
 
-  const Header *_header = static_cast< const Header * >( buffer );
+  const auto * _header = static_cast< const Header * >( buffer );
 
   memcpy( &this->m_Header, buffer, sizeof( Header ) );
 

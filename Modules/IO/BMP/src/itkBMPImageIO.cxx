@@ -198,7 +198,7 @@ bool BMPImageIO::CanWriteFile(const char *name)
 
 void BMPImageIO::Read(void *buffer)
 {
-  char *        p = static_cast< char * >( buffer );
+  auto * p = static_cast< char * >( buffer );
   unsigned long l = 0;
   char *        value;
 
@@ -698,7 +698,7 @@ void
 BMPImageIO
 ::Write32BitsInteger(unsigned int value)
 {
-  char tmp = static_cast<char>(value % 256);
+  auto tmp = static_cast<char>(value % 256);
   m_Ofstream.write( &tmp, sizeof( char ) );
   tmp = static_cast< char >( ( value % 65536L ) / 256 );
   m_Ofstream.write( &tmp, sizeof( char ) );
@@ -712,7 +712,7 @@ void
 BMPImageIO
 ::Write16BitsInteger(unsigned short value)
 {
-  char tmp = static_cast<char>(value % 256);
+  auto tmp = static_cast<char>(value % 256);
   m_Ofstream.write( &tmp, sizeof( char ) );
   tmp = static_cast< char >( ( value % 65536L ) / 256 );
   m_Ofstream.write( &tmp, sizeof( char ) );
@@ -811,7 +811,7 @@ BMPImageIO
     }
   const unsigned long paddedBytes = bytesPerRow - ( m_Dimensions[0] * bpp );
 
-  const unsigned int rawImageDataSize = static_cast< unsigned int >( ( bytesPerRow * m_Dimensions[1] ) );
+  const auto rawImageDataSize = static_cast< unsigned int >( ( bytesPerRow * m_Dimensions[1] ) );
   unsigned int       fileSize = ( rawImageDataSize ) + 54;
   if ( bpp == 1 )
     {
@@ -889,8 +889,8 @@ BMPImageIO
   // The specification calls for a signed integer, but
   // here we force it to be an unsigned integer to avoid
   // dealing with directions in a subterraneous way.
-  const unsigned int horizontalResolution = Math::Round< unsigned int >(1000.0 / m_Spacing[0]);
-  const unsigned int verticalResolution = Math::Round< unsigned int >(1000.0 / m_Spacing[1]);
+  const auto horizontalResolution = Math::Round< unsigned int >(1000.0 / m_Spacing[0]);
+  const auto verticalResolution = Math::Round< unsigned int >(1000.0 / m_Spacing[1]);
 
   this->Write32BitsInteger(horizontalResolution);
   this->Write32BitsInteger(verticalResolution);
@@ -930,7 +930,7 @@ BMPImageIO
   for ( unsigned int h = 0; h < m_Dimensions[1]; h++ )
     {
     constexpr char paddingValue = 0;
-    const char *ptr = static_cast< const char * >( buffer );
+    const auto * ptr = static_cast< const char * >( buffer );
     ptr += ( m_Dimensions[1] - ( h + 1 ) ) * m_Dimensions[0] * bpp;
     if ( bpp == 1 )
       {

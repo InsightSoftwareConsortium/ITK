@@ -71,7 +71,7 @@ PostOrderTreeIterator< TTreeType >::PostOrderTreeIterator(TTreeType *tree):
     }
   else
     {
-    const TreeNodeType *root = dynamic_cast<const TreeNodeType *>(tree->GetRoot());
+    const auto * root = dynamic_cast<const TreeNodeType *>(tree->GetRoot());
     if(root == nullptr)
       {
       itkGenericExceptionMacro(<< "Can't downcast root node to TreeNodeType *");
@@ -120,7 +120,7 @@ PostOrderTreeIterator< TTreeType >::FindNextNode() const
     {
     return nullptr;
     }
-  TreeNodeType *sister = const_cast< TreeNodeType * >( FindSister(this->m_Position) );
+  auto * sister = const_cast< TreeNodeType * >( FindSister(this->m_Position) );
 
   if ( sister != nullptr )
     {
@@ -130,7 +130,7 @@ PostOrderTreeIterator< TTreeType >::FindNextNode() const
     {
     return nullptr;
     }
-  TreeNodeType *rval = dynamic_cast<TreeNodeType *>(this->m_Position->GetParent());
+  auto * rval = dynamic_cast<TreeNodeType *>(this->m_Position->GetParent());
   if(rval == nullptr)
     {
       itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
@@ -148,7 +148,7 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
     return nullptr;
     }
 
-  TreeNodeType *parent = dynamic_cast<TreeNodeType *>(node->GetParent());
+  auto * parent = dynamic_cast<TreeNodeType *>(node->GetParent());
   if(parent == nullptr)
     {
     itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
@@ -165,7 +165,7 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
       }
     else
       {
-      TreeNodeType *sister = dynamic_cast<TreeNodeType *>(parent->GetChild(childPosition + 1));
+      auto * sister = dynamic_cast<TreeNodeType *>(parent->GetChild(childPosition + 1));
       if ( sister == nullptr)
       {
       itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
@@ -218,8 +218,7 @@ PostOrderTreeIterator< TTreeType >::FindMostRightLeaf(TreeNodeType *node) const
 template< typename TTreeType >
 TreeIteratorBase< TTreeType > *PostOrderTreeIterator< TTreeType >::Clone()
 {
-  PostOrderTreeIterator< TTreeType > *clone =
-    new PostOrderTreeIterator< TTreeType >( const_cast< TTreeType * >( this->m_Tree ) );
+  auto * clone = new PostOrderTreeIterator< TTreeType >( const_cast< TTreeType * >( this->m_Tree ) );
   *clone = *this;
   return clone;
 }

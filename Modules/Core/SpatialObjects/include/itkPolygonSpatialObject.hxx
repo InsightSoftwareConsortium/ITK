@@ -38,8 +38,8 @@ PolygonSpatialObject< TDimension >
   // local type alias to shut up the compiler...
 
   const PointListType & points = this->GetPoints();
-  typename PointListType::const_iterator it = points.begin();
-  typename PointListType::const_iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   double min[3], max[3];       // x, y, z
   int    i;
   for ( i = 0; i < 3; i++ )
@@ -83,8 +83,8 @@ PolygonSpatialObject< TDimension >
 {
   const PointListType & points = this->GetPoints();
 
-  typename PointListType::const_iterator it = points.begin();
-  typename PointListType::const_iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   itend--;
   return ( *it ).GetPosition() == ( *itend ).GetPosition();
 }
@@ -104,8 +104,8 @@ PolygonSpatialObject< TDimension >
 {
   const PointListType & points = this->GetPoints();
 
-  typename PointListType::const_iterator it = points.begin();
-  typename PointListType::const_iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   double distance = NumericTraits< double >::max();
 
   if ( it == itend )
@@ -168,7 +168,7 @@ PolygonSpatialObject< TDimension >
       throw exception;
     }
   const PointListType & points = this->GetPoints();
-  typename PointListType::const_iterator it = points.begin();
+  auto it = points.begin();
   PointType start = ( *it ).GetPosition();
   for ( int i = 0; i < numpoints; i++ )
     {
@@ -217,7 +217,7 @@ PolygonSpatialObject< TDimension >
     }
   const PointListType & points = this->GetPoints();
 
-  typename PointListType::const_iterator it = points.begin();
+  auto it = points.begin();
 
   PointType start = ( *it ).GetPosition();
   for ( int i = 0; i < numpoints; i++ )
@@ -252,8 +252,8 @@ PolygonSpatialObject< TDimension >
 {
   PointListType & points = this->GetPoints();
 
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   if ( it == itend )
     {
     return false;
@@ -293,8 +293,8 @@ PolygonSpatialObject< TDimension >
 {
   PointListType & points = this->GetPoints();
 
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   if ( it == itend )
     {
     this->AddPoint(pointToAdd);
@@ -308,7 +308,7 @@ PolygonSpatialObject< TDimension >
       curPoint.GetPosition();
     if ( curpos == point1 )
       {
-      typename PointListType::iterator after = it;
+      auto after = it;
       after++;
       BlobPointType newPoint;
       newPoint.SetPosition(pointToAdd);
@@ -330,8 +330,8 @@ PolygonSpatialObject< TDimension >
     return true;
     }
   PointListType & points = this->GetPoints();
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   if ( it == itend )
     {
     this->AddPoint(newPoint);
@@ -345,7 +345,7 @@ PolygonSpatialObject< TDimension >
       curPoint.GetPosition();
     if ( curpos == oldpoint )
       {
-      typename PointListType::iterator after = it;
+      auto after = it;
       after++;
       BlobPointType newBlobPoint;
       newBlobPoint.SetPosition(newPoint);
@@ -365,8 +365,8 @@ PolygonSpatialObject< TDimension >
 {
   PointListType & points = this->GetPoints();
 
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   typename PointListType::iterator first;
   typename PointListType::iterator last;
 
@@ -453,8 +453,8 @@ PolygonSpatialObject< TDimension >
     this->GetInternalInverseTransform()->TransformPoint(point);
 
   const PointListType & points = this->GetPoints();
-  typename PointListType::const_iterator it = points.begin();
-  typename PointListType::const_iterator itend = points.end();
+  auto it = points.begin();
+  auto itend = points.end();
   itend--;
 
   PointType first = ( *it ).GetPosition();

@@ -150,10 +150,10 @@ MembershipSample< TSample >
   // Most of what follows is really a deep copy, rather than grafting of
   // output. Wish it were managed by pointers to bulk data. Sigh !
 
-  const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+  const auto * thatConst = dynamic_cast< const Self * >( thatObject );
   if ( thatConst )
     {
-    Self *that = const_cast< Self * >( thatConst );
+    auto * that = const_cast< Self * >( thatConst );
     this->m_UniqueClassLabels = that->m_UniqueClassLabels;
     this->m_ClassLabelHolder  = that->m_ClassLabelHolder;
     this->m_ClassSamples      = that->m_ClassSamples;

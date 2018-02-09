@@ -113,7 +113,7 @@ void SegmentTreeGenerator< TScalar >
   typename EquivalencyTableType::Pointer eqTable  =
     this->GetInputEquivalencyTable();
   typename EquivalencyTableType::Iterator it;
-  ScalarType threshold = static_cast< ScalarType >( m_FloodLevel * segTable->GetMaximumDepth() );
+  auto threshold = static_cast< ScalarType >( m_FloodLevel * segTable->GetMaximumDepth() );
 
   eqTable->Flatten();
   IdentifierType counter = 0;
@@ -150,7 +150,7 @@ void SegmentTreeGenerator< TScalar >
   typename SegmentTableType::Iterator segment_ptr;
   IdentifierType labelFROM;
   IdentifierType labelTO;
-  ScalarType    threshold = static_cast< ScalarType >( m_FloodLevel * segments->GetMaximumDepth() );
+  auto threshold = static_cast< ScalarType >( m_FloodLevel * segments->GetMaximumDepth() );
   m_MergedSegmentsTable->Flatten();
 
   segments->PruneEdgeLists(threshold);
@@ -198,7 +198,7 @@ void SegmentTreeGenerator< TScalar >
   // Merges segments up to a specified floodlevel according to the information
   // in the heap of merges.  As two segments are merged, calculates a new
   // possible merges and pushes it onto the heap.
-  ScalarType threshold = static_cast< ScalarType >( m_FloodLevel * segments->GetMaximumDepth() );
+  auto threshold = static_cast< ScalarType >( m_FloodLevel * segments->GetMaximumDepth() );
 
   unsigned counter;
   using MergeComparison = typename SegmentTreeType::merge_comp;
@@ -207,7 +207,7 @@ void SegmentTreeGenerator< TScalar >
   IdentifierType toSegLabel, fromSegLabel;
 
   if ( heap->Empty() ) { return; }
-  double initHeapSize = static_cast< double >( heap->Size() );
+  auto initHeapSize = static_cast< double >( heap->Size() );
 
   counter = 0;
   typename SegmentTreeType::ValueType topMerge = heap->Front();

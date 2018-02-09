@@ -146,7 +146,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   std::cout << "Testing CellData : ";
   using CellDataListType = MetaMesh::CellDataListType;
   CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();
-  float f = (float)(0.1);
+  auto f = (float)(0.1);
   for(j=0;j< static_cast<int>(_mesh->GetCellData().size());j++)
     {
     if(((*it_cd)->m_Id != j) || (std::fabs((float)(static_cast<MeshData<float>*>(*it_cd)->m_Data)-f)>0.001))
@@ -174,7 +174,7 @@ int testMetaMesh(int argc, char * argv[])
   MetaScene myScene = MetaScene(3);
 
   std::cout << "Creating mesh: ";
-  MetaMesh* mesh = new MetaMesh(3);
+  auto * mesh = new MetaMesh(3);
   mesh->ID(0);
 
   // Add Points
@@ -215,7 +215,7 @@ int testMetaMesh(int argc, char * argv[])
   // Add cell links
   for(i=0;i<3;i++)
     {
-    MeshCellLink* link = new MeshCellLink();
+    auto * link = new MeshCellLink();
     link->m_Id = i;
     link->m_Links.push_back(i+1);
     mesh->GetCellLinks().push_back(link);
@@ -224,17 +224,17 @@ int testMetaMesh(int argc, char * argv[])
   // Add point data
   for(i=0;i<5;i++)
     {
-    MeshData<int>* pd = new MeshData<int>();
+    auto * pd = new MeshData<int>();
     pd->m_Id = i;
     pd->m_Data = i;
     mesh->GetPointData().push_back(pd);
     }
 
   // Add cell data
-  float f = (float)(0.1);
+  auto f = (float)(0.1);
   for(i=0;i<4;i++)
     {
-    MeshData<float>* cd = new MeshData<float>();
+    auto * cd = new MeshData<float>();
     cd->m_Id = i;
     cd->m_Data = f;
     f += (float)(0.2);
@@ -258,13 +258,13 @@ int testMetaMesh(int argc, char * argv[])
 
   using ListType = MetaScene::ObjectListType;
   ListType * list = myScene2.GetObjectList();
-  ListType::iterator it = list->begin();
+  auto it = list->begin();
 
   for(i=0;i< static_cast<int>(list->size());i++)
     {
     if(!strncmp((*it)->ObjectTypeName(),"Mesh",4))
       {
-      MetaMesh* mesh2 = dynamic_cast<MetaMesh*>(*it);
+      auto * mesh2 = dynamic_cast<MetaMesh*>(*it);
       if(TestingMetaMesh(mesh2))
         {
         std::cout << "[FAILED]" << std::endl;
@@ -295,7 +295,7 @@ int testMetaMesh(int argc, char * argv[])
     {
     if(!strncmp((*it)->ObjectTypeName(),"Mesh",4))
       {
-      MetaMesh* mesh2 = dynamic_cast<MetaMesh*>(*it);
+      auto * mesh2 = dynamic_cast<MetaMesh*>(*it);
       if(TestingMetaMesh(mesh2))
         {
         std::cout << "[FAILED]" << std::endl;

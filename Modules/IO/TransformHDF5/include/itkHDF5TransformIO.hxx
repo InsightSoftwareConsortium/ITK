@@ -97,7 +97,7 @@ HDF5TransformIOTemplate<TParametersValueType>
   const hsize_t dim(parameters.Size());
 
   const std::string & NameParametersValueTypeString = Superclass::GetTypeNameString();
-  ParametersValueType *buf = new ParametersValueType[dim];
+  auto * buf = new ParametersValueType[dim];
   if( ! NameParametersValueTypeString.compare( std::string("double") ))
     {
     for(unsigned i(0); i < dim; i++)
@@ -140,7 +140,7 @@ HDF5TransformIOTemplate<TParametersValueType>
                        const FixedParametersType &fixedParameters)
 {
   const hsize_t dim(fixedParameters.Size());
-  FixedParametersValueType *buf = new FixedParametersValueType[dim];
+  auto * buf = new FixedParametersValueType[dim];
   for(unsigned i(0); i < dim; i++)
     {
     buf[i] = fixedParameters[i];
@@ -183,7 +183,7 @@ HDF5TransformIOTemplate<TParametersValueType>
 
   if( ParamType.getSize() == sizeof(double) )
     {
-    double *buf = new double[dim];
+    auto * buf = new double[dim];
     paramSet.read(buf,H5::PredType::NATIVE_DOUBLE);
     for(unsigned i = 0; i < dim; i++)
       {
@@ -193,7 +193,7 @@ HDF5TransformIOTemplate<TParametersValueType>
     }
   else
     {
-    float *buf = new float[dim];
+    auto * buf = new float[dim];
     paramSet.read(buf,H5::PredType::NATIVE_FLOAT);
     for(unsigned i = 0; i < dim; i++)
       {
@@ -235,7 +235,7 @@ HDF5TransformIOTemplate<TParametersValueType>
 
   if( ParamType.getSize() == sizeof(double) )
     {
-    double *buf = new double[dim];
+    auto * buf = new double[dim];
     paramSet.read(buf,H5::PredType::NATIVE_DOUBLE);
     for(unsigned i = 0; i < dim; i++)
       {
@@ -245,7 +245,7 @@ HDF5TransformIOTemplate<TParametersValueType>
     }
   else
     {
-    float *buf = new float[dim];
+    auto * buf = new float[dim];
     paramSet.read(buf,H5::PredType::NATIVE_FLOAT);
     for(unsigned i = 0; i < dim; i++)
       {

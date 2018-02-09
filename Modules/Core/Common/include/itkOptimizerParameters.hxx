@@ -74,7 +74,7 @@ OptimizerParameters<TParametersValueType>
 ::Initialize()
 {
   // Set the default OptimizerParametersHelper
-  OptimizerParametersHelperType* helper = new OptimizerParametersHelperType;
+  auto * helper = new OptimizerParametersHelperType;
   // OptimizerParameters will manage this memory.
   this->SetHelper( helper );
 }

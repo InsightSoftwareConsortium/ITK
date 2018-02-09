@@ -92,7 +92,7 @@ typename Clamp< TInput, TOutput >::OutputType
 Clamp< TInput, TOutput >
 ::operator()( const InputType & A ) const
   {
-  const double dA = static_cast< double >( A );
+  const auto dA = static_cast< double >( A );
 
   if ( dA < m_LowerBound )
     {

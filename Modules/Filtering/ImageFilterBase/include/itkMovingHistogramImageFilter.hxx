@@ -51,7 +51,7 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
   RegionType            inputRegion = inputImage->GetRequestedRegion();
 
   // initialize the histogram
-  for ( typename OffsetListType::iterator listIt = this->m_KernelOffsets.begin();
+  for ( auto listIt = this->m_KernelOffsets.begin();
         listIt != this->m_KernelOffsets.end();
         listIt++ )
     {
@@ -108,7 +108,7 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 
   // Steps is used to keep track of the order in which the line
   // iterator passes over the various dimensions.
-  int *Steps = new int[ImageDimension];
+  auto * Steps = new int[ImageDimension];
 
   for ( i = 0; i < ImageDimension; i++ )
     {
@@ -191,11 +191,11 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
   if ( inputRegion.IsInside(kernRegion) )
     {
     // update the histogram
-    for ( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
+    for ( auto addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
       {
       histogram.AddPixel( inputImage->GetPixel( currentIdx + ( *addedIt ) ) );
       }
-    for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+    for ( auto removedIt = removedList->begin();
           removedIt != removedList->end();
           removedIt++ )
       {
@@ -205,7 +205,7 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
   else
     {
     // update the histogram
-    for ( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
+    for ( auto addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
       {
       IndexType idx = currentIdx + ( *addedIt );
       if ( inputRegion.IsInside(idx) )
@@ -213,7 +213,7 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
       else
                 { histogram.AddBoundary(); }
       }
-    for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+    for ( auto removedIt = removedList->begin();
           removedIt != removedList->end();
           removedIt++ )
       {

@@ -55,7 +55,7 @@ DOMNode::GetAttribute( const std::string& key ) const
     return this->GetID();
     }
 
-  AttributesContainer::const_iterator i = this->m_Attributes.find( key );
+  auto i = this->m_Attributes.find( key );
   if ( i == this->m_Attributes.end() )
     {
     return "";
@@ -70,7 +70,7 @@ DOMNode::GetAttribute( const std::string& key ) const
 bool
 DOMNode::HasAttribute( const std::string& key ) const
 {
-  AttributesContainer::const_iterator i = this->m_Attributes.find( key );
+  auto i = this->m_Attributes.find( key );
   return ( i != this->m_Attributes.end() );
 }
 
@@ -85,7 +85,7 @@ DOMNode::SetAttribute( const std::string& key, const std::string& value )
     return;
     }
 
-  AttributesContainer::iterator i = this->m_Attributes.find( key );
+  auto i = this->m_Attributes.find( key );
   if ( i == this->m_Attributes.end() )
     {
     // add a new attribute
@@ -105,14 +105,14 @@ DOMNode::SetAttribute( const std::string& key, const std::string& value )
 void
 DOMNode::RemoveAttribute( const std::string& key )
 {
-  AttributesContainer::iterator i = this->m_Attributes.find( key );
+  auto i = this->m_Attributes.find( key );
   if ( i == this->m_Attributes.end() )
     {
     itkExceptionMacro( "attribute does not exist" );
     }
 
   // remove it from the ordered container first
-  for ( OrderedAttributesContainer::iterator j = this->m_OrderedAttributes.begin(); j != this->m_OrderedAttributes.end(); ++j )
+  for ( auto j = this->m_OrderedAttributes.begin(); j != this->m_OrderedAttributes.end(); ++j )
     {
     if ( (*j)->first == key )
       {

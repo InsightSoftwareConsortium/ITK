@@ -74,19 +74,19 @@ int itkPNGImageIOTest2( int argc, char * argv[] )
   // Exercise exception cases
   size_t sizeOfActualIORegion = io->GetIORegion().GetNumberOfPixels() *
     ( io->GetComponentSize() * io->GetNumberOfComponents() );
-  char *loadBuffer = new char[sizeOfActualIORegion];
+  auto * loadBuffer = new char[sizeOfActualIORegion];
 
   TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
 
 
-  bool useCompression = static_cast< bool >( argv[3] );
+  auto useCompression = static_cast< bool >( argv[3] );
   TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
 
   int compressionLevel = atoi( argv[4] );
   io->SetCompressionLevel( compressionLevel );
   TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
 
-  bool expandRGBPalette = static_cast< bool >( atoi( argv[5] ) );
+  auto expandRGBPalette = static_cast< bool >( atoi( argv[5] ) );
   TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   if( io->CanReadFile( "" ) )

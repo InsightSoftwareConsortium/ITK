@@ -29,11 +29,11 @@ unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(const TMatrix  & A,
                                                                              TVector  & D) const
 {
-  double *workArea1 = new double[m_Dimension];
+  auto * workArea1 = new double[m_Dimension];
 
   // Copy the input matrix
-  double *inputMatrix = new double[m_Dimension * m_Dimension];
-  double *dVector = new double[m_Dimension];
+  auto * inputMatrix = new double[m_Dimension * m_Dimension];
+  auto * dVector = new double[m_Dimension];
 
   unsigned int k = 0;
 
@@ -71,12 +71,12 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
   TVector        & EigenValues,
   TEigenMatrix   & EigenVectors) const
 {
-  double *workArea1 = new double[m_Dimension];
-  double *workArea2 = new double[m_Dimension * m_Dimension];
+  auto * workArea1 = new double[m_Dimension];
+  auto * workArea2 = new double[m_Dimension * m_Dimension];
 
   // Copy the input matrix
-  double *inputMatrix = new double[m_Dimension * m_Dimension];
-  double *dVector = new double[m_Dimension];
+  auto * inputMatrix = new double[m_Dimension * m_Dimension];
+  auto * dVector = new double[m_Dimension];
 
   unsigned int k = 0;
 

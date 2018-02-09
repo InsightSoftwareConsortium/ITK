@@ -72,8 +72,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
+    const auto * filter = dynamic_cast< const TFilter * >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
 
@@ -203,7 +202,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   rigidScalesEstimator->SetTransformForward( true );
 
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
-  GradientDescentOptimizerv4Type * rigidOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( rigidRegistration->GetModifiableOptimizer() );
+  auto * rigidOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( rigidRegistration->GetModifiableOptimizer() );
   if( !rigidOptimizer )
     {
     itkGenericExceptionMacro( "Error dynamic_cast failed" );

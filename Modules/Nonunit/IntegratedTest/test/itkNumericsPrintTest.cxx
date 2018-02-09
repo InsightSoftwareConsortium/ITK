@@ -33,8 +33,7 @@ int itkNumericsPrintTest(int , char* [])
     itk::AmoebaOptimizer::New();
   std::cout << "----------AmoebaOptimizer " << AmoebaOptimizerObj;
 
-  itk::CacheableScalarFunction * CacheableScalarFunctionObj =
-    new itk::CacheableScalarFunction;
+  auto * CacheableScalarFunctionObj = new itk::CacheableScalarFunction;
   std::cout << "----------CacheableScalarFunction " << CacheableScalarFunctionObj;
   delete CacheableScalarFunctionObj;
 
@@ -66,8 +65,7 @@ int itkNumericsPrintTest(int , char* [])
   constexpr unsigned int dimension = 3;
   constexpr unsigned int degree = 3;
   PolynomialType::DomainSizeType domainSize(dimension);
-  itk::MultivariateLegendrePolynomial * MultivariateLegendrePolynomialObj =
-    new itk::MultivariateLegendrePolynomial(dimension,degree,domainSize);
+  auto * MultivariateLegendrePolynomialObj = new itk::MultivariateLegendrePolynomial(dimension,degree,domainSize);
   std::cout << "----------MultivariateLegendrePolynomial " << *MultivariateLegendrePolynomialObj;
   delete MultivariateLegendrePolynomialObj;
 
@@ -91,8 +89,7 @@ int itkNumericsPrintTest(int , char* [])
     itk::RegularStepGradientDescentOptimizer::New();
   std::cout << "----------RegularStepGradientDescentOptimizer " << RegularStepGradientDescentOptimizerObj;
 
-  itk::SingleValuedVnlCostFunctionAdaptor * SingleValuedVnlCostFunctionAdaptorObj =
-    new itk::SingleValuedVnlCostFunctionAdaptor(3);
+  auto * SingleValuedVnlCostFunctionAdaptorObj = new itk::SingleValuedVnlCostFunctionAdaptor(3);
   std::cout << "----------SingleValuedVnlCostFunctionAdaptor " << SingleValuedVnlCostFunctionAdaptorObj;
   delete SingleValuedVnlCostFunctionAdaptorObj;
 

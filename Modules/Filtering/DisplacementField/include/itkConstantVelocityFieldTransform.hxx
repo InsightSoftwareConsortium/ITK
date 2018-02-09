@@ -53,7 +53,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 
   // Setup and assign parameter helper. This will hold the displacement field
   // for access through the common OptimizerParameters interface.
-  OptimizerParametersHelperType* helper = new OptimizerParametersHelperType;
+  auto * helper = new OptimizerParametersHelperType;
   // After assigning this, this->m_Parameter will manage this,
   // deleting when appropriate.
   this->m_Parameters.SetHelper( helper );
@@ -368,7 +368,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
   rval->SetParameters( this->GetParameters() );
 
   // need the displacement field but GetDisplacementField is non-const.
-  Self *nonConstThis = const_cast<Self *>(this);
+  auto * nonConstThis = const_cast<Self *>(this);
   typename DisplacementFieldType::ConstPointer dispField = nonConstThis->GetDisplacementField();
   typename DisplacementFieldType::Pointer cloneDispField =
     this->CopyDisplacementField(dispField.GetPointer());

@@ -55,7 +55,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
   unsigned long count = 0;
   for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
-    unsigned int label = static_cast<unsigned int>( 1.5 + count / 100 );
+    auto label = static_cast<unsigned int>( 1.5 + count / 100 );
 
     PointType fixedPoint;
     float radius = 100.0;

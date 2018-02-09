@@ -127,7 +127,7 @@ TileImageFilter< TInputImage, TOutputImage >
 {
   for ( unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); i++ )
     {
-    TInputImage *input = const_cast< TInputImage * >( this->GetInput(i) );
+    auto * input = const_cast< TInputImage * >( this->GetInput(i) );
     if ( input )
       {
       input->SetRequestedRegionToLargestPossibleRegion();

@@ -90,7 +90,7 @@ void RealTimeInterval::Set( SecondsDifferenceType seconds, MicroSecondsDifferenc
 RealTimeInterval::TimeRepresentationType
 RealTimeInterval::GetTimeInMicroSeconds() const
 {
-  TimeRepresentationType result = static_cast< TimeRepresentationType >( this->m_Seconds );
+  auto result = static_cast< TimeRepresentationType >( this->m_Seconds );
   result *= 1e6;
   result += static_cast< TimeRepresentationType >( this->m_MicroSeconds );
 
@@ -103,7 +103,7 @@ RealTimeInterval::GetTimeInMicroSeconds() const
 RealTimeInterval::TimeRepresentationType
 RealTimeInterval::GetTimeInMilliSeconds() const
 {
-  TimeRepresentationType result = static_cast< TimeRepresentationType >( this->m_Seconds );
+  auto result = static_cast< TimeRepresentationType >( this->m_Seconds );
   result *= 1e3;
   result += static_cast< TimeRepresentationType >( this->m_MicroSeconds ) / 1e3;
 
@@ -116,7 +116,7 @@ RealTimeInterval::GetTimeInMilliSeconds() const
 RealTimeInterval::TimeRepresentationType
 RealTimeInterval::GetTimeInSeconds() const
 {
-  TimeRepresentationType result = static_cast< TimeRepresentationType >( this->m_MicroSeconds );
+  auto result = static_cast< TimeRepresentationType >( this->m_MicroSeconds );
   result /= 1e6;
   result += static_cast< TimeRepresentationType >( this->m_Seconds );
 

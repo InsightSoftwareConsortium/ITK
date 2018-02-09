@@ -198,7 +198,7 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 
   for ( inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++trainingImageIt )
     {
-    unsigned int classIndex = (unsigned int)trainingImageIt.Get();
+    auto classIndex = (unsigned int)trainingImageIt.Get();
 
     // Training data assumed =1 band; also the class indices go
     // from 1, 2, ..., n while the corresponding memory goes from
@@ -291,8 +291,8 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
     // Fill the rest of the covairance matrix and make it symmetric
     if ( m_NumberOfSamples[classIndex][0] > 0 )
       {
-      unsigned int lastInX = (unsigned int)( VectorDimension - 1 );
-      unsigned int upperY = (unsigned int)VectorDimension;
+      auto lastInX = (unsigned int)( VectorDimension - 1 );
+      auto upperY = (unsigned int)VectorDimension;
       for ( unsigned int band_x = 0; band_x < lastInX; band_x++ )
         {
         for ( unsigned int band_y = band_x + 1; band_y < upperY; band_y++ )

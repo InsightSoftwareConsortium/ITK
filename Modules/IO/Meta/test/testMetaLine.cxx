@@ -29,7 +29,7 @@ int testMetaLine(int argc, char * argv[])
 
   std::cout << "Creating test file ...";
   MetaLine line0;
-  MetaLine* Line = new MetaLine(3);
+  auto * Line = new MetaLine(3);
   Line->ID(0);
   LinePnt* pnt;
 

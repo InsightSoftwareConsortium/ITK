@@ -61,9 +61,7 @@ BinaryMinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 {
   // update variables in the equation object
 
-  BinaryMinMaxCurvatureFlowFunctionType *f =
-    dynamic_cast< BinaryMinMaxCurvatureFlowFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast< BinaryMinMaxCurvatureFlowFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !f )
     {

@@ -83,7 +83,7 @@ int ListRegisteredFactories( const std::string & TestName, const DescriptionList
 
   std::cout << "----- Registered factories -----" << std::endl;
 
-  FactoryListType::iterator registeredFactoryItr = factories.begin();
+  auto registeredFactoryItr = factories.begin();
 
   if( expectedList.size() != factories.size() )
     {
@@ -92,7 +92,7 @@ int ListRegisteredFactories( const std::string & TestName, const DescriptionList
     return EXIT_FAILURE;
     }
 
-  DescriptionListType::const_iterator expectedItr = expectedList.begin();
+  auto expectedItr = expectedList.begin();
 
   while( registeredFactoryItr != factories.end() )
     {

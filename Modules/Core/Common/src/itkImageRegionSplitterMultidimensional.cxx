@@ -87,7 +87,7 @@ ImageRegionSplitterMultidimensional
   for ( unsigned int i = 0; i < dim; i++ )
     {
     const SizeValueType inputRegionSize = regionSize[i];
-    const IndexValueType indexOffset = Math::Floor<IndexValueType>( ( splittedRegionIndex[i] ) * ( inputRegionSize / double(splits[i]) ) );
+    const auto indexOffset = Math::Floor<IndexValueType>( ( splittedRegionIndex[i] ) * ( inputRegionSize / double(splits[i]) ) );
 
     regionIndex[i] += indexOffset;
     if ( splittedRegionIndex[i] < splits[i] - 1 )

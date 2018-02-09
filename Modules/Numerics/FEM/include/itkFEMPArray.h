@@ -103,10 +103,8 @@ template <typename T>
 typename FEMPArray<T>::ClassTypePointer
 FEMPArray<T>::Find(int gn)
 {
-  using Iterator = typename Superclass::iterator;
-
-  Iterator it   = this->begin();
-  Iterator iend = this->end();
+  auto it   = this->begin();
+  auto iend = this->end();
   while( it != iend )
     {
     if( ( *it )->GetGlobalNumber() == gn )

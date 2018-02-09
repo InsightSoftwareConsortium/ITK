@@ -79,8 +79,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
   fullToHalfFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   fullToHalfFilter->UpdateLargestPossibleRegion();
 
-  typename FFTWProxyType::ComplexType * in =
-    (typename FFTWProxyType::ComplexType *) fullToHalfFilter->GetOutput()->GetBufferPointer();
+  auto * in = (typename FFTWProxyType::ComplexType *) fullToHalfFilter->GetOutput()->GetBufferPointer();
 
   OutputPixelType * out = outputPtr->GetBufferPointer();
   typename FFTWProxyType::PlanType plan;

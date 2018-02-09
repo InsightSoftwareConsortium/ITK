@@ -41,7 +41,7 @@ template <typename TFloat>
 void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TFloat& element, int=0)
 {
   using AccumulateType = typename NumericTraits< TFloat >::AccumulateType;
-  const AccumulateType compensatedInput = static_cast< AccumulateType >( element - compensation );
+  const auto compensatedInput = static_cast< AccumulateType >( element - compensation );
   const AccumulateType tempSum          = sum + compensatedInput;
   // Warning: watch out for the compiler optimizing this out!
   compensation = static_cast<TFloat>( (tempSum - sum) - compensatedInput);

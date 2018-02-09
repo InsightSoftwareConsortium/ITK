@@ -454,14 +454,14 @@ void VTKImageIO::ReadBufferAsASCII( std::istream & is, void * buffer, IOComponen
       {
       case FLOAT :
         {
-        float * buf = reinterpret_cast<float *>(buffer);
+        auto * buf = reinterpret_cast<float *>(buffer);
         ReadTensorBuffer( is, buf, numComp );
         }
         break;
 
       case DOUBLE :
         {
-        double * buf = reinterpret_cast<double *>(buffer);
+        auto * buf = reinterpret_cast<double *>(buffer);
         ReadTensorBuffer( is, buf, numComp );
         }
         break;
@@ -782,7 +782,7 @@ void VTKImageIO::WriteBufferAsASCII( std::ostream & os, const void * buffer, IOC
       case FLOAT :
         {
         using Type = const float *;
-        Type buf = reinterpret_cast<Type>(buffer);
+        auto buf = reinterpret_cast<Type>(buffer);
         WriteTensorBuffer( os, buf, numComp, this->GetNumberOfComponents() );
         }
         break;
@@ -790,7 +790,7 @@ void VTKImageIO::WriteBufferAsASCII( std::ostream & os, const void * buffer, IOC
       case DOUBLE :
         {
         using Type = const double *;
-        Type buf = reinterpret_cast<Type>(buffer);
+        auto buf = reinterpret_cast<Type>(buffer);
         WriteTensorBuffer( os, buf, numComp, this->GetNumberOfComponents() );
         }
         break;

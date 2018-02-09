@@ -53,8 +53,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-        static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 0;
     vtkpixel[1] = 255;
     vtkpixel[2] = 0;
@@ -68,8 +67,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-        static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 255;
     vtkpixel[1] = 255;
     vtkpixel[2] = 0;
@@ -83,8 +81,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-        static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 255;
     vtkpixel[1] = 0;
     vtkpixel[2] = 0;
@@ -98,8 +95,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-      static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 0;
     vtkpixel[1] = 255;
     vtkpixel[2] = 255;
@@ -113,8 +109,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-        static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 0;
     vtkpixel[1] = 0;
     vtkpixel[2] = 255;
@@ -166,8 +161,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-        static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 0;
     vtkpixel[1] = 255;
     vtkpixel[2] = 0;
@@ -181,8 +175,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-        static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 255;
     vtkpixel[1] = 0;
     vtkpixel[2] = 0;
@@ -234,8 +227,7 @@ VTKVisualize2DSparseLevelSetLayers<
   while( it != layer.end() )
     {
     typename InputImageType::IndexType idx = it->first;
-    InputPixelType* vtkpixel =
-      static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+    auto * vtkpixel = static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 255;
     vtkpixel[1] = 0;
     vtkpixel[2] = 0;

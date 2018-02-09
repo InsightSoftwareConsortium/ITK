@@ -188,7 +188,7 @@ public:
   void SetSeeds(SeedsType & seeds)
   {
     m_NumberOfSeeds = seeds.size();
-    typename SeedsType::iterator it = seeds.begin();
+    auto it = seeds.begin();
     m_WorkingVD->SetSeeds(m_NumberOfSeeds, it);
   }
 

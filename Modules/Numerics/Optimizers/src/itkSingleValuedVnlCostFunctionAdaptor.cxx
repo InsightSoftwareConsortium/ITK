@@ -78,7 +78,7 @@ SingleValuedVnlCostFunctionAdaptor
     parameters.SetDataSameSize( const_cast< double * >( inparameters.data_block() ), false );
     }
 
-  InternalMeasureType value = static_cast< InternalMeasureType >( m_CostFunction->GetValue(parameters) );
+  auto value = static_cast< InternalMeasureType >( m_CostFunction->GetValue(parameters) );
 
   if ( m_NegateCostFunction )
     {

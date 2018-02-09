@@ -69,7 +69,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     ImageRegionIterator< OutputImageType >     out(output, region);
 
     // Fill the output pointer
-    OutputPixelType p = static_cast< OutputPixelType >( this->m_Lookup[i] );
+    auto p = static_cast< OutputPixelType >( this->m_Lookup[i] );
 
     in.GoToBegin();
     out.GoToBegin();

@@ -43,14 +43,13 @@ TransformIOFactoryTemplate<TParametersValueType>
   typename std::list< typename TransformIOBaseTemplate<TParametersValueType>::Pointer > possibleTransformIO;
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate") )
     {
-    TransformIOBaseTemplate<TParametersValueType> *io =
-                        dynamic_cast< TransformIOBaseTemplate<TParametersValueType> * >( allobject.GetPointer() );
+    auto * io = dynamic_cast< TransformIOBaseTemplate<TParametersValueType> * >( allobject.GetPointer() );
     if ( io )
       {
       possibleTransformIO.push_back(io);
       }
     }
-  for ( typename std::list< typename TransformIOBaseTemplate<TParametersValueType>::Pointer >::iterator k = possibleTransformIO.begin();
+  for ( auto k = possibleTransformIO.begin();
         k != possibleTransformIO.end(); ++k )
     {
     if ( mode == ReadMode )

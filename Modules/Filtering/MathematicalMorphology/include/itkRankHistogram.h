@@ -160,7 +160,7 @@ public:
 
     if ( total < target )
       {
-      typename MapType::iterator searchIt = m_RankIt;
+      auto searchIt = m_RankIt;
       typename MapType::iterator eraseIt;
 
       while ( searchIt != m_Map.end() )
@@ -195,7 +195,7 @@ public:
       }
     else
       {
-      typename MapType::iterator searchIt = m_RankIt;
+      auto searchIt = m_RankIt;
       typename MapType::iterator eraseIt;
 
       while ( searchIt != m_Map.begin() )

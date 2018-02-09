@@ -90,7 +90,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 
     for ( unsigned int i = 0; i < NDimensions; ++i )
       {
-      const int width = static_cast< int >( m_Width );
+      const auto width = static_cast< int >( m_Width );
       const int sizeDifference =
         static_cast< int >( size.m_Size[i] ) - width;
 

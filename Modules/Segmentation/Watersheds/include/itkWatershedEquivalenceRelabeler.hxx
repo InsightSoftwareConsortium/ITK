@@ -62,7 +62,7 @@ void EquivalenceRelabeler< TScalar, VImageDimension >
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  ImageType *inputPtr  = const_cast< ImageType * >( this->GetInputImage() );
+  auto * inputPtr = const_cast< ImageType * >( this->GetInputImage() );
   ImageType *outputPtr  = this->GetOutputImage();
 
   if ( !inputPtr || !outputPtr )

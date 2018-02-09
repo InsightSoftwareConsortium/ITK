@@ -60,7 +60,7 @@ int itkResampleImageTest4(int argc, char * argv [] )
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  unsigned int newDims = static_cast<unsigned int>( 64*scaling );
+  auto newDims = static_cast<unsigned int>( 64*scaling );
   ImageSizeType osize = {{newDims, newDims}};
 
   ImageType::SpacingType spacing;

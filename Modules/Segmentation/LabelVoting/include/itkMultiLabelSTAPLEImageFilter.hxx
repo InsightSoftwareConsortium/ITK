@@ -130,7 +130,7 @@ void
 MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
 ::InitializeConfusionMatrixArrayFromVoting()
 {
-  const unsigned int numberOfInputs = static_cast<const unsigned int>( this->GetNumberOfInputs() );
+  const auto numberOfInputs = static_cast<const unsigned int>( this->GetNumberOfInputs() );
 
   using LabelVotingFilterType = LabelVotingImageFilter<TInputImage, TOutputImage>;
   using LabelVotingFilterPointer = typename LabelVotingFilterType::Pointer;
@@ -256,7 +256,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
   const size_t numberOfInputs = this->GetNumberOfInputs();
 
   // create and initialize all input image iterators
-  InputConstIteratorType *it = new InputConstIteratorType[numberOfInputs];
+  auto * it = new InputConstIteratorType[numberOfInputs];
   for (size_t k = 0; k < numberOfInputs; ++k )
     {
     it[k] = InputConstIteratorType
@@ -264,7 +264,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
     }
 
   // allocate array for pixel class weights
-  WeightsType* W = new WeightsType[ this->m_TotalLabelCount ];
+  auto * W = new WeightsType[ this->m_TotalLabelCount ];
 
   unsigned int iteration = 0;
   for (; (!this->m_HasMaximumNumberOfIterations) || (iteration < this->m_MaximumNumberOfIterations); ++iteration )
@@ -417,7 +417,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
       }
 
     // now determine the label with the maximum W
-    OutputPixelType winningLabel = static_cast<OutputPixelType>( this->m_TotalLabelCount );
+    auto winningLabel = static_cast<OutputPixelType>( this->m_TotalLabelCount );
     WeightsType winningLabelW = 0;
     for ( OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci )
       {

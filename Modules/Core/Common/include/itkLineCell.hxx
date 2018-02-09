@@ -222,7 +222,7 @@ bool
 LineCell< TCellInterface >
 ::GetVertex(CellFeatureIdentifier vertexId, VertexAutoPointer & vertexPointer)
 {
-  VertexType *vert = new VertexType;
+  auto * vert = new VertexType;
 
   vert->SetPointId(0, m_PointIds[vertexId]);
   vertexPointer.TakeOwnership(vert);

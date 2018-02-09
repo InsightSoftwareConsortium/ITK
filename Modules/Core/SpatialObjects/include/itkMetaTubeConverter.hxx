@@ -42,8 +42,7 @@ typename MetaTubeConverter< NDimensions >::SpatialObjectPointer
 MetaTubeConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const TubeMetaObjectType *tubeMO =
-    dynamic_cast<const TubeMetaObjectType *>(mo);
+  const auto * tubeMO = dynamic_cast<const TubeMetaObjectType *>(mo);
   if(tubeMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaTube" );
@@ -70,8 +69,7 @@ MetaTubeConverter< NDimensions >
 
   using TubePointType = itk::TubeSpatialObjectPoint< NDimensions >;
 
-  using ListType = MetaTube::PointListType;
-  ListType::const_iterator it2 = tubeMO->GetPoints().begin();
+  auto it2 = tubeMO->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
   itk::Vector< double, NDimensions >          t;
@@ -137,7 +135,7 @@ MetaTubeConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to TubeSpatialObject");
     }
 
-  MetaTube *tubeMO = new MetaTube(NDimensions);
+  auto * tubeMO = new MetaTube(NDimensions);
 
   // fill in the tube information
   typename TubeSpatialObjectType::PointListType::const_iterator it;
@@ -145,7 +143,7 @@ MetaTubeConverter< NDimensions >
         it != tubeSO->GetPoints().end();
         it++ )
     {
-    TubePnt *pnt = new TubePnt(NDimensions);
+    auto * pnt = new TubePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {

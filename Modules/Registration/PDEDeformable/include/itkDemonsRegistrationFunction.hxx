@@ -174,7 +174,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   const IndexType index = it.GetIndex();
-  const double    fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto fixedValue = (double)this->GetFixedImage()->GetPixel(index);
 
   // Get moving image related information
   PointType mappedPoint;
@@ -227,7 +227,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   const double sqr_speedValue = itk::Math::sqr(speedValue);
 
   // update the metric
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   if ( globalData )
     {
     globalData->m_SumOfSquaredDifference += sqr_speedValue;
@@ -263,7 +263,7 @@ void
 DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
 
   m_MetricCalculationLock.Lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;

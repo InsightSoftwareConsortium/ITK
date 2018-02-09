@@ -215,7 +215,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
   joinVertex->SetInput( mesh );
 
   std::cout << "     " << "Test QE Input and Sym isolated.";
-  LineCellType* IsolatedLineCell = new LineCellType;
+  auto * IsolatedLineCell = new LineCellType;
   if( joinVertex->Evaluate( IsolatedLineCell->GetQEGeom( ) ) )
     {
     std::cout << "FAILED." << std::endl;

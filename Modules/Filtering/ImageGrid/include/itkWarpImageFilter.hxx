@@ -349,8 +349,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       // get the interpolated value
       if ( m_Interpolator->IsInsideBuffer(point) )
         {
-        PixelType value =
-          static_cast< PixelType >( m_Interpolator->Evaluate(point) );
+        auto value = static_cast< PixelType >( m_Interpolator->Evaluate(point) );
         outputIt.Set(value);
         }
       else
@@ -380,8 +379,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       // get the interpolated value
       if ( m_Interpolator->IsInsideBuffer(point) )
         {
-        PixelType value =
-          static_cast< PixelType >( m_Interpolator->Evaluate(point) );
+        auto value = static_cast< PixelType >( m_Interpolator->Evaluate(point) );
         outputIt.Set(value);
         }
       else
@@ -403,8 +401,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the input image
-  InputImageType * inputPtr =
-    const_cast< InputImageType * >( this->GetInput() );
+  auto * inputPtr = const_cast< InputImageType * >( this->GetInput() );
 
   if ( inputPtr )
     {
@@ -417,8 +414,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   // the smallest region of the deformation field that fully
   // contains the physical space covered by the output's requested
   // region, se we do the easy thing and request the largest possible region
-  DisplacementFieldType *fieldPtr =
-    const_cast<DisplacementFieldType *>(this->GetDisplacementField());
+  auto * fieldPtr = const_cast<DisplacementFieldType *>(this->GetDisplacementField());
   const OutputImageType *outputPtr = this->GetOutput();
   if ( fieldPtr != nullptr )
     {

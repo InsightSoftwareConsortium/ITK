@@ -116,8 +116,7 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
     sum += ( *tIt );
     sumOfSquares += ( ( *tIt ) * ( *tIt ) );
     }
-  OutputPixelRealType num =
-    static_cast< OutputPixelRealType >( this->GetOperator().Size() );
+  auto num = static_cast< OutputPixelRealType >( this->GetOperator().Size() );
   OutputPixelRealType mean = sum / num;
   OutputPixelRealType var = ( sumOfSquares - ( sum * sum / num ) ) / ( num - 1.0 );
   OutputPixelRealType std = std::sqrt(var);

@@ -79,7 +79,7 @@ double
 ChiSquareDistribution
 ::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  double dof = static_cast< double >( degreesOfFreedom );
+  auto dof = static_cast< double >( degreesOfFreedom );
   double dofon2 = 0.5 * dof;
   double pdf = 0.0;
 

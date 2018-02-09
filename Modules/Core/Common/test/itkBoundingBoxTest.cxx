@@ -170,7 +170,7 @@ int itkBoundingBoxTest (int, char*[])
   // Testing the corners
   std::cout << "Testing GetCorners() : ";
   const CC::PointsContainer * corners = my3DBox->GetCorners();
-  CC::PointsContainer::const_iterator it = corners->begin();
+  auto it = corners->begin();
   unsigned int j=0;
   while(it != corners->end())
     {

@@ -50,8 +50,7 @@ const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::Sour
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GetSourceImage() const
 {
-  const SourceImageType *sourceImage =
-    dynamic_cast< const SourceImageType * >( this->ProcessObject::GetInput(1) );
+  const auto * sourceImage = dynamic_cast< const SourceImageType * >( this->ProcessObject::GetInput(1) );
 
   return sourceImage;
 }
@@ -70,8 +69,7 @@ const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::Inpu
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GetDestinationImage() const
 {
-  const InputImageType *destinationImage =
-    dynamic_cast< const InputImageType * >( this->ProcessObject::GetInput(0) );
+  const auto * destinationImage = dynamic_cast< const InputImageType * >( this->ProcessObject::GetInput(0) );
 
   return destinationImage;
 }

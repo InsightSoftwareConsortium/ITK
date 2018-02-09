@@ -85,7 +85,7 @@ LevelSetSparseImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *levelSet = dynamic_cast< const Self* >( data );
+  const auto * levelSet = dynamic_cast< const Self* >( data );
 
   if ( !levelSet )
     {
@@ -109,7 +109,7 @@ template< typename TOutput, unsigned int VDimension >
 const typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
 LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value ) const
 {
-  LayerMapConstIterator it = m_Layers.find( value );
+  auto it = m_Layers.find( value );
   if( it == m_Layers.end() )
     {
     itkGenericExceptionMacro( <<"This layer does not exist" );
@@ -122,7 +122,7 @@ template< typename TOutput, unsigned int VDimension >
 typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
 LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value )
 {
-  LayerMapIterator it = m_Layers.find( value );
+  auto it = m_Layers.find( value );
   if( it == m_Layers.end() )
     {
     itkGenericExceptionMacro( <<"This layer does not exist" );
@@ -168,7 +168,7 @@ LevelSetSparseImage< TOutput, VDimension >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = dynamic_cast< const Self* >( data );
+  const auto * LevelSet = dynamic_cast< const Self* >( data );
 
   if ( !LevelSet )
     {
@@ -195,8 +195,8 @@ LevelSetSparseImage< TOutput, VDimension >
     return object;
     }
 
-  typename LayerIdListType::iterator lIt = this->m_InternalLabelList.begin();
-  typename LayerIdListType::iterator lEnd = this->m_InternalLabelList.end();
+  auto lIt = this->m_InternalLabelList.begin();
+  auto lEnd = this->m_InternalLabelList.end();
 
   while( lIt != lEnd )
     {

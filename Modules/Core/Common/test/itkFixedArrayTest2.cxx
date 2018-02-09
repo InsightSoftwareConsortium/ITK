@@ -38,7 +38,7 @@ int itkFixedArrayTest2(int, char* [] )
   // Declare an array of nelements FixedArray
   // and add a small margin to play with pointers
   // but not map outside the allocated memory
-  ArrayType * vec = new ArrayType[nelements+8];
+  auto * vec = new ArrayType[nelements+8];
 
   // Fill it up with zeros
   memset(vec,0,(nelements+8)*sizeof(ArrayType));
@@ -71,7 +71,7 @@ int itkFixedArrayTest2(int, char* [] )
   // We now force an 8 bytes aligned array
 
   // Cast the pointer to char to play with bytes
-  char * p = reinterpret_cast<char*>( vec );
+  auto * p = reinterpret_cast<char*>( vec );
 
   // Move the char pointer until it is aligned on 8 bytes
   while ( ( (size_t)p ) % 8 )
@@ -80,7 +80,7 @@ int itkFixedArrayTest2(int, char* [] )
     }
 
   // Cast the 8 bytes aligned pointer back to the original type
-  ArrayType * vec2 = reinterpret_cast<ArrayType*>( p );
+  auto * vec2 = reinterpret_cast<ArrayType*>( p );
 
   // Make sure the new pointer is well aligned by
   // displaying the alignment

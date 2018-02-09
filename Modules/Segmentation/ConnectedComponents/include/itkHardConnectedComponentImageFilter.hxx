@@ -38,7 +38,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
 
   using LabelType = unsigned short;
 
-  LabelType * equivalenceTable = new LabelType[NumericTraits < LabelType > ::max()];
+  auto * equivalenceTable = new LabelType[NumericTraits < LabelType > ::max()];
   LabelType label = 0;
   LabelType maxLabel = 0;
   IndexType index;
@@ -164,7 +164,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  unsigned char * flags = new unsigned char[NumericTraits < LabelType > ::max()];
+  auto * flags = new unsigned char[NumericTraits < LabelType > ::max()];
   memset(flags, 0, maxLabel + 1);
   for ( iter = m_Seeds.begin(); iter != m_Seeds.end(); iter++ )
     {

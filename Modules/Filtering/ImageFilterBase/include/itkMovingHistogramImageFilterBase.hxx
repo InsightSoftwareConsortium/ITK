@@ -173,7 +173,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
     }
 
   i = 0;
-  for ( typename MapCountType::iterator it = invertedCount.begin(); it != invertedCount.end(); it++, i++ )
+  for ( auto it = invertedCount.begin(); it != invertedCount.end(); it++, i++ )
     {
     m_Axes[i] = it->m_Dimension;
     }

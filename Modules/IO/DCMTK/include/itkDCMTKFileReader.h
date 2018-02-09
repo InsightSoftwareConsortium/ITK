@@ -120,7 +120,7 @@ public:
                        << element << std::dec);
         }
       const char *data = val.c_str();
-      const TType *fptr = reinterpret_cast<const TType *>(data);
+      const auto * fptr = reinterpret_cast<const TType *>(data);
       target = *fptr;
       return EXIT_SUCCESS;
 
@@ -145,7 +145,7 @@ public:
                        << element << std::dec);
         }
       const char *data = val.c_str();
-      const TType *fptr = reinterpret_cast<const TType *>(data);
+      const auto * fptr = reinterpret_cast<const TType *>(data);
       for(int i = 0; i < count; ++i)
         {
         target[i] = fptr[i];
@@ -186,8 +186,7 @@ public:
         {
         return EXIT_FAILURE;
         }
-      DcmDecimalString *dsItem =
-        dynamic_cast<DcmDecimalString *>(resultStack.top());
+      auto * dsItem = dynamic_cast<DcmDecimalString *>(resultStack.top());
       if(dsItem == nullptr)
         {
         DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag "
@@ -279,7 +278,7 @@ public:
                        << group << " " << std::hex
                        << element << std::dec);
         }
-      DcmDecimalString *dsItem = dynamic_cast<DcmDecimalString *>(el);
+      auto * dsItem = dynamic_cast<DcmDecimalString *>(el);
       if(dsItem == nullptr)
         {
         DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
@@ -327,7 +326,7 @@ public:
                        << element << std::dec);
         }
       const char *data = val.c_str();
-      const TType *fptr = reinterpret_cast<const TType *>(data);
+      const auto * fptr = reinterpret_cast<const TType *>(data);
       target = *fptr;
       switch(this->GetTransferSyntax())
         {

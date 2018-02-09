@@ -91,8 +91,8 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
 
   // Test the resulting FEMOBject
   bool               foundError = false;
-  const unsigned int expectedNumberOfNodes = static_cast<unsigned int>( atoi( argv[8] ) );
-  const unsigned int expectedNumberOfElements = static_cast<unsigned int>( atoi( argv[9] ) );
+  const auto expectedNumberOfNodes = static_cast<unsigned int>( atoi( argv[8] ) );
+  const auto expectedNumberOfElements = static_cast<unsigned int>( atoi( argv[9] ) );
 
   vnl_vector<unsigned int> testPixelsPerElement = meshFilter->GetPixelsPerElement();
   vnl_vector<unsigned int> testNumberOfElements = meshFilter->GetNumberOfElements();
@@ -194,10 +194,10 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
     }
 
 
-  const unsigned int numberOfNodesToTest = static_cast<unsigned int>( atoi( argv[10] ) );
+  const auto numberOfNodesToTest = static_cast<unsigned int>( atoi( argv[10] ) );
   for( unsigned int i = 0; i < numberOfNodesToTest; i++ )
     {
-    unsigned int       nodeNumber = static_cast<unsigned int>( atoi( argv[11 + i * 4] ) );
+    auto nodeNumber = static_cast<unsigned int>( atoi( argv[11 + i * 4] ) );
     vnl_vector<double> loc;
     loc.set_size(3);
     loc[0] = atof( argv[11 + i * 4 + 1] );
@@ -222,10 +222,10 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
 
     }
 
-  const unsigned int numberOfElementsToTest = static_cast<unsigned int>( atoi( argv[11 + numberOfNodesToTest * 4] ) );
+  const auto numberOfElementsToTest = static_cast<unsigned int>( atoi( argv[11 + numberOfNodesToTest * 4] ) );
   for( unsigned int i = 0; i < numberOfElementsToTest; i++ )
     {
-    unsigned int    elementNumber = static_cast<unsigned int>( atoi( argv[12 + numberOfNodesToTest * 4 + i * 9] ) );
+    auto elementNumber = static_cast<unsigned int>( atoi( argv[12 + numberOfNodesToTest * 4 + i * 9] ) );
     vnl_vector<int> nodes;
     nodes.set_size(8);
     nodes[0] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 1] );

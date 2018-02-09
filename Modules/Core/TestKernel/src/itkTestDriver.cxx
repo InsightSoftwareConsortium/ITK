@@ -177,7 +177,7 @@ void AddEntriesBeforeEnvironmentWithSeparator( const ArgumentsList & args )
 int TestDriverInvokeProcess( const ArgumentsList & args )
 {
   // a nullptr is required at the end of the table
-  char ** argv = new char *[args.size() + 1];
+  auto ** argv = new char *[args.size() + 1];
   for ( unsigned int i = 0; i < args.size(); i++ )
     {
     argv[i] = args[i];

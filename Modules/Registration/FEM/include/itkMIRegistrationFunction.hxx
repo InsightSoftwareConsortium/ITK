@@ -143,7 +143,7 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 
   typename FixedImageType::SizeType hradius = this->GetRadius();
 
-  FixedImageType *img = const_cast< FixedImageType * >( this->m_FixedImage.GetPointer() );
+  auto * img = const_cast< FixedImageType * >( this->m_FixedImage.GetPointer() );
   typename FixedImageType::SizeType imagesize = img->GetLargestPossibleRegion().GetSize();
 
   bool inimage;
@@ -393,8 +393,8 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   double msigma = 0.0;
   double jointsigma = 0.0;
 
-  const double numsamplesB = (double)fixedSamplesB.size();
-  const double numsamplesA = (double)fixedSamplesA.size();
+  const auto numsamplesB = (double)fixedSamplesB.size();
+  const auto numsamplesA = (double)fixedSamplesA.size();
   double nsamp = numsamplesB;
 //  if (maxf == minf && maxm == minm) return update;
 //    else std::cout << " b samps " << fixedSamplesB.size()

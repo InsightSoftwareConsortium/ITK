@@ -90,9 +90,9 @@ MersenneTwisterRandomVariateGenerator
   // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk
 
   IntegerType    h1 = 0;
-  unsigned char *p = (unsigned char *)&t;
+  auto * p = (unsigned char *)&t;
 
-  const unsigned int sizeOfT = static_cast< unsigned int >( sizeof(t) );
+  const auto sizeOfT = static_cast< unsigned int >( sizeof(t) );
   for ( unsigned int i = 0; i < sizeOfT; ++i )
     {
     h1 *= UCHAR_MAX + 2U;
@@ -101,7 +101,7 @@ MersenneTwisterRandomVariateGenerator
   IntegerType h2 = 0;
   p = (unsigned char *)&c;
 
-  const unsigned int sizeOfC = static_cast< unsigned int >( sizeof(c) );
+  const auto sizeOfC = static_cast< unsigned int >( sizeof(c) );
   for ( unsigned int j = 0; j < sizeOfC; ++j )
     {
     h2 *= UCHAR_MAX + 2U;

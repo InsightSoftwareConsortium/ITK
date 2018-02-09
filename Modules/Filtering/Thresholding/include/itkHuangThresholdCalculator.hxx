@@ -78,7 +78,7 @@ HuangThresholdCalculator<THistogram, TOutput>
     }
 
   // precalculate the summands of the entropy given the absolute difference x - mu (integral)
-  double C = static_cast< double >( m_LastBin - m_FirstBin );
+  auto C = static_cast< double >( m_LastBin - m_FirstBin );
   std::vector<double> Smu(m_LastBin + 1 - m_FirstBin, 0);
 
   for( size_t i = 1; i < Smu.size(); i++)
@@ -106,7 +106,7 @@ HuangThresholdCalculator<THistogram, TOutput>
        threshold < m_LastBin; threshold++ )
     {
     double entropy = 0.;
-    MeasurementType mu = Math::Round< MeasurementType >(W[threshold] / S[threshold]);
+    auto mu = Math::Round< MeasurementType >(W[threshold] / S[threshold]);
 
     typename HistogramType::MeasurementVectorType v(1);
     v[0] = mu;
@@ -120,7 +120,7 @@ HuangThresholdCalculator<THistogram, TOutput>
       for( InstanceIdentifier i = m_FirstBin; i <= threshold; i++ )
         {
         const typename HistogramType::IndexValueType signedDiff = static_cast< typename HistogramType::IndexValueType >( i ) - muIdx;
-        const InstanceIdentifier diff = static_cast< InstanceIdentifier >( signedDiff < 0 ? -signedDiff : signedDiff );
+        const auto diff = static_cast< InstanceIdentifier >( signedDiff < 0 ? -signedDiff : signedDiff );
         itkAssertInDebugAndIgnoreInReleaseMacro( diff < Smu.size() );
 
         entropy += Smu[ diff ] * histogram->GetFrequency(i, 0);
@@ -137,7 +137,7 @@ HuangThresholdCalculator<THistogram, TOutput>
       for( InstanceIdentifier i = threshold + 1; i <= m_LastBin; i++ )
         {
         const typename HistogramType::IndexValueType signedDiff = static_cast< typename HistogramType::IndexValueType >( i ) - muIdx;
-        const InstanceIdentifier diff = static_cast< InstanceIdentifier >( signedDiff < 0 ? -signedDiff : signedDiff );
+        const auto diff = static_cast< InstanceIdentifier >( signedDiff < 0 ? -signedDiff : signedDiff );
         entropy += Smu[ diff ] * histogram->GetFrequency(i, 0);
         }
       if (bestEntropy > entropy)

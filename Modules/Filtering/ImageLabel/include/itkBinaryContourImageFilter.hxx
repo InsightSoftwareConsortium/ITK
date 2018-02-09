@@ -402,9 +402,9 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   OutputImagePointer output = this->GetOutput();
 
   // out marker iterator
-  LineEncodingConstIterator mIt = Neighbour.begin();
+  auto mIt = Neighbour.begin();
 
-  for ( LineEncodingIterator cIt = current.begin();
+  for ( auto cIt = current.begin();
         cIt != current.end();
         ++cIt )
     {
@@ -414,7 +414,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 
     bool lineCompleted = false;
 
-    for ( LineEncodingConstIterator nIt = mIt;
+    for ( auto nIt = mIt;
           nIt != Neighbour.end() && !lineCompleted;
           ++nIt )
       {

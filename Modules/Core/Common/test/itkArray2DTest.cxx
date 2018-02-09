@@ -37,7 +37,7 @@ int itkArray2DTest(int, char* [] )
     {
     for( unsigned int c=0; c<cols; c++)
       {
-      const double value = static_cast<double>( r + c );
+      const auto value = static_cast<double>( r + c );
       a.SetElement(r,c,value);
       vm(r,c) = value;
       }

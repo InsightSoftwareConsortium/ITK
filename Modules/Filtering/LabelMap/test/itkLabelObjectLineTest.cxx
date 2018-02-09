@@ -32,7 +32,7 @@ int itkLabelObjectLineTest(int, char* [] )
   nextIndex[0] = 14;
   nextIndex[1] = 7;
 
-  LabelObjectLineType *labelLine = new LabelObjectLineType;
+  auto * labelLine = new LabelObjectLineType;
   labelLine->SetIndex(currentIndex);
   labelLine->SetLength(11);
 

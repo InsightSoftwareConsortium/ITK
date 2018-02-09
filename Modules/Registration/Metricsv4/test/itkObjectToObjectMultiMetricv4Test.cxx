@@ -165,7 +165,7 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
 
   for( MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++ )
     {
-    MultiMetricType::DerivativeValueType tolerance = static_cast<MultiMetricType::DerivativeValueType> (1e-6);
+    auto tolerance = static_cast<MultiMetricType::DerivativeValueType> (1e-6);
     if( std::fabs(DerivResultOfGetValueAndDerivativeTruth[p] - DerivResultOfGetValueAndDerivative[p]) > tolerance )
       {
       std::cerr << "Error: DerivResultOfGetValueAndDerivative does not match expected result." << std::endl;
@@ -485,7 +485,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
 
   // Check that results are the same for all three estimations
   bool passedEstimation = true;
-  ScalesEstimatorMultiType::FloatType tolerance = static_cast<ScalesEstimatorMultiType::FloatType>(1e-6);
+  auto tolerance = static_cast<ScalesEstimatorMultiType::FloatType>(1e-6);
   if( std::fabs(singleStep - multiSingleStep) > tolerance || std::fabs(singleStep - multiDoubleStep) > tolerance )
     {
     std::cerr << "Steps do not match as expected between estimation on same metric." << std::endl;

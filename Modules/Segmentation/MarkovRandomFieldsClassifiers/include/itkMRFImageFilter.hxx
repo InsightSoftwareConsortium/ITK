@@ -82,8 +82,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
      << static_cast< SizeValueType >( m_MRFNeighborhoodWeight.size() ) << std::endl;
 
   os << indent << " Neighborhood weight : [";
-  const unsigned int neighborhoodWeightSize =
-    static_cast< unsigned int >( m_MRFNeighborhoodWeight.size() );
+  const auto neighborhoodWeightSize = static_cast< unsigned int >( m_MRFNeighborhoodWeight.size() );
   for ( i = 0; i + 1 < neighborhoodWeightSize; i++ )
     {
     os << m_MRFNeighborhoodWeight[i] << ", ";
@@ -198,8 +197,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 
   while ( !outImageIt.IsAtEnd() )
     {
-    LabelledImagePixelType labelvalue =
-      (LabelledImagePixelType)labelledImageIt.Get();
+    auto labelvalue = (LabelledImagePixelType)labelledImageIt.Get();
 
     outImageIt.Set(labelvalue);
     ++labelledImageIt;
@@ -457,7 +455,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
     totalNumberOfPixelsInInputImage *= static_cast< int >( inputImageSize[i] );
     }
 
-  int maxNumPixelError = Math::Round< int >(m_ErrorTolerance
+  auto maxNumPixelError = Math::Round< int >(m_ErrorTolerance
                                             * m_TotalNumberOfValidPixelsInOutputImage);
 
   m_NumberOfIterations = 0;
@@ -561,14 +559,11 @@ MRFImageFilter< TInputImage, TClassifiedImage >
                                     m_LabelStatusImage->GetBufferedRegion(),
                                     m_LabelStatusImageNeighborhoodRadius);
   //Set up a face list iterator
-  InputImageFaceListIterator inputImageFaceListIter =
-    inputImageFaceList.begin();
+  auto inputImageFaceListIter = inputImageFaceList.begin();
 
-  LabelledImageFaceListIterator labelledImageFaceListIter =
-    labelledImageFaceList.begin();
+  auto labelledImageFaceListIter = labelledImageFaceList.begin();
 
-  LabelStatusImageFaceListIterator labelStatusImageFaceListIter =
-    labelStatusImageFaceList.begin();
+  auto labelStatusImageFaceListIter = labelStatusImageFaceList.begin();
 
   //Walk through the entire data set (not visiting the boundaries )
   InputImageNeighborhoodIterator

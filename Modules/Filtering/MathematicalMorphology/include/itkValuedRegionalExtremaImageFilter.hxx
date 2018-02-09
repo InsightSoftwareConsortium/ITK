@@ -53,7 +53,7 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImageType * input = const_cast< InputImageType * >( this->GetInput() );
+  auto * input = const_cast< InputImageType * >( this->GetInput() );
   if ( !input )
     {
     return;
@@ -166,7 +166,7 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
         // reposition the input iterator
         inNIt += outIt.GetIndex() - inNIt.GetIndex();
 
-        InputImagePixelType Cent = static_cast< InputImagePixelType >( V );
+        auto Cent = static_cast< InputImagePixelType >( V );
 
         // check each neighbor of the input pixel
         typename ConstInputIterator::ConstIterator sIt;

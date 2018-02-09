@@ -264,7 +264,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    const itk::AmoebaOptimizerv4 *optimizer = static_cast< const itk::AmoebaOptimizerv4 * >( object );
+    const auto * optimizer = static_cast< const itk::AmoebaOptimizerv4 * >( object );
     if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) != nullptr)
       {
       std::cout << m_IterationNumber++ << ":  ";

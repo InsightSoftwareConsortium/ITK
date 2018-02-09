@@ -145,8 +145,7 @@ DiffusionTensor3D< T >
     // sense in those cases as any other number.
     if(anisotropy > 0.0)
       {
-      const RealValueType fractionalAnisotropy =
-        static_cast< RealValueType >( std::sqrt( anisotropy / ( 2.0 * isp ) ) );
+      const auto fractionalAnisotropy = static_cast< RealValueType >( std::sqrt( anisotropy / ( 2.0 * isp ) ) );
       return fractionalAnisotropy;
       }
     }
@@ -179,11 +178,9 @@ DiffusionTensor3D< T >
     return NumericTraits< RealValueType >::ZeroValue();
     }
 
-  const RealValueType relativeAnisotropySquared =
-    static_cast< RealValueType >( anisotropy / ( std::sqrt(3.0) * trace ) );
+  const auto relativeAnisotropySquared = static_cast< RealValueType >( anisotropy / ( std::sqrt(3.0) * trace ) );
 
-  const RealValueType relativeAnisotropy =
-    static_cast< RealValueType >( std::sqrt(relativeAnisotropySquared) );
+  const auto relativeAnisotropy = static_cast< RealValueType >( std::sqrt(relativeAnisotropySquared) );
 
   return relativeAnisotropy;
 }

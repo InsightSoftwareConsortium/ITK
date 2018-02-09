@@ -92,7 +92,7 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   const IndexType oindex = it.GetIndex();
 
   const typename FixedImageType::SizeType hradius = it.GetRadius();
-  FixedImageType *img = const_cast< FixedImageType * >( this->m_FixedImage.GetPointer() );
+  auto * img = const_cast< FixedImageType * >( this->m_FixedImage.GetPointer() );
   const typename FixedImageType::SizeType imagesize = img->GetLargestPossibleRegion().GetSize();
 
   NeighborhoodIterator< FixedImageType >
@@ -129,7 +129,7 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
       // Get fixed image related information.
       // Note: no need to check the index is within fixed image buffer.
       // This is done by the external filter.
-      const double fixedValue = (double)this->m_FixedImage->GetPixel(index);
+      const auto fixedValue = (double)this->m_FixedImage->GetPixel(index);
       const CovariantVectorType fixedGradient =
         m_FixedImageGradientCalculator->EvaluateAtIndex(index);
       double fixedGradientSquaredMagnitude = 0;

@@ -90,7 +90,7 @@ public:
    * data should also be initialized in this method. */
   void * GetGlobalDataPointer() const override
   {
-    GlobalDataStruct *ans = new GlobalDataStruct();
+    auto * ans = new GlobalDataStruct();
 
     ans->m_MaxChange   = NumericTraits< ScalarValueType >::ZeroValue();
     return ans;

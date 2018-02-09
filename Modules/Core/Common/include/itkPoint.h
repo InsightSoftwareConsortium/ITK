@@ -237,7 +237,7 @@ public:
 
     for ( unsigned int i = 0; i < NPointDimension; i++ )
       {
-      const RealType component =  static_cast< RealType >( pa[i] );
+      const auto component =  static_cast< RealType >( pa[i] );
       const RealType difference = static_cast< RealType >( ( *this )[i] ) - component;
       sum += difference * difference;
       }

@@ -71,9 +71,9 @@ unsigned int IPLCommonImageIO::GetComponentSize() const
 
 void IPLCommonImageIO::Read(void *buffer)
 {
-  short int *                   img_buffer = (short int *)buffer;
-  IPLFileNameList::IteratorType it = m_FilenameList->begin();
-  IPLFileNameList::IteratorType itend = m_FilenameList->end();
+  auto * img_buffer = (short int *)buffer;
+  auto it = m_FilenameList->begin();
+  auto itend = m_FilenameList->end();
 
   for (; it != itend; it++ )
     {
@@ -505,7 +505,7 @@ int IPLCommonImageIO
 ::statTimeToAscii(void *clock, char *timeString,int len)
 {
 
-  time_t tclock = (time_t)*( (int *)clock );
+  auto tclock = (time_t)*( (int *)clock );
   const char * const asciiTime = ctime (&tclock);
 
   strncpy (timeString, asciiTime, len);

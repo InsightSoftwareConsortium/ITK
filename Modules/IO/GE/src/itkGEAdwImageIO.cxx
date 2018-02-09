@@ -98,7 +98,7 @@ GEImageHeader * GEAdwImageIO::ReadHeader(const char *FileNameToRead)
     {
     RAISE_EXCEPTION();
     }
-  GEImageHeader *hdr = new GEImageHeader;
+  auto * hdr = new GEImageHeader;
   if ( hdr == nullptr )
     {
     RAISE_EXCEPTION();

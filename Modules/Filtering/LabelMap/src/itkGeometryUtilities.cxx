@@ -63,7 +63,7 @@ double
 GeometryUtilities
 ::HyperSphereVolume(const int dim, const double radius)
 {
-  const double dbldim = static_cast< double >( dim );
+  const auto dbldim = static_cast< double >( dim );
 
   return std::pow(itk::Math::pi, dbldim * 0.5) * std::pow(radius, dbldim) / GammaN2p1(dim);
 }

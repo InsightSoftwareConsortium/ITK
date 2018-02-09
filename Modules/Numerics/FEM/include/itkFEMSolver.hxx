@@ -159,7 +159,7 @@ typename Solver<VDimension>::FEMObjectType *
 Solver<VDimension>
 ::GetOutput(unsigned int idx)
   {
-  FEMObjectType* out = dynamic_cast<FEMObjectType *>
+  auto * out = dynamic_cast<FEMObjectType *>
     (this->ProcessObject::GetOutput(idx) );
 
   if( out == nullptr )
@@ -666,7 +666,7 @@ void Solver<VDimension>
     if( LoadBCMFC::Pointer c = dynamic_cast<LoadBCMFC *>( l0.GetPointer() ) )
       {
       // Step over all DOFs in MFC
-      for( LoadBCMFC::LhsType::iterator q = c->GetLeftHandSideArray().begin();
+      for( auto q = c->GetLeftHandSideArray().begin();
            q != c->GetLeftHandSideArray().end();
            q++ )
         {

@@ -71,8 +71,8 @@ public:
   inline TOutput operator()(const TInput1 & A,
                             const TInput2 & B) const
   {
-    const double dA = static_cast< double >( A );
-    const double dB = static_cast< double >( B );
+    const auto dA = static_cast< double >( A );
+    const auto dB = static_cast< double >( B );
     const double diff = dA - dB;
 
     return static_cast< TOutput >( diff * diff );

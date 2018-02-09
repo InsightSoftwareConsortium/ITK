@@ -112,8 +112,7 @@ bool
 RingBuffer< TElement >
 ::BufferIsFull(OffsetValueType offset)
 {
-  size_t bufferIndex =
-    static_cast<size_t>( this->GetOffsetBufferIndex(offset) );
+  auto bufferIndex = static_cast<size_t>( this->GetOffsetBufferIndex(offset) );
 
   return !(this->m_PointerVector[bufferIndex].IsNull());
 }
@@ -127,8 +126,7 @@ RingBuffer< TElement >
 ::GetBufferContents( OffsetValueType offset )
 {
   // Get the right buffer
-  size_t bufferIndex =
-    static_cast<size_t>( this->GetOffsetBufferIndex(offset) );
+  auto bufferIndex = static_cast<size_t>( this->GetOffsetBufferIndex(offset) );
 
   // Return the resulting image
   return this->m_PointerVector[bufferIndex];
@@ -145,8 +143,7 @@ RingBuffer< TElement >
                      ElementPointer element )
 {
   // Get the right buffer
-  size_t bufferIndex =
-    static_cast<size_t>( this->GetOffsetBufferIndex(offset) );
+  auto bufferIndex = static_cast<size_t>( this->GetOffsetBufferIndex(offset) );
 
   // Set the pointer
   this->m_PointerVector[bufferIndex] = element;
@@ -226,7 +223,7 @@ RingBuffer< TElement >
 ::GetOffsetBufferIndex(OffsetValueType offset)
 {
   OffsetValueType moddedOffset = itk::Math::abs(offset) % this->GetNumberOfBuffers();
-  OffsetValueType signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
+  auto signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
   if (offset >= 0)
     {
     return ( signedHeadIndex + moddedOffset) % this->GetNumberOfBuffers();

@@ -401,10 +401,8 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
   // Paint input image translated with respect to the SE CCs vectors
   // --> "( Xb0 UNION Xb1 UNION ... Xbn )"
   typename Superclass::ComponentVectorConstIterator vecIt;
-  typename Superclass::ComponentVectorConstIterator vecBeginIt =
-    this->KernelCCVectorBegin();
-  typename Superclass::ComponentVectorConstIterator vecEndIt =
-    this->KernelCCVectorEnd();
+  auto vecBeginIt = this->KernelCCVectorBegin();
+  auto vecEndIt = this->KernelCCVectorEnd();
 
   // iterator on output image
   ImageRegionIteratorWithIndex< OutputImageType >

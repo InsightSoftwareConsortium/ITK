@@ -58,7 +58,7 @@ ImageRegionSplitterDirection
 
   // determine the actual number of pieces that will be generated
   const SizeValueType range = regionSize[splitAxis];
-  const unsigned int valuesPerPiece = Math::Ceil< unsigned int >(range / (double)requestedNumber);
+  const auto valuesPerPiece = Math::Ceil< unsigned int >(range / (double)requestedNumber);
   const unsigned int maxPieceUsed = Math::Ceil< unsigned int >(range / (double)valuesPerPiece) - 1;
 
   return maxPieceUsed + 1;
@@ -86,8 +86,8 @@ ImageRegionSplitterDirection
     }
 
   // determine the actual number of pieces that will be generated
-  const double range = static_cast<double>(regionSize[splitAxis]);
-  const unsigned int valuesPerPiece = Math::Ceil< unsigned int >(range / static_cast<double>(numberOfPieces));
+  const auto range = static_cast<double>(regionSize[splitAxis]);
+  const auto valuesPerPiece = Math::Ceil< unsigned int >(range / static_cast<double>(numberOfPieces));
   const unsigned int maxPieceIdUsed = Math::Ceil< unsigned int >(range / static_cast<double>(valuesPerPiece)) - 1;
 
 

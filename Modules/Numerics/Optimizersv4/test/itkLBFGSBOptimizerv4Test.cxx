@@ -177,8 +177,7 @@ public:
     if( itk::IterationEvent().CheckEvent( &event ))
       {
       std::cout << "Received IterationEvent." << std::endl;
-      const itk::ObjectToObjectOptimizerBaseTemplate<double> *opt =
-        dynamic_cast<const itk::ObjectToObjectOptimizerBaseTemplate<double> *>(caller);
+      const auto * opt = dynamic_cast<const itk::ObjectToObjectOptimizerBaseTemplate<double> *>(caller);
       if (opt)
         {
         std::cout << " iteration  = " << opt->GetCurrentIteration() << std::endl;

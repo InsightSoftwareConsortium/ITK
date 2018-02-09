@@ -267,7 +267,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
   const PDFValueType movingImageParzenWindowTerm = movingImageValue / this->m_MattesAssociate->m_MovingImageBinSize - this->m_MattesAssociate->m_MovingImageNormalizedMin;
-  OffsetValueType movingImageParzenWindowIndex = static_cast<OffsetValueType>( movingImageParzenWindowTerm );
+  auto movingImageParzenWindowIndex = static_cast<OffsetValueType>( movingImageParzenWindowTerm );
 
   // Make sure the extreme values are in valid bins
   if( movingImageParzenWindowIndex < 2 )
@@ -342,7 +342,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   const bool transformIsDisplacement = this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField;
   while( pdfMovingIndex <= pdfMovingIndexMax )
     {
-    const PDFValueType val = static_cast<PDFValueType>( this->m_MattesAssociate->m_CubicBSplineKernel ->Evaluate( movingImageParzenWindowArg) );
+    const auto val = static_cast<PDFValueType>(
+      this->m_MattesAssociate->m_CubicBSplineKernel ->Evaluate( movingImageParzenWindowArg) );
     *( pdfPtr++ ) += val;
 
     if( doComputeDerivative )

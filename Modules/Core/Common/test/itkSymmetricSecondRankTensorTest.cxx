@@ -490,7 +490,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     float precision = 1e-6;
     for (unsigned int i=0;i<Float3DTensorType::InternalDimension;++i)
     {
-      float intVal = static_cast<float>(intTensor[i]);
+      auto intVal = static_cast<float>(intTensor[i]);
       if ( (floatTensor[i] - intVal) > precision ||
           (floatTensor2[i] - intVal) > precision ||
           (floatTensor3[i] - intVal) > precision )

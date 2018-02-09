@@ -187,7 +187,7 @@ void
 GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
-  TOutputImage *out = dynamic_cast< TOutputImage * >( output );
+  auto * out = dynamic_cast< TOutputImage * >( output );
 
   if ( out )
     {
@@ -276,7 +276,7 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
       if ( ImageDimension > 1 )
         {
-        const unsigned int imageDimensionMinus2 = static_cast< unsigned int >( ImageDimension - 2 );
+        const auto imageDimensionMinus2 = static_cast< unsigned int >( ImageDimension - 2 );
         lastFilter = m_SmoothingFilters[imageDimensionMinus2];
         lastFilter->UpdateLargestPossibleRegion();
         }
@@ -313,7 +313,9 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
       ot.GoToBegin();
       while ( !it.IsAtEnd() )
         {
-        OutputComponentType outValue = static_cast<OutputComponentType>( DefaultConvertPixelTraits<InternalRealType>::GetNthComponent( nc, it.Get() / spacing ) );
+        auto outValue = static_cast<OutputComponentType>(
+           DefaultConvertPixelTraits<InternalRealType>::GetNthComponent(
+           nc, it.Get() / spacing ) );
         ot.Set( outValue );
         ++it;
         ++ot;

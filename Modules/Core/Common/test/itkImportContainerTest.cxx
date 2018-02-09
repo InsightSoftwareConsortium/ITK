@@ -90,7 +90,7 @@ int itkImportContainerTest(int , char * [] )
   }
 
 // now repeat the tests with a user provided pointer
-  PixelType *myPtr = new float[2000];
+  auto * myPtr = new float[2000];
   {
   // Test 1: Create an empty container and print it
   ContainerType::Pointer container1 = ContainerType::New();

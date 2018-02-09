@@ -108,13 +108,8 @@ LandmarkDisplacementFieldSource< TOutputImage >
   // lack of constness in the PointSet. That is, the point
   // set is actually allowed to modify its points containers.
 
-  LandmarkContainer *sources =
-    const_cast< LandmarkContainer * >(
-      m_SourceLandmarks.GetPointer() );
-
-  LandmarkContainer *targets =
-    const_cast< LandmarkContainer * >(
-      m_TargetLandmarks.GetPointer() );
+  auto * sources = const_cast< LandmarkContainer * >( m_SourceLandmarks.GetPointer() );
+  auto * targets = const_cast< LandmarkContainer * >( m_TargetLandmarks.GetPointer() );
 
   m_KernelTransform->GetModifiableTargetLandmarks()->SetPoints(targets);
   m_KernelTransform->GetModifiableSourceLandmarks()->SetPoints(sources);

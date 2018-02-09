@@ -649,7 +649,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   double             p_n;
   double             f_n;
   double             cumulated = 0;
-  double             totalFrequency = double( this->GetTotalFrequency() );
+  auto totalFrequency = double( this->GetTotalFrequency() );
   double             binProportion;
   double             min, max, interval;
 
@@ -704,7 +704,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 ::Mean(unsigned int dimension) const
 {
   const unsigned int size = this->GetSize(dimension);
-  double             totalFrequency = double( this->GetTotalFrequency() );
+  auto totalFrequency = double( this->GetTotalFrequency() );
   double             sum = 0;
   for( unsigned int i = 0; i<size; i++ )
     {
@@ -758,10 +758,10 @@ Histogram< TMeasurement, TFrequencyContainer >
 {
   this->Superclass::Graft(thatObject);
 
-  const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+  const auto * thatConst = dynamic_cast< const Self * >( thatObject );
   if ( thatConst )
     {
-    Self *that = const_cast< Self * >( thatConst );
+    auto * that = const_cast< Self * >( thatConst );
     this->m_Size                  = that->m_Size;
     this->m_OffsetTable           = that->m_OffsetTable;
     this->m_FrequencyContainer    = that->m_FrequencyContainer;

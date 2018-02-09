@@ -641,7 +641,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // with value greater than the outermost layer.  Assign background pixels
   // INSIDE the sparse field layers to a new level set with value less than
   // the innermost layer.
-  const ValueType max_layer = static_cast< ValueType >( m_NumberOfLayers );
+  const auto max_layer = static_cast< ValueType >( m_NumberOfLayers );
 
   const ValueType outside_value  = ( max_layer + 1 ) * m_ConstantGradientValue;
   const ValueType inside_value = -( max_layer + 1 ) * m_ConstantGradientValue;
@@ -1157,7 +1157,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // with value less than the innermost layer.  Assign background pixels
   // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.
-  const ValueType max_layer = static_cast< ValueType >( m_NumberOfLayers );
+  const auto max_layer = static_cast< ValueType >( m_NumberOfLayers );
 
   const ValueType inside_value  = ( max_layer + 1 ) * m_ConstantGradientValue;
   const ValueType outside_value = -( max_layer + 1 ) * m_ConstantGradientValue;

@@ -22,7 +22,7 @@ namespace itk
 void WatershedMiniPipelineProgressCommand
 ::Execute(Object *caller, const EventObject & event)
 {
-  ProcessObject *po = dynamic_cast< ProcessObject * >( caller );
+  auto * po = dynamic_cast< ProcessObject * >( caller );
 
   if ( !po ) { return; }
 
@@ -41,7 +41,7 @@ void WatershedMiniPipelineProgressCommand
 void WatershedMiniPipelineProgressCommand
 ::Execute(const Object *caller, const EventObject & event)
 {
-  ProcessObject *po = dynamic_cast< ProcessObject * >( const_cast< Object * >( caller ) );
+  auto * po = dynamic_cast< ProcessObject * >( const_cast< Object * >( caller ) );
 
   if ( !po ) { return; }
 

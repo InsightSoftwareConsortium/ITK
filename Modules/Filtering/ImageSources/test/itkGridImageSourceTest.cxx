@@ -55,8 +55,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
 
 
   // Specify image parameters
-  ImageType::SizeValueType size =
-    static_cast< ImageType::SizeValueType >( atof( argv[2] ) );
+  auto size = static_cast< ImageType::SizeValueType >( atof( argv[2] ) );
   ImageType::SizeType imageSize;
   imageSize.Fill( size );
 
@@ -81,11 +80,10 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( scale, gridImage->GetScale() );
 
 
-  GridSourceType::ArrayType::ValueType sigmaValue =
-    static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[3] ) );
+  auto sigmaValue = static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[3] ) );
   GridSourceType::ArrayType sigma;
   sigma.Fill( sigmaValue );
-  bool variableSigma = static_cast< bool >( atoi( argv[4] ) );
+  auto variableSigma = static_cast< bool >( atoi( argv[4] ) );
 
   if( variableSigma )
     {
@@ -99,13 +97,12 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( sigma, gridImage->GetSigma() );
 
 
-  GridSourceType::ArrayType::ValueType spacing =
-    static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[5] ) );
+  auto spacing = static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[5] ) );
   GridSourceType::ArrayType gridSpacing;
   gridSpacing.Fill( spacing );
 
 
-  bool variableGridSpacing = static_cast< bool >( atoi( argv[6] ) );
+  auto variableGridSpacing = static_cast< bool >( atoi( argv[6] ) );
   if( variableGridSpacing )
     {
     for( unsigned int i = 0; i < gridSpacing.Size(); ++i )
@@ -117,15 +114,14 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( gridSpacing, gridImage->GetGridSpacing() );
 
 
-  GridSourceType::ArrayType::ValueType offset =
-    static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[7] ) );
+  auto offset = static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[7] ) );
   GridSourceType::ArrayType gridOffset;
   gridOffset.Fill( offset );
   gridImage->SetGridOffset( gridOffset );
   TEST_SET_GET_VALUE( gridOffset, gridImage->GetGridOffset() );
 
 
-  bool gridAllDimensions = static_cast< bool >( atoi( argv[8] ) );
+  auto gridAllDimensions = static_cast< bool >( atoi( argv[8] ) );
   GridSourceType::BoolArrayType whichDimension;
   whichDimension.Fill( gridAllDimensions );
 
@@ -138,7 +134,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( whichDimension, gridImage->GetWhichDimensions() );
 
 
-  bool useBSplineKernel = static_cast< bool >( atoi( argv[10] ) );
+  auto useBSplineKernel = static_cast< bool >( atoi( argv[10] ) );
   if( useBSplineKernel )
     {
     unsigned int bSplineOrder = atoi( argv[11] );

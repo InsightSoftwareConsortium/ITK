@@ -60,7 +60,7 @@ public:
       {
       return;
       }
-    const TFilter *optimizer = dynamic_cast< const TFilter * >( object );
+    const auto * optimizer = dynamic_cast< const TFilter * >( object );
 
     if( !optimizer )
       {
@@ -243,7 +243,7 @@ int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
   ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>( multiMetric, numberOfIterations, multiValueResult, multiDerivativeResult, 1.0, true );
 
   // Comparison between single-metric and multi-variate metric registrations
-  CorrelationMetricType::DerivativeValueType tolerance = static_cast<CorrelationMetricType::DerivativeValueType>(1e-6);
+  auto tolerance = static_cast<CorrelationMetricType::DerivativeValueType>(1e-6);
   if( std::fabs( multiDerivativeResult[0] - singleDerivativeResult[0] ) > tolerance ||
       std::fabs( multiDerivativeResult[1] - singleDerivativeResult[1] ) > tolerance )
       {

@@ -391,7 +391,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
   // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
   const PDFValueType windowTerm = static_cast<PDFValueType>( value ) / this->m_FixedImageBinSize - this->m_FixedImageNormalizedMin;
-  OffsetValueType pindex = static_cast<OffsetValueType>( windowTerm );
+  auto pindex = static_cast<OffsetValueType>( windowTerm );
 
   // Make sure the extreme values are in valid bins
   if( pindex < 2 )
@@ -505,8 +505,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 ::DerivativeBufferManager
 ::ReduceBuffer()
 {
-  typename std::vector<OffsetValueType>::iterator BufferOffsetContainerIter(this->m_BufferOffsetContainer.begin() );
-  typename std::vector<PDFValueType *>::iterator  BufferPDFValuesContainerIter(
+  auto BufferOffsetContainerIter(this->m_BufferOffsetContainer.begin() );
+  auto  BufferPDFValuesContainerIter(
     this->m_BufferPDFValuesContainer.begin() );
 
   // NOTE: Only need to write out portion of buffer filled.

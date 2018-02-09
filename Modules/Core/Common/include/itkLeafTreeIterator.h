@@ -169,7 +169,7 @@ LeafTreeIterator< TTreeType >::FindNextNode() const
 template< typename TTreeType >
 TreeIteratorBase< TTreeType > *LeafTreeIterator< TTreeType >::Clone()
 {
-  LeafTreeIterator< TTreeType > *clone = new LeafTreeIterator< TTreeType >(this->m_Tree);
+  auto * clone = new LeafTreeIterator< TTreeType >(this->m_Tree);
   *clone = *this;
   return clone;
 }

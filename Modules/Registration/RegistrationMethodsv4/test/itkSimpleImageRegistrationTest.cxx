@@ -59,7 +59,7 @@ public:
         std::cout << " \"" << object->GetObjectName() << "\"";
         }
       std::cout << std::endl;
-      const TFilter * filter = static_cast< const TFilter * >( object );
+      const auto * filter = static_cast< const TFilter * >( object );
 
       if( typeid( event ) != typeid( itk::MultiResolutionIterationEvent ) || object == nullptr )
         { return; }

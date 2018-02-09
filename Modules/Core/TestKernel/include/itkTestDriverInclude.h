@@ -929,7 +929,7 @@ int HashTestImage( const char *testImageFilename,
       itkGenericExceptionMacro( "Logic error!" );
     }
 
-  std::vector<std::string>::const_iterator iter = baselineMD5Vector.begin();
+  auto iter = baselineMD5Vector.begin();
   assert( baselineMD5Vector.size() );
   do
     {

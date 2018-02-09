@@ -255,7 +255,7 @@ TreeIteratorBase< TTreeType >::RemoveChild(int number)
     {
     return false;
     }
-  TreeNodeType *child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
+  auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
 
   if ( child != nullptr )
     {
@@ -312,7 +312,7 @@ TreeIteratorBase< TTreeType >::Disconnect()
   //keep node alive just a bit longer
   typename TreeNodeType::Pointer position = m_Position;
 
-  TreeNodeType *parent = dynamic_cast< TreeNodeType * >( m_Position->GetParent() );
+  auto * parent = dynamic_cast< TreeNodeType * >( m_Position->GetParent() );
   parent->Remove( const_cast< TreeNodeType * >( m_Position ) );
   m_Tree->Modified();
 
@@ -321,7 +321,7 @@ TreeIteratorBase< TTreeType >::Disconnect()
     // always add first child in list, because AddChild() removes the added node
     // from
     // its former parent (== m_position)
-    TreeNodeType *child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(0) );
+    auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(0) );
     parent->AddChild(child);
     }
 
@@ -374,7 +374,7 @@ bool TreeIteratorBase< TTreeType >::GoToChild(ChildIdentifier number)
     return false;
     }
 
-  TreeNodeType *next = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
+  auto * next = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
 
   if ( next == nullptr )
     {
@@ -411,7 +411,7 @@ TreeIteratorBase< TTreeType > *TreeIteratorBase< TTreeType >::GetChild(int numbe
     return nullptr;
     }
 
-  TreeNodeType *child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
+  auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
 
   if ( !child )
     {
@@ -504,7 +504,7 @@ TreeIteratorBase< TTreeType >::Remove()
   while ( m_Position->CountChildren() > 0 )  // remove all children
     {
     //always remove first child (id 0)
-    TreeNodeType *child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(0) );
+    auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(0) );
     m_Position->Remove(child);
     }
 

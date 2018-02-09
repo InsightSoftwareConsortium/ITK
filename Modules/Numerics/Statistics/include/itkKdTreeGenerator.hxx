@@ -190,8 +190,7 @@ KdTreeGenerator< TSample >
 
   using KdTreeNonterminalNodeType = KdTreeNonterminalNode< TSample >;
 
-  KdTreeNonterminalNodeType *nonTerminalNode =
-    new KdTreeNonterminalNodeType(partitionDimension,
+  auto * nonTerminalNode = new KdTreeNonterminalNodeType(partitionDimension,
                                   partitionValue,
                                   left,
                                   right);
@@ -221,8 +220,7 @@ KdTreeGenerator< TSample >
       }
     else
       {
-      KdTreeTerminalNode< TSample > *ptr =
-        new KdTreeTerminalNode< TSample >();
+      auto * ptr = new KdTreeTerminalNode< TSample >();
 
       for ( unsigned int j = beginIndex; j < endIndex; j++ )
         {

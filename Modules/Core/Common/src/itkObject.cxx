@@ -123,7 +123,7 @@ unsigned long
 SubjectImplementation::AddObserver(const EventObject & event,
                                    Command *cmd)
 {
-  Observer *ptr = new Observer(cmd, event.MakeObject(), m_Count);
+  auto * ptr = new Observer(cmd, event.MakeObject(), m_Count);
 
   m_Observers.push_back(ptr);
   m_Count++;
@@ -134,8 +134,8 @@ unsigned long
 SubjectImplementation::AddObserver(const EventObject & event,
                                    Command *cmd) const
 {
-  Observer *             ptr = new Observer(cmd, event.MakeObject(), m_Count);
-  SubjectImplementation *me = const_cast< SubjectImplementation * >( this );
+  auto * ptr = new Observer(cmd, event.MakeObject(), m_Count);
+  auto * me = const_cast< SubjectImplementation * >( this );
 
   me->m_Observers.push_back(ptr);
   me->m_Count++;
@@ -145,7 +145,7 @@ SubjectImplementation::AddObserver(const EventObject & event,
 void
 SubjectImplementation::RemoveObserver(unsigned long tag)
 {
-  for ( std::list< Observer * >::iterator i = m_Observers.begin();
+  for ( auto i = m_Observers.begin();
         i != m_Observers.end(); ++i )
     {
     if ( ( *i )->m_Tag == tag )
@@ -181,7 +181,7 @@ SubjectImplementation::InvokeEvent(const EventObject & event,
 
   SaveRestoreListModified save(this);
 
-  std::list< Observer * >::reverse_iterator i = m_Observers.rbegin();
+  auto i = m_Observers.rbegin();
   InvokeEventRecursion( event, self, i );
 }
 
@@ -191,7 +191,7 @@ SubjectImplementation::InvokeEvent(const EventObject & event,
 {
   SaveRestoreListModified save(this);
 
-  std::list< Observer * >::reverse_iterator i = m_Observers.rbegin();
+  auto i = m_Observers.rbegin();
   InvokeEventRecursion( event, self, i );
 }
 
@@ -507,7 +507,7 @@ Object
 {
   if ( !this->m_SubjectImplementation )
     {
-    Self *me = const_cast< Self * >( this );
+    auto * me = const_cast< Self * >( this );
     me->m_SubjectImplementation = new SubjectImplementation;
     }
   return this->m_SubjectImplementation->AddObserver(event, cmd);

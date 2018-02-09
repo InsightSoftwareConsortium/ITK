@@ -80,7 +80,7 @@ int main( int argc, char ** argv )
   faceList = faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
 
   IteratorType out;
-  const float rad = static_cast<float>(element_radius);
+  const auto rad = static_cast<float>(element_radius);
 
   constexpr PixelType background_value  = 0;
   constexpr PixelType foreground_value  = 255;

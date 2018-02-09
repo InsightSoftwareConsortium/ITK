@@ -103,7 +103,7 @@ public:
       throw ExceptionObject(__FILE__, __LINE__);
       }
     // access table
-    int index = (int)( ( x - m_CacheLowerBound ) / m_TableInc );
+    auto index = (int)( ( x - m_CacheLowerBound ) / m_TableInc );
     return m_CacheTable[index];
   }
 

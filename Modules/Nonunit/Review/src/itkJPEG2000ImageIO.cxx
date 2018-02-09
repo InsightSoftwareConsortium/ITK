@@ -535,10 +535,10 @@ void JPEG2000ImageIO::Read(void *buffer)
   const unsigned int starty = start[1];
   // const unsigned int startz = start[2];
 
-  OPJ_INT32 p_start_x = static_cast< OPJ_INT32 >( startx );
-  OPJ_INT32 p_start_y = static_cast< OPJ_INT32 >( starty );
-  OPJ_INT32 p_end_x   = static_cast< OPJ_INT32 >( startx + sizex );
-  OPJ_INT32 p_end_y   = static_cast< OPJ_INT32 >( starty + sizey );
+  auto p_start_x = static_cast< OPJ_INT32 >( startx );
+  auto p_start_y = static_cast< OPJ_INT32 >( starty );
+  auto p_end_x   = static_cast< OPJ_INT32 >( startx + sizex );
+  auto p_end_y   = static_cast< OPJ_INT32 >( starty + sizey );
 
   itkDebugMacro(<< "opj_set_decode_area() before");
   itkDebugMacro(<< "p_start_x = " << p_start_x);
@@ -583,7 +583,7 @@ void JPEG2000ImageIO::Read(void *buffer)
 
   bool l_go_on = true;
 
-  OPJ_BYTE *l_data = (OPJ_BYTE *)malloc(1000);
+  auto * l_data = (OPJ_BYTE *)malloc(1000);
 
   while ( l_go_on )
     {
@@ -698,7 +698,7 @@ void JPEG2000ImageIO::Read(void *buffer)
       // tile ROI iteration
       for ( unsigned int k = 0; k < numberOfComponents; k++ )
         {
-        unsigned char *charBuffer = (unsigned char *)buffer;
+        auto * charBuffer = (unsigned char *)buffer;
         charBuffer += k * sizePerComponentInBytes;
 
         charBuffer += initialStrideInBytes;
@@ -1010,7 +1010,7 @@ JPEG2000ImageIO
   itkDebugMacro(<< " START COPY BUFFER");
   if ( this->GetComponentType() == UCHAR )
     {
-    const unsigned char *charBuffer = (const unsigned char *)buffer;
+    const auto * charBuffer = (const unsigned char *)buffer;
     for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )
@@ -1023,7 +1023,7 @@ JPEG2000ImageIO
 
   if ( this->GetComponentType() == USHORT )
     {
-    const unsigned short *shortBuffer = (const unsigned short *)buffer;
+    const auto * shortBuffer = (const unsigned short *)buffer;
     for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )

@@ -690,7 +690,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // with value less than the innermost layer.  Assign background pixels
   // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.
-  const ValueType max_layer = static_cast< ValueType >( m_NumberOfLayers );
+  const auto max_layer = static_cast< ValueType >( m_NumberOfLayers );
 
   const ValueType outside_value  = ( max_layer + 1 ) * m_ConstantGradientValue;
   const ValueType inside_value = -( max_layer + 1 ) * m_ConstantGradientValue;
@@ -850,7 +850,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   // The SAFETY_FACTOR simple ensures that the number of nodes created
   // is larger than those required to start with for each thread.
-  unsigned int nodeNum = static_cast< unsigned int >( SAFETY_FACTOR * m_Layers[0]->Size()
+  auto nodeNum = static_cast< unsigned int >( SAFETY_FACTOR * m_Layers[0]->Size()
                                                       * ( 2 * m_NumberOfLayers + 1 ) / m_NumOfThreads );
 
   m_Data[ThreadId].m_LayerNodeStore->Reserve(nodeNum);
@@ -1158,8 +1158,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   ThreadIdType ThreadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
 
-  ParallelSparseFieldLevelSetThreadStruct *str =
-    (ParallelSparseFieldLevelSetThreadStruct *)
+  auto * str = (ParallelSparseFieldLevelSetThreadStruct *)
     ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   // allocate thread data: every thread allocates its own data
@@ -2321,7 +2320,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
         // if ALL new boundaries same as the original then NO NEED TO DO
         // ThreadedLoadBalance() next !!!
-        unsigned int newBoundary = static_cast< unsigned int >( ( j + ( j + k ) ) / 2 );
+        auto newBoundary = static_cast< unsigned int >( ( j + ( j + k ) ) / 2 );
         if ( newBoundary != m_Boundary[i] )
           {
           //
@@ -2531,7 +2530,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // with value less than the innermost layer.  Assign background pixels
   // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.
-  const ValueType max_layer = static_cast< ValueType >( m_NumberOfLayers );
+  const auto max_layer = static_cast< ValueType >( m_NumberOfLayers );
   const ValueType outside_value  = ( max_layer + 1 ) * m_ConstantGradientValue;
   const ValueType inside_value = -( max_layer + 1 ) * m_ConstantGradientValue;
 

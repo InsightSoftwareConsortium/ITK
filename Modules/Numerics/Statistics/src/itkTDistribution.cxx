@@ -80,7 +80,7 @@ double
 TDistribution
 ::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  double dof = static_cast< double >( degreesOfFreedom );
+  auto dof = static_cast< double >( degreesOfFreedom );
   double dofplusoneon2 = 0.5 * ( dof + 1.0 );
   double dofon2 = 0.5 * dof;
   double pdf;
@@ -396,7 +396,7 @@ TDistribution
     {
     if ( m_Parameters[0] > 2 )
       {
-      double dof = static_cast< double >( m_Parameters[0] );
+      auto dof = static_cast< double >( m_Parameters[0] );
 
       return dof / ( dof - 2.0 );
       }

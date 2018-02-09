@@ -233,7 +233,7 @@ int main(int, char *[])
     CellType * cell = cellIterator.Value();
     if( cell->GetType() == CellType::LINE_CELL )
       {
-      LineType * line = static_cast<LineType *>( cell );
+      auto * line = static_cast<LineType *>( cell );
       std::cout << "dimension = " << line->GetDimension();
       std::cout << " # points = " << line->GetNumberOfPoints();
       std::cout << std::endl;
@@ -266,7 +266,7 @@ int main(int, char *[])
       case CellType::VERTEX_CELL:
         {
         std::cout << "VertexCell : " << std::endl;
-        VertexType * line = dynamic_cast<VertexType *>( cell );
+        auto * line = dynamic_cast<VertexType *>( cell );
         std::cout << "dimension = " << line->GetDimension()      << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
@@ -274,7 +274,7 @@ int main(int, char *[])
       case CellType::LINE_CELL:
         {
         std::cout << "LineCell : " << std::endl;
-        LineType * line = dynamic_cast<LineType *>( cell );
+        auto * line = dynamic_cast<LineType *>( cell );
         std::cout << "dimension = " << line->GetDimension()      << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
@@ -282,7 +282,7 @@ int main(int, char *[])
       case CellType::TRIANGLE_CELL:
         {
         std::cout << "TriangleCell : " << std::endl;
-        TriangleType * line = dynamic_cast<TriangleType *>( cell );
+        auto * line = dynamic_cast<TriangleType *>( cell );
         std::cout << "dimension = " << line->GetDimension()      << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;

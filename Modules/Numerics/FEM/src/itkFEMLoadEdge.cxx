@@ -89,7 +89,7 @@ void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
   Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
   Fe.fill(0.0);
 
-  unsigned int NEdgePts = static_cast<unsigned int>( (EdgeIds[0]).size() );
+  auto NEdgePts = static_cast<unsigned int>( (EdgeIds[0]).size() );
   int EdgePt;
   // access the edge points.
   for( unsigned int i = 0; i < NEdgePts; i++ )

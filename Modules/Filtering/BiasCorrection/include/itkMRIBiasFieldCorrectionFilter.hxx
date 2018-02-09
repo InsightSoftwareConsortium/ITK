@@ -726,7 +726,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
                 << static_cast< SizeValueType >( m_Slabs.size() )
                 << " slabs.");
 
-  SlabRegionVectorIteratorType iter = m_Slabs.begin();
+  auto iter = m_Slabs.begin();
 
   BiasFieldType::DomainSizeType biasSize;
   this->GetBiasFieldSize(*iter, biasSize);
@@ -989,7 +989,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   OutputImageSizeType   tempSize = size;
   OutputImageIndexType  tempIndex = indexFirst;
 
-  SlabRegionVectorIteratorType iter = slabs.begin();
+  auto iter = slabs.begin();
   while ( iter != slabs.end() )
     {
     coordFirst2 = ( *iter ).GetIndex()[m_SlicingDirection];

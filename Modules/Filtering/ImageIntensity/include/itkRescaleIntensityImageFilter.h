@@ -76,7 +76,7 @@ public:
     TOutput  result = static_cast< TOutput >( value ) - static_cast< TOutput >( m_EpsilonCompensation );
 #else
     RealType value  = static_cast< RealType >( x ) * m_Factor + m_Offset;
-    TOutput  result = static_cast< TOutput >( value );
+    auto result = static_cast< TOutput >( value );
 #endif
     result = ( result > m_Maximum ) ? m_Maximum : result;
     result = ( result < m_Minimum ) ? m_Minimum : result;

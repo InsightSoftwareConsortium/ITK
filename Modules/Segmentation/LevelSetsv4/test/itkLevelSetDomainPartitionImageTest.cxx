@@ -98,7 +98,7 @@ int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
       break;
       }
 
-    ListType::iterator it=ll.begin();
+    auto it=ll.begin();
 
     while( it != ll.end() )
       {

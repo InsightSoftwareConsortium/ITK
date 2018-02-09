@@ -29,7 +29,7 @@ class IdentityMap
 public:
 unsigned int Evaluate(const TPixel *pixel)
 {
-  unsigned int pixval = static_cast<unsigned int>(*pixel);
+  auto pixval = static_cast<unsigned int>(*pixel);
   return pixval < TableSize ? pixval : TableSize - 1;
 }
 };

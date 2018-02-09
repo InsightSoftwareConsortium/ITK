@@ -248,7 +248,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   // call the superclass's implementation of this method
   Superclass::GenerateOutputRequestedRegion(ptr);
 
-  TOutputImage *refOutputPtr = itkDynamicCastInDebugMode< TOutputImage * >( ptr );
+  auto * refOutputPtr = itkDynamicCastInDebugMode< TOutputImage * >( ptr );
   if ( !refOutputPtr )
     {
     itkExceptionMacro(<< "Could not cast ptr to TOutputImage*.");
@@ -261,7 +261,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   using OutputPixelType = typename TOutputImage::PixelType;
   using OperatorType = GaussianOperator< OutputPixelType, ImageDimension >;
 
-  OperatorType *oper = new OperatorType;
+  auto * oper = new OperatorType;
   oper->SetMaximumError( this->GetMaximumError() );
 
   using SizeType = typename OutputImageType::SizeType;
@@ -414,7 +414,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   using OutputPixelType = typename TOutputImage::PixelType;
   using OperatorType = GaussianOperator< OutputPixelType, ImageDimension >;
 
-  OperatorType *oper = new OperatorType;
+  auto * oper = new OperatorType;
 
   typename TInputImage::SizeType radius;
 

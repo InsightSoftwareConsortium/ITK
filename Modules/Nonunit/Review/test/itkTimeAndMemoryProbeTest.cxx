@@ -31,19 +31,19 @@ int itkTimeAndMemoryProbeTest(int argc,char* argv[])
   timeProbe.Start();
 
   memoryProbes.Start("1KB Test");
-  char* foo = new char[1*1024];
+  auto * foo = new char[1*1024];
   memoryProbes.Stop("1KB Test");
 
   memoryProbes.Start("70KB Test");
-  char* foo2 = new char[70*1024];
+  auto * foo2 = new char[70*1024];
   memoryProbes.Stop("70KB Test");
 
   memoryProbes.Start("170KB Test");
-  char* foo3 = new char[170*1024];
+  auto * foo3 = new char[170*1024];
   memoryProbes.Stop("170KB Test");
 
   memoryProbes.Start("1024KB Test");
-  char* foo4 = new char[1024*1024];
+  auto * foo4 = new char[1024*1024];
   memoryProbes.Stop("1024KB Test");
 
   memoryProbes.Report( std::cout );

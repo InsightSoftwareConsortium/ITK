@@ -170,8 +170,8 @@ ArchetypeSeriesFileNames
   // It is also necessary to walk backward so that the numGroupStart
   // indices remain correct since the length of numbers we are replacing may
   // be different from the length of regExpString.
-  IntVectorType::reverse_iterator numGroupLengthItr = numGroupLength.rbegin();
-  IntVectorType::reverse_iterator numGroupStartItr  = numGroupStart.rbegin();
+  auto numGroupLengthItr = numGroupLength.rbegin();
+  auto numGroupStartItr  = numGroupStart.rbegin();
   while ( numGroupLengthItr != numGroupLength.rend()
           && numGroupStartItr != numGroupStart.rend() )
     {

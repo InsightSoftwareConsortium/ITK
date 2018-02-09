@@ -156,8 +156,8 @@ int itkNearestNeighborInterpolateImageFunctionTest( int , char*[] )
 
          if( interpolator->IsInsideBuffer( point ) )
            {
-           long expectedX = itk::Math::Round< long, double >(xxx);
-           long expectedY = itk::Math::Round< long, double >(yyy);
+           auto expectedX = itk::Math::Round< long, double >(xxx);
+           auto expectedY = itk::Math::Round< long, double >(yyy);
            const double expectedValue =
             static_cast<double>(expectedX) +
             3.0 * static_cast<double>(expectedY);

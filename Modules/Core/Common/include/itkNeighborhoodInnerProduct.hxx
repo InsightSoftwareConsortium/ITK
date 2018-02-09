@@ -43,8 +43,8 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
-  const unsigned int start  = static_cast< unsigned int >( s.start() );
-  const unsigned int stride = static_cast< unsigned int >( s.stride() );
+  const auto start  = static_cast< unsigned int >( s.start() );
+  const auto stride = static_cast< unsigned int >( s.stride() );
   for ( unsigned int i = start; o_it < op_end; i += stride, ++o_it )
     {
     sum += static_cast< AccumulateRealType >(
@@ -76,8 +76,8 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
-  const unsigned int start  = static_cast< unsigned int >( s.start() );
-  const unsigned int stride = static_cast< unsigned int >( s.stride() );
+  const auto start  = static_cast< unsigned int >( s.start() );
+  const auto stride = static_cast< unsigned int >( s.stride() );
   for ( unsigned int i = start; o_it < op_end; i += stride, ++o_it )
     {
     sum += static_cast< AccumulateRealType >(

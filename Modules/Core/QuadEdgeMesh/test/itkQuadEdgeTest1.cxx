@@ -31,9 +31,9 @@ int itkQuadEdgeTest1( int , char* [] )
 
   // Tests for the GetRot() SetRot() methods
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -76,8 +76,8 @@ int itkQuadEdgeTest1( int , char* [] )
 
     // Tests for the GetOnext() SetOnext() methods
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -102,7 +102,7 @@ int itkQuadEdgeTest1( int , char* [] )
       }
 
     // Verify that it can be changed.
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
     QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
 
     quadEdge1->SetOnext( quadEdge3 );
@@ -125,10 +125,10 @@ int itkQuadEdgeTest1( int , char* [] )
 
     // Tests for the GetSym() methods
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -214,12 +214,12 @@ int itkQuadEdgeTest1( int , char* [] )
     // Tests for the GetLnext() methods
     // returns the next edge with same left face
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -293,12 +293,12 @@ int itkQuadEdgeTest1( int , char* [] )
     // Tests for the GetRnext() methods
     // returns the next edge with same right face
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -376,15 +376,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // returns the next edge with same right face
     // and same destination
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -464,15 +464,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // returns the previous edge with same origin
     // and same destination
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -552,15 +552,15 @@ int itkQuadEdgeTest1( int , char* [] )
   // Tests for the GetLprev() methods
   // returns the previous edge with same left face
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -632,15 +632,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // Tests for the GetRprev() methods
     // returns the previous edge with same right face
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -714,15 +714,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // returns the previous edge with same right face
     // and same destination
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -800,10 +800,10 @@ int itkQuadEdgeTest1( int , char* [] )
 
     // Tests for the GetInvRot() methods
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -866,15 +866,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // returns the previous edge with same origin
     // and same destination
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -934,15 +934,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // Tests for the GetInvLnext() methods
     // returns the previous edge with same left face
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -1001,15 +1001,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // Tests for the GetInvRnext() methods
     // returns the previous edge with same right face
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -1069,15 +1069,15 @@ int itkQuadEdgeTest1( int , char* [] )
     // returns the previous edge with same right face
     // and same destination
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC = new QuadEdgeType;
-    QuadEdgeType * quadEdgeD = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
+    auto * quadEdgeB = new QuadEdgeType;
+    auto * quadEdgeC = new QuadEdgeType;
+    auto * quadEdgeD = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -1136,9 +1136,9 @@ int itkQuadEdgeTest1( int , char* [] )
 
     // Tests for the IsHalfEdge() method
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeA = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdgeA = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -1181,7 +1181,7 @@ int itkQuadEdgeTest1( int , char* [] )
 
     // Tests for the IsIsolated() method
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1192,7 +1192,7 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
 
     quadEdge1->SetOnext( quadEdge2 );
@@ -1216,12 +1216,12 @@ int itkQuadEdgeTest1( int , char* [] )
 
     // Tests for the IsEdgeInOnextRing() method
     { // create a local scope for these tests
-    QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
-    QuadEdgeType * quadEdge4 = new QuadEdgeType;
-    QuadEdgeType * quadEdge5 = new QuadEdgeType;
-    QuadEdgeType * quadEdge6 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
+    auto * quadEdge4 = new QuadEdgeType;
+    auto * quadEdge5 = new QuadEdgeType;
+    auto * quadEdge6 = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
@@ -1288,20 +1288,20 @@ int itkQuadEdgeTest1( int , char* [] )
     //                   C   quadEdgeC1-->       //
     //                                           //
     //                                           //
-    QuadEdgeType * quadEdgeA1 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeA2 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeA3 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeA4 = new QuadEdgeType;
+    auto * quadEdgeA1 = new QuadEdgeType;
+    auto * quadEdgeA2 = new QuadEdgeType;
+    auto * quadEdgeA3 = new QuadEdgeType;
+    auto * quadEdgeA4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeB1 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB2 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB3 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeB4 = new QuadEdgeType;
+    auto * quadEdgeB1 = new QuadEdgeType;
+    auto * quadEdgeB2 = new QuadEdgeType;
+    auto * quadEdgeB3 = new QuadEdgeType;
+    auto * quadEdgeB4 = new QuadEdgeType;
 
-    QuadEdgeType * quadEdgeC1 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC2 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC3 = new QuadEdgeType;
-    QuadEdgeType * quadEdgeC4 = new QuadEdgeType;
+    auto * quadEdgeC1 = new QuadEdgeType;
+    auto * quadEdgeC2 = new QuadEdgeType;
+    auto * quadEdgeC3 = new QuadEdgeType;
+    auto * quadEdgeC4 = new QuadEdgeType;
 
     QuadEdgeTypePointer quadEdgeA1p(quadEdgeA1, true);
     QuadEdgeTypePointer quadEdgeA2p(quadEdgeA2, true);

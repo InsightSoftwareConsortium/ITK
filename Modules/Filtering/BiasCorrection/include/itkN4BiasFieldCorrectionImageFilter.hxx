@@ -320,9 +320,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealType exponent =
     std::ceil( std::log( static_cast<RealType>( this->m_NumberOfHistogramBins ) ) /
               std::log( 2.0 ) ) + 1;
-  unsigned int paddedHistogramSize = static_cast<unsigned int>(
+  auto paddedHistogramSize = static_cast<unsigned int>(
     std::pow( static_cast<RealType>( 2.0 ), exponent ) + 0.5 );
-  unsigned int histogramOffset = static_cast<unsigned int>( 0.5 *
+  auto histogramOffset = static_cast<unsigned int>( 0.5 *
     ( paddedHistogramSize - this->m_NumberOfHistogramBins ) );
 
   using FFTComputationType = double;
@@ -355,7 +355,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
                                          FFTComplexType( 0.0, 0.0 ) );
 
   F[0] = FFTComplexType( scaleFactor, 0.0 );
-  unsigned int halfSize = static_cast<unsigned int>(
+  auto halfSize = static_cast<unsigned int>(
       0.5 * paddedHistogramSize );
   for( unsigned int n = 1; n <= halfSize; n++ )
     {
@@ -377,7 +377,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   vnl_vector< FFTComplexType > Gf( paddedHistogramSize );
 
-  const FFTComputationType wienerNoiseValue=static_cast<FFTComputationType>(this->m_WienerFilterNoise);
+  const auto wienerNoiseValue=static_cast<FFTComputationType>(this->m_WienerFilterNoise);
   for( unsigned int n = 0; n < paddedHistogramSize; n++ )
     {
     FFTComplexType c =

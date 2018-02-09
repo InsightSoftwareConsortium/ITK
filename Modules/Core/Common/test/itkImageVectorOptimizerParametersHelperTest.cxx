@@ -136,8 +136,7 @@ int itkImageVectorOptimizerParametersHelperTest(int, char *[])
 
   // Create a parameter object and assign the ImageVector helper.
   OptimizerParametersType params;
-  ImageVectorOptimizerParametersHelperType* imageVectorParamsHelper =
-    new ImageVectorOptimizerParametersHelperType;
+  auto * imageVectorParamsHelper = new ImageVectorOptimizerParametersHelperType;
   //Assign the helper to the parameter object.
   //OptimizerParameters object will manage the helper once its been set.
   params.SetHelper( imageVectorParamsHelper );

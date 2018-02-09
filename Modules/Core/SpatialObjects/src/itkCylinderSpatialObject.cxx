@@ -117,8 +117,7 @@ bool CylinderSpatialObject
     // Transform all corners of the bounding box in index space to world space,
     // and make sure that the final bounding box includes these.
     const BoundingBoxType::PointsContainer *corners = bb->GetCorners();
-    BoundingBoxType::PointsContainer::const_iterator
-    itBB = corners->begin();
+    auto itBB = corners->begin();
     while ( itBB != corners->end() )
       {
       PointType pnt =

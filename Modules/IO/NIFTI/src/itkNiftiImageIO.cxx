@@ -294,7 +294,7 @@ static const char * str_xform(unsigned int xform)
 int *
 UpperToLowerOrder(int dim)
 {
-  int **mat = new int *[dim];
+  auto * *mat = new int *[dim];
 
   for ( int i = 0; i < dim; i++ )
     {
@@ -311,7 +311,7 @@ UpperToLowerOrder(int dim)
       index++;
       }
     }
-  int *rval = new int[index + 1];
+  auto * rval = new int[index + 1];
   int  index2(0);
   for ( int i = 0; i < dim; i++ )
     {
@@ -334,7 +334,7 @@ UpperToLowerOrder(int dim)
 int *
 LowerToUpperOrder(int dim)
 {
-  int **mat = new int *[dim];
+  auto * *mat = new int *[dim];
 
   for ( int i = 0; i < dim; i++ )
     {
@@ -350,7 +350,7 @@ LowerToUpperOrder(int dim)
       mat[j][i] = index;
       }
     }
-  int *rval = new int[index + 1];
+  auto * rval = new int[index + 1];
   int  index2(0);
   for ( int i = 0; i < dim; i++ )
     {
@@ -490,7 +490,7 @@ template< typename PixelType >
 void
 CastCopy(float *to, const void *from, size_t pixelcount)
 {
-  const PixelType *_from = static_cast< const PixelType * >( from );
+  const auto * _from = static_cast< const PixelType * >( from );
 
   for ( size_t i = 0; i < pixelcount; i++ )
     {
@@ -596,9 +596,7 @@ void NiftiImageIO::Read(void *buffer)
 
     // allocate new buffer for floats. Malloc instead of new to
     // be consistent with allocation used in niftilib
-    float *_data =
-      static_cast< float * >
-      ( malloc( numElts * sizeof( float ) ) );
+    auto * _data = static_cast< float * > ( malloc( numElts * sizeof( float ) ) );
     switch ( this->m_OnDiskComponentType )
       {
       case CHAR:
@@ -668,8 +666,8 @@ void NiftiImageIO::Read(void *buffer)
     {
     // otherwise nifti is x y z t vec l m 0, itk is
     // vec x y z t l m o
-    const char *       niftibuf = (const char *)data;
-    char *             itkbuf = (char *)buffer;
+    const auto * niftibuf = (const char *)data;
+    auto * itkbuf = (char *)buffer;
     const size_t rowdist = this->m_NiftiImage->dim[1];
     const size_t slicedist = rowdist * this->m_NiftiImage->dim[2];
     const size_t volumedist = slicedist * this->m_NiftiImage->dim[3];
@@ -2024,8 +2022,8 @@ NiftiImageIO
       * numComponents //Number of componenets
       * this->m_NiftiImage->nbyper;
 
-    char *            nifti_buf = new char[buffer_size];
-    const char *const itkbuf = (const char *)buffer;
+    auto * nifti_buf = new char[buffer_size];
+    const auto *const itkbuf = (const char *)buffer;
     // Data must be rearranged to meet nifti organzation.
     // nifti_layout[vec][t][z][y][x] = itk_layout[t][z][y][z][vec]
     const size_t rowdist = m_NiftiImage->dim[1];

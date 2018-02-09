@@ -213,7 +213,7 @@ OFFMeshIO
     m_PointsStartPosition = m_InputFile.tellg();
 
     // Read points
-    float *pointsBuffer = new float[this->m_NumberOfPoints * this->m_PointDimension];
+    auto * pointsBuffer = new float[this->m_NumberOfPoints * this->m_PointDimension];
     this->ReadBufferAsBinary(pointsBuffer, m_InputFile, this->m_NumberOfPoints * this->m_PointDimension);
     delete[] pointsBuffer;
 
@@ -222,7 +222,7 @@ OFFMeshIO
 
     // Read cells
     itk::uint32_t  numberOfCellPoints = 0;
-    itk::uint32_t *cellsBuffer = new itk::uint32_t[this->m_NumberOfCells];
+    auto * cellsBuffer = new itk::uint32_t[this->m_NumberOfCells];
     for ( unsigned long id = 0; id < this->m_NumberOfCells; id++ )
       {
       this->ReadBufferAsBinary(&numberOfCellPoints, m_InputFile, 1);
@@ -293,7 +293,7 @@ void
 OFFMeshIO
 ::ReadCells(void *buffer)
 {
-  itk::uint32_t *data = new itk::uint32_t[this->m_CellBufferSize - this->m_NumberOfCells];
+  auto * data = new itk::uint32_t[this->m_CellBufferSize - this->m_NumberOfCells];
 
   if ( this->m_FileType == ASCII )
     {
@@ -380,11 +380,11 @@ OFFMeshIO
   else if ( this->m_FileType == BINARY )
     {
     // Write number of points
-    itk::uint32_t numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPoints);
+    auto numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPoints);
     this->WriteBufferAsBinary< itk::uint32_t >(&( numberOfPoints ), outputFile, 1);
 
     // Write number of cells
-    itk::uint32_t numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
+    auto numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
     this->WriteBufferAsBinary< itk::uint32_t >(&( numberOfCells ), outputFile, 1);
 
     // Write number of edges

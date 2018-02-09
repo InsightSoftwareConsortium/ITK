@@ -231,7 +231,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
       InputMeshCellLinksContainer links;
       typename std::set< InputMeshCellIdentifier >::iterator citer;
 
-      for ( std::vector< IdentifierType >::iterator i = m_SeedList.begin();
+      for ( auto i = m_SeedList.begin();
             i != m_SeedList.end(); ++i )
         {
         links = cellLinks->ElementAt(*i);
@@ -245,7 +245,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
     // use the seeds directly
     else if ( m_ExtractionMode == CellSeededRegions )
       {
-      for ( std::vector< IdentifierType >::iterator i = m_SeedList.begin();
+      for ( auto i = m_SeedList.begin();
             i != m_SeedList.end(); ++i )
         {
         m_Wave->push_back(*i);
@@ -415,7 +415,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
   if ( this->GetDebug() )
     {
     SizeValueType count = 0;
-    for ( std::vector< IdentifierType >::const_iterator ii = m_RegionSizes.begin();
+    for ( auto ii = m_RegionSizes.begin();
           ii != m_RegionSizes.end(); ++ii )
       {
       count += *ii;

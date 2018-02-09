@@ -76,10 +76,10 @@ public:
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ )
       {
-      const double yd = (double)y;
+      const auto yd = (double)y;
       for( int x = -XRange; x<=XRange; x++ )
         {
-        const double xd = (double)x;
+        const auto xd = (double)x;
         m_TheoreticalData[valueindex] = ra*xd + rb*yd + rc;
         valueindex++;
         }
@@ -103,10 +103,10 @@ public:
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ )
       {
-      const double yd = (double)y;
+      const auto yd = (double)y;
       for( int x = -XRange; x<=XRange; x++ )
         {
-        const double xd = (double)x;
+        const auto xd = (double)x;
         double value = a * xd + b * yd + c;
         value -= m_TheoreticalData[valueindex];
         m_Measure[valueindex] = value;
@@ -134,10 +134,10 @@ public:
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ )
     {
-      const double yd = (double)y;
+      const auto yd = (double)y;
       for( int x = -XRange; x<=XRange; x++ )
       {
-        const double xd = (double)x;
+        const auto xd = (double)x;
         m_Derivative[0][valueindex] =  xd;
         m_Derivative[1][valueindex] =  yd;
         m_Derivative[2][valueindex] =  1.0;
@@ -193,7 +193,7 @@ public:
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     std::cout << "Observer::Execute() " << std::endl;
-      OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+      auto optimizer = static_cast< OptimizerPointer >( object );
       if( m_FunctionEvent.CheckEvent( &event ) )
         {
         std::cout << m_IterationNumber++ << "   ";

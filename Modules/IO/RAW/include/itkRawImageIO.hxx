@@ -123,8 +123,7 @@ void RawImageIO< TPixel, VImageDimension >
     itkExceptionMacro(<< "File seek failed");
     }
 
-  const SizeValueType numberOfBytesToBeRead =
-    static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+  const auto numberOfBytesToBeRead = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
 
   itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
 

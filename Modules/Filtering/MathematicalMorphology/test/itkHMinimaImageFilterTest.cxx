@@ -70,13 +70,12 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
   FilterWatcher watchHMinima( hMinimaFilter, "HMinimaImageFilter" );
 
   // Set up the filter
-  HMinimaFilterType::InputImagePixelType height =
-    static_cast< HMinimaFilterType::InputImagePixelType >( atof( argv[3] ) );
+  auto height = static_cast< HMinimaFilterType::InputImagePixelType >( atof( argv[3] ) );
 
   hMinimaFilter->SetHeight( height );
   TEST_SET_GET_VALUE( height, hMinimaFilter->GetHeight() );
 
-  bool fullyConnected = static_cast< bool >( atof( argv[4] ) );
+  auto fullyConnected = static_cast< bool >( atof( argv[4] ) );
   TEST_SET_GET_BOOLEAN( hMinimaFilter, FullyConnected, fullyConnected );
 
 

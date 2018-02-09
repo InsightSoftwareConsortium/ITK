@@ -136,8 +136,7 @@ int itkSigmoidImageFilterTest( int, char* [] )
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = ( input - beta ) / alpha;
     const double x2 = ( maximum - minimum )*( 1.0 / ( 1.0 + std::exp( -x1 ) ) ) + minimum;
-    const OutputImageType::PixelType sigmoid =
-            static_cast<OutputImageType::PixelType>( x2 );
+    const auto sigmoid = static_cast<OutputImageType::PixelType>( x2 );
     if( !itk::Math::FloatAlmostEqual( sigmoid, output, 10, epsilon ) )
       {
       std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );

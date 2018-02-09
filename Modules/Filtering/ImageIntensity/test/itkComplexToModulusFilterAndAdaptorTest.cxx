@@ -122,8 +122,7 @@ int itkComplexToModulusFilterAndAdaptorTest( int, char* [] )
     double normd = std::sqrt( input.real() * input.real() +
                              input.imag() * input.imag() );
 
-    const OutputImageType::PixelType norm =
-       static_cast<OutputImageType::PixelType>( normd );
+    const auto norm = static_cast<OutputImageType::PixelType>( normd );
 
     if( !itk::Math::FloatAlmostEqual( norm, output, 10, epsilon ) )
       {

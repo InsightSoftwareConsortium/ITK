@@ -107,7 +107,7 @@ MergeLabelMapFilter< TImage >
       }
 
     // add the other label objects, with a different label
-    typename VectorType::iterator it = labelObjects.begin();
+    auto it = labelObjects.begin();
     while ( it != labelObjects.end() )
       {
       output->PushLabelObject(*it);
@@ -228,7 +228,7 @@ MergeLabelMapFilter< TImage >
   // and put back the objects in the map
   output->ClearLabels();
 
-  typename ImageType::LabelObjectVectorType::iterator it = labelObjects.begin();
+  auto it = labelObjects.begin();
 
   while ( it != labelObjects.end() )
     {

@@ -205,7 +205,7 @@ BYUMeshIO
   inputFile.seekg(m_FilePosition, std::ios::beg);
 
   // Number of data array
-  double *data = static_cast< double * >( buffer );
+  auto * data = static_cast< double * >( buffer );
 
   // Read points
   inputFile.precision(12);
@@ -243,7 +243,7 @@ BYUMeshIO
 
   // Get cell buffer
   inputFile.precision(12);
-  unsigned int *data = static_cast< unsigned int * >( buffer );
+  auto * data = static_cast< unsigned int * >( buffer );
   SizeValueType  numPoints = 0;
   SizeValueType id = itk::NumericTraits< SizeValueType >::ZeroValue();
   SizeValueType index = 2;

@@ -66,8 +66,7 @@ public:
       {
       // value is background
       // return a gray pixel with the same intensity than the input pixel
-      typename TRGBPixel::ValueType p =
-        static_cast< typename TRGBPixel::ValueType >( p1 );
+      auto p = static_cast< typename TRGBPixel::ValueType >( p1 );
       rgbPixel[0] = p;
       rgbPixel[1] = p;
       rgbPixel[2] = p;

@@ -247,10 +247,8 @@ TriangleHelper< TPoint >::ComputeMixedArea(const PointType & iP1,
 
   if ( !TriangleType::IsObtuse(iP1, iP2, iP3) )
     {
-    CoordRepType sq_d01 =
-        static_cast< CoordRepType >( iP1.SquaredEuclideanDistanceTo(iP2) );
-    CoordRepType sq_d02 =
-      static_cast< CoordRepType >( iP1.SquaredEuclideanDistanceTo(iP3) );
+    auto sq_d01 = static_cast< CoordRepType >( iP1.SquaredEuclideanDistanceTo(iP2) );
+    auto sq_d02 = static_cast< CoordRepType >( iP1.SquaredEuclideanDistanceTo(iP3) );
 
     CoordRepType cot_theta_210 = TriangleType::Cotangent(iP3, iP2, iP1);
     CoordRepType cot_theta_021 = TriangleType::Cotangent(iP1, iP3, iP2);
@@ -259,8 +257,7 @@ TriangleHelper< TPoint >::ComputeMixedArea(const PointType & iP1,
     }
   else
     {
-    CoordRepType area =
-      static_cast< CoordRepType >( TriangleType::ComputeArea(iP1, iP2, iP3) );
+    auto area = static_cast< CoordRepType >( TriangleType::ComputeArea(iP1, iP2, iP3) );
 
     if ( ( iP2 - iP1 ) * ( iP3 - iP1 ) < NumericTraits< CoordRepType >::ZeroValue() )
       {

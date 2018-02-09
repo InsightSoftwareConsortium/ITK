@@ -54,8 +54,7 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::LineSpatialObject<3>::New();
   std::cout << "----------LineSpatialObject " << LineSpatialObjectObj;
 
-  itk::LineSpatialObjectPoint<3> * LineSpatialObjectPointObj =
-    new itk::LineSpatialObjectPoint<3>;
+  auto * LineSpatialObjectPointObj = new itk::LineSpatialObjectPoint<3>;
   std::cout << "----------LineSpatialObjectPoint " << LineSpatialObjectPointObj;
   delete LineSpatialObjectPointObj;
 
@@ -83,8 +82,7 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::SpatialObject<3>::New();
   std::cout << "----------SpatialObject " << SpatialObjectObj;
 
-  itk::SpatialObjectPoint<3> * SpatialObjectPointObj =
-    new itk::SpatialObjectPoint<3>;
+  auto * SpatialObjectPointObj = new itk::SpatialObjectPoint<3>;
   std::cout << "----------SpatialObjectPoint " << SpatialObjectPointObj;
   delete SpatialObjectPointObj;
 
@@ -96,8 +94,7 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::SurfaceSpatialObject<3>::New();
   std::cout << "----------SurfaceSpatialObject " << SurfaceSpatialObjectObj;
 
-  itk::SurfaceSpatialObjectPoint<3> * SurfaceSpatialObjectPointObj =
-    new itk::SurfaceSpatialObjectPoint<3>;
+  auto * SurfaceSpatialObjectPointObj = new itk::SurfaceSpatialObjectPoint<3>;
   std::cout << "----------SurfaceSpatialObjectPoint " << SurfaceSpatialObjectPointObj;
   delete SurfaceSpatialObjectPointObj;
 
@@ -105,8 +102,7 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::TubeSpatialObject<3>::New();
   std::cout << "----------TubeSpatialObject " << TubeSpatialObjectObj;
 
-  itk::TubeSpatialObjectPoint<3> *  TubeSpatialObjectPointObj =
-    new itk::TubeSpatialObjectPoint<3>;
+  auto * TubeSpatialObjectPointObj = new itk::TubeSpatialObjectPoint<3>;
   std::cout << "----------TubeSpatialObjectPoint " << TubeSpatialObjectPointObj;
   delete TubeSpatialObjectPointObj;
 

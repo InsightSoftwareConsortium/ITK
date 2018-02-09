@@ -188,7 +188,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   localStepScales.SetSize(numLocals);
   localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::ZeroValue());
 
-  const SizeValueType numSamples = static_cast< const SizeValueType >( this->m_SamplePoints.size() );
+  const auto numSamples = static_cast< const SizeValueType >( this->m_SamplePoints.size() );
   for (SizeValueType c=0; c<numSamples; c++)
     {
     VirtualPointType &point = this->m_SamplePoints[c];

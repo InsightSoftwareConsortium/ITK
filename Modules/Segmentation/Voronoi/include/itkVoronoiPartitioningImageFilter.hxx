@@ -80,7 +80,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::GenerateAddingSeeds(void)
 {
   EdgeIterator eit;
-  EdgeIterator eitend = this->m_WorkingVD->EdgeEnd();
+  auto eitend = this->m_WorkingVD->EdgeEnd();
   PointType    adds;
 
   Point< int, 2 > seeds;
@@ -169,7 +169,7 @@ bool
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::TestHomogeneity(IndexList & Plist)
 {
-  SizeValueType num = static_cast<SizeValueType>( Plist.size());
+  auto num = static_cast<SizeValueType>( Plist.size());
   SizeValueType i;
   double getp;
   double addp = 0;

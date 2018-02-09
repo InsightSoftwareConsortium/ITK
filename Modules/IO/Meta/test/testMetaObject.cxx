@@ -86,7 +86,7 @@ int testMetaObject(int argc, char *argv[])
 
   tObj.PrintInfo();
 
-  char* name = static_cast<char*>(tObj.GetUserField("MyName"));
+  auto * name = static_cast<char*>(tObj.GetUserField("MyName"));
   if(strcmp(name,"Julien"))
   {
     std::cout << "MyName: FAIL" << std::endl;
@@ -95,7 +95,7 @@ int testMetaObject(int argc, char *argv[])
 
   delete[] name;
 
-  int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
+  auto * array = static_cast<int*>(tObj.GetUserField("MyArray"));
 
   for(i=0;i<3;i++)
   {
@@ -109,7 +109,7 @@ int testMetaObject(int argc, char *argv[])
 
   delete[] array;
 
-  float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
+  auto * matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
   for(i=0; i<4; i++)
     {
     if(itk::Math::NotExactlyEquals(matrix[i], i))
@@ -171,9 +171,9 @@ int testMetaObject(int argc, char *argv[])
 
   // testing metaUtils
 
-  char* inDataChar = new char[1];
+  auto * inDataChar = new char[1];
   inDataChar[0]=1;
-  char* outDataChar = new char[1];
+  auto * outDataChar = new char[1];
   if(!MET_ValueToValue(MET_CHAR_ARRAY,inDataChar,0,MET_CHAR_ARRAY,outDataChar))
     {
     std::cout << "MET_ValueToValue: FAIL" << std::endl;
@@ -187,9 +187,9 @@ int testMetaObject(int argc, char *argv[])
   delete[] inDataChar;
   delete[] outDataChar;
 
-  unsigned char* inDataUChar = new unsigned char[1];
+  auto * inDataUChar = new unsigned char[1];
   inDataUChar[0]=1;
-  unsigned char* outDataUChar = new unsigned char[1];
+  auto * outDataUChar = new unsigned char[1];
   if(!MET_ValueToValue(MET_UCHAR_ARRAY,inDataUChar,0,MET_UCHAR_ARRAY,outDataUChar))
     {
     std::cout << "MET_ValueToValue: FAIL" << std::endl;

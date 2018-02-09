@@ -73,8 +73,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    const OptimizerType * optimizer =
-      dynamic_cast< const OptimizerType * >( object );
+    const auto * optimizer = dynamic_cast< const OptimizerType * >( object );
     if(optimizer == nullptr)
       {
       return;

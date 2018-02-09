@@ -198,8 +198,7 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   using ReadCompositeTransformType =
       itk::CompositeTransform< ReadScalarType, Dimension >;
-  TransformReaderType::TransformListType::const_iterator it
-    = transforms->begin();
+  auto it = transforms->begin();
   if( !strcmp((*it)->GetNameOfClass(),"CompositeTransform") )
     {
     ReadCompositeTransformType::Pointer compositeRead

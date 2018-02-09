@@ -176,7 +176,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
   typename TInputImage::IndexType AccumulatedIndex = inputImage->GetLargestPossibleRegion().GetIndex();
 
   typename TInputImage::SizeValueType  SizeAccumulateDimension = AccumulatedSize[m_AccumulateDimension];
-  double                               SizeAccumulateDimensionDouble = static_cast< double >( SizeAccumulateDimension );
+  const auto sizeAccumulateDimensionDouble = static_cast< double >( SizeAccumulateDimension );
   typename TInputImage::IndexValueType IndexAccumulateDimension = AccumulatedIndex[m_AccumulateDimension];
   for ( unsigned int i = 0; i < InputImageDimension; i++ )
     {
@@ -212,7 +212,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
       }
     if ( m_Average )
       {
-      outputIter.Set( static_cast< OutputPixelType >( Value / SizeAccumulateDimensionDouble ) );
+      outputIter.Set( static_cast< OutputPixelType >( Value / sizeAccumulateDimensionDouble ) );
       }
     else
       {

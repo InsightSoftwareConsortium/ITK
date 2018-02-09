@@ -269,7 +269,7 @@ void
 ByteSwapper< T >
 ::Swap2(void *pin)
 {
-  unsigned short *      p = reinterpret_cast< unsigned short * >( pin );
+  auto * p = reinterpret_cast< unsigned short * >( pin );
   const unsigned short h1 = (*p) << static_cast<short unsigned int>(8);
   const unsigned short h2 = (*p) >> static_cast<short unsigned int>(8);
   *p = h1 | h2;
@@ -281,7 +281,7 @@ void
 ByteSwapper< T >
 ::Swap2Range(void *ptr, BufferSizeType num)
 {
-  char * pos = reinterpret_cast< char * >( ptr );
+  auto * pos = reinterpret_cast< char * >( ptr );
   for ( BufferSizeType i = 0; i < num; i++ )
     {
     const char one_byte = pos[0];
@@ -302,7 +302,7 @@ ByteSwapper< T >
     {
     chunkSize = num;
     }
-  char * cpy = new char[chunkSize * 2];
+  auto * cpy = new char[chunkSize * 2];
   while ( num )
     {
     memcpy(cpy, ptr, chunkSize * 2);
@@ -335,7 +335,7 @@ ByteSwapper< T >
 ::Swap4(void *ptr)
 {
   char  one_byte;
-  char *p = reinterpret_cast< char * >( ptr );
+  auto * p = reinterpret_cast< char * >( ptr );
 
   one_byte    = p[0];
   p[0] = p[3];
@@ -352,7 +352,7 @@ void
 ByteSwapper< T >
 ::Swap4Range(void *ptr, BufferSizeType num)
 {
-  char *         pos = reinterpret_cast< char * >( ptr );
+  auto * pos = reinterpret_cast< char * >( ptr );
 
   for ( BufferSizeType i = 0; i < num; i++ )
     {
@@ -379,7 +379,7 @@ ByteSwapper< T >
     {
     chunkSize = num;
     }
-  char * cpy = new char[chunkSize * 4];
+  auto * cpy = new char[chunkSize * 4];
 
   while ( num )
     {
@@ -417,7 +417,7 @@ ByteSwapper< T >
 ::Swap8(void *ptr)
 {
   char  one_byte;
-  char *p = reinterpret_cast< char * >( ptr );
+  auto * p = reinterpret_cast< char * >( ptr );
 
   one_byte    = p[0];
   p[0] = p[7];
@@ -442,7 +442,7 @@ void
 ByteSwapper< T >
 ::Swap8Range(void *ptr, BufferSizeType num)
 {
-  char *         pos = reinterpret_cast< char * >( ptr );
+  auto * pos = reinterpret_cast< char * >( ptr );
 
   for ( BufferSizeType i = 0; i < num; i++ )
     {
@@ -476,7 +476,7 @@ ByteSwapper< T >
     {
     chunkSize = num;
     }
-  char * cpy = new char[chunkSize * 8];
+  auto * cpy = new char[chunkSize * 8];
 
   while ( num )
     {

@@ -219,7 +219,7 @@ void CopyMeshToMeshCells(const TInputMesh *in, TOutputMesh *out)
     InputCellsContainerConstIterator cEnd = inCells->End();
     while ( cIt != cEnd )
       {
-      InputPolygonCellType *pe = dynamic_cast< InputPolygonCellType * >( cIt.Value() );
+      auto * pe = dynamic_cast< InputPolygonCellType * >( cIt.Value() );
       if ( pe )
         {
         InputPointIdList              points;
@@ -257,7 +257,7 @@ void CopyMeshToMeshEdgeCells(const TInputMesh *in, TOutputMesh *out)
 
     while ( ecIt != ecEnd )
       {
-      InputEdgeCellType *pe = dynamic_cast< InputEdgeCellType * >( ecIt.Value() );
+      auto * pe = dynamic_cast< InputEdgeCellType * >( ecIt.Value() );
       if ( pe )
         {
         out->AddEdgeWithSecurePointList( pe->GetQEGeom()->GetOrigin(),

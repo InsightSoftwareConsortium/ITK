@@ -211,8 +211,7 @@ public:
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    OptimizerPointer optimizer =
-                         static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     // Software Guide : EndCodeSnippet
 
 

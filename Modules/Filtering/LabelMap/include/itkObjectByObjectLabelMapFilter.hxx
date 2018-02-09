@@ -79,7 +79,7 @@ void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::SetFilter( InputFilterType * filter )
 {
-  OutputFilterType * outputFilter = dynamic_cast< OutputFilterType * >( filter );
+  auto * outputFilter = dynamic_cast< OutputFilterType * >( filter );
   if( outputFilter == nullptr && filter != nullptr )
     {
     // TODO: can it be replaced by a concept check ?

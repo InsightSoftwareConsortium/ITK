@@ -88,7 +88,7 @@ public:
   bool operator()(const TInput & a, const TInput & b) const
   {
     using InputRealType = typename NumericTraits< TInput >::RealType;
-    TInput absDifference = static_cast< TInput >( itk::Math::abs(
+    auto absDifference = static_cast< TInput >( itk::Math::abs(
                                                     static_cast< InputRealType >( a )
                                                     - static_cast< InputRealType >( b ) ) );
     if ( absDifference <= m_Threshold )

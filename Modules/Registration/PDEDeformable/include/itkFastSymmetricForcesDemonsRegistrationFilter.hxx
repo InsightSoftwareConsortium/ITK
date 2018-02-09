@@ -173,9 +173,7 @@ typename FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage,
 FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType()
 {
-  DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -196,9 +194,7 @@ const typename FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMoving
 FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType() const
 {
-  const DemonsRegistrationFunctionType *drfp =
-    dynamic_cast< const DemonsRegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  const auto * drfp = dynamic_cast< const DemonsRegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {

@@ -314,7 +314,7 @@ int main(int, char *[])
   while( cellIterator != end )
     {
     MeshType::CellType * cellptr = cellIterator.Value();
-    LineType * line = dynamic_cast<LineType *>( cellptr );
+    auto * line = dynamic_cast<LineType *>( cellptr );
     if(line == nullptr)
       {
       continue;

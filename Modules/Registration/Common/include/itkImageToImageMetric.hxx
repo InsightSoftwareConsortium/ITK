@@ -421,8 +421,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   //
   m_InterpolatorIsBSpline = true;
 
-  BSplineInterpolatorType *testPtr = dynamic_cast< BSplineInterpolatorType * >(
-    this->m_Interpolator.GetPointer() );
+  auto * testPtr = dynamic_cast< BSplineInterpolatorType * >( this->m_Interpolator.GetPointer() );
   if ( !testPtr )
     {
     m_InterpolatorIsBSpline = false;
@@ -457,8 +456,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   //
   m_TransformIsBSpline = true;
 
-  BSplineTransformType *testPtr2 = dynamic_cast< BSplineTransformType * >(
-    this->m_Transform.GetPointer() );
+  auto * testPtr2 = dynamic_cast< BSplineTransformType * >( this->m_Transform.GetPointer() );
   if ( !testPtr2 )
     {
     m_TransformIsBSpline = false;
@@ -531,7 +529,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 {
   typename FixedImageSampleContainer::iterator iter;
 
-  SizeValueType len = static_cast<SizeValueType>( m_FixedImageIndexes.size() );
+  auto len = static_cast<SizeValueType>( m_FixedImageIndexes.size() );
   if ( len != m_NumberOfFixedImageSamples
        || samples.size() != m_NumberOfFixedImageSamples )
     {

@@ -131,8 +131,8 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
   ScenePointer soScene = SceneType::New();
 
   MetaScene::ObjectListType *         list = mScene->GetObjectList();
-  MetaScene::ObjectListType::iterator it = list->begin();
-  MetaScene::ObjectListType::iterator itEnd = list->end();
+  auto it = list->begin();
+  auto itEnd = list->end();
 
   SpatialObjectPointer currentSO;
 
@@ -211,7 +211,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
       }
     else
       {
-      typename ConverterMapType::iterator converterIt = this->m_ConverterMap.find(objectTypeName);
+      auto converterIt = this->m_ConverterMap.find(objectTypeName);
 
       if(converterIt == this->m_ConverterMap.end())
         {
@@ -236,7 +236,7 @@ typename MetaSceneConverter< NDimensions, PixelType, TMeshTraits >::ScenePointer
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 ::ReadMeta(const char *name)
 {
-  MetaScene *mScene = new MetaScene;
+  auto * mScene = new MetaScene;
 
   if ( m_Event )
     {
@@ -254,11 +254,11 @@ MetaScene *
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 ::CreateMetaScene(SceneType *scene, unsigned int depth, char *name)
 {
-  MetaScene *metaScene = new MetaScene(NDimensions);
+  auto * metaScene = new MetaScene(NDimensions);
 
   metaScene->BinaryData(m_BinaryPoints);
 
-  float *spacing = new float[NDimensions];
+  auto * spacing = new float[NDimensions];
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     spacing[i] = 1;
@@ -269,8 +269,8 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
   using ListType = typename SceneType::ObjectListType;
 
   ListType *childrenList = scene->GetObjects(depth, name);
-  typename ListType::iterator it = childrenList->begin();
-  typename ListType::iterator itEnd = childrenList->end();
+  auto it = childrenList->begin();
+  auto itEnd = childrenList->end();
 
   MetaObject *currentMeta;
 
@@ -340,7 +340,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
       }
     else
       {
-      typename ConverterMapType::iterator converterIt = this->m_ConverterMap.find(spatialObjectTypeName);
+      auto converterIt = this->m_ConverterMap.find(spatialObjectTypeName);
       if(converterIt == this->m_ConverterMap.end())
         {
         itkGenericExceptionMacro(<< "Unable to find MetaObject -> SpatialObject converter for "

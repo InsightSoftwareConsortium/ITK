@@ -176,7 +176,7 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
     }
 
   const MetaDataObjectBase::ConstPointer baseObjectSmartPointer = Dictionary[key];
-  MetaDataObject< T > const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( baseObjectSmartPointer.GetPointer() );
+  auto const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( baseObjectSmartPointer.GetPointer() );
   if ( TempMetaDataObject == nullptr )
     {
     return false;

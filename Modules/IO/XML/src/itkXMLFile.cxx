@@ -87,7 +87,7 @@ XMLReaderBase::parse(void)
   std::streamsize filesize =
     itksys::SystemTools::FileLength( m_Filename.c_str() );
 
-  char *buffer = new char[filesize];
+  auto * buffer = new char[filesize];
 
   inputstream.read(buffer, filesize);
 
@@ -97,7 +97,7 @@ XMLReaderBase::parse(void)
     exception.SetDescription("File Read Error");
     throw exception;
     }
-  const bool result = static_cast<bool>(XML_Parse(Parser, buffer, inputstream.gcount(), false));
+  const auto result = static_cast<bool>(XML_Parse(Parser, buffer, inputstream.gcount(), false));
   delete[] buffer;
   if ( !result )
     {
