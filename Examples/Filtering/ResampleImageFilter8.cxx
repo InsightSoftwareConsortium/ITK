@@ -125,11 +125,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using BoundaryConditionType = itk::ConstantBoundaryCondition<InputImageType>;
+  using BoundaryConditionType =
+    itk::ConstantBoundaryCondition< InputImageType >;
 
   constexpr unsigned int WindowRadius = 5;
 
-  using WindowFunctionType = itk::Function::HammingWindowFunction<WindowRadius>;
+  using WindowFunctionType =
+    itk::Function::HammingWindowFunction< WindowRadius >;
 
   using InterpolatorType = itk::WindowedSincInterpolateImageFunction<
             InputImageType, WindowRadius, WindowFunctionType,

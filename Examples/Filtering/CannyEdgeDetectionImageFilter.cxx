@@ -119,9 +119,12 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  using CastToRealFilterType = itk::CastImageFilter< CharImageType, RealImageType >;
-  using CannyFilterType = itk::CannyEdgeDetectionImageFilter< RealImageType, RealImageType >;
-  using RescaleFilterType = itk::RescaleIntensityImageFilter< RealImageType, CharImageType >;
+  using CastToRealFilterType =
+    itk::CastImageFilter< CharImageType, RealImageType >;
+  using CannyFilterType =
+    itk::CannyEdgeDetectionImageFilter< RealImageType, RealImageType >;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter< RealImageType, CharImageType >;
 
   //  Software Guide : EndCodeSnippet
 

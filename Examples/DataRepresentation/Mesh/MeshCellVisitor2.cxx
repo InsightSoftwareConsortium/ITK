@@ -351,7 +351,8 @@ int main(int, char *[])
       PixelType, MeshType::CellTraits, TriangleType,
       CustomTriangleVisitor >;
 
-  using TetrahedronVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
+  using TetrahedronVisitorInterfaceType =
+    itk::CellInterfaceVisitorImplementation<
       PixelType, MeshType::CellTraits, TetrahedronType,
       CustomTetrahedronVisitor >;
   // Software Guide : EndCodeSnippet
