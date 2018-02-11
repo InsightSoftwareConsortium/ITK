@@ -5,7 +5,7 @@
 %extend itkPyBuffer@PyBufferTypes@{
     %pythoncode %{
 
-    def GetArrayViewFromImage(image, keepAxes=False):
+    def GetArrayViewFromImage(image, keepAxes=False, updateLargestPossibleRegion=True):
         """Get a NumPy array view of a ITK Image.
 
         When *keepAxes* is *False*, the NumPy array will have C-order
@@ -20,6 +20,13 @@
 
         if not HAVE_NUMPY:
             raise ImportError('Numpy not available.')
+
+        if updateLargestPossibleRegion:
+            # Ensure the image regions and image pixel buffer have been updated
+            # correctly
+            source = image.GetSource()
+            if source:
+                source.UpdateLargestPossibleRegion()
 
         itksize = image.GetLargestPossibleRegion().GetSize()
         dim     = len(itksize)
