@@ -1,3 +1,5 @@
+![ITK - The Insight Toolkit](Documentation/Art/itkBannerSmall.png)
+
 ITK: The Insight Segmentation and Registration Toolkit
 ======================================================
 
