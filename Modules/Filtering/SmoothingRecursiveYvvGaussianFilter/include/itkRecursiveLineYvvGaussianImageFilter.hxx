@@ -246,7 +246,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputReq
           std::cout<<telltale  << ". itkRecursiveLineYvv::EnlargeOutputRequestedRegion \n";
   #endif
   */
-  TOutputImage * out = dynamic_cast<TOutputImage *>(output);
+  auto * out = dynamic_cast<TOutputImage *>(output);
 
   if (out)
   {

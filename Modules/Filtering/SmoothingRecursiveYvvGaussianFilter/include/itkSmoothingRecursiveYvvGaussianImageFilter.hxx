@@ -233,7 +233,7 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutp
   /*#ifdef VERBOSE
           std::cout<<telltale  << ". itkSmoothingYvv::EnlargeOutputRequestedRegion \n";
   #endif*/
-  TOutputImage * out = dynamic_cast<TOutputImage *>(output);
+  auto * out = dynamic_cast<TOutputImage *>(output);
 
   if (out)
   {
