@@ -36,8 +36,8 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
   // negative half of the parabola
   for (long pos = 0; pos < LineLength; pos++)
   {
-    RealType BaseVal = (RealType)m_Extreme; // the base value for
-                                            // comparison
+    auto BaseVal = (RealType)m_Extreme; // the base value for
+                                        // comparison
     for (long krange = koffset; krange <= 0; krange++)
     {
       // difference needs to be paramaterised
@@ -56,7 +56,7 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
   koffset = newcontact = 0;
   for (long pos = LineLength - 1; pos >= 0; pos--)
   {
-    RealType BaseVal = (RealType)m_Extreme; // the base value for comparison
+    auto BaseVal = (RealType)m_Extreme; // the base value for comparison
     for (long krange = koffset; krange >= 0; krange--)
     {
       RealType T = tmpLineBuf[pos + krange] - magnitude * krange * krange;
