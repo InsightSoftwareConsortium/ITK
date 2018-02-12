@@ -106,7 +106,7 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
 
   int            index = 0;
   int            voxel_count_sum = 0;
-  unsigned char *tobuf = (unsigned char *)buffer;
+  auto *tobuf = (unsigned char *)buffer;
 
   // The following commented out code is a starting attempt at streaming.
 
@@ -184,23 +184,23 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
   while( !this->m_InputFileStream.read(reinterpret_cast<char *>(RunLengthArray), sizeof(RunLengthElement)
                                        * NumberOfRunLengthElementsPerRead).eof() )
     {
-    for( int i = 0; i < NumberOfRunLengthElementsPerRead; i++ )
+    for(auto & i : RunLengthArray)
       {
       //           myfile<< "Assigning: " << (int)RunLengthArray[i].voxel_count
       //             << " voxels of label " << (int)RunLengthArray[i].voxel_value
       //             << std::endl;
-      if( RunLengthArray[i].voxel_count == 0 )
+      if( i.voxel_count == 0 )
         {
         itkDebugMacro(
           << "Inside AnaylzeObjectLabelMap Invalid Length " << (int)RunLengthArray[i].voxel_count << std::endl);
         exit(-1);
         }
-      for( int j = 0; j < RunLengthArray[i].voxel_count; j++ )
+      for( int j = 0; j < i.voxel_count; j++ )
         {
-        tobuf[index] = RunLengthArray[i].voxel_value;
+        tobuf[index] = i.voxel_value;
         index++;
         }
-      voxel_count_sum += RunLengthArray[i].voxel_count;
+      voxel_count_sum += i.voxel_count;
       //          myfile <<"index = "<<index
       //            << " voxel_count_sum= " << voxel_count_sum
       //            << " Volume size = "<<VolumeSize<<std::endl;
@@ -536,11 +536,11 @@ AnalyzeObjectLabelMapImageIO
   if( MetaDataCheck )
     {
     // Since the NumberOfObjects does not reflect the background, the background will be included
-    for( unsigned int i = 0; i < my_reference.size(); i++ )
+    for(auto & i : my_reference)
       {
       // Using a temporary so that the object file is always written in BIG_ENDIAN mode but does
       // not affect the current object itself
-      AnalyzeObjectEntry *ObjectWrite = my_reference[i];
+      AnalyzeObjectEntry *ObjectWrite = i;
       if( NeedByteSwap == true )
         {
         ObjectWrite->SwapObjectEndedness();
@@ -630,7 +630,7 @@ AnalyzeObjectLabelMapImageIO
   const  int    buffer_size = 16384; // NOTE: This is probably overkill, but it will work
   unsigned char bufferObjectMap[buffer_size] = {0};
 
-  unsigned char *bufferChar = (unsigned char *)buffer;
+  auto *bufferChar = (unsigned char *)buffer;
   for( int i = 0; i < VolumeSize; i++ )
     {
     if( runlength == 0 )
