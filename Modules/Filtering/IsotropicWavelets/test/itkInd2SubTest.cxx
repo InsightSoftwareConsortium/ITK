@@ -26,7 +26,7 @@ int
 itkInd2SubTest(int, char *[])
 {
   // Used for  initializing FixedArray.
-  const unsigned int D3 = 3;
+  constexpr unsigned int D3 = 3;
 
   typedef itk::FixedArray<unsigned int, D3> Array3DType;
   Array3DType                               ass3D; // from assigner3D c++98
@@ -88,7 +88,7 @@ itkInd2SubTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int                        D2 = 2;
+  constexpr unsigned int                    D2 = 2;
   typedef itk::FixedArray<unsigned int, D2> Array2DType;
   Array2DType                               ass2D;
   ass2D[0] = 3;

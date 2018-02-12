@@ -50,7 +50,7 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
 
   bool testPassed = true;
 
-  const unsigned int                       Dimension = 3;
+  constexpr unsigned int                   Dimension = 3;
   typedef float                            PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType;
 

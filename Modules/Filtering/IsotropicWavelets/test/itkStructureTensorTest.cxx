@@ -80,7 +80,7 @@ runStructureTensorTest()
   regionHalfRight.SetIndex(startHalf);
   regionHalfRight.SetSize(sizeHalf);
 
-  const unsigned int                          nInputs = 2;
+  constexpr unsigned int                      nInputs = 2;
   typedef itk::ImageRegionIterator<ImageType> InputIteratorType;
   InputIteratorType                           inputIt1(inputImage1, regionHalfLeft);
   inputIt1.GoToBegin();

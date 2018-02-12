@@ -46,7 +46,7 @@ runViewImage(int argc, char * argv[])
   }
   const string inputImage = argv[1];
 
-  const unsigned int                       dimension = 3;
+  constexpr unsigned int                   dimension = 3;
   typedef float                            PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;

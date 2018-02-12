@@ -67,8 +67,8 @@ runRieszRotationMatrixTest()
   }
   // Check constructors of SteerableMatrix.
   // default
-  SteerableMatrix    Sdefault;
-  const unsigned int order1 = 1;
+  SteerableMatrix        Sdefault;
+  constexpr unsigned int order1 = 1;
   Sdefault.SetOrder(order1);
   Sdefault.SetSpatialRotationMatrix(R);
   // compute

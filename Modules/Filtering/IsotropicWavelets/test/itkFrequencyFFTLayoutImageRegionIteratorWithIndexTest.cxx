@@ -260,7 +260,7 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
 {
   bool testPassed = true; // let's be optimistic
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   typedef char CharPixelType;
   typedef char FloatPixelType;

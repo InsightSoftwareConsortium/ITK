@@ -266,7 +266,7 @@ itkFrequencyExpandTest(int argc, char * argv[])
   const std::string inputImage = argv[1];
   const std::string outputImage = argv[2];
 
-  const unsigned int                            ImageDimension = 3;
+  constexpr unsigned int                        ImageDimension = 3;
   typedef double                                PixelType;
   typedef itk::Image<PixelType, ImageDimension> ImageType;
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;

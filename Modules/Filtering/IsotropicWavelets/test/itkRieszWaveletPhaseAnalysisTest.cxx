@@ -254,7 +254,7 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
     thresholdNumOfSigmas = atof(argv[8]);
   }
 
-  const unsigned int                                   ImageDimension = 2;
+  constexpr unsigned int                               ImageDimension = 2;
   typedef double                                       PixelType;
   typedef std::complex<PixelType>                      ComplexPixelType;
   typedef itk::Point<PixelType, ImageDimension>        PointType;

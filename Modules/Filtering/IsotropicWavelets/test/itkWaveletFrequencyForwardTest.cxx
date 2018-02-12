@@ -252,7 +252,7 @@ itkWaveletFrequencyForwardTest(int argc, char * argv[])
     dimension = atoi(argv[6]);
   }
 
-  const unsigned int                                   ImageDimension = 3;
+  constexpr unsigned int                               ImageDimension = 3;
   typedef double                                       PixelType;
   typedef std::complex<PixelType>                      ComplexPixelType;
   typedef itk::Point<PixelType, ImageDimension>        PointType;

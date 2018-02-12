@@ -99,7 +99,7 @@ itkZeroDCImageFilterTest(int argc, char * argv[])
     dimension = atoi(argv[2]);
   }
 
-  const unsigned int                            ImageDimension = 3;
+  constexpr unsigned int                        ImageDimension = 3;
   typedef double                                PixelType;
   typedef itk::Image<PixelType, ImageDimension> ImageType;
 

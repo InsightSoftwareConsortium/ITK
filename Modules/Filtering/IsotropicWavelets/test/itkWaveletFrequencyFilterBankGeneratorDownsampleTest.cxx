@@ -132,7 +132,7 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
     dimension = atoi(argv[5]);
   }
 
-  const unsigned int                                   ImageDimension = 2;
+  constexpr unsigned int                               ImageDimension = 2;
   typedef double                                       PixelType;
   typedef std::complex<PixelType>                      ComplexPixelType;
   typedef itk::Point<PixelType, ImageDimension>        PointType;

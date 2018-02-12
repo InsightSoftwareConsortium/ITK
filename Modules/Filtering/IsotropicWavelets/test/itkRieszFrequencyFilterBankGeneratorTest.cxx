@@ -46,7 +46,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   const std::string inputImage = argv[1];
   const std::string outputImage = argv[2];
 
-  const unsigned int                       Dimension = 3;
+  constexpr unsigned int                   Dimension = 3;
   typedef double                           PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;

@@ -29,9 +29,9 @@ itkSimoncelliIsotropicWaveletTest(int, char *[])
   typedef double Double;
   typedef float  Float;
 
-  const unsigned int D3 = 3;
-  const unsigned int D2 = 2;
-  const unsigned int D1 = 1;
+  constexpr unsigned int D3 = 3;
+  constexpr unsigned int D2 = 2;
+  constexpr unsigned int D1 = 1;
 
   typedef itk::SimoncelliIsotropicWavelet<> Default;
   Default::New();

@@ -58,8 +58,8 @@ printComputeMaxNumberOfLevelsError(itk::Size<3> inputSize,
 bool
 testComputeMaxNumberOfLevels()
 {
-  bool               testPassed = true;
-  const unsigned int Dimension = 3;
+  bool                   testPassed = true;
+  constexpr unsigned int Dimension = 3;
 
   unsigned int                 scaleFactor = 2;
   typedef itk::Size<Dimension> SizeType;
