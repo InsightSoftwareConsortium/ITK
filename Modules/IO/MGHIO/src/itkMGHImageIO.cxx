@@ -64,7 +64,7 @@ int
 MGHImageIO
 ::TWrite(const TInType inValue)
 {
-  TDiskType onDiskValue = static_cast<TDiskType>(inValue);
+  auto onDiskValue = static_cast<TDiskType>(inValue);
   itk::ByteSwapper<TDiskType>::SwapFromSystemToBigEndian(&onDiskValue);
   if(this->m_IsCompressed)
     {
@@ -431,7 +431,7 @@ MGHImageIO
 
   if( m_NumberOfComponents > 1  )
     {
-    char* pBuffer = new char[frameSize];
+    auto* pBuffer = new char[frameSize];
 
     const unsigned int pixelSize = componentSize * m_NumberOfComponents;
     for( unsigned int frameIndex = 0;
@@ -442,8 +442,8 @@ MGHImageIO
       gzread( this->m_GZFile, pBuffer, frameSize );
       // copy memory location in the final buffer
 
-      char * pSrc = (char *)pBuffer;
-      char * pDst = (char *)pData;
+      auto * pSrc = (char *)pBuffer;
+      auto * pDst = (char *)pData;
 
       pDst += frameIndex * componentSize;
       for( unsigned int ui = 0;
@@ -710,7 +710,7 @@ MGHImageIO
   const unsigned long int numvalues = numPixels * m_NumberOfComponents;
   const unsigned long int numbytes = this->GetComponentSize() * numvalues;
 
-  char* tempmemory = new char[numbytes];
+  auto* tempmemory = new char[numbytes];
 
   // re-arrange data in frames
   if( m_NumberOfComponents > 1 )
@@ -768,8 +768,8 @@ MGHImageIO
   const unsigned int valueSize( this->GetComponentSize() );
   const unsigned int frameSize = numPixels * valueSize;
 
-  const char* pSrc = (const char *)buffer;
-  char*       pDst = (char *)tempmemory;
+  const auto* pSrc = (const char *)buffer;
+  auto*       pDst = (char *)tempmemory;
 
   for( unsigned int pixelIndex = 0;
        pixelIndex < numPixels; ++pixelIndex, pDst += valueSize )
