@@ -66,7 +66,7 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
   typename InputMeshType::CellsContainer::ConstPointer edges = input->GetEdgeCells();
   for (typename InputMeshType::CellsContainer::ConstIterator eter = edges->Begin(); eter != edges->End(); ++eter)
   {
-    typename InputMeshType::EdgeCellType * edge = dynamic_cast<typename InputMeshType::EdgeCellType *>(eter.Value());
+    auto * edge = dynamic_cast<typename InputMeshType::EdgeCellType *>(eter.Value());
     if (edge)
     {
       input->GetPoint(edge->PointIdsBegin()[0], &pointArray[0]);

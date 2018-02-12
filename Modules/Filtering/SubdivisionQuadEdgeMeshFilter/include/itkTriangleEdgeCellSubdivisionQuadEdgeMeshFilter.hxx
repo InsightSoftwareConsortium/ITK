@@ -67,7 +67,7 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Generate
     typename InputCellsContainer::ConstIterator eter = edges->Begin();
     while (eter != edges->End())
     {
-      typename InputMeshType::EdgeCellType * edge = dynamic_cast<typename InputMeshType::EdgeCellType *>(eter.Value());
+      auto * edge = dynamic_cast<typename InputMeshType::EdgeCellType *>(eter.Value());
       if (edge)
       {
         this->AddNewEdgePoints(edge->GetQEGeom());
