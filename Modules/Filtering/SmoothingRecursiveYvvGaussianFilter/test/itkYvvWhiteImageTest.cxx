@@ -43,9 +43,9 @@ itkYvvWhiteImageTest(int argc, char * argv[])
     die("missing arguments for a 3D image.");
   }
 
-  unsigned int   ntests;
-  unsigned int * size = new unsigned int[dim];
-  float          sigma;
+  unsigned int ntests;
+  auto *       size = new unsigned int[dim];
+  float        sigma;
   try
   {
     sigma = atof(argv[2]);

@@ -123,19 +123,19 @@ public:
 
 protected:
   RecursiveLineYvvGaussianImageFilter();
-  virtual ~RecursiveLineYvvGaussianImageFilter() {}
+  ~RecursiveLineYvvGaussianImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GenerateData (apply) the filter. */
   void
-  BeforeThreadedGenerateData();
+  BeforeThreadedGenerateData() override;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  virtual const ImageRegionSplitterBase *
-  GetImageRegionSplitter(void) const;
+  const ImageRegionSplitterBase *
+  GetImageRegionSplitter(void) const override;
 
   /** RecursiveLineYvvGaussianImageFilter needs all of the input only in the
    *  "Direction" dimension. Therefore we enlarge the output's
@@ -146,7 +146,7 @@ protected:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
   void
-  EnlargeOutputRequestedRegion(DataObject * output);
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
    * Typically it can be used to approximate a Gaussian or one of its
