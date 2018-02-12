@@ -48,7 +48,7 @@ LabelImageGenericInterpolateImageFunction<TInputImage, TInterpolator, TCoordRep>
     }
     m_InternalInterpolators.clear();
     m_LabelSelectionAdaptors.clear();
-    for (typename LabelSetType::const_iterator i = m_Labels.begin(); i != m_Labels.end(); ++i)
+    for (auto i = m_Labels.begin(); i != m_Labels.end(); ++i)
     {
       typename LabelSelectionAdaptorType::Pointer adapt = LabelSelectionAdaptorType::New();
       // This adaptor doesn't implement Set() so this should be safe
