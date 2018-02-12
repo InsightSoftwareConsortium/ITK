@@ -94,7 +94,7 @@ public:
   void
   Execute(const itk::Object * object, const itk::EventObject & event) override
   {
-    OptimizerPointer optimizer = dynamic_cast<OptimizerPointer>(object);
+    auto optimizer = dynamic_cast<OptimizerPointer>(object);
     if (typeid(event) != typeid(itk::IterationEvent))
     {
       return;
