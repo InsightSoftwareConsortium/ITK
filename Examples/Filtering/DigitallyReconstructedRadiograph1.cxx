@@ -533,7 +533,8 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  using InterpolatorType = itk::RayCastInterpolateImageFunction<InputImageType,double>;
+  using InterpolatorType =
+    itk::RayCastInterpolateImageFunction<InputImageType,double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   interpolator->SetTransform(transform);
 // Software Guide : EndCodeSnippet

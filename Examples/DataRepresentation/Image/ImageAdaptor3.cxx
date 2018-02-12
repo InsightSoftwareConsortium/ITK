@@ -135,8 +135,8 @@ int main( int argc, char *argv[] )
   using InputImageType = itk::Image< InputPixelType,  Dimension  >;
   using VectorPixelType = itk::CovariantVector< float, Dimension  >;
   using VectorImageType = itk::Image< VectorPixelType, Dimension  >;
-  using GradientFilterType = itk::GradientRecursiveGaussianImageFilter< InputImageType,
-                                        VectorImageType>;
+  using GradientFilterType =
+    itk::GradientRecursiveGaussianImageFilter< InputImageType, VectorImageType>;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
 // Software Guide : EndCodeSnippet

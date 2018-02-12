@@ -69,7 +69,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ScalarImageToHistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<InputImageType>;
+  using ScalarImageToHistogramGeneratorType =
+    itk::Statistics::ScalarImageToHistogramGenerator<InputImageType>;
 
   using HistogramType = ScalarImageToHistogramGeneratorType::HistogramType;
 
