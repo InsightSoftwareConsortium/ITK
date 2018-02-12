@@ -24,9 +24,11 @@
 
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
+#include "itkLexicographicCompare.h"
 
 namespace itk
 {
+
 /**
  *  \class LevelSetSparseImage
  *  \brief Base class for the sparse representation of a level-set function on one Image.
@@ -72,7 +74,7 @@ public:
   using RegionType = typename LabelMapType::RegionType;
 
   using LayerType = std::map< InputType, OutputType,
-                    Functor::IndexLexicographicCompare< VDimension > >;
+                    Functor::LexicographicCompare< InputType > >;
   using LayerIterator = typename LayerType::iterator;
   using LayerConstIterator = typename LayerType::const_iterator;
 

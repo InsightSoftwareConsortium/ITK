@@ -79,8 +79,8 @@ public:
                                    unsigned int requestedNumber) const
   {
     return this->GetNumberOfSplitsInternal( VImageDimension,
-                                            region.GetIndex().m_Index,
-                                            region.GetSize().m_Size,
+                                            region.GetIndex().m_InternalArray,
+                                            region.GetSize().m_InternalArray,
                                             requestedNumber);
   }
   inline unsigned int GetNumberOfSplits(const ImageIORegion &region,
@@ -109,8 +109,8 @@ public:
     return this->GetSplitInternal( VImageDimension,
                                    i,
                                    numberOfPieces,
-                                   region.GetModifiableIndex().m_Index,
-                                   region.GetModifiableSize().m_Size );
+                                   region.GetModifiableIndex().m_InternalArray,
+                                   region.GetModifiableSize().m_InternalArray );
   }
   unsigned int GetSplit( unsigned int i,
                          unsigned int numberOfPieces,

@@ -35,7 +35,7 @@ PathConstIterator< TImage, TPath >
   m_ImageOrigin   = m_Image->GetOrigin();
   m_ImageSpacing  = m_Image->GetSpacing();
   m_Region        = m_Image->GetLargestPossibleRegion();
-  m_ImageSize     = m_Region.GetSize().m_Size;
+  m_ImageSize     = m_Region.GetSize().m_InternalArray;
 
   m_VisitStartIndexAsLastIndexIfClosed = true;
 

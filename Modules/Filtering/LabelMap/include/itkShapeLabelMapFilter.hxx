@@ -29,6 +29,7 @@
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "itkMath.h"
+#include "itkLexicographicCompare.h"
 #include <deque>
 #include <map>
 
@@ -543,7 +544,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // a data structure to store the number of intercepts on each direction
-  using MapInterceptType = typename std::map<OffsetType, SizeValueType, typename OffsetType::LexicographicCompare>;
+  using MapInterceptType = typename std::map<OffsetType, SizeValueType, typename Functor::LexicographicCompare< OffsetType > >;
   MapInterceptType intercepts;
   // int nbOfDirections = (int)std::pow( 2.0, (int)ImageDimension ) - 1;
   // intecepts.resize(nbOfDirections + 1);  // code begins at position 1

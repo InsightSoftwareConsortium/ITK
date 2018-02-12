@@ -194,7 +194,7 @@ public:
     SizeType s;
     std::copy(rad,
               rad+VDimension,
-              s.m_Size);
+              s.m_InternalArray);
     this->SetRadius(s);
   }
 

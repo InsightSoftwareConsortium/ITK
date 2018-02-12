@@ -99,7 +99,7 @@ int main( int argc, char ** argv )
   itk::RandomImageSource<ImageType>::Pointer noise
     = itk::RandomImageSource<ImageType>::New();
 
-  noise->SetSize(size.m_Size);
+  noise->SetSize(size.m_InternalArray);
   noise->SetMin(-.7);
   noise->SetMax(.8);
   adder->SetInput1(noise->GetOutput());

@@ -19,29 +19,39 @@
 #define itkOffset_h
 
 #include "itkSize.h"
-
-#include <memory>
+#include "itkMath.h"
 
 namespace itk
 {
-namespace Functor
-{
-// Forward reference because of circular dependencies
-template< unsigned int VOffsetDimension >
-class ITK_TEMPLATE_EXPORT OffsetLexicographicCompare;
-}
 
 /**
- * \class Offset
- * \brief Represent the offset between two n-dimensional indexes
- *  in a n-dimensional image.
+ * \struct Offset
+ * \brief Represent a n-dimensional offset between two n-dimensional indexes of n-dimensional image.
  *
  * Offset is a templated class to represent a multi-dimensional offset,
  * i.e. (i,j,k,...). Offset is templated over the dimension of the space.
+ * ITK assumes the first element of a size (bounds) is the fastest moving index.
  *
- * For the sake of efficiency, Offset does not define a default constructor, a
+ * For efficiency, Offset does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
+ *
+ * Offset is an "aggregate" class.  Its data is public (m_InternalArray)
+ * allowing for fast and convenient instantiations/assignments.
+ *
+ * The following syntax for assigning an aggregate type like this is allowed/suggested:
+ *
+ *
+ * Offset<3> var{{ 256, 256, 20 }}; // Also prevent narrowing conversions
+ * Offset<3> var = {{ 256, 256, 20 }};
+ *
+ * The doubled braces {{ and }} are required to prevent `gcc -Wall'
+ * (and perhaps other compilers) from complaining about a partly
+ * bracketed initializer.
+ *
+ * As an aggregate type that is intended to provide highest performance
+ * characteristics, this class is not appropriate to inherit from,
+ * so setting this struct as final.
  *
  * \sa Index
  * \ingroup ImageAccess
@@ -52,232 +62,433 @@ class ITK_TEMPLATE_EXPORT OffsetLexicographicCompare;
  * \endwiki
  */
 
-template< unsigned int VOffsetDimension = 2 >
-class ITK_TEMPLATE_EXPORT Offset
+template <unsigned int VDimension = 2>
+struct ITK_TEMPLATE_EXPORT Offset final
 {
 public:
   /** Standard class type aliases. */
   using Self = Offset;
 
+  /** Compatible Offset and value type alias. */
+  using OffsetType = Offset<VDimension>;
+  using OffsetValueType = ::itk::OffsetValueType;
+
   /** Dimension constant */
-  static constexpr unsigned int Dimension = VOffsetDimension;
+  static constexpr unsigned int Dimension = VDimension;
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetOffsetDimension() { return VOffsetDimension; }
+  static constexpr unsigned int GetOffsetDimension()
+  {
+    return VDimension;
+  }
 
-  /** Compatible offset type alias. */
-  using OffsetType = Offset< VOffsetDimension >;
-  using OffsetValueType = itk::OffsetValueType;
 
-  /** Lexicographic ordering functor type.  */
-  using LexicographicCompare = Functor::OffsetLexicographicCompare< VOffsetDimension >;
-
-  /** Add an offset to an offset. */
-  const Self
-  operator+(const Self & offset) const
+  /** Add two offsets. */
+  const Self operator+(const Self & vec) const
   {
     Self result;
 
-    for ( unsigned int i = 0; i < VOffsetDimension; i++ )
-          { result[i] = m_Offset[i] + offset[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      result[i] = m_InternalArray[i] + vec.m_InternalArray[i];
+      }
     return result;
   }
 
   /** Add a size to an offset.  */
-  const Self
-  operator+(const Size< VOffsetDimension > & size) const
+  const Self operator+(const Size<VDimension> & sz) const
   {
     Self result;
 
-    for ( unsigned int i = 0; i < VOffsetDimension; i++ )
-          { result[i] = m_Offset[i] + size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      result[i] = m_InternalArray[i] + sz[i];
+      }
     return result;
   }
 
   /** Increment index by a size.  */
-  const Self &
-  operator+=(const Size< VOffsetDimension > & size)
+  const Self & operator+=(const Size<VDimension> & sz)
   {
-    for ( unsigned int i = 0; i < VOffsetDimension; i++ )
-          { m_Offset[i] += size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      m_InternalArray[i] += sz[i];
+      }
     return *this;
   }
 
   /** Decrement index by a size.  */
-  const Self &
-  operator-=(const Size< VOffsetDimension > & size)
+  const Self & operator-=(const Size<VDimension> & sz)
   {
-    for ( unsigned int i = 0; i < VOffsetDimension; i++ )
-          { m_Offset[i] -= size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      m_InternalArray[i] -= sz[i];
+      }
     return *this;
   }
 
   /** Subtract two offsets. */
-  const Self
-  operator-(const Self & vec)
+  const Self operator-(const Self & vec)
   {
     Self result;
 
-    for ( unsigned int i = 0; i < VOffsetDimension; i++ )
-          { result[i] = m_Offset[i] - vec.m_Offset[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      result[i] = m_InternalArray[i] - vec.m_InternalArray[i];
+      }
     return result;
   }
 
   /** Increment offset by an offset.  */
-  const Self &
-  operator+=(const Self & vec)
+  const Self & operator+=(const Self & vec)
   {
-    for ( unsigned int i = 0; i < VOffsetDimension; i++ )
-          { m_Offset[i] += vec.m_Offset[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      m_InternalArray[i] += vec.m_InternalArray[i];
+      }
     return *this;
   }
 
   /** Decrement offset by an offset.  */
-  const Self &
-  operator-=(const Self & vec)
+  const Self & operator-=(const Self & vec)
   {
-    for ( unsigned int i = 0; i < VOffsetDimension; i++ )
-          { m_Offset[i] -= vec.m_Offset[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      m_InternalArray[i] -= vec.m_InternalArray[i];
+      }
     return *this;
   }
 
-  /** Compare two offsets. */
-  bool
-  operator==(const Self & vec) const
-  {
-    bool same = 1;
 
-    for ( unsigned int i = 0; i < VOffsetDimension && same; i++ )
-          { same = ( m_Offset[i] == vec.m_Offset[i] ); }
-    return same;
-  }
-
-  /** Compare two offsets. */
-  bool
-  operator!=(const Self & vec) const
-  {
-    bool same = 1;
-
-    for ( unsigned int i = 0; i < VOffsetDimension && same; i++ )
-          { same = ( m_Offset[i] == vec.m_Offset[i] ); }
-    return !same;
-  }
-
-  /** Access an element of the offset. Elements are numbered
-   * 0, ..., VOffsetDimension-1. No bounds checking is performed. */
-  OffsetValueType & operator[](unsigned int dim)
-  { return m_Offset[dim]; }
-
-  /** Access an element of the index. Elements are numbered
-   * 0, ..., VOffsetDimension-1.
-   * No bounds checking is performed. */
-  const OffsetValueType & operator[](unsigned int dim) const
-  { return m_Offset[dim]; }
-
-  /** Get the index. This provides a read only reference to the index.
+  /** Get the offset. This provides a read only pointer to the offset.
    * \sa SetOffset() */
-  const OffsetValueType * GetOffset() const { return m_Offset; }
+  const OffsetValueType * GetOffset() const
+  {
+    return m_InternalArray;
+  }
 
   /** Set the index.
    * Try to prototype this function so that val has to point to a block of
    * memory that is the appropriate size.
    * \sa GetOffset() */
-  void SetOffset(const OffsetValueType val[VOffsetDimension])
+  void SetOffset(const OffsetValueType val[VDimension])
   {
     std::copy(val,
-              val+VOffsetDimension,
-              m_Offset);
+              val + VDimension,
+              m_InternalArray);
   }
 
-  /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
-   * is positioned in the location specified by the parameter "dim". Valid
-   * values of "dim" are 0, ..., VOffsetDimension-1. */
-  static Self GetBasisOffset(unsigned int dim);
+  /** Sets the value of one of the elements.
+   * This method is mainly intended to facilitate the access to elements
+   * from Tcl and Python where C++ notation is not very convenient.
+   * \warning No bound checking is performed.
+   * \sa SetIndex()
+   * \sa GetElement() */
+  void SetElement(unsigned long element, OffsetValueType val)
+  {
+    m_InternalArray[element] = val;
+  }
+
+  /** Gets the value of one of the elements.
+   * This method is mainly intended to facilitate the access to elements
+   * from Tcl and Python where C++ notation is not very convenient.
+   * \warning No bound checking is performed
+   * \sa GetIndex()
+   * \sa SetElement() */
+  OffsetValueType GetElement(unsigned long element) const
+  {
+    return m_InternalArray[element];
+  }
 
   /** Set one value for the offset in all dimensions.  Useful for initializing
    * an offset to zero. */
   void Fill(OffsetValueType value)
-  { for ( unsigned int i = 0; i < VOffsetDimension; ++i ) { m_Offset[i] = value; } }
-
-  /** Offset is an "aggregate" class.  Its data is public (m_Offset)
-   * allowing for fast and convenient instantiations/assignments.
-   *
-   * The following syntax for assigning an index is allowed/suggested:
-   *    Offset<3> index = {5, 2, 7}; */
-  OffsetValueType m_Offset[VOffsetDimension];
-
-#if defined( ITK_WRAPPING_PARSER )
-  // Do not use c++11 'delete' keyword here.  This code block is here to
-  // explicitly provide the wrapping facilities with handles to the default and
-  // copy constructors, and the assignment operator that are otherwise declared
-  // implicitly.
-  Offset();
-  Offset(const Self&);
-  void operator=(const Self&);
-#endif
-};
-
-namespace Functor
-{
-/** \class OffsetLexicographicCompare
- * \brief Order Offset instances lexicographically.
- *
- * This is a comparison functor suitable for storing Offset instances
- * in an STL container.  The ordering is total and unique but has
- * little geometric meaning.
- * \ingroup ITKCommon
- */
-template< unsigned int VOffsetDimension >
-class ITK_TEMPLATE_EXPORT OffsetLexicographicCompare
-{
-public:
-  bool operator()(Offset< VOffsetDimension > const & l,
-                  Offset< VOffsetDimension > const & r) const
   {
-    for ( unsigned int i = 0; i < VOffsetDimension; ++i )
+    std::fill_n(begin(), size(), value);
+  }                                        // MATCH std::array assign, ITK Fill
+
+  /** Offset is an "aggregate" class.  Its data is public (m_InternalArray)
+   * allowing for fast and convenient instantiations/assignments.
+   * ( See main class documentation for an example of initialization)
+   */
+  /*
+   *  Ask the compiler to align a type to the maximum useful alignment for the target
+   *  machine you are compiling for. Whenever you leave out the alignment factor in an
+   *  aligned attribute specification, the compiler automatically sets the alignment
+   *  for the type to the largest alignment that is ever used for any data type on
+   *  the target machine you are compiling for. Doing this can often make copy
+   *  operations more efficient, because the compiler can use whatever instructions
+   *  copy the biggest chunks of memory when performing copies to or from the variables
+   *  that have types that you have aligned this way.
+   */
+  static_assert( VDimension > 0, "Error: Only positive value sized VDimension allowed" );
+  alignas(OffsetValueType) OffsetValueType m_InternalArray[VDimension];
+
+  // Explicitly require constructors
+  Offset() = default;
+  Offset( const Self & ) = default;
+  Offset( Self && ) = default;
+  Self & operator=( const Self & ) = default;
+  Self & operator=( Self && ) = default;
+
+  /** Copy values from a FixedArray by rounding each one of the components */
+  template <typename TCoordRep>
+  inline void CopyWithRound(const FixedArray<TCoordRep, VDimension> & point)
+  {
+    for( unsigned int i = 0; i < VDimension; ++i )
       {
-      if ( l.m_Offset[i] < r.m_Offset[i] )
-        {
-        return true;
-        }
-      else if ( l.m_Offset[i] > r.m_Offset[i] )
-        {
-        return false;
-        }
+      m_InternalArray[i] = Math::Round<OffsetValueType>(point[i]);
       }
+  }
+
+  /** Copy values from a FixedArray by casting each one of the components */
+  template <typename TCoordRep>
+  inline void CopyWithCast(const FixedArray<TCoordRep, VDimension> & point)
+  {
+    for( unsigned int i = 0; i < VDimension; ++i )
+      {
+      m_InternalArray[i] = static_cast<OffsetValueType>( point[i] );
+      }
+  }
+
+  /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
+   * is positioned in the location specified by the parameter "dim". Valid
+   * values of "dim" are 0, ..., VDimension-1. */
+  static Self GetBasisOffset(unsigned int dim);
+
+
+  // ======================= Mirror the access pattern behavior of the std::array class
+  /**
+   * Mirror the std::array type aliases and member function
+   * so that the Offset class can be treated as a container
+   * class in a way that is similar to the std::array.
+   */
+  using value_type = ::itk::OffsetValueType;
+  using reference = value_type &;
+  using const_reference = const value_type &;
+  using iterator = value_type *;
+  using const_iterator = const value_type *;
+  using size_type = unsigned int;
+  using difference_type = std::ptrdiff_t;
+  using reverse_iterator = std::reverse_iterator<iterator>;
+  using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+  /**
+   * Mirror behavior of the std::array manipulations
+   * See std::array for documentation on these methods
+   */
+  void assign(const value_type & newValue)
+  {
+    std::fill_n(begin(), size(), newValue);
+  }
+
+  void swap(Offset & other)
+  {
+    std::swap_ranges(begin(), end(), other.begin() );
+  }
+
+  iterator begin()
+  {
+    return iterator(&m_InternalArray[0]);
+  }
+
+  const_iterator begin() const
+  {
+    return const_iterator(&m_InternalArray[0]);
+  }
+
+  iterator end()
+  {
+    return iterator(&m_InternalArray[VDimension]);
+  }
+
+  const_iterator end() const
+  {
+    return const_iterator(&m_InternalArray[VDimension]);
+  }
+
+  reverse_iterator rbegin()
+  {
+    return reverse_iterator(end() );
+  }
+
+  const_reverse_iterator rbegin() const
+  {
+    return const_reverse_iterator(end() );
+  }
+
+  reverse_iterator rend()
+  {
+    return reverse_iterator(begin() );
+  }
+
+  const_reverse_iterator rend() const
+  {
+    return const_reverse_iterator(begin() );
+  }
+
+  constexpr size_type size() const
+  {
+    return VDimension;
+  }
+
+  constexpr size_type max_size() const
+  {
+    return VDimension;
+  }
+
+  constexpr bool empty() const
+  {
     return false;
   }
-};
-}
 
-template< unsigned int VOffsetDimension >
-Offset< VOffsetDimension >
-Offset< VOffsetDimension >
+  reference operator[](size_type pos)
+  {
+    return m_InternalArray[pos];
+  }
+
+  const_reference operator[](size_type pos) const
+  {
+    return m_InternalArray[pos];
+  }
+
+  reference at(size_type pos)
+  {
+    ExceptionThrowingBoundsCheck(pos); return m_InternalArray[pos];
+  }
+
+  const_reference at(size_type pos) const
+  {
+    ExceptionThrowingBoundsCheck(pos); return m_InternalArray[pos];
+  }
+
+  reference front()
+  {
+    return *begin();
+  }
+
+  const_reference front() const
+  {
+    return *begin();
+  }
+
+  reference back()
+  {
+    return VDimension ? *(end() - 1) : *end();
+  }
+
+  const_reference back() const
+  {
+    return VDimension ? *(end() - 1) : *end();
+  }
+
+  OffsetValueType * data()
+  {
+    return &m_InternalArray[0];
+  }
+
+  const OffsetValueType * data() const
+  {
+    return &m_InternalArray[0];
+  }
+
+private:
+  void ExceptionThrowingBoundsCheck(size_type pos) const
+  {
+    if( pos >= VDimension )
+      {
+      throw std::out_of_range("array::ExceptionThrowingBoundsCheck");
+      }
+  }
+
+};  //------------ End struct Offset
+
+template <unsigned int VDimension>
+Offset<VDimension>
+Offset<VDimension>
 ::GetBasisOffset(unsigned int dim)
 {
   Self ind;
 
-  memset(ind.m_Offset, 0, sizeof( OffsetValueType ) * VOffsetDimension);
-  ind.m_Offset[dim] = 1;
+  memset(ind.m_InternalArray, 0, sizeof( OffsetValueType ) * VDimension);
+  ind.m_InternalArray[dim] = 1;
   return ind;
 }
 
-template< unsigned int VOffsetDimension >
-std::ostream & operator<<(std::ostream & os, const Offset< VOffsetDimension > & ind)
+template <unsigned int VDimension>
+std::ostream & operator<<(std::ostream & os, const Offset<VDimension> & ind)
 {
   os << "[";
-  unsigned int dimlim = VOffsetDimension - 1;
-  for ( unsigned int i = 0; i < dimlim; ++i )
+  unsigned int dimlim = VDimension - 1;
+  for( unsigned int i = 0; i < dimlim; ++i )
     {
     os << ind[i] << ", ";
     }
-  if ( VOffsetDimension >= 1 )
+  if( VDimension >= 1 )
     {
-    os << ind[VOffsetDimension - 1];
+    os << ind[VDimension - 1];
     }
   os << "]";
   return os;
 }
+
+// ======================= Mirror the access pattern behavior of the std::array class
+// Array comparisons.
+template <unsigned int VDimension>
+inline bool
+operator==(const Offset<VDimension> & one, const Offset<VDimension> & two)
+{
+  return std::equal(one.begin(), one.end(), two.begin() );
+}
+
+template <unsigned int VDimension>
+inline bool
+operator!=(const Offset<VDimension> & one, const Offset<VDimension> & two)
+{
+  return !(one == two);
+}
+
+template <unsigned int VDimension>
+inline bool
+operator<(const Offset<VDimension> & one, const Offset<VDimension> & two)
+{
+  return std::lexicographical_compare(one.begin(), one.end(),
+                                      two.begin(), two.end() );
+}
+
+template <unsigned int VDimension>
+inline bool
+operator>(const Offset<VDimension> & one, const Offset<VDimension> & two)
+{
+  return two < one;
+}
+
+template <unsigned int VDimension>
+inline bool
+operator<=(const Offset<VDimension> & one, const Offset<VDimension> & two)
+{
+  return !(one > two);
+}
+
+template <unsigned int VDimension>
+inline bool
+operator>=(const Offset<VDimension> & one, const Offset<VDimension> & two)
+{
+  return !(one < two);
+}
+
+// Specialized algorithms [6.2.2.2].
+template <unsigned int VDimension>
+inline void
+swap(Offset<VDimension> & one, Offset<VDimension> & two)
+{
+  std::swap_ranges(one.begin(), one.end(), two.begin() );
+}
+
+// static constexpr definition explicitly needed in C++11
+template< unsigned int VDimension >
+constexpr unsigned int Offset<VDimension>::Dimension;
+
 } // end namespace itk
 
 #endif

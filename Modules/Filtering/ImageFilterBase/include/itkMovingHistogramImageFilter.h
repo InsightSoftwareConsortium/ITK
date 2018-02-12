@@ -19,6 +19,7 @@
 #define itkMovingHistogramImageFilter_h
 
 #include "itkMovingHistogramImageFilterBase.h"
+#include "itkLexicographicCompare.h"
 
 namespace itk
 {
@@ -126,7 +127,7 @@ public:
 
   using OffsetListType = typename std::list< OffsetType >;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >;
+  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename Functor::LexicographicCompare< OffsetType > >;
 
   /** Configure the histogram.
    *  Subclasses must override this method. */

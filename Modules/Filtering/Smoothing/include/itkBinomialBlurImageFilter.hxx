@@ -185,11 +185,11 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
             {
             if ( i == dim )
               {
-              indexShift.m_Index[i] = index.m_Index[i] + 1;
+              indexShift.m_InternalArray[i] = index.m_InternalArray[i] + 1;
               }
             else
               {
-              indexShift.m_Index[i] = index.m_Index[i];
+              indexShift.m_InternalArray[i] = index.m_InternalArray[i];
               }
             }
 
@@ -227,11 +227,11 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
             {
             if ( i == dim )
               {
-              indexShift.m_Index[i] = index.m_Index[i] - 1;
+              indexShift.m_InternalArray[i] = index.m_InternalArray[i] - 1;
               }
             else
               {
-              indexShift.m_Index[i] = index.m_Index[i];
+              indexShift.m_InternalArray[i] = index.m_InternalArray[i];
               }
             }
 

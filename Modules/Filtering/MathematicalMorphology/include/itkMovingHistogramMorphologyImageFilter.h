@@ -20,6 +20,7 @@
 
 #include "itkMorphologyHistogram.h"
 #include "itkMovingHistogramImageFilter.h"
+#include "itkLexicographicCompare.h"
 #include <list>
 #include <map>
 
@@ -83,7 +84,7 @@ public:
 
   using OffsetListType = typename std::list< OffsetType >;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >;
+  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare< OffsetType > >;
 
   /** Set/Get the boundary value.
    *  Subclasses should set their own values. */

@@ -80,8 +80,8 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
   long rsz[VDimension];
   long Location[VDimension];
 
-  std::copy(I->GetRequestedRegion().GetSize().m_Size,
-            I->GetRequestedRegion().GetSize().m_Size+VDimension,
+  std::copy(I->GetRequestedRegion().GetSize().m_InternalArray,
+            I->GetRequestedRegion().GetSize().m_InternalArray+VDimension,
             rsz);
   std::fill_n(Location, VDimension, 0);
 
@@ -89,7 +89,7 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
     {
     std::cout << "iDim = " << iDim << std::endl;
     std::cout << "\tRegionSize = "
-              << I->GetRequestedRegion().GetSize().m_Size[iDim]
+              << I->GetRequestedRegion().GetSize().m_InternalArray[iDim]
               << std::endl;
     std::cout << "\tRegionStartIndex = "
               << I->GetRequestedRegion().GetIndex()[iDim] << std::endl;
