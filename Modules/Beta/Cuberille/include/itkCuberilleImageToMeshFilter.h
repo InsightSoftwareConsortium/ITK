@@ -304,7 +304,7 @@ private:
         {
         bool result = false;
         VertexLookupNode node( x, y );
-        typename MapType::iterator it = m_Map.find( node );
+        auto it = m_Map.find( node );
         if ( it != m_Map.end() )
           {
           result = true;
