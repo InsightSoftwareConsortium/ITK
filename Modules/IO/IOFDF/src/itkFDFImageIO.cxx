@@ -407,7 +407,7 @@ FDFImageIO::Read(void * buffer)
     RAISE_EXCEPTION();
   }
 
-  char * p = static_cast<char *>(buffer);
+  auto * p = static_cast<char *>(buffer);
 
   inFile.read(p, this->GetImageSizeInBytes());
 
