@@ -88,30 +88,30 @@ template <typename T, unsigned int VImageDimension>
 typename RieszRotationMatrix<T, VImageDimension>::IndicesMatrix
 RieszRotationMatrix<T, VImageDimension>::GenerateIndicesMatrix()
 {
-  typedef std::vector<unsigned int>     IndicesArrayType;
-  typedef std::vector<IndicesArrayType> IndicesVector;
-  typedef std::vector<IndicesVector>    IndicesMatrixRow;
-  typedef std::vector<IndicesMatrixRow> IndicesMatrix;
-  IndicesMatrix                         allIndicesPairs(
-    this->m_Components,                                              // number of rows
-    IndicesMatrixRow(this->m_Components,                             // number of columns
-                     IndicesVector(2,                                // pair of indices
-                                   IndicesArrayType(VImageDimension) // dimension of the indices.
-                                   )));
+  typedef std::vector<unsigned int>               LocalIndicesArrayType;
+  typedef std::vector<LocalIndicesArrayType>      LocalIndicesVector;
+  typedef std::vector<LocalIndicesVector>         LocalLocalIndicesMatrixRow;
+  typedef std::vector<LocalLocalIndicesMatrixRow> LocalIndicesMatrix;
+  LocalIndicesMatrix                              allIndicesPairs(
+    this->m_Components,                                                                  // number of rows
+    LocalLocalIndicesMatrixRow(this->m_Components,                                       // number of columns
+                               LocalIndicesVector(2,                                     // pair of indices
+                                                  LocalIndicesArrayType(VImageDimension) // dimension of the indices.
+                                                  )));
 
-  typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
-  SetType allIndices = itk::utils::ComputeAllPossibleIndices<IndicesArrayType, VImageDimension>(this->m_Order);
+  typedef std::set<LocalIndicesArrayType, std::greater<LocalIndicesArrayType>> SetType;
+  SetType allIndices = itk::utils::ComputeAllPossibleIndices<LocalIndicesArrayType, VImageDimension>(this->m_Order);
 
-  // Populate IndicesMatrix.
+  // Populate LocalIndicesMatrix.
   {
     unsigned int ind_i = 0;
-    for (typename SetType::const_iterator itN = allIndices.begin(); itN != allIndices.end(); ++itN)
+    for (auto itN = allIndices.begin(); itN != allIndices.end(); ++itN)
     {
       unsigned int ind_j = 0;
-      for (typename SetType::const_iterator itM = allIndices.begin(); itM != allIndices.end(); ++itM)
+      for (const auto & oneIndex : allIndices)
       {
         allIndicesPairs[ind_i][ind_j][0] = *itN;
-        allIndicesPairs[ind_i][ind_j][1] = *itM;
+        allIndicesPairs[ind_i][ind_j][1] = oneIndex;
         ++ind_j;
       }
       ++ind_i;
@@ -164,9 +164,7 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
           kValidInitialIndices[dim].insert(IndicesArrayType(VImageDimension));
           continue;
         }
-        for (typename SetType::const_iterator itN = allIndicesOrder[kOrder].begin();
-             itN != allIndicesOrder[kOrder].end();
-             ++itN)
+        for (auto itN = allIndicesOrder[kOrder].begin(); itN != allIndicesOrder[kOrder].end(); ++itN)
         {
           if (itk::utils::LessOrEqualIndiceComparisson<IndicesArrayType, VImageDimension>(*itN, m))
           {
@@ -183,41 +181,37 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
       // Initialize kValidIndices with k0:
       typedef std::vector<IndicesVector> ValidIndicesType;
       ValidIndicesType                   kValidIndices;
-      for (typename SetType::const_iterator itValid0 = kValidInitialIndices[0].begin();
-           itValid0 != kValidInitialIndices[0].end();
-           ++itValid0)
+      for (const auto & itValid0 : kValidInitialIndices[0])
       {
         // IndicesVector tmp;
         // tmp.push_back(*itValid0);
         // kValidIndices.push_back( tmp );
-        kValidIndices.push_back(IndicesVector(1, *itValid0));
+        kValidIndices.push_back(IndicesVector(1, itValid0));
       }
 
       unsigned int combineIterations = VImageDimension - 1;
       for (unsigned int combineIndex = 0; combineIndex < combineIterations; ++combineIndex)
       {
         ValidIndicesType tmpValidIndices; // store new valid indices.
-        for (unsigned int validKIndex = 0; validKIndex < kValidIndices.size(); ++validKIndex)
+        for (auto & kValidIndex : kValidIndices)
         {
-          for (typename SetType::const_iterator itKIni = kValidInitialIndices[combineIndex + 1].begin();
-               itKIni != kValidInitialIndices[combineIndex + 1].end();
-               ++itKIni)
+          for (const auto & itKIni : kValidInitialIndices[combineIndex + 1])
           {
             // ---verbose sum---
-            IndicesArrayType sumKIndices = *itKIni;
-            for (unsigned int kIndice = 0; kIndice < kValidIndices[validKIndex].size(); ++kIndice)
+            IndicesArrayType sumKIndices = itKIni;
+            for (auto & kIndex : kValidIndex)
             {
               for (unsigned int dim = 0; dim < VImageDimension; ++dim)
               {
-                sumKIndices[dim] += kValidIndices[validKIndex][kIndice][dim];
+                sumKIndices[dim] += kIndex[dim];
               }
             }
             // --- end verbose sum:---
-            // if sum is valid: append indice to tmpValidIndices.
+            // if sum is valid: append index to tmpValidIndices.
             if (itk::utils::LessOrEqualIndiceComparisson<IndicesArrayType, VImageDimension>(sumKIndices, m))
             {
-              IndicesVector tmp = kValidIndices[validKIndex];
-              tmp.push_back(*itKIni);
+              IndicesVector tmp = kValidIndex;
+              tmp.push_back(itKIni);
               tmpValidIndices.push_back(tmp);
             }
           } // end new k indices
@@ -241,17 +235,17 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
         nFactorial *= itk::utils::Factorial(n[dim]);
         mFactorial *= itk::utils::Factorial(m[dim]);
       }
-      double nFactorialReal = static_cast<double>(nFactorial);
-      for (unsigned int validKIndex = 0; validKIndex < kValidIndices.size(); ++validKIndex)
+      auto nFactorialReal = static_cast<double>(nFactorial);
+      for (auto & kValidIndex : kValidIndices)
       {
         long double rotationFactor = 1;
         long        kFactorialMultiplication = 1;
         // There are always VImageDimension indices. (k1,k2,...,kd)
-        for (unsigned int kIndice = 0; kIndice < VImageDimension; ++kIndice)
+        for (unsigned int kIndex = 0; kIndex < VImageDimension; ++kIndex)
         {
           for (unsigned int dim = 0; dim < VImageDimension; ++dim)
           {
-            const unsigned int & k = kValidIndices[validKIndex][kIndice][dim];
+            const unsigned int & k = kValidIndex[kIndex][dim];
             // k1! = k11!*k12!*...*k1d!
             kFactorialMultiplication *= itk::utils::Factorial(k);
             // r11^k11*...*r1d^k1d
@@ -262,11 +256,11 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
             }
             else if (k == 1)
             {
-              rotationFactor *= this->m_SpatialRotationMatrix[kIndice][dim];
+              rotationFactor *= this->m_SpatialRotationMatrix[kIndex][dim];
             }
             else
             {
-              rotationFactor *= std::pow(this->m_SpatialRotationMatrix[kIndice][dim], static_cast<int>(k));
+              rotationFactor *= std::pow(this->m_SpatialRotationMatrix[kIndex][dim], static_cast<int>(k));
             }
           }
         }
@@ -302,14 +296,14 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
         std::cout << std::endl;
 
         std::cout << "kValidIndices.size(): " << kValidIndices.size() << std::endl;
-        for (unsigned int c = 0; c < kValidIndices.size(); ++c)
+        for (auto & kValidIndex : kValidIndices)
         {
-          for (unsigned int v = 0; v < kValidIndices[c].size(); ++v)
+          for (auto & v : kValidIndex)
           {
             std::cout << "( ";
             for (unsigned int dim = 0; dim < VImageDimension; ++dim)
             {
-              std::cout << kValidIndices[c][v][dim] << ", ";
+              std::cout << v[dim] << ", ";
             }
             std::cout << ") , ";
           }
@@ -320,14 +314,12 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
         for (unsigned int dim = 0; dim < VImageDimension; ++dim)
         {
           std::cout << "dim:" << dim << std::endl;
-          for (typename SetType::const_iterator it = kValidInitialIndices[dim].begin();
-               it != kValidInitialIndices[dim].end();
-               ++it)
+          for (const auto & it : kValidInitialIndices[dim])
           {
             std::cout << "( ";
             for (unsigned int innerDim = 0; innerDim < VImageDimension; ++innerDim)
             {
-              std::cout << (*it)[innerDim] << ", ";
+              std::cout << it[innerDim] << ", ";
             }
             std::cout << ")";
           }

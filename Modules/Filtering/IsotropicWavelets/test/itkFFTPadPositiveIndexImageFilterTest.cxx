@@ -54,8 +54,7 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
   EXERCISE_BASIC_OBJECT_METHODS(fftpad, FFTPadPositiveIndexImageFilter, ImageToImageFilter);
 
 
-  FFTPadType::SizeType::SizeValueType sizeGreatestPrimeFactor =
-    static_cast<FFTPadType::SizeType::SizeValueType>(atoi(argv[3]));
+  auto sizeGreatestPrimeFactor = static_cast<FFTPadType::SizeType::SizeValueType>(atoi(argv[3]));
   fftpad->SetSizeGreatestPrimeFactor(sizeGreatestPrimeFactor);
   TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fftpad->GetSizeGreatestPrimeFactor());
 

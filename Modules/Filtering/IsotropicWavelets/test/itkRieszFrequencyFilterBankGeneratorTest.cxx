@@ -85,7 +85,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   // Get iterator to Indices of RieszFunction.
   typedef RieszFilterBankType::RieszFunctionType::SetType IndicesType;
   IndicesType                                             indices = filterBank->GetModifiableEvaluator()->GetIndices();
-  IndicesType::const_iterator                             indicesIt = indices.begin();
+  auto                                                    indicesIt = indices.begin();
 
   // Get real part of complex image for visualization
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
@@ -108,7 +108,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
       }
       ++indicesIt;
       oss << ")";
-      std::cout << "  Indice: " << oss.str() << std::endl;
+      std::cout << "  Index: " << oss.str() << std::endl;
 
       complexToRealFilter->SetInput(filterBank->GetOutput(comp));
       complexToRealFilter->Update();
@@ -134,7 +134,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
       }
       ++indicesIt;
       oss << ")";
-      std::cout << "  Indice: " << oss.str() << std::endl;
+      std::cout << "  Index: " << oss.str() << std::endl;
 
       complexToImaginaryFilter->SetInput(filterBank->GetOutput(comp));
       complexToImaginaryFilter->Update();

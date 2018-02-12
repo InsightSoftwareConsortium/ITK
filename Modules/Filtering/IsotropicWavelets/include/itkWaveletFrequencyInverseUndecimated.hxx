@@ -240,7 +240,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
   InputImagePointer low_pass_per_level = duplicator->GetModifiableOutput();
 
   typedef itk::MultiplyImageFilter<InputImageType> MultiplyFilterType;
-  double                                           scaleFactor = static_cast<double>(this->m_ScaleFactor);
+  auto                                             scaleFactor = static_cast<double>(this->m_ScaleFactor);
   for (int level = this->m_Levels - 1; level > -1; --level)
   {
     itkDebugMacro(<< "LEVEL: " << level);

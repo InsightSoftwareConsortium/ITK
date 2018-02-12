@@ -169,7 +169,7 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
 
   // Parse input arguments
   unsigned int dimension = atoi(argv[1]);
-  unsigned int expandFactor = static_cast<unsigned int>(atoi(argv[2]));
+  auto         expandFactor = static_cast<unsigned int>(atoi(argv[2]));
 
 
   if (dimension == 2)

@@ -82,17 +82,17 @@ public:
   }
 
   /**
-   * Compute all possible unique indices given the subIndice: (X, 0, ..., 0).
+   * Compute all possible unique indices given the subIndex: (X, 0, ..., 0).
    * Where X can be any number greater than 0, but probably want to use this->m_Order.
    *
-   * @param subIndice Indice (X,0,...,0) where X > 0.
+   * @param subIndex Indice (X,0,...,0) where X > 0.
    * @param uniqueIndices Reference to set that store results.
-   * @param init position to evaluate  subIndice. Needed for recursion purposes.
+   * @param init position to evaluate  subIndex. Needed for recursion purposes.
    */
   static void
-  ComputeUniqueIndices(IndicesArrayType subIndice, SetType & uniqueIndices, unsigned int init = 0)
+  ComputeUniqueIndices(IndicesArrayType subIndex, SetType & uniqueIndices, unsigned int init = 0)
   {
-    itk::utils::ComputeUniqueIndices<IndicesArrayType, VImageDimension>(subIndice, uniqueIndices, init);
+    itk::utils::ComputeUniqueIndices<IndicesArrayType, VImageDimension>(subIndex, uniqueIndices, init);
   }
 
   /**
@@ -148,7 +148,7 @@ public:
   EvaluateAllComponents(const TInput & frequency_point) const;
 
   /**
-   * Compute normalizing factor given an indice = (n1,n2,...,nVImageDimension)
+   * Compute normalizing factor given an index = (n1,n2,...,nVImageDimension)
    * Also takes into account this->m_Order = N
    * @param indices input indices.
    *

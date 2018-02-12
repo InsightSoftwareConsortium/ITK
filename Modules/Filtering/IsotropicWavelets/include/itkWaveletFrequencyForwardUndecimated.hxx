@@ -196,9 +196,9 @@ WaveletFrequencyForwardUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
   Superclass::GenerateOutputRequestedRegion(refOutput);
 
   // find the index for this output
-  unsigned int refIndex = static_cast<unsigned int>(refOutput->GetSourceOutputIndex());
+  auto refIndex = static_cast<unsigned int>(refOutput->GetSourceOutputIndex());
 
-  TOutputImage * ptr = itkDynamicCastInDebugMode<TOutputImage *>(refOutput);
+  auto * ptr = itkDynamicCastInDebugMode<TOutputImage *>(refOutput);
   if (!ptr)
   {
     itkExceptionMacro(<< "Could not cast refOutput to TOutputImage*.");
@@ -302,7 +302,7 @@ WaveletFrequencyForwardUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
 
   typedef itk::MultiplyImageFilter<OutputImageType> MultiplyFilterType;
   inputPerLevel = changeInputInfoFilter->GetOutput();
-  double scaleFactor = static_cast<double>(this->m_ScaleFactor);
+  auto scaleFactor = static_cast<double>(this->m_ScaleFactor);
   for (unsigned int level = 0; level < this->m_Levels; ++level)
   {
     /******* Set HighPass bands *****/

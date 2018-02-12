@@ -59,25 +59,25 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   {
     accum += frequencyPoint[d] * frequencyPoint[d];
   }
-  itk::SpacePrecisionType frequencyMagnitude = static_cast<itk::SpacePrecisionType>(sqrt(accum));
-  OutputType              trueResult(0, -frequencyPoint[0] / frequencyMagnitude);
+  auto       frequencyMagnitude = static_cast<itk::SpacePrecisionType>(sqrt(accum));
+  OutputType trueResult(0, -frequencyPoint[0] / frequencyMagnitude);
   if (itk::Math::NotAlmostEquals(resultFirstOrderWithIndices, trueResult))
   {
-    std::cerr << "Error. EvaluateWithIndices with order 1, indice (1,...,0):\n actual: " << resultFirstOrderWithIndices
+    std::cerr << "Error. EvaluateWithIndices with order 1, index (1,...,0):\n actual: " << resultFirstOrderWithIndices
               << " expected: " << trueResult << " are not equal!" << std::endl;
   }
 
-  // Test getting subIndices
-  // Init indice has to be sorted in descending order, example:(3,0,0)
-  typename RieszFrequencyFunctionType::IndicesArrayType initIndice;
-  initIndice.resize(Dimension);
-  initIndice[0] = inputOrder;
+  // Test getting subIndexs
+  // Init index has to be sorted in descending order, example:(3,0,0)
+  typename RieszFrequencyFunctionType::IndicesArrayType initIndex;
+  initIndex.resize(Dimension);
+  initIndex[0] = inputOrder;
   typedef typename RieszFrequencyFunctionType::SetType SetType;
   SetType                                              uniqueIndices;
   unsigned int                                         positionToStartProcessing = 0;
-  RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, uniqueIndices, positionToStartProcessing);
+  RieszFrequencyFunctionType::ComputeUniqueIndices(initIndex, uniqueIndices, positionToStartProcessing);
   std::cout << "UniqueIndices: " << uniqueIndices.size() << std::endl;
-  for (typename SetType::const_iterator it = uniqueIndices.begin(); it != uniqueIndices.end(); ++it)
+  for (auto it = uniqueIndices.begin(); it != uniqueIndices.end(); ++it)
   {
     std::cout << "(";
     for (unsigned int i = 0; i < Dimension; ++i)
@@ -89,7 +89,7 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
 
   SetType allPermutations = RieszFrequencyFunctionType::ComputeAllPermutations(uniqueIndices);
   std::cout << "AllPermutations: " << allPermutations.size() << std::endl;
-  for (typename SetType::const_iterator it = allPermutations.begin(); it != allPermutations.end(); ++it)
+  for (auto it = allPermutations.begin(); it != allPermutations.end(); ++it)
   {
     std::cout << "(";
     for (unsigned int i = 0; i < Dimension; ++i)
@@ -107,13 +107,13 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
               << " expected: " << expectedNumberOfComponents << " are not equal!" << std::endl;
     testPassed = false;
   }
-  // Regression test for indice calculation.
+  // Regression test for index calculation.
   for (unsigned int order = 1; order < 6; ++order)
   {
     uniqueIndices.clear();
     allPermutations.clear();
-    initIndice[0] = order;
-    RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, uniqueIndices /*, 0 */);
+    initIndex[0] = order;
+    RieszFrequencyFunctionType::ComputeUniqueIndices(initIndex, uniqueIndices /*, 0 */);
     allPermutations = RieszFrequencyFunctionType::ComputeAllPermutations(uniqueIndices);
     actualNumberOfComponents = allPermutations.size();
     expectedNumberOfComponents = RieszFrequencyFunctionType::ComputeNumberOfComponents(order);

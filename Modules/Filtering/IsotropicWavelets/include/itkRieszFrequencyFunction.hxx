@@ -124,27 +124,26 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::EvaluateAllComp
   const SetType & allIndices = this->m_Indices;
 
   OutputComponentsType out;
-  for (typename SetType::const_iterator it = allIndices.begin(); it != allIndices.end(); ++it)
+  for (auto index : allIndices)
   {
-    IndicesArrayType indice = *it;
     // freqProduct = w1^n1...wd^nd
     double freqProduct(1);
     for (unsigned int dim = 0; dim < VImageDimension; ++dim)
     {
-      if (indice[dim] > 0)
+      if (index[dim] > 0)
       {
-        freqProduct *= std::pow(static_cast<double>(frequency_point[dim]), static_cast<double>(indice[dim]));
+        freqProduct *= std::pow(static_cast<double>(frequency_point[dim]), static_cast<double>(index[dim]));
       }
-      // for (unsigned int n = 0; n<indice[dim]; ++n)
+      // for (unsigned int n = 0; n<index[dim]; ++n)
       //   {
       //   freqProduct *= frequency_point[dim];
       //   }
     }
     // rieszComponent = (-j)^{m_Order} * sqrt(m_Order!/(n1!n2!...nd!)) * w1^n1...wd^nd / ||w||^m_Order
-    OutputComplexType outPerIndice = this->ComputeNormalizingFactor(indice);
-    outPerIndice *= static_cast<typename OutputComplexType::value_type>(
+    OutputComplexType outPerIndex = this->ComputeNormalizingFactor(index);
+    outPerIndex *= static_cast<typename OutputComplexType::value_type>(
       freqProduct / std::pow(magn, static_cast<double>(this->m_Order)));
-    out.push_back(outPerIndice);
+    out.push_back(outPerIndex);
   }
 
   return out;
@@ -157,7 +156,7 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::PrintSelf(std::
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Order: " << this->m_Order << std::endl;
   os << indent << "m_Indices:" << std::endl;
-  for (typename SetType::const_iterator it = this->m_Indices.begin(); it != this->m_Indices.end(); ++it)
+  for (auto it = this->m_Indices.begin(); it != this->m_Indices.end(); ++it)
   {
     std::cout << "(";
     for (unsigned int i = 0; i < VImageDimension; ++i)

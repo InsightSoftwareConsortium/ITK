@@ -152,7 +152,7 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegi
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  TInputImage *        inputPtr = const_cast<TInputImage *>(this->GetInput());
+  auto *               inputPtr = const_cast<TInputImage *>(this->GetInput());
   const TOutputImage * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);

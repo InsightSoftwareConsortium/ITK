@@ -255,7 +255,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   Superclass::GenerateOutputRequestedRegion(refOutput);
 
   // find the index for this output
-  unsigned int                          refIndex = static_cast<unsigned int>(refOutput->GetSourceOutputIndex());
+  auto                                  refIndex = static_cast<unsigned int>(refOutput->GetSourceOutputIndex());
   std::pair<unsigned int, unsigned int> pairRef = this->OutputIndexToLevelBand(refIndex);
   unsigned int                          refLevel = pairRef.first;
   // unsigned int refBand  = pairRef.second;
@@ -265,7 +265,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   typedef typename OutputImageType::IndexType  IndexType;
   typedef typename OutputImageType::RegionType RegionType;
 
-  TOutputImage * ptr = itkDynamicCastInDebugMode<TOutputImage *>(refOutput);
+  auto * ptr = itkDynamicCastInDebugMode<TOutputImage *>(refOutput);
   if (!ptr)
   {
     itkExceptionMacro(<< "Could not cast refOutput to TOutputImage*.");
@@ -443,12 +443,12 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
 
   // TODO think about passing the FrequencyShrinker as template parameter to work with different FFT layout, or
   // regular images directly in frequency domain.
-  // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> FrequencyShrinkFilterType;
-  typedef itk::FrequencyShrinkImageFilter<OutputImageType>                 FrequencyShrinkFilterType;
+  // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> LocalFrequencyShrinkFilterType;
+  typedef itk::FrequencyShrinkImageFilter<OutputImageType>                 LocalFrequencyShrinkFilterType;
   typedef itk::ShrinkDecimateImageFilter<OutputImageType, OutputImageType> ShrinkDecimateFilterType;
   typedef itk::MultiplyImageFilter<OutputImageType>                        MultiplyFilterType;
   inputPerLevel = changeInputInfoFilter->GetOutput();
-  double scaleFactor = static_cast<double>(this->m_ScaleFactor);
+  auto scaleFactor = static_cast<double>(this->m_ScaleFactor);
   for (unsigned int level = 0; level < this->m_Levels; ++level)
   {
     /******* Set HighPass bands *****/
@@ -489,7 +489,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
     inputPerLevel = multiplyLowFilter->GetOutput();
 
     // Shrink in the frequency domain the stored low band for the next level.
-    typename FrequencyShrinkFilterType::Pointer freqShrinkFilter = FrequencyShrinkFilterType::New();
+    typename LocalFrequencyShrinkFilterType::Pointer freqShrinkFilter = LocalFrequencyShrinkFilterType::New();
     freqShrinkFilter->SetInput(inputPerLevel);
     freqShrinkFilter->SetShrinkFactors(this->m_ScaleFactor);
 
