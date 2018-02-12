@@ -96,10 +96,9 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
     }
 
   // determine the actual number of pieces that will be generated
-  double range = static_cast< double >( requestedRegionSize[splitAxis] );
+  auto range = static_cast< double >( requestedRegionSize[splitAxis] );
 
-  unsigned int valuesPerThread =
-    static_cast< unsigned int >( std::ceil( range / static_cast< double >( num ) ) );
+  auto valuesPerThread = static_cast< unsigned int >( std::ceil( range / static_cast< double >( num ) ) );
   unsigned int maxThreadIdUsed =
     static_cast< unsigned int >( std::ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
 
@@ -141,7 +140,7 @@ void
 LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
-  TOutputImage *out = dynamic_cast< TOutputImage * >( output );
+  auto *out = dynamic_cast< TOutputImage * >( output );
 
   if ( out )
     {

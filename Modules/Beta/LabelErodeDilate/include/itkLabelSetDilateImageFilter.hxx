@@ -61,12 +61,12 @@ LabelSetDilateImageFilter< TInputImage, TOutputImage >
     }
   float progressPerDimension = 1.0 / ImageDimension;
 
-  ProgressReporter *progress = new ProgressReporter(this,
-                                                    threadId,
-                                                    NumberOfRows[this->m_CurrentDimension],
-                                                    30,
-                                                    this->m_CurrentDimension * progressPerDimension,
-                                                    progressPerDimension);
+  auto *progress = new ProgressReporter(this,
+                                        threadId,
+                                        NumberOfRows[this->m_CurrentDimension],
+                                        30,
+                                        this->m_CurrentDimension * progressPerDimension,
+                                        progressPerDimension);
 
   typedef ImageLinearConstIteratorWithIndex< TInputImage  > InputConstIteratorType;
   typedef ImageLinearIteratorWithIndex< TOutputImage >      OutputIteratorType;
