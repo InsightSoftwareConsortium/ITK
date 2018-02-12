@@ -90,7 +90,7 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
         }
       }
 
-      PixelType value = static_cast<PixelType>(this->GetInterpolator()->EvaluateAtContinuousIndex(contIndex));
+      auto value = static_cast<PixelType>(this->GetInterpolator()->EvaluateAtContinuousIndex(contIndex));
       outputIt.Set(value);
 
       ++outputIt;

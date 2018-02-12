@@ -114,9 +114,9 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::InitLUMatrices(
                                                                                 int          n,
                                                                                 int          dim)
 {
-  ValueType * alpha = new ValueType[n];
-  ValueType * beta = new ValueType[n - 1];
-  ValueType * gamma = new ValueType[n - 1];
+  auto * alpha = new ValueType[n];
+  auto * beta = new ValueType[n - 1];
+  auto * gamma = new ValueType[n - 1];
 
   ValueType weight = this->GetAlpha();
   if (this->GetUseImageSpacing())
@@ -230,12 +230,12 @@ ITK_THREAD_RETURN_TYPE
 VariationalRegistrationDiffusionRegularizer<TDisplacementField>::CalcBufferCallback(void * arg)
 {
   // Get MultiThreader struct
-  MultiThreader::ThreadInfoStruct * threadStruct = (MultiThreader::ThreadInfoStruct *)arg;
-  int                               threadId = threadStruct->ThreadID;
-  int                               threadCount = threadStruct->NumberOfThreads;
+  auto * threadStruct = (MultiThreader::ThreadInfoStruct *)arg;
+  int    threadId = threadStruct->ThreadID;
+  int    threadCount = threadStruct->NumberOfThreads;
 
   // Get user struct
-  CalcBufferThreadStruct * userStruct = (CalcBufferThreadStruct *)threadStruct->UserData;
+  auto * userStruct = (CalcBufferThreadStruct *)threadStruct->UserData;
 
   // Calculate region for current thread
   typename BufferImageType::RegionType splitRegion;
@@ -274,12 +274,12 @@ ITK_THREAD_RETURN_TYPE
 VariationalRegistrationDiffusionRegularizer<TDisplacementField>::RegularizeDirectionCallback(void * arg)
 {
   // Get MultiThreader struct
-  MultiThreader::ThreadInfoStruct * threadStruct = (MultiThreader::ThreadInfoStruct *)(arg);
-  int                               threadId = threadStruct->ThreadID;
-  int                               threadCount = threadStruct->NumberOfThreads;
+  auto * threadStruct = (MultiThreader::ThreadInfoStruct *)(arg);
+  int    threadId = threadStruct->ThreadID;
+  int    threadCount = threadStruct->NumberOfThreads;
 
   // Get user struct
-  RegularizeThreadStruct * userStruct = (RegularizeThreadStruct *)threadStruct->UserData;
+  auto * userStruct = (RegularizeThreadStruct *)threadStruct->UserData;
 
   // Split the face into sub-region for current thread
   int direction = userStruct->direction; // Direction in which we will regularize
@@ -362,12 +362,12 @@ ITK_THREAD_RETURN_TYPE
 VariationalRegistrationDiffusionRegularizer<TDisplacementField>::MergeDirectionsCallback(void * arg)
 {
   // Get MultiThreader struct
-  MultiThreader::ThreadInfoStruct * threadStruct = (MultiThreader::ThreadInfoStruct *)(arg);
-  int                               threadId = threadStruct->ThreadID;
-  int                               threadCount = threadStruct->NumberOfThreads;
+  auto * threadStruct = (MultiThreader::ThreadInfoStruct *)(arg);
+  int    threadId = threadStruct->ThreadID;
+  int    threadCount = threadStruct->NumberOfThreads;
 
   // Get user struct
-  MergeDirectionsThreadStruct * userStruct = (MergeDirectionsThreadStruct *)threadStruct->UserData;
+  auto * userStruct = (MergeDirectionsThreadStruct *)threadStruct->UserData;
 
   // Calculate region for current thread
   typename BufferImageType::RegionType splitRegion;
@@ -445,7 +445,7 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::SplitBoundaryFa
 
   // Determine the actual number of pieces that will be generated
   typename BufferImageType::SizeType::SizeValueType range = splitSize[splitAxis];
-  int                                               valuesPerThread = Math::Ceil<int>(range / (double)num);
+  auto                                              valuesPerThread = Math::Ceil<int>(range / (double)num);
   int maxThreadIdUsed = Math::Ceil<int>(range / (double)valuesPerThread) - 1;
 
   // Split the region

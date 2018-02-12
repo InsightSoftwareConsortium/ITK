@@ -54,9 +54,9 @@ VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::Execute(const itk
   if (itk::IterationEvent().CheckEvent(&event))
   {
     // Cast caller for subsequent check
-    const RegistrationFilterType * regFilter = dynamic_cast<const RegistrationFilterType *>(caller);
+    const auto * regFilter = dynamic_cast<const RegistrationFilterType *>(caller);
 
-    const MRFilterType * mrFilter = dynamic_cast<const MRFilterType *>(caller);
+    const auto * mrFilter = dynamic_cast<const MRFilterType *>(caller);
 
     // If caller is MR filter, set mode for next level according to
     // MR policy
@@ -78,7 +78,7 @@ VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::Execute(const itk
   // level according to MR policy
   else if (itk::InitializeEvent().CheckEvent(&event))
   {
-    const MRFilterType * mrFilter = dynamic_cast<const MRFilterType *>(caller);
+    const auto * mrFilter = dynamic_cast<const MRFilterType *>(caller);
 
     if (mrFilter)
     {

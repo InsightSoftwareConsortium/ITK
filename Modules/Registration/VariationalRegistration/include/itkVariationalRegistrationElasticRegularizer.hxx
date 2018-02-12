@@ -177,7 +177,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
   itkDebugMacro(<< "Initializing elastic plans for FFT...");
 
   // Get image size in reverse order for FFTW
-  int * n = new int[ImageDimension];
+  auto * n = new int[ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     n[(ImageDimension - 1) - i] = this->m_Size[i];
@@ -324,12 +324,12 @@ ITK_THREAD_RETURN_TYPE
 VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLESThreaderCallback(void * arg)
 {
   // Get MultiThreader struct
-  MultiThreader::ThreadInfoStruct * threadStruct = (MultiThreader::ThreadInfoStruct *)arg;
-  int                               threadId = threadStruct->ThreadID;
-  int                               threadCount = threadStruct->NumberOfThreads;
+  auto * threadStruct = (MultiThreader::ThreadInfoStruct *)arg;
+  int    threadId = threadStruct->ThreadID;
+  int    threadCount = threadStruct->NumberOfThreads;
 
   // Calculate region for current thread
-  ElasticFFTThreadStruct * userStruct = (ElasticFFTThreadStruct *)threadStruct->UserData;
+  auto * userStruct = (ElasticFFTThreadStruct *)threadStruct->UserData;
 
   // Calculate the range in the m_ComplexBuffer of the thread
   OffsetValueType threadRange = userStruct->totalComplexSize / threadCount;

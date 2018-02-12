@@ -111,7 +111,7 @@ template <class TFixedImage, class TMovingImage, class TDisplacementField>
 void *
 VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GetGlobalDataPointer() const
 {
-  GlobalDataStruct * global = new GlobalDataStruct();
+  auto * global = new GlobalDataStruct();
 
   global->m_SumOfMetricValues = 0.0;
   global->m_NumberOfPixelsProcessed = 0L;
@@ -128,7 +128,7 @@ void
 VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(
   void * gd) const
 {
-  GlobalDataStruct * globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
 
   m_MetricCalculationLock.Lock();
 
