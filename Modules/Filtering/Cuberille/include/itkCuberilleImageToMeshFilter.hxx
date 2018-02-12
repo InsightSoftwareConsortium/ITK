@@ -160,13 +160,13 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
 
     // Re-initialize for new pixel
     numFaces = 0;
-    for (unsigned int i = 0; i < 6; ++i)
+    for (bool & i : faceHasQuad)
     {
-      faceHasQuad[i] = false;
+      i = false;
     }
-    for (unsigned int i = 0; i < 8; ++i)
+    for (bool & i : vertexHasQuad)
     {
-      vertexHasQuad[i] = false;
+      i = false;
     }
 
     // Re-initialize for new z plane

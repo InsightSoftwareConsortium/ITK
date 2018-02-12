@@ -338,9 +338,9 @@ private:
     bool
     GetVertex(unsigned int x, unsigned int y, PointIdentifier & id)
     {
-      bool                       result = false;
-      VertexLookupNode           node(x, y);
-      typename MapType::iterator it = m_Map.find(node);
+      bool             result = false;
+      VertexLookupNode node(x, y);
+      auto             it = m_Map.find(node);
       if (it != m_Map.end())
       {
         result = true;
