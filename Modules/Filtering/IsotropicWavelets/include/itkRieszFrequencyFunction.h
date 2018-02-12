@@ -39,11 +39,11 @@ template <typename TFunctionValue = std::complex<double>,
 class RieszFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RieszFrequencyFunction                                   Self;
-  typedef SpatialFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  /** Standard class type alias. */
+  using Self = RieszFrequencyFunction;
+  using Superclass = SpatialFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,20 +52,20 @@ public:
   itkTypeMacro(RieszFrequencyFunction, FrequencyFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
-  typedef typename Superclass::OutputType FunctionValueType;
-  typedef typename Superclass::OutputType OutputType;
-  typedef typename Superclass::OutputType OutputComplexType;
+  using FunctionValueType = typename Superclass::OutputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputComplexType = typename Superclass::OutputType;
 
   /** Indices Type, user needs to resize it to VImageDimension.
    *  ITK_BUG, dev: it would be better to use std::array or fix itk::FixedArray::ReverseIterator has no operator-, used
    * by std::sort ...
    */
-  typedef std::vector<unsigned int>                                  IndicesArrayType;
-  typedef std::vector<OutputComplexType>                             OutputComponentsType;
-  typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
-  typedef itk::FixedArray<OutputComplexType, VImageDimension>        OutputComplexArrayType;
+  using IndicesArrayType = std::vector<unsigned int>;
+  using OutputComponentsType = std::vector<OutputComplexType>;
+  using SetType = std::set<IndicesArrayType, std::greater<IndicesArrayType>>;
+  using OutputComplexArrayType = itk::FixedArray<OutputComplexType, VImageDimension>;
 
   /**
    * Compute number of components p(N, d), where N = Order, d = Dimension.

@@ -52,11 +52,11 @@ template <typename TFunctionValue = double,
 class SimoncelliIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef SimoncelliIsotropicWavelet                                                 Self;
-  typedef IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                                         Pointer;
-  typedef SmartPointer<const Self>                                                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = SimoncelliIsotropicWavelet;
+  using Superclass = IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,10 +65,10 @@ public:
   itkTypeMacro(SimoncelliIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** FunctionValue type for the function. */
-  typedef typename Superclass::FunctionValueType FunctionValueType;
+  using FunctionValueType = typename Superclass::FunctionValueType;
 
   /** Evaluate the function */
   FunctionValueType

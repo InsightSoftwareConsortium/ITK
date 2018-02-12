@@ -57,21 +57,21 @@ template <typename TFunctionValue = double,
 class IsotropicWaveletFrequencyFunction : public IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef IsotropicWaveletFrequencyFunction                                   Self;
-  typedef IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                                  Pointer;
-  typedef SmartPointer<const Self>                                            ConstPointer;
+  /** Standard class type alias. */
+  using Self = IsotropicWaveletFrequencyFunction;
+  using Superclass = IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(IsotropicWaveletFrequencyFunction, IsotropicFrequencyFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::FunctionValueType FunctionValueType;
-  typedef typename Superclass::OutputType        OutputType;
+  using FunctionValueType = typename Superclass::FunctionValueType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Evaluate Magnitude of frequency point. Evaluate function calls this. */
   virtual FunctionValueType

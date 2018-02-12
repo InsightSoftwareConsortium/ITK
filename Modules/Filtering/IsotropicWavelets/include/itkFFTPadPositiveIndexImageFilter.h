@@ -53,28 +53,28 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class FFTPadPositiveIndexImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FFTPadPositiveIndexImageFilter                Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = FFTPadPositiveIndexImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                         InputImageType;
-  typedef TOutputImage                        OutputImageType;
-  typedef typename InputImageType::PixelType  InputImagePixelType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
-  typedef typename InputImageType::RegionType RegionType;
-  typedef typename InputImageType::IndexType  IndexType;
-  typedef typename InputImageType::SizeType   SizeType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using RegionType = typename InputImageType::RegionType;
+  using IndexType = typename InputImageType::IndexType;
+  using SizeType = typename InputImageType::SizeType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
-  typedef ImageBoundaryCondition<TInputImage, TOutputImage> BoundaryConditionType;
-  typedef BoundaryConditionType *                           BoundaryConditionPointerType;
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
+  using BoundaryConditionPointerType = BoundaryConditionType *;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -82,8 +82,8 @@ public:
   /** Runtime information support. */
   itkTypeMacro(FFTPadPositiveIndexImageFilter, ImageToImageFilter);
 
-  typedef itk::ChangeInformationImageFilter<OutputImageType>      ChangeInfoFilterType;
-  typedef itk::FFTPadImageFilter<InputImageType, OutputImageType> FFTPadFilterType;
+  using ChangeInfoFilterType = itk::ChangeInformationImageFilter<OutputImageType>;
+  using FFTPadFilterType = itk::FFTPadImageFilter<InputImageType, OutputImageType>;
   itkGetConstMacro(SizeGreatestPrimeFactor, SizeValueType);
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
   /** Set/get the boundary condition. */

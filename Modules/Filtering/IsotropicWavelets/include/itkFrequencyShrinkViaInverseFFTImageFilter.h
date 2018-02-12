@@ -43,11 +43,11 @@ template <typename TImageType>
 class FrequencyShrinkViaInverseFFTImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyShrinkViaInverseFFTImageFilter    Self;
-  typedef ImageToImageFilter<TImageType, TImageType> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = FrequencyShrinkViaInverseFFTImageFilter;
+  using Superclass = ImageToImageFilter<TImageType, TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,27 +56,26 @@ public:
   itkTypeMacro(FrequencyShrinkViaInverseFFTImageFilter, ImageToImageFilter);
 
   /** Typedef to images */
-  typedef TImageType                       ImageType;
-  typedef typename ImageType::Pointer      ImagePointer;
-  typedef typename ImageType::ConstPointer ImageConstPointer;
-  typedef typename TImageType::IndexType   IndexType;
-  typedef typename TImageType::PixelType   PixelType;
+  using ImageType = TImageType;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using IndexType = typename TImageType::IndexType;
+  using PixelType = typename TImageType::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TImageType::RegionType ImageRegionType;
+  using ImageRegionType = typename TImageType::RegionType;
   /** Typedef of used filters */
-  typedef itk::InverseFFTImageFilter<ImageType> InverseFFTFilterType;
-  typedef itk::ShrinkDecimateImageFilter<typename InverseFFTFilterType::OutputImageType,
-                                         typename InverseFFTFilterType::OutputImageType>
-                                                                                                ShrinkFilterType;
-  typedef itk::ForwardFFTImageFilter<typename InverseFFTFilterType::OutputImageType, ImageType> ForwardFFTFilterType;
-  typedef itk::ChangeInformationImageFilter<ImageType> ChangeInformationFilterType;
+  using InverseFFTFilterType = itk::InverseFFTImageFilter<ImageType>;
+  using ShrinkFilterType = itk::ShrinkDecimateImageFilter<typename InverseFFTFilterType::OutputImageType,
+                                                          typename InverseFFTFilterType::OutputImageType>;
+  using ForwardFFTFilterType = itk::ForwardFFTImageFilter<typename InverseFFTFilterType::OutputImageType, ImageType>;
+  using ChangeInformationFilterType = itk::ChangeInformationImageFilter<ImageType>;
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageType::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TImageType::ImageDimension;
 
-  typedef FixedArray<unsigned int, ImageDimension> ShrinkFactorsType;
+  using ShrinkFactorsType = FixedArray<unsigned int, ImageDimension>;
 
   /** Set the shrink factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */

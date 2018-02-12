@@ -64,24 +64,24 @@ class FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex
   : public FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex Self;
-  typedef ImageRegionIteratorWithIndex<TImage>                  Superclass;
+  /** Standard class type alias. */
+  using Self = FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex;
+  using Superclass = ImageRegionIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::SizeType              SizeType;
-  typedef typename Superclass::OffsetType            OffsetType;
-  typedef typename Superclass::RegionType            RegionType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::PixelContainer        PixelContainer;
-  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType     InternalPixelType;
-  typedef typename Superclass::PixelType             PixelType;
-  typedef typename Superclass::AccessorType          AccessorType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RegionType = typename Superclass::RegionType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using PixelType = typename Superclass::PixelType;
+  using AccessorType = typename Superclass::AccessorType;
 
-  typedef typename ImageType::SpacingType      FrequencyType;
-  typedef typename ImageType::SpacingValueType FrequencyValueType;
+  using FrequencyType = typename ImageType::SpacingType;
+  using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
   FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex()
     : FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>()

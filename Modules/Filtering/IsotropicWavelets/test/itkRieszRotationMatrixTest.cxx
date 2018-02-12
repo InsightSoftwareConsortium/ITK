@@ -27,9 +27,9 @@ runRieszRotationMatrixTest()
   bool               testPassed = true;
   const unsigned int Dimension = VDimension;
 
-  typedef double                                              ValueType;
-  typedef itk::RieszRotationMatrix<ValueType, Dimension>      SteerableMatrix;
-  typedef typename SteerableMatrix::SpatialRotationMatrixType SpatialRotationMatrix;
+  using ValueType = double;
+  using SteerableMatrix = itk::RieszRotationMatrix<ValueType, Dimension>;
+  using SpatialRotationMatrix = typename SteerableMatrix::SpatialRotationMatrixType;
 
   // Define a spatial rotation matrix.
   SpatialRotationMatrix R;

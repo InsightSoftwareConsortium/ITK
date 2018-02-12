@@ -103,7 +103,7 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const InputImageType * inputPtr = this->GetInput();
 
   // Iterator for walking the output
-  typedef ImageScanlineIterator<TOutputImage> OutputIterator;
+  using OutputIterator = ImageScanlineIterator<TOutputImage>;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
@@ -132,7 +132,7 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       typename InputImageType::IndexType inputIndex;
       for (unsigned int j = 0; j < ImageDimension; j++)
       {
-        // inputIndex[j] = (outputIndex[j] -  outputOriginIndex[j]) * m_ShrinkFactors[j] + inputOriginIndex[j] ;
+        // inputIndex[j] = (outputIndex[j] -  outputOriginIndex[j]) * m_ShrinkFactors[j] + inputOriginIndex[j];
         inputIndex[j] = outputIndex[j] * m_ShrinkFactors[j];
       }
       outIt.Set(static_cast<typename TOutputImage::PixelType>(inputPtr->GetPixel(inputIndex)));

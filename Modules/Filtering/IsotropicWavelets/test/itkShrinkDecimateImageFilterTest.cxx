@@ -32,9 +32,9 @@ template <unsigned int VDimension>
 int
 runShrinkDecimateImageFilterTest()
 {
-  typedef float                             PixelType;
-  typedef itk::Image<PixelType, VDimension> ImageType;
-  bool                                      testPassed = true;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, VDimension>;
+  bool testPassed = true;
 
   // Create the input image
   typename ImageType::RegionType region;
@@ -59,8 +59,8 @@ runShrinkDecimateImageFilterTest()
     }
   }
 
-  typedef itk::ShrinkDecimateImageFilter<ImageType, ImageType> DecimatorType;
-  typename DecimatorType::Pointer                              decimator = DecimatorType::New();
+  using DecimatorType = itk::ShrinkDecimateImageFilter<ImageType, ImageType>;
+  typename DecimatorType::Pointer decimator = DecimatorType::New();
 
   try
   {
@@ -126,15 +126,15 @@ itkShrinkDecimateImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int                        ImageDimension = 3;
-  typedef double                                PixelType;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
+  constexpr unsigned int ImageDimension = 3;
+  using PixelType = double;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef itk::ShrinkDecimateImageFilter<ImageType, ImageType> ShrinkDecimateImageFilterType;
-  ShrinkDecimateImageFilterType::Pointer                       decimator = ShrinkDecimateImageFilterType::New();
+  using ShrinkDecimateImageFilterType = itk::ShrinkDecimateImageFilter<ImageType, ImageType>;
+  ShrinkDecimateImageFilterType::Pointer decimator = ShrinkDecimateImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(decimator, ShrinkDecimateImageFilter, ImageToImageFilter);
 

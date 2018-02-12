@@ -50,24 +50,24 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
 
   bool testPassed = true;
 
-  constexpr unsigned int                   Dimension = 3;
-  typedef float                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  constexpr unsigned int Dimension = 3;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
   TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Perform FFT on input image.
-  typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
+  using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
+  FFTFilterType::Pointer fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
   fftFilter->Update();
-  typedef FFTFilterType::OutputImageType ComplexImageType;
+  using ComplexImageType = FFTFilterType::OutputImageType;
 
-  typedef itk::MonogenicSignalFrequencyImageFilter<ComplexImageType> MonogenicSignalFilterType;
-  MonogenicSignalFilterType::Pointer                                 monoFilter = MonogenicSignalFilterType::New();
+  using MonogenicSignalFilterType = itk::MonogenicSignalFrequencyImageFilter<ComplexImageType>;
+  MonogenicSignalFilterType::Pointer monoFilter = MonogenicSignalFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(monoFilter, MonogenicSignalFrequencyImageFilter, ImageToImageFilter);
 
@@ -85,11 +85,11 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
     testPassed = false;
   }
 
-  typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  InverseFFTFilterType::Pointer                                   inverseFFT = InverseFFTFilterType::New();
+  using InverseFFTFilterType = itk::InverseFFTImageFilter<ComplexImageType, ImageType>;
+  InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
 
-  typedef MonogenicSignalFilterType::OutputImageType MonoFilterOutputImageType;
-  typedef itk::VectorIndexSelectionCastImageFilter<MonoFilterOutputImageType, ComplexImageType> VectorCastFilterType;
+  using MonoFilterOutputImageType = MonogenicSignalFilterType::OutputImageType;
+  using VectorCastFilterType = itk::VectorIndexSelectionCastImageFilter<MonoFilterOutputImageType, ComplexImageType>;
   VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(monoFilter->GetOutput());
   for (unsigned int c = 0; c < computedNumberOfComponentsPerPixel; ++c)

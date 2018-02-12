@@ -37,29 +37,29 @@ template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBa
 class WaveletFrequencyInverseUndecimated : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard classs typedefs. */
-  typedef WaveletFrequencyInverseUndecimated            Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard classs type alias. */
+  using Self = WaveletFrequencyInverseUndecimated;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherit types from Superclass. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
-  typedef typename std::vector<InputImagePointer> InputsType;
-  // typedef typename itk::VectorContainer<int, InputImagePointer> InputsType;
+  using InputsType = typename std::vector<InputImagePointer>;
+  // using InputsType = typename itk::VectorContainer<int, InputImagePointer>;
 
-  typedef TWaveletFilterBank                                  WaveletFilterBankType;
-  typedef typename WaveletFilterBankType::Pointer             WaveletFilterBankPointer;
-  typedef typename WaveletFilterBankType::WaveletFunctionType WaveletFunctionType;
-  typedef typename WaveletFilterBankType::FunctionValueType   FunctionValueType;
+  using WaveletFilterBankType = TWaveletFilterBank;
+  using WaveletFilterBankPointer = typename WaveletFilterBankType::Pointer;
+  using WaveletFunctionType = typename WaveletFilterBankType::WaveletFunctionType;
+  using FunctionValueType = typename WaveletFilterBankType::FunctionValueType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -105,7 +105,7 @@ public:
     this->m_WaveletFilterBankPyramid = filterBankPyramid;
   }
 
-  typedef std::pair<unsigned int, unsigned int> IndexPairType;
+  using IndexPairType = std::pair<unsigned int, unsigned int>;
   /** Get the (Level,Band) from a linear index input */
   IndexPairType
   InputIndexToLevelBand(unsigned int linear_index);

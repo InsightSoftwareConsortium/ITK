@@ -28,7 +28,7 @@ namespace itk
 {
 namespace utils
 {
-typedef std::pair<unsigned int, unsigned int> IndexPairType;
+using IndexPairType = std::pair<unsigned int, unsigned int>;
 
 /** Get the (Level,Band) from a linear index output.
  * The index corresponding to the low-pass image is the last one, corresponding to the IndexPairType(this->GetLevels(),

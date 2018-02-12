@@ -88,18 +88,18 @@ template <typename T, unsigned int VImageDimension>
 typename RieszRotationMatrix<T, VImageDimension>::IndicesMatrix
 RieszRotationMatrix<T, VImageDimension>::GenerateIndicesMatrix()
 {
-  typedef std::vector<unsigned int>               LocalIndicesArrayType;
-  typedef std::vector<LocalIndicesArrayType>      LocalIndicesVector;
-  typedef std::vector<LocalIndicesVector>         LocalLocalIndicesMatrixRow;
-  typedef std::vector<LocalLocalIndicesMatrixRow> LocalIndicesMatrix;
-  LocalIndicesMatrix                              allIndicesPairs(
+  using LocalIndicesArrayType = std::vector<unsigned int>;
+  using LocalIndicesVector = std::vector<LocalIndicesArrayType>;
+  using LocalLocalIndicesMatrixRow = std::vector<LocalIndicesVector>;
+  using LocalIndicesMatrix = std::vector<LocalLocalIndicesMatrixRow>;
+  LocalIndicesMatrix allIndicesPairs(
     this->m_Components,                                                                  // number of rows
     LocalLocalIndicesMatrixRow(this->m_Components,                                       // number of columns
                                LocalIndicesVector(2,                                     // pair of indices
                                                   LocalIndicesArrayType(VImageDimension) // dimension of the indices.
                                                   )));
 
-  typedef std::set<LocalIndicesArrayType, std::greater<LocalIndicesArrayType>> SetType;
+  using SetType = std::set<LocalIndicesArrayType, std::greater<LocalIndicesArrayType>>;
   SetType allIndices = itk::utils::ComputeAllPossibleIndices<LocalIndicesArrayType, VImageDimension>(this->m_Order);
 
   // Populate LocalIndicesMatrix.
@@ -138,7 +138,7 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
     return this->GetVnlMatrix();
   }
 
-  typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
+  using SetType = std::set<IndicesArrayType, std::greater<IndicesArrayType>>;
 
   // Create map between i,j matrix indices and n,m multiindex.
   IndicesMatrix allIndicesPairs(this->GenerateIndicesMatrix());
@@ -179,8 +179,8 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
       // and then k' with k3 if exist, etc...
 
       // Initialize kValidIndices with k0:
-      typedef std::vector<IndicesVector> ValidIndicesType;
-      ValidIndicesType                   kValidIndices;
+      using ValidIndicesType = std::vector<IndicesVector>;
+      ValidIndicesType kValidIndices;
       for (const auto & itValid0 : kValidInitialIndices[0])
       {
         // IndicesVector tmp;
