@@ -7,8 +7,8 @@ Links
 
 * [Homepage](https://itk.org)
 * [Download](https://itk.org/ITK/resources/software.html)
-* [Discussion](https://itk.org/ITK/help/mailing.html)
-* [Book](https://itk.org/ITK/help/book.html)
+* [Discussion](https://discourse.itk.org/)
+* [Software Guide](https://itk.org/ITKSoftwareGuide/html/)
 * [Help](https://itk.org/ITK/help/help.html)
 * [Examples](https://itk.org/ITKExamples/)
 * [Bugtracker](https://issues.itk.org/)
