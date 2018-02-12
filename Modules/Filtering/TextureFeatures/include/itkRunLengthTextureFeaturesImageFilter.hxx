@@ -162,8 +162,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Thre
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<DigitizedImageType> boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<DigitizedImageType>::FaceListType faceList =
     boundaryFacesCalculator(this->m_DigitizedInputImage, outputRegionForThread, m_NeighborhoodRadius);
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<DigitizedImageType>::FaceListType::iterator fit =
-    faceList.begin();
+  auto fit = faceList.begin();
 
   // Declaration of the variables useful to iterate over the all image region
   bool isInImage;
@@ -358,7 +357,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Incr
     offsetDistance += (offset[i] * m_Spacing[i]) * (offset[i] * m_Spacing[i]);
   }
   offsetDistance = std::sqrt(offsetDistance);
-  int offsetDistanceBin =
+  auto offsetDistanceBin =
     static_cast<int>((offsetDistance * pixelDistance - m_HistogramDistanceMinimum) /
                      ((m_HistogramDistanceMaximum - m_HistogramDistanceMinimum) / (float)m_NumberOfBinsPerAxis));
   if (offsetDistanceBin < static_cast<int>(m_NumberOfBinsPerAxis) && offsetDistanceBin >= 0)
@@ -399,8 +398,8 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Comp
         continue;
       }
 
-      double i2 = static_cast<double>((a + 1) * (a + 1));
-      double j2 = static_cast<double>((b + 1) * (b + 1));
+      auto i2 = static_cast<double>((a + 1) * (a + 1));
+      auto j2 = static_cast<double>((b + 1) * (b + 1));
 
       // Traditional measures
       shortRunEmphasis += (frequency / j2);

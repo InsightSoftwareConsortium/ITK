@@ -54,7 +54,7 @@ public:
   {
 
     // insert new item if one doesn't exist
-    typename MapType::iterator it = m_Map.find(p);
+    auto it = m_Map.find(p);
 
     assert(it != m_Map.end());
 
@@ -80,7 +80,7 @@ public:
     double entropy = 0.0;
     size_t curCount = 0;
 
-    for (typename MapType::iterator i = m_Map.begin(); i != m_Map.end(); ++i)
+    for (auto i = m_Map.begin(); i != m_Map.end(); ++i)
     {
       double t = double(i->first) * double(i->second);
       sum += t;
