@@ -86,7 +86,6 @@ set(ITKCommon_SRCS
   itkNumberToString.cxx
   itkThreadPool.cxx
   itkRandomVariateGeneratorBase.cxx
-  itkAtomicInt.cxx
   itkMath.cxx
   )
 

@@ -24,6 +24,7 @@
 #include "itkIntTypes.h"
 #include "itkMath.h"
 #include "itkMutexLockHolder.h"
+#include "itkSimpleFastMutexLock.h"
 #include <climits>
 #include <ctime>
 
