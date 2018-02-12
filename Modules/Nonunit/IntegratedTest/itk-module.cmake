@@ -15,8 +15,6 @@ itk_module(ITKIntegratedTest
     ITKDiffusionTensorImage
     ITKDistanceMap
     ITKEigen
-    ITKFEM
-    ITKFEMRegistration
     ITKFFT
     ITKFiniteDifference
     ITKImageAdaptors
