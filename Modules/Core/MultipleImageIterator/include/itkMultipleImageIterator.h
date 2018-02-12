@@ -53,7 +53,7 @@ public:
   Self &
   operator++()
   {
-    for (typename std::vector<IteratorType>::iterator it = m_Iterators.begin(); it != m_Iterators.end(); ++it)
+    for (auto it = m_Iterators.begin(); it != m_Iterators.end(); ++it)
     {
       ++(*it);
     }
@@ -63,7 +63,7 @@ public:
   void
   GoToBegin()
   {
-    for (typename std::vector<IteratorType>::iterator it = m_Iterators.begin(); it != m_Iterators.end(); ++it)
+    for (auto it = m_Iterators.begin(); it != m_Iterators.end(); ++it)
     {
       it->GoToBegin();
     }
