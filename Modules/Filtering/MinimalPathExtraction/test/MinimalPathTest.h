@@ -93,8 +93,8 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
       std::vector<itksys::String> parts;
       parts = itksys::SystemTools::SplitString(line.c_str(), ']');
       unsigned int numNonNullParts = 0;
-      for (unsigned int i = 0; i < parts.size(); i++)
-        if (parts[i].length() != 0)
+      for (auto & part : parts)
+        if (part.length() != 0)
           numNonNullParts++;
       for (unsigned int i = 0; i < numNonNullParts; i++)
       {
@@ -174,7 +174,7 @@ ReadPathImage(const char * PathImagename, typename PathFilterType::Pointer pathF
   info->SetEndPoint(pmap[2]);
   pmap.erase(1);
   pmap.erase(2);
-  for (typename PointMapType::iterator pmit = pmap.begin(); pmit != pmap.end(); ++pmit)
+  for (auto pmit = pmap.begin(); pmit != pmap.end(); ++pmit)
   {
     info->AddWayPoint(pmit->second);
   }

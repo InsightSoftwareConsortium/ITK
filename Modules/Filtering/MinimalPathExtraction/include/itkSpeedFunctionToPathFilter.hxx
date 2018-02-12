@@ -98,7 +98,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
   typename NodeContainer::Pointer targets = NodeContainer::New();
   targets->Initialize();
 
-  for (typename PointsContainerType::iterator it = PrevFront.begin(); it != PrevFront.end(); it++)
+  for (auto it = PrevFront.begin(); it != PrevFront.end(); it++)
   {
     IndexType indexTargetPrevious;
     NodeType  nodeTargetPrevious;
@@ -109,7 +109,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
     PrevIndexVec.push_back(indexTargetPrevious);
   }
 
-  for (typename PointsContainerType::iterator it = NextFront.begin(); it != NextFront.end(); it++)
+  for (auto it = NextFront.begin(); it != NextFront.end(); it++)
   {
     IndexType indexTargetNext;
     NodeType  nodeTargetNext;
@@ -127,7 +127,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
     m_Information[Superclass::m_CurrentOutput]->PeekCurrentFront(); // FrontAndAdvance();
   IndexTypeVec CurrentIndexVec(0);
 
-  for (typename PointsContainerType::iterator it = CurrentFront.begin(); it != CurrentFront.end(); it++)
+  for (auto it = CurrentFront.begin(); it != CurrentFront.end(); it++)
   {
     IndexType indexTrial;
     NodeType  nodeTrial;
@@ -166,7 +166,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
   // optimizer will cross over them. This only matters if the seeds are extended
   if (CurrentIndexVec.size() > 1)
   {
-    for (typename IndexTypeVec::iterator vi = CurrentIndexVec.begin(); vi != CurrentIndexVec.end(); vi++)
+    for (auto vi = CurrentIndexVec.begin(); vi != CurrentIndexVec.end(); vi++)
     {
       m_CurrentArrivalFunction->SetPixel(*vi, 0);
     }
