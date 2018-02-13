@@ -41,18 +41,18 @@ CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[
     return EXIT_FAILURE;
   }
 
-  const unsigned int ImageDimension = 3;
-  const unsigned int VectorComponentDimension = 8;
+  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int VectorComponentDimension = 8;
 
   // Declare types
-  typedef int                                                             InputPixelType;
-  typedef float                                                           OutputPixelComponentType;
-  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
+  using InputPixelType = int;
+  using OutputPixelComponentType = float;
+  using OutputPixelType = itk::Vector<OutputPixelComponentType, VectorComponentDimension>;
 
-  typedef itk::Image<InputPixelType, ImageDimension>                                   InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>                                  OutputImageType;
-  typedef itk::ImageFileReader<InputImageType>                                         ReaderType;
-  typedef itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using NeighborhoodType = itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension>;
 
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
@@ -64,8 +64,8 @@ CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[
 
 
   // Create the filter
-  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>
-                      FilterType;
+  using FilterType =
+    itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
@@ -91,8 +91,8 @@ CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  typedef itk::Image<OutputPixelComponentType, ImageDimension>                        FeatureImageType;
-  typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
+  using FeatureImageType = itk::Image<OutputPixelComponentType, ImageDimension>;
+  using IndexSelectionType = itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType>;
   IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
   indexSelectionFilter->SetInput(filter->GetOutput());
 
@@ -101,10 +101,10 @@ CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[
     indexSelectionFilter->SetIndex(i);
 
     // Create and set up a writer
-    typedef itk::ImageFileWriter<FeatureImageType> WriterType;
-    WriterType::Pointer                            writer = WriterType::New();
-    std::string                                    outputFilename = argv[3];
-    std::ostringstream                             ss;
+    using WriterType = itk::ImageFileWriter<FeatureImageType>;
+    WriterType::Pointer writer = WriterType::New();
+    std::string         outputFilename = argv[3];
+    std::ostringstream  ss;
     ss << i + 1;
     std::string s = ss.str();
     writer->SetFileName(outputFilename + "_1" + s + ".nrrd");

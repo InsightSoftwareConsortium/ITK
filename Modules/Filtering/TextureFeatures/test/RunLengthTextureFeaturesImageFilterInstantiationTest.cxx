@@ -33,21 +33,21 @@ RunLengthTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int ImageDimension = 3;
-  const unsigned int VectorComponentDimension = 10;
+  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int VectorComponentDimension = 10;
 
   // Declare types
-  typedef int                                                             InputPixelType;
-  typedef unsigned char                                                   MaskPixelType;
-  typedef float                                                           OutputPixelComponentType;
-  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
+  using InputPixelType = int;
+  using MaskPixelType = unsigned char;
+  using OutputPixelComponentType = float;
+  using OutputPixelType = itk::Vector<OutputPixelComponentType, VectorComponentDimension>;
 
-  typedef itk::Image<InputPixelType, ImageDimension>                                   InputImageType;
-  typedef itk::Image<MaskPixelType, ImageDimension>                                    MaskImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>                                  OutputImageType;
-  typedef itk::ImageFileReader<InputImageType>                                         ReaderType;
-  typedef itk::ImageFileReader<MaskImageType>                                          MaskReaderType;
-  typedef itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using MaskImageType = itk::Image<MaskPixelType, ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using MaskReaderType = itk::ImageFileReader<MaskImageType>;
+  using NeighborhoodType = itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension>;
 
 
   // Create and set up a reader
@@ -59,7 +59,7 @@ RunLengthTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  using FilterType = itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 

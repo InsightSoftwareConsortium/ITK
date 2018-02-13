@@ -43,10 +43,10 @@ print_feature(const T & p, std::ostream & out = std::cout)
 
 TEST(TextureFeatures, FirstOrder_Test1)
 {
-  const unsigned int                                            ImageDimension = 2;
-  typedef itk::Image<float, ImageDimension>                     ImageType;
-  typedef itk::Image<itk::FixedArray<float, 8>, ImageDimension> OImageType;
-  typedef itk::FlatStructuringElement<ImageDimension>           KernelType;
+  constexpr unsigned int ImageDimension = 2;
+  using ImageType = itk::Image<float, ImageDimension>;
+  using OImageType = itk::Image<itk::FixedArray<float, 8>, ImageDimension>;
+  using KernelType = itk::FlatStructuringElement<ImageDimension>;
 
 
   unsigned int                r = 50u;
@@ -62,14 +62,14 @@ TEST(TextureFeatures, FirstOrder_Test1)
   image->FillBuffer(0);
 
 
-  typedef itk::AdditiveGaussianNoiseImageFilter<ImageType> ImageNoiseType;
-  ImageNoiseType::Pointer                                  noiseFilter = ImageNoiseType::New();
+  using ImageNoiseType = itk::AdditiveGaussianNoiseImageFilter<ImageType>;
+  ImageNoiseType::Pointer noiseFilter = ImageNoiseType::New();
   noiseFilter->SetSeed(124);
   noiseFilter->SetMean(0.0);
   noiseFilter->SetStandardDeviation(.1);
   noiseFilter->SetInput(image);
 
-  typedef itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
+  using TextureFilterType = itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType>;
 
   KernelType::SizeType radius;
   radius.Fill(r);
@@ -113,10 +113,10 @@ TEST(TextureFeatures, FirstOrder_Test1)
 
 TEST(TextureFeatures, FirstOrder_Test2)
 {
-  const unsigned int                                            ImageDimension = 2;
-  typedef itk::Image<float, ImageDimension>                     ImageType;
-  typedef itk::Image<itk::FixedArray<float, 8>, ImageDimension> OImageType;
-  typedef itk::FlatStructuringElement<ImageDimension>           KernelType;
+  constexpr unsigned int ImageDimension = 2;
+  using ImageType = itk::Image<float, ImageDimension>;
+  using OImageType = itk::Image<itk::FixedArray<float, 8>, ImageDimension>;
+  using KernelType = itk::FlatStructuringElement<ImageDimension>;
 
 
   unsigned int                r = 50u;
@@ -132,14 +132,14 @@ TEST(TextureFeatures, FirstOrder_Test2)
   image->FillBuffer(0);
 
 
-  typedef itk::AdditiveGaussianNoiseImageFilter<ImageType> ImageNoiseType;
-  ImageNoiseType::Pointer                                  noiseFilter = ImageNoiseType::New();
+  using ImageNoiseType = itk::AdditiveGaussianNoiseImageFilter<ImageType>;
+  ImageNoiseType::Pointer noiseFilter = ImageNoiseType::New();
   noiseFilter->SetSeed(124);
   noiseFilter->SetMean(100.0);
   noiseFilter->SetStandardDeviation(1);
   noiseFilter->SetInput(image);
 
-  typedef itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
+  using TextureFilterType = itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType>;
 
   KernelType::SizeType radius;
   radius.Fill(r);

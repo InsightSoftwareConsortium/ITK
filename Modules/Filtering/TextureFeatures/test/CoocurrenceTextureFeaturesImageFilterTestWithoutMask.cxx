@@ -39,25 +39,25 @@ CoocurrenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int ImageDimension = 3;
-  const unsigned int VectorComponentDimension = 8;
+  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int VectorComponentDimension = 8;
 
   // Declare types
-  typedef float                                                           InputPixelType;
-  typedef float                                                           OutputPixelComponentType;
-  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelComponentType = float;
+  using OutputPixelType = itk::Vector<OutputPixelComponentType, VectorComponentDimension>;
 
-  typedef itk::Image<InputPixelType, ImageDimension>                                   InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>                                  OutputImageType;
-  typedef itk::ImageFileReader<InputImageType>                                         ReaderType;
-  typedef itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using NeighborhoodType = itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension>;
 
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Create the filter
-  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  using FilterType = itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
@@ -81,8 +81,8 @@ CoocurrenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Create and set up a writer
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
 

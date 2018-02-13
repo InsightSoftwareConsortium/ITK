@@ -30,8 +30,8 @@ template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class Digitizer
 {
 public:
-  typedef TInput2 PixelType;
-  typedef TInput1 MaskPixelType;
+  using PixelType = TInput2;
+  using MaskPixelType = TInput1;
 
   Digitizer()
     : m_NumberOfBinsPerAxis(256)
