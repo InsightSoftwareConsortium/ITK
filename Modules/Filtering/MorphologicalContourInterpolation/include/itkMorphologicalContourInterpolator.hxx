@@ -498,7 +498,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   ImageRegionConstIterator<BoolSliceType>  itj(jMask, iMask->GetRequestedRegion());
   ImageRegionIterator<BoolSliceType>       ito(orImage, iMask->GetRequestedRegion());
   ImageRegionConstIterator<FloatSliceType> itsdf(sdf, iMask->GetRequestedRegion());
-  const short fractioning = 10; // how many times more precise distance than rounding to int
+  constexpr short fractioning = 10; // how many times more precise distance than rounding to int
   while (!itsdf.IsAtEnd())
   {
     bool                       iM = iti.Get();

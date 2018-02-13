@@ -26,7 +26,7 @@
 #include "itkTimeProbe.h"
 
 using TestPixelType = unsigned char;
-const unsigned int testDim = 3;
+constexpr unsigned int testDim = 3;
 using TestImageType = itk::Image<TestPixelType, testDim>;
 
 TestImageType::Pointer
