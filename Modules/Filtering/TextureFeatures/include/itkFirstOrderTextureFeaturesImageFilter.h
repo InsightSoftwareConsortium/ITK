@@ -86,7 +86,7 @@ public:
   typedef typename TOutputImage::PixelType           OutputPixelType;
 
   /** Image related typedefs. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 protected:
   unsigned int
