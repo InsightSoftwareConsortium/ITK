@@ -51,23 +51,23 @@ int CuberilleTest01 (int argc, char * argv [] )
 
   // Typedefs
   const unsigned int Dimension = 3;
-  typedef unsigned char                       PixelType;
-  //typedef signed short PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  //using PixelType = signed short;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
 #if USE_QUAD_EDGE_MESH | USE_DECIMATION
-  typedef itk::QuadEdgeMesh< PixelType, Dimension > MeshType;
+  using MeshType = itk::QuadEdgeMesh< PixelType, Dimension >;
 #else
-  typedef itk::Mesh< PixelType, Dimension > MeshType;
+  using MeshType = itk::Mesh< PixelType, Dimension >;
 #endif
-  typedef itk::ImageFileReader< ImageType >  ImageFileReaderType;
-  typedef itk::VTKPolyDataWriter< MeshType > MeshFileWriterType;
+  using ImageFileReaderType = itk::ImageFileReader< ImageType >;
+  using MeshFileWriterType = itk::VTKPolyDataWriter< MeshType >;
 #if USE_BSPLINE_INTERPOLATOR
-  typedef itk::BSplineInterpolateImageFunction< ImageType, float, float > InterpolatorType;
+  using InterpolatorType = itk::BSplineInterpolateImageFunction< ImageType, float, float >;
 #else
-  typedef itk::LinearInterpolateImageFunction< ImageType > InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< ImageType >;
 #endif
-  typedef itk::CuberilleImageToMeshFilter< ImageType, MeshType, InterpolatorType > CuberilleType;
+  using CuberilleType = itk::CuberilleImageToMeshFilter< ImageType, MeshType, InterpolatorType >;
 
 
   // Read command-line parameters
@@ -206,13 +206,12 @@ int CuberilleTest01 (int argc, char * argv [] )
 
 #if USE_DECIMATION
   // Decimation
-  typedef itk::NumberOfFacesCriterion< MeshType > DecimationCriterionType;
+  using DecimationCriterionType = itk::NumberOfFacesCriterion< MeshType >;
   DecimationCriterionType::Pointer decimateCriterion = DecimationCriterionType::New();
   decimateCriterion->SetTopologicalChange( false );
   decimateCriterion->SetNumberOfElements( 2000 );
 
-  typedef itk::QuadricDecimationQuadEdgeMeshFilter< MeshType, MeshType, DecimationCriterionType >
-    DecimationType;
+  using DecimationType = itk::QuadricDecimationQuadEdgeMeshFilter< MeshType, MeshType, DecimationCriterionType >;
   DecimationType::Pointer decimate = DecimationType::New();
   decimate->SetCriterion( decimateCriterion );
 

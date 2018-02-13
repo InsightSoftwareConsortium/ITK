@@ -114,11 +114,11 @@ template < class TInputImage, class TOutputMesh, class TInterpolator=itk::Linear
 class CuberilleImageToMeshFilter : public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef CuberilleImageToMeshFilter                    Self;
-  typedef ImageToMeshFilter< TInputImage, TOutputMesh > Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = CuberilleImageToMeshFilter;
+  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -126,54 +126,54 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(CuberilleImageToMeshFilter, ImageToMeshFilter);
 
-  /** Some convenient typedefs. */
-  typedef TOutputMesh                                     OutputMeshType;
-  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
-  typedef typename OutputMeshType::MeshTraits             OutputMeshTraits;
-  typedef typename OutputMeshType::PointType              OutputPointType;
-  typedef typename OutputMeshTraits::PixelType            OutputPixelType;
-  typedef typename OutputMeshType::CellTraits             CellTraits;
-  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer        PointsContainer;
-  typedef typename OutputMeshType::CellsContainerPointer  CellsContainerPointer;
-  typedef typename OutputMeshType::CellsContainer         CellsContainer;
-  typedef typename OutputMeshType::PointIdentifier        PointIdentifier;
-  typedef typename OutputMeshType::CellIdentifier         CellIdentifier;
-  typedef CellInterface<OutputPixelType, CellTraits>      CellInterfaceType;
-  typedef TriangleCell<CellInterfaceType>                 TriangleCellType;
-  typedef typename TriangleCellType::SelfAutoPointer      TriangleAutoPointer;
-  typedef typename TriangleCellType::CellAutoPointer      TriangleCellAutoPointer;
-  typedef QuadrilateralCell<CellInterfaceType>            QuadrilateralCellType;
-  typedef typename QuadrilateralCellType::SelfAutoPointer QuadrilateralAutoPointer;
-  typedef typename QuadrilateralCellType::CellAutoPointer QuadrilateralCellAutoPointer;
+  /** Some convenient type alias. */
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputMeshTraits = typename OutputMeshType::MeshTraits;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputPixelType = typename OutputMeshTraits::PixelType;
+  using CellTraits = typename OutputMeshType::CellTraits;
+  using PointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using PointsContainer = typename OutputMeshType::PointsContainer;
+  using CellsContainerPointer = typename OutputMeshType::CellsContainerPointer;
+  using CellsContainer = typename OutputMeshType::CellsContainer;
+  using PointIdentifier = typename OutputMeshType::PointIdentifier;
+  using CellIdentifier = typename OutputMeshType::CellIdentifier;
+  using CellInterfaceType = CellInterface<OutputPixelType, CellTraits>;
+  using TriangleCellType = TriangleCell<CellInterfaceType>;
+  using TriangleAutoPointer = typename TriangleCellType::SelfAutoPointer;
+  using TriangleCellAutoPointer = typename TriangleCellType::CellAutoPointer;
+  using QuadrilateralCellType = QuadrilateralCell<CellInterfaceType>;
+  using QuadrilateralAutoPointer = typename QuadrilateralCellType::SelfAutoPointer;
+  using QuadrilateralCellAutoPointer = typename QuadrilateralCellType::CellAutoPointer;
 
-  typedef TInputImage                               InputImageType;
-  typedef typename InputImageType::Pointer          InputImagePointer;
-  typedef typename InputImageType::ConstPointer     InputImageConstPointer;
-  typedef typename InputImageType::PixelType        InputPixelType;
-  typedef typename InputImageType::SizeType         SizeType;
-  typedef typename InputImageType::SpacingType      SpacingType;
-  typedef typename InputImageType::SpacingValueType SpacingValueType;
-  typedef typename InputImageType::IndexType        IndexType;
-  typedef typename OutputMeshType::PointType        PointType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputPixelType = typename InputImageType::PixelType;
+  using SizeType = typename InputImageType::SizeType;
+  using SpacingType = typename InputImageType::SpacingType;
+  using SpacingValueType = typename InputImageType::SpacingValueType;
+  using IndexType = typename InputImageType::IndexType;
+  using PointType = typename OutputMeshType::PointType;
 
-  typedef TInterpolator                         InterpolatorType;
-  typedef typename InterpolatorType::Pointer    InterpolatorPointer;
-  typedef typename InterpolatorType::OutputType InterpolatorOutputType;
+  using InterpolatorType = TInterpolator;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
+  using InterpolatorOutputType = typename InterpolatorType::OutputType;
 
-  /** Other convenient typedefs. */
-  typedef ConstShapedNeighborhoodIterator< InputImageType >              InputImageIteratorType;
+  /** Other convenient type alias. */
+  using InputImageIteratorType = ConstShapedNeighborhoodIterator< InputImageType >;
 #if USE_GRADIENT_RECURSIVE_GAUSSIAN
-  typedef GradientRecursiveGaussianImageFilter< InputImageType >         GradientFilterType;
+  using GradientFilterType = GradientRecursiveGaussianImageFilter< InputImageType >;
 #else
-  typedef GradientImageFilter< InputImageType >                          GradientFilterType;
+  using GradientFilterType = GradientImageFilter< InputImageType >;
 #endif
-  typedef typename GradientFilterType::Pointer                           GradientFilterPointer;
-  typedef typename GradientFilterType::OutputImageType                   GradientImageType;
-  typedef typename GradientImageType::Pointer                            GradientImagePointer;
-  typedef typename GradientFilterType::OutputPixelType                   GradientPixelType;
-  typedef itk::VectorLinearInterpolateImageFunction< GradientImageType > GradientInterpolatorType;
-  typedef typename GradientInterpolatorType::Pointer                     GradientInterpolatorPointer;
+  using GradientFilterPointer = typename GradientFilterType::Pointer;
+  using GradientImageType = typename GradientFilterType::OutputImageType;
+  using GradientImagePointer = typename GradientImageType::Pointer;
+  using GradientPixelType = typename GradientFilterType::OutputPixelType;
+  using GradientInterpolatorType = itk::VectorLinearInterpolateImageFunction< GradientImageType >;
+  using GradientInterpolatorPointer = typename GradientInterpolatorType::Pointer;
 
   /** Get/Set the iso-surface value.
     * This parameter specifies the value of the iso-surface for which to
@@ -247,8 +247,8 @@ private:
   class VertexLookupNode
     {
     public:
-      /** Convenient typedefs */
-      typedef VertexLookupNode Self;
+      /** Convenient type alias */
+      using Self = VertexLookupNode;
 
       /** Constructors */
       VertexLookupNode() : m_X( 0 ), m_Y( 0 ) { }
@@ -279,10 +279,10 @@ private:
   class VertexLookupMap
     {
     public:
-      /** Convenient typedefs */
-      typedef VertexLookupMap                               Self;
-      typedef typename TMeshType::PointIdentifier           PointIdentifier;
-      typedef std::map< VertexLookupNode, PointIdentifier > MapType;
+      /** Convenient type alias */
+      using Self = VertexLookupMap;
+      using PointIdentifier = typename TMeshType::PointIdentifier;
+      using MapType = std::map< VertexLookupNode, PointIdentifier >;
 
       /** Constructors */
       VertexLookupMap() { }
@@ -317,8 +317,8 @@ private:
       MapType m_Map;
   };
 
-  /** Some convenient typedefs. */
-  typedef VertexLookupMap< OutputMeshType > VertexLookupMapType;
+  /** Some convenient type alias. */
+  using VertexLookupMapType = VertexLookupMap< OutputMeshType >;
 
   /** Private functions to implement the algorithm. */
 
