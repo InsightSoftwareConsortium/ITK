@@ -444,79 +444,79 @@ STLMeshIO ::WritePoints(void * buffer)
   {
     case UCHAR:
     {
-      typedef unsigned char CoordType;
+      using CoordType = unsigned char;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case CHAR:
     {
-      typedef char CoordType;
+      using CoordType = char;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case USHORT:
     {
-      typedef unsigned short CoordType;
+      using CoordType = unsigned short;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case SHORT:
     {
-      typedef short CoordType;
+      using CoordType = short;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case UINT:
     {
-      typedef unsigned int CoordType;
+      using CoordType = unsigned int;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case INT:
     {
-      typedef int CoordType;
+      using CoordType = int;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case ULONG:
     {
-      typedef unsigned long CoordType;
+      using CoordType = unsigned long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case LONG:
     {
-      typedef long CoordType;
+      using CoordType = long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case ULONGLONG:
     {
-      typedef unsigned long long CoordType;
+      using CoordType = unsigned long long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case LONGLONG:
     {
-      typedef long long CoordType;
+      using CoordType = long long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case FLOAT:
     {
-      typedef float CoordType;
+      using CoordType = float;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case DOUBLE:
     {
-      typedef double CoordType;
+      using CoordType = double;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case LDOUBLE:
     {
-      typedef long double CoordType;
+      using CoordType = long double;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
