@@ -337,9 +337,9 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
     this->BuildKernel();
   }
 
-  const unsigned int X = 0;
-  const unsigned int Y = 1;
-  const unsigned int Z = 2;
+  constexpr unsigned int X = 0;
+  constexpr unsigned int Y = 1;
+  constexpr unsigned int Z = 2;
   // arguments set up
   int       argidx = 0;
   const int ndim = (int)TInputImage::ImageDimension;
