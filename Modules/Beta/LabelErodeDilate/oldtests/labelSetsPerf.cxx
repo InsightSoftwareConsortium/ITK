@@ -68,7 +68,7 @@ void ParseCmdLine(int argc, char *argv[],
 template< class MaskPixType, int dim >
 void doErode(const CmdLineType & CmdLineObj)
 {
-  typedef typename itk::Image< MaskPixType, dim > MaskImType;
+  using MaskImType = typename itk::Image< MaskPixType, dim >;
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(CmdLineObj.threads);
   itk::TimeProbe timer;
 

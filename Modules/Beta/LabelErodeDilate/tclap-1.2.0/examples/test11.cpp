@@ -29,7 +29,7 @@ struct Vect3D {
 namespace TCLAP {
 template<>
 struct ArgTraits<Vect3D> {
-    typedef StringLike ValueCategory;
+    using ValueCategory = StringLike;
 };
 }
 

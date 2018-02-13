@@ -36,7 +36,7 @@ namespace TCLAP {
  * operator>>. This is the default value type.
  */
 struct ValueLike {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -52,7 +52,7 @@ struct StringLike {};
  * to the inherenting class.
  */
 struct StringLikeTrait {
-    typedef StringLike ValueCategory;
+    using ValueCategory = StringLike;
 };
 
 /**
@@ -61,7 +61,7 @@ struct StringLikeTrait {
  * to the inherenting class.
  */
 struct ValueLikeTrait {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -72,8 +72,8 @@ struct ValueLikeTrait {
  */
 template<typename T>
 struct ArgTraits {
-    typedef typename T::ValueCategory ValueCategory;
-    //typedef ValueLike ValueCategory;
+    using ValueCategory = typename T::ValueCategory;
+    //using ValueCategory = ValueLike;
 };
 
 #endif

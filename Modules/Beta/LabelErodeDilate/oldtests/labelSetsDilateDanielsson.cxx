@@ -45,7 +45,7 @@ void ParseCmdLine(int argc, char *argv[],
 template< class MaskPixType, int dim >
 void doDilate(const CmdLineType & CmdLineObj)
 {
-  typedef typename itk::Image< MaskPixType, dim > MaskImType;
+  using MaskImType = typename itk::Image< MaskPixType, dim >;
 
   // load
   typename MaskImType::Pointer mask = readIm< MaskImType >(CmdLineObj.InputIm);

@@ -36,7 +36,7 @@ std::ostream& operator<<(std::ostream &os, const Vect3D &v)
 namespace TCLAP {
 template<>
 struct ArgTraits<Vect3D> {
-    typedef StringLike ValueCategory;
+    using ValueCategory = StringLike;
 };
 }
 

@@ -40,10 +40,10 @@
 
 #if defined(HAVE_SSTREAM)
 #include <sstream>
-typedef std::istringstream istringstream;
+using istringstream = std::istringstream;
 #elif defined(HAVE_STRSTREAM)
 #include <strstream>
-typedef std::istrstream istringstream;
+using istringstream = std::istrstream;
 #else
 #error "Need a stringstream (sstream or strstream) to compile!"
 #endif
@@ -373,17 +373,17 @@ class Arg
 /**
  * Typedef of an Arg list iterator.
  */
-typedef std::list<Arg*>::iterator ArgListIterator;
+using ArgListIterator = std::list<Arg*>::iterator;
 
 /**
  * Typedef of an Arg vector iterator.
  */
-typedef std::vector<Arg*>::iterator ArgVectorIterator;
+using ArgVectorIterator = std::vector<Arg*>::iterator;
 
 /**
  * Typedef of a Visitor list iterator.
  */
-typedef std::list<Visitor*>::iterator VisitorListIterator;
+using VisitorListIterator = std::list<Visitor*>::iterator;
 
 /*
  * Extract a value of type T from it's string representation contained

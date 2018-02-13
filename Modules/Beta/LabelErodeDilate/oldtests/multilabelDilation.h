@@ -16,8 +16,8 @@
 template <class LabelImageType>
 typename LabelImageType::Pointer multilabelDilation(typename LabelImageType::Pointer LabelIm, float radius)
 {
-  typedef typename itk::Image<unsigned char, LabelImageType::ImageDimension> MaskImageType;
-  typedef typename itk::Image<double, LabelImageType::ImageDimension> InternalImageType;
+  using MaskImageType = typename itk::Image<unsigned char, LabelImageType::ImageDimension>;
+  using InternalImageType = typename itk::Image<double, LabelImageType::ImageDimension>;
 
   // I think we need to do this to get the right form for Maurer
   itk::Instance<itk::BinaryThresholdImageFilter<LabelImageType, MaskImageType> > Thresh;
@@ -27,7 +27,7 @@ typename LabelImageType::Pointer multilabelDilation(typename LabelImageType::Poi
   Thresh->SetOutsideValue(1);
 
 
-  typedef typename itk::SignedMaurerDistanceMapImageFilter<MaskImageType, InternalImageType> DistanceMapType;
+  using DistanceMapType = typename itk::SignedMaurerDistanceMapImageFilter<MaskImageType, InternalImageType>;
 
   typename DistanceMapType::Pointer dm=DistanceMapType::New();
   dm->SetInput(Thresh->GetOutput());
@@ -44,7 +44,7 @@ typename LabelImageType::Pointer multilabelDilation(typename LabelImageType::Poi
 
   //writeIm<InternalImageType>(dm->GetOutput(), "/tmp/maurer.nii.gz");
 
-  typedef typename itk::MorphologicalWatershedFromMarkersImageFilter<InternalImageType, LabelImageType> morphoWSfMType;
+  using morphoWSfMType = typename itk::MorphologicalWatershedFromMarkersImageFilter<InternalImageType, LabelImageType>;
   typename morphoWSfMType::Pointer ws=morphoWSfMType::New();
   ws->SetInput1(dm->GetOutput());
   ws->SetInput2(LabelIm);
@@ -52,7 +52,7 @@ typename LabelImageType::Pointer multilabelDilation(typename LabelImageType::Poi
   ws->SetFullyConnected(false);
   ws->Update();
 
-  typedef typename itk::MaskImageFilter<LabelImageType, MaskImageType> MaskType;
+  using MaskType = typename itk::MaskImageFilter<LabelImageType, MaskImageType>;
   typename MaskType::Pointer mask=MaskType::New();
   mask->SetInput1(ws->GetOutput());
   mask->SetInput2(Dilate->GetOutput());
@@ -71,10 +71,10 @@ typename LabelImageType::Pointer multilabelDilation(typename LabelImageType::Poi
 template <class LabelImageType>
 typename LabelImageType::Pointer multilabelDilationDanielsson(typename LabelImageType::Pointer LabelIm, float radius)
 {
-  typedef typename itk::Image<unsigned char, LabelImageType::ImageDimension> MaskImageType;
-  typedef typename itk::Image<double, LabelImageType::ImageDimension> InternalImageType;
+  using MaskImageType = typename itk::Image<unsigned char, LabelImageType::ImageDimension>;
+  using InternalImageType = typename itk::Image<double, LabelImageType::ImageDimension>;
 
-  typedef typename itk::DanielssonDistanceMapImageFilter<LabelImageType, InternalImageType> DistanceMapType;
+  using DistanceMapType = typename itk::DanielssonDistanceMapImageFilter<LabelImageType, InternalImageType>;
 
 
   typename DistanceMapType::Pointer dm=DistanceMapType::New();
@@ -90,7 +90,7 @@ typename LabelImageType::Pointer multilabelDilationDanielsson(typename LabelImag
   Thresh->SetOutsideValue(0);
 
   //writeIm<InternalImageType>(dm->GetOutput(), "/tmp/dan.nii.gz");
-  typedef typename itk::MaskImageFilter<LabelImageType, MaskImageType> MaskType;
+  using MaskType = typename itk::MaskImageFilter<LabelImageType, MaskImageType>;
   typename MaskType::Pointer mask=MaskType::New();
   mask->SetInput1(dm->GetVoronoiMap());
   mask->SetInput2(Thresh->GetOutput());
