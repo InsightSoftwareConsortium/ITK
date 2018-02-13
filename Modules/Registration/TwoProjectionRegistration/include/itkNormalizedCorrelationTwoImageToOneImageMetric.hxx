@@ -52,9 +52,9 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
     itkExceptionMacro(<< "Fixed image2 has not been assigned");
   }
 
-  typedef itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
 
-  typedef typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
 
   // Calculate the measure value between fixed image 1 and the moving image

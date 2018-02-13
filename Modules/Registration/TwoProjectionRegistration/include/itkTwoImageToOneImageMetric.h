@@ -53,76 +53,75 @@ template <typename TFixedImage, typename TMovingImage>
 class TwoImageToOneImageMetric : public SingleValuedCostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef TwoImageToOneImageMetric Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type alias. */
+  using Self = TwoImageToOneImageMetric;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type used for representing point components  */
-  typedef Superclass::ParametersValueType CoordinateRepresentationType;
+  using CoordinateRepresentationType = Superclass::ParametersValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TwoImageToOneImageMetric, SingleValuedCostFunction);
 
   /**  Type of the moving Image. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename TMovingImage::PixelType       MovingImagePixelType;
-  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePixelType = typename TMovingImage::PixelType;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /**  Type of the fixed Image. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
-  typedef typename FixedImageType::RegionType   FixedImageRegionType;
+  using FixedImageType = TFixedImage;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using FixedImageRegionType = typename FixedImageType::RegionType;
 
   /** Constants for the image dimensions */
-  itkStaticConstMacro(MovingImageDimension, unsigned int, TMovingImage::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, unsigned int, TFixedImage::ImageDimension);
+  static constexpr unsigned int MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr unsigned int FixedImageDimension = TFixedImage::ImageDimension;
 
   /**  Type of the Transform Base class */
-  typedef Transform<CoordinateRepresentationType,
-                    itkGetStaticConstMacro(MovingImageDimension),
-                    itkGetStaticConstMacro(FixedImageDimension)>
-    TransformType;
+  using TransformType = Transform<CoordinateRepresentationType,
+                                  itkGetStaticConstMacro(MovingImageDimension),
+                                  itkGetStaticConstMacro(FixedImageDimension)>;
 
-  typedef typename TransformType::Pointer         TransformPointer;
-  typedef typename TransformType::InputPointType  InputPointType;
-  typedef typename TransformType::OutputPointType OutputPointType;
-  typedef typename TransformType::ParametersType  TransformParametersType;
-  typedef typename TransformType::JacobianType    TransformJacobianType;
+  using TransformPointer = typename TransformType::Pointer;
+  using InputPointType = typename TransformType::InputPointType;
+  using OutputPointType = typename TransformType::OutputPointType;
+  using TransformParametersType = typename TransformType::ParametersType;
+  using TransformJacobianType = typename TransformType::JacobianType;
 
   /**  Type of the Interpolator Base class */
-  typedef InterpolateImageFunction<MovingImageType, CoordinateRepresentationType> InterpolatorType;
+  using InterpolatorType = InterpolateImageFunction<MovingImageType, CoordinateRepresentationType>;
 
 
   /** Gaussian filter to compute the gradient of the Moving Image */
-  typedef typename NumericTraits<MovingImagePixelType>::RealType                   RealType;
-  typedef CovariantVector<RealType, itkGetStaticConstMacro(MovingImageDimension)>  GradientPixelType;
-  typedef Image<GradientPixelType, itkGetStaticConstMacro(MovingImageDimension)>   GradientImageType;
-  typedef SmartPointer<GradientImageType>                                          GradientImagePointer;
-  typedef GradientRecursiveGaussianImageFilter<MovingImageType, GradientImageType> GradientImageFilterType;
-  typedef typename GradientImageFilterType::Pointer                                GradientImageFilterPointer;
-  typedef typename InterpolatorType::Pointer                                       InterpolatorPointer;
+  using RealType = typename NumericTraits<MovingImagePixelType>::RealType;
+  using GradientPixelType = CovariantVector<RealType, itkGetStaticConstMacro(MovingImageDimension)>;
+  using GradientImageType = Image<GradientPixelType, itkGetStaticConstMacro(MovingImageDimension)>;
+  using GradientImagePointer = SmartPointer<GradientImageType>;
+  using GradientImageFilterType = GradientRecursiveGaussianImageFilter<MovingImageType, GradientImageType>;
+  using GradientImageFilterPointer = typename GradientImageFilterType::Pointer;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
   typedef SpatialObject<itkGetStaticConstMacro(FixedImageDimension)> FixedImageMaskType;
-  typedef typename FixedImageMaskType::Pointer                       FixedImageMaskPointer;
+  using FixedImageMaskPointer = typename FixedImageMaskType::Pointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
   typedef SpatialObject<itkGetStaticConstMacro(MovingImageDimension)> MovingImageMaskType;
-  typedef typename MovingImageMaskType::Pointer                       MovingImageMaskPointer;
+  using MovingImageMaskPointer = typename MovingImageMaskType::Pointer;
 
 
   /**  Type of the measure. */
-  typedef Superclass::MeasureType MeasureType;
+  using MeasureType = Superclass::MeasureType;
 
   /**  Type of the derivative. */
-  typedef Superclass::DerivativeType DerivativeType;
+  using DerivativeType = Superclass::DerivativeType;
 
   /**  Type of the parameters. */
-  typedef Superclass::ParametersType ParametersType;
+  using ParametersType = Superclass::ParametersType;
 
   /** Connect the Fixed Image.  */
   itkSetConstObjectMacro(FixedImage1, FixedImageType);

@@ -57,34 +57,34 @@ template <typename TInputImage, typename TCoordRep = float>
 class SiddonJacobsRayCastInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  /** Standard class typedefs. */
-  typedef SiddonJacobsRayCastInterpolateImageFunction      Self;
-  typedef InterpolateImageFunction<TInputImage, TCoordRep> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  /** Standard class type alias. */
+  using Self = SiddonJacobsRayCastInterpolateImageFunction;
+  using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Constants for the image dimensions */
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
 
-  typedef Euler3DTransform<TCoordRep> TransformType;
+  using TransformType = Euler3DTransform<TCoordRep>;
 
-  typedef typename TransformType::Pointer         TransformPointer;
-  typedef typename TransformType::InputPointType  InputPointType;
-  typedef typename TransformType::OutputPointType OutputPointType;
-  typedef typename TransformType::ParametersType  TransformParametersType;
-  typedef typename TransformType::JacobianType    TransformJacobianType;
+  using TransformPointer = typename TransformType::Pointer;
+  using InputPointType = typename TransformType::InputPointType;
+  using OutputPointType = typename TransformType::OutputPointType;
+  using TransformParametersType = typename TransformType::ParametersType;
+  using TransformJacobianType = typename TransformType::JacobianType;
 
-  typedef typename Superclass::InputPixelType PixelType;
+  using PixelType = typename Superclass::InputPixelType;
 
-  typedef typename TInputImage::SizeType SizeType;
+  using SizeType = typename TInputImage::SizeType;
 
-  typedef Vector<TCoordRep, 3> DirectionType;
+  using DirectionType = Vector<TCoordRep, 3>;
 
   /**  Type of the Interpolator Base class */
-  typedef InterpolateImageFunction<TInputImage, TCoordRep> InterpolatorType;
+  using InterpolatorType = InterpolateImageFunction<TInputImage, TCoordRep>;
 
-  typedef typename InterpolatorType::Pointer InterpolatorPointer;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
 
 
   /** Run-time type information (and related methods). */
@@ -93,29 +93,29 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support. */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support. */
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** InputImageConstPointer typedef support. */
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  /** InputImageConstPointer type alias support. */
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
-  /** RealType typedef support. */
-  typedef typename Superclass::RealType RealType;
+  /** RealType type alias support. */
+  using RealType = typename Superclass::RealType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support. */
+  using PointType = typename Superclass::PointType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support. */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support. */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
 
   /** \brief

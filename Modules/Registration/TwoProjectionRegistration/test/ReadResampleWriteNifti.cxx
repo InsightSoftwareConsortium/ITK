@@ -39,35 +39,35 @@ main(int argc, char * argv[])
     std::cerr << "Too many arguments" << std::endl;
   }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   double outputSpacing[Dimension];
   outputSpacing[0] = 2.0; // pixel spacing in millimeters along X
   outputSpacing[1] = 2.0; // pixel spacing in millimeters along Y
   outputSpacing[2] = 2.0; // pixel spacing in millimeters along Z
 
-  typedef short InputPixelType;
-  typedef short OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = short;
 
-  typedef itk::Image<InputPixelType, Dimension>  InputImageType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
 
-  typedef itk::ImageFileReader<InputImageType>  ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  typedef itk::ResampleImageFilter<InputImageType, OutputImageType> FilterType;
+  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer                             filter = FilterType::New();
-  typedef itk::AffineTransform<double, Dimension> TransformType;
-  TransformType::Pointer                          transform = TransformType::New();
+  FilterType::Pointer filter = FilterType::New();
+  using TransformType = itk::AffineTransform<double, Dimension>;
+  TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::LinearInterpolateImageFunction<InputImageType, double> InterpolatorType;
-  InterpolatorType::Pointer                                           interpolator = InterpolatorType::New();
+  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, double>;
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
   filter->SetInterpolator(interpolator);
 
   filter->SetDefaultPixelValue(0);
@@ -102,8 +102,8 @@ main(int argc, char * argv[])
 
   WriterType::Pointer writer = WriterType::New();
 
-  typedef itk::NiftiImageIO ImageIOType;
-  ImageIOType::Pointer      niftiIO = ImageIOType::New();
+  using ImageIOType = itk::NiftiImageIO;
+  ImageIOType::Pointer niftiIO = ImageIOType::New();
 
   //  The NiftiImageIO object is then connected to the
   //  ImageFileWriter.  This will short-circuit the action of the
