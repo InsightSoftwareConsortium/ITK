@@ -66,14 +66,14 @@ ObjectnessMeasureImageFilter< TInputImage,TOutputImage >
   typename InputImageType::Pointer localInput = InputImageType::New();
   localInput->Graft( this->GetInput() );
 
-  typedef HessianImageFilter<InputImageType>          HessianFilterType;
-  typedef typename HessianFilterType::OutputImageType HessianImageType;
+  using HessianFilterType = HessianImageFilter<InputImageType>;
+  using HessianImageType = typename HessianFilterType::OutputImageType;
 
   typename HessianFilterType::Pointer hessianFilter = HessianFilterType::New();
 
   hessianFilter->SetInput( localInput );
 
-  typedef HessianToObjectnessMeasureImageFilter< HessianImageType, OutputImageType > ObjectnessFilterType;
+  using ObjectnessFilterType = HessianToObjectnessMeasureImageFilter< HessianImageType, OutputImageType >;
 
   typename ObjectnessFilterType::Pointer objectnessFilter = ObjectnessFilterType::New();
 
