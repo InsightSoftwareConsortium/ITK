@@ -596,7 +596,7 @@ MGHImageIO
 ::WriteHeader()
 {
   // version
-  const int mghVersion = 1;
+  constexpr int mghVersion = 1;
   this->TWrite<int,int>( mghVersion );
   // dimensions
   for( size_t ui = 0; ui < 3; ++ui )
