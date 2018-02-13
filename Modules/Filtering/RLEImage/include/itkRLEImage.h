@@ -93,7 +93,7 @@ public:
    * templated over image type (as opposed to being templated over pixel type
    * and dimension) when they need compile time access to the dimension of
    * the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType      IndexType;

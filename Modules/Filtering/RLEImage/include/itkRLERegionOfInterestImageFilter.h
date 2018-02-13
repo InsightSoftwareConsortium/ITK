@@ -80,8 +80,8 @@ public:
   itkGetConstMacro(RegionOfInterest, RegionType);
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
+  static constexpr unsigned int OutputImageDimension = VImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -174,8 +174,8 @@ public:
   itkGetConstMacro(RegionOfInterest, RegionType);
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
+  static constexpr unsigned int OutputImageDimension = VImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -279,8 +279,8 @@ public:
   itkGetConstMacro(RegionOfInterest, RegionType);
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
+  static constexpr unsigned int OutputImageDimension = VImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -367,8 +367,8 @@ public:
   itkGetConstMacro(RegionOfInterest, RegionType);
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
+  static constexpr unsigned int OutputImageDimension = VImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
