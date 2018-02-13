@@ -48,27 +48,27 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
 
 
   // Basic types
-  const unsigned int                       Dimension = 3;
-  typedef short                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  const unsigned int Dimension = 3;
+  using PixelType = short;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
 
   // Read the fixed and moving image
-  typedef itk::ImageSeriesReader<ImageType> ReaderType;
-  ReaderType::Pointer                       fixedReader = ReaderType::New();
+  using ReaderType = itk::ImageSeriesReader<ImageType>;
+  ReaderType::Pointer fixedReader = ReaderType::New();
 
   // DCMTKImageIO does not populate the MetaDataDictionary yet
-  // typedef itk::DCMTKImageIO ImageIOType;
-  typedef itk::GDCMImageIO ImageIOType;
-  ImageIOType::Pointer     fixedIO = ImageIOType::New();
+  // using ImageIOType = itk::DCMTKImageIO;
+  using ImageIOType = itk::GDCMImageIO;
+  ImageIOType::Pointer fixedIO = ImageIOType::New();
   fixedReader->SetImageIO(fixedIO);
 
-  // typedef itk::DCMTKSeriesFileNames SeriesFileNamesType;
-  typedef itk::GDCMSeriesFileNames SeriesFileNamesType;
-  SeriesFileNamesType::Pointer     fixedSeriesFileNames = SeriesFileNamesType::New();
+  // using SeriesFileNamesType = itk::DCMTKSeriesFileNames;
+  using SeriesFileNamesType = itk::GDCMSeriesFileNames;
+  SeriesFileNamesType::Pointer fixedSeriesFileNames = SeriesFileNamesType::New();
   fixedSeriesFileNames->SetInputDirectory(fixedSeriesDirectory);
-  typedef SeriesFileNamesType::FileNamesContainerType FileNamesContainerType;
-  const FileNamesContainerType &                      fixedFileNames = fixedSeriesFileNames->GetInputFileNames();
+  using FileNamesContainerType = SeriesFileNamesType::FileNamesContainerType;
+  const FileNamesContainerType & fixedFileNames = fixedSeriesFileNames->GetInputFileNames();
   std::cout << "There are " << fixedFileNames.size() << " fixed image slices." << std::endl;
   std::cout << "First fixed images series UID: " << fixedSeriesFileNames->GetSeriesUIDs()[0] << "\n" << std::endl;
   fixedReader->SetFileNames(fixedFileNames);
@@ -97,17 +97,17 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
 
 
   // Create a DICOM transform reader
-  typedef float ScalarType;
+  using ScalarType = float;
 
   itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
   itk::ObjectFactoryBase::RegisterFactory(dcmtkTransformIOFactory);
 
-  typedef itk::TransformFileReaderTemplate<ScalarType> TransformReaderType;
-  TransformReaderType::Pointer                         transformReader = TransformReaderType::New();
+  using TransformReaderType = itk::TransformFileReaderTemplate<ScalarType>;
+  TransformReaderType::Pointer transformReader = TransformReaderType::New();
   transformReader->SetFileName(transformFileName);
 
-  typedef itk::DCMTKTransformIO<ScalarType> TransformIOType;
-  TransformIOType::Pointer                  transformIO = TransformIOType::New();
+  using TransformIOType = itk::DCMTKTransformIO<ScalarType>;
+  TransformIOType::Pointer transformIO = TransformIOType::New();
   transformReader->SetTransformIO(transformIO);
 
 
@@ -131,12 +131,12 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
     std::cerr << "Error: " << error << std::endl;
     return EXIT_FAILURE;
   }
-  typedef TransformReaderType::TransformListType TransformListType;
-  TransformListType *                            transformList = transformReader->GetTransformList();
+  using TransformListType = TransformReaderType::TransformListType;
+  TransformListType * transformList = transformReader->GetTransformList();
 
-  typedef itk::CompositeTransform<ScalarType, Dimension> ReadTransformType;
-  TransformListType::const_iterator                      transformIt = transformList->begin();
-  ReadTransformType::Pointer fixedTransform = dynamic_cast<ReadTransformType *>((*transformIt).GetPointer());
+  using ReadTransformType = itk::CompositeTransform<ScalarType, Dimension>;
+  TransformListType::const_iterator transformIt = transformList->begin();
+  ReadTransformType::Pointer        fixedTransform = dynamic_cast<ReadTransformType *>((*transformIt).GetPointer());
   if (fixedTransform.IsNull())
   {
     std::cerr << "Did not get the expected transform out." << std::endl;
@@ -187,8 +187,8 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
   // Flatten out the two component CompositeTransforms.
   fixedToMovingTransform->FlattenTransformQueue();
 
-  typedef itk::ResampleImageFilter<ImageType, ImageType, ScalarType, ScalarType> ResamplerType;
-  ResamplerType::Pointer                                                         resampler = ResamplerType::New();
+  using ResamplerType = itk::ResampleImageFilter<ImageType, ImageType, ScalarType, ScalarType>;
+  ResamplerType::Pointer resampler = ResamplerType::New();
   resampler->SetInput(movingReader->GetOutput());
   resampler->SetUseReferenceImage(true);
   resampler->SetReferenceImage(fixedReader->GetOutput());
@@ -197,8 +197,8 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
 
 
   // Write the fixed image and resampled moving image (should look similar)
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(fixedImageOutputFileName);
   writer->SetInput(fixedReader->GetOutput());
   try
