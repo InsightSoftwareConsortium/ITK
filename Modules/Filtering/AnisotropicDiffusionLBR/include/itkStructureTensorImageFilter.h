@@ -53,23 +53,23 @@ class StructureTensorImageFilter:
   public ImageToImageFilter< TImage, TTensorImage >
 {
 public:
-  typedef StructureTensorImageFilter          Self;
-  typedef ImageToImageFilter< TImage, TImage> Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  using Self = StructureTensorImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /// Method for creation through the object factory.
   itkNewMacro(Self);
   /// Run-time type information (and related methods).
   itkTypeMacro(StructureTensorImageFilter, Superclass);
 
-  typedef TImage                              ImageType;
-  typedef typename ImageType::PixelType       PixelType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
   static const unsigned int Dimension =       ImageType::ImageDimension;
-  typedef TTensorImage                        TensorImageType;
-  typedef typename TensorImageType::PixelType TensorType;
-  typedef typename TensorType::ComponentType  ScalarType;
-  typedef Image<ScalarType, Dimension>        ScalarImageType;
+  using TensorImageType = TTensorImage;
+  using TensorType = typename TensorImageType::PixelType;
+  using ScalarType = typename TensorType::ComponentType;
+  using ScalarImageType = Image<ScalarType, Dimension>;
 
   ///Parameter \f$\sigma\f$ of the structure tensor definition.
   itkSetMacro(NoiseScale, ScalarType);
@@ -100,8 +100,8 @@ protected:
   void IntermediateFilter( const Dispatch< false > & );
   typename TensorImageType::Pointer m_IntermediateResult;
 
-  typedef CovariantVector<ScalarType,Dimension> CovariantVectorType;
-  typedef Image<CovariantVectorType,Dimension>  CovariantImageType;
+  using CovariantVectorType = CovariantVector<ScalarType,Dimension>;
+  using CovariantImageType = Image<CovariantVectorType,Dimension>;
 
   struct OuterFunctor
   {

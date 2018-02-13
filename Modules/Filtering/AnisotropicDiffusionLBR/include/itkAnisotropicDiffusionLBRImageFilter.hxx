@@ -49,7 +49,7 @@ AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
   typename ImageType::Pointer inputImage = const_cast<ImageType*>(this->GetInput());
   typename ImageType::Pointer image = inputImage;
 
-  typedef typename ImageType::SpacingType SpacingType;
+  using SpacingType = typename ImageType::SpacingType;
   const SpacingType referenceSpacing = inputImage->GetSpacing();
 
   //        const SpacingType unitSpacing(1); // Better below for non-uniform spacing.
@@ -151,7 +151,7 @@ AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
   structureTensorFilter->SetRescaleForUnitMaximumTrace(m_Adimensionize);
   structureTensorFilter->SetInput(image);
 
-  typedef UnaryFunctorImageFilter<TensorImageType, TensorImageType, DiffusionTensorFunctor> ImageFunctorType;
+  using ImageFunctorType = UnaryFunctorImageFilter<TensorImageType, TensorImageType, DiffusionTensorFunctor>;
   typename ImageFunctorType::Pointer imageFunctor = ImageFunctorType::New();
   imageFunctor->GetFunctor().eigenValuesFunctor = this;
   imageFunctor->SetInput(structureTensorFilter->GetOutput());

@@ -65,10 +65,10 @@ class CoherenceEnhancingDiffusionImageFilter:
   public AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 {
 public:
-  typedef CoherenceEnhancingDiffusionImageFilter                Self;
-  typedef AnisotropicDiffusionLBRImageFilter< TImage, TScalar > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  using Self = CoherenceEnhancingDiffusionImageFilter;
+  using Superclass = AnisotropicDiffusionLBRImageFilter< TImage, TScalar >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,10 +78,10 @@ public:
 
   static const unsigned int Dimension = Superclass::Dimension;
 
-  typedef typename Superclass::EigenValuesArrayType EigenValuesArrayType;
+  using EigenValuesArrayType = typename Superclass::EigenValuesArrayType;
   EigenValuesArrayType EigenValuesTransform(const EigenValuesArrayType &) const override;
 
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
   /** Exponent m involved in the function g defining eigenvalues. */
   itkSetMacro(Exponent, ScalarType);
   itkSetMacro(Lambda, ScalarType);

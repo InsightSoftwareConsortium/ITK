@@ -100,7 +100,7 @@ struct LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 ::StencilFunctor
 {
 public:
-  typedef typename TensorImageType::SpacingType SpacingType;
+  using SpacingType = typename TensorImageType::SpacingType;
   void Initialize(RegionType region_, SpacingType spacing)
     {
     region = region_;
@@ -298,10 +298,10 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 {
     // Stencil type is a pair type because itk::UnaryFunctorImage filter
     // only produces one output
-//        typedef typename TensorImageType::SpacingType SpacingType;
+//        using SpacingType = typename TensorImageType::SpacingType;
   const RegionType region = GetRequestedRegion();
 
-  typedef UnaryFunctorWithIndexImageFilter<TensorImageType, StencilImageType, StencilFunctor > FunctorFilterType;
+  using FunctorFilterType = UnaryFunctorWithIndexImageFilter<TensorImageType, StencilImageType, StencilFunctor >;
   typename FunctorFilterType::Pointer filter = FunctorFilterType::New();
   filter->SetInput(GetInputTensor());
   filter->GetFunctor().Initialize(region, GetInputTensor()->GetSpacing());
@@ -344,7 +344,7 @@ typename LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >::ScalarType
 LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 ::MaxStableTimeStep()
 {
-  typedef MinimumMaximumImageCalculator<ScalarImageType> MaxCalculatorType;
+  using MaxCalculatorType = MinimumMaximumImageCalculator<ScalarImageType>;
   typename MaxCalculatorType::Pointer maximumCalculator = MaxCalculatorType::New();
   maximumCalculator->SetImage(m_DiagonalCoefficients);
   maximumCalculator->SetRegion(GetRequestedRegion());
@@ -412,7 +412,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
   m_EffectiveNumberOfTimeSteps = n;
 
   // Extraction of the region of interest is required for image buffer access.
-  typedef ExtractImageFilter< ImageType, ImageType > InputCasterType;
+  using InputCasterType = ExtractImageFilter< ImageType, ImageType >;
   typename InputCasterType::Pointer inputCaster = InputCasterType::New();
   inputCaster->SetInput(GetInputImage());
   inputCaster->SetExtractionRegion(GetRequestedRegion());
@@ -483,7 +483,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage,  TScalar >
       }
     }
 
-  typedef TernaryFunctorImageFilter<ImageType, ImageType, ScalarImageType, ImageType, FunctorType> ImageFunctorType;
+  using ImageFunctorType = TernaryFunctorImageFilter<ImageType, ImageType, ScalarImageType, ImageType, FunctorType>;
   typename ImageFunctorType::Pointer imageFunctor = ImageFunctorType::New();
   imageFunctor->SetInput1(m_NextImage);
   imageFunctor->SetInput2(m_PreviousImage);

@@ -48,11 +48,11 @@ class LinearAnisotropicDiffusionLBRImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LinearAnisotropicDiffusionLBRImageFilter Self;
-  typedef ImageToImageFilter< TImage, TImage >     Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
+  /** Standard class type alias. */
+  using Self = LinearAnisotropicDiffusionLBRImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,15 +60,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LinearAnisotropicDiffusionLBRImageFilter, ImageToImageFilter);
 
-  typedef TImage                        ImageType;
-  typedef typename ImageType::PixelType PixelType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
 
   static const int Dimension = ImageType::ImageDimension;
 
-  typedef TScalar                                            ScalarType;
-  typedef SymmetricSecondRankTensor< ScalarType, Dimension > TensorType;
-  typedef Image< TensorType, Dimension >                     TensorImageType;
-  typedef ImageRegion< Dimension >                           RegionType;
+  using ScalarType = TScalar;
+  using TensorType = SymmetricSecondRankTensor< ScalarType, Dimension >;
+  using TensorImageType = Image< TensorType, Dimension >;
+  using RegionType = ImageRegion< Dimension >;
 
   void SetInputImage(const ImageType* image);
   void SetInputTensor(const TensorImageType* tensorImage);
@@ -92,18 +92,18 @@ protected:
   typename ImageType::ConstPointer GetInputImage();
   typename TensorImageType::ConstPointer GetInputTensor();
 
-  typedef Index<Dimension> IndexType;
+  using IndexType = Index<Dimension>;
 
   // ******* Containers for the stencils used in the discretization
   static const unsigned int HalfStencilSize = (Dimension == 2) ? 3 : 6;
   static const unsigned int StencilSize = 2 * HalfStencilSize;
 
-  typedef Vector<ScalarType,HalfStencilSize>  StencilCoefficientsType;
-  typedef Offset<Dimension>                   OffsetType;
-  typedef Vector<OffsetType, HalfStencilSize> StencilOffsetsType;
+  using StencilCoefficientsType = Vector<ScalarType,HalfStencilSize>;
+  using OffsetType = Offset<Dimension>;
+  using StencilOffsetsType = Vector<OffsetType, HalfStencilSize>;
 
-  typedef int                               InternalSizeT;
-  typedef Vector<InternalSizeT,StencilSize> StencilBufferIndicesType;
+  using InternalSizeT = int;
+  using StencilBufferIndicesType = Vector<InternalSizeT,StencilSize>;
 
 
   // *************** Computation *****************
@@ -111,11 +111,11 @@ protected:
   virtual void GenerateStencils(); /// Automatically called by GenerateData
   virtual void ImageUpdateLoop(); /// Automatically called by GenerateData
 
-  typedef std::pair< StencilBufferIndicesType, StencilCoefficientsType > StencilType;
-  typedef Image< StencilType, Dimension >                                StencilImageType;
+  using StencilType = std::pair< StencilBufferIndicesType, StencilCoefficientsType >;
+  using StencilImageType = Image< StencilType, Dimension >;
   typename StencilImageType::Pointer m_StencilImage;
 
-  typedef Image<ScalarType,Dimension> ScalarImageType;
+  using ScalarImageType = Image<ScalarType,Dimension>;
   typename ScalarImageType::Pointer m_DiagonalCoefficients;
 
   virtual ScalarType MaxStableTimeStep();
@@ -138,7 +138,7 @@ protected:
   struct StencilFunctor;
   struct FunctorType;
 
-  typedef Vector<ScalarType,Dimension> VectorType;
+  using VectorType = Vector<ScalarType,Dimension>;
   static ScalarType ScalarProduct(const TensorType &, const VectorType &, const VectorType &);
 
 private:

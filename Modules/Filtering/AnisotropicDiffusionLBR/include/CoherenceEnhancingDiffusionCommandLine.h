@@ -60,7 +60,7 @@ template<int VDimension, typename ScalarType, typename PixelType, typename Expor
 int Execute(int argc, char * argv[]);
 
 
-typedef LinearAnisotropicDiffusionCommandLine::ReportProgressToCOutType ReportProgressToCOutType;
+using ReportProgressToCOutType = LinearAnisotropicDiffusionCommandLine::ReportProgressToCOutType;
 
 int Execute(int argc, char * argv[])
 {
@@ -135,16 +135,16 @@ int Execute(int argc, char * argv[], int nComponents)
 template<int Dimension, typename ScalarType, typename PixelType, typename ExportPixelType>
 int Execute(int argc, char * argv[])
 {
-  typedef Image<PixelType,Dimension> ImageType;
+  using ImageType = Image<PixelType,Dimension>;
 
-  typedef ImageFileReader<ImageType> ReaderType;
+  using ReaderType = ImageFileReader<ImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
 
   const char * imageFileName = argv[1];
   const char * outputFileName = argv[2];
   reader->SetFileName(imageFileName);
 
-  typedef CoherenceEnhancingDiffusionImageFilter<ImageType,ScalarType> DiffusionFilterType;
+  using DiffusionFilterType = CoherenceEnhancingDiffusionImageFilter<ImageType,ScalarType>;
   typename DiffusionFilterType::Pointer diffusionFilter = DiffusionFilterType::New();
   diffusionFilter->SetInput(reader->GetOutput());
 
@@ -220,17 +220,17 @@ int Execute(int argc, char * argv[])
       std::cerr <<
       image->GetBufferedRegion() << "\n\n" <<
       "pixel export size: " << sizeof(ExportPixelType) << "\n";
-      ;
+;
 
   }*/
 
-  typedef Image<ExportPixelType,Dimension> ExportImageType;
-  typedef CastImageFilter<ImageType, ExportImageType> CasterType;
+  using ExportImageType = Image<ExportPixelType,Dimension>;
+  using CasterType = CastImageFilter<ImageType, ExportImageType>;
   typename CasterType::Pointer caster = CasterType::New();
   caster->SetInput(diffusionFilter->GetOutput());
 
-  //typedef typename DiffusionFilterType::ScalarImageType ScalarImageType;
-  typedef ImageFileWriter<ExportImageType> WriterType;
+  //using ScalarImageType = typename DiffusionFilterType::ScalarImageType;
+  using WriterType = ImageFileWriter<ExportImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(caster->GetOutput());
   writer->SetFileName(outputFileName);

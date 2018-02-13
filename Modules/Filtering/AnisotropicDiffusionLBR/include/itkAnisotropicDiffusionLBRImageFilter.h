@@ -46,27 +46,27 @@ template< typename TImage, typename TScalar = typename NumericTraits< typename T
 class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter< TImage, TImage >
 {
 public:
-  typedef AnisotropicDiffusionLBRImageFilter   Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  using Self = AnisotropicDiffusionLBRImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /// Method for creation through the object factory.
   itkNewMacro(Self);
   /// Run-time type information (and related methods).
   itkTypeMacro(AnisotropicDiffusionLBRImageFilter, Superclass);
 
-  typedef TImage                        ImageType;
-  typedef typename ImageType::PixelType PixelType;
-  typedef TScalar                       ScalarType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
+  using ScalarType = TScalar;
 
   static const unsigned int Dimension = ImageType::ImageDimension;
 
-  typedef SymmetricSecondRankTensor< ScalarType, Dimension > TensorType;
-  typedef Image< TensorType, Dimension >                     TensorImageType;
+  using TensorType = SymmetricSecondRankTensor< ScalarType, Dimension >;
+  using TensorImageType = Image< TensorType, Dimension >;
 
-  typedef StructureTensorImageFilter<ImageType, TensorImageType>          StructureTensorFilterType;
-  typedef LinearAnisotropicDiffusionLBRImageFilter<ImageType, ScalarType> LinearDiffusionFilterType;
+  using StructureTensorFilterType = StructureTensorImageFilter<ImageType, TensorImageType>;
+  using LinearDiffusionFilterType = LinearAnisotropicDiffusionLBRImageFilter<ImageType, ScalarType>;
 
   /** Passed to a StructureTensorImageFilter. */
   itkSetMacro(NoiseScale, ScalarType);
@@ -88,7 +88,7 @@ public:
   itkSetMacro(Adimensionize, bool);
   itkGetConstMacro(Adimensionize, bool);
 
-  typedef typename TensorType::EigenValuesArrayType EigenValuesArrayType;
+  using EigenValuesArrayType = typename TensorType::EigenValuesArrayType;
   /** Transformation of the Structure tensor eigenvalues into the diffusion
    * tensor eigenvalues. Needs to be overloaded in a subclass.
    * (Structure tensor eigenvalues are sorted by increasing order for convenience). */
@@ -101,7 +101,7 @@ public:
   {
     return m_TensorImage;
   }
-  typedef std::vector< std::pair<ScalarType, int> > EffectiveTimesAndIterationsType;
+  using EffectiveTimesAndIterationsType = std::vector< std::pair<ScalarType, int> >;
   itkGetConstReferenceMacro(LinearFilterEffectiveTimesAndIterations, EffectiveTimesAndIterationsType);
 
 protected:

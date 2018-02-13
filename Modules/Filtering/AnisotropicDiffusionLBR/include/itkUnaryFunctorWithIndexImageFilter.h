@@ -42,10 +42,10 @@ class UnaryFunctorWithIndexImageFilter:
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  typedef UnaryFunctorWithIndexImageFilter                Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  using Self = UnaryFunctorWithIndexImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -53,9 +53,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(UnaryFunctorWithIndexImageFilter, Superclass);
 
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef TFunctor     FunctorType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using FunctorType = TFunctor;
 
   GetSetFunctorMacro(Functor, FunctorType);
 
@@ -64,8 +64,8 @@ protected:
 
   FunctorType m_Functor;
 
-  typedef typename InputImageType::RegionType  InputRegionType;
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
   void ThreadedGenerateData(const OutputRegionType & region, ThreadIdType) override
   {

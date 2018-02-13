@@ -76,10 +76,10 @@ int Execute(int argc, char * argv[])
     using std::endl;
     using namespace itk;
 
-    if(argc<4+1) {Usage(); return EXIT_SUCCESS ;}
+    if(argc<4+1) {Usage(); return EXIT_SUCCESS;}
 
     const char *imageFileName =argv[0+1];
-    typedef ImageFileReader<Image<unsigned char,3> > ReaderType;
+    using ReaderType = ImageFileReader<Image<unsigned char,3> >;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(imageFileName);
 
@@ -138,16 +138,16 @@ template<int Dimension, typename ScalarType, typename PixelType, typename Export
 int Execute(int argc, char * argv[]){
 
     // Import image
-    typedef Image<PixelType,Dimension> ImageType;
-    typedef ImageFileReader<ImageType> ReaderType;
+    using ImageType = Image<PixelType,Dimension>;
+    using ReaderType = ImageFileReader<ImageType>;
     typename ReaderType::Pointer reader = ReaderType::New();
     const char *imageFileName =argv[0+1];
     reader->SetFileName(imageFileName);
 
     // Import tensors
-    typedef SymmetricSecondRankTensor<ScalarType,Dimension> TensorType;
-    typedef Image<TensorType,Dimension> TensorImageType;
-    typedef ImageFileReader<TensorImageType> TensorReaderType;
+    using TensorType = SymmetricSecondRankTensor<ScalarType,Dimension>;
+    using TensorImageType = Image<TensorType,Dimension>;
+    using TensorReaderType = ImageFileReader<TensorImageType>;
     typename TensorReaderType::Pointer tensorReader = TensorReaderType::New();
     const char * tensorImageFileName = argv[1+1];
     tensorReader->SetFileName(tensorImageFileName);
@@ -160,7 +160,7 @@ int Execute(int argc, char * argv[]){
     const char *outputFileName = argv[3+1];
 
     // Setup diffusion filter
-    typedef LinearAnisotropicDiffusionLBRImageFilter<ImageType,ScalarType> DiffusionFilterType;
+    using DiffusionFilterType = LinearAnisotropicDiffusionLBRImageFilter<ImageType,ScalarType>;
     typename DiffusionFilterType::Pointer diffusionFilter = DiffusionFilterType::New();
     diffusionFilter->SetInputImage(reader->GetOutput());
     diffusionFilter->SetInputTensor(tensorReader->GetOutput());
@@ -183,13 +183,13 @@ int Execute(int argc, char * argv[]){
     ReportProgressToCOutType::Pointer reportDiffusionProgress = ReportProgressToCOutType::New();
     diffusionFilter->AddObserver(ProgressEvent(), reportDiffusionProgress);
 
-    typedef Image<ExportPixelType,Dimension> ExportImageType;
-    typedef CastImageFilter<ImageType, ExportImageType> CasterType;
+    using ExportImageType = Image<ExportPixelType,Dimension>;
+    using CasterType = CastImageFilter<ImageType, ExportImageType>;
     typename CasterType::Pointer caster = CasterType::New();
     caster->SetInput(diffusionFilter->GetOutput());
 
-    //typedef typename DiffusionFilterType::ScalarImageType ScalarImageType;
-    typedef ImageFileWriter<ExportImageType> WriterType;
+    //using ScalarImageType = typename DiffusionFilterType::ScalarImageType;
+    using WriterType = ImageFileWriter<ExportImageType>;
     typename WriterType::Pointer writer = WriterType::New();
     writer->SetInput(caster->GetOutput());
     writer->SetFileName(outputFileName);
