@@ -83,11 +83,11 @@ template <typename TInputImage, bool doDilate, typename TOutputImage = TInputIma
 class ITK_EXPORT ParabolicErodeDilateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParabolicErodeDilateImageFilter               Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = ParabolicErodeDilateImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -96,37 +96,37 @@ public:
   itkTypeMacro(ParabolicErodeDilateImageFilter, ImageToImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                       InputImageType;
-  typedef TOutputImage                                      OutputImageType;
-  typedef typename TInputImage::PixelType                   PixelType;
-  typedef typename NumericTraits<PixelType>::RealType       RealType;
-  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
-  typedef typename TOutputImage::PixelType                  OutputPixelType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
-  typedef typename TInputImage::SizeType     InputSizeType;
-  typedef typename TOutputImage::SizeType    OutputSizeType;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using InputSizeType = typename TInputImage::SizeType;
+  using OutputSizeType = typename TOutputImage::SizeType;
 
-  typedef typename OutputImageType::IndexType OutputIndexType;
+  using OutputIndexType = typename OutputImageType::IndexType;
 
   /** a type to represent the "kernel radius" */
-  typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
+  using RadiusType = typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension>;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
-  typedef typename NumericTraits<PixelType>::FloatType InternalRealType;
-  // typedef typename Image<InternalRealType,
-  //  itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  using InternalRealType = typename NumericTraits<PixelType>::FloatType;
+  // using RealImageType = typename Image<InternalRealType,
+  //  itkGetStaticConstMacro(ImageDimension) >;
 
   // set all of the scales the same
   void
@@ -157,7 +157,7 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-  /** Image related typedefs. */
+  /** Image related type alias. */
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

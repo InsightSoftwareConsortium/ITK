@@ -93,20 +93,19 @@ class ITK_EXPORT MorphSDTHelperImageFilter
                                                               typename TOutputImage::PixelType>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MorphSDTHelperImageFilter Self;
-  typedef TernaryFunctorImageFilter<TInputImage1,
-                                    TInputImage2,
-                                    TInputImage3,
-                                    TOutputImage,
-                                    Function::MorphSDTHelper<typename TInputImage1::PixelType,
-                                                             typename TInputImage2::PixelType,
-                                                             typename TInputImage3::PixelType,
-                                                             typename TOutputImage::PixelType>>
-    Superclass;
+  /** Standard class type alias. */
+  using Self = MorphSDTHelperImageFilter;
+  using Superclass = TernaryFunctorImageFilter<TInputImage1,
+                                               TInputImage2,
+                                               TInputImage3,
+                                               TOutputImage,
+                                               Function::MorphSDTHelper<typename TInputImage1::PixelType,
+                                                                        typename TInputImage2::PixelType,
+                                                                        typename TInputImage3::PixelType,
+                                                                        typename TOutputImage::PixelType>>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

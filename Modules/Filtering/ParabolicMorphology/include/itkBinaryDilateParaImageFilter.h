@@ -68,11 +68,11 @@ class ITK_EXPORT BinaryDilateParaImageFilter : public ImageToImageFilter<TInputI
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryDilateParaImageFilter                   Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = BinaryDilateParaImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,26 +81,26 @@ public:
   itkTypeMacro(BinaryDilateParaImageFilter, ImageToImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                       InputImageType;
-  typedef TOutputImage                                      OutputImageType;
-  typedef typename TInputImage::PixelType                   PixelType;
-  typedef typename NumericTraits<PixelType>::RealType       RealType;
-  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
-  typedef typename TOutputImage::PixelType                  OutputPixelType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
-  typedef typename NumericTraits<PixelType>::FloatType InternalRealType;
+  using InternalRealType = typename NumericTraits<PixelType>::FloatType;
   // perhaps a bit dodgy, change to int if you want to do enormous
   // binary operations
-  typedef short InternalIntType;
+  using InternalIntType = short;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
+  using RadiusType = typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension>;
 
   void
   SetRadius(ScalarRealType radius);
@@ -125,7 +125,7 @@ public:
   itkSetMacro(Circular, bool);
   itkGetConstReferenceMacro(Circular, bool);
   itkBooleanMacro(Circular);
-  /** Image related typedefs. */
+  /** Image related type alias. */
 
   /* add in the traits here */
 protected:
@@ -137,12 +137,12 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename itk::Image<InternalRealType, InputImageType::ImageDimension>            InternalRealImageType;
-  typedef typename itk::Image<InternalIntType, InputImageType::ImageDimension>             InternalIntImageType;
-  typedef typename itk::ParabolicDilateImageFilter<TInputImage, InternalRealImageType>     CircParabolicType;
-  typedef typename itk::ParabolicDilateImageFilter<TInputImage, InternalRealImageType>     RectParabolicType;
-  typedef typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType> CCastType;
-  typedef typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType> RCastType;
+  using InternalRealImageType = typename itk::Image<InternalRealType, InputImageType::ImageDimension>;
+  using InternalIntImageType = typename itk::Image<InternalIntType, InputImageType::ImageDimension>;
+  using CircParabolicType = typename itk::ParabolicDilateImageFilter<TInputImage, InternalRealImageType>;
+  using RectParabolicType = typename itk::ParabolicDilateImageFilter<TInputImage, InternalRealImageType>;
+  using CCastType = typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType>;
+  using RCastType = typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType>;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryDilateParaImageFilter);
