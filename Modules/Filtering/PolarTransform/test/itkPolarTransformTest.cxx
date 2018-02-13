@@ -22,8 +22,8 @@
 int
 itkPolarTransformTest(int, char *[])
 {
-  const unsigned int Dimension = 4;
-  const double       epsilon = 1e-10;
+  constexpr unsigned int Dimension = 4;
+  const double           epsilon = 1e-10;
 
   /* Create 3D polar transforms and print them. */
   using P2CTransformType = itk::PolarToCartesianTransform<double, Dimension>;
