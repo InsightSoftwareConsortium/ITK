@@ -73,17 +73,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate  Self;
-  typedef itk::Command            Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro(Self);
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::PowellOptimizer  OptimizerType;
-  typedef const OptimizerType * OptimizerPointer;
+  using OptimizerType = itk::PowellOptimizer;
+  using OptimizerPointer = const OptimizerType *;
 
   void
   Execute(itk::Object * caller, const itk::EventObject & event) override
@@ -422,31 +422,31 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   // dimension 3 and the size of the {z} dimension is set to unity.
 
   const unsigned int Dimension = 3;
-  typedef float      InternalPixelType;
-  typedef short      PixelType3D;
+  using InternalPixelType = float;
+  using PixelType3D = short;
 
-  typedef itk::Image<PixelType3D, Dimension> ImageType3D;
+  using ImageType3D = itk::Image<PixelType3D, Dimension>;
 
-  typedef unsigned char                          OutputPixelType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   // The following lines define each of the components used in the
   // registration: The transform, optimizer, metric, interpolator and
   // the registration method itself.
 
-  typedef itk::Image<InternalPixelType, Dimension> InternalImageType;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
 
-  typedef itk::Euler3DTransform<double> TransformType;
+  using TransformType = itk::Euler3DTransform<double>;
 
-  typedef itk::PowellOptimizer OptimizerType;
+  using OptimizerType = itk::PowellOptimizer;
 
-  // typedef itk::GradientDifferenceTwoImageToOneImageMetric<
-  typedef itk::NormalizedCorrelationTwoImageToOneImageMetric<InternalImageType, InternalImageType> MetricType;
+  // using MetricType = itk::GradientDifferenceTwoImageToOneImageMetric<
+  using MetricType = itk::NormalizedCorrelationTwoImageToOneImageMetric<InternalImageType, InternalImageType>;
 
-  typedef itk::SiddonJacobsRayCastInterpolateImageFunction<InternalImageType, double> InterpolatorType;
+  using InterpolatorType = itk::SiddonJacobsRayCastInterpolateImageFunction<InternalImageType, double>;
 
 
-  typedef itk::TwoProjectionImageRegistrationMethod<InternalImageType, InternalImageType> RegistrationType;
+  using RegistrationType = itk::TwoProjectionImageRegistrationMethod<InternalImageType, InternalImageType>;
 
 
   // Each of the registration components are instantiated in the
@@ -483,8 +483,8 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
 
   //  The 2- and 3-D images are read from files,
 
-  typedef itk::ImageFileReader<InternalImageType> ImageReaderType2D;
-  typedef itk::ImageFileReader<ImageType3D>       ImageReaderType3D;
+  using ImageReaderType2D = itk::ImageFileReader<InternalImageType>;
+  using ImageReaderType3D = itk::ImageFileReader<ImageType3D>;
 
   ImageReaderType2D::Pointer imageReader2D1 = ImageReaderType2D::New();
   ImageReaderType2D::Pointer imageReader2D2 = ImageReaderType2D::New();
@@ -533,12 +533,12 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   // writes images from superior to inferior. Thus the loaded 2D DICOM
   // images should be flipped in y-direction. This was done by using a.
   // FilpImageFilter.
-  typedef itk::FlipImageFilter<InternalImageType> FlipFilterType;
-  FlipFilterType::Pointer                         flipFilter1 = FlipFilterType::New();
-  FlipFilterType::Pointer                         flipFilter2 = FlipFilterType::New();
+  using FlipFilterType = itk::FlipImageFilter<InternalImageType>;
+  FlipFilterType::Pointer flipFilter1 = FlipFilterType::New();
+  FlipFilterType::Pointer flipFilter2 = FlipFilterType::New();
 
-  typedef FlipFilterType::FlipAxesArrayType FlipAxesArrayType;
-  FlipAxesArrayType                         flipArray;
+  using FlipAxesArrayType = FlipFilterType::FlipAxesArrayType;
+  FlipAxesArrayType flipArray;
   flipArray[0] = 0;
   flipArray[1] = 1;
   flipArray[2] = 0;
@@ -550,7 +550,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   flipFilter2->SetInput(imageReader2D2->GetOutput());
 
   // The input 2D images may have 16 bits. We rescale the pixel value to between 0-255.
-  typedef itk::RescaleIntensityImageFilter<InternalImageType, InternalImageType> Input2DRescaleFilterType;
+  using Input2DRescaleFilterType = itk::RescaleIntensityImageFilter<InternalImageType, InternalImageType>;
 
   Input2DRescaleFilterType::Pointer rescaler2D1 = Input2DRescaleFilterType::New();
   rescaler2D1->SetOutputMinimum(0);
@@ -566,7 +566,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   //  The 3D CT dataset is casted to the internal image type using
   //  {CastImageFilters}.
 
-  typedef itk::CastImageFilter<ImageType3D, InternalImageType> CastFilterType3D;
+  using CastFilterType3D = itk::CastImageFilter<ImageType3D, InternalImageType>;
 
   CastFilterType3D::Pointer caster3D = CastFilterType3D::New();
   caster3D->SetInput(image3DIn);
@@ -609,8 +609,8 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   ImageType3D::PointType       origin3D = image3DIn->GetOrigin();
   const itk::Vector<double, 3> resolution3D = image3DIn->GetSpacing();
 
-  typedef ImageType3D::RegionType     ImageRegionType3D;
-  typedef ImageRegionType3D::SizeType SizeType3D;
+  using ImageRegionType3D = ImageType3D::RegionType;
+  using SizeType3D = ImageRegionType3D::SizeType;
 
   ImageRegionType3D region3D = caster3D->GetOutput()->GetBufferedRegion();
   SizeType3D        size3D = region3D.GetSize();
@@ -664,8 +664,8 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   const itk::Vector<double, 3> resolution2D1 = imageReader2D1->GetOutput()->GetSpacing();
   const itk::Vector<double, 3> resolution2D2 = imageReader2D2->GetOutput()->GetSpacing();
 
-  typedef InternalImageType::RegionType ImageRegionType2D;
-  typedef ImageRegionType2D::SizeType   SizeType2D;
+  using ImageRegionType2D = InternalImageType::RegionType;
+  using SizeType2D = ImageRegionType2D::SizeType;
 
   ImageRegionType2D region2D1 = rescaler2D1->GetOutput()->GetBufferedRegion();
   ImageRegionType2D region2D2 = rescaler2D2->GetOutput()->GetBufferedRegion();
@@ -814,8 +814,8 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
     return -1;
   }
 
-  typedef RegistrationType::ParametersType ParametersType;
-  ParametersType                           finalParameters = registration->GetLastTransformParameters();
+  using ParametersType = RegistrationType::ParametersType;
+  ParametersType finalParameters = registration->GetLastTransformParameters();
 
   const double RotationAlongX = finalParameters[0] / dtr; // Convert radian to degree
   const double RotationAlongY = finalParameters[1] / dtr;
@@ -847,7 +847,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetCenter(isocenter);
 
-  typedef itk::ResampleImageFilter<InternalImageType, InternalImageType> ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<InternalImageType, InternalImageType>;
 
   // The ResampleImageFilter is the driving force for the projection image generation.
   ResampleFilterType::Pointer resampleFilter1 = ResampleFilterType::New();
@@ -903,7 +903,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   flipFilter2->SetInput(resampleFilter2->GetOutput());
 
   // Rescale the intensity of the projection images to 0-255 for output.
-  typedef itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType> RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
 
   RescaleFilterType::Pointer rescaler1 = RescaleFilterType::New();
   rescaler1->SetOutputMinimum(0);
@@ -916,9 +916,9 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   rescaler2->SetInput(flipFilter2->GetOutput());
 
 
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer1 = WriterType::New();
-  WriterType::Pointer                           writer2 = WriterType::New();
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer1 = WriterType::New();
+  WriterType::Pointer writer2 = WriterType::New();
 
   writer1->SetFileName(fileOutput1);
   writer1->SetInput(rescaler1->GetOutput());
