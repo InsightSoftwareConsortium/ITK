@@ -62,13 +62,13 @@ public:
   };
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
-  Evaluate(const TInput & frequency_point) const ITK_OVERRIDE = 0;
+  Evaluate(const TInput & frequency_point) const override = 0;
 
 protected:
   FrequencyFunction() {};
   virtual ~FrequencyFunction() {};
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
   }

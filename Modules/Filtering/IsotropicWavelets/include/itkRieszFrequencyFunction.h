@@ -115,7 +115,7 @@ public:
 
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
-  Evaluate(const TInput &) const ITK_OVERRIDE
+  Evaluate(const TInput &) const override
   {
     itkExceptionMacro("Evaluate(TInput&) is not valid for RieszFrequencyFunction."
                       "Use EvaluateWithIndices(point, indices) or EvaluateAllComponents(point)");
@@ -203,7 +203,7 @@ protected:
   RieszFrequencyFunction();
   virtual ~RieszFrequencyFunction();
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFunction);

@@ -98,13 +98,13 @@ protected:
   PhaseAnalysisSoftThresholdImageFilter();
   ~PhaseAnalysisSoftThresholdImageFilter() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  BeforeThreadedGenerateData() override;
 
   virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisSoftThresholdImageFilter);

@@ -68,7 +68,7 @@ public:
 
   /** Evaluate the function */
   FunctionValueType
-  EvaluateMagnitude(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
+  EvaluateMagnitude(const FunctionValueType & freq_norm_in_hz) const override;
 
   /** Gets and sets parameters */
   itkSetMacro(PolynomialOrder, unsigned int);
@@ -81,7 +81,7 @@ protected:
   HeldIsotropicWavelet();
   virtual ~HeldIsotropicWavelet();
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HeldIsotropicWavelet);

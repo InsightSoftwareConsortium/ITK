@@ -104,16 +104,16 @@ protected:
   FFTPadPositiveIndexImageFilter();
   ~FFTPadPositiveIndexImageFilter() {};
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   virtual void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTPadPositiveIndexImageFilter);

@@ -144,11 +144,11 @@ protected:
   WaveletFrequencyForwardUndecimated();
   ~WaveletFrequencyForwardUndecimated() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Single-threaded version of GenerateData. */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /************ Information *************/
 
@@ -161,7 +161,7 @@ protected:
    * \sa ProcessObject::GenerateOutputInformaton()
    */
   virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** Given one output whose requested region has been set, this method sets
    * the requested region for the remaining output images.  The original
@@ -169,7 +169,7 @@ protected:
    * \sa ProcessObject::GenerateOutputRequestedRegion()
    */
   virtual void
-  GenerateOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
   /** WaveletFrequencyForwardUndecimated requires a larger input requested
    * region than the output requested regions to accommodate the shrinkage and
@@ -179,7 +179,7 @@ protected:
    * \sa ProcessObject::GenerateInputRequestedRegion()
    */
   virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForwardUndecimated);

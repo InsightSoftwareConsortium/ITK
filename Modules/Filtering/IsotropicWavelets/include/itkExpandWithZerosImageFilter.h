@@ -109,7 +109,7 @@ public:
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** ExpandWithZerosImageFilter needs a smaller input requested region than the output
    * requested region.  As such, ShrinkImageFilter needs to provide an
@@ -117,7 +117,7 @@ public:
    * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -130,7 +130,7 @@ protected:
   ExpandWithZerosImageFilter();
   ~ExpandWithZerosImageFilter() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ExpandWithZerosImageFilter is implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -142,12 +142,12 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
   virtual void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  BeforeThreadedGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpandWithZerosImageFilter);

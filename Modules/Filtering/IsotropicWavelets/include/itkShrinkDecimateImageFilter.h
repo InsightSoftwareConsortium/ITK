@@ -87,7 +87,7 @@ public:
   itkGetConstReferenceMacro(ShrinkFactors, ShrinkFactorsType);
 
   virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** ShrinkDecimateImageFilter needs a larger input requested region than the output
    * requested region.  As such, ShrinkDecimateImageFilter needs to provide an
@@ -95,7 +95,7 @@ public:
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -108,10 +108,10 @@ public:
 protected:
   ShrinkDecimateImageFilter();
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShrinkDecimateImageFilter);

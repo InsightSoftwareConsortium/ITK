@@ -97,7 +97,7 @@ public:
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** FrequencyExpandViaInverseFFTImageFilter needs a smaller input requested region than the output
    * requested region.  As such, ShrinkImageFilter needs to provide an
@@ -105,7 +105,7 @@ public:
    * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -117,10 +117,10 @@ protected:
   FrequencyExpandViaInverseFFTImageFilter();
   ~FrequencyExpandViaInverseFFTImageFilter() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyExpandViaInverseFFTImageFilter);
