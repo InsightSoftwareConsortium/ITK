@@ -32,7 +32,7 @@ int
 itkParaSpacingTest(int, char * argv[])
 {
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
-  const int dim = 2;
+  constexpr int dim = 2;
 
   using PType = unsigned char;
   using IType = itk::Image<PType, dim>;
