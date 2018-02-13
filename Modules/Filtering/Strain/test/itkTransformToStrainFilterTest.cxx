@@ -43,10 +43,10 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
 
   // Typedefs.
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ScalarPixelType = float;
   using CoordRepresentationType = double;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
 
   using TransformType = itk::Transform<CoordRepresentationType, Dimension, Dimension>;
   using ParametersType = TransformType::ParametersType;
