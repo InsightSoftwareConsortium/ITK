@@ -19,7 +19,7 @@
 #define itkWaveletUtilities_h
 
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <itkFixedArray.h>
 #include <itkSize.h>
