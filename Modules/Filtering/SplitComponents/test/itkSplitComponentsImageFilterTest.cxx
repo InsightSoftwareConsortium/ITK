@@ -35,14 +35,14 @@ itkSplitComponentsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = signed short;
   using OutputImageType = itk::Image<PixelType, Dimension>;
   using VectorType = itk::Vector<PixelType, Dimension>;
   using InputImageType = itk::Image<VectorType, Dimension>;
 
   // Size in every dimension of the output image.
-  const unsigned int sizes = 100;
+  constexpr unsigned int sizes = 100;
 
   InputImageType::Pointer input = InputImageType::New();
 
