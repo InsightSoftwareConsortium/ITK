@@ -50,7 +50,7 @@ int CuberilleTest01 (int argc, char * argv [] )
     }
 
   // Typedefs
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = unsigned char;
   //using PixelType = signed short;
   using ImageType = itk::Image< PixelType, Dimension >;
