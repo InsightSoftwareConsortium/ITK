@@ -29,14 +29,14 @@ template <class TPixel, unsigned int Dimension, class TTensorImage>
 int
 WriteOutStrains(const char * outputPrefix, TTensorImage * strainImage)
 {
-  typedef TPixel                           PixelType;
-  typedef TTensorImage                     TensorImageType;
-  typedef itk::Image<PixelType, Dimension> ComponentImageType;
+  using PixelType = TPixel;
+  using TensorImageType = TTensorImage;
+  using ComponentImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileWriter<TensorImageType>                   TensorWriterType;
-  typedef itk::ImageFileWriter<ComponentImageType>                TensorComponentWriterType;
-  typedef itk::NthElementImageAdaptor<TensorImageType, PixelType> AdaptorType;
-  typedef itk::VTKImageIO                                         IOType;
+  using TensorWriterType = itk::ImageFileWriter<TensorImageType>;
+  using TensorComponentWriterType = itk::ImageFileWriter<ComponentImageType>;
+  using AdaptorType = itk::NthElementImageAdaptor<TensorImageType, PixelType>;
+  using IOType = itk::VTKImageIO;
 
   typename TensorWriterType::Pointer          tensorWriter = TensorWriterType::New();
   typename TensorComponentWriterType::Pointer tensorComponentWriter = TensorComponentWriterType::New();

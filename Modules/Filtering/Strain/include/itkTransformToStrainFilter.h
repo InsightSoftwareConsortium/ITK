@@ -57,19 +57,19 @@ class TransformToStrainFilter
 {
 public:
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TTransform::InputSpaceDimension);
+  static constexpr unsigned int ImageDimension = TTransform::InputSpaceDimension;
 
-  typedef TTransform                                                  TransformType;
-  typedef DataObjectDecorator<TransformType>                          TransformInputType;
-  typedef SymmetricSecondRankTensor<TOutputValueType, ImageDimension> OutputPixelType;
-  typedef Image<OutputPixelType, ImageDimension>                      OutputImageType;
+  using TransformType = TTransform;
+  using TransformInputType = DataObjectDecorator<TransformType>;
+  using OutputPixelType = SymmetricSecondRankTensor<TOutputValueType, ImageDimension>;
+  using OutputImageType = Image<OutputPixelType, ImageDimension>;
 
-  /** Standard class typedefs. */
-  typedef TransformToStrainFilter              Self;
-  typedef GenerateImageSource<OutputImageType> Superclass;
+  /** Standard class type alias. */
+  using Self = TransformToStrainFilter;
+  using Superclass = GenerateImageSource<OutputImageType>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,7 +98,7 @@ public:
   itkGetConstMacro(StrainForm, StrainFormType);
 
 protected:
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
   TransformToStrainFilter();
 
