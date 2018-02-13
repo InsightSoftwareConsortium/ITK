@@ -44,11 +44,11 @@ class ITK_EXPORT LabelSetErodeImageFilter:
   public LabelSetMorphBaseImageFilter< TInputImage, false, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelSetErodeImageFilter                                         Self;
-  typedef LabelSetMorphBaseImageFilter< TInputImage, false, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                             Pointer;
-  typedef SmartPointer< const Self >                                       ConstPointer;
+  /** Standard class type alias. */
+  using Self = LabelSetErodeImageFilter;
+  using Superclass = LabelSetMorphBaseImageFilter< TInputImage, false, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,24 +57,24 @@ public:
   itkTypeMacro(LabelSetErodeImageFilter, LabelSetMorphBaseImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                         InputImageType;
-  typedef TOutputImage                                        OutputImageType;
-  typedef typename TInputImage::PixelType                     PixelType;
-  typedef typename NumericTraits< PixelType >::FloatType      RealType;
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename NumericTraits< PixelType >::ScalarRealType ScalarRealType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< PixelType >::FloatType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
-  typedef typename TInputImage::SizeType     InputSizeType;
-  typedef typename TOutputImage::SizeType    OutputSizeType;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using InputSizeType = typename TInputImage::SizeType;
+  using OutputSizeType = typename TOutputImage::SizeType;
 
   /** a type to represent the "kernel radius" */
-  typedef typename itk::FixedArray< ScalarRealType, TInputImage::ImageDimension > RadiusType;
+  using RadiusType = typename itk::FixedArray< ScalarRealType, TInputImage::ImageDimension >;
   /** Image dimension. */
 
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -90,7 +90,7 @@ private:
   LabelSetErodeImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented
 
-  typedef typename Superclass::DistanceImageType DistanceImageType;
+  using DistanceImageType = typename Superclass::DistanceImageType;
 };
 } // end namespace itk
 

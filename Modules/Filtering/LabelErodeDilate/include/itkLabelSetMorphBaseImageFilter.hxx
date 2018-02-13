@@ -250,7 +250,7 @@ void
 LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
 ::writeDist(std::string fname)
 {
-  typedef typename  itk::ImageFileWriter< DistanceImageType > WriterType;
+  using WriterType = typename  itk::ImageFileWriter< DistanceImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(m_DistanceImage);
   writer->SetFileName( fname.c_str() );

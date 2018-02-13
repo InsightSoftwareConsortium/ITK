@@ -42,11 +42,11 @@ class ITK_EXPORT LabelSetDilateImageFilter:
   public LabelSetMorphBaseImageFilter< TInputImage, true, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelSetDilateImageFilter                                       Self;
-  typedef LabelSetMorphBaseImageFilter< TInputImage, true, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                            Pointer;
-  typedef SmartPointer< const Self >                                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = LabelSetDilateImageFilter;
+  using Superclass = LabelSetMorphBaseImageFilter< TInputImage, true, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,20 +55,20 @@ public:
   itkTypeMacro(LabelSetDilateImageFilter, LabelSetMorphBaseImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                         InputImageType;
-  typedef TOutputImage                                        OutputImageType;
-  typedef typename TInputImage::PixelType                     PixelType;
-  typedef typename NumericTraits< PixelType >::FloatType      RealType;
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename NumericTraits< PixelType >::ScalarRealType ScalarRealType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< PixelType >::FloatType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
-  typedef typename TInputImage::SizeType     InputSizeType;
-  typedef typename TOutputImage::SizeType    OutputSizeType;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using InputSizeType = typename TInputImage::SizeType;
+  using OutputSizeType = typename TOutputImage::SizeType;
 
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -84,7 +84,7 @@ private:
   LabelSetDilateImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented
 
-  typedef typename Superclass::DistanceImageType DistanceImageType;
+  using DistanceImageType = typename Superclass::DistanceImageType;
 };
 } // end namespace itk
 

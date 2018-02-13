@@ -165,7 +165,7 @@ void DoLineLabelProp(LineBufferType & LineBuf, LineBufferType & tmpLineBuf,
   // contact point algorithm
   long koffset = 0, newcontact = 0;  // how far away the search starts.
 
-  typedef typename LabBufferType::ValueType LabelType;
+  using LabelType = typename LabBufferType::ValueType;
 
   const long LineLength = LineBuf.size();
   // negative half of the parabola
@@ -238,8 +238,8 @@ void doOneDimensionErodeFirstPass(TInIter & inputIterator, TOutDistIter & output
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
   (void)m_Extreme; // avoid warning
-  typedef typename itk::Array< RealType >                    LineBufferType;
-  typedef typename itk::Array< typename TInIter::PixelType > LabelBufferType;
+  using LineBufferType = typename itk::Array< RealType >;
+  using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;
   if ( m_UseImageSpacing )
     {
@@ -280,7 +280,7 @@ void doOneDimensionErodeFirstPass(TInIter & inputIterator, TOutDistIter & output
       }
     // runlength encode the line buffer (could be integrated with extraction)
 
-    typedef std::vector< unsigned > EndType;
+    using EndType = std::vector< unsigned >;
     EndType firsts;
     EndType lasts;
 
@@ -369,8 +369,8 @@ void doOneDimensionDilateFirstPass(TInIter & inputIterator, TOutDistIter & outpu
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
   (void)m_Extreme; // stop warnings
-  typedef typename itk::Array< RealType >                    LineBufferType;
-  typedef typename itk::Array< typename TInIter::PixelType > LabelBufferType;
+  using LineBufferType = typename itk::Array< RealType >;
+  using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;
   if ( m_UseImageSpacing )
     {
@@ -455,8 +455,8 @@ void doOneDimensionErode(TInIter & inputIterator, TDistIter & inputDistIterator,
                          const bool lastpass)
 {
   // traditional erosion - can't optimise the same way as the first pass
-  typedef typename itk::Array< RealType >                    LineBufferType;
-  typedef typename itk::Array< typename TInIter::PixelType > LabelBufferType;
+  using LineBufferType = typename itk::Array< RealType >;
+  using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;
   if ( m_UseImageSpacing )
     {
@@ -493,7 +493,7 @@ void doOneDimensionErode(TInIter & inputIterator, TDistIter & inputDistIterator,
       ++inputIterator;
       }
     // runlength encode the line buffer (could be integrated with extraction)
-    typedef std::vector< unsigned > EndType;
+    using EndType = std::vector< unsigned >;
     EndType firsts;
     EndType lasts;
     for ( unsigned idx = 0; idx < LineLength; idx++ )
@@ -587,8 +587,8 @@ void doOneDimensionDilate(TInIter & inputIterator, TDistIter & inputDistIterator
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
-  typedef typename itk::Array< RealType >                    LineBufferType;
-  typedef typename itk::Array< typename TInIter::PixelType > LabelBufferType;
+  using LineBufferType = typename itk::Array< RealType >;
+  using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;
   if ( m_UseImageSpacing )
     {
