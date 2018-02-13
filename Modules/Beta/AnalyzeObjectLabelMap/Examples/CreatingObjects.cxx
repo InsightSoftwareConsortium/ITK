@@ -20,7 +20,7 @@ int main( int argc, char * * argv )
   const char *CreatingObject = argv[2];
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
-  const   unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using InputImageType = itk::Image<InputPixelType,  Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;

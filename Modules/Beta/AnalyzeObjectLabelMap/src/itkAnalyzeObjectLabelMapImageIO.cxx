@@ -627,7 +627,7 @@ AnalyzeObjectLabelMapImageIO
   int           planeindex = 0;
   int           runlength = 0;
   unsigned char CurrentObjIndex = 0;
-  const  int    buffer_size = 16384; // NOTE: This is probably overkill, but it will work
+  constexpr int buffer_size = 16384; // NOTE: This is probably overkill, but it will work
   unsigned char bufferObjectMap[buffer_size] = {0};
 
   auto *bufferChar = (unsigned char *)buffer;

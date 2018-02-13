@@ -17,7 +17,7 @@ itkApplications installed as well.
 // #include <vtkImageViewer2.h>
 
 using PixelType = unsigned char;
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 using ImageType = itk::Image<PixelType, Dimension>;
 using RGBPixelType = itk::RGBPixel<PixelType>;
 using RGBImageType = itk::Image<RGBPixelType, Dimension>;
