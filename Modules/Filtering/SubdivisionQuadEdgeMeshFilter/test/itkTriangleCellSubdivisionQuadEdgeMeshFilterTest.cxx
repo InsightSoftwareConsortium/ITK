@@ -153,7 +153,7 @@ itkTriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
   }
 
   using MeshPixelType = float;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using MeshType = itk::QuadEdgeMesh<MeshPixelType, Dimension>;
 
