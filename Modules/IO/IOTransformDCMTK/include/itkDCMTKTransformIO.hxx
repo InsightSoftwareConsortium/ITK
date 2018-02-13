@@ -95,7 +95,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
     haveDesiredFrameOfReference = true;
   }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using CompositeTransformType = CompositeTransform<TInternalComputationValueType, Dimension>;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
   // In TransformFileReader, all the following transforms will be added to

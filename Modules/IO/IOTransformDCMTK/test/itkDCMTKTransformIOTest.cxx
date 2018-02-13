@@ -32,7 +32,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   }
   const char * transformFileName = argv[1];
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ScalarType = float;
 
   itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
