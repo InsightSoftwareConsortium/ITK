@@ -25,9 +25,9 @@
 #include "itkTestDriverIncludeRequiredIOFactories.h"
 #include "itkTimeProbe.h"
 
-typedef unsigned char                      TestPixelType;
-const unsigned int                         testDim = 3;
-typedef itk::Image<TestPixelType, testDim> TestImageType;
+using TestPixelType = unsigned char;
+const unsigned int testDim = 3;
+using TestImageType = itk::Image<TestPixelType, testDim>;
 
 TestImageType::Pointer
 createSparseCopy(const TestImageType::Pointer & inImage, TestImageType::IndexType nth)
@@ -124,19 +124,19 @@ main(int argc, char * argv[])
   }
   RegisterRequiredFactories();
 
-  typedef itk::ImageFileReader<TestImageType> ReaderType;
-  ReaderType::Pointer                         reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<TestImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
   TestImageType::Pointer inImage = reader->GetOutput();
   inImage->DisconnectPipeline();
 
-  typedef itk::MorphologicalContourInterpolator<TestImageType> mciType;
-  mciType::Pointer                                             mci = mciType::New();
+  using mciType = itk::MorphologicalContourInterpolator<TestImageType>;
+  mciType::Pointer mci = mciType::New();
   mci->SetUseBallStructuringElement(true); // test cross?
 
-  typedef itk::ImageFileWriter<TestImageType> WriterType;
-  WriterType::Pointer                         writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<TestImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetUseCompression(true);
 
   const TestImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
