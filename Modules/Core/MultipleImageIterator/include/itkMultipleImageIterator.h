@@ -34,9 +34,9 @@ template <typename TIterator>
 class MultipleImageIterator
 {
 public:
-  typedef MultipleImageIterator            Self;
-  typedef TIterator                        IteratorType;
-  typedef typename IteratorType::ImageType ImageType;
+  using Self = MultipleImageIterator;
+  using IteratorType = TIterator;
+  using ImageType = typename IteratorType::ImageType;
   /// Access one of the iterators
   IteratorType &
   operator[](const int i)
