@@ -67,7 +67,7 @@ class StrainImageFilter
 {
 public:
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   typedef TInputImage                                                 InputImageType;
   typedef SymmetricSecondRankTensor<TOutputValueType, ImageDimension> OutputPixelType;

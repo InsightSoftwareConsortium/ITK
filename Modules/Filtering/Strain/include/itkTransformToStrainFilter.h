@@ -57,7 +57,7 @@ class TransformToStrainFilter
 {
 public:
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TTransform::InputSpaceDimension);
+  static constexpr unsigned int ImageDimension = TTransform::InputSpaceDimension;
 
   typedef TTransform                                                  TransformType;
   typedef DataObjectDecorator<TransformType>                          TransformInputType;

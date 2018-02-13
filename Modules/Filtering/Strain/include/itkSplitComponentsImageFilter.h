@@ -49,9 +49,9 @@ class SplitComponentsImageFilter : public ImageToImageFilter<TInputImage, TOutpu
 {
 public:
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   /** Components enumeration. */
-  itkStaticConstMacro(Components, unsigned int, TComponents);
+  static constexpr unsigned int Components = TComponents;
 
   /** Image types. */
   typedef TInputImage                          InputImageType;
