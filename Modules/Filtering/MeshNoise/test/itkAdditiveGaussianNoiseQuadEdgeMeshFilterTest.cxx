@@ -24,16 +24,16 @@ int
 itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv) [])
 {
 
-  typedef double     TPixel;
+  using TPixel = double;
   const unsigned int Dimension = 3;
 
   //////////////
   // Typedefs //
   //////////////
 
-  typedef itk::QuadEdgeMesh< TPixel, Dimension >                TMesh;
-  typedef itk::RegularSphereMeshSource< TMesh >                 TSphere;
-  typedef itk::AdditiveGaussianNoiseQuadEdgeMeshFilter< TMesh > TNoise;
+  using TMesh = itk::QuadEdgeMesh< TPixel, Dimension >;
+  using TSphere = itk::RegularSphereMeshSource< TMesh >;
+  using TNoise = itk::AdditiveGaussianNoiseQuadEdgeMeshFilter< TMesh >;
 
   ////////////////
   // Parameters //

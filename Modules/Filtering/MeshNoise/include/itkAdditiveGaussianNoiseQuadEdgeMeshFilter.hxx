@@ -56,7 +56,7 @@ AdditiveGaussianNoiseQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   typename TOutputMesh::PointsContainer::Iterator it =
     outputMesh->GetPoints()->Begin();
 
-  typedef itk::Statistics::NormalVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::NormalVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize( this->m_Seed );
 

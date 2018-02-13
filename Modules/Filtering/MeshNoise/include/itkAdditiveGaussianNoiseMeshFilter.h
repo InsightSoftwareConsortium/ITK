@@ -44,19 +44,19 @@ public MeshToMeshFilter< TInput, TOutput >
 
 public:
 
-  /** Standard class typedefs. */
-  typedef AdditiveGaussianNoiseMeshFilter     Self;
-  typedef MeshToMeshFilter< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard class type alias. */
+  using Self = AdditiveGaussianNoiseMeshFilter;
+  using Superclass = MeshToMeshFilter< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TInput                           InputMeshType;
-  typedef TOutput                          OutputMeshType;
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using InputMeshType = TInput;
+  using OutputMeshType = TOutput;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Type for representing coordinates. */
-  typedef typename TInput::CoordRepType CoordRepType;
+  using CoordRepType = typename TInput::CoordRepType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

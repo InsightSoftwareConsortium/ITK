@@ -48,11 +48,11 @@ void
 AdditiveGaussianNoiseMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
+  using InputPointsContainer = typename TInputMesh::PointsContainer;
+  using OutputPointsContainer = typename TOutputMesh::PointsContainer;
 
-  typedef typename TInputMesh::PointsContainerConstPointer InputPointsContainerConstPointer;
-  typedef typename TOutputMesh::PointsContainerPointer     OutputPointsContainerPointer;
+  using InputPointsContainerConstPointer = typename TInputMesh::PointsContainerConstPointer;
+  using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
@@ -82,7 +82,7 @@ AdditiveGaussianNoiseMeshFilter< TInputMesh, TOutputMesh >
 
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
-  typedef itk::Statistics::NormalVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::NormalVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize( this->m_Seed );
 
