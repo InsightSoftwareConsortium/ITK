@@ -35,7 +35,7 @@ FixedPointInverseDisplacementFieldTest(int argc, char * argv[])
     return 1;
   }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using VectorPixelType = itk::Vector<float, Dimension>;
   using InputDFType = itk::Image<VectorPixelType, Dimension>;
