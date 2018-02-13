@@ -75,7 +75,7 @@ public:
   typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */

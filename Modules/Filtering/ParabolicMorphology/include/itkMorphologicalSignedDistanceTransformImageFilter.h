@@ -96,9 +96,9 @@ public:
   typedef typename TInputImage::ConstPointer InputImageConstPointer;
 
   /** Image related typedefs. */
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** a type to represent the "kernel radius" */
   typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;

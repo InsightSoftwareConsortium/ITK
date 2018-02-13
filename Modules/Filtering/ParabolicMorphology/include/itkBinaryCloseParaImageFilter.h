@@ -100,7 +100,7 @@ public:
   typedef short InternalIntType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
 
