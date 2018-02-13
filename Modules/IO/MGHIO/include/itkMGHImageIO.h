@@ -40,10 +40,10 @@ namespace itk
 class MGHIO_EXPORT MGHImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef MGHImageIO         Self;
-  typedef ImageIOBase        Superclass;
-  typedef SmartPointer<Self> Pointer;
+  /** Standard class type alias. */
+  using Self = MGHImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

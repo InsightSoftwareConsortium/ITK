@@ -38,7 +38,7 @@ template <class TPixelType, unsigned int VImageDimension>
 typename itk::Image<TPixelType, VImageDimension>::Pointer
 itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
 {
-  typedef itk::Euler3DTransform<double> EulerTransformType;
+  using EulerTransformType = itk::Euler3DTransform<double>;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
   eulerTransform->SetIdentity();
 
@@ -50,7 +50,7 @@ itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
   const double angleZ = 5.0 * std::atan( 1.0 ) / 45.0;
   eulerTransform->SetRotation(angleX, angleY, angleZ);
  
-  typedef itk::Image<TPixelType, VImageDimension> ImageType;
+  using ImageType = itk::Image<TPixelType, VImageDimension>;
 
   typename ImageType::DirectionType permuteDirections;
   const double dir1[3] = { -1.,  0.,  0. };
@@ -124,8 +124,8 @@ template<>
 itk::Image<itk::DiffusionTensor3D<float>,3>::Pointer
 itkMGHImageIOTestGenerateRandomImage< itk::DiffusionTensor3D<float> , 3 >(unsigned int size)
 {
-  typedef itk::Image<itk::DiffusionTensor3D<float>,3> TensorImageType;
-  typedef TensorImageType::Pointer                    TensorImagePointer;
+  using TensorImageType = itk::Image<itk::DiffusionTensor3D<float>,3>;
+  using TensorImagePointer = TensorImageType::Pointer;
 
   const double dir1[3] = { 0, -1, 0 };
   const double dir2[3] = { 1, 0, 0 };
@@ -154,8 +154,8 @@ itkMGHImageIOTestGenerateRandomImage< itk::DiffusionTensor3D<float> , 3 >(unsign
   tensorImage->SetDirection(direction);
 
   itk::DiffusionTensor3D<double>   pix;
-  typedef itk::Image<double,3>     ScalarImageType;
-  typedef ScalarImageType::Pointer ScalarImagePointer;
+  using ScalarImageType = itk::Image<double,3>;
+  using ScalarImagePointer = ScalarImageType::Pointer;
 
   std::vector<ScalarImagePointer> scalarImageVec;
   for(unsigned i = 0; i < pix.Size(); ++i)
@@ -182,7 +182,7 @@ template<class TPixelType, unsigned int VImageDimension>
 bool itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
                                     std::string inputFile, bool compression=false)
 {
-  typedef itk::Image<TPixelType, VImageDimension> ImageType;
+  using ImageType = itk::Image<TPixelType, VImageDimension>;
 
   typename itk::ImageFileReader<ImageType>::Pointer reader
     = itk::ImageFileReader<ImageType>::New();
@@ -277,7 +277,7 @@ bool itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
       isFailingPixelValues = true;
       }
     }
-  for( int idx = 0 ; idx < 3; ++idx )
+  for( int idx = 0; idx < 3; ++idx )
     {
     // itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat, 4, 0.1f)
     if( ! itk::Math::FloatAlmostEqual( test_image->GetSpacing()[idx],
