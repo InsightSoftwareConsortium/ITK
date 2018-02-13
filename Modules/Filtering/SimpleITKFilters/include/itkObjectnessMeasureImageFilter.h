@@ -47,7 +47,7 @@ public:
   typedef double InternalType;
 
   /** Image dimension */
-  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
 
   /** Method for creation through the object factory. */
