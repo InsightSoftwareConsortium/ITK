@@ -60,7 +60,7 @@ HessianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
 
   // the hessaion just needs a 1 radius neighborhood
-  const unsigned int radius = 1;
+  constexpr unsigned int radius = 1;
 
   // get a copy of the input requested region (should equal the output
   // requested region)
