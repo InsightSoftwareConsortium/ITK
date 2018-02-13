@@ -42,16 +42,16 @@ template <class TFilter>
 class ArrivalFunctionToPathCommand : public itk::Command
 {
 public:
-  /** Standard class typedefs. */
-  typedef ArrivalFunctionToPathCommand Self;
-  typedef itk::Command                 Superclass;
-  typedef itk::SmartPointer<Self>      Pointer;
+  /** Standard class type alias. */
+  using Self = ArrivalFunctionToPathCommand;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Some useful typedefs. */
-  typedef TFilter FilterType;
+  /** Some useful type alias. */
+  using FilterType = TFilter;
 
   /** Get/set the Filter. */
   itkSetObjectMacro(Filter, FilterType);
@@ -143,11 +143,11 @@ template <class TInputImage, class TOutputPath = PolyLineParametricPath<TInputIm
 class ITK_EXPORT ArrivalFunctionToPathFilter : public ImageToPathFilter<TInputImage, TOutputPath>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ArrivalFunctionToPathFilter                 Self;
-  typedef ImageToPathFilter<TInputImage, TOutputPath> Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  /** Standard class type alias. */
+  using Self = ArrivalFunctionToPathFilter;
+  using Superclass = ImageToPathFilter<TInputImage, TOutputPath>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ArrivalFunctionToPathFilter, ImageToPathFilter);
@@ -155,32 +155,32 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Some image typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some image type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  /** Some path typedefs. */
-  typedef TOutputPath                           OutputPathType;
-  typedef typename OutputPathType::Pointer      OutputPathPointer;
-  typedef typename OutputPathType::ConstPointer OutputPathConstPointer;
+  /** Some path type alias. */
+  using OutputPathType = TOutputPath;
+  using OutputPathPointer = typename OutputPathType::Pointer;
+  using OutputPathConstPointer = typename OutputPathType::ConstPointer;
 
   /** ImageDimension constants. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
-  /** Some convenient typedefs. */
-  typedef Index<InputImageDimension>                   IndexType;
-  typedef ContinuousIndex<double, InputImageDimension> ContinuousIndexType;
-  typedef Point<double, InputImageDimension>           PointType;
-  typedef ArrivalFunctionToPathCommand<Self>           CommandType;
-  typedef SingleImageCostFunction<InputImageType>      CostFunctionType;
-  typedef SingleValuedNonLinearOptimizer               OptimizerType;
-  typedef RegularStepGradientDescentOptimizer          DefaultOptimizerType;
+  /** Some convenient type alias. */
+  using IndexType = Index<InputImageDimension>;
+  using ContinuousIndexType = ContinuousIndex<double, InputImageDimension>;
+  using PointType = Point<double, InputImageDimension>;
+  using CommandType = ArrivalFunctionToPathCommand<Self>;
+  using CostFunctionType = SingleImageCostFunction<InputImageType>;
+  using OptimizerType = SingleValuedNonLinearOptimizer;
+  using DefaultOptimizerType = RegularStepGradientDescentOptimizer;
 
   /** The points are in vectors to support extended "nodes" */
-  typedef std::vector<PointType> PointsContainerType;
+  using PointsContainerType = std::vector<PointType>;
 
   /** Get/set the Optimizer. */
   itkSetObjectMacro(Optimizer, OptimizerType);

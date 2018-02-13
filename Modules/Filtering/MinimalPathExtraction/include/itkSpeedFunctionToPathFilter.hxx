@@ -77,11 +77,11 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
   InputImagePointer speed = const_cast<InputImageType *>(this->GetInput());
 
   // Set the fast marching method for computing the arrival function
-  typedef FastMarchingUpwindGradientImageFilter<TInputImage, TInputImage> FastMarchingType;
+  using FastMarchingType = FastMarchingUpwindGradientImageFilter<TInputImage, TInputImage>;
 
-  typedef typename FastMarchingType::NodeContainer NodeContainer;
-  typedef typename FastMarchingType::NodeType      NodeType;
-  typename FastMarchingType::Pointer               marching = FastMarchingType::New();
+  using NodeContainer = typename FastMarchingType::NodeContainer;
+  using NodeType = typename FastMarchingType::NodeType;
+  typename FastMarchingType::Pointer marching = FastMarchingType::New();
   marching->SetInput(speed);
   marching->SetGenerateGradientImage(false);
   marching->SetTargetOffset(2.0 * Superclass::m_TerminationValue);
@@ -89,10 +89,10 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 
   // Add next and previous front sources as target points to
   // limit the front propagation to just the required zones
-  PointsContainerType            PrevFront = m_Information[Superclass::m_CurrentOutput]->PeekPreviousFront();
-  PointsContainerType            NextFront = m_Information[Superclass::m_CurrentOutput]->PeekNextFront();
-  typedef std::vector<IndexType> IndexTypeVec;
-  IndexTypeVec                   PrevIndexVec(0);
+  PointsContainerType PrevFront = m_Information[Superclass::m_CurrentOutput]->PeekPreviousFront();
+  PointsContainerType NextFront = m_Information[Superclass::m_CurrentOutput]->PeekNextFront();
+  using IndexTypeVec = std::vector<IndexType>;
+  IndexTypeVec PrevIndexVec(0);
 
 
   typename NodeContainer::Pointer targets = NodeContainer::New();

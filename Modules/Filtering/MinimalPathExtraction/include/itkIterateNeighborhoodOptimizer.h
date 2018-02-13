@@ -40,11 +40,11 @@ namespace itk
 class MinimalPathExtraction_EXPORT IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef IterateNeighborhoodOptimizer   Self;
-  typedef SingleValuedNonLinearOptimizer Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  /** Standard class type alias. */
+  using Self = IterateNeighborhoodOptimizer;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -107,7 +107,7 @@ public:
   /** Get/set the nieghborhood size (in physical space).
    *  The default is [1.0,1.0] and MUST be specified for all 3-D images
    *  and 2-D images with non-unity spacing. */
-  typedef Array<double> NeighborhoodSizeType;
+  using NeighborhoodSizeType = Array<double>;
   itkSetMacro(NeighborhoodSize, NeighborhoodSizeType);
   itkGetConstReferenceMacro(NeighborhoodSize, NeighborhoodSizeType);
 

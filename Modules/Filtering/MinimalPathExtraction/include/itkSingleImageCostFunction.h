@@ -52,11 +52,11 @@ template <class TImage>
 class ITK_EXPORT SingleImageCostFunction : public SingleValuedCostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef SingleImageCostFunction  Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type alias. */
+  using Self = SingleImageCostFunction;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,40 +64,40 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleImageCostFunction, SingleValuedCostFunction);
 
-  /** MeasureType typedef.
+  /** MeasureType type alias.
    *  It defines a type used to return the cost function value. */
-  typedef typename Superclass::MeasureType MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
-  /** DerivativeType typedef.
+  /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative. */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
-  /** ParametersType typedef.
+  /** ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /**  Type of the Image. */
-  typedef TImage                           ImageType;
-  typedef typename TImage::PixelType       ImagePixelType;
-  typedef typename ImageType::ConstPointer ImageConstPointer;
+  using ImageType = TImage;
+  using ImagePixelType = typename TImage::PixelType;
+  using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Constant for the image dimension */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Type used for representing point components */
-  typedef Superclass::ParametersValueType CoordRepType;
+  using CoordRepType = Superclass::ParametersValueType;
 
   /** Type for locations */
-  typedef Index<ImageDimension>                         IndexType;
-  typedef Point<CoordRepType, ImageDimension>           PointType;
-  typedef ContinuousIndex<CoordRepType, ImageDimension> ContinuousIndexType;
+  using IndexType = Index<ImageDimension>;
+  using PointType = Point<CoordRepType, ImageDimension>;
+  using ContinuousIndexType = ContinuousIndex<CoordRepType, ImageDimension>;
 
   /** Type of the Interpolator class */
-  typedef InterpolateImageFunction<ImageType, CoordRepType>       InterpolatorType;
-  typedef LinearInterpolateImageFunction<ImageType, CoordRepType> DefaultInterpolatorType;
+  using InterpolatorType = InterpolateImageFunction<ImageType, CoordRepType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<ImageType, CoordRepType>;
 
   /** Type of the GradientImageFunction class */
-  typedef PhysicalCentralDifferenceImageFunction<ImageType, CoordRepType> GradientImageFunctionType;
+  using GradientImageFunctionType = PhysicalCentralDifferenceImageFunction<ImageType, CoordRepType>;
 
   /** Get/set the Interpolator. */
   itkSetObjectMacro(Interpolator, InterpolatorType);

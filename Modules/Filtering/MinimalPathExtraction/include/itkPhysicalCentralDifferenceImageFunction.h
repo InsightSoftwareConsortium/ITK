@@ -46,12 +46,12 @@ public:
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  /** Standard class typedefs. */
-  typedef PhysicalCentralDifferenceImageFunction Self;
-  typedef ImageFunction<TInputImage, CovariantVector<double, itkGetStaticConstMacro(ImageDimension)>, TCoordRep>
-                                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type alias. */
+  using Self = PhysicalCentralDifferenceImageFunction;
+  using Superclass =
+    ImageFunction<TInputImage, CovariantVector<double, itkGetStaticConstMacro(ImageDimension)>, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PhysicalCentralDifferenceImageFunction, ImageFunction);
@@ -59,23 +59,23 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage InputImageType;
+  /** InputImageType type alias support. */
+  using InputImageType = TInputImage;
 
   /** OutputType typdef support. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support. */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support. */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support. */
+  using PointType = typename Superclass::PointType;
 
-  /** Linear interpolate function typedef. */
-  typedef LinearInterpolateImageFunction<TInputImage, TCoordRep> InterpolateImageFunctionType;
+  /** Linear interpolate function type alias. */
+  using InterpolateImageFunctionType = LinearInterpolateImageFunction<TInputImage, TCoordRep>;
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.

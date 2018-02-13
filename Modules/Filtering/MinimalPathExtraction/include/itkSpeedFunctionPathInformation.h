@@ -52,11 +52,11 @@ template <typename TPoint>
 class SpeedFunctionPathInformation : public LightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpeedFunctionPathInformation Self;
-  typedef LightObject                  Superclass;
-  typedef SmartPointer<Self>           Pointer;
-  typedef SmartPointer<const Self>     ConstPointer;
+  /** Standard class type alias. */
+  using Self = SpeedFunctionPathInformation;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
 
   /** Run-time type information (and related methods). */
@@ -65,9 +65,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Some point typedefs. */
-  typedef TPoint                 PointType;
-  typedef std::vector<PointType> PointsContainerType;
+  /** Some point type alias. */
+  using PointType = TPoint;
+  using PointsContainerType = std::vector<PointType>;
 
   void
   ClearInfo();

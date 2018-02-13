@@ -65,11 +65,11 @@ template <class TInputImage, class TOutputPath = PolyLineParametricPath<TInputIm
 class ITK_EXPORT SpeedFunctionToPathFilter : public ArrivalFunctionToPathFilter<TInputImage, TOutputPath>
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpeedFunctionToPathFilter                             Self;
-  typedef ArrivalFunctionToPathFilter<TInputImage, TOutputPath> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  /** Standard class type alias. */
+  using Self = SpeedFunctionToPathFilter;
+  using Superclass = ArrivalFunctionToPathFilter<TInputImage, TOutputPath>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpeedFunctionToPathFilter, ArrivalFunctionToPathFilter);
@@ -80,28 +80,28 @@ public:
   /** ImageDimension constants */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
-  /** Some image typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some image type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  /** Some path typedefs. */
-  typedef TOutputPath                           OutputPathType;
-  typedef typename OutputPathType::Pointer      OutputPathPointer;
-  typedef typename OutputPathType::ConstPointer OutputPathConstPointer;
+  /** Some path type alias. */
+  using OutputPathType = TOutputPath;
+  using OutputPathPointer = typename OutputPathType::Pointer;
+  using OutputPathConstPointer = typename OutputPathType::ConstPointer;
 
-  /** Some convenient typedefs. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
-  typedef typename Superclass::IndexType           IndexType;
-  typedef typename Superclass::PointType           PointType;
-  typedef typename Superclass::CostFunctionType    CostFunctionType;
-  typedef typename Superclass::OptimizerType       OptimizerType;
+  /** Some convenient type alias. */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using IndexType = typename Superclass::IndexType;
+  using PointType = typename Superclass::PointType;
+  using CostFunctionType = typename Superclass::CostFunctionType;
+  using OptimizerType = typename Superclass::OptimizerType;
 
-  /** Path information typedef. */
-  typedef SpeedFunctionPathInformation<PointType>           PathInformationType;
-  typedef typename PathInformationType::PointsContainerType PointsContainerType;
+  /** Path information type alias. */
+  using PathInformationType = SpeedFunctionPathInformation<PointType>;
+  using PointsContainerType = typename PathInformationType::PointsContainerType;
 
   /** Override superclass behaviour.
    *  Warning: SetPathEndPoint() is not valid for this filter.
