@@ -28,8 +28,8 @@ static const std::string __MGH_EXT(".mgh");
 static const std::string __MGZ_EXT(".mgz");
 static const std::string __GZ_EXT(".gz");
 
-typedef itk::Matrix<double,3,3> MatrixType;
-typedef itk::Vector<double, 3>  VectorType;
+using MatrixType = itk::Matrix<double,3,3>;
+using VectorType = itk::Vector<double, 3>;
 
 static MatrixType GetRAS2LPS()
   {

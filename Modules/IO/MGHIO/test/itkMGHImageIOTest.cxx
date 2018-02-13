@@ -76,7 +76,7 @@ int itkMGHImageIOTest(int ac, char* av[])
     }
   else if( TestMode == std::string("ReadImagesTest") ) //This is a mechanism for reading unsigned int images for testing.
     {
-    typedef itk::Image<int, 3> ImageType;
+    using ImageType = itk::Image<int, 3>;
     const std::string imageToBeRead(av[3]);
     const std::string imageToBeWritten(av[4]);
     try
@@ -101,7 +101,7 @@ int itkMGHImageIOTest(int ac, char* av[])
     }
   else if( TestMode == "TestOriginWriteTest" )
     {
-    typedef itk::Image<int, 3> ImageType;
+    using ImageType = itk::Image<int, 3>;
     ImageType::Pointer input;
     const std::string imageToBeRead(av[3]);
     const std::string imageToBeWritten(av[4]);
