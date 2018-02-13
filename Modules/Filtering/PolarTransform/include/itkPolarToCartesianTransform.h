@@ -56,11 +56,11 @@ template <typename TParametersValueType = double, // Data type for scalars (floa
 class ITK_TEMPLATE_EXPORT PolarToCartesianTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef PolarToCartesianTransform                                 Self;
-  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type alias. */
+  using Self = PolarToCartesianTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory.*/
   itkNewMacro(Self);
@@ -73,29 +73,29 @@ public:
   static constexpr unsigned int ParametersDimension = 0;
 
   /** Standard scalar type for this class. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Standard Jacobian container. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
-  typedef Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
+  using InputPointType = Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputPointType = Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Method to transform a point.
    * This method transforms first two dimensions of a point from polar
