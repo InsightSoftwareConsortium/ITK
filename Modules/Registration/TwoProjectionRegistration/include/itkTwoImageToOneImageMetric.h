@@ -76,8 +76,8 @@ public:
   typedef typename FixedImageType::RegionType   FixedImageRegionType;
 
   /** Constants for the image dimensions */
-  itkStaticConstMacro(MovingImageDimension, unsigned int, TMovingImage::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, unsigned int, TFixedImage::ImageDimension);
+  static constexpr unsigned int MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr unsigned int FixedImageDimension = TFixedImage::ImageDimension;
 
   /**  Type of the Transform Base class */
   typedef Transform<CoordinateRepresentationType,
