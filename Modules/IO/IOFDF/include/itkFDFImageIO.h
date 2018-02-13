@@ -34,10 +34,10 @@ namespace itk
 class IOFDF_EXPORT FDFImageIO : public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef FDFImageIO         Self;
-  typedef ImageIOBase        Superclass;
-  typedef SmartPointer<Self> Pointer;
+  /** Standard class type alias. */
+  using Self = FDFImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

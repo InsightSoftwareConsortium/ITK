@@ -30,11 +30,11 @@ namespace itk
 class IOFDF_EXPORT FDFImageIOFactory : public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef FDFImageIOFactory        Self;
-  typedef ObjectFactoryBase        Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type alias. */
+  using Self = FDFImageIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char *

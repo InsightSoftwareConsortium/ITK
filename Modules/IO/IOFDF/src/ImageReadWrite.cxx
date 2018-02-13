@@ -31,14 +31,14 @@
 int
 main(int argc, char ** argv)
 {
-  typedef float      PixelType;
+  using PixelType = float;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension>                ImageType;
-  typedef itk::ImageFileReader<ImageType>                 ReaderType;
-  typedef itk::ImageToVTKImageFilter<ImageType>           ImageToVTKType;
-  typedef itk::NormalizeImageFilter<ImageType, ImageType> NormalizeFilter;
-  typedef itk::ChangeInformationImageFilter<ImageType>    ChangeInformationFilter;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using ImageToVTKType = itk::ImageToVTKImageFilter<ImageType>;
+  using NormalizeFilter = itk::NormalizeImageFilter<ImageType, ImageType>;
+  using ChangeInformationFilter = itk::ChangeInformationImageFilter<ImageType>;
 
   // Register FDF Factory
   itk::FDFImageIOFactory::RegisterOneFactory();

@@ -30,11 +30,11 @@ itkFDFImageIOTest(int argc, char * argv[])
     std::cerr << "Usage: itkFDFImageIO <output_directory> <inputfile" << std::endl;
     return EXIT_FAILURE;
   }
-  typedef float      PixelType;
+  using PixelType = float;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension> ImageType;
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   // Register FDF Factory
   itk::FDFImageIOFactory::RegisterOneFactory();
