@@ -333,7 +333,7 @@ STLMeshIO ::ReadPoints(void * buffer)
   PointsMapType::const_iterator pointItr = this->m_PointsMap.begin();
   PointsMapType::const_iterator pointEnd = this->m_PointsMap.end();
 
-  float * pointsBuffer = reinterpret_cast<float *>(buffer);
+  auto * pointsBuffer = reinterpret_cast<float *>(buffer);
 
   while (pointItr != pointEnd)
   {
@@ -365,9 +365,9 @@ STLMeshIO ::ReadCells(void * buffer)
   CellsVectorType::const_iterator cellItr = this->m_CellsVector.begin();
   CellsVectorType::const_iterator cellEnd = this->m_CellsVector.end();
 
-  unsigned int * cellPointIds = reinterpret_cast<unsigned int *>(buffer);
+  auto * cellPointIds = reinterpret_cast<unsigned int *>(buffer);
 
-  const unsigned int numberOfPointsInCell = 3;
+  constexpr unsigned int numberOfPointsInCell = 3;
 
   while (cellItr != cellEnd)
   {
@@ -444,79 +444,79 @@ STLMeshIO ::WritePoints(void * buffer)
   {
     case UCHAR:
     {
-      typedef unsigned char CoordType;
+      using CoordType = unsigned char;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case CHAR:
     {
-      typedef char CoordType;
+      using CoordType = char;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case USHORT:
     {
-      typedef unsigned short CoordType;
+      using CoordType = unsigned short;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case SHORT:
     {
-      typedef short CoordType;
+      using CoordType = short;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case UINT:
     {
-      typedef unsigned int CoordType;
+      using CoordType = unsigned int;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case INT:
     {
-      typedef int CoordType;
+      using CoordType = int;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case ULONG:
     {
-      typedef unsigned long CoordType;
+      using CoordType = unsigned long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case LONG:
     {
-      typedef long CoordType;
+      using CoordType = long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case ULONGLONG:
     {
-      typedef unsigned long long CoordType;
+      using CoordType = unsigned long long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case LONGLONG:
     {
-      typedef long long CoordType;
+      using CoordType = long long;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case FLOAT:
     {
-      typedef float CoordType;
+      using CoordType = float;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case DOUBLE:
     {
-      typedef double CoordType;
+      using CoordType = double;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
     case LDOUBLE:
     {
-      typedef long double CoordType;
+      using CoordType = long double;
       this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
     }
@@ -545,7 +545,7 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
 
   const IdentifierType numberOfPolygons = this->GetNumberOfCells();
 
-  const IdentifierType * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
+  const auto * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
 
   SizeValueType index = 0;
 
@@ -562,8 +562,8 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
 
   for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
   {
-    const MeshIOBase::CellGeometryType cellType = static_cast<CellGeometryType>(cellsBuffer[index2++]);
-    const IdentifierType               numberOfVerticesInCell = static_cast<IdentifierType>(cellsBuffer[index2++]);
+    const auto cellType = static_cast<CellGeometryType>(cellsBuffer[index2++]);
+    const auto numberOfVerticesInCell = static_cast<IdentifierType>(cellsBuffer[index2++]);
 
     const bool isTriangle = (cellType == TRIANGLE_CELL) || (cellType == POLYGON_CELL && numberOfVerticesInCell == 3);
 
@@ -623,7 +623,7 @@ STLMeshIO ::WriteCellsAsAscii(void * buffer)
 
   const IdentifierType numberOfPolygons = this->GetNumberOfCells();
 
-  const IdentifierType * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
+  const auto * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
 
   SizeValueType index = 0;
 
@@ -631,8 +631,8 @@ STLMeshIO ::WriteCellsAsAscii(void * buffer)
 
   for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
   {
-    const MeshIOBase::CellGeometryType cellType = static_cast<CellGeometryType>(cellsBuffer[index++]);
-    const IdentifierType               numberOfVerticesInCell = static_cast<IdentifierType>(cellsBuffer[index++]);
+    const auto cellType = static_cast<CellGeometryType>(cellsBuffer[index++]);
+    const auto numberOfVerticesInCell = static_cast<IdentifierType>(cellsBuffer[index++]);
 
     const bool isTriangle = (cellType == TRIANGLE_CELL) || (cellType == POLYGON_CELL && numberOfVerticesInCell == 3);
 
