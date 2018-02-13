@@ -55,12 +55,12 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
                               RealImageType,
                               RealImageType >;
 
-  { //Instantiate a 7D image for testing purposes
-  using SevenDImageType = itk::Image<RealPixelType,7>;
-  using LaplacianFilter7DType = itk::LaplacianRecursiveGaussianImageFilter<
-                              SevenDImageType,
-                              SevenDImageType >;
-  LaplacianFilter7DType::Pointer SevenDTest = LaplacianFilter7DType::New();
+  { //Instantiate a 6D image for testing purposes
+  using HighDImageType = itk::Image<RealPixelType, 6>;
+  using LaplacianFilterHighDType = itk::LaplacianRecursiveGaussianImageFilter<
+                              HighDImageType,
+                              HighDImageType >;
+  LaplacianFilterHighDType::Pointer nDTest = LaplacianFilterHighDType::New();
   }
 
   using ZeroCrossingFilter = itk::ZeroCrossingImageFilter<

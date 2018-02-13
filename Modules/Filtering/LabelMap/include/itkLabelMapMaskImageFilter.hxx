@@ -37,6 +37,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 {
   this->SetNumberOfRequiredInputs(2);
   m_CropBorder.Fill( 0 );
+  this->DynamicMultiThreadingOff();
 }
 
 template <typename TInputImage, typename TOutputImage>

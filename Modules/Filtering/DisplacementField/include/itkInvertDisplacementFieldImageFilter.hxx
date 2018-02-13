@@ -110,9 +110,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 
   this->m_ScaledNormImage->CopyInformation( displacementField );
   this->m_ScaledNormImage->SetRegions( displacementField->GetRequestedRegion() );
-  this->m_ScaledNormImage->Allocate(true); // initialize
-                                                                  // buffer
-                                                                  // to zero
+  this->m_ScaledNormImage->Allocate(true); // initialize buffer to zero
 
   SizeValueType numberOfPixelsInRegion = ( displacementField->GetRequestedRegion() ).GetNumberOfPixels();
   this->m_MaxErrorNorm = NumericTraits<RealType>::max();
@@ -142,11 +140,11 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     this->m_MaxErrorNorm = NumericTraits<RealType>::ZeroValue();
 
     this->m_DoThreadedEstimateInverse = false;
-    typename ImageSource<TOutputImage>::ThreadStruct str0;
-    str0.Filter = this;
-    this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-    this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str0 );
-    this->GetMultiThreader()->SingleMethodExecute();
+    this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+    this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
+        this->GetOutput()->GetRequestedRegion(),
+        [this](const OutputImageRegionType & outputRegionForThread)
+          { this->DynamicThreadedGenerateData(outputRegionForThread); });
 
     this->m_MeanErrorNorm /= static_cast<RealType>( numberOfPixelsInRegion );
 
@@ -160,18 +158,17 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
      * Multithread processing to estimate inverse field
      */
     this->m_DoThreadedEstimateInverse = true;
-    typename ImageSource<TOutputImage>::ThreadStruct str1;
-    str1.Filter = this;
-    this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-    this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str1 );
-    this->GetMultiThreader()->SingleMethodExecute();
+    this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
+        this->GetOutput()->GetRequestedRegion(),
+        [this](const OutputImageRegionType & outputRegionForThread)
+          { this->DynamicThreadedGenerateData(outputRegionForThread); });
     }
 }
 
 template<typename TInputImage, typename TOutputImage>
 void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const RegionType & region, ThreadIdType itkNotUsed( threadId ) )
+::DynamicThreadedGenerateData( const RegionType & region )
 {
   const typename DisplacementFieldType::RegionType fullRegion = this->m_ComposedField->GetRequestedRegion();
   const typename DisplacementFieldType::SizeType size = fullRegion.GetSize();

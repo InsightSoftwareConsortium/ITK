@@ -63,15 +63,12 @@ MultiThreader::MultiThreader()
 
   m_SingleMethod = nullptr;
   m_SingleData = nullptr;
-
 }
 
 MultiThreader::~MultiThreader()
 {
 }
 
-// Set the user defined method that will be run on NumberOfThreads threads
-// when SingleMethodExecute is called.
 void MultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 {
   m_SingleMethod = f;
@@ -96,7 +93,6 @@ void MultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, 
     }
 }
 
-// Execute the method set as the SingleMethod on NumberOfThreads threads.
 void MultiThreader::SingleMethodExecute()
 {
   ThreadIdType        thread_loop = 0;
@@ -239,7 +235,6 @@ void MultiThreader::SingleMethodExecute()
 void MultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-
 }
 
 }

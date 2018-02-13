@@ -30,6 +30,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::LabelImageToLabelMapFilter()
 {
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage, typename TOutputImage >

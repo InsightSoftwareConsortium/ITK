@@ -79,10 +79,9 @@ UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 UnaryGeneratorImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  m_ThreadedGenerateDataFunction(outputRegionForThread, threadId);
+  m_DynamicThreadedGenerateDataFunction(outputRegionForThread);
 }
 
 /**
@@ -92,9 +91,9 @@ template< typename TInputImage, typename TOutputImage >
 template< typename TFunctor >
 void
 UnaryGeneratorImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateDataWithFunctor(const TFunctor &functor,
-                                  const OutputImageRegionType & outputRegionForThread,
-                                  ThreadIdType threadId)
+::DynamicThreadedGenerateDataWithFunctor(
+    const TFunctor &functor,
+    const OutputImageRegionType & outputRegionForThread)
 {
   const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
 
@@ -112,9 +111,6 @@ UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  const SizeValueType numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
-
   // Define the iterators
   ImageScanlineConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
@@ -131,7 +127,6 @@ UnaryGeneratorImageFilter< TInputImage, TOutputImage >
       }
     inputIt.NextLine();
     outputIt.NextLine();
-    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 } // end namespace itk

@@ -30,8 +30,6 @@
 
 #include "itkMultiThreaderBase.h"
 #include "itkMutexLock.h"
-#include "itkThreadSupport.h"
-#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -116,7 +114,7 @@ It can affect all MultiThreaderBase's derived classes in ITK");
    * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
    * threads. As a side effect the m_NumberOfThreads will be checked against the
    * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
-  void MultipleMethodExecute() override;
+  void MultipleMethodExecute();
 
   /** Set the SingleMethod to f() and the UserData field of the
    * ThreadInfoStruct that is passed to it will be data.
@@ -127,15 +125,15 @@ It can affect all MultiThreaderBase's derived classes in ITK");
 
   /** Set the MultipleMethod at the given index to f() and the UserData
    * field of the ThreadInfoStruct that is passed to it will be data. */
-  void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data) override;
+  void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data);
 
   /** Create a new thread for the given function. Return a thread id
      * which is a number between 0 and ITK_MAX_THREADS - 1. This
    * id should be used to kill the thread at a later time. */
-  ThreadIdType SpawnThread(ThreadFunctionType, void *data) override;
+  ThreadIdType SpawnThread(ThreadFunctionType, void *data);
 
   /** Terminate the thread that was created with a SpawnThreadExecute() */
-  void TerminateThread(ThreadIdType thread_id) override;
+  void TerminateThread(ThreadIdType thread_id);
 
   struct ThreadInfoStruct: MultiThreaderBase::ThreadInfoStruct
     {
@@ -148,6 +146,7 @@ protected:
   ~MultiThreader() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+
 private:
   /** An array of thread info containing a thread id
    *  (0, 1, 2, .. ITK_MAX_THREADS-1), the thread count, and a pointer
@@ -155,7 +154,6 @@ private:
   ThreadInfoStruct m_ThreadInfoArray[ITK_MAX_THREADS];
 
   /** The methods to invoke. */
-  ThreadFunctionType m_SingleMethod;
   ThreadFunctionType m_MultipleMethod[ITK_MAX_THREADS];
 
   /** Storage of MutexFunctions and ints used to control spawned
@@ -166,7 +164,6 @@ private:
   ThreadInfoStruct    m_SpawnedThreadInfoArray[ITK_MAX_THREADS];
 
   /** Internal storage of the data. */
-  void *m_SingleData;
   void *m_MultipleData[ITK_MAX_THREADS];
 
   /** spawn a new thread for the SingleMethod */

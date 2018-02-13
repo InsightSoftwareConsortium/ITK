@@ -30,7 +30,12 @@
 
 #include "itkObject.h"
 #include "itkThreadSupport.h"
+#include "itkObjectFactory.h"
 #include "itkIntTypes.h"
+#include "itkImageRegion.h"
+#include "itkImageIORegion.h"
+#include <functional>
+#include <tuple>
 
 
 namespace itk
@@ -71,7 +76,6 @@ public:
    * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
    * check that the requested number of threads was accepted. */
   virtual void SetNumberOfThreads(ThreadIdType numberOfThreads);
-
   itkGetConstMacro(NumberOfThreads, ThreadIdType);
 
   /** Set/Get the maximum number of threads to use when multithreading.  It
@@ -118,12 +122,6 @@ public:
    * necessary. */
   virtual void SingleMethodExecute() = 0;
 
-  /** Execute the MultipleMethods (as define by calling SetMultipleMethod for
-   * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
-   * threads. As a side effect the m_NumberOfThreads will be checked against the
-   * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
-  virtual void MultipleMethodExecute() = 0;
-
   /** Set the SingleMethod to f() and the UserData field of the
    * ThreadInfoStruct that is passed to it will be data.
    * This method (and all the methods passed to SetMultipleMethod)
@@ -131,17 +129,52 @@ public:
    * type void *. */
   virtual void SetSingleMethod(ThreadFunctionType, void *data) = 0;
 
-  /** Set the MultipleMethod at the given index to f() and the UserData
-   * field of the ThreadInfoStruct that is passed to it will be data. */
-  virtual void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data) = 0;
+  template <unsigned int VDimension>
+  using TemplatedThreadingFunctorType = std::function<void(const ImageRegion<VDimension> &)>;
+  using ThreadingFunctorType = std::function<void(
+      const IndexValueType index[],
+      const SizeValueType size[])>;
 
-  /** Create a new thread for the given function. Return a thread id
-     * which is a number between 0 and ITK_MAX_THREADS - 1. This
-   * id should be used to kill the thread at a later time. */
-  virtual ThreadIdType SpawnThread(ThreadFunctionType, void *data) = 0;
+  /** Break up region into smaller chunks, and call the function with chunks as parameters. */
+  template<unsigned int VDimension>
+  void ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TemplatedThreadingFunctorType<VDimension> funcP)
+  {
+    this->ParallelizeImageRegion(
+        VDimension,
+        requestedRegion.GetIndex().m_InternalArray,
+        requestedRegion.GetSize().m_InternalArray,
+        [funcP](const IndexValueType index[], const SizeValueType size[])
+    {
+      ImageRegion<VDimension> region;
+      for (unsigned d = 0; d < VDimension; d++)
+        {
+        region.SetIndex(d, index[d]);
+        region.SetSize(d, size[d]);
+        }
+      funcP(region);
+    });
+  }
 
-  /** Terminate the thread that was created with a SpawnThreadExecute() */
-  virtual void TerminateThread(ThreadIdType thread_id) = 0;
+  /** Break up region into smaller chunks, and call the function with chunks as parameters.
+   *  This overload does the actual work and must be implemented by derived classes. */
+  virtual void ParallelizeImageRegion(
+      unsigned int dimension,
+      const IndexValueType index[],
+      const SizeValueType size[],
+      ThreadingFunctorType funcP)
+  {
+    // This implementation simply delegates parallelization to the old interface
+    // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
+    ImageIORegion region(dimension);
+    for (unsigned d = 0; d < dimension; d++)
+      {
+      region.SetIndex(d, index[d]);
+      region.SetSize(d, size[d]);
+      }
+    RegionAndCallback rnc = std::make_tuple(funcP, dimension, index, size);
+    this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
+    this->SingleMethodExecute();
+  }
 
   /** Set/Get the pointer to MultiThreaderBaseGlobals.
    * Note that these functions are not part of the public API and should not be
@@ -156,6 +189,13 @@ protected:
   ~MultiThreaderBase() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+  using RegionAndCallback = std::tuple<
+      ThreadingFunctorType,
+      unsigned int,
+      const IndexValueType*,
+      const SizeValueType*>;
+
+  static ITK_THREAD_RETURN_TYPE ParallelizeImageRegionHelper(void *arg);
 
   /** The number of threads to use.
    *  The m_NumberOfThreads must always be less than or equal to
@@ -175,6 +215,12 @@ protected:
   * user supplied callback (SingleMethod) in order to catch any
   * exceptions thrown by the threads. */
   static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
+
+  /** The method to invoke. */
+  ThreadFunctionType m_SingleMethod;
+
+  /** The data to be passed as argument. */
+  void *m_SingleData;
 
 private:
   static MultiThreaderBaseGlobals * m_MultiThreaderBaseGlobals;

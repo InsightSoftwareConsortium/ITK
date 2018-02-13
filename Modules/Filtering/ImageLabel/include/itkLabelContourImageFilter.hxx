@@ -37,6 +37,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   m_FullyConnected( false )
 {
   this->SetInPlace(false);
+  this->DynamicMultiThreadingOff();
 }
 
 // -----------------------------------------------------------------------------

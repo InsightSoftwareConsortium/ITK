@@ -30,6 +30,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::LabelMapOverlayImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
+  this->DynamicMultiThreadingOff();
   m_Opacity = 0.5;
 }
 

@@ -187,20 +187,19 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage>
 void
 BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 
 {
-  m_ThreadedGenerateDataFunction(outputRegionForThread, threadId);
+  m_DynamicThreadedGenerateDataFunction(outputRegionForThread);
 }
 
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage>
 template< typename TFunctor >
 void
 BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
-::ThreadedGenerateDataWithFunctor(const TFunctor & functor,
-                                  const OutputImageRegionType & outputRegionForThread,
-                                  ThreadIdType threadId)
+::DynamicThreadedGenerateDataWithFunctor(
+    const TFunctor & functor,
+    const OutputImageRegionType & outputRegionForThread)
 {
   // We use dynamic_cast since inputs are stored as DataObjects. The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
@@ -215,15 +214,12 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
     {
     return;
     }
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
 
   if( inputPtr1 && inputPtr2 )
     {
     ImageScanlineConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
     ImageScanlineConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
     ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
-
-    ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
     while ( !inputIt1.IsAtEnd() )
       {
@@ -238,7 +234,6 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
       inputIt1.NextLine();
       inputIt2.NextLine();
       outputIt.NextLine();
-      progress.CompletedPixel(); // potential exception thrown here
       }
     }
   else if( inputPtr1 )
@@ -247,7 +242,6 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
     ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
     const Input2ImagePixelType & input2Value = this->GetConstant2();
-    ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
     while ( !inputIt1.IsAtEnd() )
       {
@@ -259,7 +253,6 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
         }
       inputIt1.NextLine();
       outputIt.NextLine();
-      progress.CompletedPixel(); // potential exception thrown here
       }
     }
   else if( inputPtr2 )
@@ -268,7 +261,6 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
     ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
     const Input1ImagePixelType & input1Value = this->GetConstant1();
-    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
     while ( !inputIt2.IsAtEnd() )
       {
@@ -280,7 +272,6 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
         }
       inputIt2.NextLine();
       outputIt.NextLine();
-      progress.CompletedPixel(); // potential exception thrown here
       }
     }
   else

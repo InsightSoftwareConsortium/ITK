@@ -32,7 +32,7 @@
 #include "itkMutexLockHolder.h"
 #include "itkSimpleFastMutexLock.h"
 #include "itksys/SystemTools.hxx"
-#include "itkThreadPool.h"
+#include "itkImageSourceCommon.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -313,6 +313,9 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
   Pointer smartPtr = ::itk::ObjectFactory< MultiThreaderBase >::Create();
   if ( smartPtr == nullptr )
     {
+#if defined(ITK_USE_TBB)
+    //return TBBMultiThreader::New().GetPointer();
+#endif
     if ( GetGlobalDefaultUseThreadPool() )
       {
       return PoolMultiThreader::New();
@@ -325,6 +328,7 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
   smartPtr->UnRegister();
   return smartPtr;
 }
+
 
 MultiThreaderBase::MultiThreaderBase()
 {
@@ -368,6 +372,32 @@ MultiThreaderBase
   return ITK_THREAD_RETURN_VALUE;
 }
 
+ITK_THREAD_RETURN_TYPE
+MultiThreaderBase
+::ParallelizeImageRegionHelper(void * arg)
+{
+  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  auto * threadInfo = static_cast<ThreadInfo *>(arg);
+  ThreadIdType threadId = threadInfo->ThreadID;
+  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  auto * rnc = static_cast<RegionAndCallback *>(threadInfo->UserData);
+
+  const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
+  ImageIORegion region(std::get<1>(*rnc));
+  for (unsigned d = 0; d < std::get<1>(*rnc); d++)
+    {
+    region.SetIndex(d, std::get<2>(*rnc)[d]);
+    region.SetSize(d, std::get<3>(*rnc)[d]);
+    }
+  ThreadIdType total = splitter->GetSplit(threadId, threadCount, region);
+
+  if ( threadId < total )
+    {
+    std::get<0>(*rnc)(&region.GetIndex()[0], &region.GetSize()[0]);
+    }
+  return ITK_THREAD_RETURN_VALUE;
+}
+
 // Print method for the multithreader
 void MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -380,6 +410,8 @@ void MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
      << m_MultiThreaderBaseGlobals->m_GlobalDefaultNumberOfThreads << std::endl;
   os << indent << "Global Default Use ThreadPool: "
      << m_MultiThreaderBaseGlobals->m_GlobalDefaultUseThreadPool << std::endl;
+  os << indent << "SingleMethod: " << m_SingleMethod << std::endl;
+  os << indent << "SingleData: " << m_SingleData << std::endl;
 }
 
 MultiThreaderBaseGlobals * MultiThreaderBase::m_MultiThreaderBaseGlobals;

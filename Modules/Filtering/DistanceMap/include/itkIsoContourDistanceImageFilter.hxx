@@ -37,6 +37,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 
   m_NarrowBanding = false;
   m_NarrowBand = nullptr;
+  this->DynamicMultiThreadingOff();
 
   m_Barrier = Barrier::New();
 }

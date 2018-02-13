@@ -166,6 +166,7 @@ protected:
 
     //  #1 "MaskImage" optional
     Self::AddOptionalInputName("MaskImage",1);
+    this->DynamicMultiThreadingOff();
   }
 
   ~ConnectedComponentImageFilter() override {}
