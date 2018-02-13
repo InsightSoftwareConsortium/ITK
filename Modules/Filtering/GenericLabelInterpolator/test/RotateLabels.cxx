@@ -148,7 +148,7 @@ RotateLabels(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   using PixelType = unsigned char;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer r = ReaderType::New();
