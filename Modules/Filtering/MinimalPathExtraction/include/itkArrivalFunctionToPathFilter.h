@@ -168,7 +168,7 @@ public:
   typedef typename OutputPathType::ConstPointer OutputPathConstPointer;
 
   /** ImageDimension constants. */
-  itkStaticConstMacro(InputImageDimension, unsigned int, InputImageType::ImageDimension);
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
   /** Some convenient typedefs. */
   typedef Index<InputImageDimension>                   IndexType;

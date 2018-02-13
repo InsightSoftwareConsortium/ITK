@@ -82,7 +82,7 @@ public:
   typedef typename ImageType::ConstPointer ImageConstPointer;
 
   /** Constant for the image dimension */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Type used for representing point components */
   typedef Superclass::ParametersValueType CoordRepType;

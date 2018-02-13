@@ -44,7 +44,7 @@ class ITK_EXPORT PhysicalCentralDifferenceImageFunction
 {
 public:
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard class typedefs. */
   typedef PhysicalCentralDifferenceImageFunction Self;
