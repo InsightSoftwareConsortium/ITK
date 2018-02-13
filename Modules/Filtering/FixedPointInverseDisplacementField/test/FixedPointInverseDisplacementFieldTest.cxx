@@ -37,14 +37,14 @@ FixedPointInverseDisplacementFieldTest(int argc, char * argv[])
 
   const unsigned int Dimension = 3;
 
-  typedef itk::Vector<float, Dimension>          VectorPixelType;
-  typedef itk::Image<VectorPixelType, Dimension> InputDFType;
-  typedef itk::Image<VectorPixelType, Dimension> OutputDFType;
+  using VectorPixelType = itk::Vector<float, Dimension>;
+  using InputDFType = itk::Image<VectorPixelType, Dimension>;
+  using OutputDFType = itk::Image<VectorPixelType, Dimension>;
 
-  typedef itk::ImageFileReader<InputDFType>  ReaderType;
-  typedef itk::ImageFileWriter<OutputDFType> WriterType;
+  using ReaderType = itk::ImageFileReader<InputDFType>;
+  using WriterType = itk::ImageFileWriter<OutputDFType>;
 
-  typedef itk::FixedPointInverseDisplacementFieldImageFilter<InputDFType, OutputDFType> FPInverseType;
+  using FPInverseType = itk::FixedPointInverseDisplacementFieldImageFilter<InputDFType, OutputDFType>;
 
   // read the file
   ReaderType::Pointer reader = ReaderType::New();
