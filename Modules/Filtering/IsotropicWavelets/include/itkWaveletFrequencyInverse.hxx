@@ -200,9 +200,9 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   Superclass::GenerateInputRequestedRegion();
 
   // compute baseIndex and baseSize
-  typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::RegionType RegionType;
+  using SizeType = typename OutputImageType::SizeType;
+  using IndexType = typename OutputImageType::IndexType;
+  using RegionType = typename OutputImageType::RegionType;
 
   OutputImagePointer outputPtr = this->GetOutput(0);
 
@@ -281,15 +281,15 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   // Start with the approximation image (the smallest).
   InputImageConstPointer low_pass = this->GetInput(this->m_TotalInputs - 1);
 
-  typedef itk::ImageDuplicator<InputImageType> DuplicatorType;
-  typename DuplicatorType::Pointer             duplicator = DuplicatorType::New();
+  using DuplicatorType = itk::ImageDuplicator<InputImageType>;
+  typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage(low_pass);
   duplicator->Update();
   InputImagePointer low_pass_per_level = duplicator->GetModifiableOutput();
 
-  typedef itk::MultiplyImageFilter<InputImageType> MultiplyFilterType;
+  using MultiplyFilterType = itk::MultiplyImageFilter<InputImageType>;
 
-  double scaleFactor = static_cast<double>(this->m_ScaleFactor);
+  auto scaleFactor = static_cast<double>(this->m_ScaleFactor);
   for (int level = this->m_Levels - 1; level > -1; --level)
   {
     itkDebugMacro(<< "LEVEL: " << level);
@@ -302,7 +302,7 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
 
     typename MultiplyFilterType::Pointer multiplyUpsampleCorrection = MultiplyFilterType::New();
     multiplyUpsampleCorrection->SetInput1(expandFilter->GetOutput());
-    double expUpsampleCorrection = static_cast<double>(ImageDimension);
+    auto expUpsampleCorrection = static_cast<double>(ImageDimension);
     multiplyUpsampleCorrection->SetConstant(std::pow(scaleFactor, expUpsampleCorrection));
     multiplyUpsampleCorrection->InPlaceOn();
     multiplyUpsampleCorrection->Update();
@@ -329,7 +329,7 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
     }
     itkDebugMacro(<< "waveletLow: " << level << " Region:" << waveletLow->GetLargestPossibleRegion());
 
-    typedef itk::ChangeInformationImageFilter<InputImageType> ChangeInformationFilterType;
+    using ChangeInformationFilterType = itk::ChangeInformationImageFilter<InputImageType>;
     typename ChangeInformationFilterType::Pointer changeWaveletInfoFilter = ChangeInformationFilterType::New();
     // changeWaveletInfoFilter->SetInput(upsampleFilter->GetOutput());
     changeWaveletInfoFilter->SetInput(waveletLow);
@@ -406,8 +406,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       multiplyByReconstructionBandFactor->Update();
 
       /******* Add high bands *****/
-      typedef itk::AddImageFilter<InputImageType> AddFilterType;
-      typename AddFilterType::Pointer             addFilter = AddFilterType::New();
+      using AddFilterType = itk::AddImageFilter<InputImageType>;
+      typename AddFilterType::Pointer addFilter = AddFilterType::New();
       addFilter->SetInput1(reconstructed);
       addFilter->SetInput2(multiplyByReconstructionBandFactor->GetOutput());
       addFilter->InPlaceOn();
@@ -418,8 +418,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
     }
 
     /******* Add low pass to the sum of high pass bands. *****/
-    typedef itk::AddImageFilter<InputImageType> AddFilterType;
-    typename AddFilterType::Pointer             addHighAndLow = AddFilterType::New();
+    using AddFilterType = itk::AddImageFilter<InputImageType>;
+    typename AddFilterType::Pointer addHighAndLow = AddFilterType::New();
     addHighAndLow->SetInput1(reconstructed.GetPointer()); // HighBands
     // addHighAndLow->SetInput2(multiplyLowByReconstructLevelFactor->GetOutput());
     addHighAndLow->SetInput2(low_pass_per_level);
@@ -428,8 +428,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
 
     if (level == 0 /* Last level to compute */) // Graft Output
     {
-      typedef itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
-      typename CastFilterType::Pointer                              castFilter = CastFilterType::New();
+      using CastFilterType = itk::CastImageFilter<InputImageType, OutputImageType>;
+      typename CastFilterType::Pointer castFilter = CastFilterType::New();
       castFilter->SetInput(addHighAndLow->GetOutput());
       castFilter->GraftOutput(this->GetOutput());
       castFilter->Update();

@@ -47,14 +47,14 @@ template <typename T = double, unsigned int VImageDimension = 3>
 class RieszRotationMatrix : public itk::VariableSizeMatrix<T>
 {
 public:
-  /** Standard typedefs */
-  typedef RieszRotationMatrix        Self;
-  typedef itk::VariableSizeMatrix<T> Superclass;
+  /** Standard type alias */
+  using Self = RieszRotationMatrix;
+  using Superclass = itk::VariableSizeMatrix<T>;
 
   /** Component value type */
-  typedef typename Superclass::ValueType                   ValueType;
-  typedef typename Superclass::InternalMatrixType          InternalMatrixType;
-  typedef itk::Matrix<T, VImageDimension, VImageDimension> SpatialRotationMatrixType;
+  using ValueType = typename Superclass::ValueType;
+  using InternalMatrixType = typename Superclass::InternalMatrixType;
+  using SpatialRotationMatrixType = itk::Matrix<T, VImageDimension, VImageDimension>;
 
   /** Matrix by std::vector multiplication.  */
   std::vector<T>
@@ -78,10 +78,10 @@ public:
   ComputeSteerableMatrix();
 
   /// Typedefs for IndicesMatrix
-  typedef std::vector<unsigned int>     IndicesArrayType;
-  typedef std::vector<IndicesArrayType> IndicesVector;
-  typedef std::vector<IndicesVector>    IndicesMatrixRow;
-  typedef std::vector<IndicesMatrixRow> IndicesMatrix;
+  using IndicesArrayType = std::vector<unsigned int>;
+  using IndicesVector = std::vector<IndicesArrayType>;
+  using IndicesMatrixRow = std::vector<IndicesVector>;
+  using IndicesMatrix = std::vector<IndicesMatrixRow>;
 
   /**
    * Generate a matrix-like structure of the same size than the

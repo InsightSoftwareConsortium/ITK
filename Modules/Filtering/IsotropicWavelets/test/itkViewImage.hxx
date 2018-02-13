@@ -37,8 +37,8 @@ template <typename T>
 void
 ViewImage(const T * img, const std::string & win_title, size_t win_x, size_t win_y)
 {
-  typedef itk::ImageToVTKImageFilter<T> ConnectorType;
-  typename ConnectorType::Pointer       connector = ConnectorType::New();
+  using ConnectorType = itk::ImageToVTKImageFilter<T>;
+  typename ConnectorType::Pointer connector = ConnectorType::New();
   connector->SetInput(img);
   connector->Update();
   connector->UpdateLargestPossibleRegion();
@@ -61,8 +61,8 @@ ViewImage(const T * img, const std::string & win_title, size_t win_x, size_t win
   renderWindowInteractor->SetRenderWindow(renderWindow);
 
   // Prepare for slices.
-  typedef itk::StatisticsImageFilter<T> FilterType;
-  typename FilterType::Pointer          filter = FilterType::New();
+  using FilterType = itk::StatisticsImageFilter<T>;
+  typename FilterType::Pointer filter = FilterType::New();
   filter->SetInput(img);
   filter->Update();
   filter->UpdateLargestPossibleRegion();
@@ -115,14 +115,14 @@ template <typename TLeft, typename TRight>
 void
 ViewImages(const TLeft * leftImg, const TRight * rightImg, const std::string & win_title, size_t win_x, size_t win_y)
 {
-  typedef itk::ImageToVTKImageFilter<TLeft> LeftConnectorType;
-  typename LeftConnectorType::Pointer       leftConnector = LeftConnectorType::New();
+  using LeftConnectorType = itk::ImageToVTKImageFilter<TLeft>;
+  typename LeftConnectorType::Pointer leftConnector = LeftConnectorType::New();
   leftConnector->SetInput(leftImg);
   leftConnector->Update();
   leftConnector->UpdateLargestPossibleRegion();
 
-  typedef itk::ImageToVTKImageFilter<TRight> RightConnectorType;
-  typename RightConnectorType::Pointer       rightConnector = RightConnectorType::New();
+  using RightConnectorType = itk::ImageToVTKImageFilter<TRight>;
+  typename RightConnectorType::Pointer rightConnector = RightConnectorType::New();
   rightConnector->SetInput(rightImg);
   rightConnector->Update();
   rightConnector->UpdateLargestPossibleRegion();
@@ -144,7 +144,7 @@ ViewImages(const TLeft * leftImg, const TRight * rightImg, const std::string & w
   // Render and start interaction
   renderWindowInteractor->SetRenderWindow(renderWindow);
 
-  typedef itk::StatisticsImageFilter<TLeft> LeftFilterType;
+  using LeftFilterType = itk::StatisticsImageFilter<TLeft>;
   // Prepare for slices (BOTH)
   typename LeftFilterType::Pointer leftFilter = LeftFilterType::New();
   leftFilter->SetInput(leftImg);
@@ -155,8 +155,8 @@ ViewImages(const TLeft * leftImg, const TRight * rightImg, const std::string & w
   double leftWindow = leftMax_intensity - leftMin_intensity;
   double leftLevel = leftMin_intensity + leftWindow / 2;
 
-  typedef itk::StatisticsImageFilter<TRight> RightFilterType;
-  typename RightFilterType::Pointer          rightFilter = RightFilterType::New();
+  using RightFilterType = itk::StatisticsImageFilter<TRight>;
+  typename RightFilterType::Pointer rightFilter = RightFilterType::New();
   rightFilter->SetInput(rightImg);
   rightFilter->Update();
   rightFilter->UpdateLargestPossibleRegion();

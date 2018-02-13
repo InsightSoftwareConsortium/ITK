@@ -77,11 +77,11 @@ template <typename TImageType>
 class FrequencyShrinkImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyShrinkImageFilter                 Self;
-  typedef ImageToImageFilter<TImageType, TImageType> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = FrequencyShrinkImageFilter;
+  using Superclass = ImageToImageFilter<TImageType, TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,21 +90,21 @@ public:
   itkTypeMacro(FrequencyShrinkImageFilter, ImageToImageFilter);
 
   /** Typedef to images */
-  typedef TImageType                       ImageType;
-  typedef typename ImageType::Pointer      ImagePointer;
-  typedef typename ImageType::ConstPointer ImageConstPointer;
-  typedef typename TImageType::IndexType   IndexType;
-  typedef typename TImageType::PixelType   PixelType;
+  using ImageType = TImageType;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using IndexType = typename TImageType::IndexType;
+  using PixelType = typename TImageType::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TImageType::RegionType ImageRegionType;
+  using ImageRegionType = typename TImageType::RegionType;
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageType::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TImageType::ImageDimension;
 
-  typedef FixedArray<unsigned int, ImageDimension> ShrinkFactorsType;
-  typedef FrequencyBandImageFilter<TImageType>     FrequencyBandFilterType;
+  using ShrinkFactorsType = FixedArray<unsigned int, ImageDimension>;
+  using FrequencyBandFilterType = FrequencyBandImageFilter<TImageType>;
 
   /** Set the shrink factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */

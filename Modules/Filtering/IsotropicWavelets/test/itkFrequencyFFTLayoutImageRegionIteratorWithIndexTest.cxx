@@ -27,11 +27,11 @@ template <typename TImage>
 class itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester
 {
 public:
-  typedef TImage                          ImageType;
-  typedef typename ImageType::IndexType   IndexType;
-  typedef typename ImageType::SpacingType FrequencyType;
+  using ImageType = TImage;
+  using IndexType = typename ImageType::IndexType;
+  using FrequencyType = typename ImageType::SpacingType;
 
-  typedef itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType> IteratorType;
+  using IteratorType = itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType>;
 
   explicit itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester(size_t inputImageSize)
   {
@@ -260,10 +260,10 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
 {
   bool testPassed = true; // let's be optimistic
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
-  typedef char CharPixelType;
-  typedef char FloatPixelType;
+  using CharPixelType = char;
+  using FloatPixelType = char;
 
   // Even input image size test
   {

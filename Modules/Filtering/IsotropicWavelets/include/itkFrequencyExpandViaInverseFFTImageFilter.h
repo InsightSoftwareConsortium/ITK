@@ -50,11 +50,11 @@ template <typename TImageType>
 class FrequencyExpandViaInverseFFTImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyExpandViaInverseFFTImageFilter    Self;
-  typedef ImageToImageFilter<TImageType, TImageType> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = FrequencyExpandViaInverseFFTImageFilter;
+  using Superclass = ImageToImageFilter<TImageType, TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,24 +63,23 @@ public:
   itkTypeMacro(FrequencyExpandViaInverseFFTImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
 
   /** Inherit some types from superclass. */
-  typedef typename Superclass::InputImageType ImageType;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::Pointer         ImagePointer;
+  using ImageType = typename Superclass::InputImageType;
+  using PixelType = typename ImageType::PixelType;
+  using ImagePointer = typename ImageType::Pointer;
   /** Typedef to describe the output image region type. */
-  typedef typename TImageType::RegionType ImageRegionType;
+  using ImageRegionType = typename TImageType::RegionType;
   /** Typedef of used filters */
-  typedef itk::InverseFFTImageFilter<ImageType> InverseFFTFilterType;
-  typedef itk::ExpandWithZerosImageFilter<typename InverseFFTFilterType::OutputImageType,
-                                          typename InverseFFTFilterType::OutputImageType>
-                                                                                                ExpandFilterType;
-  typedef itk::ForwardFFTImageFilter<typename InverseFFTFilterType::OutputImageType, ImageType> ForwardFFTFilterType;
-  typedef itk::ChangeInformationImageFilter<ImageType> ChangeInformationFilterType;
+  using InverseFFTFilterType = itk::InverseFFTImageFilter<ImageType>;
+  using ExpandFilterType = itk::ExpandWithZerosImageFilter<typename InverseFFTFilterType::OutputImageType,
+                                                           typename InverseFFTFilterType::OutputImageType>;
+  using ForwardFFTFilterType = itk::ForwardFFTImageFilter<typename InverseFFTFilterType::OutputImageType, ImageType>;
+  using ChangeInformationFilterType = itk::ChangeInformationImageFilter<ImageType>;
 
   /** The type of the expand factors representation */
-  typedef FixedArray<unsigned int, ImageDimension> ExpandFactorsType;
+  using ExpandFactorsType = FixedArray<unsigned int, ImageDimension>;
 
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */

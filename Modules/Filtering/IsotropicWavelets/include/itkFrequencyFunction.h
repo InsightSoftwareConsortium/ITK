@@ -35,21 +35,21 @@ template <typename TFunctionValue = double,
 class FrequencyFunction : public SpatialFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyFunction                                        Self;
-  typedef SpatialFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  /** Standard class type alias. */
+  using Self = FrequencyFunction;
+  using Superclass = SpatialFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FrequencyFunction, SpatialFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType FunctionValueType;
-  typedef typename Superclass::OutputType OutputType;
+  using FunctionValueType = typename Superclass::OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /**
    * The evaluate function require frequency in Hertz (1/s)

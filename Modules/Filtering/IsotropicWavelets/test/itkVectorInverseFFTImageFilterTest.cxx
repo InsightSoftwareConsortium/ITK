@@ -40,25 +40,25 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
   }
   const string inputImage = argv[1];
 
-  const unsigned int                       dimension = 3;
-  typedef float                            PixelType;
-  typedef itk::Image<PixelType, dimension> ImageType;
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
-  ReaderType::Pointer                      reader = ReaderType::New();
+  constexpr unsigned int dimension = 3;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image.
-  typedef itk::ForwardFFTImageFilter<ImageType> FFTForwardFilterType;
-  FFTForwardFilterType::Pointer                 fftForwardFilter = FFTForwardFilterType::New();
+  using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
+  FFTForwardFilterType::Pointer fftForwardFilter = FFTForwardFilterType::New();
   fftForwardFilter->SetInput(reader->GetOutput());
   fftForwardFilter->Update();
-  typedef FFTForwardFilterType::OutputImageType ComplexImageType;
+  using ComplexImageType = FFTForwardFilterType::OutputImageType;
 
   // Perform inverse FFT on forwardFFT image.
-  typedef itk::InverseFFTImageFilter<ComplexImageType> FFTInverseFilterType;
-  FFTInverseFilterType::Pointer                        fftInverseFilter = FFTInverseFilterType::New();
+  using FFTInverseFilterType = itk::InverseFFTImageFilter<ComplexImageType>;
+  FFTInverseFilterType::Pointer fftInverseFilter = FFTInverseFilterType::New();
   fftInverseFilter->SetInput(fftForwardFilter->GetOutput());
   fftInverseFilter->Update();
 
@@ -66,8 +66,8 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
   //
   unsigned int numComponents = 2;
   // Create vector from forwardFFT.
-  typedef itk::ComposeImageFilter<ComplexImageType> ComposeComplexFilterType;
-  ComposeComplexFilterType::Pointer                 composeComplexFilter = ComposeComplexFilterType::New();
+  using ComposeComplexFilterType = itk::ComposeImageFilter<ComplexImageType>;
+  ComposeComplexFilterType::Pointer composeComplexFilter = ComposeComplexFilterType::New();
   for (unsigned int c = 0; c < numComponents; c++)
   {
     composeComplexFilter->SetInput(c, fftForwardFilter->GetOutput());
@@ -75,20 +75,18 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
   composeComplexFilter->Update();
 
   // Do the inverse of the composeComplexFilter using the class to test.
-  typedef itk::VectorInverseFFTImageFilter<ComposeComplexFilterType::OutputImageType> VectorInverseFFTType;
+  using VectorInverseFFTType = itk::VectorInverseFFTImageFilter<ComposeComplexFilterType::OutputImageType>;
   VectorInverseFFTType::Pointer vecInverseFFT = VectorInverseFFTType::New();
   vecInverseFFT->SetInput(composeComplexFilter->GetOutput());
   vecInverseFFT->Update();
 
-  typedef itk::VectorIndexSelectionCastImageFilter<VectorInverseFFTType::OutputImageType,
-                                                   FFTInverseFilterType::OutputImageType>
-                                VectorCastFilterType;
+  using VectorCastFilterType = itk::VectorIndexSelectionCastImageFilter<VectorInverseFFTType::OutputImageType,
+                                                                        FFTInverseFilterType::OutputImageType>;
   VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(vecInverseFFT->GetOutput());
 
-  typedef itk::Testing::ComparisonImageFilter<FFTInverseFilterType::OutputImageType,
-                                              FFTInverseFilterType::OutputImageType>
-                                DifferenceFilterType;
+  using DifferenceFilterType =
+    itk::Testing::ComparisonImageFilter<FFTInverseFilterType::OutputImageType, FFTInverseFilterType::OutputImageType>;
   DifferenceFilterType::Pointer differenceFilter = DifferenceFilterType::New();
   differenceFilter->SetToleranceRadius(0);
   differenceFilter->SetDifferenceThreshold(0);

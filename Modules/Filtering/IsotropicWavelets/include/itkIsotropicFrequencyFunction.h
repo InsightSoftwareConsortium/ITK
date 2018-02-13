@@ -39,21 +39,21 @@ template <typename TFunctionValue = double,
 class IsotropicFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef IsotropicFrequencyFunction                                 Self;
-  typedef FrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                         Pointer;
-  typedef SmartPointer<const Self>                                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = IsotropicFrequencyFunction;
+  using Superclass = FrequencyFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(IsotropicFrequencyFunction, FrequencyFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::FunctionValueType FunctionValueType;
-  typedef typename Superclass::OutputType        OutputType;
+  using FunctionValueType = typename Superclass::FunctionValueType;
+  using OutputType = typename Superclass::OutputType;
   /** Calculate magnitude (euclidean norm ) of input point. **/
   inline double
   Magnitude(const TInput & point) const

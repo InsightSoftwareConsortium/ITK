@@ -48,9 +48,9 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
 {
   const unsigned int Dimension = VDimension;
 
-  typedef float                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
@@ -58,14 +58,14 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image.
-  typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
+  using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
+  typename FFTFilterType::Pointer fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
   fftFilter->Update();
-  typedef typename FFTFilterType::OutputImageType ComplexImageType;
+  using ComplexImageType = typename FFTFilterType::OutputImageType;
 
-  typedef TWaveletFunction                                                                WaveletFunctionType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType> WaveletFilterBankType;
+  using WaveletFunctionType = TWaveletFunction;
+  using WaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType>;
 
   typename WaveletFilterBankType::Pointer forwardFilterBank = WaveletFilterBankType::New();
   unsigned int                            highSubBands = inputBands;
@@ -81,8 +81,8 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   forwardFilterBank->Update();
   // forwardFilterBank->Print(std::cout);
   // Get real part of complex image for visualization
-  typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
-  typename ComplexToRealFilter::Pointer                              complexToRealFilter = ComplexToRealFilter::New();
+  using ComplexToRealFilter = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
+  typename ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
 
   std::cout << "Real part of complex image:" << std::endl;
   for (unsigned int i = 0; i < highSubBands + 1; ++i)
@@ -101,16 +101,16 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   }
 
   // Write only the last band
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  typename WriterType::Pointer            writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputImage);
   writer->SetInput(complexToRealFilter->GetOutput());
 
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Inverse FFT Transform
-  typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
+  using InverseFFTFilterType = itk::InverseFFTImageFilter<ComplexImageType, ImageType>;
+  typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
   std::cout << "InverseFFT:" << std::endl;
   for (unsigned int i = 0; i < highSubBands + 1; ++i)
   {
@@ -136,8 +136,8 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   inverseFilterBank->Update();
 
   // itk::Testing::ComparisonImageFilter does not work with complex images.
-  typedef itk::ImageRegionConstIterator<ComplexImageType> ComplexConstRegionIterator;
-  unsigned int                                            ne = 0;
+  using ComplexConstRegionIterator = itk::ImageRegionConstIterator<ComplexImageType>;
+  unsigned int ne = 0;
   for (unsigned int i = 0; i < highSubBands + 1; ++i)
   {
     typename ComplexImageType::Pointer outForward = forwardFilterBank->GetOutput(i);
@@ -193,19 +193,19 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char * argv[])
     dimension = atoi(argv[5]);
   }
 
-  const unsigned int                                   ImageDimension = 2;
-  typedef double                                       PixelType;
-  typedef std::complex<PixelType>                      ComplexPixelType;
-  typedef itk::Point<PixelType, ImageDimension>        PointType;
-  typedef itk::Image<ComplexPixelType, ImageDimension> ComplexImageType;
+  constexpr unsigned int ImageDimension = 2;
+  using PixelType = double;
+  using ComplexPixelType = std::complex<PixelType>;
+  using PointType = itk::Point<PixelType, ImageDimension>;
+  using ComplexImageType = itk::Image<ComplexPixelType, ImageDimension>;
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef itk::HeldIsotropicWavelet<PixelType, ImageDimension, PointType>       HeldIsotropicWaveletType;
-  typedef itk::VowIsotropicWavelet<PixelType, ImageDimension, PointType>        VowIsotropicWaveletType;
-  typedef itk::SimoncelliIsotropicWavelet<PixelType, ImageDimension, PointType> SimoncelliIsotropicWaveletType;
-  typedef itk::ShannonIsotropicWavelet<PixelType, ImageDimension, PointType>    ShannonIsotropicWaveletType;
+  using HeldIsotropicWaveletType = itk::HeldIsotropicWavelet<PixelType, ImageDimension, PointType>;
+  using VowIsotropicWaveletType = itk::VowIsotropicWavelet<PixelType, ImageDimension, PointType>;
+  using SimoncelliIsotropicWaveletType = itk::SimoncelliIsotropicWavelet<PixelType, ImageDimension, PointType>;
+  using ShannonIsotropicWaveletType = itk::ShannonIsotropicWavelet<PixelType, ImageDimension, PointType>;
 
   HeldIsotropicWaveletType::Pointer heldIsotropicWavelet = HeldIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(heldIsotropicWavelet, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
@@ -220,15 +220,15 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-  typedef itk::HeldIsotropicWavelet<>       HeldWavelet;
-  typedef itk::VowIsotropicWavelet<>        VowWavelet;
-  typedef itk::SimoncelliIsotropicWavelet<> SimoncelliWavelet;
-  typedef itk::ShannonIsotropicWavelet<>    ShannonWavelet;
+  using HeldWavelet = itk::HeldIsotropicWavelet<>;
+  using VowWavelet = itk::VowIsotropicWavelet<>;
+  using SimoncelliWavelet = itk::SimoncelliIsotropicWavelet<>;
+  using ShannonWavelet = itk::ShannonIsotropicWavelet<>;
 
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, HeldWavelet>       HeldWaveletFilterBankType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, VowWavelet>        VowWaveletFilterBankType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, SimoncelliWavelet> SimoncelliWaveletFilterBankType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, ShannonWavelet>    ShannonWaveletFilterBankType;
+  using HeldWaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, HeldWavelet>;
+  using VowWaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, VowWavelet>;
+  using SimoncelliWaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, SimoncelliWavelet>;
+  using ShannonWaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, ShannonWavelet>;
 
   HeldWaveletFilterBankType::Pointer heldWaveletFilterBankGenerator = HeldWaveletFilterBankType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
