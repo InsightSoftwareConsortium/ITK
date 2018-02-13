@@ -40,13 +40,13 @@ namespace itk
 class AnalyzeObjectEntry : public Object
 {
 public:
-  /** Standard typedefs. */
-  typedef AnalyzeObjectEntry       Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef itk::RGBPixel<int>       intRGBPixel;
-  typedef itk::Index<3>            Index;
+  /** Standard type alias. */
+  using Self = AnalyzeObjectEntry;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using intRGBPixel = itk::RGBPixel<int>;
+  using Index = itk::Index<3>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

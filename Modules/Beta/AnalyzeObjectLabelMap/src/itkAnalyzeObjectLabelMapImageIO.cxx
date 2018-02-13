@@ -97,7 +97,7 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
     unsigned char voxel_count;
     unsigned char voxel_value;
   };
-  typedef struct RunLengthStruct RunLengthElement;
+  using RunLengthElement = struct RunLengthStruct;
   RunLengthElement RunLengthArray[NumberOfRunLengthElementsPerRead];
 
   // The file consists of unsigned character pairs which represents the encoding of the data

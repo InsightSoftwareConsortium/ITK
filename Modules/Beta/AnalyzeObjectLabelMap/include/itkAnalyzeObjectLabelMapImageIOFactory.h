@@ -33,11 +33,11 @@ namespace itk
 class ITK_EXPORT AnalyzeObjectLabelMapImageIOFactory : public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef AnalyzeObjectLabelMapImageIOFactory Self;
-  typedef ObjectFactoryBase                   Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  /** Standard class type alias. */
+  using Self = AnalyzeObjectLabelMapImageIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char * GetITKSourceVersion(void) const override;

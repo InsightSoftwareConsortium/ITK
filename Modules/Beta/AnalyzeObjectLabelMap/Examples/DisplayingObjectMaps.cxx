@@ -16,14 +16,14 @@ itkApplications installed as well.
 // #include "vtkRenderWindowInteractor.h"
 // #include <vtkImageViewer2.h>
 
-typedef unsigned char PixelType;
+using PixelType = unsigned char;
 const unsigned int Dimension = 3;
-typedef itk::Image<PixelType, Dimension>    ImageType;
-typedef itk::RGBPixel<PixelType>            RGBPixelType;
-typedef itk::Image<RGBPixelType, Dimension> RGBImageType;
-typedef itk::ImageFileReader<ImageType>     ReaderType;
+using ImageType = itk::Image<PixelType, Dimension>;
+using RGBPixelType = itk::RGBPixel<PixelType>;
+using RGBImageType = itk::Image<RGBPixelType, Dimension>;
+using ReaderType = itk::ImageFileReader<ImageType>;
 
-// typedef itk::ImageToVTKImageFilter<RGBImageType> ConnectorType;
+// using ConnectorType = itk::ImageToVTKImageFilter<RGBImageType>;
 
 int main(int argc, char * argv [] )
 {

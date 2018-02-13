@@ -18,15 +18,15 @@ int main( int argc, char * * argv )
     }
   const char *NiftiFile = argv[1];
   const char *CreatingObject = argv[2];
-  typedef unsigned char InputPixelType;
-  typedef unsigned char OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
   const   unsigned int Dimension = 3;
 
-  typedef itk::Image<InputPixelType,  Dimension> InputImageType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
+  using InputImageType = itk::Image<InputPixelType,  Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  typedef itk::ImageFileReader<InputImageType>  ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   // This is very important to use if you are not going to install the Analyze Object map code directly into
   // itk.  This means that you can build the Analyze Object map outside of ITK and still use it and treat

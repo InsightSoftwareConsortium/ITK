@@ -45,23 +45,23 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
   const char *oneObjectEntryFileName = av[5];
   const char *blankImageFileName = av[6];
   const char *OneDimensionFileName = av[7];
-  typedef                                                   unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image<PixelType,  3>               ThreeDimensionImageType;
-  typedef itk::Image<PixelType, 4>                FourDimensionImageType;
-  typedef itk::Image<PixelType, 2>                TwoDimensionImageType;
-  typedef itk::Image<itk::RGBPixel<PixelType>, 2> TwoDimensionRGBImageType;
-  typedef itk::Image<itk::RGBPixel<PixelType>, 3> ThreeDimensionRGBImageType;
-  typedef itk::Image<PixelType, 1>                OneDimensionImageType;
+  using ThreeDimensionImageType = itk::Image<PixelType,  3>;
+  using FourDimensionImageType = itk::Image<PixelType, 4>;
+  using TwoDimensionImageType = itk::Image<PixelType, 2>;
+  using TwoDimensionRGBImageType = itk::Image<itk::RGBPixel<PixelType>, 2>;
+  using ThreeDimensionRGBImageType = itk::Image<itk::RGBPixel<PixelType>, 3>;
+  using OneDimensionImageType = itk::Image<PixelType, 1>;
 
-  typedef itk::ImageFileReader<ThreeDimensionImageType> ThreeDimensionReaderType;
-  typedef itk::ImageFileWriter<ThreeDimensionImageType> ThreeDimensionWriterType;
-  typedef itk::ImageFileWriter<FourDimensionImageType>  FourDimensionWriterType;
-  typedef itk::ImageFileReader<FourDimensionImageType>  FourDimensionReaderType;
-  typedef itk::ImageFileWriter<TwoDimensionImageType>   TwoDimensionWriterType;
-  typedef itk::ImageFileReader<TwoDimensionImageType>   TwoDimensionReaderType;
-  typedef itk::ImageFileWriter<OneDimensionImageType>   OneDimensionWriterType;
-  typedef itk::ImageFileReader<OneDimensionImageType>   OneDimensionReaderType;
+  using ThreeDimensionReaderType = itk::ImageFileReader<ThreeDimensionImageType>;
+  using ThreeDimensionWriterType = itk::ImageFileWriter<ThreeDimensionImageType>;
+  using FourDimensionWriterType = itk::ImageFileWriter<FourDimensionImageType>;
+  using FourDimensionReaderType = itk::ImageFileReader<FourDimensionImageType>;
+  using TwoDimensionWriterType = itk::ImageFileWriter<TwoDimensionImageType>;
+  using TwoDimensionReaderType = itk::ImageFileReader<TwoDimensionImageType>;
+  using OneDimensionWriterType = itk::ImageFileWriter<OneDimensionImageType>;
+  using OneDimensionReaderType = itk::ImageFileReader<OneDimensionImageType>;
 
   // This is very important to use if you are not going to install the Analyze Object map code directly into
   // itk.  This means that you can build the Analyze Object map outside of ITK and still use it and treat

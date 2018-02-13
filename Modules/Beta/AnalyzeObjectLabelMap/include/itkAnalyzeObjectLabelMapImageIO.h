@@ -29,7 +29,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-typedef std::vector<AnalyzeObjectEntry::Pointer> AnalyzeObjectEntryArrayType;
+using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
 const char *const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
 /**
 * Constants representing the current version number of the object map file for Analyze
@@ -55,13 +55,13 @@ class ITK_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef AnalyzeObjectLabelMapImageIO Self;
-  typedef ImageIOBase                  Superclass;
-  typedef SmartPointer<Self>           Pointer;
+  /** Standard class type alias. */
+  using Self = AnalyzeObjectLabelMapImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer<Self>;
 
-  typedef itk::RGBPixel<int>           RGBPixelType;
-  typedef itk::Image<unsigned char, 4> ImageType;
+  using RGBPixelType = itk::RGBPixel<int>;
+  using ImageType = itk::Image<unsigned char, 4>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

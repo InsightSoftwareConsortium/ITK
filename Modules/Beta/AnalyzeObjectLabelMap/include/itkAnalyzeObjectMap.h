@@ -41,7 +41,7 @@ static const int VERSION7 = 20050829;
 namespace itk
 {
 
-typedef std::vector<AnalyzeObjectEntry::Pointer> AnalyzeObjectEntryArrayType;
+using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
 template <class TImage = itk::Image<unsigned char, 4>, class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4> >
 
 /** \class AnalyzeObjectMap
@@ -53,16 +53,16 @@ class AnalyzeObjectMap : public TImage
 {
 public:
 
-  /** Standard typedefs. */
-  typedef AnalyzeObjectMap         Self;
-  typedef TImage                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard type alias. */
+  using Self = AnalyzeObjectMap;
+  using Superclass = TImage;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef TImage                        ImageType;
-  typedef itk::AnalyzeObjectMap<TImage> ObjectMapType;
+  using ImageType = TImage;
+  using ObjectMapType = itk::AnalyzeObjectMap<TImage>;
 
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
