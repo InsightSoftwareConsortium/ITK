@@ -31,15 +31,15 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::Image<short, 3>    ImageType;
-  typedef itk::RLEImage<short, 3> myRLEImage;
+  using ImageType = itk::Image<short, 3>;
+  using myRLEImage = itk::RLEImage<short, 3>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::RegionOfInterestImageFilter<ImageType, myRLEImage> inConverterType;
-  inConverterType::Pointer                                        inConv = inConverterType::New();
+  using inConverterType = itk::RegionOfInterestImageFilter<ImageType, myRLEImage>;
+  inConverterType::Pointer inConv = inConverterType::New();
 
   try
   {

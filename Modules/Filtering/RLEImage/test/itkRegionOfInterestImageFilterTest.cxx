@@ -24,20 +24,20 @@ int
 itkRegionOfInterestImageFilterTest(int, char *[])
 {
 
-  const unsigned int            Dimension = 3;
-  typedef itk::Index<Dimension> PixelType;
+  const unsigned int Dimension = 3;
+  using PixelType = itk::Index<Dimension>;
 
-  typedef itk::RLEImage<PixelType> ImageType;
+  using ImageType = itk::RLEImage<PixelType>;
 
-  typedef itk::RegionOfInterestImageFilter<ImageType, ImageType> FilterType;
+  using FilterType = itk::RegionOfInterestImageFilter<ImageType, ImageType>;
 
 
-  typedef ImageType::RegionType    RegionType;
-  typedef ImageType::SizeType      SizeType;
-  typedef ImageType::IndexType     IndexType;
-  typedef ImageType::DirectionType DirectionType;
+  using RegionType = ImageType::RegionType;
+  using SizeType = ImageType::SizeType;
+  using IndexType = ImageType::IndexType;
+  using DirectionType = ImageType::DirectionType;
 
-  typedef itk::ImageRegionIterator<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 

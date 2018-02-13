@@ -36,18 +36,18 @@ class ImageScanlineIterator<RLEImage<TPixel, VImageDimension, CounterType>>
   : public ImageScanlineConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageScanlineIterator                                                      Self;
-  typedef ImageScanlineConstIterator<RLEImage<TPixel, VImageDimension, CounterType>> Superclass;
+  /** Standard class type alias. */
+  using Self = ImageScanlineIterator;
+  using Superclass = ImageScanlineConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>;
 
   /** Types inherited from the Superclass */
-  typedef typename Superclass::IndexType         IndexType;
-  typedef typename Superclass::SizeType          SizeType;
-  typedef typename Superclass::OffsetType        OffsetType;
-  typedef typename Superclass::RegionType        RegionType;
-  typedef typename Superclass::ImageType         ImageType;
-  typedef typename Superclass::InternalPixelType InternalPixelType;
-  typedef typename Superclass::PixelType         PixelType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RegionType = typename Superclass::RegionType;
+  using ImageType = typename Superclass::ImageType;
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageScanlineIterator()

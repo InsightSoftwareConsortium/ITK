@@ -52,12 +52,12 @@ template <typename TPixel, unsigned int VImageDimension = 3, typename CounterTyp
 class RLEImage : public itk::ImageBase<VImageDimension>
 {
 public:
-  /** Standard class typedefs */
-  typedef RLEImage                        Self;
-  typedef itk::ImageBase<VImageDimension> Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
-  typedef itk::SmartPointer<const Self>   ConstPointer;
-  typedef itk::WeakPointer<const Self>    ConstWeakPointer;
+  /** Standard class type alias */
+  using Self = RLEImage;
+  using Superclass = itk::ImageBase<VImageDimension>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
+  using ConstWeakPointer = itk::WeakPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,29 +65,29 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(RLEImage, ImageBase);
 
-  /** Pixel typedef support. Used to declare pixel type in filters
+  /** Pixel type alias support. Used to declare pixel type in filters
    * or other operations. */
-  typedef TPixel PixelType;
+  using PixelType = TPixel;
 
-  typedef CounterType RLCounterType;
+  using RLCounterType = CounterType;
 
   /** Typedef alias for PixelType */
-  typedef TPixel ValueType;
+  using ValueType = TPixel;
 
   /** First element is count of repetitions,
    * second element is the pixel value. */
-  typedef std::pair<CounterType, PixelType> RLSegment;
+  using RLSegment = std::pair<CounterType, PixelType>;
 
   /** A Run-Length encoded line of pixels. */
-  typedef std::vector<RLSegment> RLLine;
+  using RLLine = std::vector<RLSegment>;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
    * representation of data while showing a different external
    * representation. */
-  typedef RLLine InternalPixelType;
+  using InternalPixelType = RLLine;
 
-  // typedef PixelType IOPixelType;
+  // using IOPixelType = PixelType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -95,35 +95,35 @@ public:
    * the image. */
   static constexpr unsigned int ImageDimension = VImageDimension;
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  /** Index type alias support. An index is used to access pixel values. */
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
-  /** Offset typedef support. An offset is used to access pixel values. */
-  typedef typename Superclass::OffsetType OffsetType;
+  /** Offset type alias support. An offset is used to access pixel values. */
+  using OffsetType = typename Superclass::OffsetType;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType      SizeType;
-  typedef typename Superclass::SizeValueType SizeValueType;
+  /** Size type alias support. A size is used to define region bounds. */
+  using SizeType = typename Superclass::SizeType;
+  using SizeValueType = typename Superclass::SizeValueType;
 
-  /** Direction typedef support. A matrix of direction cosines. */
-  typedef typename Superclass::DirectionType DirectionType;
+  /** Direction type alias support. A matrix of direction cosines. */
+  using DirectionType = typename Superclass::DirectionType;
 
-  /** Region typedef support. A region is used to specify a subset of an image.
+  /** Region type alias support. A region is used to specify a subset of an image.
    */
-  typedef typename Superclass::RegionType RegionType;
+  using RegionType = typename Superclass::RegionType;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+  /** Spacing type alias support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef typename Superclass::SpacingType      SpacingType;
-  typedef typename Superclass::SpacingValueType SpacingValueType;
+  using SpacingType = typename Superclass::SpacingType;
+  using SpacingValueType = typename Superclass::SpacingValueType;
 
-  /** Origin typedef support.  The origin is the geometric coordinates
+  /** Origin type alias support.  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef typename Superclass::PointType PointType;
+  using PointType = typename Superclass::PointType;
 
-  /** Offset typedef (relative position between indices) */
-  typedef typename Superclass::OffsetValueType OffsetValueType;
+  /** Offset type alias (relative position between indices) */
+  using OffsetValueType = typename Superclass::OffsetValueType;
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions().
@@ -217,7 +217,7 @@ public:
   }
 
   /** Typedef for the internally used buffer. */
-  typedef typename itk::Image<RLLine, VImageDimension - 1> BufferType;
+  using BufferType = typename itk::Image<RLLine, VImageDimension - 1>;
 
   /** We need to allow itk-style iterators to be constructed. */
   typename BufferType::Pointer

@@ -51,14 +51,14 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
                               RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegionOfInterestImageFilter                    Self;
-  typedef RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
-  typedef RLEImageType                                   ImageType;
-  typedef ImageToImageFilter<RLEImageType, RLEImageType> Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
-  typedef typename Superclass::InputImageRegionType      InputImageRegionType;
+  /** Standard class type alias. */
+  using Self = RegionOfInterestImageFilter;
+  using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;
+  using ImageType = RLEImageType;
+  using Superclass = ImageToImageFilter<RLEImageType, RLEImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using InputImageRegionType = typename Superclass::InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,13 +67,13 @@ public:
   itkTypeMacro(RegionOfInterestImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the input image region types. */
-  typedef typename RLEImageType::RegionType RegionType;
-  typedef typename RLEImageType::IndexType  IndexType;
-  typedef typename RLEImageType::SizeType   SizeType;
+  using RegionType = typename RLEImageType::RegionType;
+  using IndexType = typename RLEImageType::IndexType;
+  using SizeType = typename RLEImageType::SizeType;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename RLEImageType::PixelType OutputImagePixelType;
-  typedef typename RLEImageType::PixelType InputImagePixelType;
+  using OutputImagePixelType = typename RLEImageType::PixelType;
+  using InputImagePixelType = typename RLEImageType::PixelType;
 
   /** Set/Get the output image region. */
   itkSetMacro(RegionOfInterest, RegionType);
@@ -144,15 +144,15 @@ class RegionOfInterestImageFilter<RLEImage<TPixelIn, VImageDimension, CounterTyp
                               RLEImage<TPixelOut, VImageDimension, CounterTypeOut>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegionOfInterestImageFilter                          Self;
-  typedef RLEImage<TPixelIn, VImageDimension, CounterTypeIn>   RLEImageTypeIn;
-  typedef RLEImage<TPixelOut, VImageDimension, CounterTypeOut> RLEImageTypeOut;
-  typedef RLEImageTypeOut                                      ImageType;
-  typedef ImageToImageFilter<RLEImageTypeIn, RLEImageTypeOut>  Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
-  typedef typename Superclass::InputImageRegionType            InputImageRegionType;
+  /** Standard class type alias. */
+  using Self = RegionOfInterestImageFilter;
+  using RLEImageTypeIn = RLEImage<TPixelIn, VImageDimension, CounterTypeIn>;
+  using RLEImageTypeOut = RLEImage<TPixelOut, VImageDimension, CounterTypeOut>;
+  using ImageType = RLEImageTypeOut;
+  using Superclass = ImageToImageFilter<RLEImageTypeIn, RLEImageTypeOut>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using InputImageRegionType = typename Superclass::InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -161,13 +161,13 @@ public:
   itkTypeMacro(RegionOfInterestImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the input image region types. */
-  typedef typename RLEImageTypeIn::RegionType RegionType;
-  typedef typename RLEImageTypeIn::IndexType  IndexType;
-  typedef typename RLEImageTypeIn::SizeType   SizeType;
+  using RegionType = typename RLEImageTypeIn::RegionType;
+  using IndexType = typename RLEImageTypeIn::IndexType;
+  using SizeType = typename RLEImageTypeIn::SizeType;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename RLEImageTypeOut::PixelType OutputImagePixelType;
-  typedef typename RLEImageTypeIn::PixelType  InputImagePixelType;
+  using OutputImagePixelType = typename RLEImageTypeOut::PixelType;
+  using InputImagePixelType = typename RLEImageTypeIn::PixelType;
 
   /** Set/Get the output image region. */
   itkSetMacro(RegionOfInterest, RegionType);
@@ -249,15 +249,15 @@ class RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixe
   : public ImageToImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
+  /** Standard class type alias. */
+  using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;
 
-  typedef RegionOfInterestImageFilter                 Self;
-  typedef Image<TPixel, VImageDimension>              ImageType;
-  typedef ImageToImageFilter<ImageType, RLEImageType> Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
-  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
+  using Self = RegionOfInterestImageFilter;
+  using ImageType = Image<TPixel, VImageDimension>;
+  using Superclass = ImageToImageFilter<ImageType, RLEImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using InputImageRegionType = typename Superclass::InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -266,13 +266,13 @@ public:
   itkTypeMacro(RegionOfInterestImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the input image region types. */
-  typedef typename RLEImageType::RegionType RegionType;
-  typedef typename RLEImageType::IndexType  IndexType;
-  typedef typename RLEImageType::SizeType   SizeType;
+  using RegionType = typename RLEImageType::RegionType;
+  using IndexType = typename RLEImageType::IndexType;
+  using SizeType = typename RLEImageType::SizeType;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename RLEImageType::PixelType OutputImagePixelType;
-  typedef typename RLEImageType::PixelType InputImagePixelType;
+  using OutputImagePixelType = typename RLEImageType::PixelType;
+  using InputImagePixelType = typename RLEImageType::PixelType;
 
   /** Set/Get the output image region. */
   itkSetMacro(RegionOfInterest, RegionType);
@@ -337,15 +337,15 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
   : public ImageToImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Image<TPixel, VImageDimension>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
+  /** Standard class type alias. */
+  using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;
 
-  typedef RegionOfInterestImageFilter                 Self;
-  typedef Image<TPixel, VImageDimension>              ImageType;
-  typedef ImageToImageFilter<RLEImageType, ImageType> Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
-  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
+  using Self = RegionOfInterestImageFilter;
+  using ImageType = Image<TPixel, VImageDimension>;
+  using Superclass = ImageToImageFilter<RLEImageType, ImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using InputImageRegionType = typename Superclass::InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -354,13 +354,13 @@ public:
   itkTypeMacro(RegionOfInterestImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the input image region types. */
-  typedef typename RLEImageType::RegionType RegionType;
-  typedef typename RLEImageType::IndexType  IndexType;
-  typedef typename RLEImageType::SizeType   SizeType;
+  using RegionType = typename RLEImageType::RegionType;
+  using IndexType = typename RLEImageType::IndexType;
+  using SizeType = typename RLEImageType::SizeType;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename RLEImageType::PixelType OutputImagePixelType;
-  typedef typename RLEImageType::PixelType InputImagePixelType;
+  using OutputImagePixelType = typename RLEImageType::PixelType;
+  using InputImagePixelType = typename RLEImageType::PixelType;
 
   /** Set/Get the output image region. */
   itkSetMacro(RegionOfInterest, RegionType);

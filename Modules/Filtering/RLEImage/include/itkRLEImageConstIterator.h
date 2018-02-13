@@ -44,8 +44,8 @@ class ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>
   friend class ::MultiLabelMeshPipeline;
 
 public:
-  /** Standard class typedefs. */
-  typedef ImageConstIterator Self;
+  /** Standard class type alias. */
+  using Self = ImageConstIterator;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -56,38 +56,38 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacroNoParent(ImageConstIterator);
 
-  /** Image typedef support. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  /** Image type alias support. */
+  using ImageType = RLEImage<TPixel, VImageDimension, CounterType>;
 
   /** Run-Length Line (we iterate along it). */
-  typedef typename ImageType::RLLine RLLine;
+  using RLLine = typename ImageType::RLLine;
 
   /** Buffer Type used. */
-  typedef typename ImageType::BufferType BufferType;
+  using BufferType = typename ImageType::BufferType;
 
   /** Type for the internal buffer iterator. */
-  typedef ImageRegionIterator<BufferType> BufferIterator;
+  using BufferIterator = ImageRegionIterator<BufferType>;
 
-  /** Index typedef support. */
-  typedef typename ImageType::IndexType IndexType;
+  /** Index type alias support. */
+  using IndexType = typename ImageType::IndexType;
 
-  /** Index typedef support. */
-  typedef typename ImageType::IndexValueType IndexValueType;
+  /** Index type alias support. */
+  using IndexValueType = typename ImageType::IndexValueType;
 
-  /** Size typedef support. */
-  typedef typename ImageType::SizeType SizeType;
+  /** Size type alias support. */
+  using SizeType = typename ImageType::SizeType;
 
-  /** Offset typedef support. */
-  typedef typename ImageType::OffsetType OffsetType;
+  /** Offset type alias support. */
+  using OffsetType = typename ImageType::OffsetType;
 
-  /** Region typedef support. */
-  typedef typename ImageType::RegionType RegionType;
+  /** Region type alias support. */
+  using RegionType = typename ImageType::RegionType;
 
   /** Internal Pixel Type */
-  typedef typename ImageType::InternalPixelType InternalPixelType;
+  using InternalPixelType = typename ImageType::InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename ImageType::PixelType PixelType;
+  using PixelType = typename ImageType::PixelType;
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
@@ -408,10 +408,10 @@ class ImageConstIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>
   // just inherit constructors
 
 public:
-  /** Image typedef support. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  /** Image type alias support. */
+  using ImageType = RLEImage<TPixel, VImageDimension, CounterType>;
 
-  typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
+  using RegionType = typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType;
 
   void
   GoToReverseBegin()
@@ -451,10 +451,10 @@ class ImageConstIteratorWithOnlyIndex<RLEImage<TPixel, VImageDimension, CounterT
   // just inherit constructors
 
 public:
-  /** Image typedef support. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  /** Image type alias support. */
+  using ImageType = RLEImage<TPixel, VImageDimension, CounterType>;
 
-  typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
+  using RegionType = typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType;
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */

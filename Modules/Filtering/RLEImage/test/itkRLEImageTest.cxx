@@ -45,9 +45,9 @@ template <typename ImageType>
 void
 roiTest(itk::SmartPointer<itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension>> orig)
 {
-  typedef itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension>       myRLEImage;
-  typedef itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension, char> charRLEImage;
-  typedef itk::RegionOfInterestImageFilter<myRLEImage, charRLEImage>                    charConverterType;
+  using myRLEImage = itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension>;
+  using charRLEImage = itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension, char>;
+  using charConverterType = itk::RegionOfInterestImageFilter<myRLEImage, charRLEImage>;
   typename charConverterType::Pointer cConv = charConverterType::New();
   cConv->SetInput(orig);
   cConv->SetRegionOfInterest(orig->GetLargestPossibleRegion());
@@ -55,8 +55,8 @@ roiTest(itk::SmartPointer<itk::RLEImage<typename ImageType::PixelType, ImageType
   typename charRLEImage::Pointer cIn = cConv->GetOutput();
   cIn->DisconnectPipeline();
 
-  typedef itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension, unsigned char> ucharRLEImage;
-  typedef itk::RegionOfInterestImageFilter<myRLEImage, ucharRLEImage>                            ucharConverterType;
+  using ucharRLEImage = itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension, unsigned char>;
+  using ucharConverterType = itk::RegionOfInterestImageFilter<myRLEImage, ucharRLEImage>;
   typename ucharConverterType::Pointer ucConv = ucharConverterType::New();
   ucConv->SetInput(orig);
   ucConv->SetRegionOfInterest(orig->GetLargestPossibleRegion());
@@ -89,23 +89,23 @@ roiTest(itk::SmartPointer<itk::RLEImage<typename ImageType::PixelType, ImageType
     rNeg.SetSize(i, (rNeg.GetSize(i) + 1) / 2);
   }
 
-  typedef itk::RegionOfInterestImageFilter<myRLEImage, myRLEImage> myConverterType;
-  typename myConverterType::Pointer                                myConv = myConverterType::New();
+  using myConverterType = itk::RegionOfInterestImageFilter<myRLEImage, myRLEImage>;
+  typename myConverterType::Pointer myConv = myConverterType::New();
   myConv->SetInput(orig);
   myConv->SetRegionOfInterest(reg);
   myConv->Update();
   typename myRLEImage::Pointer myIn = myConv->GetOutput();
 
-  typedef itk::RegionOfInterestImageFilter<charRLEImage, charRLEImage> cRoIType;
-  typename cRoIType::Pointer                                           cRoI = cRoIType::New();
+  using cRoIType = itk::RegionOfInterestImageFilter<charRLEImage, charRLEImage>;
+  typename cRoIType::Pointer cRoI = cRoIType::New();
   cRoI->SetInput(cIn);
   cRoI->SetRegionOfInterest(rNeg);
   cRoI->Update();
   cIn = cRoI->GetOutput();
   cIn->DisconnectPipeline();
 
-  typedef itk::RegionOfInterestImageFilter<ucharRLEImage, ucharRLEImage> ucRoIType;
-  typename ucRoIType::Pointer                                            ucRoI = ucRoIType::New();
+  using ucRoIType = itk::RegionOfInterestImageFilter<ucharRLEImage, ucharRLEImage>;
+  typename ucRoIType::Pointer ucRoI = ucRoIType::New();
   ucRoI->SetInput(ucIn);
   ucRoI->SetRegionOfInterest(rNeg);
   ucRoI->Update();
@@ -126,15 +126,15 @@ template <typename ImageType>
 int
 doTest(std::string inFilename, std::string outFilename)
 {
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  typename ReaderType::Pointer            reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inFilename);
   std::cout << "Reading " << inFilename << std::endl;
   reader->Update();
 
-  typedef itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension> myRLEImage;
-  typedef itk::RegionOfInterestImageFilter<ImageType, myRLEImage>                 inConverterType;
-  typename inConverterType::Pointer                                               inConv = inConverterType::New();
+  using myRLEImage = itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension>;
+  using inConverterType = itk::RegionOfInterestImageFilter<ImageType, myRLEImage>;
+  typename inConverterType::Pointer inConv = inConverterType::New();
   inConv->SetInput(reader->GetOutput());
   inConv->SetRegionOfInterest(reader->GetOutput()->GetLargestPossibleRegion());
   std::cout << "Converting regular image to RLEImage" << std::endl;
@@ -153,15 +153,15 @@ doTest(std::string inFilename, std::string outFilename)
     TRY_EXPECT_NO_EXCEPTION(roiTest<myRLEImage>(test));
   }
 
-  typedef itk::RegionOfInterestImageFilter<myRLEImage, ImageType> outConverterType;
-  typename outConverterType::Pointer                              outConv = outConverterType::New();
+  using outConverterType = itk::RegionOfInterestImageFilter<myRLEImage, ImageType>;
+  typename outConverterType::Pointer outConv = outConverterType::New();
   outConv->SetInput(test);
   outConv->SetRegionOfInterest(test->GetLargestPossibleRegion());
   std::cout << "Converting RLEImage to regular image" << std::endl;
   outConv->Update();
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  typename WriterType::Pointer            writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outFilename);
   writer->SetInput(outConv->GetOutput());
   writer->SetUseCompression(true);
@@ -175,14 +175,14 @@ doTest(std::string inFilename, std::string outFilename)
 void
 dimTest()
 {
-  typedef itk::RLEImage<short, 2> S2Type; // 2D
-  typedef itk::RLEImage<short, 3> S3Type; // 3D
-  S2Type::Pointer                 s2 = S2Type::New();
-  S3Type::Pointer                 s3 = S3Type::New();
+  using S2Type = itk::RLEImage<short, 2>; // 2D
+  using S3Type = itk::RLEImage<short, 3>; // 3D
+  S2Type::Pointer s2 = S2Type::New();
+  S3Type::Pointer s3 = S3Type::New();
 
   // instantiation of "RoIType" is dissalowed due to different dimension
   // uncommenting the lines below should give a meaningful error message
-  // typedef itk::RegionOfInterestImageFilter<S3Type, S2Type> RoIType;
+  // using RoIType = itk::RegionOfInterestImageFilter<S3Type, S2Type>;
   // typename RoIType::Pointer roi = RoIType::New();
 }
 
@@ -197,8 +197,8 @@ itkRLEImageTest(int argc, char * argv[])
   const char * inputImageFileName = argv[1];
   const char * outputImageFileName = argv[2];
 
-  typedef itk::ImageIOBase::IOComponentType ScalarPixelType;
-  itk::ImageIOBase::Pointer                 imageIO =
+  using ScalarPixelType = itk::ImageIOBase::IOComponentType;
+  itk::ImageIOBase::Pointer imageIO =
     itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::ReadMode);
   if (!imageIO)
   {
