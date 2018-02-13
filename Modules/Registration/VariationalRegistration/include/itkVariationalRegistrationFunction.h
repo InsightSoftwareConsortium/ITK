@@ -51,13 +51,13 @@ template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class VariationalRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariationalRegistrationFunction              Self;
-  typedef FiniteDifferenceFunction<TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type alias. */
+  using Self = VariationalRegistrationFunction;
+  using Superclass = FiniteDifferenceFunction<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(VariationalRegistrationFunction, FiniteDifferenceFunction);
@@ -66,32 +66,32 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** MovingImage image type. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename MovingImageType::ConstPointer MovingImagePointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::ConstPointer;
 
   /** FixedImage image type. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::ConstPointer FixedImagePointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::ConstPointer;
 
   /** FixedImage image type. */
-  typedef TFixedImage                            WarpedImageType;
-  typedef typename WarpedImageType::ConstPointer WarpedImagePointer;
+  using WarpedImageType = TFixedImage;
+  using WarpedImagePointer = typename WarpedImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                           DisplacementFieldType;
-  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldTypePointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldTypePointer = typename DisplacementFieldType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef unsigned char                             MaskImagePixelType;
-  typedef Image<MaskImagePixelType, ImageDimension> MaskImageType;
-  typedef typename MaskImageType::ConstPointer      MaskImagePointer;
+  using MaskImagePixelType = unsigned char;
+  using MaskImageType = Image<MaskImagePixelType, ImageDimension>;
+  using MaskImagePointer = typename MaskImageType::ConstPointer;
 
   // uncomment the following line to use the standard ITK warper (not recommended)
   // typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
   /** Typedef of the warp image filter. */
-  typedef itk::ContinuousBorderWarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>
-                                                  MovingImageWarperType;
-  typedef typename MovingImageWarperType::Pointer MovingImageWarperPointer;
+  using MovingImageWarperType =
+    itk::ContinuousBorderWarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>;
+  using MovingImageWarperPointer = typename MovingImageWarperType::Pointer;
 
 
   /** Set the Moving image.  */

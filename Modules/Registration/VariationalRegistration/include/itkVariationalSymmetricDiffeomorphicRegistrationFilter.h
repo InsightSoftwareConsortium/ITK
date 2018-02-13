@@ -92,11 +92,11 @@ class VariationalSymmetricDiffeomorphicRegistrationFilter
   : public VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalSymmetricDiffeomorphicRegistrationFilter                                       Self;
-  typedef VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                                                        Pointer;
-  typedef SmartPointer<const Self>                                                                  ConstPointer;
+  /** Standard class type alias */
+  using Self = VariationalSymmetricDiffeomorphicRegistrationFilter;
+  using Superclass = VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -108,31 +108,31 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** FixedImage image type. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::Pointer      FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename MovingImageType::Pointer      MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                      DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Types inherited from the superclass */
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef OutputImageType                      UpdateBufferType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using UpdateBufferType = OutputImageType;
 
   /** VariationalRegistrationFunction type. */
-  typedef typename Superclass::RegistrationFunctionType RegistrationFunctionType;
+  using RegistrationFunctionType = typename Superclass::RegistrationFunctionType;
 
   /** Regularizer type. */
-  typedef typename Superclass::RegularizerType RegularizerType;
+  using RegularizerType = typename Superclass::RegularizerType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Get output inverse deformation field. */
   itkGetModifiableObjectMacro(InverseDisplacementField, DisplacementFieldType);
@@ -173,7 +173,7 @@ protected:
   itkGetModifiableObjectMacro(BackwardUpdateBuffer, UpdateBufferType);
 
   /** The type of region used for multithreading */
-  typedef typename UpdateBufferType::RegionType ThreadRegionType;
+  using ThreadRegionType = typename UpdateBufferType::RegionType;
 
   /** Threaded version of ApplyUpdate that adds forward and backward fields  */
   void
@@ -186,8 +186,8 @@ private:
   void
   operator=(const Self &); // purposely not implemented
 
-  typedef typename Superclass::FieldExponentiatorType FieldExponentiatorType;
-  typedef typename FieldExponentiatorType::Pointer    FieldExponentiatorPointer;
+  using FieldExponentiatorType = typename Superclass::FieldExponentiatorType;
+  using FieldExponentiatorPointer = typename FieldExponentiatorType::Pointer;
 
   /** The deformation field. */
   FieldExponentiatorPointer          m_InverseExponentiator;

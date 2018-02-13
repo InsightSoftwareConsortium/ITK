@@ -47,11 +47,11 @@ template <class TDisplacementField>
 class VariationalRegistrationGaussianRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationGaussianRegularizer             Self;
-  typedef VariationalRegistrationRegularizer<TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  /** Standard class type alias */
+  using Self = VariationalRegistrationGaussianRegularizer;
+  using Superclass = VariationalRegistrationRegularizer<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,20 +63,20 @@ public:
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field types, inherited from Superclass. */
-  typedef typename Superclass::DisplacementFieldType         DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer      DisplacementFieldPointer;
-  typedef typename Superclass::DisplacementFieldConstPointer DisplacementFieldConstPointer;
-  typedef typename Superclass::PixelType                     PixelType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using DisplacementFieldConstPointer = typename Superclass::DisplacementFieldConstPointer;
+  using PixelType = typename Superclass::PixelType;
 
-  typedef typename Superclass::ValueType ValueType;
+  using ValueType = typename Superclass::ValueType;
 
   /** Types for buffer image. */
-  typedef Image<ValueType, ImageDimension>     BufferImageType;
-  typedef typename BufferImageType::Pointer    BufferImagePointer;
-  typedef typename BufferImageType::RegionType BufferImageRegionType;
+  using BufferImageType = Image<ValueType, ImageDimension>;
+  using BufferImagePointer = typename BufferImageType::Pointer;
+  using BufferImageRegionType = typename BufferImageType::RegionType;
 
   /** Array containing standard deviations in each direction. */
-  typedef FixedArray<double, ImageDimension> StandardDeviationsType;
+  using StandardDeviationsType = FixedArray<double, ImageDimension>;
 
   /** Set the Gaussian smoothing standard deviations for the
    * displacement field. The values are set with respect to pixel

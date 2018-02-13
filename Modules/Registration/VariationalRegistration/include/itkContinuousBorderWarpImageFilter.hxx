@@ -42,7 +42,7 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
   // iterator for the output image
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
 
-  typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
+  using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
   IndexType           index;
   PointType           point;

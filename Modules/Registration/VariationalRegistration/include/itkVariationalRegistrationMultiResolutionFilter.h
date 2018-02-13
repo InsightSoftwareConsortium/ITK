@@ -81,11 +81,11 @@ template <class TFixedImage, class TMovingImage, class TDisplacementField, class
 class VariationalRegistrationMultiResolutionFilter : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationMultiResolutionFilter               Self;
-  typedef ImageToImageFilter<TDisplacementField, TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                         Pointer;
-  typedef SmartPointer<const Self>                                   ConstPointer;
+  /** Standard class type alias */
+  using Self = VariationalRegistrationMultiResolutionFilter;
+  using Superclass = ImageToImageFilter<TDisplacementField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,56 +94,56 @@ public:
   itkTypeMacro(VariationalRegistrationMultiResolutionFilter, ImageToImageFilter);
 
   /** Fixed image type. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::Pointer      FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** Moving image type. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename MovingImageType::Pointer      MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field image type. */
-  typedef TDisplacementField                      DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** ImageDimension. */
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** MovingImage image type. */
-  typedef unsigned char                             MaskImagePixelType;
-  typedef Image<MaskImagePixelType, ImageDimension> MaskImageType;
-  typedef typename MaskImageType::Pointer           MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer      MaskImageConstPointer;
+  using MaskImagePixelType = unsigned char;
+  using MaskImageType = Image<MaskImagePixelType, ImageDimension>;
+  using MaskImagePointer = typename MaskImageType::Pointer;
+  using MaskImageConstPointer = typename MaskImageType::ConstPointer;
 
   /** Internal float image type. */
-  typedef Image<TRealType, itkGetStaticConstMacro(ImageDimension)> FloatImageType;
+  using FloatImageType = Image<TRealType, itkGetStaticConstMacro(ImageDimension)>;
 
   /** The internal registration type. */
-  typedef VariationalRegistrationFilter<FixedImageType, MovingImageType, DisplacementFieldType> RegistrationType;
-  typedef typename RegistrationType::Pointer                                                    RegistrationPointer;
+  using RegistrationType = VariationalRegistrationFilter<FixedImageType, MovingImageType, DisplacementFieldType>;
+  using RegistrationPointer = typename RegistrationType::Pointer;
 
   /** The default registration type. */
-  typedef VariationalRegistrationFilter<FixedImageType, MovingImageType, DisplacementFieldType> DefaultRegistrationType;
+  using DefaultRegistrationType = VariationalRegistrationFilter<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   /** The fixed multi-resolution image pyramid type. */
-  typedef MultiResolutionPyramidImageFilter<FixedImageType, FixedImageType> FixedImagePyramidType;
-  typedef typename FixedImagePyramidType::Pointer                           FixedImagePyramidPointer;
+  using FixedImagePyramidType = MultiResolutionPyramidImageFilter<FixedImageType, FixedImageType>;
+  using FixedImagePyramidPointer = typename FixedImagePyramidType::Pointer;
 
   /** The moving multi-resolution image pyramid type. */
-  typedef MultiResolutionPyramidImageFilter<MovingImageType, MovingImageType> MovingImagePyramidType;
-  typedef typename MovingImagePyramidType::Pointer                            MovingImagePyramidPointer;
+  using MovingImagePyramidType = MultiResolutionPyramidImageFilter<MovingImageType, MovingImageType>;
+  using MovingImagePyramidPointer = typename MovingImagePyramidType::Pointer;
 
   /** The mask multi-resolution image pyramid type. */
-  typedef MultiResolutionPyramidImageFilter<FloatImageType, FloatImageType> MaskImagePyramidType;
-  typedef typename MaskImagePyramidType::Pointer                            MaskImagePyramidPointer;
+  using MaskImagePyramidType = MultiResolutionPyramidImageFilter<FloatImageType, FloatImageType>;
+  using MaskImagePyramidPointer = typename MaskImagePyramidType::Pointer;
 
   /** The deformation field expander type. */
-  typedef VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType> FieldExpanderType;
-  typedef typename FieldExpanderType::Pointer                                     FieldExpanderPointer;
+  using FieldExpanderType = VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType>;
+  using FieldExpanderPointer = typename FieldExpanderType::Pointer;
 
   /** Array containing the number of iterations. */
-  typedef Array<unsigned int> NumberOfIterationsType;
+  using NumberOfIterationsType = Array<unsigned int>;
 
   /** Set the fixed image. */
   virtual void

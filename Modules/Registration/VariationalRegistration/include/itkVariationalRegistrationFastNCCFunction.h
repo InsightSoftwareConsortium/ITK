@@ -66,12 +66,12 @@ class VariationalRegistrationFastNCCFunction
   : public VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariationalRegistrationFastNCCFunction                                            Self;
-  typedef VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField> Superclass;
+  /** Standard class type alias. */
+  using Self = VariationalRegistrationFastNCCFunction;
+  using Superclass = VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,34 +83,34 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType    MovingImageType;
-  typedef typename Superclass::MovingImagePointer MovingImagePointer;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointer = typename Superclass::MovingImagePointer;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType    FixedImageType;
-  typedef typename Superclass::FixedImagePointer FixedImagePointer;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePointer = typename Superclass::FixedImagePointer;
 
   /** MaskImage image type. */
-  typedef typename Superclass::MaskImageType    MaskImageType;
-  typedef typename Superclass::MaskImagePointer MaskImagePointer;
+  using MaskImageType = typename Superclass::MaskImageType;
+  using MaskImagePointer = typename Superclass::MaskImagePointer;
 
-  typedef typename FixedImageType::IndexType   IndexType;
-  typedef typename FixedImageType::SizeType    SizeType;
-  typedef typename FixedImageType::SpacingType SpacingType;
+  using IndexType = typename FixedImageType::IndexType;
+  using SizeType = typename FixedImageType::SizeType;
+  using SpacingType = typename FixedImageType::SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DisplacementFieldType        DisplacementFieldType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
   typedef typename Superclass::DisplacementFieldTypePointer DisplacementFieldTypePointer;
 
   /** Inherit some types from the superclass. */
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  using PixelType = typename Superclass::PixelType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Gradient calculator type. */
-  typedef typename Superclass::GradientCalculatorType GradientCalculatorType;
-  typedef typename GradientCalculatorType::Pointer    GradientCalculatorPointer;
+  using GradientCalculatorType = typename Superclass::GradientCalculatorType;
+  using GradientCalculatorPointer = typename GradientCalculatorType::Pointer;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
@@ -136,7 +136,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 
   /** A global data type for this class of equation. Used to store
    * information for computing the metric. */

@@ -59,11 +59,11 @@ template <class TInputImage, class TOutputImage, class TDisplacementField>
 class ContinuousBorderWarpImageFilter : public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ContinuousBorderWarpImageFilter                                Self;
-  typedef WarpImageFilter<TInputImage, TOutputImage, TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                             Pointer;
-  typedef SmartPointer<const Self>                                       ConstPointer;
+  /** Standard class type alias. */
+  using Self = ContinuousBorderWarpImageFilter;
+  using Superclass = WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,34 +72,34 @@ public:
   itkTypeMacro(ContinuousBorderWarpImageFilter, WarpImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Inherit some types from the superclass. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename OutputImageType::IndexType         IndexType;
-  typedef typename OutputImageType::SizeType          SizeType;
-  typedef typename OutputImageType::PixelType         PixelType;
-  typedef typename OutputImageType::SpacingType       SpacingType;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using IndexType = typename OutputImageType::IndexType;
+  using SizeType = typename OutputImageType::SizeType;
+  using PixelType = typename OutputImageType::PixelType;
+  using SpacingType = typename OutputImageType::SpacingType;
 
   /** Determine the image dimension. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int DeformationFieldDimension = TDisplacementField::ImageDimension;
 
-  /** Displacement field typedef support. */
-  typedef TDisplacementField                        DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer   DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::PixelType DisplacementType;
+  /** Displacement field type alias support. */
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
+  using DisplacementType = typename DisplacementFieldType::PixelType;
 
-  /** Interpolator typedef support. */
-  typedef typename Superclass::InterpolatorType InterpolatorType;
+  /** Interpolator type alias support. */
+  using InterpolatorType = typename Superclass::InterpolatorType;
 
   /** Point type */
-  typedef typename Superclass::PointType PointType;
+  using PointType = typename Superclass::PointType;
 
 protected:
   ContinuousBorderWarpImageFilter() {};

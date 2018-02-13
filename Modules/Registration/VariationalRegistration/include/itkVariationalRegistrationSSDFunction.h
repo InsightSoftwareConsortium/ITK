@@ -54,11 +54,11 @@ class VariationalRegistrationSSDFunction
   : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariationalRegistrationSSDFunction                                             Self;
-  typedef VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                                             Pointer;
-  typedef SmartPointer<const Self>                                                       ConstPointer;
+  /** Standard class type alias. */
+  using Self = VariationalRegistrationSSDFunction;
+  using Superclass = VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,34 +70,34 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType    MovingImageType;
-  typedef typename Superclass::MovingImagePointer MovingImagePointer;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointer = typename Superclass::MovingImagePointer;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType    FixedImageType;
-  typedef typename Superclass::FixedImagePointer FixedImagePointer;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePointer = typename Superclass::FixedImagePointer;
 
   /** MaskImage image type. */
-  typedef typename Superclass::MaskImageType    MaskImageType;
-  typedef typename Superclass::MaskImagePointer MaskImagePointer;
+  using MaskImageType = typename Superclass::MaskImageType;
+  using MaskImagePointer = typename Superclass::MaskImagePointer;
 
   /** Image parameter types. */
-  typedef typename FixedImageType::IndexType   IndexType;
-  typedef typename FixedImageType::SizeType    SizeType;
-  typedef typename FixedImageType::SpacingType SpacingType;
+  using IndexType = typename FixedImageType::IndexType;
+  using SizeType = typename FixedImageType::SizeType;
+  using SpacingType = typename FixedImageType::SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DisplacementFieldType        DisplacementFieldType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
   typedef typename Superclass::DisplacementFieldTypePointer DisplacementFieldTypePointer;
   /** Various type definitions. */
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  using PixelType = typename Superclass::PixelType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Image gradient calculator type. */
-  typedef CentralDifferenceImageFunction<FixedImageType> GradientCalculatorType;
-  typedef typename GradientCalculatorType::Pointer       GradientCalculatorPointer;
+  using GradientCalculatorType = CentralDifferenceImageFunction<FixedImageType>;
+  using GradientCalculatorPointer = typename GradientCalculatorType::Pointer;
 
   /** Set the object's state before each iteration. */
   void
@@ -165,7 +165,7 @@ protected:
   VariationalRegistrationSSDFunction();
   ~VariationalRegistrationSSDFunction() override {}
 
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 
   /** Print information about the filter. */
   void

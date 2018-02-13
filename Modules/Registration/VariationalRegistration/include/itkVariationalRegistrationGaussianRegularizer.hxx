@@ -72,10 +72,10 @@ VariationalRegistrationGaussianRegularizer<TDisplacementField>::GenerateData()
 
   DisplacementFieldConstPointer field = this->GetInput();
 
-  typedef typename DisplacementFieldType::PixelType                                           VectorType;
-  typedef typename VectorType::ValueType                                                      ScalarType;
-  typedef GaussianOperator<ScalarType, ImageDimension>                                        OperatorType;
-  typedef VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType> SmootherType;
+  using VectorType = typename DisplacementFieldType::PixelType;
+  using ScalarType = typename VectorType::ValueType;
+  using OperatorType = GaussianOperator<ScalarType, ImageDimension>;
+  using SmootherType = VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
   OperatorType                   opers[ImageDimension];
   typename SmootherType::Pointer smoothers[ImageDimension];

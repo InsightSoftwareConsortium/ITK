@@ -47,15 +47,15 @@ template <class TRegistrationFilter, class TMRFilter>
 class VariationalRegistrationLogger : public Command
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariationalRegistrationLogger Self;
-  typedef Command                       Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  /** Standard class type alias. */
+  using Self = VariationalRegistrationLogger;
+  using Superclass = Command;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Registration and MR filter types */
-  typedef TRegistrationFilter RegistrationFilterType;
-  typedef TMRFilter           MRFilterType;
+  using RegistrationFilterType = TRegistrationFilter;
+  using MRFilterType = TMRFilter;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

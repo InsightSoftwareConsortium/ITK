@@ -286,8 +286,8 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize()
     return;
   }
 
-  typedef ImageRegionConstIterator<DisplacementFieldType> ConstIteratorType;
-  ConstIteratorType                                       inputIt(inputField, inputField->GetLargestPossibleRegion());
+  using ConstIteratorType = ImageRegionConstIterator<DisplacementFieldType>;
+  ConstIteratorType inputIt(inputField, inputField->GetLargestPossibleRegion());
 
   DisplacementFieldPointer outField = this->GetOutput();
   if (!outField)
@@ -296,8 +296,8 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize()
     return;
   }
 
-  typedef ImageRegionIterator<DisplacementFieldType> IteratorType;
-  IteratorType                                       outIt(outField, outField->GetRequestedRegion());
+  using IteratorType = ImageRegionIterator<DisplacementFieldType>;
+  IteratorType outIt(outField, outField->GetRequestedRegion());
 
   //
   // Perform regularization for each vector component in three steps:

@@ -182,7 +182,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, T
   ImageRegionIterator<UpdateBufferType> b(m_BackwardUpdateBuffer, regionToProcess);
   ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
 
-  typedef typename OutputImageType::PixelType PixelType;
+  using PixelType = typename OutputImageType::PixelType;
 
   f.GoToBegin();
   b.GoToBegin();

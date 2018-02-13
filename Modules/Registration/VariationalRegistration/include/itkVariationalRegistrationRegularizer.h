@@ -48,11 +48,11 @@ template <class TDisplacementField>
 class VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationRegularizer                         Self;
-  typedef InPlaceImageFilter<TDisplacementField, TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                         Pointer;
-  typedef SmartPointer<const Self>                                   ConstPointer;
+  /** Standard class type alias */
+  using Self = VariationalRegistrationRegularizer;
+  using Superclass = InPlaceImageFilter<TDisplacementField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,12 +63,12 @@ public:
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field type. */
-  typedef TDisplacementField                           DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer      DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldConstPointer;
-  typedef typename DisplacementFieldType::PixelType    PixelType;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
+  using DisplacementFieldConstPointer = typename DisplacementFieldType::ConstPointer;
+  using PixelType = typename DisplacementFieldType::PixelType;
 
-  typedef typename NumericTraits<PixelType>::ValueType ValueType;
+  using ValueType = typename NumericTraits<PixelType>::ValueType;
 
   /** Set whether the image spacing should be considered or not */
   itkSetMacro(UseImageSpacing, bool);

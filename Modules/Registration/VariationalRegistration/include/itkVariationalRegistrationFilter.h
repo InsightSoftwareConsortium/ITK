@@ -103,11 +103,11 @@ template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class VariationalRegistrationFilter : public DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationFilter                                            Self;
-  typedef DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                                       Pointer;
-  typedef SmartPointer<const Self>                                                 ConstPointer;
+  /** Standard class type alias */
+  using Self = VariationalRegistrationFilter;
+  using Superclass = DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -119,41 +119,41 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** FixedImage image type. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::Pointer      FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename MovingImageType::Pointer      MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                      DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** MovingImage image type. */
-  typedef unsigned char                             MaskImagePixelType;
-  typedef Image<MaskImagePixelType, ImageDimension> MaskImageType;
-  typedef typename MaskImageType::Pointer           MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer      MaskImageConstPointer;
+  using MaskImagePixelType = unsigned char;
+  using MaskImageType = Image<MaskImagePixelType, ImageDimension>;
+  using MaskImagePointer = typename MaskImageType::Pointer;
+  using MaskImageConstPointer = typename MaskImageType::ConstPointer;
 
   /** Types inherited from the superclass */
-  typedef typename Superclass::OutputImageType OutputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** VariationalRegistrationFunction type. */
-  typedef VariationalRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>
-    RegistrationFunctionType;
-  typedef VariationalRegistrationDemonsFunction<FixedImageType, MovingImageType, DisplacementFieldType>
-    DefaultRegistrationFunctionType;
+  using RegistrationFunctionType =
+    VariationalRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
+  using DefaultRegistrationFunctionType =
+    VariationalRegistrationDemonsFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   /** Regularizer type. */
-  typedef VariationalRegistrationRegularizer<DisplacementFieldType>          RegularizerType;
-  typedef typename RegularizerType::Pointer                                  RegularizerPointer;
-  typedef VariationalRegistrationDiffusionRegularizer<DisplacementFieldType> DefaultRegularizerType;
+  using RegularizerType = VariationalRegistrationRegularizer<DisplacementFieldType>;
+  using RegularizerPointer = typename RegularizerType::Pointer;
+  using DefaultRegularizerType = VariationalRegistrationDiffusionRegularizer<DisplacementFieldType>;
 
   /** Set the regularizer. */
   itkSetObjectMacro(Regularizer, RegularizerType);

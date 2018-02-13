@@ -59,11 +59,11 @@ template <class TDisplacementField>
 class VariationalRegistrationElasticRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationElasticRegularizer              Self;
-  typedef VariationalRegistrationRegularizer<TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  /** Standard class type alias */
+  using Self = VariationalRegistrationElasticRegularizer;
+  using Superclass = VariationalRegistrationRegularizer<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,27 +75,27 @@ public:
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field types, inherited from Superclass. */
-  typedef typename Superclass::DisplacementFieldType              DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer           DisplacementFieldPointer;
-  typedef typename Superclass::DisplacementFieldConstPointer      DisplacementFieldConstPointer;
-  typedef typename Superclass::PixelType                          PixelType;
-  typedef typename Superclass::ValueType                          ValueType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using DisplacementFieldConstPointer = typename Superclass::DisplacementFieldConstPointer;
+  using PixelType = typename Superclass::PixelType;
+  using ValueType = typename Superclass::ValueType;
   typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
   /** Types for FFTW proxy */
 
 #  if defined(ITK_USE_FFTWD)
   // Prefer to use double precision
-  typedef double RealTypeFFT;
+  using RealTypeFFT = double;
 #  else
 #    if defined(ITK_USE_FFTWF)
 // Allow to use single precision
 #      warning "Using single precision for FFT computations!"
-  typedef float RealTypeFFT;
+  using RealTypeFFT = float;
 #    endif
 #  endif
 
-  typedef typename fftw::Proxy<RealTypeFFT> FFTWProxyType;
+  using FFTWProxyType = typename fftw::Proxy<RealTypeFFT>;
 
   /** Set the regularization weight lambda. */
   itkSetMacro(Lambda, ValueType);

@@ -252,8 +252,8 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::Regularize()
 
   // Perform Forward FFT for input field
   itkDebugMacro(<< "Performing Forward FFT...");
-  typedef ImageRegionConstIterator<DisplacementFieldType> ConstIteratorType;
-  ConstIteratorType                                       inputIt(inputField, inputField->GetRequestedRegion());
+  using ConstIteratorType = ImageRegionConstIterator<DisplacementFieldType>;
+  ConstIteratorType inputIt(inputField, inputField->GetRequestedRegion());
 
   unsigned int n; // Counter for field copying
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -276,8 +276,8 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::Regularize()
   itkDebugMacro(<< "Performing Backward FFT...");
   DisplacementFieldPointer outField = this->GetOutput();
 
-  typedef ImageRegionIterator<DisplacementFieldType> IteratorType;
-  IteratorType                                       outIt(outField, outField->GetRequestedRegion());
+  using IteratorType = ImageRegionIterator<DisplacementFieldType>;
+  IteratorType outIt(outField, outField->GetRequestedRegion());
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
