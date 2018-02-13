@@ -367,7 +367,7 @@ STLMeshIO ::ReadCells(void * buffer)
 
   auto * cellPointIds = reinterpret_cast<unsigned int *>(buffer);
 
-  const unsigned int numberOfPointsInCell = 3;
+  constexpr unsigned int numberOfPointsInCell = 3;
 
   while (cellItr != cellEnd)
   {

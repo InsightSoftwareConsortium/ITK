@@ -33,7 +33,7 @@ itkSTLMeshIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
 
   using QEMeshType = itk::QuadEdgeMesh<PixelType, Dimension>;
