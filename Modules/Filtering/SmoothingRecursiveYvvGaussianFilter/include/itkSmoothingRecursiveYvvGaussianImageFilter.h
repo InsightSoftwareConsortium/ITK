@@ -70,7 +70,7 @@ public:
   itkTypeMacro(SmoothingRecursiveYvvGaussianImageFilter, InPlaceImageFilter);
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the type for the sigma array */
   typedef FixedArray<ScalarRealType, itkGetStaticConstMacro(ImageDimension)> SigmaArrayType;
