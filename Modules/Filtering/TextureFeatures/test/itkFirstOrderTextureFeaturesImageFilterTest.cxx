@@ -25,7 +25,7 @@
 static void
 Test1(const std::string & inFileName, const std::string & outFileName)
 {
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image<unsigned char, ImageDimension>;
   using OImageType = itk::Image<itk::FixedArray<float, 8>, ImageDimension>;
   using KernelType = itk::FlatStructuringElement<ImageDimension>;
@@ -59,7 +59,7 @@ Test1(const std::string & inFileName, const std::string & outFileName)
 static void
 Test2(std::string inFileName)
 {
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image<unsigned char, ImageDimension>;
   using OImageType = itk::VectorImage<float, ImageDimension>;
   using KernelType = itk::FlatStructuringElement<ImageDimension>;

@@ -43,7 +43,7 @@ print_feature(const T & p, std::ostream & out = std::cout)
 
 TEST(TextureFeatures, FirstOrder_Test1)
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using ImageType = itk::Image<float, ImageDimension>;
   using OImageType = itk::Image<itk::FixedArray<float, 8>, ImageDimension>;
   using KernelType = itk::FlatStructuringElement<ImageDimension>;
@@ -113,7 +113,7 @@ TEST(TextureFeatures, FirstOrder_Test1)
 
 TEST(TextureFeatures, FirstOrder_Test2)
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using ImageType = itk::Image<float, ImageDimension>;
   using OImageType = itk::Image<itk::FixedArray<float, 8>, ImageDimension>;
   using KernelType = itk::FlatStructuringElement<ImageDimension>;
