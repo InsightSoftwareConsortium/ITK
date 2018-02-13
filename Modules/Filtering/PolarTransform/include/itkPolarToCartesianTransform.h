@@ -102,11 +102,11 @@ public:
    * coordinates <alpha,radius> to cartesian coordinates.
    */
   OutputPointType
-  TransformPoint(const InputPointType & point) const ITK_OVERRIDE;
+  TransformPoint(const InputPointType & point) const override;
 
   /** Method to transform a vector - not applicable for this type of transform. */
   OutputVectorType
-  TransformVector(const InputVectorType &) const ITK_OVERRIDE
+  TransformVector(const InputVectorType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVectorType();
@@ -114,7 +114,7 @@ public:
 
   /** Method to transform a vnl_vector - not applicable for this type of transform. */
   OutputVnlVectorType
-  TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
+  TransformVector(const InputVnlVectorType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVnlVectorType();
@@ -122,7 +122,7 @@ public:
 
   /** Method to transform a vector - not applicable for this type of transform. */
   typename Superclass::OutputVectorPixelType
-  TransformVector(const typename Superclass::InputVectorPixelType &, const InputPointType &) const ITK_OVERRIDE
+  TransformVector(const typename Superclass::InputVectorPixelType &, const InputPointType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return typename Superclass::OutputVectorPixelType();
@@ -132,7 +132,7 @@ public:
 
   /** Method to transform a CovariantVector - not applicable for this type of transform */
   OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
+  TransformCovariantVector(const InputCovariantVectorType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputCovariantVectorType();
@@ -141,17 +141,17 @@ public:
   using Superclass::TransformCovariantVector;
 
   void
-  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const ITK_OVERRIDE
+  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override
   {
     itkExceptionMacro(<< "Method not implemented yet.");
   }
 
   void
-  SetParameters(const ParametersType &) ITK_OVERRIDE
+  SetParameters(const ParametersType &) override
   {}
 
   void
-  SetFixedParameters(const ParametersType &) ITK_OVERRIDE
+  SetFixedParameters(const ParametersType &) override
   {}
 
   /** Set the location of the center of the polar coordinate system. */
@@ -160,11 +160,11 @@ public:
 
 protected:
   PolarToCartesianTransform();
-  ~PolarToCartesianTransform() ITK_OVERRIDE;
+  ~PolarToCartesianTransform() override;
 
   /** Print contents of an PolarToCartesianTransform. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolarToCartesianTransform);
