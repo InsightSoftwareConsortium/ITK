@@ -288,7 +288,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::BeforeThreadedGe
           std::cout<<telltale  << ". itkRecursiveLineYvv::BeforeThreadedGenerateData \n";
   #endif
   */
-  typedef ImageRegion<TInputImage::ImageDimension> RegionType;
+  using RegionType = ImageRegion<TInputImage::ImageDimension>;
 
   typename TInputImage::ConstPointer inputImage(this->GetInputImage());
   typename TOutputImage::Pointer     outputImage(this->GetOutput());
@@ -333,12 +333,12 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
           std::cout <<telltale  << ". itkRecursiveLineYvv::ThreadedGenerateData \n";
   #endif
   */
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef ImageLinearConstIteratorWithIndex<TInputImage> InputConstIteratorType;
-  typedef ImageLinearIteratorWithIndex<TOutputImage>     OutputIteratorType;
+  using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
+  using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
 
-  typedef ImageRegion<TInputImage::ImageDimension> RegionType;
+  using RegionType = ImageRegion<TInputImage::ImageDimension>;
 
   typename TInputImage::ConstPointer inputImage(this->GetInputImage());
   typename TOutputImage::Pointer     outputImage(this->GetOutput());

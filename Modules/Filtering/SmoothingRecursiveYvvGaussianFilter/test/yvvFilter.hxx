@@ -15,9 +15,9 @@ template <typename ImageType>
 void
 writeImage(std::string filterLabel, ImageType * result)
 {
-  typedef itk::Image<unsigned char, ImageType::ImageDimension>   UnsignedCharImageType;
-  typedef itk::CastImageFilter<ImageType, UnsignedCharImageType> CastFilterType;
-  typedef itk::ImageFileWriter<UnsignedCharImageType>            WriterType;
+  using UnsignedCharImageType = itk::Image<unsigned char, ImageType::ImageDimension>;
+  using CastFilterType = itk::CastImageFilter<ImageType, UnsignedCharImageType>;
+  using WriterType = itk::ImageFileWriter<UnsignedCharImageType>;
 #ifdef VERBOSE
   std::cout << "..........." << filterLabel << ": Preparing to write out filtered image.\n";
 #endif
@@ -59,8 +59,8 @@ template <typename ImageType>
 int
 getSourceImage(void * sourceImagePtr, std::string inputFilename)
 {
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  typename ReaderType::Pointer            readerGPU = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  typename ReaderType::Pointer readerGPU = ReaderType::New();
   readerGPU->SetFileName(inputFilename);
   try
   {
@@ -111,9 +111,9 @@ testCpuFilter(std::string &                                 filterLabel,
   std::cout << "-----------" << filterLabel << ": Starting tests.\n";
 #endif
 
-  typedef typename FilterType::InputImageType InputImage;
-  typename InputImage::Pointer                src;
-  void *                                      imgPtr = &src;
+  using InputImage = typename FilterType::InputImageType;
+  typename InputImage::Pointer src;
+  void *                       imgPtr = &src;
 
   if (inputFilename.empty())
   {
@@ -181,7 +181,7 @@ testGpuFilter(std::string &                                 filterLabel,
 #  ifdef VERBOSE
   std::cout << "-----------" << filterLabel << ": Starting tests.\n";
 #  endif
-  typedef typename FilterType::InputImageType InputImage;
+  using InputImage = typename FilterType::InputImageType;
 
   typename InputImage::Pointer src;
   void *                       imgPtr = &src;
@@ -253,12 +253,12 @@ int
 testImage(std::string inputFilename, float sigma, itk::TimeProbesCollectorBase * timeCollector, unsigned int ntests)
 {
 #ifdef GPU
-  typedef itk::GPUImage<typename ImageType::PixelType, ImageType::ImageDimension>      GPUImageType;
-  typedef itk::GPUSmoothingRecursiveYvvGaussianImageFilter<GPUImageType, GPUImageType> GPUrecursiveYVVFilterType;
+  using GPUImageType = itk::GPUImage<typename ImageType::PixelType, ImageType::ImageDimension>;
+  using GPUrecursiveYVVFilterType = itk::GPUSmoothingRecursiveYvvGaussianImageFilter<GPUImageType, GPUImageType>;
 #endif
-  typedef ImageType                                                                 CPUImageType;
-  typedef itk::SmoothingRecursiveYvvGaussianImageFilter<CPUImageType, CPUImageType> RecursiveYVVFilterType;
-  typedef itk::SmoothingRecursiveGaussianImageFilter<CPUImageType, CPUImageType>    DericheFilterType;
+  using CPUImageType = ImageType;
+  using RecursiveYVVFilterType = itk::SmoothingRecursiveYvvGaussianImageFilter<CPUImageType, CPUImageType>;
+  using DericheFilterType = itk::SmoothingRecursiveGaussianImageFilter<CPUImageType, CPUImageType>;
 
   std::cout << ":::: Testing on " << inputFilename << ", using sigma = " << sigma << "   ::::" << std::endl;
   typename ImageType::SizeType size;
@@ -315,12 +315,12 @@ testWhite(typename ImageType::SizeType   size,
   std::cout << "Testing: " << size << " with sigma = " << sigma << ". Average over " << ntests << " runs." << std::endl;
 
 #ifdef GPU
-  typedef itk::GPUImage<typename ImageType::PixelType, ImageType::ImageDimension>      GPUImageType;
-  typedef itk::GPUSmoothingRecursiveYvvGaussianImageFilter<GPUImageType, GPUImageType> GPUrecursiveYVVFilterType;
+  using GPUImageType = itk::GPUImage<typename ImageType::PixelType, ImageType::ImageDimension>;
+  using GPUrecursiveYVVFilterType = itk::GPUSmoothingRecursiveYvvGaussianImageFilter<GPUImageType, GPUImageType>;
 #endif
-  typedef ImageType                                                                 CPUImageType;
-  typedef itk::SmoothingRecursiveYvvGaussianImageFilter<CPUImageType, CPUImageType> RecursiveYVVFilterType;
-  typedef itk::SmoothingRecursiveGaussianImageFilter<CPUImageType, CPUImageType>    DericheFilterType;
+  using CPUImageType = ImageType;
+  using RecursiveYVVFilterType = itk::SmoothingRecursiveYvvGaussianImageFilter<CPUImageType, CPUImageType>;
+  using DericheFilterType = itk::SmoothingRecursiveGaussianImageFilter<CPUImageType, CPUImageType>;
 
   std::string        emptyFilename;
   std::ostringstream parameterStream;

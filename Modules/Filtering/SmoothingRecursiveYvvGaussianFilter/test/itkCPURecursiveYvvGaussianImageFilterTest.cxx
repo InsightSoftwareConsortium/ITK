@@ -4,9 +4,9 @@
 
 
 #ifdef WITH_DOUBLE
-typedef double PixelType;
+using PixelType = double;
 #else
-typedef float PixelType;
+using PixelType = float;
 #endif
 
 int

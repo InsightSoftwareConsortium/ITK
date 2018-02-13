@@ -55,35 +55,33 @@ class ITK_EXPORT GPUSmoothingRecursiveYvvGaussianImageFilter
                                  SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUSmoothingRecursiveYvvGaussianImageFilter Self;
+  /** Standard class type alias. */
+  using Self = GPUSmoothingRecursiveYvvGaussianImageFilter;
   // typedef SmoothingRecursiveYvvGaussianImageFilter<TInputImage,TOutputImage>
   //    CPUSuperclass;
-  typedef GPUImageToImageFilter<TInputImage,
-                                TOutputImage,
-                                SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>
-    Superclass;
-  typedef GPUImageToImageFilter<TInputImage,
-                                TOutputImage,
-                                SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>
-                                   GPUSuperclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Superclass = GPUImageToImageFilter<TInputImage,
+                                           TOutputImage,
+                                           SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>;
+  using GPUSuperclass = GPUImageToImageFilter<TInputImage,
+                                              TOutputImage,
+                                              SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Pixel Type of the input image */
-  typedef TInputImage                     InputImageType;
-  typedef TOutputImage                    OutputImageType;
-  typedef typename TInputImage::PixelType PixelType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
 #    ifdef WITH_DOUBLE
-  typedef typename NumericTraits<PixelType>::RealType       RealType;
-  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 #    else
-  typedef typename NumericTraits<PixelType>::FloatType RealType;
-  typedef typename NumericTraits<PixelType>::FloatType ScalarRealType;
+  using RealType = typename NumericTraits<PixelType>::FloatType;
+  using ScalarRealType = typename NumericTraits<PixelType>::FloatType;
 #    endif
 
-  typedef typename itk::GPUTraits<TInputImage>::Type  GPUInputImage;
-  typedef typename itk::GPUTraits<TOutputImage>::Type GPUOutputImage;
+  using GPUInputImage = typename itk::GPUTraits<TInputImage>::Type;
+  using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
 
   /** Runtime information support. */
   itkTypeMacro(GPUSmoothingRecursiveYvvGaussianImageFilter, GPUImageToImageFilter);
@@ -92,17 +90,17 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the type for the sigma array */
-  typedef FixedArray<ScalarRealType, itkGetStaticConstMacro(ImageDimension)> SigmaArrayType;
+  using SigmaArrayType = FixedArray<ScalarRealType, itkGetStaticConstMacro(ImageDimension)>;
 
   /** Define the image type for internal computations
    RealType is usually 'double' in NumericTraits.
    Here we prefer float in order to save memory.  */
 
-  typedef typename NumericTraits<PixelType>::FloatType                       InternalRealType;
-  typedef GPUImage<InternalRealType, itkGetStaticConstMacro(ImageDimension)> RealImageType;
+  using InternalRealType = typename NumericTraits<PixelType>::FloatType;
+  using RealImageType = GPUImage<InternalRealType, itkGetStaticConstMacro(ImageDimension)>;
 
   /**  Pointer to the Output Image */
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -179,7 +177,7 @@ protected:
   // Initialization matrix for anti-causal pass
   ScalarRealType * m_CPUMatrix;
 
-  typedef GPUDataManager::Pointer GPUDataPointer;
+  using GPUDataPointer = GPUDataManager::Pointer;
 
   GPUDataPointer m_GPUMMatrixDataManager;
   GPUDataPointer m_GPUBCoefficientsDataManager;

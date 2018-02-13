@@ -7,9 +7,9 @@
 #endif
 
 #ifdef WITH_DOUBLE
-typedef double PixelType;
+using PixelType = double;
 #else
-typedef float PixelType;
+using PixelType = float;
 #endif
 
 #define die(error_msg)                                                                                   \
@@ -73,14 +73,14 @@ itkYvvWhiteImageTest(int argc, char * argv[])
   itk::TimeProbesCollectorBase timeCollector;
   if (dim == 2)
   {
-    typedef itk::Image<PixelType, 2> ImageType;
-    ImageType::SizeType              size2D = { { size[0], size[1] } };
+    using ImageType = itk::Image<PixelType, 2>;
+    ImageType::SizeType size2D = { { size[0], size[1] } };
     result = testWhite<ImageType>(size2D, sigma, &timeCollector, ntests);
   }
   else if (dim == 3)
   {
-    typedef itk::Image<PixelType, 3> ImageType;
-    ImageType::SizeType              size3D = { { size[0], size[1], size[2] } };
+    using ImageType = itk::Image<PixelType, 3>;
+    ImageType::SizeType size3D = { { size[0], size[1], size[2] } };
     result = testWhite<ImageType>(size3D, sigma, &timeCollector, ntests);
   }
   else
