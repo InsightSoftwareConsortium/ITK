@@ -22,10 +22,10 @@
 int
 itkHessianImageFilterTest(int, char *[])
 {
-  const unsigned int                   Dimension = 3;
-  typedef itk::Image<float, Dimension> ImageType;
+  constexpr unsigned int Dimension = 3;
+  using ImageType = itk::Image<float, Dimension>;
 
-  const unsigned int imageSize = 64;
+  constexpr unsigned int imageSize = 64;
 
   ImageType::SizeType size;
   size.Fill(imageSize);
@@ -34,8 +34,8 @@ itkHessianImageFilterTest(int, char *[])
   spacing.Fill(1.0);
   spacing[0] = 1.0;
 
-  typedef itk::GaussianImageSource<ImageType> GaussianSourceType;
-  GaussianSourceType::Pointer                 gaussianSource = GaussianSourceType::New();
+  using GaussianSourceType = itk::GaussianImageSource<ImageType>;
+  GaussianSourceType::Pointer gaussianSource = GaussianSourceType::New();
   gaussianSource->SetSize(size);
   gaussianSource->SetSpacing(spacing);
   gaussianSource->SetMean(itk::FixedArray<double, Dimension>(imageSize / 2));
@@ -43,8 +43,8 @@ itkHessianImageFilterTest(int, char *[])
   gaussianSource->SetNormalized(false);
   gaussianSource->SetScale(1.0); // dark blob
 
-  typedef itk::HessianImageFilter<ImageType> HessianFilterType;
-  HessianFilterType::Pointer                 hessian = HessianFilterType::New();
+  using HessianFilterType = itk::HessianImageFilter<ImageType>;
+  HessianFilterType::Pointer hessian = HessianFilterType::New();
   hessian->SetInput(gaussianSource->GetOutput());
   hessian->Update();
 

@@ -36,25 +36,25 @@ itkObjectnessMeasureImageFilterTest(int argc, char * argv[])
 
   const unsigned int objectDimension = (argc >= 3) ? atoi(argv[3]) : 3;
   const bool         brightObject = (argc >= 4) ? atoi(argv[4]) : true;
-  const double       alphaValue = 0.5;
-  const double       betaValue = 0.5;
-  const double       gammaValue = 0.5;
+  constexpr double   alphaValue = 0.5;
+  constexpr double   betaValue = 0.5;
+  constexpr double   gammaValue = 0.5;
 
-  const unsigned int                       Dimension = 2;
-  typedef double                           PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  constexpr unsigned int Dimension = 2;
+  using PixelType = double;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImageFileName);
 
-  typedef itk::SmoothingRecursiveGaussianImageFilter<ImageType, ImageType> SmoothingFilterType;
-  SmoothingFilterType::Pointer                                             smoothing = SmoothingFilterType::New();
+  using SmoothingFilterType = itk::SmoothingRecursiveGaussianImageFilter<ImageType, ImageType>;
+  SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
   smoothing->SetSigma(1.0);
   smoothing->SetInput(reader->GetOutput());
 
-  typedef itk::ObjectnessMeasureImageFilter<ImageType, ImageType> FilterType;
-  FilterType::Pointer                                             filter = FilterType::New();
+  using FilterType = itk::ObjectnessMeasureImageFilter<ImageType, ImageType>;
+  FilterType::Pointer filter = FilterType::New();
   filter->SetInput(smoothing->GetOutput());
   filter->SetAlpha(alphaValue);
   filter->SetBeta(betaValue);
@@ -65,8 +65,8 @@ itkObjectnessMeasureImageFilterTest(int argc, char * argv[])
 
   FilterWatcher watcher(filter);
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(outputImageFileName);
   writer->Update();

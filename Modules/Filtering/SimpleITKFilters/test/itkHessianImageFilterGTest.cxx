@@ -47,13 +47,13 @@ protected:
   {
     static const unsigned int Dimension = D;
 
-    typedef TPixelType                       PixelType;
-    typedef itk::Image<PixelType, Dimension> ImageType;
+    using PixelType = TPixelType;
+    using ImageType = itk::Image<PixelType, Dimension>;
 
-    typedef itk::HessianImageFilter<ImageType> HessianFilterType;
+    using HessianFilterType = itk::HessianImageFilter<ImageType>;
 
-    typedef typename HessianFilterType::OutputImageType HessianImageType;
-    typedef typename HessianFilterType::OutputPixelType HessianType;
+    using HessianImageType = typename HessianFilterType::OutputImageType;
+    using HessianType = typename HessianFilterType::OutputPixelType;
 
 
     static const unsigned int imageSize = 25;
@@ -77,7 +77,7 @@ protected:
     CreateGaussianImage(void)
     {
 
-      typedef itk::GaussianImageSource<ImageType> GaussianSourceType;
+      using GaussianSourceType = itk::GaussianImageSource<ImageType>;
 
       typename GaussianSourceType::Pointer gaussianSource = GaussianSourceType::New();
 
@@ -104,7 +104,7 @@ protected:
 
 TEST_F(HessianImageFilterFixture, BasicMethods)
 {
-  typedef FixtureUtilities<2> Utils;
+  using Utils = FixtureUtilities<2>;
 
   Utils::HessianFilterType::Pointer filter = Utils::HessianFilterType::New();
 
@@ -141,7 +141,7 @@ MakeFixedArray(T v1, T v2, T v3, T v4, T v5, T v6)
 
 TEST_F(HessianImageFilterFixture, ValueTest_3D)
 {
-  typedef FixtureUtilities<3> Utils;
+  using Utils = FixtureUtilities<3>;
 
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
 
@@ -170,7 +170,7 @@ TEST_F(HessianImageFilterFixture, ValueTest_3D)
 
 TEST_F(HessianImageFilterFixture, ValueTest_2D)
 {
-  typedef FixtureUtilities<2> Utils;
+  using Utils = FixtureUtilities<2>;
 
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
@@ -182,7 +182,7 @@ TEST_F(HessianImageFilterFixture, ValueTest_2D)
     image->SetPixel(MakeIndex(10, i), 1);
   }
 
-  typedef FixtureUtilities<2> Utils;
+  using Utils = FixtureUtilities<2>;
 
   Utils::HessianFilterType::Pointer filter = Utils::HessianFilterType::New();
   filter->SetInput(image);

@@ -60,7 +60,7 @@ HessianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
 
   // the hessaion just needs a 1 radius neighborhood
-  const unsigned int radius = 1;
+  constexpr unsigned int radius = 1;
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -110,8 +110,8 @@ HessianImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(const Output
   TOutputImage * output = this->GetOutput();
 
 
-  typedef typename OutputImageType::PixelType HessianType;
-  ImageRegionIterator<OutputImageType>        oit;
+  using HessianType = typename OutputImageType::PixelType;
+  ImageRegionIterator<OutputImageType> oit;
 
   itk::Size<ImageDimension> radius;
   radius.Fill(1);
@@ -128,7 +128,7 @@ HessianImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(const Output
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType::iterator fit;
 
-  typedef ConstNeighborhoodIterator<TInputImage> NeighborhoodType;
+  using NeighborhoodType = ConstNeighborhoodIterator<TInputImage>;
 
   // get center and dimension strides for iterator neighborhoods
   NeighborhoodType it(radius, input, *faceList.begin());
