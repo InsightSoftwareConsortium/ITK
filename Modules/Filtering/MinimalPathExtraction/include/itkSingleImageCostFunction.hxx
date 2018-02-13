@@ -132,7 +132,7 @@ SingleImageCostFunction<TImage>::GetDerivative(const ParametersType & parameters
   }
 
   // Convert the image function output to the cost function derivative
-  const typename DerivativeType::ValueType DerivativeThreshold = 15.0;
+  constexpr typename DerivativeType::ValueType DerivativeThreshold = 15.0;
   for (unsigned int i = 0; i < ImageDimension; i++)
   {
     derivative[i] = static_cast<typename DerivativeType::ValueType>(output[i]);
