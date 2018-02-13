@@ -71,8 +71,8 @@ public:
   itkTypeMacro(CartesianToPolarTransform, Transform);
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 0);
+  static constexpr unsigned int SpaceDimension = NDimensions;
+  static constexpr unsigned int ParametersDimension = 0;
 
   /** Standard scalar type for this class. */
   typedef typename Superclass::ScalarType ScalarType;
