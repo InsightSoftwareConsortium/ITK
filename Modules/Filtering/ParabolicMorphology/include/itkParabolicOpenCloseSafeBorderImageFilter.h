@@ -33,11 +33,11 @@ template <typename TInputImage, bool doOpen, typename TOutputImage = TInputImage
 class ITK_EXPORT ParabolicOpenCloseSafeBorderImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParabolicOpenCloseSafeBorderImageFilter       Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = ParabolicOpenCloseSafeBorderImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -46,19 +46,19 @@ public:
   itkTypeMacro(ParabolicOpenCloseSafeBorderImageFilter, ImageToImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                            InputImageType;
-  typedef TOutputImage                                           OutputImageType;
-  typedef typename TInputImage::PixelType                        InputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType       RealType;
-  typedef typename NumericTraits<InputPixelType>::ScalarRealType ScalarRealType;
-  typedef typename TOutputImage::PixelType                       OutputPixelType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputPixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits<InputPixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<InputPixelType>::ScalarRealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** a type to represent the "kernel radius" */
-  typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
+  using RadiusType = typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension>;
 
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -147,10 +147,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage> MorphFilterType;
-  typedef ConstantPadImageFilter<TInputImage, TInputImage>                 PadFilterType;
-  typedef CropImageFilter<TOutputImage, TOutputImage>                      CropFilterType;
-  typedef StatisticsImageFilter<InputImageType>                            StatsFilterType;
+  using MorphFilterType = ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>;
+  using PadFilterType = ConstantPadImageFilter<TInputImage, TInputImage>;
+  using CropFilterType = CropImageFilter<TOutputImage, TOutputImage>;
+  using StatsFilterType = StatisticsImageFilter<InputImageType>;
 
   ParabolicOpenCloseSafeBorderImageFilter()
   {

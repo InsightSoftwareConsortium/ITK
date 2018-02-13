@@ -134,8 +134,8 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 
     if (m_SafeBorder)
     {
-      typedef typename itk::ConstantPadImageFilter<InputImageType, InputImageType> PadType;
-      typename PadType::Pointer                                                    pad = PadType::New();
+      using PadType = typename itk::ConstantPadImageFilter<InputImageType, InputImageType>;
+      typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(Pad);
       pad->SetPadUpperBound(Pad);
       pad->SetConstant(0);
@@ -146,8 +146,8 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
       // writeIm<InputImageType>(m_CircCastB->GetOutput(), "dil.nii.gz");
       // writeIm<InputImageType>(m_CircCastA->GetOutput(), "ero.nii.gz");
       // m_CircCastA->UpdateOutputInformation();
-      typedef typename itk::CropImageFilter<TOutputImage, TOutputImage> CropType;
-      typename CropType::Pointer                                        crop = CropType::New();
+      using CropType = typename itk::CropImageFilter<TOutputImage, TOutputImage>;
+      typename CropType::Pointer crop = CropType::New();
       crop->SetInput(m_CircCastA->GetOutput());
       crop->SetUpperBoundaryCropSize(Pad);
       crop->SetLowerBoundaryCropSize(Pad);
@@ -189,8 +189,8 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 
     if (m_SafeBorder)
     {
-      typedef typename itk::ConstantPadImageFilter<InputImageType, InputImageType> PadType;
-      typename PadType::Pointer                                                    pad = PadType::New();
+      using PadType = typename itk::ConstantPadImageFilter<InputImageType, InputImageType>;
+      typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(Pad);
       pad->SetPadUpperBound(Pad);
       pad->SetConstant(0);
@@ -198,8 +198,8 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 
       m_RectDilate->SetInput(pad->GetOutput());
 
-      typedef typename itk::CropImageFilter<TOutputImage, TOutputImage> CropType;
-      typename CropType::Pointer                                        crop = CropType::New();
+      using CropType = typename itk::CropImageFilter<TOutputImage, TOutputImage>;
+      typename CropType::Pointer crop = CropType::New();
       crop->SetInput(m_RectCastA->GetOutput());
       crop->SetUpperBoundaryCropSize(Pad);
       crop->SetLowerBoundaryCropSize(Pad);

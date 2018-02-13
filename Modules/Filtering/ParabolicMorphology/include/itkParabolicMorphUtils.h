@@ -197,12 +197,12 @@ doOneDimension(TInIter &          inputIterator,
     INTERSECTION = 2  // default
   };
 
-  //  typedef typename std::vector<RealType> LineBufferType;
+  //  using LineBufferType = typename std::vector<RealType>;
 
   // message from M.Starring suggested performance gain using Array
   // instead of std::vector.
-  typedef typename itk::Array<RealType> LineBufferType;
-  RealType                              iscale = 1.0;
+  using LineBufferType = typename itk::Array<RealType>;
+  RealType iscale = 1.0;
   if (m_UseImageSpacing)
   {
     iscale = image_scale;
@@ -269,7 +269,7 @@ doOneDimension(TInIter &          inputIterator,
   else
   {
     // using the Intersection algorithm
-    typedef typename itk::Array<int> IndexBufferType;
+    using IndexBufferType = typename itk::Array<int>;
 
     const RealType  magnitudeInt = (iscale * iscale) / (2.0 * Sigma);
     LineBufferType  LineBuf(LineLength);

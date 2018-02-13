@@ -34,11 +34,11 @@ itkParaSpacingTest(int, char * argv[])
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
   const int dim = 2;
 
-  typedef unsigned char          PType;
-  typedef itk::Image<PType, dim> IType;
+  using PType = unsigned char;
+  using IType = itk::Image<PType, dim>;
 
-  typedef itk::ImageFileReader<IType> ReaderType;
-  ReaderType::Pointer                 reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<IType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -50,7 +50,7 @@ itkParaSpacingTest(int, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::ParabolicOpenImageFilter<IType, IType> FilterType;
+  using FilterType = itk::ParabolicOpenImageFilter<IType, IType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -72,8 +72,8 @@ itkParaSpacingTest(int, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::ImageFileWriter<IType> WriterType;
-  WriterType::Pointer                 writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<IType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
   try
@@ -88,8 +88,8 @@ itkParaSpacingTest(int, char * argv[])
 
   // now we'll change the image spacing and see if we can reproduce
   // the result
-  typedef itk::ChangeInformationImageFilter<IType> ChangeType;
-  ChangeType::Pointer                              changer = ChangeType::New();
+  using ChangeType = itk::ChangeInformationImageFilter<IType>;
+  ChangeType::Pointer changer = ChangeType::New();
   changer->SetInput(reader->GetOutput());
   ChangeType::SpacingType oldspacing, newspacing;
 

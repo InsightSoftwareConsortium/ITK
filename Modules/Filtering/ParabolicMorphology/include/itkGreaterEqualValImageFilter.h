@@ -72,14 +72,14 @@ class ITK_EXPORT GreaterEqualValImageFilter
                                    Functor::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GreaterEqualValImageFilter Self;
-  typedef UnaryFunctorImageFilter<TInputImage,
-                                  TOutputImage,
-                                  Functor::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
-                                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type alias. */
+  using Self = GreaterEqualValImageFilter;
+  using Superclass =
+    UnaryFunctorImageFilter<TInputImage,
+                            TOutputImage,
+                            Functor::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
