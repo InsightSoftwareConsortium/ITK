@@ -49,24 +49,24 @@ class SplitComponentsImageFilter : public ImageToImageFilter<TInputImage, TOutpu
 {
 public:
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   /** Components enumeration. */
-  itkStaticConstMacro(Components, unsigned int, TComponents);
+  static constexpr unsigned int Components = TComponents;
 
   /** Image types. */
-  typedef TInputImage                          InputImageType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
-  /** Standard class typedefs. */
-  typedef SplitComponentsImageFilter                          Self;
-  typedef ImageToImageFilter<InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  /** Standard class type alias. */
+  using Self = SplitComponentsImageFilter;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef FixedArray<bool, TComponents> ComponentsMaskType;
+  using ComponentsMaskType = FixedArray<bool, TComponents>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SplitComponentsImageFilter, ImageToImageFilter);

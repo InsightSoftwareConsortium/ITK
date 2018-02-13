@@ -45,8 +45,8 @@ template <class TInputImage, class TOutputImage, unsigned int TComponents>
 void
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::AllocateOutputs()
 {
-  typedef ImageBase<TOutputImage::ImageDimension> ImageBaseType;
-  typename ImageBaseType::Pointer                 outputPtr;
+  using ImageBaseType = ImageBase<TOutputImage::ImageDimension>;
+  typename ImageBaseType::Pointer outputPtr;
 
   // Allocate the output memory as with ImageSource
   unsigned int ii = 0;
@@ -78,9 +78,9 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::ThreadedGene
   ProcessObject::DataObjectPointerArray outputs = this->GetOutputs();
   const ComponentsMaskType              componentsMask = this->m_ComponentsMask;
 
-  typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
-  ImageRegionConstIterator<InputImageType>     inIt(input, outputRegion);
-  std::vector<OutputIteratorType>              outIts(Components);
+  using OutputIteratorType = ImageRegionIterator<OutputImageType>;
+  ImageRegionConstIterator<InputImageType> inIt(input, outputRegion);
+  std::vector<OutputIteratorType>          outIts(Components);
   for (unsigned int ii = 0; ii < Components; ++ii)
   {
     if (componentsMask[ii])

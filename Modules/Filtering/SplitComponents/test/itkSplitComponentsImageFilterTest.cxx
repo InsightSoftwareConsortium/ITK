@@ -35,20 +35,20 @@ itkSplitComponentsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int                        Dimension = 2;
-  typedef signed short                      PixelType;
-  typedef itk::Image<PixelType, Dimension>  OutputImageType;
-  typedef itk::Vector<PixelType, Dimension> VectorType;
-  typedef itk::Image<VectorType, Dimension> InputImageType;
+  const unsigned int Dimension = 2;
+  using PixelType = signed short;
+  using OutputImageType = itk::Image<PixelType, Dimension>;
+  using VectorType = itk::Vector<PixelType, Dimension>;
+  using InputImageType = itk::Image<VectorType, Dimension>;
 
   // Size in every dimension of the output image.
   const unsigned int sizes = 100;
 
   InputImageType::Pointer input = InputImageType::New();
 
-  typedef InputImageType::RegionType RegionType;
-  RegionType                         region;
-  RegionType::IndexType              index;
+  using RegionType = InputImageType::RegionType;
+  RegionType            region;
+  RegionType::IndexType index;
   index.Fill(0);
   region.SetIndex(index);
   RegionType::SizeType size;
@@ -71,12 +71,12 @@ itkSplitComponentsImageFilterTest(int argc, char * argv[])
     it.Set(vector);
   }
 
-  typedef itk::SplitComponentsImageFilter<InputImageType, OutputImageType, Dimension> FilterType;
-  FilterType::Pointer                                                                 filter = FilterType::New();
+  using FilterType = itk::SplitComponentsImageFilter<InputImageType, OutputImageType, Dimension>;
+  FilterType::Pointer filter = FilterType::New();
   filter->SetInput(input);
 
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
 
   std::ostringstream ostr;
   try
@@ -99,8 +99,8 @@ itkSplitComponentsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typedef FilterType::ComponentsMaskType ComponentsMaskType;
-  ComponentsMaskType                     componentsMask(false);
+  using ComponentsMaskType = FilterType::ComponentsMaskType;
+  ComponentsMaskType componentsMask(false);
   componentsMask[1] = true;
   const ComponentsMaskType oldComponents = filter->GetComponentsMask();
   if (oldComponents[0] != true)
