@@ -35,11 +35,11 @@ int itkObjectnessMeasureImageFilterTest(int argc, char *argv[])
 
   const unsigned int objectDimension = (argc >= 3) ? atoi(argv[3]) : 3;
   const bool brightObject = (argc >= 4) ? atoi(argv[4]) : true;
-  const double alphaValue = 0.5;
-  const double betaValue = 0.5;
-  const double gammaValue = 0.5;
+  constexpr double alphaValue = 0.5;
+  constexpr double betaValue = 0.5;
+  constexpr double gammaValue = 0.5;
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = double;
   using ImageType = itk::Image< PixelType, Dimension >;
 

@@ -21,10 +21,10 @@
 
 int itkHessianImageFilterTest( int , char *[] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image< float, Dimension >;
 
-  const unsigned int imageSize = 64;
+  constexpr unsigned int imageSize = 64;
 
   ImageType::SizeType size;
   size.Fill( imageSize );
