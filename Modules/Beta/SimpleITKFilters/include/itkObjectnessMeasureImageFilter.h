@@ -34,18 +34,18 @@ class ObjectnessMeasureImageFilter
   : public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ObjectnessMeasureImageFilter Self;
+  /** Standard class type alias. */
+  using Self = ObjectnessMeasureImageFilter;
 
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
-  typedef double                                   InternalType;
+  using InternalType = double;
 
   /** Image dimension */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;

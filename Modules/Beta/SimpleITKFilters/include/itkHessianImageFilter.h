@@ -48,21 +48,21 @@ class HessianImageFilter :
 {
 public:
 
-  /** Standard typedefs */
-  typedef HessianImageFilter                           Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard type alias */
+  using Self = HessianImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
 
   /** Pixel Type of the input image */
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType PixelType;
+  using InputImageType = TInputImage;
+  using PixelType = typename InputImageType::PixelType;
 
   /** Type of the output Image */
-  typedef TOutputImage                                 OutputImageType;
-  typedef typename          OutputImageType::PixelType OutputPixelType;
-  typedef typename OutputImageType::RegionType         OutputImageRegionType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename          OutputImageType::PixelType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
 
  /** Run-time type information (and related methods).   */
