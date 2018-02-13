@@ -134,7 +134,7 @@ public:
   {}
 
 private:
-  typedef typename std::map<TInputPixel, size_t> MapType;
+  using MapType = typename std::map<TInputPixel, size_t>;
 
   MapType m_Map;
   size_t  m_Count;

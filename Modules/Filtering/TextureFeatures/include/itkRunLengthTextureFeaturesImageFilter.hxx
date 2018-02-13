@@ -50,8 +50,8 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::RunL
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
   // We use a neighborhood iterator to calculate the appropriate offsets.
-  typedef Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
-  NeighborhoodType                                                                         hood;
+  using NeighborhoodType = Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension>;
+  NeighborhoodType hood;
   hood.SetRadius(1);
 
   // Select all "previous" neighbors that are face+edge+vertex
@@ -86,12 +86,12 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Befo
   typename TInputImage::Pointer input = InputImageType::New();
   input->Graft(const_cast<TInputImage *>(this->GetInput()));
 
-  typedef Digitizer<PixelType, PixelType, typename DigitizedImageType::PixelType> DigitizerFunctorType;
+  using DigitizerFunctorType = Digitizer<PixelType, PixelType, typename DigitizedImageType::PixelType>;
 
   DigitizerFunctorType digitalizer(
     m_NumberOfBinsPerAxis, m_InsidePixelValue, m_HistogramValueMinimum, m_HistogramValueMaximum);
 
-  typedef BinaryFunctorImageFilter<MaskImageType, InputImageType, DigitizedImageType, DigitizerFunctorType> FilterType;
+  using FilterType = BinaryFunctorImageFilter<MaskImageType, InputImageType, DigitizedImageType, DigitizerFunctorType>;
   typename FilterType::Pointer filter = FilterType::New();
   if (this->GetMaskImage() != nullptr)
   {
@@ -140,12 +140,12 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Thre
 
   // Creation of a region with the same size as the neighborhood. This region
   // will be used to check if each voxel has already been visited.
-  InputRegionType                                  boolRegion;
-  typename InputRegionType::IndexType              boolStart;
-  typename InputRegionType::SizeType               boolSize;
-  IndexType                                        boolCurentInNeighborhoodIndex;
-  typedef Image<bool, TInputImage::ImageDimension> BoolImageType;
-  typename BoolImageType::Pointer                  alreadyVisitedImage = BoolImageType::New();
+  InputRegionType                     boolRegion;
+  typename InputRegionType::IndexType boolStart;
+  typename InputRegionType::SizeType  boolSize;
+  IndexType                           boolCurentInNeighborhoodIndex;
+  using BoolImageType = Image<bool, TInputImage::ImageDimension>;
+  typename BoolImageType::Pointer alreadyVisitedImage = BoolImageType::New();
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
   {
     boolSize[i] = this->m_NeighborhoodRadius[i] * 2 + 1;
@@ -189,9 +189,9 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Thre
   /// ***** Non-boundary Region *****
   for (; fit != faceList.end(); ++fit)
   {
-    NeighborhoodIteratorType                          inputNIt(m_NeighborhoodRadius, this->m_DigitizedInputImage, *fit);
-    typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
-    IteratorType                                      outputIt(outputPtr, *fit);
+    NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_DigitizedInputImage, *fit);
+    using IteratorType = itk::ImageRegionIterator<OutputImageType>;
+    IteratorType outputIt(outputPtr, *fit);
 
     // Iteration over the all image region
     while (!inputNIt.IsAtEnd())

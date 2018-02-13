@@ -57,16 +57,15 @@ class ITK_TEMPLATE_EXPORT FirstOrderTextureFeaturesImageFilter
       typename Function::FirstOrderTextureHistogram<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FirstOrderTextureFeaturesImageFilter Self;
-  typedef MovingHistogramImageFilter<
+  /** Standard class type alias. */
+  using Self = FirstOrderTextureFeaturesImageFilter;
+  using Superclass = MovingHistogramImageFilter<
     TInputImage,
     TOutputImage,
     TKernel,
-    typename Function::FirstOrderTextureHistogram<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
-                                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+    typename Function::FirstOrderTextureHistogram<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -74,18 +73,18 @@ public:
   /** Runtime information support. */
   itkTypeMacro(FirstOrderTextureFeaturesImageFilter, MovingHistogramMorphologyImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                                InputImageType;
-  typedef TOutputImage                               OutputImageType;
-  typedef typename TInputImage::RegionType           RegionType;
-  typedef typename TInputImage::SizeType             SizeType;
-  typedef typename TInputImage::IndexType            IndexType;
-  typedef typename TInputImage::PixelType            PixelType;
-  typedef typename TInputImage::OffsetType           OffsetType;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename TOutputImage::PixelType           OutputPixelType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 protected:

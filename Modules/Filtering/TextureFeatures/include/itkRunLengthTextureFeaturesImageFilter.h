@@ -101,11 +101,11 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT RunLengthTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard typedefs */
-  typedef RunLengthTextureFeaturesImageFilter           Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard type alias */
+  using Self = RunLengthTextureFeaturesImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
@@ -113,27 +113,27 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef TMaskImage   MaskImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using MaskImageType = TMaskImage;
 
-  typedef typename InputImageType::PixelType PixelType;
-  typedef typename MaskImageType::PixelType  MaskPixelType;
-  typedef typename InputImageType::IndexType IndexType;
-  typedef typename InputImageType::PointType PointType;
+  using PixelType = typename InputImageType::PixelType;
+  using MaskPixelType = typename MaskImageType::PixelType;
+  using IndexType = typename InputImageType::IndexType;
+  using PointType = typename InputImageType::PointType;
 
-  typedef typename InputImageType::OffsetType        OffsetType;
-  typedef VectorContainer<unsigned char, OffsetType> OffsetVector;
-  typedef typename OffsetVector::Pointer             OffsetVectorPointer;
-  typedef typename OffsetVector::ConstPointer        OffsetVectorConstPointer;
+  using OffsetType = typename InputImageType::OffsetType;
+  using OffsetVector = VectorContainer<unsigned char, OffsetType>;
+  using OffsetVectorPointer = typename OffsetVector::Pointer;
+  using OffsetVectorConstPointer = typename OffsetVector::ConstPointer;
 
-  typedef typename InputImageType::RegionType  InputRegionType;
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
-  typedef typename itk::ConstNeighborhoodIterator<InputImageType>::RadiusType NeighborhoodRadiusType;
+  using NeighborhoodRadiusType = typename itk::ConstNeighborhoodIterator<InputImageType>::RadiusType;
 
-  typedef typename NumericTraits<PixelType>::RealType MeasurementType;
-  typedef typename NumericTraits<PixelType>::RealType RealType;
+  using MeasurementType = typename NumericTraits<PixelType>::RealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Method to set/get the Neighborhood radius */
   itkSetMacro(NeighborhoodRadius, NeighborhoodRadiusType);
@@ -215,8 +215,8 @@ public:
   itkSetMacro(InsidePixelValue, MaskPixelType);
   itkGetConstMacro(InsidePixelValue, MaskPixelType);
 
-  typedef typename OutputImageType::PixelType                     OutputPixelType;
-  typedef typename NumericTraits<OutputPixelType>::ScalarRealType OutputRealType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputRealType = typename NumericTraits<OutputPixelType>::ScalarRealType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -225,10 +225,10 @@ public:
 #endif
 
 protected:
-  typedef int                                                         HistogramIndexType;
-  typedef itk::Image<HistogramIndexType, TInputImage::ImageDimension> DigitizedImageType;
-  typedef typename itk::ConstNeighborhoodIterator<DigitizedImageType> NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::NeighborIndexType        NeighborIndexType;
+  using HistogramIndexType = int;
+  using DigitizedImageType = itk::Image<HistogramIndexType, TInputImage::ImageDimension>;
+  using NeighborhoodIteratorType = typename itk::ConstNeighborhoodIterator<DigitizedImageType>;
+  using NeighborIndexType = typename NeighborhoodIteratorType::NeighborIndexType;
 
   RunLengthTextureFeaturesImageFilter();
   ~RunLengthTextureFeaturesImageFilter() override {}

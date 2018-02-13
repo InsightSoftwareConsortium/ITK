@@ -25,15 +25,15 @@
 static void
 Test1(const std::string & inFileName, const std::string & outFileName)
 {
-  const unsigned int                                            ImageDimension = 3;
-  typedef itk::Image<unsigned char, ImageDimension>             ImageType;
-  typedef itk::Image<itk::FixedArray<float, 8>, ImageDimension> OImageType;
-  typedef itk::FlatStructuringElement<ImageDimension>           KernelType;
+  const unsigned int ImageDimension = 3;
+  using ImageType = itk::Image<unsigned char, ImageDimension>;
+  using OImageType = itk::Image<itk::FixedArray<float, 8>, ImageDimension>;
+  using KernelType = itk::FlatStructuringElement<ImageDimension>;
 
-  typedef itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
+  using TextureFilterType = itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType>;
 
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inFileName);
@@ -47,7 +47,7 @@ Test1(const std::string & inFileName, const std::string & outFileName)
   filter->SetInput(reader->GetOutput());
   filter->UpdateLargestPossibleRegion();
 
-  typedef itk::ImageFileWriter<OImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<OImageType>;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outFileName);
@@ -59,15 +59,15 @@ Test1(const std::string & inFileName, const std::string & outFileName)
 static void
 Test2(std::string inFileName)
 {
-  const unsigned int                                  ImageDimension = 3;
-  typedef itk::Image<unsigned char, ImageDimension>   ImageType;
-  typedef itk::VectorImage<float, ImageDimension>     OImageType;
-  typedef itk::FlatStructuringElement<ImageDimension> KernelType;
+  const unsigned int ImageDimension = 3;
+  using ImageType = itk::Image<unsigned char, ImageDimension>;
+  using OImageType = itk::VectorImage<float, ImageDimension>;
+  using KernelType = itk::FlatStructuringElement<ImageDimension>;
 
-  typedef itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
+  using TextureFilterType = itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType>;
 
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inFileName);
