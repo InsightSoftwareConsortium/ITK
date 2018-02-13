@@ -80,13 +80,13 @@ public:
 
 protected:
   ZeroDCImageFilter();
-  virtual ~ZeroDCImageFilter() {}
-
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ZeroDCImageFilter() override {}
 
   void
-  GenerateData() ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
+  void
+  GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ZeroDCImageFilter);

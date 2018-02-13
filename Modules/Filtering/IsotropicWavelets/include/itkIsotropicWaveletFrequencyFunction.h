@@ -74,8 +74,8 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Evaluate Magnitude of frequency point. Evaluate function calls this. */
-  virtual FunctionValueType
-  EvaluateMagnitude(const TFunctionValue & freq_norm_in_hz) const ITK_OVERRIDE = 0;
+  FunctionValueType
+  EvaluateMagnitude(const TFunctionValue & freq_norm_in_hz) const override = 0;
 
   /**** Forward/Analysis ***/
   /** Evaluate the low filter response. */
@@ -117,9 +117,9 @@ public:
   // itkSetMacro(FreqCutOff, FunctionValueType);
 protected:
   IsotropicWaveletFrequencyFunction();
-  virtual ~IsotropicWaveletFrequencyFunction();
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~IsotropicWaveletFrequencyFunction() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   unsigned int      m_HighPassSubBands;
   FunctionValueType m_FreqCutOff;
