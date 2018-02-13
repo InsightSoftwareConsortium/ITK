@@ -1826,7 +1826,9 @@ static herr_t    H5_INTERFACE_INIT_FUNC(void);
 #endif /* H5_INTERFACE_INIT_FUNC */
 
 
-#ifndef NDEBUG
+/* XXX(kitware): Our mangling breaks the rules for this; assume upstream did their job. */
+/* #ifndef NDEBUG */
+#if 0
 #define FUNC_ENTER_CHECK_NAME(asrt)                \
     {                                \
         static hbool_t func_check = FALSE;                      \
