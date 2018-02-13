@@ -76,7 +76,7 @@ public:
   itkTypeMacro(VariationalRegistrationCurvatureRegularizer, VariationalRegistrationRegularizer);
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TDisplacementField::ImageDimension);
+  static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field types, inherited from Superclass. */
   typedef typename Superclass::DisplacementFieldType              DisplacementFieldType;

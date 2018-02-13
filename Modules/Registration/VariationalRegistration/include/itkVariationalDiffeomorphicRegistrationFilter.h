@@ -96,7 +96,7 @@ public:
   itkTypeMacro(itkVariationalDiffeomorphicRegistrationFilter, VariationalRegistrationFilter);
 
   /** Get image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** FixedImage image type. */
   typedef TFixedImage                           FixedImageType;

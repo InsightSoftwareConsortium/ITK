@@ -63,7 +63,7 @@ public:
   itkTypeMacro(VariationalRegistrationFunction, FiniteDifferenceFunction);
 
   /** Get image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** MovingImage image type. */
   typedef TMovingImage                           MovingImageType;

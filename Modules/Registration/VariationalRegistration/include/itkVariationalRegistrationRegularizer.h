@@ -60,7 +60,7 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(itkVariationalRegistrationRegularizer, InPlaceImageFilter);
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TDisplacementField::ImageDimension);
+  static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field type. */
   typedef TDisplacementField                           DisplacementFieldType;
