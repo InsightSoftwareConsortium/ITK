@@ -83,14 +83,14 @@ public:
 
 protected:
   MonogenicSignalFrequencyImageFilter();
-  ~MonogenicSignalFrequencyImageFilter() {}
-  virtual void
+  ~MonogenicSignalFrequencyImageFilter() override {}
+  void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
+  void
   GenerateOutputInformation() override;
 
-  virtual void
+  void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:

@@ -86,7 +86,7 @@ public:
   /** Get the shrink factors. */
   itkGetConstReferenceMacro(ShrinkFactors, ShrinkFactorsType);
 
-  virtual void
+  void
   GenerateOutputInformation() override;
 
   /** ShrinkDecimateImageFilter needs a larger input requested region than the output
@@ -94,7 +94,7 @@ public:
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void
+  void
   GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING

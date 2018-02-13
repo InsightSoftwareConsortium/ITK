@@ -102,17 +102,17 @@ public:
 
 protected:
   FFTPadPositiveIndexImageFilter();
-  ~FFTPadPositiveIndexImageFilter() {};
-  virtual void
+  ~FFTPadPositiveIndexImageFilter() override {};
+  void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
+  void
   GenerateInputRequestedRegion() override;
 
-  virtual void
+  void
   GenerateOutputInformation() override;
 
-  virtual void
+  void
   GenerateData() override;
 
 private:

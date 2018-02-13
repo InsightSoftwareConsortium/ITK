@@ -184,10 +184,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
+  void
   BeforeThreadedGenerateData() override;
 
-  virtual void
+  void
   ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:

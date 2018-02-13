@@ -114,7 +114,7 @@ public:
   }
 
   /** Evaluate the function at a given frequency point. */
-  virtual FunctionValueType
+  FunctionValueType
   Evaluate(const TInput &) const override
   {
     itkExceptionMacro("Evaluate(TInput&) is not valid for RieszFrequencyFunction."
@@ -201,8 +201,8 @@ public:
 
 protected:
   RieszFrequencyFunction();
-  virtual ~RieszFrequencyFunction();
-  virtual void
+  ~RieszFrequencyFunction() override;
+  void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

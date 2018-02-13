@@ -150,7 +150,7 @@ public:
 
 protected:
   WaveletFrequencyForward();
-  ~WaveletFrequencyForward() {}
+  ~WaveletFrequencyForward() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -168,7 +168,7 @@ protected:
    * below.
    * \sa ProcessObject::GenerateOutputInformaton()
    */
-  virtual void
+  void
   GenerateOutputInformation() override;
 
   /** Given one output whose requested region has been set, this method sets
@@ -176,7 +176,7 @@ protected:
    * documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion()
    */
-  virtual void
+  void
   GenerateOutputRequestedRegion(DataObject * output) override;
 
   /** WaveletFrequencyForward requires a larger input requested
@@ -186,7 +186,7 @@ protected:
    * original documentation of this method is below.
    * \sa ProcessObject::GenerateInputRequestedRegion()
    */
-  virtual void
+  void
   GenerateInputRequestedRegion() override;
 
 private:

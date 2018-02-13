@@ -121,7 +121,7 @@ public:
 
 protected:
   WaveletFrequencyInverseUndecimated();
-  ~WaveletFrequencyInverseUndecimated() {}
+  ~WaveletFrequencyInverseUndecimated() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -139,7 +139,7 @@ protected:
    * below.
    * \sa ProcessObject::GenerateOutputInformaton()
    */
-  virtual void
+  void
   GenerateOutputInformation() override;
 
   /** Given one output whose requested region has been set, this method sets
@@ -147,7 +147,7 @@ protected:
    * documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion()
    */
-  virtual void
+  void
   GenerateOutputRequestedRegion(DataObject * output) override;
 
   /** WaveletFrequencyInverseUndecimated requires a larger input requested
@@ -157,12 +157,12 @@ protected:
    * original documentation of this method is below.
    * \sa ProcessObject::GenerateInputRequestedRegion()
    */
-  virtual void
+  void
   GenerateInputRequestedRegion() override;
 
   /** Input images do not occupy the same physical space.
    * Remove the check. */
-  virtual void
+  void
   VerifyInputInformation() override {};
 
 private:

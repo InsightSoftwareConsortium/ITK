@@ -79,7 +79,7 @@ public:
 
 protected:
   HeldIsotropicWavelet();
-  virtual ~HeldIsotropicWavelet();
+  ~HeldIsotropicWavelet() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -111,12 +111,12 @@ public:
 
 protected:
   RieszFrequencyFilterBankGenerator();
-  virtual ~RieszFrequencyFilterBankGenerator() {}
+  ~RieszFrequencyFilterBankGenerator() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate data */
-  virtual void
+  void
   GenerateData() override;
 
 private:

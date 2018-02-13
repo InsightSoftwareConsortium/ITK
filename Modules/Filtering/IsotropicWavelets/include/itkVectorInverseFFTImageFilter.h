@@ -67,9 +67,9 @@ public:
 
 protected:
   VectorInverseFFTImageFilter() {}
-  virtual ~VectorInverseFFTImageFilter() {}
+  ~VectorInverseFFTImageFilter() override {}
 
-  virtual void
+  void
   GenerateData() override;
 
   void

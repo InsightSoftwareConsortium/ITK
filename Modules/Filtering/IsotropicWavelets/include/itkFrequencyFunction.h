@@ -61,13 +61,13 @@ public:
     return w_rad_per_sec / (2 * itk::Math::pi);
   };
   /** Evaluate the function at a given frequency point. */
-  virtual FunctionValueType
+  FunctionValueType
   Evaluate(const TInput & frequency_point) const override = 0;
 
 protected:
   FrequencyFunction() {};
-  virtual ~FrequencyFunction() {};
-  virtual void
+  ~FrequencyFunction() override {};
+  void
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);

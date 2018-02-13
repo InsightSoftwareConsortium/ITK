@@ -108,7 +108,7 @@ public:
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void
+  void
   GenerateOutputInformation() override;
 
   /** ExpandWithZerosImageFilter needs a smaller input requested region than the output
@@ -116,7 +116,7 @@ public:
    * implementation for GenerateInputRequestedRegion() in order to inform
    * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void
+  void
   GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -128,7 +128,7 @@ public:
 
 protected:
   ExpandWithZerosImageFilter();
-  ~ExpandWithZerosImageFilter() {}
+  ~ExpandWithZerosImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -141,12 +141,13 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  virtual void
+
+  void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void
+  void
   BeforeThreadedGenerateData() override;
 
 private:

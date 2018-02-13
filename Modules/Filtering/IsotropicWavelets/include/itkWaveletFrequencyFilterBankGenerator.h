@@ -133,11 +133,11 @@ public:
 
 protected:
   WaveletFrequencyFilterBankGenerator();
-  virtual ~WaveletFrequencyFilterBankGenerator() {}
+  ~WaveletFrequencyFilterBankGenerator() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
+  void
   GenerateData() override;
 
 private:
