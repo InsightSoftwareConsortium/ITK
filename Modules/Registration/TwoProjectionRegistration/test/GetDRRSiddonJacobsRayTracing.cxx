@@ -317,7 +317,7 @@ GetDRRSiddonJacobsRayTracing(int argc, char * argv[])
   // Although we generate a 2D projection of the 3D volume for the
   // purposes of the interpolator both images must be three dimensional.
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using InputPixelType = short;
   using OutputPixelType = unsigned char;
 

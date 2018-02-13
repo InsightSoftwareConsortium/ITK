@@ -421,7 +421,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   // images have the same dimension so the 2D image is given
   // dimension 3 and the size of the {z} dimension is set to unity.
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using InternalPixelType = float;
   using PixelType3D = short;
 

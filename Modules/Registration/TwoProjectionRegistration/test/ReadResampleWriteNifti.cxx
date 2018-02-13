@@ -39,7 +39,7 @@ main(int argc, char * argv[])
     std::cerr << "Too many arguments" << std::endl;
   }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   double outputSpacing[Dimension];
   outputSpacing[0] = 2.0; // pixel spacing in millimeters along X
