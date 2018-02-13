@@ -33,31 +33,31 @@ itkHigherOrderAccurateGradientImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int                       Dimension = 2;
-  typedef float                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  const unsigned int Dimension = 2;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // First order accurate.
-  typedef itk::GradientImageFilter<ImageType, float, float> FirstFilterType;
-  FirstFilterType::Pointer                                  firstFilter = FirstFilterType::New();
+  using FirstFilterType = itk::GradientImageFilter<ImageType, float, float>;
+  FirstFilterType::Pointer firstFilter = FirstFilterType::New();
   firstFilter->SetInput(reader->GetOutput());
 
-  typedef itk::HigherOrderAccurateGradientImageFilter<ImageType, float, float> FilterType;
-  typedef FilterType::OutputImageType                                          GradientImageType;
-  FilterType::Pointer                                                          filter = FilterType::New();
+  using FilterType = itk::HigherOrderAccurateGradientImageFilter<ImageType, float, float>;
+  using GradientImageType = FilterType::OutputImageType;
+  FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
   std::string outputPrefix = argv[2];
 
-  typedef itk::VectorMagnitudeImageFilter<GradientImageType, ImageType> GradientMagnitudeFilterType;
+  using GradientMagnitudeFilterType = itk::VectorMagnitudeImageFilter<GradientImageType, ImageType>;
   GradientMagnitudeFilterType::Pointer gradientMagnitude = GradientMagnitudeFilterType::New();
 
-  typedef itk::ImageFileWriter<ImageType> GradientMagnitudeWriterType;
-  GradientMagnitudeWriterType::Pointer    gradientMagnitudeWriter = GradientMagnitudeWriterType::New();
+  using GradientMagnitudeWriterType = itk::ImageFileWriter<ImageType>;
+  GradientMagnitudeWriterType::Pointer gradientMagnitudeWriter = GradientMagnitudeWriterType::New();
   gradientMagnitudeWriter->SetInput(gradientMagnitude->GetOutput());
 
   std::ostringstream ostrm;

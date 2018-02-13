@@ -60,21 +60,20 @@ public:
   /** Extract dimension from input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  /** Standard class typedefs. */
-  typedef HigherOrderAccurateGradientImageFilter Self;
+  /** Standard class type alias. */
+  using Self = HigherOrderAccurateGradientImageFilter;
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                      InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,
-                itkGetStaticConstMacro(OutputImageDimension)>
-                                            OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImageType = Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,
+                                itkGetStaticConstMacro(OutputImageDimension)>;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Standard class typedefs. */
-  typedef ImageToImageFilter<InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  /** Standard class type alias. */
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,12 +81,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(HigherOrderAccurateGradientImageFilter, ImageToImageFilter);
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType                                             InputPixelType;
-  typedef TOperatorValueType                                                             OperatorValueType;
-  typedef TOutputValueType                                                               OutputValueType;
-  typedef CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)> OutputPixelType;
-  typedef typename OutputImageType::RegionType                                           OutputImageRegionType;
+  /** Image type alias support. */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OperatorValueType = TOperatorValueType;
+  using OutputValueType = TOutputValueType;
+  using OutputPixelType = CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)>;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
