@@ -3,7 +3,7 @@
 /* define if the library defines strstream */
 #undef HAVE_CLASS_STRSTREAM
 
-/* Define to 1 if you have the <inttypes.h> header file. */
+/* Define to 1 if you have the <cinttypes> header file. */
 #undef HAVE_INTTYPES_H
 
 /* define if the C++ implementation have long long */
@@ -18,16 +18,16 @@
 /* define if the compiler has stringstream */
 #undef HAVE_SSTREAM
 
-/* Define to 1 if you have the <stdint.h> header file. */
+/* Define to 1 if you have the <cstdint> header file. */
 #undef HAVE_STDINT_H
 
-/* Define to 1 if you have the <stdlib.h> header file. */
+/* Define to 1 if you have the <cstdlib> header file. */
 #undef HAVE_STDLIB_H
 
 /* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
 
-/* Define to 1 if you have the <string.h> header file. */
+/* Define to 1 if you have the <cstring> header file. */
 #undef HAVE_STRING_H
 
 /* Define to 1 if you have the <strstream> header file. */

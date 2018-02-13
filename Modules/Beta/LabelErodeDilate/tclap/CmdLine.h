@@ -46,7 +46,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-#include <stdlib.h> // Needed for exit(), which isn't defined in some envs.
+#include <cstdlib> // Needed for exit(), which isn't defined in some envs.
 
 namespace TCLAP {
 
