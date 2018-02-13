@@ -26,8 +26,8 @@ template <typename ImageType>
 void
 doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransform, bool ball, int axis, int label)
 {
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  typename ReaderType::Pointer            reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inFilename);
   reader->Update();
 
@@ -41,16 +41,16 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   //   reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
   //   }
 
-  typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
-  typename mciType::Pointer                                mci = mciType::New();
+  using mciType = itk::MorphologicalContourInterpolator<ImageType>;
+  typename mciType::Pointer mci = mciType::New();
   mci->SetInput(test);
   mci->SetUseDistanceTransform(UseDistanceTransform);
   mci->SetUseBallStructuringElement(ball);
   mci->SetAxis(axis);
   mci->SetLabel(label);
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  typename WriterType::Pointer            writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outFilename);
   writer->SetInput(mci->GetOutput());
   writer->SetUseCompression(true);
@@ -99,8 +99,8 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
     label = strtol(argv[5], nullptr, 10);
   }
 
-  typedef itk::ImageIOBase::IOComponentType ScalarPixelType;
-  itk::ImageIOBase::Pointer                 imageIO =
+  using ScalarPixelType = itk::ImageIOBase::IOComponentType;
+  itk::ImageIOBase::Pointer imageIO =
     itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::ReadMode);
   if (!imageIO)
   {

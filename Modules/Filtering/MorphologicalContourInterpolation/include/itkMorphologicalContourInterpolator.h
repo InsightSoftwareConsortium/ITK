@@ -68,11 +68,11 @@ class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImag
   friend class MorphologicalContourInterpolatorParallelInvoker;
 
 public:
-  /** Standard class typedefs. */
-  typedef MorphologicalContourInterpolator                              Self;
-  typedef ImageToImageFilter<TImage, TImage>                            Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef Image<typename TImage::PixelType, TImage::ImageDimension - 1> SliceType;
+  /** Standard class type alias. */
+  using Self = MorphologicalContourInterpolator;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using SliceType = Image<typename TImage::PixelType, TImage::ImageDimension - 1>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -163,7 +163,7 @@ public:
   DetermineSliceOrientations();
 
   /** An std::set of slice indices which need to be interpolated. */
-  typedef std::set<typename TImage::IndexValueType> SliceSetType;
+  using SliceSetType = std::set<typename TImage::IndexValueType>;
 
   /** Clears all custom slice positions. */
   void
@@ -204,8 +204,8 @@ public:
   }
 
   // each label gets a set of slices in which it is present
-  typedef itksys::hash_map<typename TImage::PixelType, SliceSetType> LabeledSlicesType;
-  typedef std::vector<LabeledSlicesType>                             SliceIndicesType;
+  using LabeledSlicesType = itksys::hash_map<typename TImage::PixelType, SliceSetType>;
+  using SliceIndicesType = std::vector<LabeledSlicesType>;
 
   /** Slice indices between which interpolation is done. */
   SliceIndicesType
@@ -228,10 +228,10 @@ protected:
   IdentifierType             m_ThreadCount;   // for thread local instances
   SliceIndicesType           m_LabeledSlices; // one for each axis
 
-  /** Derived image typedefs. */
-  typedef Image<bool, TImage::ImageDimension>      BoolImageType;
-  typedef Image<float, TImage::ImageDimension - 1> FloatSliceType;
-  typedef Image<bool, TImage::ImageDimension - 1>  BoolSliceType;
+  /** Derived image type alias. */
+  using BoolImageType = Image<bool, TImage::ImageDimension>;
+  using FloatSliceType = Image<float, TImage::ImageDimension - 1>;
+  using BoolSliceType = Image<bool, TImage::ImageDimension - 1>;
 
   /** Are these two slices equal? */
   bool
@@ -311,7 +311,7 @@ protected:
                   bool                                  recursive,
                   ThreadIdType                          threadId);
 
-  typedef std::vector<typename TImage::PixelType> PixelList;
+  using PixelList = std::vector<typename TImage::PixelType>;
 
   /** Splits the bigger region and does N 1-to-1 interpolations */
   void
@@ -368,7 +368,7 @@ protected:
         typename SliceType::Pointer & jConn,
         const PixelList &             jRegionIds);
 
-  typedef itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
+  using BoundingBoxesType = itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType>;
   BoundingBoxesType m_BoundingBoxes; // bounding box for each label
 
   /** Calculates a bounding box of non-zero pixels. */
@@ -392,19 +392,19 @@ protected:
   typename BoolSliceType::Pointer
   Dilate1(typename BoolSliceType::Pointer & seed, typename BoolSliceType::Pointer & mask, ThreadIdType threadId);
 
-  typedef ExtractImageFilter<TImage, SliceType> RoiType;
-  typename RoiType::Pointer                     m_RoI;
+  using RoiType = ExtractImageFilter<TImage, SliceType>;
+  typename RoiType::Pointer m_RoI;
 
-  typedef BinaryThresholdImageFilter<SliceType, BoolSliceType> BinarizerType;
-  typename BinarizerType::Pointer                              m_Binarizer;
+  using BinarizerType = BinaryThresholdImageFilter<SliceType, BoolSliceType>;
+  typename BinarizerType::Pointer m_Binarizer;
 
-  typedef ConnectedComponentImageFilter<BoolSliceType, SliceType> ConnectedComponentsType;
-  typename ConnectedComponentsType::Pointer                       m_ConnectedComponents;
+  using ConnectedComponentsType = ConnectedComponentImageFilter<BoolSliceType, SliceType>;
+  typename ConnectedComponentsType::Pointer m_ConnectedComponents;
 
 private:
-  MorphologicalContourInterpolator(const Self &) ITK_DELETED_FUNCTION;
+  MorphologicalContourInterpolator(const Self &) = delete;
   void
-  operator=(const Self &) ITK_DELETED_FUNCTION;
+  operator=(const Self &) = delete;
 };
 } // namespace itk
 

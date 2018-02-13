@@ -56,15 +56,15 @@ class MorphologicalContourInterpolatorParallelInvoker
   : public itk::DomainThreader<itk::ThreadedIndexedContainerPartitioner, MorphologicalContourInterpolator<TImage>>
 {
 public:
-  // Standard ITK typedefs.
-  typedef MorphologicalContourInterpolatorParallelInvoker Self;
-  typedef itk::DomainThreader<itk::ThreadedIndexedContainerPartitioner, MorphologicalContourInterpolator<TImage>>
-                                        Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  // Standard ITK type alias.
+  using Self = MorphologicalContourInterpolatorParallelInvoker;
+  using Superclass =
+    itk::DomainThreader<itk::ThreadedIndexedContainerPartitioner, MorphologicalContourInterpolator<TImage>>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   // The domain is an index range.
-  typedef typename Superclass::DomainType DomainType;
+  using DomainType = typename Superclass::DomainType;
 
   // This creates the ::New() method for instantiating the class.
   itkNewMacro(Self);
@@ -317,20 +317,20 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
                                                   ThreadIdType                      threadId)
 {
   // set up structuring element for dilation
-  typedef BinaryCrossStructuringElement<typename BoolSliceType::PixelType, BoolSliceType::ImageDimension>
-    CrossStructuringElementType;
-  typedef BinaryBallStructuringElement<typename BoolSliceType::PixelType, BoolSliceType::ImageDimension>
-                                                                                             BallStructuringElementType;
-  typedef BinaryDilateImageFilter<BoolSliceType, BoolSliceType, CrossStructuringElementType> CrossDilateType;
-  typedef BinaryDilateImageFilter<BoolSliceType, BoolSliceType, BallStructuringElementType>  BallDilateType;
+  using CrossStructuringElementType =
+    BinaryCrossStructuringElement<typename BoolSliceType::PixelType, BoolSliceType::ImageDimension>;
+  using BallStructuringElementType =
+    BinaryBallStructuringElement<typename BoolSliceType::PixelType, BoolSliceType::ImageDimension>;
+  using CrossDilateType = BinaryDilateImageFilter<BoolSliceType, BoolSliceType, CrossStructuringElementType>;
+  using BallDilateType = BinaryDilateImageFilter<BoolSliceType, BoolSliceType, BallStructuringElementType>;
 
-  static std::vector<bool>                                            initialized(m_ThreadCount); // default: false
-  static std::vector<typename CrossDilateType::Pointer>               m_CrossDilator(m_ThreadCount);
-  static std::vector<typename BallDilateType::Pointer>                m_BallDilator(m_ThreadCount);
-  static std::vector<CrossStructuringElementType>                     m_CrossStructuringElement(m_ThreadCount);
-  static std::vector<BallStructuringElementType>                      m_BallStructuringElement(m_ThreadCount);
-  typedef AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType> AndFilterType;
-  static std::vector<typename AndFilterType::Pointer>                 m_And(m_ThreadCount);
+  static std::vector<bool>                              initialized(m_ThreadCount); // default: false
+  static std::vector<typename CrossDilateType::Pointer> m_CrossDilator(m_ThreadCount);
+  static std::vector<typename BallDilateType::Pointer>  m_BallDilator(m_ThreadCount);
+  static std::vector<CrossStructuringElementType>       m_CrossStructuringElement(m_ThreadCount);
+  static std::vector<BallStructuringElementType>        m_BallStructuringElement(m_ThreadCount);
+  using AndFilterType = AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType>;
+  static std::vector<typename AndFilterType::Pointer> m_And(m_ThreadCount);
 
   if (!initialized[threadId]) // make sure these non-trivial operations are executed only once per thread
   {
@@ -338,8 +338,8 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
     m_BallDilator[threadId] = BallDilateType::New();
     m_And[threadId] = AndFilterType::New();
     m_And[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
-    typedef Size<BoolSliceType::ImageDimension> SizeType;
-    SizeType                                    size;
+    using SizeType = Size<BoolSliceType::ImageDimension>;
+    SizeType size;
     size.Fill(1);
 
     m_CrossDilator[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
@@ -418,7 +418,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
   float ratio = float(jSeq.size()) / iSeq.size();
 
   // generate union of transition sequences
-  typedef OrImageFilter<BoolSliceType>         OrType;
+  using OrType = OrImageFilter<BoolSliceType>;
   static std::vector<bool>                     initialized(m_ThreadCount); // default: false
   static std::vector<typename OrType::Pointer> m_Or(m_ThreadCount);
   if (!initialized[threadId])
@@ -461,7 +461,7 @@ template <typename TImage>
 typename MorphologicalContourInterpolator<TImage>::FloatSliceType::Pointer
 MorphologicalContourInterpolator<TImage>::MaurerDM(typename BoolSliceType::Pointer & mask, ThreadIdType threadId)
 {
-  typedef itk::SignedMaurerDistanceMapImageFilter<BoolSliceType, FloatSliceType> FilterType;
+  using FilterType = itk::SignedMaurerDistanceMapImageFilter<BoolSliceType, FloatSliceType>;
   static std::vector<bool>                         initialized(m_ThreadCount); // default: false
   static std::vector<typename FilterType::Pointer> filter(m_ThreadCount);
   if (!initialized[threadId])
@@ -498,7 +498,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   ImageRegionConstIterator<BoolSliceType>  itj(jMask, iMask->GetRequestedRegion());
   ImageRegionIterator<BoolSliceType>       ito(orImage, iMask->GetRequestedRegion());
   ImageRegionConstIterator<FloatSliceType> itsdf(sdf, iMask->GetRequestedRegion());
-  const short fractioning = 10; // how many times more precise distance than rounding to int
+  constexpr short fractioning = 10; // how many times more precise distance than rounding to int
   while (!itsdf.IsAtEnd())
   {
     bool                       iM = iti.Get();
@@ -569,11 +569,11 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   }
 
   // threshold at distance bestBin is the median intersection
-  typedef BinaryThresholdImageFilter<FloatSliceType, BoolSliceType>   FloatBinarizerType;
-  typedef AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType> AndFilterType;
-  static std::vector<bool>                                            initialized(m_ThreadCount); // default: false
-  static std::vector<typename FloatBinarizerType::Pointer>            threshold(m_ThreadCount);
-  static std::vector<typename AndFilterType::Pointer>                 m_And(m_ThreadCount);
+  using FloatBinarizerType = BinaryThresholdImageFilter<FloatSliceType, BoolSliceType>;
+  using AndFilterType = AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType>;
+  static std::vector<bool>                                 initialized(m_ThreadCount); // default: false
+  static std::vector<typename FloatBinarizerType::Pointer> threshold(m_ThreadCount);
+  static std::vector<typename AndFilterType::Pointer>      m_And(m_ThreadCount);
   if (!initialized[threadId])
   {
     threshold[threadId] = FloatBinarizerType::New();
@@ -735,7 +735,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   }
 
   // create intersection
-  typedef AndImageFilter<BoolSliceType>              AndSliceType;
+  using AndSliceType = AndImageFilter<BoolSliceType>;
   static std::vector<bool>                           initialized(m_ThreadCount); // default: false
   static std::vector<typename AndSliceType::Pointer> sAnd(m_ThreadCount);
   if (!initialized[threadId])
@@ -922,8 +922,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
   // first convert iConn into binary mask
   MatchesID<TImage> matchesID(iRegionId);
 
-  typedef UnaryFunctorImageFilter<SliceType, BoolSliceType, MatchesID<TImage>> CastType;
-  typename CastType::Pointer                                                   caster = CastType::New();
+  using CastType = UnaryFunctorImageFilter<SliceType, BoolSliceType, MatchesID<TImage>>;
+  typename CastType::Pointer caster = CastType::New();
   caster->SetNumberOfThreads(1); // excessive threading is counterproductive
   caster->SetFunctor(matchesID);
   caster->SetInput(iConn);
@@ -1331,7 +1331,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
                                                                 ThreadIdType                    threadId)
 {
   // go through comparison image and create correspondence pairs
-  typedef std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> PairSet;
+  using PairSet = std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>>;
   PairSet                             pairs, unwantedPairs, uncleanPairs;
   typename SliceType::RegionType      ri = iconn->GetRequestedRegion();
   typename SliceType::RegionType      rj = jconn->GetRequestedRegion();
@@ -1381,8 +1381,8 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
   }
 
   // count ocurrances of each component
-  typedef std::map<typename TImage::PixelType, IdentifierType> CountMap;
-  CountMap                                                     iCounts, jCounts;
+  using CountMap = std::map<typename TImage::PixelType, IdentifierType>;
+  CountMap iCounts, jCounts;
   for (p = pairs.begin(); p != pairs.end(); ++p)
   {
     iCounts[p->first]++;
@@ -1594,8 +1594,8 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
     }
   }
 
-  typedef MorphologicalContourInterpolatorParallelInvoker<TImage> Parallelizer;
-  typename Parallelizer::Pointer                                  parallelizer = Parallelizer::New();
+  using Parallelizer = MorphologicalContourInterpolatorParallelInvoker<TImage>;
+  typename Parallelizer::Pointer parallelizer = Parallelizer::New();
   parallelizer->SetWorkArray(segments);
   typename Parallelizer::DomainType completeDomain;
   completeDomain[0] = 0;
@@ -1608,8 +1608,8 @@ template <typename TImage>
 void
 MorphologicalContourInterpolator<TImage>::AllocateOutputs()
 {
-  typedef ImageBase<TImage::ImageDimension> ImageBaseType;
-  typename ImageBaseType::Pointer           outputPtr;
+  using ImageBaseType = ImageBase<TImage::ImageDimension>;
+  typename ImageBaseType::Pointer outputPtr;
 
   for (OutputDataObjectIterator it(this); !it.IsAtEnd(); it++)
   {
