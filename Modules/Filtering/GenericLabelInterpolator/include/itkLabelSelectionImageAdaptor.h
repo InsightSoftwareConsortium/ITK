@@ -37,13 +37,13 @@ class ITK_EXPORT LabelSelectionImageAdaptor
   : public ImageAdaptor<TImage, Accessor::LabelSelectionPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelSelectionImageAdaptor Self;
-  typedef ImageAdaptor<TImage, Accessor::LabelSelectionPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
-    Superclass;
+  /** Standard class type alias. */
+  using Self = LabelSelectionImageAdaptor;
+  using Superclass =
+    ImageAdaptor<TImage, Accessor::LabelSelectionPixelAccessor<typename TImage::PixelType, TOutputPixelType>>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

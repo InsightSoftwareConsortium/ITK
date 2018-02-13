@@ -39,8 +39,8 @@ LabelImageGenericInterpolateImageFunction<TInputImage, TInterpolator, TCoordRep>
   if (image)
   {
     m_Labels.clear();
-    typedef itk::ImageRegionConstIterator<TInputImage> IteratorType;
-    IteratorType                                       it(image, image->GetLargestPossibleRegion());
+    using IteratorType = itk::ImageRegionConstIterator<TInputImage>;
+    IteratorType it(image, image->GetLargestPossibleRegion());
     it.GoToBegin();
     for (; !it.IsAtEnd(); ++it)
     {

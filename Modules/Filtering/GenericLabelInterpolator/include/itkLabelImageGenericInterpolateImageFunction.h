@@ -41,12 +41,12 @@ template <typename TInputImage, template <class, typename> class TInterpolator, 
 class ITK_EXPORT LabelImageGenericInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelImageGenericInterpolateImageFunction        Self;
-  typedef InterpolateImageFunction<TInputImage, TCoordRep> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
-  typedef typename TInputImage::PixelType                  InputPixelType;
+  /** Standard class type alias. */
+  using Self = LabelImageGenericInterpolateImageFunction;
+  using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LabelImageGenericInterpolateImageFunction, InterpolateImageFunction);
@@ -57,25 +57,25 @@ public:
   /** ImageDimension constant */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support. */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support. */
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** RealType typedef support. */
-  typedef typename Superclass::RealType RealType;
+  /** RealType type alias support. */
+  using RealType = typename Superclass::RealType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support. */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support. */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  typedef LabelSelectionImageAdaptor<TInputImage, double> LabelSelectionAdaptorType;
+  using LabelSelectionAdaptorType = LabelSelectionImageAdaptor<TInputImage, double>;
 
   // The interpolator used for individual binary masks corresponding to each label
-  typedef TInterpolator<LabelSelectionAdaptorType, TCoordRep> InternalInterpolatorType;
+  using InternalInterpolatorType = TInterpolator<LabelSelectionAdaptorType, TCoordRep>;
 
   /**
    * Evaluate at the given index
@@ -95,8 +95,8 @@ protected:
 
   std::vector<typename InternalInterpolatorType::Pointer>  m_InternalInterpolators;
   std::vector<typename LabelSelectionAdaptorType::Pointer> m_LabelSelectionAdaptors;
-  typedef std::set<typename TInputImage::PixelType>        LabelSetType;
-  LabelSetType                                             m_Labels;
+  using LabelSetType = std::set<typename TInputImage::PixelType>;
+  LabelSetType m_Labels;
 
 private:
   LabelImageGenericInterpolateImageFunction(const Self &); // purposely not implemented
