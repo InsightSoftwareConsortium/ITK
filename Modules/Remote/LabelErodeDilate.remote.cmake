@@ -7,8 +7,8 @@ itk_fetch_module(LabelErodeDilate
   http://www.insight-journal.org/browse/publication/228
   https://hdl.handle.net/10380/3399"
   #UPSTREAM_GIT_REPOSITORY
-  GIT_REPOSITORY ${git_protocol}://github.com/richardbeare/LabelErodeDilate.git
+  #GIT_REPOSITORY ${git_protocol}://github.com/richardbeare/LabelErodeDilate.git
   # Clone is not synchronized correctly with upstream.
-  #GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/LabelErodeDilate.git
-  GIT_TAG 55fdb464ad2ea325a6260c997280dc5a1bb029e2
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/LabelErodeDilate.git
+  GIT_TAG 911949c765f5bfef1f428c07358d5667e226bdc4
   )
