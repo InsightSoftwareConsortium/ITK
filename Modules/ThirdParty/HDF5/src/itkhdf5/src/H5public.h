@@ -30,6 +30,9 @@
  */
 #include "H5pubconf.h"		/*from configure                             */
 
+/* XXX(kitware): Mangle all HDF5 symbols */
+#include "itk_hdf5_mangle.h"
+
 /* API Version macro wrapper definitions */
 #include "H5version.h"
 

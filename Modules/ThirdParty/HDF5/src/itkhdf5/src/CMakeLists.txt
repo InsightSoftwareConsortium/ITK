@@ -27,6 +27,7 @@ set (H5_HDRS
     ${HDF5_SRC_DIR}/H5public.h
     ${HDF5_SRC_DIR}/H5version.h
     ${HDF5_SRC_DIR}/H5overflow.h
+    ${HDF5_SRC_DIR}/itk_hdf5_mangle.h
 )
 IDE_GENERATED_PROPERTIES ("H5" "${H5_HDRS}" "${H5_SRCS}" )
 
@@ -556,6 +557,7 @@ set (H5_PUBLIC_HEADERS
     ${HDF5_SRC_DIR}/H5MMpublic.h
     ${HDF5_SRC_DIR}/H5Rpkg.h
     ${HDF5_SRC_DIR}/H5Rpublic.h
+    ${HDF5_SRC_DIR}/itk_hdf5_mangle.h
 )
 
 # --------------------------------------------------------------------
