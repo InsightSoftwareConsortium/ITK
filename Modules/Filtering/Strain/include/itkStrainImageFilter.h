@@ -69,26 +69,26 @@ public:
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  typedef TInputImage                                                 InputImageType;
-  typedef SymmetricSecondRankTensor<TOutputValueType, ImageDimension> OutputPixelType;
-  typedef Image<OutputPixelType, ImageDimension>                      OutputImageType;
-  typedef Image<TOperatorValueType, ImageDimension>                   OperatorImageType;
+  using InputImageType = TInputImage;
+  using OutputPixelType = SymmetricSecondRankTensor<TOutputValueType, ImageDimension>;
+  using OutputImageType = Image<OutputPixelType, ImageDimension>;
+  using OperatorImageType = Image<TOperatorValueType, ImageDimension>;
 
-  /** Standard class typedefs. */
-  typedef StrainImageFilter                                   Self;
-  typedef ImageToImageFilter<InputImageType, OutputImageType> Superclass;
+  /** Standard class type alias. */
+  using Self = StrainImageFilter;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
 
   /** Type of the filter used to calculate the gradients. */
-  typedef CovariantVector<TOperatorValueType, ImageDimension>            GradientOutputPixelType;
-  typedef Image<GradientOutputPixelType, ImageDimension>                 GradientOutputImageType;
-  typedef ImageToImageFilter<OperatorImageType, GradientOutputImageType> GradientFilterType;
+  using GradientOutputPixelType = CovariantVector<TOperatorValueType, ImageDimension>;
+  using GradientOutputImageType = Image<GradientOutputPixelType, ImageDimension>;
+  using GradientFilterType = ImageToImageFilter<OperatorImageType, GradientOutputImageType>;
 
   /** Alternate type of filter used to calculate the gradients. */
-  typedef ImageToImageFilter<InputImageType, GradientOutputImageType> VectorGradientFilterType;
+  using VectorGradientFilterType = ImageToImageFilter<InputImageType, GradientOutputImageType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -124,7 +124,7 @@ public:
   itkGetConstMacro(StrainForm, StrainFormType);
 
 protected:
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
   StrainImageFilter();
 
@@ -134,7 +134,7 @@ protected:
   void
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) override;
 
-  typedef itk::SplitComponentsImageFilter<InputImageType, OperatorImageType> InputComponentsImageFilterType;
+  using InputComponentsImageFilterType = itk::SplitComponentsImageFilter<InputImageType, OperatorImageType>;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

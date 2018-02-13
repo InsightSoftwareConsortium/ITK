@@ -39,20 +39,20 @@ itkStrainImageFilterDoGTest(int argc, char * argv[])
   const char * inputDisplacementImageFileName = argv[1];
   const char * outputFileNamePrefix = argv[2];
 
-  const unsigned int                                    Dimension = 2;
-  typedef float                                         PixelType;
-  typedef itk::Vector<PixelType, Dimension>             DisplacementVectorType;
-  typedef itk::Image<DisplacementVectorType, Dimension> InputImageType;
+  const unsigned int Dimension = 2;
+  using PixelType = float;
+  using DisplacementVectorType = itk::Vector<PixelType, Dimension>;
+  using InputImageType = itk::Image<DisplacementVectorType, Dimension>;
 
-  typedef itk::StrainImageFilter<InputImageType, PixelType, PixelType> StrainFilterType;
-  typedef StrainFilterType::OutputImageType                            TensorImageType;
+  using StrainFilterType = itk::StrainImageFilter<InputImageType, PixelType, PixelType>;
+  using TensorImageType = StrainFilterType::OutputImageType;
 
   StrainFilterType::Pointer strainFilter = StrainFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(strainFilter, StrainImageFilter, ImageToImageFilter);
 
 
-  typedef itk::DifferenceOfGaussiansGradientImageFilter<itk::Image<PixelType, Dimension>, PixelType> GradientFilterType;
+  using GradientFilterType = itk::DifferenceOfGaussiansGradientImageFilter<itk::Image<PixelType, Dimension>, PixelType>;
   GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
   gradientFilter->SetWidth(1.0);
 

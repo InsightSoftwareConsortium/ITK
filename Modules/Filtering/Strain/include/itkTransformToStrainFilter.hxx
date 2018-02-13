@@ -57,9 +57,9 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
 {
   const TransformType * input = this->GetTransform();
 
-  OutputImageType *                                     output = this->GetOutput();
-  typedef ImageRegionIteratorWithIndex<OutputImageType> ImageIteratorType;
-  ImageIteratorType                                     outputIt(output, region);
+  OutputImageType * output = this->GetOutput();
+  using ImageIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
+  ImageIteratorType outputIt(output, region);
 
   typename TransformType::JacobianType identity;
   identity.SetSize(ImageDimension, ImageDimension);

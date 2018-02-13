@@ -44,14 +44,14 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
   // Typedefs.
   const unsigned int Dimension = 2;
-  typedef float      ScalarPixelType;
-  typedef double     CoordRepresentationType;
+  using ScalarPixelType = float;
+  using CoordRepresentationType = double;
   const unsigned int SplineOrder = 3;
 
-  typedef itk::Transform<CoordRepresentationType, Dimension, Dimension> TransformType;
-  typedef TransformType::ParametersType                                 ParametersType;
+  using TransformType = itk::Transform<CoordRepresentationType, Dimension, Dimension>;
+  using ParametersType = TransformType::ParametersType;
 
-  typedef itk::TransformToStrainFilter<TransformType, ScalarPixelType, ScalarPixelType> TransformToStrainFilterType;
+  using TransformToStrainFilterType = itk::TransformToStrainFilter<TransformType, ScalarPixelType, ScalarPixelType>;
 
   TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
 
@@ -102,37 +102,37 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
 
   // Create output information.
-  typedef TransformToStrainFilterType::SizeType SizeType;
-  SizeType                                      size;
+  using SizeType = TransformToStrainFilterType::SizeType;
+  SizeType size;
   size.Fill(20);
 
-  typedef TransformToStrainFilterType::SpacingType SpacingType;
-  SpacingType                                      spacing;
+  using SpacingType = TransformToStrainFilterType::SpacingType;
+  SpacingType spacing;
   spacing.Fill(0.7);
 
-  typedef TransformToStrainFilterType::PointType OriginType;
-  OriginType                                     origin;
+  using OriginType = TransformToStrainFilterType::PointType;
+  OriginType origin;
   origin.Fill(-10.0);
 
   // Create the equivalent strain field by first converting the transform to a
   // displacement field, then computing the strain from that displacement
   // field.
-  typedef itk::Vector<ScalarPixelType, Dimension>       DisplacementVectorType;
-  typedef itk::Image<DisplacementVectorType, Dimension> DisplacementFieldType;
+  using DisplacementVectorType = itk::Vector<ScalarPixelType, Dimension>;
+  using DisplacementFieldType = itk::Image<DisplacementVectorType, Dimension>;
 
-  typedef itk::TransformToDisplacementFieldFilter<DisplacementFieldType, CoordRepresentationType>
-                                             TransformToDisplacementFilterType;
+  using TransformToDisplacementFilterType =
+    itk::TransformToDisplacementFieldFilter<DisplacementFieldType, CoordRepresentationType>;
   TransformToDisplacementFilterType::Pointer transformToDisplacement = TransformToDisplacementFilterType::New();
 
   // Create transforms.
-  typedef itk::AffineTransform<CoordRepresentationType, Dimension> AffineTransformType;
-  AffineTransformType::Pointer                                     affineTransform = AffineTransformType::New();
+  using AffineTransformType = itk::AffineTransform<CoordRepresentationType, Dimension>;
+  AffineTransformType::Pointer affineTransform = AffineTransformType::New();
 
-  typedef itk::BSplineTransform<CoordRepresentationType, Dimension, SplineOrder> BSplineTransformType;
+  using BSplineTransformType = itk::BSplineTransform<CoordRepresentationType, Dimension, SplineOrder>;
   BSplineTransformType::Pointer bSplineTransform = BSplineTransformType::New();
 
-  typedef itk::Similarity2DTransform<CoordRepresentationType> SimilarityTransformType;
-  SimilarityTransformType::Pointer                            similarityTransform = SimilarityTransformType::New();
+  using SimilarityTransformType = itk::Similarity2DTransform<CoordRepresentationType>;
+  SimilarityTransformType::Pointer similarityTransform = SimilarityTransformType::New();
 
   if (transformName == "Similarity")
   {
@@ -245,8 +245,8 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   transformToDisplacement->SetOutputOrigin(origin);
 
   // Write strain field to disk.
-  typedef itk::ImageFileWriter<TransformToStrainFilterType::OutputImageType> WriterType;
-  WriterType::Pointer                                                        writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<TransformToStrainFilterType::OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(transformToStrainFilter->GetOutput());
   writer->SetFileName(strainFieldFileName);
 
@@ -254,7 +254,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
 
   // Write strain computed from the displacement field.
-  typedef itk::StrainImageFilter<DisplacementFieldType, CoordRepresentationType> StrainImageFilterType;
+  using StrainImageFilterType = itk::StrainImageFilter<DisplacementFieldType, CoordRepresentationType>;
   StrainImageFilterType::Pointer strainImageFilter = StrainImageFilterType::New();
   strainImageFilter->SetInput(transformToDisplacement->GetOutput());
   strainImageFilter->SetStrainForm(static_cast<StrainImageFilterType::StrainFormType>(strainForm));
@@ -264,8 +264,8 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  typedef itk::ImageFileWriter<DisplacementFieldType> DisplacementWriterType;
-  DisplacementWriterType::Pointer                     displacementWriter = DisplacementWriterType::New();
+  using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
+  DisplacementWriterType::Pointer displacementWriter = DisplacementWriterType::New();
   displacementWriter->SetFileName(displacementFieldFileName);
   displacementWriter->SetInput(transformToDisplacement->GetOutput());
 
