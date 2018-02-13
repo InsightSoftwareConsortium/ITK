@@ -173,7 +173,7 @@ protected:
       }
 
     sb[Dimension] = -(sb[0]+sb[1]);
-    const int maxIter=200;
+    constexpr int maxIter = 200;
     int iter=0;
     for(; iter<maxIter; ++iter)
       {
@@ -224,7 +224,7 @@ protected:
       }
     sb[Dimension]=-(sb[0]+sb[1]+sb[2]);
 
-    const int maxIter=200;
+    constexpr int maxIter = 200;
     int iter=0;
     for(; iter<maxIter; ++iter)
       {
