@@ -90,7 +90,7 @@ public:
 
 
   /** Number of dimensions. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   typedef ImageRegionConstIterator<InputImageType>  InputConstIterator;
   typedef ImageRegionIterator<InputImageType>       InputIterator;
