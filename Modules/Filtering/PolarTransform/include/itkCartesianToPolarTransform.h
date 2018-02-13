@@ -58,11 +58,11 @@ template <typename TParametersValueType = double, // Data type for scalars (floa
 class ITK_TEMPLATE_EXPORT CartesianToPolarTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef CartesianToPolarTransform                                 Self;
-  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type alias. */
+  using Self = CartesianToPolarTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory.*/
   itkNewMacro(Self);
@@ -71,44 +71,44 @@ public:
   itkTypeMacro(CartesianToPolarTransform, Transform);
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 0);
+  static constexpr unsigned int SpaceDimension = NDimensions;
+  static constexpr unsigned int ParametersDimension = 0;
 
   /** Standard scalar type for this class. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Standard Jacobian container. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
-  typedef Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
+  using InputPointType = Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using OutputPointType = Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
 
   /** Method to transform a point.
    * This method transforms first two dimensions of a point from cartesian
    * coordinates to polar coordinates <alpha,radius>.
    */
   OutputPointType
-  TransformPoint(const InputPointType & point) const ITK_OVERRIDE;
+  TransformPoint(const InputPointType & point) const override;
 
   /**  Method to transform a vector - not applicable for this type of transform. */
   OutputVectorType
-  TransformVector(const InputVectorType &) const ITK_OVERRIDE
+  TransformVector(const InputVectorType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVectorType();
@@ -116,7 +116,7 @@ public:
 
   /** Method to transform a vnl_vector - not applicable for this type of transform. */
   OutputVnlVectorType
-  TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
+  TransformVector(const InputVnlVectorType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVnlVectorType();
@@ -124,7 +124,7 @@ public:
 
   /** Method to transform a vector - not applicable for this type of transform. */
   typename Superclass::OutputVectorPixelType
-  TransformVector(const typename Superclass::InputVectorPixelType &, const InputPointType &) const ITK_OVERRIDE
+  TransformVector(const typename Superclass::InputVectorPixelType &, const InputPointType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return typename Superclass::OutputVectorPixelType();
@@ -134,7 +134,7 @@ public:
 
   /** Method to transform a CovariantVector - not applicable for this type of transform. */
   OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
+  TransformCovariantVector(const InputCovariantVectorType &) const override
   {
     itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputCovariantVectorType();
@@ -143,17 +143,17 @@ public:
   using Superclass::TransformCovariantVector;
 
   void
-  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const ITK_OVERRIDE
+  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override
   {
     itkExceptionMacro(<< "Method not implemented yet.");
   }
 
   void
-  SetParameters(const ParametersType &) ITK_OVERRIDE
+  SetParameters(const ParametersType &) override
   {}
 
   void
-  SetFixedParameters(const ParametersType &) ITK_OVERRIDE
+  SetFixedParameters(const ParametersType &) override
   {}
 
   /** Set the location of the center of the polar coordinate system. */
@@ -162,11 +162,11 @@ public:
 
 protected:
   CartesianToPolarTransform();
-  ~CartesianToPolarTransform() ITK_OVERRIDE;
+  ~CartesianToPolarTransform() override;
 
   /** Print contents of an CartesianToPolarTransform. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CartesianToPolarTransform);

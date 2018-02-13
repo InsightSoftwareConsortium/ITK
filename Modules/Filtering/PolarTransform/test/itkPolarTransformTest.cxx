@@ -22,14 +22,14 @@
 int
 itkPolarTransformTest(int, char *[])
 {
-  const unsigned int Dimension = 4;
-  const double       epsilon = 1e-10;
+  constexpr unsigned int Dimension = 4;
+  const double           epsilon = 1e-10;
 
   /* Create 3D polar transforms and print them. */
-  typedef itk::PolarToCartesianTransform<double, Dimension> P2CTransformType;
-  typedef itk::CartesianToPolarTransform<double, Dimension> C2PTransformType;
-  P2CTransformType::Pointer                                 p2c = P2CTransformType::New();
-  C2PTransformType::Pointer                                 c2p = C2PTransformType::New();
+  using P2CTransformType = itk::PolarToCartesianTransform<double, Dimension>;
+  using C2PTransformType = itk::CartesianToPolarTransform<double, Dimension>;
+  P2CTransformType::Pointer p2c = P2CTransformType::New();
+  C2PTransformType::Pointer c2p = C2PTransformType::New();
 
   P2CTransformType::InputPointType center;
   center.Fill(0.0);
