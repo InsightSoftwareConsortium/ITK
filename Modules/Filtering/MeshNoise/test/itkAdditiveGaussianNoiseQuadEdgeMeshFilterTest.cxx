@@ -25,7 +25,7 @@ itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkN
 {
 
   using TPixel = double;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   //////////////
   // Typedefs //
@@ -39,12 +39,12 @@ itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkN
   // Parameters //
   ////////////////
 
-  const int SPHERE_RESOLUTION = 5;
-  const double SPHERE_SCALE = 10.0;
+  constexpr int SPHERE_RESOLUTION = 5;
+  constexpr double SPHERE_SCALE = 10.0;
 
-  const int NOISE_SEED = 100;
+  constexpr int NOISE_SEED = 100;
   const TMesh::CoordRepType NOISE_SIGMA = SPHERE_SCALE * 0.01;
-  const TMesh::CoordRepType NOISE_MEAN = 1.0;
+  constexpr TMesh::CoordRepType NOISE_MEAN  = 1.0;
 
   ///////////
   // Logic //
