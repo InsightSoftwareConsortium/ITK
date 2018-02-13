@@ -34,44 +34,44 @@ class ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter
   : public TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  typedef ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter         Self;
-  typedef TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh> Superclass;
-  typedef SmartPointer<Self>                                                     Pointer;
-  typedef SmartPointer<const Self>                                               ConstPointer;
+  using Self = ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter;
+  using Superclass = TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef typename Superclass::InputMeshType                     InputMeshType;
-  typedef typename Superclass::InputMeshPointer                  InputMeshPointer;
-  typedef typename Superclass::InputMeshConstPointer             InputMeshConstPointer;
-  typedef typename Superclass::InputPointsContainer              InputPointsContainer;
-  typedef typename Superclass::InputPointsContainerPointer       InputPointsContainerPointer;
-  typedef typename Superclass::InputPointsContainerConstIterator InputPointsContainerConstIterator;
-  typedef typename Superclass::InputPointsContainerIterator      InputPointsContainerIterator;
-  typedef typename Superclass::InputCellsContainer               InputCellsContainer;
-  typedef typename Superclass::InputCellsContainerPointer        InputCellsContainerPointer;
-  typedef typename Superclass::InputCellsContainerIterator       InputCellsContainerIterator;
-  typedef typename Superclass::InputCellsContainerConstIterator  InputCellsContainerConstIterator;
-  typedef typename Superclass::InputPointType                    InputPointType;
-  typedef typename Superclass::InputCoordRepType                 InputCoordType;
-  typedef typename Superclass::InputPointIdentifier              InputPointIdentifier;
-  typedef typename Superclass::InputCellIdentifier               InputCellIdentifier;
-  typedef typename Superclass::InputCellType                     InputCellType;
-  typedef typename Superclass::InputQEType                       InputQEType;
-  typedef typename Superclass::InputMeshTraits                   InputMeshTraits;
-  typedef typename Superclass::InputPointIdIterator              InputPointIdIterator;
+  using InputMeshType = typename Superclass::InputMeshType;
+  using InputMeshPointer = typename Superclass::InputMeshPointer;
+  using InputMeshConstPointer = typename Superclass::InputMeshConstPointer;
+  using InputPointsContainer = typename Superclass::InputPointsContainer;
+  using InputPointsContainerPointer = typename Superclass::InputPointsContainerPointer;
+  using InputPointsContainerConstIterator = typename Superclass::InputPointsContainerConstIterator;
+  using InputPointsContainerIterator = typename Superclass::InputPointsContainerIterator;
+  using InputCellsContainer = typename Superclass::InputCellsContainer;
+  using InputCellsContainerPointer = typename Superclass::InputCellsContainerPointer;
+  using InputCellsContainerIterator = typename Superclass::InputCellsContainerIterator;
+  using InputCellsContainerConstIterator = typename Superclass::InputCellsContainerConstIterator;
+  using InputPointType = typename Superclass::InputPointType;
+  using InputCoordType = typename Superclass::InputCoordRepType;
+  using InputPointIdentifier = typename Superclass::InputPointIdentifier;
+  using InputCellIdentifier = typename Superclass::InputCellIdentifier;
+  using InputCellType = typename Superclass::InputCellType;
+  using InputQEType = typename Superclass::InputQEType;
+  using InputMeshTraits = typename Superclass::InputMeshTraits;
+  using InputPointIdIterator = typename Superclass::InputPointIdIterator;
 
-  typedef typename Superclass::OutputMeshType                OutputMeshType;
-  typedef typename Superclass::OutputMeshPointer             OutputMeshPointer;
-  typedef typename Superclass::OutputPointsContainerPointer  OutputPointsContainerPointer;
-  typedef typename Superclass::OutputPointsContainerIterator OutputPointsContainerIterator;
-  typedef typename Superclass::OutputPointType               OutputPointType;
-  typedef typename Superclass::OutputVectorType              OutputVectorType;
-  typedef typename Superclass::OutputCoordType               OutputCoordType;
-  typedef typename Superclass::OutputPointIdentifier         OutputPointIdentifier;
-  typedef typename Superclass::OutputCellIdentifier          OutputCellIdentifier;
-  typedef typename Superclass::OutputCellType                OutputCellType;
-  typedef typename Superclass::OutputQEType                  OutputQEType;
-  typedef typename Superclass::OutputMeshTraits              OutputMeshTraits;
-  typedef typename Superclass::OutputPointIdIterator         OutputPointIdIterator;
+  using OutputMeshType = typename Superclass::OutputMeshType;
+  using OutputMeshPointer = typename Superclass::OutputMeshPointer;
+  using OutputPointsContainerPointer = typename Superclass::OutputPointsContainerPointer;
+  using OutputPointsContainerIterator = typename Superclass::OutputPointsContainerIterator;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using OutputCoordType = typename Superclass::OutputCoordType;
+  using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
+  using OutputCellIdentifier = typename Superclass::OutputCellIdentifier;
+  using OutputCellType = typename Superclass::OutputCellType;
+  using OutputQEType = typename Superclass::OutputQEType;
+  using OutputMeshTraits = typename Superclass::OutputMeshTraits;
+  using OutputPointIdIterator = typename Superclass::OutputPointIdIterator;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter,

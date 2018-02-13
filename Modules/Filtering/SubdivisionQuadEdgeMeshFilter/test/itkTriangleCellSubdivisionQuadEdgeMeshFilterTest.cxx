@@ -31,17 +31,17 @@ template <typename TTriangleCellSubdivisionFilter>
 int
 TriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
-  typedef TTriangleCellSubdivisionFilter TriangleCellSubdivisionFilterType;
+  using TriangleCellSubdivisionFilterType = TTriangleCellSubdivisionFilter;
 
-  typedef typename TriangleCellSubdivisionFilterType::InputMeshType  InputMeshType;
-  typedef typename TriangleCellSubdivisionFilterType::OutputMeshType OutputMeshType;
+  using InputMeshType = typename TriangleCellSubdivisionFilterType::InputMeshType;
+  using OutputMeshType = typename TriangleCellSubdivisionFilterType::OutputMeshType;
 
-  typedef itk::IterativeTriangleCellSubdivisionQuadEdgeMeshFilter<InputMeshType, TriangleCellSubdivisionFilterType>
-                                                                       IterativeTriangleCellSubdivisionFilterType;
-  typedef typename IterativeTriangleCellSubdivisionFilterType::Pointer IterativeTriangleCellSubdivisionFilterPointer;
+  using IterativeTriangleCellSubdivisionFilterType =
+    itk::IterativeTriangleCellSubdivisionQuadEdgeMeshFilter<InputMeshType, TriangleCellSubdivisionFilterType>;
+  using IterativeTriangleCellSubdivisionFilterPointer = typename IterativeTriangleCellSubdivisionFilterType::Pointer;
 
-  typedef itk::MeshFileReader<InputMeshType>  ReaderType;
-  typedef itk::MeshFileWriter<OutputMeshType> WriterType;
+  using ReaderType = itk::MeshFileReader<InputMeshType>;
+  using WriterType = itk::MeshFileWriter<OutputMeshType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
@@ -105,8 +105,8 @@ TriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   if (smoothing)
   {
-    typedef itk::SmoothingQuadEdgeMeshFilter<OutputMeshType, OutputMeshType> OutputMeshSmoothingFilterType;
-    typedef itk::OnesMatrixCoefficients<OutputMeshType>                      OnesMatrixCoefficientsType;
+    using OutputMeshSmoothingFilterType = itk::SmoothingQuadEdgeMeshFilter<OutputMeshType, OutputMeshType>;
+    using OnesMatrixCoefficientsType = itk::OnesMatrixCoefficients<OutputMeshType>;
 
     OnesMatrixCoefficientsType                      coef;
     typename OutputMeshSmoothingFilterType::Pointer meshSmoothingFilter = OutputMeshSmoothingFilterType::New();
@@ -152,17 +152,17 @@ itkTriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typedef float      MeshPixelType;
+  using MeshPixelType = float;
   const unsigned int Dimension = 3;
 
-  typedef itk::QuadEdgeMesh<MeshPixelType, Dimension> MeshType;
+  using MeshType = itk::QuadEdgeMesh<MeshPixelType, Dimension>;
 
-  typedef itk::ModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType>
-    ModifiedButterflySubdivisionFilterType;
-  typedef itk::LinearTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType> LinearSubdivisionFilterType;
-  typedef itk::LoopTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType>   LoopSubdivisionFilterType;
-  typedef itk::SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType>
-    SquareThreeSubdivisionFilterType;
+  using ModifiedButterflySubdivisionFilterType =
+    itk::ModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType>;
+  using LinearSubdivisionFilterType = itk::LinearTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType>;
+  using LoopSubdivisionFilterType = itk::LoopTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType>;
+  using SquareThreeSubdivisionFilterType =
+    itk::SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter<MeshType, MeshType>;
 
   if (argc >= 4)
   {

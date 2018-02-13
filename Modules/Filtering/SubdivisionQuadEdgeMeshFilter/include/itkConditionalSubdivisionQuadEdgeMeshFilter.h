@@ -36,24 +36,24 @@ class ConditionalSubdivisionQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TSubdivisionFilter::OutputMeshType>
 {
 public:
-  typedef ConditionalSubdivisionQuadEdgeMeshFilter                                                  Self;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TSubdivisionFilter::OutputMeshType> Superclass;
-  typedef SmartPointer<Self>                                                                        Pointer;
-  typedef SmartPointer<const Self>                                                                  ConstPointer;
+  using Self = ConditionalSubdivisionQuadEdgeMeshFilter;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TSubdivisionFilter::OutputMeshType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef TSubdivisionFilter                      SubdivisionFilterType;
-  typedef typename SubdivisionFilterType::Pointer SubdivisionFilterPointer;
+  using SubdivisionFilterType = TSubdivisionFilter;
+  using SubdivisionFilterPointer = typename SubdivisionFilterType::Pointer;
 
-  typedef TInputMesh                      InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef typename SubdivisionFilterType::OutputMeshType OutputMeshType;
-  typedef typename OutputMeshType::Pointer               OutputMeshPointer;
+  using OutputMeshType = typename SubdivisionFilterType::OutputMeshType;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  typedef typename SubdivisionFilterType::SubdivisionCellContainer SubdivisionCellContainer;
+  using SubdivisionCellContainer = typename SubdivisionFilterType::SubdivisionCellContainer;
 
-  typedef QuadEdgeMeshSubdivisionCriterion<SubdivisionFilterType> CriterionType;
-  typedef typename CriterionType::Pointer                         CriterionPointer;
+  using CriterionType = QuadEdgeMeshSubdivisionCriterion<SubdivisionFilterType>;
+  using CriterionPointer = typename CriterionType::Pointer;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(ConditionalSubdivisionQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);

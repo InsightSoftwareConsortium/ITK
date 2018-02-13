@@ -32,29 +32,29 @@ template <typename TCellSubdivisionFilter>
 class ITK_EXPORT QuadEdgeMeshSubdivisionCriterion : public Object
 {
 public:
-  typedef QuadEdgeMeshSubdivisionCriterion Self;
-  typedef Object                           Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  using Self = QuadEdgeMeshSubdivisionCriterion;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef typename TCellSubdivisionFilter::InputMeshType            MeshType;
-  typedef typename MeshType::Pointer                                MeshPointer;
-  typedef typename MeshType::ConstPointer                           MeshConstPointer;
-  typedef typename MeshType::PointsContainerPointer                 PointsContainerPointer;
-  typedef typename MeshType::PointsContainerConstIterator           PointsContainerConstIterator;
-  typedef typename MeshType::PointsContainerIterator                PointsContainerIterator;
-  typedef typename MeshType::CellsContainer                         CellsContainer;
-  typedef typename MeshType::CellsContainerPointer                  CellsContainerPointer;
-  typedef typename MeshType::CellsContainerIterator                 CellsContainerIterator;
-  typedef typename MeshType::CellsContainerConstIterator            CellsContainerConstIterator;
-  typedef typename MeshType::PointType                              PointType;
-  typedef typename MeshType::CoordRepType                           CoordRepType;
-  typedef typename MeshType::PointIdentifier                        PointIdentifier;
-  typedef typename MeshType::CellIdentifier                         CellIdentifier;
-  typedef typename MeshType::CellType                               CellType;
-  typedef typename MeshType::QEType                                 QEType;
-  typedef typename MeshType::PointIdIterator                        PointIdIterator;
-  typedef typename TCellSubdivisionFilter::SubdivisionCellContainer SubdivisionCellContainer;
+  using MeshType = typename TCellSubdivisionFilter::InputMeshType;
+  using MeshPointer = typename MeshType::Pointer;
+  using MeshConstPointer = typename MeshType::ConstPointer;
+  using PointsContainerPointer = typename MeshType::PointsContainerPointer;
+  using PointsContainerConstIterator = typename MeshType::PointsContainerConstIterator;
+  using PointsContainerIterator = typename MeshType::PointsContainerIterator;
+  using CellsContainer = typename MeshType::CellsContainer;
+  using CellsContainerPointer = typename MeshType::CellsContainerPointer;
+  using CellsContainerIterator = typename MeshType::CellsContainerIterator;
+  using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
+  using PointType = typename MeshType::PointType;
+  using CoordRepType = typename MeshType::CoordRepType;
+  using PointIdentifier = typename MeshType::PointIdentifier;
+  using CellIdentifier = typename MeshType::CellIdentifier;
+  using CellType = typename MeshType::CellType;
+  using QEType = typename MeshType::QEType;
+  using PointIdIterator = typename MeshType::PointIdIterator;
+  using SubdivisionCellContainer = typename TCellSubdivisionFilter::SubdivisionCellContainer;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(QuadEdgeMeshSubdivisionCriterion, Object);

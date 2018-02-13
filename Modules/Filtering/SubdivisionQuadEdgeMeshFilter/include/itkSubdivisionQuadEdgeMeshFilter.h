@@ -40,52 +40,52 @@ template <typename TInputMesh, typename TOutputMesh>
 class SubdivisionQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  typedef SubdivisionQuadEdgeMeshFilter                             Self;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  using Self = SubdivisionQuadEdgeMeshFilter;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef TInputMesh                                           InputMeshType;
-  typedef typename InputMeshType::Pointer                      InputMeshPointer;
-  typedef typename InputMeshType::ConstPointer                 InputMeshConstPointer;
-  typedef typename InputMeshType::PointsContainer              InputPointsContainer;
-  typedef typename InputMeshType::PointsContainerPointer       InputPointsContainerPointer;
-  typedef typename InputMeshType::PointsContainerConstIterator InputPointsContainerConstIterator;
-  typedef typename InputMeshType::PointsContainerIterator      InputPointsContainerIterator;
-  typedef typename InputMeshType::CellsContainer               InputCellsContainer;
-  typedef typename InputMeshType::CellsContainerPointer        InputCellsContainerPointer;
-  typedef typename InputMeshType::CellsContainerIterator       InputCellsContainerIterator;
-  typedef typename InputMeshType::CellsContainerConstIterator  InputCellsContainerConstIterator;
-  typedef typename InputMeshType::PointType                    InputPointType;
-  typedef typename InputMeshType::CoordRepType                 InputCoordType;
-  typedef typename InputMeshType::PointIdentifier              InputPointIdentifier;
-  typedef typename InputMeshType::CellIdentifier               InputCellIdentifier;
-  typedef typename InputMeshType::CellType                     InputCellType;
-  typedef typename InputMeshType::QEType                       InputQEType;
-  typedef typename InputMeshType::MeshTraits                   InputMeshTraits;
-  typedef typename InputMeshType::PointIdIterator              InputPointIdIterator;
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using InputMeshConstPointer = typename InputMeshType::ConstPointer;
+  using InputPointsContainer = typename InputMeshType::PointsContainer;
+  using InputPointsContainerPointer = typename InputMeshType::PointsContainerPointer;
+  using InputPointsContainerConstIterator = typename InputMeshType::PointsContainerConstIterator;
+  using InputPointsContainerIterator = typename InputMeshType::PointsContainerIterator;
+  using InputCellsContainer = typename InputMeshType::CellsContainer;
+  using InputCellsContainerPointer = typename InputMeshType::CellsContainerPointer;
+  using InputCellsContainerIterator = typename InputMeshType::CellsContainerIterator;
+  using InputCellsContainerConstIterator = typename InputMeshType::CellsContainerConstIterator;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputCoordType = typename InputMeshType::CoordRepType;
+  using InputPointIdentifier = typename InputMeshType::PointIdentifier;
+  using InputCellIdentifier = typename InputMeshType::CellIdentifier;
+  using InputCellType = typename InputMeshType::CellType;
+  using InputQEType = typename InputMeshType::QEType;
+  using InputMeshTraits = typename InputMeshType::MeshTraits;
+  using InputPointIdIterator = typename InputMeshType::PointIdIterator;
 
-  typedef TOutputMesh                                          OutputMeshType;
-  typedef typename OutputMeshType::Pointer                     OutputMeshPointer;
-  typedef typename OutputMeshType::PointsContainerPointer      OutputPointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainerIterator     OutputPointsContainerIterator;
-  typedef typename OutputMeshType::CellsContainer              OutputCellsContainer;
-  typedef typename OutputMeshType::CellsContainerPointer       OutputCellsContainerPointer;
-  typedef typename OutputMeshType::CellsContainerIterator      OutputCellsContainerIterator;
-  typedef typename OutputMeshType::CellsContainerConstIterator OutputCellsContainerConstIterator;
-  typedef typename OutputMeshType::PointType                   OutputPointType;
-  typedef typename OutputMeshType::CoordRepType                OutputCoordType;
-  typedef typename OutputMeshType::PointIdentifier             OutputPointIdentifier;
-  typedef typename OutputMeshType::CellIdentifier              OutputCellIdentifier;
-  typedef typename OutputMeshType::CellType                    OutputCellType;
-  typedef typename OutputMeshType::QEType                      OutputQEType;
-  typedef typename OutputMeshType::MeshTraits                  OutputMeshTraits;
-  typedef typename OutputMeshType::PointIdIterator             OutputPointIdIterator;
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputPointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using OutputPointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
+  using OutputCellsContainer = typename OutputMeshType::CellsContainer;
+  using OutputCellsContainerPointer = typename OutputMeshType::CellsContainerPointer;
+  using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
+  using OutputCellsContainerConstIterator = typename OutputMeshType::CellsContainerConstIterator;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputCoordType = typename OutputMeshType::CoordRepType;
+  using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
+  using OutputCellIdentifier = typename OutputMeshType::CellIdentifier;
+  using OutputCellType = typename OutputMeshType::CellType;
+  using OutputQEType = typename OutputMeshType::QEType;
+  using OutputMeshTraits = typename OutputMeshType::MeshTraits;
+  using OutputPointIdIterator = typename OutputMeshType::PointIdIterator;
 
-  typedef MapContainer<InputQEType *, OutputPointIdentifier>   EdgePointIdentifierContainer;
-  typedef typename EdgePointIdentifierContainer::Pointer       EdgePointIdentifierContainerPointer;
-  typedef typename EdgePointIdentifierContainer::Iterator      EdgePointIdentifierContainerIterator;
-  typedef typename EdgePointIdentifierContainer::ConstIterator EdgePointIdentifierContainerConstIterator;
+  using EdgePointIdentifierContainer = MapContainer<InputQEType *, OutputPointIdentifier>;
+  using EdgePointIdentifierContainerPointer = typename EdgePointIdentifierContainer::Pointer;
+  using EdgePointIdentifierContainerIterator = typename EdgePointIdentifierContainer::Iterator;
+  using EdgePointIdentifierContainerConstIterator = typename EdgePointIdentifierContainer::ConstIterator;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(SubdivisionQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);

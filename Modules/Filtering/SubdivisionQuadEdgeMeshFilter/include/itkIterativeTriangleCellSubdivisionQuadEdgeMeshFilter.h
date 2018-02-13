@@ -35,24 +35,24 @@ class IterativeTriangleCellSubdivisionQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TCellSubdivisionFilter::OutputMeshType>
 {
 public:
-  typedef IterativeTriangleCellSubdivisionQuadEdgeMeshFilter                                            Self;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TCellSubdivisionFilter::OutputMeshType> Superclass;
-  typedef SmartPointer<Self>                                                                            Pointer;
-  typedef SmartPointer<const Self>                                                                      ConstPointer;
+  using Self = IterativeTriangleCellSubdivisionQuadEdgeMeshFilter;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TCellSubdivisionFilter::OutputMeshType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef TCellSubdivisionFilter                      CellSubdivisionFilterType;
-  typedef typename CellSubdivisionFilterType::Pointer CellSubdivisionFilterPointer;
+  using CellSubdivisionFilterType = TCellSubdivisionFilter;
+  using CellSubdivisionFilterPointer = typename CellSubdivisionFilterType::Pointer;
 
-  typedef TInputMesh                      InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef typename CellSubdivisionFilterType::OutputMeshType OutputMeshType;
-  typedef typename OutputMeshType::Pointer                   OutputMeshPointer;
+  using OutputMeshType = typename CellSubdivisionFilterType::OutputMeshType;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  typedef typename CellSubdivisionFilterType::OutputCellIdentifier     OutputCellIdentifier;
-  typedef typename CellSubdivisionFilterType::SubdivisionCellContainer SubdivisionCellContainer;
-  typedef
-    typename CellSubdivisionFilterType::SubdivisionCellContainerConstIterator SubdivisionCellContainerConstIterator;
+  using OutputCellIdentifier = typename CellSubdivisionFilterType::OutputCellIdentifier;
+  using SubdivisionCellContainer = typename CellSubdivisionFilterType::SubdivisionCellContainer;
+  using SubdivisionCellContainerConstIterator =
+    typename CellSubdivisionFilterType::SubdivisionCellContainerConstIterator;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(IterativeTriangleCellSubdivisionQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
