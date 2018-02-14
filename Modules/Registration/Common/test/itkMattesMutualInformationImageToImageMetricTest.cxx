@@ -235,8 +235,8 @@ int TestMattesMetricWithAffineTransform(
       metric->SetFixedImageMask(soFixedMask);
 
       // Make the mask const to enhance code coverage
-      typename ImageMaskSpatialObjectType::ConstPointer soMovingConstMask = soMovingMask.GetPointer();
-      typename ImageMaskSpatialObjectType::ConstPointer soFixedConstMask  = soFixedMask.GetPointer();
+      typename ImageMaskSpatialObjectType::ConstPointer soMovingConstMask = soMovingMask;
+      typename ImageMaskSpatialObjectType::ConstPointer soFixedConstMask  = soFixedMask;
       metric->SetMovingImageMask(soMovingConstMask);
       metric->SetFixedImageMask(soFixedConstMask);
 

@@ -26,6 +26,7 @@ int itkImageTest(int, char* [] )
 
   using Image = itk::Image<float,2>;
   Image::Pointer image = Image::New();
+  Image::ConstPointer myconstptr = image;
   image->DebugOn();
   const char * const knownStringName = "My First Image For Testing.";
   image->SetObjectName( knownStringName );

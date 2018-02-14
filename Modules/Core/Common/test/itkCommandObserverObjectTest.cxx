@@ -174,7 +174,7 @@ int testCommandConstObject(void)
 {
 
   itk::Object::Pointer o = itk::Object::New();
-  itk::Object::ConstPointer co = o.GetPointer();
+  itk::Object::ConstPointer co = o;
 
   itk::CStyleCommand::Pointer cmd = itk::CStyleCommand::New();
   cmd->SetConstCallback(onAnyConst);
@@ -208,7 +208,7 @@ int testCommandRecursiveObject(void)
   // This is a super-mean test that is not likely to really be used.
 
   itk::Object::Pointer o = itk::Object::New();
-  itk::Object::ConstPointer co = o.GetPointer();
+  itk::Object::ConstPointer co = o;
 
   unsigned long idToRemove;
 
