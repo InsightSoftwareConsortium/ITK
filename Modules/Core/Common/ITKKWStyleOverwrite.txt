@@ -1,4 +1,5 @@
 test/.*\.cxx Namespace Disable
+test/.*\.cxx SemicolonSpace Disable
 itkAtomicIntDetail\.h InternalVariables Disable
 itkFixedArray\.h Typedefs Disable
 itkImage\.h Template Disable
@@ -22,3 +23,6 @@ itkImageToImageFilter.\h InternalVariables Disable
 itkTimeStamp\.cxx Namespace Disable
 itkObjectFactoryBase\.cxx Namespace Disable
 itkNeighborhood\.hxx SemicolonSpace Disable
+itkIndex\.h SemicolonSpace Disable
+itkSize\.h SemicolonSpace Disable
+itkOffset\.h SemicolonSpace Disable
