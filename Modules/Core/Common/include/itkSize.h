@@ -153,9 +153,9 @@ public:
   { return m_Size[dim]; }
 
   /** Access an element of the size. Elements are numbered
-   * 0, ..., VDimension-1. This version can only be an rvalue.
+   * 0, ..., VDimension-1.
    * No bounds checking is performed. */
-  SizeValueType operator[](unsigned int dim) const
+  const SizeValueType & operator[](unsigned int dim) const
   { return m_Size[dim]; }
 
   /** Get the size. This provides a read only reference to the size.

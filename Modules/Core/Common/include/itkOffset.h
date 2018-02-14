@@ -169,9 +169,9 @@ public:
   { return m_Offset[dim]; }
 
   /** Access an element of the index. Elements are numbered
-   * 0, ..., VOffsetDimension-1. This version can only be an rvalue.
+   * 0, ..., VOffsetDimension-1.
    * No bounds checking is performed. */
-  OffsetValueType operator[](unsigned int dim) const
+  const OffsetValueType & operator[](unsigned int dim) const
   { return m_Offset[dim]; }
 
   /** Get the index. This provides a read only reference to the index.

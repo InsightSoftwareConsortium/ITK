@@ -241,9 +241,9 @@ public:
 #endif
 
   /** Access an element of the index. Elements are numbered
-   * 0, ..., VIndexDimension-1. This version can only be an rvalue.
+   * 0, ..., VIndexDimension-1.
    * No bounds checking is performed. */
-  IndexValueType operator[](unsigned int dim) const
+  const IndexValueType & operator[](unsigned int dim) const
   { return m_Index[dim]; }
 
   /** Get the index. This provides a read only reference to the index.
