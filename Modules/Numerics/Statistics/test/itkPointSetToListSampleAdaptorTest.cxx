@@ -113,7 +113,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
     }
 
 
-  listSample->SetPointSet( pointSet.GetPointer() );
+  listSample->SetPointSet( pointSet );
 
   //exercise returned pointset
   const PointSetToListSampleAdaptorType::PointSetType * pointSetReturned = listSample->GetPointSet( );

@@ -34,7 +34,7 @@ writer = itkImageFileWriterUC2_New()
 
 dicomIO = itkDicomImageIO_New()
 
-reader.SetImageIO(dicomIO.GetPointer())
+reader.SetImageIO(dicomIO)
 
 filter = itkRescaleIntensityImageFilterUS2UC2_New()
 

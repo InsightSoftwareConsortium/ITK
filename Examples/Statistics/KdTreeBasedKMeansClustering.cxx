@@ -364,7 +364,7 @@ int main()
       centroid[j] = estimatedMeans[index++];
       }
     membershipFunction->SetCentroid( centroid );
-    membershipFunctionVector.push_back( membershipFunction.GetPointer() );
+    membershipFunctionVector.push_back( membershipFunction );
     }
   classifier->SetMembershipFunctions( membershipFunctionVectorObject );
 

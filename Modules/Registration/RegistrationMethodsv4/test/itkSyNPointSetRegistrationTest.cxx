@@ -187,7 +187,7 @@ int itkSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed( a
     fieldTransformAdaptor->SetRequiredOrigin( shrinkFilter->GetOutput()->GetOrigin() );
     fieldTransformAdaptor->SetTransform( outputTransform );
 
-    adaptors.push_back( fieldTransformAdaptor.GetPointer() );
+    adaptors.push_back( fieldTransformAdaptor );
     }
 
   displacementFieldRegistration->SetFixedPointSet( fixedPoints );

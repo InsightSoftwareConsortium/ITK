@@ -129,7 +129,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
   itkOptimizer->SetLineSearchAccuracy( 0.1 );
   itkOptimizer->SetDefaultStepLength( 5.0 );
   std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
   constexpr int Max_Iterations = 100;   // Maximum number of iterations

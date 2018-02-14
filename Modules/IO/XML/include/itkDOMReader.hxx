@@ -122,7 +122,7 @@ DOMReader<TOutput>::Update()
   if ( this->m_IntermediateDOM.IsNull() )
     {
     DOMNodePointer node = DOMNodeType::New();
-    this->SetIntermediateDOM( node.GetPointer() );
+    this->SetIntermediateDOM( node );
     }
 
   FancyString fn( this->m_FileName );

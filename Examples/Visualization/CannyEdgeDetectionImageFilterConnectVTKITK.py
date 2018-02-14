@@ -84,7 +84,7 @@ itkExporter.SetInput(rescaler.GetOutput())
 vtkImporter = vtk.vtkImageImport()
 # do the magic connection call (once again: only available if you built
 # ITK with ITK_CSWIG_CONNECTVTKITK set to ON)
-CVIPy.ConnectITKUS2ToVTK(itkExporter.GetPointer(), vtkImporter)
+CVIPy.ConnectITKUS2ToVTK(itkExporter, vtkImporter)
 
 # finally write the image to disk using VTK
 writer = vtk.vtkPNGWriter()

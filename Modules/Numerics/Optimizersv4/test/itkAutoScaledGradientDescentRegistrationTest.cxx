@@ -115,7 +115,7 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(
   // Instantiate an Observer to report the progress of the Optimization
   using CommandIterationType = itk::CommandIterationUpdate< OptimizerType >;
   CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
-  iterationCommand->SetOptimizer( optimizer.GetPointer() );
+  iterationCommand->SetOptimizer( optimizer );
 
   // Optimizer parameter scales estimator
   typename itk::OptimizerParameterScalesEstimator::Pointer scalesEstimator;

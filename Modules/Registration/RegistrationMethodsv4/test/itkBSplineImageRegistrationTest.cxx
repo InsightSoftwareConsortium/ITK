@@ -278,7 +278,7 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
     bsplineAdaptor->SetRequiredTransformDomainDirection( shrinkFilter->GetOutput()->GetDirection() );
     bsplineAdaptor->SetRequiredTransformDomainPhysicalDimensions( physicalDimensions );
 
-    adaptors.push_back( bsplineAdaptor.GetPointer() );
+    adaptors.push_back( bsplineAdaptor );
     }
 
   bsplineRegistration->SetFixedImage( 0, fixedImage );

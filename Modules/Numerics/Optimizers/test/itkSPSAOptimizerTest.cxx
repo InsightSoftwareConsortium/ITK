@@ -112,7 +112,7 @@ int itkSPSAOptimizerTest(int, char* [] )
 
   // Declaration of the CostFunction
   SPSACostFunction::Pointer costFunction = SPSACostFunction::New();
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   using ParametersType = SPSACostFunction::ParametersType;
   const unsigned int spaceDimension =

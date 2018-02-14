@@ -87,7 +87,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 
   points->Reserve(numberOfPixels);
   pointData->Reserve(numberOfPixels);
-  mesh->SetPointData( pointData.GetPointer() );
+  mesh->SetPointData( pointData );
 }
 
 /**
@@ -109,7 +109,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
   points->Reserve(numberOfPixels);
   pointData->Reserve(numberOfPixels);
 
-  mesh->SetPointData( pointData.GetPointer() );
+  mesh->SetPointData( pointData );
   mesh->SetBufferedRegion( mesh->GetRequestedRegion() );
 
   // support progress methods/callbacks

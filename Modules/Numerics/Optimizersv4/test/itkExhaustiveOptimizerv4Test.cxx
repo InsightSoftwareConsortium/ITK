@@ -199,7 +199,7 @@ int itkExhaustiveOptimizerv4Test(int, char* [] )
 
   // Declaration of the CostFunction
   ExhaustiveOptv4Metric::Pointer metric = ExhaustiveOptv4Metric::New();
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
 
 
   using ParametersType = ExhaustiveOptv4Metric::ParametersType;

@@ -435,7 +435,7 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  registration->SetInterpolator(interpolator.GetPointer());
+  registration->SetInterpolator(interpolator);
 
   registration->Update();
 

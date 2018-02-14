@@ -47,35 +47,35 @@ int itkFEMObjectTest(int, char *[])
   pt[1] = 0.0;
   n1->SetCoordinates(pt);
   n1->SetGlobalNumber(0);
-  femObject->AddNextNode(n1.GetPointer());
+  femObject->AddNextNode(n1);
 
   n1 = NodeType::New();
   pt[0] = 1500.0;
   pt[1] = 0.0;
   n1->SetCoordinates(pt);
   n1->SetGlobalNumber(1);
-  femObject->AddNextNode(n1.GetPointer());
+  femObject->AddNextNode(n1);
 
   n1 = NodeType::New();
   pt[0] = 3000.0;
   pt[1] = 0.0;
   n1->SetCoordinates(pt);
   n1->SetGlobalNumber(2);
-  femObject->AddNextNode(n1.GetPointer());
+  femObject->AddNextNode(n1);
 
   n1 = NodeType::New();
   pt[0] = 3000.0;
   pt[1] = 3000.0;
   n1->SetCoordinates(pt);
   n1->SetGlobalNumber(3);
-  femObject->AddNextNode(n1.GetPointer());
+  femObject->AddNextNode(n1);
 
   n1 = NodeType::New();
   pt[0] = 0.0;
   pt[1] = 4500.0;
   n1->SetCoordinates(pt);
   n1->SetGlobalNumber(4);
-  femObject->AddNextNode(n1.GetPointer());
+  femObject->AddNextNode(n1);
 
   itk::fem::MaterialLinearElasticity::Pointer m;
   m = itk::fem::MaterialLinearElasticity::New();
@@ -112,7 +112,7 @@ int itkFEMObjectTest(int, char *[])
     {
     e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
     }
-  femObject->AddNextElement( e1.GetPointer());
+  femObject->AddNextElement( e1);
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(1);
@@ -122,7 +122,7 @@ int itkFEMObjectTest(int, char *[])
     {
     e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
     }
-  femObject->AddNextElement( e1.GetPointer());
+  femObject->AddNextElement( e1);
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(2);
@@ -132,7 +132,7 @@ int itkFEMObjectTest(int, char *[])
     {
     e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(2).GetPointer() ) );
     }
-  femObject->AddNextElement( e1.GetPointer());
+  femObject->AddNextElement( e1);
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(3);
@@ -142,7 +142,7 @@ int itkFEMObjectTest(int, char *[])
     {
     e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(1).GetPointer() ) );
     }
-  femObject->AddNextElement( e1.GetPointer());
+  femObject->AddNextElement( e1);
 
   itk::fem::LoadBC::Pointer l1;
 

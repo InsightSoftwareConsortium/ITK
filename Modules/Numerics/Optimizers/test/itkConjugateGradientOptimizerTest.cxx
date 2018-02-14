@@ -172,7 +172,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   conjugateCostFunction::Pointer costFunction = conjugateCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
 
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();

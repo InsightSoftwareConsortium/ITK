@@ -77,11 +77,11 @@ public:
   }
   void AddNextElement(Element::ConstPointer e)
     {
-      this->AddNextElementInternal(e.GetPointer());
+      this->AddNextElementInternal(e);
     }
   void AddNextElement(Element::Pointer e)
     {
-      this->AddNextElementInternal(e.GetPointer());
+      this->AddNextElementInternal(e);
     }
 
   Element::ConstPointer GetElement(int i);

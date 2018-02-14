@@ -154,7 +154,7 @@ int itkOnePlusOneEvolutionaryOptimizerTest(int, char* [] )
   itk::OnePlusOneCostFunction::Pointer costFunction = itk::OnePlusOneCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
 
   using ParametersType = itk::OnePlusOneCostFunction::ParametersType;

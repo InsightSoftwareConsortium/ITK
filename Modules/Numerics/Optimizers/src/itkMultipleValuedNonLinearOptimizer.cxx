@@ -35,7 +35,7 @@ void
 MultipleValuedNonLinearOptimizer
 ::SetCostFunction(CostFunctionType *costFunction)
 {
-  if ( m_CostFunction.GetPointer() == costFunction )
+  if ( m_CostFunction == costFunction )
     {
     return;
     }

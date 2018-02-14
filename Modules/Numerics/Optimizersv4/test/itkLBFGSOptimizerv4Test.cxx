@@ -167,7 +167,7 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
   itkOptimizer->SetDefaultStepLength( 5.0 );
   std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
   std::cout << "SetMetric." << std::endl;
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
 
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
   constexpr int Max_Iterations = 100;   // Maximum number of iterations

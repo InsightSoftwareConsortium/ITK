@@ -320,7 +320,7 @@ int main( int,  char *[])
     membershipFunction->SetMean( covarianceEstimators[i]->GetMean() );
     membershipFunction->SetCovariance(
       covarianceEstimators[i]->GetCovarianceMatrix() );
-    membershipFunctionVector.push_back( membershipFunction.GetPointer() );
+    membershipFunctionVector.push_back( membershipFunction );
     }
   membershipFunctionVectorObject->Set( membershipFunctionVector );
   classifier->SetMembershipFunctions( membershipFunctionVectorObject );

@@ -47,10 +47,10 @@ transform = itkCenteredRigid2DTransform_New()
 optimizer = itkRegularStepGradientDescentOptimizer_New()
 interpolator = itkLinearInterpolateImageFunctionF2D_New()
 
-registration.SetOptimizer(optimizer.GetPointer())
-registration.SetTransform(transform.GetPointer())
-registration.SetInterpolator(interpolator.GetPointer())
-registration.SetMetric(imageMetric.GetPointer())
+registration.SetOptimizer(optimizer)
+registration.SetTransform(transform)
+registration.SetInterpolator(interpolator)
+registration.SetMetric(imageMetric)
 registration.SetFixedImage(fixedImage)
 registration.SetMovingImage(movingImage)
 registration.SetFixedImageRegion(fixedImage.GetBufferedRegion())
@@ -164,7 +164,7 @@ print "Translation in  Y = %f" % finalParameters.GetElement(4)
 # Now, we use the final transform for resampling the moving image.
 resampler = itkResampleImageFilterF2F2_New()
 
-resampler.SetTransform(transform.GetPointer())
+resampler.SetTransform(transform)
 resampler.SetInput(movingImage)
 
 region = fixedImage.GetLargestPossibleRegion()

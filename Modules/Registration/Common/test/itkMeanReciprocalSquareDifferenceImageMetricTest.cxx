@@ -119,7 +119,7 @@ int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
 
   TransformType::Pointer transform = TransformType::New();
 
-  metric->SetTransform( transform.GetPointer() );
+  metric->SetTransform( transform );
 
 
 //------------------------------------------------------------
@@ -131,9 +131,9 @@ int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  interpolator->SetInputImage( movingImage.GetPointer() );
+  interpolator->SetInputImage( movingImage );
 
-  metric->SetInterpolator( interpolator.GetPointer() );
+  metric->SetInterpolator( interpolator );
 
 
 //------------------------------------------------------------

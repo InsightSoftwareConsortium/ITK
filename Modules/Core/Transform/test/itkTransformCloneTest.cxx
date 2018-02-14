@@ -104,7 +104,7 @@ int itkTransformCloneTest(int, char *[])
   using CompositeTransformType = itk::CompositeTransform<double,3>;
   CompositeTransformType::Pointer compositeXfrm =
     CompositeTransformType::New();
-  compositeXfrm->AddTransform(clonePtr.GetPointer());
+  compositeXfrm->AddTransform(clonePtr);
   compositeXfrm->SetOnlyMostRecentTransformToOptimizeOn();
 
   CompositeTransformType::Pointer cloneCompositeXfrm =

@@ -423,7 +423,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
     membershipFunction->SetMean(mean);
     membershipFunction->SetCovariance(covariance);
-    membershipFunctionsVector.push_back( membershipFunction.GetPointer() );
+    membershipFunctionsVector.push_back( membershipFunction );
     }
 
   return static_cast< const MembershipFunctionVectorObjectType * >( m_MembershipFunctionsObject );

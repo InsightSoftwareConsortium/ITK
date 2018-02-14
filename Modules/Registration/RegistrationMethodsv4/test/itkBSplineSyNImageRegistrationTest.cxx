@@ -267,7 +267,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
     fieldTransformAdaptor->SetMeshSizeForTheUpdateField( newUpdateMeshSize );
     fieldTransformAdaptor->SetMeshSizeForTheTotalField( newTotalMeshSize );
 
-    adaptors.push_back( fieldTransformAdaptor.GetPointer() );
+    adaptors.push_back( fieldTransformAdaptor );
     }
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;

@@ -177,7 +177,7 @@ int itkLBFGS2Optimizerv4Test(int, char* [] )
 
   std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
   std::cout << "SetMetric." << std::endl;
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
 
 
   constexpr unsigned int SpaceDimension = 2;

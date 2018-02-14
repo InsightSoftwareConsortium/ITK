@@ -111,7 +111,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   typename ClassifierType::Pointer classifier = ClassifierType::New();
 
-  classifier->SetDecisionRule( decisionRule.GetPointer() );
+  classifier->SetDecisionRule( decisionRule );
   classifier->SetInput( adaptor );
 
   classifier->SetNumberOfClasses (numberOfClasses );

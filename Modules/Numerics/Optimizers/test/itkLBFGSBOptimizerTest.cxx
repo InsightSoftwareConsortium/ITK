@@ -182,7 +182,7 @@ int itkLBFGSBOptimizerTest(int, char *[])
   LBFGSBCostFunction::Pointer costFunction = LBFGSBCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   const double F_Convergence_Factor  = 1e+7;      // Function value tolerance
   const double Projected_G_Tolerance = 1e-5;      // Proj gradient tolerance

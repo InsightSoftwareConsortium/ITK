@@ -123,7 +123,7 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   band->SetInnerRadius(2);
   filter->SetMaximumDistance(5);
   std::cout<<"Band initial size: "<<band->Size()<<std::endl;
-  filter->SetNarrowBand(band.GetPointer());
+  filter->SetNarrowBand(band);
   filter->Update();
 
   std::cout<<"Band size: "<<band->Size()<<std::endl;

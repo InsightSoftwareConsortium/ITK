@@ -240,7 +240,7 @@ int itkMeshTest(int, char* [] )
                 cellPointer0 ); // CellPointer to return the result
 
   std::cout << typeid( cellPointer0 ).name() << std::endl;
-  std::cout << typeid( cellPointer0.GetPointer() ).name() << std::endl;
+  std::cout << typeid( cellPointer0 ).name() << std::endl;
   std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << cellPointer0.IsOwner() << std::endl;
 
   HexaCellType::FaceType * quad;
@@ -430,7 +430,7 @@ int itkMeshTest(int, char* [] )
                   vertexPointer ); // CellPointer to return the result
 
     std::cout << typeid( vertexPointer ).name() << std::endl;
-    std::cout << typeid( vertexPointer.GetPointer() ).name() << std::endl;
+    std::cout << typeid( vertexPointer ).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
 
     QuadraticEdgeCellType::VertexType * vertex;
@@ -509,7 +509,7 @@ int itkMeshTest(int, char* [] )
                   vertexPointer ); // CellPointer to return the result
 
     std::cout << typeid( vertexPointer ).name() << std::endl;
-    std::cout << typeid( vertexPointer.GetPointer() ).name() << std::endl;
+    std::cout << typeid( vertexPointer ).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
 
     QuadraticTriangleCellType::VertexType * vertex;
@@ -549,7 +549,7 @@ int itkMeshTest(int, char* [] )
                   edgePointer ); // CellPointer to return the result
 
     std::cout << typeid( edgePointer ).name() << std::endl;
-    std::cout << typeid( edgePointer.GetPointer() ).name() << std::endl;
+    std::cout << typeid( edgePointer ).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << edgePointer.IsOwner() << std::endl;
 
     QuadraticTriangleCellType::EdgeType * edge;

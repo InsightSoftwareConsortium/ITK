@@ -88,8 +88,8 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 
   outData->Reserve( inputMesh->GetNumberOfPoints() );
 
-  outputMesh->SetPoints( outPoints.GetPointer() );
-  outputMesh->SetPointData( outData.GetPointer() );
+  outputMesh->SetPoints( outPoints );
+  outputMesh->SetPointData( outData );
 
   if ( !inData )
     {

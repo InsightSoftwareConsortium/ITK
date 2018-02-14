@@ -50,7 +50,7 @@ int itkGradientImageFilterTest(int , char * [] )
     sz[1] = 100;
     itk::NullImageToImageFilterDriver< ImageType, OutputImageType > test1;
     test1.SetImageSize(sz);
-    test1.SetFilter(filter.GetPointer());
+    test1.SetFilter(filter);
     test1.Execute();
     }
   catch(itk::ExceptionObject &err)
@@ -82,7 +82,7 @@ int itkGradientImageFilterTest(int , char * [] )
     sz[2] = 25;
     itk::NullImageToImageFilterDriver< InputImageType, OutputImageType > test1;
     test1.SetImageSize(sz);
-    test1.SetFilter(filter.GetPointer());
+    test1.SetFilter(filter);
     test1.Execute();
     }
   catch(itk::ExceptionObject &err)

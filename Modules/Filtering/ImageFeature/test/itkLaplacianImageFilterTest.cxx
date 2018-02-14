@@ -46,7 +46,7 @@ int itkLaplacianImageFilterTest(int , char * [] )
       sz[1] = 100;
       itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
       test1.SetImageSize(sz);
-      test1.SetFilter(filter.GetPointer());
+      test1.SetFilter(filter);
       test1.Execute();
 
       // verify the fix for Bug: 788

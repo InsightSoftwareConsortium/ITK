@@ -164,8 +164,8 @@ int main( int argc, char * argv[] )
 
 //  Software Guide : BeginCodeSnippet
 
-  deformer->SetSourceLandmarks( sourceLandmarks.GetPointer() );
-  deformer->SetTargetLandmarks( targetLandmarks.GetPointer() );
+  deformer->SetSourceLandmarks( sourceLandmarks );
+  deformer->SetTargetLandmarks( targetLandmarks );
 
 //  Software Guide : EndCodeSnippet
 

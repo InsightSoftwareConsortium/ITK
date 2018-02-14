@@ -95,7 +95,7 @@ void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::SetInputFilter( InputFilterType * filter )
 {
-  if( m_InputFilter.GetPointer() != filter )
+  if( m_InputFilter != filter )
     {
     this->Modified();
     m_InputFilter = filter;
@@ -108,7 +108,7 @@ void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::SetOutputFilter( OutputFilterType * filter )
 {
-  if( m_OutputFilter.GetPointer() != filter )
+  if( m_OutputFilter != filter )
     {
     this->Modified();
     m_OutputFilter = filter;

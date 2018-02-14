@@ -84,16 +84,16 @@ int itkDecoratorTest(int, char* [] )
   using TransformBaseObjectType = itk::DataObjectDecorator<TransformBaseType>;
 
   TransformBaseObjectType::Pointer decoratedBaseTransform = TransformBaseObjectType::New();
-  decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
+  decoratedBaseTransform->Graft( decoratedTransform );
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedBaseTransform->ReleaseData();
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
-  decoratedBaseTransform->Graft( f.GetPointer() );
+  decoratedBaseTransform->Graft( f );
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
 
   decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
-  decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
+  decoratedBaseTransform->Graft( decoratedTransform );
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );

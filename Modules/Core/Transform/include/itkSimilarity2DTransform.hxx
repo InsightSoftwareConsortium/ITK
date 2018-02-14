@@ -228,7 +228,7 @@ Similarity2DTransform<TParametersValueType>
 ::CloneInverseTo(Pointer & result) const
 {
   result = New();
-  this->GetInverse( result.GetPointer() );
+  this->GetInverse( result );
 }
 
 

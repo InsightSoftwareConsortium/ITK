@@ -467,7 +467,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
       centroid[j] = m_Parameters[parameterIndex];
       }
     membershipFunction->SetCentroid(centroid);
-    membershipFunctionsVector.push_back( membershipFunction.GetPointer() );
+    membershipFunctionsVector.push_back( membershipFunction );
     }
 
   return static_cast< const MembershipFunctionVectorObjectType * >( m_MembershipFunctionsObject );

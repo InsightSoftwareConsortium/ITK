@@ -73,7 +73,7 @@ int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
   PointSetType::PointsContainerPointer pointsContainer =
     PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
-  pointSet->SetPoints(pointsContainer.GetPointer());
+  pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
   PointSetType::PointType point;
@@ -102,7 +102,7 @@ int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
   DataSampleType::Pointer sample =
     DataSampleType::New();
 
-  sample->SetPointSet(pointSet.GetPointer());
+  sample->SetPointSet(pointSet);
 
   /* Preparing the gaussian mixture components */
   using ComponentPointer = ComponentType::Pointer;
@@ -110,7 +110,7 @@ int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
   for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     components.push_back(ComponentType::New());
-    (components[i])->SetSample(sample.GetPointer());
+    (components[i])->SetSample(sample);
     (components[i])->SetParameters(initialParameters[i]);
     }
 

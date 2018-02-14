@@ -104,7 +104,7 @@ int itkWatershedImageFilterTest( int, char* [] )
 
   const itk::ProcessObject *constp = eq.GetPointer();
   wmppc->Execute( constp, itk::ProgressEvent() );
-  wmppc->Execute( eq.GetPointer(), itk::ProgressEvent() );
+  wmppc->Execute( eq, itk::ProgressEvent() );
 
   // Test watershed::BoundaryResolver
   itk::watershed::BoundaryResolver< PixelType, Dimension >::Pointer br =

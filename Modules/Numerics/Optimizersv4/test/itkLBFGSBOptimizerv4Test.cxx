@@ -219,7 +219,7 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
   // Declaration of the metric
   LBFGSBOptimizerv4TestMetric::Pointer metric = LBFGSBOptimizerv4TestMetric::New();
 
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
 
   const double F_Convergence_Factor  = 1e+7;      // Function value tolerance
   const double Projected_G_Tolerance = 1e-5;      // Proj gradient tolerance
@@ -416,7 +416,7 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
   metric->SetParameters( initialValue );
   metric->SetHasLocalSupport( false );
 
-  itkOptimizer2->SetMetric( metric.GetPointer() );
+  itkOptimizer2->SetMetric( metric );
   itkOptimizer2->SetInitialPosition( currentValue );
 
   itkOptimizer2->SetCostFunctionConvergenceFactor( F_Convergence_Factor );

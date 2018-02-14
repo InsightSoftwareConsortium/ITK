@@ -222,7 +222,7 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
 
   //set the weight using a function
   WeightedMeanTestFunction::Pointer weightFunction = WeightedMeanTestFunction::New();
-  filter->SetWeightingFunction( weightFunction.GetPointer() );
+  filter->SetWeightingFunction( weightFunction );
 
   try
     {

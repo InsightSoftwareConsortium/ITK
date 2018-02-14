@@ -147,7 +147,7 @@ int itkPowellOptimizerv4Test(int, char* [] )
   PowellBoundedMetric::Pointer metric = PowellBoundedMetric::New();
 
 
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
 
 
   using ParametersType = PowellBoundedMetric::ParametersType;

@@ -300,7 +300,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
     fieldTransformAdaptor->SetRequiredOrigin( shrinkFilter->GetOutput()->GetOrigin() );
     fieldTransformAdaptor->SetTransform( outputTransform );
 
-    adaptors.push_back( fieldTransformAdaptor.GetPointer() );
+    adaptors.push_back( fieldTransformAdaptor );
     }
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;

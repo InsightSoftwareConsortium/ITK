@@ -138,7 +138,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
   itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( centroid1,
     numberOfComponents );
   membershipFunction1->SetCentroid( centroid1 );
-  membershipFunctionsVector.push_back( membershipFunction1.GetPointer() );
+  membershipFunctionsVector.push_back( membershipFunction1 );
 
   MembershipFunctionPointer membershipFunction2 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize( numberOfComponents );
@@ -146,7 +146,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
   itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( centroid2,
     numberOfComponents );
   membershipFunction2->SetCentroid( centroid2 );
-  membershipFunctionsVector.push_back( membershipFunction2.GetPointer() );
+  membershipFunctionsVector.push_back( membershipFunction2 );
 
   MembershipFunctionPointer membershipFunction3 = MembershipFunctionType::New();
   membershipFunction3->SetMeasurementVectorSize( numberOfComponents );
@@ -154,7 +154,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
   itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( centroid3,
     numberOfComponents );
   membershipFunction3->SetCentroid( centroid3 );
-  membershipFunctionsVector.push_back( membershipFunction3.GetPointer() );
+  membershipFunctionsVector.push_back( membershipFunction3 );
 
   try
     {

@@ -126,7 +126,7 @@ int PSOTest1()
   itkOptimizer->SetParametersConvergenceTolerance( xTolerance,
                                                    costFunction->GetNumberOfParameters() );
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   //observe the iterations
   itk::CommandIterationUpdateParticleSwarm::Pointer observer =
@@ -227,7 +227,7 @@ int PSOTest2()
   itkOptimizer->SetParametersConvergenceTolerance( xTolerance,
                                                    costFunction->GetNumberOfParameters() );
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   //observe the iterations
   itk::CommandIterationUpdateParticleSwarm::Pointer observer =
@@ -340,7 +340,7 @@ int PSOTest3()
     std::cerr << "Error in Set/Get method for FunctionConvergenceTolerance";
     return EXIT_FAILURE;
     }
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   double percentageParticlesConverged = 0.6;
   itkOptimizer->SetPercentageParticlesConverged( percentageParticlesConverged );

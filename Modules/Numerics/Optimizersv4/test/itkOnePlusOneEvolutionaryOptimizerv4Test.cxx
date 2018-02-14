@@ -194,7 +194,7 @@ int itkOnePlusOneEvolutionaryOptimizerv4Test(int, char* [] )
 
   // Declaration of the CostFunction
   itk::OnePlusOneMetric::Pointer metric = itk::OnePlusOneMetric::New();
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
 
   using ParametersType = itk::OnePlusOneMetric::ParametersType;
 

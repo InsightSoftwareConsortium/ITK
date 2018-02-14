@@ -58,7 +58,7 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   TreeType::Pointer tree = TreeType::New();
   tree->Print(std::cout);
 
-  tree->SetRoot(object0.GetPointer());
+  tree->SetRoot(object0);
 
   // LevelOrderTreeIterator Test
   std::cout << "Testing LevelOrderTreeIterator: " << std::endl;
@@ -77,7 +77,7 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   NodeType::Pointer object8 = NodeType::New();
   object8->SetId(8);
   itk::PreOrderTreeIterator<TreeType> preIt( tree );
-  preIt.Add(object8.GetPointer());
+  preIt.Add(object8);
 //if the following line is used instead of the previous line the correct node type is created and the test passes
 //  preIt.GetNode()->AddChild(object8->GetTreeNode());
   preIt.GoToBegin();

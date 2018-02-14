@@ -124,7 +124,7 @@ int itkGradientDescentOptimizerTest(int, char* [] )
   gradientCostFunction::Pointer costFunction = gradientCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
 
   using ParametersType = gradientCostFunction::ParametersType;

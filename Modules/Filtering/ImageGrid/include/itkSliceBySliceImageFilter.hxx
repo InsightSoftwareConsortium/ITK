@@ -135,7 +135,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
     itkExceptionMacro("InputFilter cannot be nullptr.");
     }
 
-  if ( m_InputFilter.GetPointer() != filter )
+  if ( m_InputFilter != filter )
     {
     this->Modified();
     m_InputFilter = filter;
@@ -156,7 +156,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
     itkExceptionMacro("OutputFilter cannot be nullptr.");
     }
 
-  if ( m_OutputFilter.GetPointer() != filter )
+  if ( m_OutputFilter != filter )
     {
     this->Modified();
     m_OutputFilter = filter;

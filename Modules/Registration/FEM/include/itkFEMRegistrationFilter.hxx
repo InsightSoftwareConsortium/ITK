@@ -370,7 +370,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
     {
     m_Load->SetDescentDirectionMaximize( );
     }
-  m_FEMObject->AddNextLoad(m_Load.GetPointer());
+  m_FEMObject->AddNextLoad(m_Load);
   m_Load = dynamic_cast<typename FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ImageMetricLoadType *>
     (&*m_FEMObject->GetLoadWithGlobalNumber(m_FEMObject->GetNumberOfLoads() ) );
 }

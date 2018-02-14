@@ -110,8 +110,8 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
   pointsFile.close();
 
 
-  filter->SetSourceLandmarks( sourceLandmarks.GetPointer() );
-  filter->SetTargetLandmarks( targetLandmarks.GetPointer() );
+  filter->SetSourceLandmarks( sourceLandmarks );
+  filter->SetTargetLandmarks( targetLandmarks );
 
   try
     {

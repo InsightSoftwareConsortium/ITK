@@ -44,7 +44,7 @@ int itkNeighborhoodOperatorImageFilterTest(int , char *[] )
       sz[2]=5;
       itk::NullImageToImageFilterDriver< ImageType, ImageType >  test1;
       test1.SetImageSize(sz);
-      test1.SetFilter(filter.GetPointer());
+      test1.SetFilter(filter);
       test1.Execute();
     }
   catch(itk::ExceptionObject &err)

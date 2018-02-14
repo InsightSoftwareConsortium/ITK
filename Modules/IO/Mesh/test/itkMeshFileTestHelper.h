@@ -64,7 +64,7 @@ TestPointsContainer( typename TMesh::PointsContainerPointer points0,
     }
   else
     {
-    if ( points0.GetPointer() != points1.GetPointer() )
+    if ( points0 != points1.GetPointer() )
       {
       std::cerr << "Input mesh and output mesh are different in points!" << std::endl;
       std::cerr << "points0 = "  << points0.GetPointer() << std::endl;
@@ -127,7 +127,7 @@ TestCellsContainer( typename TMesh::CellsContainerPointer cells0,
     }
   else
     {
-    if ( cells0.GetPointer() != cells1.GetPointer() )
+    if ( cells0 != cells1.GetPointer() )
       {
       std::cerr << "Input mesh and output mesh are different in cells!" << std::endl;
       std::cerr << "cells0 = "  << cells0.GetPointer() << std::endl;
@@ -179,7 +179,7 @@ TestPointDataContainer( typename TMesh::PointDataContainerPointer pointData0,
     }
   else
     {
-    if ( pointData0.GetPointer() != pointData1.GetPointer() )
+    if ( pointData0 != pointData1.GetPointer() )
       {
       std::cerr << "Input mesh and output mesh are different in point data!" << std::endl;
       std::cerr << "pointData0 = "  << pointData0.GetPointer() << std::endl;
@@ -230,7 +230,7 @@ TestCellDataContainer( typename TMesh::CellDataContainerPointer cellData0,
     }
   else
     {
-    if ( cellData0.GetPointer() != cellData1.GetPointer() )
+    if ( cellData0 != cellData1.GetPointer() )
       {
       std::cerr << "Input mesh and output mesh are different in cell data!" << std::endl;
       std::cerr << "pointData0 = "  << cellData0.GetPointer() << std::endl;

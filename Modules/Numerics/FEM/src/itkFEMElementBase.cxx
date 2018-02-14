@@ -473,7 +473,7 @@ void Element::SetMaterial(Material::ConstPointer)
 
 void Element::SetNode(unsigned int n, Node::Pointer node)
 {
-  this->SetNode(n,NodeIDType(node.GetPointer()));
+  this->SetNode(n,NodeIDType(node));
 }
 
 unsigned int Element::GetNumberOfDegreesOfFreedom(void) const

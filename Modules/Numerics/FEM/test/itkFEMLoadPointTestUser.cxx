@@ -104,7 +104,7 @@ int itkFEMLoadPointTestUser(int, char *[])
   e0->SetNode( 3, femObject->GetNode(3) );
   e0->SetMaterial( femObject->GetMaterial(0).GetPointer() );
 
-  femObject->AddNextElement(e0.GetPointer());
+  femObject->AddNextElement(e0);
 
 
   itk::fem::LoadBC::Pointer l1 = itk::fem::LoadBC::New();
@@ -132,7 +132,7 @@ int itkFEMLoadPointTestUser(int, char *[])
   lm0->SetForce( pt1 );
   TEST_SET_GET_VALUE( pt1, lm0->GetForce() );
 
-  femObject->AddNextLoad(lm0.GetPointer());
+  femObject->AddNextLoad(lm0);
 
   femObject->FinalizeMesh();
 

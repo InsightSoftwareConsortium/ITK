@@ -56,7 +56,7 @@ int itkOptImageToImageMetricsTest2(int , char* argv[])
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   std::cout << std::endl;
 
-  itk::BSplineLinearTest( fixedImageReader.GetPointer(),
+  itk::BSplineLinearTest( fixedImageReader,
                        movingImageReader.GetPointer() );
 
   return(EXIT_SUCCESS);

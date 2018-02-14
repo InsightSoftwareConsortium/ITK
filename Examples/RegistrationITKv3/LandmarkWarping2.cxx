@@ -136,8 +136,8 @@ int main( int argc, char * argv[] )
   pointsFile.close();
 
 
-  deformer->SetSourceLandmarks( sourceLandmarks.GetPointer() );
-  deformer->SetTargetLandmarks( targetLandmarks.GetPointer() );
+  deformer->SetSourceLandmarks( sourceLandmarks );
+  deformer->SetTargetLandmarks( targetLandmarks );
 
   try
     {

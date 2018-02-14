@@ -371,13 +371,13 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
   auto * nonConstThis = const_cast<Self *>(this);
   typename DisplacementFieldType::ConstPointer dispField = nonConstThis->GetDisplacementField();
   typename DisplacementFieldType::Pointer cloneDispField =
-    this->CopyDisplacementField(dispField.GetPointer());
+    this->CopyDisplacementField(dispField);
   rval->GetModifiableInterpolator()->SetInputImage( cloneDispField );
   rval->SetDisplacementField( cloneDispField );
 
   // now do the inverse -- it actually gets created as a side effect?
   typename DisplacementFieldType::ConstPointer invDispField = nonConstThis->GetInverseDisplacementField();
-  typename DisplacementFieldType::Pointer cloneInvDispField = this->CopyDisplacementField( invDispField.GetPointer() );
+  typename DisplacementFieldType::Pointer cloneInvDispField = this->CopyDisplacementField( invDispField );
   rval->SetInverseDisplacementField( cloneInvDispField );
 
   // copy the VelocityField

@@ -271,7 +271,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
     fieldTransformAdaptor->SetRequiredTransformDomainOrigin( velocityFieldOrigin );
     fieldTransformAdaptor->SetRequiredTransformDomainMeshSize( transformDomainMeshSize );
 
-    adaptors.push_back( fieldTransformAdaptor.GetPointer() );
+    adaptors.push_back( fieldTransformAdaptor );
     }
   velocityFieldRegistration->SetTransformParametersAdaptorsPerLevel( adaptors );
 
