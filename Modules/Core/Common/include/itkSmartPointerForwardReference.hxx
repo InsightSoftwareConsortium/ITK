@@ -194,7 +194,7 @@ SmartPointerForwardReference< T >
 template< typename T >
 void
 SmartPointerForwardReference< T >
-::UnRegister() ITK_NOEXCEPT
+::UnRegister() noexcept
 {
   if ( m_Pointer )
     {

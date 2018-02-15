@@ -15,6 +15,7 @@ function ReplaceCXXString()
 
   git grep -l "${oldstring}" | \
     fgrep -v itk_compiler_detection.h | fgrep -v itkMacro.h | fgrep -v CMakeLists.txt |fgrep -v .cmake | \
+    fgrep -v ITKv5Preparation | \
     xargs sed -i '' -e "s/ ${oldstring}/ ${newstring}/g"
 
   file_changed=$(expr $(git status --porcelain 2>/dev/null| grep "^ M" | wc -l))
@@ -59,6 +60,8 @@ ReplaceCXXString ITK_CONSTEXPR_VAR constexpr
 ReplaceCXXString ITK_CONSTEXPR_FUNC constexpr
 
 
+# cxx_noexcept
+ReplaceCXXString ITK_NOEXCEPT noexcept
 
 ### --- Other considerations for replacement
 # cxx_std_98
@@ -87,7 +90,6 @@ ReplaceCXXString ITK_CONSTEXPR_FUNC constexpr
 # cxx_lambdas
 # cxx_local_type_template_args
 # cxx_long_long_type
-# cxx_noexcept
 # cxx_nonstatic_member_init
 # cxx_override
 # cxx_range_for

@@ -105,7 +105,7 @@ public:
   virtual void Register() const;
 
   /** Decrease the reference count (release by another object).  */
-  virtual void UnRegister() const ITK_NOEXCEPT;
+  virtual void UnRegister() const noexcept;
 
   /** Gets the reference count on this object. */
   virtual int GetReferenceCount() const

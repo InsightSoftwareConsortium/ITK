@@ -51,7 +51,7 @@ public:
   {}
 
   /** Has to have empty throw(). */
-  ~ImageFileWriterException() ITK_NOEXCEPT override;
+  ~ImageFileWriterException() noexcept override;
 };
 
 /** \class ImageFileWriter

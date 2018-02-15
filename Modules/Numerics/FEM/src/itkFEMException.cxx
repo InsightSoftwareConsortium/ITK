@@ -31,7 +31,7 @@ FEMException::FEMException(const char *file, unsigned int lineNumber, std::strin
   SetLocation(location);
 }
 
-FEMException::~FEMException() ITK_NOEXCEPT
+FEMException::~FEMException() noexcept
 {
 }
 
@@ -43,7 +43,7 @@ FEMExceptionIO::FEMExceptionIO(const char *file, unsigned int lineNumber, std::s
   SetLocation(location);
 }
 
-FEMExceptionIO::~FEMExceptionIO() ITK_NOEXCEPT
+FEMExceptionIO::~FEMExceptionIO() noexcept
 {
 }
 
@@ -53,7 +53,7 @@ FEMExceptionWrongClass::FEMExceptionWrongClass(const char *file, unsigned int li
   SetDescription("Object was of wrong class!");
 }
 
-FEMExceptionWrongClass::~FEMExceptionWrongClass() ITK_NOEXCEPT
+FEMExceptionWrongClass::~FEMExceptionWrongClass() noexcept
 {
 }
 
@@ -69,7 +69,7 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigne
   SetDescription( buf.str().c_str() );
 }
 
-FEMExceptionObjectNotFound::~FEMExceptionObjectNotFound() ITK_NOEXCEPT
+FEMExceptionObjectNotFound::~FEMExceptionObjectNotFound() noexcept
 {
 }
 
@@ -81,7 +81,7 @@ FEMExceptionSolution::FEMExceptionSolution(const char *file, unsigned int lineNu
   SetLocation(location);
 }
 
-FEMExceptionSolution::~FEMExceptionSolution() ITK_NOEXCEPT
+FEMExceptionSolution::~FEMExceptionSolution() noexcept
 {
 }
 

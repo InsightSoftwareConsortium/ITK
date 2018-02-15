@@ -33,7 +33,7 @@ class ITKIOMesh_EXPORT MeshFileWriterException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
-  ~MeshFileWriterException() ITK_NOEXCEPT override;
+  ~MeshFileWriterException() noexcept override;
 
   /** Run-time information. */
   itkTypeMacro(MeshFileWriterException, ExceptionObject);

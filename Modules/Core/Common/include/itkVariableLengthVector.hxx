@@ -89,7 +89,7 @@ VariableLengthVector< TValue >
 
 template< typename TValue >
 VariableLengthVector< TValue >
-::VariableLengthVector(Self && v) ITK_NOEXCEPT
+::VariableLengthVector(Self && v) noexcept
 : m_LetArrayManageMemory(v.m_LetArrayManageMemory)
 , m_Data                (v.m_Data)
 , m_NumElements         (v.m_NumElements)
@@ -102,7 +102,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::operator=(Self && v) ITK_NOEXCEPT
+::operator=(Self && v) noexcept
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(&v != this);
 

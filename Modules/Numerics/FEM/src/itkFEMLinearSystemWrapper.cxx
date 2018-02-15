@@ -421,7 +421,7 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
     }
 }
 
-FEMExceptionLinearSystem::~FEMExceptionLinearSystem() ITK_NOEXCEPT
+FEMExceptionLinearSystem::~FEMExceptionLinearSystem() noexcept
 {
 }
 
@@ -455,7 +455,7 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file,
   SetDescription( buf.str().c_str() );
 }
 
-FEMExceptionLinearSystemBounds::~FEMExceptionLinearSystemBounds() ITK_NOEXCEPT
+FEMExceptionLinearSystemBounds::~FEMExceptionLinearSystemBounds() noexcept
 {
 }
 

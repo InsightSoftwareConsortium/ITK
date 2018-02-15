@@ -34,7 +34,7 @@ class ITKIOImageBase_EXPORT ImageSeriesWriterException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
-  ~ImageSeriesWriterException() ITK_NOEXCEPT override;
+  ~ImageSeriesWriterException() noexcept override;
 
   /** Run-time information. */
   itkTypeMacro(ImageSeriesWriterException, ExceptionObject);

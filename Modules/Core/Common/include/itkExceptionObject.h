@@ -64,7 +64,7 @@ public:
   ExceptionObject(const ExceptionObject & orig);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~ExceptionObject() ITK_NOEXCEPT override;
+  ~ExceptionObject() noexcept override;
 
   /** Assignment operator. */
   ExceptionObject & operator=(const ExceptionObject & orig);
@@ -103,7 +103,7 @@ public:
   virtual unsigned int GetLine() const;
 
   /** Provide std::exception::what() implementation. */
-  const char * what() const ITK_NOEXCEPT override;
+  const char * what() const noexcept override;
 
 private:
   /** \class ReferenceCounterInterface
@@ -183,7 +183,7 @@ public:
                         const std::string & loc):ExceptionObject(file, lineNumber, desc, loc) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~MemoryAllocationError() ITK_NOEXCEPT override;
+  ~MemoryAllocationError() noexcept override;
 
   const char * GetNameOfClass() const override
   { return "MemoryAllocationError"; }
@@ -208,7 +208,7 @@ public:
   RangeError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~RangeError() ITK_NOEXCEPT override;
+  ~RangeError() noexcept override;
 
   const char * GetNameOfClass() const override
   { return "RangeError"; }
@@ -240,7 +240,7 @@ public:
   InvalidArgumentError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~InvalidArgumentError() ITK_NOEXCEPT override;
+  ~InvalidArgumentError() noexcept override;
 
   const char * GetNameOfClass() const override
   { return "InvalidArgumentError"; }
@@ -265,7 +265,7 @@ public:
   IncompatibleOperandsError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~IncompatibleOperandsError() ITK_NOEXCEPT override;
+  ~IncompatibleOperandsError() noexcept override;
 
   const char * GetNameOfClass() const override
   { return "IncompatibleOperandsError"; }
@@ -299,7 +299,7 @@ public:
   }
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~ProcessAborted()  ITK_NOEXCEPT override;
+  ~ProcessAborted()  noexcept override;
 
   const char * GetNameOfClass() const override
   { return "ProcessAborted"; }

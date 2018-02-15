@@ -104,7 +104,7 @@ public:
   void Register() const override;
 
   /** Decrease the reference count (release by another object).  */
-  void UnRegister() const ITK_NOEXCEPT override;
+  void UnRegister() const noexcept override;
 
   /** Sets the reference count (use with care)  */
   void SetReferenceCount(int) override;
