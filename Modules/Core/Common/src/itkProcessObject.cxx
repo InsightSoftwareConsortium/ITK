@@ -76,7 +76,7 @@ ProcessObject
 
   DataObjectPointerMap::value_type p("Primary", DataObjectPointer() );
   m_IndexedInputs.push_back( m_Inputs.insert(p).first );
-  m_IndexedOutputs.push_back( m_Outputs.insert(p).first );
+  m_IndexedOutputs.push_back( m_Outputs.insert(std::move(p)).first );
 
   m_Threader = MultiThreaderType::New();
   m_NumberOfThreads = m_Threader->GetNumberOfThreads();
@@ -173,9 +173,9 @@ ProcessObject
       {
       for ( DataObjectPointerArraySizeType i = m_IndexedInputs.size(); i < num; ++i)
         {
-        DataObjectPointerMap::value_type p(this->MakeNameFromInputIndex( i ), DataObjectPointer() );
+        auto iter  = m_Inputs.emplace(this->MakeNameFromInputIndex( i ), DataObjectPointer()).first;
         // note: insert will not change value if it's already there.
-        m_IndexedInputs.push_back ( m_Inputs.insert(p).first );
+        m_IndexedInputs.push_back( std::move(iter) );
         }
       }
 
@@ -574,9 +574,9 @@ ProcessObject
       {
       for ( DataObjectPointerArraySizeType i = m_IndexedOutputs.size(); i < num; ++i)
         {
-        DataObjectPointerMap::value_type p(this->MakeNameFromOutputIndex( i ), DataObjectPointer() );
+        auto iter = m_Outputs.emplace(this->MakeNameFromOutputIndex( i ), DataObjectPointer()).first;
         // note: insert will not change value if it's already there.
-        m_IndexedOutputs.push_back ( m_Outputs.insert(p).first );
+        m_IndexedOutputs.push_back ( std::move(iter) );
         }
       }
 
@@ -643,10 +643,8 @@ ProcessObject
   if( key != this->m_IndexedOutputs[0]->first )
     {
 
-    DataObjectPointerMap::value_type p(key, DataObjectPointer() );
-
     // note: insert will not change value if it's already there.
-    auto it = this->m_Outputs.insert( p ).first;
+    auto it = this->m_Outputs.emplace( key, DataObjectPointer() ).first;
 
     if ( it->second.IsNull() )
       {
@@ -885,7 +883,7 @@ ProcessObject
     }
 
   // note: insert will not change value if it's already there.
-  m_Inputs.insert( DataObjectPointerMap::value_type(name, DataObjectPointer() ) );
+  m_Inputs.emplace( name, DataObjectPointer() );
 
   this->Modified();
 }
@@ -930,9 +928,8 @@ ProcessObject
     itkExceptionMacro("An empty string can't be used as an input identifier");
     }
 
-  DataObjectPointerMap::value_type p(name, DataObjectPointer() );
   // note: insert will not change value if it's already in named inputs.
-  auto it = m_Inputs.insert(p).first;
+  auto it = m_Inputs.emplace(name, DataObjectPointer() ).first;
 
   if ( idx >= this->GetNumberOfIndexedInputs() )
     {
