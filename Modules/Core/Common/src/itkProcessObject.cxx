@@ -1190,7 +1190,7 @@ ProcessObject
     {
     return true;
     }
-  for (const auto indexedInput : m_IndexedInputs)
+  for (const auto & indexedInput : m_IndexedInputs)
     {
     if ( indexedInput->first == name )
       {
@@ -1209,7 +1209,7 @@ ProcessObject
     {
     return true;
     }
-  for (const auto indexedOutput : m_IndexedOutputs)
+  for (const auto & indexedOutput : m_IndexedOutputs)
     {
     if ( indexedOutput->first == name )
       {
