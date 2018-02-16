@@ -606,7 +606,7 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   typename ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
     ImageMaskSpatialObject<3>::New();
   maskSpatialObject->SetImage(maskImage);
-  this->SetMaskSpatialObject(maskSpatialObject.GetPointer());
+  this->SetMaskSpatialObject(maskSpatialObject);
 }
 
 template< typename TReferenceImagePixelType,

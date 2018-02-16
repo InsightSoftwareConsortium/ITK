@@ -105,7 +105,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
     NeighborhoodOperatorImageFilter );
 
   filter1->SetInput(input->GetOutput());
-  filter1->SetMaskImage( mask1.GetPointer() );
+  filter1->SetMaskImage( mask1 );
   filter1->SetOperator( sobelHorizontal );
   filter1->UseDefaultValueOff();
 
@@ -115,7 +115,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
     NeighborhoodOperatorImageFilter );
 
   filter2->SetInput(filter1->GetOutput());
-  filter2->SetMaskImage( mask2.GetPointer() );
+  filter2->SetMaskImage( mask2 );
   filter2->SetOperator( sobelVertical );
   filter2->UseDefaultValueOff();
 

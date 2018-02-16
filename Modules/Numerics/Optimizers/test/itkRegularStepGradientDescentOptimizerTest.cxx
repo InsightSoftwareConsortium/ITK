@@ -118,7 +118,7 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
   RSGCostFunction::Pointer costFunction = RSGCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
 
   using ParametersType = RSGCostFunction::ParametersType;

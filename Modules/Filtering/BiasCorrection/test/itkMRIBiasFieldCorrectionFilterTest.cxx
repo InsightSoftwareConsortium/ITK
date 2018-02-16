@@ -191,7 +191,7 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
 
   std::cout << "Computing bias correction without mask, 2 classes 10,10 - 200,20" << std::endl;
 
-  filter->SetInput( imageWithBias.GetPointer() );
+  filter->SetInput( imageWithBias );
 
   int slicingDirection = 2;
   bool isBiasFieldMultiplicative = true;
@@ -296,9 +296,9 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
     }
 
   std::cout << "Computing bias correction with mask" << std::endl;
-  filter->SetInput( imageWithBias.GetPointer() );
-  filter->SetInputMask( image.GetPointer() );
-  filter->SetOutputMask( image.GetPointer() );
+  filter->SetInput( imageWithBias );
+  filter->SetInputMask( image );
+  filter->SetOutputMask( image );
 
   volumeCorrectionMaximumIteration = 200;
   interSliceCorrectionMaximumIteration = 100;

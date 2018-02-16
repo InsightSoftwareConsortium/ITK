@@ -106,10 +106,10 @@ ImageMetricLoad<TMoving, TFixed>
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
 
-  m_Metric->SetTransform( m_Transform.GetPointer() );
+  m_Metric->SetTransform( m_Transform );
   m_Interpolator = InterpolatorType::New();
   m_Interpolator->SetInputImage(m_RefImage);
-  m_Metric->SetInterpolator( m_Interpolator.GetPointer() );
+  m_Metric->SetInterpolator( m_Interpolator );
 
   // ------------------------------------------------------------
   // This call is mandatory before start querying the Metric

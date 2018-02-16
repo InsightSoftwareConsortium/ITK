@@ -170,7 +170,7 @@ int itkIdentityTransformTest(int, char *[] )
     }
 
   IdentityTransformType::Pointer inv = IdentityTransformType::New();
-  TEST_EXPECT_TRUE(transform->GetInverse(inv.GetPointer()));
+  TEST_EXPECT_TRUE(transform->GetInverse(inv));
   TEST_EXPECT_TRUE(!transform->GetInverse(nullptr));
 
   return EXIT_SUCCESS;

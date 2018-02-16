@@ -274,7 +274,7 @@ int AmoebaTest1()
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
 
   amoebaTestF1::Pointer costFunction = amoebaTestF1::New();
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
   std::cout << "itkOptimizer->GetCostFunction(): " << itkOptimizer->GetCostFunction() << std::endl;
 
   OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
@@ -470,7 +470,7 @@ int AmoebaTest2()
 
               //the function we want to optimize
   amoebaTestF2::Pointer costFunction = amoebaTestF2::New();
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
               //observe the iterations
   CommandIterationUpdateAmoeba::Pointer observer =

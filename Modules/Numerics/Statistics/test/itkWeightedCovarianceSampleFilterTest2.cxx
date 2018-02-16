@@ -351,7 +351,7 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
 
   //set  a constant 1.0 weight using a function
   WeightedCovarianceTestFunction::Pointer weightFunction = WeightedCovarianceTestFunction::New();
-  filter->SetWeightingFunction( weightFunction.GetPointer() );
+  filter->SetWeightingFunction( weightFunction );
 
   try
     {

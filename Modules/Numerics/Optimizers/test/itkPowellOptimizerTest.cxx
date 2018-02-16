@@ -107,7 +107,7 @@ int itkPowellOptimizerTest(int, char* [] )
   PowellBoundedCostFunction::Pointer costFunction = PowellBoundedCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
 
   using ParametersType = PowellBoundedCostFunction::ParametersType;

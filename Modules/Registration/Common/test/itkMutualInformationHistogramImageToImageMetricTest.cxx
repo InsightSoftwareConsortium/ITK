@@ -98,15 +98,15 @@ int itkMutualInformationHistogramImageToImageMetricTest(int , char* [])
       ImageDimension>;
 
     TransformType::Pointer transform = TransformType::New();
-    metric->SetTransform(transform.GetPointer());
+    metric->SetTransform(transform);
 
     // Set up an interpolator.
     using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType,
       double>;
 
     InterpolatorType::Pointer interpolator = InterpolatorType::New();
-    interpolator->SetInputImage(movingImage.GetPointer());
-    metric->SetInterpolator(interpolator.GetPointer());
+    interpolator->SetInputImage(movingImage);
+    metric->SetInterpolator(interpolator);
 
     // Define the region over which the metric will be computed.
     metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());

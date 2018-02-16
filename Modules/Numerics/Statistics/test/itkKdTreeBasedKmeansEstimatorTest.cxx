@@ -61,7 +61,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   PointSetType::PointsContainerPointer pointsContainer =
     PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
-  pointSet->SetPoints(pointsContainer.GetPointer());
+  pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
   PointSetType::PointType point;
@@ -92,7 +92,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   using Generator = stat::WeightedCentroidKdTreeGenerator< DataSampleType >;
   Generator::Pointer generator = Generator::New();
 
-  generator->SetSample(sample.GetPointer());
+  generator->SetSample(sample);
   generator->SetBucketSize(bucketSize);
   generator->GenerateData();
 

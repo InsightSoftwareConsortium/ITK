@@ -462,7 +462,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
     m_OptimizerInitialRadius = std::log(1.0 + m_OptimizerInitialRadius);
 
-    this->Log1PImage( m_InternalInput.GetPointer(),
+    this->Log1PImage( m_InternalInput,
                       m_InternalInput.GetPointer() );
     }
 
@@ -479,11 +479,11 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
                                               m_TissueClassSigmas);
     }
 
-  m_EnergyFunction->SetImage( m_InternalInput.GetPointer() );
+  m_EnergyFunction->SetImage( m_InternalInput );
 
   if ( m_InputMask.IsNotNull() )
     {
-    m_EnergyFunction->SetMask( m_InputMask.GetPointer() );
+    m_EnergyFunction->SetMask( m_InputMask );
     }
 }
 
@@ -525,8 +525,8 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   // Initialize the 1+1 optimizer
   OptimizerType::Pointer optimizer = OptimizerType::New();
   optimizer->SetDebug( this->GetDebug() );
-  optimizer->SetNormalVariateGenerator( m_NormalVariateGenerator.GetPointer() );
-  optimizer->SetCostFunction( m_EnergyFunction.GetPointer() );
+  optimizer->SetNormalVariateGenerator( m_NormalVariateGenerator );
+  optimizer->SetCostFunction( m_EnergyFunction );
   optimizer->SetMaximumIteration(maximumIteration);
   if ( m_OptimizerGrowthFactor > 0 )
     {
@@ -610,7 +610,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 {
   itkDebugMacro(<< "Correcting the image ");
   using Pixel = InternalImagePixelType;
-  ImageRegionIterator< InternalImageType > iIter(m_InternalInput.GetPointer(),
+  ImageRegionIterator< InternalImageType > iIter(m_InternalInput,
                                                  region);
   BiasFieldType::SimpleForwardIterator bIter(&bias);
 
@@ -810,7 +810,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
     if ( this->GetBiasFieldMultiplicative() )
       {
-      ExpImage( m_InternalInput.GetPointer(), m_InternalInput.GetPointer() );
+      ExpImage( m_InternalInput, m_InternalInput.GetPointer() );
       }
 
     OutputImageType *output = this->GetOutput();

@@ -29,7 +29,7 @@ CannySegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
 {
   m_CannyFunction = CannyFunctionType::New();
 
-  this->SetSegmentationFunction( m_CannyFunction.GetPointer() );
+  this->SetSegmentationFunction( m_CannyFunction );
 }
 } // end namespace itk
 

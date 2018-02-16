@@ -323,7 +323,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     fieldTransformAdaptor->SetRequiredDirection( shrinkFilter->GetOutput()->GetDirection() );
     fieldTransformAdaptor->SetRequiredOrigin( shrinkFilter->GetOutput()->GetOrigin() );
 
-    adaptors.push_back( fieldTransformAdaptor.GetPointer() );
+    adaptors.push_back( fieldTransformAdaptor );
     }
   displacementFieldSimple->SetTransformParametersAdaptorsPerLevel( adaptors );
 

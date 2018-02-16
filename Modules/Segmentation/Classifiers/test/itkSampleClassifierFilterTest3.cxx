@@ -94,7 +94,7 @@ int itkSampleClassifierFilterTest3( int, char * [] )
 
   /* Creating k-d tree */
   GeneratorType::Pointer generator = GeneratorType::New();
-  generator->SetSample(sample.GetPointer());
+  generator->SetSample(sample);
   unsigned int bucketSize = 1;
   generator->SetBucketSize(bucketSize);
   generator->GenerateData();

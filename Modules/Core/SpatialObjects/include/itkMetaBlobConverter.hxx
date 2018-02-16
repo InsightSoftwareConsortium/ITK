@@ -95,7 +95,7 @@ MetaBlobConverter< NDimensions >
     it2++;
     }
 
-  return SpatialObjectPointer(blob.GetPointer());
+  return SpatialObjectPointer(blob);
 }
 
 /** Convert a Blob SpatialObject into a metaBlob */

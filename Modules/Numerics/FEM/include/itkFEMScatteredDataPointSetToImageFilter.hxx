@@ -421,7 +421,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
 
         triangleEle->SetGlobalNumber(globalNumbering++);
         triangleEle->SetMaterial( static_cast<MaterialType *>( femObject->GetMaterial(0).GetPointer() ) );
-        femObject->AddNextElement(triangleEle.GetPointer());
+        femObject->AddNextElement(triangleEle);
 
         break;
         }
@@ -446,7 +446,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
 
         tetrahedronEle->SetGlobalNumber(globalNumbering++);
         tetrahedronEle->SetMaterial( static_cast<MaterialType *>( femObject->GetMaterial(0).GetPointer() ) );
-        femObject->AddNextElement(tetrahedronEle.GetPointer());
+        femObject->AddNextElement(tetrahedronEle);
 
         break;
 
@@ -473,7 +473,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
 
         quadrilateralEle->SetGlobalNumber(globalNumbering++);
         quadrilateralEle->SetMaterial( static_cast<MaterialType *>( femObject->GetMaterial(0).GetPointer() ) );
-        femObject->AddNextElement(quadrilateralEle.GetPointer());
+        femObject->AddNextElement(quadrilateralEle);
 
         break;
 
@@ -499,7 +499,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
 
         hexahedronEle->SetGlobalNumber(globalNumbering++);
         hexahedronEle->SetMaterial( static_cast<MaterialType *>( femObject->GetMaterial(0).GetPointer() ) );
-        femObject->AddNextElement(hexahedronEle.GetPointer());
+        femObject->AddNextElement(hexahedronEle);
 
         break;
 

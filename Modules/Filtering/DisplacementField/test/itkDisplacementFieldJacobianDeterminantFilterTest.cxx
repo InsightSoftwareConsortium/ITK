@@ -125,7 +125,7 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int , char * [] )
     sz[2] = 100;
     itk::NullImageToImageFilterDriver< VectorImageType, ScalarVectorImageType > test1;
     test1.SetImageSize(sz);
-    test1.SetFilter(filter.GetPointer());
+    test1.SetFilter(filter);
     test1.Execute();
     filter->Print(std::cout);
 

@@ -61,7 +61,7 @@ int itkFEMElement2DQuadraticTriangularTest(int , char *[])
   e0->SetNode(0, n0);
   e0->SetNode(1, n1);
   e0->SetNode(2, n2);
-  e0->SetMaterial(m.GetPointer());
+  e0->SetMaterial(m);
 
   pt[0] = 0.5;
   pt[1] = 0.5;

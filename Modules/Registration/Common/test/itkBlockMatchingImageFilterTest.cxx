@@ -119,7 +119,7 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
 
   using ResampleImageFilterType = itk::ResampleImageFilter< InputImageType, InputImageType >;
   ResampleImageFilterType::Pointer resampleFilter = ResampleImageFilterType::New();
-  resampleFilter->SetTransform( transform.GetPointer() );
+  resampleFilter->SetTransform( transform );
   resampleFilter->SetInput( reader->GetOutput() );
   resampleFilter->SetReferenceImage( reader->GetOutput() );
   resampleFilter->UseReferenceImageOn();

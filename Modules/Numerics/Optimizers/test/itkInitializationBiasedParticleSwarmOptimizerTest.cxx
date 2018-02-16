@@ -126,7 +126,7 @@ int IBPSOTest1()
   itkOptimizer->SetParametersConvergenceTolerance( xTolerance,
                                                    costFunction->GetNumberOfParameters() );
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   //observe the iterations
   itk::CommandIterationUpdateParticleSwarm::Pointer observer =
@@ -235,7 +235,7 @@ int IBPSOTest2()
   itkOptimizer->SetParametersConvergenceTolerance( xTolerance,
                                                    costFunction->GetNumberOfParameters() );
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   //observe the iterations
   itk::CommandIterationUpdateParticleSwarm::Pointer observer =
@@ -316,7 +316,7 @@ int IBPSOTest3()
   itkOptimizer->SetParametersConvergenceTolerance( xTolerance,
                                                    costFunction->GetNumberOfParameters() );
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
   //observe the iterations
   itk::CommandIterationUpdateParticleSwarm::Pointer observer =

@@ -191,11 +191,11 @@ public:
    */
   void AddNextMaterial(Material::Pointer mat)
   {
-    this->AddNextMaterialInternal(mat.GetPointer());
+    this->AddNextMaterialInternal(mat);
   }
   void AddNextMaterial(MaterialLinearElasticity::Pointer mat)
   {
-    this->AddNextMaterialInternal(mat.GetPointer());
+    this->AddNextMaterialInternal(mat);
   }
   /**
    * Insert material data at the specified index location
@@ -206,19 +206,19 @@ public:
    * Add next load data to the load array
    */
   void AddNextLoad(Load::Pointer ld)
-  { this->AddNextLoadInternal(ld.GetPointer()); }
+  { this->AddNextLoadInternal(ld); }
   void AddNextLoad(LoadNode::Pointer ld)
-  { this->AddNextLoadInternal(ld.GetPointer()); }
+  { this->AddNextLoadInternal(ld); }
   void AddNextLoad(LoadBCMFC::Pointer ld)
-  { this->AddNextLoadInternal(ld.GetPointer()); }
+  { this->AddNextLoadInternal(ld); }
   void AddNextLoad(LoadBC::Pointer ld)
-  { this->AddNextLoadInternal(ld.GetPointer()); }
+  { this->AddNextLoadInternal(ld); }
   void AddNextLoad(LoadEdge::Pointer ld)
-  { this->AddNextLoadInternal(ld.GetPointer()); }
+  { this->AddNextLoadInternal(ld); }
   void AddNextLoad(LoadGravConst::Pointer ld)
-  { this->AddNextLoadInternal(ld.GetPointer()); }
+  { this->AddNextLoadInternal(ld); }
   void AddNextLoad(LoadLandmark::Pointer ld)
-  { this->AddNextLoadInternal(ld.GetPointer()); }
+  { this->AddNextLoadInternal(ld); }
   /**
    * Insert material data at the specified index location
    */

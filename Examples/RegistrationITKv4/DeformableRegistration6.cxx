@@ -279,7 +279,7 @@ int main( int argc, char *argv[] )
     bsplineAdaptor->SetRequiredTransformDomainPhysicalDimensions(
       fixedPhysicalDimensions );
 
-    adaptors.push_back( bsplineAdaptor.GetPointer() );
+    adaptors.push_back( bsplineAdaptor );
     }
 
   registration->SetTransformParametersAdaptorsPerLevel( adaptors );

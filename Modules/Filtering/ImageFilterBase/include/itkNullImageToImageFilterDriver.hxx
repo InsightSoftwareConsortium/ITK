@@ -167,7 +167,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
     dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
 
   std::cout << sourceBefore.GetPointer() << ", " << sourceAfter.GetPointer() << std::endl;
-  if (sourceBefore.GetPointer() != sourceAfter.GetPointer())
+  if (sourceBefore != sourceAfter.GetPointer())
     {
     std::cout << std::endl << "Pipeline corrupt, filter output source different after execution." << std::endl;
     }

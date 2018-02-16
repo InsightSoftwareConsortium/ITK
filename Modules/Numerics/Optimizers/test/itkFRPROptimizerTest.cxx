@@ -121,7 +121,7 @@ int itkFRPROptimizerTest(int, char* [] )
   FRPRGradientCostFunction::Pointer costFunction = FRPRGradientCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+  itkOptimizer->SetCostFunction( costFunction );
 
 
   using ParametersType = FRPRGradientCostFunction::ParametersType;

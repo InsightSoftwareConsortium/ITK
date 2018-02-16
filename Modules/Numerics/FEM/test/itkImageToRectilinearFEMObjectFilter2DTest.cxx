@@ -72,7 +72,7 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   MeshFilterType::Pointer meshFilter = MeshFilterType::New();
   meshFilter->SetInput( reader->GetOutput() );
   meshFilter->SetPixelsPerElement( pixelsPerElement );
-  meshFilter->SetElement( e0.GetPointer() );
+  meshFilter->SetElement( e0 );
   meshFilter->SetMaterial( m );
   meshFilter->Update();
 

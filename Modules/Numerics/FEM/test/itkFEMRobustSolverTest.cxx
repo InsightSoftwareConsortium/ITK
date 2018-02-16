@@ -173,7 +173,7 @@ int itkFEMRobustSolverTest(int, char *[])
       quadrilateral->SetGlobalNumber(globalNumbering);
       quadrilateral->SetMaterial( static_cast<MaterialType *>( femObject->GetMaterial(0).GetPointer() ) );
 
-      femObject->AddNextElement(quadrilateral.GetPointer());
+      femObject->AddNextElement(quadrilateral);
 
       globalNumbering++;
       }

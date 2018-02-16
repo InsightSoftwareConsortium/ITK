@@ -82,7 +82,7 @@ int main( int , char *[] )
 
   // Software Guide : BeginCodeSnippet
   TreeType::Pointer tree = TreeType::New();
-  tree->SetRoot(object0.GetPointer());
+  tree->SetRoot(object0);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -115,7 +115,7 @@ int main( int , char *[] )
   // Software Guide : BeginCodeSnippet
   NodeType::Pointer object4 = NodeType::New();
   itk::PreOrderTreeIterator<TreeType> preIt( tree );
-  preIt.Add(object4.GetPointer());
+  preIt.Add(object4);
   // Software Guide : EndCodeSnippet
 
 

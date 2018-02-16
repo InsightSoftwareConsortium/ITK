@@ -156,7 +156,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   // Run isocontour with narrowband
   isocontour->NarrowBandingOn();
   // isocontour->SetNumberOfThreads(8);
-  isocontour->SetNarrowBand(band.GetPointer());
+  isocontour->SetNarrowBand(band);
 
   try
     {

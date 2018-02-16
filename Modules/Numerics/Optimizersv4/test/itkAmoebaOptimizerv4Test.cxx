@@ -331,7 +331,7 @@ int AmoebaTest1()
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
 
   itkAmoebaOptimizerv4TestMetric1::Pointer metric = itkAmoebaOptimizerv4TestMetric1::New();
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
   std::cout << "itkOptimizer->GetMetric(): " << itkOptimizer->GetMetric() << std::endl;
 
   OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
@@ -445,7 +445,7 @@ int AmoebaTest2()
 
   //the function we want to optimize
   itkAmoebaOptimizerv4TestMetric2::Pointer metric = itkAmoebaOptimizerv4TestMetric2::New();
-  itkOptimizer->SetMetric( metric.GetPointer() );
+  itkOptimizer->SetMetric( metric );
 
   metric->SetParameters( initialParameters );
 

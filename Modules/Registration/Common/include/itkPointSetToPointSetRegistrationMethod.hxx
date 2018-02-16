@@ -102,7 +102,7 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
   // Connect the transform to the Decorator
   auto * transformOutput = static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 
-  transformOutput->Set( m_Transform.GetPointer() );
+  transformOutput->Set( m_Transform );
 }
 
 template< typename TFixedPointSet, typename TMovingPointSet >

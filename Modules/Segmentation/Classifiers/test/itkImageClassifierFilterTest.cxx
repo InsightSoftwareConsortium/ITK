@@ -131,13 +131,13 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   for (unsigned int i = 0; i < numberOfClasses; i++ )
     {
       components.push_back(ComponentType::New());
-      (components[i])->SetSample(sample.GetPointer());
+      (components[i])->SetSample(sample);
       (components[i])->SetParameters(initialParameters[i]);
     }
 
   /* Estimating */
   EstimatorType::Pointer estimator = EstimatorType::New();
-  estimator->SetSample(sample.GetPointer());
+  estimator->SetSample(sample);
 
   int maximumIteration = 200;
   estimator->SetMaximumIteration(maximumIteration);

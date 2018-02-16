@@ -69,7 +69,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 
   OtsuMultipleThresholdCalculatorType::Pointer otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
 
-  otsuThresholdCalculator->SetInputHistogram(histogram.GetPointer());
+  otsuThresholdCalculator->SetInputHistogram(histogram);
   otsuThresholdCalculator->SetNumberOfThresholds(numberOfThresholds);
 
   try

@@ -909,7 +909,7 @@ Solver<VDimension>
       // this point in the interpolation grid image.
       if( e->GetLocalFromGlobalCoordinates(global_point, local_point) )
         {
-        iter.Set( e.GetPointer() );
+        iter.Set( e );
         }
       } // next point in region
     }   // next element

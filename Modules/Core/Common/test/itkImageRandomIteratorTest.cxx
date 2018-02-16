@@ -32,7 +32,7 @@ int itkImageRandomIteratorTest(int, char* [] )
   using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer myImage = ImageType::New();
-  ImageType::ConstPointer myConstImage = myImage.GetPointer();
+  ImageType::ConstPointer myConstImage = myImage;
 
   ImageType::SizeType size0;
 

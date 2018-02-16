@@ -239,7 +239,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
 
   try
     {
-    optimizer->SetCostFunction( costFunction.GetPointer() );
+    optimizer->SetCostFunction( costFunction );
     }
   catch( itk::ExceptionObject & e )
     {

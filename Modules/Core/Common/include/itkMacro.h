@@ -272,7 +272,7 @@ namespace itk
   static Pointer New(void)                                     \
     {                                                          \
     Pointer smartPtr = ::itk::ObjectFactory< x >::Create();    \
-    if ( smartPtr.GetPointer() == nullptr )                \
+    if ( smartPtr == nullptr )                \
       {                                                        \
       smartPtr = new x;                                        \
       }                                                        \

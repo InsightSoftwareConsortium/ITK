@@ -155,7 +155,7 @@ CLANG_PRAGMA_POP    \
 
 
 #define TEST_SET_GET( variable, command ) \
-  if( variable.GetPointer() != command )   \
+  if( variable != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \

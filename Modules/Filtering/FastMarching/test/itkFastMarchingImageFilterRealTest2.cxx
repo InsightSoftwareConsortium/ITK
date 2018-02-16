@@ -157,13 +157,13 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
   AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetIsForbiddenImageBinaryMask( true );
 
-  adaptor->SetAliveImage( AliveImage.GetPointer() );
+  adaptor->SetAliveImage( AliveImage );
   adaptor->SetAliveValue( 0.0 );
 
-  adaptor->SetTrialImage( TrialImage.GetPointer() );
+  adaptor->SetTrialImage( TrialImage );
   adaptor->SetTrialValue( 1.0 );
 
-  adaptor->SetForbiddenImage( MaskImage.GetPointer() );
+  adaptor->SetForbiddenImage( MaskImage );
   adaptor->Update();
 
   marcher->SetForbiddenPoints( adaptor->GetForbiddenPoints() );

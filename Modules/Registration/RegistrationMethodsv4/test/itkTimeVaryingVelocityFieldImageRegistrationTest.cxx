@@ -334,7 +334,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
     fieldTransformAdaptor->SetRequiredDirection( velocityFieldDirection );
     fieldTransformAdaptor->SetRequiredOrigin( velocityFieldOrigin );
 
-    adaptors.push_back( fieldTransformAdaptor.GetPointer() );
+    adaptors.push_back( fieldTransformAdaptor );
     }
   velocityFieldRegistration->SetTransformParametersAdaptorsPerLevel( adaptors );
 

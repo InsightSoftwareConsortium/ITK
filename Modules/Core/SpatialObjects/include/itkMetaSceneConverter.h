@@ -117,7 +117,7 @@ private:
     typename TConverter::Pointer converter = TConverter::New();
     // needed just for Image & ImageMask
     converter->SetWriteImagesInSeparateFile(this->m_WriteImagesInSeparateFile);
-    return converter->SpatialObjectToMetaObject(so.GetPointer());
+    return converter->SpatialObjectToMetaObject(so);
   }
   template <typename TConverter>
     SpatialObjectPointer MetaObjectToSpatialObject(const MetaObject *mo)

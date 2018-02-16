@@ -270,8 +270,8 @@ int main(int argc, char *argv[])
 
   // Create the element type
   ElementType::Pointer e1=ElementType::New();
-  e1->SetMaterial(m.GetPointer());
-  registrationFilter->SetElement(e1.GetPointer());
+  e1->SetMaterial(m);
+  registrationFilter->SetElement(e1);
   registrationFilter->SetMaterial(m);
 //  Software Guide : EndCodeSnippet
 

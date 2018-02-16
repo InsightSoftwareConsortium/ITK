@@ -85,7 +85,7 @@ if ( meanDiff > 0.1 ) :
   io.SetCompressionLevel( 9 )
 
   writer = itkImageFileWriterUC2_New()
-  writer.SetImageIO( io.GetPointer() )
+  writer.SetImageIO( io )
   writer.SetInput(  convert.GetOutput() )
 
   writer.SetFileName( testOutput+"/"+name+".test.png" )

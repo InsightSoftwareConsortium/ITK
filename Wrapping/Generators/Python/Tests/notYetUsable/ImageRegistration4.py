@@ -51,10 +51,10 @@ interpolator = itkLinearInterpolateImageFunctionF2D_New()
 imageMetric.SetNumberOfHistogramBins(20)
 imageMetric.SetNumberOfSpatialSamples(10000)
 
-registration.SetOptimizer(optimizer.GetPointer())
-registration.SetTransform(transform.GetPointer())
-registration.SetInterpolator(interpolator.GetPointer())
-registration.SetMetric(imageMetric.GetPointer())
+registration.SetOptimizer(optimizer)
+registration.SetTransform(transform)
+registration.SetInterpolator(interpolator)
+registration.SetMetric(imageMetric)
 registration.SetFixedImage(fixedImage)
 registration.SetMovingImage(movingImage)
 
@@ -113,7 +113,7 @@ print "Translation Y =  %f" % (finalParameters.GetElement(1),)
 # moving image.
 #
 resampler = itkResampleImageFilterF2F2_New()
-resampler.SetTransform(transform.GetPointer())
+resampler.SetTransform(transform)
 resampler.SetInput(movingImage)
 
 region = fixedImage.GetLargestPossibleRegion()

@@ -197,9 +197,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tubeNet1->AddSpatialObject( tube3 );
 
   // testing the GetChildren() function...
-  childrenList.push_back( tube1.GetPointer() );
-  childrenList.push_back( tube2.GetPointer() );
-  childrenList.push_back( tube3.GetPointer() );
+  childrenList.push_back( tube1 );
+  childrenList.push_back( tube2 );
+  childrenList.push_back( tube3 );
 
   returnedList = tubeNet1->GetChildren();
 

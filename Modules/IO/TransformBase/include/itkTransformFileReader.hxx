@@ -174,9 +174,9 @@ void TransformFileReaderTemplate<TParametersValueType>
     // CompositeTransformIOHelperTemplate knows how to assign to the composite
     // transform's internal list
     CompositeTransformIOHelperTemplate<TParametersValueType> helper;
-    helper.SetTransformList(composite.GetPointer(),ioTransformList);
+    helper.SetTransformList(composite,ioTransformList);
 
-    this->m_TransformList.push_back( composite.GetPointer() );
+    this->m_TransformList.push_back( composite );
     }
   else  //Just return the entire list of elements
     {

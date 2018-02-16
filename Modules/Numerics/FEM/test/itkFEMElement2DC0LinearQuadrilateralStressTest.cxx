@@ -89,7 +89,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   e1->SetNode( 3, femObject->GetNode(3) );
 
   e1->SetMaterial( femObject->GetMaterial(0) );
-  femObject->AddNextElement( e1.GetPointer() );
+  femObject->AddNextElement( e1 );
 
   itk::fem::LoadBC::Pointer l1;
   l1 = itk::fem::LoadBC::New();

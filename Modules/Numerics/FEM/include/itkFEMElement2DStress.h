@@ -102,11 +102,11 @@ public:
 
   void SetMaterial(Material::ConstPointer mat_) override
   {
-    this->SetMaterialInternal(mat_.GetPointer());
+    this->SetMaterialInternal(mat_);
   }
   virtual void SetMaterial(Material::Pointer mat_)
   {
-    this->SetMaterialInternal(mat_.GetPointer());
+    this->SetMaterialInternal(mat_);
   }
 
 protected:

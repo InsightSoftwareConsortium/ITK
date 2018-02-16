@@ -126,8 +126,8 @@ int main( int argc, char * argv[] )
     pointsFile >> targetPoint;
     }
   pointsFile.close();
-  filter->SetSourceLandmarks( sourceLandmarks.GetPointer() );
-  filter->SetTargetLandmarks( targetLandmarks.GetPointer() );
+  filter->SetSourceLandmarks( sourceLandmarks );
+  filter->SetTargetLandmarks( targetLandmarks );
 
   try
     {

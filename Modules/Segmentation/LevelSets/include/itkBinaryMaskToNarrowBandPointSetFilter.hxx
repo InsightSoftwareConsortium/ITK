@@ -50,7 +50,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 
   OutputMeshPointer mesh = this->GetOutput();
 
-  mesh->SetPointData( pointData.GetPointer() );
+  mesh->SetPointData( pointData );
 }
 
 /**

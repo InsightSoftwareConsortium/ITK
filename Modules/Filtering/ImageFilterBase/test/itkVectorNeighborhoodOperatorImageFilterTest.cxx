@@ -49,7 +49,7 @@ char * itkNotUsed(argv) [] )
       sz[2]=2;
       itk::NullImageToImageFilterDriver< ImageType, ImageType >  test1;
       test1.SetImageSize(sz);
-      test1.SetFilter(filter.GetPointer());
+      test1.SetFilter(filter);
       test1.Execute();
     }
   catch(itk::ExceptionObject &err)

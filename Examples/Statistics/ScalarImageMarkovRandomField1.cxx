@@ -255,7 +255,7 @@ int main( int argc, char * argv [] )
 
   DecisionRuleType::Pointer  classifierDecisionRule = DecisionRuleType::New();
 
-  classifier->SetDecisionRule( classifierDecisionRule.GetPointer() );
+  classifier->SetDecisionRule( classifierDecisionRule );
   // Software Guide : EndCodeSnippet
 
 

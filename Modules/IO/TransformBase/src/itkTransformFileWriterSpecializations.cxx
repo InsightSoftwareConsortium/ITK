@@ -147,7 +147,7 @@ inline void AddToTransformList(typename TInputTransformType::ConstPointer &trans
      we push back just an empty composite transform as it will be skipped by the outputHelper.
     */
     OutputTransformPointer outputComposite = IOhelper::CreateNewTypeTransform( transformName );
-    compositeTransformList.push_back( outputComposite.GetPointer() );
+    compositeTransformList.push_back( outputComposite );
 
     // Now we iterate through input list and convert each sub transform to a new transform with requested precision type.
     auto it = inputTransformList.begin();
@@ -162,16 +162,16 @@ inline void AddToTransformList(typename TInputTransformType::ConstPointer &trans
        OutputTransformPointer convertedSub = IOhelper::CreateNewTypeTransform( inSubName );
        IOhelper::SetAllParameters( inSub, convertedSub );
        // push back the converted sub transform to the composite transform list
-       compositeTransformList.push_back( convertedSub.GetPointer() );
+       compositeTransformList.push_back( convertedSub );
        }
 
     convertedTransform = IOhelper::CreateNewTypeTransform( transformName ); // new composite transform
     CompositeTransformIOHelperTemplate<OutputParameterValueType> outputHelper;
     // set the output transform list into the new composite transform
-    outputHelper.SetTransformList(convertedTransform.GetPointer(), compositeTransformList);
+    outputHelper.SetTransformList(convertedTransform, compositeTransformList);
     }
 
-  transformList.push_back( OutputTransformConstPointer(convertedTransform.GetPointer()) );
+  transformList.push_back( OutputTransformConstPointer(convertedTransform) );
 }
 
 template<> //If types match, no conversion

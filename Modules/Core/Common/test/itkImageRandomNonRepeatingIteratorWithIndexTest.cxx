@@ -40,7 +40,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
   std::cout << "Creating images" << std::endl;
 
   ImageType::Pointer myImage = ImageType::New();
-  ImageType::ConstPointer myConstImage = myImage.GetPointer();
+  ImageType::ConstPointer myConstImage = myImage;
   ImageType::SizeType size0;
   size0[0] = 50;
   size0[1] = 50;

@@ -63,7 +63,7 @@ int Test3dImageMask()
   translation[2] = 7;
   transform->Translate(translation);
 
-  box1->SetObjectToWorldTransform( transform.GetPointer() );
+  box1->SetObjectToWorldTransform( transform );
 
   box1->ComputeBoundingBox();
   BoxType::BoundingBoxType::Pointer box1BoundingBox = box1->GetBoundingBox();
@@ -181,7 +181,7 @@ int Test2dImageMask()
   translation[1] = 7;
   transform->Translate(translation);
 
-  box1->SetObjectToWorldTransform( transform.GetPointer() );
+  box1->SetObjectToWorldTransform( transform );
 
   box1->ComputeBoundingBox();
   BoxType::BoundingBoxType::Pointer box1BoundingBox = box1->GetBoundingBox();

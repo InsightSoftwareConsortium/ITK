@@ -95,7 +95,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   constexpr int dataSizeBig = 2000;
   pointsContainer->Reserve(dataSizeBig);
-  pointSet->SetPoints(pointsContainer.GetPointer());
+  pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
   PointSetType::PointType point;
@@ -125,7 +125,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   /* Importing the point set to the sample */
   DataSampleType::Pointer sample = DataSampleType::New();
 
-  sample->SetPointSet(pointSet.GetPointer());
+  sample->SetPointSet(pointSet);
 
   /* Preparing the gaussian mixture components */
   using ComponentPointer = ComponentType::Pointer;
@@ -133,13 +133,13 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     components.push_back(ComponentType::New());
-    (components[i])->SetSample(sample.GetPointer());
+    (components[i])->SetSample(sample);
     (components[i])->SetParameters(initialParameters[i]);
     }
 
   /* Estimating */
   EstimatorType::Pointer estimator = EstimatorType::New();
-  estimator->SetSample(sample.GetPointer());
+  estimator->SetSample(sample);
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetInitialProportions(initialProportions);
 
@@ -262,7 +262,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
     PointSetType::PointsContainer::New();
   constexpr int dataSizeSmall = 200;
   pointsContainer2->Reserve(dataSizeSmall);
-  pointSet2->SetPoints(pointsContainer2.GetPointer());
+  pointSet2->SetPoints(pointsContainer2);
 
   p_iter = pointsContainer2->Begin();
   while (p_iter != pointsContainer2->End())
@@ -282,7 +282,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   /* Importing the point set to the sample */
   DataSampleType::Pointer sampleTarget = DataSampleType::New();
 
-  sampleTarget->SetPointSet(pointSet2.GetPointer());
+  sampleTarget->SetPointSet(pointSet2);
 
   filter->SetInput( sample );
   filter->SetNumberOfClasses( numberOfClasses );

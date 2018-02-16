@@ -225,7 +225,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
         e->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
         }
       gn++;
-      femObject->AddNextElement(e.GetPointer());
+      femObject->AddNextElement(e);
       }
     }
 }
@@ -325,7 +325,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
           e->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
           }
         gn++;
-        femObject->AddNextElement(e.GetPointer());
+        femObject->AddNextElement(e);
         }
       }
     }

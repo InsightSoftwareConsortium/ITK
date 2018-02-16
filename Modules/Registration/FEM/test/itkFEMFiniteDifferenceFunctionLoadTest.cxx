@@ -125,14 +125,14 @@ FEMObjectType::Pointer CreateMesh( InputImageType* image, unsigned int elementWi
   if( ImageDimension == 2 )
     {
     Element2DType::Pointer element = Element2DType::New();
-    element->SetMaterial( material.GetPointer() );
-    meshFilter->SetElement( element.GetPointer() );
+    element->SetMaterial( material );
+    meshFilter->SetElement( element );
     }
   else
     {
     Element3DType::Pointer element = Element3DType::New();
-    element->SetMaterial( material.GetPointer() );
-    meshFilter->SetElement( element.GetPointer() );
+    element->SetMaterial( material );
+    meshFilter->SetElement( element );
     }
   meshFilter->Update();
 
@@ -199,7 +199,7 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
     }
 
   // SetMetric() must to be called after SetDisplacementField()!!
-  TRY_EXPECT_EXCEPTION( load->SetMetric( metric.GetPointer() ) );
+  TRY_EXPECT_EXCEPTION( load->SetMetric( metric ) );
 
   TRY_EXPECT_EXCEPTION( load->InitializeMetric() );
 
@@ -214,7 +214,7 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
   TEST_SET_GET_VALUE( initField, load->GetDisplacementField() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( load->SetMetric( metric.GetPointer() ) );
+  TRY_EXPECT_NO_EXCEPTION( load->SetMetric( metric ) );
 
   TRY_EXPECT_NO_EXCEPTION( load->InitializeMetric() );
 

@@ -110,7 +110,7 @@ int itkImageRegistrationMethodTest_6(int argc, char* argv[] )
 
   // Instantiate an Observer to report the progress of the Optimization
   CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
-  iterationCommand->SetOptimizer(  optimizer.GetPointer() );
+  iterationCommand->SetOptimizer(  optimizer );
 
   // Scale the translation components of the Transform in the Optimizer
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );

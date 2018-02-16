@@ -112,7 +112,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
   //
   auto * transformOutput = static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 
-  transformOutput->Set( m_Transform.GetPointer() );
+  transformOutput->Set( m_Transform );
 }
 
 /*
