@@ -137,7 +137,6 @@ itkTorusInteriorExteriorSpatialFunctionTest.cxx
 itkTimeStampTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
-itkSizeTest.cxx
 itkMatrixTest.cxx
 itkAutoPointerTest.cxx
 itkNeighborhoodIteratorTest.cxx
@@ -419,7 +418,6 @@ itk_add_test(NAME itkTimeProbeTest2 COMMAND ITKCommon1TestDriver itkTimeProbeTes
 itk_add_test(NAME itkRGBPixelTest COMMAND ITKCommon1TestDriver itkRGBPixelTest)
 itk_add_test(NAME itkSparseImageTest COMMAND ITKCommon1TestDriver itkSparseImageTest)
 itk_add_test(NAME itkSimpleFilterWatcherTest COMMAND ITKCommon1TestDriver itkSimpleFilterWatcherTest)
-itk_add_test(NAME itkSizeTest COMMAND ITKCommon2TestDriver itkSizeTest)
 itk_add_test(NAME itkSliceIteratorTest COMMAND ITKCommon2TestDriver --redirectOutput ${TEMP}/itkSliceIteratorTest.txt itkSliceIteratorTest)
 set_tests_properties(itkSliceIteratorTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkSliceIteratorTest.txt)
 itk_add_test(NAME itkSmartPointerTest COMMAND ITKCommon2TestDriver itkSmartPointerTest)
@@ -575,3 +573,9 @@ itk_python_add_test(NAME itkMetaDataDictionaryPythonTest COMMAND itkMetaDataDict
 itk_python_add_test(NAME itkDirectoryPythonTest COMMAND itkDirectoryTest.py)
 itk_python_expression_add_test(NAME itkObjectPythonTest EXPRESSION "itkObject = itk.Object.New()")
 itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
+
+set(ITKCommonGTests
+        itkAggregateTypesTest.cxx ## TODO rename to itkIndexGTest.cxx
+)
+
+CreateGoogleTestDriver(ITKCommon3 "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")

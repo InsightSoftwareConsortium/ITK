@@ -187,11 +187,11 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
         {
         if ( i != k )
           {
-          tempIndex.m_Index[k] = topIndex[k];
+          tempIndex.m_InternalArray[k] = topIndex[k];
           }
         else
           {
-          tempIndex.m_Index[k] = topIndex[k] + j;
+          tempIndex.m_InternalArray[k] = topIndex[k] + j;
           }
         } // end build the index of a neighbor
 

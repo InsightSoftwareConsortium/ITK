@@ -19,6 +19,7 @@
 #define itkMaskedMovingHistogramImageFilter_h
 
 #include "itkMovingHistogramImageFilterBase.h"
+#include "itkLexicographicCompare.h"
 #include <list>
 #include <map>
 #include <set>
@@ -111,7 +112,7 @@ public:
   using OffsetListType = typename std::list< OffsetType >;
 
   using OffsetMapType = typename std::map< OffsetType, OffsetListType,
-                             typename Functor::OffsetLexicographicCompare< itkGetStaticConstMacro(ImageDimension) > >;
+                             typename Functor::LexicographicCompare< OffsetType > >;
 
   /** Get the modified mask image */
   MaskImageType * GetOutputMask();

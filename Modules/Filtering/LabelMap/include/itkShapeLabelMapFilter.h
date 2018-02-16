@@ -19,6 +19,7 @@
 #define itkShapeLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
+#include "itkLexicographicCompare.h"
 
 namespace itk
 {
@@ -158,8 +159,8 @@ private:
   using Offset3Type = itk::Offset<3>;
   using Spacing2Type = itk::Vector<double, 2>;
   using Spacing3Type = itk::Vector<double, 3>;
-  using MapIntercept2Type = std::map<Offset2Type, SizeValueType, Offset2Type::LexicographicCompare>;
-  using MapIntercept3Type = std::map<Offset3Type, SizeValueType, Offset3Type::LexicographicCompare>;
+  using MapIntercept2Type = std::map<Offset2Type, SizeValueType, Functor::LexicographicCompare< Offset2Type > >;
+  using MapIntercept3Type = std::map<Offset3Type, SizeValueType, Functor::LexicographicCompare< Offset3Type > >;
 
   // it seems impossible to specialize a method without specializing the whole class, but we
   // can use simple overloading

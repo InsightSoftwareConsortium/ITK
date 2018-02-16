@@ -18,27 +18,41 @@
 #ifndef itkSize_h
 #define itkSize_h
 
-#include "itkMacro.h"
 #include "itkIntTypes.h"
+#include "itkMacro.h"
+#include <type_traits>
+#include <memory>
 
 namespace itk
 {
-/** \class Size
- * \brief Represent the size (bounds) of a n-dimensional image.
+
+/** \struct Size
+ * \brief Represent a n-dimensional size (bounds) of a n-dimensional image.
  *
- * Size is a class to represent multi-dimensional array bounds,
- * templated over the dimension.  Insight assumes that the first
- * element of Size is the fastest moving index.
+ * Size is a templated class to represent multi-dimensional array bounds,
+ * i.e. (I,J,K,...).  Size is templated over teh dimension of the bounds.
+ * ITK assumes the first element of a size (bounds) is the fastest moving index.
  *
- * For the sake of efficiency, Size does not define a default constructor, a
+ * For efficiency, Size does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
- * Size is an "aggregate" class.  Its data is public (m_Size)
+ * Size is an "aggregate" class.  Its data is public (m_InternalArray)
  * allowing for fast and convenient instantiations/assignments.
  *
- * The following syntax for assigning a size is allowed/suggested:
- *    Size<3> size = {256, 256, 20};
+ * The following syntax for assigning an aggregate type like this is allowed/suggested:
+ *
+ *
+ * Size<3> var{{ 256, 256, 20 }}; // Also prevent narrowing conversions
+ * Size<3> var = {{ 256, 256, 20 }};
+ *
+ * The doubled braces {{ and }} are required to prevent `gcc -Wall'
+ * (and perhaps other compilers) from complaining about a partly
+ * bracketed initializer.
+ *
+ * As an aggregate type that is intended to provide highest performance
+ * characteristics, this class is not appropriate to inherit from,
+ * so setting this struct as final.
  *
  * \sa Index
  * \ingroup ImageObjects
@@ -48,191 +62,384 @@ namespace itk
  * \wikiexample{Images/Size,An object which holds the size of an image}
  * \endwiki
  */
-template< unsigned int VDimension = 2 >
-class Size
+
+template <unsigned int VDimension = 2>
+struct ITK_TEMPLATE_EXPORT  Size final
 {
 public:
   /** Standard class type aliases. */
   using Self = Size;
 
   /** Compatible Size and value type alias */
-  using SizeType = Size< VDimension >;
-  using SizeValueType = itk::SizeValueType;
+  using SizeType = Size<VDimension>;
+  using SizeValueType = ::itk::SizeValueType;
 
   /** Dimension constant */
   static constexpr unsigned int Dimension = VDimension;
 
-  /** Get the dimension of the size object. */
-  static unsigned int GetSizeDimension(void) { return VDimension; }
+  /** Get the dimension. */
+  static constexpr unsigned int GetSizeDimension(void)
+  {
+    return VDimension;
+  }
 
   /** Add two sizes.  */
-  const Self
-  operator+(const Self & vec) const
+  const Self operator+(const Self & vec) const
   {
     Self result;
 
-    for ( unsigned int i = 0; i < VDimension; i++ )
-          { result[i] = m_Size[i] + vec.m_Size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      result[i] = m_InternalArray[i] + vec.m_InternalArray[i];
+      }
     return result;
   }
 
   /** Increment size by a size.  */
-  const Self &
-  operator+=(const Self & vec)
+  const Self & operator+=(const Self & vec)
   {
-    for ( unsigned int i = 0; i < VDimension; i++ )
-          { m_Size[i] += vec.m_Size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      m_InternalArray[i] += vec.m_InternalArray[i];
+      }
     return *this;
   }
 
   /** Subtract two sizes.  */
-  const Self
-  operator-(const Self & vec) const
+  const Self operator-(const Self & vec) const
   {
     Self result;
 
-    for ( unsigned int i = 0; i < VDimension; i++ )
-          { result[i] = m_Size[i] - vec.m_Size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      result[i] = m_InternalArray[i] - vec.m_InternalArray[i];
+      }
     return result;
   }
 
   /** Decrement size by a size.  */
-  const Self &
-  operator-=(const Self & vec)
+  const Self & operator-=(const Self & vec)
   {
-    for ( unsigned int i = 0; i < VDimension; i++ )
-          { m_Size[i] -= vec.m_Size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      m_InternalArray[i] -= vec.m_InternalArray[i];
+      }
     return *this;
   }
 
   /** Multiply two sizes (elementwise product).  */
-  const Self
-  operator*(const Self & vec) const
+  const Self operator*(const Self & vec) const
   {
     Self result;
 
-    for ( unsigned int i = 0; i < VDimension; i++ )
-          { result[i] = m_Size[i] * vec.m_Size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      result[i] = m_InternalArray[i] * vec.m_InternalArray[i];
+      }
     return result;
   }
 
   /** Multiply two sizes (elementwise product).  */
-  const Self &
-  operator*=(const Self & vec)
+  const Self & operator*=(const Self & vec)
   {
-    for ( unsigned int i = 0; i < VDimension; i++ )
-          { m_Size[i] *= vec.m_Size[i]; }
+    for( unsigned int i = 0; i < VDimension; i++ )
+      {
+      m_InternalArray[i] *= vec.m_InternalArray[i];
+      }
     return *this;
   }
 
-  /** Compare two sizes. */
-  bool
-  operator==(const Self & vec) const
-  {
-    bool same = 1;
-
-    for ( unsigned int i = 0; i < VDimension && same; i++ )
-          { same = ( m_Size[i] == vec.m_Size[i] ); }
-    return same;
-  }
-
-  /** Compare two sizes. */
-  bool
-  operator!=(const Self & vec) const
-  {
-    bool same = 1;
-
-    for ( unsigned int i = 0; i < VDimension && same; i++ )
-          { same = ( m_Size[i] == vec.m_Size[i] ); }
-    return !same;
-  }
-
-  /** Access an element of the size. Elements are numbered
-   * 0, ..., VDimension-1. No bounds checking is performed. */
-  SizeValueType & operator[](unsigned int dim)
-  { return m_Size[dim]; }
-
-  /** Access an element of the size. Elements are numbered
-   * 0, ..., VDimension-1. This version can only be an rvalue.
-   * No bounds checking is performed. */
-  SizeValueType operator[](unsigned int dim) const
-  { return m_Size[dim]; }
-
-  /** Get the size. This provides a read only reference to the size.
+  /** Get the size. This provides a read only pointer to the size.
    * \sa SetSize */
-  const SizeValueType * GetSize() const { return m_Size; }
+  const SizeValueType * GetSize() const
+  {
+    return m_InternalArray;
+  }
 
   /** Set the size.
    * Try to prototype this function so that val has to point to a block of
-   * memory that is the appropriate size. \sa GetSize */
+   * memory that is the appropriate size.
+   *  \sa GetSize */
   void SetSize(const SizeValueType val[VDimension])
   {
     std::copy(val,
-              val+VDimension,
-              m_Size);
+              val + VDimension,
+              m_InternalArray);
   }
 
-  /** Set an element of the Size.
-   * sets the value of one of the elements in the Size
+  /** Sets the value of one of the elements.
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed.
-   * \sa SetSize() \sa GetElement() */
+   * \sa SetSize()
+   * \sa GetElement() */
   void SetElement(unsigned long element, SizeValueType val)
-  { m_Size[element] = val;  }
+  {
+    m_InternalArray[element] = val;
+  }
 
-  /** Get an element of the Size.
-   * gets the value of one of the elements in the size
+  /** Gets the value of one of the elements.
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed
-   * \sa GetSize() \sa SetElement() */
+   * \sa GetSize()
+   * \sa SetElement() */
   SizeValueType GetElement(unsigned long element) const
-  { return m_Size[element]; }
+  {
+    return m_InternalArray[element];
+  }
 
   /** Set one value for the index in all dimensions.  Useful for initializing
    * an offset to zero. */
   void Fill(SizeValueType value)
-  { for ( unsigned int i = 0; i < VDimension; ++i ) { m_Size[i] = value; } }
+  {
+    std::fill_n(begin(), size(), value);
+  }                                        // MATCH std::array assign, ITK Fill
 
-  /** Size is an "aggregate" class.  Its data is public (m_Size)
+  /** Size is an "aggregate" class.  Its data is public (m_InternalArray)
    * allowing for fast and convenient instantiations/assignments.
-   *
-   * The following syntax for assigning a size is allowed/suggested:
-   *
-   * Size<3> size = {{256, 256, 20}};
-   *
-   * The doubled braces {{ and }} are required to prevent `gcc -Wall'
-   * (and perhaps other compilers) from complaining about a partly
-   * bracketed initializer. */
-  SizeValueType m_Size[VDimension];
+   * ( See main class documentation for an example of initialization)
+   */
+  /*
+   *  Ask the compiler to align a type to the maximum useful alignment for the target
+   *  machine you are compiling for. Whenever you leave out the alignment factor in an
+   *  aligned attribute specification, the compiler automatically sets the alignment
+   *  for the type to the largest alignment that is ever used for any data type on
+   *  the target machine you are compiling for. Doing this can often make copy
+   *  operations more efficient, because the compiler can use whatever instructions
+   *  copy the biggest chunks of memory when performing copies to or from the variables
+   *  that have types that you have aligned this way.
+   */
+  static_assert( VDimension > 0, "Error: Only positive value sized VDimension allowed" );
+  alignas(SizeValueType) SizeValueType m_InternalArray[VDimension];
 
-#if defined( ITK_WRAPPING_PARSER )
-  // Do not use c++11 'delete' keyword here.  This code block is here to
-  // explicitly provide the wrapping facilities with handles to the default and
-  // copy constructors, and the assignment operator that are otherwise declared
-  // implicitly.
-  Size();
-  Size(const Self&);
-  void operator=(const Self&);
-#endif
-};
+  // Explicitly require constructors
+  Size() = default;
+  Size( const Self & ) = default;
+  Size( Self && ) = default;
+  Self & operator=( const Self & ) = default;
+  Self & operator=( Self && ) = default;
 
-template< unsigned int VDimension >
-std::ostream & operator<<(std::ostream & os, const Size< VDimension > & size)
+  // ======================= Mirror the access pattern behavior of the std::array class
+  /**
+   * Mirror the std::array type aliases and member function
+   * so that the Size class can be treated as a container
+   * class in a way that is similar to the std::array.
+   */
+  using value_type = ::itk::SizeValueType;
+  using reference = value_type &;
+  using const_reference = const value_type &;
+  using iterator = value_type *;
+  using const_iterator = const value_type *;
+  using size_type = unsigned int;
+  using difference_type = std::ptrdiff_t;
+  using reverse_iterator = std::reverse_iterator<iterator>;
+  using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+  /**
+   * Mirror behavior of the std::array manipulations
+   * See std::array for documentation on these methods
+   */
+  void assign(const value_type & newValue)
+  {
+    std::fill_n(begin(), size(), newValue);
+  }
+
+  void swap(Size & other)
+  {
+    std::swap_ranges(begin(), end(), other.begin() );
+  }
+
+  iterator begin()
+  {
+    return iterator(&m_InternalArray[0]);
+  }
+
+  const_iterator begin() const
+  {
+    return const_iterator(&m_InternalArray[0]);
+  }
+
+  iterator end()
+  {
+    return iterator(&m_InternalArray[VDimension]);
+  }
+
+  const_iterator end() const
+  {
+    return const_iterator(&m_InternalArray[VDimension]);
+  }
+
+  reverse_iterator rbegin()
+  {
+    return reverse_iterator(end() );
+  }
+
+  const_reverse_iterator rbegin() const
+  {
+    return const_reverse_iterator(end() );
+  }
+
+  reverse_iterator rend()
+  {
+    return reverse_iterator(begin() );
+  }
+
+  const_reverse_iterator rend() const
+  {
+    return const_reverse_iterator(begin() );
+  }
+
+  constexpr size_type size() const
+  {
+    return VDimension;
+  }
+
+  constexpr size_type max_size() const
+  {
+    return VDimension;
+  }
+
+  constexpr bool empty() const
+  {
+    return false;
+  }
+
+  reference operator[](size_type pos)
+  {
+    return m_InternalArray[pos];
+  }
+
+  const_reference operator[](size_type pos) const
+  {
+    return m_InternalArray[pos];
+  }
+
+  reference at(size_type pos)
+  {
+    ExceptionThrowingBoundsCheck(pos); return m_InternalArray[pos];
+  }
+
+  const_reference at(size_type pos) const
+  {
+    ExceptionThrowingBoundsCheck(pos); return m_InternalArray[pos];
+  }
+
+  reference front()
+  {
+    return *begin();
+  }
+
+  const_reference front() const
+  {
+    return *begin();
+  }
+
+  reference back()
+  {
+    return VDimension ? *(end() - 1) : *end();
+  }
+
+  const_reference back() const
+  {
+    return VDimension ? *(end() - 1) : *end();
+  }
+
+  SizeValueType * data()
+  {
+    return &m_InternalArray[0];
+  }
+
+  const SizeValueType * data() const
+  {
+    return &m_InternalArray[0];
+  }
+
+private:
+  void ExceptionThrowingBoundsCheck(size_type pos) const
+  {
+    if( pos >= VDimension )
+      {
+      throw std::out_of_range("array::ExceptionThrowingBoundsCheck");
+      }
+  }
+
+};  //------------ End struct Size
+
+
+template <unsigned int VDimension>
+std::ostream & operator<<(std::ostream & os, const Size<VDimension> & obj)
 {
   os << "[";
-  for ( unsigned int i = 0; i + 1 < VDimension; ++i )
+  for( unsigned int i = 0; i + 1 < VDimension; ++i )
     {
-    os << size[i] << ", ";
+    os << obj[i] << ", ";
     }
-  if ( VDimension >= 1 )
+  if( VDimension >= 1 )
     {
-    os << size[VDimension - 1];
+    os << obj[VDimension - 1];
     }
   os << "]";
   return os;
 }
+
+// ======================= Mirror the access pattern behavior of the std::array class
+// Array comparisons.
+template <unsigned int VDimension>
+inline bool
+operator==(const Size<VDimension> & one, const Size<VDimension> & two)
+{
+  return std::equal(one.begin(), one.end(), two.begin() );
+}
+
+template <unsigned int VDimension>
+inline bool
+operator!=(const Size<VDimension> & one, const Size<VDimension> & two)
+{
+  return !(one == two);
+}
+
+template <unsigned int VDimension>
+inline bool
+operator<(const Size<VDimension> & one, const Size<VDimension> & two)
+{
+  return std::lexicographical_compare(one.begin(), one.end(),
+                                      two.begin(), two.end() );
+}
+
+template <unsigned int VDimension>
+inline bool
+operator>(const Size<VDimension> & one, const Size<VDimension> & two)
+{
+  return two < one;
+}
+
+template <unsigned int VDimension>
+inline bool
+operator<=(const Size<VDimension> & one, const Size<VDimension> & two)
+{
+  return !(one > two);
+}
+
+template <unsigned int VDimension>
+inline bool
+operator>=(const Size<VDimension> & one, const Size<VDimension> & two)
+{
+  return !(one < two);
+}
+
+// Specialized algorithms [6.2.2.2].
+template <unsigned int VDimension>
+inline void
+swap(Size<VDimension> & one, Size<VDimension> & two)
+{
+  std::swap_ranges(one.begin(), one.end(), two.begin() );
+}
+
+// static constexpr definition explicitly needed in C++11
+template< unsigned int VDimension >
+constexpr unsigned int Size<VDimension>::Dimension;
+
 } // end namespace itk
 
 #endif

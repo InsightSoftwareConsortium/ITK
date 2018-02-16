@@ -19,6 +19,7 @@
 #define itkMovingHistogramImageFilterBase_h
 
 #include "itkKernelImageFilter.h"
+#include "itkLexicographicCompare.h"
 #include <list>
 #include <map>
 #include <set>
@@ -129,7 +130,7 @@ public:
 
   using OffsetListType = typename std::list< OffsetType >;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >;
+  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename Functor::LexicographicCompare< OffsetType > >;
 
   /** Set kernel (structuring element). */
   void SetKernel(const KernelType & kernel) override;

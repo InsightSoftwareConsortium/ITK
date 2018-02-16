@@ -201,7 +201,7 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   std::cout << "filter->GetCenterImage(): " << centerImage << std::endl;
 
   // Test GetVectorMacro
-  const itk::OffsetValueType * outputOffset = filter->GetOutputOffset().m_Offset;
+  const itk::OffsetValueType * outputOffset = filter->GetOutputOffset().m_InternalArray;
   std::cout << "filter->GetOutputOffset(): " << outputOffset << std::endl;
 
   // Catch any exceptions
