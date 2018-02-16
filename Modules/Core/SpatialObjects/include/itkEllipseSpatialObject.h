@@ -68,6 +68,12 @@ public:
   /** Get radii via an array of radius values */
   itkGetConstReferenceMacro(Radius, ArrayType);
 
+  /* Returns the center point (in world coordinates) of the ellipse */
+  PointType GetCenterPoint()  const;
+
+  /* Set the center point (in world coordinates) of the ellipse */
+  void SetCenterPoint(const PointType& point);
+
   /** Returns a degree of membership to the object.
    *  That's useful for fuzzy objects. */
   bool ValueAt(const PointType & point, double & value,
@@ -109,6 +115,7 @@ protected:
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

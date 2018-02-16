@@ -51,6 +51,27 @@ EllipseSpatialObject< TDimension >
     }
 }
 
+template< unsigned int TDimension >
+auto
+EllipseSpatialObject<TDimension>::GetCenterPoint() const
+-> PointType
+{
+  PointType originPoint;
+  originPoint.Fill(0);
+  // GetObjectToWorldTransform() never returns nullptr, no need to check.
+  return originPoint + this->GetObjectToWorldTransform()->GetOffset();
+}
+
+template< unsigned int TDimension >
+void
+EllipseSpatialObject<TDimension>::SetCenterPoint(const PointType& point)
+{
+  PointType originPoint;
+  originPoint.Fill(0);
+  // GetModifiableObjectToWorldTransform() never returns nullptr, no need to check.
+  this->GetModifiableObjectToWorldTransform()->SetOffset(point - originPoint);
+}
+
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */
