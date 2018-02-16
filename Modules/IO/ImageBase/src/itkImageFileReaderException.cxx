@@ -19,5 +19,5 @@
 
 namespace itk
 {
-ImageFileReaderException::~ImageFileReaderException() ITK_NOEXCEPT {}
+ImageFileReaderException::~ImageFileReaderException() noexcept {}
 }

@@ -155,7 +155,7 @@ LightObject
  */
 void
 LightObject
-::UnRegister() const ITK_NOEXCEPT
+::UnRegister() const noexcept
 {
   // As ReferenceCount gets unlocked, we may have a race condition
   // to delete the object.

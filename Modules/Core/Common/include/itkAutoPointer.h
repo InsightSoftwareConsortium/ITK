@@ -191,7 +191,7 @@ private:
 
   /** Exchange the content of two AutoPointers */
   void Swap(AutoPointer & r)
-  ITK_NOEXCEPT
+  noexcept
   {
     ObjectType *temp = m_Pointer;
 

@@ -420,7 +420,7 @@ public:
    * \throw None
    * \sa \c itk::swap()
    */
-  void Swap(Self & v) ITK_NOEXCEPT
+  void Swap(Self & v) noexcept
     {
     itkAssertInDebugAndIgnoreInReleaseMacro(m_LetArrayManageMemory == v.m_LetArrayManageMemory);
     using std::swap;
@@ -435,7 +435,7 @@ public:
    * \post `m_Data == nullptr`
    * \post Built object contains old \c v data.
    */
-  VariableLengthVector(Self && v) ITK_NOEXCEPT;
+  VariableLengthVector(Self && v) noexcept;
 
   /** C++11 Move assignement operator.
    * \pre \c v shall not be the same as the current object
@@ -445,7 +445,7 @@ public:
    * \post `m_Data == nullptr`
    * \post Current object contains old \c v data.
    */
-  Self & operator=(Self && v) ITK_NOEXCEPT;
+  Self & operator=(Self && v) noexcept;
 
   /** Constructor from an Expression Template vector.
    * \tparam TExpr1 Type of the left sub-expression
@@ -1332,7 +1332,7 @@ std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValue 
  */
 template <typename T>
 inline
-void swap(VariableLengthVector<T> &l_, VariableLengthVector<T> &r_) ITK_NOEXCEPT
+void swap(VariableLengthVector<T> &l_, VariableLengthVector<T> &r_) noexcept
 {
   l_.Swap(r_);
 }

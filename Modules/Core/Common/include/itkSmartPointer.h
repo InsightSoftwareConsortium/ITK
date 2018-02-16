@@ -193,7 +193,7 @@ private:
     if ( m_Pointer ) { m_Pointer->Register(); }
   }
 
-  void UnRegister() ITK_NOEXCEPT
+  void UnRegister() noexcept
   {
     if ( m_Pointer ) { m_Pointer->UnRegister(); }
   }
