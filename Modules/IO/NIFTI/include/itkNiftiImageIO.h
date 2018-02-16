@@ -55,7 +55,32 @@ public:
 
   //-------- This part of the interfaces deals with reading data. -----
 
-  /** Determine if the file can be read with this ImageIO implementation.
+  /** Possible file formats readable by this ImageIO implementation.
+   * Used by DetermineFileType(). */
+  enum FileType {
+    /** 2-file Nifti (consisting of .hdr and .img file). */
+    TwoFileNifti = 2,
+
+    /** 1-file Nifti (consisting of .nii file). */
+    OneFileNifti = 1,
+
+    /** Legacy Analyze 7.5 format (consisting of .hdr and .img file). */
+    Analyze75 = 0,
+
+    /** Some other file format, or file system error. */
+    OtherOrError = -1,
+  };
+
+  /** Reads the file to determine if it can be read with this ImageIO implementation,
+   * and to determine what kind of file it is (Analyze vs NIfTI). Note that the value
+   * of LegacyAnalyze75Mode is ignored by this method.
+   * \param FileNameToRead The name of the file to test for reading.
+   * \return Returns one of the FileType enumerations.
+   */
+  FileType DetermineFileType(const char *FileNameToRead);
+
+  /** Reads the file to determine if it can be read with this ImageIO implementation.
+   * Analyze 7.5 format files will only result in true if LegacyAnalyze75Mode is true.
    * \param FileNameToRead The name of the file to test for reading.
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
