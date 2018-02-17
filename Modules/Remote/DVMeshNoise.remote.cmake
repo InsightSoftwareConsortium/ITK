@@ -6,5 +6,5 @@ itk_fetch_module(DVMeshNoise
   http://hdl.handle.net/10380/3567
   "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/DVMeshNoise
-  GIT_TAG e8b997e8f9b7b3aade00303aefa2d7a6a4965af2
+  GIT_TAG 38a49c7282dde9b843e13a17e14bb95ac706a057
   )

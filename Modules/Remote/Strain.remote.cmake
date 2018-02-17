@@ -12,5 +12,5 @@ For more information, see:
   http://insight-journal.org/browse/publication/984
 "
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKStrain.git
-  GIT_TAG 6bee80f7d609866a092828a4dfa36e05b1473106
+  GIT_TAG a41389452756a06b80cf8c1f3107d9377c58f704
   )

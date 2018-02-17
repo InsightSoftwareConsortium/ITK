@@ -9,5 +9,5 @@ http://hdl.handle.net/10380/3562
 This work is supported by NIH grant R01 EB014346
 'Continued development and maintenance of the ITK-SNAP 3D image segmentation software'."
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKRLEImage.git
-  GIT_TAG 0506f5109272bf52bc95b825f377fc004d945b30
+  GIT_TAG 96e74f206e8dc89ed6c2bbda58f543973c64b393
   )

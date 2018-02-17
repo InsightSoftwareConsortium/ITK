@@ -11,5 +11,5 @@ For more information, see the Insight Journal article:
   http://insight-journal.org/browse/publication/130
   "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPolarTransform.git
-  GIT_TAG a21d4c481bdea28143adb8a2f3766482cecdd6ab
+  GIT_TAG acec0efc467a5170234288609cdfddf2b230e951
   )
