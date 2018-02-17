@@ -84,16 +84,19 @@ int itkDecoratorTest(int, char* [] )
   using TransformBaseObjectType = itk::DataObjectDecorator<TransformBaseType>;
 
   TransformBaseObjectType::Pointer decoratedBaseTransform = TransformBaseObjectType::New();
-  decoratedBaseTransform->Graft( decoratedTransform );
+  //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
+  decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedBaseTransform->ReleaseData();
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
-  decoratedBaseTransform->Graft( f );
+  //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
+  decoratedBaseTransform->Graft( f.GetPointer() );
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
 
   decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
-  decoratedBaseTransform->Graft( decoratedTransform );
+  //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
+  decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
   TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
