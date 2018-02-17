@@ -96,7 +96,7 @@ PyBuffer<TImage>
     {
     PyErr_SetString( PyExc_RuntimeError, "Cannot get an instance of NumPy array." );
     PyBuffer_Release(&pyBuffer);
-    return NULL;
+    return nullptr;
     }
   else
     {
@@ -130,7 +130,7 @@ PyBuffer<TImage>
     PyErr_SetString( PyExc_RuntimeError, "Size mismatch of image and Buffer." );
     PyBuffer_Release(&pyBuffer);
     Py_DECREF(shapeseq);
-    return NULL;
+    return nullptr;
     }
 
   IndexType start;
@@ -154,7 +154,7 @@ PyBuffer<TImage>
   SpacingType spacing;
   spacing.Fill( 1.0 );
 
-  typedef ImportImageFilter< ComponentType, ImageDimension > ImporterType;
+  using ImporterType = ImportImageFilter< ComponentType, ImageDimension >;
   typename ImporterType::Pointer importer = ImporterType::New();
   importer->SetRegion( region );
   importer->SetOrigin( origin );

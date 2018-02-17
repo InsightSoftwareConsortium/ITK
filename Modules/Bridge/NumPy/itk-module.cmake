@@ -7,7 +7,6 @@ else()
   set(_exclude_from_default EXCLUDE_FROM_DEFAULT)
 endif()
 
-
 itk_module(ITKBridgeNumPy
   DEPENDS
     ITKCommon

@@ -47,13 +47,13 @@ template <typename TElement>
 class PyVnl
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef PyVnl         Self;
+  /** Standard "Self" type alias. */
+  using Self = PyVnl;
 
   /** Type of the data from which the buffer will be converted */
-  typedef TElement                                             DataType;
-  typedef vnl_vector<TElement>                                 VectorType;
-  typedef vnl_matrix<TElement>                                 MatrixType;
+  using DataType = TElement;
+  using VectorType = vnl_vector<TElement>;
+  using MatrixType = vnl_matrix<TElement>;
 
   /**
    * Get an Array with the content of the vnl vector

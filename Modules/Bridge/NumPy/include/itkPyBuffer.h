@@ -49,24 +49,24 @@ template <typename TImage>
 class PyBuffer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef PyBuffer         Self;
+  /** Standard "Self" type alias. */
+  using Self = PyBuffer;
 
   /** Type of the image from which the buffer will be converted */
-  typedef TImage                                                       ImageType;
-  typedef typename ImageType::PixelType                                PixelType;
-  typedef typename ImageType::SizeType                                 SizeType;
-  typedef typename ImageType::IndexType                                IndexType;
-  typedef typename ImageType::RegionType                               RegionType;
-  typedef typename ImageType::PointType                                PointType;
-  typedef typename ImageType::SpacingType                              SpacingType;
-  typedef typename ImageType::Pointer                                  ImagePointer;
-  typedef typename DefaultConvertPixelTraits<PixelType>::ComponentType ComponentType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
+  using SizeType = typename ImageType::SizeType;
+  using IndexType = typename ImageType::IndexType;
+  using RegionType = typename ImageType::RegionType;
+  using PointType = typename ImageType::PointType;
+  using SpacingType = typename ImageType::SpacingType;
+  using ImagePointer = typename ImageType::Pointer;
+  using ComponentType = typename DefaultConvertPixelTraits<PixelType>::ComponentType;
 
    /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
-  typedef typename Image< ComponentType, ImageDimension >::Pointer  OutputImagePointer;
+  using OutputImagePointer = typename Image< ComponentType, ImageDimension >::Pointer;
 
   /**
    * Get an Array with the content of the image buffer
