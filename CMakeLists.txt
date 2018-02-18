@@ -41,7 +41,7 @@ endif ()
 include(itkCompilerChecks)
 include(itkVersion)
 set(ITK_VERSION
-    "${ITK_MAJOR_VERSION}.${ITK_MINOR_VERSION}.${ITK_BUILD_VERSION}")
+    "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
 include(itkSupportMacros)
 
 # Configure CMake variables that will be used in the module macros
