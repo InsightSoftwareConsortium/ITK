@@ -46,13 +46,13 @@ namespace itk
  * be the smallest and largest eigenvalues respectively. The diffusion tensor is
  * defined by the same eigenvectors, but with modified with eigenvalues \f$\lambda_i\f$.
  *
- * Coherence Enhancing Diffusion:
+ * Edge Enhancing Diffusion:
  *
  *   \f$\lambda_i := g(\mu_i - \mu_{\rm min})\f$, where \f$g(s) = 1 - (1-\alpha)*exp(-(\lambda/s)^m)\f$
  *
  * Note the limit values \f$g(0) = 1\f$, \f$g(\infty) = \alpha\f$.
  *
- * Edge enhancing diffusion:
+ * Coherence Enhancing Diffusion:
  *
  *   \f$\lambda_i := g(\mu_{\rm max} - \mu_i)\f$, where  \f$g(s) = \alpha + (1-\alpha)*exp(-(\lambda/s)^m)\f$
  *
