@@ -198,21 +198,14 @@ namespace
       return false;
     }
 
-    const CircleType::TransformType* const transform1 = circle1->GetObjectToParentTransform();
-    const CircleType::TransformType* const transform2 = circle2->GetObjectToParentTransform();
-
-    if ( (transform1 == nullptr) || (transform2 == nullptr) )
-    {
-      std::cout << "A GetObjectToParentTransform() call appears to be incorrect!" << std::endl;
-      return false;
-    }
-
     bool success = true;
 
-    const itk::Vector<double, 2>& center1 = transform1->GetOffset();
-    const itk::Vector<double, 2>& center2 = transform2->GetOffset();
+    using PointType = CircleType::PointType;
 
-    if (center1 != center2)
+    const PointType& centerPoint1 = circle1->GetCenterPoint();
+    const PointType& centerPoint2 = circle2->GetCenterPoint();
+
+    if (centerPoint1 != centerPoint2)
     {
       // The choice of the radius image type should not affect the center estimation.
       std::cout << "center1 and center2 should be equal, even while the radius image types differ!"

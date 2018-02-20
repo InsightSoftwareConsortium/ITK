@@ -248,10 +248,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       Circle->SetId(static_cast<int>( circles ));
       Circle->SetRadius( m_RadiusImage->GetPixel( indexOfMaximum ) );
 
-      CircleType::VectorType center;
+      CircleType::PointType center;
       center[0] = indexOfMaximum[0];
       center[1] = indexOfMaximum[1];
-      Circle->GetObjectToParentTransform()->SetOffset(center);
+      Circle->SetCenterPoint(center);
       Circle->ComputeBoundingBox();
 
       m_CirclesList.push_back(Circle);
