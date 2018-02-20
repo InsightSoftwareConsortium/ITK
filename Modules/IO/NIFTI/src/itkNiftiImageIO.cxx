@@ -1734,7 +1734,8 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
   //
   // in the case of an Analyze75 file, use old analyze orient method.
-  if ( this->m_NiftiImage->nifti_type == NIFTI_FTYPE_ANALYZE )
+  if ( this->m_NiftiImage->qform_code == 0
+      && this->m_NiftiImage->sform_code == 0 )
     {
     SpatialOrientationAdapter::DirectionType   dir;
     SpatialOrientationAdapter::OrientationType orient;
