@@ -39,6 +39,9 @@ StimulateImageIO::StimulateImageIO()
   this->SetNumberOfDimensions(4);
   m_ByteOrder = BigEndian;
   m_FileType = Binary;
+
+  this->AddSupportedReadExtension(".spr");
+  this->AddSupportedWriteExtension(".spr");
 }
 
 StimulateImageIO::~StimulateImageIO()
