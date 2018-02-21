@@ -563,19 +563,14 @@ endif()
 # try to compile it the compile fails.
 # itk_add_test(NAME itkVectorMultiplyTest COMMAND ITKCommon2TestDriver itkVectorMultiplyTest)
 
-
-set(ITKCommonGTests
-  itkSmartPointerGTest.cxx)
-
-CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
-
 itk_python_add_test(NAME itkMetaDataDictionaryPythonTest COMMAND itkMetaDataDictionaryTest.py)
 itk_python_add_test(NAME itkDirectoryPythonTest COMMAND itkDirectoryTest.py)
 itk_python_expression_add_test(NAME itkObjectPythonTest EXPRESSION "itkObject = itk.Object.New()")
 itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
 
 set(ITKCommonGTests
-        itkAggregateTypesTest.cxx ## TODO rename to itkIndexGTest.cxx
+      itkAggregateTypesTest.cxx
+      itkBuildInformationTest.cxx
+      itkSmartPointerGTest.cxx
 )
-
-CreateGoogleTestDriver(ITKCommon3 "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
+CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
