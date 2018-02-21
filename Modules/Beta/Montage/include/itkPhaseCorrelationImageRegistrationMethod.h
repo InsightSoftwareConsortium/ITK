@@ -42,25 +42,26 @@ namespace itk
  *  pp. 163-165, IEEE, Sep. 1975</em> for method description.
  *
  *  The method consists of 4 (5) steps:
- *    0. Resample the images to same spacing and size.
+ *    0. Padding or resampling the images to the same spacing and size.
  *    1. Compute FFT of the two images.
  *    2. Compute the ratio of the two spectrums.
  *    3. Compute the inverse FFT of the cross-power spectrum.
  *    4. Find the maximum peak in cross-power spectrum and estimate the shift.
  *
  *  Step 0. is not included in the method itself - it is a prerequisite of PCM.
- *  It is performed by padding the smaller image by zeros to obtain two images
- *  that has the same real size (in all dimensions). Then it is necessary to
- *  resample images to same spacing. Resampling is made by cropping high
- *  frequencies in step 2.
+ *  It is required that the input itk::Image's have the same Spacing and
+ *  Direction. If that is not the case, resample one of the images with the
+ *  ResampleImageFilter prior to applying this method.
+ *  This class will pad the smaller image by zeros by default to obtain two images
+ *  that have the same real size (in all dimensions). Or, it will pad both
+ *  images to the size specified with PadToSize, if set.
  *
  *  Step 1. is performed by this class too using FFT filters supplied by
  *  itk::ForwardFFTImageFilter::New() factory.
  *
- *  Step 2. is performed by generic PhaseCorrelationOperator supplied during
- *  run time. It has to crop the high frequencies to subsample the two images to
- *  the same resolution and compute the spectrum ratio. PhaseCorrelationOperator
- *  can be derived to implement some special filtering during this phase.
+ *  Step 2. is performed by generic PhaseCorrelationOperator supplied at
+ *  run-time.  PhaseCorrelationOperator can be derived to implement some special
+ *  filtering during this phase.
  *
  *  As some special techniques (e.g. to compute subpixel shifts) require complex
  *  correlation surface, while the others compute the shift from real
@@ -68,8 +69,9 @@ namespace itk
  *  The IFFT filter is created using
  *  itk::InverseFFTImageFilter::New() factory.
  *
- *  Step 4. is performed by run time supplied PhaseCorrelationOptimizer. It has
+ *  Step 4. is performed with the run-time supplied PhaseCorrelationOptimizer. It has
  *  to determine the shift from the real or complex correlation surface.
+ *
  *
  *  First, plug in the operator, optimizer and the input images. The method
  *  is executed by calling Update() (or updating some downstream filter).
