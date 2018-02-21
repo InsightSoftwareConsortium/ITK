@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImageSliceConstIteratorWithIndex.h"
+#include "itkShowDistanceMap.h"
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkStdStreamStateSave.h"
 
@@ -125,57 +125,11 @@ void test(int testIdx)
 
   filter2D->Update();
 
-  /* Show Distance map */
-  itk::ImageSliceConstIteratorWithIndex<myImageType2D2> it2D2(
-                                outputDistance2D,
-                                outputDistance2D->GetRequestedRegion() );
+  ShowDistanceMap(outputDistance2D);
 
-  it2D2.GoToBegin();
-  it2D2.SetFirstDirection ( 0 );
-  it2D2.SetSecondDirection( 1 );
-
-  while( !it2D2.IsAtEnd() )
-    {
-    while( !it2D2.IsAtEndOfSlice() )
-      {
-      while( !it2D2.IsAtEndOfLine() )
-        {
-        std::cout.width(5);
-        std::cout << it2D2.Get() << "\t";
-        ++it2D2;
-        }
-      std::cout << std::endl;
-      it2D2.NextLine();
-      }
-    it2D2.NextSlice();
-    }
-
-  /* Show Closest Points map */
   std::cout << std::endl << std::endl;
   std::cout << "Voronoi Map Image 2D" << std::endl << std::endl;
-
-  itk::ImageSliceConstIteratorWithIndex< VoronoiImageType > it2D3(
-                                outputVoronoi2D,
-                                outputVoronoi2D->GetRequestedRegion() );
-
-  it2D3.SetFirstDirection( 0 );
-  it2D3.SetSecondDirection( 1 );
-
-  while( !it2D3.IsAtEnd() )
-    {
-    while( !it2D3.IsAtEndOfSlice() )
-      {
-      while( !it2D3.IsAtEndOfLine() )
-        {
-        std::cout.width(5);
-        std::cout << it2D3.Get() << "\t";
-        ++it2D3;
-        }
-      std::cout << std::endl;
-      it2D3.NextLine();
-      }
-    it2D3.NextSlice();
-    }
+  ShowDistanceMap(outputVoronoi2D);
 
   /* Show VectorsComponents Points map */
   std::cout << std::endl << std::endl;
@@ -217,27 +171,6 @@ void test(int testIdx)
   /* Test Distance functionality */
   filter2D->Update();
 
-  /* Show Distance map */
   std::cout << "Distance Map " << std::endl;
-
-  it2D2.GoToBegin();
-  it2D2.SetFirstDirection ( 0 );
-  it2D2.SetSecondDirection( 1 );
-
-  while( !it2D2.IsAtEnd() )
-    {
-    while( !it2D2.IsAtEndOfSlice() )
-      {
-      while( !it2D2.IsAtEndOfLine() )
-        {
-        std::cout.width(5);
-        std::cout << it2D2.Get() << "\t";
-        ++it2D2;
-        }
-      std::cout << std::endl;
-      it2D2.NextLine();
-      }
-    it2D2.NextSlice();
-    }
-
+  ShowDistanceMap(outputDistance2D);
 }
