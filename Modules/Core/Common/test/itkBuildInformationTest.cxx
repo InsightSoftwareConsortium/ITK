@@ -57,7 +57,7 @@ TEST(ITKBuildInformation, InformationFeatures  ) {
 
   EXPECT_EQ(itk::BuildInformation::GetValue("PROJECT_URL"),"http://www.itk.org");
 
-  EXPECT_GT( itk::BuildInformation::GetAllKeys().size(), 5 );
+  EXPECT_GT( itk::BuildInformation::GetAllKeys().size(), static_cast<size_t>(5) );
 
   for(const auto keyEntry: itk::BuildInformation::GetAllKeys() )
   {
