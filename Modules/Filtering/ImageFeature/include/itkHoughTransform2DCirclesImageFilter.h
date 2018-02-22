@@ -138,7 +138,10 @@ public:
   /** Get the scale value. */
   itkGetConstMacro(SigmaGradient, double);
 
-  /** Get the list of circles. This recomputes the circles. */
+  /** Get the list of circles. This recomputes the circles, if necessary.
+  * The pixel grid coordinates of the center of a circle from the list can
+  * be retrieved by calling circle->GetCenterPoint().
+  */
   CirclesListType & GetCircles();
 
   /** Set/Get the number of circles to extract. */
