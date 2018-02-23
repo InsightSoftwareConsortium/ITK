@@ -703,11 +703,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::RiemannianMinMaxThreaderCallback(void * arg)
 {
-  const unsigned int threadId    = ( (MultiThreader::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreader::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId    = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
+  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
 
   const ThreadFilterStruct * str =
-    (ThreadFilterStruct *)( ( (MultiThreader::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -1433,11 +1433,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdateThreaderCallback( void * arg )
 {
-  const unsigned int threadId    = ( (MultiThreader::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreader::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId    = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
+  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
 
   const ThreadFilterStruct * str =
-    (ThreadFilterStruct *)( ( (MultiThreader::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -1554,11 +1554,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeSigmaUpdateThreaderCallback( void * arg )
 {
-  const unsigned int threadId    = ( (MultiThreader::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreader::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId    = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
+  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
 
   const ThreadFilterStruct * str =
-    (ThreadFilterStruct *)( ( (MultiThreader::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -2012,11 +2012,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeImageUpdateThreaderCallback( void * arg )
 {
-  const unsigned int threadId = ( (MultiThreader::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreader::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
+  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
 
   const ThreadFilterStruct *str =
-    (ThreadFilterStruct *)( ( (MultiThreader::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

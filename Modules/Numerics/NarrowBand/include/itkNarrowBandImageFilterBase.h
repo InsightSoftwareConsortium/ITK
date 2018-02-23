@@ -19,7 +19,7 @@
 #define itkNarrowBandImageFilterBase_h
 
 #include "itkFiniteDifferenceImageFilter.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkNarrowBand.h"
 #include "itkBarrier.h"
 #include "itkObjectStore.h"

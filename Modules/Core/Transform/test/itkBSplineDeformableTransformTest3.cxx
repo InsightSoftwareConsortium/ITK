@@ -318,8 +318,8 @@ int itkBSplineDeformableTransformTest3( int argc, char * argv[] )
    default:
      {
      //Use MultiThreader with argv[6] threads
-     itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numberOfThreads);
-     itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numberOfThreads);
+     itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(numberOfThreads);
+     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numberOfThreads);
      status |= BSplineDeformableTransformTest3Helper< 3 >::RunTest( argc, argv );
      break;
      }

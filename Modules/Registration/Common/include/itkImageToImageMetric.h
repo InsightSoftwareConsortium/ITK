@@ -300,7 +300,7 @@ public:
   itkGetConstReferenceMacro(UseCachingOfBSplineWeights, bool);
   itkBooleanMacro(UseCachingOfBSplineWeights);
 
-  using MultiThreaderType = MultiThreader;
+  using MultiThreaderType = MultiThreaderBase;
   /** Get the Threader. */
   itkGetModifiableObjectMacro(Threader, MultiThreaderType);
   const TransformPointer * GetThreaderTransform()

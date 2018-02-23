@@ -37,7 +37,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   m_MeasureMatches = true;         // default to measure percentage of pixel
                                    // matches
 
-  m_Threader = MultiThreader::New();
+  m_Threader = MultiThreaderBase::New();
 }
 
 /*
@@ -263,10 +263,10 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   ThreadStruct *str;
   ThreadIdType  total, threadId, threadCount;
 
-  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  str = (ThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  str = (ThreadStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // execute the actual method with appropriate computation region
   // first find out how many pieces extent can be split into.

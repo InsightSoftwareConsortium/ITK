@@ -114,10 +114,10 @@ ITK_THREAD_RETURN_TYPE
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
 {
-  ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   auto * str = (NarrowBandImageFilterBaseThreadStruct *)
-    ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+    ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   str->Filter->ThreadedIterate(arg, threadId);
 
@@ -135,7 +135,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   //ThreadedApplyUpdate and ThreadedCalculateChanged
   // is called instead of ApplyUpdate and CalculateChange
   auto * str = (NarrowBandImageFilterBaseThreadStruct *)
-    ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+    ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   IdentifierType iter = 0;
   while ( !( this->ThreadedHalt(arg) ) )

@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImageSliceConstIteratorWithIndex.h"
+#include "itkShowDistanceMap.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkStdStreamStateSave.h"
 
@@ -24,11 +24,9 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 {
 // Save the format stream variables for std::cout
 // They will be restored when coutState goes out of scope
-// scope.
   itk::StdStreamStateSave coutState(std::cout);
 
   std::cout << "Test ITK Danielsson Distance Map" << std::endl << std::endl;
-
   std::cout << "Compute the distance map of a 9x9 image" << std::endl;
   std::cout << "with a point at (4,4) (value=1)" << std::endl << std::endl;
   std::cout << "with a point at (1,6) (value=2)" << std::endl << std::endl;
@@ -48,25 +46,13 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   inputImage2D->SetLargestPossibleRegion( region2D );
   inputImage2D->SetBufferedRegion( region2D );
   inputImage2D->SetRequestedRegion( region2D );
-  inputImage2D->Allocate();
-
+  inputImage2D->Allocate( true );
 
   /* Set pixel (4,4) with the value 1
    * and pixel (1,6) with the value 2
    * The Danielsson Distance is performed for each pixel with a value > 0
    * The ClosestPoints computation is based on the value of the pixel.
    */
-
-  using myIteratorType2D1 = itk::ImageRegionIteratorWithIndex<myImageType2D1>;
-
-  myIteratorType2D1 it2D1(inputImage2D,region2D);
-
-  // Set the image to 0
-  while( !it2D1.IsAtEnd() )
-    {
-    it2D1.Set( 0 );
-    ++it2D1;
-    }
 
   index2D[0] = 4;
   index2D[1] = 4;
@@ -95,57 +81,9 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 
   filter2D->Update();
 
-  /* Show Distance map */
-  itk::ImageSliceConstIteratorWithIndex<myImageType2D2> it2D2(
-                                outputDistance2D,
-                                outputDistance2D->GetRequestedRegion() );
-
-  it2D2.GoToBegin();
-  it2D2.SetFirstDirection ( 0 );
-  it2D2.SetSecondDirection( 1 );
-
-  while( !it2D2.IsAtEnd() )
-    {
-    while( !it2D2.IsAtEndOfSlice() )
-      {
-      while( !it2D2.IsAtEndOfLine() )
-        {
-        std::cout.width(5);
-        std::cout << it2D2.Get() << "\t";
-        ++it2D2;
-        }
-      std::cout << std::endl;
-      it2D2.NextLine();
-      }
-    it2D2.NextSlice();
-    }
-
-  /* Show Closest Points map */
-  std::cout << std::endl << std::endl;
+  ShowDistanceMap(outputDistance2D);
   std::cout << "Voronoi Map Image 2D" << std::endl << std::endl;
-
-  itk::ImageSliceConstIteratorWithIndex< VoronoiImageType > it2D3(
-                                outputVoronoi2D,
-                                outputVoronoi2D->GetRequestedRegion() );
-
-  it2D3.SetFirstDirection( 0 );
-  it2D3.SetSecondDirection( 1 );
-
-  while( !it2D3.IsAtEnd() )
-    {
-    while( !it2D3.IsAtEndOfSlice() )
-      {
-      while( !it2D3.IsAtEndOfLine() )
-        {
-        std::cout.width(5);
-        std::cout << it2D3.Get() << "\t";
-        ++it2D3;
-        }
-      std::cout << std::endl;
-      it2D3.NextLine();
-      }
-    it2D3.NextSlice();
-    }
+  ShowDistanceMap(outputVoronoi2D);
 
   /* Show VectorsComponents Points map */
   std::cout << std::endl << std::endl;
@@ -210,29 +148,8 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-
-  /* Show Squared Distance map */
   std::cout << "Squared Distance Map " << std::endl;
-
-  it2D2.GoToBegin();
-  it2D2.SetFirstDirection ( 0 );
-  it2D2.SetSecondDirection( 1 );
-
-  while( !it2D2.IsAtEnd() )
-    {
-    while( !it2D2.IsAtEndOfSlice() )
-      {
-      while( !it2D2.IsAtEndOfLine() )
-        {
-        std::cout.width(5);
-        std::cout << it2D2.Get() << "\t";
-        ++it2D2;
-        }
-      std::cout << std::endl;
-      it2D2.NextLine();
-      }
-    it2D2.NextSlice();
-    }
+  ShowDistanceMap(outputDistance2D);
 
 
   /* Test for images with anisotropic spacing */
@@ -282,25 +199,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  it2D2.GoToBegin();
-  it2D2.SetFirstDirection ( 0 );
-  it2D2.SetSecondDirection( 1 );
-
-  while( !it2D2.IsAtEnd() )
-    {
-    while( !it2D2.IsAtEndOfSlice() )
-      {
-      while( !it2D2.IsAtEndOfLine() )
-        {
-        std::cout.width(5);
-        std::cout << it2D2.Get() << "\t";
-        ++it2D2;
-        }
-      std::cout << std::endl;
-      it2D2.NextLine();
-      }
-    it2D2.NextSlice();
-    }
+  ShowDistanceMap(outputDistance2D);
 
   // Create a large 3D image with a small foreground object.  The foreground is denoted by a pixel value of 0,
   // and the background by a non-zero pixel value.  This will test speedups to the code that ignore all background

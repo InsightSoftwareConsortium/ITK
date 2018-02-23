@@ -137,11 +137,11 @@ int itkBarrierTest(int argc, char *argv[])
   try
     {
     itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
-    itk::ThreadIdType maxThreads = multithreader->GetGlobalDefaultNumberOfThreads();
-    if (multithreader->GetUseThreadPool() && maxThreads < number_of_threads)
-      {
-      multithreader->GetModifiableThreadPool()->AddThreads(number_of_threads - maxThreads);
-      }
+    //itk::ThreadIdType maxThreads = multithreader->GetGlobalDefaultNumberOfThreads();
+    //if (multithreader->GetUseThreadPool() && maxThreads < number_of_threads)
+    //  {
+    //  multithreader->GetModifiableThreadPool()->AddThreads(number_of_threads - maxThreads);
+    //  }
     multithreader->SetNumberOfThreads(number_of_threads);
     multithreader->SetSingleMethod( BarrierTestCallback, &data);
 

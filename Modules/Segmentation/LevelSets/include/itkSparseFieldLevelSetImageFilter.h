@@ -19,7 +19,7 @@
 #define itkSparseFieldLevelSetImageFilter_h
 
 #include "itkFiniteDifferenceImageFilter.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkSparseFieldLayer.h"
 #include "itkObjectStore.h"
 #include <vector>

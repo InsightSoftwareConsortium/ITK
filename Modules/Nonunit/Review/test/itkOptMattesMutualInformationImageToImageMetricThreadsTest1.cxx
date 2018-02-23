@@ -33,8 +33,8 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
 
   std::cout << "OPTIMIZED ON" << std::endl;
 
-  const unsigned int maximumNumberOfThreads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
-  const unsigned int defaultNumberOfThreads = itk::MultiThreader::GetGlobalDefaultNumberOfThreads();
+  const unsigned int maximumNumberOfThreads = itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
+  const unsigned int defaultNumberOfThreads = itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
 
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   std::cout << " Global Maximum Number of Threads " << maximumNumberOfThreads << std::endl;

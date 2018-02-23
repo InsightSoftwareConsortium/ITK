@@ -234,10 +234,10 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   ThreadIdType total, threadId, threadCount;
 
-  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  str = (CannyThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  str = (CannyThreadStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -553,10 +553,10 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   ThreadIdType total, threadId, threadCount;
 
-  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  str = (CannyThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  str = (CannyThreadStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

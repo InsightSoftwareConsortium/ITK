@@ -79,7 +79,9 @@ set(ITKCommon_SRCS
   itkRealTimeInterval.cxx
   itkOctreeNode.cxx
   itkNumericTraitsFixedArrayPixel.cxx
+  itkMultiThreaderBase.cxx
   itkMultiThreader.cxx
+  itkPoolMultiThreader.cxx
   itkMetaDataObject.cxx
   itkMetaDataDictionary.cxx
   itkDataObject.cxx

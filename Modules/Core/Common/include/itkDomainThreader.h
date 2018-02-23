@@ -19,7 +19,7 @@
 #define itkDomainThreader_h
 
 #include "itkObject.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -96,11 +96,11 @@ public:
   itkGetConstMacro( NumberOfThreadsUsed, ThreadIdType );
 
   /** Return the multithreader used by this class. */
-  MultiThreader * GetMultiThreader() const;
+  MultiThreaderBase * GetMultiThreader() const;
 
   /** Convenience methods to set/get the maximum number of threads to use.
    * \warning When setting the maximum number of threads, it will be clamped by
-   * itk::MultiThreader::GetGlobalMaximumNumberOfThreads() and ITK_MAX_THREADS.
+   * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() and ITK_MAX_THREADS.
    * */
   ThreadIdType GetMaximumNumberOfThreads() const;
   void SetMaximumNumberOfThreads( const ThreadIdType threads );
@@ -134,9 +134,9 @@ protected:
    * global minimum from the minimums calculated per thread. */
   virtual void AfterThreadedExecution(){}
 
-  itkSetObjectMacro( MultiThreader, MultiThreader );
+  itkSetObjectMacro( MultiThreader, MultiThreaderBase );
 
-  /** Static function used as a "callback" by the MultiThreader.  The threading
+  /** Static function used as a "callback" by the MultiThreaderBase.  The threading
    * library will call this routine for each thread, which will delegate the
    * control to the ThreadFunctor. */
   static ITK_THREAD_RETURN_TYPE ThreaderCallback( void *arg );
@@ -161,7 +161,7 @@ private:
   ThreadIdType                             m_NumberOfThreadsUsed;
   typename DomainPartitionerType::Pointer  m_DomainPartitioner;
   DomainType                               m_CompleteDomain;
-  MultiThreader::Pointer                   m_MultiThreader;
+  MultiThreaderBase::Pointer               m_MultiThreader;
 };
 
 }

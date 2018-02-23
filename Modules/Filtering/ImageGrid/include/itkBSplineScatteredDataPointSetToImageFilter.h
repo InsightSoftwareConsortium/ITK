@@ -152,6 +152,7 @@ public:
   /** Image type alias support */
   using PixelType = typename ImageType::PixelType;
   using RegionType = typename ImageType::RegionType;
+  using OutputImageRegionType = RegionType;
   using SizeType = typename ImageType::SizeType;
   using IndexType = typename ImageType::IndexType;
 

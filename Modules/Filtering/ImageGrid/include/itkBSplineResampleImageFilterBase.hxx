@@ -40,10 +40,9 @@ BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 ::BSplineResampleImageFilterBase()
 {
   m_SplineOrder = -1;
-  int SplineOrder = 0;
   // Because of inheritance the user must explicitly set this for m_SplineOrder
   // != 0.
-  this->SetSplineOrder(SplineOrder);
+  this->SetSplineOrder(0);
 }
 
 /**

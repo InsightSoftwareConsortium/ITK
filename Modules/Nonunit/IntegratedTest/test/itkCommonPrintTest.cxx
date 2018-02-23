@@ -59,6 +59,7 @@
 #include "itkMesh.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkMinimumDecisionRule.h"
+#include "itkMultiThreader.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"
 #include "itkNthElementImageAdaptor.h"

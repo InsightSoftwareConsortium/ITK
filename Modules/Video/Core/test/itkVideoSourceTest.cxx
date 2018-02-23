@@ -18,6 +18,7 @@
 
 #include "itkVideoSource.h"
 #include "itkImageRegionIterator.h"
+#include "itkMutexLock.h"
 
 // Set up type alias for test
 constexpr unsigned int Dimension = 2;

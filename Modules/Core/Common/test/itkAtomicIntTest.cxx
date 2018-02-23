@@ -30,7 +30,7 @@
 
 =========================================================================*/
 #include "itkAtomicInt.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkObject.h"
 #include <iostream>
 
@@ -41,7 +41,7 @@ int Total = 0;
 itk::uint64_t Total64 = 0;
 itk::AtomicInt<itk::uint32_t> TotalAtomic(0);
 itk::AtomicInt<itk::uint64_t> TotalAtomic64(0);
-constexpr int Target = 1000000;
+constexpr unsigned Target = 1000000;
 itk::int32_t Values32[Target+2];
 itk::int64_t Values64[Target+2];
 itk::AtomicInt<itk::int32_t*> AtomicPtr(Values32);
@@ -55,7 +55,7 @@ itk::Object::Pointer AnObject;
 
 ITK_THREAD_RETURN_TYPE MyFunction(void *)
 {
-  for (int i=0; i<Target/NumThreads; i++)
+  for (unsigned i=0; i<Target/NumThreads; i++)
     {
     Total++;
     int idx = ++TotalAtomic;
@@ -73,7 +73,7 @@ ITK_THREAD_RETURN_TYPE MyFunction(void *)
 
 ITK_THREAD_RETURN_TYPE MyFunction2(void *)
 {
-  for (int i=0; i<Target/NumThreads; i++)
+  for (unsigned i=0; i<Target/NumThreads; i++)
     {
     --TotalAtomic;
 
@@ -85,7 +85,7 @@ ITK_THREAD_RETURN_TYPE MyFunction2(void *)
 
 ITK_THREAD_RETURN_TYPE MyFunction3(void *)
 {
-  for (int i=0; i<Target/NumThreads; i++)
+  for (unsigned i=0; i<Target/NumThreads; i++)
     {
     int idx = TotalAtomic += 1;
     Values32[idx]++;
@@ -99,7 +99,7 @@ ITK_THREAD_RETURN_TYPE MyFunction3(void *)
 
 ITK_THREAD_RETURN_TYPE MyFunction4(void *)
 {
-  for (int i=0; i<Target/NumThreads; i++)
+  for (unsigned i=0; i<Target/NumThreads; i++)
     {
     TotalAtomic++;
     TotalAtomic += 1;
@@ -117,7 +117,7 @@ ITK_THREAD_RETURN_TYPE MyFunction4(void *)
 
 ITK_THREAD_RETURN_TYPE MyFunctionPtr(void *)
 {
-  for (int i=0; i<Target/NumThreads; i++)
+  for (unsigned i=0; i<Target/NumThreads; i++)
     {
     itk::int32_t* ptr32 = ++AtomicPtr;
     (*ptr32) = 1;
@@ -229,17 +229,19 @@ int itkAtomicIntTest(int, char*[])
   Total64 = 0;
   TotalAtomic64 = 0;
 
-  AnObject = itk::Object::New();
-
-  int beforeMTime = AnObject->GetMTime();
-
-  for (int i=0; i<Target; i++)
+  for (unsigned i=0; i<Target; i++)
     {
     Values32[i] = 0;
     Values64[i] = 0;
     }
 
-  itk::MultiThreader::Pointer mt = itk::MultiThreader::New();
+  itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
+  //depending on which multi-threader is instantiated by default,
+  //there might be different number of object modification times
+  //so the "initial" Mtime is recorder afterwards
+  AnObject = itk::Object::New();
+  itk::ModifiedTimeType beforeMTime = AnObject->GetMTime();
+
   mt->SetSingleMethod(MyFunction, nullptr);
   mt->SetNumberOfThreads(NumThreads);
   mt->SingleMethodExecute();
@@ -265,7 +267,7 @@ int itkAtomicIntTest(int, char*[])
               << Values64[0] << std::endl;
     return 1;
     }
-  for (int i=1; i<Target; i++)
+  for (unsigned i=1; i<Target; i++)
     {
     if (Values32[i] != 2)
       {
@@ -307,7 +309,7 @@ int itkAtomicIntTest(int, char*[])
               << Values64[0] << std::endl;
     return 1;
     }
-  for (int i=1; i<Target; i++)
+  for (unsigned i=1; i<Target; i++)
     {
     if (Values32[i] != 1)
       {
@@ -338,7 +340,7 @@ int itkAtomicIntTest(int, char*[])
     return 1;
     }
 
-  if ((int)AnObject->GetMTime() != Target + beforeMTime + 2 )
+  if (AnObject->GetMTime() != Target + beforeMTime)
     {
     return 1;
     }

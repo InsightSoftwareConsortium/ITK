@@ -30,7 +30,7 @@
 
 #include "itkDataObject.h"
 #include "itkDomainThreader.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include <vector>
@@ -159,7 +159,7 @@ public:
   using NameArray = std::vector< DataObjectIdentifierType >;
 
   //** Type of general multi-threader interface */
-  using MultiThreaderType = MultiThreader;
+  using MultiThreaderType = MultiThreaderBase;
 
   /** \brief Return an array with the names of the inputs defined.
    *
@@ -353,7 +353,7 @@ public:
   /** \brief Update the information describing the output data.
    *
    * This method
-   * transverses up the pipeline gathering modified time information.
+   * traverses up the pipeline gathering modified time information.
    * On the way back down the pipeline, this method calls
    * GenerateOutputInformation() to set any necessary information
    * about the output data objects.  For instance, a filter that
@@ -443,7 +443,10 @@ public:
 
   /** Return the multithreader used by this class. */
   MultiThreaderType * GetMultiThreader() const
-  { return m_Threader; }
+  { return m_MultiThreader; }
+
+  /** Set the multithreader used by this class. */
+  void SetMultiThreader(MultiThreaderType* threader);
 
   /** An opportunity to deallocate a ProcessObject's bulk data
    *  storage. Some filters may wish to reuse existing bulk data
@@ -830,7 +833,7 @@ private:
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  MultiThreaderType::Pointer m_Threader;
+  MultiThreaderType::Pointer m_MultiThreader;
   ThreadIdType               m_NumberOfThreads;
 
   /** Memory management ivars */

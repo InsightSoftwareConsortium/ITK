@@ -457,7 +457,7 @@ protected:
 
   /** This method is similar to Halt(), and its default implementation in this
    * class is simply to call Halt(). However, this method takes as a parameter a
-   * void pointer to the MultiThreader::ThreadInfoStruct structure. If you
+   * void pointer to the MultiThreaderBase::ThreadInfoStruct structure. If you
    * override this method instead of overriding Halt, you will be able to get the
    * current thread ID and handle the Halt method accordingly. This is useful if
    * you are doing a lot of processing in Halt that you don't want parallelized.

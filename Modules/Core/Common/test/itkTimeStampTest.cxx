@@ -18,11 +18,11 @@
 
 #include <iostream>
 #include "itkTimeStamp.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 
 // A helper struct for the test, the idea is to have one timestamp per thread.
-// To ease the writing of the test, we use  MultiThreader::SingleMethodExecute
+// To ease the writing of the test, we use  MultiThreaderBase::SingleMethodExecute
 // with an array of timestamps in the shared data
 typedef struct {
   std::vector<itk::TimeStamp> timestamps;
@@ -31,7 +31,7 @@ typedef struct {
 
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 {
-  using ThreadInfoType = itk::MultiThreader::ThreadInfoStruct;
+  using ThreadInfoType = itk::MultiThreaderBase::ThreadInfoStruct;
 
   auto * infoStruct = static_cast< ThreadInfoType * >( ptr );
 
@@ -54,7 +54,7 @@ int itkTimeStampTest(int, char*[])
     TimeStampTestHelper helper;
 
     // Set up the multithreader
-    itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
+    itk::MultiThreaderBase::Pointer multithreader = itk::MultiThreaderBase::New();
     multithreader->SetNumberOfThreads( ITK_MAX_THREADS+10 );// this will be clamped
     multithreader->SetSingleMethod( modified_function, &helper);
 

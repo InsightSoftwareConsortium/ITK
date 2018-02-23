@@ -16,16 +16,16 @@
  *
  *=========================================================================*/
 
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkTimeProbe.h"
 #include "itkConfigure.h"
 
 itk::MutexLock::Pointer sharedMutex;
 
-void* execute(void *ptr)
+ITK_THREAD_RETURN_TYPE execute(void *ptr)
 {
   // Here - get any args from ptr.
-  auto * threadInfo = static_cast<itk::MultiThreader::ThreadInfoStruct*>(ptr);
+  auto * threadInfo = static_cast<itk::MultiThreaderBase::ThreadInfoStruct*>(ptr);
 
   auto * data = static_cast<int *>(threadInfo->UserData);
 
@@ -47,13 +47,9 @@ void* execute(void *ptr)
       }
     }
 
-  return nullptr;
+  return ITK_THREAD_RETURN_VALUE;
 }
 
-#if !defined(ITK_USE_PTHREADS)
-int itkThreadPoolTest(int, char* [])
-{
-#else
 int itkThreadPoolTest(int argc, char* argv[])
 {
 
@@ -84,6 +80,6 @@ int itkThreadPoolTest(int argc, char* argv[])
     }
   itk::TimeProbe::TimeStampType elapsed = timeProbe.GetInstantValue() - startTime;
   std::cout<<std::endl <<" Thread pool test : Time elapsed : " << elapsed << std::endl;
-#endif
+
   return EXIT_SUCCESS;
 }

@@ -116,7 +116,7 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     }
   catch(const char * errmsg)
     {
-    std::cerr << "Exception catched !! : " << errmsg << std::endl;
+    std::cerr << "Exception caught! : " << errmsg << std::endl;
     return EXIT_FAILURE;
     }
 

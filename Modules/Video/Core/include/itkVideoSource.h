@@ -161,7 +161,7 @@ protected:
   virtual int SplitRequestedSpatialRegion(int i, int num,
                                           OutputFrameSpatialRegionType& splitRegion);
 
-  /** Static thread callback function for the MultiThreader. This gives control
+  /** Static thread callback function for the MultiThreaderBase. This gives control
    * to ThreadedGenerateData(). */
   static ITK_THREAD_RETURN_TYPE ThreaderCallback(void* arg);
 

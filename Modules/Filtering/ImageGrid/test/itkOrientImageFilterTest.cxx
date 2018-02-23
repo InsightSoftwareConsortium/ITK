@@ -63,7 +63,7 @@ static void PrintImg(ImageType::Pointer img)
 
 int itkOrientImageFilterTest(int, char *[])
 {
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   ImageType::Pointer randImage = CreateRandomImage();
   std::cerr << "Original" << std::endl;
   PrintImg(randImage);

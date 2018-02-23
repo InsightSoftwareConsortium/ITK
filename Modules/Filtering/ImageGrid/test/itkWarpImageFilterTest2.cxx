@@ -100,7 +100,7 @@ typename DisplacementFieldType::Pointer MakeDisplacementField(void)
 int
 itkWarpImageFilterTest2(int, char * [])
 {
-  //  itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
+  //  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
   // make test image
   ImageType::Pointer image = MakeCheckerboard();
   // make full-res displacement field
