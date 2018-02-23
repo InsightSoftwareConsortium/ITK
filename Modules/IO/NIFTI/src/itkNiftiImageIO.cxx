@@ -32,14 +32,12 @@ static int print_hex_vals(
   const int nbytes,
   FILE *const fp)
 {
-  int c;
-
   if ( !data || nbytes < 1 || !fp )
     {
     return -1;
     }
   fputs("0x", fp);
-  for ( c = 0; c < nbytes; c++ )
+  for ( int c = 0; c < nbytes; c++ )
     {
     fprintf(fp, " %x", data[c]);
     }
@@ -131,11 +129,8 @@ static const char * const str_intent(const unsigned int intent)
 //--------------------------------------------------------------------
 static int DumpNiftiHeader(const std::string & fname)
 {
-  int             c;
-  nifti_1_header *hp;
   int             swap;
-
-  hp = nifti_read_header(fname.c_str(), &swap, true);
+  nifti_1_header *hp = nifti_read_header(fname.c_str(), &swap, true);
   fputs("-------------------------------------------------------\n",
         stderr);
   if ( !hp  )
@@ -158,7 +153,7 @@ static int DumpNiftiHeader(const std::string & fname)
                   "    dim_info       = 0x%x\n",
           hp->extents, hp->session_error, hp->regular, hp->dim_info);
   fprintf(stderr, "    dim[8]         =");
-  for ( c = 0; c < 8; c++ )
+  for ( int c = 0; c < 8; c++ )
     {
     fprintf(stderr, " %d", hp->dim[c]);
     }
@@ -175,12 +170,12 @@ static int DumpNiftiHeader(const std::string & fname)
           str_intent(hp->intent_code),
           hp->datatype, hp->bitpix, hp->slice_start);
   // break pixdim over 2 lines
-  for ( c = 0; c < 4; c++ )
+  for ( int c = 0; c < 4; c++ )
     {
     fprintf(stderr, " %f", hp->pixdim[c]);
     }
   fprintf(stderr, "\n                    ");
-  for ( c = 4; c < 8; c++ )
+  for ( int c = 4; c < 8; c++ )
     {
     fprintf(stderr, " %f", hp->pixdim[c]);
     }
@@ -802,6 +797,19 @@ void NiftiImageIO::Read(void *buffer)
     }
 }
 
+NiftiImageIO::FileType
+NiftiImageIO::DetermineFileType(const char *FileNameToRead)
+{
+  // is_nifti_file returns
+  //      == 2 for a nifti file (header+data in 2 files)
+  //      == 1 for a nifti file (header+data in 1 file)
+  //      == 0 for an analyze 7.5 file,
+  //      == -1 for an error,
+  const int image_FTYPE = is_nifti_file(FileNameToRead);
+
+  return static_cast<NiftiImageIO::FileType>(image_FTYPE);
+}
+
 // This method will only test if the header looks like an
 // Nifti Header.  Some code is redundant with ReadImageInformation
 // a StateMachine could provide a better implementation
@@ -813,7 +821,7 @@ NiftiImageIO
   //      == 2 for a nifti file (header+data in 2 files)
   //      == 1 for a nifti file (header+data in 1 file)
   //      == 0 for an analyze 7.5 file,
-  //       < 0 for an error,
+  //      == -1 for an error,
   const int image_FTYPE = is_nifti_file(FileNameToRead);
 
   if ( image_FTYPE > 0 )
@@ -1314,7 +1322,7 @@ NiftiImageIO
   //Insert Orientation.
   //Need to encapsulate as much Nifti information as possible here.
   MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  std::string          classname( this->GetNameOfClass() );
+  const std::string    classname( this->GetNameOfClass() );
   EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
 
   // set the image orientation
@@ -1324,7 +1332,7 @@ NiftiImageIO
   this->SetImageIOMetadataFromNIfTI();
 
   //Important hist fields
-  std::string description(this->m_NiftiImage->descrip);
+  const std::string description(this->m_NiftiImage->descrip);
   EncapsulateMetaData< std::string >(this->GetMetaDataDictionary(),
                                      ITK_FileNotes, description);
 
@@ -1361,7 +1369,7 @@ NiftiImageIO
   // a dimension of the image that won't fit in a 16 bit short.
   for ( unsigned int i = 0; i < this->GetNumberOfDimensions(); i++ )
     {
-    unsigned int curdim( this->GetDimensions(i) );
+    const unsigned int curdim( this->GetDimensions(i) );
     if ( curdim > static_cast< unsigned int >( NumericTraits< short >::max() ) )
       {
       itkExceptionMacro( << "Dimension(" << i << ") = " << curdim
@@ -1377,7 +1385,7 @@ NiftiImageIO
     }
   //
   // set the filename
-  std::string FName( this->GetFileName() );
+  const std::string FName( this->GetFileName() );
   //
   // set the file type
   const char *tempextension = nifti_find_file_extension( FName.c_str() );
@@ -1730,48 +1738,18 @@ void Normalize(std::vector< double > & x)
 void
 NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 {
-  using OrientAdapterType = SpatialOrientationAdapter;
-
-  //
   // in the case of an Analyze75 file, use old analyze orient method.
   if ( this->m_NiftiImage->qform_code == 0
       && this->m_NiftiImage->sform_code == 0 )
     {
-    SpatialOrientationAdapter::DirectionType   dir;
-    SpatialOrientationAdapter::OrientationType orient;
-    switch ( this->m_NiftiImage->analyze75_orient )
-      {
-      case a75_transverse_unflipped:
-        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
-        break;
-      case a75_sagittal_unflipped:
-        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
-        break;
-      case a75_coronal_unflipped:
-        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
-        break;
-      case a75_transverse_flipped:
-        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
-        break;
-      case a75_sagittal_flipped:
-        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL;
-        break;
-      case a75_coronal_flipped:
-        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
-        break;
-      case a75_orient_unknown:
-        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
-        break;
-      }
-    dir =  OrientAdapterType().ToDirectionCosines(orient);
-    m_Origin[0] = 0;
+    m_Origin[0] = 0.0;
     if ( dims > 1 )
       {
-      m_Origin[1] = 0;
+      m_Origin[1] = 0.0;
       }
     if ( dims > 2 )
       {
-      m_Origin[2] = 0;
+      m_Origin[2] = 0.0;
       }
     return;
     }
@@ -1898,7 +1876,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   //The type here must be float, because that matches the signature
   //of the nifti_make_orthog_mat44() method below.
   using DirectionMatrixComponentType = float;
-  int                                         mindims(dims < 3 ? 3 : dims);
+  const int                                   mindims(dims < 3 ? 3 : dims);
   std::vector< DirectionMatrixComponentType > dirx(mindims, 0.0f);
   unsigned int                                i;
   for ( i = 0; i < this->GetDirection(0).size(); i++ )
@@ -1962,8 +1940,8 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
                           nullptr,
                           &( this->m_NiftiImage->qfac ) );
   // copy q matrix to s matrix
-  this->m_NiftiImage->qto_xyz =  matrix;
-  this->m_NiftiImage->sto_xyz =  matrix;
+  this->m_NiftiImage->qto_xyz = matrix;
+  this->m_NiftiImage->sto_xyz = matrix;
   //
   //
   unsigned int sto_limit = origdims > 3 ? 3 : origdims;
@@ -1991,7 +1969,7 @@ NiftiImageIO
 {
   // Write the image Information before writing data
   this->WriteImageInformation();
-  unsigned int numComponents = this->GetNumberOfComponents();
+  const unsigned int numComponents = this->GetNumberOfComponents();
   if ( numComponents == 1
        || ( numComponents == 2 && this->GetPixelType() == COMPLEX )
        || ( numComponents == 3 && this->GetPixelType() == RGB )
@@ -2084,7 +2062,7 @@ NiftiImageIO
     dumpdata(buffer);
     //Need a const cast here so that we don't have to copy the memory for
     //writing.
-    this->m_NiftiImage->data = (void *)nifti_buf;
+    this->m_NiftiImage->data = static_cast<void *>(nifti_buf);
     nifti_image_write(this->m_NiftiImage);
     this->m_NiftiImage->data = nullptr; // if left pointing to data buffer
     delete[] nifti_buf;
