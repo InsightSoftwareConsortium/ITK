@@ -8,13 +8,13 @@ itk_wrap_class("itk::GradientImageFilter" POINTER)
         itk_wrap_template(
           "${ITKM_I${t}${vector_dim}}${ITKM_F}${ITKM_F}"
           "${ITKT_I${t}${vector_dim}},${ITKT_F},${ITKT_F}")
-      endif(ITK_WRAP_covariant_vector_float)
+      endif()
 
       if(ITK_WRAP_covariant_vector_double)
         itk_wrap_template(
           "${ITKM_I${t}${vector_dim}}${ITKM_D}${ITKM_D}"
           "${ITKT_I${t}${vector_dim}},${ITKT_D},${ITKT_D}")
-      endif(ITK_WRAP_covariant_vector_double)
+      endif()
 
     endforeach()
   endforeach()

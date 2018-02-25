@@ -18,7 +18,7 @@ EOF
 for c in else endif endforeach endfunction endmacro endwhile; do
     echo 's/\b'"$c"'\(\s*\)(.\+)/'"$c"'\1()/'
 done >convert.sed \
-&& git ls-files -z -- bootstrap '*.cmake' '*.cmake.in' '*CMakeLists.txt' \
+&& git ls-files -z -- bootstrap '*.cmake' '*.cmake.in' '*CMakeLists.txt' '*.wrap' \
    | xargs -0 gsed -i -f convert.sed \
 && rm convert.sed
 

@@ -3,7 +3,7 @@ itk_wrap_class("itk::MagnitudeAndPhaseToComplexImageFilter" POINTER_WITH_SUPERCL
     foreach(t ${WRAP_ITK_REAL})
       foreach(c ${WRAP_ITK_COMPLEX_REAL})
         itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d}}${ITKM_I${c}${d}}" "${ITKT_I${t}${d}},${ITKT_I${t}${d}},${ITKT_I${c}${d}}")
-      endforeach(c)
+      endforeach()
     endforeach()
   endforeach()
 itk_end_wrap_class()

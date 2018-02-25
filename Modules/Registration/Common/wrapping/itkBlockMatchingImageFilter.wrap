@@ -12,4 +12,4 @@ if(has_d_3)
       "double, 3, itk::DefaultStaticMeshTraits< double, 3, 3, float, float, double >")
   itk_end_wrap_class()
 
-endif(has_d_3)
+endif()

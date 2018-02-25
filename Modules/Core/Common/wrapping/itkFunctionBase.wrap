@@ -3,10 +3,10 @@ itk_wrap_class("itk::FunctionBase" POINTER)
 
     if(ITK_WRAP_float)
       itk_wrap_template("${ITKM_IF${d}}${ITKM_D}" "${ITKT_IF${d}},${ITKT_D}")
-    endif(ITK_WRAP_float)
+    endif()
     if(ITK_WRAP_unsigned_short)
       itk_wrap_template("${ITKM_IUS${d}}${ITKM_D}" "${ITKT_IUS${d}},${ITKT_D}")
-    endif(ITK_WRAP_unsigned_short)
+    endif()
 
     UNIQUE(real_types "D;${WRAP_ITK_REAL}")
     foreach(t ${real_types})

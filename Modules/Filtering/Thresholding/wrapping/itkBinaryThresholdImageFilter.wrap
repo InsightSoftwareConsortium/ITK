@@ -10,5 +10,5 @@ itk_wrap_class("itk::BinaryThresholdImageFilter" POINTER_WITH_SUPERCLASS)
     UNIQUE(st "${SMALLER_THAN_${type}};UC;${type}")
     itk_wrap_image_filter_combinations("${type}" "${st}")
 
-  endforeach(type)
+  endforeach()
 itk_end_wrap_class()
