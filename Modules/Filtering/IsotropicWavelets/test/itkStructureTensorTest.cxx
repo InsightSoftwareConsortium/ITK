@@ -121,7 +121,7 @@ runStructureTensorTest()
   // Use a external, new GaussianSource:
   // The gaussian source is modified in BeforeThreadedGenerateData() only if
   // the source has different sigma or radius than this class.
-  auto gaussianSource = tensor->GetModifiableGaussianSource();
+  typename StructureTensorType::GaussianSourceType::Pointer gaussianSource = tensor->GetModifiableGaussianSource();
   gaussianSource = StructureTensorType::GaussianSourceType::New();
 
   std::vector<typename ImageType::Pointer> inputs;

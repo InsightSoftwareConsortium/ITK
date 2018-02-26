@@ -32,34 +32,31 @@ runZeroDCImageFilterTest(const std::string & inputImage)
 {
   const unsigned int Dimension = VDimension;
 
-  // TODO massive difference (-1,4, 3^-10) of 0 freq pixel between (float, double) I guess it is because FFT algorithm
-  // not ZeroDC. Maybe because odd size using FFTW.
+  // TODO massive difference (-1,4, 3^-10) of 0 freq pixel between (float, double)
+  // I guess it is because FFT algorithm not ZeroDC. Maybe because odd size using FFTW.
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   auto reader = ReaderType::New();
-
   reader->SetFileName(inputImage);
 
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
   auto zeroDCFilter = ZeroDCFilterType::New();
-
   zeroDCFilter->SetInput(reader->GetOutput());
+  TRY_EXPECT_NO_EXCEPTION(zeroDCFilter->Update());
 
   // Perform FFT on zeroDC image and check freq bin 0 has zero value.
   using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
   auto fftForwardFilter = FFTForwardFilterType::New();
-
   fftForwardFilter->SetInput(zeroDCFilter->GetOutput());
-
   TRY_EXPECT_NO_EXCEPTION(fftForwardFilter->Update());
 
   using ComplexImageType = typename FFTForwardFilterType::OutputImageType;
   typename ComplexImageType::IndexType zeroIndex;
   zeroIndex.Fill(0);
 
-  auto filteredImg = fftForwardFilter->GetOutput();
+  typename ComplexImageType::Pointer filteredImg = fftForwardFilter->GetOutput();
   filteredImg->DisconnectPipeline();
   typename ComplexImageType::PixelType filteredZeroFreqPixelValue = filteredImg->GetPixel(zeroIndex);
   typename ZeroDCFilterType::RealType  mean = zeroDCFilter->GetMean();
@@ -110,10 +107,6 @@ itkZeroDCImageFilterTest(int argc, char * argv[])
 
   auto zeroDCFilter = ZeroDCFilterType::New();
   EXERCISE_BASIC_OBJECT_METHODS(zeroDCFilter, ZeroDCImageFilter, ImageToImageFilter);
-
-  // Perform FFT on zeroDC image and check freq bin 0 has zero value.
-  using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  auto fftForwardFilter = FFTForwardFilterType::New();
 
   if (dimension == 2)
   {

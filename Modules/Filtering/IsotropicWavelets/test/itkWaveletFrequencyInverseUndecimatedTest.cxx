@@ -249,26 +249,22 @@ itkWaveletFrequencyInverseUndecimatedTest(int argc, char * argv[])
   // ComplexImageType, ShannonWavelet >;
   //
   // using HeldInverseWaveletType = itk::WaveletFrequencyInverseUndecimated< ComplexImageType, ComplexImageType,
-  // HeldWaveletFilterBankType >;
-  auto heldInverseWavelet = HeldInverseWaveletType::New();
+  // HeldWaveletFilterBankType >; auto heldInverseWavelet = HeldInverseWaveletType::New();
   // EXERCISE_BASIC_OBJECT_METHODS( heldInverseWavelet, WaveletFrequencyInverseUndecimated,
   //   ImageToImageFilter );
   //
   // using VowInverseWaveletType = itk::WaveletFrequencyInverseUndecimated< ComplexImageType, ComplexImageType,
-  // VowWaveletFilterBankType >;
-  auto vowInverseWavelet = VowInverseWaveletType::New();
-  // EXERCISE_BASIC_OBJECT_METHODS( vowInverseWavelet, WaveletFrequencyInverseUndecimated,
+  // VowWaveletFilterBankType >; auto vowInverseWavelet = VowInverseWaveletType::New(); EXERCISE_BASIC_OBJECT_METHODS(
+  // vowInverseWavelet, WaveletFrequencyInverseUndecimated,
   //   ImageToImageFilter );
   //
   // using SimoncelliInverseWaveletType = itk::WaveletFrequencyInverseUndecimated< ComplexImageType, ComplexImageType,
-  // SimoncelliWaveletFilterBankType >;
-  auto simoncelliInverseWavelet = SimoncelliInverseWaveletType::New();
+  // SimoncelliWaveletFilterBankType >; auto simoncelliInverseWavelet = SimoncelliInverseWaveletType::New();
   // EXERCISE_BASIC_OBJECT_METHODS( simoncelliInverseWavelet, WaveletFrequencyInverseUndecimated,
   //   ImageToImageFilter );
   //
   // using ShannonInverseWaveletType = itk::WaveletFrequencyInverseUndecimated< ComplexImageType, ComplexImageType,
-  // ShannonWaveletFilterBankType >;
-  auto shannonInverseWavelet = ShannonInverseWaveletType::New();
+  // ShannonWaveletFilterBankType >; auto shannonInverseWavelet = ShannonInverseWaveletType::New();
   // EXERCISE_BASIC_OBJECT_METHODS( shannonInverseWavelet, WaveletFrequencyInverseUndecimated,
   //   ImageToImageFilter );
 

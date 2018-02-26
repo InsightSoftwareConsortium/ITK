@@ -150,9 +150,9 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
     // testStatus = EXIT_FAILURE;
   }
 
-  auto cosPhase = phaseAnalyzer->GetOutputCosPhase();
-  auto amp = phaseAnalyzer->GetOutputAmplitude();
-  auto phase = phaseAnalyzer->GetOutputPhase();
+  PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer cosPhase = phaseAnalyzer->GetOutputCosPhase();
+  PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer amp = phaseAnalyzer->GetOutputAmplitude();
+  PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer phase = phaseAnalyzer->GetOutputPhase();
 
 #ifdef ITK_VISUALIZE_TESTS
   itk::Testing::ViewImage(cosPhase.GetPointer(), "PhaseAnalyzer(Soft) output");
