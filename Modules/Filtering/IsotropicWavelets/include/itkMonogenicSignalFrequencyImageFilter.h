@@ -45,15 +45,15 @@ class MonogenicSignalFrequencyImageFilter
   : public ImageToImageFilter<TInputImage, VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension>>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MonogenicSignalFrequencyImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension>>
-                                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type alias. */
+  using Self = MonogenicSignalFrequencyImageFilter;
+  using Superclass =
+    ImageToImageFilter<TInputImage, VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -67,31 +67,31 @@ public:
                   (Concept::IsFloatingPoint<typename TInputImage::PixelType::value_type>));
 #endif
 
-  /** Some convenient typedefs. */
-  typedef TFrequencyImageRegionConstIterator         InputFrequencyImageRegionConstIterator;
-  typedef typename Superclass::InputImageType        InputImageType;
-  typedef typename Superclass::OutputImageType       OutputImageType;
-  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Some convenient type alias. */
+  using InputFrequencyImageRegionConstIterator = TFrequencyImageRegionConstIterator;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** RieszFunction typedefs. */
-  typedef RieszFrequencyFunction<typename InputImageType::PixelType, ImageDimension> RieszFunctionType;
-  typedef typename RieszFunctionType::Pointer                                        RieszFunctionPointer;
+  /** RieszFunction type alias. */
+  using RieszFunctionType = RieszFrequencyFunction<typename InputImageType::PixelType, ImageDimension>;
+  using RieszFunctionPointer = typename RieszFunctionType::Pointer;
 
   /** Get the riesz function type */
   itkGetModifiableObjectMacro(Evaluator, RieszFunctionType);
 
 protected:
   MonogenicSignalFrequencyImageFilter();
-  ~MonogenicSignalFrequencyImageFilter() {}
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MonogenicSignalFrequencyImageFilter() override {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  void
+  GenerateOutputInformation() override;
 
-  virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MonogenicSignalFrequencyImageFilter);

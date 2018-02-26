@@ -87,15 +87,15 @@ template <typename TInputImage,
 class StructureTensor : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Some convenient typedefs. */
-  /** Standard class typedefs. */
-  typedef StructureTensor                               Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Some convenient type alias. */
+  /** Standard class type alias. */
+  using Self = StructureTensor;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -103,38 +103,38 @@ public:
   /** Runtime information support. */
   itkTypeMacro(StructureTensor, ImageToImageFilter);
 
-  /** Some convenient typedefs. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  /** Some convenient type alias. */
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
-  typedef typename InputImageType::SpacingType    SpacingType;
-  typedef typename InputImageRegionType::SizeType SizeType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using SpacingType = typename InputImageType::SpacingType;
+  using SizeType = typename InputImageRegionType::SizeType;
 
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  typedef double                                FloatType;
-  typedef itk::Image<FloatType, ImageDimension> FloatImageType;
-  typedef typename FloatImageType::Pointer      FloatImagePointer;
+  using FloatType = double;
+  using FloatImageType = itk::Image<FloatType, ImageDimension>;
+  using FloatImagePointer = typename FloatImageType::Pointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // This ensure that PixelType is float||double, and not complex.
   itkConceptMacro(InputPixelTypeIsFloatCheck, (Concept::IsFloatingPoint<typename TInputImage::PixelType>));
 #endif
-  typedef OutputImageType                                               EigenMatrixImageType;
-  typedef OutputImagePixelType                                          EigenMatrixType;
-  typedef itk::Array<typename OutputImagePixelType::ValueType>          EigenValuesType;
-  typedef itk::SymmetricEigenAnalysis<EigenMatrixType, EigenValuesType> SymmetricEigenAnalysisType;
-  typedef GaussianImageSource<FloatImageType>                           GaussianSourceType;
+  using EigenMatrixImageType = OutputImageType;
+  using EigenMatrixType = OutputImagePixelType;
+  using EigenValuesType = itk::Array<typename OutputImagePixelType::ValueType>;
+  using SymmetricEigenAnalysisType = itk::SymmetricEigenAnalysis<EigenMatrixType, EigenValuesType>;
+  using GaussianSourceType = GaussianImageSource<FloatImageType>;
 
-  typedef typename std::vector<InputImagePointer> InputsType;
-  // typedef typename itk::VectorContainer<int, InputImagePointer> InputsType;
+  using InputsType = typename std::vector<InputImagePointer>;
+  // using InputsType = typename itk::VectorContainer<int, InputImagePointer>;
   //
   void
   SetInputs(const InputsType & inputs);
@@ -191,15 +191,15 @@ public:
 
 protected:
   StructureTensor();
-  ~StructureTensor() {}
+  ~StructureTensor() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void
+  BeforeThreadedGenerateData() override;
 
-  virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   /** Assuming that row>=column */
   static unsigned int

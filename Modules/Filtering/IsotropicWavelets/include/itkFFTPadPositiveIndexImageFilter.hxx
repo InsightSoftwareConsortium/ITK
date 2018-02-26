@@ -29,7 +29,7 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::FFTPadPositiveIndexImageFilter()
   : m_SizeGreatestPrimeFactor(2)
-  , m_BoundaryCondition(ITK_NULLPTR)
+  , m_BoundaryCondition(nullptr)
 {
   m_FFTPadFilter = FFTPadFilterType::New();
   m_FFTPadFilter->ReleaseDataFlagOn();
@@ -43,10 +43,10 @@ void
 FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Get pointers to the input and output.
-  InputImageType *        inputPtr = const_cast<InputImageType *>(this->GetInput());
+  auto *                  inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * outputPtr = this->GetOutput();
 
-  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != nullptr);
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr);
 
   const typename InputImageType::RegionType &  inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
@@ -61,7 +61,7 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
   // Ask the boundary condition for the input requested region.
   if (!m_BoundaryCondition)
   {
-    itkExceptionMacro(<< "Boundary condition is ITK_NULLPTR so no request region can be generated.");
+    itkExceptionMacro(<< "Boundary condition is nullptr so no request region can be generated.");
   }
   typename InputImageType::RegionType inputRequestedRegion =
     m_BoundaryCondition->GetInputRequestedRegion(inputLargestPossibleRegion, shiftedOutputRequestedRegion);
@@ -80,7 +80,7 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateOutputInforma
   OutputImageType *      outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr);
-  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != nullptr);
 
   RegionType inputRegion = inputPtr->GetLargestPossibleRegion();
   SizeType   size;

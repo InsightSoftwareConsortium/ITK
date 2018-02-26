@@ -46,10 +46,10 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   const std::string inputImage = argv[1];
   const std::string outputImage = argv[2];
 
-  const unsigned int                       Dimension = 3;
-  typedef double                           PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  constexpr unsigned int Dimension = 3;
+  using PixelType = double;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
@@ -57,16 +57,16 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image
-  typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
+  using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
+  FFTFilterType::Pointer fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
   fftFilter->Update();
 
-  typedef FFTFilterType::OutputImageType ComplexImageType;
+  using ComplexImageType = FFTFilterType::OutputImageType;
 
-  // typedef itk::RieszFrequencyFunction<> FunctionType;
-  typedef itk::RieszFrequencyFilterBankGenerator<ComplexImageType> RieszFilterBankType;
-  RieszFilterBankType::Pointer                                     filterBank = RieszFilterBankType::New();
+  // using FunctionType = itk::RieszFrequencyFunction<>;
+  using RieszFilterBankType = itk::RieszFrequencyFilterBankGenerator<ComplexImageType>;
+  RieszFilterBankType::Pointer filterBank = RieszFilterBankType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
 
@@ -83,14 +83,14 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   TRY_EXPECT_NO_EXCEPTION(filterBank->Update());
 
   // Get iterator to Indices of RieszFunction.
-  typedef RieszFilterBankType::RieszFunctionType::SetType IndicesType;
-  IndicesType                                             indices = filterBank->GetModifiableEvaluator()->GetIndices();
-  IndicesType::const_iterator                             indicesIt = indices.begin();
+  using IndicesType = RieszFilterBankType::RieszFunctionType::SetType;
+  IndicesType indices = filterBank->GetModifiableEvaluator()->GetIndices();
+  auto        indicesIt = indices.begin();
 
   // Get real part of complex image for visualization
-  typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
-  ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
-  typedef itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType> ComplexToImaginaryFilter;
+  using ComplexToRealFilter = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
+  ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
+  using ComplexToImaginaryFilter = itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType>;
   ComplexToImaginaryFilter::Pointer complexToImaginaryFilter = ComplexToImaginaryFilter::New();
   std::cout << "Order: " << inputOrder << std::endl;
   bool orderIsEven = (inputOrder % 2 == 0);
@@ -108,7 +108,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
       }
       ++indicesIt;
       oss << ")";
-      std::cout << "  Indice: " << oss.str() << std::endl;
+      std::cout << "  Index: " << oss.str() << std::endl;
 
       complexToRealFilter->SetInput(filterBank->GetOutput(comp));
       complexToRealFilter->Update();
@@ -134,7 +134,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
       }
       ++indicesIt;
       oss << ")";
-      std::cout << "  Indice: " << oss.str() << std::endl;
+      std::cout << "  Index: " << oss.str() << std::endl;
 
       complexToImaginaryFilter->SetInput(filterBank->GetOutput(comp));
       complexToImaginaryFilter->Update();

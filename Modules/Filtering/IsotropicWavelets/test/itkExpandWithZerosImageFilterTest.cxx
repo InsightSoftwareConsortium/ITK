@@ -33,9 +33,9 @@ template <unsigned int VDimension>
 int
 runExpandWithZerosImageFilterTest(unsigned int expandFactor)
 {
-  typedef float                             PixelType;
-  typedef itk::Image<PixelType, VDimension> ImageType;
-  bool                                      testPassed = true;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, VDimension>;
+  bool testPassed = true;
 
   // Create the input image
   typename ImageType::RegionType region;
@@ -53,8 +53,8 @@ runExpandWithZerosImageFilterTest(unsigned int expandFactor)
   input->Allocate();
   input->FillBuffer(1);
 
-  typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> ExpanderType;
-  typename ExpanderType::Pointer                                expander = ExpanderType::New();
+  using ExpanderType = itk::ExpandWithZerosImageFilter<ImageType, ImageType>;
+  typename ExpanderType::Pointer expander = ExpanderType::New();
 
   typename ExpanderType::ExpandFactorsType expandFactors;
   expandFactors.Fill(expandFactor);
@@ -68,7 +68,7 @@ runExpandWithZerosImageFilterTest(unsigned int expandFactor)
   expander->Update();
 
   // Check the output against expected value
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator                      outIter(expander->GetOutput(), expander->GetOutput()->GetBufferedRegion());
   typename ImageType::IndexType outStartIndex = expander->GetOutput()->GetLargestPossibleRegion().GetIndex();
 
@@ -112,14 +112,14 @@ runExpandWithZerosImageFilterTest(unsigned int expandFactor)
 #endif
 
   // Test than expand with zeros + shrinkage (decimate) results on input image.
-  typedef itk::ShrinkDecimateImageFilter<ImageType, ImageType> DecimatorType;
-  typename DecimatorType::Pointer                              decimator = DecimatorType::New();
+  using DecimatorType = itk::ShrinkDecimateImageFilter<ImageType, ImageType>;
+  typename DecimatorType::Pointer decimator = DecimatorType::New();
   decimator->SetShrinkFactors(expandFactors);
   decimator->SetInput(expander->GetOutput());
   decimator->Update();
 
-  typedef itk::Testing::ComparisonImageFilter<ImageType, ImageType> DifferenceFilterType;
-  typename DifferenceFilterType::Pointer                            differenceFilter = DifferenceFilterType::New();
+  using DifferenceFilterType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
+  typename DifferenceFilterType::Pointer differenceFilter = DifferenceFilterType::New();
   differenceFilter->SetToleranceRadius(0);
   differenceFilter->SetDifferenceThreshold(0.000001);
   differenceFilter->SetValidInput(input);
@@ -156,20 +156,20 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int                            ImageDimension = 2;
-  typedef double                                PixelType;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
+  constexpr unsigned int ImageDimension = 2;
+  using PixelType = double;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> ExpanderType;
-  ExpanderType::Pointer                                         expander = ExpanderType::New();
+  using ExpanderType = itk::ExpandWithZerosImageFilter<ImageType, ImageType>;
+  ExpanderType::Pointer expander = ExpanderType::New();
   EXERCISE_BASIC_OBJECT_METHODS(expander, ExpandWithZerosImageFilter, ImageToImageFilter);
 
   // Parse input arguments
   unsigned int dimension = atoi(argv[1]);
-  unsigned int expandFactor = static_cast<unsigned int>(atoi(argv[2]));
+  auto         expandFactor = static_cast<unsigned int>(atoi(argv[2]));
 
 
   if (dimension == 2)

@@ -45,33 +45,33 @@ template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBa
 class WaveletFrequencyForwardUndecimated : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard typenames typedefs. */
-  typedef WaveletFrequencyForwardUndecimated            Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard typenames type alias. */
+  using Self = WaveletFrequencyForwardUndecimated;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherit types from Superclass. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
-  typedef typename std::vector<OutputImagePointer> OutputsType;
-  // typedef typename itk::VectorContainer<int, OutputImagePointer> OutputsType;
+  using OutputsType = typename std::vector<OutputImagePointer>;
+  // using OutputsType = typename itk::VectorContainer<int, OutputImagePointer>;
 
-  typedef typename itk::ImageRegionIterator<OutputImageType>     OutputRegionIterator;
-  typedef typename itk::ImageRegionConstIterator<InputImageType> InputRegionConstIterator;
-  typedef typename OutputImageType::RegionType                   OutputImageRegionType;
+  using OutputRegionIterator = typename itk::ImageRegionIterator<OutputImageType>;
+  using InputRegionConstIterator = typename itk::ImageRegionConstIterator<InputImageType>;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  typedef TWaveletFilterBank                                  WaveletFilterBankType;
-  typedef typename WaveletFilterBankType::Pointer             WaveletFilterBankPointer;
-  typedef typename WaveletFilterBankType::WaveletFunctionType WaveletFunctionType;
-  typedef typename WaveletFilterBankType::FunctionValueType   FunctionValueType;
+  using WaveletFilterBankType = TWaveletFilterBank;
+  using WaveletFilterBankPointer = typename WaveletFilterBankType::Pointer;
+  using WaveletFunctionType = typename WaveletFilterBankType::WaveletFunctionType;
+  using FunctionValueType = typename WaveletFilterBankType::FunctionValueType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -119,7 +119,7 @@ public:
   /** (Level, band) pair.
    * Level from: [0, m_Levels), and equal to m_Levels only for the low_pass image.
    * band from [0, m_HighPassSubbands) */
-  typedef std::pair<unsigned int, unsigned int> IndexPairType;
+  using IndexPairType = std::pair<unsigned int, unsigned int>;
   /** Get the (Level,Band) from a linear index output.
    * The index corresponding to the low-pass image is the last one, corresponding to the
    * IndexPairType(this->GetLevels(), 0).
@@ -142,13 +142,13 @@ public:
 
 protected:
   WaveletFrequencyForwardUndecimated();
-  ~WaveletFrequencyForwardUndecimated() {}
+  ~WaveletFrequencyForwardUndecimated() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Single-threaded version of GenerateData. */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /************ Information *************/
 
@@ -160,16 +160,16 @@ protected:
    * below.
    * \sa ProcessObject::GenerateOutputInformaton()
    */
-  virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  void
+  GenerateOutputInformation() override;
 
   /** Given one output whose requested region has been set, this method sets
    * the requested region for the remaining output images.  The original
    * documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion()
    */
-  virtual void
-  GenerateOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  void
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
   /** WaveletFrequencyForwardUndecimated requires a larger input requested
    * region than the output requested regions to accommodate the shrinkage and
@@ -178,8 +178,8 @@ protected:
    * original documentation of this method is below.
    * \sa ProcessObject::GenerateInputRequestedRegion()
    */
-  virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForwardUndecimated);

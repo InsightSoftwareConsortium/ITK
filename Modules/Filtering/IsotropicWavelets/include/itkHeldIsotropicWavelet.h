@@ -45,11 +45,11 @@ template <typename TFunctionValue = double,
 class HeldIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef HeldIsotropicWavelet                                                       Self;
-  typedef IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                                         Pointer;
-  typedef SmartPointer<const Self>                                                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = HeldIsotropicWavelet;
+  using Superclass = IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,17 +58,17 @@ public:
   itkTypeMacro(HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** FunctionValue type for the function. */
-  typedef typename Superclass::FunctionValueType FunctionValueType;
+  using FunctionValueType = typename Superclass::FunctionValueType;
 
   /** Type used to store gaussian parameters. */
-  typedef FixedArray<double, VImageDimension> ArrayType;
+  using ArrayType = FixedArray<double, VImageDimension>;
 
   /** Evaluate the function */
   FunctionValueType
-  EvaluateMagnitude(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
+  EvaluateMagnitude(const FunctionValueType & freq_norm_in_hz) const override;
 
   /** Gets and sets parameters */
   itkSetMacro(PolynomialOrder, unsigned int);
@@ -79,9 +79,9 @@ public:
 
 protected:
   HeldIsotropicWavelet();
-  virtual ~HeldIsotropicWavelet();
+  ~HeldIsotropicWavelet() override;
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HeldIsotropicWavelet);

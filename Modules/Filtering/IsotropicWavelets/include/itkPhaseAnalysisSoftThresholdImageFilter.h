@@ -44,14 +44,14 @@ template <typename TInputImage,
 class PhaseAnalysisSoftThresholdImageFilter : public PhaseAnalysisImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef PhaseAnalysisSoftThresholdImageFilter               Self;
-  typedef PhaseAnalysisImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  /** Standard class type alias. */
+  using Self = PhaseAnalysisSoftThresholdImageFilter;
+  using Superclass = PhaseAnalysisImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -59,24 +59,24 @@ public:
   /** Runtime information support. */
   itkTypeMacro(PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
 
-  /** Some convenient typedefs. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  /** Some convenient type alias. */
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
-  typedef typename InputImageType::SpacingType    SpacingType;
-  typedef typename InputImageRegionType::SizeType SizeType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using SpacingType = typename InputImageType::SpacingType;
+  using SizeType = typename InputImageRegionType::SizeType;
 
-  typedef SpacingType                               DirectionType;
-  typedef typename InputImageType::SpacingValueType FloatType;
+  using DirectionType = SpacingType;
+  using FloatType = typename InputImageType::SpacingValueType;
 
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   itkSetMacro(ApplySoftThreshold, bool);
   itkGetConstMacro(ApplySoftThreshold, bool);
@@ -96,15 +96,15 @@ public:
 
 protected:
   PhaseAnalysisSoftThresholdImageFilter();
-  ~PhaseAnalysisSoftThresholdImageFilter() {}
+  ~PhaseAnalysisSoftThresholdImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void
+  BeforeThreadedGenerateData() override;
 
-  virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisSoftThresholdImageFilter);

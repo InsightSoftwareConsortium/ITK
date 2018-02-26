@@ -43,13 +43,13 @@ ComputeNumberOfComponents(const unsigned int & order, const unsigned int & dimen
 // explicit instantiation of template functions with std::vector<unsigned int>
 template void
 ComputeUniqueIndices<std::vector<unsigned int>, 3>(
-  std::vector<unsigned int>                                                      subIndice,
+  std::vector<unsigned int>                                                      subIndex,
   std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
   unsigned int                                                                   init);
 
 template void
 ComputeUniqueIndices<std::vector<unsigned int>, 2>(
-  std::vector<unsigned int>                                                      subIndice,
+  std::vector<unsigned int>                                                      subIndex,
   std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
   unsigned int                                                                   init);
 

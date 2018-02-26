@@ -65,14 +65,14 @@ template <typename TInputImage,
 class PhaseAnalysisImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef PhaseAnalysisImageFilter                      Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = PhaseAnalysisImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -80,26 +80,26 @@ public:
   /** Runtime information support. */
   itkTypeMacro(PhaseAnalysisImageFilter, ImageToImageFilter);
 
-  /** Some convenient typedefs. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  /** Some convenient type alias. */
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
-  typedef typename InputImageType::SpacingType    SpacingType;
-  typedef typename InputImageRegionType::SizeType SizeType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using SpacingType = typename InputImageType::SpacingType;
+  using SizeType = typename InputImageRegionType::SizeType;
 
-  typedef SpacingType                               DirectionType;
-  typedef typename InputImageType::SpacingValueType FloatType;
+  using DirectionType = SpacingType;
+  using FloatType = typename InputImageType::SpacingValueType;
 
-  typedef typename OutputImageType::Pointer                        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer                   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType                     OutputImageRegionType;
-  typedef typename itk::ImageScanlineIterator<OutputImageType>     OutputImageRegionIterator;
-  typedef typename OutputImageType::PixelType                      OutputImagePixelType;
-  typedef typename itk::ImageScanlineConstIterator<InputImageType> InputImageRegionConstIterator;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImageRegionIterator = typename itk::ImageScanlineIterator<OutputImageType>;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using InputImageRegionConstIterator = typename itk::ImageScanlineConstIterator<InputImageType>;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /// This ensure that PixelType is float||double, and not complex.
@@ -125,15 +125,15 @@ public:
 
 protected:
   PhaseAnalysisImageFilter();
-  ~PhaseAnalysisImageFilter() {}
+  ~PhaseAnalysisImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void
+  BeforeThreadedGenerateData() override;
 
-  virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   inline OutputImagePixelType
   ComputeFeatureVectorNormSquare(const InputImagePixelType & inputPixel) const

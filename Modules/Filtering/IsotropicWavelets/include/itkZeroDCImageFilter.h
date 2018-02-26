@@ -41,11 +41,11 @@ template <typename TImageType>
 class ZeroDCImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ZeroDCImageFilter                          Self;
-  typedef ImageToImageFilter<TImageType, TImageType> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = ZeroDCImageFilter;
+  using Superclass = ImageToImageFilter<TImageType, TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,24 +54,24 @@ public:
   itkTypeMacro(ZeroDCImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TImageType::RegionType ImageRegionType;
+  using ImageRegionType = typename TImageType::RegionType;
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
 
   /** Inherit some types from superclass. */
-  typedef typename Superclass::InputImageType ImageType;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::Pointer         ImagePointer;
+  using ImageType = typename Superclass::InputImageType;
+  using PixelType = typename ImageType::PixelType;
+  using ImagePointer = typename ImageType::Pointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(ImageTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TImageType::PixelType>));
   // End concept checking
 #endif
-  typedef itk::StatisticsImageFilter<TImageType>  StatisticsFilterType;
-  typedef itk::SubtractImageFilter<ImageType>     SubtractFilterType;
-  typedef typename StatisticsFilterType::RealType RealType;
+  using StatisticsFilterType = itk::StatisticsImageFilter<TImageType>;
+  using SubtractFilterType = itk::SubtractImageFilter<ImageType>;
+  using RealType = typename StatisticsFilterType::RealType;
   RealType
   GetMean() const
   {
@@ -80,13 +80,13 @@ public:
 
 protected:
   ZeroDCImageFilter();
-  virtual ~ZeroDCImageFilter() {}
-
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ZeroDCImageFilter() override {}
 
   void
-  GenerateData() ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
+  void
+  GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ZeroDCImageFilter);

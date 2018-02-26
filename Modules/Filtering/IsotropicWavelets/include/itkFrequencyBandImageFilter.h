@@ -48,11 +48,11 @@ template <typename TImageType,
 class FrequencyBandImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyBandImageFilter                   Self;
-  typedef ImageToImageFilter<TImageType, TImageType> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = FrequencyBandImageFilter;
+  using Superclass = ImageToImageFilter<TImageType, TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,16 +61,16 @@ public:
   itkTypeMacro(FrequencyBandImageFilter, ImageToImageFilter);
 
   /** Typedef to images */
-  typedef TImageType                       ImageType;
-  typedef typename ImageType::Pointer      ImagePointer;
-  typedef typename ImageType::ConstPointer ImageConstPointer;
-  typedef typename TImageType::IndexType   IndexType;
-  typedef typename TImageType::PixelType   PixelType;
+  using ImageType = TImageType;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using IndexType = typename TImageType::IndexType;
+  using PixelType = typename TImageType::PixelType;
 
   /** Typedef to describe the image region type. */
-  typedef typename TImageType::RegionType ImageRegionType;
+  using ImageRegionType = typename TImageType::RegionType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -79,8 +79,8 @@ public:
 #endif
 
   /** Frequency Iterator types */
-  typedef TFrequencyIteratorType                             FrequencyIteratorType;
-  typedef typename FrequencyIteratorType::FrequencyValueType FrequencyValueType;
+  using FrequencyIteratorType = TFrequencyIteratorType;
+  using FrequencyValueType = typename FrequencyIteratorType::FrequencyValueType;
 
   /****** Frequency Threshold Getters/Setters *****/
   /** Band range: Low threshold/boundary in Hertz */
@@ -182,13 +182,13 @@ public:
 protected:
   FrequencyBandImageFilter();
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void
+  BeforeThreadedGenerateData() override;
 
-  virtual void
-  ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void
+  ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyBandImageFilter);

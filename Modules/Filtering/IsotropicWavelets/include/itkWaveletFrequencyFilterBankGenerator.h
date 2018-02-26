@@ -53,11 +53,11 @@ template <typename TOutputImage,
 class WaveletFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {
 public:
-  /** Standard typedefs */
-  typedef WaveletFrequencyFilterBankGenerator    Self;
-  typedef itk::GenerateImageSource<TOutputImage> Superclass;
-  typedef itk::SmartPointer<Self>                Pointer;
-  typedef itk::SmartPointer<const Self>          ConstPointer;
+  /** Standard type alias */
+  using Self = WaveletFrequencyFilterBankGenerator;
+  using Superclass = itk::GenerateImageSource<TOutputImage>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Type macro */
   itkNewMacro(Self);
@@ -66,20 +66,20 @@ public:
   itkTypeMacro(WaveletFrequencyFilterBankGenerator, GenerateImageSourceFilter);
 
   /** Inherit types from Superclass. */
-  typedef typename Superclass::OutputImageType    OutputImageType;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
-  /** Basic typedefs */
-  typedef TFrequencyRegionIterator             OutputRegionIterator;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  /** Basic type alias */
+  using OutputRegionIterator = TFrequencyRegionIterator;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
   /** WaveletFunction types */
-  typedef TWaveletFunction                                WaveletFunctionType;
-  typedef typename WaveletFunctionType::Pointer           WaveletFunctionPointer;
-  typedef typename WaveletFunctionType::FunctionValueType FunctionValueType;
+  using WaveletFunctionType = TWaveletFunction;
+  using WaveletFunctionPointer = typename WaveletFunctionType::Pointer;
+  using FunctionValueType = typename WaveletFunctionType::FunctionValueType;
 
-  typedef typename std::vector<OutputImagePointer> OutputsType;
-  // typedef typename itk::VectorContainer<int, OutputImagePointer> OutputsType;
+  using OutputsType = typename std::vector<OutputImagePointer>;
+  // using OutputsType = typename itk::VectorContainer<int, OutputImagePointer>;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Number of M-Bands decomposition of the high pass filters */
   itkGetMacro(HighPassSubBands, unsigned int);
@@ -133,12 +133,12 @@ public:
 
 protected:
   WaveletFrequencyFilterBankGenerator();
-  virtual ~WaveletFrequencyFilterBankGenerator() {}
+  ~WaveletFrequencyFilterBankGenerator() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  GenerateData() ITK_OVERRIDE;
+  void
+  GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyFilterBankGenerator);

@@ -39,11 +39,11 @@ template <typename TFunctionValue = std::complex<double>,
 class RieszFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RieszFrequencyFunction                                   Self;
-  typedef SpatialFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  /** Standard class type alias. */
+  using Self = RieszFrequencyFunction;
+  using Superclass = SpatialFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,20 +52,20 @@ public:
   itkTypeMacro(RieszFrequencyFunction, FrequencyFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
-  typedef typename Superclass::OutputType FunctionValueType;
-  typedef typename Superclass::OutputType OutputType;
-  typedef typename Superclass::OutputType OutputComplexType;
+  using FunctionValueType = typename Superclass::OutputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputComplexType = typename Superclass::OutputType;
 
   /** Indices Type, user needs to resize it to VImageDimension.
    *  ITK_BUG, dev: it would be better to use std::array or fix itk::FixedArray::ReverseIterator has no operator-, used
    * by std::sort ...
    */
-  typedef std::vector<unsigned int>                                  IndicesArrayType;
-  typedef std::vector<OutputComplexType>                             OutputComponentsType;
-  typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
-  typedef itk::FixedArray<OutputComplexType, VImageDimension>        OutputComplexArrayType;
+  using IndicesArrayType = std::vector<unsigned int>;
+  using OutputComponentsType = std::vector<OutputComplexType>;
+  using SetType = std::set<IndicesArrayType, std::greater<IndicesArrayType>>;
+  using OutputComplexArrayType = itk::FixedArray<OutputComplexType, VImageDimension>;
 
   /**
    * Compute number of components p(N, d), where N = Order, d = Dimension.
@@ -82,17 +82,17 @@ public:
   }
 
   /**
-   * Compute all possible unique indices given the subIndice: (X, 0, ..., 0).
+   * Compute all possible unique indices given the subIndex: (X, 0, ..., 0).
    * Where X can be any number greater than 0, but probably want to use this->m_Order.
    *
-   * @param subIndice Indice (X,0,...,0) where X > 0.
+   * @param subIndex Indice (X,0,...,0) where X > 0.
    * @param uniqueIndices Reference to set that store results.
-   * @param init position to evaluate  subIndice. Needed for recursion purposes.
+   * @param init position to evaluate  subIndex. Needed for recursion purposes.
    */
   static void
-  ComputeUniqueIndices(IndicesArrayType subIndice, SetType & uniqueIndices, unsigned int init = 0)
+  ComputeUniqueIndices(IndicesArrayType subIndex, SetType & uniqueIndices, unsigned int init = 0)
   {
-    itk::utils::ComputeUniqueIndices<IndicesArrayType, VImageDimension>(subIndice, uniqueIndices, init);
+    itk::utils::ComputeUniqueIndices<IndicesArrayType, VImageDimension>(subIndex, uniqueIndices, init);
   }
 
   /**
@@ -114,8 +114,8 @@ public:
   }
 
   /** Evaluate the function at a given frequency point. */
-  virtual FunctionValueType
-  Evaluate(const TInput &) const ITK_OVERRIDE
+  FunctionValueType
+  Evaluate(const TInput &) const override
   {
     itkExceptionMacro("Evaluate(TInput&) is not valid for RieszFrequencyFunction."
                       "Use EvaluateWithIndices(point, indices) or EvaluateAllComponents(point)");
@@ -148,7 +148,7 @@ public:
   EvaluateAllComponents(const TInput & frequency_point) const;
 
   /**
-   * Compute normalizing factor given an indice = (n1,n2,...,nVImageDimension)
+   * Compute normalizing factor given an index = (n1,n2,...,nVImageDimension)
    * Also takes into account this->m_Order = N
    * @param indices input indices.
    *
@@ -201,9 +201,9 @@ public:
 
 protected:
   RieszFrequencyFunction();
-  virtual ~RieszFrequencyFunction();
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~RieszFrequencyFunction() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFunction);

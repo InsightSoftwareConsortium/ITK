@@ -102,11 +102,11 @@ template <typename TImageType>
 class FrequencyExpandImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyExpandImageFilter                 Self;
-  typedef ImageToImageFilter<TImageType, TImageType> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = FrequencyExpandImageFilter;
+  using Superclass = ImageToImageFilter<TImageType, TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -115,18 +115,18 @@ public:
   itkTypeMacro(FrequencyExpandImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TImageType::RegionType ImageRegionType;
+  using ImageRegionType = typename TImageType::RegionType;
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
 
   /** Inherit some types from superclass. */
-  typedef typename Superclass::InputImageType ImageType;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::Pointer         ImagePointer;
+  using ImageType = typename Superclass::InputImageType;
+  using PixelType = typename ImageType::PixelType;
+  using ImagePointer = typename ImageType::Pointer;
 
   /** The type of the expand factors representation */
-  typedef FixedArray<unsigned int, ImageDimension> ExpandFactorsType;
+  using ExpandFactorsType = FixedArray<unsigned int, ImageDimension>;
 
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
@@ -143,16 +143,16 @@ public:
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  void
+  GenerateOutputInformation() override;
 
   /** FrequencyExpandImageFilter needs a smaller input requested region than the output
    * requested region.  As such, ShrinkImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform
    * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -162,12 +162,13 @@ public:
 
 protected:
   FrequencyExpandImageFilter();
-  ~FrequencyExpandImageFilter() {}
+  ~FrequencyExpandImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  GenerateData() ITK_OVERRIDE;
+
+  void
+  GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyExpandImageFilter);

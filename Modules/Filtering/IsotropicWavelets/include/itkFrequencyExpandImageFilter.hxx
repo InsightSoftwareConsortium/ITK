@@ -132,14 +132,14 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
   /// }}}
 
   // Prepare filter to paste the different regions into output.
-  typedef itk::PasteImageFilter<ImageType> PasteFilterType;
-  typename PasteFilterType::Pointer        pasteFilter = PasteFilterType::New();
+  using PasteFilterType = itk::PasteImageFilter<ImageType>;
+  typename PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
   pasteFilter->SetSourceImage(inputPtr);
   pasteFilter->SetDestinationImage(outputPtr);
   pasteFilter->InPlaceOn();
 
-  typedef typename ImageType::RegionType RegionType;
-  ProgressReporter                       progress(this, 0, numberOfRegions);
+  using RegionType = typename ImageType::RegionType;
+  ProgressReporter progress(this, 0, numberOfRegions);
   for (unsigned int n = 0; n < numberOfRegions; ++n)
   {
     subIndices = Ind2Sub<ImageDimension>(n, nsizes);
@@ -192,10 +192,10 @@ FrequencyExpandImageFilter<TImageType>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  TImageType *       inputPtr = const_cast<TImageType *>(this->GetInput());
+  auto *             inputPtr = const_cast<TImageType *>(this->GetInput());
   const TImageType * outputPtr = this->GetOutput();
 
-  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != nullptr);
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr);
 
   // We need to compute the input requested region (size and start index)
@@ -244,7 +244,7 @@ FrequencyExpandImageFilter<TImageType>::GenerateOutputInformation()
   TImageType *       outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr);
-  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != nullptr);
 
   // We need to compute the output spacing, the output image size, and the
   // output image start index

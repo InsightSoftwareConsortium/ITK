@@ -57,25 +57,25 @@ template <typename TFunctionValue = double,
 class IsotropicWaveletFrequencyFunction : public IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef IsotropicWaveletFrequencyFunction                                   Self;
-  typedef IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                                  Pointer;
-  typedef SmartPointer<const Self>                                            ConstPointer;
+  /** Standard class type alias. */
+  using Self = IsotropicWaveletFrequencyFunction;
+  using Superclass = IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(IsotropicWaveletFrequencyFunction, IsotropicFrequencyFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::FunctionValueType FunctionValueType;
-  typedef typename Superclass::OutputType        OutputType;
+  using FunctionValueType = typename Superclass::FunctionValueType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Evaluate Magnitude of frequency point. Evaluate function calls this. */
-  virtual FunctionValueType
-  EvaluateMagnitude(const TFunctionValue & freq_norm_in_hz) const ITK_OVERRIDE = 0;
+  FunctionValueType
+  EvaluateMagnitude(const TFunctionValue & freq_norm_in_hz) const override = 0;
 
   /**** Forward/Analysis ***/
   /** Evaluate the low filter response. */
@@ -117,9 +117,9 @@ public:
   // itkSetMacro(FreqCutOff, FunctionValueType);
 protected:
   IsotropicWaveletFrequencyFunction();
-  virtual ~IsotropicWaveletFrequencyFunction();
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~IsotropicWaveletFrequencyFunction() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   unsigned int      m_HighPassSubBands;
   FunctionValueType m_FreqCutOff;

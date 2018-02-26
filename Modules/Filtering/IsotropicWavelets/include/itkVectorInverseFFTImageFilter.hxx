@@ -34,11 +34,11 @@ itk::VectorInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   this->AllocateOutputs();
 
-  typedef itk::Image<typename InputImageType::PixelType::ComponentType, ImageDimension>  InputSingleImageType;
-  typedef itk::VectorIndexSelectionCastImageFilter<InputImageType, InputSingleImageType> VectorCastFilterType;
-  typedef itk::InverseFFTImageFilter<InputSingleImageType>                               FFTInverseFilterType;
-  typedef typename FFTInverseFilterType::OutputImageType                                 OutputSingleImageType;
-  typedef itk::ComposeImageFilter<OutputSingleImageType, OutputImageType>                ComposeFilterType;
+  using InputSingleImageType = itk::Image<typename InputImageType::PixelType::ComponentType, ImageDimension>;
+  using VectorCastFilterType = itk::VectorIndexSelectionCastImageFilter<InputImageType, InputSingleImageType>;
+  using FFTInverseFilterType = itk::InverseFFTImageFilter<InputSingleImageType>;
+  using OutputSingleImageType = typename FFTInverseFilterType::OutputImageType;
+  using ComposeFilterType = itk::ComposeImageFilter<OutputSingleImageType, OutputImageType>;
 
   typename VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(this->GetInput());

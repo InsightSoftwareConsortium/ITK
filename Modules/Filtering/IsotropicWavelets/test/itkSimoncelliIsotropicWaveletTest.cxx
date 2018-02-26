@@ -26,30 +26,30 @@ itkSimoncelliIsotropicWaveletTest(int, char *[])
 {
   bool testPassed = true;
 
-  typedef double Double;
-  typedef float  Float;
+  using Double = double;
+  using Float = float;
 
-  const unsigned int D3 = 3;
-  const unsigned int D2 = 2;
-  const unsigned int D1 = 1;
+  constexpr unsigned int D3 = 3;
+  constexpr unsigned int D2 = 2;
+  constexpr unsigned int D1 = 1;
 
-  typedef itk::SimoncelliIsotropicWavelet<> Default;
+  using Default = itk::SimoncelliIsotropicWavelet<>;
   Default::New();
 
-  typedef itk::Point<itk::SpacePrecisionType, D3> Point3D;
-  typedef itk::Point<itk::SpacePrecisionType, D2> Point2D;
-  typedef itk::Point<itk::SpacePrecisionType, D1> Point1D;
+  using Point3D = itk::Point<itk::SpacePrecisionType, D3>;
+  using Point2D = itk::Point<itk::SpacePrecisionType, D2>;
+  using Point1D = itk::Point<itk::SpacePrecisionType, D1>;
 
-  typedef itk::SimoncelliIsotropicWavelet<Double, D3, Point3D> Wavelet3D;
-  typedef itk::SimoncelliIsotropicWavelet<Double, D2, Point2D> Wavelet2D;
-  typedef itk::SimoncelliIsotropicWavelet<Double, D1, Point1D> Wavelet1D;
+  using Wavelet3D = itk::SimoncelliIsotropicWavelet<Double, D3, Point3D>;
+  using Wavelet2D = itk::SimoncelliIsotropicWavelet<Double, D2, Point2D>;
+  using Wavelet1D = itk::SimoncelliIsotropicWavelet<Double, D1, Point1D>;
   Wavelet3D::New();
   Wavelet2D::New();
   Wavelet1D::New();
 
-  typedef itk::SimoncelliIsotropicWavelet<Float, D3, Point3D> Wavelet3DFloat;
-  typedef itk::SimoncelliIsotropicWavelet<Float, D2, Point2D> Wavelet2DFloat;
-  typedef itk::SimoncelliIsotropicWavelet<Float, D1, Point1D> Wavelet1DFloat;
+  using Wavelet3DFloat = itk::SimoncelliIsotropicWavelet<Float, D3, Point3D>;
+  using Wavelet2DFloat = itk::SimoncelliIsotropicWavelet<Float, D2, Point2D>;
+  using Wavelet1DFloat = itk::SimoncelliIsotropicWavelet<Float, D1, Point1D>;
   Wavelet3DFloat::New();
   Wavelet2DFloat::New();
   Wavelet1DFloat::New();

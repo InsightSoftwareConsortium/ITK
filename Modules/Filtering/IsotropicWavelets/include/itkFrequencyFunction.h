@@ -35,21 +35,21 @@ template <typename TFunctionValue = double,
 class FrequencyFunction : public SpatialFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FrequencyFunction                                        Self;
-  typedef SpatialFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  /** Standard class type alias. */
+  using Self = FrequencyFunction;
+  using Superclass = SpatialFunction<TFunctionValue, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FrequencyFunction, SpatialFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType FunctionValueType;
-  typedef typename Superclass::OutputType OutputType;
+  using FunctionValueType = typename Superclass::OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /**
    * The evaluate function require frequency in Hertz (1/s)
@@ -61,14 +61,14 @@ public:
     return w_rad_per_sec / (2 * itk::Math::pi);
   };
   /** Evaluate the function at a given frequency point. */
-  virtual FunctionValueType
-  Evaluate(const TInput & frequency_point) const ITK_OVERRIDE = 0;
+  FunctionValueType
+  Evaluate(const TInput & frequency_point) const override = 0;
 
 protected:
   FrequencyFunction() {};
-  virtual ~FrequencyFunction() {};
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  ~FrequencyFunction() override {};
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
   }

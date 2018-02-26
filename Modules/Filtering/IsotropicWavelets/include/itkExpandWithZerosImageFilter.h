@@ -63,11 +63,11 @@ template <typename TInputImage, typename TOutputImage>
 class ExpandWithZerosImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExpandWithZerosImageFilter                    Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = ExpandWithZerosImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,22 +76,22 @@ public:
   itkTypeMacro(ExpandWithZerosImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
   /** Typedef to describe the output image region type. */
-  typedef typename TInputImage::RegionType InputImageRegionType;
+  using InputImageRegionType = typename TInputImage::RegionType;
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Inherit some types from superclass. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename InputImageType::Pointer     InputImagePointer;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** The type of the expand factors representation */
-  typedef FixedArray<unsigned int, ImageDimension> ExpandFactorsType;
+  using ExpandFactorsType = FixedArray<unsigned int, ImageDimension>;
 
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
@@ -108,16 +108,16 @@ public:
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  void
+  GenerateOutputInformation() override;
 
   /** ExpandWithZerosImageFilter needs a smaller input requested region than the output
    * requested region.  As such, ShrinkImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform
    * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -128,9 +128,9 @@ public:
 
 protected:
   ExpandWithZerosImageFilter();
-  ~ExpandWithZerosImageFilter() {}
+  ~ExpandWithZerosImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ExpandWithZerosImageFilter is implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -141,13 +141,14 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void
+  BeforeThreadedGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpandWithZerosImageFilter);

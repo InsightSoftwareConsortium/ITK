@@ -40,10 +40,10 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   bool               testPassed = true;
   const unsigned int Dimension = VDimension;
 
-  typedef std::complex<double>                           OutputType;
-  typedef itk::Point<itk::SpacePrecisionType, Dimension> InputType;
+  using OutputType = std::complex<double>;
+  using InputType = itk::Point<itk::SpacePrecisionType, Dimension>;
 
-  typedef itk::RieszFrequencyFunction<OutputType, Dimension, InputType> RieszFrequencyFunctionType;
+  using RieszFrequencyFunctionType = itk::RieszFrequencyFunction<OutputType, Dimension, InputType>;
   typename RieszFrequencyFunctionType::Pointer rieszFunction = RieszFrequencyFunctionType::New();
 
   InputType frequencyPoint;
@@ -59,25 +59,25 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   {
     accum += frequencyPoint[d] * frequencyPoint[d];
   }
-  itk::SpacePrecisionType frequencyMagnitude = static_cast<itk::SpacePrecisionType>(sqrt(accum));
-  OutputType              trueResult(0, -frequencyPoint[0] / frequencyMagnitude);
+  auto       frequencyMagnitude = static_cast<itk::SpacePrecisionType>(sqrt(accum));
+  OutputType trueResult(0, -frequencyPoint[0] / frequencyMagnitude);
   if (itk::Math::NotAlmostEquals(resultFirstOrderWithIndices, trueResult))
   {
-    std::cerr << "Error. EvaluateWithIndices with order 1, indice (1,...,0):\n actual: " << resultFirstOrderWithIndices
+    std::cerr << "Error. EvaluateWithIndices with order 1, index (1,...,0):\n actual: " << resultFirstOrderWithIndices
               << " expected: " << trueResult << " are not equal!" << std::endl;
   }
 
-  // Test getting subIndices
-  // Init indice has to be sorted in descending order, example:(3,0,0)
-  typename RieszFrequencyFunctionType::IndicesArrayType initIndice;
-  initIndice.resize(Dimension);
-  initIndice[0] = inputOrder;
-  typedef typename RieszFrequencyFunctionType::SetType SetType;
-  SetType                                              uniqueIndices;
-  unsigned int                                         positionToStartProcessing = 0;
-  RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, uniqueIndices, positionToStartProcessing);
+  // Test getting subIndexs
+  // Init index has to be sorted in descending order, example:(3,0,0)
+  typename RieszFrequencyFunctionType::IndicesArrayType initIndex;
+  initIndex.resize(Dimension);
+  initIndex[0] = inputOrder;
+  using SetType = typename RieszFrequencyFunctionType::SetType;
+  SetType      uniqueIndices;
+  unsigned int positionToStartProcessing = 0;
+  RieszFrequencyFunctionType::ComputeUniqueIndices(initIndex, uniqueIndices, positionToStartProcessing);
   std::cout << "UniqueIndices: " << uniqueIndices.size() << std::endl;
-  for (typename SetType::const_iterator it = uniqueIndices.begin(); it != uniqueIndices.end(); ++it)
+  for (auto it = uniqueIndices.begin(); it != uniqueIndices.end(); ++it)
   {
     std::cout << "(";
     for (unsigned int i = 0; i < Dimension; ++i)
@@ -89,7 +89,7 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
 
   SetType allPermutations = RieszFrequencyFunctionType::ComputeAllPermutations(uniqueIndices);
   std::cout << "AllPermutations: " << allPermutations.size() << std::endl;
-  for (typename SetType::const_iterator it = allPermutations.begin(); it != allPermutations.end(); ++it)
+  for (auto it = allPermutations.begin(); it != allPermutations.end(); ++it)
   {
     std::cout << "(";
     for (unsigned int i = 0; i < Dimension; ++i)
@@ -103,23 +103,23 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   unsigned int actualNumberOfComponents = allPermutations.size();
   if (actualNumberOfComponents != expectedNumberOfComponents)
   {
-    std::cerr << "Error. NumberOfComponents for inputOrder: " << inputOrder << " ; actual: " << actualNumberOfComponents
+    std::cerr << "Error. NumberOfComponents for inputOrder: " << inputOrder << "; actual: " << actualNumberOfComponents
               << " expected: " << expectedNumberOfComponents << " are not equal!" << std::endl;
     testPassed = false;
   }
-  // Regression test for indice calculation.
+  // Regression test for index calculation.
   for (unsigned int order = 1; order < 6; ++order)
   {
     uniqueIndices.clear();
     allPermutations.clear();
-    initIndice[0] = order;
-    RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, uniqueIndices /*, 0 */);
+    initIndex[0] = order;
+    RieszFrequencyFunctionType::ComputeUniqueIndices(initIndex, uniqueIndices /*, 0 */);
     allPermutations = RieszFrequencyFunctionType::ComputeAllPermutations(uniqueIndices);
     actualNumberOfComponents = allPermutations.size();
     expectedNumberOfComponents = RieszFrequencyFunctionType::ComputeNumberOfComponents(order);
     if (actualNumberOfComponents != expectedNumberOfComponents)
     {
-      std::cerr << "Error. NumberOfComponents for order: " << order << " ; actual: " << actualNumberOfComponents
+      std::cerr << "Error. NumberOfComponents for order: " << order << "; actual: " << actualNumberOfComponents
                 << " expected: " << expectedNumberOfComponents << " are not equal!" << std::endl;
       testPassed = false;
     }
@@ -128,7 +128,7 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   // Evaluate All Components:
   rieszFunction->SetOrder(inputOrder);
   rieszFunction->DebugOn();
-  typedef typename RieszFrequencyFunctionType::OutputComponentsType OutputComponentType;
+  using OutputComponentType = typename RieszFrequencyFunctionType::OutputComponentsType;
 
   OutputComponentType allComponents = rieszFunction->EvaluateAllComponents(frequencyPoint);
   std::cout << "allComponents:" << std::endl;
@@ -149,7 +149,7 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   }
 
   //   // Get real part of complex image for visualization
-  //   typedef itk::ComplexToRealImageFilter< ComplexImageType, ImageType > ComplexToRealFilter;
+  //   using ComplexToRealFilter = itk::ComplexToRealImageFilter< ComplexImageType, ImageType >;
   //   ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
   //   std::cout << "Real part of complex image:" << std::endl;
   //   for( unsigned int dir = 0; dir < ImageType::ImageDimension; dir++ )

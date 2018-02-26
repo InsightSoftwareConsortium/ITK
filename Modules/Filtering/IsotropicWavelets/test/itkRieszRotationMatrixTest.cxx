@@ -27,9 +27,9 @@ runRieszRotationMatrixTest()
   bool               testPassed = true;
   const unsigned int Dimension = VDimension;
 
-  typedef double                                              ValueType;
-  typedef itk::RieszRotationMatrix<ValueType, Dimension>      SteerableMatrix;
-  typedef typename SteerableMatrix::SpatialRotationMatrixType SpatialRotationMatrix;
+  using ValueType = double;
+  using SteerableMatrix = itk::RieszRotationMatrix<ValueType, Dimension>;
+  using SpatialRotationMatrix = typename SteerableMatrix::SpatialRotationMatrixType;
 
   // Define a spatial rotation matrix.
   SpatialRotationMatrix R;
@@ -67,8 +67,8 @@ runRieszRotationMatrixTest()
   }
   // Check constructors of SteerableMatrix.
   // default
-  SteerableMatrix    Sdefault;
-  const unsigned int order1 = 1;
+  SteerableMatrix        Sdefault;
+  constexpr unsigned int order1 = 1;
   Sdefault.SetOrder(order1);
   Sdefault.SetSpatialRotationMatrix(R);
   // compute

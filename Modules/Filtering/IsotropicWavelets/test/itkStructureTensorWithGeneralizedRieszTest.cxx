@@ -58,32 +58,32 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
 {
   const unsigned int Dimension = VDimension;
 
-  typedef double                           PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  using PixelType = double;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
 
-  typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
-  typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
+  using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
+  typename ZeroDCFilterType::Pointer zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
   zeroDCFilter->Update();
 
   // Perform FFT on input image.
-  typedef itk::ForwardFFTImageFilter<typename ZeroDCFilterType::OutputImageType> FFTForwardFilterType;
+  using FFTForwardFilterType = itk::ForwardFFTImageFilter<typename ZeroDCFilterType::OutputImageType>;
   typename FFTForwardFilterType::Pointer fftForwardFilter = FFTForwardFilterType::New();
   fftForwardFilter->SetInput(zeroDCFilter->GetOutput());
   fftForwardFilter->Update();
-  typedef typename FFTForwardFilterType::OutputImageType ComplexImageType;
+  using ComplexImageType = typename FFTForwardFilterType::OutputImageType;
 
-  typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
+  using InverseFFTFilterType = itk::InverseFFTImageFilter<ComplexImageType, ImageType>;
 
   // Forward Wavelet
-  typedef TWaveletFunction                                                                        WaveletFunctionType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType>         WaveletFilterBankType;
-  typedef itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, WaveletFilterBankType> ForwardWaveletType;
+  using WaveletFunctionType = TWaveletFunction;
+  using WaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType>;
+  using ForwardWaveletType = itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, WaveletFilterBankType>;
   typename ForwardWaveletType::Pointer forwardWavelet = ForwardWaveletType::New();
   unsigned int                         highSubBands = inputBands;
   unsigned int                         levels = inputLevels;
@@ -94,14 +94,14 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   typename ForwardWaveletType::OutputsType analysisWavelets = forwardWavelet->GetOutputs();
 
   // Generalized Riesz Function of Order N.
-  // typedef itk::RieszFrequencyFunction<> FunctionType;
-  typedef itk::RieszFrequencyFilterBankGenerator<ComplexImageType> RieszFilterBankType;
+  // using FunctionType = itk::RieszFrequencyFunction<>;
+  using RieszFilterBankType = itk::RieszFrequencyFilterBankGenerator<ComplexImageType>;
   // // Get iterator to Indices of RieszFunction.
-  // typedef RieszFilterBankType::RieszFunctionType::SetType IndicesType;
+  // using IndicesType = RieszFilterBankType::RieszFunctionType::SetType;
   // IndicesType indices = filterBank->GetModifiableEvaluator()->GetIndices();
   // IndicesType::const_iterator indicesIt = indices.begin();
 
-  typedef itk::MultiplyImageFilter<ComplexImageType> MultiplyFilterType;
+  using MultiplyFilterType = itk::MultiplyImageFilter<ComplexImageType>;
 
   typename ForwardWaveletType::OutputsType modifiedWavelets;
   unsigned int                             numberOfOutputs = forwardWavelet->GetNumberOfOutputs();
@@ -146,9 +146,9 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
       bool visualizeRieszWaveletsInFrequency = false;
       if (visualizeRieszWaveletsInFrequency)
       {
-        itk::NumberToString<unsigned int>                                       n2s;
-        typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType>      ComplexToRealFilterType;
-        typedef itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType> ComplexToImaginaryFilterType;
+        itk::NumberToString<unsigned int> n2s;
+        using ComplexToRealFilterType = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
+        using ComplexToImaginaryFilterType = itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType>;
         typename ComplexToRealFilterType::Pointer      complexToReal = ComplexToRealFilterType::New();
         typename ComplexToImaginaryFilterType::Pointer complexToImaginary = ComplexToImaginaryFilterType::New();
         complexToReal->SetInput(rieszWavelets[rieszComp]);
@@ -164,8 +164,8 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
     }
 
     // Structure Tensor
-    typedef itk::StructureTensor<ImageType> StructureTensorType;
-    typename StructureTensorType::Pointer   tensor = StructureTensorType::New();
+    using StructureTensorType = itk::StructureTensor<ImageType>;
+    typename StructureTensorType::Pointer tensor = StructureTensorType::New();
     tensor->SetInputs(rieszWaveletsSpatial);
     // tensor->SetGaussianWindowRadius(3);
     tensor->Update();
@@ -196,7 +196,7 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   }
 #endif
 
-  typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, WaveletFilterBankType> InverseWaveletType;
+  using InverseWaveletType = itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, WaveletFilterBankType>;
   typename InverseWaveletType::Pointer inverseWavelet = InverseWaveletType::New();
   inverseWavelet->SetHighPassSubBands(highSubBands);
   inverseWavelet->SetLevels(levels);
@@ -214,7 +214,7 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   itk::Testing::ViewImage(inverseFFT->GetOutput(), "Inverse Wavelet");
 #endif
 
-  // typedef itk::ImageFileWriter< typename InverseFFTFilterType::OutputImageType > WriterType;
+  // using WriterType = itk::ImageFileWriter< typename InverseFFTFilterType::OutputImageType >;
   // typename WriterType::Pointer writer = WriterType::New();
   // writer->SetFileName( outputImage );
   // writer->SetInput( inverseFFT->GetOutput() );
@@ -266,10 +266,10 @@ itkStructureTensorWithGeneralizedRieszTest(int argc, char * argv[])
 
   if (dimension == 2)
   {
-    typedef itk::HeldIsotropicWavelet<double, 2>       HeldWavelet;
-    typedef itk::VowIsotropicWavelet<double, 2>        VowWavelet;
-    typedef itk::SimoncelliIsotropicWavelet<double, 2> SimoncelliWavelet;
-    typedef itk::ShannonIsotropicWavelet<double, 2>    ShannonWavelet;
+    using HeldWavelet = itk::HeldIsotropicWavelet<double, 2>;
+    using VowWavelet = itk::VowIsotropicWavelet<double, 2>;
+    using SimoncelliWavelet = itk::SimoncelliIsotropicWavelet<double, 2>;
+    using ShannonWavelet = itk::ShannonIsotropicWavelet<double, 2>;
     if (waveletFunction == "Held")
     {
       return runStructureTensorWithGeneralizedRieszTest<2, HeldWavelet>(
@@ -299,10 +299,10 @@ itkStructureTensorWithGeneralizedRieszTest(int argc, char * argv[])
   }
   else if (dimension == 3)
   {
-    typedef itk::HeldIsotropicWavelet<>       HeldWavelet;
-    typedef itk::VowIsotropicWavelet<>        VowWavelet;
-    typedef itk::SimoncelliIsotropicWavelet<> SimoncelliWavelet;
-    typedef itk::ShannonIsotropicWavelet<>    ShannonWavelet;
+    using HeldWavelet = itk::HeldIsotropicWavelet<>;
+    using VowWavelet = itk::VowIsotropicWavelet<>;
+    using SimoncelliWavelet = itk::SimoncelliIsotropicWavelet<>;
+    using ShannonWavelet = itk::ShannonIsotropicWavelet<>;
     if (waveletFunction == "Held")
     {
       return runStructureTensorWithGeneralizedRieszTest<3, HeldWavelet>(
