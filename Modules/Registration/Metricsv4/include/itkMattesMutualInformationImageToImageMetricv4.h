@@ -26,6 +26,7 @@
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
 #include "itkMutexLockHolder.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
