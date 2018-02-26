@@ -211,10 +211,6 @@ if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRA
 else()
   set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
 endif()
-# Enable BridgeNumPy by default when Python wrapping is enabled
-if(ITK_WRAP_PYTHON AND NOT DEFINED Module_BridgeNumPy)
-  set(Module_BridgeNumPy ON CACHE BOOL "Enable the BridgeNumPy module.")
-endif()
 
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------

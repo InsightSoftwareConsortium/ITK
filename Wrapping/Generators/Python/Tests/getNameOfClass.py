@@ -33,6 +33,7 @@ itk.force_load()
 exclude = ["ForwardFFTImageFilter",
            "InverseFFTImageFilter",
            "OutputWindow",
+           "MultiThreaderBase",
            "FFTComplexToComplexImageFilter",
            "ComplexToComplexFFTImageFilter",
            "templated_class",
