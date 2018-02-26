@@ -50,7 +50,7 @@ runViewImage(int argc, char * argv[])
   using PixelType = float;
   using ImageType = itk::Image<PixelType, dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
 

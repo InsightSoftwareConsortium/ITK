@@ -45,11 +45,11 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
   using FFTPadType = itk::FFTPadPositiveIndexImageFilter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Create the filter
-  FFTPadType::Pointer fftpad = FFTPadType::New();
+  auto fftpad = FFTPadType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(fftpad, FFTPadPositiveIndexImageFilter, ImageToImageFilter);
 
@@ -103,7 +103,7 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
     }
   }
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(fftpad->GetOutput());
   writer->SetFileName(argv[2]);
 

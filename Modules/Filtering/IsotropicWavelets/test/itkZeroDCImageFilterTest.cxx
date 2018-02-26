@@ -38,18 +38,18 @@ runZeroDCImageFilterTest(const std::string & inputImage)
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(inputImage);
 
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
-  typename ZeroDCFilterType::Pointer zeroDCFilter = ZeroDCFilterType::New();
+  auto zeroDCFilter = ZeroDCFilterType::New();
 
   zeroDCFilter->SetInput(reader->GetOutput());
 
   // Perform FFT on zeroDC image and check freq bin 0 has zero value.
   using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  typename FFTForwardFilterType::Pointer fftForwardFilter = FFTForwardFilterType::New();
+  auto fftForwardFilter = FFTForwardFilterType::New();
 
   fftForwardFilter->SetInput(zeroDCFilter->GetOutput());
 
@@ -59,14 +59,14 @@ runZeroDCImageFilterTest(const std::string & inputImage)
   typename ComplexImageType::IndexType zeroIndex;
   zeroIndex.Fill(0);
 
-  typename ComplexImageType::Pointer filteredImg = fftForwardFilter->GetOutput();
+  auto filteredImg = fftForwardFilter->GetOutput();
   filteredImg->DisconnectPipeline();
   typename ComplexImageType::PixelType filteredZeroFreqPixelValue = filteredImg->GetPixel(zeroIndex);
   typename ZeroDCFilterType::RealType  mean = zeroDCFilter->GetMean();
 
   fftForwardFilter->SetInput(reader->GetOutput());
   fftForwardFilter->Update();
-  typename ComplexImageType::Pointer   originalImg = fftForwardFilter->GetOutput();
+  auto                                 originalImg = fftForwardFilter->GetOutput();
   typename ComplexImageType::PixelType originalZeroFreqPixelValue = originalImg->GetPixel(zeroIndex);
 
   if (itk::Math::NotAlmostEquals(filteredZeroFreqPixelValue.real(), 0.0))
@@ -108,12 +108,12 @@ itkZeroDCImageFilterTest(int argc, char * argv[])
   // when calling overloaded base class functions.
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
 
-  ZeroDCFilterType::Pointer zeroDCFilter = ZeroDCFilterType::New();
+  auto zeroDCFilter = ZeroDCFilterType::New();
   EXERCISE_BASIC_OBJECT_METHODS(zeroDCFilter, ZeroDCImageFilter, ImageToImageFilter);
 
   // Perform FFT on zeroDC image and check freq bin 0 has zero value.
   using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  FFTForwardFilterType::Pointer fftForwardFilter = FFTForwardFilterType::New();
+  auto fftForwardFilter = FFTForwardFilterType::New();
 
   if (dimension == 2)
   {

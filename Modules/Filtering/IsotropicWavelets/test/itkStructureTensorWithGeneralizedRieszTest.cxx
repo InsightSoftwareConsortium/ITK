@@ -62,18 +62,18 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
 
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
-  typename ZeroDCFilterType::Pointer zeroDCFilter = ZeroDCFilterType::New();
+  auto zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
   zeroDCFilter->Update();
 
   // Perform FFT on input image.
   using FFTForwardFilterType = itk::ForwardFFTImageFilter<typename ZeroDCFilterType::OutputImageType>;
-  typename FFTForwardFilterType::Pointer fftForwardFilter = FFTForwardFilterType::New();
+  auto fftForwardFilter = FFTForwardFilterType::New();
   fftForwardFilter->SetInput(zeroDCFilter->GetOutput());
   fftForwardFilter->Update();
   using ComplexImageType = typename FFTForwardFilterType::OutputImageType;
@@ -84,9 +84,9 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   using WaveletFunctionType = TWaveletFunction;
   using WaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType>;
   using ForwardWaveletType = itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, WaveletFilterBankType>;
-  typename ForwardWaveletType::Pointer forwardWavelet = ForwardWaveletType::New();
-  unsigned int                         highSubBands = inputBands;
-  unsigned int                         levels = inputLevels;
+  auto         forwardWavelet = ForwardWaveletType::New();
+  unsigned int highSubBands = inputBands;
+  unsigned int levels = inputLevels;
   forwardWavelet->SetHighPassSubBands(highSubBands);
   forwardWavelet->SetLevels(levels);
   forwardWavelet->SetInput(fftForwardFilter->GetOutput());
@@ -115,7 +115,7 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
       continue;
     }
 
-    typename RieszFilterBankType::Pointer filterBank = RieszFilterBankType::New();
+    auto filterBank = RieszFilterBankType::New();
     filterBank->SetOutputParametersFromImage(analysisWavelets[i]);
     filterBank->SetOrder(inputRieszOrder);
     filterBank->Update();
@@ -126,12 +126,12 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
     for (unsigned int rieszComp = 0; rieszComp < filterBank->GetNumberOfOutputs(); ++rieszComp)
     {
       // Multiply wavelet with riesz.
-      typename MultiplyFilterType::Pointer multiplyWaveletRiesz = MultiplyFilterType::New();
+      auto multiplyWaveletRiesz = MultiplyFilterType::New();
       multiplyWaveletRiesz->SetInput1(analysisWavelets[i]);
       multiplyWaveletRiesz->SetInput2(rieszOutputs[rieszComp]);
       multiplyWaveletRiesz->Update();
       rieszWavelets.push_back(multiplyWaveletRiesz->GetOutput());
-      typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+      auto inverseFFT = InverseFFTFilterType::New();
       inverseFFT->SetInput(rieszWavelets[rieszComp]);
       inverseFFT->Update();
       rieszWaveletsSpatial.push_back(inverseFFT->GetOutput());
@@ -149,8 +149,8 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
         itk::NumberToString<unsigned int> n2s;
         using ComplexToRealFilterType = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
         using ComplexToImaginaryFilterType = itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType>;
-        typename ComplexToRealFilterType::Pointer      complexToReal = ComplexToRealFilterType::New();
-        typename ComplexToImaginaryFilterType::Pointer complexToImaginary = ComplexToImaginaryFilterType::New();
+        auto complexToReal = ComplexToRealFilterType::New();
+        auto complexToImaginary = ComplexToImaginaryFilterType::New();
         complexToReal->SetInput(rieszWavelets[rieszComp]);
         complexToReal->Update();
         itk::Testing::ViewImage(complexToReal->GetOutput(),
@@ -165,11 +165,11 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
 
     // Structure Tensor
     using StructureTensorType = itk::StructureTensor<ImageType>;
-    typename StructureTensorType::Pointer tensor = StructureTensorType::New();
+    auto tensor = StructureTensorType::New();
     tensor->SetInputs(rieszWaveletsSpatial);
     // tensor->SetGaussianWindowRadius(3);
     tensor->Update();
-    typename FFTForwardFilterType::Pointer fftForwardTensor = FFTForwardFilterType::New();
+    auto fftForwardTensor = FFTForwardFilterType::New();
     fftForwardTensor->SetInput(tensor->ComputeProjectionImageWithLargestResponse());
     fftForwardTensor->Update();
 
@@ -184,8 +184,8 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   {
     for (unsigned int i = 0; i < forwardWavelet->GetNumberOfOutputs(); ++i)
     {
-      itk::NumberToString<unsigned int>      n2s;
-      typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+      itk::NumberToString<unsigned int> n2s;
+      auto                              inverseFFT = InverseFFTFilterType::New();
       inverseFFT->SetInput(analysisWavelets[i]);
       inverseFFT->Update();
       itk::Testing::ViewImage(inverseFFT->GetOutput(), "WaveletCoef: output #" + n2s(i));
@@ -197,7 +197,7 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
 #endif
 
   using InverseWaveletType = itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, WaveletFilterBankType>;
-  typename InverseWaveletType::Pointer inverseWavelet = InverseWaveletType::New();
+  auto inverseWavelet = InverseWaveletType::New();
   inverseWavelet->SetHighPassSubBands(highSubBands);
   inverseWavelet->SetLevels(levels);
   inverseWavelet->SetInputs(modifiedWavelets);
@@ -205,7 +205,7 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   inverseWavelet->Print(std::cout);
   inverseWavelet->Update();
 
-  typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+  auto inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(inverseWavelet->GetOutput());
   inverseFFT->Update();
 
@@ -215,7 +215,7 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
 #endif
 
   // using WriterType = itk::ImageFileWriter< typename InverseFFTFilterType::OutputImageType >;
-  // typename WriterType::Pointer writer = WriterType::New();
+  // auto writer = WriterType::New();
   // writer->SetFileName( outputImage );
   // writer->SetInput( inverseFFT->GetOutput() );
   //

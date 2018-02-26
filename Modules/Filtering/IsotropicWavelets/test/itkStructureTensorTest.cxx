@@ -105,7 +105,7 @@ runStructureTensorTest()
 
   // Structure Tensor
   using StructureTensorType = itk::StructureTensor<ImageType>;
-  typename StructureTensorType::Pointer tensor = StructureTensorType::New();
+  auto tensor = StructureTensorType::New();
   // Test Set/Get
   // WindowRadius
   unsigned int nonDefaultGaussianRadius = 3;
@@ -121,7 +121,7 @@ runStructureTensorTest()
   // Use a external, new GaussianSource:
   // The gaussian source is modified in BeforeThreadedGenerateData() only if
   // the source has different sigma or radius than this class.
-  typename StructureTensorType::GaussianSourceType::Pointer gaussianSource = tensor->GetModifiableGaussianSource();
+  auto gaussianSource = tensor->GetModifiableGaussianSource();
   gaussianSource = StructureTensorType::GaussianSourceType::New();
 
   std::vector<typename ImageType::Pointer> inputs;
@@ -130,9 +130,9 @@ runStructureTensorTest()
   tensor->SetInputs(inputs);
   tensor->Update();
 
-  typename StructureTensorType::OutputImageType::Pointer eigenImage = tensor->GetOutput();
-  unsigned                                               eigenMatrixRows = eigenImage->GetPixel(start).Rows();
-  unsigned                                               eigenMatrixCols = eigenImage->GetPixel(start).Cols();
+  auto     eigenImage = tensor->GetOutput();
+  unsigned eigenMatrixRows = eigenImage->GetPixel(start).Rows();
+  unsigned eigenMatrixCols = eigenImage->GetPixel(start).Cols();
   if (eigenMatrixRows != nInputs || eigenMatrixCols != nInputs + 1)
   {
     testFailed = true;
@@ -157,20 +157,20 @@ runStructureTensorTest()
     itk::Testing::ViewImage(projectImage.GetPointer(), "eigen number: " + n2s(eigenNumber));
 #endif
   }
-  typename ImageType::Pointer coherencyImage = tensor->ComputeCoherencyImage();
+  auto coherencyImage = tensor->ComputeCoherencyImage();
 #ifdef ITK_VISUALIZE_TESTS
   itk::Testing::ViewImage(coherencyImage.GetPointer(), "Coherency image");
 #endif
 
   // Compare to known result
   // The projected image from the largest eigenValue must be all ones.
-  typename ImageType::Pointer validImage = ImageType::New();
+  auto validImage = ImageType::New();
   validImage->SetRegions(region);
   validImage->Allocate();
   validImage->FillBuffer(1);
 
   using ComparisonType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  typename ComparisonType::Pointer diff = ComparisonType::New();
+  auto diff = ComparisonType::New();
 
   diff->SetValidInput(validImage);
   diff->SetTestInput(largestEigenValueProjectionImage);

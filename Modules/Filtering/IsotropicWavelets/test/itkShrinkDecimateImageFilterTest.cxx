@@ -45,7 +45,7 @@ runShrinkDecimateImageFilterTest()
   region.SetSize(size);
   region.SetIndex(index);
 
-  typename ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->SetLargestPossibleRegion(region);
   input->SetBufferedRegion(region);
   input->Allocate();
@@ -60,7 +60,7 @@ runShrinkDecimateImageFilterTest()
   }
 
   using DecimatorType = itk::ShrinkDecimateImageFilter<ImageType, ImageType>;
-  typename DecimatorType::Pointer decimator = DecimatorType::New();
+  auto decimator = DecimatorType::New();
 
   try
   {
@@ -134,7 +134,7 @@ itkShrinkDecimateImageFilterTest(int argc, char * argv[])
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using ShrinkDecimateImageFilterType = itk::ShrinkDecimateImageFilter<ImageType, ImageType>;
-  ShrinkDecimateImageFilterType::Pointer decimator = ShrinkDecimateImageFilterType::New();
+  auto decimator = ShrinkDecimateImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(decimator, ShrinkDecimateImageFilter, ImageToImageFilter);
 

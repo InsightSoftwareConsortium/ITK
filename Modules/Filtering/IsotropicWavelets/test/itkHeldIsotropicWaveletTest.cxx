@@ -54,7 +54,7 @@ itkHeldIsotropicWaveletTest(int, char *[])
   Wavelet2DFloat::New();
   Wavelet1DFloat::New();
 
-  Wavelet2DFloat::Pointer wavelet2Dfloat = Wavelet2DFloat::New();
+  auto wavelet2Dfloat = Wavelet2DFloat::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(wavelet2Dfloat, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 

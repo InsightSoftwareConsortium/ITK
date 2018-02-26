@@ -54,14 +54,14 @@ runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string & inputIm
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image.
   using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  typename FFTFilterType::Pointer fftFilter = FFTFilterType::New();
+  auto fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
   fftFilter->Update();
   using ComplexImageType = typename FFTFilterType::OutputImageType;
@@ -69,8 +69,8 @@ runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string & inputIm
   using WaveletFunctionType = TWaveletFunction;
   using WaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType>;
 
-  typename WaveletFilterBankType::Pointer forwardFilterBank = WaveletFilterBankType::New();
-  unsigned int                            highSubBands = inputBands;
+  auto         forwardFilterBank = WaveletFilterBankType::New();
+  unsigned int highSubBands = inputBands;
   forwardFilterBank->SetHighPassSubBands(highSubBands);
   typename ComplexImageType::SizeType inputSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
   forwardFilterBank->SetSize(inputSize);
@@ -81,13 +81,13 @@ runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string & inputIm
   unsigned int shrinkFactor = 2;
   // using ShrinkFilterType = itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType>;
   using ShrinkFilterType = itk::FrequencyShrinkImageFilter<ComplexImageType>;
-  typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+  auto shrinkFilter = ShrinkFilterType::New();
   // shrinkFilter->SetInput(forwardFilterBank->GetOutputHighPass());
   shrinkFilter->SetInput(forwardFilterBank->GetOutputLowPass());
   shrinkFilter->SetShrinkFactors(shrinkFactor);
   shrinkFilter->Update();
 
-  typename WaveletFilterBankType::Pointer forwardFilterBankDown = WaveletFilterBankType::New();
+  auto forwardFilterBankDown = WaveletFilterBankType::New();
   forwardFilterBankDown->SetHighPassSubBands(highSubBands);
   typename ComplexImageType::SizeType halfSize;
   for (unsigned int i = 0; i < Dimension; ++i)
@@ -100,7 +100,7 @@ runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string & inputIm
   // Compare Images
 #ifdef ITK_VISUALIZE_TESTS
   using ComplexToRealFilter = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
-  typename ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
+  auto complexToRealFilter = ComplexToRealFilter::New();
   complexToRealFilter->SetInput(shrinkFilter->GetOutput());
   complexToRealFilter->Update();
   itk::Testing::ViewImage(complexToRealFilter->GetOutput(), "shrinked (by half) FilterBank");
@@ -146,17 +146,17 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
   using SimoncelliIsotropicWaveletType = itk::SimoncelliIsotropicWavelet<PixelType, ImageDimension, PointType>;
   using ShannonIsotropicWaveletType = itk::ShannonIsotropicWavelet<PixelType, ImageDimension, PointType>;
 
-  HeldIsotropicWaveletType::Pointer heldIsotropicWavelet = HeldIsotropicWaveletType::New();
+  auto heldIsotropicWavelet = HeldIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(heldIsotropicWavelet, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-  VowIsotropicWaveletType::Pointer vowIsotropicWavelet = VowIsotropicWaveletType::New();
+  auto vowIsotropicWavelet = VowIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(vowIsotropicWavelet, VowIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-  SimoncelliIsotropicWaveletType::Pointer simoncellidIsotropicWavelet = SimoncelliIsotropicWaveletType::New();
+  auto simoncellidIsotropicWavelet = SimoncelliIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
     simoncellidIsotropicWavelet, SimoncelliIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-  ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
+  auto shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   using HeldWavelet = itk::HeldIsotropicWavelet<>;
@@ -169,20 +169,19 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
   using SimoncelliWaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, SimoncelliWavelet>;
   using ShannonWaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, ShannonWavelet>;
 
-  HeldWaveletFilterBankType::Pointer heldWaveletFilterBankGenerator = HeldWaveletFilterBankType::New();
+  auto heldWaveletFilterBankGenerator = HeldWaveletFilterBankType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
     heldWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 
-  VowWaveletFilterBankType::Pointer vowWaveletFilterBankGenerator = VowWaveletFilterBankType::New();
+  auto vowWaveletFilterBankGenerator = VowWaveletFilterBankType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
     vowWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 
-  SimoncelliWaveletFilterBankType::Pointer simoncelliWaveletFilterBankGenerator =
-    SimoncelliWaveletFilterBankType::New();
+  auto simoncelliWaveletFilterBankGenerator = SimoncelliWaveletFilterBankType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
     simoncelliWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 
-  ShannonWaveletFilterBankType::Pointer shannonWaveletFilterBankGenerator = ShannonWaveletFilterBankType::New();
+  auto shannonWaveletFilterBankGenerator = ShannonWaveletFilterBankType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
     shannonWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 

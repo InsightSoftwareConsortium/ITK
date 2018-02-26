@@ -54,8 +54,8 @@ itkVowIsotropicWaveletTest(int, char *[])
   Wavelet2DFloat::New();
   Wavelet1DFloat::New();
 
-  Wavelet2DFloat::Pointer wavelet2Dfloat = Wavelet2DFloat::New();
-  Point2D                 point2D;
+  auto    wavelet2Dfloat = Wavelet2DFloat::New();
+  Point2D point2D;
   point2D[0] = 0.2;
   point2D[1] = 0.2;
   double freq2D = wavelet2Dfloat->Magnitude(point2D);

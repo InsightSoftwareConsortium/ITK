@@ -44,21 +44,21 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
   using PixelType = float;
   using ImageType = itk::Image<PixelType, dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image.
   using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  FFTForwardFilterType::Pointer fftForwardFilter = FFTForwardFilterType::New();
+  auto fftForwardFilter = FFTForwardFilterType::New();
   fftForwardFilter->SetInput(reader->GetOutput());
   fftForwardFilter->Update();
   using ComplexImageType = FFTForwardFilterType::OutputImageType;
 
   // Perform inverse FFT on forwardFFT image.
   using FFTInverseFilterType = itk::InverseFFTImageFilter<ComplexImageType>;
-  FFTInverseFilterType::Pointer fftInverseFilter = FFTInverseFilterType::New();
+  auto fftInverseFilter = FFTInverseFilterType::New();
   fftInverseFilter->SetInput(fftForwardFilter->GetOutput());
   fftInverseFilter->Update();
 
@@ -67,7 +67,7 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
   unsigned int numComponents = 2;
   // Create vector from forwardFFT.
   using ComposeComplexFilterType = itk::ComposeImageFilter<ComplexImageType>;
-  ComposeComplexFilterType::Pointer composeComplexFilter = ComposeComplexFilterType::New();
+  auto composeComplexFilter = ComposeComplexFilterType::New();
   for (unsigned int c = 0; c < numComponents; c++)
   {
     composeComplexFilter->SetInput(c, fftForwardFilter->GetOutput());
@@ -76,18 +76,18 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
 
   // Do the inverse of the composeComplexFilter using the class to test.
   using VectorInverseFFTType = itk::VectorInverseFFTImageFilter<ComposeComplexFilterType::OutputImageType>;
-  VectorInverseFFTType::Pointer vecInverseFFT = VectorInverseFFTType::New();
+  auto vecInverseFFT = VectorInverseFFTType::New();
   vecInverseFFT->SetInput(composeComplexFilter->GetOutput());
   vecInverseFFT->Update();
 
   using VectorCastFilterType = itk::VectorIndexSelectionCastImageFilter<VectorInverseFFTType::OutputImageType,
                                                                         FFTInverseFilterType::OutputImageType>;
-  VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
+  auto vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(vecInverseFFT->GetOutput());
 
   using DifferenceFilterType =
     itk::Testing::ComparisonImageFilter<FFTInverseFilterType::OutputImageType, FFTInverseFilterType::OutputImageType>;
-  DifferenceFilterType::Pointer differenceFilter = DifferenceFilterType::New();
+  auto differenceFilter = DifferenceFilterType::New();
   differenceFilter->SetToleranceRadius(0);
   differenceFilter->SetDifferenceThreshold(0);
   for (unsigned int c = 0; c < numComponents; c++)

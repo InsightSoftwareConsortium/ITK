@@ -404,15 +404,15 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   m_WaveletFilterBankPyramid.clear();
 
   using CastFilterType = itk::CastImageFilter<InputImageType, OutputImageType>;
-  typename CastFilterType::Pointer castFilter = CastFilterType::New();
+  auto castFilter = CastFilterType::New();
   castFilter->SetInput(input);
   castFilter->Update();
   OutputImagePointer inputPerLevel = castFilter->GetOutput();
   using ChangeInformationFilterType = itk::ChangeInformationImageFilter<OutputImageType>;
-  typename ChangeInformationFilterType::Pointer changeInputInfoFilter = ChangeInformationFilterType::New();
-  typename InputImageType::PointType            origin_old = inputPerLevel->GetOrigin();
-  typename InputImageType::SpacingType          spacing_old = inputPerLevel->GetSpacing();
-  typename InputImageType::PointType            origin_new = origin_old;
+  auto                                 changeInputInfoFilter = ChangeInformationFilterType::New();
+  typename InputImageType::PointType   origin_old = inputPerLevel->GetOrigin();
+  typename InputImageType::SpacingType spacing_old = inputPerLevel->GetSpacing();
+  typename InputImageType::PointType   origin_new = origin_old;
   origin_new.Fill(0);
   typename InputImageType::SpacingType spacing_new = spacing_old;
   spacing_new.Fill(1);
@@ -458,7 +458,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       unsigned int n_output = level * this->m_HighPassSubBands + band;
       /******* Band dilation factor for HighPass bands *****/
       //  2^(1/#bands) instead of Dyadic dilations.
-      typename MultiplyFilterType::Pointer multiplyByAnalysisBandFactor = MultiplyFilterType::New();
+      auto multiplyByAnalysisBandFactor = MultiplyFilterType::New();
       multiplyByAnalysisBandFactor->SetInput1(highPassWavelets[band]);
       // double expBandFactor = 0;
       // double expBandFactor = - static_cast<double>(level*ImageDimension)/2.0;
@@ -470,7 +470,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       // multiplyByAnalysisBandFactor->InPlaceOn();
       multiplyByAnalysisBandFactor->Update();
 
-      typename MultiplyFilterType::Pointer multiplyHighBandFilter = MultiplyFilterType::New();
+      auto multiplyHighBandFilter = MultiplyFilterType::New();
       multiplyHighBandFilter->SetInput1(multiplyByAnalysisBandFactor->GetOutput());
       multiplyHighBandFilter->SetInput2(inputPerLevel);
       multiplyHighBandFilter->InPlaceOn();
@@ -481,7 +481,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       this->GraftNthOutput(n_output, multiplyHighBandFilter->GetOutput());
     }
     /******* Calculate LowPass band *****/
-    typename MultiplyFilterType::Pointer multiplyLowFilter = MultiplyFilterType::New();
+    auto multiplyLowFilter = MultiplyFilterType::New();
     multiplyLowFilter->SetInput1(lowPassWavelet);
     multiplyLowFilter->SetInput2(inputPerLevel);
     // multiplyLowFilter->InPlaceOn();
@@ -489,7 +489,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
     inputPerLevel = multiplyLowFilter->GetOutput();
 
     // Shrink in the frequency domain the stored low band for the next level.
-    typename LocalFrequencyShrinkFilterType::Pointer freqShrinkFilter = LocalFrequencyShrinkFilterType::New();
+    auto freqShrinkFilter = LocalFrequencyShrinkFilterType::New();
     freqShrinkFilter->SetInput(inputPerLevel);
     freqShrinkFilter->SetShrinkFactors(this->m_ScaleFactor);
 
@@ -506,11 +506,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       freqShrinkFilter->Update();
       inputPerLevel = freqShrinkFilter->GetOutput();
       /******* DownSample wavelets *****/
-      typename ShrinkDecimateFilterType::Pointer decimateWaveletFilter = ShrinkDecimateFilterType::New();
+      auto decimateWaveletFilter = ShrinkDecimateFilterType::New();
       decimateWaveletFilter->SetInput(lowPassWavelet);
       decimateWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
       decimateWaveletFilter->Update();
-      typename ChangeInformationFilterType::Pointer changeDecimateInfoFilter = ChangeInformationFilterType::New();
+      auto changeDecimateInfoFilter = ChangeInformationFilterType::New();
       changeDecimateInfoFilter->SetInput(decimateWaveletFilter->GetOutput());
       changeDecimateInfoFilter->ChangeAll();
       changeDecimateInfoFilter->UseReferenceImageOn();
@@ -520,11 +520,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       lowPassWavelet->DisconnectPipeline();
       for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
       {
-        typename ShrinkDecimateFilterType::Pointer decimateHPWaveletFilter = ShrinkDecimateFilterType::New();
+        auto decimateHPWaveletFilter = ShrinkDecimateFilterType::New();
         decimateHPWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
         decimateHPWaveletFilter->SetInput(highPassWavelets[band]);
         decimateHPWaveletFilter->Update();
-        typename ChangeInformationFilterType::Pointer changeHPDecimateInfoFilter = ChangeInformationFilterType::New();
+        auto changeHPDecimateInfoFilter = ChangeInformationFilterType::New();
         changeHPDecimateInfoFilter->ChangeAll();
         changeHPDecimateInfoFilter->UseReferenceImageOn();
         changeHPDecimateInfoFilter->SetReferenceImage(inputPerLevel);

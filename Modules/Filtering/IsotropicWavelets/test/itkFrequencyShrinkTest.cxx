@@ -57,26 +57,24 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
-
   reader->Update();
 
   // Calculate mean value and subtract
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
-  typename ZeroDCFilterType::Pointer zeroDCFilter = ZeroDCFilterType::New();
-
+  auto zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
 
   // Perform FFT on input image.
   using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  typename FFTFilterType::Pointer fftFilter = FFTFilterType::New();
+  auto fftFilter = FFTFilterType::New();
   fftFilter->SetInput(zeroDCFilter->GetOutput());
   using ComplexImageType = typename FFTFilterType::OutputImageType;
 
   // ShrinkFrequency
   using ShrinkType = itk::FrequencyShrinkImageFilter<ComplexImageType>;
-  typename ShrinkType::Pointer shrinkFilter = ShrinkType::New();
+  auto shrinkFilter = ShrinkType::New();
 
   unsigned int                           shrinkFactor = 2;
   typename ShrinkType::ShrinkFactorsType shrinkFactors;
@@ -98,7 +96,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
 
   // InverseFFT
   using InverseFFTFilterType = itk::InverseFFTImageFilter<ComplexImageType, ImageType>;
-  typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+  auto inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(shrinkFilter->GetOutput());
 
   inverseFFT->Update();
@@ -139,7 +137,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
     // Check that complex part is almost 0 after FFT and complex inverse FFT.
     {
       using ComplexFFTType = itk::ComplexToComplexFFTImageFilter<ComplexImageType>;
-      typename ComplexFFTType::Pointer complexInverseFFT = ComplexFFTType::New();
+      auto complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(fftFilter->GetOutput());
 
@@ -173,7 +171,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
     // Check that complex part is almost 0 filter is correct after shrink
     {
       using ComplexFFTType = itk::ComplexToComplexFFTImageFilter<ComplexImageType>;
-      typename ComplexFFTType::Pointer complexInverseFFT = ComplexFFTType::New();
+      auto complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(shrinkFilter->GetOutput());
 
@@ -234,8 +232,8 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   //
 
   using ChangeInformationFilterType = itk::ChangeInformationImageFilter<ComplexImageType>;
-  typename ChangeInformationFilterType::Pointer changeInputInfoFilter = ChangeInformationFilterType::New();
-  typename ComplexImageType::PointType          origin_new;
+  auto                                 changeInputInfoFilter = ChangeInformationFilterType::New();
+  typename ComplexImageType::PointType origin_new;
   origin_new.Fill(0);
   typename ComplexImageType::SpacingType spacing_new;
   spacing_new.Fill(1);
@@ -249,22 +247,22 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   changeInputInfoFilter->SetOutputSpacing(spacing_new);
   changeInputInfoFilter->Update();
 
-  typename ShrinkType::Pointer shrinkBandFilter = ShrinkType::New();
-  bool                         applyBandFilter = true;
+  auto shrinkBandFilter = ShrinkType::New();
+  bool applyBandFilter = true;
   TEST_SET_GET_BOOLEAN(shrinkBandFilter, ApplyBandFilter, applyBandFilter);
   shrinkBandFilter->SetInput(changeInputInfoFilter->GetOutput());
   bool lowFreqThresholdPassing = true;
   bool highFreqThresholdPassing = true;
   shrinkBandFilter->GetFrequencyBandFilter()->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
 
-  typename ShrinkType::Pointer shrinkNoIntersectionFilter = ShrinkType::New();
+  auto shrinkNoIntersectionFilter = ShrinkType::New();
   TEST_SET_GET_BOOLEAN(shrinkNoIntersectionFilter, ApplyBandFilter, applyBandFilter);
   shrinkNoIntersectionFilter->SetInput(changeInputInfoFilter->GetOutput());
   lowFreqThresholdPassing = true;
   highFreqThresholdPassing = false;
   shrinkNoIntersectionFilter->GetFrequencyBandFilter()->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
 
-  typename ShrinkType::Pointer shrinkIntersectionPassFilter = ShrinkType::New();
+  auto shrinkIntersectionPassFilter = ShrinkType::New();
   TEST_SET_GET_BOOLEAN(shrinkIntersectionPassFilter, ApplyBandFilter, applyBandFilter);
   shrinkIntersectionPassFilter->SetInput(changeInputInfoFilter->GetOutput());
   lowFreqThresholdPassing = true;
@@ -275,17 +273,17 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
                                                                       highFreqThresholdPassing);
 
   using AddFilterType = itk::AddImageFilter<ComplexImageType, ComplexImageType>;
-  typename AddFilterType::Pointer addFilter = AddFilterType::New();
+  auto addFilter = AddFilterType::New();
   addFilter->SetInput1(shrinkNoIntersectionFilter->GetOutput());
   addFilter->SetInput2(shrinkIntersectionPassFilter->GetOutput());
-  typename InverseFFTFilterType::Pointer inverseFFTAdd = InverseFFTFilterType::New();
+  auto inverseFFTAdd = InverseFFTFilterType::New();
   inverseFFTAdd->SetInput(addFilter->GetOutput());
 
-  typename InverseFFTFilterType::Pointer inverseFFTShrinkBand = InverseFFTFilterType::New();
+  auto inverseFFTShrinkBand = InverseFFTFilterType::New();
   inverseFFTShrinkBand->SetInput(shrinkBandFilter->GetOutput());
 
   using DifferenceFilterType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  typename DifferenceFilterType::Pointer differenceFilter = DifferenceFilterType::New();
+  auto differenceFilter = DifferenceFilterType::New();
   differenceFilter->SetToleranceRadius(0);
   differenceFilter->SetDifferenceThreshold(0);
   differenceFilter->SetValidInput(inverseFFTShrinkBand->GetOutput());
@@ -303,12 +301,11 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   // Write output
   using FloatImageType = itk::Image<float, Dimension>;
   using CastType = itk::CastImageFilter<ImageType, FloatImageType>;
-  typename CastType::Pointer castFilter = CastType::New();
-
+  auto castFilter = CastType::New();
   castFilter->SetInput(inverseFFT->GetOutput());
 
   using WriterType = itk::ImageFileWriter<FloatImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputImage);
   writer->SetInput(castFilter->GetOutput());
 
@@ -319,7 +316,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   itk::Testing::ViewImage(inverseFFT->GetOutput(), "FrequencyShrinker");
   // Compare with regular shrink filter.
   using RegularShrinkType = itk::ShrinkImageFilter<ImageType, ImageType>;
-  typename RegularShrinkType::Pointer regularShrinkFilter = RegularShrinkType::New();
+  auto regularShrinkFilter = RegularShrinkType::New();
   regularShrinkFilter->SetInput(zeroDCFilter->GetOutput());
   regularShrinkFilter->SetShrinkFactors(2);
   regularShrinkFilter->Update();
@@ -327,22 +324,22 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
 
   // Complex to real
   using ComplexToRealFilter = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
-  typename ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
+  auto complexToRealFilter = ComplexToRealFilter::New();
   complexToRealFilter->SetInput(fftFilter->GetOutput());
   complexToRealFilter->Update();
   itk::Testing::ViewImage(complexToRealFilter->GetOutput(), "ComplexToReal. Original");
-  typename ComplexToRealFilter::Pointer complexToRealFilterShrink = ComplexToRealFilter::New();
+  auto complexToRealFilterShrink = ComplexToRealFilter::New();
   complexToRealFilterShrink->SetInput(shrinkFilter->GetOutput());
   complexToRealFilterShrink->Update();
   itk::Testing::ViewImage(complexToRealFilterShrink->GetOutput(), "ComplexToReal. Shrinked");
 
   // Complex to imaginary
   // using ComplexToImaginaryFilter = itk::ComplexToImaginaryImageFilter< ComplexImageType, ImageType >;
-  // typename ComplexToImaginaryFilter::Pointer complexToImaginaryFilter = ComplexToImaginaryFilter::New();
+  // auto complexToImaginaryFilter = ComplexToImaginaryFilter::New();
   // complexToImaginaryFilter->SetInput( fftFilter->GetOutput() );
   // complexToImaginaryFilter->Update();
   // itk::Testing::ViewImage( complexToImaginaryFilter->GetOutput(), "ComplexToImaginary. Original" );
-  // typename ComplexToImaginaryFilter::Pointer complexToImaginaryFilterShrink = ComplexToImaginaryFilter::New();
+  // auto complexToImaginaryFilterShrink = ComplexToImaginaryFilter::New();
   // complexToImaginaryFilterShrink->SetInput( shrinkFilter->GetOutput() );
   // complexToImaginaryFilterShrink->Update();
   // itk::Testing::ViewImage( complexToImaginaryFilterShrink->GetOutput(), "ComplexToImaginary. Shrinked" );
@@ -381,7 +378,7 @@ itkFrequencyShrinkTest(int argc, char * argv[])
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using ShrinkType = itk::FrequencyShrinkImageFilter<ComplexImageType>;
-  ShrinkType::Pointer shrinkFilter = ShrinkType::New();
+  auto shrinkFilter = ShrinkType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(shrinkFilter, FrequencyShrinkImageFilter, ImageToImageFilter);
 

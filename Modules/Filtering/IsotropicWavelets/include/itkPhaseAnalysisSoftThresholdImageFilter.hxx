@@ -87,9 +87,9 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenera
 
   Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
 
-  typename OutputImageType::Pointer phasePtr = this->GetOutputPhase();
-  typename OutputImageType::Pointer amplitudePtr = this->GetOutputAmplitude();
-  typename OutputImageType::Pointer outputPtr = this->GetOutputCosPhase();
+  auto phasePtr = this->GetOutputPhase();
+  auto amplitudePtr = this->GetOutputAmplitude();
+  auto outputPtr = this->GetOutputCosPhase();
 
   // Wait for mean/variance calculation. Stats only once.
   if (this->GetApplySoftThreshold())
@@ -98,7 +98,7 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenera
     if (threadId == this->GetNumberOfThreads() - 1)
     {
       using StatisticsImageFilter = itk::StatisticsImageFilter<OutputImageType>;
-      typename StatisticsImageFilter::Pointer statsFilter = StatisticsImageFilter::New();
+      auto statsFilter = StatisticsImageFilter::New();
       statsFilter->SetInput(amplitudePtr);
       statsFilter->Update();
       this->m_MeanAmp = statsFilter->GetMean();

@@ -51,14 +51,14 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image
   using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  FFTFilterType::Pointer fftFilter = FFTFilterType::New();
+  auto fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
   fftFilter->Update();
 
@@ -66,7 +66,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
 
   // using FunctionType = itk::RieszFrequencyFunction<>;
   using RieszFilterBankType = itk::RieszFrequencyFilterBankGenerator<ComplexImageType>;
-  RieszFilterBankType::Pointer filterBank = RieszFilterBankType::New();
+  auto filterBank = RieszFilterBankType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
 
@@ -89,9 +89,9 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
 
   // Get real part of complex image for visualization
   using ComplexToRealFilter = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
-  ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
+  auto complexToRealFilter = ComplexToRealFilter::New();
   using ComplexToImaginaryFilter = itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType>;
-  ComplexToImaginaryFilter::Pointer complexToImaginaryFilter = ComplexToImaginaryFilter::New();
+  auto complexToImaginaryFilter = ComplexToImaginaryFilter::New();
   std::cout << "Order: " << inputOrder << std::endl;
   bool orderIsEven = (inputOrder % 2 == 0);
   if (orderIsEven)

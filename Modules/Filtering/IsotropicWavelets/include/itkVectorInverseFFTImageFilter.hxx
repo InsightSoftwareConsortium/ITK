@@ -27,7 +27,7 @@ void
 itk::VectorInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
@@ -40,11 +40,11 @@ itk::VectorInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   using OutputSingleImageType = typename FFTInverseFilterType::OutputImageType;
   using ComposeFilterType = itk::ComposeImageFilter<OutputSingleImageType, OutputImageType>;
 
-  typename VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
+  auto vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(this->GetInput());
   progress->RegisterInternalFilter(vectorCastFilter, 1.0 / this->GetInput()->GetNumberOfComponentsPerPixel());
-  typename FFTInverseFilterType::Pointer fftInverseFilter = FFTInverseFilterType::New();
-  typename ComposeFilterType::Pointer    composeFilter = ComposeFilterType::New();
+  auto fftInverseFilter = FFTInverseFilterType::New();
+  auto composeFilter = ComposeFilterType::New();
 
   std::vector<typename OutputSingleImageType::Pointer> inverseFFToutputs;
   for (unsigned int c = 0; c < this->GetInput()->GetNumberOfComponentsPerPixel(); c++)

@@ -42,7 +42,7 @@ ZeroDCImageFilter<TImageType>::GenerateData()
   ImagePointer outputPtr = this->GetOutput();
 
   this->AllocateOutputs();
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   /***** Calculate mean value and substract: ****/

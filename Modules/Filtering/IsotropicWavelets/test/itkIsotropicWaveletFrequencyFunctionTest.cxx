@@ -63,7 +63,7 @@ runIsotropicWaveletFrequencyFunctionTest(const std::string & profileDataRootPath
 {
   itk::NumberToString<float> n2s;
   using WaveletFunctionType = TWaveletFunction;
-  typename WaveletFunctionType::Pointer motherWavelet = WaveletFunctionType::New();
+  auto motherWavelet = WaveletFunctionType::New();
   motherWavelet->SetHighPassSubBands(inputBands);
 
   double              init = 0.0;

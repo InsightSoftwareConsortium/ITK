@@ -58,19 +58,19 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
 
   // Calculate mean value and subtract
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
-  typename ZeroDCFilterType::Pointer zeroDCFilter = ZeroDCFilterType::New();
+  auto zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
   zeroDCFilter->Update();
 
   // Perform FFT on input image.
   using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  typename FFTFilterType::Pointer fftFilter = FFTFilterType::New();
+  auto fftFilter = FFTFilterType::New();
   fftFilter->SetInput(zeroDCFilter->GetOutput());
   fftFilter->Update();
 
@@ -80,13 +80,13 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
 
   /*********** EXPAND ***************/
   using ExpandType = itk::FrequencyExpandImageFilter<ComplexImageType>;
-  typename ExpandType::Pointer expandFilter = ExpandType::New();
+  auto expandFilter = ExpandType::New();
   expandFilter->SetInput(fftFilter->GetOutput());
   expandFilter->SetExpandFactors(resizeFactor);
   expandFilter->Update();
 
   using ExpandViaInverseFFTType = itk::FrequencyExpandViaInverseFFTImageFilter<ComplexImageType>;
-  typename ExpandViaInverseFFTType::Pointer expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
+  auto expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
   expandViaInverseFFTFilter->SetInput(fftFilter->GetOutput());
 
   typename ExpandViaInverseFFTType::ExpandFactorsType expandFactors;
@@ -100,10 +100,10 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   TRY_EXPECT_NO_EXCEPTION(expandViaInverseFFTFilter->Update());
 
   // #ifdef ITK_VISUALIZE_TESTS
-  //   typename InverseFFTFilterType::Pointer inverseFFTExpand1 = InverseFFTFilterType::New();
+  //   auto inverseFFTExpand1 = InverseFFTFilterType::New();
   //   inverseFFTExpand1->SetInput(expandFilter->GetOutput());
   //   inverseFFTExpand1->Update();
-  //   typename InverseFFTFilterType::Pointer inverseFFTExpand2 = InverseFFTFilterType::New();
+  //   auto inverseFFTExpand2 = InverseFFTFilterType::New();
   //   inverseFFTExpand2->SetInput(expandViaInverseFFTFilter->GetOutput());
   //   inverseFFTExpand2->Update();
   //   itk::Testing::ViewImage(inverseFFTExpand1->GetOutput(), "Expand via frequency manipulation");
@@ -112,14 +112,14 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
 
   /*********** SHRINK ***************/
   using ShrinkType = itk::FrequencyShrinkImageFilter<ComplexImageType>;
-  typename ShrinkType::Pointer shrinkFilter = ShrinkType::New();
+  auto shrinkFilter = ShrinkType::New();
   shrinkFilter->SetInput(expandFilter->GetOutput());
   shrinkFilter->SetShrinkFactors(resizeFactor);
 
   TRY_EXPECT_NO_EXCEPTION(shrinkFilter->Update());
 
   using ShrinkViaInverseFFTType = itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType>;
-  typename ShrinkViaInverseFFTType::Pointer shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
+  auto shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
   shrinkViaInverseFFTFilter->SetInput(expandViaInverseFFTFilter->GetOutput());
 
   typename ShrinkViaInverseFFTType::ShrinkFactorsType shrinkFactors;
@@ -157,10 +157,10 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
 
   /*********** InverseFFT ***************/
 
-  typename InverseFFTFilterType::Pointer inverseFFT1 = InverseFFTFilterType::New();
+  auto inverseFFT1 = InverseFFTFilterType::New();
   inverseFFT1->SetInput(shrinkFilter->GetOutput());
   inverseFFT1->Update();
-  typename InverseFFTFilterType::Pointer inverseFFT2 = InverseFFTFilterType::New();
+  auto inverseFFT2 = InverseFFTFilterType::New();
   inverseFFT2->SetInput(shrinkViaInverseFFTFilter->GetOutput());
   inverseFFT2->Update();
 
@@ -172,10 +172,9 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   // Comparison
   // Via direct frequency manipulation.
   using DifferenceFilterType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  typename DifferenceFilterType::Pointer differenceFilter = DifferenceFilterType::New();
+  auto differenceFilter = DifferenceFilterType::New();
   differenceFilter->SetToleranceRadius(0);
   differenceFilter->SetDifferenceThreshold(0.000001);
-
   differenceFilter->SetValidInput(zeroDCFilter->GetOutput());
   differenceFilter->SetTestInput(inverseFFT1->GetOutput());
   differenceFilter->Update();
@@ -208,11 +207,11 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   // Write output
   using FloatImageType = itk::Image<float, Dimension>;
   using CastType = itk::CastImageFilter<ImageType, FloatImageType>;
-  typename CastType::Pointer castFilter = CastType::New();
+  auto castFilter = CastType::New();
   castFilter->SetInput(inverseFFT2->GetOutput());
 
   using WriterType = itk::ImageFileWriter<FloatImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputImage);
   writer->SetInput(castFilter->GetOutput());
 
@@ -249,12 +248,12 @@ itkFrequencyExpandAndShrinkTest(int argc, char * argv[])
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using ExpandViaInverseFFTType = itk::FrequencyExpandViaInverseFFTImageFilter<ComplexImageType>;
-  ExpandViaInverseFFTType::Pointer expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
+  auto expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(expandViaInverseFFTFilter, FrequencyExpandViaInverseFFTImageFilter, ImageToImageFilter);
 
   using ShrinkViaInverseFFTType = itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType>;
-  ShrinkViaInverseFFTType::Pointer shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
+  auto shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(shrinkViaInverseFFTFilter, FrequencyShrinkViaInverseFFTImageFilter, ImageToImageFilter);
 

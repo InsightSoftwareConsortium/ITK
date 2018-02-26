@@ -47,14 +47,14 @@ runExpandWithZerosImageFilterTest(unsigned int expandFactor)
   region.SetIndex(inputIndex);
   region.SetSize(size);
 
-  typename ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->SetLargestPossibleRegion(region);
   input->SetBufferedRegion(region);
   input->Allocate();
   input->FillBuffer(1);
 
   using ExpanderType = itk::ExpandWithZerosImageFilter<ImageType, ImageType>;
-  typename ExpanderType::Pointer expander = ExpanderType::New();
+  auto expander = ExpanderType::New();
 
   typename ExpanderType::ExpandFactorsType expandFactors;
   expandFactors.Fill(expandFactor);
@@ -113,13 +113,13 @@ runExpandWithZerosImageFilterTest(unsigned int expandFactor)
 
   // Test than expand with zeros + shrinkage (decimate) results on input image.
   using DecimatorType = itk::ShrinkDecimateImageFilter<ImageType, ImageType>;
-  typename DecimatorType::Pointer decimator = DecimatorType::New();
+  auto decimator = DecimatorType::New();
   decimator->SetShrinkFactors(expandFactors);
   decimator->SetInput(expander->GetOutput());
   decimator->Update();
 
   using DifferenceFilterType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  typename DifferenceFilterType::Pointer differenceFilter = DifferenceFilterType::New();
+  auto differenceFilter = DifferenceFilterType::New();
   differenceFilter->SetToleranceRadius(0);
   differenceFilter->SetDifferenceThreshold(0.000001);
   differenceFilter->SetValidInput(input);
@@ -164,7 +164,7 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using ExpanderType = itk::ExpandWithZerosImageFilter<ImageType, ImageType>;
-  ExpanderType::Pointer expander = ExpanderType::New();
+  auto expander = ExpanderType::New();
   EXERCISE_BASIC_OBJECT_METHODS(expander, ExpandWithZerosImageFilter, ImageToImageFilter);
 
   // Parse input arguments

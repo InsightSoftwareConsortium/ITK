@@ -61,13 +61,13 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
 
   // Perform FFT on input image.
   using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
-  typename FFTFilterType::Pointer fftFilter = FFTFilterType::New();
+  auto fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
 
   using ComplexImageType = typename FFTFilterType::OutputImageType;
@@ -80,11 +80,11 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
   unsigned int highSubBands = inputBands;
   unsigned int levels = inputLevels;
 
-  typename ForwardWaveletType::Pointer forwardWavelet = ForwardWaveletType::New();
+  auto forwardWavelet = ForwardWaveletType::New();
   forwardWavelet->SetHighPassSubBands(highSubBands);
   forwardWavelet->SetLevels(levels);
   forwardWavelet->SetInput(fftFilter->GetOutput());
-  typename WaveletFunctionType::Pointer waveletInstance = forwardWavelet->GetModifiableWaveletFunction();
+  auto waveletInstance = forwardWavelet->GetModifiableWaveletFunction();
   waveletInstance->Print(std::cout);
   forwardWavelet->Update();
 
@@ -133,10 +133,10 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
 
   // Inverse FFT Transform (Multilevel)
   using InverseFFTFilterType = itk::InverseFFTImageFilter<ComplexImageType, ImageType>;
-  typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+  auto inverseFFT = InverseFFTFilterType::New();
 
   using WriterType = itk::ImageFileWriter<typename InverseFFTFilterType::OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   typename ComplexImageType::SpacingType inputSpacing;
   inputSpacing.Fill(1.0);
@@ -266,17 +266,17 @@ itkWaveletFrequencyForwardTest(int argc, char * argv[])
   using SimoncelliIsotropicWaveletType = itk::SimoncelliIsotropicWavelet<PixelType, ImageDimension, PointType>;
   using ShannonIsotropicWaveletType = itk::ShannonIsotropicWavelet<PixelType, ImageDimension, PointType>;
 
-  HeldIsotropicWaveletType::Pointer heldIsotropicWavelet = HeldIsotropicWaveletType::New();
+  auto heldIsotropicWavelet = HeldIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(heldIsotropicWavelet, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-  VowIsotropicWaveletType::Pointer vowIsotropicWavelet = VowIsotropicWaveletType::New();
+  auto vowIsotropicWavelet = VowIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(vowIsotropicWavelet, VowIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-  SimoncelliIsotropicWaveletType::Pointer simoncellidIsotropicWavelet = SimoncelliIsotropicWaveletType::New();
+  auto simoncellidIsotropicWavelet = SimoncelliIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
     simoncellidIsotropicWavelet, SimoncelliIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-  ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
+  auto shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   using HeldWavelet = itk::HeldIsotropicWavelet<>;
@@ -291,22 +291,22 @@ itkWaveletFrequencyForwardTest(int argc, char * argv[])
 
   using HeldForwardWaveletType =
     itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, HeldWaveletFilterBankType>;
-  HeldForwardWaveletType::Pointer heldForwardWavelet = HeldForwardWaveletType::New();
+  auto heldForwardWavelet = HeldForwardWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(heldForwardWavelet, WaveletFrequencyForward, ImageToImageFilter);
 
   using VowForwardWaveletType =
     itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, VowWaveletFilterBankType>;
-  VowForwardWaveletType::Pointer vowForwardWavelet = VowForwardWaveletType::New();
+  auto vowForwardWavelet = VowForwardWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(vowForwardWavelet, WaveletFrequencyForward, ImageToImageFilter);
 
   using SimoncelliForwardWaveletType =
     itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, SimoncelliWaveletFilterBankType>;
-  SimoncelliForwardWaveletType::Pointer simoncelliForwardWavelet = SimoncelliForwardWaveletType::New();
+  auto simoncelliForwardWavelet = SimoncelliForwardWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(simoncelliForwardWavelet, WaveletFrequencyForward, ImageToImageFilter);
 
   using ShannonForwardWaveletType =
     itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, ShannonWaveletFilterBankType>;
-  ShannonForwardWaveletType::Pointer shannonForwardWavelet = ShannonForwardWaveletType::New();
+  auto shannonForwardWavelet = ShannonForwardWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonForwardWavelet, WaveletFrequencyForward, ImageToImageFilter);
 
   if (dimension == 2)
