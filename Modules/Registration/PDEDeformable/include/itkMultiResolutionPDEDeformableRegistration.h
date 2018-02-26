@@ -32,7 +32,7 @@ namespace itk
  * deformable registration.
  *
  * MultiResolutionPDEDeformableRegistration provides a generic framework
- * to peform multi-resolution deformable registration.
+ * to perform multi-resolution deformable registration.
  *
  * At each resolution level a PDEDeformableRegistrationFilter is used
  * to register two images by computing the deformation field which will
@@ -53,7 +53,7 @@ namespace itk
  * pyramid level. If no such assumption can be made (e.g. the deformation field
  * has the same characteristics as the input images), an initial deformation
  * field can still be set via SetArbitraryInitialDisplacementField or
- * SetInput. The filter will then take care of mathching the coarsest level
+ * SetInput. The filter will then take care of matching the coarsest level
  * characteristics. If no initial field is set a zero field is used as the
  * initial condition.
  *
