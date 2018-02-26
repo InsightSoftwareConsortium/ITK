@@ -504,6 +504,8 @@ class SwigInputGenerator(object):
         args = []
         for arg in constructor.arguments:
             s = "%s %s" % (self.get_alias(self.getDeclarationString(arg), w), arg.name)
+            if 'unknown' in s:
+                continue
             # append the default value if it exists
             if arg.default_value:
                 s += " = %s" % arg.default_value
@@ -565,6 +567,8 @@ class SwigInputGenerator(object):
         args = []
         for arg in method.arguments:
             s = "%s %s" % (self.get_alias(self.getDeclarationString(arg), w), arg.name)
+            if 'unknown' in s:
+                continue
             if "(" in s:
                 self.warn(
                     1, "ignoring method not supported by swig '%s::%s'." %

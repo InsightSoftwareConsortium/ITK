@@ -22,6 +22,7 @@
 #include "itkPoint.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {

@@ -23,6 +23,7 @@
 #include "itkCovariantVector.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
