@@ -22,6 +22,7 @@
 #include <cmath>
 #include <algorithm>
 #include <itkFixedArray.h>
+#include <itkMath.h>
 #include <itkSize.h>
 
 namespace itk
@@ -65,7 +66,7 @@ ComputeMaxNumberOfLevels(const Size<VImageDimension> & inputSize, const unsigned
     // check that exponent is integer: the fractional part is 0
     double exponentIntPart;
     double exponentFractionPart = std::modf(exponent, &exponentIntPart);
-    if (exponentFractionPart == 0)
+    if (itk::Math::FloatAlmostEqual(exponentFractionPart, 0.0))
     {
       exponentPerAxis[axis] = static_cast<unsigned int>(exponent);
     }
@@ -78,7 +79,7 @@ ComputeMaxNumberOfLevels(const Size<VImageDimension> & inputSize, const unsigned
         double division = sizeAtLevel / static_cast<double>(scaleFactor);
         double intPartDivision;
         double fractionPartDivision = std::modf(division, &intPartDivision);
-        if (fractionPartDivision == 0)
+        if (itk::Math::FloatAlmostEqual(fractionPartDivision, 0.0))
         {
           exponentPerAxis[axis]++;
           sizeAtLevel = intPartDivision;
