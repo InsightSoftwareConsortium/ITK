@@ -152,8 +152,8 @@ def LoadModule(name, namespace=None):
     for k, v in module.__dict__.items():
         if not k.startswith('__'):
             setattr(this_module.swig, k, v)
-        if namespace is not None and not k.startswith('__'):
-            setattr(swig, k, v)
+            if namespace is not None:
+                setattr(swig, k, v)
 
     data = module_data[name]
     if data:
