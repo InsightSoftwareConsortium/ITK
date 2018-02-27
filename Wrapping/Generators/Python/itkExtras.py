@@ -17,6 +17,7 @@
 #==========================================================================*/
 
 from __future__ import print_function
+import re
 
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
@@ -477,6 +478,16 @@ def search(s, case_sensitive=False):  # , fuzzy=True):
     return res
 
 
+# Helpers for set_inputs snake case to CamelCase keyword argument conversion
+_snake_underscore_re = re.compile('(_)([a-z0-9A-Z])')
+def _underscore_upper(matchobj):
+    return matchobj.group(2).upper()
+def _snake_to_camel(keyword):
+    camel = keyword[0].upper()
+    if _snake_underscore_re.search(keyword[1:]):
+        return camel + _snake_underscore_re.sub(_underscore_upper, keyword[1:])
+    return camel + keyword[1:]
+
 def set_inputs(newItkObject, args=[], kargs={}):
     """Set the inputs of the given objects, according to the non named or the
     named parameters in args and kargs
@@ -556,6 +567,8 @@ def set_inputs(newItkObject, args=[], kargs={}):
         # with the full name
         # (Ex: itk.ImageFileReader.UC2.New(SetFileName='image.png'))
         if attribName not in ["auto_progress", "template_parameters"]:
+            if attribName.islower():
+                attribName = _snake_to_camel(attribName)
             attrib = getattr(newItkObject, 'Set' + attribName)
             attrib(output(value))
 
