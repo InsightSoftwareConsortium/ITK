@@ -137,6 +137,25 @@ testComputeMaxNumberOfLevels()
     testPassed = false;
   }
 
+  // With odd values
+  scaleFactor = 2;
+  inputSize.Fill(111);
+  expected = 1;
+  result = itk::utils::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+
+  scaleFactor = 2;
+  inputSize.Fill(112);
+  // four division by the scale factor resulting in an integer.
+  // 112 / 2 / 2 / 2 / 2 = 7
+  expected = 5;
+  result = itk::utils::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+
+  if (result != expected)
+  {
+    printComputeMaxNumberOfLevelsError(inputSize, scaleFactor, expected, result);
+    testPassed = false;
+  }
+
   return testPassed;
 }
 

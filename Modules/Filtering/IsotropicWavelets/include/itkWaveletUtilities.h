@@ -52,12 +52,14 @@ IndexToLevelBandSteerablePyramid(unsigned int linearIndex, unsigned int levels, 
 /** Compute max number of levels depending on the size of the image.
  * Return J: $ J = \text{min_element}\{J_0,\ldots, J_d\} $;
  * where each $J_i$ is the  number of integer divisions that can be done with the $i$ size and the scale factor.
+ * returns 1 if any size is not divisible by the scale factor.
  */
 template <unsigned int VImageDimension>
 unsigned int
 ComputeMaxNumberOfLevels(const Size<VImageDimension> & inputSize, const unsigned int & scaleFactor)
 {
   FixedArray<unsigned int, VImageDimension> exponentPerAxis;
+  // The minimum level is 1.
   exponentPerAxis.Fill(1);
   for (unsigned int axis = 0; axis < VImageDimension; ++axis)
   {
@@ -91,7 +93,8 @@ ComputeMaxNumberOfLevels(const Size<VImageDimension> & inputSize, const unsigned
       }
     }
   }
-  // return the min_element of array (1 if any size is not power of 2)
+  // return the min_element of array:
+  //  - 1 is any size is not divisible by scale factor
   return *std::min_element(exponentPerAxis.Begin(), exponentPerAxis.End());
 }
 
