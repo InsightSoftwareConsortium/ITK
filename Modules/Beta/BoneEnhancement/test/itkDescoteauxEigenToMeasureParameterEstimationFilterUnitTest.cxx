@@ -39,7 +39,7 @@ public:
   typedef typename itk::DescoteauxEigenToMeasureParameterEstimationFilter< EigenImageType, SpatialObjectType>
                                                         FilterType;
   typedef typename FilterType::Pointer                  FilterPointerType;
-  typedef typename FilterType::ParameterType            ParameterType;
+  typedef typename FilterType::ParameterArrayType       ParameterArrayType;
 
   itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest() {
     /* Instantiate filter */
@@ -135,23 +135,23 @@ protected:
   EigenValueArrayType                 m_OneEigenPixel;
   EigenValueArrayType                 m_ZeroEigenPixel;
   EigenValueArrayType                 m_LargeEigenPixel;
-  ParameterType                       m_Parameters;
+  ParameterArrayType                  m_Parameters;
   typename EigenImageType::RegionType m_Region;
   typename SpatialObjectType::Pointer m_SpatialObject;
 };
 }
 
 // Define the templates we would like to test
-typedef ::testing::Types<char, int, float> TestingLabelTypes;
+typedef ::testing::Types<double, float> TestingLabelTypes;
 TYPED_TEST_CASE(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, TestingLabelTypes);
 
 TYPED_TEST(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, InitialParameters) {
   EXPECT_DOUBLE_EQ(0.5, this->m_Filter->GetFrobeniusNormWeight());
 
   this->m_Parameters = this->m_Filter->GetParameters();
-  EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[0]);
-  EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[1]);
-  EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[2]);
+  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[0]);
+  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[1]);
+  EXPECT_DOUBLE_EQ(1.0, this->m_Parameters[2]);
 }
 
 TYPED_TEST(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, TestZerosImage) {

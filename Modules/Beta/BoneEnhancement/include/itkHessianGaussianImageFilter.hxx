@@ -205,17 +205,18 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
   m_ImageAdaptor->SetImage( this->GetOutput() );
 
   m_ImageAdaptor->SetLargestPossibleRegion(
-    inputImage->GetLargestPossibleRegion() );
+    this->GetOutput()->GetLargestPossibleRegion() );
 
   m_ImageAdaptor->SetBufferedRegion(
-    inputImage->GetBufferedRegion() );
+    this->GetOutput()->GetRequestedRegion() );
 
   m_ImageAdaptor->SetRequestedRegion(
-    inputImage->GetRequestedRegion() );
+    this->GetOutput()->GetRequestedRegion() );
 
   m_ImageAdaptor->Allocate();
 
   m_DerivativeFilter->SetInput(inputImage);
+  m_DerivativeFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
   unsigned int element = 0;
   int order[ImageDimension];

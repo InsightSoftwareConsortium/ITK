@@ -41,11 +41,14 @@ public:
   typedef typename itk::DescoteauxEigenToMeasureImageFilter< EigenImageType, OutputPixelType, SpatialObjectType>
                                                         FilterType;
   typedef typename FilterType::Pointer                  FilterPointerType;
-  typedef typename FilterType::ParameterType            ParameterType;
+  typedef typename FilterType::ParameterArrayType       ParameterArrayType;
 
   itkDescoteauxEigenToMeasureImageFilterUnitTest() {
     /* Instantiate filter */
     m_Filter = FilterType::New();
+
+    /* Set parameter size */
+    m_Parameters.SetSize(3);
 
     /* Create EigenPixels */
     for (unsigned int i=0; i < m_OneEigenPixel.Length; ++i)
@@ -150,7 +153,7 @@ protected:
   EigenValueArrayType                 m_ZeroEigenPixel;
   EigenValueArrayType                 m_NonZeroEigenPixel;
   EigenValueArrayType                 m_NonZeroDarkEigenPixel;
-  ParameterType                       m_Parameters;
+  ParameterArrayType                  m_Parameters;
   typename EigenImageType::RegionType m_Region;
   typename EigenImageType::RegionType m_MaskRegion;
   typename SpatialObjectType::Pointer m_SpatialObject;
@@ -195,7 +198,6 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelBri
   this->m_Parameters[2] = 0.25;
   this->m_Filter->SetParameters(this->m_Parameters);
   this->m_Filter->SetInput(this->m_NonZeroEigenImage);
-  this->m_Filter->Update();
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
@@ -217,7 +219,6 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelDar
   this->m_Filter->SetParameters(this->m_Parameters);
   this->m_Filter->SetInput(this->m_NonZeroEigenImage);
   this->m_Filter->SetEnhanceDarkObjects();
-  this->m_Filter->Update();
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
@@ -238,7 +239,6 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixe
   this->m_Parameters[2] = 0.25;
   this->m_Filter->SetParameters(this->m_Parameters);
   this->m_Filter->SetInput(this->m_NonZeroDarkEigenImage);
-  this->m_Filter->Update();
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
@@ -260,7 +260,6 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixe
   this->m_Filter->SetParameters(this->m_Parameters);
   this->m_Filter->SetInput(this->m_NonZeroDarkEigenImage);
   this->m_Filter->SetEnhanceDarkObjects();
-  this->m_Filter->Update();
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
@@ -282,7 +281,6 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestWithSpatialObject
   this->m_Filter->SetParameters(this->m_Parameters);
   this->m_Filter->SetInput(this->m_NonZeroEigenImage);
   this->m_Filter->SetMaskingSpatialObject(this->m_SpatialObject);
-  this->m_Filter->Update();
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 

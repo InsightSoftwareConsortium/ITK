@@ -24,15 +24,19 @@
 #include "itkImageAlgorithm.h"
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkImageRegionSplitterBase.h"
+#include "itkImageRegionSplitterSlowDimension.h"
 
 namespace itk
 {
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
-::EigenToMeasureParameterEstimationFilter() :
-  m_CurrentSplit(0)
+
+template< typename TInputImage, typename TInputSpatialObject >
+EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
+::EigenToMeasureParameterEstimationFilter()
 {
+  /* Set stream parameters */
+  this->SetNumberOfStreamDivisions(10);
+  this->SetRegionSplitter(ImageRegionSplitterSlowDimension::New());
+
   /* We require an input image */
   this->SetNumberOfRequiredInputs( 1 );
 
@@ -41,54 +45,14 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunc
 
   /* Allocate parameterset decorator */
   typename ParameterDecoratedType::Pointer output = ParameterDecoratedType::New();
-  ParameterType initialParameters;
-  for (unsigned int i = 0; i < initialParameters.Length; ++i){
-    initialParameters[i] = 0;
-  }
+  ParameterArrayType initialParameters;
   output->Set(initialParameters);
-  this->ProcessObject::SetNthOutput( 1,  output.GetPointer() );
+  this->SetNthOutput( 1,  output.GetPointer() );
 }
 
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
-::~EigenToMeasureParameterEstimationFilter()
-{}
-
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
+template< typename TInputImage, typename TInputSpatialObject >
 void
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
-::ThreadedGenerateData(const InputImageRegionType& region, unsigned int streamNumber)
-{
-  /* If size is zero, return */
-  if (region.GetSize(0) == 0)
-  {
-    return;
-  }
-
-  /* Get input pointers */
-  InputImageConstPointer inputPointer = this->GetInput();
-  SpatialObjectConstPointer maskPointer = this->GetMaskingSpatialObject();
-  typename InputImageType::PointType point;
-
-  /* Setup iterator */
-  ImageRegionConstIteratorWithIndex< TInputImage > inputIt(inputPointer, region);
-
-  /* Iterate and count */
-  inputIt.GoToBegin();
-  while ( !inputIt.IsAtEnd() )
-  {
-    inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ( (!maskPointer) ||  (maskPointer->IsInside(point)) )
-    {
-      m_Functor.ProcessPixel(inputIt.Get(), streamNumber);
-    }
-    ++inputIt;
-  }
-}
-
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
-void
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
+EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
 ::UpdateOutputData(DataObject *itkNotUsed(output))
 {
   /** Prevent chasing our tail */
@@ -145,8 +109,10 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunc
     numDivisions = numDivisionsFromSplitter;
   }
 
-  /* Tell the functor the number of times we will call it (potentially) */
-  m_Functor.Initialize(this->GetNumberOfStreamDivisions() * this->GetNumberOfThreads());
+  // Call a method that can be overridden by a subclass to perform
+  // some calculations prior to splitting the main computations into
+  // separate threads
+  this->BeforeThreadedGenerateData();
 
   /**
    * Loop over the number of pieces, execute the upstream pipeline on each
@@ -156,45 +122,47 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunc
        piece < numDivisions && !this->GetAbortGenerateData();
        piece++ )
   {
-    /* Set the current peice */
-    m_CurrentSplit = piece;
-
     /* Determine the split region and calculate the input */
-    InputImageRegionType streamRegion = outputRegion;
+    InputImageRegionType streamRegion;
+    this->CallCopyOutputRegionToInputRegion(streamRegion, outputRegion);
+
     this->GetRegionSplitter()->GetSplit(piece, numDivisions, streamRegion);
     inputPtr->SetRequestedRegion(streamRegion);
     inputPtr->PropagateRequestedRegion();
     inputPtr->UpdateOutputData();
 
-    /* Setup a multithreadign process */
-    ThreadStruct str;
-    str.Filter = this;
+    // /* Setup a multithreadign process */
+    // ThreadStruct str;
+    // str.Filter = this;
 
-    // Get the output pointer
-    const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
-    const unsigned int validThreads = splitter->GetNumberOfSplits( streamRegion, this->GetNumberOfThreads() );
+    // // Get the output pointer
+    // const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
+    // const unsigned int validThreads = splitter->GetNumberOfSplits( streamRegion, this->GetNumberOfThreads() );
 
-    this->GetMultiThreader()->SetNumberOfThreads( validThreads );
-    this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
+    // this->GetMultiThreader()->SetNumberOfThreads( validThreads );
+    // this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
-    // multithread the execution
-    this->GetMultiThreader()->SingleMethodExecute();
+    // // multithread the execution
+    // this->GetMultiThreader()->SingleMethodExecute();
+
+    this->ThreadedGenerateData(streamRegion, piece);
 
     // copy the result to the proper place in the output. the input
     // requested region determined by the RegionSplitter (as opposed
     // to what the pipeline might have enlarged it to) is used to
     // copy the regions from the input to output
-    if (inputPtr != outputPtr)
-    {
-      ImageAlgorithm::Copy( inputPtr, outputPtr, streamRegion, streamRegion );
-    }
+    // if (inputPtr != outputPtr)
+    // {
+      // ImageAlgorithm::Copy( inputPtr, outputPtr, streamRegion, streamRegion );
+    // }
 
     /* Update progress and stream another chunk */
     this->UpdateProgress( static_cast<float>(piece) / static_cast<float>(numDivisions) );
   }
 
-  /* Compute and set the parameters */
-  this->GetParametersOutput()->Set(m_Functor.GetComputedParameters());
+  // Call a method that can be overridden by a subclass to perform
+  // some calculations after all the threads have completed
+  this->AfterThreadedGenerateData();
 
   /**
    * If we ended due to aborting, push the progress up to 1.0
@@ -211,9 +179,9 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunc
   /** Now we have to mark the data as up to data. */
   for (unsigned int idx = 0; idx < this->GetNumberOfOutputs(); ++idx )
   {
-    if ( this->GetOutput(idx) )
+    if ( this->ProcessObject::GetOutput(idx) )
     {
-      this->GetOutput(idx)->DataHasBeenGenerated();
+      this->ProcessObject::GetOutput(idx)->DataHasBeenGenerated();
     }
   }
 
@@ -224,57 +192,58 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunc
   this->m_Updating = false;
 }
 
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
-ITK_THREAD_RETURN_TYPE
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
-::ThreaderCallback(void *arg)
-{
-  ThreadStruct *str;
-  ThreadIdType  total, threadId, threadCount;
+// Threaded splitter
+// template< typename TInputImage, typename TInputSpatialObject >
+// ITK_THREAD_RETURN_TYPE
+// EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
+// ::ThreaderCallback(void *arg)
+// {
+//   ThreadStruct *str;
+//   ThreadIdType  total, threadId, threadCount;
 
-  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+//   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+//   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  str = (ThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+//   str = (ThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
-  // execute the actual method with appropriate output region
-  // first find out how many pieces extent can be split into.
-  typename OutputImageType::RegionType splitRegion;
-  total = str->Filter->SplitRequestedRegion(threadId, threadCount,
-                                            splitRegion);
-  unsigned int streamNumber = str->Filter->m_CurrentSplit;
+//   // execute the actual method with appropriate output region
+//   // first find out how many pieces extent can be split into.
+//   typename OutputImageType::RegionType splitRegion;
+//   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
+//                                             splitRegion);
+//   unsigned int streamNumber = str->Filter->m_CurrentSplit;
 
-  if ( threadId < total )
-  {
-    str->Filter->ThreadedGenerateData(splitRegion, str->Filter->GetNumberOfStreamDivisions()*threadId + streamNumber);
-  }
-  // else
-  //   {
-  //   otherwise don't use this thread. Sometimes the threads dont
-  //   break up very well and it is just as efficient to leave a
-  //   few threads idle.
-  //   }
+//   if ( threadId < total )
+//   {
+//     str->Filter->ThreadedGenerateData(splitRegion, str->Filter->GetNumberOfStreamDivisions()*threadId + streamNumber);
+//   }
+//   // else
+//   //   {
+//   //   otherwise don't use this thread. Sometimes the threads dont
+//   //   break up very well and it is just as efficient to leave a
+//   //   few threads idle.
+//   //   }
 
-  return ITK_THREAD_RETURN_VALUE;
-}
+//   return ITK_THREAD_RETURN_VALUE;
+// }
 
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
-typename EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
+template< typename TInputImage, typename TInputSpatialObject >
+typename EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
 ::GetParametersOutput() {
   return static_cast< ParameterDecoratedType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
-const typename EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
+template< typename TInputImage, typename TInputSpatialObject >
+const typename EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
 ::GetParametersOutput() const {
   return static_cast< const ParameterDecoratedType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< typename TInputImage, typename TInputSpatialObject, typename TFunction>
+template< typename TInputImage, typename TInputSpatialObject >
 void
-EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject, TFunction >
+EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

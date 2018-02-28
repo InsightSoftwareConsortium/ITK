@@ -3,7 +3,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMultiScaleHessianEnhancementImageFilter.h"
-#include "itkDescoteauxEigenToScalarImageFilter.h"
+#include "itkDescoteauxEigenToMeasureImageFilter.h"
+#include "itkDescoteauxEigenToMeasureParameterEstimationFilter.h"
 #include "itkCommand.h"
 
 class MyCommand : public itk::Command
@@ -84,21 +85,29 @@ int main(int argc, char * argv[])
   using OutputPixelType = float;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using MeasureWriterType = itk::ImageFileWriter< OutputImageType >;
-  using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
-  using DescoteauxEigenToScalarImageFilterType = itk::DescoteauxEigenToScalarImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
+  typedef itk::ImageFileReader< InputImageType >      ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType >     MeasureWriterType;
+  typedef itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >
+                                                      MultiScaleHessianFilterType;
+  typedef MultiScaleHessianFilterType::SpatialObjectType SpatialObjectType;
+  typedef itk::DescoteauxEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType, SpatialObjectType >
+                                                      DescoteauxEigenToMeasureImageFilterType;
+  typedef itk::DescoteauxEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType, SpatialObjectType >
+                                                      DescoteauxEigenToMeasureParameterEstimationFilterType;
 
   /* Do preprocessing */
-  std::cout << "Reading in " << inputFileName << std::end;
+  std::cout << "Reading in " << inputFileName << std::endl;
   ReaderType::Pointer  reader = ReaderType::New();
   reader->SetFileName(inputFileName);
+  reader->Update();
 
   /* Multiscale measure */
   MultiScaleHessianFilterType::Pointer multiScaleFilter = MultiScaleHessianFilterType::New();
-  DescoteauxEigenToScalarImageFilterType::Pointer descoFilter = DescoteauxEigenToScalarImageFilterType::New();
+  DescoteauxEigenToMeasureParameterEstimationFilterType::Pointer estimationFilter = DescoteauxEigenToMeasureParameterEstimationFilterType::New();
+  DescoteauxEigenToMeasureImageFilterType::Pointer descoFilter = DescoteauxEigenToMeasureImageFilterType::New();
   multiScaleFilter->SetInput(reader->GetOutput());
-  multiScaleFilter->SetEigenToScalarImageFilter(descoFilter);
+  multiScaleFilter->SetEigenToMeasureImageFilter(descoFilter);
+  multiScaleFilter->SetEigenToMeasureParameterEstimationFilter(estimationFilter);
   multiScaleFilter->SetSigmaArray(sigmaArray);
 
   std::cout << "Running multiScaleFilter..." << std::endl;
@@ -110,7 +119,7 @@ int main(int argc, char * argv[])
   measureWriter->SetInput(multiScaleFilter->GetOutput());
   measureWriter->SetFileName(outputMeasureFileName);
 
-  std::cout << "Writing results to" << outputMeasureFileName << std::endl;
+  std::cout << "Writing results to " << outputMeasureFileName << std::endl;
   measureWriter->Write();
 
   return EXIT_SUCCESS;
