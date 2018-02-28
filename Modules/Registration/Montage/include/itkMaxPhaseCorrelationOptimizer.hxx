@@ -95,24 +95,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
   this->SetOffset( offset );
 }
 
-
-template < typename TRegistrationMethod >
-unsigned long
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
-::GetMTime() const
-{
-  unsigned long mtime = Superclass::GetMTime();
-  unsigned long m;
-
-  if (m_MaxCalculator)
-    {
-    m = m_MaxCalculator->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-    }
-
-  return mtime;
-}
-
 } //end namespace itk
 
 #endif

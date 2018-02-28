@@ -96,22 +96,22 @@ public:
 protected:
   PhaseCorrelationOperator();
   virtual ~PhaseCorrelationOperator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** PhaseCorrelationOperator produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * images. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() override;
 
   /** PhaseCorrelationOperator needs a larger input requested region than the
    *  output requested region. */
-  virtual void GenerateInputRequestedRegion();
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void GenerateInputRequestedRegion() override;
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   /** PhaseCorrelationOperator can be implemented as a multithreaded filter.
    *  This method performs the computation. */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            ThreadIdType threadId );
+  void ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
+                            ThreadIdType threadId ) override;
 
   /** After the largest possible output data size is determined is this method
    *  called to additionally adjust the output parameters (reduce the size).
@@ -148,7 +148,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() override {}
 
 private:
   PhaseCorrelationOperator(const Self&); //purposely not implemented
