@@ -2,6 +2,7 @@ itk_module_test()
 
 set(MontageTests
   itkPhaseCorrelationImageRegistrationMethodTest.cxx
+  itkPhaseCorrelationImageRegistrationMethodTestFiles.cxx
   )
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
@@ -64,4 +65,11 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3fd
   COMMAND MontageTestDriver
   itkPhaseCorrelationImageRegistrationMethodTest
     3fd
+  )
+
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
+  COMMAND MontageTestDriver
+  itkPhaseCorrelationImageRegistrationMethodTestFiles
+    DATA{Input/OMC/FlatField/14/100.tif}
+    DATA{Input/OMC/FlatField/14/101.tif}
   )
