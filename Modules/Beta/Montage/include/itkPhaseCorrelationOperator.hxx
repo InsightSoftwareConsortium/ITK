@@ -229,14 +229,15 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
 }
 
 
-/**
- *  Request all available data. This filter is cropping from the center.
- */
 template < typename TRealPixel, unsigned int VImageDimension >
 void
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::GenerateInputRequestedRegion()
 {
+  /**
+   *  Request all available data. This filter is cropping from the center.
+   */
+
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
@@ -253,15 +254,17 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   moving->SetRequestedRegion( moving->GetLargestPossibleRegion() );
 }
 
-/**
- *  The output will have the lower size of the two input images in all
- *  dimensions.
- */
+
 template < typename TRealPixel, unsigned int VImageDimension >
 void
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::GenerateOutputInformation()
 {
+  /**
+   *  The output will have the lower size of the two input images in all
+   *  dimensions.
+   */
+
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 

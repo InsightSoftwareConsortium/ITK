@@ -135,29 +135,49 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   //
   typename FixedImageType::SizeType fixedSize =
       m_FixedImage->GetLargestPossibleRegion().GetSize();
-  typename FixedImageType::SpacingType fixedSpacing =
-      m_FixedImage->GetSpacing();
   typename MovingImageType::SizeType movingSize =
       m_MovingImage->GetLargestPossibleRegion().GetSize();
-  typename MovingImageType::SpacingType movingSpacing =
-      m_MovingImage->GetSpacing();
 
   typename FixedImageType::SizeType fixedPad;
+  fixedPad.Fill( 0 );
   typename MovingImageType::SizeType movingPad;
+  movingPad.Fill( 0 );
 
-  for (int i=0; i<ImageDimension; i++)
+  const SizeValueType sizeGreatestPrimeFactor = m_FixedFFT->GetSizeGreatestPrimeFactor();
+
+  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
     {
-    if ( fixedSize[i]*fixedSpacing[i] > movingSize[i]*movingSpacing[i] )
+    // First, pad so both images have the same size
+    if( fixedSize[ii] == movingSize[ii] )
       {
-      movingPad[i] = Math::Floor< SizeValueType >( fixedSize[i]*fixedSpacing[i]/movingSpacing[i] -
-                                  movingSize[i] );
-      fixedPad[i] = 0;
+      // no padding required
+      }
+    else if( fixedSize[ii] > movingSize[ii] )
+      {
+      movingPad[ii] = fixedSize[ii] - movingSize[ii];
       }
     else
       {
-      fixedPad[i] = Math::Floor< SizeValueType >( movingSize[i]*movingSpacing[i]/fixedSpacing[i] -
-                                fixedSize[i] );
-      movingPad[i] = 0;
+      fixedPad[ii] = movingSize[ii] - fixedPad[ii];
+      }
+
+    // Next, pad for the requirements of the FFT filter
+    if( sizeGreatestPrimeFactor > 1 )
+      {
+      while( Math::GreatestPrimeFactor( fixedSize[ii] + fixedPad[ii] ) > sizeGreatestPrimeFactor )
+        {
+        ++fixedPad[ii];
+        }
+      while( Math::GreatestPrimeFactor( movingSize[ii] + movingPad[ii] ) > sizeGreatestPrimeFactor )
+        {
+        ++movingPad[ii];
+        }
+      }
+    else if( sizeGreatestPrimeFactor == 1 )
+      {
+      // make sure the total size is even
+      fixedPad[ii] += ( fixedSize[ii] + fixedPad[ii] ) % 2;
+      movingPad[ii] += ( movingSize[ii] + movingPad[ii] ) % 2;
       }
     }
 
