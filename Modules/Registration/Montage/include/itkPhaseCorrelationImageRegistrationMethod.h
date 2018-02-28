@@ -243,6 +243,9 @@ protected:
   /** Initialize by setting the interconnects between the components. */
   virtual void Initialize();
 
+  /** Determine the correct padding for the fixed image and moving image. */
+  void DeterminePadding();
+
   /** Method that initiates the optimization process. */
   void StartOptimization();
 
