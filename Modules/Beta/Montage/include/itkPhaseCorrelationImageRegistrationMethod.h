@@ -169,10 +169,10 @@ public:
   itkGetConstObjectMacro( MovingImage, MovingImageType );
 
   /** Passes ReleaseDataFlag to internal filters. */
-  void SetReleaseDataFlag(bool flag);
+  void SetReleaseDataFlag(bool flag) override;
 
   /** Passes ReleaseDataBeforeUpdateFlag to internal filters. */
-  void SetReleaseDataBeforeUpdateFlag(const bool flag);
+  void SetReleaseDataBeforeUpdateFlag(const bool flag) override;
 
   /** Set/Get the Operator. */
   itkSetObjectMacro( Operator, OperatorType );
@@ -223,14 +223,6 @@ public:
   /** Returns the transform resulting from the registration process  */
   const TransformOutputType * GetOutput() const;
 
-  /** Make a DataObject of the correct type to be used as the specified
-   * output. */
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
-
-  /** Method to return the latest modified time of this object or
-   * any of its cached ivars */
-  unsigned long GetMTime() const;
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkStaticConstMacro(MovingImageDimension, unsigned int,
     FixedImageType::ImageDimension );
@@ -242,7 +234,11 @@ public:
 protected:
   PhaseCorrelationImageRegistrationMethod();
   virtual ~PhaseCorrelationImageRegistrationMethod() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
+
+  /** Make a DataObject of the correct type to be used as the specified
+   * output. */
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Initialize by setting the interconnects between the components. */
   virtual void Initialize();
@@ -252,7 +248,7 @@ protected:
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData ();
+  void GenerateData () override;
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro( TransformParameters, ParametersType );

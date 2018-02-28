@@ -64,45 +64,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 
 
 template < typename TFixedImage, typename TMovingImage >
-unsigned long
-PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
-::GetMTime() const
-{
-  unsigned long mtime = Superclass::GetMTime();
-  unsigned long m;
-
-  if (m_Operator)
-    {
-    m = m_Operator->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-    }
-  if (m_RealOptimizer)
-    {
-    m = m_RealOptimizer->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-    }
-  if (m_ComplexOptimizer)
-    {
-    m = m_ComplexOptimizer->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-    }
-  if (m_FixedImage)
-    {
-    m = m_FixedImage->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-    }
-
-  if (m_MovingImage)
-    {
-    m = m_MovingImage->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-    }
-
-  return mtime;
-}
-
-
-template < typename TFixedImage, typename TMovingImage >
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::Initialize()
@@ -322,7 +283,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 template < typename TFixedImage, typename TMovingImage >
 DataObject::Pointer
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
-::MakeOutput(unsigned int output)
+::MakeOutput(DataObjectPointerArraySizeType output)
 {
   switch (output)
     {
@@ -331,7 +292,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
-      return 0;
     }
 }
 

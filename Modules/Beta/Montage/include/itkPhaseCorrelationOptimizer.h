@@ -86,16 +86,16 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    *  output. */
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;
 
 protected:
   PhaseCorrelationOptimizer();
   virtual ~PhaseCorrelationOptimizer() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the output values. */
-  void GenerateData () ITK_OVERRIDE;
+  void GenerateData () override;
 
 
   /** This method is executed by this type and must be reimplemented by child
