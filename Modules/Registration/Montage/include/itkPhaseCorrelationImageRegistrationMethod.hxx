@@ -31,17 +31,17 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   this->SetNumberOfRequiredInputs( 2 );
   this->SetNumberOfRequiredOutputs( 1 );  // for the Transform
 
-  m_FixedImage       = 0; // has to be provided by the user.
-  m_MovingImage      = 0; // has to be provided by the user.
-  m_Operator         = 0; // has to be provided by the user.
-  m_RealOptimizer    = 0; // has to be provided by the user.
-  m_ComplexOptimizer = 0; // has to be provided by the user.
+  m_FixedImage = nullptr; // has to be provided by the user.
+  m_MovingImage = nullptr; // has to be provided by the user.
+  m_Operator = nullptr; // has to be provided by the user.
+  m_RealOptimizer = nullptr; // has to be provided by the user.
+  m_ComplexOptimizer = nullptr; // has to be provided by the user.
 
-  m_FixedPadder  = FixedPadderType::New();
+  m_FixedPadder = FixedPadderType::New();
   m_MovingPadder = MovingPadderType::New();
-  m_FixedFFT     = FFTFilterType::New();
-  m_MovingFFT    = FFTFilterType::New();
-  m_IFFT         = IFFTFilterType::New();
+  m_FixedFFT = FFTFilterType::New();
+  m_MovingFFT = FFTFilterType::New();
+  m_IFFT = IFFTFilterType::New();
 
   m_FixedPadder->SetConstant( 0 );
   m_MovingPadder->SetConstant( 0 );
