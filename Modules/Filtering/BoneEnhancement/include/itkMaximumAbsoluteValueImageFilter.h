@@ -81,7 +81,7 @@ public:
  * \ingroup BoneEnhancement
  */
 template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
-class MaximumAbsoluteValueImageFilter
+class ITK_TEMPLATE_EXPORT MaximumAbsoluteValueImageFilter
   : public BinaryFunctorImageFilter<TInputImage1,
                                     TInputImage2,
                                     TOutputImage,

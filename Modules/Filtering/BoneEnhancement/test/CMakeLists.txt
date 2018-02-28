@@ -32,9 +32,7 @@ itk_add_test(
 
 set(
   BoneEnhancementUnitTests
-  itkDescoteauxEigenToMeasureParameterFunctorUnitTest.cxx
   itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest.cxx
-  itkDescoteauxEigenToMeasureFunctorUnitTest.cxx
   itkDescoteauxEigenToMeasureImageFilterUnitTest.cxx
 )
 
