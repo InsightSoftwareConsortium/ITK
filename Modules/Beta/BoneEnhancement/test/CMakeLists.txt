@@ -22,9 +22,7 @@ itk_add_test(NAME itkHessianGaussianImageFilterTest
 
 
 set(BoneEnhancementUnitTests
-  itkDescoteauxEigenToMeasureParameterFunctorUnitTest.cxx
   itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest.cxx
-  itkDescoteauxEigenToMeasureFunctorUnitTest.cxx
   itkDescoteauxEigenToMeasureImageFilterUnitTest.cxx
   )
 

@@ -76,13 +76,13 @@ public:
  * \ingroup BoneEnhancement
  */
 template<typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
-class MaximumAbsoluteValueImageFilter :
+class ITK_TEMPLATE_EXPORT MaximumAbsoluteValueImageFilter :
 public BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
 Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,typename TOutputImage::PixelType> > 
 {
 public:
   /** Standard Self typedef */
-  typedef MaximumAbsoluteValueImageFilter Self;
+  typedef MaximumAbsoluteValueImageFilter             Self;
   typedef BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
           Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,
                   typename TOutputImage::PixelType> > Superclass;

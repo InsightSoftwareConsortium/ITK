@@ -46,10 +46,10 @@ namespace itk {
  */
 
 template< typename TInputImage,
-          typename TOutputImage = Image< SymmetricSecondRankTensor<
-                                           typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                                           TInputImage::ImageDimension >,
-                                         TInputImage::ImageDimension > >
+          typename TOutputImage = Image<  SymmetricSecondRankTensor<
+                                          typename NumericTraits< typename TInputImage::PixelType >::RealType,
+                                          TInputImage::ImageDimension >,
+                                          TInputImage::ImageDimension > >
 class ITK_TEMPLATE_EXPORT HessianGaussianImageFilter:
 public ImageToImageFilter< TInputImage, TOutputImage >
 {

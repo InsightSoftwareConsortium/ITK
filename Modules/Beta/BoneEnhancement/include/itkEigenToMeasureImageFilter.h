@@ -26,25 +26,18 @@
 namespace itk {
 /** \class EigenToMeasureImageFilter
  * \brief Abstract class for computing a measure from local structure.
- *
- * TODO
  * 
- * This is an abstract class that estimates parameters for local-structure enhancement
- * from eigen-images. Other classes should inherit from this class so they can be used
- * in the MultiScaleHessianEnhancementImageFilter framework.
- * 
- * To estimate the parameters for local-structure enhancement, every pixel in the input
- * image must be seen. To implement this functionality in a memory efficinet way, this
- * class inherits from itk::StreamingImageFilter. This algorithm can be spead up by
- * restricting the output image region.
+ * This is an abstract class that computes a local-structure measure from an eigen-image.
+ * Any algorithm implementing a local-structure measure should inherit from this class
+ * so they can be used in the MultiScaleHessianEnhancementImageFilter framework.
  * 
  * \sa MultiScaleHessianEnhancementImageFilter
- * \sa UnaryFunctorImageFilter
+ * \sa EigenToMeasureParameterEstimationFilter
  * 
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject, typename TFunction>
+template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
 class ITK_TEMPLATE_EXPORT EigenToMeasureImageFilter:
 public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -59,11 +52,12 @@ public:
   itkTypeMacro(EigenToMeasureImageFilter, ImageToImageFilter);
 
   /** Input Image typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  typedef TInputImage                             InputImageType;
+  typedef typename InputImageType::Pointer        InputImagePointer;
+  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef typename InputImageType::RegionType     InputImageRegionType;
+  typedef typename InputImageType::PixelType      InputImagePixelType;
+  typedef typename InputImagePixelType::ValueType PixelValueType;
   itkStaticConstMacro(ImageDimension, unsigned int,  TInputImage::ImageDimension);
 
   /** Output image typedefs. */
@@ -76,39 +70,14 @@ public:
   typedef TInputSpatialObject                       SpatialObjectType;
   typedef typename SpatialObjectType::ConstPointer  SpatialObjectConstPointer;
 
-  /** Functor typedefs. */
-  typedef TFunction                                   FunctorType;
-  typedef typename FunctorType::ParameterType         ParameterType;
-  typedef typename ParameterType::ValueType           ParameterValueType;
-  typedef SimpleDataObjectDecorator< ParameterType >  ParameterDecoratedType;
-  itkStaticConstMacro(NumberOfParameters, unsigned int, ParameterType::Length);
-
-  /** Get the functor object.  The functor is returned by reference.
-   * (Functors do not have to derive from itk::LightObject, so they do
-   * not necessarily have a reference count. So we cannot return a
-   * SmartPointer.) */
-  FunctorType &       GetFunctor() { return m_Functor; }
-  const FunctorType & GetFunctor() const { return m_Functor; }
-
-  /** Set the functor object.  This replaces the current Functor with a
-   * copy of the specified Functor. This allows the user to specify a
-   * functor that has ivars set differently than the default functor.
-   * This method requires the following to be defined:
-   *    Initialize()
-   *    ProcessPixel()
-   *    GetComputedParameters()
-   */
-  void SetFunctor(const FunctorType & functor)
-  {
-    if ( m_Functor != functor )
-      {
-      m_Functor = functor;
-      this->Modified();
-      }
-  }
+  /** Parameter typedefs. */
+  typedef typename NumericTraits< PixelValueType >::RealType  RealType;
+  typedef RealType                                            ParameterType;
+  typedef Array< ParameterType >                              ParameterArrayType;
+  typedef SimpleDataObjectDecorator< ParameterArrayType >     ParameterDecoratedType;
 
   /** Process object */
-  itkSetGetDecoratedInputMacro(Parameters, ParameterType);
+  itkSetGetDecoratedInputMacro(Parameters, ParameterArrayType);
 
   /** Methods to set/get the mask image */
   itkSetInputMacro(MaskingSpatialObject, SpatialObjectType);
@@ -128,25 +97,11 @@ public:
   virtual EigenValueOrderType GetEigenValueOrder() const = 0;
 
 protected:
-  EigenToMeasureImageFilter();
-  virtual ~EigenToMeasureImageFilter() ITK_OVERRIDE;
-
-  /** Need to access the input parameters at execution time */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
-
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  EigenToMeasureImageFilter() {};
+  virtual ~EigenToMeasureImageFilter() {}
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureImageFilter);
-
-  /* Private data members. */
-  ParameterType m_Parameters;
-  FunctorType   m_Functor;
 }; // end class
 } /* end namespace */
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEigenToMeasureImageFilter.hxx"
-#endif
 
 #endif /* itkEigenToMeasureImageFilter_h */
