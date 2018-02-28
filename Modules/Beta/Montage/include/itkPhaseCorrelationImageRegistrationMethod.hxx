@@ -108,20 +108,27 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   //
   // set up the pipeline
   //
-  m_FixedPadder->SetInput(        m_FixedImage             );
-  m_MovingPadder->SetInput(       m_MovingImage            );
-  m_Operator->SetFixedImage(      m_FixedFFT->GetOutput()  );
-  m_Operator->SetMovingImage(     m_MovingFFT->GetOutput() );
+  m_FixedPadder->SetInput( m_FixedImage );
+  m_MovingPadder->SetInput( m_MovingImage );
+  m_Operator->SetFixedImage( m_FixedFFT->GetOutput() );
+  m_Operator->SetMovingImage( m_MovingFFT->GetOutput() );
   if ( m_RealOptimizer )
     {
-    m_IFFT->SetInput(             m_Operator->GetOutput()  );
-    m_RealOptimizer->SetInput(    m_IFFT->GetOutput()      );
+    m_IFFT->SetInput( m_Operator->GetOutput() );
+    m_RealOptimizer->SetInput( m_IFFT->GetOutput() );
     }
   else
     {
-    m_ComplexOptimizer->SetInput( m_Operator->GetOutput()  );
+    m_ComplexOptimizer->SetInput( m_Operator->GetOutput() );
     }
+}
 
+
+template < typename TFixedImage, typename TMovingImage >
+void
+PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
+::DeterminePadding()
+{
   //
   //set up padding to resize the images to cover the same real-space area
   //
@@ -155,11 +162,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 
   m_FixedPadder->SetPadUpperBound( fixedPad );
   m_MovingPadder->SetPadUpperBound( movingPad );
-
-  // set up the operator
-  // changed
-  m_Operator->SetFullMatrix( false );//m_FixedFFT->GetFullMatrix() );
-
 }
 
 
@@ -262,6 +264,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       // pass exception to caller
       throw err;
       }
+    this->DeterminePadding();
     //execute the computation
     this->StartOptimization();
     }

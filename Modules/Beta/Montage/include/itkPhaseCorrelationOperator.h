@@ -88,11 +88,6 @@ public:
   /** Connect the moving image. */
   void SetMovingImage( ImageType * );
 
-  /** Determines, whether the complex conjugate input (FFT transformed image)
-   *  is a full matrix or if the first dimension is halved (N/2+1). */
-  itkSetMacro(FullMatrix, bool);
-  itkGetMacro(FullMatrix, bool);
-
 protected:
   PhaseCorrelationOperator();
   virtual ~PhaseCorrelationOperator() {};
@@ -101,20 +96,20 @@ protected:
   /** PhaseCorrelationOperator produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * images. */
-  virtual void GenerateOutputInformation() override;
+  void GenerateOutputInformation() override;
 
   /** PhaseCorrelationOperator needs a larger input requested region than the
    *  output requested region. */
-  virtual void GenerateInputRequestedRegion() override;
-  virtual void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void GenerateInputRequestedRegion() override;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   /** PhaseCorrelationOperator can be implemented as a multithreaded filter.
    *  This method performs the computation. */
   void ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
                             ThreadIdType threadId ) override;
 
-  /** After the largest possible output data size is determined is this method
-   *  called to additionally adjust the output parameters (reduce the size).
+  /** After the largest possible output data size is determined, this method
+   * is called to additionally adjust the output parameters (reduce the size).
    *
    *  The method is called in GenerateOutputInformation() method, so the input
    *  spacing, index and size can be determined from the inputs 0 (fixed image)
@@ -153,8 +148,6 @@ protected:
 private:
   PhaseCorrelationOperator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  bool m_FullMatrix;
 };
 
 } // end namespace itk

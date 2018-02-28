@@ -39,8 +39,6 @@ template < typename TRealPixel, unsigned int VImageDimension >
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::PhaseCorrelationOperator()
 {
-  m_FullMatrix = false; //?! what should be the default?
-
   this->SetNumberOfRequiredInputs( 2 );
 }
 
@@ -99,7 +97,7 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   unsigned int i;
 
   // crop every dimension to make the size of fixed and moving the same
-  for (i=0; i<ImageType::ImageDimension; i++)
+  for( i = 0; i < ImageType::ImageDimension; ++i )
     {
     fixedGapSize[i] = (fixedSize[i]-movingSize[i])>0 ?
                                             (fixedSize[i]-movingSize[i]) : 0;
@@ -109,13 +107,10 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
 
   i = 0; //reset the counter
 
-  // for halved matrixes must be start for the first dimension treated differently
-  if (!m_FullMatrix)
-    {
-    fixedGapStart[0] = fixedGapSize[0]>0 ? movingSize[0] : fixedSize[0];
-    movingGapStart[0] = movingGapSize[0]>0 ? fixedSize[0] : movingSize[0];
-    i++;
-    }
+  // for halved fft matrixes, must start the first dimension differently
+  fixedGapStart[0] = fixedGapSize[0]>0 ? movingSize[0] : fixedSize[0];
+  movingGapStart[0] = movingGapSize[0]>0 ? fixedSize[0] : movingSize[0];
+  ++i;
   // all "normal" dimensions exclude central frequencies
   for (; i<ImageType::ImageDimension; i++)
     {
@@ -338,8 +333,6 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
      ExposeMetaData < SizeScalarType >
           (movingDic,std::string("FFT_Actual_RealImage_Size"),movingX))
     {
-    SetFullMatrix( fixedSize[0] == fixedX );
-
     outputX = fixedX > movingX ? movingX : fixedX;
 
     EncapsulateMetaData<SizeScalarType>(outputDic,
