@@ -118,13 +118,13 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
       {
       if ( (fixedSize[i]%2 + fixedGapSize[i]%2) > 1 )
         {
-        fixedGapStart[i] = (unsigned long)( vcl_floor(fixedSize[i]/2.0) -
-                                            vcl_floor(fixedGapSize[i]/2.0) );
+        fixedGapStart[i] = (unsigned long)( Math::floor(fixedSize[i]/2.0) -
+                                            Math::floor(fixedGapSize[i]/2.0) );
         }
       else
         {
-        fixedGapStart[i] = (unsigned long)( vcl_ceil(fixedSize[i]/2.0) -
-                                            vcl_floor(fixedGapSize[i]/2.0) );
+        fixedGapStart[i] = (unsigned long)( Math::ceil(fixedSize[i]/2.0) -
+                                            Math::floor(fixedGapSize[i]/2.0) );
         }
       movingGapStart[i] = movingSize[i];
       }
@@ -132,13 +132,13 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
       {
       if ( (movingSize[i]%2 + movingGapSize[i]%2) > 1 )
         {
-        movingGapStart[i] = (unsigned long)( vcl_floor(movingSize[i]/2.0) -
-                                             vcl_floor(movingGapSize[i]/2.0) );
+        movingGapStart[i] = (unsigned long)( Math::floor(movingSize[i]/2.0) -
+                                             Math::floor(movingGapSize[i]/2.0) );
         }
       else
         {
-        movingGapStart[i] = (unsigned long)( vcl_ceil(movingSize[i]/2.0) -
-                                             vcl_floor(movingGapSize[i]/2.0) );
+        movingGapStart[i] = (unsigned long)( Math::ceil(movingSize[i]/2.0) -
+                                             Math::floor(movingGapSize[i]/2.0) );
         }
       fixedGapStart[i] = fixedSize[i];
       }
@@ -216,7 +216,7 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
                    fixedValue.imag()*movingValue.imag();
   PixelType imag = fixedValue.imag()*movingValue.real() -
                    fixedValue.real()*movingValue.imag();
-  PixelType magn = vcl_sqrt( real*real + imag*imag );
+  PixelType magn = std::sqrt( real*real + imag*imag );
 
   if (magn != 0 )
     {
