@@ -93,7 +93,8 @@ public:
     // Default structuring element is defined to be 3x3x3...
     RadiusType radius;
     radius.Fill(1);
-    this->SetRadius(radius);
+    Self::SetRadius(radius);
+    Self::CreateStructuringElement();
   }
 
   /** Default destructor. */
