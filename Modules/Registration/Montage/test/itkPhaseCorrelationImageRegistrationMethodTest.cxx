@@ -156,8 +156,15 @@ private:
 template < unsigned int NDimension,
            typename TFixedImagePixel,
      typename TMovingImagePixel >
-int PhaseCorrelationRegistration( int , char* [] )
+int PhaseCorrelationRegistration( int argc, char* argv[] )
 {
+  if (argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] << " <<dimension><fixedTypeChar><movingTypeChar>> <phaseCorrelationFile>" << std::endl;
+    return EXIT_FAILURE;
+    }
+  const char * phaseCorrelationFile = argv[2];
+
   bool pass = true;
 
   // Fixed Image Type
@@ -269,6 +276,7 @@ int PhaseCorrelationRegistration( int , char* [] )
   //
   try
     {
+    pcm->DebugOn();
     pcm->Update();
     }
   catch( itk::ExceptionObject & e )
@@ -297,10 +305,10 @@ int PhaseCorrelationRegistration( int , char* [] )
               << -(actualParameters[i]+newMovingOrigin[i]) << " == "
               << transformParameters[i] << std::endl;
 
-    if(  ( vnl_math_abs ( finalParameters[i] -
+    if(  ( itk::Math::abs( finalParameters[i] -
                           (-(actualParameters[i]+newMovingOrigin[i]))
                         ) > tolerance ) ||
-         ( vnl_math_abs ( transformParameters[i] -
+         ( itk::Math::abs( transformParameters[i] -
                           (-(actualParameters[i]+newMovingOrigin[i]))
                         ) > tolerance ) )
       {
@@ -319,6 +327,20 @@ int PhaseCorrelationRegistration( int , char* [] )
       std::cout << "Tolerance exceeded at component " << i << std::endl;
       pass = false;
       }
+    }
+
+  using WriterType = itk::ImageFileWriter< typename PCMType::RealImageType >;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( phaseCorrelationFile );
+  writer->SetInput( pcm->GetPhaseCorrelationImage() );
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    pass = false;
     }
 
   if( !pass )
