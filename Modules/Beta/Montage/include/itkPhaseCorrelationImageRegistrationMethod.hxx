@@ -171,7 +171,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartOptimization()
 {
   itkDebugMacro( "starting optimization" );
-  typedef typename RealImageType::PointType   OffsetType;
+  typedef typename RealOptimizerType::OffsetType OffsetType;
   OffsetType offset;
   try
     {
@@ -200,7 +200,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_TransformParameters = ParametersType( ImageDimension );
   typename FixedImageType::PointType fixedOrigin = m_FixedImage->GetOrigin();
   typename MovingImageType::PointType movingOrigin = m_MovingImage->GetOrigin();
-  for (int i = 0; i<ImageDimension; i++)
+  for( unsigned int i = 0; i < ImageDimension; ++i )
     {
     m_TransformParameters[i] = offset[i] - ( movingOrigin[i] - fixedOrigin[i] );
     }
