@@ -59,7 +59,9 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
   offset.Fill( 0 );
 
   if (!input)
+    {
     return;
+    }
 
   m_MaxCalculator->SetImage( input );
 
@@ -69,20 +71,20 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     }
   catch( ExceptionObject& err )
     {
-    itkDebugMacro( "exception caught during execution of MaxCalculatior - passing " );
+    itkDebugMacro( "exception caught during execution of max calculator - passing " );
     throw err;
     }
 
-  typename ImageType::IndexType
-              index   = m_MaxCalculator->GetIndexOfMaximum();
-  typename ImageType::SizeType
-              size    = input->GetLargestPossibleRegion().GetSize();
-  typename ImageType::SpacingType
+  const typename ImageType::IndexType
+              index = m_MaxCalculator->GetIndexOfMaximum();
+  const typename ImageType::SizeType
+              size = input->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::SpacingType
               spacing = input->GetSpacing();
 
-  for (int i = 0; i < ImageDimension; ++i)
+  for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    if ( index[i] > vcl_floor( size[i] / 2.0 ) )
+    if ( index[i] > Math::floor( size[i] / 2.0 ) )
       {
       offset[i] = -1*(index[i] - size[i]) * spacing[i];
       }

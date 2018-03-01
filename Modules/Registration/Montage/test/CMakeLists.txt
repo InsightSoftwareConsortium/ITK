@@ -72,4 +72,6 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
   itkPhaseCorrelationImageRegistrationMethodTestFiles
     DATA{Input/OMC/FlatField/14/100.tif}
     DATA{Input/OMC/FlatField/14/101.tif}
+    60.6778
+    1.41111
   )

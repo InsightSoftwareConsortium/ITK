@@ -57,6 +57,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   typename PhaseCorrelationMethodType::Pointer phaseCorrelationMethod = PhaseCorrelationMethodType::New();
   phaseCorrelationMethod->SetFixedImage( fixedImage );
   phaseCorrelationMethod->SetMovingImage( movingImage );
+  phaseCorrelationMethod->DebugOn();
 
   // Operator type
   using OperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, NDimension >;
@@ -94,7 +95,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
 
   const unsigned int numberOfParameters = finalParameters.Size();
   ParametersType actualParameters( numberOfParameters );
-  for (unsigned int ii = 3; ii < 2 + numberOfParameters; ++ii )
+  for (unsigned int ii = 3; ii < 3 + numberOfParameters; ++ii )
     {
     if( argc < ii + 1 )
       {
@@ -106,7 +107,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
     }
 
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
+  const double tolerance = 0.1;  // equivalent to 1 pixel.
 
   // Validate first two parameters (introduced by image source)
   for( unsigned int ii = 0; ii < numberOfParameters; ++ii )
@@ -125,6 +126,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
       }
     }
 
+  std::cout << std::endl;
   if( !pass )
     {
     std::cout << "Test FAILED." << std::endl;
