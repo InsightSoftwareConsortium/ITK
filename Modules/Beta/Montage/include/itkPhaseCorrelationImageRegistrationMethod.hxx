@@ -29,7 +29,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::PhaseCorrelationImageRegistrationMethod()
 {
   this->SetNumberOfRequiredInputs( 2 );
-  this->SetNumberOfRequiredOutputs( 1 );  // for the Transform
+  this->SetNumberOfRequiredOutputs( 2 );  // for 0-the Transform, 1-the phase correlation image
 
   m_FixedImage = nullptr; // has to be provided by the user.
   m_MovingImage = nullptr; // has to be provided by the user.
@@ -56,10 +56,11 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   TransformOutputPointer transformDecorator =
                  static_cast< TransformOutputType * >(
                                   this->MakeOutput(0).GetPointer() );
-
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
+  std::cout << "output is " << this->GetOutput()->Get() << std::endl;
 
-  itkDebugMacro( "output is " << this->GetOutput()->Get() );
+  typename RealImageType::Pointer phaseCorrelation = static_cast< RealImageType * >( this->MakeOutput( 1 ).GetPointer() );
+  this->ProcessObject::SetNthOutput( 1, phaseCorrelation.GetPointer() );
 }
 
 
@@ -170,11 +171,18 @@ void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartOptimization()
 {
+  ParametersType empty(ImageDimension);
+  empty.Fill( 0.0 );
+  m_TransformParameters = empty;
   itkDebugMacro( "starting optimization" );
   typedef typename RealOptimizerType::OffsetType OffsetType;
   OffsetType offset;
   try
     {
+    RealImageType * phaseCorrelation =  static_cast< RealImageType * >( this->ProcessObject::GetOutput(1) );
+    phaseCorrelation->Allocate();
+    m_IFFT->GraftOutput( phaseCorrelation );
+    //m_FixedPadder->Update();
     if ( m_RealOptimizer )
       {
       m_RealOptimizer->Update();
@@ -185,6 +193,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       m_ComplexOptimizer->Update();
       offset = m_ComplexOptimizer->GetOffset();
       }
+    phaseCorrelation->Graft( m_IFFT->GetOutput() );
     }
   catch( ExceptionObject& err )
     {
@@ -240,35 +249,27 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 template < typename TFixedImage, typename TMovingImage >
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
+::GenerateOutputInformation()
+{
+  Superclass::GenerateOutputInformation();
+
+  this->Initialize();
+  this->DeterminePadding();
+
+  m_IFFT->UpdateOutputInformation();
+
+  RealImageType * phaseCorrelation = static_cast< RealImageType * >( this->ProcessObject::GetOutput( 1 ) );
+  phaseCorrelation->CopyInformation( m_IFFT->GetOutput() );
+}
+
+
+template < typename TFixedImage, typename TMovingImage >
+void
+PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::GenerateData()
 {
-  if (!m_Updating)
-    {
-    this->Update();
-    }
-  else
-    {
-    ParametersType empty(ImageDimension);
-    empty.Fill( 0.0 );
-    try
-      {
-      // initialize the interconnects between components
-      this->Initialize();
-      }
-    catch( ExceptionObject& err )
-      {
-      itkDebugMacro( "exception caught during intialization - passing" );
-
-      m_TransformParameters = empty;
-
-      // pass exception to caller
-      throw err;
-      }
-    this->DeterminePadding();
-    //execute the computation
-    this->StartOptimization();
-    }
-
+  this->Initialize();
+  this->StartOptimization();
 }
 
 
@@ -284,6 +285,17 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 
 
 template < typename TFixedImage, typename TMovingImage >
+const typename PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
+    ::RealImageType *
+PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
+::GetPhaseCorrelationImage() const
+{
+  return static_cast< const RealImageType * >(
+                                            this->ProcessObject::GetOutput(1) );
+}
+
+
+template < typename TFixedImage, typename TMovingImage >
 DataObject::Pointer
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::MakeOutput(DataObjectPointerArraySizeType output)
@@ -292,6 +304,9 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     {
     case 0:
       return static_cast<DataObject*>(TransformOutputType::New().GetPointer());
+      break;
+    case 1:
+      return static_cast<DataObject*>(RealImageType::New().GetPointer());
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");

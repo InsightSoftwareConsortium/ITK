@@ -223,6 +223,9 @@ public:
   /** Returns the transform resulting from the registration process  */
   const TransformOutputType * GetOutput() const;
 
+  /** Returns the phase correlation image from the registration process  */
+  const RealImageType * GetPhaseCorrelationImage() const;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkStaticConstMacro(MovingImageDimension, unsigned int,
     FixedImageType::ImageDimension );
@@ -252,6 +255,9 @@ protected:
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
   void GenerateData() override;
+
+  /** Method invoked by the pipeline to determine the output information. */
+  void GenerateOutputInformation() override;
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro( TransformParameters, ParametersType );

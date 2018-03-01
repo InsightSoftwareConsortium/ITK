@@ -95,7 +95,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
 
   const unsigned int numberOfParameters = finalParameters.Size();
   ParametersType actualParameters( numberOfParameters );
-  for (unsigned int ii = 3; ii < 3 + numberOfParameters; ++ii )
+  for (unsigned int ii = 4; ii < 4 + numberOfParameters; ++ii )
     {
     if( argc < ii + 1 )
       {
@@ -103,7 +103,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
       pass = false;
       return EXIT_FAILURE;
       }
-    actualParameters[ii - 3] = atof( argv[ii] );
+    actualParameters[ii - 4] = atof( argv[ii] );
     }
 
 
@@ -124,6 +124,20 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
       std::cerr << "Tolerance exceeded at component " << ii << std::endl;
       pass = false;
       }
+    }
+
+  using WriterType = itk::ImageFileWriter< typename PhaseCorrelationMethodType::RealImageType >;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[3] );
+  writer->SetInput( phaseCorrelationMethod->GetPhaseCorrelationImage() );
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    pass = false;
     }
 
   std::cout << std::endl;
