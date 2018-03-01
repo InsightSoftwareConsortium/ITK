@@ -39,9 +39,7 @@ namespace itk
  *
  *  This class provides interface for further techniques to improve the
  *  registration performance. Method AdjustOutputInformation() enables for
- *  example to limit the computation only to low frequencies. Method
- *  ComputeAtIndex() computes a frequency ratio at single index of output image
- *  and overriding it may enable some special weighting or filtering.
+ *  example to limit the computation only to low frequencies.
  *
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
@@ -121,22 +119,6 @@ protected:
                  typename ImageType::SpacingType & spacing,
                  typename ImageType::IndexType   & index,
                  typename ImageType::SizeType    & size      ) {};
-
-  /** Computes a phase correlation ratio for single frequency index.
-   *
-   *  This method is taken out from the computation in ThreadedGenerateData()
-   *  to enable child filters to reimplement it in order to perform special
-   *  computations at certain frequencies.
-   *
-   *  ?! This is still open problem, whether to ease the development of new
-   *  operator filter and slow the computation by calling such method at every
-   *  index, or whether to let the implementor of new operator reimplement entire
-   *  ThreadedGenerateData() method (copying common parts and rewriting new parts).
-   */
-  virtual ComplexType ComputeAtIndex(
-                          typename ImageType::IndexType & outputIndex,
-                          ComplexType          & fixedValue,
-                          ComplexType          & movingValue);
 
   /** Override VerifyInputInformation() since this filter's inputs do not need
    * to occupy the same physical space.

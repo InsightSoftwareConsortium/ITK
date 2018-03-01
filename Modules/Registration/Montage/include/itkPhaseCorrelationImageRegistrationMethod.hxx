@@ -42,6 +42,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedFFT = FFTFilterType::New();
   m_MovingFFT = FFTFilterType::New();
   m_IFFT = IFFTFilterType::New();
+  m_CropFilter = CropFilterType::New();
 
   m_FixedPadder->SetConstant( 0 );
   m_MovingPadder->SetConstant( 0 );
@@ -49,6 +50,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedFFT->SetInput( m_FixedPadder->GetOutput() );
   m_MovingFFT->SetInput( m_MovingPadder->GetOutput() );
 
+  m_CropFilter->SetInput( m_IFFT->GetOutput() );
 
   m_TransformParameters = ParametersType(ImageDimension);
   m_TransformParameters.Fill( 0.0f );
@@ -116,7 +118,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   if ( m_RealOptimizer )
     {
     m_IFFT->SetInput( m_Operator->GetOutput() );
-    m_RealOptimizer->SetInput( m_IFFT->GetOutput() );
+    m_RealOptimizer->SetInput( m_CropFilter->GetOutput() );
     }
   else
     {
@@ -143,6 +145,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   typename MovingImageType::SizeType movingPad;
   movingPad.Fill( 0 );
 
+  typename CropFilterType::SizeType croppingSize;
+
   const SizeValueType sizeGreatestPrimeFactor = m_FixedFFT->GetSizeGreatestPrimeFactor();
 
   for (unsigned int ii = 0; ii < ImageDimension; ++ii)
@@ -158,7 +162,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       }
     else
       {
-      fixedPad[ii] = movingSize[ii] - fixedPad[ii];
+      fixedPad[ii] = movingSize[ii] - fixedSize[ii];
       }
 
     // Next, pad for the requirements of the FFT filter
@@ -167,9 +171,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       while( Math::GreatestPrimeFactor( fixedSize[ii] + fixedPad[ii] ) > sizeGreatestPrimeFactor )
         {
         ++fixedPad[ii];
-        }
-      while( Math::GreatestPrimeFactor( movingSize[ii] + movingPad[ii] ) > sizeGreatestPrimeFactor )
-        {
         ++movingPad[ii];
         }
       }
@@ -179,10 +180,22 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       fixedPad[ii] += ( fixedSize[ii] + fixedPad[ii] ) % 2;
       movingPad[ii] += ( movingSize[ii] + movingPad[ii] ) % 2;
       }
+
+    // Crop back down to larger of the fixed or moving images
+    if( fixedSize[ii] > movingSize[ii] )
+      {
+      croppingSize[ii] = fixedPad[ii];
+      }
+    else
+      {
+      croppingSize[ii] = movingPad[ii];
+      }
     }
 
   m_FixedPadder->SetPadUpperBound( fixedPad );
   m_MovingPadder->SetPadUpperBound( movingPad );
+
+  m_CropFilter->SetUpperBoundaryCropSize( croppingSize );
 }
 
 
@@ -201,8 +214,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     {
     RealImageType * phaseCorrelation =  static_cast< RealImageType * >( this->ProcessObject::GetOutput(1) );
     phaseCorrelation->Allocate();
-    m_IFFT->GraftOutput( phaseCorrelation );
-    //m_FixedPadder->Update();
+    m_CropFilter->GraftOutput( phaseCorrelation );
+    m_CropFilter->Update();
     if ( m_RealOptimizer )
       {
       m_RealOptimizer->Update();
@@ -213,7 +226,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       m_ComplexOptimizer->Update();
       offset = m_ComplexOptimizer->GetOffset();
       }
-    phaseCorrelation->Graft( m_IFFT->GetOutput() );
+    phaseCorrelation->Graft( m_CropFilter->GetOutput() );
     }
   catch( ExceptionObject& err )
     {
@@ -276,10 +289,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   this->Initialize();
   this->DeterminePadding();
 
-  m_IFFT->UpdateOutputInformation();
+  m_CropFilter->UpdateOutputInformation();
 
   RealImageType * phaseCorrelation = static_cast< RealImageType * >( this->ProcessObject::GetOutput( 1 ) );
-  phaseCorrelation->CopyInformation( m_IFFT->GetOutput() );
+  phaseCorrelation->CopyInformation( m_CropFilter->GetOutput() );
 }
 
 
@@ -385,6 +398,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedFFT->SetReleaseDataFlag( a_flag );
   m_MovingFFT->SetReleaseDataFlag( a_flag );
   m_IFFT->SetReleaseDataFlag( a_flag );
+  m_CropFilter->SetReleaseDataFlag( a_flag );
 }
 
 
@@ -399,6 +413,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_MovingFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_IFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
+  m_CropFilter->SetReleaseDataBeforeUpdateFlag( a_flag );
 }
 
 
