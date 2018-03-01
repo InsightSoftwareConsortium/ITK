@@ -70,6 +70,7 @@ EllipseSpatialObject<TDimension>::SetCenterPoint(const PointType& point)
   originPoint.Fill(0);
   // GetModifiableObjectToWorldTransform() never returns nullptr, no need to check.
   this->GetModifiableObjectToWorldTransform()->SetOffset(point - originPoint);
+  this->ComputeObjectToParentTransform();
 }
 
 /** Test whether a point is inside or outside the object

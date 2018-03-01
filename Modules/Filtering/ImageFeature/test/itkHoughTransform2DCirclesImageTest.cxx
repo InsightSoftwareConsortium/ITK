@@ -28,8 +28,8 @@
 static const unsigned int Dimension = 2;
 
 
-template< typename ImageType >
-void CreateCircle( typename ImageType::Pointer image, const unsigned int center[Dimension], double radius )
+template< typename ImageType, typename CenterCoordinateType >
+void CreateCircle( typename ImageType::Pointer image, const CenterCoordinateType center[Dimension], double radius )
 {
   typename ImageType::IndexType index = image->GetLargestPossibleRegion().GetIndex();
 
@@ -240,6 +240,53 @@ namespace
     }
 
     return success;
+  }
+
+
+  // Tests that the center of a circle that was created on the input image
+  // is inside the spatial object produced by GetCircles().
+  bool Test_Center_IsInside_SpatialObject_from_GetCircles()
+  {
+    using PixelType = unsigned;
+    using ImageType = itk::Image<PixelType>;
+    const auto image = ImageType::New();
+    const ImageType::SizeType imageSize = { { 16, 32 } };
+    image->SetRegions(imageSize);
+    image->Allocate(true);
+    const double center[] = { 6.0, 9.0 };
+    const double radius = 1.0;
+    CreateCircle<ImageType>(image, center, radius);
+
+    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, unsigned, double >;
+    const auto filter = FilterType::New();
+    filter->SetInput(image);
+    filter->Update();
+
+    const FilterType::CirclesListType& circles = filter->GetCircles();
+
+    if (circles.size() != 1)
+    {
+      std::cout << "ERROR: GetCircles() should have found exactly one circle!" << std::endl;
+      return false;
+    }
+
+    const FilterType::CirclePointer& circle = circles.front();
+
+    if (circle == nullptr)
+    {
+      std::cout << "ERROR: The circle found by GetCircles() should not be null!" << std::endl;
+      return false;
+    }
+
+    const bool isInside = circle->IsInside(center);
+
+    if (!isInside)
+    {
+      std::cout <<
+        "ERROR: The center of the actual circle should be inside the spacial object of the detected circle!"
+        << std::endl;
+    }
+    return isInside;
   }
 
 }
@@ -500,6 +547,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   success &= Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero();
   success &= Test_GetCircles_should_return_empty_list_when_input_image_is_uniform();
   success &= Test_RadiusImage_and_OutputImage_may_have_different_types();
+  success &= Test_Center_IsInside_SpatialObject_from_GetCircles();
 
   if (success)
   {
