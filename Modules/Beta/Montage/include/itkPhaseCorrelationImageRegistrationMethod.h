@@ -22,10 +22,11 @@
 #include "itkProcessObject.h"
 #include <complex>
 #include "itkConstantPadImageFilter.h"
-#include "itkForwardFFTImageFilter.h"
-#include "itkInverseFFTImageFilter.h"
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkDataObjectDecorator.h"
 #include "itkTranslationTransform.h"
+#include "itkCropImageFilter.h"
 
 #include "itkPhaseCorrelationOperator.h"
 #include "itkPhaseCorrelationOptimizer.h"
@@ -57,7 +58,7 @@ namespace itk
  *  images to the size specified with PadToSize, if set.
  *
  *  Step 1. is performed by this class too using FFT filters supplied by
- *  itk::ForwardFFTImageFilter::New() factory.
+ *  itk::RealToHalfHermitianForwardFFTImageFilter::New() factory.
  *
  *  Step 2. is performed by generic PhaseCorrelationOperator supplied at
  *  run-time.  PhaseCorrelationOperator can be derived to implement some special
@@ -67,7 +68,7 @@ namespace itk
  *  correlation surface, while the others compute the shift from real
  *  correlation surface, step 3. is carried by this class only when necessary.
  *  The IFFT filter is created using
- *  itk::InverseFFTImageFilter::New() factory.
+ *  itk::HalfHermitianToRealInverseFFTImageFilter::New() factory.
  *
  *  Step 4. is performed with the run-time supplied PhaseCorrelationOptimizer. It has
  *  to determine the shift from the real or complex correlation surface.
@@ -264,11 +265,12 @@ protected:
 
 
   /** Types for internal componets. */
-  typedef itk::ConstantPadImageFilter< FixedImageType, RealImageType >   FixedPadderType;
-  typedef itk::ConstantPadImageFilter< MovingImageType, RealImageType >  MovingPadderType;
-  typedef itk::ForwardFFTImageFilter< RealImageType >                    FFTFilterType;
-  typedef typename FFTFilterType::OutputImageType                        ComplexImageType;
-  typedef itk::InverseFFTImageFilter< ComplexImageType, RealImageType >  IFFTFilterType;
+  typedef ConstantPadImageFilter< FixedImageType, RealImageType >                     FixedPadderType;
+  typedef ConstantPadImageFilter< MovingImageType, RealImageType >                    MovingPadderType;
+  typedef RealToHalfHermitianForwardFFTImageFilter< RealImageType >                   FFTFilterType;
+  typedef typename FFTFilterType::OutputImageType                                     ComplexImageType;
+  typedef HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType > IFFTFilterType;
+  typedef CropImageFilter< RealImageType, RealImageType >                             CropFilterType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);
@@ -287,6 +289,7 @@ private:
   typename FFTFilterType::Pointer       m_FixedFFT;
   typename FFTFilterType::Pointer       m_MovingFFT;
   typename IFFTFilterType::Pointer      m_IFFT;
+  typename CropFilterType::Pointer      m_CropFilter;
 
 };
 
