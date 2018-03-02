@@ -89,7 +89,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   outputImage->FillBuffer(0);
 
   using DoGFunctionType = GaussianDerivativeImageFunction< InputImageType >;
-  typename DoGFunctionType::Pointer DoGFunction = DoGFunctionType::New();
+  const auto DoGFunction = DoGFunctionType::New();
   DoGFunction->SetInputImage(inputImage);
   DoGFunction->SetSigma(m_SigmaGradient);
 
@@ -205,23 +205,19 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
     // The variable "outputImage" is only used as input to gaussianFilter.
     // It should not be modified, because GetOutput(0) should not be changed.
-    const OutputImagePointer outputImage = OutputImageType::New();
+    const auto outputImage = OutputImageType::New();
     outputImage->Graft(this->GetOutput(0));
 
-    using GaussianFilterType = DiscreteGaussianImageFilter< OutputImageType, InternalImageType >;
-    const typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
+    const auto gaussianFilter = DiscreteGaussianImageFilter< OutputImageType, InternalImageType >::New();
 
     gaussianFilter->SetInput(outputImage); // The output is the accumulator image
     gaussianFilter->SetVariance(m_Variance);
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-    using MinMaxCalculatorType = MinimumMaximumImageCalculator< InternalImageType >;
-    typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
+    const auto minMaxCalculator = MinimumMaximumImageCalculator< InternalImageType >::New();
     ImageRegionIterator< InternalImageType > it_input( postProcessImage,
       postProcessImage->GetLargestPossibleRegion() );
-
-    Index< 2 > index;
 
     CirclesListSizeType circles = 0;
 
@@ -244,7 +240,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       const InternalImageType::IndexType indexOfMaximum = minMaxCalculator->GetIndexOfMaximum();
 
       // Create a Circle Spatial Object
-      CirclePointer Circle = CircleType::New();
+      const auto Circle = CircleType::New();
       Circle->SetId(static_cast<int>( circles ));
       Circle->SetRadius( m_RadiusImage->GetPixel( indexOfMaximum ) );
 
@@ -264,8 +260,12 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
         {
         for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
           {
-          index[0] = Math::Round<IndexValueType>( indexOfMaximum[0] + length * std::cos(angle) );
-          index[1] = Math::Round<IndexValueType>( indexOfMaximum[1] + length * std::sin(angle) );
+          const Index< 2 > index =
+            {{
+            Math::Round<IndexValueType>( indexOfMaximum[0] + length * std::cos(angle) ),
+            Math::Round<IndexValueType>( indexOfMaximum[1] + length * std::sin(angle) )
+            }};
+
           if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
             {
             postProcessImage->SetPixel(index, 0);
