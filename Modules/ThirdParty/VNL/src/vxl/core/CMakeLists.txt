@@ -123,7 +123,7 @@ endif()
 
 
 # video
-CMAKE_DEPENDENT_OPTION (BUILD_CORE_VIDEO "Build VXL's core video libraries" ON
+CMAKE_DEPENDENT_OPTION (BUILD_CORE_VIDEO "Build VXL's core video libraries" OFF
                         "BUILD_CORE_UTILITIES;BUILD_CORE_IMAGING" OFF)
 if (BUILD_CORE_VIDEO)
   add_subdirectory(vidl)

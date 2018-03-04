@@ -18,6 +18,28 @@ inline vnl_rational vnl_sqrt(vnl_rational x) { return vnl_rational(std::sqrt(dou
 static void test_operators()
 {
   vnl_rational a(-5L), b(7,-1), c, d(3,7), e(2,0);
+  vnl_rational z_default;
+  TEST("==", z_default==0L, true);
+
+  vnl_rational z_int(static_cast<int>(0));
+  TEST("==", z_int==0L, true);
+  vnl_rational z_uint(static_cast<unsigned int>(0) );
+  TEST("==", z_uint==0L, true);
+
+  vnl_rational z_short(static_cast<int>(0));
+  TEST("==", z_short==0L, true);
+  vnl_rational z_ushort(static_cast<unsigned int>(0) );
+  TEST("==", z_ushort==0L, true);
+
+  vnl_rational z_long(static_cast<long>(0));
+  TEST("==", z_long==0L, true);
+  vnl_rational z_ulong(static_cast<unsigned long>(0));
+  TEST("==", z_ulong==0L, true);
+#if 0
+  vnl_rational z_mixed(static_cast<short>(0), static_cast<unsigned int>(1) );
+  TEST("==", z_mixed==0L, true);
+#endif
+
   TEST("==", a==-5L, true);
   TEST("==", 5L==-a, true);
   TEST("==", b==-7, true);

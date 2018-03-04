@@ -441,7 +441,7 @@ template VNL_EXPORT void vnl_c_vector_inf_norm(T const *, unsigned, S *)
 #undef VNL_C_VECTOR_INSTANTIATE_ordered
 #define VNL_C_VECTOR_INSTANTIATE_ordered(T) \
 VNL_C_VECTOR_INSTANTIATE_norm(T, vnl_c_vector<T >::abs_t); \
-template class VNL_EXPORT vnl_c_vector<T >; \
+template class vnl_c_vector<T >; \
 template VNL_EXPORT std::ostream& print_vector(std::ostream &,T const *,unsigned)
 
 #undef VNL_C_VECTOR_INSTANTIATE_unordered
@@ -450,7 +450,7 @@ VCL_DO_NOT_INSTANTIATE(T vnl_c_vector<T >::max_value(T const *, unsigned), T(0))
 VCL_DO_NOT_INSTANTIATE(T vnl_c_vector<T >::min_value(T const *, unsigned), T(0)); \
 VCL_DO_NOT_INSTANTIATE(unsigned vnl_c_vector<T >::arg_max(T const *, unsigned), 0U); \
 VCL_DO_NOT_INSTANTIATE(unsigned vnl_c_vector<T >::arg_min(T const *, unsigned), 0U); \
-template class VNL_EXPORT vnl_c_vector<T >; \
+template class vnl_c_vector<T >; \
 VNL_C_VECTOR_INSTANTIATE_norm(T, vnl_c_vector<T >::abs_t);
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

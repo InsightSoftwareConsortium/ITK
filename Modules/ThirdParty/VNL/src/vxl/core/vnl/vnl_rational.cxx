@@ -6,9 +6,8 @@
 #include <vnl/vnl_numeric_traits.h> // for vnl_numeric_traits<long>::maxval
 #include <vcl_cassert.h>
 
-//: Creates a rational from a double.
-//  This is done by computing the continued fraction approximation for d.
-vnl_rational::vnl_rational(double d)
+template<typename FloatingType>
+inline void makeNumDen( FloatingType d, long &num_, long &den_)
 {
   bool sign = d<0;
   if (sign) d = -d;
@@ -27,6 +26,20 @@ vnl_rational::vnl_rational(double d)
   num_ = num; den_ = den;
   if (sign) num_ = -num_;
   // no need to normalize() since prev_num and prev_den have guaranteed a gcd=1
+}
+
+//: Creates a rational from a double.
+//  This is done by computing the continued fraction approximation for d.
+vnl_rational::vnl_rational(double d)
+{
+  makeNumDen<double>(d,num_,den_);
+}
+
+//: Creates a rational from a double.
+//  This is done by computing the continued fraction approximation for d.
+vnl_rational::vnl_rational(float f)
+{
+  makeNumDen<double>(f,num_,den_);
 }
 
 //: Multiply/assign: replace lhs by lhs * rhs
