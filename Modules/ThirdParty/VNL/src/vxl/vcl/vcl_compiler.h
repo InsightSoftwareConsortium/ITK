@@ -897,7 +897,7 @@ __inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
 #define vcl_uninitialized_copy std::uninitialized_copy
 #define vcl_uninitialized_fill std::uninitialized_fill
 #define vcl_uninitialized_fill_n std::uninitialized_fill_n
-#define vcl_auto_ptr std::auto_ptr
+#define vcl_auto_ptr vcl_auto_ptr
 #define vcl_bad_alloc std::bad_alloc
 #define vcl_set_new_handler std::set_new_handler
 #define vcl_accumulate std::accumulate

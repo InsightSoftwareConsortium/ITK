@@ -112,27 +112,21 @@ macro( vxl_add_library )
     if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
       ## Identify the relative path for installing the header files and txx files
       string(REPLACE ${VXL_ROOT_SOURCE_DIR} "${VXL_INSTALL_INCLUDE_DIR}" relative_install_path ${CMAKE_CURRENT_SOURCE_DIR})
-      ## Added in 2.8.11 http://stackoverflow.com/questions/19460707/how-to-set-include-directories-from-a-cmakelists-txt-file
-      if(${CMAKE_VERSION} VERSION_GREATER 2.8.11.2)
-        target_include_directories(${lib_name}
-          PUBLIC
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-            $<INSTALL_INTERFACE:${relative_install_path}>
-        )
-      endif()
+      target_include_directories(${lib_name}
+        PUBLIC
+          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+          $<INSTALL_INTERFACE:${relative_install_path}>
+      )
     else()
       set(relative_install_path "${VXL_INSTALL_INCLUDE_DIR}")
       if(DEFINED header_install_dir)
         set(relative_install_path "${relative_install_path}/${header_install_dir}")
       endif()
-      ## Added in 2.8.11 http://stackoverflow.com/questions/19460707/how-to-set-include-directories-from-a-cmakelists-txt-file
-      if(${CMAKE_VERSION} VERSION_GREATER 2.8.11.2)
-        target_include_directories(${lib_name}
-          PUBLIC
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-            $<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}>
-        )
-      endif()
+      target_include_directories(${lib_name}
+        PUBLIC
+          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+          $<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}>
+      )
     endif()
     INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${lib_srcs})
   endif()
@@ -184,20 +178,11 @@ macro(SET_VXL_LIBRARY_PROPERTIES)
     if (BUILD_SHARED_LIBS OR (APPLE AND NOT BUILD_SHARED_LIBS) ) #APPLE Respects hidden visibility for static builds
       # export flags are only added when building shared libs, they cause
       # mismatched visibility warnings when building statically.
-      if(CMAKE_VERSION VERSION_LESS 2.8.12)
-        # future DEPRECATION notice from cmake:
-        #      "The add_compiler_export_flags function is obsolete.
-        #       Use the CXX_VISIBILITY_PRESET and VISIBILITY_INLINES_HIDDEN
-        #       target properties instead."
-        add_compiler_export_flags(my_abi_flags)
-        set_property(TARGET ${LSLHVP_TARGET_NAME} APPEND PROPERTY COMPILE_FLAGS "${my_abi_flags}")
-      else()
-        if (USE_COMPILER_HIDDEN_VISIBILITY)
-          # Prefer to use target properties supported by newer cmake
-          set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
-          set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
-          set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
-          endif()
+      if (USE_COMPILER_HIDDEN_VISIBILITY)
+        # Prefer to use target properties supported by newer cmake
+        set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+        set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
+        set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
       endif()
     endif()
   endif()

@@ -5,9 +5,9 @@ To facilitate the deprecation of modules, place code similar to the
 following in the FindXXX.cmake as soon as it becomes part of a CMake
 release:
 
-# FIXME: When cmake_minimum_version reaches 2.6.2 the FindXXX
+# FIXME: When cmake_minimum_version reaches 3.3.0 the FindXXX
 #        module in this directory is not needed anymore.
-IF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER 2.6.1)
+IF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER 3.3.0)
   MESSAGE(FATAL_ERROR
     "FindXXX not needed in vxl; it is now available in CMake.")
-ENDIF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER 2.6.1)
+ENDIF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER 3.3.0)

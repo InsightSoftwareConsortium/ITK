@@ -57,7 +57,7 @@ VXL_CONSTEXPR_VAR unsigned long long vnl_numeric_traits<unsigned long long>::one
 #endif
 
 VXL_CONSTEXPR_VAR bool vnl_numeric_traits<bool>::maxval VCL_STATIC_CONST_INIT_INT_DEFN(true);
-VXL_CONSTEXPR_VAR char vnl_numeric_traits<char>::maxval VCL_STATIC_CONST_INIT_INT_DEFN(char(255)<0?127:255);
+VXL_CONSTEXPR_VAR char vnl_numeric_traits<char>::maxval VCL_STATIC_CONST_INIT_INT_DEFN(char(255)<0?127:char(255));
 //  It is 127 when "char" is signed and 255 when "char" is unsigned.
 VXL_CONSTEXPR_VAR unsigned char vnl_numeric_traits<unsigned char>::maxval VCL_STATIC_CONST_INIT_INT_DEFN(255);
 VXL_CONSTEXPR_VAR signed char vnl_numeric_traits<signed char>::maxval VCL_STATIC_CONST_INIT_INT_DEFN(127);

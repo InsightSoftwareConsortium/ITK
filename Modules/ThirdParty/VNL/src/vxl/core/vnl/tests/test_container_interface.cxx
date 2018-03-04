@@ -73,7 +73,7 @@ void test_common_interface()
   m.set_column(0, 0);
   m.set_column(0, v);
   m.set_row(0, data);
-  
+
   m.set_row(0, 0);
   m.set_row(0, v);
   m.extract(2,2);
@@ -100,7 +100,7 @@ void test_common_interface()
     matrix_ud.flipud();
     TEST("get_rows", matrix_lr.is_equal(matrix.get_columns(i), 10e-6), true);
     TEST("get_columns", matrix_ud.is_equal(matrix.get_rows(i), 10e-6), true);
-#endif  
+#endif
   }
   m.get_n_rows(0,1);
   m.get_n_columns(0,1);

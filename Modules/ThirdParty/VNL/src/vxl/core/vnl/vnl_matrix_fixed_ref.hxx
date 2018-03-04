@@ -536,7 +536,7 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::read_ascii(std::istream& s) const
 
 template <class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed_ref<T,nrows,ncols> &
-vnl_matrix_fixed_ref<T,nrows,ncols>::flipud() 
+vnl_matrix_fixed_ref<T,nrows,ncols>::flipud()
 {
   for (unsigned int r1 = 0; 2*r1+1 < nrows; ++r1)
   {

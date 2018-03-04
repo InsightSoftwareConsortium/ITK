@@ -123,7 +123,7 @@ vnl_vector_fixed_ref_const<T,n>::print( std::ostream& s ) const
 // instantiation macros for vnl_vector_fixed_ref<T,unsigned> :
 
 #define VNL_VECTOR_FIXED_REF_INSTANTIATE(T,n) \
-template class VNL_EXPORT vnl_vector_fixed_ref<T, n >; \
-template class VNL_EXPORT vnl_vector_fixed_ref_const<T, n >
+template class vnl_vector_fixed_ref<T, n >; \
+template class vnl_vector_fixed_ref_const<T, n >
 
 #endif // vnl_vector_fixed_ref_hxx_

@@ -83,7 +83,7 @@ void test_int()
   try { sm1.get(0,25); }  // Raise out of bounds exception.
   catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds get(0,25)", exceptionThrownAndCaught, true);
-  
+
   exceptionThrownAndCaught = false;
   try { sm1.get(25,0); }  // Raise out of bounds exception.
   catch(...) { exceptionThrownAndCaught = true; }
