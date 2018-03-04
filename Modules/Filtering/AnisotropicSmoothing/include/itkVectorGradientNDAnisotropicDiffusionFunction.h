@@ -103,7 +103,7 @@ private:
 
   /** Derivative operators. */
   DerivativeOperator< ScalarValueType,
-                      Self::ImageDimension > m_DxOp;
+                      Self::ImageDimension > m_DerivativeOperator;
 
   /** Modified global average gradient magnitude term. */
   ScalarValueType m_K;

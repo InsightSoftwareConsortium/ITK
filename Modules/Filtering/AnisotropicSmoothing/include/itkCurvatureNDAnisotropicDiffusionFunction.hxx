@@ -67,11 +67,11 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
     }
 
   // Allocate the derivative operator.
-  m_DxOp.SetDirection(0);  // Not relevant, will be applied in a slice-based
+  m_DerivativeOperator.SetDirection(0);  // Not relevant, will be applied in a slice-based
                           // fashion.
 
-  m_DxOp.SetOrder(1);
-  m_DxOp.CreateDirectional();
+  m_DerivativeOperator.SetOrder(1);
+  m_DerivativeOperator.CreateDirectional();
 }
 
 template< typename TImage >
@@ -102,7 +102,7 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
     dx_backward[i] *= this->m_ScaleCoefficients[i];
 
     // Centralized differences
-    dx[i] = m_InnerProduct(x_slice[i], it, m_DxOp);
+    dx[i] = m_InnerProduct(x_slice[i], it, m_DerivativeOperator);
     dx[i] *= this->m_ScaleCoefficients[i];
     }
 
@@ -116,9 +116,9 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
       {
       if ( j != i )
         {
-        dx_aug = m_InnerProduct(xa_slice[j][i], it, m_DxOp);
+        dx_aug = m_InnerProduct(xa_slice[j][i], it, m_DerivativeOperator);
         dx_aug *= this->m_ScaleCoefficients[j];
-        dx_dim = m_InnerProduct(xd_slice[j][i], it, m_DxOp);
+        dx_dim = m_InnerProduct(xd_slice[j][i], it, m_DerivativeOperator);
         dx_dim *= this->m_ScaleCoefficients[j];
         grad_mag_sq += 0.25f * ( dx[j] + dx_aug ) * ( dx[j] + dx_aug );
         grad_mag_sq_d += 0.25f * ( dx[j] + dx_dim ) * ( dx[j] + dx_dim );

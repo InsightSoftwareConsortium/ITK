@@ -73,10 +73,10 @@ GPUGradientNDAnisotropicDiffusionFunction< TImage >
     }
 
   // Allocate the derivative operator.
-  m_DxOp.SetDirection(0);  // Not relevant, will be applied in a slice-based
+  m_DerivativeOperator.SetDirection(0);  // Not relevant, will be applied in a slice-based
                           // fashion.
-  m_DxOp.SetOrder(1);
-  m_DxOp.CreateDirectional();
+  m_DerivativeOperator.SetOrder(1);
+  m_DerivativeOperator.CreateDirectional();
 
   //
   // Create GPU Kernel
