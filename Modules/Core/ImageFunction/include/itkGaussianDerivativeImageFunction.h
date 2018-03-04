@@ -18,9 +18,16 @@
 #ifndef itkGaussianDerivativeImageFunction_h
 #define itkGaussianDerivativeImageFunction_h
 
-#include "itkNeighborhoodOperatorImageFunction.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkContinuousIndex.h"
+#include "itkFixedArray.h"
 #include "itkGaussianDerivativeSpatialFunction.h"
 #include "itkGaussianSpatialFunction.h"
+#include "itkImageFunction.h"
+#include "itkNeighborhood.h"
+#include "itkVector.h"
+
+#include <memory>  // For unique_ptr.
 
 namespace itk
 {
@@ -73,9 +80,6 @@ public:
   using VectorType = Vector< TOutput, Self::ImageDimension2 >;
   using OutputType = typename Superclass::OutputType;
   using OperatorArrayType = FixedArray< OperatorNeighborhoodType, Self::ImageDimension2 >;
-  using OperatorImageFunctionType = NeighborhoodOperatorImageFunction< InputImageType,
-                                             TOutput >;
-  using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
   using GaussianDerivativeFunctionType = GaussianDerivativeSpatialFunction< TOutput, 1 >;
   using GaussianDerivativeFunctionPointer = typename GaussianDerivativeFunctionType::Pointer;
@@ -154,10 +158,10 @@ private:
   /** Array of 1D operators. Contains a derivative kernel for
    * each dimension. Note: A future version of ITK could extend this array
    * to include a Gaussian blurring kernel for each dimension.*/
-  mutable OperatorArrayType         m_OperatorArray;
+  OperatorArrayType         m_OperatorArray;
 
-  /** OperatorImageFunction */
-  OperatorImageFunctionPointer      m_OperatorImageFunction;
+  std::unique_ptr<ConstNeighborhoodIterator< InputImageType >> m_NeighborhoodIterators[ImageDimension2];
+
   double                            m_Extent[ImageDimension2];
 
   /** Flag to indicate whether to use image spacing. */
