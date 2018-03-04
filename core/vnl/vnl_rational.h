@@ -80,21 +80,45 @@ class VNL_EXPORT vnl_rational
   //  Also serves as automatic cast from long to vnl_rational.
   //  The only input which is not allowed is (0,0);
   //  the denominator is allowed to be 0, to represent +Inf or -Inf.
-  inline vnl_rational(long num = 0L, long den = 1L)
+
+  inline vnl_rational()
+    : num_(0L), den_(1L) { normalize(); }
+
+  inline vnl_rational(long num)
+    : num_(num), den_(1L) { assert(num!=0||den_!=0); normalize(); }
+  inline vnl_rational(long num, long den)
     : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
-  //: Creates a rational with given numerator and denominator.
-  //  Note these are not automatic type conversions because of a bug
-  //  in the Borland compiler.  Since these just convert their
-  //  arguments to long anyway, there is no harm in letting
-  //  the long overload be used for automatic conversions.
-  explicit inline vnl_rational(int num, int den = 1)
+
+  inline vnl_rational(unsigned long num)
+    : num_(num), den_(1L) { assert(num!=0||den_!=0); normalize(); }
+  inline vnl_rational(unsigned long num, unsigned long den)
     : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
-  explicit inline vnl_rational(unsigned int num, unsigned int den = 1)
+
+  inline vnl_rational(int num)
+    : num_(num), den_(1L) { assert(num!=0||den_!=0); normalize(); }
+  inline vnl_rational(int num, int den)
+    : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
+
+  inline vnl_rational(unsigned int num)
+    : num_((long)num), den_(1L) { assert(num!=0||den_!=0); normalize(); }
+  inline vnl_rational(unsigned int num, unsigned int den)
     : num_((long)num), den_((long)den) { assert(num!=0||den!=0); normalize(); }
+
+  inline vnl_rational(short num)
+    : num_(num), den_(1L) { assert(num!=0||den_!=0); normalize(); }
+  inline vnl_rational(short num, short den)
+    : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
+
+  inline vnl_rational(unsigned short num)
+    : num_(num), den_(1L) { assert(num!=0||den_!=0); normalize(); }
+  inline vnl_rational(unsigned short num, unsigned short den)
+    : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
+
   //: Creates a rational from a double.
   //  This is done by computing the continued fraction approximation for d.
   //  Note that this is explicitly \e not an automatic type conversion.
-  explicit vnl_rational(double d);
+  vnl_rational(double d);
+  vnl_rational(float d);
   //  Copy constructor
   inline vnl_rational(vnl_rational const& from)
     : num_(from.numerator()), den_(from.denominator()) {}

@@ -24,6 +24,10 @@ option(VNL_CONFIG_THREAD_SAFE
   option(VNL_CONFIG_ENABLE_SSE2
     "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant). Currently broken. For use by VNL developers only." OFF)
 #endif()
+if(VNL_CONFIG_ENABLE_SSE2)
+  # Tested on ubuntu and Mac.  ctest becomes unstable and failures change between runs.
+  message(FATAL_ERROR  "VNL_CONFIG_ENABLE_SSE2 option currently fails testing on all platforms,  this is not suitable for use at the momemnt.")
+endif()
 
 option(VNL_CONFIG_ENABLE_SSE2_ROUNDING
   "Enable Streaming SIMD Extensions 2 implementation of rounding (hardware dependant)."

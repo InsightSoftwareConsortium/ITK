@@ -154,7 +154,16 @@ namespace vnl_math
 {
 #if VXL_FULLCXX11SUPPORT
   using std::isnan;
-  using std::isinf;
+  // Ensure proper conversion to bool type.
+  // Return a signed integer type has been seen with the following
+  // compilers/libstdc++:
+  //  g++ (GCC) 7.2.1 20170829 (Red Hat 7.2.1-1)
+  //  g++ (GCC) 6.3.1 20170216 (Red Hat 6.3.1-3)
+  template <typename TArg>
+  bool isinf(TArg&& arg)
+    {
+    return bool(std::isinf(std::forward<TArg>(arg)));
+    }
   using std::isfinite;
   using std::isnormal;
   using std::max;
