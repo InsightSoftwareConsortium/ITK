@@ -144,7 +144,7 @@ public:
   using VirtualIndexType = typename VirtualImageType::IndexType;
 
   /** Point set in the virtual domain */
-  using VirtualPointSetType = PointSet<VirtualPixelType, itkGetStaticConstMacro(VirtualDimension)>;
+  using VirtualPointSetType = PointSet<VirtualPixelType, Self::VirtualDimension>;
   using VirtualPointSetPointer = typename VirtualPointSetType::Pointer;
 
   /**  Type of the Transform Base classes */
@@ -171,7 +171,7 @@ public:
   using MovingTransformJacobianType = typename MovingTransformType::JacobianType;
 
   /** DisplacementFieldTransform types for working with local-support transforms */
-  using MovingDisplacementFieldTransformType = DisplacementFieldTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >;
+  using MovingDisplacementFieldTransformType = DisplacementFieldTransform<CoordinateRepresentationType, Self::MovingDimension  >;
 
   void Initialize(void) override;
 

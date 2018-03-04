@@ -91,7 +91,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanErodeDilateImageFilter);
 
-  using BresType = BresenhamLine< itkGetStaticConstMacro(InputImageDimension) >;
+  using BresType = BresenhamLine< Self::InputImageDimension >;
 
 }; // end of class
 } // end namespace itk

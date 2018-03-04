@@ -137,8 +137,8 @@ public:
 
   // Concept checking -- input and output dimensions must be the same
   itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
-                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
+                   ( Concept::SameDimension< Self::InputImageDimension,
+                                             Self::OutputImageDimension > ) );
   itkConceptMacro( OutputImagePixelTypeIsInteger, ( Concept::IsInteger< OutputImagePixelType > ) );
 
   itkSetInputMacro(MaskImage, MaskImageType);

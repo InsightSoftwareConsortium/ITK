@@ -114,11 +114,11 @@ public:
   using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
   /** Typedefs to describe and access coordinate images */
-  using CoordImageType = Image< TCoordType, itkGetStaticConstMacro(ImageDimension) >;
+  using CoordImageType = Image< TCoordType, Self::ImageDimension >;
 
   /** Typedef for region copier */
-  using RegionCopierType = ImageToImageFilterDetail::ImageRegionCopier< itkGetStaticConstMacro(ImageDimension),
-                                                       itkGetStaticConstMacro(ImageDimension) >;
+  using RegionCopierType = ImageToImageFilterDetail::ImageRegionCopier< Self::ImageDimension,
+                                                       Self::ImageDimension >;
 
   /** SetInputImage is used to set the image to be interpolated.
     * Note that this should be used instead of the direct setInput

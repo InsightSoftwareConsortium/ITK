@@ -88,7 +88,7 @@ public:
   static constexpr unsigned int Dimension = InputImageType ::ImageDimension;
 
   using OutputImageType = VectorImage< ProbabilityPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >;
+                       Self::Dimension >;
   using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -110,7 +110,7 @@ public:
    *  pixel to a particular class. This image has arrays as pixels, the number of
    *  elements in the array is the same as the number of classes to be used.    */
   using MembershipImageType = VectorImage< ProbabilityPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >;
+                       Self::Dimension >;
   using MembershipPixelType = typename MembershipImageType::PixelType;
   using MembershipImagePointer = typename MembershipImageType::Pointer;
   using MembershipImageIteratorType = ImageRegionIterator< MembershipImageType >;

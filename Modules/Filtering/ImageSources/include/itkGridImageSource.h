@@ -87,9 +87,9 @@ public:
   using KernelFunctionType = KernelFunctionBase<double>;
   /** Other convenient types. */
   using ArrayType =
-      FixedArray< RealType, itkGetStaticConstMacro(ImageDimension) >;
+      FixedArray< RealType, Self::ImageDimension >;
   using BoolArrayType =
-      FixedArray< bool, itkGetStaticConstMacro(ImageDimension) >;
+      FixedArray< bool, Self::ImageDimension >;
   using PixelArrayType = vnl_vector< RealType >;
   using PixelArrayContainerType = VectorContainer< SizeValueType, PixelArrayType >;
 

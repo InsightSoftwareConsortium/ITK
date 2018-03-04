@@ -88,7 +88,7 @@ public:
   { return ImageDimension; }
 
   /** Index type alias support An index is used to access pixel values. */
-  using IndexType = Index< itkGetStaticConstMacro(ImageDimension) >;
+  using IndexType = Index< Self::ImageDimension >;
   using IndexValueType = typename IndexType::IndexValueType;
   using OffsetType = typename IndexType::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
@@ -96,11 +96,11 @@ public:
   typedef OffsetValueType OffsetTableType[ImageDimension+1];
 
   /** Size type alias support A size is used to define region bounds. */
-  using SizeType = Size< itkGetStaticConstMacro(ImageDimension) >;
+  using SizeType = Size< Self::ImageDimension >;
   using SizeValueType = typename SizeType::SizeValueType;
 
   /** Slice region type alias. SliceRegion is one dimension less than Self. */
-  using SliceRegion = ImageRegion< itkGetStaticConstMacro(SliceDimension) >;
+  using SliceRegion = ImageRegion< Self::SliceDimension >;
 
   /** Return the region type. Images are described with structured regions. */
   typename Superclass::RegionType GetRegionType() const override

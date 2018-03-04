@@ -50,8 +50,8 @@ public:
   /** Standard class type aliases. */
   using Self = Rigid3DPerspectiveTransform;
   using Superclass = Transform<TParametersValueType,
-                    itkGetStaticConstMacro(InputSpaceDimension),
-                    itkGetStaticConstMacro(OutputSpaceDimension)>;
+                    Self::InputSpaceDimension,
+                    Self::OutputSpaceDimension>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -75,24 +75,24 @@ public:
   using JacobianType = typename Superclass::JacobianType;
 
   /** Standard matrix type for this class. */
-  using MatrixType = Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>;
+  using MatrixType = Matrix<TParametersValueType, Self::InputSpaceDimension,
+                 Self::InputSpaceDimension>;
 
   /** Standard vector type for this class. */
-  using OffsetType = Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OffsetType = Vector<TParametersValueType, Self::InputSpaceDimension>;
   using OffsetValueType = typename OffsetType::ValueType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
-  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputVectorType = Vector<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputVectorType = Vector<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard covariant vector type for this class */
   using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
   using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = Point<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
-  using OutputPointType = Point<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputPointType = Point<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputPointType = Point<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard vnl_quaternion type. */
   using VnlQuaternionType = vnl_quaternion<TParametersValueType>;

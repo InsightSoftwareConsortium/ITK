@@ -95,7 +95,7 @@ public:
 
   /** The vector type that will be used in the calculations. */
   //  typedef
-  using VectorType = FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >;
+  using VectorType = FixedArray< ScalarValueType, Self::ImageDimension >;
 
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step and other intermediate
@@ -109,14 +109,14 @@ public:
 
     /** Hessian matrix */
     vnl_matrix_fixed< ScalarValueType,
-                      itkGetStaticConstMacro(ImageDimension),
-                      itkGetStaticConstMacro(ImageDimension) > m_dxy;
+                      Self::ImageDimension,
+                      Self::ImageDimension > m_dxy;
 
     /** Array of first derivatives */
-    ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
+    ScalarValueType m_dx[Self::ImageDimension];
 
-    ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
-    ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
+    ScalarValueType m_dx_forward[Self::ImageDimension];
+    ScalarValueType m_dx_backward[Self::ImageDimension];
 
     ScalarValueType m_GradMagSqr;
   };
@@ -309,13 +309,13 @@ protected:
   static double m_DT;
 
   /** Slices for the ND neighborhood. */
-  std::slice x_slice[itkGetStaticConstMacro(ImageDimension)];
+  std::slice x_slice[Self::ImageDimension];
 
   /** The offset of the center pixel in the neighborhood. */
   OffsetValueType m_Center;
 
   /** Stride length along the y-dimension. */
-  OffsetValueType m_xStride[itkGetStaticConstMacro(ImageDimension)];
+  OffsetValueType m_xStride[Self::ImageDimension];
 
   bool m_UseMinimalCurvature;
 

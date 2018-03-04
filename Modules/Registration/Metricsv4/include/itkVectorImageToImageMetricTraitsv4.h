@@ -82,13 +82,13 @@ public:
   using MovingGradientPixelType = MovingImageGradientType;
 
   using FixedImageGradientImageType = Image< FixedGradientPixelType,
-                 itkGetStaticConstMacro(FixedImageDimension) >;
+                 Self::FixedImageDimension >;
 
   using FixedImageGradientFilterType =
       ImageToImageFilter< FixedImageType, FixedImageGradientImageType >;
 
   using MovingImageGradientImageType = Image< MovingGradientPixelType,
-                 itkGetStaticConstMacro(MovingImageDimension) >;
+                 Self::MovingImageDimension >;
 
   using MovingImageGradientFilterType =
       ImageToImageFilter< MovingImageType, MovingImageGradientImageType >;

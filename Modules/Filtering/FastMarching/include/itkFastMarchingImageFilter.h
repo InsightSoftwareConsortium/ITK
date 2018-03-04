@@ -162,7 +162,7 @@ private:
   static constexpr unsigned int SpeedImageDimension = SpeedImageType::ImageDimension;
 
   /** Index type alias support */
-  using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;
+  using IndexType = Index< Self::SetDimension >;
 
   /** Enum of Fast Marching algorithm point types. FarPoints represent far
    * away points; TrialPoints represent points within a narrowband of the
@@ -172,7 +172,7 @@ private:
                    TrialPoint, InitialTrialPoint, OutsidePoint };
 
   /** LabelImage type alias support */
-  using LabelImageType = Image< unsigned char, itkGetStaticConstMacro(SetDimension) >;
+  using LabelImageType = Image< unsigned char, Self::SetDimension >;
 
   /** LabelImagePointer type alias support */
   using LabelImagePointer = typename LabelImageType::Pointer;

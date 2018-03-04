@@ -54,7 +54,7 @@ public:
     */
   using PixelType = typename TImage::PixelType;
   using ScalarValueType = typename PixelType::ValueType;
-  using NeighborhoodType = Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodType = Neighborhood< PixelType, Self::ImageDimension >;
 
   /** Extract the image and vector dimension from the image template parameter.
     */
@@ -62,7 +62,7 @@ public:
 
   /** Operator type alias */
   using OperatorType = Neighborhood< ScalarValueType,
-                        itkGetStaticConstMacro(ImageDimension) >;
+                        Self::ImageDimension >;
 
   /** Conversion operator. */
   PixelType operator()(const std::slice & s,

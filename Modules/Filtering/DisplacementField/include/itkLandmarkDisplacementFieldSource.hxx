@@ -37,7 +37,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
 
   using DefaultTransformType = ThinPlateSplineKernelTransform<
     double,
-    itkGetStaticConstMacro(ImageDimension) >;
+    Self::ImageDimension >;
 
   m_KernelTransform = DefaultTransformType::New();
 }

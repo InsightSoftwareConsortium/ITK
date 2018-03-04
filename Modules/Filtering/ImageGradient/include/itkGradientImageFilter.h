@@ -89,7 +89,7 @@ public:
   using OutputValueType = TOutputValueType;
   using OutputPixelType = typename OutputImageType::PixelType;
   using CovariantVectorType = CovariantVector<
-    OutputValueType, itkGetStaticConstMacro(OutputImageDimension) >;
+    OutputValueType, Self::OutputImageDimension >;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** GradientImageFilter needs a larger input requested region than

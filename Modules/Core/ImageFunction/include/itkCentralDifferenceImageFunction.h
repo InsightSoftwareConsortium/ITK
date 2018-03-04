@@ -117,7 +117,7 @@ public:
   using OutputValueType = typename OutputConvertType::ComponentType;
 
   /** Scalar derivative type alias support */
-  using ScalarDerivativeType = CovariantVector<OutputValueType, itkGetStaticConstMacro(ImageDimension) >;
+  using ScalarDerivativeType = CovariantVector<OutputValueType, Self::ImageDimension >;
 
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;

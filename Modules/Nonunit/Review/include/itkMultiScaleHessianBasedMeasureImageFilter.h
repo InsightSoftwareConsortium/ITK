@@ -91,7 +91,7 @@ public:
 
   /** Types for Scales image */
   using ScalesPixelType = float;
-  using ScalesImageType = Image< ScalesPixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using ScalesImageType = Image< ScalesPixelType, Self::ImageDimension >;
 
   /** Hessian computation filter. */
   using HessianFilterType = HessianRecursiveGaussianImageFilter< InputImageType, HessianImageType >;
@@ -99,7 +99,7 @@ public:
   /** Update image buffer that holds the best objectness response. This is not redundant from
    the output image because the latter may not be of float type, which is required for the comparisons
    between responses at different scales. */
-  using UpdateBufferType = Image< double, itkGetStaticConstMacro(ImageDimension) >;
+  using UpdateBufferType = Image< double, Self::ImageDimension >;
   using BufferValueType = typename UpdateBufferType::ValueType;
 
   using DataObjectPointer = typename Superclass::DataObjectPointer;

@@ -125,7 +125,7 @@ private:
   TableType m_OffsetToIndexTable;
 
   /** Interpolation kernel type. */
-  using KernelType = BSplineKernelFunction< itkGetStaticConstMacro(SplineOrder) >;
+  using KernelType = BSplineKernelFunction< Self::SplineOrder >;
 
   /** Interpolation kernel. */
   typename KernelType::Pointer m_Kernel;

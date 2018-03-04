@@ -101,7 +101,7 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers */
-  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using ArrayType = FixedArray< double, Self::ImageDimension >;
 
   /** Standard get/set macros for Gaussian filter parameters.  */
   itkSetMacro(Variance, ArrayType);

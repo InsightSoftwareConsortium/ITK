@@ -65,14 +65,14 @@ public:
   static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
 
   using ContinuousIndexType =
-      ContinuousIndex< SpacePrecisionType, itkGetStaticConstMacro(ImageDimension2) >;
+      ContinuousIndex< SpacePrecisionType, Self::ImageDimension2 >;
 
-  using NeighborhoodType = Neighborhood< InputPixelType, itkGetStaticConstMacro(ImageDimension2) >;
-  using OperatorNeighborhoodType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using NeighborhoodType = Neighborhood< InputPixelType, Self::ImageDimension2 >;
+  using OperatorNeighborhoodType = Neighborhood< TOutput, Self::ImageDimension2 >;
 
-  using VectorType = Vector< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using VectorType = Vector< TOutput, Self::ImageDimension2 >;
   using OutputType = typename Superclass::OutputType;
-  using OperatorArrayType = FixedArray< OperatorNeighborhoodType, itkGetStaticConstMacro(ImageDimension2) >;
+  using OperatorArrayType = FixedArray< OperatorNeighborhoodType, Self::ImageDimension2 >;
   using OperatorImageFunctionType = NeighborhoodOperatorImageFunction< InputImageType,
                                              TOutput >;
   using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
@@ -81,7 +81,7 @@ public:
   using GaussianDerivativeFunctionPointer = typename GaussianDerivativeFunctionType::Pointer;
 
   /** Point type alias support */
-  // using PointType = Point< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  // using PointType = Point< TOutput, Self::ImageDimension2 >;
   using PointType = typename InputImageType::PointType;
 
   /** Evaluate the function at the specifed point. */

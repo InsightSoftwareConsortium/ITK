@@ -76,7 +76,7 @@ public:
   static constexpr unsigned int NDimensions = TOutputImage::ImageDimension;
 
   /** Type used to store Gaussian parameters. */
-  using ArrayType = FixedArray< double, itkGetStaticConstMacro(NDimensions) >;
+  using ArrayType = FixedArray< double, Self::NDimensions >;
 
   /** Size type matches that used for images */
   using SizeType = typename TOutputImage::SizeType;

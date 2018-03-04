@@ -64,8 +64,8 @@ public:
   /** Standard class type aliases. */
   using Self = VectorCentralDifferenceImageFunction;
   using Superclass = ImageFunction< TInputImage,
-                         Matrix< double, itkGetStaticConstMacro(Dimension),
-                                 itkGetStaticConstMacro(ImageDimension) >,
+                         Matrix< double, Self::Dimension,
+                                 Self::ImageDimension >,
                          TCoordRep >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;

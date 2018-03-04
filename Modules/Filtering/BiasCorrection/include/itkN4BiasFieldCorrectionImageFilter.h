@@ -124,8 +124,8 @@ public:
 
   /** B-spline smoothing filter argument type alias */
   using ScalarType = Vector<RealType, 1>;
-  using PointSetType = PointSet<ScalarType, itkGetStaticConstMacro( ImageDimension )>;
-  using ScalarImageType = Image<ScalarType, itkGetStaticConstMacro( ImageDimension )>;
+  using PointSetType = PointSet<ScalarType, Self::ImageDimension >;
+  using ScalarImageType = Image<ScalarType, Self::ImageDimension >;
   using PointSetPointer = typename PointSetType::Pointer;
   using PointType = typename PointSetType::PointType;
 

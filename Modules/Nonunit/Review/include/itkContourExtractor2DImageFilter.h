@@ -165,7 +165,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( DimensionShouldBe2,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension), 2 > ) );
+                   ( Concept::SameDimension< Self::InputImageDimension, 2 > ) );
   itkConceptMacro( InputPixelTypeComparable,
                    ( Concept::Comparable< InputPixelType > ) );
   itkConceptMacro( InputHasPixelTraitsCheck,

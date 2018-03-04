@@ -90,8 +90,8 @@ public:
    * \todo Check that input and output images have the same number of
    * dimensions; this is required by the current implementation of
    * AffineTransform. */
-  using TransformType = Transform< TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension),
-                     itkGetStaticConstMacro(ImageDimension) >;
+  using TransformType = Transform< TInterpolatorPrecisionType, Self::ImageDimension,
+                     Self::ImageDimension >;
   using TransformPointerType = typename TransformType::ConstPointer;
 
   /** Interpolator type alias. */
@@ -99,7 +99,7 @@ public:
   using InterpolatorPointerType = typename InterpolatorType::Pointer;
 
   /** Image size type alias. */
-  using SizeType = Size< itkGetStaticConstMacro(ImageDimension) >;
+  using SizeType = Size< Self::ImageDimension >;
 
   /** Image index type alias. */
   using IndexType = typename TOutputImage::IndexType;

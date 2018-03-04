@@ -97,9 +97,9 @@ public:
   static constexpr unsigned int InputPixelDimension = InputPixelType::Dimension;
 
   using EigenValueArrayType =
-      FixedArray< double, itkGetStaticConstMacro(InputPixelDimension) >;
+      FixedArray< double, Self::InputPixelDimension >;
   using EigenValueImageType =
-      Image< EigenValueArrayType, itkGetStaticConstMacro(ImageDimension) >;
+      Image< EigenValueArrayType, Self::ImageDimension >;
   using EigenAnalysisFilterType = SymmetricEigenAnalysisImageFilter<
     InputImageType, EigenValueImageType >;
 

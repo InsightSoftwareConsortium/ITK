@@ -114,8 +114,8 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
   // iterator
   if ( !strcmp(m_SpatialObject->GetTypeName(), "ImageMaskSpatialObject") )
     {
-    using MaskImageType = Image< unsigned char, itkGetStaticConstMacro(ObjectDimension) >;
-    using MaskSOType = ImageMaskSpatialObject< itkGetStaticConstMacro(ObjectDimension) >;
+    using MaskImageType = Image< unsigned char, Self::ObjectDimension >;
+    using MaskSOType = ImageMaskSpatialObject< Self::ObjectDimension >;
 
     typename MaskSOType::Pointer maskSpatialObject = dynamic_cast< MaskSOType * >( m_SpatialObject.GetPointer() );
     if( maskSpatialObject.IsNull() )
@@ -136,7 +136,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
         VectorType mv;
         mv[0] = m_Image->GetPixel(ind);
         m_Sum += static_cast< AccumulateType >( mv[0] );
-        for ( unsigned int i = 1; i < itkGetStaticConstMacro(SampleDimension); i++ )
+        for ( unsigned int i = 1; i < Self::SampleDimension; i++ )
           {
           ind[m_SampleDirection] += 1;
           mv[i] = m_Image->GetPixel(ind);
@@ -155,8 +155,8 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
     m_SpatialObject->ComputeBoundingBox();
     boundingBox = m_SpatialObject->GetBoundingBox();
 
-    Point< double, itkGetStaticConstMacro(ObjectDimension) > pt;
-    for ( unsigned int i = 0; i < itkGetStaticConstMacro(ObjectDimension); i++ )
+    Point< double, Self::ObjectDimension > pt;
+    for ( unsigned int i = 0; i < Self::ObjectDimension; i++ )
       {
       pt[i] =
         boundingBox->GetBounds()[i * 2] + ( boundingBox->GetBounds()[i * 2 + 1] - boundingBox->GetBounds()[i * 2] ) / 2;
@@ -167,7 +167,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
     // We should remove the spacing and the origin of the image since the
     // FloodFill iterator is
     // considering them.
-    for ( unsigned int i = 0; i < itkGetStaticConstMacro(ObjectDimension); i++ )
+    for ( unsigned int i = 0; i < Self::ObjectDimension; i++ )
       {
       index[i] = (IndexValueType)( ( pt[i] - m_Image->GetOrigin()[i] ) / m_Image->GetSpacing()[i] );
       }
@@ -182,7 +182,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
       VectorType mv;
       mv[0] = it.Get();
       m_Sum += static_cast< AccumulateType >( mv[0] );
-      for ( unsigned int i = 1; i < itkGetStaticConstMacro(SampleDimension); i++ )
+      for ( unsigned int i = 1; i < Self::SampleDimension; i++ )
         {
         ind[m_SampleDirection] += 1;
         mv[i] = m_Image->GetPixel(ind);

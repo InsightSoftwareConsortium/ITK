@@ -61,8 +61,8 @@ public:
   /** Dimension constants */
   static constexpr unsigned int ObjectDimension = InputSpatialObjectType::ObjectDimension;
 
-  using PointType = itk::SpatialObjectPoint< itkGetStaticConstMacro(ObjectDimension) >;
-  using PointBasedSpatialObjectType = itk::PointBasedSpatialObject< itkGetStaticConstMacro(ObjectDimension) >;
+  using PointType = itk::SpatialObjectPoint< Self::ObjectDimension >;
+  using PointBasedSpatialObjectType = itk::PointBasedSpatialObject< Self::ObjectDimension >;
 
   /** Set/Get the PointSet input of this process object.  */
   using Superclass::SetInput;

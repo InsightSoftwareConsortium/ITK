@@ -124,7 +124,7 @@ FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 
   OutputSpacingType spacing = oImage->GetSpacing();
 
-  unsigned int xStride[ itkGetStaticConstMacro( ImageDimension ) ];
+  unsigned int xStride[ Self::ImageDimension  ];
 
   centerPixel = oImage->GetPixel( iNode );
 

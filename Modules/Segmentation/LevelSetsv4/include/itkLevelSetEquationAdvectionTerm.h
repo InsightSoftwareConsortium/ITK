@@ -89,7 +89,7 @@ public:
 
   using VectorType = LevelSetGradientType;
 
-  using AdvectionImageType = Image< VectorType, itkGetStaticConstMacro(ImageDimension) >;
+  using AdvectionImageType = Image< VectorType, Self::ImageDimension >;
   using AdvectionImagePointer = typename AdvectionImageType::Pointer;
 
 
@@ -104,7 +104,7 @@ public:
   using RadiusType = typename ConstNeighborhoodIterator< InputImageType >::RadiusType;
   using NeighborhoodType = ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType >;
 
-  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, Self::ImageDimension >;
 
   /** \todo to be documented. */
   void Update() override;

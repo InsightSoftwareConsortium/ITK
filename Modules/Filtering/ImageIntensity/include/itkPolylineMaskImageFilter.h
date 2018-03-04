@@ -64,7 +64,7 @@ public:
   using ProjPlanePointType = Point< double, 2 >;
 
   /** Standard matrix type for this class. */
-  using MatrixType = Matrix< double, itkGetStaticConstMacro(InputDimension), itkGetStaticConstMacro(InputDimension) >;
+  using MatrixType = Matrix< double, Self::InputDimension, Self::InputDimension >;
 
   /** type alias for the vector type. */
   using VectorType = TVector;

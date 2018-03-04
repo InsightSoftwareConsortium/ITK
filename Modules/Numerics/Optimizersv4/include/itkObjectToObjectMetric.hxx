@@ -36,8 +36,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   m_NumberOfValidPoints(0)
 {
   /* Both transforms default to an identity transform */
-  using MovingIdentityTransformType = IdentityTransform<TParametersValueType, itkGetStaticConstMacro( MovingDimension ) >;
-  using FixedIdentityTransformType = IdentityTransform<TParametersValueType, itkGetStaticConstMacro( FixedDimension ) >;
+  using MovingIdentityTransformType = IdentityTransform<TParametersValueType, Self::MovingDimension  >;
+  using FixedIdentityTransformType = IdentityTransform<TParametersValueType, Self::FixedDimension  >;
   this->m_FixedTransform  = FixedIdentityTransformType::New();
   this->m_MovingTransform = MovingIdentityTransformType::New();
 
@@ -434,7 +434,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 {
   // If it's a composite transform and the displacement field is the first
   // to be applied (i.e. the most recently added), then return that.
-  using MovingCompositeTransformType = CompositeTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >;
+  using MovingCompositeTransformType = CompositeTransform<CoordinateRepresentationType, Self::MovingDimension  >;
   const MovingTransformType* transform = this->m_MovingTransform.GetPointer();
   // If it's a CompositeTransform, get the last transform (1st applied).
   const auto * comptx = dynamic_cast< const MovingCompositeTransformType * > ( transform );

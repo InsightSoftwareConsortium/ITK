@@ -135,7 +135,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Internal type alias. */
-  using SpeedImageType = Image< float, itkGetStaticConstMacro(SetDimension) >;
+  using SpeedImageType = Image< float, Self::SetDimension >;
   using LocatorType = LevelSetNeighborhoodExtractor< TLevelSet >;
   using FastMarchingImageFilterType = FastMarchingImageFilter< TLevelSet, SpeedImageType >;
 

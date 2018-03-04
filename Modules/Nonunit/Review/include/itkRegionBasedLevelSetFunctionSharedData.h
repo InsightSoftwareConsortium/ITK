@@ -103,7 +103,7 @@ public:
 
   using ListPixelType = std::list< unsigned int >;
   using ListImageType =
-      Image< ListPixelType, itkGetStaticConstMacro(ImageDimension) >;
+      Image< ListPixelType, Self::ImageDimension >;
   using ListImagePointer = typename ListImageType::Pointer;
   using ListImageConstPointer = typename ListImageType::ConstPointer;
   using ListRegionType = typename ListImageType::RegionType;
@@ -116,7 +116,7 @@ public:
   using ListIteratorType = ImageRegionIteratorWithIndex< ListImageType >;
 
   using CentroidVectorType =
-      Vector< float, itkGetStaticConstMacro(ImageDimension) >;
+      Vector< float, Self::ImageDimension >;
   using SampleType = itk::Statistics::ListSample< CentroidVectorType >;
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
   using TreePointer = typename TreeGeneratorType::Pointer;

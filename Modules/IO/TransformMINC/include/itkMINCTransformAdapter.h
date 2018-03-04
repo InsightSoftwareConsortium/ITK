@@ -79,8 +79,8 @@ public:
   using JacobianType = typename Superclass::JacobianType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
-  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputVectorType = Vector<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputVectorType = Vector<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard variable length vector type for this class
   *  this provides an interface for the VectorImage class */
@@ -88,9 +88,9 @@ public:
   using OutputVectorPixelType = VariableLengthVector<TParametersValueType>;
 
   /** Standard covariant vector type for this class */
-  using InputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, Self::InputSpaceDimension>;
 
-  using OutputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard coordinate point type for this class */
   using InputPointType = Point<TParametersValueType,NInputDimensions >;

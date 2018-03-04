@@ -70,11 +70,11 @@ public:
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using LabelObjectType = ShapeLabelObject< InputImagePixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using LabelObjectType = ShapeLabelObject< InputImagePixelType, Self::ImageDimension >;
   using LabelMapType = LabelMap< LabelObjectType >;
   using LabelizerType = LabelImageToLabelMapFilter< InputImageType, LabelMapType >;
   using ShapeLabelFilterOutput =
-      Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension) >;
+      Image< typename OutputImageType::PixelType, Self::OutputImageDimension >;
   using LabelObjectValuatorType = ShapeLabelMapFilter< LabelMapType, ShapeLabelFilterOutput >;
   using AttributeType = typename LabelObjectType::AttributeType;
   using RelabelType = ShapeRelabelLabelMapFilter< LabelMapType >;

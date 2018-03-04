@@ -92,7 +92,7 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
-  using ReferenceImageType = ImageBase< itkGetStaticConstMacro(ImageDimension) >;
+  using ReferenceImageType = ImageBase< Self::ImageDimension >;
 
   /** Copy the output information from another Image. */
   void SetReferenceImage(const ReferenceImageType *image);

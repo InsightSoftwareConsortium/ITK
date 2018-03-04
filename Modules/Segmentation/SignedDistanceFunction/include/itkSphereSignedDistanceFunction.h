@@ -96,7 +96,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SphereSignedDistanceFunction);
 
-  using VectorType = Vector< CoordRepType, itkGetStaticConstMacro(SpaceDimension) >;
+  using VectorType = Vector< CoordRepType, Self::SpaceDimension >;
 
   VectorType m_Translation;
   double     m_Radius;

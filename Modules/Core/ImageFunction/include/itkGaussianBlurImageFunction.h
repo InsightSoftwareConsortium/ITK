@@ -71,15 +71,15 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using GaussianOperatorType = GaussianOperator<
-    TOutput, itkGetStaticConstMacro(ImageDimension) >;
-  using NeighborhoodType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) >;
-  using OperatorArrayType = FixedArray< NeighborhoodType, itkGetStaticConstMacro(ImageDimension) >;
+    TOutput, Self::ImageDimension >;
+  using NeighborhoodType = Neighborhood< TOutput, Self::ImageDimension >;
+  using OperatorArrayType = FixedArray< NeighborhoodType, Self::ImageDimension >;
 
   using GaussianFunctionType = GaussianSpatialFunction< TOutput, 1 >;
   using GaussianFunctionPointer = typename GaussianFunctionType::Pointer;
   using InputPixelRealType = typename NumericTraits< InputPixelType >::RealType;
   using InternalImageType = itk::Image<
-    InputPixelRealType, itkGetStaticConstMacro(ImageDimension) >;
+    InputPixelRealType, Self::ImageDimension >;
   using InternalImagePointer = typename InternalImageType::Pointer;
 
   using OperatorImageFunctionType = NeighborhoodOperatorImageFunction< InputImageType, TOutput >;
@@ -88,9 +88,9 @@ public:
   using OperatorInternalImageFunctionType = NeighborhoodOperatorImageFunction< InternalImageType, TOutput >;
   using OperatorInternalImageFunctionPointer = typename OperatorInternalImageFunctionType::Pointer;
 
-  using ErrorArrayType = itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
-  using ExtentArrayType = itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
-  using SigmaArrayType = itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using ErrorArrayType = itk::FixedArray< double, Self::ImageDimension >;
+  using ExtentArrayType = itk::FixedArray< double, Self::ImageDimension >;
+  using SigmaArrayType = itk::FixedArray< double, Self::ImageDimension >;
 
   /** Point type alias support */
   using PointType = typename Superclass::PointType;

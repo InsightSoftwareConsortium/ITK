@@ -93,7 +93,7 @@ public:
    * \todo Check that input and output images have the same number of
      * dimensions; this is required for consistency.  */
   using KernelTransformType = KernelTransform<
-    double, itkGetStaticConstMacro(ImageDimension) >;
+    double, Self::ImageDimension >;
   using KernelTransformPointerType = typename KernelTransformType::Pointer;
 
   /** Image size type alias. */

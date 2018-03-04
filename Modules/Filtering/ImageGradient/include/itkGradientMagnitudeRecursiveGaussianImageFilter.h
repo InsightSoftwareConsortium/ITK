@@ -72,7 +72,7 @@ public:
 
   using InternalRealType = float;
   using RealImageType = Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >;
+                 Self::ImageDimension >;
 
   /**  Smoothing filter type */
   using GaussianFilterType = RecursiveGaussianImageFilter<
@@ -103,7 +103,7 @@ public:
   /**  Auxiliary image for holding the values of the squared gradient components
     */
   using CumulativeImageType = Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >;
+                 Self::ImageDimension >;
   using CumulativeImagePointer = typename CumulativeImageType::Pointer;
 
   /** Method for creation through the object factory. */

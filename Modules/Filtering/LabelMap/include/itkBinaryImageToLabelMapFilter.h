@@ -146,8 +146,8 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Concept checking -- input and output dimensions must be the same
   itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
-                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
+                   ( Concept::SameDimension< Self::InputImageDimension,
+                                             Self::OutputImageDimension > ) );
 #endif
 
 protected:

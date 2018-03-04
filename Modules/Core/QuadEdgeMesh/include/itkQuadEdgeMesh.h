@@ -83,7 +83,7 @@ public:
   // Point section:
   using PointsContainer = typename Superclass::PointsContainer;
   using PointsContainerPointer = typename Superclass::PointsContainerPointer;
-  typedef CoordRepType CoordRepArrayType[itkGetStaticConstMacro(PointDimension)];
+  typedef CoordRepType CoordRepArrayType[Self::PointDimension];
 
   // Point data section:
   using PointDataContainer = typename Superclass::PointDataContainer;

@@ -106,7 +106,7 @@ public:
 public:
   QuadraticTriangleCell()
   {
-    for ( PointIdentifier i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++ )
+    for ( PointIdentifier i = 0; i < Self::NumberOfPoints; i++ )
       {
       m_PointIds[i] = NumericTraits< PointIdentifier >::max();
       }

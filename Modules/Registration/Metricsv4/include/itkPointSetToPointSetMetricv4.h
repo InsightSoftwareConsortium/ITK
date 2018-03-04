@@ -156,11 +156,11 @@ public:
   using PointsLocatorType = PointsLocator< PointsContainer>;
   using NeighborsIdentifierType = typename PointsLocatorType::NeighborsIdentifierType;
 
-  using FixedTransformedPointSetType = PointSet<FixedPixelType, itkGetStaticConstMacro( PointDimension )>;
-  using MovingTransformedPointSetType = PointSet<MovingPixelType, itkGetStaticConstMacro( PointDimension )>;
+  using FixedTransformedPointSetType = PointSet<FixedPixelType, Self::PointDimension >;
+  using MovingTransformedPointSetType = PointSet<MovingPixelType, Self::PointDimension >;
 
   using DerivativeValueType = typename DerivativeType::ValueType;
-  using LocalDerivativeType = FixedArray<DerivativeValueType, itkGetStaticConstMacro( PointDimension )>;
+  using LocalDerivativeType = FixedArray<DerivativeValueType, Self::PointDimension >;
 
   /** Types for the virtual domain */
   using VirtualImageType = typename Superclass::VirtualImageType;

@@ -122,7 +122,7 @@ public:
   using WarperPointer = typename WarperType::Pointer;
 
   /** Covariant vector type. */
-  using CovariantVectorType = CovariantVector< double, itkGetStaticConstMacro(ImageDimension) >;
+  using CovariantVectorType = CovariantVector< double, Self::ImageDimension >;
 
   /** Fixed image gradient calculator type. */
   using GradientCalculatorType = CentralDifferenceImageFunction< FixedImageType >;

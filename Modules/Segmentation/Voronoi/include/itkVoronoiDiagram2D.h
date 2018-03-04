@@ -84,7 +84,7 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
   using CellDataContainer = typename MeshTraits::CellDataContainer;
   using genericCellPointer = typename MeshTraits::CellAutoPointer;
-  using BoundingBoxType = BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension), CoordRepType,
+  using BoundingBoxType = BoundingBox< PointIdentifier, Self::PointDimension, CoordRepType,
                        PointsContainer >;
   using PointsContainerPointer = typename PointsContainer::Pointer;
   using CellsContainerPointer = typename CellsContainer::Pointer;

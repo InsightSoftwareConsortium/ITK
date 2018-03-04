@@ -113,9 +113,9 @@ public:
   using TarPixelType = typename  FixedType::PixelType;
   using PixelType = Float;
   using ComputationType = Float;
-  using RefImageType = Image<RefPixelType, itkGetStaticConstMacro(ImageDimension)>;
-  using TarImageType = Image<TarPixelType, itkGetStaticConstMacro(ImageDimension)>;
-  using ImageType = Image<PixelType, itkGetStaticConstMacro(ImageDimension)>;
+  using RefImageType = Image<RefPixelType, Self::ImageDimension>;
+  using TarImageType = Image<TarPixelType, Self::ImageDimension>;
+  using ImageType = Image<PixelType, Self::ImageDimension>;
   using VectorType = vnl_vector<Float>;
 
 // Necessary type alias for dealing with images END
@@ -124,10 +124,10 @@ public:
 // Set up the metrics
 // ------------------------------------------------------------
   using CoordinateRepresentationType = double;
-  using TransformBaseType = Transform<CoordinateRepresentationType, itkGetStaticConstMacro(ImageDimension),
-                    itkGetStaticConstMacro(ImageDimension)>;
+  using TransformBaseType = Transform<CoordinateRepresentationType, Self::ImageDimension,
+                    Self::ImageDimension>;
   using DefaultTransformType = TranslationTransform<CoordinateRepresentationType,
-                               itkGetStaticConstMacro(ImageDimension)>;
+                               Self::ImageDimension>;
 
   /**  Type of supported metrics. */
   using MetricBaseType = ImageToImageMetric<FixedType, MovingType>;
@@ -153,9 +153,9 @@ public:
   /** Gradient filtering */
   using RealType = float;
   using GradientPixelType = CovariantVector<RealType,
-                          itkGetStaticConstMacro(ImageDimension)>;
+                          Self::ImageDimension>;
   using GradientImageType = Image<GradientPixelType,
-                itkGetStaticConstMacro(ImageDimension)>;
+                Self::ImageDimension>;
   using GradientImagePointer = SmartPointer<GradientImageType>;
   using GradientImageFilterType = GradientRecursiveGaussianImageFilter<ImageType,
                                                GradientImageType>;

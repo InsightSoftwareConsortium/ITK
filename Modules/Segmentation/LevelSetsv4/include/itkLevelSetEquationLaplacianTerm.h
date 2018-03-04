@@ -89,7 +89,7 @@ public:
   using RadiusType = typename ConstNeighborhoodIterator< InputImageType >::RadiusType;
   using NeighborhoodType = ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType >;
 
-  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, Self::ImageDimension >;
 
   /** Update the term parameter values at end of iteration */
   void Update() override;

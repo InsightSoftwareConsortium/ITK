@@ -68,7 +68,7 @@ public:
   using InputImageConstPointer = typename InputImageType::ConstPointer;
 
   /** Image size type alias */
-  using SizeType = Size< itkGetStaticConstMacro(NDimensions) >;
+  using SizeType = Size< Self::NDimensions >;
 
   /** Image index type alias */
   using IndexType = typename TOutputImage::IndexType;
@@ -92,8 +92,8 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(NDimensions),
-                                             itkGetStaticConstMacro(NOutputDimensions) > ) );
+                   ( Concept::SameDimension< Self::NDimensions,
+                                             Self::NOutputDimensions > ) );
   itkConceptMacro( InputConvertibleToDoubleCheck,
                    ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
   itkConceptMacro( DoubleConvertibleToOutputCheck,

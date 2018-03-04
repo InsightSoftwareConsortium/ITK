@@ -91,7 +91,7 @@ public:
   using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
   using FloatOffsetType = typename Superclass::FloatOffsetType;
   using VectorType =
-      FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >;
+      FixedArray< ScalarValueType, Self::ImageDimension >;
 
   /* This structure is derived from LevelSetFunction and stores intermediate
   values for computing time step sizes */
@@ -108,13 +108,13 @@ public:
     ~GlobalDataStruct() {}
 
     vnl_matrix_fixed< ScalarValueType,
-                      itkGetStaticConstMacro(ImageDimension),
-                      itkGetStaticConstMacro(ImageDimension) > m_dxy;
+                      Self::ImageDimension,
+                      Self::ImageDimension > m_dxy;
 
-    ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
+    ScalarValueType m_dx[Self::ImageDimension];
 
-    ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
-    ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
+    ScalarValueType m_dx_forward[Self::ImageDimension];
+    ScalarValueType m_dx_backward[Self::ImageDimension];
 
     ScalarValueType m_GradMagSqr;
     ScalarValueType m_GradMag;
@@ -340,10 +340,10 @@ protected:
 
   unsigned int m_FunctionId;
 
-  std::slice x_slice[itkGetStaticConstMacro(ImageDimension)];
+  std::slice x_slice[Self::ImageDimension];
   OffsetValueType m_Center;
-  OffsetValueType m_xStride[itkGetStaticConstMacro(ImageDimension)];
-  double m_InvSpacing[itkGetStaticConstMacro(ImageDimension)];
+  OffsetValueType m_xStride[Self::ImageDimension];
+  double m_InvSpacing[Self::ImageDimension];
 
   static double m_WaveDT;
   static double m_DT;

@@ -162,7 +162,7 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** The type of output image.   */
-  using OutputImageType = Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >;
+  using OutputImageType = Image< IdentifierType, Self::ImageDimension >;
 
   /** Other convenient type alias   */
   using RegionType = typename InputImageType::RegionType;
@@ -286,7 +286,7 @@ private:
 
   typename watershed::SegmentTreeGenerator< ScalarType >::Pointer m_TreeGenerator;
 
-  typename watershed::Relabeler< ScalarType, itkGetStaticConstMacro(ImageDimension) >::Pointer m_Relabeler;
+  typename watershed::Relabeler< ScalarType, Self::ImageDimension >::Pointer m_Relabeler;
 
   unsigned long m_ObserverTag;
 

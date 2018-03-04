@@ -74,7 +74,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Define an image type for the advection field. */
-  using VectorImageType = Image< VectorType, itkGetStaticConstMacro(ImageDimension) >;
+  using VectorImageType = Image< VectorType, Self::ImageDimension >;
 
   /** Define a scalar interpolator */
   using InterpolatorType = LinearInterpolateImageFunction< ImageType >;

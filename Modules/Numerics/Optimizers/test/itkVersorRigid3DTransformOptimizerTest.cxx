@@ -114,7 +114,7 @@ public:
 
   MeasureType GetValue( const ParametersType & parameters ) const override
   {
-    TransformType::ParametersType p( itkGetStaticConstMacro( SpaceDimension ));
+    TransformType::ParametersType p( Self::SpaceDimension );
     for(unsigned int i=0; i<6; i++)
       {
       p[i] = parameters[i];
@@ -208,7 +208,7 @@ public:
 
   unsigned int GetNumberOfParameters(void) const override
     {
-    return itkGetStaticConstMacro( SpaceDimension );
+    return Self::SpaceDimension;
     }
 
 private:

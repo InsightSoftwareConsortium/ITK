@@ -77,7 +77,7 @@ public:
 
   using LabelType = SizeValueType;
 
-  using LabelObjectType = StatisticsLabelObject< LabelType, itkGetStaticConstMacro(ImageDimension) >;
+  using LabelObjectType = StatisticsLabelObject< LabelType, Self::ImageDimension >;
   using LabelMapType = LabelMap< LabelObjectType >;
   using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, LabelMapType >;
   using LabelObjectValuatorType = StatisticsLabelMapFilter< LabelMapType, FeatureImageType >;

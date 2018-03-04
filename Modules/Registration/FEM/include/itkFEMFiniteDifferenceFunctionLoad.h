@@ -114,12 +114,12 @@ public:
   using PixelType = Float;
   using ComputationType = Float;
   using ImageType =
-      Image<PixelType, itkGetStaticConstMacro(ImageDimension)>;
+      Image<PixelType, Self::ImageDimension>;
   using VectorType =
-      itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>;
+      itk::Vector<float, Self::ImageDimension>;
   using FEMVectorType = vnl_vector<Float>;
   using DisplacementFieldType =
-      Image<VectorType, itkGetStaticConstMacro(ImageDimension)>;
+      Image<VectorType, Self::ImageDimension>;
   using DisplacementFieldTypePointer = typename DisplacementFieldType::Pointer;
 
   using FieldIteratorType = NeighborhoodIterator<DisplacementFieldType>;

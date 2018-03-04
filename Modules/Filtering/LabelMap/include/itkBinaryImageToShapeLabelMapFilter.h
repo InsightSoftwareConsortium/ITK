@@ -90,7 +90,7 @@ public:
 
   using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, OutputImageType >;
   using ShapeLabelFilterOutput =
-      Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension) >;
+      Image< typename OutputImageType::PixelType, Self::OutputImageDimension >;
   using LabelObjectValuatorType = ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >;
 
   /** Standard New method. */

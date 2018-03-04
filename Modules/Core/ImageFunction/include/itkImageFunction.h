@@ -67,7 +67,7 @@ public:
 
   using Superclass = FunctionBase<
     Point< TCoordRep,
-           itkGetStaticConstMacro(ImageDimension) >,
+           Self::ImageDimension >,
            TOutput >;
 
   using Pointer = SmartPointer< Self >;
@@ -97,10 +97,10 @@ public:
 
   /** ContinuousIndex Type. */
   using ContinuousIndexType = ContinuousIndex< TCoordRep,
-                           itkGetStaticConstMacro(ImageDimension) >;
+                           Self::ImageDimension >;
 
   /** Point Type. */
-  using PointType = Point< TCoordRep, itkGetStaticConstMacro(ImageDimension) >;
+  using PointType = Point< TCoordRep, Self::ImageDimension >;
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.

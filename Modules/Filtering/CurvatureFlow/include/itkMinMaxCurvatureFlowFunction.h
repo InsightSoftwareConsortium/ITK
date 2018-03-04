@@ -90,7 +90,7 @@ protected:
   MinMaxCurvatureFlowFunction();
   ~MinMaxCurvatureFlowFunction() override {}
 
-  using StencilOperatorType = Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using StencilOperatorType = Neighborhood< PixelType, Self::ImageDimension >;
   StencilOperatorType m_StencilOperator;
 
   /** Initialize the stencil opearator to be an N-Dimensional sphere

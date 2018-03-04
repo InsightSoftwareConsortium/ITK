@@ -62,14 +62,13 @@ public:
   using PixelType = typename TInputImage::PixelType;
   using PixelPointerType = typename TInputImage::InternalPixelType *;
   using OutputPixelType = typename TOutputImage::PixelType;
-  using IndexType = Index< itkGetStaticConstMacro(ImageDimension) >;
-  using SizeType = Size< itkGetStaticConstMacro(ImageDimension) >;
-  using OffsetType = Offset< itkGetStaticConstMacro(ImageDimension) >;
-  using RegionType = ImageRegion< itkGetStaticConstMacro(ImageDimension) >;
+  using IndexType = Index< ImageDimension >;
+  using SizeType = Size< ImageDimension >;
+  using OffsetType = Offset< ImageDimension >;
+  using RegionType = ImageRegion< ImageDimension >;
 
   /** Type of the data container passed to this function object. */
-  using NeighborhoodType = Neighborhood< PixelPointerType,
-                        itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodType = Neighborhood< PixelPointerType, ImageDimension >;
 
   /** Functor used to access pixels from a neighborhood of pixel pointers */
   using NeighborhoodAccessorFunctorType = typename TInputImage::NeighborhoodAccessorFunctorType;

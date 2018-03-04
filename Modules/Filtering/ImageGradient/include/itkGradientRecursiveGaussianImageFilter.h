@@ -85,7 +85,7 @@ public:
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
   using RealImageType = Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >;
+                 Self::ImageDimension >;
 
 
   /**  Output Image Nth Element Adaptor
@@ -99,7 +99,7 @@ public:
 
   /** Define the type for the sigma array **/
   using SigmaArrayType = FixedArray< ScalarRealType,
-                      itkGetStaticConstMacro(ImageDimension) >;
+                      Self::ImageDimension >;
 
   /**  Smoothing filter type */
   using GaussianFilterType = RecursiveGaussianImageFilter<

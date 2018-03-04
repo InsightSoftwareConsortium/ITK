@@ -68,7 +68,7 @@ public:
   /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
-  using NeighborhoodType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodType = Neighborhood< TOutput, Self::ImageDimension >;
 
   /** Point type alias support */
   using PointType = typename Superclass::PointType;

@@ -81,8 +81,8 @@ public:
 
   static constexpr unsigned int ImageDimension = RegionType::ImageDimension;
   /** other helpful type alias */
-  using ImageHelperType = ImageHelper<itkGetStaticConstMacro(ImageDimension),
-                      itkGetStaticConstMacro(ImageDimension)>;
+  using ImageHelperType = ImageHelper<Self::ImageDimension,
+                      Self::ImageDimension>;
 
   /** Method to set the radius */
   void SetRadius(const RadiusType& radius);

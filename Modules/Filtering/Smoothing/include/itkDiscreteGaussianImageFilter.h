@@ -95,7 +95,7 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers */
-  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using ArrayType = FixedArray< double, Self::ImageDimension >;
 
   /** The variance for the discrete Gaussian kernel.  Sets the variance
    * independently for each dimension, but

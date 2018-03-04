@@ -272,7 +272,7 @@ public:
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
   using StatusImageType =
-      Image< StatusType, itkGetStaticConstMacro(ImageDimension) >;
+      Image< StatusType, Self::ImageDimension >;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */

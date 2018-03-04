@@ -121,7 +121,7 @@ public:
   /** Internal Coefficient type alias support */
   using CoefficientDataType = TCoefficientType;
   using CoefficientImageType = Image< CoefficientDataType,
-                 itkGetStaticConstMacro(ImageDimension) >;
+                 Self::ImageDimension >;
 
   /** Define filter for calculating the BSpline coefficients */
   using CoefficientFilter = BSplineDecompositionImageFilter< TImageType, CoefficientImageType >;
@@ -129,7 +129,7 @@ public:
 
   /** Derivative type alias support */
   using CovariantVectorType = CovariantVector< OutputType,
-                           itkGetStaticConstMacro(ImageDimension) >;
+                           Self::ImageDimension >;
 
   /** Evaluate the function at a ContinuousIndex position.
    *

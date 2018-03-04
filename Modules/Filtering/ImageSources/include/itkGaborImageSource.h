@@ -76,7 +76,7 @@ public:
 
   /** Type used to store gabor parameters. */
   using ArrayType = FixedArray< double,
-                      itkGetStaticConstMacro(ImageDimension) >;
+                      Self::ImageDimension >;
 
   /** Set/Get the the standard deviation in each direction. */
   itkSetMacro(Sigma, ArrayType);

@@ -99,11 +99,11 @@ public:
 
   /** The type of data structure that holds the scales with which the
    * neighborhood is weighted to properly account for spacing and neighborhood radius. */
-  using NeighborhoodScalesType = Vector< PixelRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodScalesType = Vector< PixelRealType, Self::ImageDimension >;
 
   /** A floating point offset from an image grid location. Used for
    * interpolation among grid values in a neighborhood. */
-  using FloatOffsetType = Vector< float, itkGetStaticConstMacro(ImageDimension) >;
+  using FloatOffsetType = Vector< float, Self::ImageDimension >;
 
   /** This method allows the function to set its state before each iteration
    *  of the finite difference solver (image filter) that uses it.  This is

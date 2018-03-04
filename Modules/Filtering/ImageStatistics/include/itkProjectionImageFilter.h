@@ -92,8 +92,8 @@ public:
   // Begin concept checking
   itkConceptMacro( ImageDimensionCheck,
                    ( Concept::SameDimensionOrMinusOne<
-                       itkGetStaticConstMacro(InputImageDimension),
-                       itkGetStaticConstMacro(OutputImageDimension) > ) );
+                       Self::InputImageDimension,
+                       Self::OutputImageDimension > ) );
   // End concept checking
 #endif
 

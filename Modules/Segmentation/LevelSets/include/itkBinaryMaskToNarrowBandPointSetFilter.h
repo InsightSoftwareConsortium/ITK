@@ -95,7 +95,7 @@ public:
 
   /** Float image type to be used by the ReinitializeLevelSet image filter */
   using RealImageType = itk::Image< float,
-                      itkGetStaticConstMacro(ImageDimension) >;
+                      Self::ImageDimension >;
 
   /** The ReinitializeLevelSet filter is used to evaluate the distance from
       every pixel to the border of the binary mask. It uses internally a

@@ -91,7 +91,7 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
     InputPixelRealValueType maxnorm2 = 0.0;
 
     double minpixelspacing = inputPtr->GetSpacing()[0];
-    for ( unsigned int i = 1; i < itkGetStaticConstMacro(ImageDimension); ++i )
+    for ( unsigned int i = 1; i < Self::ImageDimension; ++i )
       {
       if ( inputPtr->GetSpacing()[i] < minpixelspacing )
         {

@@ -132,7 +132,7 @@ private:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator */
-  DerivativeOperator< PixelType, itkGetStaticConstMacro(ImageDimension) > dx_op;
+  DerivativeOperator< PixelType, Self::ImageDimension > dx_op;
 
   /** Modified global average gradient magnitude term. */
   PixelType m_K;

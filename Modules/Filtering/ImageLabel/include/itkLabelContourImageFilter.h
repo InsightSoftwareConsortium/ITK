@@ -84,8 +84,8 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   itkConceptMacro( SameDimension,
-    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
-                              itkGetStaticConstMacro(OutputImageDimension) > ) );
+    ( Concept::SameDimension< Self::InputImageDimension,
+                              Self::OutputImageDimension > ) );
 
 #endif
 

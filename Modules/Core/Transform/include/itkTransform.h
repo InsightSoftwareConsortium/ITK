@@ -164,18 +164,18 @@ public:
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   using MatrixType = Matrix<TParametersValueType,
-                 itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>;
+                 Self::OutputSpaceDimension,
+                 Self::InputSpaceDimension>;
 
   using OutputDirectionMatrix = Matrix<double,
-                 itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(OutputSpaceDimension)>;
+                 Self::OutputSpaceDimension,
+                 Self::OutputSpaceDimension>;
   using InputDirectionMatrix = Matrix<double,
-                 itkGetStaticConstMacro(InputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>;
+                 Self::InputSpaceDimension,
+                 Self::InputSpaceDimension>;
   using DirectionChangeMatrix = Matrix<double,
-                 itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>;
+                 Self::OutputSpaceDimension,
+                 Self::InputSpaceDimension>;
 
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 

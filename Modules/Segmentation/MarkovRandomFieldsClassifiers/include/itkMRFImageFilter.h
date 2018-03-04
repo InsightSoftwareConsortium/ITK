@@ -320,7 +320,7 @@ protected:
   /** Minimization algorithm to be used. */
   virtual void MinimizeFunctional();
 
-  using LabelStatusImageType = Image< int, itkGetStaticConstMacro(InputImageDimension) >;
+  using LabelStatusImageType = Image< int, Self::InputImageDimension >;
   using LabelStatusIndexType = typename LabelStatusImageType::IndexType;
   using LabelStatusRegionType = typename LabelStatusImageType::RegionType;
   using LabelStatusImagePointer = typename LabelStatusImageType::Pointer;

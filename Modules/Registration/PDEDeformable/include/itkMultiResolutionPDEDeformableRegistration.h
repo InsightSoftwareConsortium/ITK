@@ -114,7 +114,7 @@ public:
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Internal float image type. */
-  using FloatImageType = Image< TRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using FloatImageType = Image< TRealType, Self::ImageDimension >;
 
   /** The internal registration type. */
   using RegistrationType = PDEDeformableRegistrationFilter< FloatImageType, FloatImageType, DisplacementFieldType >;

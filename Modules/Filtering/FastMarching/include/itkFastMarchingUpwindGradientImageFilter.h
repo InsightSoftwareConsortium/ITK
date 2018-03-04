@@ -116,11 +116,11 @@ public:
 
   /** GradientPixel type alias support */
   using GradientPixelType = CovariantVector< PixelType,
-                           itkGetStaticConstMacro(SetDimension) >;
+                           Self::SetDimension >;
 
   /** GradientImage type alias support */
   using GradientImageType = Image< GradientPixelType,
-                 itkGetStaticConstMacro(SetDimension) >;
+                 Self::SetDimension >;
 
   /** GradientImagePointer type alias support */
   using GradientImagePointer = typename GradientImageType::Pointer;

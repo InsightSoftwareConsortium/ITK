@@ -79,7 +79,7 @@ public:
   using PointType = typename Superclass::PointType;
 
   /** Internal Real and imaginary image type */
-  using InternalImageType = Image< double, itkGetStaticConstMacro(ImageDimension) >;
+  using InternalImageType = Image< double, Self::ImageDimension >;
 
   /** Complex to Real filter type */
   using RealFilterType = ComplexToRealImageFilter< InputImageType, InternalImageType >;
@@ -99,7 +99,7 @@ public:
   OutputType EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   /** Derivative type alias support */
-/*  using CovariantVectorType = CovariantVector< OutputType, itkGetStaticConstMacro( ImageDimension ) >;
+/*  using CovariantVectorType = CovariantVector< OutputType, Self::ImageDimension  >;
 
   CovariantVectorType EvaluateDerivative( const PointType & point ) const
   {

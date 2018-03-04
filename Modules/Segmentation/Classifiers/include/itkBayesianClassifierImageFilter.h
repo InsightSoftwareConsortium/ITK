@@ -106,7 +106,7 @@ public:
   static constexpr unsigned int Dimension = InputImageType ::ImageDimension;
 
   using OutputImageType = Image< TLabelsType,
-                 itkGetStaticConstMacro(Dimension) >;
+                 Self::Dimension >;
   using InputImagePointer = typename InputImageType::ConstPointer;
   using OutputImagePointer = typename OutputImageType::Pointer;
   using ImageRegionType = typename InputImageType::RegionType;
@@ -124,7 +124,7 @@ public:
    * arrays as pixels, the number of elements in the array is the same as the
    * number of classes to be used. */
   using PriorsImageType = VectorImage< TPriorsPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >;
+                       Self::Dimension >;
   using PriorsPixelType = typename PriorsImageType::PixelType;
   using PriorsImagePointer = typename PriorsImageType::Pointer;
   using PriorsImageIteratorType = ImageRegionConstIterator< PriorsImageType >;
@@ -142,7 +142,7 @@ public:
    * arrays as pixels, the number of elements in the array is the same as the
    * number of classes to be used. */
   using PosteriorsImageType = VectorImage< TPosteriorsPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >;
+                       Self::Dimension >;
   using PosteriorsPixelType = typename PosteriorsImageType::PixelType;
   using PosteriorsImagePointer = typename PosteriorsImageType::Pointer;
   using PosteriorsImageIteratorType = ImageRegionIterator< PosteriorsImageType >;
@@ -155,7 +155,7 @@ public:
 
   /** An image from a single component of the Posterior. */
   using ExtractedComponentImageType = itk::Image< TPosteriorsPrecisionType,
-                      itkGetStaticConstMacro(Dimension) >;
+                      Self::Dimension >;
 
   /** Optional Smoothing filter that will be applied to the Posteriors. */
   using SmoothingFilterType = ImageToImageFilter<

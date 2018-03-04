@@ -84,8 +84,8 @@ public:
 
   /**  Type of the Transform Base class */
   using TransformType = Transform< CoordinateRepresentationType,
-                     itkGetStaticConstMacro(ObjectDimension),
-                     itkGetStaticConstMacro(ImageDimension) >;
+                     Self::ObjectDimension,
+                     Self::ImageDimension >;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -102,7 +102,7 @@ public:
 
   /** Typede of the vector type to return derivatives */
   using VectorType = vnl_vector_fixed< double,
-                            itkGetStaticConstMacro(ObjectDimension) >;
+                            Self::ObjectDimension >;
 
   /**  Type of the match measure */
   using MeasureType = Superclass::MeasureType;

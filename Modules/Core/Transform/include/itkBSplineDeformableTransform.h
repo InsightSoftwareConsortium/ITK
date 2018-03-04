@@ -178,8 +178,8 @@ public:
   using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
-  using OutputPointType = Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using InputPointType = Point <TParametersValueType, Self::SpaceDimension >;
+  using OutputPointType = Point <TParametersValueType, Self::SpaceDimension >;
 
 
   /** This method sets the fixed parameters of the transform.
@@ -286,8 +286,8 @@ public:
   itkGetConstMacro( GridRegion, RegionType );
 
   using BulkTransformType = Transform<TParametersValueType,
-                    itkGetStaticConstMacro(SpaceDimension),
-                    itkGetStaticConstMacro(SpaceDimension)>;
+                    Self::SpaceDimension,
+                    Self::SpaceDimension>;
   using BulkTransformPointer = typename BulkTransformType::ConstPointer;
   /** This method specifies the bulk transform to be applied.
    * The default is the identity transform.

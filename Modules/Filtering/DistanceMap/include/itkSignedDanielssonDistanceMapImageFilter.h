@@ -130,7 +130,7 @@ public:
 
   /** Pointer Type for the vector distance image */
   using VectorImageType = Image< OffsetType,
-                 itkGetStaticConstMacro(InputImageDimension) >;
+                 Self::InputImageDimension >;
 
   /** Pointer Type for input image. */
   using InputImagePointer = typename InputImageType::ConstPointer;

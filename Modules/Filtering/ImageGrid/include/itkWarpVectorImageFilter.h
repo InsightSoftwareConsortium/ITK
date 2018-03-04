@@ -140,7 +140,7 @@ public:
       VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >;
 
   /** Point type */
-  using PointType = Point< CoordRepType, itkGetStaticConstMacro(ImageDimension) >;
+  using PointType = Point< CoordRepType, Self::ImageDimension >;
 
   /** Type for representing the direction of the output image */
   using DirectionType = typename TOutputImage::DirectionType;

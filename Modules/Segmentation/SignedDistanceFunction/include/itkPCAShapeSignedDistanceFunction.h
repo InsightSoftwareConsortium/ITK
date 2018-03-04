@@ -108,8 +108,8 @@ public:
 
   /** Transform type alias support */
   using TransformType = Transform< CoordRepType,
-                     itkGetStaticConstMacro(SpaceDimension),
-                     itkGetStaticConstMacro(SpaceDimension) >;
+                     Self::SpaceDimension,
+                     Self::SpaceDimension >;
 
   /** Interpolator type alias support */
   using InterpolatorType = InterpolateImageFunction< ImageType, CoordRepType >;

@@ -80,18 +80,18 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Arrays for native types. */
-  using VarianceArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension2) >;
-  using OrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension2) >;
+  using VarianceArrayType = FixedArray< double, Self::ImageDimension2 >;
+  using OrderArrayType = FixedArray< unsigned int, Self::ImageDimension2 >;
 
   using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator< TOutput,
-                                           itkGetStaticConstMacro(ImageDimension2) >;
+                                           Self::ImageDimension2 >;
 
   /** Array to store gaussian derivative operators one for each dimension. */
   using GaussianDerivativeOperatorArrayType = FixedArray< GaussianDerivativeOperatorType,
-                      itkGetStaticConstMacro(ImageDimension2) >;
+                      Self::ImageDimension2 >;
 
   /** Precomputed N-dimensional derivative kernel. */
-  using KernelType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using KernelType = Neighborhood< TOutput, Self::ImageDimension2 >;
 
   /** Image function that performs convolution with the neighborhood operator.
     */

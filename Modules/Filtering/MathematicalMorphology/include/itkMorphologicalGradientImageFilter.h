@@ -80,7 +80,7 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   using FlatKernelType =
-      FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >;
+      FlatStructuringElement< Self::ImageDimension >;
   using HistogramFilterType =
       MovingHistogramMorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >;
   using BasicDilateFilterType =

@@ -63,7 +63,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = ImageAdaptor;
-  using Superclass = ImageBase< itkGetStaticConstMacro(ImageDimension) >;
+  using Superclass = ImageBase< Self::ImageDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
   using ConstWeakPointer = WeakPointer< const Self >;
@@ -330,9 +330,9 @@ public:
   template< typename TCoordRep >
   bool TransformPhysicalPointToContinuousIndex(
     const Point< TCoordRep,
-                 itkGetStaticConstMacro(ImageDimension) > & point,
+                 Self::ImageDimension > & point,
     ContinuousIndex< TCoordRep,
-                     itkGetStaticConstMacro(ImageDimension) > & index) const
+                     Self::ImageDimension > & index) const
   {
     return m_Image->TransformPhysicalPointToContinuousIndex(point, index);
   }
@@ -344,7 +344,7 @@ public:
   template< typename TCoordRep >
   bool TransformPhysicalPointToIndex(
     const Point< TCoordRep,
-                 itkGetStaticConstMacro(ImageDimension) > & point,
+                 Self::ImageDimension > & point,
     IndexType & index) const
   {
     return m_Image->TransformPhysicalPointToIndex(point, index);
@@ -357,9 +357,9 @@ public:
   template< typename TCoordRep >
   void TransformContinuousIndexToPhysicalPoint(
     const ContinuousIndex< TCoordRep,
-                           itkGetStaticConstMacro(ImageDimension) > & index,
+                           Self::ImageDimension > & index,
     Point< TCoordRep,
-           itkGetStaticConstMacro(ImageDimension) > & point) const
+           Self::ImageDimension > & point) const
   {
     m_Image->TransformContinuousIndexToPhysicalPoint(index, point);
   }
@@ -373,23 +373,23 @@ public:
   void TransformIndexToPhysicalPoint(
     const IndexType & index,
     Point< TCoordRep,
-           itkGetStaticConstMacro(ImageDimension) > & point) const
+           Self::ImageDimension > & point) const
   {
     m_Image->TransformIndexToPhysicalPoint(index, point);
   }
 
   template< typename TCoordRep >
   void TransformLocalVectorToPhysicalVector(
-    const FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & inputGradient,
-    FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & outputGradient) const
+    const FixedArray< TCoordRep, Self::ImageDimension > & inputGradient,
+    FixedArray< TCoordRep, Self::ImageDimension > & outputGradient) const
   {
     m_Image->TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
   }
 
   template< typename TCoordRep >
   void TransformPhysicalVectorToLocalVector(
-    const FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & inputGradient,
-    FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & outputGradient) const
+    const FixedArray< TCoordRep, Self::ImageDimension > & inputGradient,
+    FixedArray< TCoordRep, Self::ImageDimension > & outputGradient) const
   {
     m_Image->TransformPhysicalVectorToLocalVector(inputGradient, outputGradient);
   }

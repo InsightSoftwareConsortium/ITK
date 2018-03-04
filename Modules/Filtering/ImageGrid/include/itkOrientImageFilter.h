@@ -256,10 +256,10 @@ public:
   itkConceptMacro( InputConvertibleToOutput,
                    ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
-                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
+                   ( Concept::SameDimension< Self::InputImageDimension,
+                                             Self::OutputImageDimension > ) );
   itkConceptMacro( DimensionShouldBe3,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension), 3 > ) );
+                   ( Concept::SameDimension< Self::InputImageDimension, 3 > ) );
   // End concept checking
 #endif
 

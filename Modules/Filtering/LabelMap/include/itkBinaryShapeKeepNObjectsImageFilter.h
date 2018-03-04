@@ -73,11 +73,11 @@ public:
 
   using LabelType = SizeValueType;
 
-  using LabelObjectType = ShapeLabelObject< LabelType, itkGetStaticConstMacro(ImageDimension) >;
+  using LabelObjectType = ShapeLabelObject< LabelType, Self::ImageDimension >;
   using LabelMapType = LabelMap< LabelObjectType >;
   using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, LabelMapType >;
   using ShapeLabelFilterOutput =
-      Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension) >;
+      Image< typename OutputImageType::PixelType, Self::OutputImageDimension >;
   using LabelObjectValuatorType = ShapeLabelMapFilter< LabelMapType, ShapeLabelFilterOutput >;
   using AttributeType = typename LabelObjectType::AttributeType;
   using KeepNObjectsType = ShapeKeepNObjectsLabelMapFilter< LabelMapType >;

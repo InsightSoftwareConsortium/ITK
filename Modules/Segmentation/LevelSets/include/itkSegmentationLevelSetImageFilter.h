@@ -154,7 +154,7 @@ public:
   //static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Output image type type alias */
-  using OutputImageType = Image< TOutputPixelType, itkGetStaticConstMacro(InputImageDimension) >;
+  using OutputImageType = Image< TOutputPixelType, Self::InputImageDimension >;
 
   /** Standard class type aliases */
   using Superclass = SparseFieldLevelSetImageFilter< TInputImage, OutputImageType >;

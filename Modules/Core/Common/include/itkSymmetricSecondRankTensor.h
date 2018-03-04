@@ -86,7 +86,7 @@ public:
 
   /** Convenience type alias. */
   using BaseArray = FixedArray< TComponent,
-                      itkGetStaticConstMacro(InternalDimension) >;
+                      Self::InternalDimension >;
 
   /** Array of eigen-values. */
   using EigenValuesArrayType = FixedArray< TComponent, NDimension >;
@@ -114,7 +114,7 @@ public:
   SymmetricSecondRankTensor(const SymmetricSecondRankTensor< TCoordRepB, NDimension > & pa):
     BaseArray(pa) {}
 
-  typedef ComponentType ComponentArrayType[itkGetStaticConstMacro(InternalDimension)];
+  typedef ComponentType ComponentArrayType[Self::InternalDimension];
 
   /** Pass-through constructor for the Array base class. */
   SymmetricSecondRankTensor(const ComponentArrayType r):BaseArray(r) {}
@@ -154,7 +154,7 @@ public:
   /** Return the number of components. */
   static unsigned int GetNumberOfComponents()
   {
-    return itkGetStaticConstMacro(InternalDimension);
+    return Self::InternalDimension;
   }
 
   /** Return the value for the Nth component. */
