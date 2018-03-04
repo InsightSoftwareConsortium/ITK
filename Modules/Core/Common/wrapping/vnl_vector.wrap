@@ -6,7 +6,7 @@ itk_wrap_include("vnl/vnl_matrix.h")
 itk_wrap_include("vnl/vnl_vector.h")
 
 itk_wrap_class("vnl_vector" EXPLICIT_SPECIALIZATION)
-  UNIQUE(vector_types "D;F;SI;SL;LD;SC;UC;US;UI;UL;${ITKM_IT};${ITKM_OT};${WRAP_ITK_SCALAR}")
+  UNIQUE(vector_types "D;F;SI;SL;SLL;LD;SC;UC;US;UI;UL;ULL;${ITKM_IT};${ITKM_OT};${WRAP_ITK_SCALAR}")
   foreach(t ${vector_types})
     itk_wrap_template("${ITKM_${t}}"  "${ITKT_${t}}")
   endforeach()
