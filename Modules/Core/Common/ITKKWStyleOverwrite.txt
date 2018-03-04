@@ -19,6 +19,7 @@ itkVectorContainer\.h InternalVariables Disable
 itkVectorContainer\.h Typedefs Disable
 itkVectorImage\.h Template Disable
 itkSparseImageTest\.cxx InternalVariables Disable
+itkSmartPointer\.h IfNDefDefine Disable
 itkImageToImageFilter.\h InternalVariables Disable
 itkTimeStamp\.cxx Namespace Disable
 itkObjectFactoryBase\.cxx Namespace Disable
