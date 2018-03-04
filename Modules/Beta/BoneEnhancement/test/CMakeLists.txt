@@ -1,17 +1,18 @@
 itk_module_test()
 
-set(BoneEnhancementTests
-  itkHessianGaussianImageFilterTest.cxx
-  )
+# set(BoneEnhancementTests
+#   itkHessianGaussianImageFilterTest.cxx
+#   )
 
-CreateTestDriver(BoneEnhancement "${BoneEnhancement-Test_LIBRARIES}" "${BoneEnhancementTests}")
+# CreateTestDriver(BoneEnhancement "${BoneEnhancement-Test_LIBRARIES}" "${BoneEnhancementTests}")
 
-itk_add_test(NAME itkHessianGaussianImageFilterTest
-  COMMAND BoneEnhancementTestDriver itkHessianGaussianImageFilterTest 
-  )
+# itk_add_test(NAME itkHessianGaussianImageFilterTest
+#   COMMAND BoneEnhancementTestDriver itkHessianGaussianImageFilterTest 
+#   )
 
 set(BoneEnhancementUnitTests
   itkMaximumAbsoluteValueImageFilterUnitTest.cxx
+  itkHessianGaussianImageFilterUnitTest.cxx
   itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest.cxx
   itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest.cxx
   itkDescoteauxEigenToMeasureImageFilterUnitTest.cxx
