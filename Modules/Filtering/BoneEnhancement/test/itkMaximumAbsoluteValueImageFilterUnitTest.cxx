@@ -17,11 +17,10 @@
  *=========================================================================*/
 
 #include "itkMaximumAbsoluteValueImageFilter.h"
-#include "itkTestingMacros.h"
+#include "gtest/gtest.h"
 #include "itkImageRegionIterator.h"
 
-int
-itkMaximumAbsoluteValueImageFilterTest(int, char *[])
+TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages)
 {
   const unsigned int                                      Dimension = 2;
   typedef int                                             PixelType;
@@ -29,12 +28,9 @@ itkMaximumAbsoluteValueImageFilterTest(int, char *[])
   typedef itk::MaximumAbsoluteValueImageFilter<ImageType> MaximumAbsoluteValueImageFilterType;
   MaximumAbsoluteValueImageFilterType::Pointer            maxAbsFilter = MaximumAbsoluteValueImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
-
   /** Create an image and run a basic test */
   ImageType::RegionType region;
   ImageType::IndexType  start;
-
   start[0] = 0;
   start[1] = 0;
 
@@ -53,6 +49,7 @@ itkMaximumAbsoluteValueImageFilterTest(int, char *[])
   image2->SetRegions(region);
   image2->Allocate();
 
+  /* Iterate over images and set */
   typedef itk::ImageRegionIterator<ImageType> IteratorType;
   IteratorType                                it1(image1, region);
   IteratorType                                it2(image2, region);
@@ -75,9 +72,10 @@ itkMaximumAbsoluteValueImageFilterTest(int, char *[])
     ++it2;
   }
 
+  /* Apply filter */
   maxAbsFilter->SetInput1(image1);
   maxAbsFilter->SetInput2(image2);
-  maxAbsFilter->Update();
+  EXPECT_NO_THROW(maxAbsFilter->Update());
   ImageType::Pointer outputImage = maxAbsFilter->GetOutput();
 
   IteratorType ot(outputImage, region);
@@ -87,16 +85,12 @@ itkMaximumAbsoluteValueImageFilterTest(int, char *[])
   {
     if ((i % 2) == 0)
     {
-      TEST_EXPECT_EQUAL(ot.Get(), -2);
+      EXPECT_EQ(ot.Get(), -2);
     }
     else
     {
-      TEST_EXPECT_EQUAL(ot.Get(), 2);
+      EXPECT_EQ(ot.Get(), 2);
     }
     ++ot;
   }
-
-  /** TODO: Write an integration test */
-
-  return EXIT_SUCCESS;
 }
