@@ -72,10 +72,10 @@ GradientNDAnisotropicDiffusionFunction< TImage >
     }
 
   // Allocate the derivative operator.
-  dx_op.SetDirection(0);  // Not relevant, will be applied in a slice-based
+  m_DxOp.SetDirection(0);  // Not relevant, will be applied in a slice-based
                           // fashion.
-  dx_op.SetOrder(1);
-  dx_op.CreateDirectional();
+  m_DxOp.SetOrder(1);
+  m_DxOp.CreateDirectional();
 }
 
 template< typename TImage >

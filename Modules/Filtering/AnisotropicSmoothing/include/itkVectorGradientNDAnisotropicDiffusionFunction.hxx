@@ -71,10 +71,10 @@ VectorGradientNDAnisotropicDiffusionFunction< TImage >
     }
 
   // Allocate the derivative operator.
-  dx_op.SetDirection(0); // Not relelevant, we'll apply in a slice-based
+  m_DxOp.SetDirection(0); // Not relelevant, we'll apply in a slice-based
                          // fashion
-  dx_op.SetOrder(1);
-  dx_op.CreateDirectional();
+  m_DxOp.SetOrder(1);
+  m_DxOp.CreateDirectional();
 }
 
 template< typename TImage >
@@ -110,7 +110,7 @@ VectorGradientNDAnisotropicDiffusionFunction< TImage >
     dx_backward[i] = dx_backward[i] * this->m_ScaleCoefficients[i];
 
     // Centralized differences
-    dx[i]      = m_InnerProduct(x_slice[i], it, dx_op);
+    dx[i]      = m_InnerProduct(x_slice[i], it, m_DxOp);
     dx[i] = dx[i] * this->m_ScaleCoefficients[i];
     }
 
@@ -130,9 +130,9 @@ VectorGradientNDAnisotropicDiffusionFunction< TImage >
         {
         if ( j != i )
           {
-          dx_aug  = m_InnerProduct(xa_slice[j][i], it, dx_op);
+          dx_aug  = m_InnerProduct(xa_slice[j][i], it, m_DxOp);
           dx_aug = dx_aug * this->m_ScaleCoefficients[j];
-          dx_dim  = m_InnerProduct(xd_slice[j][i], it, dx_op);
+          dx_dim  = m_InnerProduct(xd_slice[j][i], it, m_DxOp);
           dx_dim = dx_dim * this->m_ScaleCoefficients[j];
           GradMag += 0.25f * itk::Math::sqr(dx[j][k] + dx_aug[k]);
           GradMag_d += 0.25f * itk::Math::sqr(dx[j][k] + dx_dim[k]);
