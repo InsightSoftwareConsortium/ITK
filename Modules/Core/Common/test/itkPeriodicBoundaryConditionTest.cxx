@@ -288,5 +288,33 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
   bc.Print( std::cout );
   vbc.Print( std::cout );
 
+  // Check when ConstNeighborhoodIterator is templated over the
+  // PeriodicBoundaryCondition
+  auto testImage = ImageType::New();
+  ImageType::SizeType testSize = {{ 64, 64 }};
+  ImageType::RegionType testRegion( testSize );
+  testImage->SetRegions(testRegion);
+  testImage->Allocate();
+
+  using BoundaryConditionType = itk::PeriodicBoundaryCondition< ImageType, ImageType >;
+  using IterType = itk::ConstNeighborhoodIterator<ImageType, BoundaryConditionType>;
+  IterType testIter(radius, testImage, testRegion);
+  BoundaryConditionType boundaryCondition;
+  testIter.OverrideBoundaryCondition(&boundaryCondition);
+  std::vector<IterType::OffsetType> back;
+  back.push_back( {{-1, 0 }} );
+  back.push_back( {{ 0,-1 }} );
+  back.push_back( {{ 0, 0 }} );
+  testIter.SetNeedToUseBoundaryCondition(true);
+  testIter.GoToBegin();
+  while (!testIter.IsAtEnd()) {
+      float sum = 0;
+      for (size_t j = 0; j < back.size(); ++j) {
+        const float d = testIter.GetPixel(back[j]);
+        sum += d*d;
+      }
+      ++testIter;
+  }
+
   return EXIT_SUCCESS;
 }

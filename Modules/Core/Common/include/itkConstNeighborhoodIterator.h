@@ -413,7 +413,7 @@ public:
   /** Resets the boundary condition to the internal, default conditions
    * specified by the template parameter. */
   virtual void ResetBoundaryCondition()
-  { m_BoundaryCondition = &m_InternalBoundaryCondition;  }
+  { m_BoundaryCondition = reinterpret_cast< ImageBoundaryConditionPointerType >( &m_InternalBoundaryCondition ); }
 
   /** Sets the internal, default boundary condition. */
   void SetBoundaryCondition(const TBoundaryCondition & c)
