@@ -654,8 +654,22 @@ Object
 {
   if ( m_MetaDataDictionary == nullptr )
     {
-    m_MetaDataDictionary = new MetaDataDictionary;
+    m_MetaDataDictionary = new MetaDataDictionary(rhs);
+    return;
     }
   *m_MetaDataDictionary = rhs;
 }
+
+void
+Object
+::SetMetaDataDictionary( MetaDataDictionary && rrhs)
+{
+  if ( m_MetaDataDictionary == nullptr )
+    {
+    m_MetaDataDictionary = new MetaDataDictionary(std::move(rrhs));
+    return;
+    }
+  *m_MetaDataDictionary = std::move(rrhs);
+}
+
 } // end namespace itk

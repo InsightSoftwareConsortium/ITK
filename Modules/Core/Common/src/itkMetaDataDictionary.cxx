@@ -21,23 +21,27 @@ namespace itk
 {
 MetaDataDictionary
 ::MetaDataDictionary()
+  : m_Dictionary( new MetaDataDictionaryMapType() )
 {
-  m_Dictionary = new MetaDataDictionaryMapType;
 }
 
 MetaDataDictionary
 ::~MetaDataDictionary()
 {
-  delete m_Dictionary;
-  m_Dictionary = nullptr;
 }
 
 MetaDataDictionary
 ::MetaDataDictionary(const MetaDataDictionary & old)
+  :  m_Dictionary( new MetaDataDictionaryMapType(*old.m_Dictionary))
 {
-  m_Dictionary = new MetaDataDictionaryMapType;
-  *m_Dictionary = *( old.m_Dictionary );
 }
+
+MetaDataDictionary
+::MetaDataDictionary( MetaDataDictionary && rr)
+  :  m_Dictionary( new MetaDataDictionaryMapType(std::move(*rr.m_Dictionary)))
+{
+}
+
 
 MetaDataDictionary & MetaDataDictionary
 ::operator=(const MetaDataDictionary & old)
@@ -45,6 +49,16 @@ MetaDataDictionary & MetaDataDictionary
   if(this != &old)
     {
     *m_Dictionary = *( old.m_Dictionary );
+    }
+  return *this;
+}
+
+MetaDataDictionary & MetaDataDictionary
+::operator=(MetaDataDictionary && rr)
+{
+  if(this != &rr)
+    {
+    *m_Dictionary = std::move(*( rr.m_Dictionary ));
     }
   return *this;
 }

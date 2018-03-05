@@ -172,6 +172,7 @@ public:
    * Set the MetaDataDictionary
    */
   void SetMetaDataDictionary(const MetaDataDictionary & rhs);
+  void SetMetaDataDictionary( MetaDataDictionary && rrhs);
 
   /**
    * A facility to help application programmers set a

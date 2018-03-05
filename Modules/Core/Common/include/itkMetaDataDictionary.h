@@ -22,6 +22,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <memory>
 
 namespace itk
 {
@@ -57,8 +58,10 @@ public:
   MetaDataDictionary();
   // Copy Constructor
   MetaDataDictionary(const MetaDataDictionary &);
+  MetaDataDictionary(MetaDataDictionary &&);
   // operator =
   MetaDataDictionary & operator=(const MetaDataDictionary &);
+  MetaDataDictionary & operator=(MetaDataDictionary &&);
 
   // Destructor
   virtual ~MetaDataDictionary();
@@ -112,8 +115,20 @@ public:
   /** remove all MetaObjects from dictionary */
   void Clear();
 
+  void Swap( MetaDataDictionary &other )
+  {
+    using std::swap;
+    swap(m_Dictionary, other.m_Dictionary);
+  }
+
 private:
-  MetaDataDictionaryMapType *m_Dictionary;
+  std::unique_ptr<MetaDataDictionaryMapType> m_Dictionary;
 };
+
+inline void swap(MetaDataDictionary &a, MetaDataDictionary &b )
+{
+  a.Swap(b);
+}
+
 }
 #endif // itkMetaDataDictionary_h
