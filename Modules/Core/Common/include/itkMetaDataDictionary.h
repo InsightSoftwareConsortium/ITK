@@ -36,6 +36,15 @@ namespace itk
  * classes, is designed to provide a mechanism for storing a collection of
  * arbitrary data types. The main motivation for such a collection is to
  * associate arbitrary data elements with itk DataObjects.
+ *
+ * The MetaDataDictionary implements shallow copying with copy on
+ * write behavior. When a copy of this class is created, the new copy
+ * will be shared with the old copy via C++11 shared pointers. When a
+ * non-constant operation is done, if the dictionary is not unique to
+ * this object, then a deep copy is performed. This make is very cheap
+ * to create multiple copies of the same dictionary if they are never
+ * modified.
+ *
  * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MetaDataDictionary
@@ -115,14 +124,12 @@ public:
   /** remove all MetaObjects from dictionary */
   void Clear();
 
-  void Swap( MetaDataDictionary &other )
-  {
-    using std::swap;
-    swap(m_Dictionary, other.m_Dictionary);
-  }
+  void Swap( MetaDataDictionary &other );
 
 private:
-  std::unique_ptr<MetaDataDictionaryMapType> m_Dictionary;
+  bool MakeUnique(void);
+
+  std::shared_ptr<MetaDataDictionaryMapType> m_Dictionary;
 };
 
 inline void swap(MetaDataDictionary &a, MetaDataDictionary &b )
