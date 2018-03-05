@@ -29,9 +29,19 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
              const NeighborhoodType *data) const
 {
-  // This is guaranteed to be called with an object that is using
-  // PeriodicBoundaryCondition
-  const auto * iterator = reinterpret_cast< const ConstNeighborhoodIterator< TInputImage, Self > * >( data );
+  const TInputImage * imagePointer = nullptr;
+  if (dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data ))
+    {
+    imagePointer = dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data )->GetImagePointer();
+    }
+  else if (dynamic_cast< const ConstNeighborhoodIterator< TInputImage, Self > * >( data ))
+    {
+    imagePointer = dynamic_cast< const ConstNeighborhoodIterator< TInputImage, Self > * >( data )->GetImagePointer();
+    }
+  else
+    {
+    // What to do for error?
+    }
   typename TInputImage::PixelType * ptr;
   int          linear_index = 0;
   unsigned int i;
@@ -55,21 +65,21 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
 
   // These are the step sizes for increments in each dimension of the image.
   const typename TInputImage::OffsetValueType * offset_table =
-    iterator->GetImagePointer()->GetOffsetTable();
+    imagePointer->GetOffsetTable();
 
   for ( i = 0; i < ImageDimension; ++i )
     {
     if ( boundary_offset[i] != 0 )
       { // If the neighborhood overlaps on the low edge, then wrap from the
         // high edge of the image.
-      if ( point_index[i] < static_cast< OffsetValueType >( iterator->GetRadius(i) ) )
+      if ( point_index[i] < static_cast< OffsetValueType >( data->GetRadius(i) ) )
         {
-        ptr += iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i]
+        ptr += imagePointer->GetBufferedRegion().GetSize()[i]
                * offset_table[i] - boundary_offset[i] * offset_table[i];
         }
       else // wrap from the low side of the image
         {
-        ptr -= iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i]
+        ptr -= imagePointer->GetBufferedRegion().GetSize()[i]
                * offset_table[i] + boundary_offset[i] * offset_table[i];
         }
       }
@@ -85,9 +95,26 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
              const NeighborhoodType *data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const
 {
+<<<<<<< HEAD
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
   const auto * iterator = reinterpret_cast< const ConstNeighborhoodIterator< TInputImage, Self > * >( data );
+=======
+  const TInputImage * imagePointer = nullptr;
+  if (dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data ))
+    {
+    imagePointer = dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data )->GetImagePointer();
+    }
+  else if (dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data ))
+    {
+    imagePointer = dynamic_cast< const ConstNeighborhoodIterator< TInputImage, Self > * >( data )->GetImagePointer();
+    }
+  else
+    {
+    // What to do for error?
+    }
+
+>>>>>>> BUG: fix itkPeriodicBoundaryConditionTest  itkGradientImageFilterTest
   typename TInputImage::InternalPixelType * ptr;
   int          linear_index = 0;
   unsigned int i;
@@ -110,21 +137,21 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
 
   // These are the step sizes for increments in each dimension of the image.
   const typename TInputImage::OffsetValueType * offset_table =
-    iterator->GetImagePointer()->GetOffsetTable();
+    imagePointer->GetOffsetTable();
 
   for ( i = 0; i < ImageDimension; ++i )
     {
     if ( boundary_offset[i] != 0 )
       { // If the neighborhood overlaps on the low edge, then wrap from the
         // high edge of the image.
-      if ( point_index[i] < static_cast< OffsetValueType >( iterator->GetRadius(i) ) )
+      if ( point_index[i] < static_cast< OffsetValueType >( data->GetRadius(i) ) )
         {
-        ptr += iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i]
+        ptr += imagePointer->GetBufferedRegion().GetSize()[i]
                * offset_table[i] - boundary_offset[i] * offset_table[i];
         }
       else // wrap from the low side of the image
         {
-        ptr -= iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i]
+        ptr -= imagePointer->GetBufferedRegion().GetSize()[i]
                * offset_table[i] + boundary_offset[i] * offset_table[i];
         }
       }
