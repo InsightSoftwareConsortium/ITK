@@ -52,8 +52,7 @@ namespace itk
  * \sa NeighborhoodOperator
  *
  * \ingroup ImageEnhancement
- * \ingroup ImageFeatureExtraction
- * \ingroup ITKReview
+ * \ingroup ITKImageFeature
  */
 
 template< typename TInputImage, typename TOutputImage >
@@ -178,7 +177,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
+    ( Concept::HasNumericTraits< OutputPixelType > ) );
   // End concept checking
 #endif
 
@@ -196,7 +195,8 @@ protected:
   }
 
   ~DiscreteGaussianDerivativeImageFilter() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the
@@ -204,14 +204,16 @@ protected:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
 

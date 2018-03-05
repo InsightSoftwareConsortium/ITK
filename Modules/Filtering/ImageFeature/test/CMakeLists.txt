@@ -22,6 +22,8 @@ itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkMaskFeaturePointSelectionFilterTest.cxx
 itkUnsharpMaskImageFilterTestSimple.cxx
 itkUnsharpMaskImageFilterTest.cxx
+itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest.cxx
+itkDiscreteGaussianDerivativeImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
@@ -160,6 +162,53 @@ itk_add_test(NAME itkMaskFeaturePointSelectionFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha
     itkMaskFeaturePointSelectionFilterTest
 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest
+      COMMAND ITKImageFeatureTestDriver itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest01
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest01.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest01.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest01.png 0 1 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest10
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest10.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest10.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest10.png 1 0 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest11
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest11.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest11.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest11.png 1 1 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest20
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest20.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest20.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest20.png 2 0 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest02
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest02.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest02.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest02.png 0 2 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest21
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest21.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest21.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest21.png 2 1 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest12
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest12.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest12.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest12.png 1 2 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest30
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest30.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest30.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest30.png 3 0 3.0)
+itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest03
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest03.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest03.png
+    itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest03.png 0 3 3.0)
 
 itk_python_add_test(NAME itkGradientVectorFlowImageFilterPythonTest
     TEST_DRIVER_ARGS
