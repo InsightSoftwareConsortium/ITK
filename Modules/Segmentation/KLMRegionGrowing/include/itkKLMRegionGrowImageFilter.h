@@ -237,7 +237,7 @@ public:
   static constexpr RegionLabelType LabelImageDimension = InputImageDimension;
 
   /** Type definition for the labelled image pixel type. */
-  using LabelImageType = Image< RegionLabelType, itkGetStaticConstMacro(LabelImageDimension) >;
+  using LabelImageType = Image< RegionLabelType, Self::LabelImageDimension >;
 
   /** Type definition for the labelled image pointer.  */
   using LabelImagePointer = typename LabelImageType::Pointer;
@@ -284,13 +284,13 @@ public:
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename InputImagePixelType::ValueType > ) );
   itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
-                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
+                   ( Concept::SameDimension< Self::InputImageDimension,
+                                             Self::OutputImageDimension > ) );
 #if defined(THIS_CONCEPT_FAILS_ON_GCC)
   /** The input pixel type must be the same as that of the output image. */
   itkConceptMacro( SameVectorDimension,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageVectorDimension),
-                                             itkGetStaticConstMacro(OutputImageVectorDimension) > ) );
+                   ( Concept::SameDimension< Self::InputImageVectorDimension,
+                                             Self::OutputImageVectorDimension > ) );
 #endif
   // End concept checking
 #endif

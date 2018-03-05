@@ -153,7 +153,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourDirectedMeanDistanceImageFilter);
 
-  using DistanceMapType = Image< RealType, itkGetStaticConstMacro(ImageDimension) >;
+  using DistanceMapType = Image< RealType, Self::ImageDimension >;
 
   typename DistanceMapType::Pointer m_DistanceMap;
 

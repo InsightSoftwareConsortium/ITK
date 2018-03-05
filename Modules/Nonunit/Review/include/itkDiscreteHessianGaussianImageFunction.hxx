@@ -79,11 +79,11 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
   unsigned int maxRadius = 0;
 
   for ( unsigned int direction = 0; direction <
-        itkGetStaticConstMacro(ImageDimension2); direction++ )
+        Self::ImageDimension2; direction++ )
     {
     for ( unsigned int order = 0; order <= 2; ++order )
       {
-      idx = itkGetStaticConstMacro(ImageDimension2) * order + direction;
+      idx = Self::ImageDimension2 * order + direction;
       m_OperatorArray[idx].SetDirection(direction);
       m_OperatorArray[idx].SetMaximumKernelWidth(m_MaximumKernelWidth);
       m_OperatorArray[idx].SetMaximumError(m_MaximumError);
@@ -101,7 +101,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
       m_OperatorArray[idx].CreateDirectional();
 
       // Check for maximum radius
-      for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension2); ++i )
+      for ( unsigned int i = 0; i < Self::ImageDimension2; ++i )
         {
         if ( m_OperatorArray[idx].GetRadius()[i] > maxRadius )
           {
@@ -115,7 +115,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
   // have to perform N convolutions for each point we calculate but
   // only one.
 
-  using KernelImageType = itk::Image< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using KernelImageType = itk::Image< TOutput, Self::ImageDimension2 >;
   typename KernelImageType::Pointer kernelImage = KernelImageType::New();
 
   using RegionType = typename KernelImageType::RegionType;
@@ -147,7 +147,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
   typename NeighborhoodFilterType::Pointer convolutionFilter = NeighborhoodFilterType::New();
 
   // Array that stores the current order for each direction
-  using OrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension2) >;
+  using OrderArrayType = FixedArray< unsigned int, Self::ImageDimension2 >;
   OrderArrayType orderArray;
 
   // Precalculate compound derivative kernels (n-dimensional)
@@ -157,9 +157,9 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
   unsigned int opidx; // current operator index in m_OperatorArray
   unsigned int kernelidx = 0;
 
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension2); ++i )
+  for ( unsigned int i = 0; i < Self::ImageDimension2; ++i )
     {
-    for ( unsigned int j = i; j < itkGetStaticConstMacro(ImageDimension2); ++j )
+    for ( unsigned int j = i; j < Self::ImageDimension2; ++j )
       {
       orderArray.Fill(0);
       ++orderArray[i];
@@ -169,9 +169,9 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
       kernelImage->FillBuffer(itk::NumericTraits< TOutput >::ZeroValue());
       kernelImage->SetPixel(centerIndex, itk::NumericTraits< TOutput >::OneValue());
 
-      for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension2); ++direction )
+      for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
         {
-        opidx = itkGetStaticConstMacro(ImageDimension2) * orderArray[direction] + direction;
+        opidx = Self::ImageDimension2 * orderArray[direction] + direction;
         convolutionFilter->SetInput(kernelImage);
         convolutionFilter->SetOperator(m_OperatorArray[opidx]);
         convolutionFilter->Update();

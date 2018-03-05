@@ -168,15 +168,15 @@ public:
 
   /** Image types. */
   using PointDataImageType = Image<PointDataType,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
   using RealImageType = Image<RealType,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
   using RealImagePointer = typename RealImageType::Pointer;
   using PointDataImagePointer = typename PointDataImageType::Pointer;
   using ArrayType = FixedArray<unsigned,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
   using RealArrayType = FixedArray<RealType,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
 
   /** Interpolation kernel type (default spline order = 3). */
   using KernelType = CoxDeBoorBSplineKernelFunction<3>;

@@ -98,7 +98,7 @@ public:
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
   void SetOperator(const Neighborhood< ScalarValueType,
-                                       itkGetStaticConstMacro(ImageDimension) > & p)
+                                       Self::ImageDimension > & p)
   {
     m_Operator = p;
     this->Modified();
@@ -157,7 +157,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorNeighborhoodOperatorImageFilter);
 
   /** Pointer to the internal operator used to filter the image. */
-  Neighborhood< ScalarValueType, itkGetStaticConstMacro(ImageDimension) > m_Operator;
+  Neighborhood< ScalarValueType, Self::ImageDimension > m_Operator;
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */

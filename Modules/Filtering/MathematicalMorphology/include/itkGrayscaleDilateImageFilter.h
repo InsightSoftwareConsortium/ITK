@@ -85,7 +85,7 @@ public:
   using BasicFilterType =
       BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >;
 
-  using FlatKernelType = FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >;
+  using FlatKernelType = FlatStructuringElement< Self::ImageDimension >;
 
   using AnchorFilterType = AnchorDilateImageFilter< TInputImage, FlatKernelType >;
   using VHGWFilterType = VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType >;

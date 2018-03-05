@@ -139,7 +139,7 @@ public:
   /** Dimensionality of input and output data is assumed to be the same. */
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
-  using FloatImageType = Image<float, itkGetStaticConstMacro(ImageDimension)>;
+  using FloatImageType = Image<float, Self::ImageDimension>;
   using LinearSystemSolverType = LinearSystemWrapperItpack;
   using SolverType = SolverCrankNicolson<ImageDimension>;
 
@@ -148,8 +148,8 @@ public:
   using LoadArray = Load::ArrayType;
 
   using LandmarkArrayType = std::vector<typename LoadLandmark::Pointer>;
-  using VectorType = itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>;
-  using FieldType = itk::Image<VectorType, itkGetStaticConstMacro(ImageDimension)>;
+  using VectorType = itk::Vector<float, Self::ImageDimension>;
+  using FieldType = itk::Image<VectorType, Self::ImageDimension>;
   using WarperType = itk::WarpImageFilter<MovingImageType, FixedImageType, FieldType>;
 
   using MaterialType = MaterialLinearElasticity;

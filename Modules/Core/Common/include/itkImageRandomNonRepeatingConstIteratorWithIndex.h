@@ -291,7 +291,7 @@ public:
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Image with priorities */
-  using PriorityImageType = itk::Image< SizeValueType, itkGetStaticConstMacro(ImageDimension) >;
+  using PriorityImageType = itk::Image< SizeValueType, Self::ImageDimension >;
 
   /** Set the priority image.  The priority image controls the order
       of the random selection.  Pixels of the same priority will be

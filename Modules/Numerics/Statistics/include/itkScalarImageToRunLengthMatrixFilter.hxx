@@ -34,7 +34,7 @@ namespace Statistics
 template<typename TImageType, typename THistogramFrequencyContainer>
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::ScalarImageToRunLengthMatrixFilter() :
-  m_NumberOfBinsPerAxis( itkGetStaticConstMacro( DefaultBinsPerAxis ) ),
+  m_NumberOfBinsPerAxis( Self::DefaultBinsPerAxis  ),
   m_Min( NumericTraits<PixelType>::NonpositiveMin() ),
   m_Max( NumericTraits<PixelType>::max() ),
   m_MinDistance( NumericTraits<RealType>::ZeroValue() ),

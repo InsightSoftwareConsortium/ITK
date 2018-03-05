@@ -66,12 +66,12 @@ public:
   static constexpr ImageDimensionType VirtualImageDimension = VirtualImageType::ImageDimension;
 
   using FixedImageGradientType = CovariantVector< CoordinateRepresentationType,
-                             itkGetStaticConstMacro(FixedImageDimension) >;
+                             Self::FixedImageDimension >;
   using MovingImageGradientType = CovariantVector< CoordinateRepresentationType,
-                             itkGetStaticConstMacro(MovingImageDimension) >;
+                             Self::MovingImageDimension >;
 
   using VirtualImageGradientType = CovariantVector< CoordinateRepresentationType,
-                             itkGetStaticConstMacro(VirtualImageDimension) >;
+                             Self::VirtualImageDimension >;
 
   using FixedImageComponentGradientType = FixedImageGradientType;
   using MovingImageComponentGradientType = MovingImageGradientType;
@@ -83,18 +83,18 @@ public:
   /** Type of the filter used to calculate the gradients. */
   using FixedRealType = typename NumericTraits<FixedImagePixelType>::RealType;
   using FixedGradientPixelType = CovariantVector< FixedRealType,
-                           itkGetStaticConstMacro(FixedImageDimension) >;
+                           Self::FixedImageDimension >;
   using FixedImageGradientImageType = Image< FixedGradientPixelType,
-                 itkGetStaticConstMacro(FixedImageDimension) >;
+                 Self::FixedImageDimension >;
 
   using FixedImageGradientFilterType =
       ImageToImageFilter< FixedImageType, FixedImageGradientImageType >;
 
   using MovingRealType = typename NumericTraits<MovingImagePixelType>::RealType;
   using MovingGradientPixelType = CovariantVector< MovingRealType,
-                           itkGetStaticConstMacro(MovingImageDimension) >;
+                           Self::MovingImageDimension >;
   using MovingImageGradientImageType = Image< MovingGradientPixelType,
-                 itkGetStaticConstMacro(MovingImageDimension) >;
+                 Self::MovingImageDimension >;
 
   using MovingImageGradientFilterType =
       ImageToImageFilter< MovingImageType, MovingImageGradientImageType >;
@@ -109,11 +109,11 @@ public:
    * is chosen to match that of CentralDiffererenceImageFunction. */
   using FixedImageGradientCalculatorType = ImageFunction<FixedImageType,
                         CovariantVector<double,
-                                  itkGetStaticConstMacro( FixedImageDimension )>,
+                                  Self::FixedImageDimension >,
                         CoordinateRepresentationType>;
   using MovingImageGradientCalculatorType = ImageFunction<MovingImageType,
                         CovariantVector<double,
-                                  itkGetStaticConstMacro( MovingImageDimension )>,
+                                  Self::MovingImageDimension >,
                         CoordinateRepresentationType>;
 
   using DefaultFixedImageGradientCalculator = CentralDifferenceImageFunction<FixedImageType,

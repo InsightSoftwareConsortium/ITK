@@ -96,7 +96,7 @@ public:
 
   /** Neighborhood types */
   using OutputNeighborhoodType = Neighborhood< OperatorValueType,
-                        itkGetStaticConstMacro(ImageDimension) >;
+                        Self::ImageDimension >;
 
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it

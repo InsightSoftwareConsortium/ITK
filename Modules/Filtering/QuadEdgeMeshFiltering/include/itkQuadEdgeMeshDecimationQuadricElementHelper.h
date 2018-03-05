@@ -43,9 +43,9 @@ public:
   using VectorType = typename PointType::VectorType;
   using VNLMatrixType = vnl_matrix< CoordType >;
   using VNLVectorType = vnl_vector_fixed< CoordType,
-                            itkGetStaticConstMacro(PointDimension) >;
+                            Self::PointDimension >;
   using CoefficientVectorType = vnl_vector_fixed< CoordType,
-                            itkGetStaticConstMacro(NumberOfCoefficients) >;
+                            Self::NumberOfCoefficients >;
   using TriangleType = TriangleHelper< PointType >;
 
   // *****************************************************************

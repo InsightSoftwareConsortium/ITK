@@ -51,7 +51,7 @@ public:
   using ConstIterator = typename Superclass::ConstIterator;
   using VectorType = typename Superclass::VectorType;
 
-  typedef ValueType ValueArrayType[itkGetStaticConstMacro(PointDimension)];
+  typedef ValueType ValueArrayType[Self::PointDimension];
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

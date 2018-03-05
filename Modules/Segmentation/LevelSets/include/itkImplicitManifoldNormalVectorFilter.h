@@ -200,7 +200,7 @@ private:
   NodeValueType m_UnsharpMaskingWeight;
 
   /** Constants used in computations. */
-  unsigned long m_Indicator[itkGetStaticConstMacro(ImageDimension)];
+  unsigned long m_Indicator[Self::ImageDimension];
   unsigned int  m_NumVertex;
   NodeValueType m_DimConst;
   NodeValueType m_DimConst2;

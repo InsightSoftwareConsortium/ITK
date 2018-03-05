@@ -67,7 +67,7 @@ public:
       Here we prefer float in order to save memory.  */
   using InternalRealType = float;
   using RealImageType = Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >;
+                 Self::ImageDimension >;
 
   /**  Smoothing filter type */
   using GaussianFilterType = RecursiveGaussianImageFilter<

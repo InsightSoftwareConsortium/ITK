@@ -88,10 +88,10 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers */
-  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using ArrayType = FixedArray< double, Self::ImageDimension >;
 
   /** Array for storing desired order of derivatives */
-  using OrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) >;
+  using OrderArrayType = FixedArray< unsigned int, Self::ImageDimension >;
 
   /** Order of derivatives in each dimension. Sets the derivative order
    * independently for each dimension, but see also

@@ -97,11 +97,11 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using OutputImageType =
-      Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >;
+      Image< IdentifierType, Self::ImageDimension >;
   using ImageRegionType = typename InputImageType::RegionType;
   using InputPixelType = typename InputImageType::PixelType;
   using BoundaryType =
-      Boundary< InputPixelType, itkGetStaticConstMacro(ImageDimension) >;
+      Boundary< InputPixelType, Self::ImageDimension >;
   using BoundaryIndexType = typename BoundaryType::IndexType;
   using BoundaryFlatHashValueType = typename BoundaryType::FlatHashValueType;
   using SegmentTableType = SegmentTable< InputPixelType >;

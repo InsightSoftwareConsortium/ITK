@@ -73,7 +73,7 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** PermuteOrderArray type. */
-  using PermuteOrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) >;
+  using PermuteOrderArrayType = FixedArray< unsigned int, Self::ImageDimension >;
 
   /** Set the permutation order.  The elements of order must be
    * a rearrangement of the numbers from 0 to ImageDimension - 1. */

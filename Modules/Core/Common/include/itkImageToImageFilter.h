@@ -261,14 +261,14 @@ protected:
   /** Typedef for the region copier function object that converts an
    * input region to an output region. */
   using InputToOutputRegionCopierType = ImageToImageFilterDetail::ImageRegionCopier<
-                                                       itkGetStaticConstMacro(OutputImageDimension),
-                                                       itkGetStaticConstMacro(InputImageDimension) >;
+                                                       Self::OutputImageDimension,
+                                                       Self::InputImageDimension >;
 
   /** Typedef for the region copier function object that converts an
    * output region to an input region. */
   using OutputToInputRegionCopierType = ImageToImageFilterDetail::ImageRegionCopier<
-                                                       itkGetStaticConstMacro(InputImageDimension),
-                                                       itkGetStaticConstMacro(OutputImageDimension) >;
+                                                       Self::InputImageDimension,
+                                                       Self::OutputImageDimension >;
 
   /** This function calls the actual region copier to do the mapping
    * from output image space to input image space.  It uses a Function

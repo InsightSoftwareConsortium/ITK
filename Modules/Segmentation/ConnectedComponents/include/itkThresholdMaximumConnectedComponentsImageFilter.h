@@ -169,7 +169,7 @@ private:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using FilterImageType =
-      itk::Image< FilterPixelType, itkGetStaticConstMacro(ImageDimension) >;
+      itk::Image< FilterPixelType, Self::ImageDimension >;
 
   using FilterImagePointer = typename FilterImageType::Pointer;
 

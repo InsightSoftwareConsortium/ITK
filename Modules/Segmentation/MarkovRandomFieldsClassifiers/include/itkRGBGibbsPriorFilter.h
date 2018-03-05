@@ -198,10 +198,10 @@ protected:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension),
-                                             itkGetStaticConstMacro(ClassifiedImageType::ImageDimension) > ) );
+                   ( Concept::SameDimension< Self::InputImageType::ImageDimension,
+                                             Self::ClassifiedImageType::ImageDimension > ) );
   itkConceptMacro( DimensionShouldBe3,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension), 3 > ) );
+                   ( Concept::SameDimension< Self::InputImageType::ImageDimension, 3 > ) );
   // End concept checking
 #endif
 

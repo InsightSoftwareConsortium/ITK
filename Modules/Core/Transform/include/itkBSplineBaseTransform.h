@@ -72,20 +72,20 @@ public:
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
-  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using InputVectorType = Vector<TParametersValueType, Self::SpaceDimension >;
+  using OutputVectorType = Vector<TParametersValueType, Self::SpaceDimension >;
 
   /** Standard covariant vector type for this class. */
-  using InputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
-  using OutputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, Self::SpaceDimension >;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, Self::SpaceDimension >;
 
   /** Standard vnl_vector type for this class. */
   using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, SpaceDimension>;
   using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, SpaceDimension>;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
-  using OutputPointType = Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using InputPointType = Point <TParametersValueType, Self::SpaceDimension >;
+  using OutputPointType = Point <TParametersValueType, Self::SpaceDimension >;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -168,7 +168,7 @@ public:
 
   /** Parameters as SpaceDimension number of images. */
   using ParametersValueType = typename ParametersType::ValueType;
-  using ImageType = Image<ParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using ImageType = Image<ParametersValueType, Self::SpaceDimension >;
   using ImagePointer = typename ImageType::Pointer;
   using CoefficientImageArray = FixedArray<ImagePointer, NDimensions>;
 
@@ -206,7 +206,7 @@ public:
   void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) override;
 
   /** Typedefs for specifying the extent of the grid. */
-  using RegionType = ImageRegion<itkGetStaticConstMacro( SpaceDimension )>;
+  using RegionType = ImageRegion<Self::SpaceDimension >;
 
   using IndexType = typename RegionType::IndexType;
   using SizeType = typename RegionType::SizeType;
@@ -219,8 +219,8 @@ public:
 
   /** Interpolation weights function type. */
   using WeightsFunctionType = BSplineInterpolationWeightFunction<ScalarType,
-    itkGetStaticConstMacro( SpaceDimension ),
-     itkGetStaticConstMacro( SplineOrder )>;
+    Self::SpaceDimension ,
+     Self::SplineOrder >;
 
   using WeightsType = typename WeightsFunctionType::WeightsType;
   using ContinuousIndexType = typename WeightsFunctionType::ContinuousIndexType;

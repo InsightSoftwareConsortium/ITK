@@ -108,13 +108,13 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers */
-  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using ArrayType = FixedArray< double, Self::ImageDimension >;
 
   /** Neighborhood iterator types. */
   using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage >;
 
   /** Kernel type alias. */
-  using KernelType = Neighborhood< double, itkGetStaticConstMacro(ImageDimension) >;
+  using KernelType = Neighborhood< double, Self::ImageDimension >;
   using SizeType = typename KernelType::SizeType;
   using SizeValueType = typename KernelType::SizeValueType;
 
@@ -123,7 +123,7 @@ public:
   using KernelConstIteratorType = typename KernelType::ConstIterator;
 
   /** Gaussian image type */
-  using GaussianImageType = Image< double, itkGetStaticConstMacro(ImageDimension) >;
+  using GaussianImageType = Image< double, Self::ImageDimension >;
 
   /** Standard get/set macros for filter parameters.
    * DomainSigma is specified in the same units as the Image spacing.

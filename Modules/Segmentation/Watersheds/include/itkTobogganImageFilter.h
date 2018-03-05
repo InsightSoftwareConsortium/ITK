@@ -52,7 +52,7 @@ public:
   static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
   /** The type of output image.   */
-  using OutputImageType = Image< IdentifierType, itkGetStaticConstMacro(NDimensions) >;
+  using OutputImageType = Image< IdentifierType, Self::NDimensions >;
 
   /** Output image pixel type. */
   using OutputImagePixelType = typename OutputImageType::PixelType;

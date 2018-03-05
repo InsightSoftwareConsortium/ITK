@@ -73,7 +73,7 @@ public:
    *
    *  The KernelBased spline transform types are defined here.
    */
-  using KernelTransformType = KernelTransform< double, itkGetStaticConstMacro(ImageDimension) >;
+  using KernelTransformType = KernelTransform< double, Self::ImageDimension >;
   using LandmarkPointSetType = typename KernelTransformType::PointSetType;
   using LandmarkPointType = typename LandmarkPointSetType::PointType;
   using KernelTransformPointerType = typename KernelTransformType::Pointer;

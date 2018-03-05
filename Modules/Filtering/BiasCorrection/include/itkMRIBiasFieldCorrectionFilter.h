@@ -259,7 +259,7 @@ public:
   using ImageMaskRegionType = typename ImageMaskType::RegionType;
 
   /** Internal (temporary) image related type definitions. */
-  using InternalImageType = Image< float, itkGetStaticConstMacro(ImageDimension) >;
+  using InternalImageType = Image< float, Self::ImageDimension >;
   using InternalImagePixelType = typename InternalImageType::PixelType;
   using InternalImagePointer = typename InternalImageType::Pointer;
   using InternalImageRegionType = typename InternalImageType::RegionType;

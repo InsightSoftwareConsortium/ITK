@@ -81,7 +81,7 @@ public:
   using PixelType = TOutputPixel;
 
   /** Type of node used to represent the active region around the zero set. */
-  using NodeType = LevelSetNode< PixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using NodeType = LevelSetNode< PixelType, Self::ImageDimension >;
 
   /** Type of container used to store the level set nodes. */
   using NodeContainerType = VectorContainer< unsigned int, NodeType >;
@@ -89,7 +89,7 @@ public:
 
   /** Type of the shape signed distance function. */
   using ShapeFunctionType = ShapeSignedDistanceFunction< double,
-                                       itkGetStaticConstMacro(ImageDimension) >;
+                                       Self::ImageDimension >;
   using ShapeFunctionPointer = typename ShapeFunctionType::Pointer;
 
   /** Set/Get the shape distance function. */

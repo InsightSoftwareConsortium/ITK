@@ -173,7 +173,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   //outputImage->Allocate(); let the CasterImageFilter allocate the image
 
   //  Auxiliary image for accumulating the second-order derivatives
-  using CumulativeImageType = Image< InternalRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using CumulativeImageType = Image< InternalRealType, Self::ImageDimension >;
   using CumulativeImagePointer = typename CumulativeImageType::Pointer;
 
   // The CastImageFilter is used because it is multithreaded and

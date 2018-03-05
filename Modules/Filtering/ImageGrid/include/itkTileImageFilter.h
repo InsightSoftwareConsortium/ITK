@@ -95,10 +95,10 @@ public:
     TileInfo():m_ImageNumber(-1) {}
   };
 
-  using TileImageType = Image< TileInfo, itkGetStaticConstMacro(OutputImageDimension) >;
+  using TileImageType = Image< TileInfo, Self::OutputImageDimension >;
 
   /** LayoutArray type. */
-  using LayoutArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(OutputImageDimension) >;
+  using LayoutArrayType = FixedArray< unsigned int, Self::OutputImageDimension >;
 
   /** Set/Get the layout of the tiles. If the last Layout value is 0,
    * the filter will compute a value that will acoomodate all of the

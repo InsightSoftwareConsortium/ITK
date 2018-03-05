@@ -550,7 +550,7 @@ struct Signed {
   static constexpr bool IsSigned = NumericTraits< T >::is_signed;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
-    using SignedT = Detail::UniqueType_bool< itkGetStaticConstMacro(IsSigned) >;
+    using SignedT = Detail::UniqueType_bool< Self::IsSigned >;
     void constraints()
     {
       SignedT a = TrueT();
@@ -729,7 +729,7 @@ struct IsInteger {
   static constexpr bool Integral = NumericTraits< T >::is_integer;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
-    using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
+    using IntegralT = Detail::UniqueType_bool< Self::Integral >;
     void constraints()
     {
       IntegralT a = TrueT();
@@ -749,7 +749,7 @@ struct IsUnsignedInteger {
   static constexpr bool Unsigned = !NumericTraits< T >::is_signed;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
-    using UnsignedT = Detail::UniqueType_bool< itkGetStaticConstMacro(Unsigned) >;
+    using UnsignedT = Detail::UniqueType_bool< Self::Unsigned >;
     void constraints()
     {
       UnsignedT a = TrueT();
@@ -769,7 +769,7 @@ struct IsNonInteger {
   static constexpr bool NonIntegral = NumericTraits< T >::is_integer;
   struct Constraints {
     using FalseT = Detail::UniqueType_bool< false >;
-    using NonIntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(NonIntegral) >;
+    using NonIntegralT = Detail::UniqueType_bool< Self::NonIntegral >;
     void constraints()
     {
       NonIntegralT a = FalseT();
@@ -789,8 +789,8 @@ struct IsFloatingPoint {
   static constexpr bool IsExact = NumericTraits< T >::is_exact;
   struct Constraints {
     using FalseT = Detail::UniqueType_bool< false >;
-    using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
-    using ExactT = Detail::UniqueType_bool< itkGetStaticConstMacro(IsExact) >;
+    using IntegralT = Detail::UniqueType_bool< Self::Integral >;
+    using ExactT = Detail::UniqueType_bool< Self::IsExact >;
     void constraints()
     {
       IntegralT a = FalseT();
@@ -813,8 +813,8 @@ struct IsFixedPoint {
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
     using FalseT = Detail::UniqueType_bool< false >;
-    using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
-    using ExactT = Detail::UniqueType_bool< itkGetStaticConstMacro(IsExact) >;
+    using IntegralT = Detail::UniqueType_bool< Self::Integral >;
+    using ExactT = Detail::UniqueType_bool< Self::IsExact >;
     void constraints()
     {
       IntegralT a = FalseT();

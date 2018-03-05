@@ -81,8 +81,8 @@ public:
 
   /**  Type of the Transform Base class */
   using TransformType = Transform< CoordinateRepresentationType,
-                     itkGetStaticConstMacro(MovingImageDimension),
-                     itkGetStaticConstMacro(FixedImageDimension) >;
+                     Self::MovingImageDimension,
+                     Self::FixedImageDimension >;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -104,8 +104,8 @@ public:
 
   /** Gaussian filter to compute the gradient of the Moving Image */
   using RealType = typename NumericTraits< MovingImagePixelType >::RealType;
-  using GradientPixelType = CovariantVector< RealType, itkGetStaticConstMacro(MovingImageDimension) >;
-  using GradientImageType = Image< GradientPixelType, itkGetStaticConstMacro(MovingImageDimension) >;
+  using GradientPixelType = CovariantVector< RealType, Self::MovingImageDimension >;
+  using GradientImageType = Image< GradientPixelType, Self::MovingImageDimension >;
   using GradientImagePointer = SmartPointer< GradientImageType >;
   using GradientImageFilterType = GradientRecursiveGaussianImageFilter< MovingImageType, GradientImageType >;
   using GradientImageFilterPointer = typename GradientImageFilterType::Pointer;
@@ -114,13 +114,13 @@ public:
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  using FixedImageMaskType = SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >;
+  using FixedImageMaskType = SpatialObject< Self::FixedImageDimension >;
   using FixedImageMaskPointer = typename FixedImageMaskType::Pointer;
   using FixedImageMaskConstPointer = typename FixedImageMaskType::ConstPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  using MovingImageMaskType = SpatialObject< itkGetStaticConstMacro(MovingImageDimension) >;
+  using MovingImageMaskType = SpatialObject< Self::MovingImageDimension >;
   using MovingImageMaskPointer = typename MovingImageMaskType::Pointer;
   using MovingImageMaskConstPointer = typename MovingImageMaskType::ConstPointer;
 
@@ -409,7 +409,7 @@ public:
 
   using BSplineTransformType = BSplineBaseTransform< CoordinateRepresentationType,
                                        FixedImageType ::ImageDimension,
-                                      itkGetStaticConstMacro(DeformationSplineOrder) >;
+                                      Self::DeformationSplineOrder >;
 
   using BSplineTransformWeightsType = typename BSplineTransformType::WeightsType;
   using WeightsValueType = typename BSplineTransformWeightsType::ValueType;
@@ -433,7 +433,7 @@ public:
   using DerivativeFunctionType = CentralDifferenceImageFunction< MovingImageType,
                                           CoordinateRepresentationType >;
   using ImageDerivativesType =
-      CovariantVector< double, itkGetStaticConstMacro(MovingImageDimension) >;
+      CovariantVector< double, Self::MovingImageDimension >;
 
   typename BSplineTransformType::Pointer m_BSplineTransform;
 

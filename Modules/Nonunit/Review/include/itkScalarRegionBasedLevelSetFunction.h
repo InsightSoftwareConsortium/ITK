@@ -117,7 +117,7 @@ public:
   using ListPixelConstIterator = typename ListPixelType::const_iterator;
   using ListPixelIterator = typename ListPixelType::iterator;
   using ListImageType =
-      Image< ListPixelType, itkGetStaticConstMacro(ImageDimension) >;
+      Image< ListPixelType, Self::ImageDimension >;
 
   /** \brief Performs the narrow-band update of the Heaviside function for each
   voxel. The characteristic function of each region is recomputed (note the

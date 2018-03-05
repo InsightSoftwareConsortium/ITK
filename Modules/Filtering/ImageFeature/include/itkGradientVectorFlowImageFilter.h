@@ -85,7 +85,7 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   using InternalPixelType = TInternalPixel;
-  using InternalImageType = itk::Image< InternalPixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using InternalImageType = itk::Image< InternalPixelType, Self::ImageDimension >;
   using InternalImagePointer = typename InternalImageType::Pointer;
   using InternalImageIterator = ImageRegionIterator< InternalImageType >;
   using InternalImageConstIterator = ImageRegionConstIterator< InternalImageType >;

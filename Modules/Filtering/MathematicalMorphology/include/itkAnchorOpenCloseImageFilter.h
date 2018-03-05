@@ -96,7 +96,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenCloseImageFilter);
 
-  using BresType = BresenhamLine< itkGetStaticConstMacro(InputImageDimension) >;
+  using BresType = BresenhamLine< Self::InputImageDimension >;
   using BresOffsetArray = typename BresType::OffsetArray;
 
   // the class that operates on lines -- does the opening in one

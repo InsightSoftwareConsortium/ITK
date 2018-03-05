@@ -90,7 +90,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnchorErodeDilateImageFilter);
 
-  using BresType = BresenhamLine< itkGetStaticConstMacro(InputImageDimension) >;
+  using BresType = BresenhamLine< Self::InputImageDimension >;
 
   // the class that operates on lines
   using AnchorLineType = AnchorErodeDilateLine< InputImagePixelType, TFunction1 >;

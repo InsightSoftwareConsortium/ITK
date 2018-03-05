@@ -93,21 +93,21 @@ public:
   /** Other type alias */
   using RealType = float;
   using RealImageType = Image<RealType,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
   using RealImagePointer = typename RealImageType::Pointer;
 
   using ArrayType = FixedArray<unsigned,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
   using RealArrayType = FixedArray<RealType,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
 
   /** PointSet type alias support */
   using PointSetType = PointSet<PixelType,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
   using PointDataType = typename PointSetType::PixelType;
   using PointDataContainerType = typename PointSetType::PointDataContainer;
   using PointDataImageType = Image<PointDataType,
-    itkGetStaticConstMacro( ImageDimension )>;
+    Self::ImageDimension >;
   using PointDataImagePointer = typename PointDataImageType::Pointer;
 
   /** Interpolation kernel type (default spline order = 3) */

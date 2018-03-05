@@ -74,7 +74,7 @@ public:
   using InputPixelValueType = typename NumericTraits<InputPixelType>::ValueType;
   using ComputingPixelType = typename NumericTraits<OutputPixelType>::RealType;
 
-  using NeighborhoodGPUBufferType = GPUImage<TOperatorValueType,itkGetStaticConstMacro(ImageDimension)>;
+  using NeighborhoodGPUBufferType = GPUImage<TOperatorValueType,Self::ImageDimension>;
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -97,7 +97,7 @@ public:
 
   /** Neighborhood types */
   using OutputNeighborhoodType = Neighborhood< OperatorValueType,
-                        itkGetStaticConstMacro(ImageDimension) >;
+                        Self::ImageDimension >;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUNeighborhoodOperatorImageFilterKernel);

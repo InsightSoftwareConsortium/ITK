@@ -103,7 +103,7 @@ private:
 
   /** Derivative operators. */
   DerivativeOperator< ScalarValueType,
-                      itkGetStaticConstMacro(ImageDimension) > dx_op;
+                      Self::ImageDimension > m_DxOp;
 
   /** Modified global average gradient magnitude term. */
   ScalarValueType m_K;

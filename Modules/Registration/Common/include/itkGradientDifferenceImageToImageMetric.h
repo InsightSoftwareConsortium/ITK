@@ -93,14 +93,14 @@ public:
   static constexpr unsigned int FixedImageDimension = TFixedImage::ImageDimension;
   /** Types for transforming the moving image */
   using TransformedMovingImageType = itk::Image< FixedImagePixelType,
-                      itkGetStaticConstMacro(FixedImageDimension) >;
+                      Self::FixedImageDimension >;
 
   using TransformMovingImageFilterType =
       itk::ResampleImageFilter< MovingImageType, TransformedMovingImageType >;
 
   /** Sobel filters to compute the gradients of the Fixed Image */
 
-  using FixedGradientImageType = itk::Image< RealType, itkGetStaticConstMacro(FixedImageDimension) >;
+  using FixedGradientImageType = itk::Image< RealType, Self::FixedImageDimension >;
 
   using CastFixedImageFilterType = itk::CastImageFilter< FixedImageType, FixedGradientImageType >;
   using CastFixedImageFilterPointer = typename CastFixedImageFilterType::Pointer;
@@ -111,7 +111,7 @@ public:
 
   static constexpr unsigned int MovedImageDimension = MovingImageType::ImageDimension;
 
-  using MovedGradientImageType = itk::Image< RealType, itkGetStaticConstMacro(MovedImageDimension) >;
+  using MovedGradientImageType = itk::Image< RealType, Self::MovedImageDimension >;
 
   using CastMovedImageFilterType = itk::CastImageFilter< TransformedMovingImageType, MovedGradientImageType >;
   using CastMovedImageFilterPointer = typename CastMovedImageFilterType::Pointer;
@@ -182,10 +182,10 @@ private:
   CastFixedImageFilterPointer m_CastFixedImageFilter;
 
   SobelOperator< FixedGradientPixelType,
-                 itkGetStaticConstMacro(FixedImageDimension) >
+                 Self::FixedImageDimension >
   m_FixedSobelOperators[FixedImageDimension];
 
-  typename FixedSobelFilter::Pointer m_FixedSobelFilters[itkGetStaticConstMacro(FixedImageDimension)];
+  typename FixedSobelFilter::Pointer m_FixedSobelFilters[Self::FixedImageDimension];
 
   ZeroFluxNeumannBoundaryCondition< MovedGradientImageType > m_MovedBoundCond;
   ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > m_FixedBoundCond;
@@ -194,10 +194,10 @@ private:
   CastMovedImageFilterPointer m_CastMovedImageFilter;
 
   SobelOperator< MovedGradientPixelType,
-                 itkGetStaticConstMacro(MovedImageDimension) >
+                 Self::MovedImageDimension >
   m_MovedSobelOperators[MovedImageDimension];
 
-  typename MovedSobelFilter::Pointer m_MovedSobelFilters[itkGetStaticConstMacro(MovedImageDimension)];
+  typename MovedSobelFilter::Pointer m_MovedSobelFilters[Self::MovedImageDimension];
 
   double m_DerivativeDelta;
 };

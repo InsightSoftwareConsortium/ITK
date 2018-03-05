@@ -29,7 +29,7 @@ template< typename TInputImage, typename TOutput >
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::GaussianDerivativeImageFunction()
 {
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+  for ( unsigned int i = 0; i < Self::ImageDimension2; i++ )
     {
     m_Sigma[i] = 1.0;
     m_Extent[i] = 1.0;
@@ -57,16 +57,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+  for ( i = 0; i < Self::ImageDimension2; i++ )
     {
     if ( sigma[i] != m_Sigma[i] )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+  if ( i < Self::ImageDimension2 )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+    for ( i = 0; i < Self::ImageDimension2; i++ )
       {
       m_Sigma[i] = sigma[i];
       }
@@ -81,16 +81,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+  for ( i = 0; i < Self::ImageDimension2; i++ )
     {
     if ( Math::NotExactlyEquals(sigma, m_Sigma[i]) )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+  if ( i < Self::ImageDimension2 )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+    for ( i = 0; i < Self::ImageDimension2; i++ )
       {
       m_Sigma[i] = sigma;
       }
@@ -105,16 +105,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+  for ( i = 0; i < Self::ImageDimension2; i++ )
     {
     if ( extent[i] != m_Extent[i] )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+  if ( i < Self::ImageDimension2 )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+    for ( i = 0; i < Self::ImageDimension2; i++ )
       {
       m_Extent[i] = extent[i];
       }
@@ -129,16 +129,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+  for ( i = 0; i < Self::ImageDimension2; i++ )
     {
     if ( Math::NotExactlyEquals(extent, m_Extent[i]) )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+  if ( i < Self::ImageDimension2 )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension2); i++ )
+    for ( i = 0; i < Self::ImageDimension2; i++ )
       {
       m_Extent[i] = extent;
       }
@@ -151,7 +151,7 @@ void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::RecomputeGaussianKernel()
 {
-  for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension2); ++direction )
+  for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
     {
     // Set the derivative of the Gaussian first
     OperatorNeighborhoodType dogNeighborhood;
@@ -202,7 +202,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   OutputType gradient;
 
-  for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension2); ++direction )
+  for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
     {
     // Note: A future version of ITK should do Gaussian blurring here.
 

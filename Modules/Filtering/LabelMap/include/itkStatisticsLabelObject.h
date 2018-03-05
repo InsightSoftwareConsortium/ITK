@@ -61,7 +61,7 @@ public:
 
   using IndexType = typename Superclass::IndexType;
 
-  using PointType = Point< double, itkGetStaticConstMacro(ImageDimension) >;
+  using PointType = Point< double, Self::ImageDimension >;
 
   using LabelType = TLabel;
 
@@ -69,9 +69,9 @@ public:
 
   using LengthType = typename Superclass::LengthType;
 
-  using MatrixType = Matrix< double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) >;
+  using MatrixType = Matrix< double, Self::ImageDimension, Self::ImageDimension >;
 
-  using VectorType = Vector< double, itkGetStaticConstMacro(ImageDimension) >;
+  using VectorType = Vector< double, Self::ImageDimension >;
 
   using HistogramType = Statistics::Histogram< double >;
 
@@ -238,7 +238,7 @@ public:
     return Superclass::GetNameFromAttribute(a);
   }
 
-  using RegionType = ImageRegion< itkGetStaticConstMacro(ImageDimension) >;
+  using RegionType = ImageRegion< Self::ImageDimension >;
 
   using CentroidType = typename Superclass::CentroidType;
 
@@ -458,7 +458,7 @@ public:
 
   // some helper methods - not really required, but really useful!
   /** Affine transform for mapping to and from principal axis */
-  using AffineTransformType = AffineTransform< double, itkGetStaticConstMacro(ImageDimension) >;
+  using AffineTransformType = AffineTransform< double, Self::ImageDimension >;
   using AffineTransformPointer = typename AffineTransformType::Pointer;
 
   /** Get the affine transform from principal axes to physical axes

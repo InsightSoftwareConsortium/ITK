@@ -136,7 +136,7 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers. */
-  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using ArrayType = FixedArray< double, Self::ImageDimension >;
 
   /** Set/Get the variance of the Gaussian smoothing filter. */
   itkSetMacro(Variance, ArrayType);
@@ -327,9 +327,9 @@ private:
 
   /** Function objects that are used in the inner loops of derivatiVex
    *  calculations. */
-  DerivativeOperator< OutputImagePixelType, itkGetStaticConstMacro(ImageDimension) >
+  DerivativeOperator< OutputImagePixelType, Self::ImageDimension >
   m_ComputeCannyEdge1stDerivativeOper;
-  DerivativeOperator< OutputImagePixelType, itkGetStaticConstMacro(ImageDimension) >
+  DerivativeOperator< OutputImagePixelType, Self::ImageDimension >
   m_ComputeCannyEdge2ndDerivativeOper;
 
   std::slice m_ComputeCannyEdgeSlice[ImageDimension];

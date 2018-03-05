@@ -79,8 +79,8 @@ public:
 
   /**  Type of the Transform Base class */
   using TransformType = Transform< CoordinateRepresentationType,
-                     itkGetStaticConstMacro(MovingPointSetDimension),
-                     itkGetStaticConstMacro(FixedPointSetDimension) >;
+                     Self::MovingPointSetDimension,
+                     Self::FixedPointSetDimension >;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;

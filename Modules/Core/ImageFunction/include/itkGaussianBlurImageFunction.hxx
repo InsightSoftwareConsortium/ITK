@@ -31,7 +31,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   typename GaussianFunctionType::ArrayType mean;
   mean[0] = 0.0f;
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( unsigned int i = 0; i < Self::ImageDimension; i++ )
     {
     m_Sigma[i] = 1.0f;
     m_MaximumError[i] = 0.001f;
@@ -66,7 +66,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   this->Superclass::PrintSelf(os, indent);
 
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( unsigned int i = 0; i < Self::ImageDimension; i++ )
     {
     os << indent << "Sigma[" << i << "] : " <<  m_Sigma[i] << std::endl;
     os << indent << "MaximumError[" << i << "] : " << m_MaximumError[i] << std::endl;
@@ -86,16 +86,16 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( sigma[i] != m_Sigma[i] )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension) )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Sigma[i] = sigma[i];
       }
@@ -111,16 +111,16 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( Math::NotExactlyEquals(sigma, m_Sigma[i]) )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension) )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Sigma[i] = sigma;
       }
@@ -136,16 +136,16 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( extent[i] != m_Extent[i] )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension) )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Extent[i] = extent[i];
       }
@@ -161,16 +161,16 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( Math::NotExactlyEquals(extent, m_Extent[i]) )
       {
       break;
       }
     }
-  if ( i < itkGetStaticConstMacro(ImageDimension) )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Extent[i] = extent;
       }
@@ -188,7 +188,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   typename InternalImageType::SizeType size;
   // Compute the convolution of each kernel in each direction
-  for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension); direction++ )
+  for ( unsigned int direction = 0; direction < Self::ImageDimension; direction++ )
     {
     GaussianOperatorType gaussianOperator;
 
@@ -248,14 +248,14 @@ GaussianBlurImageFunction< TInputImage, TOutput >
   m_OperatorImageFunction->SetOperator(operatorArray[0]);
 
   // if 1D Image we return the result
-  if ( itkGetStaticConstMacro(ImageDimension) == 1 )
+  if ( Self::ImageDimension == 1 )
     {
     return m_OperatorImageFunction->EvaluateAtIndex(index);
     }
 
   // Compute the centered index of the neighborhood
   IndexType centerIndex;
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( unsigned int i = 0; i < Self::ImageDimension; i++ )
     {
     centerIndex[i] = (IndexValueType)( (float)m_InternalImage->GetBufferedRegion().GetSize()[i] / 2.0 );
     }
@@ -270,7 +270,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
   size[0] = 1;
   region.SetSize(size);
 
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( unsigned int i = 0; i < Self::ImageDimension; i++ )
     {
     if ( i != 0 )
       {
@@ -282,7 +282,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
   typename InternalImageType::RegionType regionN;
   regionN.SetSize(size);
   ind = centerIndex;
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  for ( unsigned int i = 0; i < Self::ImageDimension; i++ )
     {
     if ( i != 0 )
       {
@@ -313,11 +313,11 @@ GaussianBlurImageFunction< TInputImage, TOutput >
     }
 
   // Do the convolution in other directions
-  for ( unsigned int direction = 1; direction < itkGetStaticConstMacro(ImageDimension); direction++ )
+  for ( unsigned int direction = 1; direction < Self::ImageDimension; direction++ )
     {
     size[direction] = 1;
     ind = centerIndex;
-    for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+    for ( unsigned int i = 0; i < Self::ImageDimension; i++ )
       {
       if ( i > direction )
         {
@@ -333,9 +333,9 @@ GaussianBlurImageFunction< TInputImage, TOutput >
     itk::ImageLinearIteratorWithIndex< InternalImageType > itr(m_InternalImage, region);
 
     unsigned int dir = direction + 1;
-    if ( dir == itkGetStaticConstMacro(ImageDimension) )
+    if ( dir == Self::ImageDimension )
       {
-      dir = itkGetStaticConstMacro(ImageDimension) - 1;
+      dir = Self::ImageDimension - 1;
       }
 
     itr.SetDirection(dir);
@@ -361,7 +361,7 @@ void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::RecomputeContinuousGaussianKernel(const double *offset) const
 {
-  for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension); direction++ )
+  for ( unsigned int direction = 0; direction < Self::ImageDimension; direction++ )
     {
     typename NeighborhoodType::SizeType size;
     size.Fill(0);
@@ -434,8 +434,8 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 
   index.CopyWithRound(cindex);
 
-  double offset[itkGetStaticConstMacro(ImageDimension)];
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
+  double offset[Self::ImageDimension];
+  for ( unsigned int i = 0; i < Self::ImageDimension; i++ )
     {
     offset[i] = cindex[i] - index[i];
     }

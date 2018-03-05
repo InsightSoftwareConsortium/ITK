@@ -80,7 +80,7 @@ public:
   using IndexValueType = typename IndexType::IndexValueType;
 
   /** FlipAxesArray type */
-  using FlipAxesArrayType = FixedArray< bool, itkGetStaticConstMacro(ImageDimension) >;
+  using FlipAxesArrayType = FixedArray< bool, Self::ImageDimension >;
 
   /** Set/Get the axis to be flipped. The image is flipped along axes
    * for which array[i] is true. Default is false. */

@@ -298,13 +298,13 @@ public:
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
-  using StatusImageType = Image< StatusType, itkGetStaticConstMacro(ImageDimension) >;
+  using StatusImageType = Image< StatusType, Self::ImageDimension >;
 
   /** Memory pre-allocator used to manage layer nodes in a multithreaded
    *  environment. */
   using LayerNodeStorageType = ObjectStore< LayerNodeType >;
 
-  using OffsetType = Offset< itkGetStaticConstMacro(ImageDimension) >;
+  using OffsetType = Offset< Self::ImageDimension >;
 
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in

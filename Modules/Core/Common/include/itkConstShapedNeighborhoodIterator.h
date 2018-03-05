@@ -95,9 +95,9 @@ public:
   /** Typedef support for common objects */
   using ImageType = TImage;
   using RegionType = typename TImage::RegionType;
-  using IndexType = Index< itkGetStaticConstMacro(Dimension) >;
+  using IndexType = Index< Self::Dimension >;
   using IndexValueType = typename IndexType::IndexValueType;
-  using NeighborhoodType = Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >;
+  using NeighborhoodType = Neighborhood< PixelType, Self::Dimension >;
 
   using NeighborIndexType = typename NeighborhoodType::NeighborIndexType;
 

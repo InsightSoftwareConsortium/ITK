@@ -82,7 +82,7 @@ public:
 
   /** AuxVarType type alias support */
   using AuxVarType = AuxVarTypeDefault< TAuxValue, VAuxDimension,
-                             itkGetStaticConstMacro(SetDimension) >;
+                             Self::SetDimension >;
   using AuxValueType = typename AuxVarType::AuxValueType;
   using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
   using AuxValueContainer = typename AuxVarType::AuxValueContainer;
@@ -126,7 +126,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExtensionVelocitiesImageFilter);
 
   /** Internal type alias. */
-  using SpeedImageType = Image< float, itkGetStaticConstMacro(SetDimension) >;
+  using SpeedImageType = Image< float, Self::SetDimension >;
 
   using LocatorType = LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >;
   using FastMarchingImageFilterType = FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension,

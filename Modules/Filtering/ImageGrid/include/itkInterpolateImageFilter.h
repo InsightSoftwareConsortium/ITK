@@ -70,7 +70,7 @@ public:
 
   /** Interpolator type alias. */
   using InputPixelType = typename TInputImage::PixelType;
-  using IntermediateImageType = Image< InputPixelType, itkGetStaticConstMacro(IntermediateImageDimension) >;
+  using IntermediateImageType = Image< InputPixelType, Self::IntermediateImageDimension >;
   using InterpolatorType = InterpolateImageFunction< IntermediateImageType >;
 
   /** Set/Get the first image */

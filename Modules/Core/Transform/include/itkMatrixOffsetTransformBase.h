@@ -137,16 +137,16 @@ public:
 
   /** Standard vector type for this class   */
   using InputVectorType = Vector<TParametersValueType,
-                 itkGetStaticConstMacro(InputSpaceDimension)>;
+                 Self::InputSpaceDimension>;
   using OutputVectorType = Vector<TParametersValueType,
-                 itkGetStaticConstMacro(OutputSpaceDimension)>;
+                 Self::OutputSpaceDimension>;
   using OutputVectorValueType = typename OutputVectorType::ValueType;
 
   /** Standard covariant vector type for this class   */
   using InputCovariantVectorType = CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(InputSpaceDimension)>;
+                          Self::InputSpaceDimension>;
   using OutputCovariantVectorType = CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(OutputSpaceDimension)>;
+                          Self::OutputSpaceDimension>;
 
   using InputVectorPixelType = typename Superclass::InputVectorPixelType;
   using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
@@ -164,26 +164,26 @@ public:
 
   /** Standard vnl_vector type for this class   */
   using InputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(InputSpaceDimension)>;
+                           Self::InputSpaceDimension>;
   using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(OutputSpaceDimension)>;
+                           Self::OutputSpaceDimension>;
 
   /** Standard coordinate point type for this class   */
   using InputPointType = Point<TParametersValueType,
-                itkGetStaticConstMacro(InputSpaceDimension)>;
+                Self::InputSpaceDimension>;
   using InputPointValueType = typename InputPointType::ValueType;
   using OutputPointType = Point<TParametersValueType,
-                itkGetStaticConstMacro(OutputSpaceDimension)>;
+                Self::OutputSpaceDimension>;
   using OutputPointValueType = typename OutputPointType::ValueType;
 
   /** Standard matrix type for this class   */
-  using MatrixType = Matrix<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>;
+  using MatrixType = Matrix<TParametersValueType, Self::OutputSpaceDimension,
+                 Self::InputSpaceDimension>;
   using MatrixValueType = typename MatrixType::ValueType;
 
   /** Standard inverse matrix type for this class   */
-  using InverseMatrixType = Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
-                 itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InverseMatrixType = Matrix<TParametersValueType, Self::InputSpaceDimension,
+                 Self::OutputSpaceDimension>;
 
   using CenterType = InputPointType;
 

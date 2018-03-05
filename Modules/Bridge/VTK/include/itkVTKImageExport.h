@@ -73,7 +73,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro( ImageDimensionCheck,
                    ( Concept::SameDimensionOrMinusOneOrTwo<
-                     3,itkGetStaticConstMacro(InputImageDimension) > ) );
+                     3,Self::InputImageDimension > ) );
 #endif
   /** Set the input image of this image exporter. */
   using Superclass::SetInput;

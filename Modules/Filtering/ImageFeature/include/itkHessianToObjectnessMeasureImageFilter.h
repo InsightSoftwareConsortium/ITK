@@ -78,7 +78,7 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType ::ImageDimension;
 
   using EigenValueType = double;
-  using EigenValueArrayType = itk::FixedArray< EigenValueType, itkGetStaticConstMacro(ImageDimension) >;
+  using EigenValueArrayType = itk::FixedArray< EigenValueType, Self::ImageDimension >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

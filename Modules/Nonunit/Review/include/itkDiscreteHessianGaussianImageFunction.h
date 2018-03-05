@@ -84,22 +84,22 @@ public:
                                      TInputImage::ImageDimension >;
   using OutputType = typename Superclass::OutputType;
 
-  using VarianceArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension2) >;
+  using VarianceArrayType = FixedArray< double, Self::ImageDimension2 >;
 
   using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator< TOutput,
-                                           itkGetStaticConstMacro(ImageDimension2) >;
+                                           Self::ImageDimension2 >;
 
   /** Array to store gaussian derivative operators from zero to second order
     * (3*ImageDimension operators) */
   using GaussianDerivativeOperatorArrayType = FixedArray< GaussianDerivativeOperatorType,
-                      3 *itkGetStaticConstMacro(ImageDimension2) >;
+                      3 *Self::ImageDimension2 >;
 
-  using KernelType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using KernelType = Neighborhood< TOutput, Self::ImageDimension2 >;
 
   /** Array to store precomputed N-dimensional kernels for the hessian
    * components  */
-  using KernelArrayType = FixedArray< KernelType, itkGetStaticConstMacro(ImageDimension2)
-                      * ( itkGetStaticConstMacro(ImageDimension2) + 1 ) / 2 >;
+  using KernelArrayType = FixedArray< KernelType, Self::ImageDimension2
+                      * ( Self::ImageDimension2 + 1 ) / 2 >;
 
   /** Image function that performs convolution with the neighborhood
    * operator  */

@@ -108,9 +108,9 @@ public:
       LinearInterpolateImageFunction< MovingImageType, CoordRepType >;
 
   /** Vector types. */
-  using VectorType = Vector< double, itkGetStaticConstMacro(ImageDimension) >;
+  using VectorType = Vector< double, Self::ImageDimension >;
   using CovariantVectorType =
-      CovariantVector< double, itkGetStaticConstMacro(ImageDimension) >;
+      CovariantVector< double, Self::ImageDimension >;
 
   /** Moving image gradient calculator type. */
   using MovingImageSmoothingFilterType = SmoothingRecursiveGaussianImageFilter<MovingImageType>;

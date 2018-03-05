@@ -227,7 +227,7 @@ protected: //made protected so other iterators can access
    * 1 = pixel is not inside the function
    * 2 = pixel is inside the function, neighbor check incomplete
    * 3 = pixel is inside the function, neighbor check complete */
-  using TTempImage = Image< unsigned char, itkGetStaticConstMacro(NDimensions) >;
+  using TTempImage = Image< unsigned char, Self::NDimensions >;
   typename TTempImage::Pointer m_TemporaryPointer;
 
   /** A list of locations to start the recursive fill */

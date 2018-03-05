@@ -164,7 +164,7 @@ MeshSpatialObject< TMesh >
     PointType pnt;
     PointType pnt2;
 
-    for ( unsigned int i = 0; i < itkGetStaticConstMacro(Dimension); i++ )
+    for ( unsigned int i = 0; i < Self::Dimension; i++ )
       {
       pnt[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
       pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];

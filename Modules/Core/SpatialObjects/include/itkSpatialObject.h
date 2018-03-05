@@ -380,7 +380,7 @@ public:
 
   /** Theses functions are just calling the AffineGeometryFrame functions */
   /** Set the spacing of the spatial object. */
-  void SetSpacing(const double spacing[itkGetStaticConstMacro(ObjectDimension)])
+  void SetSpacing(const double spacing[Self::ObjectDimension])
   {
   m_AffineGeometryFrame->GetModifiableIndexToObjectTransform()->SetScale(spacing);
   this->Modified();

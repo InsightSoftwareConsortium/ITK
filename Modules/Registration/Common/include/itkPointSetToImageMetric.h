@@ -78,8 +78,8 @@ public:
 
   /**  Type of the Transform Base class */
   using TransformType = Transform< CoordinateRepresentationType,
-                     itkGetStaticConstMacro(MovingImageDimension),
-                     itkGetStaticConstMacro(FixedPointSetDimension) >;
+                     Self::MovingImageDimension,
+                     Self::FixedPointSetDimension >;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -95,9 +95,9 @@ public:
   /** Gaussian filter to compute the gradient of the Moving Image */
   using RealType = typename NumericTraits< MovingImagePixelType >::RealType;
   using GradientPixelType = CovariantVector< RealType,
-                           itkGetStaticConstMacro(MovingImageDimension) >;
+                           Self::MovingImageDimension >;
   using GradientImageType = Image< GradientPixelType,
-                 itkGetStaticConstMacro(MovingImageDimension) >;
+                 Self::MovingImageDimension >;
   using GradientImagePointer = SmartPointer< GradientImageType >;
   using GradientImageFilterType = GradientRecursiveGaussianImageFilter< MovingImageType,
                                                 GradientImageType >;

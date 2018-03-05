@@ -79,11 +79,11 @@ public:
   static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** Index type alias support */
-  using Index = ::itk::Index< itkGetStaticConstMacro(SetDimension) >;
+  using Index = ::itk::Index< Self::SetDimension >;
 
   /** AuxVarType type alias support */
   using AuxVarType =
-      AuxVarTypeDefault< TAuxValue, VAuxDimension, itkGetStaticConstMacro(SetDimension) >;
+      AuxVarTypeDefault< TAuxValue, VAuxDimension, Self::SetDimension >;
   using AuxValueType = typename AuxVarType::AuxValueType;
   using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
   using AuxValueContainer = typename AuxVarType::AuxValueContainer;

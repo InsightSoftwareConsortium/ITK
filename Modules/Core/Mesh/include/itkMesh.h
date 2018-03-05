@@ -155,7 +155,7 @@ public:
   using CellDataContainer = typename MeshTraits::CellDataContainer;
 
   /** Used to support geometric operations on the toolkit. */
-  using BoundingBoxType = BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension),
+  using BoundingBoxType = BoundingBox< PointIdentifier, Self::PointDimension,
                        CoordRepType, PointsContainer >;
 
   /** Create types that are pointers to each of the container types. */

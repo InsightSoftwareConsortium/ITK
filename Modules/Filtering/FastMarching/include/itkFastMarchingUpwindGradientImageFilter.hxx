@@ -261,7 +261,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 
   OutputSpacingType spacing = this->GetOutput()->GetSpacing();
 
-  unsigned int xStride[itkGetStaticConstMacro(SetDimension)];
+  unsigned int xStride[Self::SetDimension];
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {

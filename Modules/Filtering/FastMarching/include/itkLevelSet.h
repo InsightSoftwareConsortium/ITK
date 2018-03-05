@@ -56,7 +56,7 @@ public:
 
   /** Node type alias support. */
   using NodeType =
-  LevelSetNode< PixelType, itkGetStaticConstMacro(SetDimension) >;
+  LevelSetNode< PixelType, Self::SetDimension >;
 
   /** NodeContainer type alias support */
   using NodeContainer = VectorContainer< unsigned int, NodeType >;

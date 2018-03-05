@@ -79,11 +79,11 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
   unsigned int maxRadius = 0;
 
   for ( unsigned int direction = 0; direction <
-        itkGetStaticConstMacro(ImageDimension2); direction++ )
+        Self::ImageDimension2; direction++ )
     {
     for ( unsigned int order = 0; order <= 1; ++order )
       {
-      idx = itkGetStaticConstMacro(ImageDimension2) * order + direction;
+      idx = Self::ImageDimension2 * order + direction;
       m_OperatorArray[idx].SetDirection(direction);
       m_OperatorArray[idx].SetMaximumKernelWidth(m_MaximumKernelWidth);
       m_OperatorArray[idx].SetMaximumError(m_MaximumError);
@@ -108,7 +108,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
       m_OperatorArray[idx].CreateDirectional();
 
       // Check for maximum radius
-      for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension2); ++i )
+      for ( unsigned int i = 0; i < Self::ImageDimension2; ++i )
         {
         if ( m_OperatorArray[idx].GetRadius()[i] > maxRadius )
           {
@@ -122,7 +122,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
   // perform
   // N convolutions for each point we calculate but only one.
 
-  using KernelImageType = itk::Image< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using KernelImageType = itk::Image< TOutput, Self::ImageDimension2 >;
   typename KernelImageType::Pointer kernelImage = KernelImageType::New();
 
   using RegionType = typename KernelImageType::RegionType;
@@ -155,15 +155,15 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 
   unsigned int opidx; // current operator index in m_OperatorArray
 
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension2); ++i )
+  for ( unsigned int i = 0; i < Self::ImageDimension2; ++i )
     {
     // Reset kernel image
     kernelImage->FillBuffer(itk::NumericTraits< TOutput >::ZeroValue());
     kernelImage->SetPixel(centerIndex, itk::NumericTraits< TOutput >::OneValue());
 
-    for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension2); ++direction )
+    for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
       {
-      opidx = ( direction == i ? itkGetStaticConstMacro(ImageDimension2) + direction : direction );
+      opidx = ( direction == i ? Self::ImageDimension2 + direction : direction );
       convolutionFilter->SetInput(kernelImage);
       convolutionFilter->SetOperator(m_OperatorArray[opidx]);
       convolutionFilter->Update();

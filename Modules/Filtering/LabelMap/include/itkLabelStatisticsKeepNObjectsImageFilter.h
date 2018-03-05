@@ -75,7 +75,7 @@ public:
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using LabelObjectType = StatisticsLabelObject< InputImagePixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using LabelObjectType = StatisticsLabelObject< InputImagePixelType, Self::ImageDimension >;
   using LabelMapType = LabelMap< LabelObjectType >;
   using LabelizerType = LabelImageToLabelMapFilter< InputImageType, LabelMapType >;
   using LabelObjectValuatorType = StatisticsLabelMapFilter< LabelMapType, TFeatureImage >;

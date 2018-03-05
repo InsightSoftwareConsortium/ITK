@@ -122,20 +122,20 @@ public:
 
   /** Bounding Box-related type alias */
   using BoundingBoxType = itk::FixedArray< typename LabelIndexType::IndexValueType,
-                           itkGetStaticConstMacro(ImageDimension) *2 >;
+                           Self::ImageDimension *2 >;
   using BoundingBoxFloatType = itk::FixedArray< float,
-                           itkGetStaticConstMacro(ImageDimension) *2 >;
+                           Self::ImageDimension *2 >;
 
   // using BoundingBoxVerticesType = itk::FixedArray<
-  // LabelPointType,std::pow(2.0,itkGetStaticConstMacro(ImageDimension))>;
+  // LabelPointType,std::pow(2.0,Self::ImageDimension)>;
   using BoundingBoxVerticesType = std::vector< LabelPointType >;
 
   /** Axes Length-related type alias */
-  using AxesLengthType = itk::FixedArray< RealType, itkGetStaticConstMacro(ImageDimension) >;
+  using AxesLengthType = itk::FixedArray< RealType, Self::ImageDimension >;
 
   /** Index array type alias */
   using IndexArrayType = itk::FixedArray< typename LabelIndexType::IndexValueType,
-                           itkGetStaticConstMacro(ImageDimension) >;
+                           Self::ImageDimension >;
 
   /** vector of labels */
   using LabelsType = std::vector< LabelPixelType >;
@@ -163,7 +163,7 @@ public:
       this->m_Label = 0;
       this->m_Sum = NumericTraits< RealType >::ZeroValue();
 
-      const unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
+      const unsigned int imageDimension = Self::ImageDimension;
 
       //m_BoundingBox.resize(imageDimension*2);
       for ( unsigned int i = 0; i < imageDimension * 2; i += 2 )
@@ -225,7 +225,7 @@ public:
     MatrixType                                                  m_SecondOrderCentralMoments;
     VectorType                                                  m_Eigenvalues;
     MatrixType                                                  m_Eigenvectors;
-    FixedArray< float, itkGetStaticConstMacro(ImageDimension) > m_AxesLength;
+    FixedArray< float, Self::ImageDimension > m_AxesLength;
     RealType                                                    m_Eccentricity;
     RealType                                                    m_Elongation;
     RealType                                                    m_Orientation;

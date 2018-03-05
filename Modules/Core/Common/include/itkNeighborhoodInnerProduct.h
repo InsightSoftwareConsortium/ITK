@@ -61,10 +61,10 @@ public:
 
   /** Operator type alias */
   using OperatorType = Neighborhood< OperatorPixelType,
-                        itkGetStaticConstMacro(ImageDimension) >;
+                        Self::ImageDimension >;
 
   using NeighborhoodType = Neighborhood< ImagePixelType,
-                        itkGetStaticConstMacro(ImageDimension) >;
+                        Self::ImageDimension >;
 
   /** Reference oeprator. */
   OutputPixelType operator()(const std::slice & s,

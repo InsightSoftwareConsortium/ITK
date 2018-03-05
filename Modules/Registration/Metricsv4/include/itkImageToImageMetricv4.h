@@ -261,19 +261,19 @@ public:
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  using FixedImageMaskType = SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >;
+  using FixedImageMaskType = SpatialObject< Self::FixedImageDimension >;
   using FixedImageMaskPointer = typename FixedImageMaskType::Pointer;
   using FixedImageMaskConstPointer = typename FixedImageMaskType::ConstPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  using MovingImageMaskType = SpatialObject< itkGetStaticConstMacro(MovingImageDimension) >;
+  using MovingImageMaskType = SpatialObject< Self::MovingImageDimension >;
   using MovingImageMaskPointer = typename MovingImageMaskType::Pointer;
   using MovingImageMaskConstPointer = typename MovingImageMaskType::ConstPointer;
 
   /** Type of the point set used for sparse sampling. */
   using FixedSampledPointSetType =
-      PointSet<typename FixedImageType::PixelType, itkGetStaticConstMacro(FixedImageDimension)>;
+      PointSet<typename FixedImageType::PixelType, Self::FixedImageDimension>;
   using FixedSampledPointSetPointer = typename FixedSampledPointSetType::Pointer;
   using FixedSampledPointSetConstPointer = typename FixedSampledPointSetType::ConstPointer;
 

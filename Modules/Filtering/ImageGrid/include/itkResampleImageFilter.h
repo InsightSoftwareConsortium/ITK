@@ -114,14 +114,14 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** base type for images of the current ImageDimension */
-  using ImageBaseType = ImageBase< itkGetStaticConstMacro(ImageDimension) >;
+  using ImageBaseType = ImageBase< Self::ImageDimension >;
 
   /**
    *  Transform type alias.
    */
   using TransformType = Transform< TTransformPrecisionType,
-                     itkGetStaticConstMacro(ImageDimension),
-                     itkGetStaticConstMacro(ImageDimension) >;
+                     Self::ImageDimension,
+                     Self::ImageDimension >;
   using TransformPointerType = typename TransformType::ConstPointer;
   using DecoratedTransformType = DataObjectDecorator<TransformType>;
   using DecoratedTransformPointer = typename DecoratedTransformType::Pointer;
@@ -148,7 +148,7 @@ public:
   using ExtrapolatorPointerType = typename ExtrapolatorType::Pointer;
 
   /** Image size type alias. */
-  using SizeType = Size< itkGetStaticConstMacro(ImageDimension) >;
+  using SizeType = Size< Self::ImageDimension >;
 
   /** Image index type alias. */
   using IndexType = typename TOutputImage::IndexType;

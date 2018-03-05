@@ -65,7 +65,7 @@ public:
   static constexpr unsigned int JoinDimension = Dimension1 + Dimension2;
 
   /** A vector of the join dimension. */
-  using JoinType = Vector< JoinValueType, itkGetStaticConstMacro(JoinDimension) >;
+  using JoinType = Vector< JoinValueType, Self::JoinDimension >;
 
   bool operator!=(const JoinFunctor &) const
   {

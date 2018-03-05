@@ -93,7 +93,7 @@ public:
   using BasicFilterType =
       BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >;
 
-  using FlatKernelType = FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >;
+  using FlatKernelType = FlatStructuringElement< Self::ImageDimension >;
 
   using AnchorFilterType = AnchorErodeImageFilter< TInputImage, FlatKernelType >;
   using VHGWFilterType = VanHerkGilWermanErodeImageFilter< TInputImage, FlatKernelType >;

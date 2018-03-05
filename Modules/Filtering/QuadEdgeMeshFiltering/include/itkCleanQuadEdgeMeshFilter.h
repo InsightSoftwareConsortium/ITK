@@ -87,7 +87,7 @@ public:
 
   using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
 
-  using BoundingBoxType = BoundingBox< InputPointIdentifier, itkGetStaticConstMacro(PointDimension),
+  using BoundingBoxType = BoundingBox< InputPointIdentifier, Self::PointDimension,
                        InputCoordRepType, InputPointsContainer >;
 
   using BoundingBoxPointer = typename BoundingBoxType::Pointer;

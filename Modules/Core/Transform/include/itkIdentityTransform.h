@@ -83,27 +83,27 @@ public:
 
   /** Standard vector type for this class. */
   using InputVectorType = Vector<TParametersValueType,
-                 itkGetStaticConstMacro(InputSpaceDimension)>;
+                 Self::InputSpaceDimension>;
   using OutputVectorType = Vector<TParametersValueType,
-                 itkGetStaticConstMacro(OutputSpaceDimension)>;
+                 Self::OutputSpaceDimension>;
 
   /** Standard covariant vector type for this class */
   using InputCovariantVectorType = CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(InputSpaceDimension)>;
+                          Self::InputSpaceDimension>;
   using OutputCovariantVectorType = CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(OutputSpaceDimension)>;
+                          Self::OutputSpaceDimension>;
 
   /** Standard vnl_vector type for this class. */
   using InputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(InputSpaceDimension)>;
+                           Self::InputSpaceDimension>;
   using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(OutputSpaceDimension)>;
+                           Self::OutputSpaceDimension>;
 
   /** Standard coordinate point type for this class */
   using InputPointType = Point<TParametersValueType,
-                itkGetStaticConstMacro(InputSpaceDimension)>;
+                Self::InputSpaceDimension>;
   using OutputPointType = Point<TParametersValueType,
-                itkGetStaticConstMacro(OutputSpaceDimension)>;
+                Self::OutputSpaceDimension>;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/

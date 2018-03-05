@@ -72,7 +72,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = ConstNeighborhoodIteratorWithOnlyIndex;
-  using Superclass = Neighborhood< DummyNeighborhoodPixelType, itkGetStaticConstMacro(Dimension) >;
+  using Superclass = Neighborhood< DummyNeighborhoodPixelType, Self::Dimension >;
 
   /** Inherit type alias from superclass */
   using OffsetType = typename Superclass::OffsetType;
@@ -84,8 +84,8 @@ public:
   /** Typedef support for common objects */
   using ImageType = TImage;
   using RegionType = typename TImage::RegionType;
-  using IndexType = Index< itkGetStaticConstMacro(Dimension) >;
-  using NeighborhoodType = Neighborhood< DummyNeighborhoodPixelType, itkGetStaticConstMacro(Dimension) >;
+  using IndexType = Index< Self::Dimension >;
+  using NeighborhoodType = Neighborhood< DummyNeighborhoodPixelType, Self::Dimension >;
 
   /** Type used to refer to the elements in the list of neighbor pixels. */
   using NeighborIndexType = typename NeighborhoodType::NeighborIndexType;

@@ -88,7 +88,7 @@ public:
 
   /** ShapeFunction type alias support */
   using ShapeFunctionType = ShapeSignedDistanceFunction< double,
-                                       itkGetStaticConstMacro(ImageDimension) >;
+                                       Self::ImageDimension >;
   using ShapeFunctionPointer = typename ShapeFunctionType::ConstPointer;
 
   /** Zeta. The ShapePriorWeight scales the shape prior term values. */

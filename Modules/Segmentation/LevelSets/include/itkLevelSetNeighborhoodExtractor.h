@@ -84,7 +84,7 @@ public:
   static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** Index type alias support */
-  using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;
+  using IndexType = Index< Self::SetDimension >;
 
   /** Get/Set the input level set. */
   itkSetConstObjectMacro(InputLevelSet, LevelSetImageType);

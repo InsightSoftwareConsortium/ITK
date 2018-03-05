@@ -118,8 +118,8 @@ public:
   using OutputPointType = typename Superclass::OutputPointType;
 
   /** Standard matrix type for this class.   */
-  using MatrixType = Matrix< TParametersValueType, itkGetStaticConstMacro(SpaceDimension),
-                  itkGetStaticConstMacro(SpaceDimension) >;
+  using MatrixType = Matrix< TParametersValueType, Self::SpaceDimension,
+                  Self::SpaceDimension >;
 
   /** Set the transformation parameters. */
   void SetAzimuthElevationToCartesianParameters(

@@ -163,7 +163,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DirectedHausdorffDistanceImageFilter);
 
-  using DistanceMapType = Image< RealType, itkGetStaticConstMacro(ImageDimension) >;
+  using DistanceMapType = Image< RealType, Self::ImageDimension >;
   using DistanceMapPointer = typename DistanceMapType::Pointer;
 
 

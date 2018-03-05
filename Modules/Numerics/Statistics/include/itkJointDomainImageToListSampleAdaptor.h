@@ -46,12 +46,12 @@ struct ImageJointDomainTraits {
   static constexpr unsigned int Dimension = TImage::ImageDimension + PixelTraitsType::Dimension;
 
   using CoordinateRepType = float;
-  using PointType = Point< CoordinateRepType, itkGetStaticConstMacro(ImageDimension) >;
+  using PointType = Point< CoordinateRepType, Self::ImageDimension >;
   using JoinTraitsType = JoinTraits< RangeDomainMeasurementType, CoordinateRepType >;
   using MeasurementType = typename JoinTraitsType::ValueType;
 
   using MeasurementVectorType =
-      FixedArray< MeasurementType, itkGetStaticConstMacro(Dimension) >;
+      FixedArray< MeasurementType, Self::Dimension >;
 };  // end of ImageJointDomainTraits
 
 /** \class JointDomainImageToListSampleAdaptor
@@ -156,10 +156,10 @@ public:
   static constexpr unsigned int RangeDomainDimension = itk::PixelTraits< typename TImage::PixelType >::Dimension;
 
   using RangeDomainMeasurementVectorType = FixedArray< RangeDomainMeasurementType,
-                      itkGetStaticConstMacro(RangeDomainDimension) >;
+                      Self::RangeDomainDimension >;
 
   using InstanceIdentifierVectorType = std::vector< InstanceIdentifier >;
-  using NormalizationFactorsType = FixedArray< float, itkGetStaticConstMacro(MeasurementVectorSize) >;
+  using NormalizationFactorsType = FixedArray< float, Self::MeasurementVectorSize >;
 
   /** Sets the normalization factors */
   void SetNormalizationFactors(NormalizationFactorsType & factors);

@@ -86,8 +86,8 @@ public:
 
   /** AuxVarType type alias support */
   using AuxVarType = AuxVarTypeDefault< TAuxValue,
-                             itkGetStaticConstMacro(AuxDimension),
-                             itkGetStaticConstMacro(SetDimension) >;
+                             Self::AuxDimension,
+                             Self::SetDimension >;
   using AuxValueType = typename AuxVarType::AuxValueType;
   using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
   using AuxValueContainer = typename AuxVarType::AuxValueContainer;
@@ -95,7 +95,7 @@ public:
   using AuxImagePointer = typename AuxVarType::AuxImagePointer;
 
   /** Index type alias support */
-  using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;
+  using IndexType = Index< Self::SetDimension >;
 
   /** Get one of the extended auxiliary variable image. */
   AuxImageType * GetAuxiliaryImage(unsigned int idx);

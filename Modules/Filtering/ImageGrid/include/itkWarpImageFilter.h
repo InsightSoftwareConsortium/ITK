@@ -122,7 +122,7 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int DisplacementFieldDimension = TDisplacementField::ImageDimension;
   /** type alias for base image type at the current ImageDimension */
-  using ImageBaseType = ImageBase< itkGetStaticConstMacro(ImageDimension) >;
+  using ImageBaseType = ImageBase< Self::ImageDimension >;
 
   /** Displacement field type alias support */
   using DisplacementFieldType = TDisplacementField;
@@ -137,7 +137,7 @@ public:
       LinearInterpolateImageFunction< InputImageType, CoordRepType >;
 
   /** Point type */
-  using PointType = Point< CoordRepType, itkGetStaticConstMacro(ImageDimension) >;
+  using PointType = Point< CoordRepType, Self::ImageDimension >;
 
   /** Type for representing the direction of the output image */
   using DirectionType = typename TOutputImage::DirectionType;

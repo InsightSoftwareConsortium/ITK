@@ -222,7 +222,7 @@ public:
   using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
 
   using CentroidVectorType =
-      Vector< float, itkGetStaticConstMacro(ImageDimension) >;
+      Vector< float, Self::ImageDimension >;
   using SampleType = Statistics::ListSample< CentroidVectorType >;
   using KdTreeGeneratorType = Statistics::KdTreeGenerator< SampleType >;
   using KdTreeGeneratorPointer = typename KdTreeGeneratorType::Pointer;

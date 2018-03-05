@@ -104,7 +104,7 @@ public:
   using DefaultInterpolatorType = LinearInterpolateImageFunction< MovingImageType, CoordRepType >;
 
   /** Covariant vector type. */
-  using CovariantVectorType = CovariantVector< double, itkGetStaticConstMacro(ImageDimension) >;
+  using CovariantVectorType = CovariantVector< double, Self::ImageDimension >;
 
   /** Fixed image gradient calculator type. */
   using GradientCalculatorType = CentralDifferenceImageFunction< FixedImageType >;

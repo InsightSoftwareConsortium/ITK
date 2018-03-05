@@ -483,7 +483,7 @@ public:
 };
 
 #define itkMakeCellTraitsMacro                                           \
-  CellTraitsInfo < itkGetStaticConstMacro(PointDimension), CoordRepType, \
+  CellTraitsInfo < Self::PointDimension, CoordRepType, \
   InterpolationWeightType,                                               \
   PointIdentifier, CellIdentifier, CellFeatureIdentifier,                \
   PointType, PointsContainer, UsingCellsContainer >

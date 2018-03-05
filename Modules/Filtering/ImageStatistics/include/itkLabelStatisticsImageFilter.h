@@ -132,7 +132,7 @@ public:
       m_Sigma = NumericTraits< RealType >::ZeroValue();
       m_Variance = NumericTraits< RealType >::ZeroValue();
 
-      const unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
+      const unsigned int imageDimension = Self::ImageDimension;
       m_BoundingBox.resize(imageDimension * 2);
       for ( unsigned int i = 0; i < imageDimension * 2; i += 2 )
         {
@@ -159,7 +159,7 @@ public:
       m_Sigma = NumericTraits< RealType >::ZeroValue();
       m_Variance = NumericTraits< RealType >::ZeroValue();
 
-      const unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
+      const unsigned int imageDimension = Self::ImageDimension;
       m_BoundingBox.resize(imageDimension * 2);
       for ( unsigned int i = 0; i < imageDimension * 2; i += 2 )
         {

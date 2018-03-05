@@ -93,7 +93,7 @@ public:
   using RadiusType = typename ConstNeighborhoodIterator< InputImageType >::RadiusType;
   using NeighborhoodType = ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType >;
 
-  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, Self::ImageDimension >;
 
   /** Set/Get the propagation image. By default, if no PropagationImage has
   been set, it casts the input image and uses it in the term contribution

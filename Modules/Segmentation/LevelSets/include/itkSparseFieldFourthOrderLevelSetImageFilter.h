@@ -183,7 +183,7 @@ public:
 
   /** The sparse image type used for processing the normal vectors. */
   using SparseImageType = SparseImage< NodeType,
-                       itkGetStaticConstMacro(ImageDimension) >;
+                       Self::ImageDimension >;
 
   /** The normal vector type. */
   using NormalVectorType = typename NodeType::NodeDataType;
@@ -232,7 +232,7 @@ public:
   unsigned int GetMinimumNumberOfLayers() const
   {
     return (int)std::ceil( m_CurvatureBandWidth
-                          + itkGetStaticConstMacro(ImageDimension) );
+                          + Self::ImageDimension );
   }
 
   /** This overrides SparseFieldLevelSetImageFilter's SetNumberOfLayers to make

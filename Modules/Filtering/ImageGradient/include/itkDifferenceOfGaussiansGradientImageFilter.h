@@ -47,7 +47,7 @@ public:
   /** Output image type alias. The output image is always an n-dimensional
    * image of n-dimensional vectors of doubles. */
   using TOutputImage =
-      Image< CovariantVector< TDataType, itkGetStaticConstMacro(NDimensions) >, itkGetStaticConstMacro(NDimensions) >;
+      Image< CovariantVector< TDataType, Self::NDimensions >, Self::NDimensions >;
 
   /** Standard class type aliases. */
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -61,7 +61,7 @@ public:
   itkTypeMacro(DifferenceOfGaussiansGradientImageFilter, ImageToImageFilter);
 
   /** Image size type alias. */
-  using SizeType = Size< itkGetStaticConstMacro(NDimensions) >;
+  using SizeType = Size< Self::NDimensions >;
 
   /** Image index type alias. */
   using IndexType = typename TInputImage::IndexType;

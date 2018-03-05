@@ -44,7 +44,7 @@ public:
 
   static constexpr unsigned int Dimension = TMesh::PointDimension;
 
-  using Superclass = SpatialObject< itkGetStaticConstMacro(Dimension) >;
+  using Superclass = SpatialObject< Self::Dimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 

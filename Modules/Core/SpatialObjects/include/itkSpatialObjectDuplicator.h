@@ -52,7 +52,7 @@ public:
   static constexpr unsigned int ObjectDimension = SpatialObjectType::ObjectDimension;
 
   using InternalSpatialObjectType =
-      SpatialObject< itkGetStaticConstMacro(ObjectDimension) >;
+      SpatialObject< Self::ObjectDimension >;
 
   /** Get/Set the input SpatialObject. */
   itkSetConstObjectMacro(Input, SpatialObjectType);

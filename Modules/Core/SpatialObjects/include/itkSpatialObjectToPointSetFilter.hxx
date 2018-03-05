@@ -125,7 +125,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
         inputObject->GetIndexToWorldTransform()->TransformPoint(
           inputPointSO->GetPoint(i)->GetPosition() );
 
-      for ( unsigned int j = 0; j < itkGetStaticConstMacro(ObjectDimension); j++ )
+      for ( unsigned int j = 0; j < Self::ObjectDimension; j++ )
         {
         point[j] = transformedPoint[j];
         }
@@ -147,7 +147,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
         typename InputSpatialObjectType::PointType transformedPoint =
           inputObject->GetIndexToWorldTransform()->TransformPoint( pointSO->GetPoint(i)->GetPosition() );
 
-        for ( unsigned int j = 0; j < itkGetStaticConstMacro(ObjectDimension); j++ )
+        for ( unsigned int j = 0; j < Self::ObjectDimension; j++ )
           {
           point[j] = transformedPoint[j];
           }
