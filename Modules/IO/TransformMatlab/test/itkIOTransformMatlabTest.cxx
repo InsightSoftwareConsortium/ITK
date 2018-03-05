@@ -225,6 +225,36 @@ int secondTest()
   return EXIT_FAILURE;
 }
 
+//
+// test reading a dummy file -- should not crash
+template<typename TParametersValueType>
+int thirdTest()
+{
+  std::filebuf fb;
+  fb.open("IllegalMat.mat",std::ios::out);
+  std::ostream os(&fb);
+  os << "Baz, Bar" << std::endl;
+  fb.close();
+
+  typedef itk::TransformFileReaderTemplate<TParametersValueType> TransformReaderType;
+  typename TransformReaderType::Pointer reader = TransformReaderType::New();
+  reader->SetFileName("IllegalMat.Mat");
+  try
+    {
+    reader->Update();
+    std::cerr << "FAILED to throw expected exception" << std::endl;
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "EXPECTED Error while reading the transforms" << std::endl;
+    std::cerr << excp << std::endl;
+    std::cout << "[SUCCESS]" << std::endl;
+    return EXIT_SUCCESS;
+    }
+  return EXIT_FAILURE;
+}
+
+
 int itkIOTransformMatlabTest(int argc, char* argv[])
 {
   if (argc > 1)
@@ -238,8 +268,11 @@ int itkIOTransformMatlabTest(int argc, char* argv[])
   int result3 =  oneTest<double>("Transforms_double.mat", "TransformsBad_double.mat" );
   int result4 =  secondTest<double>();
 
+  int result5 = thirdTest<double>();
+
   return (
           ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) ) &&
-          ( !( result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS) )
+          ( !( result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS) ) &&
+          ( !( result5 == EXIT_SUCCESS) )
          );
 }

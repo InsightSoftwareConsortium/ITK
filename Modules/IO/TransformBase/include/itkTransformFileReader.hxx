@@ -140,6 +140,14 @@ void TransformFileReaderTemplate<TParametersValueType>
   m_TransformIO->SetFileName(m_FileName);
   m_TransformIO->Read();
 
+  if (ioTransformList.empty())
+    {
+    std::ostringstream msg;
+    msg <<  "Transform IO: " << m_TransformIO->GetNameOfClass() << std::endl
+        <<  "   failed to read file: " << this->GetFileName() << std::endl;
+    itkExceptionMacro( << msg.str() );
+    }
+
   // Clear old results.
   this->m_TransformList.clear();
   // If the transform is derived from itk::KernelTransform, the internal matrices
