@@ -51,7 +51,8 @@ public:
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
   using NeighborhoodType = Neighborhood< InternalPixelType *, Self::ImageDimension >;
 
-  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType> *;
+  template<typename TOutput=ImageType>
+  using ImageBoundaryConditionType = ImageBoundaryCondition<ImageType, TOutput>;
 
   /** Set the pointer index to the start of the buffer. */
   inline void SetBegin(const InternalPixelType *) {}
@@ -73,11 +74,13 @@ public:
     *pixelPointer = p;
   }
 
-  inline PixelType BoundaryCondition(
-    const OffsetType & point_index,
-    const OffsetType & boundary_offset,
-    const NeighborhoodType *data,
-    const ImageBoundaryConditionConstPointerType boundaryCondition) const
+  template <typename TOutput>
+  inline typename ImageBoundaryConditionType<TOutput>::OutputPixelType
+    BoundaryCondition(
+      const OffsetType & point_index,
+      const OffsetType & boundary_offset,
+      const NeighborhoodType *data,
+      const ImageBoundaryConditionType<TOutput> *boundaryCondition) const
   {
     return boundaryCondition->operator()(point_index, boundary_offset, data);
   }

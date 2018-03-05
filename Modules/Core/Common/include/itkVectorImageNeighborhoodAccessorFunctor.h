@@ -50,7 +50,8 @@ public:
   using NeighborhoodType = Neighborhood< InternalPixelType *,
                          TImage ::ImageDimension >;
 
-  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType> *;
+  template<typename TOutput=ImageType>
+  using ImageBoundaryConditionType = ImageBoundaryCondition<ImageType, TOutput>;
 
   VectorImageNeighborhoodAccessorFunctor(VectorLengthType length):
     m_VectorLength(length), m_OffsetMultiplier(length - 1), m_Begin(nullptr) {}
@@ -97,11 +98,14 @@ public:
       }
   }
 
-  inline PixelType BoundaryCondition(
+
+  template <typename TOutput>
+  inline typename ImageBoundaryConditionType<TOutput>::OutputPixelType
+  BoundaryCondition(
     const OffsetType & point_index,
     const OffsetType & boundary_offset,
     const NeighborhoodType *data,
-    const ImageBoundaryConditionConstPointerType boundaryCondition) const
+    const ImageBoundaryConditionType<TOutput> * boundaryCondition) const
   {
     return boundaryCondition->operator()(point_index, boundary_offset, data, *this);
   }

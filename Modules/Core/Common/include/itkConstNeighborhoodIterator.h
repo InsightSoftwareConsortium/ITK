@@ -81,6 +81,12 @@ public:
   using IndexType = Index< Self::Dimension >;
   using NeighborhoodType = Neighborhood< PixelType, Self::Dimension >;
 
+
+  /** Typedef for boundary condition type. */
+  using BoundaryConditionType = TBoundaryCondition;
+
+  using OutputImageType = typename  BoundaryConditionType::OutputImageType;
+
   /** Type used to refer to the elements in the list of neighbor pixels. */
   using NeighborIndexType = typename NeighborhoodType::NeighborIndexType;
 
@@ -89,12 +95,9 @@ public:
    * and VectorImage. */
   using NeighborhoodAccessorFunctorType = typename ImageType::NeighborhoodAccessorFunctorType;
 
-  /** Typedef for boundary condition type. */
-  using BoundaryConditionType = TBoundaryCondition;
-
   /** Typedef for generic boundary condition pointer */
-  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<ImageType> *;
-  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType> *;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<ImageType, OutputImageType> *;
+  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType, OutputImageType> *;
 
   /** Default constructor */
   ConstNeighborhoodIterator();
@@ -413,7 +416,7 @@ public:
   /** Resets the boundary condition to the internal, default conditions
    * specified by the template parameter. */
   virtual void ResetBoundaryCondition()
-  { m_BoundaryCondition = reinterpret_cast< ImageBoundaryConditionPointerType >( &m_InternalBoundaryCondition ); }
+  { m_BoundaryCondition = &m_InternalBoundaryCondition; }
 
   /** Sets the internal, default boundary condition. */
   void SetBoundaryCondition(const TBoundaryCondition & c)
