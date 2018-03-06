@@ -176,13 +176,13 @@ public:
 
   /** Set/Get the Operator. */
   itkSetObjectMacro( Operator, OperatorType );
-  itkGetObjectMacro( Operator, OperatorType );
+  itkGetConstObjectMacro( Operator, OperatorType );
 
   /** Set/Get the Optimizer. */
   virtual void SetOptimizer (RealOptimizerType *);
   virtual void SetOptimizer (ComplexOptimizerType *);
-  itkGetObjectMacro( RealOptimizer,  RealOptimizerType );
-  itkGetObjectMacro( ComplexOptimizer,  ComplexOptimizerType );
+  itkGetConstObjectMacro( RealOptimizer,  RealOptimizerType );
+  itkGetConstObjectMacro( ComplexOptimizer,  ComplexOptimizerType );
 
   /** Get the correlation surface.
    *
