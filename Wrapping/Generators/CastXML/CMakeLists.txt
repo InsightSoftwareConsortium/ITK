@@ -252,15 +252,7 @@ macro(itk_end_wrap_submodule_castxml module)
   endif()
   foreach(header IN LISTS glob_hdrs)
     get_filename_component(header_name ${header} NAME)
-    # This should be updated when cmake_minimum_required is 3.3
-    # cmake_policy(SET CMP0057 NEW)
-    # https://cmake.org/cmake/help/v3.3/policy/CMP0057.html
-    # Next block should be replaced by:
-    ###################
-    # if(${header_name} IN_LIST WRAPPER_INCLUDE_FILES)
-    list(FIND WRAPPER_INCLUDE_FILES ${header_name} pos)
-    if( pos GREATER -1 )
-    # end of block of code to be replaced
+    if(${header_name} IN_LIST WRAPPER_INCLUDE_FILES)
       list(APPEND _hdrs ${header})
     endif()
   endforeach()
