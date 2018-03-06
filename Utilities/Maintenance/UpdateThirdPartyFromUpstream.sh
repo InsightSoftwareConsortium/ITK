@@ -37,6 +37,15 @@
 #         dir2/*.c
 #         file1.txt
 #        '
+#   - github_compare :
+#      This option is only relevant for third party projects which have their
+#        repositories on Github. It is an optional boolean (true/false) that
+#        selects how to present the git log, since last update, in the commit
+#        message. If set to false, the log generated with the `shortlog` git
+#        subcommand will be integrated in the commit message. If set to true,
+#        a URL will be added to the commit message. This URL points to a
+#        github page showing the differences between the last update of the
+#        project in ITK and the current commit used in the update.
 #
 # The script, "UpdateFromUpstream.sh", must be located in the associated
 # ThirdParty module's base directory.
