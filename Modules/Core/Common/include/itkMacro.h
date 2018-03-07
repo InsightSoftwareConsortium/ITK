@@ -423,8 +423,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
   #define ITK_LOCATION "unknown"
 #endif
 
-#include "itkExceptionObject.h"
-
 /** The exception macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
  * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
@@ -1288,5 +1286,6 @@ class kernel                                \
     return output->Get();                                            \
     }
 
+#include "itkExceptionObject.h"
 
 #endif //end of itkMacro.h

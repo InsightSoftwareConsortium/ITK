@@ -15,6 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+// This is intentionally outside the header guard, due to inter-dependencies
+// the itkMacro.h, itkExceptionObject.h and this file
+#include "itkMacro.h"
+
 #ifndef itkSmartPointer_h
 #define itkSmartPointer_h
 
@@ -59,6 +64,28 @@ public:
   constexpr SmartPointer () noexcept:
     m_Pointer(nullptr)
   { }
+
+#if !defined ( ITK_LEGACY_REMOVE )
+  /** \brief deprecated
+   *
+   * Constructor with explicit support for initializing with
+   * NULL (i.e. decltype(NULL) ==> unsigned long., 0L)
+   * this is only to provide support for external code
+   * that where a SmartPointer was initialized with
+   * NULL.
+   *
+     * Require initialization with nullptr --OR-- equivalent
+   * behavior of simply using the no-argument constructor.
+   *
+   * Deprecated: ObjectPointer ptrNULLinit(NULL);
+   * Supported  : ObjectPointer ptrNULLinit();
+   * Supported  : ObjectPointer ptrNULLinit(nullptr);
+   *
+   */
+  itkLegacyMacro(explicit constexpr SmartPointer (decltype(NULL)) noexcept)
+    : m_Pointer(nullptr)
+    { }
+#endif
 
   /** Copy constructor  */
   SmartPointer (const SmartPointer& p) noexcept:
