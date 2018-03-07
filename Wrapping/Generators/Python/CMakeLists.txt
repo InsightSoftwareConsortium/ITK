@@ -391,7 +391,6 @@ macro(itk_end_wrap_module_python)
   set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS )
   set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS )
   if(NOT BUILD_SHARED_LIBS)
-    list(FIND WRAPPER_LIBRARY_LINK_LIBRARIES "ITKCommon" _links_to_ITKCommon)
     if(WRAPPER_LIBRARY_NAME STREQUAL "ITKCommon")
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
 #define _ITKCommonPython_MODULE
@@ -429,7 +428,7 @@ _ITKCommonPython_GetObjectFactoryBase_PROTO
     PyModule_AddObject( m, \"_C_API\", cAPIObject );
     }
 ")
-    elseif(NOT ${_links_to_ITKCommon} EQUAL -1)
+    elseif("ITKCommon" IN_LIST WRAPPER_LIBRARY_LINK_LIBRARIES)
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
 #include \"itkPyITKCommonCAPI.h\"
 ")

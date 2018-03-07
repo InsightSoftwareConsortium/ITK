@@ -9,7 +9,7 @@
 # Requires these CMake modules:
 # Findcppcheck
 #
-# Requires CMake 2.6 or newer (uses the 'function' command)
+# Requires CMake 3.3 or newer (uses the 'function' command and IN_LIST option)
 #
 #
 # Original Author:
@@ -45,60 +45,51 @@ endif()
 # ------------------------------------------------------------------------------
 macro( get_cppcheck_arg )
 
-    list(FIND _input FORCE _force)
-    if("${_force}" GREATER "-1")
+    if(FORCE IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_FORCE_ARG})
-      list(REMOVE_AT _input ${_force})
+      list(REMOVE_ITEM _input FORCE)
     endif()
 
-    list(FIND _input VERBOSE _verbose)
-    if("${_verbose}" GREATER "-1")
+    if(VERBOSE IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_VERBOSE_ARG})
-      list(REMOVE_AT _input ${_verbose})
+      list(REMOVE_ITEM _input VERBOSE)
     endif()
 
-    list(FIND _input QUIET _quiet)
-    if("${_quiet}" GREATER "-1")
+    if(QUIET IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_QUIET_ARG})
-      list(REMOVE_AT _input ${_quiet})
+      list(REMOVE_ITEM _input QUIET)
     endif()
 
-    list(FIND _input ALL _all)
-    if("${_all}" GREATER "-1")
+    if(ALL IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_ALL_ARG})
-      list(REMOVE_AT _input ${_all})
+      list(REMOVE_ITEM _input ALL)
     endif()
 
-    list(FIND _input UNUSED_FUNCTIONS _unused_func)
-    if("${_unused_func}" GREATER "-1")
+    if(UNUSED_FUNCTIONS IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_UNUSEDFUNC_ARG})
-      list(REMOVE_AT _input ${_unused_func})
+      list(REMOVE_ITEM _input UNUSED_FUNCTIONS)
     endif()
 
-    list(FIND _input STYLE _style)
-    if("${_style}" GREATER "-1")
+    if(STYLE IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_STYLE_ARG})
-      list(REMOVE_AT _input ${_style})
+      list(REMOVE_ITEM _input STYLE)
     endif()
 
-    list(FIND _input INFORMATION _information)
-    if("${_information}" GREATER "-1")
+    if(INFORMATION IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_INFORMATION_ARG})
-      list(REMOVE_AT _input ${_information})
+      list(REMOVE_ITEM _input INFORMATION)
     endif()
 
-    list(FIND _input MISSING_INCLUDE _missing_include)
-    if("${_missing_include}" GREATER "-1")
+    if(MISSING_INCLUDE IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_MISSING_INCLUDE_ARG})
-      list(REMOVE_AT _input ${_missing_include})
+      list(REMOVE_ITEM _input MISSING_INCLUDE)
     endif()
 
-    list(FIND _input FAIL_ON_WARNINGS _fail_on_warn)
-    if("${_fail_on_warn}" GREATER "-1")
+    if(FAIL_ON_WARNINGS IN_LIST _input)
       list(APPEND _cppcheck_args
         CPPCHECK_FAIL_REGULAR_EXPRESSION
         ${CPPCHECK_WARN_REGULAR_EXPRESSION})
-      list(REMOVE_AT _input ${_fail_on_warn})
+      list(REMOVE_ITEM _input FAIL_ON_WARNINGS)
     endif()
 
 endmacro()
