@@ -58,6 +58,7 @@
  * within the itk:: namespace. */
 namespace itk
 {
+class ExceptionObject;
 // end namespace itk - this is here for documentation purposes
 }
 
@@ -719,6 +720,7 @@ compilers.
 #define itkAssertInDebugAndIgnoreInReleaseMacro(X)
 #endif
 
+
 /** itkDynamicCastInDebugMode
   * Use static_cast in Release builds, and dynamic_cast in Debug
   */
@@ -743,6 +745,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
   return static_cast<TTarget>(x);
 #endif
 }
+
 
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
