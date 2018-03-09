@@ -241,25 +241,29 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
   itk_module_target_label(${exe})
 
   include(GoogleTest)
-  if( ITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK )
-     # This advanced behavior is only available through the
-     # command line.  It is intended to be used only when writing GoogleTests,
-     # to require the developer to explicitly ask for introspection of
-     # gtest instrumented files by the time-consumeing re-running of cmake
-     # for the entire project
-     #
-     # use "cmake -DITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK:BOOL=ON ."  to
-     #           Disable the slow introspection (i.e. while writing gtests)
-     # use "cmake -DITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK:BOOL=OFF ." to
-     #           enable the slow introspection (during all other development)
-    gtest_add_tests(TARGET ${exe}
-                    SOURCES ${KitTests}
-                    SKIP_DEPENDENCY
-                   )
+
+  # CMake 3.10 added this method, to avoid configure time introspection
+  if(NOT CMAKE_CROSSCOMPILING AND COMMAND gtest_discover_tests)
+    gtest_discover_tests( ${exe} )
   else()
+    set(_skip_dependency)
+    if( ITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK )
+      # This advanced behavior is only available through the
+      # command line.  It is intended to be used only when writing GoogleTests,
+      # to require the developer to explicitly ask for introspection of
+      # gtest instrumented files by the time-consumeing re-running of cmake
+      # for the entire project
+      #
+      # use "cmake -DITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK:BOOL=ON ."  to
+      #           Disable the slow introspection (i.e. while writing gtests)
+      # use "cmake -DITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK:BOOL=OFF ." to
+      #           enable the slow introspection (during all other development)
+      set(_skip_dependency "SKIP_DEPENDENCY")
+    endif()
     gtest_add_tests(TARGET ${exe}
-                    SOURCES ${KitTests}
-                   )
+      SOURCES ${KitTests}
+      ${_skip_dependency}
+      )
   endif()
   # TODO need to label the produced ctests
 endfunction()
