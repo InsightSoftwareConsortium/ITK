@@ -23,6 +23,7 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkMath.h"
 
+#include <algorithm>  // For fill_n.
 #include <cassert>
 
 namespace itk
@@ -31,14 +32,12 @@ namespace itk
 template< typename TInputImage, typename TOutput >
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::GaussianDerivativeImageFunction()
+  :
+  m_UseImageSpacing{true},
+  m_GaussianDerivativeFunction{ GaussianDerivativeFunctionType::New() }
 {
-  for ( unsigned int i = 0; i < Self::ImageDimension2; i++ )
-    {
-    m_Sigma[i] = 1.0;
-    m_Extent[i] = 1.0;
-    }
-  m_UseImageSpacing = true;
-  m_GaussianDerivativeFunction = GaussianDerivativeFunctionType::New();
+  std::fill_n(m_Sigma, Self::ImageDimension2, 1.0);
+  std::fill_n(m_Extent, Self::ImageDimension2, 1.0);
   m_GaussianDerivativeFunction->SetNormalized(false); // faster
 }
 
@@ -153,56 +152,56 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::RecomputeGaussianKernel()
 {
   const TInputImage* const inputImage = this->GetInputImage();
-  using SpacingType = typename TInputImage::SpacingType;
-  const SpacingType spacing = (inputImage == nullptr) ? SpacingType{} : inputImage->GetSpacing();
 
-  for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
+  if (inputImage == nullptr)
     {
-    // Set the derivative of the Gaussian first
-    OperatorNeighborhoodType dogNeighborhood;
-    typename GaussianDerivativeFunctionType::InputType pt;
-    typename NeighborhoodType::SizeType size;
-    size.Fill(0);
-    size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
-    dogNeighborhood.SetRadius(size);
-
-    typename GaussianDerivativeFunctionType::ArrayType s;
-    s[0] = m_Sigma[direction];
-    m_GaussianDerivativeFunction->SetSigma(s);
-
-    typename OperatorNeighborhoodType::Iterator it = dogNeighborhood.Begin();
-
-    unsigned int i = 0;
-
-    const typename TInputImage::SpacingValueType directionSpacing = spacing[direction];
-
-    while ( it != dogNeighborhood.End() )
+    // Do clean-up, to ensure that the neighborhood iterators and operators will
+    // not refer to a previous image, and to reduce memory usage.
+    for(auto& neighborhoodIterator: m_NeighborhoodIterators)
       {
-      pt[0] = dogNeighborhood.GetOffset(i)[direction];
-
-      if ( ( m_UseImageSpacing == true ) && ( inputImage != nullptr ) )
-        {
-        if ( directionSpacing == 0.0 )
-          {
-          itkExceptionMacro(<< "Pixel spacing cannot be zero");
-          }
-        else
-          {
-          pt[0] *= directionSpacing;
-          }
-        }
-      ( *it ) = m_GaussianDerivativeFunction->Evaluate(pt);
-      ++i;
-      ++it;
+      neighborhoodIterator.reset();
       }
+    m_OperatorArray = OperatorArrayType();
+    }
+  else
+    {
+    using SpacingType = typename TInputImage::SpacingType;
+    const SpacingType spacing = m_UseImageSpacing ? inputImage->GetSpacing() : SpacingType(1);
 
-    m_OperatorArray[direction] = dogNeighborhood;
-
-    // Note: A future version of ITK could possibly also set a Gaussian blurring operator
-    // here, which should then be applied at EvaluateAtIndex(index).
-
-    if (inputImage != nullptr)
+    for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
       {
+      // Set the derivative of the Gaussian first
+      OperatorNeighborhoodType dogNeighborhood;
+      typename GaussianDerivativeFunctionType::InputType pt;
+      typename NeighborhoodType::SizeType size;
+      size.Fill(0);
+      size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
+      dogNeighborhood.SetRadius(size);
+
+      typename GaussianDerivativeFunctionType::ArrayType s;
+      s[0] = m_Sigma[direction];
+      m_GaussianDerivativeFunction->SetSigma(s);
+
+      typename OperatorNeighborhoodType::Iterator it = dogNeighborhood.Begin();
+
+      unsigned int i = 0;
+
+      const typename TInputImage::SpacingValueType directionSpacing = spacing[direction];
+      assert(directionSpacing != 0);
+
+      while ( it != dogNeighborhood.End() )
+        {
+        pt[0] = dogNeighborhood.GetOffset(i)[direction] * directionSpacing;
+        ( *it ) = m_GaussianDerivativeFunction->Evaluate(pt);
+        ++i;
+        ++it;
+        }
+
+      m_OperatorArray[direction] = dogNeighborhood;
+
+      // Note: A future version of ITK could possibly also set a Gaussian blurring operator
+      // here, which should then be applied at EvaluateAtIndex(index).
+
       m_NeighborhoodIterators[direction].reset(new ConstNeighborhoodIterator<TInputImage>
         { size, inputImage, inputImage->GetRequestedRegion() });
       }
