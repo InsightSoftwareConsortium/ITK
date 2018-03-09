@@ -294,7 +294,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
 
   const unsigned int numberOfParameters = actualParameters.Size();
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
+  const double tolerance = 0.1;
 
   // Validate first two parameters (introduced by image source)
   for(unsigned int i=0; i<numberOfParameters; i++)

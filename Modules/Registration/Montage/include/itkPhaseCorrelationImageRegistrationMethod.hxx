@@ -21,6 +21,26 @@
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMath.h"
 
+namespace
+{
+template< typename TImage >
+void WriteDebug(TImage* out, const char *filename)
+{
+  typedef itk::ImageFileWriter<TImage> WriterType;
+  typename WriterType::Pointer w = WriterType::New();
+  w->SetInput(out);
+  w->SetFileName(filename);
+  try
+    {
+    w->Update();
+    }
+  catch (itk::ExceptionObject & error)
+    {
+    std::cerr << error << std::endl;
+    }
+}
+}
+
 namespace itk
 {
 
@@ -216,6 +236,13 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     phaseCorrelation->Allocate();
     m_CropFilter->GraftOutput( phaseCorrelation );
     m_CropFilter->Update();
+    if (this->GetDebug())
+      {
+      WriteDebug(m_FixedPadder->GetOutput(), "m_FixedPadder.nrrd");
+      WriteDebug(m_MovingPadder->GetOutput(), "m_MovingPadder.nrrd");
+      WriteDebug(m_FixedFFT->GetOutput(), "m_FixedFFT.nrrd");
+      WriteDebug(m_MovingFFT->GetOutput(), "m_MovingFFT.nrrd");
+      }
     if ( m_RealOptimizer )
       {
       m_RealOptimizer->Update();
@@ -227,6 +254,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       offset = m_ComplexOptimizer->GetOffset();
       }
     phaseCorrelation->Graft( m_CropFilter->GetOutput() );
+    if (this->GetDebug())
+      {
+      WriteDebug(m_IFFT->GetOutput(), "m_IFFT.nrrd");
+      WriteDebug(m_CropFilter->GetOutput(), "m_CropFilter.nrrd");
+      WriteDebug(m_Operator->GetOutput(), "m_Operator.nrrd");
+      }
     }
   catch( ExceptionObject& err )
     {
@@ -426,7 +459,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   if (this->m_RealOptimizer != optimizer)
     {
     this->m_RealOptimizer = optimizer;
-    this->m_ComplexOptimizer = 0;
+    this->m_ComplexOptimizer = nullptr;
     this->Modified();
     }
 }
@@ -441,7 +474,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   if (this->m_ComplexOptimizer != optimizer)
     {
     this->m_ComplexOptimizer = optimizer;
-    this->m_RealOptimizer = 0;
+    this->m_RealOptimizer = nullptr;
     this->Modified();
     }
 }
