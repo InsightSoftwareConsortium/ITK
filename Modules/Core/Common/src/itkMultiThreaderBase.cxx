@@ -53,7 +53,7 @@ bool MultiThreaderBase::m_GlobalDefaultUseThreadPool = true;
 void MultiThreaderBase::SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool )
   {
   m_GlobalDefaultUseThreadPool = GlobalDefaultUseThreadPool;
-  GlobalDefaultUseThreadPoolIsInitialized=false;
+  GlobalDefaultUseThreadPoolIsInitialized=true;
   }
 
 bool MultiThreaderBase::GetGlobalDefaultUseThreadPool( )
