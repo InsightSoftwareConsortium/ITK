@@ -19,6 +19,9 @@
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkImageFileWriter.h"
+#include "itkTransformFileWriter.h"
+#include "itkTxtTransformIOFactory.h"
+#include "itkAffineTransform.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -119,6 +122,8 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
     }
   const char * phaseCorrelationFile = argv[2];
 
+  itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
+
   bool pass = true;
 
   typedef itk::Image<TFixedImagePixel, VDimension>   FixedImageType;
@@ -181,7 +186,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   // increase the resolution and size and crop moving image in 1st dimension
   // this tests the ability of PCM to padd the images to the same real size
   // and to resample the images to the same pixel size and spacing
-  //spacing[0] = 0.8;
+  spacing[0] = 0.8;
   newMovingSize[0] = (unsigned long)( 100.0 / spacing[0] - 10 );
   newMovingSize[1] = (unsigned long)( 100.0 / spacing[1] + 10 );
 
@@ -261,13 +266,46 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
       }
     }
 
-  using WriterType = itk::ImageFileWriter< typename PCMType::RealImageType >;
+  typedef itk::ImageFileWriter< typename PCMType::RealImageType > WriterType;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( phaseCorrelationFile );
   writer->SetInput( pcm->GetPhaseCorrelationImage() );
   try
     {
     writer->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    pass = false;
+    }
+
+  typedef itk::TransformFileWriterTemplate<double> TransformWriterType;
+  TransformWriterType::Pointer tWriter = TransformWriterType::New();
+  tWriter->SetFileName( "m_Transform.tfm" );
+  const TransformType* oT = pcm->GetOutput()->Get();
+  typedef itk::AffineTransform<double, 3> AffineType;
+  tWriter->SetInput( pcm->GetOutput()->Get() );
+  if (VDimension >= 2 || VDimension <= 3)
+    { //convert into affine which Slicer can read
+    AffineType::Pointer aTr = AffineType::New();
+    AffineType::TranslationType t;
+    t.Fill(0);
+    for (unsigned i = 0; i < VDimension; i++)
+      {
+      t[i] = transformParameters[i];
+      }
+    aTr->SetTranslation(t);
+    tWriter->SetInput(aTr);
+    }
+  else
+    {
+    tWriter->SetInput(oT);
+    }
+
+  try
+    {
+    tWriter->Update();
     }
   catch( itk::ExceptionObject & e )
     {
