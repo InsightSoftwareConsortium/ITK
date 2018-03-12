@@ -193,7 +193,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   // into the transformation (so the final parameters can be directly used to
   // resample the two images into the same coordinate system)
   // ! supposing that the input images have all origin components == 0.0 !
-  //newMovingOrigin[1] = 12.0;
+  newMovingOrigin[1] = 12.0;
   movingImageSource->m_ImageOrigin = newMovingOrigin;
   typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
 
