@@ -138,11 +138,6 @@ namespace itk
  * Threshold and Level parameters are controlled through the class'
  * Get/SetThreshold() and Get/SetLevel() methods.
  *
- * \par Notes on streaming the watershed segmentation code
- *  Coming soon... 12/06/01
- *
- *
- *
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
