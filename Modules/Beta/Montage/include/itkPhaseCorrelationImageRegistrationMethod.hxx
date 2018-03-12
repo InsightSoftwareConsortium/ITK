@@ -62,15 +62,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedFFT = FFTFilterType::New();
   m_MovingFFT = FFTFilterType::New();
   m_IFFT = IFFTFilterType::New();
-  m_CropFilter = CropFilterType::New();
 
   m_FixedPadder->SetConstant( 0 );
   m_MovingPadder->SetConstant( 0 );
 
   m_FixedFFT->SetInput( m_FixedPadder->GetOutput() );
   m_MovingFFT->SetInput( m_MovingPadder->GetOutput() );
-
-  m_CropFilter->SetInput( m_IFFT->GetOutput() );
 
   m_TransformParameters = ParametersType(ImageDimension);
   m_TransformParameters.Fill( 0.0f );
@@ -138,7 +135,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   if ( m_RealOptimizer )
     {
     m_IFFT->SetInput( m_Operator->GetOutput() );
-    m_RealOptimizer->SetInput( m_CropFilter->GetOutput() );
+    m_RealOptimizer->SetInput( m_IFFT->GetOutput() );
     }
   else
     {
@@ -164,8 +161,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   fixedPad.Fill( 0 );
   typename MovingImageType::SizeType movingPad;
   movingPad.Fill( 0 );
-
-  typename CropFilterType::SizeType croppingSize;
 
   const SizeValueType sizeGreatestPrimeFactor = m_FixedFFT->GetSizeGreatestPrimeFactor();
 
@@ -200,22 +195,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       fixedPad[ii] += ( fixedSize[ii] + fixedPad[ii] ) % 2;
       movingPad[ii] += ( movingSize[ii] + movingPad[ii] ) % 2;
       }
-
-    // Crop back down to larger of the fixed or moving images
-    if( fixedSize[ii] > movingSize[ii] )
-      {
-      croppingSize[ii] = fixedPad[ii];
-      }
-    else
-      {
-      croppingSize[ii] = movingPad[ii];
-      }
     }
 
   m_FixedPadder->SetPadUpperBound( fixedPad );
   m_MovingPadder->SetPadUpperBound( movingPad );
-
-  m_CropFilter->SetUpperBoundaryCropSize( croppingSize );
 }
 
 
@@ -234,8 +217,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     {
     RealImageType * phaseCorrelation =  static_cast< RealImageType * >( this->ProcessObject::GetOutput(1) );
     phaseCorrelation->Allocate();
-    m_CropFilter->GraftOutput( phaseCorrelation );
-    m_CropFilter->Update();
+    m_IFFT->GraftOutput( phaseCorrelation );
+    m_IFFT->Update();
     if (this->GetDebug())
       {
       WriteDebug(m_FixedPadder->GetOutput(), "m_FixedPadder.nrrd");
@@ -253,11 +236,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       m_ComplexOptimizer->Update();
       offset = m_ComplexOptimizer->GetOffset();
       }
-    phaseCorrelation->Graft( m_CropFilter->GetOutput() );
+    phaseCorrelation->Graft( m_IFFT->GetOutput() );
     if (this->GetDebug())
       {
       WriteDebug(m_IFFT->GetOutput(), "m_IFFT.nrrd");
-      WriteDebug(m_CropFilter->GetOutput(), "m_CropFilter.nrrd");
       WriteDebug(m_Operator->GetOutput(), "m_Operator.nrrd");
       }
     }
@@ -322,10 +304,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   this->Initialize();
   this->DeterminePadding();
 
-  m_CropFilter->UpdateOutputInformation();
+  m_IFFT->UpdateOutputInformation();
 
   RealImageType * phaseCorrelation = static_cast< RealImageType * >( this->ProcessObject::GetOutput( 1 ) );
-  phaseCorrelation->CopyInformation( m_CropFilter->GetOutput() );
+  phaseCorrelation->CopyInformation( m_IFFT->GetOutput() );
 }
 
 
@@ -431,7 +413,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedFFT->SetReleaseDataFlag( a_flag );
   m_MovingFFT->SetReleaseDataFlag( a_flag );
   m_IFFT->SetReleaseDataFlag( a_flag );
-  m_CropFilter->SetReleaseDataFlag( a_flag );
 }
 
 
@@ -446,7 +427,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_MovingFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_IFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
-  m_CropFilter->SetReleaseDataBeforeUpdateFlag( a_flag );
 }
 
 
