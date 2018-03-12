@@ -9,11 +9,20 @@ CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
 
 set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/../Testing/Temporary")
 
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_NoResampling
+  COMMAND MontageTestDriver
+  itkPhaseCorrelationImageRegistrationMethodTest
+    3cc
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_NoResampling.nrrd
+    1.0 1.0 1.0
+  )
+
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cc
   COMMAND MontageTestDriver
   itkPhaseCorrelationImageRegistrationMethodTest
     2cc
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cc.nrrd
+    0.7 0.8
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2ff
@@ -21,6 +30,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2ff
   itkPhaseCorrelationImageRegistrationMethodTest
     2ff
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2ff.nrrd
+    0.7 0.8
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2dd
@@ -28,6 +38,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2dd
   itkPhaseCorrelationImageRegistrationMethodTest
     2dd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2dd.nrrd
+    0.7 0.8
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cf
@@ -35,6 +46,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cf
   itkPhaseCorrelationImageRegistrationMethodTest
     2cf
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.nrrd
+    0.7 0.8
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2fd
@@ -42,6 +54,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2fd
   itkPhaseCorrelationImageRegistrationMethodTest
     2fd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.nrrd
+    0.7 0.8
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cc
@@ -49,6 +62,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cc
   itkPhaseCorrelationImageRegistrationMethodTest
     3cc
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cc.nrrd
+    0.7 0.8 0.9
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3ff
@@ -56,6 +70,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3ff
   itkPhaseCorrelationImageRegistrationMethodTest
     3ff
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3ff.nrrd
+    0.7 0.8 0.9
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3dd
@@ -63,6 +78,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3dd
   itkPhaseCorrelationImageRegistrationMethodTest
     3dd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3dd.nrrd
+    0.7 0.8 0.9
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cf
@@ -70,6 +86,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cf
   itkPhaseCorrelationImageRegistrationMethodTest
     3cf
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cf.nrrd
+    0.7 0.8 0.9
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3fd
@@ -77,6 +94,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3fd
   itkPhaseCorrelationImageRegistrationMethodTest
     3fd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3fd.nrrd
+    0.7 0.8 0.9
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
