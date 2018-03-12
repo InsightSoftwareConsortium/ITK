@@ -181,8 +181,9 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   // increase the resolution and size and crop moving image in 1st dimension
   // this tests the ability of PCM to padd the images to the same real size
   // and to resample the images to the same pixel size and spacing
-  spacing[0] = 0.8;
-  newMovingSize[0] = (unsigned long)( 100.0 / spacing[0]  - 10 );
+  //spacing[0] = 0.8;
+  newMovingSize[0] = (unsigned long)( 100.0 / spacing[0] - 10 );
+  newMovingSize[1] = (unsigned long)( 100.0 / spacing[1] + 10 );
 
   movingImageSource->m_ImageSize = newMovingSize;
   movingImageSource->m_ImageSpacing = spacing;
@@ -192,7 +193,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   // into the transformation (so the final parameters can be directly used to
   // resample the two images into the same coordinate system)
   // ! supposing that the input images have all origin components == 0.0 !
-  newMovingOrigin[1] = 12.0;
+  //newMovingOrigin[1] = 12.0;
   movingImageSource->m_ImageOrigin = newMovingOrigin;
   typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
 
