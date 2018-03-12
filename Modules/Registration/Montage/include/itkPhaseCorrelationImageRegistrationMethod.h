@@ -289,8 +289,6 @@ private:
   typename FFTFilterType::Pointer       m_FixedFFT;
   typename FFTFilterType::Pointer       m_MovingFFT;
   typename IFFTFilterType::Pointer      m_IFFT;
-  typename CropFilterType::Pointer      m_CropFilter;
-
 };
 
 } // end namespace itk
