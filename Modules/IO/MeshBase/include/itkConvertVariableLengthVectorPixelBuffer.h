@@ -29,7 +29,7 @@ namespace itk
  *
  * Derived from ConvertPixelBuffer has a static method Convert().  It is used
  * to work with pixel type as VariableLengthVector type.
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBase
  */
 template <typename InputPixelType, typename T, typename OutputConvertTraits>
 class ITK_TEMPLATE_EXPORT ConvertPixelBuffer<InputPixelType, VariableLengthVector<T>, OutputConvertTraits>

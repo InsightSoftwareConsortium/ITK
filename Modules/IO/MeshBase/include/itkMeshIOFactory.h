@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkMeshIOFactory_h
 #define itkMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBaseExport.h"
 
 #include "itkObject.h"
 #include "itkMeshIOBase.h"
@@ -35,9 +35,9 @@ namespace itk
  * Object file format (*.obj)
  * VTK legacy file format (*.vtk)
  *
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBase
  */
-class ITKIOMesh_EXPORT MeshIOFactory:public Object
+class ITKIOMeshBase_EXPORT MeshIOFactory:public Object
 {
 public:
   /** Standard class type aliases. */
@@ -60,9 +60,6 @@ public:
 
   /** Create the appropriate MeshIO depending on the particulars of the file. */
   static MeshIOBasePointer CreateMeshIO(const char *path, FileModeType mode);
-
-  /** Register Built-in factories */
-  static void RegisterBuiltInFactories();
 
 protected:
   MeshIOFactory();

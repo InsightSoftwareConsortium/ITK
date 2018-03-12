@@ -16,16 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkBYUMeshIOFactory.h"
-#include "itkFreeSurferAsciiMeshIOFactory.h"
-#include "itkFreeSurferBinaryMeshIOFactory.h"
-#include "itkGiftiMeshIOFactory.h"
 #include "itkMeshIOFactory.h"
-#include "itkOBJMeshIOFactory.h"
-#include "itkOFFMeshIOFactory.h"
-#include "itkMutexLock.h"
-#include "itkMutexLockHolder.h"
-#include "itkVTKPolyDataMeshIOFactory.h"
 
 namespace itk
 {
@@ -45,7 +36,6 @@ MeshIOBase::Pointer
 MeshIOFactory
 ::CreateMeshIO(const char *path, FileModeType mode)
 {
-  RegisterBuiltInFactories();
   std::list< MeshIOBase::Pointer >  possibleMeshIO;
 
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase") )
@@ -84,33 +74,5 @@ MeshIOFactory
 
   return nullptr;
 }
-
-
-void
-MeshIOFactory
-::RegisterBuiltInFactories()
-{
-  static SimpleMutexLock mutex;
-
-    {
-    static bool firstTime = true;
-    // This helper class makes sure the Mutex is unlocked
-    // in the event an exception is thrown.
-    MutexLockHolder< SimpleMutexLock > mutexHolder(mutex);
-    if ( firstTime )
-      {
-      ObjectFactoryBase::RegisterFactory( BYUMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( FreeSurferAsciiMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( FreeSurferBinaryMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( GiftiMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( OBJMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( OFFMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( VTKPolyDataMeshIOFactory::New() );
-
-      firstTime = false;
-      }
-    }
-}
-
 
 } // end namespace itk

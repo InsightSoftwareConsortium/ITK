@@ -65,7 +65,7 @@ namespace itk
  * \sa MeshIOBase
  *
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBase
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
  */
@@ -176,6 +176,10 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMeshFileReader.hxx"
+#endif
+
+#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#include "itkMeshIOFactoryRegisterManager.h"
 #endif
 
 #endif

@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOMeshExport.h"
 
 #include "itkFreeSurferBinaryMeshIO.h"
 #include "itkFreeSurferBinaryMeshIOFactory.h"
@@ -54,4 +55,18 @@ FreeSurferBinaryMeshIOFactory
 {
   return "FreeSurfer BINARY Mesh IO Factory, allows the loading of FreeSurfer Binary mesh into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool FreeSurferBinaryMeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private(void)
+{
+  if( ! FreeSurferBinaryMeshIOFactoryHasBeenRegistered )
+    {
+    FreeSurferBinaryMeshIOFactoryHasBeenRegistered = true;
+    FreeSurferBinaryMeshIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

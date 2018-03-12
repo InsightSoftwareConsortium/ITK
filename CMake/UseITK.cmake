@@ -46,7 +46,7 @@ link_directories(${ITK_LIBRARY_DIRS})
 # Overview: Static registration of ITK IO factories
 # -------------------------------------------------
 #
-# For each factory type (Image, Transform, ...), a registration manager header
+# For each factory type (Image, Transform, Mesh, ...), a registration manager header
 # named `itk<factory_type>IOFactoryRegisterManager.h` is configured.
 #
 # The registration manager header is itself included at the end of the Reader and

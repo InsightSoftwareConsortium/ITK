@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOMeshExport.h"
 
 #include "itkVTKPolyDataMeshIO.h"
 #include "itkVTKPolyDataMeshIOFactory.h"
@@ -54,4 +55,18 @@ VTKPolyDataMeshIOFactory
 {
   return "VTK MeshIO Factory, allows the loading of VTK polydata into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool VTKPolyDataMeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT VTKPolyDataMeshIOFactoryRegister__Private(void)
+{
+  if( ! VTKPolyDataMeshIOFactoryHasBeenRegistered )
+    {
+    VTKPolyDataMeshIOFactoryHasBeenRegistered = true;
+    VTKPolyDataMeshIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

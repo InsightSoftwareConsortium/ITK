@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOMeshExport.h"
+
 #include "itkBYUMeshIOFactory.h"
 #include "itkBYUMeshIO.h"
 #include "itkVersion.h"
@@ -56,6 +58,19 @@ BYUMeshIOFactory
 ::GetDescription() const
 {
   return "BYU Mesh IO Factory, allows the loading of BYU mesh into insight";
+}
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool BYUMeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT BYUMeshIOFactoryRegister__Private(void)
+{
+  if( ! BYUMeshIOFactoryHasBeenRegistered )
+    {
+    BYUMeshIOFactoryHasBeenRegistered = true;
+    BYUMeshIOFactory::RegisterOneFactory();
+    }
 }
 
 // /////////////////////////////////////////////////////////////////////
