@@ -117,7 +117,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
 {
   if (argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " <<dimension><fixedTypeChar><movingTypeChar>> <phaseCorrelationFile>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <<dimension><fixedTypeChar><movingTypeChar>> <phaseCorrelationFile> [movingImageSpacings]" << std::endl;
     return EXIT_FAILURE;
     }
   const char * phaseCorrelationFile = argv[2];
@@ -181,15 +181,18 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
     {
     actualParameters[i] = 3 + i * 4;
     movingImageSource->m_SphereCenter[i] += actualParameters[i];
+    newMovingOrigin[i] = 10.0 - 2 * i;
+    spacing[i] = 1.0 / (0.8 + i);
+    if (argc > 3 + int(i))
+      {
+      spacing[i] = atof(argv[3 + i]);
+      }
+    newMovingSize[i] = (unsigned long)(size[i] / spacing[i] + 10 * std::pow(-1, i));
     }
 
   // increase the resolution and size and crop moving image in 1st dimension
   // this tests the ability of PCM to padd the images to the same real size
   // and to resample the images to the same pixel size and spacing
-  spacing[0] = 0.8;
-  newMovingSize[0] = (unsigned long)( 100.0 / spacing[0] - 10 );
-  newMovingSize[1] = (unsigned long)( 100.0 / spacing[1] + 10 );
-
   movingImageSource->m_ImageSize = newMovingSize;
   movingImageSource->m_ImageSpacing = spacing;
 
@@ -198,7 +201,6 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   // into the transformation (so the final parameters can be directly used to
   // resample the two images into the same coordinate system)
   // ! supposing that the input images have all origin components == 0.0 !
-  newMovingOrigin[1] = 12.0;
   movingImageSource->m_ImageOrigin = newMovingOrigin;
   typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
 
