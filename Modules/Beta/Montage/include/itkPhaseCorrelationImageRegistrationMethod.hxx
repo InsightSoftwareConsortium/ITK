@@ -259,7 +259,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   typename MovingImageType::PointType movingOrigin = m_MovingImage->GetOrigin();
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    m_TransformParameters[i] = offset[i] - ( movingOrigin[i] - fixedOrigin[i] );
+    m_TransformParameters[i] = offset[i] + ( movingOrigin[i] - fixedOrigin[i] );
     }
 
   // set the output transform
