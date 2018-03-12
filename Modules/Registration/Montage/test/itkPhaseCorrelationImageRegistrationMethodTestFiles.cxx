@@ -28,14 +28,14 @@
 namespace itk
 {
 
-template < unsigned int NDimension,
+template < unsigned int VDimension,
      typename TFixedImagePixel,
      typename TMovingImagePixel >
 int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
 {
   bool pass = true;
 
-  constexpr unsigned int Dimension = NDimension;
+  constexpr unsigned int Dimension = VDimension;
   using FixedPixelType = TFixedImagePixel;
   using MovingPixelType = TMovingImagePixel;
   using FixedImageType = itk::Image< FixedPixelType, Dimension>;
@@ -60,7 +60,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   phaseCorrelationMethod->DebugOn();
 
   // Operator type
-  using OperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, NDimension >;
+  using OperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, VDimension >;
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
   phaseCorrelationMethod->SetOperator( pcmOperator );
 
@@ -97,7 +97,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   ParametersType actualParameters( numberOfParameters );
   for (unsigned int ii = 4; ii < 4 + numberOfParameters; ++ii )
     {
-    if( argc < ii + 1 )
+    if( argc < int(ii) + 1 )
       {
       std::cerr << "Did not find baseline transform component in argument: " << ii << std::endl;
       pass = false;
