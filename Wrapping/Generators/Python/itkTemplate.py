@@ -420,8 +420,8 @@ class itkTemplate(object):
             raise RuntimeError("No ImageIO is registered to handle the given file.")
         componentTypeDic= {"float": itk.F, "double": itk.D,
         "unsigned_char": itk.UC, "unsigned_short": itk.US, "unsigned_int": itk.UI,
-        "unsigned_long": itk.UL, "char": itk.SC, "short": itk.SS,
-        "int": itk.SI, "long": itk.SL}
+        "unsigned_long": itk.UL, "unsigned_long_long": itk.ULL, "char": itk.SC, "short": itk.SS,
+        "int": itk.SI, "long": itk.SL, "long_long": itk.SLL}
         # Read the metadata from the image file.
         imageIO.SetFileName( inputFileName )
         imageIO.ReadImageInformation()
