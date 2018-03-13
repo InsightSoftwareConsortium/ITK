@@ -38,7 +38,9 @@ static unsigned int test_regiongrowKLM1D();
 
 static unsigned int test_regiongrowKLM2D();
 
+#if !defined(__powerpc__)
 static unsigned int test_regiongrowKLM3D();
+#endif
 
 #ifndef _GLIBCXX_DEBUG
 static unsigned int test_regiongrowKLM4D();
@@ -74,12 +76,14 @@ int itkRegionGrow2DTest(int, char * [] )
     return pass;
     }
 
+#if !defined(__powerpc__)
   // Test the KLM algorithm applied to 3D data
   pass = test_regiongrowKLM3D();
   if( pass == EXIT_FAILURE )
     {
     return pass;
     }
+#endif
 
   // Test the KLM algorithm applied to 4D data
 #ifndef _GLIBCXX_DEBUG
@@ -1333,6 +1337,8 @@ unsigned int test_regiongrowKLM2D()
 
 } // End test_regiongrow2D()
 
+// Compiler currently chokes on this
+#if !defined(__powerpc__)
 unsigned int test_regiongrowKLM3D()
 {
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer() );
@@ -1971,6 +1977,7 @@ unsigned int test_regiongrowKLM3D()
   return EXIT_SUCCESS;
 
 } // End test_regiongrow3D()
+#endif
 
 #ifndef _GLIBCXX_DEBUG
 unsigned int test_regiongrowKLM4D()
