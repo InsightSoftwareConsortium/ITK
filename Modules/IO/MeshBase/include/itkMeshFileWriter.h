@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKIOMeshBase
  */
 template< typename TInputMesh >
-class ITKIOMeshBase_EXPORT MeshFileWriter:public ProcessObject
+class ITK_TEMPLATE_EXPORT MeshFileWriter: public ProcessObject
 {
 public:
   /** Standard class type aliases. */
