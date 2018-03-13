@@ -26,7 +26,6 @@
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkDataObjectDecorator.h"
 #include "itkTranslationTransform.h"
-#include "itkCropImageFilter.h"
 
 #include "itkPhaseCorrelationOperator.h"
 #include "itkPhaseCorrelationOptimizer.h"
@@ -272,7 +271,6 @@ protected:
   typedef RealToHalfHermitianForwardFFTImageFilter< RealImageType >                   FFTFilterType;
   typedef typename FFTFilterType::OutputImageType                                     ComplexImageType;
   typedef HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType > IFFTFilterType;
-  typedef CropImageFilter< RealImageType, RealImageType >                             CropFilterType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);
