@@ -14,6 +14,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cc
   itkPhaseCorrelationImageRegistrationMethodTest
     2cc
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cc.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cc.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2ff
@@ -21,6 +22,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2ff
   itkPhaseCorrelationImageRegistrationMethodTest
     2ff
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2ff.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2ff.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2dd
@@ -28,6 +30,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2dd
   itkPhaseCorrelationImageRegistrationMethodTest
     2dd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2dd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2dd.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cf
@@ -35,6 +38,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cf
   itkPhaseCorrelationImageRegistrationMethodTest
     2cf
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2fd
@@ -42,6 +46,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2fd
   itkPhaseCorrelationImageRegistrationMethodTest
     2fd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cc
@@ -49,6 +54,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cc
   itkPhaseCorrelationImageRegistrationMethodTest
     3cc
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cc.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cc.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3ff
@@ -56,6 +62,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3ff
   itkPhaseCorrelationImageRegistrationMethodTest
     3ff
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3ff.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3ff.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3dd
@@ -63,6 +70,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3dd
   itkPhaseCorrelationImageRegistrationMethodTest
     3dd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3dd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3dd.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cf
@@ -70,6 +78,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cf
   itkPhaseCorrelationImageRegistrationMethodTest
     3cf
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cf.tfm
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3fd
@@ -77,6 +86,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3fd
   itkPhaseCorrelationImageRegistrationMethodTest
     3fd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3fd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3fd.tfm
   )
 
 
@@ -85,6 +95,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_ShouldFail
   itkPhaseCorrelationImageRegistrationMethodTest
     2cc
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_ShouldNotExist.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_ShouldNotExist.tfm
     0.9 1.1
   )
 set_tests_properties(itkPhaseCorrelationImageRegistrationMethodTest_ShouldFail PROPERTIES WILL_FAIL TRUE)

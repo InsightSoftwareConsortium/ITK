@@ -115,9 +115,11 @@ public:
 template < unsigned int VDimension, typename TFixedImagePixel, typename TMovingImagePixel >
 int PhaseCorrelationRegistration( int argc, char* argv[] )
 {
-  if (argc < 3)
+  if (argc < 4)
     {
-    std::cerr << "Usage: " << argv[0] << " <<dimension><fixedTypeChar><movingTypeChar>> <phaseCorrelationFile> [movingImageSpacings]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <<dimension><fixedTypeChar><movingTypeChar>>";
+    std::cerr << "<phaseCorrelationFile> <transformFile> [movingImageSpacings]" << std::endl;
+    std::cerr << "e.g.\n\t" << argv[0] << " 2cf phase.nrrd transform.tfm 1.0 1.0" << std::endl;
     return EXIT_FAILURE;
     }
   const char * phaseCorrelationFile = argv[2];
@@ -183,9 +185,9 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
     movingImageSource->m_SphereCenter[i] += actualParameters[i];
     newMovingOrigin[i] = 10.0 - 2 * i;
     //spacing[i] = 1.0 / (0.8 + i); //test different spacing (unsupported)
-    if (argc > 3 + int(i))
+    if (argc > 4 + int(i))
       {
-      spacing[i] = atof(argv[3 + i]);
+      spacing[i] = atof(argv[4 + i]);
       }
     newMovingSize[i] = (unsigned long)(size[i] / spacing[i] + 10 * std::pow(-1, i));
     }
@@ -274,7 +276,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
 
   typedef itk::TransformFileWriterTemplate<double> TransformWriterType;
   TransformWriterType::Pointer tWriter = TransformWriterType::New();
-  tWriter->SetFileName( "m_Transform.tfm" );
+  tWriter->SetFileName( argv[3] );
   const TransformType* oT = pcm->GetOutput()->Get();
   typedef itk::AffineTransform<double, 3> AffineType;
   tWriter->SetInput( pcm->GetOutput()->Get() );
