@@ -182,7 +182,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
     actualParameters[i] = 3 + i * 4;
     movingImageSource->m_SphereCenter[i] += actualParameters[i];
     newMovingOrigin[i] = 10.0 - 2 * i;
-    spacing[i] = 1.0 / (0.8 + i);
+    //spacing[i] = 1.0 / (0.8 + i); //test different spacing (unsupported)
     if (argc > 3 + int(i))
       {
       spacing[i] = atof(argv[3 + i]);
@@ -200,24 +200,19 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   // this tests the ability of PCM to introduce between-image origin offset
   // into the transformation (so the final parameters can be directly used to
   // resample the two images into the same coordinate system)
-  // ! supposing that the input images have all origin components == 0.0 !
   movingImageSource->m_ImageOrigin = newMovingOrigin;
   typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
 
 
-  //
-  // Connect all the components required for Registratio
-  //
+  // Connect all the components required for Registration
   pcm->SetOperator(    pcmOperator  );
   pcm->SetOptimizer(   pcmOptimizer );
   pcm->SetFixedImage(  fixedImage   );
   pcm->SetMovingImage( movingImage  );
 
 
-  //
   // Execute the registration.
   // This can potentially throw an exception
-  //
   try
     {
     pcm->DebugOn();
@@ -229,21 +224,16 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
     pass = false;
     }
 
-  //
   // Get registration result and validate it.
-  //
   ParametersType finalParameters     = pcm->GetTransformParameters();
   ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
 
   const unsigned int numberOfParameters = actualParameters.Size();
-
   const double tolerance = 0.1;
 
-  // Validate first two parameters (introduced by image source)
+  // Validate the translation parameters
   for(unsigned int i=0; i<numberOfParameters; i++)
     {
-    // the parameters are negated in order to get the inverse transformation.
-    // this only works for comparing translation parameters....
     std::cout << finalParameters[i] << " == "
               << actualParameters[i] << " == "
               << transformParameters[i] << std::endl;
