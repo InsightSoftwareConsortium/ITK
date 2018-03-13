@@ -21,6 +21,9 @@
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMath.h"
 
+#ifndef NDEBUG
+#include "itkImageFileWriter.h"
+
 namespace
 {
 template< typename TImage >
@@ -40,6 +43,13 @@ void WriteDebug(TImage* out, const char *filename)
     }
 }
 }
+#else
+namespace
+{
+template< typename TImage >
+void WriteDebug(TImage* out, const char *filename) {}
+}
+#endif
 
 namespace itk
 {
