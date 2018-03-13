@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-// This is intentionally outside the header guard, due to inter-dependencies
-// the itkMacro.h, itkExceptionObject.h and this file
+// The itkMacro.h include is intentionally outside the header guard,
+// due to inter-dependencies between itkMacro.h, itkExceptionObject.h and this file
 #include "itkMacro.h"
 
 #ifndef itkSmartPointer_h
@@ -69,12 +69,16 @@ public:
   /** \brief deprecated
    *
    * Constructor with explicit support for initializing with
-   * NULL (i.e. decltype(NULL) ==> unsigned long., 0L)
+   * NULL (i.e. decltype(NULL) ==> long., 0L)
    * this is only to provide support for external code
    * that where a SmartPointer was initialized with
    * NULL.
    *
-     * Require initialization with nullptr --OR-- equivalent
+   * Use of these function signatures is highly discouraged in
+   * C++11.  These will be removed in near future versions of ITK
+   * Do not support explicit initialization with "NULL" in the future.
+   *
+   * Require initialization with nullptr --OR-- equivalent
    * behavior of simply using the no-argument constructor.
    *
    * Deprecated: ObjectPointer ptrNULLinit(NULL);
@@ -82,9 +86,17 @@ public:
    * Supported  : ObjectPointer ptrNULLinit(nullptr);
    *
    */
-  itkLegacyMacro(explicit constexpr SmartPointer (decltype(NULL)) noexcept)
+  itkLegacyMacro( constexpr SmartPointer ( decltype(NULL) ) noexcept )
     : m_Pointer(nullptr)
-    { }
+    {
+    }
+
+  itkLegacyMacro( SmartPointer &operator=( decltype(NULL) )  noexcept )
+    {
+      this->UnRegister();
+      this->m_Pointer = nullptr;
+      return *this;
+    }
 #endif
 
   /** Copy constructor  */

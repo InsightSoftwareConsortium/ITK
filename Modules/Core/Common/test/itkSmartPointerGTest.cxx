@@ -91,31 +91,42 @@ protected:
 
 }
 
+// Silence testing warning for code that is not supported
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wconversion-null")
 
+#if ! defined ( ITK_LEGACY_REMOVE )
+itk::SmartPointer<itk::Object> SillyReturnNullFunction()
+{
+  // Some developers return NULL as
+  // a sentinal for failure condition.
+  return NULL;
+}
+#endif
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wconversion-null")
+#endif
+
+// Silence testing warning for code that is not supported
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wconversion-null")
 TEST(SmartPointer, EmptyAndNull)
 {
   using ObjectPointer = itk::SmartPointer<itk::Object>;
   using ConstObjectPointer = itk::SmartPointer<const itk::Object>;
 
-#if defined ( ITK_FUTURE_LEGACY_REMOVE )
-  //Do not test using the "NULL" unsigned long initialzation
-  //in this case.
-#else
-// Silence testing warning for code that is not supported
-# ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-# endif
-ITK_GCC_PRAGMA_DIAG(ignored "-Wconversion-null")
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   // Test initializing with NULL for backward compatibility
   ObjectPointer ptrNULLinit(NULL);
   EXPECT_TRUE(ptrNULLinit.IsNull());
-# ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-# else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wconversion-null")
-# endif
+  EXPECT_TRUE( SillyReturnNullFunction().IsNull() );
 #endif
-
   ObjectPointer ptr;
 
 
@@ -167,6 +178,11 @@ ITK_GCC_PRAGMA_DIAG(ignored "-Wconversion-null")
 //  EXPECT_TRUE( 0 == ptr );
 
 }
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wconversion-null")
+#endif
 
 
 TEST(SmartPointer,Converting)
