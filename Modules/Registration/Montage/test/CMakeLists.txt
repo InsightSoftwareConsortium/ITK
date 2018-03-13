@@ -79,6 +79,16 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3fd
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3fd.nrrd
   )
 
+
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_ShouldFail
+  COMMAND MontageTestDriver
+  itkPhaseCorrelationImageRegistrationMethodTest
+    2cc
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_ShouldNotExist.nrrd
+    0.9 1.1
+  )
+set_tests_properties(itkPhaseCorrelationImageRegistrationMethodTest_ShouldFail PROPERTIES WILL_FAIL TRUE)
+
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
   COMMAND MontageTestDriver
   itkPhaseCorrelationImageRegistrationMethodTestFiles
