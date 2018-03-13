@@ -164,16 +164,16 @@ ThreadIdType MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
 
 MultiThreaderBase::Pointer MultiThreaderBase::New()
 {
-  Pointer smartPtr = ::itk::ObjectFactory< MultiThreaderBase >::Create().GetPointer();
-  if ( smartPtr.GetPointer() == nullptr )
+  Pointer smartPtr = ::itk::ObjectFactory< MultiThreaderBase >::Create();
+  if ( smartPtr == nullptr )
     {
     if ( GetGlobalDefaultUseThreadPool() )
       {
-      return PoolMultiThreader::New().GetPointer();
+      return PoolMultiThreader::New();
       }
     else
       {
-      return MultiThreader::New().GetPointer();
+      return MultiThreader::New();
       }
     }
   smartPtr->UnRegister();
