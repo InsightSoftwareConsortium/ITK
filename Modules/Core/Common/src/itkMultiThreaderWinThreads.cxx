@@ -162,7 +162,7 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 
   WaitForSingleObject(m_SpawnedThreadProcessID[ThreadID], INFINITE);
   CloseHandle(m_SpawnedThreadProcessID[ThreadID]);
-  m_SpawnedThreadActiveFlagLock[ThreadID] = 0;
+  m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
 }
 
 void
