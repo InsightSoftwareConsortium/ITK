@@ -304,6 +304,17 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   this->Initialize();
   this->DeterminePadding();
 
+  if (m_FixedImage->GetSpacing() != m_MovingImage->GetSpacing())
+    {
+    itkExceptionMacro("Fixed image and moving image must have the same spacing!\nFixed spacing: "
+        << m_FixedImage->GetSpacing() << "\nMoving spacing: " << m_MovingImage->GetSpacing());
+    }
+  if (m_FixedImage->GetDirection() != m_MovingImage->GetDirection())
+    {
+    itkExceptionMacro("Fixed image and moving image must have the same direction!\nFixed direction:\n"
+        << m_FixedImage->GetDirection() << "\nMoving direction:\n" << m_MovingImage->GetDirection());
+    }
+
   m_IFFT->UpdateOutputInformation();
 
   RealImageType * phaseCorrelation = static_cast< RealImageType * >( this->ProcessObject::GetOutput( 1 ) );
