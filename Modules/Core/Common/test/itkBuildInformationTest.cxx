@@ -59,7 +59,7 @@ TEST(ITKBuildInformation, InformationFeatures  ) {
 
   EXPECT_GT( itk::BuildInformation::GetAllKeys().size(), static_cast<size_t>(5) );
 
-  for(const auto keyEntry: itk::BuildInformation::GetAllKeys() )
+  for(const auto & keyEntry: itk::BuildInformation::GetAllKeys() )
   {
     std::cout << keyEntry << std::endl;
   }
