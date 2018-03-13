@@ -43,19 +43,19 @@ namespace itk
  *  pp. 163-165, IEEE, Sep. 1975</em> for method description.
  *
  *  The method consists of 4 (5) steps:
- *    0. Padding or resampling the images to the same spacing and size.
+ *    0. Resampling and padding the images to the same spacing and size.
  *    1. Compute FFT of the two images.
  *    2. Compute the ratio of the two spectrums.
  *    3. Compute the inverse FFT of the cross-power spectrum.
  *    4. Find the maximum peak in cross-power spectrum and estimate the shift.
  *
- *  Step 0. is not included in the method itself - it is a prerequisite of PCM.
+ *  Resampling (step 0a) is not included in the method itself - it is a prerequisite of PCM.
  *  It is required that the input itk::Image's have the same Spacing and
  *  Direction. If that is not the case, resample one of the images with the
  *  ResampleImageFilter prior to applying this method.
- *  This class will pad the smaller image by zeros by default to obtain two images
- *  that have the same real size (in all dimensions). Or, it will pad both
- *  images to the size specified with PadToSize, if set.
+ *
+ *  This class will zero-pad the imagesso they have the same real size
+ *  (in all dimensions) and are multiples of FFT's supported prime factors.
  *
  *  Step 1. is performed by this class too using FFT filters supplied by
  *  itk::RealToHalfHermitianForwardFFTImageFilter::New() factory.
@@ -66,7 +66,9 @@ namespace itk
  *
  *  As some special techniques (e.g. to compute subpixel shifts) require complex
  *  correlation surface, while the others compute the shift from real
- *  correlation surface, step 3. is carried by this class only when necessary.
+ *  correlation surface.
+ *
+ *  Step 3. is carried by this class only when necessary.
  *  The IFFT filter is created using
  *  itk::HalfHermitianToRealInverseFFTImageFilter::New() factory.
  *
@@ -77,7 +79,7 @@ namespace itk
  *  First, plug in the operator, optimizer and the input images. The method
  *  is executed by calling Update() (or updating some downstream filter).
  *
- *  The output shift can be passed downstreams in the form of
+ *  The output shift can be passed downstream in the form of
  *  TranslationTransform or can be obtained as transform parameters vector. The
  *  transform can be directly used to resample the Moving image to match the
  *  Fixed image.
