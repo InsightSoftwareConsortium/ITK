@@ -64,9 +64,9 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
 template < typename TRealPixel, unsigned int VImageDimension >
 void
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::SetMovingImage( ImageType * fixedImage )
+::SetMovingImage( ImageType * movingImage )
 {
-  this->SetNthInput(1, const_cast<ImageType *>( fixedImage ));
+  this->SetNthInput(1, const_cast<ImageType *>( movingImage ));
 }
 
 

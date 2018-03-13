@@ -81,10 +81,10 @@ public:
   typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
 
   /** Connect the fixed image. */
-  void SetFixedImage( ImageType * );
+  void SetFixedImage( ImageType * fixedImage );
 
   /** Connect the moving image. */
-  void SetMovingImage( ImageType * );
+  void SetMovingImage( ImageType * movingImage );
 
 protected:
   PhaseCorrelationOperator();
