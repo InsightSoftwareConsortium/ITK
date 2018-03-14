@@ -10,10 +10,10 @@
 # ITK_WRAP_JAVA
 # ITK_WRAP_unsigned_char
 # ITK_WRAP_unsigned_short
-# ITK_WRAP_unsigned_long
+# ITK_WRAP_unsigned_long_long
 # ITK_WRAP_signed_char
 # ITK_WRAP_signed_short
-# ITK_WRAP_signed_long
+# ITK_WRAP_signed_long_long
 # ITK_WRAP_float
 # ITK_WRAP_double
 # ITK_WRAP_vector_float
