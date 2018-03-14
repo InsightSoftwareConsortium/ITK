@@ -71,17 +71,13 @@ public:
   typedef typename Superclass::OffsetType               OffsetType;
   typedef typename Superclass::OffsetScalarType         OffsetScalarType;
 
-  /** Method to return the latest modified time of this object or
-  * any of its cached ivars */
-  unsigned long GetMTime() const;
-
 protected:
   MaxPhaseCorrelationOptimizer();
   virtual ~MaxPhaseCorrelationOptimizer() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** This method is executed by superclass to execute the computation. */
-  virtual void ComputeOffset();
+  void ComputeOffset() override;
 
   typedef MinimumMaximumImageCalculator< ImageType >    MaxCalculatorType;
 

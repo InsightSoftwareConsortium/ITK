@@ -113,7 +113,7 @@ PhaseCorrelationOptimizer<TImage>
 template < typename TImage >
 DataObject::Pointer
 PhaseCorrelationOptimizer<TImage>
-::MakeOutput(unsigned int output)
+::MakeOutput( DataObjectPointerArraySizeType output )
 {
   switch (output)
     {
@@ -122,7 +122,6 @@ PhaseCorrelationOptimizer<TImage>
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
-      return 0;
     }
 }
 

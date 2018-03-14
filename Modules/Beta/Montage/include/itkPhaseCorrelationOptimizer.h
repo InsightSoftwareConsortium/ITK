@@ -34,7 +34,8 @@ namespace itk
  *  real correlation surface and some on complex correlation surface.
  *
  *  This class implements input and output handling, while the computation has
- *  to be performed by ComputeOffset() method, that must be overriden in childs.
+ *  to be performed by ComputeOffset() method, that must be overriden in derived
+ *  classes.
  *
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
@@ -86,16 +87,16 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    *  output. */
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;
 
 protected:
   PhaseCorrelationOptimizer();
   virtual ~PhaseCorrelationOptimizer() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the output values. */
-  void GenerateData () ITK_OVERRIDE;
+  void GenerateData () override;
 
 
   /** This method is executed by this type and must be reimplemented by child

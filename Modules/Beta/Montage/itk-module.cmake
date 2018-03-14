@@ -17,6 +17,7 @@ itk_module(Montage
     ITKFFT
     ITKTransform
   TEST_DEPENDS
+    ITKIOTransformInsightLegacy
     ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
