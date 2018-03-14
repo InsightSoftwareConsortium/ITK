@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkVTKPolyDataMeshIO_h
 #define itkVTKPolyDataMeshIO_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshVTKExport.h"
 
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
@@ -35,9 +35,9 @@ namespace itk
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshVTK
  */
-class ITKIOMesh_EXPORT VTKPolyDataMeshIO:public MeshIOBase
+class ITKIOMeshVTK_EXPORT VTKPolyDataMeshIO:public MeshIOBase
 {
 public:
   /** Standard "Self" type alias. */

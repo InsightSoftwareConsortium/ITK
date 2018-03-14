@@ -18,6 +18,12 @@
 #ifndef itkMeshFileTestHelper_h
 #define itkMeshFileTestHelper_h
 
+/*
+ * This file is contains helper functions for the ITK MeshIO module testing.
+ * It should not be considered as part of the toolkit API and it may change at
+ * any time without notice. We mean it.
+ */
+
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 #include <itksys/SystemTools.hxx>
