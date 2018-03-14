@@ -39,8 +39,6 @@ template < typename TRealPixel, unsigned int VImageDimension >
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::PhaseCorrelationOperator()
 {
-  m_FullMatrix = false; //?! what should be the default?
-
   this->SetNumberOfRequiredInputs( 2 );
 }
 
@@ -66,9 +64,9 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
 template < typename TRealPixel, unsigned int VImageDimension >
 void
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::SetMovingImage( ImageType * fixedImage )
+::SetMovingImage( ImageType * movingImage )
 {
-  this->SetNthInput(1, const_cast<ImageType *>( fixedImage ));
+  this->SetNthInput(1, const_cast<ImageType *>( movingImage ));
 }
 
 
@@ -84,125 +82,41 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   ImagePointer       output    = this->GetOutput();
 
   //
-  // Define a few indices that will be used to translate from an input pixel
-  // to an output pixel to "resample the two volumes".
-  typename ImageType::IndexType
-     movingStartIndex = moving->GetLargestPossibleRegion().GetIndex(),
-     outputStartIndex = output->GetLargestPossibleRegion().GetIndex();
-  typename ImageType::SizeType
-     fixedSize  = fixed->GetLargestPossibleRegion().GetSize(),
-     movingSize = moving->GetLargestPossibleRegion().GetSize();
-  typename ImageType::IndexType fixedGapStart;
-  typename ImageType::IndexType movingGapStart;
-  typename ImageType::SizeType  fixedGapSize;
-  typename ImageType::SizeType  movingGapSize;
-  unsigned int i;
-
-  // crop every dimension to make the size of fixed and moving the same
-  for (i=0; i<ImageType::ImageDimension; i++)
-    {
-    fixedGapSize[i] = (fixedSize[i]-movingSize[i])>0 ?
-                                            (fixedSize[i]-movingSize[i]) : 0;
-    movingGapSize[i] = (movingSize[i]-fixedSize[i])>0 ?
-                                            (movingSize[i]-fixedSize[i]) : 0;
-    }
-
-  i = 0; //reset the counter
-
-  // for halved matrixes must be start for the first dimension treated differently
-  if (!m_FullMatrix)
-    {
-    fixedGapStart[0] = fixedGapSize[0]>0 ? movingSize[0] : fixedSize[0];
-    movingGapStart[0] = movingGapSize[0]>0 ? fixedSize[0] : movingSize[0];
-    i++;
-    }
-  // all "normal" dimensions exclude central frequencies
-  for (; i<ImageType::ImageDimension; i++)
-    {
-    if ( fixedGapSize[i]>0 ) // fixed is too large
-      {
-      if ( (fixedSize[i]%2 + fixedGapSize[i]%2) > 1 )
-        {
-        fixedGapStart[i] = (unsigned long)( vcl_floor(fixedSize[i]/2.0) -
-                                            vcl_floor(fixedGapSize[i]/2.0) );
-        }
-      else
-        {
-        fixedGapStart[i] = (unsigned long)( vcl_ceil(fixedSize[i]/2.0) -
-                                            vcl_floor(fixedGapSize[i]/2.0) );
-        }
-      movingGapStart[i] = movingSize[i];
-      }
-    else if ( movingGapSize[i]>0 ) // moving is too large
-      {
-      if ( (movingSize[i]%2 + movingGapSize[i]%2) > 1 )
-        {
-        movingGapStart[i] = (unsigned long)( vcl_floor(movingSize[i]/2.0) -
-                                             vcl_floor(movingGapSize[i]/2.0) );
-        }
-      else
-        {
-        movingGapStart[i] = (unsigned long)( vcl_ceil(movingSize[i]/2.0) -
-                                             vcl_floor(movingGapSize[i]/2.0) );
-        }
-      fixedGapStart[i] = fixedSize[i];
-      }
-    else // fixed and moving is the same size
-      {
-      fixedGapStart[i] = fixedSize[i];
-      movingGapStart[i] = movingSize[i];
-      }
-    }
-
-  //
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef  ImageRegionIterator<ImageType> OutputIterator;
+  typedef  ImageRegionConstIterator<ImageType> InputIterator;
+  typedef  ImageRegionIterator<ImageType>      OutputIterator;
 
+  InputIterator fixedIt(fixed, outputRegionForThread);
+  InputIterator movingIt(moving, outputRegionForThread);
   OutputIterator outIt(output, outputRegionForThread);
-  typename ImageType::IndexType fixedIndex;
-  typename ImageType::IndexType movingIndex;
-  typename ImageType::IndexType outputIndex;
 
   itkDebugMacro( "computing correlation surface" );
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId,
                             outputRegionForThread.GetNumberOfPixels());
 
-  typedef typename ImageType::IndexType::IndexValueType IndexValueType;
-
   // walk the output region, and sample the input image
   while ( !outIt.IsAtEnd() )
     {
-    // determine the index of the output pixel
-    outputIndex = outIt.GetIndex();
+    // compute the phase correlation
+    const PixelType real = fixedIt.Value().real() * movingIt.Value().real() +
+                           fixedIt.Value().imag() * movingIt.Value().imag();
+    const PixelType imag = fixedIt.Value().imag() * movingIt.Value().real() -
+                           fixedIt.Value().real() * movingIt.Value().imag();
+    const PixelType magn = std::sqrt( real*real + imag*imag );
 
-    // determine the input pixels location associated with this output pixel
-    for (unsigned int i = 0; i<ImageType::ImageDimension; i++)
+    if (magn != 0 )
       {
-      fixedIndex[i] = outputIndex[i]; //fixed and output images have same StartIndex
-      movingIndex[i] = outputIndex[i]-outputStartIndex[i]+movingStartIndex[i];
-
-      if (fixedIndex[i] >= fixedGapStart[i])
-          fixedIndex[i] += fixedGapSize[i];
-      if (movingIndex[i] >= movingGapStart[i])
-          movingIndex[i] += movingGapSize[i];
-      if (fixedIndex[i] < 0)
-          fixedIndex[i] = 0;
-      if (fixedIndex[i] > static_cast<IndexValueType>(fixedSize[i] - 1))
-          fixedIndex[i] = fixedSize[i] - 1;
-      if (movingIndex[i] < 0)
-          movingIndex[i] = 0;
-      if (movingIndex[i] > static_cast<IndexValueType>(movingSize[i] - 1))
-          movingIndex[i] = movingSize[i] - 1;
+      outIt.Set( ComplexType( real/magn, imag/magn ) );
+      }
+    else
+      {
+      outIt.Set( ComplexType( 0, 0 ) );
       }
 
-    // compute the phase correlation
-    ComplexType fixedVal = fixed->GetPixel(fixedIndex);
-    ComplexType movingVal = moving->GetPixel(movingIndex);
-
-    outIt.Set( this->ComputeAtIndex(outputIndex,fixedVal,movingVal) );
-
+    ++fixedIt;
+    ++movingIt;
     ++outIt;
 
     progress.CompletedPixel();
@@ -211,37 +125,14 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
 
 
 template < typename TRealPixel, unsigned int VImageDimension >
-typename PhaseCorrelationOperator< TRealPixel, VImageDimension >::ComplexType
-PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::ComputeAtIndex(typename ImageType::IndexType & outputIndex,
-                          ComplexType          & fixedValue,
-                          ComplexType          & movingValue)
-{
-  PixelType real = fixedValue.real()*movingValue.real() +
-                   fixedValue.imag()*movingValue.imag();
-  PixelType imag = fixedValue.imag()*movingValue.real() -
-                   fixedValue.real()*movingValue.imag();
-  PixelType magn = vcl_sqrt( real*real + imag*imag );
-
-  if (magn != 0 )
-    {
-    return ComplexType(real/magn,imag/magn);
-    }
-  else
-    {
-    return ComplexType( 0, 0);
-    }
-}
-
-
-/**
- *  Request all available data. This filter is cropping from the center.
- */
-template < typename TRealPixel, unsigned int VImageDimension >
 void
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::GenerateInputRequestedRegion()
 {
+  /**
+   *  Request all available data. This filter is cropping from the center.
+   */
+
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
@@ -258,15 +149,17 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   moving->SetRequestedRegion( moving->GetLargestPossibleRegion() );
 }
 
-/**
- *  The output will have the lower size of the two input images in all
- *  dimensions.
- */
+
 template < typename TRealPixel, unsigned int VImageDimension >
 void
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::GenerateOutputInformation()
 {
+  /**
+   *  The output will have the lower size of the two input images in all
+   *  dimensions.
+   */
+
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
@@ -338,8 +231,6 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
      ExposeMetaData < SizeScalarType >
           (movingDic,std::string("FFT_Actual_RealImage_Size"),movingX))
     {
-    SetFullMatrix( fixedSize[0] == fixedX );
-
     outputX = fixedX > movingX ? movingX : fixedX;
 
     EncapsulateMetaData<SizeScalarType>(outputDic,

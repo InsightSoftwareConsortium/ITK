@@ -16,27 +16,26 @@
  *
  *=========================================================================*/
 #include "itkArray.h"
-#include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkImageFileWriter.h"
-#include "itkCastImageFilter.h"
+#include "itkTransformFileWriter.h"
+#include "itkTxtTransformIOFactory.h"
+#include "itkAffineTransform.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
 
-template< typename TFixedPixel,
-          typename TMovingPixel,
-          unsigned int NDimension >
-class PhaseCorrelationImageRegistrationMethodImageSource: public itk::Object
+template< typename TPixel, unsigned int VDimension >
+class HyperSphereImageSource: public itk::Object
 {
 public:
-  typedef PhaseCorrelationImageRegistrationMethodImageSource Self;
-  typedef Object                                             Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
-  typedef Array<double>                                      ParametersType;
+  typedef HyperSphereImageSource   Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+  typedef Array<double>            ParametersType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -44,176 +43,128 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(Image, Object);
 
-  typedef itk::Image<TMovingPixel,NDimension> MovingImageType;
-  typedef itk::Image<TFixedPixel,NDimension > FixedImageType;
+  typedef itk::Image<TPixel, VDimension > ImageType;
 
-
-  const MovingImageType * GetMovingImage(void) const
-    {
-    return m_MovingImage.GetPointer();
-    }
-
-  const FixedImageType * GetFixedImage(void) const
-    {
-    return m_FixedImage.GetPointer();
-    }
-
-  const ParametersType & GetActualParameters(void) const
+  ImageType * GenerateImage()
   {
-    return m_Parameters;
-  }
+    m_Image = ImageType::New();
 
-  void GenerateImages( const typename MovingImageType::SizeType & size )
-  {
-    typename MovingImageType::IndexType index;
+    typename ImageType::IndexType index;
     index.Fill(0);
-    typename MovingImageType::RegionType region;
-    region.SetSize( size );
+    typename ImageType::RegionType region;
+    region.SetSize( m_ImageSize );
     region.SetIndex( index );
 
-    m_MovingImage->SetLargestPossibleRegion( region );
-    m_MovingImage->SetBufferedRegion( region );
-    m_MovingImage->SetRequestedRegion( region );
-    m_MovingImage->Allocate();
+    m_Image->SetLargestPossibleRegion( region );
+    m_Image->SetBufferedRegion( region );
+    m_Image->SetRequestedRegion( region );
+    m_Image->Allocate();
 
-    m_FixedImage->SetLargestPossibleRegion( region );
-    m_FixedImage->SetBufferedRegion( region );
-    m_FixedImage->SetRequestedRegion( region );
-    m_FixedImage->Allocate();
+    m_Image->SetSpacing( m_ImageSpacing );
+    m_Image->SetOrigin( m_ImageOrigin );
+    m_Image->SetDirection( m_ImageDirection );
 
-    /* Fill images with a gaussian*/
-    typedef  itk::ImageRegionIteratorWithIndex<MovingImageType>
-        MovingImageIteratorType;
+    itk::Point<double, VDimension> p;
+    TPixel value;
+    typedef  itk::ImageRegionIteratorWithIndex<ImageType> ImageIteratorType;
+    ImageIteratorType it(m_Image,region);
+    while(!it.IsAtEnd())
+      {
+      m_Image->TransformIndexToPhysicalPoint(it.GetIndex(), p);
+      if (m_SphereCenter.EuclideanDistanceTo(p) > m_SphereRadius)
+        {
+        value = itk::NumericTraits<TPixel>::ZeroValue();
+        }
+      else
+        {
+        value = value = itk::NumericTraits<TPixel>::OneValue();
+        }
+      it.Set( value );
+      ++it;
+      }
 
-    typedef  itk::ImageRegionIteratorWithIndex<FixedImageType>
-        FixedImageIteratorType;
-
-
-    itk::Point<double,2> center;
-    center[0] = (double)region.GetSize()[0]/2.0;
-    center[1] = (double)region.GetSize()[1]/2.0;
-
-    const double s = (double)region.GetSize()[0]/2.0;
-
-    itk::Point<double,2>  p;
-    itk::Vector<double,2> d;
-
-    /* Set the displacement */
-    itk::Vector<double,2> displacement;
-    displacement[0] = m_Parameters[0];
-    displacement[1] = m_Parameters[1];
-
-
-    MovingImageIteratorType ri(m_MovingImage,region);
-    FixedImageIteratorType ti(m_FixedImage,region);
-    while(!ri.IsAtEnd())
-    {
-      p[0] = ri.GetIndex()[0];
-      p[1] = ri.GetIndex()[1];
-      d = p-center;
-      d += displacement;
-      const double x = d[0];
-      const double y = d[1];
-      const unsigned char value = sqrt(x*x+y*y)>s ? 0 : 1;
-      ri.Set( static_cast<typename MovingImageType::PixelType>(value) );
-      ++ri;
-    }
-
-
-    while(!ti.IsAtEnd())
-    {
-      p[0] = ti.GetIndex()[0];
-      p[1] = ti.GetIndex()[1];
-      d = p-center;
-      const double x = d[0];
-      const double y = d[1];
-      const double value = sqrt(x*x+y*y)>s ? 0 : 1;
-      ti.Set( static_cast<typename FixedImageType::PixelType>(value) );
-      ++ti;
-    }
+    return m_Image.GetPointer();
   }
 
 protected:
-  PhaseCorrelationImageRegistrationMethodImageSource()
+  HyperSphereImageSource()
   {
-    m_MovingImage = MovingImageType::New();
-    m_FixedImage  = FixedImageType::New();
-    m_Parameters  = ParametersType(2);
-    m_Parameters[0] = 7.0;
-    m_Parameters[1] = 3.0;
+    m_SphereRadius = 50.0;
+    m_SphereCenter.Fill(50.0);
+    m_ImageOrigin.Fill(0.0);
+    m_ImageSize.Fill(100);
+    m_ImageSpacing.Fill(1.0);
+    m_ImageDirection.SetIdentity();
   }
 
 private:
-  typename FixedImageType::Pointer     m_FixedImage;
-  typename MovingImageType::Pointer    m_MovingImage;
+  typename ImageType::Pointer m_Image;
 
-  ParametersType                       m_Parameters;
+public:
+  double                            m_SphereRadius;
+  typename ImageType::PointType     m_SphereCenter;
+  typename ImageType::PointType     m_ImageOrigin;
+  typename ImageType::SizeType      m_ImageSize;
+  typename ImageType::SpacingType   m_ImageSpacing;
+  typename ImageType::DirectionType m_ImageDirection;
 };
 
 }
 
 
-template < unsigned int NDimension,
-           typename TFixedImagePixel,
-     typename TMovingImagePixel >
-int PhaseCorrelationRegistration( int , char* [] )
+template < unsigned int VDimension, typename TFixedImagePixel, typename TMovingImagePixel >
+int PhaseCorrelationRegistration( int argc, char* argv[] )
 {
+  if (argc < 4)
+    {
+    std::cerr << "Usage: " << argv[0] << " <<dimension><fixedTypeChar><movingTypeChar>>";
+    std::cerr << "<phaseCorrelationFile> <transformFile> [movingImageSpacings]" << std::endl;
+    std::cerr << "e.g.\n\t" << argv[0] << " 2cf phase.nrrd transform.tfm 1.0 1.0" << std::endl;
+    return EXIT_FAILURE;
+    }
+  const char * phaseCorrelationFile = argv[2];
+
+  itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
+
   bool pass = true;
 
-  // Fixed Image Type
-  typedef itk::Image<TFixedImagePixel, NDimension>   FixedImageType;
+  typedef itk::Image<TFixedImagePixel, VDimension>   FixedImageType;
+  typedef itk::Image<TMovingImagePixel, VDimension>  MovingImageType;
+  typedef typename MovingImageType::SizeType         SizeType;
 
-  // Moving Image Type
-  typedef itk::Image<TMovingImagePixel, NDimension>  MovingImageType;
-
-  // Size Type
-  typedef typename MovingImageType::SizeType           SizeType;
-
-  // test image source
-  typedef itk::PhaseCorrelationImageRegistrationMethodImageSource<
+  // test image sources
+  typedef itk::HyperSphereImageSource<
       typename FixedImageType::PixelType,
+      VDimension >                                   FixedImageSourceType;
+  typedef itk::HyperSphereImageSource<
       typename MovingImageType::PixelType,
-      NDimension >                                      ImageSourceType;
+      VDimension >                                   MovingImageSourceType;
 
-  // Resample filter
-  typedef itk::ResampleImageFilter< MovingImageType, MovingImageType >
-                                                       ResamplerType;
-
-  // Interpolator for resampler
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double >
-                                                       InterpolatorType;
-
-
-  // Registration method
   typedef itk::PhaseCorrelationImageRegistrationMethod< FixedImageType,
                                                         MovingImageType >
-                                                       PCMType;
+                                                     PCMType;
 
-  // Operator type
-  typedef itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, NDimension >     OperatorType;
+  typedef itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, VDimension >
+                                                     OperatorType;
 
-  // Optimizer type
-  typedef itk::MaxPhaseCorrelationOptimizer<PCMType>   OptimizerType;
-
-  // Transform type
-  typedef typename PCMType::TransformType              TransformType;
-  typedef typename TransformType::ParametersType       ParametersType;
+  typedef itk::MaxPhaseCorrelationOptimizer<PCMType> OptimizerType;
+  typedef typename PCMType::TransformType            TransformType;
+  typedef typename TransformType::ParametersType     ParametersType;
 
 
   typename OperatorType::Pointer       pcmOperator   = OperatorType::New();
   typename OptimizerType::Pointer      pcmOptimizer  = OptimizerType::New();
   typename PCMType::Pointer            pcm           = PCMType::New();
 
-  typename ImageSourceType::Pointer    imageSource   = ImageSourceType::New();
-  typename ResamplerType::Pointer      resampler     = ResamplerType::New();
-  typename InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
+  typename FixedImageSourceType::Pointer fixedImageSource = FixedImageSourceType::New();
+  typename MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
 
   SizeType size;
-  double spacing[ NDimension ];
-  double origin[ NDimension ];
+  double spacing[ VDimension ];
+  double origin[ VDimension ];
   typename MovingImageType::SizeType   newMovingSize;
   typename MovingImageType::PointType  newMovingOrigin;
-  for (unsigned int i = 0; i < NDimension; i++)
+  for (unsigned int i = 0; i < VDimension; i++)
     {
     size[i] = 100;
     spacing[i] = 1.0;
@@ -222,53 +173,51 @@ int PhaseCorrelationRegistration( int , char* [] )
     newMovingOrigin[i] = 0.0;
     }
 
+  fixedImageSource->m_ImageSize = size;
+  fixedImageSource->m_ImageSpacing = spacing;
+  fixedImageSource->m_ImageOrigin = origin;
+  typename FixedImageType::ConstPointer fixedImage = fixedImageSource->GenerateImage();
+
+  ParametersType actualParameters(VDimension);
+  for (unsigned int i = 0; i < VDimension; i++)
+    {
+    actualParameters[i] = 3 + i * 4;
+    movingImageSource->m_SphereCenter[i] += actualParameters[i];
+    newMovingOrigin[i] = 10.0 - 2 * i;
+    //spacing[i] = 1.0 / (0.8 + i); //test different spacing (unsupported)
+    if (argc > 4 + int(i))
+      {
+      spacing[i] = atof(argv[4 + i]);
+      }
+    newMovingSize[i] = (unsigned long)(size[i] / spacing[i] + 10 * std::pow(-1, i));
+    }
+
   // increase the resolution and size and crop moving image in 1st dimension
   // this tests the ability of PCM to padd the images to the same real size
   // and to resample the images to the same pixel size and spacing
-  spacing[0] = 0.8;
-  newMovingSize[0] = (unsigned long)( 100.0 / spacing[0]  - 10 );
-
-  imageSource->GenerateImages( size );
-
-  resampler->SetInterpolator( interpolator );
-  resampler->SetDefaultPixelValue( 0 );
-  resampler->SetOutputSpacing( spacing );
-  resampler->SetOutputOrigin( origin );
-  resampler->SetSize( newMovingSize );
-
-  resampler->SetInput( imageSource->GetMovingImage() );
-
-  resampler->Update();
-
-  typename FixedImageType::ConstPointer  fixedImage
-                                            = imageSource->GetFixedImage();
-  typename MovingImageType::Pointer      movingImage
-                                            = resampler->GetOutput();
+  movingImageSource->m_ImageSize = newMovingSize;
+  movingImageSource->m_ImageSpacing = spacing;
 
   // shift the origin of the moving image in 2nd dimension
   // this tests the ability of PCM to introduce between-image origin offset
   // into the transformation (so the final parameters can be directly used to
   // resample the two images into the same coordinate system)
-  // ! supposing that the input images have all origin components == 0.0 !
-  newMovingOrigin[1] = 2.0;
-  movingImage->SetOrigin(newMovingOrigin);
+  movingImageSource->m_ImageOrigin = newMovingOrigin;
+  typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
 
 
-  //
-  // Connect all the components required for Registratio
-  //
+  // Connect all the components required for Registration
   pcm->SetOperator(    pcmOperator  );
   pcm->SetOptimizer(   pcmOptimizer );
   pcm->SetFixedImage(  fixedImage   );
   pcm->SetMovingImage( movingImage  );
 
 
-  //
   // Execute the registration.
   // This can potentially throw an exception
-  //
   try
     {
+    pcm->DebugOn();
     pcm->Update();
     }
   catch( itk::ExceptionObject & e )
@@ -277,32 +226,22 @@ int PhaseCorrelationRegistration( int , char* [] )
     pass = false;
     }
 
-  //
   // Get registration result and validate it.
-  //
-  ParametersType actualParameters    = imageSource->GetActualParameters();
   ParametersType finalParameters     = pcm->GetTransformParameters();
   ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
 
   const unsigned int numberOfParameters = actualParameters.Size();
+  const double tolerance = 0.1;
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
-
-  // Validate first two parameters (introduced by image source)
+  // Validate the translation parameters
   for(unsigned int i=0; i<numberOfParameters; i++)
     {
-    // the parameters are negated in order to get the inverse transformation.
-    // this only works for comparing translation parameters....
     std::cout << finalParameters[i] << " == "
-              << -(actualParameters[i]+newMovingOrigin[i]) << " == "
+              << actualParameters[i] << " == "
               << transformParameters[i] << std::endl;
 
-    if(  ( vnl_math_abs ( finalParameters[i] -
-                          (-(actualParameters[i]+newMovingOrigin[i]))
-                        ) > tolerance ) ||
-         ( vnl_math_abs ( transformParameters[i] -
-                          (-(actualParameters[i]+newMovingOrigin[i]))
-                        ) > tolerance ) )
+    if(  ( itk::Math::abs( finalParameters[i] - actualParameters[i] ) > tolerance ) ||
+         ( itk::Math::abs( transformParameters[i] - actualParameters[i] ) > tolerance ) )
       {
       std::cout << "Tolerance exceeded at component " << i << std::endl;
       pass = false;
@@ -310,7 +249,7 @@ int PhaseCorrelationRegistration( int , char* [] )
     }
 
   // All other parameters must be 0
-  for (unsigned int i=numberOfParameters; i<NDimension; i++)
+  for (unsigned int i=numberOfParameters; i<VDimension; i++)
     {
     if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
         ||
@@ -319,6 +258,53 @@ int PhaseCorrelationRegistration( int , char* [] )
       std::cout << "Tolerance exceeded at component " << i << std::endl;
       pass = false;
       }
+    }
+
+  typedef itk::ImageFileWriter< typename PCMType::RealImageType > WriterType;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( phaseCorrelationFile );
+  writer->SetInput( pcm->GetPhaseCorrelationImage() );
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    pass = false;
+    }
+
+  typedef itk::TransformFileWriterTemplate<double> TransformWriterType;
+  TransformWriterType::Pointer tWriter = TransformWriterType::New();
+  tWriter->SetFileName( argv[3] );
+  const TransformType* oT = pcm->GetOutput()->Get();
+  typedef itk::AffineTransform<double, 3> AffineType;
+  tWriter->SetInput( pcm->GetOutput()->Get() );
+  if (VDimension >= 2 || VDimension <= 3)
+    { //convert into affine which Slicer can read
+    AffineType::Pointer aTr = AffineType::New();
+    AffineType::TranslationType t;
+    t.Fill(0);
+    for (unsigned i = 0; i < VDimension; i++)
+      {
+      t[i] = transformParameters[i];
+      }
+    aTr->SetTranslation(t);
+    tWriter->SetInput(aTr);
+    }
+  else
+    {
+    tWriter->SetInput(oT);
+    }
+
+  try
+    {
+    tWriter->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    pass = false;
     }
 
   if( !pass )
