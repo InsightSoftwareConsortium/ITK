@@ -26,16 +26,15 @@
 
 namespace itk
 {
-
 template< typename TPixel, unsigned int VDimension >
 class HyperSphereImageSource: public itk::Object
 {
 public:
-  typedef HyperSphereImageSource   Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef Array<double>            ParametersType;
+  using Self = HyperSphereImageSource;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ParametersType = Array<double>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -43,7 +42,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(Image, Object);
 
-  typedef itk::Image<TPixel, VDimension > ImageType;
+  using ImageType = itk::Image<TPixel, VDimension>;
 
   ImageType * GenerateImage()
   {
@@ -66,7 +65,7 @@ public:
 
     itk::Point<double, VDimension> p;
     TPixel value;
-    typedef  itk::ImageRegionIteratorWithIndex<ImageType> ImageIteratorType;
+    using ImageIteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
     ImageIteratorType it(m_Image,region);
     while(!it.IsAtEnd())
       {
@@ -108,7 +107,6 @@ public:
   typename ImageType::SpacingType   m_ImageSpacing;
   typename ImageType::DirectionType m_ImageDirection;
 };
-
 }
 
 
@@ -124,40 +122,29 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
     }
   const char * phaseCorrelationFile = argv[2];
 
-  itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
-
-  bool pass = true;
-
-  typedef itk::Image<TFixedImagePixel, VDimension>   FixedImageType;
-  typedef itk::Image<TMovingImagePixel, VDimension>  MovingImageType;
-  typedef typename MovingImageType::SizeType         SizeType;
-
-  // test image sources
-  typedef itk::HyperSphereImageSource<
-      typename FixedImageType::PixelType,
-      VDimension >                                   FixedImageSourceType;
-  typedef itk::HyperSphereImageSource<
-      typename MovingImageType::PixelType,
-      VDimension >                                   MovingImageSourceType;
-
-  typedef itk::PhaseCorrelationImageRegistrationMethod< FixedImageType,
-                                                        MovingImageType >
-                                                     PCMType;
-
-  typedef itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, VDimension >
-                                                     OperatorType;
-
-  typedef itk::MaxPhaseCorrelationOptimizer<PCMType> OptimizerType;
-  typedef typename PCMType::TransformType            TransformType;
-  typedef typename TransformType::ParametersType     ParametersType;
+  using FixedImageType = itk::Image<TFixedImagePixel, VDimension>;
+  using MovingImageType = itk::Image<TMovingImagePixel, VDimension>;
+  using SizeType = typename MovingImageType::SizeType;
+  using FixedImageSourceType = itk::HyperSphereImageSource<typename FixedImageType::PixelType, VDimension>;
+  using MovingImageSourceType = itk::HyperSphereImageSource<typename MovingImageType::PixelType, VDimension>;
+  using PCMType = itk::PhaseCorrelationImageRegistrationMethod<FixedImageType, MovingImageType>;
+  using OperatorType = itk::PhaseCorrelationOperator<typename itk::NumericTraits< TFixedImagePixel >::RealType, VDimension>;
+  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PCMType>;
+  using TransformType = typename PCMType::TransformType;
+  using ParametersType = typename TransformType::ParametersType;
 
 
-  typename OperatorType::Pointer       pcmOperator   = OperatorType::New();
-  typename OptimizerType::Pointer      pcmOptimizer  = OptimizerType::New();
-  typename PCMType::Pointer            pcm           = PCMType::New();
+  typename OperatorType::Pointer pcmOperator = OperatorType::New();
+  typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
+  typename PCMType::Pointer pcm = PCMType::New();
+  pcm->SetOperator(pcmOperator);
+  pcm->SetOptimizer(pcmOptimizer);
 
   typename FixedImageSourceType::Pointer fixedImageSource = FixedImageSourceType::New();
   typename MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
+
+  bool pass = true;
+  itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
   SizeType size;
   double spacing[ VDimension ];
@@ -205,10 +192,6 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   movingImageSource->m_ImageOrigin = newMovingOrigin;
   typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
 
-
-  // Connect all the components required for Registration
-  pcm->SetOperator(    pcmOperator  );
-  pcm->SetOptimizer(   pcmOptimizer );
   pcm->SetFixedImage(  fixedImage   );
   pcm->SetMovingImage( movingImage  );
 
@@ -260,7 +243,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
       }
     }
 
-  typedef itk::ImageFileWriter< typename PCMType::RealImageType > WriterType;
+  using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( phaseCorrelationFile );
   writer->SetInput( pcm->GetPhaseCorrelationImage() );
@@ -274,12 +257,12 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
     pass = false;
     }
 
-  typedef itk::TransformFileWriterTemplate<double> TransformWriterType;
+  using AffineType = itk::AffineTransform<double, 3>;
+  using TransformWriterType = itk::TransformFileWriterTemplate<double>;
   TransformWriterType::Pointer tWriter = TransformWriterType::New();
   tWriter->SetFileName( argv[3] );
   const TransformType* oT = pcm->GetOutput()->Get();
-  typedef itk::AffineTransform<double, 3> AffineType;
-  tWriter->SetInput( pcm->GetOutput()->Get() );
+
   if (VDimension >= 2 || VDimension <= 3)
     { //convert into affine which Slicer can read
     AffineType::Pointer aTr = AffineType::New();
