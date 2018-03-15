@@ -224,7 +224,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
       ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
 
       const unsigned int numberOfParameters = actualParameters.Size();
-      const double tolerance = 0.500001;
+      const double tolerance = 1.0 - 1e-16;
 
       // Validate the translation parameters
       for(unsigned int i=0; i<numberOfParameters; i++)
