@@ -235,6 +235,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       WriteDebug(m_FixedFFT->GetOutput(), "m_FixedFFT.nrrd");
       WriteDebug(m_MovingFFT->GetOutput(), "m_MovingFFT.nrrd");
       }
+    unsigned xSize = m_FixedPadder->GetOutput()->GetLargestPossibleRegion().GetSize(0);
+    m_IFFT->SetActualXDimensionIsOdd(xSize % 2 != 0);
     phaseCorrelation->Allocate();
     m_IFFT->GraftOutput(phaseCorrelation);
     m_IFFT->Update();
