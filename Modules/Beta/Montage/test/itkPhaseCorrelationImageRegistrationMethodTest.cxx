@@ -139,6 +139,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   typename PCMType::Pointer pcm = PCMType::New();
   pcm->SetOperator(pcmOperator);
   pcm->SetOptimizer(pcmOptimizer);
+  pcm->DebugOn();
 
   typename FixedImageSourceType::Pointer fixedImageSource = FixedImageSourceType::New();
   typename MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
@@ -146,149 +147,148 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   bool pass = true;
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
-  SizeType size;
-  double spacing[ VDimension ];
-  double origin[ VDimension ];
-  typename MovingImageType::SizeType   newMovingSize;
-  typename MovingImageType::PointType  newMovingOrigin;
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned size1 = 17; size1 <= 23; size1++)
     {
-    size[i] = 100;
-    spacing[i] = 1.0;
-    origin[i] = 0.0;
-    newMovingSize[i] = 100;
-    newMovingOrigin[i] = 0.0;
-    }
+    std::cout << "Testing size " << size1 << std::endl;
+    fixedImageSource->m_SphereRadius = size1 / 2.0;
+    fixedImageSource->m_SphereCenter.Fill(size1 / 2.0);
+    movingImageSource->m_SphereRadius = size1 / 2.0;
+    movingImageSource->m_SphereCenter.Fill(size1 / 2.0);
 
-  fixedImageSource->m_ImageSize = size;
-  fixedImageSource->m_ImageSpacing = spacing;
-  fixedImageSource->m_ImageOrigin = origin;
-  typename FixedImageType::ConstPointer fixedImage = fixedImageSource->GenerateImage();
+    SizeType size;
+    size.Fill(size1);
+    fixedImageSource->m_ImageSize = size;
+    typename FixedImageType::ConstPointer fixedImage = fixedImageSource->GenerateImage();
 
-  ParametersType actualParameters(VDimension);
-  for (unsigned int i = 0; i < VDimension; i++)
-    {
-    actualParameters[i] = 3 + i * 4;
-    movingImageSource->m_SphereCenter[i] += actualParameters[i];
-    newMovingOrigin[i] = 10.0 - 2 * i;
-    //spacing[i] = 1.0 / (0.8 + i); //test different spacing (unsupported)
-    if (argc > 4 + int(i))
+    ParametersType actualParameters(VDimension);
+    typename MovingImageType::SizeType movingSize;
+    typename MovingImageType::PointType movingOrigin;
+    typename MovingImageType::SpacingType movingSpacing;
+    movingSpacing.Fill(1.0);
+
+    for (unsigned int i = 0; i < VDimension; i++)
       {
-      spacing[i] = atof(argv[4 + i]);
+      actualParameters[i] = -0.1 + i * (1 + size1 * 0.05);
+      movingImageSource->m_SphereCenter[i] += actualParameters[i];
+      movingOrigin[i] = size1 * 0.1 - 2.1 * i;
+      //movingSpacing[i] = 1.0 / (0.8 + i); //test different spacing (unsupported)
+      if (argc > 4 + int(i))
+        {
+        movingSpacing[i] = atof(argv[4 + i]);
+        }
+      movingSize[i] = (unsigned long)(size[i] / movingSpacing[i] + 3 * std::pow(-1, i));
+      movingSize[i] = std::max<itk::SizeValueType>(movingSize[i], 7u);
       }
-    newMovingSize[i] = (unsigned long)(size[i] / spacing[i] + 10 * std::pow(-1, i));
-    }
 
-  // increase the resolution and size and crop moving image in 1st dimension
-  // this tests the ability of PCM to padd the images to the same real size
-  // and to resample the images to the same pixel size and spacing
-  movingImageSource->m_ImageSize = newMovingSize;
-  movingImageSource->m_ImageSpacing = spacing;
+    // modify the size of the moving image
+    // this tests the ability of PCM to padd the images to the same real size
+    movingImageSource->m_ImageSize = movingSize;
+    movingImageSource->m_ImageSpacing = movingSpacing;
 
-  // shift the origin of the moving image in 2nd dimension
-  // this tests the ability of PCM to introduce between-image origin offset
-  // into the transformation (so the final parameters can be directly used to
-  // resample the two images into the same coordinate system)
-  movingImageSource->m_ImageOrigin = newMovingOrigin;
-  typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
+    // shift the origin of the moving image
+    // this tests the ability of PCM to introduce between-image origin offset
+    // into the transformation (so the final parameters can be directly used to
+    // resample the two images into the same coordinate system)
+    movingImageSource->m_ImageOrigin = movingOrigin;
+    typename MovingImageType::ConstPointer movingImage = movingImageSource->GenerateImage();
 
-  pcm->SetFixedImage(  fixedImage   );
-  pcm->SetMovingImage( movingImage  );
+    pcm->SetFixedImage(  fixedImage   );
+    pcm->SetMovingImage( movingImage  );
 
 
-  // Execute the registration.
-  // This can potentially throw an exception
-  try
-    {
-    pcm->DebugOn();
-    pcm->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    pass = false;
-    }
-
-  // Get registration result and validate it.
-  ParametersType finalParameters     = pcm->GetTransformParameters();
-  ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
-
-  const unsigned int numberOfParameters = actualParameters.Size();
-  const double tolerance = 0.1;
-
-  // Validate the translation parameters
-  for(unsigned int i=0; i<numberOfParameters; i++)
-    {
-    std::cout << finalParameters[i] << " == "
-              << actualParameters[i] << " == "
-              << transformParameters[i] << std::endl;
-
-    if(  ( itk::Math::abs( finalParameters[i] - actualParameters[i] ) > tolerance ) ||
-         ( itk::Math::abs( transformParameters[i] - actualParameters[i] ) > tolerance ) )
+    // Execute the registration.
+    // This can potentially throw an exception
+    try
       {
-      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      pcm->Update();
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
       pass = false;
       }
-    }
 
-  // All other parameters must be 0
-  for (unsigned int i=numberOfParameters; i<VDimension; i++)
-    {
-    if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
-        ||
-          ( vnl_math_abs ( finalParameters[i] ) > tolerance ) )
+    // Get registration result and validate it.
+    ParametersType finalParameters     = pcm->GetTransformParameters();
+    ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
+
+    const unsigned int numberOfParameters = actualParameters.Size();
+    const double tolerance = 0.5;
+
+    // Validate the translation parameters
+    for(unsigned int i=0; i<numberOfParameters; i++)
       {
-      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      std::cout << finalParameters[i] << " == "
+                << actualParameters[i] << " == "
+                << transformParameters[i] << std::endl;
+
+      if(  ( itk::Math::abs( finalParameters[i] - actualParameters[i] ) > tolerance ) ||
+           ( itk::Math::abs( transformParameters[i] - actualParameters[i] ) > tolerance ) )
+        {
+        std::cout << "Tolerance exceeded at component " << i << std::endl;
+        pass = false;
+        }
+      }
+
+    // All other parameters must be 0
+    for (unsigned int i=numberOfParameters; i<VDimension; i++)
+      {
+      if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
+          ||
+            ( vnl_math_abs ( finalParameters[i] ) > tolerance ) )
+        {
+        std::cout << "Tolerance exceeded at component " << i << std::endl;
+        pass = false;
+        }
+      }
+
+    using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
+    typename WriterType::Pointer writer = WriterType::New();
+    writer->SetFileName( phaseCorrelationFile );
+    writer->SetInput( pcm->GetPhaseCorrelationImage() );
+    try
+      {
+      writer->Update();
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
       pass = false;
       }
-    }
 
-  using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( phaseCorrelationFile );
-  writer->SetInput( pcm->GetPhaseCorrelationImage() );
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    pass = false;
-    }
+    using AffineType = itk::AffineTransform<double, 3>;
+    using TransformWriterType = itk::TransformFileWriterTemplate<double>;
+    TransformWriterType::Pointer tWriter = TransformWriterType::New();
+    tWriter->SetFileName( argv[3] );
+    const TransformType* oT = pcm->GetOutput()->Get();
 
-  using AffineType = itk::AffineTransform<double, 3>;
-  using TransformWriterType = itk::TransformFileWriterTemplate<double>;
-  TransformWriterType::Pointer tWriter = TransformWriterType::New();
-  tWriter->SetFileName( argv[3] );
-  const TransformType* oT = pcm->GetOutput()->Get();
-
-  if (VDimension >= 2 || VDimension <= 3)
-    { //convert into affine which Slicer can read
-    AffineType::Pointer aTr = AffineType::New();
-    AffineType::TranslationType t;
-    t.Fill(0);
-    for (unsigned i = 0; i < VDimension; i++)
-      {
-      t[i] = transformParameters[i];
+    if (VDimension >= 2 || VDimension <= 3)
+      { //convert into affine which Slicer can read
+      AffineType::Pointer aTr = AffineType::New();
+      AffineType::TranslationType t;
+      t.Fill(0);
+      for (unsigned i = 0; i < VDimension; i++)
+        {
+        t[i] = transformParameters[i];
+        }
+      aTr->SetTranslation(t);
+      tWriter->SetInput(aTr);
       }
-    aTr->SetTranslation(t);
-    tWriter->SetInput(aTr);
-    }
-  else
-    {
-    tWriter->SetInput(oT);
-    }
+    else
+      {
+      tWriter->SetInput(oT);
+      }
 
-  try
-    {
-    tWriter->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    pass = false;
-    }
+    try
+      {
+      tWriter->Update();
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
+      pass = false;
+      }
+    } //for size1
 
   if( !pass )
     {

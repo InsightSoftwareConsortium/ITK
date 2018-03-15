@@ -36,7 +36,7 @@ PhaseCorrelationOptimizer<TImage>
   OffsetOutputPointer offsetDecorator =
       static_cast< OffsetOutputType * >( this->MakeOutput(0).GetPointer() );
   this->ProcessObject::SetNthOutput( 0, offsetDecorator.GetPointer() );
-  itkDebugMacro( "output is " << this->GetOutput()->Get() );
+  //itkDebugMacro( "output is " << this->GetOutput()->Get() );
 }
 
 

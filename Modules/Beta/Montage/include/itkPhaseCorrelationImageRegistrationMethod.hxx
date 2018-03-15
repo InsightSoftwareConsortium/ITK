@@ -27,7 +27,7 @@
 namespace
 {
 template< typename TImage >
-void WriteDebug(TImage* out, const char *filename)
+void WriteDebug(const TImage* out, const char *filename)
 {
   typedef itk::ImageFileWriter<TImage> WriterType;
   typename WriterType::Pointer w = WriterType::New();
@@ -86,7 +86,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
                  static_cast< TransformOutputType * >(
                                   this->MakeOutput(0).GetPointer() );
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
-  std::cout << "output is " << this->GetOutput()->Get() << std::endl;
+  //std::cout << "output is " << this->GetOutput()->Get() << std::endl;
 
   typename RealImageType::Pointer phaseCorrelation = static_cast< RealImageType * >( this->MakeOutput( 1 ).GetPointer() );
   this->ProcessObject::SetNthOutput( 1, phaseCorrelation.GetPointer() );
@@ -226,16 +226,18 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   try
     {
     RealImageType * phaseCorrelation =  static_cast< RealImageType * >( this->ProcessObject::GetOutput(1) );
-    phaseCorrelation->Allocate();
-    m_IFFT->GraftOutput( phaseCorrelation );
-    m_IFFT->Update();
     if (this->GetDebug())
       {
+      WriteDebug(m_FixedImage.GetPointer(), "m_FixedImage.nrrd");
+      WriteDebug(m_MovingImage.GetPointer(), "m_MovingImage.nrrd");
       WriteDebug(m_FixedPadder->GetOutput(), "m_FixedPadder.nrrd");
       WriteDebug(m_MovingPadder->GetOutput(), "m_MovingPadder.nrrd");
       WriteDebug(m_FixedFFT->GetOutput(), "m_FixedFFT.nrrd");
       WriteDebug(m_MovingFFT->GetOutput(), "m_MovingFFT.nrrd");
       }
+    phaseCorrelation->Allocate();
+    m_IFFT->GraftOutput(phaseCorrelation);
+    m_IFFT->Update();
     if ( m_RealOptimizer )
       {
       m_RealOptimizer->Update();
