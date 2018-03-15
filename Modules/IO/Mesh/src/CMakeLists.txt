@@ -11,8 +11,6 @@ set(ITKIOMesh_SRCS
   itkOBJMeshIOFactory.cxx
   itkOFFMeshIO.cxx
   itkOFFMeshIOFactory.cxx
-  itkVTKPolyDataMeshIO.cxx
-  itkVTKPolyDataMeshIOFactory.cxx
   )
 
 itk_module_add_library(ITKIOMesh ${ITKIOMesh_SRCS})

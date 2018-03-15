@@ -16,13 +16,13 @@
  *
  *=========================================================================*/
 
-#include "itkMesh.h"
+#include "itkQuadEdgeMesh.h"
 
 #include "itkMeshFileTestHelper.h"
 
-int itkPolylineReadWriteTest(int argc, char * argv[])
+int itkMeshFileReadWriteTest(int argc, char * argv[])
 {
-  if( argc < 3 )
+  if(argc < 3)
     {
     std::cerr << "Invalid commands, You need input and output mesh file name " << std::endl;
     return EXIT_FAILURE;
@@ -31,13 +31,23 @@ int itkPolylineReadWriteTest(int argc, char * argv[])
   bool IsBinary = ( argc > 3 );
 
   constexpr unsigned int dimension = 3;
-  using PixelType = itk::VariableLengthVector< float >;
-  using MeshType = itk::Mesh< PixelType, dimension >;
+  using PixelType = float;
+
+  using MeshType = itk::Mesh<PixelType, dimension>;
+  using QEMeshType = itk::QuadEdgeMesh<PixelType, dimension>;
+
+  int result = EXIT_SUCCESS;
 
   if( test< MeshType >( argv[1], argv[2], IsBinary ) )
     {
-    return EXIT_FAILURE;
+    std::cerr << "Failure for itk::Mesh" << std::endl;
+    result = EXIT_FAILURE;
+    }
+  if( test< QEMeshType >( argv[1], argv[2], IsBinary ) )
+    {
+    std::cerr << "Failure for itk::QuadEdgeMesh" << std::endl;
+    result = EXIT_FAILURE;
     }
 
-  return EXIT_SUCCESS;
-  }
+  return result;
+}

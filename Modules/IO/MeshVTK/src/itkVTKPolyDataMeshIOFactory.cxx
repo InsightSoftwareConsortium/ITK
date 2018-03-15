@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshVTKExport.h"
 
 #include "itkVTKPolyDataMeshIO.h"
 #include "itkVTKPolyDataMeshIOFactory.h"
@@ -23,15 +23,17 @@
 
 namespace itk
 {
+
 void
 VTKPolyDataMeshIOFactory
 ::PrintSelf(std::ostream &, Indent) const
 {}
 
+
 VTKPolyDataMeshIOFactory
 ::VTKPolyDataMeshIOFactory()
 {
-  this->RegisterOverride( "itkMeshIOBase",
+  this->RegisterOverride("itkMeshIOBase",
                          "itkVTKPolyDataMeshIO",
                          "VTK Polydata IO",
                          1,
@@ -42,12 +44,14 @@ VTKPolyDataMeshIOFactory
 ::~VTKPolyDataMeshIOFactory()
 {}
 
+
 const char *
 VTKPolyDataMeshIOFactory
 ::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
+
 
 const char *
 VTKPolyDataMeshIOFactory
@@ -56,11 +60,12 @@ VTKPolyDataMeshIOFactory
   return "VTK MeshIO Factory, allows the loading of VTK polydata into insight";
 }
 
+
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 static bool VTKPolyDataMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT VTKPolyDataMeshIOFactoryRegister__Private(void)
+void ITKIOMeshVTK_EXPORT VTKPolyDataMeshIOFactoryRegister__Private(void)
 {
   if( ! VTKPolyDataMeshIOFactoryHasBeenRegistered )
     {

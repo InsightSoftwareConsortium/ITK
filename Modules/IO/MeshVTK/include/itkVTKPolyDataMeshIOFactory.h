@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkVTKPolyDataMeshIOFactory_h
 #define itkVTKPolyDataMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshVTKExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -26,9 +26,9 @@ namespace itk
 {
 /** \class VTKPolyDataMeshIOFactory
    * \brief Create instances of VTKPolyDataMeshIO objects using an object factory.
-   * \ingroup ITKIOMesh
+   * \ingroup ITKIOMeshVTK
    */
-class ITKIOMesh_EXPORT VTKPolyDataMeshIOFactory:public ObjectFactoryBase
+class ITKIOMeshVTK_EXPORT VTKPolyDataMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class type aliases. */
@@ -38,9 +38,9 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion(void) const override;
+  const char * GetITKSourceVersion() const override;
 
-  const char * GetDescription(void) const override;
+  const char * GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -49,7 +49,7 @@ public:
   itkTypeMacro(VTKPolyDataMeshIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
     {
     VTKPolyDataMeshIOFactory::Pointer vtkFactory = VTKPolyDataMeshIOFactory::New();
 
