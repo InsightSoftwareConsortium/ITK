@@ -211,7 +211,7 @@ void TransformFileWriterTemplate<double>
       }
     else
       {
-      itkExceptionMacro("The input of writer should be whether a double precision "
+      itkExceptionMacro("The input of writer should be either a double precision "
         "or a single precision transform type. Called from TransformFileWriterTemplate<double,double>::PushBackTransformList(...) "  );
       }
     }
