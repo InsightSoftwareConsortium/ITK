@@ -3,6 +3,7 @@ itk_module_test()
 set(MontageTests
   itkPhaseCorrelationImageRegistrationMethodTest.cxx
   itkPhaseCorrelationImageRegistrationMethodTestFiles.cxx
+  itkMockMontageTest.cxx
   )
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
@@ -108,4 +109,11 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestFiles.nrrd
     168
     -5
+  )
+
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
+  COMMAND MontageTestDriver
+  itkMockMontageTest
+    ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
+    ${TESTING_OUTPUT_PATH}/itkMockMontageTest.csv
   )
