@@ -58,7 +58,6 @@
  * within the itk:: namespace. */
 namespace itk
 {
-class ExceptionObject;
 // end namespace itk - this is here for documentation purposes
 }
 
@@ -721,32 +720,6 @@ compilers.
 #endif
 
 
-/** itkDynamicCastInDebugMode
-  * Use static_cast in Release builds, and dynamic_cast in Debug
-  */
-template <typename TTarget, typename TSource>
-TTarget itkDynamicCastInDebugMode(TSource x)
-{
-#ifndef NDEBUG
-  if(x == 0)
-    {
-    return 0;
-    }
-  TTarget rval = dynamic_cast<TTarget>(x);
-  if(rval == 0)
-    {
-    itkGenericExceptionMacro(<< "Failed dynamic cast to "
-                             << typeid(TTarget).name()
-                             << " object type = "
-                             << x->GetNameOfClass());
-    }
-  return rval;
-#else
-  return static_cast<TTarget>(x);
-#endif
-}
-
-
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //  !!  The ITK Get/Set Macros for various types !!
@@ -1290,5 +1263,34 @@ class kernel                                \
     }
 
 #include "itkExceptionObject.h"
+
+/** itkDynamicCastInDebugMode
+  * Use static_cast in Release builds, and dynamic_cast in Debug
+  *
+  * Note: this must come after:
+  *
+  *   #include "itkExceptionObject.h"
+  */
+template <typename TTarget, typename TSource>
+TTarget itkDynamicCastInDebugMode(TSource x)
+{
+#ifndef NDEBUG
+    if(x == 0)
+      {
+      return 0;
+      }
+    TTarget rval = dynamic_cast<TTarget>(x);
+    if(rval == 0)
+      {
+      itkGenericExceptionMacro(<< "Failed dynamic cast to "
+                               << typeid(TTarget).name()
+                               << " object type = "
+                               << x->GetNameOfClass());
+      }
+    return rval;
+#else
+  return static_cast<TTarget>(x);
+#endif
+}
 
 #endif //end of itkMacro.h
