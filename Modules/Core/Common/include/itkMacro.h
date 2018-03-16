@@ -213,7 +213,7 @@ namespace itk
 //NOTE DEPRECATED should be ITK_NOEXCEPT
 #define ITK_NOEXCEPT_OR_THROW error "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT"
 //NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
-#define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with ITK_DELETED_FUNCTION"
+#define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with = delete"
 //-*-*-*
 
 // DEPRECATED: These macros are left here for compatibility with remote modules.
@@ -332,8 +332,8 @@ namespace itk
 // prohibits the use of copy construction and operator= functions.
 //
 #define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName)         \
-  TypeName(const TypeName&) ITK_DELETED_FUNCTION;      \
-  void operator=(const TypeName&) ITK_DELETED_FUNCTION
+  TypeName(const TypeName&) = delete;                  \
+  TypeName& operator=(const TypeName&) = delete
 
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
