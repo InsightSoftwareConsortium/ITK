@@ -6,6 +6,7 @@ itk_module(ITKIOMesh
     ITKCommon
     ITKIOMeshBase
     ITKIOMeshVTK
+    ITKIOMeshBYU
   PRIVATE_DEPENDS
     ITKIOImageBase
     ITKDoubleConversion

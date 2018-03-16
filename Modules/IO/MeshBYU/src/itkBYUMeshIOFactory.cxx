@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBYUExport.h"
 
 #include "itkBYUMeshIOFactory.h"
 #include "itkBYUMeshIO.h"
@@ -28,7 +28,7 @@ BYUMeshIOFactory
 ::PrintSelf(std::ostream &, Indent) const
 {}
 
-// /////////////////////////////////////////////////////////////////////
+
 BYUMeshIOFactory
 ::BYUMeshIOFactory()
 {
@@ -39,12 +39,12 @@ BYUMeshIOFactory
                          CreateObjectFunction< BYUMeshIO >::New() );
 }
 
-// /////////////////////////////////////////////////////////////////////
+
 BYUMeshIOFactory
 ::~BYUMeshIOFactory()
 {}
 
-// /////////////////////////////////////////////////////////////////////
+
 const char *
 BYUMeshIOFactory
 ::GetITKSourceVersion(void) const
@@ -52,7 +52,7 @@ BYUMeshIOFactory
   return ITK_SOURCE_VERSION;
 }
 
-// /////////////////////////////////////////////////////////////////////
+
 const char *
 BYUMeshIOFactory
 ::GetDescription() const
@@ -64,7 +64,7 @@ BYUMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool BYUMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT BYUMeshIOFactoryRegister__Private(void)
+void ITKIOMeshBYU_EXPORT BYUMeshIOFactoryRegister__Private(void)
 {
   if( ! BYUMeshIOFactoryHasBeenRegistered )
     {
@@ -73,5 +73,4 @@ void ITKIOMesh_EXPORT BYUMeshIOFactoryRegister__Private(void)
     }
 }
 
-// /////////////////////////////////////////////////////////////////////
 } // end namespace itk

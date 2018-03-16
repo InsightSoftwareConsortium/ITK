@@ -18,7 +18,7 @@
 
 #ifndef itkBYUMeshIO_h
 #define itkBYUMeshIO_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBYUExport.h"
 
 #include "itkMeshIOBase.h"
 #include "itkNumberToString.h"
@@ -31,10 +31,10 @@ namespace itk
  * \brief This class defines how to read and write BYU Geometry File Format.
  *
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBYU
  */
 
-class ITKIOMesh_EXPORT BYUMeshIO:public MeshIOBase
+class ITKIOMeshBYU_EXPORT BYUMeshIO:public MeshIOBase
 {
 public:
   /** Standard class type aliases. */

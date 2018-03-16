@@ -32,11 +32,6 @@ itk_add_test(NAME itkMeshFileReadWriteTest05
       ${ITK_TEST_OUTPUT_DIR}/sphere.fsa
 )
 
-itk_add_test(NAME itkMeshFileReadWriteTest06
-      COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest
-      DATA{Baseline/cube.byu}
-      ${ITK_TEST_OUTPUT_DIR}/cube.byu
-)
 itk_add_test(NAME itkMeshFileReadWriteTest07
       COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest
       DATA{Baseline/sphere_curv_b.vtk}

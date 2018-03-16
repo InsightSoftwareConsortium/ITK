@@ -1,6 +1,4 @@
 set(ITKIOMesh_SRCS
-  itkBYUMeshIO.cxx
-  itkBYUMeshIOFactory.cxx
   itkFreeSurferAsciiMeshIO.cxx
   itkFreeSurferAsciiMeshIOFactory.cxx
   itkFreeSurferBinaryMeshIO.cxx
