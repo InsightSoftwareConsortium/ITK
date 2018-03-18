@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkBYUMeshIOFactory_h
 #define itkBYUMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBYUExport.h"
 
 #include "itkMeshIOBase.h"
 #include "itkObjectFactoryBase.h"
@@ -26,9 +26,9 @@ namespace itk
 {
 /** \class BYUMeshIOFactory
    * \brief Create instances of BYUMeshIO objects using an object factory.
-   * \ingroup ITKIOMesh
+   * \ingroup ITKIOMeshBYU
    */
-class ITKIOMesh_EXPORT BYUMeshIOFactory:public ObjectFactoryBase
+class ITKIOMeshBYU_EXPORT BYUMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class type aliases. */
