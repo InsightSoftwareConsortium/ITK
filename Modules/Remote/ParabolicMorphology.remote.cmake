@@ -4,6 +4,6 @@ itk_fetch_module(ParabolicMorphology
   by spheres, sharpenings and grayscale operations.
   http://www.insight-journal.org/browse/publication/228
   https://hdl.handle.net/1926/1370"
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/parabolicMorphology.git
-  GIT_TAG 7e8f4ab8bf895a62eb753c252de94cc8f121f7c2
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKParabolicMorphology.git
+  GIT_TAG compressed = a368fe2d0112b2e55694a47e2090fa19e593a09d
   )
