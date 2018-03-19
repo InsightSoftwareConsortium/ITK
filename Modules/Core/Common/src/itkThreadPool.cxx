@@ -180,27 +180,28 @@ noOperation(void *)
 ThreadPool
 ::~ThreadPool()
 {
-  bool waitForThreads = true;
-#if defined(WIN32) && defined(ITKCommon_EXPORTS)
+  unsigned waitCount = m_Threads.size();
+#if defined(_WIN32) && defined(ITKCommon_EXPORTS)
   //this destructor is called during DllMain's DLL_PROCESS_DETACH.
   //Because ITKCommon-4.X.dll is usually being detached due to process termination,
   //lpvReserved is non-NULL meaning that "all threads in the process
   //except the current thread either have exited already or have been
   //explicitly terminated by a call to the ExitProcess function".
-  if ( !m_Threads.empty() ) //thread pool was used
+  Sleep(1); //give some time to other threads to completely clean up
+  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
     {
-    DWORD dwWaitResult = WaitForSingleObject(m_Threads[0], 1);
-    if (dwWaitResult == WAIT_OBJECT_0) //thread has finished
+    DWORD dwWaitResult = WaitForSingleObject(m_Threads[i], 0);
+    if (dwWaitResult == WAIT_OBJECT_0) //thread has finished!
       {
-      waitForThreads = false;
+      waitCount--;
       }
     }
 #endif
 
-  if (waitForThreads) //add dummy jobs for clean thread exit
+  if (waitCount == m_Threads.size()) //add dummy jobs for clean thread exit
     {
-    std::vector<Semaphore> jobSem(m_Threads.size());
-    for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+    std::vector<Semaphore> jobSem(waitCount);
+    for (ThreadIdType i = 0; i < waitCount; i++)
       {
       ThreadJob dummy;
       dummy.m_ThreadFunction = &noOperation;
@@ -209,7 +210,7 @@ ThreadPool
       AddWork(dummy);
       }
 
-    for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+    for (ThreadIdType i = 0; i < waitCount; i++)
       {
       WaitForJob(jobSem[i]);
       }
