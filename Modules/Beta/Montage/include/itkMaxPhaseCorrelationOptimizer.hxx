@@ -54,6 +54,8 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 ::ComputeOffset()
 {
   ImageConstPointer input = static_cast< ImageType * >(this->GetInput(0));
+  ImageConstPointer fixed = static_cast< ImageType * >(this->GetInput(1));
+  ImageConstPointer moving = static_cast< ImageType * >(this->GetInput(2));
 
   OffsetType offset;
   offset.Fill( 0 );
@@ -75,22 +77,23 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     throw err;
     }
 
-  const typename ImageType::IndexType
-              index = m_MaxCalculator->GetIndexOfMaximum();
-  const typename ImageType::SizeType
-              size = input->GetLargestPossibleRegion().GetSize();
-  const typename ImageType::SpacingType
-              spacing = input->GetSpacing();
+  const typename ImageType::IndexType index = m_MaxCalculator->GetIndexOfMaximum();
+  const typename ImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::SpacingType spacing = input->GetSpacing();
+  const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
+  const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    if ( index[i] > Math::floor( size[i] / 2.0 ) )
+    OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * index[i];
+    OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (index[i] - IndexValueType(size[i]));
+    if (std::abs(directOffset) <= std::abs(mirrorOffset))
       {
-      offset[i] = -1*(index[i] - size[i]) * spacing[i];
+      offset[i] = directOffset;
       }
     else
       {
-      offset[i] = -1*index[i] * spacing[i];
+      offset[i] = mirrorOffset;
       }
     }
 
