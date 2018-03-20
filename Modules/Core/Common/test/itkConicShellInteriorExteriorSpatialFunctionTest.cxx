@@ -151,7 +151,7 @@ int itkConicShellInteriorExteriorSpatialFunctionTest( int, char *[] )
     std::cerr << "Test FAILED ! " << std::endl;
     // ToDo
     // Check this case. See
-    // https://issues.itk.org/jira/browse/ITK-3536
+    // https://insightsoftwareconsortium.atlassian.net/browse/ITK-3536
     //testStatus = EXIT_FAILURE;
     }
   if( outsidePointOutputValue )

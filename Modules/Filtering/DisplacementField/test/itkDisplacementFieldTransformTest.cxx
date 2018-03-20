@@ -549,7 +549,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     std::cout << "Test failed!" << std::endl;
     // ToDo
     // Check this case. See
-    // https://issues.itk.org/jira/browse/ITK-3537
+    // https://insightsoftwareconsortium.atlassian.net/browse/ITK-3537
     //return EXIT_FAILURE;
     }
 

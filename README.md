@@ -18,7 +18,7 @@ Links
 * [Software Guide](https://itk.org/ITKSoftwareGuide/html/)
 * [Help](https://itk.org/ITK/help/help.html)
 * [Examples](https://itk.org/ITKExamples/)
-* [Bugtracker](https://issues.itk.org/)
+* [Bugtracker](http://issues.itk.org/)
 * [Submit a patch](CONTRIBUTING.md)
 
 
