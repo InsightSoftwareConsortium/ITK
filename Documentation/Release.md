@@ -59,7 +59,8 @@ When releasing a new ITK version, the following steps are be taken:
 Initial steps
 -------------
 
-Check the [ITK issue tracker] for critical bugs, or [gerrit] for critical fixes.
+Check the [ITK issue tracking] for critical bugs, or [gerrit] for critical
+fixes.
 
 ### Annoucements
 
@@ -720,7 +721,7 @@ Delete the `kwrobot` time stamp commits.
 Update JIRA issue tracker
 -------------------------
 
-In the [ITK issue tracker] to create a new version to make possible for users
+In the [ITK issue tracking] to create a new version to make possible for users
 to report bug pertaining to that specific ITK release:
 
   * Create the next release target milestone with *Administration* -> *ITK* ->
@@ -812,7 +813,7 @@ excellent packaging.
 [gerrit]: http://review.source.kitware.com/
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK discussion]: https://discourse.itk.org/
-[ITK issue tracker]: http://issues.itk.org/
+[ITK issue tracking]: http://issues.itk.org/
 [ITK Sofware Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
 [ITK wiki examples]: https://itk.org/Wiki/ITK/Examples
