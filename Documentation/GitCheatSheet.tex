@@ -161,6 +161,32 @@ Delete topic, fails if not merged.
 }
 \end{category}
 
+\subsection*{Review}
+\begin{category}{Push for Review}
+\parbox[t]{0.6\cvmain}{%
+  \texttt{git-review-push}
+}
+\parbox[t]{0.38\cvmain}{%
+Push the current topic branch for review.
+}
+\end{category}
+\begin{category}{Review Pull Requests}
+\parbox[t]{0.6\cvmain}{%
+  \texttt{git pr $<$pull-request-number$>$}
+}
+\parbox[t]{0.38\cvmain}{%
+Fetch and check out by number a pull request locally for review.
+}
+\end{category}
+\begin{category}{Clean Pull Requests}
+\parbox[t]{0.6\cvmain}{%
+  \texttt{git pr-clean}
+}
+\parbox[t]{0.38\cvmain}{%
+Clean locally fetched pull requests.
+}
+\end{category}
+
 \subsection*{General Guidelines}
 \begin{category}{Commit Message}
 \parbox[t]{0.6\cvmain}{%
