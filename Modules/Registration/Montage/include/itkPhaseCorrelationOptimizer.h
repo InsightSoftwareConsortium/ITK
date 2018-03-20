@@ -82,6 +82,12 @@ public:
   /** Sets the input image to the optimizer. */
   void SetInput( const ImageType * image );
 
+  /** Sets the fixed image to the optimizer. */
+  void SetFixedImage(const ImageBase<ImageType::ImageDimension> * image);
+
+  /** Sets the fixed image to the optimizer. */
+  void SetMovingImage(const ImageBase<ImageType::ImageDimension> * image);
+
   /** Returns the offset resulting from the registration process  */
   const OffsetOutputType * GetOutput() const;
 

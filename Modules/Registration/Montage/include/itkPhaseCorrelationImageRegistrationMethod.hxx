@@ -146,10 +146,14 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     {
     m_IFFT->SetInput( m_Operator->GetOutput() );
     m_RealOptimizer->SetInput( m_IFFT->GetOutput() );
+    m_RealOptimizer->SetFixedImage( m_FixedImage );
+    m_RealOptimizer->SetMovingImage( m_MovingImage );
     }
   else
     {
     m_ComplexOptimizer->SetInput( m_Operator->GetOutput() );
+    m_ComplexOptimizer->SetFixedImage( m_FixedImage );
+    m_ComplexOptimizer->SetMovingImage( m_MovingImage );
     }
 }
 
@@ -265,15 +269,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     }
   itkDebugMacro( "optimization finished" );
 
-  //
-  // now offset is a real-coordinate shift between the two images
-  // but with origin offset not included
   m_TransformParameters = ParametersType( ImageDimension );
-  typename FixedImageType::PointType fixedOrigin = m_FixedImage->GetOrigin();
-  typename MovingImageType::PointType movingOrigin = m_MovingImage->GetOrigin();
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    m_TransformParameters[i] = offset[i] + ( movingOrigin[i] - fixedOrigin[i] );
+    m_TransformParameters[i] = offset[i];
     }
 
   // set the output transform
