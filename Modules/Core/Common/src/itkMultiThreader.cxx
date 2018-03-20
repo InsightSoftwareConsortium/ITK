@@ -108,7 +108,7 @@ void MultiThreader::SingleMethodExecute()
     }
 
   // obey the global maximum number of threads limit
-  m_NumberOfThreads = std::min( this->GetGlobalMaximumNumberOfThreads(), m_NumberOfThreads );
+  m_NumberOfThreads = std::min( MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), m_NumberOfThreads );
 
   // Init process_id table because a valid process_id (i.e., non-zero), is
   // checked in the WaitForSingleMethodThread loops
