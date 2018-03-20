@@ -25,7 +25,7 @@
 
 /*
  * This test addresses bug
- * https://issues.itk.org/jira/browse/ITK-3153
+ * https://insightsoftwareconsortium.atlassian.net/browse/ITK-3153
  *
  */
 

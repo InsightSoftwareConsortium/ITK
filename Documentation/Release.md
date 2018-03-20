@@ -812,7 +812,7 @@ excellent packaging.
 [gerrit]: http://review.source.kitware.com/
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK discussion]: https://discourse.itk.org/
-[ITK issue tracker]: https://issues.itk.org/jira/secure/Dashboard.jspa
+[ITK issue tracker]: http://issues.itk.org/
 [ITK Sofware Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
 [ITK wiki examples]: https://itk.org/Wiki/ITK/Examples
