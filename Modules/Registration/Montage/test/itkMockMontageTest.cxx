@@ -82,7 +82,7 @@ double calculateError(const TableType& initalCoords, const TableType& actualCoor
 
   static_assert(std::is_same<TransformType, typename PhaseCorrelationMethodType::TransformType>::value,
       "PhaseCorrelationMethod's TransformType is expected to be a TranslationTransform");
-  const typename TransformType* regTr = phaseCorrelationMethod->GetOutput()->Get();
+  const TransformType* regTr = phaseCorrelationMethod->GetOutput()->Get();
 
   //calculate error
   VectorType tr = regTr->GetOffset(); //translation measured by registration
