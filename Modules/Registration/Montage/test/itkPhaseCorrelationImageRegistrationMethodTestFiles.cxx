@@ -49,7 +49,16 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   using MovingReaderType = itk::ImageFileReader< MovingImageType >;
   typename MovingReaderType::Pointer movingReader = MovingReaderType::New();
   movingReader->SetFileName( argv[2] );
-  const MovingImageType * movingImage = movingReader->GetOutput();
+  typename MovingImageType::Pointer movingImage = movingReader->GetOutput();
+  movingImage->Update();
+  movingImage->DisconnectPipeline();
+  
+  typename MovingImageType::PointType origin = movingImage->GetOrigin();  
+  for (unsigned d = 0; d < VDimension; d++)
+    {
+    origin[d] = atof(argv[4 + d]);
+    }
+  movingImage->SetOrigin(origin);
 
   // Registration method
   using PhaseCorrelationMethodType = \
@@ -73,41 +82,21 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   using TransformType = typename PhaseCorrelationMethodType::TransformType;
   using ParametersType = typename TransformType::ParametersType;
 
-  //
-  // Execute the registration.
-  // This can potentially throw an exception
-  //
-  try
-    {
-    phaseCorrelationMethod->Update();
-    }
-  catch( itk::ExceptionObject & error )
-    {
-    std::cerr << error << std::endl;
-    pass = false;
-    }
+  phaseCorrelationMethod->Update();
 
-  //
   // Get registration result and validate it.
-  //
   ParametersType finalParameters     = phaseCorrelationMethod->GetTransformParameters();
   ParametersType transformParameters = phaseCorrelationMethod->GetOutput()->Get()->GetParameters();
 
   const unsigned int numberOfParameters = finalParameters.Size();
   ParametersType actualParameters( numberOfParameters );
-  for (unsigned int ii = 4; ii < 4 + numberOfParameters; ++ii )
+  for (unsigned int ii = 6; ii < 6 + numberOfParameters; ++ii )
     {
-    if( argc < int(ii) + 1 )
-      {
-      std::cerr << "Did not find baseline transform component in argument: " << ii << std::endl;
-      pass = false;
-      return EXIT_FAILURE;
-      }
-    actualParameters[ii - 4] = atof( argv[ii] );
+    actualParameters[ii - 6] = atof( argv[ii] );
     }
 
 
-  const double tolerance = 0.1;  // equivalent to 1 pixel.
+  const double tolerance = 1.0;  // equivalent to 1 pixel.
 
   // Validate first two parameters (introduced by image source)
   for( unsigned int ii = 0; ii < numberOfParameters; ++ii )
@@ -130,15 +119,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( phaseCorrelationMethod->GetPhaseCorrelationImage() );
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    pass = false;
-    }
+  writer->Update();
 
   std::cout << std::endl;
   if( !pass )
@@ -156,11 +137,21 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
 
 int itkPhaseCorrelationImageRegistrationMethodTestFiles( int argc, char* argv[] )
 {
-  if( argc < 3 )
+  if( argc < 7 )
     {
-    std::cerr << "Usage: " << argv[0] << " <fixedImageFile> <movingImageFile>" << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " <fixedImageFile> <movingImageFile> <phaseCorrelationImage>";
+    std::cerr << " initialX initialY trueX trueY" << std::endl;
     return EXIT_FAILURE;
     }
 
-  return itk::PhaseCorrelationRegistrationFiles< 2, unsigned short, unsigned short >( argc, argv );
+  try
+    {
+    return itk::PhaseCorrelationRegistrationFiles< 2, unsigned short, unsigned short >( argc, argv );
+    }
+  catch( itk::ExceptionObject & error )
+    {
+    std::cerr << error << std::endl;
+    return EXIT_FAILURE;
+    }
 }
