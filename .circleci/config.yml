@@ -56,7 +56,9 @@ jobs:
           command: |
             export PATH=/usr/lib/ccache:${PATH}
             mkdir -p ${CTEST_BINARY_DIRECTORY}
-            ctest -V -Ddashboard_no_clean:BOOL=1 -S "${DASHBOARD_BRANCH_DIRECTORY}/circleci.cmake"
+            ctest -V -Ddashboard_no_clean:BOOL=1 \
+              -DCTEST_CUSTOM_WARNING_EXCEPTION:STRING="itkIndex.h:.*warning: array subscript is above array bounds" \
+              -S "${DASHBOARD_BRANCH_DIRECTORY}/circleci.cmake"
       - run:
           name: ccache stats
           when: always
