@@ -107,8 +107,10 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
     DATA{Input/OMC/FlatField/14/100.tif}
     DATA{Input/OMC/FlatField/14/101.tif}
     ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestFiles.nrrd
-    168
-    -5
+    1136.0
+    0.0
+    12.0651
+    4.6711893
   )
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
