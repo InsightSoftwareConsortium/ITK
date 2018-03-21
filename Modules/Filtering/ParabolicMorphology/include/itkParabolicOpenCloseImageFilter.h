@@ -53,11 +53,11 @@ template <typename TInputImage, bool doOpen, typename TOutputImage = TInputImage
 class ITK_EXPORT ParabolicOpenCloseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParabolicOpenCloseImageFilter                 Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = ParabolicOpenCloseImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,37 +66,37 @@ public:
   itkTypeMacro(ParabolicOpenCloseImageFilter, ImageToImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                       InputImageType;
-  typedef TOutputImage                                      OutputImageType;
-  typedef typename TInputImage::PixelType                   PixelType;
-  typedef typename NumericTraits<PixelType>::RealType       RealType;
-  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
-  typedef typename TOutputImage::PixelType                  OutputPixelType;
-  typedef typename OutputImageType::RegionType              OutputImageRegionType;
-  typedef typename TInputImage::SizeType                    InputSizeType;
-  typedef typename TOutputImage::SizeType                   OutputSizeType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using InputSizeType = typename TInputImage::SizeType;
+  using OutputSizeType = typename TOutputImage::SizeType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
-  typedef typename OutputImageType::IndexType OutputIndexType;
+  using OutputIndexType = typename OutputImageType::IndexType;
 
-  /** Image related typedefs. */
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  /** Image related type alias. */
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** a type to represent the "kernel radius" */
-  typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
+  using RadiusType = typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension>;
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
-  typedef typename NumericTraits<PixelType>::FloatType InternalRealType;
-  // typedef typename Image<InternalRealType,
-  //  itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  using InternalRealType = typename NumericTraits<PixelType>::FloatType;
+  // using RealImageType = typename Image<InternalRealType,
+  //  itkGetStaticConstMacro(ImageDimension) >;
 
   // set all of the scales the same
   void
@@ -139,33 +139,31 @@ public:
 #endif
 protected:
   ParabolicOpenCloseImageFilter();
-  virtual ~ParabolicOpenCloseImageFilter() {}
+  ~ParabolicOpenCloseImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
   void
-  GenerateData(void);
+  GenerateData(void) override;
 
   unsigned int
-  SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
+  SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion) override;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  virtual void
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  void
+  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError) override;
 
   // Override since the filter produces the entire dataset.
   void
-  EnlargeOutputRequestedRegion(DataObject * output);
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   int m_ParabolicAlgorithm;
 
 private:
-  ParabolicOpenCloseImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenCloseImageFilter);
 
   RadiusType m_Scale;
 

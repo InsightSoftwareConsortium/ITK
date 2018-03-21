@@ -51,11 +51,11 @@ class ITK_EXPORT ParabolicCloseImageFilter
   : public ParabolicOpenCloseSafeBorderImageFilter<TInputImage, false, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParabolicCloseImageFilter                                                 Self;
-  typedef ParabolicOpenCloseSafeBorderImageFilter<TInputImage, false, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                                        Pointer;
-  typedef SmartPointer<const Self>                                                  ConstPointer;
+  /** Standard class type alias. */
+  using Self = ParabolicCloseImageFilter;
+  using Superclass = ParabolicOpenCloseSafeBorderImageFilter<TInputImage, false, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,22 +64,22 @@ public:
   itkTypeMacro(ParabolicCloseImageFilter, ParabolicOpenCloseSafeBorderImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                       InputImageType;
-  typedef TOutputImage                                      OutputImageType;
-  typedef typename TInputImage::PixelType                   PixelType;
-  typedef typename NumericTraits<PixelType>::RealType       RealType;
-  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
-  typedef typename TOutputImage::PixelType                  OutputPixelType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** a type to represent the "kernel radius" */
-  typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
+  using RadiusType = typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension>;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
@@ -88,9 +88,7 @@ protected:
   virtual ~ParabolicCloseImageFilter() {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
-  ParabolicCloseImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicCloseImageFilter);
 };
 } // end namespace itk
 

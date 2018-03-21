@@ -36,8 +36,8 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
   // negative half of the parabola
   for (long pos = 0; pos < LineLength; pos++)
   {
-    RealType BaseVal = (RealType)m_Extreme; // the base value for
-                                            // comparison
+    auto BaseVal = (RealType)m_Extreme; // the base value for
+                                        // comparison
     for (long krange = koffset; krange <= 0; krange++)
     {
       // difference needs to be paramaterised
@@ -56,7 +56,7 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
   koffset = newcontact = 0;
   for (long pos = LineLength - 1; pos >= 0; pos--)
   {
-    RealType BaseVal = (RealType)m_Extreme; // the base value for comparison
+    auto BaseVal = (RealType)m_Extreme; // the base value for comparison
     for (long krange = koffset; krange >= 0; krange--)
     {
       RealType T = tmpLineBuf[pos + krange] - magnitude * krange * krange;
@@ -197,12 +197,12 @@ doOneDimension(TInIter &          inputIterator,
     INTERSECTION = 2  // default
   };
 
-  //  typedef typename std::vector<RealType> LineBufferType;
+  //  using LineBufferType = typename std::vector<RealType>;
 
   // message from M.Starring suggested performance gain using Array
   // instead of std::vector.
-  typedef typename itk::Array<RealType> LineBufferType;
-  RealType                              iscale = 1.0;
+  using LineBufferType = typename itk::Array<RealType>;
+  RealType iscale = 1.0;
   if (m_UseImageSpacing)
   {
     iscale = image_scale;
@@ -269,7 +269,7 @@ doOneDimension(TInIter &          inputIterator,
   else
   {
     // using the Intersection algorithm
-    typedef typename itk::Array<int> IndexBufferType;
+    using IndexBufferType = typename itk::Array<int>;
 
     const RealType  magnitudeInt = (iscale * iscale) / (2.0 * Sigma);
     LineBufferType  LineBuf(LineLength);

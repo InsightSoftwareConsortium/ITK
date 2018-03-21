@@ -142,15 +142,15 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 
     if (m_SafeBorder)
     {
-      typedef typename itk::ConstantPadImageFilter<InputImageType, InputImageType> PadType;
-      typename PadType::Pointer                                                    pad = PadType::New();
+      using PadType = typename itk::ConstantPadImageFilter<InputImageType, InputImageType>;
+      typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(Pad);
       pad->SetPadUpperBound(Pad);
       pad->SetConstant(1);
       pad->SetInput(inputImage);
       m_CircErode->SetInput(pad->GetOutput());
-      typedef typename itk::CropImageFilter<TOutputImage, TOutputImage> CropType;
-      typename CropType::Pointer                                        crop = CropType::New();
+      using CropType = typename itk::CropImageFilter<TOutputImage, TOutputImage>;
+      typename CropType::Pointer crop = CropType::New();
       crop->SetInput(m_CircCastB->GetOutput());
       crop->SetUpperBoundaryCropSize(Pad);
       crop->SetLowerBoundaryCropSize(Pad);
@@ -192,16 +192,16 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 
     if (m_SafeBorder)
     {
-      typedef typename itk::ConstantPadImageFilter<InputImageType, InputImageType> PadType;
-      typename PadType::Pointer                                                    pad = PadType::New();
+      using PadType = typename itk::ConstantPadImageFilter<InputImageType, InputImageType>;
+      typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(Pad);
       pad->SetPadUpperBound(Pad);
       pad->SetConstant(1);
       pad->SetInput(inputImage);
       m_RectErode->SetInput(pad->GetOutput());
 
-      typedef typename itk::CropImageFilter<TOutputImage, TOutputImage> CropType;
-      typename CropType::Pointer                                        crop = CropType::New();
+      using CropType = typename itk::CropImageFilter<TOutputImage, TOutputImage>;
+      typename CropType::Pointer crop = CropType::New();
       crop->SetInput(m_RectCastB->GetOutput());
       crop->SetUpperBoundaryCropSize(Pad);
       crop->SetLowerBoundaryCropSize(Pad);
