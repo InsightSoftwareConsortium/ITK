@@ -24,8 +24,8 @@ jobs:
             - external-data
       - restore_cache:
           keys:
-            - ccache-{{ arch }}-{{ .Branch }}
-            - ccache-{{ arch }}-master
+            - ccache--v1-{{ arch }}-{{ .Branch }}
+            - ccache-v1-{{ arch }}-master
       - run:
           name: Cloning dashboard branch
           command: |
@@ -73,7 +73,7 @@ jobs:
           path: /tmp/test-results
           destination: ctest
       - save_cache:
-          key: 'ccache-{{ arch }}-{{ .Branch }}-{{ epoch }}'
+          key: 'ccache-v1-{{ arch }}-{{ .Branch }}-{{ epoch }}'
           paths: [ "/home/circleci/.ccache" ]
       - save_cache:
           key: 'external-data'
