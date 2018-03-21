@@ -28,7 +28,7 @@ template < typename TImage >
 PhaseCorrelationOptimizer<TImage>
 ::PhaseCorrelationOptimizer()
 {
-  this->SetNumberOfRequiredInputs( 1 );
+  this->SetNumberOfRequiredInputs( 3 );
   this->SetNumberOfRequiredOutputs( 1 );  // for the parameters
 
   m_Offset.Fill( 0 );
@@ -94,6 +94,36 @@ PhaseCorrelationOptimizer<TImage>
   if ( this->GetInput(0) != image )
     {
     this->ProcessObject::SetNthInput(0, const_cast< ImageType * >( image ) );
+
+    this->Modified();
+    }
+}
+
+
+template < typename TImage >
+void
+PhaseCorrelationOptimizer<TImage>
+::SetFixedImage( const ImageBase<ImageType::ImageDimension> * image )
+{
+  itkDebugMacro("setting fixed image to " << image );
+  if ( this->GetInput(1) != image )
+    {
+    this->ProcessObject::SetNthInput(1, const_cast< ImageBase<ImageType::ImageDimension> * >( image ) );
+
+    this->Modified();
+    }
+}
+
+
+template < typename TImage >
+void
+PhaseCorrelationOptimizer<TImage>
+::SetMovingImage( const ImageBase<ImageType::ImageDimension> * image )
+{
+  itkDebugMacro("setting moving image to " << image );
+  if ( this->GetInput(2) != image )
+    {
+    this->ProcessObject::SetNthInput(2, const_cast< ImageBase<ImageType::ImageDimension> * >( image ) );
 
     this->Modified();
     }

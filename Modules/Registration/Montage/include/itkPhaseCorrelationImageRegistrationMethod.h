@@ -72,7 +72,8 @@ namespace itk
  *  itk::HalfHermitianToRealInverseFFTImageFilter::New() factory.
  *
  *  Step 4. is performed with the run-time supplied PhaseCorrelationOptimizer. It has
- *  to determine the shift from the real or complex correlation surface.
+ *  to determine the shift from the real or complex correlation surface
+ *  and fixed and moving image's origins.
  *
  *
  *  First, plug in the operator, optimizer and the input images. The method
