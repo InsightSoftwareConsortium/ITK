@@ -31,7 +31,7 @@ namespace itk
 /**
  * \class CoherenceEnhancingDiffusionImageFilter
  *
- * \brief Coherence enhanging diffusion and edge enhancing diffusion.
+ * \brief Coherence enhancing diffusion and edge enhancing diffusion.
  *
  * Implementation of Coherence Enhancing Diffusion (CED), and
  * Edge Enhancing Diffusion (EED), as described by Weickert.
