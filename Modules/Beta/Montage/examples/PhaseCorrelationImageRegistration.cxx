@@ -51,11 +51,10 @@ int main( int argc, char *argv[] )
   //
   // read the images
   //
-  const unsigned int                          Dimension = 2;
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  constexpr unsigned int Dimension = 2;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer fixedReader  = ReaderType::New();
   ReaderType::Pointer movingReader = ReaderType::New();
@@ -80,17 +79,16 @@ int main( int argc, char *argv[] )
   // init the registration method
   //
 
-  typedef itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType > RegistrationType;
+  using RegistrationType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
   RegistrationType::Pointer pcmRegistration = RegistrationType::New();
   pcmRegistration->SetFixedImage( fixedReader->GetOutput() );
   pcmRegistration->SetMovingImage( movingReader->GetOutput() );
 
-  typedef itk::PhaseCorrelationOperator< itk::NumericTraits< PixelType >::RealType, Dimension >
-    OperatorType;
+  using OperatorType = itk::PhaseCorrelationOperator< itk::NumericTraits< PixelType >::RealType, Dimension >;
   OperatorType::Pointer pcmOperator = OperatorType::New();
   pcmRegistration->SetOperator( pcmOperator );
 
-  typedef itk::MaxPhaseCorrelationOptimizer<RegistrationType> OptimizerType;
+  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<RegistrationType>;
   OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   pcmRegistration->SetOptimizer( pcmOptimizer );
 
@@ -124,7 +122,7 @@ int main( int argc, char *argv[] )
   //
   // write output transform to file
   //
-  typedef itk::TransformFileWriterTemplate< double > WriterType;
+  using WriterType = itk::TransformFileWriterTemplate< double >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( pcmRegistration->GetOutput()->Get() );
   writer->SetFileName( transformFile );

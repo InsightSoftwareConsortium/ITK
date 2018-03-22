@@ -94,11 +94,11 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationImageRegistrationMethod: public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef PhaseCorrelationImageRegistrationMethod Self;
-  typedef ProcessObject                           Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PhaseCorrelationImageRegistrationMethod;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -107,13 +107,13 @@ public:
   itkTypeMacro(PhaseCorrelationImageRegistrationMethod, ProcessObject);
 
   /**  Type of the Fixed image. */
-  typedef          TFixedImage                     FixedImageType;
-  typedef typename FixedImageType::PixelType       FixedImagePixelType;
-  typedef typename FixedImageType::ConstPointer    FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePixelType = typename FixedImageType::PixelType;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /**  Type of the Moving image. */
-  typedef          TMovingImage                    MovingImageType;
-  typedef typename MovingImageType::ConstPointer   MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro( ImageDimension, unsigned int, FixedImageType::ImageDimension );
@@ -121,49 +121,41 @@ public:
   /** Pixel type, that will be used by internal filters.
    *  It should be float for integral and float inputs and it should
    *  be double for double inputs */
-  typedef typename NumericTraits<FixedImagePixelType>::RealType InternalPixelType;
+  using InternalPixelType = typename NumericTraits<FixedImagePixelType>::RealType;
 
   /** Type of the image, that is passed between the internal components. */
-  typedef Image< InternalPixelType, ImageDimension > RealImageType;
+  using RealImageType = Image< InternalPixelType, ImageDimension >;
 
-  typedef Size<ImageDimension> SizeType;
+  using SizeType = Size<ImageDimension>;
 
   /** Type of the image, that is passed between the internal components. */
-  typedef Image< std::complex< InternalPixelType >,
-                               itkGetStaticConstMacro(ImageDimension) >
-                                                   ComplexConjugateImageType;
+  using ComplexConjugateImageType = Image< std::complex< InternalPixelType >, itkGetStaticConstMacro(ImageDimension) >;
 
   /**  Type of the Operator */
-  typedef          PhaseCorrelationOperator< InternalPixelType, ImageDimension > OperatorType;
-  typedef typename OperatorType::Pointer                                         OperatorPointer;
+  using OperatorType = PhaseCorrelationOperator< InternalPixelType, ImageDimension >;
+  using OperatorPointer = typename OperatorType::Pointer;
 
   /**  Type of the Optimizer */
-  typedef          PhaseCorrelationOptimizer< RealImageType >
-                                                   RealOptimizerType;
-  typedef typename RealOptimizerType::Pointer      RealOptimizerPointer;
-  typedef          PhaseCorrelationOptimizer< ComplexConjugateImageType >
-                                                   ComplexOptimizerType;
-  typedef typename ComplexOptimizerType::Pointer   ComplexOptimizerPointer;
+  using RealOptimizerType = PhaseCorrelationOptimizer< RealImageType >;
+  using RealOptimizerPointer = typename RealOptimizerType::Pointer;
+  using ComplexOptimizerType = PhaseCorrelationOptimizer< ComplexConjugateImageType >;
+  using ComplexOptimizerPointer = typename ComplexOptimizerType::Pointer;
 
   /**  Type for the transform. */
-  typedef          TranslationTransform<
-                           typename MovingImageType::PointType::ValueType,
-                           ImageDimension >
-                                                   TransformType;
-  typedef typename TransformType::Pointer          TransformPointer;
+  using TransformType = TranslationTransform<typename MovingImageType::PointType::ValueType,ImageDimension >;
+  using TransformPointer = typename TransformType::Pointer;
 
   /** Type for the output transform parameters (the shift). */
-  typedef typename TransformType::ParametersType   ParametersType;
+  using ParametersType = typename TransformType::ParametersType;
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  typedef  DataObjectDecorator< TransformType >    TransformOutputType;
-  typedef typename TransformOutputType::Pointer    TransformOutputPointer;
-  typedef typename TransformOutputType::ConstPointer
-                                                   TransformOutputConstPointer;
+  using TransformOutputType = DataObjectDecorator< TransformType >;
+  using TransformOutputPointer = typename TransformOutputType::Pointer;
+  using TransformOutputConstPointer = typename TransformOutputType::ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
   /** Set/Get the Fixed image. */
   void SetFixedImage( const FixedImageType * fixedImage );
@@ -273,11 +265,11 @@ protected:
 
 
   /** Types for internal componets. */
-  typedef ConstantPadImageFilter< FixedImageType, RealImageType >                     FixedPadderType;
-  typedef ConstantPadImageFilter< MovingImageType, RealImageType >                    MovingPadderType;
-  typedef RealToHalfHermitianForwardFFTImageFilter< RealImageType >                   FFTFilterType;
-  typedef typename FFTFilterType::OutputImageType                                     ComplexImageType;
-  typedef HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType > IFFTFilterType;
+  using FixedPadderType = ConstantPadImageFilter< FixedImageType, RealImageType >;
+  using MovingPadderType = ConstantPadImageFilter< MovingImageType, RealImageType >;
+  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< RealImageType >;
+  using ComplexImageType = typename FFTFilterType::OutputImageType;
+  using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType >;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);

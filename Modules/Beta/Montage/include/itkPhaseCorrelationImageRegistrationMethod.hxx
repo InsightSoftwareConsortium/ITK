@@ -29,7 +29,7 @@ namespace
 template< typename TImage >
 void WriteDebug(const TImage* out, const char *filename)
 {
-  typedef itk::ImageFileWriter<TImage> WriterType;
+  using WriterType = itk::ImageFileWriter<TImage>;
   typename WriterType::Pointer w = WriterType::New();
   w->SetInput(out);
   w->SetFileName(filename);
@@ -229,7 +229,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   empty.Fill( 0.0 );
   m_TransformParameters = empty;
   itkDebugMacro( "starting optimization" );
-  typedef typename RealOptimizerType::OffsetType OffsetType;
+  using OffsetType = typename RealOptimizerType::OffsetType;
   OffsetType offset;
   try
     {

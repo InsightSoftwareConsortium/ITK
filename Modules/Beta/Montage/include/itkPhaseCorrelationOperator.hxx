@@ -84,8 +84,8 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   //
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef  ImageRegionConstIterator<ImageType> InputIterator;
-  typedef  ImageRegionIterator<ImageType>      OutputIterator;
+  using InputIterator = ImageRegionConstIterator<ImageType>;
+  using OutputIterator = ImageRegionIterator<ImageType>;
 
   InputIterator fixedIt(fixed, outputRegionForThread);
   InputIterator movingIt(moving, outputRegionForThread);
@@ -215,7 +215,7 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   // The size must be adjusted according to the cropping and scaling
   // that will be made on the image!
   itkDebugMacro( "storing size of pre-FFT image in MetaData" );
-  typedef typename ImageType::SizeValueType SizeScalarType;
+  using SizeScalarType = typename ImageType::SizeValueType;
 
   SizeScalarType fixedX = NumericTraits< SizeScalarType >::Zero;
   SizeScalarType movingX = NumericTraits< SizeScalarType >::Zero;
