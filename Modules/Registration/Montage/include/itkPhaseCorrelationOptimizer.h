@@ -47,34 +47,34 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer: public ProcessObject
 {
 public:
-  typedef PhaseCorrelationOptimizer Self;
-  typedef ProcessObject             Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  using Self = PhaseCorrelationOptimizer;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PhaseCorrelationOptimizer, ProcessObject);
 
   /**  Type of the input image. */
-  typedef          TImage                             ImageType;
-  typedef typename ImageType::ConstPointer            ImageConstPointer;
+  using ImageType = TImage;
+  using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Dimensionality of input and output data. */
   itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
 
   /** Type for the output parameters.
    *  It defines a position in the optimization search space. */
-  typedef typename ImageType::PointType               OffsetType;
-  typedef typename OffsetType::ValueType              OffsetScalarType;
+  using OffsetType = typename ImageType::PointType;
+  using OffsetScalarType = typename OffsetType::ValueType;
 
   /** Type for the output: Using Decorator pattern for enabling
   *  the offset to be passed in the data pipeline */
-  typedef  SimpleDataObjectDecorator< OffsetType >    OffsetOutputType;
-  typedef typename OffsetOutputType::Pointer          OffsetOutputPointer;
-  typedef typename OffsetOutputType::ConstPointer     OffsetOutputConstPointer;
+  using OffsetOutputType = SimpleDataObjectDecorator< OffsetType >;
+  using OffsetOutputPointer = typename OffsetOutputType::Pointer;
+  using OffsetOutputConstPointer = typename OffsetOutputType::ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename DataObject::Pointer                DataObjectPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
   /** Get the computed offset. */
   itkGetConstReferenceMacro( Offset, OffsetType );
