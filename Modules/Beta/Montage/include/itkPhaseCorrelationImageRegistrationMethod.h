@@ -126,6 +126,8 @@ public:
   /** Type of the image, that is passed between the internal components. */
   typedef Image< InternalPixelType, ImageDimension > RealImageType;
 
+  typedef Size<ImageDimension> SizeType;
+
   /** Type of the image, that is passed between the internal components. */
   typedef Image< std::complex< InternalPixelType >,
                                itkGetStaticConstMacro(ImageDimension) >
@@ -186,6 +188,10 @@ public:
   virtual void SetOptimizer (ComplexOptimizerType *);
   itkGetConstObjectMacro( RealOptimizer,  RealOptimizerType );
   itkGetConstObjectMacro( ComplexOptimizer,  ComplexOptimizerType );
+
+  /** Given an image size, returns the smallest size
+   *  which factorizes using FFT's prime factors. */
+  SizeType RoundUpToFFTSize(SizeType inSize);
 
   /** Get the correlation surface.
    *
