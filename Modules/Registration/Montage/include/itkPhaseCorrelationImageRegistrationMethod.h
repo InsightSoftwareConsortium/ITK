@@ -22,6 +22,8 @@
 #include "itkProcessObject.h"
 #include <complex>
 #include "itkConstantPadImageFilter.h"
+#include "itkMirrorPadImageFilter.h"
+#include "itkMirrorPadWithExponentialDecayImageFilter.h"
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkDataObjectDecorator.h"
@@ -200,6 +202,12 @@ public:
   itkSetMacro(PadToSize, SizeType);
   itkGetConstMacro(PadToSize, SizeType);
 
+  /** \class PaddingMethod
+   *  \brief Different methods of padding the images to satisfy FFT size requirements.
+   *  \ingroup Montage */
+  enum class PaddingMethod { Zero, Mirror, MirrorWithExponentialDecay };
+  itkGetConstMacro(PaddingMethod, PaddingMethod);
+  void SetPaddingMethod(const PaddingMethod paddingMethod);
 
   /** Get the correlation surface.
    *
@@ -281,8 +289,14 @@ protected:
 
 
   /** Types for internal componets. */
-  using FixedPadderType = ConstantPadImageFilter< FixedImageType, RealImageType >;
-  using MovingPadderType = ConstantPadImageFilter< MovingImageType, RealImageType >;
+  using FixedPadderImageFilter = PadImageFilter< FixedImageType, RealImageType >;
+  using MovingPadderImageFilter = PadImageFilter< MovingImageType, RealImageType >;
+  using FixedConstantPadderType = ConstantPadImageFilter< FixedImageType, RealImageType >;
+  using MovingConstantPadderType = ConstantPadImageFilter< MovingImageType, RealImageType >;
+  using FixedMirrorPadderType = MirrorPadImageFilter< FixedImageType, RealImageType >;
+  using MovingMirrorPadderType = MirrorPadImageFilter< MovingImageType, RealImageType >;
+  using FixedMirrorWEDPadderType = MirrorPadWithExponentialDecayImageFilter< FixedImageType, RealImageType >;
+  using MovingMirrorWEDPadderType = MirrorPadWithExponentialDecayImageFilter< MovingImageType, RealImageType >;
   using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< RealImageType >;
   using ComplexImageType = typename FFTFilterType::OutputImageType;
   using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType >;
@@ -290,21 +304,29 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);
 
-  OperatorPointer                       m_Operator;
-  RealOptimizerPointer                  m_RealOptimizer;
-  ComplexOptimizerPointer               m_ComplexOptimizer;
+  OperatorPointer         m_Operator;
+  RealOptimizerPointer    m_RealOptimizer;
+  ComplexOptimizerPointer m_ComplexOptimizer;
 
-  MovingImageConstPointer               m_MovingImage;
-  FixedImageConstPointer                m_FixedImage;
+  MovingImageConstPointer m_MovingImage;
+  FixedImageConstPointer  m_FixedImage;
 
-  ParametersType                        m_TransformParameters;
-  SizeType                              m_PadToSize;
+  ParametersType m_TransformParameters;
+  SizeType       m_PadToSize;
+  PaddingMethod  m_PaddingMethod;
 
-  typename FixedPadderType::Pointer     m_FixedPadder;
-  typename MovingPadderType::Pointer    m_MovingPadder;
-  typename FFTFilterType::Pointer       m_FixedFFT;
-  typename FFTFilterType::Pointer       m_MovingFFT;
-  typename IFFTFilterType::Pointer      m_IFFT;
+  typename FixedPadderImageFilter::Pointer    m_FixedPadder;
+  typename MovingPadderImageFilter::Pointer   m_MovingPadder;
+  typename FixedConstantPadderType::Pointer   m_FixedConstantPadder;
+  typename MovingConstantPadderType::Pointer  m_MovingConstantPadder;
+  typename FixedMirrorPadderType::Pointer     m_FixedMirrorPadder;
+  typename MovingMirrorPadderType::Pointer    m_MovingMirrorPadder;
+  typename FixedMirrorWEDPadderType::Pointer  m_FixedMirrorWEDPadder;
+  typename MovingMirrorWEDPadderType::Pointer m_MovingMirrorWEDPadder;
+
+  typename FFTFilterType::Pointer  m_FixedFFT;
+  typename FFTFilterType::Pointer  m_MovingFFT;
+  typename IFFTFilterType::Pointer m_IFFT;
 };
 
 } // end namespace itk

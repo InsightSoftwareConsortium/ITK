@@ -67,19 +67,23 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_RealOptimizer = nullptr; // has to be provided by the user.
   m_ComplexOptimizer = nullptr; // has to be provided by the user.
 
-  m_PadToSize = size0;
+  m_FixedConstantPadder = FixedConstantPadderType::New();
+  m_MovingConstantPadder = MovingConstantPadderType::New();
+  m_FixedMirrorPadder = FixedMirrorPadderType::New();
+  m_MovingMirrorPadder = MovingMirrorPadderType::New();
+  m_FixedMirrorWEDPadder = FixedMirrorWEDPadderType::New();
+  m_MovingMirrorWEDPadder = MovingMirrorWEDPadderType::New();
 
-  m_FixedPadder = FixedPadderType::New();
-  m_MovingPadder = MovingPadderType::New();
   m_FixedFFT = FFTFilterType::New();
   m_MovingFFT = FFTFilterType::New();
   m_IFFT = IFFTFilterType::New();
 
-  m_FixedPadder->SetConstant( 0 );
-  m_MovingPadder->SetConstant( 0 );
+  m_FixedConstantPadder->SetConstant( 0 );
+  m_MovingConstantPadder->SetConstant( 0 );
 
-  m_FixedFFT->SetInput( m_FixedPadder->GetOutput() );
-  m_MovingFFT->SetInput( m_MovingPadder->GetOutput() );
+  m_PadToSize = size0;
+  m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay; //make sure the next call does modifications
+  SetPaddingMethod(PaddingMethod::Zero); //this initializes a few things
 
   m_TransformParameters = ParametersType(ImageDimension);
   m_TransformParameters.Fill( 0.0f );
@@ -92,6 +96,41 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 
   typename RealImageType::Pointer phaseCorrelation = static_cast< RealImageType * >( this->MakeOutput( 1 ).GetPointer() );
   this->ProcessObject::SetNthOutput( 1, phaseCorrelation.GetPointer() );
+}
+
+
+template<typename TFixedImage, typename TMovingImage>
+void
+PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
+::SetPaddingMethod(const PaddingMethod paddingMethod)
+{
+  if ( this->m_PaddingMethod != paddingMethod)
+    {
+    this->m_PaddingMethod = paddingMethod;
+
+    switch (paddingMethod)
+      {
+      case PaddingMethod::Zero:
+        m_FixedPadder = m_FixedConstantPadder;
+        m_MovingPadder = m_MovingConstantPadder;
+        break;
+      case PaddingMethod::Mirror:
+        m_FixedPadder = m_FixedMirrorPadder;
+        m_MovingPadder = m_MovingMirrorPadder;
+        break;
+      case PaddingMethod::MirrorWithExponentialDecay:
+        m_FixedPadder = m_FixedMirrorWEDPadder;
+        m_MovingPadder = m_MovingMirrorWEDPadder;
+        break;
+      default:
+        itkExceptionMacro("Unknown padding method");
+        break;
+      }
+
+    m_FixedFFT->SetInput(m_FixedPadder->GetOutput());
+    m_MovingFFT->SetInput(m_MovingPadder->GetOutput());
+    this->Modified();
+    }
 }
 
 
@@ -447,8 +486,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::SetReleaseDataFlag( bool a_flag )
 {
   Superclass::SetReleaseDataFlag( a_flag );
-  m_FixedPadder->SetReleaseDataFlag( a_flag );
-  m_MovingPadder->SetReleaseDataFlag( a_flag );
+  m_FixedConstantPadder->SetReleaseDataFlag( a_flag );
+  m_MovingConstantPadder->SetReleaseDataFlag( a_flag );
+  m_FixedMirrorPadder->SetReleaseDataFlag(a_flag);
+  m_MovingMirrorPadder->SetReleaseDataFlag(a_flag);
+  m_FixedMirrorWEDPadder->SetReleaseDataFlag(a_flag);
+  m_MovingMirrorWEDPadder->SetReleaseDataFlag(a_flag);
   m_FixedFFT->SetReleaseDataFlag( a_flag );
   m_MovingFFT->SetReleaseDataFlag( a_flag );
   m_IFFT->SetReleaseDataFlag( a_flag );
@@ -461,8 +504,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::SetReleaseDataBeforeUpdateFlag( bool a_flag )
 {
   Superclass::SetReleaseDataBeforeUpdateFlag( a_flag );
-  m_FixedPadder->SetReleaseDataBeforeUpdateFlag( a_flag );
-  m_MovingPadder->SetReleaseDataBeforeUpdateFlag( a_flag );
+  m_FixedConstantPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_MovingConstantPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_FixedMirrorPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_MovingMirrorPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_FixedMirrorWEDPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_MovingMirrorWEDPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
   m_FixedFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_MovingFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_IFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
