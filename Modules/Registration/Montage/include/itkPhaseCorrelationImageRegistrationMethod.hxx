@@ -158,57 +158,61 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-template < typename TFixedImage, typename TMovingImage >
-void
-PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
-::DeterminePadding()
+template<typename TFixedImage, typename TMovingImage>
+typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::SizeType
+PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
+::RoundUpToFFTSize(typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::SizeType size)
 {
-  //
-  //set up padding to resize the images to cover the same real-space area
-  //
-  typename FixedImageType::SizeType fixedSize =
-      m_FixedImage->GetLargestPossibleRegion().GetSize();
-  typename MovingImageType::SizeType movingSize =
-      m_MovingImage->GetLargestPossibleRegion().GetSize();
-
-  typename FixedImageType::SizeType fixedPad;
-  fixedPad.Fill( 0 );
-  typename MovingImageType::SizeType movingPad;
-  movingPad.Fill( 0 );
-
   const SizeValueType sizeGreatestPrimeFactor = m_FixedFFT->GetSizeGreatestPrimeFactor();
 
-  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-    // First, pad so both images have the same size
-    if( fixedSize[ii] == movingSize[ii] )
-      {
-      // no padding required
-      }
-    else if( fixedSize[ii] > movingSize[ii] )
-      {
-      movingPad[ii] = fixedSize[ii] - movingSize[ii];
-      }
-    else
-      {
-      fixedPad[ii] = movingSize[ii] - fixedSize[ii];
-      }
-
-    // Next, pad for the requirements of the FFT filter
     if( sizeGreatestPrimeFactor > 1 )
       {
-      while( Math::GreatestPrimeFactor( fixedSize[ii] + fixedPad[ii] ) > sizeGreatestPrimeFactor )
+      while( Math::GreatestPrimeFactor( size[d] ) > sizeGreatestPrimeFactor )
         {
-        ++fixedPad[ii];
-        ++movingPad[ii];
+        ++size[d];
         }
       }
     else if( sizeGreatestPrimeFactor == 1 )
       {
       // make sure the total size is even
-      fixedPad[ii] += ( fixedSize[ii] + fixedPad[ii] ) % 2;
-      movingPad[ii] += ( movingSize[ii] + movingPad[ii] ) % 2;
+      size[d] += size[d] % 2;
       }
+    }
+
+  return size;
+}
+
+template < typename TFixedImage, typename TMovingImage >
+void
+PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
+::DeterminePadding()
+{
+  //set up padding to resize the images to the same size
+  SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
+  SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
+  SizeType maxSize;
+
+  for (unsigned int d = 0; d < ImageDimension; ++d)
+    {
+    if( fixedSize[d] >= movingSize[d] )
+      {
+      maxSize[d] = fixedSize[d];
+      }
+    else
+      {
+      maxSize[d] = movingSize[d];
+      }
+    }
+
+  SizeType fftSize = RoundUpToFFTSize(maxSize);
+
+  SizeType fixedPad, movingPad;
+  for (unsigned int d = 0; d < ImageDimension; ++d)
+    {
+    fixedPad[d] = fftSize[d] - fixedSize[d];
+    movingPad[d] = fftSize[d] - movingSize[d];
     }
 
   m_FixedPadder->SetPadUpperBound( fixedPad );
@@ -482,7 +486,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     this->Modified();
     }
 }
-
 
 } // end namespace itk
 
