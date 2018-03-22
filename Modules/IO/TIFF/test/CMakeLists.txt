@@ -123,7 +123,7 @@ itk_add_test(NAME itkTIFFImageIOFloatTest
       COMMAND ITKIOTIFFTestDriver
       --compare DATA{Baseline/itkTIFFImageIORGBATestBaseline.tif}
               ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif
-    itkTIFFImageIOTest DATA{Input/RGBAHead.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif 3 2)
+    itkTIFFImageIOTest DATA{Input/RGBAHead.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif 3 5)
 
 itk_add_test(NAME itkTIFFImageIOOrientation1
       COMMAND ITKIOTIFFTestDriver
@@ -155,6 +155,11 @@ itk_add_test(NAME itkTIFFImageIOPlannarConfig2
       --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig2.tif
               91975481ba66709c8f3ccb538af5cd2a
     itkTIFFImageIOTest DATA{Input/ps-separated.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig2.tif 2 1)
+itk_add_test(NAME itkTIFFImageIOTestUShortPlanarConfig2
+      COMMAND ITKIOTIFFTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/ShortPlanarTestImage.tiff}
+              ${ITK_TEST_OUTPUT_DIR}/ShortPlanarTestImage.tiff
+    itkTIFFImageIOTest DATA{${ITK_DATA_ROOT}/Input/ShortPlanarTestImage.tiff} ${ITK_TEST_OUTPUT_DIR}/ShortPlanarTestImage.tiff 2 5)
 
 itk_add_test(NAME itkTIFFImageIOInfoTest1
       COMMAND ITKIOTIFFTestDriver
