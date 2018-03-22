@@ -157,10 +157,10 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
 
   for (unsigned size1 = 17; size1 <= 31; size1++)
     {
-    std::cout << "Testing size " << size1 << std::endl;
-    for (const auto coef : testCoefficients)
+    std::cout << "\nSize " << size1 << std::endl;
+    for (const auto& coef : testCoefficients)
       {
-      //std::cout << "Testing coefficients " << coef << std::endl;
+      std::cout << "Coefficient set " << (&coef - &testCoefficients[0]) << std::endl;
       fixedImageSource->m_SphereRadius = size1 / coef[0];
       fixedImageSource->m_SphereCenter.Fill(size1 / 2.0);
       movingImageSource->m_SphereRadius = size1 / coef[0];
@@ -206,99 +206,108 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
       pcm->SetFixedImage(  fixedImage   );
       pcm->SetMovingImage( movingImage  );
 
-
-      // Execute the registration.
-      // This can potentially throw an exception
-      try
+      using PadMethod = PCMType::PaddingMethod;
+      for (auto padMethod : { PadMethod::Zero, PadMethod::Mirror, PadMethod::MirrorWithExponentialDecay })
         {
-        pcm->Update();
-        }
-      catch( itk::ExceptionObject & e )
-        {
-        std::cerr << e << std::endl;
-        pass = false;
-        }
-
-      // Get registration result and validate it.
-      ParametersType finalParameters     = pcm->GetTransformParameters();
-      ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
-
-      const unsigned int numberOfParameters = actualParameters.Size();
-      const double tolerance = 1.0 - 1e-16;
-
-      // Validate the translation parameters
-      for(unsigned int i=0; i<numberOfParameters; i++)
-        {
-        std::cout << finalParameters[i] << " == "
-                  << actualParameters[i] << " == "
-                  << transformParameters[i] << std::endl;
-
-        if(  ( itk::Math::abs( finalParameters[i] - actualParameters[i] ) > tolerance ) ||
-             ( itk::Math::abs( transformParameters[i] - actualParameters[i] ) > tolerance ) )
+        pcm->SetPaddingMethod(padMethod);
+        std::cout << "Padding method " << static_cast<int>(padMethod) << std::endl;
+        // Execute the registration.
+        // This can potentially throw an exception
+        try
           {
-          std::cout << "Tolerance exceeded at component " << i << std::endl;
+          pcm->Update();
+          }
+        catch( itk::ExceptionObject & e )
+          {
+          std::cerr << e << std::endl;
           pass = false;
           }
-        }
 
-      // All other parameters must be 0
-      for (unsigned int i=numberOfParameters; i<VDimension; i++)
-        {
-        if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
-            ||
-              ( vnl_math_abs ( finalParameters[i] ) > tolerance ) )
+        // Get registration result and validate it.
+        ParametersType finalParameters     = pcm->GetTransformParameters();
+        ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
+
+        const unsigned int numberOfParameters = actualParameters.Size();
+        const double tolerance = 1.0 - 1e-16;
+
+        // Validate the translation parameters
+        for(unsigned int i=0; i<numberOfParameters; i++)
           {
-          std::cout << "Tolerance exceeded at component " << i << std::endl;
+          std::cout << finalParameters[i] << " == "
+                    << actualParameters[i] << " == "
+                    << transformParameters[i];
+
+          if(  ( itk::Math::abs( finalParameters[i] - actualParameters[i] ) > tolerance ) ||
+               ( itk::Math::abs( transformParameters[i] - actualParameters[i] ) > tolerance ) )
+            {
+            std::cout << "    Tolerance exceeded at component " << i << std::endl;
+            pass = false;
+            }
+          else
+            {
+            std::cout << std::endl;
+            }
+          }
+
+        // All other parameters must be 0
+        for (unsigned int i=numberOfParameters; i<VDimension; i++)
+          {
+          if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
+              ||
+                ( vnl_math_abs ( finalParameters[i] ) > tolerance ) )
+            {
+            std::cout << "Tolerance exceeded at component " << i << std::endl;
+            pass = false;
+            }
+          }
+
+        using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
+        typename WriterType::Pointer writer = WriterType::New();
+        writer->SetFileName( phaseCorrelationFile );
+        writer->SetInput( pcm->GetPhaseCorrelationImage() );
+        try
+          {
+          writer->Update();
+          }
+        catch( itk::ExceptionObject & e )
+          {
+          std::cerr << e << std::endl;
           pass = false;
           }
-        }
 
-      using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
-      typename WriterType::Pointer writer = WriterType::New();
-      writer->SetFileName( phaseCorrelationFile );
-      writer->SetInput( pcm->GetPhaseCorrelationImage() );
-      try
-        {
-        writer->Update();
-        }
-      catch( itk::ExceptionObject & e )
-        {
-        std::cerr << e << std::endl;
-        pass = false;
-        }
+        using AffineType = itk::AffineTransform<double, 3>;
+        using TransformWriterType = itk::TransformFileWriterTemplate<double>;
+        TransformWriterType::Pointer tWriter = TransformWriterType::New();
+        tWriter->SetFileName( argv[3] );
+        const TransformType* oT = pcm->GetOutput()->Get();
 
-      using AffineType = itk::AffineTransform<double, 3>;
-      using TransformWriterType = itk::TransformFileWriterTemplate<double>;
-      TransformWriterType::Pointer tWriter = TransformWriterType::New();
-      tWriter->SetFileName( argv[3] );
-      const TransformType* oT = pcm->GetOutput()->Get();
-
-      if (VDimension >= 2 || VDimension <= 3)
-        { //convert into affine which Slicer can read
-        AffineType::Pointer aTr = AffineType::New();
-        AffineType::TranslationType t;
-        t.Fill(0);
-        for (unsigned i = 0; i < VDimension; i++)
-          {
-          t[i] = transformParameters[i];
+        if (VDimension >= 2 || VDimension <= 3)
+          { //convert into affine which Slicer can read
+          AffineType::Pointer aTr = AffineType::New();
+          AffineType::TranslationType t;
+          t.Fill(0);
+          for (unsigned i = 0; i < VDimension; i++)
+            {
+            t[i] = transformParameters[i];
+            }
+          aTr->SetTranslation(t);
+          tWriter->SetInput(aTr);
           }
-        aTr->SetTranslation(t);
-        tWriter->SetInput(aTr);
-        }
-      else
-        {
-        tWriter->SetInput(oT);
-        }
+        else
+          {
+          tWriter->SetInput(oT);
+          }
 
-      try
-        {
-        tWriter->Update();
-        }
-      catch( itk::ExceptionObject & e )
-        {
-        std::cerr << e << std::endl;
-        pass = false;
-        }
+        try
+          {
+          tWriter->Update();
+          }
+        catch( itk::ExceptionObject & e )
+          {
+          std::cerr << e << std::endl;
+          pass = false;
+          }
+        } //for padMethod
       } //for testCoefficients
     } //for size1
 

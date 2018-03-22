@@ -52,8 +52,8 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   typename MovingImageType::Pointer movingImage = movingReader->GetOutput();
   movingImage->Update();
   movingImage->DisconnectPipeline();
-  
-  typename MovingImageType::PointType origin = movingImage->GetOrigin();  
+
+  typename MovingImageType::PointType origin = movingImage->GetOrigin();
   for (unsigned d = 0; d < VDimension; d++)
     {
     origin[d] = atof(argv[4 + d]);
@@ -82,44 +82,50 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   using TransformType = typename PhaseCorrelationMethodType::TransformType;
   using ParametersType = typename TransformType::ParametersType;
 
-  phaseCorrelationMethod->Update();
-
-  // Get registration result and validate it.
-  ParametersType finalParameters     = phaseCorrelationMethod->GetTransformParameters();
-  ParametersType transformParameters = phaseCorrelationMethod->GetOutput()->Get()->GetParameters();
-
-  const unsigned int numberOfParameters = finalParameters.Size();
-  ParametersType actualParameters( numberOfParameters );
-  for (unsigned int ii = 6; ii < 6 + numberOfParameters; ++ii )
+  using PadMethod = PhaseCorrelationMethodType::PaddingMethod;
+  for (auto padMethod : { PadMethod::Zero, PadMethod::Mirror, PadMethod::MirrorWithExponentialDecay })
     {
-    actualParameters[ii - 6] = atof( argv[ii] );
-    }
+    phaseCorrelationMethod->SetPaddingMethod(padMethod);
+    std::cout << "Padding method " << static_cast<int>(padMethod) << std::endl;
+    phaseCorrelationMethod->Update();
 
+    // Get registration result and validate it.
+    ParametersType finalParameters     = phaseCorrelationMethod->GetTransformParameters();
+    ParametersType transformParameters = phaseCorrelationMethod->GetOutput()->Get()->GetParameters();
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
-
-  // Validate first two parameters (introduced by image source)
-  for( unsigned int ii = 0; ii < numberOfParameters; ++ii )
-    {
-    // the parameters are negated in order to get the inverse transformation.
-    // this only works for comparing translation parameters....
-    std::cout << finalParameters[ii] << " == "
-              << actualParameters[ii] << " == "
-              << transformParameters[ii] << std::endl;
-
-    if(  ( itk::Math::abs( finalParameters[ii] - actualParameters[ii] ) > tolerance ) ||
-         ( itk::Math::abs( transformParameters[ii] - actualParameters[ii] ) > tolerance ) )
+    const unsigned int numberOfParameters = finalParameters.Size();
+    ParametersType actualParameters( numberOfParameters );
+    for (unsigned int ii = 6; ii < 6 + numberOfParameters; ++ii )
       {
-      std::cerr << "Tolerance exceeded at component " << ii << std::endl;
-      pass = false;
+      actualParameters[ii - 6] = atof( argv[ii] );
       }
-    }
 
-  using WriterType = itk::ImageFileWriter< typename PhaseCorrelationMethodType::RealImageType >;
-  typename WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( phaseCorrelationMethod->GetPhaseCorrelationImage() );
-  writer->Update();
+
+    const double tolerance = 1.0;  // equivalent to 1 pixel.
+
+    // Validate first two parameters (introduced by image source)
+    for( unsigned int ii = 0; ii < numberOfParameters; ++ii )
+      {
+      // the parameters are negated in order to get the inverse transformation.
+      // this only works for comparing translation parameters....
+      std::cout << finalParameters[ii] << " == "
+                << actualParameters[ii] << " == "
+                << transformParameters[ii] << std::endl;
+
+      if(  ( itk::Math::abs( finalParameters[ii] - actualParameters[ii] ) > tolerance ) ||
+           ( itk::Math::abs( transformParameters[ii] - actualParameters[ii] ) > tolerance ) )
+        {
+        std::cerr << "Tolerance exceeded at component " << ii << std::endl;
+        pass = false;
+        }
+      }
+
+    using WriterType = itk::ImageFileWriter< typename PhaseCorrelationMethodType::RealImageType >;
+    typename WriterType::Pointer writer = WriterType::New();
+    writer->SetFileName( argv[3] );
+    writer->SetInput( phaseCorrelationMethod->GetPhaseCorrelationImage() );
+    writer->Update();
+    }
 
   std::cout << std::endl;
   if( !pass )
