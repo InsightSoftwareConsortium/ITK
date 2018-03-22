@@ -67,6 +67,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_RealOptimizer = nullptr; // has to be provided by the user.
   m_ComplexOptimizer = nullptr; // has to be provided by the user.
 
+  m_PadToSize = size0;
+
   m_FixedPadder = FixedPadderType::New();
   m_MovingPadder = MovingPadderType::New();
   m_FixedFFT = FFTFilterType::New();
@@ -189,24 +191,33 @@ void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::DeterminePadding()
 {
-  //set up padding to resize the images to the same size
   SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
   SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
-  SizeType maxSize;
+  SizeType fftSize;
 
-  for (unsigned int d = 0; d < ImageDimension; ++d)
+  if ( m_PadToSize == size0 )
     {
-    if( fixedSize[d] >= movingSize[d] )
-      {
-      maxSize[d] = fixedSize[d];
-      }
-    else
-      {
-      maxSize[d] = movingSize[d];
-      }
-    }
+    //set up padding to resize the images to the same size
+    SizeType maxSize;
 
-  SizeType fftSize = RoundUpToFFTSize(maxSize);
+    for (unsigned int d = 0; d < ImageDimension; ++d)
+      {
+      if( fixedSize[d] >= movingSize[d] )
+        {
+        maxSize[d] = fixedSize[d];
+        }
+      else
+        {
+        maxSize[d] = movingSize[d];
+        }
+      }
+
+    fftSize = RoundUpToFFTSize(maxSize);
+    }
+  else
+    {
+    fftSize = m_PadToSize;
+    }
 
   SizeType fixedPad, movingPad;
   for (unsigned int d = 0; d < ImageDimension; ++d)

@@ -118,6 +118,9 @@ public:
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro( ImageDimension, unsigned int, FixedImageType::ImageDimension );
 
+  /** Image and region size type. */
+  using SizeType = Size<ImageDimension>;
+
   /** Pixel type, that will be used by internal filters.
    *  It should be float for integral and float inputs and it should
    *  be double for double inputs */
@@ -125,8 +128,6 @@ public:
 
   /** Type of the image, that is passed between the internal components. */
   using RealImageType = Image< InternalPixelType, ImageDimension >;
-
-  using SizeType = Size<ImageDimension>;
 
   /** Type of the image, that is passed between the internal components. */
   using ComplexConjugateImageType = Image< std::complex< InternalPixelType >, itkGetStaticConstMacro(ImageDimension) >;
@@ -184,6 +185,21 @@ public:
   /** Given an image size, returns the smallest size
    *  which factorizes using FFT's prime factors. */
   SizeType RoundUpToFFTSize(SizeType inSize);
+
+  /** A size with all elements initialized to 0. */
+  const SizeType size0 = { 0 };
+
+  /** Set/Get the PadToSize.
+   *  Unset by setting a size of all zeroes.
+   *  size0 constant can be used for that purpose.
+   *
+   *  If PadToSize is set, image sizes are ignored and this size is used.
+   *
+   *  If used in a montage, a maximum image size can be determined,
+   *  RoundUpToFFTSize() called and the resulting size set as PadToSize. */
+  itkSetMacro(PadToSize, SizeType);
+  itkGetConstMacro(PadToSize, SizeType);
+
 
   /** Get the correlation surface.
    *
@@ -282,6 +298,7 @@ private:
   FixedImageConstPointer                m_FixedImage;
 
   ParametersType                        m_TransformParameters;
+  SizeType                              m_PadToSize;
 
   typename FixedPadderType::Pointer     m_FixedPadder;
   typename MovingPadderType::Pointer    m_MovingPadder;
