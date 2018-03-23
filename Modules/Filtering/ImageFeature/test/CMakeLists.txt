@@ -24,6 +24,7 @@ itkUnsharpMaskImageFilterTestSimple.cxx
 itkUnsharpMaskImageFilterTest.cxx
 itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest.cxx
 itkDiscreteGaussianDerivativeImageFilterTest.cxx
+itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
@@ -209,6 +210,11 @@ itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest03
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteGaussianDerivativeImageFilterTest03.png}
               ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest03.png
     itkDiscreteGaussianDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest03.png 0 3 3.0)
+itk_add_test(NAME itkMultiScaleHessianBasedMeasureImageFilterTest
+      COMMAND ITKImageFeatureTestDriver
+          --compare DATA{Baseline/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha
+              itkMultiScaleHessianBasedMeasureImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DSA.png} ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestScalesOutput.mha 5 10 10 1 0 ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha)
 
 itk_python_add_test(NAME itkGradientVectorFlowImageFilterPythonTest
     TEST_DRIVER_ARGS
