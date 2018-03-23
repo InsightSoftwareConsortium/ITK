@@ -1,3 +1,16 @@
+referenced:
+  generate-hash-step: &generate-hash-step
+    run:
+      name: Generate external data hash
+      command: |
+        cd ITK
+        find . -name \*.md5 -o -name \*.sha512 -print0 | xargs -d "\n" git log -n 1 | tee /home/circleci/external-data.hashable
+  restore-data-step: &restore-data-step
+     restore_cache:
+       keys:
+         - 'v1-external-data-{{ checksum "/home/circleci/external-data.hashable" }}'
+         - 'v1-external-data'
+
 version: 2
 jobs:
   build:
@@ -19,9 +32,8 @@ jobs:
     steps:
       - checkout:
           path : ~/ITK
-      - restore_cache:
-          keys:
-            - external-data
+      - *generate-hash-step
+      - *restore-data-step
       - restore_cache:
           keys:
             - ccache-{{ arch }}-{{ .Branch }}
@@ -78,5 +90,5 @@ jobs:
           key: 'ccache-{{ arch }}-{{ .Branch }}-{{ epoch }}'
           paths: [ "/home/circleci/.ccache" ]
       - save_cache:
-          key: 'external-data'
+          key: 'v1-external-data-{{ checksum "/home/circleci/external-data.hashable" }}'
           paths: [ "/home/circleci/.ExternalData" ]
