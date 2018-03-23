@@ -48,7 +48,7 @@ namespace itk
 static bool GlobalDefaultUseThreadPoolIsInitialized=false;
 static SimpleFastMutexLock globalDefaultInitializerLock;
 
-bool MultiThreaderBase::m_GlobalDefaultUseThreadPool = false;
+bool MultiThreaderBase::m_GlobalDefaultUseThreadPool = true;
 
 void MultiThreaderBase::SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool )
   {
