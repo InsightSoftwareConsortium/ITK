@@ -29,7 +29,7 @@ namespace
 template< typename TImage >
 void WriteDebug(const TImage* out, const char *filename)
 {
-  typedef itk::ImageFileWriter<TImage> WriterType;
+  using WriterType = itk::ImageFileWriter<TImage>;
   typename WriterType::Pointer w = WriterType::New();
   w->SetInput(out);
   w->SetFileName(filename);
@@ -67,17 +67,23 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_RealOptimizer = nullptr; // has to be provided by the user.
   m_ComplexOptimizer = nullptr; // has to be provided by the user.
 
-  m_FixedPadder = FixedPadderType::New();
-  m_MovingPadder = MovingPadderType::New();
+  m_FixedConstantPadder = FixedConstantPadderType::New();
+  m_MovingConstantPadder = MovingConstantPadderType::New();
+  m_FixedMirrorPadder = FixedMirrorPadderType::New();
+  m_MovingMirrorPadder = MovingMirrorPadderType::New();
+  m_FixedMirrorWEDPadder = FixedMirrorWEDPadderType::New();
+  m_MovingMirrorWEDPadder = MovingMirrorWEDPadderType::New();
+
   m_FixedFFT = FFTFilterType::New();
   m_MovingFFT = FFTFilterType::New();
   m_IFFT = IFFTFilterType::New();
 
-  m_FixedPadder->SetConstant( 0 );
-  m_MovingPadder->SetConstant( 0 );
+  m_FixedConstantPadder->SetConstant( 0 );
+  m_MovingConstantPadder->SetConstant( 0 );
 
-  m_FixedFFT->SetInput( m_FixedPadder->GetOutput() );
-  m_MovingFFT->SetInput( m_MovingPadder->GetOutput() );
+  m_PadToSize = size0;
+  m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay; //make sure the next call does modifications
+  SetPaddingMethod(PaddingMethod::Zero); //this initializes a few things
 
   m_TransformParameters = ParametersType(ImageDimension);
   m_TransformParameters.Fill( 0.0f );
@@ -90,6 +96,41 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 
   typename RealImageType::Pointer phaseCorrelation = static_cast< RealImageType * >( this->MakeOutput( 1 ).GetPointer() );
   this->ProcessObject::SetNthOutput( 1, phaseCorrelation.GetPointer() );
+}
+
+
+template<typename TFixedImage, typename TMovingImage>
+void
+PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
+::SetPaddingMethod(const PaddingMethod paddingMethod)
+{
+  if ( this->m_PaddingMethod != paddingMethod)
+    {
+    this->m_PaddingMethod = paddingMethod;
+
+    switch (paddingMethod)
+      {
+      case PaddingMethod::Zero:
+        m_FixedPadder = m_FixedConstantPadder;
+        m_MovingPadder = m_MovingConstantPadder;
+        break;
+      case PaddingMethod::Mirror:
+        m_FixedPadder = m_FixedMirrorPadder;
+        m_MovingPadder = m_MovingMirrorPadder;
+        break;
+      case PaddingMethod::MirrorWithExponentialDecay:
+        m_FixedPadder = m_FixedMirrorWEDPadder;
+        m_MovingPadder = m_MovingMirrorWEDPadder;
+        break;
+      default:
+        itkExceptionMacro("Unknown padding method");
+        break;
+      }
+
+    m_FixedFFT->SetInput(m_FixedPadder->GetOutput());
+    m_MovingFFT->SetInput(m_MovingPadder->GetOutput());
+    this->Modified();
+    }
 }
 
 
@@ -158,57 +199,70 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-template < typename TFixedImage, typename TMovingImage >
-void
-PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
-::DeterminePadding()
+template<typename TFixedImage, typename TMovingImage>
+typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::SizeType
+PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
+::RoundUpToFFTSize(typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::SizeType size)
 {
-  //
-  //set up padding to resize the images to cover the same real-space area
-  //
-  typename FixedImageType::SizeType fixedSize =
-      m_FixedImage->GetLargestPossibleRegion().GetSize();
-  typename MovingImageType::SizeType movingSize =
-      m_MovingImage->GetLargestPossibleRegion().GetSize();
-
-  typename FixedImageType::SizeType fixedPad;
-  fixedPad.Fill( 0 );
-  typename MovingImageType::SizeType movingPad;
-  movingPad.Fill( 0 );
-
   const SizeValueType sizeGreatestPrimeFactor = m_FixedFFT->GetSizeGreatestPrimeFactor();
 
-  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-    // First, pad so both images have the same size
-    if( fixedSize[ii] == movingSize[ii] )
-      {
-      // no padding required
-      }
-    else if( fixedSize[ii] > movingSize[ii] )
-      {
-      movingPad[ii] = fixedSize[ii] - movingSize[ii];
-      }
-    else
-      {
-      fixedPad[ii] = movingSize[ii] - fixedSize[ii];
-      }
-
-    // Next, pad for the requirements of the FFT filter
     if( sizeGreatestPrimeFactor > 1 )
       {
-      while( Math::GreatestPrimeFactor( fixedSize[ii] + fixedPad[ii] ) > sizeGreatestPrimeFactor )
+      while( Math::GreatestPrimeFactor( size[d] ) > sizeGreatestPrimeFactor )
         {
-        ++fixedPad[ii];
-        ++movingPad[ii];
+        ++size[d];
         }
       }
     else if( sizeGreatestPrimeFactor == 1 )
       {
       // make sure the total size is even
-      fixedPad[ii] += ( fixedSize[ii] + fixedPad[ii] ) % 2;
-      movingPad[ii] += ( movingSize[ii] + movingPad[ii] ) % 2;
+      size[d] += size[d] % 2;
       }
+    }
+
+  return size;
+}
+
+template < typename TFixedImage, typename TMovingImage >
+void
+PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
+::DeterminePadding()
+{
+  SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
+  SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
+  SizeType fftSize;
+
+  if ( m_PadToSize == size0 )
+    {
+    //set up padding to resize the images to the same size
+    SizeType maxSize;
+
+    for (unsigned int d = 0; d < ImageDimension; ++d)
+      {
+      if( fixedSize[d] >= movingSize[d] )
+        {
+        maxSize[d] = fixedSize[d];
+        }
+      else
+        {
+        maxSize[d] = movingSize[d];
+        }
+      }
+
+    fftSize = RoundUpToFFTSize(maxSize);
+    }
+  else
+    {
+    fftSize = m_PadToSize;
+    }
+
+  SizeType fixedPad, movingPad;
+  for (unsigned int d = 0; d < ImageDimension; ++d)
+    {
+    fixedPad[d] = fftSize[d] - fixedSize[d];
+    movingPad[d] = fftSize[d] - movingSize[d];
     }
 
   m_FixedPadder->SetPadUpperBound( fixedPad );
@@ -225,7 +279,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   empty.Fill( 0.0 );
   m_TransformParameters = empty;
   itkDebugMacro( "starting optimization" );
-  typedef typename RealOptimizerType::OffsetType OffsetType;
+  using OffsetType = typename RealOptimizerType::OffsetType;
   OffsetType offset;
   try
     {
@@ -432,8 +486,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::SetReleaseDataFlag( bool a_flag )
 {
   Superclass::SetReleaseDataFlag( a_flag );
-  m_FixedPadder->SetReleaseDataFlag( a_flag );
-  m_MovingPadder->SetReleaseDataFlag( a_flag );
+  m_FixedConstantPadder->SetReleaseDataFlag( a_flag );
+  m_MovingConstantPadder->SetReleaseDataFlag( a_flag );
+  m_FixedMirrorPadder->SetReleaseDataFlag(a_flag);
+  m_MovingMirrorPadder->SetReleaseDataFlag(a_flag);
+  m_FixedMirrorWEDPadder->SetReleaseDataFlag(a_flag);
+  m_MovingMirrorWEDPadder->SetReleaseDataFlag(a_flag);
   m_FixedFFT->SetReleaseDataFlag( a_flag );
   m_MovingFFT->SetReleaseDataFlag( a_flag );
   m_IFFT->SetReleaseDataFlag( a_flag );
@@ -446,8 +504,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::SetReleaseDataBeforeUpdateFlag( bool a_flag )
 {
   Superclass::SetReleaseDataBeforeUpdateFlag( a_flag );
-  m_FixedPadder->SetReleaseDataBeforeUpdateFlag( a_flag );
-  m_MovingPadder->SetReleaseDataBeforeUpdateFlag( a_flag );
+  m_FixedConstantPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_MovingConstantPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_FixedMirrorPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_MovingMirrorPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_FixedMirrorWEDPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
+  m_MovingMirrorWEDPadder->SetReleaseDataBeforeUpdateFlag(a_flag);
   m_FixedFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_MovingFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_IFFT->SetReleaseDataBeforeUpdateFlag( a_flag );
@@ -482,7 +544,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     this->Modified();
     }
 }
-
 
 } // end namespace itk
 
