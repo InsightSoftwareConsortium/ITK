@@ -123,12 +123,16 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   for (unsigned int i = 0; i < forwardWavelet->GetNumberOfOutputs(); ++i)
   {
     std::cout << "Output #: " << i << " / " << numberOfOutputs - 1 << std::endl;
-    // if( i == numberOfOutputs - 1 ) // TODO Held does not modify approx image, but it does not generate better
-    // results.
-    //   {
-    //   modifiedWavelets.push_back( analysisWavelets[i] );
-    //   continue;
-    //   }
+    // Held does not modify approx image.
+    // If we don't do this, artifacts in the border. See #issues/72
+    // TODO, the number of levels for best results change with this options:
+    // In 2D, the best results are with max: if size is 512x512. M = 9, choose M
+    // In 3D, the best results are following Held: 64, M = 6, choose M - 3 = 3
+    if (i == numberOfOutputs - 1)
+    {
+      modifiedWavelets.push_back(analysisWavelets[i]);
+      continue;
+    }
     auto monoFilter = MonogenicSignalFrequencyFilterType::New();
     auto vecInverseFFT = VectorInverseFFTType::New();
     auto phaseAnalyzer = PhaseAnalysisFilter::New();

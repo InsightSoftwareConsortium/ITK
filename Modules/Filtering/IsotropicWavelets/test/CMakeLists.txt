@@ -415,8 +415,8 @@ itk_add_test(
     itkRieszWaveletPhaseAnalysisTest
     DATA{Input/collagen_64x64x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTestMultiLevelMultiBand.tiff
-    2
-    3
+    1
+    4
     ${DefaultWavelet}
     3
     Apply
@@ -442,7 +442,7 @@ itk_add_test(
     itkRieszWaveletPhaseAnalysisTest
     DATA{Input/checkershadow_Lch_512x512.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTest2DMultiLevelMultiBand.tiff
-    5
+    9
     2
     ${DefaultWavelet}
     2
