@@ -48,10 +48,10 @@ class ITK_TEMPLATE_EXPORT MaxPhaseCorrelationOptimizer :
   public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
 {
 public:
-  typedef MaxPhaseCorrelationOptimizer                                            Self;
-  typedef PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType> Superclass;
-  typedef SmartPointer<Self>                                                      Pointer;
-  typedef SmartPointer<const Self>                                                ConstPointer;
+  using Self = MaxPhaseCorrelationOptimizer;
+  using Superclass = PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,16 +60,16 @@ public:
   itkTypeMacro(MaxPhaseCorrelationOptimizer, PhaseCorrelationOptimizer);
 
   /**  Type of the input image. */
-  typedef typename TRegistrationMethod::RealImageType   ImageType;
-  typedef typename ImageType::ConstPointer              ImageConstPointer;
+  using ImageType = typename TRegistrationMethod::RealImageType;
+  using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Dimensionality of input and output data. */
   itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
 
   /** Type for the output parameters.
   *  It defines a position in the optimization search space. */
-  typedef typename Superclass::OffsetType               OffsetType;
-  typedef typename Superclass::OffsetScalarType         OffsetScalarType;
+  using OffsetType = typename Superclass::OffsetType;
+  using OffsetScalarType = typename Superclass::OffsetScalarType;
 
 protected:
   MaxPhaseCorrelationOptimizer();
@@ -79,7 +79,7 @@ protected:
   /** This method is executed by superclass to execute the computation. */
   void ComputeOffset() override;
 
-  typedef MinimumMaximumImageCalculator< ImageType >    MaxCalculatorType;
+  using MaxCalculatorType = MinimumMaximumImageCalculator< ImageType >;
 
 private:
   MaxPhaseCorrelationOptimizer(const Self&); //purposely not implemented

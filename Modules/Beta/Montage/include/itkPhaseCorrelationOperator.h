@@ -55,12 +55,10 @@ class ITK_TEMPLATE_EXPORT PhaseCorrelationOperator :
 {
 
 public:
-  typedef PhaseCorrelationOperator                           Self;
-  typedef ImageToImageFilter<
-      Image< std::complex< TRealPixel >, VImageDimension >,
-      Image< std::complex< TRealPixel >, VImageDimension > > Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  using Self = PhaseCorrelationOperator;
+  using Superclass = ImageToImageFilter<Image< std::complex< TRealPixel >, VImageDimension >, Image< std::complex< TRealPixel >, VImageDimension > >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,13 +70,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       VImageDimension);
 
-  /** Typedef to images. */
-  typedef TRealPixel                                    PixelType;
-  typedef std::complex<PixelType>                       ComplexType;
-  typedef Image< ComplexType, ImageDimension >          ImageType;
-  typedef typename ImageType::Pointer                   ImagePointer;
-  typedef typename ImageType::ConstPointer              ImageConstPointer;
-  typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
+  /** Image type aliases. */
+  using PixelType = TRealPixel;
+  using ComplexType = std::complex<PixelType>;
+  using ImageType = Image< ComplexType, ImageDimension >;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Connect the fixed image. */
   void SetFixedImage( ImageType * fixedImage );

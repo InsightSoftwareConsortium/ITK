@@ -78,6 +78,9 @@ double calculateError(const TableType& initalCoords, const TableType& actualCoor
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
+  PhaseCorrelationMethodType::SizeType imageSize = fixedImage->GetLargestPossibleRegion().GetSize();
+  imageSize = phaseCorrelationMethod->RoundUpToFFTSize(imageSize);
+  phaseCorrelationMethod->SetPadToSize(imageSize); //assuming all images are the same size
   phaseCorrelationMethod->Update();
 
   static_assert(std::is_same<TransformType, typename PhaseCorrelationMethodType::TransformType>::value,
@@ -95,7 +98,7 @@ double calculateError(const TableType& initalCoords, const TableType& actualCoor
   out << std::endl;
 
   return translationError;
-}
+}//calculateError
 
 int itkMockMontageTest(int argc, char* argv[])
 {
@@ -167,4 +170,4 @@ int itkMockMontageTest(int argc, char* argv[])
     {
     return EXIT_FAILURE;
     }
-}//itkMockMontageTest<>
+}//itkMockMontageTest
