@@ -1,9 +1,9 @@
 # class hierarchy is not the same with or without consolidated morphology
 #if(ITK_USE_CONSOLIDATED_MORPHOLOGY)
   set(opts POINTER)
-#else(ITK_USE_CONSOLIDATED_MORPHOLOGY)
+#else()
 #  set(opts POINTER_WITH_SUPERCLASS)
-#endif(ITK_USE_CONSOLIDATED_MORPHOLOGY)
+#endif()
 
 itk_wrap_include("itkFlatStructuringElement.h")
 itk_wrap_class("itk::GrayscaleDilateImageFilter" ${opts})

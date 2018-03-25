@@ -5,7 +5,7 @@
 # real header on windows.
 # if(WIN32)
 #   itk_wrap_include("itkConstantBoundaryConditionStub.h")
-# endif(WIN32)
+# endif()
 
 itk_wrap_class("itk::ImageBoundaryCondition")
   itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)

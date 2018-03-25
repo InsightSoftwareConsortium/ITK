@@ -7,7 +7,7 @@ itk_wrap_class("itk::ImageSource" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(type ${to_types})
       itk_wrap_template("${ITKM_VI${type}${d}}"  "${ITKT_VI${type}${d}}")
-    endforeach(type)
+    endforeach()
     itk_wrap_template("${ITKM_ISSRT${ITKM_D}${d}${d}}"  "${ITKT_ISSRT${ITKM_D}${d}${d}}")
   endforeach()
 

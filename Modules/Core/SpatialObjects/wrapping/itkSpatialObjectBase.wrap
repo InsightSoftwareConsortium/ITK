@@ -15,7 +15,7 @@ itk_end_wrap_class()
 itk_wrap_filter_dims(d 3)
 if(d)
   itk_wrap_simple_class("itk::CylinderSpatialObject" POINTER_WITH_EXPLICIT_SPECIALIZATION)
-endif(d)
+endif()
 
 #
 # hack for ::MetaEvent, the super class of itk::MetaEvent

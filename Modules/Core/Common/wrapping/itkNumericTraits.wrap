@@ -90,6 +90,6 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC")
   foreach(type ${wrap_image_types})
     ADD_TEMPLATE("${ITKM_VLV${type}}"  "${ITKT_VLV${type}}")
-  endforeach(type)
+  endforeach()
 
 itk_end_wrap_class()

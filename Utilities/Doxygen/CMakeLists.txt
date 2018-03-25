@@ -51,7 +51,7 @@ set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/Utilities/Doxygen )
 
 set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS} )
 
-SET( ITK_DOXYGEN_DIAGRAMS YES )
+set( ITK_DOXYGEN_DIAGRAMS YES )
 
 option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON )
 option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for Xcode 3" OFF )
@@ -172,4 +172,4 @@ if (BUILD_DOCUMENTATION)
            "To generate Doxygen's documentation, you need to build the Documentation target"
          )
 
-endif (BUILD_DOCUMENTATION)
+endif ()

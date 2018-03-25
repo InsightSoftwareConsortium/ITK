@@ -9,7 +9,7 @@ itk_wrap_class("itk::ImageSeriesWriter" POINTER)
           itk_wrap_template("${ITKM_I${t}${d1}}${ITKM_I${t}${d2}}"
                         "${ITKT_I${t}${d1}},${ITKT_I${t}${d2}}")
         endforeach()
-      endif("${d1}" GREATER "${d2}")
+      endif()
     endforeach()
   endforeach()
 

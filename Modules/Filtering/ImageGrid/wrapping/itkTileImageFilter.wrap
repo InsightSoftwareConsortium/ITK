@@ -8,7 +8,7 @@ itk_wrap_class("itk::TileImageFilter" POINTER)
           itk_wrap_template("${ITKM_I${t}${d1}}${ITKM_I${t}${d2}}"
                         "${ITKT_I${t}${d1}},${ITKT_I${t}${d2}}")
         endforeach()
-      endif("${d1}" LESS "${d2}")
+      endif()
     endforeach()
   endforeach()
 itk_end_wrap_class()

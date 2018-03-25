@@ -74,6 +74,6 @@ if(ITK_USE_KWSTYLE)
         -gcc
       WORKING_DIRECTORY ${ITK_SOURCE_DIR}
       )
-  endif(BUILD_TESTING)
+  endif()
 
-endif(ITK_USE_KWSTYLE)
+endif()

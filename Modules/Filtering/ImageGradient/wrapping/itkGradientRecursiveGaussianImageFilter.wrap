@@ -17,7 +17,7 @@ itk_wrap_class("itk::GradientRecursiveGaussianImageFilter" POINTER)
 
     # Input type: vectorial image
     foreach(input_vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
-      MATH(EXPR output_vector_dim ${input_vector_dim}*2)
+      math(EXPR output_vector_dim ${input_vector_dim}*2)
       list(FIND ITK_WRAP_VECTOR_COMPONENTS "${output_vector_dim}" index)
       if(index GREATER -1)
         foreach(t ${WRAP_ITK_VECTOR_REAL})
