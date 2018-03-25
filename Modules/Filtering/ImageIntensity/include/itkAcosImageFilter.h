@@ -84,6 +84,8 @@ class AcosImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageFilter);
+
   /** Standard class type aliases. */
   using Self = AcosImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -112,9 +114,6 @@ public:
 protected:
   AcosImageFilter() {}
   ~AcosImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageFilter);
 };
 } // end namespace itk
 

@@ -39,6 +39,7 @@ class ITK_TEMPLATE_EXPORT SceneSpatialObject:
   public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SceneSpatialObject);
 
   using Self = SceneSpatialObject< TSpaceDimension >;
   using Superclass = Object;
@@ -108,8 +109,6 @@ public:
   void Clear();
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SceneSpatialObject);
-
   /** List of the children object plug to the SceneSpatialObject
    *  spatial object. */
   ObjectListType m_Objects;

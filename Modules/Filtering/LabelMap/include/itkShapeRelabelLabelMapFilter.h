@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT ShapeRelabelLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeRelabelLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ShapeRelabelLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -172,9 +174,6 @@ protected:
   bool m_ReverseOrdering;
 
   AttributeType m_Attribute;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeRelabelLabelMapFilter);
 };                                          // end of class
 } // end namespace itk
 

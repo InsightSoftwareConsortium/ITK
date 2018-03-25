@@ -34,6 +34,7 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransformPar
 : public DisplacementFieldTransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor;
@@ -72,8 +73,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
-
   ScalarType          m_GaussianSmoothingVarianceForTheUpdateField;
   ScalarType          m_GaussianSmoothingVarianceForTheTotalField;
 

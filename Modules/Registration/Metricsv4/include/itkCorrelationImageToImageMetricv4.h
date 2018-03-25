@@ -77,6 +77,8 @@ class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4);
+
   /** Standard class type aliases. */
   using Self = CorrelationImageToImageMetricv4;
   using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
@@ -154,9 +156,6 @@ protected:
   mutable MeasureType m_AverageMov;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4);
 };
 
 } // end namespace itk

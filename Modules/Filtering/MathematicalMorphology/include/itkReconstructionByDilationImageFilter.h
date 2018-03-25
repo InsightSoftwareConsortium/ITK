@@ -64,6 +64,8 @@ class ReconstructionByDilationImageFilter:
   public ReconstructionImageFilter< TInputImage, TOutputImage, std::greater< typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByDilationImageFilter);
+
   using Self = ReconstructionByDilationImageFilter;
   using Superclass = ReconstructionImageFilter<
     TInputImage, TOutputImage, std::greater< typename TOutputImage::PixelType > >;
@@ -107,9 +109,6 @@ protected:
   }
 
   ~ReconstructionByDilationImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByDilationImageFilter);
 };
 // end ReconstructionByDilationImageFilter
 }

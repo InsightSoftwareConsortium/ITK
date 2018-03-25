@@ -51,6 +51,8 @@ template< typename TInputImage, typename TMaskImage >
 class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageCalculator);
+
   /** Standard class type aliases. */
   using Self = KappaSigmaThresholdImageCalculator;
   using Superclass = Object;
@@ -113,8 +115,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageCalculator);
-
   bool           m_Valid;             // Have moments been computed yet?
   MaskPixelType  m_MaskValue;
   double         m_SigmaFactor;

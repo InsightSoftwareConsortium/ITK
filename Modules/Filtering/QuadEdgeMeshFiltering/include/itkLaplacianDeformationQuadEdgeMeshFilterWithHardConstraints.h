@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithHardConstrai
   public LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);
+
   /** Basic types. */
   using Self = LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints;
   using Superclass = LaplacianDeformationQuadEdgeMeshFilter< TInputMesh,
@@ -97,9 +99,6 @@ protected:
   void FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);
 };
 } // end namespace itk
 

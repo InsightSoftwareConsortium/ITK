@@ -141,6 +141,8 @@ class ITK_TEMPLATE_EXPORT ClampImageFilter :
                                                   typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ClampImageFilter);
+
   /** Standard class type aliases. */
   using Self = ClampImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -175,10 +177,6 @@ protected:
   void GenerateData() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ClampImageFilter);
-
 };
 
 } // end namespace itk

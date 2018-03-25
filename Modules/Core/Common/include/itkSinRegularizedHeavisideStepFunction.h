@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT SinRegularizedHeavisideStepFunction:
   public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SinRegularizedHeavisideStepFunction);
+
   using Self = SinRegularizedHeavisideStepFunction;
   using Superclass = RegularizedHeavisideStepFunction< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -76,9 +78,6 @@ public:
 protected:
   SinRegularizedHeavisideStepFunction();
   ~SinRegularizedHeavisideStepFunction() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SinRegularizedHeavisideStepFunction);
 };
 }
 

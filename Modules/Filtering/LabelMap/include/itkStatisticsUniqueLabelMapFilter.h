@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT StatisticsUniqueLabelMapFilter:
   public ShapeUniqueLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsUniqueLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = StatisticsUniqueLabelMapFilter;
   using Superclass = ShapeUniqueLabelMapFilter< TImage >;
@@ -84,9 +86,6 @@ protected:
   ~StatisticsUniqueLabelMapFilter() override {}
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsUniqueLabelMapFilter);
 };
 } // end namespace itk
 

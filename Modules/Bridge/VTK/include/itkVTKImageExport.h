@@ -54,6 +54,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT VTKImageExport:public VTKImageExportBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExport);
+
   /** Standard class type aliases. */
   using Self = VTKImageExport;
   using Superclass = VTKImageExportBase;
@@ -111,8 +113,6 @@ protected:
   void * BufferPointerCallback() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExport);
-
   std::string m_ScalarTypeName;
   int         m_WholeExtent[6];
   int         m_DataExtent[6];

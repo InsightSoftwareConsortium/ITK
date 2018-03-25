@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT VectorAnisotropicDiffusionFunction:
   public AnisotropicDiffusionFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorAnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = VectorAnisotropicDiffusionFunction;
   using Superclass = AnisotropicDiffusionFunction< TImage >;
@@ -83,9 +85,6 @@ protected:
   ~VectorAnisotropicDiffusionFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorAnisotropicDiffusionFunction);
 };
 } // end namespace itk
 

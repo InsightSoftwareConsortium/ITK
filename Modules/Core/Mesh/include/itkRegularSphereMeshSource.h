@@ -41,6 +41,8 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT RegularSphereMeshSource:public MeshSource< TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularSphereMeshSource);
+
   /** Standard "Self" type alias. */
   using Self = RegularSphereMeshSource;
   using Superclass = itk::MeshSource< TOutputMesh >;
@@ -109,9 +111,6 @@ protected:
 
   /** model scales */
   VectorType m_Scale;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularSphereMeshSource);
 };
 } // end namespace itk
 

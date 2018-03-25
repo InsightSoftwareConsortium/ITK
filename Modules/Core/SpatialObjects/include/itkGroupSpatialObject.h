@@ -40,6 +40,7 @@ class ITK_TEMPLATE_EXPORT GroupSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GroupSpatialObject);
 
   using Self = GroupSpatialObject;
   using Superclass = SpatialObject< TDimension >;
@@ -59,8 +60,6 @@ public:
   bool ComputeLocalBoundingBox() const override { return false; }
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GroupSpatialObject);
-
   GroupSpatialObject();
   ~GroupSpatialObject() override;
 

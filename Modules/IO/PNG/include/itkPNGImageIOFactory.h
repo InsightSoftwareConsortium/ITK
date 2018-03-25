@@ -32,6 +32,8 @@ namespace itk
 class ITKIOPNG_EXPORT PNGImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = PNGImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -60,9 +62,6 @@ public:
 protected:
   PNGImageIOFactory();
   ~PNGImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIOFactory);
 };
 } // end namespace itk
 

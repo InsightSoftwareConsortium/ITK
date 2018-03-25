@@ -109,6 +109,8 @@ class ITK_TEMPLATE_EXPORT GeodesicActiveContourLevelSetImageFilter:
                                           TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = GeodesicActiveContourLevelSetImageFilter;
   using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
@@ -154,8 +156,6 @@ protected:
   GeodesicActiveContourLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourLevelSetImageFilter);
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/

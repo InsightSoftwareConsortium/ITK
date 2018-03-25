@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT AnchorOpenCloseImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenCloseImageFilter);
+
   /** Standard class type aliases. */
   using Self = AnchorOpenCloseImageFilter;
   using Superclass =
@@ -94,8 +96,6 @@ protected:
   InputImagePixelType m_Boundary2;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenCloseImageFilter);
-
   using BresType = BresenhamLine< Self::InputImageDimension >;
   using BresOffsetArray = typename BresType::OffsetArray;
 

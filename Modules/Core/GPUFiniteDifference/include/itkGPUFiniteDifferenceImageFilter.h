@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT GPUFiniteDifferenceImageFilter :
   public GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUFiniteDifferenceImageFilter;
   using GPUSuperclass = GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
@@ -245,8 +247,6 @@ protected:
   TimeProbe m_InitTime, m_ComputeUpdateTime, m_ApplyUpdateTime, m_SmoothFieldTime;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceImageFilter);
 
   /** Initialize the values of the Function coefficients. This function will
    * also take care of checking whether the image spacing should be taken into

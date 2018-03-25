@@ -44,6 +44,8 @@ namespace itk
 class ITKCommon_EXPORT OutputWindow:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OutputWindow);
+
   /** Standard class type aliases. */
   using Self = OutputWindow;
   using Superclass = Object;
@@ -103,8 +105,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OutputWindow);
-
   bool           m_PromptUser;
   static Pointer m_Instance;
 };

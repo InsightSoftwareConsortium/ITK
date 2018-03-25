@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT PolyLineParametricPath:public
   ParametricPath< VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolyLineParametricPath);
+
   /** Standard class type aliases. */
   using Self = PolyLineParametricPath;
   using Superclass = ParametricPath< VDimension >;
@@ -136,8 +138,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolyLineParametricPath);
-
   VertexListPointer m_VertexList;
 };
 } // end namespace itk

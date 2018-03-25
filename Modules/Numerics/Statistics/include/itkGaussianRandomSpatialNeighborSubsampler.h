@@ -45,6 +45,8 @@ template < typename TSample, typename TRegion >
   class ITK_TEMPLATE_EXPORT GaussianRandomSpatialNeighborSubsampler : public UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianRandomSpatialNeighborSubsampler);
+
   /** Standard class type aliases */
   using Self = GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>;
   using Superclass = UniformRandomSpatialNeighborSubsampler<TSample, TRegion>;
@@ -112,10 +114,6 @@ protected:
                                           RandomIntType mean) override;
 
   RealType m_Variance;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianRandomSpatialNeighborSubsampler);
-
 }; // end of class GaussianRandomSpatialNeighborSubsampler
 
 } // end of namespace Statistics

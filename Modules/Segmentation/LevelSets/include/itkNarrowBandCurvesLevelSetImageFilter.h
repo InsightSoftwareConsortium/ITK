@@ -106,6 +106,8 @@ class ITK_TEMPLATE_EXPORT NarrowBandCurvesLevelSetImageFilter:
                                                TInputImage::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandCurvesLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = NarrowBandCurvesLevelSetImageFilter;
   using Superclass = NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType,
@@ -152,8 +154,6 @@ protected:
   NarrowBandCurvesLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandCurvesLevelSetImageFilter);
 
   /** Overridden from Superclass to handle the case when Propagation
    *  Scaling is zero.*/

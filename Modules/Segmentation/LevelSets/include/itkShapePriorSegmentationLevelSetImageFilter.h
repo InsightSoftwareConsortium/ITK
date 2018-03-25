@@ -77,6 +77,7 @@ class ITK_TEMPLATE_EXPORT ShapePriorSegmentationLevelSetImageFilter:
                                           TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetImageFilter);
 
   /** Dimension of the input/level set image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -184,8 +185,6 @@ protected:
   void ExtractActiveRegion(NodeContainerType *ptr);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetImageFilter);
-
   ShapeFunctionPointer m_ShapeFunction;
   CostFunctionPointer  m_CostFunction;
   OptimizerPointer     m_Optimizer;

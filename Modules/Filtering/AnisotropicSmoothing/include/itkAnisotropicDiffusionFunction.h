@@ -140,6 +140,8 @@ class ITK_TEMPLATE_EXPORT AnisotropicDiffusionFunction:
   public FiniteDifferenceFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = AnisotropicDiffusionFunction;
   using Superclass = FiniteDifferenceFunction< TImage >;
@@ -242,8 +244,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionFunction);
-
   double       m_AverageGradientMagnitudeSquared;
   double       m_ConductanceParameter;
   TimeStepType m_TimeStep;

@@ -44,6 +44,8 @@ template<
 class ITK_TEMPLATE_EXPORT PointsLocator : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointsLocator);
+
   /** Standard class type aliases. */
   using Self = PointsLocator;
   using Superclass = Object;
@@ -114,8 +116,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointsLocator);
-
   PointsContainerPointer   m_Points;
   SampleAdaptorPointer     m_SampleAdaptor;
   TreeGeneratorPointer     m_KdTreeGenerator;

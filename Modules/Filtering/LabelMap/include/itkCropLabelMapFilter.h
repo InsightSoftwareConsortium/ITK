@@ -55,6 +55,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT CropLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CropLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = CropLabelMapFilter;
   using Superclass = ChangeRegionLabelMapFilter< TInputImage >;
@@ -119,8 +121,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CropLabelMapFilter);
-
   SizeType m_UpperBoundaryCropSize;
   SizeType m_LowerBoundaryCropSize;
 };

@@ -61,6 +61,8 @@ class ITKOptimizersv4_EXPORT AmoebaOptimizerv4:
   public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AmoebaOptimizerv4);
+
   /** Standard "Self" type alias. */
   using Self = AmoebaOptimizerv4;
   using Superclass = SingleValuedNonLinearVnlOptimizerv4;
@@ -142,8 +144,6 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AmoebaOptimizerv4);
-
   /**Check that the settings are valid. If not throw an exception.*/
   void ValidateSettings();
 

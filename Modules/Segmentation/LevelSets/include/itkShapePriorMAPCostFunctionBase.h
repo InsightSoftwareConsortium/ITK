@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunctionBase:
   public SingleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunctionBase);
+
   /** Standard class type aliases. */
   using Self = ShapePriorMAPCostFunctionBase;
   using Superclass = SingleValuedCostFunction;
@@ -147,9 +149,6 @@ protected:
   NodeContainerPointer m_ActiveRegion;
 
   FeatureImagePointer m_FeatureImage;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunctionBase);
 };
 } // end namespace itk
 

@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT PointSetFunction :
     public FunctionBase<typename TInputPointSet::PointType, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetFunction);
+
   /** Dimension underlying input point set. */
   static constexpr unsigned int Dimension = TInputPointSet::PointDimension;
 
@@ -111,10 +113,6 @@ protected:
 
   /** Const pointer to the input image. */
   InputPointSetConstPointer                             m_PointSet;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetFunction);
-
 };
 
 } // end namespace itk

@@ -78,6 +78,8 @@ class ComplexToModulusImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToModulusImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = ComplexToModulusImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::ComplexToModulusPixelAccessor<
@@ -96,9 +98,6 @@ public:
 protected:
   ComplexToModulusImageAdaptor() {}
   ~ComplexToModulusImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToModulusImageAdaptor);
 };
 } // end namespace itk
 

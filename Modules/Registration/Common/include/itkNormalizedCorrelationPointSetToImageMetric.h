@@ -45,6 +45,7 @@ class ITK_TEMPLATE_EXPORT NormalizedCorrelationPointSetToImageMetric:
   public PointSetToImageMetric< TFixedPointSet, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationPointSetToImageMetric);
 
   /** Standard class type aliases. */
   using Self = NormalizedCorrelationPointSetToImageMetric;
@@ -104,8 +105,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationPointSetToImageMetric);
-
   bool m_SubtractMean;
 };
 } // end namespace itk

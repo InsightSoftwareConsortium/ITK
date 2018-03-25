@@ -58,6 +58,8 @@ namespace itk
 class ITKIOGE_EXPORT GE4ImageIO:public IPLCommonImageIO
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GE4ImageIO);
+
   /** Standard class type aliases. */
   using Self = GE4ImageIO;
   using Superclass = IPLCommonImageIO;
@@ -125,8 +127,6 @@ protected:
   GEImageHeader * ReadHeader(const char *FileNameToRead) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GE4ImageIO);
-
   float MvtSunf(int numb);
 
 };

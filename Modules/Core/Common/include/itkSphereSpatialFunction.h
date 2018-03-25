@@ -36,6 +36,8 @@ class ITK_TEMPLATE_EXPORT SphereSpatialFunction:
   public InteriorExteriorSpatialFunction< VImageDimension, TInput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SphereSpatialFunction);
+
   /** Standard class type aliases. */
   using Self = SphereSpatialFunction< VImageDimension, TInput >;
   using Superclass = InteriorExteriorSpatialFunction< VImageDimension, TInput >;
@@ -71,8 +73,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SphereSpatialFunction);
-
   /** The center of the sphere (of the same type as Input). */
   InputType m_Center;
 

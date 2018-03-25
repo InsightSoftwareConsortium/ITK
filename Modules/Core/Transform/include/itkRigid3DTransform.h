@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT Rigid3DTransform:
   public MatrixOffsetTransformBase<TParametersValueType, 3, 3>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
+
   /** Standard class type aliases. */
   using Self = Rigid3DTransform;
   using Superclass = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;
@@ -160,9 +162,6 @@ protected:
    * Print contents of an Rigid3DTransform
    */
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
 };                                //class Rigid3DTransform
 }  // namespace itk
 

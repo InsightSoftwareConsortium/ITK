@@ -65,6 +65,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleGeodesicDilateImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicDilateImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleGeodesicDilateImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -182,8 +184,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicDilateImageFilter);
-
   bool          m_RunOneIteration;
   unsigned long m_NumberOfIterationsUsed;
   bool          m_FullyConnected;

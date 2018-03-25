@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT GPUMeanImageFilter : //public GPUImageToImageFilter<
   public GPUBoxImageFilter< TInputImage, TOutputImage, MeanImageFilter< TInputImage, TOutputImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUMeanImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUMeanImageFilter;
   using Superclass = GPUBoxImageFilter< TInputImage, TOutputImage, MeanImageFilter< TInputImage, TOutputImage > >;
@@ -84,8 +86,6 @@ protected:
   void GPUGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUMeanImageFilter);
-
   int m_MeanFilterGPUKernelHandle;
 };
 
@@ -97,6 +97,8 @@ private:
 class GPUMeanImageFilterFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUMeanImageFilterFactory);
+
   using Self = GPUMeanImageFilterFactory;
   using Superclass = ObjectFactoryBase;
   using Pointer = SmartPointer<Self>;
@@ -127,8 +129,6 @@ public:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUMeanImageFilterFactory);
-
 #define OverrideMeanFilterTypeMacro(ipt,opt,dm) \
     { \
     using InputImageType = Image<ipt,dm>; \

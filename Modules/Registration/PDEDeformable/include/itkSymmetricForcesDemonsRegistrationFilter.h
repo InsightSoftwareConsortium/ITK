@@ -72,6 +72,8 @@ class ITK_TEMPLATE_EXPORT SymmetricForcesDemonsRegistrationFilter:
                                           TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricForcesDemonsRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = SymmetricForcesDemonsRegistrationFilter;
   using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
@@ -133,9 +135,6 @@ protected:
 
   /** Apply update. */
   void ApplyUpdate(const TimeStepType& dt) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricForcesDemonsRegistrationFilter);
 };
 } // end namespace itk
 

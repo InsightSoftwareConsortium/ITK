@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT BinShrinkImageFilter :
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinShrinkImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinShrinkImageFilter;
   using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
@@ -126,8 +128,6 @@ protected:
                             ThreadIdType threadId ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinShrinkImageFilter);
-
   ShrinkFactorsType m_ShrinkFactors;
 
   /** Round different pixel types. */

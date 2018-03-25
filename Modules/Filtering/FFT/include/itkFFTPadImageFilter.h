@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT FFTPadImageFilter :
     public PadImageFilterBase<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTPadImageFilter);
+
   /** Standard class type aliases. */
   using Self = FFTPadImageFilter;
   using Superclass = PadImageFilterBase<TInputImage, TOutputImage>;
@@ -105,8 +107,6 @@ protected:
 
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTPadImageFilter);
-
   SizeValueType m_SizeGreatestPrimeFactor;
 
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;

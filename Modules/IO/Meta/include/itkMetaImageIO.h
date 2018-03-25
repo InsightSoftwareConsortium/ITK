@@ -40,6 +40,8 @@ namespace itk
 class ITKIOMeta_EXPORT MetaImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIO);
+
   /** Standard class type aliases. */
   using Self = MetaImageIO;
   using Superclass = ImageIOBase;
@@ -171,8 +173,6 @@ protected:
 private:
 
   MetaImage m_MetaImage;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIO);
 
   unsigned int m_SubSamplingFactor;
 

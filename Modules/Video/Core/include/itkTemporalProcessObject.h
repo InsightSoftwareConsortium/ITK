@@ -65,6 +65,7 @@ class ITK_FORWARD_EXPORT TemporalDataObject;
 class ITKVideoCore_EXPORT TemporalProcessObject : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TemporalProcessObject);
 
   /*-TYPEDEFS----------------------------------------------------------------*/
 
@@ -231,10 +232,6 @@ protected:
    * n, frames n-4 through n+1 are required, whereas if
    * m_InputStencilCurrentFrameIndex = 0, frames n through n+5 are required. */
   SizeValueType  m_InputStencilCurrentFrameIndex;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TemporalProcessObject);
-
 };  // end class TemporalProcessObject
 
 } // end namespace itk

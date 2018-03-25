@@ -90,6 +90,8 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMetric:
   public ObjectToObjectMetricBaseTemplate<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetric);
+
   /** Standard class type aliases. */
   using Self = ObjectToObjectMetric;
   using Superclass = ObjectToObjectMetricBaseTemplate<TParametersValueType>;
@@ -337,10 +339,6 @@ protected:
    * calculation.
    * \sa VerifyNumberOfValidPoints() */
   mutable SizeValueType                   m_NumberOfValidPoints;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetric);
-
 };
 } // end namespace itk
 

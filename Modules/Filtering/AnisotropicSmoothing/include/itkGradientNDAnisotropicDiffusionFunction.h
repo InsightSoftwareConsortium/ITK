@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT GradientNDAnisotropicDiffusionFunction:
   public ScalarAnisotropicDiffusionFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientNDAnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = GradientNDAnisotropicDiffusionFunction;
   using Superclass = ScalarAnisotropicDiffusionFunction< TImage >;
@@ -124,9 +126,6 @@ protected:
   NeighborhoodSizeValueType m_Stride[ImageDimension];
 
   static double m_MIN_NORM;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientNDAnisotropicDiffusionFunction);
 };
 } // end namespace itk
 

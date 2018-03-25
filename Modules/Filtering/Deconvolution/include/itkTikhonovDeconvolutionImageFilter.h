@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionImageFilter :
   public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TikhonovDeconvolutionImageFilter);
+
   using Self = TikhonovDeconvolutionImageFilter;
   using Superclass = InverseDeconvolutionImageFilter< TInputImage,
                                            TKernelImage,
@@ -109,8 +111,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TikhonovDeconvolutionImageFilter);
-
   double m_RegularizationConstant;
 };
 

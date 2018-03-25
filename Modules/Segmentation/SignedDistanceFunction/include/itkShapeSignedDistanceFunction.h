@@ -53,6 +53,8 @@ class ShapeSignedDistanceFunction:
   public SpatialFunction< double, VSpaceDimension, Point< TCoordRep, VSpaceDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeSignedDistanceFunction);
+
   /** Standard class type aliases. */
   using Self = ShapeSignedDistanceFunction;
   using Superclass = SpatialFunction< double, VSpaceDimension,
@@ -114,9 +116,6 @@ protected:
   }
 
   ParametersType m_Parameters;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeSignedDistanceFunction);
 };
 } // end namespace itk
 

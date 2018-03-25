@@ -31,6 +31,8 @@ class ITK_TEMPLATE_EXPORT PolygonSpatialObject:
   public BlobSpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonSpatialObject);
+
   using Self = PolygonSpatialObject< TDimension >;
   using Superclass = BlobSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
@@ -113,8 +115,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonSpatialObject);
-
   PolygonGroupOrientation m_Orientation;
   double                  m_Thickness;
   PolygonSpatialObject()

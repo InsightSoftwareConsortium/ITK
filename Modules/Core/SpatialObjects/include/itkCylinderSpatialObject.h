@@ -33,6 +33,7 @@ class CylinderSpatialObject:
   public SpatialObject< 3 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CylinderSpatialObject);
 
   using Self = CylinderSpatialObject;
   using ScalarType = double;
@@ -87,8 +88,6 @@ public:
   bool ComputeLocalBoundingBox() const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CylinderSpatialObject);
-
   CylinderSpatialObject();
   ~CylinderSpatialObject() override;
 

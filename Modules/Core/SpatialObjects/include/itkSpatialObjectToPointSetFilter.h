@@ -34,6 +34,8 @@ template< typename TInputSpatialObject, typename TOutputPointSet >
 class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);
+
   /** Standard class type aliases. */
   using Self = SpatialObjectToPointSetFilter;
   using Superclass = MeshSource< TOutputPointSet >;
@@ -96,8 +98,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);
-
   unsigned int m_ChildrenDepth;
   unsigned int m_SamplingFactor;
 };

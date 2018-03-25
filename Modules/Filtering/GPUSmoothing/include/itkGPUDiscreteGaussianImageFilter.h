@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT GPUDiscreteGaussianImageFilter :
   public GPUImageToImageFilter< TInputImage, TOutputImage, DiscreteGaussianImageFilter< TInputImage, TOutputImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDiscreteGaussianImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUDiscreteGaussianImageFilter;
   using CPUSuperclass = DiscreteGaussianImageFilter< TInputImage, TOutputImage >;
@@ -104,8 +106,6 @@ protected:
   void GPUGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDiscreteGaussianImageFilter);
-
   /** Intermediate 1D Gaussian filters */
   typename FirstFilterType::Pointer                       m_FirstFilter;
   typename LastFilterType::Pointer                        m_LastFilter;

@@ -48,6 +48,8 @@ class MovingHistogramDilateImageFilter:
                                                                                                               ::PixelType > > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramDilateImageFilter);
+
   /** Standard class type aliases. */
   using Self = MovingHistogramDilateImageFilter;
   using Superclass = MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel,
@@ -86,9 +88,6 @@ protected:
   }
 
   ~MovingHistogramDilateImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramDilateImageFilter);
 };                                                // end of class
 } // end namespace itk
 

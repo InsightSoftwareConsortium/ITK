@@ -61,6 +61,7 @@ class ITK_TEMPLATE_EXPORT SpatialObject:
   public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObject);
 
   using ScalarType = double;
 
@@ -563,8 +564,6 @@ protected:
   bool SetInternalInverseTransformToWorldToIndexTransform() const;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObject);
 
   BoundingBoxPointer       m_Bounds;
   mutable ModifiedTimeType m_BoundsMTime;

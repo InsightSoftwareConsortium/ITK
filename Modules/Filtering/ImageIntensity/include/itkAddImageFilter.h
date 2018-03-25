@@ -86,6 +86,8 @@ class ITK_TEMPLATE_EXPORT AddImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AddImageFilter);
+
   /** Standard class type aliases. */
   using Self = AddImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -116,9 +118,6 @@ public:
 protected:
   AddImageFilter() {}
   ~AddImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AddImageFilter);
 };
 } // end namespace itk
 

@@ -68,6 +68,8 @@ class ITK_TEMPLATE_EXPORT RegionBasedLevelSetFunction:public
   FiniteDifferenceFunction< TInput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = RegionBasedLevelSetFunction;
   using Superclass = FiniteDifferenceFunction< TInput >;
@@ -415,9 +417,6 @@ protected:
 
   /** Zero vector constant. */
   static VectorType m_ZeroVectorConstant;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunction);
 };
 } // end namespace itk
 

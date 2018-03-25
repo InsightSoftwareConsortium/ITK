@@ -62,6 +62,8 @@ class ComplexConjugateImageAdaptor:public
                 Accessor::ComplexConjugatePixelAccessor< typename TImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexConjugateImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = ComplexConjugateImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::ComplexConjugatePixelAccessor<
@@ -88,9 +90,6 @@ public:
 protected:
   ComplexConjugateImageAdaptor() {}
   ~ComplexConjugateImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexConjugateImageAdaptor);
 };
 } // end namespace itk
 

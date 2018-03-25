@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT CheckerBoardImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CheckerBoardImageFilter);
+
   /** Standard class type aliases. */
   using Self = CheckerBoardImageFilter;
   using Superclass = ImageToImageFilter< TImage, TImage >;
@@ -99,8 +101,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CheckerBoardImageFilter);
-
   PatternArrayType m_CheckerPattern;
 };
 } // end namespace itk

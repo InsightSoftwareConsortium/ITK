@@ -81,6 +81,8 @@ class ITK_TEMPLATE_EXPORT RegionGrowImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionGrowImageFilter);
+
   /** Standard class type aliases. */
   using Self = RegionGrowImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -128,8 +130,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionGrowImageFilter);
-
   unsigned int m_MaximumNumberOfRegions;
 
   GridSizeType m_GridSize;

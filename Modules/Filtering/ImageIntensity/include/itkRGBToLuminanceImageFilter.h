@@ -68,6 +68,8 @@ class RGBToLuminanceImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageFilter);
+
   /** Standard class type aliases. */
   using Self = RGBToLuminanceImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -95,9 +97,6 @@ public:
 protected:
   RGBToLuminanceImageFilter() {}
   ~RGBToLuminanceImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageFilter);
 };
 } // end namespace itk
 

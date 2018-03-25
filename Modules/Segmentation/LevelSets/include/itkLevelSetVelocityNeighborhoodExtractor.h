@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT LevelSetVelocityNeighborhoodExtractor:
   public LevelSetNeighborhoodExtractor< TLevelSet >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetVelocityNeighborhoodExtractor);
+
   /** Standard class typdedefs. */
   using Self = LevelSetVelocityNeighborhoodExtractor;
   using Superclass = LevelSetNeighborhoodExtractor< TLevelSet >;
@@ -132,8 +134,6 @@ protected:
   double CalculateDistance(Index & index) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetVelocityNeighborhoodExtractor);
-
   typename AuxValueContainer::Pointer m_AuxInsideValues;
   typename AuxValueContainer::Pointer m_AuxOutsideValues;
   AuxImageConstPointer m_AuxImage[VAuxDimension];

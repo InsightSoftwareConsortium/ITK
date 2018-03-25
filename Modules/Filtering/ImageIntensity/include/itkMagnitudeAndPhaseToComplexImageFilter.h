@@ -93,6 +93,8 @@ class MagnitudeAndPhaseToComplexImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MagnitudeAndPhaseToComplexImageFilter);
+
   /** Standard class type aliases. */
   using Self = MagnitudeAndPhaseToComplexImageFilter;
 
@@ -132,9 +134,6 @@ public:
 protected:
   MagnitudeAndPhaseToComplexImageFilter() {}
   ~MagnitudeAndPhaseToComplexImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MagnitudeAndPhaseToComplexImageFilter);
 };
 } // end namespace itk
 

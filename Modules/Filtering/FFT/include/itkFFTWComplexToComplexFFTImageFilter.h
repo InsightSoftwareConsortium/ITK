@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter:
   public ComplexToComplexFFTImageFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWComplexToComplexFFTImageFilter);
+
   /** Standard class type aliases. */
   using Self = FFTWComplexToComplexFFTImageFilter;
   using Superclass = ComplexToComplexFFTImageFilter< TImage >;
@@ -130,8 +132,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWComplexToComplexFFTImageFilter);
-
   bool m_CanUseDestructiveAlgorithm;
 
   int m_PlanRigor;

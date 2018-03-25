@@ -126,6 +126,8 @@ class ITK_TEMPLATE_EXPORT MRFImageFilter:
   public ImageToImageFilter< TInputImage, TClassifiedImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRFImageFilter);
+
   /** Standard class type aliases. */
   using Self = MRFImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TClassifiedImage >;
@@ -343,8 +345,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRFImageFilter);
-
   using InputImageSizeType = typename TInputImage::SizeType;
 
   using LabelStatusImageNeighborhoodRadiusType = typename LabelStatusImageNeighborhoodIterator::RadiusType;

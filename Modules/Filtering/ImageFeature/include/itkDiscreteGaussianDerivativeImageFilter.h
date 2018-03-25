@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT DiscreteGaussianDerivativeImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianDerivativeImageFilter);
+
   /** Standard class type aliases. */
   using Self = DiscreteGaussianDerivativeImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -216,8 +218,6 @@ protected:
   GenerateData() override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianDerivativeImageFilter);
 
   /** The order of the derivatives in each dimensional direction. */
   OrderArrayType m_Order;

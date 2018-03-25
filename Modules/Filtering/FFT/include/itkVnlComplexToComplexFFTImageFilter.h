@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter:
   public ComplexToComplexFFTImageFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VnlComplexToComplexFFTImageFilter);
+
   /** Standard class type aliases. */
   using Self = VnlComplexToComplexFFTImageFilter;
   using Superclass = ComplexToComplexFFTImageFilter< TImage >;
@@ -68,9 +70,6 @@ protected:
 
   void BeforeThreadedGenerateData() override;
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlComplexToComplexFFTImageFilter);
 };
 
 } // end namespace itk

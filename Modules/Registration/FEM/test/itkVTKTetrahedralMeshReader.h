@@ -39,6 +39,8 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT VTKTetrahedralMeshReader : public MeshSource<TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKTetrahedralMeshReader);
+
   /** Standard "Self" type alias. */
   using Self = VTKTetrahedralMeshReader;
   using Superclass = MeshSource<TOutputMesh>;
@@ -98,8 +100,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKTetrahedralMeshReader);
-
   /** Filename to read */
   std::string m_FileName;
   std::string m_Header;

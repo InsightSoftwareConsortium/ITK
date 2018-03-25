@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT LaplacianSharpeningImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSharpeningImageFilter);
+
   /** Standard "Self" & Superclass type alias.   */
   using Self = LaplacianSharpeningImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -120,8 +122,6 @@ protected:
   void PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSharpeningImageFilter);
-
   bool m_UseImageSpacing;
 };
 } // end namespace itk

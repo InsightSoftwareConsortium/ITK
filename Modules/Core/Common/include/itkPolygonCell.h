@@ -53,6 +53,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT PolygonCell:public TCellInterface
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonCell);
+
   /** Standard class type aliases. */
   itkCellCommonTypedefs(PolygonCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -136,9 +138,6 @@ public:
 protected:
   std::vector< EdgeInfo >        m_Edges;
   std::vector< PointIdentifier > m_PointIds;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonCell);
 };
 } //end namespace
 

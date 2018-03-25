@@ -86,6 +86,8 @@ template< typename TDataContainer >
 class ITK_TEMPLATE_EXPORT ClassifierBase:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ClassifierBase);
+
   /** Standard class type aliases. */
   using Self = ClassifierBase;
   using Superclass = LightProcessObject;
@@ -156,8 +158,6 @@ protected:
   void GenerateData() override = 0;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ClassifierBase);
-
   /** Number of classes */
   unsigned int m_NumberOfClasses;
 

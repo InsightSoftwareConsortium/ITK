@@ -42,6 +42,7 @@ template < unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT FEMObjectSpatialObject : public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMObjectSpatialObject);
 
   using Self = FEMObjectSpatialObject< TDimension >;
   using Superclass = SpatialObject< TDimension >;
@@ -75,8 +76,6 @@ public:
   ModifiedTimeType GetMTime( void ) const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMObjectSpatialObject);
-
   FEMObjectPointer m_FEMObject;
 
   FEMObjectSpatialObject();

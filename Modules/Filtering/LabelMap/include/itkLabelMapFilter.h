@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT LabelMapFilter:
   ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -121,8 +123,6 @@ protected:
   typename FastMutexLock::Pointer m_LabelObjectContainerLock;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapFilter);
-
   typename InputImageType::Iterator m_LabelObjectIterator;
   float                             m_InverseNumberOfLabelObjects;
   SizeValueType                     m_NumberOfLabelObjectsProcessed;

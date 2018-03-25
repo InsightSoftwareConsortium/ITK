@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT LabelMapOverlayImageFilter :
     public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapOverlayImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapOverlayImageFilter;
   using Superclass = LabelMapFilter<TLabelMap, TOutputImage>;
@@ -167,8 +169,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapOverlayImageFilter);
-
   double                    m_Opacity;
   typename Barrier::Pointer m_Barrier;
   FunctorType               m_Functor;

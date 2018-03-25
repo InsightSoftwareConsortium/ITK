@@ -54,6 +54,8 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT IsoDataThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IsoDataThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = IsoDataThresholdCalculator;
   using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
@@ -77,10 +79,6 @@ protected:
 
   using SizeValueType = typename HistogramType::SizeValueType;
   using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsoDataThresholdCalculator);
-
 };
 
 } // end namespace itk

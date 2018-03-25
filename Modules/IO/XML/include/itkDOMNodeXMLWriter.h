@@ -61,6 +61,8 @@ namespace itk
 class ITKIOXML_EXPORT DOMNodeXMLWriter : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNodeXMLWriter);
+
   /** Standard class type aliases. */
   using Self = DOMNodeXMLWriter;
   using Superclass = Object;
@@ -101,8 +103,6 @@ protected:
   DOMNodeXMLWriter();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNodeXMLWriter);
-
   /** Variable to hold the output XML file name. */
   std::string m_FileName;
 

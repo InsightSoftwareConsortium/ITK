@@ -56,6 +56,7 @@ class TransformParametersAdaptorBase
 : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformParametersAdaptorBase);
 
   /** Standard class type aliases. */
   using Self = TransformParametersAdaptorBase;
@@ -98,10 +99,6 @@ protected:
   }
 
   FixedParametersType m_RequiredFixedParameters;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformParametersAdaptorBase);
-
 }; //class TransformParametersAdaptorBase
 }  // namespace itk
 

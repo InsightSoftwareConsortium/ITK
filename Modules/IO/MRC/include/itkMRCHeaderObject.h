@@ -49,6 +49,8 @@ class ITKIOMRC_EXPORT MRCHeaderObject:
   public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRCHeaderObject);
+
   /** Standard class type aliases. */
   using Self = MRCHeaderObject;
   using Superclass = LightObject;
@@ -271,8 +273,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRCHeaderObject);
-
   SizeValueType m_ExtendedHeaderSize;
   void *        m_ExtendedHeader;
 

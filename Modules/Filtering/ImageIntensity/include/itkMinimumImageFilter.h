@@ -78,6 +78,8 @@ class MinimumImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumImageFilter);
+
   /** Standard class type aliases. */
   using Self = MinimumImageFilter;
   using Superclass = BinaryFunctorImageFilter<
@@ -114,9 +116,6 @@ public:
 protected:
   MinimumImageFilter() {}
   ~MinimumImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumImageFilter);
 };
 } // end namespace itk
 

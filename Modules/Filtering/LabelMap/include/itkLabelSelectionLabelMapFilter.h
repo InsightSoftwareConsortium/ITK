@@ -54,6 +54,8 @@ class LabelSelectionLabelMapFilter :
     public AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSelectionLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = LabelSelectionLabelMapFilter;
   using Superclass =
@@ -123,10 +125,6 @@ public:
 protected:
   LabelSelectionLabelMapFilter() {};
   ~LabelSelectionLabelMapFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSelectionLabelMapFilter);
-
 }; // end of class
 
 } // end namespace itk

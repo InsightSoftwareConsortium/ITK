@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationPropagationTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationPropagationTerm);
+
   using Self = LevelSetEquationPropagationTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -131,9 +133,6 @@ protected:
   LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) override;
   LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
                                         const LevelSetDataType& iData ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationPropagationTerm);
 };
 
 }

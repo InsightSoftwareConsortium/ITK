@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT TranslationTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TranslationTransform);
+
   /** Standard class type aliases. */
   using Self = TranslationTransform;
   using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
@@ -223,8 +225,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TranslationTransform);
-
   JacobianType     m_IdentityJacobian;
   OutputVectorType m_Offset; // Offset of the transformation
 };                           // class TranslationTransform

@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleFillholeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFillholeImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleFillholeImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -121,8 +123,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFillholeImageFilter);
-
   unsigned long m_NumberOfIterationsUsed;
 
   bool m_FullyConnected;

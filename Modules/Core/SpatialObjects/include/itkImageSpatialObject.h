@@ -41,6 +41,7 @@ class ITK_TEMPLATE_EXPORT ImageSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSpatialObject);
 
   using ScalarType = double;
   using Self = ImageSpatialObject< TDimension, TPixelType >;
@@ -118,8 +119,6 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSpatialObject);
-
   ImagePointer m_Image;
 
   ImageSpatialObject();

@@ -34,6 +34,8 @@ class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4GetValueAndDerivativeTh
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4GetValueAndDerivativeThreader);
+
   /** Standard class type aliases. */
   using Self = CorrelationImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
@@ -113,8 +115,6 @@ protected:
         const ThreadIdType                threadId ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4GetValueAndDerivativeThreader);
-
   /*
    * the per-thread memory for computing the correlation and its derivatives
    * \bar f (CorrelationImageToImageMetricv4::m_AverageFix ) and

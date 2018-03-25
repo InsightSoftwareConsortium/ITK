@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT ChangeInformationImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeInformationImageFilter);
+
   /** Standard class type aliases. */
   using Self = ChangeInformationImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
@@ -229,8 +231,6 @@ protected:
   void VerifyInputInformation() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeInformationImageFilter);
-
   InputImagePointer m_ReferenceImage;
 
   bool m_CenterImage;

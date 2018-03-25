@@ -59,6 +59,8 @@ class ITKCommon_EXPORT ImageRegionSplitterMultidimensional
   : public ImageRegionSplitterBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterMultidimensional);
+
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterMultidimensional;
   using Superclass = ImageRegionSplitterBase;
@@ -89,8 +91,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterMultidimensional);
-
   static unsigned int ComputeSplits(unsigned int dim,
                                     unsigned int requestedNumber,
                                     const IndexValueType regionIndex[],

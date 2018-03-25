@@ -39,6 +39,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT VertexCell:public TCellInterface
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VertexCell);
+
   /** Standard class type aliases. */
   itkCellCommonTypedefs(VertexCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -108,9 +110,6 @@ protected:
    * Store the number of points needed for a vertex.
    */
   PointIdentifier m_PointIds[NumberOfPoints];
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VertexCell);
 };
 } // end namespace itk
 

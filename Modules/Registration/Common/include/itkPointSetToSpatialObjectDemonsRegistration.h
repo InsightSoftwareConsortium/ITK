@@ -53,6 +53,8 @@ template< typename TFixedPointSet, typename TMovingSpatialObject >
 class ITK_TEMPLATE_EXPORT PointSetToSpatialObjectDemonsRegistration:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToSpatialObjectDemonsRegistration);
+
   /** Standard class type aliases. */
   using Self = PointSetToSpatialObjectDemonsRegistration;
   using Superclass = ProcessObject;
@@ -87,8 +89,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToSpatialObjectDemonsRegistration);
-
   MovingSpatialObjectConstPointer m_MovingSpatialObject;
   FixedPointSetConstPointer       m_FixedPointSet;
 };

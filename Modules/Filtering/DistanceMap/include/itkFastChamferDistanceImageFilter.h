@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT FastChamferDistanceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastChamferDistanceImageFilter);
+
   /** Standard class type aliases. */
   using Self = FastChamferDistanceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -157,8 +159,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastChamferDistanceImageFilter);
-
   float m_MaximumDistance;
 
   /** coefficients of the Chamfer distance for each kind of neighbor. */

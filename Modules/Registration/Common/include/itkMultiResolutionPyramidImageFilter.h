@@ -113,6 +113,8 @@ class ITK_TEMPLATE_EXPORT MultiResolutionPyramidImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPyramidImageFilter);
+
   /** Standard class type aliases. */
   using Self = MultiResolutionPyramidImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -229,9 +231,6 @@ protected:
   ScheduleType m_Schedule;
 
   bool m_UseShrinkImageFilter;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPyramidImageFilter);
 };
 } // namespace itk
 

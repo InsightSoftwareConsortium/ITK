@@ -59,6 +59,8 @@ class ITKIOMRC_EXPORT MRCImageIO :
   public StreamingImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIO);
+
   /** Standard class type aliases. */
   using Self = MRCImageIO;
   using Superclass = StreamingImageIOBase;
@@ -115,8 +117,6 @@ protected:
   SizeType GetHeaderSize(void) const override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIO);
 
   // internal methods to update the min and max in the header based on
   // the data, in the image buffer to be written

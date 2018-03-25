@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilter);
+
   /** Standard class type aliases. */
   using Self = VoronoiSegmentationImageFilter;
   using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage,
@@ -134,9 +136,6 @@ private:
   double m_STDPercentError;
 
   bool TestHomogeneity(IndexList & Plist) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilter);
 };
 } //end namespace
 

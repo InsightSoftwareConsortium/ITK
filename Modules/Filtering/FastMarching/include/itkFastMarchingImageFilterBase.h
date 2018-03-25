@@ -76,6 +76,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingImageFilterBase :
     public FastMarchingBase< TInput, TOutput >
   {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageFilterBase);
+
   using Self = FastMarchingImageFilterBase;
   using Superclass = FastMarchingBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -252,7 +254,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageFilterBase);
 };
 } // end namespace itk
 

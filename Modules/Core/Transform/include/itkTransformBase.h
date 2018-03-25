@@ -45,6 +45,8 @@ template<typename TParametersValueType>
 class TransformBaseTemplate:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformBaseTemplate);
+
   /** Standard class type aliases. */
   using Self = TransformBaseTemplate;
   using Superclass = Object;
@@ -127,9 +129,6 @@ public:
 protected:
   TransformBaseTemplate(){}
   ~TransformBaseTemplate() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformBaseTemplate);
 };
 
 /** This helps to meet backward compatibility */

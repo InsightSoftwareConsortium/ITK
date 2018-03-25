@@ -55,6 +55,8 @@ template< typename TSample, typename THistogram >
 class ITK_TEMPLATE_EXPORT SampleToHistogramFilter:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SampleToHistogramFilter);
+
   /** Standard class type aliases */
   using Self = SampleToHistogramFilter;
   using Superclass = ProcessObject;
@@ -151,8 +153,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SampleToHistogramFilter);
-
   /** SafeAssign -- avoid numeric overflow/underflow */
   HistogramMeasurementType SafeAssign(MeasurementType from) const
   {

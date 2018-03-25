@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT MaskedMovingHistogramImageFilter:
   public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedMovingHistogramImageFilter);
+
   /** Standard class type aliases. */
   using Self = MaskedMovingHistogramImageFilter;
   using Superclass = MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >;
@@ -161,8 +163,6 @@ protected:
                      const IndexType currentIdx);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedMovingHistogramImageFilter);
-
   bool m_GenerateOutputMask;
 
   OutputPixelType m_FillValue;

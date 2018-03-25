@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT PathToChainCodePathFilter:public
   PathToPathFilter< TInputPath, TOutputChainCodePath >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PathToChainCodePathFilter);
+
   /** Standard class type aliases. */
   using Self = PathToChainCodePathFilter;
   using Superclass = PathToPathFilter< TInputPath, TOutputChainCodePath >;
@@ -74,8 +76,6 @@ protected:
   void GenerateData(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PathToChainCodePathFilter);
-
   bool m_MaximallyConnected;
 };
 } // end namespace itk

@@ -63,6 +63,8 @@ class ComplexToRealImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToRealImageFilter);
+
   /** Standard class type aliases. */
   using Self = ComplexToRealImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -94,9 +96,6 @@ public:
 protected:
   ComplexToRealImageFilter() {}
   ~ComplexToRealImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToRealImageFilter);
 };
 } // end namespace itk
 

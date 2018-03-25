@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT DoubleThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DoubleThresholdImageFilter);
+
   /** Standard class type aliases. */
   using Self = DoubleThresholdImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -147,8 +149,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DoubleThresholdImageFilter);
-
   InputPixelType m_Threshold1;
   InputPixelType m_Threshold2;
   InputPixelType m_Threshold3;

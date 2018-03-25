@@ -47,6 +47,8 @@ template <typename TOutputImage >
 class ITK_TEMPLATE_EXPORT VTKImageToImageFilter : public VTKImageImport< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageToImageFilter);
+
   /** Standard class type aliases. */
   using Self = VTKImageToImageFilter;
   using Superclass = VTKImageImport< TOutputImage >;
@@ -83,8 +85,6 @@ protected:
   ~VTKImageToImageFilter() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageToImageFilter);
-
   using ImageExportPointer = vtkSmartPointer<vtkImageExport>;
   ImageExportPointer m_Exporter;
 

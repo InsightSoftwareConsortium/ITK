@@ -78,6 +78,8 @@ class AtanImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AtanImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = AtanImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::AtanPixelAccessor<
@@ -96,9 +98,6 @@ public:
 protected:
   AtanImageAdaptor() {}
   ~AtanImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AtanImageAdaptor);
 };
 } // end namespace itk
 

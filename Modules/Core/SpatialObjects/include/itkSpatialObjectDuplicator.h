@@ -32,6 +32,8 @@ template< typename TInputSpatialObject >
 class ITK_TEMPLATE_EXPORT SpatialObjectDuplicator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectDuplicator);
+
   /** Standard class type aliases. */
   using Self = SpatialObjectDuplicator;
   using Superclass = Object;
@@ -93,8 +95,6 @@ protected:
   void WarnAndPrintFactories(const std::string& spatialObjectType) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectDuplicator);
-
   SpatialObjectConstPointer m_Input;
   SpatialObjectPointer      m_DuplicateSpatialObject;
   ModifiedTimeType          m_InternalSpatialObjectTime;

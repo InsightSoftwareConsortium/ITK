@@ -48,6 +48,8 @@ template < typename TSample, typename TRegion >
   class ITK_TEMPLATE_EXPORT SpatialNeighborSubsampler : public RegionConstrainedSubsampler<TSample, TRegion>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialNeighborSubsampler);
+
   /** Standard class type aliases */
   using Self = SpatialNeighborSubsampler<TSample, TRegion>;
   using Superclass = RegionConstrainedSubsampler<TSample, TRegion>;
@@ -117,10 +119,6 @@ protected:
 
   RadiusType m_Radius;
   bool       m_RadiusInitialized;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialNeighborSubsampler);
-
 }; // end of class SpatialNeighborSubsampler
 
 } // end of namespace Statistics

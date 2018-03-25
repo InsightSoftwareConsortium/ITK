@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT CyclicShiftImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CyclicShiftImageFilter);
+
   /** Standard class type aliases. */
   using Self = CyclicShiftImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -99,10 +101,6 @@ protected:
   /** Protected so that subclasses may set it without calling
   Modified(). */
   OffsetType m_Shift;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CyclicShiftImageFilter);
-
 }; // end of class
 } // end namespace itk
 

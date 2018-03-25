@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform :
   public ScaleTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleLogarithmicTransform);
+
   /** Standard class type aliases.   */
   using Self = ScaleLogarithmicTransform;
   using Superclass = ScaleTransform<TParametersValueType, NDimensions>;
@@ -110,10 +112,6 @@ protected:
 
   /** Print contents of an ScaleLogarithmicTransform */
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleLogarithmicTransform);
-
 };                                               // class
                                                  // ScaleLogarithmicTransform
 }  // namespace itk

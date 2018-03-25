@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT Similarity2DTransform :
   public Rigid2DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Similarity2DTransform);
+
   /** Standard class type aliases. */
   using Self = Similarity2DTransform;
   using Superclass = Rigid2DTransform<TParametersValueType>;
@@ -231,8 +233,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Similarity2DTransform);
-
   ScaleType m_Scale;
 }; // class Similarity2DTransform
 }  // namespace itk

@@ -85,6 +85,8 @@ class ITK_TEMPLATE_EXPORT BSplineInterpolateImageFunction:
   public InterpolateImageFunction< TImageType, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = BSplineInterpolateImageFunction;
   using Superclass = InterpolateImageFunction< TImageType, TCoordRep >;
@@ -364,8 +366,6 @@ protected:
   typename CoefficientImageType::ConstPointer m_Coefficients;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolateImageFunction);
-
   /** Determines the weights for interpolation of the value x */
   void SetInterpolationWeights(const ContinuousIndexType & x,
                                const vnl_matrix< long > & EvaluateIndex,

@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT BinaryMorphologicalOpeningImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalOpeningImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryMorphologicalOpeningImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -104,8 +106,6 @@ protected:
   void  GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalOpeningImageFilter);
-
   PixelType m_ForegroundValue;
 
   PixelType m_BackgroundValue;

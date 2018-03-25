@@ -48,6 +48,8 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT MomentsThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MomentsThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = MomentsThresholdCalculator;
   using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
@@ -68,10 +70,6 @@ protected:
   MomentsThresholdCalculator() {};
   ~MomentsThresholdCalculator() override {};
   void GenerateData(void) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MomentsThresholdCalculator);
-
 };
 
 } // end namespace itk

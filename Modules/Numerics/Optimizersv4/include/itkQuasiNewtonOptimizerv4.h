@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT QuasiNewtonOptimizerv4Template :
   public         GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4Template);
+
   /** Standard class type aliases. */
   using Self = QuasiNewtonOptimizerv4Template;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
@@ -191,8 +193,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4Template);
-
   /** Threader for Newton step estimation. */
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_EstimateNewtonStepThreader;
 };

@@ -122,6 +122,8 @@ class WeightedAddImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedAddImageFilter);
+
   /** Standard class type aliases. */
   using Self = WeightedAddImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -173,9 +175,6 @@ public:
 protected:
   WeightedAddImageFilter() {}
   ~WeightedAddImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedAddImageFilter);
 };
 } // end namespace itk
 

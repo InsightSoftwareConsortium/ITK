@@ -144,6 +144,8 @@ class VectorImageToImageAdaptor:public
                 Accessor::VectorImageToImagePixelAccessor< TPixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorImageToImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = VectorImageToImageAdaptor;
   using VectorImageType = VectorImage< TPixelType, Dimension >;
@@ -184,9 +186,6 @@ public:
 protected:
   VectorImageToImageAdaptor() {}
   ~VectorImageToImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorImageToImageAdaptor);
 };
 } // end namespace itk
 

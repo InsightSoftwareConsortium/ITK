@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = RobustAutomaticThresholdImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -156,8 +158,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdImageFilter);
-
   double          m_Pow;
   InputPixelType  m_Threshold;
   OutputPixelType m_InsideValue;

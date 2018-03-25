@@ -78,6 +78,8 @@ class ITK_TEMPLATE_EXPORT ImageGaussianModelEstimator:
   public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageGaussianModelEstimator);
+
   /** Standard class type aliases. */
   using Self = ImageGaussianModelEstimator;
   using Superclass = ImageModelEstimatorBase< TInputImage, TMembershipFunction >;
@@ -131,8 +133,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageGaussianModelEstimator);
-
   using MatrixType = vnl_matrix< double >;
 
   using InputImageSizeType = typename TInputImage::SizeType;

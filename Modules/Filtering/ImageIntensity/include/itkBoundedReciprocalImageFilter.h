@@ -75,6 +75,8 @@ class BoundedReciprocalImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoundedReciprocalImageFilter);
+
   /** Standard class type aliases. */
   using Self = BoundedReciprocalImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -104,9 +106,6 @@ public:
 protected:
   BoundedReciprocalImageFilter() {}
   ~BoundedReciprocalImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoundedReciprocalImageFilter);
 };
 } // end namespace itk
 

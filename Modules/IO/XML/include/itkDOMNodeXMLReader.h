@@ -61,6 +61,8 @@ namespace itk
 class ITKIOXML_EXPORT DOMNodeXMLReader : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNodeXMLReader);
+
   /** Standard class type aliases. */
   using Self = DOMNodeXMLReader;
   using Superclass = Object;
@@ -141,8 +143,6 @@ protected:
   DOMNodeXMLReader();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNodeXMLReader);
-
   /** Variable to hold the input XML file name. */
   std::string m_FileName;
 

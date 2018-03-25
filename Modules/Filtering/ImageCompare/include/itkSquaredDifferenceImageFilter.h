@@ -90,6 +90,8 @@ class SquaredDifferenceImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SquaredDifferenceImageFilter);
+
   /** Standard class type aliases. */
   using Self = SquaredDifferenceImageFilter;
   using Superclass = BinaryFunctorImageFilter<
@@ -124,9 +126,6 @@ public:
 protected:
   SquaredDifferenceImageFilter() {}
   ~SquaredDifferenceImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SquaredDifferenceImageFilter);
 };
 } // end namespace itk
 

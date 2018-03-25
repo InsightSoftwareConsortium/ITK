@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT LevelSetQuadEdgeMesh :
       TMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetQuadEdgeMesh);
+
   using MeshType = TMesh;
   using MeshPointer = typename TMesh::Pointer;
 
@@ -107,8 +109,6 @@ protected:
   virtual ~LevelSetQuadEdgeMesh();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetQuadEdgeMesh);
-
   MeshPointer m_Mesh;
 };
 }

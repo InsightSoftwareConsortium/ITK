@@ -36,6 +36,8 @@ template< typename TPixel >
 class ITK_TEMPLATE_EXPORT LevelSetTestFunction: public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTestFunction);
+
   using Self = LevelSetTestFunction;
   using Superclass = LightObject;
   using Pointer = SmartPointer< Self >;
@@ -63,9 +65,6 @@ public:
 
 protected:
   LevelSetTestFunction() {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTestFunction);
 };
 
 } // end namespace itk

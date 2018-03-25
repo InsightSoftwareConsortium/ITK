@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT MaskNeighborhoodOperatorImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskNeighborhoodOperatorImageFilter);
+
   /** Standard "Self" & Superclass type alias. */
   using Self = MaskNeighborhoodOperatorImageFilter;
   using Superclass = NeighborhoodOperatorImageFilter<
@@ -174,8 +176,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskNeighborhoodOperatorImageFilter);
-
   OutputPixelType m_DefaultValue;
   bool            m_UseDefaultValue;
 };

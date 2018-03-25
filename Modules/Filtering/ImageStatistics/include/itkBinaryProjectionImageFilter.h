@@ -94,6 +94,8 @@ class BinaryProjectionImageFilter:
                                   typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryProjectionImageFilter);
+
   using Self = BinaryProjectionImageFilter;
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::BinaryAccumulator<
@@ -189,9 +191,6 @@ protected:
 
   /** Pixel value for background */
   OutputPixelType m_BackgroundValue;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryProjectionImageFilter);
 };                                           // end BinaryProjectionImageFilter
 } //end namespace itk
 

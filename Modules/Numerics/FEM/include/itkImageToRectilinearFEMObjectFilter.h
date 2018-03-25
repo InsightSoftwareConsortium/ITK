@@ -43,6 +43,8 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT ImageToRectilinearFEMObjectFilter : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToRectilinearFEMObjectFilter);
+
   /** Standard class type aliases. */
   using Self = ImageToRectilinearFEMObjectFilter;
   using Superclass = ProcessObject;
@@ -154,8 +156,6 @@ protected:
   void Generate3DRectilinearMesh();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToRectilinearFEMObjectFilter);
-
   vnl_vector<unsigned int> m_NumberOfElements;
   vnl_vector<unsigned int> m_PixelsPerElement;
   MaterialPointerType      m_Material;

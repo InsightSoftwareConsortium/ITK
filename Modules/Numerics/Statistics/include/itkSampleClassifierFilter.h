@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT SampleClassifierFilter:
   public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SampleClassifierFilter);
+
   /** Standard class type alias */
   using Self = SampleClassifierFilter;
   using Superclass = ProcessObject;
@@ -124,8 +126,6 @@ protected:
   SampleClassifierFilter();
   ~SampleClassifierFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(SampleClassifierFilter);
 
   /** Starts the classification process */
   void GenerateData() override;

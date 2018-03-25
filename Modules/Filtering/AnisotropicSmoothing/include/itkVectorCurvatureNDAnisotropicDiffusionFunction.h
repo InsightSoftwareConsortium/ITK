@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction:
   public VectorAnisotropicDiffusionFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCurvatureNDAnisotropicDiffusionFunction);
+
   /** Standard itk Self & Superclass type alias */
   using Self = VectorCurvatureNDAnisotropicDiffusionFunction;
   using Superclass = VectorAnisotropicDiffusionFunction< TImage >;
@@ -91,8 +93,6 @@ protected:
   {  Superclass::PrintSelf(os, indent);   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCurvatureNDAnisotropicDiffusionFunction);
-
   /** Inner product function. */
   VectorNeighborhoodInnerProduct< ImageType > m_InnerProduct;
 

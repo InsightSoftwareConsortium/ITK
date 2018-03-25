@@ -63,6 +63,8 @@ class ComplexToPhaseImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageFilter);
+
   /** Standard class type aliases. */
   using Self = ComplexToPhaseImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -94,9 +96,6 @@ public:
 protected:
   ComplexToPhaseImageFilter() {}
   ~ComplexToPhaseImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageFilter);
 };
 } // end namespace itk
 

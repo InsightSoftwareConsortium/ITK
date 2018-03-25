@@ -82,6 +82,8 @@ template<typename TParametersValueType,
 class ITK_TEMPLATE_EXPORT Transform : public TransformBaseTemplate<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Transform);
+
   /** Standard class type aliases. */
   using Self = Transform;
   using Superclass = TransformBaseTemplate<TParametersValueType>;
@@ -544,8 +546,6 @@ protected:
   mutable DirectionChangeMatrix m_DirectionChange;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Transform);
-
   template <typename TType>
   static std::string GetTransformTypeAsString(TType *)
   {

@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT OtsuMultipleThresholdsImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OtsuMultipleThresholdsImageFilter);
+
   /** Standard Self type alias */
   using Self = OtsuMultipleThresholdsImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -137,8 +139,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OtsuMultipleThresholdsImageFilter);
-
   SizeValueType       m_NumberOfHistogramBins;
   SizeValueType       m_NumberOfThresholds;
   OutputPixelType     m_LabelOffset;

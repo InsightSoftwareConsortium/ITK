@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationOverlapPenaltyTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationOverlapPenaltyTerm);
+
   using Self = LevelSetEquationOverlapPenaltyTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -123,8 +125,6 @@ protected:
                                         const LevelSetDataType& data ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationOverlapPenaltyTerm);
-
   DomainMapImageFilterType *m_DomainMapImageFilter;
   CacheImageType           *m_CacheImage;
 };

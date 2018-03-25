@@ -165,6 +165,8 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT KLMRegionGrowImageFilter:public RegionGrowImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KLMRegionGrowImageFilter);
+
   /** Standard class type aliases. */
   using Self = KLMRegionGrowImageFilter;
   using Superclass = RegionGrowImageFilter< TInputImage, TOutputImage >;
@@ -350,8 +352,6 @@ protected:
   virtual void ResolveRegions();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KLMRegionGrowImageFilter);
-
   using InputImageSizeType = typename TInputImage::SizeType;
   using KLMSegmentationRegionPtr = typename KLMSegmentationRegion::Pointer;
   using KLMSegmentationBorderPtr = typename KLMSegmentationBorder::Pointer;

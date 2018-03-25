@@ -48,6 +48,8 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT GetAverageSliceImageFilter:public AccumulateImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GetAverageSliceImageFilter);
+
   /** Standard class type aliases. */
   using Self = GetAverageSliceImageFilter;
   using Superclass = AccumulateImageFilter< TInputImage, TOutputImage >;
@@ -70,8 +72,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GetAverageSliceImageFilter);
-
   unsigned int m_AveragedOutDimension;
 };
 } // end namespace itk

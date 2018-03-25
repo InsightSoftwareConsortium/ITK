@@ -91,6 +91,8 @@ class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldImageRegistrationMethod
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldImageRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = TimeVaryingBSplineVelocityFieldImageRegistrationMethod;
   using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform,
@@ -220,8 +222,6 @@ protected:
     const PointSetsContainerType, const TransformBaseType *, const FixedImageMasksContainerType );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldImageRegistrationMethod);
-
   DisplacementFieldTransformPointer                   m_IdentityDisplacementFieldTransform;
 
   RealType                                            m_LearningRate;

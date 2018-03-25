@@ -166,6 +166,8 @@ class ITK_TEMPLATE_EXPORT MultiphaseFiniteDifferenceImageFilter:
   public InPlaceImageFilter< TFeatureImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseFiniteDifferenceImageFilter);
+
   /** Standard class type aliases. */
   using Self = MultiphaseFiniteDifferenceImageFilter;
   using Superclass = InPlaceImageFilter< TFeatureImage, TOutputImage >;
@@ -510,8 +512,6 @@ protected:
   virtual void PostProcessOutput() {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseFiniteDifferenceImageFilter);
-
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */
   bool m_ManualReinitialization;

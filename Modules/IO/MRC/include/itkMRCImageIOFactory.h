@@ -49,6 +49,8 @@ class ITKIOMRC_EXPORT MRCImageIOFactory
   : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = MRCImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -77,10 +79,6 @@ public:
 protected:
   MRCImageIOFactory();
   ~MRCImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIOFactory);
-
 };
 } // end namespace itk
 

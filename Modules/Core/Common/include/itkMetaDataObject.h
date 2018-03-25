@@ -73,6 +73,8 @@ template< typename MetaDataObjectType >
 class ITK_TEMPLATE_EXPORT MetaDataObject:public MetaDataObjectBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObject);
+
   /** Smart pointer type alias support */
   using Self = MetaDataObject;
   using Superclass = MetaDataObjectBase;
@@ -126,8 +128,6 @@ protected:
   ~MetaDataObject() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObject);
-
   /**
    * A variable to store this derived type.
    * \author Hans J. Johnson

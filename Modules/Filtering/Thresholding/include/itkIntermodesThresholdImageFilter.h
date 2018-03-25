@@ -53,6 +53,8 @@ class IntermodesThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IntermodesThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = IntermodesThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>;
@@ -136,8 +138,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IntermodesThresholdImageFilter);
-
   typename CalculatorType::Pointer m_IntermodesCalculator;
 
 };

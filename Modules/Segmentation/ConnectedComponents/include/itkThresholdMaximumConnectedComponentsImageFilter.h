@@ -75,6 +75,8 @@ class ITK_TEMPLATE_EXPORT ThresholdMaximumConnectedComponentsImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdMaximumConnectedComponentsImageFilter);
+
   /** Standard class type aliases. */
   using Self = ThresholdMaximumConnectedComponentsImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -172,8 +174,6 @@ private:
       itk::Image< FilterPixelType, Self::ImageDimension >;
 
   using FilterImagePointer = typename FilterImageType::Pointer;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdMaximumConnectedComponentsImageFilter);
 
   //
   // Binary Threshold Filter

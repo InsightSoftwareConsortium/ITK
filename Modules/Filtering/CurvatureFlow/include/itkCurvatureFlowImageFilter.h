@@ -91,6 +91,8 @@ class ITK_TEMPLATE_EXPORT CurvatureFlowImageFilter:
   public DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowImageFilter);
+
   /** Standard class type aliases. */
   using Self = CurvatureFlowImageFilter;
   using Superclass = DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >;
@@ -187,8 +189,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowImageFilter);
-
   TimeStepType m_TimeStep;
 };
 } // end namspace itk

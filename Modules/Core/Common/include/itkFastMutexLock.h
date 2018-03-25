@@ -59,6 +59,8 @@ namespace itk
 class ITKCommon_EXPORT FastMutexLock:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMutexLock);
+
   /** Standard class type aliases. */
   using Self = FastMutexLock;
   using Superclass = Object;
@@ -88,9 +90,6 @@ protected:
 
   SimpleFastMutexLock m_SimpleFastMutexLock;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMutexLock);
 };
 
 inline void FastMutexLock::Lock()

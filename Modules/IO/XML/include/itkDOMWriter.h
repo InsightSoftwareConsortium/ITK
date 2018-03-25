@@ -66,6 +66,8 @@ template< typename TInput >
 class ITK_TEMPLATE_EXPORT DOMWriter : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMWriter);
+
   /** Standard class type aliases. */
   using Self = DOMWriter;
 
@@ -122,8 +124,6 @@ protected:
   virtual void GenerateData( DOMNodeType* outputdom, const void* userdata ) const = 0;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMWriter);
-
   /** Get/Set the intermediate DOM object. */
   itkSetObjectMacro( IntermediateDOM, DOMNodeType );
   itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType );

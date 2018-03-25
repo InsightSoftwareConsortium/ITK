@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT CurvesLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = CurvesLevelSetFunction;
   using Superclass = SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
@@ -124,8 +126,6 @@ protected:
   }
 
   ~CurvesLevelSetFunction() override {}
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetFunction);
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

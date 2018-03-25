@@ -56,6 +56,8 @@ template< typename TOutputImage >
 class ITK_TEMPLATE_EXPORT VTKImageImport:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageImport);
+
   /** Standard class type aliases. */
   using Self = VTKImageImport;
   using Superclass = ImageSource< TOutputImage >;
@@ -166,8 +168,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageImport);
-
   void *                            m_CallbackUserData;
   UpdateInformationCallbackType     m_UpdateInformationCallback;
   PipelineModifiedCallbackType      m_PipelineModifiedCallback;

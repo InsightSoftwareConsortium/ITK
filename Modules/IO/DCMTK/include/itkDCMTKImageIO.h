@@ -39,6 +39,8 @@ namespace itk
 class ITKIODCMTK_EXPORT DCMTKImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIO);
+
   /** Standard class type aliases. */
   using Self = DCMTKImageIO;
   using Superclass = ImageIOBase;
@@ -107,8 +109,6 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIO);
-
   void OpenDicomImage();
 
   /** Finds the correct type to call the templated function ReorderRGBValues(...) */

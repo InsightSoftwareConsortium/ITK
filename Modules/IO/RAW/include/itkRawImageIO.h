@@ -48,6 +48,8 @@ template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT RawImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RawImageIO);
+
   /** Standard class type aliases. */
   using Self = RawImageIO;
   using Superclass = ImageIOBase;
@@ -139,8 +141,6 @@ protected:
   //void ComputeInternalFileName(unsigned long slice);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RawImageIO);
-
   std::string m_InternalFileName;
 
   unsigned long  m_FileDimensionality;
@@ -153,6 +153,8 @@ template< typename TPixel, unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT RawImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RawImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = RawImageIOFactory< TPixel, VImageDimension >;
   using Superclass = ObjectFactoryBase;
@@ -187,9 +189,6 @@ protected:
   ~RawImageIOFactory() override {}
   using myProductType = RawImageIO< TPixel, VImageDimension >;
   const myProductType *m_MyProduct;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RawImageIOFactory);
 };
 } // namespace itk
 

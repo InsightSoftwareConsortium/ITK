@@ -73,6 +73,8 @@ class ITKStatistics_EXPORT ProbabilityDistribution:
   public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProbabilityDistribution);
+
   /** Standard class type aliases */
   using Self = ProbabilityDistribution;
   using Superclass = Object;
@@ -151,9 +153,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   ParametersType m_Parameters;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProbabilityDistribution);
 };                                       // end of class
 } // end of namespace Statistics
 } // end namespace itk

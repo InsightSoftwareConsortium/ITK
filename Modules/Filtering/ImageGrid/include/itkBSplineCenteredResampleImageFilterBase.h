@@ -65,6 +65,8 @@ class ITK_TEMPLATE_EXPORT BSplineCenteredResampleImageFilterBase:
   public BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineCenteredResampleImageFilterBase);
+
   /** Standard class type aliases. */
   using Self = BSplineCenteredResampleImageFilterBase;
   using Superclass = BSplineResampleImageFilterBase< TInputImage, TOutputImage >;
@@ -107,8 +109,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineCenteredResampleImageFilterBase);
-
   using IndexValueType = typename TInputImage::IndexValueType;
   using SizeValueType = typename TInputImage::SizeValueType;
 

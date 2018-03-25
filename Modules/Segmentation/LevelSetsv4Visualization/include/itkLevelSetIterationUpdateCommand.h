@@ -38,6 +38,8 @@ template< typename TIteratingFilter, typename TFilterToUpdate >
 class ITK_TEMPLATE_EXPORT LevelSetIterationUpdateCommand : public Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetIterationUpdateCommand);
+
   using Self = LevelSetIterationUpdateCommand;
   using Superclass = Command;
   using Pointer = SmartPointer< Self >;
@@ -69,8 +71,6 @@ protected:
   ~LevelSetIterationUpdateCommand() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetIterationUpdateCommand);
-
   WeakPointer< FilterToUpdateType >  m_FilterToUpdate;
   IdentifierType                     m_UpdatePeriod;
 };

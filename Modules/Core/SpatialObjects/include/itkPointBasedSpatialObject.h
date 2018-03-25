@@ -38,6 +38,7 @@ class ITK_TEMPLATE_EXPORT PointBasedSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointBasedSpatialObject);
 
   using Self = PointBasedSpatialObject;
   using Superclass = SpatialObject< TDimension >;
@@ -90,8 +91,6 @@ public:
   }
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointBasedSpatialObject);
-
   PointBasedSpatialObject();
   ~PointBasedSpatialObject() override;
 

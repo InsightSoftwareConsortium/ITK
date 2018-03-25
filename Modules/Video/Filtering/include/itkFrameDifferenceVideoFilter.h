@@ -37,6 +37,7 @@ class ITK_TEMPLATE_EXPORT FrameDifferenceVideoFilter :
   public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrameDifferenceVideoFilter);
 
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;
@@ -80,8 +81,6 @@ protected:
                 int threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrameDifferenceVideoFilter);
-
 
 };  // end class FrameDifferenceVideoFilter
 

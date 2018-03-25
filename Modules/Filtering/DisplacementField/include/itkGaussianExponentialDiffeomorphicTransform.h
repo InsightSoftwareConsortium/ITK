@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransform :
   public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianExponentialDiffeomorphicTransform);
+
   /** Standard class type aliases. */
   using Self = GaussianExponentialDiffeomorphicTransform;
   using Superclass = ConstantVelocityFieldTransform<TParametersValueType, NDimensions>;
@@ -127,8 +129,6 @@ protected:
   void PrintSelf( std::ostream &, Indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianExponentialDiffeomorphicTransform);
-
   ScalarType                              m_GaussianSmoothingVarianceForTheUpdateField;
   ScalarType                              m_GaussianSmoothingVarianceForTheConstantVelocityField;
 };

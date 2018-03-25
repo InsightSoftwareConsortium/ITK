@@ -92,6 +92,8 @@ class AbsoluteValueDifferenceImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AbsoluteValueDifferenceImageFilter);
+
   /** Standard class type aliases. */
   using Self = AbsoluteValueDifferenceImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -124,9 +126,6 @@ public:
 protected:
   AbsoluteValueDifferenceImageFilter() {}
   ~AbsoluteValueDifferenceImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AbsoluteValueDifferenceImageFilter);
 };
 } // end namespace itk
 

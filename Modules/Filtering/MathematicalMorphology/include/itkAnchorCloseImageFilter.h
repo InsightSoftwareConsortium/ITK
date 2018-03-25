@@ -30,6 +30,8 @@ class AnchorCloseImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorCloseImageFilter);
+
   using Self = AnchorCloseImageFilter;
   using Superclass = AnchorOpenCloseImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType >,
                                       std::less< typename TImage::PixelType > >;
@@ -50,7 +52,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorCloseImageFilter);
 };
 } // namespace itk
 

@@ -39,6 +39,8 @@ namespace itk
 class ITKIOMesh_EXPORT GiftiMeshIO:public MeshIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIO);
+
   /** Standard class type aliases. */
   using Self = GiftiMeshIO;
   using Superclass = MeshIOBase;
@@ -148,10 +150,6 @@ private:
 
   bool          m_ReadPointData;
   DirectionType m_Direction;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIO);
-
 };
 } // end namespace itk
 

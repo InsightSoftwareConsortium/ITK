@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT DanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DanielssonDistanceMapImageFilter);
+
   /** Standard class type aliases. */
   using Self = DanielssonDistanceMapImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -221,8 +223,6 @@ protected:
                            const OffsetType &);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DanielssonDistanceMapImageFilter);
-
   bool m_SquaredDistance;
   bool m_InputIsBinary;
   bool m_UseImageSpacing;

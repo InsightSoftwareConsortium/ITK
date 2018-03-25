@@ -29,6 +29,8 @@ class AnchorDilateImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorDilateImageFilter);
+
   using Self = AnchorDilateImageFilter;
   using Superclass =
       AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType > >;
@@ -55,7 +57,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorDilateImageFilter);
 };
 } // namespace itk
 

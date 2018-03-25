@@ -62,6 +62,8 @@ class ITKStatistics_EXPORT GaussianDistribution:
   public ProbabilityDistribution
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDistribution);
+
   /** Standard class type aliases */
   using Self = GaussianDistribution;
   using Superclass = ProbabilityDistribution;
@@ -235,9 +237,6 @@ protected:
   ~GaussianDistribution(void) override {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDistribution);
 };                                    // end of class
 } // end of namespace Statistics
 } // end namespace itk

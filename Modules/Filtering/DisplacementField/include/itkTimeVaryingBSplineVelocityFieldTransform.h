@@ -69,6 +69,8 @@ class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransform :
   public VelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransform);
+
   /** Standard class type aliases. */
   using Self = TimeVaryingBSplineVelocityFieldTransform;
   using Superclass = VelocityFieldTransform<TParametersValueType, NDimensions>;
@@ -175,8 +177,6 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransform);
-
   unsigned int                                                   m_SplineOrder;
   bool                                                           m_TemporalPeriodicity;
 

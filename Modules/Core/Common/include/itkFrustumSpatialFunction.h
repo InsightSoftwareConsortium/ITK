@@ -41,6 +41,7 @@ class ITK_TEMPLATE_EXPORT FrustumSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrustumSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = FrustumSpatialFunction< VDimension, TInput >;
@@ -103,8 +104,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrustumSpatialFunction);
-
   InputType                 m_Apex;
   double                    m_AngleZ;
   double                    m_ApertureAngleX;

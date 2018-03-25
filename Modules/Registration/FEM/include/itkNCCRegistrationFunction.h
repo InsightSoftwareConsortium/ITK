@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT NCCRegistrationFunction:
                                             TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NCCRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = NCCRegistrationFunction;
   using Superclass = PDEDeformableRegistrationFunction< TFixedImage,
@@ -161,8 +163,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NCCRegistrationFunction);
-
   /** The global timestep. */
   TimeStepType m_TimeStep;
 

@@ -83,6 +83,8 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT RobustSolver : public Solver<VDimension>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RobustSolver);
+
   /** Standard class type aliases. */
   using Self = RobustSolver;
   using Superclass = Solver<VDimension>;
@@ -301,8 +303,6 @@ protected:
   void AddExternalForcesToSetMeshZeroEnergy();
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(RobustSolver);
 
   /**
    * The number of outlier rejection.

@@ -49,6 +49,8 @@ namespace itk
 class ITKCommon_EXPORT PoolMultiThreader : public MultiThreaderBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PoolMultiThreader);
+
   /** Standard class type aliases. */
   using Self = PoolMultiThreader;
   using Superclass = Object;
@@ -95,8 +97,6 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PoolMultiThreader);
-
   // Thread pool instance and factory
   ThreadPool::Pointer m_ThreadPool;
 

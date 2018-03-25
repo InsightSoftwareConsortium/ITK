@@ -68,6 +68,8 @@ class ITK_TEMPLATE_EXPORT ImageSource
   : public ProcessObject, private ImageSourceCommon
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSource);
+
   /** Standard class type aliases. */
   using Self = ImageSource;
   using Superclass = ProcessObject;
@@ -341,9 +343,6 @@ protected:
   struct ThreadStruct {
     Pointer Filter;
   };
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSource);
 };
 } // end namespace itk
 

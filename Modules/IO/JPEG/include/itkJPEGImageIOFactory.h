@@ -32,6 +32,8 @@ namespace itk
 class ITKIOJPEG_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = JPEGImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -60,9 +62,6 @@ public:
 protected:
   JPEGImageIOFactory();
   ~JPEGImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIOFactory);
 };
 } // end namespace itk
 

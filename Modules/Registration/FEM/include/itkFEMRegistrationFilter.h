@@ -118,6 +118,8 @@ template <typename TMovingImage, typename TFixedImage, typename TFemObjectType>
 class ITK_TEMPLATE_EXPORT FEMRegistrationFilter : public ImageToImageFilter<TMovingImage, TFixedImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMRegistrationFilter);
+
   using Self = FEMRegistrationFilter;
   using Superclass = ImageToImageFilter<TMovingImage, TFixedImage>;
   using Pointer = SmartPointer<Self>;
@@ -578,8 +580,6 @@ protected:
 private:
 
   void InitializeField();
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMRegistrationFilter);
 
   unsigned int m_DoLineSearchOnImageEnergy;
   unsigned int m_LineSearchMaximumIterations;

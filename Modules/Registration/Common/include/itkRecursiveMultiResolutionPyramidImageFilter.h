@@ -68,6 +68,8 @@ class ITK_TEMPLATE_EXPORT RecursiveMultiResolutionPyramidImageFilter:
   public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveMultiResolutionPyramidImageFilter);
+
   /** Standard class type aliases. */
   using Self = RecursiveMultiResolutionPyramidImageFilter;
   using Superclass =
@@ -114,9 +116,6 @@ protected:
 
   /** Generate the output data. */
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveMultiResolutionPyramidImageFilter);
 };
 } // namespace itk
 

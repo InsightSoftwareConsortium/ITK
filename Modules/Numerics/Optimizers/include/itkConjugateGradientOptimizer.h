@@ -36,6 +36,8 @@ class ITKOptimizers_EXPORT ConjugateGradientOptimizer:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConjugateGradientOptimizer);
+
   /** Standard class type aliases. */
   using Self = ConjugateGradientOptimizer;
   using Superclass = SingleValuedNonLinearVnlOptimizer;
@@ -78,8 +80,6 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConjugateGradientOptimizer);
-
   /**  The vnl optimization method for conjugate gradient. */
   bool                   m_OptimizerInitialized;
   InternalOptimizerType *m_VnlOptimizer;

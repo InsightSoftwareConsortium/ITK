@@ -37,6 +37,7 @@ template< unsigned int NDimensions = 3,
 class ITK_TEMPLATE_EXPORT SpatialObjectReader:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectReader);
 
   /** SmartPointer type alias support */
   using Self = SpatialObjectReader;
@@ -85,8 +86,6 @@ public:
                              MetaConverterBaseType *converter);
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectReader);
-
   std::string m_FileName;
 
   SpatialObjectReader();

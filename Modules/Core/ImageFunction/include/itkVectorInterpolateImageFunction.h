@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT VectorInterpolateImageFunction:
     TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorInterpolateImageFunction);
+
   /** Extract the vector dimension from the pixel template parameter. */
   static constexpr unsigned int Dimension = TInputImage::PixelType::Dimension;
 
@@ -140,9 +142,6 @@ protected:
   ~VectorInterpolateImageFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorInterpolateImageFunction);
 };
 } // end namespace itk
 

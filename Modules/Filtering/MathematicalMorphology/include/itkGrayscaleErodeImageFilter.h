@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleErodeImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleErodeImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleErodeImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -135,8 +137,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleErodeImageFilter);
-
   PixelType m_Boundary;
 
   // the filters used internally

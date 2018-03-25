@@ -44,6 +44,8 @@ template< typename TInput, typename TOutput >
 class ITK_TEMPLATE_EXPORT FunctionBase:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FunctionBase);
+
   /** Standard class type aliases. */
   using Self = FunctionBase;
   using Superclass = Object;
@@ -65,9 +67,6 @@ public:
 protected:
   FunctionBase(){}
   ~FunctionBase() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FunctionBase);
 };
 } // end namespace itk
 

@@ -50,6 +50,8 @@ class GenericCUBFileAdaptor;
 class VoxBoCUBImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoxBoCUBImageIO);
+
   /** Standard class type aliases. */
   using Self = VoxBoCUBImageIO;
   using Superclass = ImageIOBase;
@@ -91,8 +93,6 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoxBoCUBImageIO);
-
   bool CheckExtension(const char *, bool & isCompressed);
 
   GenericCUBFileAdaptor * CreateReader(const char *filename);

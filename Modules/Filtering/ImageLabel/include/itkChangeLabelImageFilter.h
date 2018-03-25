@@ -116,6 +116,8 @@ class ITK_TEMPLATE_EXPORT ChangeLabelImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeLabelImageFilter);
+
   /** Standard class type aliases. */
   using Self = ChangeLabelImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -162,9 +164,6 @@ protected:
   ChangeLabelImageFilter();
   ~ChangeLabelImageFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeLabelImageFilter);
 };
 } // end namespace itk
 

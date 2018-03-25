@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT TriangleCell:
   public TCellInterface, private TriangleCellTopology
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleCell);
+
   /** Standard class type aliases. */
   itkCellCommonTypedefs(TriangleCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -133,8 +135,6 @@ protected:
   std::vector< PointIdentifier > m_PointIds;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleCell);
-
   /** Computes the SQUARED distance between a point and a line segment defined
    * by two other points */
   double DistanceToLine(PointType x, PointType p1, PointType p2,

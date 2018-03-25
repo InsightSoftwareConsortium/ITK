@@ -92,6 +92,8 @@ class ITK_TEMPLATE_EXPORT VectorThresholdSegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = VectorThresholdSegmentationLevelSetImageFilter;
   using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
@@ -157,8 +159,6 @@ protected:
   VectorThresholdSegmentationLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetImageFilter);
 
 private:
   ThresholdFunctionPointer m_ThresholdFunction;

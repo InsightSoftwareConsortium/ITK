@@ -38,6 +38,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT QuadraticTriangleCell:public TCellInterface, private QuadraticTriangleCellTopology
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticTriangleCell);
+
   /** Standard class type aliases. */
   itkCellCommonTypedefs(QuadraticTriangleCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -117,9 +119,6 @@ public:
 protected:
   /** Store the number of points needed for a triangle. */
   PointIdentifier m_PointIds[NumberOfPoints];
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticTriangleCell);
 };
 } // end namespace itk
 

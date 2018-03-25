@@ -36,6 +36,8 @@ template< unsigned int NDimensions = 3,
 class FEMSpatialObjectReader : public SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectReader);
+
   using Self = FEMSpatialObjectReader;
   using Superclass = SpatialObjectReader<NDimensions,PixelType,TMeshTraits>;
   using Pointer = SmartPointer< Self >;
@@ -47,8 +49,6 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectReader);
-
   std::string m_FileName;
 
   FEMSpatialObjectReader();

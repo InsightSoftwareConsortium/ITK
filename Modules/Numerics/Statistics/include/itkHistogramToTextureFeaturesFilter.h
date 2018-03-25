@@ -102,6 +102,8 @@ template< typename THistogram >
 class ITK_TEMPLATE_EXPORT HistogramToTextureFeaturesFilter:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToTextureFeaturesFilter);
+
   /** Standard type alias */
   using Self = HistogramToTextureFeaturesFilter;
   using Superclass = ProcessObject;
@@ -211,8 +213,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToTextureFeaturesFilter);
-
   void ComputeMeansAndVariances(double & pixelMean, double & marginalMean,
                                 double & marginalDevSquared, double & pixelVariance);
 

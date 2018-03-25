@@ -36,6 +36,8 @@ template< typename TInputPath, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT PathToImageFilter:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PathToImageFilter);
+
   /** Standard class type aliases. */
   using Self = PathToImageFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -116,9 +118,6 @@ protected:
   ValueType m_BackgroundValue;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PathToImageFilter);
 };
 } // end namespace itk
 

@@ -40,6 +40,8 @@ template <typename TPixel, unsigned int VImageDimension = 2>
 class ITK_TEMPLATE_EXPORT GPUImage : public Image<TPixel,VImageDimension>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImage);
+
   using Self = GPUImage;
   using Superclass = Image<TPixel,VImageDimension>;
   using Pointer = SmartPointer<Self>;
@@ -183,13 +185,14 @@ protected:
   using Superclass::Graft;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImage);
   typename GPUImageDataManager< GPUImage >::Pointer m_DataManager;
 };
 
 class ITK_TEMPLATE_EXPORT GPUImageFactory : public itk::ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageFactory);
+
   using Self = GPUImageFactory;
   using Superclass = itk::ObjectFactoryBase;
   using Pointer = itk::SmartPointer<Self>;
@@ -218,8 +221,6 @@ public:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageFactory);
-
 #define OverrideImageTypeMacro(pt,dm)    this->RegisterOverride( \
     typeid(itk::Image<pt,dm>).name(), \
     typeid(itk::GPUImage<pt,dm>).name(), \

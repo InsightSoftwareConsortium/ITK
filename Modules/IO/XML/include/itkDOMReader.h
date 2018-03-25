@@ -65,6 +65,8 @@ template< typename TOutput >
 class ITK_TEMPLATE_EXPORT DOMReader : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMReader);
+
   /** Standard class type aliases. */
   using Self = DOMReader;
 
@@ -127,8 +129,6 @@ protected:
   virtual void GenerateData( const DOMNodeType* inputdom, const void* userdata ) = 0;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMReader);
-
   /** Get/Set the intermediate DOM object. */
   itkSetObjectMacro( IntermediateDOM, DOMNodeType );
   itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType );

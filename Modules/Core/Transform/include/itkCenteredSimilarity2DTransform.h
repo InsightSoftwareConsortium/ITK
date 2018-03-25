@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT CenteredSimilarity2DTransform :
   public Similarity2DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredSimilarity2DTransform);
+
   /** Standard class type aliases. */
   using Self = CenteredSimilarity2DTransform;
   using Superclass = Similarity2DTransform<TParametersValueType>;
@@ -167,9 +169,6 @@ protected:
 
   ~CenteredSimilarity2DTransform() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredSimilarity2DTransform);
 };
 
 } // end namespace itk

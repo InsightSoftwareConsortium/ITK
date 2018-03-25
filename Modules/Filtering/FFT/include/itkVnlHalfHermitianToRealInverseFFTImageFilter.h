@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT VnlHalfHermitianToRealInverseFFTImageFilter:
   public HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VnlHalfHermitianToRealInverseFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -93,8 +95,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlHalfHermitianToRealInverseFFTImageFilter);
-
   using SignalVectorType = vnl_vector< InputPixelType  >;
 };
 }

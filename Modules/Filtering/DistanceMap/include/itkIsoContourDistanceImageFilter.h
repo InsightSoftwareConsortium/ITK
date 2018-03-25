@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT IsoContourDistanceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IsoContourDistanceImageFilter);
+
   /** Standard class type aliases. */
   using Self = IsoContourDistanceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -176,8 +178,6 @@ protected:
                      const std::vector< OffsetValueType >& stride );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsoContourDistanceImageFilter);
-
   PixelRealType  m_LevelSetValue;
   PixelType      m_FarValue;
 

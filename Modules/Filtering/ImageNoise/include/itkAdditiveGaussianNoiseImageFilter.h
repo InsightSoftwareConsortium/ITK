@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT AdditiveGaussianNoiseImageFilter :
   public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseImageFilter);
+
   /** Standard class type aliases. */
   using Self = AdditiveGaussianNoiseImageFilter;
   using Superclass = NoiseBaseImageFilter< TInputImage,TOutputImage >;
@@ -106,8 +108,6 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseImageFilter);
-
   double m_Mean;
   double m_StandardDeviation;
 

@@ -44,6 +44,8 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT NeighborhoodSampler:public SampleToSubsampleFilter< TSample >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodSampler);
+
   /** Standard class type aliases. */
   using Self = NeighborhoodSampler;
   using Superclass = SampleToSubsampleFilter< TSample >;
@@ -78,9 +80,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodSampler);
 };                                   // end of class
 } // end of namespace Statistics
 } // end of namespace itk

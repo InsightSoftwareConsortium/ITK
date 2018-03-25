@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT VectorCentralDifferenceImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCentralDifferenceImageFunction);
+
   using InputPixelType = typename TInputImage::PixelType;
 
   /** Extract the vector dimension from the pixel template parameter. */
@@ -145,8 +147,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCentralDifferenceImageFunction);
-
   // flag to take or not the image direction into account
   // when computing the derivatives.
   bool m_UseImageDirection;

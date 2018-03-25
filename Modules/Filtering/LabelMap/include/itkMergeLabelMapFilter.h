@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT MergeLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MergeLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = MergeLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -114,8 +116,6 @@ protected:
   MethodChoice m_Method;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MergeLabelMapFilter);
-
   void MergeWithKeep();
 
   void MergeWithAggregate();

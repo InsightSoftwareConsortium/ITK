@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithSoftConstrai
   public LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints);
+
   /** Basic types. */
   using Self = LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints;
   using Superclass = LaplacianDeformationQuadEdgeMeshFilter< TInputMesh,
@@ -110,9 +112,6 @@ protected:
 
   itksys::hash_map< OutputPointIdentifier, OutputCoordRepType > m_LocalLambdaSquare;
 
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints);
 };
 } // end namespace itk
 

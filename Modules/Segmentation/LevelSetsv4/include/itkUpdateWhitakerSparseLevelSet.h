@@ -45,6 +45,8 @@ template< unsigned int VDimension,
 class ITK_TEMPLATE_EXPORT UpdateWhitakerSparseLevelSet : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateWhitakerSparseLevelSet);
+
   using Self = UpdateWhitakerSparseLevelSet;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -158,8 +160,6 @@ protected:
   void MovePointFromPlus2();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateWhitakerSparseLevelSet);
-
   LevelSetOutputType m_TimeStep;
   LevelSetOutputType m_RMSChangeAccumulator;
   IdentifierType     m_CurrentLevelSetId;

@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT CustomColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CustomColormapFunction);
 
   using Self = CustomColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -98,8 +99,6 @@ protected:
   ~CustomColormapFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CustomColormapFunction);
-
   ChannelType m_RedChannel;
   ChannelType m_GreenChannel;
   ChannelType m_BlueChannel;

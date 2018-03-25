@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT GPUUnaryFunctorImageFilter : public GPUInPlaceImageFil
                                                                             TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUUnaryFunctorImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUUnaryFunctorImageFilter;
   using CPUSuperclass = TParentImageFilter;
@@ -95,8 +97,6 @@ protected:
   int m_UnaryFunctorImageFilterGPUKernelHandle;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUUnaryFunctorImageFilter);
-
   FunctorType m_Functor;
 
 };

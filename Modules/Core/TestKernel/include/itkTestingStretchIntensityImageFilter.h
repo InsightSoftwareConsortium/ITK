@@ -41,6 +41,8 @@ template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT StretchIntensityImageFilter: public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StretchIntensityImageFilter);
+
   /** Standard class type aliases. */
   using Self = StretchIntensityImageFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -115,8 +117,6 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StretchIntensityImageFilter);
-
   RealType m_Scale;
   RealType m_Shift;
 

@@ -228,6 +228,8 @@ class MovingHistogramMorphologicalGradientImageFilter:
                                                                                          PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologicalGradientImageFilter);
+
   /** Standard class type aliases. */
   using Self = MovingHistogramMorphologicalGradientImageFilter;
   using Superclass = MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
@@ -267,9 +269,6 @@ public:
 protected:
   MovingHistogramMorphologicalGradientImageFilter() {}
   ~MovingHistogramMorphologicalGradientImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologicalGradientImageFilter);
 };                                                               // end of class
 } // end namespace itk
 

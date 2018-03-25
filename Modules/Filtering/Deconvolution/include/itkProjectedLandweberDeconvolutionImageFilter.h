@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT ProjectedLandweberDeconvolutionImageFilter :
     public ProjectedIterativeDeconvolutionImageFilter< LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedLandweberDeconvolutionImageFilter);
+
     /** Standard type alias. */
   using Self = ProjectedLandweberDeconvolutionImageFilter;
   using Superclass = ProjectedIterativeDeconvolutionImageFilter<
@@ -78,10 +80,6 @@ public:
 protected:
   ProjectedLandweberDeconvolutionImageFilter();
   ~ProjectedLandweberDeconvolutionImageFilter() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedLandweberDeconvolutionImageFilter);
-
 };
 } // end namespace itk
 

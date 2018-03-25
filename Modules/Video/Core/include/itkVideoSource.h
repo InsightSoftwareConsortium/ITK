@@ -43,6 +43,7 @@ template< typename TOutputVideoStream >
 class ITK_TEMPLATE_EXPORT VideoSource : public TemporalProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoSource);
 
   /*-TYPEDEFS----------------------------------------------------------------*/
 
@@ -176,8 +177,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoSource);
 
 };  // end class VideoSource
 

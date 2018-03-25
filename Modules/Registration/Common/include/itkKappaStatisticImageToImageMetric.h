@@ -55,6 +55,7 @@ class ITK_TEMPLATE_EXPORT KappaStatisticImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KappaStatisticImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = KappaStatisticImageToImageMetric;
@@ -125,8 +126,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KappaStatisticImageToImageMetric);
-
   RealType m_ForegroundValue;
   bool     m_Complement;
 };

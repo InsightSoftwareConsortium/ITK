@@ -38,6 +38,8 @@ namespace itk
 class ParticleSwarmOptimizerDOMWriter : public DOMWriter<ParticleSwarmOptimizer>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerDOMWriter);
+
   /** Standard class type aliases. */
   using Self = ParticleSwarmOptimizerDOMWriter;
   using Superclass = DOMWriter<ParticleSwarmOptimizer>;
@@ -58,9 +60,6 @@ protected:
    * It should fill the contents of the intermediate DOM object by pulling information from the input object.
    */
   void GenerateData( DOMNodeType* outputdom, const void* ) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerDOMWriter);
 };
 
 } // namespace itk

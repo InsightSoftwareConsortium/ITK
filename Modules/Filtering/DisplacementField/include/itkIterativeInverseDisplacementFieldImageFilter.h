@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT IterativeInverseDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeInverseDisplacementFieldImageFilter);
+
   /** Standard class type aliases. */
   using Self = IterativeInverseDisplacementFieldImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -123,9 +125,6 @@ protected:
 
   double m_StopValue;
   double m_Time;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeInverseDisplacementFieldImageFilter);
 };
 } // end namespace itk
 

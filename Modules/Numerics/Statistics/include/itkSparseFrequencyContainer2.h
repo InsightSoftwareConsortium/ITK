@@ -41,6 +41,8 @@ namespace Statistics
 class ITKStatistics_EXPORT SparseFrequencyContainer2:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFrequencyContainer2);
+
   /** Standard class type aliases. */
   using Self = SparseFrequencyContainer2;
   using Superclass = Object;
@@ -101,8 +103,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFrequencyContainer2);
-
   // Container of histogram
   FrequencyContainerType     m_FrequencyContainer;
   TotalAbsoluteFrequencyType m_TotalFrequency;

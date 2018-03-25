@@ -31,6 +31,8 @@ namespace itk
 class ITKIOGIPL_EXPORT GiplImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = GiplImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,9 +61,6 @@ public:
 protected:
   GiplImageIOFactory();
   ~GiplImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIOFactory);
 };
 } // end namespace itk
 

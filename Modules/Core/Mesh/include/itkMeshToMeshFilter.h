@@ -47,6 +47,8 @@ template< typename TInputMesh, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT MeshToMeshFilter:public MeshSource< TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshToMeshFilter);
+
   /** Standard class type aliases. */
   using Self = MeshToMeshFilter;
   using Superclass = MeshSource< TOutputMesh >;
@@ -87,9 +89,6 @@ protected:
   void CopyInputMeshToOutputMeshCells();
 
   void CopyInputMeshToOutputMeshCellData();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshToMeshFilter);
 };
 } // end namespace itk
 

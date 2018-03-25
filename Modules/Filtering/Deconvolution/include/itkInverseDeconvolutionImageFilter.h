@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT InverseDeconvolutionImageFilter :
   public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InverseDeconvolutionImageFilter);
+
   using Self = InverseDeconvolutionImageFilter;
   using Superclass = FFTConvolutionImageFilter< TInputImage,
                                      TKernelImage,
@@ -112,8 +114,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InverseDeconvolutionImageFilter);
-
   double m_KernelZeroMagnitudeThreshold;
 };
 

@@ -81,6 +81,8 @@ class ITK_TEMPLATE_EXPORT CentralDifferenceImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CentralDifferenceImageFunction);
+
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -209,8 +211,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CentralDifferenceImageFunction);
-
 
   /** Structure for specialization of Evaulate* methods on OutputType */
   template<typename T>

@@ -34,6 +34,8 @@ class DiscreteMinimumCurvatureQuadEdgeMeshFilter:
   public DiscretePrincipalCurvaturesQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteMinimumCurvatureQuadEdgeMeshFilter);
+
   using Self = DiscreteMinimumCurvatureQuadEdgeMeshFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -80,9 +82,6 @@ protected:
     this->ComputeMeanAndGaussianCurvatures(iP);
     return this->m_Mean - std::sqrt( this->ComputeDelta() );
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteMinimumCurvatureQuadEdgeMeshFilter);
 };
 }
 

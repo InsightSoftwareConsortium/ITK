@@ -68,6 +68,8 @@ class ITK_TEMPLATE_EXPORT ShrinkImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShrinkImageFilter);
+
   /** Standard class type aliases. */
   using Self = ShrinkImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -153,8 +155,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShrinkImageFilter);
-
   ShrinkFactorsType m_ShrinkFactors;
 };
 } // end namespace itk

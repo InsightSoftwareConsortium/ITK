@@ -47,6 +47,8 @@ namespace itk
 class ITKKLMRegionGrowing_EXPORT SegmentationRegion:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationRegion);
+
   /** Standard class type aliases. */
   using Self = SegmentationRegion;
   using Superclass = Object;
@@ -82,8 +84,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationRegion);
-
   RegionLabelType m_RegionLabel;
   double          m_RegionArea;
 };

@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT ImportImageFilter:
   public ImageSource< Image< TPixel, VImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageFilter);
+
   /** Typedef for the output image.   */
   using OutputImageType = Image< TPixel, VImageDimension >;
   using OutputImagePointer = typename OutputImageType::Pointer;
@@ -149,8 +151,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageFilter);
-
   RegionType    m_Region;
   SpacingType   m_Spacing;
   OriginType    m_Origin;

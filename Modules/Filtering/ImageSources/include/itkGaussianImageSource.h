@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT GaussianImageSource :
   public ParametricImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianImageSource);
+
   /** Standard class type aliases. */
   using Self = GaussianImageSource;
   using Superclass = ParametricImageSource< TOutputImage >;
@@ -132,8 +134,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianImageSource);
-
   ArrayType m_Sigma;
 
   ArrayType m_Mean;

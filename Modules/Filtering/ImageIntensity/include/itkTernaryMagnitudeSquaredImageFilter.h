@@ -75,6 +75,8 @@ class TernaryMagnitudeSquaredImageFilter:
                                typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryMagnitudeSquaredImageFilter);
+
   /** Standard class type aliases. */
   using Self = TernaryMagnitudeSquaredImageFilter;
   using Superclass = TernaryFunctorImageFilter<
@@ -99,9 +101,6 @@ public:
 protected:
   TernaryMagnitudeSquaredImageFilter() {}
   ~TernaryMagnitudeSquaredImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryMagnitudeSquaredImageFilter);
 };
 } // end namespace itk
 

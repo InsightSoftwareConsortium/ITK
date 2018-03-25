@@ -31,6 +31,8 @@ namespace itk
 class ITKCommon_EXPORT CreateObjectFunctionBase:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunctionBase);
+
   /** Standard type alias. */
   using Self = CreateObjectFunctionBase;
   using Superclass = Object;
@@ -44,9 +46,6 @@ public:
 protected:
   CreateObjectFunctionBase();
   ~CreateObjectFunctionBase() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunctionBase);
 };
 
 /** \class CreateObjectFunction
@@ -60,6 +59,8 @@ template< typename T >
 class CreateObjectFunction:public CreateObjectFunctionBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunction);
+
   /** Standard class type aliases. */
   using Self = CreateObjectFunction;
   using Pointer = SmartPointer< Self >;
@@ -71,9 +72,6 @@ public:
 protected:
   CreateObjectFunction() {}
   ~CreateObjectFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunction);
 };
 } // end namespace itk
 

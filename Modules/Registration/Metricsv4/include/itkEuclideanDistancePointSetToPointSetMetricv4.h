@@ -44,6 +44,7 @@ class ITK_TEMPLATE_EXPORT EuclideanDistancePointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = EuclideanDistancePointSetToPointSetMetricv4;
@@ -83,9 +84,6 @@ protected:
 
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointSetToPointSetMetricv4);
 };
 } // end namespace itk
 

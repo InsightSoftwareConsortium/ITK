@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT LabelMapToRGBImageFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToRGBImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapToRGBImageFilter;
   using Superclass = LabelMapFilter<TInputImage, TOutputImage>;
@@ -104,8 +106,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToRGBImageFilter);
-
   FunctorType               m_Functor;
 }; // end of class
 

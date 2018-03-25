@@ -76,6 +76,8 @@ class ITK_TEMPLATE_EXPORT LabelVotingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelVotingImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelVotingImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -177,8 +179,6 @@ protected:
   InputPixelType ComputeMaximumInputValue();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelVotingImageFilter);
-
   OutputPixelType m_LabelForUndecidedPixels;
   bool            m_HasLabelForUndecidedPixels;
   size_t          m_TotalLabelCount;

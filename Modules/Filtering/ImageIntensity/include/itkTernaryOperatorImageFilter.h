@@ -72,6 +72,8 @@ class TernaryOperatorImageFilter:
                                                        typename TImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryOperatorImageFilter);
+
   /** Standard class type aliases. */
   using Self = TernaryOperatorImageFilter;
   using Superclass = TernaryFunctorImageFilter<
@@ -94,9 +96,6 @@ public:
 protected:
   TernaryOperatorImageFilter() {}
   ~TernaryOperatorImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryOperatorImageFilter);
 };
 } // end namespace itk
 

@@ -70,6 +70,8 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT KdTreeGenerator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KdTreeGenerator);
+
   /** Standard class type aliases */
   using Self = KdTreeGenerator;
   using Superclass = Object;
@@ -164,8 +166,6 @@ protected:
                                     unsigned int level);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KdTreeGenerator);
-
   /** Pointer to the input (source) sample */
   TSample *m_SourceSample;
 

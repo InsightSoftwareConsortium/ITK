@@ -45,6 +45,8 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT VTKPolyDataReader:public MeshSource< TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataReader);
+
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataReader;
   using Superclass = MeshSource< TOutputMesh >;
@@ -108,8 +110,6 @@ protected:
   /** Filename to read */
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataReader);
-
   std::string m_FileName;
   std::string m_Header;
   std::string m_Version;

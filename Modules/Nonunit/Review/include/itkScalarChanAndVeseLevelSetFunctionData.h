@@ -62,6 +62,7 @@ class ScalarChanAndVeseLevelSetFunctionData:
   public RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionData);
 
   using Self = ScalarChanAndVeseLevelSetFunctionData;
   using Superclass = RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >;
@@ -113,9 +114,6 @@ protected:
   }
 
   ~ScalarChanAndVeseLevelSetFunctionData() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionData);
 };
 } //end namespace itk
 

@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT MetaArrowConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaArrowConverter);
+
   /** Standard class type aliases */
   using Self = MetaArrowConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -69,10 +71,6 @@ protected:
 
   MetaArrowConverter();
   ~MetaArrowConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaArrowConverter);
-
 };
 
 } // end namespace itk

@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT StatisticsPositionLabelMapFilter :
     public ShapePositionLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsPositionLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = StatisticsPositionLabelMapFilter;
   using Superclass = ShapePositionLabelMapFilter<TImage>;
@@ -85,10 +87,6 @@ protected:
   ~StatisticsPositionLabelMapFilter() override {};
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsPositionLabelMapFilter);
-
 }; // end of class
 
 } // end namespace itk

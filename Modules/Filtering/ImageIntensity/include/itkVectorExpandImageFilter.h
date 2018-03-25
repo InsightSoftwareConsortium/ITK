@@ -73,6 +73,8 @@ class ITK_TEMPLATE_EXPORT VectorExpandImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorExpandImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorExpandImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -185,8 +187,6 @@ protected:
   void BeforeThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorExpandImageFilter);
-
   ExpandFactorsArrayType   m_ExpandFactors;
   InterpolatorPointer      m_Interpolator;
 //TEST_RMV20100728 * \warning: The following is valid only when the flag

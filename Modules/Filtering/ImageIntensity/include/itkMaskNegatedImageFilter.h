@@ -139,6 +139,8 @@ class MaskNegatedImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskNegatedImageFilter);
+
   /** Standard class type aliases. */
   using Self = MaskNegatedImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
@@ -225,9 +227,6 @@ protected:
     Superclass::PrintSelf(os, indent);
     os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskNegatedImageFilter);
 };
 } // end namespace itk
 

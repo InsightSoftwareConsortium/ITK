@@ -47,6 +47,7 @@ class ITK_TEMPLATE_EXPORT BlobSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
 
   using Self = BlobSpatialObject;
   using Superclass = PointBasedSpatialObject< TDimension >;
@@ -117,8 +118,6 @@ public:
   bool ComputeLocalBoundingBox() const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
-
   PointListType m_Points;
 
   BlobSpatialObject();

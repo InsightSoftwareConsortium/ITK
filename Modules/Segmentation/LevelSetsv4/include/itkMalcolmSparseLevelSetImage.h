@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT MalcolmSparseLevelSetImage :
     public LevelSetSparseImage< int8_t, VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MalcolmSparseLevelSetImage);
+
   using Self = MalcolmSparseLevelSetImage;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -111,9 +113,6 @@ protected:
   void InitializeLayers() override;
 
   void InitializeInternalLabelList() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MalcolmSparseLevelSetImage);
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION

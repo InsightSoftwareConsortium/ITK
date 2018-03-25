@@ -37,6 +37,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT QuadraticEdgeCell:public TCellInterface
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticEdgeCell);
+
   /** Standard class type aliases. */
   itkCellCommonTypedefs(QuadraticEdgeCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -106,9 +108,6 @@ public:
 protected:
   /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticEdgeCell);
 };
 } // end namespace itk
 

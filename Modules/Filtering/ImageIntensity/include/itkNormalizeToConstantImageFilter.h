@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT NormalizeToConstantImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeToConstantImageFilter);
+
   /** Standard class type aliases. */
   using Self = NormalizeToConstantImageFilter;
 
@@ -113,8 +115,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeToConstantImageFilter);
-
   RealType m_Constant;
 
 }; // end of class

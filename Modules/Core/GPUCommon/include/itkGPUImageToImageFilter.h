@@ -40,6 +40,8 @@ template< typename TInputImage, typename TOutputImage, typename TParentImageFilt
 class ITK_TEMPLATE_EXPORT GPUImageToImageFilter : public TParentImageFilter
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageToImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUImageToImageFilter;
   using Superclass = TParentImageFilter;
@@ -95,8 +97,6 @@ protected:
   //int m_KernelHandle;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageToImageFilter);
-
   bool m_GPUEnabled;
 };
 

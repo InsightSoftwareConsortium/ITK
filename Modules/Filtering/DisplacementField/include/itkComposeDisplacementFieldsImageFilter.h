@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT ComposeDisplacementFieldsImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComposeDisplacementFieldsImageFilter);
+
   using Self = ComposeDisplacementFieldsImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
@@ -137,8 +139,6 @@ protected:
   void ThreadedGenerateData( const RegionType &, ThreadIdType ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComposeDisplacementFieldsImageFilter);
-
   /** The interpolator. */
   typename InterpolatorType::Pointer             m_Interpolator;
 

@@ -93,6 +93,8 @@ class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFilter:
                                           TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = LevelSetMotionRegistrationFilter;
   using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
@@ -191,9 +193,6 @@ protected:
    * calls the superclass' version but also Halts if the RMSChange is zero.
    */
   bool Halt() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFilter);
 };
 } // end namespace itk
 

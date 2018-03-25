@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT MedianImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MedianImageFunction);
+
   /** Standard class type aliases. */
   using Self = MedianImageFunction;
   using Superclass = ImageFunction< TInputImage, typename TInputImage::PixelType,
@@ -114,8 +116,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MedianImageFunction);
-
   unsigned int m_NeighborhoodRadius;
 
 };

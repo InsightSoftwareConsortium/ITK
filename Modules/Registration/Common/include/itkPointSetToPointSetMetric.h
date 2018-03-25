@@ -45,6 +45,7 @@ template< typename TFixedPointSet,  typename TMovingPointSet >
 class ITK_TEMPLATE_EXPORT PointSetToPointSetMetric:public MultipleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToPointSetMetric);
 
   /** Standard class type aliases. */
   using Self = PointSetToPointSetMetric;
@@ -132,9 +133,6 @@ protected:
   MovingPointSetConstPointer m_MovingPointSet;
 
   mutable TransformPointer m_Transform;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToPointSetMetric);
 };
 } // end namespace itk
 

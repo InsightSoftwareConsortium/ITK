@@ -72,6 +72,8 @@ class ITK_TEMPLATE_EXPORT JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
     public PointSetToPointSetMetricv4<TPointSet, TPointSet, TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4);
+
   /** Standard class type aliases. */
   using Self = JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4;
   using Superclass = PointSetToPointSetMetricv4<TPointSet, TPointSet,
@@ -223,8 +225,6 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4);
-
   DensityFunctionPointer                   m_MovingDensityFunction;
   DensityFunctionPointer                   m_FixedDensityFunction;
 

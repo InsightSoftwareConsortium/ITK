@@ -122,6 +122,8 @@ class ITK_TEMPLATE_EXPORT STAPLEImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(STAPLEImageFilter);
+
   /** Standard class type aliases. */
   using Self = STAPLEImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -236,8 +238,6 @@ protected:
   void PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(STAPLEImageFilter);
-
   InputPixelType m_ForegroundValue;
   unsigned int   m_ElapsedIterations;
   unsigned int   m_MaximumIterations;

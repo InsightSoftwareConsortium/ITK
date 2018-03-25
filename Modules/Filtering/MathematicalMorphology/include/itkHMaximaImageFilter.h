@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT HMaximaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HMaximaImageFilter);
+
   /** Standard class type aliases. */
   using Self = HMaximaImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -132,8 +134,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HMaximaImageFilter);
-
   InputImagePixelType m_Height;
   unsigned long       m_NumberOfIterationsUsed;
   bool                m_FullyConnected;

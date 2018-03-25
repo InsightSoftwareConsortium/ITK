@@ -52,6 +52,8 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT MaximumEntropyThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumEntropyThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = MaximumEntropyThresholdCalculator;
   using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
@@ -72,10 +74,6 @@ protected:
   MaximumEntropyThresholdCalculator() {};
   ~MaximumEntropyThresholdCalculator() override {};
   void GenerateData(void) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumEntropyThresholdCalculator);
-
 };
 
 } // end namespace itk

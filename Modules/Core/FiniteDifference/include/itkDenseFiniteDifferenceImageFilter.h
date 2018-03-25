@@ -70,6 +70,8 @@ class ITK_TEMPLATE_EXPORT DenseFiniteDifferenceImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DenseFiniteDifferenceImageFilter);
+
   /** Standard class type aliases */
   using Self = DenseFiniteDifferenceImageFilter;
   using Superclass = FiniteDifferenceImageFilter<
@@ -164,8 +166,6 @@ protected:
                                        ThreadIdType threadId);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DenseFiniteDifferenceImageFilter);
-
   /** Structure for passing information into static callback methods.  Used in
    * the subclasses' threading mechanisms. */
   struct DenseFDThreadStruct {

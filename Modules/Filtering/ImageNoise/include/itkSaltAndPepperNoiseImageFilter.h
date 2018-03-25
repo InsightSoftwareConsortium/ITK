@@ -67,6 +67,8 @@ class ITK_TEMPLATE_EXPORT SaltAndPepperNoiseImageFilter :
   public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SaltAndPepperNoiseImageFilter);
+
   /** Standard class type aliases. */
   using Self = SaltAndPepperNoiseImageFilter;
   using Superclass = NoiseBaseImageFilter< TInputImage,TOutputImage >;
@@ -127,8 +129,6 @@ protected:
                             ThreadIdType threadId ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SaltAndPepperNoiseImageFilter);
-
   double               m_Probability;
   OutputImagePixelType m_SaltValue;
   OutputImagePixelType m_PepperValue;

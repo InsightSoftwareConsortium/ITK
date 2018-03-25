@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT ImageAndPathToImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageAndPathToImageFilter);
+
   /** Standard class type aliases. */
   using Self = ImageAndPathToImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -90,9 +92,6 @@ protected:
   ~ImageAndPathToImageFilter() override {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageAndPathToImageFilter);
 };
 } // end namespace itk
 

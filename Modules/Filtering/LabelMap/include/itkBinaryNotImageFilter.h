@@ -87,6 +87,8 @@ class BinaryNotImageFilter :
     public UnaryFunctorImageFilter< TImage, TImage, Functor::BinaryNot< typename TImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryNotImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryNotImageFilter;
   using Superclass = UnaryFunctorImageFilter<TImage, TImage,
@@ -147,8 +149,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryNotImageFilter);
-
   PixelType m_ForegroundValue;
   PixelType m_BackgroundValue;
 

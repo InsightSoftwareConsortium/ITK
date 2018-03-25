@@ -64,6 +64,8 @@ template< typename TInputImage,
 class ITK_TEMPLATE_EXPORT ImageModelEstimatorBase:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageModelEstimatorBase);
+
   /** Standard class type aliases. */
   using Self = ImageModelEstimatorBase;
   using Superclass = LightProcessObject;
@@ -135,8 +137,6 @@ protected:
   void GenerateData() override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageModelEstimatorBase);
 
   unsigned int m_NumberOfModels;
 

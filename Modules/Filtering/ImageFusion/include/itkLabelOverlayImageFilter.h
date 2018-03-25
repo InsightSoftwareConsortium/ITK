@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT LabelOverlayImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlayImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelOverlayImageFilter;
 
@@ -140,8 +142,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlayImageFilter);
-
   double         m_Opacity;
   LabelPixelType m_BackgroundValue;
 };

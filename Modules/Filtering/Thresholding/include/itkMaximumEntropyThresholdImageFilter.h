@@ -53,6 +53,8 @@ class MaximumEntropyThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumEntropyThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = MaximumEntropyThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -102,9 +104,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~MaximumEntropyThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumEntropyThresholdImageFilter);
 };
 
 } // end namespace itk

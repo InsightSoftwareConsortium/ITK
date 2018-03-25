@@ -72,6 +72,8 @@ class SqrtImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = SqrtImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::SqrtPixelAccessor<
@@ -90,9 +92,6 @@ public:
 protected:
   SqrtImageAdaptor() {}
   ~SqrtImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageAdaptor);
 };
 } // end namespace itk
 

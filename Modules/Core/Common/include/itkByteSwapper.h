@@ -50,6 +50,8 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT ByteSwapper:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ByteSwapper);
+
   /** Standard class type aliases. */
   using Self = ByteSwapper;
   using Superclass = Object;
@@ -158,9 +160,6 @@ protected:
   /** Swap and write a range of 8-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void SwapWrite8Range(void *p, BufferSizeType num, OStreamType *fp);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ByteSwapper);
 };
 } // end namespace itk
 

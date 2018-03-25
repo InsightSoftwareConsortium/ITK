@@ -36,6 +36,7 @@ template< unsigned int TDimension >
 class ITK_TEMPLATE_EXPORT SpatialObjectTreeNode:public TreeNode< SpatialObject< TDimension > * >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectTreeNode);
 
   /** Standard type alias */
   using SpatialObjectType = SpatialObject< TDimension >;
@@ -87,7 +88,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectTreeNode);
 };
 
 } // end namespace itk

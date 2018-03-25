@@ -117,6 +117,8 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldJacobianDeterminantFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldJacobianDeterminantFilter);
+
   /** Standard class type aliases. */
   using Self = DisplacementFieldJacobianDeterminantFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -246,8 +248,6 @@ private:
   ThreadIdType m_RequestedNumberOfThreads;
 
   typename ImageBaseType::ConstPointer m_RealValuedInputImage;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldJacobianDeterminantFilter);
 
   RadiusType m_NeighborhoodRadius;
 };

@@ -37,6 +37,8 @@ template< typename TInputPath, typename TOutputPath >
 class ITK_TEMPLATE_EXPORT PathToPathFilter:public PathSource< TOutputPath >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PathToPathFilter);
+
   /** Standard class type aliases. */
   using Self = PathToPathFilter;
   using Superclass = PathSource< TOutputPath >;
@@ -78,9 +80,6 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PathToPathFilter);
 };
 } // end namespace itk
 

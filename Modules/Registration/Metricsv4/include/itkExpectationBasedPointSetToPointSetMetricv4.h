@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT ExpectationBasedPointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExpectationBasedPointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = ExpectationBasedPointSetToPointSetMetricv4;
@@ -117,8 +118,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpectationBasedPointSetToPointSetMetricv4);
-
   using VectorType = typename PointType::VectorType;
   using NeighborsIterator = typename NeighborsIdentifierType::const_iterator;
 

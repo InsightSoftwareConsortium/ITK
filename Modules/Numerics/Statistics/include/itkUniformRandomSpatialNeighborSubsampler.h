@@ -46,6 +46,8 @@ template < typename TSample, typename TRegion >
   class ITK_TEMPLATE_EXPORT UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UniformRandomSpatialNeighborSubsampler);
+
   /** Standard class type aliases */
   using Self = UniformRandomSpatialNeighborSubsampler<TSample, TRegion>;
   using Superclass = SpatialNeighborSubsampler<TSample, TRegion>;
@@ -153,10 +155,6 @@ protected:
   SearchSizeType               m_NumberOfResultsRequested;
   RandomGeneratorType::Pointer m_RandomNumberGenerator;
   bool                         m_UseClockForSeed;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UniformRandomSpatialNeighborSubsampler);
-
 }; // end of class UniformRandomSpatialNeighborSubsampler
 
 } // end of namespace Statistics

@@ -73,6 +73,8 @@ class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = ShapeDetectionLevelSetFunction;
   using Superclass = SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
@@ -124,7 +126,6 @@ protected:
 
   ~ShapeDetectionLevelSetFunction() override {}
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetFunction);
 };
 } // end namespace itk
 

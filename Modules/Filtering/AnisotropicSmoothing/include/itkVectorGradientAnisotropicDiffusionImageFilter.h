@@ -62,6 +62,8 @@ class VectorGradientAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientAnisotropicDiffusionImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorGradientAnisotropicDiffusionImageFilter;
   using Superclass =
@@ -100,9 +102,6 @@ protected:
   }
 
   ~VectorGradientAnisotropicDiffusionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientAnisotropicDiffusionImageFilter);
 };
 } // end namspace itk
 

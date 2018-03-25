@@ -70,6 +70,8 @@ class RoundImageFilter:
                                            typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RoundImageFilter);
+
   /** Standard class type aliases. */
   using Self = RoundImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -90,9 +92,6 @@ public:
 protected:
   RoundImageFilter() {}
   ~RoundImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RoundImageFilter);
 };
 } // end namespace itk
 

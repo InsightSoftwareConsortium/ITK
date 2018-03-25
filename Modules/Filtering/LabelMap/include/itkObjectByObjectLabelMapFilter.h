@@ -85,6 +85,8 @@ class ITK_TEMPLATE_EXPORT ObjectByObjectLabelMapFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectByObjectLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ObjectByObjectLabelMapFilter;
   using Superclass = LabelMapFilter<TInputImage, TOutputImage>;
@@ -203,8 +205,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectByObjectLabelMapFilter);
-
   bool     m_ConstrainPaddingToImage;
   SizeType m_PadSize;
   bool     m_BinaryInternalOutput;

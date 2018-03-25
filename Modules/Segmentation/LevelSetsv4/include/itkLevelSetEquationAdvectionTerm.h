@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationAdvectionTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationAdvectionTerm);
+
   using Self = LevelSetEquationAdvectionTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -140,8 +142,6 @@ protected:
   LevelSetOutputRealType m_NeighborhoodScales[ImageDimension];
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationAdvectionTerm);
-
   LevelSetOutputRealType m_DerivativeSigma;
 
   bool m_AutoGenerateAdvectionImage;

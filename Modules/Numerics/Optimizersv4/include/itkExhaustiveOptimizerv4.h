@@ -79,6 +79,8 @@ class ITK_TEMPLATE_EXPORT ExhaustiveOptimizerv4:
   public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizerv4);
+
   /** Standard "Self" type alias. */
   using Self = ExhaustiveOptimizerv4;
   using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
@@ -160,8 +162,6 @@ protected:
   ParametersType  m_MaximumMetricValuePosition;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizerv4);
-
   std::ostringstream m_StopConditionDescription;
 };
 } // end namespace itk

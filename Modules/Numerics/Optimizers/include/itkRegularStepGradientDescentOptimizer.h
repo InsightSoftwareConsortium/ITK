@@ -34,6 +34,8 @@ class ITKOptimizers_EXPORT RegularStepGradientDescentOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizer);
+
   /** Standard class type aliases. */
   using Self = RegularStepGradientDescentOptimizer;
   using Superclass = RegularStepGradientDescentBaseOptimizer;
@@ -63,9 +65,6 @@ protected:
   void StepAlongGradient(
     double factor,
     const DerivativeType & transformedGradient) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizer);
 };
 } // end namespace itk
 

@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT FFTShiftImageFilter :
   public CyclicShiftImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTShiftImageFilter);
+
   /** Standard class type aliases. */
   using Self = FFTShiftImageFilter;
   using Superclass = CyclicShiftImageFilter< TInputImage, TOutputImage >;
@@ -96,8 +98,6 @@ protected:
   void  GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTShiftImageFilter);
-
   bool m_Inverse;
 
 }; // end of class

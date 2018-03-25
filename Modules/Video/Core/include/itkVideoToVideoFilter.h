@@ -44,6 +44,7 @@ template< typename TInputVideoStream, typename TOutputVideoStream >
 class ITK_TEMPLATE_EXPORT VideoToVideoFilter : public VideoSource< TOutputVideoStream >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoToVideoFilter);
 
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;
@@ -126,8 +127,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoToVideoFilter);
 
 };  // end class VideoToVideoFilter
 

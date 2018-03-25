@@ -47,6 +47,8 @@ class LabelUniqueLabelMapFilter :
     public AttributeUniqueLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelUniqueLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = LabelUniqueLabelMapFilter;
   using Superclass =
@@ -88,10 +90,6 @@ public:
 protected:
   LabelUniqueLabelMapFilter() {};
   ~LabelUniqueLabelMapFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelUniqueLabelMapFilter);
-
 }; // end of class
 
 } // end namespace itk

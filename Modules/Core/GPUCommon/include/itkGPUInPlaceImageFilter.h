@@ -38,6 +38,8 @@ template< typename TInputImage, typename TOutputImage = TInputImage, typename TP
 class ITK_TEMPLATE_EXPORT GPUInPlaceImageFilter : public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUInPlaceImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUInPlaceImageFilter;
   using GPUSuperclass = GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
@@ -95,10 +97,6 @@ protected:
    *
    * \sa ProcessObject::ReleaseInputs() */
   void ReleaseInputs() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUInPlaceImageFilter);
-
 };
 
 } // end namespace itk

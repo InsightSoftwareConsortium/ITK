@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT GPUScalarAnisotropicDiffusionFunction :
   public GPUAnisotropicDiffusionFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUScalarAnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = GPUScalarAnisotropicDiffusionFunction;
   using Superclass = GPUAnisotropicDiffusionFunction< TImage >;
@@ -67,10 +69,6 @@ public:
 protected:
   GPUScalarAnisotropicDiffusionFunction();
   ~GPUScalarAnisotropicDiffusionFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUScalarAnisotropicDiffusionFunction);
-
 };
 } // end namespace itk
 

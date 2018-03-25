@@ -38,6 +38,8 @@ namespace itk
 class ITKIOBMP_EXPORT BMPImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIO);
+
   /** Standard class type aliases. */
   using Self = BMPImageIO;
   using Superclass = ImageIOBase;
@@ -91,8 +93,6 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIO);
-
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 
   /** This methods ensures that the endianness is respected */

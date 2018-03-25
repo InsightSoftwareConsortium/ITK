@@ -41,6 +41,7 @@ template< typename TOutputVideoStream >
 class ITK_TEMPLATE_EXPORT VideoFileReader : public VideoSource< TOutputVideoStream >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileReader);
 
   /** Standard class type aliases. */
   using Self = VideoFileReader;
@@ -122,8 +123,6 @@ protected:
   void InitializeVideoIO();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileReader);
-
   /** The file to read */
   std::string m_FileName;
 

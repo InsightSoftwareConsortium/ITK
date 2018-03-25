@@ -32,6 +32,8 @@ namespace itk
  class ITK_TEMPLATE_EXPORT LevelSetEvolutionStoppingCriterion : public StoppingCriterionBase
  {
  public:
+   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionStoppingCriterion);
+
    using Self = LevelSetEvolutionStoppingCriterion;
    using Superclass = StoppingCriterionBase;
    using Pointer = SmartPointer< Self >;
@@ -82,9 +84,6 @@ namespace itk
    OutputRealType           m_RMSChangeAccumulator;
    IterationIdType          m_NumberOfIterations;
    IterationIdType          m_CurrentIteration;
-
- private:
-   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionStoppingCriterion);
  };
  }
 #ifndef ITK_MANUAL_INSTANTIATION

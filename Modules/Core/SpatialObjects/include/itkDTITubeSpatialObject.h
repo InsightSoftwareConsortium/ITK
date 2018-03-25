@@ -44,6 +44,7 @@ class ITK_TEMPLATE_EXPORT DTITubeSpatialObject:
                             DTITubeSpatialObjectPoint< TDimension >  >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DTITubeSpatialObject);
 
   using Self = DTITubeSpatialObject;
   using Superclass = TubeSpatialObject< TDimension,
@@ -74,9 +75,6 @@ protected:
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DTITubeSpatialObject);
 };
 } // end namespace itk
 

@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT BinaryPruningImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryPruningImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryPruningImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -135,8 +137,6 @@ protected:
   void ComputePruneImage();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryPruningImageFilter);
-
   unsigned int m_Iteration;
 }; // end of BinaryThinningImageFilter class
 } //end namespace itk

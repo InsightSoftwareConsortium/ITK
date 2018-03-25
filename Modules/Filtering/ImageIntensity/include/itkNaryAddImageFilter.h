@@ -101,6 +101,8 @@ class NaryAddImageFilter:
                           Functor::Add1< typename TInputImage::PixelType,  typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NaryAddImageFilter);
+
   /** Standard class type aliases. */
   using Self = NaryAddImageFilter;
   using Superclass = NaryFunctorImageFilter<
@@ -131,9 +133,6 @@ public:
 protected:
   NaryAddImageFilter() {}
   ~NaryAddImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NaryAddImageFilter);
 };
 } // end namespace itk
 

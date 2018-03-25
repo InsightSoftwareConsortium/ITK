@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT ImageToListSampleFilter:
   public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToListSampleFilter);
+
   /** Standard class type aliases */
   using Self = ImageToListSampleFilter;
   using Superclass = ProcessObject;
@@ -131,8 +133,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToListSampleFilter);
-
   MaskPixelType m_MaskValue;
 };  // end of class ImageToListSampleFilter
 } // end of namespace Statistics

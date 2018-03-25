@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT LevelSetImage :
   public LevelSetBase< TInput, VDimension, TOutput, ImageBase< VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetImage);
+
   using ImageBaseType = ImageBase< VDimension >;
 
   using Self = LevelSetImage;
@@ -78,7 +80,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetImage);
 };
 
 } // end namespace itk

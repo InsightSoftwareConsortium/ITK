@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilter:
   public FastMarchingImageFilter< TLevelSet, TSpeedImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilter);
+
   /** Standard class typdedefs. */
   using Self = FastMarchingExtensionImageFilter;
   using Superclass = FastMarchingImageFilter< TLevelSet, TSpeedImage >;
@@ -147,8 +149,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilter);
-
   typename AuxValueContainer::Pointer m_AuxAliveValues;
   typename AuxValueContainer::Pointer m_AuxTrialValues;
 

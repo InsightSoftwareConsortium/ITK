@@ -156,6 +156,8 @@ class ITK_TEMPLATE_EXPORT SparseFieldFourthOrderLevelSetImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldFourthOrderLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = SparseFieldFourthOrderLevelSetImageFilter;
   using Superclass = SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >;
@@ -359,7 +361,6 @@ private:
   static const SizeValueType  m_NumVertex;
   static const ValueType      m_DimConst;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldFourthOrderLevelSetImageFilter);
 };
 } // end namespace itk
 

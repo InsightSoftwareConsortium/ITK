@@ -98,6 +98,8 @@ class ITK_TEMPLATE_EXPORT VectorRescaleIntensityImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorRescaleIntensityImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorRescaleIntensityImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -157,8 +159,6 @@ protected:
   ~VectorRescaleIntensityImageFilter() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorRescaleIntensityImageFilter);
-
   InputRealType m_Scale;
   InputRealType m_Shift;
 

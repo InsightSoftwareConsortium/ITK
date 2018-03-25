@@ -65,6 +65,8 @@ class ITK_TEMPLATE_EXPORT ScalarImageKmeansImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageKmeansImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -166,8 +168,6 @@ protected:
   void VerifyPreconditions() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageKmeansImageFilter);
-
   using MeansContainer = std::vector< RealPixelType >;
 
   MeansContainer m_InitialMeans;

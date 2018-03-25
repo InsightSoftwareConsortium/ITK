@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT MetaLandmarkConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaLandmarkConverter);
+
   /** Standard class type aliases */
   using Self = MetaLandmarkConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -69,10 +71,6 @@ protected:
 
   MetaLandmarkConverter();
   ~MetaLandmarkConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaLandmarkConverter);
-
 };
 
 } // end namespace itk

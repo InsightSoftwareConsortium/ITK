@@ -55,6 +55,7 @@ class ITK_TEMPLATE_EXPORT LabeledPointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabeledPointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = LabeledPointSetToPointSetMetricv4;
@@ -126,8 +127,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabeledPointSetToPointSetMetricv4);
-
   /**
    * Private function to find the common label set for the moving
    * and fixed point sets.

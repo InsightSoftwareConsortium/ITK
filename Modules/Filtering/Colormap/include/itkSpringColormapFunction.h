@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT SpringColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpringColormapFunction);
 
   using Self = SpringColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -64,9 +65,6 @@ public:
 protected:
   SpringColormapFunction() {}
   ~SpringColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpringColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

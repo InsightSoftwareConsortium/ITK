@@ -75,6 +75,8 @@ class ITK_TEMPLATE_EXPORT  LBFGSOptimizerBasev4:
     public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizerBasev4);
+
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizerBasev4;
   using Superclass = SingleValuedNonLinearVnlOptimizerv4;
@@ -155,10 +157,6 @@ protected:
   // counts, etc.
   friend class LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>;
   friend class LBFGSBOptimizerHelperv4;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizerBasev4);
-
 };
 } // end namespace itk
 

@@ -40,6 +40,8 @@ template< typename TPixel >
 class ITK_TEMPLATE_EXPORT ColorTable:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ColorTable);
+
   /** Standard class type aliases. */
   using Self = ColorTable;
   using Superclass = Object;
@@ -113,8 +115,6 @@ protected:
 private:
   using ColorNameVectorType = std::vector< std::string >;
   using ColorVectorType = std::vector< RGBPixel< TPixel > >;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ColorTable);
 
   void DeleteColors();
 

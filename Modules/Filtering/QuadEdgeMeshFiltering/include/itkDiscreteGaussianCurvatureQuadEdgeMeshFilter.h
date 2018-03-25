@@ -39,6 +39,8 @@ class DiscreteGaussianCurvatureQuadEdgeMeshFilter:
   public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianCurvatureQuadEdgeMeshFilter);
+
   using Self = DiscreteGaussianCurvatureQuadEdgeMeshFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -115,9 +117,6 @@ protected:
 
     return 0.;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianCurvatureQuadEdgeMeshFilter);
 };
 }
 

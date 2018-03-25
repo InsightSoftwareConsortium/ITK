@@ -36,6 +36,8 @@ template< unsigned int NDimensions = 3,
 class FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectWriter);
+
   using Self = FEMSpatialObjectWriter;
   using Superclass = SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>;
   using Pointer = SmartPointer< Self >;
@@ -47,8 +49,6 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectWriter);
-
   std::string m_FileName;
 
   FEMSpatialObjectWriter();

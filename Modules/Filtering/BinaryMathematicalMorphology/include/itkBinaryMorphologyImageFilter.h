@@ -104,6 +104,8 @@ class ITK_TEMPLATE_EXPORT BinaryMorphologyImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologyImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -220,8 +222,6 @@ protected:
   bool m_BoundaryToForeground;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologyImageFilter);
-
   /** Pixel value to dilate */
   InputPixelType m_ForegroundValue;
 

@@ -51,6 +51,8 @@ namespace itk
 class ITKCommon_EXPORT MultiThreader : public MultiThreaderBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreader);
+
   /** Standard class type aliases. */
   using Self = MultiThreader;
   using Superclass = MultiThreaderBase;
@@ -128,8 +130,6 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreader);
-
   /** An array of thread info containing a thread id
    *  (0, 1, 2, .. ITK_MAX_THREADS-1), the thread count, and a pointer
    *  to void so that user data can be passed to each thread. */

@@ -63,6 +63,8 @@ template< typename TTransform,
 class ITK_TEMPLATE_EXPORT CenteredTransformInitializer:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredTransformInitializer);
+
   /** Standard class type aliases. */
   using Self = CenteredTransformInitializer;
   using Superclass = Object;
@@ -136,8 +138,6 @@ protected:
   itkGetModifiableObjectMacro(Transform, TransformType);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredTransformInitializer);
-
   TransformPointer m_Transform;
 
   FixedImagePointer m_FixedImage;

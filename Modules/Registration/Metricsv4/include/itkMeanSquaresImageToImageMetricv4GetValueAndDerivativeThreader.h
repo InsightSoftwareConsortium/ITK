@@ -34,6 +34,8 @@ class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4GetValueAndDerivativeTh
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader);
+
   /** Standard class type aliases. */
   using Self = MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
@@ -79,9 +81,6 @@ protected:
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
         const ThreadIdType                threadId ) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader);
 };
 
 } // end namespace itk

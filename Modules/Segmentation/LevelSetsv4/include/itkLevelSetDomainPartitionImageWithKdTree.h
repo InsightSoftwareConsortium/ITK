@@ -35,6 +35,7 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionImageWithKdTree:
   public LevelSetDomainPartitionImage< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionImageWithKdTree);
 
   using Self = LevelSetDomainPartitionImageWithKdTree;
   using Superclass = LevelSetDomainPartitionImage< TImage >;
@@ -85,8 +86,6 @@ protected:
   void PopulateDomainWithKdTree();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionImageWithKdTree);
-
   KdTreePointer     m_KdTree;
   NeighborsIdType   m_NumberOfNeighbors;
 };

@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionImageFilter :
     public IterativeDeconvolutionImageFilter< TInputImage, typename TKernelSource::OutputImageType, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricBlindLeastSquaresDeconvolutionImageFilter);
+
   /** Standard type alias. */
   using Self = ParametricBlindLeastSquaresDeconvolutionImageFilter;
   using Superclass = IterativeDeconvolutionImageFilter< TInputImage,
@@ -120,8 +122,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricBlindLeastSquaresDeconvolutionImageFilter);
-
   template< typename TPixel >
     class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionDifference
   {

@@ -83,6 +83,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT InPlaceLabelMapFilter:public LabelMapFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InPlaceLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = InPlaceLabelMapFilter;
   using Superclass = LabelMapFilter< TInputImage, TInputImage >;
@@ -170,8 +172,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InPlaceLabelMapFilter);
-
   bool m_InPlace;
 };
 } // end namespace itk

@@ -40,6 +40,7 @@ class ITK_TEMPLATE_EXPORT WindowConvergenceMonitoringFunction
 : public ConvergenceMonitoringFunction<TScalar, TScalar>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WindowConvergenceMonitoringFunction);
 
   using Self = WindowConvergenceMonitoringFunction;
   using Superclass = ConvergenceMonitoringFunction<TScalar, TScalar>;
@@ -82,8 +83,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WindowConvergenceMonitoringFunction);
-
   EnergyValueContainerSizeType                   m_WindowSize;
 
   RealType                                       m_TotalEnergy;

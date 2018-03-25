@@ -38,6 +38,7 @@ class ITK_TEMPLATE_EXPORT ArrowSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ArrowSpatialObject);
 
   using Self = ArrowSpatialObject;
   using Superclass = SpatialObject< TDimension >;
@@ -133,8 +134,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ArrowSpatialObject);
-
   VectorType m_Direction;
   PointType  m_Position;
   double     m_Length;

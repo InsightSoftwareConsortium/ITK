@@ -43,6 +43,8 @@ using SymbolPointer = itksys::DynamicLoader::SymbolPointer;
 class ITKCommon_EXPORT DynamicLoader:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DynamicLoader);
+
   /** Standard class type aliases. */
   using Self = DynamicLoader;
   using Superclass = Object;
@@ -79,9 +81,6 @@ public:
 protected:
   DynamicLoader();
   ~DynamicLoader() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DynamicLoader);
 };
 } // end namespace itk
 

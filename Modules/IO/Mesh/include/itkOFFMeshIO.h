@@ -35,6 +35,8 @@ namespace itk
 class ITKIOMesh_EXPORT OFFMeshIO:public MeshIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIO);
+
   /** Standard class type aliases. */
   using Self = OFFMeshIO;
   using Superclass = MeshIOBase;
@@ -181,8 +183,6 @@ protected:
   void CloseFile();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIO);
-
   std::ifstream    m_InputFile;
   StreamOffsetType m_PointsStartPosition; // file position for points rlative to std::ios::beg
   bool             m_TriangleCellType;    // if all cells are trinalge it is true. otherwise, it is false.

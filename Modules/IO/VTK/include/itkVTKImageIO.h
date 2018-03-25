@@ -50,6 +50,8 @@ class ITKIOVTK_EXPORT VTKImageIO:
   public StreamingImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIO);
+
   /** Standard class type aliases. */
   using Self = VTKImageIO;
   using Superclass = StreamingImageIOBase;
@@ -140,7 +142,6 @@ protected:
     StreamingImageIOBase::SizeType num);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIO);
   void SetPixelTypeFromString(const std::string & pixelType);
   std::string GetComponentTypeAsString(IOComponentType);
 

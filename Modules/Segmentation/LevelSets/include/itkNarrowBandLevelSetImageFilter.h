@@ -149,6 +149,8 @@ class ITK_TEMPLATE_EXPORT NarrowBandLevelSetImageFilter:
   public NarrowBandImageFilterBase< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = NarrowBandLevelSetImageFilter;
   using Superclass = NarrowBandImageFilterBase< TInputImage, TOutputImage >;
@@ -396,8 +398,6 @@ protected:
   typename ChamferFilterType::Pointer m_ChamferFilter;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandLevelSetImageFilter);
-
   SegmentationFunctionType *m_SegmentationFunction;
 };
 } // end namespace itk

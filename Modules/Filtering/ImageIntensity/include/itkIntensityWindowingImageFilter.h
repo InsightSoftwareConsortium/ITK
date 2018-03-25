@@ -126,6 +126,8 @@ class ITK_TEMPLATE_EXPORT IntensityWindowingImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IntensityWindowingImageFilter);
+
   /** Standard class type aliases. */
   using Self = IntensityWindowingImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -196,8 +198,6 @@ protected:
   ~IntensityWindowingImageFilter() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IntensityWindowingImageFilter);
-
   RealType m_Scale;
   RealType m_Shift;
 

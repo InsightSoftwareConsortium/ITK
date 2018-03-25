@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT SimpleContourExtractorImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleContourExtractorImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -144,8 +146,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleContourExtractorImageFilter);
-
   InputPixelType  m_InputForegroundValue;
   InputPixelType  m_InputBackgroundValue;
   OutputPixelType m_OutputForegroundValue;

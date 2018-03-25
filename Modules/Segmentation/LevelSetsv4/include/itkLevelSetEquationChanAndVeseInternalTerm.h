@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationChanAndVeseInternalTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseInternalTerm);
+
   using Self = LevelSetEquationChanAndVeseInternalTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -134,9 +136,6 @@ protected:
   InputPixelRealType      m_Mean;
   InputPixelRealType      m_TotalValue;
   LevelSetOutputRealType  m_TotalH;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseInternalTerm);
 };
 
 }

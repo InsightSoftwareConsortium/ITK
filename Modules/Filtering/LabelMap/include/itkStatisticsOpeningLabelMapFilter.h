@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT StatisticsOpeningLabelMapFilter:
   public ShapeOpeningLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsOpeningLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = StatisticsOpeningLabelMapFilter;
   using Superclass = ShapeOpeningLabelMapFilter< TImage >;
@@ -88,9 +90,6 @@ protected:
   ~StatisticsOpeningLabelMapFilter() override {}
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsOpeningLabelMapFilter);
 };                                               // end of class
 } // end namespace itk
 

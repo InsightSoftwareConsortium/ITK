@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT VectorLinearInterpolateImageFunction:
   public VectorInterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorLinearInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = VectorLinearInterpolateImageFunction;
   using Superclass = VectorInterpolateImageFunction< TInputImage, TCoordRep >;
@@ -96,8 +98,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorLinearInterpolateImageFunction);
-
   /** Number of neighbors used in the interpolation */
   static const unsigned long m_Neighbors;
 };

@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT JetColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JetColormapFunction);
 
   using Self = JetColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -64,9 +65,6 @@ public:
 protected:
   JetColormapFunction() {}
   ~JetColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JetColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

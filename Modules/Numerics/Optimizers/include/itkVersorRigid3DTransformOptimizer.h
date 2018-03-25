@@ -52,6 +52,8 @@ class ITKOptimizers_EXPORT VersorRigid3DTransformOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransformOptimizer);
+
   /** Standard class type aliases. */
   using Self = VersorRigid3DTransformOptimizer;
   using Superclass = RegularStepGradientDescentBaseOptimizer;
@@ -79,9 +81,6 @@ public:
 protected:
   VersorRigid3DTransformOptimizer() {}
   ~VersorRigid3DTransformOptimizer() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransformOptimizer);
 };
 } // end namespace itk
 

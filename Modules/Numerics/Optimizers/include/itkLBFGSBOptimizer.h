@@ -64,6 +64,8 @@ class ITKOptimizers_EXPORT LBFGSBOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = LBFGSBOptimizer;
   using Superclass = SingleValuedNonLinearVnlOptimizer;
@@ -186,8 +188,6 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizer);
-
   // give the helper access to member variables, to update iteration
   // counts, etc.
   friend class LBFGSBOptimizerHelper;

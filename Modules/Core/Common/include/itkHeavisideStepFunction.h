@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT HeavisideStepFunction:
   public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HeavisideStepFunction);
+
   using Self = HeavisideStepFunction;
   using Superclass = HeavisideStepFunctionBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -81,9 +83,6 @@ public:
 protected:
   HeavisideStepFunction();
   ~HeavisideStepFunction() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HeavisideStepFunction);
 };
 }
 

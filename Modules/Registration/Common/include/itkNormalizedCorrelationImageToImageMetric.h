@@ -47,6 +47,7 @@ class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = NormalizedCorrelationImageToImageMetric;
@@ -102,8 +103,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageToImageMetric);
-
   bool m_SubtractMean;
 };
 } // end namespace itk

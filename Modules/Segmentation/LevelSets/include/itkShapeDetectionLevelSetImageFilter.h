@@ -110,6 +110,8 @@ class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetImageFilter:
                                           TFeatureImage, TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = ShapeDetectionLevelSetImageFilter;
   using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
@@ -137,8 +139,6 @@ protected:
   ShapeDetectionLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetImageFilter);
 
   /** Overridden from Superclass to handle the case when PropagationScaling is zero
    * and CurvatureScaling is non-zero.*/

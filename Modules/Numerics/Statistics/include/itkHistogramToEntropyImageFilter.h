@@ -104,6 +104,7 @@ class HistogramToEntropyImageFilter:
                                  Function::HistogramEntropyFunction< SizeValueType, typename TImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToEntropyImageFilter);
 
   /** Standard class type aliases. */
   using Self = HistogramToEntropyImageFilter;
@@ -124,9 +125,6 @@ public:
 protected:
   HistogramToEntropyImageFilter() {}
   ~HistogramToEntropyImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToEntropyImageFilter);
 };
 } // end namespace itk
 

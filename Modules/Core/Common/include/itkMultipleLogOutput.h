@@ -40,6 +40,7 @@ namespace itk
 class ITKCommon_EXPORT MultipleLogOutput:public LogOutput
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);
 
   using Self = MultipleLogOutput;
   using Superclass = LogOutput;
@@ -78,8 +79,6 @@ protected:
   ~MultipleLogOutput() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);
-
   using ContainerType = std::set< OutputType::Pointer >;
 
   ContainerType m_Output;

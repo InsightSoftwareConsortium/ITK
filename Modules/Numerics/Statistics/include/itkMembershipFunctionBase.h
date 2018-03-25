@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT MembershipFunctionBase:
   public FunctionBase< TVector, double >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MembershipFunctionBase);
+
   /** Standard class type aliases */
   using Self = MembershipFunctionBase;
   using Superclass = FunctionBase< TVector, double >;
@@ -141,8 +143,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MembershipFunctionBase);
-
   MeasurementVectorSizeType m_MeasurementVectorSize;
 
 };  // end of class

@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader
   : public JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);
+
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationComputeJointPDFThreader;
   using Superclass =
@@ -78,9 +80,6 @@ protected:
   /** Walk through the domain, and call this->ProcessPoint on every point. */
   void ThreadedExecution( const DomainType & subdomain,
                                   const ThreadIdType threadId ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);
 };
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
@@ -92,6 +91,8 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader
   : public JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);
+
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationComputeJointPDFThreader;
   using Superclass =
@@ -120,9 +121,6 @@ protected:
   /** Walk through the domain, and call this->ProcessPoint on every point. */
   void ThreadedExecution( const DomainType & subdomain,
                                   const ThreadIdType threadId ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);
 };
 } // end namespace itk
 

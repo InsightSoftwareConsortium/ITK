@@ -75,6 +75,8 @@ class RGBToLuminanceImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = RGBToLuminanceImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::RGBToLuminancePixelAccessor<
@@ -92,9 +94,6 @@ public:
 protected:
   RGBToLuminanceImageAdaptor() {}
   ~RGBToLuminanceImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageAdaptor);
 };
 } // end namespace itk
 

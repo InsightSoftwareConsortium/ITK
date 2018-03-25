@@ -67,6 +67,7 @@ class ITK_TEMPLATE_EXPORT ScalarChanAndVeseDenseLevelSetImageFilter:
                                                      TFunction >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseDenseLevelSetImageFilter);
 
   using Self = ScalarChanAndVeseDenseLevelSetImageFilter;
   using Superclass = MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
@@ -142,9 +143,6 @@ protected:
   void Initialize() override;
 
   void InitializeIteration() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseDenseLevelSetImageFilter);
 };
 } //end namespace itk
 

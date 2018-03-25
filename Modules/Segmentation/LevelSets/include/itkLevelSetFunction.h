@@ -67,6 +67,8 @@ class ITK_TEMPLATE_EXPORT LevelSetFunction:
   public FiniteDifferenceFunction< TImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = LevelSetFunction;
   using Superclass = FiniteDifferenceFunction< TImageType >;
@@ -340,9 +342,6 @@ protected:
 
   /** Laplacean smoothing term */
   ScalarValueType m_LaplacianSmoothingWeight;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetFunction);
 };
 } // namespace itk
 

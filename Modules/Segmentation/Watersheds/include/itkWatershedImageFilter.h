@@ -147,6 +147,8 @@ class ITK_TEMPLATE_EXPORT WatershedImageFilter:
                                                  TInputImage::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WatershedImageFilter);
+
   /** Standard "Self" type alias.   */
   using Self = WatershedImageFilter;
 
@@ -260,8 +262,6 @@ protected:
   void PrepareOutputs() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WatershedImageFilter);
-
   /** A Percentage of the maximum depth (max - min pixel value) in the input
    *  image.  This percentage will be used to threshold the minimum values in
    *  the image. */

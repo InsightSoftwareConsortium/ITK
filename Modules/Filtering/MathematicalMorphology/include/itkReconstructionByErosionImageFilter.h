@@ -63,6 +63,8 @@ class ReconstructionByErosionImageFilter:
   public ReconstructionImageFilter< TInputImage, TOutputImage, std::less< typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByErosionImageFilter);
+
   using Self = ReconstructionByErosionImageFilter;
   using Superclass = ReconstructionImageFilter<
     TInputImage, TOutputImage, std::less< typename TOutputImage::PixelType > >;
@@ -106,9 +108,6 @@ protected:
   }
 
   ~ReconstructionByErosionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByErosionImageFilter);
 };                                                  // end
                                                     //
                                                     //

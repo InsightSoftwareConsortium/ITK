@@ -37,6 +37,8 @@ namespace itk
 class VoxBoCUBImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoxBoCUBImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = VoxBoCUBImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -65,9 +67,6 @@ public:
 protected:
   VoxBoCUBImageIOFactory();
   ~VoxBoCUBImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoxBoCUBImageIOFactory);
 };
 } // end namespace itk
 

@@ -64,6 +64,8 @@ class VectorCurvatureAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCurvatureAnisotropicDiffusionImageFilter);
+
   /** Standard itk type alias */
   using Self = VectorCurvatureAnisotropicDiffusionImageFilter;
   using Superclass =
@@ -112,9 +114,6 @@ protected:
         << "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution.");
       }
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCurvatureAnisotropicDiffusionImageFilter);
 };
 } // end namspace itk
 

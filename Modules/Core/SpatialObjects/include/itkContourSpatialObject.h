@@ -40,6 +40,7 @@ class ITK_TEMPLATE_EXPORT ContourSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ContourSpatialObject);
 
   using Self = ContourSpatialObject;
   using Superclass = PointBasedSpatialObject< TDimension >;
@@ -157,8 +158,6 @@ public:
   bool ComputeLocalBoundingBox(void) const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContourSpatialObject);
-
   ControlPointListType      m_ControlPoints;
   InterpolatedPointListType m_InterpolatedPoints;
   InterpolationType         m_InterpolationType;

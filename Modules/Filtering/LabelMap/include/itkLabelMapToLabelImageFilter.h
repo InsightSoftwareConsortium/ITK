@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT LabelMapToLabelImageFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToLabelImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapToLabelImageFilter;
   using Superclass = LabelMapFilter< TInputImage, TOutputImage >;
@@ -92,7 +94,6 @@ protected:
   void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToLabelImageFilter);
   OutputImageType *m_OutputImage;
 };                                          // end of class
 } // end namespace itk

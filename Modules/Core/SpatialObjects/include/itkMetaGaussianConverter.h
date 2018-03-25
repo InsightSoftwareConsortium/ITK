@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT MetaGaussianConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaGaussianConverter);
+
   /** Standard class type aliases */
   using Self = MetaGaussianConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -69,10 +71,6 @@ protected:
 
   MetaGaussianConverter();
   ~MetaGaussianConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaGaussianConverter);
-
 };
 } // end namespace itk
 

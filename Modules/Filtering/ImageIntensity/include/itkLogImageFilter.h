@@ -68,6 +68,8 @@ class LogImageFilter:
                                          typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LogImageFilter);
+
   /** Standard class type aliases. */
   using Self = LogImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -97,9 +99,6 @@ public:
 protected:
   LogImageFilter() {}
   ~LogImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LogImageFilter);
 };
 } // end namespace itk
 

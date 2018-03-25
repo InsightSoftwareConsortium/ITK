@@ -80,6 +80,8 @@ class ITKOptimizers_EXPORT ExhaustiveOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = ExhaustiveOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
@@ -152,8 +154,6 @@ protected:
   ParametersType m_MaximumMetricValuePosition;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizer);
-
   std::ostringstream m_StopConditionDescription;
 };
 } // end namespace itk

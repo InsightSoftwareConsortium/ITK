@@ -34,6 +34,8 @@ namespace itk
 class ITKIOXML_EXPORT XMLReaderBase:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReaderBase);
+
   using Self = XMLReaderBase;
 
   /** Set the filename to write */
@@ -75,9 +77,6 @@ protected:
   void parse();
 
   std::string m_Filename;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReaderBase);
 };
 
 /** \class XMLReader
@@ -92,6 +91,8 @@ template< typename T >
 class XMLReader: public XMLReaderBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReader);
+
   using Self = XMLReader;
 
   /** Set the output object.  Doesn't make sense for a client of the XMLReader,
@@ -110,9 +111,6 @@ protected:
   ~XMLReader() override {}
 
   T *m_OutputObject;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReader);
 };
 
 /** \class XMLWriterBase
@@ -128,6 +126,8 @@ template< typename T >
 class XMLWriterBase:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(XMLWriterBase);
+
   using Self = XMLWriterBase;
 
   /** Constructor
@@ -189,9 +189,6 @@ public:
 protected:
   T          *m_InputObject;    // object to write out to an XML file
   std::string m_Filename;       // name of file to write.
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLWriterBase);
 };
 }
 #endif

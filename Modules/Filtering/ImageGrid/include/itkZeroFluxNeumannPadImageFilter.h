@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT ZeroFluxNeumannPadImageFilter :
     public PadImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroFluxNeumannPadImageFilter);
+
   /** Standard class type aliases. */
   using Self = ZeroFluxNeumannPadImageFilter;
   using Superclass = PadImageFilter<TInputImage, TOutputImage>;
@@ -113,8 +115,6 @@ protected:
   ~ZeroFluxNeumannPadImageFilter() override {};
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroFluxNeumannPadImageFilter);
-
   ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk

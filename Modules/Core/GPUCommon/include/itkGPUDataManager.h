@@ -46,6 +46,7 @@ class GPUDataManager : public Object   //DataObject//
   friend class GPUKernelManager;
 
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDataManager);
 
   using Self = GPUDataManager;
   using Superclass = Object;
@@ -143,9 +144,6 @@ protected:
 
   /** Mutex lock to prevent r/w hazard for multithreaded code */
   SimpleFastMutexLock m_Mutex;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDataManager);
 };
 
 } // namespace itk

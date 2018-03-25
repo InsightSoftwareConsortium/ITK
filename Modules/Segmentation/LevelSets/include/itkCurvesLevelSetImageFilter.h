@@ -105,6 +105,8 @@ class ITK_TEMPLATE_EXPORT CurvesLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = CurvesLevelSetImageFilter;
   using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
@@ -148,8 +150,6 @@ protected:
   CurvesLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetImageFilter);
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/

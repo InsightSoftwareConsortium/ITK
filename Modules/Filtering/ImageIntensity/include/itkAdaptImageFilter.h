@@ -125,6 +125,8 @@ class AdaptImageFilter:
                                   Functor::AccessorFunctor< typename TInputImage::PixelType, TAccessor > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptImageFilter);
+
   /** Standard class type aliases. */
   using Self = AdaptImageFilter;
 
@@ -167,9 +169,6 @@ public:
 protected:
   AdaptImageFilter() {}
   ~AdaptImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptImageFilter);
 };
 } // end namespace itk
 

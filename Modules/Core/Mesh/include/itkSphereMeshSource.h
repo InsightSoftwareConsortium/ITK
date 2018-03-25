@@ -41,6 +41,8 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT SphereMeshSource:public MeshSource< TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SphereMeshSource);
+
   /** Standard "Self" type alias. */
   using Self = SphereMeshSource;
   using Superclass = MeshSource< TOutputMesh >;
@@ -103,9 +105,6 @@ protected:
   /** model squareness */
   double m_Squareness1;
   double m_Squareness2;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SphereMeshSource);
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

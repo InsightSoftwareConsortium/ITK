@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT ImageToParametricSpaceFilter:
   public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToParametricSpaceFilter);
+
   /** Standard class type aliases. */
   using Self = ImageToParametricSpaceFilter;
   using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
@@ -99,8 +101,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToParametricSpaceFilter);
-
   /** This variable defines if the indices of input image pixels
    * will be stored as Data at each one of the mesh points. */
   bool m_ComputeIndices;

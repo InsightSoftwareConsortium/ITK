@@ -36,6 +36,7 @@ class ITK_TEMPLATE_EXPORT DecimateFramesVideoFilter :
   public VideoToVideoFilter<TVideoStream, TVideoStream>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DecimateFramesVideoFilter);
 
   /** Standard class type aliases */
   using VideoStreamType = TVideoStream;
@@ -76,8 +77,6 @@ protected:
                 int threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DecimateFramesVideoFilter);
-
 
 };  // end class DecimateFramesVideoFilter
 

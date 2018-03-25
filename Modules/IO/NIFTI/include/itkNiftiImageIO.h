@@ -42,6 +42,8 @@ namespace itk
 class ITKIONIFTI_EXPORT NiftiImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIO);
+
   /** Standard class type aliases. */
   using Self = NiftiImageIO;
   using Superclass = ImageIOBase;
@@ -167,7 +169,6 @@ private:
 
   bool m_LegacyAnalyze75Mode;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIO);
 };
 } // end namespace itk
 

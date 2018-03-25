@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilterBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilterBase);
+
   /** Standard class type aliases. */
   using Self = VoronoiSegmentationImageFilterBase;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -260,9 +262,6 @@ protected:
 
   // Draw the intermedia Voronoi Diagram structure.
   void drawVDline(VDImagePointer result, PointType p1, PointType p2, unsigned char color);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilterBase);
 };
 } //end namespace
 

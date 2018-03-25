@@ -70,6 +70,8 @@ template< typename TFixedImage, typename TMovingImage >
 class ITK_TEMPLATE_EXPORT ImageRegistrationMethod:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = ImageRegistrationMethod;
   using Superclass = ProcessObject;
@@ -206,8 +208,6 @@ protected:
   void StartOptimization();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegistrationMethod);
-
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;
 

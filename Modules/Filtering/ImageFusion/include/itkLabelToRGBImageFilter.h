@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT LabelToRGBImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelToRGBImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelToRGBImageFilter;
   using Pointer = SmartPointer< Self >;
@@ -111,8 +113,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelToRGBImageFilter);
-
   OutputPixelType m_BackgroundColor;
   LabelPixelType  m_BackgroundValue;
 };

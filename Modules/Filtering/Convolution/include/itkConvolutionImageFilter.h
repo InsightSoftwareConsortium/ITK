@@ -66,6 +66,8 @@ class ITK_TEMPLATE_EXPORT ConvolutionImageFilter :
   public ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilter);
+
   using Self = ConvolutionImageFilter;
   using Superclass = ConvolutionImageFilterBase< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
@@ -124,8 +126,6 @@ protected:
   KernelSizeType GetKernelRadius(const TImage *kernelImage) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilter);
-
   template< typename TImage >
   void ComputeConvolution( const TImage *kernelImage,
                            ProgressAccumulator *progress );

@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT VanHerkGilWermanErodeDilateImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanErodeDilateImageFilter);
+
   /** Standard class type aliases. */
   using Self = VanHerkGilWermanErodeDilateImageFilter;
   using Superclass =
@@ -89,8 +91,6 @@ protected:
   InputImagePixelType m_Boundary;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanErodeDilateImageFilter);
-
   using BresType = BresenhamLine< Self::InputImageDimension >;
 
 }; // end of class

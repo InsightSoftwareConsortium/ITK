@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT TransformToDisplacementFieldFilter:
   public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformToDisplacementFieldFilter);
+
   /** Standard class type aliases. */
   using Self = TransformToDisplacementFieldFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -179,8 +181,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformToDisplacementFieldFilter);
-
   /** Member variables. */
   SizeType             m_Size;            // size of the output region
   IndexType            m_OutputStartIndex; // start index of the output region

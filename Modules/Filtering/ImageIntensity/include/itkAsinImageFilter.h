@@ -88,6 +88,8 @@ class AsinImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageFilter);
+
   /** Standard class type aliases. */
   using Self = AsinImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -117,9 +119,6 @@ public:
 protected:
   AsinImageFilter() {}
   ~AsinImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageFilter);
 };
 } // end namespace itk
 

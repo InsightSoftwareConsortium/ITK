@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromIndexShift :
   public RegistrationParameterScalesFromShiftBase< TMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromIndexShift);
+
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromIndexShift;
   using Superclass = RegistrationParameterScalesFromShiftBase< TMetric >;
@@ -91,8 +93,6 @@ protected:
   void TransformPointToContinuousIndex(const VirtualPointType &point, TContinuousIndexType &mappedIndex);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromIndexShift);
-
   template <typename TTransform>
   void ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &localShifts);
 

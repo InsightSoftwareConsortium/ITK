@@ -54,6 +54,7 @@ class ITK_TEMPLATE_EXPORT HilbertPath
 : public Path<TIndexValue, Index<VDimension>, VDimension>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HilbertPath);
 
   /** Standard class type aliases. */
   using Self = HilbertPath<TIndexValue, VDimension>;
@@ -153,8 +154,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HilbertPath);
-
   void ConstructHilbertPath();
 
   PathIndexType GetTransform( const PathIndexType, const PathIndexType, const PathIndexType, const PathIndexType );

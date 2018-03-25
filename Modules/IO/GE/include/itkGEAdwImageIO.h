@@ -49,6 +49,8 @@ namespace itk
 class ITKIOGE_EXPORT GEAdwImageIO:public IPLCommonImageIO
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIO);
+
   /** Standard class type aliases. */
   using Self = GEAdwImageIO;
   using Superclass = IPLCommonImageIO;
@@ -116,8 +118,6 @@ protected:
   GEImageHeader * ReadHeader(const char *FileNameToRead) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIO);
-
   enum GE_ADW_DEFINES {
     GE_ADW_SU_ID = 0,    /**< Site id - String  */
     GE_ADW_SU_ID_LEN = 4,

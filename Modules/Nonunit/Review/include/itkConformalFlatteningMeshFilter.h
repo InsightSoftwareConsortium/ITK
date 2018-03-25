@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT ConformalFlatteningMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConformalFlatteningMeshFilter);
+
   /** Standard class type aliases. */
   using Self = ConformalFlatteningMeshFilter;
 
@@ -116,8 +118,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConformalFlatteningMeshFilter);
-
   using VectorCoordType = vnl_vector< CoordRepType >;
   using SparseMatrixCoordType = vnl_sparse_matrix< CoordRepType >;
 

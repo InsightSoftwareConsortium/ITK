@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4Template
   : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4Template);
+
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4Template;
   using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
@@ -216,8 +218,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4Template);
 
 };
 

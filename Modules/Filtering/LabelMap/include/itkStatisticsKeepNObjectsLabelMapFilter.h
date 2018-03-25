@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT StatisticsKeepNObjectsLabelMapFilter:
   public ShapeKeepNObjectsLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsKeepNObjectsLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = StatisticsKeepNObjectsLabelMapFilter;
   using Superclass = ShapeKeepNObjectsLabelMapFilter< TImage >;
@@ -89,9 +91,6 @@ protected:
   ~StatisticsKeepNObjectsLabelMapFilter() override {}
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsKeepNObjectsLabelMapFilter);
 };                                                    // end of class
 } // end namespace itk
 

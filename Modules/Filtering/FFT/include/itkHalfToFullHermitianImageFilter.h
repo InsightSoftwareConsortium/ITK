@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT HalfToFullHermitianImageFilter :
     public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HalfToFullHermitianImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputImagePixelType = typename InputImageType::PixelType;
@@ -93,9 +95,6 @@ protected:
 
   /** This class requires the entire input. */
   void GenerateInputRequestedRegion() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HalfToFullHermitianImageFilter);
 };
 } // end namespace itk
 

@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT NormalizeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeImageFilter);
+
   /** Standard Self type alias */
   using Self = NormalizeImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -79,8 +81,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeImageFilter);
-
   typename StatisticsImageFilter< TInputImage >::Pointer m_StatisticsFilter;
 
   typename ShiftScaleImageFilter< TInputImage, TOutputImage >::Pointer m_ShiftScaleFilter;

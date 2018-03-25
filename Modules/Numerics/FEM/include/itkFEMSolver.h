@@ -72,6 +72,8 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT Solver : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Solver);
+
   /** Standard class type aliases. */
   using Self = Solver;
   using Superclass = ProcessObject;
@@ -400,8 +402,6 @@ protected:
   FEMObjectPointer m_FEMObject;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Solver);
-
   /** Properties of the interpolation grid. */
   InterpolationGridRegionType       m_Region;
   InterpolationGridPointType        m_Origin;

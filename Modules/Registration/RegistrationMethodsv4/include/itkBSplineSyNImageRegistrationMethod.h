@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT BSplineSyNImageRegistrationMethod
 : public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSyNImageRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = BSplineSyNImageRegistrationMethod;
   using Superclass = SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
@@ -140,9 +142,6 @@ protected:
     MeasureType & ) override;
   virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *,
     const ArrayType &, const WeightedMaskImageType *, const BSplinePointSetType * );
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSyNImageRegistrationMethod);
 };
 } // end namespace itk
 

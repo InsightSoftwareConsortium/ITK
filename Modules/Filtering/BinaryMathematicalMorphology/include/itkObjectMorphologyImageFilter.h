@@ -74,6 +74,8 @@ class ITK_TEMPLATE_EXPORT ObjectMorphologyImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectMorphologyImageFilter);
+
   /** Standard Self type alias */
   using Self = ObjectMorphologyImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -219,9 +221,6 @@ protected:
   PixelType m_ObjectValue;
 
   void BeforeThreadedGenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectMorphologyImageFilter);
 };                                           // end of class
 } // end namespace itk
 

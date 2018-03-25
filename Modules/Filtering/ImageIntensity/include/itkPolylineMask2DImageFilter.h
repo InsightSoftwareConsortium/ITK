@@ -49,6 +49,8 @@ template< typename TInputImage, typename TPolyline,
 class ITK_TEMPLATE_EXPORT PolylineMask2DImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMask2DImageFilter);
+
   /** Standard class type aliases. */
   using Self = PolylineMask2DImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -104,9 +106,6 @@ protected:
   ~PolylineMask2DImageFilter() override {}
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMask2DImageFilter);
 };
 } // end namespace itk
 

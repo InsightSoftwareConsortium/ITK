@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT ReinitializeLevelSetImageFilter:
   public ImageToImageFilter< TLevelSet, TLevelSet >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReinitializeLevelSetImageFilter);
+
   /** Standard class type aliases. */
   using Self = ReinitializeLevelSetImageFilter;
   using Superclass = ImageToImageFilter< TLevelSet, TLevelSet >;
@@ -155,8 +157,6 @@ protected:
   { m_OutputNarrowBand = ptr; }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReinitializeLevelSetImageFilter);
-
   double m_LevelSetValue;
 
   typename LocatorType::Pointer m_Locator;

@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT ElasticBodySplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ElasticBodySplineKernelTransform);
+
   /** Standard class type aliases. */
   using Self = ElasticBodySplineKernelTransform;
   using Superclass = KernelTransform<TParametersValueType,
@@ -107,9 +109,6 @@ protected:
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
    */
   TParametersValueType m_Alpha;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ElasticBodySplineKernelTransform);
 };
 } // namespace itk
 

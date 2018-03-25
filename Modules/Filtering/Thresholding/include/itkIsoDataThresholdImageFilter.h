@@ -53,6 +53,8 @@ class IsoDataThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IsoDataThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = IsoDataThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -102,9 +104,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~IsoDataThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsoDataThresholdImageFilter);
 };
 
 } // end namespace itk

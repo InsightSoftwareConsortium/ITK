@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT AttributePositionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AttributePositionLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = AttributePositionLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter<TImage>;
@@ -90,10 +92,6 @@ protected:
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributePositionLabelMapFilter);
-
 }; // end of class
 
 } // end namespace itk

@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT GPUAnisotropicDiffusionImageFilter :
   public GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUAnisotropicDiffusionImageFilter;
   using GPUSuperclass = GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
@@ -69,10 +71,6 @@ protected:
 
   /** Prepare for the iteration process. */
   void InitializeIteration() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionImageFilter);
-
 };
 } // end namspace itk
 

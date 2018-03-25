@@ -66,6 +66,8 @@ template< typename THistogram >
 class ITK_TEMPLATE_EXPORT HistogramToRunLengthFeaturesFilter : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToRunLengthFeaturesFilter);
+
   /** Standard type alias */
   using Self = HistogramToRunLengthFeaturesFilter;
   using Superclass = ProcessObject;
@@ -170,8 +172,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToRunLengthFeaturesFilter);
-
   unsigned long                           m_TotalNumberOfRuns;
 
 };

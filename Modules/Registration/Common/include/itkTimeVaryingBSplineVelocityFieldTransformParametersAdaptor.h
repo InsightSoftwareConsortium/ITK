@@ -67,6 +67,7 @@ class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransformParametersAdap
 : public TransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = TimeVaryingBSplineVelocityFieldTransformParametersAdaptor;
@@ -192,8 +193,6 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransformParametersAdaptor);
-
   /** Helper function to set m_RequiredFixedParameters */
   void UpdateRequiredFixedParameters();
 

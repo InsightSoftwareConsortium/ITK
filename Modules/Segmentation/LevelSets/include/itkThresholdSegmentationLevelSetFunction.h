@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT ThresholdSegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdSegmentationLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = ThresholdSegmentationLevelSetFunction;
   using Superclass =
@@ -167,8 +169,6 @@ protected:
   }
 
   ~ThresholdSegmentationLevelSetFunction() override {}
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdSegmentationLevelSetFunction);
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

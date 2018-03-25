@@ -52,6 +52,8 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT HuangThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HuangThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = HuangThresholdCalculator;
   using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
@@ -82,8 +84,6 @@ protected:
   using MeasurementType = typename HistogramType::MeasurementType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HuangThresholdCalculator);
-
   InstanceIdentifier  m_FirstBin;
   InstanceIdentifier  m_LastBin;
   SizeValueType       m_Size;

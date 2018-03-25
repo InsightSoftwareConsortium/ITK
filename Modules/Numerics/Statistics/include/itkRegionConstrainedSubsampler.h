@@ -51,6 +51,8 @@ template < typename TSample, typename TRegion >
 class ITK_TEMPLATE_EXPORT RegionConstrainedSubsampler : public SubsamplerBase<TSample>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionConstrainedSubsampler);
+
   /** Standard class type aliases */
   using Self = RegionConstrainedSubsampler<TSample, TRegion>;
   using Superclass = SubsamplerBase<TSample>;
@@ -123,10 +125,6 @@ protected:
   bool       m_RegionConstraintInitialized;
   RegionType m_SampleRegion;
   bool       m_SampleRegionInitialized;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionConstrainedSubsampler);
-
 }; // end of class RegionConstrainedSubsampler
 
 } // end of namespace Statistics

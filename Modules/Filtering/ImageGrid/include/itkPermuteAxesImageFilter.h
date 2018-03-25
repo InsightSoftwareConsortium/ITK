@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT PermuteAxesImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PermuteAxesImageFilter);
+
   /** Standard class type aliases. */
   using Self = PermuteAxesImageFilter;
   using Superclass = ImageToImageFilter< TImage, TImage >;
@@ -120,8 +122,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PermuteAxesImageFilter);
-
   PermuteOrderArrayType m_Order;
   PermuteOrderArrayType m_InverseOrder;
 };

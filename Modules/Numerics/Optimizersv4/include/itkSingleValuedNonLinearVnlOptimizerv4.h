@@ -38,6 +38,8 @@ class ITKOptimizersv4_EXPORT SingleValuedNonLinearVnlOptimizerv4 :
     public ObjectToObjectOptimizerBaseTemplate<double>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearVnlOptimizerv4);
+
   /** Standard class type aliases. */
   using Self = SingleValuedNonLinearVnlOptimizerv4;
   using Superclass = ObjectToObjectOptimizerBase;
@@ -112,8 +114,6 @@ private:
    * vnl optimizer. Optimizers that evaluate the metric multiple times at each
    * iteration will generate a lot more of Iteration events here. */
   void IterationReport(const EventObject & event);
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearVnlOptimizerv4);
 
   CostFunctionAdaptorType *m_CostFunctionAdaptor;
 

@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT BinaryMorphologicalClosingImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalClosingImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryMorphologicalClosingImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -105,8 +107,6 @@ protected:
   void  GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalClosingImageFilter);
-
   InputPixelType m_ForegroundValue;
 
   bool m_SafeBorder;

@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToComplexFFTImageFilter);
+
   /** Input and output image types. */
   using ImageType = TImage;
   using InputImageType = TImage;
@@ -99,8 +101,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToComplexFFTImageFilter);
-
   TransformDirectionType m_TransformDirection;
 };
 

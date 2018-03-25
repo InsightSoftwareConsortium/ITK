@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT ImageClassifierFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierFilter);
+
   /** Standard class type alias */
   using Self = ImageClassifierFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -142,8 +144,6 @@ protected:
   ImageClassifierFilter();
   ~ImageClassifierFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierFilter);
 
   /** Starts the classification process */
   void GenerateData() override;

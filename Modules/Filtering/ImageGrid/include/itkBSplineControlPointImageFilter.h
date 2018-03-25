@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT BSplineControlPointImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFilter);
+
   using Self = BSplineControlPointImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
@@ -213,8 +215,6 @@ protected:
   void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFilter);
-
 
   /**
    * Before splitting, we need to allocate memory for the output sampled

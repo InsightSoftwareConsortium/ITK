@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT ShapeLabelMapFilter:
   InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ShapeLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -144,8 +146,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelMapFilter);
-
   bool                   m_ComputeFeretDiameter;
   bool                   m_ComputePerimeter;
   bool                   m_ComputeOrientedBoundingBox;

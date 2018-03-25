@@ -38,6 +38,8 @@ namespace itk
 class ITKIOMesh_EXPORT FreeSurferBinaryMeshIO:public MeshIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferBinaryMeshIO);
+
   /** Standard class type aliases. */
   using Self = FreeSurferBinaryMeshIO;
   using Superclass = MeshIOBase;
@@ -175,8 +177,6 @@ protected:
   void CloseFile();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferBinaryMeshIO);
-
   StreamOffsetType m_FilePosition;
   itk::uint32_t    m_FileTypeIdentifier;
   std::ifstream    m_InputFile;

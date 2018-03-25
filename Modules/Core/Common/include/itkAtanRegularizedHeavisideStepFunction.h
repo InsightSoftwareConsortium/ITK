@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT AtanRegularizedHeavisideStepFunction:
   public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AtanRegularizedHeavisideStepFunction);
+
   using Self = AtanRegularizedHeavisideStepFunction;
   using Superclass = RegularizedHeavisideStepFunction< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -77,9 +79,6 @@ protected:
 
   AtanRegularizedHeavisideStepFunction();
   ~AtanRegularizedHeavisideStepFunction() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AtanRegularizedHeavisideStepFunction);
 };
 }
 

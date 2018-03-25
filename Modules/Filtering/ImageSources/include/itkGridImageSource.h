@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT GridImageSource
    :public GenerateImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GridImageSource);
+
   /** Standard class type aliases. */
   using Self = GridImageSource;
   using Superclass = GenerateImageSource< TOutputImage >;
@@ -130,8 +132,6 @@ protected:
   void BeforeThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GridImageSource);
-
   /** Internal variable to speed up the calculation of pixel values. */
   typename PixelArrayContainerType::Pointer m_PixelArrays;
 

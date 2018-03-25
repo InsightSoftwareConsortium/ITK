@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT LevelSetNeighborhoodExtractor:
   public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetNeighborhoodExtractor);
+
   /** Standard class typdedefs. */
   using Self = LevelSetNeighborhoodExtractor;
   using Superclass = LightProcessObject;
@@ -150,8 +152,6 @@ protected:
   { return m_LastPointIsInside; }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetNeighborhoodExtractor);
-
   void      GenerateDataFull();
 
   void      GenerateDataNarrowBand();

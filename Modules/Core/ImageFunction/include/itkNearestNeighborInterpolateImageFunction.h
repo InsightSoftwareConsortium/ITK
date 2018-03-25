@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT NearestNeighborInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NearestNeighborInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = NearestNeighborInterpolateImageFunction;
   using Superclass = InterpolateImageFunction< TInputImage, TCoordRep >;
@@ -89,9 +91,6 @@ protected:
   ~NearestNeighborInterpolateImageFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NearestNeighborInterpolateImageFunction);
 };
 } // end namespace itk
 

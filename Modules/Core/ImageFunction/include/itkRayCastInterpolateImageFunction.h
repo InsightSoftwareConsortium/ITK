@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT RayCastInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RayCastInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = RayCastInterpolateImageFunction;
   using Superclass = InterpolateImageFunction< TInputImage, TCoordRep >;
@@ -172,9 +174,6 @@ protected:
   InputPointType      m_FocalPoint;
   double              m_Threshold;
   InterpolatorPointer m_Interpolator;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RayCastInterpolateImageFunction);
 };
 } // namespace itk
 

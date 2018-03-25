@@ -67,6 +67,8 @@ template< typename TFixedPointSet, typename TMovingImage >
 class ITK_TEMPLATE_EXPORT PointSetToImageRegistrationMethod : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = PointSetToImageRegistrationMethod;
   using Superclass = ProcessObject;
@@ -170,8 +172,6 @@ protected:
   void  GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageRegistrationMethod);
-
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;
 

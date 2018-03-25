@@ -72,6 +72,8 @@ class ExpImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageFilter);
+
   /** Standard class type aliases. */
   using Self = ExpImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -101,9 +103,6 @@ public:
 protected:
   ExpImageFilter() {}
   ~ExpImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageFilter);
 };
 } // end namespace itk
 

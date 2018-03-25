@@ -38,6 +38,7 @@ template< unsigned int NDimensions = 3,
 class ITK_TEMPLATE_EXPORT SpatialObjectWriter:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectWriter);
 
   /** SmartPointer type alias support */
   using Self = SpatialObjectWriter;
@@ -90,8 +91,6 @@ public:
                              MetaConverterBaseType *converter);
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectWriter);
-
   std::string m_FileName;
   bool        m_BinaryPoints;
   bool        m_WriteImagesInSeparateFile;

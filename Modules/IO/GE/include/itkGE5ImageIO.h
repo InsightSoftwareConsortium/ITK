@@ -50,6 +50,8 @@ namespace itk
 class ITKIOGE_EXPORT GE5ImageIO:public IPLCommonImageIO
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GE5ImageIO);
+
   /** Standard class type aliases. */
   using Self = GE5ImageIO;
   using Superclass = IPLCommonImageIO;
@@ -121,7 +123,6 @@ protected:
 private:
   int CheckGE5xImages(char const *const imageFileTemplate, std::string & reason);
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(GE5ImageIO);
 };
 } // end namespace itk
 

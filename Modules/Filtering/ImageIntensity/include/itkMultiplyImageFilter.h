@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT MultiplyImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiplyImageFilter);
+
   /** Standard class type aliases. */
   using Self = MultiplyImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -78,9 +80,6 @@ public:
 protected:
   MultiplyImageFilter() {}
   ~MultiplyImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiplyImageFilter);
 };
 } // end namespace itk
 

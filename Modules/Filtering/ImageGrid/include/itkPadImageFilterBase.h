@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT PadImageFilterBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PadImageFilterBase);
+
   /** Standard class type aliases. */
   using Self = PadImageFilterBase;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -107,8 +109,6 @@ protected:
   void InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PadImageFilterBase);
-
   BoundaryConditionPointerType m_BoundaryCondition;
 };
 } // end namespace itk

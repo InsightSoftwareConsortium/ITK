@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT AttributeOpeningLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeOpeningLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = AttributeOpeningLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter<TImage>;
@@ -109,8 +111,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeOpeningLabelMapFilter);
-
   AttributeValueType m_Lambda;
   bool               m_ReverseOrdering;
 

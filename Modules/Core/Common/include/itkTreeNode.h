@@ -43,6 +43,7 @@ template< typename TValue >
 class ITK_TEMPLATE_EXPORT TreeNode:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TreeNode);
 
   /** Standard type alias */
   using Superclass = Object;
@@ -126,9 +127,6 @@ protected:
   Self *m_Parent;
 
   ChildrenListType m_Children;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TreeNode);
 };
 } // end namespace itk
 

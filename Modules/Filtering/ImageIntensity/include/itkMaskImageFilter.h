@@ -153,6 +153,8 @@ class MaskImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskImageFilter);
+
   /** Standard class type aliases. */
   using Self = MaskImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
@@ -246,8 +248,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskImageFilter);
-
   template < typename TPixelType >
   void CheckOutsideValue( const TPixelType * ) {}
 

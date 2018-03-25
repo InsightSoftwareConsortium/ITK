@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT DemonsRegistrationFunction:
                                             TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = DemonsRegistrationFunction;
   using Superclass = PDEDeformableRegistrationFunction< TFixedImage,
@@ -195,8 +197,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFunction);
-
   /** Cache fixed image information. */
   //SpacingType                  m_FixedImageSpacing;
   //PointType                    m_FixedImageOrigin;

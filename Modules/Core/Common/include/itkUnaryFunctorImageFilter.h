@@ -49,6 +49,8 @@ template< typename TInputImage, typename TOutputImage, typename TFunction >
 class ITK_TEMPLATE_EXPORT UnaryFunctorImageFilter:public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFunctorImageFilter);
+
   /** Standard class type aliases. */
   using Self = UnaryFunctorImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
@@ -124,8 +126,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFunctorImageFilter);
-
   FunctorType m_Functor;
 };
 } // end namespace itk

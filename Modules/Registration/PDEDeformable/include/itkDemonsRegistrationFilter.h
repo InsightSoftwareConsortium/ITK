@@ -65,6 +65,8 @@ class ITK_TEMPLATE_EXPORT DemonsRegistrationFilter:
                                           TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = DemonsRegistrationFilter;
   using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
@@ -140,8 +142,6 @@ protected:
   void VerifyInputInformation() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFilter);
-
   bool m_UseMovingImageGradient;
 };
 } // end namespace itk

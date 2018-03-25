@@ -87,6 +87,8 @@ class MaximumImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumImageFilter);
+
   /** Standard class type aliases. */
   using Self = MaximumImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -122,9 +124,6 @@ public:
 protected:
   MaximumImageFilter() {}
   ~MaximumImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumImageFilter);
 };
 } // end namespace itk
 

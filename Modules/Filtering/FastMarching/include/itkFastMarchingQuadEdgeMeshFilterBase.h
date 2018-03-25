@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingQuadEdgeMeshFilterBase :
     public FastMarchingBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingQuadEdgeMeshFilterBase);
+
   using Self = FastMarchingQuadEdgeMeshFilterBase;
   using Superclass = FastMarchingBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -160,8 +162,6 @@ protected:
   void InitializeOutput( OutputMeshType* oMesh ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingQuadEdgeMeshFilterBase);
-
   const InputMeshType *m_InputMesh;
 };
 }

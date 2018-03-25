@@ -45,6 +45,8 @@ template< typename TSuperclass >
 class ITK_TEMPLATE_EXPORT ProjectedIterativeDeconvolutionImageFilter : public TSuperclass
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedIterativeDeconvolutionImageFilter);
+
   /** Standard type alias. */
   using Self = ProjectedIterativeDeconvolutionImageFilter;
   using Superclass = TSuperclass;
@@ -82,8 +84,6 @@ protected:
                          float iterationProgressWeight) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedIterativeDeconvolutionImageFilter);
-
   using ProjectionFilterType = ThresholdImageFilter< InternalImageType >;
 
   typename ProjectionFilterType::Pointer m_ProjectionFilter;

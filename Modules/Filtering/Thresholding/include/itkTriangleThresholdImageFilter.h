@@ -53,6 +53,8 @@ class TriangleThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = TriangleThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -102,9 +104,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~TriangleThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleThresholdImageFilter);
 };
 
 } // end namespace itk

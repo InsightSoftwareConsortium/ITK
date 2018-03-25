@@ -108,6 +108,8 @@ class ITK_TEMPLATE_EXPORT AntiAliasBinaryImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AntiAliasBinaryImageFilter);
+
   /** Standard class type aliases */
   using Self = AntiAliasBinaryImageFilter;
   using Superclass = SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >;
@@ -177,8 +179,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AntiAliasBinaryImageFilter);
-
   BinaryValueType m_UpperBinaryValue;
   BinaryValueType m_LowerBinaryValue;
 

@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT GreyColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GreyColormapFunction);
 
   using Self = GreyColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -64,9 +65,6 @@ public:
 protected:
   GreyColormapFunction() {}
   ~GreyColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GreyColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

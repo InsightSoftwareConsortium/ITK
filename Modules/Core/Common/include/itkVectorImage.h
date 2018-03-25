@@ -82,6 +82,8 @@ class ITK_TEMPLATE_EXPORT VectorImage:
   public ImageBase< VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorImage);
+
   /** Standard class type aliases */
   using Self = VectorImage;
   using Superclass = ImageBase< VImageDimension >;
@@ -343,8 +345,6 @@ protected:
   void Graft(const DataObject *data) override;
   using Superclass::Graft;
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorImage);
-
   /** Length of the "vector pixel" */
   VectorLengthType m_VectorLength;
 

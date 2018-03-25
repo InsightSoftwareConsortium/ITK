@@ -38,6 +38,8 @@ class FastMarchingReachedTargetNodesStoppingCriterion :
 public FastMarchingStoppingCriterionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingReachedTargetNodesStoppingCriterion);
+
   using Self = FastMarchingReachedTargetNodesStoppingCriterion;
   using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -200,9 +202,6 @@ protected:
     m_Satisfied = false;
     m_Initialized = true;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingReachedTargetNodesStoppingCriterion);
 };
 }
 #endif // itkFastMarchingThresholdStoppingCriterion_h

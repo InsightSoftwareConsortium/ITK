@@ -66,6 +66,8 @@ template< typename TDomainPartitioner, typename TAssociate >
 class ITK_TEMPLATE_EXPORT DomainThreader: public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DomainThreader);
+
   /** Standard class type aliases. */
   using Self = DomainThreader;
   using Superclass = Object;
@@ -144,8 +146,6 @@ protected:
   AssociateType * m_Associate;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DomainThreader);
-
   void StartThreadingSequence();
 
   /** This contains the object passed to the threading library. */

@@ -73,6 +73,8 @@ class ITK_TEMPLATE_EXPORT MorphologyImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologyImageFilter);
+
   /** Standard Self type alias */
   using Self = MorphologyImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -147,8 +149,6 @@ protected:
                              const KernelIteratorType kernelEnd) = 0;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologyImageFilter);
-
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
   ImageBoundaryConditionPointerType m_BoundaryCondition;

@@ -78,6 +78,8 @@ class ITK_TEMPLATE_EXPORT Hessian3DToVesselnessMeasureImageFilter:public
                       Image< TPixel, 3 > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Hessian3DToVesselnessMeasureImageFilter);
+
   /** Standard class type aliases. */
   using Self = Hessian3DToVesselnessMeasureImageFilter;
   using Superclass = ImageToImageFilter<
@@ -135,8 +137,6 @@ protected:
   void GenerateData(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Hessian3DToVesselnessMeasureImageFilter);
-
   typename EigenAnalysisFilterType::Pointer m_SymmetricEigenValueFilter;
 
   double m_Alpha1;

@@ -83,6 +83,8 @@ class CosImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CosImageFilter);
+
   /** Standard class type aliases. */
   using Self = CosImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -112,9 +114,6 @@ public:
 protected:
   CosImageFilter() {}
   ~CosImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CosImageFilter);
 };
 } // end namespace itk
 

@@ -69,6 +69,8 @@ class ITK_TEMPLATE_EXPORT MultiScaleHessianBasedMeasureImageFilter:
   ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianBasedMeasureImageFilter);
+
   /** Standard class type aliases. */
   using Self = MultiScaleHessianBasedMeasureImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -195,8 +197,6 @@ private:
   double ComputeSigmaValue(int scaleLevel);
 
   void AllocateUpdateBuffer();
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianBasedMeasureImageFilter);
 
   bool m_NonNegativeHessianBasedMeasure;
 

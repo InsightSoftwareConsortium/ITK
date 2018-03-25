@@ -29,6 +29,8 @@ namespace itk
 class DOMTestObjectDOMWriter : public DOMWriter<DOMTestObject>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObjectDOMWriter);
+
   /** Standard class type aliases. */
   using Self = DOMTestObjectDOMWriter;
   using Superclass = DOMWriter<DOMTestObject>;
@@ -49,9 +51,6 @@ protected:
    * It should fill the contents of the intermediate DOM object by pulling information from the input object.
    */
   void GenerateData( DOMNodeType* outputdom, const void* ) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObjectDOMWriter);
 };
 
 inline void

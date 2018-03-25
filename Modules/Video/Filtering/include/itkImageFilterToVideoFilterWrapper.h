@@ -42,6 +42,7 @@ class ITK_TEMPLATE_EXPORT ImageFilterToVideoFilterWrapper :
           itk::VideoStream<typename TImageToImageFilter::OutputImageType> >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFilterToVideoFilterWrapper);
 
   /** Standard class type aliases */
   using ImageFilterType = TImageToImageFilter;
@@ -82,8 +83,6 @@ protected:
   typename ImageFilterType::Pointer m_ImageFilter;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFilterToVideoFilterWrapper);
-
 
 };  // end class ImageFilterToVideoFilterWrapper
 

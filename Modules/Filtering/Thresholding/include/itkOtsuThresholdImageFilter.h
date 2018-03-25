@@ -56,6 +56,8 @@ class OtsuThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OtsuThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = OtsuThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -105,9 +107,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~OtsuThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OtsuThresholdImageFilter);
 };
 
 } // end namespace itk

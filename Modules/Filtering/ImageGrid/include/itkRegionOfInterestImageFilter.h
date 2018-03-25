@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT RegionOfInterestImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+
   /** Standard class type aliases. */
   using Self = RegionOfInterestImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -124,8 +126,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
-
   RegionType m_RegionOfInterest;
 };
 } // end namespace itk

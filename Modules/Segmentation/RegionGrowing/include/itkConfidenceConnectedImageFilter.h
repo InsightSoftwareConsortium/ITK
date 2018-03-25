@@ -64,6 +64,8 @@ class ITK_TEMPLATE_EXPORT ConfidenceConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConfidenceConnectedImageFilter);
+
   /** Standard class type aliases. */
   using Self = ConfidenceConnectedImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -157,8 +159,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConfidenceConnectedImageFilter);
-
   SeedsContainerType   m_Seeds;
   double               m_Multiplier;
   unsigned int         m_NumberOfIterations;

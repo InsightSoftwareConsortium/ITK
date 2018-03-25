@@ -37,6 +37,8 @@ namespace itk
 class ITKIOMeshBYU_EXPORT BYUMeshIO:public MeshIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIO);
+
   /** Standard class type aliases. */
   using Self = BYUMeshIO;
   using Superclass = MeshIOBase;
@@ -142,8 +144,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIO);
-
   StreamOffsetType m_FilePosition;
   SizeValueType    m_PartId;
   SizeValueType    m_FirstCellId;

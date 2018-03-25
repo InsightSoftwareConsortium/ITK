@@ -60,6 +60,8 @@ template< typename TInputImage,
 class ITK_TEMPLATE_EXPORT ImagePCADecompositionCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCADecompositionCalculator);
+
   /** Standard class type aliases. */
   using Self = ImagePCADecompositionCalculator;
   using Superclass = Object;
@@ -135,8 +137,6 @@ protected:
 
 private:
   using BasisSizeType = typename BasisImageType::SizeType;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCADecompositionCalculator);
 
   BasisVectorType         m_Projection;
   BasisVectorType         m_ImageAsVector;

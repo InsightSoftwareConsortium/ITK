@@ -47,6 +47,8 @@ class MovingHistogramErodeImageFilter:
                                                                                                            ::PixelType > > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramErodeImageFilter);
+
   /** Standard class type aliases. */
   using Self = MovingHistogramErodeImageFilter;
   using Superclass = MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel,
@@ -85,9 +87,6 @@ protected:
   }
 
   ~MovingHistogramErodeImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramErodeImageFilter);
 };                                               // end of class
 } // end namespace itk
 

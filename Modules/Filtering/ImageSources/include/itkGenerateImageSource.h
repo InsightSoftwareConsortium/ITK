@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT GenerateImageSource
   : public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GenerateImageSource);
+
   using Self = GenerateImageSource;
   using Superclass = ImageSource< TOutputImage >;
   using Pointer = SmartPointer< Self >;
@@ -129,8 +131,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GenerateImageSource);
-
   SizeType      m_Size;          //size of the output image
   SpacingType   m_Spacing;
   PointType     m_Origin;

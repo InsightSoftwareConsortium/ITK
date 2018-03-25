@@ -57,6 +57,7 @@ namespace itk
 class OpenCVImageBridge
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVImageBridge);
 
   /** ITK stype type alias */
   using Self = OpenCVImageBridge;
@@ -78,8 +79,6 @@ public:
   static cv::Mat ITKImageToCVMat(const TInputImageType* in, bool force3Channels = false);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVImageBridge);
-
   /** Steps involved in this method are:
     1) Handle converting between colorspaces
     2) Allocate the output image

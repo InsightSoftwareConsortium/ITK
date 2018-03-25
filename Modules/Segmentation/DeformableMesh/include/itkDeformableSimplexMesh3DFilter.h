@@ -76,6 +76,8 @@ template< typename TInputMesh, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DeformableSimplexMesh3DFilter);
+
   /** Standard "Self" type alias. */
   using Self = DeformableSimplexMesh3DFilter;
 
@@ -202,8 +204,6 @@ public:
 protected:
   DeformableSimplexMesh3DFilter();
   ~DeformableSimplexMesh3DFilter() override;
-  ITK_DISALLOW_COPY_AND_ASSIGN(DeformableSimplexMesh3DFilter);
-
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** */

@@ -64,6 +64,8 @@ class AreaOpeningImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AreaOpeningImageFilter);
+
   using Self = AreaOpeningImageFilter;
   using Superclass = AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
                                               std::greater< typename TInputImage::PixelType > >;
@@ -134,8 +136,6 @@ protected:
   }
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(AreaOpeningImageFilter);
 
   bool m_UseImageSpacing;
 };

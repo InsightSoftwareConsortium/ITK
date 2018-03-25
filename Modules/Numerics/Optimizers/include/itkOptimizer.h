@@ -38,6 +38,8 @@ namespace itk
 class ITKOptimizers_EXPORT Optimizer:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Optimizer);
+
   /** Standard class type aliases. */
   using Self = Optimizer;
   using Superclass = Object;
@@ -100,8 +102,6 @@ protected:
   ParametersType m_CurrentPosition;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Optimizer);
-
   ParametersType m_InitialPosition;
   ScalesType     m_Scales;
   ScalesType     m_InverseScales;

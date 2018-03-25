@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT MapContainer:
   private std::map< TElementIdentifier, TElement >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MapContainer);
+
   /** Standard class type aliases. */
   using Self = MapContainer;
   using Superclass = Object;
@@ -61,8 +63,6 @@ public:
   using Element = TElement;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MapContainer);
-
   /** Quick access to the STL map type that was inherited. */
   using MapType = std::map< ElementIdentifier, Element >;
   using MapIterator = typename MapType::iterator;

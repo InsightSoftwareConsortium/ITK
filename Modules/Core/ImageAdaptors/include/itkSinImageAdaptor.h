@@ -73,6 +73,8 @@ class SinImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SinImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = SinImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::SinPixelAccessor<
@@ -91,9 +93,6 @@ public:
 protected:
   SinImageAdaptor() {}
   ~SinImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SinImageAdaptor);
 };
 } // end namespace itk
 

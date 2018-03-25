@@ -51,6 +51,7 @@ class ITK_TEMPLATE_EXPORT HistogramToImageFilter:
   public ImageSource< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToImageFilter);
 
   /** Standard class type aliases. */
   using FunctorType = TFunction;
@@ -124,9 +125,6 @@ protected:
   FunctorType m_Functor;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToImageFilter);
 };
 } // end namespace itk
 

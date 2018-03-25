@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader< Thr
   : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
+
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass =
@@ -112,9 +114,6 @@ protected:
   {
     return this->m_CachedNumberOfLocalParameters;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
 };
 
 /** \class ImageToImageMetricv4GetValueAndDerivativeThreader
@@ -126,6 +125,8 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader< Thr
   : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
+
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass =
@@ -184,9 +185,6 @@ protected:
   {
     return this->m_CachedNumberOfLocalParameters;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
 };
 
 } // end namespace itk

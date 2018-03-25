@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT BinaryThresholdSpatialFunction:
                           typename TFunction::InputType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdSpatialFunction);
+
   /** Standard class type aliases. */
   using Self = BinaryThresholdSpatialFunction;
   using Superclass = SpatialFunction< bool,
@@ -97,9 +99,6 @@ protected:
   FunctionOutputType m_UpperThreshold;
 
   typename FunctionType::Pointer m_Function;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdSpatialFunction);
 };
 } // end namespace itk
 

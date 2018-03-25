@@ -65,6 +65,7 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldTransformParametersAdaptor
 : public TransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = DisplacementFieldTransformParametersAdaptor;
@@ -125,10 +126,6 @@ public:
 protected:
   DisplacementFieldTransformParametersAdaptor();
   ~DisplacementFieldTransformParametersAdaptor() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldTransformParametersAdaptor);
-
 }; //class DisplacementFieldTransformParametersAdaptor
 }  // namespace itk
 

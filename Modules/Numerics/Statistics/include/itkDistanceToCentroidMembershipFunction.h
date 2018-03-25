@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT DistanceToCentroidMembershipFunction:
   public MembershipFunctionBase< TVector >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DistanceToCentroidMembershipFunction);
+
   /** Standard class type aliases */
   using Self = DistanceToCentroidMembershipFunction;
   using Superclass = MembershipFunctionBase< TVector >;
@@ -104,8 +106,6 @@ protected:
   typename LightObject::Pointer InternalClone() const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DistanceToCentroidMembershipFunction);
-
   DistanceMetricPointer m_DistanceMetric;
 };
 } // end of namespace Statistics

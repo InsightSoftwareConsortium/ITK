@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT WeightedCovarianceSampleFilter:
   public CovarianceSampleFilter< TSample >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCovarianceSampleFilter);
+
   /** Standard class type aliases. */
   using Self = WeightedCovarianceSampleFilter;
   using Superclass = CovarianceSampleFilter< TSample >;
@@ -109,10 +111,6 @@ protected:
 
   /** Compute covariance matrix with weights specified in an array */
   void ComputeCovarianceMatrixWithWeights();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCovarianceSampleFilter);
-
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

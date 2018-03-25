@@ -51,6 +51,8 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT RenyiEntropyThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RenyiEntropyThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = RenyiEntropyThresholdCalculator;
   using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
@@ -96,8 +98,6 @@ protected:
                                               const std::vector< double >& P2 );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RenyiEntropyThresholdCalculator);
-
   InstanceIdentifier  m_FirstBin;
   InstanceIdentifier  m_LastBin;
   SizeValueType       m_Size;

@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT ComparisonImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComparisonImageFilter);
+
   /** Standard class type aliases. */
   using Self = ComparisonImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -144,8 +146,6 @@ protected:
   Array< OutputPixelType >    m_ThreadMaximumDifference;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComparisonImageFilter);
-
   bool m_IgnoreBoundaryPixels;
 };
 } // end namespace Testing

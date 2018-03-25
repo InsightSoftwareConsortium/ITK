@@ -54,6 +54,8 @@ template< typename TOutputImage >
 class ITK_TEMPLATE_EXPORT RandomImageSource:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RandomImageSource);
+
   /** Standard class type aliases. */
   using Self = RandomImageSource;
   using Superclass = ImageSource< TOutputImage >;
@@ -136,8 +138,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RandomImageSource);
-
   SizeType      m_Size;      //size of the output image
   SpacingType   m_Spacing;   //spacing
   PointType     m_Origin;    //origin

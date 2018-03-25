@@ -41,6 +41,8 @@ template< typename TOutputPath >
 class ITK_TEMPLATE_EXPORT PathSource:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PathSource);
+
   /** Standard class type aliases. */
   using Self = PathSource;
   using Superclass = ProcessObject;
@@ -179,9 +181,6 @@ protected:
 
   // Inherit ProcessObject::PrepareOutputs(), which calls Initialize()
   // (Image replaces w/ empty function)
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PathSource);
 };
 } // end namespace itk
 

@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT MorphologicalWatershedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalWatershedImageFilter);
+
   /** Standard class type aliases. */
   using Self = MorphologicalWatershedImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -123,8 +125,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalWatershedImageFilter);
-
   bool m_FullyConnected;
 
   bool m_MarkWatershedLine;

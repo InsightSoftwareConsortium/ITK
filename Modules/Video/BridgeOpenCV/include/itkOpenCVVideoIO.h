@@ -46,6 +46,8 @@ namespace itk
 class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIO : public VideoIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIO);
+
   /** Standard class type aliases. */
   using Self = OpenCVVideoIO;
   using Superclass = VideoIOBase;
@@ -156,8 +158,6 @@ protected:
   void OpenWriter();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIO);
-
 private:
   IplImage*           m_CVImage;
   IplImage*           m_TempImage;

@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT GradientMagnitudeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientMagnitudeImageFilter);
+
   /** Standard class type aliases. */
   using Self = GradientMagnitudeImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -130,8 +132,6 @@ protected:
   void PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientMagnitudeImageFilter);
-
   bool m_UseImageSpacing;
 };
 } // end namespace itk

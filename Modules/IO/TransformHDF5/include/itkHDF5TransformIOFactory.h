@@ -32,6 +32,8 @@ namespace itk
 class ITKIOTransformHDF5_EXPORT HDF5TransformIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HDF5TransformIOFactory);
+
   /** Standard class type aliases. */
   using Self = HDF5TransformIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   HDF5TransformIOFactory();
   ~HDF5TransformIOFactory() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HDF5TransformIOFactory);
 };
 } // end namespace itk
 

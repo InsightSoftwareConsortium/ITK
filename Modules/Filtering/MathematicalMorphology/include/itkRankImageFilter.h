@@ -72,6 +72,8 @@ class ITK_TEMPLATE_EXPORT RankImageFilter:
                                      Function::RankHistogram< typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RankImageFilter);
+
   /** Standard class type aliases. */
   using Self = RankImageFilter;
   using Pointer = SmartPointer< Self >;
@@ -129,8 +131,6 @@ protected:
   void ConfigureHistogram( HistogramType & histogram ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RankImageFilter);
-
   float m_Rank;
 }; // end of class
 } // end namespace itk

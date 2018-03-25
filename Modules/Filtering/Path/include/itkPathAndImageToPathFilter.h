@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT PathAndImageToPathFilter:
   public PathToPathFilter< TInputPath, TOutputPath >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PathAndImageToPathFilter);
+
   /** Standard class type aliases. */
   using Self = PathAndImageToPathFilter;
   using Superclass = PathToPathFilter< TInputPath, TOutputPath >;
@@ -97,9 +99,6 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PathAndImageToPathFilter);
 };
 } // end namespace itk
 

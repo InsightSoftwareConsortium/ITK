@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationGetValueAndDerivativeTh
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationGetValueAndDerivativeThreader);
+
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationGetValueAndDerivativeThreader;
   using Superclass =
@@ -123,8 +125,6 @@ protected:
   AlignedJointHistogramMIPerThreadStruct * m_JointHistogramMIPerThreadVariables;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationGetValueAndDerivativeThreader);
-
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
   TJointHistogramMetric * m_JointAssociate;

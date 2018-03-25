@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT ModulusImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ModulusImageFilter);
+
   /** Standard class type aliases. */
   using Self = ModulusImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -84,10 +86,6 @@ public:
 protected:
   ModulusImageFilter();
   ~ModulusImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ModulusImageFilter);
-
 };
 } // end namespace itk
 

@@ -37,6 +37,7 @@ template<typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT TransformFileReaderTemplate: public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFileReaderTemplate);
 
   /** SmartPointer type alias support */
   using Self = TransformFileReaderTemplate;
@@ -91,9 +92,6 @@ protected:
   TransformListType                 m_TransformList;
   typename TransformIOType::Pointer m_TransformIO;
   std::string                       m_FileName;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFileReaderTemplate);
 };
 
 /** This helps to meet backward compatibility */

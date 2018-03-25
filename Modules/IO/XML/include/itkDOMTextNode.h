@@ -40,6 +40,8 @@ namespace itk
 class DOMTextNode : public DOMNode
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTextNode);
+
   /** Standard class type aliases. */
   using Self = DOMTextNode;
   using Superclass = DOMNode;
@@ -66,7 +68,6 @@ private:
   /** Variable to hold the text string of this node. */
   std::string m_Text;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTextNode);
 };
 
 } // namespace itk

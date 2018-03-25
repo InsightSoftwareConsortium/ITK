@@ -64,6 +64,8 @@ class ITK_TEMPLATE_EXPORT ZeroCrossingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingImageFilter);
+
   /** Standard "Self" & Superclass type alias. */
   using Self = ZeroCrossingImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -150,10 +152,6 @@ protected:
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingImageFilter);
-
 };
 } //end of namespace itk
 

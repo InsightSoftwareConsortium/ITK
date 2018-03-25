@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT TransformMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformMeshFilter);
+
   /** Standard class type aliases. */
   using Self = TransformMeshFilter;
   using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
@@ -80,9 +82,6 @@ protected:
 
   /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer m_Transform;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformMeshFilter);
 };
 } // end namespace itk
 

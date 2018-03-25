@@ -32,6 +32,8 @@ namespace itk
 class ITKVideoIO_EXPORT FileListVideoIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIOFactory);
+
   /** Standard class type aliases. */
   using Self = FileListVideoIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -60,10 +62,6 @@ public:
 protected:
   FileListVideoIOFactory();
   ~FileListVideoIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIOFactory);
-
 };
 } // end namespace itk
 

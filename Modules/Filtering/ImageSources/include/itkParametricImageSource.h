@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT ParametricImageSource
   : public GenerateImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricImageSource);
+
   /** Standard class type aliases. */
   using Self = ParametricImageSource;
   using Superclass = GenerateImageSource<TOutputImage>;
@@ -84,10 +86,6 @@ protected:
   ParametricImageSource() {};
   ~ParametricImageSource() override {}
   void PrintSelf(std::ostream& os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricImageSource);
-
 };
 } // end namespace itk
 

@@ -41,6 +41,8 @@ namespace itk
 class ITKIOVTK_EXPORT VTKImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = VTKImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -69,9 +71,6 @@ public:
 protected:
   VTKImageIOFactory();
   ~VTKImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIOFactory);
 };
 } // end namespace itk
 

@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT LabelImageToLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageToLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = LabelImageToLabelMapFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -116,8 +118,6 @@ protected:
   void AfterThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageToLabelMapFilter);
-
   OutputImagePixelType m_BackgroundValue;
 
   typename std::vector< OutputImagePointer > m_TemporaryImages;

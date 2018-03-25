@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT CleanQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CleanQuadEdgeMeshFilter);
+
   using Self = CleanQuadEdgeMeshFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -122,8 +124,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CleanQuadEdgeMeshFilter);
-
   InputCoordRepType m_AbsoluteTolerance;
   InputCoordRepType m_RelativeTolerance;
 

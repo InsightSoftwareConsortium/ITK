@@ -33,6 +33,8 @@ template< typename TScalar = double, unsigned int NDimensions = 3 >
 class ITK_TEMPLATE_EXPORT AffineGeometryFrame:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AffineGeometryFrame);
+
   using Self = AffineGeometryFrame;
   using Superclass = Object;
   using Pointer = SmartPointer< Self >;
@@ -113,9 +115,6 @@ protected:
   typename TransformType::Pointer m_ObjectToNodeTransform;
   typename TransformType::Pointer m_IndexToNodeTransform;
   typename TransformType::Pointer m_IndexToWorldTransform;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AffineGeometryFrame);
 };
 } // namespace itk
 

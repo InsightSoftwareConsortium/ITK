@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT ImageFunction:
     public FunctionBase< Point< TCoordRep, TInputImage::ImageDimension >, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFunction);
+
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -223,9 +225,6 @@ protected:
 
   ContinuousIndexType m_StartContinuousIndex;
   ContinuousIndexType m_EndContinuousIndex;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFunction);
 };
 } // end namespace itk
 

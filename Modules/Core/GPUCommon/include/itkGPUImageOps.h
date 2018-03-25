@@ -34,6 +34,8 @@ itkGPUKernelClassMacro(GPUImageOpsKernel);
 class GPUImageOps
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageOps);
+
   /** Standard class type aliases. */
   using Self = GPUImageOps;
 
@@ -43,8 +45,6 @@ public:
 private:
   GPUImageOps();
   virtual ~GPUImageOps();
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageOps);
 
 };
 

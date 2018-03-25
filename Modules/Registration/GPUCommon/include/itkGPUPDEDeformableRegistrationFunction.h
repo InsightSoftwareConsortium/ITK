@@ -42,6 +42,8 @@ class GPUPDEDeformableRegistrationFunction :
   public GPUFiniteDifferenceFunction<TDisplacementField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUPDEDeformableRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = GPUPDEDeformableRegistrationFunction;
   using Superclass = GPUFiniteDifferenceFunction<TDisplacementField>;
@@ -167,10 +169,6 @@ protected:
   bool m_NormalizeGradient;
 
   mutable double m_GradientStep;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUPDEDeformableRegistrationFunction);
-
 };
 } // end namespace itk
 

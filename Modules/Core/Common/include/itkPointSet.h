@@ -84,6 +84,8 @@ template<
 class ITK_TEMPLATE_EXPORT PointSet:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSet);
+
   /** Standard class type aliases. */
   using Self = PointSet;
   using Superclass = DataObject;
@@ -223,9 +225,6 @@ protected:
   RegionType m_RequestedNumberOfRegions;
   RegionType m_BufferedRegion;
   RegionType m_RequestedRegion;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSet);
 };                              // End Class: PointSet
 } // end namespace itk
 

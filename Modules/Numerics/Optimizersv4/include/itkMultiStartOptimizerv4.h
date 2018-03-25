@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT MultiStartOptimizerv4Template
 : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiStartOptimizerv4Template);
+
   /** Standard class type aliases. */
   using Self = MultiStartOptimizerv4Template;
   using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
@@ -148,10 +150,6 @@ protected:
   MeasureType                   m_MaximumMetricValue;
   ParameterListSizeType         m_BestParametersIndex;
   OptimizerPointer              m_LocalOptimizer;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiStartOptimizerv4Template);
-
 };
 
 /** This helps to meet backward compatibility */

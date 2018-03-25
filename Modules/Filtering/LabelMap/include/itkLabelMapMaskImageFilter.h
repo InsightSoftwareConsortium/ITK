@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT LabelMapMaskImageFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapMaskImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapMaskImageFilter;
   using Superclass = LabelMapFilter<TInputImage, TOutputImage>;
@@ -167,8 +169,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapMaskImageFilter);
-
   InputImagePixelType       m_Label;
   OutputImagePixelType      m_BackgroundValue;
   bool                      m_Negated;

@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceListSampleFilter:
   public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceListSampleFilter);
+
   using ImageType = TImage;
 
   using MeasurementVectorType = FixedArray< typename TImage::PixelType, 2 >;
@@ -112,8 +114,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceListSampleFilter);
-
   OffsetTable m_OffsetTable;
 };  // end of class ScalarImageToListSampleFilter
 } // end of namespace Statistics

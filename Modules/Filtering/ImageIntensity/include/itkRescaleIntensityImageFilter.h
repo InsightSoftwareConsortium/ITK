@@ -141,6 +141,8 @@ class ITK_TEMPLATE_EXPORT RescaleIntensityImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RescaleIntensityImageFilter);
+
   /** Standard class type aliases. */
   using Self = RescaleIntensityImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -203,8 +205,6 @@ protected:
   ~RescaleIntensityImageFilter() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RescaleIntensityImageFilter);
-
   RealType m_Scale;
   RealType m_Shift;
 

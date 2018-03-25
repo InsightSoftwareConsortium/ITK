@@ -31,6 +31,8 @@ namespace itk
 class ITKIOMeta_EXPORT MetaImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = MetaImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,9 +61,6 @@ public:
 protected:
   MetaImageIOFactory();
   ~MetaImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIOFactory);
 };
 } // end namespace itk
 

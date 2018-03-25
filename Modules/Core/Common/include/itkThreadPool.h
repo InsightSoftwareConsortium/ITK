@@ -61,6 +61,7 @@ namespace itk
 class ITKCommon_EXPORT ThreadPool : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadPool);
 
   /** Standard class type aliases. */
   using Self = ThreadPool;
@@ -123,8 +124,6 @@ protected:
   ~ThreadPool() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadPool);
-
   /** Set if exception occurs */
   bool m_ExceptionOccurred;
 

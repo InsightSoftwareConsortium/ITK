@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT CropImageFilter:
   public ExtractImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CropImageFilter);
+
   /** Standard class type aliases. */
   using Self = CropImageFilter;
   using Superclass = ExtractImageFilter< TInputImage, TOutputImage >;
@@ -110,8 +112,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CropImageFilter);
-
   SizeType m_UpperBoundaryCropSize;
   SizeType m_LowerBoundaryCropSize;
 };

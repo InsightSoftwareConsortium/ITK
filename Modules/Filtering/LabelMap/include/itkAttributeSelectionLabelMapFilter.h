@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT AttributeSelectionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeSelectionLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = AttributeSelectionLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter<TImage>;
@@ -148,8 +150,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeSelectionLabelMapFilter);
-
   AttributeSetType m_AttributeSet;
   bool             m_Exclude;
 

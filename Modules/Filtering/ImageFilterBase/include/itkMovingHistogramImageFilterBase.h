@@ -92,6 +92,8 @@ class ITK_TEMPLATE_EXPORT MovingHistogramImageFilterBase:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilterBase);
+
   /** Standard class type aliases. */
   using Self = MovingHistogramImageFilterBase;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -161,8 +163,6 @@ protected:
   SizeValueType m_PixelsPerTranslation;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilterBase);
-
   class DirectionCost
   {
 public:

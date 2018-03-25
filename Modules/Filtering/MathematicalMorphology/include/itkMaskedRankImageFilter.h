@@ -68,6 +68,8 @@ class ITK_TEMPLATE_EXPORT MaskedRankImageFilter:
                                            Function::RankHistogram< typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedRankImageFilter);
+
   /** Standard class type aliases. */
   using Self = MaskedRankImageFilter;
   using Superclass = MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
@@ -126,8 +128,6 @@ protected:
   void ConfigureHistogram( HistogramType & histogram ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedRankImageFilter);
-
   float m_Rank;
 }; // end of class
 } // end namespace itk

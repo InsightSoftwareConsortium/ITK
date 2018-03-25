@@ -34,6 +34,8 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorJoinFacetFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorJoinFacetFunction);
+
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorJoinFacetFunction;
   using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
@@ -56,9 +58,6 @@ public:
 protected:
   QuadEdgeMeshEulerOperatorJoinFacetFunction(){}
   ~QuadEdgeMeshEulerOperatorJoinFacetFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorJoinFacetFunction);
 };
 } // end namespace itk
 

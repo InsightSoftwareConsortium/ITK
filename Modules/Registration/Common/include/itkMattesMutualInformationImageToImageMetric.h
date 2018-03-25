@@ -113,6 +113,7 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetric:
   public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MattesMutualInformationImageToImageMetric;
@@ -252,8 +253,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetric);
-
   using JointPDFIndexType = JointPDFType::IndexType;
   using JointPDFValueType = JointPDFType::PixelType;
   using JointPDFRegionType = JointPDFType::RegionType;

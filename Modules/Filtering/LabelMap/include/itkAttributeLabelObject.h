@@ -70,6 +70,8 @@ template < typename TLabel, unsigned int VImageDimension, typename TAttributeVal
 class AttributeLabelObject : public LabelObject< TLabel, VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeLabelObject);
+
   /** Standard class type aliases */
   using Self = AttributeLabelObject;
   using Superclass = LabelObject< TLabel, VImageDimension >;
@@ -145,8 +147,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeLabelObject);
-
   AttributeValueType m_Attribute;
 
 

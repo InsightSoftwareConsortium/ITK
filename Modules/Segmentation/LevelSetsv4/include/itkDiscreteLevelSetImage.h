@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT DiscreteLevelSetImage :
   public LevelSetImage< Index< VDimension >, VDimension, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteLevelSetImage);
+
   using IndexType = Index< VDimension >;
 
   using Self = DiscreteLevelSetImage;
@@ -118,7 +120,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteLevelSetImage);
   };
 }
 

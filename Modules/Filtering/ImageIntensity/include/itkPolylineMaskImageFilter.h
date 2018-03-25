@@ -38,6 +38,8 @@ template< typename TInputImage, typename TPolyline, typename TVector,
 class ITK_TEMPLATE_EXPORT PolylineMaskImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMaskImageFilter);
+
   /** Standard class type aliases. */
   using Self = PolylineMaskImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -125,8 +127,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMaskImageFilter);
-
   VectorType m_ViewVector;
   VectorType m_UpVector;
 

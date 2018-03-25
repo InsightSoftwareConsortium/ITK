@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT GradientRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientRecursiveGaussianImageFilter);
+
   /** Standard class type aliases. */
   using Self = GradientRecursiveGaussianImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -234,8 +236,6 @@ private:
     it.GetImage()->TransformLocalVectorToPhysicalVector(gradient, it.Value() );
   }
 
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientRecursiveGaussianImageFilter);
 
   std::vector< GaussianFilterPointer > m_SmoothingFilters;
   DerivativeFilterPointer              m_DerivativeFilter;

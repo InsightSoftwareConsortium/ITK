@@ -63,6 +63,8 @@ class ValuedRegionalMaximaImageFilter:
                                     std::greater< typename TOutputImage::PixelType >  >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMaximaImageFilter);
+
   using Self = ValuedRegionalMaximaImageFilter;
 
   using Superclass = ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
@@ -100,9 +102,6 @@ protected:
   }
 
   ~ValuedRegionalMaximaImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMaximaImageFilter);
 };                                               // end
                                                  // ValuedRegionalMaximaImageFilter
 } //end namespace itk

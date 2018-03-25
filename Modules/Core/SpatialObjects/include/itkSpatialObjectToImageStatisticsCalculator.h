@@ -37,6 +37,8 @@ template< typename TInputImage, typename TInputSpatialObject, unsigned int TSamp
 class ITK_TEMPLATE_EXPORT SpatialObjectToImageStatisticsCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageStatisticsCalculator);
+
   /** Standard class type aliases. */
   using Self = SpatialObjectToImageStatisticsCalculator;
   using Superclass = Object;
@@ -113,8 +115,6 @@ protected:
   bool ComputeStatistics();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageStatisticsCalculator);
-
   ImageConstPointer    m_Image;
   SpatialObjectPointer m_SpatialObject;
   VectorType           m_Mean;

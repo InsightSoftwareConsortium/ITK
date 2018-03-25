@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT BoxImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoxImageFilter);
+
   /** Standard class type aliases. */
   using Self = BoxImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -87,8 +89,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoxImageFilter);
-
   RadiusType m_Radius;
 };
 }

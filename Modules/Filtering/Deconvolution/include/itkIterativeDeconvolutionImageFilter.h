@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT IterativeDeconvolutionImageFilter :
     public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeDeconvolutionImageFilter);
+
   /** Standard type alias. */
   using Self = IterativeDeconvolutionImageFilter;
   using Superclass = FFTConvolutionImageFilter< TInputImage,
@@ -137,8 +139,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeDeconvolutionImageFilter);
-
   /** Number of iterations to run. */
   unsigned int m_NumberOfIterations;
 

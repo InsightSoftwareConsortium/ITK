@@ -36,6 +36,8 @@ class ITK_TEMPLATE_EXPORT CannySegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = CannySegmentationLevelSetFunction;
   using Superclass = SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
@@ -106,8 +108,6 @@ protected:
   }
 
   ~CannySegmentationLevelSetFunction() override {}
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetFunction);
 
 private:
   ScalarValueType m_Variance;

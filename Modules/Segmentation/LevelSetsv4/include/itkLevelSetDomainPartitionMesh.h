@@ -33,6 +33,7 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionMesh :
   public LevelSetDomainPartitionBase< TMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionMesh);
 
   using Self = LevelSetDomainPartitionMesh;
   using Superclass = LevelSetDomainPartitionBase< TMesh >;
@@ -72,8 +73,6 @@ protected:
   void AllocateListDomain();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionMesh);
-
   MeshPointer     m_Mesh;
   ListMeshType    m_ListDomain;
 };

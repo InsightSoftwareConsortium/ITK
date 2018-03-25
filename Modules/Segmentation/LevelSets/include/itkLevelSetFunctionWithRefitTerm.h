@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT LevelSetFunctionWithRefitTerm:
   public LevelSetFunction< TImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetFunctionWithRefitTerm);
+
   /** Standard class type aliases. */
   using Self = LevelSetFunctionWithRefitTerm;
   using Superclass = LevelSetFunction< TImageType >;
@@ -149,8 +151,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetFunctionWithRefitTerm);
-
   /** The sparse image that contains the target curvature information. */
   typename SparseImageType::Pointer m_SparseTargetImage;
 

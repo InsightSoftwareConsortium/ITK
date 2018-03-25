@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT DiscreteGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianImageFilter);
+
   /** Standard class type aliases. */
   using Self = DiscreteGaussianImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -250,8 +252,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianImageFilter);
-
   /** The variance of the gaussian blurring kernel in each dimensional
     direction. */
   ArrayType m_Variance;

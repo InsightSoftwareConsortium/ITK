@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT LabelMapToAttributeImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToAttributeImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapToAttributeImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -104,8 +106,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToAttributeImageFilter);
-
   OutputImagePixelType m_BackgroundValue;
 
 }; // end of class

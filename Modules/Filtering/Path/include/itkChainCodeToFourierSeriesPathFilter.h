@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT ChainCodeToFourierSeriesPathFilter:public
   PathToPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodeToFourierSeriesPathFilter);
+
   /** Standard class type aliases. */
   using Self = ChainCodeToFourierSeriesPathFilter;
   using Superclass = PathToPathFilter< TInputChainCodePath,
@@ -84,8 +86,6 @@ protected:
   void GenerateData(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodeToFourierSeriesPathFilter);
-
   unsigned int m_NumberOfHarmonics;
 };
 } // end namespace itk

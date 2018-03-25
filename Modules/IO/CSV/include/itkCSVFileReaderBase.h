@@ -67,6 +67,8 @@ namespace itk
 class ITKIOCSV_EXPORT CSVFileReaderBase:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CSVFileReaderBase);
+
   /** Standard class type aliases */
   using Self = CSVFileReaderBase;
   using Superclass = LightProcessObject;
@@ -177,9 +179,6 @@ protected:
 
   /** Check that all essential components are present and plugged in. */
   void PrepareForParsing();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CSVFileReaderBase);
 };
 
 } //end namespace itk

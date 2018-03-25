@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorSplitVertexFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitVertexFunction);
+
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorSplitVertexFunction;
   using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
@@ -76,8 +78,6 @@ protected:
   ~QuadEdgeMeshEulerOperatorSplitVertexFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitVertexFunction);
-
   PointIdentifier m_NewPoint; // stock newly created point ID for user.
 };
 } // end namespace itk

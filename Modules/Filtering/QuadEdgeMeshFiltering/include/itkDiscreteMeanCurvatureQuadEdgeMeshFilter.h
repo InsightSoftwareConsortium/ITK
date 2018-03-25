@@ -37,6 +37,8 @@ class DiscreteMeanCurvatureQuadEdgeMeshFilter:
   public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteMeanCurvatureQuadEdgeMeshFilter);
+
   using Self = DiscreteMeanCurvatureQuadEdgeMeshFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -150,9 +152,6 @@ protected:
       }
     return oH;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteMeanCurvatureQuadEdgeMeshFilter);
 };
 }
 #endif

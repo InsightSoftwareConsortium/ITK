@@ -39,6 +39,7 @@ template< typename TElement >
 class ITK_TEMPLATE_EXPORT RingBuffer : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RingBuffer);
 
   /**-TYPEDEFS---------------------------------------------------------------*/
 
@@ -107,10 +108,6 @@ protected:
 
   /** Vector of pointers to elements */
   std::vector<ElementPointer> m_PointerVector;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RingBuffer);
-
 };  // end RingBuffer class
 
 } // end namespace itk

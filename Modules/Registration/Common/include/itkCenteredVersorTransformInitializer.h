@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT CenteredVersorTransformInitializer:
     TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredVersorTransformInitializer);
+
   /** Standard class type aliases. */
   using Self = CenteredVersorTransformInitializer;
   using Superclass = CenteredTransformInitializer<
@@ -99,8 +101,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredVersorTransformInitializer);
-
   bool m_ComputeRotation;
 }; //class CenteredVersorTransformInitializer
 }  // namespace itk

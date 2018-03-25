@@ -44,6 +44,8 @@ namespace itk
 class ITKCommon_EXPORT Command:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Command);
+
   /** Standard class type aliases. */
   using Self = Command;
   using Superclass = Object;
@@ -64,9 +66,6 @@ public:
 protected:
   Command();
   ~Command() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Command);
 };
 
 // some implementations for several callback types
@@ -84,6 +83,8 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT MemberCommand:public Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MemberCommand);
+
   /** pointer to a member function that takes a Object* and the event */
   using TMemberFunctionPointer = void (T::*)(Object *, const EventObject &);
   using TConstMemberFunctionPointer = void (T::*)(const Object *, const EventObject &);
@@ -144,9 +145,6 @@ protected:
   {}
 
   ~MemberCommand() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MemberCommand);
 };
 
 /** \class ReceptorMemberCommand
@@ -162,6 +160,8 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT ReceptorMemberCommand:public Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReceptorMemberCommand);
+
   /** pointer to a member function that takes a Object* and the event */
   using TMemberFunctionPointer = void (T::*)(const EventObject &);
 
@@ -212,9 +212,6 @@ protected:
   {}
 
   ~ReceptorMemberCommand() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReceptorMemberCommand);
 };
 
 /** \class SimpleMemberCommand
@@ -230,6 +227,8 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT SimpleMemberCommand:public Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleMemberCommand);
+
   /** A method callback. */
   using TMemberFunctionPointer = void (T::*)();
 
@@ -278,9 +277,6 @@ protected:
   {}
 
   ~SimpleMemberCommand() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleMemberCommand);
 };
 
 /** \class SimpleConstMemberCommand
@@ -296,6 +292,8 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT SimpleConstMemberCommand:public Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleConstMemberCommand);
+
   /** A const member method callback. */
   using TMemberFunctionPointer = void (T::*)() const;
 
@@ -344,9 +342,6 @@ protected:
   {}
 
   ~SimpleConstMemberCommand() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleConstMemberCommand);
 };
 
 /** \class CStyleCommand

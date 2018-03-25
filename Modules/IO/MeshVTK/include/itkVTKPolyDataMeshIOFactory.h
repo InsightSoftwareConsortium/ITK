@@ -31,6 +31,8 @@ namespace itk
 class ITKIOMeshVTK_EXPORT VTKPolyDataMeshIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataMeshIOFactory);
+
   /** Standard class type aliases. */
   using Self = VTKPolyDataMeshIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   ~VTKPolyDataMeshIOFactory() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataMeshIOFactory);
 };
 } // end namespace itk
 

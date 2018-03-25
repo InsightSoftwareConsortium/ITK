@@ -31,6 +31,8 @@ namespace itk
 class ITKIONRRD_EXPORT NrrdImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = NrrdImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,9 +61,6 @@ public:
 protected:
   NrrdImageIOFactory();
   ~NrrdImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIOFactory);
 };
 } // end namespace itk
 

@@ -34,6 +34,7 @@ template< typename TDomain >
 class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionBase : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionBase);
 
   using Self = LevelSetDomainPartitionBase;
   using Superclass = Object;
@@ -63,9 +64,6 @@ protected:
   using IdentifierListConstIterator = typename IdentifierListType::const_iterator;
 
   IdentifierType m_NumberOfLevelSetFunctions;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionBase);
 };
 } //end namespace itk
 

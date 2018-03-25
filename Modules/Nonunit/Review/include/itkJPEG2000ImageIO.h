@@ -50,6 +50,8 @@ class JPEG2000ImageIOInternal;
 class JPEG2000ImageIO:public StreamingImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIO);
+
   /** Standard class type aliases. */
   using Self = JPEG2000ImageIO;
   using Superclass = StreamingImageIOBase;
@@ -113,8 +115,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIO);
-
   std::unique_ptr< JPEG2000ImageIOInternal >  m_Internal;
 
   using SizeValueType = ImageIORegion::SizeValueType;

@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT BinaryImageToShapeLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToShapeLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryImageToShapeLabelMapFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -175,8 +177,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToShapeLabelMapFilter);
-
   bool                 m_FullyConnected;
   OutputImagePixelType m_OutputBackgroundValue;
   InputImagePixelType  m_InputForegroundValue;

@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldToBSplineImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldToBSplineImageFilter);
+
   using Self = DisplacementFieldToBSplineImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
@@ -263,8 +265,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldToBSplineImageFilter);
-
   bool                                         m_EstimateInverse;
   bool                                         m_EnforceStationaryBoundary;
   unsigned int                                 m_SplineOrder;

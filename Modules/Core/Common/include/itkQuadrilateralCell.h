@@ -39,6 +39,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT QuadrilateralCell:public TCellInterface, private QuadrilateralCellTopology
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadrilateralCell);
+
   /** Standard class type aliases. */
   itkCellCommonTypedefs(QuadrilateralCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -125,9 +127,6 @@ protected:
   void InterpolationFunctions(const CoordRepType pointCoords[CellDimension], InterpolationWeightType weights[NumberOfPoints]);
   void EvaluateLocation(int &itkNotUsed(subId), const PointsContainer * points, const CoordRepType pointCoords[PointDimension],
                         CoordRepType x[PointDimension], InterpolationWeightType * weights);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadrilateralCell);
 };
 } // end namespace itk
 

@@ -75,6 +75,8 @@ class ITK_TEMPLATE_EXPORT IsotropicFourthOrderLevelSetImageFilter:
   public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicFourthOrderLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = IsotropicFourthOrderLevelSetImageFilter;
   using Superclass =
@@ -119,9 +121,6 @@ protected:
     if ( this->GetElapsedIterations() == m_MaxFilterIteration ) { return true; }
     else { return false; }
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicFourthOrderLevelSetImageFilter);
 };
 } // end namespace itk
 

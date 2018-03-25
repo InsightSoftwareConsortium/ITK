@@ -40,6 +40,7 @@ class ITK_TEMPLATE_EXPORT SurfaceSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SurfaceSpatialObject);
 
   using Self = SurfaceSpatialObject;
   using Superclass = PointBasedSpatialObject< TDimension >;
@@ -112,8 +113,6 @@ public:
   bool Approximate3DNormals();
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SurfaceSpatialObject);
-
   PointListType m_Points;
 
   SurfaceSpatialObject();

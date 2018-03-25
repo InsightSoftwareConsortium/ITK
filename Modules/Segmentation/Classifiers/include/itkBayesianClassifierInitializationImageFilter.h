@@ -79,6 +79,8 @@ class ITK_TEMPLATE_EXPORT BayesianClassifierInitializationImageFilter:
                                                 TInputImage::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierInitializationImageFilter);
+
   /** Standard class type aliases. */
   using Self = BayesianClassifierInitializationImageFilter;
   using InputImageType = TInputImage;
@@ -174,8 +176,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierInitializationImageFilter);
-
   bool         m_UserSuppliesMembershipFunctions;
   unsigned int m_NumberOfClasses;
 

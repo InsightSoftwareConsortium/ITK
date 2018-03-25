@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowFunction:
   public MinMaxCurvatureFlowFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowFunction);
+
   /**  Standard class type aliases. */
   using Self = BinaryMinMaxCurvatureFlowFunction;
   using Superclass = MinMaxCurvatureFlowFunction< TImage >;
@@ -84,8 +86,6 @@ protected:
   ~BinaryMinMaxCurvatureFlowFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowFunction);
-
   double m_Threshold;
 };
 } // end namespace itk

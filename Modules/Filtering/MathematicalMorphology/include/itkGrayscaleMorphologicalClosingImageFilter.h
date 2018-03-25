@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleMorphologicalClosingImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalClosingImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleMorphologicalClosingImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -133,8 +135,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalClosingImageFilter);
-
   // the filters used internally
   typename HistogramErodeFilterType::Pointer m_HistogramErodeFilter;
 

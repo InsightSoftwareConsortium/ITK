@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowFunction:
   public CurvatureFlowFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowFunction);
+
   /**  Standard class type aliases. */
   using Self = MinMaxCurvatureFlowFunction;
   using Superclass = CurvatureFlowFunction< TImage >;
@@ -98,8 +100,6 @@ protected:
   void InitializeStencilOperator();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowFunction);
-
   RadiusValueType m_StencilRadius;
 
   // To control overloaded versions of ComputeThreshold

@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT BinaryMedianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMedianImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -136,8 +138,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMedianImageFilter);
-
   InputSizeType m_Radius;
 
   InputPixelType m_ForegroundValue;

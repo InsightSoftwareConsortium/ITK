@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT HashImageFilter:
     public InPlaceImageFilter< TImageType, TImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HashImageFilter);
+
   /** Standard Self type alias */
   using Self = HashImageFilter;
   using Superclass = InPlaceImageFilter< TImageType, TImageType >;
@@ -112,8 +114,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HashImageFilter);
-
   HashFunction m_HashFunction;
 };
 

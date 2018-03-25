@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT DivideImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DivideImageFilter);
+
   /**
    * Standard "Self" type alias.
    */
@@ -112,10 +114,6 @@ protected:
       Superclass::GenerateData();
       }
     }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DivideImageFilter);
-
 };
 } // end namespace itk
 

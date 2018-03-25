@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMetricBaseTemplate:
   public SingleValuedCostFunctionv4Template<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetricBaseTemplate);
+
   /** Standard class type aliases. */
   using Self = ObjectToObjectMetricBaseTemplate;
   using Superclass = SingleValuedCostFunctionv4Template<TInternalComputationValueType>;
@@ -199,9 +201,6 @@ protected:
 
   /** Metric value, stored after evaluating */
   mutable MeasureType             m_Value;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetricBaseTemplate);
 };
 
 /** This helps to meet backward compatibility */

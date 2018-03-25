@@ -212,6 +212,8 @@ struct par_parameter  //par_parameter
 class ITKIOPhilipsREC_EXPORT PhilipsPAR:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsPAR);
+
   /** Standard class type aliases. */
   using Self = PhilipsPAR;
   using Superclass = LightProcessObject;
@@ -298,8 +300,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsPAR);
-
   /** Function used internally to get PAR version. */
   int GetPARVersion(std::string parFile);
 

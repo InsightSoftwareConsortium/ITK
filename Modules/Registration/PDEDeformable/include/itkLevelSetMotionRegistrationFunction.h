@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFunction:
                                             TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = LevelSetMotionRegistrationFunction;
   using Superclass = PDEDeformableRegistrationFunction< TFixedImage,
@@ -219,8 +221,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFunction);
-
   /** Cache fixed image information. */
   SpacingType m_FixedImageSpacing;
   PointType   m_FixedImageOrigin;

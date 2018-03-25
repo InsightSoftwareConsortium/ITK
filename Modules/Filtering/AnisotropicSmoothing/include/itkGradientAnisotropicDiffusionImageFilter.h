@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT GradientAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientAnisotropicDiffusionImageFilter);
+
   /** Standard class type aliases. */
   using Self = GradientAnisotropicDiffusionImageFilter;
   using Superclass =
@@ -87,9 +89,6 @@ protected:
   }
 
   ~GradientAnisotropicDiffusionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientAnisotropicDiffusionImageFilter);
 };
 } // end namspace itk
 

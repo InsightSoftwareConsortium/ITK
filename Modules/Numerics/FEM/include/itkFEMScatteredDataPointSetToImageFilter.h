@@ -128,6 +128,8 @@ class ITK_TEMPLATE_EXPORT FEMScatteredDataPointSetToImageFilter:
   public PointSetToImageFilter< TInputPointSet, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMScatteredDataPointSetToImageFilter);
+
   using Self = FEMScatteredDataPointSetToImageFilter;
   using Superclass = PointSetToImageFilter<TInputPointSet, TOutputImage>;
   using Pointer = SmartPointer<Self>;
@@ -276,8 +278,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMScatteredDataPointSetToImageFilter);
 
   typename FEMObjectType::Pointer      m_FEMObject;
   typename FEMSolverType::Pointer      m_FEMSolver;

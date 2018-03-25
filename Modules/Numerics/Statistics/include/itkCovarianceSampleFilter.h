@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT CovarianceSampleFilter:
   public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CovarianceSampleFilter);
+
   /** Standard class type aliases. */
   using Self = CovarianceSampleFilter;
   using Superclass = ProcessObject;
@@ -125,10 +127,6 @@ protected:
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CovarianceSampleFilter);
-
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

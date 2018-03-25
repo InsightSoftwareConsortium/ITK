@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT SliceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SliceImageFilter);
+
   /** Standard class type aliases. */
   using Self = SliceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -149,8 +151,6 @@ protected:
   void VerifyInputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SliceImageFilter);
-
   IndexType m_Start;
   IndexType m_Stop;
   ArrayType m_Step;

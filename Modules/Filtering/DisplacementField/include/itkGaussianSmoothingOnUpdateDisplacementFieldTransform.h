@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateDisplacementFieldTransform);
+
   /** Standard class type aliases. */
   using Self = GaussianSmoothingOnUpdateDisplacementFieldTransform;
   using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
@@ -120,10 +122,6 @@ protected:
   using GaussianSmoothingSmootherType = VectorNeighborhoodOperatorImageFilter< DisplacementFieldType,
                                                  DisplacementFieldType >;
   GaussianSmoothingOperatorType                    m_GaussianSmoothingOperator;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateDisplacementFieldTransform);
-
 };
 
 } // end namespace itk

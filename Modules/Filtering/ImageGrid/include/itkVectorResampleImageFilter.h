@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT VectorResampleImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorResampleImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorResampleImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -223,8 +225,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorResampleImageFilter);
-
   SizeType                m_Size;
   TransformPointerType    m_Transform;
   InterpolatorPointerType m_Interpolator;

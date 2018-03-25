@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT NaryFunctorImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NaryFunctorImageFilter);
+
   /** Standard class type aliases. */
   using Self = NaryFunctorImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
@@ -119,8 +121,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NaryFunctorImageFilter);
-
   FunctorType m_Functor;
 };
 } // end namespace itk

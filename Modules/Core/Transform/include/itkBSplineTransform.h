@@ -112,6 +112,8 @@ class ITK_TEMPLATE_EXPORT BSplineTransform :
   public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransform);
+
   /** Standard class type aliases. */
   using Self = BSplineTransform;
   using Superclass = BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>;
@@ -297,8 +299,6 @@ private:
 
   /** Construct control point grid size from transform domain information. */
   void SetCoefficientImageInformationFromFixedParameters() override;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransform);
 
   /** Check if a continuous index is inside the valid region. */
   bool InsideValidRegion( ContinuousIndexType & ) const override;

@@ -77,6 +77,8 @@ class MaximumProjectionImageFilter:
                                 Functor::MaximumAccumulator< typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumProjectionImageFilter);
+
   using Self = MaximumProjectionImageFilter;
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::MaximumAccumulator< typename TInputImage::PixelType > >;
@@ -105,9 +107,6 @@ public:
 protected:
   MaximumProjectionImageFilter() {}
   ~MaximumProjectionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumProjectionImageFilter);
 };                                            // end
                                               // MaximumProjectionImageFilter
 } //end namespace itk

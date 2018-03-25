@@ -89,6 +89,7 @@ class HistogramToProbabilityImageFilter:
                                  Function::HistogramProbabilityFunction< SizeValueType, typename TImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToProbabilityImageFilter);
 
   /** Standard class type aliases. */
   using Self = HistogramToProbabilityImageFilter;
@@ -109,9 +110,6 @@ public:
 protected:
   HistogramToProbabilityImageFilter() {}
   ~HistogramToProbabilityImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToProbabilityImageFilter);
 };
 } // end namespace itk
 

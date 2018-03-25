@@ -94,6 +94,8 @@ class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilter);
+
   /** Basic types. */
   using Self = LaplacianDeformationQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
@@ -256,8 +258,6 @@ protected:
 
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilter);
-
   struct Triple
   {
     Triple() {}

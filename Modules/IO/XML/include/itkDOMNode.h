@@ -53,6 +53,8 @@ class DOMTextNode; // forward declaration
 class ITKIOXML_EXPORT DOMNode : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNode);
+
   /** Standard class type aliases. */
   using Self = DOMNode;
   using Superclass = Object;
@@ -229,7 +231,6 @@ private:
   using OrderedAttributesContainer = std::list<AttributeItemType*>;
   OrderedAttributesContainer m_OrderedAttributes;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNode);
 };
 
 } // namespace itk

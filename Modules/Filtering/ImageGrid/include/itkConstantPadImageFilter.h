@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT ConstantPadImageFilter:
   public PadImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantPadImageFilter);
+
   /** Standard class type aliases. */
   using Self = ConstantPadImageFilter;
   using Superclass = PadImageFilter< TInputImage, TOutputImage >;
@@ -113,8 +115,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantPadImageFilter);
-
   ConstantBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk

@@ -76,6 +76,8 @@ class ITK_TEMPLATE_EXPORT CurvatureNDAnisotropicDiffusionFunction:
   public ScalarAnisotropicDiffusionFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureNDAnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = CurvatureNDAnisotropicDiffusionFunction;
   using Superclass = ScalarAnisotropicDiffusionFunction< TImage >;
@@ -121,8 +123,6 @@ protected:
   ~CurvatureNDAnisotropicDiffusionFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureNDAnisotropicDiffusionFunction);
-
   /** Inner product function. */
   NeighborhoodInnerProduct< ImageType > m_InnerProduct;
 

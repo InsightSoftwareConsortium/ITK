@@ -96,6 +96,8 @@ class ITK_TEMPLATE_EXPORT PhasedArray3DSpecialCoordinatesImage:
   public SpecialCoordinatesImage< TPixel, 3 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhasedArray3DSpecialCoordinatesImage);
+
   /** Standard class type aliases */
   using Self = PhasedArray3DSpecialCoordinatesImage;
   using Superclass = SpecialCoordinatesImage< TPixel, 3 >;
@@ -383,8 +385,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhasedArray3DSpecialCoordinatesImage);
-
   double m_AzimuthAngularSeparation;    // in radians
   double m_ElevationAngularSeparation;  // in radians
   double m_RadiusSampleSize;

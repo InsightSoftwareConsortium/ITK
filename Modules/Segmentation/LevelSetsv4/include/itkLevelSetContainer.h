@@ -40,6 +40,7 @@ class LevelSetContainer :
 public LevelSetContainerBase< TIdentifier, TLevelSet >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
 
   using Self = LevelSetContainer;
   using Superclass = LevelSetContainerBase< TIdentifier, TLevelSet >;
@@ -83,9 +84,6 @@ public:
 protected:
   LevelSetContainer() {}
   ~LevelSetContainer() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
 };
 
 /**
@@ -97,6 +95,8 @@ class LevelSetContainer< TIdentifier, LevelSetDenseImage< TImage > > :
 public LevelSetContainerBase< TIdentifier, LevelSetDenseImage< TImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
+
   using LevelSetType = LevelSetDenseImage< TImage >;
 
   using Self = LevelSetContainer;
@@ -182,9 +182,6 @@ public:
 protected:
   LevelSetContainer() {}
   ~LevelSetContainer() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
 };
 
 }

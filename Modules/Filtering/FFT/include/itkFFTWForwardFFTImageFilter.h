@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT FFTWForwardFFTImageFilter:
   public ForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWForwardFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -118,8 +120,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWForwardFFTImageFilter);
-
   bool m_CanUseDestructiveAlgorithm;
 
   int m_PlanRigor;

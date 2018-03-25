@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT MultiGradientOptimizerv4Template
 : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiGradientOptimizerv4Template);
+
   /** Standard class type aliases. */
   using Self = MultiGradientOptimizerv4Template;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
@@ -134,10 +136,6 @@ public:
   MetricValuesListType          m_MetricValuesList;
   MeasureType                   m_MinimumMetricValue;
   MeasureType                   m_MaximumMetricValue;
-
-  private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiGradientOptimizerv4Template);
-
 };
 
 /** This helps to meet backward compatibility */

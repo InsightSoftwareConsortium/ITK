@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT GPUImageDataManager : public GPUDataManager
   friend class GPUImage< typename ImageType::PixelType, ImageType::ImageDimension >;
 
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageDataManager);
+
   using Self = GPUImageDataManager;
   using Superclass = GPUDataManager;
   using Pointer = SmartPointer<Self>;
@@ -78,8 +80,6 @@ protected:
   ~GPUImageDataManager() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageDataManager);
-
   WeakPointer<ImageType>            m_Image;   // WeakPointer has to be used here
                                                // to avoid SmartPointer loop
   int                               m_BufferedRegionIndex[ImageType::ImageDimension];

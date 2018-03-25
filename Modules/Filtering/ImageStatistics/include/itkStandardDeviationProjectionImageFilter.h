@@ -109,6 +109,8 @@ class StandardDeviationProjectionImageFilter:
                                                                 TInputImage::PixelType, TAccumulate > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationProjectionImageFilter);
+
   using Self = StandardDeviationProjectionImageFilter;
 
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
@@ -146,10 +148,6 @@ public:
 protected:
   StandardDeviationProjectionImageFilter() {}
   ~StandardDeviationProjectionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationProjectionImageFilter);
-
 };                              // end StandardDeviationProjectionImageFilter
 } //end namespace itk
 

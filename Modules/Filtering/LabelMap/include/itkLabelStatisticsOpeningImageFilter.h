@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT LabelStatisticsOpeningImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsOpeningImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelStatisticsOpeningImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
@@ -178,8 +180,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsOpeningImageFilter);
-
   OutputImagePixelType m_BackgroundValue;
   double               m_Lambda;
   bool                 m_ReverseOrdering;

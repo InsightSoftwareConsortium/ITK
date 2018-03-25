@@ -71,6 +71,8 @@ namespace itk
 class ITKIOImageBase_EXPORT RegularExpressionSeriesFileNames:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularExpressionSeriesFileNames);
+
   /** Standard class type aliases. */
   using Self = RegularExpressionSeriesFileNames;
   using Superclass = Object;
@@ -118,8 +120,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularExpressionSeriesFileNames);
-
   std::string  m_Directory;
   unsigned int m_SubMatch;
   bool         m_NumericSort;

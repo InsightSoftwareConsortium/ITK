@@ -89,6 +89,8 @@ class ITK_TEMPLATE_EXPORT LandmarkBasedTransformInitializer:
   public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkBasedTransformInitializer);
+
   /** Standard class type aliases. */
   using Self = LandmarkBasedTransformInitializer;
   using Superclass = Object;
@@ -181,8 +183,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkBasedTransformInitializer);
-
 
   /** fallback Initializer just sets transform to identity */
   template <typename TTransform2>

@@ -250,6 +250,8 @@ class ITK_TEMPLATE_EXPORT ParallelSparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParallelSparseFieldLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = ParallelSparseFieldLevelSetImageFilter;
   using Superclass = FiniteDifferenceImageFilter< TInputImage, TOutputImage >;
@@ -773,8 +775,6 @@ protected:
   bool m_InterpolateSurfaceLocation;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParallelSparseFieldLevelSetImageFilter);
 
   /** This flag is true when methods need to check boundary conditions and
    *  false when methods do not need to check for boundary conditions. */

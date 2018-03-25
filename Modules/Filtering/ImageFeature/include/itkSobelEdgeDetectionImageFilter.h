@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT SobelEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SobelEdgeDetectionImageFilter);
+
   /**
    * Standard "Self" & Superclass type alias.
    */
@@ -130,10 +132,6 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SobelEdgeDetectionImageFilter);
-
 };
 } // end namespace itk
 

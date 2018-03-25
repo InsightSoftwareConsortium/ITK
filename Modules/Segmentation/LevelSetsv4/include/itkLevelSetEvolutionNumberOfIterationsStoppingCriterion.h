@@ -32,6 +32,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionNumberOfIterationsStoppingCriterion :
   public LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionNumberOfIterationsStoppingCriterion);
+
   using Self = LevelSetEvolutionNumberOfIterationsStoppingCriterion;
   using Superclass = LevelSetEvolutionStoppingCriterion< TLevelSetContainer >;
   using Pointer = SmartPointer< Self >;
@@ -70,9 +72,6 @@ protected:
 
   /** Destructor */
   ~LevelSetEvolutionNumberOfIterationsStoppingCriterion() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionNumberOfIterationsStoppingCriterion);
  };
  }
 #ifndef ITK_MANUAL_INSTANTIATION

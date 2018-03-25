@@ -66,6 +66,8 @@ class ITKOptimizersv4_EXPORT LBFGSBOptimizerv4:
   public LBFGSOptimizerBasev4< vnl_lbfgsb >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizerv4);
+
   /** Standard "Self" type alias. */
   using Self = LBFGSBOptimizerv4;
   using Superclass = LBFGSOptimizerBasev4<vnl_lbfgsb>;
@@ -169,8 +171,6 @@ protected:
   friend class LBFGSBOptimizerHelperv4;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizerv4);
-
   unsigned int m_MaximumNumberOfCorrections;
 
   ParametersType          m_InitialPosition;

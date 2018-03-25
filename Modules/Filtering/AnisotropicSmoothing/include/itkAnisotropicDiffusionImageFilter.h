@@ -74,6 +74,8 @@ class ITK_TEMPLATE_EXPORT AnisotropicDiffusionImageFilter:
   public DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionImageFilter);
+
   /** Standard class type aliases. */
   using Self = AnisotropicDiffusionImageFilter;
   using Superclass = DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >;
@@ -148,8 +150,6 @@ protected:
   bool m_GradientMagnitudeIsFixed;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionImageFilter);
-
   double       m_ConductanceParameter;
   double       m_ConductanceScalingParameter;
   unsigned int m_ConductanceScalingUpdateInterval;

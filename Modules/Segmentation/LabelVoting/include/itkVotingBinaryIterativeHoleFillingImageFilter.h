@@ -56,6 +56,7 @@ class ITK_TEMPLATE_EXPORT VotingBinaryIterativeHoleFillingImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryIterativeHoleFillingImageFilter);
 
   /** Convenient type alias for simplifying declarations. */
   using InputImageType = TImage;
@@ -147,8 +148,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryIterativeHoleFillingImageFilter);
-
   InputSizeType m_Radius;
 
   InputPixelType m_ForegroundValue;

@@ -34,6 +34,8 @@ class ITK_TEMPLATE_EXPORT VoronoiPartitioningImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiPartitioningImageFilter);
+
   /** Standard class type aliases. */
   using Self = VoronoiPartitioningImageFilter;
   using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >;
@@ -104,9 +106,6 @@ protected:
 
   // Threshold for homogeneity criterion
   double m_SigmaThreshold;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiPartitioningImageFilter);
 };
 } //end namespace
 

@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT FFTWRealToHalfHermitianForwardFFTImageFilter:
   public RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWRealToHalfHermitianForwardFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -118,8 +120,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWRealToHalfHermitianForwardFFTImageFilter);
-
   bool m_CanUseDestructiveAlgorithm;
 
   int m_PlanRigor;

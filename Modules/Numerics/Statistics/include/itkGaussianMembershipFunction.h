@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT GaussianMembershipFunction:
   public MembershipFunctionBase< TMeasurementVector >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianMembershipFunction);
+
   /** Standard class type aliases */
   using Self = GaussianMembershipFunction;
   using Superclass = MembershipFunctionBase< TMeasurementVector >;
@@ -119,8 +121,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianMembershipFunction);
-
   MeanVectorType       m_Mean;            // mean
   CovarianceMatrixType m_Covariance;      // covariance matrix
 

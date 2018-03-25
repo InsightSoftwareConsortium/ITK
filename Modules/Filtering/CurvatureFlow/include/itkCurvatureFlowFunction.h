@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT CurvatureFlowFunction:
   public FiniteDifferenceFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowFunction);
+
   /**  Standard class type aliases. */
   using Self = CurvatureFlowFunction;
   using Superclass = FiniteDifferenceFunction< TImage >;
@@ -140,8 +142,6 @@ protected:
   ~CurvatureFlowFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowFunction);
-
   TimeStepType m_TimeStep;
 };
 } // end namespace itk

@@ -61,6 +61,8 @@ template <typename TFixedImage, typename TMovingImage, typename TMaskImage, type
 class ITK_TEMPLATE_EXPORT PhysicsBasedNonRigidRegistrationMethod : public ImageToImageFilter<TMovingImage, TDeformationField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicsBasedNonRigidRegistrationMethod);
+
   using Self = PhysicsBasedNonRigidRegistrationMethod;
   using Superclass = ImageToImageFilter<TMovingImage, TDeformationField>;
   using Pointer = SmartPointer<Self>;
@@ -163,8 +165,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicsBasedNonRigidRegistrationMethod);
-
   double         m_SelectFraction;
   unsigned int   m_NonConnectivity;
   ImageSizeType  m_BlockRadius;

@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT MinimumMaximumImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageFilter);
+
   /** Extract dimension from input image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
@@ -137,8 +139,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageFilter);
-
   std::vector< PixelType > m_ThreadMin;
   std::vector< PixelType > m_ThreadMax;
 };

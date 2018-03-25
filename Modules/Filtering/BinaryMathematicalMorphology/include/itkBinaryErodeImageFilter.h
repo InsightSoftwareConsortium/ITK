@@ -68,6 +68,8 @@ class ITK_TEMPLATE_EXPORT BinaryErodeImageFilter:
   public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -129,9 +131,6 @@ protected:
 
   // type inherited from the superclass
   using NeighborIndexContainer = typename Superclass::NeighborIndexContainer;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeImageFilter);
 };
 } // end namespace itk
 

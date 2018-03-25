@@ -44,6 +44,7 @@ class ITK_TEMPLATE_EXPORT VesselTubeSpatialObject:
                             VesselTubeSpatialObjectPoint< TDimension >  >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VesselTubeSpatialObject);
 
   using Self = VesselTubeSpatialObject;
   using Superclass = TubeSpatialObject< TDimension,
@@ -74,9 +75,6 @@ protected:
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VesselTubeSpatialObject);
 };
 } // end namespace itk
 

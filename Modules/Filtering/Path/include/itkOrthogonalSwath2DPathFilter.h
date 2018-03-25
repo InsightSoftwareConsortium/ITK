@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT OrthogonalSwath2DPathFilter:public
                             OrthogonallyCorrected2DParametricPath >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OrthogonalSwath2DPathFilter);
+
   /** Standard class type aliases. */
   using Self = OrthogonalSwath2DPathFilter;
   using Superclass = PathAndImageToPathFilter< TFourierSeriesPath, TSwathMeritImage,
@@ -92,8 +94,6 @@ protected:
   void GenerateData(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OrthogonalSwath2DPathFilter);
-
   // Find the "L" for the maximum merit over the range L-1 to L+1 at F & x.
   // This value is both returned and stored in m_StepValues.
   // The merits for F & x at L-1 to L+1 must have already been calculated.

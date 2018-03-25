@@ -49,6 +49,8 @@ class GPUGradientAnisotropicDiffusionImageFilter :
   public GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientAnisotropicDiffusionImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUGradientAnisotropicDiffusionImageFilter;
   using GPUSuperclass = GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
@@ -85,9 +87,6 @@ protected:
   }
 
   ~GPUGradientAnisotropicDiffusionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientAnisotropicDiffusionImageFilter);
 };
 
 /**

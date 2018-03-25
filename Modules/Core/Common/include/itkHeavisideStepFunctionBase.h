@@ -54,6 +54,8 @@ template< typename TInput = float, typename TOutput = double >
 class HeavisideStepFunctionBase:public FunctionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HeavisideStepFunctionBase);
+
   using Self = HeavisideStepFunctionBase;
   using Superclass = FunctionBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -83,9 +85,6 @@ public:
 protected:
   HeavisideStepFunctionBase() : Superclass() {}
   ~HeavisideStepFunctionBase() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HeavisideStepFunctionBase);
 };
 }
 

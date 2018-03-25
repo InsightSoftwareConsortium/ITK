@@ -39,6 +39,7 @@ class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject:
   public ImageSpatialObject< TDimension, unsigned char >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
   using Self = ImageMaskSpatialObject< TDimension >;
   using Superclass = ImageSpatialObject< TDimension >;
@@ -89,8 +90,6 @@ public:
   bool ComputeLocalBoundingBox() const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
-
   ImageMaskSpatialObject();
   ~ImageMaskSpatialObject() override;
 

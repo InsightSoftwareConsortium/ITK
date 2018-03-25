@@ -68,6 +68,8 @@ class EdgePotentialImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EdgePotentialImageFilter);
+
   /** Standard class type aliases. */
   using Self = EdgePotentialImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -95,9 +97,6 @@ public:
 protected:
   EdgePotentialImageFilter() {}
   ~EdgePotentialImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EdgePotentialImageFilter);
 };
 } // end namespace itk
 

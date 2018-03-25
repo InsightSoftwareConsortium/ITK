@@ -75,6 +75,8 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT  FEMObject : public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMObject);
+
   /** Standard class type aliases. */
   using Self = FEMObject;
   using Superclass = DataObject;
@@ -327,8 +329,6 @@ protected:
   MaterialContainerPointer m_MaterialContainer;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMObject);
-
   void AddNextLoadInternal(Load *l);
 };
 

@@ -76,6 +76,8 @@ template< typename TOutputMesh,
 class ITK_TEMPLATE_EXPORT MeshFileReader:public MeshSource< TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileReader);
+
   /** Standard class type aliases. */
   using Self = MeshFileReader;
   using Superclass = MeshSource< TOutputMesh >;
@@ -168,8 +170,6 @@ protected:
   std::string m_FileName;                    // The file to be read
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileReader);
-
   std::string m_ExceptionMessage;
 };
 } // end namespace itk

@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT TernaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryFunctorImageFilter);
+
   /** Standard class type aliases. */
   using Self = TernaryFunctorImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage1, TOutputImage >;
@@ -150,8 +152,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryFunctorImageFilter);
-
   FunctorType m_Functor;
 };
 } // end namespace itk

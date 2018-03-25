@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT Euler3DTransform :
   public Rigid3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Euler3DTransform);
+
   /** Standard class type aliases. */
   using Self = Euler3DTransform;
   using Superclass = Rigid3DTransform<TParametersValueType>;
@@ -140,8 +142,6 @@ protected:
   void ComputeMatrixParameters(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Euler3DTransform);
-
   ScalarType m_AngleX;
   ScalarType m_AngleY;
   ScalarType m_AngleZ;

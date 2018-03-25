@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT PhysicalPointImageSource
   : public GenerateImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalPointImageSource);
+
   using Self = PhysicalPointImageSource;
   using Superclass = GenerateImageSource< TOutputImage >;
   using Pointer = SmartPointer< Self >;
@@ -68,9 +70,6 @@ protected:
   void GenerateOutputInformation() override;
 
   void ThreadedGenerateData (const RegionType &outputRegionForThread, ThreadIdType threadId) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalPointImageSource);
 };
 }
 

@@ -34,6 +34,8 @@ class ITKOptimizers_EXPORT LevenbergMarquardtOptimizer:
   public MultipleValuedNonLinearVnlOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevenbergMarquardtOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = LevenbergMarquardtOptimizer;
   using Superclass = MultipleValuedNonLinearVnlOptimizer;
@@ -81,8 +83,6 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevenbergMarquardtOptimizer);
-
   bool                   m_OptimizerInitialized;
   InternalOptimizerType *m_VnlOptimizer;
   unsigned int           m_NumberOfIterations;

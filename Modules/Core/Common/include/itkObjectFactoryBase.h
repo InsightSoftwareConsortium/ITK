@@ -60,6 +60,7 @@ struct ObjectFactoryBasePrivate;
 class ITKCommon_EXPORT ObjectFactoryBase:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectFactoryBase);
 
   /** Standard class type aliases. */
   using Self = ObjectFactoryBase;
@@ -231,8 +232,6 @@ protected:
 
 private:
   OverRideMap *m_OverrideMap;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectFactoryBase);
 
   /** Initialize the static list of Factories. */
   static void InitializeFactoryList();

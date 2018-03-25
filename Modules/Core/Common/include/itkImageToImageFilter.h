@@ -108,6 +108,8 @@ class ITK_TEMPLATE_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >,
   private ImageToImageFilterCommon
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageFilter);
+
   /** Standard class type aliases. */
   using Self = ImageToImageFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -355,7 +357,6 @@ protected:
   { Superclass::PushFrontInput(input); }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageFilter);
   /**
    *  Tolerances for checking whether input images are defined to
    *  occupy the same physical space.

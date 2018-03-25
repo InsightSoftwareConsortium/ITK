@@ -104,6 +104,8 @@ class ITK_TEMPLATE_EXPORT MultiphaseDenseFiniteDifferenceImageFilter:
                                                 TOutputImage, TFunction, TIdCell >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseDenseFiniteDifferenceImageFilter);
+
   /** Standard class type aliases */
   using Self = MultiphaseDenseFiniteDifferenceImageFilter;
   using Superclass = MultiphaseFiniteDifferenceImageFilter< TInputImage,
@@ -210,8 +212,6 @@ protected:
   // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseDenseFiniteDifferenceImageFilter);
-
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
   void AllocateUpdateBuffer() override;

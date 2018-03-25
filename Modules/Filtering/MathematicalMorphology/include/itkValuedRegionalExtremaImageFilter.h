@@ -80,6 +80,8 @@ class ITK_TEMPLATE_EXPORT ValuedRegionalExtremaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalExtremaImageFilter);
+
   /** Standard class type aliases. */
   using Self = ValuedRegionalExtremaImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -155,8 +157,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalExtremaImageFilter);
-
   typename TInputImage::PixelType m_MarkerValue;
 
   bool m_FullyConnected;

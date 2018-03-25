@@ -62,6 +62,7 @@ class ITK_TEMPLATE_EXPORT ConicShellInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConicShellInteriorExteriorSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = ConicShellInteriorExteriorSpatialFunction;
@@ -121,8 +122,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConicShellInteriorExteriorSpatialFunction);
-
   InputType     m_Origin;
   GradientType  m_OriginGradient;
   double        m_DistanceMin;

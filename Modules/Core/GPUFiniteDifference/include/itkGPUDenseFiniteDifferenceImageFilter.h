@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT GPUDenseFiniteDifferenceImageFilter :
   public GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDenseFiniteDifferenceImageFilter);
+
   /** Standard class type aliases */
   using Self = GPUDenseFiniteDifferenceImageFilter;
   using GPUSuperclass = GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
@@ -130,10 +132,6 @@ protected:
 
   /* GPU kernel handle for GPUApplyUpdate */
   int m_ApplyUpdateGPUKernelHandle;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDenseFiniteDifferenceImageFilter);
-
 };
 } // end namespace itk
 

@@ -54,6 +54,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageDuplicator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageDuplicator);
+
   /** Standard class type aliases. */
   using Self = ImageDuplicator;
   using Superclass = Object;
@@ -105,8 +107,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageDuplicator);
-
   ImageConstPointer m_InputImage;
   ImagePointer      m_DuplicateImage;
   ModifiedTimeType  m_InternalImageTime;

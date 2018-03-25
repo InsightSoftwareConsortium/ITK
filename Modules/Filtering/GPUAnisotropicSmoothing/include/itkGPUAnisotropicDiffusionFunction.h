@@ -39,6 +39,8 @@ class GPUAnisotropicDiffusionFunction :
   public GPUFiniteDifferenceFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = GPUAnisotropicDiffusionFunction;
   using Superclass = GPUFiniteDifferenceFunction< TImage >;
@@ -148,8 +150,6 @@ protected:
   int m_AverageGradientMagnitudeSquaredGPUKernelHandle;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionFunction);
-
   double       m_AverageGradientMagnitudeSquared;
   double       m_ConductanceParameter;
   TimeStepType m_TimeStep;

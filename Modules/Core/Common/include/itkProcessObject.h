@@ -474,6 +474,8 @@ protected:
   class ProcessObjectDomainThreader: public DomainThreader< TDomainPartitioner, TAssociate >
   {
   public:
+    ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObjectDomainThreader);
+
     /** Standard class type aliases. */
     using Self = ProcessObjectDomainThreader;
     using Superclass = DomainThreader< TDomainPartitioner, ProcessObject::Self >;
@@ -493,9 +495,6 @@ protected:
     /** This is overridden to set the MultiThreader and number of threads used
      * the same as the ProcessObject. */
     virtual void DetermineNumberOfThreadsUsed();
-
-  private:
-    ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObjectDomainThreader);
    };
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

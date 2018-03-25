@@ -65,6 +65,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT MRASlabIdentifier:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRASlabIdentifier);
+
   /** Standard class type aliases. */
   using Self = MRASlabIdentifier;
   using Superclass = Object;
@@ -127,8 +129,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRASlabIdentifier);
-
   /** Target image pointer that MRASlabIdentifier will use. */
   ImageConstPointer m_Image;
 

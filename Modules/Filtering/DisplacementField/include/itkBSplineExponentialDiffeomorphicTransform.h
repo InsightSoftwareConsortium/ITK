@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransform :
   public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransform);
+
   /** Standard class type aliases. */
   using Self = BSplineExponentialDiffeomorphicTransform;
   using Superclass = ConstantVelocityFieldTransform<TParametersValueType, NDimensions>;
@@ -164,8 +166,6 @@ protected:
   void PrintSelf( std::ostream &, Indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransform);
-
   ArrayType                               m_NumberOfControlPointsForTheConstantVelocityField;
   ArrayType                               m_NumberOfControlPointsForTheUpdateField;
 

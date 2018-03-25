@@ -32,6 +32,8 @@ namespace itk
 class ITKIOGE_EXPORT GEAdwImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = GEAdwImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   GEAdwImageIOFactory();
   ~GEAdwImageIOFactory() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIOFactory);
 };
 } // end namespace itk
 

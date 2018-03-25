@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT ConnectedRegionsMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedRegionsMeshFilter);
+
   /**
    * Standard class type aliases.
    */
@@ -234,8 +236,6 @@ protected:
   void PropagateConnectedWave();
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedRegionsMeshFilter);
 
   int                            m_ExtractionMode;
   InputMeshPointType             m_ClosestPoint;

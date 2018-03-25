@@ -72,6 +72,8 @@ namespace itk
 class ITKCommon_EXPORT LightProcessObject:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LightProcessObject);
+
   /** Standard class type aliases. */
   using Self = LightProcessObject;
   using Superclass = Object;
@@ -122,8 +124,6 @@ protected:
   virtual void GenerateData() {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LightProcessObject);
-
   /**
    * These support the progress method and aborting filter execution.
    */

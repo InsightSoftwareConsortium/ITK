@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT GaussianInterpolateImageFunction :
   public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = GaussianInterpolateImageFunction;
   using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
@@ -167,8 +169,6 @@ protected:
 
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianInterpolateImageFunction);
-
   /** Evaluate function value. */
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType &, OutputType * ) const;

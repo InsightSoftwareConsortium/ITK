@@ -40,6 +40,8 @@ class VanHerkGilWermanDilateImageFilter:
   public VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, MaxFunctor< typename TImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanDilateImageFilter);
+
   using Self = VanHerkGilWermanDilateImageFilter;
   using Superclass = VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel,
                                                   MaxFunctor< typename TImage::PixelType > >;
@@ -66,7 +68,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanDilateImageFilter);
 };
 } // namespace itk
 

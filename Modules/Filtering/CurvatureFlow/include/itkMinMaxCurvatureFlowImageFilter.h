@@ -78,6 +78,8 @@ class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowImageFilter:
   public CurvatureFlowImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowImageFilter);
+
   /** Standard class type aliases. */
   using Self = MinMaxCurvatureFlowImageFilter;
   using Superclass = CurvatureFlowImageFilter< TInputImage, TOutputImage >;
@@ -141,8 +143,6 @@ protected:
   void InitializeIteration() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowImageFilter);
-
   RadiusValueType m_StencilRadius;
 };
 } // end namspace itk

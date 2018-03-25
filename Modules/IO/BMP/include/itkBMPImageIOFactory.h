@@ -31,6 +31,8 @@ namespace itk
 class ITKIOBMP_EXPORT BMPImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = BMPImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,9 +61,6 @@ public:
 protected:
   BMPImageIOFactory();
   ~BMPImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIOFactory);
 };
 } // end namespace itk
 

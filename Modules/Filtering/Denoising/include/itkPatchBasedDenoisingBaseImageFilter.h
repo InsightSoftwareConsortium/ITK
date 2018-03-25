@@ -95,6 +95,8 @@ class ITK_TEMPLATE_EXPORT PatchBasedDenoisingBaseImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingBaseImageFilter);
+
   /** Standard class type aliases. */
   using Self = PatchBasedDenoisingBaseImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -320,8 +322,6 @@ protected:
   OutputImageType      *m_OutputImage;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingBaseImageFilter);
-
   /** Parameters that define patch size and patch weights (mask). */
   unsigned int     m_PatchRadius;
   PatchWeightsType m_PatchWeights;

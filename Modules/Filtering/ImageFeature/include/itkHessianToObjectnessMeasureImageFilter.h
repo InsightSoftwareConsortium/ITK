@@ -61,6 +61,7 @@ class ITK_TEMPLATE_EXPORT HessianToObjectnessMeasureImageFilter:public
   ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HessianToObjectnessMeasureImageFilter);
 
   /** Standard class type aliases. */
   using Self = HessianToObjectnessMeasureImageFilter;
@@ -137,8 +138,6 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HessianToObjectnessMeasureImageFilter);
-
   // functor used to sort the eigenvalues are to be sorted
   // |e1|<=|e2|<=...<=|eN|
   //

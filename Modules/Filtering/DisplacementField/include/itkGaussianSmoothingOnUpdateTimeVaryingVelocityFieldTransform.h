@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTrans
 : public TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform);
+
   /** Standard class type aliases. */
   using Self = GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform;
   using Superclass = TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>;
@@ -130,10 +132,6 @@ protected:
   ScalarType                        m_GaussianSpatialSmoothingVarianceForTheTotalField;
   ScalarType                        m_GaussianTemporalSmoothingVarianceForTheUpdateField;
   ScalarType                        m_GaussianTemporalSmoothingVarianceForTheTotalField;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform);
-
 };
 
 } // end namespace itk

@@ -48,6 +48,7 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationImageToImageMetricv4;
@@ -188,8 +189,6 @@ protected:
   SizeValueType   m_JointHistogramTotalCount;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationImageToImageMetricv4);
-
   /** The fixed image marginal PDF */
   typename MarginalPDFType::Pointer m_FixedImageMarginalPDF;
 

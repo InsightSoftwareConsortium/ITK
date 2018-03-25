@@ -128,6 +128,8 @@ class ITK_TEMPLATE_EXPORT BinaryThresholdImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryThresholdImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -213,8 +215,6 @@ protected:
   void BeforeThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFilter);
-
   OutputPixelType m_InsideValue;
   OutputPixelType m_OutsideValue;
 };

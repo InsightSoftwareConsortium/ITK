@@ -54,6 +54,8 @@ namespace itk
 class ITKIOImageBase_EXPORT NumericSeriesFileNames:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NumericSeriesFileNames);
+
   /** Standard class type aliases. */
   using Self = NumericSeriesFileNames;
   using Superclass = Object;
@@ -99,8 +101,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NumericSeriesFileNames);
-
   SizeValueType m_StartIndex;
   SizeValueType m_EndIndex;
   SizeValueType m_IncrementIndex;

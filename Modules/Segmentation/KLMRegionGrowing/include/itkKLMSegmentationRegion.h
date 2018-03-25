@@ -92,6 +92,8 @@ class ITK_FORWARD_EXPORT KLMSegmentationBorder;
 class ITKKLMRegionGrowing_EXPORT KLMSegmentationRegion:public SegmentationRegion
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationRegion);
+
   /** Standard class type aliases. */
   using Self = KLMSegmentationRegion;
   using Superclass = SegmentationRegion;
@@ -221,8 +223,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationRegion);
-
   RegionBorderVectorType  m_RegionBorderVector;
   MeanRegionIntensityType m_MeanRegionIntensity;
 }; // class SegmentationRegion

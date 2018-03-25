@@ -53,6 +53,8 @@ namespace itk
 class ITKCommon_EXPORT Win32OutputWindow:public OutputWindow
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Win32OutputWindow);
+
   /** Standard class type aliases. */
   using Self = Win32OutputWindow;
   using Superclass = OutputWindow;
@@ -83,8 +85,6 @@ protected:
   static int Initialize();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Win32OutputWindow);
-
   static HWND m_OutputWindow;
 };
 } // end namespace itk

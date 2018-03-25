@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT GridForwardWarpImageFilter:
   public ImageToImageFilter< TDisplacementField, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GridForwardWarpImageFilter);
+
   /** Standard class type aliases. */
   using Self = GridForwardWarpImageFilter;
   using Superclass = ImageToImageFilter< TDisplacementField, TOutputImage >;
@@ -125,8 +127,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GridForwardWarpImageFilter);
-
   PixelType    m_BackgroundValue;
   PixelType    m_ForegroundValue;
   unsigned int m_GridPixSpacing;

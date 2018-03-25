@@ -114,6 +114,8 @@ template< typename TPixel, unsigned int ColorTableSize, typename MappingFunction
 class ITK_TEMPLATE_EXPORT Octree:public OctreeBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Octree);
+
   /** Standard class type aliases. */
   using Self = Octree;
   using Superclass = OctreeBase;
@@ -157,8 +159,6 @@ public:
   int GetColorTableSize() const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Octree);
-
   OctreeNodeBranch * maskToOctree(const TPixel *Mask, unsigned width, unsigned x,
                                   unsigned y, unsigned z, unsigned xsize,
                                   unsigned ysize, unsigned zsize);

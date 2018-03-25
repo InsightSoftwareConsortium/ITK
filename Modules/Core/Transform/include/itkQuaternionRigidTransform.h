@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT QuaternionRigidTransform :
   public Rigid3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransform);
+
   /** Standard class type aliases.   */
   using Self = QuaternionRigidTransform;
   using Superclass = Rigid3DTransform<TParametersValueType>;
@@ -145,8 +147,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransform);
-
   /** Rotation of the transformation. */
   VnlQuaternionType m_Rotation;
 }; // class QuaternionRigidTransform

@@ -46,6 +46,8 @@ template <typename THistogram, typename TOutput>
 class HistogramThresholdCalculator : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = HistogramThresholdCalculator;
   using Superclass = ProcessObject;
@@ -112,10 +114,6 @@ protected:
   }
   ~HistogramThresholdCalculator() override {};
   using ProcessObject::SetInput;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdCalculator);
-
 };
 
 } // end namespace itk

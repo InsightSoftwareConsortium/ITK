@@ -100,6 +100,8 @@ class PowImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PowImageFilter);
+
   /** Standard class type aliases. */
   using Self = PowImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -125,9 +127,6 @@ public:
 protected:
   PowImageFilter() {}
   // virtual ~PowImageFilter() {} default implementation OK
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PowImageFilter);
 };
 } // end namespace itk
 

@@ -37,6 +37,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT TetrahedronCell:public TCellInterface, private TetrahedronCellTopology
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TetrahedronCell);
+
   /** Standard class type aliasa. */
   itkCellCommonTypedefs(TetrahedronCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -125,9 +127,6 @@ public:
 protected:
   /** Store the number of points needed for a tetrahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TetrahedronCell);
 };
 } // end namespace itk
 

@@ -71,6 +71,8 @@ template< typename TInputMesh, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT TriangleMeshToBinaryImageFilter:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleMeshToBinaryImageFilter);
+
   /** Standard class type aliases. */
   using Self = TriangleMeshToBinaryImageFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -233,8 +235,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleMeshToBinaryImageFilter);
-
   static bool ComparePoints2D(Point2DType a, Point2DType b);
 
   static bool ComparePoints1D(Point1D a, Point1D b);

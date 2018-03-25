@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT SimilarityIndexImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimilarityIndexImageFilter);
+
   /** Standard Self type alias */
   using Self = SimilarityIndexImageFilter;
   using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
@@ -148,8 +150,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimilarityIndexImageFilter);
-
   RealType m_SimilarityIndex;
 
   Array< SizeValueType > m_CountOfImage1;

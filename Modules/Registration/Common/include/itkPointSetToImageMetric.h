@@ -48,6 +48,8 @@ template< typename TFixedPointSet,  typename TMovingImage >
 class ITK_TEMPLATE_EXPORT PointSetToImageMetric:public SingleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageMetric);
+
   /** Standard class type aliases. */
   using Self = PointSetToImageMetric;
   using Superclass = SingleValuedCostFunction;
@@ -180,9 +182,6 @@ protected:
   bool m_ComputeGradient;
 
   GradientImagePointer m_GradientImage;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageMetric);
 };
 } // end namespace itk
 

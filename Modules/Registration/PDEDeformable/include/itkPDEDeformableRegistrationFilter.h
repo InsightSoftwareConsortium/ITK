@@ -74,6 +74,8 @@ class ITK_TEMPLATE_EXPORT PDEDeformableRegistrationFilter:
   public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = PDEDeformableRegistrationFilter;
   using Superclass = DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >;
@@ -253,8 +255,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFilter);
-
   /** Standard deviation for Gaussian smoothing */
   StandardDeviationsType m_StandardDeviations;
   StandardDeviationsType m_UpdateFieldStandardDeviations;

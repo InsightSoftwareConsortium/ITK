@@ -46,6 +46,8 @@ template < typename TSample >
 class ITK_TEMPLATE_EXPORT SubsamplerBase : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SubsamplerBase);
+
   /** Standard class type aliases */
   using Self = SubsamplerBase;
   using Superclass = Object;
@@ -125,10 +127,6 @@ protected:
   bool               m_RequestMaximumNumberOfResults;
   bool               m_CanSelectQuery;
   SeedType           m_Seed;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SubsamplerBase);
-
 }; // end of class SubsamplerBase
 
 } // end of namespace Statistics

@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT StatisticsRelabelLabelMapFilter:
   public ShapeRelabelLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = StatisticsRelabelLabelMapFilter;
   using Superclass = ShapeRelabelLabelMapFilter< TImage >;
@@ -88,9 +90,6 @@ protected:
   ~StatisticsRelabelLabelMapFilter() override {}
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelLabelMapFilter);
 };                                               // end of class
 } // end namespace itk
 
