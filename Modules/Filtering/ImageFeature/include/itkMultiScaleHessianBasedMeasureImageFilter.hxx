@@ -34,9 +34,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage,
           typename THessianImage,
           typename TOutputImage >
@@ -68,6 +66,7 @@ MultiScaleHessianBasedMeasureImageFilter
   this->ProcessObject::SetNthOutput( 2, hessianImage.GetPointer() );
 }
 
+
 template< typename TInputImage,
           typename THessianImage,
           typename TOutputImage >
@@ -80,6 +79,7 @@ MultiScaleHessianBasedMeasureImageFilter
   // requested region to the largest
   output->SetRequestedRegionToLargestPossibleRegion();
 }
+
 
 template< typename TInputImage,
           typename THessianImage,
@@ -100,6 +100,7 @@ MultiScaleHessianBasedMeasureImageFilter
     }
   return Superclass::MakeOutput(idx);
 }
+
 
 template< typename TInputImage,
           typename THessianImage,
@@ -302,6 +303,7 @@ MultiScaleHessianBasedMeasureImageFilter
     }
 }
 
+
 template< typename TInputImage,
           typename THessianImage,
           typename TOutputImage >
@@ -340,6 +342,7 @@ MultiScaleHessianBasedMeasureImageFilter
   return sigmaValue;
 }
 
+
 template< typename TInputImage,
           typename THessianImage,
           typename TOutputImage >
@@ -351,6 +354,7 @@ MultiScaleHessianBasedMeasureImageFilter
   this->SetSigmaStepMethod(Self::EquispacedSigmaSteps);
 }
 
+
 template< typename TInputImage,
           typename THessianImage,
           typename TOutputImage >
@@ -361,6 +365,7 @@ MultiScaleHessianBasedMeasureImageFilter
 {
   this->SetSigmaStepMethod(Self::LogarithmicSigmaSteps);
 }
+
 
 /** Get the image containing the Hessian at which each pixel gave the
  * best response */
@@ -376,6 +381,7 @@ MultiScaleHessianBasedMeasureImageFilter
   return static_cast< const HessianImageType * >( this->ProcessObject::GetOutput(2) );
 }
 
+
 /** Get the image containing the scales at which each pixel gave the
  * best response */
 template< typename TInputImage,
@@ -389,6 +395,7 @@ MultiScaleHessianBasedMeasureImageFilter
 {
   return static_cast< const ScalesImageType * >( this->ProcessObject::GetOutput(1) );
 }
+
 
 template< typename TInputImage,
           typename THessianImage,

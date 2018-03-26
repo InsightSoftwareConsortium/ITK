@@ -59,14 +59,13 @@ namespace itk
  *
  * \ingroup IntensityImageFilters TensorObjects
  *
- * \ingroup ITKReview
+ * \ingroup ITKImageFeature
  */
 template< typename TInputImage,
           typename THessianImage,
           typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT MultiScaleHessianBasedMeasureImageFilter:
-  public
-  ImageToImageFilter< TInputImage, TOutputImage >
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianBasedMeasureImageFilter);
