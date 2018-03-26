@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT LandmarkDisplacementFieldSource:
   public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkDisplacementFieldSource);
+
   /** Standard class type aliases. */
   using Self = LandmarkDisplacementFieldSource;
   using Superclass = ImageSource< TOutputImage >;
@@ -156,8 +158,6 @@ protected:
   void PrepareKernelBaseSpline();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkDisplacementFieldSource);
-
   KernelTransformPointerType m_KernelTransform;      // Coordinate transform to
                                                      // use
 

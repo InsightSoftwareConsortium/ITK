@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT HistogramThresholdImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = HistogramThresholdImageFilter;
   using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
@@ -195,8 +197,6 @@ protected:
   void GenerateData () override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdImageFilter);
-
   OutputPixelType     m_InsideValue;
   OutputPixelType     m_OutsideValue;
   InputPixelType      m_Threshold;

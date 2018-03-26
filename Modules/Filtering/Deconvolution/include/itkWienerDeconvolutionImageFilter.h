@@ -76,6 +76,8 @@ class ITK_TEMPLATE_EXPORT WienerDeconvolutionImageFilter :
   public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WienerDeconvolutionImageFilter);
+
   using Self = WienerDeconvolutionImageFilter;
   using Superclass = InverseDeconvolutionImageFilter< TInputImage,
                                            TKernelImage,
@@ -132,8 +134,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WienerDeconvolutionImageFilter);
-
   double m_NoiseVariance;
 };
 

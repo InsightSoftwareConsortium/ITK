@@ -89,6 +89,8 @@ class VectorIndexSelectionCastImageFilter:
                                                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorIndexSelectionCastImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorIndexSelectionCastImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -163,9 +165,6 @@ protected:
         << numberOfComponents);
       }
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorIndexSelectionCastImageFilter);
 };
 } // end namespace itk
 

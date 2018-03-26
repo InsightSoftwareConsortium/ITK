@@ -74,6 +74,8 @@ class AbsImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageFilter);
+
   /** Standard class type aliases. */
   using Self = AbsImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -104,9 +106,6 @@ public:
 protected:
   AbsImageFilter() {}
   ~AbsImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageFilter);
 };
 } // end namespace itk
 

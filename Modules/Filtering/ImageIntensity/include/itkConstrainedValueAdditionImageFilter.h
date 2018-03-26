@@ -102,6 +102,8 @@ class ConstrainedValueAdditionImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedValueAdditionImageFilter);
+
   /** Standard class type aliases. */
   using Self = ConstrainedValueAdditionImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -135,9 +137,6 @@ public:
 protected:
   ConstrainedValueAdditionImageFilter() {}
   ~ConstrainedValueAdditionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedValueAdditionImageFilter);
 };
 } // end namespace itk
 

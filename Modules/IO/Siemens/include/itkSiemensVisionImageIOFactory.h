@@ -32,6 +32,8 @@ namespace itk
 class ITKIOSiemens_EXPORT SiemensVisionImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SiemensVisionImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = SiemensVisionImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   SiemensVisionImageIOFactory();
   ~SiemensVisionImageIOFactory() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SiemensVisionImageIOFactory);
 };
 } // end namespace itk
 

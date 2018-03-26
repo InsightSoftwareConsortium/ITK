@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT WinterColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WinterColormapFunction);
 
   using Self = WinterColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -64,9 +65,6 @@ public:
 protected:
   WinterColormapFunction() {}
   ~WinterColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WinterColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

@@ -85,6 +85,8 @@ namespace itk
 class ITKIOHDF5_EXPORT HDF5ImageIO: public StreamingImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIO);
+
   /** Standard class type aliases. */
   using Self = HDF5ImageIO;
   using Superclass = StreamingImageIOBase;
@@ -138,8 +140,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIO);
-
   void WriteString(const std::string &path,
                    const std::string &value);
   void WriteString(const std::string &path,

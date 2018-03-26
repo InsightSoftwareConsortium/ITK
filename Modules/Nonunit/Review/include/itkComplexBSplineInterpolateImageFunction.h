@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT ComplexBSplineInterpolateImageFunction:
   public InterpolateImageFunction< TImageType, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexBSplineInterpolateImageFunction);
+
   /** Standard class type alias. */
   using Self = ComplexBSplineInterpolateImageFunction;
   /** Standard class type alias. */
@@ -128,8 +130,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexBSplineInterpolateImageFunction);
-
   unsigned int m_SplineOrder;
 
   typename InterpolatorType::Pointer m_RealInterpolator;

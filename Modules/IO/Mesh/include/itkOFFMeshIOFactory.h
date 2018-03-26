@@ -31,6 +31,8 @@ namespace itk
 class ITKIOMesh_EXPORT OFFMeshIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIOFactory);
+
   /** Standard class type aliases. */
   using Self = OFFMeshIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   ~OFFMeshIOFactory() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIOFactory);
 };
 } // end namespace itk
 

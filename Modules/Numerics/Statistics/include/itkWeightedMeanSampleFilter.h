@@ -42,6 +42,8 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT WeightedMeanSampleFilter : public MeanSampleFilter< TSample >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedMeanSampleFilter);
+
   /**Standard class type aliases. */
   using Self = WeightedMeanSampleFilter;
   using Superclass = MeanSampleFilter< TSample >;
@@ -103,9 +105,6 @@ protected:
 
   // compute mean using a weighting function
   void ComputeMeanWithWeightingFunction();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedMeanSampleFilter);
 };                                        // end of class
 } // end of namespace Statistics
 } // end of namespace itk

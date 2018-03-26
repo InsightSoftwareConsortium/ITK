@@ -94,6 +94,8 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMultiMetricv4:
   public ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMultiMetricv4);
+
   /** Standard class type aliases */
   using Self = ObjectToObjectMultiMetricv4;
   using Superclass = ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>;
@@ -205,8 +207,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMultiMetricv4);
-
   MetricQueueType               m_MetricQueue;
   WeightsArrayType              m_MetricWeights;
   mutable MetricValueArrayType  m_MetricValueArray;

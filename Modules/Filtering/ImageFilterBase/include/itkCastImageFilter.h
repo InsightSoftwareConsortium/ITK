@@ -98,6 +98,8 @@ class ITK_TEMPLATE_EXPORT CastImageFilter:
     public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CastImageFilter);
+
   /** Standard class type aliases. */
   using Self = CastImageFilter;
 
@@ -132,9 +134,6 @@ protected:
   void GenerateData() override;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CastImageFilter);
 };
 } // end namespace itk
 

@@ -75,6 +75,8 @@ template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT Image:public ImageBase< VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Image);
+
   /** Standard class type aliases */
   using Self = Image;
   using Superclass = ImageBase< VImageDimension >;
@@ -289,8 +291,6 @@ protected:
   void ComputeIndexToPhysicalPointMatrices() override;
   using Superclass::Graft;
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Image);
-
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
 };

@@ -42,6 +42,7 @@ class ITK_TEMPLATE_EXPORT MeanSquaresPointSetToImageMetric:
   public PointSetToImageMetric< TFixedPointSet, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresPointSetToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresPointSetToImageMetric;
@@ -89,9 +90,6 @@ public:
 protected:
   MeanSquaresPointSetToImageMetric();
   ~MeanSquaresPointSetToImageMetric() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresPointSetToImageMetric);
 };
 } // end namespace itk
 

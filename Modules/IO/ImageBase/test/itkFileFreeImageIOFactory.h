@@ -28,6 +28,8 @@ namespace itk
 class FileFreeImageIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FileFreeImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = FileFreeImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -55,10 +57,6 @@ public:
 protected:
   FileFreeImageIOFactory();
   ~FileFreeImageIOFactory();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileFreeImageIOFactory);
-
 };
 
 } // end namespace itk

@@ -76,6 +76,8 @@ class TensorRelativeAnisotropyImageFilter:
                              typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TensorRelativeAnisotropyImageFilter);
+
   /** Standard class type aliases. */
   using Self = TensorRelativeAnisotropyImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -111,9 +113,6 @@ public:
 protected:
   TensorRelativeAnisotropyImageFilter() {}
   ~TensorRelativeAnisotropyImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TensorRelativeAnisotropyImageFilter);
 };
 } // end namespace itk
 

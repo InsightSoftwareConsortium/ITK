@@ -43,6 +43,8 @@ class RGBToVectorImageAdaptor:public
                   > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToVectorImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = RGBToVectorImageAdaptor;
   using Superclass = ImageAdaptor< TImage,
@@ -67,9 +69,6 @@ public:
 protected:
   RGBToVectorImageAdaptor() {}
   ~RGBToVectorImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToVectorImageAdaptor);
 };
 } // end namespace itk
 

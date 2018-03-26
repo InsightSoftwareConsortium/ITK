@@ -39,6 +39,8 @@ namespace itk
 class ITKVideoIO_EXPORT FileListVideoIO : public VideoIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIO);
+
   /** Standard class type aliases. */
   using Self = FileListVideoIO;
   using Superclass = VideoIOBase;
@@ -164,8 +166,6 @@ protected:
   bool VerifyExtensions( const std::vector<std::string>& fileList ) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIO);
-
   ImageIOBase::Pointer m_ImageIO;
 
   std::vector<std::string> m_FileNames;

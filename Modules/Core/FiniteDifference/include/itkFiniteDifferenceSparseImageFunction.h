@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFunction:
   public FiniteDifferenceFunction< TSparseImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFunction);
+
   /** Standard class type alias. */
   using Self = FiniteDifferenceSparseImageFunction;
   using Superclass = FiniteDifferenceFunction< TSparseImageType >;
@@ -110,9 +112,6 @@ protected:
   FiniteDifferenceSparseImageFunction() {}
   ~FiniteDifferenceSparseImageFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFunction);
 };
 } // end namespace itk
 

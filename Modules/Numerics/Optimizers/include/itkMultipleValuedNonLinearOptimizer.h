@@ -35,6 +35,8 @@ class ITKOptimizers_EXPORT MultipleValuedNonLinearOptimizer:
   public NonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedNonLinearOptimizer);
+
   /** Standard class type aliases. */
   using Self = MultipleValuedNonLinearOptimizer;
   using Superclass = NonLinearOptimizer;
@@ -74,9 +76,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   CostFunctionPointer m_CostFunction;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedNonLinearOptimizer);
 };
 } // end namespace itk
 

@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageFilter);
+
   /** Standard "Self" & Superclass type alias. */
   using Self = NormalizedCorrelationImageFilter;
   using Superclass = NeighborhoodOperatorImageFilter<
@@ -158,9 +160,6 @@ protected:
   /** Standard PrintSelf method */
   void PrintSelf(std::ostream & os, Indent indent) const override
   {  Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageFilter);
 };
 } // end namespace itk
 

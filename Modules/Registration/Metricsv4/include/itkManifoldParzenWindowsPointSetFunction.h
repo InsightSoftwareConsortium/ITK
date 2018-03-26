@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT ManifoldParzenWindowsPointSetFunction
 : public PointSetFunction<TPointSet, TOutput, TCoordRep>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ManifoldParzenWindowsPointSetFunction);
+
   using Self = ManifoldParzenWindowsPointSetFunction;
   using Superclass = PointSetFunction<TPointSet, TOutput, TCoordRep>;
   using Pointer = SmartPointer<Self>;
@@ -182,8 +184,6 @@ protected:
   void GenerateData();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ManifoldParzenWindowsPointSetFunction);
-
   typename PointsLocatorType::Pointer           m_PointsLocator;
 
   unsigned int                                  m_CovarianceKNeighborhood;

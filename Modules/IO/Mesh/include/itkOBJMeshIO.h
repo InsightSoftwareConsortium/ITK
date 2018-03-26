@@ -35,6 +35,8 @@ namespace itk
 class ITKIOMesh_EXPORT OBJMeshIO:public MeshIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OBJMeshIO);
+
   /** Standard class type aliases. */
   using Self = OBJMeshIO;
   using Superclass = MeshIOBase;
@@ -164,8 +166,6 @@ protected:
   void CloseFile();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OBJMeshIO);
-
   std::ifstream  m_InputFile;
   std::streampos m_PointsStartPosition;  // file position for points rlative to
                                          // std::ios::beg

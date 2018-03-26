@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTempla
   : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate);
+
   /** Standard class type aliases. */
   using Self = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate;
   using Superclass =
@@ -56,9 +58,6 @@ protected:
 
   QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}
   ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate);
 };
 
 /** This helps to meet backward compatibility */

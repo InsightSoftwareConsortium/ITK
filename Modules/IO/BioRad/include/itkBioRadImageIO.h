@@ -50,6 +50,8 @@ namespace itk
 class ITKIOBioRad_EXPORT BioRadImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BioRadImageIO);
+
   /** Standard class type aliases. */
   using Self = BioRadImageIO;
   using Superclass = ImageIOBase;
@@ -93,9 +95,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void InternalReadImageInformation(std::ifstream & file);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BioRadImageIO);
 };
 } // end namespace itk
 

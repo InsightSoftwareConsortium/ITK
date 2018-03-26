@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT NoiseImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NoiseImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -105,9 +107,6 @@ protected:
    *     BoxImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NoiseImageFilter);
 };
 } // end namespace itk
 

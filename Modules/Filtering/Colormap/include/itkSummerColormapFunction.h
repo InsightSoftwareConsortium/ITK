@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT SummerColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SummerColormapFunction);
 
   using Self = SummerColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -64,9 +65,6 @@ public:
 protected:
   SummerColormapFunction() {}
   ~SummerColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SummerColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

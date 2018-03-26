@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT GaussianSpatialFunction:
   public SpatialFunction< TOutput, VImageDimension, TInput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialFunction);
+
   /** Standard class type aliases. */
   using Self = GaussianSpatialFunction;
   using Superclass = SpatialFunction< TOutput, VImageDimension, TInput >;
@@ -92,8 +94,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialFunction);
-
   ArrayType m_Sigma;
 
   ArrayType m_Mean;

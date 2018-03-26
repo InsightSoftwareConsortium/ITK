@@ -53,6 +53,8 @@ class ITKOptimizers_EXPORT GradientDescentOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizer);
+
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
@@ -136,8 +138,6 @@ protected:
   double m_LearningRate;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizer);
-
   bool               m_Stop;
   double             m_Value;
   StopConditionType  m_StopCondition;

@@ -47,6 +47,8 @@ template< typename TPixelType, unsigned int VDimension = 3,
 class ITK_TEMPLATE_EXPORT SimplexMesh:public Mesh< TPixelType, VDimension, TMeshTraits >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMesh);
+
   /** Standard type alias. */
   using Self = SimplexMesh;
 
@@ -275,9 +277,6 @@ protected:
    * cells are removed.
    */
   CellIdentifier m_LastCellId;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMesh);
 }; // End Class:  SimplexMesh
 } // end namespace itk
 

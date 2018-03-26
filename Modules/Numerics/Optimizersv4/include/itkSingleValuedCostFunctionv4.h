@@ -50,6 +50,8 @@ class SingleValuedCostFunctionv4Template:
   public CostFunctionTemplate< TInternalComputationValueType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunctionv4Template);
+
   /** Standard class type aliases. */
   using Self = SingleValuedCostFunctionv4Template;
   using Superclass = CostFunctionTemplate< TInternalComputationValueType >;
@@ -84,9 +86,6 @@ public:
 protected:
   SingleValuedCostFunctionv4Template() {}
   ~SingleValuedCostFunctionv4Template() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunctionv4Template);
 };
 
 /** This helps to meet backward compatibility */

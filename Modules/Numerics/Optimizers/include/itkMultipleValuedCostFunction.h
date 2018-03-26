@@ -36,6 +36,8 @@ class ITKOptimizers_EXPORT MultipleValuedCostFunction:
   public CostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedCostFunction);
+
   /** Standard class type aliases. */
   using Self = MultipleValuedCostFunction;
   using Superclass = CostFunction;
@@ -76,9 +78,6 @@ public:
 protected:
   MultipleValuedCostFunction() {}
   ~MultipleValuedCostFunction() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedCostFunction);
 };
 } // end namespace itk
 

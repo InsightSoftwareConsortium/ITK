@@ -99,6 +99,8 @@ class ITK_TEMPLATE_EXPORT FFTNormalizedCorrelationImageFilter :
     public MaskedFFTNormalizedCorrelationImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTNormalizedCorrelationImageFilter);
+
   /** Standard class type aliases. */
   using Self = FFTNormalizedCorrelationImageFilter;
   using Superclass = MaskedFFTNormalizedCorrelationImageFilter < TInputImage, TOutputImage >;
@@ -138,8 +140,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTNormalizedCorrelationImageFilter);
-
   // Member variables.
 };
 } // end namespace itk

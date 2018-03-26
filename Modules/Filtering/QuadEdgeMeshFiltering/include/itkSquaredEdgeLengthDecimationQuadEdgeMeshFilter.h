@@ -32,6 +32,8 @@ class ITK_TEMPLATE_EXPORT SquaredEdgeLengthDecimationQuadEdgeMeshFilter:
   public EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SquaredEdgeLengthDecimationQuadEdgeMeshFilter);
+
   using Self = SquaredEdgeLengthDecimationQuadEdgeMeshFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -99,10 +101,6 @@ protected:
    * \return the optimal point location
    */
   OutputPointType Relocate(OutputQEType *iEdge) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SquaredEdgeLengthDecimationQuadEdgeMeshFilter);
-
 };
 }
 

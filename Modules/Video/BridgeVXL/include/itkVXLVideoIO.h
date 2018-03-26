@@ -45,6 +45,8 @@ namespace itk
 class VXLVideoIO:public VideoIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VXLVideoIO);
+
   /** Standard class type aliases. */
   using Self = VXLVideoIO;
   using Superclass = VideoIOBase;
@@ -153,8 +155,6 @@ protected:
   bool PixelFormatSupported(vidl_pixel_format fmt);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VXLVideoIO);
-
   /** Member Variables */
   vidl_pixel_format                         m_PixelFormat;
   vidl_frame_sptr                           m_VIDLFrame;

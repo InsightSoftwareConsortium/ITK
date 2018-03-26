@@ -102,6 +102,8 @@ class ITK_TEMPLATE_EXPORT LandweberDeconvolutionImageFilter :
   public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LandweberDeconvolutionImageFilter);
+
   /** Standard type alias. */
   using Self = LandweberDeconvolutionImageFilter;
   using Superclass = IterativeDeconvolutionImageFilter< TInputImage,
@@ -153,8 +155,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LandweberDeconvolutionImageFilter);
-
   double m_Alpha;
 
   InternalComplexImagePointerType m_TransformedInput;

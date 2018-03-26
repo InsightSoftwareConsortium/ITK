@@ -113,6 +113,8 @@ class ScalarConnectedComponentImageFilter:
                                                TMaskImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarConnectedComponentImageFilter);
+
   /** Standard class type aliases. */
   using Self = ScalarConnectedComponentImageFilter;
   using Superclass = ConnectedComponentFunctorImageFilter<
@@ -153,9 +155,6 @@ public:
 protected:
   ScalarConnectedComponentImageFilter() {}
   ~ScalarConnectedComponentImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarConnectedComponentImageFilter);
 };
 } // end namespace itk
 

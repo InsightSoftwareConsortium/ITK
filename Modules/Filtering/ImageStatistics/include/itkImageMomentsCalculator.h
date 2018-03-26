@@ -60,6 +60,8 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageMomentsCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageMomentsCalculator);
+
   /** Standard class type aliases. */
   using Self = ImageMomentsCalculator< TImage >;
   using Superclass = Object;
@@ -204,8 +206,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageMomentsCalculator);
-
   bool       m_Valid;                // Have moments been computed yet?
   ScalarType m_M0;                   // Zeroth moment
   VectorType m_M1;                   // First moments about origin

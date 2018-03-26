@@ -64,6 +64,8 @@ class ITK_TEMPLATE_EXPORT ContourDirectedMeanDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ContourDirectedMeanDistanceImageFilter);
+
   /** Standard Self type alias */
   using Self = ContourDirectedMeanDistanceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
@@ -151,8 +153,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContourDirectedMeanDistanceImageFilter);
-
   using DistanceMapType = Image< RealType, Self::ImageDimension >;
 
   typename DistanceMapType::Pointer m_DistanceMap;

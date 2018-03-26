@@ -77,6 +77,8 @@ class TensorFractionalAnisotropyImageFilter:
                              typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TensorFractionalAnisotropyImageFilter);
+
   /** Standard class type aliases. */
   using Self = TensorFractionalAnisotropyImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -112,9 +114,6 @@ public:
 protected:
   TensorFractionalAnisotropyImageFilter() {}
   ~TensorFractionalAnisotropyImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TensorFractionalAnisotropyImageFilter);
 };
 } // end namespace itk
 

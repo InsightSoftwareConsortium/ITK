@@ -140,6 +140,8 @@ class ITK_TEMPLATE_EXPORT MaskedFFTNormalizedCorrelationImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedFFTNormalizedCorrelationImageFilter);
+
   /** Standard class type aliases. */
   using Self = MaskedFFTNormalizedCorrelationImageFilter;
   using Superclass = ImageToImageFilter < TInputImage, TOutputImage >;
@@ -302,8 +304,6 @@ protected:
   double CalculatePrecisionTolerance( LocalInputImageType * inputImage );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedFFTNormalizedCorrelationImageFilter);
-
   /** Larger values zero-out pixels on a larger border around the correlation image.
    * Thus, larger values remove less stable computations but also limit the capture range.
    * The default is set to 0. */

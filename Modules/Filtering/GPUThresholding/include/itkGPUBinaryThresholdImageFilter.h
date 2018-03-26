@@ -100,6 +100,8 @@ class ITK_TEMPLATE_EXPORT GPUBinaryThresholdImageFilter :
                               BinaryThresholdImageFilter<TInputImage, TOutputImage> >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUBinaryThresholdImageFilter;
   using GPUSuperclass = GPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -138,10 +140,6 @@ protected:
   /** Unlike CPU version, GPU version of binary threshold filter is not
     multi-threaded */
   void GPUGenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilter);
-
 };
 
 /**
@@ -153,6 +151,8 @@ private:
 class GPUBinaryThresholdImageFilterFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilterFactory);
+
   using Self = GPUBinaryThresholdImageFilterFactory;
   using Superclass = ObjectFactoryBase;
   using Pointer = SmartPointer<Self>;
@@ -183,8 +183,6 @@ public:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilterFactory);
-
 #define OverrideThresholdFilterTypeMacro(ipt,opt,dm) \
     { \
     using InputImageType = itk::Image<ipt,dm>; \

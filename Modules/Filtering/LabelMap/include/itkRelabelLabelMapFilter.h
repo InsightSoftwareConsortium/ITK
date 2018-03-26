@@ -47,6 +47,8 @@ class RelabelLabelMapFilter:
   public AttributeRelabelLabelMapFilter< TImage, typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType> >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RelabelLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = RelabelLabelMapFilter;
   using Superclass = AttributeRelabelLabelMapFilter< TImage,
@@ -88,9 +90,6 @@ protected:
     this->SetReverseOrdering( true );
     }
   ~RelabelLabelMapFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RelabelLabelMapFilter);
 };                                     // end of class
 } // end namespace itk
 

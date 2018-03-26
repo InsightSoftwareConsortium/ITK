@@ -53,6 +53,8 @@ class RenyiEntropyThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RenyiEntropyThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = RenyiEntropyThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -102,9 +104,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~RenyiEntropyThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RenyiEntropyThresholdImageFilter);
 };
 
 } // end namespace itk

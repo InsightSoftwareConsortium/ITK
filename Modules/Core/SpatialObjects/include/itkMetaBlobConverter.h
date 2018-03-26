@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT MetaBlobConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaBlobConverter);
+
   /** Standard class type aliases */
   using Self = MetaBlobConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -70,10 +72,6 @@ protected:
 
   MetaBlobConverter();
   ~MetaBlobConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaBlobConverter);
-
 };
 } // end namespace itk
 

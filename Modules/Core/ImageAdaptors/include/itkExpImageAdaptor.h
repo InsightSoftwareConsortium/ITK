@@ -72,6 +72,8 @@ class ExpImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = ExpImageAdaptor;
   using Superclass = ImageAdaptor<
@@ -90,9 +92,6 @@ public:
 protected:
   ExpImageAdaptor() {}
   ~ExpImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageAdaptor);
 };
 } // end namespace itk
 

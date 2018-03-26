@@ -84,6 +84,8 @@ class ITK_TEMPLATE_EXPORT BayesianClassifierImageFilter:
                                TInputVectorImage ::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierImageFilter);
+
   /** Standard class type aliases. */
   using Self = BayesianClassifierImageFilter;
   using Superclass = ImageToImageFilter<
@@ -226,8 +228,6 @@ protected:
   PosteriorsImageType * GetPosteriorImage();
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierImageFilter);
 
 
   bool m_UserProvidedPriors;

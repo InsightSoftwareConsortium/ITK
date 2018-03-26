@@ -52,6 +52,8 @@ namespace itk
 class ITKIOImageBase_EXPORT StreamingImageIOBase:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageIOBase);
+
   /** Standard class type aliases. */
   using Self = StreamingImageIOBase;
   using Superclass = ImageIOBase;
@@ -151,9 +153,6 @@ protected:
    * The default implementation is to return the header size.
    */
   virtual SizeType GetDataPosition(void) const { return this->GetHeaderSize(); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageIOBase);
 };
 } // namespace itk
 

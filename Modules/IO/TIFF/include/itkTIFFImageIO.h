@@ -43,6 +43,8 @@ class TIFFReaderInternal;
 class ITKIOTIFF_EXPORT TIFFImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TIFFImageIO);
+
   /** Standard class type aliases. */
   using Self = TIFFImageIO;
   using Superclass = ImageIOBase;
@@ -180,8 +182,6 @@ protected:
   PaletteType m_ColorPalette;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TIFFImageIO);
-
   void ReadCurrentPage(void *out, size_t pixelOffset);
 
   template <typename TComponent>

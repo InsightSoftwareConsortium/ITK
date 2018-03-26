@@ -62,6 +62,8 @@ class XorImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(XorImageFilter);
+
   /** Standard class type aliases. */
   using Self = XorImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -93,9 +95,6 @@ public:
 protected:
   XorImageFilter() {}
   ~XorImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XorImageFilter);
 };
 } // end namespace itk
 

@@ -47,6 +47,8 @@ template< typename TOutput,
 class ITK_TEMPLATE_EXPORT SpatialFunction:public FunctionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialFunction);
+
   /** Standard class type aliases. */
   using Self = SpatialFunction;
   using Superclass = FunctionBase< TInput, TOutput >;
@@ -73,9 +75,6 @@ protected:
   SpatialFunction();
   ~SpatialFunction() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialFunction);
 };
 } // end namespace itk
 

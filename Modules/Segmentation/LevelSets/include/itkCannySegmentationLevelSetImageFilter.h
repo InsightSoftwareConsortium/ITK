@@ -133,6 +133,8 @@ class ITK_TEMPLATE_EXPORT CannySegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = CannySegmentationLevelSetImageFilter;
   using Superclass =
@@ -190,8 +192,6 @@ protected:
   CannySegmentationLevelSetImageFilter();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetImageFilter);
-
   typename CannyFunctionType::Pointer m_CannyFunction;
 };
 } // end namespace itk

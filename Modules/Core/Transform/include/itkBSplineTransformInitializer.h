@@ -42,6 +42,7 @@ class ITK_TEMPLATE_EXPORT BSplineTransformInitializer
 : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformInitializer);
 
   /** Standard class type aliases. */
   using Self = BSplineTransformInitializer;
@@ -103,8 +104,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformInitializer);
-
   ImagePointer                    m_Image;
   TransformPointer                m_Transform;
 

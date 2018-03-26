@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT VersorRigid3DTransform :
   public VersorTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransform);
+
   /** Standard class type aliases. */
   using Self = VersorRigid3DTransform;
   using Superclass = VersorTransform<TParametersValueType>;
@@ -127,10 +129,6 @@ protected:
   ~VersorRigid3DTransform() override {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransform);
-
 };                                      // class VersorRigid3DTransform
 }  // namespace itk
 

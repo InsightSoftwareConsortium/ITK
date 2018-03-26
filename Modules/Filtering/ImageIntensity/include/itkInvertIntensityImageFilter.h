@@ -94,6 +94,8 @@ class ITK_TEMPLATE_EXPORT InvertIntensityImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InvertIntensityImageFilter);
+
   /** Standard class type aliases. */
   using Self = InvertIntensityImageFilter;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -135,8 +137,6 @@ protected:
   ~InvertIntensityImageFilter() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InvertIntensityImageFilter);
-
   InputPixelType m_Maximum;
 };
 } // end namespace itk

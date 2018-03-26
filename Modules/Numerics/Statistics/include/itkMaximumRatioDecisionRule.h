@@ -58,6 +58,8 @@ namespace Statistics
 class ITKStatistics_EXPORT MaximumRatioDecisionRule : public DecisionRule
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumRatioDecisionRule);
+
   /** Standard class type aliases */
   using Self = MaximumRatioDecisionRule;
   using Superclass = DecisionRule;
@@ -105,8 +107,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumRatioDecisionRule);
-
   PriorProbabilityVectorType m_PriorProbabilities;
 
 };  // end of class

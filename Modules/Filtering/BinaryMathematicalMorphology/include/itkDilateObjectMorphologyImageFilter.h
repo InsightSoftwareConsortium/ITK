@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT DilateObjectMorphologyImageFilter:
   public ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DilateObjectMorphologyImageFilter);
+
   /** Standard class type aliases. */
   using Self = DilateObjectMorphologyImageFilter;
   using Superclass = ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -97,8 +99,6 @@ protected:
                 const KernelType & kernel) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DilateObjectMorphologyImageFilter);
-
   // Default boundary condition for dilation filter, defaults to
   // NumericTraits<PixelType>::NonpositiveMin()
   DefaultBoundaryConditionType m_DilateBoundaryCondition;

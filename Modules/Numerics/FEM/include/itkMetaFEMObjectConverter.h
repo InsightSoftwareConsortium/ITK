@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT MetaFEMObjectConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaFEMObjectConverter);
+
   /** Standard class type aliases */
   using Self = MetaFEMObjectConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -79,10 +81,6 @@ protected:
 
   MetaFEMObjectConverter();
   ~MetaFEMObjectConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaFEMObjectConverter);
-
 };
 } // end namespace itk
 

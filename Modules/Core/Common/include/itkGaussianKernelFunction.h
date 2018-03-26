@@ -41,6 +41,8 @@ template< typename TRealValueType = double >
 class GaussianKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianKernelFunction);
+
   /** Standard class type aliases. */
   using Self = GaussianKernelFunction;
   using Superclass = KernelFunctionBase<TRealValueType>;
@@ -64,8 +66,6 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianKernelFunction);
-
   const TRealValueType m_Factor;
 };
 } // end namespace itk

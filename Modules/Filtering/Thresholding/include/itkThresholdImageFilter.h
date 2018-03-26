@@ -70,6 +70,8 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdImageFilter);
+
   /** Standard class type aliases. */
   using Self = ThresholdImageFilter;
   using Superclass = InPlaceImageFilter< TImage, TImage >;
@@ -150,8 +152,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdImageFilter);
-
   PixelType m_OutsideValue;
   PixelType m_Lower;
   PixelType m_Upper;

@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT MeanSquareRegistrationFunction:
                                             TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquareRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = MeanSquareRegistrationFunction;
   using Superclass = PDEDeformableRegistrationFunction< TFixedImage,
@@ -158,8 +160,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquareRegistrationFunction);
-
   /** Cache fixed image information. */
   SpacingType m_FixedImageSpacing;
 

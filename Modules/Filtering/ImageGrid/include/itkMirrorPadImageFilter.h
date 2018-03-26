@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT MirrorPadImageFilter:
   public PadImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MirrorPadImageFilter);
+
   /** Standard class type aliases. */
   using Self = MirrorPadImageFilter;
   using Superclass = PadImageFilter< TInputImage, TOutputImage >;
@@ -197,9 +199,6 @@ protected:
    * \sa ProcessObject::GenerateInputRequestedRegion()
    * \sa PadImageFilter::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MirrorPadImageFilter);
 };
 } // end namespace itk
 

@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT Rigid3DPerspectiveTransform :
   public Transform<TParametersValueType, 3, 2>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DPerspectiveTransform);
+
   /** Dimension of the domain space. */
   static constexpr unsigned int InputSpaceDimension = 3;
   static constexpr unsigned int OutputSpaceDimension = 2;
@@ -232,8 +234,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DPerspectiveTransform);
-
   /** Offset of the transformation. */
   OffsetType m_Offset;
 

@@ -82,6 +82,8 @@ class ITK_TEMPLATE_EXPORT SliceBySliceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SliceBySliceImageFilter);
+
   /** Standard class type aliases. */
   using Self = SliceBySliceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -168,8 +170,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SliceBySliceImageFilter);
-
   unsigned int m_Dimension;
 
   typename InputFilterType::Pointer m_InputFilter;

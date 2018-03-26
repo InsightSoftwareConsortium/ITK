@@ -76,6 +76,8 @@ class ITK_TEMPLATE_EXPORT BilateralImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BilateralImageFilter);
+
   /** Standard class type aliases. */
   using Self = BilateralImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -200,8 +202,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BilateralImageFilter);
-
   /** The standard deviation of the gaussian blurring kernel in the image
       range. Units are intensity. */
   double m_RangeSigma;

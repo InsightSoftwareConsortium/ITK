@@ -38,6 +38,8 @@ class MetaImageMaskConverter :
     public MetaImageConverter< NDimensions, unsigned char, ImageMaskSpatialObject< NDimensions > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageMaskConverter);
+
   /** Standard class type aliases */
   using Self = MetaImageMaskConverter;
   using Superclass = MetaImageConverter< NDimensions, unsigned char >;
@@ -57,9 +59,6 @@ protected:
   }
   MetaImageMaskConverter() {}
   ~MetaImageMaskConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageMaskConverter);
 };
 
 } // end namespace itk

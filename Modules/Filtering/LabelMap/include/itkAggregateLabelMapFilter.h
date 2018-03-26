@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT AggregateLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AggregateLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = AggregateLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -86,9 +88,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AggregateLabelMapFilter);
 }; // end of class
 } // end namespace itk
 

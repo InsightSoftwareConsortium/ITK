@@ -84,6 +84,8 @@ class ITK_TEMPLATE_EXPORT ExtractSliceImageFilter:
   public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractSliceImageFilter);
+
   /** Standard class type aliases. */
   using Self = ExtractSliceImageFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -266,8 +268,6 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractSliceImageFilter);
-
   DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy;
 };
 } // end namespace Testing

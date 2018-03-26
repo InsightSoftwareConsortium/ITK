@@ -81,6 +81,8 @@ class ITK_TEMPLATE_EXPORT InterpolateImagePointsFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImagePointsFilter);
+
   /** Standard class type aliases. */
   using Self = InterpolateImagePointsFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -183,8 +185,6 @@ private:
   using CoordImageTypePointer = typename CoordImageType::Pointer;
   using CoordImageIterator = ImageRegionConstIterator< CoordImageType >;
   using CoordImageRegionType = typename CoordImageType::RegionType;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImagePointsFilter);
 
   InterpolatorPointer m_Interpolator;
   PixelType           m_DefaultPixelValue;      // default pixel value if the

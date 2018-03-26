@@ -35,6 +35,8 @@ class ITKOptimizers_EXPORT SingleValuedCostFunction:
   public CostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunction);
+
   /** Standard class type aliases. */
   using Self = SingleValuedCostFunction;
   using Superclass = CostFunction;
@@ -75,9 +77,6 @@ public:
 protected:
   SingleValuedCostFunction() {}
   ~SingleValuedCostFunction() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunction);
 };
 } // end namespace itk
 

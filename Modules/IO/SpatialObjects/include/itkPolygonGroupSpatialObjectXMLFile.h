@@ -36,6 +36,8 @@ class PolygonGroupSpatialObjectXMLFileReader:
   public XMLReader< PGroupSpatialObjectType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileReader);
+
   /** Standard type alias */
   using Self = PolygonGroupSpatialObjectXMLFileReader;
   using Superclass = XMLReader< PGroupSpatialObjectType >;
@@ -67,8 +69,6 @@ protected:
   void CharacterDataHandler(const char *inData, int inLength) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileReader);
-
   PGroupSpatialObjectType::Pointer  m_PGroup;
   PolygonSpatialObjectType::Pointer m_CurPoly;
   PointListType                     m_CurPointList;
@@ -85,6 +85,8 @@ class PolygonGroupSpatialObjectXMLFileWriter:
   public XMLWriterBase< PGroupSpatialObjectType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileWriter);
+
   /** standard type alias */
   using Superclass = XMLWriterBase< PGroupSpatialObjectType >;
   using Self = PolygonGroupSpatialObjectXMLFileWriter;
@@ -107,9 +109,6 @@ public:
 protected:
   PolygonGroupSpatialObjectXMLFileWriter() {}
   ~PolygonGroupSpatialObjectXMLFileWriter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileWriter);
 };
 }
 #endif

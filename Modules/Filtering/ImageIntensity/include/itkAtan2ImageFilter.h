@@ -91,6 +91,8 @@ class Atan2ImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Atan2ImageFilter);
+
   /** Standard class type aliases. */
   using Self = Atan2ImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -123,9 +125,6 @@ public:
 protected:
   Atan2ImageFilter() {}
   ~Atan2ImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Atan2ImageFilter);
 };
 } // end namespace itk
 

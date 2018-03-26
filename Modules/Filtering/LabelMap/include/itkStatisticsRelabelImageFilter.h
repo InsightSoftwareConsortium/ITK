@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT StatisticsRelabelImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelImageFilter);
+
   /** Standard class type aliases. */
   using Self = StatisticsRelabelImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
@@ -169,8 +171,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelImageFilter);
-
   OutputImagePixelType m_BackgroundValue;
   bool                 m_ReverseOrdering;
   AttributeType        m_Attribute;

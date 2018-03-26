@@ -60,6 +60,8 @@ class NthElementImageAdaptor:
   public NthElementImageAdaptorHelper< TImage, TOutputPixelType >::Super
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NthElementImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = NthElementImageAdaptor;
   using Superclass = typename NthElementImageAdaptorHelper< TImage, TOutputPixelType >::Super;
@@ -82,9 +84,6 @@ public:
 protected:
   NthElementImageAdaptor() {}
   ~NthElementImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NthElementImageAdaptor);
 };
 } // end namespace itk
 

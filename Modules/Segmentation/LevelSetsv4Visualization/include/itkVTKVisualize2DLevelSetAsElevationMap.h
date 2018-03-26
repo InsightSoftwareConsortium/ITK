@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT VTKVisualize2DLevelSetAsElevationMap :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualize2DLevelSetAsElevationMap);
+
   using Self = VTKVisualize2DLevelSetAsElevationMap;
   using Superclass = VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >;
   using Pointer = SmartPointer< Self >;
@@ -88,8 +90,6 @@ protected:
   void GenerateElevationMap();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualize2DLevelSetAsElevationMap);
-
   LevelSetPointer           m_LevelSet;
 
   vtkSmartPointer< vtkPolyData >          m_Mesh;

@@ -71,6 +71,8 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT SolverCrankNicolson : public Solver<TDimension>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SolverCrankNicolson);
+
   using Self = SolverCrankNicolson;
   using Superclass = Solver<TDimension>;
   using Pointer = SmartPointer<Self>;
@@ -249,10 +251,6 @@ protected:
   unsigned int m_DifferenceMatrixIndex;
   unsigned int m_SumMatrixIndex;
   unsigned int m_DiffMatrixBySolutionTMinus1Index;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SolverCrankNicolson);
-
 };
 } // end namespace fem
 } // end namespace itk

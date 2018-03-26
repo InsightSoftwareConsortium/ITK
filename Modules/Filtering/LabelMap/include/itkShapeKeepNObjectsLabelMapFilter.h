@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT ShapeKeepNObjectsLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeKeepNObjectsLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ShapeKeepNObjectsLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -177,9 +179,6 @@ protected:
 
   SizeValueType m_NumberOfObjects;
   AttributeType m_Attribute;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeKeepNObjectsLabelMapFilter);
 };                                               // end of class
 } // end namespace itk
 

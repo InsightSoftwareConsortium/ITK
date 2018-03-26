@@ -65,6 +65,8 @@ class ITK_TEMPLATE_EXPORT MultiTransform :
   public Transform<TParametersValueType, NDimensions, NSubDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransform);
+
   /** Standard class type aliases. */
   using Self = MultiTransform;
   using Superclass = Transform<TParametersValueType, NDimensions, NSubDimensions>;
@@ -313,10 +315,6 @@ protected:
   /** Cache to save time returning the number of local parameters */
   mutable NumberOfParametersType  m_NumberOfLocalParameters;
   mutable ModifiedTimeType        m_LocalParametersUpdateTime;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransform);
-
 };
 
 } // end namespace itk

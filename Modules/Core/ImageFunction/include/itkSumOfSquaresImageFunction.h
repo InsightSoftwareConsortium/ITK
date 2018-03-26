@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT SumOfSquaresImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SumOfSquaresImageFunction);
+
   /** Standard class type aliases. */
   using Self = SumOfSquaresImageFunction;
   using Superclass = ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
@@ -126,8 +128,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SumOfSquaresImageFunction);
-
   unsigned int m_NeighborhoodRadius;
   unsigned int m_NeighborhoodSize;
 };

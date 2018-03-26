@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT CenteredEuler3DTransform :
   public Euler3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredEuler3DTransform);
+
   /** Standard class type aliases. */
   using Self = CenteredEuler3DTransform;
   using Superclass = Euler3DTransform<TParametersValueType>;
@@ -121,10 +123,6 @@ protected:
    * Print contents of an CenteredEuler3DTransform
    */
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredEuler3DTransform);
-
 };                                        // class CenteredEuler3DTransform
 }  // namespace itk
 

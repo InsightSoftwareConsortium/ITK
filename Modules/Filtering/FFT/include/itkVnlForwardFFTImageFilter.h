@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT VnlForwardFFTImageFilter:
   public ForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VnlForwardFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -88,8 +90,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlForwardFFTImageFilter);
-
   using SignalVectorType = vnl_vector< std::complex< InputPixelType > >;
 };
 }

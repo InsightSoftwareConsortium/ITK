@@ -47,6 +47,8 @@ template< typename TImage, typename TImageMask, typename TBiasField >
 class ITK_TEMPLATE_EXPORT MRIBiasEnergyFunction : public SingleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
+
   /** Standard class type aliases. */
   using Self = MRIBiasEnergyFunction;
   using Superclass = SingleValuedCostFunction;
@@ -147,8 +149,6 @@ protected:
   ~MRIBiasEnergyFunction() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
-
   /** Bias field object pointer. */
   BiasFieldType        *m_BiasField;
 
@@ -223,6 +223,8 @@ class ITK_TEMPLATE_EXPORT MRIBiasFieldCorrectionFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasFieldCorrectionFilter);
+
   /** Standard class type aliases. */
   using Self = MRIBiasFieldCorrectionFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -535,8 +537,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasFieldCorrectionFilter);
-
   /** Energy function object pointer. */
   EnergyFunctionPointer m_EnergyFunction;
 

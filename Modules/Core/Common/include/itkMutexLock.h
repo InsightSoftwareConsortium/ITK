@@ -102,6 +102,8 @@ protected:
 class ITKCommon_EXPORT MutexLock:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MutexLock);
+
   /** Standard class type aliases. */
   using Self = MutexLock;
   using Superclass = Object;
@@ -131,9 +133,6 @@ protected:
 
   SimpleMutexLock m_SimpleMutexLock;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MutexLock);
 };
 
 inline void MutexLock::Lock()

@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT ExponentialDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExponentialDisplacementFieldImageFilter);
+
   /** Standard class type aliases. */
   using Self = ExponentialDisplacementFieldImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -165,8 +167,6 @@ protected:
   using AdderPointer = typename AdderType::Pointer;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExponentialDisplacementFieldImageFilter);
-
   bool         m_AutomaticNumberOfIterations;
   unsigned int m_MaximumNumberOfIterations;
 

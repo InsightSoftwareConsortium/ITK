@@ -68,6 +68,7 @@ class ITK_TEMPLATE_EXPORT MatchCardinalityImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MatchCardinalityImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MatchCardinalityImageToImageMetric;
@@ -167,8 +168,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MatchCardinalityImageToImageMetric);
-
   bool                         m_MeasureMatches;
   std::vector< MeasureType >   m_ThreadMatches;
   std::vector< SizeValueType > m_ThreadCounts;

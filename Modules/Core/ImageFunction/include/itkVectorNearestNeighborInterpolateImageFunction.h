@@ -44,6 +44,8 @@ class VectorNearestNeighborInterpolateImageFunction:
   public VectorInterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorNearestNeighborInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = VectorNearestNeighborInterpolateImageFunction;
   using Superclass = VectorInterpolateImageFunction< TInputImage, TCoordRep >;
@@ -100,9 +102,6 @@ protected:
   ~VectorNearestNeighborInterpolateImageFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorNearestNeighborInterpolateImageFunction);
 };
 } // end namespace itk
 

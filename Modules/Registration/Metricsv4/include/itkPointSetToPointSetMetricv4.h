@@ -73,6 +73,7 @@ class ITK_TEMPLATE_EXPORT PointSetToPointSetMetricv4
    Image<TInternalComputationValueType, TFixedPointSet::PointDimension>, TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = PointSetToPointSetMetricv4;
@@ -413,8 +414,6 @@ protected:
 
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToPointSetMetricv4);
-
   mutable bool m_MovingTransformPointLocatorsNeedInitialization;
   mutable bool m_FixedTransformPointLocatorsNeedInitialization;
 

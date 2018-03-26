@@ -38,6 +38,8 @@ class ITKOptimizers_EXPORT MultipleValuedNonLinearVnlOptimizer:
   public MultipleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedNonLinearVnlOptimizer);
+
   /** Standard class type aliases. */
   using Self = MultipleValuedNonLinearVnlOptimizer;
   using Superclass = MultipleValuedNonLinearOptimizer;
@@ -112,8 +114,6 @@ protected:
   using CommandType = ReceptorMemberCommand< Self >;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedNonLinearVnlOptimizer);
-
   /** Callback function for the Command Observer */
   void IterationReport(const EventObject & event);
 

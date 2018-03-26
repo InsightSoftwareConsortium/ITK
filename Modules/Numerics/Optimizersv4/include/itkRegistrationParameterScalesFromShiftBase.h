@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromShiftBase :
   public RegistrationParameterScalesEstimator< TMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromShiftBase);
+
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromShiftBase;
   using Superclass = RegistrationParameterScalesEstimator< TMetric >;
@@ -97,8 +99,6 @@ protected:
   virtual void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) = 0;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromShiftBase);
-
   //A small variation of parameters
   ParametersValueType  m_SmallParameterVariation;
 

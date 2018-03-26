@@ -109,6 +109,8 @@ class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitioner
   : public ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIteratorRangePartitioner);
+
   /** Standard class type aliases. */
   using Self = ThreadedIteratorRangePartitioner;
   using Superclass = ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >;
@@ -146,10 +148,6 @@ public:
 protected:
   ThreadedIteratorRangePartitioner();
   ~ThreadedIteratorRangePartitioner() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIteratorRangePartitioner);
-
 };
 
 } // end namespace itk

@@ -65,6 +65,8 @@ class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFilter:
                                       TSparseOutputImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFilter);
+
   /** Standard class type alias */
   using Self = FiniteDifferenceSparseImageFilter;
   using Superclass = FiniteDifferenceImageFilter<
@@ -195,7 +197,6 @@ private:
       which are passed to each thread for parallel processing. */
   typename NodeListType::RegionListType m_RegionList;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFilter);
 };
 } // end namespace itk
 

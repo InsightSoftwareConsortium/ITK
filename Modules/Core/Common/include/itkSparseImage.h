@@ -67,6 +67,8 @@ template< typename TNode, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT SparseImage:public Image< TNode *, VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SparseImage);
+
   /** Standard type alias. */
   using Self = SparseImage;
   using Superclass = Image< TNode *, VImageDimension >;
@@ -143,7 +145,6 @@ private:
 
   typename NodeStoreType::Pointer m_NodeStore;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseImage);
 };
 } // end namespace itk
 

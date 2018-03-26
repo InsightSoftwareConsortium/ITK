@@ -50,6 +50,8 @@ namespace itk
 class ITKIOIPL_EXPORT IPLCommonImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IPLCommonImageIO);
+
   /** Standard class type aliases. */
   using Self = IPLCommonImageIO;
   using Superclass = ImageIOBase;
@@ -171,9 +173,6 @@ protected:
   float hdr2Float(char *hdr);
 
   double hdr2Double(char *hdr);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IPLCommonImageIO);
 };
 } // end namespace itk
 #define RAISE_EXCEPTION()                                    \

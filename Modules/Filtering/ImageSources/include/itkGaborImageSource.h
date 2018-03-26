@@ -48,6 +48,7 @@ class ITK_TEMPLATE_EXPORT GaborImageSource:
   public GenerateImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaborImageSource);
 
   /** Standard class type aliases. */
   using Self = GaborImageSource;
@@ -104,8 +105,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaborImageSource);
-
   bool m_CalculateImaginaryPart;
 
   double m_Frequency;

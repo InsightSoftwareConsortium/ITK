@@ -76,6 +76,8 @@ class AsinImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = AsinImageAdaptor;
   using Superclass = ImageAdaptor< TImage,
@@ -93,9 +95,6 @@ public:
 protected:
   AsinImageAdaptor() {}
   ~AsinImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageAdaptor);
 };
 } // end namespace itk
 

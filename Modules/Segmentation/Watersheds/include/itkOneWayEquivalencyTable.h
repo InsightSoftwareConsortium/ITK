@@ -46,6 +46,8 @@ namespace itk
 class ITKWatersheds_EXPORT OneWayEquivalencyTable:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OneWayEquivalencyTable);
+
   /**  Standard type alias and smart pointer declarations.   */
   using Self = OneWayEquivalencyTable;
   using Superclass = DataObject;
@@ -127,8 +129,6 @@ public:
 protected:
   OneWayEquivalencyTable()  {}
   ~OneWayEquivalencyTable() override {}
-  ITK_DISALLOW_COPY_AND_ASSIGN(OneWayEquivalencyTable);
-
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   HashTableType m_HashMap;

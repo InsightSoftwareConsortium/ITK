@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT MetaEllipseConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaEllipseConverter);
+
   /** Standard class type aliases */
   using Self = MetaEllipseConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -69,10 +71,6 @@ protected:
 
   MetaEllipseConverter();
   ~MetaEllipseConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaEllipseConverter);
-
 };
 
 } // end namespace itk

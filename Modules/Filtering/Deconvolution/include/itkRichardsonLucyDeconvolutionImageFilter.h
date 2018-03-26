@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT RichardsonLucyDeconvolutionImageFilter :
     public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RichardsonLucyDeconvolutionImageFilter);
+
   /** Standard type alias. */
   using Self = RichardsonLucyDeconvolutionImageFilter;
   using Superclass = IterativeDeconvolutionImageFilter< TInputImage,
@@ -107,8 +109,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RichardsonLucyDeconvolutionImageFilter);
-
   /** Filters to compute each iterative update step. */
   using MultiplyFilterType = MultiplyImageFilter< InternalImageType >;
   using ComplexMultiplyType = MultiplyImageFilter< InternalComplexImageType >;

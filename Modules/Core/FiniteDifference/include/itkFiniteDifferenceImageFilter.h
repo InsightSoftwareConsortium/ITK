@@ -133,6 +133,8 @@ class ITK_TEMPLATE_EXPORT FiniteDifferenceImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceImageFilter);
+
   /** Standard class type aliases. */
   using Self = FiniteDifferenceImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
@@ -336,8 +338,6 @@ protected:
   double m_MaximumRMSError;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceImageFilter);
-
   /** Initialize the values of the Function coefficients. This function will
    * also take care of checking whether the image spacing should be taken into
    * account or not. */

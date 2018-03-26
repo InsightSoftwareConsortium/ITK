@@ -72,6 +72,8 @@ class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFilter :
                                              TDisplacementField, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = GPUDemonsRegistrationFilter;
   using GPUSuperclass = GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField,
@@ -137,8 +139,6 @@ protected:
   void ApplyUpdate(const TimeStepType& dt) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFilter);
-
   bool m_UseMovingImageGradient;
 };
 
@@ -150,6 +150,8 @@ private:
 class GPUDemonsRegistrationFilterFactory : public itk::ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFilterFactory);
+
   using Self = GPUDemonsRegistrationFilterFactory;
   using GPUSuperclass = ObjectFactoryBase;
   using Pointer = SmartPointer<Self>;
@@ -180,8 +182,6 @@ public:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFilterFactory);
-
 #define OverrideDemonsRegistrationFilterTypeMacro(ipt,opt,dm) \
     { \
     using InputImageType = GPUImage<ipt,dm>; \

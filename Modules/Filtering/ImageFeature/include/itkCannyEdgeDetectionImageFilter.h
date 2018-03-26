@@ -88,6 +88,8 @@ class ITK_TEMPLATE_EXPORT CannyEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CannyEdgeDetectionImageFilter);
+
   /** Standard "Self" & Superclass type alias.  */
   using Self = CannyEdgeDetectionImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -233,8 +235,6 @@ protected:
                                OutputImageType, OutputImageType >;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CannyEdgeDetectionImageFilter);
-
   ~CannyEdgeDetectionImageFilter() override {}
 
   /** Thread-Data structure. */

@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT Euler2DTransform:
   public Rigid2DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Euler2DTransform);
+
   /** Standard class type aliases. */
   using Self = Euler2DTransform;
   using Superclass = Rigid2DTransform<TParametersValueType>;
@@ -120,9 +122,6 @@ protected:
   ~Euler2DTransform() override {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Euler2DTransform);
 };                                //class Euler2DTransform
 }  // namespace itk
 

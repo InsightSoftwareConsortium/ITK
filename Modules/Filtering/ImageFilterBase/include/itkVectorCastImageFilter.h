@@ -79,6 +79,8 @@ class VectorCastImageFilter:
                                                 typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCastImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorCastImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -111,9 +113,6 @@ public:
 protected:
   VectorCastImageFilter() {}
   ~VectorCastImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCastImageFilter);
 };
 } // end namespace itk
 

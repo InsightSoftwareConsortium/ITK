@@ -78,6 +78,8 @@ class ITK_TEMPLATE_EXPORT GeodesicActiveContourLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = GeodesicActiveContourLevelSetFunction;
   using Superclass =
@@ -145,8 +147,6 @@ protected:
   }
 
   ~GeodesicActiveContourLevelSetFunction() override {}
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourLevelSetFunction);
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

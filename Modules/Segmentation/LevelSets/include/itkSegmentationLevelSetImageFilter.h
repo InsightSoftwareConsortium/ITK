@@ -148,6 +148,8 @@ class ITK_TEMPLATE_EXPORT SegmentationLevelSetImageFilter:
                                                              TInputImage::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationLevelSetImageFilter);
+
   /** Inherited type alias from the superclass. Needs to be placed before the next macro. */
   using Self = SegmentationLevelSetImageFilter;
 
@@ -502,8 +504,6 @@ protected:
   bool m_AutoGenerateSpeedAdvection;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationLevelSetImageFilter);
-
   SegmentationFunctionType *m_SegmentationFunction;
 };
 } // end namespace itk

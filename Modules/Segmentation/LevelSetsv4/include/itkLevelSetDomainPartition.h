@@ -33,6 +33,7 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainPartition:
   public LevelSetDomainPartitionBase< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartition);
 
   using Self = LevelSetDomainPartition;
   using Superclass = LevelSetDomainPartitionBase< TImage >;
@@ -58,9 +59,6 @@ public:
 protected:
   LevelSetDomainPartition();
   ~LevelSetDomainPartition();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartition);
 };
 } //end namespace itk
 

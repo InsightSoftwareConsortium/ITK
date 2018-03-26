@@ -74,6 +74,8 @@ class AcosImageAdaptor:public
                   TOutputPixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = AcosImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::AcosPixelAccessor<
@@ -92,9 +94,6 @@ public:
 protected:
   AcosImageAdaptor() {}
   ~AcosImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageAdaptor);
 };
 } // end namespace itk
 

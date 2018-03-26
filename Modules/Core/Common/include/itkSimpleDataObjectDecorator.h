@@ -66,6 +66,8 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT SimpleDataObjectDecorator:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleDataObjectDecorator);
+
   /** Standard type alias. */
   using Self = SimpleDataObjectDecorator;
   using Superclass = DataObject;
@@ -96,8 +98,6 @@ protected:
 protected:
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleDataObjectDecorator);
-
   ComponentType m_Component;
   bool          m_Initialized;
 };

@@ -94,6 +94,8 @@ class ITK_TEMPLATE_EXPORT ShotNoiseImageFilter :
   public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShotNoiseImageFilter);
+
   /** Standard class type aliases. */
   using Self = ShotNoiseImageFilter;
   using Superclass = NoiseBaseImageFilter< TInputImage,TOutputImage >;
@@ -143,8 +145,6 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShotNoiseImageFilter);
-
   double m_Scale;
 
 };

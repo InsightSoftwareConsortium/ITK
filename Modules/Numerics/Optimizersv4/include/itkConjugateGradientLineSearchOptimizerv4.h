@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT ConjugateGradientLineSearchOptimizerv4Template
 : public GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConjugateGradientLineSearchOptimizerv4Template);
+
   /** Standard class type aliases. */
   using Self = ConjugateGradientLineSearchOptimizerv4Template;
   using Superclass = GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>;
@@ -92,8 +94,6 @@ private:
 
   DerivativeType               m_LastGradient;
   DerivativeType               m_ConjugateGradient;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConjugateGradientLineSearchOptimizerv4Template);
 
 };
 

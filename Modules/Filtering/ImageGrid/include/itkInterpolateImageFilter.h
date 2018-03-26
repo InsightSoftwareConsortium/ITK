@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT InterpolateImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImageFilter);
+
   /** Standard class type aliases. */
   using Self = InterpolateImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -117,8 +119,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImageFilter);
-
   typename InterpolatorType::Pointer m_Interpolator;
 
   typename IntermediateImageType::Pointer m_IntermediateImage;

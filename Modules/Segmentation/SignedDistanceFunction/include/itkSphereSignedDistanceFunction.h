@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT SphereSignedDistanceFunction:
   public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SphereSignedDistanceFunction);
+
   /** Standard class type aliases. */
   using Self = SphereSignedDistanceFunction;
   using Superclass = ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >;
@@ -94,8 +96,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SphereSignedDistanceFunction);
-
   using VectorType = Vector< CoordRepType, Self::SpaceDimension >;
 
   VectorType m_Translation;

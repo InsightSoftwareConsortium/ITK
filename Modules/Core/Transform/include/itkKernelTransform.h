@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT KernelTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KernelTransform);
+
   /** Standard class type aliases. */
   using Self = KernelTransform;
   using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
@@ -355,8 +357,6 @@ protected:
   PointSetPointer m_TargetLandmarks;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(KernelTransform);
 
 };
 } // end namespace itk

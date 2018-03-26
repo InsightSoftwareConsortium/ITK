@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT RealToHalfHermitianForwardFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RealToHalfHermitianForwardFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -101,9 +103,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RealToHalfHermitianForwardFFTImageFilter);
 };
 } // end namespace itk
 

@@ -46,6 +46,8 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT SampleToSubsampleFilter:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SampleToSubsampleFilter);
+
   /** Standard class type aliases. */
   using Self = SampleToSubsampleFilter;
   using Superclass = ProcessObject;
@@ -89,9 +91,6 @@ protected:
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SampleToSubsampleFilter);
 };                                       // end of class
 } // end of namespace Statistics
 } // end of namespace itk

@@ -59,6 +59,8 @@ class ITKCommon_EXPORT ImageRegionSplitterBase
   :public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterBase);
+
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterBase;
   using Superclass = Object;
@@ -144,9 +146,6 @@ protected:
                                          SizeValueType regionSize[] ) const = 0;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterBase);
 };
 } // end namespace itk
 

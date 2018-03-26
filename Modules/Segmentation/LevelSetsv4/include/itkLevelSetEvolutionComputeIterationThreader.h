@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader< LevelSetDen
   : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
+
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionComputeIterationThreader;
   using Superclass = DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >;
@@ -82,9 +84,6 @@ protected:
   LevelSetEvolutionComputeIterationThreader();
 
   void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
 };
 
 // For dense image level set split by putting a level set domain in each thread.
@@ -94,6 +93,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader< LevelSetDen
   : public DomainThreader< ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >, TLevelSetEvolution >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
+
   using DomainMapConstIteratorType = typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator;
   using ThreadedDomainMapPartitionerType = ThreadedIteratorRangePartitioner< DomainMapConstIteratorType >;
 
@@ -133,9 +134,6 @@ protected:
   LevelSetEvolutionComputeIterationThreader();
 
   void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
 };
 
 // For Whitaker sparse level set split by putting part of the level set in each
@@ -149,6 +147,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader<
   : public DomainThreader< ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >, TLevelSetEvolution >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
+
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionComputeIterationThreader;
   using Superclass = DomainThreader< ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >, TLevelSetEvolution >;
@@ -190,9 +190,6 @@ protected:
 
   using NodePairsPerThreadType = std::vector< std::vector< NodePairType > >;
   NodePairsPerThreadType m_NodePairsPerThread;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
 };
 
 } // namespace itk

@@ -58,6 +58,8 @@ class BSplineResampleImageFunction:
     TImageType, TCoordRep, typename TImageType::PixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFunction);
+
   /** Standard class type aliases. */
   using Self = BSplineResampleImageFunction;
   using Superclass = BSplineInterpolateImageFunction<
@@ -88,9 +90,6 @@ public:
 protected:
   BSplineResampleImageFunction() {}
   ~BSplineResampleImageFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFunction);
 };
 } // namespace itk
 

@@ -34,6 +34,7 @@ class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransformParametersAdap
 : public ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = BSplineExponentialDiffeomorphicTransformParametersAdaptor;
@@ -120,8 +121,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransformParametersAdaptor);
-
   ArrayType                   m_NumberOfControlPointsForTheConstantVelocityField;
   ModifiedTimeType            m_NumberOfControlPointsForTheConstantVelocityFieldSetTime;
 

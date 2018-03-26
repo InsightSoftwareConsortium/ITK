@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT KernelImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KernelImageFilter);
+
   /** Standard class type aliases. */
   using Self = KernelImageFilter;
   using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
@@ -99,8 +101,6 @@ protected:
   KernelType m_Kernel;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KernelImageFilter);
-
   template<typename T> void MakeKernel( const RadiusType & radius, T & kernel )
   {
     kernel.SetRadius( radius );

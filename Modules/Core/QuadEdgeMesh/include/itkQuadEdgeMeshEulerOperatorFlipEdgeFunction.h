@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorFlipEdgeFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorFlipEdgeFunction);
+
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorFlipEdgeFunction;
   using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
@@ -83,9 +85,6 @@ protected:
   void CheckStatus(QEType *h);
 
   OutputType Process(QEType *h);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorFlipEdgeFunction);
 };
 } // end namespace itk
 

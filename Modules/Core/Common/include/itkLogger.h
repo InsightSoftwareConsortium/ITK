@@ -36,6 +36,8 @@ namespace itk
 class ITKCommon_EXPORT Logger:public LoggerBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Logger);
+
   using Self = Logger;
   using Superclass = LoggerBase;
   using Pointer = SmartPointer< Self >;
@@ -54,9 +56,6 @@ protected:
 
   /** Destructor */
   ~Logger() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Logger);
 };                              // class Logger
 } // namespace itk
 

@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT ScatterMatrixImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScatterMatrixImageFunction);
+
   /** Standard class type aliases. */
   using Self = ScatterMatrixImageFunction;
   using Superclass = ImageFunction< TInputImage,
@@ -119,8 +121,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScatterMatrixImageFunction);
-
   unsigned int m_NeighborhoodRadius;
 };
 } // end namespace itk

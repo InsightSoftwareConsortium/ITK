@@ -44,6 +44,8 @@ namespace itk
 class ITKCommon_EXPORT EquivalencyTable:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EquivalencyTable);
+
   /** Standard smart pointer declarations */
   using Self = EquivalencyTable;
   using Superclass = DataObject;
@@ -137,8 +139,6 @@ public:
 protected:
   EquivalencyTable()  {}
   ~EquivalencyTable() override {}
-  ITK_DISALLOW_COPY_AND_ASSIGN(EquivalencyTable);
-
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   HashTableType m_HashMap;

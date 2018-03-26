@@ -167,6 +167,8 @@ class ITKFFT_EXPORT FFTWGlobalConfiguration
   : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWGlobalConfiguration);
+
   /** Standard class type aliases. */
   using Self = FFTWGlobalConfiguration;
   using Superclass = Object;
@@ -296,8 +298,6 @@ private:
    * The single instance will be unreferenced when
    * the program exits. */
   itkFactorylessNewMacro(Self);
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWGlobalConfiguration);
 
   static Pointer                m_Instance;
   static SimpleFastMutexLock    m_CreationLock;

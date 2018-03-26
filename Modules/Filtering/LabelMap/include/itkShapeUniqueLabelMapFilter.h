@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT ShapeUniqueLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeUniqueLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ShapeUniqueLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -317,8 +319,6 @@ protected:
   AttributeType m_Attribute;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeUniqueLabelMapFilter);
-
   bool m_ReverseOrdering;
   struct LineOfLabelObject {
     using LineType = typename LabelObjectType::LineType;

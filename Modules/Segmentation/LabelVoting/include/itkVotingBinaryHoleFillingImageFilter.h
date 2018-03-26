@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT VotingBinaryHoleFillingImageFilter:
   public VotingBinaryImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryHoleFillingImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -126,8 +128,6 @@ protected:
   void AfterThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryHoleFillingImageFilter);
-
   unsigned int m_MajorityThreshold;
 
   SizeValueType m_NumberOfPixelsChanged;

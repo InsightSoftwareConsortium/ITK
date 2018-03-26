@@ -64,6 +64,8 @@ class ITK_TEMPLATE_EXPORT BinaryImageToLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLabelMapFilter);
+
   /**
    * Standard "Self" & Superclass typedef.
    */
@@ -183,8 +185,6 @@ protected:
   const ImageRegionSplitterBase* GetImageRegionSplitter() const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLabelMapFilter);
-
   // some additional types
   using OutSizeType = typename TOutputImage::RegionType::SizeType;
 

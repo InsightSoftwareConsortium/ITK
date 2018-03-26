@@ -72,6 +72,8 @@ class CosImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CosImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = CosImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::CosPixelAccessor<
@@ -90,9 +92,6 @@ public:
 protected:
   CosImageAdaptor() {}
   ~CosImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CosImageAdaptor);
 };
 } // end namespace itk
 

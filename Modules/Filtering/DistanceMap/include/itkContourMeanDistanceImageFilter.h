@@ -70,6 +70,8 @@ class ITK_TEMPLATE_EXPORT ContourMeanDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ContourMeanDistanceImageFilter);
+
   /** Standard Self type alias */
   using Self = ContourMeanDistanceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
@@ -144,8 +146,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContourMeanDistanceImageFilter);
-
   RealType  m_MeanDistance;
   bool      m_UseImageSpacing;
 }; // end of class

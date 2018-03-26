@@ -31,6 +31,8 @@ namespace itk
 class ITKIOMeshBYU_EXPORT BYUMeshIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIOFactory);
+
   /** Standard class type aliases. */
   using Self = BYUMeshIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   ~BYUMeshIOFactory() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIOFactory);
 };
 
 } // end namespace itk

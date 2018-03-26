@@ -44,6 +44,7 @@ namespace itk
 class GPUKernelManager : public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUKernelManager);
 
   struct KernelArgumentList
     {
@@ -144,8 +145,6 @@ protected:
   void ResetArguments(int kernelIdx);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUKernelManager);
-
   cl_program m_Program;
 
   GPUContextManager * m_Manager;

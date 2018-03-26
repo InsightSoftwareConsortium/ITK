@@ -39,6 +39,7 @@ class ITK_TEMPLATE_EXPORT LandmarkSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkSpatialObject);
 
   using Self = LandmarkSpatialObject;
   using Superclass = PointBasedSpatialObject< TDimension >;
@@ -109,8 +110,6 @@ public:
   bool ComputeLocalBoundingBox(void) const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkSpatialObject);
-
   PointListType m_Points;
 
   LandmarkSpatialObject();

@@ -74,6 +74,8 @@ class ITK_TEMPLATE_EXPORT BSplineDecompositionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDecompositionImageFilter);
+
   /** Standard class type aliases. */
   using Self = BSplineDecompositionImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -143,8 +145,6 @@ protected:
 
 private:
   using CoefficientsVectorType = std::vector< CoeffType >;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDecompositionImageFilter);
 
   /** Determines the poles given the Spline Order. */
   virtual void SetPoles();

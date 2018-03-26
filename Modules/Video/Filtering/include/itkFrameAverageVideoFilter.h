@@ -36,6 +36,7 @@ class ITK_TEMPLATE_EXPORT FrameAverageVideoFilter :
   public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrameAverageVideoFilter);
 
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;
@@ -79,8 +80,6 @@ protected:
                 int threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrameAverageVideoFilter);
-
 
 };  // end class FrameAverageVideoFilter
 

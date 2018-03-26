@@ -36,6 +36,8 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4GetValueAnd
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader);
+
   /** Standard class type aliases. */
   using Self = MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
@@ -116,8 +118,6 @@ protected:
                              DerivativeValueType *           localSupportDerivativeResultPtr) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader);
-
   /** Internal pointer to the Mattes metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
   TMattesMutualInformationMetric * m_MattesAssociate;

@@ -80,6 +80,8 @@ class SumProjectionImageFilter:
                            typename TInputImage::PixelType, typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SumProjectionImageFilter);
+
   using Self = SumProjectionImageFilter;
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::SumAccumulator<
@@ -115,9 +117,6 @@ public:
 protected:
   SumProjectionImageFilter() {}
   ~SumProjectionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SumProjectionImageFilter);
 };                                        // end SumProjectionImageFilter
 } //end namespace itk
 

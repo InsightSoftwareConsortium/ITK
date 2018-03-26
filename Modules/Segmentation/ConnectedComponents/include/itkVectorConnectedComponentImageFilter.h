@@ -101,6 +101,8 @@ class VectorConnectedComponentImageFilter:
                                                TMaskImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorConnectedComponentImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorConnectedComponentImageFilter;
   using Superclass = ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
@@ -135,9 +137,6 @@ public:
 protected:
   VectorConnectedComponentImageFilter() {}
   ~VectorConnectedComponentImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorConnectedComponentImageFilter);
 };
 } // end namespace itk
 

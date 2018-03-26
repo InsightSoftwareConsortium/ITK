@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT FastSymmetricForcesDemonsRegistrationFunction:
                                             TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastSymmetricForcesDemonsRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = FastSymmetricForcesDemonsRegistrationFunction;
   using Superclass = PDEDeformableRegistrationFunction< TFixedImage,
@@ -189,8 +191,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastSymmetricForcesDemonsRegistrationFunction);
-
   /** Cache fixed image information. */
   double m_Normalizer;
 

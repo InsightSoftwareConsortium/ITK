@@ -69,6 +69,8 @@ class ITK_TEMPLATE_EXPORT HistogramMatchingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramMatchingImageFilter);
+
   /** Standard class type aliases. */
   using Self = HistogramMatchingImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -191,8 +193,6 @@ protected:
                           const THistogramMeasurement maxValue);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramMatchingImageFilter);
-
   SizeValueType m_NumberOfHistogramLevels;
   SizeValueType m_NumberOfMatchPoints;
   bool          m_ThresholdAtMeanIntensity;

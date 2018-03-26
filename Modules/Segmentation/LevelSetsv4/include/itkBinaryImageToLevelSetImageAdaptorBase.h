@@ -31,6 +31,8 @@ template< typename TInputImage, typename TLevelSet >
 class BinaryImageToLevelSetImageAdaptorBase : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptorBase);
+
   using Self = BinaryImageToLevelSetImageAdaptorBase;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -75,10 +77,6 @@ protected:
 
   InputImagePointer       m_InputImage;
   LevelSetPointer         m_LevelSet;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptorBase);
-
 };
 }
 

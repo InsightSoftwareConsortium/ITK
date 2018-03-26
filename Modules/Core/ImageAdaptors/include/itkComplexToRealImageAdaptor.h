@@ -75,6 +75,8 @@ class ComplexToRealImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToRealImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = ComplexToRealImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::ComplexToRealPixelAccessor<
@@ -93,9 +95,6 @@ public:
 protected:
   ComplexToRealImageAdaptor() {}
   ~ComplexToRealImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToRealImageAdaptor);
 };
 } // end namespace itk
 

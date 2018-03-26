@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT BinaryThinningImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThinningImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryThinningImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -138,9 +140,6 @@ protected:
 
   /**  Compute thinning Image. */
   void ComputeThinImage();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThinningImageFilter);
 };                                         // end of BinaryThinningImageFilter
                                            // class
 } //end namespace itk

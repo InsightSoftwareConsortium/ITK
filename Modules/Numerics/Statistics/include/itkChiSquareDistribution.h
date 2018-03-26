@@ -59,6 +59,8 @@ class ITKStatistics_EXPORT ChiSquareDistribution:
   public ProbabilityDistribution
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChiSquareDistribution);
+
   /** Standard class type aliases */
   using Self = ChiSquareDistribution;
   using Superclass = ProbabilityDistribution;
@@ -200,9 +202,6 @@ protected:
   ~ChiSquareDistribution() override {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChiSquareDistribution);
 };                                     // end of class
 } // end of namespace Statistics
 } // end namespace itk

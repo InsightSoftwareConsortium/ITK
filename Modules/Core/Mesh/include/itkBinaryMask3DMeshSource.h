@@ -71,6 +71,8 @@ template< typename TInputImage, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT BinaryMask3DMeshSource:public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMask3DMeshSource);
+
   /** Standard "Self" type alias. */
   using Self = BinaryMask3DMeshSource;
   using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
@@ -158,8 +160,6 @@ protected:
   void GenerateOutputInformation() override {}  // do nothing override
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMask3DMeshSource);
-
   using InputImageSizeType = typename InputImageType::SizeType;
 
   void CreateMesh();

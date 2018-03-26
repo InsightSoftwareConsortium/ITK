@@ -40,6 +40,8 @@ template< typename TInputSpatialObject, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT SpatialObjectToImageFilter:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageFilter);
+
   /** Standard class type aliases. */
   using Self = SpatialObjectToImageFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -171,7 +173,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageFilter);
 };
 } // end namespace itk
 

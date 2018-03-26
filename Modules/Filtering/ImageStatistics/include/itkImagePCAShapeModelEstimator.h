@@ -78,6 +78,8 @@ class ITK_TEMPLATE_EXPORT ImagePCAShapeModelEstimator:
   public ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCAShapeModelEstimator);
+
   /** Standard class type aliases. */
   using Self = ImagePCAShapeModelEstimator;
   using Superclass = ImageShapeModelEstimatorBase< TInputImage, TOutputImage >;
@@ -157,8 +159,6 @@ protected:
   void GenerateData() override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCAShapeModelEstimator);
 
   /** Local variable type alias */
   using InputImagePointerArray = std::vector< InputImageConstPointer >;

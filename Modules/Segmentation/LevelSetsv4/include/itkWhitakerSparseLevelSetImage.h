@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT WhitakerSparseLevelSetImage :
     public LevelSetSparseImage< TOutput, VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WhitakerSparseLevelSetImage);
+
   using Self = WhitakerSparseLevelSetImage;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -132,10 +134,6 @@ protected:
   void InitializeLayers() override;
 
   void InitializeInternalLabelList() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WhitakerSparseLevelSetImage);
-
 };
 }
 

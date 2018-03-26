@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT PasteImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PasteImageFilter);
+
   /** Standard class type aliases. */
   using Self = PasteImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
@@ -155,9 +157,6 @@ protected:
   SourceImageRegionType m_SourceRegion;
 
   InputImageIndexType m_DestinationIndex;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PasteImageFilter);
 };
 } // end namespace itk
 

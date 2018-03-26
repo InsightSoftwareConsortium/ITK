@@ -38,6 +38,8 @@ namespace itk
 class ITKCommon_EXPORT FileOutputWindow:public OutputWindow
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FileOutputWindow);
+
   /** Standard class type aliases. */
   using Self = FileOutputWindow;
   using Superclass = OutputWindow;
@@ -85,9 +87,6 @@ protected:
 
   bool m_Flush;
   bool m_Append;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileOutputWindow);
 };
 } // end namespace itk
 

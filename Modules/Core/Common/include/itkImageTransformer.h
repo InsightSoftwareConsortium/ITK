@@ -59,6 +59,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageTransformer:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageTransformer);
+
   /** Standard class type aliases. */
   using Self = ImageTransformer;
   using Superclass = ProcessObject;
@@ -237,9 +239,6 @@ protected:
   struct ThreadStruct {
     Pointer Filter;
   };
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageTransformer);
 };
 } // end namespace itk
 

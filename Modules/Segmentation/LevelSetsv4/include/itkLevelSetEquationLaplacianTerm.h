@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationLaplacianTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationLaplacianTerm);
+
   using Self = LevelSetEquationLaplacianTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -122,9 +124,6 @@ protected:
    *  \f$ \omega_i( p ) \f$. */
   LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
                                         const LevelSetDataType& iData ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationLaplacianTerm);
 };
 
 }

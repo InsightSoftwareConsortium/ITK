@@ -140,6 +140,8 @@ class ITK_TEMPLATE_EXPORT VectorGradientMagnitudeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientMagnitudeImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorGradientMagnitudeImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -473,7 +475,6 @@ private:
 
   typename ImageBaseType::ConstPointer m_RealValuedInputImage;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientMagnitudeImageFilter);
 };
 } // end namespace itk
 

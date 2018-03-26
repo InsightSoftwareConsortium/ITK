@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleFunctionErodeImageFilter:
   public MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionErodeImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleFunctionErodeImageFilter;
   using Superclass = MorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -122,8 +124,6 @@ protected:
                      const KernelIteratorType kernelEnd) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionErodeImageFilter);
-
   // Default boundary condition for erosion filter, defaults to
   // NumericTraits<PixelType>::max()
   DefaultBoundaryConditionType m_ErodeBoundaryCondition;

@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT CoxDeBoorBSplineKernelFunction:
   public KernelFunctionBase<TRealValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CoxDeBoorBSplineKernelFunction);
+
   /** Standard class type aliases. */
   using Self = CoxDeBoorBSplineKernelFunction;
   using Superclass = KernelFunctionBase<TRealValueType>;
@@ -110,8 +112,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CoxDeBoorBSplineKernelFunction);
-
   /**
    * For a specific order, generate the (this->m_SplineOrder+1) pieces of
    * the single basis function centered at zero.

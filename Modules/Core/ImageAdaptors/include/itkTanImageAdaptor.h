@@ -74,6 +74,8 @@ class TanImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TanImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = TanImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::TanPixelAccessor<
@@ -92,9 +94,6 @@ public:
 protected:
   TanImageAdaptor() {}
   ~TanImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TanImageAdaptor);
 };
 } // end namespace itk
 

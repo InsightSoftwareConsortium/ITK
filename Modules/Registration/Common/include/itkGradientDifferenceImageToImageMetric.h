@@ -59,6 +59,7 @@ class ITK_TEMPLATE_EXPORT GradientDifferenceImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDifferenceImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = GradientDifferenceImageToImageMetric;
@@ -163,8 +164,6 @@ protected:
     MovedGradientImageType, MovedGradientImageType >;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDifferenceImageToImageMetric);
-
   /** The variance of the moving image gradients. */
   mutable MovedGradientPixelType m_Variance[FixedImageDimension];
 

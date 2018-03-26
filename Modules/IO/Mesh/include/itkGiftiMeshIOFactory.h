@@ -31,6 +31,8 @@ namespace itk
 class ITKIOMesh_EXPORT GiftiMeshIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIOFactory);
+
   /** Standard class type aliases. */
   using Self = GiftiMeshIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   ~GiftiMeshIOFactory() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIOFactory);
 };
 // /////////////////////////////////////////////////////////////////////
 } // end namespace itk

@@ -65,6 +65,7 @@ class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldTransformParametersAdaptor
 : public TransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = TimeVaryingVelocityFieldTransformParametersAdaptor;
@@ -124,10 +125,6 @@ public:
 protected:
   TimeVaryingVelocityFieldTransformParametersAdaptor();
   ~TimeVaryingVelocityFieldTransformParametersAdaptor() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransformParametersAdaptor);
-
 }; //class TimeVaryingVelocityFieldTransformParametersAdaptor
 }  // namespace itk
 

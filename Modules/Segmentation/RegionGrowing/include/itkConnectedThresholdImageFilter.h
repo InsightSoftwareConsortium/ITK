@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT ConnectedThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedThresholdImageFilter);
+
   /** Standard class type aliases. */
   using Self = ConnectedThresholdImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -150,8 +152,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedThresholdImageFilter);
-
   SeedContainerType     m_Seeds;
 
   OutputImagePixelType  m_ReplaceValue;

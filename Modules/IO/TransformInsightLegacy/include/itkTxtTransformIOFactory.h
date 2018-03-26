@@ -31,6 +31,8 @@ namespace itk
 class ITKIOTransformInsightLegacy_EXPORT TxtTransformIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TxtTransformIOFactory);
+
   /** Standard class type aliases. */
   using Self = TxtTransformIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -60,9 +62,6 @@ protected:
   TxtTransformIOFactory();
   ~TxtTransformIOFactory() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TxtTransformIOFactory);
 };
 } // end namespace itk
 

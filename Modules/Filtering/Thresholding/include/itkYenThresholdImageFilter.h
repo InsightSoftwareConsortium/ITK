@@ -52,6 +52,8 @@ class YenThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(YenThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = YenThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -101,9 +103,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~YenThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(YenThresholdImageFilter);
 };
 
 } // end namespace itk

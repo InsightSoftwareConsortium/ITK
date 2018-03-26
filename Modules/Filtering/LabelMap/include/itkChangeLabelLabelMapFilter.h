@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT ChangeLabelLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeLabelLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ChangeLabelLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -106,9 +108,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   ChangeMapType m_MapOfLabelToBeReplaced;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeLabelLabelMapFilter);
 };                                         // end of class
 } // end namespace itk
 

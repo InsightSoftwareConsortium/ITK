@@ -180,6 +180,8 @@ class ITK_TEMPLATE_EXPORT MultiphaseSparseFiniteDifferenceImageFilter:
                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseSparseFiniteDifferenceImageFilter);
+
   /** Standard class type aliases */
   using Self = MultiphaseSparseFiniteDifferenceImageFilter;
   using Superclass = MultiphaseFiniteDifferenceImageFilter< TInputImage,
@@ -521,8 +523,6 @@ protected:
   bool m_InterpolateSurfaceLocation;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseSparseFiniteDifferenceImageFilter);
-
   unsigned int m_CurrentFunctionIndex;
 
   double       m_RMSSum;

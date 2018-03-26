@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction:
   public FunctionBase< TMesh, typename TMesh::EdgeListPointerType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshBoundaryEdgesMeshFunction);
+
   // Standard types
   using Self = QuadEdgeMeshBoundaryEdgesMeshFunction;
   using Pointer = SmartPointer< Self >;
@@ -62,9 +64,6 @@ public:
 
 protected:
   QuadEdgeMeshBoundaryEdgesMeshFunction() {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshBoundaryEdgesMeshFunction);
 };
 }
 

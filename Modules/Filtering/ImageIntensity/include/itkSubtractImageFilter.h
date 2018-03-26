@@ -73,6 +73,8 @@ class SubtractImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SubtractImageFilter);
+
   /** Standard class type aliases. */
   using Self = SubtractImageFilter;
   using Superclass = BinaryFunctorImageFilter<
@@ -103,9 +105,6 @@ public:
 protected:
   SubtractImageFilter() {}
   ~SubtractImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SubtractImageFilter);
 };
 } // end namespace itk
 

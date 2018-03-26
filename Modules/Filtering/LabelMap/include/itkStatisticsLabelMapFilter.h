@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT StatisticsLabelMapFilter:
                               Image< typename TImage::PixelType,  TImage ::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = StatisticsLabelMapFilter;
   using Superclass = ShapeLabelMapFilter< TImage >;
@@ -140,8 +142,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelMapFilter);
-
   FeatureImagePixelType m_Minimum;
   FeatureImagePixelType m_Maximum;
   unsigned int          m_NumberOfBins;

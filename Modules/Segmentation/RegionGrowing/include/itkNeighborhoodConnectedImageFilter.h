@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT NeighborhoodConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodConnectedImageFilter);
+
   /** Standard class type aliases. */
   using Self = NeighborhoodConnectedImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -132,9 +134,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodConnectedImageFilter);
 };
 } // end namespace itk
 

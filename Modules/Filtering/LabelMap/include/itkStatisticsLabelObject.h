@@ -41,6 +41,8 @@ template< typename TLabel, unsigned int VImageDimension >
 class StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelObject);
+
   /** Standard class type aliases */
   using Self = StatisticsLabelObject;
   using Superclass = ShapeLabelObject< TLabel, VImageDimension >;
@@ -560,8 +562,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelObject);
-
   double    m_Minimum;
   double    m_Maximum;
   double    m_Mean;

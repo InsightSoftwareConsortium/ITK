@@ -55,6 +55,8 @@ namespace itk
 class ITKCommon_EXPORT LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LightObject);
+
   /** Standard class type aliases. */
   using Self = LightObject;
   using Pointer = SmartPointer< Self >;
@@ -138,9 +140,6 @@ protected:
   /** Number of uses of this object by other objects. */
   mutable AtomicInt<int> m_ReferenceCount;
 
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LightObject);
 };
 
 /**

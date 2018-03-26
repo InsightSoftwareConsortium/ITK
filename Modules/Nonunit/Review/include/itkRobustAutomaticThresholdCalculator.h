@@ -41,6 +41,8 @@ template< typename TInputImage, typename TGradientImage >
 class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = RobustAutomaticThresholdCalculator;
   using Superclass = Object;
@@ -107,8 +109,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdCalculator);
-
   bool           m_Valid; // Have moments been computed yet?
   double         m_Pow;
   InputPixelType m_Output;

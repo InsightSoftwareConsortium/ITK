@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT BinaryOpeningByReconstructionImageFilter :
     public KernelImageFilter<TInputImage, TInputImage, TKernel>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryOpeningByReconstructionImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryOpeningByReconstructionImageFilter;
   using Superclass =
@@ -116,8 +118,6 @@ protected:
   void  GenerateData () override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryOpeningByReconstructionImageFilter);
-
   PixelType  m_ForegroundValue;
 
   PixelType  m_BackgroundValue;

@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT BSplineSmoothingOnUpdateDisplacementFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSmoothingOnUpdateDisplacementFieldTransform);
+
   /** Standard class type aliases. */
   using Self = BSplineSmoothingOnUpdateDisplacementFieldTransform;
   using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
@@ -188,8 +190,6 @@ protected:
    DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType & );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSmoothingOnUpdateDisplacementFieldTransform);
-
   SplineOrderType             m_SplineOrder;
   bool                        m_EnforceStationaryBoundary;
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;

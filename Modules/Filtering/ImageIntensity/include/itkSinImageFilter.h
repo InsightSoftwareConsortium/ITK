@@ -73,6 +73,8 @@ class SinImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SinImageFilter);
+
   /** Standard class type aliases. */
   using Self = SinImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -102,9 +104,6 @@ public:
 protected:
   SinImageFilter() {}
   ~SinImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SinImageFilter);
 };
 } // end namespace itk
 

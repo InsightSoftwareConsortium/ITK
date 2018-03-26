@@ -56,6 +56,8 @@ using SerieUIDContainer = std::vector< std::string >;
 class ITKIOGDCM_EXPORT GDCMSeriesFileNames:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMSeriesFileNames);
+
   /** Standard class type aliases. */
   using Self = GDCMSeriesFileNames;
   using Superclass = ProcessObject;
@@ -174,8 +176,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMSeriesFileNames);
-
   /** Contains the input directory where the DICOM serie is found */
   std::string m_InputDirectory;
 

@@ -38,6 +38,8 @@ class AddImageAdaptor:public
                 Accessor::AddPixelAccessor< typename TImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AddImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = AddImageAdaptor;
   using Superclass = ImageAdaptor< TImage,
@@ -66,9 +68,6 @@ public:
 protected:
   AddImageAdaptor() {}
   ~AddImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AddImageAdaptor);
 };
 } // end namespace itk
 

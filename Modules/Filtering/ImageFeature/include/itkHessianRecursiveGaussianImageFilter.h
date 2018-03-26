@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT HessianRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HessianRecursiveGaussianImageFilter);
+
   /** Standard class type aliases. */
   using Self = HessianRecursiveGaussianImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -157,8 +159,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(HessianRecursiveGaussianImageFilter);
 
   GaussianFiltersArray      m_SmoothingFilters;
   DerivativeFilterAPointer  m_DerivativeFilterA;

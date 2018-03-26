@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT InterpolateImageFunction:
                         typename NumericTraits< typename TInputImage::PixelType >::RealType, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = InterpolateImageFunction;
   using Superclass = ImageFunction< TInputImage,
@@ -127,9 +129,6 @@ protected:
   ~InterpolateImageFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImageFunction);
 };
 } // end namespace itk
 

@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel
       ImageToVTKImageFilter< Image< TInputPixel, 2 > > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);
+
   using Self = VTKVisualizeImageLevelSetIsoValues;
   using Superclass = VTKVisualizeImageLevelSet<  Image< TInputPixel, 2 >,
                                       ImageToVTKImageFilter< Image< TInputPixel, 2 > > >;
@@ -100,8 +102,6 @@ protected:
   void PrepareVTKPipeline() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);
-
   using LevelSetConverterType = LevelSetTovtkImageData< LevelSetType >;
   using LevelSetConverterPointer = typename LevelSetConverterType::Pointer;
 
@@ -131,6 +131,8 @@ class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel
       ImageToVTKImageFilter< Image< TInputPixel, 3 > > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);
+
   using Self = VTKVisualizeImageLevelSetIsoValues;
   using Superclass = VTKVisualizeImageLevelSet<  Image< TInputPixel, 3 >,
                                       ImageToVTKImageFilter< Image< TInputPixel, 3 > > >;
@@ -172,8 +174,6 @@ protected:
   void PrepareVTKPipeline() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);
-
   using LevelSetConverterType = LevelSetTovtkImageData< LevelSetType >;
   using LevelSetConverterPointer = typename LevelSetConverterType::Pointer;
 

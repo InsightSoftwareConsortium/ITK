@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT ShapePriorSegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = ShapePriorSegmentationLevelSetFunction;
   using Superclass =
@@ -138,8 +140,6 @@ public:
 protected:
   ShapePriorSegmentationLevelSetFunction();
   ~ShapePriorSegmentationLevelSetFunction() override {}
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetFunction);
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

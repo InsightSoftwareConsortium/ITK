@@ -68,6 +68,7 @@ template< typename TInputImage, typename TFeatureImage, typename TSingleData >
 class RegionBasedLevelSetFunctionSharedData:public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionSharedData);
 
   using Self = RegionBasedLevelSetFunctionSharedData;
   using Superclass = LightObject;
@@ -177,9 +178,6 @@ public:
 protected:
   RegionBasedLevelSetFunctionSharedData():m_NumberOfNeighbors(6), m_KdTree(nullptr){}
   ~RegionBasedLevelSetFunctionSharedData() override{}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionSharedData);
 };
 } //end namespace itk
 

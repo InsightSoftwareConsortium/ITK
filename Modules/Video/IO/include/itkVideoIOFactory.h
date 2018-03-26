@@ -38,6 +38,8 @@ namespace itk
 class ITKVideoIO_EXPORT VideoIOFactory : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoIOFactory);
+
   /** Standard class type aliases. */
   using Self = VideoIOFactory;
   using Superclass = Object;
@@ -60,10 +62,6 @@ public:
 protected:
   VideoIOFactory();
   ~VideoIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoIOFactory);
-
 };
 
 } // end namespace itk

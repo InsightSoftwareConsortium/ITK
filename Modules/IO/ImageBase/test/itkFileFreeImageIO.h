@@ -35,6 +35,8 @@ namespace itk
 class FileFreeImageIO : public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FileFreeImageIO);
+
   /** Standard class type aliases. */
   using Self = FileFreeImageIO;
   using Superclass = ImageIOBase;
@@ -76,8 +78,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileFreeImageIO);
-
   void SplitString (const std::string &text,
                     const std::string &separators,
                     std::vector<std::string> &words);

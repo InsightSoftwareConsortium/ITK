@@ -128,6 +128,8 @@ class SymmetricEigenAnalysisImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisImageFilter);
+
   /** Standard class type aliases. */
   using Self = SymmetricEigenAnalysisImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -190,9 +192,6 @@ public:
 protected:
   SymmetricEigenAnalysisImageFilter() {}
   ~SymmetricEigenAnalysisImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisImageFilter);
 };
 } // end namespace itk
 

@@ -48,6 +48,7 @@ class ITK_TEMPLATE_EXPORT EuclideanDistancePointMetric:
   public PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointMetric);
 
   /** Standard class type aliases. */
   using Self = EuclideanDistancePointMetric;
@@ -117,8 +118,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointMetric);
-
   DistanceMapPointer m_DistanceMap;
   bool               m_ComputeSquaredDistance;
 };

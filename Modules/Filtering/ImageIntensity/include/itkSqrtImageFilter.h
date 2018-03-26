@@ -70,6 +70,8 @@ class SqrtImageFilter:
                                            typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageFilter);
+
   /** Standard class type aliases. */
   using Self = SqrtImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -99,9 +101,6 @@ public:
 protected:
   SqrtImageFilter() {}
   ~SqrtImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageFilter);
 };
 } // end namespace itk
 

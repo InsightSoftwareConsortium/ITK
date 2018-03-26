@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT BinaryThresholdImageFunction:
   public ImageFunction< TInputImage, bool, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFunction);
+
   /** Standard class type aliases. */
   using Self = BinaryThresholdImageFunction;
   using Superclass = ImageFunction< TInputImage, bool, TCoordRep >;
@@ -144,8 +146,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFunction);
-
   PixelType m_Lower;
   PixelType m_Upper;
 };

@@ -95,6 +95,7 @@ class ITK_TEMPLATE_EXPORT MutualInformationImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MutualInformationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MutualInformationImageToImageMetric;
@@ -184,8 +185,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MutualInformationImageToImageMetric);
-
   /** \class SpatialSample
    * A spatial sample consists of the fixed domain point, the fixed
    * image value at that point, and the corresponding moving image value.

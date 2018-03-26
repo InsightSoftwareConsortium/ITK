@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT LaplacianRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianRecursiveGaussianImageFilter);
+
   /** Standard class type aliases. */
   using Self = LaplacianRecursiveGaussianImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -124,8 +126,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianRecursiveGaussianImageFilter);
-
   // special binary functor to perform A+B*ConstValue
   //
   // Where A is the cumulativeImage, B is the last filter, and

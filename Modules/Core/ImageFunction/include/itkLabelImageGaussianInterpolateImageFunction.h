@@ -66,6 +66,8 @@ class ITK_TEMPLATE_EXPORT LabelImageGaussianInterpolateImageFunction :
   public GaussianInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageGaussianInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = LabelImageGaussianInterpolateImageFunction;
   using Superclass = GaussianInterpolateImageFunction<TInputImage, TCoordRep>;
@@ -114,8 +116,6 @@ protected:
   ~LabelImageGaussianInterpolateImageFunction() override {};
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageGaussianInterpolateImageFunction);
-
   /**
    * Evaluate function value at the given index
    */

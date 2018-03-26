@@ -62,6 +62,8 @@ public BinaryImageToLevelSetImageAdaptorBase<
     LevelSetDenseImage< TLevelSetImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+
   using LevelSetType = LevelSetDenseImage< TLevelSetImage >;
 
   using Self = BinaryImageToLevelSetImageAdaptor;
@@ -109,8 +111,6 @@ protected:
   ~BinaryImageToLevelSetImageAdaptor() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
-
   SignedDistanceTransformFilterPointer   m_SignedDistanceTransformFilter;
 };
 
@@ -199,6 +199,8 @@ class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<
       WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
   {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+
   using LevelSetType =
       WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension >;
 
@@ -264,8 +266,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
-
   /** Fill layer adjacent (OutputLayer) to the layer (LayerToBeScanned) */
   void PropagateToOuterLayers( LayerIdType LayerToBeScanned, LayerIdType OutputLayer, LayerIdType TestValue );
 
@@ -289,6 +289,8 @@ public BinaryImageToSparseLevelSetImageAdaptorBase<
     ShiSparseLevelSetImage< TInput::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+
   using LevelSetType = ShiSparseLevelSetImage< TInput::ImageDimension >;
 
   using Self = BinaryImageToLevelSetImageAdaptor;
@@ -357,7 +359,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
 };
 
 
@@ -371,6 +372,8 @@ class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<
   public BinaryImageToSparseLevelSetImageAdaptorBase< TInput, MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+
   using LevelSetType = MalcolmSparseLevelSetImage< TInput::ImageDimension >;
 
   using Self = BinaryImageToLevelSetImageAdaptor;
@@ -442,7 +445,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
 };
 
 }

@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT BSplineBaseTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineBaseTransform);
+
   /** Standard class type aliases. */
   using Self = BSplineBaseTransform;
   using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
@@ -364,8 +366,6 @@ protected:
   typename WeightsFunctionType::Pointer m_WeightsFunction;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineBaseTransform);
-
   static CoefficientImageArray ArrayOfImagePointerGeneratorHelper();
 }; // class BSplineBaseTransform
 }  // namespace itk

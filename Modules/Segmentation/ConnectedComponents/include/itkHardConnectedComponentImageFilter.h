@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT HardConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HardConnectedComponentImageFilter);
+
   /**
    * Standard class typedef's
    */
@@ -123,8 +125,6 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HardConnectedComponentImageFilter);
-
   ListType m_Seeds;
 };
 } // end namespace itk

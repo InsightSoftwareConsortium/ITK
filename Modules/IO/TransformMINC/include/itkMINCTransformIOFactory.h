@@ -33,6 +33,8 @@ namespace itk
   class ITKIOTransformMINC_EXPORT MINCTransformIOFactory:public ObjectFactoryBase
   {
   public:
+    ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformIOFactory);
+
     /** Standard class type aliases. */
     using Self = MINCTransformIOFactory;
     using Superclass = ObjectFactoryBase;
@@ -62,9 +64,6 @@ namespace itk
     MINCTransformIOFactory();
     ~MINCTransformIOFactory() override;
     void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  private:
-    ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformIOFactory);
   };
 } // end namespace itk
 

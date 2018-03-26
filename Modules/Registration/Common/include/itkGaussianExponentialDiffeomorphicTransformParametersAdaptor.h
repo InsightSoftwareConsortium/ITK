@@ -34,6 +34,7 @@ class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransformParametersAda
 : public ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianExponentialDiffeomorphicTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = GaussianExponentialDiffeomorphicTransformParametersAdaptor;
@@ -72,8 +73,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianExponentialDiffeomorphicTransformParametersAdaptor);
-
   ScalarType          m_GaussianSmoothingVarianceForTheConstantVelocityField;
   ScalarType          m_GaussianSmoothingVarianceForTheUpdateField;
   ModifiedTimeType    m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime;

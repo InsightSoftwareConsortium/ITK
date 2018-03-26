@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT ChainCodePath2D:public
   ChainCodePath< 2 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath2D);
+
   /** Dimension underlying input image. */
   static constexpr unsigned int Dimension = 2;
 
@@ -153,8 +155,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath2D);
-
   ChainCode2DType m_Chain2D;    // the Freeman-encoded chain code
 
   // FreemanCode[][] implements a lookup table for converting offsets to a

@@ -42,6 +42,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT LineCell:public TCellInterface
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LineCell);
+
   /** Standard class type aliases. */
   itkCellCommonTypedefs(LineCell);
   itkCellInheritedTypedefs(TCellInterface);
@@ -105,9 +107,6 @@ public:
 protected:
   /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LineCell);
 };
 } // end namespace itk
 

@@ -45,6 +45,8 @@ template< typename TElementIdentifier, typename TElement >
 class ITK_TEMPLATE_EXPORT ImportImageContainer:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainer);
+
   /** Standard class type aliases. */
   using Self = ImportImageContainer;
   using Superclass = Object;
@@ -176,8 +178,6 @@ protected:
   void SetImportPointer(TElement *ptr){ m_ImportPointer = ptr; }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainer);
-
   TElement *         m_ImportPointer;
   TElementIdentifier m_Size;
   TElementIdentifier m_Capacity;

@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT GradientMagnitudeRecursiveGaussianImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientMagnitudeRecursiveGaussianImageFilter);
+
   /** Standard class type aliases. */
   using Self = GradientMagnitudeRecursiveGaussianImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
@@ -154,8 +156,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientMagnitudeRecursiveGaussianImageFilter);
-
   class SqrSpacing
   {
   public:

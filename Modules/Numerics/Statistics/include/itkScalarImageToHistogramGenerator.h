@@ -36,6 +36,8 @@ template< typename TImageType >
 class ITK_TEMPLATE_EXPORT ScalarImageToHistogramGenerator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToHistogramGenerator);
+
   /** Standard type alias */
   using Self = ScalarImageToHistogramGenerator;
   using Superclass = Object;
@@ -108,7 +110,6 @@ private:
 
   GeneratorPointer m_HistogramGenerator;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToHistogramGenerator);
 };
 } // end of namespace Statistics
 } // end of namespace itk

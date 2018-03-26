@@ -84,6 +84,8 @@ class ITK_TEMPLATE_EXPORT BSplineL2ResampleImageFilterBase:
   public BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineL2ResampleImageFilterBase);
+
   /** Standard class type aliases. */
   using Self = BSplineL2ResampleImageFilterBase;
   using Superclass = BSplineResampleImageFilterBase< TInputImage, TOutputImage >;
@@ -100,9 +102,6 @@ protected:
   BSplineL2ResampleImageFilterBase();
   ~BSplineL2ResampleImageFilterBase() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineL2ResampleImageFilterBase);
 };
 } // namespace itk
 

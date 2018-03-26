@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT GradientImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientImageFilter);
+
   /** Extract dimension from input image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImageType::ImageDimension;
@@ -160,8 +162,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientImageFilter);
-
   void GenerateOutputInformation() override;
 
   // An overloaded method which may transform the gradient to a

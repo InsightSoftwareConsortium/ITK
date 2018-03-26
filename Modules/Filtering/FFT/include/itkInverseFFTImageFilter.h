@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT InverseFFTImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InverseFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -81,9 +83,6 @@ protected:
   /** Sets the output requested region to the largest possible output
    * region. */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InverseFFTImageFilter);
 };
 } // end namespace itk
 

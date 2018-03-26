@@ -50,6 +50,8 @@ namespace itk
 class ITKIOSiemens_EXPORT SiemensVisionImageIO:public IPLCommonImageIO
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SiemensVisionImageIO);
+
   /** Standard class type aliases. */
   using Self = SiemensVisionImageIO;
   using Superclass = IPLCommonImageIO;
@@ -412,7 +414,6 @@ private:
     TEXT_START_SEC_LEN = 2,
     HDR_TOTAL_LENGTH = 6144 // Total length of Siemens Header
     } SiemensVisionHeaderInfo;
-  ITK_DISALLOW_COPY_AND_ASSIGN(SiemensVisionImageIO);
 };
 } // end namespace itk
 

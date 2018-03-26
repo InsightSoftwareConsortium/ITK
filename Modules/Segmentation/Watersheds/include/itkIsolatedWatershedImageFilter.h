@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT IsolatedWatershedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedWatershedImageFilter);
+
   /** Standard class type aliases. */
   using Self = IsolatedWatershedImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -138,9 +140,6 @@ protected:
 
   void VerifyInputInformation() override;
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedWatershedImageFilter);
 };
 } // end namespace itk
 

@@ -44,6 +44,8 @@ template< typename TOutput = double,
 class ITK_TEMPLATE_EXPORT GaussianDerivativeSpatialFunction:public SpatialFunction< TOutput, VImageDimension, TInput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDerivativeSpatialFunction);
+
   /** Standard class type aliases. */
   using Self = GaussianDerivativeSpatialFunction;
   using Superclass = SpatialFunction< TOutput, VImageDimension, TInput >;
@@ -94,8 +96,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDerivativeSpatialFunction);
-
   /** Current direction */
   mutable unsigned int m_Direction;
 

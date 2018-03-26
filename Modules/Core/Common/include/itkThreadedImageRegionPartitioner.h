@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT ThreadedImageRegionPartitioner
   : public ThreadedDomainPartitioner< ImageRegion<VDimension> >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedImageRegionPartitioner);
+
   /** Standard class type aliases. */
   using Self = ThreadedImageRegionPartitioner;
   using Superclass = ThreadedDomainPartitioner<ImageRegion<VDimension> >;
@@ -91,8 +93,6 @@ protected:
   using ImageRegionSplitterType = ImageRegionSplitterSlowDimension;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedImageRegionPartitioner);
-
   ImageRegionSplitterType::Pointer m_ImageRegionSplitter;
 };
 

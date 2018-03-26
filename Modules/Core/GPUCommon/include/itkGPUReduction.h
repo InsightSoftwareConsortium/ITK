@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT GPUReduction :
   public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUReduction);
+
   /** Standard class type aliases. */
   using Self = GPUReduction;
   using Superclass = Object;
@@ -105,10 +107,6 @@ protected:
   bool          m_SmallBlock;
 
   TElement      m_GPUResult, m_CPUResult;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUReduction);
-
 };
 } // end namespace itk
 

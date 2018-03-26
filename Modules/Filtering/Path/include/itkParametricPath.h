@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT ParametricPath:public
   Path< double, ContinuousIndex< SpacePrecisionType, VDimension >, VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricPath);
+
   /** Standard class type aliases. */
   using Self = ParametricPath;
   /** All paths must be mapable to index space */
@@ -132,9 +134,6 @@ protected:
    * constructor of all instantiable children.  Values set in child constructors
    * overwrite values set in parent constructors. */
   InputType m_DefaultInputStepSize;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricPath);
 };
 
 } // namespace itk

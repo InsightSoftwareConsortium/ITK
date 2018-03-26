@@ -83,6 +83,8 @@ class ITK_TEMPLATE_EXPORT BSplineResampleImageFilterBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFilterBase);
+
   /** Standard class type aliases. */
   using Self = BSplineResampleImageFilterBase;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -183,7 +185,6 @@ private:
   std::vector< double >       m_Scratch;        // temp storage for processing
                                                 // of Coefficients
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFilterBase);
 };
 } // namespace itk
 

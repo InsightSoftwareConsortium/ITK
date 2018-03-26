@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT ReconstructionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionImageFilter);
+
   /** Standard class type aliases. */
   using Self = ReconstructionImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -154,8 +156,6 @@ protected:
   typename TInputImage::PixelType m_MarkerValue;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionImageFilter);
-
   bool m_FullyConnected;
   bool m_UseInternalCopy;
 

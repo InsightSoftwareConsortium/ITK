@@ -39,6 +39,7 @@ template< typename TInputVideoStream >
 class ITK_TEMPLATE_EXPORT VideoFileWriter : public TemporalProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
 
   /** Standard class type aliases. */
   using Self = VideoFileWriter< TInputVideoStream>;
@@ -123,8 +124,6 @@ protected:
   void TemporalStreamingGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
-
   /** The file to write. */
   std::string m_FileName;
 

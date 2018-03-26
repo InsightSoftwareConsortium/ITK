@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT ScaleTransform : public MatrixOffsetTransformBase<TPar
                                                         NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleTransform);
+
   /** Standard class type aliases.   */
   using Self = ScaleTransform;
   using Superclass = MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
@@ -191,8 +193,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleTransform);
-
   ScaleType m_Scale;    // Scales of the transformation
 
 };                         // class ScaleTransform

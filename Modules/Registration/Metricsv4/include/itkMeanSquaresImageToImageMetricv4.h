@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4);
+
   /** Standard class type aliases. */
   using Self = MeanSquaresImageToImageMetricv4;
   using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
@@ -91,9 +93,6 @@ protected:
       MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4);
 };
 
 } // end namespace itk

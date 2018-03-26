@@ -88,6 +88,8 @@ class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldImageRegistrationMethodv4
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldImageRegistrationMethodv4);
+
   /** Standard class type aliases. */
   using Self = TimeVaryingVelocityFieldImageRegistrationMethodv4;
   using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform,
@@ -168,8 +170,6 @@ protected:
   virtual void StartOptimization();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldImageRegistrationMethodv4);
-
   RealType                                                        m_LearningRate;
 
   RealType                                                        m_ConvergenceThreshold;

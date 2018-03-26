@@ -153,6 +153,8 @@ class ITK_TEMPLATE_EXPORT SparseFieldLayer:
   public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLayer);
+
   /** Standard type alias. */
   using Self = SparseFieldLayer;
   using Superclass = Object;
@@ -260,8 +262,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLayer);
-
   /** The anchor node of the list.  m_HeadNode->Next is the first node in the
    *  list. If m_HeadNode->Next == m_HeadNode, then the list is empty. */
   NodeType *   m_HeadNode;

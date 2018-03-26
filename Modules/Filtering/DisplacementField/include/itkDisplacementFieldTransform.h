@@ -88,6 +88,8 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldTransform);
+
   /** Standard class type aliases. */
   using Self = DisplacementFieldTransform;
   using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
@@ -440,8 +442,6 @@ protected:
   JacobianType m_IdentityJacobian;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldTransform);
-
   /** Internal method for calculating either forward or inverse jacobian,
    * depending on state of \c doInverseJacobian. Used by
    * public methods \c ComputeJacobianWithRespectToPosition and

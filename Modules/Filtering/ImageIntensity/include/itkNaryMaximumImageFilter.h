@@ -109,6 +109,8 @@ class NaryMaximumImageFilter:
                                               typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NaryMaximumImageFilter);
+
   /** Standard class type aliases. */
   using Self = NaryMaximumImageFilter;
   using Superclass = NaryFunctorImageFilter<
@@ -141,9 +143,6 @@ public:
 protected:
   NaryMaximumImageFilter() {}
   ~NaryMaximumImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NaryMaximumImageFilter);
 };
 } // end namespace itk
 

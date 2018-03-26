@@ -52,6 +52,8 @@ template< typename TInputMesh >
 class ITK_TEMPLATE_EXPORT MeshFileWriter: public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileWriter);
+
   /** Standard class type aliases. */
   using Self = MeshFileWriter;
   using Superclass = ProcessObject;
@@ -151,8 +153,6 @@ protected:
   void WriteCellData();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileWriter);
-
   std::string         m_FileName;
   MeshIOBase::Pointer m_MeshIO;
   bool                m_UserSpecifiedMeshIO;    // track whether the MeshIO is

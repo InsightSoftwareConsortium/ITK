@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT ShiftScaleImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleImageFilter);
+
   /** Standard class type aliases. */
   using Self = ShiftScaleImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -120,8 +122,6 @@ protected:
                              ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleImageFilter);
-
   RealType m_Shift;
   RealType m_Scale;
 

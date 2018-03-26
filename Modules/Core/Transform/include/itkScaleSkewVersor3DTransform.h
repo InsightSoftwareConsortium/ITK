@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT ScaleSkewVersor3DTransform :
   public VersorRigid3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleSkewVersor3DTransform);
+
   /** Standard class type aliases. */
   using Self = ScaleSkewVersor3DTransform;
   using Superclass = VersorRigid3DTransform<TParametersValueType>;
@@ -166,8 +168,6 @@ protected:
   void ComputeMatrixParameters(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleSkewVersor3DTransform);
-
   /**  Vector containing the scale. */
   ScaleVectorType m_Scale;
 

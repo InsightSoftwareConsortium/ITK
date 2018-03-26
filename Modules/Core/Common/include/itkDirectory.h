@@ -39,6 +39,8 @@ namespace itk
 class ITKCommon_EXPORT Directory:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Directory);
+
   /** Standard class type aliases. */
   using Self = Directory;
   using Superclass = Object;
@@ -69,8 +71,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Directory);
-
   ::itksys::Directory *m_Internal;
 }; // End Class: Directory
 } // end namespace itk

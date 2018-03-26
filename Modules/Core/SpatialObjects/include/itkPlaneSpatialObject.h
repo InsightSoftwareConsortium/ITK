@@ -38,6 +38,7 @@ class ITK_TEMPLATE_EXPORT PlaneSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PlaneSpatialObject);
 
   /** Standard type alias */
   using Self = PlaneSpatialObject;
@@ -87,8 +88,6 @@ public:
   itkGetMacro(UpperPoint, PointType);
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PlaneSpatialObject);
-
   PlaneSpatialObject();
   ~PlaneSpatialObject() override;
 

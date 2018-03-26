@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT NormalVectorFunctionBase:
   public FiniteDifferenceSparseImageFunction< TSparseImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorFunctionBase);
+
   /** Standard class type alias. */
   using Self = NormalVectorFunctionBase;
   using Superclass = FiniteDifferenceSparseImageFunction< TSparseImageType >;
@@ -107,7 +109,6 @@ private:
   /** The time step for normal vector finite difference computations. */
   TimeStepType m_TimeStep;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorFunctionBase);
 };
 } // end namespace itk
 

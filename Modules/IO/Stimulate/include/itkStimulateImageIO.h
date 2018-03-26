@@ -62,6 +62,8 @@ namespace itk
 class ITKIOStimulate_EXPORT StimulateImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIO);
+
   /** Standard class type aliases. */
   using Self = StimulateImageIO;
   using Superclass = ImageIOBase;
@@ -128,7 +130,6 @@ private:
   float m_DisplayRange[2];
   char m_FidName[256];
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIO);
 };
 } // end namespace itk
 

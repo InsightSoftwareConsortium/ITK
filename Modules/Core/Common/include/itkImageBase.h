@@ -110,6 +110,8 @@ template< unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT ImageBase:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageBase);
+
   /** Standard type alias. */
   using Self = ImageBase;
   using Superclass = DataObject;
@@ -730,8 +732,6 @@ protected:
   void Graft(const DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageBase);
-
   void InternalSetSpacing(const SpacingValueType spacing[VImageDimension])
     {
       SpacingType s(spacing);

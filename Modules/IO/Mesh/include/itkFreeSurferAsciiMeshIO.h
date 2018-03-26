@@ -36,6 +36,8 @@ namespace itk
 class ITKIOMesh_EXPORT FreeSurferAsciiMeshIO:public MeshIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIO);
+
   /** Standard class type aliases. */
   using Self = FreeSurferAsciiMeshIO;
   using Superclass = MeshIOBase;
@@ -160,8 +162,6 @@ protected:
   void CloseFile();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIO);
-
   std::ifstream m_InputFile;
 };
 } // end namespace itk

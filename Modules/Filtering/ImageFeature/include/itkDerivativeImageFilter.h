@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT DerivativeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DerivativeImageFilter);
+
   /** Standard class type aliases. */
   using Self = DerivativeImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -133,8 +135,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DerivativeImageFilter);
-
   /** The order of the derivative. */
   unsigned int m_Order;
 

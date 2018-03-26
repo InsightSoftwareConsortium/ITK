@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationCurvatureTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationCurvatureTerm);
+
   using Self = LevelSetEquationCurvatureTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -138,9 +140,6 @@ protected:
   CurvatureImagePointer m_CurvatureImage;
 
   bool m_UseCurvatureImage;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationCurvatureTerm);
 };
 
 }

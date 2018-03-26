@@ -132,6 +132,8 @@ class ITK_TEMPLATE_EXPORT ImageKmeansModelEstimator:
   public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageKmeansModelEstimator);
+
   /** Standard class type aliases. */
   using Self = ImageKmeansModelEstimator;
   using Superclass =
@@ -223,8 +225,6 @@ protected:
   void PrintKmeansAlgorithmResults();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageKmeansModelEstimator);
-
   /** A function that generates the cluster centers (model) corresponding to the
    * estimates of the cluster centers (in the initial codebook).
    * If no codebook is provided, then use the number of classes to

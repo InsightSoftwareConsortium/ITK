@@ -55,6 +55,8 @@ template< typename TPixel, unsigned int VDimension,
 class ITK_TEMPLATE_EXPORT QuadEdgeMesh:public Mesh< TPixel, VDimension, TTraits >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMesh);
+
   /** Input template parameters. */
   using Traits = TTraits;
   using PixelType = TPixel;
@@ -428,8 +430,6 @@ protected:
   CellsContainerPointer m_EdgeCellsContainer;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMesh);
-
   CellIdentifier m_NumberOfFaces;
   CellIdentifier m_NumberOfEdges;
 

@@ -36,6 +36,8 @@ namespace itk
 class ParticleSwarmOptimizerSAXWriter : public XMLWriterBase<ParticleSwarmOptimizer>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXWriter);
+
   /** Standard class type aliases. */
   using Self = ParticleSwarmOptimizerSAXWriter;
   using Superclass = XMLWriterBase<ParticleSwarmOptimizer>;
@@ -61,9 +63,6 @@ public:
 
 protected:
   ParticleSwarmOptimizerSAXWriter() {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXWriter);
 };
 
 } // namespace itk

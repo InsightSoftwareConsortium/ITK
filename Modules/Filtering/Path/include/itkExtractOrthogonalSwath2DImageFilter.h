@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT ExtractOrthogonalSwath2DImageFilter:public
   ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractOrthogonalSwath2DImageFilter);
+
   /** Standard class type aliases. */
   using Self = ExtractOrthogonalSwath2DImageFilter;
   using Superclass =
@@ -152,8 +154,6 @@ protected:
   //--------------------------------------------------------------------------
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractOrthogonalSwath2DImageFilter);
-
   ImagePixelType m_DefaultPixelValue;
   SizeType       m_Size;
   double         m_Origin[ImageDimension];

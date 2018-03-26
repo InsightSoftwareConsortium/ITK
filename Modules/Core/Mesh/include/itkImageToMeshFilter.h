@@ -36,6 +36,8 @@ template< typename TInputImage, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT ImageToMeshFilter:public MeshSource< TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToMeshFilter);
+
   /** Standard class type aliases. */
   using Self = ImageToMeshFilter;
   using Superclass = MeshSource< TOutputMesh >;
@@ -85,9 +87,6 @@ public:
 protected:
   ImageToMeshFilter();
   ~ImageToMeshFilter() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToMeshFilter);
 };
 } // end namespace itk
 

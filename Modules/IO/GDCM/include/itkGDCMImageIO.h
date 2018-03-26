@@ -78,6 +78,8 @@ class InternalHeader;
 class ITKIOGDCM_EXPORT GDCMImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIO);
+
   /** Standard class type aliases. */
   using Self = GDCMImageIO;
   using Superclass = ImageIOBase;
@@ -278,8 +280,6 @@ protected:
   bool m_LoadPrivateTags;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIO);
-
 #if defined( ITKIO_DEPRECATED_GDCM1_API )
   std::string m_PatientName;
   std::string m_PatientID;

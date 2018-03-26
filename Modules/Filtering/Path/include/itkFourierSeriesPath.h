@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT FourierSeriesPath:public
   ParametricPath< VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FourierSeriesPath);
+
   /** Standard class type aliases. */
   using Self = FourierSeriesPath;
   using Superclass = ParametricPath< VDimension >;
@@ -116,8 +118,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FourierSeriesPath);
-
   CoefficientsPointer m_CosCoefficients;
   CoefficientsPointer m_SinCoefficients;
 };

@@ -55,6 +55,8 @@ template< typename TMesh, typename TOutput >
 class QuadEdgeMeshFunctionBase:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshFunctionBase);
+
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshFunctionBase;
   using Superclass = Object;
@@ -92,8 +94,6 @@ protected:
   ~QuadEdgeMeshFunctionBase() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshFunctionBase);
-
 protected:
   /** Mesh on which to apply the modification */
   MeshType *m_Mesh;

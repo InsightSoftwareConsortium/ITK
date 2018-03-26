@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT JoinSeriesImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JoinSeriesImageFilter);
+
   /** Standard class type aliases. */
   using Self = JoinSeriesImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -121,8 +123,6 @@ protected:
                                     outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JoinSeriesImageFilter);
-
   /** IndexValueType is used to switch among the inputs and
    * is used as the index value of the new dimension */
   using IndexValueType = unsigned int;

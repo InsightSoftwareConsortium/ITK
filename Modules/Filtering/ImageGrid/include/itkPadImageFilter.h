@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT PadImageFilter:
   public PadImageFilterBase< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PadImageFilter);
+
   /** Standard class type aliases. */
   using Self = PadImageFilter;
   using Superclass = PadImageFilterBase< TInputImage, TOutputImage >;
@@ -112,8 +114,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PadImageFilter);
-
   SizeType m_PadLowerBound;
   SizeType m_PadUpperBound;
 };

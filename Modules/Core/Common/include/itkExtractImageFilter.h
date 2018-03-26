@@ -91,6 +91,8 @@ class ITK_TEMPLATE_EXPORT ExtractImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractImageFilter);
+
   /** Standard class type aliases. */
   using Self = ExtractImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
@@ -275,8 +277,6 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractImageFilter);
-
   DIRECTIONCOLLAPSESTRATEGY m_DirectionCollapseStrategy;
 };
 } // end namespace itk

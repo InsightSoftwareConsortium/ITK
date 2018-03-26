@@ -42,6 +42,8 @@ class PDEDeformableRegistrationFunction:
   public FiniteDifferenceFunction< TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = PDEDeformableRegistrationFunction;
   using Superclass = FiniteDifferenceFunction< TDisplacementField >;
@@ -132,9 +134,6 @@ protected:
   bool m_NormalizeGradient;
 
   mutable double m_GradientStep;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFunction);
 };
 } // end namespace itk
 

@@ -259,6 +259,8 @@ class WindowedSincInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WindowedSincInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = WindowedSincInterpolateImageFunction;
   using Superclass = InterpolateImageFunction< TInputImage, TCoordRep >;
@@ -312,8 +314,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WindowedSincInterpolateImageFunction);
-
   // Internal type alias
   using IteratorType = ConstNeighborhoodIterator<
     ImageType, TBoundaryCondition >;

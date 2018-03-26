@@ -95,6 +95,8 @@ template< typename TImageType,
 class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceMatrixFilter:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceMatrixFilter);
+
   /** Standard type alias */
   using Self = ScalarImageToCooccurrenceMatrixFilter;
   using Superclass = ProcessObject;
@@ -190,8 +192,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceMatrixFilter);
-
   void NormalizeHistogram();
 
   OffsetVectorConstPointer m_Offsets;

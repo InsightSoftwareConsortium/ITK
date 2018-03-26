@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT LevelSetDenseImage :
   public DiscreteLevelSetImage< typename TImage::PixelType, TImage::ImageDimension >
   {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDenseImage);
+
   using ImageType = TImage;
   using ImagePointer = typename ImageType::Pointer;
   using IndexType = typename ImageType::IndexType;
@@ -95,7 +97,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDenseImage);
   };
 }
 

@@ -41,6 +41,8 @@ template< typename TMesh >
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshTopologyChecker:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshTopologyChecker);
+
   // Standard types
   using Self = QuadEdgeMeshTopologyChecker;
   using Superclass = Object;
@@ -79,8 +81,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshTopologyChecker);
-
   using MeshPointer = typename MeshType::ConstPointer;
 
   MeshPointer m_Mesh;

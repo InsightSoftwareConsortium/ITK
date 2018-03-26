@@ -354,6 +354,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution< TEquationContainer,
 public LevelSetEvolutionBase< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+
   using LevelSetType = MalcolmSparseLevelSetImage< VDimension >;
 
   using Self = LevelSetEvolution;
@@ -419,9 +421,6 @@ protected:
   void UpdateLevelSets() override;
 
   void UpdateEquations() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
 };
 }
 

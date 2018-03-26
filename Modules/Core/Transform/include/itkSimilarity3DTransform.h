@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT Similarity3DTransform :
   public VersorRigid3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Similarity3DTransform);
+
   /** Standard class type aliases. */
   using Self = Similarity3DTransform;
   using Superclass = VersorRigid3DTransform<TParametersValueType>;
@@ -145,8 +147,6 @@ protected:
   void ComputeMatrixParameters() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Similarity3DTransform);
-
   ScaleType m_Scale;
 }; // class Similarity3DTransform
 }  // namespace itk

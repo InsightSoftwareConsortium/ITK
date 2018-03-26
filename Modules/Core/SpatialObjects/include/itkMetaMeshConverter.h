@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT MetaMeshConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaMeshConverter);
+
   /** Standard class type aliases */
   using Self = MetaMeshConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -74,10 +76,6 @@ protected:
 
   MetaMeshConverter();
   ~MetaMeshConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaMeshConverter);
-
 };
 } // end namespace itk
 

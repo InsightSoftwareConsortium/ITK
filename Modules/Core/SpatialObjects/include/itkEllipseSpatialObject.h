@@ -39,6 +39,7 @@ class ITK_TEMPLATE_EXPORT EllipseSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EllipseSpatialObject);
 
   using Self = EllipseSpatialObject;
   using ScalarType = double;
@@ -105,8 +106,6 @@ public:
   void CopyInformation(const DataObject *data) override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EllipseSpatialObject);
-
   EllipseSpatialObject();
   ~EllipseSpatialObject() override;
 

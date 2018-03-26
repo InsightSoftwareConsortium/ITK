@@ -72,6 +72,8 @@ template< typename TFixedImage, typename TMovingImage >
 class ITK_TEMPLATE_EXPORT MultiResolutionImageRegistrationMethod:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionImageRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = MultiResolutionImageRegistrationMethod;
   using Superclass = ProcessObject;
@@ -235,8 +237,6 @@ protected:
   itkSetMacro(CurrentLevel, SizeValueType);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionImageRegistrationMethod);
-
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;
 

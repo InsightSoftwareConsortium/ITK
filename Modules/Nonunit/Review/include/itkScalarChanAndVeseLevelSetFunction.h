@@ -79,6 +79,8 @@ class ITK_TEMPLATE_EXPORT ScalarChanAndVeseLevelSetFunction:
   public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunction);
+
   using Self = ScalarChanAndVeseLevelSetFunction;
   using Superclass = ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >;
   using Pointer = SmartPointer< Self >;
@@ -150,9 +152,6 @@ protected:
 
   void UpdateSharedDataOutsideParameters(const unsigned int & iId,
                                          const FeaturePixelType & iVal, const ScalarValueType & iChange) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunction);
 };
 }
 

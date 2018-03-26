@@ -40,6 +40,8 @@ namespace itk
 class ITKIOMeshBase_EXPORT MeshIOFactory:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOFactory);
+
   /** Standard class type aliases. */
   using Self = MeshIOFactory;
   using Superclass = Object;
@@ -64,9 +66,6 @@ public:
 protected:
   MeshIOFactory();
   ~MeshIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOFactory);
 };
 } // end namespace itk
 

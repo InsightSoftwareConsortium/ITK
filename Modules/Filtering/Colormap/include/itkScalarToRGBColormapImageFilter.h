@@ -78,6 +78,8 @@ class ITK_TEMPLATE_EXPORT ScalarToRGBColormapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarToRGBColormapImageFilter);
+
   /** Standard class type aliases. */
   using Self = ScalarToRGBColormapImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -162,8 +164,6 @@ protected:
   void BeforeThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarToRGBColormapImageFilter);
-
 private:
   typename ColormapType::Pointer m_Colormap;
 

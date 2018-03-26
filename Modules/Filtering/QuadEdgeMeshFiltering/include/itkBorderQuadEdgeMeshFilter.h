@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT BorderQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BorderQuadEdgeMeshFilter);
+
   /** Basic types. */
   using Self = BorderQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh,
@@ -161,9 +163,6 @@ protected:
   InputCoordRepType RadiusMaxSquare();
 
   void ArcLengthSquareTransform();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BorderQuadEdgeMeshFilter);
 };
 } // end namespace itk
 

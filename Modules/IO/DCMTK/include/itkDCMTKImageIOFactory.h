@@ -31,6 +31,8 @@ namespace itk
 class ITKIODCMTK_EXPORT DCMTKImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = DCMTKImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,8 +61,6 @@ public:
 protected:
   DCMTKImageIOFactory();
   ~DCMTKImageIOFactory();
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIOFactory);
 };
 } // end namespace itk
 

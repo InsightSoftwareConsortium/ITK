@@ -44,6 +44,7 @@ class ITK_TEMPLATE_EXPORT TubeSpatialObject:
   public PointBasedSpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TubeSpatialObject);
 
   using Self = TubeSpatialObject;
   using Superclass = PointBasedSpatialObject< TDimension >;
@@ -172,9 +173,6 @@ protected:
   /** TimeStamps */
   mutable ModifiedTimeType m_OldMTime;
   mutable ModifiedTimeType m_IndexToWorldTransformMTime;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TubeSpatialObject);
 };
 } // end namespace itk
 

@@ -142,6 +142,8 @@ class ITK_TEMPLATE_EXPORT OrientImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OrientImageFilter);
+
   /** Standard class type aliases. */
   using Self = OrientImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -291,8 +293,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OrientImageFilter);
-
   std::string GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
 
   CoordinateOrientationCode m_GivenCoordinateOrientation;

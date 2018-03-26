@@ -46,6 +46,7 @@ template< typename TScalar, typename TRGBPixel >
 class ColormapFunction:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ColormapFunction);
 
   using Self = ColormapFunction;
   using Superclass = Object;
@@ -144,8 +145,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ColormapFunction);
-
   ScalarType m_MinimumInputValue;
   ScalarType m_MaximumInputValue;
 

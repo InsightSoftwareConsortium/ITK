@@ -31,6 +31,8 @@ namespace itk
 class ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIOFactory);
+
   /** Standard class type aliases. */
   using Self = FreeSurferAsciiMeshIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   ~FreeSurferAsciiMeshIOFactory() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIOFactory);
 };
 } // end namespace itk
 

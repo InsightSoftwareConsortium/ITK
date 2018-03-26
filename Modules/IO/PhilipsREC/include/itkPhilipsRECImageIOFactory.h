@@ -38,6 +38,8 @@ namespace itk
 class ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = PhilipsRECImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -71,9 +73,6 @@ public:
 protected:
   PhilipsRECImageIOFactory();
   ~PhilipsRECImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIOFactory);
 };
 } // end namespace itk
 

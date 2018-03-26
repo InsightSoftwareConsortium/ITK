@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT MovingHistogramMorphologyImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologyImageFilter);
+
   /** Standard class type aliases. */
   using Self = MovingHistogramMorphologyImageFilter;
   using Superclass =
@@ -111,9 +113,6 @@ protected:
   void ConfigureHistogram(THistogram & histogram) override;
 
   PixelType m_Boundary;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologyImageFilter);
 };                                                    // end of class
 } // end namespace itk
 

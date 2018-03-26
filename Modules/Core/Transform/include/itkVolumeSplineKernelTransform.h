@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT VolumeSplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VolumeSplineKernelTransform);
+
   /** Standard class type aliases. */
   using Self = VolumeSplineKernelTransform;
   using Superclass = KernelTransform<TParametersValueType, NDimensions>;
@@ -94,9 +96,6 @@ protected:
   void ComputeDeformationContribution(
     const InputPointType & inputPoint,
     OutputPointType & result) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VolumeSplineKernelTransform);
 };
 } // namespace itk
 

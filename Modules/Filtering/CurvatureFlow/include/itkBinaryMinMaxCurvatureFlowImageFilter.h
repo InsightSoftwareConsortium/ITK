@@ -77,6 +77,8 @@ class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowImageFilter:
   public MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryMinMaxCurvatureFlowImageFilter;
   using Superclass = MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >;
@@ -124,8 +126,6 @@ protected:
   void InitializeIteration() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowImageFilter);
-
   double m_Threshold;
 };
 } // end namspace itk

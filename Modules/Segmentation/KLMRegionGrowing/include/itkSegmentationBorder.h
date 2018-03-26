@@ -46,6 +46,8 @@ namespace itk
 class ITKKLMRegionGrowing_EXPORT SegmentationBorder:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationBorder);
+
   /** Standard class type aliases. */
   using Self = SegmentationBorder;
   using Superclass = Object;
@@ -74,8 +76,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationBorder);
-
   double m_BorderLength;
 };
 } // end namespace itk

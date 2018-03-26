@@ -34,6 +34,7 @@ class ITK_TEMPLATE_EXPORT BSplineSmoothingOnUpdateDisplacementFieldTransformPara
 : public DisplacementFieldTransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor;
@@ -120,8 +121,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
-
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;
   ArrayType                   m_NumberOfControlPointsForTheTotalField;
   ModifiedTimeType            m_NumberOfControlPointsForTheUpdateFieldSetTime;

@@ -53,6 +53,8 @@ class KittlerIllingworthThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = KittlerIllingworthThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -102,9 +104,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~KittlerIllingworthThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdImageFilter);
 };
 
 } // end namespace itk

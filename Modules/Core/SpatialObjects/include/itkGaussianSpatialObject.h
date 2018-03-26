@@ -44,6 +44,7 @@ class ITK_TEMPLATE_EXPORT GaussianSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialObject);
 
   using Self = GaussianSpatialObject;
   using ScalarType = double;
@@ -111,8 +112,6 @@ public:
   typename EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialObject);
-
   GaussianSpatialObject();
   ~GaussianSpatialObject() override;
 

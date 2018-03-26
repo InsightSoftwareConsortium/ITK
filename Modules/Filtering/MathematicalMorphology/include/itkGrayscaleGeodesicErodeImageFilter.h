@@ -66,6 +66,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleGeodesicErodeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicErodeImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleGeodesicErodeImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -183,8 +185,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicErodeImageFilter);
-
   bool          m_RunOneIteration;
   unsigned long m_NumberOfIterationsUsed;
   bool          m_FullyConnected;

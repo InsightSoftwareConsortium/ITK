@@ -72,6 +72,8 @@ class ExpNegativeImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = ExpNegativeImageAdaptor;
   using Superclass = ImageAdaptor<
@@ -90,9 +92,6 @@ public:
 protected:
   ExpNegativeImageAdaptor() {}
   ~ExpNegativeImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageAdaptor);
 };
 } // end namespace itk
 

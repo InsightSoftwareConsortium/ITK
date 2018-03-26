@@ -39,6 +39,7 @@ template<typename TParametersValueType>
 class ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFileWriterTemplate);
 
   /** SmartPointer type alias support */
   using Self = TransformFileWriterTemplate;
@@ -104,7 +105,6 @@ private:
   bool                              m_AppendMode;
   typename TransformIOType::Pointer m_TransformIO;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFileWriterTemplate);
 };
 
 /** This helps to meet backward compatibility */

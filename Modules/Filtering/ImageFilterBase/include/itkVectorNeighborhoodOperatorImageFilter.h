@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT VectorNeighborhoodOperatorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorNeighborhoodOperatorImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorNeighborhoodOperatorImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -154,8 +156,6 @@ protected:
   { Superclass::PrintSelf(os, indent);  }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorNeighborhoodOperatorImageFilter);
-
   /** Pointer to the internal operator used to filter the image. */
   Neighborhood< ScalarValueType, Self::ImageDimension > m_Operator;
 

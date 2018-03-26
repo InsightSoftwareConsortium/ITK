@@ -36,6 +36,8 @@ class ITK_TEMPLATE_EXPORT ConvolutionImageFilterBase :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilterBase);
+
   using Self = ConvolutionImageFilterBase;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
@@ -121,8 +123,6 @@ protected:
   void VerifyInputInformation() override {};
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilterBase);
-
   bool m_Normalize;
 
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;

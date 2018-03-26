@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader
   : public DomainThreader< TDomainPartitioner, TJointHistogramMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreaderBase);
+
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationComputeJointPDFThreaderBase;
   using Superclass = DomainThreader< TDomainPartitioner, TJointHistogramMetric >;
@@ -88,9 +90,6 @@ protected:
   itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedJointHistogramMIPerThreadStruct,
                                                AlignedJointHistogramMIPerThreadStruct );
   AlignedJointHistogramMIPerThreadStruct * m_JointHistogramMIPerThreadVariables;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreaderBase);
 };
 
 } // end namespace itk

@@ -74,6 +74,8 @@ class ITK_TEMPLATE_EXPORT BlockMatchingImageFilter:
 public MeshToMeshFilter< TFeatures, TDisplacements>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BlockMatchingImageFilter);
+
   static constexpr unsigned ImageDimension = TFixedImage::ImageDimension;
 
   /** Not input specific type alias */
@@ -192,8 +194,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BlockMatchingImageFilter);
-
   // algorithm parameters
   ImageSizeType  m_BlockRadius;
   ImageSizeType  m_SearchRadius;

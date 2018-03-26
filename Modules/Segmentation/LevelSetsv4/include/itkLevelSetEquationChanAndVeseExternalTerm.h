@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationChanAndVeseExternalTerm :
     public LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseExternalTerm);
+
   using Self = LevelSetEquationChanAndVeseExternalTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -111,8 +113,6 @@ protected:
   ~LevelSetEquationChanAndVeseExternalTerm() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseExternalTerm);
-
   DomainMapImageFilterType *m_DomainMapImageFilter;
   CacheImageType           *m_CacheImage;
 };

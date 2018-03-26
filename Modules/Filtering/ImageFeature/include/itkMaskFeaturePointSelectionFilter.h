@@ -62,6 +62,8 @@ template<
 class ITK_TEMPLATE_EXPORT MaskFeaturePointSelectionFilter: public ImageToMeshFilter< TImage, TFeatures >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskFeaturePointSelectionFilter);
+
   /** Standard class type aliases. */
   using Superclass = ImageToMeshFilter< TImage, TFeatures >;
   using Self = MaskFeaturePointSelectionFilter;
@@ -155,8 +157,6 @@ protected:
   void ComputeConnectivityOffsets( void );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskFeaturePointSelectionFilter);
-
   unsigned                   m_NonConnectivity;
   std::vector< OffsetType >  m_NonConnectivityOffsets;
   SizeType                   m_BlockRadius;

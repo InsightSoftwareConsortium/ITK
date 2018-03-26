@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT VarianceImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VarianceImageFunction);
+
   /** Standard class type aliases. */
   using Self = VarianceImageFunction;
   using Superclass = ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
@@ -113,8 +115,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VarianceImageFunction);
-
   unsigned int m_NeighborhoodRadius;
 };
 } // end namespace itk

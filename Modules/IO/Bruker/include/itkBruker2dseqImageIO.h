@@ -78,6 +78,8 @@ namespace itk
 class ITKIOBruker_EXPORT Bruker2dseqImageIO : public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2dseqImageIO);
+
   /* Standard class type aliases. */
   using Self = Bruker2dseqImageIO;
   using Superclass = ImageIOBase;
@@ -126,8 +128,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2dseqImageIO);
-
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 
   ImageIOBase::IOComponentType  m_OnDiskComponentType;

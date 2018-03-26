@@ -91,6 +91,8 @@ class ITK_TEMPLATE_EXPORT SignedDanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SignedDanielssonDistanceMapImageFilter);
+
   /** Standard class type aliases. */
   using Self = SignedDanielssonDistanceMapImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -222,8 +224,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SignedDanielssonDistanceMapImageFilter);
-
   bool m_SquaredDistance;
   bool m_UseImageSpacing;
   bool m_InsideIsPositive; // ON is treated as inside pixels

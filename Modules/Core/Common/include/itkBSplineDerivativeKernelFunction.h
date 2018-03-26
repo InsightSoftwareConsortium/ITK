@@ -43,6 +43,8 @@ template< unsigned int VSplineOrder = 3, typename TRealValueType = double >
 class BSplineDerivativeKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDerivativeKernelFunction);
+
   /** Standard class type aliases. */
   using Self = BSplineDerivativeKernelFunction;
   using Superclass = KernelFunctionBase<TRealValueType>;
@@ -75,8 +77,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDerivativeKernelFunction);
-
   /** Structures to control overloaded versions of Evaluate */
   struct DispatchBase {};
   template< unsigned int >

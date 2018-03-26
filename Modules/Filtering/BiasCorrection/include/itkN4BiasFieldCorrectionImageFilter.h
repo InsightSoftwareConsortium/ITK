@@ -96,6 +96,8 @@ class N4BiasFieldCorrectionImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(N4BiasFieldCorrectionImageFilter);
+
   /** Standard class type aliases. */
   using Self = N4BiasFieldCorrectionImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -377,8 +379,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(N4BiasFieldCorrectionImageFilter);
-
   // N4 algorithm functions:  The basic algorithm iterates between sharpening
   // the intensity histogram of the corrected input image and spatially
   // smoothing those results with a B-spline scalar field estimate of the

@@ -36,6 +36,8 @@ class ITKOptimizers_EXPORT SingleValuedNonLinearOptimizer:
   public NonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = SingleValuedNonLinearOptimizer;
   using Superclass = NonLinearOptimizer;
@@ -80,9 +82,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   CostFunctionPointer m_CostFunction;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearOptimizer);
 };
 } // end namespace itk
 

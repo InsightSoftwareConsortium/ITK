@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT GradientDescentLineSearchOptimizerv4Template
 : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentLineSearchOptimizerv4Template);
+
   /** Standard class type aliases. */
   using Self = GradientDescentLineSearchOptimizerv4Template;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
@@ -132,10 +134,6 @@ protected:
   unsigned int      m_MaximumLineSearchIterations;
   /** Counts the recursion depth for the golden section search */
   unsigned int      m_LineSearchIterations;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentLineSearchOptimizerv4Template);
-
 };
 
 /** This helps to meet backward compatibility */

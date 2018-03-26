@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT VnlInverseFFTImageFilter:
   public InverseFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VnlInverseFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -91,8 +93,6 @@ protected:
   void GenerateData() override;  // generates output from input
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlInverseFFTImageFilter);
-
   using SignalVectorType = vnl_vector< InputPixelType  >;
 };
 }

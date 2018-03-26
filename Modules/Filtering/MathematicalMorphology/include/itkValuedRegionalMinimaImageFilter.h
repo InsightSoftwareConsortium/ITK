@@ -60,6 +60,8 @@ class ValuedRegionalMinimaImageFilter:
                                     >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMinimaImageFilter);
+
   using Self = ValuedRegionalMinimaImageFilter;
 
   using Superclass = ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
@@ -97,9 +99,6 @@ protected:
   }
 
   ~ValuedRegionalMinimaImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMinimaImageFilter);
 };                                               // end
                                                  // ValuedRegionalMinimaImageFilter
 } //end namespace itk

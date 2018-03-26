@@ -78,6 +78,8 @@ class ITK_TEMPLATE_EXPORT GradientDescentOptimizerv4Template
 : public GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerv4Template);
+
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerv4Template;
   using Superclass = GradientDescentOptimizerBasev4Template<TInternalComputationValueType>;
@@ -234,7 +236,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerv4Template);
 };
 
 /** This helps to meet backward compatibility */

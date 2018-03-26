@@ -86,6 +86,8 @@ class ITK_TEMPLATE_EXPORT AzimuthElevationToCartesianTransform:
   public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AzimuthElevationToCartesianTransform);
+
   /** Standard class type aliases.   */
   using Self = AzimuthElevationToCartesianTransform;
   using Superclass = AffineTransform<TParametersValueType, NDimensions>;
@@ -224,8 +226,6 @@ protected:
   void PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AzimuthElevationToCartesianTransform);
-
   long   m_MaxAzimuth;
   long   m_MaxElevation;
   double m_RadiusSampleSize;

@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT RegularizedHeavisideStepFunction:
     public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularizedHeavisideStepFunction);
+
   using Self = RegularizedHeavisideStepFunction;
   using Superclass = HeavisideStepFunctionBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -74,8 +76,6 @@ protected:
   ~RegularizedHeavisideStepFunction() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularizedHeavisideStepFunction);
-
   RealType m_Epsilon;
   RealType m_OneOverEpsilon;
 };

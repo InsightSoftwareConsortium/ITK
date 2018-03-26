@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT HSVColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HSVColormapFunction);
 
   using Self = HSVColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -64,9 +65,6 @@ public:
 protected:
   HSVColormapFunction() {}
   ~HSVColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HSVColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

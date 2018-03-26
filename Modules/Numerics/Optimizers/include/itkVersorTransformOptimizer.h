@@ -53,6 +53,8 @@ class ITKOptimizers_EXPORT VersorTransformOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransformOptimizer);
+
   /** Standard class type aliases. */
   using Self = VersorTransformOptimizer;
   using Superclass = RegularStepGradientDescentBaseOptimizer;
@@ -77,9 +79,6 @@ public:
 protected:
   VersorTransformOptimizer() {}
   ~VersorTransformOptimizer() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransformOptimizer);
 };
 } // end namespace itk
 

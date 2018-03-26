@@ -43,6 +43,8 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageToHistogramFilter:public ImageTransformer<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToHistogramFilter);
+
   /** Standard type alias */
   using Self = ImageToHistogramFilter;
   using Superclass = ImageTransformer<TImage>;
@@ -136,8 +138,6 @@ protected:
   std::vector< HistogramMeasurementVectorType > m_Maximums;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToHistogramFilter);
-
   void ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size );
   typename Barrier::Pointer                     m_Barrier;
 

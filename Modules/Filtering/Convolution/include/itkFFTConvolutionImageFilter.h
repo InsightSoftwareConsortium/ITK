@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT FFTConvolutionImageFilter :
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTConvolutionImageFilter);
+
   using Self = FFTConvolutionImageFilter;
   using Superclass = ConvolutionImageFilterBase< TInputImage,
                                       TKernelImage,
@@ -186,8 +188,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTConvolutionImageFilter);
-
   SizeValueType m_SizeGreatestPrimeFactor;
 };
 }

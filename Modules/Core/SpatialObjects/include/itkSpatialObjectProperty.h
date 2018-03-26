@@ -36,6 +36,7 @@ class ITK_TEMPLATE_EXPORT SpatialObjectProperty:
   public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectProperty);
 
   using Self = SpatialObjectProperty< TComponentType >;
   using Superclass = LightObject;
@@ -86,8 +87,6 @@ protected:
   void Modified(void){ m_MTime++; }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectProperty);
-
   PixelType        m_Color;
   StringType       m_Name;
   ModifiedTimeType m_MTime;

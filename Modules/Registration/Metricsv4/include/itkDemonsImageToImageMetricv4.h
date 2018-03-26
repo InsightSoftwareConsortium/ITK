@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT DemonsImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsImageToImageMetricv4);
+
   /** Standard class type aliases. */
   using Self = DemonsImageToImageMetricv4;
   using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
@@ -139,7 +141,6 @@ private:
   /* Used to normalize derivative calculation. Automatically calculated */
   TInternalComputationValueType   m_Normalizer;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsImageToImageMetricv4);
 };
 
 } // end namespace itk

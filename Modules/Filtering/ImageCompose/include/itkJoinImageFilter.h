@@ -209,6 +209,8 @@ class JoinImageFilter:
                                                       TInputImage2 >::FunctorType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JoinImageFilter);
+
   /** Capture the output image dimension. */
   static constexpr unsigned int OutputImageDimension = TInputImage1::ImageDimension;
 
@@ -250,9 +252,6 @@ public:
 protected:
   JoinImageFilter() {}
   ~JoinImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JoinImageFilter);
 };
 } // end namespace itk
 

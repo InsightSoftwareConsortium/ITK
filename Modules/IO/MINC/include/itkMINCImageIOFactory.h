@@ -41,6 +41,8 @@ namespace itk
 class ITKIOMINC_EXPORT MINCImageIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = MINCImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -69,10 +71,6 @@ public:
 protected:
   MINCImageIOFactory();
   ~MINCImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIOFactory);
-
 };
 } // end namespace itk
 

@@ -61,6 +61,8 @@ template< typename TMeasurementVector >
 class Sample:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Sample);
+
   /** Standard class type aliases */
   using Self = Sample;
   using Superclass = DataObject;
@@ -185,8 +187,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Sample);
-
   MeasurementVectorSizeType m_MeasurementVectorSize;
 };  // end of class
 } // end of namespace Statistics

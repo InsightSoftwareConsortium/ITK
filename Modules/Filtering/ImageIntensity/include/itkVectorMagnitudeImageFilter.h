@@ -75,6 +75,8 @@ class VectorMagnitudeImageFilter:
                                                      typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorMagnitudeImageFilter);
+
   /** Standard class type aliases. */
   using Self = VectorMagnitudeImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -102,9 +104,6 @@ public:
 protected:
   VectorMagnitudeImageFilter() {}
   ~VectorMagnitudeImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorMagnitudeImageFilter);
 };
 } // end namespace itk
 

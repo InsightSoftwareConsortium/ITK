@@ -53,6 +53,8 @@ template< typename TInput, typename TOutput, unsigned int VDimension >
 class ITK_TEMPLATE_EXPORT Path: public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Path);
+
   /** Standard class type aliases. */
   using Self = Path;
   using Superclass = DataObject;
@@ -117,8 +119,6 @@ protected:
   itkGetConstMacro(ZeroIndex, IndexType);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Path);
-
   // These "constants" are initialized in the constructor
   OffsetType m_ZeroOffset;  // = 0 for all dimensions
   IndexType  m_ZeroIndex;   // = 0 for all dimensions

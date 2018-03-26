@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT EigenAnalysis2DImageFilter:
   public ImageToImageFilter< TInputImage, TEigenValueImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EigenAnalysis2DImageFilter);
+
   /** Standard class type aliases. */
   using Self = EigenAnalysis2DImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TEigenValueImage >;
@@ -118,9 +120,6 @@ protected:
   ~EigenAnalysis2DImageFilter() override {}
 
   void GenerateData(void) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenAnalysis2DImageFilter);
 };
 } // end namespace itk
 

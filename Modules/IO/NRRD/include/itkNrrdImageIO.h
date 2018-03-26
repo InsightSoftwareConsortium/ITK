@@ -37,6 +37,8 @@ namespace itk
 class ITKIONRRD_EXPORT NrrdImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIO);
+
   /** Standard class type aliases. */
   using Self = NrrdImageIO;
   using Superclass = ImageIOBase;
@@ -86,9 +88,6 @@ protected:
   int ITKToNrrdComponentType(const ImageIOBase::IOComponentType) const;
 
   ImageIOBase::IOComponentType NrrdToITKComponentType(const int) const;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIO);
 };
 } // end namespace itk
 

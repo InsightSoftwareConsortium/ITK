@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunction:
   public ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunction);
+
   /** Standard class type aliases. */
   using Self = ShapePriorMAPCostFunction;
   using Superclass = ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >;
@@ -146,8 +148,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunction);
-
   ArrayType   m_ShapeParameterMeans;
   ArrayType   m_ShapeParameterStandardDeviations;
   WeightsType m_Weights;

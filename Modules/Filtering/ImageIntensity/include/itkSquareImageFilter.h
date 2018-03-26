@@ -68,6 +68,8 @@ class SquareImageFilter:
                                             typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SquareImageFilter);
+
   /** Standard class type aliases. */
   using Self = SquareImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -97,9 +99,6 @@ public:
 protected:
   SquareImageFilter() {}
   ~SquareImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SquareImageFilter);
 };
 } // end namespace itk
 

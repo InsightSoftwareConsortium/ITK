@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT VoronoiSegmentationRGBImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationRGBImageFilter);
+
   /** Standard class type aliases. */
   using Self = VoronoiSegmentationRGBImageFilter;
   using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >;
@@ -163,9 +165,6 @@ private:
   typename RGBHCVImage::Pointer m_WorkingImage;
 
   bool TestHomogeneity(IndexList & Plist) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationRGBImageFilter);
 };
 } //end namespace
 

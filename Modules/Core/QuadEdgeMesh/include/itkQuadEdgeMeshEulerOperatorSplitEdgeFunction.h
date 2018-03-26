@@ -36,6 +36,8 @@ class QuadEdgeMeshEulerOperatorSplitEdgeFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitEdgeFunction);
+
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorSplitEdgeFunction;
   using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
@@ -88,8 +90,6 @@ protected:
   ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitEdgeFunction);
-
   typename SplitVertex::Pointer m_SplitVertex;
 };
 } // end namespace itk

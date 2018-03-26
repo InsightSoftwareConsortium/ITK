@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT HConcaveImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HConcaveImageFilter);
+
   /** Standard class type aliases. */
   using Self = HConcaveImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -121,8 +123,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HConcaveImageFilter);
-
   InputImagePixelType m_Height;
   unsigned long       m_NumberOfIterationsUsed;
   bool                m_FullyConnected;

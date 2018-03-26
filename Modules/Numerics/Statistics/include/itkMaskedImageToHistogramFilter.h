@@ -42,6 +42,8 @@ template< typename TImage, typename TMaskImage >
 class ITK_TEMPLATE_EXPORT MaskedImageToHistogramFilter:public ImageToHistogramFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedImageToHistogramFilter);
+
   /** Standard type alias */
   using Self = MaskedImageToHistogramFilter;
   using Superclass = ImageToHistogramFilter<TImage>;
@@ -85,10 +87,6 @@ protected:
 
   void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress ) override;
   void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedImageToHistogramFilter);
-
 };
 } // end of namespace Statistics
 } // end of namespace itk

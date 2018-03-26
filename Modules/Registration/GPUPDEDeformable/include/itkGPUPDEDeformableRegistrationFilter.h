@@ -82,6 +82,8 @@ class ITK_TEMPLATE_EXPORT GPUPDEDeformableRegistrationFilter :
   public GPUDenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUPDEDeformableRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = GPUPDEDeformableRegistrationFilter;
   using GPUSuperclass = GPUDenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField, TParentImageFilter >;
@@ -191,8 +193,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUPDEDeformableRegistrationFilter);
-
   /** Temporary deformation field use for smoothing the
    * the deformation field. */
   DisplacementFieldPointer m_TempField;

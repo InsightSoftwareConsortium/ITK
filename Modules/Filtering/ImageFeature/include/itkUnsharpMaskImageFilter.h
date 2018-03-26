@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT UnsharpMaskImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskImageFilter);
+
   /**
    * Standard "Self" & Superclass type alias.
    */
@@ -160,8 +162,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskImageFilter);
-
   /** The edge amplification amount */
   TInternalPrecision m_Amount;
   TInternalPrecision m_Threshold;

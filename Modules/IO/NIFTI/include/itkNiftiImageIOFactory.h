@@ -32,6 +32,8 @@ namespace itk
 class ITKIONIFTI_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = NiftiImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   NiftiImageIOFactory();
   ~NiftiImageIOFactory() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIOFactory);
 };
 } // end namespace itk
 

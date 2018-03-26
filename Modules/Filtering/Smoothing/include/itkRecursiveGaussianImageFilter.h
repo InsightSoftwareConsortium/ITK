@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT RecursiveGaussianImageFilter:
   public RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveGaussianImageFilter);
+
   /** Standard class type aliases. */
   using Self = RecursiveGaussianImageFilter;
   using Superclass = RecursiveSeparableImageFilter< TInputImage, TOutputImage >;
@@ -169,8 +171,6 @@ protected:
   void VerifyPreconditions() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveGaussianImageFilter);
-
   /** Compute the N coefficients in the recursive filter. */
   void ComputeNCoefficients(ScalarRealType sigmad,
                             ScalarRealType A1, ScalarRealType B1, ScalarRealType W1, ScalarRealType L1,

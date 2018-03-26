@@ -105,6 +105,8 @@ class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = LaplacianSegmentationLevelSetImageFilter;
   using Superclass =
@@ -134,8 +136,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetImageFilter);
-
   typename LaplacianFunctionType::Pointer m_LaplacianFunction;
 };
 } // end namespace itk

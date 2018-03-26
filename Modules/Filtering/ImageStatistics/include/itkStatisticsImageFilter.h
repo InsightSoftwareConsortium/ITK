@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT StatisticsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsImageFilter);
+
   /** Standard Self type alias */
   using Self = StatisticsImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
@@ -167,8 +169,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsImageFilter);
-
   Array< RealType >       m_ThreadSum;
   Array< RealType >       m_SumOfSquares;
   Array< SizeValueType >  m_Count;

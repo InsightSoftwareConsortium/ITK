@@ -90,6 +90,8 @@ class MeanProjectionImageFilter:public
                          Functor::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanProjectionImageFilter);
+
   using Self = MeanProjectionImageFilter;
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::MeanAccumulator<
@@ -125,9 +127,6 @@ public:
 protected:
   MeanProjectionImageFilter() {}
   ~MeanProjectionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanProjectionImageFilter);
 };                                         // end MeanProjectionImageFilter
 } //end namespace itk
 

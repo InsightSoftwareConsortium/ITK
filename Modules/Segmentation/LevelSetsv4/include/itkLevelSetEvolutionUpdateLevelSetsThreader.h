@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDens
   : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionUpdateLevelSetsThreader);
+
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionUpdateLevelSetsThreader;
   using Superclass = DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >;
@@ -79,9 +81,6 @@ protected:
   using RMSChangeAccumulatorPerThreadType = std::vector< RMSChangeAccumulatorType >;
 
   RMSChangeAccumulatorPerThreadType m_RMSChangeAccumulatorPerThread;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionUpdateLevelSetsThreader);
 };
 
 } // end namespace itk

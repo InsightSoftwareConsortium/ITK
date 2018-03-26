@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT MetaLineConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaLineConverter);
+
   /** Standard class type aliases */
   using Self = MetaLineConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -69,10 +71,6 @@ protected:
 
   MetaLineConverter();
   ~MetaLineConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaLineConverter);
-
 };
 
 } // end namespace itk

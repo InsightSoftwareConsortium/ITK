@@ -36,6 +36,8 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT SolverHyperbolic : public Solver<TDimension>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SolverHyperbolic);
+
   using Self = SolverHyperbolic;
   using Superclass = Solver<TDimension>;
   using Pointer = SmartPointer<Self>;
@@ -122,9 +124,6 @@ protected:
   Float          m_Gamma;
   Float          m_Beta;
   unsigned int   m_NumberOfIterations;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SolverHyperbolic);
 };
 
 } // end namespace fem

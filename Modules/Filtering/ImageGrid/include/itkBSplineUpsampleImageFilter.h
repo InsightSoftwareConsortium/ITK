@@ -85,6 +85,8 @@ class ITK_TEMPLATE_EXPORT BSplineUpsampleImageFilter:
   public ResamplerType
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineUpsampleImageFilter);
+
   /** Standard class type aliases. */
   using Self = BSplineUpsampleImageFilter;
   using Superclass = ResamplerType;
@@ -132,9 +134,6 @@ protected:
   BSplineUpsampleImageFilter();
   ~BSplineUpsampleImageFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineUpsampleImageFilter);
 };
 } // namespace itk
 

@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT SegmentationLevelSetFunction:
   public LevelSetFunction< TImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = SegmentationLevelSetFunction;
   using Superclass = LevelSetFunction< TImageType >;
@@ -172,9 +174,6 @@ protected:
   typename InterpolatorType::Pointer m_Interpolator;
 
   typename VectorInterpolatorType::Pointer m_VectorInterpolator;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationLevelSetFunction);
 };
 } // end namespace
 

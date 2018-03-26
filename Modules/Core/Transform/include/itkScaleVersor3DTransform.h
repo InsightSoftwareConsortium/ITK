@@ -49,6 +49,8 @@ template<typename TParametersValueType=double>
 class ITK_TEMPLATE_EXPORT ScaleVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleVersor3DTransform);
+
   /** Standard class type aliases. */
   using Self = ScaleVersor3DTransform;
   using Superclass = VersorRigid3DTransform<TParametersValueType>;
@@ -146,8 +148,6 @@ protected:
   void ComputeMatrixParameters(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleVersor3DTransform);
-
   /**  Vector containing the scale. */
   ScaleVectorType m_Scale;
 }; // class ScaleVersor3DTransform

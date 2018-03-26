@@ -55,6 +55,8 @@ template< typename TImage, typename TAccessor >
 class ITK_TEMPLATE_EXPORT ImageAdaptor:public ImageBase< TImage::ImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageAdaptor);
+
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
@@ -403,8 +405,6 @@ protected:
   using Superclass::Graft;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageAdaptor);
 
   // a specialized method to update PixelAccessors for VectorImages,
   // to have the correct vector length of the image.

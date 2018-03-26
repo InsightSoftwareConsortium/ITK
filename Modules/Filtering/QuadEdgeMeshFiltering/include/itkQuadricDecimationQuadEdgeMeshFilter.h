@@ -33,6 +33,8 @@ class ITK_TEMPLATE_EXPORT QuadricDecimationQuadEdgeMeshFilter:
   public EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadricDecimationQuadEdgeMeshFilter);
+
   using Self = QuadricDecimationQuadEdgeMeshFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -150,8 +152,6 @@ protected:
   void Initialize() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadricDecimationQuadEdgeMeshFilter);
-
   QuadricElementMapType m_Quadric;
 };
 }

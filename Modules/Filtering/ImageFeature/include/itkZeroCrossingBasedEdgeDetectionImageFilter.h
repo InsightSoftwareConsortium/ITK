@@ -71,6 +71,8 @@ class ITK_TEMPLATE_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingBasedEdgeDetectionImageFilter);
+
   /** Standard "Self" & Superclass type alias.   */
   using Self = ZeroCrossingBasedEdgeDetectionImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -168,8 +170,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingBasedEdgeDetectionImageFilter);
-
   /** The variance of the Gaussian Filter used in this filter */
   ArrayType m_Variance;
 

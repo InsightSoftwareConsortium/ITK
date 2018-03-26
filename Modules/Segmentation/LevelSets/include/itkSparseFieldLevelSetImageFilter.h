@@ -229,6 +229,8 @@ class ITK_TEMPLATE_EXPORT SparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = SparseFieldLevelSetImageFilter;
   using Superclass = FiniteDifferenceImageFilter< TInputImage, TOutputImage >;
@@ -493,8 +495,6 @@ protected:
   OutputImageType      *m_OutputImage;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLevelSetImageFilter);
-
   /** This flag is true when methods need to check boundary conditions and
       false when methods do not need to check for boundary conditions. */
   bool m_BoundsCheckingActive;

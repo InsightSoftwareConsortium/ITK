@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT SpatialFunctionImageEvaluatorFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialFunctionImageEvaluatorFilter);
+
   /** Standard class type aliases. */
   using Self = SpatialFunctionImageEvaluatorFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -92,8 +94,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialFunctionImageEvaluatorFilter);
-
   /** The function that will be evaluated over the image */
   FunctionType *m_PixelFunction;
 };

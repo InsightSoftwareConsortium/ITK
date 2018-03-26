@@ -44,6 +44,7 @@ class ITK_TEMPLATE_EXPORT LineSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LineSpatialObject);
 
   using Self = LineSpatialObject;
   using Superclass = PointBasedSpatialObject< TDimension >;
@@ -113,8 +114,6 @@ public:
   bool ComputeLocalBoundingBox() const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LineSpatialObject);
-
   PointListType m_Points;
 
   LineSpatialObject();

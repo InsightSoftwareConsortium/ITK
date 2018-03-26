@@ -46,6 +46,8 @@ class TernaryAddImageFilter:
                                             typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryAddImageFilter);
+
   /** Standard class type aliases. */
   using Self = TernaryAddImageFilter;
   using Superclass = TernaryFunctorImageFilter<
@@ -69,9 +71,6 @@ public:
 protected:
   TernaryAddImageFilter() {}
   virtual ~TernaryAddImageFilter() {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryAddImageFilter);
 };
 } // end namespace itk
 

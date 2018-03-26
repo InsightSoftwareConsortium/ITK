@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT NeighborhoodBinaryThresholdImageFunction:
   public BinaryThresholdImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodBinaryThresholdImageFunction);
+
   /** Standard class type aliases. */
   using Self = NeighborhoodBinaryThresholdImageFunction;
   using Superclass = BinaryThresholdImageFunction< TInputImage, TCoordRep >;
@@ -112,8 +114,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodBinaryThresholdImageFunction);
-
   InputSizeType m_Radius;
 };
 } // end namespace itk

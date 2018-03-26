@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT ChainCodePath:public
   Path< unsigned int, Offset< VDimension >, VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath);
+
   /** Dimension underlying input image. */
   static constexpr unsigned int Dimension = VDimension;
 
@@ -145,8 +147,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath);
-
   IndexType     m_Start;            // origin image index for the path
   ChainCodeType m_Chain;            // the chain code (vector of offsets)
 };

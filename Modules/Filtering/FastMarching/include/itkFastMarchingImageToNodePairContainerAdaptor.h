@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingImageToNodePairContainerAdaptor :
     public Object
   {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageToNodePairContainerAdaptor);
+
   using Self = FastMarchingImageToNodePairContainerAdaptor;
   using Superclass = LightObject;
   using Pointer = SmartPointer< Self >;
@@ -144,9 +146,6 @@ protected:
   void
   SetPointsFromImage( const ImageType* image, const LabelType& iLabel,
     const OutputPixelType& iValue );
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageToNodePairContainerAdaptor);
   };
 }
 

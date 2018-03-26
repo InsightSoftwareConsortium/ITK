@@ -41,6 +41,8 @@ class NearestNeighborExtrapolateImageFunction:
   public ExtrapolateImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NearestNeighborExtrapolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = NearestNeighborExtrapolateImageFunction;
   using Superclass = ExtrapolateImageFunction< TInputImage, TCoordRep >;
@@ -132,9 +134,6 @@ protected:
   ~NearestNeighborExtrapolateImageFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NearestNeighborExtrapolateImageFunction);
 };
 } // end namespace itk
 

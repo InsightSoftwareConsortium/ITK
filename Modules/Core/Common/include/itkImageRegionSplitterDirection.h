@@ -35,6 +35,8 @@ class ITKCommon_EXPORT ImageRegionSplitterDirection
   :public ImageRegionSplitterBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterDirection);
+
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterDirection;
   using Superclass = ImageRegionSplitterBase;
@@ -74,8 +76,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterDirection);
-
   unsigned int m_Direction;
 };
 } // end namespace itk

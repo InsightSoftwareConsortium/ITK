@@ -68,6 +68,8 @@ namespace itk
 class ITKIOImageBase_EXPORT ArchetypeSeriesFileNames:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ArchetypeSeriesFileNames);
+
   /** Standard class type aliases. */
   using Self = ArchetypeSeriesFileNames;
   using Superclass = Object;
@@ -110,8 +112,6 @@ protected:
   void Scan();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ArchetypeSeriesFileNames);
-
   /** A string for formatting the names of files in the series. */
   std::string m_Archetype;
 

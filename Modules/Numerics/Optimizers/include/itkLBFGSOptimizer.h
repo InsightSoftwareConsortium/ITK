@@ -86,6 +86,8 @@ class ITKOptimizers_EXPORT LBFGSOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizer;
   using Superclass = SingleValuedNonLinearVnlOptimizer;
@@ -167,8 +169,6 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizer);
-
   bool                       m_OptimizerInitialized;
   InternalOptimizerType *    m_VnlOptimizer;
   mutable std::ostringstream m_StopConditionDescription;

@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT ErodeObjectMorphologyImageFilter:
   public ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ErodeObjectMorphologyImageFilter);
+
   /** Standard class type aliases. */
   using Self = ErodeObjectMorphologyImageFilter;
   using Superclass = ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -116,8 +118,6 @@ protected:
                 const KernelType & kernel) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ErodeObjectMorphologyImageFilter);
-
   PixelType m_BackgroundValue;
 
   // Default boundary condition for erosion filter, defaults to

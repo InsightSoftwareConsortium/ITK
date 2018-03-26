@@ -86,6 +86,8 @@ class MedianProjectionImageFilter:public
                          Functor::MedianAccumulator< typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MedianProjectionImageFilter);
+
   using Self = MedianProjectionImageFilter;
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::MedianAccumulator<
@@ -108,9 +110,6 @@ public:
 protected:
   MedianProjectionImageFilter() {}
   ~MedianProjectionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MedianProjectionImageFilter);
 };                                           // end MedianProjectionImageFilter
 } //end namespace itk
 

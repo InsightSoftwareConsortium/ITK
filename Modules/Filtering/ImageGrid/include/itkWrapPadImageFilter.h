@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT WrapPadImageFilter:
   public PadImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WrapPadImageFilter);
+
   /** Standard class type aliases. */
   using Self = WrapPadImageFilter;
   using Superclass = PadImageFilter< TInputImage, TOutputImage >;
@@ -101,8 +103,6 @@ protected:
   ~WrapPadImageFilter() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WrapPadImageFilter);
-
   PeriodicBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk

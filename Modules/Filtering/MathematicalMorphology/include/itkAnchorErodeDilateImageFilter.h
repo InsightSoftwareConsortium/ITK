@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT AnchorErodeDilateImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorErodeDilateImageFilter);
+
   /** Standard class type aliases. */
   using Self = AnchorErodeDilateImageFilter;
   using Superclass =
@@ -88,8 +90,6 @@ protected:
   InputImagePixelType m_Boundary;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorErodeDilateImageFilter);
-
   using BresType = BresenhamLine< Self::InputImageDimension >;
 
   // the class that operates on lines

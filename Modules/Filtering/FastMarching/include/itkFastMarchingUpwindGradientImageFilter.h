@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilter:
   public FastMarchingImageFilter< TLevelSet, TSpeedImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilter);
+
   /** Standard class typdedefs. */
   using Self = FastMarchingUpwindGradientImageFilter;
   using Superclass = FastMarchingImageFilter< TLevelSet, TSpeedImage >;
@@ -205,8 +207,6 @@ protected:
                                GradientImageType *gradientImage);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilter);
-
   NodeContainerPointer m_TargetPoints;
   NodeContainerPointer m_ReachedTargetPoints;
 

@@ -51,6 +51,8 @@ template< typename NodeType >
 class ITK_TEMPLATE_EXPORT NarrowBand:public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBand);
+
   /** Standard class type aliases */
   using Self = NarrowBand;
   using Superclass = LightObject;
@@ -168,8 +170,6 @@ protected:
   float m_InnerRadius;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBand);
-
   NodeContainerType m_NodeContainer;
 };
 } // end namespace itk

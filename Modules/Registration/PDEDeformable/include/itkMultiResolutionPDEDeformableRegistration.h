@@ -82,6 +82,8 @@ class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration:
   public ImageToImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPDEDeformableRegistration);
+
   /** Standard class type aliases */
   using Self = MultiResolutionPDEDeformableRegistration;
   using Superclass =
@@ -251,8 +253,6 @@ protected:
   void VerifyInputInformation() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPDEDeformableRegistration);
-
   RegistrationPointer       m_RegistrationFilter;
   FixedImagePyramidPointer  m_FixedImagePyramid;
   MovingImagePyramidPointer m_MovingImagePyramid;

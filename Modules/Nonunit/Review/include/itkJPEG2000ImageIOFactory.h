@@ -42,6 +42,8 @@ namespace itk
 class JPEG2000ImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = JPEG2000ImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -71,9 +73,6 @@ public:
 protected:
   JPEG2000ImageIOFactory();
   ~JPEG2000ImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIOFactory);
 };
 } // end namespace itk
 

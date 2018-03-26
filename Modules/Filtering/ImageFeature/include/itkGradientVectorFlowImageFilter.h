@@ -49,6 +49,8 @@ template< typename TInputImage, typename TOutputImage, typename TInternalPixel =
 class ITK_TEMPLATE_EXPORT GradientVectorFlowImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientVectorFlowImageFilter);
+
   /** Standard "Self" type alias. */
   using Self = GradientVectorFlowImageFilter;
 
@@ -138,8 +140,6 @@ protected:
   void UpdatePixels();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientVectorFlowImageFilter);
-
   // parameters;
   double m_TimeStep;                               // the timestep of each
                                                    // iteration

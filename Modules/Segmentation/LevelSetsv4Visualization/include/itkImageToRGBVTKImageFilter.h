@@ -34,6 +34,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageToRGBVTKImageFilter:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToRGBVTKImageFilter);
+
   /** Standard class type aliases. */
   using Self = ImageToRGBVTKImageFilter;
   using Superclass = ProcessObject;
@@ -71,8 +73,6 @@ protected:
   ~ImageToRGBVTKImageFilter() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToRGBVTKImageFilter);
-
   InputImagePointer               m_Input;
   vtkSmartPointer< vtkImageData > m_Output;
 };

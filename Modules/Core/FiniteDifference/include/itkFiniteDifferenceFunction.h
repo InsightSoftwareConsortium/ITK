@@ -66,6 +66,8 @@ template< typename TImageType >
 class ITK_TEMPLATE_EXPORT FiniteDifferenceFunction:public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceFunction);
+
   /** Standard class type aliases. */
   using Self = FiniteDifferenceFunction;
   using Superclass = LightObject;
@@ -187,9 +189,6 @@ protected:
 
   RadiusType m_Radius;
   PixelRealType m_ScaleCoefficients[ImageDimension];
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceFunction);
 };
 } // end namespace itk
 

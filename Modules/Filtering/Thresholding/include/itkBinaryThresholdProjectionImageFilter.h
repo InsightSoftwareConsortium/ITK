@@ -96,6 +96,8 @@ class BinaryThresholdProjectionImageFilter:
                                   typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdProjectionImageFilter);
+
   using Self = BinaryThresholdProjectionImageFilter;
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Function::BinaryThresholdAccumulator<
@@ -194,9 +196,6 @@ protected:
 
   /** Pixel value for input Threshold */
   InputPixelType m_ThresholdValue;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdProjectionImageFilter);
 };  // end BinaryThresholdProjectionImageFilter
 } //end namespace itk
 

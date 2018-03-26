@@ -41,6 +41,8 @@ class GPUBoxImageFilter :
   public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBoxImageFilter);
+
   /** Standard class type aliases. */
   using Self = GPUBoxImageFilter;
   using GPUSuperclass = GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
@@ -78,10 +80,6 @@ protected:
   {
     GPUSuperclass::PrintSelf(os, indent);
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBoxImageFilter);
-
 };
 }
 

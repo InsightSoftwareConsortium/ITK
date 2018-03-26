@@ -77,6 +77,8 @@ template<
 class ITK_TEMPLATE_EXPORT BoundingBox:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoundingBox);
+
   /** Standard class type aliases. */
   using Self = BoundingBox;
   using Superclass = Object;
@@ -177,8 +179,6 @@ protected:
   using ConstIterator = typename PointsContainer::ConstIterator;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoundingBox);
-
   PointsContainerConstPointer m_PointsContainer;
   PointsContainerPointer      m_CornersContainer;
   mutable BoundsArrayType     m_Bounds;

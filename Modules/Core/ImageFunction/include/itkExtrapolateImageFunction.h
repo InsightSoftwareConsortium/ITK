@@ -45,6 +45,8 @@ class ExtrapolateImageFunction:
                         typename NumericTraits< typename TInputImage::PixelType >::RealType, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExtrapolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = ExtrapolateImageFunction;
   using Superclass = ImageFunction< TInputImage,
@@ -111,9 +113,6 @@ protected:
   ~ExtrapolateImageFunction() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtrapolateImageFunction);
 };
 } // end namespace itk
 

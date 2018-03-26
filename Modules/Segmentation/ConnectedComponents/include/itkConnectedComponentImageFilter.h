@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT ConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedComponentImageFilter);
+
   /**
    * Standard "Self" & Superclass typedef.
    */
@@ -192,8 +194,6 @@ protected:
   bool m_FullyConnected;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedComponentImageFilter);
-
   LabelType            m_ObjectCount;
   OutputImagePixelType m_BackgroundValue;
 

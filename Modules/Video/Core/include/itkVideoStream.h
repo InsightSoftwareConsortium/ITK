@@ -41,6 +41,7 @@ template<typename TFrameType>
 class ITK_TEMPLATE_EXPORT VideoStream : public TemporalDataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoStream);
 
   /** Standard class type aliases */
   using Self = VideoStream;
@@ -296,10 +297,6 @@ protected:
   SpacingMapType       m_SpacingCache;
   DirectionMapType     m_DirectionCache;
   PointMapType         m_OriginCache;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoStream);
-
 }; // end class VideoStream
 
 } // end namespace itk

@@ -40,6 +40,8 @@ namespace itk
 class ITKIOMeshVTK_EXPORT VTKPolyDataMeshIO:public MeshIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataMeshIO);
+
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataMeshIO;
   using Superclass = MeshIOBase;
@@ -1145,9 +1147,6 @@ protected:
 
   /** Convenience method returns the IOComponentType corresponding to a string. */
   IOComponentType GetComponentTypeFromString(const std::string & pixelType);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataMeshIO);
 };
 } // end namespace itk
 

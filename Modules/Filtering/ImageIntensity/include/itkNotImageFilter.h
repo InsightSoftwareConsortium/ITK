@@ -62,6 +62,8 @@ class NotImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NotImageFilter);
+
   /** Standard class type aliases. */
   using Self = NotImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -134,9 +136,6 @@ protected:
     this->GetFunctor().SetBackgroundValue(false);
   }
   ~NotImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NotImageFilter);
 };
 } // end namespace itk
 

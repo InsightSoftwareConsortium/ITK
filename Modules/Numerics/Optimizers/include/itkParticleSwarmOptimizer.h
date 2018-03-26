@@ -61,6 +61,8 @@ class ITKOptimizers_EXPORT ParticleSwarmOptimizer :
   public ParticleSwarmOptimizerBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = ParticleSwarmOptimizer;
   using Superclass = ParticleSwarmOptimizerBase;
@@ -99,8 +101,6 @@ protected:
   void UpdateSwarm() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizer);
-
   ParametersType::ValueType                    m_InertiaCoefficient;
   ParametersType::ValueType                    m_PersonalCoefficient;
   ParametersType::ValueType                    m_GlobalCoefficient;

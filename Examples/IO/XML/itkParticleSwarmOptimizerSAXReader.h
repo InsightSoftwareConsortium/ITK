@@ -39,6 +39,8 @@ namespace itk
 class ParticleSwarmOptimizerSAXReader : public XMLReader<ParticleSwarmOptimizer>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXReader);
+
   /** Standard class type aliases */
   using Self = ParticleSwarmOptimizerSAXReader;
   using Superclass = XMLReader<ParticleSwarmOptimizer>;
@@ -102,9 +104,6 @@ protected:
   std::vector<double> m_LowerBound;
   std::vector<double> m_UpperBound;
   Array<double>       m_ParametersConvergenceTolerance;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXReader);
 };
 
 } // namespace itk

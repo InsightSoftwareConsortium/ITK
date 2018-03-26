@@ -42,6 +42,8 @@ template< typename TLabel, unsigned int VImageDimension >
 class ShapeLabelObject:public LabelObject< TLabel, VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelObject);
+
   /** Standard class type aliases */
   using Self = ShapeLabelObject;
   using Superclass = LabelObject< TLabel, VImageDimension >;
@@ -734,8 +736,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelObject);
-
   RegionType    m_BoundingBox;
   SizeValueType m_NumberOfPixels;
   double        m_PhysicalSize;

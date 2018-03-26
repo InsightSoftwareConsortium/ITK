@@ -44,6 +44,7 @@ class ConvergenceMonitoringFunction
 : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConvergenceMonitoringFunction);
 
   using Self = ConvergenceMonitoringFunction;
   using Superclass = Object;
@@ -114,10 +115,6 @@ protected:
     }
 
   EnergyValueContainerType          m_EnergyValues;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvergenceMonitoringFunction);
-
 };
 } // end namespace Function
 } // end namespace itk

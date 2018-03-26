@@ -29,6 +29,8 @@ class AnchorOpenImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenImageFilter);
+
   using Self = AnchorOpenImageFilter;
   using Superclass = AnchorOpenCloseImageFilter< TImage, TKernel, std::less< typename TImage::PixelType >,
                                       std::greater< typename TImage::PixelType > >;
@@ -49,7 +51,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenImageFilter);
 };
 } // namespace itk
 

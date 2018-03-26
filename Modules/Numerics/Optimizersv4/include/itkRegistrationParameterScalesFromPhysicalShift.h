@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromPhysicalShift :
   public RegistrationParameterScalesFromShiftBase< TMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromPhysicalShift);
+
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromPhysicalShift;
   using Superclass = RegistrationParameterScalesFromShiftBase< TMetric >;
@@ -70,8 +72,6 @@ protected:
   void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromPhysicalShift);
-
   template <typename TTransform>
   void ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &localShifts);
 

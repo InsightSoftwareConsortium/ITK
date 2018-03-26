@@ -89,6 +89,8 @@ class ITK_TEMPLATE_EXPORT MovingHistogramImageFilter:
   public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilter);
+
   /** Standard class type aliases. */
   using Self = MovingHistogramImageFilter;
   using Superclass = MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >;
@@ -152,9 +154,6 @@ protected:
                      const RegionType & kernRegion,
                      const InputImageType *inputImage,
                      const IndexType currentIdx);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilter);
 };                                          // end of class
 } // end namespace itk
 

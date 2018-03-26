@@ -74,6 +74,8 @@ class ComplexToPhaseImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = ComplexToPhaseImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::ComplexToPhasePixelAccessor<
@@ -91,9 +93,6 @@ public:
 protected:
   ComplexToPhaseImageAdaptor() {}
   ~ComplexToPhaseImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageAdaptor);
 };
 } // end namespace itk
 

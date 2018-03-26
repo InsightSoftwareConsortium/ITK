@@ -82,6 +82,8 @@ template< typename TInternalComputationValueType = double>
 class ITK_TEMPLATE_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectOptimizerBaseTemplate);
+
   /** Standard class type aliases. */
   using Self = ObjectToObjectOptimizerBaseTemplate;
   using Superclass = Object;
@@ -253,10 +255,6 @@ protected:
   bool                          m_DoEstimateScales;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectOptimizerBaseTemplate);
-
 };
 
 /** This helps to meet backward compatibility */

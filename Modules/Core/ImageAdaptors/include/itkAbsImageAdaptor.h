@@ -78,6 +78,8 @@ class AbsImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = AbsImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::AbsPixelAccessor<
@@ -96,9 +98,6 @@ public:
 protected:
   AbsImageAdaptor() {}
   ~AbsImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageAdaptor);
 };
 } // end namespace itk
 

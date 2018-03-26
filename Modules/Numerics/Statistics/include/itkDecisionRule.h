@@ -47,6 +47,8 @@ namespace Statistics
 class ITKStatistics_EXPORT DecisionRule : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DecisionRule);
+
   /** Standard class type aliases */
   using Self = DecisionRule;
   using Superclass = Object;
@@ -73,9 +75,6 @@ public:
 protected:
   DecisionRule();
   ~DecisionRule() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DecisionRule);
 };                              // end of class
 } // end of namespace Statistics
 } // end of namespace itk

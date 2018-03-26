@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT StandardDeviationPerComponentSampleFilter:
   public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationPerComponentSampleFilter);
+
   /** Standard class type aliases. */
   using Self = StandardDeviationPerComponentSampleFilter;
   using Superclass = ProcessObject;
@@ -91,8 +93,6 @@ public:
   const MeasurementVectorRealDecoratedType * GetMeanPerComponentOutput() const;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationPerComponentSampleFilter);
-
   StandardDeviationPerComponentSampleFilter();
   ~StandardDeviationPerComponentSampleFilter() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;

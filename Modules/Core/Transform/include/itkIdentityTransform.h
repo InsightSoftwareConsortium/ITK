@@ -51,6 +51,8 @@ template<typename TParametersValueType,
 class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IdentityTransform);
+
   /** Standard class type aliases. */
   using Self = IdentityTransform;
   using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
@@ -251,8 +253,6 @@ protected:
   ~IdentityTransform() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IdentityTransform);
-
   JacobianType m_IdentityJacobian;
 };
 } // end namespace itk

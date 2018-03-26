@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT ShiSparseLevelSetImage :
     public LevelSetSparseImage< int8_t, VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShiSparseLevelSetImage);
+
   using Self = ShiSparseLevelSetImage;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -112,7 +114,6 @@ protected:
 
 private:
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShiSparseLevelSetImage);
 };
 }
 

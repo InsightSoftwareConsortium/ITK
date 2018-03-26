@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshLineCell:
   public TCellInterface, public TCellInterface::CellTraits::QuadEdgeType
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshLineCell);
+
   /** Standard class type aliases. */
   // itkCellCommonTypedefs
   using Self = QuadEdgeMeshLineCell;
@@ -198,8 +200,6 @@ public:
   virtual PointIdInternalConstIterator InternalPointIdsEnd() const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshLineCell);
-
   /**
    * In order to have constant time access at the itk level instead of
    * of doing a search in the Mesh::Cell container.

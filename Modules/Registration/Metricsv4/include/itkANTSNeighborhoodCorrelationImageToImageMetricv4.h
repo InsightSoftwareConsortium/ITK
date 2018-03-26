@@ -98,6 +98,7 @@ class ITK_TEMPLATE_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ANTSNeighborhoodCorrelationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = ANTSNeighborhoodCorrelationImageToImageMetricv4;
@@ -180,8 +181,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ANTSNeighborhoodCorrelationImageToImageMetricv4);
-
   // Radius of the neighborhood window centered at each pixel
   RadiusType m_Radius;
 };

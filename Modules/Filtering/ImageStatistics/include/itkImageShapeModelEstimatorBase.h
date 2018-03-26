@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT ImageShapeModelEstimatorBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageShapeModelEstimatorBase);
+
   /** Standard class type aliases. */
   using Self = ImageShapeModelEstimatorBase;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -71,8 +73,6 @@ protected:
   void GenerateData() override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageShapeModelEstimatorBase);
 
   /**Container for holding the training image */
   InputImagePointer m_InputImage;

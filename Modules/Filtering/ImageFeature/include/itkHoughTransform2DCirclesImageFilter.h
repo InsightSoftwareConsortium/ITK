@@ -65,6 +65,7 @@ class ITK_TEMPLATE_EXPORT HoughTransform2DCirclesImageFilter:
   public ImageToImageFilter< Image< TInputPixelType, 2 >, Image< TOutputPixelType, 2 > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HoughTransform2DCirclesImageFilter);
 
   /** Standard class type aliases. */
   using Self = HoughTransform2DCirclesImageFilter;
@@ -193,8 +194,6 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(HoughTransform2DCirclesImageFilter);
 
   float                 m_SweepAngle;
   double                m_MinimumRadius;

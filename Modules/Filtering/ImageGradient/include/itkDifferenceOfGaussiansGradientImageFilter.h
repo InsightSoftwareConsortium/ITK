@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT DifferenceOfGaussiansGradientImageFilter:
                                     TInputImage::ImageDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DifferenceOfGaussiansGradientImageFilter);
+
   /** Number of dimensions. */
   static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
@@ -92,8 +94,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DifferenceOfGaussiansGradientImageFilter);
-
   unsigned int m_Width;
 };
 } // end namespace itk

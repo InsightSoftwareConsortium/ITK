@@ -31,6 +31,8 @@ namespace itk
 class VXLVideoIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VXLVideoIOFactory);
+
   /** Standard class type aliases. */
   using Self = VXLVideoIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,9 +61,6 @@ public:
 protected:
   VXLVideoIOFactory();
   ~VXLVideoIOFactory();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VXLVideoIOFactory);
 };
 } // end namespace itk
 

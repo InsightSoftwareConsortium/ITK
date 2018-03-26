@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction:
                        Array< double > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolationWeightFunction);
+
   /** Standard class type aliases. */
   using Self = BSplineInterpolationWeightFunction;
   using Superclass = FunctionBase< ContinuousIndex< TCoordRep, VSpaceDimension >,
@@ -110,8 +112,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolationWeightFunction);
-
   /** Number of weights. */
   unsigned int m_NumberOfWeights;
 

@@ -43,6 +43,8 @@ template< unsigned int VDimension,
 class ITK_TEMPLATE_EXPORT UpdateMalcolmSparseLevelSet : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateMalcolmSparseLevelSet);
+
   using Self = UpdateMalcolmSparseLevelSet;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -143,8 +145,6 @@ protected:
   void CompactLayersToSinglePixelThickness();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateMalcolmSparseLevelSet);
-
   // input
   LevelSetPointer   m_InputLevelSet;
 

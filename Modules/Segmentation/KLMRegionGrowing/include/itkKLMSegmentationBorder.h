@@ -139,6 +139,8 @@ class ITK_FORWARD_EXPORT KLMSegmentationRegion;
 class ITKKLMRegionGrowing_EXPORT KLMSegmentationBorder:public SegmentationBorder
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationBorder);
+
   /** Standard class type aliases. */
   using Self = KLMSegmentationBorder;
   using Superclass = SegmentationBorder;
@@ -185,8 +187,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationBorder);
-
   double                 m_Lambda;
   KLMSegmentationRegion *m_Region1;
   KLMSegmentationRegion *m_Region2;

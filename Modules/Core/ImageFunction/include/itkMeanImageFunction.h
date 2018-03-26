@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT MeanImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanImageFunction);
+
   /** Standard class type aliases. */
   using Self = MeanImageFunction;
   using Superclass = ImageFunction< TInputImage,
@@ -116,8 +118,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanImageFunction);
-
   unsigned int m_NeighborhoodRadius;
 };
 } // end namespace itk

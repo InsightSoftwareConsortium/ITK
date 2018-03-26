@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT LevelSetSparseImage :
   public DiscreteLevelSetImage< TOutput, VDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetSparseImage);
+
   using Self = LevelSetSparseImage;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -125,9 +127,6 @@ protected:
 
   /** Copy level set information from data object */
   void CopyInformation( const DataObject* data ) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetSparseImage);
 };
 
 }

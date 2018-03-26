@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT RegularStepGradientDescentOptimizerv4
 : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizerv4);
+
   /** Standard class type aliases. */
   using Self = RegularStepGradientDescentOptimizerv4;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
@@ -130,8 +132,6 @@ protected:
 
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizerv4);
-
   TInternalComputationValueType  m_RelaxationFactor;
 
   TInternalComputationValueType  m_MinimumStepLength;

@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilterBase:
   public FastMarchingImageFilterBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilterBase);
+
   /** Standard class typdedefs. */
   using Self = FastMarchingExtensionImageFilterBase;
   using Superclass = FastMarchingImageFilterBase< TInput, TOutput >;
@@ -144,7 +146,6 @@ protected:
   AuxValueContainerPointer m_AuxiliaryTrialValues;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilterBase);
   AuxImageType * m_AuxImages[VAuxDimension];
 };
 } // namespace itk

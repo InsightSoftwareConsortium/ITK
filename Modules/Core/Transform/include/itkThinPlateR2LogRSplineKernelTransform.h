@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT ThinPlateR2LogRSplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThinPlateR2LogRSplineKernelTransform);
+
   /** Standard class type aliases. */
   using Self = ThinPlateR2LogRSplineKernelTransform;
   using Superclass = KernelTransform<TParametersValueType, NDimensions>;
@@ -91,9 +93,6 @@ protected:
       to the global deformation of the space  */
   void ComputeDeformationContribution(const InputPointType & inputPoint,
                                               OutputPointType & result) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThinPlateR2LogRSplineKernelTransform);
 };
 } // namespace itk
 

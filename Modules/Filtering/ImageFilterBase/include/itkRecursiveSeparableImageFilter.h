@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT RecursiveSeparableImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveSeparableImageFilter);
+
   /** Standard class type aliases. */
   using Self = RecursiveSeparableImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
@@ -225,8 +227,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveSeparableImageFilter);
-
   /** Direction in which the filter is to be applied
    * this should be in the range [0,ImageDimension-1]. */
   unsigned int m_Direction;

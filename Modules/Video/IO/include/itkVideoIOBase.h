@@ -49,6 +49,8 @@ namespace itk
 class ITKVideoIO_EXPORT VideoIOBase : public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoIOBase);
+
   /** Standard class type aliases. */
   using Self = VideoIOBase;
   using Superclass = ImageIOBase;
@@ -128,10 +130,6 @@ protected:
   TemporalOffsetType m_PositionInMSec;
   bool               m_WriterOpen;
   bool               m_ReaderOpen;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoIOBase);
-
 };
 
 } // end namespace itk

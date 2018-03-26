@@ -43,6 +43,8 @@ namespace itk
 class ITKFEM_EXPORT FEMFactoryBase : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMFactoryBase);
+
   /** Standard class type aliases. */
   using Self = FEMFactoryBase;
   using Superclass = ObjectFactoryBase;
@@ -107,8 +109,6 @@ protected:
   ~FEMFactoryBase() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMFactoryBase);
-
   static SimpleFastMutexLock m_CreationLock;
   static FEMFactoryBase*     m_Factory;
 };

@@ -48,6 +48,8 @@ class DivideOrZeroOutImageFilter :
                                      typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DivideOrZeroOutImageFilter);
+
   /** Standard class type aliases. */
   using Self = DivideOrZeroOutImageFilter;
   using Superclass = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
@@ -108,9 +110,6 @@ public:
 protected:
   DivideOrZeroOutImageFilter() {};
   ~DivideOrZeroOutImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DivideOrZeroOutImageFilter);
 };
 
 } // end namespace itk

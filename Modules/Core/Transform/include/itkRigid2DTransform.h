@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT Rigid2DTransform :
   public MatrixOffsetTransformBase<TParametersValueType, 2, 2>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid2DTransform);
+
   /** Standard class type aliases. */
   using Self = Rigid2DTransform;
   using Superclass = MatrixOffsetTransformBase<TParametersValueType, 2, 2>;
@@ -264,8 +266,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid2DTransform);
-
   TParametersValueType m_Angle;
 
 }; // class Rigid2DTransform

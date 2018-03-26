@@ -34,6 +34,8 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorCreateCenterVertexFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorCreateCenterVertexFunction);
+
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorCreateCenterVertexFunction;
   using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
@@ -72,8 +74,6 @@ protected:
   ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorCreateCenterVertexFunction);
-
   PointIdentifier m_NewPointID;
 };
 } // namespace itk

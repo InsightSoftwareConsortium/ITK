@@ -65,6 +65,7 @@ class ITK_TEMPLATE_EXPORT ConstantVelocityFieldTransformParametersAdaptor
 : public TransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantVelocityFieldTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = ConstantVelocityFieldTransformParametersAdaptor;
@@ -123,10 +124,6 @@ public:
 protected:
   ConstantVelocityFieldTransformParametersAdaptor();
   ~ConstantVelocityFieldTransformParametersAdaptor() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantVelocityFieldTransformParametersAdaptor);
-
 }; //class ConstantVelocityFieldTransformParametersAdaptor
 }  // namespace itk
 

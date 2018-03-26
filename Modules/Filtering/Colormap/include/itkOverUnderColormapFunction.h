@@ -46,6 +46,7 @@ class ITK_TEMPLATE_EXPORT OverUnderColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OverUnderColormapFunction);
 
   using Self = OverUnderColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -64,9 +65,6 @@ public:
 protected:
   OverUnderColormapFunction() {}
   ~OverUnderColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OverUnderColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

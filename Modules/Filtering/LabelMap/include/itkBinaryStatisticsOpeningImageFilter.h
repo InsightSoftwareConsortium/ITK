@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT BinaryStatisticsOpeningImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryStatisticsOpeningImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryStatisticsOpeningImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
@@ -195,8 +197,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryStatisticsOpeningImageFilter);
-
   bool                 m_FullyConnected;
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;

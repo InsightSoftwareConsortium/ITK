@@ -37,6 +37,7 @@ class ITK_TEMPLATE_EXPORT BoxSpatialObject:
   public SpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoxSpatialObject);
 
   using Self = BoxSpatialObject;
   using ScalarType = double;
@@ -85,8 +86,6 @@ public:
   bool ComputeLocalBoundingBox() const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoxSpatialObject);
-
   BoxSpatialObject();
   ~BoxSpatialObject() override;
 

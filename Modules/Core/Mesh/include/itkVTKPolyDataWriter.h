@@ -42,6 +42,8 @@ template< typename TInputMesh >
 class ITK_TEMPLATE_EXPORT VTKPolyDataWriter:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataWriter);
+
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataWriter;
   using Superclass = Object;
@@ -102,9 +104,6 @@ protected:
   InputMeshPointer m_Input;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataWriter);
 };
 } // namespace itk
 

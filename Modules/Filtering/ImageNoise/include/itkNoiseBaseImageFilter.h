@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT NoiseBaseImageFilter :
   public InPlaceImageFilter<TInputImage,TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NoiseBaseImageFilter);
+
   /** Standard class type aliases. */
   using Self = NoiseBaseImageFilter;
   using Superclass = InPlaceImageFilter<TInputImage,TOutputImage >;
@@ -78,8 +80,6 @@ protected:
   static OutputImagePixelType ClampCast(const double &value);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NoiseBaseImageFilter);
-
   uint32_t m_Seed;
 
 };

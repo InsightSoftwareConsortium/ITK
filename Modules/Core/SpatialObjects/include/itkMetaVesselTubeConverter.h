@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT MetaVesselTubeConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaVesselTubeConverter);
+
   /** Standard class type aliases */
   using Self = MetaVesselTubeConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -69,10 +71,6 @@ protected:
 
   MetaVesselTubeConverter();
   ~MetaVesselTubeConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaVesselTubeConverter);
-
 };
 
 } // end namespace itk

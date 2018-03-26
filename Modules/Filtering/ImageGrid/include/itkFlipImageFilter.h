@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT FlipImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FlipImageFilter);
+
   /** Standard class type aliases. */
   using Self = FlipImageFilter;
   using Superclass = ImageToImageFilter< TImage, TImage >;
@@ -132,8 +134,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FlipImageFilter);
-
   FlipAxesArrayType m_FlipAxes;
   bool              m_FlipAboutOrigin;
 };

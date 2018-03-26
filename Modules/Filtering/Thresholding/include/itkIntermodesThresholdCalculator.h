@@ -56,6 +56,8 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT IntermodesThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IntermodesThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = IntermodesThresholdCalculator;
   using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
@@ -99,7 +101,6 @@ protected:
   using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IntermodesThresholdCalculator);
   bool BimodalTest(const std::vector<double> & h);
 
   SizeValueType m_MaximumSmoothingIterations;

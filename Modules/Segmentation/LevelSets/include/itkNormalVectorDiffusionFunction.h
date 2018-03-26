@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT NormalVectorDiffusionFunction:
   public NormalVectorFunctionBase< TSparseImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorDiffusionFunction);
+
   /** Standard class type alias. */
   using Self = NormalVectorDiffusionFunction;
   using Superclass = NormalVectorFunctionBase< TSparseImageType >;
@@ -157,7 +159,6 @@ private:
   /** The isotropic/anisotropic filtering choice parameter. */
   int m_NormalProcessType;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorDiffusionFunction);
 };
 } // end namespace itk
 

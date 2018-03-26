@@ -63,6 +63,7 @@ class ITK_TEMPLATE_EXPORT SignedMaurerDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SignedMaurerDistanceMapImageFilter);
 
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
@@ -166,8 +167,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SignedMaurerDistanceMapImageFilter);
-
   void Voronoi(unsigned int, OutputIndexType idx, OutputImageType *output );
   bool Remove(OutputPixelType, OutputPixelType, OutputPixelType,
               OutputPixelType, OutputPixelType, OutputPixelType);

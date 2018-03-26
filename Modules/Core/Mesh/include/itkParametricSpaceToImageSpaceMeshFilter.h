@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT ParametricSpaceToImageSpaceMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricSpaceToImageSpaceMeshFilter);
+
   /** Standard class type aliases. */
   using Self = ParametricSpaceToImageSpaceMeshFilter;
   using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
@@ -78,9 +80,6 @@ protected:
 
   /** Generate additional information in the output  */
   void GenerateOutputInformation(void) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricSpaceToImageSpaceMeshFilter);
 };
 } // end namespace itk
 

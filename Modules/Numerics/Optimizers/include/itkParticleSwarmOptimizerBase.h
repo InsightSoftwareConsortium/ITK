@@ -57,6 +57,8 @@ class ITKOptimizers_EXPORT ParticleSwarmOptimizerBase :
   public SingleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerBase);
+
   /** Standard "Self" type alias. */
   using Self = ParticleSwarmOptimizerBase;
   using Superclass = SingleValuedNonLinearOptimizer;
@@ -204,8 +206,6 @@ protected:
   /**
    * Implement your update rule in this function.*/
   virtual void UpdateSwarm() = 0;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerBase);
 
   virtual void ValidateSettings();
 

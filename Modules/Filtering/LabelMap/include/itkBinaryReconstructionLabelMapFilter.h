@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT BinaryReconstructionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryReconstructionLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryReconstructionLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter<TImage>;
@@ -129,8 +131,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryReconstructionLabelMapFilter);
-
   MarkerImagePixelType m_ForegroundValue;
 
 }; // end of class

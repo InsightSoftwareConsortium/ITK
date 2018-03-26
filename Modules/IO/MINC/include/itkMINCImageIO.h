@@ -67,6 +67,8 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
 class ITKIOMINC_EXPORT MINCImageIO : public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIO);
+
   /** Standard class type aliases. */
   using Self = MINCImageIO;
   using Superclass = ImageIOBase;
@@ -141,8 +143,6 @@ private:
 
   // complex type images, composed of complex numbers
   //int m_Complex;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIO);
 
 };
 } // end namespace itk

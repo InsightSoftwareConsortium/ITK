@@ -63,6 +63,8 @@ template< typename TObjectType >
 class ITK_TEMPLATE_EXPORT ObjectStore:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectStore);
+
   /** Standard type alias. */
   using Self = ObjectStore;
   using Superclass = Object;
@@ -150,8 +152,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectStore);
-
   GrowthStrategyType m_GrowthStrategy;
 
   SizeValueType m_Size;

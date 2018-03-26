@@ -55,6 +55,7 @@ class ITK_TEMPLATE_EXPORT ExtensionVelocitiesImageFilter:
   public ReinitializeLevelSetImageFilter< TLevelSet >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExtensionVelocitiesImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExtensionVelocitiesImageFilter;
@@ -123,8 +124,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtensionVelocitiesImageFilter);
-
   /** Internal type alias. */
   using SpeedImageType = Image< float, Self::SetDimension >;
 

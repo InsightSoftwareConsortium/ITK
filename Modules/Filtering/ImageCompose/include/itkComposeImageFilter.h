@@ -59,6 +59,7 @@ class ITK_TEMPLATE_EXPORT ComposeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComposeImageFilter);
 
   using Self = ComposeImageFilter;
   using Pointer = SmartPointer< Self >;
@@ -96,8 +97,6 @@ protected:
   void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComposeImageFilter);
-
 
   // we have to specialize the code for complex, because it provides no operator[]
   // method

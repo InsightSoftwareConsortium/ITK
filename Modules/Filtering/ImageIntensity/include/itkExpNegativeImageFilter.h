@@ -94,6 +94,8 @@ class ExpNegativeImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageFilter);
+
   /** Standard class type aliases. */
   using Self = ExpNegativeImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -137,9 +139,6 @@ public:
 protected:
   ExpNegativeImageFilter() {}
   ~ExpNegativeImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageFilter);
 };
 } // end namespace itk
 

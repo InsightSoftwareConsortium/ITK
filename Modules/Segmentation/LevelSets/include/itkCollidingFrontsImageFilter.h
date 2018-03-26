@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT CollidingFrontsImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CollidingFrontsImageFilter);
+
   /** Standard class type aliases. */
   using Self = CollidingFrontsImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -158,8 +160,6 @@ protected:
   void PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CollidingFrontsImageFilter);
-
   NodeContainerPointer m_SeedPoints1;
   NodeContainerPointer m_SeedPoints2;
 

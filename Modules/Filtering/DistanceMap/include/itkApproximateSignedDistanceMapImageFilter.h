@@ -75,6 +75,8 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ApproximateSignedDistanceMapImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ApproximateSignedDistanceMapImageFilter);
+
   /** Standard type alias */
   using Self = ApproximateSignedDistanceMapImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -135,8 +137,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ApproximateSignedDistanceMapImageFilter);
-
   using IsoContourType = IsoContourDistanceImageFilter< InputImageType, OutputImageType >;
   using ChamferType = FastChamferDistanceImageFilter< OutputImageType, OutputImageType >;
   typename IsoContourType::Pointer m_IsoContourFilter;

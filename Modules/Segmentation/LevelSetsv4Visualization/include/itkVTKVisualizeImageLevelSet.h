@@ -44,6 +44,8 @@ template< typename TInputImage, typename TInputImageConverter >
 class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSet: public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSet);
+
   using Self = VTKVisualizeImageLevelSet;
   using Superclass = LightObject;
   using Pointer = SmartPointer< Self >;
@@ -96,8 +98,6 @@ protected:
   vtkSmartPointer< vtkRenderer >          m_Renderer;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSet);
-
   bool                               m_ScreenCapture;
   IdentifierType                     m_CurrentIteration;
   std::string                        m_ScreenCapturePrefix;

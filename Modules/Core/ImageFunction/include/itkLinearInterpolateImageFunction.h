@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT LinearInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LinearInterpolateImageFunction);
+
   /** Standard class type aliases. */
   using Self = LinearInterpolateImageFunction;
   using Superclass = InterpolateImageFunction< TInputImage, TCoordRep >;
@@ -105,8 +107,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LinearInterpolateImageFunction);
-
   /** Number of neighbors used in the interpolation */
   static const unsigned long m_Neighbors;
 

@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT PolygonGroupSpatialObject:
   public GroupSpatialObject< TDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObject);
+
   using Self = PolygonGroupSpatialObject< TDimension >;
   using Superclass = GroupSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
@@ -100,8 +102,6 @@ public:
                         char *name = nullptr) const override;
 
 protected:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObject);
-
   PolygonGroupSpatialObject(void) {}
   ~PolygonGroupSpatialObject(void) override {}
 };

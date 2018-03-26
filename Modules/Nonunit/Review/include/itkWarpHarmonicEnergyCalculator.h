@@ -45,6 +45,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT WarpHarmonicEnergyCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WarpHarmonicEnergyCalculator);
+
   /** Standard class type aliases. */
   using Self = WarpHarmonicEnergyCalculator;
   using Superclass = Object;
@@ -131,8 +133,6 @@ protected:
   double EvaluateAtNeighborhood(ConstNeighborhoodIteratorType & it) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WarpHarmonicEnergyCalculator);
-
   double            m_HarmonicEnergy;
   ImageConstPointer m_Image;
 

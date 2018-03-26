@@ -54,6 +54,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT RegionFromReferenceLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionFromReferenceLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = RegionFromReferenceLabelMapFilter;
   using Superclass = ChangeRegionLabelMapFilter< TInputImage >;
@@ -122,9 +124,6 @@ protected:
   void GenerateOutputInformation() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionFromReferenceLabelMapFilter);
 };
 } // end namespace itk
 

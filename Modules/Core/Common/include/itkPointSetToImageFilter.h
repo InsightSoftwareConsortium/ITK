@@ -34,6 +34,8 @@ template< typename TInputPointSet, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT PointSetToImageFilter:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageFilter);
+
   /** Standard class type aliases. */
   using Self = PointSetToImageFilter;
   using Superclass = ImageSource< TOutputImage >;
@@ -154,9 +156,6 @@ protected:
   ValueType m_OutsideValue;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageFilter);
 };
 } // end namespace itk
 

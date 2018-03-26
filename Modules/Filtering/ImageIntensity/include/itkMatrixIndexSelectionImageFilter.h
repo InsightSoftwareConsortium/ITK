@@ -85,6 +85,8 @@ class MatrixIndexSelectionImageFilter:
                                                           typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MatrixIndexSelectionImageFilter);
+
   /** Standard class type aliases. */
   using Self = MatrixIndexSelectionImageFilter<Image<Matrix<unsigned short, 2, 2>, 2>, Image<unsigned char, 2> >;
   using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
@@ -119,9 +121,6 @@ public:
 protected:
   MatrixIndexSelectionImageFilter() {}
   ~MatrixIndexSelectionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MatrixIndexSelectionImageFilter);
 };
 } // end namespace itk
 

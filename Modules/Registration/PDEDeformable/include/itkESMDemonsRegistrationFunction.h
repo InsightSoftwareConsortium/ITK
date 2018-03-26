@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT ESMDemonsRegistrationFunction:
                                             TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ESMDemonsRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = ESMDemonsRegistrationFunction;
   using Superclass = PDEDeformableRegistrationFunction<
@@ -231,8 +233,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ESMDemonsRegistrationFunction);
-
   /** Cache fixed image information. */
   PointType     m_FixedImageOrigin;
   SpacingType   m_FixedImageSpacing;

@@ -43,6 +43,8 @@ class ITK_TEMPLATE_EXPORT BlackTopHatImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BlackTopHatImageFilter);
+
   /** Standard class type aliases. */
   using Self = BlackTopHatImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -105,8 +107,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BlackTopHatImageFilter);
-
   bool m_SafeBorder;
 
   int m_Algorithm;

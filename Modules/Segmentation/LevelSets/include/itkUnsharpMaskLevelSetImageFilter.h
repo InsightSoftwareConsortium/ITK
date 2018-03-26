@@ -68,6 +68,8 @@ class ITK_TEMPLATE_EXPORT UnsharpMaskLevelSetImageFilter:
   public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskLevelSetImageFilter);
+
   /** Standard class type aliases */
   using Self = UnsharpMaskLevelSetImageFilter;
   using Superclass = SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >;
@@ -117,9 +119,6 @@ protected:
       return false;
       }
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskLevelSetImageFilter);
 };
 } // end namespace itk
 

@@ -54,6 +54,8 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT AccumulateImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AccumulateImageFilter);
+
   /** Standard class type aliases. */
   using Self = AccumulateImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -124,8 +126,6 @@ protected:
   void GenerateData(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AccumulateImageFilter);
-
   unsigned int m_AccumulateDimension;
   bool         m_Average;
 };

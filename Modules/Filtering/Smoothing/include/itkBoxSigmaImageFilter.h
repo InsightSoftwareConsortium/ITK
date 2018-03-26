@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT BoxSigmaImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoxSigmaImageFilter);
+
   /** Standard class type aliases. */
   using Self = BoxSigmaImageFilter;
   using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
@@ -86,9 +88,6 @@ protected:
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
                              ThreadIdType threadId) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoxSigmaImageFilter);
 };                                   // end of class
 } // end namespace itk
 

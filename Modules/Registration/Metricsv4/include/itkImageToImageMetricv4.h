@@ -172,6 +172,7 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4
   : public ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4;
@@ -736,8 +737,6 @@ private:
   /** Flag for warning about use of GetValue. Will be removed when
    *  GetValue implementation is improved. */
   mutable bool m_HaveMadeGetValueWarning;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4);
 
   /** Keep track of the number of sampled fixed points that are
    * deemed invalid during conversion to virtual domain.

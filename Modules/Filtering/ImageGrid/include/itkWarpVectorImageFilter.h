@@ -93,6 +93,8 @@ class ITK_TEMPLATE_EXPORT WarpVectorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WarpVectorImageFilter);
+
   /** Standard class type aliases. */
   using Self = WarpVectorImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -224,8 +226,6 @@ protected:
                             ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WarpVectorImageFilter);
-
   PixelType     m_EdgePaddingValue;
   SpacingType   m_OutputSpacing;
   PointType     m_OutputOrigin;

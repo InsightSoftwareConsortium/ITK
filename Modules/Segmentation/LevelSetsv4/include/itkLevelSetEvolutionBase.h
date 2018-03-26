@@ -43,6 +43,8 @@ template< typename TEquationContainer, typename TLevelSet >
 class ITK_TEMPLATE_EXPORT LevelSetEvolutionBase : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionBase);
+
   using Self = LevelSetEvolutionBase;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -159,9 +161,6 @@ protected:
   /** Helper members for threading. */
   typename LevelSetContainerType::Iterator m_LevelSetContainerIteratorToProcessWhenThreading;
   typename LevelSetContainerType::Iterator m_LevelSetUpdateContainerIteratorToProcessWhenThreading;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionBase);
 };
 }
 

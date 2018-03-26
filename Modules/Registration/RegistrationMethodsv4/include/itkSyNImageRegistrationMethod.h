@@ -71,6 +71,8 @@ class ITK_TEMPLATE_EXPORT SyNImageRegistrationMethod
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SyNImageRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = SyNImageRegistrationMethod;
   using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform,
@@ -235,8 +237,6 @@ protected:
   bool                                                            m_AverageMidPointGradients;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SyNImageRegistrationMethod);
-
   RealType                                                        m_GaussianSmoothingVarianceForTheUpdateField;
   RealType                                                        m_GaussianSmoothingVarianceForTheTotalField;
 };

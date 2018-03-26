@@ -102,6 +102,8 @@ class ITK_TEMPLATE_EXPORT CurvatureRegistrationFilter:
                                           TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = CurvatureRegistrationFilter;
   using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
@@ -180,8 +182,6 @@ protected:
   void ApplyUpdate(const TimeStepType& dt) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureRegistrationFilter);
-
   unsigned int m_FixedImageDimensions[ImageDimension];
 
   RealTypeDFT *m_DisplacementFieldComponentImage;

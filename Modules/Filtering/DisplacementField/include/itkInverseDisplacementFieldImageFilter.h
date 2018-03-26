@@ -66,6 +66,8 @@ class ITK_TEMPLATE_EXPORT InverseDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InverseDisplacementFieldImageFilter);
+
   /** Standard class type aliases. */
   using Self = InverseDisplacementFieldImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -188,8 +190,6 @@ protected:
   void PrepareKernelBaseSpline();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InverseDisplacementFieldImageFilter);
-
   SizeType                   m_Size;                 // Size of the output image
   KernelTransformPointerType m_KernelTransform;      // Coordinate transform to
                                                      // use

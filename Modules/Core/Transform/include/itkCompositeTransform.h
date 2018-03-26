@@ -88,6 +88,8 @@ class ITK_TEMPLATE_EXPORT CompositeTransform :
   public MultiTransform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CompositeTransform);
+
   /** Standard class type aliases. */
   using Self = CompositeTransform;
   using Superclass = MultiTransform<TParametersValueType, NDimensions, NDimensions>;
@@ -413,8 +415,6 @@ protected:
   mutable TransformsToOptimizeFlagsType m_TransformsToOptimizeFlags;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CompositeTransform);
-
   mutable ModifiedTimeType m_PreviousTransformsToOptimizeUpdateTime;
 
 };

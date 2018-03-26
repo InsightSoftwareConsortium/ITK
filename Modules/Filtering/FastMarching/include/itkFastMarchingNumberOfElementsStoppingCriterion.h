@@ -42,6 +42,8 @@ class FastMarchingNumberOfElementsStoppingCriterion :
 public FastMarchingStoppingCriterionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingNumberOfElementsStoppingCriterion);
+
   using Self = FastMarchingNumberOfElementsStoppingCriterion;
   using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -91,9 +93,6 @@ protected:
   {
     this->m_CurrentNumberOfElements = NumericTraits< IdentifierType >::ZeroValue();
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingNumberOfElementsStoppingCriterion);
 };
 
 }

@@ -69,6 +69,8 @@ class ITK_TEMPLATE_EXPORT NarrowBandImageFilterBase:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandImageFilterBase);
+
   /** Standard class type aliases */
   using Self = NarrowBandImageFilterBase;
   using Superclass = FiniteDifferenceImageFilter< TInputImage, TOutputImage >;
@@ -280,8 +282,6 @@ protected:
   typename Barrier::Pointer m_Barrier;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandImageFilterBase);
-
   /** Structure for passing information into static callback methods.  Used in
    * the subclasses' threading mechanisms. */
   struct NarrowBandImageFilterBaseThreadStruct {

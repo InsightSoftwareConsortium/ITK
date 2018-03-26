@@ -72,6 +72,8 @@ template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT InPlaceImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InPlaceImageFilter);
+
   /** Standard class type aliases. */
   using Self = InPlaceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -158,8 +160,6 @@ protected:
   itkGetConstMacro(RunningInPlace,bool);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InPlaceImageFilter);
-
   // the type are different we can't run in place
   void InternalAllocateOutputs( const FalseType& )
   {

@@ -95,6 +95,8 @@ class ITK_TEMPLATE_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegistrationMethodv4);
+
   /** Standard class type aliases. */
   using Self = ImageRegistrationMethodv4;
   using Superclass = ProcessObject;
@@ -501,8 +503,6 @@ protected:
 
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegistrationMethodv4);
-
   bool                                                            m_InPlace;
 
   bool                                                            m_InitializeCenterOfLinearOutputTransform;

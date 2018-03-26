@@ -49,6 +49,8 @@ namespace itk
 class ITKCommon_EXPORT XMLFileOutputWindow:public FileOutputWindow
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(XMLFileOutputWindow);
+
   /** Standard class type aliases. */
   using Self = XMLFileOutputWindow;
   using Superclass = FileOutputWindow;
@@ -87,9 +89,6 @@ protected:
   void Initialize();
 
   virtual void DisplayXML(const char *, const char *);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLFileOutputWindow);
 };
 } // end namespace itk
 

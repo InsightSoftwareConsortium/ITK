@@ -41,6 +41,8 @@ namespace itk
 class SpatialObjectFactoryBase:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectFactoryBase);
+
   /** Standard class type aliases. */
   using Self = SpatialObjectFactoryBase;
   using Superclass = ObjectFactoryBase;
@@ -90,8 +92,6 @@ protected:
   ~SpatialObjectFactoryBase() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectFactoryBase);
-
   static ITKSpatialObjectExport SpatialObjectFactoryBase *m_Factory;
 };
 } // end namespace itk

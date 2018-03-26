@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT OpeningByReconstructionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OpeningByReconstructionImageFilter);
+
   /** Standard class type aliases. */
   using Self = OpeningByReconstructionImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -135,8 +137,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OpeningByReconstructionImageFilter);
-
   /** kernel or structuring element to use. */
   KernelType m_Kernel;
   bool       m_FullyConnected;

@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldTransform :
   public VelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransform);
+
   /** Standard class type aliases. */
   using Self = TimeVaryingVelocityFieldTransform;
   using Superclass = VelocityFieldTransform<TParametersValueType, NDimensions>;
@@ -125,9 +127,6 @@ public:
 protected:
   TimeVaryingVelocityFieldTransform();
   ~TimeVaryingVelocityFieldTransform() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransform);
 };
 
 } // end namespace itk

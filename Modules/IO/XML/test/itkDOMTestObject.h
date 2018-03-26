@@ -28,6 +28,8 @@ namespace itk
 class DOMTestObject : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObject);
+
   /** Standard class type aliases. */
   using Self = DOMTestObject;
   using Superclass = Object;
@@ -50,8 +52,6 @@ public:
 
 private:
   DOMTestObject() {}
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObject);
 
   std::string m_FooValue;
   std::string m_FooFileName;

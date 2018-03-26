@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT BinomialBlurImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinomialBlurImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinomialBlurImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -110,8 +112,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinomialBlurImageFilter);
-
   /** How many times should we apply the blur? */
   unsigned int m_Repetitions;
 };

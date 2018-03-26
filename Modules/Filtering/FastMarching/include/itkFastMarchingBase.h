@@ -102,6 +102,8 @@ template< typename TInput, typename TOutput >
 class ITK_TEMPLATE_EXPORT FastMarchingBase : public FastMarchingTraits<TInput, TOutput>::SuperclassType
   {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingBase);
+
   using Traits = FastMarchingTraits<TInput, TOutput>;
   using SuperclassType = typename Traits::SuperclassType;
 
@@ -294,9 +296,6 @@ protected:
 
   /** \brief PrintSelf method  */
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingBase);
   };
 }
 

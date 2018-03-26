@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT DirectFourierReconstructionImageToImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DirectFourierReconstructionImageToImageFilter);
+
   /** Standard Self type alias */
   using Self = DirectFourierReconstructionImageToImageFilter;
 
@@ -179,7 +181,6 @@ private:
   RegionType m_InputRequestedRegion; /**< The region requested from* the input
                                        image   */
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(DirectFourierReconstructionImageToImageFilter);
 };
 } // namespace itk
 

@@ -59,6 +59,8 @@ class ITK_FORWARD_EXPORT Command;
 class ITKCommon_EXPORT Object:public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Object);
+
   /** Smart pointer type alias support */
   using Self = Object;
   using Superclass = LightObject;
@@ -199,8 +201,6 @@ protected:
   virtual void SetTimeStamp( const TimeStamp & time );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Object);
-
   /** Enable/Disable debug messages. */
   mutable bool m_Debug;
 

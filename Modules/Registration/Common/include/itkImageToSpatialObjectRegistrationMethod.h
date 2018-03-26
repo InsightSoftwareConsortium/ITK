@@ -85,6 +85,8 @@ template< typename TFixedImage, typename TMovingSpatialObject >
 class ITK_TEMPLATE_EXPORT ImageToSpatialObjectRegistrationMethod : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToSpatialObjectRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = ImageToSpatialObjectRegistrationMethod;
   using Superclass = ProcessObject;
@@ -195,8 +197,6 @@ protected:
   ParametersType m_LastTransformParameters;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToSpatialObjectRegistrationMethod);
-
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;
 

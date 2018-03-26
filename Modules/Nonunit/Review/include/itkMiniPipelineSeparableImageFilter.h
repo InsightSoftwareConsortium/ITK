@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT MiniPipelineSeparableImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MiniPipelineSeparableImageFilter);
+
   /** Standard class type aliases. */
   using Self = MiniPipelineSeparableImageFilter;
   using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
@@ -104,9 +106,6 @@ protected:
 
   typename FilterType::Pointer m_Filters[ImageDimension];
   typename CastType::Pointer m_Cast;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MiniPipelineSeparableImageFilter);
 };
 }
 

@@ -90,6 +90,8 @@ class ITK_TEMPLATE_EXPORT ResampleImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ResampleImageFilter);
+
   /** Standard class type aliases. */
   using Self = ResampleImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -334,8 +336,6 @@ protected:
                                                  const ComponentType maxComponent) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ResampleImageFilter);
-
   SizeType                m_Size;         // Size of the output image
   InterpolatorPointerType m_Interpolator; // Image function for
                                           // interpolation

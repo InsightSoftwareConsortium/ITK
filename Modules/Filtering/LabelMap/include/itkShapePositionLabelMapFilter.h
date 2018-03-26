@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT ShapePositionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePositionLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ShapePositionLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter<TImage>;
@@ -132,10 +134,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   AttributeType m_Attribute;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePositionLabelMapFilter);
-
 }; // end of class
 
 } // end namespace itk

@@ -35,6 +35,8 @@ class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetFunction);
+
   /** Standard class type aliases. */
   using Self = LaplacianSegmentationLevelSetFunction;
   using Superclass =
@@ -94,7 +96,6 @@ protected:
 
   ~LaplacianSegmentationLevelSetFunction() override {}
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetFunction);
 };
 } // end namespace itk
 

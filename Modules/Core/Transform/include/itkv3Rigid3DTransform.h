@@ -64,6 +64,8 @@ class ITK_TEMPLATE_EXPORT Rigid3DTransform:
     public itk::Rigid3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
+
   /** Standard class type aliases. */
   using Self = Rigid3DTransform;
   using Superclass = itk::Rigid3DTransform<TParametersValueType>;
@@ -127,9 +129,6 @@ protected:
   Rigid3DTransform()
   {
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
 };                                //class Rigid3DTransform
 }  // namespace v3
 }  // namespace itk

@@ -47,6 +47,8 @@ class ITKCommon_EXPORT ImageRegionSplitterSlowDimension
   :public ImageRegionSplitterBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterSlowDimension);
+
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterSlowDimension;
   using Superclass = ImageRegionSplitterBase;
@@ -73,9 +75,6 @@ protected:
                                          unsigned int numberOfPieces,
                                          IndexValueType regionIndex[],
                                          SizeValueType regionSize[] ) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterSlowDimension);
 };
 } // end namespace itk
 

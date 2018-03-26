@@ -36,6 +36,8 @@ class ITKOptimizers_EXPORT NonLinearOptimizer:public Optimizer
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NonLinearOptimizer);
+
   /** Standard class type aliases. */
   using Self = NonLinearOptimizer;
   using Superclass = Optimizer;
@@ -55,9 +57,6 @@ public:
 protected:
   NonLinearOptimizer() {}
   ~NonLinearOptimizer() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NonLinearOptimizer);
 };
 } // end namespace itk
 

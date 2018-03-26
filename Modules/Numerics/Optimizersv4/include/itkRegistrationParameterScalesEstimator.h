@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesEstimator
   : public OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimator);
+
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesEstimator;
   using Superclass = OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>;
@@ -261,8 +263,6 @@ protected:
   static constexpr SizeValueType    SizeOfSmallDomain = 1000;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimator);
-
   /** m_TransformForward specifies which transform scales to be estimated.
    * m_TransformForward = true (default) for the moving transform parameters.
    * m_TransformForward = false for the fixed transform parameters.

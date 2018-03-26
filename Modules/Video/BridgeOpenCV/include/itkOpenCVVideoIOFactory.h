@@ -32,6 +32,8 @@ namespace itk
 class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIOFactory: public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIOFactory);
+
   /** Standard class type aliases. */
   using Self = OpenCVVideoIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -60,9 +62,6 @@ public:
 protected:
   OpenCVVideoIOFactory();
   ~OpenCVVideoIOFactory();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIOFactory);
 };
 } // end namespace itk
 

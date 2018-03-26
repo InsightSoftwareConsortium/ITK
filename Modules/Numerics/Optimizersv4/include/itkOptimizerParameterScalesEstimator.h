@@ -38,6 +38,8 @@ template< typename TInternalComputationValueType=double >
 class OptimizerParameterScalesEstimatorTemplate : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OptimizerParameterScalesEstimatorTemplate);
+
   /** Standard class type aliases. */
   using Self = OptimizerParameterScalesEstimatorTemplate;
   using Superclass = Object;
@@ -76,10 +78,6 @@ protected:
     {
     Superclass::PrintSelf(os,indent);
     }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OptimizerParameterScalesEstimatorTemplate);
-
 }; //class OptimizerParameterScalesEstimatorTemplate
 
 /** This helps to meet backward compatibility */

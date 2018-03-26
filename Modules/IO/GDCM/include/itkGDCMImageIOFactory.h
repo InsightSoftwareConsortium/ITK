@@ -31,6 +31,8 @@ namespace itk
 class ITKIOGDCM_EXPORT GDCMImageIOFactory:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIOFactory);
+
   /** Standard class type aliases. */
   using Self = GDCMImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,9 +61,6 @@ public:
 protected:
   GDCMImageIOFactory();
   ~GDCMImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIOFactory);
 };
 } // end namespace itk
 

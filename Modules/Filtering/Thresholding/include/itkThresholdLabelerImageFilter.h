@@ -113,6 +113,8 @@ class ITK_TEMPLATE_EXPORT ThresholdLabelerImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdLabelerImageFilter);
+
   /** Standard class type aliases. */
   using Self = ThresholdLabelerImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -203,8 +205,6 @@ protected:
   void BeforeThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdLabelerImageFilter);
-
   ThresholdVector     m_Thresholds;
   RealThresholdVector m_RealThresholds;
   OutputPixelType     m_LabelOffset;

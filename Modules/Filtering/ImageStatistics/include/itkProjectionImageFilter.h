@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT ProjectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectionImageFilter);
+
   /** Standard class type aliases. */
   using Self = ProjectionImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -119,8 +121,6 @@ protected:
   virtual AccumulatorType NewAccumulator( SizeValueType ) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectionImageFilter);
-
   unsigned int m_ProjectionDimension;
 };
 } // end namespace itk

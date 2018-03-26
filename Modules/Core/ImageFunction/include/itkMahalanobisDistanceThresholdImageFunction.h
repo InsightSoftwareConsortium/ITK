@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT MahalanobisDistanceThresholdImageFunction:
   public ImageFunction< TInputImage, bool, TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MahalanobisDistanceThresholdImageFunction);
+
   /** Standard class type aliases. */
   using Self = MahalanobisDistanceThresholdImageFunction;
   using Superclass = ImageFunction< TInputImage, bool, TCoordRep >;
@@ -155,8 +157,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MahalanobisDistanceThresholdImageFunction);
-
   double m_Threshold;
 
   // This is intended only for Image of Vector pixel type.

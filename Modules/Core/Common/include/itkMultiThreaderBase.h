@@ -51,6 +51,8 @@ namespace itk
 class ITKCommon_EXPORT MultiThreaderBase : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreaderBase);
+
   /** Standard class type aliases. */
   using Self = MultiThreaderBase;
   using Superclass = Object;
@@ -165,8 +167,6 @@ protected:
   static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreaderBase);
-
   /** Global variable defining the maximum number of threads that can be used.
    *  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
    *  ITK_MAX_THREADS and greater than zero. */

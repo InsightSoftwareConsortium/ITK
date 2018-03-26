@@ -72,6 +72,8 @@ class ITK_TEMPLATE_EXPORT IsolatedConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedConnectedImageFilter);
+
   /** Standard class type aliases. */
   using Self = IsolatedConnectedImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -214,9 +216,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedConnectedImageFilter);
 };
 } // end namespace itk
 

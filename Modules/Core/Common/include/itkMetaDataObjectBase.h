@@ -47,6 +47,8 @@ namespace itk
 class ITKCommon_EXPORT MetaDataObjectBase: public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObjectBase);
+
   /** Smart pointer type alias support */
   using Self = MetaDataObjectBase;
   using Superclass = LightObject;
@@ -77,9 +79,6 @@ public:
 protected:
   MetaDataObjectBase();
   ~MetaDataObjectBase() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObjectBase);
 };
 }
 

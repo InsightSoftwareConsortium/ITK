@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT BoxMeanImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoxMeanImageFilter);
+
   /** Standard class type aliases. */
   using Self = BoxMeanImageFilter;
   using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
@@ -87,9 +89,6 @@ protected:
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoxMeanImageFilter);
 };                                  // end of class
 } // end namespace itk
 

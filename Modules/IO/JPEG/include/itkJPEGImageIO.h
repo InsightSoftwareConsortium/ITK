@@ -35,6 +35,8 @@ namespace itk
 class ITKIOJPEG_EXPORT JPEGImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIO);
+
   /** Standard class type aliases. */
   using Self = JPEGImageIO;
   using Superclass = ImageIOBase;
@@ -95,9 +97,6 @@ protected:
   int m_Quality;
   /** Default = true*/
   bool m_Progressive;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIO);
 };
 } // end namespace itk
 

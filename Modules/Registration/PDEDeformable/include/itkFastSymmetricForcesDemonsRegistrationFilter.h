@@ -75,6 +75,8 @@ class ITK_TEMPLATE_EXPORT FastSymmetricForcesDemonsRegistrationFilter:
                                           TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastSymmetricForcesDemonsRegistrationFilter);
+
   /** Standard class type aliases. */
   using Self = FastSymmetricForcesDemonsRegistrationFilter;
   using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
@@ -171,8 +173,6 @@ protected:
   using AdderPointer = typename AdderType::Pointer;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastSymmetricForcesDemonsRegistrationFilter);
-
   /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is of the correct type.
    * this method will throw an exception if the function is not of the expected type. */
   DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType();

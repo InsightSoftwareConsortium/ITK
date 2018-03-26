@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT PatchBasedDenoisingImageFilter :
   public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingImageFilter);
+
   /** Standard class type aliases. */
   using Self = PatchBasedDenoisingImageFilter;
   using Superclass = PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>;
@@ -427,8 +429,6 @@ protected:
   virtual ThreadDataStruct GetThreadData(int threadId);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingImageFilter);
-
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ComputeSigma for processing. */
   static ITK_THREAD_RETURN_TYPE ComputeSigmaUpdateThreaderCallback( void *arg );

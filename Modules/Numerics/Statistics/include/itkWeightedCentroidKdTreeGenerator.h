@@ -67,6 +67,8 @@ class ITK_TEMPLATE_EXPORT WeightedCentroidKdTreeGenerator:
   public KdTreeGenerator< TSample >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCentroidKdTreeGenerator);
+
   /** Standard class type aliases */
   using Self = WeightedCentroidKdTreeGenerator;
   using Superclass = KdTreeGenerator< TSample >;
@@ -106,8 +108,6 @@ protected:
                                                    unsigned int level) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCentroidKdTreeGenerator);
-
   MeasurementVectorType m_TempLowerBound;
   MeasurementVectorType m_TempUpperBound;
   MeasurementVectorType m_TempMean;

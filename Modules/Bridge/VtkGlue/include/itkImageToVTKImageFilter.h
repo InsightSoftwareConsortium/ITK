@@ -46,6 +46,8 @@ template <typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageToVTKImageFilter : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToVTKImageFilter);
+
   /** Standard class type aliases. */
   using Self = ImageToVTKImageFilter;
   using Superclass = ProcessObject;
@@ -95,8 +97,6 @@ protected:
   ~ImageToVTKImageFilter() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToVTKImageFilter);
-
   ExporterFilterPointer       m_Exporter;
   vtkImageImport *            m_Importer;
 };

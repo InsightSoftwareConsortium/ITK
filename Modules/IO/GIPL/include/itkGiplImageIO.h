@@ -39,6 +39,8 @@ class GiplImageIOInternals;
 class ITKIOGIPL_EXPORT GiplImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIO);
+
   /** Standard class type aliases. */
   using Self = GiplImageIO;
   using Superclass = ImageIOBase;
@@ -80,8 +82,6 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIO);
-
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 
   bool CheckExtension(const char *);

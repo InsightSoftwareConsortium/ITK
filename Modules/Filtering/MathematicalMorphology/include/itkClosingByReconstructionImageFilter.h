@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT ClosingByReconstructionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ClosingByReconstructionImageFilter);
+
   /** Standard class type aliases. */
   using Self = ClosingByReconstructionImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -133,8 +135,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ClosingByReconstructionImageFilter);
-
   /** kernel or structuring element to use. */
   KernelType m_Kernel;
   bool       m_FullyConnected;

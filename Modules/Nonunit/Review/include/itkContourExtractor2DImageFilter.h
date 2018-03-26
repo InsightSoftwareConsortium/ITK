@@ -103,6 +103,8 @@ class ITK_TEMPLATE_EXPORT ContourExtractor2DImageFilter:
   public ImageToPathFilter< TInputImage, PolyLineParametricPath< 2 > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ContourExtractor2DImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
@@ -197,8 +199,6 @@ private:
   void AddSegment(const VertexType from, const VertexType to);
 
   void FillOutputs();
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContourExtractor2DImageFilter);
 
   InputRealType   m_ContourValue;
   bool            m_ReverseContourOrientation;

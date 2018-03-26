@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleDilateImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleDilateImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleDilateImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -135,8 +137,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleDilateImageFilter);
-
   PixelType m_Boundary;
 
   // the filters used internally

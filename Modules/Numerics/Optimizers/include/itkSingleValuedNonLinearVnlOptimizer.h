@@ -38,6 +38,8 @@ class ITKOptimizers_EXPORT SingleValuedNonLinearVnlOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearVnlOptimizer);
+
   /** Standard class type aliases. */
   using Self = SingleValuedNonLinearVnlOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
@@ -110,8 +112,6 @@ protected:
 private:
   /** Callback function for the Command Observer */
   void IterationReport(const EventObject & event);
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearVnlOptimizer);
 
   CostFunctionAdaptorType *m_CostFunctionAdaptor;
 

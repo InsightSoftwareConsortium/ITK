@@ -61,6 +61,8 @@ template <typename TValue, unsigned int NRows = 0, unsigned int NColumns = 0>
 class ITK_TEMPLATE_EXPORT CSVNumericObjectFileWriter:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CSVNumericObjectFileWriter);
+
   /** Standard class type aliases */
   using Self = CSVNumericObjectFileWriter;
   using Superclass = LightProcessObject;
@@ -125,7 +127,6 @@ private:
   StringVectorType          m_ColumnHeaders;
   StringVectorType          m_RowHeaders;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(CSVNumericObjectFileWriter);
 };
 
 } //end namespace itk

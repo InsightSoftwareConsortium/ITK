@@ -48,6 +48,8 @@ class FastApproximateRankImageFilter:
                                                             FlatStructuringElement< TInputImage::ImageDimension > > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastApproximateRankImageFilter);
+
   /** Standard class type aliases. */
   using Self = FastApproximateRankImageFilter;
   using Superclass = MiniPipelineSeparableImageFilter< TInputImage, TOutputImage,
@@ -109,8 +111,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastApproximateRankImageFilter);
-
   float m_Rank;
 };
 }

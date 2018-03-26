@@ -34,6 +34,8 @@ class ITKOptimizers_EXPORT RegularStepGradientDescentBaseOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentBaseOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = RegularStepGradientDescentBaseOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
@@ -128,8 +130,6 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentBaseOptimizer);
-
 protected:
   DerivativeType m_Gradient;
   DerivativeType m_PreviousGradient;

@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT MorphologicalGradientImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalGradientImageFilter);
+
   /** Standard class type aliases. */
   using Self = MorphologicalGradientImageFilter;
   using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -130,8 +132,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalGradientImageFilter);
-
   // the filters used internally
   typename HistogramFilterType::Pointer m_HistogramFilter;
 

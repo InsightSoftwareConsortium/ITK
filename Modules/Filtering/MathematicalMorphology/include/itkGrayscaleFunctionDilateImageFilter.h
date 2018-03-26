@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleFunctionDilateImageFilter:
   public MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionDilateImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleFunctionDilateImageFilter;
   using Superclass = MorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
@@ -122,8 +124,6 @@ protected:
                      const KernelIteratorType kernelEnd) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionDilateImageFilter);
-
   // Default boundary condition for dilation filter, defaults to
   // NumericTraits<PixelType>::NonpositiveMin()
   DefaultBoundaryConditionType m_DilateBoundaryCondition;

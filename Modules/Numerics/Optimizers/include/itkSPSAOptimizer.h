@@ -45,6 +45,7 @@ class ITKOptimizers_EXPORT SPSAOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SPSAOptimizer);
 
   /** Standard class type aliases. */
   using Self = SPSAOptimizer;
@@ -244,8 +245,6 @@ protected:
     DerivativeType & gradient);
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(SPSAOptimizer);
 
   /** Settings.*/
   SizeValueType m_MinimumNumberOfIterations;

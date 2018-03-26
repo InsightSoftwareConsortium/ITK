@@ -48,6 +48,8 @@ class ITK_TEMPLATE_EXPORT BinaryShapeKeepNObjectsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryShapeKeepNObjectsImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryShapeKeepNObjectsImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
@@ -169,8 +171,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryShapeKeepNObjectsImageFilter);
-
   bool                 m_FullyConnected;
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;

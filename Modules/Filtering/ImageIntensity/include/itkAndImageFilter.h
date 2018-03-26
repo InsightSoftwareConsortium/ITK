@@ -61,6 +61,8 @@ class AndImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AndImageFilter);
+
   /** Standard class type aliases. */
   using Self = AndImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -90,9 +92,6 @@ public:
 protected:
   AndImageFilter() {}
   ~AndImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AndImageFilter);
 };
 } // end namespace itk
 

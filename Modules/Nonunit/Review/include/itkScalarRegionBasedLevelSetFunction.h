@@ -67,6 +67,8 @@ class ITK_TEMPLATE_EXPORT ScalarRegionBasedLevelSetFunction:
   public RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunction);
+
   using Self = ScalarRegionBasedLevelSetFunction;
   using Superclass = RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >;
   using Pointer = SmartPointer< Self >;
@@ -143,9 +145,6 @@ protected:
 
   virtual void UpdateSharedDataOutsideParameters(const unsigned int & iId,
                                                  const FeaturePixelType & iVal, const ScalarValueType & iChange) = 0;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunction);
 };
 }
 

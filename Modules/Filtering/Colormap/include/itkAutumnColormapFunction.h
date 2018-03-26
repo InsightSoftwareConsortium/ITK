@@ -45,6 +45,7 @@ class ITK_TEMPLATE_EXPORT AutumnColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AutumnColormapFunction);
 
   using Self = AutumnColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -63,9 +64,6 @@ public:
 protected:
   AutumnColormapFunction() {}
   ~AutumnColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AutumnColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

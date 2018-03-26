@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT VectorGradientNDAnisotropicDiffusionFunction:
   public VectorAnisotropicDiffusionFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientNDAnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = VectorGradientNDAnisotropicDiffusionFunction;
   using Superclass = VectorAnisotropicDiffusionFunction< TImage >;
@@ -91,8 +93,6 @@ protected:
   ~VectorGradientNDAnisotropicDiffusionFunction() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientNDAnisotropicDiffusionFunction);
-
   /** Inner product function. */
   VectorNeighborhoodInnerProduct< ImageType > m_InnerProduct;
 

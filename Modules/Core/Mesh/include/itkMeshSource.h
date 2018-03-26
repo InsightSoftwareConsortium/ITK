@@ -49,6 +49,8 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT MeshSource:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshSource);
+
   /** Standard class type aliases. */
   using Self = MeshSource;
   using Superclass = ProcessObject;
@@ -152,8 +154,6 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshSource);
-
   /** Used by streaming: The requested region of the output being processed
    * by the execute method. Set in the GenerateInputRequestedRegion method. */
   int m_GenerateDataRegion;

@@ -130,6 +130,8 @@ class ITK_TEMPLATE_EXPORT BSplineScatteredDataPointSetToImageFilter:
   public PointSetToImageFilter< TInputPointSet, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineScatteredDataPointSetToImageFilter);
+
   /** Standard class type aliases. */
   using Self = BSplineScatteredDataPointSetToImageFilter;
   using Superclass = PointSetToImageFilter<TInputPointSet, TOutputImage>;
@@ -295,8 +297,6 @@ protected:
   void GenerateData() override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineScatteredDataPointSetToImageFilter);
 
   /** Function used to propagate the fitting solution at one fitting level
    * to the next level with the mesh resolution doubled. */

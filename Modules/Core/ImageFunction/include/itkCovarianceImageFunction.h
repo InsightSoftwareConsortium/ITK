@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT CovarianceImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CovarianceImageFunction);
+
   /** Standard class type aliases. */
   using Self = CovarianceImageFunction;
   using Superclass = ImageFunction< TInputImage,
@@ -118,8 +120,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CovarianceImageFunction);
-
   unsigned int m_NeighborhoodRadius;
 };
 } // end namespace itk

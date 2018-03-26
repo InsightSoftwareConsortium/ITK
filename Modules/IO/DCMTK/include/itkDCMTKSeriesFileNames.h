@@ -51,6 +51,8 @@ namespace itk
 class ITKIODCMTK_EXPORT DCMTKSeriesFileNames:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKSeriesFileNames);
+
   /** Standard class type aliases. */
   using Self = DCMTKSeriesFileNames;
   using Superclass = ProcessObject;
@@ -172,8 +174,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKSeriesFileNames);
-
   /** internal method for reading out filenames and UID lists */
   void GetDicomData(const std::string &series, bool saveFileNames);
   /** Contains the input directory where the DICOM serie is found */

@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT ForwardFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ForwardFFTImageFilter);
+
   /** Standard class type aliases. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -87,9 +89,6 @@ protected:
 
   /** This class produces the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *output) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ForwardFFTImageFilter);
 };
 } // end namespace itk
 

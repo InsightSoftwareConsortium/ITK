@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT LabelMapContourOverlayImageFilter :
     public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapContourOverlayImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapContourOverlayImageFilter;
   using Superclass = LabelMapFilter<TLabelMap, TOutputImage>;
@@ -214,8 +216,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapContourOverlayImageFilter);
-
   double                    m_Opacity;
   typename Barrier::Pointer m_Barrier;
   int                       m_Type;

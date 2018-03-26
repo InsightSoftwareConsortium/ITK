@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT GrayscaleConnectedClosingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleConnectedClosingImageFilter);
+
   /** Standard class type aliases. */
   using Self = GrayscaleConnectedClosingImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -119,8 +121,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleConnectedClosingImageFilter);
-
   unsigned long       m_NumberOfIterationsUsed;
   InputImageIndexType m_Seed;
 

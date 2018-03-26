@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT HMinimaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HMinimaImageFilter);
+
   /** Standard class type aliases. */
   using Self = HMinimaImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -131,8 +133,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HMinimaImageFilter);
-
   InputImagePixelType m_Height;
   unsigned long       m_NumberOfIterationsUsed;
   bool                m_FullyConnected;

@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT RegionalMinimaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionalMinimaImageFilter);
+
   /** Standard class type aliases. */
   using Self = RegionalMinimaImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -141,8 +143,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionalMinimaImageFilter);
-
   bool                 m_FullyConnected;
   bool                 m_FlatIsMinima;
   OutputImagePixelType m_ForegroundValue;

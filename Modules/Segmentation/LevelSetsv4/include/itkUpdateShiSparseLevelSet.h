@@ -43,6 +43,8 @@ template< unsigned int VDimension,
 class ITK_TEMPLATE_EXPORT UpdateShiSparseLevelSet : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateShiSparseLevelSet);
+
   using Self = UpdateShiSparseLevelSet;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -136,8 +138,6 @@ protected:
             const LevelSetOutputRealType& currentUpdate ) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateShiSparseLevelSet);
-
   // input
   LevelSetPointer    m_InputLevelSet;
   LevelSetOffsetType m_Offset;

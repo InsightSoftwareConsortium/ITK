@@ -103,6 +103,7 @@ class ITKOptimizersv4_EXPORT LBFGS2Optimizerv4:
     public ObjectToObjectOptimizerBaseTemplate<double>{
 
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGS2Optimizerv4);
 
   enum LineSearchMethod{
     /** The default algorithm (MoreThuente method). */
@@ -425,8 +426,6 @@ protected:
                               );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGS2Optimizerv4);
-
   // Private Implementation (Pimpl), to hide liblbfgs data structures
   class PrivateImplementationHolder;
 

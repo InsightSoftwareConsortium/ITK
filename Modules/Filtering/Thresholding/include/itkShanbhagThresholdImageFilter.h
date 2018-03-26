@@ -53,6 +53,8 @@ class ShanbhagThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdImageFilter);
+
   /** Standard Self type alias */
   using Self = ShanbhagThresholdImageFilter;
   using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
@@ -102,9 +104,6 @@ protected:
     this->SetCalculator( CalculatorType::New() );
     }
   ~ShanbhagThresholdImageFilter() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdImageFilter);
 };
 
 } // end namespace itk

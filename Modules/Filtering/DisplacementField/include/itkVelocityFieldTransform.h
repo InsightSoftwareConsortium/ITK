@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT VelocityFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VelocityFieldTransform);
+
   /** Standard class type aliases. */
   using Self = VelocityFieldTransform;
   using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
@@ -214,8 +216,6 @@ protected:
   unsigned long m_VelocityFieldSetTime;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VelocityFieldTransform);
-
   /**
    * Convenience method which reads the information from the current
    * velocity field into m_FixedParameters.

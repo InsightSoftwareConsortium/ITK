@@ -59,6 +59,8 @@ class ITK_TEMPLATE_EXPORT BSplineControlPointImageFunction
 : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFunction);
+
   using Self = BSplineControlPointImageFunction;
   using Superclass = ImageFunction<TInputImage,
     typename TInputImage::PixelType, TCoordRep>;
@@ -272,8 +274,6 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFunction);
-
   /** Parameters for the B-spline object domain */
   SizeType                                     m_Size;
   SpacingType                                  m_Spacing;

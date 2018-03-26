@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT ShiftScaleLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ShiftScaleLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter< TImage >;
@@ -100,9 +102,6 @@ protected:
   double m_Scale;
 
   bool m_ChangeBackgroundValue;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleLabelMapFilter);
 };                                        // end of class
 } // end namespace itk
 

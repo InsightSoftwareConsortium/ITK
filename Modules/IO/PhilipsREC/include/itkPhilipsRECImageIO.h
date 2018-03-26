@@ -54,6 +54,8 @@ namespace itk
 class ITKIOPhilipsREC_EXPORT PhilipsRECImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIO);
+
   /** Standard class type aliases. */
   using Self = PhilipsRECImageIO;
   using Superclass = ImageIOBase;
@@ -143,8 +145,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIO);
 
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 

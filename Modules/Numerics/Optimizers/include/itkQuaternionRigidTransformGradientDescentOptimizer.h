@@ -53,6 +53,8 @@ class ITKOptimizers_EXPORT QuaternionRigidTransformGradientDescentOptimizer:
   public GradientDescentOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransformGradientDescentOptimizer);
+
   /** Standard class type aliases. */
   using Self = QuaternionRigidTransformGradientDescentOptimizer;
   using Superclass = GradientDescentOptimizer;
@@ -76,9 +78,6 @@ public:
 protected:
   QuaternionRigidTransformGradientDescentOptimizer() {}
   ~QuaternionRigidTransformGradientDescentOptimizer() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransformGradientDescentOptimizer);
 };
 } // end namespace itk
 

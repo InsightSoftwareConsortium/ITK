@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromJacobian :
   public RegistrationParameterScalesEstimator< TMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromJacobian);
+
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromJacobian;
   using Superclass = RegistrationParameterScalesEstimator< TMetric >;
@@ -105,10 +107,6 @@ protected:
    *  voxel from a change on the transform.
    */
   void ComputeSampleStepScales(const ParametersType &step, ScalesType &sampleScales);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromJacobian);
-
 }; //class RegistrationParameterScalesFromJacobian
 
 

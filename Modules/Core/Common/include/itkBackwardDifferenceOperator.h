@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT BackwardDifferenceOperator:
   public NeighborhoodOperator< TPixel, TDimension, TAllocator >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BackwardDifferenceOperator);
+
   /** Standard class type aliases. */
   using Self = BackwardDifferenceOperator;
   using Superclass = NeighborhoodOperator< TPixel, TDimension, TAllocator >;
@@ -67,9 +69,6 @@ protected:
   /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector & coeff) override
   { this->FillCenteredDirectional(coeff); }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BackwardDifferenceOperator);
 };
 } // namespace itk
 

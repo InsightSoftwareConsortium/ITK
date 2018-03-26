@@ -73,6 +73,8 @@ class ITK_TEMPLATE_EXPORT DirectedHausdorffDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DirectedHausdorffDistanceImageFilter);
+
   /** Standard Self type alias */
   using Self = DirectedHausdorffDistanceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
@@ -161,8 +163,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DirectedHausdorffDistanceImageFilter);
-
   using DistanceMapType = Image< RealType, Self::ImageDimension >;
   using DistanceMapPointer = typename DistanceMapType::Pointer;
 

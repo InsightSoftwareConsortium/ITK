@@ -47,6 +47,8 @@ namespace itk
 class ITKIOLSM_EXPORT LSMImageIO:public TIFFImageIO
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LSMImageIO);
+
   /** Standard class type aliases. */
   using Self = LSMImageIO;
   using Superclass = TIFFImageIO;
@@ -90,8 +92,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LSMImageIO);
-
   void FillZeissStruct(char *z);
 };
 } // end namespace itk

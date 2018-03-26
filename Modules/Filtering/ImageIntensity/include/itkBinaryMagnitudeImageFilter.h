@@ -91,6 +91,8 @@ class BinaryMagnitudeImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMagnitudeImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryMagnitudeImageFilter;
   using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
@@ -122,9 +124,6 @@ public:
 protected:
   BinaryMagnitudeImageFilter() {}
   ~BinaryMagnitudeImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMagnitudeImageFilter);
 };
 } // end namespace itk
 

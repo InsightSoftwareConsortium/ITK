@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFunction :
                                                TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFunction);
+
   /** Standard class type aliases. */
   using Self = GPUDemonsRegistrationFunction;
   using Superclass = GPUPDEDeformableRegistrationFunction< TFixedImage, TMovingImage,
@@ -236,8 +238,6 @@ protected:
   int m_ComputeUpdateGPUKernelHandle;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFunction);
-
   /** Cache fixed image information. */
   //SpacingType                  m_FixedImageSpacing;
   //PointType                    m_FixedImageOrigin;

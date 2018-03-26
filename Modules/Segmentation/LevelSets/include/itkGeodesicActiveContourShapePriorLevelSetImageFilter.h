@@ -115,6 +115,8 @@ class ITK_TEMPLATE_EXPORT GeodesicActiveContourShapePriorLevelSetImageFilter:
                                                     TOutputPixelType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourShapePriorLevelSetImageFilter);
+
   /** Standard class type aliases. */
   using Self = GeodesicActiveContourShapePriorLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>;
   using Superclass = ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
@@ -169,7 +171,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourShapePriorLevelSetImageFilter);
   GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction;
 };
 } // end namespace itk

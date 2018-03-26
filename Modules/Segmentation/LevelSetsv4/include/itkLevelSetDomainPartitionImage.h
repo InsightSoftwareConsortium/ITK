@@ -32,6 +32,7 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionImage : public LevelSetDomainPartitionBase< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionImage);
 
   using Self = LevelSetDomainPartitionImage;
   using Superclass = LevelSetDomainPartitionBase< TImage >;
@@ -99,9 +100,6 @@ protected:
   ImageConstPointer               m_Image;
   ListImagePointer                m_ListDomain;
   LevelSetDomainRegionVectorType  m_LevelSetDomainRegionVector;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionImage);
 };
 } //end namespace itk
 

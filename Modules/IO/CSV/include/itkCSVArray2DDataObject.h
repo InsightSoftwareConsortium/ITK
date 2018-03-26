@@ -46,6 +46,8 @@ template <typename TData>
 class ITK_TEMPLATE_EXPORT CSVArray2DDataObject:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CSVArray2DDataObject);
+
   /* Standard class type aliases */
   using Self = CSVArray2DDataObject;
   using Superclass = DataObject;
@@ -159,7 +161,6 @@ private:
   bool                   m_HasRowHeaders;
   bool                   m_HasColumnHeaders;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(CSVArray2DDataObject);
 };
 
 } //end namespace itk

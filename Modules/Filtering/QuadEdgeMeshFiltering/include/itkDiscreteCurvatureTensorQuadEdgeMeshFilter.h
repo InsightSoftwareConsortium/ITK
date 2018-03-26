@@ -34,6 +34,8 @@ class DiscreteCurvatureTensorQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteCurvatureTensorQuadEdgeMeshFilter);
+
   using Self = DiscreteCurvatureTensorQuadEdgeMeshFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -60,9 +62,6 @@ protected:
   ///TODO to be implemented
   virtual void GenerateData()
   {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteCurvatureTensorQuadEdgeMeshFilter);
 };
 }
 

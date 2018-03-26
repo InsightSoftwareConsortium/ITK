@@ -62,6 +62,8 @@ class OrImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OrImageFilter);
+
   /** Standard class type aliases. */
   using Self = OrImageFilter;
   using Superclass = BinaryFunctorImageFilter<
@@ -92,9 +94,6 @@ public:
 protected:
   OrImageFilter() {}
   ~OrImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OrImageFilter);
 };
 } // end namespace itk
 

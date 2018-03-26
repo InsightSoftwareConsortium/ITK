@@ -35,6 +35,8 @@ namespace itk
 class ITKIOPNG_EXPORT PNGImageIO:public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIO);
+
   /** Standard class type aliases. */
   using Self = PNGImageIO;
   using Superclass = ImageIOBase;
@@ -100,9 +102,6 @@ protected:
   int m_CompressionLevel;
 
   PaletteType m_ColorPalette;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIO);
 };
 } // end namespace itk
 

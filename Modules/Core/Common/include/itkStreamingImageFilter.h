@@ -44,6 +44,8 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT StreamingImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageFilter);
+
   /** Standard class type aliases. */
   using Self = StreamingImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -116,8 +118,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageFilter);
-
   unsigned int          m_NumberOfStreamDivisions;
   RegionSplitterPointer m_RegionSplitter;
 };

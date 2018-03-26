@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4ModifyGradientByLearning
   : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate);
+
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate;
   using Superclass = DomainThreader< ThreadedIndexedContainerPartitioner,
@@ -58,9 +60,6 @@ protected:
 
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
   ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate);
 };
 
 /** This helps to meet backward compatibility */

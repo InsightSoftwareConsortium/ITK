@@ -66,6 +66,7 @@ class ITK_TEMPLATE_EXPORT BSplineTransformParametersAdaptor
 : public TransformParametersAdaptor<TTransform>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = BSplineTransformParametersAdaptor;
@@ -140,8 +141,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformParametersAdaptor);
-
   /** Helper function to set m_RequiredFixedParameters */
   void UpdateRequiredFixedParameters();
 

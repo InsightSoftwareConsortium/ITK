@@ -51,6 +51,8 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT KittlerIllingworthThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdCalculator);
+
   /** Standard class type aliases. */
   using Self = KittlerIllingworthThresholdCalculator;
   using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
@@ -79,8 +81,6 @@ protected:
   using SizeValueType = typename HistogramType::SizeValueType;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdCalculator);
-
   IndexValueType Mean();
   double A( InstanceIdentifier j);
   double B( InstanceIdentifier j);

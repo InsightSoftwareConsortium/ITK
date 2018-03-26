@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationBinaryMaskTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationBinaryMaskTerm);
+
   using Self = LevelSetEquationBinaryMaskTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -114,9 +116,6 @@ protected:
 
 
   InputImagePointer m_Mask;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationBinaryMaskTerm);
 };
 
 }

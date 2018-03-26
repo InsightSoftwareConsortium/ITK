@@ -50,6 +50,8 @@ template<
 class ITK_TEMPLATE_EXPORT CellInterfaceVisitor:public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitor);
+
   /** Standard class type aliases. */
   using Self = CellInterfaceVisitor;
   using Superclass = LightObject;
@@ -70,9 +72,6 @@ public:
 protected:
   CellInterfaceVisitor() {}
   ~CellInterfaceVisitor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitor);
 };
 
 /** \class CellInterfaceVisitorImplementation
@@ -111,6 +110,8 @@ class CellInterfaceVisitorImplementation:
   public CellInterfaceVisitor< TPixelType, TCellTraits >, public UserVisitor
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitorImplementation);
+
   /** Standard class type aliases. */
   using Self = CellInterfaceVisitorImplementation;
   using Pointer = SmartPointer< Self >;
@@ -137,9 +138,6 @@ public:
 protected:
   CellInterfaceVisitorImplementation() {}
   ~CellInterfaceVisitorImplementation() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitorImplementation);
 };
 } // end namespace itk
 

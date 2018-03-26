@@ -95,6 +95,8 @@ template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpecialCoordinatesImage);
+
   /** Standard class type aliases */
   using Self = SpecialCoordinatesImage;
   using Superclass = ImageBase< VImageDimension >;
@@ -286,8 +288,6 @@ protected:
   ~SpecialCoordinatesImage() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpecialCoordinatesImage);
-
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
 };

@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT ConvertLabelMapFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConvertLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = ConvertLabelMapFilter;
   using Superclass = LabelMapFilter< TInputImage, TOutputImage >;
@@ -81,9 +83,6 @@ protected:
   ~ConvertLabelMapFilter() override {}
 
   void GenerateData() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvertLabelMapFilter);
 };                                          // end of class
 } // end namespace itk
 

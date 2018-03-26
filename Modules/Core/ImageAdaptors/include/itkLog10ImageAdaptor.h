@@ -73,6 +73,8 @@ class Log10ImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Log10ImageAdaptor);
+
   /** Standard class type aliases. */
   using Self = Log10ImageAdaptor;
   using Superclass = ImageAdaptor< TImage, Accessor::Log10PixelAccessor<
@@ -91,9 +93,6 @@ public:
 protected:
   Log10ImageAdaptor() {}
   ~Log10ImageAdaptor() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Log10ImageAdaptor);
 };
 } // end namespace itk
 

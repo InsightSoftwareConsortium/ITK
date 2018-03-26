@@ -61,6 +61,8 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT AutoPointerDataObjectDecorator:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AutoPointerDataObjectDecorator);
+
   /** Standard type alias */
   using Self = AutoPointerDataObjectDecorator;
   using Superclass = DataObject;
@@ -92,8 +94,6 @@ protected:
 protected:
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AutoPointerDataObjectDecorator);
-
   ComponentPointer m_Component;
 };
 } // end namespace itk

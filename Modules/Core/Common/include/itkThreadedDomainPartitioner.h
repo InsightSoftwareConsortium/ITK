@@ -47,6 +47,8 @@ template <typename TDomain >
 class ITK_TEMPLATE_EXPORT ThreadedDomainPartitioner : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedDomainPartitioner);
+
   /** Standard class type aliases. */
   using Self = ThreadedDomainPartitioner;
   using Superclass = Object;
@@ -79,9 +81,6 @@ public:
 protected:
   ThreadedDomainPartitioner(){}
   ~ThreadedDomainPartitioner() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedDomainPartitioner);
 };
 
 } // end namespace itk

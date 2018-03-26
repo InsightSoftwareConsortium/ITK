@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT EllipsoidInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EllipsoidInteriorExteriorSpatialFunction);
+
   /** Standard class type aliases. */
   using Self = EllipsoidInteriorExteriorSpatialFunction;
   using Superclass = InteriorExteriorSpatialFunction< VDimension, TInput >;
@@ -84,8 +86,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EllipsoidInteriorExteriorSpatialFunction);
-
   /** The center of the ellipsoid. */
   InputType m_Center;
 

@@ -53,6 +53,8 @@ class FastIncrementalBinaryDilateImageFilter:
   public BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastIncrementalBinaryDilateImageFilter);
+
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -81,9 +83,6 @@ public:
 protected:
   FastIncrementalBinaryDilateImageFilter() {}
   ~FastIncrementalBinaryDilateImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastIncrementalBinaryDilateImageFilter);
 };
 } // end namespace itk
 

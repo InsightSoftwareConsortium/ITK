@@ -72,6 +72,8 @@ class ITK_TEMPLATE_EXPORT ImageClassifierBase:
   public ClassifierBase< TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierBase);
+
   /** Standard class type aliases. */
   using Self = ImageClassifierBase;
   using Superclass = ClassifierBase< TInputImage >;
@@ -145,8 +147,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierBase);
-
   using InputImageSizeType = typename TInputImage::SizeType;
 
   InputImageConstPointer m_InputImage;

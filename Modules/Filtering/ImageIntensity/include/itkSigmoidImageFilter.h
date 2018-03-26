@@ -144,6 +144,8 @@ class SigmoidImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SigmoidImageFilter);
+
   /** Standard class type aliases. */
   using Self = SigmoidImageFilter;
   using Superclass = UnaryFunctorImageFilter<
@@ -240,9 +242,6 @@ public:
 protected:
   SigmoidImageFilter() {}
   ~SigmoidImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SigmoidImageFilter);
 };
 } // end namespace itk
 

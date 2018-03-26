@@ -50,6 +50,8 @@ template< typename TRealValueType >
 class GaborKernelFunction : public KernelFunctionBase< TRealValueType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaborKernelFunction);
+
   /** Standard class type aliases. */
   using Self = GaborKernelFunction;
   using Superclass = KernelFunctionBase<TRealValueType>;
@@ -117,8 +119,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaborKernelFunction);
-
   TRealValueType m_Sigma;
 
   TRealValueType m_Frequency;

@@ -45,6 +45,7 @@ class ITK_TEMPLATE_EXPORT GreenColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GreenColormapFunction);
 
   using Self = GreenColormapFunction;
   using Superclass = ColormapFunction< TScalar, TRGBPixel >;
@@ -63,9 +64,6 @@ public:
 protected:
   GreenColormapFunction() {}
   ~GreenColormapFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GreenColormapFunction);
 };
 } // end namespace Function
 } // end namespace itk

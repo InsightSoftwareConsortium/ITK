@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT LabelMapToBinaryImageFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToBinaryImageFilter);
+
   /** Standard class type aliases. */
   using Self = LabelMapToBinaryImageFilter;
   using Superclass = LabelMapFilter< TInputImage, TOutputImage >;
@@ -138,8 +140,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToBinaryImageFilter);
-
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;
 

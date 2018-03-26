@@ -47,6 +47,7 @@ template< typename TImageType >
 class GPUFiniteDifferenceFunction : public FiniteDifferenceFunction< TImageType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceFunction);
 
   /** Standard class type aliases. */
   using Self = GPUFiniteDifferenceFunction;
@@ -119,10 +120,6 @@ protected:
 
   /** GPU kernel handle for GPUComputeUpdate() */
   int m_ComputeUpdateGPUKernelHandle;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceFunction);
-
 };
 } // end namespace itk
 

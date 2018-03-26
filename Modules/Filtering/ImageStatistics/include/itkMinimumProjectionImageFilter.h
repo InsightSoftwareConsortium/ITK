@@ -76,6 +76,8 @@ class MinimumProjectionImageFilter:public
                          Functor::MinimumAccumulator< typename TInputImage::PixelType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumProjectionImageFilter);
+
   using Self = MinimumProjectionImageFilter;
   using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::MinimumAccumulator<
@@ -105,9 +107,6 @@ public:
 protected:
   MinimumProjectionImageFilter() {}
   ~MinimumProjectionImageFilter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumProjectionImageFilter);
 };                                            // end
                                               // MinimumProjectionImageFilter
 } //end namespace itk

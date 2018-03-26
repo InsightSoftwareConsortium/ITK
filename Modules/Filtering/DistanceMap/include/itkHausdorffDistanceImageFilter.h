@@ -63,6 +63,8 @@ class ITK_TEMPLATE_EXPORT HausdorffDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HausdorffDistanceImageFilter);
+
   /** Standard Self type alias */
   using Self = HausdorffDistanceImageFilter;
   using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
@@ -138,8 +140,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HausdorffDistanceImageFilter);
-
   RealType m_HausdorffDistance;
   RealType m_AverageHausdorffDistance;
   bool     m_UseImageSpacing;

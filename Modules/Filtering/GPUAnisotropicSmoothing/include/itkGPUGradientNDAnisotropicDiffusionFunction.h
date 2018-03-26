@@ -60,6 +60,8 @@ class ITK_TEMPLATE_EXPORT GPUGradientNDAnisotropicDiffusionFunction :
   public GPUScalarAnisotropicDiffusionFunction< TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientNDAnisotropicDiffusionFunction);
+
   /** Standard class type aliases. */
   using Self = GPUGradientNDAnisotropicDiffusionFunction;
   using Superclass = GPUScalarAnisotropicDiffusionFunction< TImage >;
@@ -123,9 +125,6 @@ protected:
   NeighborhoodSizeValueType m_Stride[ImageDimension];
 
   static double m_MIN_NORM;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientNDAnisotropicDiffusionFunction);
 };
 } // end namespace itk
 

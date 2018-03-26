@@ -44,6 +44,8 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT MinimumMaximumImageCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageCalculator);
+
   /** Standard class type aliases. */
   using Self = MinimumMaximumImageCalculator;
   using Superclass = Object;
@@ -107,8 +109,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageCalculator);
-
   PixelType         m_Minimum;
   PixelType         m_Maximum;
   ImageConstPointer m_Image;

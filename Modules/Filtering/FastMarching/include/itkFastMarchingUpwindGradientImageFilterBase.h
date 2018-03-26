@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilterBase:
   public FastMarchingImageFilterBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilterBase);
+
   /** Standard class typdedefs. */
   using Self = FastMarchingUpwindGradientImageFilterBase;
   using Superclass = FastMarchingImageFilterBase< TInput, TOutput >;
@@ -103,9 +105,6 @@ protected:
 
   virtual void ComputeGradient(OutputImageType* oImage,
                                const NodeType& iNode );
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilterBase);
 };
 
 /* this class was made in the case where isotropic and anisotropic fast

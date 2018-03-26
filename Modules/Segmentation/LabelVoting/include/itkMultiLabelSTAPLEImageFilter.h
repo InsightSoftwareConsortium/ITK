@@ -119,6 +119,8 @@ class ITK_TEMPLATE_EXPORT MultiLabelSTAPLEImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiLabelSTAPLEImageFilter);
+
   /** Standard class type aliases. */
   using Self = MultiLabelSTAPLEImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -293,8 +295,6 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject * ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiLabelSTAPLEImageFilter);
-
   size_t m_TotalLabelCount;
 
   OutputPixelType    m_LabelForUndecidedPixels;

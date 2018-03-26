@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT BinaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryFunctorImageFilter);
+
   /** Standard class type aliases. */
   using Self = BinaryFunctorImageFilter;
   using Superclass = InPlaceImageFilter< TInputImage1, TOutputImage >;
@@ -183,8 +185,6 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryFunctorImageFilter);
-
   FunctorType m_Functor;
 };
 } // end namespace itk

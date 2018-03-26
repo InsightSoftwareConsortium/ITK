@@ -77,6 +77,8 @@ class ITK_TEMPLATE_EXPORT AdaptiveHistogramEqualizationImageFilter:
 
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptiveHistogramEqualizationImageFilter);
+
   /**
    * Standard class type aliases
    */
@@ -172,8 +174,6 @@ protected:
   void BeforeThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptiveHistogramEqualizationImageFilter);
-
   float m_Alpha;
   float m_Beta;
 
