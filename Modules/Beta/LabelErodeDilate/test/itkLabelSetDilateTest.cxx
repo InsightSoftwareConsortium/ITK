@@ -70,7 +70,7 @@ int itkLabelSetDilateTest(int argc, char *argv[])
 {
   int dim1;
 
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   itk::ImageIOBase::IOComponentType ComponentType;
 
   if ( argc != 4 )
