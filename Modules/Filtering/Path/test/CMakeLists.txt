@@ -13,6 +13,7 @@ itkPolyLineParametricPathTest.cxx
 itkChainCodeToFourierSeriesPathFilterTest.cxx
 itkExtractOrthogonalSwath2DImageFilterTest.cxx
 itkOrthogonalSwath2DPathFilterTest.cxx
+itkContourExtractor2DImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKPath  "${ITKPath-Test_LIBRARIES}" "${ITKPathTests}")
@@ -46,6 +47,9 @@ itk_add_test(NAME itkExtractOrthogonalSwath2DImageFilterTest
     itkExtractOrthogonalSwath2DImageFilterTest ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png)
 itk_add_test(NAME itkOrthogonalSwath2DPathFilterTest
       COMMAND ITKPathTestDriver itkOrthogonalSwath2DPathFilterTest)
+itk_add_test(NAME itkContourExtractor2DImageFilterTest
+      COMMAND ITKPathTestDriver itkContourExtractor2DImageFilterTest
+              DATA{Input/ContourExtractor2DTest.tif})
 
 itk_python_expression_add_test(NAME itkParametricPathPythonTest
       EXPRESSION "path = itk.ParametricPath[2].New()")

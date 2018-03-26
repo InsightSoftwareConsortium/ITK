@@ -4,7 +4,6 @@ itkAreaClosingImageFilterTest.cxx
 itkAreaOpeningImageFilterTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
-itkContourExtractor2DImageFilterTest.cxx
 itkDirectFourierReconstructionImageToImageFilterTest.cxx
 itkDiscreteGaussianDerivativeImageFunctionTest.cxx
 itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
@@ -84,9 +83,6 @@ itk_add_test(NAME itkConformalFlatteningQuadEdgeMeshFilterTest1
 itk_add_test(NAME itkConformalFlatteningQuadEdgeMeshFilterTest2
       COMMAND ITKReviewTestDriver itkConformalFlatteningQuadEdgeMeshFilterTest
               DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk} ${ITK_TEST_OUTPUT_DIR}/genusZeroQuadEdgeMesh01ConformalFlattenedToPlane.vtk 3 100.0 0)
-itk_add_test(NAME itkContourExtractor2DImageFilterTest
-      COMMAND ITKReviewTestDriver itkContourExtractor2DImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/ContourExtractor2DTest.tif})
 itk_add_test(NAME itkDirectFourierReconstructionImageToImageFilterTest
       COMMAND ITKReviewTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/reconstruct.mha}

@@ -25,7 +25,7 @@
 
 namespace itk
 {
-// Constructor
+
 template< typename TInputImage >
 ContourExtractor2DImageFilter< TInputImage >
 ::ContourExtractor2DImageFilter()
@@ -37,11 +37,13 @@ ContourExtractor2DImageFilter< TInputImage >
   this->m_NumberOfContoursCreated = 0;
 }
 
-// Destructor
+
 template< typename TInputImage >
 ContourExtractor2DImageFilter< TInputImage >
 ::~ContourExtractor2DImageFilter()
-{}
+{
+}
+
 
 template< typename TInputImage >
 void
@@ -237,6 +239,7 @@ ContourExtractor2DImageFilter< TInputImage >
   m_NumberOfContoursCreated = 0;
 }
 
+
 template< typename TInputImage >
 inline
 typename ContourExtractor2DImageFilter< TInputImage >::VertexType
@@ -267,6 +270,7 @@ ContourExtractor2DImageFilter< TInputImage >
 
   return output;
 }
+
 
 template< typename TInputImage >
 void
@@ -402,6 +406,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
+
 template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
@@ -454,6 +459,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
+
 template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
@@ -468,6 +474,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
+
 template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
@@ -480,6 +487,7 @@ ContourExtractor2DImageFilter< TInputImage >
     this->Modified();
     }
 }
+
 
 template< typename TInputImage >
 void
@@ -521,9 +529,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
