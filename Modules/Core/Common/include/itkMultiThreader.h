@@ -71,19 +71,38 @@ public:
   * are already statically allocated using the ITK_MAX_THREADS number.
   * Therefore the caller of this method should check that the requested number
   * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
-  static void SetGlobalMaximumNumberOfThreads(ThreadIdType val)
+  itkLegacyMacro(static void SetGlobalMaximumNumberOfThreads(ThreadIdType val))
   {
     itkGenericOutputMacro("Warning: SetGlobalMaximumNumberOfThreads \
 should now be called on itk::MultiThreaderBase. \
 It can affect all MultiThreaderBase's derived classes in ITK");
     Superclass::SetGlobalMaximumNumberOfThreads(val);
   }
-  static ThreadIdType GetGlobalMaximumNumberOfThreads()
+  itkLegacyMacro(static ThreadIdType GetGlobalMaximumNumberOfThreads())
   {
     itkGenericOutputMacro("Warning: GetGlobalMaximumNumberOfThreads \
 should now be called on itk::MultiThreaderBase. \
 It can affect all MultiThreaderBase's derived classes in ITK");
     return Superclass::GetGlobalMaximumNumberOfThreads();
+  }
+
+  /** Set/Get the value which is used to initialize the NumberOfThreads in the
+   * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
+   * Therefore the caller of this method should check that the requested number
+   * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
+  itkLegacyMacro(static void SetGlobalDefaultNumberOfThreads(ThreadIdType val))
+  {
+    itkGenericOutputMacro("Warning: SetGlobalDefaultNumberOfThreads \
+should now be called on itk::MultiThreaderBase. \
+It can affect all MultiThreaderBase's derived classes in ITK");
+    Superclass::SetGlobalDefaultNumberOfThreads(val);
+  }
+  itkLegacyMacro(static ThreadIdType  GetGlobalDefaultNumberOfThreads())
+  {
+    itkGenericOutputMacro("Warning: GetGlobalDefaultNumberOfThreads \
+should now be called on itk::MultiThreaderBase. \
+It can affect all MultiThreaderBase's derived classes in ITK");
+    return Superclass::GetGlobalDefaultNumberOfThreads();
   }
 #endif
 

@@ -38,16 +38,16 @@ bool VerifyRange(int value, int min, int max, const char * msg)
 
 bool SetAndVerifyGlobalMaximumNumberOfThreads( int value )
 {
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads( value );
-  return VerifyRange( itk::MultiThreader::GetGlobalMaximumNumberOfThreads(),
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads( value );
+  return VerifyRange( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(),
         1, ITK_MAX_THREADS, "Range error in MaximumNumberOfThreads");
 }
 
 bool SetAndVerifyGlobalDefaultNumberOfThreads( int value )
 {
-  itk::MultiThreader::SetGlobalDefaultNumberOfThreads( value );
-  return VerifyRange( itk::MultiThreader::GetGlobalDefaultNumberOfThreads(),
-        1, itk::MultiThreader::GetGlobalMaximumNumberOfThreads(),
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads( value );
+  return VerifyRange( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
+        1, itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(),
         "Range error in DefaultNumberOfThreads");
 }
 
@@ -55,7 +55,7 @@ bool SetAndVerifyNumberOfThreads( int value, itk::MultiThreader * threader )
 {
   threader->SetNumberOfThreads( value );
   return VerifyRange( threader->GetNumberOfThreads(),
-        1, itk::MultiThreader::GetGlobalMaximumNumberOfThreads(),
+        1, itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(),
         "Range error in NumberOfThreads");
 }
 
@@ -80,7 +80,7 @@ int itkMultiThreaderTest(int argc, char* argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS(threader, MultiThreader, MultiThreaderBase);
 
-  itk::MultiThreader::SetGlobalDefaultNumberOfThreads( numberOfThreads );
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads( numberOfThreads );
 
   {
   // Test settings for GlobalMaximumNumberOfThreads
@@ -104,9 +104,9 @@ int itkMultiThreaderTest(int argc, char* argv[])
   result &= SetAndVerifyGlobalDefaultNumberOfThreads( -1 );
   result &= SetAndVerifyGlobalDefaultNumberOfThreads(  0 );
   result &= SetAndVerifyGlobalDefaultNumberOfThreads(  1 );
-  result &= SetAndVerifyGlobalDefaultNumberOfThreads( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
-  result &= SetAndVerifyGlobalDefaultNumberOfThreads( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() - 1 );
-  result &= SetAndVerifyGlobalDefaultNumberOfThreads( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() + 1 );
+  result &= SetAndVerifyGlobalDefaultNumberOfThreads( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
+  result &= SetAndVerifyGlobalDefaultNumberOfThreads( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() - 1 );
+  result &= SetAndVerifyGlobalDefaultNumberOfThreads( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() + 1 );
 
   if( !result )
     {
@@ -118,9 +118,9 @@ int itkMultiThreaderTest(int argc, char* argv[])
   result &= SetAndVerifyNumberOfThreads( -1, threader2 );
   result &= SetAndVerifyNumberOfThreads(  0, threader2 );
   result &= SetAndVerifyNumberOfThreads(  1, threader2 );
-  result &= SetAndVerifyNumberOfThreads( itk::MultiThreader::GetGlobalMaximumNumberOfThreads(), threader2 );
-  result &= SetAndVerifyNumberOfThreads( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() - 1, threader2);
-  result &= SetAndVerifyNumberOfThreads( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() + 1, threader2);
+  result &= SetAndVerifyNumberOfThreads( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), threader2 );
+  result &= SetAndVerifyNumberOfThreads( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() - 1, threader2);
+  result &= SetAndVerifyNumberOfThreads( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() + 1, threader2);
 
   if( !result )
     {
