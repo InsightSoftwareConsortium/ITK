@@ -45,6 +45,8 @@ template< typename TOutputImage >
 class ITKIOImageBase_HIDDEN ImageSeriesReader:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesReader);
+
   /** Standard class type aliases. */
   using Self = ImageSeriesReader;
   using Superclass = ImageSource< TOutputImage >;
@@ -191,8 +193,6 @@ protected:
   bool m_UseStreaming;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesReader);
-
   using ReaderType = ImageFileReader< TOutputImage >;
 
   int ComputeMovingDimensionIndex(ReaderType *reader);

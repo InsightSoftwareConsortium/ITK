@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetric:
   public SingleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetric);
+
   /** Standard class type aliases. */
   using Self = ImageToImageMetric;
   using Superclass = SingleValuedCostFunction;
@@ -562,8 +564,6 @@ public:
   virtual void SynchronizeTransforms() const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetric);
-
   FixedImageRegionType m_FixedImageRegion;
 };
 } // end namespace itk

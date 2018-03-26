@@ -70,6 +70,8 @@ template< typename TLabelObject >
 class ITK_TEMPLATE_EXPORT LabelMap:public ImageBase< TLabelObject::ImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMap);
+
   /** Standard class type aliases */
   using Self = LabelMap;
   using Superclass = ImageBase< TLabelObject::ImageDimension >;
@@ -453,8 +455,6 @@ protected:
   using Superclass::Graft;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMap);
-
   /** the LabelObject container type */
   using LabelObjectContainerType = std::map< LabelType, LabelObjectPointerType >;
   using LabelObjectContainerIterator = typename LabelObjectContainerType::iterator;

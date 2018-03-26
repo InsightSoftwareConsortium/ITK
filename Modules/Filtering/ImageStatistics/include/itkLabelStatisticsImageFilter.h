@@ -61,6 +61,8 @@ class ITK_TEMPLATE_EXPORT LabelStatisticsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsImageFilter);
+
   /** Standard Self type alias */
   using Self = LabelStatisticsImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
@@ -351,8 +353,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsImageFilter);
-
   std::vector< MapType >        m_LabelStatisticsPerThread;
   MapType                       m_LabelStatistics;
   ValidLabelValuesContainerType m_ValidLabelValues;

@@ -42,6 +42,8 @@ template< typename TIdentifier, typename TLevelSet >
 class ITK_TEMPLATE_EXPORT LevelSetContainerBase : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainerBase);
+
   using Self = LevelSetContainerBase;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -282,8 +284,6 @@ protected:
   void SetContainer( const LevelSetContainerType& iContainer );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainerBase);
-
   HeavisideConstPointer         m_Heaviside;
   DomainMapImageFilterPointer   m_DomainMapFilter;
   LevelSetContainerType         m_Container;

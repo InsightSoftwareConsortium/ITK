@@ -76,6 +76,8 @@ template< typename TOutputImage,
 class ITKIOImageBase_HIDDEN ImageFileReader:public ImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileReader);
+
   /** Standard class type aliases. */
   using Self = ImageFileReader;
   using Superclass = ImageSource< TOutputImage >;
@@ -153,8 +155,6 @@ protected:
   bool m_UseStreaming;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileReader);
-
   std::string m_ExceptionMessage;
 
   // The region that the ImageIO class will return when we ask to

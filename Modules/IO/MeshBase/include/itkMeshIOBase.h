@@ -69,6 +69,8 @@ namespace itk
 class ITKIOMeshBase_EXPORT MeshIOBase:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOBase);
+
   /** Standard class type aliases. */
   using Self = MeshIOBase;
   using Superclass = LightProcessObject;
@@ -751,8 +753,6 @@ protected:
   bool m_UpdateCellData;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOBase);
-
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };

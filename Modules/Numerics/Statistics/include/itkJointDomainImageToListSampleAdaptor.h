@@ -89,6 +89,7 @@ class ITK_TEMPLATE_EXPORT JointDomainImageToListSampleAdaptor:
   public ListSample< typename ImageJointDomainTraits< TImage >::MeasurementVectorType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(JointDomainImageToListSampleAdaptor);
 
   /** Standard class type aliases */
   using Self = JointDomainImageToListSampleAdaptor;
@@ -327,8 +328,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointDomainImageToListSampleAdaptor);
-
   NormalizationFactorsType                 m_NormalizationFactors;
   mutable MeasurementVectorType            m_TempVector;
   mutable PointType                        m_TempPoint;

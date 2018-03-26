@@ -64,6 +64,8 @@ template< typename TLabel, unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT LabelObject:public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelObject);
+
   /** Standard class type aliases */
   using Self = LabelObject;
   using Superclass = LightObject;
@@ -371,8 +373,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelObject);
-
   using LineContainerType = typename std::deque< LineType >;
 
   LineContainerType m_LineContainer;

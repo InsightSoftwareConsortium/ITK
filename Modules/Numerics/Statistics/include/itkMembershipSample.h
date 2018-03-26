@@ -56,6 +56,8 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT MembershipSample:public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MembershipSample);
+
   /** Standard class type aliases. */
   using Self = MembershipSample;
   using Superclass = DataObject;
@@ -291,8 +293,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MembershipSample);
-
   /** Gets the internal continuous class label from the class labels that
    *   are used for AddInstance method. */
   int GetInternalClassLabel(const ClassLabelType classLabel) const;

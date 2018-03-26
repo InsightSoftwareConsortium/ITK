@@ -111,6 +111,8 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT AutomaticTopologyMeshSource:public MeshSource< TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AutomaticTopologyMeshSource);
+
   /** Standard "Self" type alias. */
   using Self = AutomaticTopologyMeshSource;
   using Superclass = MeshSource< TOutputMesh >;
@@ -386,8 +388,6 @@ protected:
                           // are controlled manually
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AutomaticTopologyMeshSource);
-
   using CellHashMap = itksys::hash_map<
     Array< IdentifierType >,
     IdentifierType,

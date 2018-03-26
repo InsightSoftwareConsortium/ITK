@@ -73,6 +73,8 @@ template <typename TValue> class VariableLengthVector;
 class ITKIOImageBase_EXPORT ImageIOBase:public LightProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOBase);
+
   /** Standard class type aliases. */
   using Self = ImageIOBase;
   using Superclass = LightProcessObject;
@@ -701,8 +703,6 @@ protected:
                                                                const ImageIORegion & pasteRegion) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOBase);
-
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };

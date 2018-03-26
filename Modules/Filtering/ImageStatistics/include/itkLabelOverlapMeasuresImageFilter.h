@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter :
     public ImageToImageFilter<TLabelImage, TLabelImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlapMeasuresImageFilter);
+
   /** Standard Self type alias */
   using Self = LabelOverlapMeasuresImageFilter;
   using Superclass = ImageToImageFilter<TLabelImage,TLabelImage>;
@@ -221,8 +223,6 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject *data ) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlapMeasuresImageFilter);
-
   std::vector<MapType> m_LabelSetMeasuresPerThread;
   MapType              m_LabelSetMeasures;
 }; // end of class

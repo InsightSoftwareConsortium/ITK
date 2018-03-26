@@ -51,6 +51,8 @@ template< typename TMeasurementVector >
 class ITK_TEMPLATE_EXPORT ListSample:public Sample< TMeasurementVector >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ListSample);
+
   /** Standard class type alias. */
   using Self = ListSample;
   using Superclass = Sample< TMeasurementVector >;
@@ -275,8 +277,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ListSample);
-
   InternalDataContainerType m_InternalContainer;
 };
 } // end of namespace Statistics

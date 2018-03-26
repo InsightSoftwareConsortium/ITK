@@ -42,6 +42,7 @@ namespace itk
 class ITK_FORCE_EXPORT_MACRO(ITKVideoCore) TemporalDataObject : public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TemporalDataObject);
 
   /** Standard class type aliases */
   using Self = TemporalDataObject;
@@ -113,11 +114,6 @@ protected:
   TemporalRegionType m_BufferedTemporalRegion;
 
   TemporalUnitType m_TemporalUnit;
-
-private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(TemporalDataObject);
-
 };  // end class TemporalDataObject
 
 } // end namespace itk

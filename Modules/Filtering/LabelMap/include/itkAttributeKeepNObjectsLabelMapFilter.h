@@ -44,6 +44,8 @@ class ITK_TEMPLATE_EXPORT AttributeKeepNObjectsLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeKeepNObjectsLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = AttributeKeepNObjectsLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter<TImage>;
@@ -130,8 +132,6 @@ protected:
     };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeKeepNObjectsLabelMapFilter);
-
   bool           m_ReverseOrdering;
   SizeValueType  m_NumberOfObjects;
 

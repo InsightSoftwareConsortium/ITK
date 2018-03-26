@@ -101,6 +101,7 @@ template<
 class ITK_TEMPLATE_EXPORT CellInterface
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterface);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(CellInterface);
@@ -437,9 +438,6 @@ public:
 protected:
   /** Store the set of cells using this boundary. */
   UsingCellsContainer m_UsingCells;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterface);
 };
 
 /** \class CellTraitsInfo

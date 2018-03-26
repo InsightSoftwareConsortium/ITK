@@ -274,6 +274,8 @@ protected:
 class ITK_FORCE_EXPORT_MACRO(ITKCommon) DataObject:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DataObject);
+
   /** Standard class type aliases. */
   using Self = DataObject;
   using Superclass = Object;
@@ -481,8 +483,6 @@ protected:
   virtual void PropagateResetPipeline();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DataObject);
-
   /** Who generated this data? */
   WeakPointer< ProcessObject > m_Source;
   DataObjectIdentifierType                  m_SourceOutputName;
