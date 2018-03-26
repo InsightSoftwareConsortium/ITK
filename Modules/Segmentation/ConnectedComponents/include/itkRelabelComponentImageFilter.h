@@ -82,6 +82,8 @@ class ITK_TEMPLATE_EXPORT RelabelComponentImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RelabelComponentImageFilter);
+
   /**
    * Standard "Self" & Superclass typedef.
    */
@@ -301,7 +303,6 @@ protected:
   };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RelabelComponentImageFilter);
 
   LabelType      m_NumberOfObjects;
   LabelType      m_NumberOfObjectsToPrint;

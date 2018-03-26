@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT
   ParametricPath< 2 >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(OrthogonallyCorrected2DParametricPath);
+
   /** Standard class type aliases. */
   using Self = OrthogonallyCorrected2DParametricPath;
   using Superclass = ParametricPath< 2 >;
@@ -114,8 +116,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OrthogonallyCorrected2DParametricPath);
-
   OriginalPathConstPointer         m_OriginalPath;
   OrthogonalCorrectionTablePointer m_OrthogonalCorrectionTable;
 };

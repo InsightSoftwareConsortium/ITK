@@ -42,6 +42,8 @@ class ITK_TEMPLATE_EXPORT Subsample:
   public TSample
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Subsample);
+
   /** Standard class type aliases */
   using Self = Subsample;
   using Superclass = TSample;
@@ -285,8 +287,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Subsample);
-
   const TSample *            m_Sample;
   InstanceIdentifierHolder   m_IdHolder;
   unsigned int               m_ActiveDimension;

@@ -79,6 +79,8 @@ class ITK_TEMPLATE_EXPORT LabelGeometryImageFilter:
   public ImageToImageFilter< TLabelImage, TIntensityImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelGeometryImageFilter);
+
   /** Standard Self type alias */
   using Self = LabelGeometryImageFilter;
   using Superclass = ImageToImageFilter< TLabelImage, TIntensityImage >;
@@ -470,8 +472,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelGeometryImageFilter);
-
   bool CalculateOrientedBoundingBoxVertices(vnl_symmetric_eigensystem< double > eig, LabelGeometry & m_LabelGeometry);
 
   bool m_CalculatePixelIndices;

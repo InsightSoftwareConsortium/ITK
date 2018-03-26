@@ -78,6 +78,7 @@ class ITK_TEMPLATE_EXPORT Histogram:
   public Sample< Array< TMeasurement > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Histogram);
 
   // This type serves as the indirect definition of MeasurementVectorType
   using ArrayType = Array< TMeasurement >;
@@ -469,8 +470,6 @@ protected:
   SizeType m_Size;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Histogram);
-
   using OffsetTableType = std::vector< InstanceIdentifier >;
   OffsetTableType           m_OffsetTable;
   FrequencyContainerPointer m_FrequencyContainer;

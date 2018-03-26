@@ -110,6 +110,8 @@ class ITK_TEMPLATE_EXPORT FastMarchingImageFilter:
   public ImageToImageFilter< TSpeedImage, TLevelSet >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageFilter);
+
   /** Standard class typdedefs. */
   using Self = FastMarchingImageFilter;
   using Superclass = ImageSource< TLevelSet >;
@@ -369,8 +371,6 @@ protected:
   itkGetConstReferenceMacro(LastIndex, LevelSetIndexType);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageFilter);
-
   NodeContainerPointer m_AlivePoints;
   NodeContainerPointer m_TrialPoints;
   NodeContainerPointer m_OutsidePoints;

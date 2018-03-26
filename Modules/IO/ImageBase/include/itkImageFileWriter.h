@@ -84,6 +84,8 @@ template< typename TInputImage >
 class ITKIOImageBase_HIDDEN ImageFileWriter:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileWriter);
+
   /** Standard class type aliases. */
   using Self = ImageFileWriter;
   using Superclass = ProcessObject;
@@ -201,8 +203,6 @@ protected:
   void GenerateData(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileWriter);
-
   std::string m_FileName;
 
   ImageIOBase::Pointer m_ImageIO;

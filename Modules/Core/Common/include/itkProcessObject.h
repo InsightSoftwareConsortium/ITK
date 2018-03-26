@@ -135,6 +135,8 @@ namespace itk
 class ITKCommon_EXPORT ProcessObject:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObject);
+
   /** Standard class type aliases. */
   using Self = ProcessObject;
   using Superclass = Object;
@@ -798,8 +800,6 @@ protected:
   TimeStamp m_OutputInformationMTime;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObject);
-
   DataObjectIdentifierType MakeNameFromIndex( DataObjectPointerArraySizeType ) const;
   DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;
 

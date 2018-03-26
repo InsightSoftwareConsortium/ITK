@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT VectorContainerToListSampleAdaptor:
   public ListSample< typename TVectorContainer::Element >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorContainerToListSampleAdaptor);
+
   /** Standard class type aliases */
   using Self = VectorContainerToListSampleAdaptor;
   using Superclass = ListSample<typename TVectorContainer::Element>;
@@ -250,8 +252,6 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorContainerToListSampleAdaptor);
-
   /** the points container which will be actually used for storing
    * measurement vectors */
   VectorContainerConstPointer  m_VectorContainer;

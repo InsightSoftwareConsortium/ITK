@@ -47,6 +47,8 @@ class ITK_TEMPLATE_EXPORT PointSetToListSampleAdaptor:
   public ListSample< typename TPointSet::PointType >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToListSampleAdaptor);
+
   /** Standard class type aliases */
   using Self = PointSetToListSampleAdaptor;
   using Superclass = ListSample< typename TPointSet::PointType >;
@@ -257,8 +259,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToListSampleAdaptor);
-
   /** the PointSet data source pointer */
   PointSetConstPointer m_PointSet;
 

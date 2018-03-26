@@ -44,6 +44,8 @@ namespace itk
 class ITKCommon_EXPORT BuildInformation final: public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BuildInformation);
+
   /** Standard class type aliases. */
   using Self = BuildInformation;
   using Pointer = SmartPointer< Self >;
@@ -88,8 +90,6 @@ public:
   static const std::vector< MapKeyType > GetAllKeys();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BuildInformation);
-
   BuildInformation();
 
   /** To lock on the internal variables */

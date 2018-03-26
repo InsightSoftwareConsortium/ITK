@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT TileImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TileImageFilter);
+
   /** Standard Self type alias */
   using Self = TileImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -145,8 +147,6 @@ protected:
   void VerifyInputInformation() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TileImageFilter);
-
   typename TileImageType::Pointer m_TileImage;
 
   OutputPixelType m_DefaultPixelValue;

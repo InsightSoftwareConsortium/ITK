@@ -41,6 +41,8 @@ class
 TransformFactoryBase:public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFactoryBase);
+
   /** Standard class type aliases. */
   using Self = TransformFactoryBase;
   using Superclass = ObjectFactoryBase;
@@ -105,8 +107,6 @@ protected:
   ~TransformFactoryBase() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFactoryBase);
-
   // Sub private functions of RegisterDefaultTransforms
   static void RegisterTransformFactoryDoubleParameters();
   static void RegisterTransformFactoryFloatParameters();

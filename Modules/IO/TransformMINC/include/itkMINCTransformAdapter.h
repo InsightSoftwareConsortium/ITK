@@ -48,6 +48,8 @@ template<typename TParametersValueType=double, unsigned int NInputDimensions=3,u
   class MINCTransformAdapter : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformAdapter);
+
   /** Standard class type aliases. */
   using Self = MINCTransformAdapter;
 
@@ -315,9 +317,6 @@ protected:
   bool m_Invert;
   bool m_Initialized;
   bool m_Initialized_invert;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformAdapter );
 };
 
 }

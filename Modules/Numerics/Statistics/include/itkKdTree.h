@@ -483,6 +483,8 @@ template<typename TSample>
 class ITK_TEMPLATE_EXPORT KdTree:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KdTree);
+
   /** Standard class type aliases */
   using Self = KdTree;
   using Superclass = Object;
@@ -736,8 +738,6 @@ protected:
     InstanceIdentifierVectorType & ) const;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KdTree);
-
   /** Pointer to the input sample */
   const TSample *m_Sample;
 

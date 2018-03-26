@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT VoronoiDiagram2D:
                DefaultDynamicMeshTraits< TCoordType, 2, 2, TCoordType > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiDiagram2D);
+
   /** Standard class type aliases. */
   using Self = VoronoiDiagram2D;
   using Superclass = Mesh< TCoordType, 2, DefaultDynamicMeshTraits< TCoordType, 2, 2, TCoordType > >;
@@ -282,8 +284,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiDiagram2D);
-
   SeedsType                         m_Seeds;
   unsigned int                      m_NumberOfSeeds;
   std::vector< PolygonCellType * >  m_VoronoiRegions;

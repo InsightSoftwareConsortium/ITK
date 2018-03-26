@@ -50,6 +50,8 @@ template< typename TInputMesh >
 class ITK_TEMPLATE_EXPORT SimplexMeshVolumeCalculator:public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshVolumeCalculator);
+
   /** Standard "Self" type alias. */
   using Self = SimplexMeshVolumeCalculator;
 
@@ -179,8 +181,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshVolumeCalculator);
-
   void Initialize();
 
   void Finalize();

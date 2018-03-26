@@ -82,6 +82,8 @@ template< typename TInputImage, typename TOutputImage >
 class ITKIOImageBase_HIDDEN ImageSeriesWriter:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesWriter);
+
   /** Standard class type aliases. */
   using Self = ImageSeriesWriter;
   using Superclass = ProcessObject;
@@ -215,8 +217,6 @@ protected:
   bool m_UserSpecifiedImageIO;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesWriter);
-
   /** A list of filenames to be processed. */
   FileNamesContainer m_FileNames;
 

@@ -37,6 +37,8 @@ namespace itk
 class ITKVTK_EXPORT VTKImageExportBase:public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExportBase);
+
   /** Standard class type aliases. */
   using Self = VTKImageExportBase;
   using Superclass = ProcessObject;
@@ -151,8 +153,6 @@ protected:
   virtual void * BufferPointerCallback() = 0;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExportBase);
-
   /** Actual function sent to VTK as a callback.  Casts the user data
    * to a VTKImageExportBase pointer and invokes the corresponding
    * virtual method in that instance. */

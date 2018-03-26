@@ -108,6 +108,8 @@ template<
 class ITK_TEMPLATE_EXPORT Mesh:public PointSet< TPixelType, VDimension, TMeshTraits >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Mesh);
+
   /** Standard type alias. */
   using Self = Mesh;
   using Superclass = PointSet< TPixelType, VDimension, TMeshTraits >;
@@ -446,8 +448,6 @@ protected:
   BoundingBoxPointer m_BoundingBox;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Mesh);
-
   CellsAllocationMethodType m_CellsAllocationMethod;
 }; // End Class: Mesh
 } // end namespace itk

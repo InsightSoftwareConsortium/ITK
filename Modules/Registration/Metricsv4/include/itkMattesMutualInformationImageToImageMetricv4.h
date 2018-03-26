@@ -103,6 +103,8 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetricv4);
+
   /** Standard class type aliases. */
   using Self = MattesMutualInformationImageToImageMetricv4;
   using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
@@ -348,8 +350,6 @@ private:
   mutable std::vector<DerivativeType>              m_LocalDerivativeByParzenBin;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetricv4);
-
   /** Perform the final step in computing results */
   virtual void ComputeResults() const;
 

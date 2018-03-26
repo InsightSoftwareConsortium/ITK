@@ -53,6 +53,8 @@ class ITK_TEMPLATE_EXPORT ImageToNeighborhoodSampleAdaptor :
   public ListSample< std::vector< ConstNeighborhoodIterator< TImage, TBoundaryCondition > > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToNeighborhoodSampleAdaptor);
+
   /** Standard class type aliases */
   using Self = ImageToNeighborhoodSampleAdaptor;
 
@@ -301,8 +303,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToNeighborhoodSampleAdaptor);
-
   ImageConstPointer                  m_Image;
   mutable MeasurementVectorType      m_MeasurementVectorInternal;
   mutable InstanceIdentifier         m_InstanceIdentifierInternal;

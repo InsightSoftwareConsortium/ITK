@@ -45,6 +45,8 @@ class ITK_TEMPLATE_EXPORT AttributeRelabelLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeRelabelLabelMapFilter);
+
   /** Standard class type aliases. */
   using Self = AttributeRelabelLabelMapFilter;
   using Superclass = InPlaceLabelMapFilter<TImage>;
@@ -125,8 +127,6 @@ protected:
     };
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeRelabelLabelMapFilter);
-
   bool m_ReverseOrdering;
 
 }; // end of class
