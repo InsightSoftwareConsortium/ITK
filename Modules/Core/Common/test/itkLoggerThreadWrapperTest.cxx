@@ -245,7 +245,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
     ThreadDataVec threadData = create_threaded_data2(numthreads, logger);
     itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
-    threader->SetGlobalMaximumNumberOfThreads(numthreads + 10);
+    itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
     threader->SetNumberOfThreads(numthreads);
     threader->SetSingleMethod(ThreadedGenerateLogMessages2, &threadData);
     threader->SingleMethodExecute();

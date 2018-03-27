@@ -100,11 +100,11 @@ int itkSTLThreadTest(int argc, char* argv[])
   // Test other methods for coverage.
   std::cout << "Done with primary test.  Testing more methods..."
             << std::endl;
-  threader->SetGlobalMaximumNumberOfThreads(1);
-  threader->SetGlobalDefaultNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
 
-  std::cout << "threader->GetGlobalMaximumNumberOfThreads(): "
-            << threader->GetGlobalMaximumNumberOfThreads() << std::endl;
+  std::cout << "itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(): "
+            << itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() << std::endl;
 
   itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
