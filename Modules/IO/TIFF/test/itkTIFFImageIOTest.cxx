@@ -105,7 +105,7 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     {
     std::cerr << "Usage: " << argv[0]
               << " Input Output [dimensionality (default: 2)]"
-              << "[pixeltype: 1:uchar(default); 2:ushort; 3:short; 4:float]" << std::endl;
+              << "[pixeltype: 1:RBG<char>(default); 2:RBG<ushort>; 3:short; 4:float; 5:ushort]" << std::endl;
     return EXIT_FAILURE;
     }
   else if( argc == 4 )
@@ -133,11 +133,15 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     using PixelType = itk::RGBPixel<short>;
     return itkTIFFImageIOTestHelper< itk::Image<PixelType, 2> >( argc, argv );
     }
+  else if( dimension == 2 && pixelType == 5 )
+    {
+    return itkTIFFImageIOTestHelper< itk::Image<unsigned short, 2> >( argc, argv );
+    }
   else if( dimension == 3 && pixelType == 1 )
     {
     return itkTIFFImageIOTestHelper< itk::Image<unsigned char, 3> >( argc, argv );
     }
-  else if( dimension == 3 && pixelType == 2 )
+  else if( dimension == 3 && pixelType == 5 )
     {
     return itkTIFFImageIOTestHelper< itk::Image<unsigned short, 3> >( argc, argv );
     }
@@ -149,11 +153,7 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     {
     return itkTIFFImageIOTestHelper< itk::Image<float, 3> >( argc, argv );
     }
-  else if( dimension == 4 && pixelType == 1 )
-    {
-    return itkTIFFImageIOTestHelper< itk::Image<unsigned char, 4> >( argc, argv );
-    }
-  else if( dimension == 4 && pixelType == 2 )
+  else if( dimension == 4 && pixelType == 5 )
     {
     return itkTIFFImageIOTestHelper< itk::Image<unsigned short, 4> >( argc, argv );
     }

@@ -1186,7 +1186,7 @@ void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
                                     width, height,
                                     tempImage, ORIENTATION_TOPLEFT, 1) )
       {
-      itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
+      itkExceptionMacro(<< "Cannot read TIFF image as a TIFF RGBA image");
       }
 
     unsigned char *out = (unsigned char *)(buffer) + pixelOffset;
@@ -1253,9 +1253,10 @@ void TIFFImageIO::ReadGenericImage(void *_out,
   auto * out = static_cast< ComponentType* >( _out );
   ComponentType *image;
 
-  if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG )
+  if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG
+    && m_InternalImage->m_SamplesPerPixel != 1 )
     {
-    itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG");
+    itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG or single-component PLANARCONFIG_SEPARATE");
     }
 
   if ( m_InternalImage->m_Orientation != ORIENTATION_TOPLEFT
