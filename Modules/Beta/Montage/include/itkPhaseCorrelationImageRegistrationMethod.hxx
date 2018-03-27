@@ -80,6 +80,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 
   m_FixedConstantPadder->SetConstant( 0 );
   m_MovingConstantPadder->SetConstant( 0 );
+  m_FixedMirrorWEDPadder->SetDecayBase( 0.75 );
+  m_MovingMirrorWEDPadder->SetDecayBase( 0.75 );
 
   m_PadToSize = size0;
   m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay; //make sure the next call does modifications
