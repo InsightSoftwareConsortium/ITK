@@ -187,33 +187,22 @@ ThreadPool
   //lpvReserved is non-NULL meaning that "all threads in the process
   //except the current thread either have exited already or have been
   //explicitly terminated by a call to the ExitProcess function".
-  Sleep(1); //give some time to other threads to completely clean up
-  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
-    {
-    DWORD dwWaitResult = WaitForSingleObject(m_Threads[i], 0);
-    if (dwWaitResult == WAIT_OBJECT_0) //thread has finished!
-      {
-      waitCount--;
-      }
-    }
+  waitCount = 0;
 #endif
 
-  if (waitCount == m_Threads.size()) //add dummy jobs for clean thread exit
+  std::vector<Semaphore> jobSem(waitCount);
+  for (ThreadIdType i = 0; i < waitCount; i++)
     {
-    std::vector<Semaphore> jobSem(waitCount);
-    for (ThreadIdType i = 0; i < waitCount; i++)
-      {
-      ThreadJob dummy;
-      dummy.m_ThreadFunction = &noOperation;
-      dummy.m_Semaphore = &jobSem[i];
-      dummy.m_UserData = nullptr; //makes dummy jobs easier to spot while debugging
-      AddWork(dummy);
-      }
+    ThreadJob dummy;
+    dummy.m_ThreadFunction = &noOperation;
+    dummy.m_Semaphore = &jobSem[i];
+    dummy.m_UserData = nullptr; //makes dummy jobs easier to spot while debugging
+    AddWork(dummy);
+    }
 
-    for (ThreadIdType i = 0; i < waitCount; i++)
-      {
-      WaitForJob(jobSem[i]);
-      }
+  for (ThreadIdType i = 0; i < waitCount; i++)
+    {
+    WaitForJob(jobSem[i]);
     }
 
   DeleteThreads();
