@@ -31,6 +31,8 @@ namespace
     class TestDomainThreader: public itk::DomainThreader< ThreadedPartitionerType, Self >
     {
     public:
+      ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
+
       using Self = TestDomainThreader;
       using Superclass = itk::DomainThreader< ThreadedPartitionerType, Self >;
       using Pointer = itk::SmartPointer< Self >;
@@ -88,7 +90,6 @@ namespace
         }
 
       DomainBorderValuesInThreadedExecutionType m_DomainInThreadedExecution;
-      ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
     }; // end TestDomainThreader class
 
     IteratorRangeDomainThreaderAssociate()

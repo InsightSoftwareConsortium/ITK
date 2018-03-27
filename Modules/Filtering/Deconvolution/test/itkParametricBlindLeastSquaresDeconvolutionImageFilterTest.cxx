@@ -31,6 +31,8 @@ template< typename TOutputImage >
 class ExampleImageSource : public GaussianImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExampleImageSource);
+
   /** Standard type alias. */
   using Self = ExampleImageSource;
   using Superclass = GaussianImageSource< TOutputImage >;
@@ -99,9 +101,6 @@ public:
 protected:
   ExampleImageSource() {};
   ~ExampleImageSource() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExampleImageSource);
 };
 }
 

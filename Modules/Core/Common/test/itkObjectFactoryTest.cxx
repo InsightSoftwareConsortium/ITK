@@ -86,6 +86,8 @@ private:
 class TestFactory : public itk::ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TestFactory);
+
   using Self = TestFactory;
   using Superclass = itk::ObjectFactoryBase;
   using Pointer = itk::SmartPointer<Self>;
@@ -109,8 +111,6 @@ public:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestFactory);
-
   TestFactory()
     {
     this->RegisterOverride(typeid(itk::Image<short,2>).name(),

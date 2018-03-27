@@ -28,6 +28,8 @@ class MeshSourceGraftOutputFilter :
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshSourceGraftOutputFilter);
+
   /** Standard class type aliases. */
   using Self = MeshSourceGraftOutputFilter;
   using Superclass = MeshToMeshFilter<TInputMesh,TOutputMesh>;
@@ -65,10 +67,6 @@ protected:
 
   /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer   m_Transform;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshSourceGraftOutputFilter);
-
 };
 
 /**

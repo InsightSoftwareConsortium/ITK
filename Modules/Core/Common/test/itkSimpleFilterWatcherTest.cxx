@@ -55,6 +55,8 @@ namespace itk
                                             typename TOutputImage::PixelType >   >
   {
   public:
+    ITK_DISALLOW_COPY_AND_ASSIGN(TanHelperImageFilter);
+
     /** Standard class type aliases. */
     using Self = TanHelperImageFilter;
     using Superclass = UnaryFunctorImageFilter<
@@ -83,8 +85,6 @@ namespace itk
   protected:
     TanHelperImageFilter() {}
     ~TanHelperImageFilter() override {}
-  private:
-    ITK_DISALLOW_COPY_AND_ASSIGN(TanHelperImageFilter);
   };
 
 }

@@ -34,6 +34,8 @@ protected:
 class TestFactory3 : public itk::ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TestFactory3);
+
   using Self = TestFactory3;
   using Superclass = itk::ObjectFactoryBase;
   using Pointer = itk::SmartPointer<Self>;
@@ -60,8 +62,6 @@ public:
   itkSetStringMacro( Description );
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestFactory3);
-
   TestFactory3()
     {
     this->RegisterOverride(typeid(FakeObject3).name(),

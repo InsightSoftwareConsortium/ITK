@@ -64,6 +64,8 @@ class CompositeExampleImageFilter :
     public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CompositeExampleImageFilter);
+
 //  Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
@@ -128,8 +130,6 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CompositeExampleImageFilter);
-
 //  Software Guide : BeginLatex
 //
 //  The component filters are declared as data members, all using the smart

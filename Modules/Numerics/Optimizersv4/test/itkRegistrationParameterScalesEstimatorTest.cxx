@@ -108,6 +108,8 @@ class RegistrationParameterScalesEstimatorTest:
   public itk::RegistrationParameterScalesEstimator< TMetric >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimatorTest);
+
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesEstimatorTest;
   using Superclass = itk::RegistrationParameterScalesEstimator< TMetric >;
@@ -192,10 +194,6 @@ public:
 protected:
   RegistrationParameterScalesEstimatorTest(){};
   ~RegistrationParameterScalesEstimatorTest() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimatorTest);
-
 };
 
 /**

@@ -32,6 +32,7 @@ class TestImageFunction:
                         TCoordRep >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TestImageFunction);
 
   /** Standard class type aliases. */
   using Self = TestImageFunction;
@@ -92,10 +93,6 @@ public:
 protected:
   TestImageFunction(){};
   ~TestImageFunction() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestImageFunction);
-
 };
 
 }//namespace

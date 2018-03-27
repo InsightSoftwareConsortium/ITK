@@ -24,6 +24,8 @@ namespace itk {
 class DataObjectTestHelper : public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DataObjectTestHelper);
+
   /** Standard type alias. */
   using Self = DataObjectTestHelper;
   using Superclass = DataObject;
@@ -43,10 +45,6 @@ protected:
     {
     this->Superclass::PrintSelf( os, indent );
     }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DataObjectTestHelper);
-
 };
 
 }

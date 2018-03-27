@@ -42,6 +42,8 @@ template< class TOutputImage >
 class DemoImageSource:public GenerateImageSource< TOutputImage >
 {
   public:
+    ITK_DISALLOW_COPY_AND_ASSIGN(DemoImageSource);
+
     /** Standard class type aliases. */
     using Self = DemoImageSource;
     using Superclass = DemoImageSource< TOutputImage >;
@@ -78,8 +80,6 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
     };
 
   private:
-    ITK_DISALLOW_COPY_AND_ASSIGN(DemoImageSource);
-
     typename TOutputImage::PixelType m_Value;
 };
 

@@ -49,6 +49,8 @@ template <typename TImageType>
 class DummyFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DummyFunction);
+
   using Self = DummyFunction;
   using Superclass = FiniteDifferenceFunction<TImageType>;
   using Pointer = SmartPointer<Self>;
@@ -74,9 +76,6 @@ public:
 protected:
   DummyFunction() {}
   ~DummyFunction() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DummyFunction);
 };
 
 }

@@ -112,6 +112,8 @@ class ImageToImageMetricv4TestMetric
   : public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4TestMetric);
+
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4TestMetric;
   using Superclass = itk::ImageToImageMetricv4<TFixedImage, TMovingImage,
@@ -161,10 +163,6 @@ protected:
   {
     Superclass::PrintSelf( stream, indent );
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4TestMetric);
-
 }; // Metric ///////////////////////////////////////////////////
 
 template <typename TVector>

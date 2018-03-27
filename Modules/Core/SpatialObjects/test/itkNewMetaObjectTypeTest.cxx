@@ -77,6 +77,8 @@ class DummySpatialObject :
   public SpatialObject<TDimension>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DummySpatialObject);
+
   using Self = DummySpatialObject;
   using Superclass = SpatialObject<TDimension>;
   using Pointer = SmartPointer<Self>;
@@ -108,7 +110,6 @@ protected:
   ~DummySpatialObject() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DummySpatialObject);
   float m_Value;
 };
 
@@ -120,6 +121,8 @@ class MetaDummyConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDummyConverter);
+
   /** Standard class type aliases */
   using Self = MetaDummyConverter;
   using Superclass = MetaConverterBase< NDimensions >;
@@ -194,10 +197,6 @@ protected:
 
   MetaDummyConverter() {}
   ~MetaDummyConverter() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDummyConverter);
-
 };
 
 }

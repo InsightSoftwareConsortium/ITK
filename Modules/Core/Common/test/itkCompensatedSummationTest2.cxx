@@ -42,6 +42,8 @@ public:
     : public itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >
   {
   public:
+    ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
+
     using Self = TestDomainThreader;
     using Superclass = itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >;
     using Pointer = itk::SmartPointer< Self >;
@@ -93,7 +95,6 @@ public:
 
     std::vector< itk::CompensatedSummation<double> > m_PerThreadCompensatedSum;
 
-    ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
   }; // end TestDomainThreader class
 
   CompensatedSummationTest2Associate()

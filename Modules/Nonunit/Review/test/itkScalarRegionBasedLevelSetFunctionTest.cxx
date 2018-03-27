@@ -28,6 +28,8 @@ class ScalarRegionBasedLevelSetFunctionTestHelper :
  public ScalarRegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunctionTestHelper);
+
   /** Standard class type aliases. */
   using Self = ScalarRegionBasedLevelSetFunctionTestHelper;
   using Superclass = ScalarRegionBasedLevelSetFunction<TInput,TFeature,TSharedData>;
@@ -76,9 +78,6 @@ public:
 protected:
   ScalarRegionBasedLevelSetFunctionTestHelper() {}
   ~ScalarRegionBasedLevelSetFunctionTestHelper() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunctionTestHelper);
 };
 
 template <unsigned int NDimension>

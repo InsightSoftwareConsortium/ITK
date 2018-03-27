@@ -66,6 +66,8 @@ class VanilaImageToImageMetricv4GetValueAndDerivativeThreader
 : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VanilaImageToImageMetricv4GetValueAndDerivativeThreader);
+
   /** Standard class type aliases. */
   using Self = VanilaImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>;
@@ -116,9 +118,6 @@ protected:
   {
     return false;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanilaImageToImageMetricv4GetValueAndDerivativeThreader);
 };
 
 /* \class VanillaImageToImageMetricv4
@@ -130,6 +129,8 @@ template<typename TFixedImage, typename TMovingImage, typename TVirtualImage = T
 class VanillaImageToImageMetricv4 : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VanillaImageToImageMetricv4);
+
   /** Standard class type aliases. */
   using Self = VanillaImageToImageMetricv4;
   using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>;
@@ -187,9 +188,6 @@ protected:
 
   using VanillaSparseGetValueAndDerivativeThreaderType =
       VanilaImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Superclass>;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanillaImageToImageMetricv4);
 };
 
 }

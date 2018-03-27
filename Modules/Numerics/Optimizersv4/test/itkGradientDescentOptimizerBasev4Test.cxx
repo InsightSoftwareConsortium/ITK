@@ -25,6 +25,8 @@ class GradientDescentOptimizerBasev4TestMetric:
   public itk::ObjectToObjectMetricBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestMetric);
+
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4TestMetric;
   using Superclass = itk::ObjectToObjectMetricBase;
@@ -84,8 +86,6 @@ protected:
 
 private:
   GradientDescentOptimizerBasev4TestMetric() {}
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestMetric);
-
   ParametersType m_Parameters;
 };
 
@@ -95,6 +95,8 @@ class GradientDescentOptimizerBasev4TestOptimizer
   : public itk::GradientDescentOptimizerBasev4
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestOptimizer);
+
   /** Standard "Self" type alias. */
   using Self = GradientDescentOptimizerBasev4TestOptimizer;
   using Superclass = itk::GradientDescentOptimizerBasev4;
@@ -136,10 +138,6 @@ protected:
 
   GradientDescentOptimizerBasev4TestOptimizer(){}
   ~GradientDescentOptimizerBasev4TestOptimizer() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestOptimizer);
-
 };
 
 
