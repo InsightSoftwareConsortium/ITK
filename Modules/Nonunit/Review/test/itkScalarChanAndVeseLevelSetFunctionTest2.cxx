@@ -28,6 +28,8 @@ class ScalarChanAndVeseLevelSetFunctionTest2Helper :
  public ScalarChanAndVeseLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionTest2Helper);
+
   /** Standard class type aliases. */
   using Self = ScalarChanAndVeseLevelSetFunctionTest2Helper;
   using Superclass = ScalarChanAndVeseLevelSetFunction<TInput,TFeature,TSharedData>;
@@ -66,9 +68,6 @@ public:
 protected:
   ScalarChanAndVeseLevelSetFunctionTest2Helper() {}
   ~ScalarChanAndVeseLevelSetFunctionTest2Helper() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionTest2Helper);
 };
 
 }

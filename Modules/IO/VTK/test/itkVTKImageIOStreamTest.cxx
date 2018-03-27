@@ -35,6 +35,8 @@ template< class TOutputImage >
 class ConstantImageSource:public GenerateImageSource< TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantImageSource);
+
   /** Standard class type aliases. */
   using Self = ConstantImageSource;
   using Superclass = ConstantImageSource< TOutputImage >;
@@ -60,8 +62,6 @@ protected:
   void GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantImageSource);
-
   typename TOutputImage::PixelType m_Value;
 };
 

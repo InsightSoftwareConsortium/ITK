@@ -26,6 +26,8 @@ public:
   class TestDomainThreader: public itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >
   {
   public:
+    ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
+
     using Self = TestDomainThreader;
     using Superclass = itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >;
     using Pointer = itk::SmartPointer< Self >;
@@ -77,7 +79,6 @@ public:
       }
 
     std::vector<DomainType> m_DomainInThreadedExecution;
-    ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
   }; // end TestDomainThreader class
 
   DomainThreaderAssociate()

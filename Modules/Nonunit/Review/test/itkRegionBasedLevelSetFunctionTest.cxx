@@ -28,6 +28,8 @@ class RegionBasedLevelSetFunctionTestHelper :
  public RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionTestHelper);
+
   /** Standard class type aliases. */
   using Self = RegionBasedLevelSetFunctionTestHelper;
   using Superclass = RegionBasedLevelSetFunction<TInput,TFeature,TSharedData>;
@@ -70,9 +72,6 @@ public:
 protected:
   RegionBasedLevelSetFunctionTestHelper() {}
   ~RegionBasedLevelSetFunctionTestHelper() override {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionTestHelper);
 };
 
 template <unsigned int NDimension>

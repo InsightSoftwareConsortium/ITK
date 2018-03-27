@@ -94,6 +94,8 @@ class MultiTransformTestTransform :
   public itk::MultiTransform<TScalar, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransformTestTransform);
+
   /** Standard class type aliases. */
   using Self = MultiTransformTestTransform;
   using Superclass = itk::MultiTransform<TScalar, NDimensions, NDimensions>;
@@ -128,10 +130,6 @@ public:
 protected:
   MultiTransformTestTransform(){};
   ~MultiTransformTestTransform() override {};
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransformTestTransform);
-
 };
 
 /******/

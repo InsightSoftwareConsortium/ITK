@@ -143,6 +143,8 @@ private:
 class ImportImageContainerFactory : public itk::ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainerFactory);
+
   using Self = ImportImageContainerFactory;
   using Superclass = itk::ObjectFactoryBase;
   using Pointer = itk::SmartPointer<Self>;
@@ -166,8 +168,6 @@ public:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainerFactory);
-
 #define OverrideTypeMacro(t)       this->RegisterOverride(\
         typeid(itk::ImportImageContainer<unsigned long,t >).name(),\
         typeid(TestImportImageContainer<unsigned long,t >).name(),\

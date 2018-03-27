@@ -30,6 +30,9 @@ namespace itk
  */
 class ExceptionObject::ExceptionData:public ReferenceCounterInterface
 {
+public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExceptionData);
+
 protected:
   // Constructor. Might throw an exception.
   ExceptionData(
@@ -51,8 +54,6 @@ protected:
     }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExceptionData);
-
   friend class ExceptionObject;
 
   // The data members should never change after construction of the
@@ -79,6 +80,8 @@ private:
 class ExceptionObject::ReferenceCountedExceptionData:public ExceptionData, public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
+
   using Self = ReferenceCountedExceptionData;
   using ConstPointer = SmartPointer< const Self >;
   static ConstPointer ConstNew(
@@ -121,8 +124,6 @@ private:
   // Destructor. Only invoked via LightObject::UnRegister(), when its reference
   // count drops to zero.
   ~ReferenceCountedExceptionData() override {}
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
 };
 
 ExceptionObject::ExceptionObject()
