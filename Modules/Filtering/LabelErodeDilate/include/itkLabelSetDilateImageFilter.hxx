@@ -61,24 +61,23 @@ LabelSetDilateImageFilter< TInputImage, TOutputImage >
     }
   float progressPerDimension = 1.0 / ImageDimension;
 
-  ProgressReporter *progress = new ProgressReporter(this,
-                                                    threadId,
-                                                    NumberOfRows[this->m_CurrentDimension],
-                                                    30,
-                                                    this->m_CurrentDimension * progressPerDimension,
-                                                    progressPerDimension);
+  auto *progress = new ProgressReporter(this,
+                                        threadId,
+                                        NumberOfRows[this->m_CurrentDimension],
+                                        30,
+                                        this->m_CurrentDimension * progressPerDimension,
+                                        progressPerDimension);
 
-  typedef ImageLinearConstIteratorWithIndex< TInputImage  > InputConstIteratorType;
-  typedef ImageLinearIteratorWithIndex< TOutputImage >      OutputIteratorType;
+  using InputConstIteratorType = ImageLinearConstIteratorWithIndex< TInputImage  >;
+  using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
 
-  typedef ImageLinearConstIteratorWithIndex< DistanceImageType > InputDistIteratorType;
-  typedef ImageLinearIteratorWithIndex< DistanceImageType >      OutputDistIteratorType;
+  using InputDistIteratorType = ImageLinearConstIteratorWithIndex< DistanceImageType >;
+  using OutputDistIteratorType = ImageLinearIteratorWithIndex< DistanceImageType >;
 
   // for stages after the first
-  //typedef ImageLinearConstIteratorWithIndex< TOutputImage  >
-  //  OutputConstIteratorType;
+  // using OutputConstIteratorType = ImageLinearConstIteratorWithIndex< TOutputImage  > ;
 
-  typedef ImageRegion< TInputImage::ImageDimension > RegionType;
+  using RegionType = ImageRegion< TInputImage::ImageDimension >;
 
   typename TInputImage::ConstPointer inputImage( this->GetInput () );
   typename TOutputImage::Pointer     outputImage( this->GetOutput() );

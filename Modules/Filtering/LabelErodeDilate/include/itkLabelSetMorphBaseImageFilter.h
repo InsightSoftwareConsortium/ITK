@@ -24,10 +24,10 @@
 namespace itk
 {
 #if     ITK_VERSION_MAJOR < 4
-typedef int ThreadIdType;
-typedef int RegionIndexType;
+using ThreadIdType = int;
+using RegionIndexType = int;
 #else
-typedef unsigned int RegionIndexType;
+using RegionIndexType = unsigned int;
 #endif
 /**
  * \class LabelSetMorphBaseImageFilter
@@ -48,11 +48,11 @@ class ITK_EXPORT LabelSetMorphBaseImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelSetMorphBaseImageFilter                    Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = LabelSetMorphBaseImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,27 +61,27 @@ public:
   itkTypeMacro(LabelSetMorphBaseImageFilter, ImageToImageFilter);
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                         InputImageType;
-  typedef TOutputImage                                        OutputImageType;
-  typedef typename TInputImage::PixelType                     PixelType;
-  typedef typename NumericTraits< PixelType >::FloatType      RealType;
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename NumericTraits< PixelType >::ScalarRealType ScalarRealType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< PixelType >::FloatType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
 
-  typedef typename OutputImageType::IndexType      OutputIndexType;
-  typedef typename OutputImageType::IndexValueType OutputIndexValueType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputIndexValueType = typename OutputImageType::IndexValueType;
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
-  typedef typename TInputImage::SizeType     InputSizeType;
-  typedef typename TOutputImage::SizeType    OutputSizeType;
+  /** Smart pointer type alias support.  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using InputSizeType = typename TInputImage::SizeType;
+  using OutputSizeType = typename TOutputImage::SizeType;
 
   /** a type to represent the "kernel radius" */
-  typedef typename itk::FixedArray< ScalarRealType, TInputImage::ImageDimension > RadiusType;
+  using RadiusType = typename itk::FixedArray< ScalarRealType, TInputImage::ImageDimension >;
   /** Image dimension. */
 
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   // set all of the scales the same
   void SetRadius(ScalarRealType scale);
@@ -98,12 +98,9 @@ public:
   itkBooleanMacro(UseImageSpacing);
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
@@ -131,7 +128,7 @@ protected:
 
   RadiusType m_Radius;
   RadiusType m_Scale;
-  typedef typename itk::Image< RealType, TInputImage::ImageDimension > DistanceImageType;
+  using DistanceImageType = typename itk::Image< RealType, TInputImage::ImageDimension >;
   typename TInputImage::PixelType m_Extreme;
 
   typename DistanceImageType::Pointer m_DistanceImage;
