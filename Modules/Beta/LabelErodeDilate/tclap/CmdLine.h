@@ -46,7 +46,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-#include <stdlib.h> // Needed for exit(), which isn't defined in some envs.
+#include <cstdlib> // Needed for exit(), which isn't defined in some envs.
 
 namespace TCLAP {
 
@@ -57,7 +57,7 @@ template<typename T> void DelPtr(T ptr)
 
 template<typename C> void ClearContainer(C &c)
 {
-	typedef typename C::value_type value_type;
+	using value_type = typename C::value_type;
 	std::for_each(c.begin(), c.end(), DelPtr<value_type>);
 	c.clear();
 }

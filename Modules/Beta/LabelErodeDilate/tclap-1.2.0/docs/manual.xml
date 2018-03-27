@@ -977,7 +977,7 @@ To accomplish this, add the following declaration to your file:
 
   template&lt;class T, class U&gt;
   struct ArgTraits&lt;std::pair&lt;T, U&gt;&gt; {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
   };
 
 </programlisting>
@@ -1060,7 +1060,7 @@ class AuthorVisitor : public Visitor
         protected:
                 string _author;
         public:
-                AuthorVisitor(const string&amp; name ) : Visitor(), _author(name) {} ;
+                AuthorVisitor(const string&amp; name ) : Visitor(), _author(name) {};
                 void visit() { cout &lt;&lt; "AUTHOR:  " &lt;&lt; _author &lt;&lt; endl;  exit(0); };
 };
 

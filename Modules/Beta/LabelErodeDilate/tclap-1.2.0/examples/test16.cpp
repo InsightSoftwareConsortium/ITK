@@ -5,7 +5,7 @@
 namespace TCLAP {
     template<>
     struct ArgTraits< std::vector<double> > {
-        typedef StringLike ValueCategory;
+        using ValueCategory = StringLike;
     };
 
     template<>

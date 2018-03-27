@@ -5,7 +5,7 @@
 // Define a simple 3D vector type
 template<typename T, size_t LEN>
 struct Vect {
-    typedef TCLAP::StringLike ValueCategory;
+    using ValueCategory = TCLAP::StringLike;
     T v[LEN];
 
     // operator= will be used to assign to the vector

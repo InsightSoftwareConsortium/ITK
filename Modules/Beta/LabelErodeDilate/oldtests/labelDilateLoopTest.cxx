@@ -52,7 +52,7 @@ template< class MaskPixType, int dim >
 void doDilate(const CmdLineType & CmdLineObj)
 {
   // test behaviour in a loop
-  typedef typename itk::Image< MaskPixType, dim > MaskImType;
+  using MaskImType = typename itk::Image< MaskPixType, dim >;
 
   // load
   typename MaskImType::Pointer mask = readIm< MaskImType >(CmdLineObj.InputIm);

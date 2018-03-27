@@ -8,13 +8,13 @@
 #include <itkChangeLabelImageFilter.h>
 #include "itkinstance.h"
 
-typedef class CmdLineType
+using CmdLineType = class CmdLineType
 {
 public:
   std::string        InputIm, OutputIm;
   std::vector< int > Remove;
   float              radius;
-} CmdLineType;
+};
 
 void ParseCmdLine(int argc, char *argv[],
                   CmdLineType & CmdLineObj
@@ -56,7 +56,7 @@ void ParseCmdLine(int argc, char *argv[],
 template< class MaskPixType, int dim >
 void doDilate(const CmdLineType & CmdLineObj)
 {
-  typedef typename itk::Image< MaskPixType, dim > MaskImType;
+  using MaskImType = typename itk::Image< MaskPixType, dim >;
 
   // load
   typename MaskImType::Pointer mask = readIm< MaskImType >(CmdLineObj.InputIm);

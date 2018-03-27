@@ -39,9 +39,9 @@ template<class T>
 class MultiArg : public Arg
 {
 public:
-	typedef std::vector<T> container_type;	
-	typedef typename container_type::iterator iterator;
-	typedef typename container_type::const_iterator const_iterator;
+	using container_type = std::vector<T>;	
+	using iterator = typename container_type::iterator;
+	using const_iterator = typename container_type::const_iterator;
 
 protected:
 

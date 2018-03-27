@@ -274,7 +274,7 @@ PACKAGE_BUGREPORT=
 ac_unique_file="Makefile.am"
 # Factoring default headers for most tests.
 ac_includes_default="\
-#include <stdio.h>
+#include <cstdio>
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
@@ -282,27 +282,27 @@ ac_includes_default="\
 # include <sys/stat.h>
 #endif
 #if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
+# include <cstdlib>
+# include <cstddef>
 #else
 # if HAVE_STDLIB_H
-#  include <stdlib.h>
+#  include <cstdlib>
 # endif
 #endif
 #if HAVE_STRING_H
 # if !STDC_HEADERS && HAVE_MEMORY_H
 #  include <memory.h>
 # endif
-# include <string.h>
+# include <cstring>
 #endif
 #if HAVE_STRINGS_H
 # include <strings.h>
 #endif
 #if HAVE_INTTYPES_H
-# include <inttypes.h>
+# include <cinttypes>
 #else
 # if HAVE_STDINT_H
-#  include <stdint.h>
+#  include <cstdint>
 # endif
 #endif
 #if HAVE_UNISTD_H
@@ -2195,7 +2195,7 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 $ac_declaration
-#include <stdlib.h>
+#include <cstdlib>
 int
 main ()
 {
@@ -2562,8 +2562,8 @@ for ac_cxx_preproc_warn_flag in '' yes
 do
   # Use a header file that comes with gcc, so configuring glibc
   # with a fresh cross-compiler works.
-  # Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
-  # <limits.h> exists even on freestanding compilers.
+  # Prefer <climits> to <cassert> if __STDC__ is defined, since
+  # <climits> exists even on freestanding compilers.
   # On the NeXT, cc -E runs the code through the compiler's parser,
   # not just through cpp. "Syntax error" is here to catch this case.
   cat >conftest.$ac_ext <<_ACEOF
@@ -2573,9 +2573,9 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #ifdef __STDC__
-# include <limits.h>
+# include <climits>
 #else
-# include <assert.h>
+# include <cassert>
 #endif
 		     Syntax error
 _ACEOF
@@ -2669,8 +2669,8 @@ for ac_cxx_preproc_warn_flag in '' yes
 do
   # Use a header file that comes with gcc, so configuring glibc
   # with a fresh cross-compiler works.
-  # Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
-  # <limits.h> exists even on freestanding compilers.
+  # Prefer <climits> to <cassert> if __STDC__ is defined, since
+  # <climits> exists even on freestanding compilers.
   # On the NeXT, cc -E runs the code through the compiler's parser,
   # not just through cpp. "Syntax error" is here to catch this case.
   cat >conftest.$ac_ext <<_ACEOF
@@ -2680,9 +2680,9 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #ifdef __STDC__
-# include <limits.h>
+# include <climits>
 #else
-# include <assert.h>
+# include <cassert>
 #endif
 		     Syntax error
 _ACEOF
@@ -2800,10 +2800,10 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <float.h>
+#include <cstdlib>
+#include <cstdarg>
+#include <cstring>
+#include <cfloat>
 
 int
 main ()
@@ -2852,7 +2852,7 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <string.h>
+#include <cstring>
 
 _ACEOF
 if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
@@ -2873,7 +2873,7 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <stdlib.h>
+#include <cstdlib>
 
 _ACEOF
 if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
@@ -2897,7 +2897,7 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <ctype.h>
+#include <cctype>
 #if ((' ' & 0x0FF) == 0x020)
 # define ISLOWER(c) ('a' <= (c) && (c) <= 'z')
 # define TOUPPER(c) (ISLOWER(c) ? 'A' + ((c) - 'a') : (c))

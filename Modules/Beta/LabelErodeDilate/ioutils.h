@@ -28,7 +28,7 @@ int readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType *Compo
 template <class TImage>
 void writeIm(typename TImage::Pointer Im, std::string filename)
 {
-  typedef typename itk::ImageFileWriter<TImage> WriterType;
+  using WriterType = typename itk::ImageFileWriter<TImage>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(Im);
   writer->SetFileName(filename.c_str());
@@ -39,10 +39,10 @@ template <class TImage, class PixType>
 void writeImScale(typename TImage::Pointer Im, std::string filename)
 {
   const int dim = TImage::ImageDimension;
-  typedef typename itk::Image<PixType, dim> OutType;
-  typedef typename itk::ImageFileWriter<OutType> WriterType;
-  typedef typename itk::StatisticsImageFilter<TImage> StatsType;
-  typedef typename itk::ShiftScaleImageFilter<TImage, OutType> FitType;
+  using OutType = typename itk::Image<PixType, dim>;
+  using WriterType = typename itk::ImageFileWriter<OutType>;
+  using StatsType = typename itk::StatisticsImageFilter<TImage>;
+  using FitType = typename itk::ShiftScaleImageFilter<TImage, OutType>;
   
   typename StatsType::Pointer stats = StatsType::New();
   typename FitType::Pointer fitter = FitType::New();
@@ -69,7 +69,7 @@ void writeImScale(typename TImage::Pointer Im, std::string filename)
 template <class TImage>
 typename TImage::Pointer readIm(std::string filename)
 {
-  typedef typename itk::ImageFileReader<TImage> ReaderType;
+  using ReaderType = typename itk::ImageFileReader<TImage>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(filename.c_str());
   typename TImage::Pointer result = reader->GetOutput();
@@ -90,10 +90,10 @@ typename TImage::Pointer readIm(std::string filename)
 template <class TImage>
 typename TImage::Pointer readImOriented(std::string filename, itk::SpatialOrientation::ValidCoordinateOrientationFlags direction)
 {
-  typedef typename itk::ImageFileReader<TImage> ReaderType;
+  using ReaderType = typename itk::ImageFileReader<TImage>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(filename.c_str());
-  typedef typename itk::OrientImageFilter<TImage, TImage> ReorientType;
+  using ReorientType = typename itk::OrientImageFilter<TImage, TImage>;
   typename ReorientType::Pointer reorient = ReorientType::New();
   reorient->SetInput(reader->GetOutput());
   reorient->UseImageDirectionOn();

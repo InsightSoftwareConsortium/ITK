@@ -41,11 +41,11 @@ void ParseCmdLine(int argc, char *argv[],
 template< class PixType, int dim >
 void doSearch(const CmdLineType & CmdLineObj)
 {
-  typedef typename itk::Image< PixType, dim > MaskImType;
+  using MaskImType = typename itk::Image< PixType, dim >;
 
   // load
   typename MaskImType::Pointer mask = readIm< MaskImType >(CmdLineObj.InputIm);
-  typedef typename itk::ImageRegionIterator< MaskImType > IterType;
+  using IterType = typename itk::ImageRegionIterator< MaskImType >;
 
   IterType iter( mask, mask->GetLargestPossibleRegion() );
 

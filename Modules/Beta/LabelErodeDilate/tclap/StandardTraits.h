@@ -41,7 +41,7 @@ namespace TCLAP {
  */
 template<>
 struct ArgTraits<long> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -49,7 +49,7 @@ struct ArgTraits<long> {
  */
 template<>
 struct ArgTraits<int> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -57,7 +57,7 @@ struct ArgTraits<int> {
  */
 template<>
 struct ArgTraits<short> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -65,7 +65,7 @@ struct ArgTraits<short> {
  */
 template<>
 struct ArgTraits<char> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 #ifdef HAVE_LONG_LONG
@@ -74,7 +74,7 @@ struct ArgTraits<char> {
  */
 template<>
 struct ArgTraits<long long> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 #endif
 
@@ -87,7 +87,7 @@ struct ArgTraits<long long> {
  */
 template<>
 struct ArgTraits<unsigned long> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -95,7 +95,7 @@ struct ArgTraits<unsigned long> {
  */
 template<>
 struct ArgTraits<unsigned int> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -103,7 +103,7 @@ struct ArgTraits<unsigned int> {
  */
 template<>
 struct ArgTraits<unsigned short> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -111,7 +111,7 @@ struct ArgTraits<unsigned short> {
  */
 template<>
 struct ArgTraits<unsigned char> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 #ifdef HAVE_LONG_LONG
@@ -120,7 +120,7 @@ struct ArgTraits<unsigned char> {
  */
 template<>
 struct ArgTraits<unsigned long long> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 #endif
 
@@ -133,7 +133,7 @@ struct ArgTraits<unsigned long long> {
  */
 template<>
 struct ArgTraits<float> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -141,7 +141,7 @@ struct ArgTraits<float> {
  */
 template<>
 struct ArgTraits<double> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 // ======================================================================
@@ -153,7 +153,7 @@ struct ArgTraits<double> {
  */
 template<>
 struct ArgTraits<bool> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -161,7 +161,7 @@ struct ArgTraits<bool> {
  */
 template<>
 struct ArgTraits<wchar_t> {
-    typedef ValueLike ValueCategory;
+    using ValueCategory = ValueLike;
 };
 
 /**
@@ -169,7 +169,7 @@ struct ArgTraits<wchar_t> {
  */
 template<>
 struct ArgTraits<std::string> {
-    typedef StringLike ValueCategory;
+    using ValueCategory = StringLike;
 };
 
 template<typename T>

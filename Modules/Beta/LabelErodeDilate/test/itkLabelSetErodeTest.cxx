@@ -26,10 +26,10 @@
 template< class MaskPixType, int dim >
 int doErode(char *In, char *Out, int radius)
 {
-  typedef typename itk::Image< MaskPixType, dim > MaskImType;
+  using MaskImType = typename itk::Image< MaskPixType, dim >;
 
   // load
-  typedef typename itk::ImageFileReader< MaskImType > ReaderType;
+  using ReaderType = typename itk::ImageFileReader< MaskImType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(In);
   try
@@ -43,12 +43,12 @@ int doErode(char *In, char *Out, int radius)
     }
 
   // Label dilation
-  typedef typename itk::LabelSetErodeImageFilter< MaskImType, MaskImType > FilterType;
+  using FilterType = typename itk::LabelSetErodeImageFilter< MaskImType, MaskImType >;
   typename FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetRadius(radius);
   filter->SetUseImageSpacing(true);
-  typedef typename itk::ImageFileWriter< MaskImType > WriterType;
+  using WriterType = typename itk::ImageFileWriter< MaskImType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName(Out);
