@@ -298,7 +298,13 @@ public:
   /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
    * is positioned in the location specified by the parameter "dim". Valid
    * values of "dim" are 0, ..., VDimension-1. */
-  static Self GetBasisIndex(unsigned int dim);
+  static Self GetBasisIndex(unsigned int dim)
+  {
+    Self ind{{0}};
+
+    ind.m_InternalArray[dim] = 1;
+    return ind;
+  }
 
 
   // ======================= Mirror the access pattern behavior of the std::array class
@@ -445,18 +451,8 @@ private:
       }
   }
 
-};  //------------ End struct Index
-
-template <unsigned int VDimension>
-Index<VDimension>
-Index<VDimension>
-::GetBasisIndex(unsigned int dim)
-{
-  Self ind{{0}};
-
-  ind.m_InternalArray[dim] = 1;
-  return ind;
-}
+};
+//------------ End struct Index
 
 template <unsigned int VDimension>
 std::ostream & operator<<(std::ostream & os, const Index<VDimension> & obj)
