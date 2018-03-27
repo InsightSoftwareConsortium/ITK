@@ -21,14 +21,8 @@
 #include "itkImageToPathFilter.h"
 #include "itkPolyLineParametricPath.h"
 #include "itkConceptChecking.h"
-#include "itksys/hash_map.hxx"
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_deque.h"
-#endif
+#include <unordered_map>
 #include <deque>
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_list.h"
-#endif
 #include <list>
 
 namespace itk
@@ -92,7 +86,7 @@ namespace itk
  * \sa Path
  * \sa PolyLineParametricPath
  *
- * \ingroup ITKReview
+ * \ingroup ITKPath
  *
  * \wiki
  * \wikiexample{Segmentation/ContourExtractor2DImageFilter,Extract contours from an image}
@@ -278,7 +272,7 @@ public:
   // from our list when they have been merged into another. Thus, we store
   // an iterator pointing to the contour in the list.
 
-  using VertexToContourMap = itksys::hash_map< VertexType, ContourRef, VertexHash >;
+  using VertexToContourMap = std::unordered_map< VertexType, ContourRef, VertexHash >;
   using VertexMapIterator = typename VertexToContourMap::iterator;
   using VertexContourRefPair = typename VertexToContourMap::value_type;
 

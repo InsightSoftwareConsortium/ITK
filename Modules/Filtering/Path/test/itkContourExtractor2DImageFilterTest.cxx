@@ -570,14 +570,14 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
     {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   if (testsPassed)
     {
     std::cout << "All tests passed." << std::endl;
-    return 0;
+    return EXIT_SUCCESS;
     }
 
-  return 1;
+  return EXIT_FAILURE;
 }

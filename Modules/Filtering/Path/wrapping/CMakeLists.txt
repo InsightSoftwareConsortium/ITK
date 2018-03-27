@@ -5,6 +5,7 @@ set(WRAPPER_SUBMODULE_ORDER
   itkPolyLineParametricPath
   itkPathToImageFilter
   itkParametricPath
+  itkImageToPathFilter
 )
 itk_auto_load_submodules()
 
