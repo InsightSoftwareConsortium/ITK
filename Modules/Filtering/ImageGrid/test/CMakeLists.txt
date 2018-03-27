@@ -43,6 +43,7 @@ itkWarpImageFilterTest2.cxx
 itkWarpVectorImageFilterTest.cxx
 itkWrapPadImageTest.cxx
 itkMirrorPadImageTest.cxx
+itkMirrorPadImageFilterTest.cxx
 itkResampleImageTest.cxx
 itkResampleImageTest2.cxx
 itkResampleImageTest3.cxx
@@ -205,6 +206,30 @@ itk_add_test(NAME itkWrapPadImageTest
       COMMAND ITKImageGridTestDriver itkWrapPadImageTest)
 itk_add_test(NAME itkMirrorPadImageTest
       COMMAND ITKImageGridTestDriver itkMirrorPadImageTest)
+itk_add_test(NAME itkMirrorPadImageFilterTest
+      COMMAND ITKImageGridTestDriver
+    --compare DATA{Baseline/SwirledMirrored_0-11-7.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/SwirledMirrored_0-11-7.nrrd
+    itkMirrorPadImageFilterTest float
+                                DATA{Input/Swirled.png}
+                                ${ITK_TEST_OUTPUT_DIR}/SwirledMirrored_0-11-7.nrrd
+                                0.0 11 7)
+itk_add_test(NAME itkMirrorPadWithExponentialDecayTestFloat
+      COMMAND ITKImageGridTestDriver
+    --compare DATA{Baseline/SwirledMirroredFloat_0.75-11-7.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/SwirledMirroredFloat_0.75-11-7.nrrd
+    itkMirrorPadImageFilterTest float
+                                DATA{Input/Swirled.png}
+                                ${ITK_TEST_OUTPUT_DIR}/SwirledMirroredFloat_0.75-11-7.nrrd
+                                0.75 11 7)
+itk_add_test(NAME itkMirrorPadWithExponentialDecayTestUChar
+      COMMAND ITKImageGridTestDriver
+    --compare DATA{Baseline/SwirledMirroredUChar_0.75-11-7.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/SwirledMirroredUChar_0.75-11-7.nrrd
+    itkMirrorPadImageFilterTest uchar
+                                DATA{Input/Swirled.png}
+                                ${ITK_TEST_OUTPUT_DIR}/SwirledMirroredUChar_0.75-11-7.nrrd
+                                0.75 11 7)
 itk_add_test(NAME itkResampleImageTest
       COMMAND ITKImageGridTestDriver itkResampleImageTest)
 itk_add_test(NAME itkResampleImageTest2
