@@ -85,6 +85,9 @@ namespace itk
  *  transform can be directly used to resample the Moving image to match the
  *  Fixed image.
  *
+ *  This class allows caching of image FFTs, because image montaging usually
+ *  requires a single tile to participate in multiple image registrations.
+ *
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
  *         Academy of Sciences of the Czech Republic.
@@ -166,6 +169,26 @@ public:
   /** Set/Get the Moving image. */
   void SetMovingImage( const MovingImageType * movingImage );
   itkGetConstObjectMacro( MovingImage, MovingImageType );
+
+  /** Internal FFT filter type. */
+  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< RealImageType >;
+
+  /** Image's FFT type. */
+  using ComplexImageType = typename FFTFilterType::OutputImageType;
+
+  /** Set the fixed image's cached FFT. */
+  void SetFixedImageFFT( const ComplexImageType * fixedImageFFT);
+
+  /** Get the fixed image's FFT (useful for caching).
+   *  Available after Update() has been called. */
+  itkGetConstObjectMacro( FixedImageFFT, ComplexImageType);
+
+  /** Set the moving image's cached FFT. */
+  void SetMovingImageFFT( const ComplexImageType * movingImageFFT);
+
+  /** Get the moving image's FFT (useful for caching).
+   *  Available after Update() has been called. */
+  itkGetConstObjectMacro( MovingImageFFT, ComplexImageType);
 
   /** Passes ReleaseDataFlag to internal filters. */
   void SetReleaseDataFlag(bool flag) override;
@@ -296,8 +319,6 @@ protected:
   using MovingMirrorPadderType = MirrorPadImageFilter< MovingImageType, RealImageType >;
   using FixedMirrorWEDPadderType = MirrorPadImageFilter< FixedImageType, RealImageType, true >;
   using MovingMirrorWEDPadderType = MirrorPadImageFilter< MovingImageType, RealImageType, true >;
-  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< RealImageType >;
-  using ComplexImageType = typename FFTFilterType::OutputImageType;
   using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType >;
 
 private:
@@ -309,6 +330,9 @@ private:
 
   MovingImageConstPointer m_MovingImage;
   FixedImageConstPointer  m_FixedImage;
+
+  typename ComplexImageType::Pointer m_FixedImageFFT;
+  typename ComplexImageType::Pointer m_MovingImageFFT;
 
   ParametersType m_TransformParameters;
   SizeType       m_PadToSize;
