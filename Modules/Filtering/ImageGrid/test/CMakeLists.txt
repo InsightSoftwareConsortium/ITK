@@ -213,7 +213,7 @@ itk_add_test(NAME itkMirrorPadImageFilterTest
     itkMirrorPadImageFilterTest float
                                 DATA{Input/Swirled.png}
                                 ${ITK_TEST_OUTPUT_DIR}/SwirledMirrored_0-11-7.nrrd
-                                0.0 11 7)
+                                1.0 11 7)
 itk_add_test(NAME itkMirrorPadWithExponentialDecayTestFloat
       COMMAND ITKImageGridTestDriver
     --compare DATA{Baseline/SwirledMirroredFloat_0.75-11-7.nrrd}
