@@ -34,7 +34,7 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Gene
   // Allocate the output
   this->AllocateOutputs();
   InputImageConstPointer           inputImage;
-  PadFilterType::SizeType          Bounds;
+  typename PadFilterType::SizeType Bounds;
   typename PadFilterType::SizeType BoundsSize;
   if (this->m_SafeBorder)
   {
