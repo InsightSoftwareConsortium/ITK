@@ -23,7 +23,6 @@
 #include <complex>
 #include "itkConstantPadImageFilter.h"
 #include "itkMirrorPadImageFilter.h"
-#include "itkMirrorPadWithExponentialDecayImageFilter.h"
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkDataObjectDecorator.h"
@@ -295,8 +294,8 @@ protected:
   using MovingConstantPadderType = ConstantPadImageFilter< MovingImageType, RealImageType >;
   using FixedMirrorPadderType = MirrorPadImageFilter< FixedImageType, RealImageType >;
   using MovingMirrorPadderType = MirrorPadImageFilter< MovingImageType, RealImageType >;
-  using FixedMirrorWEDPadderType = MirrorPadWithExponentialDecayImageFilter< FixedImageType, RealImageType >;
-  using MovingMirrorWEDPadderType = MirrorPadWithExponentialDecayImageFilter< MovingImageType, RealImageType >;
+  using FixedMirrorWEDPadderType = MirrorPadImageFilter< FixedImageType, RealImageType, true >;
+  using MovingMirrorWEDPadderType = MirrorPadImageFilter< MovingImageType, RealImageType, true >;
   using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< RealImageType >;
   using ComplexImageType = typename FFTFilterType::OutputImageType;
   using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType >;
