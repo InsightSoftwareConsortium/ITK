@@ -63,6 +63,8 @@ template <typename TInputImage, typename TOutputImage>
 class ExpandWithZerosImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExpandWithZerosImageFilter);
+
   /** Standard class type alias. */
   using Self = ExpandWithZerosImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -151,8 +153,6 @@ protected:
   BeforeThreadedGenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpandWithZerosImageFilter);
-
   ExpandFactorsType m_ExpandFactors;
 };
 } // end namespace itk

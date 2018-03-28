@@ -45,6 +45,8 @@ template <typename TInputImage,
 class VectorInverseFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorInverseFFTImageFilter);
+
   /** Standard class type alias. */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -74,9 +76,6 @@ protected:
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorInverseFFTImageFilter);
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

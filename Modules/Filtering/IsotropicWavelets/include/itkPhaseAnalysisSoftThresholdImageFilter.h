@@ -44,6 +44,8 @@ template <typename TInputImage,
 class PhaseAnalysisSoftThresholdImageFilter : public PhaseAnalysisImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisSoftThresholdImageFilter);
+
   /** Standard class type alias. */
   using Self = PhaseAnalysisSoftThresholdImageFilter;
   using Superclass = PhaseAnalysisImageFilter<TInputImage, TOutputImage>;
@@ -107,7 +109,6 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisSoftThresholdImageFilter);
   bool                 m_ApplySoftThreshold;
   OutputImagePixelType m_NumOfSigmas;
   OutputImagePixelType m_MeanAmp;

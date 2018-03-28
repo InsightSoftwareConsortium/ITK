@@ -52,6 +52,8 @@ template <typename TFunctionValue = double,
 class SimoncelliIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimoncelliIsotropicWavelet);
+
   /** Standard class type alias. */
   using Self = SimoncelliIsotropicWavelet;
   using Superclass = IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>;
@@ -79,9 +81,6 @@ protected:
   ~SimoncelliIsotropicWavelet() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimoncelliIsotropicWavelet);
 };
 } // end namespace itk
 

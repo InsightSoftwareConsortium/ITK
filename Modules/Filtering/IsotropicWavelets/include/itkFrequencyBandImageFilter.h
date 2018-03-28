@@ -48,6 +48,8 @@ template <typename TImageType,
 class FrequencyBandImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyBandImageFilter);
+
   /** Standard class type alias. */
   using Self = FrequencyBandImageFilter;
   using Superclass = ImageToImageFilter<TImageType, TImageType>;
@@ -191,8 +193,6 @@ protected:
   ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyBandImageFilter);
-
   FrequencyValueType m_LowFrequencyThreshold;
   FrequencyValueType m_HighFrequencyThreshold;
 

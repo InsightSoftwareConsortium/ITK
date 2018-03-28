@@ -43,6 +43,8 @@ template <typename TInputImage,
 class WaveletFrequencyInverse : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyInverse);
+
   /** Standard classs type alias. */
   using Self = WaveletFrequencyInverse;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -174,8 +176,6 @@ protected:
   VerifyInputInformation() override {};
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyInverse);
-
   unsigned int             m_Levels;
   unsigned int             m_HighPassSubBands;
   unsigned int             m_TotalInputs;

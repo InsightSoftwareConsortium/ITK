@@ -39,6 +39,8 @@ template <typename TFunctionValue = double,
 class IsotropicFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicFrequencyFunction);
+
   /** Standard class type alias. */
   using Self = IsotropicFrequencyFunction;
   using Superclass = FrequencyFunction<TFunctionValue, VImageDimension, TInput>;
@@ -93,9 +95,6 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicFrequencyFunction);
 };
 } // end namespace itk
 

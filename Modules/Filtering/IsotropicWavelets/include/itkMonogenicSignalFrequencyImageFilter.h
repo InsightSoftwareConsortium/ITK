@@ -45,6 +45,8 @@ class MonogenicSignalFrequencyImageFilter
   : public ImageToImageFilter<TInputImage, VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MonogenicSignalFrequencyImageFilter);
+
   /** Standard class type alias. */
   using Self = MonogenicSignalFrequencyImageFilter;
   using Superclass =
@@ -94,7 +96,6 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MonogenicSignalFrequencyImageFilter);
   RieszFunctionPointer m_Evaluator;
 };
 } // end namespace itk

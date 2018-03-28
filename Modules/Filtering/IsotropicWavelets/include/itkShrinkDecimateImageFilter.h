@@ -42,6 +42,8 @@ template <typename TInputImage, typename TOutputImage>
 class ShrinkDecimateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShrinkDecimateImageFilter);
+
   /** Standard class type alias. */
   using Self = ShrinkDecimateImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -114,8 +116,6 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShrinkDecimateImageFilter);
-
   ShrinkFactorsType m_ShrinkFactors;
 
   /** Round different pixel types. */

@@ -50,6 +50,8 @@ template <typename TImageType>
 class FrequencyExpandViaInverseFFTImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyExpandViaInverseFFTImageFilter);
+
   /** Standard class type alias. */
   using Self = FrequencyExpandViaInverseFFTImageFilter;
   using Superclass = ImageToImageFilter<TImageType, TImageType>;
@@ -124,8 +126,6 @@ protected:
   GenerateData() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyExpandViaInverseFFTImageFilter);
-
   ExpandFactorsType                             m_ExpandFactors;
   typename InverseFFTFilterType::Pointer        m_InverseFFT;
   typename ForwardFFTFilterType::Pointer        m_ForwardFFT;

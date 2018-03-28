@@ -45,6 +45,8 @@ template <typename TFunctionValue = double,
 class HeldIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HeldIsotropicWavelet);
+
   /** Standard class type alias. */
   using Self = HeldIsotropicWavelet;
   using Superclass = IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>;
@@ -84,8 +86,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HeldIsotropicWavelet);
-
   /** The order of the polynom. */
   unsigned int m_PolynomialOrder;
 };

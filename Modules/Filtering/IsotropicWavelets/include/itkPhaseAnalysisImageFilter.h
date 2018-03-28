@@ -65,6 +65,8 @@ template <typename TInputImage,
 class PhaseAnalysisImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisImageFilter);
+
   /** Standard class type alias. */
   using Self = PhaseAnalysisImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -176,9 +178,6 @@ protected:
     }
     return out;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisImageFilter);
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

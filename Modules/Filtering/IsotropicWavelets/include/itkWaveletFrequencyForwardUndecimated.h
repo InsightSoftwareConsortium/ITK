@@ -45,6 +45,8 @@ template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBa
 class WaveletFrequencyForwardUndecimated : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForwardUndecimated);
+
   /** Standard typenames type alias. */
   using Self = WaveletFrequencyForwardUndecimated;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -182,8 +184,6 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForwardUndecimated);
-
   unsigned int             m_Levels;
   unsigned int             m_HighPassSubBands;
   unsigned int             m_TotalOutputs;

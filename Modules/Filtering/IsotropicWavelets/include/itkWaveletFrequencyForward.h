@@ -51,6 +51,8 @@ template <typename TInputImage,
 class WaveletFrequencyForward : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForward);
+
   /** Standard typenames type alias. */
   using Self = WaveletFrequencyForward;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -190,8 +192,6 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForward);
-
   unsigned int             m_Levels;
   unsigned int             m_HighPassSubBands;
   unsigned int             m_TotalOutputs;
