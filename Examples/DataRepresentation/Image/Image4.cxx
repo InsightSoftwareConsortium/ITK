@@ -57,10 +57,7 @@
 //
 // A \emph{pixel} is considered to be the
 // rectangular region surrounding the pixel center holding the data
-// value. This can be viewed as the Voronoi region of the image grid, as
-// illustrated in the right side of the figure. Linear interpolation of
-// image values is performed inside the Delaunay region whose corners
-// are pixel centers.
+// value.
 //
 // Software Guide : EndLatex
 
