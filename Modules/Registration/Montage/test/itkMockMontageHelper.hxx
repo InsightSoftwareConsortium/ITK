@@ -25,8 +25,9 @@
 #include "itkImageFileWriter.h"
 
 #include <type_traits>
-#include <fstream>
 #include <array>
+#include <fstream>
+#include <iomanip>
 
 constexpr unsigned Dimension = 2;
 
@@ -40,7 +41,7 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
     std::ostream& out, unsigned xF, unsigned yF, unsigned xM, unsigned yM)
 {
   double translationError = 0.0;
-  std::cout << "Registering " << filenames[yM][xM] << " to " << filenames[yF][xF] << std::endl;
+  std::cout << filenames[yF][xF] << " <- " << filenames[yM][xM];
   out << std::to_string(xF) + "," + std::to_string(yF) + " <- " + std::to_string(xM) + "," + std::to_string(yM);
 
   using ImageType = itk::Image< PixelType, Dimension>;
@@ -91,9 +92,11 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
   for (unsigned d = 0; d < Dimension; d++)
     {
     out << '\t' << (tr[d] - ta[d]);
+    std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
     translationError += std::abs(tr[d] - ta[d]);
     }
   out << std::endl;
+  std::cout << std::endl;
 
   return translationError;
 }//calculateError
@@ -128,7 +131,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
     }
 
   double avgError = totalError / (xMontageSize*(yMontageSize - 1) + (xMontageSize - 1)*yMontageSize);
-  std::cout << "Average per-registration translation error for all coordinates: " << avgError;
+  std::cout << "Average per-registration translation error for all coordinates: " << avgError << std::endl;
   if (avgError < 1.0)
     {
     return EXIT_SUCCESS;
