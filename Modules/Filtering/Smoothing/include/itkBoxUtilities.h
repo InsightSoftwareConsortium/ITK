@@ -43,7 +43,7 @@ namespace
 {
 
 template< typename TIterator >
-TIterator *
+inline TIterator *
 setConnectivityEarlyBox(TIterator *it, bool fullyConnected = false)
 {
   // activate the "previous" neighbours

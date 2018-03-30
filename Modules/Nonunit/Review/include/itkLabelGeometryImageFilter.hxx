@@ -38,7 +38,7 @@ namespace
 //
 template< unsigned int NDimension >
 vnl_matrix< double >
-CalculateRotationMatrix(const vnl_symmetric_eigensystem< double > &eig)
+inline CalculateRotationMatrix(const vnl_symmetric_eigensystem< double > &eig)
 {
   vnl_matrix<double> rotationMatrix(NDimension, NDimension, 0);
   for ( unsigned int i = 0; i < NDimension; i++ )
@@ -82,7 +82,7 @@ CalculateRotationMatrix(const vnl_symmetric_eigensystem< double > &eig)
 }
 
 template<typename TLabelImage, typename TIntensityImage, typename TInputImage >
-bool
+inline bool
 CalculateOrientedImage(
   const vnl_symmetric_eigensystem< double > &eig,
   typename LabelGeometryImageFilter< TLabelImage, TIntensityImage >::LabelGeometry & labelGeometry,

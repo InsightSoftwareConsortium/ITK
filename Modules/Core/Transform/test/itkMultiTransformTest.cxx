@@ -48,25 +48,6 @@ bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
   return pass;
 }
 
-template <typename TArray2D>
-inline bool testJacobian( const TArray2D & m1, const TArray2D & m2 )
-{
-  unsigned int i, j;
-  bool         pass = true;
-
-  for( i = 0; i < m1.rows(); i++ )
-    {
-    for( j = 0; j < m1.cols(); j++ )
-      {
-      if( std::fabs( m1[i][j] - m2[i][j] ) > epsilon )
-        {
-        pass = false;
-        }
-      }
-    }
-  return pass;
-}
-
 template <typename TVector>
 bool testVectorArray( const TVector & v1, const TVector & v2 )
 {

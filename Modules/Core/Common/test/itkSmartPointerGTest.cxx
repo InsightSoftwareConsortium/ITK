@@ -56,7 +56,7 @@ public:
 protected:
   Derived1() : m_RegisterCount(0) {}
 
-  ~Derived1() = default;
+  ~Derived1() override = default;
 
   mutable unsigned int m_RegisterCount;
  };
@@ -83,7 +83,7 @@ public:
 
 protected:
   Derived2() = default;
-  ~Derived2() = default;
+  ~Derived2() override = default;
 
  };
 

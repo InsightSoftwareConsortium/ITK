@@ -55,7 +55,7 @@ MatlabTransformIOTemplate<ParametersValueType>
 // ReadMat -- we always want double precision,
 // but handle single precision as well.
 template<typename ParametersValueType>
-static void
+inline void
 ReadMat(vnl_matlab_readhdr & mathdr,
         typename MatlabTransformIOTemplate<ParametersValueType>::TransformType::ParametersType & array)
 {

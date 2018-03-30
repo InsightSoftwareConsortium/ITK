@@ -44,7 +44,7 @@ namespace
   template< typename T >
   typename itk::EnableIfC< sizeof(T) != 1 >::Type
   test2( void )
-  {std::cout << "D is not one in size" << std::endl;}
+  {std::cout << "T is not one in size" << std::endl;}
 
 
   template< typename T >
@@ -77,6 +77,7 @@ int itkEnableIfTest( int, char*[] )
   test1<1>();
   test1<2>();
 
+  test2<char>();
   test2<int>();
   test2<void*>();
 
