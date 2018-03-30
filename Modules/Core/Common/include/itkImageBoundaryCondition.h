@@ -59,6 +59,8 @@ public:
   using Self = ImageBoundaryCondition;
 
   /** Extract information from the image type */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
   using PixelType = typename TInputImage::PixelType;
   using PixelPointerType = typename TInputImage::InternalPixelType *;
   using OutputPixelType = typename TOutputImage::PixelType;
