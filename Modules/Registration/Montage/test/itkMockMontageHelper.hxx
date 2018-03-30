@@ -87,7 +87,7 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
 
   //calculate error
   VectorType tr = regTr->GetOffset(); //translation measured by registration
-  VectorType ta = (actualCoords[yM][xM] - initalCoords[yM][xM]) - (actualCoords[yF][xF] - initalCoords[yF][xF]); //translation (actual)
+  VectorType ta = (actualCoords[yF][xF] - initalCoords[yF][xF]) - (actualCoords[yM][xM] - initalCoords[yM][xM]); //translation (actual)
   for (unsigned d = 0; d < Dimension; d++)
     {
     out << '\t' << (tr[d] - ta[d]);
@@ -127,7 +127,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       }
     }
 
-  double avgError = totalError / (2 * (xMontageSize - 1)*(yMontageSize - 1));
+  double avgError = totalError / (xMontageSize*(yMontageSize - 1) + (xMontageSize - 1)*yMontageSize);
   std::cout << "Average per-registration translation error for all coordinates: " << avgError;
   if (avgError < 1.0)
     {
