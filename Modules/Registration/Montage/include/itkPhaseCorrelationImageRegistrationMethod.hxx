@@ -73,8 +73,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_MovingConstantPadder = MovingConstantPadderType::New();
   m_FixedMirrorPadder = FixedMirrorPadderType::New();
   m_MovingMirrorPadder = MovingMirrorPadderType::New();
-  m_FixedMirrorWEDPadder = FixedMirrorWEDPadderType::New();
-  m_MovingMirrorWEDPadder = MovingMirrorWEDPadderType::New();
+  m_FixedMirrorWEDPadder = FixedMirrorPadderType::New();
+  m_MovingMirrorWEDPadder = MovingMirrorPadderType::New();
 
   m_FixedFFT = FFTFilterType::New();
   m_MovingFFT = FFTFilterType::New();
