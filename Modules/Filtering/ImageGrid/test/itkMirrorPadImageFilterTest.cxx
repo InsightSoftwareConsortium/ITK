@@ -41,28 +41,13 @@ int RunTest( int argc, char* argv[] )
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
 
-  using MirrorNED = itk::MirrorPadImageFilter< InImageType, OutImageType, false >;
-  using MirrorWED = itk::MirrorPadImageFilter< InImageType, OutImageType, true >;
-  using PadType = typename MirrorWED::Superclass;
+  using Mirror = itk::MirrorPadImageFilter< InImageType, OutImageType >;
+  typename Mirror::Pointer filter = Mirror::New();
 
-  typename MirrorNED::Pointer mirrorNED = MirrorNED::New();
-  typename MirrorWED::Pointer mirrorWED = MirrorWED::New();
-  typename PadType::Pointer filter;
-
-  double decayFactor = mirrorWED->GetDecayBase();
   if( argc > 4 )
     {
-    decayFactor = atof( argv[4] );
-    mirrorWED->SetDecayBase( atof( argv[4] ) );
-    }
-
-  if (argc > 4 && decayFactor > 0.0 && decayFactor < 1.0)
-    {
-    filter = mirrorWED; //use version with exponential decay
-    }
-  else
-    {
-    filter = mirrorNED; //no exponential decay
+    double decayFactor = atof( argv[4] );
+    filter->SetDecayBase( decayFactor );
     }
 
   typename OutImageType::SizeType pad;

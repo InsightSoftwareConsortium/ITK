@@ -24,20 +24,6 @@
 
 namespace itk
 {
-template< bool VEnable >
-class itkExponentialDecayHelper {};
-
-//member variable is present only if VEnableExponentialDecay is true
-template<>
-class itkExponentialDecayHelper<true>
-{
-protected:
-  double m_DecayBase;
-  itkExponentialDecayHelper()
-  {
-    m_DecayBase = 0.5;
-  }
-};
 
 /** \class MirrorPadImageFilter
  * \brief Increase the image size by padding with replicants of the
@@ -56,8 +42,9 @@ protected:
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
- * Exponential decay in the bounds is enabled via a template parameter.
- * DecayBase has to be in the range (0.0, 1.0].
+ * Exponential decay in the bounds is enabled when DecayBase has to be
+ * in the range (0.0, 1.0]. When it is 1.0 it is disabled. The decay
+ * rate is based on the Manhattan distance.
  *
  * \ingroup GeometricTransform
  * \sa WrapPadImageFilter, ConstantPadImageFilter
@@ -67,9 +54,9 @@ protected:
  * \wikiexample{Images/MirrorPadImageFilter,Pad an image using mirroring over the boundaries}
  * \endwiki
  */
-template< typename TInputImage, typename TOutputImage, bool VEnableExponentialDecay = false >
+template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT MirrorPadImageFilter:
-  public PadImageFilter< TInputImage, TOutputImage >, public itkExponentialDecayHelper<VEnableExponentialDecay>
+  public PadImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MirrorPadImageFilter);
@@ -107,28 +94,9 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Get/Set the base for exponential decay in mirrored region. */
-  template< bool Enable = VEnableExponentialDecay, typename std::enable_if< Enable >::type* = nullptr >
-  double GetDecayBase() const
-  {
-    return this->m_DecayBase;
-  }
-  template< bool Enable = VEnableExponentialDecay, typename std::enable_if< Enable >::type* = nullptr >
-  void SetDecayBase(double decayBase)
-  {
-    if (decayBase <= 0.0)
-      {
-      decayBase = NumericTraits<double>::min();
-      }
-    else if (decayBase > 1.0)
-      {
-      decayBase = 1.0;
-      }
-    if (this->m_DecayBase != decayBase)
-      {
-      this->m_DecayBase = decayBase;
-      this->Modified();
-      }
-  }
+  itkGetMacro(DecayBase, double);
+  itkSetClampMacro( DecayBase, double,  NumericTraits<double>::min(), 1.0);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( InputConvertibleToOutputCheck,
@@ -140,20 +108,6 @@ protected:
   MirrorPadImageFilter() {}
   ~MirrorPadImageFilter() override {}
 
-  /** Exponentially decay the value based on distance,
-   *  if VEnableExponentialDecay is true. Otherwise do nothing. */
-  template< bool Enable = VEnableExponentialDecay >
-  typename std::enable_if< Enable >::type
-  Decay(typename OutputImageType::PixelType & outVal, IndexValueType distance)
-  {
-    outVal *= std::pow(this->m_DecayBase, distance); //VEnableExponentialDecay is true
-  }
-  template< bool Enable = VEnableExponentialDecay >
-  typename std::enable_if< !Enable >::type
-  Decay(typename OutputImageType::PixelType &, IndexValueType)
-  {
-    //VEnableExponentialDecay is false, the whole method call should be optimized away
-  }
 
   /** Convert from the output index to the input index taking
    * into consideration mirrored and normal regions. */
@@ -163,6 +117,13 @@ protected:
                                       InputImageRegionType & inputRegion,
                                       int *oddRegionArray,
                                       IndexValueType & distanceFromEdge);
+
+ void ConvertOutputIndexToInputIndex(OutputImageIndexType & outputIndex,
+                                      InputImageIndexType & inputIndex,
+                                      OutputImageRegionType & outputRegion,
+                                      InputImageRegionType & inputRegion,
+                                      int *oddRegionArray,
+                                      double & outDecayFactor );
 
   /** Decide whether test falls within an odd or even number
    * of size regions from base. */
@@ -257,6 +218,9 @@ protected:
    * \sa ProcessObject::GenerateInputRequestedRegion()
    * \sa PadImageFilter::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
+
+private:
+  double m_DecayBase = 1.0;
 };
 } // end namespace itk
 
