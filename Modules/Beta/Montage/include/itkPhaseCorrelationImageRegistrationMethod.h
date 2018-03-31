@@ -317,8 +317,6 @@ protected:
   using MovingConstantPadderType = ConstantPadImageFilter< MovingImageType, RealImageType >;
   using FixedMirrorPadderType = MirrorPadImageFilter< FixedImageType, RealImageType >;
   using MovingMirrorPadderType = MirrorPadImageFilter< MovingImageType, RealImageType >;
-  using FixedMirrorWEDPadderType = MirrorPadImageFilter< FixedImageType, RealImageType, true >;
-  using MovingMirrorWEDPadderType = MirrorPadImageFilter< MovingImageType, RealImageType, true >;
   using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType >;
 
 private:
@@ -344,8 +342,8 @@ private:
   typename MovingConstantPadderType::Pointer  m_MovingConstantPadder;
   typename FixedMirrorPadderType::Pointer     m_FixedMirrorPadder;
   typename MovingMirrorPadderType::Pointer    m_MovingMirrorPadder;
-  typename FixedMirrorWEDPadderType::Pointer  m_FixedMirrorWEDPadder;
-  typename MovingMirrorWEDPadderType::Pointer m_MovingMirrorWEDPadder;
+  typename FixedMirrorPadderType::Pointer     m_FixedMirrorWEDPadder;
+  typename MovingMirrorPadderType::Pointer    m_MovingMirrorWEDPadder;
 
   typename FFTFilterType::Pointer  m_FixedFFT;
   typename FFTFilterType::Pointer  m_MovingFFT;
