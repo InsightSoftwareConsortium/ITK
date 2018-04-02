@@ -208,14 +208,15 @@ ResourceProbe< ValueType, MeanType >
   std::transform(this->m_ProbeValueList.begin(),
                  this->m_ProbeValueList.end(),
                  diff.begin(),
-                 std::bind2nd(std::minus<ValueType>(),
-                              static_cast<ValueType>(this->m_MeanValue ) ));
-  ValueType sqsum =
+                 //Subtract mean from every value;
+                 [this] (const ValueType v ) { return ( v - this->m_MeanValue ); }
+                 );
+  const ValueType sqsum =
     std::inner_product(diff.begin(),diff.end(),
                        diff.begin(),
                        NumericTraits< ValueType >::ZeroValue());
 
-  int sz = static_cast<int>(this->m_ProbeValueList.size())-1;
+  const int sz = static_cast<int>(this->m_ProbeValueList.size())-1;
   if (sz <=0)
     {
     this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
