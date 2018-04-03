@@ -18,11 +18,6 @@
 
 #include "itkMockMontageHelper.hxx"
 
-constexpr unsigned xMontageSize = 3;
-constexpr unsigned yMontageSize = 3;
-using PositionTableType = std::array<std::array<PointType, xMontageSize>, yMontageSize>;
-using FilenameTableType = std::array<std::array<std::string, xMontageSize>, yMontageSize>;
-
 int itkMockMontageTestOMC(int argc, char* argv[])
 {
   if( argc < 3 )
@@ -30,6 +25,11 @@ int itkMockMontageTestOMC(int argc, char* argv[])
     std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <outputTSV>" << std::endl;
     return EXIT_FAILURE;
     }
+
+  constexpr unsigned xMontageSize = 3;
+  constexpr unsigned yMontageSize = 3;
+  using PositionTableType = std::array<std::array<PointType, xMontageSize>, yMontageSize>;
+  using FilenameTableType = std::array<std::array<std::string, xMontageSize>, yMontageSize>;
 
   PositionTableType stageCoords, actualCoords;
   FilenameTableType filenames;
