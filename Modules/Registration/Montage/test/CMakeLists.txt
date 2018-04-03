@@ -117,7 +117,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestOMC
   COMMAND MontageTestDriver
   itkMockMontageTestOMC
-    ${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/14
+    DATA{${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/14/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC.csv
   )
 
