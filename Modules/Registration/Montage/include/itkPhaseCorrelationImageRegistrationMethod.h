@@ -227,7 +227,7 @@ public:
   /** \class PaddingMethod
    *  \brief Different methods of padding the images to satisfy FFT size requirements.
    *  \ingroup Montage */
-  enum class PaddingMethod { Zero, Mirror, MirrorWithExponentialDecay };
+  enum class PaddingMethod { Zero = 0, Mirror, MirrorWithExponentialDecay, Last = MirrorWithExponentialDecay };
   itkGetConstMacro(PaddingMethod, PaddingMethod);
   void SetPaddingMethod(const PaddingMethod paddingMethod);
 
