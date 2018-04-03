@@ -15,46 +15,45 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#ifndef itkMockMontageHelper_hxx
+#define itkMockMontageHelper_hxx
+
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 #include <type_traits>
-#include <fstream>
 #include <array>
-
-constexpr unsigned xMontageSize = 10;
-constexpr unsigned yMontageSize = 10;
+#include <fstream>
+#include <iomanip>
 
 constexpr unsigned Dimension = 2;
-using PixelType = unsigned short;
 
 using PointType = itk::Point<double, Dimension>;
 using VectorType = itk::Vector<double, Dimension>;
 using TransformType = itk::TranslationTransform<double, Dimension>;
-using TableType = std::array<std::array<PointType, xMontageSize>, yMontageSize>;
 
-
-double calculateError(const TableType& initalCoords, const TableType& actualCoords, const std::string& dir,
+//do the registration and calculate error for two images
+template<typename PixelType, typename PositionTableType, typename FilenameTableType>
+double calculateError(const PositionTableType& initalCoords, const PositionTableType& actualCoords, const FilenameTableType& filenames,
     std::ostream& out, unsigned xF, unsigned yF, unsigned xM, unsigned yM)
 {
   double translationError = 0.0;
-  std::string filenameFixed = dir + "/Image_" + std::to_string(xF + 1) + "_" + std::to_string(yF + 1) + ".tif";
-  std::string filenameMoving = dir + "/Image_" + std::to_string(xM + 1) + "_" + std::to_string(yM + 1) + ".tif";
-  std::cout << "Registering " << filenameMoving << " to " << filenameFixed << std::endl;
-  out << std::to_string(xF + 1) + "_" + std::to_string(yF + 1) + " <- " + std::to_string(xM + 1) + "_" + std::to_string(yM + 1);
+  std::cout << filenames[yF][xF] << " <- " << filenames[yM][xM];
+  out << std::to_string(xF) + "," + std::to_string(yF) + " <- " + std::to_string(xM) + "," + std::to_string(yM);
 
   using ImageType = itk::Image< PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName(filenameFixed);
+  reader->SetFileName(filenames[yF][xF]);
   reader->Update();
   ImageType::Pointer fixedImage = reader->GetOutput();
   fixedImage->DisconnectPipeline();
 
-  reader->SetFileName(filenameMoving);
+  reader->SetFileName(filenames[yM][xM]);
   reader->Update();
   ImageType::Pointer  movingImage = reader->GetOutput();
   movingImage->DisconnectPipeline();
@@ -89,54 +88,25 @@ double calculateError(const TableType& initalCoords, const TableType& actualCoor
 
   //calculate error
   VectorType tr = regTr->GetOffset(); //translation measured by registration
-  VectorType ta = (actualCoords[yM][xM] - initalCoords[yM][xM]) - (actualCoords[yF][xF] - initalCoords[yF][xF]); //translation (actual)
+  VectorType ta = (actualCoords[yF][xF] - initalCoords[yF][xF]) - (actualCoords[yM][xM] - initalCoords[yM][xM]); //translation (actual)
   for (unsigned d = 0; d < Dimension; d++)
     {
     out << '\t' << (tr[d] - ta[d]);
+    std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
     translationError += std::abs(tr[d] - ta[d]);
     }
   out << std::endl;
+  std::cout << std::endl;
 
   return translationError;
 }//calculateError
 
-int itkMockMontageTest(int argc, char* argv[])
+ //do the registrations and calculate registration errors
+template<typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
+int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
+    const FilenameTableType& filenames, const std::string& outFilename)
 {
-  if( argc < 3 )
-    {
-    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <outputTSV>" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  TableType stageCoords, actualCoords;
-
-  //read coordinates from files
-  std::ifstream fStage(std::string(argv[1]) + "/StageCoords.txt");
-  std::ifstream fActual(std::string(argv[1]) + "/ActualCoords.txt");
-  std::string temp;
-  std::getline(fStage, temp); //throw away header
-  std::getline(fActual, temp); //throw away header
-
-  for (unsigned y = 0; y < yMontageSize; y++)
-    {
-    for (unsigned x = 0; x < xMontageSize; x++)
-      {
-      PointType p;
-      for (unsigned d = 0; d < Dimension; d++)
-        {
-        fStage >> p[d];
-        }
-      stageCoords[y][x] = p;
-      for (unsigned d = 0; d < Dimension; d++)
-        {
-        fActual >> p[d];
-        }
-      actualCoords[y][x] = p;
-      }
-    }
-
-  //do the registrations and calculate registration errors
-  std::ofstream registrationErrors(argv[2]);
+  std::ofstream registrationErrors(outFilename);
   registrationErrors << "Fixed <- Moving";
   for (unsigned d = 0; d < Dimension; d++)
     {
@@ -151,17 +121,17 @@ int itkMockMontageTest(int argc, char* argv[])
       {
       if (x > 0)
         {
-        totalError += calculateError(stageCoords, actualCoords, argv[1], registrationErrors, x - 1, y, x, y);
+        totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, registrationErrors, x - 1, y, x, y);
         }
       if (y > 0)
         {
-        totalError += calculateError(stageCoords, actualCoords, argv[1], registrationErrors, x, y - 1, x, y);
+        totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, registrationErrors, x, y - 1, x, y);
         }
       }
     }
 
-  double avgError = totalError / (2 * (xMontageSize - 1)*(yMontageSize - 1));
-  std::cout << "Average per-registration translation error for all coordinates: " << avgError;
+  double avgError = totalError / (xMontageSize*(yMontageSize - 1) + (xMontageSize - 1)*yMontageSize);
+  std::cout << "Average per-registration translation error for all coordinates: " << avgError << std::endl;
   if (avgError < 1.0)
     {
     return EXIT_SUCCESS;
@@ -170,4 +140,6 @@ int itkMockMontageTest(int argc, char* argv[])
     {
     return EXIT_FAILURE;
     }
-}//itkMockMontageTest
+}
+
+#endif //itkMockMontageHelper_hxx
