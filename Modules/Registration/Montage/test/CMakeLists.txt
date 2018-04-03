@@ -1,7 +1,7 @@
 itk_module_test()
 
 set(MontageTests
-  itkPhaseCorrelationImageRegistrationMethodTest.cxx
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic.cxx
   itkPhaseCorrelationImageRegistrationMethodTestFiles.cxx
   itkMockMontageTestTiles.cxx
   itkMockMontageTestOMC.cxx
@@ -11,96 +11,96 @@ CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
 
 set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/../Testing/Temporary")
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cc
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cc
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     2cc
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cc.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cc.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cc.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cc.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2ff
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2ff
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     2ff
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2ff.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2ff.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2ff.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2ff.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2dd
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2dd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     2dd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2dd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2dd.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2dd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2dd.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cf
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     2cf
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2fd
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2fd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     2fd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_2cf.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cc
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cc
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     3cc
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cc.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cc.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cc.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cc.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3ff
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3ff
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     3ff
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3ff.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3ff.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3ff.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3ff.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3dd
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3dd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     3dd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3dd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3dd.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3dd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3dd.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3cf
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cf
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     3cf
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3cf.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cf.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_3fd
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3fd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     3fd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3fd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_3fd.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3fd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3fd.tfm
   )
 
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_ShouldFail
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldFail
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTest
+  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
     2cc
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_ShouldNotExist.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTest_ShouldNotExist.tfm
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldNotExist.nrrd
+    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldNotExist.tfm
     0.9 1.1
   )
-set_tests_properties(itkPhaseCorrelationImageRegistrationMethodTest_ShouldFail PROPERTIES WILL_FAIL TRUE)
+set_tests_properties(itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldFail PROPERTIES WILL_FAIL TRUE)
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
   COMMAND MontageTestDriver
