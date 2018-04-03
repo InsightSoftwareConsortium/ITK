@@ -216,6 +216,16 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
         try
           {
           pcm->Update();
+          if ( pcm->GetFixedImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0 )
+            {
+            std::cout << "Fixed FFT cache's size[0] must be positive!" << std::endl;
+            pass = false;
+            }
+          if ( pcm->GetMovingImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0 )
+            {
+            std::cout << "Moving FFT cache's size[0] must be positive!" << std::endl;
+            pass = false;
+            }
           }
         catch( itk::ExceptionObject & e )
           {
@@ -310,6 +320,8 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
         } //for padMethod
       } //for testCoefficients
     } //for size1
+
+  std::cout << *pcm;
 
   if( !pass )
     {
