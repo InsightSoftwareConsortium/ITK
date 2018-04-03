@@ -37,7 +37,8 @@ using TransformType = itk::TranslationTransform<double, Dimension>;
 
 //do the registration and calculate error for two images
 template<typename PixelType, typename PositionTableType, typename FilenameTableType>
-double calculateError(const PositionTableType& initalCoords, const PositionTableType& actualCoords, const FilenameTableType& filenames,
+double calculateError(const PositionTableType& initalCoords, const PositionTableType& actualCoords,
+    const FilenameTableType& filenames, int paddingMethod,
     std::ostream& out, unsigned xF, unsigned yF, unsigned xM, unsigned yM)
 {
   double translationError = 0.0;
@@ -68,6 +69,15 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
   phaseCorrelationMethod->SetFixedImage(fixedImage);
   phaseCorrelationMethod->SetMovingImage(movingImage);
   //phaseCorrelationMethod->DebugOn();
+
+  using PMType = typename PhaseCorrelationMethodType::PaddingMethod;
+  using PadMethodUnderlying = typename std::underlying_type<PMType>::type;
+  static_assert(std::is_same<decltype(paddingMethod), PadMethodUnderlying>::value,
+      "We expect type of paddingMethod to be equal to PadMethodUnderlying type");
+  //cause compile error if this ever changes
+  //to correct it, change type of paddingMethod parameter
+  auto padMethod = static_cast<PMType>(paddingMethod);
+  phaseCorrelationMethod->SetPaddingMethod(padMethod);
 
   using OperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< PixelType >::RealType, Dimension >;
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
@@ -104,42 +114,55 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
  //do the registrations and calculate registration errors
 template<typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
 int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
-    const FilenameTableType& filenames, const std::string& outFilename)
+    const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods)
 {
-  std::ofstream registrationErrors(outFilename);
-  registrationErrors << "Fixed <- Moving";
-  for (unsigned d = 0; d < Dimension; d++)
-    {
-    registrationErrors << '\t' << char('x' + d) << "Error";
-    }
-  registrationErrors << std::endl;
+  int result = EXIT_SUCCESS;
+  using ImageType = itk::Image< PixelType, Dimension>;
+  using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
+  using PadMethodUnderlying = typename std::underlying_type<PCMType::PaddingMethod>::type;
 
-  double totalError = 0.0;
-  for (unsigned y = 0; y < yMontageSize; y++)
+  for (auto padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Zero);
+      padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+      padMethod++)
     {
-    for (unsigned x = 0; x < xMontageSize; x++)
+    std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
+    std::cout << "Padding method " << padMethod << std::endl;
+    registrationErrors << "Fixed <- Moving";
+    for (unsigned d = 0; d < Dimension; d++)
       {
-      if (x > 0)
+      registrationErrors << '\t' << char('x' + d) << "Error";
+      }
+    registrationErrors << std::endl;
+    
+    double totalError = 0.0;
+    for (unsigned y = 0; y < yMontageSize; y++)
+      {
+      for (unsigned x = 0; x < xMontageSize; x++)
         {
-        totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, registrationErrors, x - 1, y, x, y);
-        }
-      if (y > 0)
-        {
-        totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, registrationErrors, x, y - 1, x, y);
+        if (x > 0)
+          {
+          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, padMethod, registrationErrors, x - 1, y, x, y);
+          }
+        if (y > 0)
+          {
+          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, padMethod, registrationErrors, x, y - 1, x, y);
+          }
         }
       }
+    
+    double avgError = totalError / (xMontageSize*(yMontageSize - 1) + (xMontageSize - 1)*yMontageSize);
+    avgError /= Dimension; //report per-dimension error
+    std::cout << "Average translation error for padding method " << padMethod << ": " << avgError << std::endl << std::endl;
+    if (avgError >= 1.0)
+      {
+      result = EXIT_FAILURE;
+      }
+    if (!varyPaddingMethods)
+      {
+      break;
+      }
     }
-
-  double avgError = totalError / (xMontageSize*(yMontageSize - 1) + (xMontageSize - 1)*yMontageSize);
-  std::cout << "Average per-registration translation error for all coordinates: " << avgError << std::endl;
-  if (avgError < 1.0)
-    {
-    return EXIT_SUCCESS;
-    }
-  else
-    {
-    return EXIT_FAILURE;
-    }
+  return result;
 }
 
 #endif //itkMockMontageHelper_hxx
