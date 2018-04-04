@@ -28,8 +28,6 @@
 #include "itkThreadJob.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
 
 namespace itk
 {
@@ -58,6 +56,9 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKCommon
  */
+
+struct ThreadPoolGlobals;
+
 class ITKCommon_EXPORT ThreadPool : public Object
 {
 public:
@@ -103,6 +104,11 @@ public:
   /** Examines environment variables and falls back to hyper-threaded core count */
   static ThreadIdType GetGlobalDefaultNumberOfThreads();
 
+  /** Set/Get the pointer to ThreadPoolGlobals.
+   * Note that SetThreadPoolGlobals is not concurrent thread safe. */
+  static ThreadPoolGlobals * GetThreadPoolGlobals();
+  static void SetThreadPoolGlobals(::itk::ThreadPoolGlobals * globals);
+
 protected:
 
   static void PlatformCreate(Semaphore &semaphore);
@@ -144,9 +150,7 @@ private:
   std::vector<ThreadProcessIdType> m_Threads;
 
   /** To lock on the internal variables */
-  static SimpleFastMutexLock m_Mutex;
-
-  static Pointer m_ThreadPoolInstance;
+  static ThreadPoolGlobals * m_ThreadPoolGlobals;
 
   /** The continuously running thread function */
   static ITK_THREAD_RETURN_TYPE ThreadExecute(void *param);
