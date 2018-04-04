@@ -83,7 +83,7 @@ TreeContainer< TValue >::Count() const
     {
     return 0;
     }
-  int                          size = 0;
+  int size = 0;
   PreOrderTreeIterator< Self > it(this, this->m_Root);
   it.GoToBegin();
   while ( !it.IsAtEnd() )

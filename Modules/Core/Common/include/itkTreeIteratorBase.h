@@ -173,7 +173,6 @@ public:
   void
   operator++(int)
   {
-    // itkAssertInDebugAndIgnoreInReleaseMacro( !IsAtEnd() );
     this->Next();
   }
 
