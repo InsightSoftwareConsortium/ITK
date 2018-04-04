@@ -123,6 +123,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # ignore third party GoogleTest warnings
   ".*Modules/ThirdParty/GoogleTest.*:warning:.*"
 
+  # ignore -Wunused-template warnings in third party DoubleConversion.
+  ".*Modules/ThirdParty/DoubleConversion/.*warning:.*Wunused-template"
+
   # CircleCI distcc warnings
   ".*WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED.*"
   "Warning: Permanently added.*to the list of known hosts"
