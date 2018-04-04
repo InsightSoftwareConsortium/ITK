@@ -51,12 +51,12 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
 
   reader->SetFileName(filenames[yF][xF]);
   reader->Update();
-  ImageType::Pointer fixedImage = reader->GetOutput();
+  typename ImageType::Pointer fixedImage = reader->GetOutput();
   fixedImage->DisconnectPipeline();
 
   reader->SetFileName(filenames[yM][xM]);
   reader->Update();
-  ImageType::Pointer  movingImage = reader->GetOutput();
+  typename ImageType::Pointer  movingImage = reader->GetOutput();
   movingImage->DisconnectPipeline();
 
   //adjust origins (assume 0 origins in files)
@@ -87,7 +87,7 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
-  PhaseCorrelationMethodType::SizeType imageSize = fixedImage->GetLargestPossibleRegion().GetSize();
+  typename PhaseCorrelationMethodType::SizeType imageSize = fixedImage->GetLargestPossibleRegion().GetSize();
   imageSize = phaseCorrelationMethod->RoundUpToFFTSize(imageSize);
   phaseCorrelationMethod->SetPadToSize(imageSize); //assuming all images are the same size
   phaseCorrelationMethod->Update();
@@ -119,7 +119,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
   int result = EXIT_SUCCESS;
   using ImageType = itk::Image< PixelType, Dimension>;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
-  using PadMethodUnderlying = typename std::underlying_type<PCMType::PaddingMethod>::type;
+  using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
 
   for (auto padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Zero);
       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
@@ -133,7 +133,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       registrationErrors << '\t' << char('x' + d) << "Error";
       }
     registrationErrors << std::endl;
-    
+
     double totalError = 0.0;
     for (unsigned y = 0; y < yMontageSize; y++)
       {
@@ -149,7 +149,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
           }
         }
       }
-    
+
     double avgError = totalError / (xMontageSize*(yMontageSize - 1) + (xMontageSize - 1)*yMontageSize);
     avgError /= Dimension; //report per-dimension error
     std::cout << "Average translation error for padding method " << padMethod << ": " << avgError << std::endl << std::endl;

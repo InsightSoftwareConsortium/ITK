@@ -210,12 +210,8 @@ public:
    *  which factorizes using FFT's prime factors. */
   SizeType RoundUpToFFTSize(SizeType inSize);
 
-  /** A size with all elements initialized to 0. */
-  const SizeType size0 = { 0 };
-
   /** Set/Get the PadToSize.
    *  Unset by setting a size of all zeroes.
-   *  size0 constant can be used for that purpose.
    *
    *  If PadToSize is set, image sizes are ignored and this size is used.
    *
