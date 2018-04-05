@@ -134,21 +134,21 @@ public:
 
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
-  virtual IndexType GetIndex(void) const
+  ITK_ITERATOR_VIRTUAL IndexType GetIndex(void) const
   {
     return m_Loop;
   }
 
   /** Returns the image index for neighbor pixel at offset o from the center of
       the neighborhood. */
-  virtual IndexType GetIndex(const OffsetType & o) const
+  ITK_ITERATOR_VIRTUAL IndexType GetIndex(const OffsetType & o) const
   {
     return ( this->GetIndex() + o );
   }
 
   /** Returns the image index for neighbor pixel at index i in the
       neighborhood. */
-  virtual IndexType GetIndex(NeighborIndexType i) const
+  ITK_ITERATOR_VIRTUAL IndexType GetIndex(NeighborIndexType i) const
   {
     return ( this->GetIndex() + this->GetOffset(i) );
   }
@@ -172,27 +172,27 @@ public:
 
   /** Virtual method for rewinding the iterator to its beginning image index.
    * This is useful for writing functions which take neighborhood iterators
-   * of arbitrary type and must use virtual functions. */
-  virtual void GoToBegin();
+   * of arbitrary type and must use ITK_ITERATOR_VIRTUAL functions. */
+  ITK_ITERATOR_VIRTUAL void GoToBegin();
 
   /** Virtual method for sending the iterator to one past the last index in its
    * region. */
-  virtual void GoToEnd();
+  ITK_ITERATOR_VIRTUAL void GoToEnd();
 
   /** Initializes the iterator to walk a particular image and a particular
    * region of that image. */
-  virtual void Initialize(const SizeType & radius, const ImageType *ptr, const RegionType & region);
+  ITK_ITERATOR_VIRTUAL void Initialize(const SizeType & radius, const ImageType *ptr, const RegionType & region);
 
   /** Virtual method for determining whether the iterator is at the
    * beginning of its iteration region. */
-  virtual bool IsAtBegin() const
+  ITK_ITERATOR_VIRTUAL bool IsAtBegin() const
   {
     return ( this->GetIndex() == m_BeginIndex );
   }
 
   /** Virtual method for determining whether the iterator has reached the
    * end of its iteration region. */
-  virtual bool IsAtEnd() const;
+  ITK_ITERATOR_VIRTUAL bool IsAtEnd() const;
 
   /** Increments the pointers in the ConstNeighborhoodIteratorWithOnlyIndex,
    * wraps across boundaries automatically, accounting for
@@ -318,7 +318,7 @@ protected:
 
   /** Default method for setting the coordinate location of the iterator.
    * Loop indices correspond to the actual Image region index. */
-  virtual void SetLoop(const IndexType & p)
+  ITK_ITERATOR_VIRTUAL void SetLoop(const IndexType & p)
   {
     m_Loop = p; m_IsInBoundsValid = false;
   }
@@ -326,18 +326,18 @@ protected:
   /** Virtual method for setting internal loop boundaries.  This
    * method must be defined in each subclass because
    * each subclass may handle loop boundaries differently. */
-  virtual void SetBound(const SizeType &);
+  ITK_ITERATOR_VIRTUAL void SetBound(const SizeType &);
 
   /** Default method for setting the first index of the
    * iteration region. */
-  virtual void SetBeginIndex(const IndexType & start)
+  ITK_ITERATOR_VIRTUAL void SetBeginIndex(const IndexType & start)
   {
     m_BeginIndex = start;
   }
 
   /** Default method for setting the last index of the
    * iteration region. */
-  virtual void SetEndIndex();
+  ITK_ITERATOR_VIRTUAL void SetEndIndex();
 
   /** The starting index for iteration within the itk::Image region
    * on which this ConstNeighborhoodIteratorWithOnlyIndex is defined. */

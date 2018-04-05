@@ -65,6 +65,9 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
+#define ITK_ITERATOR_VIRTUAL
+#define ITK_ITERATOR_OVERRIDE
+
 // Define ITK_PRAGMA macro.
 //
 // It sets "#pragma" preprocessor directives without expecting the arguments
