@@ -19,14 +19,89 @@
 
 #include "itkThreadPool.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMutexLockHolder.h"
+#include "itkSimpleFastMutexLock.h"
 
 #include <algorithm>
 
 namespace itk
 {
-SimpleFastMutexLock ThreadPool::m_Mutex;
+  struct ThreadPoolGlobals
+  {
+    // To lock on the internal variables.
+    SimpleFastMutexLock m_Mutex;
+    ThreadPool::Pointer m_ThreadPoolInstance;
+  };
+}//end of itk namespace
 
-ThreadPool::Pointer ThreadPool::m_ThreadPoolInstance;
+
+namespace
+{
+/** \brief A function which does nothing
+ *
+ * This function is to be used to mark parameters as unused to suppress
+ * compiler warning. It can be used when the parameter needs to be named
+ * (i.e. itkNotUsed cannot be used) but is not always used. It ensures
+ * that the parameter is not optimized out.
+ */
+template <typename T>
+void Unused( const T &) {};
+
+// This ensures that m_ThreadPoolGlobals is has been initialized once
+// the library has been loaded. In some cases, this call will perform the
+// initialization. In other cases, static initializers like the IO factory
+// initialization code will have done the initialization.
+static ::itk::ThreadPoolGlobals *
+    initializedThreadPoolGlobals =
+    ::itk::ThreadPool::GetThreadPoolGlobals();
+
+/** \class ThreadPoolGlobalsInitializer
+ *
+ * \brief Initialize a ThreadPoolGlobals and delete it on program
+ * completion.
+ * */
+class ThreadPoolGlobalsInitializer
+{
+public:
+  using Self = ThreadPoolGlobalsInitializer;
+
+  ThreadPoolGlobalsInitializer() {}
+
+  /** Delete the thread pool globals if it was created. */
+  ~ThreadPoolGlobalsInitializer()
+    {
+    delete m_ThreadPoolGlobals;
+    m_ThreadPoolGlobals = nullptr;
+    }
+
+  /** Create the ThreadPoolGlobals if needed and return it. */
+  static ::itk::ThreadPoolGlobals * GetThreadPoolGlobals()
+    {
+    if( !m_ThreadPoolGlobals )
+      {
+      m_ThreadPoolGlobals = new ::itk::ThreadPoolGlobals;
+
+      // To avoid being optimized out. The compiler does not like this
+      // statement at a higher scope.
+      Unused(initializedThreadPoolGlobals);
+      }
+    return m_ThreadPoolGlobals;
+    }
+
+private:
+  static ::itk::ThreadPoolGlobals *
+      m_ThreadPoolGlobals;
+};
+
+// Takes care of cleaning up the ThreadPoolGlobals
+static ThreadPoolGlobalsInitializer ThreadPoolGlobalsInstance;
+// Initialized by the compiler to zero
+::itk::ThreadPoolGlobals *
+    ThreadPoolGlobalsInitializer::m_ThreadPoolGlobals;
+}// end of anonymous namespace
+
+namespace itk
+{
 
 ThreadPool::Pointer
 ThreadPool
@@ -40,25 +115,50 @@ ThreadPool::Pointer
 ThreadPool
 ::GetInstance()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
-  if( m_ThreadPoolInstance.IsNull() )
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
+
+  // This is called once, on-demand to ensure that m_ThreadPoolGlobals is
+  // initialized.
+  static ThreadPoolGlobals * threadPoolGlobals = GetThreadPoolGlobals();
+  Unused(threadPoolGlobals);
+
+  if( m_ThreadPoolGlobals->m_ThreadPoolInstance.IsNull() )
     {
-    m_ThreadPoolInstance  = ObjectFactory< Self >::Create();
-    if ( m_ThreadPoolInstance.IsNull() )
+    m_ThreadPoolGlobals->m_ThreadPoolInstance  = ObjectFactory< Self >::Create();
+    if ( m_ThreadPoolGlobals->m_ThreadPoolInstance.IsNull() )
       {
-      new ThreadPool(); //constructor sets m_ThreadPoolInstance
+      new ThreadPool(); //constructor sets m_ThreadPoolGlobals->m_ThreadPoolInstance
       }
     }
-  return m_ThreadPoolInstance;
+  return m_ThreadPoolGlobals->m_ThreadPoolInstance;
 }
+
+ThreadPoolGlobals *
+ThreadPool
+::GetThreadPoolGlobals()
+{
+  if( m_ThreadPoolGlobals == nullptr )
+    {
+    m_ThreadPoolGlobals = ThreadPoolGlobalsInitializer::GetThreadPoolGlobals();
+    }
+  return m_ThreadPoolGlobals;
+}
+
+void
+ThreadPool
+::SetThreadPoolGlobals(::itk::ThreadPoolGlobals * globals)
+{
+  m_ThreadPoolGlobals = globals;
+}
+
 
 ThreadPool
 ::ThreadPool() :
   m_ExceptionOccurred(false)
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
-  m_ThreadPoolInstance = this; //threads need this
-  m_ThreadPoolInstance->UnRegister(); // Remove extra reference
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
+  m_ThreadPoolGlobals->m_ThreadPoolInstance = this; //threads need this
+  m_ThreadPoolGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
   PlatformCreate(m_ThreadsSemaphore);
 }
 
@@ -137,7 +237,7 @@ void
 ThreadPool
 ::AddThreads(ThreadIdType count)
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
   m_Threads.reserve(m_Threads.size() + count);
   for( unsigned int i = 0; i < count; ++i )
     {
@@ -149,7 +249,7 @@ void
 ThreadPool
 ::DeleteThreads()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
   for (auto & thread : m_Threads)
     {
     if (!PlatformClose(thread))
@@ -163,7 +263,7 @@ int
 ThreadPool
 ::GetNumberOfCurrentlyIdleThreads() const
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
   if ( m_Threads.empty() ) //not yet initialized
     {
     const_cast<ThreadPool *>(this)->AddThreads(ThreadPool::GetGlobalDefaultNumberOfThreads());
@@ -222,7 +322,7 @@ ThreadPool
 ::AddWork(const ThreadJob& threadJob)
 {
   {
-    MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+    MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
     if ( m_Threads.empty() ) //first job
       {
       AddThreads(ThreadPool::GetGlobalDefaultNumberOfThreads());
@@ -240,7 +340,7 @@ ThreadPool
 ::ThreadExecute(void *)
 {
   //plain pointer does not increase reference count
-  ThreadPool* threadPool = m_ThreadPoolInstance.GetPointer();
+  ThreadPool* threadPool = m_ThreadPoolGlobals->m_ThreadPoolInstance.GetPointer();
   try
     {
     while (true)
@@ -249,7 +349,7 @@ ThreadPool
 
       ThreadJob job;
       {
-      MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+      MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
       if (threadPool->m_WorkQueue.empty()) //another thread stole work meant for me
         {
         itkGenericExceptionMacro(<< "Work queue is empty!");
@@ -275,5 +375,7 @@ ThreadPool
     }
   return ITK_THREAD_RETURN_VALUE;
 }
+
+ThreadPoolGlobals * ThreadPool::m_ThreadPoolGlobals;
 
 }

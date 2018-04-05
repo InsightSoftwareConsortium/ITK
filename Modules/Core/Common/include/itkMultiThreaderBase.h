@@ -48,6 +48,8 @@ namespace itk
  * \ingroup ITKCommon
  */
 
+struct MultiThreaderBaseGlobals;
+
 class ITKCommon_EXPORT MultiThreaderBase : public Object
 {
 public:
@@ -141,6 +143,14 @@ public:
   /** Terminate the thread that was created with a SpawnThreadExecute() */
   virtual void TerminateThread(ThreadIdType thread_id) = 0;
 
+  /** Set/Get the pointer to MultiThreaderBaseGlobals.
+   * Note that these functions are not part of the public API and should not be
+   * used outside of ITK. They are an implementation detail and will be
+   * removed in the future. Also note that SetMultiThreaderBaseGlobals is not
+   * concurrent thread safe. */
+  static MultiThreaderBaseGlobals *GetMultiThreaderBaseGlobals();
+  static void SetMultiThreaderBaseGlobals(MultiThreaderBaseGlobals * multiThreaderBaseGlobals);
+
 protected:
   MultiThreaderBase();
   ~MultiThreaderBase() ITK_OVERRIDE;
@@ -167,26 +177,7 @@ protected:
   static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
 
 private:
-  /** Global variable defining the maximum number of threads that can be used.
-   *  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
-   *  ITK_MAX_THREADS and greater than zero. */
-  static ThreadIdType m_GlobalMaximumNumberOfThreads;
-
-  /** Global value to control weather the threadpool implementation should
-   * be used.  This defaults to the environmental variable "ITK_USE_THREADPOOL"
-   * if set, else it default to true.
-   */
-  static bool m_GlobalDefaultUseThreadPool;
-
-  /*  Global variable defining the default number of threads to set at
-   *  construction time of a MultiThreaderBase instance.  The
-   *  m_GlobalDefaultNumberOfThreads must always be less than or equal to the
-   *  m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
-   *  initialized in the constructor of the first MultiThreaderBase instantiation.
-   */
-  static ThreadIdType m_GlobalDefaultNumberOfThreads;
-
-
+  static MultiThreaderBaseGlobals * m_MultiThreaderBaseGlobals;
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
    * Multithreader. */

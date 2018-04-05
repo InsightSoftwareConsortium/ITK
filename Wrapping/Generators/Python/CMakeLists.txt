@@ -411,6 +411,23 @@ _ITKCommonPython_GetObjectFactoryBase_PROTO
 {
   return itk::ObjectFactoryBase::GetObjectFactoryBase();
 }
+
+static
+_ITKCommonPython_GetThreadPoolGlobals_RETURN
+_ITKCommonPython_GetThreadPoolGlobals
+_ITKCommonPython_GetThreadPoolGlobals_PROTO
+{
+  return itk::ThreadPool::GetThreadPoolGlobals();
+}
+
+static
+_ITKCommonPython_GetMultiThreaderBaseGlobals_RETURN
+_ITKCommonPython_GetMultiThreaderBaseGlobals
+_ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO
+{
+  return itk::MultiThreaderBase::GetMultiThreaderBaseGlobals();
+}
+
 ")
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
   static void * _ITKCommonPython_API[_ITKCommonPython_API_pointers];
@@ -418,6 +435,8 @@ _ITKCommonPython_GetObjectFactoryBase_PROTO
   /* Initialize the C API pointer array */
   _ITKCommonPython_API[_ITKCommonPython_GetGlobalTimeStamp_NUM] = (void *)_ITKCommonPython_GetGlobalTimeStamp;
   _ITKCommonPython_API[_ITKCommonPython_GetObjectFactoryBase_NUM] = (void *)_ITKCommonPython_GetObjectFactoryBase;
+  _ITKCommonPython_API[_ITKCommonPython_GetThreadPoolGlobals_NUM] = (void *)_ITKCommonPython_GetThreadPoolGlobals;
+  _ITKCommonPython_API[_ITKCommonPython_GetMultiThreaderBaseGlobals_NUM] = (void *)_ITKCommonPython_GetMultiThreaderBaseGlobals;
 
   /* Create a Capsule containing the API pointer array's address */
   PyObject * cAPIObject = PyCapsule_New((void *)_ITKCommonPython_API,
@@ -443,6 +462,8 @@ _ITKCommonPython_GetObjectFactoryBase_PROTO
     }
   itk::TimeStamp::SetGlobalTimeStamp( _ITKCommonPython_GetGlobalTimeStamp() );
   itk::ObjectFactoryBase::SynchronizeObjectFactoryBase( _ITKCommonPython_GetObjectFactoryBase() );
+  itk::ThreadPool::SetThreadPoolGlobals( _ITKCommonPython_GetThreadPoolGlobals() );
+  itk::MultiThreaderBase::SetMultiThreaderBaseGlobals( _ITKCommonPython_GetMultiThreaderBaseGlobals() );
 ")
     endif()
   endif()
