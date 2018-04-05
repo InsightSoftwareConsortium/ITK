@@ -60,5 +60,6 @@ int itkMockMontageTestTiles(int argc, char* argv[])
       }
     }
 
-  return montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2]);
+  //do not vary padding methods, because padding is not required for images in this test
+  return montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], false);
 }

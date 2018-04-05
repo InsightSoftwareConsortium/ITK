@@ -206,7 +206,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
       pcm->SetFixedImage(  fixedImage   );
       pcm->SetMovingImage( movingImage  );
 
-      using PadMethod = PCMType::PaddingMethod;
+      using PadMethod = typename PCMType::PaddingMethod;
       for (auto padMethod : { PadMethod::Zero, PadMethod::Mirror, PadMethod::MirrorWithExponentialDecay })
         {
         pcm->SetPaddingMethod(padMethod);
@@ -334,7 +334,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
 }
 
 
-int itkPhaseCorrelationImageRegistrationMethodTest( int argc, char* argv[] )
+int itkPhaseCorrelationImageRegistrationMethodTestSynthetic( int argc, char* argv[] )
 {
   if( argc < 2 )
     {

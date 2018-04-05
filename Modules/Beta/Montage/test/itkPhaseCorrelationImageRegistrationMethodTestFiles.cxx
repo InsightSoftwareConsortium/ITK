@@ -61,8 +61,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   movingImage->SetOrigin(origin);
 
   // Registration method
-  using PhaseCorrelationMethodType = \
-    itk::PhaseCorrelationImageRegistrationMethod< FixedImageType, MovingImageType >;
+  using PhaseCorrelationMethodType = itk::PhaseCorrelationImageRegistrationMethod< FixedImageType, MovingImageType >;
   typename PhaseCorrelationMethodType::Pointer phaseCorrelationMethod = PhaseCorrelationMethodType::New();
   phaseCorrelationMethod->SetFixedImage( fixedImage );
   phaseCorrelationMethod->SetMovingImage( movingImage );
@@ -82,7 +81,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   using TransformType = typename PhaseCorrelationMethodType::TransformType;
   using ParametersType = typename TransformType::ParametersType;
 
-  using PadMethod = PhaseCorrelationMethodType::PaddingMethod;
+  using PadMethod = typename PhaseCorrelationMethodType::PaddingMethod;
   for (auto padMethod : { PadMethod::Zero, PadMethod::Mirror, PadMethod::MirrorWithExponentialDecay })
     {
     phaseCorrelationMethod->SetPaddingMethod(padMethod);

@@ -85,7 +85,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedMirrorWEDPadder->SetDecayBase( 0.75 );
   m_MovingMirrorWEDPadder->SetDecayBase( 0.75 );
 
-  m_PadToSize = size0;
+  m_PadToSize.Fill( 0 );
   m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay; //make sure the next call does modifications
   SetPaddingMethod(PaddingMethod::Zero); //this initializes a few things
 
@@ -241,6 +241,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
   SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
   SizeType fftSize;
+  SizeType size0;
+  size0.Fill(0);
 
   if ( m_PadToSize == size0 )
     {
