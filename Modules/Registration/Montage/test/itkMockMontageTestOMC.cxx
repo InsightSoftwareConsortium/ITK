@@ -75,6 +75,5 @@ int itkMockMontageTestOMC(int argc, char* argv[])
       }
     }
 
-  //do the registrations and calculate registration errors
-  return montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2]);
+  return montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], true);
 }
