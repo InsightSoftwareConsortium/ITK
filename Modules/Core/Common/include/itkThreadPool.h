@@ -104,6 +104,13 @@ public:
   /** Examines environment variables and falls back to hyper-threaded core count */
   static ThreadIdType GetGlobalDefaultNumberOfThreads();
 
+  /** Set/Get wait for threads.
+  This function should be used carefully, probably only during static
+  initialization phase to disable waiting for threads when ITK is built as a
+  static library and linked into a shared library (Windows only).*/
+  static bool GetDoNotWaitForThreads();
+  static void SetDoNotWaitForThreads(bool doNotWaitForThreads);
+
   /** Set/Get the pointer to ThreadPoolGlobals.
    * Note that SetThreadPoolGlobals is not concurrent thread safe. */
   static ThreadPoolGlobals * GetThreadPoolGlobals();
