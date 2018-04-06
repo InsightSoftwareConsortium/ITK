@@ -28,9 +28,11 @@ namespace itk
 {
   struct ThreadPoolGlobals
   {
+    ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
     // To lock on the internal variables.
     SimpleFastMutexLock m_Mutex;
     ThreadPool::Pointer m_ThreadPoolInstance;
+    bool m_DoNotWaitForThreads;
   };
 }//end of itk namespace
 
@@ -151,6 +153,23 @@ ThreadPool
   m_ThreadPoolGlobals = globals;
 }
 
+bool
+ThreadPool
+::GetDoNotWaitForThreads()
+{
+  static ThreadPoolGlobals * threadPoolGlobals = GetThreadPoolGlobals();
+  Unused(threadPoolGlobals);
+  return m_ThreadPoolGlobals->m_DoNotWaitForThreads;
+}
+
+void
+ThreadPool
+::SetDoNotWaitForThreads(bool doNotWaitForThreads)
+{
+  static ThreadPoolGlobals * threadPoolGlobals = GetThreadPoolGlobals();
+  Unused(threadPoolGlobals);
+  m_ThreadPoolGlobals->m_DoNotWaitForThreads = doNotWaitForThreads;
+}
 
 ThreadPool
 ::ThreadPool() :
@@ -289,6 +308,10 @@ ThreadPool
   //explicitly terminated by a call to the ExitProcess function".
   waitCount = 0;
 #endif
+  if(m_ThreadPoolGlobals->m_DoNotWaitForThreads)
+    {
+    waitCount = 0;
+    }
 
   std::vector<Semaphore> jobSem(waitCount);
   for (ThreadIdType i = 0; i < waitCount; i++)

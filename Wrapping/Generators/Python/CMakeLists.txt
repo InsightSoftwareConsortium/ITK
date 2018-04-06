@@ -429,6 +429,11 @@ _ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO
 }
 
 ")
+
+if(WIN32)
+  set(DO_NOT_WAIT_FOR_THREADS "itk::ThreadPool::SetDoNotWaitForThreads( true );")
+endif()
+
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
   static void * _ITKCommonPython_API[_ITKCommonPython_API_pointers];
 
@@ -446,6 +451,7 @@ _ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO
     {
     PyModule_AddObject( m, \"_C_API\", cAPIObject );
     }
+  ${DO_NOT_WAIT_FOR_THREADS}
 ")
     elseif("ITKCommon" IN_LIST WRAPPER_LIBRARY_LINK_LIBRARIES)
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
@@ -464,6 +470,7 @@ _ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO
   itk::ObjectFactoryBase::SynchronizeObjectFactoryBase( _ITKCommonPython_GetObjectFactoryBase() );
   itk::ThreadPool::SetThreadPoolGlobals( _ITKCommonPython_GetThreadPoolGlobals() );
   itk::MultiThreaderBase::SetMultiThreaderBaseGlobals( _ITKCommonPython_GetMultiThreaderBaseGlobals() );
+  ${DO_NOT_WAIT_FOR_THREADS}
 ")
     endif()
   endif()
