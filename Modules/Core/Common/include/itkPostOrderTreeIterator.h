@@ -154,8 +154,8 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
     itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
     }
 
-  int           childPosition = parent->ChildPosition(node);
-  int           lastChildPosition = parent->CountChildren() - 1;
+  int childPosition = parent->ChildPosition(node);
+  int lastChildPosition = parent->CountChildren() - 1;
 
   while ( childPosition < lastChildPosition )
     {
