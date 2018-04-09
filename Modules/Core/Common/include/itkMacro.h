@@ -65,8 +65,6 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
-#define ITK_ITERATOR_VIRTUAL
-#define ITK_ITERATOR_OVERRIDE
 
 // Define ITK_PRAGMA macro.
 //
@@ -1264,6 +1262,30 @@ class kernel                                \
       }                                                              \
     return output->Get();                                            \
     }
+
+
+/** Defines to provide compatibility with derived iterators.
+ *
+ * With ITKv5 several methods for Image Iterators have been
+ * devirtualized for performance reasons. These definitions may help
+ * provide legacy compatibility, or help  detecting derived iterators
+ * relying on the virtual  interface. Compatibility for derived
+ * classes can be achieved with defining ITKv4_COMPATIBILITY. Code
+ * should be migrated to no longer rely on the old virtual interface.
+ */
+#if defined(ITKv4_COMPATIBILITY)
+#define ITK_ITERATOR_VIRTUAL virtual
+#define ITK_ITERATOR_OVERRIDE override
+#define ITK_ITERATOR_FINAL
+#elif !defined(ITK_LEGACY_REMOVE)
+#define ITK_ITERATOR_VIRTUAL  virtual
+#define ITK_ITERATOR_OVERRIDE override
+#define ITK_ITERATOR_FINAL    final
+#else
+#define ITK_ITERATOR_VIRTUAL
+#define ITK_ITERATOR_OVERRIDE
+#define ITK_ITERATOR_FINAL
+#endif
 
 #include "itkExceptionObject.h"
 

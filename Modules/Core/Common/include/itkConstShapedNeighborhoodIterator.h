@@ -300,9 +300,9 @@ protected:
   /** Add/Remove a neighborhood offset (from the center of the neighborhood)
    *  to/from the active list.  Active list offsets are the only locations
    *  updated and accessible through the iterator.  */
-  ITK_ITERATOR_VIRTUAL void ActivateOffset(const OffsetType & off)
+  ITK_ITERATOR_VIRTUAL void ActivateOffset(const OffsetType & off) ITK_ITERATOR_FINAL
   { this->ActivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
-  ITK_ITERATOR_VIRTUAL void DeactivateOffset(const OffsetType & off)
+  ITK_ITERATOR_VIRTUAL void DeactivateOffset(const OffsetType & off)ITK_ITERATOR_FINAL
   { this->DeactivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
 
   /** Removes all active pixels from this neighborhood. */

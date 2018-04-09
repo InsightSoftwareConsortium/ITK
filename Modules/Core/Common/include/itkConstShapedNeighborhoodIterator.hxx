@@ -354,7 +354,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
     // values from anywhere in the neighborhood, thus we can not do
     // the shaped optimization.
 
-    NeighborhoodIterator< TImage, TBoundaryCondition >::operator-=(idx);
+    NeighborhoodIterator< TImage, TBoundaryCondition>::operator-=(idx);
     }
   else
     {
