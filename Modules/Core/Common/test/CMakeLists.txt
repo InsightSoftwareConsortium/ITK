@@ -571,6 +571,8 @@ itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
 set(ITKCommonGTests
       itkAggregateTypesTest.cxx
       itkBuildInformationTest.cxx
+      itkImageNeighborhoodOffsetsGTest.cxx
+      itkShapedImageNeighborhoodRangeGTest.cxx
       itkSmartPointerGTest.cxx
 )
 CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
