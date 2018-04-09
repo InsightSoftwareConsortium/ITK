@@ -73,10 +73,6 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
       }
     }
 
-  // Adjust the begin and end iterators.
-  m_ConstBeginIterator.GoToBegin();
-  m_ConstEndIterator.GoToEnd();
-
   // Did we just activate the index at the center of the neighborhood?
   if ( n == this->GetCenterNeighborhoodIndex() )
     {
@@ -114,10 +110,6 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
       }
     m_ActiveIndexList.erase(it);
     }
-
-  // Adjust the begin and end iterators.
-  m_ConstBeginIterator.GoToBegin();
-  m_ConstEndIterator.GoToEnd();
 
   // Did we just deactivate the index at the center of the neighborhood?
   if ( n == this->GetCenterNeighborhoodIndex() )
@@ -354,7 +346,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
     // values from anywhere in the neighborhood, thus we can not do
     // the shaped optimization.
 
-    NeighborhoodIterator< TImage, TBoundaryCondition>::operator-=(idx);
+    NeighborhoodIterator< TImage, TBoundaryCondition >::operator-=(idx);
     }
   else
     {

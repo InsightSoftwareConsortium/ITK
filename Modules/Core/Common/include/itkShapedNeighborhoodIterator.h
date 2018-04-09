@@ -147,10 +147,12 @@ namespace itk
  * \wikiexample{Iterators/ShapedNeighborhoodIterator,Iterate over a region of an image with a shaped neighborhood}
  * \endwiki
  */
-template< typename TImage,  typename TBoundaryCondition =
-            ZeroFluxNeumannBoundaryCondition< TImage > >
+template< typename TImage,
+          typename TBoundaryCondition = ZeroFluxNeumannBoundaryCondition< TImage >
+          >
 class ITK_TEMPLATE_EXPORT ShapedNeighborhoodIterator:
-  public ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
+    public ConstShapedNeighborhoodIterator< TImage,
+                                            TBoundaryCondition >
 {
 public:
   /** Extract image type information. */
@@ -162,7 +164,8 @@ public:
 
   /** Standard class type aliases. */
   using Self = ShapedNeighborhoodIterator;
-  using Superclass = ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >;
+  using Superclass = ConstShapedNeighborhoodIterator< TImage,
+                                                      TBoundaryCondition>;
 
   /** Inherit type alias from superclass */
   using OffsetType = typename Superclass::OffsetType;
@@ -183,7 +186,8 @@ public:
   /** An  iterator for the ShapedNeighborhood classes. */
   struct Iterator:public ConstIterator {
     Iterator() {}
-    Iterator(Self *s):ConstIterator(s) {}
+    Iterator(Self *s) :
+      ConstIterator(s) {}
 
     ~Iterator() ITK_ITERATOR_OVERRIDE {}
     Iterator & operator=(const Iterator & o)
@@ -195,14 +199,18 @@ public:
     // Promote to public
     void Set(const PixelType & v) const
     { ConstIterator::ProtectedSet(v); }
+  protected:
+
+    friend Self;
+
+    Iterator( const Self *s, const typename IndexListType::const_iterator &li )
+      : ConstIterator(s,li) { }
+
   };
 
   /** Default constructor */
   ShapedNeighborhoodIterator()
   {
-    m_BeginIterator = Iterator(this);
-    m_EndIterator = Iterator(this);
-    m_EndIterator.GoToEnd();
   }
 
   /** Virtual destructor */
@@ -216,9 +224,6 @@ public:
                              ):Superclass(radius, const_cast< ImageType * >( ptr ),
                                           region)
   {
-    m_BeginIterator = Iterator(this);
-    m_EndIterator = Iterator(this);
-    m_EndIterator.GoToEnd();
   }
 
   // Expose the following methods from the superclass.  This is a restricted
@@ -231,10 +236,6 @@ public:
   Self & operator=(const Self & orig)
   {
     Superclass::operator=(orig);
-
-    // Reset begin and end pointer locations
-    m_BeginIterator.GoToBegin();
-    m_EndIterator.GoToEnd();
     return *this;
   }
 
@@ -243,45 +244,21 @@ public:
 
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
-  Iterator & Begin() {    return m_BeginIterator;  }
-  Iterator & End()   {   return m_EndIterator;     }
+  Iterator Begin() { return Iterator(this, this->m_ActiveIndexList.begin()); }
+  Iterator End() { return Iterator(this, this->m_ActiveIndexList.end()); }
 
-  /** Returns a const iterator for the neighborhood which points to the last
-   * pixel in the neighborhood. */
-  const ConstIterator & End() const
-  { return this->m_ConstEndIterator; }
-
-  void ClearActiveList() ITK_ITERATOR_OVERRIDE ITK_ITERATOR_FINAL
-
-  {
-    Superclass::ClearActiveList();
-    m_EndIterator.GoToEnd();
-    m_BeginIterator.GoToBegin();
-  }
+  using Superclass::Begin;
+  using Superclass::End;
 
 protected:
+
+  friend Superclass;
 
   /** Copy constructor */
   ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o) = delete;
 
   using NeighborIndexType = typename Superclass::NeighborIndexType;
 
-  void ActivateIndex(NeighborIndexType n) ITK_ITERATOR_OVERRIDE ITK_ITERATOR_FINAL
-  {
-    Superclass::ActivateIndex(n);
-    m_EndIterator.GoToEnd();
-    m_BeginIterator.GoToBegin();
-  }
-
-  void DeactivateIndex(NeighborIndexType n) ITK_ITERATOR_OVERRIDE ITK_ITERATOR_FINAL
-  {
-    Superclass::DeactivateIndex(n);
-    m_EndIterator.GoToEnd();
-    m_BeginIterator.GoToBegin();
-  }
-
-  Iterator m_EndIterator;
-  Iterator m_BeginIterator;
 };
 } // namespace itk
 
