@@ -34,8 +34,9 @@ namespace itk
  *  it should be get back by
  *  PhaseCorrelationImageRegistrationMethod::GetRealOptimizer() method.
  *
- *  The optimizer finds the maximum peak by MinimumMaximumImageCalculator and
- *  estimates the shift with pixel-level precision.
+ *  The optimizer finds the maximum peak by MinimumMaximumImageCalculator.
+ *  If interpolation method is None, the shift is estimated with pixel-level
+ *  precision. Otherwise the requested interpolation method is used.
  *
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
@@ -71,6 +72,13 @@ public:
   using OffsetType = typename Superclass::OffsetType;
   using OffsetScalarType = typename Superclass::OffsetScalarType;
 
+  /** \class PeakInterpolationMethod
+   *  \brief Different methods of interpolation the phase correlation peak.
+   *  \ingroup Montage */
+  enum class PeakInterpolationMethod { None = 0, Parabolic, Cosine, Last = Cosine };
+  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethod);
+  void SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod);
+
 protected:
   MaxPhaseCorrelationOptimizer();
   virtual ~MaxPhaseCorrelationOptimizer() {};
@@ -85,7 +93,8 @@ private:
   MaxPhaseCorrelationOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typename MaxCalculatorType::Pointer                   m_MaxCalculator;
+  typename MaxCalculatorType::Pointer m_MaxCalculator;
+  PeakInterpolationMethod             m_PeakInterpolationMethod;
 };
 
 } // end namespace itk
