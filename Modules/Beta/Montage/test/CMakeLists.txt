@@ -114,12 +114,21 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
     4.6711893
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestOMC
-  COMMAND MontageTestDriver
-  itkMockMontageTestOMC
-    DATA{${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/14/,REGEX:.*}
-    ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC
-  )
+
+function(AddTestOMC slicerNumber)
+  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestOMC${slicerNumber}
+    COMMAND MontageTestDriver
+    itkMockMontageTestOMC
+      DATA{${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC${slicerNumber}_
+    )
+endfunction()
+
+AddTestOMC(14)
+AddTestOMC(15)
+AddTestOMC(16)
+AddTestOMC(17)
+AddTestOMC(18)
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
   COMMAND MontageTestDriver
