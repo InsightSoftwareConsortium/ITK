@@ -42,8 +42,7 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
     std::ostream& out, unsigned xF, unsigned yF, unsigned xM, unsigned yM)
 {
   double translationError = 0.0;
-  std::cout << filenames[yF][xF] << " <- " << filenames[yM][xM];
-  out << std::to_string(xF) + "," + std::to_string(yF) + " <- " + std::to_string(xM) + "," + std::to_string(yM);
+  std::cout << filenames[yF][xF] << " <- " << filenames[yM][xM] << std::endl;
 
   using ImageType = itk::Image< PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader< ImageType >;
@@ -87,28 +86,46 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
-  typename PhaseCorrelationMethodType::SizeType imageSize = fixedImage->GetLargestPossibleRegion().GetSize();
-  imageSize = phaseCorrelationMethod->RoundUpToFFTSize(imageSize);
-  phaseCorrelationMethod->SetPadToSize(imageSize); //assuming all images are the same size
-  phaseCorrelationMethod->Update();
+  using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PhaseCorrelationMethodType >::PeakInterpolationMethod;
+  using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
 
-  static_assert(std::is_same<TransformType, typename PhaseCorrelationMethodType::TransformType>::value,
-      "PhaseCorrelationMethod's TransformType is expected to be a TranslationTransform");
-  const TransformType* regTr = phaseCorrelationMethod->GetOutput()->Get();
-
-  //calculate error
-  VectorType tr = regTr->GetOffset(); //translation measured by registration
-  VectorType ta = (actualCoords[yF][xF] - initalCoords[yF][xF]) - (actualCoords[yM][xM] - initalCoords[yM][xM]); //translation (actual)
-  for (unsigned d = 0; d < Dimension; d++)
+  unsigned count = 0;
+  for (auto peakMethod = static_cast<PeakFinderUnderlying>(PeakInterpolationType::None);
+      peakMethod <= static_cast<PeakFinderUnderlying>(PeakInterpolationType::Last);
+      peakMethod++)
     {
-    out << '\t' << (tr[d] - ta[d]);
-    std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
-    translationError += std::abs(tr[d] - ta[d]);
-    }
-  out << std::endl;
+    pcmOptimizer->SetPeakInterpolationMethod(static_cast<PeakInterpolationType>(peakMethod));
+    phaseCorrelationMethod->Modified(); // optimizer is not an "input" to PCM
+    //so its modification does not cause a pipeline update automatically
+
+    out << std::to_string(xF) + "," + std::to_string(yF) + " <- " + std::to_string(xM) + "," + std::to_string(yM);
+    out << '\t' << peakMethod;
+    std::cout << "    PeakMethod" << peakMethod << ":";
+
+    typename PhaseCorrelationMethodType::SizeType imageSize = fixedImage->GetLargestPossibleRegion().GetSize();
+    imageSize = phaseCorrelationMethod->RoundUpToFFTSize(imageSize);
+    phaseCorrelationMethod->SetPadToSize(imageSize); //all images are the same size
+    phaseCorrelationMethod->Update();
+
+    static_assert(std::is_same<TransformType, typename PhaseCorrelationMethodType::TransformType>::value,
+        "PhaseCorrelationMethod's TransformType is expected to be a TranslationTransform");
+    const TransformType* regTr = phaseCorrelationMethod->GetOutput()->Get();
+
+    //calculate error
+    VectorType tr = regTr->GetOffset(); //translation measured by registration
+    VectorType ta = (actualCoords[yF][xF] - initalCoords[yF][xF]) - (actualCoords[yM][xM] - initalCoords[yM][xM]); //translation (actual)
+    for (unsigned d = 0; d < Dimension; d++)
+      {
+      out << '\t' << (tr[d] - ta[d]);
+      std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
+      translationError += std::abs(tr[d] - ta[d]);
+      }
+    out << std::endl;
+    count++;
+  }
   std::cout << std::endl;
 
-  return translationError;
+  return translationError / count;
 }//calculateError
 
  //do the registrations and calculate registration errors
@@ -127,7 +144,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
     {
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
     std::cout << "Padding method " << padMethod << std::endl;
-    registrationErrors << "Fixed <- Moving";
+    registrationErrors << "Fixed <- Moving\tPeakInterpolationMethod";
     for (unsigned d = 0; d < Dimension; d++)
       {
       registrationErrors << '\t' << char('x' + d) << "Error";
@@ -141,11 +158,13 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         {
         if (x > 0)
           {
-          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, padMethod, registrationErrors, x - 1, y, x, y);
+          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames,
+              padMethod, registrationErrors, x - 1, y, x, y);
           }
         if (y > 0)
           {
-          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames, padMethod, registrationErrors, x, y - 1, x, y);
+          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames,
+              padMethod, registrationErrors, x, y - 1, x, y);
           }
         }
       }
