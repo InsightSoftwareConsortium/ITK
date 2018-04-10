@@ -164,7 +164,7 @@ if (BUILD_DOCUMENTATION)
   add_custom_command(TARGET Documentation
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-      ${ITK_SOURCE_DIR}/Documentation/Art/itkLogoSmall.jpg # logo
+      ${ITK_SOURCE_DIR}/Documentation/Art/itkLogoSmall.png # logo
       ${ITK_DOXYGEN_OUTPUT_DIR}/html # output doxygen directory
     )
 
