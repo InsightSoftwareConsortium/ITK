@@ -33,9 +33,12 @@ namespace itk
 {
 /**
  * \class GaussianDerivativeImageFunction
- * \brief Compute the gaussian derivatives of an the image
+ * \brief Compute the Gaussian derivatives of an the image
  *        at a specific location in space, i.e. point, index or continuous
  *        index.
+ * \note The Evaluate member functions are not concurrent thread safe. It is
+ * unsafe to have multiple simultaneous Evaluate calls on an object of this class.
+ *
  * This class is templated over the input image type.
  * \sa NeighborhoodOperator
  * \sa ImageFunction
@@ -48,6 +51,7 @@ class ITK_TEMPLATE_EXPORT GaussianDerivativeImageFunction:
                         TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDerivativeImageFunction);
 
   /** Standard class type aliases. */
   using Self = GaussianDerivativeImageFunction;
@@ -88,7 +92,7 @@ public:
   // using PointType = Point< TOutput, Self::ImageDimension2 >;
   using PointType = typename InputImageType::PointType;
 
-  /** Evaluate the function at the specifed point. */
+  /** Evaluate the function at the specified point. */
   OutputType Evaluate(const PointType & point) const override;
 
   /** Evaluate the function at specified Index position. */
@@ -139,11 +143,7 @@ public:
 
 protected:
   GaussianDerivativeImageFunction();
-  GaussianDerivativeImageFunction(const Self &);
-
   ~GaussianDerivativeImageFunction() override {}
-
-  void operator=(const Self &);
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -168,7 +168,7 @@ private:
   bool m_UseImageSpacing;
 
   /** Neighborhood Image Function. */
-  GaussianDerivativeFunctionPointer m_GaussianDerivativeFunction;
+  const GaussianDerivativeFunctionPointer m_GaussianDerivativeFunction;
 };
 } // namespace itk
 
