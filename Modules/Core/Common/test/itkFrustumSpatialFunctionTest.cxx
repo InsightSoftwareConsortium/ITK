@@ -207,12 +207,5 @@ int itkFrustumSpatialFunctionTest( int, char *[] )
     testStatus = EXIT_FAILURE;
     }
 
-
-  // Check that an exception is thrown for an unsupported rotation plane
-  rotationPlane =
-    static_cast< FrustumSpatialFunctionType::FrustumRotationPlaneType > ( 4 );
-  frustrumSpatialFunction->SetRotationPlane( rotationPlane );
-  TRY_EXPECT_EXCEPTION( frustrumSpatialFunction->Evaluate( insidePoint ) );
-
   return testStatus;
 }
