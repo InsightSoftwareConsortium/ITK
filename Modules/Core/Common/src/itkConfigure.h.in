@@ -91,6 +91,7 @@
 #cmakedefine ITK_USE_GPU
 #cmakedefine ITK_TEMPLATE_VISIBILITY_DEFAULT
 #cmakedefine USE_COMPILER_HIDDEN_VISIBILITY
+#cmakedefine ITK_USE_TBB
 
 // C++11 should be assumed now, defines always true for C++11 will be
 // removed in the future.

@@ -38,6 +38,10 @@
 #include <string>
 #include <algorithm>
 
+#if defined(ITK_USE_TBB)
+#include "itkTBBMultiThreader.h"
+#endif
+
 
 namespace itk
 {
@@ -315,7 +319,7 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
   if ( smartPtr == nullptr )
     {
 #if defined(ITK_USE_TBB)
-    //return TBBMultiThreader::New().GetPointer();
+    return TBBMultiThreader::New();
 #endif
     if ( GetGlobalDefaultUseThreadPool() )
       {
