@@ -41,9 +41,9 @@ int itkMockMontageTestTiles(int argc, char* argv[])
   std::getline(fStage, temp); //throw away header
   std::getline(fActual, temp); //throw away header
 
-  for (unsigned y = 0; y < yMontageSize; y++)
+  for (unsigned x = 0; x < xMontageSize; x++)
     {
-    for (unsigned x = 0; x < xMontageSize; x++)
+    for (unsigned y = 0; y < yMontageSize; y++)
       {
       PointType p;
       for (unsigned d = 0; d < Dimension; d++)
