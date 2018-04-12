@@ -180,7 +180,7 @@ Win32OutputWindow
   HWND win = CreateWindow(
     "OutputWindow", "OutputWindow",
     WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
-    0, 0, 512, 512,
+    0, 0, 1024, 768,
     nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
 
   /** Now create child window with text display box */
@@ -188,8 +188,8 @@ Win32OutputWindow
   lpParam.hInstance = GetModuleHandle(nullptr);
   lpParam.hMenu = nullptr;
   lpParam.hwndParent = win;
-  lpParam.cx = 512;
-  lpParam.cy = 512;
+  lpParam.cx = 1024;
+  lpParam.cy = 768;
   lpParam.x = 0;
   lpParam.y = 0;
   lpParam.style = ES_MULTILINE | ES_READONLY | WS_CHILD
