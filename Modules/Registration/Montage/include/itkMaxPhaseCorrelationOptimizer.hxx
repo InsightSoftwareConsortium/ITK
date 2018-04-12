@@ -19,6 +19,7 @@
 #define itkMaxPhaseCorrelationOptimizer_hxx
 
 #include "itkMaxPhaseCorrelationOptimizer.h"
+#include <type_traits>
 
 /*
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
@@ -35,6 +36,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 ::MaxPhaseCorrelationOptimizer() : Superclass()
 {
   m_MaxCalculator = MaxCalculatorType::New();
+  m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
 }
 
 
@@ -45,8 +47,21 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
+  auto pim = static_cast<typename std::underlying_type<PeakInterpolationMethod>::type>(m_PeakInterpolationMethod);
+  os << indent << "PeakInterpolationMethod: " << pim << std::endl;
 }
 
+template<typename TRegistrationMethod>
+void
+MaxPhaseCorrelationOptimizer<TRegistrationMethod>
+::SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod)
+{
+  if ( this->m_PeakInterpolationMethod != peakInterpolationMethod )
+    {
+    this->m_PeakInterpolationMethod = peakInterpolationMethod;
+    this->Modified();
+    }
+}
 
 template < typename TRegistrationMethod >
 void
@@ -77,16 +92,59 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     throw err;
     }
 
-  const typename ImageType::IndexType index = m_MaxCalculator->GetIndexOfMaximum();
+  using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
+  ContinuousIndexType maxIndex = m_MaxCalculator->GetIndexOfMaximum();
   const typename ImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
   const typename ImageType::SpacingType spacing = input->GetSpacing();
   const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
   const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
+  if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) //interpolate the peak
+    {
+    typename ImageType::PixelType y0, y1 = m_MaxCalculator->GetMaximum(), y2;
+    typename ImageType::IndexType tempIndex = m_MaxCalculator->GetIndexOfMaximum();
+    typename ImageType::RegionType region = input->GetLargestPossibleRegion();
+
+    for( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      tempIndex[i] = maxIndex[i] - 1;
+      if( ! region.IsInside( tempIndex ) )
+        {
+        tempIndex[i] = maxIndex[i];
+        continue;
+        }
+      y0 = input->GetPixel( tempIndex );
+      tempIndex[i] = maxIndex[i] + 1;
+      if( ! region.IsInside( tempIndex ) )
+        {
+        tempIndex[i] = maxIndex[i];
+        continue;
+        }
+      y2 = input->GetPixel( tempIndex );
+      tempIndex[i] = maxIndex[i];
+
+      OffsetScalarType omega, theta;
+      switch (m_PeakInterpolationMethod)
+        {
+        case PeakInterpolationMethod::Parabolic:
+            maxIndex[i] += ( y0 - y2 ) / ( 2 * ( y0 - 2 * y1 + y2 ) );
+            break;
+        case PeakInterpolationMethod::Cosine:
+            omega = std::acos( ( y0 + y2 ) / ( 2 * y1 ) );
+            theta = std::atan( ( y0 - y2 ) / ( 2 * y1 * std::sin( omega ) ) );
+            maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
+            break;
+        default:
+            itkAssertInDebugAndIgnoreInReleaseMacro("Unknown interpolation method");
+            break;
+        } //switch PeakInterpolationMethod
+      } //for ImageDimension
+    } //if Interpolation != None
+
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * index[i];
-    OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (index[i] - IndexValueType(size[i]));
+    OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * maxIndex[i];
+    OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - IndexValueType(size[i]));
     if (std::abs(directOffset) <= std::abs(mirrorOffset))
       {
       offset[i] = directOffset;
