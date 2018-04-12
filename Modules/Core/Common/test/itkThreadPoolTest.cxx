@@ -19,6 +19,7 @@
 #include "itkMultiThreaderBase.h"
 #include "itkTimeProbe.h"
 #include "itkConfigure.h"
+#include "itkMutexLock.h"
 
 itk::MutexLock::Pointer sharedMutex;
 
@@ -30,12 +31,11 @@ ITK_THREAD_RETURN_TYPE execute(void *ptr)
   auto * data = static_cast<int *>(threadInfo->UserData);
 
   sharedMutex->Lock();
-  std::cout << "Ptr received  :" << ptr
-            << ", Value " << *data << std::endl;
+  std::cout << "Ptr received  :" << ptr << ", Value " << *data << std::endl;
   sharedMutex->Unlock();
 
   int    n = 10;
-  int m = 100;
+  int m = *data;
   double sum = 1.0;
 
   for( int j = 0; j < m; j++ )
@@ -55,7 +55,7 @@ int itkThreadPoolTest(int argc, char* argv[])
 
   sharedMutex = itk::MutexLock::New();
 
-  int count = 1000000;
+  int count = 1000;
   if( argc > 1 )
     {
     const int nt = atoi( argv[1] );
@@ -65,17 +65,17 @@ int itkThreadPoolTest(int argc, char* argv[])
       }
     }
 
-  itk::MultiThreader::Pointer    threader = itk::MultiThreader::New();
+  itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   if(threader.IsNull())
     {
     return EXIT_FAILURE;
     }
   itk::TimeProbe timeProbe;
   itk::TimeProbe::TimeStampType startTime = timeProbe.GetInstantValue();
-  int data = 100;
+  int data = 123;
   for(int i=0; i<count;i++)
     {
-    threader->SetSingleMethod(&execute,(void *)&data);
+    threader->SetSingleMethod(&execute, &data);
     threader->SingleMethodExecute();
     }
   itk::TimeProbe::TimeStampType elapsed = timeProbe.GetInstantValue() - startTime;

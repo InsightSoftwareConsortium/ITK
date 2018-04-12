@@ -31,6 +31,7 @@
 
 #include "itkOutputDataObjectIterator.h"
 #include "itkImageRegionSplitterBase.h"
+#include "itkMultiThreaderBase.h"
 
 #include "itkMath.h"
 
