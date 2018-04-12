@@ -532,7 +532,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
   itkDebugMacro("setting fixedImageFFT Image to " << fixedImageFFT );
   if ( this->m_FixedImageFFT.GetPointer() != fixedImageFFT )
     {
-    this->m_FixedImageFFT = fixedImageFFT;
+    this->m_FixedImageFFT = const_cast< ComplexImageType * >(fixedImageFFT);
     this->Modified();
     }
 }
@@ -546,7 +546,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
   itkDebugMacro("setting movingImageFFT Image to " << movingImageFFT );
   if ( this->m_MovingImageFFT.GetPointer() != movingImageFFT )
     {
-    this->m_MovingImageFFT = movingImageFFT;
+    this->m_MovingImageFFT = const_cast< ComplexImageType * >(movingImageFFT);
     this->Modified();
     }
 }
