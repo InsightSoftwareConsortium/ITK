@@ -25,7 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkNumericTraits.h"
 #include <iostream>
 #include <string>
@@ -35,17 +35,17 @@
 #include <algorithm>
 
 #if defined(ITK_USE_PTHREADS)
-#include "itkMultiThreaderPThreads.cxx"
+#include "itkPlatformMultiThreaderPosix.cxx"
 #elif defined(ITK_USE_WIN32_THREADS)
-#include "itkMultiThreaderWinThreads.cxx"
+#include "itkPlatformMultiThreaderWindows.cxx"
 #else
-#include "itkMultiThreaderNoThreads.cxx"
+#include "itkPlatformMultiThreaderSingle.cxx"
 #endif
 
 namespace itk
 {
 
-MultiThreader::MultiThreader()
+PlatformMultiThreader::PlatformMultiThreader()
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
@@ -65,21 +65,22 @@ MultiThreader::MultiThreader()
   m_SingleData = nullptr;
 }
 
-MultiThreader::~MultiThreader()
+PlatformMultiThreader::~PlatformMultiThreader()
 {
 }
 
-void MultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
+void PlatformMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 {
   m_SingleMethod = f;
   m_SingleData   = data;
 }
 
+#if !defined ( ITK_LEGACY_REMOVE )
 // Set one of the user defined methods that will be run on NumberOfThreads
 // threads when MultipleMethodExecute is called. This method should be
 // called with index = 0, 1, ..,  NumberOfThreads-1 to set up all the
 // required user defined methods
-void MultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, void *data)
+void PlatformMultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, void *data)
 {
   // You can only set the method for 0 through NumberOfThreads-1
   if( index >= m_NumberOfThreads )
@@ -92,8 +93,9 @@ void MultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, 
     m_MultipleData[index]   = data;
     }
 }
+#endif
 
-void MultiThreader::SingleMethodExecute()
+void PlatformMultiThreader::SingleMethodExecute()
 {
   ThreadIdType        thread_loop = 0;
   ThreadProcessIdType process_id[ITK_MAX_THREADS];
@@ -232,7 +234,7 @@ void MultiThreader::SingleMethodExecute()
 }
 
 // Print method for the multithreader
-void MultiThreader::PrintSelf(std::ostream & os, Indent indent) const
+void PlatformMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

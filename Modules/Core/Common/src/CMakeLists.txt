@@ -80,7 +80,7 @@ set(ITKCommon_SRCS
   itkOctreeNode.cxx
   itkNumericTraitsFixedArrayPixel.cxx
   itkMultiThreaderBase.cxx
-  itkMultiThreader.cxx
+  itkPlatformMultiThreader.cxx
   itkPoolMultiThreader.cxx
   itkMetaDataObject.cxx
   itkMetaDataDictionary.cxx

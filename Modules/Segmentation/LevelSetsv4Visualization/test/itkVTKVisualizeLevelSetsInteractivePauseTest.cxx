@@ -27,7 +27,7 @@
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetDenseImage.h"
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkMutexLock.h"
 #include "itkVTKVisualizeImageLevelSetIsoValues.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
@@ -311,7 +311,7 @@ struct VisualizationThreadData
 
 ITK_THREAD_RETURN_TYPE visualizationThreadRunner( void * threadInfo )
 {
-  auto * info = static_cast<itk::MultiThreader::ThreadInfoStruct*>( threadInfo );
+  auto * info = static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>( threadInfo );
 
   auto * visualizationThreadData = static_cast< VisualizationThreadData * >( info->UserData );
   visualizeLevelSet< InputImageType, LevelSetType >( visualizationThreadData->m_InputImage,
@@ -414,7 +414,7 @@ int itkVTKVisualizeLevelSetsInteractivePauseTest( int argc, char* argv[] )
   visualizationThreadData.m_KeypressPauseCommand = keypressPauseCommand.GetPointer();
 
 
-  itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
+  itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
   try
     {
     itk::ThreadIdType threadId = threader->SpawnThread( visualizationThreadRunner, &visualizationThreadData );

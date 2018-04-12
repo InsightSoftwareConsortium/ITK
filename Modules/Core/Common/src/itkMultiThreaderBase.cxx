@@ -26,7 +26,7 @@
  *
  *=========================================================================*/
 #include "itkMultiThreaderBase.h"
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkPoolMultiThreader.h"
 #include "itkNumericTraits.h"
 #include "itkMutexLockHolder.h"
@@ -323,7 +323,7 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
       }
     else
       {
-      return MultiThreader::New();
+      return PlatformMultiThreader::New();
       }
     }
   smartPtr->UnRegister();

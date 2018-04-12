@@ -25,7 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
@@ -43,7 +43,8 @@ extern "C"
 typedef void *( *c_void_cast )(void *);
 }
 
-void MultiThreader::MultipleMethodExecute()
+#if !defined ( ITK_LEGACY_REMOVE )
+void PlatformMultiThreader::MultipleMethodExecute()
 {
 
   pthread_t process_id[ITK_MAX_THREADS];
@@ -108,7 +109,7 @@ void MultiThreader::MultipleMethodExecute()
 
 }
 
-ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
+ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 {
   ThreadIdType id = 0;
 
@@ -160,7 +161,7 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
   return id;
 }
 
-void MultiThreader::TerminateThread(ThreadIdType ThreadID)
+void PlatformMultiThreader::TerminateThread(ThreadIdType ThreadID)
 {
   if( !m_SpawnedThreadActiveFlag[ThreadID] )
     {
@@ -176,9 +177,10 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
   m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
   m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
 }
+#endif
 
 void
-MultiThreader
+PlatformMultiThreader
 ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using POSIX threads
@@ -189,8 +191,8 @@ MultiThreader
 }
 
 ThreadProcessIdType
-MultiThreader
-::SpawnDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+PlatformMultiThreader
+::SpawnDispatchSingleMethodThread(PlatformMultiThreader::ThreadInfoStruct *threadInfo)
 {
   // Using POSIX threads
   pthread_attr_t attr;

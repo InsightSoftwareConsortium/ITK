@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkTimeProbe.h"
 #include "itkConfigure.h"
 #include "itksys/SystemTools.hxx"
@@ -31,7 +31,7 @@ void* ThreadFunction(void *ptr)
 {
 
   // Retrieve shared thread data and user data
-  auto * threadInfo = static_cast<itk::MultiThreader::ThreadInfoStruct*>(ptr);
+  auto * threadInfo = static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>(ptr);
 
   itk::ThreadIdType localthreadId    = threadInfo->ThreadID;
 
@@ -71,7 +71,7 @@ int itkSpawnThreadTest(int argc, char* argv[])
       }
     }
 
-  itk::MultiThreader::Pointer    threader  = itk::MultiThreader::New();
+  itk::PlatformMultiThreader::Pointer    threader  = itk::PlatformMultiThreader::New();
   itk::MutexLock::Pointer        mutexlock = itk::MutexLock::New();
   if(threader.IsNull() || mutexlock.IsNull() )
     {

@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include "itkConditionVariable.h"
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 
 class ConditionVariableTestUserData
 {
@@ -108,7 +108,7 @@ int itkConditionVariableTest(int , char*[])
 
   try
     {
-    itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
+    itk::PlatformMultiThreader::Pointer multithreader = itk::PlatformMultiThreader::New();
     multithreader->SetNumberOfThreads(3);
     multithreader->SetSingleMethod( ConditionVariableTestCallback, &cond);
 

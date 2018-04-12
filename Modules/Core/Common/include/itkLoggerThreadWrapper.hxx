@@ -152,7 +152,7 @@ template< typename SimpleLoggerType >
 LoggerThreadWrapper< SimpleLoggerType >::LoggerThreadWrapper()
 {
   this->m_Delay = 300; // ms
-  this->m_Threader = MultiThreader::New();
+  this->m_Threader = PlatformMultiThreader::New();
   this->m_ThreadID = this->m_Threader->SpawnThread(ThreadFunction, this);
 }
 
@@ -170,7 +170,7 @@ LoggerThreadWrapper< SimpleLoggerType >::~LoggerThreadWrapper()
 template< typename SimpleLoggerType >
 ITK_THREAD_RETURN_TYPE LoggerThreadWrapper< SimpleLoggerType >::ThreadFunction(void *pInfoStruct)
 {
-  auto * pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
+  auto * pInfo = (struct PlatformMultiThreader::ThreadInfoStruct *)pInfoStruct;
 
   if ( ( pInfo != nullptr ) && ( pInfo->UserData != nullptr ) )
     {

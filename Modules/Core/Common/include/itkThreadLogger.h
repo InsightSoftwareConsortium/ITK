@@ -18,7 +18,7 @@
 #ifndef itkThreadLogger_h
 #define itkThreadLogger_h
 
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkLogger.h"
 #include "itkSimpleFastMutexLock.h"
 
@@ -125,7 +125,7 @@ private:
 
   using OutputContainerType = std::queue< OutputType::Pointer >;
 
-  MultiThreader::Pointer m_Threader;
+  PlatformMultiThreader::Pointer m_Threader;
 
   ThreadIdType m_ThreadID;
 

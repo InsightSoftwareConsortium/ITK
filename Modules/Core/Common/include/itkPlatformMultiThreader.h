@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef itkMultiThreader_h
-#define itkMultiThreader_h
+#ifndef itkPlatformMultiThreader_h
+#define itkPlatformMultiThreader_h
 
 #include "itkMultiThreaderBase.h"
 #include "itkMutexLock.h"
@@ -46,13 +46,13 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT MultiThreader : public MultiThreaderBase
+class ITKCommon_EXPORT PlatformMultiThreader : public MultiThreaderBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreader);
+  ITK_DISALLOW_COPY_AND_ASSIGN(PlatformMultiThreader);
 
   /** Standard class type aliases. */
-  using Self = MultiThreader;
+  using Self = PlatformMultiThreader;
   using Superclass = MultiThreaderBase;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiThreader, MultiThreaderBase);
+  itkTypeMacro(PlatformMultiThreader, MultiThreaderBase);
 
 #if !defined ( ITK_LEGACY_REMOVE )
   /** Set/Get the maximum number of threads to use when multithreading.  It
@@ -114,7 +114,7 @@ It can affect all MultiThreaderBase's derived classes in ITK");
    * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
    * threads. As a side effect the m_NumberOfThreads will be checked against the
    * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
-  void MultipleMethodExecute();
+  itkLegacyMacro(void MultipleMethodExecute());
 
   /** Set the SingleMethod to f() and the UserData field of the
    * ThreadInfoStruct that is passed to it will be data.
@@ -125,15 +125,17 @@ It can affect all MultiThreaderBase's derived classes in ITK");
 
   /** Set the MultipleMethod at the given index to f() and the UserData
    * field of the ThreadInfoStruct that is passed to it will be data. */
-  void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data);
+  itkLegacyMacro(void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data));
 
   /** Create a new thread for the given function. Return a thread id
-     * which is a number between 0 and ITK_MAX_THREADS - 1. This
-   * id should be used to kill the thread at a later time. */
-  ThreadIdType SpawnThread(ThreadFunctionType, void *data);
+   * which is a number between 0 and ITK_MAX_THREADS - 1. This
+   * id should be used to kill the thread at a later time.
+   * Deprecated. Use C++11 thread support instead. */
+  itkLegacyMacro(ThreadIdType SpawnThread(ThreadFunctionType, void *data));
 
-  /** Terminate the thread that was created with a SpawnThreadExecute() */
-  void TerminateThread(ThreadIdType thread_id);
+  /** Terminate the thread that was created with a SpawnThreadExecute()
+   * Deprecated. Use C++11 thread support instead. */
+  itkLegacyMacro(void TerminateThread(ThreadIdType thread_id));
 
   struct ThreadInfoStruct: MultiThreaderBase::ThreadInfoStruct
     {
@@ -142,10 +144,9 @@ It can affect all MultiThreaderBase's derived classes in ITK");
     };
 
 protected:
-  MultiThreader();
-  ~MultiThreader() override;
+  PlatformMultiThreader();
+  ~PlatformMultiThreader() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
 
 private:
   /** An array of thread info containing a thread id
@@ -177,4 +178,4 @@ private:
   friend class ProcessObject;
 };
 }  // end namespace itk
-#endif
+#endif //itkPlatformMultiThreader_h

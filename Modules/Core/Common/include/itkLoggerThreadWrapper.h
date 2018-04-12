@@ -21,7 +21,7 @@
 #include <string>
 #include <queue>
 
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkSimpleFastMutexLock.h"
 
 namespace itk
@@ -118,7 +118,7 @@ private:
 
   using OutputContainerType = std::queue< typename OutputType::Pointer >;
 
-  MultiThreader::Pointer m_Threader;
+  PlatformMultiThreader::Pointer m_Threader;
 
   ThreadIdType m_ThreadID;
 

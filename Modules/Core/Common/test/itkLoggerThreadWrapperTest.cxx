@@ -125,8 +125,8 @@ private:
 
 ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
 {
-  const itk::MultiThreader::ThreadInfoStruct* threadInfo =
-    static_cast<itk::MultiThreader::ThreadInfoStruct*>(arg);
+  const itk::PlatformMultiThreader::ThreadInfoStruct* threadInfo =
+    static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>(arg);
   if (threadInfo)
     {
     const unsigned int threadId = threadInfo->ThreadID;
@@ -157,7 +157,7 @@ ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
         return ITK_THREAD_RETURN_VALUE;
       }
     } else {
-      std::cerr << "ERROR: arg was not of type itk::MultiThreader::ThreadInfoStruct*" << std::endl;
+      std::cerr << "ERROR: arg was not of type itk::PlatformMultiThreader::ThreadInfoStruct*" << std::endl;
       return ITK_THREAD_RETURN_VALUE;
     }
   return ITK_THREAD_RETURN_VALUE;
@@ -244,7 +244,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
     ThreadDataVec threadData = create_threaded_data2(numthreads, logger);
-    itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
+    itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
     threader->SetNumberOfThreads(numthreads);
     threader->SetSingleMethod(ThreadedGenerateLogMessages2, &threadData);

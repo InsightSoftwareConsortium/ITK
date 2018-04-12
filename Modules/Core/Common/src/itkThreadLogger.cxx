@@ -26,7 +26,7 @@ ThreadLogger
 ::ThreadLogger()
 {
   this->m_Delay = 300; // ms
-  this->m_Threader = MultiThreader::New();
+  this->m_Threader = PlatformMultiThreader::New();
   this->m_ThreadID = this->m_Threader->SpawnThread(ThreadFunction, this);
 }
 
@@ -178,7 +178,7 @@ ITK_THREAD_RETURN_TYPE
 ThreadLogger
 ::ThreadFunction(void *pInfoStruct)
 {
-  auto * pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
+  auto * pInfo = (struct PlatformMultiThreader::ThreadInfoStruct *)pInfoStruct;
 
   if ( pInfo == nullptr )
     {

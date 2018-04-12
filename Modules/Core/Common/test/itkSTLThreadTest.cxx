@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 
 namespace itkSTLThreadTestImpl
 {
@@ -79,7 +79,7 @@ int itkSTLThreadTest(int argc, char* argv[])
     }
 
   // Create and execute the threads.
-  itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
+  itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
   itkSTLThreadTestImpl::sharedMutex    = itk::MutexLock::New();
   threader->SetSingleMethod(itkSTLThreadTestImpl::Runner, results);
   threader->SetNumberOfThreads(numThreads);
@@ -122,7 +122,7 @@ static ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
 {
   // Get the thread id and result pointer and run the method for this
   // thread.
-  auto * info = static_cast<itk::MultiThreader::ThreadInfoStruct*>(infoIn);
+  auto * info = static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>(infoIn);
   itk::ThreadIdType tnum = info->ThreadID;
   auto * results = static_cast<int*>(info->UserData);
   if(results)
