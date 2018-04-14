@@ -65,6 +65,8 @@ template <typename TFixedImage, typename TMovingImage>
 class TwoProjectionImageRegistrationMethod : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TwoProjectionImageRegistrationMethod);
+
   /** Standard class type alias. */
   using Self = TwoProjectionImageRegistrationMethod;
   using Superclass = ProcessObject;
@@ -228,10 +230,6 @@ protected:
 
 
 private:
-  TwoProjectionImageRegistrationMethod(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;
 

@@ -44,6 +44,8 @@ template <typename TFixedImage, typename TMovingImage>
 class NormalizedCorrelationTwoImageToOneImageMetric : public TwoImageToOneImageMetric<TFixedImage, TMovingImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationTwoImageToOneImageMetric);
+
   /** Standard class type alias. */
   using Self = NormalizedCorrelationTwoImageToOneImageMetric;
   using Superclass = TwoImageToOneImageMetric<TFixedImage, TMovingImage>;
@@ -103,10 +105,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  NormalizedCorrelationTwoImageToOneImageMetric(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   bool m_SubtractMean;
 };
 
