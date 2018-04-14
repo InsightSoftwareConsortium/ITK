@@ -43,6 +43,8 @@ class ITK_EXPORT PhysicalCentralDifferenceImageFunction
   : public ImageFunction<TInputImage, CovariantVector<double, TInputImage::ImageDimension>, TCoordRep>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalCentralDifferenceImageFunction);
+
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -134,8 +136,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalCentralDifferenceImageFunction);
-
   typename InterpolateImageFunctionType::Pointer m_Interpolator;
 };
 

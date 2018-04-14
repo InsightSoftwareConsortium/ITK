@@ -42,6 +42,8 @@ template <class TFilter>
 class ArrivalFunctionToPathCommand : public itk::Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathCommand);
+
   /** Standard class type alias. */
   using Self = ArrivalFunctionToPathCommand;
   using Superclass = itk::Command;
@@ -84,8 +86,6 @@ protected:
   ~ArrivalFunctionToPathCommand() override {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathCommand);
-
   typename FilterType::Pointer m_Filter;
 };
 
@@ -143,6 +143,8 @@ template <class TInputImage, class TOutputPath = PolyLineParametricPath<TInputIm
 class ITK_EXPORT ArrivalFunctionToPathFilter : public ImageToPathFilter<TInputImage, TOutputPath>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathFilter);
+
   /** Standard class type alias. */
   using Self = ArrivalFunctionToPathFilter;
   using Superclass = ImageToPathFilter<TInputImage, TOutputPath>;
@@ -245,9 +247,6 @@ protected:
   typename OptimizerType::MeasureType m_TerminationValue;
   std::vector<PointsContainerType>    m_PointList;
   unsigned int                        m_CurrentOutput;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathFilter);
 };
 
 } // end namespace itk

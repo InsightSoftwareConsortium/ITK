@@ -52,6 +52,8 @@ template <class TImage>
 class ITK_EXPORT SingleImageCostFunction : public SingleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SingleImageCostFunction);
+
   /** Standard class type alias. */
   using Self = SingleImageCostFunction;
   using Superclass = SingleValuedCostFunction;
@@ -149,8 +151,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleImageCostFunction);
-
   ImageConstPointer                           m_Image;
   typename InterpolatorType::Pointer          m_Interpolator;
   typename GradientImageFunctionType::Pointer m_GradientImageFunction;

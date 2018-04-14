@@ -40,6 +40,8 @@ namespace itk
 class MinimalPathExtraction_EXPORT IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IterateNeighborhoodOptimizer);
+
   /** Standard class type alias. */
   using Self = IterateNeighborhoodOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
@@ -124,8 +126,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IterateNeighborhoodOptimizer);
-
   bool                 m_Stop;
   bool                 m_Maximize;
   bool                 m_FullyConnected;
