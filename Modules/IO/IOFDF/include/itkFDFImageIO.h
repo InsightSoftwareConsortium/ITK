@@ -34,6 +34,8 @@ namespace itk
 class IOFDF_EXPORT FDFImageIO : public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FDFImageIO);
+
   /** Standard class type alias. */
   using Self = FDFImageIO;
   using Superclass = ImageIOBase;
@@ -116,8 +118,6 @@ protected:
   ReadHeader(const char * FileNameToRead);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FDFImageIO);
-
   void
   SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
 

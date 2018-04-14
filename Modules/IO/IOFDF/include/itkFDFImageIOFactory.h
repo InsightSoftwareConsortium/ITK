@@ -30,6 +30,8 @@ namespace itk
 class IOFDF_EXPORT FDFImageIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FDFImageIOFactory);
+
   /** Standard class type alias. */
   using Self = FDFImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -59,9 +61,6 @@ public:
 protected:
   FDFImageIOFactory();
   ~FDFImageIOFactory() override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FDFImageIOFactory);
 };
 
 
