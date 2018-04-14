@@ -49,6 +49,8 @@ template <class TInputImage, class TOutputImage>
 class HigherOrderAccurateDerivativeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HigherOrderAccurateDerivativeImageFilter);
+
   /** Standard class type alias. */
   using Self = HigherOrderAccurateDerivativeImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -143,10 +145,6 @@ protected:
   GenerateData() override;
 
 private:
-  HigherOrderAccurateDerivativeImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   /** The order of the derivative. */
   unsigned int m_Order;
 
