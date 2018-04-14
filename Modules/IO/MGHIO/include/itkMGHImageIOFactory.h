@@ -32,6 +32,8 @@ namespace itk
 class MGHIO_EXPORT MGHImageIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MGHImageIOFactory);
+
   /** Standard class type alias */
   using Self = MGHImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -61,9 +63,6 @@ protected:
   MGHImageIOFactory();
   ~MGHImageIOFactory() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MGHImageIOFactory);
 };
 } // end namespace itk
 
