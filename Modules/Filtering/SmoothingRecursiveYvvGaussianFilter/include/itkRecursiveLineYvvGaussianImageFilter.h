@@ -46,6 +46,8 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT RecursiveLineYvvGaussianImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveLineYvvGaussianImageFilter);
+
   /** Standard class typedefs. */
   typedef RecursiveLineYvvGaussianImageFilter           Self;
   typedef InPlaceImageFilter<TInputImage, TOutputImage> Superclass;
@@ -176,8 +178,6 @@ protected:
   vnl_matrix<ScalarRealType> m_MMatrix;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveLineYvvGaussianImageFilter);
-
   /** Direction in which the filter is to be applied
    * this should be in the range [0,ImageDimension-1]. */
   unsigned int m_Direction;
