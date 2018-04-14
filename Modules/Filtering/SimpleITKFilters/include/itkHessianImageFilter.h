@@ -46,6 +46,8 @@ template <typename TInputImage,
 class HessianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HessianImageFilter);
+
   /** Standard type alias */
   using Self = HessianImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -85,9 +87,6 @@ protected:
 
   void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HessianImageFilter);
 };
 
 } // end namespace itk
