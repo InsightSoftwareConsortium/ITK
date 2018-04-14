@@ -48,6 +48,8 @@ class LinearAnisotropicDiffusionLBRImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LinearAnisotropicDiffusionLBRImageFilter);
+
   /** Standard class type alias. */
   using Self = LinearAnisotropicDiffusionLBRImageFilter;
   using Superclass = ImageToImageFilter< TImage, TImage >;
@@ -141,9 +143,6 @@ protected:
   using VectorType = Vector<ScalarType,Dimension>;
   static ScalarType ScalarProduct(const TensorType &, const VectorType &, const VectorType &);
 
-private:
-  LinearAnisotropicDiffusionLBRImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
 };
 } // end namespace itk
 
