@@ -58,6 +58,8 @@ template <typename TParametersValueType = double, // Data type for scalars (floa
 class ITK_TEMPLATE_EXPORT CartesianToPolarTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CartesianToPolarTransform);
+
   /** Standard class type alias. */
   using Self = CartesianToPolarTransform;
   using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
@@ -169,8 +171,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CartesianToPolarTransform);
-
   InputPointType m_Center;
 }; // class CartesianToPolarTransform
 
