@@ -52,6 +52,8 @@ template <class TDisplacementField>
 class VariationalRegistrationDiffusionRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationDiffusionRegularizer);
+
   /** Standard class type alias */
   using Self = VariationalRegistrationDiffusionRegularizer;
   using Superclass = VariationalRegistrationRegularizer<TDisplacementField>;
@@ -162,10 +164,6 @@ protected:
   SplitBoundaryFaceRegion(int i, int num, int inDir, BufferImageRegionType & splitRegion);
 
 private:
-  VariationalRegistrationDiffusionRegularizer(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   /** Weight of the regularization term. */
   ValueType m_Alpha;
 

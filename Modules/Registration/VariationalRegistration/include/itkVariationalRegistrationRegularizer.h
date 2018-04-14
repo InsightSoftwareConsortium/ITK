@@ -48,6 +48,8 @@ template <class TDisplacementField>
 class VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationRegularizer);
+
   /** Standard class type alias */
   using Self = VariationalRegistrationRegularizer;
   using Superclass = InPlaceImageFilter<TDisplacementField, TDisplacementField>;
@@ -92,10 +94,6 @@ protected:
   Initialize() {};
 
 private:
-  VariationalRegistrationRegularizer(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   /** A boolean that indicates, if image spacing is considered. */
   bool m_UseImageSpacing;
 };

@@ -59,6 +59,8 @@ template <class TInputImage, class TOutputImage, class TDisplacementField>
 class ContinuousBorderWarpImageFilter : public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ContinuousBorderWarpImageFilter);
+
   /** Standard class type alias. */
   using Self = ContinuousBorderWarpImageFilter;
   using Superclass = WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>;
@@ -110,11 +112,6 @@ protected:
    * ThreadedGenerateData(). */
   void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-private:
-  ContinuousBorderWarpImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
 };
 
 } // end namespace itk

@@ -81,6 +81,8 @@ template <class TFixedImage, class TMovingImage, class TDisplacementField, class
 class VariationalRegistrationMultiResolutionFilter : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationMultiResolutionFilter);
+
   /** Standard class type alias */
   using Self = VariationalRegistrationMultiResolutionFilter;
   using Superclass = ImageToImageFilter<TDisplacementField, TDisplacementField>;
@@ -300,10 +302,6 @@ protected:
   Halt();
 
 private:
-  VariationalRegistrationMultiResolutionFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   RegistrationPointer       m_RegistrationFilter;
   FixedImagePyramidPointer  m_FixedImagePyramid;
   MovingImagePyramidPointer m_MovingImagePyramid;

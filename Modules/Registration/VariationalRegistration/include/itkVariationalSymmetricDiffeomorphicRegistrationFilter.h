@@ -92,6 +92,8 @@ class VariationalSymmetricDiffeomorphicRegistrationFilter
   : public VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalSymmetricDiffeomorphicRegistrationFilter);
+
   /** Standard class type alias */
   using Self = VariationalSymmetricDiffeomorphicRegistrationFilter;
   using Superclass = VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>;
@@ -182,10 +184,6 @@ protected:
                       unsigned int             threadId) override;
 
 private:
-  VariationalSymmetricDiffeomorphicRegistrationFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   using FieldExponentiatorType = typename Superclass::FieldExponentiatorType;
   using FieldExponentiatorPointer = typename FieldExponentiatorType::Pointer;
 

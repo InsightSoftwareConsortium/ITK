@@ -47,6 +47,8 @@ template <class TDisplacementField>
 class VariationalRegistrationGaussianRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationGaussianRegularizer);
+
   /** Standard class type alias */
   using Self = VariationalRegistrationGaussianRegularizer;
   using Superclass = VariationalRegistrationRegularizer<TDisplacementField>;
@@ -124,10 +126,6 @@ protected:
   Initialize() override;
 
 private:
-  VariationalRegistrationGaussianRegularizer(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   /** Standard deviation for Gaussian smoothing */
   StandardDeviationsType m_StandardDeviations;
 

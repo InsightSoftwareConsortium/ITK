@@ -47,6 +47,8 @@ template <class TRegistrationFilter, class TMRFilter>
 class VariationalRegistrationLogger : public Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationLogger);
+
   /** Standard class type alias. */
   using Self = VariationalRegistrationLogger;
   using Superclass = Command;
@@ -78,11 +80,6 @@ protected:
   /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  VariationalRegistrationLogger(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
 };
 
 } // end namespace itk

@@ -69,6 +69,8 @@ template <class TRegistrationFilter, class TMRFilter>
 class VariationalRegistrationStopCriterion : public Command
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationStopCriterion);
+
   /** Standard class type alias. */
   using Self = VariationalRegistrationStopCriterion;
   using Superclass = Command;
@@ -271,10 +273,6 @@ protected:
   FitLine(const double * const x, const double * const y, const int n, double * m, double * b);
 
 private:
-  VariationalRegistrationStopCriterion(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   // Stop criterion multi-resolution policy.
   MultiResolutionPolicy m_MultiResolutionPolicy;
 
