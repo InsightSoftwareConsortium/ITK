@@ -49,16 +49,34 @@
 
     GetArrayViewFromImage = staticmethod(GetArrayViewFromImage)
 
-    def GetArrayFromImage(image):
+    def GetArrayFromImage(image, keepAxes=False, updateLargestPossibleRegion=True):
         """Get a NumPy ndarray from an ITK Image.
+
+        When *keepAxes* is *False*, the NumPy array will have C-order
+        indexing. This is the reverse of how indices are specified in ITK,
+        i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
+        algorithms in NumPy / SciPy.
 
         This is a deep copy of the image buffer and is completely safe and without potential side effects.
         """
 
-        arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image)
+        if not HAVE_NUMPY:
+            raise ImportError('Numpy not available.')
+
+        if updateLargestPossibleRegion:
+            # Ensure the image regions and image pixel buffer have been updated
+            # correctly
+            source = image.GetSource()
+            if source:
+                source.UpdateLargestPossibleRegion()
+
+        arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image, keepAxes)
 
         # perform deep copy of the image buffer
-        return numpy.array(arrayView, copy=True)
+        arr = numpy.array(arrayView, copy=True)
+
+        return arr
+
 
     GetArrayFromImage = staticmethod(GetArrayFromImage)
 
@@ -88,6 +106,9 @@
 
         assert ndarr.ndim in ( 2, 3, 4 ), \
             "Only arrays of 2, 3 or 4 dimensions are supported."
+        if( not ndarr.flags['C_CONTIGUOUS'] and not ndarr.flags['F_CONTIGUOUS'] ):
+            raise "Array memory is not contiguous. Try converting your array with " \
+                  + "`ascontiguousarray()` or `copy()` or use `GetImageFromArray()`"
 
         if ( ndarr.ndim == 3 and isVector ) or (ndarr.ndim == 4):
             imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-2::-1], ndarr.shape[-1] )
