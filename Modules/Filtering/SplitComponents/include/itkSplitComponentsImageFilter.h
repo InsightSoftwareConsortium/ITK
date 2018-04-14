@@ -48,6 +48,8 @@ template <class TInputImage, class TOutputImage, unsigned int TComponents = TInp
 class SplitComponentsImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SplitComponentsImageFilter);
+
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   /** Components enumeration. */
@@ -92,8 +94,6 @@ protected:
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SplitComponentsImageFilter);
-
   ComponentsMaskType m_ComponentsMask;
 };
 
