@@ -48,6 +48,8 @@ class ITK_EXPORT LabelSetMorphBaseImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetMorphBaseImageFilter);
+
   /** Standard class type alias. */
   using Self = LabelSetMorphBaseImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -140,9 +142,6 @@ protected:
   // this is the first non-zero entry in the radius. Needed to
   // support elliptical operations
   RealType m_BaseSigma;
-private:
-  LabelSetMorphBaseImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
 };
 } // end namespace itk
 
