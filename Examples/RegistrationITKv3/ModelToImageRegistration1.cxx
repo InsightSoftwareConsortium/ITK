@@ -319,7 +319,7 @@ public:
 
   /** Get the value for SingleValue optimizers. */
   //  Software Guide : BeginCodeSnippet
-  MeasureType    GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType    GetValue( const ParametersType & parameters ) const override
     {
       double value;
       this->m_Transform->SetParameters( parameters );
@@ -340,7 +340,7 @@ public:
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void GetValueAndDerivative( const ParametersType & parameters,
-       MeasureType & Value, DerivativeType  & Derivative ) const ITK_OVERRIDE
+       MeasureType & Value, DerivativeType  & Derivative ) const override
     {
       Value = this->GetValue(parameters);
       this->GetDerivative(parameters,Derivative);
