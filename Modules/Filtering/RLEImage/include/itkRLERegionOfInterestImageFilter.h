@@ -51,6 +51,8 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
                               RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+
   /** Standard class type alias. */
   using Self = RegionOfInterestImageFilter;
   using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;
@@ -126,10 +128,6 @@ protected:
   ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  RegionOfInterestImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   RegionType m_RegionOfInterest;
 };
 
@@ -249,6 +247,8 @@ class RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixe
   : public ImageToImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+
   /** Standard class type alias. */
   using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;
 
@@ -325,10 +325,6 @@ protected:
   ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  RegionOfInterestImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   RegionType m_RegionOfInterest;
 };
 
@@ -337,6 +333,8 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
   : public ImageToImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Image<TPixel, VImageDimension>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+
   /** Standard class type alias. */
   using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;
 
@@ -413,10 +411,6 @@ protected:
   ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
-  RegionOfInterestImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   RegionType m_RegionOfInterest;
 };
 } // end namespace itk

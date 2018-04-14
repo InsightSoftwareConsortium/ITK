@@ -52,6 +52,8 @@ template <typename TPixel, unsigned int VImageDimension = 3, typename CounterTyp
 class RLEImage : public itk::ImageBase<VImageDimension>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RLEImage);
+
   /** Standard class type alias */
   using Self = RLEImage;
   using Superclass = itk::ImageBase<VImageDimension>;
@@ -304,10 +306,6 @@ protected:
 
 private:
   bool m_OnTheFlyCleanup; // should same-valued segments be merged on the fly
-
-  RLEImage(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
 
   /** Memory for the current buffer. */
   mutable typename BufferType::Pointer m_Buffer;
