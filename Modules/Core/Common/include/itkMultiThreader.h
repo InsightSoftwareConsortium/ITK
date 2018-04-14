@@ -145,8 +145,8 @@ It can affect all MultiThreaderBase's derived classes in ITK");
 
 protected:
   MultiThreader();
-  ~MultiThreader() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MultiThreader() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** An array of thread info containing a thread id
