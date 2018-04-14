@@ -111,6 +111,8 @@ template <typename TVectorFieldElementType,
 class ITK_EXPORT VectorFieldPCA : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorFieldPCA);
+
   /** Standard class typedefs. */
   typedef VectorFieldPCA           Self;
   typedef Object                   Superclass;
@@ -214,8 +216,6 @@ protected:
   ComputeMomentumSCP();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorFieldPCA);
-
   VectorType m_PCAEigenValues;
 
   BasisSetTypePointer       m_BasisVectors;
