@@ -114,6 +114,8 @@ template <class TInputImage, class TOutputMesh, class TInterpolator = itk::Linea
 class CuberilleImageToMeshFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CuberilleImageToMeshFilter);
+
   /** Standard "Self" type alias. */
   using Self = CuberilleImageToMeshFilter;
   using Superclass = ImageToMeshFilter<TInputImage, TOutputMesh>;
@@ -244,8 +246,6 @@ protected:
   GenerateOutputInformation() override {}; // do nothing
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CuberilleImageToMeshFilter);
-
   /** \class VertexLookupNode A private class containing lookup details for vertices.
    *  \ingroup Cuberille */
   class VertexLookupNode
