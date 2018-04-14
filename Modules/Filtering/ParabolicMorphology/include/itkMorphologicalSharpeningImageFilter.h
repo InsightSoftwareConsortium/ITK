@@ -67,6 +67,8 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT MorphologicalSharpeningImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalSharpeningImageFilter);
+
   /** Standard class type alias. */
   using Self = MorphologicalSharpeningImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -165,8 +167,6 @@ protected:
     typename itk::SharpenOpImageFilter<OutputImageType, OutputImageType, OutputImageType, OutputImageType>;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalSharpeningImageFilter);
-
   int m_Iterations;
 
   typename ErodeType::Pointer     m_Erode;

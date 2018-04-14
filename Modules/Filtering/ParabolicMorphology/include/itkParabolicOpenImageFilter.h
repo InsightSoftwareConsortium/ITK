@@ -50,6 +50,8 @@ class ITK_EXPORT ParabolicOpenImageFilter
   : public ParabolicOpenCloseSafeBorderImageFilter<TInputImage, true, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenImageFilter);
+
   /** Standard class type alias. */
   using Self = ParabolicOpenImageFilter;
   using Superclass = ParabolicOpenCloseSafeBorderImageFilter<TInputImage, true, TOutputImage>;
@@ -83,8 +85,6 @@ protected:
   ParabolicOpenImageFilter() {}
   ~ParabolicOpenImageFilter() override {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenImageFilter);
 };
 } // end namespace itk
 

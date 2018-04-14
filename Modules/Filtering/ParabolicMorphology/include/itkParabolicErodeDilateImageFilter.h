@@ -83,6 +83,8 @@ template <typename TInputImage, bool doDilate, typename TOutputImage = TInputIma
 class ITK_EXPORT ParabolicErodeDilateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicErodeDilateImageFilter);
+
   /** Standard class type alias. */
   using Self = ParabolicErodeDilateImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -196,8 +198,6 @@ protected:
   int  m_ParabolicAlgorithm;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicErodeDilateImageFilter);
-
   RadiusType m_Scale;
 
   typename TInputImage::PixelType m_Extreme;

@@ -33,6 +33,8 @@ template <typename TInputImage, bool doOpen, typename TOutputImage = TInputImage
 class ITK_EXPORT ParabolicOpenCloseSafeBorderImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenCloseSafeBorderImageFilter);
+
   /** Standard class type alias. */
   using Self = ParabolicOpenCloseSafeBorderImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -166,8 +168,6 @@ protected:
   int m_ParabolicAlgorithm;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenCloseSafeBorderImageFilter);
-
   typename MorphFilterType::Pointer m_MorphFilt;
   typename PadFilterType::Pointer   m_PadFilt;
   typename CropFilterType::Pointer  m_CropFilt;

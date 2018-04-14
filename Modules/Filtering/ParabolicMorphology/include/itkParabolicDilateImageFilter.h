@@ -49,6 +49,8 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicDilateImageFilter : public ParabolicErodeDilateImageFilter<TInputImage, true, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicDilateImageFilter);
+
   /** Standard class type alias. */
   using Self = ParabolicDilateImageFilter;
   using Superclass = ParabolicErodeDilateImageFilter<TInputImage, true, TOutputImage>;
@@ -83,8 +85,6 @@ protected:
   ParabolicDilateImageFilter() {}
   ~ParabolicDilateImageFilter() override {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicDilateImageFilter);
 };
 } // end namespace itk
 
