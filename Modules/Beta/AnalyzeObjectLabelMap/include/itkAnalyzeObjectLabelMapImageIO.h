@@ -54,6 +54,7 @@ constexpr int NumberOfRunLengthElementsPerRead = 1;
 class ITK_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeObjectLabelMapImageIO);
 
   /** Standard class type alias. */
   using Self = AnalyzeObjectLabelMapImageIO;
@@ -125,8 +126,6 @@ private:
   std::ifstream m_InputFileStream;
   int           m_LocationOfFile;
   //  int           m_CollapsedDims[8];
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeObjectLabelMapImageIO);
-
 };
 
 } // end namespace itk
