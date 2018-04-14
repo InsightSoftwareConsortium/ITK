@@ -54,6 +54,8 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT FixedPointInverseDisplacementFieldImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FixedPointInverseDisplacementFieldImageFilter);
+
   /** Standard class type alias. */
   using Self = FixedPointInverseDisplacementFieldImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -155,10 +157,6 @@ protected:
 
 
 private:
-  FixedPointInverseDisplacementFieldImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   OutputImageSizeType        m_Size;          // Size of the output image
   OutputImageSpacingType     m_OutputSpacing; // output image spacing
   OutputImageOriginPointType m_OutputOrigin;  // output image origin
