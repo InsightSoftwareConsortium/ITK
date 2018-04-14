@@ -56,6 +56,8 @@ class LoopTriangleCellSubdivisionQuadEdgeMeshFilter
   : public TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LoopTriangleCellSubdivisionQuadEdgeMeshFilter);
+
   using Self = LoopTriangleCellSubdivisionQuadEdgeMeshFilter;
   using Superclass = TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
   using Pointer = SmartPointer<Self>;
@@ -119,9 +121,6 @@ protected:
 
   InputPointType
   SmoothingPoint(const InputPointType & ipt, const InputPointsContainer * points);
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LoopTriangleCellSubdivisionQuadEdgeMeshFilter);
 };
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

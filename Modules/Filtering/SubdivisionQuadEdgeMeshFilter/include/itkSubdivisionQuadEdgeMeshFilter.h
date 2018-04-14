@@ -40,6 +40,8 @@ template <typename TInputMesh, typename TOutputMesh>
 class SubdivisionQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SubdivisionQuadEdgeMeshFilter);
+
   using Self = SubdivisionQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
   using Pointer = SmartPointer<Self>;
@@ -108,9 +110,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   EdgePointIdentifierContainerPointer m_EdgesPointIdentifier;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SubdivisionQuadEdgeMeshFilter);
 };
 } // end namespace itk
 

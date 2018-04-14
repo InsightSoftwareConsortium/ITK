@@ -34,6 +34,8 @@ class TriangleEdgeCellSubdivisionQuadEdgeMeshFilter
   : public TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
+
   using Self = TriangleEdgeCellSubdivisionQuadEdgeMeshFilter;
   using Superclass = TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
   using Pointer = SmartPointer<Self>;
@@ -104,9 +106,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   SubdivisionCellContainer m_EdgesToBeSubdivided;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
 };
 } // end namespace itk
 

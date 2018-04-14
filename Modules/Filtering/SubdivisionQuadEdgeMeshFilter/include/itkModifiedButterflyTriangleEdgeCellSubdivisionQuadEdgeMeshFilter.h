@@ -34,6 +34,8 @@ class ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter
   : public TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
+
   using Self = ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter;
   using Superclass = TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
   using Pointer = SmartPointer<Self>;
@@ -86,9 +88,6 @@ protected:
 
   void
   AddNewEdgePoints(InputQEType * edge) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
 };
 } // namespace itk
 

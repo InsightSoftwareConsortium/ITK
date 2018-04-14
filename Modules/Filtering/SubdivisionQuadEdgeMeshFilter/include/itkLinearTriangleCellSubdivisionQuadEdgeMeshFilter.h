@@ -37,6 +37,8 @@ class LinearTriangleCellSubdivisionQuadEdgeMeshFilter
   : public TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LinearTriangleCellSubdivisionQuadEdgeMeshFilter);
+
   using Self = LinearTriangleCellSubdivisionQuadEdgeMeshFilter;
   using Superclass = TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
   using Pointer = SmartPointer<Self>;
@@ -87,9 +89,6 @@ protected:
 
   void
   AddNewCellPoints(InputCellType * cell) override;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LinearTriangleCellSubdivisionQuadEdgeMeshFilter);
 };
 } // namespace itk
 

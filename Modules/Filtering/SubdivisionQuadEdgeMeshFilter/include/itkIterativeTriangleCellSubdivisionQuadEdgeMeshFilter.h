@@ -35,6 +35,8 @@ class IterativeTriangleCellSubdivisionQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TCellSubdivisionFilter::OutputMeshType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeTriangleCellSubdivisionQuadEdgeMeshFilter);
+
   using Self = IterativeTriangleCellSubdivisionQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TCellSubdivisionFilter::OutputMeshType>;
   using Pointer = SmartPointer<Self>;
@@ -87,9 +89,6 @@ protected:
   CellSubdivisionFilterPointer m_CellSubdivisionFilter;
   SubdivisionCellContainer     m_CellsToBeSubdivided;
   unsigned int                 m_ResolutionLevels;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeTriangleCellSubdivisionQuadEdgeMeshFilter);
 };
 } // end namespace itk
 

@@ -36,6 +36,8 @@ class ConditionalSubdivisionQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TSubdivisionFilter::OutputMeshType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConditionalSubdivisionQuadEdgeMeshFilter);
+
   using Self = ConditionalSubdivisionQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TSubdivisionFilter::OutputMeshType>;
   using Pointer = SmartPointer<Self>;
@@ -88,9 +90,6 @@ protected:
   SubdivisionFilterPointer m_SubdivisionFilter;
   SubdivisionCellContainer m_CellsToBeSubdivided;
   CriterionPointer         m_SubdivisionCriterion;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConditionalSubdivisionQuadEdgeMeshFilter);
 };
 } // end namespace itk
 
