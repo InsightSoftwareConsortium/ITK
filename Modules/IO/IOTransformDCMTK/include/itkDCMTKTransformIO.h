@@ -37,6 +37,8 @@ template <typename TInternalComputationValueType>
 class DCMTKTransformIO : public TransformIOBaseTemplate<TInternalComputationValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKTransformIO);
+
   using Self = DCMTKTransformIO;
   using Superclass = TransformIOBaseTemplate<TInternalComputationValueType>;
   using Pointer = SmartPointer<Self>;
@@ -80,8 +82,6 @@ protected:
   ~DCMTKTransformIO() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKTransformIO);
-
   std::string m_FrameOfReferenceUID;
 };
 
