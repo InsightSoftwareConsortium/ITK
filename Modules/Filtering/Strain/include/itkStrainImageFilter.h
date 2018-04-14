@@ -66,6 +66,8 @@ class StrainImageFilter
       Image<SymmetricSecondRankTensor<TOutputValueType, TInputImage::ImageDimension>, TInputImage::ImageDimension>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
+
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -140,8 +142,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
-
   typename InputComponentsImageFilterType::Pointer m_InputComponentsFilter;
 
   typename GradientFilterType::Pointer m_GradientFilter;
