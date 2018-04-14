@@ -41,6 +41,8 @@ template <typename TInputImage, template <class, typename> class TInterpolator, 
 class ITK_EXPORT LabelImageGenericInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageGenericInterpolateImageFunction);
+
   /** Standard class type alias. */
   using Self = LabelImageGenericInterpolateImageFunction;
   using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
@@ -99,10 +101,6 @@ protected:
   LabelSetType m_Labels;
 
 private:
-  LabelImageGenericInterpolateImageFunction(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   /**
    * Evaluate function value at the given index
    */
