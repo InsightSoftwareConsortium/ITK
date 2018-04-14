@@ -44,6 +44,8 @@ class ITK_EXPORT LabelSetErodeImageFilter:
   public LabelSetMorphBaseImageFilter< TInputImage, false, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetErodeImageFilter);
+
   /** Standard class type alias. */
   using Self = LabelSetErodeImageFilter;
   using Superclass = LabelSetMorphBaseImageFilter< TInputImage, false, TOutputImage >;
@@ -87,9 +89,6 @@ protected:
 
   // Override since the filter produces the entire dataset.
 private:
-  LabelSetErodeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
-
   using DistanceImageType = typename Superclass::DistanceImageType;
 };
 } // end namespace itk
