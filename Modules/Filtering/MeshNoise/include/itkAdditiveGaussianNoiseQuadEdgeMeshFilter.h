@@ -42,6 +42,8 @@ class AdditiveGaussianNoiseQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseQuadEdgeMeshFilter);
+
   /** Standard class type alias. */
   using Self = AdditiveGaussianNoiseQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
@@ -82,11 +84,6 @@ protected:
   CoordRepType m_Mean;
   CoordRepType m_Sigma;
   int          m_Seed;
-
-private:
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseQuadEdgeMeshFilter);
-
 };
 
 } // end namespace itk
