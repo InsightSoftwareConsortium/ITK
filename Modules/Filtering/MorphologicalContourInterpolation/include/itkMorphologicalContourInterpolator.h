@@ -68,6 +68,8 @@ class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImag
   friend class MorphologicalContourInterpolatorParallelInvoker;
 
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalContourInterpolator);
+
   /** Standard class type alias. */
   using Self = MorphologicalContourInterpolator;
   using Superclass = ImageToImageFilter<TImage, TImage>;
@@ -400,11 +402,6 @@ protected:
 
   using ConnectedComponentsType = ConnectedComponentImageFilter<BoolSliceType, SliceType>;
   typename ConnectedComponentsType::Pointer m_ConnectedComponents;
-
-private:
-  MorphologicalContourInterpolator(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // namespace itk
 
