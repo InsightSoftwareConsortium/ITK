@@ -43,6 +43,8 @@ ImageType = itk.Image[PixelType, dim]
 ReaderType = itk.ImageFileReader[ImageType]
 reader = ReaderType.New(FileName=fileName)
 
+# test snake_case keyword arguments
+reader = ReaderType.New(file_name=fileName)
 
 # test echo
 itk.echo(reader)
