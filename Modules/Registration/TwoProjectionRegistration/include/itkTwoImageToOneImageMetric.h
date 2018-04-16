@@ -53,6 +53,8 @@ template <typename TFixedImage, typename TMovingImage>
 class TwoImageToOneImageMetric : public SingleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TwoImageToOneImageMetric);
+
   /** Standard class type alias. */
   using Self = TwoImageToOneImageMetric;
   using Superclass = SingleValuedCostFunction;
@@ -232,10 +234,6 @@ protected:
   mutable MovingImageMaskPointer m_MovingImageMask;
 
 private:
-  TwoImageToOneImageMetric(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   FixedImageRegionType m_FixedImageRegion1;
   FixedImageRegionType m_FixedImageRegion2;
 };

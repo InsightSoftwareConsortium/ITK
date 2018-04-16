@@ -57,6 +57,8 @@ template <typename TInputImage, typename TCoordRep = float>
 class SiddonJacobsRayCastInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SiddonJacobsRayCastInterpolateImageFunction);
+
   /** Standard class type alias. */
   using Self = SiddonJacobsRayCastInterpolateImageFunction;
   using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
@@ -203,9 +205,6 @@ protected:
   double m_ProjectionAngle;               // Linac gantry rotation angle in radians
 
 private:
-  SiddonJacobsRayCastInterpolateImageFunction(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
   void
                    ComputeInverseTransform(void) const;
   TransformPointer m_GantryRotTransform; // Gantry rotation transform
