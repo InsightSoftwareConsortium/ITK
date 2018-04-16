@@ -79,7 +79,7 @@ protected:
 };
 #endif // defined(WIN32) || defined(_WIN32)
 
-#ifdef linux
+#ifdef __linux__
 class ITKCommon_EXPORT LinuxMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
@@ -87,7 +87,7 @@ public:
   virtual ~LinuxMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
-#endif // linux
+#endif // __linux__
 
 #if defined( __APPLE__ )
 class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
@@ -143,7 +143,7 @@ public:
 class ITKCommon_EXPORT MemoryUsageObserver:
 #if defined( WIN32 ) || defined( _WIN32 )
   public WindowsMemoryUsageObserver
-#elif defined( linux )
+#elif defined( __linux__ )
   public LinuxMemoryUsageObserver
 #elif defined( __SUNPRO_CC ) || defined ( __sun__ )
   public SunSolarisMemoryUsageObserver
