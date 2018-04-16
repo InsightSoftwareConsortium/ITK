@@ -153,8 +153,8 @@ public:
 
 protected:
   MultiThreaderBase();
-  ~MultiThreaderBase() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MultiThreaderBase() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 
   /** The number of threads to use.

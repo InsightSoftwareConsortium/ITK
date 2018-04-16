@@ -53,7 +53,7 @@ public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = OptimizerType *;
 
-  void Execute(itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object * object, const itk::EventObject & event) override
     {
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
@@ -80,7 +80,7 @@ public:
       }
     }
 
-  void Execute(const itk::Object * , const itk::EventObject & ) ITK_OVERRIDE
+  void Execute(const itk::Object * , const itk::EventObject & ) override
     { return; }
 };
 

@@ -119,7 +119,7 @@ public:
   }
 
 /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE
+  InverseTransformBasePointer GetInverseTransform() const override
   {
   Pointer inv = New();
   return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
