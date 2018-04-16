@@ -7,5 +7,5 @@ See the following Insight Journal's publication:
   http://www.insight-journal.org/browse/publication/831
   https://hdl.handle.net/10380/3307"
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/itkSubdivisionQuadEdgeMeshFilter
-  GIT_TAG b868363e48584ec18a8547396d5b2c907cbdfb9d
+  GIT_TAG 1fb2019cafe4df67405ea574eea103bd8b715dcc
   )
