@@ -211,112 +211,120 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
         {
         pcm->SetPaddingMethod(padMethod);
         std::cout << "Padding method " << static_cast<int>(padMethod) << std::endl;
-        // Execute the registration.
-        // This can potentially throw an exception
-        try
+
+        using PeakMethod = typename OptimizerType::PeakInterpolationMethod;
+        for (auto peakMethod : { PeakMethod::None, PeakMethod::Parabolic, PeakMethod::Cosine })
           {
-          pcm->Update();
-          if ( pcm->GetFixedImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0 )
+          pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
+          pcm->Modified(); // optimizer is not an "input" to PCM
+          //so its modification does not cause a pipeline update automatically
+          std::cout << "Peak interpolation method " << static_cast<int>(peakMethod) << std::endl;
+
+          try
             {
-            std::cout << "Fixed FFT cache's size[0] must be positive!" << std::endl;
+            pcm->Update();
+            if ( pcm->GetFixedImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0 )
+              {
+              std::cout << "Fixed FFT cache's size[0] must be positive!" << std::endl;
+              pass = false;
+              }
+            if ( pcm->GetMovingImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0 )
+              {
+              std::cout << "Moving FFT cache's size[0] must be positive!" << std::endl;
+              pass = false;
+              }
+            }
+          catch( itk::ExceptionObject & e )
+            {
+            std::cerr << e << std::endl;
             pass = false;
             }
-          if ( pcm->GetMovingImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0 )
+
+          // Get registration result and validate it.
+          ParametersType finalParameters     = pcm->GetTransformParameters();
+          ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
+
+          const unsigned int numberOfParameters = actualParameters.Size();
+          const double tolerance = 1.0 + 1e-6;
+
+          // Validate the translation parameters
+          for(unsigned int i=0; i<numberOfParameters; i++)
             {
-            std::cout << "Moving FFT cache's size[0] must be positive!" << std::endl;
+            std::cout << finalParameters[i] << " == "
+                      << actualParameters[i] << " == "
+                      << transformParameters[i];
+
+            if(  ( itk::Math::abs( finalParameters[i] - actualParameters[i] ) > tolerance ) ||
+                 ( itk::Math::abs( transformParameters[i] - actualParameters[i] ) > tolerance ) )
+              {
+              std::cout << "    Tolerance exceeded at component " << i << std::endl;
+              pass = false;
+              }
+            else
+              {
+              std::cout << std::endl;
+              }
+            }
+
+          // All other parameters must be 0
+          for (unsigned int i=numberOfParameters; i<VDimension; i++)
+            {
+            if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
+                ||
+                  ( vnl_math_abs ( finalParameters[i] ) > tolerance ) )
+              {
+              std::cout << "Tolerance exceeded at component " << i << std::endl;
+              pass = false;
+              }
+            }
+
+          using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
+          typename WriterType::Pointer writer = WriterType::New();
+          writer->SetFileName( phaseCorrelationFile );
+          writer->SetInput( pcm->GetPhaseCorrelationImage() );
+          try
+            {
+            writer->Update();
+            }
+          catch( itk::ExceptionObject & e )
+            {
+            std::cerr << e << std::endl;
             pass = false;
             }
-          }
-        catch( itk::ExceptionObject & e )
-          {
-          std::cerr << e << std::endl;
-          pass = false;
-          }
 
-        // Get registration result and validate it.
-        ParametersType finalParameters     = pcm->GetTransformParameters();
-        ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
+          using AffineType = itk::AffineTransform<double, 3>;
+          using TransformWriterType = itk::TransformFileWriterTemplate<double>;
+          TransformWriterType::Pointer tWriter = TransformWriterType::New();
+          tWriter->SetFileName( argv[3] );
+          const TransformType* oT = pcm->GetOutput()->Get();
 
-        const unsigned int numberOfParameters = actualParameters.Size();
-        const double tolerance = 1.0 + 1e-6;
-
-        // Validate the translation parameters
-        for(unsigned int i=0; i<numberOfParameters; i++)
-          {
-          std::cout << finalParameters[i] << " == "
-                    << actualParameters[i] << " == "
-                    << transformParameters[i];
-
-          if(  ( itk::Math::abs( finalParameters[i] - actualParameters[i] ) > tolerance ) ||
-               ( itk::Math::abs( transformParameters[i] - actualParameters[i] ) > tolerance ) )
-            {
-            std::cout << "    Tolerance exceeded at component " << i << std::endl;
-            pass = false;
+          if (VDimension >= 2 || VDimension <= 3)
+            { //convert into affine which Slicer can read
+            AffineType::Pointer aTr = AffineType::New();
+            AffineType::TranslationType t;
+            t.Fill(0);
+            for (unsigned i = 0; i < VDimension; i++)
+              {
+              t[i] = transformParameters[i];
+              }
+            aTr->SetTranslation(t);
+            tWriter->SetInput(aTr);
             }
           else
             {
-            std::cout << std::endl;
+            tWriter->SetInput(oT);
             }
-          }
 
-        // All other parameters must be 0
-        for (unsigned int i=numberOfParameters; i<VDimension; i++)
-          {
-          if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
-              ||
-                ( vnl_math_abs ( finalParameters[i] ) > tolerance ) )
+          try
             {
-            std::cout << "Tolerance exceeded at component " << i << std::endl;
+            tWriter->Update();
+            }
+          catch( itk::ExceptionObject & e )
+            {
+            std::cerr << e << std::endl;
             pass = false;
             }
-          }
-
-        using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
-        typename WriterType::Pointer writer = WriterType::New();
-        writer->SetFileName( phaseCorrelationFile );
-        writer->SetInput( pcm->GetPhaseCorrelationImage() );
-        try
-          {
-          writer->Update();
-          }
-        catch( itk::ExceptionObject & e )
-          {
-          std::cerr << e << std::endl;
-          pass = false;
-          }
-
-        using AffineType = itk::AffineTransform<double, 3>;
-        using TransformWriterType = itk::TransformFileWriterTemplate<double>;
-        TransformWriterType::Pointer tWriter = TransformWriterType::New();
-        tWriter->SetFileName( argv[3] );
-        const TransformType* oT = pcm->GetOutput()->Get();
-
-        if (VDimension >= 2 || VDimension <= 3)
-          { //convert into affine which Slicer can read
-          AffineType::Pointer aTr = AffineType::New();
-          AffineType::TranslationType t;
-          t.Fill(0);
-          for (unsigned i = 0; i < VDimension; i++)
-            {
-            t[i] = transformParameters[i];
-            }
-          aTr->SetTranslation(t);
-          tWriter->SetInput(aTr);
-          }
-        else
-          {
-          tWriter->SetInput(oT);
-          }
-
-        try
-          {
-          tWriter->Update();
-          }
-        catch( itk::ExceptionObject & e )
-          {
-          std::cerr << e << std::endl;
-          pass = false;
-          }
+          } //for peakMethod
         } //for padMethod
       } //for testCoefficients
     } //for size1
