@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT PhaseCorrelationOperator :
 {
 
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationOperator);
+
   using Self = PhaseCorrelationOperator;
   using Superclass = ImageToImageFilter<Image< std::complex< TRealPixel >, VImageDimension >, Image< std::complex< TRealPixel >, VImageDimension > >;
   using Pointer = SmartPointer<Self>;
@@ -124,10 +126,6 @@ protected:
    * \sa ProcessObject::VerifyInputInformation
    */
   void VerifyInputInformation() override {}
-
-private:
-  PhaseCorrelationOperator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

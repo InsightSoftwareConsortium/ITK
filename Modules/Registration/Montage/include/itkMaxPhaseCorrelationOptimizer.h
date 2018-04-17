@@ -49,6 +49,8 @@ class ITK_TEMPLATE_EXPORT MaxPhaseCorrelationOptimizer :
   public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaxPhaseCorrelationOptimizer);
+
   using Self = MaxPhaseCorrelationOptimizer;
   using Superclass = PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType>;
   using Pointer = SmartPointer<Self>;
@@ -90,9 +92,6 @@ protected:
   using MaxCalculatorType = MinimumMaximumImageCalculator< ImageType >;
 
 private:
-  MaxPhaseCorrelationOptimizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   typename MaxCalculatorType::Pointer m_MaxCalculator;
   PeakInterpolationMethod             m_PeakInterpolationMethod;
 };
