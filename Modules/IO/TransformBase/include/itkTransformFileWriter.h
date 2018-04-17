@@ -76,6 +76,11 @@ public:
 
   bool GetAppendMode();
 
+  /** Set/Get a boolean to use the compression or not. */
+  itkSetMacro(UseCompression, bool);
+  itkGetConstMacro(UseCompression, bool);
+  itkBooleanMacro(UseCompression);
+
   /** Set/Get the input transform to write */
   void SetInput(const Object *transform);
 
@@ -103,6 +108,8 @@ private:
   std::string                       m_FileName;
   ConstTransformListType            m_TransformList;
   bool                              m_AppendMode;
+  /** Should we compress the data? */
+  bool                              m_UseCompression;
   typename TransformIOType::Pointer m_TransformIO;
 
 };

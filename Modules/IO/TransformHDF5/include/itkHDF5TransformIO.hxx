@@ -25,7 +25,6 @@
 #include "itkCompositeTransformIOHelper.h"
 #include "itkVersion.h"
 #include <sstream>
-#include "itk_H5Cpp.h"
 
 namespace itk
 {
@@ -87,6 +86,28 @@ HDF5TransformIOTemplate<TParametersValueType>
   return false;
 }
 
+template<typename TParametersValueType>
+H5::PredType
+HDF5TransformIOTemplate<TParametersValueType>
+::GetH5TypeFromString( ) const
+{
+  const std::string & NameParametersValueTypeString = Superclass::GetTypeNameString();
+  if( ! NameParametersValueTypeString.compare( std::string("double") ))
+  {
+    return H5::PredType::NATIVE_DOUBLE;
+  }
+  else if( ! NameParametersValueTypeString.compare(std::string("float") ) )
+  {
+    return H5::PredType::NATIVE_FLOAT;
+  }
+
+  itkExceptionMacro(<< "Wrong data precision type "
+                    << NameParametersValueTypeString
+                    << "for writing in HDF5 File");
+
+  return H5::PredType::NATIVE_DOUBLE;
+}
+
 /** Write a Parameter array to the location specified by name */
 template<typename TParametersValueType>
 void
@@ -95,41 +116,42 @@ HDF5TransformIOTemplate<TParametersValueType>
                   const ParametersType &parameters)
 {
   const hsize_t dim(parameters.Size());
-
-  const std::string & NameParametersValueTypeString = Superclass::GetTypeNameString();
   auto * buf = new ParametersValueType[dim];
-  if( ! NameParametersValueTypeString.compare( std::string("double") ))
+  for(hsize_t i{0}; i < dim; i++)
     {
-    for(unsigned i(0); i < dim; i++)
-      {
-      buf[i] = parameters[i];
-      }
-    H5::DataSpace paramSpace(1,&dim);
-    H5::DataSet paramSet = this->m_H5File->createDataSet(name,
-                                                         H5::PredType::NATIVE_DOUBLE,
-                                                         paramSpace);
-    paramSet.write(buf,H5::PredType::NATIVE_DOUBLE);
-    paramSet.close();
+    buf[i] = parameters[i];
     }
-  else if( ! NameParametersValueTypeString.compare(std::string("float") ) )
-    {
-    for(unsigned i(0); i < dim; i++)
-      {
-      buf[i] = parameters[i];
-      }
-    H5::DataSpace paramSpace(1,&dim);
-    H5::DataSet paramSet = this->m_H5File->createDataSet(name,
-                                                         H5::PredType::NATIVE_FLOAT,
-                                                         paramSpace);
-    paramSet.write(buf,H5::PredType::NATIVE_FLOAT);
-    paramSet.close();
-    }
+  H5::DataSpace paramSpace(1,&dim);
+
+  H5::DataSet paramSet;
+
+  // Set the storage format type
+  const H5::PredType h5StorageIdentifier{ GetH5TypeFromString( ) };
+  if(this->m_UseCompression)
+  {
+    // Set compression information
+    // set up properties for chunked, compressed writes.
+    // in this case, set the chunk size to be the N-1 dimension
+    // region
+    H5::DSetCreatPropList plist;
+    plist.setDeflate(5); //Set intermediate compression level
+    constexpr hsize_t oneMegabyte = 1024*1024;
+    const hsize_t chunksize= ( dim > oneMegabyte ) ? oneMegabyte : dim; //Use chunks of 1 MB if large, else use dim
+    plist.setChunk( 1, &chunksize );
+
+    paramSet = this->m_H5File->createDataSet(name,
+                                             h5StorageIdentifier,
+                                             paramSpace,
+                                             plist);
+  }
   else
-    {
-    itkExceptionMacro(<< "Wrong data precision type "
-                      << NameParametersValueTypeString
-                      << "for writing in HDF5 File");
-    }
+  {
+    paramSet = this->m_H5File->createDataSet(name,
+                                             h5StorageIdentifier,
+                                             paramSpace);
+  }
+  paramSet.write(buf,h5StorageIdentifier);
+  paramSet.close();
   delete [] buf;
 }
 
