@@ -185,7 +185,7 @@ public:
     Iterator() {}
     Iterator(Self *s):ConstIterator(s) {}
 
-    ~Iterator() override {}
+    ~Iterator() ITK_ITERATOR_OVERRIDE {}
     Iterator & operator=(const Iterator & o)
     {
       ConstIterator::operator=(o);
@@ -251,7 +251,8 @@ public:
   const ConstIterator & End() const
   { return this->m_ConstEndIterator; }
 
-  void ClearActiveList() override
+  void ClearActiveList() ITK_ITERATOR_OVERRIDE ITK_ITERATOR_FINAL
+
   {
     Superclass::ClearActiveList();
     m_EndIterator.GoToEnd();
@@ -265,14 +266,14 @@ protected:
 
   using NeighborIndexType = typename Superclass::NeighborIndexType;
 
-  void ActivateIndex(NeighborIndexType n) override
+  void ActivateIndex(NeighborIndexType n) ITK_ITERATOR_OVERRIDE ITK_ITERATOR_FINAL
   {
     Superclass::ActivateIndex(n);
     m_EndIterator.GoToEnd();
     m_BeginIterator.GoToBegin();
   }
 
-  void DeactivateIndex(NeighborIndexType n) override
+  void DeactivateIndex(NeighborIndexType n) ITK_ITERATOR_OVERRIDE ITK_ITERATOR_FINAL
   {
     Superclass::DeactivateIndex(n);
     m_EndIterator.GoToEnd();
