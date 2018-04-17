@@ -98,6 +98,8 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationImageRegistrationMethod: public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);
+
   /** Standard class type aliases. */
   using Self = PhaseCorrelationImageRegistrationMethod;
   using Superclass = ProcessObject;
@@ -270,11 +272,9 @@ public:
   const RealImageType * GetPhaseCorrelationImage() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkStaticConstMacro(MovingImageDimension, unsigned int,
-    FixedImageType::ImageDimension );
+  itkStaticConstMacro(MovingImageDimension, unsigned int, FixedImageType::ImageDimension );
   /** Start concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, MovingImageDimension>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, MovingImageDimension>));
 #endif
 
 protected:
@@ -316,8 +316,6 @@ protected:
   using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType >;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);
-
   OperatorPointer         m_Operator;
   RealOptimizerPointer    m_RealOptimizer;
   ComplexOptimizerPointer m_ComplexOptimizer;
