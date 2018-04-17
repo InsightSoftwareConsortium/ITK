@@ -38,6 +38,8 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshPolygonCell:public TCellInterface
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshPolygonCell);
+
   /** Standard class type aliases. */
   // itkCellCommonTypedefs
   using Self = QuadEdgeMeshPolygonCell;
@@ -242,9 +244,6 @@ protected:
   mutable PointIDListType m_PointIds;
 
 private:
-  QuadEdgeMeshPolygonCell(const Self &); // Not impl.
-  void operator=(const Self &);          // Not impl.
-
   void MakePointIds() const
   {
     m_PointIds.clear();

@@ -43,6 +43,8 @@ template< typename TInputImage,
 class ITK_TEMPLATE_EXPORT LevelSetEquationTermContainer : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationTermContainer);
+
   using Self = LevelSetEquationTermContainer;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -291,10 +293,6 @@ protected:
   using MapCFLContainerConstIterator = typename MapCFLContainerType::const_iterator;
 
   MapCFLContainerType   m_TermContribution;
-
-private:
-  LevelSetEquationTermContainer( const Self& );
-  void operator = ( const Self& );
 };
 
 }

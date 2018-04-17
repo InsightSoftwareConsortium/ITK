@@ -36,6 +36,8 @@ class FastMarchingThresholdStoppingCriterion :
 public FastMarchingStoppingCriterionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingThresholdStoppingCriterion);
+
   using Self = FastMarchingThresholdStoppingCriterion;
   using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -77,10 +79,6 @@ protected:
   void SetCurrentNode( const NodeType& ) override {}
 
   void Reset() override {}
-
-private:
-  FastMarchingThresholdStoppingCriterion( const Self& );
-  void operator = ( const Self& );
 };
 
 }

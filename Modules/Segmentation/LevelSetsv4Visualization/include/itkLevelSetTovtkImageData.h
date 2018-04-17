@@ -46,6 +46,8 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
     public LevelSetTovtkImageDataBase< LevelSetDenseImage< TImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTovtkImageData);
+
   using ImageType = TImage;
   using LevelSetType = LevelSetDenseImage< ImageType >;
 
@@ -71,9 +73,6 @@ protected:
   void GenerateData() override;
 
 private:
-  LevelSetTovtkImageData( const Self& );
-  void operator = ( const Self& );
-
   using ConverterType = ImageToVTKImageFilter< ImageType >;
   using ConverterPointer = typename ConverterType::Pointer;
 
@@ -86,6 +85,8 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< WhitakerSparseLevelSetImage< T
     public LevelSetTovtkImageDataBase< WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTovtkImageData);
+
   using LevelSetType = WhitakerSparseLevelSetImage< TOutput, VDimension >;
 
   using Self = LevelSetTovtkImageData;
@@ -110,9 +111,6 @@ protected:
   void GenerateData() override;
 
 private:
-  LevelSetTovtkImageData( const Self& );
-  void operator = ( const Self& );
-
   using ImageType = Image< TOutput, VDimension >;
   using ImagePointer = typename ImageType::Pointer;
 
@@ -130,6 +128,8 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< ShiSparseLevelSetImage< VDimen
     public LevelSetTovtkImageDataBase< ShiSparseLevelSetImage< VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTovtkImageData);
+
   using LevelSetType = ShiSparseLevelSetImage< VDimension >;
 
   using Self = LevelSetTovtkImageData;
@@ -154,9 +154,6 @@ protected:
   void GenerateData() override;
 
 private:
-  LevelSetTovtkImageData( const Self& );
-  void operator = ( const Self& );
-
   using LabelMapType = typename LevelSetType::LabelMapType;
   using LabelMapPointer = typename LevelSetType::LabelMapPointer;
   using LabelMapConstPointer = typename LevelSetType::LabelMapConstPointer;
@@ -181,6 +178,8 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< MalcolmSparseLevelSetImage< VD
     public LevelSetTovtkImageDataBase< MalcolmSparseLevelSetImage< VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTovtkImageData);
+
   using LevelSetType = MalcolmSparseLevelSetImage< VDimension >;
 
   using Self = LevelSetTovtkImageData;
@@ -205,9 +204,6 @@ protected:
   void GenerateData() override;
 
 private:
-  LevelSetTovtkImageData( const Self& );
-  void operator = ( const Self& );
-
   using LabelMapType = typename LevelSetType::LabelMapType;
   using LabelMapPointer = typename LevelSetType::LabelMapPointer;
 

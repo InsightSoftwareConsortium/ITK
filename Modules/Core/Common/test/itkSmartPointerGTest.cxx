@@ -30,6 +30,8 @@ class Derived1:
     public itk::Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Derived1);
+
   /** Standard class type aliases. */
   using Self = Derived1;
   using Superclass = Object;
@@ -41,9 +43,6 @@ public:
   itkTypeMacro(Derived1, Object);
 
   itkNewMacro(Derived1);
-
-  Derived1(const Derived1 &) = delete;
-  Derived1 &operator=(const Derived1 &) = delete;
 
   void Register(void) const override
     {
@@ -66,6 +65,8 @@ class Derived2:
     public itk::Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(Derived2);
+
   /** Standard class type aliases. */
   using Self = Derived2;
   using Superclass = Object;
@@ -77,9 +78,6 @@ public:
   itkTypeMacro(Derived2, Object);
 
   itkNewMacro(Derived2);
-
-  Derived2(const Derived2 &) = delete;
-  Derived2 &operator=(const Derived2 &) = delete;
 
 protected:
   Derived2() = default;

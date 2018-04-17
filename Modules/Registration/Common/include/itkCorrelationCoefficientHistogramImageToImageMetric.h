@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT CorrelationCoefficientHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationCoefficientHistogramImageToImageMetric);
+
   /** Standard class type aliases. */
   using Self = CorrelationCoefficientHistogramImageToImageMetric;
   using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
@@ -100,10 +102,6 @@ private:
 
   /** Returns the variance. */
   MeasureType Covariance(HistogramType & histogram) const;
-
-  // Purposely not implemented.
-  CorrelationCoefficientHistogramImageToImageMetric(Self const &);
-  void operator=(Self const &); // Purposely not implemented.
 };
 } // End namespace itk.
 

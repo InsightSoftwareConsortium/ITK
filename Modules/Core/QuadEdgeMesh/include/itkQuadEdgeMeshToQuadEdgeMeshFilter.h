@@ -37,6 +37,8 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshToQuadEdgeMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshToQuadEdgeMeshFilter);
+
   /** Basic types. */
   using Self = QuadEdgeMeshToQuadEdgeMeshFilter;
   using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
@@ -110,10 +112,6 @@ protected:
   virtual void CopyInputMeshToOutputMeshPointData();
 
   virtual void CopyInputMeshToOutputMeshCellData();
-
-private:
-  QuadEdgeMeshToQuadEdgeMeshFilter(const Self &); // Not impl.
-  void operator=(const Self &);                   // Not impl.
 };
 
 //

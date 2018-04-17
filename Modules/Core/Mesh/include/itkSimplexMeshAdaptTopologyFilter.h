@@ -50,6 +50,8 @@ template< typename TInputMesh, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT SimplexMeshAdaptTopologyFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshAdaptTopologyFilter);
+
   /** Standard "Self" type alias. */
   using Self = SimplexMeshAdaptTopologyFilter;
 
@@ -248,9 +250,6 @@ protected:
 
   SimplexMeshAdaptTopologyFilter();
   ~SimplexMeshAdaptTopologyFilter() override;
-  SimplexMeshAdaptTopologyFilter(const Self &) {}
-
-  void operator=(const Self &) {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

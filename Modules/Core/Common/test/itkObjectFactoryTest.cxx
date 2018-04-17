@@ -33,6 +33,8 @@ template<typename TPixel, unsigned int VImageDimension=2>
 class TestImage : public itk::Image< TPixel, VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TestImage);
+
   /** Standard class type aliases.   */
   using Self = TestImage;
   using Superclass = itk::Image< TPixel, VImageDimension >;
@@ -50,16 +52,14 @@ public:
   TestImage()
     {
     }
-
-private:
-  TestImage(const TestImage&);
-  void operator=(const TestImage&);
 };
 
 template<typename TPixel, unsigned int VImageDimension=3>
 class TestImage2 : public itk::Image< TPixel, VImageDimension >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TestImage2);
+
   /** Standard class type aliases.   */
   using Self = TestImage2;
   using Superclass = itk::Image< TPixel, VImageDimension >;
@@ -77,10 +77,6 @@ public:
   TestImage2()
     {
     }
-
-private:
-  TestImage2(const TestImage2&);
-  void operator=(const TestImage2&);
 };
 
 class TestFactory : public itk::ObjectFactoryBase

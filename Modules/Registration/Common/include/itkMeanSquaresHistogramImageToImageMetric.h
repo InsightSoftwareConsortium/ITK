@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT MeanSquaresHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresHistogramImageToImageMetric);
+
   /** Standard class type aliases. */
   using Self = MeanSquaresHistogramImageToImageMetric;
   using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
@@ -81,12 +83,6 @@ protected:
 
   /** Evaluates the sum of squared differences from the histogram. */
   MeasureType EvaluateMeasure(HistogramType & histogram) const override;
-
-private:
-  MeanSquaresHistogramImageToImageMetric(Self const &); // Purposely not
-                                                        // implemented.
-  void operator=(Self const &);                         // Purposely not
-                                                        // implemented.
 };
 } // End namespace itk.
 

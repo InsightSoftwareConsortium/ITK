@@ -73,6 +73,8 @@ class ITK_TEMPLATE_EXPORT KullbackLeiblerCompareHistogramImageToImageMetric:
   public CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KullbackLeiblerCompareHistogramImageToImageMetric);
+
   /** Standard class type aliases. */
   using Self = KullbackLeiblerCompareHistogramImageToImageMetric;
   using Superclass =
@@ -141,11 +143,6 @@ protected:
   MeasureType EvaluateMeasure(HistogramType & histogram) const override;
 
   double m_Epsilon;
-
-private:
-  // Purposely not implemented.
-  KullbackLeiblerCompareHistogramImageToImageMetric(Self const &);
-  void operator=(Self const &); // Purposely not implemented.
 };
 } // End namespace itk.
 

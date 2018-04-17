@@ -49,6 +49,8 @@ class ExampleImageFilter:
   public itk::ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExampleImageFilter);
+
   /**
    * Standard "Self" type alias.
    */
@@ -78,8 +80,6 @@ public:
 
 protected:
   ExampleImageFilter() {}
-  ExampleImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   ~ExampleImageFilter() override {}
 
 private:

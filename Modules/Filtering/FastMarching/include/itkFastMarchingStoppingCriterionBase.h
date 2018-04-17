@@ -35,6 +35,8 @@ template< typename TInput, typename TOutput >
 class FastMarchingStoppingCriterionBase : public StoppingCriterionBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingStoppingCriterionBase);
+
   using Self = FastMarchingStoppingCriterionBase;
   using Superclass = StoppingCriterionBase;
   using Pointer = SmartPointer< Self >;
@@ -97,10 +99,6 @@ public:
     m_PreviousValue = m_CurrentValue;
     m_CurrentValue = iValue;
     }
-
-private:
-  FastMarchingStoppingCriterionBase( const Self& );
-  void operator = ( const Self& );
 };
 }
 #endif

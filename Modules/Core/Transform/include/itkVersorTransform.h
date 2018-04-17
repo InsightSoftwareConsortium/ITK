@@ -47,6 +47,8 @@ template<typename TParametersValueType=double>
 class ITK_TEMPLATE_EXPORT VersorTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransform);
+
   /** Standard Self Typedef */
   using Self = VersorTransform;
   using Superclass = Rigid3DTransform<TParametersValueType>;
@@ -148,12 +150,6 @@ protected:
   void ComputeMatrixParameters(void) override;
 
 private:
-  /** Copy a VersorTransform object */
-  VersorTransform(const Self & other); // Not implemented
-
-  /** Assignment operator */
-  const Self & operator=(const Self &);   // Not implemented
-
   /** Versor containing the rotation */
   VersorType m_Versor;
 }; // class VersorTransform

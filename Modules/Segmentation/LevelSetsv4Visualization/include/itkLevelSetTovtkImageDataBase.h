@@ -32,6 +32,8 @@ template< typename TLevelSet >
 class ITK_TEMPLATE_EXPORT LevelSetTovtkImageDataBase : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTovtkImageDataBase);
+
   using Self = LevelSetTovtkImageDataBase;
   using Superclass = ProcessObject;
   using Pointer = SmartPointer< Self >;
@@ -55,11 +57,6 @@ protected:
   ~LevelSetTovtkImageDataBase() override;
 
   LevelSetPointer m_LevelSet;
-
-private:
-  LevelSetTovtkImageDataBase( const Self& );
-  void operator = ( const Self& );
-
 };
 }
 

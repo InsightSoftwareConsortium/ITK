@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT CompareHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CompareHistogramImageToImageMetric);
+
   /** Standard class type aliases. */
   using Self = CompareHistogramImageToImageMetric;
   using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
@@ -144,10 +146,6 @@ protected:
   MeasureType EvaluateMeasure(HistogramType & histogram) const override = 0;
 
 private:
-  // Purposely not implemented.
-  CompareHistogramImageToImageMetric(Self const &);
-  void operator=(Self const &); // Purposely not implemented.
-
   FixedImageConstPointer  m_TrainingFixedImage;
   MovingImageConstPointer m_TrainingMovingImage;
   TransformPointer        m_TrainingTransform;

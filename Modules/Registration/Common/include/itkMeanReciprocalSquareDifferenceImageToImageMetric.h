@@ -47,6 +47,7 @@ class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferenceImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanReciprocalSquareDifferenceImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanReciprocalSquareDifferenceImageToImageMetric;
@@ -102,13 +103,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MeanReciprocalSquareDifferenceImageToImageMetric(const Self &); //purposely
-                                                                  // not
-                                                                  // implemented
-  void operator=(const Self &);                                   //purposely
-                                                                  // not
-                                                                  // implemented
-
   double m_Lambda;
   double m_Delta;
 };

@@ -43,6 +43,8 @@ template< typename TInput, unsigned int VDimension, typename TOutput, typename T
 class ITK_TEMPLATE_EXPORT LevelSetBase : public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetBase);
+
   using Self = LevelSetBase;
   using Superclass = DataObject;
   using Pointer = SmartPointer< Self >;
@@ -230,11 +232,6 @@ protected:
   RegionType m_RequestedNumberOfRegions;
   RegionType m_BufferedRegion;
   RegionType m_RequestedRegion;
-
-private:
-  LevelSetBase( const Self& ); // purposely left unimplemented
-  void operator = ( const Self& ); // purposely left unimplemented
-
 };
 }
 

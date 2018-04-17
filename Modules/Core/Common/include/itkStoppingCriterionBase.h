@@ -38,6 +38,8 @@ namespace itk
 class ITKCommon_EXPORT StoppingCriterionBase : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StoppingCriterionBase);
+
   using Self = StoppingCriterionBase;
   using Superclass = Object;
   using Pointer = SmartPointer< Self >;
@@ -56,10 +58,6 @@ protected:
   StoppingCriterionBase();
   /** \brief Destructor */
   ~StoppingCriterionBase() override;
-
-private:
-  StoppingCriterionBase( const Self& );
-  void operator = ( const Self& );
 };
 
 }

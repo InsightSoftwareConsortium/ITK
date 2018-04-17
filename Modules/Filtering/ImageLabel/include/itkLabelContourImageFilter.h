@@ -57,6 +57,8 @@ class ITK_TEMPLATE_EXPORT LabelContourImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelContourImageFilter);
+
   /**
    * Standard "Self" & Superclass typedef.
    */
@@ -156,10 +158,6 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
 private:
-
-  LabelContourImageFilter(const Self &);
-  void operator = ( const Self& );
-
   /** types to support the run length encoding of lines */
   struct RunLength
   {

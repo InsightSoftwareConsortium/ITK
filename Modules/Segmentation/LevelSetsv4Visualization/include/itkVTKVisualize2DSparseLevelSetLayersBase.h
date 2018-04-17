@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT VTKVisualize2DSparseLevelSetLayersBase :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToRGBVTKImageFilter< TInputImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualize2DSparseLevelSetLayersBase);
+
   using ConverterType = ImageToRGBVTKImageFilter< TInputImage >;
   using ConverterPointer = typename ConverterType::Pointer;
 
@@ -93,10 +95,6 @@ protected:
   virtual std::string GetLevelSetRepresentationName() const = 0;
 
   virtual void AddLayers() = 0;
-
-private:
-  VTKVisualize2DSparseLevelSetLayersBase ( const Self& );
-  void operator = ( const Self& );
 };
 }
 

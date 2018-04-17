@@ -47,6 +47,8 @@ template <typename TElement>
 class PyVnl
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PyVnl);
+
   /** Standard "Self" type alias. */
   using Self = PyVnl;
 
@@ -74,13 +76,6 @@ public:
    * Get a vnl matrix from a Python array
    */
   static const MatrixType _GetVnlMatrixFromArray( PyObject *arr, PyObject *shape);
-
-
-protected:
-
-private:
-  PyVnl(const Self&);       // Purposely not implemented.
-  void operator=(const Self&); // Purposely not implemented.
 };
 
 } // namespace itk

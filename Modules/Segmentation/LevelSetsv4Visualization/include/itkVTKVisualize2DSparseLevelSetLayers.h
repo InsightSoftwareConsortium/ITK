@@ -53,6 +53,8 @@ public VTKVisualize2DSparseLevelSetLayersBase<
     itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualize2DSparseLevelSetLayers);
+
   using LevelSetType = itk::WhitakerSparseLevelSetImage< TOutput, VDimension >;
 
   using Self = VTKVisualize2DSparseLevelSetLayers;
@@ -79,10 +81,6 @@ protected:
   void AddLayers() override;
 
   std::string GetLevelSetRepresentationName() const override;
-
-private:
-  VTKVisualize2DSparseLevelSetLayers ( const Self& );
-  void operator = ( const Self& );
 };
 
 // -----------------------------------------------------------------------------
@@ -100,6 +98,8 @@ public VTKVisualize2DSparseLevelSetLayersBase<
     itk::ShiSparseLevelSetImage< VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualize2DSparseLevelSetLayers);
+
   using LevelSetType = itk::ShiSparseLevelSetImage< VDimension >;
 
   using Self = VTKVisualize2DSparseLevelSetLayers;
@@ -126,10 +126,6 @@ protected:
   void AddLayers() override;
 
   std::string GetLevelSetRepresentationName() const override;
-
-private:
-  VTKVisualize2DSparseLevelSetLayers ( const Self& );
-  void operator = ( const Self& );
 };
 
 // -----------------------------------------------------------------------------
@@ -148,6 +144,8 @@ public VTKVisualize2DSparseLevelSetLayersBase<
     itk::MalcolmSparseLevelSetImage< VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualize2DSparseLevelSetLayers);
+
   using LevelSetType = itk::MalcolmSparseLevelSetImage< VDimension >;
 
   using Self = VTKVisualize2DSparseLevelSetLayers;
@@ -174,10 +172,6 @@ protected:
   void AddLayers() override;
 
   std::string GetLevelSetRepresentationName() const override;
-
-private:
-  VTKVisualize2DSparseLevelSetLayers ( const Self& );
-  void operator = ( const Self& );
 };
 }
 

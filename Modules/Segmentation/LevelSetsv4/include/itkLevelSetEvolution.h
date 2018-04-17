@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution<  TEquationContainer,
   public LevelSetEvolutionBase< TEquationContainer, LevelSetDenseImage< TImage > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+
   using LevelSetType = LevelSetDenseImage< TImage >;
 
   using Self = LevelSetEvolution;
@@ -169,6 +171,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution< TEquationContainer, WhitakerSparseL
   public LevelSetEvolutionBase< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+
   using LevelSetType = WhitakerSparseLevelSetImage< TOutput, VDimension >;
 
   using Self = LevelSetEvolution;
@@ -260,10 +264,6 @@ protected:
   friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self >;
   using SplitLevelSetComputeIterationThreaderType = LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self >;
   typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader;
-
-private:
-  LevelSetEvolution( const Self& );
-  void operator = ( const Self& );
 };
 
 
@@ -275,6 +275,8 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution<
 public LevelSetEvolutionBase< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+
   using LevelSetType = ShiSparseLevelSetImage< VDimension >;
 
   using Self = LevelSetEvolution;
@@ -341,10 +343,6 @@ protected:
 
   /** Update the equations at the end of 1 iteration */
   void UpdateEquations() override;
-
-private:
-  LevelSetEvolution( const Self& );
-  void operator = ( const Self& );
 };
 
 // Malcolm

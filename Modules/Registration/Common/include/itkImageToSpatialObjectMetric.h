@@ -62,6 +62,8 @@ class ITK_TEMPLATE_EXPORT ImageToSpatialObjectMetric:
   public SingleValuedCostFunction
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToSpatialObjectMetric);
+
   using Self = ImageToSpatialObjectMetric;
   using Superclass = SingleValuedCostFunction;
   using Pointer = SmartPointer< Self >;
@@ -165,8 +167,7 @@ protected:
 
   ImageToSpatialObjectMetric();
   ~ImageToSpatialObjectMetric() override {}
-  ImageToSpatialObjectMetric(const Self &) {}
-  void operator=(const Self &) {}
+
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   MeasureType              m_MatchMeasure;

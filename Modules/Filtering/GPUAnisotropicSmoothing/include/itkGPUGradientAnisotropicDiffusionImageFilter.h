@@ -98,6 +98,8 @@ protected:
 class GPUGradientAnisotropicDiffusionImageFilterFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientAnisotropicDiffusionImageFilterFactory);
+
   using Self = GPUGradientAnisotropicDiffusionImageFilterFactory;
   using Superclass = ObjectFactoryBase;
   using Pointer = SmartPointer<Self>;
@@ -127,10 +129,6 @@ public:
   }
 
 private:
-  GPUGradientAnisotropicDiffusionImageFilterFactory(const Self&); //purposely
-                                                                  // not implemented
-  void operator=(const Self&);                                    //purposely
-                                                                  // not implemented
 
 #define GradientAnisotropicDiffusionImageFilterTypeMacro(ipt,opt,dm) \
     { \
