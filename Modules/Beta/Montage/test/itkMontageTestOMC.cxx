@@ -17,14 +17,20 @@
  *=========================================================================*/
 
 #include "itkMockMontageHelper.hxx"
+#include "itkMontageTestHelper.hxx"
 
-int itkMockMontageTestOMC(int argc, char* argv[])
+int itkMontageTestOMC(int argc, char* argv[])
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <outputTSV>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <mockTSV> <montageTSV>" << std::endl;
     return EXIT_FAILURE;
     }
+
+  constexpr unsigned Dimension = 2;
+  using PointType = itk::Point<double, Dimension>;
+  using VectorType = itk::Vector<double, Dimension>;
+  using TransformType = itk::TranslationTransform<double, Dimension>;
 
   constexpr unsigned xMontageSize = 3;
   constexpr unsigned yMontageSize = 3;
@@ -75,5 +81,12 @@ int itkMockMontageTestOMC(int argc, char* argv[])
       }
     }
 
-  return montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], true);
+  int r1 = mockMontageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], true);
+  int r2 = montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], true);
+
+  if (r1 == EXIT_FAILURE || r2 == EXIT_FAILURE)
+    {
+    return EXIT_FAILURE;
+    }
+  return EXIT_SUCCESS;
 }
