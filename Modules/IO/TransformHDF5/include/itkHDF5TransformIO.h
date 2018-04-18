@@ -23,6 +23,7 @@
 #include "itkTransformIOBase.h"
 #include <memory>
 #include <string>
+#include "itk_H5Cpp.h"
 
 // Avoids KWStyle error from forward declaration below.
 namespace itk
@@ -139,7 +140,14 @@ private:
                          const TransformType *transform);
 
   std::unique_ptr<H5::H5File> m_H5File;
+
+  /** Utility function for infering data storage type
+   * from class template.
+   * @return H5 code PredType
+   */
+  H5::PredType GetH5TypeFromString( ) const;
 };
+
 const std::string ITKIOTransformHDF5_EXPORT GetTransformName(int);
 
 /** This helps to meet backward compatibility */

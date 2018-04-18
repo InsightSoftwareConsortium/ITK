@@ -37,9 +37,9 @@
 #include "itkMath.h"
 
 template<typename TParametersValueType, typename DisplacementTransformType >
-static int ReadWriteTest(const char * const fileName, const bool isRealDisplacementField )
+static int ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, const bool UseCompression )
 {
-  // First make a DisplacementField wiht known values
+  // First make a DisplacementField with known values
   const double aNumberThatCanNotBeRepresentedInFloatingPoint = 1e-5 + 1e-7 + 1e-9 +1e-13;
   const double requiredSpacing = 1.2 + aNumberThatCanNotBeRepresentedInFloatingPoint;
   const double requiredOrigin = 23.0 + aNumberThatCanNotBeRepresentedInFloatingPoint;
@@ -66,7 +66,7 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
     knownField->Allocate();
 
     typename DisplacementTransformType::OutputVectorType zeroVector;
-    zeroVector.Fill( 0.0 );
+    zeroVector.Fill( aNumberThatCanNotBeRepresentedInFloatingPoint );
     knownField->FillBuffer( zeroVector );
 
     displacementTransform->SetDisplacementField( knownField );
@@ -91,6 +91,7 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
   typename TransformWriterType::Pointer writer = TransformWriterType::New();
   writer->SetFileName( fileName );
   writer->SetTransformIO( transformIO );
+  writer->SetUseCompression(UseCompression);
   if( writer->GetTransformIO() != transformIO.GetPointer() )
     {
     std::cerr << "Set/Get TransformIO did not work correctly." << std::endl;
@@ -176,7 +177,7 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
 }
 
 template<typename TParametersValueType>
-static int oneTest(const char *const goodname,const char *const badname)
+static int oneTest(const std::string goodname,const std::string badname, const bool UseCompression)
 {
   using AffineTransformType = typename itk::AffineTransform<TParametersValueType,4>;
   using AffineTransformTypeNotRegistered = typename itk::AffineTransform<TParametersValueType,10>;
@@ -207,6 +208,7 @@ static int oneTest(const char *const goodname,const char *const badname)
   }
   typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer
     writer = itk::TransformFileWriterTemplate<TParametersValueType>::New();
+    writer->SetUseCompression(UseCompression);
   typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer
     reader = itk::TransformFileReaderTemplate<TParametersValueType>::New();
 
@@ -274,6 +276,7 @@ static int oneTest(const char *const goodname,const char *const badname)
   }
   typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer
     badwriter = itk::TransformFileWriterTemplate<TParametersValueType>::New();
+    badwriter->SetUseCompression(UseCompression);
   typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer
     badreader = itk::TransformFileReaderTemplate<TParametersValueType>::New();
   badwriter->AddTransform(Bogus);
@@ -317,35 +320,35 @@ static int oneTest(const char *const goodname,const char *const badname)
     }
 
   int error_sum = 0;
-  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,2> >(goodname, true);
-  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,3> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,2> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,3> >(goodname, true);
+  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,2> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,3> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,2> >(goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,3> >(goodname, true, UseCompression);
 
-  error_sum += ReadWriteTest< float, itk::DisplacementFieldTransform<float, 2> >(goodname, true);
-  error_sum += ReadWriteTest< float, itk::DisplacementFieldTransform<float, 3> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::DisplacementFieldTransform<double, 2> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::DisplacementFieldTransform<double, 3> >(goodname, true);
+  error_sum += ReadWriteTest< float, itk::DisplacementFieldTransform<float, 2> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< float, itk::DisplacementFieldTransform<float, 3> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::DisplacementFieldTransform<double, 2> >(goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::DisplacementFieldTransform<double, 3> >(goodname, true, UseCompression);
 
-  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,2> >(goodname, true);
-  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,3> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,2> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,3> >(goodname, true);
+  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,2> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< float, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<float,3> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,2> >(goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double,3> >(goodname, true, UseCompression);
 
-  error_sum += ReadWriteTest< float, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<float,2> >(goodname, true);
-  error_sum += ReadWriteTest< float, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<float,3> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double,2> >(goodname, true);
-  error_sum += ReadWriteTest< double, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double,3> >(goodname, true);
+  error_sum += ReadWriteTest< float, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<float,2> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< float, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<float,3> >("f"+goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double,2> >(goodname, true, UseCompression);
+  error_sum += ReadWriteTest< double, itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double,3> >(goodname, true, UseCompression);
 
-   error_sum += ReadWriteTest< float, itk::ConstantVelocityFieldTransform<float,2> >(goodname, false);
-   error_sum += ReadWriteTest< float, itk::ConstantVelocityFieldTransform<float,3> >(goodname, false);
-   error_sum += ReadWriteTest< double, itk::ConstantVelocityFieldTransform<double,2> >(goodname, false);
-   error_sum += ReadWriteTest< double, itk::ConstantVelocityFieldTransform<double,3> >(goodname, false);
+   error_sum += ReadWriteTest< float, itk::ConstantVelocityFieldTransform<float,2> >("f"+goodname, false, UseCompression);
+   error_sum += ReadWriteTest< float, itk::ConstantVelocityFieldTransform<float,3> >("f"+goodname, false, UseCompression);
+   error_sum += ReadWriteTest< double, itk::ConstantVelocityFieldTransform<double,2> >(goodname, false, UseCompression);
+   error_sum += ReadWriteTest< double, itk::ConstantVelocityFieldTransform<double,3> >(goodname, false, UseCompression);
 
-   error_sum += ReadWriteTest< float, itk::GaussianExponentialDiffeomorphicTransform<float,2> >(goodname, false);
-   error_sum += ReadWriteTest< float, itk::GaussianExponentialDiffeomorphicTransform<float,3> >(goodname, false);
-   error_sum += ReadWriteTest< double, itk::GaussianExponentialDiffeomorphicTransform<double,2> >(goodname, false);
-   error_sum += ReadWriteTest< double, itk::GaussianExponentialDiffeomorphicTransform<double,3> >(goodname, false);
+   error_sum += ReadWriteTest< float, itk::GaussianExponentialDiffeomorphicTransform<float,2> >("f"+goodname, false, UseCompression);
+   error_sum += ReadWriteTest< float, itk::GaussianExponentialDiffeomorphicTransform<float,3> >("f"+goodname, false, UseCompression);
+   error_sum += ReadWriteTest< double, itk::GaussianExponentialDiffeomorphicTransform<double,2> >(goodname, false, UseCompression);
+   error_sum += ReadWriteTest< double, itk::GaussianExponentialDiffeomorphicTransform<double,3> >(goodname, false, UseCompression);
 
   if( error_sum > 0 )
     {
@@ -360,12 +363,26 @@ static int oneTest(const char *const goodname,const char *const badname)
 
 int itkIOTransformHDF5Test(int argc, char* argv[])
 {
-  if (argc > 1)
+  if (argc > 2)
     {
-    itksys::SystemTools::ChangeDirectory(argv[1]);
+    itksys::SystemTools::ChangeDirectory(argv[2]);
     }
-  const int result1 =  oneTest<float>("Transforms_float.h5", "TransformsBad_float.h5" );
-  const int result2 =  oneTest<double>("Transforms_double.hdf5", "TransformsBad_double.hdf5" );
-
-  return ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) );
+  if(argc > 1)
+  {
+    const std::string testType{ argv[1] };
+    if(testType == "uncompressed")
+    {
+    const int result1 =  oneTest<float>("Transforms_float.h5", "TransformsBad_float.h5", false );
+    const int result2 =  oneTest<double>("Transforms_double.hdf5", "TransformsBad_double.hdf5", false );
+    return ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) );
+    }
+    if(testType == "compressed")
+    {
+    const int result1 =  oneTest<float>("Transforms_float_compressed.h5", "TransformsBad_float_compressed.h5", true );
+    const int result2 =  oneTest<double>("Transforms_double_compressed.hdf5", "TransformsBad_double_compressed.hdf5", true );
+    return ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) );
+    }
+  }
+  std::cerr << "ERROR: first argument must be one of [uncompressed|compressed]" << std::endl;
+  return EXIT_FAILURE;
 }

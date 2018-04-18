@@ -29,9 +29,10 @@ namespace itk
 
 template<typename TParametersValueType>
 TransformFileWriterTemplate<TParametersValueType>
-::TransformFileWriterTemplate() :
-  m_FileName(""),
-  m_AppendMode(false)
+::TransformFileWriterTemplate()
+  : m_FileName{""}
+  , m_AppendMode{false}
+  , m_UseCompression{false}
 {
   TransformFactoryBase::RegisterDefaultTransforms();
 }
@@ -166,8 +167,8 @@ void TransformFileWriterTemplate<TParametersValueType>
       itkExceptionMacro( << msg.str().c_str() );
       }
     }
-
   m_TransformIO->SetAppendMode(this->m_AppendMode);
+  m_TransformIO->SetUseCompression(this->m_UseCompression);
   m_TransformIO->SetFileName(this->m_FileName);
   m_TransformIO->SetTransformList(this->m_TransformList);
   m_TransformIO->Write();

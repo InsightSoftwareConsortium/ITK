@@ -111,6 +111,11 @@ public:
   itkGetConstMacro(AppendMode, bool);
   itkBooleanMacro(AppendMode);
 
+  /** Set/Get a boolean to use the compression or not. */
+  itkSetMacro(UseCompression, bool);
+  itkGetConstMacro(UseCompression, bool);
+  itkBooleanMacro(UseCompression);
+
   /** The transform type has a string representation used when reading
    * and writing transform files.  In the case where a double-precision
    * transform is to be written as float, or vice versa, the transform
@@ -137,6 +142,8 @@ protected:
   TransformListType      m_ReadTransformList;
   ConstTransformListType m_WriteTransformList;
   bool                   m_AppendMode;
+  /** Should we compress the data? */
+  bool                   m_UseCompression;
 
   /* The following struct returns the string name of computation type */
   /* default implementation */
