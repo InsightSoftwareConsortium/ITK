@@ -214,7 +214,11 @@ namespace itk
 //NOTE DEPRECATED should be ITK_NOEXCEPT
 #define ITK_NOEXCEPT_OR_THROW error "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT"
 //NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
+#if !defined( ITK_LEGACY_REMOVE )
+#define ITK_DELETE_FUNCTION = delete
+#else
 #define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with = delete"
+#endif
 //-*-*-*
 
 // DEPRECATED: These macros are left here for compatibility with remote modules.
