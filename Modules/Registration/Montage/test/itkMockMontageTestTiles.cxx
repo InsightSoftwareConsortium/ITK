@@ -22,7 +22,7 @@ int itkMockMontageTestTiles(int argc, char* argv[])
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <outputTSV>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <outputTSV> [NamePrefix]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -31,6 +31,11 @@ int itkMockMontageTestTiles(int argc, char* argv[])
   using PositionTableType = std::array<std::array<PointType, xMontageSize>, yMontageSize>;
   using FilenameTableType = std::array<std::array<std::string, xMontageSize>, yMontageSize>;
 
+  std::string namePrefix = "Image";
+  if (argc >= 4)
+    {
+    namePrefix = argv[3];
+    }
   PositionTableType stageCoords, actualCoords;
   FilenameTableType filenames;
 
@@ -56,7 +61,7 @@ int itkMockMontageTestTiles(int argc, char* argv[])
         fActual >> p[d];
         }
       actualCoords[y][x] = p;
-      filenames[y][x] = std::string(argv[1]) + "/Image_" + std::to_string(x + 1) + "_" + std::to_string(y + 1) + ".tif";
+      filenames[y][x] = std::string(argv[1]) + "/" + namePrefix + "_" + std::to_string(x + 1) + "_" + std::to_string(y + 1) + ".tif";
       }
     }
 
