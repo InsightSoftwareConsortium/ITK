@@ -108,15 +108,13 @@ public:
 
   /** Set/Get the "destination" image.  This is the image that will be
    * obscured by the paste operation. */
-  void SetDestinationImage(const InputImageType *dest);
-
-  const InputImageType * GetDestinationImage() const;
+  itkSetInputMacro(DestinationImage, InputImageType);
+  itkGetInputMacro(DestinationImage, InputImageType);
 
   /** Set/Get the "source" image.  This is the image that will be
    * pasted over the destination image. */
-  void SetSourceImage(const SourceImageType *src);
-
-  const SourceImageType * GetSourceImage() const;
+  itkSetInputMacro(SourceImage, SourceImageType);
+  itkGetInputMacro(SourceImage, SourceImageType);
 
   /** PasteImageFilter needs to set the input requested regions for its
    * inputs.  The first input's requested region will be set to match

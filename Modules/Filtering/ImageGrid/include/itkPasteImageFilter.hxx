@@ -30,49 +30,16 @@ template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::PasteImageFilter()
 {
-  this->ProcessObject::SetNumberOfRequiredInputs(2);
+  // #0 "FixedImage" required
+  Self::SetPrimaryInputName("DestinationImage");
+
+  // #2 "SourceImage" required
+  Self::AddRequiredInputName("SourceImage");
 
   this->InPlaceOff();
   m_DestinationIndex.Fill(0);
 }
 
-template< typename TInputImage, typename TSourceImage, typename TOutputImage >
-void
-PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
-::SetSourceImage(const SourceImageType *src)
-{
-  // Process object is not const-correct so the const casting is required.
-  this->SetNthInput( 1, const_cast< SourceImageType * >( src ) );
-}
-
-template< typename TInputImage, typename TSourceImage, typename TOutputImage >
-const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::SourceImageType *
-PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
-::GetSourceImage() const
-{
-  const auto * sourceImage = dynamic_cast< const SourceImageType * >( this->ProcessObject::GetInput(1) );
-
-  return sourceImage;
-}
-
-template< typename TInputImage, typename TSourceImage, typename TOutputImage >
-void
-PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
-::SetDestinationImage(const InputImageType *src)
-{
-  // Process object is not const-correct so the const casting is required.
-  this->SetNthInput( 0, const_cast< InputImageType * >( src ) );
-}
-
-template< typename TInputImage, typename TSourceImage, typename TOutputImage >
-const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::InputImageType *
-PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
-::GetDestinationImage() const
-{
-  const auto * destinationImage = dynamic_cast< const InputImageType * >( this->ProcessObject::GetInput(0) );
-
-  return destinationImage;
-}
 
 template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
