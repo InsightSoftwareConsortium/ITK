@@ -25,6 +25,8 @@ class FastMarchingBaseTestHelper :
     public FastMarchingBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingBaseTestHelper);
+
   using Self = FastMarchingBaseTestHelper;
   using Superclass = FastMarchingBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -83,10 +85,6 @@ protected:
     { return true; }
 
   void InitializeOutput( OutputDomainType* ) override {}
-
-private:
-  FastMarchingBaseTestHelper( const Self& );
-  void operator = ( const Self& );
 };
 }
 

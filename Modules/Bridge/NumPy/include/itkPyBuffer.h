@@ -49,6 +49,8 @@ template <typename TImage>
 class PyBuffer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PyBuffer);
+
   /** Standard "Self" type alias. */
   using Self = PyBuffer;
 
@@ -77,12 +79,6 @@ public:
    * Get an ITK image from a Python array
    */
   static const OutputImagePointer _GetImageViewFromArray( PyObject *arr, PyObject *shape, PyObject *numOfComponent);
-
-protected:
-
-private:
-  PyBuffer(const Self&);       // Purposely not implemented.
-  void operator=(const Self&); // Purposely not implemented.
 };
 
 } // namespace itk

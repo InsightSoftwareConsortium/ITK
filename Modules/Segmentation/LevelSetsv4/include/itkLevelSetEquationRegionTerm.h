@@ -28,6 +28,8 @@ class LevelSetEquationRegionTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationRegionTerm);
+
   using Self = LevelSetEquationRegionTerm;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -48,10 +50,6 @@ protected:
   {}
 
   virtual ~LevelSetEquationRegionTerm() {}
-
-private:
-  LevelSetEquationRegionTerm( const Self& );
-  void operator = ( const Self& );
 };
 }
 #endif // itkLevelSetEquationRegionTerm_h

@@ -43,6 +43,8 @@ template< typename TInputMesh, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT SimplexMeshToTriangleMeshFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshToTriangleMeshFilter);
+
   /** Standard "Self" type alias. */
   using Self = SimplexMeshToTriangleMeshFilter;
 
@@ -162,8 +164,6 @@ protected:
 
   SimplexMeshToTriangleMeshFilter();
   ~SimplexMeshToTriangleMeshFilter() override;
-  SimplexMeshToTriangleMeshFilter(const Self &) {}
-  void operator=(const Self &) {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

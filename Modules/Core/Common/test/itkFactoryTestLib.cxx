@@ -26,6 +26,8 @@ template<typename TElementIdentifier, typename TElement>
 class TestImportImageContainer : public itk::ImportImageContainer< TElementIdentifier, TElement >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(TestImportImageContainer);
+
   /** Standard class type aliases.   */
   using Self = TestImportImageContainer;
   using Superclass = itk::ImportImageContainer< TElementIdentifier, TElement >;
@@ -132,8 +134,6 @@ protected:
     }
 
 private:
-  TestImportImageContainer(const TestImportImageContainer&);
-  void operator=(const TestImportImageContainer&);
   mutable TElementIdentifier m_TotalSize;
 
   mutable Allocator          m_Allocator;

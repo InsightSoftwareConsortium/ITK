@@ -126,6 +126,8 @@ class ITK_TEMPLATE_EXPORT BinaryImageToSparseLevelSetImageAdaptorBase :
     public BinaryImageToLevelSetImageAdaptorBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToSparseLevelSetImageAdaptorBase);
+
   using Self = BinaryImageToSparseLevelSetImageAdaptorBase;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -181,10 +183,6 @@ protected:
   LevelSetLabelMapPointer m_LabelMap;
 
   InternalImagePointer m_InternalImage;
-
-private:
-  BinaryImageToSparseLevelSetImageAdaptorBase( const Self& );
-  void operator = ( const Self& );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -442,9 +440,6 @@ protected:
 
   /** Ensure that the 0 level set layer is only of single pixel thickness */
   void CreateMinimalInterface();
-
-private:
-
 };
 
 }

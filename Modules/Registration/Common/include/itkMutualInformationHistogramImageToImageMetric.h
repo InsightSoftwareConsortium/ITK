@@ -39,6 +39,8 @@ class ITK_TEMPLATE_EXPORT MutualInformationHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MutualInformationHistogramImageToImageMetric);
+
   /** Standard class type aliases. */
   using Self = MutualInformationHistogramImageToImageMetric;
   using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
@@ -80,11 +82,6 @@ protected:
 
   /** Evaluates the mutual information from the histogram. */
   MeasureType EvaluateMeasure(HistogramType & histogram) const override;
-
-private:
-  // Purposely not implemented.
-  MutualInformationHistogramImageToImageMetric(Self const &);
-  void operator=(Self const &); // Purposely not implemented.
 };
 } // End namespace itk.
 

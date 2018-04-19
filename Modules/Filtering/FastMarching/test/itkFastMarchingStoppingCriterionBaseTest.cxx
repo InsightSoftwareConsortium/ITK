@@ -25,6 +25,8 @@ class FastMarchingStoppingCriterionBaseHelperTest :
 public FastMarchingStoppingCriterionBase< TInput, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingStoppingCriterionBaseHelperTest);
+
   using Self = FastMarchingStoppingCriterionBaseHelperTest;
   using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
   using Pointer = SmartPointer< Self >;
@@ -49,10 +51,6 @@ protected:
   void SetCurrentNode( const NodeType& ) override {}
 
   void Reset() override {}
-
-private:
-  FastMarchingStoppingCriterionBaseHelperTest( const Self& );
-  void operator = ( const Self& );
 };
 }
 

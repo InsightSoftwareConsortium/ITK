@@ -44,6 +44,7 @@ class ITK_TEMPLATE_EXPORT GaussianBlurImageFunction:
   public ImageFunction< TInputImage, TOutput >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianBlurImageFunction);
 
   /**Standard "Self" type alias */
   using Self = GaussianBlurImageFunction;
@@ -159,11 +160,7 @@ public:
 
 protected:
   GaussianBlurImageFunction();
-  GaussianBlurImageFunction(const Self &);
-
   ~GaussianBlurImageFunction() override {}
-
-  void operator=(const Self &);
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

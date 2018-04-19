@@ -55,6 +55,8 @@ class ITK_TEMPLATE_EXPORT BinaryContourImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryContourImageFilter);
+
   /**
    * Standard "Self" & Superclass typedef.
    */
@@ -158,9 +160,6 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
 private:
-  BinaryContourImageFilter(const Self &); //Purposefully not implemented
-  void operator = ( const Self &);        //Purposefully not implemented
-
   // types to support the run length encoding of lines
   struct runLength
   {

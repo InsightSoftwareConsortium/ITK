@@ -58,6 +58,8 @@ namespace itk
 class ITKCommon_EXPORT ConditionVariable:public LightObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConditionVariable);
+
   /** Standard class type aliases. */
   using Self = ConditionVariable;
   using Superclass = LightObject;
@@ -86,9 +88,6 @@ protected:
   ~ConditionVariable() override;
 
 private:
-  ConditionVariable(const Self & other);
-  const Self & operator=(const Self &);
-
   ConditionVariableType m_ConditionVariable;
 
 };
