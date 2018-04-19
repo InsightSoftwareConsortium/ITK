@@ -42,7 +42,7 @@
 #include <stdlib.h>
 #endif
 
-#ifdef linux
+#ifdef __linux__
 #include <fstream>
 #include <unistd.h>
 #endif
@@ -270,7 +270,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
 #endif // WIN32
 
-#if defined(linux)
+#if defined(__linux__)
 
 /**         ----         Linux Memory Usage Observer       ----       */
 
