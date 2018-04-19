@@ -67,10 +67,11 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  */
-template< typename TImage,  typename TBoundaryCondition =
-            ZeroFluxNeumannBoundaryCondition< TImage > >
+template< typename TImage,
+          typename TBoundaryCondition = ZeroFluxNeumannBoundaryCondition< TImage >
+          >
 class ITK_TEMPLATE_EXPORT ConstShapedNeighborhoodIterator:
-  private NeighborhoodIterator< TImage, TBoundaryCondition >
+    private NeighborhoodIterator< TImage, TBoundaryCondition >
 {
 public:
 
@@ -192,7 +193,14 @@ public:
     typename IndexListType::value_type GetNeighborhoodIndex() const
     { return *m_ListIterator; }
 
-protected:
+  protected:
+
+    friend Self;
+
+    ConstIterator( const Self *s, const typename IndexListType::const_iterator &li )
+      : m_NeighborhoodIterator(const_cast<Self*>(s)),
+        m_ListIterator(li)
+    { }
 
     Self *m_NeighborhoodIterator;
 
@@ -204,13 +212,13 @@ protected:
 
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
-  const ConstIterator & Begin() const
-  { return m_ConstBeginIterator; }
+  ConstIterator Begin() const
+  { return ConstIterator(this, this->m_ActiveIndexList.begin()); }
 
   /** Returns a const iterator for the neighborhood which points to the last
    * pixel in the neighborhood. */
-  const ConstIterator & End() const
-  { return m_ConstEndIterator; }
+  ConstIterator End() const
+  { return ConstIterator(this, this->m_ActiveIndexList.end()); }
 
   /** Default constructor */
   ConstShapedNeighborhoodIterator()
@@ -221,9 +229,6 @@ protected:
   /** Initialize the iterator. */
   void InitializeConstShapedNeighborhoodIterator()
   {
-    m_ConstBeginIterator = ConstIterator(this);
-    m_ConstEndIterator = ConstIterator(this);
-    m_ConstEndIterator.GoToEnd();
     m_CenterIsActive = false;
   }
 
@@ -287,9 +292,6 @@ protected:
       m_ActiveIndexList = orig.m_ActiveIndexList;
       m_CenterIsActive = orig.m_CenterIsActive;
 
-      // Reset begin and end pointers
-      m_ConstBeginIterator.GoToBegin();
-      m_ConstEndIterator.GoToBegin();
       }
     return *this;
   }
@@ -302,15 +304,13 @@ protected:
    *  updated and accessible through the iterator.  */
   ITK_ITERATOR_VIRTUAL void ActivateOffset(const OffsetType & off) ITK_ITERATOR_FINAL
   { this->ActivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
-  ITK_ITERATOR_VIRTUAL void DeactivateOffset(const OffsetType & off)ITK_ITERATOR_FINAL
+  ITK_ITERATOR_VIRTUAL void DeactivateOffset(const OffsetType & off) ITK_ITERATOR_FINAL
   { this->DeactivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
 
   /** Removes all active pixels from this neighborhood. */
-  ITK_ITERATOR_VIRTUAL void ClearActiveList()
+  ITK_ITERATOR_VIRTUAL void ClearActiveList() ITK_ITERATOR_FINAL
   {
     m_ActiveIndexList.clear();
-    m_ConstBeginIterator.GoToBegin();
-    m_ConstEndIterator.GoToEnd();
     m_CenterIsActive = false;
   }
 
@@ -361,14 +361,14 @@ protected:
       argument is an index location calculated as an offset into a linear
       array which represents the image region defined by the radius of this
       iterator, with the smallest dimension as the fastest increasing index. */
-  ITK_ITERATOR_VIRTUAL void ActivateIndex( NeighborIndexType );
+  ITK_ITERATOR_VIRTUAL void ActivateIndex( NeighborIndexType ) ITK_ITERATOR_FINAL;
 
-  ITK_ITERATOR_VIRTUAL void DeactivateIndex( NeighborIndexType );
+  ITK_ITERATOR_VIRTUAL void DeactivateIndex( NeighborIndexType ) ITK_ITERATOR_FINAL;
+
 
   bool          m_CenterIsActive;
   IndexListType m_ActiveIndexList;
-  ConstIterator m_ConstEndIterator;
-  ConstIterator m_ConstBeginIterator;
+
 private:
   /** Copy constructor */
   ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) = delete;
