@@ -130,9 +130,21 @@ AddTestOMC(16)
 AddTestOMC(17)
 AddTestOMC(18)
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
-  COMMAND MontageTestDriver
-  itkMockMontageTestTiles
-    ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
-    ${TESTING_OUTPUT_PATH}/itkMockMontageTestTiles
-  )
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
+  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
+    COMMAND MontageTestDriver
+    itkMockMontageTestTiles
+      ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTiles
+    )
+endif()
+
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles)
+  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestNoisyTiles
+    COMMAND MontageTestDriver
+    itkMockMontageTestTiles
+      ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestNoisyTiles
+      NoisyImage
+    )
+endif()

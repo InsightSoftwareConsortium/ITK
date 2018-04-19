@@ -47,6 +47,8 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer: public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationOptimizer);
+
   using Self = PhaseCorrelationOptimizer;
   using Superclass = ProcessObject;
   using Pointer = SmartPointer<Self>;
@@ -114,11 +116,7 @@ protected:
   itkSetMacro( Offset, OffsetType );
 
 private:
-  PhaseCorrelationOptimizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   OffsetType    m_Offset;
-
 };
 
 } // end namespace itk
