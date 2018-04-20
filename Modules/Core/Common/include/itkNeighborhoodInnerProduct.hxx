@@ -26,9 +26,11 @@ namespace itk
 template< typename TImage, typename TOperator, typename TComputation >
 typename NeighborhoodInnerProduct< TImage, TOperator, TComputation >::OutputPixelType
 NeighborhoodInnerProduct< TImage, TOperator, TComputation >
-::operator()(const std::slice & s,
-             const ConstNeighborhoodIterator< TImage > & it,
-             const OperatorType & op) const
+::Compute(
+  const ConstNeighborhoodIterator< TImage > & it,
+  const OperatorType & op,
+  const unsigned start,
+  const unsigned stride)
 {
   typename OperatorType::ConstIterator o_it;
 
@@ -43,8 +45,6 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
-  const auto start  = static_cast< unsigned int >( s.start() );
-  const auto stride = static_cast< unsigned int >( s.stride() );
   for ( unsigned int i = start; o_it < op_end; i += stride, ++o_it )
     {
     sum += static_cast< AccumulateRealType >(
@@ -58,10 +58,12 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
 template< typename TImage, typename TOperator, typename TComputation >
 typename NeighborhoodInnerProduct< TImage, TOperator, TComputation >::OutputPixelType
 NeighborhoodInnerProduct< TImage, TOperator, TComputation >
-::operator()(const std::slice & s,
-             /*           const ImageBoundaryCondition<TImage> *,*/
-             const NeighborhoodType & N,
-             const OperatorType & op) const
+::Compute(
+  /*           const ImageBoundaryCondition<TImage> *,*/
+  const NeighborhoodType & N,
+  const OperatorType & op,
+  const unsigned start,
+  const unsigned stride)
 {
   typename OperatorType::ConstIterator o_it;
 
@@ -76,8 +78,6 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
-  const auto start  = static_cast< unsigned int >( s.start() );
-  const auto stride = static_cast< unsigned int >( s.stride() );
   for ( unsigned int i = start; o_it < op_end; i += stride, ++o_it )
     {
     sum += static_cast< AccumulateRealType >(

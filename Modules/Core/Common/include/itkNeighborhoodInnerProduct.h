@@ -66,25 +66,43 @@ public:
   using NeighborhoodType = Neighborhood< ImagePixelType,
                         Self::ImageDimension >;
 
+  static OutputPixelType Compute(
+    const ConstNeighborhoodIterator< TImage > & it,
+    const OperatorType & op,
+    const unsigned start = 0,
+    const unsigned stride = 1);
+
+  static OutputPixelType Compute(
+    const NeighborhoodType & N,
+    const OperatorType & op,
+    const unsigned start = 0,
+    const unsigned stride = 1);
+
   /** Reference oeprator. */
   OutputPixelType operator()(const std::slice & s,
                              const ConstNeighborhoodIterator< TImage > & it,
-                             const OperatorType & op) const;
+                             const OperatorType & op) const
+  {
+    return Self::Compute(it, op, s.start(), s.stride());
+  }
 
   OutputPixelType operator()(const ConstNeighborhoodIterator< TImage > & it,
                              const OperatorType & op) const
   {
-    return this->operator()(std::slice(0, it.Size(), 1), it, op);
+    return Self::Compute(it, op);
   }
 
   OutputPixelType operator()(const std::slice & s,
                              const NeighborhoodType & N,
-                             const OperatorType & op) const;
+                             const OperatorType & op) const
+  {
+    return Self::Compute(N, op, s.start(), s.stride());
+  }
 
   OutputPixelType operator()(const NeighborhoodType & N,
                              const OperatorType & op) const
   {
-    return this->operator()(std::slice(0, N.Size(), 1), N, op);
+    return Self::Compute(N, op);
   }
 };
 } // end namespace itk

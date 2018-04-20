@@ -224,9 +224,9 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
       m_NeighborhoodIterators[direction].get();
     assert(neighborhoodIterator != nullptr);
     neighborhoodIterator->SetLocation(index);
-    constexpr NeighborhoodInnerProduct< InputImageType, TOutput > innerProduct = {};
+    using InnerProduct = NeighborhoodInnerProduct< InputImageType, TOutput >;
 
-    gradient[direction] = innerProduct(*neighborhoodIterator, m_OperatorArray[direction]);
+    gradient[direction] = InnerProduct::Compute(*neighborhoodIterator, m_OperatorArray[direction]);
     }
 
   return gradient;
