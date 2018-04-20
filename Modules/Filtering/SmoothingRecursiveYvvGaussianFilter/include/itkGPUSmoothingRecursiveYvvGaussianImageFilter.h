@@ -55,6 +55,8 @@ class ITK_EXPORT GPUSmoothingRecursiveYvvGaussianImageFilter
                                  SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUSmoothingRecursiveYvvGaussianImageFilterKernel);
+
   /** Standard class typedefs. */
   typedef GPUSmoothingRecursiveYvvGaussianImageFilter Self;
   // typedef SmoothingRecursiveYvvGaussianImageFilter<TInputImage,TOutputImage>
@@ -186,8 +188,6 @@ protected:
   GPUDataPointer m_GPULocalDataManager;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUSmoothingecursiveYvvGaussianImageFilter);
-
   void
   BuildKernel();
 
