@@ -19,7 +19,7 @@
 #define itkThreadedDomainPartitioner_h
 
 #include "itkIntTypes.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkObject.h"
 
 namespace itk

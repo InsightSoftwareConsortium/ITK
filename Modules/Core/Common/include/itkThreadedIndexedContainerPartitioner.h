@@ -19,6 +19,7 @@
 #define itkThreadedIndexedContainerPartitioner_h
 
 #include "itkThreadedDomainPartitioner.h"
+#include "itkObjectFactory.h"
 #include "itkIndex.h"
 
 namespace itk

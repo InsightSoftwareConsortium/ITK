@@ -37,7 +37,6 @@
 
 #include "itkResourceProbe.h"
 #include "itkNumericTraits.h"
-#include "itkMultiThreader.h"
 #include "itksys/SystemInformation.hxx"
 #include "itkMath.h"
 #include "itkIsNumber.h"

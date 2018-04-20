@@ -19,6 +19,7 @@
 #define itkThreadedIteratorRangePartitioner_h
 
 #include "itkThreadedDomainPartitioner.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
