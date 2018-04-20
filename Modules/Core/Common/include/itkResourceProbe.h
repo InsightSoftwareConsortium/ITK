@@ -160,7 +160,6 @@ private:
   ValueType                  m_TotalValue;
   ValueType                  m_MinimumValue;
   ValueType                  m_MaximumValue;
-  MeanType                   m_MeanValue;
   ValueType                  m_StandardDeviation;
   ValueType                  m_StandardError;
 

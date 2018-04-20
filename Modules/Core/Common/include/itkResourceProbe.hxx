@@ -69,7 +69,6 @@ ResourceProbe< ValueType, MeanType >
   this->m_StartValue        = NumericTraits< ValueType >::ZeroValue();
   this->m_MinimumValue      = NumericTraits< ValueType >::max();
   this->m_MaximumValue      = NumericTraits< ValueType >::min();
-  this->m_MeanValue         = NumericTraits< MeanType >::ZeroValue();
   this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
 
   this->m_NumberOfStarts    = NumericTraits< CountType >::ZeroValue();
@@ -202,28 +201,28 @@ ValueType
 ResourceProbe< ValueType, MeanType >
 ::GetStandardDeviation()
 {
-  this->m_MeanValue = this->GetMean();
-  std::vector<ValueType> diff(this->m_ProbeValueList.size());
+  using InternalComputeType = typename NumericTraits< ValueType >::RealType;
+  const InternalComputeType realMean = static_cast< InternalComputeType > ( this->GetMean() );
+  std::vector<InternalComputeType> diff(this->m_ProbeValueList.size());
   std::transform(this->m_ProbeValueList.begin(),
                  this->m_ProbeValueList.end(),
                  diff.begin(),
                  //Subtract mean from every value;
-                 [this] (const ValueType v ) { return ( v - this->m_MeanValue ); }
+                 [realMean] (const ValueType v ) { return ( static_cast< InternalComputeType > ( v ) - realMean ); }
                  );
-  const ValueType sqsum =
+  const InternalComputeType sqsum =
     std::inner_product(diff.begin(),diff.end(),
                        diff.begin(),
-                       NumericTraits< ValueType >::ZeroValue());
+                       NumericTraits< InternalComputeType >::ZeroValue());
 
-  const int sz = static_cast<int>(this->m_ProbeValueList.size())-1;
-  if (sz <=0)
+  const InternalComputeType sz = static_cast<InternalComputeType>(this->m_ProbeValueList.size())-1.0;
+  if (sz <=0.0)
     {
     this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
     }
   else
     {
-    this->m_StandardDeviation =
-      static_cast<ValueType>(std::sqrt(static_cast<double>(sqsum /(static_cast<ValueType>(sz)))));
+    this->m_StandardDeviation = static_cast<ValueType>(std::sqrt(sqsum /sz));
     }
   return this->m_StandardDeviation;
 }
