@@ -110,23 +110,6 @@ S  void SetIndex(const IndexValueType val[VDimension])
 #include "itkSize.h"
 #include "itkOffset.h"
 
-namespace {
-
-template<unsigned int VIndexDimension>
-std::ostream &operator<<(std::ostream &os,
-  const std::array<typename itk::Index<VIndexDimension>::IndexValueType, VIndexDimension> &ind) {
-  os << "[";
-  for (unsigned int i = 0; i + 1 < VIndexDimension; ++i) {
-    os << ind[i] << ", ";
-  }
-  if (VIndexDimension >= 1) {
-    os << ind[VIndexDimension - 1];
-  }
-  os << "]";
-  return os;
-}
-}
-
 /*
  * The following line should throw a compile-time error
  * because only positive Index sizes are supported.
