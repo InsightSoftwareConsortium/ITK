@@ -35,11 +35,11 @@ namespace itk
  * \ingroup ITKWatersheds
  */
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage = Image< IdentifierType, TInputImage::ImageDimension >  >
 class ITK_TEMPLATE_EXPORT TobogganImageFilter:
   public ImageToImageFilter<
     TInputImage,
-    Image< IdentifierType, TInputImage::ImageDimension > >
+    TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TobogganImageFilter);
@@ -54,7 +54,7 @@ public:
   static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
   /** The type of output image.   */
-  using OutputImageType = Image< IdentifierType, Self::NDimensions >;
+  using OutputImageType = TOutputImage;
 
   /** Output image pixel type. */
   using OutputImagePixelType = typename OutputImageType::PixelType;
