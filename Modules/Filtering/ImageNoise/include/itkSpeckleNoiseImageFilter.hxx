@@ -37,15 +37,20 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 SpeckleNoiseImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData( const OutputImageRegionType &outputRegionForThread)
 {
   const InputImageType* inputPtr = this->GetInput();
   OutputImageType*      outputPtr = this->GetOutput(0);
 
   // Create a random generator per thread
+  IndexValueType indSeed = 0;
+  for (unsigned d=0; d<TOutputImage::ImageDimension; d++)
+    {
+    indSeed += outputRegionForThread.GetIndex(d);
+    }
   typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
     Statistics::MersenneTwisterRandomVariateGenerator::New();
-  const uint32_t seed = Self::Hash( this->GetSeed(), threadId );
+  const uint32_t seed = Self::Hash( this->GetSeed(), uint32_t(indSeed) );
   rand->Initialize(seed);
 
   // Define the portion of the input to walk for this thread, using
@@ -57,8 +62,6 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
   // Define the iterators
   ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
-
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
@@ -111,7 +114,6 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
       }
     inputIt.NextLine();
     outputIt.NextLine();
-    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 

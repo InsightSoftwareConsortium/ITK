@@ -27,8 +27,7 @@ int itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
   if( argc != 9 )
     {
     std::cerr << "usage: " << argv[0] << " input input output opacity type thickness dilation priority sliceDim" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   constexpr int dim = 2;
@@ -45,9 +44,6 @@ int itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
-
-//  using RGBPixelType = itk::RGBPixel< unsigned char >;
-//  using RGBImageType = itk::Image< RGBPixelType, dim >;
 
   using ColorizerType = itk::LabelMapContourOverlayImageFilter< ConverterType::OutputImageType, IType >;
   ColorizerType::Pointer colorizer = ColorizerType::New();

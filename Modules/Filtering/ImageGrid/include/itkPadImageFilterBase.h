@@ -102,8 +102,8 @@ protected:
   void GenerateInputRequestedRegion() override;
 
   /** This class can be multithreaded. */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   /** Method for subclasses to set the boundary condition. */
   void InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition );

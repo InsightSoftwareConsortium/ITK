@@ -131,10 +131,8 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // instantiate the histogram
   HistogramType histogram;
   this->ConfigureHistogram( histogram );
 
@@ -180,9 +178,6 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   int BestDirection = this->m_Axes[axis];
   int LineLength = inputRegion.GetSize()[BestDirection];
 
-  // Report progress every line instead of every pixel
-  ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize()[BestDirection]);
   // init the offset and get the lists for the best axis
   offset[BestDirection] = direction[BestDirection];
   // it's very important for performances to get a pointer and not a copy
@@ -283,7 +278,6 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
         HistVec[i] = HistVec[LineDirection];
         }
       }
-    progress.CompletedPixel();
     }
   delete[] Steps;
 }

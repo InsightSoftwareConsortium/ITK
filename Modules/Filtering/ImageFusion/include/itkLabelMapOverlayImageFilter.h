@@ -19,7 +19,6 @@
 #define itkLabelMapOverlayImageFilter_h
 
 #include "itkLabelMapFilter.h"
-#include "itkBarrier.h"
 #include "itkLabelOverlayFunctor.h"
 #include "itkRGBPixel.h"
 
@@ -158,9 +157,10 @@ protected:
   /** LabelMapOverlayImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
 
-  void BeforeThreadedGenerateData() override;
+  void GenerateData() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
@@ -170,7 +170,6 @@ protected:
 
 private:
   double                    m_Opacity;
-  typename Barrier::Pointer m_Barrier;
   FunctorType               m_Functor;
 
 }; // end of class

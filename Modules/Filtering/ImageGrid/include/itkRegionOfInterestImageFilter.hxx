@@ -104,16 +104,12 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
 {
 
   // Get the input and output pointers
   const TInputImage *inputPtr  = this->GetInput();
   TOutputImage      *outputPtr = this->GetOutput();
-
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, 1 );
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
@@ -129,8 +125,6 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   inputRegionForThread.SetIndex(start);
 
   ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
-
-  progress.CompletedPixel();
 }
 
 template< typename TInputImage, typename TOutputImage >

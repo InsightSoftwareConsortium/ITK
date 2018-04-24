@@ -196,8 +196,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
 template<typename TInputImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType & region,
-  ThreadIdType itkNotUsed( threadId ) )
+::DynamicThreadedGenerateData( const OutputImageRegionType & region )
 {
   const TInputImage *inputPtr = this->GetInput();
   TOutputImage *outputPtr = this->GetOutput();

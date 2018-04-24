@@ -156,7 +156,8 @@ protected:
 
   void BeforeThreadedGenerateData() override;
 
-  void ThreadedGenerateData( const OutputRegionType &, ThreadIdType ) override;
+  void DynamicThreadedGenerateData( const OutputRegionType & ) override;
+
 
   VectorType IntegrateVelocityAtPoint( const PointType &initialSpatialPoint, const TimeVaryingVelocityFieldType * inputField );
 

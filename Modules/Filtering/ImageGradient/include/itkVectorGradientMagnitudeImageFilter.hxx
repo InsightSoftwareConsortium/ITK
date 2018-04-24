@@ -211,8 +211,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   ZeroFluxNeumannBoundaryCondition< RealVectorImageType > nbc;
   ConstNeighborhoodIteratorType                           bit;
@@ -230,9 +229,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< RealVectorImageType >::
   FaceListType::iterator fit;
   fit = faceList.begin();
-
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
@@ -255,7 +251,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
           it.Set( this->EvaluateAtNeighborhood3D(bit) );
           ++bit;
           ++it;
-          progress.CompletedPixel();
           }
         }
       else
@@ -265,7 +260,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
           it.Set( this->EvaluateAtNeighborhood(bit) );
           ++bit;
           ++it;
-          progress.CompletedPixel();
           }
         }
       }
@@ -276,7 +270,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
         it.Set( this->NonPCEvaluateAtNeighborhood(bit) );
         ++bit;
         ++it;
-        progress.CompletedPixel();
         }
       }
     }

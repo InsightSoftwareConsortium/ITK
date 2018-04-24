@@ -94,12 +94,10 @@ BinShrinkImageFilter< TInputImage, TOutputImage >
 template <class TInputImage, class TOutputImage>
 void
 BinShrinkImageFilter<TInputImage,TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread)
 {
-  itkDebugMacro(<<"Actually executing on region:" << outputRegionForThread);
+  itkDebugMacro(<<"BinShrinkImageFilter executing on region:" << outputRegionForThread);
 
-  // Get the input and output pointers
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput();
 
@@ -160,10 +158,6 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
                                                std::multiplies<size_t>() );
     const double inumSamples = 1.0 / (double)numSamples;
 
-    const unsigned int numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() /
-      outputRegionForThread.GetSize(0);
-    ProgressReporter progress(this, threadId, numberOfLinesToProcess );
-
     while ( !outputIterator.IsAtEnd() )
       {
       const OutputIndexType outputIndex = outputIterator.GetIndex();
@@ -215,10 +209,6 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
         }
 
       outputIterator.NextLine();
-
-      // Although the method name is CompletedPixel(),
-      // this is being called after each line is processed
-      progress.CompletedPixel();
       }
 
     }
@@ -228,7 +218,6 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
     throw;
     }
   delete [] accBuffer;
-
 }
 
 template <class TInputImage, class TOutputImage>

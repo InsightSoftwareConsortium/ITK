@@ -41,8 +41,7 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int i;
 
@@ -61,9 +60,6 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
   faceList = bC( input, outputRegionForThread, this->GetRadius() );
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
@@ -115,7 +111,6 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
 
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

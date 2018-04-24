@@ -84,8 +84,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                             ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
+
 
   // should be set by the meta filter
   InputImagePixelType m_Boundary;

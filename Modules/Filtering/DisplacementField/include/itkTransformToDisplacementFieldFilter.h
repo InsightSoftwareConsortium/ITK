@@ -163,20 +163,19 @@ protected:
   /** Produces a Vector Image. */
   void GenerateOutputInformation() override;
 
-  /** TransformToDisplacementFieldFilter can be implemented as a multithreaded
-   * filter.
-   */
-  void ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId ) override;
+  /** TransformToDisplacementFieldFilter is implemented as a multithreaded filter. */
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   /** Default implementation for resampling that works for any
    * transformation type.
    */
-  void NonlinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId );
+  void NonlinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread );
 
   /** Faster implementation for resampling that works for with linear
    *  transformation types.
    */
-  void LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId );
+  void LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread );
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

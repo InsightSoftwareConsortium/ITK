@@ -29,9 +29,6 @@
 #include "itkMath.h"
 namespace itk
 {
-/**
- * Default constructor.
- */
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::WarpImageFilter()
@@ -40,7 +37,6 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   // #1 "DisplacementField" required
   Self::AddRequiredInputName("DisplacementField", 1);
 
-
   // Setup default values
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
@@ -48,19 +44,13 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_OutputSize.Fill(0);
   m_EdgePaddingValue = NumericTraits< PixelType >::ZeroValue(m_EdgePaddingValue);
   m_OutputStartIndex.Fill(0);
-  // Setup default interpolator
-  typename DefaultInterpolatorType::Pointer interp =
-    DefaultInterpolatorType::New();
 
-  m_Interpolator =
-    static_cast< InterpolatorType * >( interp.GetPointer() );
+  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  m_Interpolator = static_cast< InterpolatorType * >( interp.GetPointer() );
 
   m_DefFieldSameInformation = false;
 }
 
-/**
- * Standard PrintSelf method.
- */
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
@@ -79,10 +69,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 }
 
-/**
- * Set the output image spacing.
- *
- */
+
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
@@ -97,10 +84,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   this->SetOutputSpacing(s);
 }
 
-/**
- * Set the output image origin.
- *
- */
+
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
@@ -188,9 +172,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     }
 }
 
-/**
- * Setup state of filter after multi-threading.
- */
+
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
@@ -308,15 +290,10 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   OutputImageType             *outputPtr = this->GetOutput();
   const DisplacementFieldType *fieldPtr = this->GetDisplacementField();
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // iterator for the output image
   ImageRegionIteratorWithIndex< OutputImageType > outputIt(
@@ -358,7 +335,6 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
         }
       ++outputIt;
       ++fieldIt;
-      progress.CompletedPixel();
       }
     }
   else
@@ -387,7 +363,6 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
         outputIt.Set(m_EdgePaddingValue);
         }
       ++outputIt;
-      progress.CompletedPixel();
       }
     }
 }

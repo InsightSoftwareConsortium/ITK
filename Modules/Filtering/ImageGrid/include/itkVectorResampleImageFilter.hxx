@@ -100,16 +100,9 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
-::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  itkDebugMacro(<< "Actually executing");
-
-  // Get the output image pointer
   OutputImagePointer outputPtr = this->GetOutput();
-
-  // Get the input image pointer
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create an iterator that will walk the output region for this thread.
@@ -127,9 +120,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 
   // Doc says this only works for VectorImage, but Image implementation says otherwise...
   const unsigned int numberOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
-
-  // Support for progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   using OutputType = typename InterpolatorType::OutputType;
 
@@ -165,7 +155,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
       outIt.Set(m_DefaultPixelValue); // default background value
       }
 
-    progress.CompletedPixel();
     ++outIt;
     }
 }

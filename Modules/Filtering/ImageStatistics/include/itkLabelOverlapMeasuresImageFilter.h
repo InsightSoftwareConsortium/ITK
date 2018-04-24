@@ -219,6 +219,11 @@ protected:
   /** Multi-thread version GenerateData. */
   void ThreadedGenerateData( const RegionType&, ThreadIdType ) override;
 
+  void DynamicThreadedGenerateData( const RegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
+
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion( DataObject *data ) override;
 

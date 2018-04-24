@@ -175,8 +175,7 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
 template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   ZeroFluxNeumannBoundaryCondition< RealVectorImageType > nbc;
   ConstNeighborhoodIteratorType                           bit;
@@ -192,9 +191,6 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< RealVectorImageType >::
   FaceListType::iterator fit;
   fit = faceList.begin();
-
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
@@ -213,7 +209,6 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
       it.Set( static_cast< OutputPixelType >( this->EvaluateAtNeighborhood(bit) ) );
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

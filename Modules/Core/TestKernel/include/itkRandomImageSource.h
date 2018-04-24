@@ -87,6 +87,9 @@ public:
   using PointValueType = typename TOutputImage::PointValueType;
   typedef PointValueType                          PointValueArrayType[TOutputImage::ImageDimension];
 
+  /** ImageDimension constant */
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+
   /** Set/Get size of the output image */
   itkSetMacro(Size, SizeType);
   virtual void SetSize(SizeValueArrayType sizeArray);
@@ -131,9 +134,7 @@ protected:
   ~RandomImageSource() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void
-  ThreadedGenerateData(const OutputImageRegionType &
-                       outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   void GenerateOutputInformation() override;
 

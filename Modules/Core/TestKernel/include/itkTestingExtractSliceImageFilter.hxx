@@ -248,8 +248,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ExtractSliceImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
 
   itkDebugMacro(<< "Actually executing");
@@ -258,14 +257,10 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   const TInputImage * inputPtr = this->GetInput();
   TOutputImage     * outputPtr = this->GetOutput();
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  // Define the iterators.
   using OutputIterator = ImageRegionIterator< TOutputImage >;
   using InputIterator = ImageRegionConstIterator< TInputImage >;
 
@@ -279,7 +274,6 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
     outIt.Set( static_cast< OutputImagePixelType >( inIt.Get() ) );
     ++outIt;
     ++inIt;
-    progress.CompletedPixel();
     }
 }
 

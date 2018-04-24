@@ -40,7 +40,7 @@ namespace itk
  * \image html MirrorPadImageFilter.png "Visual explanation of padding regions."
  *
  * This filter is implemented as a multithreaded filter.  It provides a
- * ThreadedGenerateData() method for its implementation.
+ * DynamicThreadedGenerateData() method for its implementation.
  *
  * Exponential decay in the bounds is enabled when DecayBase has to be
  * in the range (0.0, 1.0]. When it is 1.0 it is disabled. The decay
@@ -130,17 +130,17 @@ protected:
   int RegionIsOdd(long base, long test, long size);
 
   /** MirrorPadImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
+   * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * calling DynamicThreadedGenerateData().  DynamicThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   /** Given an n dimensional list of input region breakpoints in indices
    * and size (where the current region and maximum region for each dimension

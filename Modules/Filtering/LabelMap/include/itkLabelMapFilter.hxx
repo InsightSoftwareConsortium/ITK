@@ -76,11 +76,7 @@ void
 LabelMapFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  // initialize the iterator
   m_LabelObjectIterator =  typename InputImageType::Iterator(this->GetLabelMap());
-//  m_LabelObjectIterator = typename InputImageType::Iterator(this->GetLabelMap());
-
-  // and the mutex
   m_LabelObjectContainerLock = FastMutexLock::New();
 
   if(Math::ExactlyEquals(this->GetLabelMap()->GetNumberOfLabelObjects(), 0.0))
@@ -91,7 +87,7 @@ LabelMapFilter< TInputImage, TOutputImage >
     {
     m_InverseNumberOfLabelObjects = 1.0f/this->GetLabelMap()->GetNumberOfLabelObjects();
     }
-
+  //TODO: set number of work units to be equal to GetNumberOfLabelObjects()
   m_NumberOfLabelObjectsProcessed = 0;
 }
 
@@ -106,7 +102,7 @@ LabelMapFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType threadId )
+::DynamicThreadedGenerateData( const OutputImageRegionType & )
 {
   while ( true )
     {
@@ -137,12 +133,6 @@ LabelMapFilter< TInputImage, TOutputImage >
     // and run the user defined method for that object
     this->ThreadedProcessLabelObject(labelObject);
 
-    if (threadId==0)
-      {
-      const float progress = m_InverseNumberOfLabelObjects*m_NumberOfLabelObjectsProcessed;
-      this->UpdateProgress(progress);
-      }
-
     // all threads needs to check the abort flag
     if ( this->GetAbortGenerateData() )
       {
@@ -161,7 +151,6 @@ void
 LabelMapFilter< TInputImage, TOutputImage >
 ::ThreadedProcessLabelObject( LabelObjectType *itkNotUsed(labelObject) )
 {
-  // do nothing
   // the subclass should override this method
 }
 } // end namespace itk

@@ -72,7 +72,7 @@ namespace Testing
  *            Output direction is the sub-matrix if it is positive definite, else throw an exception.
  *
  * This filter is implemented as a multithreaded filter.  It provides a
- * ThreadedGenerateData() method for its implementation.
+ * DynamicThreadedGenerateData() method for its implementation.
  *
  * \sa CropImageFilter
  * \ingroup GeometricTransform
@@ -253,15 +253,14 @@ protected:
                                                  const OutputImageRegionType & srcRegion);
 
   /** ExtractSliceImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
+   * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * calling DynamicThreadedGenerateData().  DynamicThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                           ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   InputImageRegionType m_ExtractionRegion;
 

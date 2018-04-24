@@ -49,6 +49,8 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   m_IgnoreBoundaryPixels = false;
   m_VerifyInputInformation = true;
 
+  this->DynamicMultiThreadingOff();
+
   // #0 "Valid" required
   Self::SetPrimaryInputName("ValidInput");
 

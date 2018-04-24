@@ -283,14 +283,8 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Set up the progress reporter
-  ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels(),
-                            10);
-
   // Set up the boundary condition to have no upwind derivatives
   ZeroFluxNeumannBoundaryCondition< TInputImage > BC;
 
@@ -325,7 +319,6 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   MarkerImagePixelType value, dilateValue, maskValue;
 
   // Iterate over the faces
-  //
   for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     NeighborhoodIteratorType markerIt(kernelRadius,
@@ -399,8 +392,6 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
       ++oIt;
       ++markerIt;
       ++maskIt;
-
-      progress.CompletedPixel();
       }
     }
 }

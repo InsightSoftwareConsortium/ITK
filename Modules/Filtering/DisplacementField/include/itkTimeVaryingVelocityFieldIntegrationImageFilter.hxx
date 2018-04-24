@@ -147,7 +147,7 @@ template<typename TTimeVaryingVelocityField, typename TDisplacementField>
 void
 TimeVaryingVelocityFieldIntegrationImageFilter
   <TTimeVaryingVelocityField, TDisplacementField>
-::ThreadedGenerateData( const OutputRegionType &region, ThreadIdType itkNotUsed( threadId ) )
+::DynamicThreadedGenerateData( const OutputRegionType &region )
 {
   if( Math::ExactlyEquals( this->m_LowerTimeBound, this->m_UpperTimeBound ) )
     {

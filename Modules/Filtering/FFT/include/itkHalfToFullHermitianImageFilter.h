@@ -87,8 +87,8 @@ protected:
   HalfToFullHermitianImageFilter();
   ~HalfToFullHermitianImageFilter() override {}
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   /** The output is a different size from the input. */
   void GenerateOutputInformation() override;

@@ -92,10 +92,8 @@ FullToHalfHermitianImageFilter< TInputImage >
 template< typename TInputImage >
 void
 FullToHalfHermitianImageFilter< TInputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Get pointers to the input and output.
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
@@ -103,10 +101,6 @@ FullToHalfHermitianImageFilter< TInputImage >
     {
     return;
     }
-
-  // We don't have a nice progress to report, but at least this simple line
-  // reports the beginning and the end of the process.
-  ProgressReporter progress(this, threadId, 1);
 
   // Copy the non-reflected region.
   ImageAlgorithm::Copy( inputPtr.GetPointer(), outputPtr.GetPointer(),

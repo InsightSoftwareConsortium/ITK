@@ -142,8 +142,7 @@ public:
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineScatteredDataPointSetToImageFilter,
-    PointSetToImageFilter );
+  itkTypeMacro( BSplineScatteredDataPointSetToImageFilter, PointSetToImageFilter );
 
   /** Extract dimension from the output image. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
@@ -169,16 +168,12 @@ public:
   using WeightsContainerType = VectorContainer<unsigned, RealType>;
 
   /** Image types. */
-  using PointDataImageType = Image<PointDataType,
-    Self::ImageDimension >;
-  using RealImageType = Image<RealType,
-    Self::ImageDimension >;
+  using PointDataImageType = Image<PointDataType, Self::ImageDimension >;
+  using RealImageType = Image<RealType, Self::ImageDimension >;
   using RealImagePointer = typename RealImageType::Pointer;
   using PointDataImagePointer = typename PointDataImageType::Pointer;
-  using ArrayType = FixedArray<unsigned,
-    Self::ImageDimension >;
-  using RealArrayType = FixedArray<RealType,
-    Self::ImageDimension >;
+  using ArrayType = FixedArray<unsigned, Self::ImageDimension >;
+  using RealArrayType = FixedArray<RealType, Self::ImageDimension >;
 
   /** Interpolation kernel type (default spline order = 3). */
   using KernelType = CoxDeBoorBSplineKernelFunction<3>;
@@ -287,6 +282,11 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void ThreadedGenerateData( const RegionType &, ThreadIdType ) override;
+
+  void DynamicThreadedGenerateData( const RegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
 
   void BeforeThreadedGenerateData() override;
 

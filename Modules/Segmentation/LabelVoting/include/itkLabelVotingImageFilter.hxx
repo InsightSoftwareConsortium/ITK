@@ -27,8 +27,6 @@
 
 namespace itk
 {
-
-
 template< typename TInputImage, typename TOutputImage >
 LabelVotingImageFilter< TInputImage, TOutputImage >
 ::LabelVotingImageFilter() :
@@ -36,7 +34,6 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   m_HasLabelForUndecidedPixels( false ),
   m_TotalLabelCount( 0 )
 {
-
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -93,11 +90,8 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 LabelVotingImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread,
-                        ThreadIdType threadId )
+::DynamicThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
 {
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   using IteratorType = ImageRegionConstIterator< TInputImage >;
   using OutIteratorType = ImageRegionIterator< TOutputImage >;
 
@@ -151,7 +145,6 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
           }
         }
       }
-    progress.CompletedPixel();
     }
 
   delete[] it;

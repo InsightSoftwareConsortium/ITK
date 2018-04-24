@@ -46,7 +46,7 @@ namespace itk
  * ProcessObject::GenerateOutputInformation().
  *
  * This filter is implemented as a multithreaded filter. It provides a
- * ThreadedGenerateData() method for its implementation.
+ * DynamicThreadedGenerateData() method for its implementation.
  *
  * \deprecated ResampleImageFilter can now resample vector images and should
  * be used instead of the VectorResampleImageFilter.
@@ -190,7 +190,7 @@ public:
 
   /** Set the state of the filter before multi-threading.
    * Note that InterpolatorType::SetInputImage is not thread-safe and hence
-   * has to be set up before ThreadedGenerateData. */
+   * has to be set up before DynamicThreadedGenerateData. */
   void BeforeThreadedGenerateData() override;
 
   /** Set the state of the filter after multi-threading. */
@@ -214,15 +214,15 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VectorResampleImageFilter can be implemented as a multithreaded filter. Therefore,
-   * this implementation provides a ThreadedGenerateData() routine which
+   * this implementation provides a DynamicThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling ThreadedGenerateData().
-   * ThreadedGenerateData can only write to the portion of the output image
+   * automatically by the superclass prior to calling DynamicThreadedGenerateData().
+   * DynamicThreadedGenerateData can only write to the portion of the output image
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
 private:
   SizeType                m_Size;

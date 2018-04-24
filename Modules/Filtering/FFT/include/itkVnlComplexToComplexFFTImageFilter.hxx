@@ -79,11 +79,9 @@ VnlComplexToComplexFFTImageFilter< TImage >
 template <typename TImage>
 void
 VnlComplexToComplexFFTImageFilter< TImage >
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
+::DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread)
 {
-  //
   // Normalize the output if backward transform
-  //
   if ( this->GetTransformDirection() == Superclass::INVERSE )
     {
     using IteratorType = ImageRegionIterator< OutputImageType >;

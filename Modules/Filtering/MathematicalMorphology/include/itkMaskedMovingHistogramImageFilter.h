@@ -147,9 +147,8 @@ protected:
   ~MaskedMovingHistogramImageFilter() override {}
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

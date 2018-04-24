@@ -287,10 +287,10 @@ ExtractImageFilter< TInputImage, TOutputImage >
 
 /**
  * ExtractImageFilter can be implemented as a multithreaded filter.
- * Therefore, this implementation provides a ThreadedGenerateData()
+ * Therefore, this implementation provides a DynamicThreadedGenerateData()
  * routine which is called for each processing thread. The output
  * image data is allocated automatically by the superclass prior to
- * calling ThreadedGenerateData().  ThreadedGenerateData can only
+ * calling DynamicThreadedGenerateData().  DynamicThreadedGenerateData can only
  * write to the portion of the output image specified by the
  * parameter "outputRegionForThread"
  *
@@ -300,17 +300,13 @@ ExtractImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ExtractImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   itkDebugMacro(<< "Actually executing");
 
-  // Get the input and output pointers
   const InputImageType *inputPtr = this->GetInput();
   OutputImageType      *outputPtr = this->GetOutput();
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, 1 );
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
@@ -318,8 +314,6 @@ ExtractImageFilter< TInputImage, TOutputImage >
 
   // copy the input pixel to the output
   ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
-  progress.CompletedPixel();
-
 }
 } // end namespace itk
 

@@ -221,9 +221,9 @@ protected:
 
   /** WarpVectorImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for
-   * ThreadedGenerateData(). */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+   * DynamicThreadedGenerateData(). */
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
 private:
   PixelType     m_EdgePaddingValue;

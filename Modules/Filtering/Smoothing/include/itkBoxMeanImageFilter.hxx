@@ -43,7 +43,7 @@ BoxMeanImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BoxMeanImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Accumulate type is too small
   using AccPixType = typename NumericTraits< PixelType >::RealType;
@@ -61,21 +61,17 @@ BoxMeanImageFilter< TInputImage, TOutputImage >
   accumRegion.PadByRadius(internalRadius);
   accumRegion.Crop( inputImage->GetRequestedRegion() );
 
-  ProgressReporter progress( this, threadId, 2 * accumRegion.GetNumberOfPixels() );
-
   typename AccumImageType::Pointer accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
   accImage->Allocate();
 
   BoxAccumulateFunction< TInputImage, AccumImageType >(inputImage, accImage,
                                                        accumRegion,
-                                                       accumRegion,
-                                                       progress);
+                                                       accumRegion);
   BoxMeanCalculatorFunction< AccumImageType, TOutputImage >(accImage.GetPointer(), outputImage,
                                                             accumRegion,
                                                             outputRegionForThread,
-                                                            this->GetRadius(),
-                                                            progress);
+                                                            this->GetRadius());
 }
 } // end namespace itk
 #endif

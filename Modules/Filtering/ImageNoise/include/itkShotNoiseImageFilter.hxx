@@ -37,15 +37,20 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 ShotNoiseImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData( const OutputImageRegionType &outputRegionForThread)
 {
   const InputImageType* inputPtr = this->GetInput();
   OutputImageType*      outputPtr = this->GetOutput(0);
 
   // Create a random generator per thread
+  IndexValueType indSeed = 0;
+  for (unsigned d=0; d<TOutputImage::ImageDimension; d++)
+    {
+    indSeed += outputRegionForThread.GetIndex(d);
+    }
   typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
     Statistics::MersenneTwisterRandomVariateGenerator::New();
-  const uint32_t seed = Self::Hash( this->GetSeed(), threadId );
+  const uint32_t seed = Self::Hash( this->GetSeed(), uint32_t(indSeed) );
   rand->Initialize(seed);
   typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
   randn->Initialize(*reinterpret_cast<const int32_t*>( &seed ));
@@ -59,8 +64,6 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
   // Define the iterators
   ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
-
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
@@ -101,7 +104,6 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
       }
     inputIt.NextLine();
     outputIt.NextLine();
-    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 

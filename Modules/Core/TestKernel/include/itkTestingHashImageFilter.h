@@ -98,9 +98,10 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-
-    void ThreadedGenerateData(const typename Superclass::OutputImageRegionType &,
+  /** All work is done by AfterThreadedGenerateData(). */
+  void ThreadedGenerateData(const typename Superclass::OutputImageRegionType &,
                               ThreadIdType) override {}
+  void DynamicThreadedGenerateData(const typename Superclass::OutputImageRegionType &) override {}
 
   // See superclass for doxygen documentation
   //

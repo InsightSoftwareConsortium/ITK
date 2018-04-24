@@ -40,7 +40,9 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   m_UseImageSpacing(true),
   m_SquaredDistance(false),
   m_InputCache(nullptr)
-{}
+{
+  this->DynamicMultiThreadingOff();
+}
 
 template< typename TInputImage, typename TOutputImage >
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
@@ -179,8 +181,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   OutputImageType      *outputImage = this->GetOutput();
 

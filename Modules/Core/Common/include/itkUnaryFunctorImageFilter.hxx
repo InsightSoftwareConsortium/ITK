@@ -24,9 +24,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
 template< typename TInputImage, typename TOutputImage, typename TFunction  >
 UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::UnaryFunctorImageFilter()
@@ -74,14 +71,11 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
   informationCopier(outputPtr, inputPtr);
 }
 
-/**
- * ThreadedGenerateData Performs the pixel-wise addition
- */
+
 template< typename TInputImage, typename TOutputImage, typename TFunction  >
 void
 UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
 
@@ -99,10 +93,6 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  const SizeValueType numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
-
-  // Define the iterators
   ImageScanlineConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
@@ -118,7 +108,6 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
       }
     inputIt.NextLine();
     outputIt.NextLine();
-    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 } // end namespace itk

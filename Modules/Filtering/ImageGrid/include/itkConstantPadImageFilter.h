@@ -35,7 +35,7 @@ namespace itk
  * \image html PadImageFilter.png "Visual explanation of padding regions."
  *
  * This filter is implemented as a multithreaded filter.  It provides a
- * ThreadedGenerateData() method for its implementation.
+ * DynamicThreadedGenerateData() method for its implementation.
  *
  * \ingroup GeometricTransform
  * \sa WrapPadImageFilter, MirrorPadImageFilter

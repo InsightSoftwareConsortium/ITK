@@ -45,6 +45,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   m_IsFittingComplete( false )
 {
   this->m_SplineOrder.Fill( 3 );
+  this->DynamicMultiThreadingOff();
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {

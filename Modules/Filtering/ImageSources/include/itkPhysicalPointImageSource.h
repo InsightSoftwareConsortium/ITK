@@ -69,7 +69,8 @@ protected:
 
   void GenerateOutputInformation() override;
 
-  void ThreadedGenerateData (const RegionType &outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
+
 };
 }
 

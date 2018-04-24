@@ -145,8 +145,12 @@ protected:
 
   void AfterThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+
+  void DynamicThreadedGenerateData( const RegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
 
   /** BinaryContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().

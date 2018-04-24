@@ -36,6 +36,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   m_LowerBound = static_cast< RealType >( NumericTraits< PixelType >::NonpositiveMin() );
   m_UpperBound = static_cast< RealType >( NumericTraits< PixelType >::max() );
   m_ValidLabelValues.clear();
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage, typename TLabelImage >

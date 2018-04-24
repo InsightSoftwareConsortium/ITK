@@ -93,15 +93,13 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 VotingBinaryImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
 
   ConstNeighborhoodIterator< InputImageType > bit;
   ImageRegionIterator< OutputImageType >      it;
 
-  // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
   typename InputImageType::ConstPointer input  = this->GetInput();
 
@@ -111,8 +109,6 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
   faceList = bC(input, outputRegionForThread, m_Radius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
@@ -153,10 +149,8 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
         it.Set( static_cast< OutputPixelType >( m_BackgroundValue ) );
         }
 
-
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

@@ -54,8 +54,8 @@ CheckerBoardImageFilter< TImage >
 template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
-::ThreadedGenerateData(
-  const ImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(
+  const ImageRegionType & outputRegionForThread)
 {
   // Get the output pointers
   OutputImagePointer     outputPtr = this->GetOutput();
@@ -73,10 +73,6 @@ CheckerBoardImageFilter< TImage >
   outItr.GoToBegin();
   in1Itr.GoToBegin();
   in2Itr.GoToBegin();
-
-  // Support for progress methods/callbacks
-  ProgressReporter progress( this, threadId,
-                             outputRegionForThread.GetNumberOfPixels() );
 
   typename InputImageType::SizeType size =
     input2Ptr->GetLargestPossibleRegion().GetSize();
@@ -115,8 +111,6 @@ CheckerBoardImageFilter< TImage >
       }
 
     outItr.Set(pixval);
-
-    progress.CompletedPixel();
 
     ++outItr;
     ++in1Itr;

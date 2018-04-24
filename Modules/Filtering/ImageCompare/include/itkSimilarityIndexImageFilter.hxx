@@ -33,6 +33,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
   this->SetNumberOfRequiredInputs(2);
 
   m_SimilarityIndex = NumericTraits< RealType >::ZeroValue();
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage1, typename TInputImage2 >

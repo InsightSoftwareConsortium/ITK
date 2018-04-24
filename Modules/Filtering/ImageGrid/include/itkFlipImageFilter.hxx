@@ -161,17 +161,10 @@ FlipImageFilter< TImage >
 template< typename TImage >
 void
 FlipImageFilter< TImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Get the input and output pointers
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
-
-  // Support progress methods/callbacks
-  const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
-  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
   const typename TImage::SizeType & outputLargestPossibleSize =
     outputPtr->GetLargestPossibleRegion().GetSize();
@@ -214,7 +207,6 @@ FlipImageFilter< TImage >
   outputIt.GoToBegin();
   while ( !outputIt.IsAtEnd() )
     {
-
     // Determine the index of the output line
     const typename TImage::IndexType outputIndex = outputIt.GetIndex();
 
@@ -257,8 +249,6 @@ FlipImageFilter< TImage >
       }
 
       outputIt.NextLine();
-      progress.CompletedPixel();
-
     }
 }
 

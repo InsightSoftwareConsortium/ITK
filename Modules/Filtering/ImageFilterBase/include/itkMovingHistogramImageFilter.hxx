@@ -39,10 +39,8 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // instantiate the histogram
   HistogramType histogram;
   this->ConfigureHistogram( histogram );
 
@@ -57,21 +55,24 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
     {
     IndexType idx = outputRegionForThread.GetIndex() + ( *listIt );
     if ( inputRegion.IsInside(idx) )
-              { histogram.AddPixel( inputImage->GetPixel(idx) ); }
+      {
+      histogram.AddPixel( inputImage->GetPixel(idx) );
+      }
     else
-              { histogram.AddBoundary(); }
+      {
+      histogram.AddBoundary();
+      }
     }
 
   // now move the histogram
   FixedArray< short, ImageDimension > direction;
   direction.Fill(1);
-  int        axis = ImageDimension - 1;
+  int axis = ImageDimension - 1;
   OffsetType offset;
   offset.Fill(0);
   RegionType stRegion;
   stRegion.SetSize( this->m_Kernel.GetSize() );
-  stRegion.PadByRadius(1);   // must pad the region by one because of the
-                             // translation
+  stRegion.PadByRadius(1);   // must pad the region by one because of the translation
 
   OffsetType   centerOffset;
   unsigned int i;
@@ -83,9 +84,6 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
   int BestDirection = this->m_Axes[axis];
   int LineLength = inputRegion.GetSize()[BestDirection];
 
-  // Report progress every line instead of every pixel
-  ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize()[BestDirection]);
   // init the offset and get the lists for the best axis
   offset[BestDirection] = direction[BestDirection];
   // it's very important for performances to get a pointer and not a copy
@@ -172,7 +170,6 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
         HistVec[i] = HistVec[LineDirection];
         }
       }
-    progress.CompletedPixel();
     }
   delete[] Steps;
 }

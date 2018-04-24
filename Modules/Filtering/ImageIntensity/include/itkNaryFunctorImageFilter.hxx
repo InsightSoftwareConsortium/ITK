@@ -38,13 +38,12 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 }
 
 /**
- * ThreadedGenerateData Performs the pixel-wise addition
+ * DynamicThreadedGenerateData Performs the pixel-wise addition
  */
 template< typename TInputImage, typename TOutputImage, typename TFunction >
 void
 NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   const SizeValueType size0 = outputRegionForThread.GetSize(0);
   if( size0 == 0)
@@ -69,9 +68,6 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
       inputItrVector.push_back( new ImageScanlineConstIteratorType(inputPtr, outputRegionForThread) );
       }
     }
-
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
   const auto numberOfValidInputImages = static_cast<const unsigned int>( inputItrVector.size() );
 
@@ -116,7 +112,6 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
        ++regionIterators;
        }
      outputIt.NextLine();
-     progress.CompletedPixel(); // potential exception thrown here
     }
 
   // Free memory

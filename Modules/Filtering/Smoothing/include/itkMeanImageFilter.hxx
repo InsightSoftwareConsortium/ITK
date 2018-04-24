@@ -36,8 +36,7 @@ MeanImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 MeanImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int i;
 
@@ -46,7 +45,6 @@ MeanImageFilter< TInputImage, TOutputImage >
   ConstNeighborhoodIterator< InputImageType > bit;
   ImageRegionIterator< OutputImageType >      it;
 
-  // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
   typename  InputImageType::ConstPointer input  = this->GetInput();
 
@@ -56,9 +54,6 @@ MeanImageFilter< TInputImage, TOutputImage >
   faceList = bC( input, outputRegionForThread, this->GetRadius() );
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   InputRealType sum;
 
@@ -86,7 +81,6 @@ MeanImageFilter< TInputImage, TOutputImage >
 
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

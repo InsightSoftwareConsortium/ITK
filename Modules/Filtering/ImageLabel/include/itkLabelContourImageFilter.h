@@ -146,6 +146,11 @@ protected:
   void ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
                             ThreadIdType threadId) override;
 
+  void DynamicThreadedGenerateData( const OutputRegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
+
   /** LabelContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */

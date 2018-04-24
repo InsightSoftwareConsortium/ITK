@@ -36,8 +36,7 @@ NoiseImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 NoiseImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int i;
 
@@ -56,9 +55,6 @@ NoiseImageFilter< TInputImage, TOutputImage >
   faceList = bC( input, outputRegionForThread, this->GetRadius() );
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   InputRealType value;
   InputRealType sum;
@@ -96,7 +92,6 @@ NoiseImageFilter< TInputImage, TOutputImage >
 
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

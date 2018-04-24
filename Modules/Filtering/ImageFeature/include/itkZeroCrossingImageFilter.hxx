@@ -83,8 +83,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ZeroCrossingImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int i;
 
@@ -108,9 +107,6 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::
   FaceListType::iterator fit;
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   InputImagePixelType this_one, that, abs_this_one, abs_that;
   InputImagePixelType zero = NumericTraits< InputImagePixelType >::ZeroValue();
@@ -166,7 +162,6 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
         }
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

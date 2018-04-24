@@ -25,9 +25,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
 template< typename TInputImage, typename TOutputImage >
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::InterpolateImageFilter()
@@ -49,9 +46,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   m_IntermediateImage = nullptr;
 }
 
-/**
- * Set the second image
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
@@ -62,9 +57,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
                                     const_cast< InputImageType * >( image ) );
 }
 
-/**
- * Get the second image
- */
+
 template< typename TInputImage, typename TOutputImage >
 const typename InterpolateImageFilter< TInputImage, TOutputImage >::InputImageType *
 InterpolateImageFilter< TInputImage, TOutputImage >
@@ -73,9 +66,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   return static_cast< const TInputImage * >( this->ProcessObject::GetInput(1) );
 }
 
-/**
- * Print out a description of self
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
@@ -155,9 +146,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   m_Interpolator->SetInputImage(m_IntermediateImage);
 }
 
-/**
- * AfterThreadedGenerateData
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
@@ -167,35 +156,22 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   m_IntermediateImage = nullptr;
 }
 
-/**
- * ThreadedGenerateData
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Get the output pointers
   OutputImagePointer outputPtr = this->GetOutput();
-
-  // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
-
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   using OutputPixelType = typename TOutputImage::PixelType;
   using IndexType = typename TOutputImage::IndexType;
   using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
-  IndexType outputIndex;                         // Index to current output
-                                                 // pixel
-  ContinuousIndexType intermediateIndex;         // Coordinates of current
-                                                 // intermediate image pixel
-
-  // Estimate total work for progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  IndexType outputIndex; // Index to current output pixel
+  ContinuousIndexType intermediateIndex; // Coordinates of current intermediate image pixel
 
   // Walk the output region
   while ( !outIt.IsAtEnd() )
@@ -221,7 +197,6 @@ InterpolateImageFilter< TInputImage, TOutputImage >
       }
 
     ++outIt;
-    progress.CompletedPixel();
     }
 }
 } // end namespace itk

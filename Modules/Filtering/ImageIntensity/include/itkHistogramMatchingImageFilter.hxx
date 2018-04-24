@@ -26,9 +26,6 @@
 
 namespace itk
 {
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::HistogramMatchingImageFilter() :
@@ -61,9 +58,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   m_Gradients.fill(0);
 }
 
-/*
- *
- */
+
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
@@ -100,9 +95,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   os << m_UpperGradient << std::endl;
 }
 
-/*
- *
- */
+
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
@@ -146,9 +139,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     }
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
@@ -243,9 +234,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     }
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
@@ -282,19 +271,15 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     }
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   int          i;
   unsigned int j;
 
-  // Get the input and output pointers;
   InputImageConstPointer input  = this->GetInput();
   OutputImagePointer     output = this->GetOutput();
 
@@ -305,25 +290,10 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   InputConstIterator inIter(input, outputRegionForThread);
   OutputIterator     outIter(output, outputRegionForThread);
 
-  // support progress methods/callbacks
-  SizeValueType updateVisits = 0;
-  SizeValueType totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if ( updateVisits < 1 ) { updateVisits = 1; }
-    }
-
   double srcValue, mappedValue;
 
   for ( i = 0; !outIter.IsAtEnd(); ++inIter, ++outIter, i++ )
     {
-    if ( threadId == 0 && !( i % updateVisits ) )
-      {
-      this->UpdateProgress( (float)i / (float)totalPixels );
-      }
-
     srcValue = static_cast< double >( inIter.Get() );
 
     for ( j = 0; j < m_NumberOfMatchPoints + 2; j++ )

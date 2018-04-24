@@ -92,11 +92,8 @@ GridImageSource< TOutputImage >
 template< typename TOutputImage >
 void
 GridImageSource< TOutputImage >
-::ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread)
 {
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   ImageType* output = this->GetOutput(0);
 
   ImageRegionIteratorWithIndex< ImageType > It(output, outputRegionForThread);
@@ -110,7 +107,6 @@ GridImageSource< TOutputImage >
       val *= this->m_PixelArrays->GetElement(i)[index[i]];
       }
     It.Set( static_cast<PixelType>(m_Scale * val) );
-    progress.CompletedPixel();
     }
 }
 

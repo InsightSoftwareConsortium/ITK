@@ -101,7 +101,7 @@ BoxAccumulateFunction(const TInputImage *inputImage,
                       const TOutputImage *outputImage,
                       typename TInputImage::RegionType inputRegion,
                       typename TOutputImage::RegionType outputRegion,
-                      ProgressReporter & progress)
+                      ProgressReporter* progress = nullptr)
 {
   // type alias
   using InputImageType = TInputImage;
@@ -160,7 +160,10 @@ BoxAccumulateFunction(const TInputImage *inputImage,
       sum += sIt.Get() * weights[k];
       }
     noutIt.SetCenterPixel( sum + inIt.Get() );
-    progress.CompletedPixel();
+    if (progress)
+      {
+      progress->CompletedPixel();
+      }
     }
 }
 
@@ -204,7 +207,7 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
                           typename TInputImage::RegionType inputRegion,
                           typename TOutputImage::RegionType outputRegion,
                           typename TInputImage::SizeType radius,
-                          ProgressReporter & progress)
+                          ProgressReporter* progress = nullptr)
 {
   // type alias
   using InputImageType = TInputImage;
@@ -307,7 +310,10 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
           ++( cornerItVec[k] );
           }
         oIt.Set( static_cast< OutputPixelType >( sum / pixelscount ) );
-        progress.CompletedPixel();
+        if (progress)
+          {
+          progress->CompletedPixel();
+          }
         }
       }
     else
@@ -373,7 +379,10 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
           }
 
         oIt.Set( static_cast< OutputPixelType >( sum / (AccPixType)edgepixelscount ) );
-        progress.CompletedPixel();
+        if (progress)
+          {
+          progress->CompletedPixel();
+          }
         }
       }
     }
@@ -386,7 +395,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
                            typename TInputImage::RegionType inputRegion,
                            typename TOutputImage::RegionType outputRegion,
                            typename TInputImage::SizeType radius,
-                           ProgressReporter & progress)
+                           ProgressReporter* progress = nullptr)
 {
   // type alias
   using InputImageType = TInputImage;
@@ -493,7 +502,10 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
           }
 
         oIt.Set( static_cast< OutputPixelType >( std::sqrt( ( squareSum - sum * sum / pixelscount ) / ( pixelscount - 1 ) ) ) );
-        progress.CompletedPixel();
+        if (progress)
+          {
+          progress->CompletedPixel();
+          }
         }
       }
     else
@@ -563,7 +575,10 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
 
         oIt.Set( static_cast< OutputPixelType >( std::sqrt( ( squareSum - sum * sum
                                                              / edgepixelscount ) / ( edgepixelscount - 1 ) ) ) );
-        progress.CompletedPixel();
+        if (progress)
+          {
+          progress->CompletedPixel();
+          }
         }
       }
     }
@@ -575,7 +590,7 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
                             TOutputImage *outputImage,
                             typename TInputImage::RegionType inputRegion,
                             typename TOutputImage::RegionType outputRegion,
-                            ProgressReporter & progress)
+                            ProgressReporter* progress = nullptr)
 {
   // type alias
   using InputImageType = TInputImage;
@@ -642,7 +657,10 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
     o[0] = sum + i;
     o[1] = squareSum + i * i;
     noutIt.SetCenterPixel(o);
-    progress.CompletedPixel();
+    if (progress)
+      {
+      progress->CompletedPixel();
+      }
     }
 }
 } //namespace itk

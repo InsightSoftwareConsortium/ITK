@@ -229,13 +229,8 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  itkDebugMacro(<< "Actually executing");
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetSize(InputImageDimension) );
-
   OutputImageRegionType outputRegion = outputRegionForThread;
   outputRegion.SetSize(InputImageDimension, 1);
 
@@ -252,7 +247,6 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     {
     outputRegion.SetIndex(InputImageDimension, idx);
     ImageAlgorithm::Copy(this->GetInput(idx), output, inputRegion,  outputRegion);
-    progress.CompletedPixel();
     }
 }
 

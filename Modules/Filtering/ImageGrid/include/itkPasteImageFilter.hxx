@@ -69,16 +69,12 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
   const InputImageType  *destPtr   = this->GetInput();
   const SourceImageType *sourcePtr = this->GetSourceImage();
   OutputImageType       *outputPtr = this->GetOutput();
-
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, 1 );
 
   // What is the region on the destination image would be overwritten by the
   // source?
@@ -158,9 +154,6 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     // Paste region is outside this thread, so just copy the destination
     // input to the output
     ImageAlgorithm::Copy( destPtr, outputPtr, outputRegionForThread, outputRegionForThread );
-
-    progress.CompletedPixel();
-
     }
   else if ( useOnlySource )
     {
@@ -168,8 +161,6 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     // for this thread, so copy data from the second input
     // to the output
     ImageAlgorithm::Copy(  sourcePtr, outputPtr, sourceRegionInSourceImageCropped, outputRegionForThread);
-
-    progress.CompletedPixel();
     }
   else
     {
@@ -192,8 +183,6 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 
      // copy the cropped source region to output
      ImageAlgorithm::Copy( sourcePtr, outputPtr, sourceRegionInSourceImageCropped, sourceRegionInDestinationImageCropped );
-
-     progress.CompletedPixel();
     }
 }
 

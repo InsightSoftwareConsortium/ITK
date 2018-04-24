@@ -239,9 +239,9 @@ protected:
 
   /** WarpImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for
-   * ThreadedGenerateData(). */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+   * DynamicThreadedGenerateData(). */
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space. But check the that

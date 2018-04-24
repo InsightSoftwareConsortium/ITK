@@ -85,10 +85,9 @@ protected:
   ~BoxSigmaImageFilter() override {}
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
-};                                   // end of class
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

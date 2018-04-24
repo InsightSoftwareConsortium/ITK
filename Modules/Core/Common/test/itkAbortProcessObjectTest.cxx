@@ -93,11 +93,12 @@ int itkAbortProcessObjectTest(int, char* [] )
 
   itk::CStyleCommand::Pointer progressCmd = itk::CStyleCommand::New();
   progressCmd->SetCallback(onProgress);
-  progressCmd->SetObjectName("Aborting Command");
+  progressCmd->SetObjectName("Progress Event");
   extract->AddObserver(itk::ProgressEvent(), progressCmd);
 
   itk::CStyleCommand::Pointer abortCmd = itk::CStyleCommand::New();
   abortCmd->SetCallback(onAbort);
+  abortCmd->SetObjectName("Abort Event");
   extract->AddObserver(itk::AbortEvent(), abortCmd);
 
   std::cout << extract << std::endl;
@@ -109,10 +110,11 @@ int itkAbortProcessObjectTest(int, char* [] )
     {
     if (onAbortCalled)
       {
+      std::cout << "PASS: Abort event occurred and exception was thrown." << std::endl;
       return EXIT_SUCCESS;
       }
     std::cout << "Caught expected abort exception, but didn't get Abort Event!";
     }
-
+  std::cout << "Test FAILED!" << std::endl;
   return EXIT_FAILURE;
 }

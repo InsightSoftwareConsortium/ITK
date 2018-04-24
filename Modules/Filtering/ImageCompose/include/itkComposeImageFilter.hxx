@@ -114,11 +114,8 @@ ComposeImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
 {
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   typename OutputImageType::Pointer outputImage =
     static_cast< OutputImageType * >( this->ProcessObject::GetOutput(0) );
 
@@ -143,7 +140,6 @@ ComposeImageFilter< TInputImage, TOutputImage >
     ComputeOutputPixel( pix, inputItContainer );
     oit.Set(pix);
     ++oit;
-    progress.CompletedPixel();
     }
 }
 } // end namespace itk

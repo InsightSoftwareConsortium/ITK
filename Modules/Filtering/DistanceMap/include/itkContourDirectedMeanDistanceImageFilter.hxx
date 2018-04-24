@@ -42,6 +42,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   m_UseImageSpacing = true;
   m_DistanceMap = nullptr;
   m_ContourDirectedMeanDistance = NumericTraits< RealType >::ZeroValue();
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage1, typename TInputImage2 >

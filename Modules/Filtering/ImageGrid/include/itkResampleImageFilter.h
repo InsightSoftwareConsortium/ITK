@@ -69,7 +69,7 @@ namespace itk
  * ProcessObject::GenerateOutputInformation().
  *
  * This filter is implemented as a multithreaded filter.  It provides a
- * ThreadedGenerateData() method for its implementation.
+ * DynamicThreadedGenerateData() method for its implementation.
  * \warning For multithreading, the TransformPoint method of the
  * user-designated coordinate transform must be threadsafe.
  *
@@ -277,7 +277,7 @@ public:
 
   /** Set up state of filter before multi-threading.
    * InterpolatorType::SetInputImage is not thread-safe and hence
-   * has to be set up before ThreadedGenerateData */
+   * has to be set up before DynamicThreadedGenerateData */
   void BeforeThreadedGenerateData() override;
 
   /** Set the state of the filter after multi-threading. */
@@ -306,29 +306,24 @@ protected:
   void VerifyInputInformation() override { }
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
+   * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior
-   * to calling ThreadedGenerateData().
-   * ThreadedGenerateData can only write to the portion of the output image
+   * to calling DynamicThreadedGenerateData().
+   * DynamicThreadedGenerateData can only write to the portion of the output image
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                    ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   /** Default implementation for resampling that works for any
    * transformation type. */
-  virtual void NonlinearThreadedGenerateData(const OutputImageRegionType &
-                                             outputRegionForThread,
-                                             ThreadIdType threadId);
+  virtual void NonlinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
   /** Implementation for resampling that works for with linear
-   *  transformation types.
-   */
-  virtual void LinearThreadedGenerateData(const OutputImageRegionType &
-                                          outputRegionForThread,
-                                          ThreadIdType threadId);
+   *  transformation types. */
+  virtual void LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
   /** Cast pixel from interpolator output to PixelType. */
   virtual PixelType CastPixelWithBoundsChecking( const InterpolatorOutputType value,

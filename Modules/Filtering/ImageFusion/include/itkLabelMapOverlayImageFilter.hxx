@@ -45,7 +45,9 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   // We need all the input.
   LabelMapPointer input = const_cast<LabelMapType *>(this->GetInput());
   if ( !input )
-    { return; }
+    {
+    return;
+    }
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
@@ -54,39 +56,37 @@ void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
-
 
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::BeforeThreadedGenerateData()
+::GenerateData()
 {
-  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  if( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
-    }
-  // number of threads can be constrained by the region size, so call the SplitRequestedRegion
-  // to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call the following method
-  nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
-  // std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
-
-  m_Barrier = Barrier::New();
-  m_Barrier->Initialize( nbOfThreads );
+  this->AllocateOutputs();
 
   Superclass::BeforeThreadedGenerateData();
 
+  this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+      this->GetOutput()->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+        { this->DynamicThreadedGenerateData(outputRegionForThread); });
+
+  // and delegate to the superclass implementation to use the thread support for the label objects
+  this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+      this->GetOutput()->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+        { Superclass::DynamicThreadedGenerateData(outputRegionForThread); });
+
+  // this class doesn't have AfterThreadedGenerateData();
 }
 
 
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
+::DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread )
 {
   OutputImageType * output = this->GetOutput();
   auto * input = const_cast<LabelMapType *>(this->GetInput());
@@ -110,12 +110,6 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
     featureIt.NextLine();
     outputIt.NextLine();
     }
-
-  // wait for the other threads to complete that part
-  m_Barrier->Wait();
-
-  // and delegate to the superclass implementation to use the thread support for the label objects
-  Superclass::ThreadedGenerateData( outputRegionForThread, threadId );
 }
 
 

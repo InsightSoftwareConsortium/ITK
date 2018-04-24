@@ -96,8 +96,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 GradientMagnitudeImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int i;
 
@@ -109,7 +108,6 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
 
   NeighborhoodInnerProduct< TInputImage, RealType > SIP;
 
-  // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
   typename  InputImageType::ConstPointer input  = this->GetInput();
 
@@ -152,9 +150,6 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   FaceListType::iterator fit;
   fit = faceList.begin();
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Process non-boundary face
   nit = ConstNeighborhoodIterator< TInputImage >(radius, input, *fit);
 
@@ -187,7 +182,6 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
       it.Value() = static_cast< OutputPixelType >( std::sqrt(a) );
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

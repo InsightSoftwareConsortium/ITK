@@ -89,7 +89,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   OutputImageType *output = this->GetOutput();
 
@@ -137,7 +137,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 
   // and delegate to the superclass implementation to use the thread support for
   // the label objects
-  this->Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
+  this->Superclass::DynamicThreadedGenerateData(outputRegionForThread);
 }
 
 template< typename TInputImage, typename TOutputImage >

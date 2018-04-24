@@ -67,53 +67,26 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
 template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
-::BeforeThreadedGenerateData()
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  itkDebugMacro(<< "Actually Executing");
-
-  // ***TODO: What needs to be done here? Should we set the input image at this
-  // time?
-  //  ** Also, where is the output allocated?
-
-  // OutputImagePointer outputPtr = this->GetOutput();
-
-  // outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-  // outputPtr->Allocate();
-}
-
-template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
-void
-InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
-{
-  itkDebugMacro(<< "Actually Executing");
-
   OutputImagePointer outputPtr = this->GetOutput();
 
   // There is a direct mapping between the desired outputRegion and the
-  // CoordRegion
-  // coordRegion is set to outputRegionForThread.
+  // CoordRegion. coordRegion is set to outputRegionForThread.
   RegionCopierType     regionCopier;
   CoordImageRegionType coordRegion;
   regionCopier(coordRegion, outputRegionForThread);
 
   // Setup iterator for the output
   OutputImageIterator outIter(outputPtr, outputRegionForThread);
-  //outIter.GoToBegin();  //Not sure if this is needed or inappropriate for
-  // threading.
 
   // Setup an interator for each of the coordinate inputs.
   CoordImageIterator coordIter[ImageDimension];
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     CoordImageIterator temp(this->GetInput(j + 1), coordRegion);
-//    temp.GoToBegin();   //Not sure if this is needed or inappropriate for threading.
     coordIter[j] = temp;
     }
-
-  // Support for progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Loop through each pixel and calculate interpolated value.
   ContinuousIndexType index;
@@ -140,7 +113,6 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
       outIter.Set(m_DefaultPixelValue);
       }
     ++outIter;
-    progress.CompletedPixel();
     }
 }
 

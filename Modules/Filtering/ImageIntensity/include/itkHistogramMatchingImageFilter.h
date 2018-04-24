@@ -171,8 +171,8 @@ protected:
 
   void AfterThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   /** Override VeriyInputInformation() since this filter does not expect
    * the input images to occupy the same physical space.

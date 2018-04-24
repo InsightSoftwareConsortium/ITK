@@ -170,8 +170,8 @@ protected:
    * global data. */
   void BeforeThreadedGenerateData() override;
 
-  void ThreadedGenerateData
-    (const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   void PrintSelf(std::ostream &, Indent) const override;
 

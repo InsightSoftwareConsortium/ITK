@@ -224,8 +224,7 @@ PermuteAxesImageFilter< TImage >
 template< typename TImage >
 void
 PermuteAxesImageFilter< TImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int  j;
 
@@ -239,9 +238,6 @@ PermuteAxesImageFilter< TImage >
 
   typename TImage::IndexType outputIndex;
   typename TImage::IndexType inputIndex;
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // walk the output region, and sample the input image
   for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
@@ -257,7 +253,6 @@ PermuteAxesImageFilter< TImage >
 
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
-    progress.CompletedPixel();
     }
 }
 } // namespace itk

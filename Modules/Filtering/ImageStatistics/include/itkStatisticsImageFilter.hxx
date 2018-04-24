@@ -29,8 +29,7 @@ template< typename TInputImage >
 StatisticsImageFilter< TInputImage >
 ::StatisticsImageFilter():m_ThreadSum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
 {
-  // first output is a copy of the image, DataObject created by
-  // superclass
+  // first output is a copy of the image, DataObject created by superclass
   //
   // allocate the data objects for the outputs which are
   // just decorators around pixel types
@@ -55,6 +54,8 @@ StatisticsImageFilter< TInputImage >
   this->GetSigmaOutput()->Set( NumericTraits< RealType >::max() );
   this->GetVarianceOutput()->Set( NumericTraits< RealType >::max() );
   this->GetSumOutput()->Set(NumericTraits< RealType >::ZeroValue());
+
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage >

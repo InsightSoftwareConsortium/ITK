@@ -93,8 +93,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryMedianImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
 
@@ -111,8 +110,6 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
   faceList = bC(input, outputRegionForThread, m_Radius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
@@ -154,14 +151,11 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
 
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template< typename TInputImage, typename TOutput >
 void
 BinaryMedianImageFilter< TInputImage, TOutput >

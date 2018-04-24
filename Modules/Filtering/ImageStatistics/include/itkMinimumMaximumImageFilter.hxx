@@ -45,6 +45,8 @@ MinimumMaximumImageFilter< TInputImage >
 
   this->GetMinimumOutput()->Set( NumericTraits< PixelType >::max() );
   this->GetMaximumOutput()->Set( NumericTraits< PixelType >::NonpositiveMin() );
+
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage >

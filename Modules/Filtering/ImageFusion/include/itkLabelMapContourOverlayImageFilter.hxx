@@ -209,7 +209,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
+::DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread )
 {
   OutputImageType * output = this->GetOutput();
   auto * input = const_cast<LabelMapType *>(this->GetInput());
@@ -239,7 +239,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   m_Barrier->Wait();
 
   // and delegate to the superclass implementation to use the thread support for the label objects
-  Superclass::ThreadedGenerateData( outputRegionForThread, threadId );
+  Superclass::DynamicThreadedGenerateData( outputRegionForThread );
 }
 
 

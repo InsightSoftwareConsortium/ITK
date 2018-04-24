@@ -202,8 +202,6 @@ BilateralImageFilter< TInputImage, TOutputImage >
     }
 
   // Build a lookup table for the range gaussian
-  //
-  //
 
   // First, determine the min and max intensity range
   typename StatisticsImageFilter< TInputImage >::Pointer statistics =
@@ -217,7 +215,6 @@ BilateralImageFilter< TInputImage, TOutputImage >
   // Now create the lookup table whose domain runs from 0.0 to
   // (max-min) and range is gaussian evaluated at
   // that point
-  //
   double rangeVariance = m_RangeSigma * m_RangeSigma;
 
   // denominator (normalization factor) for Gaussian used for range
@@ -248,20 +245,13 @@ BilateralImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BilateralImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   typename TInputImage::ConstPointer input = this->GetInput();
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::IndexValueType i;
   const double  rangeDistanceThreshold = m_DynamicRangeUsed;
 
-  // Now we are ready to bilateral filter!
-  //
-  //
-  //
-
-  // Boundary condition
   ZeroFluxNeumannBoundaryCondition< TInputImage > BC;
 
   // Find the boundary "faces"
@@ -286,8 +276,6 @@ BilateralImageFilter< TInputImage, TOutputImage >
   ImageRegionIterator< OutputImageType > o_iter;
   KernelConstIteratorType                k_it;
   KernelConstIteratorType                kernelEnd = m_GaussianKernel.End();
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
@@ -341,7 +329,6 @@ BilateralImageFilter< TInputImage, TOutputImage >
 
       ++b_iter;
       ++o_iter;
-      progress.CompletedPixel();
       }
     }
 }

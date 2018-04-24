@@ -32,7 +32,7 @@ namespace itk
  * particular for evaluating the results of an image registration process.
  *
  * This filter is implemented as a multithreaded filter. It provides a
- * ThreadedGenerateData() method for its implementation.
+ * DynamicThreadedGenerateData() method for its implementation.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageCompare
@@ -90,15 +90,15 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** CheckerBoardImageFilter can be implemented as a multithreaded filter. Therefore,
-   * this implementation provides a ThreadedGenerateData() routine which
+   * this implementation provides a DynamicThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling ThreadedGenerateData().
-   * ThreadedGenerateData can only write to the portion of the output image
+   * automatically by the superclass prior to calling DynamicThreadedGenerateData().
+   * DynamicThreadedGenerateData can only write to the portion of the output image
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const ImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
+
 
 private:
   PatternArrayType m_CheckerPattern;

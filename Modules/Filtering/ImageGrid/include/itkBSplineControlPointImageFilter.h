@@ -209,10 +209,9 @@ protected:
   ~BSplineControlPointImageFilter() override;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
-  /**
-   * Multi-threaded function which generates the output sampled B-spline object.
-   */
-  void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType ) override;
+  /** Multi-threaded function which generates the output sampled B-spline object. */
+  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override;
+
 
 private:
 

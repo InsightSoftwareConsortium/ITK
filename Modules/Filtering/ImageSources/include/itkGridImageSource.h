@@ -125,9 +125,8 @@ protected:
   // ~GridImageSource(){} default implementation ok
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void
-  ThreadedGenerateData(const ImageRegionType &
-                       outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
+
 
   void BeforeThreadedGenerateData() override;
 

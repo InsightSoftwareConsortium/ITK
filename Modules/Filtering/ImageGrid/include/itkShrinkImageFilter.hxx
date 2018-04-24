@@ -36,9 +36,6 @@
 
 namespace itk
 {
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::ShrinkImageFilter()
@@ -49,9 +46,6 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
@@ -67,9 +61,6 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   os << std::endl;
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
@@ -111,14 +102,10 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 }
 
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
   InputImageConstPointer inputPtr = this->GetInput();
@@ -162,9 +149,6 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     offsetIndex[i] = std::max(zeroOffset, offsetIndex[i]);
     }
 
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Define/declare an iterator that will walk the output region for this
   // thread.
   using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
@@ -184,14 +168,10 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     // Copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
     ++outIt;
-
-    progress.CompletedPixel();
     }
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
@@ -269,9 +249,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   inputPtr->SetRequestedRegion(inputRequestedRegion);
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
