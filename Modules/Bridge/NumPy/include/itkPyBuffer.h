@@ -49,8 +49,6 @@ template <typename TImage>
 class PyBuffer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PyBuffer);
-
   /** Standard "Self" type alias. */
   using Self = PyBuffer;
 
