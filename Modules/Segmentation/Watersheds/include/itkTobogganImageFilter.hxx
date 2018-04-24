@@ -23,14 +23,14 @@
 
 namespace itk
 {
-template< typename TInputImage >
-TobogganImageFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+TobogganImageFilter< TInputImage, TOutputImage >
 ::TobogganImageFilter()
 {}
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-TobogganImageFilter< TInputImage >
+TobogganImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -42,26 +42,26 @@ TobogganImageFilter< TInputImage >
     }
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-TobogganImageFilter< TInputImage >
+TobogganImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-TobogganImageFilter< TInputImage >
+TobogganImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-TobogganImageFilter< TInputImage >
+TobogganImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   InputImageConstPointer inputImage  = static_cast< InputImageConstPointer >( this->GetInput() );
