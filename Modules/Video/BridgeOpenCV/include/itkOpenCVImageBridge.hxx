@@ -38,6 +38,11 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
   // Typedefs
   using ImageType = TOutputImageType;
 
+  // IplImage::depth is defined as a int, but it is treated as a unsigned
+  // integer bit field which causes a compilation error in clang 6.0 when
+  // trying to implicit cast some IPL_DEPTH_* values
+  using DepthIDType = unsigned int;
+
   //
   // Make sure input isn't null and output type is 2D or 1D
   //
@@ -51,43 +56,31 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
   //
   typename ImageType::Pointer out = ImageType::New();
 
-  switch (in->depth)
+#define CONVERSION_CASE(iplInputDepthID, itkOutputPixelType) \
+  case (iplInputDepthID): \
+    { \
+    static_assert((iplInputDepthID) <= NumericTraits<DepthIDType>::max() \
+                  && (iplInputDepthID) >= NumericTraits<DepthIDType>::min(), \
+                  "Invalid IPL depth ID: " #iplInputDepthID); \
+    ITKConvertIplImageBuffer< ImageType, itkOutputPixelType >( in, out.GetPointer(), (iplInputDepthID) ); \
+    break; \
+    }
+
+  switch (static_cast<DepthIDType>(in->depth))
     {
-    case (IPL_DEPTH_8U):
-      {
-      ITKConvertIplImageBuffer< ImageType, unsigned char >( in, out.GetPointer(), IPL_DEPTH_8U );
-      break;
-      }
-    case (IPL_DEPTH_8S):
-      {
-      ITKConvertIplImageBuffer< ImageType, char >( in, out.GetPointer(), IPL_DEPTH_8S );
-      break;
-      }
-    case (IPL_DEPTH_16U):
-      {
-      ITKConvertIplImageBuffer< ImageType, unsigned short >( in, out.GetPointer(), IPL_DEPTH_16U );
-      break;
-      }
-    case (IPL_DEPTH_16S):
-      {
-      ITKConvertIplImageBuffer< ImageType, short >( in, out.GetPointer(), IPL_DEPTH_16S );
-      break;
-      }
-    case (IPL_DEPTH_32F):
-      {
-      ITKConvertIplImageBuffer< ImageType, float >( in, out.GetPointer(), IPL_DEPTH_32F );
-      break;
-      }
-    case (IPL_DEPTH_64F):
-      {
-      ITKConvertIplImageBuffer< ImageType, double >( in, out.GetPointer(), IPL_DEPTH_64F );
-      break;
-      }
+    CONVERSION_CASE(IPL_DEPTH_8U, unsigned char)
+    CONVERSION_CASE(IPL_DEPTH_8S, char)
+    CONVERSION_CASE(IPL_DEPTH_16U, unsigned short)
+    CONVERSION_CASE(IPL_DEPTH_16S, short)
+    CONVERSION_CASE(IPL_DEPTH_32F, float)
+    CONVERSION_CASE(IPL_DEPTH_64F, double)
     default:
       {
       itkGenericExceptionMacro("Unknown OpenCV type");
       }
     }
+
+#undef CONVERSION_CASE
 
   //
   // Return the converted image
