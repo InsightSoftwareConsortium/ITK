@@ -18,16 +18,17 @@
 #ifndef itkGaussianDerivativeImageFunction_h
 #define itkGaussianDerivativeImageFunction_h
 
-#include "itkConstNeighborhoodIterator.h"
 #include "itkContinuousIndex.h"
 #include "itkFixedArray.h"
 #include "itkGaussianDerivativeSpatialFunction.h"
 #include "itkGaussianSpatialFunction.h"
+#include "itkImage.h"
 #include "itkImageFunction.h"
 #include "itkNeighborhood.h"
+#include "itkOffset.h"
 #include "itkVector.h"
 
-#include <memory>  // For unique_ptr.
+#include <vector>
 
 namespace itk
 {
@@ -36,8 +37,9 @@ namespace itk
  * \brief Compute the Gaussian derivatives of an the image
  *        at a specific location in space, i.e. point, index or continuous
  *        index.
- * \note The Evaluate member functions are not concurrent thread safe. It is
- * unsafe to have multiple simultaneous Evaluate calls on an object of this class.
+ * \note From ITK 5, the Evaluate member functions of this class are concurrent
+ * thread safe: It is safe to have multiple simultaneous Evaluate calls on a
+ * GaussianDerivativeImageFunction object.
  *
  * This class is templated over the input image type.
  * \sa NeighborhoodOperator
@@ -160,7 +162,7 @@ private:
    * to include a Gaussian blurring kernel for each dimension.*/
   OperatorArrayType         m_OperatorArray;
 
-  std::unique_ptr<ConstNeighborhoodIterator< InputImageType >> m_NeighborhoodIterators[ImageDimension2];
+  std::vector<Offset<ImageDimension2>> m_ImageNeighborhoodOffsets[ImageDimension2];
 
   double                            m_Extent[ImageDimension2];
 

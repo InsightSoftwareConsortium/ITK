@@ -20,7 +20,8 @@
 
 #include "itkGaussianDerivativeImageFunction.h"
 
-#include "itkNeighborhoodInnerProduct.h"
+#include "itkImageNeighborhoodOffsets.h"
+#include "itkShapedImageNeighborhoodRange.h"
 #include "itkMath.h"
 
 #include <algorithm>  // For fill_n.
@@ -155,12 +156,8 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
   if (inputImage == nullptr)
     {
-    // Do clean-up, to ensure that the neighborhood iterators and operators will
+    // Do clean-up, to ensure that the operators will
     // not refer to a previous image, and to reduce memory usage.
-    for(auto& neighborhoodIterator: m_NeighborhoodIterators)
-      {
-      neighborhoodIterator.reset();
-      }
     m_OperatorArray = OperatorArrayType();
     }
   else
@@ -177,6 +174,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
       size.Fill(0);
       size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
       dogNeighborhood.SetRadius(size);
+      m_ImageNeighborhoodOffsets[direction] = Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(size);
 
       typename GaussianDerivativeFunctionType::ArrayType s;
       s[0] = m_Sigma[direction];
@@ -201,9 +199,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
       // Note: A future version of ITK could possibly also set a Gaussian blurring operator
       // here, which should then be applied at EvaluateAtIndex(index).
-
-      m_NeighborhoodIterators[direction].reset(new ConstNeighborhoodIterator<TInputImage>
-        { size, inputImage, inputImage->GetRequestedRegion() });
       }
     }
 }
@@ -215,18 +210,28 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   OutputType gradient;
 
+  const TInputImage* const image = this->GetInputImage();
+
   for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
     {
     // Note: A future version of ITK should do Gaussian blurring here.
 
-    // Apply each Gaussian kernel to a subset of the image
-    ConstNeighborhoodIterator< InputImageType >* const neighborhoodIterator =
-      m_NeighborhoodIterators[direction].get();
-    assert(neighborhoodIterator != nullptr);
-    neighborhoodIterator->SetLocation(index);
-    using InnerProduct = NeighborhoodInnerProduct< InputImageType, TOutput >;
+    double result = 0.0;
 
-    gradient[direction] = InnerProduct::Compute(*neighborhoodIterator, m_OperatorArray[direction]);
+    const OperatorNeighborhoodType& operatorNeighborhood = m_OperatorArray[direction];
+
+    const Experimental::ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
+      *image, index, m_ImageNeighborhoodOffsets[direction]);
+    assert(neighborhoodRange.size() == operatorNeighborhood.Size());
+
+    auto neighborhoodRangeIterator = neighborhoodRange.cbegin();
+
+    for (const TOutput& kernelValue : operatorNeighborhood.GetBufferReference())
+    {
+      result += kernelValue * (*neighborhoodRangeIterator);
+      ++neighborhoodRangeIterator;
+    }
+    gradient[direction] = result;
     }
 
   return gradient;
