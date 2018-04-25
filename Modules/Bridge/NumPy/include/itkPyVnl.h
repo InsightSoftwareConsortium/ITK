@@ -47,8 +47,6 @@ template <typename TElement>
 class PyVnl
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PyVnl);
-
   /** Standard "Self" type alias. */
   using Self = PyVnl;
 
