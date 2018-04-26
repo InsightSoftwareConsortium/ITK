@@ -514,9 +514,10 @@ public:
   m_Image{ &image },
   m_ImageBufferPointer{image.ImageType::GetBufferPointer()},
   // Note: Use parentheses instead of curly braces to initialize data members,
-  // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
+  // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
+  // and "excess elements in struct initializer".
   m_ImageSize(image.GetBufferedRegion().GetSize()),
-  m_NeighborhoodAccessor{image.GetNeighborhoodAccessor()},
+  m_NeighborhoodAccessor(image.GetNeighborhoodAccessor()),
   m_Location(location),
   m_RelativeIndices{ relativeIndices },
   m_NumberOfNeighborhoodPixels{ numberOfNeigborhoodPixels }

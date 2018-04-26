@@ -38,7 +38,7 @@ namespace itk
   * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT NeighborhoodAccessorFunctor
+class ITK_TEMPLATE_EXPORT NeighborhoodAccessorFunctor final
 {
 public:
   using Self = NeighborhoodAccessorFunctor;
@@ -87,12 +87,6 @@ public:
 
   void SetVectorLength(VectorLengthType) {}
   VectorLengthType SetVectorLength() { return 0; }
-
-  /** Constructor */
-  NeighborhoodAccessorFunctor() {}
-
-  /** Destructor */
-  virtual ~NeighborhoodAccessorFunctor() {}
 };
 } // end namespace itk
 
