@@ -30,6 +30,7 @@ namespace itk
 {
 
 /** \class FixedPointInverseDisplacementFieldImageFilter
+ *
  * \brief Computes the inverse of a Displacement field using a fixed point iteration scheme.
  *
  * FixedPointInverseDisplacementFieldImageFilter takes a Displacement field as input and
@@ -40,6 +41,7 @@ namespace itk
  * To compute the inverse of the given Displacement field, the fixed point algorithm by
  * Mingli Chen, Weiguo Lu, Quan Chen, Knneth J. Ruchala and Gusavo H. Olivera
  * described in the paper
+ *
  * "A simple fixed-point approach to invert a Displacement field",
  * Medical Physics, vol. 35, issue 1, p. 81,
  * is applied.
@@ -51,7 +53,8 @@ namespace itk
  */
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT FixedPointInverseDisplacementFieldImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT FixedPointInverseDisplacementFieldImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FixedPointInverseDisplacementFieldImageFilter);
