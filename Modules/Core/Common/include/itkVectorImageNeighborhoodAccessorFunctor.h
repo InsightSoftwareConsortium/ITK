@@ -87,9 +87,9 @@ public:
   }
 
   /** Method to set the pixel value at a certain pixel pointer */
-  inline void Set(InternalPixelType * & pixelPointer, const PixelType & p) const
+  inline void Set(InternalPixelType * const pixelPointer, const PixelType & p) const
   {
-    InternalPixelType *truePixelPointer =
+    InternalPixelType * const truePixelPointer =
       pixelPointer + ( pixelPointer - m_Begin ) * m_OffsetMultiplier;
 
     for ( VectorLengthType i = 0; i < m_VectorLength; i++ )

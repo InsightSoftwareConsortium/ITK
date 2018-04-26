@@ -69,7 +69,7 @@ public:
   }
 
   /** Method to set the pixel value at a certain pixel pointer */
-  inline void Set(InternalPixelType * & pixelPointer, const PixelType & p) const
+  inline void Set(InternalPixelType * const pixelPointer, const PixelType & p) const
   {
     *pixelPointer = p;
   }
