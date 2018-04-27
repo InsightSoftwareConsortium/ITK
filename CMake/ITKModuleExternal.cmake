@@ -146,6 +146,7 @@ if(ITK_WRAPPING)
     include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
     # Build tree
     if(EXISTS "${ITK_CMAKE_DIR}/../Wrapping/CMakeLists.txt")
+      include(${ITK_DIR}/Wrapping/WrapITKConfig.cmake)
       add_subdirectory("${ITK_CMAKE_DIR}/../Wrapping"
         ${CMAKE_CURRENT_BINARY_DIR}/Wrapping)
     # Install tree
