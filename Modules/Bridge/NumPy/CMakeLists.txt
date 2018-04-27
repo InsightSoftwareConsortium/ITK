@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9.5)
+cmake_minimum_required(VERSION 3.10.2)
 project(ITKBridgeNumPy)
 
 set(ITKBridgeNumPy_SYSTEM_INCLUDE_DIRS "${PYTHON_INCLUDE_DIR}")
