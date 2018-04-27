@@ -78,6 +78,7 @@ void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
+  this->UpdateProgress(0.0f);
   this->AllocateOutputs();
 
   VectorType zeroVector( 0.0 );
@@ -116,6 +117,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   this->m_MaxErrorNorm = NumericTraits<RealType>::max();
   this->m_MeanErrorNorm = NumericTraits<RealType>::max();
   unsigned int iteration = 0;
+  this->UpdateProgress(0.01f);
 
   while( iteration++ < this->m_MaximumNumberOfIterations &&
     this->m_MaxErrorNorm > this->m_MaxErrorToleranceThreshold &&
@@ -133,9 +135,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     this->m_ComposedField->Update();
     this->m_ComposedField->DisconnectPipeline();
 
-    /**
-     * Multithread processing to multiply each element of the composed field by 1 / spacing
-     */
+    // Multithread processing to multiply each element of the composed field by 1 / spacing
     this->m_MeanErrorNorm = NumericTraits<RealType>::ZeroValue();
     this->m_MaxErrorNorm = NumericTraits<RealType>::ZeroValue();
 
@@ -144,7 +144,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)
-          { this->DynamicThreadedGenerateData(outputRegionForThread); });
+          { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+    this->UpdateProgress(float(2 * iteration - 1) / (2 * m_MaximumNumberOfIterations));
 
     this->m_MeanErrorNorm /= static_cast<RealType>( numberOfPixelsInRegion );
 
@@ -154,15 +155,16 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
       this->m_Epsilon = 0.75;
       }
 
-    /**
-     * Multithread processing to estimate inverse field
-     */
+    // Multithread processing to estimate inverse field
     this->m_DoThreadedEstimateInverse = true;
     this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)
-          { this->DynamicThreadedGenerateData(outputRegionForThread); });
+          { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+    this->UpdateProgress(float(2 * iteration) / (2 * m_MaximumNumberOfIterations));
     }
+
+  this->UpdateProgress(1.0f);
 }
 
 template<typename TInputImage, typename TOutputImage>

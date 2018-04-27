@@ -35,7 +35,7 @@
 #include "itkImageRegion.h"
 #include "itkImageIORegion.h"
 #include <functional>
-#include <tuple>
+#include <thread>
 
 
 namespace itk
@@ -54,6 +54,8 @@ namespace itk
  */
 
 struct MultiThreaderBaseGlobals;
+
+class ProcessObject;
 
 class ITKCommon_EXPORT MultiThreaderBase : public Object
 {
@@ -135,9 +137,11 @@ public:
       const IndexValueType index[],
       const SizeValueType size[])>;
 
-  /** Break up region into smaller chunks, and call the function with chunks as parameters. */
+  /** Break up region into smaller chunks, and call the function with chunks as parameters.
+   * If filter argument is not nullptr, this function will update its progress
+   * as each work unit is completed. */
   template<unsigned int VDimension>
-  void ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TemplatedThreadingFunctorType<VDimension> funcP)
+  void ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TemplatedThreadingFunctorType<VDimension> funcP, ProcessObject* filter)
   {
     this->ParallelizeImageRegion(
         VDimension,
@@ -152,29 +156,18 @@ public:
         region.SetSize(d, size[d]);
         }
       funcP(region);
-    });
+        },
+        filter);
   }
 
   /** Break up region into smaller chunks, and call the function with chunks as parameters.
-   *  This overload does the actual work and must be implemented by derived classes. */
+   *  This overload does the actual work and should be implemented by derived classes. */
   virtual void ParallelizeImageRegion(
       unsigned int dimension,
       const IndexValueType index[],
       const SizeValueType size[],
-      ThreadingFunctorType funcP)
-  {
-    // This implementation simply delegates parallelization to the old interface
-    // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
-    ImageIORegion region(dimension);
-    for (unsigned d = 0; d < dimension; d++)
-      {
-      region.SetIndex(d, index[d]);
-      region.SetSize(d, size[d]);
-      }
-    RegionAndCallback rnc = std::make_tuple(funcP, dimension, index, size);
-    this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
-    this->SingleMethodExecute();
-  }
+      ThreadingFunctorType funcP,
+      ProcessObject* filter);
 
   /** Set/Get the pointer to MultiThreaderBaseGlobals.
    * Note that these functions are not part of the public API and should not be
@@ -189,11 +182,17 @@ protected:
   ~MultiThreaderBase() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using RegionAndCallback = std::tuple<
-      ThreadingFunctorType,
-      unsigned int,
-      const IndexValueType*,
-      const SizeValueType*>;
+  struct RegionAndCallback
+  {
+    ThreadingFunctorType functor;
+    unsigned int dimension;
+    const IndexValueType* index;
+    const SizeValueType* size;
+    ProcessObject* filter;
+    std::thread::id callingThread;
+    SizeValueType pixelCount;
+    std::atomic<SizeValueType> pixelProgress;
+  };
 
   static ITK_THREAD_RETURN_TYPE ParallelizeImageRegionHelper(void *arg);
 

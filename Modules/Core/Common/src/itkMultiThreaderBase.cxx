@@ -33,6 +33,7 @@
 #include "itkSimpleFastMutexLock.h"
 #include "itksys/SystemTools.hxx"
 #include "itkImageSourceCommon.h"
+#include "itkProcessObject.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -372,6 +373,54 @@ MultiThreaderBase
   return ITK_THREAD_RETURN_VALUE;
 }
 
+void
+MultiThreaderBase
+::ParallelizeImageRegion(
+    unsigned int dimension,
+    const IndexValueType index[],
+    const SizeValueType size[],
+    MultiThreaderBase::ThreadingFunctorType funcP,
+    ProcessObject* filter)
+{
+  // This implementation simply delegates parallelization to the old interface
+  // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
+  if (filter)
+    {
+    filter->UpdateProgress(0.0f);
+    }
+
+  SizeValueType pixelCount = 1;
+  for (unsigned d = 0; d < dimension; d++)
+    {
+    pixelCount *= size[d];
+    }
+  struct RegionAndCallback rnc {
+      funcP,
+      dimension,
+      index,
+      size,
+      filter,
+      std::this_thread::get_id(),
+      pixelCount,
+      {0} };
+  this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
+  this->SingleMethodExecute();
+
+  if (filter)
+    {
+    filter->UpdateProgress(1.0f);
+    if (filter->GetAbortGenerateData())
+      {
+      std::string msg;
+      ProcessAborted e(__FILE__, __LINE__);
+      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
+          + " during multi-threaded part of filter execution";
+      e.SetDescription(msg);
+      throw e;
+      }
+    }
+}
+
 ITK_THREAD_RETURN_TYPE
 MultiThreaderBase
 ::ParallelizeImageRegionHelper(void * arg)
@@ -380,21 +429,42 @@ MultiThreaderBase
   auto * threadInfo = static_cast<ThreadInfo *>(arg);
   ThreadIdType threadId = threadInfo->ThreadID;
   ThreadIdType threadCount = threadInfo->NumberOfThreads;
-  auto * rnc = static_cast<RegionAndCallback *>(threadInfo->UserData);
+  auto * rnc = static_cast<struct RegionAndCallback *>(threadInfo->UserData);
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
-  ImageIORegion region(std::get<1>(*rnc));
-  for (unsigned d = 0; d < std::get<1>(*rnc); d++)
+  ImageIORegion region(rnc->dimension);
+  for (unsigned d = 0; d < rnc->dimension; d++)
     {
-    region.SetIndex(d, std::get<2>(*rnc)[d]);
-    region.SetSize(d, std::get<3>(*rnc)[d]);
+    region.SetIndex(d, rnc->index[d]);
+    region.SetSize(d, rnc->size[d]);
     }
   ThreadIdType total = splitter->GetSplit(threadId, threadCount, region);
 
+  if (rnc->filter && rnc->filter->GetAbortGenerateData())
+    {
+    std::string msg;
+    ProcessAborted e(__FILE__, __LINE__);
+    msg += "AbortGenerateData was called in " + std::string(rnc->filter->GetNameOfClass() )
+        + " during multi-threaded part of filter execution";
+    e.SetDescription(msg);
+    throw e;
+    }
+
   if ( threadId < total )
     {
-    std::get<0>(*rnc)(&region.GetIndex()[0], &region.GetSize()[0]);
+    rnc->functor(&region.GetIndex()[0], &region.GetSize()[0]);
+    if (rnc->filter)
+      {
+      SizeValueType pixelCount = region.GetNumberOfPixels();
+      rnc->pixelProgress += pixelCount;
+      //make sure we are updating progress only from the thead which invoked filter->Update();
+      if (rnc->callingThread == std::this_thread::get_id())
+        {
+        rnc->filter->UpdateProgress(float(rnc->pixelProgress) / rnc->pixelCount);
+        }
+      }
     }
+
   return ITK_THREAD_RETURN_VALUE;
 }
 

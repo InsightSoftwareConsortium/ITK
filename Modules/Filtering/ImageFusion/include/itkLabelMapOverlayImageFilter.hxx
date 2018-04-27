@@ -30,7 +30,6 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::LabelMapOverlayImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
-  this->DynamicMultiThreadingOff();
   m_Opacity = 0.5;
 }
 
@@ -64,22 +63,28 @@ void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::GenerateData()
 {
+  this->UpdateProgress(0.0f);
   this->AllocateOutputs();
 
   Superclass::BeforeThreadedGenerateData();
+  this->UpdateProgress(0.01f);
 
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { this->DynamicThreadedGenerateData(outputRegionForThread); });
+        { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+  this->UpdateProgress(0.5f);
 
   // and delegate to the superclass implementation to use the thread support for the label objects
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { Superclass::DynamicThreadedGenerateData(outputRegionForThread); });
+        { Superclass::DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+  this->UpdateProgress(0.99f);
 
-  // this class doesn't have AfterThreadedGenerateData();
+  this->AfterThreadedGenerateData();
+  this->UpdateProgress(1.0f);
 }
 
 

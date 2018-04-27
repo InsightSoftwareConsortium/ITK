@@ -238,7 +238,7 @@ ImageSource< TOutputImage >
     this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)
-          { this->DynamicThreadedGenerateData(outputRegionForThread); });
+          { this->DynamicThreadedGenerateData(outputRegionForThread); }, this);
     }
 
   // Call a method that can be overridden by a subclass to perform
