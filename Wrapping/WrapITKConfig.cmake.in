@@ -42,6 +42,7 @@ set(ITK_WRAP_rgb_unsigned_short @ITK_WRAP_rgb_unsigned_short@ CACHE BOOL "Wrap R
 set(ITK_WRAP_complex_float @ITK_WRAP_complex_float@ CACHE BOOL "Wrap complex<float> type")
 set(ITK_WRAP_complex_double @ITK_WRAP_complex_double@ CACHE BOOL "Wrap complex<double> type")
 set(ITK_WRAP_IMAGE_DIMS "@ITK_WRAP_IMAGE_DIMS@" CACHE STRING "dimensions available separated by semicolons (;)")
+set(ITK_WRAP_VECTOR_COMPONENTS "@ITK_WRAP_VECTOR_COMPONENTS@" CACHE STRING "Number of vector components available separated by semicolons (;)")
 
 @CONFIG_WRAP_ITK_MORE_OPTIONS@
 
@@ -57,13 +58,6 @@ endforeach()
 
 set(WRAP_ITK_CONFIG_DIR "@CONFIG_CONFIG_DIR@")
 set(WRAP_ITK_CMAKE_DIR "@CONFIG_CMAKE_DIR@")
-if("${WrapITK_DIR}" MATCHES "^${CMAKE_INSTALL_PREFIX}")
-  string(REGEX REPLACE "^${CMAKE_INSTALL_PREFIX}/*" "" prefix "${WrapITK_DIR}")
-  set(WRAP_ITK_INSTALL_PREFIX "${prefix}" CACHE PATH "subpath where where most of WrapITK files will be installed")
-else()
-  message("Warning: the CMAKE_INSTALL_PREFIX doesn't match the WrapITK one. Your installation may not be usable.")
-  set(WRAP_ITK_INSTALL_PREFIX "@WRAP_ITK_INSTALL_PREFIX@" CACHE PATH "subpath where where most of WrapITK files will be installed")
-endif()
 
 if(JAVA_OUTPUT_DIR)
   set(ITK_WRAP_JAVA_DIR "${JAVA_OUTPUT_DIR}")
@@ -84,9 +78,6 @@ set(EXTERNAL_WRAP_ITK_PROJECT ON)
 
 # libraries are all in the same dir
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib" CACHE INTERNAL "Single output directory for building all libraries.")
-
-# Now include ConfigureWrapping
-include("${WRAP_ITK_CMAKE_DIR}/ConfigureWrapping.cmake")
 
 # include must be there to add the path *after* the local path
 include_directories("@CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY@")
