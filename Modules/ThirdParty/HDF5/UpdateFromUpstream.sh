@@ -8,7 +8,7 @@ readonly name="HDF5"
 readonly ownership="HDF5 Maintainers <hdf5-maintainers@hdfgroup.org>"
 readonly subtree="Modules/ThirdParty/HDF5/src/itkhdf5"
 readonly repo="https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git"
-readonly tag="hdf5_1_8_17"
+readonly tag="hdf5_1_10_2"
 readonly shortlog=false
 readonly paths="
    ACKNOWLEDGMENTS
@@ -36,10 +36,15 @@ readonly paths="
 extract_source () {
     git_archive
     pushd "$extractdir/$name-reduced"
-    sed -i '1 s| /bin/sh|/bin/sh|' c++/src/h5c++.in
-    chmod a+x c++/src/h5c++.in
+    sed -i '1 s| /bin/sh|/bin/sh|' c++/src/h5c++.in config/cmake/libh5cc.in
+    chmod a+x c++/src/h5c++.in config/cmake/libh5cc.in
+    chmod a-x README.txt
+    chmod a-x config/cmake/CTestScript.cmake
+    chmod a-x config/cmake/HDF5_Examples_options.cmake
+    chmod a-x config/cmake/libhdf5.pc.in
     chmod a-x config/cmake/scripts/*
-    rm -v config/cmake/scripts/CTestScript.cmake
+    fromdos config/cmake/scripts/CTestScript.cmake
+    fromdos config/cmake/scripts/HDF5config.cmake
     rm -v config/cmake/scripts/HDF518config.cmake
     rm -v c++/src/C2Cppfunction_map.mht
     rm -v c++/src/C2Cppfunction_map.htm
