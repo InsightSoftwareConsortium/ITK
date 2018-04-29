@@ -703,6 +703,14 @@ macro(itk_wrap_template_python name types)
     # generate the typemap which let pass an ImageSource instead of an Image
     set(image_source "${ITK_WRAP_PYTHON_CURRENT_SWIG_NAME}${name}")
     set(image "${ITKN_${name}}")
+    # An empty value for ${ITKN_${name}} means that the mangled type ${name}
+    # was not requested when wrapping ITK. But we want to allow external
+    # modules to redefine those missing types if they use it internally.
+    if(image STREQUAL "")
+      # Replace the mangled type I with itkImage
+      string(REPLACE "I" "itkImage" imageTemplate ${name})
+      set(image ${imageTemplate})
+    endif()
 
     set(text "\n\n")
     set(text "${text}%typemap(in) ${image} * {\n")
