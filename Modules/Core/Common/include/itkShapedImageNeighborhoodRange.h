@@ -49,14 +49,22 @@ namespace Experimental
  * const std::vector<OffsetType> offsets = itk::GenerateHyperrectangularImageNeighborhoodOffsets(radius)
  * itk::ShapedImageNeighborhoodRange<ImageType> neighborhoodRange{ *image, location, offsets };
  *
- * for (PixelType& neighborhoodPixel : neighborhoodRange)
+ * for (auto&& neighborhoodPixel : neighborhoodRange)
  * {
- *   neighborhoodPixel += 42;
+ *   neighborhoodPixel = neighborhoodPixel + 42;
+ * }
+ * \endcode
+ *
+ * The following example prints the values of the neighborhood pixels:
+ * \code
+ * for (const PixelType neighborhoodPixel : neighborhoodRange)
+ * {
+ *   std::cout << neighborhoodPixel << std::endl;
  * }
  * \endcode
  *
  * The inner product of the neighborhood with a kernel can be produced with
- * std::inner_product (from the Standard C++  header <numeric>), as follows:
+ * std::inner_product (from the Standard C++  header "numeric"), as follows:
  * \code
  * double result = std::inner_product(
  *   kernel.begin(),
@@ -350,7 +358,7 @@ private:
     {
       assert(m_ImageBufferPointer != nullptr);
       assert(offsetTable.front() == 1);
-      assert((ImageDimension == 1) || (offsetTable[1] == m_ImageSize[0]));
+      assert((ImageDimension == 1) || (static_cast<ImageSizeValueType>(offsetTable[1]) == m_ImageSize[0]));
     }
 
   public:
