@@ -190,7 +190,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     m_Operator->SetMovingImage( m_MovingImageFFT );
     }
 
-  m_Operator->SetMovingImage( m_MovingFFT->GetOutput() );
   if ( m_RealOptimizer )
     {
     m_IFFT->SetInput( m_Operator->GetOutput() );
@@ -352,10 +351,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     if ( m_FixedImageFFT.IsNull() )
       {
       m_FixedImageFFT = m_FixedFFT->GetOutput();
+      m_FixedImageFFT->DisconnectPipeline();
       }
     if ( m_MovingImageFFT.IsNull() )
       {
       m_MovingImageFFT = m_MovingFFT->GetOutput();
+      m_MovingImageFFT->DisconnectPipeline();
       }
 
     if (this->GetDebug())
