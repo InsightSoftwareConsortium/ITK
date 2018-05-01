@@ -48,9 +48,9 @@ TileMontage<TImageType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Montage size: " << m_MontageSize << std::endl;
-  os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;  
+  os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;
   os << indent << "Finished Tiles: " << m_FinishedTiles << std::endl;
-  
+
   auto nullCount = std::count(m_FFTCache.begin(), m_FFTCache.end(), nullptr);
   os << indent << "FFTCache (filled/capcity): " << m_FFTCache.size() - nullCount
       << "/" << m_FFTCache.size() << std::endl;
@@ -131,7 +131,7 @@ TileMontage<TImageType>
 
   m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); //certainly not null
   m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); //certrainly not null
-  
+
   const TransformType* regTr = m_PCM->GetOutput()->Get();
   return const_cast<TransformType*>(regTr);
 }
@@ -209,7 +209,7 @@ TileMontage<TImageType>
       maxSizes[d] = std::max(maxSizes[d], reg.GetSize(d));
       }
     }
-  
+
   //divide by count to get average
   for (unsigned d = 0; d < ImageDimension; d++)
     {
@@ -243,7 +243,7 @@ void
 TileMontage<TImageType>
 ::GenerateData()
 {
-  TransformType::Pointer t0 = TransformType::New();
+  typename TransformType::Pointer t0 = TransformType::New();
   IndexType ind;
   ind.Fill(0);
   m_FinishedTiles = 0;
