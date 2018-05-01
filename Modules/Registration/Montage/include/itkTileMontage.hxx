@@ -139,52 +139,14 @@ TileMontage<TImageType>
 template<typename TImageType>
 void
 TileMontage<TImageType>
-::MontageLinear(unsigned dim, TransformPointer initialTransform,
-    IndexType initialTile, int dir)
-{
-  SizeValueType indLower, indHigher;
-  IndexType fixed = initialTile;
-  IndexType moving = initialTile;
-  if (dir<0)
-    {
-    indLower = initialTile[dim] - 1;
-    indHigher = initialTile[dim];
-    moving[dim] = initialTile[dim] - 1;
-    }
-  else
-    {
-    indLower = initialTile[dim];
-    indHigher = initialTile[dim] + 1;
-    moving[dim] = initialTile[dim] + 1;
-    }
-
-  TransformPointer oldT = initialTransform;
-  SizeValueType i = initialTile[dim];
-  while (indHigher > 0 && indLower < m_MontageSize[dim] - 1)
-    {
-    TransformPointer t = this->RegisterPair(fixed, moving);
-    t->Compose(oldT, true);
-    this->WriteOutTransform(moving, t);
-    oldT = t;
-
-    indLower += dir;
-    indHigher += dir;
-    fixed[dim] += dir;
-    moving[dim] += dir;
-    }  
-}
-
-template<typename TImageType>
-void
-TileMontage<TImageType>
-::MontageDimension(unsigned d, TransformPointer tInitial, IndexType initialTile)
+::MontageDimension(int d, TransformPointer tInitial, IndexType initialTile)
 {
   IndexType ind = initialTile;
-  if (d == 0)
+  if (d < 0)
     {
-    MontageLinear(d, tInitial, ind, +1);
+    return; //nothing to do, terminate recursion
     }
-  else // d>0
+  else // d>=0
     {
     ind[d] = 0; //montage first index in lower dimension
     MontageDimension(d - 1, tInitial, ind);
