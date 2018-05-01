@@ -30,7 +30,7 @@
 
 TEST(ImageNeighborhoodOffsets, GenerateHyperrectangularImageNeighborhoodOffsets_returns_one_offset_for_default_radius)
 {
-  const itk::Size<> radius = {};
+  const itk::Size<> radius = {{}};
   const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, std::vector<itk::Offset<>>(1));
