@@ -143,14 +143,8 @@ protected:
   /** Register a pair of images with given indices. Handles FFTcaching. */
   TransformPointer RegisterPair(IndexType fixed, IndexType moving);
 
-  /** Linearly montage along the given dimension.
-   *  initialTransform applies to the initialTile.
-   *  direction is either +1 or -1 and indicates traversal along dimension. */
-  void MontageLinear(unsigned dimension, TransformPointer initialTransform,
-      IndexType initialTile, int direction);
-
   /** Montage this dimension, and all lower dimensions. */
-  void MontageDimension(unsigned d, TransformPointer tInitial, IndexType initialTile);
+  void MontageDimension(int d, TransformPointer tInitial, IndexType initialTile);
 
   /** Accesses output, sets a transform to it, and updates progress. */
   void WriteOutTransform(IndexType index, TransformPointer transform);
