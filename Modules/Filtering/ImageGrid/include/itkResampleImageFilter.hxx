@@ -360,13 +360,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   PointType tmpOutputPoint;
   PointType tmpInputPoint;
 
-  ContinuousInputIndexType inputIndex;
-  ContinuousInputIndexType tmpInputIndex;
-
-  using VectorType = typename PointType::VectorType;
-  VectorType delta;          // delta in input continuous index coordinate frame
-
-  IndexType index;
+  const InputImageRegionType &largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 
   const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
   const SizeValueType numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
@@ -390,54 +384,53 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   const auto minOutputValue = static_cast< ComponentType >( minValue );
   const auto maxOutputValue = static_cast< ComponentType >( maxValue );
 
-  // Determine the position of the first pixel in the scanline
-  index = outIt.GetIndex();
-  outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
-
-  // Compute corresponding input pixel position
-  inputPoint = transformPtr->TransformPoint(outputPoint);
-  inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
-
   // As we walk across a scan line in the output image, we trace
-  // an oriented/scaled/translated line in the input image.  Cache
-  // the delta along this line in continuous index space of the input
-  // image. This allows us to use vector addition to model the
-  // transformation.
+  // an oriented/scaled/translated line in the input image. Each scan
+  // line has a starting and ending point. Since all transforms
+  // are linear, the path between the points is linear and can be
+  // defined by interpolating between the two points. By using
+  // interpolation we avoid accumulation errors, and by using the
+  // whole scan line from the largest possible region we make the
+  // computation independent for each point and independent of the
+  // region we are processing which makes the method independent of
+  // how the whole image is split for processing ( threading,
+  // streaming, etc ).
   //
-  // To find delta, we take two pixels adjacent in a scanline
-  // and determine the continuous indices of these pixels when
-  // mapped to the input coordinate frame. We use the difference
-  // between these two continuous indices as the delta to apply
-  // to an index to trace line in the input image as we move
-  // across the scanline of the output image.
-  //
-  // We determine delta in this manner so that Images
-  // are both handled properly (taking into account the direction cosines).
-  //
-  ++index[0];
-  outputPtr->TransformIndexToPhysicalPoint(index, tmpOutputPoint);
-  tmpInputPoint = transformPtr->TransformPoint(tmpOutputPoint);
-  inputPtr->TransformPhysicalPointToContinuousIndex(tmpInputPoint,
-                                                    tmpInputIndex);
-  delta = tmpInputIndex - inputIndex;
 
   while ( !outIt.IsAtEnd() )
     {
-    // Determine the continuous index of the first pixel of output
-    // scanline when mapped to the input coordinate frame.
-    //
+    // Determine the continuous index of the first and end pixel of output
+    // scan line when mapped to the input coordinate frame.
 
-    // First get the position of the pixel in the output coordinate frame
-    index = outIt.GetIndex();
+    IndexType index = outIt.GetIndex();
+    index[0] += largestPossibleRegion.GetIndex(0);
+
+    ContinuousInputIndexType startIndex;
     outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
-
-    // Compute corresponding input pixel continuous index, this index
-    // will incremented in the scanline loop
     inputPoint = transformPtr->TransformPoint(outputPoint);
-    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, startIndex);
+
+    ContinuousInputIndexType endIndex;
+    index[0] += largestPossibleRegion.GetSize(0);
+    outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
+    inputPoint = transformPtr->TransformPoint(outputPoint);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, endIndex);
+
+    IndexValueType scanlineIndex = outIt.GetIndex()[0];
 
     while ( !outIt.IsAtEndOfLine() )
       {
+
+      // Perform linear interpolation between startIndex and endIndex
+      const double alpha = (scanlineIndex - largestPossibleRegion.GetIndex(0) ) / double(largestPossibleRegion.GetSize(0));
+      const double oneMinusAlpha = 1.0 - alpha;
+
+      ContinuousInputIndexType inputIndex;
+      for (unsigned int i = 0; i < ImageDimension; ++i)
+        {
+        inputIndex[i] = startIndex[i] * oneMinusAlpha + endIndex[i] * alpha;
+        }
+
       PixelType  pixval;
       OutputType value;
       // Evaluate input at right position and copy to the output
@@ -462,7 +455,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
         }
 
       ++outIt;
-      inputIndex += delta;
+      ++scanlineIndex;
       }
     progress.CompletedPixel();
     outIt.NextLine();

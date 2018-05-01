@@ -321,11 +321,13 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 
   while( !iter1.IsAtEnd() )
     {
-    if( itk::Math::NotExactlyEquals(iter1.Get(), iter2.Get()) )
+    if( !itk::Math::FloatAlmostEqual(iter1.Get(), iter2.Get(),2) )
       {
+      std::cout << "Expected: " << iter1.Get() << " but got: " << iter2.Get() << std::endl;
+      std::cout << "\t@: " << iter1.GetIndex() << std::endl;
       std::cout << "Streamed output is different!!!" << std::endl;
       pass = false;
-      break;
+      //break;
       }
     ++iter1;
     ++iter2;
