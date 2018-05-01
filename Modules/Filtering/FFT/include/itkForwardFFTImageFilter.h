@@ -41,6 +41,12 @@ namespace itk
  *
  * This filter works only for real single-component input image types.
  *
+ * The output generated from a ForwardFFTImageFilter is in the
+ * dual space or frequency domain.
+ * Refer to \ref FrequencyFFTLayoutImageRegionConstIteratorWithIndex
+ * for a description of the layout of frequencies generated after a forward FFT.
+ * Also see \ref ITKImageFrequency for a set of filters requiring input images in the frequency domain.
+ *
  * \ingroup FourierTransform
  *
  * \sa InverseFFTImageFilter, FFTComplexToComplexImageFilter
