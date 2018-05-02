@@ -27,6 +27,42 @@
 
 #include <gtest/gtest.h>
 
+namespace
+{
+
+// Empty shape, just for test purposes. Compatible with the template argument
+// of GenerateImageNeighborhoodOffsets<ImageNeighborhoodShape>(shape).
+template <unsigned int VImageDimension>
+class EmptyImageNeighborhoodShape
+{
+public:
+  static constexpr unsigned int ImageDimension = VImageDimension;
+
+  // Returns the number of offsets needed to represent this shape.
+  constexpr std::size_t GetNumberOfOffsets() const ITK_NOEXCEPT
+  {
+    return 0;
+  }
+
+  // Fills the specified buffer with the offsets for this shape.
+  void FillOffsets(itk::Offset<ImageDimension>*) const ITK_NOEXCEPT
+  {
+    // The shape is empty, so just do nothing!
+  }
+};
+
+} // namespace
+
+
+TEST(ImageNeighborhoodOffsets, GenerateImageNeighborhoodOffsets_returns_empty_vector_for_empty_shape)
+{
+  constexpr unsigned int ImageDimension = 2;
+  const EmptyImageNeighborhoodShape<ImageDimension> shape = {};
+  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateImageNeighborhoodOffsets(shape);
+
+  EXPECT_EQ(offsets, std::vector<itk::Offset<>>());
+}
+
 
 TEST(ImageNeighborhoodOffsets, GenerateHyperrectangularImageNeighborhoodOffsets_returns_one_offset_for_default_radius)
 {
@@ -52,16 +88,4 @@ TEST(ImageNeighborhoodOffsets, GenerateHyperrectangularImageNeighborhoodOffsets_
   const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, (std::vector<itk::Offset<>>{ { { 0, -1 }}, { { 0, 0 } }, { { 0, 1 } } }));
-}
-
-
-TEST(ImageNeighborhoodOffsets, FillHyperrectangularImageNeighborhoodOffsets_allows_using_std_array)
-{
-  const itk::Size<> radius = { { 0, 1 } };
-  std::array<itk::Offset<>, 3> offsets;
-
-  itk::Experimental::FillHyperrectangularImageNeighborhoodOffsets(offsets.data(), offsets.size(), radius);
-
-  EXPECT_TRUE(std::equal(offsets.cbegin(), offsets.cend(),
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius).cbegin()));
 }

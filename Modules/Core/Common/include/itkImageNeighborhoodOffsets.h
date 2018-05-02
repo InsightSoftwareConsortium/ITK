@@ -19,55 +19,22 @@
 #ifndef itkImageNeighborhoodOffsets_h
 #define itkImageNeighborhoodOffsets_h
 
-#include <algorithm> // For transform.
-#include <cassert>
-#include <numeric>  // For accumulate.
+#include "itkHyperrectangularImageNeighborhoodShape.h"
 #include <vector>
-
-#include "itkOffset.h"
-#include "itkSize.h"
 
 namespace itk
 {
 namespace Experimental
 {
 
-/** Fills the specified buffer with offsets for a hyperrectangular (box shaped)
- * neighborhood. */
-template <unsigned VImageDimension>
-void FillHyperrectangularImageNeighborhoodOffsets(
-  Offset<VImageDimension>* const offsets,
-  const std::size_t numberOfOffsets,
-  const Size<VImageDimension>& radius) ITK_NOEXCEPT
+/** Generates the offsets for a neighborhood of the specified shape. */
+template <typename TImageNeighborhoodShape>
+std::vector<Offset<TImageNeighborhoodShape::ImageDimension>> GenerateImageNeighborhoodOffsets(
+  const TImageNeighborhoodShape& shape)
 {
-  if (numberOfOffsets > 0)
-  {
-    assert(offsets != nullptr);
-    Offset<VImageDimension> offset;
-
-    std::transform(radius.begin(), radius.end(), offset.begin(), [](const SizeValueType radiusValue)
-    {
-      return -static_cast<OffsetValueType>(radiusValue);
-    });
-
-    for (std::size_t i = 0; i < numberOfOffsets; ++i)
-    {
-      offsets[i] = offset;
-
-      for (unsigned dimensionIndex = 0; dimensionIndex < VImageDimension; ++dimensionIndex)
-      {
-        OffsetValueType& offsetValue = offset[dimensionIndex];
-
-        ++offsetValue;
-
-        if (offsetValue <= static_cast<OffsetValueType>(radius[dimensionIndex]))
-        {
-          break;
-        }
-        offsetValue = -static_cast<OffsetValueType>(radius[dimensionIndex]);
-      }
-    }
-  }
+  std::vector<Offset<TImageNeighborhoodShape::ImageDimension>> offsets(shape.GetNumberOfOffsets());
+  shape.FillOffsets(offsets.data());
+  return offsets;
 }
 
 
@@ -75,20 +42,9 @@ void FillHyperrectangularImageNeighborhoodOffsets(
 template <unsigned VImageDimension>
 std::vector<Offset<VImageDimension> > GenerateHyperrectangularImageNeighborhoodOffsets(const Size<VImageDimension>& radius)
 {
-  using OffsetType = Offset<VImageDimension>;
-
-  const std::size_t numberOfOffsets =
-    std::accumulate(radius.begin(), radius.end(), std::size_t{ 1 },
-    [](const std::size_t accumulatedProduct, const SizeValueType radiusValue)
-  {
-    return ((2 * radiusValue) + 1) * accumulatedProduct;
-  });
-
-  std::vector<OffsetType> offsets(numberOfOffsets);
-  FillHyperrectangularImageNeighborhoodOffsets(offsets.data(), numberOfOffsets, radius);
-  return offsets;
+  const HyperrectangularImageNeighborhoodShape<VImageDimension> shape(radius);
+  return GenerateImageNeighborhoodOffsets(shape);
 }
-
 
 } // namespace Experimental
 } // namespace itk
