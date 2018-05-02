@@ -40,6 +40,7 @@ else()
     vtkRenderingFreeType
     ${_target_freetypeopengl}
     vtkInteractionStyle
+    vtkInteractionWidgets
     vtkIOImage
     vtkImagingSources
     ${_wrap_module}
@@ -92,6 +93,7 @@ else()
     vtkRenderingFreeType
     ${_target_freetypeopengl}
     vtkInteractionStyle
+    vtkInteractionWidgets
     vtkIOImage
     vtkImagingSources
     ${_wrap_module}
@@ -129,6 +131,7 @@ if(NOT ITK_BINARY_DIR)
       vtkRenderingFreeType
       ${_target_freetypeopengl}
       vtkInteractionStyle
+      vtkInteractionWidgets
       vtkIOImage
       vtkImagingSources
       ${_wrap_module}

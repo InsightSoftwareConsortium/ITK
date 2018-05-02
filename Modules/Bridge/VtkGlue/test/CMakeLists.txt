@@ -6,6 +6,12 @@ itkImageToVTKImageFilterTest.cxx
 itkImageToVTKImageFilterRGBTest.cxx
 itkVTKImageToImageFilterTest.cxx
 QuickViewTest.cxx
+# ### runViewImage ###
+# No test generated. Use it for view images (2D or 3D) with:
+# ITKVtkGlueTestDriver runViewImage image_file
+# or with a string to change title window, and change size of window
+# ITKVtkGlueTestDriver runViewImage image_file "MyImage"
+runViewImage.cxx
 )
 
 CreateTestDriver(ITKVtkGlue "${ITKVtkGlue-Test_LIBRARIES}" "${ITKVtkGlueTests}")
