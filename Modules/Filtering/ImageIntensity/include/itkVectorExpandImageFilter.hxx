@@ -41,13 +41,6 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
 
   m_Interpolator = static_cast< InterpolatorType * >( interp.GetPointer() );
-
-//TEST_RMV20100728   // Set default padding value to zero
-//TEST_RMV20100728   for( unsigned int k = 0; k < VectorDimension; k++ )
-//TEST_RMV20100728     {
-//TEST_RMV20100728     m_EdgePaddingValue[k] =
-// NumericTraits<OutputValueType>::ZeroValue();
-//TEST_RMV20100728     }
 }
 
 
@@ -68,11 +61,6 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 
   os << indent << "Interpolator: ";
   os << m_Interpolator.GetPointer() << std::endl;
-
-//TEST_RMV20100728  os << indent << "EdgePaddingValue: "
-//TEST_RMV20100728     << static_cast<typename
-// NumericTraits<OutputPixelType>::PrintType>(m_EdgePaddingValue)
-//TEST_RMV20100728     << std::endl;
 }
 
 
@@ -97,31 +85,6 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
       }
     }
 }
-
-//TEST_RMV20100728/**
-//TEST_RMV20100728 * Set the edge padding value
-//TEST_RMV20100728 */
-//TEST_RMV20100728template <typename TInputImage, typename TOutputImage>
-//TEST_RMV20100728void
-//TEST_RMV20100728VectorExpandImageFilter<TInputImage,TOutputImage>
-//TEST_RMV20100728::SetEdgePaddingValue( const OutputPixelType& value )
-//TEST_RMV20100728{
-//TEST_RMV20100728  unsigned int i;
-//TEST_RMV20100728  for( i = 0; i < OutputPixelType::Dimension; i++ )
-//TEST_RMV20100728    {
-//TEST_RMV20100728    if( value[i] != m_EdgePaddingValue[i] )
-//TEST_RMV20100728      {
-//TEST_RMV20100728      break;
-//TEST_RMV20100728      }
-//TEST_RMV20100728    }
-//TEST_RMV20100728
-//TEST_RMV20100728  if( i < OutputPixelType::Dimension )
-//TEST_RMV20100728    {
-//TEST_RMV20100728    this->Modified();
-//TEST_RMV20100728    m_EdgePaddingValue = value;
-//TEST_RMV20100728    }
-//TEST_RMV20100728
-//TEST_RMV20100728}
 
 
 template< typename TInputImage, typename TOutputImage >
@@ -189,12 +152,6 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
     else
       {
       itkExceptionMacro(<< "Interpolator outside buffer should never occur ");
-//TEST_RMV20100728 * \warning: The following is valid only when the flag
-//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
-//TEST_RMV20100728 * The output image will not contain any padding, and
-// therefore the
-//TEST_RMV20100728 * EdgePaddingValue will not be used.
-//TEST_RMV20100728      outIt.Set( m_EdgePaddingValue );
       }
     ++outIt;
     }
@@ -206,12 +163,9 @@ void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // Get pointers to the input and output
-  InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -229,10 +183,8 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   typename TInputImage::SizeType inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
-  /**
-   * inputRequestedSize = (outputRequestedSize / ExpandFactor) + 1)
-   * The extra 1 above is to take care of edge effects when streaming.
-   */
+  // inputRequestedSize = (outputRequestedSize / ExpandFactor) + 1)
+  // The extra 1 above is to take care of edge effects when streaming.
   for ( i = 0; i < TInputImage::ImageDimension; i++ )
     {
     inputRequestedRegionSize[i] =
@@ -278,12 +230,9 @@ void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
-  // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
-  // Get pointers to the input and output
-  InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
