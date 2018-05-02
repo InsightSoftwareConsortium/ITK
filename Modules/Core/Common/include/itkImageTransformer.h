@@ -176,6 +176,11 @@ protected:
   void ThreadedGenerateData(const InputImageRegionType & inputRegionForThread,
                             ThreadIdType threadId);
 
+  /** Many filters do special management of image buffer and threading,
+   *  so this method provides just the multi-threaded invocation part
+   *  of GenerateData() method. */
+  void ClassicMultiThread(ThreadFunctionType callbackFunction);
+
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
    * behavior. For example, a filter may have multiple outputs with

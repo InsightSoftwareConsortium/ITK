@@ -22,7 +22,6 @@
 #include "itkImage.h"
 #include "itkConceptChecking.h"
 #include <vector>
-#include "itkBarrier.h"
 
 namespace itk
 {
@@ -100,7 +99,6 @@ public:
   using InputSizeType = typename InputImageType::SizeType;
   using InputOffsetType = typename InputImageType::OffsetType;
   using InputImagePixelType = typename InputImageType::PixelType;
-  using SizeValueType = typename InputImageType::SizeValueType;
   using OffsetValueType = typename InputImageType::OffsetValueType;
   using InputPixelType = typename InputImageType::PixelType;
 
@@ -136,20 +134,18 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /**
-   * Standard pipeline methods.
-   */
+  SizeValueType IndexToLinearIndex(OutputIndexType index);
+
+  void GenerateData() override;
+
   void BeforeThreadedGenerateData() override;
 
   void AfterThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputRegionType& outputRegionForThread) override;
 
-  void DynamicThreadedGenerateData( const OutputRegionType & ) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  void ThreadedIntegrateData(const OutputRegionType& outputRegionForThread);
+
 
   /** LabelContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -196,11 +192,6 @@ private:
   void CompareLines(TOutputImage *output, LineEncodingType & current, const LineEncodingType & Neighbour);
 
   void SetupLineOffsets(OffsetVectorType & LineOffsets);
-
-  void Wait();
-
-  typename Barrier::Pointer m_Barrier;
-
 };
 } // end namespace itk
 

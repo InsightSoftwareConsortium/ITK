@@ -20,7 +20,6 @@
 
 #include "itkHistogram.h"
 #include "itkImageToHistogramFilter.h"
-#include "itkBarrier.h"
 #include "itkSimpleDataObjectDecorator.h"
 
 namespace itk
@@ -85,8 +84,8 @@ protected:
   MaskedImageToHistogramFilter();
   ~MaskedImageToHistogramFilter() override {}
 
-  void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress ) override;
-  void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress ) override;
+  void ThreadedGenerateData( const RegionType & inputRegionForThread, ThreadIdType threadId ) override;
+  void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId ) override;
 };
 } // end of namespace Statistics
 } // end of namespace itk

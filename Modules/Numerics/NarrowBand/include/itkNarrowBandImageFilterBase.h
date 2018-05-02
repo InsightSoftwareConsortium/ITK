@@ -23,6 +23,8 @@
 #include "itkNarrowBand.h"
 #include "itkBarrier.h"
 #include "itkObjectStore.h"
+#include "itkPlatformMultiThreader.h"
+
 
 namespace itk
 {
@@ -216,6 +218,7 @@ protected:
     m_Step    = 0;
     m_Touched = false;
     m_Barrier = Barrier::New();
+    this->SetMultiThreader(PlatformMultiThreader::New());
   }
 
   ~NarrowBandImageFilterBase() override {}

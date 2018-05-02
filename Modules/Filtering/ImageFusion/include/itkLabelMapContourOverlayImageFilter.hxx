@@ -74,6 +74,33 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
     ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+void
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
+::GenerateData()
+{
+  this->UpdateProgress(0.0f);
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
+  this->UpdateProgress(0.05f);
+
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+      this->GetOutput()->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+        { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+  this->UpdateProgress(0.5f);
+
+  // delegate to the superclass implementation to use the thread support for the label objects
+  this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+      this->GetOutput()->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+        { Superclass::DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+  this->UpdateProgress(0.99f);
+
+  this->AfterThreadedGenerateData();
+  this->UpdateProgress(1.0f);
+}
 
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
@@ -186,22 +213,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   m_TempImage->Update();
   m_TempImage->DisconnectPipeline();
 
-
-  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  if( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
-    }
-  // number of threads can be constrained by the region size, so call the SplitRequestedRegion
-  // to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call the following method
-  nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
-
-  m_Barrier = Barrier::New();
-  m_Barrier->Initialize( nbOfThreads );
-
   Superclass::BeforeThreadedGenerateData();
-
 }
 
 
@@ -232,13 +244,6 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
     featureIt.NextLine();
     outputIt.NextLine();
     }
-
-
-  // wait for the other threads to complete that part
-  m_Barrier->Wait();
-
-  // and delegate to the superclass implementation to use the thread support for the label objects
-  Superclass::DynamicThreadedGenerateData( outputRegionForThread );
 }
 
 

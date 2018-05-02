@@ -20,7 +20,6 @@
 
 #include "itkHistogram.h"
 #include "itkImageTransformer.h"
-#include "itkBarrier.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkProgressReporter.h"
 
@@ -121,17 +120,18 @@ protected:
   ~ImageToHistogramFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+  void GenerateData() override;
   void BeforeThreadedGenerateData(void) override;
   void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId) override;
   void AfterThreadedGenerateData(void) override;
+  static ITK_THREAD_RETURN_TYPE ThreaderMinMaxCallback(void *arg);
 
   /** Method that construct the outputs */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType) override;
 
-  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
-  virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
+  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId );
 
   std::vector< HistogramPointer >               m_Histograms;
   std::vector< HistogramMeasurementVectorType > m_Minimums;
@@ -139,8 +139,6 @@ protected:
 
 private:
   void ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size );
-  typename Barrier::Pointer                     m_Barrier;
-
 };
 } // end of namespace Statistics
 } // end of namespace itk

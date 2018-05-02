@@ -27,6 +27,7 @@
 #include <iostream>
 #include <fstream>
 #include "itkMath.h"
+#include "itkPlatformMultiThreader.h"
 
 namespace itk
 {
@@ -148,6 +149,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
   this->SetRMSChange( static_cast< double >( m_ValueOne ) );
   this->DynamicMultiThreadingOff();
+  this->SetMultiThreader(PlatformMultiThreader::New());
 }
 
 template< typename TInputImage, typename TOutputImage >

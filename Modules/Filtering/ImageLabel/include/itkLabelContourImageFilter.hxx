@@ -25,7 +25,6 @@
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkConnectedComponentAlgorithm.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -37,7 +36,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   m_FullyConnected( false )
 {
   this->SetInPlace(false);
-  this->DynamicMultiThreadingOff();
 }
 
 // -----------------------------------------------------------------------------
@@ -46,7 +44,6 @@ void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
@@ -69,32 +66,71 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
+template<typename TInputImage, typename TOutputImage>
+void
+LabelContourImageFilter<TInputImage, TOutputImage>
+::GenerateData()
+{
+  this->UpdateProgress(0.0f);
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
+  this->UpdateProgress(0.05f);
+
+  OutputRegionType reqRegion = this->GetOutput()->GetRequestedRegion();
+
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  //parallelize in a way which does not split the region along X axis
+  //to accomplish this, we parallelize a region with lower dimension
+  //which we extend with full scanlines along X
+  this->GetMultiThreader()->ParallelizeImageRegion(
+      ImageDimension - 1,
+      &reqRegion.GetIndex()[1],
+      &reqRegion.GetSize()[1],
+      [&](const IndexValueType index[], const SizeValueType size[])
+      {
+        OutputRegionType r;
+        r.SetIndex(0, reqRegion.GetIndex(0));
+        r.SetSize(0, reqRegion.GetSize(0));
+        for (unsigned d = 1; d < ImageDimension; d++)
+          {
+          r.SetIndex(d, index[d - 1]);
+          r.SetSize(d, size[d - 1]);
+      }
+      this->DynamicThreadedGenerateData(r);
+      },
+      nullptr);
+  this->UpdateProgress(0.5f);
+
+  //avoid splitting the region along X
+  this->GetMultiThreader()->ParallelizeImageRegion(
+      ImageDimension - 1,
+      &reqRegion.GetIndex()[1],
+      &reqRegion.GetSize()[1],
+      [&](const IndexValueType index[], const SizeValueType size[])
+      {
+      OutputRegionType r;
+      r.SetIndex(0, reqRegion.GetIndex(0));
+      r.SetSize(0, reqRegion.GetSize(0));
+      for (unsigned d = 1; d < ImageDimension; d++)
+        {
+        r.SetIndex(d, index[d - 1]);
+        r.SetSize(d, size[d - 1]);
+        }
+      this->ThreadedIntegrateData(r);
+      },
+      nullptr);
+  this->UpdateProgress(0.99f);
+
+  this->AfterThreadedGenerateData();
+  this->UpdateProgress(1.0f);
+}
+
 // -----------------------------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  ThreadIdType global_nb_threads = itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
-
-  if ( global_nb_threads != 0 )
-    {
-    nbOfThreads = std::min( nbOfThreads, global_nb_threads );
-    }
-
-  // number of threads can be constrained by the region size, so call the
-  // SplitRequestedRegion
-  // to get the real number of threads which will be used
-  OutputRegionType splitRegion;
-
-  // dummy region - just to call
-  // the following method
-  nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
-
-  m_Barrier = Barrier::New();
-  m_Barrier->Initialize(nbOfThreads);
-
   OutputImageType* output = this->GetOutput();
 
   SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
@@ -103,20 +139,36 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
   m_LineMap.clear();
   m_LineMap.resize(linecount);
-  m_NumberOfThreads = nbOfThreads;
+}
+
+template<typename TInputImage, typename TOutputImage>
+SizeValueType
+LabelContourImageFilter<TInputImage, TOutputImage>
+::IndexToLinearIndex(OutputIndexType index)
+{
+  SizeValueType li = 0;
+  SizeValueType stride = 1;
+  OutputRegionType r = this->GetOutput()->GetRequestedRegion();
+  //ignore x axis, which is always full size
+  for (unsigned d = 1; d < ImageDimension; d++)
+    {
+    itkAssertOrThrowMacro(r.GetIndex(d) <= index[d],
+        "Index must be within requested region!");
+    li += (index[d] - r.GetIndex(d))*stride;
+    stride *= r.GetSize(d);
+    }
+  return li;
 }
 
 // -----------------------------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputRegionType & outputRegionForThread)
 {
   OutputImageType   *output = this->GetOutput();
   const InputImageType *input = this->GetInput();
 
-  // create a line iterator
   using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
   InputLineIteratorType inLineIt(input, outputRegionForThread);
   inLineIt.SetDirection(0);
@@ -124,34 +176,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
   outLineIt.SetDirection(0);
-
-  // set the progress reporter to deal with the number of lines
-  SizeValueType    pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
-  SizeValueType    xsizeForThread = outputRegionForThread.GetSize()[0];
-  SizeValueType    linecountForThread = pixelcountForThread / xsizeForThread;
-  ProgressReporter progress(this, threadId, linecountForThread * 2);
-
-  // find the split axis
-  OutputIndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
-  OutputIndexType outputRegionForThreadIdx = outputRegionForThread.GetIndex();
-  int       splitAxis = 0;
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    if ( outputRegionIdx[i] != outputRegionForThreadIdx[i] )
-      {
-      splitAxis = i;
-      }
-    }
-
-  // compute the number of pixels before that thread
-  OutputSizeType outputRegionSize = output->GetRequestedRegion().GetSize();
-  outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  SizeValueType firstLineIdForThread =
-    OutputRegionType(outputRegionIdx, outputRegionSize).GetNumberOfPixels() / xsizeForThread;
-  SizeValueType lineId = firstLineIdForThread;
-
-  OffsetVectorType LineOffsets;
-  SetupLineOffsets(LineOffsets);
 
   outLineIt.GoToBegin();
   for ( inLineIt.GoToBegin();
@@ -184,31 +208,34 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
       Line.push_back(thisRun);
       }
+    SizeValueType lineId = IndexToLinearIndex(inLineIt.GetIndex());
     m_LineMap[lineId] = Line;
-    ++lineId;
-    progress.CompletedPixel();
     }
 
-  // wait for the other threads to complete that part
-  this->Wait();
+}
 
-  // now process the map and make appropriate entries in an equivalence
-  // table
-  // itkAssertInDebugAndIgnoreInReleaseMacro( linecount == m_ForegroundLineMap.size() );
+template< typename TInputImage, typename TOutputImage >
+void
+LabelContourImageFilter< TInputImage, TOutputImage >
+::ThreadedIntegrateData(const OutputRegionType & outputRegionForThread)
+{
+  OutputImageType *output = this->GetOutput();
+
+  using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
+  OutputLineIteratorType outLineIt(output, outputRegionForThread);
+  outLineIt.SetDirection(0);
+
+  OffsetVectorType LineOffsets;
+  SetupLineOffsets(LineOffsets);
+
   SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
   OffsetValueType linecount = pixelcount / xsize;
+  itkAssertInDebugAndIgnoreInReleaseMacro(linecount == m_LineMap.size());
 
-  SizeValueType lastLineIdForThread =  linecount;
-  if ( threadId != m_NumberOfThreads - 1 )
+  for (outLineIt.GoToBegin(); !outLineIt.IsAtEnd(); outLineIt.NextLine())
     {
-    lastLineIdForThread = firstLineIdForThread
-                          + OutputRegionType( outputRegionIdx,
-                                              outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread;
-    }
-
-  for ( SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx )
-    {
+    SizeValueType ThisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if ( !m_LineMap[ThisIdx].empty() )
       {
       for ( OffsetVectorConstIterator I = LineOffsets.begin();
@@ -237,7 +264,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
           }
         }
       }
-    progress.CompletedPixel();
     }
 }
 
@@ -470,17 +496,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
 }
 
-// -----------------------------------------------------------------------------
-template< typename TInputImage, typename TOutputImage >
-void
-LabelContourImageFilter< TInputImage, TOutputImage >
-::Wait()
-{
-  if ( m_NumberOfThreads > 1 )
-    {
-    m_Barrier->Wait();
-    }
-}
 } // end namespace itk
 
 #endif

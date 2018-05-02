@@ -27,6 +27,7 @@
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
 #include "itkImageRegionSplitterDirection.h"
+#include "itkPlatformMultiThreader.h"
 
 namespace itk
 {
@@ -159,9 +160,6 @@ protected:
 
   using InternalLabelType = SizeValueType;
 
-  /**
-   * Standard pipeline method.
-   */
   void BeforeThreadedGenerateData() override;
 
   void AfterThreadedGenerateData() override;

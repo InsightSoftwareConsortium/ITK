@@ -270,6 +270,21 @@ ImageTransformer< TInputImage >
 }
 
 //----------------------------------------------------------------------------
+template<typename TInputImage>
+void
+ImageTransformer< TInputImage >
+::ClassicMultiThread(ThreadFunctionType callbackFunction)
+{
+  ThreadStruct str;
+  str.Filter = this;
+
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
+
+  this->GetMultiThreader()->SingleMethodExecute();
+}
+
+//----------------------------------------------------------------------------
 template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
@@ -284,15 +299,7 @@ ImageTransformer< TInputImage >
   // separate threads
   this->BeforeThreadedGenerateData();
 
-  // Set up the multithreaded processing
-  ThreadStruct str;
-  str.Filter = this;
-
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-  this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
-
-  // multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->ClassicMultiThread(this->ThreaderCallback);
 
   // Call a method that can be overridden by a subclass to perform
   // some calculations after all the threads have completed

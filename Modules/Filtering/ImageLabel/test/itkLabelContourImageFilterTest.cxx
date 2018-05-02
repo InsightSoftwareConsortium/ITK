@@ -21,10 +21,10 @@
 
 #include "itkSimpleFilterWatcher.h"
 #include "itkLabelContourImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkLabelContourImageFilterTest(int argc, char * argv[])
 {
-
   if( argc != 5 )
     {
     std::cerr << "usage: " << argv[0] << " intput output fullyConnected bg" << std::endl;
@@ -58,46 +58,12 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  //
   // Tests for raising code coverage
-  //
-  try
-    {
-    filter->Update();
-    std::cerr << "Failed to throw expected exception" << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cout << excp << std::endl;
-    std::cout << "caught EXPECTED exception for empty image as input" << std::endl;
-    }
-
-  filter->FullyConnectedOn();
-  if( !filter->GetFullyConnected() )
-    {
-    std::cerr << "Set/GetFullyConnected() error" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  filter->FullyConnectedOff();
-  if( filter->GetFullyConnected() )
-    {
-    std::cerr << "Set/GetFullyConnected() error" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
-  // set the inputs
+  EXERCISE_BASIC_OBJECT_METHODS(filter, LabelContourImageFilter, InPlaceImageFilter);
+  TRY_EXPECT_EXCEPTION(filter->Update());
+  TEST_SET_GET_BOOLEAN(filter, FullyConnected, atoi(argv[3]));
 
   filter->SetInput( reader->GetOutput() );
-
-  filter->SetFullyConnected( atoi(argv[3]) );
-  if ( filter->GetFullyConnected( ) != (bool)atoi(argv[3]) )
-    {
-    std::cerr << "Set/Get FullyConnected problem." << std::endl;
-    return EXIT_FAILURE;
-    }
 
   filter->SetBackgroundValue( atoi(argv[4]) );
   if ( filter->GetBackgroundValue( ) != atoi(argv[4]) )
@@ -112,18 +78,8 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
 
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
-
 }

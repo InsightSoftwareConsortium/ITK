@@ -19,7 +19,6 @@
 #define itkLabelMapMaskImageFilter_h
 
 #include "itkLabelMapFilter.h"
-#include "itkBarrier.h"
 
 namespace itk {
 
@@ -160,14 +159,10 @@ protected:
 
   void GenerateOutputInformation() override;
 
-  void BeforeThreadedGenerateData() override;
+  void GenerateData() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
 
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
@@ -181,9 +176,6 @@ private:
   SizeType                  m_CropBorder;
 
   TimeStamp                 m_CropTimeStamp;
-
-  typename Barrier::Pointer m_Barrier;
-
 }; // end of class
 
 } // end namespace itk

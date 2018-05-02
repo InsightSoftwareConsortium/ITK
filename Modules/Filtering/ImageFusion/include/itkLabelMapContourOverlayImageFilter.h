@@ -19,7 +19,6 @@
 #define itkLabelMapContourOverlayImageFilter_h
 
 #include "itkLabelMapFilter.h"
-#include "itkBarrier.h"
 #include "itkLabelOverlayFunctor.h"
 #include "itkRGBPixel.h"
 
@@ -205,6 +204,8 @@ protected:
   void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
 
 
+  void GenerateData() override;
+
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
   void GenerateOutputInformation() override;
@@ -218,7 +219,6 @@ protected:
 
 private:
   double                    m_Opacity;
-  typename Barrier::Pointer m_Barrier;
   int                       m_Type;
   int                       m_Priority;
   SizeType                  m_ContourThickness;

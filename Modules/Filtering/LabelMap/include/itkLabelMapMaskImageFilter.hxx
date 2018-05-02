@@ -242,34 +242,79 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-
-template <typename TInputImage, typename TOutputImage>
+template< typename TInputImage, typename TOutputImage >
 void
-LabelMapMaskImageFilter<TInputImage, TOutputImage>
-::BeforeThreadedGenerateData()
+LabelMapMaskImageFilter< TInputImage, TOutputImage >
+::GenerateData()
 {
-  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  if( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
+  this->UpdateProgress(0.0f);
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
+  this->UpdateProgress(0.05f);
+
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+      this->GetOutput()->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+        { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+  this->UpdateProgress(0.5f);
+
+  auto * inImage = const_cast<InputImageType *>(this->GetInput());
+  if( inImage->GetBackgroundValue() == m_Label )
     {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
+    // delegate to the superclass implementation to use the thread support for the label objects
+    this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+        this->GetOutput()->GetRequestedRegion(),
+        [this](const OutputImageRegionType & outputRegionForThread)
+          { Superclass::DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
     }
-  // Number of threads can be constrained by the region size, so call the SplitRequestedRegion
-  // to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call the following method
-  nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
+  else
+    {
+    const LabelObjectType * labelObject = this->GetLabelMap()->GetLabelObject( m_Label );
+    const OutputImageType * input2 = this->GetFeatureImage();
+    OutputImageType * output = this->GetOutput();
 
-  m_Barrier = Barrier::New();
-  m_Barrier->Initialize( nbOfThreads );
+    if( !m_Negated )
+      {
+      typename LabelObjectType::ConstIndexIterator it( labelObject );
+      while( ! it.IsAtEnd() )
+        {
+        const IndexType & idx = it.GetIndex();
+        output->SetPixel( idx, input2->GetPixel( idx ) );
+        ++it;
+        }
+      }
+    else
+      {
+      // And mark the label object as background
 
-  Superclass::BeforeThreadedGenerateData();
+      // Should we take care to not write outside the image ?
+      bool testIdxIsInside = m_Crop && ( inImage->GetBackgroundValue() == m_Label ) ^ m_Negated;
+      RegionType outputRegion = output->GetLargestPossibleRegion();
+
+      typename LabelObjectType::ConstIndexIterator it( labelObject );
+      while( ! it.IsAtEnd() )
+        {
+        const IndexType & idx = it.GetIndex();
+        if( !testIdxIsInside || outputRegion.IsInside( idx ) )
+          {
+          output->SetPixel( idx, m_BackgroundValue );
+          }
+        ++it;
+        }
+      }
+    }
+
+  this->UpdateProgress(0.99f);
+  this->AfterThreadedGenerateData();
+  this->UpdateProgress(1.0f);
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
+::DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread )
 {
-  ProgressReporter progress( this, threadId, 1 );
   OutputImageType * output = this->GetOutput();
   auto * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
@@ -292,53 +337,6 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt )
       {
       outputIt.Set( m_BackgroundValue );
-      }
-    }
-
-  // Wait for the other threads to complete that part
-  m_Barrier->Wait();
-
-  if( input->GetBackgroundValue() == m_Label )
-    {
-    // And delegate to the superclass implementation to use the thread support for the label objects
-    Superclass::ThreadedGenerateData( outputRegionForThread, threadId );
-    }
-  else
-    {
-    // Need only one thread - take the first one
-    if( threadId == 0 )
-      {
-      const LabelObjectType * labelObject = this->GetLabelMap()->GetLabelObject( m_Label );
-
-      if( !m_Negated )
-        {
-        typename LabelObjectType::ConstIndexIterator it( labelObject );
-        while( ! it.IsAtEnd() )
-          {
-          const IndexType & idx = it.GetIndex();
-          output->SetPixel( idx, input2->GetPixel( idx ) );
-          ++it;
-          }
-        }
-      else
-        {
-        // And mark the label object as background
-
-        // Should we take care to not write outside the image ?
-        bool testIdxIsInside = m_Crop && ( input->GetBackgroundValue() == m_Label ) ^ m_Negated;
-        RegionType outputRegion = output->GetLargestPossibleRegion();
-
-        typename LabelObjectType::ConstIndexIterator it( labelObject );
-        while( ! it.IsAtEnd() )
-          {
-          const IndexType & idx = it.GetIndex();
-          if( !testIdxIsInside || outputRegion.IsInside( idx ) )
-            {
-            output->SetPixel( idx, m_BackgroundValue );
-            }
-          ++it;
-          }
-        }
       }
     }
 }
@@ -406,7 +404,6 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
   os << indent << "CropBorder: " << m_CropBorder << std::endl;
   os << indent << "CropTimeStamp: "
     << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_CropTimeStamp) << std::endl;
-  os << indent << "Barrier: " << m_Barrier << std::endl;
 }
 
 

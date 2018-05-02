@@ -37,9 +37,6 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 
   m_NarrowBanding = false;
   m_NarrowBand = nullptr;
-  this->DynamicMultiThreadingOff();
-
-  m_Barrier = Barrier::New();
 }
 
 /**
@@ -113,6 +110,63 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
     }
 }
 
+
+template<typename TInputImage, typename TOutputImage>
+void
+IsoContourDistanceImageFilter<TInputImage, TOutputImage>
+::GenerateData()
+{
+  this->UpdateProgress(0.0f);
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
+  this->UpdateProgress(0.01f);
+
+  this->ClassicMultiThread(this->ThreaderCallback); //parallelizes ThreadedGenerateData
+  this->UpdateProgress(0.3f);
+
+  //parallelizes ThreadedGenerateDataFull or ThreadedGenerateDataBand
+  this->ClassicMultiThread(this->ThreaderFullCallback);
+  this->UpdateProgress(0.99f);
+
+  this->AfterThreadedGenerateData();
+  this->UpdateProgress(1.0f);
+}
+
+
+template<typename TInputImage, typename TOutputImage>
+ITK_THREAD_RETURN_TYPE
+IsoContourDistanceImageFilter<TInputImage, TOutputImage>
+::ThreaderFullCallback(void *arg)
+{
+  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
+  ThreadIdType threadId = threadInfo->ThreadID;
+  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  using FilterStruct = typename ImageSource<TOutputImage>::ThreadStruct;
+  FilterStruct* str = (FilterStruct *)(threadInfo->UserData);
+  Self* filter = static_cast<Self*>(str->Filter.GetPointer());
+
+  // execute the actual method with appropriate output region
+  // first find out how many pieces extent can be split into.
+  typename TOutputImage::RegionType splitRegion;
+  ThreadIdType total = filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+
+  if ( threadId < total )
+    {
+    //Iterate over split region or split band as convinient.
+    if ( !filter->m_NarrowBanding )
+      {
+      filter->ThreadedGenerateDataFull(splitRegion, threadId);
+      }
+    else
+      {
+      filter->ThreadedGenerateDataBand(splitRegion, threadId);
+      }
+    }
+  // else don't use this thread. Threads were not split conveniently.
+  return ITK_THREAD_RETURN_VALUE;
+}
+
 /**
  * Before ThreadedGenerateData:
  *  Split the band if we use narrowband mode
@@ -127,15 +181,9 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   // itkImageSource::SplitRequestedRegion. Sometimes this number is less than
   // the number of threads requested.
   OutputImageRegionType dummy;
-  unsigned int actualThreads = this->SplitRequestedRegion(
-    0, this->GetNumberOfThreads(),
-    dummy);
+  unsigned int actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfThreads(), dummy);
 
   m_Spacing = this->GetInput()->GetSpacing();
-
-  // Initialize the barrier for the thread synchronization in
-  // the narrowband case.
-  this->m_Barrier->Initialize(actualThreads);
 
   if ( m_NarrowBanding )
     {
@@ -150,7 +198,7 @@ template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+                       ThreadIdType itkNotUsed(threadId))
 {
   using ImageConstPointer = typename InputImageType::ConstPointer;
   using OutputPointer = typename OutputImageType::Pointer;
@@ -185,19 +233,6 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
       }
     ++inIt;
     ++outIt;
-    }
-
-  // Wait for all threads to be done initializing output
-  this->m_Barrier->Wait();
-
-  //Iterate over split region or split band as convinient.
-  if ( !m_NarrowBanding )
-    {
-    this->ThreadedGenerateDataFull(outputRegionForThread, threadId);
-    }
-  else
-    {
-    this->ThreadedGenerateDataBand(outputRegionForThread, threadId);
     }
 }
 
