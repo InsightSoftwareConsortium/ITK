@@ -30,7 +30,7 @@ usage: mdoc.py massive-check [ITK-source]
 
 def setGroup( fname, group ):
 # sys.stderr.write("Processing "+ fname +"\n")
-  f = open( fname, "r" )
+  f = io.open( fname, "r", encoding="utf-8" )
   out = io.StringIO()
   # load everything in memory
   fcontent = f.read()
@@ -64,13 +64,13 @@ def setGroup( fname, group ):
       out.write(dcontent)
   out.write(fcontent[last:])
   # we can save the content to the original file
-  f = open( fname, "w" )
+  f = io.open( fname, "w", encoding="utf-8" )
   f.write( out.getvalue() )
   f.close()
 
 def checkGroup( fname, group ):
 # sys.stderr.write("Checking"+ fname + "\n")
-  f = open( fname, "r" )
+  f = io.open( fname, "r", encoding="utf-8" )
   # load everything in memory
   fcontent = f.read()
   f.close()
@@ -114,7 +114,7 @@ def main():
       d = sys.path[0]+"/../.."
     cmm = os.path.abspath(d+"/*/*/*/itk-module.cmake")
     for fname in glob.glob(cmm):
-      f = file(fname, "r")
+      f = file(fname, "r", encoding="utf-8")
       mcontent = f.read()
       f.close()
       module = re.search(r"itk_module\(([^ )]+)", mcontent).group(1)
@@ -155,7 +155,7 @@ def main():
     ret = 0
     count = 0
     for fname in glob.glob(cmm):
-      f = file(fname, "r")
+      f = file(fname, "r", encoding="utf-8")
       mcontent = f.read()
       f.close()
       module = re.search(r"itk_module\(([^ )]+)", mcontent).group(1)
