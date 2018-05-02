@@ -42,30 +42,34 @@ public:
     itk::SimpleMemberCommand<FilterWatcher>::Pointer iterationFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer abortFilterCommand;
 
-    startFilterCommand =    itk::SimpleMemberCommand<FilterWatcher>::New();
-    endFilterCommand =      itk::SimpleMemberCommand<FilterWatcher>::New();
+    startFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
+    endFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
     progressFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
     iterationFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
     abortFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
 
-    startFilterCommand->SetCallbackFunction(this,
-                                            &FilterWatcher::StartFilter);
-    endFilterCommand->SetCallbackFunction(this,
-                                          &FilterWatcher::EndFilter);
-    progressFilterCommand->SetCallbackFunction(this,
-                                               &FilterWatcher::ShowProgress);
-    iterationFilterCommand->SetCallbackFunction(this,
-                                               &FilterWatcher::ShowIteration);
-    abortFilterCommand->SetCallbackFunction(this,
-                                               &FilterWatcher::ShowAbort);
-    m_Process->AddObserver(itk::StartEvent(), startFilterCommand);
-    m_Process->AddObserver(itk::EndEvent(), endFilterCommand);
-    m_Process->AddObserver(itk::ProgressEvent(), progressFilterCommand);
-    m_Process->AddObserver(itk::IterationEvent(), iterationFilterCommand);
-    m_Process->AddObserver(itk::AbortEvent(), abortFilterCommand);
+    startFilterCommand->SetCallbackFunction(this, &FilterWatcher::StartFilter);
+    endFilterCommand->SetCallbackFunction(this, &FilterWatcher::EndFilter);
+    progressFilterCommand->SetCallbackFunction(this, &FilterWatcher::ShowProgress);
+    iterationFilterCommand->SetCallbackFunction(this, &FilterWatcher::ShowIteration);
+    abortFilterCommand->SetCallbackFunction(this, &FilterWatcher::ShowAbort);
+
+    m_StartTag = m_Process->AddObserver(itk::StartEvent(), startFilterCommand);
+    m_EndTag = m_Process->AddObserver(itk::EndEvent(), endFilterCommand);
+    m_ProgressTag = m_Process->AddObserver(itk::ProgressEvent(), progressFilterCommand);
+    m_IterationTag = m_Process->AddObserver(itk::IterationEvent(), iterationFilterCommand);
+    m_AbortTag = m_Process->AddObserver(itk::AbortEvent(), abortFilterCommand);
   }
 
-  virtual ~FilterWatcher() {}
+
+  virtual ~FilterWatcher()
+  {
+    m_Process->RemoveObserver(m_StartTag);
+    m_Process->RemoveObserver(m_EndTag);
+    m_Process->RemoveObserver(m_ProgressTag);
+    m_Process->RemoveObserver(m_IterationTag);
+    m_Process->RemoveObserver(m_AbortTag);
+  }
 
   virtual void ShowProgress()
   {
@@ -135,6 +139,12 @@ protected:
   int     m_Iterations;
   bool    m_Quiet;
   bool    m_TestAbort;
+
+  unsigned long m_StartTag;
+  unsigned long m_EndTag;
+  unsigned long m_ProgressTag;
+  unsigned long m_IterationTag;
+  unsigned long m_AbortTag;
 
   std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
