@@ -23,7 +23,7 @@
 #include "itkPixelTraits.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkSqrtImageFilter.h"
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -156,30 +156,8 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-  class SqrSpacing
-  {
-  public:
-    SqrSpacing():m_Spacing(0) {}
-    ~SqrSpacing() {}
-    bool operator!=(const SqrSpacing & other) const
-    {
-      return !( *this == other );
-    }
 
-    bool operator==(const SqrSpacing & other) const
-    {
-      return other.m_Spacing == m_Spacing;
-    }
-
-    inline InternalRealType operator()(const InternalRealType & a, const InternalRealType & b)
-    {
-      return a + itk::Math::sqr(b / m_Spacing);
-    }
-
-    double m_Spacing;
-  };
-
-  using SqrSpacingFilterType = BinaryFunctorImageFilter< RealImageType, RealImageType, RealImageType, SqrSpacing >;
+  using SqrSpacingFilterType = BinaryGeneratorImageFilter< RealImageType, RealImageType, RealImageType >;
   using SqrSpacingFilterPointer = typename SqrSpacingFilterType::Pointer;
 
   GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1];

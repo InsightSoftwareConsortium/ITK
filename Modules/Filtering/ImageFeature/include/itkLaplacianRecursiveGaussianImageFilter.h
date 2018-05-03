@@ -126,27 +126,6 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-  // special binary functor to perform A+B*ConstValue
-  //
-  // Where A is the cumulativeImage, B is the last filter, and
-  // ConstValue is the spacing scalling
-  class AddMultConstFunctor
-  {
-  public:
-    using Self = AddMultConstFunctor;
-
-    AddMultConstFunctor( void ) : m_Value( NumericTraits<PixelType>::OneValue() ) {}
-
-    bool operator!=( const Self &other ) const { return !(*this==other); }
-    bool operator==( const Self &other ) const { return m_Value == other.m_Value; }
-
-    inline InternalRealType operator()( const InternalRealType &a, const InternalRealType &b ) const
-    {
-      return static_cast<InternalRealType>( a + b*m_Value );
-    }
-
-    RealType m_Value;
-  };
 
   GaussianFilterPointer   m_SmoothingFilters[NumberOfSmoothingFilters];
   DerivativeFilterPointer m_DerivativeFilter;

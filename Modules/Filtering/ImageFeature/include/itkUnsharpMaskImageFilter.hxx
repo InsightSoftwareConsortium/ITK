@@ -19,7 +19,7 @@
 #define itkUnsharpMaskImageFilter_hxx
 
 #include "itkUnsharpMaskImageFilter.h"
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 
@@ -82,9 +82,12 @@ UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
   gaussianF->SetSigmaArray(m_Sigmas);
   gaussianF->SetNumberOfThreads(this->GetNumberOfThreads());
 
-  using USMType = UnsharpMaskingFunctor< InputPixelType, TInternalPrecision, OutputPixelType >;
-  using BinaryFunctorType = BinaryFunctorImageFilter< TInputImage, typename GaussianType::OutputImageType,
-    TOutputImage, USMType >;
+  using USMType = UnsharpMaskingFunctor< InputPixelType,
+                                         TInternalPrecision,
+                                         OutputPixelType >;
+  using BinaryFunctorType = BinaryGeneratorImageFilter< TInputImage,
+                                                        typename GaussianType::OutputImageType,
+                                                        TOutputImage >;
   typename BinaryFunctorType::Pointer functorF = BinaryFunctorType::New();
   functorF->SetInput1(this->GetInput());
   functorF->SetInput2(gaussianF->GetOutput());

@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 #include "itkCastImageFilter.h"
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -200,7 +200,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   // allocate the add and scale image filter just for the scope of
   // this function!
-  using AddFilterType = itk::BinaryFunctorImageFilter< CumulativeImageType, RealImageType, CumulativeImageType, AddMultConstFunctor >;
+  using AddFilterType = itk::BinaryGeneratorImageFilter< CumulativeImageType, RealImageType, CumulativeImageType >;
   typename AddFilterType::Pointer addFilter = AddFilterType::New();
   addFilter->SetNumberOfThreads(this->GetNumberOfThreads());
 
@@ -228,7 +228,8 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
     // scale the new value by the inverse of the spacing squared
     const RealType spacing2 = itk::Math::sqr( inputImage->GetSpacing()[dim] );
-    addFilter->GetFunctor().m_Value = 1.0/spacing2;
+    addFilter->SetFunctor( [spacing2](const InternalRealType &a, const InternalRealType &b)
+                           { return static_cast<InternalRealType>( a + b*(1.0/spacing2) );} );
 
     // Cummulate the results on the output image
     addFilter->SetInput1( cumulativeImage );
