@@ -18,7 +18,7 @@
 #ifndef itkModulusImageFilter_h
 #define itkModulusImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkArithmeticOpsFunctors.h"
 
 
@@ -41,22 +41,18 @@ namespace itk
 template< typename  TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class ITK_TEMPLATE_EXPORT ModulusImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::Modulus<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ModulusImageFilter);
 
   /** Standard class type aliases. */
   using Self = ModulusImageFilter;
-  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::Modulus<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+
+  using FunctorType = Functor::Modulus< typename TInputImage1::PixelType,
+                                        typename TInputImage2::PixelType,
+                                        typename TOutputImage::PixelType >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -69,7 +65,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(ModulusImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
   /** Set/Get the dividend */
   virtual void SetDividend( InputPixelType _arg ) { this->SetConstant2(_arg); }
@@ -86,6 +82,7 @@ public:
 protected:
   ModulusImageFilter();
   ~ModulusImageFilter() override {}
+
 };
 } // end namespace itk
 

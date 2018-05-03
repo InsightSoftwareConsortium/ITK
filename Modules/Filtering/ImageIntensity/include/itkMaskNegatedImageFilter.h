@@ -18,7 +18,7 @@
 #ifndef itkMaskNegatedImageFilter_h
 #define itkMaskNegatedImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
@@ -131,24 +131,18 @@ private:
 template< typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage >
 class MaskNegatedImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
-                            Functor::MaskNegatedInput<
-                              typename TInputImage::PixelType,
-                              typename TMaskImage::PixelType,
-                              typename TOutputImage::PixelType >   >
-
+  BinaryGeneratorImageFilter< TInputImage, TMaskImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskNegatedImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskNegatedImageFilter;
-  using Superclass = BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
-                                    Functor::MaskNegatedInput<
-                                      typename TInputImage::PixelType,
-                                      typename TMaskImage::PixelType,
-                                      typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage, TMaskImage, TOutputImage >;
 
+  using FunctorType = Functor::MaskNegatedInput< typename TInputImage::PixelType,
+                                                 typename TMaskImage::PixelType,
+                                                 typename TOutputImage::PixelType >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
@@ -157,7 +151,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(MaskNegatedImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
   /** Typedefs **/
   using MaskImageType = TMaskImage;
@@ -227,6 +221,17 @@ protected:
     Superclass::PrintSelf(os, indent);
     os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;
   }
+
+  void BeforeThreadedGenerateData() override
+    {
+      this->SetFunctor(this->GetFunctor());
+    }
+
+private:
+  itkGetConstReferenceMacro(Functor, FunctorType);
+  FunctorType & GetFunctor() { return m_Functor; }
+
+  FunctorType    m_Functor;
 };
 } // end namespace itk
 

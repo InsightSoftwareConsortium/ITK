@@ -53,7 +53,7 @@ int itkModulusImageFilterTest(int argc, char * argv[])
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, ModulusImageFilter,
-    BinaryFunctorImageFilter );
+    BinaryGeneratorImageFilter );
 
   filter->SetInput( distance->GetOutput() );
 
@@ -62,7 +62,6 @@ int itkModulusImageFilterTest(int argc, char * argv[])
   TEST_SET_GET_VALUE( dividend, filter->GetDividend() )
 
   filter->InPlaceOn();
-  filter->SetFunctor( filter->GetFunctor() );
 
   itk::SimpleFilterWatcher watcher(filter);
 

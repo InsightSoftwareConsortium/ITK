@@ -39,6 +39,7 @@ template< typename TInputImage1, typename TInputImage2,  typename TOutputImage >
 ModulusImageFilter< TInputImage1, TInputImage2, TOutputImage >
 ::ModulusImageFilter()
 {
+  Superclass::SetFunctor(FunctorType());
   this->SetConstant2( static_cast<typename TInputImage2::PixelType>(5) );
 }
 
