@@ -120,8 +120,13 @@ itk_add_test(NAME itkSignedMaurerDistanceMapImageFilterTest4D
 
 itk_add_test(NAME itkApproximateSignedDistanceMapImageFilterTest0
       COMMAND ITKDistanceMapTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest0.mhd "dad6e6dd8b849b884d15e91954f808d1"
-    itkApproximateSignedDistanceMapImageFilterTest 100 ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest0.mhd)
+    --compare
+        DATA{Data/Baseline/itkApproximateSignedDistanceMapImageFilterTest0.mha}
+        ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest0.mha
+    --compare-MD5
+        ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest0.mha
+        "dad6e6dd8b849b884d15e91954f808d1"
+    itkApproximateSignedDistanceMapImageFilterTest 100 ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest0.mha)
 itk_add_test(NAME itkApproximateSignedDistanceMapImageFilterTest1
       COMMAND ITKDistanceMapTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest1.mhd "dad6e6dd8b849b884d15e91954f808d1"
