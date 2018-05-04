@@ -533,7 +533,7 @@ public:
     assert(m_ImageBufferPointer != nullptr);
     const OffsetValueType* const offsetTable = image.GetOffsetTable();
     assert((offsetTable != nullptr) && (offsetTable[0] == 1));
-    assert((ImageDimension == 1) || (offsetTable[1] == m_ImageSize[0]));
+    assert((ImageDimension == 1) || ( static_cast<ImageSizeValueType>(offsetTable[1]) == m_ImageSize[0] ));
 
     std::copy_n(offsetTable, ImageDimension, m_OffsetTable.begin());
 
