@@ -33,9 +33,9 @@ namespace itk
 {
 template< typename TImageType >
 void ViewImage<TImageType>::View( const TImageType* img,
-           const std::string& win_title,
-           size_t win_x,
-           size_t win_y )
+           const std::string& winTitle,
+           size_t winWidth,
+           size_t winHeight )
 {
   using ConnectorType = itk::ImageToVTKImageFilter< TImageType >;
   auto connector = ConnectorType::New();
@@ -48,8 +48,8 @@ void ViewImage<TImageType>::View( const TImageType* img,
 
   // Setup render window
   vtkSmartPointer< vtkRenderWindow > renderWindow = vtkSmartPointer< vtkRenderWindow >::New();
-  renderWindow->SetWindowName(win_title.c_str());
-  renderWindow->SetSize(win_x, win_y);
+  renderWindow->SetWindowName(winTitle.c_str());
+  renderWindow->SetSize(winWidth, winHeight);
   renderWindow->AddRenderer(renderer);
 
   // Setup render window interactor
@@ -68,33 +68,33 @@ void ViewImage<TImageType>::View( const TImageType* img,
   filter->SetInput(img);
   filter->Update();
   filter->UpdateLargestPossibleRegion();
-  double min_intensity = filter->GetMinimum();
-  double max_intensity = filter->GetMaximum();
-  double window = max_intensity - min_intensity;
-  double level  = min_intensity + window / 2;
+  double minIntensity = filter->GetMinimum();
+  double maxIntensity = filter->GetMaximum();
+  double window = maxIntensity - minIntensity;
+  double level  = minIntensity + window / 2;
   /** SLICES */
-  FixedArray< vtkSmartPointer< vtkImagePlaneWidget >, 3 > slice_planes;
+  FixedArray< vtkSmartPointer< vtkImagePlaneWidget >, 3 > slicePlanes;
   for ( unsigned i = 0; i < 3; ++i )
     {
-    slice_planes[i] = vtkSmartPointer< vtkImagePlaneWidget >::New();
-    slice_planes[i]->SetResliceInterpolateToCubic();
-    slice_planes[i]->DisplayTextOn();
-    slice_planes[i]->SetInteractor(renderWindowInteractor);
-    slice_planes[i]->PlaceWidget();
-    slice_planes[i]->SetSliceIndex(0);
-    slice_planes[i]->SetMarginSizeX(0);
-    slice_planes[i]->SetMarginSizeY(0);
-    slice_planes[i]->SetRightButtonAction(
+    slicePlanes[i] = vtkSmartPointer< vtkImagePlaneWidget >::New();
+    slicePlanes[i]->SetResliceInterpolateToCubic();
+    slicePlanes[i]->DisplayTextOn();
+    slicePlanes[i]->SetInteractor(renderWindowInteractor);
+    slicePlanes[i]->PlaceWidget();
+    slicePlanes[i]->SetSliceIndex(0);
+    slicePlanes[i]->SetMarginSizeX(0);
+    slicePlanes[i]->SetMarginSizeY(0);
+    slicePlanes[i]->SetRightButtonAction(
       vtkImagePlaneWidget::VTK_SLICE_MOTION_ACTION);
-    slice_planes[i]->SetMiddleButtonAction(
+    slicePlanes[i]->SetMiddleButtonAction(
       vtkImagePlaneWidget::VTK_WINDOW_LEVEL_ACTION);
-    slice_planes[i]->TextureInterpolateOff();
+    slicePlanes[i]->TextureInterpolateOff();
 
-    slice_planes[i]->SetInputData(connector->GetOutput());
-    slice_planes[i]->SetPlaneOrientation(i);
-    slice_planes[i]->UpdatePlacement();
-    slice_planes[i]->SetWindowLevel(window, level);
-    slice_planes[i]->On();
+    slicePlanes[i]->SetInputData(connector->GetOutput());
+    slicePlanes[i]->SetPlaneOrientation(i);
+    slicePlanes[i]->UpdatePlacement();
+    slicePlanes[i]->SetWindowLevel(window, level);
+    slicePlanes[i]->On();
     }
   // Flip camera because VTK-ITK different corner for origin.
   double pos[3];

@@ -21,13 +21,32 @@
 #include <string>
 namespace itk
 {
+  /** \class ViewImage
+   * Class with static function to visualize an image using just vtk.
+   * It accepts 2D and 3D images.
+   *
+   * Usage example:
+   * itk::ViewImage<ImageType>::View( reader->GetOutput())
+   *
+   * \ingroup ITKVtkGlue
+   *
+   */
 template<typename TImageType >
 class ViewImage {
 public:
+
+  /**
+   * Static function to visualize 2D and 3D images.
+   *
+   * \param img Input image
+   * \param winTitle Title of the window.
+   * \param winWidth Width of the visualization window.
+   * \param winHeight Height of the visualization window.
+   */
   static void View(const TImageType* img,
-      const std::string& win_title = "itkView",
-      size_t win_x = 600,
-      size_t win_y = 600);
+      const std::string& winTitle = "itkView",
+      size_t winWidth = 600,
+      size_t winHeight = 600);
 };
 }// namespace itk
 
