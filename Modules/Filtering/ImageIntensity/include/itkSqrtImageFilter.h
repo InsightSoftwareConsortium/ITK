@@ -18,7 +18,7 @@
 #ifndef itkSqrtImageFilter_h
 #define itkSqrtImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -64,30 +64,25 @@ public:
  */
 template< typename TInputImage, typename TOutputImage >
 class SqrtImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Sqrt< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType >   >
+  public UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageFilter);
 
   /** Standard class type aliases. */
   using Self = SqrtImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::Sqrt< typename TInputImage::PixelType,
-                   typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Sqrt< typename TInputImage::PixelType,
+                                     typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(SqrtImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -99,7 +94,11 @@ public:
 #endif
 
 protected:
-  SqrtImageFilter() {}
+  SqrtImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~SqrtImageFilter() override {}
 };
 } // end namespace itk

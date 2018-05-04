@@ -67,7 +67,7 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
     MagnitudeAndPhaseToComplexFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( magnitudeAndPhaseToComplexFilter,
-    MagnitudeAndPhaseToComplexImageFilter, BinaryFunctorImageFilter );
+    MagnitudeAndPhaseToComplexImageFilter, BinaryGeneratorImageFilter );
 
   magnitudeAndPhaseToComplexFilter->SetInput1( magnitudeReader->GetOutput() );
   magnitudeAndPhaseToComplexFilter->SetInput2( phaseReader->GetOutput() );

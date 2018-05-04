@@ -91,7 +91,7 @@ int itkComplexToPhaseFilterAndAdaptorTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToPhaseImageFilter,
-    UnaryFunctorImageFilter );
+    UnaryGeneratorImageFilter );
 
   // Set the input image
   filter->SetInput( inputImage );

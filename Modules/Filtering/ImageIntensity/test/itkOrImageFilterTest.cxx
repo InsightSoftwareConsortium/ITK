@@ -119,13 +119,12 @@ int itkOrImageFilterTest( int argc, char* argv[] )
   OrImageFilterType::Pointer filter = OrImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, OrImageFilter,
-    BinaryFunctorImageFilter );
+    BinaryGeneratorImageFilter );
 
   // Set the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();

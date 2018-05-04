@@ -18,7 +18,7 @@
 #ifndef itkMinimumImageFilter_h
 #define itkMinimumImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -71,33 +71,27 @@ public:
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class MinimumImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::Minimum<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumImageFilter);
 
   /** Standard class type aliases. */
   using Self = MinimumImageFilter;
-  using Superclass = BinaryFunctorImageFilter<
-    TInputImage1, TInputImage2, TOutputImage,
-    Functor::Minimum<
-      typename TInputImage1::PixelType,
-      typename TInputImage2::PixelType,
-      typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType =   Functor::Minimum< typename TInputImage1::PixelType,
+                                          typename TInputImage2::PixelType,
+                                          typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(MinimumImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -114,7 +108,11 @@ public:
 #endif
 
 protected:
-  MinimumImageFilter() {}
+  MinimumImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~MinimumImageFilter() override {}
 };
 } // end namespace itk

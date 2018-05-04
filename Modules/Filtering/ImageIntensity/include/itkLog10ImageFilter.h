@@ -18,7 +18,7 @@
 #ifndef itkLog10ImageFilter_h
 #define itkLog10ImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -65,30 +65,25 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class Log10ImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Log10<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Log10ImageFilter);
 
   /** Standard class type aliases. */
   using Self = Log10ImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::Log10< typename TInputImage::PixelType,
-                     typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Log10< typename TInputImage::PixelType,
+                                      typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(Log10ImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -100,7 +95,11 @@ public:
 #endif
 
 protected:
-  Log10ImageFilter() {}
+  Log10ImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~Log10ImageFilter() override {}
 };
 } // end namespace itk

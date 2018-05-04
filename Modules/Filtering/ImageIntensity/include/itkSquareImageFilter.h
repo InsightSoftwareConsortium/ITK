@@ -18,7 +18,7 @@
 #ifndef itkSquareImageFilter_h
 #define itkSquareImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -63,29 +63,25 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class SquareImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Square< typename TInputImage::PixelType,
-                                            typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage  >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquareImageFilter);
 
   /** Standard class type aliases. */
   using Self = SquareImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::Square< typename TInputImage::PixelType,
-                     typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Square< typename TInputImage::PixelType,
+                                       typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(SquareImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -97,7 +93,11 @@ public:
 #endif
 
 protected:
-  SquareImageFilter() {}
+  SquareImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~SquareImageFilter() override {}
 };
 } // end namespace itk

@@ -92,12 +92,11 @@ int itkAtanImageFilterAndAdaptorTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, AtanImageFilter,
-    UnaryFunctorImageFilter );
+    UnaryGeneratorImageFilter );
 
   // Set the input image
   filter->SetInput( inputImage );
 
-  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();

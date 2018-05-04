@@ -18,7 +18,7 @@
 #ifndef itkAtan2ImageFilter_h
 #define itkAtan2ImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -84,32 +84,26 @@ public:
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class Atan2ImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::Atan2<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Atan2ImageFilter);
 
   /** Standard class type aliases. */
   using Self = Atan2ImageFilter;
-  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                    Functor::Atan2<
-                                      typename TInputImage1::PixelType,
-                                      typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType > >;
-
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Atan2< typename TInputImage1::PixelType,
+                                      typename TInputImage2::PixelType,
+                                      typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(Atan2ImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -123,7 +117,10 @@ public:
 #endif
 
 protected:
-  Atan2ImageFilter() {}
+  Atan2ImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
   ~Atan2ImageFilter() override {}
 };
 } // end namespace itk

@@ -134,7 +134,6 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   OutputIteratorType outputIterator(outputImage, outputImage->GetBufferedRegion());

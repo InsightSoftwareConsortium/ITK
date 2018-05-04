@@ -93,14 +93,13 @@ int itkAcosImageFilterAndAdaptorTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, AcosImageFilter,
-    UnaryFunctorImageFilter );
+    UnaryGeneratorImageFilter );
 
   FilterWatcher watch(filter);
 
   // Set the input image
   filter->SetInput( inputImage );
 
-  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();

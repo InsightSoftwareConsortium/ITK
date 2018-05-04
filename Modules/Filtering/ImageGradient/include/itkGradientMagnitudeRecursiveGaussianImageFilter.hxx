@@ -240,7 +240,9 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
       }
     m_DerivativeFilter->SetDirection(dim);
 
-    m_SqrSpacingFilter->GetFunctor(). m_Spacing = inputImage->GetSpacing()[dim];
+    const double lambdaSpacing = inputImage->GetSpacing()[dim];
+    m_SqrSpacingFilter->SetFunctor([lambdaSpacing](const InternalRealType & a, const InternalRealType & b)
+                                   {return a + itk::Math::sqr(b / lambdaSpacing);});
     m_SqrSpacingFilter->SetInput(cumulativeImage);
 
     // run the mini pipeline for that dimension

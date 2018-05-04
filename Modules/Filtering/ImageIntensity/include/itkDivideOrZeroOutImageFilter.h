@@ -18,7 +18,7 @@
 #ifndef itkDivideOrZeroOutImageFilter_h
 #define itkDivideOrZeroOutImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include "itkArithmeticOpsFunctors.h"
@@ -41,24 +41,20 @@ template< typename TInputImage1,
           typename TInputImage2=TInputImage1,
           typename TOutputImage=TInputImage1 >
 class DivideOrZeroOutImageFilter :
-  public BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                   Functor::DivideOrZeroOut<
-                                     typename TInputImage1::PixelType,
-                                     typename TInputImage2::PixelType,
-                                     typename TOutputImage::PixelType > >
+  public BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DivideOrZeroOutImageFilter);
 
   /** Standard class type aliases. */
   using Self = DivideOrZeroOutImageFilter;
-  using Superclass = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
-    Functor::DivideOrZeroOut<
-      typename TInputImage1::PixelType,
-      typename TInputImage2::PixelType,
-      typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
+  using FunctorType = Functor::DivideOrZeroOut< typename TInputImage1::PixelType,
+                                                typename TInputImage2::PixelType,
+                                                typename TOutputImage::PixelType >;
 
   using NumeratorPixelType = typename TInputImage1::PixelType;
   using DenominatorPixelType = typename TInputImage2::PixelType;
@@ -68,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(DivideOrZeroOutImageFilter, BinaryFunctorImageFilter);
+  itkTypeMacro(DivideOrZeroOutImageFilter, BinaryGeneratorImageFilter);
 
   /** Print internal ivars */
   void PrintSelf(std::ostream& os, Indent indent) const override
@@ -110,6 +106,17 @@ public:
 protected:
   DivideOrZeroOutImageFilter() {};
   ~DivideOrZeroOutImageFilter() override {};
+
+  void BeforeThreadedGenerateData() override
+    {
+      this->SetFunctor(this->GetFunctor());
+    }
+
+private:
+  itkGetConstReferenceMacro(Functor, FunctorType);
+  FunctorType & GetFunctor() { return m_Functor; }
+
+  FunctorType    m_Functor;
 };
 
 } // end namespace itk

@@ -20,7 +20,7 @@
 
 #include "itkInverseDeconvolutionImageFilter.h"
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -55,16 +55,20 @@ InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInter
   using FunctorType = Functor::InverseDeconvolutionFunctor< InternalComplexType,
                                                 InternalComplexType,
                                                 InternalComplexType>;
-  using InverseFilterType = BinaryFunctorImageFilter< InternalComplexImageType,
+
+  using InverseFilterType = BinaryGeneratorImageFilter< InternalComplexImageType,
                                     InternalComplexImageType,
-                                    InternalComplexImageType, FunctorType >;
+                                    InternalComplexImageType>;
+
+  FunctorType inverseFunctor;
+  inverseFunctor.SetKernelZeroMagnitudeThreshold( this->GetKernelZeroMagnitudeThreshold() );
+
   typename InverseFilterType::Pointer inverseFilter = InverseFilterType::New();
   inverseFilter->SetInput1( input );
   inverseFilter->SetInput2( kernel );
   inverseFilter->ReleaseDataFlagOn();
+  inverseFilter->SetFunctor( inverseFunctor );
 
-  typename InverseFilterType::FunctorType & inverseFunctor = inverseFilter->GetFunctor();
-  inverseFunctor.SetKernelZeroMagnitudeThreshold( this->GetKernelZeroMagnitudeThreshold() );
   progress->RegisterInternalFilter( inverseFilter, 0.1 );
 
   // Free up the memory for the prepared inputs

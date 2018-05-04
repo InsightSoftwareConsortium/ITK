@@ -98,13 +98,12 @@ int itkMultiplyImageFilterTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, MultiplyImageFilter,
-    BinaryFunctorImageFilter );
+    BinaryGeneratorImageFilter );
 
   // Connect the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );

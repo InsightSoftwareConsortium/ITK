@@ -20,7 +20,7 @@
 
 #include "itkTikhonovDeconvolutionImageFilter.h"
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -55,17 +55,19 @@ TikhonovDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInte
   using FunctorType = Functor::TikhonovDeconvolutionFunctor< InternalComplexType,
                          InternalComplexType,
                          InternalComplexType>;
-  using TikhonovFilterType = BinaryFunctorImageFilter< InternalComplexImageType,
+  FunctorType tikhonovFunctor;
+  tikhonovFunctor.SetRegularizationConstant( this->GetRegularizationConstant() );
+  tikhonovFunctor.SetKernelZeroMagnitudeThreshold( this->GetKernelZeroMagnitudeThreshold() );
+
+  using TikhonovFilterType = BinaryGeneratorImageFilter< InternalComplexImageType,
                                InternalComplexImageType,
-                               InternalComplexImageType, FunctorType >;
+                               InternalComplexImageType >;
   typename TikhonovFilterType::Pointer tikhonovFilter = TikhonovFilterType::New();
   tikhonovFilter->SetInput1( input );
   tikhonovFilter->SetInput2( kernel );
+  tikhonovFilter->SetFunctor(tikhonovFunctor);
   tikhonovFilter->ReleaseDataFlagOn();
 
-  typename TikhonovFilterType::FunctorType & tikhonovFunctor = tikhonovFilter->GetFunctor();
-  tikhonovFunctor.SetRegularizationConstant( this->GetRegularizationConstant() );
-  tikhonovFunctor.SetKernelZeroMagnitudeThreshold( this->GetKernelZeroMagnitudeThreshold() );
   progress->RegisterInternalFilter( tikhonovFilter, 0.1 );
 
   // Free up the memory for the prepared inputs

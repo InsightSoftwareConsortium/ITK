@@ -20,7 +20,6 @@
 
 #include "itkIterativeDeconvolutionImageFilter.h"
 
-#include "itkBinaryFunctorImageFilter.h"
 #include "itkParametricImageSource.h"
 #include "itkTernaryFunctorImageFilter.h"
 

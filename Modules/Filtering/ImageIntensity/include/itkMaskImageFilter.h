@@ -18,7 +18,7 @@
 #ifndef itkMaskImageFilter_h
 #define itkMaskImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkVariableLengthVector.h"
 #include "itkMath.h"
@@ -145,11 +145,7 @@ private:
 template< typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage >
 class MaskImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
-                            Functor::MaskInput<
-                              typename TInputImage::PixelType,
-                              typename TMaskImage::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage, TMaskImage, TOutputImage >
 
 {
 public:
@@ -157,11 +153,11 @@ public:
 
   /** Standard class type aliases. */
   using Self = MaskImageFilter;
-  using Superclass = BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
-                                    Functor::MaskInput<
-                                      typename TInputImage::PixelType,
-                                      typename TMaskImage::PixelType,
-                                      typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage, TMaskImage, TOutputImage >;
+
+  using FunctorType =  Functor::MaskInput< typename TInputImage::PixelType,
+                                           typename TMaskImage::PixelType,
+                                           typename TOutputImage::PixelType >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -171,7 +167,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(MaskImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
   /** Typedefs **/
   using MaskImageType = TMaskImage;
@@ -221,12 +217,6 @@ public:
     return this->GetFunctor().GetMaskingValue();
   }
 
-  void BeforeThreadedGenerateData() override
-  {
-    using PixelType = typename TOutputImage::PixelType;
-    this->CheckOutsideValue( static_cast<PixelType*>(nullptr) );
-  }
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( MaskEqualityComparableCheck,
@@ -247,7 +237,20 @@ protected:
     os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;
   }
 
+  void BeforeThreadedGenerateData() override
+    {
+      using PixelType = typename TOutputImage::PixelType;
+      this->CheckOutsideValue( static_cast<PixelType*>(nullptr) );
+
+      this->SetFunctor(this->GetFunctor());
+    }
+
 private:
+  itkGetConstReferenceMacro(Functor, FunctorType);
+  FunctorType & GetFunctor() { return m_Functor; }
+
+  FunctorType    m_Functor;
+
   template < typename TPixelType >
   void CheckOutsideValue( const TPixelType * ) {}
 

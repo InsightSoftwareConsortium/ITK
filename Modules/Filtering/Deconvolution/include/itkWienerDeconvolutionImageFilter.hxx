@@ -20,7 +20,7 @@
 
 #include "itkWienerDeconvolutionImageFilter.h"
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -53,18 +53,19 @@ WienerDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TIntern
   this->PrepareInputs( localInput, kernelImage, input, kernel, progress, 0.7 );
 
   using FunctorType = Functor::WienerDeconvolutionFunctor< InternalComplexType >;
-  using WienerFilterType = BinaryFunctorImageFilter< InternalComplexImageType,
+  FunctorType  wienerFunctor;
+  wienerFunctor.SetNoisePowerSpectralDensityConstant( m_NoiseVariance );
+  wienerFunctor.SetKernelZeroMagnitudeThreshold( this->GetKernelZeroMagnitudeThreshold() );
+
+  using WienerFilterType = BinaryGeneratorImageFilter< InternalComplexImageType,
                                     InternalComplexImageType,
-                                    InternalComplexImageType,
-                                    FunctorType >;
+                                    InternalComplexImageType>;
   typename WienerFilterType::Pointer wienerFilter = WienerFilterType::New();
   wienerFilter->SetInput( 0, input );
   wienerFilter->SetInput( 1, kernel );
-
-  typename WienerFilterType::FunctorType & wienerFunctor = wienerFilter->GetFunctor();
-  wienerFunctor.SetNoisePowerSpectralDensityConstant( m_NoiseVariance );
-  wienerFunctor.SetKernelZeroMagnitudeThreshold( this->GetKernelZeroMagnitudeThreshold() );
+  wienerFilter->SetFunctor(wienerFunctor);
   wienerFilter->ReleaseDataFlagOn();
+
   progress->RegisterInternalFilter( wienerFilter, 0.1 );
 
   // Free up the memory for the prepared inputs

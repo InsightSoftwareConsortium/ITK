@@ -18,7 +18,7 @@
 #ifndef itkComplexToImaginaryImageFilter_h
 #define itkComplexToImaginaryImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -57,30 +57,26 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class ComplexToImaginaryImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::ComplexToImaginary<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToImaginaryImageFilter);
 
   /** Standard class type aliases. */
   using Self = ComplexToImaginaryImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::ComplexToImaginary< typename TInputImage::PixelType,
-                                 typename TOutputImage::PixelType > >;
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::ComplexToImaginary< typename TInputImage::PixelType,
+                                                   typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(ComplexToImaginaryImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
@@ -94,7 +90,10 @@ public:
 #endif
 
 protected:
-  ComplexToImaginaryImageFilter() {}
+  ComplexToImaginaryImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
   ~ComplexToImaginaryImageFilter() override {}
 };
 } // end namespace itk

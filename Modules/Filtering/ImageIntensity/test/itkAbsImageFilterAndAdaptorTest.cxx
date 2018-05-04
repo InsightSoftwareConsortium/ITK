@@ -21,7 +21,7 @@
 #include "itkImageAdaptor.h"
 #include "itkMath.h"
 #include "itkSubtractImageFilter.h"
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkTestingMacros.h"
 
 int itkAbsImageFilterAndAdaptorTest(int, char* [] )
@@ -93,7 +93,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   // Create an Abs Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AbsImageFilter, UnaryFunctorImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( filter, AbsImageFilter, UnaryGeneratorImageFilter );
 
   // Connect the input images
   filter->SetInput( inputImage );
@@ -103,7 +103,6 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());

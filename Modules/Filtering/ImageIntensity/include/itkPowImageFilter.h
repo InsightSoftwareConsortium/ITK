@@ -18,7 +18,7 @@
 #ifndef itkPowImageFilter_h
 #define itkPowImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -92,11 +92,7 @@ public:
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class PowImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::Pow<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 
 {
 public:
@@ -104,20 +100,20 @@ public:
 
   /** Standard class type aliases. */
   using Self = PowImageFilter;
-  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                        Functor::Pow< typename TInputImage1::PixelType,
-                                      typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Pow< typename TInputImage1::PixelType,
+                                    typename TInputImage2::PixelType,
+                                    typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(PowImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -125,8 +121,12 @@ public:
 #endif
 
 protected:
-  PowImageFilter() {}
-  // virtual ~PowImageFilter() {} default implementation OK
+  PowImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
+  ~PowImageFilter() override {}
 };
 } // end namespace itk
 

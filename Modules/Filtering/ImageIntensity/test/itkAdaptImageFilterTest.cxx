@@ -116,7 +116,6 @@ int itkAdaptImageFilterTest(int, char* [] ) {
   FilterWatcher redWatcher(adaptImageToRed, "Red");
   adaptImageToRed->SetInput(myImage);
   adaptImageToRed->UpdateLargestPossibleRegion();
-  adaptImageToRed->SetFunctor(adaptImageToRed->GetFunctor());
 
   myIteratorType  it( adaptImageToRed->GetOutput(), adaptImageToRed->GetOutput()->GetRequestedRegion() );
 

@@ -18,7 +18,7 @@
 #ifndef itkWeightedAddImageFilter_h
 #define itkWeightedAddImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
@@ -114,11 +114,7 @@ private:
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class WeightedAddImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::WeightedAdd2<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 
 {
 public:
@@ -126,17 +122,16 @@ public:
 
   /** Standard class type aliases. */
   using Self = WeightedAddImageFilter;
-  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                    Functor::WeightedAdd2<
-                                      typename TInputImage1::PixelType,
-                                      typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType >
-                                    >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+
+
+  using FunctorType = Functor::WeightedAdd2< typename TInputImage1::PixelType,
+                                             typename TInputImage2::PixelType,
+                                             typename TOutputImage::PixelType >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
-  using FunctorType = typename Superclass::FunctorType;
   using RealType = typename FunctorType::RealType;
 
   /** Method for creation through the object factory. */
@@ -144,7 +139,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(WeightedAddImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
   /** Set the weight for the first operand of the weighted addition */
   void SetAlpha(RealType alpha)
@@ -175,6 +170,17 @@ public:
 protected:
   WeightedAddImageFilter() {}
   ~WeightedAddImageFilter() override {}
+
+  void BeforeThreadedGenerateData() override
+    {
+      this->SetFunctor(this->GetFunctor());
+    }
+
+private:
+  itkGetConstReferenceMacro(Functor, FunctorType);
+  FunctorType & GetFunctor() { return m_Functor; }
+
+  FunctorType    m_Functor;
 };
 } // end namespace itk
 

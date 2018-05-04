@@ -35,3 +35,8 @@ itk_add_test(NAME itkMaskNeighborhoodOperatorImageFilterTest
     itkMaskNeighborhoodOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png)
 itk_add_test(NAME itkCastImageFilterTest
       COMMAND ITKImageFilterBaseTestDriver itkCastImageFilterTest)
+
+set(ITKImageFilterBaseGTests
+      itkGeneratorImageFilterGTest.cxx
+)
+CreateGoogleTestDriver(ITKImageFilterBase "${ITKImageFilterBase-Test_LIBRARIES}" "${ITKImageFilterBaseGTests}")

@@ -18,7 +18,7 @@
 #ifndef itkMagnitudeAndPhaseToComplexImageFilter_h
 #define itkMagnitudeAndPhaseToComplexImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -82,15 +82,9 @@ template< typename TInputImage1,
           typename TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType >,
                                            TInputImage1::ImageDimension > >
 class MagnitudeAndPhaseToComplexImageFilter:
-  public BinaryFunctorImageFilter<
-    TInputImage1,
-    TInputImage2,
-    TOutputImage,
-    Functor::MagnitudeAndPhaseToComplex<
-      typename TInputImage1::PixelType,
-      typename TInputImage2::PixelType,
-      typename TOutputImage::PixelType::value_type > >
-
+    public BinaryGeneratorImageFilter< TInputImage1,
+                                       TInputImage2,
+                                       TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MagnitudeAndPhaseToComplexImageFilter);
@@ -98,14 +92,9 @@ public:
   /** Standard class type aliases. */
   using Self = MagnitudeAndPhaseToComplexImageFilter;
 
-  using Superclass = BinaryFunctorImageFilter<
-    TInputImage1,
-    TInputImage2,
-    TOutputImage,
-    Functor::MagnitudeAndPhaseToComplex<
-      typename TInputImage1::PixelType,
-      typename TInputImage2::PixelType,
-      typename TOutputImage::PixelType::value_type > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1,
+                                                 TInputImage2,
+                                                 TOutputImage >;
 
   using InputPixel1Type = typename TInputImage1::PixelType;
   using InputPixel2Type = typename TInputImage2::PixelType;
@@ -114,11 +103,15 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
+  using FunctorType = Functor::MagnitudeAndPhaseToComplex< typename TInputImage1::PixelType,
+                                                           typename TInputImage2::PixelType,
+                                                           typename TOutputImage::PixelType::value_type >;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MagnitudeAndPhaseToComplexImageFilter, BinaryFunctorImageFilter);
+  itkTypeMacro(MagnitudeAndPhaseToComplexImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -132,7 +125,11 @@ public:
 #endif
 
 protected:
-  MagnitudeAndPhaseToComplexImageFilter() {}
+  MagnitudeAndPhaseToComplexImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~MagnitudeAndPhaseToComplexImageFilter() override {}
 };
 } // end namespace itk

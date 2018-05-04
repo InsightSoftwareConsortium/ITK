@@ -18,7 +18,7 @@
 #ifndef itkAcosImageFilter_h
 #define itkAcosImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -78,29 +78,26 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class AcosImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Acos<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage  >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageFilter);
 
   /** Standard class type aliases. */
   using Self = AcosImageFilter;
-  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                   Functor::Acos< typename TInputImage::PixelType,
-                                                  typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Acos< typename TInputImage::PixelType,
+                                     typename TOutputImage::PixelType >;
+
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(AcosImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -112,7 +109,11 @@ public:
 #endif
 
 protected:
-  AcosImageFilter() {}
+  AcosImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~AcosImageFilter() override {}
 };
 } // end namespace itk

@@ -18,7 +18,7 @@
 #ifndef itkVectorMagnitudeImageFilter_h
 #define itkVectorMagnitudeImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -70,29 +70,25 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class VectorMagnitudeImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::VectorMagnitude< typename TInputImage::PixelType,
-                                                     typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorMagnitudeImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorMagnitudeImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::VectorMagnitude< typename TInputImage::PixelType,
-                              typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::VectorMagnitude< typename TInputImage::PixelType,
+                                                typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(VectorMagnitudeImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -102,7 +98,12 @@ public:
 #endif
 
 protected:
-  VectorMagnitudeImageFilter() {}
+  VectorMagnitudeImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
+
   ~VectorMagnitudeImageFilter() override {}
 };
 } // end namespace itk

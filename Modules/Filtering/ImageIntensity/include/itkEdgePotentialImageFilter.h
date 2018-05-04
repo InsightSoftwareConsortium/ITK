@@ -18,7 +18,7 @@
 #ifndef itkEdgePotentialImageFilter_h
 #define itkEdgePotentialImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -62,30 +62,25 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class EdgePotentialImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::EdgePotential<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType > >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EdgePotentialImageFilter);
 
   /** Standard class type aliases. */
   using Self = EdgePotentialImageFilter;
-  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                   Functor::EdgePotential<
-                                     typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::EdgePotential< typename TInputImage::PixelType,
+                                              typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(EdgePotentialImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -95,7 +90,11 @@ public:
 #endif
 
 protected:
-  EdgePotentialImageFilter() {}
+  EdgePotentialImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~EdgePotentialImageFilter() override {}
 };
 } // end namespace itk
