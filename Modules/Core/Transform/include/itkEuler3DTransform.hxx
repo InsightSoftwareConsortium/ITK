@@ -134,7 +134,7 @@ Euler3DTransform<TParametersValueType>
   // array, we ignore the returned data and add the additional
   // information to the updated array.
   Superclass::GetFixedParameters();
-  this->m_FixedParameters[3] = this-> m_ComputeZYX;
+  this->m_FixedParameters[3] = this->m_ComputeZYX ? 1.0 : 0.0;
   return this->m_FixedParameters;
 }
 
@@ -155,7 +155,7 @@ Euler3DTransform<TParametersValueType>
   if( parameters.Size() == 4 )
     {
     this->m_FixedParameters[3] = parameters[3];
-    this->SetComputeZYX(this->m_FixedParameters[3]);
+    this->SetComputeZYX(this->m_FixedParameters[3] != 0.0);
     }
 }
 
