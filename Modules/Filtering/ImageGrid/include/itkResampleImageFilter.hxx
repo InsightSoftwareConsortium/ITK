@@ -403,7 +403,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     // scan line when mapped to the input coordinate frame.
 
     IndexType index = outIt.GetIndex();
-    index[0] += largestPossibleRegion.GetIndex(0);
+    index[0] = largestPossibleRegion.GetIndex(0);
 
     ContinuousInputIndexType startIndex;
     outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
