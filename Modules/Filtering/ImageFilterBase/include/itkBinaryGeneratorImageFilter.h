@@ -216,7 +216,7 @@ public:
 
 protected:
   BinaryGeneratorImageFilter();
-  virtual ~BinaryGeneratorImageFilter() {}
+  ~BinaryGeneratorImageFilter() override {}
 
   /** BinaryGeneratorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
