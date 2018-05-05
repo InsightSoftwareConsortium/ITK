@@ -144,7 +144,7 @@ public:
 
 protected:
   UnaryGeneratorImageFilter();
-  virtual ~UnaryGeneratorImageFilter() {}
+  ~UnaryGeneratorImageFilter() override {}
 
   /** UnaryGeneratorImageFilter can produce an image which is a different
    * resolution than its input image.  As such, UnaryGeneratorImageFilter
