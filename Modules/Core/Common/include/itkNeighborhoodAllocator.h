@@ -115,7 +115,10 @@ public:
   {
     if (n != m_ElementCount)
       {
-      if ( m_Data ) { Deallocate(); }
+      if ( m_Data )
+        {
+        this->Deallocate();
+        }
       this->Allocate(n);
       }
   }
