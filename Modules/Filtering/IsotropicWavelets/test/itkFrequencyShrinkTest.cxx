@@ -312,37 +312,37 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::ViewImage::View(zeroDCFilter->GetOutput(), "Original");
-  itk::ViewImage::View(inverseFFT->GetOutput(), "FrequencyShrinker");
+  itk::ViewImage<ImageType>::View(zeroDCFilter->GetOutput(), "Original");
+  itk::ViewImage<ImageType>::View(inverseFFT->GetOutput(), "FrequencyShrinker");
   // Compare with regular shrink filter.
   using RegularShrinkType = itk::ShrinkImageFilter<ImageType, ImageType>;
   auto regularShrinkFilter = RegularShrinkType::New();
   regularShrinkFilter->SetInput(zeroDCFilter->GetOutput());
   regularShrinkFilter->SetShrinkFactors(2);
   regularShrinkFilter->Update();
-  itk::ViewImage::View(regularShrinkFilter->GetOutput(), "Regular shrinker");
+  itk::ViewImage<ImageType>::View(regularShrinkFilter->GetOutput(), "Regular shrinker");
 
   // Complex to real
   using ComplexToRealFilter = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
   auto complexToRealFilter = ComplexToRealFilter::New();
   complexToRealFilter->SetInput(fftFilter->GetOutput());
   complexToRealFilter->Update();
-  itk::ViewImage::View(complexToRealFilter->GetOutput(), "ComplexToReal. Original");
+  itk::ViewImage<ImageType>::View(complexToRealFilter->GetOutput(), "ComplexToReal. Original");
   auto complexToRealFilterShrink = ComplexToRealFilter::New();
   complexToRealFilterShrink->SetInput(shrinkFilter->GetOutput());
   complexToRealFilterShrink->Update();
-  itk::ViewImage::View(complexToRealFilterShrink->GetOutput(), "ComplexToReal. Shrinked");
+  itk::ViewImage<ImageType>::View(complexToRealFilterShrink->GetOutput(), "ComplexToReal. Shrinked");
 
   // Complex to imaginary
   // using ComplexToImaginaryFilter = itk::ComplexToImaginaryImageFilter< ComplexImageType, ImageType >;
   // auto complexToImaginaryFilter = ComplexToImaginaryFilter::New();
   // complexToImaginaryFilter->SetInput( fftFilter->GetOutput() );
   // complexToImaginaryFilter->Update();
-  // itk::ViewImage::View( complexToImaginaryFilter->GetOutput(), "ComplexToImaginary. Original" );
+  // itk::ViewImage<ImageType>::View( complexToImaginaryFilter->GetOutput(), "ComplexToImaginary. Original" );
   // auto complexToImaginaryFilterShrink = ComplexToImaginaryFilter::New();
   // complexToImaginaryFilterShrink->SetInput( shrinkFilter->GetOutput() );
   // complexToImaginaryFilterShrink->Update();
-  // itk::ViewImage::View( complexToImaginaryFilterShrink->GetOutput(), "ComplexToImaginary. Shrinked" );
+  // itk::ViewImage<ImageType>::View( complexToImaginaryFilterShrink->GetOutput(), "ComplexToImaginary. Shrinked" );
 
 #endif
 

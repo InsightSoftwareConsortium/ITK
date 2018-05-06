@@ -95,8 +95,8 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
 
 #ifdef ITK_VISUALIZE_TESTS
     itk::NumberToString<unsigned int> n2s;
-    itk::ViewImage::View(complexToRealFilter->GetOutput(),
-                         "RealPart of Complex. Band: " + n2s(i) + "/" + n2s(highSubBands));
+    itk::ViewImage<ImageType>::View(complexToRealFilter->GetOutput(),
+                                    "RealPart of Complex. Band: " + n2s(i) + "/" + n2s(highSubBands));
 #endif
   }
 
@@ -120,7 +120,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
 
 #ifdef ITK_VISUALIZE_TESTS
     itk::NumberToString<unsigned int> n2s;
-    itk::ViewImage::View(inverseFFT->GetOutput(), "InverseFFT. Band: " + n2s(i) + "/" + n2s(highSubBands));
+    itk::ViewImage<ImageType>::View(inverseFFT->GetOutput(), "InverseFFT. Band: " + n2s(i) + "/" + n2s(highSubBands));
 #endif
   }
 

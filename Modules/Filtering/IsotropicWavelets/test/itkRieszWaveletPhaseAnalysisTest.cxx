@@ -170,10 +170,10 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
       auto inverseFFT = InverseFFTFilterType::New();
       inverseFFT->SetInput(analysisWavelets[i]);
       inverseFFT->Update();
-      itk::ViewImage::View(inverseFFT->GetOutput(), "WaveletCoef: output #" + n2s(i));
+      itk::ViewImage<ImageType>::View(inverseFFT->GetOutput(), "WaveletCoef: output #" + n2s(i));
       inverseFFT->SetInput(modifiedWavelets[i]);
       inverseFFT->Update();
-      itk::ViewImage::View(inverseFFT->GetOutput(), "WaveletCoef. PhaseAnalyzed #" + n2s(i));
+      itk::ViewImage<ImageType>::View(inverseFFT->GetOutput(), "WaveletCoef. PhaseAnalyzed #" + n2s(i));
     }
   }
 #endif
@@ -194,8 +194,8 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   inverseFFT->Update();
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::ViewImage::View(reader->GetOutput(), "Input Image");
-  itk::ViewImage::View(inverseFFT->GetOutput(), "Inverse Wavelet");
+  itk::ViewImage<ImageType>::View(reader->GetOutput(), "Input Image");
+  itk::ViewImage<ImageType>::View(inverseFFT->GetOutput(), "Inverse Wavelet");
 #endif
 
   // Cast To Float for save as tiff.

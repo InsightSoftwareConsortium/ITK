@@ -155,7 +155,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
   PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer phase = phaseAnalyzer->GetOutputPhase();
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::ViewImage::View(cosPhase.GetPointer(), "PhaseAnalyzer(Soft) output");
+  itk::ViewImage<ImageType>::View(cosPhase.GetPointer(), "PhaseAnalyzer(Soft) output");
 #endif
 
   return testStatus;

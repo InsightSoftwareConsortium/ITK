@@ -144,8 +144,8 @@ runWaveletFrequencyInverseUndecimatedTest(const std::string &  inputImage,
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::ViewImage::View(reader->GetOutput(), "Original");
-  itk::ViewImage::View(inverseFFT->GetOutput(), "InverseWavelet");
+  itk::ViewImage<ImageType>::View(reader->GetOutput(), "Original");
+  itk::ViewImage<ImageType>::View(inverseFFT->GetOutput(), "InverseWavelet");
 #endif
 
   // TODO move it from here to Forward test.
@@ -161,7 +161,7 @@ runWaveletFrequencyInverseUndecimatedTest(const std::string &  inputImage,
   {
     complexToRealFilter->SetInput(waveletFilterBankPyramid[i]);
     complexToRealFilter->UpdateLargestPossibleRegion();
-    itk::ViewImage::View(complexToRealFilter->GetOutput(), "FilterBankPyramid #" + n2s(i));
+    itk::ViewImage<ImageType>::View(complexToRealFilter->GetOutput(), "FilterBankPyramid #" + n2s(i));
   }
 #endif
 

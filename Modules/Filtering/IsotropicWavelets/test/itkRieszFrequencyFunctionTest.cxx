@@ -160,7 +160,7 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   //
   // #ifdef ITK_VISUALIZE_TESTS
   //     itk::NumberToString< unsigned int > n2s;
-  //     itk::ViewImage::View( complexToRealFilter->GetOutput(), "RealPart of Complex. Direction: " + n2s(
+  //     itk::ViewImage<ImageType>::View( complexToRealFilter->GetOutput(), "RealPart of Complex. Direction: " + n2s(
   //                          dir + 1) + " / " + n2s( ImageType::ImageDimension ) );
   // #endif
 }
