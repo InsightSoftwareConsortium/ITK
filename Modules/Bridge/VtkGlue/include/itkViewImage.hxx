@@ -17,27 +17,33 @@
  *=========================================================================*/
 #ifndef itkViewImage_hxx
 #define itkViewImage_hxx
-#include <vtkSmartPointer.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderWindowInteractor.h>
-#include <vtkInteractorStyleRubberBand3D.h>
-#include <vtkRenderer.h>
-#include <vtkCamera.h>
-#include <vtkImageMapper.h>
-#include <vtkImagePlaneWidget.h>
+#include "vtkSmartPointer.h"
+#include "vtkRenderWindow.h"
+#include "vtkRenderWindowInteractor.h"
+#include "vtkInteractorStyleRubberBand3D.h"
+#include "vtkRenderer.h"
+#include "vtkCamera.h"
+#include "vtkImageMapper.h"
+#include "vtkImagePlaneWidget.h"
+
 #include "itkImage.h"
 #include "itkImageToVTKImageFilter.h"
 #include "itkStatisticsImageFilter.h"
-#include <itkFixedArray.h>
+#include "itkFixedArray.h"
+#include "itkViewImage.h"
+
 namespace itk
 {
-template< typename TImageType >
-void ViewImage<TImageType>::View( const TImageType* img,
-           const std::string& winTitle,
-           size_t winWidth,
-           size_t winHeight )
+
+template< typename TImage >
+void
+ViewImage< TImage >
+::View( const ImageType* img,
+        const std::string& winTitle,
+        size_t winWidth,
+        size_t winHeight )
 {
-  using ConnectorType = itk::ImageToVTKImageFilter< TImageType >;
+  using ConnectorType = ImageToVTKImageFilter< ImageType >;
   auto connector = ConnectorType::New();
   connector->SetInput(img);
   connector->Update();
@@ -63,7 +69,7 @@ void ViewImage<TImageType>::View( const TImageType* img,
   renderWindowInteractor->SetRenderWindow(renderWindow);
 
   // Prepare for slices.
-  using FilterType = itk::StatisticsImageFilter< TImageType >;
+  using FilterType = StatisticsImageFilter< ImageType >;
   auto filter = FilterType::New();
   filter->SetInput(img);
   filter->Update();
