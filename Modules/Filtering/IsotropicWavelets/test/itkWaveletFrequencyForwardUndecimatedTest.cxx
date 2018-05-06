@@ -201,9 +201,9 @@ runWaveletFrequencyForwardUndecimatedTest(const std::string &  inputImage,
     inverseFFT->Update();
 
 #ifdef ITK_VISUALIZE_TESTS
-    itk::Testing::ViewImage(inverseFFT->GetOutput(),
-                            "Wavelet coef. n_out: " + n2s(nOutput) + " level: " + n2s(level) + " , band: " + n2s(band) +
-                              "/" + n2s(inputBands));
+    itk::ViewImage::View(inverseFFT->GetOutput(),
+                         "Wavelet coef. n_out: " + n2s(nOutput) + " level: " + n2s(level) + " , band: " + n2s(band) +
+                           "/" + n2s(inputBands));
 #endif
 
     writer->SetFileName(AppendToFilenameUndecimated(outputImage, n2s(nOutput)));

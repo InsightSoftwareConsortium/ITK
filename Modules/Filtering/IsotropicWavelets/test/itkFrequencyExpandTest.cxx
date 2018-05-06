@@ -222,26 +222,26 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(zeroDCFilter->GetOutput(), "Original");
-  itk::Testing::ViewImage(inverseFFT->GetOutput(), "FrequencyExpander");
+  itk::ViewImage::View(zeroDCFilter->GetOutput(), "Original");
+  itk::ViewImage::View(inverseFFT->GetOutput(), "FrequencyExpander");
   // Compare with regular expand filter.
   using RegularExpandType = itk::ExpandWithZerosImageFilter<ImageType, ImageType>;
   auto regularExpandFilter = RegularExpandType::New();
   regularExpandFilter->SetInput(reader->GetOutput());
   regularExpandFilter->SetExpandFactors(2);
   regularExpandFilter->Update();
-  itk::Testing::ViewImage(regularExpandFilter->GetOutput(), "Regular expander (adding zeros)");
+  itk::ViewImage::View(regularExpandFilter->GetOutput(), "Regular expander (adding zeros)");
 
   // Complex to real
   // using ComplexToRealFilter = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
   // auto complexToRealFilter = ComplexToRealFilter::New();
   // complexToRealFilter->SetInput(fftFilter->GetOutput() );
   // complexToRealFilter->Update();
-  // itk::Testing::ViewImage(complexToRealFilter->GetOutput());
+  // itk::ViewImage::View(complexToRealFilter->GetOutput());
   // auto complexToRealFilterExpand = ComplexToRealFilter::New();
   // complexToRealFilterExpand->SetInput(expandFilter->GetOutput() );
   // complexToRealFilterExpand->Update();
-  // itk::Testing::ViewImage(complexToRealFilterExpand->GetOutput());
+  // itk::ViewImage::View(complexToRealFilterExpand->GetOutput());
 #endif
 
   if (testPassed)

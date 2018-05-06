@@ -66,9 +66,6 @@ option(
   OFF
 )
 mark_as_advanced(ITK_VISUALIZE_TESTS)
-if(ITK_VISUALIZE_TESTS)
-  list(APPEND IsotropicWaveletsTests runViewImage.cxx)
-endif()
 
 createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
 

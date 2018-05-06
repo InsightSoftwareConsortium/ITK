@@ -100,7 +100,7 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
     inverseFFT->Update();
 #ifdef ITK_VISUALIZE_TESTS
     itk::NumberToString<unsigned int> n2s;
-    itk::Testing::ViewImage(inverseFFT->GetOutput(), "MonoFilterOutput (inverseFFT). Component: " + n2s(c));
+    itk::ViewImage::View(inverseFFT->GetOutput(), "MonoFilterOutput (inverseFFT). Component: " + n2s(c));
 #endif
   }
 

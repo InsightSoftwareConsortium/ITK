@@ -114,9 +114,9 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
       complexToRealFilter->Update();
 #ifdef ITK_VISUALIZE_TESTS
       itk::NumberToString<unsigned int> n2s;
-      itk::Testing::ViewImage(complexToRealFilter->GetOutput(),
-                              "RealPart of Complex. Component: " + n2s(comp) + " / " +
-                                n2s(filterBank->GetNumberOfOutputs() - 1) + ". Indices: " + oss.str());
+      itk::ViewImage::View(complexToRealFilter->GetOutput(),
+                           "RealPart of Complex. Component: " + n2s(comp) + " / " +
+                             n2s(filterBank->GetNumberOfOutputs() - 1) + ". Indices: " + oss.str());
 #endif
     }
   }
@@ -140,9 +140,9 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
       complexToImaginaryFilter->Update();
 #ifdef ITK_VISUALIZE_TESTS
       itk::NumberToString<unsigned int> n2s;
-      itk::Testing::ViewImage(complexToImaginaryFilter->GetOutput(),
-                              "ImaginaryPart of Complex. Component: " + n2s(comp) + " / " +
-                                n2s(filterBank->GetNumberOfOutputs() - 1) + ". Indices: " + oss.str());
+      itk::ViewImage::View(complexToImaginaryFilter->GetOutput(),
+                           "ImaginaryPart of Complex. Component: " + n2s(comp) + " / " +
+                             n2s(filterBank->GetNumberOfOutputs() - 1) + ". Indices: " + oss.str());
 #endif
     }
   }

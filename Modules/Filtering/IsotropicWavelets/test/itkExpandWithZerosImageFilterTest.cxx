@@ -108,7 +108,7 @@ runExpandWithZerosImageFilterTest(unsigned int expandFactor)
   }
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(expander->GetOutput(), "ExpandWithZeros Output");
+  itk::ViewImage::View(expander->GetOutput(), "ExpandWithZeros Output");
 #endif
 
   // Test than expand with zeros + shrinkage (decimate) results on input image.

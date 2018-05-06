@@ -110,7 +110,7 @@ runShrinkDecimateImageFilterTest()
   }
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(decimator->GetOutput(), "ShrinkDecimate Output");
+  itk::ViewImage::View(decimator->GetOutput(), "ShrinkDecimate Output");
 #endif
 
   std::cout << "Test passed." << std::endl;
