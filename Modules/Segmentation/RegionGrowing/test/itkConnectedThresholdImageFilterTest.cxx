@@ -20,7 +20,7 @@
 #include "itkConnectedThresholdImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
@@ -61,7 +61,7 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
   ConnectedThresholdImageFilterType::Pointer connectedThresholdFilter =
     ConnectedThresholdImageFilterType::New();
 
-  FilterWatcher watcher( connectedThresholdFilter );
+  itk::SimpleFilterWatcher watcher( connectedThresholdFilter );
 
   EXERCISE_BASIC_OBJECT_METHODS( connectedThresholdFilter,
     ConnectedThresholdImageFilter, ImageToImageFilter );

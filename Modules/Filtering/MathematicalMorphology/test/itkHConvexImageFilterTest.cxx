@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkHConvexImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
@@ -67,7 +67,7 @@ int itkHConvexImageFilterTest( int argc, char * argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( hConvexFilter, HConvexImageFilter,
     ImageToImageFilter );
 
-  FilterWatcher watchConvex( hConvexFilter, "HConvexImageFilter" );
+  itk::SimpleFilterWatcher watchConvex( hConvexFilter, "HConvexImageFilter" );
 
   // Set up the filter
   auto height = static_cast< HConvexFilterType::InputImagePixelType >( atof( argv[3] ) );

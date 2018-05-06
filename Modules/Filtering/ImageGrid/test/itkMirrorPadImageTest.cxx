@@ -19,7 +19,7 @@
 #include <fstream>
 #include "itkMirrorPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 //
 // Check that val represents the correct pixel value.  This routine
@@ -123,7 +123,7 @@ int itkMirrorPadImageTest(int, char* [] )
   itk::MirrorPadImageFilter< ShortImage, ShortImage >::Pointer mirrorPad;
 
   mirrorPad = itk::MirrorPadImageFilter< ShortImage, ShortImage >::New();
-  FilterWatcher watcher(mirrorPad);
+  itk::SimpleFilterWatcher watcher(mirrorPad);
 
   mirrorPad->SetInput( if2 );
 

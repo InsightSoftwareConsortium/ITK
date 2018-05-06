@@ -20,7 +20,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
 {
@@ -49,7 +49,7 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
   FilterType::Pointer filter = FilterType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   reader->SetFileName( argv[1] );
   filter->SetInput( reader->GetOutput() );

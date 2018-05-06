@@ -20,7 +20,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkFFTPadImageFilter.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkPeriodicBoundaryCondition.h"
@@ -78,7 +78,7 @@ int itkFFTPadImageFilterTest( int argc, char * argv[] )
     {
     fftpad->SetBoundaryCondition( &wrapCond );
     }
-  FilterWatcher watchFFTPad(fftpad,"fftpad");
+  itk::SimpleFilterWatcher watchFFTPad(fftpad,"fftpad");
 
   WriterType::Pointer writer  = WriterType::New();
   writer->SetInput(fftpad->GetOutput());

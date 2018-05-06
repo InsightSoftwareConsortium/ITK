@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkHausdorffDistanceImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkHausdorffDistanceImageFilterTest(int, char* [] )
 {
@@ -81,7 +81,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   {
   using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image1Type,Image2Type>;
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   filter->SetInput1( image1 );
   filter->SetInput2( image2 );

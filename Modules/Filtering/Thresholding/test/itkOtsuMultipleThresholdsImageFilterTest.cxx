@@ -20,7 +20,7 @@
 #include "itkOtsuMultipleThresholdsImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
 {
@@ -54,7 +54,7 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   RescaleType::Pointer rescaler = RescaleType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   // Set up the reader
   reader->SetFileName( argv[1] );

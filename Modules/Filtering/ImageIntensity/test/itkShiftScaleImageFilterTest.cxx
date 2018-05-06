@@ -22,7 +22,7 @@
 #include "itkShiftScaleImageFilter.h"
 #include "itkRandomImageSource.h"
 
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 int itkShiftScaleImageFilterTest(int, char* [] )
 {
   std::cout << "itkShiftScaleImageFilterTest Start" << std::endl;
@@ -49,7 +49,7 @@ int itkShiftScaleImageFilterTest(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   // Set up Start, End and Progress callbacks
-  FilterWatcher filterWatch(filter);
+  itk::SimpleFilterWatcher filterWatch(filter);
 
   // Filter the image
   filter->SetInput (inputImage);
@@ -62,7 +62,7 @@ int itkShiftScaleImageFilterTest(int, char* [] )
   TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 
   // Set up Start, End and Progress callbacks
-  FilterWatcher sourceWatch(source);
+  itk::SimpleFilterWatcher sourceWatch(source);
 
   // Set up source
   source->SetSize( randomSize );

@@ -25,7 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "vnl/vnl_sample.h"
 #include "makeRandomImageBsplineInterpolator.h"
 
@@ -47,7 +47,7 @@ int itkBSplineResampleImageFunctionTest(int, char* [] )
 
   using FilterType = itk::BSplineDecompositionImageFilter<ImageType,ImageType>;
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter,"filter");
+  itk::SimpleFilterWatcher watcher(filter,"filter");
 
   filter->SetSplineOrder( interpolator->GetSplineOrder() );
   filter->SetInput( randImage );

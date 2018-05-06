@@ -18,7 +18,7 @@
 
 #include "itkGrayscaleMorphologicalClosingImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -63,7 +63,7 @@ int itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char* argv [] )
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Connect the pipeline
   filter->SetInput( reader->GetOutput() );

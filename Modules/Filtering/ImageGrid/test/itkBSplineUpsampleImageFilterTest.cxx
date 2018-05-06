@@ -31,7 +31,7 @@
 #include "itkBSplineUpsampleImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkBSplineUpsampleImageFilterTest( int argc, char * argv [] )
 {
@@ -53,7 +53,7 @@ int itkBSplineUpsampleImageFilterTest( int argc, char * argv [] )
 
   UpsamplerFilterType::Pointer filter = UpsamplerFilterType::New();
 
-  FilterWatcher watcher(filter, "BSplineUpsampleImageFilter");
+  itk::SimpleFilterWatcher watcher(filter, "BSplineUpsampleImageFilter");
 
   using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();

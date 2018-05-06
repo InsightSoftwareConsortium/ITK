@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkEdgePotentialImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageRegionIterator.h"
 
 int itkEdgePotentialImageFilterTest(int, char* [] )
@@ -92,7 +92,7 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
                                OutputImageType  >;
 
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   // Connect the input images
   filter->SetInput( inputImage );

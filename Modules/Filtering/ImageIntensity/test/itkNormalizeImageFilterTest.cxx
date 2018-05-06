@@ -21,7 +21,7 @@
 #include "itkNormalizeImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkStreamingImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkNormalizeImageFilterTest(int, char* [] )
 {
@@ -44,7 +44,7 @@ int itkNormalizeImageFilterTest(int, char* [] )
 
   using NormalizeType = itk::NormalizeImageFilter<ShortImage,FloatImage>;
   NormalizeType::Pointer normalize = NormalizeType::New();
-  FilterWatcher watch(normalize, "Streaming");
+  itk::SimpleFilterWatcher watch(normalize, "Streaming");
 
   normalize->SetInput(source->GetOutput());
 

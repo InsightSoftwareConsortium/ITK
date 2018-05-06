@@ -22,7 +22,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkImageSeriesWriterTest(int ac, char* av[])
 {
@@ -50,7 +50,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   reader->SetFileNames( nameGenerator->GetFileNames( seriesIdentifier ) );
   reader->SetImageIO( io );
 
-  FilterWatcher watcher(reader);
+  itk::SimpleFilterWatcher watcher(reader);
 
   try
     {
@@ -82,7 +82,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
 
   WriterType::Pointer writer = WriterType::New();
 
-  FilterWatcher watcher2(writer);
+  itk::SimpleFilterWatcher watcher2(writer);
 
   writer->SetInput(rescaler->GetOutput());
   char format[4096];

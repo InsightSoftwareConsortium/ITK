@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include "itkCropImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkCropImageFilterTest( int, char* [] )
@@ -61,7 +61,7 @@ int itkCropImageFilterTest( int, char* [] )
   EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
     ExtractImageFilter );
 
-  FilterWatcher watcher( cropFilter );
+  itk::SimpleFilterWatcher watcher( cropFilter );
 
   cropFilter->SetInput( inputImage );
 

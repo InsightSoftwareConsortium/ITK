@@ -20,7 +20,7 @@
 #include "itkBilateralImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkBilateralImageFilterTest2(int ac, char* av[] )
 {
@@ -41,7 +41,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   using FilterType = itk::BilateralImageFilter<myImage,myImage>;
 
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   filter->SetInput(input->GetOutput());
 

@@ -20,7 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkVoronoiPartitioningImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
 
@@ -47,7 +47,7 @@ int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
    */
   itk::DiscreteGaussianImageFilter<FloatImage, FloatImage>::Pointer gaussian3
     = itk::DiscreteGaussianImageFilter<FloatImage, FloatImage>::New();
-  // FilterWatcher gaussian3Watcher(gaussian3);
+  // itk::SimpleFilterWatcher gaussian3Watcher(gaussian3);
   gaussian3->SetInput(original->GetOutput());
   gaussian3->SetVariance(1.0);
   //gaussian3->UpdateLargestPossibleRegion();
@@ -66,7 +66,7 @@ int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
   voronoi->SetMinRegion( 10 );
   voronoi->InteractiveSegmentationOn();
 
-  FilterWatcher voronoiWatcher(voronoi);
+  itk::SimpleFilterWatcher voronoiWatcher(voronoi);
 
   // Write out an image of the voronoi diagram
   using RGBPixelType = itk::RGBPixel<unsigned char>;

@@ -21,7 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkMapRankImageFilterTest(int ac, char* av[] )
 {
@@ -45,7 +45,7 @@ int itkMapRankImageFilterTest(int ac, char* av[] )
   using FilterType = itk::RankImageFilter<ImageType,ImageType,SEType>;
 
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher filterWatch(filter);
+  itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
 

@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkSimpleContourExtractorImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkBoxImageFilter.h"
@@ -64,7 +64,7 @@ int itkSimpleContourExtractorImageFilterTest( int argc, char* argv [] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, SimpleContourExtractorImageFilter,
     BoxImageFilter );
 
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Connect the pipeline
   filter->SetInput( reader->GetOutput() );

@@ -19,7 +19,7 @@
 #include <iostream>
 #include "itkConstantPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
 
 int itkConstantPadImageTest(int, char* [] )
@@ -53,7 +53,7 @@ int itkConstantPadImageTest(int, char* [] )
   // Create a filter
   using PadFilterType = itk::ConstantPadImageFilter< ShortImage, FloatImage >;
   PadFilterType::Pointer constantPad = PadFilterType::New();
-  FilterWatcher watch( constantPad );
+  itk::SimpleFilterWatcher watch( constantPad );
   constantPad->SetInput( image );
 
   using SizeValueType = ShortImage::SizeValueType;

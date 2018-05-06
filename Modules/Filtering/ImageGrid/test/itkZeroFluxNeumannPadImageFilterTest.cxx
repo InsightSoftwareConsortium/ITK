@@ -205,7 +205,7 @@ int itkZeroFluxNeumannPadImageFilterTest( int, char* [] )
   FilterType::Pointer padFilter = FilterType::New();
   padFilter->SetInput( inputImage );
 
-  //FilterWatcher watcher( padFilter );
+  //itk::SimpleFilterWatcher watcher( padFilter );
 
   // CASE 0
   // Verify that the input is the same as the output.

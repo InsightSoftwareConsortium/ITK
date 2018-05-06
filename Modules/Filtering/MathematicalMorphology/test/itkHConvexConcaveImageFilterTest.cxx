@@ -23,7 +23,7 @@
 #include "itkHConvexImageFilter.h"
 #include "itkHConcaveImageFilter.h"
 #include "itkAddImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
@@ -76,8 +76,8 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   HConvexFilterType::Pointer hConvexFilter = HConvexFilterType::New();
   HConcaveFilterType::Pointer hConcaveFilter = HConcaveFilterType::New();
 
-  FilterWatcher watchConvex( hConvexFilter, "HConvexImageFilter" );
-  FilterWatcher watchConcave( hConcaveFilter, "HConcaveImageFilter" );
+  itk::SimpleFilterWatcher watchConvex( hConvexFilter, "HConvexImageFilter" );
+  itk::SimpleFilterWatcher watchConcave( hConcaveFilter, "HConcaveImageFilter" );
 
   // Set up the input and output files
   reader->SetFileName( argv[1] );

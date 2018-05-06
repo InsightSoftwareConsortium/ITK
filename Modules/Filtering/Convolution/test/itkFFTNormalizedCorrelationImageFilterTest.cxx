@@ -63,7 +63,7 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   filter->SetRequiredNumberOfOverlappingPixels( requiredNumberOfOverlappingPixels );
   filter->SetRequiredFractionOfOverlappingPixels( requiredFractionOfOverlappingPixels );
 
-  itk::SimpleFilterWatcher watcher(filter,"FilterWatcher");
+  itk::SimpleFilterWatcher watcher(filter,"FFTNormalizedCorrelation");
 
   // Shift the correlation values so they can be written out as a png.
   // The original range is [-1,1], and the new range is [0,255].

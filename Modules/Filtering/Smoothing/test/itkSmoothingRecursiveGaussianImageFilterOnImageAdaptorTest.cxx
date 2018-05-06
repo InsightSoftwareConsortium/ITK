@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkRGBPixel.h"
 #include "itkRGBToLuminanceImageAdaptor.h"
 
@@ -120,7 +120,7 @@ int itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char* [] )
 
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher watchit(filter);
+  itk::SimpleFilterWatcher watchit(filter);
 
   // Connect the input images
   filter->SetInput( adaptor );

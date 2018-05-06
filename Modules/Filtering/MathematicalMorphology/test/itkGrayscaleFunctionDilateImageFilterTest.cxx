@@ -18,7 +18,7 @@
 
 #include "itkGrayscaleFunctionDilateImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
 
 int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
@@ -121,7 +121,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
 
   // Create the filter
   myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher filterWatcher(filter);
+  itk::SimpleFilterWatcher filterWatcher(filter);
 
   // Create the structuring element
   myKernelType ball;

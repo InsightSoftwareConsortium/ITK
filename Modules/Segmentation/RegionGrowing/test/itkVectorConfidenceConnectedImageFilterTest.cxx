@@ -21,7 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -54,7 +54,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
                                  ImageType, OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher filterWatch(filter);
+  itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels

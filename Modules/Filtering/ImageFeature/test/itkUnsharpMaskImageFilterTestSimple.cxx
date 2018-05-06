@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkUnsharpMaskImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
@@ -93,7 +93,7 @@ int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
 
   EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskImageFilter, ImageToImageFilter);
 
-  FilterWatcher watchit( filter );
+  itk::SimpleFilterWatcher watchit( filter );
 
   // Connect the input images
   filter->SetInput( inputImage );

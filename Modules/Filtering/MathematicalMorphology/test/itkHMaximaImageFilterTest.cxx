@@ -18,7 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkHMaximaImageFilter.h"
 #include "itkTestingMacros.h"
 
@@ -67,7 +67,7 @@ int itkHMaximaImageFilterTest( int argc, char * argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( hMaximaFilter, HMaximaImageFilter,
     ImageToImageFilter );
 
-  FilterWatcher watchHMaxima( hMaximaFilter, "HMaximaImageFilter" );
+  itk::SimpleFilterWatcher watchHMaxima( hMaximaFilter, "HMaximaImageFilter" );
 
   // Set up the filter
   auto height = static_cast< HMaximaFilterType::InputImagePixelType >( atof( argv[3] ) );

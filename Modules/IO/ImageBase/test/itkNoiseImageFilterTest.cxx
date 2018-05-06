@@ -22,7 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkNoiseImageFilterTest(int ac, char* av[] )
 {
@@ -47,7 +47,7 @@ int itkNoiseImageFilterTest(int ac, char* av[] )
   using FilterType = itk::NoiseImageFilter<myImageIn,myImageOut>;
 
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher filterWatch(filter);
+  itk::SimpleFilterWatcher filterWatch(filter);
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<myImageOut,myImageChar>;
 

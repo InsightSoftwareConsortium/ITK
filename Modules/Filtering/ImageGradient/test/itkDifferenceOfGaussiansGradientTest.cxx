@@ -18,7 +18,7 @@
 
 
 // Native ITK stuff
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
@@ -157,7 +157,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   using TDOGFilterType = itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
     double>;
   TDOGFilterType::Pointer DOGFilter = TDOGFilterType::New();
-  FilterWatcher watcher(DOGFilter);
+  itk::SimpleFilterWatcher watcher(DOGFilter);
 
   // We're filtering the output of the binomial filter
   DOGFilter->SetInput(blurredImage);

@@ -18,7 +18,7 @@
 
 #include "itkInverseDisplacementFieldImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkInverseDisplacementFieldImageFilterTest( int argc, char * argv[] )
 {
@@ -45,7 +45,7 @@ int itkInverseDisplacementFieldImageFilterTest( int argc, char * argv[] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   // Creating an input displacement field
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();

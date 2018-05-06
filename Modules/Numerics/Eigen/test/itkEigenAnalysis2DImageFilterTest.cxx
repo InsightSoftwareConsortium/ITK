@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkEigenAnalysis2DImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 
 // Define the dimension of the images
@@ -145,7 +145,7 @@ int itkEigenAnalysis2DImageFilterTest(int, char* [] )
 
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   // Connect the input images
   filter->SetInput1( inputImageXX );

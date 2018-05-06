@@ -20,7 +20,7 @@
 
 #include "itkNormalizeToConstantImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
@@ -57,7 +57,7 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
   normalize->SetConstant( constant );
   TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
 
-  FilterWatcher watch( normalize, "NormalizeToConstant" );
+  itk::SimpleFilterWatcher watch( normalize, "NormalizeToConstant" );
 
   normalize->SetInput( source->GetOutput() );
   normalize->Update();

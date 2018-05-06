@@ -21,7 +21,7 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkLabelStatisticsImageFilter.h"
 
@@ -73,8 +73,8 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   FinalThresholdFilterType::Pointer finalThreshold = FinalThresholdFilterType::New();
   StatisticsFilterType::Pointer statistics = StatisticsFilterType::New();
 
-  FilterWatcher watcher(relabel);
-  FilterWatcher statswatcher(statistics);
+  itk::SimpleFilterWatcher watcher(relabel);
+  itk::SimpleFilterWatcher statswatcher(statistics);
 
   reader->SetFileName( argv[1] );
 

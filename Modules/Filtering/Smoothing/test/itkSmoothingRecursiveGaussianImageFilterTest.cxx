@@ -18,7 +18,7 @@
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkTestingMacros.h"
@@ -128,7 +128,7 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, SmoothingRecursiveGaussianImageFilter, InPlaceImageFilter );
 
-  FilterWatcher watcher( filter );
+  itk::SimpleFilterWatcher watcher( filter );
 
 
   // Set the scale normalization flag
