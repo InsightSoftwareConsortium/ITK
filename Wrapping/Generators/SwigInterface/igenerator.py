@@ -89,7 +89,8 @@ class SwigInputGenerator(object):
         "itk::SmartPointer< itk::Image.+ >",
         "itk::ObjectFactoryBasePrivate",
         "itk::ThreadPoolGlobals",
-        "itk::MultiThreaderBaseGlobals"
+        "itk::MultiThreaderBaseGlobals",
+        ".+[(][*][)][(].+" # functor functions
     ]
 
     notWrappedRegExp = re.compile("|".join(["^" + s + "$" for s in notWrapped]))

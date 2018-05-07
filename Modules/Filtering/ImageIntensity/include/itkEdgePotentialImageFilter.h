@@ -92,7 +92,9 @@ public:
 protected:
   EdgePotentialImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~EdgePotentialImageFilter() override {}

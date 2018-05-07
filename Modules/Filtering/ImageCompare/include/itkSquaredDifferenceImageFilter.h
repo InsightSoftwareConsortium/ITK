@@ -118,7 +118,12 @@ public:
 #endif
 
 protected:
-  SquaredDifferenceImageFilter() {Superclass::SetFunctor(FunctorType());}
+  SquaredDifferenceImageFilter()
+    {
+#if !defined( ITK_WRAPPING_PARSER )
+    Superclass::SetFunctor(FunctorType());
+#endif
+    }
   ~SquaredDifferenceImageFilter() override {}
 };
 } // end namespace itk

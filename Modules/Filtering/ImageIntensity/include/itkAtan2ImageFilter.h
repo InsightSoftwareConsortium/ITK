@@ -119,7 +119,9 @@ public:
 protected:
   Atan2ImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif // !defined( ITK_WRAPPING_PARSER )
     }
   ~Atan2ImageFilter() override {}
 };

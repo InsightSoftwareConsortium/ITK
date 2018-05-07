@@ -109,7 +109,9 @@ public:
 protected:
   CosImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
   ~CosImageFilter() override {}
 };

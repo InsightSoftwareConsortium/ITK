@@ -1,4 +1,6 @@
-itk_wrap_class("itk::RGBToLuminanceImageFilter" POINTER)
+itk_wrap_class("itk::UnaryGeneratorImageFilter" POINTER)
+  UNIQUE(types "${WRAP_ITK_SCALAR};${WRAP_ITK_COMPLEX_REAL}")
+  itk_wrap_image_filter_combinations("${types}" "${types}")
   if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
     itk_wrap_image_filter_types(RGBUC UC)
   endif()

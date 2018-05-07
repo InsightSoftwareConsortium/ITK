@@ -123,7 +123,9 @@ public:
 protected:
   PowImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~PowImageFilter() override {}

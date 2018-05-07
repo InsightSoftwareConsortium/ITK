@@ -92,7 +92,9 @@ public:
 protected:
   RGBToLuminanceImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
   ~RGBToLuminanceImageFilter() override {}
 };

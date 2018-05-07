@@ -121,7 +121,12 @@ public:
 #endif
 
 protected:
-  AbsoluteValueDifferenceImageFilter() {Superclass::SetFunctor(FunctorType());}
+  AbsoluteValueDifferenceImageFilter()
+    {
+#if !defined( ITK_WRAPPING_PARSER )
+    Superclass::SetFunctor(FunctorType());
+#endif
+    }
   ~AbsoluteValueDifferenceImageFilter() override {}
 };
 } // end namespace itk

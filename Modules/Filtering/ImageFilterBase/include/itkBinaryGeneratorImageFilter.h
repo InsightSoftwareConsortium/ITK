@@ -131,6 +131,7 @@ public:
    * the second operand is not a constant. */
   virtual const Input2ImagePixelType & GetConstant2() const;
 
+#if !defined( ITK_WRAPPING_PARSER )
   /** Set the pixel functor
    *
    * The functor defines an operation done per pixel.
@@ -193,6 +194,7 @@ public:
 
     this->Modified();
   }
+#endif // !defined( ITK_WRAPPING_PARSER )
 
 
   /** ImageDimension constants */

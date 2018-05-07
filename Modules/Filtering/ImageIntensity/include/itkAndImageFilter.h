@@ -87,7 +87,9 @@ public:
 protected:
   AndImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
   ~AndImageFilter() override {}
 };

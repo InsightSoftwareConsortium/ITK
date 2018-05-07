@@ -1,4 +1,4 @@
-itk_wrap_class("itk::DivideImageFilter" POINTER_WITH_SUPERCLASS)
+itk_wrap_class("itk::DivideImageFilter" POINTER)
   itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 3)
   itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 3)
 

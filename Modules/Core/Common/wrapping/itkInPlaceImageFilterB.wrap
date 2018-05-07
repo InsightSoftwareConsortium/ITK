@@ -12,12 +12,19 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
 
+  # RGB -> Scalar
+  foreach(type ${WRAP_ITK_SCALAR})
+    foreach(rgbtype ${WRAP_ITK_RGB})
+      itk_wrap_image_filter_combinations("${rgbtype}" "${type}")
+    endforeach()
+  endforeach()
+
   # complex types
   itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2)
 
   # complex <-> scalar
-  itk_wrap_image_filter_combinations("${WRAP_ITK_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
-  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_REAL}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COMPLEX_REAL}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_SCALAR}")
 
   # Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
@@ -25,7 +32,7 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
       if(NOT "${d}" EQUAL "${d2}") # this was already taken care of elsewhere
         foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
           itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}"
-                        "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
+            "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
         endforeach()
       endif()
     endforeach()
