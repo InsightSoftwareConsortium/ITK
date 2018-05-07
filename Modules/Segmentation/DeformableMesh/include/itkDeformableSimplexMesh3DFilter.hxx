@@ -265,6 +265,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   PointType           Foot;
   CovariantVectorType normal;
   CovariantVectorType z;
+  z.Fill( 0.0 );
   VectorType          tmp;
   //   IdentifierType idx = 0;
 
