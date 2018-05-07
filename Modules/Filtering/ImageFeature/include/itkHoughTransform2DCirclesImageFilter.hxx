@@ -113,7 +113,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       {
       const Index< 2 > inputIndex = image_it.GetIndex();
       const typename DoGFunctionType::VectorType grad =
-        DoGFunction->EvaluateAtIndex( inputIndex );
+        DoGFunction->DoGFunctionType::EvaluateAtIndex( inputIndex );
 
       double Vx = grad[0];
       double Vy = grad[1];
@@ -140,8 +140,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
             if ( region.IsInside(outputIndex) )
               {
-              distance = std::sqrt(static_cast<double>((outputIndex[1] - inputIndex[1]) * (outputIndex[1] - inputIndex[1])
-                                 + (outputIndex[0] - inputIndex[0]) * (outputIndex[0] - inputIndex[0])));
+              distance = std::sqrt(static_cast<double>((outputIndex[0] - inputIndex[0]) * (outputIndex[0] - inputIndex[0])
+                                 + (outputIndex[1] - inputIndex[1]) * (outputIndex[1] - inputIndex[1])));
 
               ++outputImage->GetPixel(outputIndex);
               m_RadiusImage->GetPixel(outputIndex) += distance;
@@ -253,7 +253,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       m_CirclesList.push_back(Circle);
 
       circles++;
-      if ( circles >= m_NumberOfCircles ) { break; }
+      if ( circles >= m_NumberOfCircles )
+        {
+        break;
+        }
 
       // Remove a black disc from the Hough space domain
       for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
