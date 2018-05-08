@@ -20,7 +20,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkShanbhagMaskedThresholdImageFilterTest(int argc, char* argv[] )
@@ -54,7 +54,7 @@ int itkShanbhagMaskedThresholdImageFilterTest(int argc, char* argv[] )
   MaskReaderType::Pointer maskreader = MaskReaderType::New();
 
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInsideValue( 255 );
   TEST_SET_GET_VALUE( 255, filter->GetInsideValue() );

@@ -20,7 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkAdaptiveHistogramEqualizationImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
@@ -52,7 +52,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, AdaptiveHistogramEqualizationImageFilter,
     MovingHistogramImageFilter );
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput( reader->GetOutput() );
   filter->SetRadius( radius );

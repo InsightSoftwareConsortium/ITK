@@ -18,7 +18,7 @@
 
 #include "itkFlipImageFilter.h"
 #include "itkTextOutput.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
@@ -80,7 +80,7 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
 
   EXERCISE_BASIC_OBJECT_METHODS( flipper, FlipImageFilter, ImageToImageFilter );
 
-  FilterWatcher watcher( flipper, "FlipImageFilter" );
+  itk::SimpleFilterWatcher watcher( flipper, "FlipImageFilter" );
 
   bool bArray[ImageDimension] = { true, false, true };
   FlipperType::FlipAxesArrayType flipAxes( bArray );

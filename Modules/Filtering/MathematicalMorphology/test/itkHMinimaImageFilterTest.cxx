@@ -18,7 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkHMinimaImageFilter.h"
 #include "itkTestingMacros.h"
 
@@ -67,7 +67,7 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( hMinimaFilter, HMinimaImageFilter,
     ImageToImageFilter );
 
-  FilterWatcher watchHMinima( hMinimaFilter, "HMinimaImageFilter" );
+  itk::SimpleFilterWatcher watchHMinima( hMinimaFilter, "HMinimaImageFilter" );
 
   // Set up the filter
   auto height = static_cast< HMinimaFilterType::InputImagePixelType >( atof( argv[3] ) );

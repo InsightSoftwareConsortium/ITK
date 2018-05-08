@@ -18,7 +18,7 @@
 
 #include "itkLandmarkDisplacementFieldSource.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 #include <fstream>
 
@@ -45,7 +45,7 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   DisplacementFieldType::SpacingType spacing;
   spacing.Fill( 1.0 );

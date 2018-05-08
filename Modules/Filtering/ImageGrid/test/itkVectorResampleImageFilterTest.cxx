@@ -18,7 +18,7 @@
 
 #include "itkVectorResampleImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkVectorResampleImageFilterTest( int argc, char * argv[] )
@@ -45,7 +45,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, VectorResampleImageFilter,
     ImageToImageFilter );
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   using InterpolatorType = itk::VectorLinearInterpolateImageFunction<
     ImageType, double >;

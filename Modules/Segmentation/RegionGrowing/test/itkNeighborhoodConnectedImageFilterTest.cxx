@@ -20,7 +20,7 @@
 #include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -40,7 +40,7 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
   using FilterType = itk::NeighborhoodConnectedImageFilter<myImage,myImage>;
 
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());
 

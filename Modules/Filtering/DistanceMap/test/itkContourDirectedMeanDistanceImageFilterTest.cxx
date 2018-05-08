@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkContourDirectedMeanDistanceImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 {
@@ -82,7 +82,7 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
   {
   using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image1Type,Image2Type>;
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   filter->SetInput1( image1 );
   filter->SetInput2( image2 );

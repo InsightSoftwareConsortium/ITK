@@ -19,7 +19,7 @@
 #include <iostream>
 #include "itkCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 /**
  * This program tests the FilterImageAnisotropicDiffusion object by driving it
@@ -35,7 +35,7 @@ int itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *
       itk::CurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer
         filter = itk::CurvatureAnisotropicDiffusionImageFilter<ImageType,
         ImageType>::New();
-      FilterWatcher watcher(filter);
+      itk::SimpleFilterWatcher watcher(filter);
 
       filter->SetNumberOfIterations(1);
       filter->SetConductanceParameter(3.0f);

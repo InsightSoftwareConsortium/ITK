@@ -21,7 +21,7 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
 int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
@@ -60,7 +60,7 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
   FilterType::Pointer filter = FilterType::New();
   RelabelType::Pointer relabel = RelabelType::New();
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
   watcher.QuietOn();
 
   reader->SetFileName( argv[1] );

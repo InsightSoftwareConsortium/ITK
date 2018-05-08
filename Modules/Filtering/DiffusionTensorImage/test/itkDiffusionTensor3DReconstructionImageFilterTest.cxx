@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include <iostream>
 
 int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
@@ -132,7 +132,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
     std::cout << std::endl << "This filter is using " <<
       tensorReconstructionFilter->GetNumberOfThreads() << " threads " << std::endl;
 
-    FilterWatcher watcher( tensorReconstructionFilter, "Tensor Reconstruction");
+    itk::SimpleFilterWatcher watcher( tensorReconstructionFilter, "Tensor Reconstruction");
 
     tensorReconstructionFilter->Update();
 

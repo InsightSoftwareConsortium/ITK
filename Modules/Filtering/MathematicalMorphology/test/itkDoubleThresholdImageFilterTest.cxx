@@ -20,7 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 #include "itkDoubleThresholdImageFilter.h"
 
@@ -70,7 +70,7 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
 
   // Create the filter
   DoubleThresholdFilterType::Pointer  threshold = DoubleThresholdFilterType::New();
-  FilterWatcher watcher(threshold, "threshold");
+  itk::SimpleFilterWatcher watcher(threshold, "threshold");
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );

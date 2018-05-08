@@ -151,6 +151,15 @@ protected:
       }
   }
 
+  /** Create commands for different event types. */
+  void CreateCommands();
+
+  /** Remove observers we have on the process object. */
+  void RemoveObservers();
+
+  /** The common code for copying this class. */
+  void DeepCopy(const SimpleFilterWatcher & watch);
+
   /** Callback method to show the AbortEvent */
   virtual void ShowAbort()
   {

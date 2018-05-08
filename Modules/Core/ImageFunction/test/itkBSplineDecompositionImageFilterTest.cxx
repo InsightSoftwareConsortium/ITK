@@ -25,7 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "vnl/vnl_sample.h"
 #include "makeRandomImageBsplineInterpolator.h"
 #include "itkMath.h"
@@ -100,7 +100,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
     ImageToImageFilter );
 
-  FilterWatcher watcher( filter, "BSplineDecompositionImageFilter" );
+  itk::SimpleFilterWatcher watcher( filter, "BSplineDecompositionImageFilter" );
 
   filter->SetInput( randImage );
 

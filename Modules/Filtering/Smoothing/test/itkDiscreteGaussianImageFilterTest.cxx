@@ -19,7 +19,7 @@
 #include <iostream>
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkDiscreteGaussianImageFilterTest(int , char * [] )
 {
@@ -33,7 +33,7 @@ int itkDiscreteGaussianImageFilterTest(int , char * [] )
       using ArrayType = FilterType::ArrayType;
 
       FilterType::Pointer filter = FilterType::New();
-      FilterWatcher watcher( filter );
+      itk::SimpleFilterWatcher watcher( filter );
 
       // Test other set/get functions
       ArrayType array;

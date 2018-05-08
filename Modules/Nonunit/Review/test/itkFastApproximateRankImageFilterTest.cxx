@@ -21,7 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkFastApproximateRankImageFilterTest(int ac, char* av[] )
 {
@@ -43,7 +43,7 @@ int itkFastApproximateRankImageFilterTest(int ac, char* av[] )
   // Create a filter
   using FilterType = itk::FastApproximateRankImageFilter<ImageType,ImageType>;
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher filterWatch(filter);
+  itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
 

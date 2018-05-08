@@ -21,7 +21,7 @@
 #include "itkLabelStatisticsImageFilter.h"
 #include "itkImageFileReader.h"
 
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 
 int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
@@ -49,7 +49,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  FilterWatcher filterWatch( filter );
+  itk::SimpleFilterWatcher filterWatch( filter );
 
   filter->SetInput (      reader1->GetOutput() );
   filter->SetLabelInput ( reader2->GetOutput() );

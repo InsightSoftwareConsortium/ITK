@@ -19,7 +19,7 @@
 #include "itkWatershedImageFilter.h"
 #include "itkWatershedEquivalenceRelabeler.h"
 #include "itkWatershedBoundaryResolver.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 
@@ -139,7 +139,7 @@ int itkWatershedImageFilterTest( int, char* [] )
   EXERCISE_BASIC_OBJECT_METHODS( watershedFilter, WatershedImageFilter,
     ImageToImageFilter );
 
-  FilterWatcher watchIt( watershedFilter, "WatershedImageFilter" );
+  itk::SimpleFilterWatcher watchIt( watershedFilter, "WatershedImageFilter" );
 
   double threshold = .05;
   watershedFilter->SetThreshold( threshold );

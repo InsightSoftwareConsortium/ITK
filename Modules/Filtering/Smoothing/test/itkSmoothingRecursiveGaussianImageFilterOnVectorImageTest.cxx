@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkVectorImage.h"
 
 int itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest(int, char* [] )
@@ -109,7 +109,7 @@ int itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest(int, char* [] )
 
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher watchit(filter);
+  itk::SimpleFilterWatcher watchit(filter);
 
   // Connect the input images
   filter->SetInput( inputImage );

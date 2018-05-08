@@ -18,7 +18,7 @@
 
 #include "itkErodeObjectMorphologyImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkErodeObjectMorphologyImageFilterTest(int, char* [] )
 {
@@ -126,7 +126,7 @@ int itkErodeObjectMorphologyImageFilterTest(int, char* [] )
 
   // Create the filter
   myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
   myKernelType ball;

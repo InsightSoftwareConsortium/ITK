@@ -20,7 +20,7 @@
 #include "itkAcosImageAdaptor.h"
 #include "itkMath.h"
 #include "itkSubtractImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 
@@ -95,7 +95,7 @@ int itkAcosImageFilterAndAdaptorTest( int, char* [] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, AcosImageFilter,
     UnaryGeneratorImageFilter );
 
-  FilterWatcher watch(filter);
+  itk::SimpleFilterWatcher watch(filter);
 
   // Set the input image
   filter->SetInput( inputImage );

@@ -19,7 +19,7 @@
 #include "itkTileImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkTileImageFilterTest(int argc, char *argv[] )
 {
@@ -48,7 +48,7 @@ int itkTileImageFilterTest(int argc, char *argv[] )
 
   // Tile the input images
   TilerType::Pointer tiler = TilerType::New();
-  FilterWatcher tileWatcher(tiler, "Tiler");
+  itk::SimpleFilterWatcher tileWatcher(tiler, "Tiler");
   int f = 0;
   for (int i=4; i < argc - 1; i++)
     {

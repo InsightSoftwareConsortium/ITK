@@ -18,7 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkHMaximaImageFilter.h"
 #include "itkHMinimaImageFilter.h"
 #include "itkTestingMacros.h"
@@ -70,8 +70,8 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
   HMaximaFilterType::Pointer hMaximaFilter = HMaximaFilterType::New();
   HMinimaFilterType::Pointer hMinimaFilter = HMinimaFilterType::New();
 
-  FilterWatcher watchHmaxima( hMaximaFilter, "HMaximaImageFilter" );
-  FilterWatcher watchHminima( hMinimaFilter, "HMinimaImageFilter" );
+  itk::SimpleFilterWatcher watchHmaxima( hMaximaFilter, "HMaximaImageFilter" );
+  itk::SimpleFilterWatcher watchHminima( hMinimaFilter, "HMinimaImageFilter" );
 
   // Set up the input and output files
   reader->SetFileName( argv[1] );

@@ -18,7 +18,7 @@
 
 #include "itkGrayscaleFunctionErodeImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
 
 int itkGrayscaleFunctionErodeImageFilterTest(int argc, char* argv[] )
@@ -121,7 +121,7 @@ int itkGrayscaleFunctionErodeImageFilterTest(int argc, char* argv[] )
 
   // Create the filter
   myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
   myKernelType ball;

@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
 #include "itkGaussianImageSource.h"
 #include "itkTestingMacros.h"
@@ -180,7 +180,7 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
     }
 
 
-  FilterWatcher watcher( gaussianImage, "GaussianImageSource" );
+  itk::SimpleFilterWatcher watcher( gaussianImage, "GaussianImageSource" );
 
   // Run the pipeline
   TRY_EXPECT_NO_EXCEPTION( gaussianImage->Update() );

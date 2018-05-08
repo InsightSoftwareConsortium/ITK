@@ -19,7 +19,7 @@
 #include "itkBlackTopHatImageFilter.h"
 #include "itkWhiteTopHatImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -79,7 +79,7 @@ int itkTopHatImageFilterTest(int argc, char* argv [] )
     {
     // Create the filter
     BlackFilterType::Pointer filter = BlackFilterType::New();
-    FilterWatcher watcher(filter, "filter");
+    itk::SimpleFilterWatcher watcher(filter, "filter");
 
     // Connect the structuring element
     filter->SetKernel( ball );
@@ -95,7 +95,7 @@ int itkTopHatImageFilterTest(int argc, char* argv [] )
     {
     // Create the filter
     WhiteFilterType::Pointer filter = WhiteFilterType::New();
-    FilterWatcher watcher(filter, "filter");
+    itk::SimpleFilterWatcher watcher(filter, "filter");
 
     // Connect the structuring element
     filter->SetKernel( ball );

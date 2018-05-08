@@ -126,7 +126,6 @@ int itkBinaryDilateImageFilterTest2(int, char* [] )
 
   // Create the filter
   myFilterType::Pointer filter = myFilterType::New();
-  //FilterWatcher filterWatcher(filter);
 
   // Create the structuring element
   myKernelType cross;

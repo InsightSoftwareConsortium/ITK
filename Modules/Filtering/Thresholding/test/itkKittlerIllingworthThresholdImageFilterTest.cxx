@@ -20,7 +20,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
 int itkKittlerIllingworthThresholdImageFilterTest(int argc, char* argv[] )
@@ -50,7 +50,7 @@ int itkKittlerIllingworthThresholdImageFilterTest(int argc, char* argv[] )
   FilterType::Pointer filter = FilterType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInsideValue( 255 );
   TEST_SET_GET_VALUE( 255, filter->GetInsideValue() );

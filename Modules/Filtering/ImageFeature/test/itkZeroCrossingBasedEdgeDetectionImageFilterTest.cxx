@@ -19,7 +19,7 @@
 #include <iostream>
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkZeroCrossingBasedEdgeDetectionImageFilterTest(int , char * [])
 {
@@ -32,7 +32,7 @@ int itkZeroCrossingBasedEdgeDetectionImageFilterTest(int , char * [])
         filter =
         itk::ZeroCrossingBasedEdgeDetectionImageFilter<ImageType, ImageType>::New();
 
-      FilterWatcher watcher(filter);
+      itk::SimpleFilterWatcher watcher(filter);
       filter->SetVariance(1.0f);
       filter->SetMaximumError(.01f);
 

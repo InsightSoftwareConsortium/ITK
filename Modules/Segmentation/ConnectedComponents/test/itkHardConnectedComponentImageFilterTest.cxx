@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkHardConnectedComponentImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
 
 template< typename TPixel >
@@ -100,7 +100,7 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
   using FilterType = itk::HardConnectedComponentImageFilter< InputImageType, OutputImageType >;
   typename FilterType::Pointer filter = FilterType::New();
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(inputimg);
   //filter->SetObjectSeed(Seed);

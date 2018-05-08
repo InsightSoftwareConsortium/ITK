@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkHConcaveImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
@@ -67,7 +67,7 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( hConcaveFilter, HConcaveImageFilter,
     ImageToImageFilter );
 
-  FilterWatcher watchConcave( hConcaveFilter, "HConcaveImageFilter" );
+  itk::SimpleFilterWatcher watchConcave( hConcaveFilter, "HConcaveImageFilter" );
 
   // Set up the filter
   auto height = static_cast< HConcaveFilterType::InputImagePixelType >( atof( argv[3] ) );
