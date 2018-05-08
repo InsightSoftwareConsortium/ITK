@@ -62,7 +62,7 @@ namespace itk
  *               Requires the same order of Spline for each dimension.
  *               Can only process LargestPossibleRegion
  *
- * \sa itkBSplineInterpolateImageFunction
+ * \sa BSplineResampleImageFunction
  *
  * \ingroup ImageFilters
  * \ingroup SingleThreaded
