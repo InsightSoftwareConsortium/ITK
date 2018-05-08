@@ -19,7 +19,6 @@
 #ifndef itkShapedImageNeighborhoodRange_h
 #define itkShapedImageNeighborhoodRange_h
 
-#include <array>
 #include <algorithm> // For copy_n.
 #include <cassert>
 #include <cstddef> // For ptrdiff_t.
@@ -319,7 +318,7 @@ private:
     ImageSizeType m_ImageSize;
 
     // A copy of the offset table of the image.
-    std::array<ImageSizeValueType, ImageDimension> m_OffsetTable;
+    OffsetType m_OffsetTable;
 
     // A reference to the accessor of the image.
     const NeighborhoodAccessorFunctorType& m_NeighborhoodAccessor;
@@ -331,7 +330,9 @@ private:
     const OffsetType* m_CurrentOffset;
 
     // Clamps the index between [0 .. imageSizeValue>
-    static IndexValueType GetClampedIndex(const IndexValueType indexValue, const ImageSizeValueType imageSizeValue) ITK_NOEXCEPT
+    static IndexValueType GetClampedIndexValue(
+      const IndexValueType indexValue,
+      const ImageSizeValueType imageSizeValue) ITK_NOEXCEPT
     {
       return (indexValue <= 0) ? 0 :
         (static_cast<ImageSizeValueType>(indexValue) < imageSizeValue) ? indexValue : static_cast<IndexValueType>(imageSizeValue - 1);
@@ -342,7 +343,7 @@ private:
     QualifiedIterator(
       QualifiedInternalPixelType* const imageBufferPointer,
       const ImageSizeType& imageSize,
-      const std::array<ImageSizeValueType, ImageDimension>& offsetTable,
+      const OffsetType& offsetTable,
       const NeighborhoodAccessorFunctorType& neighborhoodAccessor,
       const IndexType& location,
       const OffsetType* const offset) ITK_NOEXCEPT
@@ -357,8 +358,6 @@ private:
     m_CurrentOffset{offset}
     {
       assert(m_ImageBufferPointer != nullptr);
-      assert(offsetTable.front() == 1);
-      assert((ImageDimension == 1) || (static_cast<ImageSizeValueType>(offsetTable[1]) == m_ImageSize[0]));
     }
 
   public:
@@ -388,14 +387,15 @@ private:
     reference operator*() const ITK_NOEXCEPT
     {
       const OffsetType currentOffset = (*m_CurrentOffset);
-      auto* result = m_ImageBufferPointer + GetClampedIndex(currentOffset[0] + m_Location[0], m_ImageSize[0]);
+      QualifiedInternalPixelType* internalPixelPointer = m_ImageBufferPointer;
 
-      for (ImageDimensionType i = 1; i < ImageDimension; ++i)
+      for (ImageDimensionType i = 0; i < ImageDimension; ++i)
       {
-        result += GetClampedIndex(currentOffset[i] + m_Location[i], m_ImageSize[i]) * m_OffsetTable[i];
+        internalPixelPointer += m_OffsetTable[i] *
+          GetClampedIndexValue(currentOffset[i] + m_Location[i], m_ImageSize[i]);
       }
 
-      return reference(result, m_NeighborhoodAccessor);
+      return reference(internalPixelPointer, m_NeighborhoodAccessor);
     }
 
 
@@ -491,7 +491,7 @@ private:
   ImageSizeType m_ImageSize;
 
   // A copy of the offset table of the image.
-  std::array<ImageSizeValueType, ImageDimension> m_OffsetTable;
+  OffsetType m_OffsetTable;
 
   NeighborhoodAccessorFunctorType m_NeighborhoodAccessor;
 
@@ -532,8 +532,7 @@ public:
   {
     assert(m_ImageBufferPointer != nullptr);
     const OffsetValueType* const offsetTable = image.GetOffsetTable();
-    assert((offsetTable != nullptr) && (offsetTable[0] == 1));
-    assert((ImageDimension == 1) || ( static_cast<ImageSizeValueType>(offsetTable[1]) == m_ImageSize[0] ));
+    assert(offsetTable != nullptr);
 
     std::copy_n(offsetTable, ImageDimension, m_OffsetTable.begin());
 
