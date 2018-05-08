@@ -27,7 +27,6 @@
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetDenseImage.h"
-#include "itkPlatformMultiThreader.h"
 #include "itkMutexLock.h"
 #include "itkVTKVisualizeImageLevelSetIsoValues.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
@@ -36,6 +35,8 @@
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
 #include "vtkInteractorStyleImage.h"
+
+#include <thread>
 
 constexpr unsigned int Dimension = 2;
 using InputPixelType = unsigned char;
@@ -301,26 +302,6 @@ visualizeLevelSet( TInputImage * inputImage,
   evolution->Update();
 }
 
-struct VisualizationThreadData
-{
-  InputImageType *          m_InputImage;
-  unsigned int              m_NumberOfIterations;
-  ProcessingPauseCommand *  m_ProcessingPauseCommand;
-  KeypressPauseCommand *    m_KeypressPauseCommand;
-};
-
-ITK_THREAD_RETURN_TYPE visualizationThreadRunner( void * threadInfo )
-{
-  auto * info = static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>( threadInfo );
-
-  auto * visualizationThreadData = static_cast< VisualizationThreadData * >( info->UserData );
-  visualizeLevelSet< InputImageType, LevelSetType >( visualizationThreadData->m_InputImage,
-    visualizationThreadData->m_NumberOfIterations,
-    visualizationThreadData->m_ProcessingPauseCommand,
-    visualizationThreadData->m_KeypressPauseCommand );
-
-  return ITK_THREAD_RETURN_VALUE;
-}
 
 class ExitOnTimer: public vtkCommand
 {
@@ -406,22 +387,19 @@ int itkVTKVisualizeLevelSetsInteractivePauseTest( int argc, char* argv[] )
   renderWindowInteractor->AddObserver( vtkCommand::TimerEvent, keypressPauseCommand );
   renderWindowInteractor->AddObserver( vtkCommand::KeyPressEvent, keypressPauseCommand );
 
-
-  VisualizationThreadData visualizationThreadData;
-  visualizationThreadData.m_InputImage = input.GetPointer();
-  visualizationThreadData.m_NumberOfIterations = numberOfIterations;
-  visualizationThreadData.m_ProcessingPauseCommand = processingPauseCommand.GetPointer();
-  visualizationThreadData.m_KeypressPauseCommand = keypressPauseCommand.GetPointer();
-
-
-  itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
   try
     {
-    itk::ThreadIdType threadId = threader->SpawnThread( visualizationThreadRunner, &visualizationThreadData );
+    std::thread visThread(
+        visualizeLevelSet< InputImageType, LevelSetType >,
+        input.GetPointer(),
+        numberOfIterations,
+        processingPauseCommand.GetPointer(),
+        keypressPauseCommand.GetPointer()
+        );
     renderWindowInteractor->Start();
-    std::cout << "The spawned thread was: " << threadId << std::endl;
+    std::cout << "The spawned thread was: " << visThread.get_id() << std::endl;
     std::cout << "TerminatingThread..." << std::endl;
-    threader->TerminateThread( threadId );
+    visThread.join();
     }
   catch ( itk::ExceptionObject& err )
     {

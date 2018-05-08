@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#define ITK_LEGACY_TEST //so deprecation warnings are not triggered by this test
 #include "itkPlatformMultiThreader.h"
 
 namespace itkSTLThreadTestImpl
@@ -106,6 +107,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   std::cout << "itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(): "
             << itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() << std::endl;
 
+  // test deprecated methods too!
   itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
             << threadId << std::endl;

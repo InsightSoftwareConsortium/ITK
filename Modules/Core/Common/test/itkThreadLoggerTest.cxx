@@ -20,6 +20,7 @@
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
 #include "itkThreadLogger.h"
+#include "itkMultiThreaderBase.h"
 
 
 struct ThreadDataStruct
@@ -58,8 +59,7 @@ private:
 
 ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages(void* arg)
 {
-  const itk::PlatformMultiThreader::ThreadInfoStruct* threadInfo =
-                   static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>(arg);
+  const auto* threadInfo = static_cast<itk::MultiThreaderBase::ThreadInfoStruct*>(arg);
   if (threadInfo)
   {
     const unsigned int threadId = threadInfo->ThreadID;
@@ -148,6 +148,8 @@ int itkThreadLoggerTest( int argc, char * argv[] )
     std::cout << "  Name: " << logger->GetName() << std::endl;
     std::cout << "  Priority Level: " << logger->GetPriorityLevel() << std::endl;
     std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << std::endl;
+    // Print logger itself
+    std::cout << logger << std::endl;
 
     // Logging by the itkLogMacro from a class with itk::ThreadLogger
     LogTester tester;
@@ -174,7 +176,7 @@ int itkThreadLoggerTest( int argc, char * argv[] )
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
     ThreadDataVec threadData = create_threaded_data(numthreads, logger);
-    itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
+    itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
     threader->SetNumberOfThreads(numthreads);
     threader->SetSingleMethod(ThreadedGenerateLogMessages, &threadData);
@@ -185,7 +187,7 @@ int itkThreadLoggerTest( int argc, char * argv[] )
     }
   catch(...)
     {
-    std::cerr << "Exception catched !!" << std::endl;
+    std::cerr << "Exception caught!" << std::endl;
     return EXIT_FAILURE;
     }
 

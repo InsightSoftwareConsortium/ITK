@@ -18,12 +18,12 @@
 #ifndef itkThreadLogger_h
 #define itkThreadLogger_h
 
-#include "itkPlatformMultiThreader.h"
 #include "itkLogger.h"
 #include "itkSimpleFastMutexLock.h"
 
 #include <string>
 #include <queue>
+#include <thread>
 
 namespace itk
 {
@@ -111,7 +111,7 @@ protected:
   /** Print contents of a ThreadLogger */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  static ITK_THREAD_RETURN_TYPE ThreadFunction(void *);
+  void ThreadFunction();
 
 private:
 
@@ -125,9 +125,9 @@ private:
 
   using OutputContainerType = std::queue< OutputType::Pointer >;
 
-  PlatformMultiThreader::Pointer m_Threader;
+  std::thread m_Thread;
 
-  ThreadIdType m_ThreadID;
+  bool m_TerminationRequested;
 
   OperationContainerType m_OperationQ;
 

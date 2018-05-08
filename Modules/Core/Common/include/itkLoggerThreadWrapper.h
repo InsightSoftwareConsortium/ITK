@@ -20,8 +20,9 @@
 
 #include <string>
 #include <queue>
+#include <thread>
 
-#include "itkPlatformMultiThreader.h"
+#include "itkObjectFactory.h"
 #include "itkSimpleFastMutexLock.h"
 
 namespace itk
@@ -106,7 +107,7 @@ protected:
   /** Print contents of a LoggerThreadWrapper */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  static ITK_THREAD_RETURN_TYPE ThreadFunction(void *);
+  void ThreadFunction();
 
 private:
 
@@ -118,9 +119,9 @@ private:
 
   using OutputContainerType = std::queue< typename OutputType::Pointer >;
 
-  PlatformMultiThreader::Pointer m_Threader;
+  std::thread m_Thread;
 
-  ThreadIdType m_ThreadID;
+  bool m_TerminationRequested;
 
   OperationContainerType m_OperationQ;
 

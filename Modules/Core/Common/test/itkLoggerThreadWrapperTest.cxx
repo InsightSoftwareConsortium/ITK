@@ -21,6 +21,7 @@
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
 #include "itkLoggerBase.h"
+#include "itkMultiThreaderBase.h"
 
 /** \class SimpleLogger
  *  \brief Class SimpleLogger is meant to demonstrate how to change the formatting of the LoggerBase mechanism
@@ -125,8 +126,7 @@ private:
 
 ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
 {
-  const itk::PlatformMultiThreader::ThreadInfoStruct* threadInfo =
-    static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>(arg);
+  const auto* threadInfo = static_cast<itk::MultiThreaderBase::ThreadInfoStruct*>(arg);
   if (threadInfo)
     {
     const unsigned int threadId = threadInfo->ThreadID;
@@ -157,7 +157,7 @@ ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
         return ITK_THREAD_RETURN_VALUE;
       }
     } else {
-      std::cerr << "ERROR: arg was not of type itk::PlatformMultiThreader::ThreadInfoStruct*" << std::endl;
+      std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::ThreadInfoStruct*" << std::endl;
       return ITK_THREAD_RETURN_VALUE;
     }
   return ITK_THREAD_RETURN_VALUE;
@@ -218,6 +218,8 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     std::cout << "  Name: " << logger->GetName() << std::endl;
     std::cout << "  Priority Level: " << logger->GetPriorityLevel() << std::endl;
     std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << std::endl;
+    // Print logger itself
+    std::cout << logger << std::endl;
 
     // Logging by the itkLogMacro from a class with itk::ThreadLogger
     LogTester tester;
@@ -244,7 +246,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
     ThreadDataVec threadData = create_threaded_data2(numthreads, logger);
-    itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
+    itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
     threader->SetNumberOfThreads(numthreads);
     threader->SetSingleMethod(ThreadedGenerateLogMessages2, &threadData);
