@@ -255,10 +255,12 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_can_be_used_in_std_for_each)
 
 // Tests that a NeigborhoodRange can be used as the "range expression" of a
 // C++11 range-based for loop.
-TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_can_be_used_with_range_based_for_loop)
+TEST(ShapedImageNeighborhoodRange,  NeigborhoodRange_can_be_used_with_range_based_for_loop)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType>;
+
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
@@ -266,14 +268,21 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_can_be_used_with_range_based
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
-  itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
+  RangeType range{ *image, location, offsets };
 
   for (const PixelType pixel : range)
   {
     EXPECT_NE(pixel, 42);
   }
 
-  for (auto&& pixel : range)
+  // Note: instead of 'iterator::reference', you may also type 'auto&&', but
+  // that might trigger a warning, for example from Mac10.13-AppleClang
+  // (AppleClang 9.1.0.9020039): "loop variable 'pixel' is always a copy because
+  // the range of type 'ShapedImageNeighborhoodRange' does not return a reference"
+  // This issue was reported to LLVM by Sean McBride, 2018-05-09, Bug 37392,
+  // "Undesirable -Wrange-loop-analysis warning with auto and vector<bool>",
+  // https://bugs.llvm.org/show_bug.cgi?id=37392
+  for (RangeType::iterator::reference pixel : range)
   {
     pixel = 42;
   }
