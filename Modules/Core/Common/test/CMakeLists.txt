@@ -155,6 +155,7 @@ itkObjectFactoryTest3.cxx
 itkMinimumMaximumImageCalculatorTest.cxx
 itkSliceIteratorTest.cxx
 itkPlatformMultiThreaderTest.cxx
+itkMultiThreaderTypeFromEnvironmentTest
 itkMultiThreadingEnvironmentTest.cxx
 itkImageRegionExclusionIteratorWithIndexTest.cxx
 itkFixedArrayTest.cxx
@@ -374,6 +375,39 @@ endif()
 
 itk_add_test(NAME itkMetaDataDictionaryTest COMMAND ITKCommon2TestDriver itkMetaDataDictionaryTest)
 itk_add_test(NAME itkPlatformMultiThreaderTest COMMAND ITKCommon2TestDriver itkPlatformMultiThreaderTest)
+
+itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPlatform
+  COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest PlatFORM)
+set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPlatform
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=plaTform")
+
+itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPool
+  COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest PooL)
+set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPool
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=pOoL") # tests letter case too
+
+if(ITK_USE_TBB)
+itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
+  COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
+set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestTBB
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=tbb") # tests letter case too
+endif()
+
+#test deprecated ITK_USE_THREADPOOL environment variable
+itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestOldPool
+  COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest Pool)
+set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestOldPool
+  PROPERTIES ENVIRONMENT "ITK_USE_THREADPOOL=pOoL")
+
+itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestOldPool2
+  COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest Pool)
+set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestOldPool2
+  PROPERTIES ENVIRONMENT "ITK_USE_THREADPOOL=ON")
+
+itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestOldPlatform
+  COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest Platform)
+set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestOldPlatform
+  PROPERTIES ENVIRONMENT "ITK_USE_THREADPOOL=OFF")
 
 itk_add_test(NAME itkMultiThreadingEnvTest88 COMMAND
   ITKCommon2TestDriver

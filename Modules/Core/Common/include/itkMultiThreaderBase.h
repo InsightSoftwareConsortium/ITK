@@ -86,22 +86,63 @@ public:
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
   static void SetGlobalMaximumNumberOfThreads(ThreadIdType val);
-  static ThreadIdType  GetGlobalMaximumNumberOfThreads();
+  static ThreadIdType GetGlobalMaximumNumberOfThreads();
 
   /** Set/Get whether to use the to use the thread pool
    * implementation or the spawing implementation of
    * starting threads.
-   */
-  static void SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool );
-  static bool GetGlobalDefaultUseThreadPool( );
+   *
+   * Deprecated: use Get/Set GlobalDefaultThreader. */
+  itkLegacyMacro(static void SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool ));
+  itkLegacyMacro(static bool GetGlobalDefaultUseThreadPool( ));
+
+  /** Currently supported types of multi-threader implementations.
+   * Last will change with additional implementations. */
+  enum class ThreaderType { Platform = 0, First = Platform, Pool, TBB, Last = TBB, Unknown = -1 };
+
+  /** Convert a threader name into its enum type. */
+  static ThreaderType ThreaderTypeFromString(std::string threaderString);
+
+  /** Convert a threader enum type into a string for displaying or logging. */
+  static std::string ThreaderTypeToString(ThreaderType threader)
+  {
+    switch (threader)
+      {
+      case ThreaderType::Platform:
+        return "Platform";
+        break;
+      case ThreaderType::Pool:
+        return "Pool";
+        break;
+      case ThreaderType::TBB:
+        return "TBB";
+        break;
+      default:
+        return "Unknown";
+        break;
+      }
+  }
+
+  /** Set/Get whether the default multi-threader implementation.
+   *
+   * The default multi-threader type is picked up from ITK_GLOBAL_DEFAULT_THEADER
+   * environment variable. Example ITK_GLOBAL_DEFAULT_THEADER=TBB
+   * A deprecated ITK_USE_THREADPOOL environment variable is also examined,
+   * but it can only choose Pool or Platform multi-threader.
+   * Platform multi-threader should be avoided,
+   * as it introduces the biggest overhead.
+   *
+   * If the SetGlobalDefaultThreaderType API is ever used by the developer,
+   * the developer's choice is respected over the environment variables. */
+  static void SetGlobalDefaultThreader(ThreaderType threaderType);
+  static ThreaderType GetGlobalDefaultThreader();
 
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
   static void SetGlobalDefaultNumberOfThreads(ThreadIdType val);
-
-  static ThreadIdType  GetGlobalDefaultNumberOfThreads();
+  static ThreadIdType GetGlobalDefaultNumberOfThreads();
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
@@ -228,5 +269,9 @@ private:
    * Multithreader. */
   friend class ProcessObject;
 };
+
+ITKCommon_EXPORT std::ostream& operator << (std::ostream& os,
+    const MultiThreaderBase::ThreaderType& threader);
+
 }  // end namespace itk
 #endif
