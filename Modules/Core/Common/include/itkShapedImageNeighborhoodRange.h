@@ -22,7 +22,7 @@
 #include <algorithm> // For copy_n.
 #include <cassert>
 #include <cstddef> // For ptrdiff_t.
-#include <iterator> // For bidirectional_iterator_tag.
+#include <iterator> // For random_access_iterator_tag.
 #include <type_traits> // For conditional and is_const.
 
 #include "itkIndex.h"
@@ -73,7 +73,7 @@ namespace Experimental
  * \endcode
  *
  * \note Strictly speaking, the itk::ShapedImageNeighborhoodRange iterator classes do not
- * fully comply with the C++11 bidirectional iterator requirements, because
+ * fully comply with the C++11 random access iterator requirements, because
  * their operator*() returns a proxy to the pixel, instead of a reference.
  * Which implies that ShapedImageNeighborhoodRange iterators are not guaranteed to work
  * well as argument to a C++ Standard Library function that requires a
@@ -274,6 +274,14 @@ private:
       *this = pixelValue;
       return *this;
     }
+
+
+    friend void swap(PixelProxy lhs, PixelProxy rhs) ITK_NOEXCEPT
+    {
+      const auto pixelValue = lhs.m_Helper.GetPixelValue();
+      lhs.m_Helper.SetPixelValue(rhs.m_Helper.GetPixelValue());
+      rhs.m_Helper.SetPixelValue(pixelValue);
+    }
   };
 
 
@@ -320,8 +328,8 @@ private:
     // A copy of the offset table of the image.
     OffsetType m_OffsetTable;
 
-    // A reference to the accessor of the image.
-    const NeighborhoodAccessorFunctorType& m_NeighborhoodAccessor;
+    // The accessor of the image.
+    NeighborhoodAccessorFunctorType m_NeighborhoodAccessor;
 
     // The pixel coordinates of the location of the neighborhood.
     // May be outside the image!
@@ -366,7 +374,7 @@ private:
     using value_type = PixelType;
     using reference = PixelProxy<IsImageTypeConst>;
     using pointer = QualifiedPixelType*;
-    using iterator_category = std::bidirectional_iterator_tag;
+    using iterator_category = std::random_access_iterator_tag;
 
     /** Constructor that allows implicit conversion from non-const to const
      * iterator. Also serves as copy-constructor of a non-const iterator.  */
@@ -435,7 +443,7 @@ private:
     }
 
 
-    /** Implements (it1 == it2) for iterators it1 and it2. Note that these iterators
+    /** Returns (it1 == it2) for iterators it1 and it2. Note that these iterators
      * should be from the same range. This operator does not support comparing iterators
      * from different ranges. */
     friend bool operator==(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
@@ -448,14 +456,64 @@ private:
     }
 
 
-    /** Implements (it1 != it2) for iterators it1 and it2. */
+    /** Returns (it1 != it2) for iterators it1 and it2. */
     friend bool operator!=(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
     {
+      // Implemented just like the corresponding std::rel_ops operator.
       return !(lhs == rhs);
     }
 
 
-    /** Implements (it1 - it2) for iterators it1 and it2. */
+    /** Returns (it1 < it2) for iterators it1 and it2. */
+    friend bool operator<(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    {
+      assert(lhs.m_ImageBufferPointer == rhs.m_ImageBufferPointer);
+      assert(lhs.m_ImageSize == rhs.m_ImageSize);
+      assert(lhs.m_OffsetTable == rhs.m_OffsetTable);
+
+      return lhs.m_CurrentOffset < rhs.m_CurrentOffset;
+    }
+
+
+    /** Returns (it1 > it2) for iterators it1 and it2. */
+    friend bool operator>(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    {
+      // Implemented just like the corresponding std::rel_ops operator.
+      return rhs < lhs;
+    }
+
+
+    /** Returns (it1 <= it2) for iterators it1 and it2. */
+    friend bool operator<=(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    {
+      // Implemented just like the corresponding std::rel_ops operator.
+      return !(rhs < lhs);
+    }
+
+
+    /** Returns (it1 >= it2) for iterators it1 and it2. */
+    friend bool operator>=(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    {
+      // Implemented just like the corresponding std::rel_ops operator.
+      return !(lhs < rhs);
+    }
+
+
+    /** Does (it += d) for iterator 'it' and integer value 'n'. */
+    friend QualifiedIterator& operator+=(QualifiedIterator& it, const difference_type n) ITK_NOEXCEPT
+    {
+      it.m_CurrentOffset += n;
+      return it;
+    }
+
+    /** Does (it -= d) for iterator 'it' and integer value 'n'. */
+    friend QualifiedIterator& operator-=(QualifiedIterator& it, const difference_type n) ITK_NOEXCEPT
+    {
+      it += (-n);
+      return it;
+    }
+
+    /** Returns (it1 - it2) for iterators it1 and it2. */
     friend difference_type operator-(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
     {
       assert(lhs.m_ImageBufferPointer == rhs.m_ImageBufferPointer);
@@ -463,6 +521,34 @@ private:
       assert(lhs.m_OffsetTable == rhs.m_OffsetTable);
 
       return lhs.m_CurrentOffset - rhs.m_CurrentOffset;
+    }
+
+
+    /** Returns (it + n) for iterator 'it' and integer value 'n'. */
+    friend QualifiedIterator operator+(QualifiedIterator it, const difference_type n) ITK_NOEXCEPT
+    {
+      return it += n;
+    }
+
+
+    /** Returns (n + it) for iterator 'it' and integer value 'n'. */
+    friend QualifiedIterator operator+(const difference_type n, QualifiedIterator it) ITK_NOEXCEPT
+    {
+      return it += n;
+    }
+
+
+    /** Returns (it - n) for iterator 'it' and integer value 'n'. */
+    friend QualifiedIterator operator-(QualifiedIterator it, const difference_type n) ITK_NOEXCEPT
+    {
+      return it += (-n);
+    }
+
+
+    /** Returns it[n] for iterator 'it' and integer value 'n'. */
+    reference operator[](const difference_type n) const ITK_NOEXCEPT
+    {
+      return *(*this + n);
     }
 
 
