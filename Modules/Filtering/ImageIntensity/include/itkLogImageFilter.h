@@ -95,7 +95,9 @@ public:
 protected:
   LogImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~LogImageFilter() override {}

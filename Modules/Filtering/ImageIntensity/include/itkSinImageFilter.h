@@ -99,7 +99,9 @@ public:
 protected:
   SinImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~SinImageFilter() override {}

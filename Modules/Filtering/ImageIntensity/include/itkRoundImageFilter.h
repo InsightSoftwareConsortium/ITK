@@ -87,7 +87,9 @@ public:
 protected:
   RoundImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~RoundImageFilter() override {}

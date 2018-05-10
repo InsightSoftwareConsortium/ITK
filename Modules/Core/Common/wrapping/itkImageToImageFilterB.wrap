@@ -27,8 +27,8 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
 
   # complex <-> scalar
-  itk_wrap_image_filter_combinations("${WRAP_ITK_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
-  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_REAL}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COMPLEX_REAL}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_SCALAR}")
 
   # scalar <-> SymmetricSecondRankTensor
   foreach(d ${ITK_WRAP_IMAGE_DIMS})

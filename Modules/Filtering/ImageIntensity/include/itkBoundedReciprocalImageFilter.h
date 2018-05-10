@@ -101,7 +101,9 @@ public:
 protected:
   BoundedReciprocalImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~BoundedReciprocalImageFilter() override {}

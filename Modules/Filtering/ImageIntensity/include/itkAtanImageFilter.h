@@ -107,7 +107,9 @@ public:
 protected:
   AtanImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~AtanImageFilter() override {}

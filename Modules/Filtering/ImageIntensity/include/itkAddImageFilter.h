@@ -114,7 +114,12 @@ public:
 #endif
 
 protected:
-  AddImageFilter() {Superclass::SetFunctor(FunctorType());}
+  AddImageFilter()
+    {
+#if !defined( ITK_WRAPPING_PARSER )
+    Superclass::SetFunctor(FunctorType());
+#endif
+    }
   ~AddImageFilter() override {}
 };
 } // end namespace itk

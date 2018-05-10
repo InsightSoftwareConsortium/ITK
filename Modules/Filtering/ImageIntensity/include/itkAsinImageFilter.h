@@ -114,7 +114,9 @@ public:
 protected:
   AsinImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~AsinImageFilter() override {}

@@ -110,7 +110,9 @@ public:
 protected:
   MinimumImageFilter()
     {
+#if !defined( ITK_WRAPPING_PARSER )
       Superclass::SetFunctor(FunctorType());
+#endif
     }
 
   ~MinimumImageFilter() override {}

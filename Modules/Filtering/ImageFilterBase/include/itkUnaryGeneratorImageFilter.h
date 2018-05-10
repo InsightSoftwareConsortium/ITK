@@ -84,6 +84,7 @@ public:
   using ValueFunctionType = OutputImagePixelType (InputImagePixelType);
 
 
+#if !defined( ITK_WRAPPING_PARSER )
   /** Set the pixel functor by a C function pointer
    *
    * The functor defines an operation done per pixel.
@@ -141,6 +142,7 @@ public:
 
     this->Modified();
   }
+#endif // !defined( ITK_WRAPPING_PARSER )
 
 protected:
   UnaryGeneratorImageFilter();

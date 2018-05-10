@@ -1,4 +1,4 @@
-itk_wrap_class("itk::LabelOverlayImageFilter" POINTER_WITH_SUPERCLASS)
+itk_wrap_class("itk::LabelOverlayImageFilter" POINTER)
   UNIQUE(label_types "${WRAP_ITK_INT};UL")
 
   if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
