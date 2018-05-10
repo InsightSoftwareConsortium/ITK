@@ -210,7 +210,7 @@ Test a Topic
 
 When a patch is submitted, it is tested across the three major platforms before
 being merged and tested on many platforms and configurations on the
-[nightly dashboard](https://open.cdash.org/index.php?project=Insight).
+[Nightly Dashboard](https://open.cdash.org/index.php?project=Insight).
 
 If tests fail on a submitted topic, see the [Revise a Topic](#revise-a-topic)
 step on how to submit a revised version. After a topic is merged, please check
@@ -218,22 +218,28 @@ the next day's nightly dashboard to ensure there are not any regressions. If
 there are any new warnings or errors, submit a follow-up patch as soon as
 possible.
 
-When a patch is submitted, macOS-Clang, Windows-MSVC, and Linux-GCC builds will
-start. Once they have finished, the build robots will make a comment on the
-patch with a link to their results visualized in CDash and mark the patch set
-as `Verified +1` or `Not Verified -1`. The results are submitted by the Kitware
-Build Robot Gerrit user.
+When a patch is submitted, macOS-AppleClang, Windows-MSVC, and Linux-GCC
+builds will automatically start for members of *InsightSoftwareConsortium*
+GitHub Organization. To become a member of the *InsightSoftwareConsortium*
+GitHub organization, please make a request on [ITK's
+Discourse](https://discourse.itk.org). Members can also start builds for new
+contributor pull request with commands described below.
 
-Builds can be spawned by adding the following comments to a patch set in Gerrit.
+Once the builds start, Jenkins will make a comment in the pull request with a
+link that displays the build's progress and the current build console output.
+After the builds have been completed, Jenkins will label the build as a
+success if no build errors, build warnings, or test failures occurred. A link
+to the CDash page for the builds will also be provided. The CDash page quickly
+shows where any warnings or errors occured.
+
+Builds can be spawned by *InsightSoftwareConsortium* members by adding the
+following comments to a pull request set on GitHub.
 
   * `request build: all`
-  * `request build: osx`
+  * `request build: macos`
   * `request build: linux`
   * `request build: windows`
   * `request build: python`
-  * `request build: power8`
-  * `request build: cpp11`
-  * `request build: cpp14`
 
 Merge a Topic
 -------------
