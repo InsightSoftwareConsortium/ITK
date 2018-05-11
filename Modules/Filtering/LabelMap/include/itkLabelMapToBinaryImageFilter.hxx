@@ -79,7 +79,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { this->Superclass::DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+        { this->SuperclassDynamicTGD(outputRegionForThread); }, nullptr);
   this->UpdateProgress(0.99f);
 
   this->AfterThreadedGenerateData();

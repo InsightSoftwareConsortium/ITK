@@ -163,6 +163,11 @@ protected:
 
   void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
 
+  //part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
+  void SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
+  {
+    Superclass::DynamicThreadedGenerateData(outputRegion);
+  }
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 

@@ -80,7 +80,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { Superclass::DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+        { this->SuperclassDynamicTGD(outputRegionForThread); }, nullptr);
   this->UpdateProgress(0.99f);
 
   this->AfterThreadedGenerateData();
