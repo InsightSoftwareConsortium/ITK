@@ -121,19 +121,21 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Threa
       // Iteration over the all neighborhood region
       for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
       {
-        tempOffset = inputNIt.GetOffset(nb);
-        if (!this->IsInsideNeighborhood(tempOffset))
+        IndexType ind = inputNIt.GetIndex(nb);
+
+        if (maskPointer && !(this->IsInsideMaskRegion(ind, maskPointer->GetBufferedRegion().GetSize())))
         {
           continue;
         }
 
-        if (maskPointer && maskPointer->GetPixel(inputNIt.GetIndex(nb)) == 0)
+        if (maskPointer && maskPointer->GetPixel(ind) == 0)
         {
           continue;
         }
 
         ++numVoxels;
         inputNIt.GetPixel(nb);
+        tempOffset = inputNIt.GetOffset(nb);
         if (inputNIt.GetPixel(tempOffset) >= m_Threshold)
         {
           ++numBoneVoxels;
@@ -186,6 +188,24 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Threa
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 bool
+BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::IsInsideMaskRegion(
+  const IndexType &                     imageIndex,
+  const typename TMaskImage::SizeType & maskSize)
+{
+  bool insideMask = true;
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
+  {
+    if (imageIndex[i] < 0 || imageIndex[i] >= maskSize[i])
+    {
+      insideMask = false;
+      break;
+    }
+  }
+  return insideMask;
+}
+
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+bool
 BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::IsInsideNeighborhood(
   const NeighborhoodOffsetType & iteratedOffset)
 {
@@ -201,6 +221,7 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::IsIns
   }
   return insideNeighborhood;
 }
+
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
