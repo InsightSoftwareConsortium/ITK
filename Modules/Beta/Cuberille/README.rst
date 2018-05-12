@@ -40,7 +40,7 @@ Installation
 Python
 ^^^^^^
 
-Binary `Python packages <https://pypi.python.org/pypi/itk-bonemorphometry>`_
+Binary `Python packages <https://pypi.python.org/pypi/itk-cuberille>`_
 are available for Linux, macOS, and Windows. They can be installed with::
 
   python -m pip install --upgrade pip
