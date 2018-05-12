@@ -5,5 +5,5 @@ itk_fetch_module(SimpleITKFilters
   implementations designed for SimpleITK's requirements. Currently it
   contains a discrete hessian, and a composite filter to compute objectness."
   GIT_REPOSITORY ${git_protocol}://github.com/SimpleITK/ITKSimpleITKFilters.git
-  GIT_TAG 40c8a5885b1a6260a0c5b7195c8d9ae0b5ca9242
+  GIT_TAG 63446e9887439549a0ef91deda000073866b288e
   )

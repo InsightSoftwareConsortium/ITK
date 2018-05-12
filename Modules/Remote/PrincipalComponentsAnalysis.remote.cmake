@@ -8,5 +8,5 @@ A more detailed description can be found in the Insight Journal article:
     August, 2013.
 "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.git
-  GIT_TAG 3970c8bcc8bc282fdfbfa32d8a344f8f3317d176
+  GIT_TAG 0bef61dd566d2a8d652a77a49e8c3025440defc3
   )
