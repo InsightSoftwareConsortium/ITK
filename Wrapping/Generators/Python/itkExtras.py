@@ -513,8 +513,8 @@ def set_inputs(newItkObject, args=[], kargs={}):
     # args without name are filter used to set input image
     #
     # count SetInput calls to call SetInput, SetInput2, SetInput3, ...
-    # usefull with filter which take 2 input (or more) like SubstractImageFiler
-    # Ex: substract image2.png to image1.png and save the result in result.png
+    # useful with filter which take 2 input (or more) like SubtractImageFiler
+    # Ex: subtract image2.png to image1.png and save the result in result.png
     # r1 = itk.ImageFileReader.US2.New(FileName='image1.png')
     # r2 = itk.ImageFileReader.US2.New(FileName='image2.png')
     # s = itk.SubtractImageFilter.US2US2US2.New(r1, r2)

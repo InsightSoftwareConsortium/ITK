@@ -32,7 +32,7 @@ namespace op {
  *
  * \c BinaryOperationConcept subclasses are expected to provide a template
  * function \c apply() that implements the actual binary operation (addition,
- * substraction, ...).
+ * subtraction, ...).
  * \ingroup ITKCommon
  * \sa \c itk::VariableLengthVector
  * \sa \c itk::VariableLengthVectorExpression

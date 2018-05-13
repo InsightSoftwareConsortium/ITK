@@ -266,7 +266,7 @@ int itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
     IndexType ind = ra_it.GetIndex();
     if( ind[i] != loc[i] )
       {
-      std::cerr << "Error with substracting offset " << a_off << std::endl;
+      std::cerr << "Error with subtracting offset " << a_off << std::endl;
       return EXIT_FAILURE;
       }
     }
