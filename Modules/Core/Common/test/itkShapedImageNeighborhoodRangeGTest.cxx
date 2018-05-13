@@ -442,3 +442,192 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_supports_VectorI
   const PixelType secondPixelValueFromRange = *it;
   EXPECT_EQ(secondPixelValueFromRange, fillPixelValue);
 }
+
+
+TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_parameters_of_std_sort)
+{
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType>;
+  enum { sizeX = 3, sizeY = 3 };
+  const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
+
+  const ImageType::IndexType location {{1, 1}};
+  const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
+  const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
+    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
+
+  // Initial order: (1, 2, 3, ..., 9).
+  const std::vector<PixelType> initiallyOrderedPixels(range.cbegin(), range.cend());
+  const std::vector<PixelType> reverseOrderedPixels(initiallyOrderedPixels.rbegin(), initiallyOrderedPixels.rend());
+
+  // Sanity checks before doing the "real" tests:
+  EXPECT_EQ(std::vector<PixelType>(range.cbegin(), range.cend()), initiallyOrderedPixels);
+  EXPECT_NE(std::vector<PixelType>(range.cbegin(), range.cend()), reverseOrderedPixels);
+
+  // Test std::sort with predicate (lambda expression), to revert the order:
+  std::sort(range.begin(), range.end(), [](PixelType lhs, PixelType rhs) { return rhs < lhs; });
+  EXPECT_EQ(std::vector<PixelType>(range.cbegin(), range.cend()), reverseOrderedPixels);
+
+  // Test std::sort without predicate, to go back to the initial order (1, 2, 3, ..., 9):
+  std::sort(range.begin(), range.end());
+  EXPECT_EQ(std::vector<PixelType>(range.cbegin(), range.cend()), initiallyOrderedPixels);
+}
+
+
+TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_parameters_of_std_nth_element)
+{
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType>;
+  enum { sizeX = 3, sizeY = 3 };
+  const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
+
+  const ImageType::IndexType location{ { 1, 1 } };
+  const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
+  const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
+    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
+
+  std::reverse(range.begin(), range.end());
+
+  std::vector<PixelType> pixels(range.cbegin(), range.cend());
+
+  // The 'n' to be used with 'nth_element':
+  const size_t n = pixels.size() / 2;
+
+  std::nth_element(pixels.begin(), pixels.begin() + n, pixels.end());
+
+  // Sanity check, before the "real" test:
+  EXPECT_NE(std::vector<PixelType>(range.cbegin(), range.cend()), pixels);
+
+  // nth_element on the range should rearrange the pixels in the same way as
+  // it did on the std::vector of pixels.
+  std::nth_element(range.begin(), range.begin() + n, range.end());
+  EXPECT_EQ(std::vector<PixelType>(range.cbegin(), range.cend()), pixels);
+}
+
+
+TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_support_random_access)
+{
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType>;
+  enum { sizeX = 3, sizeY = 3 };
+  const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
+
+  const ImageType::IndexType location{ { 1, 1 } };
+  const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
+  const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
+    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  RangeType range{ *image, location, offsets };
+
+  // Testing expressions from Table 111 "Random access iterator requirements
+  // (in addition to bidirectional iterator)", C++11 Standard, section 24.2.7
+  // "Random access iterator" [random.access.iterators].
+
+  // Note: The 1-letter identifiers (X, a, b, n, r) and the operational semantics
+  // are directly from the C++11 Standard.
+  using X = RangeType::iterator;
+  X a = range.begin();
+  X b = range.end();
+
+  const X initialIterator = range.begin();
+  X mutableIterator = initialIterator;
+  X& r = mutableIterator;
+
+  using difference_type = X::difference_type;
+  using reference = X::reference;
+
+  {
+    // Expression to be tested: 'r += n'
+    difference_type n = 3;
+
+    static_assert(std::is_same<decltype(r += n), X&>::value, "Return type tested");
+
+    r = initialIterator;
+    const auto expectedResult = [&r, n]
+    {
+      // Operational semantics, as specified by the C++11 Standard:
+      difference_type m = n;
+      if (m >= 0) while (m--) ++r;
+      else while (m++) --r;
+      return r;
+    }();
+    r = initialIterator;
+    const auto actualResult = r += n;
+    EXPECT_EQ(actualResult, expectedResult);
+  }
+  {
+    // Expressions to be tested: 'a + n' and 'n + a'
+    difference_type n = 3;
+
+    static_assert(std::is_same<decltype(a + n), X>::value, "Return type tested");
+    static_assert(std::is_same<decltype(n + a), X>::value, "Return type tested");
+
+    const auto expectedResult = [a, n]
+    {
+      // Operational semantics, as specified by the C++11 Standard:
+      X tmp = a;
+      return tmp += n;
+    }();
+
+    EXPECT_EQ(a + n, expectedResult);
+    EXPECT_TRUE(a + n == n + a);
+  }
+  {
+    // Expression to be tested: 'r -= n'
+    difference_type n = 3;
+
+    static_assert(std::is_same<decltype(r -= n), X&>::value, "Return type tested");
+
+    r = initialIterator;
+    const auto expectedResult = [&r, n]
+    {
+      // Operational semantics, as specified by the C++11 Standard:
+      return r += -n;
+    }();
+    r = initialIterator;
+    const auto actualResult = r -= n;
+    EXPECT_EQ(actualResult, expectedResult);
+  }
+  {
+    // Expression to be tested: 'a - n'
+    difference_type n = -3;
+
+    static_assert(std::is_same<decltype(a - n), X>::value, "Return type tested");
+
+    const auto expectedResult = [a, n]
+    {
+      // Operational semantics, as specified by the C++11 Standard:
+      X tmp = a;
+      return tmp -= n;
+    }();
+
+    EXPECT_EQ(a - n, expectedResult);
+  }
+  {
+    // Expression to be tested: 'b - a'
+    static_assert(std::is_same<decltype(b - a), difference_type>::value, "Return type tested");
+
+    difference_type n = b - a;
+    EXPECT_TRUE(a + n == b);
+    EXPECT_TRUE(b == a + (b - a));
+  }
+  {
+    // Expression to be tested: 'a[n]'
+    difference_type n = 3;
+    static_assert(std::is_convertible<decltype(a[n]), reference>::value, "Return type tested");
+    EXPECT_EQ(a[n], *(a + n));
+  }
+  {
+    // Expressions to be tested: 'a < b', 'a > b', 'a >= b', and 'a <= b':
+    static_assert(std::is_convertible<decltype(a < b), bool>::value, "Return type tested");
+    static_assert(std::is_convertible<decltype(a > b), bool>::value, "Return type tested");
+    static_assert(std::is_convertible<decltype(a >= b), bool>::value, "Return type tested");
+    static_assert(std::is_convertible<decltype(a <= b), bool>::value, "Return type tested");
+    EXPECT_EQ(a < b, b - a > 0);
+    EXPECT_EQ(a > b, b < a);
+    EXPECT_EQ(a >= b, !(a < b));
+    EXPECT_EQ(a <= b, !(b < a));
+  }
+}
