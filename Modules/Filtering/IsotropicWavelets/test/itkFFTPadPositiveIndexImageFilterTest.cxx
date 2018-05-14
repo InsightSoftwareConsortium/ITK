@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
 #include "itkFFTPadPositiveIndexImageFilter.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkPeriodicBoundaryCondition.h"
