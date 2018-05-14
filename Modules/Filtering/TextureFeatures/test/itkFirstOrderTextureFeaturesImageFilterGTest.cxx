@@ -18,7 +18,7 @@
 #include "itkFirstOrderTextureFeaturesImageFilter.h"
 #include "itkFlatStructuringElement.h"
 #include "itkAdditiveGaussianNoiseImageFilter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 #include "gtest/gtest.h"
 
@@ -78,7 +78,7 @@ TEST(TextureFeatures, FirstOrder_Test1)
   filter->SetKernel(kernel);
   filter->SetInput(noiseFilter->GetOutput());
 
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
 
   ImageType::SizeType   requestSize = { { 10, 10 } };
@@ -148,7 +148,7 @@ TEST(TextureFeatures, FirstOrder_Test2)
   filter->SetKernel(kernel);
   filter->SetInput(noiseFilter->GetOutput());
 
-  FilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
 
   ImageType::SizeType   requestSize = { { 10, 10 } };
