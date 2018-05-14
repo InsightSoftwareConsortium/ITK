@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkTestingMacros.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkObjectnessMeasureImageFilter.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkImageFileReader.h"
@@ -62,7 +62,7 @@ int itkObjectnessMeasureImageFilterTest(int argc, char *argv[])
   filter->SetObjectDimension(objectDimension);
   filter->SetScaleObjectnessMeasure(false);
 
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
