@@ -24,6 +24,7 @@
 #include <map>
 #include "itkProgressReporter.h"
 #include "itkBarrier.h"
+#include "itkPlatformMultiThreader.h"
 
 namespace itk
 {
@@ -166,6 +167,8 @@ protected:
 
     //  #1 "MaskImage" optional
     Self::AddOptionalInputName("MaskImage",1);
+    this->DynamicMultiThreadingOff();
+    this->SetMultiThreader(PlatformMultiThreader::New());
   }
 
   ~ConnectedComponentImageFilter() override {}
@@ -179,6 +182,11 @@ protected:
   void AfterThreadedGenerateData() override;
 
   void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+
+  void DynamicThreadedGenerateData( const RegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
 
   /** ConnectedComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().

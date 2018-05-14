@@ -115,8 +115,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** InterpolateImageFilter can be implemented as a multithreaded filter. */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
 private:
   typename InterpolatorType::Pointer m_Interpolator;

@@ -163,14 +163,9 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Main function for calculating interpolated values at each coordinate
-    * set.  Access is through the update() call. */
+   *  set.  Access is through the Update() call. */
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  /** TODO:  This needs to be modified for a threaded implementation.
-    */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
-
-  void BeforeThreadedGenerateData() override;
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.

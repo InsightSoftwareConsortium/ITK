@@ -139,10 +139,9 @@ protected:
   MovingHistogramImageFilter();
   ~MovingHistogramImageFilter() override {}
 
-  /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
+  /** Multi-thread version of GenerateData. */
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
   // declare the type used to store the histogram
   using HistogramType = THistogram;

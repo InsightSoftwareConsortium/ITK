@@ -40,6 +40,8 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   this->m_InputForegroundValue = NumericTraits< InputPixelType >::max();
   this->m_ImageRegionSplitter = ImageRegionSplitterDirection::New();
   this->m_ImageRegionSplitter->SetDirection( 0 );
+  this->DynamicMultiThreadingOff();
+  this->SetMultiThreader(PlatformMultiThreader::New());
 }
 
 template< typename TInputImage, typename TOutputImage >

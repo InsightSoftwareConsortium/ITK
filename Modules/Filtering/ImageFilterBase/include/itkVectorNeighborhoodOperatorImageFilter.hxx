@@ -79,8 +79,7 @@ VectorNeighborhoodOperatorImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 VectorNeighborhoodOperatorImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
   using FaceListType = typename BFC::FaceListType;
@@ -102,9 +101,6 @@ VectorNeighborhoodOperatorImageFilter< TInputImage, TOutputImage >
                              m_Operator.GetRadius() );
   typename FaceListType::iterator fit;
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   ImageRegionIterator< OutputImageType > it;
 
   // Process non-boundary region and then each of the boundary faces.
@@ -122,7 +118,6 @@ VectorNeighborhoodOperatorImageFilter< TInputImage, TOutputImage >
       it.Value() = smartInnerProduct(bit, m_Operator);
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

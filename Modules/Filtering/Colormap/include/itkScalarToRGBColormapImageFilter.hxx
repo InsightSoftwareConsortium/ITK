@@ -100,8 +100,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
@@ -113,11 +112,8 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  // Define the iterators
   ImageRegionConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
   ImageRegionIterator< TOutputImage >     outputIt(outputPtr, outputRegionForThread);
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
@@ -127,7 +123,6 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
     outputIt.Set( this->m_Colormap->operator()( inputIt.Get() ) );
     ++inputIt;
     ++outputIt;
-    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 

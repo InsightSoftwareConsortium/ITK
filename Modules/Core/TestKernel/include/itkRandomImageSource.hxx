@@ -35,14 +35,11 @@
 
 namespace itk
 {
-/**
- *
- */
 template< typename TOutputImage >
 RandomImageSource< TOutputImage >
 ::RandomImageSource()
 {
-  //Initial image is 64 wide in each direction.
+  //Default image is 64 wide in each direction.
   for ( unsigned int i = 0; i < TOutputImage::GetImageDimension(); i++ )
     {
     m_Size[i] = 64;
@@ -167,9 +164,7 @@ RandomImageSource< TOutputImage >
   return this->m_SpacingArray;
 }
 
-/**
- *
- */
+
 template< typename TOutputImage >
 void
 RandomImageSource< TOutputImage >
@@ -238,21 +233,23 @@ RandomImageSource< TOutputImage >
 template< typename TOutputImage >
 void
 RandomImageSource< TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   itkDebugMacro(<< "Generating a random image of scalars");
-
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   using scalarType = typename TOutputImage::PixelType;
   typename TOutputImage::Pointer image = this->GetOutput(0);
 
   ImageRegionIterator< TOutputImage > it(image, outputRegionForThread);
 
+  IndexValueType indSeed=outputRegionForThread.GetIndex(0);
+  for (unsigned d=1; d<OutputImageDimension; d++)
+    {
+    indSeed += outputRegionForThread.GetIndex(d);
+    }
+
   // Random number seed
-  unsigned int sample_seed = 12345 + threadId;
+  unsigned int sample_seed = 12345 + indSeed;
   double       u;
   double       rnd;
 
@@ -266,7 +263,6 @@ RandomImageSource< TOutputImage >
     rnd = ( 1.0 - u ) * dMin + u * dMax;
 
     it.Set( (scalarType)rnd );
-    progress.CompletedPixel();
     }
 }
 } // end namespace itk

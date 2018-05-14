@@ -20,7 +20,6 @@
 
 #include "itkInPlaceImageFilter.h"
 #include "itkConceptChecking.h"
-#include "itkBarrier.h"
 #include <vector>
 
 namespace itk
@@ -138,15 +137,18 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /**
-   * Standard pipeline methods.
-   */
+  SizeValueType IndexToLinearIndex(IndexType index);
+
+  void GenerateData() override;
+
   void BeforeThreadedGenerateData() override;
 
   void AfterThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const RegionType& outputRegionForThread) override;
+
+  void ThreadedIntegrateData(const RegionType& outputRegionForThread);
+
 
   /** BinaryContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -189,10 +191,6 @@ private:
                     const LineEncodingType & Neighbour);
 
   void SetupLineOffsets(OffsetVec & LineOffsets);
-
-  void Wait();
-
-  Barrier::Pointer m_Barrier;
 
   LineMapType   m_ForegroundLineMap;
   LineMapType   m_BackgroundLineMap;

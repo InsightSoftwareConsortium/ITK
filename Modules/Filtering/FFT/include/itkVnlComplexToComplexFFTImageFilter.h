@@ -69,7 +69,7 @@ protected:
   ~VnlComplexToComplexFFTImageFilter() override {}
 
   void BeforeThreadedGenerateData() override;
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) ) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
 } // end namespace itk

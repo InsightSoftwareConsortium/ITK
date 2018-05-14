@@ -83,8 +83,7 @@ PadImageFilterBase< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 PadImageFilterBase< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
 
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
@@ -99,10 +98,6 @@ PadImageFilterBase< TInputImage, TOutputImage >
     ImageAlgorithm::Copy( inputPtr.GetPointer(), outputPtr.GetPointer(), copyRegion, copyRegion );
 
     // Use the boundary condition for pixels outside the input image region.
-    typename OutputImageSizeType::SizeValueType numberOfPixels =
-      outputRegionForThread.GetNumberOfPixels() - copyRegion.GetNumberOfPixels();
-    ProgressReporter progress( this, threadId, numberOfPixels );
-
     ImageRegionExclusionIteratorWithIndex< TOutputImage > outIter( outputPtr,
                                                                    outputRegionForThread );
     outIter.SetExclusionRegion( copyRegion );
@@ -113,14 +108,11 @@ PadImageFilterBase< TInputImage, TOutputImage >
         ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), inputPtr ) );
       outIter.Set( value );
       ++outIter;
-      progress.CompletedPixel();
       }
     }
   else
     {
-    // There is no overlap. Appeal to the boundary condition for every pixel.
-    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
+    // There is no overlap. Apply to the boundary condition for every pixel.
     ImageRegionIteratorWithIndex< TOutputImage > outIter( outputPtr,
                                                           outputRegionForThread );
     outIter.GoToBegin();
@@ -130,7 +122,6 @@ PadImageFilterBase< TInputImage, TOutputImage >
         ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), inputPtr ) );
       outIter.Set( value );
       ++outIter;
-      progress.CompletedPixel();
       }
     }
 }

@@ -85,8 +85,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AbsImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(AbsImageFilter, UnaryGeneratorImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;

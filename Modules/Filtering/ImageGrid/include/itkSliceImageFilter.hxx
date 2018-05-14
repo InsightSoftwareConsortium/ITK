@@ -122,15 +122,10 @@ SliceImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 SliceImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Get the input and output pointers
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
-
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   const typename TInputImage::SizeType &inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType &inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
@@ -143,8 +138,7 @@ SliceImageFilter< TInputImage, TOutputImage >
     start[i] = std::min( start[i], static_cast<IndexValueType>(inputIndex[i] + inputSize[i]-1) );
     }
 
-  // Define/declare an iterator that will walk the output region for this
-  // thread.
+  // Define/declare an iterator that will walk the output region for this thread
   using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
@@ -156,7 +150,6 @@ SliceImageFilter< TInputImage, TOutputImage >
     // Determine the index and physical location of the output pixel
     destIndex = outIt.GetIndex();
 
-
     for( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
       {
       srcIndex[i] = destIndex[i]*m_Step[i] + start[i];
@@ -165,8 +158,6 @@ SliceImageFilter< TInputImage, TOutputImage >
     // Copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(srcIndex) );
     ++outIt;
-
-    progress.CompletedPixel();
     }
 }
 

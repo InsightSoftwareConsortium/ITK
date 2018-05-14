@@ -107,7 +107,13 @@ protected:
 
   void AfterThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
+  //derived classes call this as inherited so we must delegate to DynamicThreadedGenerateData
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType) override
+  {
+    Self::DynamicThreadedGenerateData(outputRegionForThread);
+  }
 
   virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject);
 

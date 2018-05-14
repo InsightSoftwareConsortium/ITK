@@ -135,7 +135,8 @@ protected:
 
   void VerifyPreconditions() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
 private:
   // functor used to sort the eigenvalues are to be sorted

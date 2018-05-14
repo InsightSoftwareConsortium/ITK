@@ -16,7 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkMultiThreader.h"
+#define ITK_LEGACY_TEST //so deprecation warnings are not triggered by this test
+#include "itkPlatformMultiThreader.h"
 
 namespace itkSTLThreadTestImpl
 {
@@ -79,7 +80,7 @@ int itkSTLThreadTest(int argc, char* argv[])
     }
 
   // Create and execute the threads.
-  itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
+  itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
   itkSTLThreadTestImpl::sharedMutex    = itk::MutexLock::New();
   threader->SetSingleMethod(itkSTLThreadTestImpl::Runner, results);
   threader->SetNumberOfThreads(numThreads);
@@ -106,6 +107,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   std::cout << "itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(): "
             << itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() << std::endl;
 
+  // test deprecated methods too!
   itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
             << threadId << std::endl;
@@ -122,7 +124,7 @@ static ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
 {
   // Get the thread id and result pointer and run the method for this
   // thread.
-  auto * info = static_cast<itk::MultiThreader::ThreadInfoStruct*>(infoIn);
+  auto * info = static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>(infoIn);
   itk::ThreadIdType tnum = info->ThreadID;
   auto * results = static_cast<int*>(info->UserData);
   if(results)

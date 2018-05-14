@@ -94,7 +94,8 @@ protected:
 
   void BeforeThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType) override;
+  void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
+
 
 private:
 

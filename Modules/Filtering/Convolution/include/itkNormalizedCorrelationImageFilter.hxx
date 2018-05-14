@@ -92,13 +92,10 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >
 void
 NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-
   // Normalize the template in a local variable. This will simplify
   // the calculations later.
-  //
   using NormalizedTemplateType = Neighborhood< typename NumericTraits< OperatorValueType >::RealType,
                         ImageDimension >;
   using OutputPixelRealType = typename NumericTraits< OutputPixelType >::RealType;
@@ -154,10 +151,6 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
   faceList = faceCalculator( input, outputRegionForThread,
                              this->GetOperator().GetRadius() );
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId,
-                             outputRegionForThread.GetNumberOfPixels() );
-
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator< InputImageType > bit;
@@ -212,7 +205,6 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
 
         ++bit;
         ++it;
-        progress.CompletedPixel();
         }
       }
     else
@@ -254,7 +246,6 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
         ++bit;
         ++it;
         ++mit;
-        progress.CompletedPixel();
         }
       }
     }

@@ -121,6 +121,11 @@ protected:
                              outputRegionForThread,
                              ThreadIdType threadId) override;
 
+  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
+
 private:
   RealType m_Shift;
   RealType m_Scale;

@@ -88,7 +88,8 @@ protected:
   ~BoxMeanImageFilter() override {}
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 };                                  // end of class
 } // end namespace itk
 

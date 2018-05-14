@@ -184,7 +184,7 @@ protected:
 
   /** Static function used as a "callback" by the MultiThreaderBase.  The threading
    * library will call this routine for each thread, which will delegate the
-   * control to ThreadedGenerateData(). */
+   * control to DynamicThreadedGenerateData(). */
   static ITK_THREAD_RETURN_TYPE ThreaderCallback(void *arg);
 
   /** Internal structure used for passing image data into the threading library

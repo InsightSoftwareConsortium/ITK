@@ -27,3 +27,4 @@ itkNeighborhood\.hxx SemicolonSpace Disable
 itkIndex\.h SemicolonSpace Disable
 itkSize\.h SemicolonSpace Disable
 itkOffset\.h SemicolonSpace Disable
+itkMultiThreaderBase.h Comments Disable

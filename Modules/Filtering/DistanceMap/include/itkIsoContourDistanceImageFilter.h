@@ -21,7 +21,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkNarrowBand.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkBarrier.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -157,6 +156,15 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) override;
 
+  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
+
+  void GenerateData() override;
+
+  static ITK_THREAD_RETURN_TYPE ThreaderFullCallback(void *arg);
+
   void ThreadedGenerateDataFull(const OutputImageRegionType & outputRegionForThread,
                                 ThreadIdType threadId);
 
@@ -186,9 +194,6 @@ private:
   bool                      m_NarrowBanding;
   NarrowBandPointer         m_NarrowBand;
   std::vector< RegionType > m_NarrowBandRegion;
-
-  /** A global barrier used for synchronization between all threads. */
-  typename Barrier::Pointer m_Barrier;
 };
 } // namespace itk
 

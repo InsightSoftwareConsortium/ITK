@@ -109,17 +109,17 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PermuteAxesImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData() routine
+   * Therefore, this implementation provides a DynamicThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is
    * allocated automatically by the superclass prior to calling
-   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * DynamicThreadedGenerateData().  DynamicThreadedGenerateData can only write to the
    * portion of the output image specified by the parameter
    * "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
 private:
   PermuteOrderArrayType m_Order;

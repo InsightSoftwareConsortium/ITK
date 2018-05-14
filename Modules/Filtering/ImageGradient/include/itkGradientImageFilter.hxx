@@ -119,14 +119,12 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 void
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
 
   NeighborhoodInnerProduct< InputImageType, OperatorValueType,
                             OutputValueType > SIP;
 
-  // Get the input and output
   OutputImageType *     outputImage = this->GetOutput();
   const InputImageType *inputImage  = this->GetInput();
 
@@ -172,9 +170,6 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
   fit = faceList.begin();
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Initialize the x_slice array
   ConstNeighborhoodIterator< InputImageType > nit = ConstNeighborhoodIterator< InputImageType >(radius, inputImage, *fit);
 
@@ -211,7 +206,6 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 
       ++nit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

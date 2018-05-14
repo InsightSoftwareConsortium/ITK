@@ -93,10 +93,9 @@ protected:
    * provide an implementation of GenerateInputRequestedRegion(). */
   void GenerateInputRequestedRegion() override;
 
-  /** This filter can be threaded. */
-  void  ThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
+  /** This filter is multi-threaded. */
+  void  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
+
 
   /** Protected so that subclasses may set it without calling
   Modified(). */

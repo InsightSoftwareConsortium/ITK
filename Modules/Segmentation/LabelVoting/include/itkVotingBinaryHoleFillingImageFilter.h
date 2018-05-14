@@ -121,6 +121,11 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) override;
 
+  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
+
   /** Methods to be called before and after the invokation of
    * ThreadedGenerateData(). */
   void BeforeThreadedGenerateData() override;

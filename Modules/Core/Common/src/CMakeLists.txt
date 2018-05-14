@@ -80,7 +80,7 @@ set(ITKCommon_SRCS
   itkOctreeNode.cxx
   itkNumericTraitsFixedArrayPixel.cxx
   itkMultiThreaderBase.cxx
-  itkMultiThreader.cxx
+  itkPlatformMultiThreader.cxx
   itkPoolMultiThreader.cxx
   itkMetaDataObject.cxx
   itkMetaDataDictionary.cxx
@@ -155,6 +155,10 @@ endif()
 
 if(ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon_SRCS itkDynamicLoader.cxx)
+endif()
+
+if(ITK_USE_TBB)
+  list(APPEND ITKCommon_SRCS itkTBBMultiThreader.cxx)
 endif()
 
 # Prevent optimization from affecting the floating point calculation.

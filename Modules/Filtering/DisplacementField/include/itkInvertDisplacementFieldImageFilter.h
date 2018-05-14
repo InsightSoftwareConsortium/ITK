@@ -151,7 +151,7 @@ protected:
   void GenerateData() override;
 
   /** Multithreaded function which generates the output field. */
-  void ThreadedGenerateData( const RegionType &, ThreadIdType ) override;
+  void DynamicThreadedGenerateData( const RegionType & ) override;
 
 private:
   /** The interpolator. */

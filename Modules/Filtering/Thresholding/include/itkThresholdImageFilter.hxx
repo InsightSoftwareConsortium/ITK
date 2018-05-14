@@ -98,8 +98,7 @@ ThresholdImageFilter< TImage >
 template< typename TImage >
 void
 ThresholdImageFilter< TImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   const SizeValueType size0 = outputRegionForThread.GetSize(0);
   if( size0 == 0 )
@@ -118,10 +117,6 @@ ThresholdImageFilter< TImage >
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);
-
-  // Support progress methods/callbacks
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, static_cast<SizeValueType>(  numberOfLinesToProcess ) );
 
   // Walk the regions; threshold each pixel
   while ( !outIt.IsAtEnd() )
@@ -144,7 +139,6 @@ ThresholdImageFilter< TImage >
       }
     inIt.NextLine();
     outIt.NextLine();
-    progress.CompletedPixel();
     }
 }
 

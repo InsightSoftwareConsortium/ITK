@@ -44,7 +44,7 @@ BoxSigmaImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BoxSigmaImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Accumulate type is too small
   using AccValueType = typename itk::NumericTraits< PixelType >::RealType;
@@ -63,21 +63,17 @@ BoxSigmaImageFilter< TInputImage, TOutputImage >
   accumRegion.PadByRadius(internalRadius);
   accumRegion.Crop( inputImage->GetRequestedRegion() );
 
-  ProgressReporter progress( this, threadId, 2 * accumRegion.GetNumberOfPixels() );
-
   typename AccumImageType::Pointer accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
   accImage->Allocate();
 
   BoxSquareAccumulateFunction< TInputImage, AccumImageType >(inputImage, accImage,
                                                              accumRegion,
-                                                             accumRegion,
-                                                             progress);
+                                                             accumRegion);
   BoxSigmaCalculatorFunction< AccumImageType, TOutputImage >(accImage, outputImage,
                                                              accumRegion,
                                                              outputRegionForThread,
-                                                             this->GetRadius(),
-                                                             progress);
+                                                             this->GetRadius());
 }
 } // end namespace itk
 #endif

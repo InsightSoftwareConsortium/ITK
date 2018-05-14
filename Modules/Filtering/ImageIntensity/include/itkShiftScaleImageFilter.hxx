@@ -37,6 +37,7 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_ThreadOverflow.SetSize(1);
   m_InputImage = nullptr;
   m_OutputImage = nullptr;
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage, typename TOutputImage >

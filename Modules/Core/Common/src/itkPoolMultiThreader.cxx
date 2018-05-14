@@ -57,15 +57,12 @@ PoolMultiThreader::~PoolMultiThreader()
 {
 }
 
-// Set the user defined method that will be run on NumberOfThreads threads
-// when SingleMethodExecute is called.
 void PoolMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 {
   m_SingleMethod = f;
   m_SingleData   = data;
 }
 
-// Execute the method set as the SingleMethod on NumberOfThreads threads.
 void PoolMultiThreader::SingleMethodExecute()
 {
   ThreadIdType thread_loop = 0;
@@ -207,11 +204,9 @@ void PoolMultiThreader::SingleMethodExecute()
     }
 }
 
-// Print method for the multithreader
 void PoolMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-
 }
 
 }

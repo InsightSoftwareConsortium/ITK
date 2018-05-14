@@ -45,6 +45,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   m_IsFittingComplete( false )
 {
   this->m_SplineOrder.Fill( 3 );
+  this->DynamicMultiThreadingOff();
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -285,19 +286,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_CurrentNumberOfControlPoints = this->m_NumberOfControlPoints;
 
 
-  // Set up multithread processing to handle generating the
-  // control point lattice.
-
-  typename ImageSource<TOutputImage>::ThreadStruct str1;
-  str1.Filter = this;
-
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-  this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str1 );
-
   // Multithread the generation of the control point lattice.
-
   this->BeforeThreadedGenerateData();
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->ClassicMultiThread(this->ThreaderCallback);
   this->AfterThreadedGenerateData();
 
   this->UpdatePointSet();
@@ -367,19 +358,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         << averageDifference / totalWeight);
       }
 
-    // Set up multithread processing to handle generating the
-    // control point lattice.
-
-    typename ImageSource<ImageType>::ThreadStruct str2;
-    str2.Filter = this;
-
-    this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-    this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str2 );
-
     // Multithread the generation of the control point lattice.
-
     this->BeforeThreadedGenerateData();
-    this->GetMultiThreader()->SingleMethodExecute();
+    this->ClassicMultiThread(this->ThreaderCallback);
     this->AfterThreadedGenerateData();
 
     this->UpdatePointSet();
@@ -410,14 +391,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
   if( this->m_GenerateOutputImage )
     {
-    typename ImageSource<ImageType>::ThreadStruct str3;
-    str3.Filter = this;
-
-    this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-    this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str3 );
-
 //    this->BeforeThreadedGenerateData();
-    this->GetMultiThreader()->SingleMethodExecute();
+    this->ClassicMultiThread(this->ThreaderCallback);
 //    this->AfterThreadedGenerateData();
     }
 

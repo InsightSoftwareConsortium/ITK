@@ -151,9 +151,9 @@ void LoggerThreadWrapper< SimpleLoggerType >::Flush()
 template< typename SimpleLoggerType >
 LoggerThreadWrapper< SimpleLoggerType >::LoggerThreadWrapper()
 {
-  this->m_Delay = 300; // ms
-  this->m_Threader = MultiThreader::New();
-  this->m_ThreadID = this->m_Threader->SpawnThread(ThreadFunction, this);
+  m_Delay = 300; // ms
+  m_TerminationRequested = false;
+  m_Thread = std::thread(&Self::ThreadFunction, this);
 }
 
 /** Destructor */
@@ -161,67 +161,52 @@ template< typename SimpleLoggerType >
 LoggerThreadWrapper< SimpleLoggerType >::~LoggerThreadWrapper()
 {
   this->Flush();
-  if ( this->m_Threader )
+  if( m_Thread.joinable() )
     {
-    this->m_Threader->TerminateThread(this->m_ThreadID);
+    m_TerminationRequested = true;
+    m_Thread.join(); //waits for it to finish if necessary
     }
 }
 
 template< typename SimpleLoggerType >
-ITK_THREAD_RETURN_TYPE LoggerThreadWrapper< SimpleLoggerType >::ThreadFunction(void *pInfoStruct)
+void
+LoggerThreadWrapper< SimpleLoggerType >
+::ThreadFunction()
 {
-  auto * pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
-
-  if ( ( pInfo != nullptr ) && ( pInfo->UserData != nullptr ) )
+  while ( !m_TerminationRequested )
     {
-
-    auto * pLogger = (LoggerThreadWrapper *)pInfo->UserData;
-
-    while ( 1 )
+    m_Mutex.Lock();
+    while ( !m_OperationQ.empty() )
       {
-
-      pInfo->ActiveFlagLock->Lock();
-      int activeFlag = *pInfo->ActiveFlag;
-      pInfo->ActiveFlagLock->Unlock();
-      if ( !activeFlag )
+      switch ( m_OperationQ.front() )
         {
-        break;
+        case Self::SET_PRIORITY_LEVEL:
+          this->m_PriorityLevel = m_LevelQ.front();
+          m_LevelQ.pop();
+          break;
+
+        case Self::SET_LEVEL_FOR_FLUSHING:
+          this->m_LevelForFlushing = m_LevelQ.front();
+          m_LevelQ.pop();
+          break;
+
+        case Self::ADD_LOG_OUTPUT:
+          this->m_Output->AddLogOutput( m_OutputQ.front() );
+          m_OutputQ.pop();
+          break;
+
+        case Self::WRITE:
+          SimpleLoggerType::Write( m_LevelQ.front(), m_MessageQ.front() );
+          m_LevelQ.pop();
+          m_MessageQ.pop();
+          break;
         }
-
-      pLogger->m_Mutex.Lock();
-      while ( !pLogger->m_OperationQ.empty() )
-        {
-        switch ( pLogger->m_OperationQ.front() )
-          {
-          case Self::SET_PRIORITY_LEVEL:
-            pLogger->m_PriorityLevel = pLogger->m_LevelQ.front();
-            pLogger->m_LevelQ.pop();
-            break;
-
-          case Self::SET_LEVEL_FOR_FLUSHING:
-            pLogger->m_LevelForFlushing = pLogger->m_LevelQ.front();
-            pLogger->m_LevelQ.pop();
-            break;
-
-          case Self::ADD_LOG_OUTPUT:
-            pLogger->m_Output->AddLogOutput( pLogger->m_OutputQ.front() );
-            pLogger->m_OutputQ.pop();
-            break;
-
-          case Self::WRITE:
-            pLogger->SimpleLoggerType::Write( pLogger->m_LevelQ.front(), pLogger->m_MessageQ.front() );
-            pLogger->m_LevelQ.pop();
-            pLogger->m_MessageQ.pop();
-            break;
-          }
-        pLogger->m_OperationQ.pop();
-        }
-      pLogger->m_Mutex.Unlock();
-      pLogger->SimpleLoggerType::Flush();
-      itksys::SystemTools::Delay(pLogger->GetDelay());
+      m_OperationQ.pop();
       }
+    m_Mutex.Unlock();
+    SimpleLoggerType::Flush();
+    itksys::SystemTools::Delay(this->GetDelay());
     }
-  return ITK_THREAD_RETURN_VALUE;
 }
 
 /** Print contents of a LoggerThreadWrapper */
@@ -230,7 +215,7 @@ void LoggerThreadWrapper< SimpleLoggerType >::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Thread ID: " << this->m_ThreadID << std::endl;
+  os << indent << "Thread ID: " << this->m_Thread.get_id() << std::endl;
   os << indent << "Low-priority Message Delay: " << this->m_Delay << std::endl;
   os << indent << "Operation Queue Size: " << this->m_OperationQ.size() << std::endl;
   os << indent << "Message Queue Size: " << this->m_MessageQ.size() << std::endl;

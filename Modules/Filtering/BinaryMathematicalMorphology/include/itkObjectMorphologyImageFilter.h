@@ -190,9 +190,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
+  void  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value. */

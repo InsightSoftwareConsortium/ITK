@@ -21,10 +21,10 @@
 
 #include "itkSimpleFilterWatcher.h"
 #include "itkBinaryContourImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkBinaryContourImageFilterTest(int argc, char * argv[])
 {
-
   if( argc != 6 )
     {
     std::cerr << "usage: " << argv[0] << " intput output fullyConnected fg bg" << std::endl;
@@ -46,6 +46,8 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
   using FilterType = itk::BinaryContourImageFilter< IType, IType >;
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryContourImageFilter, InPlaceImageFilter);
+
   // test default values
   if ( filter->GetFullyConnected( ) != false )
     {
@@ -63,46 +65,9 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  //
-  // Tests for raising code coverage
-  //
-  try
-    {
-    filter->Update();
-    std::cerr << "Failed to throw expected exception" << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cout << excp << std::endl;
-    std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
-    }
+  TRY_EXPECT_EXCEPTION(filter->Update());
 
-  filter->FullyConnectedOn();
-  if( !filter->GetFullyConnected() )
-    {
-    std::cerr << "Set/GetFullyConnected() error" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
-  // set the inputs
-  filter->SetInput( reader->GetOutput() );
-
-  filter->FullyConnectedOff();
-  if( filter->GetFullyConnected() )
-    {
-    std::cerr << "Set/GetFullyConnected() error" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
-  filter->SetFullyConnected( atoi(argv[3]) );
-  if ( filter->GetFullyConnected( ) != (bool)atoi(argv[3]) )
-    {
-    std::cerr << "Set/Get FullyConnected problem." << std::endl;
-    return EXIT_FAILURE;
-    }
+  TEST_SET_GET_BOOLEAN(filter, FullyConnected, atoi(argv[3]));
 
   filter->SetForegroundValue( atoi(argv[4]) );
   if ( filter->GetForegroundValue( ) != atoi(argv[4]) )
@@ -118,24 +83,16 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
+  filter->SetInput(reader->GetOutput());
+
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter< IType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
 
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
-
 }

@@ -28,9 +28,6 @@ namespace itk
 namespace Testing
 {
 
-//
-// Constructor
-//
 template<typename TImageType>
 HashImageFilter<TImageType>::HashImageFilter() :
   m_HashFunction(MD5)
@@ -41,9 +38,7 @@ HashImageFilter<TImageType>::HashImageFilter() :
   this->InPlaceOn();
 }
 
-//
-// MakeOutput
-//
+
 template<typename TImageType>
 typename HashImageFilter<TImageType>::DataObjectPointer
 HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx)
@@ -55,20 +50,11 @@ HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx)
   return Superclass::MakeOutput(idx);
 }
 
-//
-// AfterThreadedGenerateData
-//
+
 template<typename TImageType>
 void
 HashImageFilter<TImageType>::AfterThreadedGenerateData()
 {
-  // NOTE: We have choose our super class to be the
-  // CastImageFilter. The filter is derived from the
-  // InPlaceFilter. The CastImageFilter will copy its input, in the
-  // best fashion based on the InPlace setting. We want the
-  // behavior. This methods is called after the caster has done it's
-  // work.
-
   Superclass::AfterThreadedGenerateData();
 
   using ImageType = TImageType;
@@ -82,7 +68,6 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
   try
     {
     typename ImageType::ConstPointer input = this->GetInput();
-
 
     // make a good guess about the number of components in each pixel
     size_t numberOfComponent =   sizeof(PixelType) / sizeof(ValueType );
@@ -139,9 +124,6 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
 }
 
 
-//
-// EnlargeOutputRequestedRegion
-//
 template<typename TImageType>
 void
 HashImageFilter<TImageType>::EnlargeOutputRequestedRegion(DataObject *data)
@@ -153,9 +135,7 @@ HashImageFilter<TImageType>::EnlargeOutputRequestedRegion(DataObject *data)
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-//
-// PrintSelf
-//
+
 template<typename TImageType>
 void
 HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const

@@ -45,7 +45,6 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 
   //  #1 "ReferenceImage" optional
   Self::AddOptionalInputName("ReferenceImage",1);
-
 }
 
 
@@ -160,7 +159,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 template< typename TOutputImage, typename TParametersValueType>
 void
 TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId )
+::DynamicThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
 {
   const TransformType * transform = this->GetInput()->Get();
   // Check whether we can use a fast path for resampling. Fast path
@@ -168,20 +167,20 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   // to the IsLinear() call.
   if ( transform->IsLinear() )
     {
-    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
+    this->LinearThreadedGenerateData(outputRegionForThread);
     return;
     }
 
   // Otherwise, we use the normal method where the transform is called
   // for computing the transformation of every point.
-  this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
+  this->NonlinearThreadedGenerateData(outputRegionForThread);
 }
 
 
 template< typename TOutputImage, typename TParametersValueType>
 void
 TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::NonlinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId )
+::NonlinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
 {
   // Get the output pointer
   OutputImageType * output = this->GetOutput();
@@ -197,9 +196,6 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   PointType transformedPoint;    // Coordinates of transformed pixel
   PixelType displacement;         // the difference
 
-  // Support for progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Walk the output region
   outIt.GoToBegin();
   while ( !outIt.IsAtEnd() )
@@ -211,12 +207,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
     transformedPoint = transform->TransformPoint( outputPoint );
 
     displacement = transformedPoint - outputPoint;
-
-    // Set it
     outIt.Set( displacement );
-
-    // Update progress and iterator
-    progress.CompletedPixel();
     ++outIt;
     }
 }
@@ -225,7 +216,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 template< typename TOutputImage, typename TParametersValueType>
 void
 TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId )
+::LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
 {
   // Get the output pointer
   OutputImageType * output = this->GetOutput();
@@ -244,9 +235,6 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   PixelType displacement;         // the difference
 
   IndexType index;
-
-  // Support for progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Determine the position of the first pixel in the scanline
   outIt.GoToBegin();
@@ -281,12 +269,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
     while ( !outIt.IsAtEndOfLine() )
       {
       displacement = transformedPoint - outputPoint;
-
-      // Set it
       outIt.Set( displacement );
-
-      // Update stuff
-      progress.CompletedPixel();
       ++outIt;
       transformedPoint += delta;
       }

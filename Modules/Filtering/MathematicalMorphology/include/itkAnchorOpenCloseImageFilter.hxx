@@ -36,8 +36,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >
 void
 AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
-::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread)
 {
   // check that we are using a decomposable kernel
   if ( !this->GetKernel().GetDecomposable() )
@@ -58,8 +57,6 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
   AnchorLineDilateType AnchorLineDilate;
 
   AnchorLineOpenType AnchorLineOpen;
-
-  ProgressReporter progress(this, threadId, static_cast<SizeValueType>( this->GetKernel().GetLines().size() )* 2 + 1);
 
   InputImageConstPointer input = this->GetInput();
 
@@ -116,7 +113,6 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 
     // after the first pass the input will be taken from the output
     input = internalbuffer;
-    progress.CompletedPixel();
     }
   // now do the opening in the middle of the chain
     {
@@ -139,8 +135,6 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
                TheseOffsets, buffer,
                IReg, BigFace);
     // equivalent to two passes
-    progress.CompletedPixel();
-    progress.CompletedPixel();
     }
 
   // Now for the rest of the dilations -- note that i needs to be signed
@@ -162,8 +156,6 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
                   AnchorLineDilateType,
                   KernelLType >(input, output, m_Boundary2, ThisLine, AnchorLineDilate,
                                 TheseOffsets, inbuffer, buffer, IReg, BigFace);
-
-    progress.CompletedPixel();
     }
 
   // copy internal buffer to output
@@ -174,8 +166,6 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
     {
     oit.Set( iit.Get() );
     }
-  progress.CompletedPixel();
-
 }
 
 template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >

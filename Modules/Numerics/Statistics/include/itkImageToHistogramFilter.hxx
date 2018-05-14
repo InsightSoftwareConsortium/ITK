@@ -94,63 +94,28 @@ ImageToHistogramFilter< TImage >
   output->Graft(graft);
 }
 
-
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::BeforeThreadedGenerateData()
+::GenerateData()
 {
-  // find the actual number of threads
-  long nbOfThreads = this->GetNumberOfThreads();
-  if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
-    }
-  // number of threads can be constrained by the region size, so call the
-  // SplitRequestedRegion
-  // to get the real number of threads which will be used
-  RegionType splitRegion;  // dummy region - just to call the following method
-  nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
+  this->UpdateProgress(0.0f);
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
 
-  // and allocate one histogram per thread
-  m_Histograms.resize(nbOfThreads);
-  m_Minimums.resize(nbOfThreads);
-  m_Maximums.resize(nbOfThreads);
-  m_Barrier = Barrier::New();
-  m_Barrier->Initialize(nbOfThreads);
-}
-
-
-template< typename TImage >
-void
-ImageToHistogramFilter< TImage >
-::ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId)
-{
-  long nbOfPixels = inputRegionForThread.GetNumberOfPixels();
-  if( this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum() )
+  m_Histograms[0] = this->GetOutput(); // just use the main one
+  m_Histograms[0]->SetClipBinsAtEnds(true);
+  for (unsigned i=1; i<m_Histograms.size(); i++)
     {
-    // we'll have to iterate over all the pixels 2 times
-    nbOfPixels *= 2;
+    m_Histograms[i] = HistogramType::New();
+    m_Histograms[i]->SetClipBinsAtEnds(true);
     }
-  ProgressReporter progress( this, threadId, nbOfPixels );
-
-  if( threadId == 0 )
-    {
-    // just use the main one
-    m_Histograms[threadId] = this->GetOutput();
-    }
-  else
-    {
-    m_Histograms[threadId] = HistogramType::New();
-    }
-  HistogramType * hist = m_Histograms[threadId];
-  hist->SetClipBinsAtEnds(true);
 
   // the parameter needed to initialize the histogram
   unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
-  HistogramSizeType size( nbOfComponents );
-  HistogramMeasurementVectorType min( nbOfComponents );
-  HistogramMeasurementVectorType max( nbOfComponents );
+  HistogramSizeType size(nbOfComponents);
+  HistogramMeasurementVectorType min(nbOfComponents);
+  HistogramMeasurementVectorType max(nbOfComponents);
   if( this->GetHistogramSizeInput() )
     {
     // user provided value
@@ -162,39 +127,26 @@ ImageToHistogramFilter< TImage >
     size.Fill(256);
     }
 
+  this->UpdateProgress(0.01f);
+  //HistogramType * hist = m_Histograms[threadId];
+
   if( this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum() )
     {
     // we have to compute the minimum and maximum values
-    this->ThreadedComputeMinimumAndMaximum( inputRegionForThread, threadId, progress );
+    this->ClassicMultiThread(this->ThreaderMinMaxCallback); //calls ThreadedComputeMinimumAndMaximum
+    this->UpdateProgress(0.3f);
 
-    // wait for the other threads to complete their part
-    m_Barrier->Wait();
-
-    // a non multithreaded part
-    if( threadId == 0 )
-      {
-      min = m_Minimums[0];
-      max = m_Maximums[0];
-      for( unsigned int t=1; t<m_Minimums.size(); t++ )
-        {
-        for( unsigned int i=0; i<nbOfComponents; i++ )
-          {
-          min[i] = std::min( min[i], m_Minimums[t][i] );
-          max[i] = std::max( max[i], m_Maximums[t][i] );
-          }
-        }
-      this->ApplyMarginalScale( min, max, size );
-      // store the values so they can be retreived by the other threads
-      m_Minimums[0] = min;
-      m_Maximums[0] = max;
-      }
-
-    // wait for all the threads to complete
-    m_Barrier->Wait();
-
-    // and get the values computed in the main thread
     min = m_Minimums[0];
     max = m_Maximums[0];
+    for( unsigned int t=1; t<m_Minimums.size(); t++ )
+      {
+      for( unsigned int i=0; i<nbOfComponents; i++ )
+        {
+        min[i] = std::min( min[i], m_Minimums[t][i] );
+        max[i] = std::max( max[i], m_Maximums[t][i] );
+        }
+      }
+    this->ApplyMarginalScale( min, max, size );
     }
   else
     {
@@ -217,14 +169,69 @@ ImageToHistogramFilter< TImage >
       }
     }
 
-  // finally, initialize the histogram
-  hist->SetMeasurementVectorSize( nbOfComponents );
-  hist->Initialize( size, min, max );
+  // finally, initialize the histograms
+  for (unsigned i=0; i<m_Histograms.size(); i++)
+    {
+    m_Histograms[i]->SetMeasurementVectorSize(nbOfComponents);
+    m_Histograms[i]->Initialize(size, min, max);
+    }
 
-  // now fill the histograms
-  this->ThreadedComputeHistogram( inputRegionForThread, threadId, progress );
+  this->ClassicMultiThread(this->ThreaderCallback); //parallelizes ThreadedGenerateData
+  this->UpdateProgress(0.8f);
+
+  this->AfterThreadedGenerateData();
+  this->UpdateProgress(1.0f);
 }
 
+
+template< typename TImage >
+ITK_THREAD_RETURN_TYPE
+ImageToHistogramFilter< TImage >
+::ThreaderMinMaxCallback(void *arg)
+{
+  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
+  ThreadIdType threadId = threadInfo->ThreadID;
+  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  using FilterStruct = typename ImageTransformer< TImage >::ThreadStruct;
+  FilterStruct* str = (FilterStruct *)(threadInfo->UserData);
+  Self* filter = static_cast<Self*>(str->Filter.GetPointer());
+
+  // execute the actual method with appropriate output region
+  // first find out how many pieces extent can be split into.
+  typename TImage::RegionType splitRegion;
+  ThreadIdType total = filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+
+  if ( threadId < total )
+    {
+    filter->ThreadedComputeMinimumAndMaximum(splitRegion, threadId);
+    }
+  // else don't use this thread. Threads were not split conveniently.
+  return ITK_THREAD_RETURN_VALUE;
+}
+
+template< typename TImage >
+void
+ImageToHistogramFilter< TImage >
+::BeforeThreadedGenerateData()
+{
+  // find the actual number of threads
+  long nbOfThreads = this->GetNumberOfThreads();
+  if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
+    {
+    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
+    }
+  // number of threads can be constrained by the region size, so call the
+  // SplitRequestedRegion
+  // to get the real number of threads which will be used
+  RegionType splitRegion;  // dummy region - just to call the following method
+  nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
+
+  // and allocate one histogram per thread
+  m_Histograms.resize(nbOfThreads);
+  m_Minimums.resize(nbOfThreads);
+  m_Maximums.resize(nbOfThreads);
+}
 
 template< typename TImage >
 void
@@ -252,14 +259,13 @@ ImageToHistogramFilter< TImage >
   m_Histograms.clear();
   m_Minimums.clear();
   m_Maximums.clear();
-  m_Barrier = nullptr;
 }
 
 
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
+::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread, ThreadIdType threadId )
 {
   unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramMeasurementVectorType min( nbOfComponents );
@@ -280,7 +286,6 @@ ImageToHistogramFilter< TImage >
       min[i] = std::min( m[i], min[i] );
       max[i] = std::max( m[i], max[i] );
       }
-    progress.CompletedPixel();  // potential exception thrown here
     ++inputIt;
     }
   m_Minimums[threadId] = min;
@@ -290,7 +295,7 @@ ImageToHistogramFilter< TImage >
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedComputeHistogram(const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
+::ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId)
 {
   unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );
@@ -305,7 +310,6 @@ ImageToHistogramFilter< TImage >
     m_Histograms[threadId]->GetIndex( m, index );
     m_Histograms[threadId]->IncreaseFrequencyOfIndex( index, 1 );
     ++inputIt;
-    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 

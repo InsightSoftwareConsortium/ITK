@@ -29,9 +29,7 @@
 #define itkPoolMultiThreader_h
 
 #include "itkMultiThreaderBase.h"
-#include "itkMutexLock.h"
-#include "itkThreadSupport.h"
-#include "itkIntTypes.h"
+
 
 #include "itkThreadPool.h"
 
@@ -70,20 +68,12 @@ public:
    * necessary. */
   void SingleMethodExecute() override;
 
-  void MultipleMethodExecute() override {}
   /** Set the SingleMethod to f() and the UserData field of the
    * ThreadInfoStruct that is passed to it will be data.
-   * This method (and all the methods passed to SetMultipleMethod)
-   * must be of type itkThreadFunctionType and must take a single argument of
-   * type void *. */
+   * This method must be of type itkThreadFunctionType and
+   * must take a single argument of type void. */
   void SetSingleMethod(ThreadFunctionType, void *data) override;
 
-  /** Set the MultipleMethod at the given index to f() and the UserData
-   * field of the ThreadInfoStruct that is passed to it will be data. */
-  void SetMultipleMethod(ThreadIdType, ThreadFunctionType, void *) override {}
-
-  ThreadIdType SpawnThread(ThreadFunctionType, void *) override {return 0;}
-  void TerminateThread(ThreadIdType) override {return;}
   using JobSemaphoreType = ThreadPool::Semaphore;
 
   struct ThreadPoolInfoStruct :ThreadInfoStruct
@@ -105,16 +95,11 @@ private:
    *  to void so that user data can be passed to each thread. */
   ThreadPoolInfoStruct m_ThreadInfoArray[ITK_MAX_THREADS];
 
-  /** The methods to invoke. */
-  ThreadFunctionType m_SingleMethod;
-
-  /** Internal storage of the data. */
-  void *m_SingleData;
-
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
    * Multithreader. */
   friend class ProcessObject;
 };
+
 }  // end namespace itk
 #endif

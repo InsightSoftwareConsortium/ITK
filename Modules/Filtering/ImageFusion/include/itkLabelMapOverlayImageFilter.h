@@ -19,7 +19,6 @@
 #define itkLabelMapOverlayImageFilter_h
 
 #include "itkLabelMapFilter.h"
-#include "itkBarrier.h"
 #include "itkLabelOverlayFunctor.h"
 #include "itkRGBPixel.h"
 
@@ -158,9 +157,15 @@ protected:
   /** LabelMapOverlayImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
 
-  void BeforeThreadedGenerateData() override;
+  void GenerateData() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
+  //part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
+  void SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
+  {
+    Superclass::DynamicThreadedGenerateData(outputRegion);
+  }
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
@@ -170,7 +175,6 @@ protected:
 
 private:
   double                    m_Opacity;
-  typename Barrier::Pointer m_Barrier;
   FunctorType               m_Functor;
 
 }; // end of class

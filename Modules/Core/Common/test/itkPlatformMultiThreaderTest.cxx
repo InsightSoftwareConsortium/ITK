@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkTestingMacros.h"
 
 bool VerifyRange(int value, int min, int max, const char * msg)
@@ -51,7 +51,7 @@ bool SetAndVerifyGlobalDefaultNumberOfThreads( int value )
         "Range error in DefaultNumberOfThreads");
 }
 
-bool SetAndVerifyNumberOfThreads( int value, itk::MultiThreader * threader )
+bool SetAndVerifyNumberOfThreads( int value, itk::PlatformMultiThreader * threader )
 {
   threader->SetNumberOfThreads( value );
   return VerifyRange( threader->GetNumberOfThreads(),
@@ -59,7 +59,7 @@ bool SetAndVerifyNumberOfThreads( int value, itk::MultiThreader * threader )
         "Range error in NumberOfThreads");
 }
 
-int itkMultiThreaderTest(int argc, char* argv[])
+int itkPlatformMultiThreaderTest(int argc, char* argv[])
 {
   // Choose a number of threads.
   int numberOfThreads = 10;
@@ -72,13 +72,13 @@ int itkMultiThreaderTest(int argc, char* argv[])
       }
     }
 
-  itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
+  itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
   if(threader.IsNull())
     {
     return EXIT_FAILURE;
     }
 
-  EXERCISE_BASIC_OBJECT_METHODS(threader, MultiThreader, MultiThreaderBase);
+  EXERCISE_BASIC_OBJECT_METHODS(threader, PlatformMultiThreader, MultiThreaderBase);
 
   itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads( numberOfThreads );
 
@@ -113,7 +113,7 @@ int itkMultiThreaderTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  itk::MultiThreader::Pointer threader2 = itk::MultiThreader::New();
+  itk::PlatformMultiThreader::Pointer threader2 = itk::PlatformMultiThreader::New();
 
   result &= SetAndVerifyNumberOfThreads( -1, threader2 );
   result &= SetAndVerifyNumberOfThreads(  0, threader2 );

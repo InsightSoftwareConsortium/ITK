@@ -192,7 +192,7 @@ protected:
  * BufferedRegions are defined during the final pass of a pipeline
  * update (when ProcessObjects finally calculate the bulk data via the
  * methods ProcessObject::GenerateData() or
- * ProcessObject::ThreadedGenerateData() which are called by
+ * ProcessObject::DynamicThreadedGenerateData() which are called by
  * ProcessObject::UpdateOutputData()). These three regions can be
  * different but must satisfy the relationship RequestedRegion <=
  * BufferedRegion <= LargestPossibleRegion. For instance, an Image

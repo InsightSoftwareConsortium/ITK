@@ -37,6 +37,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
   this->SetSurvivalThreshold(0);
   this->m_MajorityThreshold = 1;
   this->m_NumberOfPixelsChanged = 0;
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -167,9 +168,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template< typename TInputImage, typename TOutput >
 void
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutput >

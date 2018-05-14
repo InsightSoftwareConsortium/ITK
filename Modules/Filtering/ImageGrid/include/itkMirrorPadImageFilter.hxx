@@ -635,8 +635,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 MirrorPadImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int dimCtr, i;
   int          regCtr;
@@ -644,7 +643,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
   int          goodInput, goodOutput;
 
   // Are the regions non-empty?
-  itkDebugMacro(<< "MirrorPadImageFilter::ThreadedGenerateData");
+  itkDebugMacro(<< "MirrorPadImageFilter::DynamicThreadedGenerateData");
 
   // Get the input and output pointers
   const InputImageType *inputPtr = this->GetInput();
@@ -744,9 +743,6 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
                               numPost[dimCtr], regCtr);
     }
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Define/declare iterators that will walk the input and output regions
   // for this thread.
   using OutputIterator = ImageRegionIterator< TOutputImage >;
@@ -774,7 +770,6 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
       if ( inputRegion == outputRegion ) //this is an inner region which only needs to be copied
         {
         ImageAlgorithm::Copy(inputPtr, outputPtr, inputRegion, outputRegion);
-        // progress reporting not easy to do with this approach
         }
       else //this is a padding region, which might need exponential decay
         {
@@ -808,7 +803,6 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
           const typename OutputImageType::PixelType outVal( RealPixelType(inIt.Get()) * decayFactor );
 
           outIt.Set( outVal );
-          progress.CompletedPixel();
           }
         }
       }

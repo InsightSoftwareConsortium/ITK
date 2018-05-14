@@ -26,9 +26,6 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
 template< typename TInputImage, typename TOutputImage >
 ExpandImageFilter< TInputImage, TOutputImage >
 ::ExpandImageFilter()
@@ -45,12 +42,9 @@ ExpandImageFilter< TInputImage, TOutputImage >
 
   m_Interpolator = static_cast< InterpolatorType * >(
     interp.GetPointer() );
-
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
@@ -97,9 +91,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * BeforeThreadedGenerateData
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
@@ -114,14 +106,11 @@ ExpandImageFilter< TInputImage, TOutputImage >
   m_Interpolator->SetInputImage( this->GetInput() );
 }
 
-/**
- * ThreadedGenerateData
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
@@ -132,15 +121,11 @@ ExpandImageFilter< TInputImage, TOutputImage >
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Report progress on a per scanline basis
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if( size0 == 0)
+  const SizeValueType ln = outputRegionForThread.GetSize(0);
+  if( ln == 0)
     {
     return;
     }
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
-
-  const size_t ln =  outputRegionForThread.GetSize(0);
 
   // Walk the output region, and interpolate the input image
   while ( !outIt.IsAtEnd() )
@@ -176,13 +161,10 @@ ExpandImageFilter< TInputImage, TOutputImage >
       }
 
     outIt.NextLine();
-    progress.CompletedPixel();
     }
 }
 
-/**
- * GenerateInputRequesteRegion
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
@@ -234,9 +216,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
   inputPtr->SetRequestedRegion(inputRequestedRegion);
 }
 
-/**
- * GenerateOutputInformation
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >

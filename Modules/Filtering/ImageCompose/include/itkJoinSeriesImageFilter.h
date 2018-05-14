@@ -119,8 +119,8 @@ protected:
   /** JoinSeriesImageFilter can be implemented as a multithreaded filter.
    * \sa ImageSource::ThreadedGenerateData(),
    *     ImageSource::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType &
-                                    outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 
 private:
   /** IndexValueType is used to switch among the inputs and

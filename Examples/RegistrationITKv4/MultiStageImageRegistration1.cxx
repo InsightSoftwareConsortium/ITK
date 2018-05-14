@@ -73,7 +73,6 @@
 //  The following section of code implements a Command observer
 //  that will monitor the configurations of the registration process
 //  at every change of stage and resolution level.
-//
 template <typename TRegistration>
 class RegistrationInterfaceCommand : public itk::Command
 {
@@ -113,9 +112,9 @@ public:
 
     unsigned int currentLevel = registration->GetCurrentLevel();
     typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
-                                              registration->GetShrinkFactorsPerDimension( currentLevel );
+        registration->GetShrinkFactorsPerDimension( currentLevel );
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
-                                                            registration->GetSmoothingSigmasPerLevel();
+        registration->GetSmoothingSigmasPerLevel();
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << " Current multi-resolution level = " << currentLevel << std::endl;
@@ -127,7 +126,6 @@ public:
 
 //  The following section of code implements an observer
 //  that will monitor the evolution of the registration process.
-//
 class CommandIterationUpdate : public itk::Command
 {
 public:
@@ -682,7 +680,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   // Set the other parameters of optimizer
-  //
   affineOptimizer->SetLowerLimit( 0 );
   affineOptimizer->SetUpperLimit( 2 );
   affineOptimizer->SetEpsilon( 0.2 );
@@ -723,7 +720,6 @@ int main( int argc, char *argv[] )
 
   // Create the Registration interface observer and register it with the registration
   // object.
-  //
   using AffineCommandType = RegistrationInterfaceCommand<ARegistrationType>;
   AffineCommandType::Pointer command2 = AffineCommandType::New();
   affineRegistration->AddObserver( itk::MultiResolutionIterationEvent(), command2 );
@@ -919,9 +915,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  //
   // Generate checkerboards before and after registration
-  //
   using CheckerBoardFilterType = itk::CheckerBoardImageFilter< FixedImageType >;
 
   CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();

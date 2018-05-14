@@ -27,9 +27,6 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
 template< typename TInputImage, typename TOutputImage >
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::VectorExpandImageFilter()
@@ -41,11 +38,9 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
     }
 
   // Setup the default interpolator
-  typename DefaultInterpolatorType::Pointer interp =
-    DefaultInterpolatorType::New();
+  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
 
-  m_Interpolator =
-    static_cast< InterpolatorType * >( interp.GetPointer() );
+  m_Interpolator = static_cast< InterpolatorType * >( interp.GetPointer() );
 
 //TEST_RMV20100728   // Set default padding value to zero
 //TEST_RMV20100728   for( unsigned int k = 0; k < VectorDimension; k++ )
@@ -55,9 +50,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 //TEST_RMV20100728     }
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
@@ -82,9 +75,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 //TEST_RMV20100728     << std::endl;
 }
 
-/**
- * Set expand factors from a single unsigned int
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
@@ -132,9 +123,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 //TEST_RMV20100728
 //TEST_RMV20100728}
 
-/**
- * BeforeThreadedGenerateData
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
@@ -149,21 +138,14 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   m_Interpolator->SetInputImage( this->GetInput() );
 }
 
-/**
- * ThreadedGenerateData
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
-
-  // Iterator for walking the output
   using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
-
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input
@@ -175,9 +157,6 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 
   OutputPixelType  outputValue;
   InterpolatedType interpolatedValue;
-
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Walk the output region, and interpolate the input image
   while ( !outIt.IsAtEnd() )
@@ -218,13 +197,10 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 //TEST_RMV20100728      outIt.Set( m_EdgePaddingValue );
       }
     ++outIt;
-    progress.CompletedPixel();
     }
 }
 
-/**
- * GenerateInputRequesteRegion
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
@@ -296,9 +272,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * GenerateOutputInformation
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >

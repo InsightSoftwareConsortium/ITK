@@ -25,14 +25,11 @@
 
 namespace itk
 {
-/**
- * Default constructor.
- */
+
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::WarpVectorImageFilter()
 {
-  // Setup the number of required inputs
   this->SetNumberOfRequiredInputs(2);
 
   // Setup default values
@@ -49,13 +46,10 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();
 
-  m_Interpolator =
-    static_cast< InterpolatorType * >( interp.GetPointer() );
+  m_Interpolator = static_cast< InterpolatorType * >( interp.GetPointer() );
 }
 
-/**
- * Standard PrintSelf method.
- */
+
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
@@ -123,9 +117,7 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
   this->ProcessObject::SetNthInput(1, field);
 }
 
-/**
- * Return a pointer to the displacement field.
- */
+
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 typename WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::DisplacementFieldType *
@@ -139,7 +131,7 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 /**
  * Setup state of filter before multi-threading.
  * InterpolatorType::SetInputImage is not thread-safe and hence
- * has to be setup before ThreadedGenerateData
+ * has to be setup before DynamicThreadedGenerateData
  */
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
@@ -155,28 +147,20 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_Interpolator->SetInputImage( this->GetInput() );
 }
 
-/**
- * Compute the output for the region specified by outputRegionForThread.
- */
+
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType threadId)
+::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer      outputPtr = this->GetOutput();
   DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
-  // iterator for the output image
   ImageRegionIteratorWithIndex< OutputImageType > outputIt(
     outputPtr, outputRegionForThread);
 
-  // iterator for the displacement field
   ImageRegionIterator< DisplacementFieldType > fieldIt(
     fieldPtr, outputRegionForThread);
 
@@ -187,11 +171,8 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 
   while ( !outputIt.IsAtEnd() )
     {
-    // get the output image index
     index = outputIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(index, point);
-
-    // get the required displacement
     displacement = fieldIt.Get();
 
     // compute the required input image point
@@ -219,7 +200,6 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
       }
     ++outputIt;
     ++fieldIt;
-    progress.CompletedPixel();
     }
 }
 

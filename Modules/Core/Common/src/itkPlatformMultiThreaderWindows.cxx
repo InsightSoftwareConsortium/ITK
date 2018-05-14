@@ -25,7 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
 #include <cstdlib>
@@ -35,7 +35,8 @@
 
 namespace itk
 {
-void MultiThreader::MultipleMethodExecute()
+#if !defined ( ITK_LEGACY_REMOVE )
+void PlatformMultiThreader::MultipleMethodExecute()
 {
   ThreadIdType threadCount;
 
@@ -101,7 +102,7 @@ void MultiThreader::MultipleMethodExecute()
     }
 }
 
-ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
+ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 {
   ThreadIdType id = 0;
 
@@ -149,7 +150,7 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
   return id;
 }
 
-void MultiThreader::TerminateThread(ThreadIdType ThreadID)
+void PlatformMultiThreader::TerminateThread(ThreadIdType ThreadID)
 {
   if( !m_SpawnedThreadActiveFlag[ThreadID] )
     {
@@ -164,9 +165,10 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
   CloseHandle(m_SpawnedThreadProcessID[ThreadID]);
   m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
 }
+#endif
 
 void
-MultiThreader
+PlatformMultiThreader
 ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using _beginthreadex on a PC
@@ -175,8 +177,8 @@ MultiThreader
 }
 
 ThreadProcessIdType
-MultiThreader
-::SpawnDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+PlatformMultiThreader
+::SpawnDispatchSingleMethodThread(PlatformMultiThreader::ThreadInfoStruct *threadInfo)
 {
   // Using _beginthreadex on a PC
   DWORD  threadId;

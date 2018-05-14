@@ -27,6 +27,7 @@
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
 #include "itkImageRegionSplitterDirection.h"
+#include "itkPlatformMultiThreader.h"
 
 namespace itk
 {
@@ -159,14 +160,16 @@ protected:
 
   using InternalLabelType = SizeValueType;
 
-  /**
-   * Standard pipeline method.
-   */
   void BeforeThreadedGenerateData() override;
 
   void AfterThreadedGenerateData() override;
 
   void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+
+  void DynamicThreadedGenerateData( const RegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
 
   /** BinaryImageToLabelMapFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().

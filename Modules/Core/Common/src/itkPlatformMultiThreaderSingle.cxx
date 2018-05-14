@@ -25,14 +25,15 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkMultiThreader.h"
+#include "itkPlatformMultiThreader.h"
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
 #include <cstdlib>
 
 namespace itk
 {
-void MultiThreader::MultipleMethodExecute()
+#if !defined ( ITK_LEGACY_REMOVE )
+void PlatformMultiThreader::MultipleMethodExecute()
 {
   ThreadIdType thread_loop;
 
@@ -57,7 +58,7 @@ void MultiThreader::MultipleMethodExecute()
   ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
 }
 
-ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType itkNotUsed( f ), void *UserData)
+ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType itkNotUsed( f ), void *UserData)
 {
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
@@ -65,15 +66,16 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType itkNotUsed( f ), void
   return -1;
 }
 
-void MultiThreader::TerminateThread(ThreadIdType ThreadID)
+void PlatformMultiThreader::TerminateThread(ThreadIdType ThreadID)
 {
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
   itkExceptionMacro(<< "Cannot terminate thread in single threaded environment!");
 }
+#endif
 
 void
-MultiThreader
+PlatformMultiThreader
 ::SpawnWaitForSingleMethodThread(ThreadProcessIdType itkNotUsed( threadHandle ))
 {
   // No threading library specified.  Do nothing.  No joining or waiting
@@ -81,8 +83,8 @@ MultiThreader
 }
 
 ThreadProcessIdType
-MultiThreader
-::SpawnDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct * itkNotUsed( threadInfo ))
+PlatformMultiThreader
+::SpawnDispatchSingleMethodThread(PlatformMultiThreader::ThreadInfoStruct * itkNotUsed( threadInfo ))
 {
   // No threading library specified.  Do nothing.  The computation
   // will be run by the main execution thread.

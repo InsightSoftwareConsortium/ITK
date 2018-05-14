@@ -18,7 +18,7 @@
 
 #include "itkMultiThreaderBase.h"
 
-int itkMultiThreaderEnvTest(int argc, char* argv[])
+int itkMultiThreadingEnvironmentTest(int argc, char* argv[])
 {
   // Choose a number of threads.
   if( argc != 2 )

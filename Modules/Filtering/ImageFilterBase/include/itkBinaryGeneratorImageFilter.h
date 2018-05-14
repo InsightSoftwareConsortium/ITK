@@ -139,18 +139,16 @@ public:
   void SetFunctor( const std::function<ConstRefFunctionType> &f)
   {
     // the closure create a copy of f
-    m_ThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
-      { return this->ThreadedGenerateDataWithFunctor(f, outputRegionForThread, threadId); };
-
+    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread)
+      { return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread); };
 
     this->Modified();
   }
  void SetFunctor( const std::function<ValueFunctionType> &f)
   {
     // the capture create a copy of f
-    m_ThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
-      { return this->ThreadedGenerateDataWithFunctor(f, outputRegionForThread, threadId); };
-
+    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread)
+      { return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread); };
 
     this->Modified();
   }
@@ -161,8 +159,8 @@ public:
    */
   void SetFunctor( ConstRefFunctionType *funcPointer)
   {
-    m_ThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
-      { return this->ThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread, threadId); };
+    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread)
+      { return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread); };
 
     this->Modified();
   }
@@ -170,8 +168,8 @@ public:
 
   void SetFunctor( ValueFunctionType *funcPointer)
   {
-    m_ThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
-      { return this->ThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread, threadId); };
+    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread)
+      { return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread); };
 
     this->Modified();
   }
@@ -189,8 +187,8 @@ public:
   void SetFunctor( const TFunctor &functor)
   {
     // the capture creates a copy of the functor
-    m_ThreadedGenerateDataFunction = [this, functor](const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
-      { return this->ThreadedGenerateDataWithFunctor(functor, outputRegionForThread, threadId); };
+    m_DynamicThreadedGenerateDataFunction = [this, functor](const OutputImageRegionType & outputRegionForThread)
+      { return this->DynamicThreadedGenerateDataWithFunctor(functor, outputRegionForThread); };
 
     this->Modified();
   }
@@ -230,17 +228,15 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   template <typename TFunctor>
-    void ThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread,
-                                         ThreadIdType threadId);
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+  void DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread);
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   // Needed to take the image information from the 2nd input, if the first one is
   // a simple decorated object.
   void GenerateOutputInformation() override;
 
 private:
-  std::function<void(const OutputImageRegionType &, ThreadIdType)> m_ThreadedGenerateDataFunction;
+  std::function<void(const OutputImageRegionType &)> m_DynamicThreadedGenerateDataFunction;
 };
 } // end namespace itk
 

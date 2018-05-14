@@ -25,17 +25,18 @@ namespace itk
 ThreadLogger
 ::ThreadLogger()
 {
-  this->m_Delay = 300; // ms
-  this->m_Threader = MultiThreader::New();
-  this->m_ThreadID = this->m_Threader->SpawnThread(ThreadFunction, this);
+  m_Delay = 300; // ms
+  m_TerminationRequested = false;
+  m_Thread = std::thread(&ThreadLogger::ThreadFunction, this);
 }
 
 ThreadLogger
 ::~ThreadLogger()
 {
-  if( this->m_Threader )
+  if( m_Thread.joinable() )
     {
-    this->m_Threader->TerminateThread(this->m_ThreadID);
+    m_TerminationRequested = true;
+    m_Thread.join(); //waits for it to finish if necessary
     }
 }
 
@@ -174,71 +175,46 @@ ThreadLogger
   this->m_Mutex.Unlock();
 }
 
-ITK_THREAD_RETURN_TYPE
+void
 ThreadLogger
-::ThreadFunction(void *pInfoStruct)
+::ThreadFunction()
 {
-  auto * pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
-
-  if ( pInfo == nullptr )
+  while ( !m_TerminationRequested )
     {
-    return ITK_THREAD_RETURN_VALUE;
-    }
-
-  if ( pInfo->UserData == nullptr )
-    {
-    return ITK_THREAD_RETURN_VALUE;
-    }
-
-  auto * pLogger = (ThreadLogger *)pInfo->UserData;
-
-  while ( 1 )
-    {
-
-
-    pInfo->ActiveFlagLock->Lock();
-    int activeFlag = *pInfo->ActiveFlag;
-    pInfo->ActiveFlagLock->Unlock();
-    if ( !activeFlag )
+    m_Mutex.Lock();
+    while ( !m_OperationQ.empty() )
       {
-      break;
-      }
-
-    pLogger->m_Mutex.Lock();
-    while ( !pLogger->m_OperationQ.empty() )
-      {
-      switch ( pLogger->m_OperationQ.front() )
+      switch ( m_OperationQ.front() )
         {
         case ThreadLogger::SET_PRIORITY_LEVEL:
-          pLogger->m_PriorityLevel = pLogger->m_LevelQ.front();
-          pLogger->m_LevelQ.pop();
+          m_PriorityLevel = m_LevelQ.front();
+          m_LevelQ.pop();
           break;
 
         case ThreadLogger::SET_LEVEL_FOR_FLUSHING:
-          pLogger->m_LevelForFlushing = pLogger->m_LevelQ.front();
-          pLogger->m_LevelQ.pop();
+          m_LevelForFlushing = m_LevelQ.front();
+          m_LevelQ.pop();
           break;
 
         case ThreadLogger::ADD_LOG_OUTPUT:
-          pLogger->m_Output->AddLogOutput( pLogger->m_OutputQ.front() );
-          pLogger->m_OutputQ.pop();
+          m_Output->AddLogOutput( m_OutputQ.front() );
+          m_OutputQ.pop();
           break;
 
         case ThreadLogger::WRITE:
-          pLogger->Logger::Write( pLogger->m_LevelQ.front(), pLogger->m_MessageQ.front() );
-          pLogger->m_LevelQ.pop();
-          pLogger->m_MessageQ.pop();
+          Logger::Write( m_LevelQ.front(), m_MessageQ.front() );
+          m_LevelQ.pop();
+          m_MessageQ.pop();
           break;
         case ThreadLogger::FLUSH:
-          pLogger->Logger::Flush();
+          Logger::Flush();
           break;
         }
-      pLogger->m_OperationQ.pop();
+      m_OperationQ.pop();
       }
-    pLogger->m_Mutex.Unlock();
-    itksys::SystemTools::Delay(pLogger->GetDelay());
+    m_Mutex.Unlock();
+    itksys::SystemTools::Delay(this->GetDelay());
     }
-  return ITK_THREAD_RETURN_VALUE;
 }
 
 void
@@ -247,7 +223,7 @@ ThreadLogger
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Thread ID: " << this->m_ThreadID << std::endl;
+  os << indent << "Thread ID: " << this->m_Thread.get_id() << std::endl;
   os << indent << "Low-priority Message Delay: " << this->m_Delay << std::endl;
   os << indent << "Operation Queue Size: " << this->m_OperationQ.size() << std::endl;
   os << indent << "Message Queue Size: " << this->m_MessageQ.size() << std::endl;

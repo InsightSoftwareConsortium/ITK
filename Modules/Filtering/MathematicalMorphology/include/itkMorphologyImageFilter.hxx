@@ -38,8 +38,7 @@ MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Neighborhood iterators
   NeighborhoodIteratorType b_iter;
@@ -52,8 +51,6 @@ MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
 
   ImageRegionIterator< TOutputImage > o_iter;
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Process the boundary faces, these are N-d regions which border the
   // edge of the buffer
@@ -75,7 +72,6 @@ MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
       o_iter.Set( this->Evaluate(b_iter, kernelBegin, kernelEnd) );
       ++b_iter;
       ++o_iter;
-      progress.CompletedPixel();
       }
     }
 }

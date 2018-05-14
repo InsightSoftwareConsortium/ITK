@@ -54,6 +54,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
+  this->DynamicMultiThreadingOff();
 
   this->InPlaceOff();
 }
@@ -344,6 +345,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
   os << indent << "Direction: " << m_Direction << std::endl;
 }
+
 } // end namespace itk
 
 #endif

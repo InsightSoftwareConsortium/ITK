@@ -30,7 +30,12 @@
 
 #include "itkObject.h"
 #include "itkThreadSupport.h"
+#include "itkObjectFactory.h"
 #include "itkIntTypes.h"
+#include "itkImageRegion.h"
+#include "itkImageIORegion.h"
+#include <functional>
+#include <thread>
 
 
 namespace itk
@@ -49,6 +54,8 @@ namespace itk
  */
 
 struct MultiThreaderBaseGlobals;
+
+class ProcessObject;
 
 class ITKCommon_EXPORT MultiThreaderBase : public Object
 {
@@ -71,7 +78,6 @@ public:
    * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
    * check that the requested number of threads was accepted. */
   virtual void SetNumberOfThreads(ThreadIdType numberOfThreads);
-
   itkGetConstMacro(NumberOfThreads, ThreadIdType);
 
   /** Set/Get the maximum number of threads to use when multithreading.  It
@@ -80,22 +86,63 @@ public:
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
   static void SetGlobalMaximumNumberOfThreads(ThreadIdType val);
-  static ThreadIdType  GetGlobalMaximumNumberOfThreads();
+  static ThreadIdType GetGlobalMaximumNumberOfThreads();
 
   /** Set/Get whether to use the to use the thread pool
    * implementation or the spawing implementation of
    * starting threads.
-   */
-  static void SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool );
-  static bool GetGlobalDefaultUseThreadPool( );
+   *
+   * Deprecated: use Get/Set GlobalDefaultThreader. */
+  itkLegacyMacro(static void SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool ));
+  itkLegacyMacro(static bool GetGlobalDefaultUseThreadPool( ));
+
+  /** Currently supported types of multi-threader implementations.
+   * Last will change with additional implementations. */
+  enum class ThreaderType { Platform = 0, First = Platform, Pool, TBB, Last = TBB, Unknown = -1 };
+
+  /** Convert a threader name into its enum type. */
+  static ThreaderType ThreaderTypeFromString(std::string threaderString);
+
+  /** Convert a threader enum type into a string for displaying or logging. */
+  static std::string ThreaderTypeToString(ThreaderType threader)
+  {
+    switch (threader)
+      {
+      case ThreaderType::Platform:
+        return "Platform";
+        break;
+      case ThreaderType::Pool:
+        return "Pool";
+        break;
+      case ThreaderType::TBB:
+        return "TBB";
+        break;
+      default:
+        return "Unknown";
+        break;
+      }
+  }
+
+  /** Set/Get whether the default multi-threader implementation.
+   *
+   * The default multi-threader type is picked up from ITK_GLOBAL_DEFAULT_THEADER
+   * environment variable. Example ITK_GLOBAL_DEFAULT_THEADER=TBB
+   * A deprecated ITK_USE_THREADPOOL environment variable is also examined,
+   * but it can only choose Pool or Platform multi-threader.
+   * Platform multi-threader should be avoided,
+   * as it introduces the biggest overhead.
+   *
+   * If the SetGlobalDefaultThreaderType API is ever used by the developer,
+   * the developer's choice is respected over the environment variables. */
+  static void SetGlobalDefaultThreader(ThreaderType threaderType);
+  static ThreaderType GetGlobalDefaultThreader();
 
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
   static void SetGlobalDefaultNumberOfThreads(ThreadIdType val);
-
-  static ThreadIdType  GetGlobalDefaultNumberOfThreads();
+  static ThreadIdType GetGlobalDefaultNumberOfThreads();
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
@@ -118,12 +165,6 @@ public:
    * necessary. */
   virtual void SingleMethodExecute() = 0;
 
-  /** Execute the MultipleMethods (as define by calling SetMultipleMethod for
-   * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
-   * threads. As a side effect the m_NumberOfThreads will be checked against the
-   * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
-  virtual void MultipleMethodExecute() = 0;
-
   /** Set the SingleMethod to f() and the UserData field of the
    * ThreadInfoStruct that is passed to it will be data.
    * This method (and all the methods passed to SetMultipleMethod)
@@ -131,17 +172,43 @@ public:
    * type void *. */
   virtual void SetSingleMethod(ThreadFunctionType, void *data) = 0;
 
-  /** Set the MultipleMethod at the given index to f() and the UserData
-   * field of the ThreadInfoStruct that is passed to it will be data. */
-  virtual void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data) = 0;
+  template <unsigned int VDimension>
+  using TemplatedThreadingFunctorType = std::function<void(const ImageRegion<VDimension> &)>;
+  using ThreadingFunctorType = std::function<void(
+      const IndexValueType index[],
+      const SizeValueType size[])>;
 
-  /** Create a new thread for the given function. Return a thread id
-     * which is a number between 0 and ITK_MAX_THREADS - 1. This
-   * id should be used to kill the thread at a later time. */
-  virtual ThreadIdType SpawnThread(ThreadFunctionType, void *data) = 0;
+  /** Break up region into smaller chunks, and call the function with chunks as parameters.
+   * If filter argument is not nullptr, this function will update its progress
+   * as each work unit is completed. */
+  template<unsigned int VDimension>
+  void ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TemplatedThreadingFunctorType<VDimension> funcP, ProcessObject* filter)
+  {
+    this->ParallelizeImageRegion(
+        VDimension,
+        requestedRegion.GetIndex().m_InternalArray,
+        requestedRegion.GetSize().m_InternalArray,
+        [funcP](const IndexValueType index[], const SizeValueType size[])
+    {
+      ImageRegion<VDimension> region;
+      for (unsigned d = 0; d < VDimension; d++)
+        {
+        region.SetIndex(d, index[d]);
+        region.SetSize(d, size[d]);
+        }
+      funcP(region);
+        },
+        filter);
+  }
 
-  /** Terminate the thread that was created with a SpawnThreadExecute() */
-  virtual void TerminateThread(ThreadIdType thread_id) = 0;
+  /** Break up region into smaller chunks, and call the function with chunks as parameters.
+   *  This overload does the actual work and should be implemented by derived classes. */
+  virtual void ParallelizeImageRegion(
+      unsigned int dimension,
+      const IndexValueType index[],
+      const SizeValueType size[],
+      ThreadingFunctorType funcP,
+      ProcessObject* filter);
 
   /** Set/Get the pointer to MultiThreaderBaseGlobals.
    * Note that these functions are not part of the public API and should not be
@@ -156,6 +223,19 @@ protected:
   ~MultiThreaderBase() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+  struct RegionAndCallback
+  {
+    ThreadingFunctorType functor;
+    unsigned int dimension;
+    const IndexValueType* index;
+    const SizeValueType* size;
+    ProcessObject* filter;
+    std::thread::id callingThread;
+    SizeValueType pixelCount;
+    std::atomic<SizeValueType> pixelProgress;
+  };
+
+  static ITK_THREAD_RETURN_TYPE ParallelizeImageRegionHelper(void *arg);
 
   /** The number of threads to use.
    *  The m_NumberOfThreads must always be less than or equal to
@@ -176,6 +256,12 @@ protected:
   * exceptions thrown by the threads. */
   static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
 
+  /** The method to invoke. */
+  ThreadFunctionType m_SingleMethod;
+
+  /** The data to be passed as argument. */
+  void *m_SingleData;
+
 private:
   static MultiThreaderBaseGlobals * m_MultiThreaderBaseGlobals;
   /** Friends of Multithreader.
@@ -183,5 +269,9 @@ private:
    * Multithreader. */
   friend class ProcessObject;
 };
+
+ITKCommon_EXPORT std::ostream& operator << (std::ostream& os,
+    const MultiThreaderBase::ThreaderType& threader);
+
 }  // end namespace itk
 #endif

@@ -19,7 +19,6 @@
 #define itkLabelMapMaskImageFilter_h
 
 #include "itkLabelMapFilter.h"
-#include "itkBarrier.h"
 
 namespace itk {
 
@@ -160,9 +159,15 @@ protected:
 
   void GenerateOutputInformation() override;
 
-  void BeforeThreadedGenerateData() override;
+  void GenerateData() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
+
+  //part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
+  void SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
+  {
+    Superclass::DynamicThreadedGenerateData(outputRegion);
+  }
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
@@ -176,9 +181,6 @@ private:
   SizeType                  m_CropBorder;
 
   TimeStamp                 m_CropTimeStamp;
-
-  typename Barrier::Pointer m_Barrier;
-
 }; // end of class
 
 } // end namespace itk

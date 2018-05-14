@@ -34,8 +34,7 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 template< typename TImage, typename TKernel, typename TFunction1 >
 void
 AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
-::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread)
 {
   // check that we are using a decomposable kernel
   if ( !this->GetKernel().GetDecomposable() )
@@ -53,8 +52,6 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
   // closing, and then copy the result to the output. Hopefully this
   // will improve cache performance when working along non raster
   // directions.
-
-  ProgressReporter progress(this, threadId, static_cast<SizeValueType>( this->GetKernel().GetLines().size() )+ 1);
 
   InputImageConstPointer input = this->GetInput();
 
@@ -120,7 +117,6 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
       );
     // after the first pass the input will be taken from the output
     input = internalbuffer;
-    progress.CompletedPixel();
     }
 
   // copy internal buffer to output
@@ -131,7 +127,6 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
     {
     oit.Set( iit.Get() );
     }
-  progress.CompletedPixel();
 }
 
 template< typename TImage, typename TKernel, typename TFunction1 >

@@ -175,8 +175,7 @@ template< typename TInputImage,
           typename TTransformPrecisionType >
 void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Check whether the input or the output is a
   // SpecialCoordinatesImage. If either are, then we cannot use the
@@ -192,13 +191,13 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // to the IsLinear() call.
   if ( !isSpecialCoordinatesImage && this->GetTransform()->GetTransformCategory() == TransformType::Linear )
     {
-    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
+    this->LinearThreadedGenerateData(outputRegionForThread);
     return;
     }
 
   // Otherwise, we use the normal method where the transform is called
   // for computing the transformation of every point.
-  this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
+  this->NonlinearThreadedGenerateData(outputRegionForThread);
 }
 
 template< typename TInputImage,
@@ -245,23 +244,16 @@ template< typename TInputImage,
           typename TTransformPrecisionType >
 void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::NonlinearThreadedGenerateData(const OutputImageRegionType &
-                                outputRegionForThread,
-                                ThreadIdType threadId)
+::NonlinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Get the output pointers
   OutputImageType *outputPtr = this->GetOutput();
-
-  // Get this input pointers
   const InputImageType *inputPtr = this->GetInput();
+  const TransformType *transformPtr = this->GetTransform();
 
   // Honor the SpecialCoordinatesImage isInside value returned
   // by TransformPhysicalPointToContinuousIndex
   using InputSpecialCoordinatesImageType = SpecialCoordinatesImage< InputPixelType, InputImageDimension >;
   const bool isSpecialCoordinatesImage = dynamic_cast< const InputSpecialCoordinatesImageType * >( inputPtr );
-
-  // Get the input transform
-  const TransformType *transformPtr = this->GetTransform();
 
 
   // Create an iterator that will walk the output region for this thread.
@@ -274,11 +266,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   PointType inputPoint;          // Coordinates of current input pixel
 
   ContinuousInputIndexType inputIndex;
-
-  // Support for progress methods/callbacks
-  ProgressReporter progress( this,
-                             threadId,
-                             outputRegionForThread.GetNumberOfPixels() );
 
   // Min/max values of the output pixel type AND these values
   // represented as the output type of the interpolator
@@ -324,7 +311,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
         }
       }
 
-    progress.CompletedPixel();
     ++outIt;
     }
 }
@@ -335,22 +321,14 @@ template< typename TInputImage,
           typename TTransformPrecisionType >
 void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::LinearThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId)
+::LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Get the output pointers
   OutputImageType *outputPtr = this->GetOutput();
-
-  // Get this input pointers
   const InputImageType *inputPtr = this->GetInput();
-
-  // Get the input transform
   const TransformType *transformPtr = this->GetTransform();
 
   // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageScanlineIterator< TOutputImage >;
-
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
@@ -361,14 +339,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   PointType tmpInputPoint;
 
   const InputImageRegionType &largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
-
-  const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
-  const SizeValueType numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
-
-  // Support for progress methods/callbacks
-  ProgressReporter progress( this,
-                             threadId,
-                             numberOfLinesToProcess );
 
   using OutputType = typename InterpolatorType::OutputType;
 
@@ -457,7 +427,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
       ++outIt;
       ++scanlineIndex;
       }
-    progress.CompletedPixel();
     outIt.NextLine();
     }
 }

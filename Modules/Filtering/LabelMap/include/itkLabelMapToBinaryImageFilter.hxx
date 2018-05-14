@@ -61,34 +61,36 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+::GenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  this->UpdateProgress(0.0f);
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
+  this->UpdateProgress(0.05f);
 
-  if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    numberOfThreads = std::min(
-      this->GetNumberOfThreads(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
-    }
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+      this->GetOutput()->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+        { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
+  this->UpdateProgress(0.5f);
 
-  // number of threads can be constrained by the region size, so call the
-  // SplitRequestedRegion to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call
-                                                  // the following method
+  // delegate to the superclass implementation to use the thread support for the label objects
+  this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
+      this->GetOutput()->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+        { this->SuperclassDynamicTGD(outputRegionForThread); }, nullptr);
+  this->UpdateProgress(0.99f);
 
-  numberOfThreads = this->SplitRequestedRegion(0, numberOfThreads, splitRegion);
-
-  m_Barrier = Barrier::New();
-
-  m_Barrier->Initialize(numberOfThreads);
-
-  this->Superclass::BeforeThreadedGenerateData();
+  this->AfterThreadedGenerateData();
+  this->UpdateProgress(1.0f);
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   OutputImageType *output = this->GetOutput();
 
@@ -130,13 +132,6 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
       ++oIt;
       }
     }
-
-  // wait for the other threads to complete that part
-  this->m_Barrier->Wait();
-
-  // and delegate to the superclass implementation to use the thread support for
-  // the label objects
-  this->Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -166,7 +161,6 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
   os << indent << "BackgroundValue: "
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( this->m_BackgroundValue )
      << std::endl;
-  os << indent << "Barrier object: " << this->m_Barrier.GetPointer() << std::endl;
 }
 } // end namespace itk
 

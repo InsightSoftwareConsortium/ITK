@@ -163,8 +163,12 @@ protected:
   unsigned int SplitRequestedRegion(unsigned int i, unsigned int num,
     OutputImageRegionType & splitRegion) override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void ThreadedGenerateData(const OutputImageRegionType &, ThreadIdType ) override;
+
+  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  {
+    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+  }
 
 private:
   void Voronoi(unsigned int, OutputIndexType idx, OutputImageType *output );

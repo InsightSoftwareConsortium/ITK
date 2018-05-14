@@ -112,19 +112,15 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 StretchIntensityImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   const TInputImage *  inputPtr = this->GetInput();
   TOutputImage      *  outputPtr = this->GetOutput(0);
 
   InputImageRegionType    inputRegionForThread = outputRegionForThread;
 
-  // Define the iterators
   ImageRegionConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
   ImageRegionIterator< TOutputImage >     outputIt(outputPtr, outputRegionForThread);
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
@@ -143,14 +139,10 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
 
     ++inputIt;
     ++outputIt;
-
-    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 StretchIntensityImageFilter< TInputImage, TOutputImage >
@@ -160,9 +152,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::SetNthInput( 0, const_cast< TInputImage * >( input ) );
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 StretchIntensityImageFilter< TInputImage, TOutputImage >

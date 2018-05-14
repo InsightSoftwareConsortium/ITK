@@ -18,10 +18,10 @@
 #ifndef itkObjectMorphologyImageFilter_hxx
 #define itkObjectMorphologyImageFilter_hxx
 
-#include <climits>
-
-#include "itkNumericTraits.h"
 #include "itkObjectMorphologyImageFilter.h"
+
+#include <climits>
+#include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
@@ -40,7 +40,6 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   m_UseBoundaryCondition = false;
 
   m_ObjectValue = NumericTraits< PixelType >::OneValue();
-  //this->SetNumberOfThreads(1);
 }
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >
@@ -109,8 +108,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   ImageRegionConstIterator< TInputImage > iRegIter;
   ImageRegionIterator< TOutputImage >     oRegIter;
@@ -147,9 +145,6 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   RadiusType bKernelSize;
   bKernelSize.Fill(1);
 
-  ProgressReporter progress( this, threadId,
-                             outputRegionForThread.GetNumberOfPixels() );
-
   OutputNeighborhoodIteratorType oSNIter;
   InputNeighborhoodIteratorType  iSNIter;
   for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
@@ -178,7 +173,6 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
         }
       ++iSNIter;
       ++oSNIter;
-      progress.CompletedPixel();
       }
     }
 }

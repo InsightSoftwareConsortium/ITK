@@ -39,8 +39,7 @@ MedianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 MedianImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
@@ -50,9 +49,6 @@ MedianImageFilter< TInputImage, TOutputImage >
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > bC;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType
   faceList = bC( input, outputRegionForThread, this->GetRadius() );
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // All of our neighborhoods have an odd number of pixels, so there is
   // always a median index (if there where an even number of pixels
@@ -89,7 +85,6 @@ MedianImageFilter< TInputImage, TOutputImage >
 
       ++bit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }

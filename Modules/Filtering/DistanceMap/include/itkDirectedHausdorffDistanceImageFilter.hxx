@@ -37,7 +37,8 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_DistanceMap = nullptr;
   m_DirectedHausdorffDistance = NumericTraits< RealType >::ZeroValue();
   m_AverageHausdorffDistance = NumericTraits< RealType >::ZeroValue();
-  m_UseImageSpacing     = true;
+  m_UseImageSpacing = true;
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage1, typename TInputImage2 >

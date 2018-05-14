@@ -55,8 +55,6 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
   unsigned long count = 0;
   for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
-    auto label = static_cast<unsigned int>( 1.5 + count / 100 );
-
     PointType fixedPoint;
     float radius = 100.0;
     fixedPoint[0] = radius * std::cos( theta );
@@ -66,7 +64,6 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
       fixedPoint[2] = radius * std::sin( theta );
       }
     fixedPoints->SetPoint( count, fixedPoint );
-    fixedPoints->SetPointData( count, label );
 
     PointType movingPoint;
     movingPoint[0] = fixedPoint[0] + offset[0];
@@ -76,18 +73,16 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
       movingPoint[2] = fixedPoint[2] + offset[2];
       }
     movingPoints->SetPoint( count, movingPoint );
-    movingPoints->SetPointData( count, label );
 
     count++;
     }
-
-  // virtual image domain is [-110,-110]  [110,110]
 
   FixedImageType::SizeType fixedImageSize;
   FixedImageType::PointType fixedImageOrigin;
   FixedImageType::DirectionType fixedImageDirection;
   FixedImageType::SpacingType fixedImageSpacing;
 
+  // virtual image domain is [-110,-110]  [110,110]
   fixedImageSize.Fill( 221 );
   fixedImageOrigin.Fill( -110 );
   fixedImageDirection.SetIdentity();
@@ -140,7 +135,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
 
   VelocityFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize( 3 );
-  shrinkFactorsPerLevel.Fill( 1 );
+  shrinkFactorsPerLevel.Fill( 2 );
   velocityFieldRegistration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   VelocityFieldRegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
@@ -288,7 +283,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  PointType::ValueType tolerance = 0.1;
+  PointType::ValueType tolerance = 0.5;
 
   float averageError = 0.0;
   for( unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); n++ )
@@ -311,7 +306,8 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
   if( numberOfPoints > 0 )
     {
     averageError /= static_cast<float>( numberOfPoints );
-    std::cout << "Average error: " << averageError << std::endl;
+    averageError = std::sqrt(averageError);
+    std::cout << "Root mean squared error: " << averageError << std::endl;
     if( averageError > tolerance )
       {
       std::cerr << "Results do not match truth within tolerance." << std::endl;

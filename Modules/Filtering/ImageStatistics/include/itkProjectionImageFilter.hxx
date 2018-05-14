@@ -26,9 +26,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
 template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::ProjectionImageFilter()
@@ -221,8 +218,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 void
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   if ( m_ProjectionDimension >= TInputImage::ImageDimension )
     {
@@ -231,11 +227,6 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
                       << " but ImageDimension is "
                       << TInputImage::ImageDimension);
     }
-
-  // use the output image to report the progress: there is no need to
-  // call CompletedPixel() for all input pixel
-  ProgressReporter progress( this, threadId,
-                             outputRegionForThread.GetNumberOfPixels() );
 
   using OutputPixelType = typename TOutputImage::PixelType;
 
@@ -359,10 +350,6 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
     outputImage->SetPixel( oIdx,
                            static_cast< OutputPixelType >( accumulator.GetValue() ) );
 
-    // one more line done !
-    progress.CompletedPixel();
-
-    // continue with the next one
     iIt.NextLine();
     }
 }

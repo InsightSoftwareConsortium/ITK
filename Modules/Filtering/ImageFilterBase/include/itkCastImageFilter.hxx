@@ -47,6 +47,7 @@ CastImageFilter< TInputImage, TOutputImage >
     ProgressReporter progress(this, 0, 1);
     return;
     }
+  //else do normal Before+Threaded+After
   Superclass::GenerateData();
 }
 
@@ -86,8 +87,7 @@ CastImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 CastImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   const TInputImage *inputPtr = this->GetInput();
   TOutputImage *outputPtr = this->GetOutput(0);
@@ -98,9 +98,6 @@ CastImageFilter< TInputImage, TOutputImage >
   typename TInputImage::RegionType inputRegionForThread;
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
-
-  // when progress is destroyed it'll set progress to 1.0
-  ProgressReporter progress(this, threadId, 1);
 
   ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
 }

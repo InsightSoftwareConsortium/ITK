@@ -92,18 +92,16 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >
 void
 MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // get output/inputs
   OutputImageType *     output = this->GetOutput();
   const InputImageType *input = this->GetInput();
   const MaskImageType * mask = this->GetMaskImage();
 
-  // If mask is not specified, called the superclass...
+  // If mask is not specified, call the superclass...
   if ( !mask )
     {
-    Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
+    Superclass::DynamicThreadedGenerateData(outputRegionForThread);
     return;
     }
 
@@ -122,10 +120,6 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
 
   faceList = faceCalculator( input, outputRegionForThread,
                              this->GetOperator().GetRadius() );
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId,
-                             outputRegionForThread.GetNumberOfPixels() );
 
   // Get the operator
   OutputNeighborhoodType noperator = this->GetOperator();
@@ -162,7 +156,6 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
       ++bit;
       ++it;
       ++mit;
-      progress.CompletedPixel();
       }
     }
 }

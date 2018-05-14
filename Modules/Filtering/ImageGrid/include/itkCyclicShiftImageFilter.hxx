@@ -53,13 +53,8 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 CyclicShiftImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  // Setup the progress reporter.
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
-
   const InputImageType * inputImage = this->GetInput();
 
   // The index and size of the image needed to compute the shift
@@ -84,7 +79,6 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
       }
 
     outIt.Set( static_cast< OutputImagePixelType >( inputImage->GetPixel( index ) ) );
-    progress.CompletedPixel();
     }
 }
 
