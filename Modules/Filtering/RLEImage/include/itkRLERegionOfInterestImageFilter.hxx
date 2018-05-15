@@ -136,15 +136,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-/**
- * RegionOfInterestImageFilter can produce an image which is a different size
- * than its input image.  As such, RegionOfInterestImageFilter needs to provide an
- * implementation for GenerateOutputInformation() in order to inform
- * the pipeline execution model.  The original documentation of this
- * method is below.
- *
- * \sa ProcessObject::GenerateOutputInformaton()
- */
+
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
@@ -183,18 +175,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
   outputPtr->SetOrigin(outputOrigin);
 } // >::GenerateOutputInformation
 
-/**
- * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
- * Therefore, this implementation provides a ThreadedGenerateData()
- * routine which is called for each processing thread. The output
- * image data is allocated automatically by the superclass prior to
- * calling ThreadedGenerateData().  ThreadedGenerateData can only
- * write to the portion of the output image specified by the
- * parameter "outputRegionForThread"
- *
- * \sa ImageToImageFilter::ThreadedGenerateData(),
- *     ImageToImageFilter::GenerateData()
- */
+
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<
@@ -297,15 +278,7 @@ RegionOfInterestImageFilter<
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-/**
- * RegionOfInterestImageFilter can produce an image which is a different size
- * than its input image.  As such, RegionOfInterestImageFilter needs to provide an
- * implementation for GenerateOutputInformation() in order to inform
- * the pipeline execution model.  The original documentation of this
- * method is below.
- *
- * \sa ProcessObject::GenerateOutputInformaton()
- */
+
 template <typename TPixelIn,
           typename TPixelOut,
           unsigned int VImageDimension,
@@ -348,18 +321,7 @@ RegionOfInterestImageFilter<RLEImage<TPixelIn, VImageDimension, CounterTypeIn>,
   outputPtr->SetOrigin(outputOrigin);
 } // >::GenerateOutputInformation
 
-/**
- * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
- * Therefore, this implementation provides a ThreadedGenerateData()
- * routine which is called for each processing thread. The output
- * image data is allocated automatically by the superclass prior to
- * calling ThreadedGenerateData().  ThreadedGenerateData can only
- * write to the portion of the output image specified by the
- * parameter "outputRegionForThread"
- *
- * \sa ImageToImageFilter::ThreadedGenerateData(),
- *     ImageToImageFilter::GenerateData()
- */
+
 template <typename TPixelIn,
           typename TPixelOut,
           unsigned int VImageDimension,
@@ -439,15 +401,7 @@ RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VIm
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-/**
- * RegionOfInterestImageFilter can produce an image which is a different size
- * than its input image.  As such, RegionOfInterestImageFilter needs to provide an
- * implementation for GenerateOutputInformation() in order to inform
- * the pipeline execution model.  The original documentation of this
- * method is below.
- *
- * \sa ProcessObject::GenerateOutputInformaton()
- */
+
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<Image<TPixel, VImageDimension>,
@@ -486,18 +440,7 @@ RegionOfInterestImageFilter<Image<TPixel, VImageDimension>,
   outputPtr->SetOrigin(outputOrigin);
 } // >::GenerateOutputInformation
 
-/**
- * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
- * Therefore, this implementation provides a ThreadedGenerateData()
- * routine which is called for each processing thread. The output
- * image data is allocated automatically by the superclass prior to
- * calling ThreadedGenerateData().  ThreadedGenerateData can only
- * write to the portion of the output image specified by the
- * parameter "outputRegionForThread"
- *
- * \sa ImageToImageFilter::ThreadedGenerateData(),
- *     ImageToImageFilter::GenerateData()
- */
+
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VImageDimension, CounterType>>::
@@ -592,15 +535,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-/**
- * RegionOfInterestImageFilter can produce an image which is a different size
- * than its input image.  As such, RegionOfInterestImageFilter needs to provide an
- * implementation for GenerateOutputInformation() in order to inform
- * the pipeline execution model.  The original documentation of this
- * method is below.
- *
- * \sa ProcessObject::GenerateOutputInformaton()
- */
+
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
@@ -639,18 +574,6 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
   outputPtr->SetOrigin(outputOrigin);
 } // >::GenerateOutputInformation
 
-/**
- * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
- * Therefore, this implementation provides a ThreadedGenerateData()
- * routine which is called for each processing thread. The output
- * image data is allocated automatically by the superclass prior to
- * calling ThreadedGenerateData().  ThreadedGenerateData can only
- * write to the portion of the output image specified by the
- * parameter "outputRegionForThread"
- *
- * \sa ImageToImageFilter::ThreadedGenerateData(),
- *     ImageToImageFilter::GenerateData()
- */
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Image<TPixel, VImageDimension>>::

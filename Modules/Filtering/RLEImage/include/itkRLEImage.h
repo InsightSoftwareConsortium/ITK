@@ -281,7 +281,6 @@ protected:
     : itk::ImageBase<VImageDimension>()
     , m_OnTheFlyCleanup(true)
   {
-    // m_OnTheFlyCleanup = true;
     m_Buffer = BufferType::New();
   }
 
