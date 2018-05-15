@@ -200,7 +200,7 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>
   bool insideMask = true;
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
   {
-      if (imageIndex[i] < 0 || imageIndex[i] >= maskSize[i])
+      if (imageIndex[i] < 0 || imageIndex[i] >= static_cast< long >( maskSize[i] ))
       {
           insideMask = false;
           break;
