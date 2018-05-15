@@ -186,11 +186,13 @@ itkSimpleFastMutexLockTest.cxx
 itkMetaDataObjectTest.cxx
 # itkVectorMultiplyTest.cxx
 itkThreadPoolTest.cxx
-itkSpawnThreadTest.cxx
 itkAtomicIntTest.cxx
 )
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon2Tests itkDownCastTest.cxx)
+endif()
+if(NOT ITK_LEGACY_REMOVE)
+  list(APPEND ITKCommon2Tests itkSpawnThreadTest.cxx)
 endif()
 
 CreateTestDriver(ITKCommon1 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
@@ -565,7 +567,9 @@ itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaData
 
 itk_add_test(NAME itkThreadPoolTest COMMAND ITKCommon2TestDriver itkThreadPoolTest 100)
 
-itk_add_test(NAME itkSpawnThreadTest COMMAND ITKCommon2TestDriver itkSpawnThreadTest 100)
+if(NOT ITK_LEGACY_REMOVE)
+  itk_add_test(NAME itkSpawnThreadTest COMMAND ITKCommon2TestDriver itkSpawnThreadTest 100)
+endif()
 
 itk_add_test(NAME itkAtomicIntTest COMMAND ITKCommon2TestDriver itkAtomicIntTest)
 

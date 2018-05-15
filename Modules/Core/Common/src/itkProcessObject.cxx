@@ -1335,21 +1335,14 @@ ProcessObject
     os << indent2 << idx << ": " << (*it)->first  << " (" << (*it)->second.GetPointer() << ")"<< std::endl;
     }
 
-  os << indent << "NumberOfRequiredOutputs: "
-     << m_NumberOfRequiredOutputs << std::endl;
-
-  os << indent << "Number Of Threads: "
-     << m_NumberOfThreads << std::endl;
-
+  os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;
+  os << indent << "Number Of Threads: " << m_NumberOfThreads << std::endl;
   os << indent << "ReleaseDataFlag: "
      << ( this->GetReleaseDataFlag() ? "On" : "Off" ) << std::endl;
-
   os << indent << "ReleaseDataBeforeUpdateFlag: "
      << ( m_ReleaseDataBeforeUpdateFlag ? "On" : "Off" ) << std::endl;
-
   os << indent << "AbortGenerateData: " << ( m_AbortGenerateData ? "On" : "Off" ) << std::endl;
   os << indent << "Progress: " << m_Progress << std::endl;
-
   os << indent << "Multithreader: " << std::endl;
   m_MultiThreader->PrintSelf( os, indent.GetNextIndent() );
 }

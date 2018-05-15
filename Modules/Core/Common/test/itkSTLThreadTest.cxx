@@ -107,12 +107,14 @@ int itkSTLThreadTest(int argc, char* argv[])
   std::cout << "itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(): "
             << itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() << std::endl;
 
+#if ! defined (ITK_LEGACY_REMOVE)
   // test deprecated methods too!
   itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
             << threadId << std::endl;
   threader->TerminateThread(threadId);
   std::cout << "Spawned thread terminated." << std::endl;
+#endif
 
   return result;
 }

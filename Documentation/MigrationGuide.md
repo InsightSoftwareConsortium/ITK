@@ -79,6 +79,12 @@ to [itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/itkMultiThreade
 to an [itk:ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
 there is now a class hierarchy.
 
+Class changes
+-------------
+
+[FilterWatcher](../Modules/Core/TestKernel/include/itkFilterWatcher.h) was deleted.
+It should be replaced by [itk::SimpleFilterWatcher](../Modules/Core/Common/include/itkSimpleFilterWatcher.h).
+
 Update scripts
 --------------
 
