@@ -180,7 +180,7 @@ MultiThreaderBase
   m_MultiThreaderBaseGlobals = multiThreaderBaseGlobals;
 }
 
-
+#if ! defined (ITK_LEGACY_REMOVE)
 void MultiThreaderBase::SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool )
 {
   if (GlobalDefaultUseThreadPool)
@@ -197,6 +197,7 @@ bool MultiThreaderBase::GetGlobalDefaultUseThreadPool( )
 {
   return (GetGlobalDefaultThreader() == ThreaderType::Pool);
 }
+#endif
 
 void MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType threaderType)
 {

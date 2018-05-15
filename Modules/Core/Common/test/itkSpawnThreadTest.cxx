@@ -56,10 +56,6 @@ void* ThreadFunction(void *ptr)
   return nullptr;
 }
 
-#if !defined(ITK_USE_PTHREADS)
-int itkSpawnThreadTest(int, char* [])
-{
-#else
 int itkSpawnThreadTest(int argc, char* argv[])
 {
   int loop = 100;
@@ -112,6 +108,5 @@ int itkSpawnThreadTest(int argc, char* argv[])
   threader->TerminateThread(id7);
 
   std::cerr << "All theads are stopped ...." << std::endl;
-#endif
   return EXIT_SUCCESS;
 }
