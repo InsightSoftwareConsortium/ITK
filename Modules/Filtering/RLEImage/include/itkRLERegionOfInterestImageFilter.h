@@ -116,16 +116,16 @@ protected:
   GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
+   * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * calling DynamicThreadedGenerateData(). DynamicThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
 private:
   RegionType m_RegionOfInterest;
@@ -206,16 +206,16 @@ protected:
   GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
+   * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * calling DynamicThreadedGenerateData(). DynamicThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
 private:
   RegionOfInterestImageFilter(const Self &); // purposely not implemented
@@ -313,16 +313,16 @@ protected:
   GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
+   * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * calling DynamicThreadedGenerateData(). DynamicThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
 private:
   RegionType m_RegionOfInterest;
@@ -399,16 +399,16 @@ protected:
   GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
+   * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * calling DynamicThreadedGenerateData(). DynamicThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
 private:
   RegionType m_RegionOfInterest;
