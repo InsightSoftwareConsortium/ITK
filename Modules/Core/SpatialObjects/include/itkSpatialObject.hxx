@@ -125,15 +125,9 @@ SpatialObject< TDimension >
       p1[i] -= spacing[i];
       p2[i] += spacing[i];
 
-      try
-        {
-        DerivativeAt(p1, order - 1, v1, depth, name);
-        DerivativeAt(p2, order - 1, v2, depth, name);
-        }
-      catch ( ExceptionObject e )
-        {
-        throw e;
-        }
+      // note DerivativeAt might throw.
+      DerivativeAt(p1, order - 1, v1, depth, name);
+      DerivativeAt(p2, order - 1, v2, depth, name);
 
       ( *it ) = ( ( *it_v2 ) - ( *it_v1 ) ) / 2;
       }
