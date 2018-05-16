@@ -42,28 +42,6 @@ RLEImage<TPixel, VImageDimension, CounterType>::truncateIndex(const IndexType & 
 }
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
-inline typename RLEImage<TPixel, VImageDimension, CounterType>::BufferType::SizeType
-RLEImage<TPixel, VImageDimension, CounterType>::truncateSize(const SizeType & size)
-{
-  typename BufferType::SizeType result;
-  for (IndexValueType i = 0; i < VImageDimension - 1; i++)
-  {
-    result[i] = size[i + 1];
-  }
-  return result;
-}
-
-template <typename TPixel, unsigned int VImageDimension, typename CounterType>
-typename RLEImage<TPixel, VImageDimension, CounterType>::BufferType::RegionType
-RLEImage<TPixel, VImageDimension, CounterType>::truncateRegion(const RegionType & region)
-{
-  typename BufferType::RegionType result;
-  result.SetIndex(truncateIndex(region.GetIndex()));
-  result.SetSize(truncateSize(region.GetSize()));
-  return result;
-}
-
-template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RLEImage<TPixel, VImageDimension, CounterType>::Allocate(bool itkNotUsed(initialize))
 {

@@ -45,6 +45,7 @@ function(ReadWriteTest ImageName Ext)
 endfunction()
 
 # RLEImage specific tests - quick
+readwritetest(Small2D png)
 readwritetest(brainParc mha)
 readwritetest(vb-seg mha)
 readwritetest(ws nrrd)
