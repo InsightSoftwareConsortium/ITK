@@ -21,10 +21,11 @@ elseif(CMAKE_HP_PTHREADS_INIT)
 endif()
 set(CMAKE_THREAD_LIBS "${CMAKE_THREAD_LIBS_INIT}" CACHE STRING "Thread library used.")
 mark_as_advanced(CMAKE_THREAD_LIBS)
+option(ITK_CLASSIC_THREADING_MODEL "Should classic threading model be used?\n\
+If enabled, ThreadedGenerateData is called.\n\
+If disabled (default) DynamicThreadedGenerateData is called." OFF)
 
-#
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
-#
 include(CheckCPPDirective)
 check_cpp_directive_exists(__FUNCTION__ ITK_CPP_FUNCTION)
 
