@@ -21,7 +21,6 @@
 #include "itkImageScanlineConstIterator.h"
 #include "itkImageScanlineIterator.h"
 
-#include "itkProgressReporter.h"
 #include "itkStatisticsImageFilter.h"
 namespace itk
 {
@@ -39,6 +38,8 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::PhaseAnalysisS
   {
     this->SetNthOutput(n_output, this->MakeOutput(n_output));
   }
+
+  this->DynamicMultiThreadingOn();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -79,13 +80,10 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::BeforeThreaded
 
 template <typename TInputImage, typename TOutputImage>
 void
-PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-
-  Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
+  Superclass::DynamicThreadedGenerateData(outputRegionForThread);
 
   auto phasePtr = this->GetOutputPhase();
   auto amplitudePtr = this->GetOutputAmplitude();
@@ -133,7 +131,6 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenera
     }
 
     outIt.NextLine(), ampIt.NextLine(), phaseIt.NextLine();
-    progress.CompletedPixel(); // Per line
   }
 }
 } // end namespace itk

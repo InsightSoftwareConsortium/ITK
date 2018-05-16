@@ -23,7 +23,6 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -38,6 +37,8 @@ ExpandWithZerosImageFilter<TInputImage, TOutputImage>::ExpandWithZerosImageFilte
   {
     m_ExpandFactors[j] = 1;
   }
+
+  this->DynamicMultiThreadingOn();
 }
 
 /**
@@ -101,9 +102,8 @@ ExpandWithZerosImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDat
  */
 template <typename TInputImage, typename TOutputImage>
 void
-ExpandWithZerosImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+ExpandWithZerosImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
   OutputImagePointer     outputPtr = this->GetOutput();
@@ -120,8 +120,7 @@ ExpandWithZerosImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   {
     return;
   }
-  const size_t     numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress(this, threadId, static_cast<SizeValueType>(numberOfLinesToProcess));
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
 
   const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
   // Walk the output region, and interpolate the input image
@@ -163,7 +162,6 @@ ExpandWithZerosImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
     }
 
     outIt.NextLine();
-    progress.CompletedPixel();
   }
 }
 

@@ -19,7 +19,6 @@
 #define itkFrequencyShrinkViaInverseFFTImageFilter_hxx
 
 #include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
-#include <itkProgressReporter.h>
 
 namespace itk
 {
