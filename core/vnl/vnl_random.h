@@ -81,7 +81,7 @@ class VNL_EXPORT vnl_random
     void reseed(unsigned long);
 
     //: Starts a new deterministic sequence from an already declared generator using the provided seed.
-    void reseed(unsigned long[vnl_random_array_size]);
+    void reseed(const unsigned long[vnl_random_array_size]);
 
     //: This restarts the sequence of random numbers.
     //  Restarts so that it repeats

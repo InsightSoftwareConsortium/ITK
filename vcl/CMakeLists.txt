@@ -73,7 +73,7 @@ if( VXL_MANUAL_GENERATE_NEW_COMPILER_DETECTION_HEADERS )
         cxx_long_long_type                      # long long type, as defined in N1811.
         cxx_noexcept                            # Exception specifications, as defined in N3050.
         cxx_nonstatic_member_init               # Non-static data member initialization, as defined in N2756.
-        cxx_nullptr                             # Null pointer, as defined in N2431.
+        cxx_VXL_NULLPTR                             # Null pointer, as defined in N2431.
         cxx_override                            # Override control override keyword, as defined in N2928, N3206 and N3272.
         cxx_range_for                           # Range-based for, as defined in N2930.
         cxx_raw_string_literals                 # Raw string literals, as defined in N2442.
