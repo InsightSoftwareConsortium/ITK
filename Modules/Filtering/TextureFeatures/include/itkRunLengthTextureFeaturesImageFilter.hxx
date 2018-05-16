@@ -67,6 +67,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::RunL
   NeighborhoodType nhood;
   nhood.SetRadius(2);
   this->m_NeighborhoodRadius = nhood.GetRadius();
+  this->DynamicMultiThreadingOn();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
@@ -125,14 +126,11 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Afte
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedGenerateData(
-  const OutputRegionType & outputRegionForThread,
-  ThreadIdType             threadId)
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThreadedGenerateData(
+  const OutputRegionType & outputRegionForThread)
 {
   // Get the inputs/outputs
   TOutputImage * outputPtr = this->GetOutput();
-
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
   // Creation of the output pixel type
   typename TOutputImage::PixelType outputPixel;
@@ -200,7 +198,6 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Thre
       {
         outputPixel.Fill(0);
         outputIt.Set(outputPixel);
-        progress.CompletedPixel();
         ++inputNIt;
         ++outputIt;
         continue;
@@ -275,7 +272,6 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Thre
       this->ComputeFeatures(histogram, totalNumberOfRuns, outputPixel);
       outputIt.Set(outputPixel);
 
-      progress.CompletedPixel();
       ++inputNIt;
       ++outputIt;
     }
