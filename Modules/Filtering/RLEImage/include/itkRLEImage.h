@@ -153,14 +153,14 @@ public:
   SetLargestPossibleRegion(const RegionType & region) override
   {
     Superclass::SetLargestPossibleRegion(region);
-    m_Buffer->SetLargestPossibleRegion(truncateRegion(region));
+    m_Buffer->SetLargestPossibleRegion(region.Slice(0));
   }
 
   void
   SetBufferedRegion(const RegionType & region) override
   {
     Superclass::SetBufferedRegion(region);
-    m_Buffer->SetBufferedRegion(truncateRegion(region));
+    m_Buffer->SetBufferedRegion(region.Slice(0));
   }
 
   using ImageBase<VImageDimension>::SetRequestedRegion;
@@ -169,7 +169,7 @@ public:
   SetRequestedRegion(const RegionType & region) override
   {
     Superclass::SetRequestedRegion(region);
-    m_Buffer->SetRequestedRegion(truncateRegion(region));
+    m_Buffer->SetRequestedRegion(region.Slice(0));
   }
 
   /** \brief Set a pixel value.
@@ -238,14 +238,6 @@ public:
   /** Returns N-1-dimensional index, the remainder after 0-index is removed. */
   static inline typename BufferType::IndexType
   truncateIndex(const IndexType & index);
-
-  /** Returns N-1-dimensional size, the remainder after 0-size is removed. */
-  static inline typename BufferType::SizeType
-  truncateSize(const SizeType & size);
-
-  /** Returns N-1-dimensional region, the remainder after 0-index and size are removed. */
-  static typename BufferType::RegionType
-  truncateRegion(const RegionType & region);
 
   /** Merges adjacent segments with duplicate values.
    * Automatically called when turning on OnTheFlyCleanup. */

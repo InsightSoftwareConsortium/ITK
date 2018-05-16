@@ -164,7 +164,7 @@ public:
                             "Region " << region << " is outside of buffered region " << bufferedRegion);
     }
 
-    m_BI = BufferIterator(m_Buffer, ImageType::truncateRegion(region));
+    m_BI = BufferIterator(m_Buffer, region.Slice(0));
     m_Index0 = region.GetIndex(0);
     m_BeginIndex0 = m_Index0 - m_Image->GetBufferedRegion().GetIndex(0);
     m_EndIndex0 = m_BeginIndex0 + region.GetSize(0);
