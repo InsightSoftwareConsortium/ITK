@@ -17,7 +17,7 @@
 const unsigned nstests = 10;
 
 
-void fill_with_rng(double * begin, double * end, double a, double b, vnl_random &rng)
+void fill_with_rng(double * begin, const double * end, double a, double b, vnl_random &rng)
 {
   while (begin != end)
   {
@@ -26,7 +26,7 @@ void fill_with_rng(double * begin, double * end, double a, double b, vnl_random 
   }
 }
 
-void fill_with_rng(float * begin, float * end, float a, float b, vnl_random &rng)
+void fill_with_rng(float * begin, const float * end, float a, float b, vnl_random &rng)
 {
   while (begin != end)
   {

@@ -89,7 +89,7 @@ void vnl_random::reseed(unsigned long seed)
   for (int j=0;j<1000;j++) lrand32();
 }
 
-void vnl_random::reseed(unsigned long seed[vnl_random_array_size])
+void vnl_random::reseed(const unsigned long seed[vnl_random_array_size])
 {
   mz_array_position = 0UL;
   mz_borrow = 0L;

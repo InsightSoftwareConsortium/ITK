@@ -48,7 +48,7 @@ class VNL_ALGO_EXPORT vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
   //: Initialize with the function object that is to be minimized.
   vnl_levenberg_marquardt(vnl_least_squares_function& f) { init(&f); }
 
-  ~vnl_levenberg_marquardt();
+  ~vnl_levenberg_marquardt() VXL_OVERRIDE;
 
   //: Minimize the function supplied in the constructor until convergence or failure.
   //  On return, x is such that f(x) is the lowest value achieved.
