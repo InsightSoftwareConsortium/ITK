@@ -21,6 +21,7 @@
 
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include <vector>
 
 namespace itk
@@ -35,7 +36,7 @@ namespace itk
  *
  * \ingroup Montage
  */
-template <typename TImageType>
+template <typename TImageType, typename TCoordinate = float>
 class ITK_TEMPLATE_EXPORT TileMontage: public ProcessObject
 {
 public:
@@ -59,10 +60,15 @@ public:
 
   /** Montage size and tile index types. */
   using SizeType = Size<ImageDimension>;
-  using IndexType = Size<ImageDimension>;
+  using TileIndexType = Size<ImageDimension>;
+  using ContinuousIndexType = ContinuousIndex<TCoordinate, ImageDimension>;
 
-  /** Image's pixel type. */
+  /** Image's dependent types. */
   using PixelType = typename ImageType::PixelType;
+  using RegionType = typename ImageType::RegionType;
+  using PointType = typename ImageType::PointType;
+  using OffsetType = typename ImageType::OffsetType;
+  using ImageIndexType = typename ImageType::IndexType;
 
   /** Internal PhaseCorrelationImageRegistrationMethod's type alias. */
   using PCMType = PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
@@ -75,9 +81,6 @@ public:
   using TransformType = typename PCMType::TransformType;
   using TransformPointer = typename TransformType::Pointer;
   using TransformConstPointer = typename TransformType::ConstPointer;
-
-  /** Type for the output transform parameters (the shift). */
-  //using ParametersType = typename TransformType::ParametersType;
 
   /** Type for the output: Using Decorator pattern for enabling
   *  the Transform to be passed in the data pipeline */
@@ -114,25 +117,40 @@ public:
   itkGetConstMacro(MontageSize, SizeType);
   void SetMontageSize(SizeType montageSize);
 
-  void SetInputTile(IndexType position, ImageType* image)
+  /** To be called for each tile position in the mosaic
+   * before the call to Update(). */
+  void SetInputTile(TileIndexType position, ImageType* image)
   {
     SizeValueType linInd = this->nDIndexToLinearIndex(position);
     this->SetNthInput(linInd, image);
     m_FFTCache[linInd] = nullptr;
   }
 
-  TransformConstPointer GetOutputTransform(IndexType position)
+  /** After Update(), the transform for each tile is available. */
+  TransformConstPointer GetOutputTransform(TileIndexType position)
   {
     return static_cast<TransformOutputType *>(this->GetOutput(this->nDIndexToLinearIndex(position)))->Get();
   }
+
+  /** After Update(), the tiles can be assembled into a single big image.
+   * cropToFill indicates whether the big image will be cropped so it
+   * entirely consists of input tiles (no default background filling).
+   * If cropToFill is false, the big image will have the extent to include
+   * all of the input tiles. The pixels not covered by any input tile
+   * will have the value specified by the parameter background. */
+  template<typename TInterpolator = LinearInterpolateImageFunction<ImageType, TCoordinate> >
+  typename ImageType::Pointer ResampleIntoSingleImage(bool cropToFill, PixelType background = PixelType());
 
 protected:
   TileMontage();
   virtual ~TileMontage() {};
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  DataObjectPointerArraySizeType nDIndexToLinearIndex(IndexType nDIndex) const;
-  IndexType LinearIndexTonDIndex(DataObjectPointerArraySizeType linearIndex) const;
+  /** Method invoked by the pipeline in order to trigger the computation of the registration. */
+  void GenerateData() override;
+
+  /** Method invoked by the pipeline to determine the output information. */
+  void GenerateOutputInformation() override;
 
   /** Make a DataObject of the correct type to be used as the specified output. */
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override
@@ -140,20 +158,34 @@ protected:
     return TransformOutputType::New();
   }
 
+  DataObjectPointerArraySizeType nDIndexToLinearIndex(TileIndexType nDIndex) const;
+  TileIndexType LinearIndexTonDIndex(DataObjectPointerArraySizeType linearIndex) const;
+
   /** Register a pair of images with given indices. Handles FFTcaching. */
-  TransformPointer RegisterPair(IndexType fixed, IndexType moving);
+  TransformPointer RegisterPair(TileIndexType fixed, TileIndexType moving);
 
   /** Montage this dimension, and all lower dimensions. */
-  void MontageDimension(int d, TransformPointer tInitial, IndexType initialTile);
+  void MontageDimension(int d, TransformPointer tInitial, TileIndexType initialTile);
 
   /** Accesses output, sets a transform to it, and updates progress. */
-  void WriteOutTransform(IndexType index, TransformPointer transform);
+  void WriteOutTransform(TileIndexType index, TransformPointer transform);
 
-  /** Method invoked by the pipeline in order to trigger the computation of the registration. */
-  void GenerateData() override;
+  /** A set of linear indices of input tiles which contribute to this region. */
+  using ContributingTiles = std::set<SizeValueType>;
 
-  /** Method invoked by the pipeline to determine the output information. */
-  void GenerateOutputInformation() override;
+  void SplitRegionAndCopyContributions(
+      std::vector<RegionType>& regions,
+      std::vector<ContributingTiles>& regionContributors,
+      RegionType newRegion,
+      size_t oldRegionIndex,
+      SizeValueType tileIndex);
+
+  /** The region will be inside of the rectangle given by min and max indices.
+   * The min is rounded up, while the max is rounded down. */
+  RegionType ConstructRegion(ContinuousIndexType minIndex, ContinuousIndexType maxIndex);
+
+  /** Calculates distance of index from the closes edge of the region. */
+  SizeValueType DistanceFromEdge(ImageIndexType index, RegionType region);
 
   /** Image's FFT type. */
   using FFTType = typename PCMType::ComplexImageType;
@@ -170,6 +202,11 @@ private:
 
     typename PCMOperatorType::Pointer   m_PCMOperator;
     typename PCMOptimizerType::Pointer  m_PCMOptimizer;
+
+    ContinuousIndexType m_MinInner;
+    ContinuousIndexType m_MaxInner;
+    ContinuousIndexType m_MinOuter;
+    ContinuousIndexType m_MaxOuter;
 }; // class TileMontage
 
 } // namespace itk

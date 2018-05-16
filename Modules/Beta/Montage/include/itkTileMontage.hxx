@@ -20,12 +20,14 @@
 #define itkTileMontage_hxx
 
 #include "itkTileMontage.h"
+#include "itkNumericTraits.h"
 #include <algorithm>
+#include <cassert>
 
 namespace itk
 {
-template<typename TImageType>
-TileMontage<TImageType>
+template<typename TImageType, typename TCoordinate>
+TileMontage<TImageType, TCoordinate>
 ::TileMontage()
 {
   m_PCM = PCMType::New();
@@ -42,9 +44,9 @@ TileMontage<TImageType>
   this->SetNthOutput(0, this->MakeOutput(0).GetPointer());
 }
 
-template<typename TImageType>
+template<typename TImageType, typename TCoordinate>
 void
-TileMontage<TImageType>
+TileMontage<TImageType, TCoordinate>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Montage size: " << m_MontageSize << std::endl;
@@ -58,11 +60,16 @@ TileMontage<TImageType>
   os << indent << "PhaseCorrelationImageRegistrationMethod: " << m_PCM.GetPointer() << std::endl;
   os << indent << "PCM Optimizer: " << m_PCMOptimizer.GetPointer() << std::endl;
   os << indent << "PCM Operator: " << m_PCMOperator.GetPointer() << std::endl;
+
+  os << indent << "MinInner: " << m_MinInner << std::endl;
+  os << indent << "MaxInner: " << m_MaxInner << std::endl;
+  os << indent << "MinOuter: " << m_MinOuter << std::endl;
+  os << indent << "MaxOuter: " << m_MaxOuter << std::endl;
 }
 
-template<typename TImageType>
+template<typename TImageType, typename TCoordinate>
 void
-TileMontage<TImageType>
+TileMontage<TImageType, TCoordinate>
 ::SetMontageSize(SizeType montageSize)
 {
   if (m_MontageSize != montageSize)
@@ -80,10 +87,10 @@ TileMontage<TImageType>
     }
 }
 
-template<typename TImageType>
+template<typename TImageType, typename TCoordinate>
 DataObject::DataObjectPointerArraySizeType
-TileMontage<TImageType>
-::nDIndexToLinearIndex(IndexType nDIndex) const
+TileMontage<TImageType, TCoordinate>
+::nDIndexToLinearIndex(TileIndexType nDIndex) const
 {
   DataObjectPointerArraySizeType ind = 0;
   SizeValueType stride = 1u;
@@ -97,12 +104,12 @@ TileMontage<TImageType>
   return ind;
 }
 
-template<typename TImageType>
-typename TileMontage<TImageType>::IndexType
-TileMontage<TImageType>
+template<typename TImageType, typename TCoordinate>
+typename TileMontage<TImageType, TCoordinate>::TileIndexType
+TileMontage<TImageType, TCoordinate>
 ::LinearIndexTonDIndex(DataObject::DataObjectPointerArraySizeType linearIndex) const
 {
-  IndexType ind;
+  TileIndexType ind;
   SizeValueType stride = 1u;
   for (unsigned d = 0; d < ImageDimension; d++)
     {
@@ -114,16 +121,17 @@ TileMontage<TImageType>
   return ind;
 }
 
-template<typename TImageType>
-typename TileMontage<TImageType>::TransformPointer
-TileMontage<TImageType>
-::RegisterPair(IndexType fixed, IndexType moving)
+template<typename TImageType, typename TCoordinate>
+typename TileMontage<TImageType, TCoordinate>::TransformPointer
+TileMontage<TImageType, TCoordinate>
+::RegisterPair(TileIndexType fixed, TileIndexType moving)
 {
   DataObjectPointerArraySizeType lFixedInd = nDIndexToLinearIndex(fixed);
   DataObjectPointerArraySizeType lMovingInd = nDIndexToLinearIndex(moving);
 
+  auto mImage = static_cast<ImageType *>(this->GetInput(lMovingInd));
   m_PCM->SetFixedImage(static_cast<ImageType *>(this->GetInput(lFixedInd)));
-  m_PCM->SetMovingImage(static_cast<ImageType *>(this->GetInput(lMovingInd)));
+  m_PCM->SetMovingImage(mImage);
   m_PCM->SetFixedImageFFT(m_FFTCache[lFixedInd]); //maybe null
   m_PCM->SetMovingImageFFT(m_FFTCache[lMovingInd]); //maybe null
   //m_PCM->DebugOn();
@@ -133,15 +141,30 @@ TileMontage<TImageType>
   m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); //certrainly not null
 
   const TransformType* regTr = m_PCM->GetOutput()->Get();
-  return const_cast<TransformType*>(regTr);
+  //this translation is in index space, convert it into physical space
+  typename TransformType::OutputVectorType translation = regTr->GetOffset();
+  PointType p0, p;
+  ContinuousIndexType ci;
+  ci.Fill(0.0);
+  mImage->TransformContinuousIndexToPhysicalPoint(ci, p0);
+  for (unsigned d = 0; d < ImageDimension; d++)
+    {
+    ci[d] = translation[d];
+    }
+  mImage->TransformContinuousIndexToPhysicalPoint(ci, p);
+  translation = p - p0;
+
+  TransformPointer t = TransformType::New();
+  t->SetOffset(translation);
+  return t;
 }
 
-template<typename TImageType>
+template<typename TImageType, typename TCoordinate>
 void
-TileMontage<TImageType>
-::MontageDimension(int d, TransformPointer tInitial, IndexType initialTile)
+TileMontage<TImageType, TCoordinate>
+::MontageDimension(int d, TransformPointer tInitial, TileIndexType initialTile)
 {
-  IndexType ind = initialTile;
+  TileIndexType ind = initialTile;
   if (d < 0)
     {
     return; //nothing to do, terminate recursion
@@ -155,7 +178,7 @@ TileMontage<TImageType>
     for (unsigned i = 1; i < m_MontageSize[d]; i++)
       {
       //register i-th tile to i-1 along this dimension
-      IndexType indF = ind;
+      TileIndexType indF = ind;
       indF[d] = i - 1;
       ind[d] = i;
       TransformPointer t = this->RegisterPair(indF, ind);
@@ -171,22 +194,53 @@ TileMontage<TImageType>
     }
 }
 
-template<typename TImageType>
+template<typename TImageType, typename TCoordinate>
 void
-TileMontage<TImageType>
-::WriteOutTransform(IndexType index, TransformPointer transform)
+TileMontage<TImageType, TCoordinate>
+::WriteOutTransform(TileIndexType index, TransformPointer transform)
 {
-  auto dOut = this->GetOutput(this->nDIndexToLinearIndex(index));
+  SizeValueType indLin = this->nDIndexToLinearIndex(index);
+  auto dOut = this->GetOutput(indLin);
   const auto cOut = static_cast<TransformOutputType *>(dOut);
   auto decorator = const_cast<TransformOutputType *>(cOut);
   decorator->Set(transform);
   m_FinishedTiles++;
   this->UpdateProgress(float(m_FinishedTiles) / m_LinearMontageSize);
+
+  //update mosaic bounds
+  PointType p;
+  ContinuousIndexType ci;
+  auto input0 = static_cast<const ImageType*>(this->GetInput(0));
+  auto input = static_cast<const ImageType*>(this->GetInput(indLin));
+  ImageIndexType ind = input->GetRequestedRegion().GetIndex();
+  input->TransformIndexToPhysicalPoint(ind, p);
+  p = transform->TransformPoint(p);
+  input0->TransformPhysicalPointToContinuousIndex(p, ci);
+  for (unsigned d = 0; d < ImageDimension; d++)
+    {
+    if (index[d] == 0) // this tile is on the minimum edge
+      {
+      m_MinInner[d] = std::max(m_MinInner[d], ci[d]);
+      m_MinOuter[d] = std::min(m_MinOuter[d], ci[d]);
+      }
+    }
+  ind += input->GetRequestedRegion().GetSize();
+  input->TransformIndexToPhysicalPoint(ind, p);
+  p = transform->TransformPoint(p);
+  input0->TransformPhysicalPointToContinuousIndex(p, ci);
+  for (unsigned d = 0; d < ImageDimension; d++)
+    {
+    if (index[d] == m_MontageSize[d] - 1) // this tile is on the maximum edge
+      {
+      m_MaxOuter[d] = std::max(m_MaxOuter[d], ci[d]);
+      m_MaxInner[d] = std::min(m_MaxInner[d], ci[d]);
+      }
+    }
 }
 
-template<typename TImageType>
+template<typename TImageType, typename TCoordinate>
 void
-TileMontage<TImageType>
+TileMontage<TImageType, TCoordinate>
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
@@ -194,7 +248,7 @@ TileMontage<TImageType>
   std::vector<double> sizes(ImageDimension); //default initialized to 0
   SizeType maxSizes;
   maxSizes.Fill(0);
-  for (unsigned i = 0; i < m_LinearMontageSize; i++)
+  for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
     {
     if (i > 0) //otherwise primary output has same modification time as this class
       { //and GenerateData does not get called
@@ -202,7 +256,7 @@ TileMontage<TImageType>
       }
     //the rest of this code determines average and maximum tile sizes
     auto input = static_cast<const TImageType*>(this->GetInput(i));
-    typename TImageType::RegionType reg = input->GetRequestedRegion();
+    RegionType reg = input->GetRequestedRegion();
     for (unsigned d = 0; d < ImageDimension; d++)
       {
       sizes[d] += reg.GetSize(d);
@@ -238,24 +292,349 @@ TileMontage<TImageType>
   m_PCM->SetOptimizer(m_PCMOptimizer);
 }
 
-template<typename TImageType>
+template<typename TImageType, typename TCoordinate>
 void
-TileMontage<TImageType>
+TileMontage<TImageType, TCoordinate>
 ::GenerateData()
-{
-  typename TransformType::Pointer t0 = TransformType::New();
-  IndexType ind;
-  ind.Fill(0);
-  m_FinishedTiles = 0;
-  this->WriteOutTransform(ind, t0); //write identity (no translation) for tile 0
+{  
+  //initialize mosaic bounds
+  auto input0 = static_cast<const ImageType*>(this->GetInput(0));
+  ImageIndexType ind = input0->GetRequestedRegion().GetIndex();
+  m_MinInner = ind;
+  m_MinOuter = ind;
+  ind += input0->GetRequestedRegion().GetSize();
+  m_MaxOuter = ind;
+  m_MaxInner.Fill(NumericTraits<TCoordinate>::max());
 
-  this->MontageDimension(this->ImageDimension - 1, t0, ind);
+  typename TransformType::Pointer t0 = TransformType::New();
+  TileIndexType ind0;
+  ind0.Fill(0);
+  m_FinishedTiles = 0;
+  
+  this->WriteOutTransform(ind0, t0); //write identity (no translation) for tile 0
+  this->MontageDimension(this->ImageDimension - 1, t0, ind0);
 
   ////clear cache after montaging is finished
-  //for (unsigned i = 0; i < m_LinearMontageSize; i++)
+  //for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
   //  {
   //  m_FFTCache[i] = nullptr;
   //  }
+}
+
+template<typename TImageType, typename TCoordinate>
+void
+TileMontage<TImageType, TCoordinate>
+::SplitRegionAndCopyContributions(
+    std::vector<RegionType>& regions,
+    std::vector<ContributingTiles>& regionContributors,
+    RegionType newRegion,
+    size_t ori, //oldRegionIndex
+    SizeValueType tileIndex)
+{
+  //tolerance of 1-2 pixels required because or rounding continuous indices
+  constexpr int minOverlap = 2;
+  
+  for (int d = ImageDimension - 1; d >= 0; d--)
+    {
+    SizeValueType nrSize = newRegion.GetSize(d);
+    IndexValueType nrInd = newRegion.GetIndex(d);
+    IndexValueType endNR = nrInd + IndexValueType(nrSize);
+
+    SizeValueType orSize = regions[ori].GetSize(d);
+    IndexValueType orInd = regions[ori].GetIndex(d);
+    IndexValueType endOR = orInd + IndexValueType(orSize);
+
+    if (nrInd + minOverlap < endOR && orInd < nrInd)
+      {
+      RegionType remnant = regions[ori];
+      remnant.SetSize(d, nrInd - orInd);
+      regions.push_back(remnant);
+      regionContributors.push_back(regionContributors[ori]);
+
+      regions[ori].SetSize(d, orSize - (nrInd - orInd));
+      regions[ori].SetIndex(d, nrInd);
+
+      //update OR size and index
+      orSize = regions[ori].GetSize(d);
+      orInd = regions[ori].GetIndex(d);
+      assert(endOR == orInd + IndexValueType(orSize));
+      }
+
+    if (orInd + minOverlap < endNR && endNR < endOR)
+      {
+      RegionType remnant = regions[ori];
+      regions[ori].SetSize(d, endNR - orInd);
+
+      remnant.SetSize(d, orSize - (endNR - orInd));
+      remnant.SetIndex(d, endNR);
+      regions.push_back(remnant);
+      regionContributors.push_back(regionContributors[ori]);
+      }
+    }
+  regionContributors[ori].insert(tileIndex);
+}
+
+template<typename TImageType, typename TCoordinate>
+typename TileMontage<TImageType, TCoordinate>::RegionType
+TileMontage<TImageType, TCoordinate>
+::ConstructRegion(ContinuousIndexType minIndex, ContinuousIndexType maxIndex)
+{
+  ImageIndexType ind;
+  SizeType size;
+  for (unsigned d = 0; d < ImageDimension; d++)
+    {
+    ind[d] = std::ceil(minIndex[d]);
+    size[d] = maxIndex[d] - ind[d];
+    }
+  RegionType region;
+  region.SetIndex(ind);
+  region.SetSize(size);
+  return region;
+}
+
+template<typename TImageType, typename TCoordinate>
+SizeValueType
+TileMontage<TImageType, TCoordinate>
+::DistanceFromEdge(ImageIndexType index, RegionType region)
+{
+  SizeValueType dist = NumericTraits<SizeValueType>::max();
+  for (unsigned d = 0; d < ImageDimension; d++)
+    {
+    SizeValueType dimDist= std::min<IndexValueType>(index[d] - region.GetIndex(d),
+        region.GetIndex(d) + region.GetSize(d) - index[d]);
+    dist = std::min(dist, dimDist);
+    }
+  return 1 + dist;
+}
+
+template<typename TImageType, typename TCoordinate>
+template<typename TInterpolator>
+typename TImageType::Pointer
+TileMontage<TImageType, TCoordinate>
+::ResampleIntoSingleImage(bool cropToFill, PixelType background)
+{
+  typename ImageType::Pointer result = ImageType::New();
+  auto input0 = static_cast<const ImageType*>(this->GetInput(0));
+  result->CopyInformation(input0); //origin, spacing, direction
+
+  //determine the region of the result
+  RegionType totalRegion;
+  if (cropToFill)
+    {
+    totalRegion = this->ConstructRegion(m_MinInner, m_MaxInner);
+    }
+  else
+    {
+    totalRegion = this->ConstructRegion(m_MinOuter, m_MaxOuter);
+    }
+  result->SetRegions(totalRegion);
+  result->Allocate(false);
+
+  //determine where does each input tile map into the output image
+  std::vector<RegionType> inputMappings(m_LinearMontageSize);
+  std::vector<ContinuousIndexType> inputCIs(m_LinearMontageSize);
+  for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
+    {
+    auto input = static_cast<const ImageType*>(this->GetInput(i));
+    TransformConstPointer t = static_cast<TransformOutputType *>(this->GetOutput(i))->Get();
+    PointType iOrigin = input->GetOrigin();
+    iOrigin = t->TransformPoint(iOrigin);
+
+    ContinuousIndexType ci;
+    result->TransformPhysicalPointToContinuousIndex(iOrigin, ci);
+    inputCIs[i] = ci;
+
+    ImageIndexType ind;
+    result->TransformPhysicalPointToIndex(iOrigin, ind);
+    RegionType reg = input->GetRequestedRegion();
+    reg.SetIndex(ind);
+    reg.ShrinkByRadius(1); //make sure that interpolation always falls inside
+    inputMappings[i] = reg;
+    }
+ 
+  //now we split the totalRegion into pieces which have contributions
+  //by the same input tiles
+  std::vector<RegionType> regions;
+  regions.push_back(totalRegion);
+  std::vector<ContributingTiles> regionContributors;
+  regionContributors.push_back({}); //we start with an empty set
+  for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
+    {
+    //first determine the region indices which the newRegion overlaps
+    std::vector<size_t> roIndices;
+    for (unsigned r = 0; r < regions.size(); r++)
+      {
+      if (inputMappings[i].IsInside(regions[r]))
+        {
+        regionContributors[r].insert(i);
+        }
+      else
+        {
+        RegionType testR = inputMappings[i];
+        if (testR.Crop(regions[r]))
+          {
+          roIndices.push_back(r);
+          }
+        }
+      }
+    for (unsigned r = 0; r < roIndices.size(); r++)
+      {
+      this->SplitRegionAndCopyContributions(regions, regionContributors, inputMappings[i], roIndices[r], i);
+      }
+    }
+
+  ////for debugging purposes, just color the regions by their contributing tiles
+  ////to make sure that the regions have been generated correctly without cracks
+  //for (unsigned i = 0; i < regions.size(); i++)
+  //  {
+  //  PixelType val = 0;
+  //  if (regionContributors[i].empty())
+  //    {
+  //    val = background;
+  //    }
+  //  for (auto tile : regionContributors[i])
+  //    {
+  //    val += std::pow(2, tile);
+  //    }
+  //  ImageRegionIterator<ImageType> oIt(result, regions[i]);
+  //  while (!oIt.IsAtEnd())
+  //    {
+  //    oIt.Set(val);
+  //    ++oIt;
+  //    }
+  //  }
+  //return result;
+
+  //debug: in case of creases, this bright value will be easy to spot
+  result->FillBuffer(NumericTraits<PixelType>::max());
+
+  //now we will do resampling, one region at a time
+  //within each of these regions the set of contributing tiles is the same
+  bool interpolate = true;
+  if (m_PCMOptimizer->GetPeakInterpolationMethod() == PCMOptimizerType::PeakInterpolationMethod::None)
+    {
+    interpolate = false;
+    }
+  for (unsigned i = 0; i < regions.size(); i++)
+    {
+    ImageRegionIteratorWithIndex<ImageType> oIt(result, regions[i]);
+
+    if (regionContributors[i].empty()) //not covered by any tile
+      {
+      while (!oIt.IsAtEnd())
+        {
+        oIt.Set(background);
+        ++oIt;
+        }
+      }
+    else if (regionContributors[i].size() == 1) //just one tile
+      {
+      SizeValueType tileInd = *regionContributors[i].begin();
+      auto input = static_cast<const ImageType*>(this->GetInput(tileInd));
+      
+      if (!interpolate)
+        {
+        OffsetType tileToRegion = regions[i].GetIndex() - inputMappings[tileInd].GetIndex();
+        RegionType iReg = regions[i];
+        iReg.SetIndex(input->GetRequestedRegion().GetIndex() + tileToRegion);
+        ImageAlgorithm::Copy(input, result.GetPointer(), iReg, regions[i]);
+        }
+      else
+        {
+        Vector<typename ContinuousIndexType::ValueType, ImageDimension> ciDiff;
+        for (unsigned d = 0; d < ImageDimension; d++)
+          {
+          ciDiff[d] = input->GetRequestedRegion().GetIndex(d) - inputCIs[tileInd][d];
+          }
+        typename TInterpolator::Pointer interp = TInterpolator::New();
+        interp->SetInputImage(input);
+        while (!oIt.IsAtEnd())
+          {
+          ContinuousIndexType cInd = oIt.GetIndex();
+          cInd += ciDiff;
+          oIt.Set(interp->EvaluateAtContinuousIndex(cInd));
+          ++oIt;
+          }
+        }
+      }
+    else //more than one tile contributes
+      {
+      std::vector<SizeValueType> tileInds(regionContributors[i].begin(), regionContributors[i].end());
+      unsigned nTiles = tileInds.size();
+      std::vector<const ImageType*> inputs(nTiles);
+      std::vector<RegionType> tileRegions(nTiles);
+      for (unsigned t = 0; t < nTiles; t++)
+        {
+        inputs[t] = static_cast<const ImageType*>(this->GetInput(tileInds[t]));
+        tileRegions[t] = inputMappings[tileInds[t]];
+        }
+      
+      if (!interpolate)
+        {
+        std::vector<ImageRegionConstIterator<ImageType> > iIt(nTiles);
+        for (unsigned t = 0; t < nTiles; t++)
+          {
+          OffsetType tileToRegion = regions[i].GetIndex() - inputMappings[tileInds[t]].GetIndex();
+          RegionType iReg = regions[i];
+          iReg.SetIndex(inputs[t]->GetRequestedRegion().GetIndex() + tileToRegion);
+          iIt[t] = ImageRegionConstIterator<ImageType>(inputs[t], iReg);
+          }
+        
+        while (!oIt.IsAtEnd())
+          {
+          ImageIndexType ind = oIt.GetIndex();
+          SizeValueType dist = 0;
+          double sum = 0.0;
+          for (unsigned t = 0; t < nTiles; t++)
+            {
+            //maybe this distance could be calculated in a more efficient manner
+            SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
+            sum += iIt[t].Get()*dt;
+            dist += dt;
+            ++iIt[t];
+            }
+          sum /= dist;
+          oIt.Set(sum);
+          ++oIt;
+          }
+        }
+      else
+        {
+        std::vector<typename TInterpolator::Pointer> iInt(nTiles);
+        std::vector<Vector<typename ContinuousIndexType::ValueType, ImageDimension> > ciDiffs(nTiles);
+        for (unsigned t = 0; t < nTiles; t++)
+          {
+          for (unsigned d = 0; d < ImageDimension; d++)
+            {
+            ciDiffs[t][d] = inputs[t]->GetRequestedRegion().GetIndex(d) - inputCIs[tileInds[t]][d];
+            }
+          iInt[t] = TInterpolator::New();
+          iInt[t]->SetInputImage(inputs[t]);
+          }
+        
+        while (!oIt.IsAtEnd())
+          {
+          ImageIndexType ind = oIt.GetIndex();
+          SizeValueType dist = 0;
+          double sum = 0.0;
+          for (unsigned t = 0; t < nTiles; t++)
+            {
+            //maybe this distance could be calculated in a more efficient manner
+            SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
+            ContinuousIndexType cInd = ind;
+            cInd += ciDiffs[t];
+            sum += iInt[t]->EvaluateAtContinuousIndex(cInd)*dt;
+            dist += dt;
+            }
+          sum /= dist;
+          oIt.Set(sum);
+          ++oIt;
+          }
+        }
+      }
+    }
+
+  return result;
 }
 
 } //namespace itk
