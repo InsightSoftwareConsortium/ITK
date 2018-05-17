@@ -331,8 +331,8 @@ TileMontage<TImageType, TCoordinate>
     size_t ori, //oldRegionIndex
     SizeValueType tileIndex)
 {
-  //tolerance of 1-2 pixels required because or rounding continuous indices
-  constexpr int minOverlap = 2;
+  //tolerance of 1-2 pixels might be required because or rounding continuous indices
+  constexpr int minOverlap = 0;
   
   for (int d = ImageDimension - 1; d >= 0; d--)
     {
@@ -448,7 +448,6 @@ TileMontage<TImageType, TCoordinate>
     result->TransformPhysicalPointToIndex(iOrigin, ind);
     RegionType reg = input->GetRequestedRegion();
     reg.SetIndex(ind);
-    reg.ShrinkByRadius(1); //make sure that interpolation always falls inside
     inputMappings[i] = reg;
     }
  
@@ -488,13 +487,14 @@ TileMontage<TImageType, TCoordinate>
   //for (unsigned i = 0; i < regions.size(); i++)
   //  {
   //  PixelType val = 0;
+  //  PixelType bits = sizeof(PixelType) * 8;
   //  if (regionContributors[i].empty())
   //    {
-  //    val = background;
+  //    val = NumericTraits<PixelType>::max();
   //    }
   //  for (auto tile : regionContributors[i])
   //    {
-  //    val += std::pow(2, tile);
+  //    val += std::pow(2, tile%bits);
   //    }
   //  ImageRegionIterator<ImageType> oIt(result, regions[i]);
   //  while (!oIt.IsAtEnd())
@@ -505,8 +505,8 @@ TileMontage<TImageType, TCoordinate>
   //  }
   //return result;
 
-  //debug: in case of creases, this bright value will be easy to spot
-  result->FillBuffer(NumericTraits<PixelType>::max());
+  ////debug: in case of creases, this bright value will be easy to spot
+  //result->FillBuffer(NumericTraits<PixelType>::max());
 
   //now we will do resampling, one region at a time
   //within each of these regions the set of contributing tiles is the same
@@ -587,7 +587,6 @@ TileMontage<TImageType, TCoordinate>
           double sum = 0.0;
           for (unsigned t = 0; t < nTiles; t++)
             {
-            //maybe this distance could be calculated in a more efficient manner
             SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
             sum += iIt[t].Get()*dt;
             dist += dt;
@@ -619,7 +618,6 @@ TileMontage<TImageType, TCoordinate>
           double sum = 0.0;
           for (unsigned t = 0; t < nTiles; t++)
             {
-            //maybe this distance could be calculated in a more efficient manner
             SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
             ContinuousIndexType cInd = ind;
             cInd += ciDiffs[t];
