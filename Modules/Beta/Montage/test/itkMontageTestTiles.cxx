@@ -17,14 +17,20 @@
  *=========================================================================*/
 
 #include "itkMockMontageHelper.hxx"
+#include "itkMontageTestHelper.hxx"
 
-int itkMockMontageTestTiles(int argc, char* argv[])
+int itkMontageTestTiles(int argc, char* argv[])
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <outputTSV> [NamePrefix]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <mockTSV> <montageTSV> [NamePrefix]" << std::endl;
     return EXIT_FAILURE;
     }
+
+  constexpr unsigned Dimension = 2;
+  using PointType = itk::Point<double, Dimension>;
+  using VectorType = itk::Vector<double, Dimension>;
+  using TransformType = itk::TranslationTransform<double, Dimension>;
 
   constexpr unsigned xMontageSize = 10;
   constexpr unsigned yMontageSize = 10;
@@ -32,9 +38,9 @@ int itkMockMontageTestTiles(int argc, char* argv[])
   using FilenameTableType = std::array<std::array<std::string, xMontageSize>, yMontageSize>;
 
   std::string namePrefix = "Image";
-  if (argc >= 4)
+  if (argc >= 5)
     {
-    namePrefix = argv[3];
+    namePrefix = argv[4];
     }
   PositionTableType stageCoords, actualCoords;
   FilenameTableType filenames;
@@ -65,6 +71,13 @@ int itkMockMontageTestTiles(int argc, char* argv[])
       }
     }
 
-  //do not vary padding methods, because padding is not required for images in this test
-  return montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], false);
+  //do not vary padding methods, because padding is not required for images in this test 
+  int r1 = mockMontageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], false);
+  int r2 = montageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], false);
+
+  if (r1 == EXIT_FAILURE || r2 == EXIT_FAILURE)
+    {
+    return EXIT_FAILURE;
+    }
+  return EXIT_SUCCESS;
 }

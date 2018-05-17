@@ -29,14 +29,8 @@
 #include <fstream>
 #include <iomanip>
 
-constexpr unsigned Dimension = 2;
-
-using PointType = itk::Point<double, Dimension>;
-using VectorType = itk::Vector<double, Dimension>;
-using TransformType = itk::TranslationTransform<double, Dimension>;
-
 //do the registration and calculate error for two images
-template<typename PixelType, typename PositionTableType, typename FilenameTableType>
+template<typename PixelType, unsigned Dimension, typename PositionTableType, typename FilenameTableType>
 double calculateError(const PositionTableType& initalCoords, const PositionTableType& actualCoords,
     const FilenameTableType& filenames, int paddingMethod,
     std::ostream& out, unsigned xF, unsigned yF, unsigned xM, unsigned yM)
@@ -107,11 +101,13 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
     phaseCorrelationMethod->SetPadToSize(imageSize); //all images are the same size
     phaseCorrelationMethod->Update();
 
+    using TransformType = itk::TranslationTransform<double, Dimension>;
     static_assert(std::is_same<TransformType, typename PhaseCorrelationMethodType::TransformType>::value,
         "PhaseCorrelationMethod's TransformType is expected to be a TranslationTransform");
     const TransformType* regTr = phaseCorrelationMethod->GetOutput()->Get();
 
     //calculate error
+    using VectorType = itk::Vector<double, Dimension>;
     VectorType tr = regTr->GetOffset(); //translation measured by registration
     VectorType ta = (actualCoords[yF][xF] - initalCoords[yF][xF]) - (actualCoords[yM][xM] - initalCoords[yM][xM]); //translation (actual)
     for (unsigned d = 0; d < Dimension; d++)
@@ -130,10 +126,11 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
 
  //do the registrations and calculate registration errors
 template<typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
-int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
+int mockMontageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
     const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods)
 {
   int result = EXIT_SUCCESS;
+  constexpr unsigned Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension>;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
   using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
@@ -158,12 +155,12 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         {
         if (x > 0)
           {
-          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames,
+          totalError += calculateError<PixelType, Dimension>(stageCoords, actualCoords, filenames,
               padMethod, registrationErrors, x - 1, y, x, y);
           }
         if (y > 0)
           {
-          totalError += calculateError<PixelType>(stageCoords, actualCoords, filenames,
+          totalError += calculateError<PixelType, Dimension>(stageCoords, actualCoords, filenames,
               padMethod, registrationErrors, x, y - 1, x, y);
           }
         }

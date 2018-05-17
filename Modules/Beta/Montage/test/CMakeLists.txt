@@ -3,8 +3,8 @@ itk_module_test()
 set(MontageTests
   itkPhaseCorrelationImageRegistrationMethodTestSynthetic.cxx
   itkPhaseCorrelationImageRegistrationMethodTestFiles.cxx
-  itkMockMontageTestTiles.cxx
-  itkMockMontageTestOMC.cxx
+  itkMontageTestTiles.cxx
+  itkMontageTestOMC.cxx
   )
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
@@ -118,9 +118,10 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
 function(AddTestOMC slicerNumber)
   itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestOMC${slicerNumber}
     COMMAND MontageTestDriver
-    itkMockMontageTestOMC
+    itkMontageTestOMC
       DATA{${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC${slicerNumber}_
+      ${TESTING_OUTPUT_PATH}/itkMontageTestOMC${slicerNumber}_
     )
 endfunction()
 
@@ -133,18 +134,20 @@ AddTestOMC(18)
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
   itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
     COMMAND MontageTestDriver
-    itkMockMontageTestTiles
+    itkMontageTestTiles
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTiles
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTiles
     )
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles)
   itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestNoisyTiles
     COMMAND MontageTestDriver
-    itkMockMontageTestTiles
+    itkMontageTestTiles
       ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestNoisyTiles
+      ${TESTING_OUTPUT_PATH}/itkMontageTestNoisyTiles
       NoisyImage
     )
 endif()
