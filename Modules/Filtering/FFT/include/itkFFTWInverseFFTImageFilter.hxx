@@ -101,7 +101,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 template <typename TInputImage, typename TOutputImage>
 void
 FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
+::DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread)
 {
   using IteratorType = ImageRegionIterator< OutputImageType >;
   unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
