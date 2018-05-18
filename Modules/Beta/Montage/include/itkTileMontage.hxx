@@ -331,9 +331,6 @@ TileMontage<TImageType, TCoordinate>
     size_t ori, //oldRegionIndex
     SizeValueType tileIndex)
 {
-  //tolerance of 1-2 pixels might be required because or rounding continuous indices
-  constexpr int minOverlap = 0;
-  
   for (int d = ImageDimension - 1; d >= 0; d--)
     {
     SizeValueType nrSize = newRegion.GetSize(d);
@@ -344,7 +341,7 @@ TileMontage<TImageType, TCoordinate>
     IndexValueType orInd = regions[ori].GetIndex(d);
     IndexValueType endOR = orInd + IndexValueType(orSize);
 
-    if (nrInd + minOverlap < endOR && orInd < nrInd)
+    if (nrInd < endOR && orInd < nrInd)
       {
       RegionType remnant = regions[ori];
       remnant.SetSize(d, nrInd - orInd);
@@ -360,7 +357,7 @@ TileMontage<TImageType, TCoordinate>
       assert(endOR == orInd + IndexValueType(orSize));
       }
 
-    if (orInd + minOverlap < endNR && endNR < endOR)
+    if (orInd < endNR && endNR < endOR)
       {
       RegionType remnant = regions[ori];
       regions[ori].SetSize(d, endNR - orInd);
@@ -515,7 +512,7 @@ TileMontage<TImageType, TCoordinate>
     {
     interpolate = false;
     }
-  for (unsigned i = 0; i < regions.size(); i++)
+  for (unsigned i = 0; i < regions.size(); i++) //TODO: parallelize this loop!
     {
     ImageRegionIteratorWithIndex<ImageType> oIt(result, regions[i]);
 
