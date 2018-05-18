@@ -282,19 +282,19 @@ int itkVariableLengthVectorTest(int, char*[])
 
     {
     FloatVariableLengthVectorType v = f - f - f;
-    ASSERT(v[0]==-1.0 && v[1]==-2.0 && v[2]==-3.0, "Chained substractions failed");
+    ASSERT(v[0]==-1.0 && v[1]==-2.0 && v[2]==-3.0, "Chained subtractions failed");
     }
     { // rvref - lv
     FloatVariableLengthVectorType v = (f - f) - f;
-    ASSERT(v[0]==-1.0 && v[1]==-2.0 && v[2]==-3.0, "Chained substractions failed");
+    ASSERT(v[0]==-1.0 && v[1]==-2.0 && v[2]==-3.0, "Chained subtractions failed");
     }
     { // lv - rvref
     FloatVariableLengthVectorType v = f - (f - f);
-    ASSERT(v[0]==1.0 && v[1]==2.0 && v[2]==3.0, "Chained substractions failed");
+    ASSERT(v[0]==1.0 && v[1]==2.0 && v[2]==3.0, "Chained subtractions failed");
     }
     { // 2xlv-lv ; rvref - rvref
     FloatVariableLengthVectorType v = (f - f) - (f - f);
-    ASSERT(v[0]==0.0 && v[1]==0.0 && v[2]==0.0, "Chained substractions failed");
+    ASSERT(v[0]==0.0 && v[1]==0.0 && v[2]==0.0, "Chained subtractions failed");
     }
 
     { // c + lv
@@ -316,19 +316,19 @@ int itkVariableLengthVectorTest(int, char*[])
 
     { // c - lv
     FloatVariableLengthVectorType v = 2.f - f;
-    ASSERT(v[0]==1.0 && v[1]==0.0 && v[2]==-1.0, "Substraction with scalar failed");
+    ASSERT(v[0]==1.0 && v[1]==0.0 && v[2]==-1.0, "Subtraction with scalar failed");
     }
     { // lv - c
     FloatVariableLengthVectorType v = f - 2.f;
-    ASSERT(v[0]==-1.0 && v[1]==0.0 && v[2]==1.0, "Substraction with scalar failed");
+    ASSERT(v[0]==-1.0 && v[1]==0.0 && v[2]==1.0, "Subtraction with scalar failed");
     }
     { // rvref - c
     FloatVariableLengthVectorType v = (f + f) - 2.f;
-    ASSERT(v[0]==0.0 && v[1]==2.0 && v[2]==4.0, "Substraction with scalar failed");
+    ASSERT(v[0]==0.0 && v[1]==2.0 && v[2]==4.0, "Subtraction with scalar failed");
     }
     { // c - rvref
     FloatVariableLengthVectorType v = 2.f - (f + f);
-    ASSERT(v[0]==0.0 && v[1]==-2.0 && v[2]==-4.0, "Substraction with scalar failed");
+    ASSERT(v[0]==0.0 && v[1]==-2.0 && v[2]==-4.0, "Subtraction with scalar failed");
     }
 
     { // c * lv
