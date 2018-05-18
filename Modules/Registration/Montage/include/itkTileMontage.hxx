@@ -410,11 +410,11 @@ typename TImageType::Pointer
 TileMontage<TImageType, TCoordinate>
 ::ResampleIntoSingleImage(bool cropToFill, PixelType background)
 {
-  typename ImageType::Pointer result = ImageType::New();
+  m_SingleImage = ImageType::New();
   auto input0 = static_cast<const ImageType*>(this->GetInput(0));
-  result->CopyInformation(input0); //origin, spacing, direction
+  m_SingleImage->CopyInformation(input0); //origin, spacing, direction
 
-  //determine the region of the result
+  //determine the region of the m_SingleImage
   RegionType totalRegion;
   if (cropToFill)
     {
@@ -424,12 +424,12 @@ TileMontage<TImageType, TCoordinate>
     {
     totalRegion = this->ConstructRegion(m_MinOuter, m_MaxOuter);
     }
-  result->SetRegions(totalRegion);
-  result->Allocate(false);
+  m_SingleImage->SetRegions(totalRegion);
+  m_SingleImage->Allocate(false);
 
   //determine where does each input tile map into the output image
-  std::vector<RegionType> inputMappings(m_LinearMontageSize);
-  std::vector<ContinuousIndexType> inputCIs(m_LinearMontageSize);
+  m_InputMappings.resize(m_LinearMontageSize);
+  m_InputsContinuousIndices.resize(m_LinearMontageSize);
   for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
     {
     auto input = static_cast<const ImageType*>(this->GetInput(i));
@@ -438,36 +438,34 @@ TileMontage<TImageType, TCoordinate>
     iOrigin = t->TransformPoint(iOrigin);
 
     ContinuousIndexType ci;
-    result->TransformPhysicalPointToContinuousIndex(iOrigin, ci);
-    inputCIs[i] = ci;
+    m_SingleImage->TransformPhysicalPointToContinuousIndex(iOrigin, ci);
+    m_InputsContinuousIndices[i] = ci;
 
     ImageIndexType ind;
-    result->TransformPhysicalPointToIndex(iOrigin, ind);
+    m_SingleImage->TransformPhysicalPointToIndex(iOrigin, ind);
     RegionType reg = input->GetRequestedRegion();
     reg.SetIndex(ind);
-    inputMappings[i] = reg;
+    m_InputMappings[i] = reg;
     }
  
   //now we split the totalRegion into pieces which have contributions
   //by the same input tiles
-  std::vector<RegionType> regions;
-  regions.push_back(totalRegion);
-  std::vector<ContributingTiles> regionContributors;
-  regionContributors.push_back({}); //we start with an empty set
+  m_Regions.push_back(totalRegion);
+  m_RegionContributors.push_back({}); //we start with an empty set
   for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
     {
     //first determine the region indices which the newRegion overlaps
     std::vector<size_t> roIndices;
-    for (unsigned r = 0; r < regions.size(); r++)
+    for (unsigned r = 0; r < m_Regions.size(); r++)
       {
-      if (inputMappings[i].IsInside(regions[r]))
+      if (m_InputMappings[i].IsInside(m_Regions[r]))
         {
-        regionContributors[r].insert(i);
+        m_RegionContributors[r].insert(i);
         }
       else
         {
-        RegionType testR = inputMappings[i];
-        if (testR.Crop(regions[r]))
+        RegionType testR = m_InputMappings[i];
+        if (testR.Crop(m_Regions[r]))
           {
           roIndices.push_back(r);
           }
@@ -475,161 +473,176 @@ TileMontage<TImageType, TCoordinate>
       }
     for (unsigned r = 0; r < roIndices.size(); r++)
       {
-      this->SplitRegionAndCopyContributions(regions, regionContributors, inputMappings[i], roIndices[r], i);
+      this->SplitRegionAndCopyContributions(m_Regions, m_RegionContributors, m_InputMappings[i], roIndices[r], i);
       }
     }
 
   ////for debugging purposes, just color the regions by their contributing tiles
   ////to make sure that the regions have been generated correctly without cracks
-  //for (unsigned i = 0; i < regions.size(); i++)
+  //for (unsigned i = 0; i < m_Regions.size(); i++)
   //  {
   //  PixelType val = 0;
   //  PixelType bits = sizeof(PixelType) * 8;
-  //  if (regionContributors[i].empty())
+  //  if (m_RegionContributors[i].empty())
   //    {
   //    val = NumericTraits<PixelType>::max();
   //    }
-  //  for (auto tile : regionContributors[i])
+  //  for (auto tile : m_RegionContributors[i])
   //    {
   //    val += std::pow(2, tile%bits);
   //    }
-  //  ImageRegionIterator<ImageType> oIt(result, regions[i]);
+  //  ImageRegionIterator<ImageType> oIt(m_SingleImage, m_Regions[i]);
   //  while (!oIt.IsAtEnd())
   //    {
   //    oIt.Set(val);
   //    ++oIt;
   //    }
   //  }
-  //return result;
-
-  ////debug: in case of creases, this bright value will be easy to spot
-  //result->FillBuffer(NumericTraits<PixelType>::max());
+  //return m_SingleImage;
 
   //now we will do resampling, one region at a time
   //within each of these regions the set of contributing tiles is the same
+  for (unsigned i = 0; i < m_Regions.size(); i++) //TODO: parallelize this loop!
+    {
+    ResampleSingleRegion<TInterpolator>(i, background);
+    }
+
+  //clean up internal variables
+  m_InputMappings.clear();
+  m_InputsContinuousIndices.clear();
+  m_Regions.clear();
+  m_RegionContributors.clear();
+  typename ImageType::Pointer temp = m_SingleImage;
+  m_SingleImage = nullptr; //this makes sure we don't keep a reference to the image
+  return temp; //after this, temp goes out of scope
+}
+
+template<typename TImageType, typename TCoordinate>
+template<typename TInterpolator>
+void
+TileMontage<TImageType, TCoordinate>
+::ResampleSingleRegion(unsigned i, PixelType background)
+{
   bool interpolate = true;
   if (m_PCMOptimizer->GetPeakInterpolationMethod() == PCMOptimizerType::PeakInterpolationMethod::None)
     {
     interpolate = false;
     }
-  for (unsigned i = 0; i < regions.size(); i++) //TODO: parallelize this loop!
-    {
-    ImageRegionIteratorWithIndex<ImageType> oIt(result, regions[i]);
+  ImageRegionIteratorWithIndex<ImageType> oIt(m_SingleImage, m_Regions[i]);
 
-    if (regionContributors[i].empty()) //not covered by any tile
+  if (m_RegionContributors[i].empty()) //not covered by any tile
+    {
+    while (!oIt.IsAtEnd())
       {
+      oIt.Set(background);
+      ++oIt;
+      }
+    }
+  else if (m_RegionContributors[i].size() == 1) //just one tile
+    {
+    SizeValueType tileInd = *m_RegionContributors[i].begin();
+    auto input = static_cast<const ImageType*>(this->GetInput(tileInd));
+    
+    if (!interpolate)
+      {
+      OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileInd].GetIndex();
+      RegionType iReg = m_Regions[i];
+      iReg.SetIndex(input->GetRequestedRegion().GetIndex() + tileToRegion);
+      ImageAlgorithm::Copy(input, m_SingleImage.GetPointer(), iReg, m_Regions[i]);
+      }
+    else
+      {
+      Vector<typename ContinuousIndexType::ValueType, ImageDimension> ciDiff;
+      for (unsigned d = 0; d < ImageDimension; d++)
+        {
+        ciDiff[d] = input->GetRequestedRegion().GetIndex(d)
+            - m_InputsContinuousIndices[tileInd][d];
+        }
+      typename TInterpolator::Pointer interp = TInterpolator::New();
+      interp->SetInputImage(input);
       while (!oIt.IsAtEnd())
         {
-        oIt.Set(background);
+        ContinuousIndexType cInd = oIt.GetIndex();
+        cInd += ciDiff;
+        oIt.Set(interp->EvaluateAtContinuousIndex(cInd));
         ++oIt;
         }
       }
-    else if (regionContributors[i].size() == 1) //just one tile
+    }
+  else //more than one tile contributes
+    {
+    std::vector<SizeValueType> tileInds(m_RegionContributors[i].begin(), m_RegionContributors[i].end());
+    unsigned nTiles = tileInds.size();
+    std::vector<const ImageType*> inputs(nTiles);
+    std::vector<RegionType> tileRegions(nTiles);
+    for (unsigned t = 0; t < nTiles; t++)
       {
-      SizeValueType tileInd = *regionContributors[i].begin();
-      auto input = static_cast<const ImageType*>(this->GetInput(tileInd));
-      
-      if (!interpolate)
-        {
-        OffsetType tileToRegion = regions[i].GetIndex() - inputMappings[tileInd].GetIndex();
-        RegionType iReg = regions[i];
-        iReg.SetIndex(input->GetRequestedRegion().GetIndex() + tileToRegion);
-        ImageAlgorithm::Copy(input, result.GetPointer(), iReg, regions[i]);
-        }
-      else
-        {
-        Vector<typename ContinuousIndexType::ValueType, ImageDimension> ciDiff;
-        for (unsigned d = 0; d < ImageDimension; d++)
-          {
-          ciDiff[d] = input->GetRequestedRegion().GetIndex(d) - inputCIs[tileInd][d];
-          }
-        typename TInterpolator::Pointer interp = TInterpolator::New();
-        interp->SetInputImage(input);
-        while (!oIt.IsAtEnd())
-          {
-          ContinuousIndexType cInd = oIt.GetIndex();
-          cInd += ciDiff;
-          oIt.Set(interp->EvaluateAtContinuousIndex(cInd));
-          ++oIt;
-          }
-        }
+      inputs[t] = static_cast<const ImageType*>(this->GetInput(tileInds[t]));
+      tileRegions[t] = m_InputMappings[tileInds[t]];
       }
-    else //more than one tile contributes
+    
+    if (!interpolate)
       {
-      std::vector<SizeValueType> tileInds(regionContributors[i].begin(), regionContributors[i].end());
-      unsigned nTiles = tileInds.size();
-      std::vector<const ImageType*> inputs(nTiles);
-      std::vector<RegionType> tileRegions(nTiles);
+      std::vector<ImageRegionConstIterator<ImageType> > iIt(nTiles);
       for (unsigned t = 0; t < nTiles; t++)
         {
-        inputs[t] = static_cast<const ImageType*>(this->GetInput(tileInds[t]));
-        tileRegions[t] = inputMappings[tileInds[t]];
+        OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileInds[t]].GetIndex();
+        RegionType iReg = m_Regions[i];
+        iReg.SetIndex(inputs[t]->GetRequestedRegion().GetIndex() + tileToRegion);
+        iIt[t] = ImageRegionConstIterator<ImageType>(inputs[t], iReg);
         }
       
-      if (!interpolate)
+      while (!oIt.IsAtEnd())
         {
-        std::vector<ImageRegionConstIterator<ImageType> > iIt(nTiles);
+        ImageIndexType ind = oIt.GetIndex();
+        SizeValueType dist = 0;
+        double sum = 0.0;
         for (unsigned t = 0; t < nTiles; t++)
           {
-          OffsetType tileToRegion = regions[i].GetIndex() - inputMappings[tileInds[t]].GetIndex();
-          RegionType iReg = regions[i];
-          iReg.SetIndex(inputs[t]->GetRequestedRegion().GetIndex() + tileToRegion);
-          iIt[t] = ImageRegionConstIterator<ImageType>(inputs[t], iReg);
+          SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
+          sum += iIt[t].Get()*dt;
+          dist += dt;
+          ++iIt[t];
           }
-        
-        while (!oIt.IsAtEnd())
-          {
-          ImageIndexType ind = oIt.GetIndex();
-          SizeValueType dist = 0;
-          double sum = 0.0;
-          for (unsigned t = 0; t < nTiles; t++)
-            {
-            SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
-            sum += iIt[t].Get()*dt;
-            dist += dt;
-            ++iIt[t];
-            }
-          sum /= dist;
-          oIt.Set(sum);
-          ++oIt;
-          }
+        sum /= dist;
+        oIt.Set(sum);
+        ++oIt;
         }
-      else
+      }
+    else
+      {
+      std::vector<typename TInterpolator::Pointer> iInt(nTiles);
+      std::vector<Vector<typename ContinuousIndexType::ValueType, ImageDimension> > ciDiffs(nTiles);
+      for (unsigned t = 0; t < nTiles; t++)
         {
-        std::vector<typename TInterpolator::Pointer> iInt(nTiles);
-        std::vector<Vector<typename ContinuousIndexType::ValueType, ImageDimension> > ciDiffs(nTiles);
+        for (unsigned d = 0; d < ImageDimension; d++)
+          {
+          ciDiffs[t][d] = inputs[t]->GetRequestedRegion().GetIndex(d)
+              - m_InputsContinuousIndices[tileInds[t]][d];
+          }
+        iInt[t] = TInterpolator::New();
+        iInt[t]->SetInputImage(inputs[t]);
+        }
+      
+      while (!oIt.IsAtEnd())
+        {
+        ImageIndexType ind = oIt.GetIndex();
+        SizeValueType dist = 0;
+        double sum = 0.0;
         for (unsigned t = 0; t < nTiles; t++)
           {
-          for (unsigned d = 0; d < ImageDimension; d++)
-            {
-            ciDiffs[t][d] = inputs[t]->GetRequestedRegion().GetIndex(d) - inputCIs[tileInds[t]][d];
-            }
-          iInt[t] = TInterpolator::New();
-          iInt[t]->SetInputImage(inputs[t]);
+          SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
+          ContinuousIndexType cInd = ind;
+          cInd += ciDiffs[t];
+          sum += iInt[t]->EvaluateAtContinuousIndex(cInd)*dt;
+          dist += dt;
           }
-        
-        while (!oIt.IsAtEnd())
-          {
-          ImageIndexType ind = oIt.GetIndex();
-          SizeValueType dist = 0;
-          double sum = 0.0;
-          for (unsigned t = 0; t < nTiles; t++)
-            {
-            SizeValueType dt = this->DistanceFromEdge(ind, tileRegions[t]);
-            ContinuousIndexType cInd = ind;
-            cInd += ciDiffs[t];
-            sum += iInt[t]->EvaluateAtContinuousIndex(cInd)*dt;
-            dist += dt;
-            }
-          sum /= dist;
-          oIt.Set(sum);
-          ++oIt;
-          }
+        sum /= dist;
+        oIt.Set(sum);
+        ++oIt;
         }
       }
     }
-
-  return result;
 }
 
 } //namespace itk

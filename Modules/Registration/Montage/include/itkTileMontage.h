@@ -187,6 +187,12 @@ protected:
   /** Calculates distance of index from the closes edge of the region. */
   SizeValueType DistanceFromEdge(ImageIndexType index, RegionType region);
 
+  /** Resamples a single region into m_SingleImage.
+   * This method does not accesses other regions,
+   * and can be run in parallel with other indices. */
+  template<typename TInterpolator>
+  void ResampleSingleRegion(unsigned regionIndex, PixelType background);
+
   /** Image's FFT type. */
   using FFTType = typename PCMType::ComplexImageType;
   using FFTPointer = typename FFTType::Pointer;
@@ -203,10 +209,18 @@ private:
     typename PCMOperatorType::Pointer   m_PCMOperator;
     typename PCMOptimizerType::Pointer  m_PCMOptimizer;
 
+    //members needed for ResampleIntoSingleImage
+
     ContinuousIndexType m_MinInner;
     ContinuousIndexType m_MaxInner;
     ContinuousIndexType m_MinOuter;
     ContinuousIndexType m_MaxOuter;
+
+    typename ImageType::Pointer      m_SingleImage;
+    std::vector<RegionType>          m_InputMappings;
+    std::vector<ContinuousIndexType> m_InputsContinuousIndices;
+    std::vector<RegionType>          m_Regions;
+    std::vector<ContributingTiles>   m_RegionContributors;
 }; // class TileMontage
 
 } // namespace itk
