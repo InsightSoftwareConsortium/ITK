@@ -226,7 +226,7 @@
 #      define VXL_COMPILER_CXX_NONSTATIC_MEMBER_INIT 0
 #    endif
 
-#    if ((__clang_major__ * 100) + __clang_minor__) >= 400 && __has_feature(cxx_nullptr)
+#    if ((__clang_major__ * 100) + __clang_minor__) >= 400 && __has_feature(cxx_VXL_NULLPTR)
 #      define VXL_COMPILER_CXX_NULLPTR 1
 #    else
 #      define VXL_COMPILER_CXX_NULLPTR 0

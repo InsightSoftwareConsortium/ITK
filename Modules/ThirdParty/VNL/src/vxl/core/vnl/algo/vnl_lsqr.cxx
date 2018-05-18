@@ -88,7 +88,7 @@ vnl_lsqr::~vnl_lsqr()
 }
 
 // Requires number_of_residuals() of workspace in rw.
-int vnl_lsqr::aprod_(long* mode, long* m, long* n, double* x, double* y, long* /*leniw*/, long* /*lenrw*/, long* /*iw*/, double* rw, void* userdata)
+int vnl_lsqr::aprod_(const long* mode, const long* m, const long* n, double* x, double* y, long* /*leniw*/, long* /*lenrw*/, long* /*iw*/, double* rw, void* userdata)
 {
   //
   // THIS CODE IS DEPRECATED

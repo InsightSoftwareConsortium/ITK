@@ -32,7 +32,7 @@
 // get a byte-swapped file, short of reading in a native file and swapping it
 // and writing it back out, and that isn't any easier.
 void matlab_write_swapped(std::ostream &f,
-                          float *array,
+                          const float *array,
                           unsigned size,
                           char const *name)
 {

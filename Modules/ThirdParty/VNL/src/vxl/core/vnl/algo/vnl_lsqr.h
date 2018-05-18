@@ -74,7 +74,7 @@ class VNL_ALGO_EXPORT vnl_lsqr
   double result_norm_;
   long return_code_;
 
-  static int aprod_(long* mode, long* m, long* n, double* x, double* y,
+  static int aprod_(const long* mode, const long* m, const long* n, double* x, double* y,
                     long* leniw, long* lenrw, long* iw, double* rw,
                     void* userdata);
 };
