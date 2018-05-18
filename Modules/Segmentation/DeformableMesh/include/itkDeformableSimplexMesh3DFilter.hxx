@@ -343,6 +343,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   typename GeometryMapType::Iterator dataIt = this->m_Data->Begin();
   SimplexMeshGeometry *data;
   VectorType           displacement;
+  displacement.Fill( 0.0 );
 
   while ( dataIt != this->m_Data->End() )
     {
