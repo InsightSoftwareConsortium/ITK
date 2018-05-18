@@ -151,12 +151,12 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         result = EXIT_FAILURE;
         }
       // write generated mosaic
-      ImageTypePointer image = montage->ResampleIntoSingleImage(false, 123.456);
+      ImageTypePointer image = montage->ResampleIntoSingleImage(false);
       using WriterType = itk::ImageFileWriter<ImageType>;
       typename WriterType::Pointer w = WriterType::New();
       w->SetInput(image);
       w->SetFileName(outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + ".nrrd");
-      w->UseCompressionOn();
+      //w->UseCompressionOn();
       w->Update();
       }
 

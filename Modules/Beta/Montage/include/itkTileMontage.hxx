@@ -21,6 +21,7 @@
 
 #include "itkTileMontage.h"
 #include "itkNumericTraits.h"
+#include "itkMultiThreaderBase.h"
 #include <algorithm>
 #include <cassert>
 
@@ -34,6 +35,7 @@ TileMontage<TImageType, TCoordinate>
   m_PCMOperator = PCMOperatorType::New();
   m_PCMOptimizer = PCMOptimizerType::New();
 
+  m_Background = PixelType();
   m_FinishedTiles = 0;
   SizeType initialSize;
   initialSize.Fill(1);
@@ -408,7 +410,7 @@ template<typename TImageType, typename TCoordinate>
 template<typename TInterpolator>
 typename TImageType::Pointer
 TileMontage<TImageType, TCoordinate>
-::ResampleIntoSingleImage(bool cropToFill, PixelType background)
+::ResampleIntoSingleImage(bool cropToFill)
 {
   m_SingleImage = ImageType::New();
   auto input0 = static_cast<const ImageType*>(this->GetInput(0));
@@ -500,12 +502,22 @@ TileMontage<TImageType, TCoordinate>
   //  }
   //return m_SingleImage;
 
-  //now we will do resampling, one region at a time
+  //now we will do resampling, one region at a time (in parallel)
   //within each of these regions the set of contributing tiles is the same
-  for (unsigned i = 0; i < m_Regions.size(); i++) //TODO: parallelize this loop!
-    {
-    ResampleSingleRegion<TInterpolator>(i, background);
-    }
+  using Region1D = ImageRegion<1>;
+  Region1D linReg; //index is 0 by default
+  linReg.SetSize(0, m_Regions.size());
+  MultiThreaderBase::Pointer mt = MultiThreaderBase::New();
+  mt->ParallelizeImageRegion<1>(linReg,
+      [this](const Region1D& r)
+      {
+        //we can also get a chunk instead od just a single "pixel", so loop
+        for (int i = r.GetIndex(0); i < r.GetIndex(0) + r.GetSize(0); i++)
+          {
+          this->ResampleSingleRegion<TInterpolator>(i);
+          }
+      },
+      nullptr);
 
   //clean up internal variables
   m_InputMappings.clear();
@@ -521,7 +533,7 @@ template<typename TImageType, typename TCoordinate>
 template<typename TInterpolator>
 void
 TileMontage<TImageType, TCoordinate>
-::ResampleSingleRegion(unsigned i, PixelType background)
+::ResampleSingleRegion(unsigned i)
 {
   bool interpolate = true;
   if (m_PCMOptimizer->GetPeakInterpolationMethod() == PCMOptimizerType::PeakInterpolationMethod::None)
@@ -534,7 +546,7 @@ TileMontage<TImageType, TCoordinate>
     {
     while (!oIt.IsAtEnd())
       {
-      oIt.Set(background);
+      oIt.Set(m_Background);
       ++oIt;
       }
     }

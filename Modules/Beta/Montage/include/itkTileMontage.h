@@ -117,6 +117,11 @@ public:
   itkGetConstMacro(MontageSize, SizeType);
   void SetMontageSize(SizeType montageSize);
 
+  /** Get/Set background value (used by ResampleIntoSingleImage
+   * if cropToFill is false). Default PixelType's value if not set. */
+  itkSetMacro(Background, PixelType);
+  itkGetMacro(Background, PixelType);
+
   /** To be called for each tile position in the mosaic
    * before the call to Update(). */
   void SetInputTile(TileIndexType position, ImageType* image)
@@ -137,9 +142,9 @@ public:
    * entirely consists of input tiles (no default background filling).
    * If cropToFill is false, the big image will have the extent to include
    * all of the input tiles. The pixels not covered by any input tile
-   * will have the value specified by the parameter background. */
+   * will have the value specified by the Background member variable. */
   template<typename TInterpolator = LinearInterpolateImageFunction<ImageType, TCoordinate> >
-  typename ImageType::Pointer ResampleIntoSingleImage(bool cropToFill, PixelType background = PixelType());
+  typename ImageType::Pointer ResampleIntoSingleImage(bool cropToFill);
 
 protected:
   TileMontage();
@@ -188,10 +193,10 @@ protected:
   SizeValueType DistanceFromEdge(ImageIndexType index, RegionType region);
 
   /** Resamples a single region into m_SingleImage.
-   * This method does not accesses other regions,
+   * This method does not access other regions,
    * and can be run in parallel with other indices. */
   template<typename TInterpolator>
-  void ResampleSingleRegion(unsigned regionIndex, PixelType background);
+  void ResampleSingleRegion(unsigned regionIndex);
 
   /** Image's FFT type. */
   using FFTType = typename PCMType::ComplexImageType;
@@ -210,17 +215,17 @@ private:
     typename PCMOptimizerType::Pointer  m_PCMOptimizer;
 
     //members needed for ResampleIntoSingleImage
-
-    ContinuousIndexType m_MinInner;
-    ContinuousIndexType m_MaxInner;
-    ContinuousIndexType m_MinOuter;
-    ContinuousIndexType m_MaxOuter;
-
     typename ImageType::Pointer      m_SingleImage;
     std::vector<RegionType>          m_InputMappings;
     std::vector<ContinuousIndexType> m_InputsContinuousIndices;
     std::vector<RegionType>          m_Regions;
     std::vector<ContributingTiles>   m_RegionContributors;
+
+    PixelType           m_Background;
+    ContinuousIndexType m_MinInner;
+    ContinuousIndexType m_MaxInner;
+    ContinuousIndexType m_MinOuter;
+    ContinuousIndexType m_MaxOuter;
 }; // class TileMontage
 
 } // namespace itk
