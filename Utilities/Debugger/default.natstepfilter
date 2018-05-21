@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copy into C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Packages\Debugger\Visualizers\default.natstepfilter -->
+<StepFilter xmlns="http://schemas.microsoft.com/vstudio/debugger/natstepfilter/2010">
+  <Function><Name>__security_check_cookie</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>__abi_winrt_.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>_ObjectStublessClient.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>_Invoke@12</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>_RTC_Check(Esp|StackVars)</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>_chkstk</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>ATL::CComPtrBase.*::operator&amp;</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>ATL::CComPtrBase.*::operator-&gt;</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>ATL::CHeapPtrBase.*::operator&amp;</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>ATL::CHeapPtrBase.*::operator-&gt;</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>ATL::CComBSTR::operator&amp;</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>std::forward&lt;.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>std::move&lt;.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>Platform::EventSource::Invoke.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>IID_PPV_ARGS_Helper&lt;.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>Microsoft::WRL::ComPtr&lt;.*&gt;::operator&amp;</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>Microsoft::WRL::ComPtr&lt;.*&gt;::operator-&gt;</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>Microsoft::WRL::Details::ComPtrRef.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>operator new</Name><Action>NoStepInto</Action></Function>
+
+  <Function><Name>itk::SmartPointer.+</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>std::.+</Name><Action>NoStepInto</Action></Function>
+</StepFilter>
