@@ -79,6 +79,34 @@ to [itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/itkMultiThreade
 to an [itk:ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
 there is now a class hierarchy.
 
+PlatformMultiThreader is essentially the old MultiThreader, renamed.
+PoolMultiThreader behaves like the old MultiThreader with
+`ITK_USE_THREADPOOL=ON`.
+There is an addition of TBBMultiThreader, which uses
+Intel Thread Building Blocks library's thread-pool with load balancing.
+The option to build TBB needs to be enabled during CMake configure step.
+The default multi-threader can be set via environment variable
+`ITK_GLOBAL_DEFAULT_THEADER` with allowed case-insensitive values of
+`Platform`, `Pool` and `TBB`, e.g. `ITK_GLOBAL_DEFAULT_THEADER=tbb`.
+
+For filter multi-threading, a new signature has been introduced:
+`void DynamicThreadedGenerateData( const OutputRegionType& threadRegion )`.
+By default, this new signature is invoked instead of the classic
+`void ThreadedGenerateData( const OutputRegionType&, ThreadIdType )`.
+To temporarily get the old behavior (classic signature invoked by default),
+set `ITKV4_COMPATIBILITY` to `ON` in CMake configuration of ITK.
+To permanently have your filter use the classic threading model,
+invoke `this->DynamicMultiThreadingOff();` in the filter constructor.
+
+To transition to the new threading model, it is usually enough to rename
+`ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
+`threadId` parameter, and remove progress reporting which uses `threadId`.
+If your class needs to also work with legacy code where
+`ITKV4_COMPATIBILITY` is enabled, invoke
+`this->DynamicMultiThreadingOn();` in the filter constructor. An example of
+external module transitioning to the new threading model can be found in
+[this commit](https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/pull/60/commits/f794baa7546f9bb8b7d89ae3a083c9a432d55df0).
+
 Class changes
 -------------
 
