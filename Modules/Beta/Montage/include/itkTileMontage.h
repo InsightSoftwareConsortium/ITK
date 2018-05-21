@@ -215,17 +215,18 @@ private:
     typename PCMOptimizerType::Pointer  m_PCMOptimizer;
 
     //members needed for ResampleIntoSingleImage
-    typename ImageType::Pointer      m_SingleImage;
-    std::vector<RegionType>          m_InputMappings;
-    std::vector<ContinuousIndexType> m_InputsContinuousIndices;
-    std::vector<RegionType>          m_Regions;
-    std::vector<ContributingTiles>   m_RegionContributors;
+    typename ImageType::Pointer      m_SingleImage; //the big output image
+    std::vector<RegionType>          m_InputMappings; //where do input tile regions map into the output
+    std::vector<ContinuousIndexType> m_InputsContinuousIndices; //where do input tile region indices map into the output
+    std::vector<RegionType>          m_Regions; //regions which completely cover the output,
+                                                //grouped by the set of contributing input tiles
+    std::vector<ContributingTiles>   m_RegionContributors; //set of input tiles which contribute to corresponding regions
 
-    PixelType           m_Background;
-    ContinuousIndexType m_MinInner;
-    ContinuousIndexType m_MaxInner;
-    ContinuousIndexType m_MinOuter;
-    ContinuousIndexType m_MaxOuter;
+    PixelType           m_Background; //default background value (not covered by any input tile)
+    ContinuousIndexType m_MinInner; //minimum index for cropped montage
+    ContinuousIndexType m_MaxInner; //maximum index for cropped montage
+    ContinuousIndexType m_MinOuter; //minimum index for total montage
+    ContinuousIndexType m_MaxOuter; //maximum index for total montage
 }; // class TileMontage
 
 } // namespace itk
