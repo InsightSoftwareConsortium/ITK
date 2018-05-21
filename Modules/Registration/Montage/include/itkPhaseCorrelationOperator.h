@@ -103,8 +103,7 @@ protected:
 
   /** PhaseCorrelationOperator can be implemented as a multithreaded filter.
    *  This method performs the computation. */
-  void ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
-                            ThreadIdType threadId ) override;
+  void DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread ) override;
 
   /** After the largest possible output data size is determined, this method
    * is called to additionally adjust the output parameters (reduce the size).

@@ -94,10 +94,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 
   using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
   ContinuousIndexType maxIndex = m_MaxCalculator->GetIndexOfMaximum();
-  const typename ImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
-  const typename ImageType::SpacingType spacing = input->GetSpacing();
-  const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
-  const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
   if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) //interpolate the peak
     {
@@ -140,6 +136,11 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
         } //switch PeakInterpolationMethod
       } //for ImageDimension
     } //if Interpolation != None
+
+  const typename ImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::SpacingType spacing = input->GetSpacing();
+  const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
+  const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
