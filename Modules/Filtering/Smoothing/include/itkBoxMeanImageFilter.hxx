@@ -38,7 +38,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 BoxMeanImageFilter< TInputImage, TOutputImage >
 ::BoxMeanImageFilter()
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 template< typename TInputImage, typename TOutputImage >
 void

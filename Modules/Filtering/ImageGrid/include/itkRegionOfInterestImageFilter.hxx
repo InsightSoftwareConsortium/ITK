@@ -30,7 +30,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::RegionOfInterestImageFilter()
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 template< typename TInputImage, typename TOutputImage >
 void

@@ -33,6 +33,7 @@ UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
   this->SetNumberOfRequiredInputs(1);
   this->InPlaceOff();
+  this->DynamicMultiThreadingOn();
 }
 
 /**

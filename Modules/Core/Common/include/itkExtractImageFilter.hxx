@@ -34,6 +34,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
   m_DirectionCollapseStrategy(DIRECTIONCOLLAPSETOUNKOWN)
 {
   Superclass::InPlaceOff();
+  this->DynamicMultiThreadingOn();
 }
 
 /**

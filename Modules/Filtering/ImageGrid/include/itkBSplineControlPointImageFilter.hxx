@@ -56,6 +56,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   this->m_KernelOrder1 = KernelOrder1Type::New();
   this->m_KernelOrder2 = KernelOrder2Type::New();
   this->m_KernelOrder3 = KernelOrder3Type::New();
+  this->DynamicMultiThreadingOn();
 }
 
 template<typename InputImage, typename TOutputImage>

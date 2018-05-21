@@ -43,6 +43,7 @@ FFTWComplexToComplexFFTImageFilter< TImage >
 ::FFTWComplexToComplexFFTImageFilter():
   m_PlanRigor( FFTWGlobalConfiguration::GetPlanRigor() )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 

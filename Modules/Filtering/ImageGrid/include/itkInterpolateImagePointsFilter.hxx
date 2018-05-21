@@ -42,6 +42,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   m_DefaultPixelValue = 0;
 
   this->SetNumberOfRequiredInputs(ImageDimension+1);
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >

@@ -44,6 +44,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   m_Distance = 0.5;
 
   m_IntermediateImage = nullptr;
+  this->DynamicMultiThreadingOn();
 }
 
 

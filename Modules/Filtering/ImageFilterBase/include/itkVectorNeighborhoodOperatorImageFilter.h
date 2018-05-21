@@ -135,7 +135,9 @@ public:
 protected:
   VectorNeighborhoodOperatorImageFilter() :
     m_BoundsCondition(nullptr)
-  {}
+  {
+    this->DynamicMultiThreadingOn();
+  }
 
   ~VectorNeighborhoodOperatorImageFilter() override {}
 

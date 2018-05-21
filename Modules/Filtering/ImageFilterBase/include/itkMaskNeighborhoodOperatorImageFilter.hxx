@@ -32,6 +32,7 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
 ::SetMaskImage(const TMaskImage *mask)
 {
   this->ProcessObject::SetNthInput( 1, const_cast< TMaskImage * >( mask ) );
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >

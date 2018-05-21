@@ -49,6 +49,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_Interpolator = static_cast< InterpolatorType * >( interp.GetPointer() );
 
   m_DefFieldSameInformation = false;
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >

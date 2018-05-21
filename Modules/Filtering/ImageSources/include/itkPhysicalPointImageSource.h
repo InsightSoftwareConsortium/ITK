@@ -64,7 +64,10 @@ public:
   itkNewMacro(Self);
 
 protected:
-  PhysicalPointImageSource( ) {};
+  PhysicalPointImageSource( )
+  {
+    this->DynamicMultiThreadingOn();
+  };
   // virtual ~PhysicalPointImageSource() default implementation ok
 
   void GenerateOutputInformation() override;

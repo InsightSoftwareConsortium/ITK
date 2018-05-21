@@ -31,6 +31,27 @@
 namespace itk
 {
 template< typename TInputImage, typename TRealType, typename TOutputImage >
+VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
+::VectorGradientMagnitudeImageFilter()
+{
+  unsigned int i;
+
+  m_UseImageSpacing = true;
+  m_UsePrincipleComponents = true;
+  m_RequestedNumberOfThreads = this->GetNumberOfThreads();
+  for ( i = 0; i < ImageDimension; i++ )
+    {
+    m_DerivativeWeights[i] = static_cast< TRealType >( 1.0 );
+    }
+  for ( i = 0; i < VectorDimension; i++ )
+    {
+    m_ComponentWeights[i] = static_cast< TRealType >( 1.0 );
+    m_SqrtComponentWeights[i] = static_cast< TRealType >( 1.0 );
+    }
+  this->DynamicMultiThreadingOn();
+}
+
+template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -58,26 +79,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   os << std::endl;
   os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage.GetPointer()
      << std::endl;
-}
-
-template< typename TInputImage, typename TRealType, typename TOutputImage >
-VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
-::VectorGradientMagnitudeImageFilter()
-{
-  unsigned int i;
-
-  m_UseImageSpacing = true;
-  m_UsePrincipleComponents = true;
-  m_RequestedNumberOfThreads = this->GetNumberOfThreads();
-  for ( i = 0; i < ImageDimension; i++ )
-    {
-    m_DerivativeWeights[i] = static_cast< TRealType >( 1.0 );
-    }
-  for ( i = 0; i < VectorDimension; i++ )
-    {
-    m_ComponentWeights[i] = static_cast< TRealType >( 1.0 );
-    m_SqrtComponentWeights[i] = static_cast< TRealType >( 1.0 );
-    }
 }
 
 template< typename TInputImage, typename TRealType, typename TOutputImage >

@@ -34,6 +34,7 @@ PadImageFilterBase< TInputImage, TOutputImage >
 ::PadImageFilterBase()
 {
   m_BoundaryCondition = nullptr;
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

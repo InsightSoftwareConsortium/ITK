@@ -58,6 +58,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
   this->SetNumberOfRequiredInputs(1);
 
   this->m_UseInputImageExtremaForScaling = true;
+  this->DynamicMultiThreadingOn();
 
   using DefaultColormapType = Function::GreyColormapFunction<
     InputImagePixelType, OutputImagePixelType >;

@@ -33,6 +33,7 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
   this->SetNumberOfRequiredInputs(2);
   this->InPlaceOff();
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage1, typename TInputImage2,

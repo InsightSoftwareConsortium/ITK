@@ -34,7 +34,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 MedianImageFilter< TInputImage, TOutputImage >
 ::MedianImageFilter()
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 template< typename TInputImage, typename TOutputImage >
 void

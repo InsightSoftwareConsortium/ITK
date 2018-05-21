@@ -31,6 +31,7 @@ CheckerBoardImageFilter< TImage >
 ::CheckerBoardImageFilter()
 {
   m_CheckerPattern.Fill(4);
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TImage >

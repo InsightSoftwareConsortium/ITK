@@ -31,6 +31,7 @@ FullToHalfHermitianImageFilter< TInputImage >
 ::FullToHalfHermitianImageFilter()
 {
   this->SetActualXDimensionIsOdd(false);
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage >

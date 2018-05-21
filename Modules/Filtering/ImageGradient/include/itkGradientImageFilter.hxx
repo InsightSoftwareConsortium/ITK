@@ -40,6 +40,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
   m_BoundaryCondition = new ZeroFluxNeumannBoundaryCondition<TInputImage>();
   this->m_UseImageSpacing   = true;
   this->m_UseImageDirection = true;
+  this->DynamicMultiThreadingOn();
 }
 
 //

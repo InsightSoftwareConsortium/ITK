@@ -44,6 +44,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     {
     m_ShrinkFactors[j] = 1;
     }
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

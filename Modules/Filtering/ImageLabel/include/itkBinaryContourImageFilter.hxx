@@ -40,6 +40,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
   m_NumberOfThreads = 0;
   this->SetInPlace(false);
+  this->DynamicMultiThreadingOn();
 }
 
 

@@ -32,6 +32,7 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
   m_Mean( 0.0 ),
   m_StandardDeviation( 1.0 )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template <class TInputImage, class TOutputImage>

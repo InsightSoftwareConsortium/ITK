@@ -48,7 +48,11 @@ ImageSource< TOutputImage >
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 
+#if defined ( ITK_CLASSIC_THREADING_MODEL )
+  m_DynamicMultiThreading = false;
+#else
   m_DynamicMultiThreading = true;
+#endif
 
   // Set the default behavior of an image source to NOT release its
   // output bulk data prior to GenerateData() in case that bulk data

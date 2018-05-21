@@ -48,6 +48,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
   m_OutputMinimum( NumericTraits< OutputPixelType >::NonpositiveMin() ),
   m_OutputMaximum( NumericTraits< OutputPixelType >::max() )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

@@ -31,6 +31,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
   m_Boundary1( NumericTraits< InputImagePixelType >::ZeroValue() ),
   m_Boundary2( NumericTraits< InputImagePixelType >::ZeroValue() )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >

@@ -45,6 +45,7 @@ SliceImageFilter< TInputImage, TOutputImage >
   m_Start.Fill(NumericTraits<IndexValueType>::min());
   m_Stop.Fill(NumericTraits<IndexValueType>::max());
   m_Step.Fill(1);
+  this->DynamicMultiThreadingOn();
 }
 
 template< class TInputImage, class TOutputImage >

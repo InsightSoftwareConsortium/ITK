@@ -32,6 +32,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 {
   this->SetNumberOfRequiredInputs(1);
   m_ProjectionDimension = InputImageDimension - 1;
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage, typename TAccumulator >

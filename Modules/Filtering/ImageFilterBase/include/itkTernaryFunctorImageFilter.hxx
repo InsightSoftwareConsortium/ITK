@@ -30,6 +30,7 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 ::TernaryFunctorImageFilter()
 {
   this->InPlaceOff();
+  this->DynamicMultiThreadingOn();
 }
 
 /**

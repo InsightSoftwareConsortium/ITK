@@ -36,6 +36,7 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
   m_OutputForegroundValue( NumericTraits< OutputPixelType >::max() ),
   m_OutputBackgroundValue( NumericTraits< OutputPixelType >::ZeroValue() )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

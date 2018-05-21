@@ -203,7 +203,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
 }
 
 // Callback routine used by the threading library. This routine just calls
-// the DynamicThreadedGenerateData method after setting the correct region for this
+// the ThreadedGenerateData method after setting the correct region for this
 // thread.
 template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 ITK_THREAD_RETURN_TYPE

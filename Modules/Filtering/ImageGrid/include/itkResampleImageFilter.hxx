@@ -63,8 +63,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   m_Interpolator = dynamic_cast< InterpolatorType * >
     ( LinearInterpolatorType::New().GetPointer() );
 
-  m_DefaultPixelValue
-    = NumericTraits<PixelType>::ZeroValue( m_DefaultPixelValue );
+  m_DefaultPixelValue = NumericTraits<PixelType>::ZeroValue( m_DefaultPixelValue );
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage,

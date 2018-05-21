@@ -50,6 +50,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   this->m_BackgroundMaskValue = NumericTraits< MaskPixelType >::ZeroValue();
   this->m_GenerateOutputMask = true;
   this->SetGenerateOutputMask(false);
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >

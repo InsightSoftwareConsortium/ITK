@@ -40,6 +40,7 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
   m_NeighborhoodRadius.Fill(1);
   m_DerivativeWeights.Fill(1.0);
   m_HalfDerivativeWeights.Fill(0.5);
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TRealType, typename TOutputImage >

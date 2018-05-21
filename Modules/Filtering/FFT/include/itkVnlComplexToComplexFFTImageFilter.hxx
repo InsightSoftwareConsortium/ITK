@@ -32,6 +32,7 @@ template< typename TImage >
 VnlComplexToComplexFFTImageFilter< TImage >
 ::VnlComplexToComplexFFTImageFilter()
 {
+  this->DynamicMultiThreadingOn();
 }
 
 

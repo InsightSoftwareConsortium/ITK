@@ -40,6 +40,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
   m_NumberOfIterationsUsed =  0; // run to convergence
   this->SetNumberOfRequiredInputs(2);
   m_FullyConnected = false;
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

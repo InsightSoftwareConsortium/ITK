@@ -41,6 +41,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
 
   m_Interpolator = static_cast< InterpolatorType * >( interp.GetPointer() );
+  this->DynamicMultiThreadingOn();
 }
 
 

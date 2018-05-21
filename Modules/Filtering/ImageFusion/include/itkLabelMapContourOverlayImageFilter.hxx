@@ -48,6 +48,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   s.Fill( 0 );
   m_DilationRadius = SizeType( s );
   m_SliceDimension = ImageDimension - 1;
+  this->DynamicMultiThreadingOn();
 }
 
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>

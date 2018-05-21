@@ -32,6 +32,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWInverseFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

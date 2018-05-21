@@ -33,6 +33,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
   m_SaltValue( NumericTraits<OutputImagePixelType>::max() ),
   m_PepperValue( NumericTraits<OutputImagePixelType>::NonpositiveMin() )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template <class TInputImage, class TOutputImage>

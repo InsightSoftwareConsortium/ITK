@@ -30,6 +30,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWHalfHermitianToRealInverseFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >
