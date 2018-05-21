@@ -93,7 +93,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() {}
+  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -122,7 +122,7 @@ protected:
    * calling DynamicThreadedGenerateData(). DynamicThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   * \sa ImageToImageFilter::DynamicThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
   DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
@@ -183,7 +183,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() {}
+  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -290,7 +290,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() {}
+  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -376,7 +376,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() {}
+  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
