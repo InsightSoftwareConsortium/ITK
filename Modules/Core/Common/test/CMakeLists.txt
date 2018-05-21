@@ -626,6 +626,7 @@ itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
 set(ITKCommonGTests
       itkAggregateTypesTest.cxx
       itkBuildInformationTest.cxx
+      itkConnectedImageNeighborhoodShapeGTest
       itkImageNeighborhoodOffsetsGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSmartPointerGTest.cxx
