@@ -30,6 +30,7 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::VanHerkGilWermanErodeDilateImageFilter():
   m_Boundary( NumericTraits< InputImagePixelType >::ZeroValue() )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TImage, typename TKernel, typename TFunction1 >

@@ -32,6 +32,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
 ::ShotNoiseImageFilter() :
   m_Scale( 1.0 )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template <class TInputImage, class TOutputImage>

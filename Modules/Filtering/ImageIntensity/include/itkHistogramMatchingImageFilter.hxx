@@ -56,6 +56,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   m_QuantileTable.fill(0);
   m_Gradients.set_size(m_NumberOfMatchPoints + 1);
   m_Gradients.fill(0);
+  this->DynamicMultiThreadingOn();
 }
 
 

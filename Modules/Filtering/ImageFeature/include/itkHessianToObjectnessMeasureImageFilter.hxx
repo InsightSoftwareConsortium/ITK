@@ -40,6 +40,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
   m_BrightObject(true),
   m_ScaleObjectnessMeasure(true)
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

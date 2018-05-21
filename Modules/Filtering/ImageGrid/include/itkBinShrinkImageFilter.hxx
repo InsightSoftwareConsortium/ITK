@@ -35,6 +35,7 @@ BinShrinkImageFilter< TInputImage, TOutputImage >
     {
     m_ShrinkFactors[j] = 1;
     }
+  this->DynamicMultiThreadingOn();
 }
 
 template< class TInputImage, class TOutputImage >

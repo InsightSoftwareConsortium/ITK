@@ -49,6 +49,7 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   m_TensorBasis.set_identity();
   m_BValue = 1.0;
   m_MaskImagePresent = false;
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TReferenceImagePixelType,

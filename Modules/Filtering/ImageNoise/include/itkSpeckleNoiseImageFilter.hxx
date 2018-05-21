@@ -32,6 +32,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
 ::SpeckleNoiseImageFilter() :
   m_StandardDeviation( 1.0 )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template <class TInputImage, class TOutputImage>

@@ -43,6 +43,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
   this->m_DomainMu = 2.5;  // keep small to keep kernels small
   this->m_RangeMu = 4.0;   // can be bigger then DomainMu since we only
                            // index into a single table
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

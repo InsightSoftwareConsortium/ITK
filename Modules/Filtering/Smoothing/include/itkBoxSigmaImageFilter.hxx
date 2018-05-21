@@ -39,7 +39,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 BoxSigmaImageFilter< TInputImage, TOutputImage >
 ::BoxSigmaImageFilter()
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 template< typename TInputImage, typename TOutputImage >
 void

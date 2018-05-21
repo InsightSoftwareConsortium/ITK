@@ -32,7 +32,9 @@ template< typename TInputImage, typename TOutputImage >
 ExtractSliceImageFilter< TInputImage, TOutputImage >
 ::ExtractSliceImageFilter():
   m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOUNKOWN)
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 
 template< typename TInputImage, typename TOutputImage >

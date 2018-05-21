@@ -35,6 +35,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::ComposeDisplacementFieldsImageFilter()
 {
   this->SetNumberOfRequiredInputs( 2 );
+  this->DynamicMultiThreadingOn();
 
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<InputFieldType, RealType>;
   typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();

@@ -61,6 +61,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
     deformationFieldInterpolator = DefaultDisplacementFieldInterpolatorType::New();
 
   this->m_DisplacementFieldInterpolator = deformationFieldInterpolator;
+  this->DynamicMultiThreadingOn();
 }
 
 template<typename TTimeVaryingVelocityField, typename TDisplacementField>

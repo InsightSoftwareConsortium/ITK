@@ -42,6 +42,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   m_Interpolator = VectorLinearInterpolateImageFunction< InputImageType, TInterpolatorPrecisionType >::New();
 
   m_DefaultPixelValue = NumericTraits< PixelType >::ZeroValue( m_DefaultPixelValue );
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >

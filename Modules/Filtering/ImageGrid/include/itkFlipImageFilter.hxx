@@ -31,6 +31,7 @@ FlipImageFilter< TImage >
   m_FlipAboutOrigin( true )
 {
   m_FlipAxes.Fill(false);
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TImage >

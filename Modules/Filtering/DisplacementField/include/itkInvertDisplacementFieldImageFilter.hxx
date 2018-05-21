@@ -48,6 +48,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   m_EnforceBoundaryCondition(true)
 {
   this->SetNumberOfRequiredInputs( 1 );
+  this->DynamicMultiThreadingOn();
 }
 
 template<typename TInputImage, typename TOutputImage>

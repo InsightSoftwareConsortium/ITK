@@ -38,6 +38,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 
   m_UseBoundaryCondition = false;
+  this->DynamicMultiThreadingOn();
 
   m_ObjectValue = NumericTraits< PixelType >::OneValue();
 }

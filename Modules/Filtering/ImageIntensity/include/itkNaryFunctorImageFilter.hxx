@@ -24,9 +24,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
 template< typename TInputImage, typename TOutputImage, typename TFunction >
 NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::NaryFunctorImageFilter()
@@ -35,11 +32,10 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
   // is added over the two minimum required
   this->SetNumberOfRequiredInputs(2);
   this->InPlaceOff();
+  this->DynamicMultiThreadingOn();
 }
 
-/**
- * DynamicThreadedGenerateData Performs the pixel-wise addition
- */
+
 template< typename TInputImage, typename TOutputImage, typename TFunction >
 void
 NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
@@ -56,7 +52,6 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
   std::vector< ImageScanlineConstIteratorType * >   inputItrVector;
   inputItrVector.reserve(numberOfInputImages);
 
-  // support progress methods/callbacks.
   // count the number of inputs that are non-null
   for ( unsigned int i = 0; i < numberOfInputImages; ++i )
     {

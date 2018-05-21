@@ -33,6 +33,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
   int nbOfComponents = NumericTraits<OutputPixelType>::GetLength(p);
   nbOfComponents = std::max( 1, nbOfComponents );  // require at least one input
   this->SetNumberOfRequiredInputs( nbOfComponents );
+  this->DynamicMultiThreadingOn();
 }
 
 //----------------------------------------------------------------------------

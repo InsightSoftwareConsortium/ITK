@@ -30,6 +30,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
   m_Spacing( 1.0 ),
   m_Origin( 0.0 )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

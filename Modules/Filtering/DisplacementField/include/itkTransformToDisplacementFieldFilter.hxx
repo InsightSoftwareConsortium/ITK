@@ -45,6 +45,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 
   //  #1 "ReferenceImage" optional
   Self::AddOptionalInputName("ReferenceImage",1);
+  this->DynamicMultiThreadingOn();
 }
 
 

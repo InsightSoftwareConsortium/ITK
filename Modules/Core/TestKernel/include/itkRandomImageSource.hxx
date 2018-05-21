@@ -47,6 +47,7 @@ RandomImageSource< TOutputImage >
     m_Origin[i] = 0.0;
     }
   m_Direction.SetIdentity();
+  this->DynamicMultiThreadingOn();
 
   m_Min = NumericTraits< OutputImagePixelType >::NonpositiveMin();
   m_Max = NumericTraits< OutputImagePixelType >::max();

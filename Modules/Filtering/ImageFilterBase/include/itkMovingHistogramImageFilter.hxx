@@ -31,7 +31,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::MovingHistogramImageFilter()
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 // a modified version that uses line iterators and only moves the
 // histogram in one direction. Hopefully it will be a bit simpler and

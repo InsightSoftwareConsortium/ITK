@@ -31,7 +31,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 NoiseImageFilter< TInputImage, TOutputImage >
 ::NoiseImageFilter()
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 template< typename TInputImage, typename TOutputImage >
 void

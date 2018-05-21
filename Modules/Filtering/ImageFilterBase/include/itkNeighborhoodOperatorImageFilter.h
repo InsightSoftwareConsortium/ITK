@@ -151,7 +151,10 @@ public:
 
 protected:
   NeighborhoodOperatorImageFilter()
-  { m_BoundsCondition = static_cast< ImageBoundaryConditionPointerType >( &m_DefaultBoundaryCondition ); }
+  {
+    m_BoundsCondition = static_cast< ImageBoundaryConditionPointerType >( &m_DefaultBoundaryCondition );
+    this->DynamicMultiThreadingOn();
+  }
   ~NeighborhoodOperatorImageFilter() override {}
 
   /** NeighborhoodOperatorImageFilter can be implemented as a

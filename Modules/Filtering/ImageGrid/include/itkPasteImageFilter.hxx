@@ -38,6 +38,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 
   this->InPlaceOff();
   m_DestinationIndex.Fill(0);
+  this->DynamicMultiThreadingOn();
 }
 
 

@@ -41,6 +41,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   m_NumberOfIterationsUsed = 0;
   this->SetNumberOfRequiredInputs(2);
   m_FullyConnected = false;
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

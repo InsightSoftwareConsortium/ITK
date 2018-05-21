@@ -111,6 +111,7 @@ protected:
   GradientMagnitudeImageFilter()
   {
     m_UseImageSpacing = true;
+    this->DynamicMultiThreadingOn();
   }
 
   ~GradientMagnitudeImageFilter() override {}

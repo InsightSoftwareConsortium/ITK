@@ -33,6 +33,7 @@ MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
   m_DefaultBoundaryCondition.SetConstant(NumericTraits< PixelType >::ZeroValue());
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >

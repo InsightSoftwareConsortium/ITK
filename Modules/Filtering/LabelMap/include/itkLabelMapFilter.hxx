@@ -38,6 +38,7 @@ LabelMapFilter< TInputImage, TOutputImage >
   m_InverseNumberOfLabelObjects( 1.0f ),
   m_NumberOfLabelObjectsProcessed( 1 )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

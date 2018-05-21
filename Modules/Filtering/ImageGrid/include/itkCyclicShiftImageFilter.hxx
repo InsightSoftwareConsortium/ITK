@@ -31,6 +31,7 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
 ::CyclicShiftImageFilter()
 {
   m_Shift.Fill( NumericTraits< OffsetValueType >::ZeroValue() );
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >

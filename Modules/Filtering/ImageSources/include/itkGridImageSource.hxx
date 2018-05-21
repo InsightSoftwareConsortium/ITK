@@ -38,6 +38,7 @@ GridImageSource< TOutputImage >
 
   this->m_KernelFunction = dynamic_cast< KernelFunctionType * >(
     GaussianKernelFunction<double>::New().GetPointer() );
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TOutputImage >

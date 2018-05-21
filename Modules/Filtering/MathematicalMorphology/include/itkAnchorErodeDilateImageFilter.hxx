@@ -29,6 +29,7 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::AnchorErodeDilateImageFilter():
   m_Boundary( NumericTraits< InputImagePixelType >::ZeroValue() )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TImage, typename TKernel, typename TFunction1 >

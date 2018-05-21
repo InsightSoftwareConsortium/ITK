@@ -47,6 +47,7 @@ ThresholdImageFilter< TImage >
   m_Upper( NumericTraits< PixelType >::max() )
 {
   this->InPlaceOff();
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TImage >

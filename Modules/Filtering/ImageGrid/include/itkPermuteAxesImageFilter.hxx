@@ -37,6 +37,7 @@ PermuteAxesImageFilter< TImage >
     m_Order[j] = j;
     m_InverseOrder[m_Order[j]] = j;
     }
+  this->DynamicMultiThreadingOn();
 }
 
 /**

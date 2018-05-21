@@ -32,6 +32,7 @@ CastImageFilter< TInputImage, TOutputImage >
 {
   this->SetNumberOfRequiredInputs(1);
   this->InPlaceOff();
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >
