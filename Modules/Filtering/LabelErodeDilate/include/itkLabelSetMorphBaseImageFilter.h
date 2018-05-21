@@ -117,8 +117,7 @@ protected:
   RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num,
                                        OutputImageRegionType & splitRegion) override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                    ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   void GenerateData(void) override;
 
