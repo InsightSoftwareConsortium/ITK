@@ -53,16 +53,17 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   m_UseImageSpacing = false;
 
   this->SetRadius(1);
+
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, bool doDilate, typename TOutputImage >
 void
 LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // stop warnings
   (void)outputRegionForThread;
-  (void)threadId;
 }
 
 template< typename TInputImage, bool doDilate, typename TOutputImage >
