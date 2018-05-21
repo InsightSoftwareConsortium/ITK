@@ -16,7 +16,7 @@ Overview
 
 This is a module for the `Insight Toolkit (ITK) <http://itk.org>`_ that
 provides filters that `quantify bone morphometry
-<http://www.b-cube.ch/index.php?option=com_content&view=article&id=22&Itemid=20>`_.
+<http://www.b-cube.ch/index.php?option=com_content&view=article&id=22&Itemid=20>`_
 from computed tomography (CT) images.
 
 For more information, see the `Insight Journal article <http://hdl.handle.net/10380/3588>`_::
