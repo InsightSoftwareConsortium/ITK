@@ -190,34 +190,9 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::GenerateDa
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  // compute the number of rows first, so we can setup a progress reporter
-  typename std::vector<unsigned int> NumberOfRows;
-  InputSizeType                      size = outputRegionForThread.GetSize();
-
-  for (unsigned int i = 0; i < InputImageDimension; i++)
-  {
-    NumberOfRows.push_back(1);
-    for (unsigned int d = 0; d < InputImageDimension; d++)
-    {
-      if (d != i)
-      {
-        NumberOfRows[i] *= size[d];
-      }
-    }
-  }
-  float progressPerDimension = 1.0 / ImageDimension;
-
-  auto * progress = new ProgressReporter(this,
-                                         threadId,
-                                         NumberOfRows[m_CurrentDimension],
-                                         30,
-                                         m_CurrentDimension * progressPerDimension,
-                                         progressPerDimension);
-
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
 
@@ -237,15 +212,6 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
   OutputIteratorType      outputIterator(outputImage, region);
   OutputConstIteratorType inputIteratorStage2(outputImage, region);
 
-  // setup the progress reporting
-  //   unsigned int numberOfLinesToProcess = 0;
-  //   for (unsigned  dd = 0; dd < imageDimension; dd++)
-  //     {
-  //     numberOfLinesToProcess += region.GetSize()[dd];
-  //     }
-
-  //   ProgressReporter progress(this,0, numberOfLinesToProcess);
-
   // deal with the first dimension - this should be copied to the
   // output if the scale is 0
   if (m_CurrentDimension == 0)
@@ -260,7 +226,6 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
       doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doDilate>(
         inputIterator,
         outputIterator,
-        *progress,
         LineLength,
         0,
         this->m_MagnitudeSign,
@@ -299,7 +264,6 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
       doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doDilate>(
         inputIteratorStage2,
         outputIterator,
-        *progress,
         LineLength,
         m_CurrentDimension,
         this->m_MagnitudeSign,

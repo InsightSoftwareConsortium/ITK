@@ -261,34 +261,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData(v
 
 template <typename TInputImage, bool doOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  // compute the number of rows first, so we can setup a progress reporter
-  typename std::vector<unsigned int> NumberOfRows;
-  InputSizeType                      size = outputRegionForThread.GetSize();
-
-  for (unsigned int i = 0; i < InputImageDimension; i++)
-  {
-    NumberOfRows.push_back(1);
-    for (unsigned int d = 0; d < InputImageDimension; d++)
-    {
-      if (d != i)
-      {
-        NumberOfRows[i] *= size[d];
-      }
-    }
-  }
-  float progressPerDimension = 1.0 / ImageDimension;
-
-  auto * progress = new ProgressReporter(this,
-                                         threadId,
-                                         NumberOfRows[m_CurrentDimension],
-                                         30,
-                                         m_CurrentDimension * progressPerDimension,
-                                         progressPerDimension);
-
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
 
@@ -326,7 +301,6 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenera
         doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !doOpen>(
           inputIterator,
           outputIterator,
-          *progress,
           LineLength,
           0,
           this->m_MagnitudeSign,
@@ -363,7 +337,6 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenera
         doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !doOpen>(
           inputIteratorStage2,
           outputIterator,
-          *progress,
           LineLength,
           m_CurrentDimension,
           this->m_MagnitudeSign,
@@ -387,7 +360,6 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenera
       doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doOpen>(
         inputIteratorStage2,
         outputIterator,
-        *progress,
         LineLength,
         m_CurrentDimension,
         this->m_MagnitudeSign,
