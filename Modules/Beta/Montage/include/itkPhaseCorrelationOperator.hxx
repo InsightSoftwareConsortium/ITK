@@ -73,28 +73,20 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
 template < typename TRealPixel, unsigned int VImageDimension >
 void
 PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread)
 {
   // Get the input and output pointers
   ImageConstPointer  fixed     = this->GetInput(0);
   ImageConstPointer  moving    = this->GetInput(1);
   ImagePointer       output    = this->GetOutput();
 
-  //
-  // Define/declare an iterator that will walk the output region for this
-  // thread.
+  // Define an iterator that will walk the output region for this thread.
   using InputIterator = ImageRegionConstIterator<ImageType>;
   using OutputIterator = ImageRegionIterator<ImageType>;
-
   InputIterator fixedIt(fixed, outputRegionForThread);
   InputIterator movingIt(moving, outputRegionForThread);
   OutputIterator outIt(output, outputRegionForThread);
-
   itkDebugMacro( "computing correlation surface" );
-  // support progress methods/callbacks
-  ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels());
 
   // walk the output region, and sample the input image
   while ( !outIt.IsAtEnd() )
@@ -118,8 +110,6 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
     ++fixedIt;
     ++movingIt;
     ++outIt;
-
-    progress.CompletedPixel();
     }
 }
 

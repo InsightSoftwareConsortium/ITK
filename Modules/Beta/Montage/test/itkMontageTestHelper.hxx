@@ -23,7 +23,7 @@
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 #include <type_traits>
 #include <array>
@@ -44,6 +44,8 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
   using ImageTypePointer = typename ImageType::Pointer;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
   using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
+  typename ImageType::SpacingType sp;
+  sp.Fill(1.0); //OMC test assumes unit spacing, tiles test has explicit unit spacing
 
   using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -60,6 +62,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       imageTable[y][x] = reader->GetOutput();
       imageTable[y][x]->DisconnectPipeline();
       imageTable[y][x]->SetOrigin(stageCoords[y][x]);
+      imageTable[y][x]->SetSpacing(sp);
       }
     }
 
@@ -88,7 +91,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
     typename MontageType::Pointer montage = MontageType::New();
     montage->SetMontageSize({ xMontageSize, yMontageSize });
 
-    typename MontageType::IndexType ind;
+    typename MontageType::TileIndexType ind;
     for (unsigned y = 0; y < yMontageSize; y++)
       {
       ind[1] = y;
@@ -108,7 +111,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       //so its modification does not cause a pipeline update automatically
       
       std::cout << "    PeakMethod " << peakMethod << std::endl;
-      FilterWatcher fw(montage);
+      itk::SimpleFilterWatcher fw(montage);
       montage->Update();
 
       std::cout << std::fixed;
@@ -147,7 +150,16 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         {
         result = EXIT_FAILURE;
         }
+      // write generated mosaic
+      ImageTypePointer image = montage->ResampleIntoSingleImage(false);
+      using WriterType = itk::ImageFileWriter<ImageType>;
+      typename WriterType::Pointer w = WriterType::New();
+      w->SetInput(image);
+      w->SetFileName(outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + ".nrrd");
+      //w->UseCompressionOn();
+      w->Update();
       }
+
     if (!varyPaddingMethods)
       {
       break;
