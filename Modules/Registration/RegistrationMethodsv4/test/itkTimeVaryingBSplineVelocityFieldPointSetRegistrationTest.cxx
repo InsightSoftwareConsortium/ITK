@@ -283,7 +283,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  PointType::ValueType tolerance = 0.5;
+  PointType::ValueType tolerance = 0.55;
 
   float averageError = 0.0;
   for( unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); n++ )
