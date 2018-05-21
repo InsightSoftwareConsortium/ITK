@@ -118,8 +118,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 template <typename TInputImage, typename TOutputImage>
 void
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
-                       ThreadIdType itkNotUsed(threadId) )
+::DynamicThreadedGenerateData(const OutputRegionType& outputRegionForThread)
 {
   using IteratorType = ImageRegionIterator< OutputImageType >;
   unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();

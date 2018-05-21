@@ -117,8 +117,7 @@ protected:
 
   void BeforeThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputRegionType& outputRegionForThread) override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
