@@ -48,7 +48,7 @@ ImageSource< TOutputImage >
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 
-#if defined ( ITK_CLASSIC_THREADING_MODEL )
+#if defined( ITKV4_COMPATIBILITY )
   m_DynamicMultiThreading = false;
 #else
   m_DynamicMultiThreading = true;
