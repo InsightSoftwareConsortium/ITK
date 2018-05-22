@@ -74,20 +74,20 @@ itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest01
     itkBSplineScatteredDataPointSetToImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest02
       COMMAND ITKImageGridTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha
-              1ffdb3ea274ec766af8fe2bb929f9624
+    --compare DATA{Baseline/itkBSplineScatteredDataPointSetToImageFilterTest02.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha
     itkBSplineScatteredDataPointSetToImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
       COMMAND ITKImageGridTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha
-              9df6a57780d641dca792877ee158c3d7
+    --compare DATA{Baseline/itkBSplineScatteredDataPointSetToImageFilterTest03.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha
     itkBSplineScatteredDataPointSetToImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt} ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest04
       COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest4)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest05
       COMMAND ITKImageGridTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05.mha
-              c2100a7dc86472006d77b62dffa1a8dd
+    --compare DATA{Baseline/itkBSplineScatteredDataPointSetToImageFilterTest05.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05.mha
     itkBSplineScatteredDataPointSetToImageFilterTest5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05.mha)
 itk_add_test(NAME itkBSplineControlPointImageFilterTest1
       COMMAND ITKImageGridTestDriver
