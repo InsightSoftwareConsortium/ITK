@@ -232,7 +232,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
   OffsetValueType linecount = pixelcount / xsize;
-  itkAssertInDebugAndIgnoreInReleaseMacro(linecount == m_LineMap.size());
+  itkAssertInDebugAndIgnoreInReleaseMacro(SizeValueType(linecount) == m_LineMap.size());
 
   for (outLineIt.GoToBegin(); !outLineIt.IsAtEnd(); outLineIt.NextLine())
     {
