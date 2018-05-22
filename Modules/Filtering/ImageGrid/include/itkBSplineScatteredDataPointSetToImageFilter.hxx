@@ -451,51 +451,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     }
   else // we split on the output region for reconstruction
     {
-    // Get the output pointer
-    ImageType *outputPtr = this->GetOutput();
-
-    const SizeType requestedRegionSize =
-      outputPtr->GetRequestedRegion().GetSize();
-
-    int splitAxis;
-    typename TOutputImage::IndexType splitIndex;
-    typename TOutputImage::SizeType splitSize;
-
-    // Initialize the splitRegion to the output requested region
-    splitRegion = outputPtr->GetRequestedRegion();
-    splitIndex = splitRegion.GetIndex();
-    splitSize = splitRegion.GetSize();
-
-    // Split on the outermost dimension
-    splitAxis = outputPtr->GetImageDimension() - 1;
-
-    // Determine the actual number of pieces that will be generated
-    typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-    auto valuesPerThread = static_cast<unsigned int>( std::ceil(
-      range / static_cast<double>( num ) ) );
-    auto maxThreadIdUsed = static_cast<unsigned int>( std::ceil(
-      range / static_cast<double>( valuesPerThread ) ) - 1 );
-
-    // Split the region
-    if ( i < maxThreadIdUsed )
-      {
-      splitIndex[splitAxis] += i * valuesPerThread;
-      splitSize[splitAxis] = valuesPerThread;
-      }
-    if ( i == maxThreadIdUsed )
-      {
-      splitIndex[splitAxis] += i * valuesPerThread;
-      // Last thread needs to process the "rest" dimension being split
-      splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
-      }
-
-    // Set the split region ivars
-    splitRegion.SetIndex( splitIndex );
-    splitRegion.SetSize( splitSize );
-
-    itkDebugMacro( "Split piece: " << splitRegion );
-
-    return maxThreadIdUsed + 1;
+    return Superclass::SplitRequestedRegion(i, num, splitRegion);
     }
 }
 
