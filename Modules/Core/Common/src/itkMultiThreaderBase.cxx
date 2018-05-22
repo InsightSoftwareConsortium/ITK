@@ -381,20 +381,16 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
       {
       case ThreaderType::Platform:
         return PlatformMultiThreader::New();
-        break;
       case ThreaderType::Pool:
         return PoolMultiThreader::New();
-        break;
       case ThreaderType::TBB:
 #if defined(ITK_USE_TBB)
         return TBBMultiThreader::New();
 #else
         itkGenericExceptionMacro("ITK has been built without TBB support!");
 #endif
-        break;
       default:
         itkGenericExceptionMacro("MultiThreaderBase::GetGlobalDefaultThreader returned Unknown!");
-        break;
       }
     }
   smartPtr->UnRegister();
