@@ -14,6 +14,9 @@ if(COMMAND CMAKE_POLICY)
   if (NOT (${CMAKE_VERSION} VERSION_LESS 3.0))
     cmake_policy(SET CMP0042 NEW)
   endif()
+  if(POLICY CMP0063)
+    cmake_policy(SET CMP0063 NEW)
+  endif()
 endif()
 
 if(NOT OPENJPEG_NAMESPACE)
@@ -59,7 +62,7 @@ set(PACKAGE_VERSION
 if(NOT OPENJPEG_SOVERSION)
   set(OPENJPEG_SOVERSION 7)
 endif(NOT OPENJPEG_SOVERSION)
-set(OPENJPEG_LIBRARY_PROPERTIES
+list(APPEND OPENJPEG_LIBRARY_PROPERTIES
   VERSION   "${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}.${OPENJPEG_VERSION_BUILD}"
   SOVERSION "${OPENJPEG_SOVERSION}"
 )
@@ -157,7 +160,7 @@ endif()
 
 #-----------------------------------------------------------------------------
 # Big endian test:
-include (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+include (TestBigEndian)
 TEST_BIG_ENDIAN(OPJ_BIG_ENDIAN)
 
 #-----------------------------------------------------------------------------
