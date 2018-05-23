@@ -319,6 +319,7 @@ itk_add_test(NAME  ResampleImageFilter2Test5 COMMAND ${ITK_TEST_DRIVER}
         3
 )
 itk_add_test(NAME  ResampleImageFilter3Test1 COMMAND ${ITK_TEST_DRIVER}
+  --compareNumberOfPixelsTolerance 4
   --compare DATA{${BASELINE}/ResampleImageFilter3Test1PixelCentered.png}
             ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
   $<TARGET_FILE:ResampleImageFilter3>
