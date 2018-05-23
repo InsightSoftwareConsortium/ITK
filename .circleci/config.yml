@@ -4,7 +4,7 @@ referenced:
       name: Generate external data hash
       command: |
         cd ITK
-        find . -name \*.md5 -o -name \*.sha512 -print0 | xargs -d "\n" git log -n 1 | tee /home/circleci/external-data.hashable
+        find . -name \*.md5 -o -name \*.sha512 -print0 | xargs -0 git log -n 1 | tee /home/circleci/external-data.hashable
   restore-data-step: &restore-data-step
      restore_cache:
        keys:
@@ -48,7 +48,7 @@ jobs:
             sudo apt-get install -y  rsync ninja-build ccache
             sudo pip install --upgrade pip
             sudo pip install scikit-ci-addons
-            ci_addons circle/install_cmake.py 3.9.5
+            ci_addons circle/install_cmake.py 3.11.2
       - run:
           name: CCache initialization
           command: |
