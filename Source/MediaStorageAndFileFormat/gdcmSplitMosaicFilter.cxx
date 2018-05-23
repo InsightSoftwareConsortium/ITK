@@ -16,7 +16,6 @@
 #include "gdcmAttribute.h"
 #include "gdcmImageHelper.h"
 #include "gdcmDirectionCosines.h"
-#include "gdcmAnonymizer.h"
 
 #include <math.h>
 
@@ -48,7 +47,6 @@ static bool reorganize_mosaic(const unsigned short *input, const unsigned int *i
   return true;
 }
 
-#ifdef SNVINVERT
 static bool reorganize_mosaic_invert(const unsigned short *input, const unsigned int *inputdims,
   unsigned int square, const unsigned int *outputdims, unsigned short *output )
 {
@@ -67,7 +65,6 @@ static bool reorganize_mosaic_invert(const unsigned short *input, const unsigned
     }
   return true;
 }
-#endif
 
 }
 
@@ -76,13 +73,60 @@ void SplitMosaicFilter::SetImage(const Image& image)
   I = image;
 }
 
-bool SplitMosaicFilter::ComputeMOSAICDimensions( unsigned int dims[3] )
+bool SplitMosaicFilter::GetAcquisitionSize(unsigned int size[2], DataSet const & ds)
 {
+  bool found = true;
+  /*
+  Dimensions of the acquired frequency /phase data before reconstruction.
+  Multi-valued: frequency rows\frequency columns\phase rows\phase columns.
+   */
+  Attribute<0x0018, 0x1310> acquisitionMatrix;
+  acquisitionMatrix.SetFromDataSet( ds );
+  const unsigned short *pMat = acquisitionMatrix.GetValues();
+  /*
+  The axis of phase encoding with respect to the image.
+
+  Enumerated Values:
+
+  ROW
+  phase encoded in rows.
+
+  COL
+  phase encoded in columns.
+   */
+  Attribute<0x0018, 0x1312> inPlanePhaseEncodingDirection;
+  inPlanePhaseEncodingDirection.SetFromDataSet( ds );
+  CSComp val = inPlanePhaseEncodingDirection.GetValue();
+  std::string dir = val.Trim();
+  // http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.8.3.html
+  if( dir == "COL" )
+    {
+    /* pay attention that size is: { columns  , rows } */
+    // [256\0\0\134]
+    size[0] = pMat[3];
+    size[1] = pMat[0];
+    }
+  else if( dir == "ROW" )
+    {
+    // [0\512\213\0]
+    size[0] = pMat[1];
+    size[1] = pMat[2];
+    }
+  else
+    {
+    size[0] = size[1] = 0;
+    }
+  found = size[0] && size[1];
+  return found;
+}
+
+unsigned int SplitMosaicFilter::GetNumberOfImagesInMosaic( File const & file )
+{
+  unsigned int numberOfImagesInMosaic = 0;
+  DataSet const &ds = file.GetDataSet();
   CSAHeader csa;
-  DataSet& ds = GetFile().GetDataSet();
 
   const PrivateTag &t1 = csa.GetCSAImageHeaderInfoTag();
-  int numberOfImagesInMosaic = 0;
   if( csa.LoadFromDataElement( ds.GetDataElement( t1 ) ) )
   {
     if( csa.FindCSAElementByName( "NumberOfImagesInMosaic" ) )
@@ -96,7 +140,8 @@ bool SplitMosaicFilter::ComputeMOSAICDimensions( unsigned int dims[3] )
       }
     }
   }
-  else
+  // try harder:
+  if( !numberOfImagesInMosaic )
   {
     // Some weird anonymizer remove the private creator but leave the actual element.
     // oh well, let try harder:
@@ -116,14 +161,62 @@ bool SplitMosaicFilter::ComputeMOSAICDimensions( unsigned int dims[3] )
       }
     }
   }
+
+  std::vector<unsigned int> colrow =
+    ImageHelper::GetDimensionsValue( file );
+
+  // try super harder. Pay attention that trailing black image cannot be removed here.
   if( !numberOfImagesInMosaic )
   {
-    gdcmErrorMacro( "Could not find NumberOfImagesInMosaic" );
+    unsigned int mosaicSize[2];
+    if( GetAcquisitionSize(mosaicSize, ds) )
+    {
+      if( colrow[0] % mosaicSize[0] == 0 &&
+       colrow[1] % mosaicSize[1] == 0 )
+      {
+        numberOfImagesInMosaic = 
+          colrow[0] / mosaicSize[0] *
+          colrow[1] / mosaicSize[1];
+        // MultiFrame will contain trailing empty slices:
+        gdcmWarningMacro( "NumberOfImagesInMosaic was not found. Volume will be padded with black image." );
+      }
+      else
+      {
+        // assume interpolation:
+        unsigned int mosSize = std::max( mosaicSize[0], mosaicSize[1] );
+        if( colrow[0] % mosSize == 0 &&
+         colrow[1] % mosSize == 0 )
+        {
+          gdcmDebugMacro( "Matrix Acquisition does not match exactly. Using max value." );
+          numberOfImagesInMosaic = 
+            colrow[0] / mosSize *
+            colrow[1] / mosSize;
+          // MultiFrame will contain trailing empty slices:
+          gdcmWarningMacro( "NumberOfImagesInMosaic was not found. Volume will be padded with black image." );
+        }
+        else
+        {
+           gdcmErrorMacro( "NumberOfImagesInMosaic cannot be computed from Img Acq: " << mosaicSize[0] << "," << mosaicSize[1] );
+        }
+      }
+    }
+  }
+  return numberOfImagesInMosaic;
+}
+
+bool SplitMosaicFilter::ComputeMOSAICDimensions( unsigned int dims[3] )
+{
+  unsigned int numberOfImagesInMosaic = GetNumberOfImagesInMosaic( GetFile() );
+
+  if( !numberOfImagesInMosaic )
+  {
+    gdcmErrorMacro( "Could not find/compute NumberOfImagesInMosaic" );
     return false;
   }
 
   std::vector<unsigned int> colrow =
     ImageHelper::GetDimensionsValue( GetFile() );
+
   dims[0] = colrow[0];
   dims[1] = colrow[1];
 
@@ -171,12 +264,12 @@ bool SplitMosaicFilter::ComputeMOSAICSliceNormal( double slicenormalvector[3], b
     double z[3];
     dc.Cross (z);
     const double snv_dot = dc.Dot( normal, z );
-    if( (1. - snv_dot) < 1e-6 )
+    if( fabs(1. - snv_dot) < 1e-6 )
     {
       gdcmDebugMacro("Same direction");
       inverted = false;
     }
-    else if( (-1. - snv_dot) < 1e-6 )
+    else if( fabs(-1. - snv_dot) < 1e-6 )
     {
       gdcmWarningMacro("SliceNormalVector is opposite direction");
       inverted = true;
@@ -251,14 +344,19 @@ bool SplitMosaicFilter::Split()
   const unsigned int div = (unsigned int )ceil(sqrt( (double)dims[2]) );
   bool inverted;
   double normal[3];
+  bool hasOriginCSA = true;
+  bool hasNormalCSA = true;
   if( !ComputeMOSAICSliceNormal( normal, inverted ) )
   {
-    return false;
+    gdcmDebugMacro( "Normal will not be accurate" );
+    hasNormalCSA = false;
   }
+  (void)hasNormalCSA;
   double origin[3];
   if( !ComputeMOSAICSlicePosition( origin, inverted ) )
   {
-    return false;
+    gdcmWarningMacro( "Origin will not be accurate" );
+    hasOriginCSA = false;
   }
 
   const Image &inputimage = GetImage();
@@ -277,7 +375,6 @@ bool SplitMosaicFilter::Split()
   outbuf.resize(l);
 
   bool b;
-#ifdef SNVINVERT
   if( inverted )
   {
     b = details::reorganize_mosaic_invert(
@@ -285,7 +382,6 @@ bool SplitMosaicFilter::Split()
         (unsigned short*)&outbuf[0] );
   }
   else
-#endif
   {
     b = details::reorganize_mosaic(
         (unsigned short*)&buf[0], inputimage.GetDimensions(), div, dims,
@@ -312,6 +408,7 @@ bool SplitMosaicFilter::Split()
   image.SetDimension(2, dims[2] );
 
   // Fix origin (direction is ok since we reorganize the tiles):
+  if( hasOriginCSA )
   image.SetOrigin( origin );
 
   PhotometricInterpretation pi;
