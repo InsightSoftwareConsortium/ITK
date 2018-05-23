@@ -4,7 +4,7 @@ referenced:
       name: Generate external data hash
       command: |
         cd ITK
-        find . -name \*.md5 -o -name \*.sha512 -print0 | xargs -d "\n" git log -n 1 | tee /home/circleci/external-data.hashable
+        find . -name \*.md5 -o -name \*.sha512 -print0 | xargs -0 git log -n 1 | tee /home/circleci/external-data.hashable
   restore-data-step: &restore-data-step
      restore_cache:
        keys:
