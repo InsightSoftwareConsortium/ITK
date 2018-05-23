@@ -91,7 +91,7 @@ protected:
   AllocateOutputs() override;
 
   void
-  ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputRegionType & outputRegion) override;
 
 private:
   ComponentsMaskType m_ComponentsMask;
