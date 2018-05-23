@@ -231,7 +231,7 @@ protected:
   void
   AfterThreadedGenerateData() override;
   void
-  ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputRegionType & outputRegionForThread) override;
   void
   GenerateOutputInformation() override;
 
