@@ -25,9 +25,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 
-#include "itkProgressReporter.h"
-#include "itkProgressAccumulator.h"
-
 namespace itk
 {
 
@@ -39,6 +36,7 @@ template <typename TInputImage, typename TOutputImage >
 HessianImageFilter<TInputImage,TOutputImage>
 ::HessianImageFilter( void )
 {
+  this->DynamicMultiThreadingOn();
 }
 
 /**
@@ -103,11 +101,8 @@ HessianImageFilter< TInputImage, TOutputImage >
 template <typename TInputImage, typename TOutputImage >
 void
 HessianImageFilter<TInputImage,TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread)
 {
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   const TInputImage *input = this->GetInput();
 
   const unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -183,7 +178,6 @@ HessianImageFilter<TInputImage,TOutputImage>
 
       ++oit;
       ++it;
-       progress.CompletedPixel();
       }
     }
 
