@@ -388,17 +388,17 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 
     IndexValueType scanlineIndex = outIt.GetIndex()[0];
 
+
     while ( !outIt.IsAtEndOfLine() )
       {
 
       // Perform linear interpolation between startIndex and endIndex
-      const double alpha = (scanlineIndex - largestPossibleRegion.GetIndex(0) ) / double(largestPossibleRegion.GetSize(0));
-      const double oneMinusAlpha = 1.0 - alpha;
+      const double alpha = (scanlineIndex - largestPossibleRegion.GetIndex(0)) / (double)(largestPossibleRegion.GetSize(0));
 
-      ContinuousInputIndexType inputIndex;
+      ContinuousInputIndexType inputIndex( startIndex );
       for (unsigned int i = 0; i < ImageDimension; ++i)
         {
-        inputIndex[i] = startIndex[i] * oneMinusAlpha + endIndex[i] * alpha;
+        inputIndex[i] += alpha * ( endIndex[i] - startIndex[i] );
         }
 
       PixelType  pixval;
