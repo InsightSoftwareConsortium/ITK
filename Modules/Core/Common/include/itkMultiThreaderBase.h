@@ -98,7 +98,7 @@ public:
 
   /** Currently supported types of multi-threader implementations.
    * Last will change with additional implementations. */
-  enum class ThreaderType { Platform = 0, First = Platform, Pool, TBB, Last = TBB, Unknown = -1 };
+  enum ThreaderType { Platform = 0, First = Platform, Pool, TBB, Last = TBB, Unknown = -1 };
 
   /** Convert a threader name into its enum type. */
   static ThreaderType ThreaderTypeFromString(std::string threaderString);
