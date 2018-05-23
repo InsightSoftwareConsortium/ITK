@@ -134,7 +134,7 @@ protected:
   BeforeThreadedGenerateData() override;
 
   void
-  ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputRegionType & outputRegion) override;
 
   using InputComponentsImageFilterType = itk::SplitComponentsImageFilter<InputImageType, OperatorImageType>;
 

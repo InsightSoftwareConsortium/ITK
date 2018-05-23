@@ -27,7 +27,9 @@ namespace itk
 template <typename TTransform, typename TOperatorValue, typename TOutputValue>
 TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::TransformToStrainFilter()
   : m_StrainForm(INFINITESIMAL)
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 template <typename TTransform, typename TOperatorValue, typename TOutputValue>
 void
@@ -51,9 +53,8 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::BeforeThreade
 
 template <typename TTransform, typename TOperatorValue, typename TOutputValue>
 void
-TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGenerateData(
-  const OutputRegionType & region,
-  ThreadIdType             itkNotUsed(threadId))
+TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::DynamicThreadedGenerateData(
+  const OutputRegionType & region)
 {
   const TransformType * input = this->GetTransform();
 
