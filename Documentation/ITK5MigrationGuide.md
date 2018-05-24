@@ -105,7 +105,7 @@ If your class needs to also work with legacy code where
 `ITKV4_COMPATIBILITY` is enabled, invoke
 `this->DynamicMultiThreadingOn();` in the filter constructor. An example of
 external module transitioning to the new threading model can be found in
-[this commit](https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/pull/60/commits/f794baa7546f9bb8b7d89ae3a083c9a432d55df0).
+[this commit](https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/commit/f794baa7546f9bb8b7d89ae3a083c9a432d55df0).
 
 Class changes
 -------------
