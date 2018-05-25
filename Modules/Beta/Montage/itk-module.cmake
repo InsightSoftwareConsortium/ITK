@@ -16,6 +16,7 @@ itk_module(Montage
     ITKCommon
     ITKFFT
     ITKTransform
+    ITKIOImageBase
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
     ITKTestKernel
