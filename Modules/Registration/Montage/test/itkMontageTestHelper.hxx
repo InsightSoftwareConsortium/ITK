@@ -21,7 +21,6 @@
 
 #include "itkTileMontage.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
-#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
@@ -47,25 +46,6 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
   typename ImageType::SpacingType sp;
   sp.Fill(1.0); //OMC test assumes unit spacing, tiles test has explicit unit spacing
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  typename ReaderType::Pointer reader = ReaderType::New();
-
-  using ImageTableType = std::array<std::array<ImageTypePointer, xMontageSize>, yMontageSize>;
-  ImageTableType imageTable;
-
-  for (unsigned y = 0; y < yMontageSize; y++)
-    {
-    for (unsigned x = 0; x < xMontageSize; x++)
-      {
-      reader->SetFileName(filenames[y][x]);
-      reader->Update();
-      imageTable[y][x] = reader->GetOutput();
-      imageTable[y][x]->DisconnectPipeline();
-      imageTable[y][x]->SetOrigin(stageCoords[y][x]);
-      imageTable[y][x]->SetSpacing(sp);
-      }
-    }
-
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
 
@@ -90,6 +70,8 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
     using MontageType = itk::TileMontage<ImageType>;
     typename MontageType::Pointer montage = MontageType::New();
     montage->SetMontageSize({ xMontageSize, yMontageSize });
+    montage->SetOriginAdjustment(stageCoords[1][1]);
+    montage->SetForcedSpacing(sp);
 
     typename MontageType::TileIndexType ind;
     for (unsigned y = 0; y < yMontageSize; y++)
@@ -98,7 +80,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       for (unsigned x = 0; x < xMontageSize; x++)
         {
         ind[0] = x;
-        montage->SetInputTile(ind, imageTable[y][x]);
+        montage->SetInputTile(ind, filenames[y][x]);
         }
       }
 
