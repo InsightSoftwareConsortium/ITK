@@ -157,6 +157,7 @@ itkSliceIteratorTest.cxx
 itkPlatformMultiThreaderTest.cxx
 itkMultiThreaderTypeFromEnvironmentTest
 itkMultiThreadingEnvironmentTest.cxx
+itkMultiThreaderParallelizeArrayTest.cxx
 itkImageRegionExclusionIteratorWithIndexTest.cxx
 itkFixedArrayTest.cxx
 itkImageTransformTest.cxx
@@ -388,12 +389,28 @@ itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPool
 set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPool
   PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=pOoL") # tests letter case too
 
-if(ITK_USE_TBB)
-itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
-  COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
-set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestTBB
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=tbb") # tests letter case too
+if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
+  itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
+    COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
+  set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestTBB
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=tbb") # tests letter case too
+
+  itk_add_test(NAME itkMultiThreaderParallelizeArrayTestTBB
+    COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
+  set_tests_properties(itkMultiThreaderParallelizeArrayTestTBB
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=TBB")
 endif()
+
+itk_add_test(NAME itkMultiThreaderParallelizeArrayTestPlatform
+  COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
+set_tests_properties(itkMultiThreaderParallelizeArrayTestPlatform
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Platform")
+itk_add_test(NAME itkMultiThreaderParallelizeArrayTestPool
+  COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
+set_tests_properties(itkMultiThreaderParallelizeArrayTestPool
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Pool")
+itk_add_test(NAME itkMultiThreaderParallelizeArrayTest3
+  COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest 3) # test with 3 threads
 
 #test deprecated ITK_USE_THREADPOOL environment variable
 itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestOldPool

@@ -43,10 +43,11 @@ namespace itk
 /** \class MultiThreaderBase
  * \brief A class for performing multithreaded execution
  *
- * Multithreader is a class that provides support for multithreaded
- * execution using Windows or POSIX threads.
- * This class can be used to execute a single
- * method on multiple threads, or to specify a method per thread.
+ * Multithreaders are a class hierarchy that provides support for
+ * multithreaded execution by abstracting away platform-specific
+ * details. This class can be used to execute a single
+ * method on multiple threads or to parallelize an operation over a
+ * given image region or array.
  *
  * \ingroup OSSystemObjects
  *
@@ -177,10 +178,23 @@ public:
   using ThreadingFunctorType = std::function<void(
       const IndexValueType index[],
       const SizeValueType size[])>;
+  using ArrayThreadingFunctorType = std::function< void( SizeValueType ) >;
+
+  /** Parallelize an operation over an array. If filter argument is not nullptr,
+   * this function will update its progress as each index is completed.
+   *
+   * This implementation simply delegates parallelization to the old interface
+   * SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded! */
+  virtual void
+  ParallelizeArray(
+    SizeValueType firstIndex,
+    SizeValueType lastIndexPlus1,
+    ArrayThreadingFunctorType aFunc,
+    ProcessObject* filter );
 
   /** Break up region into smaller chunks, and call the function with chunks as parameters.
    * If filter argument is not nullptr, this function will update its progress
-   * as each work unit is completed. */
+   * as each work unit is completed. Delegates work to non-templated version. */
   template<unsigned int VDimension>
   void ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TemplatedThreadingFunctorType<VDimension> funcP, ProcessObject* filter)
   {
@@ -222,6 +236,18 @@ protected:
   MultiThreaderBase();
   ~MultiThreaderBase() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  struct ArrayCallback
+  {
+    ArrayThreadingFunctorType functor;
+    const SizeValueType firstIndex;
+    const SizeValueType lastIndexPlus1;
+    ProcessObject* filter;
+    std::thread::id callingThread;
+    std::atomic<SizeValueType> progress;
+  };
+
+  static ITK_THREAD_RETURN_TYPE ParallelizeArrayHelper(void *arg);
 
   struct RegionAndCallback
   {

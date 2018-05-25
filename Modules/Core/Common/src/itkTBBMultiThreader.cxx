@@ -73,6 +73,77 @@ void TBBMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
+void
+TBBMultiThreader
+::ParallelizeArray(
+  SizeValueType firstIndex,
+  SizeValueType lastIndexPlus1,
+  ArrayThreadingFunctorType aFunc,
+  ProcessObject* filter )
+{
+  if (filter)
+    {
+    filter->UpdateProgress(0.0f);
+    }
+
+  if ( firstIndex + 1 < lastIndexPlus1 )
+    {
+    unsigned count = lastIndexPlus1 - firstIndex;
+    std::atomic< SizeValueType > progress = 0;
+    std::thread::id callingThread = std::this_thread::get_id();
+    //we request grain size of 1 and simple_partitioner to ensure there is no chunking
+    tbb::parallel_for(
+        tbb::blocked_range<SizeValueType>(firstIndex, lastIndexPlus1, 1),
+        [&](tbb::blocked_range<SizeValueType>r)
+        {
+        // Make sure that TBB did not call us with a block of "threads"
+        // but rather with only one "thread" to handle
+        itkAssertInDebugAndIgnoreInReleaseMacro(r.begin() + 1 == r.end());
+        if ( filter && filter->GetAbortGenerateData() )
+          {
+          std::string msg;
+          ProcessAborted e( __FILE__, __LINE__ );
+          msg += "AbortGenerateData was called in " + std::string( filter->GetNameOfClass() )
+              + " during multi-threaded part of filter execution";
+          e.SetDescription(msg);
+          throw e;
+          }
+
+        aFunc( r.begin() ); //invoke the function
+
+        if ( filter )
+          {
+          ++progress;
+          //make sure we are updating progress only from the thead which invoked us
+          if ( callingThread == std::this_thread::get_id() )
+            {
+            filter->UpdateProgress( float( progress ) / count );
+            }
+          }
+        },
+        tbb::simple_partitioner());
+    }
+  else if ( firstIndex + 1 == lastIndexPlus1 )
+    {
+    aFunc( firstIndex );
+    }
+  // else nothing needs to be executed
+
+  if (filter)
+    {
+    filter->UpdateProgress(1.0f);
+    if (filter->GetAbortGenerateData())
+      {
+      std::string msg;
+      ProcessAborted e(__FILE__, __LINE__);
+      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
+          + " during multi-threaded part of filter execution";
+      e.SetDescription(msg);
+      throw e;
+      }
+    }
+}
+
 }
 
 namespace
