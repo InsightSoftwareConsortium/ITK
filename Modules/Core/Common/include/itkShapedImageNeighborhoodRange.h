@@ -43,34 +43,34 @@ namespace Experimental
  * The following example creates a 3 x 5 neighborhood around pixel [10, 20]
  * and adds 42 to each neighborhood pixel, using a range-based for loop:
  * \code
- * const ImageType::IndexType location = {10, 20};
- * const itk::Size<ImageType::ImageDimension> radius = { { 1, 2 } };
- * const std::vector<OffsetType> offsets = itk::GenerateHyperrectangularImageNeighborhoodOffsets(radius)
- * itk::ShapedImageNeighborhoodRange<ImageType> neighborhoodRange{ *image, location, offsets };
- *
- * for (auto&& neighborhoodPixel : neighborhoodRange)
- * {
- *   neighborhoodPixel = neighborhoodPixel + 42;
- * }
- * \endcode
+   const ImageType::IndexType location = {10, 20};
+   const itk::Size<ImageType::ImageDimension> radius = { { 1, 2 } };
+   const std::vector<OffsetType> offsets = itk::GenerateHyperrectangularImageNeighborhoodOffsets(radius)
+   itk::ShapedImageNeighborhoodRange<ImageType> neighborhoodRange{ *image, location, offsets };
+
+   for (auto&& neighborhoodPixel : neighborhoodRange)
+   {
+     neighborhoodPixel = neighborhoodPixel + 42;
+   }
+   \endcode
  *
  * The following example prints the values of the neighborhood pixels:
  * \code
- * for (const PixelType neighborhoodPixel : neighborhoodRange)
- * {
- *   std::cout << neighborhoodPixel << std::endl;
- * }
- * \endcode
+   for (const PixelType neighborhoodPixel : neighborhoodRange)
+   {
+     std::cout << neighborhoodPixel << std::endl;
+   }
+   \endcode
  *
  * The inner product of the neighborhood with a kernel can be produced with
  * std::inner_product (from the Standard C++  header "numeric"), as follows:
  * \code
- * double result = std::inner_product(
- *   kernel.begin(),
- *   kernel.end(),
- *   neighborhoodRange.begin(),
- *   0.0);
- * \endcode
+   double result = std::inner_product(
+     kernel.begin(),
+     kernel.end(),
+     neighborhoodRange.begin(),
+     0.0);
+   \endcode
  *
  * \note Strictly speaking, the itk::ShapedImageNeighborhoodRange iterator classes do not
  * fully comply with the C++11 random access iterator requirements, because
@@ -80,6 +80,8 @@ namespace Experimental
  * standard compliant iterator. However, this "pixel proxy" very much behaves like a
  * reference to the pixel, and in practice, passing such an iterator to an std function
  * usually just works!
+ *
+ * \author Niels Dekker, LKEB, Leiden University Medical Center
  *
  * \see ShapedNeighborhoodIterator
  * \ingroup ImageIterators
