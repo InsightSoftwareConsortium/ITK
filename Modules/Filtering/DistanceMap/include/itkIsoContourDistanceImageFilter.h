@@ -23,6 +23,7 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkBarrier.h"
 #include "itkNumericTraits.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
@@ -191,6 +192,8 @@ private:
 
   /** A global barrier used for synchronization between all threads. */
   typename Barrier::Pointer m_Barrier;
+
+  SimpleFastMutexLock m_Mutex;
 };
 } // namespace itk
 
