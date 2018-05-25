@@ -196,8 +196,7 @@ private:
   NarrowBandPointer         m_NarrowBand;
   std::vector< RegionType > m_NarrowBandRegion;
 
-
- SimpleFastMutexLock m_Mutex;
+  SimpleFastMutexLock m_Mutex;
 };
 } // namespace itk
 
