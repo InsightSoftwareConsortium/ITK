@@ -21,13 +21,43 @@
 
 #include "itkTileMontage.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkAffineTransform.h"
 #include "itkImageFileWriter.h"
+#include "itkTransformFileWriter.h"
+#include "itkTxtTransformIOFactory.h"
 #include "itkSimpleFilterWatcher.h"
 
 #include <type_traits>
 #include <array>
 #include <fstream>
 #include <iomanip>
+
+template<typename TransformType>
+void WriteTransform(const TransformType* transform, std::string filename)
+{
+  using AffineType = itk::AffineTransform<double, 3>;
+  using TransformWriterType = itk::TransformFileWriterTemplate<double>;
+  TransformWriterType::Pointer tWriter = TransformWriterType::New();
+  tWriter->SetFileName(filename);
+
+  if (TransformType::SpaceDimension >= 2 || TransformType::SpaceDimension <= 3)
+    { //convert into affine which Slicer can read
+    AffineType::Pointer aTr = AffineType::New();
+    AffineType::TranslationType t;
+    t.Fill(0);
+    for (unsigned i = 0; i < TransformType::SpaceDimension; i++)
+      {
+      t[i] = transform->GetOffset()[i];
+      }
+    aTr->SetTranslation(t);
+    tWriter->SetInput(aTr);
+    }
+  else
+    {
+    tWriter->SetInput(transform);
+    }
+  tWriter->Update();
+}
 
  //do the registrations and calculate registration errors
 template<typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
@@ -45,6 +75,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
   using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
   typename ImageType::SpacingType sp;
   sp.Fill(1.0); //OMC test assumes unit spacing, tiles test has explicit unit spacing
+  itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
@@ -122,6 +153,8 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
             totalError += std::abs(tr[d] - ta[d]);
             }
           registrationErrors << std::endl;
+          WriteTransform(regTr, outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod)
+              + "_Tr_" + std::to_string(x) + "_" + std::to_string(y) + ".tfm");
           }
         }
       double avgError = totalError / (xMontageSize*(yMontageSize - 1) + (xMontageSize - 1)*yMontageSize);
