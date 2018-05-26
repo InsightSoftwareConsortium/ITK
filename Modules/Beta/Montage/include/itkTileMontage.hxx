@@ -258,7 +258,9 @@ TileMontage<TImageType, TCoordinate>
   auto input = static_cast<const ImageType*>(this->GetInput(indLin));
   ImageIndexType ind = input->GetRequestedRegion().GetIndex();
   input->TransformIndexToPhysicalPoint(ind, p);
-  p = transform->TransformPoint(p);
+  TransformPointer inverseT = TransformType::New();
+  transform->GetInverse(inverseT);
+  p = inverseT->TransformPoint(p);
   input0->TransformPhysicalPointToContinuousIndex(p, ci);
   for (unsigned d = 0; d < ImageDimension; d++)
     {
@@ -270,7 +272,7 @@ TileMontage<TImageType, TCoordinate>
     }
   ind += input->GetRequestedRegion().GetSize();
   input->TransformIndexToPhysicalPoint(ind, p);
-  p = transform->TransformPoint(p);
+  p = inverseT->TransformPoint(p);
   input0->TransformPhysicalPointToContinuousIndex(p, ci);
   for (unsigned d = 0; d < ImageDimension; d++)
     {
@@ -478,8 +480,10 @@ TileMontage<TImageType, TCoordinate>
     {
     auto input = static_cast<const ImageType*>(this->GetInput(i));
     TransformConstPointer t = static_cast<TransformOutputType *>(this->GetOutput(i))->Get();
+    TransformPointer inverseT = TransformType::New();
+    t->GetInverse(inverseT);
     PointType iOrigin = input->GetOrigin();
-    iOrigin = t->TransformPoint(iOrigin);
+    iOrigin = inverseT->TransformPoint(iOrigin);
 
     ContinuousIndexType ci;
     m_SingleImage->TransformPhysicalPointToContinuousIndex(iOrigin, ci);
