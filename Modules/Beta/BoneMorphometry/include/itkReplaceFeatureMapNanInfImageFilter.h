@@ -54,11 +54,11 @@ public ImageToImageFilter< TImage, TImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReplaceFeatureMapNanInfImageFilter);
 
-  /** Standard Self typedef */
-  typedef ReplaceFeatureMapNanInfImageFilter    Self;
-  typedef ImageToImageFilter< TImage, TImage>   Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  /** Standard Self type alias. */
+  using Self = ReplaceFeatureMapNanInfImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,30 +68,30 @@ public:
 
 protected:
 
-  /** Input Image related typedefs. */
-  typedef typename TImage::Pointer           ImagePointer;
-  typedef typename TImage::RegionType        RegionType;
-  typedef typename TImage::SizeType          SizeType;
-  typedef typename TImage::IndexType         IndexType;
-  typedef typename TImage::PixelType         PixelType;
+  /** Input Image related type alias. */
+  using ImagePointer = typename TImage::Pointer;
+  using RegionType = typename TImage::RegionType;
+  using SizeType = typename TImage::SizeType;
+  using IndexType = typename TImage::IndexType;
+  using PixelType = typename TImage::PixelType;
 
   /** Type to use for computations. */
-  typedef typename NumericTraits< PixelType >::ScalarRealType RealType;
+  using RealType = typename NumericTraits< PixelType >::ScalarRealType;
 
-  /** Intermediate Image related typedefs. */
-  typedef itk::Image< RealType, TImage::ImageDimension >        InterImageType;
-  typedef itk::ImageRegionConstIterator< InterImageType >       InterIteratorType;
+  /** Intermediate Image related type alias. */
+  using InterImageType =  itk::Image< RealType, TImage::ImageDimension >;
+  using InterIteratorType = itk::ImageRegionConstIterator< InterImageType >;
 
   ReplaceFeatureMapNanInfImageFilter();
-  virtual ~ReplaceFeatureMapNanInfImageFilter() {}
+  ~ReplaceFeatureMapNanInfImageFilter() override {}
 
-  typedef VectorIndexSelectionCastImageFilter< TImage , InterImageType > IndexSelectionFiterType;
-  typedef MinimumMaximumImageFilter< InterImageType >                    MinMaxImageFilterType;
-  typedef MaskImageFilter< InterImageType , InterImageType >             MaskImageFilterType;
+  using IndexSelectionFiterType = VectorIndexSelectionCastImageFilter< TImage , InterImageType >;
+  using MinMaxImageFilterType = MinimumMaximumImageFilter< InterImageType >;
+  using MaskImageFilterType = MaskImageFilter< InterImageType , InterImageType >;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   typename  IndexSelectionFiterType::Pointer   m_IndexSelectionFiter;

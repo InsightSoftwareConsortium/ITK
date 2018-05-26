@@ -34,8 +34,8 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
   this->SetNumberOfRequiredInputs( 1 );
 
-  typedef Neighborhood<typename TInputImage::PixelType,
-    TInputImage::ImageDimension> NeighborhoodType;
+  using NeighborhoodType = Neighborhood<typename TInputImage::PixelType,
+    TInputImage::ImageDimension>;
   NeighborhoodType nhood;
   nhood.SetRadius( 2 );
   this->m_NeighborhoodRadius = nhood.GetRadius( );
@@ -96,7 +96,7 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>
     inputNIt.SetBoundaryCondition(BoundaryCondition);
     inputNIt.GoToBegin();
 
-    typedef itk::ImageRegionIterator< TOutputImage> IteratorType;
+    using IteratorType = itk::ImageRegionIterator< TOutputImage >;
     IteratorType outputIt( outputPtr, *fit );
 
     while( !inputNIt.IsAtEnd() )

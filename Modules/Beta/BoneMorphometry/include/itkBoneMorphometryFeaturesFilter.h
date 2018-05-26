@@ -60,11 +60,11 @@ public ImageToImageFilter< TInputImage, TInputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoneMorphometryFeaturesFilter);
 
-  /** Standard Self typedef */
-  typedef BoneMorphometryFeaturesFilter                   Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage >  Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard Self type alias. */
+  using Self = BoneMorphometryFeaturesFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,24 +72,24 @@ public:
   /** Runtime information support. */
   itkTypeMacro(BoneMorphometryFeaturesFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer    InputImagePointer;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
 
-  /** Mask related typedefs. */
-  typedef typename TMaskImage::Pointer    MaskImagePointer;
+  /** Mask related type alias. */
+  using MaskImagePointer = typename TMaskImage::Pointer;
 
-  /** NeighborhoodIterator typedef */
-  typedef ConstantBoundaryCondition< TInputImage >                           BoundaryConditionType;
-  typedef ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >    NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::RadiusType                      NeighborhoodRadiusType;
-  typedef typename NeighborhoodIteratorType::OffsetType                      NeighborhoodOffsetType;
+  /** NeighborhoodIterator type alias */
+  using BoundaryConditionType = ConstantBoundaryCondition< TInputImage >;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >;
+  using NeighborhoodRadiusType = typename NeighborhoodIteratorType::RadiusType;
+  using NeighborhoodOffsetType = typename NeighborhoodIteratorType::OffsetType;
 
   /** Type to use for computations. */
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Methods to set/get the mask image */
   itkSetInputMacro(MaskImage, TMaskImage);
@@ -100,8 +100,7 @@ public:
   itkGetMacro(Threshold, RealType);
 
   /** Methods to get the mask different outputs */
-
-  typedef SimpleDataObjectDecorator< RealType > RealTypeDecoratedType;
+  using RealTypeDecoratedType = SimpleDataObjectDecorator< RealType >;
 
   RealType GetBVTV() { return m_Pp; }
   RealTypeDecoratedType * GetBVTVOutput()
@@ -153,25 +152,23 @@ public:
 
 protected:
   BoneMorphometryFeaturesFilter();
-  virtual ~BoneMorphometryFeaturesFilter() {}
+  ~BoneMorphometryFeaturesFilter() override {}
 
 
   /** Pass the input through unmodified. Do this by Grafting in the
-  *  AllocateOutputs method.
-  */
-  void AllocateOutputs() ITK_OVERRIDE;
+  * AllocateOutputs method. */
+  void AllocateOutputs() override;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  /** Do final mean and variance computation from data accumulated in threads.
-    */
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  /** Do final mean and variance computation from data accumulated in threads. */
+  void AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
-  void  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) ITK_OVERRIDE;
+  void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 
