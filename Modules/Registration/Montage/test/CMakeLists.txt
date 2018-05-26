@@ -1,15 +1,21 @@
 itk_module_test()
 
+add_compile_options(-D_SCL_SECURE_NO_WARNINGS) # disable non-standard warning on MSVC
+
 set(MontageTests
   itkPhaseCorrelationImageRegistrationMethodTestSynthetic.cxx
   itkPhaseCorrelationImageRegistrationMethodTestFiles.cxx
   itkMontageTestTiles.cxx
   itkMontageTestOMC.cxx
+  itkMontageGenericTests.cxx
   )
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
 
 set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/../Testing/Temporary")
+
+itk_add_test(NAME itkMontageGenericTests
+  COMMAND MontageTestDriver itkMontageGenericTests)
 
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cc
   COMMAND MontageTestDriver

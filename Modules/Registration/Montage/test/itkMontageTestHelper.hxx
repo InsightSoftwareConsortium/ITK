@@ -20,6 +20,7 @@
 #define itkMontageTestHelper_hxx
 
 #include "itkTileMontage.h"
+#include "itkTileMerging.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkAffineTransform.h"
 #include "itkImageFileWriter.h"
@@ -62,7 +63,8 @@ void WriteTransform(const TransformType* transform, std::string filename)
  //do the registrations and calculate registration errors
 template<typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
 int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
-    const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods)
+    const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods,
+    bool setMontageDirectly)
 {
   int result = EXIT_SUCCESS;
   constexpr unsigned Dimension = 2;
@@ -122,7 +124,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       montage->GetModifiablePCMOptimizer()->SetPeakInterpolationMethod(static_cast<PeakInterpolationType>(peakMethod));
       montage->Modified(); // optimizer is not an "input" to PCM
       //so its modification does not cause a pipeline update automatically
-      
+
       std::cout << "    PeakMethod " << peakMethod << std::endl;
       itk::SimpleFilterWatcher fw(montage);
       montage->Update();
@@ -166,12 +168,37 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         result = EXIT_FAILURE;
         }
       // write generated mosaic
-      ImageTypePointer image = montage->ResampleIntoSingleImage(false);
+      using Resampler = itk::TileMerging<ImageType>;
+      typename Resampler::Pointer resampleF = Resampler::New();
+      itk::SimpleFilterWatcher fw(resampleF);
+      if (setMontageDirectly)
+        {
+        resampleF->SetMontage(montage);
+        }
+      else
+        {
+        resampleF->SetMontageSize({ xMontageSize, yMontageSize });
+        resampleF->SetOriginAdjustment(stageCoords[1][1]);
+        resampleF->SetForcedSpacing(sp);
+        for (unsigned y = 0; y < yMontageSize; y++)
+          {
+          ind[1] = y;
+          for (unsigned x = 0; x < xMontageSize; x++)
+            {
+            ind[0] = x;
+            resampleF->SetInputTile(ind, filenames[y][x]);
+            resampleF->SetTileTransform(ind, montage->GetOutputTransform(ind));
+            }
+          }
+        }
+      //resampleF->Update();
       using WriterType = itk::ImageFileWriter<ImageType>;
       typename WriterType::Pointer w = WriterType::New();
-      w->SetInput(image);
-      w->SetFileName(outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + ".nrrd");
+      w->SetInput(resampleF->GetOutput());
+      //MetaImage format supports streaming
+      w->SetFileName(outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + ".mha");
       //w->UseCompressionOn();
+      w->SetNumberOfStreamDivisions(3);
       w->Update();
       }
 
