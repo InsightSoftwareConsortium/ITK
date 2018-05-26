@@ -23,7 +23,6 @@
 #include "itkImage.h"
 #include "itkImageAlgorithm.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include <typeinfo>
 
