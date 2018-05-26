@@ -58,6 +58,8 @@ class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesFilter:
 public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoneMorphometryFeaturesFilter);
+
   /** Standard Self typedef */
   typedef BoneMorphometryFeaturesFilter                   Self;
   typedef ImageToImageFilter< TInputImage, TInputImage >  Superclass;
