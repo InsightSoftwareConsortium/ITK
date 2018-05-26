@@ -221,8 +221,8 @@ int main(int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  constexpr double translationScale = 1000.0;   // dynamic range of translations
-  constexpr double rotationScale = 1.0;   // dynamic range of rotations
+  constexpr double translationScale = 1000.0; // dynamic range of translations
+  constexpr double rotationScale = 1.0;       // dynamic range of rotations
 
   scales[0] = 1.0 / rotationScale;
   scales[1] = 1.0 / rotationScale;

@@ -236,7 +236,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
+  using ScalesEstimatorType =
+    itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
   ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric( metric );
   scalesEstimator->SetTransformForward( true );

@@ -369,7 +369,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
 
-  const auto numberOfSamples = static_cast< unsigned int >( numberOfPixels * 0.01 );
+  const auto numberOfSamples =
+    static_cast< unsigned int >( numberOfPixels * 0.01 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet

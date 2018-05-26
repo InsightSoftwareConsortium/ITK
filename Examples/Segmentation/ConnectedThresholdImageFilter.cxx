@@ -172,8 +172,9 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ConnectedFilterType = itk::ConnectedThresholdImageFilter< InternalImageType,
-                                    InternalImageType >;
+  using ConnectedFilterType =
+    itk::ConnectedThresholdImageFilter< InternalImageType,
+                                        InternalImageType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

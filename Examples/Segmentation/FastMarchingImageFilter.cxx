@@ -233,8 +233,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ThresholdingFilterType = itk::BinaryThresholdImageFilter< InternalImageType,
-                        OutputImageType    >;
+  using ThresholdingFilterType =
+    itk::BinaryThresholdImageFilter< InternalImageType, OutputImageType >;
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -322,7 +322,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using GradientFilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
+  using GradientFilterType =
+    itk::GradientMagnitudeRecursiveGaussianImageFilter<
                                InternalImageType,
                                InternalImageType >;
   using SigmoidFilterType = itk::SigmoidImageFilter<
@@ -369,8 +370,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FastMarchingFilterType = itk::FastMarchingImageFilter< InternalImageType,
-                              InternalImageType >;
+  using FastMarchingFilterType =
+    itk::FastMarchingImageFilter< InternalImageType,
+                                  InternalImageType >;
   // Software Guide : EndCodeSnippet
 
 

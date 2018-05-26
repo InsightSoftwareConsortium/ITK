@@ -146,8 +146,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using DiffusionFilterType = itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
-    InternalImageType>;
+  using DiffusionFilterType =
+    itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
+                                                  InternalImageType >;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations( atoi(argv[4]) );
   diffusion->SetTimeStep(0.125);

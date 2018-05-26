@@ -171,8 +171,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ThresholdSegmentationLevelSetImageFilterType = itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType,
-    InternalImageType >;
+  using ThresholdSegmentationLevelSetImageFilterType =
+    itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType,
+                                                   InternalImageType >;
   ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation =
     ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet

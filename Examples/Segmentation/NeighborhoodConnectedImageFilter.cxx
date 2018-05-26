@@ -145,8 +145,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ConnectedFilterType = itk::NeighborhoodConnectedImageFilter<InternalImageType,
-                                    InternalImageType >;
+  using ConnectedFilterType =
+    itk::NeighborhoodConnectedImageFilter<InternalImageType,
+                                          InternalImageType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

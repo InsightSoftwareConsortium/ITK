@@ -210,15 +210,17 @@ public:
     // Software Guide : EndCodeSnippet
 
     unsigned int currentLevel = registration->GetCurrentLevel();
-    typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
-      registration->GetShrinkFactorsPerDimension( currentLevel );
+    typename RegistrationType::ShrinkFactorsPerDimensionContainerType
+      shrinkFactors =
+        registration->GetShrinkFactorsPerDimension( currentLevel );
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
       registration->GetSmoothingSigmasPerLevel();
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << " Current level = " << currentLevel << std::endl;
     std::cout << "    shrink factor = " << shrinkFactors << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "    smoothing sigma = ";
+    std::cout << smoothingSigmas[currentLevel] << std::endl;
     std::cout << std::endl;
 
     // Software Guide : BeginLatex

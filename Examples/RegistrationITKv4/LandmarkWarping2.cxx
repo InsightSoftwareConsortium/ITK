@@ -102,7 +102,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
 
-  using DisplacementSourceType = itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
+  using DisplacementSourceType =
+    itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
   DisplacementSourceType::Pointer deformer = DisplacementSourceType::New();
 

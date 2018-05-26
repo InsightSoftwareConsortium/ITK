@@ -122,7 +122,8 @@ int main( int argc, char *argv[] )
                                     MovingImageType    >;
 
 
-  using MetricType = itk::NormalizedMutualInformationHistogramImageToImageMetric<
+  using MetricType =
+    itk::NormalizedMutualInformationHistogramImageToImageMetric<
                                           FixedImageType,
                                           MovingImageType >;
 

@@ -55,7 +55,8 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using DensityFunctionType = itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
+  using DensityFunctionType =
+    itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
   DensityFunctionType::Pointer densityFunction = DensityFunctionType::New();
   // Software Guide : EndCodeSnippet
 
