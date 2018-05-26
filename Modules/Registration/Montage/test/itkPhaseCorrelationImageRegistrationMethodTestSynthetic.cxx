@@ -19,9 +19,7 @@
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkImageFileWriter.h"
-#include "itkTransformFileWriter.h"
-#include "itkTxtTransformIOFactory.h"
-#include "itkAffineTransform.h"
+#include "itkMontageTestHelper.hxx" //for WriteTransform
 #include "itkNumericTraits.h"
 #include <array>
 
@@ -293,32 +291,9 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
             pass = false;
             }
 
-          using AffineType = itk::AffineTransform<double, 3>;
-          using TransformWriterType = itk::TransformFileWriterTemplate<double>;
-          TransformWriterType::Pointer tWriter = TransformWriterType::New();
-          tWriter->SetFileName( argv[3] );
-          const TransformType* oT = pcm->GetOutput()->Get();
-
-          if (VDimension >= 2 || VDimension <= 3)
-            { //convert into affine which Slicer can read
-            AffineType::Pointer aTr = AffineType::New();
-            AffineType::TranslationType t;
-            t.Fill(0);
-            for (unsigned i = 0; i < VDimension; i++)
-              {
-              t[i] = transformParameters[i];
-              }
-            aTr->SetTranslation(t);
-            tWriter->SetInput(aTr);
-            }
-          else
-            {
-            tWriter->SetInput(oT);
-            }
-
           try
             {
-            tWriter->Update();
+            WriteTransform(pcm->GetOutput()->Get(), argv[3]);
             }
           catch( itk::ExceptionObject & e )
             {
