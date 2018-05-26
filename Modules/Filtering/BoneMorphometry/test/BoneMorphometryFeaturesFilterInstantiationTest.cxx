@@ -58,8 +58,8 @@ BoneMorphometryFeaturesFilterInstantiationTest(int argc, char * argv[])
 
   filter->SetInput(reader->GetOutput());
 
-  //  filter->SetMaskImage( maskReader->GetOutput() );
-  //  TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
+  // filter->SetMaskImage( maskReader->GetOutput() );
+  // TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
 
   filter->SetThreshold(1300);
   TEST_SET_GET_VALUE(1300, filter->GetThreshold());
