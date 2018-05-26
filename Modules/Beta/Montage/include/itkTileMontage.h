@@ -21,7 +21,6 @@
 
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkImageFileReader.h"
 #include <vector>
 
@@ -53,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseCorrelationImageRegistrationMethod, ProcessObject);
+  itkTypeMacro(TileMontage, ProcessObject);
 
   /** Dimensionality of input images. */
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
@@ -127,11 +126,6 @@ public:
   itkGetConstMacro(MontageSize, SizeType);
   void SetMontageSize(SizeType montageSize);
 
-  /** Get/Set background value (used by ResampleIntoSingleImage
-   * if cropToFill is false). Default PixelType's value if not set. */
-  itkSetMacro(Background, PixelType);
-  itkGetMacro(Background, PixelType);
-
   /** To be called for each tile position in the mosaic
    * before the call to Update(). */
   void SetInputTile(TileIndexType position, ImageType* image)
@@ -152,15 +146,6 @@ public:
   {
     return static_cast<TransformOutputType *>(this->GetOutput(this->nDIndexToLinearIndex(position)))->Get();
   }
-
-  /** After Update(), the tiles can be assembled into a single big image.
-   * cropToFill indicates whether the big image will be cropped so it
-   * entirely consists of input tiles (no default background filling).
-   * If cropToFill is false, the big image will have the extent to include
-   * all of the input tiles. The pixels not covered by any input tile
-   * will have the value specified by the Background member variable. */
-  template<typename TInterpolator = LinearInterpolateImageFunction<ImageType, TCoordinate> >
-  typename ImageType::Pointer ResampleIntoSingleImage(bool cropToFill);
 
 protected:
   TileMontage();
@@ -197,28 +182,13 @@ protected:
   /** Accesses output, sets a transform to it, and updates progress. */
   void WriteOutTransform(TileIndexType index, TransformPointer transform);
 
-  /** A set of linear indices of input tiles which contribute to this region. */
-  using ContributingTiles = std::set<SizeValueType>;
-
-  void SplitRegionAndCopyContributions(
-      std::vector<RegionType>& regions,
-      std::vector<ContributingTiles>& regionContributors,
-      RegionType newRegion,
-      size_t oldRegionIndex,
-      SizeValueType tileIndex);
-
-  /** The region will be inside of the rectangle given by min and max indices.
-   * The min is rounded up, while the max is rounded down. */
-  RegionType ConstructRegion(ContinuousIndexType minIndex, ContinuousIndexType maxIndex);
-
-  /** Calculates distance of index from the closes edge of the region. */
-  SizeValueType DistanceFromEdge(ImageIndexType index, RegionType region);
-
-  /** Resamples a single region into m_SingleImage.
-   * This method does not access other regions,
-   * and can be run in parallel with other indices. */
-  template<typename TInterpolator>
-  void ResampleSingleRegion(unsigned regionIndex);
+  /** Updates mosaic bounds. The transform applies to input.
+   *  input0 is tile in the top-left corner. */
+  void UpdateMosaicBounds(
+      TileIndexType index,
+      TransformConstPointer transform,
+      const ImageType *input,
+      const ImageType *input0);
 
   /** Image's FFT type. */
   using FFTType = typename PCMType::ComplexImageType;
@@ -242,18 +212,13 @@ private:
     typename PCMOptimizerType::Pointer  m_PCMOptimizer;
 
     //members needed for ResampleIntoSingleImage
-    typename ImageType::Pointer      m_SingleImage; //the big output image
-    std::vector<RegionType>          m_InputMappings; //where do input tile regions map into the output
-    std::vector<ContinuousIndexType> m_InputsContinuousIndices; //where do input tile region indices map into the output
-    std::vector<RegionType>          m_Regions; //regions which completely cover the output,
-                                                //grouped by the set of contributing input tiles
-    std::vector<ContributingTiles>   m_RegionContributors; //set of input tiles which contribute to corresponding regions
-
-    PixelType           m_Background; //default background value (not covered by any input tile)
     ContinuousIndexType m_MinInner; //minimum index for cropped montage
     ContinuousIndexType m_MaxInner; //maximum index for cropped montage
     ContinuousIndexType m_MinOuter; //minimum index for total montage
     ContinuousIndexType m_MaxOuter; //maximum index for total montage
+
+    template <typename TImageTypeInner, typename TInterpolatorInner>
+    friend class TileMerging;
 }; // class TileMontage
 
 } // namespace itk
