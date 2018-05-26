@@ -30,7 +30,7 @@ template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 
 BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::BoneMorphometryFeaturesImageFilter():
-    m_Threshold(1)
+  m_Threshold(1)
 {
   this->SetNumberOfRequiredInputs( 1 );
 
@@ -66,127 +66,127 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-    NeighborhoodOffsetType offsetX = {{0,0,1}};
-    NeighborhoodOffsetType offsetXO = {{0,0,-1}};
-    NeighborhoodOffsetType offsetY = {{0,1,0}};
-    NeighborhoodOffsetType offsetYO = {{0,-1,0}};
-    NeighborhoodOffsetType offsetZ = {{1,0,0}};
-    NeighborhoodOffsetType offsetZO = {{-1,0,0}};
-    NeighborhoodOffsetType tempOffset;
-    typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
+  NeighborhoodOffsetType offsetX = {{0,0,1}};
+  NeighborhoodOffsetType offsetXO = {{0,0,-1}};
+  NeighborhoodOffsetType offsetY = {{0,1,0}};
+  NeighborhoodOffsetType offsetYO = {{0,-1,0}};
+  NeighborhoodOffsetType offsetZ = {{1,0,0}};
+  NeighborhoodOffsetType offsetZO = {{-1,0,0}};
+  NeighborhoodOffsetType tempOffset;
+  typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
 
-    MaskImagePointer maskPointer = TMaskImage::New();
-    maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
+  MaskImagePointer maskPointer = TMaskImage::New();
+  maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
 
-    IndexType firstIndex;
-    firstIndex[0] = 0;
-    firstIndex[1] = 0;
-    firstIndex[2] = 0;
-    TOutputImage* outputPtr = this->GetOutput();
-    typename TOutputImage::PixelType outputPixel = outputPtr->GetPixel(firstIndex);
+  IndexType firstIndex;
+  firstIndex[0] = 0;
+  firstIndex[1] = 0;
+  firstIndex[2] = 0;
+  TOutputImage* outputPtr = this->GetOutput();
+  typename TOutputImage::PixelType outputPixel = outputPtr->GetPixel(firstIndex);
 
-    NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage > boundaryFacesCalculator;
-    typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType
-    faceList = boundaryFacesCalculator( this->GetInput(), outputRegionForThread, m_NeighborhoodRadius );
-    typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType::iterator fit = faceList.begin();
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage > boundaryFacesCalculator;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType
+  faceList = boundaryFacesCalculator( this->GetInput(), outputRegionForThread, m_NeighborhoodRadius );
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType::iterator fit = faceList.begin();
 
-    for (; fit != faceList.end(); ++fit )
+  for (; fit != faceList.end(); ++fit )
     {
-      NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->GetInput(), *fit );
-      BoundaryConditionType  BoundaryCondition;
-      inputNIt.SetBoundaryCondition(BoundaryCondition);
-      inputNIt.GoToBegin();
+    NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->GetInput(), *fit );
+    BoundaryConditionType  BoundaryCondition;
+    inputNIt.SetBoundaryCondition(BoundaryCondition);
+    inputNIt.GoToBegin();
 
-      typedef itk::ImageRegionIterator< TOutputImage> IteratorType;
-      IteratorType outputIt( outputPtr, *fit );
+    typedef itk::ImageRegionIterator< TOutputImage> IteratorType;
+    IteratorType outputIt( outputPtr, *fit );
 
-      while( !inputNIt.IsAtEnd() )
+    while( !inputNIt.IsAtEnd() )
       {
-        if( maskPointer && maskPointer->GetPixel( inputNIt.GetIndex() ) == 0 )
+      if( maskPointer && maskPointer->GetPixel( inputNIt.GetIndex() ) == 0 )
         {
-            outputPixel.Fill(0);
-            outputIt.Set(outputPixel);
-            ++inputNIt;
-            ++outputIt;
-            continue;
+        outputPixel.Fill(0);
+        outputIt.Set(outputPixel);
+        ++inputNIt;
+        ++outputIt;
+        continue;
         }
 
-        SizeValueType numVoxels = 0;
-        SizeValueType numBoneVoxels = 0;
-        SizeValueType numX = 0;
-        SizeValueType numY = 0;
-        SizeValueType numZ = 0;
-        SizeValueType numXO = 0;
-        SizeValueType numYO = 0;
-        SizeValueType numZO = 0;
+      SizeValueType numVoxels = 0;
+      SizeValueType numBoneVoxels = 0;
+      SizeValueType numX = 0;
+      SizeValueType numY = 0;
+      SizeValueType numZ = 0;
+      SizeValueType numXO = 0;
+      SizeValueType numYO = 0;
+      SizeValueType numZO = 0;
 
-        // Iteration over the all neighborhood region
-        for(NeighborIndexType nb = 0; nb<inputNIt.Size(); ++nb)
-        {
-            IndexType ind = inputNIt.GetIndex(nb);
+      // Iteration over the all neighborhood region
+      for(NeighborIndexType nb = 0; nb<inputNIt.Size(); ++nb)
+          {
+          IndexType ind = inputNIt.GetIndex(nb);
 
             if ( maskPointer && !(this->IsInsideMaskRegion(ind, maskPointer->GetBufferedRegion().GetSize())))
-            {
-                continue;
-            }
+              {
+              continue;
+              }
 
             if( maskPointer && maskPointer->GetPixel( ind ) == 0 )
-            {
+              {
               continue;
-            }
+              }
 
             ++numVoxels;
             inputNIt.GetPixel(nb);
             tempOffset = inputNIt.GetOffset(nb);
             if( inputNIt.GetPixel(tempOffset) >= m_Threshold )
-            {
+              {
               ++numBoneVoxels;
               if( this->IsInsideNeighborhood(tempOffset + offsetX) &&
                       inputNIt.GetPixel(tempOffset + offsetX) < m_Threshold )
-              {
+                {
                 ++numXO;
-              }
+                }
               if( this->IsInsideNeighborhood(tempOffset + offsetXO) &&
                       inputNIt.GetPixel(tempOffset + offsetXO) < m_Threshold )
-              {
+                {
                 ++numX;
-              }
+                }
               if( this->IsInsideNeighborhood(tempOffset + offsetY) &&
                       inputNIt.GetPixel(tempOffset + offsetY) < m_Threshold )
-              {
+                {
                 ++numYO;
-              }
+                }
               if( this->IsInsideNeighborhood(tempOffset + offsetYO) &&
                       inputNIt.GetPixel(tempOffset + offsetYO) < m_Threshold )
-              {
+                {
                 ++numY;
-              }
+                }
               if( this->IsInsideNeighborhood(tempOffset + offsetZ) &&
                       inputNIt.GetPixel(tempOffset + offsetZ) < m_Threshold )
-              {
+                {
                 ++numZO;
-              }
+                }
               if( this->IsInsideNeighborhood(tempOffset + offsetZO) &&
                       inputNIt.GetPixel(tempOffset + offsetZO) < m_Threshold )
-              {
+                {
                 ++numZ;
+                }
               }
-            }
-        }
+          }
 
-        RealType PlX = (RealType) ((numX+numXO)/2.0) / (RealType) (numVoxels * inSpacing[0]) * 2;
-        RealType PlY = (RealType) ((numY+numYO)/2.0) / (RealType) (numVoxels * inSpacing[1]) * 2;
-        RealType PlZ = (RealType) ((numZ+numZO)/2.0) / (RealType) (numVoxels * inSpacing[2]) * 2;
-        outputPixel[0] = (RealType)numBoneVoxels / (RealType)numVoxels;
-        outputPixel[1] = (PlX + PlY + PlZ) / 3.0;
-        outputPixel[2] = outputPixel[0]/outputPixel[1];
-        outputPixel[3] = (1.0 - outputPixel[0]) / outputPixel[1];
-        outputPixel[4] = 2.0 * (outputPixel[1] / outputPixel[0]);
+      RealType PlX = (RealType) ((numX+numXO)/2.0) / (RealType) (numVoxels * inSpacing[0]) * 2;
+      RealType PlY = (RealType) ((numY+numYO)/2.0) / (RealType) (numVoxels * inSpacing[1]) * 2;
+      RealType PlZ = (RealType) ((numZ+numZO)/2.0) / (RealType) (numVoxels * inSpacing[2]) * 2;
+      outputPixel[0] = (RealType)numBoneVoxels / (RealType)numVoxels;
+      outputPixel[1] = (PlX + PlY + PlZ) / 3.0;
+      outputPixel[2] = outputPixel[0]/outputPixel[1];
+      outputPixel[3] = (1.0 - outputPixel[0]) / outputPixel[1];
+      outputPixel[4] = 2.0 * (outputPixel[1] / outputPixel[0]);
 
-        outputIt.Set(outputPixel);
+      outputIt.Set(outputPixel);
 
-        ++inputNIt;
-        ++outputIt;
+      ++inputNIt;
+      ++outputIt;
       }
     }
 
@@ -199,13 +199,13 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
   bool insideMask = true;
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
-  {
-      if (imageIndex[i] < 0 || imageIndex[i] >= static_cast< long >( maskSize[i] ))
+    {
+    if (imageIndex[i] < 0 || imageIndex[i] >= static_cast< long >( maskSize[i] ))
       {
-          insideMask = false;
-          break;
+      insideMask = false;
+       break;
       }
-  }
+    }
   return insideMask;
 }
 
@@ -214,17 +214,17 @@ bool
 BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::IsInsideNeighborhood(const NeighborhoodOffsetType &iteratedOffset)
 {
-    bool insideNeighborhood = true;
-    for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
+  bool insideNeighborhood = true;
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
     {
-        int boundDistance = m_NeighborhoodRadius[i] - Math::abs(iteratedOffset[i]);
-        if (boundDistance < 0)
-        {
-            insideNeighborhood = false;
-            break;
-        }
+    int boundDistance = m_NeighborhoodRadius[i] - Math::abs(iteratedOffset[i]);
+    if (boundDistance < 0)
+      {
+      insideNeighborhood = false;
+      break;
+      }
     }
-    return insideNeighborhood;
+  return insideNeighborhood;
 }
 
 

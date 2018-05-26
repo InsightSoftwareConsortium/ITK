@@ -28,15 +28,15 @@
 
 int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] )
 {
-    if( argc < 3 )
-      {
-      std::cerr << "Missing parameters." << std::endl;
-      std::cerr << "Usage: " << argv[0]
-        << " inputImageFile"
-        << " maskImageFile"
-        << " outputImageFile"<< std::endl;
-      return EXIT_FAILURE;
-      }
+  if( argc < 3 )
+    {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << " inputImageFile"
+      << " maskImageFile"
+      << " outputImageFile"<< std::endl;
+    return EXIT_FAILURE;
+    }
 
   const unsigned int ImageDimension = 3;
   const unsigned int VectorComponentDimension = 5;
