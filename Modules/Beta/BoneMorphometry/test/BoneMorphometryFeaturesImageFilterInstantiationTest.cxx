@@ -80,10 +80,6 @@ int BoneMorphometryFeaturesImageFilterInstantiationTest( int argc, char *argv[] 
   writer->SetFileName( argv[3] );
   writer->SetInput( filter->GetOutput() );
 
-  std::cout<<"**********"<<std::endl;
-  writer->Print(std::cout);
-  std::cout<<"**********"<<std::endl;
-
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test finished." << std::endl;
