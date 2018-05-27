@@ -112,7 +112,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::VotingBinaryHoleFillingImageFilter< InputImageType, OutputImageType >;
+    itk::VotingBinaryHoleFillingImageFilter< InputImageType,
+      OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet

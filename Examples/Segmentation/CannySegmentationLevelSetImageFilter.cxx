@@ -154,8 +154,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using DiffusionFilterType = itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
-    InternalImageType>;
+  using DiffusionFilterType =
+    itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
+                                                  InternalImageType>;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations(5);
   diffusion->SetTimeStep(0.125);
@@ -170,8 +171,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CannySegmentationLevelSetImageFilterType = itk::CannySegmentationLevelSetImageFilter< InternalImageType,
-                InternalImageType >;
+  using CannySegmentationLevelSetImageFilterType =
+    itk::CannySegmentationLevelSetImageFilter< InternalImageType,
+                                               InternalImageType >;
   CannySegmentationLevelSetImageFilterType::Pointer cannySegmentation =
                 CannySegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -350,7 +352,8 @@ int main( int argc, char *argv[] )
     //  Software Guide : BeginCodeSnippet
     cannySegmentation->GenerateSpeedImage();
 
-    using SpeedImageType = CannySegmentationLevelSetImageFilterType::SpeedImageType;
+    using SpeedImageType =
+      CannySegmentationLevelSetImageFilterType::SpeedImageType;
     using SpeedWriterType = itk::ImageFileWriter<SpeedImageType>;
     SpeedWriterType::Pointer speedWriter = SpeedWriterType::New();
 

@@ -268,7 +268,8 @@ int main( int argc, char *argv[] )
       requiredMeshSize[d] = meshSize[d] << level;
       }
 
-    using BSplineAdaptorType = itk::BSplineTransformParametersAdaptor<TransformType>;
+    using BSplineAdaptorType =
+      itk::BSplineTransformParametersAdaptor<TransformType>;
     BSplineAdaptorType::Pointer bsplineAdaptor = BSplineAdaptorType::New();
     bsplineAdaptor->SetTransform( outputBSplineTransform );
     bsplineAdaptor->SetRequiredTransformDomainMeshSize( requiredMeshSize );

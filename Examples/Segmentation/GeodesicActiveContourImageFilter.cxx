@@ -247,8 +247,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using GeodesicActiveContourFilterType = itk::GeodesicActiveContourLevelSetImageFilter< InternalImageType,
-                InternalImageType >;
+  using GeodesicActiveContourFilterType =
+    itk::GeodesicActiveContourLevelSetImageFilter< InternalImageType,
+                                                   InternalImageType >;
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour =
                                      GeodesicActiveContourFilterType::New();
   // Software Guide : EndCodeSnippet

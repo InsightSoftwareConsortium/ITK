@@ -104,9 +104,11 @@ int main( int argc, char *argv[] )
   using FileReaderType = itk::ImageFileReader< RGBImageType >;
   using CastFilterType =
       itk::VectorCastImageFilter< RGBImageType, VectorImageType >;
-  using DiffusionFilterType = itk::VectorGradientAnisotropicDiffusionImageFilter<
+  using DiffusionFilterType =
+    itk::VectorGradientAnisotropicDiffusionImageFilter<
                         VectorImageType, VectorImageType >;
-  using GradientMagnitudeFilterType = itk::VectorGradientMagnitudeImageFilter<VectorImageType>;
+  using GradientMagnitudeFilterType =
+    itk::VectorGradientMagnitudeImageFilter<VectorImageType>;
   using WatershedFilterType = itk::WatershedImageFilter<ScalarImageType>;
   // Software Guide : EndCodeSnippet
 
@@ -185,9 +187,11 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ColorMapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
-  using ColorMapFilterType = itk::UnaryFunctorImageFilter<LabeledImageType,
-    RGBImageType, ColorMapFunctorType>;
+  using ColorMapFunctorType =
+    itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
+  using ColorMapFilterType =
+    itk::UnaryFunctorImageFilter<LabeledImageType,
+                                 RGBImageType, ColorMapFunctorType>;
   ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();
   // Software Guide : EndCodeSnippet
 

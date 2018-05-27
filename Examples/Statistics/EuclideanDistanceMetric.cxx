@@ -68,7 +68,8 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
+  using DistanceMetricType =
+    itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
   // Software Guide : EndCodeSnippet
 

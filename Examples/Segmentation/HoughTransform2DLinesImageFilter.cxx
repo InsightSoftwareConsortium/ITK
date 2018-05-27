@@ -111,8 +111,9 @@ int main( int argc, char *argv[] )
 
   std::cout << "Applying gradient magnitude filter" << std::endl;
 
-  using GradientFilterType = itk::GradientMagnitudeImageFilter<AccumulatorImageType,
-               AccumulatorImageType >;
+  using GradientFilterType =
+    itk::GradientMagnitudeImageFilter< AccumulatorImageType,
+                                       AccumulatorImageType >;
   GradientFilterType::Pointer gradFilter =  GradientFilterType::New();
 
   caster->SetInput(localImage);
@@ -150,8 +151,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
-  using HoughTransformFilterType = itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
-                              AccumulatorPixelType>;
+  using HoughTransformFilterType =
+    itk::HoughTransform2DLinesImageFilter< AccumulatorPixelType,
+                                           AccumulatorPixelType>;
 
   HoughTransformFilterType::Pointer houghFilter
                                             = HoughTransformFilterType::New();

@@ -196,7 +196,8 @@ int main()
   params[1] = 850.0;
   initialParameters[1] = params;
 
-  using ComponentType = itk::Statistics::GaussianMixtureModelComponent<SampleType>;
+  using ComponentType =
+    itk::Statistics::GaussianMixtureModelComponent<SampleType>;
 
   std::vector< ComponentType::Pointer > components;
   for ( unsigned int i = 0; i < numberOfClasses; i++ )
@@ -214,7 +215,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using EstimatorType = itk::Statistics::ExpectationMaximizationMixtureModelEstimator<SampleType>;
+  using EstimatorType =
+    itk::Statistics::ExpectationMaximizationMixtureModelEstimator<SampleType>;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   estimator->SetSample( sample );

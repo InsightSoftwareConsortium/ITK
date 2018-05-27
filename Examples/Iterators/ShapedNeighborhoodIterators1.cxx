@@ -69,7 +69,8 @@ int main( int argc, char ** argv )
   using PixelType = unsigned char;
   using ImageType = itk::Image< PixelType, 2 >;
 
-  using ShapedNeighborhoodIteratorType = itk::ConstShapedNeighborhoodIterator<ImageType>;
+  using ShapedNeighborhoodIteratorType =
+    itk::ConstShapedNeighborhoodIterator<ImageType>;
 
   using IteratorType = itk::ImageRegionIterator< ImageType>;
   // Software Guide : EndCodeSnippet

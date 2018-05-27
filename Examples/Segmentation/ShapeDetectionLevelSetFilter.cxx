@@ -279,7 +279,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using GradientFilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
+  using GradientFilterType =
+    itk::GradientMagnitudeRecursiveGaussianImageFilter<
                                InternalImageType,
                                InternalImageType >;
 
@@ -356,8 +357,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ShapeDetectionFilterType = itk::ShapeDetectionLevelSetImageFilter< InternalImageType,
-                              InternalImageType >;
+  using ShapeDetectionFilterType =
+    itk::ShapeDetectionLevelSetImageFilter< InternalImageType,
+                                            InternalImageType >;
   ShapeDetectionFilterType::Pointer
     shapeDetection = ShapeDetectionFilterType::New();
   // Software Guide : EndCodeSnippet

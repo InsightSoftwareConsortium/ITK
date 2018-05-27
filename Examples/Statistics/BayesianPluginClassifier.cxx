@@ -189,7 +189,8 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CovarianceEstimatorType = itk::Statistics::CovarianceSampleFilter<ClassSampleType>;
+  using CovarianceEstimatorType =
+    itk::Statistics::CovarianceSampleFilter<ClassSampleType>;
 
   std::vector< CovarianceEstimatorType::Pointer > covarianceEstimators;
 
@@ -247,7 +248,8 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MembershipFunctionType = itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
+  using MembershipFunctionType =
+    itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
   using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
@@ -305,8 +307,10 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MembershipFunctionVectorObjectType = ClassifierType::MembershipFunctionVectorObjectType;
-  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
+  using MembershipFunctionVectorObjectType =
+    ClassifierType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType =
+    ClassifierType::MembershipFunctionVectorType;
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();

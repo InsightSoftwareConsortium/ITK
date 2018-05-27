@@ -90,7 +90,8 @@ public:
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void Execute(const itk::Object * object,
+               const itk::EventObject & event) override
     {
     auto optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
@@ -135,7 +136,8 @@ public:
       return;
       }
     auto registration = static_cast<RegistrationPointer>( object );
-    auto optimizer = static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
+    auto optimizer =
+      static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "

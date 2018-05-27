@@ -111,8 +111,9 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
 
-  using HoughTransformFilterType = itk::HoughTransform2DCirclesImageFilter<PixelType,
-               AccumulatorPixelType>;
+  using HoughTransformFilterType =
+    itk::HoughTransform2DCirclesImageFilter<PixelType,
+                                            AccumulatorPixelType>;
   HoughTransformFilterType::Pointer houghFilter
                                             = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet

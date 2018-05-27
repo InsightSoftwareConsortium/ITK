@@ -132,11 +132,12 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginCodeSnippet
   using InputPixelType = unsigned char;
   constexpr unsigned int Dimension = 2;
-  using InputImageType = itk::Image< InputPixelType,  Dimension  >;
-  using VectorPixelType = itk::CovariantVector< float, Dimension  >;
-  using VectorImageType = itk::Image< VectorPixelType, Dimension  >;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using VectorPixelType = itk::CovariantVector< float, Dimension >;
+  using VectorImageType = itk::Image< VectorPixelType, Dimension >;
   using GradientFilterType =
-    itk::GradientRecursiveGaussianImageFilter< InputImageType, VectorImageType>;
+    itk::GradientRecursiveGaussianImageFilter< InputImageType,
+      VectorImageType>;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
 // Software Guide : EndCodeSnippet
@@ -151,7 +152,7 @@ int main( int argc, char *argv[] )
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  using ImageAdaptorType = itk::ImageAdaptor<  VectorImageType,
+  using ImageAdaptorType = itk::ImageAdaptor< VectorImageType,
                               itk::VectorPixelAccessor >;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();

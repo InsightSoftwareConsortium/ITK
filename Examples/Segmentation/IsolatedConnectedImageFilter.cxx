@@ -117,8 +117,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ConnectedFilterType = itk::IsolatedConnectedImageFilter<InternalImageType,
-                                       InternalImageType>;
+  using ConnectedFilterType =
+    itk::IsolatedConnectedImageFilter< InternalImageType,
+                                       InternalImageType >;
   // Software Guide : EndCodeSnippet
 
 

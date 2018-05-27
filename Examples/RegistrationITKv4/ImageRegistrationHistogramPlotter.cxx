@@ -191,7 +191,8 @@ public:
   using HistogramToEntropyImageFilterType =
       itk::HistogramToEntropyImageFilter< HistogramType, InternalImageType>;
 
-  using HistogramToImageFilterPointer = HistogramToEntropyImageFilterType::Pointer;
+  using HistogramToImageFilterPointer =
+    HistogramToEntropyImageFilterType::Pointer;
 
   using OutputImageType = HistogramToEntropyImageFilterType::OutputImageType;
 
