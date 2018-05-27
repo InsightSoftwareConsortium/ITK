@@ -153,7 +153,7 @@ protected:
   SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion) override;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   void
   GenerateInputRequestedRegion() throw(InvalidRequestedRegionError) override;
