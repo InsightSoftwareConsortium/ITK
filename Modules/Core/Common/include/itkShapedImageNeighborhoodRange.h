@@ -23,6 +23,7 @@
 #include <cassert>
 #include <cstddef> // For ptrdiff_t.
 #include <iterator> // For random_access_iterator_tag.
+#include <limits>
 #include <type_traits> // For conditional and is_const.
 
 #include "itkIndex.h"
@@ -682,6 +683,21 @@ public:
   {
     return m_NumberOfNeighborhoodPixels;
   }
+
+
+  /** Subscript operator. Allows random access, to the nth neighbor pixel.
+  * \note The return type QualifiedIterator<false>::reference is equivalent to
+  * iterator::reference. The return value is a proxy object that behaves like a
+  * reference to the pixel.
+  */
+  typename QualifiedIterator<false>::reference operator[](const std::size_t n) const ITK_NOEXCEPT
+  {
+    assert(n < this->size());
+    assert(n <= static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()));
+
+    return this->begin()[static_cast<std::ptrdiff_t>(n)];
+  }
+
 
   /** Explicitly-defaulted destructor. */
   ~ShapedImageNeighborhoodRange() = default;
