@@ -81,7 +81,7 @@ public:
  * \endwiki
  */
 template< typename TInputImage >
-class ITKIOImageBase_HIDDEN ImageFileWriter:public ProcessObject
+class ITK_TEMPLATE_EXPORT ImageFileWriter:public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileWriter);
