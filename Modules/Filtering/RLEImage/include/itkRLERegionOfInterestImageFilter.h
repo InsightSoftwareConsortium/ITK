@@ -93,7 +93,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
+  RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -183,7 +183,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
+  RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -290,7 +290,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
+  RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -376,7 +376,7 @@ public:
 #endif
 
 protected:
-  RegionOfInterestImageFilter() { m_DynamicMultiThreading = true; }
+  RegionOfInterestImageFilter() { this->DynamicMultiThreadingOn(); }
   ~RegionOfInterestImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
