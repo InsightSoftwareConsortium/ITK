@@ -60,14 +60,15 @@ public:
   GetSetFunctorMacro(Functor, FunctorType);
 
 protected:
-  UnaryFunctorWithIndexImageFilter(){}
+  UnaryFunctorWithIndexImageFilter()
+    { this->DynamicMultiThreadingOn(); }
 
   FunctorType m_Functor;
 
   using InputRegionType = typename InputImageType::RegionType;
   using OutputRegionType = typename OutputImageType::RegionType;
 
-  void ThreadedGenerateData(const OutputRegionType & region, ThreadIdType) override
+  void DynamicThreadedGenerateData(const OutputRegionType & region) override
   {
     if( region.GetSize()[0] == 0 )
       {
