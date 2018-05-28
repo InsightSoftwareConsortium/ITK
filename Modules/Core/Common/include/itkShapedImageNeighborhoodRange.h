@@ -588,8 +588,8 @@ private:
   // center pixel of the neighborhood. It may be outside the image boundaries.
   IndexType m_Location;
 
-  // The indices of the neighborhood pixels, relative to m_Location.
-  const OffsetType* m_RelativeIndices;
+  // The offsets relative to m_Location that specify the neighborhood shape.
+  const OffsetType* m_ShapeOffsets;
 
   // The number of neighborhood pixels.
   const std::size_t m_NumberOfNeighborhoodPixels;
@@ -598,13 +598,14 @@ public:
   using const_iterator = QualifiedIterator<true>;
   using iterator = QualifiedIterator<false>;
 
-  /** Specifies a range for the neighborhood of a pixel at the specified location.
-   * The neighborhood is specified by a pointer to a list of indices, relative
-   * to the center pixel. */
+  /** Specifies a range for the neighborhood of a pixel at the specified
+   * location. The shape of the neighborhood is specified by a pointer to a
+   * contiguous sequence of offsets, relative to the location index.
+   */
   ShapedImageNeighborhoodRange(
     ImageType& image,
     const IndexType& location,
-    const OffsetType* const relativeIndices,
+    const OffsetType* const shapeOffsets,
     const std::size_t numberOfNeigborhoodPixels)
     :
   m_Image{ &image },
@@ -615,7 +616,7 @@ public:
   m_ImageSize(image.GetBufferedRegion().GetSize()),
   m_NeighborhoodAccessor(image.GetNeighborhoodAccessor()),
   m_Location(location),
-  m_RelativeIndices{ relativeIndices },
+  m_ShapeOffsets{ shapeOffsets },
   m_NumberOfNeighborhoodPixels{ numberOfNeigborhoodPixels }
   {
     assert(m_ImageBufferPointer != nullptr);
@@ -627,38 +628,40 @@ public:
     m_NeighborhoodAccessor.SetBegin(m_ImageBufferPointer);
   }
 
-  /** Specifies a range for the neighborhood of a pixel at 'location'.
-   * The neighborhood is specified by a container of indices relative to the location index.
-   * These relative indices must be stored in a contiguous container, for example
-   * std::vector or std::array. */
+  /** Specifies a range for the neighborhood of a pixel at the specified
+   * location. The shape of the neighborhood is specified by a container of
+   * offsets, relative to the location index. This container of offsets must be
+   * a contiguous container, for example std::vector<OffsetType> or
+   * std::array<OffsetType>.
+   */
   template <typename TContainerOfOffsets>
   ShapedImageNeighborhoodRange(
     ImageType& image,
     const IndexType& location,
-    TContainerOfOffsets&& relativeIndices)
+    TContainerOfOffsets&& shapeOffsets)
     :
   ShapedImageNeighborhoodRange{
     image,
     location,
-    relativeIndices.data(),
-    relativeIndices.size()}
+    shapeOffsets.data(),
+    shapeOffsets.size()}
   {
-    static_assert(!std::is_rvalue_reference<decltype(relativeIndices)>::value,
-      "The container of indices should not be a temporary (rvalue) object!");
+    static_assert(!std::is_rvalue_reference<decltype(shapeOffsets)>::value,
+      "The container of offsets should not be a temporary (rvalue) object!");
   }
 
   /** Returns an iterator to the first neighborhood pixel. */
   iterator begin() const ITK_NOEXCEPT
   {
     assert(m_Image != nullptr);
-    return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_RelativeIndices);
+    return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_ShapeOffsets);
   }
 
   /** Returns an 'end iterator' for this range. */
   iterator end() const ITK_NOEXCEPT
   {
     assert(m_Image != nullptr);
-    return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_RelativeIndices + m_NumberOfNeighborhoodPixels);
+    return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_ShapeOffsets + m_NumberOfNeighborhoodPixels);
   }
 
   /** Returns a const iterator to the first neighborhood pixel.
