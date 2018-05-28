@@ -442,6 +442,101 @@ MultiThreaderBase
 
 void
 MultiThreaderBase
+::ParallelizeArray(
+  SizeValueType firstIndex,
+  SizeValueType lastIndexPlus1,
+  ArrayThreadingFunctorType aFunc,
+  ProcessObject* filter )
+{
+  // This implementation simply delegates parallelization to the old interface
+  // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
+  if (filter)
+    {
+    filter->UpdateProgress(0.0f);
+    }
+
+  if ( firstIndex + 1 < lastIndexPlus1 )
+    {
+    struct ArrayCallback acParams {
+        aFunc,
+        firstIndex,
+        lastIndexPlus1,
+        filter,
+        std::this_thread::get_id(),
+        {0} };
+    this->SetSingleMethod(&MultiThreaderBase::ParallelizeArrayHelper, &acParams);
+    this->SingleMethodExecute();
+    }
+  else if ( firstIndex + 1 == lastIndexPlus1 )
+    {
+    aFunc( firstIndex );
+    }
+  // else nothing needs to be executed
+
+  if (filter)
+    {
+    filter->UpdateProgress(1.0f);
+    if (filter->GetAbortGenerateData())
+      {
+      std::string msg;
+      ProcessAborted e(__FILE__, __LINE__);
+      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
+          + " during multi-threaded part of filter execution";
+      e.SetDescription(msg);
+      throw e;
+      }
+    }
+}
+
+ITK_THREAD_RETURN_TYPE
+MultiThreaderBase
+::ParallelizeArrayHelper(void * arg)
+{
+  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  auto* threadInfo = static_cast< ThreadInfo* >( arg );
+  ThreadIdType threadId = threadInfo->ThreadID;
+  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  auto* acParams = static_cast< struct ArrayCallback* >( threadInfo->UserData );
+
+  if ( acParams->filter && acParams->filter->GetAbortGenerateData() )
+    {
+    std::string msg;
+    ProcessAborted e( __FILE__, __LINE__ );
+    msg += "AbortGenerateData was called in " + std::string( acParams->filter->GetNameOfClass() )
+        + " during multi-threaded part of filter execution";
+    e.SetDescription(msg);
+    throw e;
+    }
+
+  SizeValueType range = acParams->lastIndexPlus1 - acParams->firstIndex;
+  double fraction = double( range ) / threadCount;
+  SizeValueType first = acParams->firstIndex + fraction * threadId;
+  SizeValueType afterLast = acParams->firstIndex + fraction * ( threadId + 1 );
+  if ( threadId == threadCount - 1 ) // last thread
+    {
+    // Avoid possible problems due to floating point arithmetic
+    afterLast = acParams->lastIndexPlus1;
+    }
+
+  for ( SizeValueType i = first; i < afterLast; i++ )
+    {
+    acParams->functor( i );
+    if ( acParams->filter )
+      {
+      ++acParams->progress;
+      //make sure we are updating progress only from the thead which invoked us
+      if ( acParams->callingThread == std::this_thread::get_id() )
+        {
+        acParams->filter->UpdateProgress( float( acParams->progress ) / range );
+        }
+      }
+    }
+
+  return ITK_THREAD_RETURN_VALUE;
+}
+
+void
+MultiThreaderBase
 ::ParallelizeImageRegion(
     unsigned int dimension,
     const IndexValueType index[],

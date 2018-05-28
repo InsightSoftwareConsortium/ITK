@@ -65,6 +65,15 @@ public:
    * must take a single argument of type void. */
   void SetSingleMethod(ThreadFunctionType, void *data) override;
 
+  /** Parallelize an operation over an array. If filter argument is not nullptr,
+   * this function will update its progress as each index is completed. */
+  void ParallelizeArray(
+    SizeValueType firstIndex,
+    SizeValueType lastIndexPlus1,
+    ArrayThreadingFunctorType aFunc,
+    ProcessObject* filter ) override;
+
+  /** Break up region into smaller chunks, and call the function with chunks as parameters. */
   void ParallelizeImageRegion(
       unsigned int dimension,
       const IndexValueType index[],
