@@ -22,6 +22,7 @@ if(ITKVtkGlue_ENABLED)
       ITKTestKernel
       ITKVtkGlue
     EXCLUDE_FROM_DEFAULT
+    ENABLE_SHARED
     DESCRIPTION "${DOCUMENTATION}"
   )
 else()
@@ -35,6 +36,7 @@ else()
     TEST_DEPENDS
       ITKTestKernel
     EXCLUDE_FROM_DEFAULT
+    ENABLE_SHARED
     DESCRIPTION "${DOCUMENTATION}"
   )
 endif()
