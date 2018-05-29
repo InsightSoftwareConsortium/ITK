@@ -186,7 +186,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   optimizer->SetScalesEstimator( shiftScaleEstimator );
   optimizer->StartOptimization();
 
-  std::cout << "Number of threads: metric: " << metric->GetNumberOfThreadsUsed() << " optimizer: " << optimizer->GetNumberOfThreads() << std::endl;
+  std::cout << "Number of threads: metric: " << metric->GetNumberOfWorkUnitsUsed() << " optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
   std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
 
   std::cout << "Follow affine with deformable registration " << std::endl;

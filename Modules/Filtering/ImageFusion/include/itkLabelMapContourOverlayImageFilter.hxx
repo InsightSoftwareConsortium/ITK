@@ -85,7 +85,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   this->BeforeThreadedGenerateData();
   this->UpdateProgress(0.05f);
 
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)

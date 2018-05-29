@@ -446,16 +446,16 @@ public:
   itkGetConstReferenceMacro(UseMovingImageGradientFilter, bool);
   itkBooleanMacro(UseMovingImageGradientFilter);
 
-  /** Get number of threads to used in the the most recent
+  /** Get number of work units to used in the the most recent
    * evaluation.  Only valid after GetValueAndDerivative() or
    * GetValue() has been called. */
-  virtual ThreadIdType GetNumberOfThreadsUsed() const;
+  virtual ThreadIdType GetNumberOfWorkUnitsUsed() const;
 
-  /** Set number of threads to use. This the maximum number of threads to use
-   * when multithreaded.  The actual number of threads used (may be less than
-   * this value) can be obtained with \c GetNumberOfThreadsUsed. */
-  virtual void SetMaximumNumberOfThreads( const ThreadIdType threads );
-  virtual ThreadIdType GetMaximumNumberOfThreads() const;
+  /** Set number of work units to use. This the maximum number of work units to use
+   * when multithreaded.  The actual number of work units used (may be less than
+   * this value) can be obtained with \c GetNumberOfWorkUnitsUsed. */
+  virtual void SetMaximumNumberOfWorkUnits( const ThreadIdType workUnits );
+  virtual ThreadIdType GetMaximumNumberOfWorkUnits() const;
 
   /**
     * Finalize the per-thread components for computing

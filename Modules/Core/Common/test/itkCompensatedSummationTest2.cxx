@@ -60,7 +60,7 @@ public:
   private:
     void BeforeThreadedExecution() override
       {
-      const itk::ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+      const itk::ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
       this->m_PerThreadCompensatedSum.resize( numThreadsUsed );
       for( itk::ThreadIdType i = 0; i < numThreadsUsed; ++i )
         {
@@ -84,7 +84,7 @@ public:
       this->m_Associate->m_UncompensatedSumOfThreads = itk::NumericTraits<double>::ZeroValue();
       this->m_Associate->m_CompensatedSumOfThreads.ResetToZero();
 
-      for( itk::ThreadIdType i = 0, numThreadsUsed = this->GetNumberOfThreadsUsed(); i < numThreadsUsed; ++i )
+      for( itk::ThreadIdType i = 0, numThreadsUsed = this->GetNumberOfWorkUnitsUsed(); i < numThreadsUsed; ++i )
         {
         double sum = this->m_PerThreadCompensatedSum[i].GetSum();
         std::cout << i << ": " << sum << std::endl;
@@ -164,8 +164,8 @@ int itkCompensatedSummationTest2(int, char* [])
 
   /* Did we use as many threads as requested? */
   std::cout << "Requested numberOfThreads: " << numberOfThreads << std::endl
-            << "actual: threader->GetNumberOfThreadsUsed(): "
-            << domainThreader->GetNumberOfThreadsUsed() << "\n\n" << std::endl;
+            << "actual: threader->GetNumberOfWorkUnitsUsed(): "
+            << domainThreader->GetNumberOfWorkUnitsUsed() << "\n\n" << std::endl;
 
   /* Check results */
   if( itk::Math::NotAlmostEquals( enclosingClass.GetCompensatedSumOfThreads(), enclosingClass.GetUncompensatedSumOfThreads() ) )
@@ -193,10 +193,10 @@ int itkCompensatedSummationTest2(int, char* [])
     enclosingClass.Execute( domain );
 
     /* Check number of threads used */
-    if( domainThreader->GetNumberOfThreadsUsed() != maxNumberOfThreads )
+    if( domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads )
       {
       std::cerr << "Error: Expected to use " << maxNumberOfThreads
-                << "threads, but used " << domainThreader->GetNumberOfThreadsUsed()
+                << "threads, but used " << domainThreader->GetNumberOfWorkUnitsUsed()
                 << "." << std::endl;
       return EXIT_FAILURE;
       }

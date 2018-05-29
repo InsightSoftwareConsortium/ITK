@@ -183,7 +183,7 @@ private:
 
   LineMapType           m_LineMap;
   OutputImagePixelType  m_BackgroundValue;
-  ThreadIdType          m_NumberOfThreads;
+  ThreadIdType          m_NumberOfWorkUnits;
   bool                  m_FullyConnected;
 
   bool CheckNeighbors(const OutputIndexType & A,

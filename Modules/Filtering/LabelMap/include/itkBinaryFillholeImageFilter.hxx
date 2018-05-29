@@ -90,7 +90,7 @@ BinaryFillholeImageFilter<TInputImage>
   notInput->SetInput( this->GetInput() );
   notInput->SetForegroundValue( m_ForegroundValue );
   notInput->SetBackgroundValue( backgroundValue );
-  notInput->SetNumberOfThreads( this->GetNumberOfThreads() );
+  notInput->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   notInput->SetReleaseDataFlag( true );
   progress->RegisterInternalFilter(notInput, .2f);
 
@@ -100,7 +100,7 @@ BinaryFillholeImageFilter<TInputImage>
   labelizer->SetInputForegroundValue( m_ForegroundValue );
   labelizer->SetOutputBackgroundValue( backgroundValue );
   labelizer->SetFullyConnected( m_FullyConnected );
-  labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(labelizer, .5f);
 
   using LabelMapType = typename LabelizerType::OutputImageType;
@@ -109,7 +109,7 @@ BinaryFillholeImageFilter<TInputImage>
   opening->SetInput( labelizer->GetOutput() );
   opening->SetAttribute( LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER );
   opening->SetLambda( 1 );
-  opening->SetNumberOfThreads( this->GetNumberOfThreads() );
+  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(opening, .1f);
 
   // invert the image during the binarization
@@ -120,7 +120,7 @@ BinaryFillholeImageFilter<TInputImage>
   binarizer->SetNegated( true );
   binarizer->SetBackgroundValue( m_ForegroundValue );
   binarizer->SetFeatureImage( this->GetInput() );
-  binarizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(binarizer, .2f);
 
   binarizer->GraftOutput( this->GetOutput() );

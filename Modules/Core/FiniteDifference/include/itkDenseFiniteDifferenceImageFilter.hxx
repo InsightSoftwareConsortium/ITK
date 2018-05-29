@@ -90,7 +90,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 
   str.Filter = this;
   str.TimeStep = dt;
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -140,7 +140,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   str.Filter = this;
   str.TimeStep = NumericTraits< TimeStepType >::ZeroValue();  // Not used during the
   // calculate change step.
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->CalculateChangeThreaderCallback,
                                             &str);
 

@@ -52,17 +52,17 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 template< typename TEquationContainer, typename TImage >
 void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
-::SetNumberOfThreads( const ThreadIdType numberOfThreads)
+::SetNumberOfWorkUnits( const ThreadIdType numberOfThreads)
 {
   this->m_SplitLevelSetComputeIterationThreader->SetMaximumNumberOfThreads(  numberOfThreads );
   this->m_SplitDomainMapComputeIterationThreader->SetMaximumNumberOfThreads( numberOfThreads );
-  this->m_SplitLevelSetUpdateLevelSetsThreader->SetMaximumNumberOfThreads(   numberOfThreads );
+  this->m_SplitLevelSetUpdateLevelSetsThreader->SetMaximumNumberOfThreads( numberOfThreads );
 }
 
 template< typename TEquationContainer, typename TImage >
 ThreadIdType
 LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
-::GetNumberOfThreads() const
+::GetNumberOfWorkUnits() const
 {
   return this->m_SplitDomainMapComputeIterationThreader->GetMaximumNumberOfThreads();
 }
@@ -237,7 +237,7 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 template< typename TEquationContainer, typename TOutput, unsigned int VDimension >
 void
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::SetNumberOfThreads( const ThreadIdType numberOfThreads)
+::SetNumberOfWorkUnits( const ThreadIdType numberOfThreads)
 {
   this->m_SplitLevelSetComputeIterationThreader->SetMaximumNumberOfThreads( numberOfThreads );
 }
@@ -245,7 +245,7 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 template< typename TEquationContainer, typename TOutput, unsigned int VDimension >
 ThreadIdType
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::GetNumberOfThreads() const
+::GetNumberOfWorkUnits() const
 {
   return this->m_SplitLevelSetComputeIterationThreader->GetMaximumNumberOfThreads();
 }

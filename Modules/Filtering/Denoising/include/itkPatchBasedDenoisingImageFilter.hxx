@@ -312,7 +312,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   this->EmptyCaches();
 
   // initialize thread data struct
-  const unsigned int numThreads = this->GetNumberOfThreads();
+  const unsigned int numThreads = this->GetNumberOfWorkUnits();
   for( unsigned int thread = 0; thread < numThreads; ++thread )
     {
     ThreadDataStruct newStruct;
@@ -690,7 +690,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   ThreadFilterStruct str;
   str.Filter = this;
   str.Img = const_cast<InputImageType*>(img);
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->RiemannianMinMaxThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -1428,7 +1428,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // Set up for multithreaded processing.
   ThreadFilterStruct str;
   str.Filter = this;
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -1488,7 +1488,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   str.Filter = this;
 
   // Calculate sigma update
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ComputeSigmaUpdateThreaderCallback,
                                             &str);
 
@@ -2011,7 +2011,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   // Compute smoothing updated for intensites at each pixel
   // based on gradient of the joint entropy
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ComputeImageUpdateThreaderCallback,
                                             &str);
 

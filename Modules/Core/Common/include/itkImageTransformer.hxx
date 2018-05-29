@@ -278,7 +278,7 @@ ImageTransformer< TInputImage >
   ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
 
   this->GetMultiThreader()->SingleMethodExecute();

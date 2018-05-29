@@ -42,7 +42,7 @@ void
 ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   OutputImagePointer output = this->GetOutput();
 
@@ -76,7 +76,7 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // Set up the isocontour filter
   m_IsoContourFilter->SetInput( this->GetInput() );
   m_IsoContourFilter->SetFarValue(maximumDistance + 1);
-  m_IsoContourFilter->SetNumberOfThreads( numberOfThreads );
+  m_IsoContourFilter->SetNumberOfWorkUnits( numberOfThreads );
   typename IsoContourType::PixelRealType levelSetValue =
     (static_cast<typename IsoContourType::PixelRealType>( m_InsideValue )
     + static_cast<typename IsoContourType::PixelRealType>(m_OutsideValue) ) / 2.0;
@@ -85,7 +85,7 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // Set up the chamfer filter
   m_ChamferFilter->SetInput( m_IsoContourFilter->GetOutput() );
   m_ChamferFilter->SetMaximumDistance(maximumDistance);
-  m_ChamferFilter->SetNumberOfThreads( numberOfThreads );
+  m_ChamferFilter->SetNumberOfWorkUnits( numberOfThreads );
 
   // Graft our output to the chamfer filter to force the proper regions
   // to be generated

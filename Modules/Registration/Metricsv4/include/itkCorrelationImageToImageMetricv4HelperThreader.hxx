@@ -49,7 +49,7 @@ CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageToImage
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_CorrelationAssociate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
 
-  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
   delete[] this->m_CorrelationMetricPerThreadVariables;
   this->m_CorrelationMetricPerThreadVariables = new AlignedCorrelationMetricPerThreadStruct[ numThreadsUsed ];
 
@@ -73,7 +73,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
    * m_NumberOfValidPoints by collecting the valid points per thread. */
   this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
 
-  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
 
   for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
     {

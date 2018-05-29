@@ -440,8 +440,8 @@ public:
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
 
   /** Get/Set the number of threads to create when executing. */
-  itkSetClampMacro(NumberOfThreads, ThreadIdType, 1, ITK_MAX_THREADS);
-  itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
+  itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
+  itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
   /** Return the multithreader used by this class. */
   MultiThreaderType * GetMultiThreader() const
@@ -467,7 +467,7 @@ protected:
    *  thread.
    *
    * This class is the same as DomainThreader, but it uses the MultiThreader and
-   * NumberOfThreads defined on the enclosing ProcessObject.
+   * NumberOfWorkUnits defined on the enclosing ProcessObject.
    *
    * \sa DomainThreader
    * \ingroup ITKCommon
@@ -494,9 +494,9 @@ protected:
     ProcessObjectDomainThreader();
     virtual ~ProcessObjectDomainThreader();
 
-    /** This is overridden to set the MultiThreader and number of threads used
-     * the same as the ProcessObject. */
-    virtual void DetermineNumberOfThreadsUsed();
+    /** This is overridden to set the MultiThreader and number of
+     * work units used to be the same as in ProcessObject. */
+    virtual void DetermineNumberOfWorkUnitsUsed();
    };
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
@@ -833,7 +833,7 @@ private:
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   MultiThreaderType::Pointer m_MultiThreader;
-  ThreadIdType               m_NumberOfThreads;
+  ThreadIdType               m_NumberOfWorkUnits;
 
   /** Memory management ivars */
   bool m_ReleaseDataBeforeUpdateFlag;

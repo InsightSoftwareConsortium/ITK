@@ -36,7 +36,7 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
 ::DisplacementFieldJacobianDeterminantFilter()
 {
   m_UseImageSpacing = true;
-  m_RequestedNumberOfThreads = this->GetNumberOfThreads();
+  m_RequestedNumberOfThreads = this->GetNumberOfWorkUnits();
   m_NeighborhoodRadius.Fill(1);
   m_DerivativeWeights.Fill(1.0);
   m_HalfDerivativeWeights.Fill(0.5);

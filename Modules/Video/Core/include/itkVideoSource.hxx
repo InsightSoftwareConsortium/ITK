@@ -251,7 +251,7 @@ TemporalStreamingGenerateData()
   ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution

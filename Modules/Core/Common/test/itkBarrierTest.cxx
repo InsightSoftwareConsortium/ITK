@@ -29,13 +29,13 @@ public:
   itk::Barrier::Pointer m_SecondBarrier;
   unsigned int          m_Counter[ITK_MAX_THREADS];
   unsigned int          m_NumberOfIterations;
-  unsigned int          m_NumberOfThreads;
+  unsigned int          m_NumberOfWorkUnits;
   bool                  m_TestFailure;
 
   BarrierTestUserData( unsigned int number_of_threads)
   {
     m_TestFailure = false;
-    m_NumberOfThreads = number_of_threads;
+    m_NumberOfWorkUnits = number_of_threads;
     for (unsigned int i = 0; i < number_of_threads - 1; i++)
       { m_Counter[i] = 0; }
     m_NumberOfIterations = 50;
@@ -77,7 +77,7 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
     data->m_FirstBarrier->Wait();
 
     // Check the values in the m_Counter array
-    for (unsigned int j = 0; j < data->m_NumberOfThreads - 1; j++)
+    for (unsigned int j = 0; j < data->m_NumberOfWorkUnits - 1; j++)
       {
       if (data->m_Counter[j] != i)
         {
@@ -96,7 +96,7 @@ ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
   auto * data = static_cast<BarrierTestUserData *>(
                   ( (itk::PlatformMultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
-  if (threadId == data->m_NumberOfThreads - 1)
+  if (threadId == data->m_NumberOfWorkUnits - 1)
     {
     BarrierCheckIncrement( ptr );
     }
@@ -142,7 +142,7 @@ int itkBarrierTest(int argc, char *argv[])
     //  {
     //  multithreader->GetModifiableThreadPool()->AddThreads(number_of_threads - maxThreads);
     //  }
-    multithreader->SetNumberOfThreads(number_of_threads);
+    multithreader->SetNumberOfThreads( number_of_threads );
     multithreader->SetSingleMethod( BarrierTestCallback, &data);
 
     for (unsigned int i = 0; i < 5; i++) //repeat test 5 times

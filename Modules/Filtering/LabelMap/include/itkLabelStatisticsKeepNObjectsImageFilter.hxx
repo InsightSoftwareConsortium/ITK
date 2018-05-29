@@ -75,14 +75,14 @@ LabelStatisticsKeepNObjectsImageFilter< TInputImage, TFeatureImage >
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
   labelizer->SetInput( this->GetInput() );
   labelizer->SetBackgroundValue(m_BackgroundValue);
-  labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(labelizer, .3f);
 
   typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
   valuator->SetInput( labelizer->GetOutput() );
   valuator->SetFeatureImage( this->GetFeatureImage() );
   valuator->SetLabelImage( this->GetInput() );
-  valuator->SetNumberOfThreads( this->GetNumberOfThreads() );
+  valuator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   valuator->SetComputeHistogram(false);
   if ( m_Attribute != LabelObjectType::PERIMETER && m_Attribute != LabelObjectType::ROUNDNESS )
     {
@@ -99,12 +99,12 @@ LabelStatisticsKeepNObjectsImageFilter< TInputImage, TFeatureImage >
   opening->SetNumberOfObjects(m_NumberOfObjects);
   opening->SetReverseOrdering(m_ReverseOrdering);
   opening->SetAttribute(m_Attribute);
-  opening->SetNumberOfThreads( this->GetNumberOfThreads() );
+  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(opening, .2f);
 
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
   binarizer->SetInput( opening->GetOutput() );
-  binarizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(binarizer, .2f);
 
   binarizer->GraftOutput( this->GetOutput() );

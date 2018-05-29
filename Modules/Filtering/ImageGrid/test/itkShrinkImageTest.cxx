@@ -64,7 +64,7 @@ int itkShrinkImageTest(int, char* [] )
   itk::ShrinkImageFilter< ShortImage, ShortImage >::Pointer shrink;
   shrink = itk::ShrinkImageFilter< ShortImage, ShortImage >::New();
   shrink->SetInput( if2 );
-  shrink->SetNumberOfThreads(4);
+  shrink->SetNumberOfWorkUnits(4);
 
   unsigned int factors[2] = { 2, 3 };
   shrink->SetShrinkFactors( 3 );

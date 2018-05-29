@@ -210,7 +210,7 @@ ImageSource<TOutputImage>
 
   const OutputImageType *outputPtr = this->GetOutput();
   const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
-  const unsigned int validThreads = splitter->GetNumberOfSplits(outputPtr->GetRequestedRegion(), this->GetNumberOfThreads());
+  const unsigned int validThreads = splitter->GetNumberOfSplits(outputPtr->GetRequestedRegion(), this->GetNumberOfWorkUnits());
 
   this->GetMultiThreader()->SetNumberOfThreads(validThreads);
   this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
@@ -238,7 +238,7 @@ ImageSource< TOutputImage >
     }
   else
     {
-    this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+    this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfWorkUnits());
     this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)

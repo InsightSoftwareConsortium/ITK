@@ -245,7 +245,7 @@ int TestMattesMetricWithAffineTransform(
     {
     std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << std::endl;
     }
-  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << std::endl;
+  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
   metric->Print(std::cout);
 
   // Now start the algorithmc testing

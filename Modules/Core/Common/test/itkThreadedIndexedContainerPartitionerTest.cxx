@@ -49,7 +49,7 @@ public:
   private:
     void BeforeThreadedExecution() override
       {
-      this->m_DomainInThreadedExecution.resize( this->GetNumberOfThreadsUsed() );
+      this->m_DomainInThreadedExecution.resize( this->GetNumberOfWorkUnitsUsed() );
       DomainType unsetDomain;
       unsetDomain.Fill( -1 );
       for(auto & i : m_DomainInThreadedExecution)
@@ -118,7 +118,7 @@ int ThreadedIndexedContainerPartitionerRunTest(
   domainThreader->GetMultiThreader();
   domainThreader->SetMaximumNumberOfThreads( numberOfThreads );
   // Possible if numberOfThreads < GlobalMaximumNumberOfThreads
-  if( domainThreader->GetMaximumNumberOfThreads() != numberOfThreads )
+  if( domainThreader->GetMaximumNumberOfThreads() < numberOfThreads )
     {
     std::cerr << "Failed setting requested number of threads: "
               << numberOfThreads << std::endl
@@ -131,14 +131,14 @@ int ThreadedIndexedContainerPartitionerRunTest(
 
   /* Did we use as many threads as requested? */
   std::cout << "Requested numberOfThreads: " << numberOfThreads << std::endl
-            << "actual: threader->GetNumberOfThreadsUsed(): "
-            << domainThreader->GetNumberOfThreadsUsed() << "\n\n" << std::endl;
+            << "actual: threader->GetNumberOfWorkUnitsUsed(): "
+            << domainThreader->GetNumberOfWorkUnitsUsed() << "\n\n" << std::endl;
 
   /* Check the results. */
   using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
   DomainType::IndexValueType previousEndIndex = -1;
   const std::vector< DomainType > domainInThreadedExecution = domainThreader->GetDomainInThreadedExecution();
-  for( itk::ThreadIdType i = 0; i < domainThreader->GetNumberOfThreadsUsed(); ++i )
+  for( itk::ThreadIdType i = 0; i < domainThreader->GetNumberOfWorkUnitsUsed(); ++i )
     {
     DomainType subRange = domainInThreadedExecution[i];
     /* Check that the sub range was assigned something at all */
@@ -244,10 +244,10 @@ int itkThreadedIndexedContainerPartitionerTest(int, char* [])
       {
       return EXIT_FAILURE;
       }
-    if( domainThreader->GetNumberOfThreadsUsed() != maxNumberOfThreads-1 )
+    if( domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads-1 )
       {
       std::cerr << "Error: Expected to use only " << maxNumberOfThreads-1
-                << "threads, but used " << domainThreader->GetNumberOfThreadsUsed()
+                << "threads, but used " << domainThreader->GetNumberOfWorkUnitsUsed()
                 << "." << std::endl;
       }
     }

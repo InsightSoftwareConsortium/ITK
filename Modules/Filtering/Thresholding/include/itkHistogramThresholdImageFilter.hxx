@@ -80,7 +80,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
     {
     maskedhistogramGenerator->SetInput( this->GetInput() );
     maskedhistogramGenerator->SetMaskImage(this->GetMaskImage());
-    maskedhistogramGenerator->SetNumberOfThreads( this->GetNumberOfThreads() );
+    maskedhistogramGenerator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     typename HistogramType::SizeType hsize(this->GetInput()->GetNumberOfComponentsPerPixel());
     hsize.Fill(this->GetNumberOfHistogramBins());
     maskedhistogramGenerator->SetHistogramSize(hsize);
@@ -89,12 +89,12 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
     progress->RegisterInternalFilter(maskedhistogramGenerator,.4f);
 
     m_Calculator->SetInput( maskedhistogramGenerator->GetOutput() );
-    m_Calculator->SetNumberOfThreads( this->GetNumberOfThreads() );
+    m_Calculator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     }
   else
     {
     histogramGenerator->SetInput( this->GetInput() );
-    histogramGenerator->SetNumberOfThreads( this->GetNumberOfThreads() );
+    histogramGenerator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     typename HistogramType::SizeType hsize(this->GetInput()->GetNumberOfComponentsPerPixel());
     hsize.Fill(this->GetNumberOfHistogramBins());
     histogramGenerator->SetHistogramSize(hsize);
@@ -102,7 +102,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
     progress->RegisterInternalFilter(histogramGenerator,.4f);
 
     m_Calculator->SetInput( histogramGenerator->GetOutput() );
-    m_Calculator->SetNumberOfThreads( this->GetNumberOfThreads() );
+    m_Calculator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     }
   progress->RegisterInternalFilter(m_Calculator,.2f);
 
@@ -113,7 +113,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
   thresholder->SetUpperThresholdInput( m_Calculator->GetOutput() );
   thresholder->SetInsideValue( this->GetInsideValue() );
   thresholder->SetOutsideValue( this->GetOutsideValue() );
-  thresholder->SetNumberOfThreads( this->GetNumberOfThreads() );
+  thresholder->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(thresholder,.4f);
 
   using MaskType = MaskImageFilter<TOutputImage, TMaskImage>;
@@ -123,7 +123,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
     {
     masker->SetInput(thresholder->GetOutput());
     masker->SetInput2(this->GetMaskImage());
-    masker->SetNumberOfThreads( this->GetNumberOfThreads() );
+    masker->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     progress->RegisterInternalFilter(masker, .4f);
     masker->GraftOutput( this->GetOutput() );
     masker->Update();

@@ -216,10 +216,10 @@ ImageToHistogramFilter< TImage >
 ::BeforeThreadedGenerateData()
 {
   // find the actual number of threads
-  long nbOfThreads = this->GetNumberOfThreads();
+  long nbOfThreads = this->GetNumberOfWorkUnits();
   if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfWorkUnits(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
     }
   // number of threads can be constrained by the region size, so call the
   // SplitRequestedRegion

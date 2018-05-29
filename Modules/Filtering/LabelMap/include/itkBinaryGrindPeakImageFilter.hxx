@@ -78,7 +78,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   labelizer->SetInputForegroundValue( m_ForegroundValue );
   labelizer->SetOutputBackgroundValue( m_BackgroundValue );
   labelizer->SetFullyConnected( m_FullyConnected );
-  labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(labelizer, .65f);
 
   using LabelMapType = typename LabelizerType::OutputImageType;
@@ -87,7 +87,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   opening->SetInput( labelizer->GetOutput() );
   opening->SetAttribute( LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER );
   opening->SetLambda( 1 );
-  opening->SetNumberOfThreads( this->GetNumberOfThreads() );
+  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(opening, .1f);
 
   using BinarizerType = typename itk::LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >;
@@ -96,7 +96,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   binarizer->SetForegroundValue( m_ForegroundValue );
   binarizer->SetBackgroundValue( m_BackgroundValue );
   binarizer->SetBackgroundImage( this->GetInput() );
-  binarizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(binarizer, .25f);
 
   binarizer->GraftOutput( this->GetOutput() );

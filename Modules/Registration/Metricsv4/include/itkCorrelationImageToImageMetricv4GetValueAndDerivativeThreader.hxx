@@ -56,7 +56,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
   /* This size always comes from the moving image */
   const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
 
-  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
   // set size
   delete[] m_CorrelationMetricValueDerivativePerThreadVariables;
   m_CorrelationMetricValueDerivativePerThreadVariables = new AlignedCorrelationMetricValueDerivativePerThreadStruct[ numThreadsUsed ];
@@ -90,7 +90,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   /* This size always comes from the moving image */
   const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
-  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
 
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */

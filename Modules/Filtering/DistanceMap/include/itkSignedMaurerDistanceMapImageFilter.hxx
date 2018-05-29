@@ -114,7 +114,7 @@ void
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  ThreadIdType nbthreads = this->GetNumberOfThreads();
+  ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
   OutputImageType *outputPtr = this->GetOutput();
   const InputImageType *inputPtr = this->GetInput();
@@ -143,7 +143,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   binaryFilter->SetInsideValue( NumericTraits< OutputPixelType >::max() );
   binaryFilter->SetOutsideValue( NumericTraits< OutputPixelType >::ZeroValue() );
   binaryFilter->SetInput( inputPtr );
-  binaryFilter->SetNumberOfThreads( nbthreads );
+  binaryFilter->SetNumberOfWorkUnits( nbthreads );
   progressAcc->RegisterInternalFilter( binaryFilter, 0.1f );
   binaryFilter->GraftOutput( outputPtr );
   binaryFilter->Update();
@@ -157,7 +157,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   borderFilter->SetForegroundValue( NumericTraits< OutputPixelType >::ZeroValue() );
   borderFilter->SetBackgroundValue( NumericTraits< OutputPixelType >::max() );
   borderFilter->SetFullyConnected( true );
-  borderFilter->SetNumberOfThreads( nbthreads );
+  borderFilter->SetNumberOfWorkUnits( nbthreads );
   progressAcc->RegisterInternalFilter( borderFilter, 0.23f );
   borderFilter->Update();
 

@@ -50,7 +50,7 @@ namespace itk
  *  class, the method to partition the data is handled, the logic for
  *  determining the number of threads is determined, and operations surrounding
  *  the threading are encapsulated into the class with the
- *  \c DetermineNumberOfThreadsToUse, \c BeforeThreadedExecution, \c ThreadedExecution,
+ *  \c DetermineNumberOfWorkUnitsToUse, \c BeforeThreadedExecution, \c ThreadedExecution,
  *  and \c AfterThreadedExecution virtual methods.
  *
  *  \tparam TDomainPartitioner A class that inherits from
@@ -95,13 +95,13 @@ public:
 
   /** Accessor for number of threads that were actually used in the last
    * ThreadedExecution. */
-  itkGetConstMacro( NumberOfThreadsUsed, ThreadIdType );
+  itkGetConstMacro( NumberOfWorkUnitsUsed, ThreadIdType );
 
   /** Return the multithreader used by this class. */
   MultiThreaderBase * GetMultiThreader() const;
 
-  /** Convenience methods to set/get the maximum number of threads to use.
-   * \warning When setting the maximum number of threads, it will be clamped by
+  /** Convenience methods to set/get the maximum number of work units to use.
+   * \warning When setting the maximum number of work units, it will be clamped by
    * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() and ITK_MAX_THREADS.
    * */
   ThreadIdType GetMaximumNumberOfThreads() const;
@@ -113,7 +113,7 @@ protected:
 
   /** This is evauated at the beginning of Execute() so that it can be used in
    * BeforeThreadedExecution(). */
-  virtual void DetermineNumberOfThreadsUsed();
+  virtual void DetermineNumberOfWorkUnitsUsed();
 
   /** When \c Execute is run, this method is run singled-threaded before \c
    * ThreadedExecution.  Inside this method optional operations such as
@@ -158,7 +158,7 @@ private:
    * the number allocated by the threader if the object does not split
    * well into that number.
    * This value is determined at the beginning of \c Execute(). */
-  ThreadIdType                             m_NumberOfThreadsUsed;
+  ThreadIdType                             m_NumberOfWorkUnitsUsed;
   typename DomainPartitionerType::Pointer  m_DomainPartitioner;
   DomainType                               m_CompleteDomain;
   MultiThreaderBase::Pointer               m_MultiThreader;

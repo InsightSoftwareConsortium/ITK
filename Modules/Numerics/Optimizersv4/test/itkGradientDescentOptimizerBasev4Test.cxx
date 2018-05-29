@@ -161,7 +161,7 @@ int itkGradientDescentOptimizerBasev4Test(int , char* [])
 
   std::cout << "value: " << optimizer->GetCurrentMetricValue() << std::endl;
 
-  optimizer->SetNumberOfThreads( 2 );
+  optimizer->SetNumberOfWorkUnits( 2 );
 
   TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
 

@@ -368,8 +368,8 @@ int PerformSimpleImageRegistrationWithMaskAndSampling( int argc, char *argv[] )
             << " Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << std::endl
             << " FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << std::endl
             << " Number of threads used:" << std::endl
-            << "  metric: " << imageMetric->GetNumberOfThreadsUsed() << std::endl
-            << "  optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
+            << "  metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << std::endl
+            << "  optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
 
 
   std::cout << "After displacement registration: " << std::endl
@@ -377,8 +377,8 @@ int PerformSimpleImageRegistrationWithMaskAndSampling( int argc, char *argv[] )
             << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << std::endl
             << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << std::endl
             << "Number of threads used:" << std::endl
-            << "  metric: " << correlationMetric->GetNumberOfThreadsUsed()
-            << "  optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfThreads() << std::endl;
+            << "  metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
+            << "  optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
 
   using CompositeTransformType = itk::CompositeTransform<RealType, VImageDimension>;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();

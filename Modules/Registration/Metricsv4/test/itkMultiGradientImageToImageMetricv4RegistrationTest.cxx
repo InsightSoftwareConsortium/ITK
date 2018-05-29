@@ -208,7 +208,7 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 0 );
   resample->Update();
-  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << std::endl;
+  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
 
   //write the warped image into a file
   using OutputPixelType = double;

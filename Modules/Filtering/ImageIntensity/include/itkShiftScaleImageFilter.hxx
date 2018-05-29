@@ -50,7 +50,7 @@ void
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   //  Allocate and initialize the thread temporaries
   m_ThreadUnderflow.SetSize(numberOfThreads);
@@ -66,7 +66,7 @@ void
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   m_UnderflowCount = 0;
   m_OverflowCount = 0;

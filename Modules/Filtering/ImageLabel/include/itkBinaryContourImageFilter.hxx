@@ -38,7 +38,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
   m_ForegroundValue = NumericTraits< InputImagePixelType >::max();
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
-  m_NumberOfThreads = 0;
+  m_NumberOfWorkUnits = 0;
   this->SetInPlace(false);
   this->DynamicMultiThreadingOn();
 }
@@ -82,7 +82,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>
 
   RegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   //parallelize in a way which does not split the region along X axis
   //to accomplish this, we parallelize a region with lower dimension
   //which we extend with full scanlines along X

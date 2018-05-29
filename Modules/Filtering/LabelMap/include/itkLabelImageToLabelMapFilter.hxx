@@ -64,9 +64,9 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   // init the temp images - one per thread
-  m_TemporaryImages.resize( this->GetNumberOfThreads() );
+  m_TemporaryImages.resize( this->GetNumberOfWorkUnits() );
 
-  for ( ThreadIdType i = 0; i < this->GetNumberOfThreads(); i++ )
+  for ( ThreadIdType i = 0; i < this->GetNumberOfWorkUnits(); i++ )
     {
     if ( i == 0 )
       {
@@ -136,7 +136,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 
   // merge the lines from the temporary images in the output image
   // don't use the first image - that's the output image
-  for ( ThreadIdType i = 1; i < this->GetNumberOfThreads(); i++ )
+  for ( ThreadIdType i = 1; i < this->GetNumberOfWorkUnits(); i++ )
     {
     for ( typename OutputImageType::Iterator it( m_TemporaryImages[i] );
           ! it.IsAtEnd();

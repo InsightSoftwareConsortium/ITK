@@ -216,15 +216,15 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   process->ReleaseDataBeforeUpdateFlagOn();
   TEST_SET_GET_VALUE( true, process->GetReleaseDataBeforeUpdateFlag() );
 
-  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfThreads() );
-  process->SetNumberOfThreads( 11 );
-  TEST_SET_GET_VALUE( 11, process->GetNumberOfThreads() );
-  process->SetNumberOfThreads( 0 );
-  TEST_SET_GET_VALUE( 1, process->GetNumberOfThreads() );
-  process->SetNumberOfThreads( itk::NumericTraits<itk::ThreadIdType>::max() );
-  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), process->GetNumberOfThreads() );
-  process->SetNumberOfThreads( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() );
-  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfThreads() );
+  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfWorkUnits() );
+  process->SetNumberOfWorkUnits( 11 );
+  TEST_SET_GET_VALUE( 11, process->GetNumberOfWorkUnits() );
+  process->SetNumberOfWorkUnits( 0 );
+  TEST_SET_GET_VALUE( 1, process->GetNumberOfWorkUnits() );
+  process->SetNumberOfWorkUnits( itk::NumericTraits<itk::ThreadIdType>::max() );
+  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), process->GetNumberOfWorkUnits() );
+  process->SetNumberOfWorkUnits( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() );
+  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfWorkUnits() );
 
   // not sure what to test with that method - at least test that it exist
   itk::MultiThreaderBase::Pointer multiThreader = process->GetMultiThreader();

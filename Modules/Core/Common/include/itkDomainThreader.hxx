@@ -27,10 +27,10 @@ template< typename TDomainPartitioner, typename TAssociate >
 DomainThreader< TDomainPartitioner, TAssociate >
 ::DomainThreader()
 {
-  this->m_DomainPartitioner   = DomainPartitionerType::New();
-  this->m_MultiThreader       = MultiThreaderBase::New();
-  this->m_NumberOfThreadsUsed = 0;
-  this->m_Associate           = nullptr;
+  this->m_DomainPartitioner = DomainPartitionerType::New();
+  this->m_MultiThreader = MultiThreaderBase::New();
+  this->m_NumberOfWorkUnitsUsed = 0;
+  this->m_Associate = nullptr;
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
@@ -75,7 +75,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
   this->m_Associate = enclosingClass;
   this->m_CompleteDomain = completeDomain;
 
-  this->DetermineNumberOfThreadsUsed();
+  this->DetermineNumberOfWorkUnitsUsed();
 
   this->BeforeThreadedExecution();
 
@@ -88,26 +88,26 @@ DomainThreader< TDomainPartitioner, TAssociate >
 template< typename TDomainPartitioner, typename TAssociate >
 void
 DomainThreader< TDomainPartitioner, TAssociate >
-::DetermineNumberOfThreadsUsed()
+::DetermineNumberOfWorkUnitsUsed()
 {
   const ThreadIdType threaderNumberOfThreads = this->GetMultiThreader()->GetNumberOfThreads();
 
   // Attempt a single dummy partition, just to get the number of subdomains actually created
   DomainType subdomain;
-  this->m_NumberOfThreadsUsed = this->m_DomainPartitioner->PartitionDomain(0,
+  this->m_NumberOfWorkUnitsUsed = this->m_DomainPartitioner->PartitionDomain(0,
                                             threaderNumberOfThreads,
                                             this->m_CompleteDomain,
                                             subdomain);
 
-  if( this->m_NumberOfThreadsUsed < threaderNumberOfThreads )
+  if( this->m_NumberOfWorkUnitsUsed < threaderNumberOfThreads )
     {
     // If PartitionDomain is only able to create a lesser number of subdomains,
     // ensure that superfluous threads aren't created
     // DomainThreader::SetMaximumNumberOfThreads *should* already have been called by this point,
     // but it's not fatal if it somehow gets called later
-    this->GetMultiThreader()->SetNumberOfThreads(this->m_NumberOfThreadsUsed);
+    this->GetMultiThreader()->SetNumberOfThreads(this->m_NumberOfWorkUnitsUsed);
     }
-  else if( this->m_NumberOfThreadsUsed > threaderNumberOfThreads )
+  else if( this->m_NumberOfWorkUnitsUsed > threaderNumberOfThreads )
     {
     itkExceptionMacro( "A subclass of ThreadedDomainPartitioner::PartitionDomain"
                       << "returned more subdomains than were requested" );

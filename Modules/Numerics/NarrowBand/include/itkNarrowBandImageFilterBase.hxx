@@ -50,7 +50,7 @@ void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  const int NumberOfThreads = this->GetNumberOfThreads();
+  const int NumberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // if it is not initialized
   if ( !this->m_IsInitialized )
@@ -61,7 +61,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
     output->Allocate();
 
     //Set the number of threads before any other initialization happens
-    this->GetMultiThreader()->SetNumberOfThreads( NumberOfThreads );
+    this->GetMultiThreader()->SetNumberOfThreads( NumberOfWorkUnits );
 
     // Copy the input image to the output image.  Algorithms will operate
     // directly on the output image and the update buffer.
@@ -88,10 +88,10 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.
   str.TimeStepList.clear();
-  str.TimeStepList.resize( NumberOfThreads, NumericTraits< TimeStepType >::ZeroValue() );
+  str.TimeStepList.resize( NumberOfWorkUnits, NumericTraits< TimeStepType >::ZeroValue() );
 
   str.ValidTimeStepList.clear();
-  str.ValidTimeStepList.resize( NumberOfThreads, true );
+  str.ValidTimeStepList.resize( NumberOfWorkUnits, true );
 
   // Multithread the execution
   this->GetMultiThreader()->SetSingleMethod(this->IterateThreaderCallback, &str);

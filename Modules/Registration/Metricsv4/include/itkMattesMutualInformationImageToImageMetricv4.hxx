@@ -341,12 +341,12 @@ void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetValueCommonAfterThreadedExecution()
 {
-  const ThreadIdType localNumberOfThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 
   const SizeValueType numberOfVoxels = this->m_NumberOfHistogramBins* this->m_NumberOfHistogramBins;
   JointPDFValueType * const pdfPtrStart = this->m_ThreaderJointPDF[0]->GetBufferPointer();
 
-  for( unsigned int t = 1; t < localNumberOfThreadsUsed; ++t )
+  for( unsigned int t = 1; t < localNumberOfWorkUnitsUsed; ++t )
     {
     JointPDFValueType *             pdfPtr = pdfPtrStart;
     JointPDFValueType const *       tPdfPtr = this->m_ThreaderJointPDF[t]->GetBufferPointer();

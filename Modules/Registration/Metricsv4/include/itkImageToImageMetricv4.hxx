@@ -446,7 +446,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
   this->m_DefaultFixedImageGradientFilter->SetSigma( maximumSpacing );
   this->m_DefaultFixedImageGradientFilter->SetNormalizeAcrossScale( true );
-  this->m_DefaultFixedImageGradientFilter->SetNumberOfThreads( this->GetMaximumNumberOfThreads() );
+  this->m_DefaultFixedImageGradientFilter->SetNumberOfWorkUnits( this->GetMaximumNumberOfWorkUnits() );
   this->m_DefaultFixedImageGradientFilter->SetUseImageDirection( true );
 }
 
@@ -466,14 +466,14 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
   this->m_DefaultMovingImageGradientFilter->SetSigma(maximumSpacing);
   this->m_DefaultMovingImageGradientFilter->SetNormalizeAcrossScale(true);
-  this->m_DefaultMovingImageGradientFilter->SetNumberOfThreads(this->GetMaximumNumberOfThreads());
+  this->m_DefaultMovingImageGradientFilter->SetNumberOfWorkUnits(this->GetMaximumNumberOfWorkUnits());
   this->m_DefaultMovingImageGradientFilter->SetUseImageDirection(true);
 }
 
 template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::SetMaximumNumberOfThreads( const ThreadIdType number )
+::SetMaximumNumberOfWorkUnits( const ThreadIdType number )
 {
   if( number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() )
     {
@@ -490,7 +490,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 ThreadIdType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetMaximumNumberOfThreads() const
+::GetMaximumNumberOfWorkUnits() const
 {
   if( this->m_UseFixedSampledPointSet )
     {
@@ -502,15 +502,15 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 ThreadIdType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetNumberOfThreadsUsed() const
+::GetNumberOfWorkUnitsUsed() const
 {
   if( this->m_UseFixedSampledPointSet )
     {
-    return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfThreadsUsed();
+    return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
     }
   else
     {
-    return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfThreadsUsed();
+    return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
     }
 }
 

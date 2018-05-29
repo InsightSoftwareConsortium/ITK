@@ -217,16 +217,16 @@ int itkCorrelationImageToImageMetricv4Test(int, char ** const)
   int ret;
   int result = EXIT_SUCCESS;
 
-  metric->SetMaximumNumberOfThreads(1);
-  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfThreads() << std::endl;
+  metric->SetMaximumNumberOfWorkUnits(1);
+  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
   ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
   if( ret == EXIT_FAILURE )
     {
     result = EXIT_FAILURE;
     }
 
-  metric->SetMaximumNumberOfThreads(8);
-  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfThreads() << std::endl;
+  metric->SetMaximumNumberOfWorkUnits(8);
+  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
   ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value2, derivative2);
   if( ret == EXIT_FAILURE )
     {

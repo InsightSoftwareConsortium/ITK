@@ -158,7 +158,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
   //  For testing purposes we want random source to produce
   //  deterministic values. This is accompished by restricting the
   //  number of threads to 1.
-  randomSource->SetNumberOfThreads(1);
+  randomSource->SetNumberOfWorkUnits(1);
 
   using AddFilterType = itk::AddImageFilter<ImageType,ImageType,ImageType>;
   AddFilterType::Pointer addFilter = AddFilterType::New();

@@ -1336,7 +1336,7 @@ ProcessObject
     }
 
   os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;
-  os << indent << "Number Of Threads: " << m_NumberOfThreads << std::endl;
+  os << indent << "Number Of Work Units: " << m_NumberOfWorkUnits << std::endl;
   os << indent << "ReleaseDataFlag: "
      << ( this->GetReleaseDataFlag() ? "On" : "Off" ) << std::endl;
   os << indent << "ReleaseDataBeforeUpdateFlag: "
@@ -1665,20 +1665,20 @@ ProcessObject
     if (this->m_MultiThreader.IsNull())
       {
       this->m_MultiThreader = threader;
-      m_NumberOfThreads = m_MultiThreader->GetNumberOfThreads();
+      m_NumberOfWorkUnits = m_MultiThreader->GetNumberOfThreads();
       }
     else
       {
       ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfThreads();
       this->m_MultiThreader = threader;
       ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfThreads();
-      if (m_NumberOfThreads == oldDefaultNumber)
+      if (m_NumberOfWorkUnits == oldDefaultNumber)
         {
-        m_NumberOfThreads = newDefaultNumber;
+        m_NumberOfWorkUnits = newDefaultNumber;
         }
       else //clamp to new default
         {
-        m_NumberOfThreads = std::min(m_NumberOfThreads, newDefaultNumber);
+        m_NumberOfWorkUnits = std::min(m_NumberOfWorkUnits, newDefaultNumber);
         }
       }
     this->Modified();
@@ -1933,13 +1933,13 @@ ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 template< typename TDomainPartitioner, typename TAssociate >
 void
 ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
-::DetermineNumberOfThreadsUsed()
+::DetermineNumberOfWorkUnitsUsed()
 {
   MultiThreaderBase * multiThreader = this->m_Associate->GetMultiThreader();
   this->SetMultiThreader( multiThreader );
-  multiThreader->SetNumberOfThreads( this->m_Associate->GetNumberOfThreads() );
+  multiThreader->SetNumberOfThreads( this->m_Associate->GetNumberOfWorkUnits() );
 
-  Superclass::DetermineNumberOfThreadsUsed();
+  Superclass::DetermineNumberOfWorkUnitsUsed();
 }
 
 

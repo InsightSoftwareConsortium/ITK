@@ -126,11 +126,11 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
       }
     tensorReconstructionFilter->SetReferenceImage( referenceImage );
     // TODO: remove this when netlib is made thread safe
-    tensorReconstructionFilter->SetNumberOfThreads( 1 );
+    tensorReconstructionFilter->SetNumberOfWorkUnits( 1 );
 
     // Also see if vnl_svd is thread safe now...
     std::cout << std::endl << "This filter is using " <<
-      tensorReconstructionFilter->GetNumberOfThreads() << " threads " << std::endl;
+      tensorReconstructionFilter->GetNumberOfWorkUnits() << " threads " << std::endl;
 
     itk::SimpleFilterWatcher watcher( tensorReconstructionFilter, "Tensor Reconstruction");
 

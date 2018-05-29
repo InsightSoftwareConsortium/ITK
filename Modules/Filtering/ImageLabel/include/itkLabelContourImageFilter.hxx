@@ -32,7 +32,7 @@ template< typename TInputImage, typename TOutputImage >
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::LabelContourImageFilter() :
   m_BackgroundValue( NumericTraits< OutputImagePixelType >::ZeroValue() ),
-  m_NumberOfThreads( 0 ),
+  m_NumberOfWorkUnits( 0 ),
   m_FullyConnected( false )
 {
   this->SetInPlace(false);
@@ -79,7 +79,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>
 
   OutputRegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   //parallelize in a way which does not split the region along X axis
   //to accomplish this, we parallelize a region with lower dimension
   //which we extend with full scanlines along X

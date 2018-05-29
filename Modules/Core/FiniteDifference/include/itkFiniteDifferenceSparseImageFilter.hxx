@@ -54,7 +54,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::Initialize()
 {
   m_RegionList = ( this->GetOutput()->GetNodeList() )
-                 ->SplitRegions( this->GetNumberOfThreads() );
+                 ->SplitRegions( this->GetNumberOfWorkUnits() );
   // The active set of pixels in the sparse image is split into multi-threading
   // regions once here for computationally efficiency.
   // Later GetSplitRegions is used to access these partitions.
@@ -85,7 +85,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 
   str.Filter = this;
   str.TimeStep = dt;
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -148,7 +148,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod
     (this->PrecalculateChangeThreaderCallback, &str);
 
@@ -173,7 +173,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   str.TimeStep = NumericTraits< TimeStepType >::ZeroValue();
   // Not used during the calculate change step for normals.
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod
     (this->CalculateChangeThreaderCallback, &str);
 

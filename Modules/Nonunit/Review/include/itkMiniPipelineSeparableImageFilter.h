@@ -96,7 +96,7 @@ public:
 
   void Modified() const override;
 
-  void SetNumberOfThreads(ThreadIdType nb) override;
+  void SetNumberOfWorkUnits(ThreadIdType nb) override;
 
 protected:
   MiniPipelineSeparableImageFilter();

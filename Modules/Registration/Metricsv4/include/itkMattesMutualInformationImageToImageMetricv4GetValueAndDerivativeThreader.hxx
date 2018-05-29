@@ -61,7 +61,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       this->m_MattesAssociate->m_MovingImageMarginalPDF.end(), PDFValueType{});
     }
 
-  const ThreadIdType mattesAssociateNumThreadsUsed = this->m_MattesAssociate->GetNumberOfThreadsUsed();
+  const ThreadIdType mattesAssociateNumThreadsUsed = this->m_MattesAssociate->GetNumberOfWorkUnitsUsed();
   const bool reinitializeThreaderFixedImageMarginalPDF = ( this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF.size() != mattesAssociateNumThreadsUsed );
 
   if( reinitializeThreaderFixedImageMarginalPDF )
@@ -81,7 +81,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       }
     }
 
-  const ThreadIdType localNumberOfThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 
   this->m_MattesAssociate->m_JointPDFSum = 0;
 
@@ -106,11 +106,11 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
    * Only recreate if size differ from last time.  If size is the same,
    * there is no need to recreate the memory
    */
-  if( ( this->m_MattesAssociate->m_ThreaderJointPDF.size() == localNumberOfThreadsUsed ) &&
+  if( ( this->m_MattesAssociate->m_ThreaderJointPDF.size() == localNumberOfWorkUnitsUsed ) &&
       (jointPDFRegion == this->m_MattesAssociate->m_ThreaderJointPDF[0]->GetBufferedRegion() )
       )
     {
-    for( ThreadIdType threadId = 0; threadId < localNumberOfThreadsUsed; ++threadId )
+    for( ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId )
       {
       // Still need to reset to zero for subsequent runs
       this->m_MattesAssociate->m_ThreaderJointPDF[threadId]->FillBuffer(0.0);
@@ -127,8 +127,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     spacing[0] = this->m_MattesAssociate->m_FixedImageBinSize;
     spacing[1] = this->m_MattesAssociate->m_MovingImageBinSize;
 
-    this->m_MattesAssociate->m_ThreaderJointPDF.resize(localNumberOfThreadsUsed);
-    for( ThreadIdType threadId = 0; threadId < localNumberOfThreadsUsed; ++threadId )
+    this->m_MattesAssociate->m_ThreaderJointPDF.resize(localNumberOfWorkUnitsUsed);
+    for( ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId )
       {
       this->m_MattesAssociate->m_ThreaderJointPDF[threadId] = JointPDFType::New();
       this->m_MattesAssociate->m_ThreaderJointPDF[threadId]->SetRegions(jointPDFRegion);
@@ -212,11 +212,11 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       // Initialize to zero for accumulation
       this->m_MattesAssociate->m_JointPDFDerivatives->FillBuffer(0.0F);
       }
-    if( ( this->m_MattesAssociate->m_ThreaderDerivativeManager.size() != localNumberOfThreadsUsed ) )
+    if( ( this->m_MattesAssociate->m_ThreaderDerivativeManager.size() != localNumberOfWorkUnitsUsed ) )
       {
-      this->m_MattesAssociate->m_ThreaderDerivativeManager.resize(localNumberOfThreadsUsed);
+      this->m_MattesAssociate->m_ThreaderDerivativeManager.resize(localNumberOfWorkUnitsUsed);
       }
-    for( ThreadIdType threadId = 0; threadId < localNumberOfThreadsUsed; ++threadId )
+    for( ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId )
       {
       this->m_MattesAssociate->m_ThreaderDerivativeManager[threadId].Initialize(
         // A heuristic that assumues memory for 2x size of
@@ -225,7 +225,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
         // when the thread size approaches the number of histograms so that the
         // there is enough work to be done between thread lockings.
         std::max<size_t>(500,
-        this->m_MattesAssociate->m_NumberOfHistogramBins * this->m_MattesAssociate->m_NumberOfHistogramBins / localNumberOfThreadsUsed),
+        this->m_MattesAssociate->m_NumberOfHistogramBins * this->m_MattesAssociate->m_NumberOfHistogramBins / localNumberOfWorkUnitsUsed),
         this->GetCachedNumberOfLocalParameters(),
         // Need address of the lock
         &this->m_MattesAssociate->m_JointPDFDerivativesLock,
@@ -432,12 +432,12 @@ void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMattesMutualInformationMetric >
 ::AfterThreadedExecution()
 {
-  const ThreadIdType localNumberOfThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   /* Store the number of valid points in the enclosing class
    * m_NumberOfValidPoints by collecting the valid points per thread.
    * We do this here because we're skipping Superclass::AfterThreadedExecution*/
   this->m_MattesAssociate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::ZeroValue();
-  for (ThreadIdType threadId = 0; threadId < localNumberOfThreadsUsed; ++threadId)
+  for (ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId)
     {
     this->m_MattesAssociate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[threadId].NumberOfValidPoints;
     }

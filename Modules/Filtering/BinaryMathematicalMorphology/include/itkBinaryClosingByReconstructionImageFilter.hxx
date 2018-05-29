@@ -85,7 +85,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
   dilate->SetDilateValue( m_ForegroundValue );
   dilate->SetBackgroundValue( backgroundValue );
   dilate->SetInput( this->GetInput() );
-  dilate->SetNumberOfThreads( this->GetNumberOfThreads() );
+  dilate->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
 
   erode->ReleaseDataFlagOn();
   erode->SetForegroundValue( m_ForegroundValue );
@@ -93,7 +93,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
   erode->SetMarkerImage( dilate->GetOutput() );
   erode->SetFullyConnected( m_FullyConnected );
   erode->SetMaskImage( this->GetInput() );
-  erode->SetNumberOfThreads( this->GetNumberOfThreads() );
+  erode->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
 
 
   /** set up the minipipeline */

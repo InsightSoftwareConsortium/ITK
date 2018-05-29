@@ -243,7 +243,7 @@ void
 StatisticsImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   // Resize the thread temporaries
   m_Count.SetSize(numberOfThreads);
@@ -269,7 +269,7 @@ StatisticsImageFilter< TInputImage >
   SizeValueType   count;
   RealType        sumOfSquares;
 
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   PixelType minimum;
   PixelType maximum;

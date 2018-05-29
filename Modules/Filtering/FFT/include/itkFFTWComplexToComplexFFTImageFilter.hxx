@@ -100,7 +100,7 @@ FFTWComplexToComplexFFTImageFilter< TImage >
                                     out,
                                     transformDirection,
                                     flags,
-                                    this->GetNumberOfThreads());
+                                    this->GetNumberOfWorkUnits());
 
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);

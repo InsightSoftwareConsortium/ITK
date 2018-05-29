@@ -75,8 +75,8 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 
   m_ThreadMatches.clear();
   m_ThreadCounts.clear();
-  m_ThreadMatches.resize( this->GetNumberOfThreads() );
-  m_ThreadCounts.resize( this->GetNumberOfThreads() );
+  m_ThreadMatches.resize( this->GetNumberOfWorkUnits() );
+  m_ThreadCounts.resize( this->GetNumberOfWorkUnits() );
 
   typename std::vector< MeasureType >::iterator mIt;
   std::vector< SizeValueType >::iterator cIt;
@@ -96,7 +96,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   ThreadStruct str;
   str.Metric = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution

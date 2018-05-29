@@ -51,7 +51,7 @@ ImageRegistrationMethod< TFixedImage, TMovingImage >
 
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 
-  this->SetNumberOfThreads( this->GetMultiThreader()->GetNumberOfThreads() );
+  this->SetNumberOfWorkUnits( this->GetMultiThreader()->GetNumberOfThreads() );
 }
 
 /**
@@ -179,8 +179,8 @@ ImageRegistrationMethod< TFixedImage, TMovingImage >
     }
 
   // Setup the metric
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-  this->m_Metric->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
+  this->m_Metric->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   m_Metric->SetMovingImage(m_MovingImage);
   m_Metric->SetFixedImage(m_FixedImage);
   m_Metric->SetTransform(m_Transform);

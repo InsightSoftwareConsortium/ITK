@@ -80,7 +80,7 @@ UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
   typename GaussianType::Pointer gaussianF = GaussianType::New();
   gaussianF->SetInput(input);
   gaussianF->SetSigmaArray(m_Sigmas);
-  gaussianF->SetNumberOfThreads(this->GetNumberOfThreads());
+  gaussianF->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   using USMType = UnsharpMaskingFunctor< InputPixelType,
                                          TInternalPrecision,
@@ -93,7 +93,7 @@ UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
   functorF->SetInput2(gaussianF->GetOutput());
   USMType usmT(m_Amount, m_Threshold, m_Clamp);
   functorF->SetFunctor(usmT);
-  functorF->SetNumberOfThreads(this->GetNumberOfThreads());
+  functorF->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);

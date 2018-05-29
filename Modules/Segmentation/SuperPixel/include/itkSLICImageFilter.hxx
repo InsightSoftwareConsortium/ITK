@@ -622,7 +622,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   this->AllocateOutputs();
   this->BeforeThreadedGenerateData();
 
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
 
   const InputImageType *inputImage = this->GetInput();
   OutputImageType *outputImage = this->GetOutput();

@@ -291,7 +291,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);
   mf->SetInput(im_init);
-  mf->SetNumberOfThreads(numOfThreads);
+  mf->SetNumberOfWorkUnits(numOfThreads);
   mf->SetNumberOfLayers(3);
 
   try

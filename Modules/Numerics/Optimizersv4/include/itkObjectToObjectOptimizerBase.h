@@ -185,10 +185,10 @@ public:
   /** Set the number of threads to use when threading.
    * The default is the global default number of threads
    * returned from itkMultiThreader. */
-  virtual void SetNumberOfThreads( ThreadIdType number );
+  virtual void SetNumberOfWorkUnits( ThreadIdType number );
 
   /** Get the number of threads set to be used. */
-  itkGetConstReferenceMacro( NumberOfThreads, ThreadIdType );
+  itkGetConstReferenceMacro( NumberOfWorkUnits, ThreadIdType );
 
   /** Return current number of iterations. */
   itkGetConstMacro(CurrentIteration, SizeValueType);
@@ -223,7 +223,7 @@ protected:
   ~ObjectToObjectOptimizerBaseTemplate() override;
 
   MetricTypePointer             m_Metric;
-  ThreadIdType                  m_NumberOfThreads;
+  ThreadIdType                  m_NumberOfWorkUnits;
   SizeValueType                 m_CurrentIteration;
   SizeValueType                 m_NumberOfIterations;
 
