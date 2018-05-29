@@ -22,15 +22,15 @@
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkImageFileReader.h"
 #include <vector>
 
 namespace itk
 {
-
 /** \class TileMontage
- *  \brief Determines registrations for an n-Dimensional mosaic of images.
+ * \brief Determines registrations for an n-Dimensional mosaic of images.
  *
- *  Determines registrations which can be used to resample a mosaic into a single image.
+ * Determines registrations which can be used to resample a mosaic into a single image.
  *
  * \author Dženan Zukić, dzenan.zukic@kitware.com
  *
@@ -67,6 +67,7 @@ public:
   using PixelType = typename ImageType::PixelType;
   using RegionType = typename ImageType::RegionType;
   using PointType = typename ImageType::PointType;
+  using SpacingType = typename ImageType::SpacingType;
   using OffsetType = typename ImageType::OffsetType;
   using ImageIndexType = typename ImageType::IndexType;
 
@@ -85,8 +86,6 @@ public:
   /** Type for the output: Using Decorator pattern for enabling
   *  the Transform to be passed in the data pipeline */
   using TransformOutputType = DataObjectDecorator< TransformType >;
-  using TransformOutputPointer = typename TransformOutputType::Pointer;
-  using TransformOutputConstPointer = typename TransformOutputType::ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = typename DataObject::Pointer;
@@ -104,6 +103,17 @@ public:
     Superclass::SetReleaseDataBeforeUpdateFlag(flag);
     m_PCM->SetReleaseDataBeforeUpdateFlag(flag);
   }
+
+  /** Set/Get the OriginAdjustment. Origin adjustment multiplied by tile index
+   * is added to origin of images when only their filename is specified.
+   * This allows assumed positions for tiles even if files have zero origin. */
+  itkSetMacro(OriginAdjustment, PointType);
+  itkGetConstMacro(OriginAdjustment, PointType);
+
+  /** Set/Get forced spacing.
+   * If set, overrides spacing for images read from files. */
+  itkSetMacro(ForcedSpacing, SpacingType);
+  itkGetConstMacro(ForcedSpacing, SpacingType);
 
   /** Set/Get the PhaseCorrelationImageRegistrationMethod. */
   itkSetObjectMacro(PCM, PCMType);
@@ -129,6 +139,12 @@ public:
     SizeValueType linInd = this->nDIndexToLinearIndex(position);
     this->SetNthInput(linInd, image);
     m_FFTCache[linInd] = nullptr;
+  }
+  void SetInputTile(TileIndexType position, const std::string& imageFilename)
+  {
+    SizeValueType linInd = this->nDIndexToLinearIndex(position);
+    m_Filenames[linInd] = imageFilename;
+    this->SetInputTile(position, m_Dummy);
   }
 
   /** After Update(), the transform for each tile is available. */
@@ -162,6 +178,12 @@ protected:
   {
     return TransformOutputType::New();
   }
+
+  /** For reading if only filename was given. */
+  using ReaderType = itk::ImageFileReader< ImageType >;
+
+  /** Just get image pointer if the image is present, otherwise read it from file. */
+  ImageType* GetImage(TileIndexType nDIndex);
 
   DataObjectPointerArraySizeType nDIndexToLinearIndex(TileIndexType nDIndex) const;
   TileIndexType LinearIndexTonDIndex(DataObjectPointerArraySizeType linearIndex) const;
@@ -207,9 +229,14 @@ private:
     SizeType      m_MontageSize;
     SizeValueType m_LinearMontageSize;
     SizeValueType m_FinishedTiles;
+    PointType     m_OriginAdjustment;
+    SpacingType   m_ForcedSpacing;
 
+    std::vector<std::string>     m_Filenames;
     std::vector<FFTConstPointer> m_FFTCache;
     typename PCMType::Pointer    m_PCM;
+    typename ReaderType::Pointer m_Reader;
+    typename ImageType::Pointer  m_Dummy;
 
     typename PCMOperatorType::Pointer   m_PCMOperator;
     typename PCMOptimizerType::Pointer  m_PCMOptimizer;
