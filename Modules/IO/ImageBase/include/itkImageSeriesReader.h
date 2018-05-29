@@ -42,7 +42,7 @@ namespace itk
  */
 
 template< typename TOutputImage >
-class ITKIOImageBase_HIDDEN ImageSeriesReader:public ImageSource< TOutputImage >
+class ITK_TEMPLATE_EXPORT ImageSeriesReader:public ImageSource< TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesReader);

@@ -79,7 +79,7 @@ public:
  * \ingroup ITKIOImageBase
  */
 template< typename TInputImage, typename TOutputImage >
-class ITKIOImageBase_HIDDEN ImageSeriesWriter:public ProcessObject
+class ITK_TEMPLATE_EXPORT ImageSeriesWriter:public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesWriter);
