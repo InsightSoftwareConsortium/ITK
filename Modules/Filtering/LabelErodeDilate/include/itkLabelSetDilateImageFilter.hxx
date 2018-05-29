@@ -32,7 +32,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 void
 LabelSetDilateImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // this is where the work happens. We use a distance image with
   // floating point pixel to perform the parabolic operations. The
@@ -42,31 +42,6 @@ LabelSetDilateImageFilter< TInputImage, TOutputImage >
   // line copy.
   // Similarly, the thresholding on output needs to be integrated
   // with the last processing stage.
-  // stop warnings about unused argument
-  (void)threadId;
-  // compute the number of rows first, so we can setup a progress reporter
-  typename std::vector< unsigned int > NumberOfRows;
-  InputSizeType size   = outputRegionForThread.GetSize();
-
-  for ( unsigned int i = 0; i < InputImageDimension; i++ )
-    {
-    NumberOfRows.push_back(1);
-    for ( unsigned int d = 0; d < InputImageDimension; d++ )
-      {
-      if ( d != i )
-        {
-        NumberOfRows[i] *= size[d];
-        }
-      }
-    }
-  float progressPerDimension = 1.0 / ImageDimension;
-
-  auto *progress = new ProgressReporter(this,
-                                        threadId,
-                                        NumberOfRows[this->m_CurrentDimension],
-                                        30,
-                                        this->m_CurrentDimension * progressPerDimension,
-                                        progressPerDimension);
 
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex< TInputImage  >;
   using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
@@ -112,7 +87,7 @@ LabelSetDilateImageFilter< TInputImage, TOutputImage >
       {
       LabSet::doOneDimensionDilateFirstPass< InputConstIteratorType, OutputDistIteratorType, OutputIteratorType,
                                              RealType >(inputIterator, outputDistIterator, outputIterator,
-                                                        *progress, LineLength,
+                                                        LineLength,
                                                         this->m_CurrentDimension,
                                                         this->m_MagnitudeSign,
                                                         this->m_UseImageSpacing,
@@ -130,7 +105,7 @@ LabelSetDilateImageFilter< TInputImage, TOutputImage >
                                                inputDistIterator,
                                                outputDistIterator,
                                                outputIterator,
-                                               *progress, LineLength,
+                                               LineLength,
                                                this->m_CurrentDimension,
                                                this->m_MagnitudeSign,
                                                this->m_UseImageSpacing,

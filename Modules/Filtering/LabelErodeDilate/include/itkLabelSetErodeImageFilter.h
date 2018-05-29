@@ -82,10 +82,11 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 protected:
-  LabelSetErodeImageFilter(){}
+  LabelSetErodeImageFilter()
+    { this->DynamicMultiThreadingOn(); }
   ~LabelSetErodeImageFilter() override {}
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   // Override since the filter produces the entire dataset.
 private:
