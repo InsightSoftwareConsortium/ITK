@@ -20,7 +20,6 @@
 
 #include <itkArray.h>
 
-#include "itkProgressReporter.h"
 #include <vector>
 namespace itk
 {
@@ -225,7 +224,6 @@ void DoLineLabelProp(LineBufferType & LineBuf, LineBufferType & tmpLineBuf,
 template< class TInIter, class TOutDistIter, class TOutLabIter, class RealType >
 void doOneDimensionErodeFirstPass(TInIter & inputIterator, TOutDistIter & outputIterator,
                                   TOutLabIter & outputLabIterator,
-                                  ProgressReporter & progress,
                                   const unsigned LineLength,
                                   const unsigned direction,
                                   const int m_MagnitudeSign,
@@ -350,14 +348,12 @@ void doOneDimensionErodeFirstPass(TInIter & inputIterator, TOutDistIter & output
     // now onto the next line
     inputIterator.NextLine();
     outputIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 
 template< class TInIter, class TOutDistIter, class TOutLabIter, class RealType >
 void doOneDimensionDilateFirstPass(TInIter & inputIterator, TOutDistIter & outputIterator,
                                    TOutLabIter & outputLabIterator,
-                                   ProgressReporter & progress,
                                    const unsigned LineLength,
                                    const unsigned direction,
                                    const int m_MagnitudeSign,
@@ -436,14 +432,12 @@ void doOneDimensionDilateFirstPass(TInIter & inputIterator, TOutDistIter & outpu
     inputIterator.NextLine();
     outputIterator.NextLine();
     outputLabIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 
 template< class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType >
 void doOneDimensionErode(TInIter & inputIterator, TDistIter & inputDistIterator,
                          TOutDistIter & outputDistIterator, TOutLabIter & outputLabIterator,
-                         ProgressReporter & progress,
                          const unsigned LineLength,
                          const unsigned direction,
                          const int m_MagnitudeSign,
@@ -568,14 +562,12 @@ void doOneDimensionErode(TInIter & inputIterator, TDistIter & inputDistIterator,
     inputIterator.NextLine();
     inputDistIterator.NextLine();
     outputDistIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 
 template< class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType >
 void doOneDimensionDilate(TInIter & inputIterator, TDistIter & inputDistIterator,
                           TOutDistIter & outputDistIterator, TOutLabIter & outputLabIterator,
-                          ProgressReporter & progress,
                           const unsigned LineLength,
                           const unsigned direction,
                           const int m_MagnitudeSign,
@@ -652,7 +644,6 @@ void doOneDimensionDilate(TInIter & inputIterator, TDistIter & inputDistIterator
     outputLabIterator.NextLine();
     inputDistIterator.NextLine();
     outputDistIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 }
