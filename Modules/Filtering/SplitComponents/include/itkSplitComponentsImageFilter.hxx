@@ -28,7 +28,6 @@ namespace itk
 
 template <class TInputImage, class TOutputImage, unsigned int TComponents>
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::SplitComponentsImageFilter()
-  : m_DynamicMultiThreading(true)
 {
   this->m_ComponentsMask.Fill(true);
 
@@ -39,6 +38,8 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::SplitCompone
   {
     this->SetNthOutput(i, this->MakeOutput(i));
   }
+
+  this->DynamicMultiThreadingOn();
 }
 
 
