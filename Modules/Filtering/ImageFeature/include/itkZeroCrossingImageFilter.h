@@ -127,13 +127,7 @@ public:
 #endif
 
 protected:
-  ZeroCrossingImageFilter()
-  {
-    m_ForegroundValue = NumericTraits< OutputImagePixelType >::OneValue();
-    m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
-    this->DynamicMultiThreadingOn();
-  }
-
+  ZeroCrossingImageFilter();
   ~ZeroCrossingImageFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
