@@ -1,8 +1,9 @@
 itk_wrap_class("itk::BinaryGeneratorImageFilter" POINTER)
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_SCALAR}" "${WRAP_ITK_SCALAR}")
-  foreach(type ${WRAP_ITK_ALL_TYPES})
+  foreach(type ${WRAP_ITK_VECTOR} ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA} ${WRAP_ITK_COMPLEX_REAL})
     itk_wrap_image_filter_combinations("${type}" "${WRAP_ITK_INT}" "${type}")
   endforeach()
+
 
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_REAL})
