@@ -34,6 +34,10 @@ TileMontage<TImageType, TCoordinate>
   m_PCM = PCMType::New();
   m_PCMOperator = PCMOperatorType::New();
   m_PCMOptimizer = PCMOptimizerType::New();
+  m_Reader = ReaderType::New();
+  m_Dummy = ImageType::New();
+  m_OriginAdjustment.Fill(0);
+  m_ForcedSpacing.Fill(0);
 
   m_Background = PixelType();
   m_FinishedTiles = 0;
@@ -54,14 +58,20 @@ TileMontage<TImageType, TCoordinate>
   os << indent << "Montage size: " << m_MontageSize << std::endl;
   os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;
   os << indent << "Finished Tiles: " << m_FinishedTiles << std::endl;
+  os << indent << "Origin Adjustment: " << m_OriginAdjustment << std::endl;
+  os << indent << "Forced Spacing: " << m_ForcedSpacing << std::endl;  
 
-  auto nullCount = std::count(m_FFTCache.begin(), m_FFTCache.end(), nullptr);
+  auto nullCount = std::count(m_Filenames.begin(), m_Filenames.end(), std::string());
+  os << indent << "Filenames (filled/capcity): " << m_Filenames.size() - nullCount
+      << "/" << m_Filenames.size() << std::endl;
+  nullCount = std::count(m_FFTCache.begin(), m_FFTCache.end(), nullptr);
   os << indent << "FFTCache (filled/capcity): " << m_FFTCache.size() - nullCount
       << "/" << m_FFTCache.size() << std::endl;
 
   os << indent << "PhaseCorrelationImageRegistrationMethod: " << m_PCM.GetPointer() << std::endl;
   os << indent << "PCM Optimizer: " << m_PCMOptimizer.GetPointer() << std::endl;
   os << indent << "PCM Operator: " << m_PCMOperator.GetPointer() << std::endl;
+  os << indent << "Image Reader: " << m_Reader.GetPointer() << std::endl;
 
   os << indent << "MinInner: " << m_MinInner << std::endl;
   os << indent << "MaxInner: " << m_MaxInner << std::endl;
@@ -84,9 +94,41 @@ TileMontage<TImageType, TCoordinate>
     this->SetNumberOfRequiredInputs(m_LinearMontageSize);
     this->SetNumberOfRequiredOutputs(m_LinearMontageSize);
     m_MontageSize = montageSize;
+    m_Filenames.resize(m_LinearMontageSize);
     m_FFTCache.resize(m_LinearMontageSize);
     this->Modified();
     }
+}
+
+template<typename TImageType, typename TCoordinate>
+typename TileMontage<TImageType, TCoordinate>::ImageType*
+TileMontage<TImageType, TCoordinate>
+::GetImage(TileIndexType nDIndex)
+{
+  DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex(nDIndex);
+  auto imagePtr = static_cast<ImageType *>(this->GetInput(linearIndex));
+  if (imagePtr == m_Dummy.GetPointer()) //filename given, we have to read it
+    {
+    m_Reader->SetFileName(m_Filenames[linearIndex]);
+    m_Reader->Update();
+    typename ImageType::Pointer image = m_Reader->GetOutput();
+    image->DisconnectPipeline();
+
+    PointType origin = image->GetOrigin();
+    for (unsigned d = 0; d < ImageDimension; d++)
+      {
+      origin[d] += m_OriginAdjustment[d] * nDIndex[d];
+      }
+    image->SetOrigin(origin);
+    if (m_ForcedSpacing[0] != 0)
+      {
+      image->SetSpacing(m_ForcedSpacing);
+      }
+
+    this->SetNthInput(linearIndex, image);
+    imagePtr = image.GetPointer();
+    }
+  return imagePtr;
 }
 
 template<typename TImageType, typename TCoordinate>
@@ -131,8 +173,8 @@ TileMontage<TImageType, TCoordinate>
   DataObjectPointerArraySizeType lFixedInd = nDIndexToLinearIndex(fixed);
   DataObjectPointerArraySizeType lMovingInd = nDIndexToLinearIndex(moving);
 
-  auto mImage = static_cast<ImageType *>(this->GetInput(lMovingInd));
-  m_PCM->SetFixedImage(static_cast<ImageType *>(this->GetInput(lFixedInd)));
+  auto mImage = this->GetImage(moving);
+  m_PCM->SetFixedImage(this->GetImage(fixed));
   m_PCM->SetMovingImage(mImage);
   m_PCM->SetFixedImageFFT(m_FFTCache[lFixedInd]); //maybe null
   m_PCM->SetMovingImageFFT(m_FFTCache[lMovingInd]); //maybe null
@@ -216,7 +258,9 @@ TileMontage<TImageType, TCoordinate>
   auto input = static_cast<const ImageType*>(this->GetInput(indLin));
   ImageIndexType ind = input->GetRequestedRegion().GetIndex();
   input->TransformIndexToPhysicalPoint(ind, p);
-  p = transform->TransformPoint(p);
+  TransformPointer inverseT = TransformType::New();
+  transform->GetInverse(inverseT);
+  p = inverseT->TransformPoint(p);
   input0->TransformPhysicalPointToContinuousIndex(p, ci);
   for (unsigned d = 0; d < ImageDimension; d++)
     {
@@ -228,7 +272,7 @@ TileMontage<TImageType, TCoordinate>
     }
   ind += input->GetRequestedRegion().GetSize();
   input->TransformIndexToPhysicalPoint(ind, p);
-  p = transform->TransformPoint(p);
+  p = inverseT->TransformPoint(p);
   input0->TransformPhysicalPointToContinuousIndex(p, ci);
   for (unsigned d = 0; d < ImageDimension; d++)
     {
@@ -436,8 +480,10 @@ TileMontage<TImageType, TCoordinate>
     {
     auto input = static_cast<const ImageType*>(this->GetInput(i));
     TransformConstPointer t = static_cast<TransformOutputType *>(this->GetOutput(i))->Get();
+    TransformPointer inverseT = TransformType::New();
+    t->GetInverse(inverseT);
     PointType iOrigin = input->GetOrigin();
-    iOrigin = t->TransformPoint(iOrigin);
+    iOrigin = inverseT->TransformPoint(iOrigin);
 
     ContinuousIndexType ci;
     m_SingleImage->TransformPhysicalPointToContinuousIndex(iOrigin, ci);
