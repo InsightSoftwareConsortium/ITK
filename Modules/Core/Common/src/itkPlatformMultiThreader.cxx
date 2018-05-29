@@ -50,14 +50,16 @@ PlatformMultiThreader::PlatformMultiThreader()
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
     m_ThreadInfoArray[i].ThreadID           = i;
-    m_ThreadInfoArray[i].ActiveFlag         = nullptr;
-    m_ThreadInfoArray[i].ActiveFlagLock     = nullptr;
+    m_ThreadInfoArray[i].ActiveFlag = nullptr;
+    m_ThreadInfoArray[i].ActiveFlagLock = nullptr;
 
-    m_MultipleMethod[i]                     = nullptr;
-    m_MultipleData[i]                       = nullptr;
+#if !defined( ITK_LEGACY_REMOVE )
+    m_MultipleMethod[i] = nullptr;
+    m_MultipleData[i] = nullptr;
+#endif
 
-    m_SpawnedThreadActiveFlag[i]            = 0;
-    m_SpawnedThreadActiveFlagLock[i]        = nullptr;
+    m_SpawnedThreadActiveFlag[i] = 0;
+    m_SpawnedThreadActiveFlagLock[i] = nullptr;
     m_SpawnedThreadInfoArray[i].ThreadID    = i;
     }
 
