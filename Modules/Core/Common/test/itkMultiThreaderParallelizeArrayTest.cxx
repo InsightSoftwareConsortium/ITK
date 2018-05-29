@@ -60,7 +60,7 @@ itkMultiThreaderParallelizeArrayTest( int argc, char* argv[] )
   if ( argc >= 2 )
     {
     unsigned threadCount = static_cast< unsigned >( atoi( argv[1] ) );
-    mt->SetNumberOfThreads( threadCount );
+    mt->SetNumberOfWorkUnits( threadCount );
     }
 
   constexpr unsigned size = 1029;

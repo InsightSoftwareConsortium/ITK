@@ -105,26 +105,26 @@ It can affect all MultiThreaderBase's derived classes in ITK");
 #endif
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
-   * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
+   * m_NumberOfWorkUnits threads. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
    * necessary. */
   void SingleMethodExecute() override;
 
   /** Execute the MultipleMethods (as define by calling SetMultipleMethod for
-   * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
-   * threads. As a side effect the m_NumberOfThreads will be checked against the
+   * each of the required m_NumberOfWorkUnits methods) using m_NumberOfWorkUnits
+   * threads. As a side effect the m_NumberOfWorkUnits will be checked against the
    * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
   itkLegacyMacro(void MultipleMethodExecute());
 
   /** Set the SingleMethod to f() and the UserData field of the
-   * ThreadInfoStruct that is passed to it will be data.
+   * WorkUnitInfo that is passed to it will be data.
    * This method (and all the methods passed to SetMultipleMethod)
    * must be of type itkThreadFunctionType and must take a single argument of
    * type void *. */
   void SetSingleMethod(ThreadFunctionType, void *data) override;
 
   /** Set the MultipleMethod at the given index to f() and the UserData
-   * field of the ThreadInfoStruct that is passed to it will be data. */
+   * field of the WorkUnitInfo that is passed to it will be data. */
   itkLegacyMacro(void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data));
 
   /** Create a new thread for the given function. Return a thread id
@@ -137,7 +137,10 @@ It can affect all MultiThreaderBase's derived classes in ITK");
    * Deprecated. Use C++11 thread support instead. */
   itkLegacyMacro(void TerminateThread(ThreadIdType thread_id));
 
-  struct ThreadInfoStruct: MultiThreaderBase::ThreadInfoStruct
+  virtual void SetMaximumNumberOfThreads( ThreadIdType numberOfThreads ) override;
+  virtual void SetNumberOfWorkUnits( ThreadIdType numberOfWorkUnits ) override;
+
+  struct WorkUnitInfo: MultiThreaderBase::WorkUnitInfo
     {
     int *ActiveFlag;
     MutexLock::Pointer ActiveFlagLock;
@@ -152,14 +155,14 @@ private:
   /** An array of thread info containing a thread id
    *  (0, 1, 2, .. ITK_MAX_THREADS-1), the thread count, and a pointer
    *  to void so that user data can be passed to each thread. */
-  ThreadInfoStruct m_ThreadInfoArray[ITK_MAX_THREADS];
+  WorkUnitInfo m_ThreadInfoArray[ITK_MAX_THREADS];
 
   /** Storage of MutexFunctions and ints used to control spawned
    *  threads and the spawned thread ids. */
   int                 m_SpawnedThreadActiveFlag[ITK_MAX_THREADS];
   MutexLock::Pointer  m_SpawnedThreadActiveFlagLock[ITK_MAX_THREADS];
   ThreadProcessIdType m_SpawnedThreadProcessID[ITK_MAX_THREADS];
-  ThreadInfoStruct    m_SpawnedThreadInfoArray[ITK_MAX_THREADS];
+  WorkUnitInfo        m_SpawnedThreadInfoArray[ITK_MAX_THREADS];
 
 #if !defined ( ITK_LEGACY_REMOVE )
   /** The methods to invoke. */
@@ -170,7 +173,7 @@ private:
 #endif
 
   /** spawn a new thread for the SingleMethod */
-  ThreadProcessIdType SpawnDispatchSingleMethodThread(ThreadInfoStruct *);
+  ThreadProcessIdType SpawnDispatchSingleMethodThread(WorkUnitInfo *);
   /** wait for a thread in the threadpool to finish work */
   void SpawnWaitForSingleMethodThread(ThreadProcessIdType);
 

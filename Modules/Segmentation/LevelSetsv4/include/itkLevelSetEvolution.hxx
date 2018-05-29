@@ -239,7 +239,7 @@ void
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::SetNumberOfWorkUnits( const ThreadIdType numberOfThreads)
 {
-  this->m_SplitLevelSetComputeIterationThreader->SetMaximumNumberOfThreads( numberOfThreads );
+  this->m_SplitLevelSetComputeIterationThreader->SetNumberOfWorkUnits( numberOfThreads );
 }
 
 template< typename TEquationContainer, typename TOutput, unsigned int VDimension >
@@ -247,7 +247,7 @@ ThreadIdType
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::GetNumberOfWorkUnits() const
 {
-  return this->m_SplitLevelSetComputeIterationThreader->GetMaximumNumberOfThreads();
+  return this->m_SplitLevelSetComputeIterationThreader->GetNumberOfWorkUnits();
 }
 
 template< typename TEquationContainer, typename TOutput, unsigned int VDimension >

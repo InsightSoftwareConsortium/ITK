@@ -50,11 +50,11 @@ void PlatformMultiThreader::MultipleMethodExecute()
   pthread_t process_id[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
-  if( m_NumberOfThreads > MultiThreaderBase::GetGlobalMaximumNumberOfThreads() )
+  if( m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads() )
     {
-    m_NumberOfThreads = MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
+    m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
     }
-  for( ThreadIdType thread_loop = 0; thread_loop < m_NumberOfThreads; ++thread_loop )
+  for( ThreadIdType thread_loop = 0; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
     if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)nullptr )
       {
@@ -65,14 +65,14 @@ void PlatformMultiThreader::MultipleMethodExecute()
 
   // Using POSIX threads
   //
-  // We want to use pthread_create to start m_NumberOfThreads - 1
+  // We want to use pthread_create to start m_NumberOfWorkUnits - 1
   // additional
-  // threads which will be used to call the NumberOfThreads-1 methods
+  // threads which will be used to call the NumberOfWorkUnits-1 methods
   // defined in m_MultipleMethods[](). The parent thread
-  // will call m_MultipleMethods[NumberOfThreads-1]().  When it is done,
+  // will call m_MultipleMethods[NumberOfWorkUnits-1]().  When it is done,
   // it will wait for all the children to finish.
   //
-  // First, start up the m_NumberOfThreads-1 processes.  Keep track
+  // First, start up the m_NumberOfWorkUnits-1 processes.  Keep track
   // of their process ids for use later in the pthread_join call
 
   pthread_attr_t attr;
@@ -81,11 +81,11 @@ void PlatformMultiThreader::MultipleMethodExecute()
 #ifndef __CYGWIN__
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
 #endif
-  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
     m_ThreadInfoArray[thread_loop].UserData =
       m_MultipleData[thread_loop];
-    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+    m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
     int threadError = pthread_create( &( process_id[thread_loop] ),
                                       &attr, reinterpret_cast<c_void_cast>( m_MultipleMethod[thread_loop] ),
                                       ( (void *)( &m_ThreadInfoArray[thread_loop] ) ) );
@@ -98,11 +98,11 @@ void PlatformMultiThreader::MultipleMethodExecute()
 
   // Now, the parent thread calls the last method itself
   m_ThreadInfoArray[0].UserData = m_MultipleData[0];
-  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
   ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
   // The parent thread has finished its method - so now it
   // waits for each of the other processes to exit
-  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
     pthread_join(process_id[thread_loop], nullptr);
     }
@@ -138,7 +138,7 @@ ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *User
     }
 
   m_SpawnedThreadInfoArray[id].UserData        = UserData;
-  m_SpawnedThreadInfoArray[id].NumberOfThreads = 1;
+  m_SpawnedThreadInfoArray[id].NumberOfWorkUnits = 1;
   m_SpawnedThreadInfoArray[id].ActiveFlag = &m_SpawnedThreadActiveFlag[id];
   m_SpawnedThreadInfoArray[id].ActiveFlagLock = m_SpawnedThreadActiveFlagLock[id];
 
@@ -161,21 +161,21 @@ ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *User
   return id;
 }
 
-void PlatformMultiThreader::TerminateThread(ThreadIdType ThreadID)
+void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 {
-  if( !m_SpawnedThreadActiveFlag[ThreadID] )
+  if( !m_SpawnedThreadActiveFlag[WorkUnitID] )
     {
     return;
     }
 
-  m_SpawnedThreadActiveFlagLock[ThreadID]->Lock();
-  m_SpawnedThreadActiveFlag[ThreadID] = 0;
-  m_SpawnedThreadActiveFlagLock[ThreadID]->Unlock();
+  m_SpawnedThreadActiveFlagLock[WorkUnitID]->Lock();
+  m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
+  m_SpawnedThreadActiveFlagLock[WorkUnitID]->Unlock();
 
-  pthread_join(m_SpawnedThreadProcessID[ThreadID], nullptr);
+  pthread_join(m_SpawnedThreadProcessID[WorkUnitID], nullptr);
 
-  m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
-  m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
+  m_SpawnedThreadActiveFlagLock[WorkUnitID] = nullptr;
+  m_SpawnedThreadActiveFlagLock[WorkUnitID] = nullptr;
 }
 #endif
 
@@ -192,7 +192,7 @@ PlatformMultiThreader
 
 ThreadProcessIdType
 PlatformMultiThreader
-::SpawnDispatchSingleMethodThread(PlatformMultiThreader::ThreadInfoStruct *threadInfo)
+::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo *threadInfo)
 {
   // Using POSIX threads
   pthread_attr_t attr;

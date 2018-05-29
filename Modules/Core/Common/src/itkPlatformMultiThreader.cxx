@@ -49,7 +49,7 @@ PlatformMultiThreader::PlatformMultiThreader()
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
-    m_ThreadInfoArray[i].ThreadID           = i;
+    m_ThreadInfoArray[i].WorkUnitID = i;
     m_ThreadInfoArray[i].ActiveFlag = nullptr;
     m_ThreadInfoArray[i].ActiveFlagLock = nullptr;
 
@@ -60,12 +60,23 @@ PlatformMultiThreader::PlatformMultiThreader()
 
     m_SpawnedThreadActiveFlag[i] = 0;
     m_SpawnedThreadActiveFlagLock[i] = nullptr;
-    m_SpawnedThreadInfoArray[i].ThreadID    = i;
+    m_SpawnedThreadInfoArray[i].WorkUnitID = i;
     }
 }
 
 PlatformMultiThreader::~PlatformMultiThreader()
 {
+}
+
+void PlatformMultiThreader::SetMaximumNumberOfThreads( ThreadIdType numberOfThreads )
+{
+  Superclass::SetMaximumNumberOfThreads( numberOfThreads );
+  Superclass::SetNumberOfWorkUnits( numberOfThreads );
+}
+
+void PlatformMultiThreader::SetNumberOfWorkUnits( ThreadIdType numberOfWorkUnits )
+{
+  this->SetMaximumNumberOfThreads( numberOfWorkUnits );
 }
 
 void PlatformMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
@@ -75,16 +86,16 @@ void PlatformMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 }
 
 #if !defined ( ITK_LEGACY_REMOVE )
-// Set one of the user defined methods that will be run on NumberOfThreads
+// Set one of the user defined methods that will be run on NumberOfWorkUnits
 // threads when MultipleMethodExecute is called. This method should be
-// called with index = 0, 1, ..,  NumberOfThreads-1 to set up all the
+// called with index = 0, 1, ..,  NumberOfWorkUnits-1 to set up all the
 // required user defined methods
 void PlatformMultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, void *data)
 {
-  // You can only set the method for 0 through NumberOfThreads-1
-  if( index >= m_NumberOfThreads )
+  // You can only set the method for 0 through NumberOfWorkUnits-1
+  if( index >= m_NumberOfWorkUnits )
     {
-    itkExceptionMacro(<< "Can't set method " << index << " with a thread count of " << m_NumberOfThreads);
+    itkExceptionMacro(<< "Can't set method " << index << " with a thread count of " << m_NumberOfWorkUnits);
     }
   else
     {
@@ -105,11 +116,11 @@ void PlatformMultiThreader::SingleMethodExecute()
     }
 
   // obey the global maximum number of threads limit
-  m_NumberOfThreads = std::min( MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), m_NumberOfThreads );
+  m_NumberOfWorkUnits = std::min( MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits );
 
   // Init process_id table because a valid process_id (i.e., non-zero), is
   // checked in the WaitForSingleMethodThread loops
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+  for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
     process_id[thread_loop] = 0;
     }
@@ -125,10 +136,10 @@ void PlatformMultiThreader::SingleMethodExecute()
   std::string exceptionDetails;
   try
     {
-    for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
       {
       m_ThreadInfoArray[thread_loop].UserData = m_SingleData;
-      m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+      m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
       m_ThreadInfoArray[thread_loop].ThreadFunction = m_SingleMethod;
 
       process_id[thread_loop] =
@@ -156,14 +167,14 @@ void PlatformMultiThreader::SingleMethodExecute()
   try
     {
     m_ThreadInfoArray[0].UserData = m_SingleData;
-    m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+    m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
     m_SingleMethod( (void *)( &m_ThreadInfoArray[0] ) );
     }
   catch( ProcessAborted & )
     {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
-    for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
       {
       try
         {
@@ -194,7 +205,7 @@ void PlatformMultiThreader::SingleMethodExecute()
     }
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+  for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
     try
       {
@@ -202,7 +213,7 @@ void PlatformMultiThreader::SingleMethodExecute()
       this->SpawnWaitForSingleMethodThread(process_id[thread_loop]);
 
       if( m_ThreadInfoArray[thread_loop].ThreadExitCode
-          != ThreadInfoStruct::SUCCESS )
+          != WorkUnitInfo::SUCCESS )
         {
         exceptionOccurred = true;
         }

@@ -117,13 +117,24 @@ int ThreadedIndexedContainerPartitionerRunTest(
   // Exercise GetMultiThreader().
   domainThreader->GetMultiThreader();
   domainThreader->SetMaximumNumberOfThreads( numberOfThreads );
-  // Possible if numberOfThreads < GlobalMaximumNumberOfThreads
+  // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
   if( domainThreader->GetMaximumNumberOfThreads() < numberOfThreads )
     {
     std::cerr << "Failed setting requested number of threads: "
               << numberOfThreads << std::endl
               << "domainThreader->GetMaximumNumberOfThreads(): "
               << domainThreader->GetMaximumNumberOfThreads() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  domainThreader->SetNumberOfWorkUnits(numberOfThreads);
+  // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
+  if( domainThreader->GetNumberOfWorkUnits() != numberOfThreads )
+    {
+    std::cerr << "Failed setting requested number of work units: "
+              << numberOfThreads << std::endl
+              << "domainThreader->GetNumberOfWorkUnits(): "
+              << domainThreader->GetNumberOfWorkUnits() << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -193,7 +204,8 @@ int itkThreadedIndexedContainerPartitionerTest(int, char* [])
   std::cout << "GetGlobalDefaultNumberOfThreads: "
             << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads()
             << std::endl;
-  std::cout << "domainThreader->GetMultiThreader()->NumberOfThreads(): " << domainThreader->GetMultiThreader()->GetNumberOfThreads()
+  std::cout << "domainThreader->GetMultiThreader()->NumberOfWorkUnits(): "
+            << domainThreader->GetMultiThreader()->GetNumberOfWorkUnits()
             << std::endl;
 
   using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
@@ -201,7 +213,7 @@ int itkThreadedIndexedContainerPartitionerTest(int, char* [])
 
   /* Test with single thread */
   fullRange[0] = 0;
-  fullRange[1] = 102; //set total range to prime to test uneven division
+  fullRange[1] = 103; //set total range to prime to test uneven division
   itk::ThreadIdType numberOfThreads = 1;
   if( ThreadedIndexedContainerPartitionerRunTest( enclosingClass, numberOfThreads, fullRange )
         != EXIT_SUCCESS )
@@ -211,7 +223,7 @@ int itkThreadedIndexedContainerPartitionerTest(int, char* [])
 
   /* Test with range that doesn't start at 0 */
   fullRange[0] = 2;
-  fullRange[1] = 104; //set total range to prime to test uneven division
+  fullRange[1] = 105; //set total range to prime to test uneven division
   numberOfThreads = 1;
   if( ThreadedIndexedContainerPartitionerRunTest( enclosingClass, numberOfThreads, fullRange )
         != EXIT_SUCCESS )
@@ -224,7 +236,7 @@ int itkThreadedIndexedContainerPartitionerTest(int, char* [])
     {
     /* Test with default number of threads. */
     fullRange[0] = 6;
-    fullRange[1] = 108; //set total range to prime to test uneven division
+    fullRange[1] = 109; //set total range to prime to test uneven division
     numberOfThreads =
       domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads();
     if( ThreadedIndexedContainerPartitionerRunTest( enclosingClass, numberOfThreads, fullRange )

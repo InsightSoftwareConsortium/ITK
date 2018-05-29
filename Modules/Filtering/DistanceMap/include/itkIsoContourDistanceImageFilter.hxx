@@ -139,10 +139,10 @@ ITK_THREAD_RETURN_TYPE
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 ::ThreaderFullCallback(void *arg)
 {
-  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->ThreadID;
-  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  ThreadIdType threadId = threadInfo->WorkUnitID;
+  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   using FilterStruct = typename ImageSource<TOutputImage>::ThreadStruct;
   FilterStruct* str = (FilterStruct *)(threadInfo->UserData);
   Self* filter = static_cast<Self*>(str->Filter.GetPointer());

@@ -1665,13 +1665,13 @@ ProcessObject
     if (this->m_MultiThreader.IsNull())
       {
       this->m_MultiThreader = threader;
-      m_NumberOfWorkUnits = m_MultiThreader->GetNumberOfThreads();
+      m_NumberOfWorkUnits = m_MultiThreader->GetNumberOfWorkUnits();
       }
     else
       {
-      ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfThreads();
+      ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
       this->m_MultiThreader = threader;
-      ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfThreads();
+      ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
       if (m_NumberOfWorkUnits == oldDefaultNumber)
         {
         m_NumberOfWorkUnits = newDefaultNumber;
@@ -1937,7 +1937,7 @@ ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 {
   MultiThreaderBase * multiThreader = this->m_Associate->GetMultiThreader();
   this->SetMultiThreader( multiThreader );
-  multiThreader->SetNumberOfThreads( this->m_Associate->GetNumberOfWorkUnits() );
+  multiThreader->SetNumberOfWorkUnits( this->m_Associate->GetNumberOfWorkUnits() );
 
   Superclass::DetermineNumberOfWorkUnitsUsed();
 }

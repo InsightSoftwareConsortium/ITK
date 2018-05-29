@@ -48,11 +48,15 @@ DomainThreader< TDomainPartitioner, TAssociate >
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
-ThreadIdType
+void
 DomainThreader< TDomainPartitioner, TAssociate >
-::GetMaximumNumberOfThreads() const
+::SetNumberOfWorkUnits( const ThreadIdType workUnits )
 {
-  return this->m_MultiThreader->GetNumberOfThreads();
+  if( workUnits != this->GetNumberOfWorkUnits() )
+    {
+    this->m_MultiThreader->SetNumberOfWorkUnits( workUnits );
+    this->Modified();
+    };
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
@@ -62,7 +66,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
 {
   if( threads != this->GetMaximumNumberOfThreads() )
     {
-    this->m_MultiThreader->SetNumberOfThreads( threads );
+    this->m_MultiThreader->SetMaximumNumberOfThreads( threads );
     this->Modified();
     }
 }
@@ -90,7 +94,7 @@ void
 DomainThreader< TDomainPartitioner, TAssociate >
 ::DetermineNumberOfWorkUnitsUsed()
 {
-  const ThreadIdType threaderNumberOfThreads = this->GetMultiThreader()->GetNumberOfThreads();
+  const ThreadIdType threaderNumberOfThreads = this->GetMultiThreader()->GetNumberOfWorkUnits();
 
   // Attempt a single dummy partition, just to get the number of subdomains actually created
   DomainType subdomain;
@@ -102,10 +106,10 @@ DomainThreader< TDomainPartitioner, TAssociate >
   if( this->m_NumberOfWorkUnitsUsed < threaderNumberOfThreads )
     {
     // If PartitionDomain is only able to create a lesser number of subdomains,
-    // ensure that superfluous threads aren't created
+    // ensure that superfluous work units aren't created
     // DomainThreader::SetMaximumNumberOfThreads *should* already have been called by this point,
     // but it's not fatal if it somehow gets called later
-    this->GetMultiThreader()->SetNumberOfThreads(this->m_NumberOfWorkUnitsUsed);
+    this->GetMultiThreader()->SetNumberOfWorkUnits(this->m_NumberOfWorkUnitsUsed);
     }
   else if( this->m_NumberOfWorkUnitsUsed > threaderNumberOfThreads )
     {
@@ -135,11 +139,11 @@ ITK_THREAD_RETURN_TYPE
 DomainThreader< TDomainPartitioner, TAssociate >
 ::ThreaderCallback( void* arg )
 {
-  auto * info = static_cast<MultiThreaderBase::ThreadInfoStruct *>(arg);
+  auto * info = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
   auto * str = static_cast<ThreadStruct *>(info->UserData);
   DomainThreader *thisDomainThreader = str->domainThreader;
-  const ThreadIdType threadId    = info->ThreadID;
-  const ThreadIdType threadCount = info->NumberOfThreads;
+  const ThreadIdType threadId    = info->WorkUnitID;
+  const ThreadIdType threadCount = info->NumberOfWorkUnits;
 
   // Get the sub-domain to process for this thread.
   DomainType subdomain;

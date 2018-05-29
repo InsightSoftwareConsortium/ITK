@@ -90,7 +90,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_WithinThreadPostProcess(false)
 {
   this->m_ThreaderParameter.metric = this;
-  this->m_NumberOfWorkUnits = this->m_Threader->GetNumberOfThreads();
+  this->m_NumberOfWorkUnits = this->m_Threader->GetNumberOfWorkUnits();
 
   /* if 100% backward compatible, we should include this...but...
   typename BSplineTransformType::Pointer transformer =
@@ -129,8 +129,8 @@ void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::SetNumberOfWorkUnits(ThreadIdType numberOfThreads)
 {
-  m_Threader->SetNumberOfThreads( numberOfThreads );
-  m_NumberOfWorkUnits = m_Threader->GetNumberOfThreads();
+  m_Threader->SetNumberOfWorkUnits( numberOfThreads );
+  m_NumberOfWorkUnits = m_Threader->GetNumberOfWorkUnits();
 }
 
 /**
@@ -1214,10 +1214,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
+            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
 
   mtParam->metric->GetValueThreadPreProcess(threadId, false);
 
@@ -1235,10 +1235,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
+            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
 
   mtParam->metric->GetValueThread(threadId);
 
@@ -1256,10 +1256,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
+            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
 
   mtParam->metric->GetValueThreadPostProcess(threadId, false);
 
@@ -1377,10 +1377,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
+            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
 
   mtParam->metric->GetValueAndDerivativeThreadPreProcess(threadId, false);
 
@@ -1398,10 +1398,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
+            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
 
   mtParam->metric->GetValueAndDerivativeThread(threadId);
 
@@ -1419,10 +1419,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
+            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
 
   mtParam->metric->GetValueAndDerivativeThreadPostProcess(threadId, false);
 

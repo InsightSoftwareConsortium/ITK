@@ -156,6 +156,7 @@ int itkCompensatedSummationTest2(int, char* [])
   /* Test with single thread. We should get the same result. */
   itk::ThreadIdType numberOfThreads = 1;
   domainThreader->SetMaximumNumberOfThreads( numberOfThreads );
+  domainThreader->SetNumberOfWorkUnits( numberOfThreads );
   std::cout << "Testing with " << numberOfThreads
             << " threads and domain " << domain << " ..." << std::endl;
 
@@ -186,6 +187,7 @@ int itkCompensatedSummationTest2(int, char* [])
   if( domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() > 2 )
     {
     domainThreader->SetMaximumNumberOfThreads( maxNumberOfThreads );
+    domainThreader->SetNumberOfWorkUnits( maxNumberOfThreads );
     std::cout << "Testing with " << maxNumberOfThreads
               << " threads and domain " << domain << " ..." << std::endl;
 

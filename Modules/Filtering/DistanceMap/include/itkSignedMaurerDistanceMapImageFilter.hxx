@@ -167,7 +167,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   typename ImageSource< OutputImageType >::ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( nbthreads );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( nbthreads );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution

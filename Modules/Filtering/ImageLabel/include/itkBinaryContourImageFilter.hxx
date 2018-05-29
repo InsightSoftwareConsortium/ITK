@@ -82,7 +82,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>
 
   RegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfWorkUnits() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   //parallelize in a way which does not split the region along X axis
   //to accomplish this, we parallelize a region with lower dimension
   //which we extend with full scanlines along X

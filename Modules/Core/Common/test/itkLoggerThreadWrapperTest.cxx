@@ -126,10 +126,10 @@ private:
 
 ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
 {
-  const auto* threadInfo = static_cast<itk::MultiThreaderBase::ThreadInfoStruct*>(arg);
+  const auto* threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo*>(arg);
   if (threadInfo)
     {
-    const unsigned int threadId = threadInfo->ThreadID;
+    const unsigned int threadId = threadInfo->WorkUnitID;
     std::string threadPrefix;
       {
       std::ostringstream msg;
@@ -157,7 +157,7 @@ ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
         return ITK_THREAD_RETURN_VALUE;
       }
     } else {
-      std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::ThreadInfoStruct*" << std::endl;
+      std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::WorkUnitInfo*" << std::endl;
       return ITK_THREAD_RETURN_VALUE;
     }
   return ITK_THREAD_RETURN_VALUE;
@@ -248,7 +248,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     ThreadDataVec threadData = create_threaded_data2(numthreads, logger);
     itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
-    threader->SetNumberOfThreads(numthreads);
+    threader->SetNumberOfWorkUnits(numthreads);
     threader->SetSingleMethod(ThreadedGenerateLogMessages2, &threadData);
     threader->SingleMethodExecute();
     logger->Flush();

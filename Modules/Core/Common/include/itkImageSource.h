@@ -281,7 +281,7 @@ protected:
    * in its own specific thread. Pool and TBB multi-threaders maintain
    * a pool of threads (normally equal to number of processing cores)
    * which they use to process the pieces. This normally results
-   * in a single thread being reused to process multiple pieces.
+   * in a single thread being reused to process multiple work units.
    *
    * \sa GenerateData(), SplitRequestedRegion() */
   virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

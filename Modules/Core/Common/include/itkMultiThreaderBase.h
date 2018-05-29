@@ -75,11 +75,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiThreaderBase, Object);
 
-  /** Get/Set the number of threads to create. It will be clamped to the range
+  /** Get/Set the number of threads to use. It will be clamped to the range
    * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
    * check that the requested number of threads was accepted. */
-  virtual void SetNumberOfThreads(ThreadIdType numberOfThreads);
-  itkGetConstMacro(NumberOfThreads, ThreadIdType);
+  virtual void SetMaximumNumberOfThreads( ThreadIdType numberOfThreads );
+  itkGetConstMacro( MaximumNumberOfThreads, ThreadIdType );
+
+  /** Get/Set the number of work units to create. It might be clamped to the range
+   * [ 1, SomeMaximumNumber ], so the caller of this method should
+   * check that the requested number of work units was accepted. */
+  virtual void SetNumberOfWorkUnits( ThreadIdType numberOfWorkUnits );
+  itkGetConstMacro( NumberOfWorkUnits, ThreadIdType );
 
   /** Set/Get the maximum number of threads to use when multithreading.  It
    * will be clamped to the range [ 1, ITK_MAX_THREADS ] because several arrays
@@ -149,27 +155,33 @@ public:
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
    * and it is up to the method to cast correctly and extract the information.
-   * The ThreadID is a number between 0 and NumberOfThreads-1 that
-   * indicates the id of this thread. The UserData is the
+   * The WorkUnitID is a number between 0 and NumberOfWorkUnits-1 that
+   * indicates the id of this work unit. The UserData is the
    * (void *)arg passed into the SetSingleMethod. */
-  struct ThreadInfoStruct
-    {
-    ThreadIdType ThreadID;
-    ThreadIdType NumberOfThreads;
-    void* UserData;
+  struct WorkUnitInfo
+  {
+    ThreadIdType       WorkUnitID;
+    ThreadIdType       NumberOfWorkUnits;
+    void*              UserData;
     ThreadFunctionType ThreadFunction;
-    enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
-    };
+    enum
+    {
+      SUCCESS,
+      ITK_EXCEPTION,
+      ITK_PROCESS_ABORTED_EXCEPTION,
+      STD_EXCEPTION,
+      UNKNOWN
+    } ThreadExitCode;
+  };
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
-   * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
+   * m_NumberOfWorkUnits threads. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
    * necessary. */
   virtual void SingleMethodExecute() = 0;
 
   /** Set the SingleMethod to f() and the UserData field of the
-   * ThreadInfoStruct that is passed to it will be data.
-   * This method (and all the methods passed to SetMultipleMethod)
+   * WorkUnitInfo that is passed to it will be data. This method
    * must be of type itkThreadFunctionType and must take a single argument of
    * type void *. */
   virtual void SetSingleMethod(ThreadFunctionType, void *data) = 0;
@@ -264,23 +276,25 @@ protected:
 
   static ITK_THREAD_RETURN_TYPE ParallelizeImageRegionHelper(void *arg);
 
+  /** The number of work units to create. */
+  ThreadIdType m_NumberOfWorkUnits;
+
   /** The number of threads to use.
-   *  The m_NumberOfThreads must always be less than or equal to
+   *  The m_MaximumNumberOfThreads must always be less than or equal to
    *  the m_GlobalMaximumNumberOfThreads before it is used during the execution
-   *  of a threaded method. Its value is clamped in the SingleMethodExecute()
-   *  and MultipleMethodExecute(). Its value is initialized to
+   *  of a threaded method. Its value is initialized to
    *  m_GlobalDefaultNumberOfThreads at construction time. Its value is clamped
    *  to the current m_GlobalMaximumNumberOfThreads in the
-   *  SingleMethodExecute() and MultipleMethodExecute() methods.
+   *  SingleMethodExecute() method.
    */
-  ThreadIdType m_NumberOfThreads;
+  ThreadIdType m_MaximumNumberOfThreads;
 
   /** Static function used as a "proxy callback" by multi-threaders.  The
-  * threading library will call this routine for each thread, which
-  * will delegate the control to the prescribed SingleMethod. This
-  * routine acts as an intermediary between the multi-threaders and the
-  * user supplied callback (SingleMethod) in order to catch any
-  * exceptions thrown by the threads. */
+   * threading library will call this routine for each thread, which
+   * will delegate the control to the prescribed SingleMethod. This
+   * routine acts as an intermediary between the multi-threaders and the
+   * user supplied callback (SingleMethod) in order to catch any
+   * exceptions thrown by the threads. */
   static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
 
   /** The method to invoke. */
@@ -300,5 +314,5 @@ private:
 ITKCommon_EXPORT std::ostream& operator << (std::ostream& os,
     const MultiThreaderBase::ThreaderType& threader);
 
-}  // end namespace itk
+} // end namespace itk
 #endif

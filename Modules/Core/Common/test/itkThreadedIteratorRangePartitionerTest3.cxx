@@ -131,13 +131,24 @@ namespace
     // Exercise GetMultiThreader().
     domainThreader->GetMultiThreader();
     domainThreader->SetMaximumNumberOfThreads( numberOfThreads );
-    // Possible if numberOfThreads < GlobalMaximumNumberOfThreads
+    // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
     if( domainThreader->GetMaximumNumberOfThreads() < numberOfThreads )
       {
       std::cerr << "Failed setting requested number of threads: "
                 << numberOfThreads << std::endl
                 << "domainThreader->GetMaximumNumberOfThreads(): "
                 << domainThreader->GetMaximumNumberOfThreads() << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    domainThreader->SetNumberOfWorkUnits(numberOfThreads);
+    // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
+    if( domainThreader->GetNumberOfWorkUnits() != numberOfThreads )
+      {
+      std::cerr << "Failed setting requested number of work units: "
+                << numberOfThreads << std::endl
+                << "domainThreader->GetNumberOfWorkUnits(): "
+                << domainThreader->GetNumberOfWorkUnits() << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -241,7 +252,8 @@ int itkThreadedIteratorRangePartitionerTest3(int, char* [])
     std::cout << "GetGlobalDefaultNumberOfThreads: "
               << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads()
               << std::endl;
-    std::cout << "domainThreader->GetMultiThreader()->NumberOfThreads(): " << domainThreader->GetMultiThreader()->GetNumberOfThreads()
+    std::cout << "domainThreader->GetMultiThreader()->NumberOfWorkUnits(): "
+              << domainThreader->GetMultiThreader()->GetNumberOfWorkUnits()
               << std::endl;
     }
   else
@@ -295,15 +307,15 @@ int itkThreadedIteratorRangePartitionerTest3(int, char* [])
      * many as is reasonable. */
     itk::ThreadIdType maxNumberOfThreads =
       domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads();
-    setStartEnd( 6, 6+maxNumberOfThreads/2, container, fullDomain );
+    setStartEnd( 6, 6+maxNumberOfThreads, container, fullDomain );
     if( ThreadedIteratorRangePartitionerRunTest( enclosingClass, maxNumberOfThreads, fullDomain )
           != EXIT_SUCCESS )
       {
       return EXIT_FAILURE;
       }
-    if( domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads-1 )
+    if( domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads )
       {
-      std::cerr << "Error: Expected to use only " << maxNumberOfThreads-1
+      std::cerr << "Error: Expected to use only " << maxNumberOfThreads
                 << "threads, but used " << domainThreader->GetNumberOfWorkUnitsUsed()
                 << "." << std::endl;
       }

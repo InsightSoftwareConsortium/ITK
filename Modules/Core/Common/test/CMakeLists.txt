@@ -154,7 +154,7 @@ itkObjectFactoryTest2.cxx
 itkObjectFactoryTest3.cxx
 itkMinimumMaximumImageCalculatorTest.cxx
 itkSliceIteratorTest.cxx
-itkPlatformMultiThreaderTest.cxx
+itkMultiThreaderBaseTest.cxx
 itkMultiThreaderTypeFromEnvironmentTest
 itkMultiThreadingEnvironmentTest.cxx
 itkMultiThreaderParallelizeArrayTest.cxx
@@ -381,7 +381,17 @@ if(0)
 endif()
 
 itk_add_test(NAME itkMetaDataDictionaryTest COMMAND ITKCommon2TestDriver itkMetaDataDictionaryTest)
-itk_add_test(NAME itkPlatformMultiThreaderTest COMMAND ITKCommon2TestDriver itkPlatformMultiThreaderTest)
+
+itk_add_test(NAME itkMultiThreaderBaseTestPlatform
+  COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
+set_tests_properties(itkMultiThreaderBaseTestPlatform
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Platform")
+itk_add_test(NAME itkMultiThreaderBaseTestPool
+  COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
+set_tests_properties(itkMultiThreaderBaseTestPool
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Pool")
+itk_add_test(NAME itkMultiThreaderBaseTest3
+  COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest 3) # test with 3 threads
 
 itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPlatform
   COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest PlatFORM)
@@ -394,6 +404,11 @@ set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPool
   PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=pOoL") # tests letter case too
 
 if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
+  itk_add_test(NAME itkMultiThreaderBaseTestTBB
+    COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
+  set_tests_properties(itkMultiThreaderBaseTestTBB
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=TBB")
+
   itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
   set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestTBB
