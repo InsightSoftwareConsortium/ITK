@@ -140,6 +140,9 @@ static const char *MSStrings[] = {
   "1.2.840.10008.5.1.4.1.1.13.1.2", // XRay3DCraniofacialImageStorage
   "1.2.840.10008.5.1.4.1.1.14.1", // IVOCTForPresentation,
   "1.2.840.10008.5.1.4.1.1.14.2", // IVCOTForProcessing,
+  "1.2.840.10008.5.1.4.1.1.2.2", // Legacy Converted Enhanced CT Image Storage
+  "1.2.840.10008.5.1.4.1.1.4.4", // Legacy Converted Enhanced MR Image Storage
+  "1.2.840.10008.5.1.4.1.1.128.1", // Legacy Converted Enhanced PET Image Storage
   0
 };
 
@@ -317,11 +320,14 @@ static const MSModalityType MSModalityTypes[] = {
   {"OP", 2, 0},// OphthalmicPhotography8BitImageStorage
   {"OPT", 3, 0},// OphthalmicTomographyImageStorage
   {"GM", 3, 0},// VLMicroscopicImageStorage
-  {"PT", 3, 0},//PETImageStorage,
+  {"PT", 3, 0},//EnhancedPETImageStorage,
   {"XC", 3, 0},// VideoPhotographicImageStorage
   {"DX", 3, 0},// XRay3DCraniofacialImageStorage
   {"IVOCT", 3, 0},// IVOCTForPresentation,
   {"IVOCT", 3, 0},// IVCOTForProcessing,
+  {"CT", 3, 0},//LegacyConvertedEnhancedCTImageStorage,
+  {"MR", 3, 0},//LegacyConvertedEnhancedMRImageStorage,
+  {"PT", 3, 0},//LegacyConvertedEnhancedPETImageStorage,
 
   {NULL, 0, 0} //MS_END
 };

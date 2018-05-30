@@ -56,7 +56,7 @@ bool ImageApplyLookupTable::Apply()
   std::vector<char> v2;
   v2.resize( len * 3 );
   lut.Decode(&v2[0], v2.size(), &v[0], v.size());
-  assert( v2.size() < (size_t)std::numeric_limits<uint32_t>::max );
+  assert( v2.size() < (size_t)std::numeric_limits<uint32_t>::max() );
   de.SetByteValue( &v2[0], (uint32_t)v2.size());
 #endif
   Output->GetLUT().Clear();

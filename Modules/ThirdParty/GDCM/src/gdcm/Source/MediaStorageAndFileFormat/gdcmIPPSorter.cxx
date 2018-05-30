@@ -37,6 +37,25 @@ inline double spacing_round(double n, int d) /* pow is defined as pow( double, d
   return floor(n * pow(10., d) + .5) / pow(10., d);
 }
 
+struct dircos_key {
+  double dircos[6];
+  void read( const std::string & str ) {
+    DirectionCosines dc;
+    dc.SetFromString( str.c_str() );
+    const double * ptr = dc;
+    memcpy( dircos, ptr, sizeof(dircos) );
+  }
+};
+
+struct dircos_comp {
+  bool operator()( dircos_key const & lhs, dircos_key const & rhs ) {
+    const double *iop1 = lhs.dircos;
+    const double *iop2 = rhs.dircos;
+    return std::lexicographical_compare(iop1, iop1+6,
+        iop2, iop2+6);
+  }
+};
+
 bool IPPSorter::Sort(std::vector<std::string> const & filenames)
 {
   // BUG: I cannot clear Filenames since input filenames could also be the output of ourself...
@@ -88,9 +107,20 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
     {
     if( iops.size() != 1 )
       {
-      gdcmDebugMacro( "More than one IOP (or no IOP): " << iops.size() );
-      //std::copy(iops.begin(), iops.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
-      return false;
+      std::set< dircos_key, dircos_comp > s;
+      for( Scanner::ValuesType::const_iterator it = iops.begin(); it != iops.end(); ++it )
+      {
+        dircos_key dk;
+        dk.read( *it );
+        s.insert( dk );
+      }
+      // sometime we want to handle:
+      // iops = {[0] = "1\\0\\0\\0\\1\\-0", [1] = "1\\0\\0\\0\\1\\0 "} 
+      if( s.size() != 1 )
+        {
+        gdcmDebugMacro( "More than one IOP (or no IOP): " << iops.size() << ". Try changing DirCosTolerance"  );
+        return false;
+        }
       }
     }
   const size_t fsize = frames.size(); // Should I really tolerate issue with Frame of Reference UID ?
