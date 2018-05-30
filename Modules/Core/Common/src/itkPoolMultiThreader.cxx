@@ -46,8 +46,12 @@ PoolMultiThreader::PoolMultiThreader() :
     }
 
   ThreadIdType idleCount = std::max<ThreadIdType>(1u, m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
-  ThreadIdType maxCount = std::max(1u, GetGlobalDefaultNumberOfThreads());
-  m_NumberOfWorkUnits = std::min(maxCount, idleCount);
+  ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
+#if defined( ITKV4_COMPATIBILITY )
+  m_NumberOfWorkUnits = std::min( defaultThreads, idleCount );
+#else
+  m_NumberOfWorkUnits = std::min( 3 * defaultThreads, idleCount );
+#endif
   m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }
 

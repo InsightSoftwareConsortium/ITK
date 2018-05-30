@@ -103,7 +103,6 @@ public:
 
 int itkDataObjectAndProcessObjectTest(int, char* [] )
 {
-
   // create a TestProcessObject
   itk::TestProcessObject::Pointer process = itk::TestProcessObject::New();
 
@@ -216,13 +215,13 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   process->ReleaseDataBeforeUpdateFlagOn();
   TEST_SET_GET_VALUE( true, process->GetReleaseDataBeforeUpdateFlag() );
 
-  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfWorkUnits() );
+  TEST_EXPECT_TRUE( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() <= process->GetNumberOfWorkUnits() );
   process->SetNumberOfWorkUnits( 11 );
   TEST_SET_GET_VALUE( 11, process->GetNumberOfWorkUnits() );
   process->SetNumberOfWorkUnits( 0 );
   TEST_SET_GET_VALUE( 1, process->GetNumberOfWorkUnits() );
   process->SetNumberOfWorkUnits( itk::NumericTraits<itk::ThreadIdType>::max() );
-  TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), process->GetNumberOfWorkUnits() );
+  TEST_EXPECT_TRUE( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() <= process->GetNumberOfWorkUnits() );
   process->SetNumberOfWorkUnits( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() );
   TEST_SET_GET_VALUE( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfWorkUnits() );
 
@@ -265,7 +264,6 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET( input0, process->GetPrimaryInput() );
   TEST_SET_GET( input0, process->GetInput(0) );
   TEST_SET_GET( input0, process->GetInput("First") );
-
 
   process->SetNthInput( 1, input1 );
   TEST_SET_GET( input1, process->GetInput(1) );
@@ -393,7 +391,6 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_EXPECT_EQUAL( input0, process->GetInput("OptImage") );
   TEST_EXPECT_EQUAL( input0, process->GetInput(1) );
 
-  //
   process = itk::TestProcessObject::New();
   process->SetNumberOfRequiredInputs(2);
   process->SetPrimaryInputName("Image1");
@@ -422,11 +419,9 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
   TEST_SET_GET_VALUE( input0, process->GetPrimaryInput() );
 
-
   process->SetNumberOfIndexedInputs( 0 );
   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
-
 
   process->SetNumberOfIndexedInputs( 3 );
   TEST_SET_GET_VALUE( 3, process->GetNumberOfIndexedInputs() );
@@ -439,7 +434,6 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
 
-
   // testing RemoveInput
   process = itk::TestProcessObject::New();
   process->SetNumberOfIndexedInputs( 2 );
@@ -449,7 +443,6 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
   TEST_SET_GET_VALUE( 1, process->GetNumberOfInputs() );
-
 
   process->AddRequiredInputName("Req");
   process->SetInput( "Req", input0 );
@@ -482,11 +475,9 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedOutputs() );
   TEST_SET_GET_VALUE( input0, process->GetPrimaryOutput() );
 
-
   process->SetNumberOfIndexedOutputs( 0 );
   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedOutputs() );
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryOutput() );
-
 
   process->SetNumberOfIndexedOutputs( 3 );
   TEST_SET_GET_VALUE( 3, process->GetNumberOfIndexedOutputs() );
@@ -499,11 +490,11 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedOutputs() );
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryOutput() );
 
-
   process->SetNumberOfRequiredOutputs(1);
   std::cout << process;
   process->SetPrimaryOutput( input0 );
   std::cout << process;
 
+  std::cout << "Test PASSED" << std::endl;
   return (EXIT_SUCCESS);
 }
