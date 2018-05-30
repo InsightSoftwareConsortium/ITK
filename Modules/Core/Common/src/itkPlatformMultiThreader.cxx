@@ -62,9 +62,6 @@ PlatformMultiThreader::PlatformMultiThreader()
     m_SpawnedThreadActiveFlagLock[i] = nullptr;
     m_SpawnedThreadInfoArray[i].ThreadID    = i;
     }
-
-  m_SingleMethod = nullptr;
-  m_SingleData = nullptr;
 }
 
 PlatformMultiThreader::~PlatformMultiThreader()

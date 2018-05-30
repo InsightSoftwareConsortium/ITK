@@ -399,6 +399,8 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
 
 
 MultiThreaderBase::MultiThreaderBase()
+  : m_SingleMethod{ nullptr }
+  , m_SingleData{ nullptr }
 {
   m_NumberOfThreads = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
 }

@@ -45,9 +45,6 @@ PoolMultiThreader::PoolMultiThreader() :
     m_ThreadInfoArray[i].ThreadID = i;
     }
 
-  m_SingleMethod = nullptr;
-  m_SingleData = nullptr;
-
   ThreadIdType idleCount = std::max<ThreadIdType>(1u, m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
   ThreadIdType maxCount = std::max(1u, GetGlobalDefaultNumberOfThreads());
   m_NumberOfThreads = std::min(maxCount, idleCount);
