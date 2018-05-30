@@ -16,6 +16,7 @@ AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: All
 AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: true
 BinPackArguments: false
 BinPackParameters: true
@@ -31,15 +32,21 @@ BraceWrapping:
   BeforeCatch:     true
   BeforeElse:      true
   IndentBraces:    true
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: true
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: GNU
+BreakBeforeInheritanceComma: true
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: true
+BreakConstructorInitializers: BeforeComma
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
-ColumnLimit:     200
-# ColumnLimit:     80
+# ColumnLimit:     200
+ColumnLimit:     120
 CommentPragmas:  '^ IWYU pragma:'
+CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
@@ -47,15 +54,19 @@ Cpp11BracedListStyle: false
 DerivePointerAlignment: false
 DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
-ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
+FixNamespaceComments: true
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
 IncludeCategories:
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
-  - Regex:           '^(<|"(gtest|isl|json)/)'
+  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
     Priority:        3
   - Regex:           '.*'
     Priority:        1
-IncludeIsMainRegex: '$'
+IncludeIsMainRegex: '(Test)?$'
 IndentCaseLabels: true
 IndentWidth:     2
 IndentWrappedFunctionNames: false
@@ -69,6 +80,7 @@ NamespaceIndentation: None
 ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: true
 ObjCSpaceBeforeProtocolList: false
+PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
@@ -78,17 +90,19 @@ PenaltyReturnTypeOnItsOwnLine: 0
 PointerAlignment: Left
 ReflowComments:  true
 SortIncludes:    true
+SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
+SpaceAfterTemplateKeyword: false
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles:  true
-SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: true
+SpacesInCStyleCastParentheses: false
 SpacesInParentheses: true
 SpacesInSquareBrackets: false
-Standard:        Cpp03
+Standard:        Cpp11
 TabWidth:        2
 UseTab:          Never
 ...
