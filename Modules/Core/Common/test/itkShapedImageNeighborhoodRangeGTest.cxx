@@ -631,3 +631,31 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_support_random_access)
     EXPECT_EQ(a <= b, !(b < a));
   }
 }
+
+
+TEST(ShapedImageNeighborhoodRange, Neigborhood_range_supports_subscript)
+{
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType>;
+
+  enum { sizeX = 3, sizeY = 3 };
+  const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
+
+  const ImageType::IndexType location{ { 1, 1 } };
+  const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
+  const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
+    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  RangeType range{ *image, location, offsets };
+
+  const std::size_t numberOfNeighbors = range.size();
+
+  RangeType::iterator it = range.begin();
+
+  for (std::size_t i = 0; i < numberOfNeighbors; ++i)
+  {
+    RangeType::iterator::reference neighbor = range[i];
+    EXPECT_EQ(neighbor, *it);
+    ++it;
+  }
+}
