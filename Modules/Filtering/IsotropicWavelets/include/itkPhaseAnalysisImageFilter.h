@@ -133,7 +133,6 @@ protected:
 
   void
   BeforeThreadedGenerateData() override;
-
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 

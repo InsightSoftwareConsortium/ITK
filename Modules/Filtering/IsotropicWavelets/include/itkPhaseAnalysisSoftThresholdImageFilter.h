@@ -19,7 +19,6 @@
 #define itkPhaseAnalysisSoftThresholdImageFilter_h
 
 #include <itkPhaseAnalysisImageFilter.h>
-#include "itkBarrier.h"
 namespace itk
 {
 /** \class PhaseAnalysisSoftThresholdImageFilter
@@ -105,10 +104,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  BeforeThreadedGenerateData() override;
-
+  GenerateData() override;
   void
-  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  ThreadedComputeCosineOfPhase(const OutputImageRegionType & outputRegionForThread);
 
 private:
   bool                 m_ApplySoftThreshold;
@@ -116,8 +114,6 @@ private:
   OutputImagePixelType m_MeanAmp;
   OutputImagePixelType m_SigmaAmp;
   OutputImagePixelType m_Threshold;
-  Barrier::Pointer     m_Barrier1;
-  Barrier::Pointer     m_Barrier2;
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
