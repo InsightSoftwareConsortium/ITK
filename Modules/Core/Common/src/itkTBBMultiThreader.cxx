@@ -89,7 +89,7 @@ TBBMultiThreader
   if ( firstIndex + 1 < lastIndexPlus1 )
     {
     unsigned count = lastIndexPlus1 - firstIndex;
-    std::atomic< SizeValueType > progress = 0;
+    std::atomic< SizeValueType > progress( 0 );
     std::thread::id callingThread = std::this_thread::get_id();
     //we request grain size of 1 and simple_partitioner to ensure there is no chunking
     tbb::parallel_for(
