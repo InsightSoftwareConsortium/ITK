@@ -80,6 +80,8 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
+  using OutputImageRegionIterator = typename Superclass::OutputImageRegionIterator;
+
   itkSetMacro(ApplySoftThreshold, bool);
   itkGetConstMacro(ApplySoftThreshold, bool);
   itkBooleanMacro(ApplySoftThreshold);
