@@ -19,7 +19,6 @@
 
 namespace itk
 {
-
 Barrier::Barrier() :
   m_NumberArrived(0),
   m_NumberExpected(0),
