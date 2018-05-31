@@ -24,7 +24,6 @@ namespace itk
 template <typename TInputImage, typename TFrequencyImageRegionConstIterator>
 MonogenicSignalFrequencyImageFilter<TInputImage,
                                     TFrequencyImageRegionConstIterator>::MonogenicSignalFrequencyImageFilter()
-  :
 {
   m_Evaluator = RieszFunctionType::New();
   m_Evaluator->SetOrder(1);

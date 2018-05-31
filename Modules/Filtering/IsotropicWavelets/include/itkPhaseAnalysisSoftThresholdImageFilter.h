@@ -108,7 +108,7 @@ protected:
   BeforeThreadedGenerateData() override;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   bool                 m_ApplySoftThreshold;
