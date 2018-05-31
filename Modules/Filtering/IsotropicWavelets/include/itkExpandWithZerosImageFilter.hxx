@@ -120,7 +120,6 @@ ExpandWithZerosImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDa
   {
     return;
   }
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
 
   const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
   // Walk the output region, and interpolate the input image
