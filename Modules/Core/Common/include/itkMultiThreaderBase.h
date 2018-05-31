@@ -152,6 +152,40 @@ public:
   static void SetGlobalDefaultNumberOfThreads(ThreadIdType val);
   static ThreadIdType GetGlobalDefaultNumberOfThreads();
 
+#if !defined( ITK_LEGACY_REMOVE )
+  /** Get/Set the number of threads to use.
+   * DEPRECATED! Use WorkUnits and MaximumNumberOfThreads instead. */
+  itkLegacyMacro( virtual void SetNumberOfThreads( ThreadIdType numberOfThreads ) )
+  {
+    this->SetMaximumNumberOfThreads( numberOfThreads );
+    this->SetNumberOfWorkUnits( this->GetMaximumNumberOfThreads() ); // Might be clamped
+  }
+  itkLegacyMacro( virtual ThreadIdType GetNumberOfThreads() )
+  {
+    return this->GetNumberOfWorkUnits();
+  }
+
+  /** This is the structure that is passed to the thread that is
+   * created from the SingleMethodExecute. It is passed in as a void *,
+   * and it is up to the method to cast correctly and extract the information.
+   * The ThreadID is a number between 0 and NumberOfThreads-1 that
+   * indicates the id of this thread. The UserData is the
+   * (void *)arg passed into the SetSingleMethod.
+   *
+   * DEPRECATED! Use WorkUnitInfo instead. */
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wc__14_extensions
+  struct [[deprecated( "Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0" )]] ThreadInfoStruct
+CLANG_PRAGMA_POP
+  {
+    ThreadIdType ThreadID;
+    ThreadIdType NumberOfThreads;
+    void* UserData;
+    ThreadFunctionType ThreadFunction;
+    enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
+    };
+#endif
+
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
    * and it is up to the method to cast correctly and extract the information.
