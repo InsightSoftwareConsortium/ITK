@@ -204,7 +204,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
       {
       this->m_MetricQueue[j]->Initialize();
       }
-    catch(ExceptionObject exc)
+    catch(ExceptionObject &exc)
       {
       std::string msg("Caught exception initializing metric: \n");
       msg += exc.what();
