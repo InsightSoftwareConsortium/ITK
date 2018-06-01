@@ -32,7 +32,8 @@ namespace itk
  * \brief VNL-based reverse Fast Fourier Transform.
  *
  * The input image size must be a multiple of combinations of 2s, 3s,
- * and/or 5s in all dimensions.
+ * and/or 5s in all dimensions (2, 3, and 5 should be the only prime
+ * factors of the image size along each dimension).
  *
  * \ingroup FourierTransform
  *
