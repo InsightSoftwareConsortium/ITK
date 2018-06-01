@@ -20,7 +20,6 @@
 
 #include "itkShrinkDecimateImageFilter.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
 #include <numeric>
 #include <functional>
 
@@ -33,6 +32,8 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ShrinkDecimateImageFilter(
   {
     m_ShrinkFactors[j] = 1;
   }
+
+  this->DynamicMultiThreadingOn();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -94,9 +95,8 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::SetShrinkFactor(unsigned i
  */
 template <typename TInputImage, typename TOutputImage>
 void
-ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
   OutputImagePointer     outputPtr = this->GetOutput();
@@ -113,8 +113,6 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   {
     return;
   }
-  const size_t     numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress(this, threadId, static_cast<SizeValueType>(numberOfLinesToProcess));
 
   // const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
   // const typename InputImageType::IndexType  inputOriginIndex  = inputPtr->GetLargestPossibleRegion().GetIndex();
@@ -140,7 +138,6 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
     }
 
     outIt.NextLine();
-    progress.CompletedPixel();
   }
 }
 

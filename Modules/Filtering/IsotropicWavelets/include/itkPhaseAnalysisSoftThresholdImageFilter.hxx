@@ -21,7 +21,6 @@
 #include "itkImageScanlineConstIterator.h"
 #include "itkImageScanlineIterator.h"
 
-#include "itkProgressReporter.h"
 #include "itkStatisticsImageFilter.h"
 namespace itk
 {
@@ -39,6 +38,8 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::PhaseAnalysisS
   {
     this->SetNthOutput(n_output, this->MakeOutput(n_output));
   }
+
+  this->DynamicMultiThreadingOn();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -54,62 +55,42 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std:
 
 template <typename TInputImage, typename TOutputImage>
 void
-PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
+PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  unsigned int nC = this->GetInput()->GetNumberOfComponentsPerPixel();
-
-  if (nC < 2)
+  // Populate and compute outputs from superclass (threaded)
+  Superclass::GenerateData();
+  auto amplitudePtr = this->GetOutputAmplitude();
+  // Compute mean/variance only once.
+  if (this->GetApplySoftThreshold())
   {
-    itkExceptionMacro(<< "Number of components of input image (" << nC
-                      << ") is less than 2. PhaseAnalysis require at least 2 components.");
+    using StatisticsImageFilter = itk::StatisticsImageFilter<OutputImageType>;
+    auto statsFilter = StatisticsImageFilter::New();
+    statsFilter->SetInput(amplitudePtr);
+    statsFilter->Update();
+    this->m_MeanAmp = statsFilter->GetMean();
+    this->m_SigmaAmp = sqrt(statsFilter->GetVariance());
+    this->m_Threshold = this->m_MeanAmp + this->m_NumOfSigmas * this->m_SigmaAmp;
   }
 
-  // Instead of using GetNumberOfThreads, we need to split the image into the
-  // number of regions that will actually be returned by
-  // itkImageSource::SplitRequestedRegion. Sometimes this number is less than
-  // the number of threads requested.
-  OutputImageRegionType dummy;
-  unsigned int          actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfThreads(), dummy);
-
-  m_Barrier1 = Barrier::New();
-  m_Barrier1->Initialize(actualThreads);
-  m_Barrier2 = Barrier::New();
-  m_Barrier2->Initialize(actualThreads);
+  this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
+    this->GetOutput()->GetRequestedRegion(),
+    [this](const OutputImageRegionType & outputRegionForThread) {
+      this->ThreadedComputeCosineOfPhase(outputRegionForThread);
+    },
+    nullptr);
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
-PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedComputeCosineOfPhase(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-
-  Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
 
   auto phasePtr = this->GetOutputPhase();
   auto amplitudePtr = this->GetOutputAmplitude();
   auto outputPtr = this->GetOutputCosPhase();
 
-  // Wait for mean/variance calculation. Stats only once.
-  if (this->GetApplySoftThreshold())
-  {
-    m_Barrier1->Wait();
-    if (threadId == this->GetNumberOfThreads() - 1)
-    {
-      using StatisticsImageFilter = itk::StatisticsImageFilter<OutputImageType>;
-      auto statsFilter = StatisticsImageFilter::New();
-      statsFilter->SetInput(amplitudePtr);
-      statsFilter->Update();
-      this->m_MeanAmp = statsFilter->GetMean();
-      this->m_SigmaAmp = sqrt(statsFilter->GetVariance());
-      this->m_Threshold = this->m_MeanAmp + this->m_NumOfSigmas * this->m_SigmaAmp;
-    }
-    m_Barrier2->Wait();
-  }
-
   // Set output to cos(phase) applying SoftThreshold if requested.
-  using OutputImageRegionIterator = typename itk::ImageScanlineIterator<OutputImageType>;
   OutputImageRegionIterator outIt(outputPtr, outputRegionForThread);
   using OutputImageRegionConstIterator = typename itk::ImageScanlineConstIterator<OutputImageType>;
   OutputImageRegionConstIterator ampIt(amplitudePtr, outputRegionForThread);
@@ -133,7 +114,6 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenera
     }
 
     outIt.NextLine(), ampIt.NextLine(), phaseIt.NextLine();
-    progress.CompletedPixel(); // Per line
   }
 }
 } // end namespace itk

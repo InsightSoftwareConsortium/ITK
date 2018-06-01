@@ -93,7 +93,7 @@ protected:
   GenerateOutputInformation() override;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   RieszFunctionPointer m_Evaluator;

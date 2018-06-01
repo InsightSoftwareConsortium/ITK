@@ -27,6 +27,8 @@ MonogenicSignalFrequencyImageFilter<TInputImage,
 {
   m_Evaluator = RieszFunctionType::New();
   m_Evaluator->SetOrder(1);
+
+  this->DynamicMultiThreadingOn();
 }
 
 template <typename TInputImage, typename TFrequencyImageRegionConstIterator>
@@ -41,9 +43,8 @@ MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstItera
 
 template <typename TInputImage, typename TFrequencyImageRegionConstIterator>
 void
-MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstIterator>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  itkNotUsed(threadId))
+MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstIterator>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Allocate the outputs
   this->AllocateOutputs();

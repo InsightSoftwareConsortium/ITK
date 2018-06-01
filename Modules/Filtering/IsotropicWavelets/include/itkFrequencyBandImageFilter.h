@@ -190,7 +190,7 @@ protected:
   BeforeThreadedGenerateData() override;
 
   void
-  ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
 
 private:
   FrequencyValueType m_LowFrequencyThreshold;

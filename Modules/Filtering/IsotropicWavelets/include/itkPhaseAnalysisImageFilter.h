@@ -133,9 +133,8 @@ protected:
 
   void
   BeforeThreadedGenerateData() override;
-
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   inline OutputImagePixelType
   ComputeFeatureVectorNormSquare(const InputImagePixelType & inputPixel) const

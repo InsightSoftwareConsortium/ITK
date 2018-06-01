@@ -35,7 +35,9 @@ FrequencyBandImageFilter<TImageType, TFrequencyIteratorType>::FrequencyBandImage
   , m_RadialBand(true)
   , m_PassNegativeLowFrequencyThreshold(true)
   , m_PassNegativeHighFrequencyThreshold(true)
-{}
+{
+  this->DynamicMultiThreadingOn();
+}
 
 template <typename TImageType, typename TFrequencyIteratorType>
 void
@@ -129,9 +131,8 @@ FrequencyBandImageFilter<TImageType, TFrequencyIteratorType>::BeforeThreadedGene
 
 template <typename TImageType, typename TFrequencyIteratorType>
 void
-FrequencyBandImageFilter<TImageType, TFrequencyIteratorType>::ThreadedGenerateData(
-  const ImageRegionType & outputRegionForThread,
-  ThreadIdType)
+FrequencyBandImageFilter<TImageType, TFrequencyIteratorType>::DynamicThreadedGenerateData(
+  const ImageRegionType & outputRegionForThread)
 {
   // outputPtr is a copy of input image from BeforeThreadedGenerateData
   ImagePointer outputPtr = this->GetOutput();
