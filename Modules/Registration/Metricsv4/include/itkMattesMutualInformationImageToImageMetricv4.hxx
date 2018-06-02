@@ -228,9 +228,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
   const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
 
-  if( this->GetNumberOfValidPoints() < numberOfPoints / 16 )
+  if( this->GetNumberOfValidPoints() < this->m_NumberOfHistogramBins )
     {
-    itkExceptionMacro("Too many samples map outside moving image buffer. There are only "
+    itkWarningMacro("Too many samples map outside moving image buffer. There are only "
                       << this->m_NumberOfValidPoints << " valid points out of "
                       << numberOfPoints << " total points. The images do not sufficiently "
                       "overlap. They need to be initialized to have more overlap before this "
