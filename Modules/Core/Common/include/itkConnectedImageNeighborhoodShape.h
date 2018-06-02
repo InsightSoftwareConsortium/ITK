@@ -37,6 +37,12 @@ namespace Experimental
  * ShapedImageNeighborhoodRange object. Can also be used to specify the shape
  * of a ShapedNeighborhoodIterator, using its ActivateOffset member function.
  *
+ * This shape class supports generating offsets in colexicographic order. Which
+ * means that, for example, a sequence of generated offsets for a 2-dimensional
+ * shape will have offset {1, 0} before offset {0, 1}. This order was chosen
+ * because it is usually in agreement with the order of the corresponding
+ * neighbor pixels, as stored in the internal image buffer.
+ *
  * The following example generates the offsets for a 3-dimensional 18-connected
  * neighborhood shape, including the center pixel, and asserts that the result
  * is as expected:
