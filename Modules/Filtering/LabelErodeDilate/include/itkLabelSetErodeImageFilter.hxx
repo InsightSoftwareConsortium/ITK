@@ -43,10 +43,6 @@ LabelSetErodeImageFilter< TInputImage, TOutputImage >
   // Similarly, the thresholding on output needs to be integrated
   // with the last processing stage.
 
-  // compute the number of rows first, so we can setup a progress reporter
-  typename std::vector< unsigned int > NumberOfRows;
-  InputSizeType size   = outputRegionForThread.GetSize();
-
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex< TInputImage  >;
   using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
 
