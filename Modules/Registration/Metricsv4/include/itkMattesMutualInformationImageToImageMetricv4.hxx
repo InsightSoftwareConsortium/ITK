@@ -226,13 +226,10 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
       }
     }
 
-  const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
-
-  if( this->GetNumberOfValidPoints() < numberOfPoints / 16 )
+  if( this->GetNumberOfValidPoints() == 0 )
     {
-    itkExceptionMacro("Too many samples map outside moving image buffer. There are only "
-                      << this->m_NumberOfValidPoints << " valid points out of "
-                      << numberOfPoints << " total points. The images do not sufficiently "
+    itkExceptionMacro("All samples map outside moving image buffer. "
+                      "The images do not sufficiently "
                       "overlap. They need to be initialized to have more overlap before this "
                       "metric will work. For instance, you can align the image centers by translation."
                       << std::endl);
