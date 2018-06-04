@@ -35,7 +35,7 @@ TileMerging<TImageType, TInterpolator>
 {
   m_Background = PixelType();
   m_CropToFill = false;
-  this->SetMontageSize(m_MontageSize); //initialize the rest of arrays
+  this->SetMontageSize(this->m_MontageSize); //initialize the rest of arrays
 
   //required for GenerateOutputInformation to be called
   this->SetNthOutput(0, this->MakeOutput(0).GetPointer());
@@ -134,9 +134,9 @@ TileMerging<TImageType, TInterpolator>
 ::SetMontageSize(SizeType montageSize)
 {
   Superclass::SetMontageSize(montageSize);
-  m_Transforms.resize(m_LinearMontageSize);
-  m_Metadata.resize(m_LinearMontageSize);
-  m_TileReadLocks.resize(m_LinearMontageSize);
+  m_Transforms.resize(this->m_LinearMontageSize);
+  m_Metadata.resize(this->m_LinearMontageSize);
+  m_TileReadLocks.resize(this->m_LinearMontageSize);
   this->SetNumberOfRequiredOutputs(1);
 }
 
@@ -243,10 +243,10 @@ typename TImageType::ConstPointer
 TileMerging<TImageType, TInterpolator>
 ::GetImage(TileIndexType nDIndex, RegionType wantedRegion)
 {
-  DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex(nDIndex);
+  SizeValueType linearIndex = this->nDIndexToLinearIndex(nDIndex);
   const auto cInput = static_cast<ImageType *>(this->GetInput(linearIndex));
   ImagePointer input = const_cast<ImageType *>(cInput);
-  if (input.GetPointer() == m_Dummy.GetPointer())
+  if (input.GetPointer() == this->m_Dummy.GetPointer())
     {
     ImagePointer outputImage = this->GetOutput();
     RegionType reqR = outputImage->GetRequestedRegion();
@@ -263,8 +263,8 @@ TileMerging<TImageType, TInterpolator>
 
     if (mustRead)
       {
-      typename ReaderType::Pointer reader = ReaderType::New();
-      reader->SetFileName(m_Filenames[linearIndex]);
+      typename Superclass::ReaderType::Pointer reader = Superclass::ReaderType::New();
+      reader->SetFileName(this->m_Filenames[linearIndex]);
       reader->UpdateOutputInformation();
       m_Metadata[linearIndex] = reader->GetOutput();
       if (wantedRegion.GetNumberOfPixels() > 0)
@@ -282,12 +282,12 @@ TileMerging<TImageType, TInterpolator>
   PointType origin = input->GetOrigin();
   for (unsigned d = 0; d < ImageDimension; d++)
     {
-    origin[d] += m_OriginAdjustment[d] * nDIndex[d];
+    origin[d] += this->m_OriginAdjustment[d] * nDIndex[d];
     }
   input->SetOrigin(origin);
-  if (m_ForcedSpacing[0] != 0)
+  if (this->m_ForcedSpacing[0] != 0)
     {
-    input->SetSpacing(m_ForcedSpacing);
+    input->SetSpacing(this->m_ForcedSpacing);
     }
 
   return input;
@@ -307,11 +307,11 @@ TileMerging<TImageType, TInterpolator>
   if (m_Montage.IsNull())
     {
     //initialize mosaic bounds
-    m_MinInner.Fill(NumericTraits<typename TInterpolator::CoordRepType>::NonpositiveMin());
-    m_MinOuter.Fill(NumericTraits<typename TInterpolator::CoordRepType>::max());
-    m_MaxOuter.Fill(NumericTraits<typename TInterpolator::CoordRepType>::NonpositiveMin());
-    m_MaxInner.Fill(NumericTraits<typename TInterpolator::CoordRepType>::max());
-    
+    this->m_MinInner.Fill(NumericTraits<typename TInterpolator::CoordRepType>::NonpositiveMin());
+    this->m_MinOuter.Fill(NumericTraits<typename TInterpolator::CoordRepType>::max());
+    this->m_MaxOuter.Fill(NumericTraits<typename TInterpolator::CoordRepType>::NonpositiveMin());
+    this->m_MaxInner.Fill(NumericTraits<typename TInterpolator::CoordRepType>::max());
+
     for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
       {
       TileIndexType nDIndex = this->LinearIndexTonDIndex(i);
