@@ -192,7 +192,7 @@ protected:
   /** Resamples a single region into m_SingleImage.
    * This method does not access other regions,
    * and can be run in parallel with other indices. */
-  void ResampleSingleRegion(unsigned regionIndex);
+  void ResampleSingleRegion(SizeValueType regionIndex);
 
 private:
     bool      m_CropToFill; //crop to avoid backfround filling?
