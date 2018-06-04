@@ -21,6 +21,7 @@
 
 #include "itkTileMontage.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
@@ -167,7 +168,7 @@ protected:
   }
 
   /** If not already read, reads the image into memory.
-   * Ensures that the wanted region is buffered.
+   * Only the part which overlaps output image's requested region is read.
    * If size of the wantedRegion is zero, only reads metadata. */
   ImageConstPointer GetImage(TileIndexType nDIndex, RegionType wantedRegion);
 
@@ -194,18 +195,18 @@ protected:
   void ResampleSingleRegion(unsigned regionIndex);
 
 private:
-    std::vector<TransformConstPointer>       m_Transforms;
-    std::vector<typename ImageType::Pointer> m_Metadata; // images with empty buffers
+    bool      m_CropToFill; //crop to avoid backfround filling?
+    PixelType m_Background; //default background value (not covered by any input tile)
 
-    bool             m_CropToFill; //crop to avoid backfround filling?
-    PixelType        m_Background; //default background value (not covered by any input tile)
-
-    typename Superclass::ConstPointer m_Montage;
-    std::vector<RegionType>           m_InputMappings; //where do input tile regions map into the output
-    std::vector<ContinuousIndexType>  m_InputsContinuousIndices; //where do input tile region indices map into the output
-    std::vector<RegionType>           m_Regions; //regions which completely cover the output,
-                                                 //grouped by the set of contributing input tiles
-    std::vector<ContributingTiles>    m_RegionContributors; //set of input tiles which contribute to corresponding regions
+    std::vector<TransformConstPointer> m_Transforms;
+    std::vector<SimpleFastMutexLock>   m_TileReadLocks; //to avoid reading the same tile by more than one thread in parallel
+    std::vector<ImagePointer>          m_Metadata; // images with empty buffers
+    typename Superclass::ConstPointer  m_Montage;
+    std::vector<RegionType>            m_InputMappings; //where do input tile regions map into the output
+    std::vector<ContinuousIndexType>   m_InputsContinuousIndices; //where do input tile region indices map into the output
+    std::vector<RegionType>            m_Regions; //regions which completely cover the output,
+                                                  //grouped by the set of contributing input tiles
+    std::vector<ContributingTiles>     m_RegionContributors; //set of input tiles which contribute to corresponding regions
 }; // class TileMerging
 
 } // namespace itk
