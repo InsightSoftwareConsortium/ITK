@@ -24,6 +24,7 @@
 #include "itkMultiThreaderBase.h"
 #include "itkMutexLockHolder.h"
 #include <algorithm>
+#include <functional>
 #include <cassert>
 
 namespace itk
@@ -430,20 +431,10 @@ TileMerging<TImageType, TInterpolator>
 
   //now we will do resampling, one region at a time (in parallel)
   //within each of these regions the set of contributing tiles is the same
-  using Region1D = ImageRegion<1>;
-  Region1D linReg; //index is 0 by default
-  linReg.SetSize(0, m_Regions.size());
   MultiThreaderBase::Pointer mt = MultiThreaderBase::New();
-  mt->ParallelizeImageRegion<1>(linReg,
-      [this](const Region1D& r)
-      {
-        //we can also get a chunk instead od just a single "pixel", so loop
-        for (int i = r.GetIndex(0); i < r.GetIndex(0) + r.GetSize(0); i++)
-          {
-          this->ResampleSingleRegion(i);
-          }
-      },
-      this); //turn region resampling into progress
+  MultiThreaderBase::ArrayThreadingFunctorType tf
+      = std::bind(&Self::ResampleSingleRegion, this, std::placeholders::_1);
+  mt->ParallelizeArray(0, m_Regions.size(), tf, this);
 
   //release data from input tiles
   RegionType reg0;
@@ -457,7 +448,7 @@ TileMerging<TImageType, TInterpolator>
 template <typename TImageType, typename TInterpolator>
 void
 TileMerging<TImageType, TInterpolator>
-::ResampleSingleRegion(unsigned i)
+::ResampleSingleRegion(SizeValueType i)
 {
   ImagePointer outputImage = this->GetOutput();
   RegionType reqR = outputImage->GetRequestedRegion();
