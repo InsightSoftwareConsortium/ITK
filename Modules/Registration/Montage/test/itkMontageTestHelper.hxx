@@ -170,7 +170,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       // write generated mosaic
       using Resampler = itk::TileMerging<ImageType>;
       typename Resampler::Pointer resampleF = Resampler::New();
-      itk::SimpleFilterWatcher fw(resampleF);
+      itk::SimpleFilterWatcher fw2(resampleF);
       if (setMontageDirectly)
         {
         resampleF->SetMontage(montage);

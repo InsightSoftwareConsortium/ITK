@@ -22,6 +22,7 @@
 #include "itkTileMerging.h"
 #include "itkNumericTraits.h"
 #include "itkMultiThreaderBase.h"
+#include "itkMutexLockHolder.h"
 #include <algorithm>
 #include <cassert>
 
@@ -52,6 +53,14 @@ TileMerging<TImageType, TInterpolator>
   auto nullCount = std::count(m_Transforms.begin(), m_Transforms.end(), nullptr);
   os << indent << "Transforms (filled/capcity): " << m_Transforms.size() - nullCount
       << "/" << m_Transforms.size() << std::endl;
+
+  auto fullCount = std::count_if(m_Metadata.begin(), m_Metadata.end(),
+      [](ImagePointer im)
+      {
+        return im.IsNotNull() && im->GetBufferedRegion().GetNumberOfPixels() > 0;
+      });
+  os << indent << "InputTiles (filled/capcity): " << fullCount
+      << "/" << m_Metadata.size() << std::endl;
 
   os << indent << "Montage: " << m_Montage.GetPointer() << std::endl;
 }
@@ -124,8 +133,9 @@ TileMerging<TImageType, TInterpolator>
 ::SetMontageSize(SizeType montageSize)
 {
   Superclass::SetMontageSize(montageSize);
-  m_Transforms.resize(this->m_LinearMontageSize);
-  m_Metadata.resize(this->m_LinearMontageSize);
+  m_Transforms.resize(m_LinearMontageSize);
+  m_Metadata.resize(m_LinearMontageSize);
+  m_TileReadLocks.resize(m_LinearMontageSize);
   this->SetNumberOfRequiredOutputs(1);
 }
 
@@ -235,27 +245,38 @@ TileMerging<TImageType, TInterpolator>
   DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex(nDIndex);
   const auto cInput = static_cast<ImageType *>(this->GetInput(linearIndex));
   ImagePointer input = const_cast<ImageType *>(cInput);
-  if (input.GetPointer() == m_Dummy.GetPointer()) //filename given, we have to read
+  if (input.GetPointer() == m_Dummy.GetPointer())
     {
-    if (wantedRegion.GetNumberOfPixels()==0) //only metadata required
+    ImagePointer outputImage = this->GetOutput();
+    RegionType reqR = outputImage->GetRequestedRegion();
+    bool mustRead = true;
+    MutexLockHolder<SimpleFastMutexLock> mlh(m_TileReadLocks[linearIndex]);
+    if (m_Metadata[linearIndex].IsNotNull())
       {
-      m_Reader->SetFileName(m_Filenames[linearIndex]);
-      m_Reader->UpdateOutputInformation();
-      m_Metadata[linearIndex] = m_Reader->GetOutput();
-      m_Metadata[linearIndex]->DisconnectPipeline();
-      input = m_Metadata[linearIndex];
-      }
-    else
-      {
-      //read the wantedRegion
-      typename ReaderType::Pointer reader= ReaderType::New();
-      reader->SetFileName(m_Filenames[linearIndex]);
-      reader->GetOutput()->SetRequestedRegion(wantedRegion);
-      reader->Update();
-      input = reader->GetOutput();
-      input->DisconnectPipeline();
-      }
+      RegionType r = m_Metadata[linearIndex]->GetBufferedRegion();
+      if (r.Crop(reqR) && r.IsInside(wantedRegion))
+        {
+        mustRead = false;
+        }
     }
+
+    if (mustRead)
+      {
+      typename ReaderType::Pointer reader = ReaderType::New();
+      reader->SetFileName(m_Filenames[linearIndex]);
+      reader->UpdateOutputInformation();
+      m_Metadata[linearIndex] = reader->GetOutput();
+      if (wantedRegion.GetNumberOfPixels() > 0)
+        {
+        RegionType regionToRead = m_Metadata[linearIndex]->GetLargestPossibleRegion();
+        regionToRead.Crop(reqR);
+        m_Metadata[linearIndex]->SetRequestedRegion(regionToRead);
+        reader->Update();
+        }
+      m_Metadata[linearIndex]->DisconnectPipeline();
+      }
+    input = m_Metadata[linearIndex];
+  }
 
   PointType origin = input->GetOrigin();
   for (unsigned d = 0; d < ImageDimension; d++)
@@ -422,7 +443,15 @@ TileMerging<TImageType, TInterpolator>
           this->ResampleSingleRegion(i);
           }
       },
-      nullptr);
+      this); //turn region resampling into progress
+
+  //release data from input tiles
+  RegionType reg0;
+  for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
+    {
+    m_Metadata[i]->SetBufferedRegion(reg0);
+    m_Metadata[i]->Allocate(false);
+    }
 }
 
 template <typename TImageType, typename TInterpolator>
