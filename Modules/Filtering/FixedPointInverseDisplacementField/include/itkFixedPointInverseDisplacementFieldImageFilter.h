@@ -52,7 +52,7 @@ namespace itk
  * \ingroup FixedPointInverseDisplacementField
  */
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT FixedPointInverseDisplacementFieldImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {

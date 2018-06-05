@@ -1,7 +1,7 @@
 set(
   DOCUMENTATION
-  "FixedPointInverseDisplacementField takes a Displacement field as input and
-computes the Displacement field that is its inverse. If the input Displacement
+  "FixedPointInverseDisplacementField takes a displacement field as input and
+computes the displacement field that is its inverse. If the input displacement
 field was mapping coordinates from a space A into a space B, the output of
 this filter will map coordinates from the space B into the space A.
 
