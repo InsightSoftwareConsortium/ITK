@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkTileMontage.h"
-#include "itkTileMerging.h"
+#include "itkTileMergeImageFilter.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationOperator.h"
@@ -33,8 +33,8 @@ int itkMontageGenericTests( int, char** const )
   using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PCMType>;
   using MontageTypeD = itk::TileMontage<ImageType, double>;
   using MontageTypeF = itk::TileMontage<ImageType, float>;
-  using MergingTypeD = itk::TileMerging<ImageType, itk::LinearInterpolateImageFunction<ImageType, double> >;
-  using MergingTypeF = itk::TileMerging<ImageType, itk::LinearInterpolateImageFunction<ImageType, float> >;
+  using MergingTypeD = itk::TileMergeImageFilter<ImageType, itk::LinearInterpolateImageFunction<ImageType, double> >;
+  using MergingTypeF = itk::TileMergeImageFilter<ImageType, itk::LinearInterpolateImageFunction<ImageType, float> >;
   using TileIndexType = typename MergingTypeF::TileIndexType;
   using SizeType = typename MergingTypeF::SizeType;
 
@@ -54,10 +54,10 @@ int itkMontageGenericTests( int, char** const )
   EXERCISE_BASIC_OBJECT_METHODS(tmF, TileMontage, ProcessObject);
   TRY_EXPECT_EXCEPTION(tmF->Update()); //inputs not set!
   MergingTypeD::Pointer mtD = MergingTypeD::New();
-  EXERCISE_BASIC_OBJECT_METHODS(mtD, TileMerging, TileMontage);
+  EXERCISE_BASIC_OBJECT_METHODS(mtD, TileMergeImageFilter, TileMontage);
   TRY_EXPECT_EXCEPTION(mtD->Update()); //inputs not set!
   MergingTypeF::Pointer mtF = MergingTypeF::New();
-  EXERCISE_BASIC_OBJECT_METHODS(mtF, TileMerging, TileMontage);
+  EXERCISE_BASIC_OBJECT_METHODS(mtF, TileMergeImageFilter, TileMontage);
   TRY_EXPECT_EXCEPTION(mtF->Update()); //inputs not set!
 
   //exercise nD index conversions

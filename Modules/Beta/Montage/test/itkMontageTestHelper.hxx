@@ -20,7 +20,7 @@
 #define itkMontageTestHelper_hxx
 
 #include "itkTileMontage.h"
-#include "itkTileMerging.h"
+#include "itkTileMergeImageFilter.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkAffineTransform.h"
 #include "itkImageFileWriter.h"
@@ -168,7 +168,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         result = EXIT_FAILURE;
         }
       // write generated mosaic
-      using Resampler = itk::TileMerging<ImageType>;
+      using Resampler = itk::TileMergeImageFilter<ImageType>;
       typename Resampler::Pointer resampleF = Resampler::New();
       itk::SimpleFilterWatcher fw2(resampleF);
       if (setMontageDirectly)

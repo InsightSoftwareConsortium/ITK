@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef itkTileMerging_hxx
-#define itkTileMerging_hxx
+#ifndef itkTileMergeImageFilter_hxx
+#define itkTileMergeImageFilter_hxx
 
-#include "itkTileMerging.h"
+#include "itkTileMergeImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMultiThreaderBase.h"
 #include "itkMutexLockHolder.h"
@@ -30,8 +30,8 @@
 namespace itk
 {
 template <typename TImageType, typename TInterpolator>
-TileMerging<TImageType, TInterpolator>
-::TileMerging()
+TileMergeImageFilter<TImageType, TInterpolator>
+::TileMergeImageFilter()
 {
   m_Background = PixelType();
   m_CropToFill = false;
@@ -43,7 +43,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -68,7 +68,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::SetMontage(const Superclass* montage)
 {
   if (m_Montage != montage)
@@ -99,7 +99,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 TImageType *
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::GetOutput()
 {
   return itkDynamicCastInDebugMode< ImageType * >( this->GetPrimaryOutput() );
@@ -107,7 +107,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 const TImageType *
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::GetOutput() const
 {
   return itkDynamicCastInDebugMode< const ImageType * >( this->GetPrimaryOutput() );
@@ -115,7 +115,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 TImageType *
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::GetOutput(unsigned int idx)
 {
   auto * out = dynamic_cast< ImageType * > ( this->ProcessObject::GetOutput(idx) );
@@ -130,7 +130,7 @@ TileMerging<TImageType, TInterpolator>
 
 template<typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::SetMontageSize(SizeType montageSize)
 {
   Superclass::SetMontageSize(montageSize);
@@ -142,7 +142,7 @@ TileMerging<TImageType, TInterpolator>
 
 template<typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::SetTileTransform(TileIndexType position, TransformConstPointer transform)
 {
   SizeValueType linInd = this->nDIndexToLinearIndex(position);
@@ -156,7 +156,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::SplitRegionAndCopyContributions(
     std::vector<RegionType>& regions,
     std::vector<ContributingTiles>& regionContributors,
@@ -205,8 +205,8 @@ TileMerging<TImageType, TInterpolator>
 }
 
 template <typename TImageType, typename TInterpolator>
-typename TileMerging<TImageType, TInterpolator>::RegionType
-TileMerging<TImageType, TInterpolator>
+typename TileMergeImageFilter<TImageType, TInterpolator>::RegionType
+TileMergeImageFilter<TImageType, TInterpolator>
 ::ConstructRegion(ContinuousIndexType minIndex, ContinuousIndexType maxIndex)
 {
   ImageIndexType ind;
@@ -224,7 +224,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 SizeValueType
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::DistanceFromEdge(ImageIndexType index, RegionType region)
 {
   SizeValueType dist = NumericTraits<SizeValueType>::max();
@@ -240,7 +240,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 typename TImageType::ConstPointer
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::GetImage(TileIndexType nDIndex, RegionType wantedRegion)
 {
   SizeValueType linearIndex = this->nDIndexToLinearIndex(nDIndex);
@@ -295,7 +295,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
@@ -394,7 +394,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::GenerateData()
 {
   ImagePointer outputImage = this->GetOutput();
@@ -452,7 +452,7 @@ TileMerging<TImageType, TInterpolator>
 
 template <typename TImageType, typename TInterpolator>
 void
-TileMerging<TImageType, TInterpolator>
+TileMergeImageFilter<TImageType, TInterpolator>
 ::ResampleSingleRegion(SizeValueType i)
 {
   ImagePointer outputImage = this->GetOutput();
@@ -592,4 +592,4 @@ TileMerging<TImageType, TInterpolator>
 
 } //namespace itk
 
-#endif //itkTileMerging_hxx
+#endif //itkTileMergeImageFilter_hxx

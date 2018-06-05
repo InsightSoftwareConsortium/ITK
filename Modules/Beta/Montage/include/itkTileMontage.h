@@ -218,7 +218,7 @@ private:
     ContinuousIndexType m_MaxOuter; //maximum index for total montage
 
     template <typename TImageTypeInner, typename TInterpolatorInner>
-    friend class TileMerging;
+    friend class TileMergeImageFilter;
 }; // class TileMontage
 
 } // namespace itk
