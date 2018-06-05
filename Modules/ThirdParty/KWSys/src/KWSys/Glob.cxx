@@ -12,11 +12,11 @@
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "Configure.hxx.in"
-#include "Directory.hxx.in"
-#include "Glob.hxx.in"
-#include "RegularExpression.hxx.in"
-#include "SystemTools.hxx.in"
+#  include "Configure.hxx.in"
+#  include "Directory.hxx.in"
+#  include "Glob.hxx.in"
+#  include "RegularExpression.hxx.in"
+#  include "SystemTools.hxx.in"
 #endif
 
 #include <algorithm>
@@ -28,13 +28,13 @@
 #include <string.h>
 namespace KWSYS_NAMESPACE {
 #if defined(_WIN32) || defined(__APPLE__) || defined(__CYGWIN__)
-// On Windows and apple, no difference between lower and upper case
-#define KWSYS_GLOB_CASE_INDEPENDENT
+// On Windows and Apple, no difference between lower and upper case
+#  define KWSYS_GLOB_CASE_INDEPENDENT
 #endif
 
 #if defined(_WIN32) || defined(__CYGWIN__)
 // Handle network paths
-#define KWSYS_GLOB_SUPPORT_NETWORK_PATHS
+#  define KWSYS_GLOB_SUPPORT_NETWORK_PATHS
 #endif
 
 class GlobInternals
@@ -81,13 +81,13 @@ std::string Glob::PatternToRegex(const std::string& pattern,
     int c = *i;
     if (c == '*') {
       // A '*' (not between brackets) matches any string.
-      // We modify this to not match slashes since the orignal glob
+      // We modify this to not match slashes since the original glob
       // pattern documentation was meant for matching file name
       // components separated by slashes.
       regex += "[^/]*";
     } else if (c == '?') {
       // A '?' (not between brackets) matches any single character.
-      // We modify this to not match slashes since the orignal glob
+      // We modify this to not match slashes since the original glob
       // pattern documentation was meant for matching file name
       // components separated by slashes.
       regex += "[^/]";
@@ -201,7 +201,7 @@ bool Glob::RecurseDirectory(std::string::size_type start,
     }
 
 #if defined(KWSYS_GLOB_CASE_INDEPENDENT)
-    // On Windows and apple, no difference between lower and upper case
+    // On Windows and Apple, no difference between lower and upper case
     fname = kwsys::SystemTools::LowerCase(fname);
 #endif
 
@@ -217,9 +217,10 @@ bool Glob::RecurseDirectory(std::string::size_type start,
 
         if (!realPathErrorMessage.empty()) {
           if (messages) {
-            messages->push_back(Message(
-              Glob::error, "Canonical path generation from path '" + dir +
-                "' failed! Reason: '" + realPathErrorMessage + "'"));
+            messages->push_back(
+              Message(Glob::error,
+                      "Canonical path generation from path '" + dir +
+                        "' failed! Reason: '" + realPathErrorMessage + "'"));
           }
           return false;
         }

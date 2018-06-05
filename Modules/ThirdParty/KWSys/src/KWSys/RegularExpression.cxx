@@ -25,7 +25,7 @@
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "RegularExpression.hxx.in"
+#  include "RegularExpression.hxx.in"
 #endif
 
 #include <stdio.h>
@@ -43,7 +43,7 @@ RegularExpression::RegularExpression(const RegularExpression& rxp)
   int ind;
   this->progsize = rxp.progsize;            // Copy regular expression size
   this->program = new char[this->progsize]; // Allocate storage
-  for (ind = this->progsize; ind-- != 0;)   // Copy regular expresion
+  for (ind = this->progsize; ind-- != 0;)   // Copy regular expression
     this->program[ind] = rxp.program[ind];
   // Copy pointers into last successful "find" operation
   this->regmatch = rxp.regmatch;
@@ -76,7 +76,7 @@ RegularExpression& RegularExpression::operator=(const RegularExpression& rxp)
   this->progsize = rxp.progsize; // Copy regular expression size
   delete[] this->program;
   this->program = new char[this->progsize]; // Allocate storage
-  for (ind = this->progsize; ind-- != 0;)   // Copy regular expresion
+  for (ind = this->progsize; ind-- != 0;)   // Copy regular expression
     this->program[ind] = rxp.program[ind];
   // Copy pointers into last successful "find" operation
   this->regmatch = rxp.regmatch;
@@ -128,8 +128,8 @@ bool RegularExpression::deep_equal(const RegularExpression& rxp) const
           this->regmatch.end() == rxp.regmatch.end());
 }
 
-// The remaining code in this file is derived from the  regular expression code
-// whose  copyright statement appears  below.  It has been  changed to work
+// The remaining code in this file is derived from the regular expression code
+// whose copyright statement appears below.  It has been changed to work
 // with the class concepts of C++ and COOL.
 
 /*
@@ -194,24 +194,29 @@ bool RegularExpression::deep_equal(const RegularExpression& rxp) const
  */
 
 // definition   number  opnd?   meaning
-#define END 0     // no   End of program.
-#define BOL 1     // no   Match "" at beginning of line.
-#define EOL 2     // no   Match "" at end of line.
-#define ANY 3     // no   Match any one character.
-#define ANYOF 4   // str  Match any character in this string.
-#define ANYBUT 5  // str  Match any character not in this
-                  // string.
-#define BRANCH 6  // node Match this alternative, or the
+#define END 0   // no   End of program.
+#define BOL 1   // no   Match "" at beginning of line.
+#define EOL 2   // no   Match "" at end of line.
+#define ANY 3   // no   Match any one character.
+#define ANYOF 4 // str  Match any character in this string.
+#define ANYBUT                                                                \
+  5 // str  Match any character not in this
+    // string.
+#define BRANCH                                                                \
+  6               // node Match this alternative, or the
                   // next...
 #define BACK 7    // no   Match "", "next" ptr points backward.
 #define EXACTLY 8 // str  Match this string.
 #define NOTHING 9 // no   Match empty string.
-#define STAR 10   // node Match this (simple) thing 0 or more
-                  // times.
-#define PLUS 11   // node Match this (simple) thing 1 or more
-                  // times.
-#define OPEN 20   // no   Mark this point in input as start of
-                  // #n.
+#define STAR                                                                  \
+  10 // node Match this (simple) thing 0 or more
+     // times.
+#define PLUS                                                                  \
+  11 // node Match this (simple) thing 1 or more
+     // times.
+#define OPEN                                                                  \
+  20 // no   Mark this point in input as start of
+     // #n.
 // OPEN+1 is number 1, etc.
 #define CLOSE 30 // no   Analogous to OPEN.
 
