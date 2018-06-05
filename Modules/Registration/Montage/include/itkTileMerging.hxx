@@ -55,13 +55,13 @@ TileMerging<TImageType, TInterpolator>
   os << indent << "Transforms (filled/capcity): " << m_Transforms.size() - nullCount
       << "/" << m_Transforms.size() << std::endl;
 
-  auto fullCount = std::count_if(m_Metadata.begin(), m_Metadata.end(),
+  auto fullCount = std::count_if(m_Tiles.begin(), m_Tiles.end(),
       [](ImagePointer im)
       {
         return im.IsNotNull() && im->GetBufferedRegion().GetNumberOfPixels() > 0;
       });
   os << indent << "InputTiles (filled/capcity): " << fullCount
-      << "/" << m_Metadata.size() << std::endl;
+      << "/" << m_Tiles.size() << std::endl;
 
   os << indent << "Montage: " << m_Montage.GetPointer() << std::endl;
 }
@@ -135,7 +135,7 @@ TileMerging<TImageType, TInterpolator>
 {
   Superclass::SetMontageSize(montageSize);
   m_Transforms.resize(this->m_LinearMontageSize);
-  m_Metadata.resize(this->m_LinearMontageSize);
+  m_Tiles.resize(this->m_LinearMontageSize);
   m_TileReadLocks.resize(this->m_LinearMontageSize);
   this->SetNumberOfRequiredOutputs(1);
 }
@@ -161,47 +161,47 @@ TileMerging<TImageType, TInterpolator>
     std::vector<RegionType>& regions,
     std::vector<ContributingTiles>& regionContributors,
     RegionType newRegion,
-    size_t ori, //oldRegionIndex
+    size_t oldRegionIndex,
     SizeValueType tileIndex)
 {
   for (int d = ImageDimension - 1; d >= 0; d--)
     {
-    SizeValueType nrSize = newRegion.GetSize(d);
-    IndexValueType nrInd = newRegion.GetIndex(d);
-    IndexValueType endNR = nrInd + IndexValueType(nrSize);
+    SizeValueType newRegionSize = newRegion.GetSize(d);
+    IndexValueType newRegionIndex = newRegion.GetIndex(d);
+    IndexValueType newRegionEnd = newRegionIndex + IndexValueType(newRegionSize);
 
-    SizeValueType orSize = regions[ori].GetSize(d);
-    IndexValueType orInd = regions[ori].GetIndex(d);
-    IndexValueType endOR = orInd + IndexValueType(orSize);
+    SizeValueType originalRegionSize = regions[oldRegionIndex].GetSize(d);
+    IndexValueType originalRegionIndex = regions[oldRegionIndex].GetIndex(d);
+    IndexValueType originalRegionEnd = originalRegionIndex + IndexValueType(originalRegionSize);
 
-    if (nrInd < endOR && orInd < nrInd)
+    if (newRegionIndex < originalRegionEnd && originalRegionIndex < newRegionIndex)
       {
-      RegionType remnant = regions[ori];
-      remnant.SetSize(d, nrInd - orInd);
+      RegionType remnant = regions[oldRegionIndex];
+      remnant.SetSize(d, newRegionIndex - originalRegionIndex);
       regions.push_back(remnant);
-      regionContributors.push_back(regionContributors[ori]);
+      regionContributors.push_back(regionContributors[oldRegionIndex]);
 
-      regions[ori].SetSize(d, orSize - (nrInd - orInd));
-      regions[ori].SetIndex(d, nrInd);
+      regions[oldRegionIndex].SetSize(d, originalRegionSize - (newRegionIndex - originalRegionIndex));
+      regions[oldRegionIndex].SetIndex(d, newRegionIndex);
 
-      //update OR size and index
-      orSize = regions[ori].GetSize(d);
-      orInd = regions[ori].GetIndex(d);
-      assert(endOR == orInd + IndexValueType(orSize));
+      //update original region's size and index
+      originalRegionSize = regions[oldRegionIndex].GetSize(d);
+      originalRegionIndex = regions[oldRegionIndex].GetIndex(d);
+      assert(originalRegionEnd == originalRegionIndex + IndexValueType(originalRegionSize));
       }
 
-    if (orInd < endNR && endNR < endOR)
+    if (originalRegionIndex < newRegionEnd && newRegionEnd < originalRegionEnd)
       {
-      RegionType remnant = regions[ori];
-      regions[ori].SetSize(d, endNR - orInd);
+      RegionType remnant = regions[oldRegionIndex];
+      regions[oldRegionIndex].SetSize(d, newRegionEnd - originalRegionIndex);
 
-      remnant.SetSize(d, orSize - (endNR - orInd));
-      remnant.SetIndex(d, endNR);
+      remnant.SetSize(d, originalRegionSize - (newRegionEnd - originalRegionIndex));
+      remnant.SetIndex(d, newRegionEnd);
       regions.push_back(remnant);
-      regionContributors.push_back(regionContributors[ori]);
+      regionContributors.push_back(regionContributors[oldRegionIndex]);
       }
     }
-  regionContributors[ori].insert(tileIndex);
+  regionContributors[oldRegionIndex].insert(tileIndex);
 }
 
 template <typename TImageType, typename TInterpolator>
@@ -252,9 +252,9 @@ TileMerging<TImageType, TInterpolator>
     RegionType reqR = outputImage->GetRequestedRegion();
     bool mustRead = true;
     MutexLockHolder<SimpleFastMutexLock> mlh(m_TileReadLocks[linearIndex]);
-    if (m_Metadata[linearIndex].IsNotNull())
+    if (m_Tiles[linearIndex].IsNotNull())
       {
-      RegionType r = m_Metadata[linearIndex]->GetBufferedRegion();
+      RegionType r = m_Tiles[linearIndex]->GetBufferedRegion();
       if (r.Crop(reqR) && r.IsInside(wantedRegion))
         {
         mustRead = false;
@@ -266,17 +266,17 @@ TileMerging<TImageType, TInterpolator>
       typename Superclass::ReaderType::Pointer reader = Superclass::ReaderType::New();
       reader->SetFileName(this->m_Filenames[linearIndex]);
       reader->UpdateOutputInformation();
-      m_Metadata[linearIndex] = reader->GetOutput();
+      m_Tiles[linearIndex] = reader->GetOutput();
       if (wantedRegion.GetNumberOfPixels() > 0)
         {
-        RegionType regionToRead = m_Metadata[linearIndex]->GetLargestPossibleRegion();
+        RegionType regionToRead = m_Tiles[linearIndex]->GetLargestPossibleRegion();
         regionToRead.Crop(reqR);
-        m_Metadata[linearIndex]->SetRequestedRegion(regionToRead);
+        m_Tiles[linearIndex]->SetRequestedRegion(regionToRead);
         reader->Update();
         }
-      m_Metadata[linearIndex]->DisconnectPipeline();
+      m_Tiles[linearIndex]->DisconnectPipeline();
       }
-    input = m_Metadata[linearIndex];
+    input = m_Tiles[linearIndex];
   }
 
   PointType origin = input->GetOrigin();
@@ -348,7 +348,7 @@ TileMerging<TImageType, TInterpolator>
     {
     TransformPointer inverseT = TransformType::New();
     m_Transforms[i]->GetInverse(inverseT);
-    PointType iOrigin = m_Metadata[i]->GetOrigin();
+    PointType iOrigin = m_Tiles[i]->GetOrigin();
     iOrigin = inverseT->TransformPoint(iOrigin);
 
     ContinuousIndexType ci;
@@ -357,7 +357,7 @@ TileMerging<TImageType, TInterpolator>
 
     ImageIndexType ind;
     outputImage->TransformPhysicalPointToIndex(iOrigin, ind);
-    RegionType reg = m_Metadata[i]->GetLargestPossibleRegion();
+    RegionType reg = m_Tiles[i]->GetLargestPossibleRegion();
     reg.SetIndex(ind);
     m_InputMappings[i] = reg;
     }
@@ -445,8 +445,8 @@ TileMerging<TImageType, TInterpolator>
   RegionType reg0;
   for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
     {
-    m_Metadata[i]->SetBufferedRegion(reg0);
-    m_Metadata[i]->Allocate(false);
+    m_Tiles[i]->SetBufferedRegion(reg0);
+    m_Tiles[i]->Allocate(false);
     }
 }
 
@@ -484,7 +484,7 @@ TileMerging<TImageType, TInterpolator>
     TileIndexType nDIndex = this->LinearIndexTonDIndex(tileIndex);
     OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileIndex].GetIndex();
     RegionType iReg = currentRegion;
-    iReg.SetIndex(m_Metadata[tileIndex]->GetLargestPossibleRegion().GetIndex() + tileToRegion);
+    iReg.SetIndex(m_Tiles[tileIndex]->GetLargestPossibleRegion().GetIndex() + tileToRegion);
     ImageConstPointer input = this->GetImage(nDIndex, iReg);
 
     if (!interpolate)
@@ -522,7 +522,7 @@ TileMerging<TImageType, TInterpolator>
       TileIndexType nDIndex = this->LinearIndexTonDIndex(tileIndices[t]);
       OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileIndices[t]].GetIndex();
       inRegions[t] = currentRegion;
-      inRegions[t].SetIndex(m_Metadata[tileIndices[t]]->GetLargestPossibleRegion().GetIndex() + tileToRegion);
+      inRegions[t].SetIndex(m_Tiles[tileIndices[t]]->GetLargestPossibleRegion().GetIndex() + tileToRegion);
       inputs[t] = this->GetImage(nDIndex, inRegions[t]);
       tileRegions[t] = &m_InputMappings[tileIndices[t]];
       }
