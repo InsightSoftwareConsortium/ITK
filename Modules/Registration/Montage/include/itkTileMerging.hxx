@@ -463,10 +463,12 @@ TileMerging<TImageType, TInterpolator>
     return; //nothing to do
     }
   bool interpolate = true;
-  if (this->m_PCMOptimizer->GetPeakInterpolationMethod() ==
-        Superclass::PCMOptimizerType::PeakInterpolationMethod::None)
+  if (m_Montage.IsNotNull() && m_Montage->m_PCMOptimizer->GetPeakInterpolationMethod()
+      == Superclass::PCMOptimizerType::PeakInterpolationMethod::None)
     {
     interpolate = false;
+    // TODO: replace this by a check whether all the
+    // origins+transforms are divisible by spacing (within tolerance)
     }
   ImageRegionIteratorWithIndex<ImageType> oIt(outputImage, currentRegion);
 
