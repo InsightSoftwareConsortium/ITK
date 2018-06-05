@@ -132,7 +132,6 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   using TransformType = typename PCMType::TransformType;
   using ParametersType = typename TransformType::ParametersType;
 
-
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   typename PCMType::Pointer pcm = PCMType::New();
