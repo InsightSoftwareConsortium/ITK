@@ -195,6 +195,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       using WriterType = itk::ImageFileWriter<ImageType>;
       typename WriterType::Pointer w = WriterType::New();
       w->SetInput(resampleF->GetOutput());
+      //resampleF->DebugOn(); //generate an image of contributing regions
       //MetaImage format supports streaming
       w->SetFileName(outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + ".mha");
       //w->UseCompressionOn();
