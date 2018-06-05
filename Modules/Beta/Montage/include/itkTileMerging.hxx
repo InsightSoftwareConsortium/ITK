@@ -404,6 +404,7 @@ TileMerging<TImageType, TInterpolator>
 
   ////for debugging purposes, just color the regions by their contributing tiles
   ////to make sure that the regions have been generated correctly without cracks
+  //this->UpdateProgress(0.0);
   //for (unsigned i = 0; i < m_Regions.size(); i++)
   //  {
   //  PixelType val = 0;
@@ -426,6 +427,7 @@ TileMerging<TImageType, TInterpolator>
   //      ++oIt;
   //      }
   //    }
+  //  this->UpdateProgress((i + 1) / float(m_Regions.size()));
   //  }
   //return;
 
