@@ -122,7 +122,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       // FIXME:
       // gdcmDataExtra/gdcmSampleData/ImagesPapyrus/TestImages/wristb.pap
       // It's the contrary: root dataset does not have a Pixel Representation, but each SQ do...
-      assert( rootds.FindDataElement( pixelrep ) || ds.FindDataElement( pixelrep ) );
+      //assert( rootds.FindDataElement( pixelrep ) || ds.FindDataElement( pixelrep ) );
       if( ds.FindDataElement( pixelrep ) )
         {
         at.SetFromDataElement( ds.GetDataElement( pixelrep ) );
@@ -134,16 +134,17 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       else
         {
         //throw Exception( "Unhandled" );
-        gdcmWarningMacro( "Unhandled" );
+        gdcmWarningMacro( "Unhandled" ); // Typical to PDF encapsulated with some illegal attribute
         vr = VR::INVALID;
         }
       //assert( at.GetValue() == 0 || at.GetValue() == 1 );
-      if( at.GetValue() )
+      if( at.GetValue() == 1 )
         {
         vr = VR::SS;
         }
-      else
+      else /*if( at.GetValue() == 0 )*/
         {
+        // default to VR:US always (even when attribute is missing, or impossible to compute). This is much better than VR:UN anyway
         vr = VR::US;
         }
       }

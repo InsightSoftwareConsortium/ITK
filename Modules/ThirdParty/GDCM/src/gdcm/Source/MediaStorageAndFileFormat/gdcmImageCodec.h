@@ -101,6 +101,7 @@ public:
   void SetNumberOfDimensions(unsigned int dim);
   unsigned int GetNumberOfDimensions() const;
 
+  bool CleanupUnusedBits(char * data, size_t datalen);
 
 protected:
   // Streaming (write) API:

@@ -49,6 +49,14 @@ bool Pixmap::AreOverlaysInPixelData() const
   return total != 0;
 }
 
+bool Pixmap::UnusedBitsPresentInPixelData() const
+{
+  const PixelFormat &pf = GetPixelFormat();
+  unsigned short ba = pf.GetBitsAllocated();
+  unsigned short bs = pf.GetBitsStored();
+  return ba != bs;
+}
+
 void Pixmap::Print(std::ostream &os) const
 {
   Bitmap::Print(os);
