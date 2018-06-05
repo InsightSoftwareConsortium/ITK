@@ -402,34 +402,37 @@ TileMerging<TImageType, TInterpolator>
   outputImage->SetBufferedRegion(reqR);
   outputImage->Allocate(false);
 
-  ////for debugging purposes, just color the regions by their contributing tiles
-  ////to make sure that the regions have been generated correctly without cracks
-  //this->UpdateProgress(0.0);
-  //for (unsigned i = 0; i < m_Regions.size(); i++)
-  //  {
-  //  PixelType val = 0;
-  //  PixelType bits = sizeof(PixelType) * 8;
-  //  if (m_RegionContributors[i].empty())
-  //    {
-  //    val = NumericTraits<PixelType>::max();
-  //    }
-  //  for (auto tile : m_RegionContributors[i])
-  //    {
-  //    val += std::pow(2, tile%bits);
-  //    }
-  //  RegionType currentRegion = m_Regions[i];
-  //  if (currentRegion.Crop(reqR)) //intersection is not empty
-  //    {
-  //    ImageRegionIterator<ImageType> oIt(outputImage, currentRegion);
-  //    while (!oIt.IsAtEnd())
-  //      {
-  //      oIt.Set(val);
-  //      ++oIt;
-  //      }
-  //    }
-  //  this->UpdateProgress((i + 1) / float(m_Regions.size()));
-  //  }
-  //return;
+  //for debugging purposes, just color the regions by their contributing tiles
+  //to make sure that the regions have been generated correctly without cracks
+  if (this->GetDebug())
+    {
+    this->UpdateProgress(0.0);
+    for (unsigned i = 0; i < m_Regions.size(); i++)
+      {
+      PixelType val = 0;
+      PixelType bits = sizeof(PixelType) * 8;
+      if (m_RegionContributors[i].empty())
+        {
+        val = NumericTraits<PixelType>::max();
+        }
+      for (auto tile : m_RegionContributors[i])
+        {
+        val += std::pow(2, tile%bits);
+        }
+      RegionType currentRegion = m_Regions[i];
+      if (currentRegion.Crop(reqR)) //intersection is not empty
+        {
+        ImageRegionIterator<ImageType> oIt(outputImage, currentRegion);
+        while (!oIt.IsAtEnd())
+          {
+          oIt.Set(val);
+          ++oIt;
+          }
+        }
+      this->UpdateProgress((i + 1) / float(m_Regions.size()));
+      }
+    return;
+    }
 
   //now we will do resampling, one region at a time (in parallel)
   //within each of these regions the set of contributing tiles is the same
