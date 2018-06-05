@@ -130,14 +130,14 @@ public:
    * before the call to Update(). */
   void SetInputTile(TileIndexType position, ImageType* image)
   {
-    SizeValueType linInd = this->nDIndexToLinearIndex(position);
-    this->SetNthInput(linInd, image);
-    m_FFTCache[linInd] = nullptr;
+    SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
+    this->SetNthInput(linearIndex, image);
+    m_FFTCache[linearIndex] = nullptr;
   }
   void SetInputTile(TileIndexType position, const std::string& imageFilename)
   {
-    SizeValueType linInd = this->nDIndexToLinearIndex(position);
-    m_Filenames[linInd] = imageFilename;
+    SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
+    m_Filenames[linearIndex] = imageFilename;
     this->SetInputTile(position, m_Dummy);
   }
 
@@ -177,10 +177,18 @@ protected:
   TransformPointer RegisterPair(TileIndexType fixed, TileIndexType moving);
 
   /** Montage this dimension, and all lower dimensions. */
-  void MontageDimension(int d, TransformPointer tInitial, TileIndexType initialTile);
+  void MontageDimension(int d, TileIndexType initialTile);
 
   /** Accesses output, sets a transform to it, and updates progress. */
   void WriteOutTransform(TileIndexType index, TransformPointer transform);
+
+  /** Read out own output at the specified index. */
+  TransformConstPointer GetTransform(TileIndexType index)
+  {
+    const SizeValueType linearIndex = this->nDIndexToLinearIndex(index);
+    auto dOut = this->GetOutput(linearIndex);
+    return static_cast<TransformOutputType *>(dOut)->Get();
+  }
 
   /** Updates mosaic bounds. The transform applies to input.
    *  input0 is tile in the top-left corner. */
