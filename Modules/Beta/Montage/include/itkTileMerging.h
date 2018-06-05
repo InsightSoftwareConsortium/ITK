@@ -26,11 +26,11 @@
 namespace itk
 {
 /** \class TileMerging
- * \brief Resamples an n-Dimensional mosaic of images into a single big image.
+ * \brief Resamples an n-Dimensional mosaic of images into a single composite image.
  *
- * CropToFill indicates whether the big image will be cropped so it
+ * CropToFill indicates whether the composite image will be cropped so it
  * entirely consists of input tiles (no default background filling).
- * If CropToFill is false, the big image will have the extent to include
+ * If CropToFill is false, the composite image will have the extent to include
  * all of the input tiles. The pixels not covered by any input tile
  * will have the value specified by the Background member variable.
  *
@@ -86,13 +86,6 @@ public:
   using TransformPointer = typename TransformType::Pointer;
   using TransformConstPointer = typename TransformType::ConstPointer;
 
-  ///** Type for the output: Using Decorator pattern for enabling
-  //*  the Transform to be passed in the data pipeline */
-  //using TransformOutputType = DataObjectDecorator< TransformType >;
-
-  ///** Smart Pointer type to a DataObject. */
-  //using DataObjectPointer = typename DataObject::Pointer;
-
   /** Passes ReleaseDataFlag to internal filters. */
   void SetReleaseDataFlag(bool flag) override
   {
@@ -118,17 +111,17 @@ public:
    * before the call to Update(). */
   void SetInputTile(TileIndexType position, ImageType* image)
   {
-    SizeValueType linInd = this->nDIndexToLinearIndex(position);
+    const SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
     Superclass::SetInputTile(position, image);
-    m_Transforms[linInd] = nullptr;
-    m_Metadata[linInd] = nullptr;
+    m_Transforms[linearIndex] = nullptr;
+    m_Tiles[linearIndex] = nullptr;
   }
   void SetInputTile(TileIndexType position, const std::string& imageFilename)
   {
     Superclass::SetInputTile(position, imageFilename);
-    SizeValueType linInd = this->nDIndexToLinearIndex(position);
-    m_Transforms[linInd] = nullptr;
-    m_Metadata[linInd] = nullptr;
+    const SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
+    m_Transforms[linearIndex] = nullptr;
+    m_Tiles[linearIndex] = nullptr;
   }
 
   /** Input tiles' transforms, as calculated by \sa{Montage}.
@@ -143,7 +136,7 @@ public:
 
   /** CropToFill indicates whether the output image will be cropped so it
    * entirely consists of input tiles (no default background filling).
-   * If CropToFill is false, the big image will have the extent to include
+   * If CropToFill is false, the composite image will have the extent to include
    * all of the input tiles. The pixels not covered by any input tile
    * will have the value specified by the Background member variable. */
   itkSetMacro(CropToFill, bool);
@@ -200,7 +193,7 @@ private:
 
     std::vector<TransformConstPointer> m_Transforms;
     std::vector<SimpleFastMutexLock>   m_TileReadLocks; //to avoid reading the same tile by more than one thread in parallel
-    std::vector<ImagePointer>          m_Metadata; // images with empty buffers
+    std::vector<ImagePointer>          m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
     typename Superclass::ConstPointer  m_Montage;
     std::vector<RegionType>            m_InputMappings; //where do input tile regions map into the output
     std::vector<ContinuousIndexType>   m_InputsContinuousIndices; //where do input tile region indices map into the output
