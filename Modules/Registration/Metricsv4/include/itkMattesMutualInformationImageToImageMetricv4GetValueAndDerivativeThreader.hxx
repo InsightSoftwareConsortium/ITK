@@ -58,7 +58,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     {
     std::fill(
       this->m_MattesAssociate->m_MovingImageMarginalPDF.begin(),
-      this->m_MattesAssociate->m_MovingImageMarginalPDF.end(), 0.0);
+      this->m_MattesAssociate->m_MovingImageMarginalPDF.end(), PDFValueType{});
     }
 
   const ThreadIdType mattesAssociateNumThreadsUsed = this->m_MattesAssociate->GetNumberOfThreadsUsed();
@@ -77,7 +77,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       {
       std::fill(
         this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].begin(),
-        this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].end(), 0.0);
+        this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].end(), PDFValueType{});
       }
     }
 
@@ -145,9 +145,9 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   if( ! this->m_MattesAssociate->GetComputeDerivative() )
     {
     // We only need these if we're computing derivatives.
-    this->m_MattesAssociate->m_PRatioArray.resize(0);
-    this->m_MattesAssociate->m_JointPdfIndex1DArray.resize(0);
-    this->m_MattesAssociate->m_LocalDerivativeByParzenBin.resize(0);
+    this->m_MattesAssociate->m_PRatioArray.clear();
+    this->m_MattesAssociate->m_JointPdfIndex1DArray.clear();
+    this->m_MattesAssociate->m_LocalDerivativeByParzenBin.clear();
     this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
     }
 
@@ -174,9 +174,9 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   if(  this->m_MattesAssociate->GetComputeDerivative() && ! this->m_MattesAssociate->HasLocalSupport() )
     {
     // Don't need this with global transforms
-    this->m_MattesAssociate->m_PRatioArray.resize(0);
-    this->m_MattesAssociate->m_JointPdfIndex1DArray.resize(0);
-    this->m_MattesAssociate->m_LocalDerivativeByParzenBin.resize(0);
+    this->m_MattesAssociate->m_PRatioArray.clear();
+    this->m_MattesAssociate->m_JointPdfIndex1DArray.clear();
+    this->m_MattesAssociate->m_LocalDerivativeByParzenBin.clear();
 
     JointPDFDerivativesRegionType jointPDFDerivativesRegion;
       {
