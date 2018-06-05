@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef itkTileMerging_h
-#define itkTileMerging_h
+#ifndef itkTileMergeImageFilter_h
+#define itkTileMergeImageFilter_h
 
 #include "itkTileMontage.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/** \class TileMerging
+/** \class TileMergeImageFilter
  * \brief Resamples an n-Dimensional mosaic of images into a single composite image.
  *
  * CropToFill indicates whether the composite image will be cropped so it
@@ -39,13 +39,13 @@ namespace itk
  * \ingroup Montage
  */
 template <typename TImageType, typename TInterpolator = LinearInterpolateImageFunction<TImageType, float> >
-class ITK_TEMPLATE_EXPORT TileMerging: public TileMontage<TImageType, typename TInterpolator::CoordRepType>
+class ITK_TEMPLATE_EXPORT TileMergeImageFilter: public TileMontage<TImageType, typename TInterpolator::CoordRepType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TileMerging);
+  ITK_DISALLOW_COPY_AND_ASSIGN(TileMergeImageFilter);
 
   /** Standard class type aliases. */
-  using Self = TileMerging;
+  using Self = TileMergeImageFilter;
   using Superclass = TileMontage<TImageType, typename TInterpolator::CoordRepType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TileMerging, TileMontage);
+  itkTypeMacro(TileMergeImageFilter, TileMontage);
 
   /** Dimensionality of input images. */
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
@@ -144,8 +144,8 @@ public:
   itkBooleanMacro(CropToFill);
 
 protected:
-  TileMerging();
-  virtual ~TileMerging() {};
+  TileMergeImageFilter();
+  virtual ~TileMergeImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of the registration. */
@@ -200,12 +200,12 @@ private:
     std::vector<RegionType>            m_Regions; //regions which completely cover the output,
                                                   //grouped by the set of contributing input tiles
     std::vector<ContributingTiles>     m_RegionContributors; //set of input tiles which contribute to corresponding regions
-}; // class TileMerging
+}; // class TileMergeImageFilter
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTileMerging.hxx"
+#include "itkTileMergeImageFilter.hxx"
 #endif
 
-#endif //itkTileMerging_h
+#endif //itkTileMergeImageFilter_h
