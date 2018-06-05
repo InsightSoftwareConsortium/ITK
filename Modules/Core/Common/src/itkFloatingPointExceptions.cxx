@@ -96,7 +96,7 @@ void itkFloatingPointExceptionsNotSupported()
 }
 
 #if defined(_WIN32)
-#include "itkFloatingPointExceptions_win32.cxx"
+#include "itkFloatingPointExceptions_win.cxx"
 #else
 #include "itkFloatingPointExceptions_unix.cxx"
 #endif

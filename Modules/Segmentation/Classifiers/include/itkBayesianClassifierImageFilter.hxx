@@ -254,13 +254,20 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
       {
       p = itrPosteriorImage.Get();
 
-      // Normalize P so the probablity across components sums to 1
+      // Normalize P so the probability across components sums to 1
       TPosteriorsPrecisionType probability = 0;
       for ( unsigned int i = 0; i < numberOfClasses; i++ )
         {
         probability += p[i];
         }
-      p /= probability;
+      // Two approaches available:
+      // a) treat divide by zero as exception.
+      // b) consider norm({0, 0,...}) = 0,
+      // Option (b) was implemented
+      if (probability > 0)
+        {
+        p /= probability;
+        }
       itrPosteriorImage.Set(p);
       ++itrPosteriorImage;
       }

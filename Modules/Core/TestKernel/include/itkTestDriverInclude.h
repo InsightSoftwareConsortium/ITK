@@ -48,7 +48,6 @@
 #include "itkFloatingPointExceptions.h"
 #include "itkImageIOBase.h"
 #include "itkIntTypes.h"
-
 #include "vnl/vnl_sample.h"
 
 #define ITK_TEST_DIMENSION_MAX 6

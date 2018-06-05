@@ -233,10 +233,10 @@ void NrrdImageIO::ReadImageInformation()
   try
     {
     // nrrd causes exceptions on purpose, so mask them
-    int saveFPEState(0);
+    bool saveFPEState(0);
     if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
       {
-      saveFPEState = FloatingPointExceptions::GetExceptionAction();
+      saveFPEState = FloatingPointExceptions::GetEnabled();
       FloatingPointExceptions::Disable();
       }
 

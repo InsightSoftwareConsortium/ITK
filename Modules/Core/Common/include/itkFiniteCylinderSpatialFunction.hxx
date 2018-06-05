@@ -96,10 +96,10 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
   //if length_test is less than the length of the cylinder (half actually,
   // because its length from the center), than
   //the point is within the length of the cylinder along the medial axis
-  int saveFPEState(0);
+  bool saveFPEState(true);
   if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
     {
-    saveFPEState = FloatingPointExceptions::GetExceptionAction();
+    saveFPEState = FloatingPointExceptions::GetEnabled();
     FloatingPointExceptions::Disable();
     }
 

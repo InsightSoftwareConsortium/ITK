@@ -112,8 +112,10 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
     // Divide the norm by the minimum pixel spacing
     maxnorm2 /= itk::Math::sqr(minpixelspacing);
 
-    InputPixelRealValueType numiterfloat = 2.0
-                                           + 0.5 * std::log(maxnorm2) / itk::Math::ln2;
+    // Protect against maxnorm2 being zero.
+    InputPixelRealValueType numiterfloat = ( maxnorm2 > 0 ) ?
+      2.0 + 0.5 * std::log(maxnorm2) / itk::Math::ln2 :
+      itk::NumericTraits<InputPixelRealValueType>::min();
 
     if ( numiterfloat >= 0.0 )
       {

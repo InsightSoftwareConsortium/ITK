@@ -49,7 +49,6 @@ void FloatingPointExceptions
 bool FloatingPointExceptions
 ::HasFloatingPointExceptionsSupport()
 {
-  (void)itkFloatingPointExceptionsNotSupported; // avoid unused-function warning
   return true;
 }
 
