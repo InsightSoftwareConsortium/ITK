@@ -184,8 +184,14 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   typedef SpecialCoordinatesImage< PixelType, ImageDimension >           OutputSpecialCoordinatesImageType;
   typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
 
+  if( outputRegionForThread.GetNumberOfPixels() == 0 )
+    {
+    return;
+    }
+
   const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
        || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );
+
 
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear. Transform respond
