@@ -114,7 +114,7 @@ public:
   using OffsetListType = typename std::list< OffsetType >;
 
   using OffsetMapType = typename std::map< OffsetType, OffsetListType,
-                             typename Functor::LexicographicCompare< OffsetType > >;
+                             Functor::LexicographicCompare >;
 
   /** Get the modified mask image */
   MaskImageType * GetOutputMask();

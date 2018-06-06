@@ -20,7 +20,7 @@
 #define itkLexicographicCompare_h
 
 #include <algorithm>
-#include <iterator> // For std::begin and reverse_iterator.
+#include <iterator> // For std::begin, std::end, and reverse_iterator.
 #include "itkMacro.h"
 
 namespace itk
@@ -41,13 +41,15 @@ namespace Functor
  * little geometric meaning.
  * \ingroup ITKCommon
  */
-template< class TAggregateType1, class TAggregateType2 = TAggregateType1 >
-class ITK_TEMPLATE_EXPORT LexicographicCompare
+class LexicographicCompare
 {
 public:
+  template< class TAggregateType1, class TAggregateType2 >
   bool operator()(const TAggregateType1 &lhs, const TAggregateType2 &rhs) const
   {
-    return std::lexicographical_compare( lhs.begin(), lhs.end(), rhs.begin(), rhs.end() );
+    return std::lexicographical_compare(
+      std::begin(lhs), std::end(lhs),
+      std::begin(rhs), std::end(rhs));
   }
 };
 
