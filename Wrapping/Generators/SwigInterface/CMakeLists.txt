@@ -20,8 +20,8 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 set(swig_version_min 3.0.0)
 
 set(ITK_SWIG_VERSION 3.0.12)
-set(swig_md5     "82133dfa7bba75ff9ad98a7046be687c")
-set(swigwin_md5  "a49524dad2c91ae1920974e7062bfc93")
+set(swig_hash     "85605bd98bf2b56f5bfca23ae23d76d764d76a174b05836c8686825e912d6326c370e9cf2134c0bf4f425560be103b16bf9c9d075077f52e713a69082616e906")
+set(swigwin_hash  "90734503b9c3cd54c3351182d116d100fdcb379fe2e4a510264f81f1e07d5035c778416c665b1fbeeeea56e8aec55af27c53c7f4b082ff54d4fc3a6c0cd382a8")
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
@@ -64,8 +64,8 @@ else()
         itk_download_attempt_check(SWIG)
       endif()
       ExternalProject_Add(swig
-        URL "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${swigwin_md5}&name=swigwin-${ITK_SWIG_VERSION}.zip"
-        URL_MD5 ${swigwin_md5}
+        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigwin_hash}/download"
+        URL_HASH SHA512=${swigwin_hash}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
@@ -138,11 +138,10 @@ else()
               install
         )
       endif()
-      set(pcre_md5 890c808122bd90f398e6bc40ec862102)
-      set(pcre_version 8.40)
+      set(pcre_hash f919957ce6e1f52b5579faa7fccfe192944884dc56ad831ebb3e3787f752fe2f14567fe302d884fa86900018e92b758e4589406f7e8d7af1baa2a1d6add40865)
       ExternalProject_Add(PCRE
-        URL "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${pcre_md5}&name=pcre-${pcre_version}.tar.gz"
-        URL_MD5 ${pcre_md5}
+        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${pcre_hash}/download"
+        URL_HASH SHA512=${pcre_hash}
         CONFIGURE_COMMAND
           ${pcre_env}
           ../PCRE/configure
@@ -242,8 +241,8 @@ message(STATUS \"Swig configure successfully completed.\")
       endif()
 
       ExternalProject_Add(swig
-        URL "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${swig_md5}&name=swig-${ITK_SWIG_VERSION}.tar.gz"
-        URL_MD5 ${swig_md5}
+        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_hash}/download"
+        URL_HASH SHA512=${swig_hash}
         CONFIGURE_COMMAND
           ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
         ${extra_external_project_commands}
