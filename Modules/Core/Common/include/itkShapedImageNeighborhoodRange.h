@@ -598,6 +598,8 @@ private:
 public:
   using const_iterator = QualifiedIterator<true>;
   using iterator = QualifiedIterator<false>;
+  using reverse_iterator = std::reverse_iterator<iterator>;
+  using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
   /** Specifies a range for the neighborhood of a pixel at the specified
    * location. The shape of the neighborhood is specified by a pointer to a
@@ -677,6 +679,31 @@ public:
   {
     return this->end();
   }
+
+  /** Returns a reverse 'begin iterator' for this range. */
+  reverse_iterator rbegin() const ITK_NOEXCEPT
+  {
+    return reverse_iterator(this->end());
+  }
+
+  /** Returns a reverse 'end iterator' for this range. */
+  reverse_iterator rend() const ITK_NOEXCEPT
+  {
+    return reverse_iterator(this->begin());
+  }
+
+  /** Returns a const reverse 'begin iterator' for this range. */
+  const_reverse_iterator crbegin() const ITK_NOEXCEPT
+  {
+    return this->rbegin();
+  }
+
+  /** Returns a const reverse 'end iterator' for this range. */
+  const_reverse_iterator crend() const ITK_NOEXCEPT
+  {
+    return this->rend();
+  }
+
 
   /** Returns the size of the range, that is the number of neighborhood pixels. */
   std::size_t size() const ITK_NOEXCEPT

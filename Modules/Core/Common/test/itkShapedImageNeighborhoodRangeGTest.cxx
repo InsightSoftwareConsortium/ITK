@@ -659,3 +659,48 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_range_supports_subscript)
     ++it;
   }
 }
+
+
+TEST(ShapedImageNeighborhoodRange, Range_provides_reverse_iterators)
+{
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType>;
+  enum { sizeX = 9, sizeY = 11 };
+  const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
+
+  const ImageType::IndexType location{ {} };
+  const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
+  const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
+    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  RangeType range{ *image, location, offsets };
+
+  const unsigned numberOfNeighborhoodPixels = 3;
+
+  const std::vector<PixelType> stdVector(range.begin(), range.end());
+  std::vector<PixelType> reversedStdVector1(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector2(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector3(numberOfNeighborhoodPixels);
+
+  std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
+
+  const RangeType::const_reverse_iterator crbegin = range.crbegin();
+  const RangeType::const_reverse_iterator crend = range.crend();
+  const RangeType::reverse_iterator rbegin = range.rbegin();
+  const RangeType::reverse_iterator rend = range.rend();
+
+  EXPECT_EQ(crbegin, rbegin);
+  EXPECT_EQ(crend, rend);
+
+  std::copy(crbegin, crend, reversedStdVector2.begin());
+  std::copy(rbegin, rend, reversedStdVector3.begin());
+
+  // Sanity check
+  EXPECT_NE(reversedStdVector1, stdVector);
+  EXPECT_NE(reversedStdVector2, stdVector);
+  EXPECT_NE(reversedStdVector3, stdVector);
+
+  // The real tests:
+  EXPECT_EQ(reversedStdVector1, reversedStdVector2);
+  EXPECT_EQ(reversedStdVector1, reversedStdVector3);
+}
