@@ -74,16 +74,23 @@ TileMergeImageFilter<TImageType, TInterpolator>
   if (m_Montage != montage)
     {
     m_Montage = montage;
-    this->m_MontageSize = montage->m_MontageSize;
-    this->m_LinearMontageSize = montage->m_LinearMontageSize;
+    this->SetMontageSize(montage->m_MontageSize);
     this->m_FinishedTiles = montage->m_FinishedTiles;
     this->m_OriginAdjustment = montage->m_OriginAdjustment;
     this->m_ForcedSpacing = montage->m_ForcedSpacing;
 
-    this->m_Filenames = montage->m_Filenames;
     for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
       {
-      this->SetNthInput(i, const_cast<DataObject *>(montage->GetInput(i)));
+      auto imagePtr = static_cast<const ImageType *>(montage->GetInput(i));
+      if (imagePtr != montage->m_Dummy.GetPointer())
+        {
+        this->SetNthInput(i, const_cast<DataObject *>(montage->GetInput(i)));
+        this->m_Filenames[i] = montage->m_Filenames[i]; //might still be set
+        }
+      else
+        {
+        this->SetInputTile(this->LinearIndexTonDIndex(i), montage->m_Filenames[i]);
+        }
       using TransformCOT = const typename Superclass::TransformOutputType;
       this->m_Transforms[i] = static_cast<TransformCOT *>(m_Montage->GetOutput(i))->Get();
       }
@@ -348,7 +355,9 @@ TileMergeImageFilter<TImageType, TInterpolator>
     {
     TransformPointer inverseT = TransformType::New();
     m_Transforms[i]->GetInverse(inverseT);
-    PointType iOrigin = m_Tiles[i]->GetOrigin();
+    TileIndexType nDIndex = this->LinearIndexTonDIndex(i);
+    ImageConstPointer input = this->GetImage(nDIndex, reg0);
+    PointType iOrigin = input->GetOrigin();
     iOrigin = inverseT->TransformPoint(iOrigin);
 
     ContinuousIndexType ci;
@@ -357,7 +366,7 @@ TileMergeImageFilter<TImageType, TInterpolator>
 
     ImageIndexType ind;
     outputImage->TransformPhysicalPointToIndex(iOrigin, ind);
-    RegionType reg = m_Tiles[i]->GetLargestPossibleRegion();
+    RegionType reg = input->GetLargestPossibleRegion();
     reg.SetIndex(ind);
     m_InputMappings[i] = reg;
     }
@@ -456,6 +465,7 @@ TileMergeImageFilter<TImageType, TInterpolator>
 ::ResampleSingleRegion(SizeValueType i)
 {
   ImagePointer outputImage = this->GetOutput();
+  RegionType reg0; //empty region
   RegionType reqR = outputImage->GetRequestedRegion();
   RegionType currentRegion = m_Regions[i];
   if (!currentRegion.Crop(reqR)) //empty intersection
@@ -485,13 +495,14 @@ TileMergeImageFilter<TImageType, TInterpolator>
     SizeValueType tileIndex = *m_RegionContributors[i].begin();
     TileIndexType nDIndex = this->LinearIndexTonDIndex(tileIndex);
     OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileIndex].GetIndex();
-    RegionType iReg = currentRegion;
-    iReg.SetIndex(m_Tiles[tileIndex]->GetLargestPossibleRegion().GetIndex() + tileToRegion);
-    ImageConstPointer input = this->GetImage(nDIndex, iReg);
+    RegionType inRegion = currentRegion;
+    ImageConstPointer input = this->GetImage(nDIndex, reg0); //matadata (at least)
+    inRegion.SetIndex(input->GetLargestPossibleRegion().GetIndex() + tileToRegion);
+    input = this->GetImage(nDIndex, inRegion); //metadata + at least inRegion of data
 
     if (!interpolate)
       {
-      ImageAlgorithm::Copy(input.GetPointer(), outputImage.GetPointer(), iReg, currentRegion);
+      ImageAlgorithm::Copy(input.GetPointer(), outputImage.GetPointer(), inRegion, currentRegion);
       }
     else
       {
@@ -524,8 +535,9 @@ TileMergeImageFilter<TImageType, TInterpolator>
       TileIndexType nDIndex = this->LinearIndexTonDIndex(tileIndices[t]);
       OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileIndices[t]].GetIndex();
       inRegions[t] = currentRegion;
-      inRegions[t].SetIndex(m_Tiles[tileIndices[t]]->GetLargestPossibleRegion().GetIndex() + tileToRegion);
-      inputs[t] = this->GetImage(nDIndex, inRegions[t]);
+      ImageConstPointer input = this->GetImage(nDIndex, reg0); //matadata (at least)
+      inRegions[t].SetIndex(input->GetLargestPossibleRegion().GetIndex() + tileToRegion);
+      inputs[t] = this->GetImage(nDIndex, inRegions[t]); //metadata + at least inRegions[t] of data
       tileRegions[t] = &m_InputMappings[tileIndices[t]];
       }
 
