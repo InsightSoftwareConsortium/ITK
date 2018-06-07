@@ -207,6 +207,35 @@ TileMontage<TImageType, TCoordinate>
 template<typename TImageType, typename TCoordinate>
 void
 TileMontage<TImageType, TCoordinate>
+::ReleaseMemory(TileIndexType finishedTile)
+{
+  TileIndexType oldIndex;
+  bool releaseTile = true;
+  for (unsigned dim = 0; dim < ImageDimension; dim++)
+    {
+    if (finishedTile[dim] > 0)
+      {
+      oldIndex[dim] = finishedTile[dim] - 1;
+      }
+    else
+      {
+      releaseTile = false;
+      }
+    }
+  if (releaseTile)
+    {
+    SizeValueType linearIndex = this->nDIndexToLinearIndex(oldIndex);
+    m_FFTCache[linearIndex] = nullptr;
+    if (!m_Filenames[linearIndex].empty()) //release the input image too
+      {
+      this->SetInputTile(oldIndex, m_Dummy);
+      }
+    }
+}
+
+template<typename TImageType, typename TCoordinate>
+void
+TileMontage<TImageType, TCoordinate>
 ::MontageDimension(int d, TileIndexType initialTile)
 {
   TileIndexType ind = initialTile;
@@ -249,30 +278,12 @@ TileMontage<TImageType, TCoordinate>
       //montage this index in lower dimension
       MontageDimension(d - 1, ind);
 
-      //kick old tile out of cache
-      TileIndexType oldInd;
-      bool releaseTile = true;
-      for (unsigned dim = 0; dim < ImageDimension; dim++)
-        {
-        if (ind[dim] > 0)
-          {
-          oldInd[dim] = ind[dim] - 1;
-          }
-        else
-          {
-          releaseTile = false;
-          }
-        }
-      if (releaseTile)
-        {
-        SizeValueType linearIndex = this->nDIndexToLinearIndex(oldInd);
-        m_FFTCache[linearIndex] = nullptr;
-        if (!m_Filenames[linearIndex].empty()) //release the input image too
-          {
-          this->SetInputTile(oldInd, m_Dummy);
-          }
-        }
+      this->ReleaseMemory(ind); //kick old tile out of cache
       }
+
+    //kick "rightmost" tile in previous row out of cache
+    ind[d] = m_MontageSize[d];
+    this->ReleaseMemory(ind);
     }
 }
 
@@ -408,10 +419,14 @@ TileMontage<TImageType, TCoordinate>
   this->WriteOutTransform(ind0, t0); //write identity (no translation) for tile 0
   this->MontageDimension(this->ImageDimension - 1, ind0);
 
-  //clear cache after montaging is finished
+  //clear rest of the cache after montaging is finished
   for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
     {
     m_FFTCache[i] = nullptr;
+    if (!m_Filenames[i].empty()) //release the input image too
+      {
+      this->SetInputTile(this->LinearIndexTonDIndex(i), m_Dummy);
+      }
     }
 }
 
