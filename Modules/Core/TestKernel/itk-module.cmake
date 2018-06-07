@@ -5,7 +5,9 @@ system supporting ITK.")
 
 itk_module(ITKTestKernel
   DEPENDS
+    ITKCommon
     ITKIOImageBase
+  PRIVATE_DEPENDS
     ITKIOBMP
     ITKIOGDCM
     ITKIOGIPL
@@ -17,9 +19,6 @@ itk_module(ITKTestKernel
     ITKIOTIFF
     ITKIOVTK
     ITKIOMesh
-    ITKIOMeshVTK
-  PRIVATE_DEPENDS
-    ITKCommon
   COMPILE_DEPENDS
     ITKKWSys
     ITKDoubleConversion
