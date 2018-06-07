@@ -238,29 +238,29 @@ void
 TileMontage<TImageType, TCoordinate>
 ::MontageDimension(int d, TileIndexType initialTile)
 {
-  TileIndexType ind = initialTile;
+  TileIndexType currentIndex = initialTile;
   if (d < 0)
     {
     return; //nothing to do, terminate recursion
     }
   else // d>=0
     {
-    ind[d] = 0; //montage first index in lower dimension
-    MontageDimension(d - 1, ind);
+    currentIndex[d] = 0; //montage first index in lower dimension
+    MontageDimension(d - 1, currentIndex);
 
     for (unsigned i = 1; i < m_MontageSize[d]; i++)
       {
       //register i-th tile to adjacent tiles along all dimension (lower index only)
-      ind[d] = i;
+      currentIndex[d] = i;
       std::vector<TransformPointer> transforms;
       for (unsigned regDim=0; regDim<ImageDimension; regDim++)
         {
-        if (ind[regDim] > 0) //we are not at the edge along this dimension
+        if (currentIndex[regDim] > 0) //we are not at the edge along this dimension
           {
-          TileIndexType indF = ind;
-          indF[regDim] = ind[regDim] - 1;
-          TransformPointer t = this->RegisterPair(indF, ind);
-          TransformConstPointer oldT = this->GetTransform(indF);
+          TileIndexType referenceIndex = currentIndex;
+          referenceIndex[regDim] = currentIndex[regDim] - 1;
+          TransformPointer t = this->RegisterPair(referenceIndex, currentIndex);
+          TransformConstPointer oldT = this->GetTransform(referenceIndex);
           t->Compose(oldT, true);
           transforms.push_back(t);
           }
@@ -273,17 +273,17 @@ TileMontage<TImageType, TCoordinate>
         t->SetOffset(t->GetOffset() + transforms[ti]->GetOffset() / transforms.size());
         }
 
-      this->WriteOutTransform(ind, t);
+      this->WriteOutTransform(currentIndex, t);
 
       //montage this index in lower dimension
-      MontageDimension(d - 1, ind);
+      MontageDimension(d - 1, currentIndex);
 
-      this->ReleaseMemory(ind); //kick old tile out of cache
+      this->ReleaseMemory(currentIndex); //kick old tile out of cache
       }
 
     //kick "rightmost" tile in previous row out of cache
-    ind[d] = m_MontageSize[d];
-    this->ReleaseMemory(ind);
+    currentIndex[d] = m_MontageSize[d];
+    this->ReleaseMemory(currentIndex);
     }
 }
 

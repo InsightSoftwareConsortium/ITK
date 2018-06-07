@@ -176,7 +176,7 @@ protected:
   /** Register a pair of images with given indices. Handles FFTcaching. */
   TransformPointer RegisterPair(TileIndexType fixed, TileIndexType moving);
 
-  /** Removes from memory tile with index smaller by 1 along all dimensions. */
+  /** If possible, removes from memory tile with index smaller by 1 along all dimensions. */
   void ReleaseMemory(TileIndexType finishedTile);
 
   /** Montage this dimension, and all lower dimensions. */
