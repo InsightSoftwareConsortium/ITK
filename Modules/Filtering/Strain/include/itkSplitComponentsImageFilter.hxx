@@ -38,6 +38,8 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::SplitCompone
   {
     this->SetNthOutput(i, this->MakeOutput(i));
   }
+
+  this->DynamicMultiThreadingOn();
 }
 
 
@@ -69,9 +71,8 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::AllocateOutp
 
 template <class TInputImage, class TOutputImage, unsigned int TComponents>
 void
-SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::ThreadedGenerateData(
-  const OutputRegionType & outputRegion,
-  ThreadIdType             itkNotUsed(threadId))
+SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::DynamicThreadedGenerateData(
+  const OutputRegionType & outputRegion)
 {
   typename InputImageType::ConstPointer input = this->GetInput();
   ProcessObject::DataObjectPointerArray outputs = this->GetOutputs();
