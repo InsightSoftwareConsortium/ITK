@@ -1,0 +1,11 @@
+itk_wrap_class("itk::HigherOrderAccurateDerivativeOperator" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  set(vector_dim ${d}) # Wrap only vector dimensions which are the same as image dimensions
+  foreach(p D)
+    itk_wrap_template(
+        "${ITKM_IV${p}${vector_dim}${d}}${ITKM_${p}}${ITKM_${p}}"
+        "${ITKT_IV${p}${vector_dim}${d}}, ${ITKT_${p}}, ${ITKT_${p}}"
+    )
+  endforeach()
+endforeach()
+itk_end_wrap_class()
