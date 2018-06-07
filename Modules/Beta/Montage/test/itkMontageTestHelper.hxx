@@ -126,7 +126,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       //so its modification does not cause a pipeline update automatically
 
       std::cout << "    PeakMethod " << peakMethod << std::endl;
-      itk::SimpleFilterWatcher fw(montage);
+      itk::SimpleFilterWatcher fw(montage, "montage");
       montage->Update();
 
       std::cout << std::fixed;
@@ -170,7 +170,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       // write generated mosaic
       using Resampler = itk::TileMergeImageFilter<ImageType>;
       typename Resampler::Pointer resampleF = Resampler::New();
-      itk::SimpleFilterWatcher fw2(resampleF);
+      itk::SimpleFilterWatcher fw2(resampleF, "resampler");
       if (setMontageDirectly)
         {
         resampleF->SetMontage(montage);
