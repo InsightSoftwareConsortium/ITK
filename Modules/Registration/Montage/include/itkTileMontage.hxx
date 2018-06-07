@@ -207,35 +207,83 @@ TileMontage<TImageType, TCoordinate>
 template<typename TImageType, typename TCoordinate>
 void
 TileMontage<TImageType, TCoordinate>
-::MontageDimension(int d, TransformPointer tInitial, TileIndexType initialTile)
+::ReleaseMemory(TileIndexType finishedTile)
 {
-  TileIndexType ind = initialTile;
+  TileIndexType oldIndex;
+  bool releaseTile = true;
+  for (unsigned dim = 0; dim < ImageDimension; dim++)
+    {
+    if (finishedTile[dim] > 0)
+      {
+      oldIndex[dim] = finishedTile[dim] - 1;
+      }
+    else
+      {
+      releaseTile = false;
+      }
+    }
+  if (releaseTile)
+    {
+    SizeValueType linearIndex = this->nDIndexToLinearIndex(oldIndex);
+    m_FFTCache[linearIndex] = nullptr;
+    if (!m_Filenames[linearIndex].empty()) //release the input image too
+      {
+      this->SetInputTile(oldIndex, m_Dummy);
+      }
+    }
+}
+
+template<typename TImageType, typename TCoordinate>
+void
+TileMontage<TImageType, TCoordinate>
+::MontageDimension(int d, TileIndexType initialTile)
+{
+  TileIndexType currentIndex = initialTile;
   if (d < 0)
     {
     return; //nothing to do, terminate recursion
     }
   else // d>=0
     {
-    ind[d] = 0; //montage first index in lower dimension
-    MontageDimension(d - 1, tInitial, ind);
+    currentIndex[d] = 0; //montage first index in lower dimension
+    MontageDimension(d - 1, currentIndex);
 
-    TransformPointer oldT = tInitial;
     for (unsigned i = 1; i < m_MontageSize[d]; i++)
       {
-      //register i-th tile to i-1 along this dimension
-      TileIndexType indF = ind;
-      indF[d] = i - 1;
-      ind[d] = i;
-      TransformPointer t = this->RegisterPair(indF, ind);
-      t->Compose(oldT, true);
+      //register i-th tile to adjacent tiles along all dimension (lower index only)
+      currentIndex[d] = i;
+      std::vector<TransformPointer> transforms;
+      for (unsigned regDim=0; regDim<ImageDimension; regDim++)
+        {
+        if (currentIndex[regDim] > 0) //we are not at the edge along this dimension
+          {
+          TileIndexType referenceIndex = currentIndex;
+          referenceIndex[regDim] = currentIndex[regDim] - 1;
+          TransformPointer t = this->RegisterPair(referenceIndex, currentIndex);
+          TransformConstPointer oldT = this->GetTransform(referenceIndex);
+          t->Compose(oldT, true);
+          transforms.push_back(t);
+          }
+        }
 
-      this->WriteOutTransform(ind, t);
+      //determine how to best combine transforms - make average for now
+      TransformPointer t = TransformType::New(); //identity i.e. 0-translation by default
+      for (unsigned ti = 0; ti < transforms.size(); ti++)
+        {
+        t->SetOffset(t->GetOffset() + transforms[ti]->GetOffset() / transforms.size());
+        }
 
-      oldT = t; //save current transform for next i iteration
+      this->WriteOutTransform(currentIndex, t);
 
       //montage this index in lower dimension
-      MontageDimension(d - 1, t, ind);
+      MontageDimension(d - 1, currentIndex);
+
+      this->ReleaseMemory(currentIndex); //kick old tile out of cache
       }
+
+    //kick "rightmost" tile in previous row out of cache
+    currentIndex[d] = m_MontageSize[d];
+    this->ReleaseMemory(currentIndex);
     }
 }
 
@@ -244,13 +292,13 @@ void
 TileMontage<TImageType, TCoordinate>
 ::WriteOutTransform(TileIndexType index, TransformPointer transform)
 {
-  SizeValueType indLin = this->nDIndexToLinearIndex(index);
-  auto dOut = this->GetOutput(indLin);
+  const SizeValueType linearIndex = this->nDIndexToLinearIndex(index);
+  auto dOut = this->GetOutput(linearIndex);
   const auto cOut = static_cast<TransformOutputType *>(dOut);
   auto decorator = const_cast<TransformOutputType *>(cOut);
   decorator->Set(transform);
   auto input0 = static_cast<const ImageType*>(this->GetInput(0));
-  auto input = static_cast<const ImageType*>(this->GetInput(indLin));
+  auto input = static_cast<const ImageType*>(this->GetInput(linearIndex));
   this->UpdateMosaicBounds(index, transform, input, input0);
   m_FinishedTiles++;
   this->UpdateProgress(float(m_FinishedTiles) / m_LinearMontageSize);
@@ -369,13 +417,17 @@ TileMontage<TImageType, TCoordinate>
   m_FinishedTiles = 0;
   
   this->WriteOutTransform(ind0, t0); //write identity (no translation) for tile 0
-  this->MontageDimension(this->ImageDimension - 1, t0, ind0);
+  this->MontageDimension(this->ImageDimension - 1, ind0);
 
-  ////clear cache after montaging is finished
-  //for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
-  //  {
-  //  m_FFTCache[i] = nullptr;
-  //  }
+  //clear rest of the cache after montaging is finished
+  for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
+    {
+    m_FFTCache[i] = nullptr;
+    if (!m_Filenames[i].empty()) //release the input image too
+      {
+      this->SetInputTile(this->LinearIndexTonDIndex(i), m_Dummy);
+      }
+    }
 }
 
 } //namespace itk
