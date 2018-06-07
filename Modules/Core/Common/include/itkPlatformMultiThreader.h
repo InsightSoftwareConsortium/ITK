@@ -154,9 +154,6 @@ private:
    *  to void so that user data can be passed to each thread. */
   ThreadInfoStruct m_ThreadInfoArray[ITK_MAX_THREADS];
 
-  /** The methods to invoke. */
-  ThreadFunctionType m_MultipleMethod[ITK_MAX_THREADS];
-
   /** Storage of MutexFunctions and ints used to control spawned
    *  threads and the spawned thread ids. */
   int                 m_SpawnedThreadActiveFlag[ITK_MAX_THREADS];
@@ -164,8 +161,13 @@ private:
   ThreadProcessIdType m_SpawnedThreadProcessID[ITK_MAX_THREADS];
   ThreadInfoStruct    m_SpawnedThreadInfoArray[ITK_MAX_THREADS];
 
+#if !defined ( ITK_LEGACY_REMOVE )
+  /** The methods to invoke. */
+  ThreadFunctionType m_MultipleMethod[ITK_MAX_THREADS];
+
   /** Internal storage of the data. */
   void *m_MultipleData[ITK_MAX_THREADS];
+#endif
 
   /** spawn a new thread for the SingleMethod */
   ThreadProcessIdType SpawnDispatchSingleMethodThread(ThreadInfoStruct *);

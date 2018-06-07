@@ -29,9 +29,6 @@ namespace itk
 
 TBBMultiThreader::TBBMultiThreader()
 {
-  m_SingleMethod = nullptr;
-  m_SingleData = nullptr;
-
   m_NumberOfThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
 }
 
