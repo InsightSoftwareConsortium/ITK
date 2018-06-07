@@ -22,7 +22,7 @@
 #include <fstream>
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 /* This test checks that a lower-left bitmap and an upper-left bitmap
  * representing the same grayscale image contains the same data.

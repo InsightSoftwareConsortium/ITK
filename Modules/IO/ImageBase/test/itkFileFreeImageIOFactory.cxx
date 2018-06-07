@@ -20,7 +20,7 @@
 #include "itkCreateObjectFunction.h"
 #include "itkVersion.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 /**
  * Routine that is called when the shared library is loaded by

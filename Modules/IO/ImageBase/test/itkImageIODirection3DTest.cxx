@@ -19,7 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkImageIODirection3DTest( int ac, char * av[] )
 {

@@ -22,7 +22,7 @@
 #include "itkMetaImageIO.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkMetaImageIOTest(int ac, char* av[])
 {

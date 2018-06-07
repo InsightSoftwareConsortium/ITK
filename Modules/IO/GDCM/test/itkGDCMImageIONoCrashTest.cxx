@@ -22,7 +22,7 @@
 #include <fstream>
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkGDCMImageIONoCrashTest(int ac, char* av[])
 {

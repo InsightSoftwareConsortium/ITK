@@ -22,7 +22,7 @@
 #include <fstream>
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 /* This test checks that a RLE-compressed bitmap and an
  * uncompressed bitmap representing the same grayscale image

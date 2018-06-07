@@ -21,7 +21,7 @@
 #include "itkImageFileWriter.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkJPEGImageIOTest( int ac, char* av[] )
 {

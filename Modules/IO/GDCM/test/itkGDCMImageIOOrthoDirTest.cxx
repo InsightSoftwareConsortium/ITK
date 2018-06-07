@@ -20,7 +20,7 @@
 #include "itkGDCMImageIO.h"
 #include "itkVersor.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 /** This test verifies that the direction cosines
  *  computed in itkGDCMImageIO are orthogonal

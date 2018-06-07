@@ -20,7 +20,7 @@
 
 #include "itkImageIOFactory.h" // required to instantiate an instance of ImageIOBase
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 // Macro to check that two arrays have the same size at compile time. It doesn't compile if they don't
 // as it tries to create an array of size(-1)

@@ -20,7 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkBioRadImageIOTest(int argc, char* argv[])
 {

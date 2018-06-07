@@ -55,7 +55,7 @@ bool TestMultipleReads( const std::string &fname, TImage*)
   return true;
 }
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 template< typename TImage >
 int itkTIFFImageIOTestHelper( int, char * argv[] )

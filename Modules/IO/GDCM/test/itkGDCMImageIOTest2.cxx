@@ -21,7 +21,7 @@
 
 #include <sstream>
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 // Take as input any kind of image (typically RAW) and will create a valid
 // DICOM MR image out of the raw image.

@@ -22,7 +22,7 @@
 #include "itkImageLinearIteratorWithIndex.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 
 // Helper class for reading a file and checking the content
