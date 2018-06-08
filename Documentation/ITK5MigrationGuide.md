@@ -72,18 +72,17 @@ been updated to match these changes.
 Multithreading refactored
 -------------------------
 
-Get/Set GlobalMaximumNumberOfThreads and GlobalDefaultNumberOfThreads have been moved
-from [itk::MultiThreader](https://itk.org/Insight/Doxygen/html/itkMultiThreader_8h.html)
-to [itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/itkMultiThreaderBase_8h.html)
-(a new class). Instead of a single MultiThreader class which could optionally delegate work
+Since ITK 5.0 `MultiThreader` has been split into a class hierarchy.
+Instead of a single `MultiThreader` class which could optionally delegate work
 to an [itk:ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
-there is now a class hierarchy.
+there is now a class hierarchy. Most of the time you will want to replace `MultiThreader` by
+[itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/classitk_1_1MultiThreaderBase.html).
 
-PlatformMultiThreader is essentially the old MultiThreader, renamed.
-PoolMultiThreader behaves like the old MultiThreader with
-`ITK_USE_THREADPOOL=ON`.
-There is an addition of TBBMultiThreader, which uses
-Intel Thread Building Blocks library's thread-pool with load balancing.
+[PlatformMultiThreader](https://itk.org/Insight/Doxygen/html/itkPlatformMultiThreader_8h.html)
+is essentially the old `MultiThreader`, renamed. `PoolMultiThreader` behaves like
+the old `MultiThreader` with `ITK_USE_THREADPOOL=ON`. There is an addition of
+[TBBMultiThreader](https://itk.org/Insight/Doxygen/html/classitk_1_1TBBMultiThreader.html),
+which uses Intel Thread Building Blocks library's thread-pool with load balancing.
 The option to build TBB needs to be enabled during CMake configure step.
 The default multi-threader can be set via environment variable
 `ITK_GLOBAL_DEFAULT_THEADER` with allowed case-insensitive values of
@@ -97,10 +96,56 @@ To temporarily get the old behavior (classic signature invoked by default),
 set `ITKV4_COMPATIBILITY` to `ON` in CMake configuration of ITK.
 To permanently have your filter use the classic threading model,
 invoke `this->DynamicMultiThreadingOff();` in the filter constructor.
+That is required if any of the following is true:
+ * Your filter needs a constant number of threads (known in advance)
+ * Your filter uses `threadId` parameter in `ThreadedGenerateData()`
+ * Your filter uses a custom region splitting method
+
+Additionally, replace `MultiThreader` by PlatformMultiThreader
+if any of the following is true:
+ * Your filter uses cross-thread synchronization e.g. itkBarrier
+ * Your filter uses MultipleMethodExecute()
+ * Your filter uses SpawnThread/TerminateThread
+
+It is stronly advised not to explicitly use PlatformMultiThreader.
+SpawnThread/TerminateThread and MultipleMethodExecute can be
+replaced by C++11 `std::thread`. And below code example shows
+how to remove dependence on barrier by using ParallelizeImageRegion.
+
+Pattern with Barrier:
+```C++
+ThreadedGenerateData()
+{
+//code1 (parallel)
+myBarrier->Wait();
+if (threadId==0)
+  //code2 single-threaded
+//code3 (parallel)
+}
+```
+after refactoring to not use barrier:
+```C++
+GenerateData() //Not Threaded
+{
+this->AllocateOutputs();
+this->BeforeThreadedGenerateData();
+ParallelizeImageRegion(code1 as lambda)
+//code2 single-threaded
+ParallelizeImageRegion(code3 as lambda)
+this->AfterThreadedGenerateData();
+}
+```
+
+Get/Set GlobalMaximumNumberOfThreads and GlobalDefaultNumberOfThreads
+now reside in `MultiThreaderBase`. With a warning, they are still
+available in `PlatformMultiThreader`.
 
 To transition to the new threading model, it is usually enough to rename
 `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
 `threadId` parameter, and remove progress reporting which uses `threadId`.
+Progress is being reported by Multithreaders on behalf of filters which
+use `DynamicThreadedGenerateData` signature.
+
 If your class needs to also work with legacy code where
 `ITKV4_COMPATIBILITY` is enabled, invoke
 `this->DynamicMultiThreadingOn();` in the filter constructor. An example of
