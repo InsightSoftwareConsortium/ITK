@@ -50,7 +50,7 @@ class ITKCommon_EXPORT DataObjectError:public ExceptionObject
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  DataObjectError();
+  DataObjectError() noexcept;
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
   ~DataObjectError() noexcept override {}
@@ -62,19 +62,19 @@ public:
   DataObjectError(const std::string & file, unsigned int lineNumber);
 
   /** Copy constructor. Needed to ensure the exception object can be copied. */
-  DataObjectError(const DataObjectError & orig);
+  DataObjectError(const DataObjectError & orig) noexcept;
 
   /** Operator=.  Needed to ensure the exception object can be copied. */
-  DataObjectError & operator=(const DataObjectError & orig);
+  DataObjectError & operator=(const DataObjectError & orig) noexcept;
 
   /** Standard type macro */
   itkTypeMacro(DataObjectError, ExceptionObject);
 
   /** Set the data object that is throwing this exception. */
-  void SetDataObject(DataObject *dobj);
+  void SetDataObject(DataObject *dobj) noexcept;
 
   /** Get the data object that is throwing this exception. */
-  DataObject * GetDataObject();
+  DataObject * GetDataObject() noexcept;
 
 protected:
   /** Print exception information.  This method can be overridden by
@@ -98,7 +98,7 @@ class ITKCommon_EXPORT InvalidRequestedRegionError:public DataObjectError
 public:
   /** Default constructor. Needed to ensure the exception object can be copied.
     */
-  InvalidRequestedRegionError();
+  InvalidRequestedRegionError() noexcept;
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
   ~InvalidRequestedRegionError() noexcept override {}
@@ -110,10 +110,10 @@ public:
   InvalidRequestedRegionError(const std::string & file, unsigned int lineNumber);
 
   /** Copy constructor.  Needed to ensure the exception object can be copied. */
-  InvalidRequestedRegionError(const InvalidRequestedRegionError & orig);
+  InvalidRequestedRegionError(const InvalidRequestedRegionError & orig) noexcept;
 
   /** Operator=.  Needed to ensure the exception object can be copied. */
-  InvalidRequestedRegionError & operator=(const InvalidRequestedRegionError & orig);
+  InvalidRequestedRegionError & operator=(const InvalidRequestedRegionError & orig) noexcept;
 
   /** Standard type macro */
   itkTypeMacro(InvalidRequestedRegionError, DataObjectError);
