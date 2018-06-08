@@ -382,33 +382,33 @@ itk_add_test(NAME itkPlatformMultiThreaderTest COMMAND ITKCommon2TestDriver itkP
 itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPlatform
   COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest PlatFORM)
 set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPlatform
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=plaTform")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=plaTform")
 
 itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPool
   COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest PooL)
 set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPool
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=pOoL") # tests letter case too
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=pOoL") # tests letter case too
 
 if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
   itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
   set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestTBB
-    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=tbb") # tests letter case too
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=tbb") # tests letter case too
 
   itk_add_test(NAME itkMultiThreaderParallelizeArrayTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
   set_tests_properties(itkMultiThreaderParallelizeArrayTestTBB
-    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=TBB")
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=TBB")
 endif()
 
 itk_add_test(NAME itkMultiThreaderParallelizeArrayTestPlatform
   COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
 set_tests_properties(itkMultiThreaderParallelizeArrayTestPlatform
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Platform")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Platform")
 itk_add_test(NAME itkMultiThreaderParallelizeArrayTestPool
   COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
 set_tests_properties(itkMultiThreaderParallelizeArrayTestPool
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Pool")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Pool")
 itk_add_test(NAME itkMultiThreaderParallelizeArrayTest3
   COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest 3) # test with 3 threads
 

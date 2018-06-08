@@ -86,8 +86,8 @@ There is an addition of TBBMultiThreader, which uses
 Intel Thread Building Blocks library's thread-pool with load balancing.
 The option to build TBB needs to be enabled during CMake configure step.
 The default multi-threader can be set via environment variable
-`ITK_GLOBAL_DEFAULT_THEADER` with allowed case-insensitive values of
-`Platform`, `Pool` and `TBB`, e.g. `ITK_GLOBAL_DEFAULT_THEADER=tbb`.
+`ITK_GLOBAL_DEFAULT_THREADER` with allowed case-insensitive values of
+`Platform`, `Pool` and `TBB`, e.g. `ITK_GLOBAL_DEFAULT_THREADER=tbb`.
 
 For filter multi-threading, a new signature has been introduced:
 `void DynamicThreadedGenerateData( const OutputRegionType& threadRegion )`.

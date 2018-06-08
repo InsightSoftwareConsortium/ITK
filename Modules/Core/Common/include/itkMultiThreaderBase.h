@@ -126,8 +126,8 @@ public:
 
   /** Set/Get whether the default multi-threader implementation.
    *
-   * The default multi-threader type is picked up from ITK_GLOBAL_DEFAULT_THEADER
-   * environment variable. Example ITK_GLOBAL_DEFAULT_THEADER=TBB
+   * The default multi-threader type is picked up from ITK_GLOBAL_DEFAULT_THREADER
+   * environment variable. Example ITK_GLOBAL_DEFAULT_THREADER=TBB
    * A deprecated ITK_USE_THREADPOOL environment variable is also examined,
    * but it can only choose Pool or Platform multi-threader.
    * Platform multi-threader should be avoided,
