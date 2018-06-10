@@ -52,15 +52,12 @@ namespace itk
  * is recommended, as the estimation of the radius involves floating point
  * calculations. Usually, 'double' is the best choice for this pixel type.
  *
- * By default, TRadiusPixelType = TOutputPixelType, in order to preserve backward
- * compatibility with ITK <= 4.12.2.
- *
  * \ingroup ImageFeatureExtraction
  *
  * \ingroup ITKImageFeature
  */
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType = TOutputPixelType  >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 class ITK_TEMPLATE_EXPORT HoughTransform2DCirclesImageFilter:
   public ImageToImageFilter< Image< TInputPixelType, 2 >, Image< TOutputPixelType, 2 > >
 {
