@@ -18,7 +18,136 @@
 
 #include "itkRieszRotationMatrix.h"
 #include <complex>
+#include "itkImage.h"
+#include "itkImageDuplicator.h"
 #include "itkMath.h"
+#include "itkTestingComparisonImageFilter.h"
+
+template <typename TImage>
+int
+compareImagesAndReport(typename TImage::Pointer validImage, typename TImage::Pointer testImage)
+{
+  using ImageType = TImage;
+  using ComparisonType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
+  auto diff = ComparisonType::New();
+  diff->SetValidInput(validImage);
+  diff->SetTestInput(testImage);
+  diff->UpdateLargestPossibleRegion();
+  bool                differenceFailed = false;
+  const double        averageIntensityDifference = diff->GetTotalDifference();
+  const unsigned long numberOfPixelsWithDifferences = diff->GetNumberOfPixelsWithDifferences();
+  if (averageIntensityDifference > 0.0)
+  {
+    if (static_cast<int>(numberOfPixelsWithDifferences) > 0)
+    {
+      differenceFailed = true;
+    }
+    else
+    {
+      differenceFailed = false;
+    }
+  }
+  else
+  {
+    differenceFailed = false;
+  }
+
+  if (differenceFailed)
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Expected 0 different pixels, but got " << numberOfPixelsWithDifferences << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
+}
+
+int
+runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest()
+{
+  constexpr unsigned int Dimension = 2;
+  // Create a rotation matrix
+  using ValueType = double;
+  using SteerableMatrix = itk::RieszRotationMatrix<ValueType, Dimension>;
+  using SpatialRotationMatrix = SteerableMatrix::SpatialRotationMatrixType;
+  SpatialRotationMatrix R;
+  double                angle = itk::Math::pi_over_2;
+  double                cosA = cos(angle);
+  double                sinA = sin(angle);
+  R[0][0] = cosA;
+  R[0][1] = -sinA;
+  R[1][0] = sinA;
+  R[1][1] = cosA;
+
+  // Create a RieszRotationMatrix
+  constexpr unsigned int order2 = 2;
+  SteerableMatrix        S(R, order2);
+  S.SetDebugOn();
+  S.ComputeSteerableMatrix();
+  // f: order 2 dim 2:
+  // typename SteerableMatrix::InternalMatrixType g(3, 3);
+  // g(0, 0) = 0; g(0, 1) = 0;  g(0, 2) = 1;
+  // g(1, 0) = 0; g(1, 1) = -1; g(1, 2) = 0;
+  // g(2, 0) = 1; g(2, 1) = 0;  g(2, 2) = 0;
+
+  // Set a std::vector<TImageType::Pointer>
+  // emulating the output of RieszFrequencyFilterBankGenerator
+  // of Order = 2, Dimension = 2
+
+  using PixelType = double;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ImagePointer = ImageType::Pointer;
+  ImagePointer         image = ImageType::New();
+  ImageType::IndexType start;
+  start.Fill(0);
+  ImageType::SizeType size;
+  size.Fill(10);
+  ImageType::RegionType region;
+  region.SetSize(size);
+  region.SetIndex(start);
+  image->SetRegions(region);
+  image->Allocate();
+  image->FillBuffer(itk::NumericTraits<ImageType::PixelType>::OneValue());
+
+  // M = number of outputs from RieszBankGenerator
+  unsigned int M = 3;
+  // Create M images with ALL pixels with value: 1, 2, 3 respectively.
+  std::vector<ImagePointer> images(M);
+  using MultiplyImageFilterType = itk::MultiplyImageFilter<ImageType>;
+  for (unsigned int i = 0; i < M; i++)
+  {
+    typename MultiplyImageFilterType::Pointer multiplyImageFilter = MultiplyImageFilterType::New();
+    multiplyImageFilter->SetInput(image);
+    multiplyImageFilter->SetConstant(i + 1);
+    multiplyImageFilter->Update();
+    images[i] = multiplyImageFilter->GetOutput();
+    std::cout << "images vector ";
+    std::cout << images[i]->GetLargestPossibleRegion() << std::endl;
+  }
+
+  auto imagesMultipliedByRieszRotationMatrix = S.MultiplyWithVectorOfImages<ImageType>(images);
+  std::cout << "Size: ";
+  std::cout << imagesMultipliedByRieszRotationMatrix.size() << std::endl;
+
+  // First
+  // g(0, 0) = 0; g(0, 1) = 0;  g(0, 2) = 1;
+  // result = 1.0 * images[2]
+  int firstComponentStatus = compareImagesAndReport<ImageType>(images[2], imagesMultipliedByRieszRotationMatrix[0]);
+  // Second
+  // g(1, 0) = 0; g(1, 1) = -1; g(1, 2) = 0;
+  // expectedresult = -1.0 * images[1]
+  typename MultiplyImageFilterType::Pointer multiplyImageFilterInvert = MultiplyImageFilterType::New();
+  multiplyImageFilterInvert->SetInput(imagesMultipliedByRieszRotationMatrix[1]);
+  multiplyImageFilterInvert->SetConstant(-1.0);
+  multiplyImageFilterInvert->Update();
+  int secondComponentStatus = compareImagesAndReport<ImageType>(images[1], multiplyImageFilterInvert->GetOutput());
+  // Third
+  // g(2, 0) = 1; g(2, 1) = 0;  g(2, 2) = 0;
+  // result = 1.0 * images[0]
+  int thirdComponentStatus = compareImagesAndReport<ImageType>(images[0], imagesMultipliedByRieszRotationMatrix[2]);
+
+  return firstComponentStatus && secondComponentStatus && thirdComponentStatus;
+}
 
 template <unsigned int VDimension>
 int
@@ -50,6 +179,10 @@ runRieszRotationMatrixTest()
   dir.Fill(0);
   if (Dimension == 3)
   {
+    // Check the general form of a rotation in 3D given a
+    // rotation axis and angle:
+    // https://en.wikipedia.org/wiki/Rotation_matrix
+    // Choose the rotation around the z axis.
     double x = dir[0] = 0;
     double y = dir[1] = 0;
     double z = dir[2] = 1;
@@ -204,6 +337,14 @@ itkRieszRotationMatrixTest(int argc, char * argv[])
     std::cerr << "Usage: " << argv[0] << "dimension" << std::endl;
     return EXIT_FAILURE;
   }
+
+  int interfaceStatus = runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest();
+  if (interfaceStatus == EXIT_FAILURE)
+  {
+    std::cerr << "Failure in the interface with FilterBankGenerator" << std::endl;
+    return EXIT_FAILURE;
+  }
+
 
   const unsigned int dimension = atoi(argv[1]);
   if (dimension == 2)

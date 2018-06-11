@@ -56,9 +56,13 @@ public:
   using InternalMatrixType = typename Superclass::InternalMatrixType;
   using SpatialRotationMatrixType = itk::Matrix<T, VImageDimension, VImageDimension>;
 
-  /** Matrix by std::vector multiplication.  */
-  std::vector<T>
-  operator*(const std::vector<T> & vector) const;
+  /** Matrix by std::vector<TImage> multiplication.
+   * To perform the rotation with the output of
+   * \ref RieszFrequencyFilterBankGenerator.
+   */
+  template <typename TImage>
+  std::vector<typename TImage::Pointer>
+  MultiplyWithVectorOfImages(const std::vector<typename TImage::Pointer> & vect) const;
 
   /**
    * Multi-index notation
