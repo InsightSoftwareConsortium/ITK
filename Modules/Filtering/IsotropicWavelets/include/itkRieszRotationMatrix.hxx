@@ -20,6 +20,8 @@
 
 #include "itkRieszRotationMatrix.h"
 #include "itkNumericTraits.h"
+#include "itkMultiplyImageFilter.h"
+#include "itkAddImageFilter.h"
 
 namespace itk
 {
@@ -55,12 +57,11 @@ RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const SpatialRotati
   this->ComputeSteerableMatrix();
 }
 
-/**
- *  Product by a std::vector
- */
 template <typename T, unsigned int VImageDimension>
-std::vector<T>
-RieszRotationMatrix<T, VImageDimension>::operator*(const std::vector<T> & vect) const
+template <typename TImage>
+std::vector<typename TImage::Pointer>
+RieszRotationMatrix<T, VImageDimension>::MultiplyWithVectorOfImages(
+  const std::vector<typename TImage::Pointer> & vect) const
 {
   unsigned int rows = this->Rows();
   unsigned int cols = this->Cols();
@@ -68,16 +69,36 @@ RieszRotationMatrix<T, VImageDimension>::operator*(const std::vector<T> & vect) 
   if (vect.size() != cols)
   {
     itkGenericExceptionMacro(<< "Matrix with " << this->Cols() << " columns cannot be "
-                             << "multiplied with vector of length: " << vect.size());
+                             << "multiplied with vector of images of length: " << vect.size());
   }
 
-  std::vector<T> result(rows);
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  std::vector<ImagePointer> result(rows);
   for (unsigned int r = 0; r < rows; r++)
   {
-    T sum = NumericTraits<T>::ZeroValue();
+    // Init result image to zero.
+    ImagePointer sum = ImageType::New();
+    sum->SetRegions(vect[r]->GetLargestPossibleRegion());
+    sum->Allocate();
+    sum->FillBuffer(NumericTraits<typename ImageType::PixelType>::ZeroValue());
+
     for (unsigned int c = 0; c < cols; c++)
     {
-      sum += this->m_Matrix(r, c) * vect[c];
+      // sum += this->m_Matrix(r, c) * vect[r];
+      using MultiplyImageFilterType = itk::MultiplyImageFilter<ImageType>;
+      typename MultiplyImageFilterType::Pointer multiplyImageFilter = MultiplyImageFilterType::New();
+      multiplyImageFilter->SetInput(vect[c]);
+      multiplyImageFilter->SetConstant(this->GetVnlMatrix()(r, c));
+
+      using AddImageFilterType = itk::AddImageFilter<ImageType>;
+      typename AddImageFilterType::Pointer addImageFilter = AddImageFilterType::New();
+      // Note that inPlace uses input1
+      addImageFilter->SetInput1(sum);
+      addImageFilter->SetInput2(multiplyImageFilter->GetOutput());
+      addImageFilter->InPlaceOn();
+      addImageFilter->Update();
+      sum = addImageFilter->GetOutput();
     }
     result[r] = sum;
   }
