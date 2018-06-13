@@ -21,7 +21,7 @@
 #include "itkMetaImageIO.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkMetaImageIOGzTest(int ac, char* av[])
 {

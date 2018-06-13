@@ -12,7 +12,8 @@ itk_module(ITKImageStatistics
     ITKImageCompose
   TEST_DEPENDS
     ITKTestKernel
-    ITKGDCM
+    ITKIOGDCM
+    ITKIOMeta
     ITKImageIntensity
     ITKThresholding
     ITKImageLabel

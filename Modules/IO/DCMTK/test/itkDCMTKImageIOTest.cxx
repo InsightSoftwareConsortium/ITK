@@ -23,7 +23,7 @@
 
 #include <fstream>
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkDCMTKImageIOTest(int ac, char* av[])
 {

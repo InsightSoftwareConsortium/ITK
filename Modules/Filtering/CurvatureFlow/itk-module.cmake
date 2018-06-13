@@ -10,6 +10,7 @@ itk_module(ITKCurvatureFlow
     ITKImageFilterBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOVTK
   DESCRIPTION
     "${DOCUMENTATION}"
 )

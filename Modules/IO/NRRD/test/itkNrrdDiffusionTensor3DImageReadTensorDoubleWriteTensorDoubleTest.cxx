@@ -21,7 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkNrrdImageIO.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest( int ac, char* av[] )
 {

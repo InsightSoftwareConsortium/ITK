@@ -22,7 +22,7 @@
 #include "itkGDCMImageIO.h"
 #include "itkMetaDataObject.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkGDCMImageIOTest(int argc, char* argv[])
 {

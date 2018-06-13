@@ -28,7 +28,7 @@
 #include "itkImageFileWriter.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 using ImageType = itk::Image<signed short, 3>;
 using ImagePointer = ImageType::Pointer;

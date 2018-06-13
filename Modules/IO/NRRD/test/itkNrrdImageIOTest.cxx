@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 #include "itkNrrdImageIOTest.h"
 

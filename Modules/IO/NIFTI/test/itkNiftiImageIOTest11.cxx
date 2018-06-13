@@ -19,7 +19,7 @@
 #include "itkNiftiImageIOTest.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkNiftiImageIOTest11(int ac, char *av[])
 {

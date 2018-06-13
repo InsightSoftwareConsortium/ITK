@@ -7,7 +7,7 @@ set(ITKIOMeshVTKTests
   itkPolylineReadWriteTest.cxx
 )
 
-CreateTestDriver(ITKIOMeshVTK "${ITKIOMesh-Test_LIBRARIES}" "${ITKIOMeshVTKTests}" )
+CreateTestDriver(ITKIOMeshVTK "${ITKIOMeshVTK-Test_LIBRARIES}" "${ITKIOMeshVTKTests}" )
 
 itk_add_test(NAME itkMeshFileReadWriteTest00
       COMMAND ITKIOMeshVTKTestDriver itkMeshFileReadWriteTest

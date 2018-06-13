@@ -52,6 +52,7 @@ itk_module(ITKIntegratedTest
     ITKIOTIFF
     ITKIOVTK
     ITKIOXML
+    ITKIOMesh
     ITKKLMRegionGrowing
     ITKLabelVoting
     ITKLevelSets

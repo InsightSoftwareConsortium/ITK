@@ -22,7 +22,7 @@
 #include "itkImageFileReader.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 
 int itkRawImageIOTest2(int argc, char * argv [])

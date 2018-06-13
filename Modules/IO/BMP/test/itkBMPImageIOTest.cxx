@@ -22,7 +22,7 @@
 #include <fstream>
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkBMPImageIOTest( int argc, char* argv[] )
 {

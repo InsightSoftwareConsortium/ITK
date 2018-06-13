@@ -20,7 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkNrrdImageIO.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkNrrdVectorImageReadTest( int ac, char* av[] )
 {

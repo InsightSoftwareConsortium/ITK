@@ -18,7 +18,7 @@
 
 #include "itkNiftiImageIOTest.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 template<>
 itk::ImageBase<1>::DirectionType

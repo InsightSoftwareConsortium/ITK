@@ -20,7 +20,7 @@
 #include <cstring>
 #include <cstdlib>
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 namespace itk {
 

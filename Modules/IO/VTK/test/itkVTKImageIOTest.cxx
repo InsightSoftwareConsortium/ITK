@@ -24,7 +24,7 @@
 #include <fstream>
 #include <iostream>
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 template<typename TScalar, unsigned int TDimension>
 int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)

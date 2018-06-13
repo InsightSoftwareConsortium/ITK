@@ -23,7 +23,7 @@
 #include "itkMetaImageIO.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 /** read an image using ITK -- image-based template */
 template <typename TImage>
