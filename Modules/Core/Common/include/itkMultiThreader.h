@@ -36,7 +36,7 @@ using MultiThreader = MultiThreaderBase;
 
 
 /** Replace it by PlatformMultiThreader if any of the following is true:
- *  - Your filter uses cross-thread synchornization e.g. itkBarrier
+ *  - Your filter uses cross-thread synchronization e.g. itkBarrier
  *  - Your filter uses MultipleMethodExecute()
  *  - Your filter uses SpawnThread/TerminateThread. */
 //using MultiThreader = PlatformMultiThreader;
