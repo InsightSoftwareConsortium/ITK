@@ -60,7 +60,7 @@ namespace itk
     m_GlobalDefaultNumberOfThreads(0)
     {};
     // GlobalDefaultThreaderTypeIsInitialized is used only in this
-    // file to ensure that the ITK_GLOBAL_DEFAULT_THEADER or
+    // file to ensure that the ITK_GLOBAL_DEFAULT_THREADER or
     // ITK_USE_THREADPOOL environmenal variables are
     // only used as a fall back option.  If the SetGlobalDefaultThreaderType
     // API is ever used by the developer, the developers choice is
@@ -70,7 +70,7 @@ namespace itk
 
     // Global value to control weather the threadpool implementation should
     // be used. This defaults to the environmental variable
-    // ITK_GLOBAL_DEFAULT_THEADER. If that is not present, then
+    // ITK_GLOBAL_DEFAULT_THREADER. If that is not present, then
     // ITK_USE_THREADPOOL is examined.
     MultiThreaderBase::ThreaderType m_GlobalDefaultThreader;
 
@@ -229,8 +229,8 @@ MultiThreaderBase
     if (!m_MultiThreaderBaseGlobals->GlobalDefaultThreaderTypeIsInitialized )
       {
       std::string envVar;
-      // first check ITK_GLOBAL_DEFAULT_THEADER
-      if ( itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_THEADER", envVar) )
+      // first check ITK_GLOBAL_DEFAULT_THREADER
+      if ( itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_THREADER", envVar) )
         {
         envVar = itksys::SystemTools::UpperCase(envVar);
         ThreaderType threaderT = ThreaderTypeFromString(envVar);
@@ -246,8 +246,8 @@ MultiThreaderBase
         envVar = itksys::SystemTools::UpperCase(envVar);
         itkGenericOutputMacro("Warning: ITK_USE_THREADPOOL \
 has been deprecated since ITK v5.0. \
-You should now use ITK_GLOBAL_DEFAULT_THEADER\
-\nFor example ITK_GLOBAL_DEFAULT_THEADER=Pool");
+You should now use ITK_GLOBAL_DEFAULT_THREADER\
+\nFor example ITK_GLOBAL_DEFAULT_THREADER=Pool");
         if(envVar != "NO" && envVar != "OFF" && envVar != "FALSE")
           {
           MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType::Pool);
