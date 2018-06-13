@@ -126,7 +126,7 @@ private:
   ~ReferenceCountedExceptionData() override {}
 };
 
-ExceptionObject::ExceptionObject()
+ExceptionObject::ExceptionObject() noexcept
 {
   // The default construction never throws an exception.
 }
@@ -148,7 +148,7 @@ ExceptionObject::ExceptionObject(
   m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file, lineNumber, desc, loc) )
 {}
 
-ExceptionObject::ExceptionObject(const ExceptionObject & orig):
+ExceptionObject::ExceptionObject(const ExceptionObject & orig) noexcept:
   Superclass(orig),
   m_ExceptionData(orig.m_ExceptionData)
 {
@@ -178,7 +178,7 @@ ExceptionObject::GetExceptionData() const
 }
 
 ExceptionObject &
-ExceptionObject::operator=(const ExceptionObject & orig)
+ExceptionObject::operator=(const ExceptionObject & orig) noexcept
 {
   // Note: there is no superclass assignment here, because
   // std::exception::operator=

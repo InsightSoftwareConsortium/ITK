@@ -55,19 +55,19 @@ public:
   /** Various types of constructors.  Note that these functions will be
   * called when children are instantiated.  The default constructor and
   * the copy constructor of ExceptionObject never throw an exception. */
-  ExceptionObject();
+  ExceptionObject() noexcept;
   explicit ExceptionObject(const char *file, unsigned int lineNumber = 0,
                            const char *desc = "None", const char *loc = "Unknown");
   explicit ExceptionObject(const std::string & file, unsigned int lineNumber = 0,
                            const std::string & desc = "None",
                            const std::string & loc = "Unknown");
-  ExceptionObject(const ExceptionObject & orig);
+  ExceptionObject(const ExceptionObject & orig) noexcept;
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~ExceptionObject() noexcept override;
 
   /** Assignment operator. */
-  ExceptionObject & operator=(const ExceptionObject & orig);
+  ExceptionObject & operator=(const ExceptionObject & orig) noexcept;
 
   /** Equivalence operator. */
   virtual bool operator==(const ExceptionObject & orig);
@@ -168,7 +168,7 @@ class ITKCommon_EXPORT MemoryAllocationError:public ExceptionObject
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  MemoryAllocationError():ExceptionObject() {}
+  MemoryAllocationError() noexcept:ExceptionObject() {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   MemoryAllocationError(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
@@ -199,7 +199,7 @@ class ITKCommon_EXPORT RangeError:public ExceptionObject
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  RangeError():ExceptionObject() {}
+  RangeError() noexcept:ExceptionObject() {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   RangeError(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
@@ -227,7 +227,7 @@ public:
    * Default constructor.  Needed to ensure the exception object can be
    * copied.
    */
-  InvalidArgumentError():ExceptionObject() {}
+  InvalidArgumentError() noexcept:ExceptionObject() {}
 
   /**
    * Constructor. Needed to ensure the exception object can be copied.
@@ -256,7 +256,7 @@ class ITKCommon_EXPORT IncompatibleOperandsError:public ExceptionObject
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  IncompatibleOperandsError():ExceptionObject() {}
+  IncompatibleOperandsError() noexcept:ExceptionObject() {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   IncompatibleOperandsError(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
