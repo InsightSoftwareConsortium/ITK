@@ -70,7 +70,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = unsigned char;
-  using AccumulatorPixelType = float;
+  using AccumulatorPixelType = unsigned;
+  using RadiusPixelType = float;
   constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension >;
   ImageType::IndexType localIndex;
@@ -113,7 +114,8 @@ int main( int argc, char *argv[] )
 
   using HoughTransformFilterType =
     itk::HoughTransform2DCirclesImageFilter<PixelType,
-                                            AccumulatorPixelType>;
+                                            AccumulatorPixelType,
+                                            RadiusPixelType>;
   HoughTransformFilterType::Pointer houghFilter
                                             = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
