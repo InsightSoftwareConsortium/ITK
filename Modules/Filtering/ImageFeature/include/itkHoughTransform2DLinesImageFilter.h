@@ -120,8 +120,8 @@ public:
   /** Set/Get the resolution angle.
    * The Hough space describes (in the angle direction) [-PI,PI[
    * with a constant step AngleResolution. */
-  itkSetMacro( AngleResolution, float );
-  itkGetConstMacro( AngleResolution, float );
+  itkSetMacro( AngleResolution, double );
+  itkGetConstMacro( AngleResolution, double );
 
   /** Simplify the accumulator.
    * Performs the same iteration process as the Update() method, but finds
@@ -140,12 +140,12 @@ public:
 
   /** Set/Get the radius of the disc to remove from the accumulator
    * for each line found. */
-  itkSetMacro( DiscRadius, float );
-  itkGetConstMacro( DiscRadius, float );
+  itkSetMacro( DiscRadius, double );
+  itkGetConstMacro( DiscRadius, double );
 
   /** Set/Get the variance of the Gaussian blurring for the accumulator. */
-  itkSetMacro( Variance, float );
-  itkGetConstMacro( Variance, float );
+  itkSetMacro( Variance, double );
+  itkGetConstMacro( Variance, double );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -183,14 +183,14 @@ protected:
 
 private:
 
-  float              m_AngleResolution;
+  double             m_AngleResolution;
   double             m_Threshold;
 
   OutputImagePointer m_SimplifyAccumulator;
   LinesListType      m_LinesList;
   LinesListSizeType  m_NumberOfLines;
-  float              m_DiscRadius;
-  float              m_Variance;
+  double             m_DiscRadius;
+  double             m_Variance;
   ModifiedTimeType   m_OldModifiedTime;
 };
 } // end namespace itk

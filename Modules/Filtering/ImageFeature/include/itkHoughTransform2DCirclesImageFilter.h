@@ -148,16 +148,16 @@ public:
 
   /** Set/Get the radius of the disc to remove from the accumulator
    * for each circle found. */
-  itkSetMacro(DiscRadiusRatio, float);
-  itkGetConstMacro(DiscRadiusRatio, float);
+  itkSetMacro(DiscRadiusRatio, double);
+  itkGetConstMacro(DiscRadiusRatio, double);
 
   /** Set/Get the variance of the Gaussian blurring for the accumulator. */
-  itkSetMacro(Variance, float);
-  itkGetConstMacro(Variance, float);
+  itkSetMacro(Variance, double);
+  itkGetConstMacro(Variance, double);
 
   /** Set/Get the sweep angle. */
-  itkSetMacro(SweepAngle, float);
-  itkGetConstMacro(SweepAngle, float);
+  itkSetMacro(SweepAngle, double);
+  itkGetConstMacro(SweepAngle, double);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -192,7 +192,7 @@ protected:
 
 private:
 
-  float                 m_SweepAngle;
+  double                m_SweepAngle;
   double                m_MinimumRadius;
   double                m_MaximumRadius;
   double                m_Threshold;
@@ -201,8 +201,8 @@ private:
   RadiusImagePointer    m_RadiusImage;
   CirclesListType       m_CirclesList;
   CirclesListSizeType   m_NumberOfCircles;
-  float                 m_DiscRadiusRatio;
-  float                 m_Variance;
+  double                m_DiscRadiusRatio;
+  double                m_Variance;
   ModifiedTimeType      m_OldModifiedTime;
 };
 } // end namespace itk
