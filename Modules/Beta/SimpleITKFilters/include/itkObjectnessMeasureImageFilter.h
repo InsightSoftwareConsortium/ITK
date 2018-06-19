@@ -23,9 +23,52 @@
 namespace itk
 {
 /** \class ObjectnessMeasureImageFilter
+ * \brief Enhance M-dimensional objects in N-dimensional images.
  *
- * This is a composite filter which combines a computation of the
- * hessian with computation of the objectness.
+ * This filter is a generalization of Frangi's vesselness measurement
+ * for detecting M-dimensional object in N-dimensional space. For
+ * example a vessel is a 1-D object in 3-D space. The filter
+ * can enhance blob-like structures (M=0), vessel-like structures
+ * (M=1), 2D plate-like structures (M=2), hyper-plate-like structures
+ * (M=3) in N-dimensional images, with M<N.
+ *
+ * This filter takes a scalar image as input and produces a real
+ * valued image as output which contains the objectness measure at
+ * each pixel. Internally, it computes a Hessian via discrete central
+ * differences. Before applying this filter it is expected that a
+ * Gaussian smoothing filter at an appropriate scale (sigma) was
+ * applied to the input image.
+ *
+ * The enhancement is based on the eigenvalues of the Hessian
+ * matrix. For the Frangi's vesselness case were M=1 and N=3 we have
+ * the 3 eigenvalues such that
+ * \f$ | \lambda_1 | < | \lambda_2 | < |\lambda_3 | \f$. The formula
+ * follows:
+ *
+ *  \f[
+ * R_A = \frac{|\lambda_2|}{|\lambda_3|}, \;
+ * R_B = \frac{|\lambda_2|}{|\lambda_2\lambda_3|}, \;
+ * S = \sqrt{\lambda_1^2+\lambda_2^2+\lambda_3^2}
+ *  \f]
+ *  \f[
+ *     V_{\sigma}=
+ *     \begin{cases}
+ *      (1-e^{-\frac{R_A^2}{2\alpha^2}}) \cdot e^{\frac{R_B^2}{2\beta^2}} \cdot (1-e^{-\frac{S^2}{2\gamma^2}}) & \text{if } \lambda_2<0 \text{ and } \lambda_3<0 \text{,}\\
+ *      0 & \text{otherwise}
+ *    \end{cases}
+ *  \f]
+ *
+ * \par References
+ * Antiga, L. Generalizing vesselness with respect to dimensionality and shape. https://hdl.handle.net/1926/576
+ *
+ * \par
+ * Frangi, AF, Niessen, WJ, Vincken, KL, & Viergever, MA (1998). Multiscale Vessel
+ * Enhancement Filtering. In Wells, WM, Colchester, A, & Delp, S, Editors, MICCAI '98
+ * Medical Image Computing and Computer-Assisted Intervention, Lecture Notes in Computer
+ * Science, pages 130-137, Springer Verlag, 1998.
+ *
+ *
+ * \sa itk::HessianToObjectnessMeasureImageFilter
  *
  * \ingroup SimpleITKFilters
  */
