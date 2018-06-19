@@ -13,6 +13,8 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKImageFeature
+    ITKStatistics
+    ITKImageGrid
   COMPILE_DEPENDS
   TEST_DEPENDS
     ITKTestKernel
