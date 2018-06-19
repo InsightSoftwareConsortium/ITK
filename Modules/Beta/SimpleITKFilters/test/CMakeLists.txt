@@ -3,6 +3,7 @@ itk_module_test()
 set(SimpleITKFiltersTests
   itkObjectnessMeasureImageFilterTest.cxx
   itkHessianImageFilterTest.cxx
+  itkSLICImageFilterTest.cxx
   )
 
 CreateTestDriver(SimpleITKFilters "${SimpleITKFilters_LIBRARIES}" "${SimpleITKFiltersTests}")
@@ -55,11 +56,41 @@ itk_add_test(NAME itkObjectnessMeasureImageFilterTest_compatibility2
     ${ITK_TEST_OUTPUT_DIR}/itkObjectnessMeasureImageFilterTest_compatibility2.mha
     0 0)
 
+
+itk_add_test(NAME itkSLICImageFilterTest1
+  COMMAND ${itk-module}TestDriver
+    --compare "DATA{Baseline/itkSLICImageFilterTest1.png}"
+              "${ITK_TEST_OUTPUT_DIR}/super1.png"
+   itkSLICImageFilterTest
+    "DATA{Input/VM1111Shrink-RGB.png}"
+    "${ITK_TEST_OUTPUT_DIR}/super1.png" 25 0 )
+
+
+itk_add_test(NAME itkSLICImageFilterTest2
+  COMMAND ${itk-module}TestDriver
+    --compare "DATA{Baseline/itkSLICImageFilterTest2.png}"
+              "${ITK_TEST_OUTPUT_DIR}/super2.png"
+  itkSLICImageFilterTest
+    "DATA{Input/VM1111Shrink-LAB.mha}"
+    "${ITK_TEST_OUTPUT_DIR}/super2.png" 25 0 )
+
+
+
+itk_add_test(NAME itkSLICImageFilterTest3
+  COMMAND ${itk-module}TestDriver
+    --compare "DATA{Baseline/itkSLICImageFilterTest3.png}"
+              "${ITK_TEST_OUTPUT_DIR}/super3.png"
+  itkSLICImageFilterTest
+    "DATA{Input/VM1111Shrink-LAB.mha}"
+    "${ITK_TEST_OUTPUT_DIR}/super3.png" 25 1)
+
+
 add_test(NAME itkHessianImageFilterTest
       COMMAND ${itk-module}TestDriver itkHessianImageFilterTest )
 
 
 set(SimpleITKFiltersGTest
-  itkHessianImageFilterGTest.cxx)
+  itkHessianImageFilterGTest.cxx
+  itkSLICImageFilterGTest.cxx)
 
 CreateGoogleTestDriver(SimpleITKFilters "${SimpleITKFilters-Test_LIBRARIES}" "${SimpleITKFiltersGTest}")
