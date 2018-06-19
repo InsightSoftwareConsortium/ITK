@@ -3,7 +3,7 @@ jobs:
   build-and-test:
     working_directory: /ITKSimpleITKFilters-build
     docker:
-      - image: insighttoolkit/module-ci:latest
+      - image: insighttoolkit/module-ci:v4.13
     steps:
       - checkout:
           path: /ITKSimpleITKFilters
@@ -50,6 +50,7 @@ jobs:
           name: Build Python packages
           no_output_timeout: 1.0h
           command: |
+            export ITK_PACKAGE_VERSION=v4.13.0
             ./dockcross-manylinux-download-cache-and-build-module-wheels.sh
       - store_artifacts:
           path: dist

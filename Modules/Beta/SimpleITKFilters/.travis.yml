@@ -10,6 +10,7 @@ cache:
 script:
 - curl -L https://rawgit.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/macpython-download-cache-and-build-module-wheels.sh -O
 - chmod u+x macpython-download-cache-and-build-module-wheels.sh
+- export ITK_PACKAGE_VERSION=v4.13.0
 - ./macpython-download-cache-and-build-module-wheels.sh
 - tar -zcvf dist.tar.gz dist/
 - curl --upload-file dist.tar.gz https://transfer.sh/dist.tar.gz

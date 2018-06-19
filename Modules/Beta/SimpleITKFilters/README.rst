@@ -1,10 +1,10 @@
 ITKSimpleITKFilters
 =================================
 
-.. image:: https://circleci.com/gh/SimpleITK/ITKSimpleITKFilters.svg?style=shield
-    :target: https://circleci.com/gh/SimpleITK/ITKSimpleITKFilters
+.. image:: https://circleci.com/gh/SimpleITK/ITKSimpleITKFilters/tree/ITKv4.svg?style=shield
+    :target: https://circleci.com/gh/SimpleITK/ITKSimpleITKFilters/tree/ITKv4
 
-.. image:: https://travis-ci.org/SimpleITK/ITKSimpleITKFilters.svg?branch=master
+.. image:: https://travis-ci.org/SimpleITK/ITKSimpleITKFilters.svg?branch=ITKv4
     :target: https://travis-ci.org/SimpleITK/ITKSimpleITKFilters
 
 .. image:: https://img.shields.io/appveyor/ci/blowekamp/itksimpleitkfilters.svg
