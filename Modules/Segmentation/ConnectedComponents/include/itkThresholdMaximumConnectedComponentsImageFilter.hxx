@@ -59,10 +59,10 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 
   // Initialize values for the threshold filters
   // Default. Use ITK set macro "SetOutsideValue" to change
-  m_OutsideValue = static_cast< OutputPixelType >( minLabel );
+  m_OutsideValue = NumericTraits< OutputPixelType>::ZeroValue();
 
   // Default. Use ITK set macro "SetInsideValue" to change
-  m_InsideValue  = static_cast< OutputPixelType >( maxLabel );
+  m_InsideValue  = NumericTraits< OutputPixelType >::max();
 
   m_LowerBoundary = m_ThresholdValue;
 
