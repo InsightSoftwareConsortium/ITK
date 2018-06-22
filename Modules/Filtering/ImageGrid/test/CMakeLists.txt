@@ -292,5 +292,7 @@ itk_add_test(NAME itkPadImageFilterTest
       COMMAND ITKImageGridTestDriver itkPadImageFilterTest)
 
 set( ITKImageGridGTests
-  itkSliceImageFilterTest.cxx )
+  itkSliceImageFilterTest.cxx
+  itkTileImageFilterGTest.cxx )
+
 CreateGoogleTestDriver(ITKImageGrid "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridGTests}")

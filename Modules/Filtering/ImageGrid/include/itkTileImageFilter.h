@@ -70,10 +70,12 @@ public:
   /** Image pixel value type alias. */
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputPixelComponentType = typename NumericTraits<OutputPixelType>::ValueType;
 
   /** Image related type alias. */
   using InputImagePointer = typename TInputImage::Pointer;
   using OutputImagePointer = typename TOutputImage::Pointer;
+
 
   using InputSizeType = typename TInputImage::SizeType;
   using InputIndexType = typename TInputImage::IndexType;
@@ -137,14 +139,14 @@ protected:
 
   void GenerateOutputInformation() override;
 
-  void  GenerateData() override;
+  void GenerateData() override;
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() override;
 
 private:
   typename TileImageType::Pointer m_TileImage;
