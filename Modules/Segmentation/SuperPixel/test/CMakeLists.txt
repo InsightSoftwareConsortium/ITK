@@ -11,7 +11,7 @@ CreateTestDriver(${itk-module}  "${${itk-module}-Test_LIBRARIES}" "${${itk-modul
 
 itk_add_test(NAME itkSLICImageFilterTest1
   COMMAND ${itk-module}TestDriver
-    --compare "DATA{Data/Baseline/itkSLICImageFilterTest1.png}"
+    --compare "DATA{Data/Baseline/itkSLICImageFilterTest1.png,:}"
               "${ITK_TEST_OUTPUT_DIR}/super1.png"
    itkSLICImageFilterTest
     "DATA{Data/Input/VM1111Shrink-RGB.png}"
