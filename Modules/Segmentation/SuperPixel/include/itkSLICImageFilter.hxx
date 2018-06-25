@@ -134,7 +134,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
   if ( ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    numberOfThreads = vnl_math_min(
+    numberOfThreads = std::min(
       this->GetNumberOfThreads(), ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() );
     }
 
@@ -380,7 +380,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
   if ( ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    numberOfThreads = vnl_math_min(
+    numberOfThreads = std::min(
       this->GetNumberOfThreads(), ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() );
     }
 
@@ -510,7 +510,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
   if ( ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    numberOfThreads = vnl_math_min(
+    numberOfThreads = std::min(
       this->GetNumberOfThreads(), ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() );
     }
 
