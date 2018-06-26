@@ -45,14 +45,16 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
 
   typename InputImageType::ConstPointer image = this->GetInput();
 
-   if( image.IsNull() )
-     {
-     itkExceptionMacro( << "Input not set as expected!" );
-     }
+  if( image.IsNull() )
+    {
+    itkExceptionMacro( << "Input not set as expected!" );
+    }
 
-   const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();
+  const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();
 
-  for( IndexValueType idx = 1; idx < this->GetNumberOfInputs(); ++idx )
+  typename Superclass::DataObjectPointerArraySizeType idx = 1;
+
+  for(; idx < this->GetNumberOfIndexedInputs(); ++idx )
     {
     image = this->GetInput(idx);
 
