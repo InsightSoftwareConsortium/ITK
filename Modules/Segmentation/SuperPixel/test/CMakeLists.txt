@@ -11,30 +11,30 @@ CreateTestDriver(${itk-module}  "${${itk-module}-Test_LIBRARIES}" "${${itk-modul
 
 itk_add_test(NAME itkSLICImageFilterTest1
   COMMAND ${itk-module}TestDriver
-    --compare "DATA{Data/Baseline/itkSLICImageFilterTest1.png}"
-              "${ITK_TEST_OUTPUT_DIR}/super1.png"
+    --compare "DATA{Data/Baseline/itkSLICImageFilterTest1.png,:}"
+              "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput1.png"
    itkSLICImageFilterTest
     "DATA{Data/Input/VM1111Shrink-RGB.png}"
-    "${ITK_TEST_OUTPUT_DIR}/super1.png" 25 0 )
+    "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput1.png" 25 0 )
 
 
 itk_add_test(NAME itkSLICImageFilterTest2
   COMMAND ${itk-module}TestDriver
     --compare "DATA{Data/Baseline/itkSLICImageFilterTest2.png}"
-              "${ITK_TEST_OUTPUT_DIR}/super2.png"
+              "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput2.png"
   itkSLICImageFilterTest
     "DATA{Data/Input/VM1111Shrink-LAB.mha}"
-    "${ITK_TEST_OUTPUT_DIR}/super2.png" 25 0 )
+    "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput2.png" 25 0 )
 
 
 
 itk_add_test(NAME itkSLICImageFilterTest3
   COMMAND ${itk-module}TestDriver
     --compare "DATA{Data/Baseline/itkSLICImageFilterTest3.png}"
-              "${ITK_TEST_OUTPUT_DIR}/super3.png"
+              "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput3.png"
   itkSLICImageFilterTest
     "DATA{Data/Input/VM1111Shrink-LAB.mha}"
-    "${ITK_TEST_OUTPUT_DIR}/super3.png" 25 1)
+    "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput3.png" 25 1)
 
 
 set(${itk-module}GTests
