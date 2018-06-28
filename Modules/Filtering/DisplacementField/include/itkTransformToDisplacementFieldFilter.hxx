@@ -23,7 +23,7 @@
 #include "itkIdentityTransform.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageScanlineIterator.h"
 
 namespace itk
 {
@@ -188,7 +188,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   const TransformType * transform = this->GetInput()->Get();
 
   // Create an iterator that will walk the output region for this thread.
-  using OutputIteratorType = ImageRegionIteratorWithIndex< TOutputImage >;
+  using OutputIteratorType = ImageScanlineIterator< TOutputImage >;
   OutputIteratorType outIt( output, outputRegionForThread );
 
   // Define a few variables that will be used to translate from an input pixel
@@ -220,59 +220,59 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
 {
   // Get the output pointer
-  OutputImageType * output = this->GetOutput();
-  const TransformType * transform = this->GetInput()->Get();
+  OutputImageType * outputPtr = this->GetOutput();
+  const TransformType * transformPtr = this->GetInput()->Get();
+
+  const OutputImageRegionType &largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 
   // Create an iterator that will walk the output region for this thread.
-  using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
-  OutputIteratorType outIt( output, outputRegionForThread );
-
-  outIt.SetDirection(0);
+  using OutputIteratorType = ImageScanlineIterator< TOutputImage >;
+  OutputIteratorType outIt( outputPtr, outputRegionForThread );
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
   PointType outputPoint;         // Coordinates of current output pixel
-  PointType transformedPoint;    // Coordinates of transformed pixel
-  PixelType displacement;         // the difference
+  PointType inputPoint;
 
-  IndexType index;
-
-  // Determine the position of the first pixel in the scanline
-  outIt.GoToBegin();
-  index = outIt.GetIndex();
-  output->TransformIndexToPhysicalPoint( index, outputPoint );
-
-  // Compute corresponding transformed pixel position
-  transformedPoint = transform->TransformPoint( outputPoint );
-
-  // Compare with the ResampleImageFilter
-
-  // Compute delta
-  PointType outputPointNeighbour;
-  PointType transformedPointNeighbour;
-  using VectorType = typename PointType::VectorType;
-  VectorType delta;
-  ++index[0];
-  output->TransformIndexToPhysicalPoint( index, outputPointNeighbour );
-  transformedPointNeighbour = transform->TransformPoint( outputPointNeighbour );
-  delta = transformedPointNeighbour - transformedPoint - ( outputPointNeighbour - outputPoint );
 
   // loop over the vector image
   while ( !outIt.IsAtEnd() )
     {
-    // Get current point
-    index = outIt.GetIndex();
-    output->TransformIndexToPhysicalPoint( index, outputPoint );
 
-    // Compute transformed point
-    transformedPoint = transform->TransformPoint( outputPoint );
+    // Compare with the ResampleImageFilter
+    // The region may be split along the fast scan-line direction, so
+    // the computation is done for the beginning and end of the largest
+    // possible region to improve consistent numerics.
+    IndexType index  = outIt.GetIndex();
+    index[0] = largestPossibleRegion.GetIndex(0);
+
+    outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
+    inputPoint = transformPtr->TransformPoint(outputPoint);
+    const typename PointType::VectorType startDisplacement = inputPoint - outputPoint;
+
+    index[0] += largestPossibleRegion.GetSize(0);
+    outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
+    inputPoint = transformPtr->TransformPoint(outputPoint);
+    const typename PointType::VectorType endDisplacement = inputPoint - outputPoint;
+
+    IndexValueType scanlineIndex = outIt.GetIndex()[0];
 
     while ( !outIt.IsAtEndOfLine() )
       {
-      displacement = transformedPoint - outputPoint;
+      // Perform linear interpolation between startIndex and endIndex
+      const double alpha = (scanlineIndex - largestPossibleRegion.GetIndex(0) ) / double(largestPossibleRegion.GetSize(0));
+      const double oneMinusAlpha = 1.0 - alpha;
+
+      PixelType displacement;
+      for (unsigned int i = 0; i < ImageDimension; ++i)
+        {
+        displacement[i] = oneMinusAlpha*startDisplacement[i] + alpha*endDisplacement[i];
+        }
+
+
       outIt.Set( displacement );
       ++outIt;
-      transformedPoint += delta;
+      ++scanlineIndex;
       }
 
     outIt.NextLine();
