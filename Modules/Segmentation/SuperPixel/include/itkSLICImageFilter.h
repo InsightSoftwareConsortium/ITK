@@ -162,7 +162,7 @@ public:
 
 protected:
   SLICImageFilter();
-  ~SLICImageFilter();
+  ~SLICImageFilter() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
