@@ -46,10 +46,11 @@ endfunction()
 # desired revision and only performs a fetch and checkout if needed.
 function(_git_update git_executable git_repository git_tag module_dir)
   execute_process(
-    COMMAND "${git_executable}" rev-parse --verify ${git_tag}
+    COMMAND "${git_executable}" rev-parse --verify "${git_tag}"
     WORKING_DIRECTORY "${module_dir}"
     RESULT_VARIABLE error_code
     OUTPUT_VARIABLE tag_hash
+    OUTPUT_STRIP_TRAILING_WHITESPACE
     )
   if(error_code)
     message(FATAL_ERROR "Failed to get the hash for tag '${module_dir}'")
@@ -59,6 +60,7 @@ function(_git_update git_executable git_repository git_tag module_dir)
     WORKING_DIRECTORY "${module_dir}"
     RESULT_VARIABLE error_code
     OUTPUT_VARIABLE head_hash
+    OUTPUT_STRIP_TRAILING_WHITESPACE
     )
   if(error_code)
     message(FATAL_ERROR "Failed to get the hash for ${git_repository} HEAD")
