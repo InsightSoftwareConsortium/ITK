@@ -201,15 +201,19 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   outIt.GoToBegin();
   while ( !outIt.IsAtEnd() )
     {
-    // Determine the index of the current output pixel
-    output->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
+    while ( !outIt.IsAtEndOfLine() )
+      {
+      // Determine the index of the current output pixel
+      output->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
 
-    // Compute corresponding input pixel position
-    transformedPoint = transform->TransformPoint( outputPoint );
+      // Compute corresponding input pixel position
+      transformedPoint = transform->TransformPoint( outputPoint );
 
-    displacement = transformedPoint - outputPoint;
-    outIt.Set( displacement );
-    ++outIt;
+      displacement = transformedPoint - outputPoint;
+      outIt.Set( displacement );
+      ++outIt;
+      }
+    outIt.NextLine();
     }
 }
 
