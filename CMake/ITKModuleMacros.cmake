@@ -465,7 +465,28 @@ macro(itk_module_add_library _name)
   if(NOT ITK_MODULE_${itk-module}_ENABLE_SHARED)
     set(_LIBRARY_BUILD_TYPE)
   endif()
-  add_library(${_name} ${_LIBRARY_BUILD_TYPE} ${ARGN})
+
+  set(_itk_load_src "")
+  if( ITK_MODULE_${itk-module}_ENABLE_SHARED )
+
+    if (ITK_MODULE_${itk-module}_FACTORY_NAMES)
+      foreach(_factory_format ${ITK_MODULE_${itk-module}_FACTORY_NAMES})
+
+        string(REGEX REPLACE "^(.*)::(.*)$" "\\1" _factory_name "${_factory_format}")
+        string(REGEX REPLACE "^(.*)::(.*)$" "\\2" _format  "${_factory_format}")
+      endforeach()
+
+      # add an `itkLoad` method to the library to enable the library
+      # to be dynamically loaded via the ITK plugin mechanism.
+      # https://itk.org/Wiki/Plugin_IO_mechanisms
+      set(_factory_class ${_format}${_factory_name})
+      set(_itk_load_src "${CMAKE_CURRENT_BINARY_DIR}/itk${_format}Load.cxx")
+      configure_file("${_ITKModuleMacros_DIR}/itkLoad.cxx.in" "${_itk_load_src}")
+
+    endif()
+  endif()
+
+  add_library(${_name} ${_LIBRARY_BUILD_TYPE} ${ARGN} ${_itk_load_src})
   target_compile_features(${_name} PUBLIC cxx_nullptr
                                           cxx_override
                                           cxx_constexpr
