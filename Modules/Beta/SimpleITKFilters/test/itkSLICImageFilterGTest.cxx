@@ -20,12 +20,8 @@
 
 #include "itkSLICImageFilter.h"
 #include "itkVectorImage.h"
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 
 #include "itkCommand.h"
-
-#include "itkImageFileWriter.h"
 
 #include "itkTestDriverIncludeRequiredIOFactories.h"
 #include "itkTestingHashImageFilter.h"
@@ -48,15 +44,6 @@ protected:
       RegisterRequiredFactories();
     }
 
-
-  template<typename TImageType>
-  static void WriteImage(const TImageType * inputImage, const std::string & fileName)
-    {
-      typename itk::ImageFileWriter<TImageType>::Pointer writer = itk::ImageFileWriter<TImageType>::New();
-      writer->SetFileName(fileName);
-      writer->SetInput(inputImage);
-      writer->Update();
-    }
 
   template<typename TImageType>
   static  std::string MD5Hash(const TImageType *image)
