@@ -36,6 +36,8 @@
 
 #include "itkMath.h"
 
+#include "itkMutexLockHolder.h"
+
 #include <numeric>
 
 
@@ -47,7 +49,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 ::SLICImageFilter()
   : m_MaximumNumberOfIterations( (ImageDimension > 2) ? 5 : 10),
     m_SpatialProximityWeight( 10.0 ),
-    m_Barrier(Barrier::New()),
     m_EnforceConnectivity(true),
     m_InitializationPerturbation(true),
     m_AverageResidual(NumericTraits<double>::max())
@@ -129,24 +130,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 {
   itkDebugMacro("Starting BeforeThreadedGenerateData");
 
-
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
-
-  if ( ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    numberOfThreads = std::min(
-      this->GetNumberOfThreads(), ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() );
-    }
-
-  // number of threads can be constrained by the region size, so call the
-  // SplitRequestedRegion to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call
-  // the following method
-
-  numberOfThreads = this->SplitRequestedRegion(0, numberOfThreads, splitRegion);
-
-  m_Barrier->Initialize(numberOfThreads);
-
   typename InputImageType::Pointer inputImage = InputImageType::New();
   inputImage->Graft( const_cast<  InputImageType * >( this->GetInput() ));
 
@@ -222,7 +205,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     }
 
 
-  m_UpdateClusterPerThread.resize(numberOfThreads);
+  m_UpdateClusterPerThread.clear();
 
   this->Superclass::BeforeThreadedGenerateData();
 }
@@ -231,7 +214,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::ThreadedUpdateDistanceAndLabel(const OutputImageRegionType & outputRegionForThread, ThreadIdType  itkNotUsed(threadId))
+::ThreadedUpdateDistanceAndLabel(const OutputImageRegionType & outputRegionForThread)
 {
   using InputConstIteratorType = ImageScanlineConstIterator<InputImageType>;
   using DistanceIteratorType = ImageScanlineIterator<DistanceImageType>;
@@ -306,7 +289,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::ThreadedUpdateClusters(const OutputImageRegionType & updateRegionForThread, ThreadIdType threadId)
+::ThreadedUpdateClusters(const OutputImageRegionType & updateRegionForThread)
 {
   const InputImageType *inputImage = this->GetInput();
   OutputImageType *outputImage = this->GetOutput();
@@ -317,8 +300,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   using InputConstIteratorType = ImageScanlineConstIterator<InputImageType>;
   using OutputIteratorType = ImageScanlineIterator<OutputImageType>;
 
-  UpdateClusterMap &clusterMap = m_UpdateClusterPerThread[threadId];
-  clusterMap.clear();
+  UpdateClusterMap clusterMap;
 
   itkDebugMacro("Estimating Centers");
   // calculate new centers
@@ -360,40 +342,24 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     itIn.NextLine();
     itOut.NextLine();
     }
+
+  // TODO improve merge algoithm
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  m_UpdateClusterPerThread.push_back(clusterMap);
 }
 
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::ThreadedPerturbClusters(const OutputImageRegionType & , ThreadIdType id)
+::ThreadedPerturbClusters(SizeValueType clusterIndex)
 {
 
   const InputImageType *inputImage = this->GetInput();
 
   const unsigned int numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
   const unsigned int numberOfClusterComponents = numberOfComponents+ImageDimension;
-  const size_t       numberOfClusters = m_Clusters.size()/numberOfClusterComponents;
 
-
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
-
-  if ( ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    numberOfThreads = std::min(
-      this->GetNumberOfThreads(), ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() );
-    }
-
-  // number of threads can be constrained by the region size, so call the
-  // SplitRequestedRegion to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call
-  // the following method
-
-  numberOfThreads = this->SplitRequestedRegion(0, numberOfThreads, splitRegion);
-
-  const size_t numberOfClustersPerThread = Math::Ceil<size_t>(double(numberOfClusters)/numberOfThreads);
-  const size_t startClusterIndex = id*numberOfClustersPerThread;
-  const size_t endClusterIndex = std::min(startClusterIndex+numberOfClustersPerThread, numberOfClusters);
 
   itk::Size<ImageDimension> radius;
   radius.Fill( 1 );
@@ -421,109 +387,85 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   using GradientType = typename NumericTraits<InputPixelType>::RealType;
   GradientType J[ImageDimension];
 
-  for (size_t clusterIndex = startClusterIndex; clusterIndex < endClusterIndex; ++clusterIndex)
+  // cluster is a reference to array
+  ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
+  typename InputImageType::RegionType localRegion;
+  typename InputImageType::PointType pt;
+  IndexType idx;
+
+  for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-    // cluster is a reference to array
-    ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
-    typename InputImageType::RegionType localRegion;
-    typename InputImageType::PointType pt;
-    IndexType idx;
-
-    for (unsigned int d = 0; d < ImageDimension; ++d)
-      {
-      idx[d] = Math::RoundHalfIntegerUp< IndexValueType >(cluster[numberOfComponents+d]);
-      }
-
-    localRegion.SetIndex(idx);
-    localRegion.GetModifiableSize().Fill(1u);
-    localRegion.PadByRadius(searchRadius);
-
-
-    it.SetRegion( localRegion );
-
-    double minG = NumericTraits<double>::max();
-
-    IndexType minIdx = idx;
-
-    while ( !it.IsAtEnd() )
-      {
-
-      for ( unsigned int i = 0; i < ImageDimension; ++i )
-        {
-        J[i] = it.GetPixel(center + stride[i]);
-        J[i] -= it.GetPixel(center - stride[i]);
-        J[i] /= 2.0*spacing[i];
-        }
-
-      double gNorm = 0.0;
-
-      // Compute some of squares over dimensions and components
-      // (Frobenius norm of the Jacobian Matrix)
-      for ( unsigned int i = 0; i < ImageDimension; ++i )
-        {
-        // convert to a type that has the operator[], for scalars this
-        // will be FixedArray, for VectorImages, this will be the same
-        // type as the pixel and not conversion or allocation will occur.
-        const typename NumericTraits<InputPixelType>::MeasurementVectorType &vG = J[i];
-        for ( unsigned int j = 0; j < numberOfComponents; ++j )
-          {
-          gNorm += vG[j]*vG[j];
-          }
-        }
-
-
-      if ( gNorm < minG )
-        {
-        minG = gNorm;
-        minIdx = it.GetIndex();
-        }
-      ++it;
-      }
-
-
-    NumericTraits<InputPixelType>::AssignToArray( inputImage->GetPixel(minIdx), cluster );
-
-    for(unsigned int i = 0; i < ImageDimension; ++i)
-      {
-      cluster[numberOfComponents+i] = minIdx[i];
-      }
-
+    idx[d] = Math::RoundHalfIntegerUp< IndexValueType >(cluster[numberOfComponents+d]);
     }
+
+  localRegion.SetIndex(idx);
+  localRegion.GetModifiableSize().Fill(1u);
+  localRegion.PadByRadius(searchRadius);
+
+
+  it.SetRegion( localRegion );
+
+  double minG = NumericTraits<double>::max();
+
+  IndexType minIdx = idx;
+
+  while ( !it.IsAtEnd() )
+    {
+
+    for ( unsigned int i = 0; i < ImageDimension; ++i )
+      {
+      J[i] = it.GetPixel(center + stride[i]);
+      J[i] -= it.GetPixel(center - stride[i]);
+      J[i] /= 2.0*spacing[i];
+      }
+
+    double gNorm = 0.0;
+
+    // Compute some of squares over dimensions and components
+    // (Frobenius norm of the Jacobian Matrix)
+    for ( unsigned int i = 0; i < ImageDimension; ++i )
+      {
+      // convert to a type that has the operator[], for scalars this
+      // will be FixedArray, for VectorImages, this will be the same
+      // type as the pixel and not conversion or allocation will occur.
+      const typename NumericTraits<InputPixelType>::MeasurementVectorType &vG = J[i];
+      for ( unsigned int j = 0; j < numberOfComponents; ++j )
+        {
+        gNorm += vG[j]*vG[j];
+        }
+      }
+
+
+    if ( gNorm < minG )
+      {
+      minG = gNorm;
+      minIdx = it.GetIndex();
+      }
+    ++it;
+    }
+
+
+  NumericTraits<InputPixelType>::AssignToArray( inputImage->GetPixel(minIdx), cluster );
+
+  for(unsigned int i = 0; i < ImageDimension; ++i)
+    {
+    cluster[numberOfComponents+i] = minIdx[i];
+    }
+
 }
 
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::ThreadedConnectivity(const OutputImageRegionType &, ThreadIdType threadId )
+::ThreadedConnectivity(SizeValueType clusterIndex)
 {
-
   itkDebugMacro("Threaded Connectivity");
 
   const InputImageType *inputImage = this->GetInput();
   OutputImageType *outputImage = this->GetOutput();
   const unsigned int numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
   const unsigned int numberOfClusterComponents = numberOfComponents+ImageDimension;
-  const size_t       numberOfClusters = m_Clusters.size()/numberOfClusterComponents;
-
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
-
-  if ( ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    numberOfThreads = std::min(
-      this->GetNumberOfThreads(), ProcessObject::MultiThreaderType::GetGlobalMaximumNumberOfThreads() );
-    }
-
-  // number of threads can be constrained by the region size, so call the
-  // SplitRequestedRegion to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call
-  // the following method
-
-  numberOfThreads = this->SplitRequestedRegion(0, numberOfThreads, splitRegion);
-
-  const size_t numberOfClustersPerThread = Math::Ceil<size_t>(double(numberOfClusters)/numberOfThreads);
-  const size_t startClusterIndex = threadId*numberOfClustersPerThread;
-  const size_t endClusterIndex = std::min(startClusterIndex+numberOfClustersPerThread, numberOfClusters);
 
   const size_t minSuperSize = std::accumulate( m_SuperGridSize.Begin(), m_SuperGridSize.End(), size_t(1), std::multiplies<size_t>() )/4;
 
@@ -547,128 +489,148 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   searchLabelIt.OverrideBoundaryCondition(&lbc);
 
 
-  for (size_t clusterIndex = startClusterIndex; clusterIndex < endClusterIndex; ++clusterIndex)
+  ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
+  typename InputImageType::RegionType localRegion;
+  typename InputImageType::PointType pt;
+  IndexType idx;
+
+  for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-    ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
-    typename InputImageType::RegionType localRegion;
-    typename InputImageType::PointType pt;
-    IndexType idx;
+    idx[d] = Math::RoundHalfIntegerUp< IndexValueType >(cluster[numberOfComponents+d]);
+    }
 
-    for (unsigned int d = 0; d < ImageDimension; ++d)
+
+  if( outputImage->GetPixel(idx) != clusterIndex )
+    {
+    itkDebugMacro("Searching for cluster: " << clusterIndex << " near idx: " << idx);
+
+    searchLabelIt.SetLocation(idx);
+    size_t n = 0;
+    for (; n <  searchLabelIt.Size(); ++n )
       {
-      idx[d] = Math::RoundHalfIntegerUp< IndexValueType >(cluster[numberOfComponents+d]);
+      if ( searchLabelIt.GetPixel(n) == clusterIndex )
+        {
+        idx =  searchLabelIt.GetIndex(n);
+
+        itkDebugMacro("Non-Center does  match Id. @: " << idx << " for: " << clusterIndex );
+        break;
+        }
       }
 
-
-    if( outputImage->GetPixel(idx) != clusterIndex )
+    if ( n >=  searchLabelIt.Size() )
       {
-      itkDebugMacro("Searching for cluster: " << clusterIndex << " near idx: " << idx);
-
-      searchLabelIt.SetLocation(idx);
-      size_t n = 0;
-      for (; n <  searchLabelIt.Size(); ++n )
-        {
-        if ( searchLabelIt.GetPixel(n) == clusterIndex )
-          {
-          idx =  searchLabelIt.GetIndex(n);
-
-          itkDebugMacro("Non-Center does  match Id. @: " << idx << " for: " << clusterIndex );
-          break;
-          }
-        }
-
-      if ( n >=  searchLabelIt.Size() )
-        {
 #if defined(DEBUG)
-        itkWarningMacro("Failed to find cluster: " << clusterIndex << " in super grid size neighborhood!");
+      itkWarningMacro("Failed to find cluster: " << clusterIndex << " in super grid size neighborhood!");
 #endif
-        continue;
-        }
-
-      }
-
-    this->RelabelConnectedRegion( idx, clusterIndex, clusterIndex, indexStack );
-
-    if (indexStack.size() < minSuperSize)
-      {
-      //std::cout << "\tLabel is too small: " << indexStack.size() << std::endl;
-      // The connected Superpixel is too small, so demark the marker image
-      for ( size_t indexStackDelabel = 0; indexStackDelabel < indexStack.size(); ++indexStackDelabel )
-        {
-        m_MarkerImage->SetPixel(indexStack[indexStackDelabel], 0);
-        }
+      return;
       }
 
     }
 
-  m_Barrier->Wait();
+  this->RelabelConnectedRegion( idx, clusterIndex, clusterIndex, indexStack );
 
-  OutputPixelType nextLabel = m_Clusters.size()/numberOfClusterComponents;
-  OutputPixelType prevLabel = m_Clusters.size()/numberOfClusterComponents;
-  if (threadId == 0)
+  if (indexStack.size() < minSuperSize)
     {
-    // Next we relabel the remaining regions ( defined by having the a
-    // label id ) not connected to the SuperPixel centroids. If the
-    // region is larger than the minimum superpixel size than it gets
-    // a new label, otherwise it just gets the previously encountered
-    // label id.
-
-    using OutputIteratorType = ImageScanlineIterator<OutputImageType>;
-    OutputIteratorType outputIter(outputImage, outputImage->GetRequestedRegion());
-
-    using MarkerIteratorType = ImageScanlineIterator<MarkerImageType>;
-    MarkerIteratorType markerIter(m_MarkerImage, outputImage->GetRequestedRegion());
-
-
-    while(!markerIter.IsAtEnd())
+    //std::cout << "\tLabel is too small: " << indexStack.size() << std::endl;
+    // The connected Superpixel is too small, so demark the marker image
+    for ( size_t indexStackDelabel = 0; indexStackDelabel < indexStack.size(); ++indexStackDelabel )
       {
-      while (!markerIter.IsAtEndOfLine())
-        {
-        if ( markerIter.Get() == 0 )
-          {
-          // try relabeling the connected component to the next label id
-          this->RelabelConnectedRegion( markerIter.GetIndex(),
-                                        outputIter.Get(),
-                                        nextLabel,
-                                        indexStack );
-
-          if (indexStack.size() >= minSuperSize)
-            {
-            prevLabel = nextLabel++;
-            }
-          else
-            {
-            for ( size_t indexStackDelabel = 0; indexStackDelabel < indexStack.size(); ++indexStackDelabel )
-              {
-              outputImage->SetPixel(indexStack[indexStackDelabel], prevLabel);
-              }
-            }
-          }
-        else
-          {
-          prevLabel = outputIter.Get();
-          }
-        ++markerIter;
-        ++outputIter;
-        }
-
-      markerIter.NextLine();
-      outputIter.NextLine();
+      m_MarkerImage->SetPixel(indexStack[indexStackDelabel], 0);
       }
     }
 
 }
 
+
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::SingleThreadedConnectivity()
 {
+  itkDebugMacro("Single Threaded Connectivity");
+
   const InputImageType *inputImage = this->GetInput();
+  OutputImageType      *outputImage = this->GetOutput();
+
+  const unsigned int numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
+  const unsigned int numberOfClusterComponents = numberOfComponents+ImageDimension;
+
+  OutputPixelType nextLabel = m_Clusters.size()/numberOfClusterComponents;
+  OutputPixelType prevLabel = m_Clusters.size()/numberOfClusterComponents;
+
+  const size_t minSuperSize = std::accumulate( m_SuperGridSize.Begin(), m_SuperGridSize.End(), size_t(1), std::multiplies<size_t>() )/4;
+
+  std::vector< IndexType > indexStack;
+
+  // Next we relabel the remaining regions ( defined by having the a
+  // label id ) not connected to the SuperPixel centroids. If the
+  // region is larger than the minimum superpixel size than it gets
+  // a new label, otherwise it just gets the previously encountered
+  // label id.
+
+
+  using OutputIteratorType = ImageScanlineIterator<OutputImageType>;
+  OutputIteratorType outputIter(outputImage, outputImage->GetRequestedRegion());
+
+  using MarkerIteratorType = ImageScanlineIterator<MarkerImageType>;
+  MarkerIteratorType markerIter(m_MarkerImage, outputImage->GetRequestedRegion());
+
+
+  while(!markerIter.IsAtEnd())
+    {
+    while (!markerIter.IsAtEndOfLine())
+      {
+      if ( markerIter.Get() == 0 )
+        {
+        // try relabeling the connected component to the next label id
+        this->RelabelConnectedRegion( markerIter.GetIndex(),
+                                      outputIter.Get(),
+                                      nextLabel,
+                                      indexStack );
+
+        if (indexStack.size() >= minSuperSize)
+          {
+          prevLabel = nextLabel++;
+          }
+        else
+          {
+          for ( size_t indexStackDelabel = 0; indexStackDelabel < indexStack.size(); ++indexStackDelabel )
+            {
+            outputImage->SetPixel(indexStack[indexStackDelabel], prevLabel);
+            }
+          }
+        }
+      else
+        {
+        prevLabel = outputIter.Get();
+        }
+      ++markerIter;
+      ++outputIter;
+      }
+
+    markerIter.NextLine();
+    outputIter.NextLine();
+    }
+}
+
+
+template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
+void
+SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
+::GenerateData()
+{
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
+
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+
+  const InputImageType *inputImage = this->GetInput();
+  OutputImageType *outputImage = this->GetOutput();
 
   const typename InputImageType::RegionType region = inputImage->GetBufferedRegion();
   const unsigned int numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
   const unsigned int numberOfClusterComponents = numberOfComponents+ImageDimension;
+  const size_t       numberOfClusters = m_Clusters.size()/numberOfClusterComponents;
 
   itkDebugMacro("Perturb cluster centers");
   bool doPerturbCluster = true;
@@ -682,8 +644,11 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     }
   if ( doPerturbCluster && m_InitializationPerturbation)
     {
-    ThreadedPerturbClusters(outputRegionForThread,threadId);
-    m_Barrier->Wait();
+
+    this->GetMultiThreader()->ParallelizeArray(0,numberOfClusters,
+        [this]( SizeValueType idx)
+          { this->ThreadedPerturbClusters(idx); }, this);
+
     }
 
   itkDebugMacro("Entering Main Loop");
@@ -691,59 +656,54 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     {
     itkDebugMacro("Iteration :" << loopCnt);
 
-    if (threadId == 0)
+    m_DistanceImage->FillBuffer(NumericTraits<typename DistanceImageType::PixelType>::max());
+    m_UpdateClusterPerThread.clear();
+
+    this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+      outputImage->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+          { this->ThreadedUpdateDistanceAndLabel(outputRegionForThread); }, this);
+
+
+    this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+      outputImage->GetRequestedRegion(),
+      [this](const OutputImageRegionType & outputRegionForThread)
+          { this->ThreadedUpdateClusters(outputRegionForThread); }, this);
+
+    // prepare to update clusters
+    swap(m_Clusters, m_OldClusters);
+    std::fill(m_Clusters.begin(), m_Clusters.end(), 0.0);
+    std::vector<size_t> clusterCount(m_Clusters.size()/numberOfClusterComponents, 0);
+
+    // reduce the produce cluster maps per-thread into m_Cluster array
+    for(unsigned int i = 0; i < m_UpdateClusterPerThread.size(); ++i)
       {
-      m_DistanceImage->FillBuffer(NumericTraits<typename DistanceImageType::PixelType>::max());
-      }
-    m_Barrier->Wait();
-
-    ThreadedUpdateDistanceAndLabel(outputRegionForThread,threadId);
-
-    m_Barrier->Wait();
-
-
-    ThreadedUpdateClusters(outputRegionForThread, threadId);
-
-    m_Barrier->Wait();
-
-    if (threadId==0)
-      {
-      // prepare to update clusters
-      swap(m_Clusters, m_OldClusters);
-      std::fill(m_Clusters.begin(), m_Clusters.end(), 0.0);
-      std::vector<size_t> clusterCount(m_Clusters.size()/numberOfClusterComponents, 0);
-
-      // reduce the produce cluster maps per-thread into m_Cluster array
-      for(unsigned int i = 0; i < m_UpdateClusterPerThread.size(); ++i)
+      UpdateClusterMap &clusterMap = m_UpdateClusterPerThread[i];
+      for(typename UpdateClusterMap::const_iterator clusterIter = clusterMap.begin(); clusterIter != clusterMap.end(); ++clusterIter)
         {
-        UpdateClusterMap &clusterMap = m_UpdateClusterPerThread[i];
-        for(typename UpdateClusterMap::const_iterator clusterIter = clusterMap.begin(); clusterIter != clusterMap.end(); ++clusterIter)
-          {
-          const size_t clusterIdx = clusterIter->first;
-          clusterCount[clusterIdx] += clusterIter->second.count;
+        const size_t clusterIdx = clusterIter->first;
+        clusterCount[clusterIdx] += clusterIter->second.count;
 
-          ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIdx*numberOfClusterComponents]);
-          cluster += clusterIter->second.cluster;
-          }
+        ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIdx*numberOfClusterComponents]);
+        cluster += clusterIter->second.cluster;
         }
-
-      // average, l1
-      double l1Residual = 0.0;
-      for (size_t i = 0; i*numberOfClusterComponents < m_Clusters.size(); ++i)
-        {
-
-        ClusterType cluster(numberOfClusterComponents,&m_Clusters[i*numberOfClusterComponents]);
-        cluster /= clusterCount[i];
-
-        ClusterType oldCluster(numberOfClusterComponents, &m_OldClusters[i*numberOfClusterComponents]);
-        l1Residual += Distance(cluster,oldCluster);
-
-        }
-
-      m_AverageResidual = std::sqrt(l1Residual)/ m_Clusters.size();
-      this->InvokeEvent( IterationEvent() );
       }
 
+    // average, l1
+    double l1Residual = 0.0;
+    for (size_t i = 0; i*numberOfClusterComponents < m_Clusters.size(); ++i)
+      {
+
+      ClusterType cluster(numberOfClusterComponents,&m_Clusters[i*numberOfClusterComponents]);
+      cluster /= clusterCount[i];
+
+      ClusterType oldCluster(numberOfClusterComponents, &m_OldClusters[i*numberOfClusterComponents]);
+      l1Residual += Distance(cluster,oldCluster);
+
+      }
+
+    m_AverageResidual = std::sqrt(l1Residual)/ m_Clusters.size();
+    this->InvokeEvent( IterationEvent() );
 
     // while error <= threshold
     }
@@ -751,23 +711,24 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
   if (m_EnforceConnectivity)
     {
-    if (threadId == 0)
-      {
-      m_DistanceImage = ITK_NULLPTR;
 
-      m_MarkerImage = MarkerImageType::New();
-      m_MarkerImage->CopyInformation(inputImage);
-      m_MarkerImage->SetBufferedRegion( region );
-      m_MarkerImage->Allocate();
-      m_MarkerImage->FillBuffer(NumericTraits<typename MarkerImageType::PixelType>::Zero);
-      }
+    m_DistanceImage = ITK_NULLPTR;
 
-    m_Barrier->Wait();
+    m_MarkerImage = MarkerImageType::New();
+    m_MarkerImage->CopyInformation(inputImage);
+    m_MarkerImage->SetBufferedRegion( region );
+    m_MarkerImage->Allocate();
+    m_MarkerImage->FillBuffer(NumericTraits<typename MarkerImageType::PixelType>::Zero);
 
-    ThreadedConnectivity(outputRegionForThread, threadId);
+
+    this->GetMultiThreader()->ParallelizeArray(0,numberOfClusters,
+        [this]( SizeValueType idx)
+          { this->ThreadedConnectivity(idx); }, this);
+    this->SingleThreadedConnectivity();
     }
 
-  m_Barrier->Wait();
+
+  this->AfterThreadedGenerateData();
 }
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>

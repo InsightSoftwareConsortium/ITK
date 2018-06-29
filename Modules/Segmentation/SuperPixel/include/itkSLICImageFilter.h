@@ -19,9 +19,7 @@
 #define itkSLICImageFilter_h
 
 #include "itkImageToImageFilter.h"
-
-#include "itkBarrier.h"
-
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
@@ -171,15 +169,17 @@ protected:
 
   void BeforeThreadedGenerateData() override;
 
-  void ThreadedUpdateDistanceAndLabel(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedUpdateDistanceAndLabel(const OutputImageRegionType & outputRegionForThread);
 
-  void ThreadedUpdateClusters(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedUpdateClusters(const OutputImageRegionType & outputRegionForThread);
 
-  void ThreadedPerturbClusters(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedPerturbClusters(SizeValueType idx);
 
-  void ThreadedConnectivity(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedConnectivity(SizeValueType idx);
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void SingleThreadedConnectivity();
+
+  void GenerateData(void) override;
 
 
   void AfterThreadedGenerateData() override;
@@ -216,7 +216,6 @@ private:
 
   std::vector<UpdateClusterMap> m_UpdateClusterPerThread;
 
-  typename Barrier::Pointer           m_Barrier;
   typename DistanceImageType::Pointer m_DistanceImage;
   typename MarkerImageType::Pointer   m_MarkerImage;
 
@@ -225,6 +224,7 @@ private:
   bool m_InitializationPerturbation;
 
   double m_AverageResidual;
+  SimpleFastMutexLock m_Mutex;
 };
 } // end namespace itk
 
