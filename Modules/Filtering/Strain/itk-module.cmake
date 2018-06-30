@@ -13,6 +13,7 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKDisplacementField
+    ITKIOVTK
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
