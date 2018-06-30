@@ -22,17 +22,18 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
-
+#include "itkTestingMacros.h"
 #include "itkGrayscaleFillholeImageFilter.h"
 
 
 int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
 {
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile  " << std::endl;
+    std::cerr << " fullyConnected " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -71,7 +72,14 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
 
   // Create the filter
   FillholeFilterType::Pointer  fillhole = FillholeFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( fillhole, GrayscaleFillholeImageFilter,
+    ImageToImageFilter );
+
   itk::SimpleFilterWatcher watcher(fillhole, "fillhole"); watcher.QuietOn();
+
+  auto fullyConnected = static_cast< bool >( atoi( argv[3] ) );
+  TEST_SET_GET_BOOLEAN( fillhole, FullyConnected, fullyConnected );
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );
