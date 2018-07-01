@@ -126,7 +126,7 @@ with open("../Baseline/LineLoadStrain.mhd", "w") as f:
     f.write("BinaryDataByteOrderMSB = False\n")
     f.write("CompressedData = False\n")
     f.write("TransformMatrix = 1 0 0 1\n")
-    f.write("Offset = 0 0\n")
+    f.write("Offset = 0.0 " + str(-1 * start) + "\n")
     f.write("ElementNumberOfChannels = 3\n")
     f.write("ElementSpacing = 1.0 1.0\n")
     f.write("DimSize = " + str(ux.shape[0]) + " " + str(ux.shape[1]) + "\n")
