@@ -47,6 +47,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
   image->FillBuffer( static_cast< FloatImage::PixelType >( fillValue ) );
 
   float sum = fillValue * static_cast<float>( region.GetNumberOfPixels() );
+  float sumOfSquares = std::pow(fillValue, 2.0) * static_cast<float>( region.GetNumberOfPixels() );
 
   using FilterType = itk::StatisticsImageFilter<FloatImage>;
   FilterType::Pointer filter = FilterType::New();
@@ -71,6 +72,12 @@ int itkStatisticsImageFilterTest(int, char* [] )
     std::cerr << "GetSum failed! Got " << filter->GetSum() << " but expected " << sum << std::endl;
     status++;
     }
+  if ( itk::Math::NotAlmostEquals( filter->GetSumOfSquares(), sumOfSquares) )
+    {
+    std::cerr << "GetSumOfSquares failed! Got " << filter->GetSumOfSquares() << " but expected " << sumOfSquares << std::endl;
+    status++;
+    }
+
   if ( itk::Math::NotAlmostEquals( filter->GetMean(), fillValue) )
     {
     std::cerr << "GetMean failed! Got " << filter->GetMean() << " but expected " << fillValue << std::endl;
