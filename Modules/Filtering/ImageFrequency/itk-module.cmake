@@ -14,7 +14,6 @@ itk_module(ITKImageFrequency
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity
-  # EXCLUDE_FROM_DEFAULT
   DESCRIPTION
   "${DOCUMENTATION}"
   )
