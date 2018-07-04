@@ -350,6 +350,8 @@ int itkSimilarity2DTransformTest(int, char *[] )
     t4->SetCenter( center );
 
     TransformType::Pointer t5;
+    // t1 scale was 0.0, generating div by zero.
+    t1->SetScale(0.2);
     t1->CloneTo( t5 );
     t5->Compose( t4, false );
 

@@ -232,11 +232,13 @@ void NrrdImageIO::ReadImageInformation()
 
   try
     {
-#if !defined(__MINGW32__) && (defined(ITK_HAS_FEENABLEEXCEPT) || defined(_MSC_VER))
     // nrrd causes exceptions on purpose, so mask them
-    bool saveFPEState(FloatingPointExceptions::GetExceptionAction() );
-    FloatingPointExceptions::Disable();
-#endif
+    bool saveFPEState(0);
+    if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
+      {
+      saveFPEState = FloatingPointExceptions::GetEnabled();
+      FloatingPointExceptions::Disable();
+      }
 
     // this is the mechanism by which we tell nrrdLoad to read
     // just the header, and none of the data
@@ -254,10 +256,11 @@ void NrrdImageIO::ReadImageInformation()
       throw e_;
       }
 
-#if !defined(__MINGW32__) && (defined(ITK_HAS_FEENABLEEXCEPT) || defined(_MSC_VER))
     // restore state
-    FloatingPointExceptions::SetEnabled(saveFPEState);
-#endif
+    if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
+      {
+      FloatingPointExceptions::SetEnabled(saveFPEState);
+      }
 
 
     if ( nrrdTypeBlock == nrrd->type )
@@ -542,8 +545,8 @@ void NrrdImageIO::ReadImageInformation()
     // Store key/value pairs in MetaDataDictionary
     char                 key[AIR_STRLEN_SMALL];
     const char *         val;
-    char *               keyPtr = nullptr;
-    char *               valPtr = nullptr;
+    char *               keyPtr = ITK_NULLPTR;
+    char *               valPtr = ITK_NULLPTR;
     MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
     // Necessary to clear dict if ImageIO object is re-used
     thisDic.Clear();
@@ -742,7 +745,7 @@ void NrrdImageIO::Read(void *buffer)
 
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
-  if ( nrrdLoad(nrrd, this->GetFileName(), nullptr) != 0 )
+  if ( nrrdLoad(nrrd, this->GetFileName(), ITK_NULLPTR) != 0 )
     {
     char *err =  biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Read: Error reading "

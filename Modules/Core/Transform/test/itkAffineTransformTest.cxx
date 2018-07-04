@@ -661,7 +661,8 @@ int itkAffineTransformTest(int, char *[])
     for( unsigned int q = 0; q < parameters1_inv_inv.size(); ++q)
       {
       const double v = ( parameters1[q] - parameters1_inv_inv[q]);
-      mag_error += sqrt(v);
+      // Protect against numerical errors when v~=-0 with abs.
+      mag_error += sqrt(std::abs(v));
       }
     if(mag_error > 1e-4 )
       {

@@ -154,7 +154,9 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   // final computations
   const typename HistogramType::AbsoluteFrequencyType & totalFreq = histogram->GetTotalFrequency();
   const double mean = sum / totalFreq;
-  const double variance = ( sum2 - ( std::pow(sum, 2) / totalFreq ) ) / ( totalFreq - 1 );
+  // Note that totalFreq could be 1. Stats on a population of size 1 are not useful.
+  // We protect against dividing by 0 in that case.
+  const double variance = (totalFreq > 1) ? ( sum2 - ( std::pow(sum, 2) / totalFreq ) ) / ( totalFreq - 1 ) : 0;
   const double sigma = std::sqrt(variance);
   const double mean2 = mean * mean;
   double skewness;

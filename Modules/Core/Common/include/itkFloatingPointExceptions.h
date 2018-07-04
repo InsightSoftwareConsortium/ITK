@@ -33,15 +33,37 @@ class ITKCommon_EXPORT FloatingPointExceptions
 public:
   /** defines what should happen when exceptions occur */
   using ExceptionAction = enum { ABORT, EXIT };
-  /** Enable floating point exceptions */
+
+  /** Enable floating point exceptions.
+   *
+   * If floating point exceptions are not supported on the platform, the program
+   * will either abort or exit displaying the error message `FloatingPointExceptions
+   * are not supported on this platform.`.
+   *
+   * Choice between Exit or Abort is based on the value returned by
+   * based GetExceptionAction().
+   *
+   * \sa Disable, SetEnabled, GetEnabled
+   */
   static void Enable();
 
-  /** Disable floating point exceptions. */
+  /** Disable floating point exceptions.
+   *
+   * \copydetails Enable()
+   *
+   * \sa Enable, SetEnabled, GetEnabled
+   */
   static void Disable();
 
   /** Return the current state of FP Exceptions */
   static bool GetEnabled();
-  /** Set the state to specified value */
+
+  /** Set the state to specified value.
+   *
+   * \copydetails Enable()
+   *
+   * \sa Enable, Disable, GetEnabled
+   */
   static void SetEnabled(bool val);
 
   /** Control whether exit(255) or abort() is called on an exception */
@@ -49,6 +71,9 @@ public:
 
   /** Access current ExceptionAction */
   static ExceptionAction GetExceptionAction();
+
+  /** Return if floating point exceptions are supported on this platform */
+  static bool HasFloatingPointExceptionsSupport();
 
 private:
   FloatingPointExceptions();                                // Not implemented.

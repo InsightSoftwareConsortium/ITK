@@ -196,8 +196,12 @@ if(NOT ITK_LEGACY_REMOVE)
   list(APPEND ITKCommon2Tests itkSpawnThreadTest.cxx)
 endif()
 
+# Notes:
+# (1) Tests are arbitrarly split into two drivers to avoid memory issues.
+# (2) itkFloatingPointExceptionsExtern.cxx is associated with the first driver.
+#     only because it is indeed to build itkFloatingPointExceptionsTest.
 CreateTestDriver(ITKCommon1 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
-CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}")
+CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}" itkFloatingPointExceptionsExtern.cxx)
 
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
@@ -534,7 +538,7 @@ itk_add_test(NAME itkCompensatedSummationTest2 COMMAND ITKCommon2TestDriver itkC
 # this test depends on being able to raise C++ exceptions from
 # the signal handler. This is apparently not something that
 # works properly
-if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux" AND ITK_HAS_FEENABLEEXCEPT)
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin|Linux")
   itk_add_test(NAME itkFloatingPointExceptionsTest1 COMMAND ITKCommon1TestDriver
     itkFloatingPointExceptionsTest DivByZero)
   itk_add_test(NAME itkFloatingPointExceptionsTest2 COMMAND ITKCommon1TestDriver

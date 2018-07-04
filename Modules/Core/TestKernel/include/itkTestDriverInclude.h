@@ -45,12 +45,9 @@
 #include <iostream>
 #include <fstream>
 #include "itksys/SystemTools.hxx"
+#include "itkFloatingPointExceptions.h"
 #include "itkImageIOBase.h"
 #include "itkIntTypes.h"
-#include "itkExceptionObject.h"
-#if defined(LINUX) && !defined(__MINGW32__) && defined(ITK_HAS_FEENABLEEXCEPT)
-#include "itkFloatingPointExceptions.h"
-#endif
 #include "vnl/vnl_sample.h"
 
 #define ITK_TEST_DIMENSION_MAX 6
