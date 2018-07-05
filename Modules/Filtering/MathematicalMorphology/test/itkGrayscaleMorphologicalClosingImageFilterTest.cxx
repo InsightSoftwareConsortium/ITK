@@ -21,6 +21,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char* argv [] )
 {
@@ -63,6 +64,10 @@ int itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char* argv [] )
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, GrayscaleMorphologicalClosingImageFilter,
+    KernelImageFilter );
+
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Connect the pipeline
@@ -80,21 +85,9 @@ int itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char* argv [] )
   // Connect the structuring element
   filter->SetKernel( ball );
 
-  // Exercise Print()
-  filter->Print( std::cout );
-
   // Execute the filter
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception caught during pipeline Update\n"  << e;
-    return EXIT_FAILURE;
-    }
+ TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  // All objects should be automatically destroyed at this point
 
   return EXIT_SUCCESS;
 
