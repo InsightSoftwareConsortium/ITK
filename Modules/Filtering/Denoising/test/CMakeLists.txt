@@ -46,8 +46,11 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestPoisson
       DATA{Input/checkerboard_noise10Poisson.mha}
       ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestPoisson.mha
       2 1 9.9250532200729378 2 2 200 0 1 POISSON 0.1)
+# Extra tolerance for Tensors. The alternative EigenValues-computation of this class is faster,
+# but numerically unstable. The extra tolerance covers the difference between 64 and 32 bits machines.
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestTensors
       COMMAND ITKDenoisingTestDriver
+    --compareNumberOfPixelsTolerance 10
     --compare
       DATA{Baseline/PatchBasedDenoisingImageFilterTestTensors.nrrd}
       ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestTensors.nrrd
