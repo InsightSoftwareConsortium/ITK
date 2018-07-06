@@ -20,6 +20,7 @@
 #include "itkConnectedImageNeighborhoodShape.h"
 
 #include "itkImageNeighborhoodOffsets.h"
+#include "itkLexicographicCompare.h"
 
 #include "itkOffset.h"
 #include "itkSize.h"
@@ -122,17 +123,8 @@ namespace
         const auto beginOfOffsets = offsets.begin();
         const auto endOfOffsets = offsets.end();
 
-        const bool areOffsetsColexicographicallyOrdered =
-          std::is_sorted(beginOfOffsets, endOfOffsets,
-          [](const OffsetType& lhs, const OffsetType& rhs)
-        {
-          // Do a colexicographical comparison.
-          return std::lexicographical_compare(
-            lhs.rbegin(), lhs.rend(),
-            rhs.rbegin(), rhs.rend());
-        });
-
-        ASSERT_TRUE(areOffsetsColexicographicallyOrdered);
+        ASSERT_TRUE(std::is_sorted(beginOfOffsets, endOfOffsets,
+          itk::Functor::CoLexicographicCompare{}));
 
         // adjacent_find allows checking that each offset is unique, as we can
         // assume at this point that the offsets are sorted.
