@@ -49,7 +49,7 @@ public:
 
   /** Disable floating point exceptions.
    *
-   * \copydetails Enable()
+   * \copydetails Enable
    *
    * \sa Enable, SetEnabled, GetEnabled
    */
@@ -60,7 +60,7 @@ public:
 
   /** Set the state to specified value.
    *
-   * \copydetails Enable()
+   * \copydetails Enable
    *
    * \sa Enable, Disable, GetEnabled
    */
