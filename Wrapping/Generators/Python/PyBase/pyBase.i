@@ -122,7 +122,7 @@ str = str
   // some changes in the New() method
   %rename(__New_orig__) class_name::New;
   %extend class_name {
-    %pythoncode {
+    %pythoncode %{
       def New(*args, **kargs):
           """New() -> class_name
 
@@ -149,12 +149,12 @@ str = str
           itkTemplate.New(obj, *args, **kargs)
           return obj
       New = staticmethod(New)
-    }
+    %}
   }
-  %pythoncode {
+  %pythoncode %{
     def class_name##_New():
       return class_name.New()
-  }
+  %}
 %enddef
 
 
@@ -302,7 +302,7 @@ str = str
 %define DECL_PYTHON_PROCESSOBJECT_CLASS(swig_name)
 
     %extend itkProcessObject {
-        %pythoncode {
+        %pythoncode %{
             def __len__(self):
                 """Returns the number of outputs of that object.
                 """
@@ -322,19 +322,24 @@ str = str
                     return itk.down_cast(self.GetOutput(item))
 
             def __call__(self, *args, **kargs):
-                """Change the inputs and attributes of the object and update it.
+                """Create a process object, update with the inputs and
+                attributes, and return the result.
 
                 The syntax is the same as the one used in New().
                 UpdateLargestPossibleRegion() is ran once the input are changed, and
-                the current object is returned, to make is easier to get one of the
-                outputs. Something like 'filter(newInput, Threshold=10)[0]' would
-                return the first output of the filter up to date.
+                the current output, or tuple of outputs, if there is more than
+                one, is returned. Something like 'filter(input_image, threshold=10)[0]' would
+                return the first up-to-date output of a filter with multiple
+                outputs.
                 """
-                import itk
-                itk.set_inputs( self, args, kargs )
-                self.UpdateLargestPossibleRegion()
-                return self
-            }
+                filt = self.New(*args, **kargs)
+                filt.UpdateLargestPossibleRegion()
+                if filt.GetNumberOfIndexedOutputs() == 1:
+                    result = filt.GetOutput()
+                else:
+                    result = tuple([filt.GetOutput(idx) for idx in range(filt.GetNumberOfIndexedOutputs())])
+                return result
+            %}
     }
 
 %enddef

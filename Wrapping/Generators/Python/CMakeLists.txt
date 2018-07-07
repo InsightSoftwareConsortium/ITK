@@ -669,8 +669,8 @@ macro(ADD_PYTHON_CONFIG_TEMPLATE base_name wrap_class swig_name template_params)
     else()
       set(class_in_module "False")
     endif()
-  # build the name - type association list used in *Config.py
 
+  # build the name - type association list used in *Config.py
   if("${template_params}" STREQUAL "")
     set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', ${class_in_module}),\n")
   else()
@@ -773,7 +773,11 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
   # must be done first so the typemap are used in the %template commands
   if("${swig_name}" MATCHES "_Pointer$")
     string(REGEX REPLACE "_Pointer$" "" smart_pointed "${swig_name}")
-    ADD_PYTHON_POINTER_TYPEMAP("${smart_pointed}")
+    string(REGEX REPLACE "(.)([A-Z][a-z]+)" "\\1_\\2" snake_name "${simple_name}")
+    string(REGEX REPLACE "([a-z0-9])([A-Z])" "\\1_\\2" snake_name "${snake_name}")
+    string(REGEX REPLACE "__" "_" snake_name "${snake_name}")
+    string(TOLOWER "${snake_name}" snake_name)
+    ADD_PYTHON_POINTER_TYPEMAP("${smart_pointed}" ${simple_name} ${snake_name})
   endif()
 
 
@@ -955,8 +959,8 @@ macro(ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP type value_type)
 endmacro()
 
 
-macro(ADD_PYTHON_POINTER_TYPEMAP template_params)
-  set(text "DECLARE_REF_COUNT_CLASS(${template_params})\n")
+macro(ADD_PYTHON_POINTER_TYPEMAP typemap_name)
+  set(text "DECLARE_REF_COUNT_CLASS(${typemap_name})\n")
 
   set(ITK_WRAP_PYTHON_SWIG_EXT "${text}${ITK_WRAP_PYTHON_SWIG_EXT}")
 endmacro()

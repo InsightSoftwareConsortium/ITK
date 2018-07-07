@@ -38,6 +38,9 @@ def _GetLazyAttributes(lazyAttributes):
             lazyAttributes.setdefault(k,[]).insert(0,v)
         else:
             lazyAttributes.setdefault(k,[]).append(v)
+    if 'snake_case_functions' in data:
+        for function in data['snake_case_functions']:
+            lazyAttributes.setdefault(function, []).append(module)
 
 if itkConfig.LazyLoading:
     # If we are loading lazily (on-demand), make a dict mapping the available
