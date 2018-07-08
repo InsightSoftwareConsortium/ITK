@@ -424,13 +424,6 @@ def imwrite(imageOrFilter, fileName, compression=False):
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
-# For backwards compatibility
-def write(*args, **kwargs):
-    import warnings
-    warnings.warn("WrapITK warning: itk.write() is deprecated. "
-            "Use itk.imwrite() instead.")
-    imwrite(*args, **kwargs)
-
 def imread(fileName, pixelType=None):
     """Read an image from a file and return an itk.Image.
 

@@ -45,4 +45,4 @@ outputCast = itk.RescaleIntensityImageFilter.IF2IUC2.New(
     filter,
     OutputMinimum=0,
     OutputMaximum=255)
-itk.write(outputCast, argv[2])
+itk.imwrite(outputCast, argv[2])

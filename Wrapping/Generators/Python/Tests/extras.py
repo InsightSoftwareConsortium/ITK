@@ -128,7 +128,6 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 
 # test write
 itk.imwrite(reader, sys.argv[2])
-itk.write(reader, sys.argv[2])
 itk.imwrite(reader, sys.argv[2], True)
 
 # test read

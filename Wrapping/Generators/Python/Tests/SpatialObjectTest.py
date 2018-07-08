@@ -80,4 +80,4 @@ rescale = itk.RescaleIntensityImageFilter[
     OutputMinimum=itk.NumericTraits[OutputPixelType].NonpositiveMin(),
     OutputMaximum=itk.NumericTraits[OutputPixelType].max())
 
-itk.write(rescale, argv[1])
+itk.imwrite(rescale, argv[1])
