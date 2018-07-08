@@ -256,10 +256,14 @@ def GetArrayFromImage(imageOrFilter, keepAxes=False, updateLargestPossibleRegion
     """
     return _GetArrayFromImage(imageOrFilter, "GetArrayFromImage", keepAxes, updateLargestPossibleRegion)
 
+array_from_image = GetArrayFromImage
+
 def GetArrayViewFromImage(imageOrFilter, keepAxes=False, updateLargestPossibleRegion=True):
     """Get an array view with the content of the image buffer
     """
     return _GetArrayFromImage(imageOrFilter, "GetArrayViewFromImage", keepAxes, updateLargestPossibleRegion)
+
+array_view_from_image = GetArrayViewFromImage
 
 def _GetImageFromArray(arr, function, isVector):
     """Get an ITK image from a Python array.
@@ -281,10 +285,14 @@ def GetImageFromArray(arr, isVector=False):
     """
     return _GetImageFromArray(arr, "GetImageFromArray", isVector)
 
+image_from_array = GetImageFromArray
+
 def GetImageViewFromArray(arr, isVector=False):
     """Get an ITK image view from a Python array.
     """
     return _GetImageFromArray(arr, "GetImageViewFromArray", isVector)
+
+image_view_from_array = GetImageFromArray
 
 def _GetArrayFromVnlObject(vnlObject, function):
     """Get an array with the content of vnlObject
@@ -307,10 +315,14 @@ def GetArrayFromVnlVector(vnlVector):
     """
     return _GetArrayFromVnlObject(vnlVector, "GetArrayFromVnlVector")
 
+array_from_vnl_vector = GetArrayFromVnlVector
+
 def GetArrayViewFromVnlVector(vnlVector):
     """Get an array view of vnlVector
     """
     return _GetArrayFromVnlObject(vnlVector, "GetArrayViewFromVnlVector")
+
+array_view_from_vnl_vector = GetArrayFromVnlVector
 
 def GetArrayFromVnlMatrix(vnlMatrix):
     """Get an array with the content of vnlMatrix
@@ -321,6 +333,8 @@ def GetArrayViewFromVnlMatrix(vnlMatrix):
     """Get an array view of vnlMatrix
     """
     return _GetArrayFromVnlObject(vnlMatrix, "GetArrayViewFromVnlMatrix")
+
+array_from_vnl_matrix = GetArrayFromVnlMatrix
 
 def _GetVnlObjectFromArray(arr, function):
     """Get a vnl object from a Python array.
@@ -337,10 +351,14 @@ def GetVnlVectorFromArray(arr):
     """
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray")
 
+vnl_vector_from_array = GetVnlVectorFromArray
+
 def GetVnlMatrixFromArray(arr):
     """Get a vnl matrix from a Python array.
     """
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray")
+
+vnl_matrix_from_array = GetVnlMatrixFromArray
 
 # return an image
 from itkTemplate import image, output
