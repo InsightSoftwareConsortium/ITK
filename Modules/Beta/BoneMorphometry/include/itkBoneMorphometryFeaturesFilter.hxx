@@ -29,14 +29,14 @@ namespace itk
 template< typename TInputImage, typename TMaskImage >
 BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
 ::BoneMorphometryFeaturesFilter():
-    m_Threshold(1),
-    m_Pp(0),
-    m_Pl(0),
-    m_PlX(0),
-    m_PlY(0),
-    m_PlZ(0),
-    m_NumVoxelsInsideMask(0),
-    m_NumBoneVoxels(0)
+  m_Threshold(1),
+  m_Pp(0),
+  m_Pl(0),
+  m_PlX(0),
+  m_PlY(0),
+  m_PlZ(0),
+  m_NumVoxelsInsideMask(0),
+  m_NumBoneVoxels(0)
 {
   this->SetNumberOfRequiredInputs( 1 );
 }
@@ -60,33 +60,33 @@ void
 BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
 ::BeforeThreadedGenerateData()
 {
-    ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
-    m_Pp = 0;
-    m_Pl = 0;
-    m_PlX = 0;
-    m_PlY = 0;
-    m_PlZ = 0;
+  m_Pp = 0;
+  m_Pl = 0;
+  m_PlX = 0;
+  m_PlY = 0;
+  m_PlZ = 0;
 
-    // Resize the thread temporaries
-    m_NumVoxelsInsideMask.SetSize(numberOfThreads);
-    m_NumBoneVoxels.SetSize(numberOfThreads);
-    m_NumX.SetSize(numberOfThreads);
-    m_NumY.SetSize(numberOfThreads);
-    m_NumZ.SetSize(numberOfThreads);
-    m_NumXO.SetSize(numberOfThreads);
-    m_NumYO.SetSize(numberOfThreads);
-    m_NumZO.SetSize(numberOfThreads);
+  // Resize the thread temporaries
+  m_NumVoxelsInsideMask.SetSize(numberOfThreads);
+  m_NumBoneVoxels.SetSize(numberOfThreads);
+  m_NumX.SetSize(numberOfThreads);
+  m_NumY.SetSize(numberOfThreads);
+  m_NumZ.SetSize(numberOfThreads);
+  m_NumXO.SetSize(numberOfThreads);
+  m_NumYO.SetSize(numberOfThreads);
+  m_NumZO.SetSize(numberOfThreads);
 
-    // Resize the thread temporaries
-    m_NumVoxelsInsideMask.Fill(0);
-    m_NumBoneVoxels.Fill(0);
-    m_NumX.Fill(0);
-    m_NumY.Fill(0);
-    m_NumZ.Fill(0);
-    m_NumXO.Fill(0);
-    m_NumYO.Fill(0);
-    m_NumZO.Fill(0);
+  // Resize the thread temporaries
+  m_NumVoxelsInsideMask.Fill(0);
+  m_NumBoneVoxels.Fill(0);
+  m_NumX.Fill(0);
+  m_NumY.Fill(0);
+  m_NumZ.Fill(0);
+  m_NumXO.Fill(0);
+  m_NumYO.Fill(0);
+  m_NumZO.Fill(0);
 }
 
 template< typename TInputImage, typename TMaskImage >
@@ -94,35 +94,35 @@ void
 BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
 ::AfterThreadedGenerateData()
 {
-    ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
-    SizeValueType numVoxels = 0;
-    SizeValueType numBoneVoxels = 0;
-    SizeValueType numX = 0;
-    SizeValueType numY = 0;
-    SizeValueType numZ = 0;
-    SizeValueType numXO = 0;
-    SizeValueType numYO = 0;
-    SizeValueType numZO = 0;
+  SizeValueType numVoxels = 0;
+  SizeValueType numBoneVoxels = 0;
+  SizeValueType numX = 0;
+  SizeValueType numY = 0;
+  SizeValueType numZ = 0;
+  SizeValueType numXO = 0;
+  SizeValueType numYO = 0;
+  SizeValueType numZO = 0;
 
-    for (unsigned int i = 0; i < numberOfThreads; ++i )
+  for (unsigned int i = 0; i < numberOfThreads; ++i )
     {
-      numVoxels += m_NumVoxelsInsideMask[i];
-      numBoneVoxels += m_NumBoneVoxels[i];
-      numX += m_NumX[i];
-      numY += m_NumY[i];
-      numZ += m_NumZ[i];
-      numXO += m_NumXO[i];
-      numYO += m_NumYO[i];
-      numZO += m_NumZO[i];
+    numVoxels += m_NumVoxelsInsideMask[i];
+    numBoneVoxels += m_NumBoneVoxels[i];
+    numX += m_NumX[i];
+    numY += m_NumY[i];
+    numZ += m_NumZ[i];
+    numXO += m_NumXO[i];
+    numYO += m_NumYO[i];
+    numZO += m_NumZO[i];
     }
 
-    typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
-    m_Pp = (RealType)numBoneVoxels / (RealType)numVoxels;
-    m_PlX = (RealType) ((numX+numXO)/2.0) / (RealType) (numVoxels * inSpacing[0]) * 2;
-    m_PlY = (RealType) ((numY+numYO)/2.0) / (RealType) (numVoxels * inSpacing[1]) * 2;
-    m_PlZ = (RealType) ((numZ+numZO)/2.0) / (RealType) (numVoxels * inSpacing[2]) * 2;
-    m_Pl =(m_PlX + m_PlY + m_PlZ) / 3.0;
+  typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
+  m_Pp = (RealType)numBoneVoxels / (RealType)numVoxels;
+  m_PlX = (RealType) ((numX+numXO)/2.0) / (RealType) (numVoxels * inSpacing[0]) * 2;
+  m_PlY = (RealType) ((numY+numYO)/2.0) / (RealType) (numVoxels * inSpacing[1]) * 2;
+  m_PlZ = (RealType) ((numZ+numZO)/2.0) / (RealType) (numVoxels * inSpacing[2]) * 2;
+  m_Pl =(m_PlX + m_PlY + m_PlZ) / 3.0;
 }
 
 template< typename TInputImage, typename TMaskImage >
@@ -131,92 +131,92 @@ BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-    NeighborhoodRadiusType radius;
-    radius.Fill(1);
-    NeighborhoodOffsetType offsetX = {{0,0,1}};
-    NeighborhoodOffsetType offsetXO = {{0,0,-1}};
-    NeighborhoodOffsetType offsetY = {{0,1,0}};
-    NeighborhoodOffsetType offsetYO = {{0,-1,0}};
-    NeighborhoodOffsetType offsetZ = {{1,0,0}};
-    NeighborhoodOffsetType offsetZO = {{-1,0,0}};
+  NeighborhoodRadiusType radius;
+  radius.Fill(1);
+  NeighborhoodOffsetType offsetX = {{0,0,1}};
+  NeighborhoodOffsetType offsetXO = {{0,0,-1}};
+  NeighborhoodOffsetType offsetY = {{0,1,0}};
+  NeighborhoodOffsetType offsetYO = {{0,-1,0}};
+  NeighborhoodOffsetType offsetZ = {{1,0,0}};
+  NeighborhoodOffsetType offsetZO = {{-1,0,0}};
 
-    SizeValueType numVoxels = 0;
-    SizeValueType numBoneVoxels = 0;
-    SizeValueType numX = 0;
-    SizeValueType numY = 0;
-    SizeValueType numZ = 0;
-    SizeValueType numXO = 0;
-    SizeValueType numYO = 0;
-    SizeValueType numZO = 0;
+  SizeValueType numVoxels = 0;
+  SizeValueType numBoneVoxels = 0;
+  SizeValueType numX = 0;
+  SizeValueType numY = 0;
+  SizeValueType numZ = 0;
+  SizeValueType numXO = 0;
+  SizeValueType numYO = 0;
+  SizeValueType numZO = 0;
 
-    MaskImagePointer maskPointer = TMaskImage::New();
-    maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
+  MaskImagePointer maskPointer = TMaskImage::New();
+  maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
 
-    NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage > boundaryFacesCalculator;
-    typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType
-    faceList = boundaryFacesCalculator( this->GetInput(), outputRegionForThread, radius );
-    typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType::iterator fit = faceList.begin();
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage > boundaryFacesCalculator;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType
+  faceList = boundaryFacesCalculator( this->GetInput(), outputRegionForThread, radius );
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType::iterator fit = faceList.begin();
 
-    for (; fit != faceList.end(); ++fit )
+  for (; fit != faceList.end(); ++fit )
     {
-      NeighborhoodIteratorType inputNIt(radius, this->GetInput(), *fit );
-      BoundaryConditionType  BoundaryCondition;
-      inputNIt.SetBoundaryCondition(BoundaryCondition);
-      inputNIt.GoToBegin();
+    NeighborhoodIteratorType inputNIt(radius, this->GetInput(), *fit );
+    BoundaryConditionType  BoundaryCondition;
+    inputNIt.SetBoundaryCondition(BoundaryCondition);
+    inputNIt.GoToBegin();
 
-      while( !inputNIt.IsAtEnd() )
+    while( !inputNIt.IsAtEnd() )
       {
-        if( maskPointer && maskPointer->GetPixel( inputNIt.GetIndex() ) == 0 )
+      if( maskPointer && maskPointer->GetPixel( inputNIt.GetIndex() ) == 0 )
         {
-          ++inputNIt;
-          continue;
-        }
-
-        ++numVoxels;
-
-        if( inputNIt.GetCenterPixel() >= m_Threshold )
-        {
-
-          ++numBoneVoxels;
-
-          if( inputNIt.GetPixel(offsetX) < m_Threshold )
-          {
-            ++numXO;
-          }
-          if( inputNIt.GetPixel(offsetXO) < m_Threshold )
-          {
-            ++numX;
-          }
-          if( inputNIt.GetPixel(offsetY) < m_Threshold )
-          {
-            ++numYO;
-          }
-          if( inputNIt.GetPixel(offsetYO) < m_Threshold )
-          {
-            ++numY;
-          }
-          if( inputNIt.GetPixel(offsetZ) < m_Threshold )
-          {
-            ++numZO;
-          }
-          if( inputNIt.GetPixel(offsetZO) < m_Threshold )
-          {
-            ++numZ;
-          }
-        }
-
         ++inputNIt;
+        continue;
+        }
+
+      ++numVoxels;
+
+      if( inputNIt.GetCenterPixel() >= m_Threshold )
+        {
+
+        ++numBoneVoxels;
+
+        if( inputNIt.GetPixel(offsetX) < m_Threshold )
+          {
+          ++numXO;
+          }
+        if( inputNIt.GetPixel(offsetXO) < m_Threshold )
+          {
+          ++numX;
+          }
+        if( inputNIt.GetPixel(offsetY) < m_Threshold )
+          {
+          ++numYO;
+          }
+        if( inputNIt.GetPixel(offsetYO) < m_Threshold )
+          {
+          ++numY;
+          }
+        if( inputNIt.GetPixel(offsetZ) < m_Threshold )
+          {
+          ++numZO;
+          }
+        if( inputNIt.GetPixel(offsetZO) < m_Threshold )
+          {
+          ++numZ;
+          }
+      }
+
+      ++inputNIt;
       }
     }
 
-    m_NumVoxelsInsideMask[threadId] = numVoxels;
-    m_NumBoneVoxels[threadId] = numBoneVoxels;
-    m_NumX[threadId] = numX;
-    m_NumY[threadId] = numY;
-    m_NumZ[threadId] = numZ;
-    m_NumXO[threadId] = numXO;
-    m_NumYO[threadId] = numYO;
-    m_NumZO[threadId] = numZO;
+  m_NumVoxelsInsideMask[threadId] = numVoxels;
+  m_NumBoneVoxels[threadId] = numBoneVoxels;
+  m_NumX[threadId] = numX;
+  m_NumY[threadId] = numY;
+  m_NumZ[threadId] = numZ;
+  m_NumXO[threadId] = numXO;
+  m_NumYO[threadId] = numYO;
+  m_NumZO[threadId] = numZO;
 }
 
 template< typename TInputImage, typename TMaskImage >
