@@ -54,9 +54,13 @@ ReplaceFeatureMapNanInfImageFilter<TImage>::GenerateData()
       if (!Math::isnan(interIt.Get()) && !Math::isinf(interIt.Get()))
       {
         if (interIt.Get() < min)
+        {
           min = interIt.Get();
+        }
         if (interIt.Get() > max)
+        {
           max = interIt.Get();
+        }
       }
       ++interIt;
     }
