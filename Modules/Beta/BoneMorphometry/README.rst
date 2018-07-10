@@ -5,7 +5,7 @@ ITKBoneMorphometry
 .. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry
 
-.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry.svg?branch=master
+.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry.svg?branch=ITKv4
     :target: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry
 
 .. image:: https://img.shields.io/appveyor/ci/jbvimort/ITKBoneMorphometry.svg
