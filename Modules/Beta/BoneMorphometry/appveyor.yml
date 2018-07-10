@@ -7,7 +7,7 @@ version: "0.0.1.{build}"
 install:
 
   - curl -L https://rawgit.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/windows-download-cache-and-build-module-wheels.ps1 -O
-  - ps: .\windows-download-cache-and-build-module-wheels.ps1 
+  - ps: .\windows-download-cache-and-build-module-wheels.ps1
 
 build: off
 
