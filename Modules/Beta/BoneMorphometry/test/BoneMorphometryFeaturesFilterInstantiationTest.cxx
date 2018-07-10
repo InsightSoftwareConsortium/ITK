@@ -25,14 +25,14 @@
 
 int BoneMorphometryFeaturesFilterInstantiationTest( int argc, char *argv[] )
 {
-    if( argc < 3 )
-      {
-      std::cerr << "Missing parameters." << std::endl;
-      std::cerr << "Usage: " << argv[0]
-        << " inputImageFile"
-        << " maskImageFile" << std::endl;
-      return EXIT_FAILURE;
-      }
+  if( argc < 3 )
+    {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << " inputImageFile"
+      << " maskImageFile" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   const unsigned int ImageDimension = 3;
 
@@ -59,8 +59,8 @@ int BoneMorphometryFeaturesFilterInstantiationTest( int argc, char *argv[] )
 
   filter->SetInput( reader->GetOutput() );
 
-//  filter->SetMaskImage( maskReader->GetOutput() );
-//  TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
+  //filter->SetMaskImage( maskReader->GetOutput() );
+  //TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
 
   filter->SetThreshold( 1300 );
   TEST_SET_GET_VALUE( 1300, filter->GetThreshold() );

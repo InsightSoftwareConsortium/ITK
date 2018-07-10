@@ -102,43 +102,43 @@ public:
 
   RealType GetBVTV() { return m_Pp; }
   RealTypeDecoratedType * GetBVTVOutput()
-  {
+    {
     typename RealTypeDecoratedType::Pointer decoratedBVTV = RealTypeDecoratedType::New();
     decoratedBVTV->Set( this->GetBVTV() );
     return decoratedBVTV.GetPointer();
-  }
+    }
 
   RealType GetTbN() { return m_Pl; }
   RealTypeDecoratedType * GetTbNOutput()
-  {
+    {
     typename RealTypeDecoratedType::Pointer decoratedTbN = RealTypeDecoratedType::New();
     decoratedTbN->Set( this->GetTbN() );
     return decoratedTbN.GetPointer();
-  }
+    }
 
   RealType GetTbTh() { return m_Pp/m_Pl; }
   RealTypeDecoratedType * GetTbThOutput()
-  {
+    {
     typename RealTypeDecoratedType::Pointer decoratedTbTh = RealTypeDecoratedType::New();
     decoratedTbTh->Set( this->GetTbTh() );
     return decoratedTbTh.GetPointer();
-  }
+    }
 
   RealType GetTbSp() { return (1.0 - m_Pp) / m_Pl; }
   RealTypeDecoratedType * GetTbSpOutput()
-  {
+    {
     typename RealTypeDecoratedType::Pointer decoratedTbSp = RealTypeDecoratedType::New();
     decoratedTbSp->Set( this->GetTbSp() );
     return decoratedTbSp.GetPointer();
-  }
+    }
 
   RealType GetBSBV() { return 2.0 * (m_Pl / m_Pp); }
   RealTypeDecoratedType * GetBSBVOutput()
-  {
+    {
     typename RealTypeDecoratedType::Pointer decoratedBSBV = RealTypeDecoratedType::New();
     decoratedBSBV->Set( this->GetBSBV() );
     return decoratedBSBV.GetPointer();
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

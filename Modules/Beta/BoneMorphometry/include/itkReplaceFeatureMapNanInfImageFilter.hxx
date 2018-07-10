@@ -40,7 +40,7 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
   m_IndexSelectionFiter->SetInput( this->GetInput() );
 
   for(unsigned int i = 0; i < 5; i++)
-  {
+    {
     m_IndexSelectionFiter->SetInput( this->GetInput() );
     m_IndexSelectionFiter->SetIndex(i);
     m_IndexSelectionFiter->Update();
@@ -50,15 +50,21 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
     RealType min = interIt.Get();
     RealType max = interIt.Get();
 
-     while( !interIt.IsAtEnd() )
-     {
-       if(!Math::isnan(interIt.Get()) && !Math::isinf(interIt.Get()))
-       {
-         if(interIt.Get() < min) min = interIt.Get();
-         if(interIt.Get() > max) max = interIt.Get();
-       }
+    while( !interIt.IsAtEnd() )
+      {
+      if(!Math::isnan(interIt.Get()) && !Math::isinf(interIt.Get()))
+        {
+        if(interIt.Get() < min)
+          {
+          min = interIt.Get();
+          }
+        if(interIt.Get() > max)
+          {
+          max = interIt.Get();
+          }
+        }
        ++interIt;
-     }
+      }
 
     TImage* outputPtr = this->GetOutput();
     outputPtr->SetRegions( this->GetInput()->GetLargestPossibleRegion());
@@ -70,38 +76,38 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
     PixelType pixel;
 
     while( !interIt.IsAtEnd() )
-    {
+      {
       pixel = outputIt.Get();
       if(Math::isnan(interIt.Get()))
-      {
+        {
         if(i == 4)
-        {
+          {
           pixel[i] = max;
-        }
+          }
         else
-        {
+          {
           pixel[i] = min;
+          }
         }
-      }
       else if (Math::isinf(interIt.Get()))
-      {
+        {
         if(i == 4)
-        {
+          {
           pixel[i] = min;
-        }
+          }
         else
-        {
+          {
           pixel[i] = max;
+          }
         }
-      }
       else
-      {
+        {
         pixel[i] = interIt.Get();
-      }
+        }
       outputIt.Set(pixel);
       ++interIt; ++outputIt;
+      }
     }
-  }
   this->GraftOutput( this->GetOutput() );
 }
 
