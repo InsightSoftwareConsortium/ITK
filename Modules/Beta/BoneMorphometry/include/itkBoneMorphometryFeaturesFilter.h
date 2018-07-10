@@ -38,7 +38,7 @@ namespace itk
  * the trabecular separation [TbSp], the trabecular number [TbN], or the Bone Surface to Bone Volume ration [BSBV].
  * To do so, the filter needs a 3D input scan and a threshold. All voxels with an intensity higher than the threshold will
  * be considered as part of the bone.
- * A mask can also be specified in order to have more precise results (the morphometry will be computed only for the mask's voxels with a value of 1)
+ * A mask can also be specified in order to have more precise results (the morphometry will be computed only for the mask's voxels with value different than zero)
  *
  * BoneMorphometryFeaturesFilter behaves as a filter with an input and output. Thus it can be inserted
  * in a pipeline with other filters and the metrics will only be

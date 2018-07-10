@@ -45,7 +45,7 @@ namespace itk
  *
  * To do so, the filter needs:
  * -# a 3D input scan
- * -# an optional mask (the morphometry will be computed only for the mask's voxels with a value of 1)
+ * -# an optional mask (the morphometry will be computed only for the mask's voxels with value different than zero)
  * -# a threshold (All voxels with an intensity higher than the threshold will be considered as part of the bone)
  * -# a neighborhood radius
  *
