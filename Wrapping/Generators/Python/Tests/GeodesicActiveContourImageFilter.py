@@ -155,7 +155,7 @@ def main():
             filter,
             OutputMinimum=0,
             OutputMaximum=255)
-        itk.write(caster, os.path.join(outputDirectory, fileName))
+        itk.imwrite(caster, os.path.join(outputDirectory, fileName))
 
     rescaleAndWrite(smoothing, "GeodesicActiveContourImageFilterOutput1.png")
     rescaleAndWrite(
@@ -181,11 +181,11 @@ def main():
         % (geodesicActiveContour.GetElapsedIterations()))
     print("RMS change: %.3f" % (geodesicActiveContour.GetRMSChange()))
 
-    itk.write(fastMarching, os.path.join(outputDirectory,
+    itk.imwrite(fastMarching, os.path.join(outputDirectory,
         "GeodesicActiveContourImageFilterOutput4.mha"))
-    itk.write(sigmoid, os.path.join(outputDirectory,
+    itk.imwrite(sigmoid, os.path.join(outputDirectory,
         "GeodesicActiveContourImageFilterOutput3.mha"))
-    itk.write(gradientMagnitude, os.path.join(outputDirectory,
+    itk.imwrite(gradientMagnitude, os.path.join(outputDirectory,
         "GeodesicActiveContourImageFilterOutput2.mha"))
 
 

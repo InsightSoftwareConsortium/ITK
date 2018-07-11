@@ -128,7 +128,6 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 
 # test write
 itk.imwrite(reader, sys.argv[2])
-itk.write(reader, sys.argv[2])
 itk.imwrite(reader, sys.argv[2], True)
 
 # test read
@@ -163,6 +162,9 @@ try:
     import numpy as np
     image = itk.imread(fileName)
     arr = itk.GetArrayFromImage(image)
+    arr.fill(1)
+    assert np.any(arr != itk.GetArrayFromImage(image))
+    arr = itk.array_from_image(image)
     arr.fill(1)
     assert np.any(arr != itk.GetArrayFromImage(image))
     view = itk.GetArrayViewFromImage(image)

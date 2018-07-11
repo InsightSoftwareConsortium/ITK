@@ -167,6 +167,8 @@ class SwigInputGenerator(object):
 
         self.verbose = options.verbose
 
+        self.snakeCaseProcessObjectFunctions = set()
+
 
     def warn(self, id, msg, doWarn=True):
         if not doWarn:
@@ -249,6 +251,13 @@ class SwigInputGenerator(object):
                     s = s[:-len(e)]
                     needToContinue = True
         return (s, end)
+
+    _firstCapRE = re.compile(r'(.)([A-Z][a-z]+)')
+    _allCapRE = re.compile('([a-z0-9])([A-Z])')
+    @staticmethod
+    def camelCaseToSnakeCase(camelCase):
+        substitution = SwigInputGenerator._firstCapRE.sub(r'\1_\2', camelCase)
+        return SwigInputGenerator._allCapRE.sub(r'\1_\2', substitution).lower().replace('__', '_')
 
     def get_alias(self, decl_string, w=True):
         s = str(decl_string)
@@ -502,6 +511,28 @@ class SwigInputGenerator(object):
             self.outputFile.write("  " * indent)
             self.outputFile.write("};\n\n\n")
 
+    def generate_process_object_snake_case_functions(self, typedefs):
+        self.info("Generating snake case functions")
+        processObjects = set()
+        for typedef in typedefs:
+            classType = getType(typedef)
+            bases = [base.related_class.name for base in classType.recursive_bases]
+            isProcessObject = 'ProcessObject' in bases
+            if isProcessObject:
+                processObjects.add(classType.name.split('<')[0])
+        if len(processObjects) > 0:
+            self.outputFile.write("\n\n#ifdef SWIGPYTHON\n")
+            self.outputFile.write('%pythoncode %{\n')
+            for processObject in processObjects:
+                snakeCase = self.camelCaseToSnakeCase(processObject)
+                self.snakeCaseProcessObjectFunctions.add(snakeCase)
+                self.outputFile.write('def %s(*args, **kwargs):\n' % snakeCase)
+                self.outputFile.write('    """Procedural interface for %s"""\n' % processObject)
+                self.outputFile.write('    import itk\n')
+                self.outputFile.write('    return itk.%s.__call__(*args, **kwargs)\n' % processObject)
+            self.outputFile.write('%}\n')
+            self.outputFile.write("#endif\n")
+
     def generate_constructor(self, typedef, constructor, indent, w):
         # iterate over the arguments
         args = []
@@ -626,26 +657,27 @@ class SwigInputGenerator(object):
         headerFile.write("// Do not modify this file manually.\n\n\n")
 
         langs = [
-            "CHICKEN",
-            "CSHARP",
-            "GUILE",
-            "JAVA",
-            "LUA",
-            "MODULA3",
-            "MZSCHEME",
-            "OCAML",
-            "PERL",
-            "PERL5",
-            "PHP",
-            "PHP4",
-            "PHP5",
-            "PIKE",
+            # "CHICKEN",
+            # "CSHARP",
+            # "GUILE",
+            # "JAVA",
+            # "LUA",
+            # "MODULA3",
+            # "MZSCHEME",
+            # "OCAML",
+            # "PERL",
+            # "PERL5",
+            # "PHP",
+            # "PHP4",
+            # "PHP5",
+            # "PIKE",
             "PYTHON",
-            "R",
-            "RUBY",
-            "SEXP",
-            "TCL",
-            "XML"]
+            # "R",
+            # "RUBY",
+            # "SEXP",
+            # "TCL",
+            # "XML",
+            ]
 
         # first, define the module
         # [1:-1] is there to drop the quotes
@@ -797,6 +829,8 @@ class SwigInputGenerator(object):
         for typedef in typedefs:
             # begin a new class
             self.generate_class(typedef)
+
+        self.generate_process_object_snake_case_functions(typedefs)
 
         if len(self.warnings) > 0 and self.options.warningError:
             sys.exit(1)
@@ -988,6 +1022,7 @@ if __name__ == '__main__':
         idx_generator = IdxGenerator(moduleName)
         idx_generator.create_idxfile(idxFilePath, wrappersNamespace)
 
+    snake_case_process_object_functions = set()
     def generate_swig_input(moduleName):
         if moduleName in wrappingNamespaces:
             wrappersNamespace = wrappingNamespaces[moduleName]
@@ -1002,6 +1037,7 @@ if __name__ == '__main__':
         swig_input_generator = SwigInputGenerator(moduleName, options)
         swig_input_generator.create_interfacefile(swigInputFilePath, idxFilePath,
                 wrappersNamespace)
+        snake_case_process_object_functions.update(swig_input_generator.snakeCaseProcessObjectFunctions)
 
     if options.submodule_order:
         for moduleName in options.submodule_order.split(';'):
@@ -1009,3 +1045,11 @@ if __name__ == '__main__':
             moduleNames.remove(moduleName)
     for moduleName in moduleNames:
         generate_swig_input(moduleName)
+
+    config_file = os.path.join(options.library_output_dir, 'Generators',
+            'Python', 'Configuration', os.path.basename(options.mdx[0])[:-4] + 'Config.py')
+    with open(config_file, 'a') as ff:
+        ff.write('snake_case_functions = (')
+        for function in snake_case_process_object_functions:
+            ff.write("'" + function + "', ")
+        ff.write(')\n')
