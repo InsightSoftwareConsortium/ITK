@@ -120,6 +120,10 @@ public:
   ImageIORegion
   GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const override;
 
+  /** Set the slope and intercept for voxel value rescaling. */
+  itkSetMacro(RescaleSlope, double);
+  itkSetMacro(RescaleIntercept, double);
+
   /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
     * the nifti library maintainers.  This format does not properly respect the file orientation fields.
     * By default this is set to true.
