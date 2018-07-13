@@ -62,8 +62,7 @@ class member_calldef_t(calldef.calldef_t):
             and self.has_static == other.has_static \
             and self.has_const == other.has_const
 
-    def __hash__(self):
-        return super(member_calldef_t, self).__hash__()
+    __hash__ = calldef.calldef_t.__hash__
 
     @property
     def virtuality(self):
@@ -108,25 +107,25 @@ class member_calldef_t(calldef.calldef_t):
             return cpptypes.free_function_type_t(
                 return_type=self.return_type,
                 arguments_types=[arg.decl_type for arg in self.arguments])
-        else:
-            return cpptypes.member_function_type_t(
-                class_inst=self.parent,
-                return_type=self.return_type,
-                arguments_types=[arg.decl_type for arg in self.arguments],
-                has_const=self.has_const)
+
+        return cpptypes.member_function_type_t(
+            class_inst=self.parent,
+            return_type=self.return_type,
+            arguments_types=[arg.decl_type for arg in self.arguments],
+            has_const=self.has_const)
 
     def create_decl_string(self, with_defaults=True):
         f_type = self.function_type()
         if with_defaults:
             return f_type.decl_string
-        else:
-            return f_type.partial_decl_string
+
+        return f_type.partial_decl_string
 
     def guess_calling_convention(self):
         if self.has_static:
             return calldef_types.CALLING_CONVENTION_TYPES.SYSTEM_DEFAULT
-        else:
-            return calldef_types.CALLING_CONVENTION_TYPES.THISCALL
+
+        return calldef_types.CALLING_CONVENTION_TYPES.THISCALL
 
 
 class operator_t(calldef.calldef_t):

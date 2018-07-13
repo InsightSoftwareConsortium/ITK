@@ -77,8 +77,8 @@ def decompose_type(tp):
     elif isinstance(tp, cpptypes.declarated_t) and \
             isinstance(tp.declaration, typedef.typedef_t):
         return decompose_type(tp.declaration.decl_type)
-    else:
-        return [tp]
+
+    return [tp]
 
 
 def decompose_class(type_):
@@ -164,8 +164,7 @@ def does_match_definition(given, main, secondary):
                 return (
                     issubclass(
                         items[0], items[1]) or issubclass(items[1], items[0]))
-            else:
-                return False
+            return False
     else:
         return False
 
@@ -268,8 +267,8 @@ def remove_pointer(type_):
         return (
             cpptypes.volatile_t(cpptypes.const_t(nake_type.base.base.base))
         )
-    else:
-        return nake_type.base
+
+    return nake_type.base
 
 
 def is_reference(type_):
@@ -317,8 +316,8 @@ def remove_reference(type_):
     nake_type = remove_alias(type_)
     if not is_reference(nake_type):
         return type_
-    else:
-        return nake_type.base
+
+    return nake_type.base
 
 
 def is_const(type_):
@@ -518,11 +517,11 @@ def is_std_string(type_):
 
     if utils.is_str(type_):
         return type_ in string_equivalences
-    else:
-        type_ = remove_alias(type_)
-        type_ = remove_reference(type_)
-        type_ = remove_cv(type_)
-        return type_.decl_string in string_equivalences
+
+    type_ = remove_alias(type_)
+    type_ = remove_reference(type_)
+    type_ = remove_cv(type_)
+    return type_.decl_string in string_equivalences
 
 
 def is_std_wstring(type_):
@@ -533,11 +532,11 @@ def is_std_wstring(type_):
 
     if utils.is_str(type_):
         return type_ in wstring_equivalences
-    else:
-        type_ = remove_alias(type_)
-        type_ = remove_reference(type_)
-        type_ = remove_cv(type_)
-        return type_.decl_string in wstring_equivalences
+
+    type_ = remove_alias(type_)
+    type_ = remove_reference(type_)
+    type_ = remove_cv(type_)
+    return type_.decl_string in wstring_equivalences
 
 
 def is_std_ostream(type_):
@@ -548,11 +547,11 @@ def is_std_ostream(type_):
 
     if utils.is_str(type_):
         return type_ in ostream_equivalences
-    else:
-        type_ = remove_alias(type_)
-        type_ = remove_reference(type_)
-        type_ = remove_cv(type_)
-        return type_.decl_string in ostream_equivalences
+
+    type_ = remove_alias(type_)
+    type_ = remove_reference(type_)
+    type_ = remove_cv(type_)
+    return type_.decl_string in ostream_equivalences
 
 
 def is_std_wostream(type_):
@@ -563,8 +562,8 @@ def is_std_wostream(type_):
 
     if utils.is_str(type_):
         return type_ in wostream_equivalences
-    else:
-        type_ = remove_alias(type_)
-        type_ = remove_reference(type_)
-        type_ = remove_cv(type_)
-        return type_.decl_string in wostream_equivalences
+
+    type_ = remove_alias(type_)
+    type_ = remove_reference(type_)
+    type_ = remove_cv(type_)
+    return type_.decl_string in wostream_equivalences

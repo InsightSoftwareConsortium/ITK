@@ -27,13 +27,11 @@ class declaration_t(object):
             location=None,
             is_artificial=False,
             mangled=None,
-            demangled=None,
             attributes=None):
         self._name = name
         self._location = location
         self._is_artificial = is_artificial
         self._mangled = mangled
-        self._demangled = demangled
         self._attributes = attributes
         self._parent = None
         self._cache = algorithms_cache.declaration_algs_cache_t()
@@ -276,43 +274,6 @@ class declaration_t(object):
         self._mangled = mangled
 
     @property
-    def demangled(self):
-        """
-        Declaration name, reconstructed from GCCXML generated unique name.
-
-           @type: str
-
-        """
-        return self._demangled
-
-    @demangled.setter
-    def demangled(self, demangled):
-        self._demangled = demangled
-
-    @property
-    def decorated_name(self):
-        """
-        Unique declaration name extracted from a binary file
-        ( .map, .dll, .so, etc ).
-
-           @type: str
-
-        """
-        warnings.warn(
-            "The decorated_name attribute is deprecated. See the changelog.",
-            DeprecationWarning)
-        # Deprecated since 1.9.0, will be removed in 2.0.0
-        return self._decorated_name
-
-    @decorated_name.setter
-    def decorated_name(self, decorated_name):
-        warnings.warn(
-            "The decorated_name attribute is deprecated. See the changelog.",
-            DeprecationWarning)
-        # Deprecated since 1.9.0, will be removed in 2.0.0
-        self._decorated_name = decorated_name
-
-    @property
     def attributes(self):
         """
         GCCXML attributes, set using __attribute__((gccxml("...")))
@@ -364,4 +325,16 @@ class declaration_t(object):
         Return list of all types and declarations the declaration depends on
 
         """
+        self._warn_deprecated()
         raise NotImplementedError()
+
+    @staticmethod
+    def _warn_deprecated():
+        """
+        Implementation detail.
+        """
+        warnings.warn(
+            "The i_depend_on_them() method is deprecated.\n" +
+            "Please use the declarations.get_dependencies_from_decl()" +
+            "function instead.\n",
+            DeprecationWarning)

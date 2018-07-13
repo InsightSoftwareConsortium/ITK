@@ -10,6 +10,7 @@ import sys
 import platform
 import logging
 import tempfile
+import shutil
 import subprocess
 import warnings
 
@@ -25,57 +26,54 @@ def is_str(string):
         bool: True or False
 
     """
-    if sys.version_info >= (3, 0):
+    if sys.version_info[:2] >= (3, 0):
         return isinstance(string, str)
+
+    return isinstance(string, basestring)
+
+
+def find_xml_generator(name="castxml"):
+    """
+    Try to find a c++ parser (xml generator)
+
+    Args:
+        name (str): name of the c++ parser (e.g. castxml)
+
+    Returns:
+        path (str), name (str): path to the xml generator and it's name
+
+
+    If no c++ parser is found the function raises an exception.
+    pygccxml does currently only support castxml as c++ parser.
+
+    """
+
+    if sys.version_info[:2] >= (3, 3):
+        path = _find_xml_generator_for_python_greater_equals_33(name)
     else:
-        return isinstance(string, basestring)
+        path = _find_xml_generator_for_legacy_python(name)
+
+    if path == "" or path is None:
+        raise Exception("No c++ parser found. Please install castxml.")
+    return path.rstrip(), name
 
 
-def find_xml_generator(name=None):
-    """
-    Try to find a c++ parser. Returns path and name.
+def _find_xml_generator_for_python_greater_equals_33(name):
+    return shutil.which(name)
 
-    :param name: name of the c++ parser: castxml or gccxml
-    :type name: str
 
-    If no name is given the function first looks for castxml,
-    then for gccxml. If no c++ parser is found the function
-    raises an exception.
-
-    """
+def _find_xml_generator_for_legacy_python(name):
     if platform.system() == "Windows":
         command = "where"
     else:
         command = "which"
-
-    if name is None:
-        name = "castxml"
-        p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
-        path = p.stdout.read().decode("utf-8")
-        p.wait()
-        p.stdout.close()
-        p.stderr.close()
-        if path == "":
-            name = "gccxml"
-            p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-            path = p.stdout.read().decode("utf-8")
-            p.wait()
-            p.stdout.close()
-            p.stderr.close()
-    else:
-        p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
-        path = p.stdout.read().decode("utf-8")
-        p.wait()
-        p.stdout.close()
-        p.stderr.close()
-    if path == "":
-        raise(Exception(
-            "No c++ parser found. Please install castxml or gccxml."))
-    else:
-        return path.rstrip(), name
+    p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
+    path = p.stdout.read().decode("utf-8")
+    p.wait()
+    p.stdout.close()
+    p.stderr.close()
+    return path.rstrip()
 
 
 def _create_logger_(name):

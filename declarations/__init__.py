@@ -27,7 +27,6 @@ from .class_declaration import ACCESS_TYPES
 from .class_declaration import hierarchy_info_t
 from .class_declaration import class_declaration_t
 from .class_declaration import class_types
-from .class_declaration import dependency_info_t
 
 from .cpptypes import type_t
 from .cpptypes import dummy_type_t
@@ -188,9 +187,9 @@ from .type_traits_classes import find_noncopyable_vars
 from .type_traits_classes import has_any_non_copyconstructor
 from .type_traits_classes import has_vtable
 
-from .smart_pointer_traits import auto_ptr_traits
-from .smart_pointer_traits import smart_pointer_traits
-from .smart_pointer_traits import internal_type_traits
+from .pointer_traits import auto_ptr_traits
+from .pointer_traits import smart_pointer_traits
+from .pointer_traits import internal_type_traits
 
 from .container_traits import list_traits
 from .container_traits import deque_traits
@@ -217,6 +216,9 @@ from .function_traits import is_same_function
 
 from . import templates
 from . import call_invocation
+
+from .dependencies import get_dependencies_from_decl
+from .dependencies import dependency_info_t
 
 from .decl_factory import decl_factory_t
 

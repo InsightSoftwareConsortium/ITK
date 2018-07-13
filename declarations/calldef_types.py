@@ -43,5 +43,5 @@ class CALLING_CONVENTION_TYPES(object):
         found = CALLING_CONVENTION_TYPES.pattern.match(text)
         if found:
             return found.group('cc')
-        else:
-            return default
+
+        return default

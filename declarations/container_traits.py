@@ -529,8 +529,7 @@ class container_traits_impl_t(object):
         no_defaults = self.remove_defaults_impl(name)
         if not no_defaults:
             return name
-        else:
-            return no_defaults
+        return no_defaults
 
 
 list_traits = container_traits_impl_t(
