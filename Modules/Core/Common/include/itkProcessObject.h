@@ -443,6 +443,18 @@ public:
   itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
+#if !defined( ITK_LEGACY_REMOVE ) || defined( ITKV4_COMPATIBILITY )
+  itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count))
+  {
+    this->SetNumberOfWorkUnits(count);
+  }
+
+  itkLegacyMacro(ThreadIdType GetNumberOfThreads() const)
+  {
+    return this->GetNumberOfWorkUnits();
+  }
+#endif // !ITK_LEGACY_REMOVE
+
   /** Return the multithreader used by this class. */
   MultiThreaderType * GetMultiThreader() const
   { return m_MultiThreader; }

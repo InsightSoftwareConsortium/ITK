@@ -182,12 +182,26 @@ public:
   itkGetConstReferenceMacro(DoEstimateScales, bool);
   itkBooleanMacro(DoEstimateScales);
 
-  /** Set the number of threads to use when threading.
-   * The default is the global default number of threads
-   * returned from itkMultiThreader. */
+  /** Set the number of work units to use when threading.
+   * The default is the global default number of work units
+   * decided in the constructor of the MultiThreader. */
   virtual void SetNumberOfWorkUnits( ThreadIdType number );
 
-  /** Get the number of threads set to be used. */
+#if !defined( ITK_LEGACY_REMOVE )
+  /** Set the number of work units to use when threading.
+   *
+   * NOTE: deprecated. Use SetNumberOfWorkUnits() */
+  itkLegacyMacro( virtual void SetNumberOfThreads( ThreadIdType number ) )
+  {
+    return this->SetNumberOfWorkUnits( number );
+  }
+  itkLegacyMacro( virtual const ThreadIdType& GetNumberOfThreads() const )
+  {
+    return this->m_NumberOfWorkUnits;
+  }
+#endif // !ITK_LEGACY_REMOVE
+
+  /** Get the number of work units set to be used. */
   itkGetConstReferenceMacro( NumberOfWorkUnits, ThreadIdType );
 
   /** Return current number of iterations. */
