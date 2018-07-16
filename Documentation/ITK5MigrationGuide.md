@@ -51,10 +51,10 @@ Visual Studio 2013 (MSVC 12.0) and earlier cannot be used to build ITK since ver
 Modern CMake requirement
 ------------------------
 
-ITK now requires [CMake 3.9.5](https://github.com/InsightSoftwareConsortium/ITK/commit/3525bf45200bd9845259ea9a88f586684cc522db)
-to be configured. While only a few features enabled by this modern version of CMake
-are being used for 5.0 release, a modern version of CMake is a prerequisite
-for a bigger update of the ITK's build system. This is planned for a later version.
+ITK now requires **CMake 3.10.2** to be configured. While only a few features
+enabled by this modern version of CMake are being used for 5.0 release, a
+modern version of CMake is a prerequisite for a bigger update of the ITK's
+build system. This is planned for a later version.
 
 Before making other changes in suggested in this document,
 your code should work with the latest version of CMake.
