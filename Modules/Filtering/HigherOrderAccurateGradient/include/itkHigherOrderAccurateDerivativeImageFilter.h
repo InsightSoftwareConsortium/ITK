@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \ingroup HigherOrderAccurateGradient
  */
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class HigherOrderAccurateDerivativeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
