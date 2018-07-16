@@ -118,6 +118,7 @@ public:
       case ThreaderType::TBB:
         return "TBB";
         break;
+      case ThreaderType::Unknown:
       default:
         return "Unknown";
         break;
