@@ -1707,8 +1707,8 @@ NiftiImageIO
   //     -----------------------------------------------------
   //     magic         must be "ni1\0" or "n+1\0"
   //     -----------------------------------------------------
-  this->m_NiftiImage->scl_slope = 1.0f;
-  this->m_NiftiImage->scl_inter = 0.0f;
+  this->m_NiftiImage->scl_slope = static_cast< float >( m_RescaleSlope );
+  this->m_NiftiImage->scl_inter = static_cast< float >( m_RescaleIntercept );
   //TODO: Note both arguments are the same, no need to distinguish between them.
   this->SetNIfTIOrientationFromImageIO( this->GetNumberOfDimensions(), this->GetNumberOfDimensions() );
 }
