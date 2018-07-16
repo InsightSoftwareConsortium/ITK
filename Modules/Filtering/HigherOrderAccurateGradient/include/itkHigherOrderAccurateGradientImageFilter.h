@@ -50,7 +50,7 @@ namespace itk
  * \ingroup GradientFilters
  * \ingroup HigherOrderAccurateGradient
  */
-template <class TInputImage, class TOperatorValueType = float, class TOutputValueType = float>
+template <typename TInputImage, typename TOperatorValueType = float, class TOutputValueType = float>
 class HigherOrderAccurateGradientImageFilter
   : public ImageToImageFilter<
       TInputImage,
@@ -147,7 +147,7 @@ itkGetConstMacro(OrderOfAccuracy, unsigned int)
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   bool m_UseImageSpacing;
