@@ -28,6 +28,7 @@
 #include "itkConstantBoundaryCondition.h"
 
 #include <vector>
+#include <atomic>
 
 namespace itk
 {
@@ -166,9 +167,7 @@ protected:
   void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const RegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+  void  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -184,14 +183,14 @@ private:
   RealType m_PlY;
   RealType m_PlZ;
 
-  Array<SizeValueType> m_NumVoxelsInsideMask;
-  Array<SizeValueType> m_NumBoneVoxels;
-  Array<SizeValueType> m_NumX;
-  Array<SizeValueType> m_NumY;
-  Array<SizeValueType> m_NumZ;
-  Array<SizeValueType> m_NumXO;
-  Array<SizeValueType> m_NumYO;
-  Array<SizeValueType> m_NumZO;
+  std::atomic<SizeValueType> m_NumVoxelsInsideMask;
+  std::atomic<SizeValueType> m_NumBoneVoxels;
+  std::atomic<SizeValueType> m_NumX;
+  std::atomic<SizeValueType> m_NumY;
+  std::atomic<SizeValueType> m_NumZ;
+  std::atomic<SizeValueType> m_NumXO;
+  std::atomic<SizeValueType> m_NumYO;
+  std::atomic<SizeValueType> m_NumZO;
 
 }; // end of class
 } // end namespace itk

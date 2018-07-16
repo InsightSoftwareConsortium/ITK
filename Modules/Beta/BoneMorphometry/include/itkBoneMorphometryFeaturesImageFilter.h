@@ -136,9 +136,7 @@ protected:
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
-  virtual void  ThreadedGenerateData(const RegionType &
-                                     outputRegionForThread,
-                                     ThreadIdType threadId) ITK_OVERRIDE;
+  virtual void  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) ITK_OVERRIDE;
 
   bool IsInsideNeighborhood(const NeighborhoodOffsetType &iteratedOffset);
   bool IsInsideMaskRegion(const IndexType &imageIndex, const typename TMaskImage::SizeType &maskSize);
