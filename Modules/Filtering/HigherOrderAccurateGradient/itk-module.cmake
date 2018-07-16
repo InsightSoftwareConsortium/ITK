@@ -17,7 +17,6 @@ itk_module(
     ITKImageGradient
     ITKImageIntensity
     ITKImageFeature
-    SplitComponents
   TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
