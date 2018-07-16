@@ -137,7 +137,7 @@ protected:
 
   /** Multi-thread version GenerateData. */
   virtual void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) ITK_OVERRIDE;
 
   bool
   IsInsideNeighborhood(const NeighborhoodOffsetType & iteratedOffset);
