@@ -59,9 +59,8 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Gener
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedGenerateData(
-  const RegionType & outputRegionForThread,
-  ThreadIdType       threadId)
+BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThreadedGenerateData(
+  const RegionType & outputRegionForThread)
 {
   NeighborhoodOffsetType            offsetX = { { 0, 0, 1 } };
   NeighborhoodOffsetType            offsetXO = { { 0, 0, -1 } };
