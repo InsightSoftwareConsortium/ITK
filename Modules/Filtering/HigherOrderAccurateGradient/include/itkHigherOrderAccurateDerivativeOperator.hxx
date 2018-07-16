@@ -23,7 +23,8 @@
 
 namespace itk
 {
-template <class TPixel, unsigned int VDimension, class TAllocator>
+
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 typename HigherOrderAccurateDerivativeOperator<TPixel, VDimension, TAllocator>::CoefficientVector
 HigherOrderAccurateDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
 {
@@ -36,7 +37,8 @@ HigherOrderAccurateDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateC
   }
 }
 
-template <class TPixel, unsigned int VDimension, class TAllocator>
+
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 typename HigherOrderAccurateDerivativeOperator<TPixel, VDimension, TAllocator>::CoefficientVector
 HigherOrderAccurateDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateFirstOrderCoefficients()
 {
