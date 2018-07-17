@@ -494,7 +494,7 @@ TileMergeImageFilter<TImageType, TInterpolator>
     {
     SizeValueType tileIndex = *m_RegionContributors[i].begin();
     TileIndexType nDIndex = this->LinearIndexTonDIndex(tileIndex);
-    OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileIndex].GetIndex();
+    OffsetType tileToRegion = currentRegion.GetIndex() - m_InputMappings[tileIndex].GetIndex();
     RegionType inRegion = currentRegion;
     ImageConstPointer input = this->GetImage(nDIndex, reg0); //matadata (at least)
     inRegion.SetIndex(input->GetLargestPossibleRegion().GetIndex() + tileToRegion);
@@ -533,7 +533,7 @@ TileMergeImageFilter<TImageType, TInterpolator>
     for (unsigned t = 0; t < nTiles; t++)
       {
       TileIndexType nDIndex = this->LinearIndexTonDIndex(tileIndices[t]);
-      OffsetType tileToRegion = m_Regions[i].GetIndex() - m_InputMappings[tileIndices[t]].GetIndex();
+      OffsetType tileToRegion = currentRegion.GetIndex() - m_InputMappings[tileIndices[t]].GetIndex();
       inRegions[t] = currentRegion;
       ImageConstPointer input = this->GetImage(nDIndex, reg0); //matadata (at least)
       inRegions[t].SetIndex(input->GetLargestPossibleRegion().GetIndex() + tileToRegion);
