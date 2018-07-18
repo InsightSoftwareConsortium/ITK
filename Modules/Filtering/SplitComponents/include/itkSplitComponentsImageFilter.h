@@ -45,7 +45,7 @@ namespace itk
  * \sa NthElementImageAdaptor
  */
 template <class TInputImage, class TOutputImage, unsigned int TComponents = TInputImage::ImageDimension>
-class SplitComponentsImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT SplitComponentsImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SplitComponentsImageFilter);
