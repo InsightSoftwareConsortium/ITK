@@ -112,7 +112,7 @@ SpawnThread/TerminateThread and MultipleMethodExecute can be
 replaced by C++11 `std::thread`. And below code example shows
 how to remove dependence on barrier by using ParallelizeImageRegion.
 
-Pattern with Barrier:
+- Pattern with Barrier:
 ```C++
 ThreadedGenerateData()
 {
@@ -133,6 +133,64 @@ ParallelizeImageRegion(code1 as lambda)
 //code2 single-threaded
 ParallelizeImageRegion(code3 as lambda)
 this->AfterThreadedGenerateData();
+}
+```
+
+- Pattern with Arrays:
+If you are storing the results of threading computations in an `Array`,
+you might use instead `std::atomic`.
+You can see an example of this for an external module in
+[this commit](https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/pull/32/commits/a8014c186ac53837362a0cb9db46ae224b8e9584).
+Before, using `Array`:
+```C++
+// Members:
+Array<SizeValueType> m_NumVoxelsInsideMask;
+BeforeThreadedGenerateData()
+{
+  // Resize the thread temporaries
+  m_NumVoxelsInsideMask.SetSize(this->GetNumberOfThreads());
+  m_NumVoxelsInsideMask.Fill(0);
+}
+
+ThreadedGenerateData(const RegionType & outputRegionForThread,
+                     ThreadIdType threadId)
+{
+  // Do algorithm per threadId
+  // Store the results per thread at the end
+  m_NumVoxelsInsideMask[threadId] = numVoxelsForThisRegion;
+}
+
+AfterThreadedGenerateData()
+{
+  // Retrieve and sum all the results per thread.
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  SizeValueType numVoxelsInsideMask = 0;
+  for (unsigned int i = 0; i < numberOfThreads; ++i )
+    {
+    numVoxelsInsideMask += m_NumVoxelsInsideMask[i];
+    }
+}
+```
+After, using `std::atomic`:
+```C++
+// Members:
+std::atomic<SizeValueType> m_NumVoxelsInsideMask;
+BeforeThreadedGenerateData()
+{
+  // Initialize atomics
+  m_NumVoxelsInsideMask.store(0);
+}
+
+DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
+{
+  // Do algorithm without handling threadId
+  m_NumVoxelsInsideMask.fetch_add(numVoxelsForThisRegion, std::memory_order_relaxed);
+}
+
+AfterThreadedGenerateData()
+{
+  // Get the value from the atomic
+  SizeValueType numVoxelsInsideMask = m_NumVoxelsInsideMask.load();
 }
 ```
 
