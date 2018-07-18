@@ -29,8 +29,6 @@
 #define itkPoolMultiThreader_h
 
 #include "itkMultiThreaderBase.h"
-
-
 #include "itkThreadPool.h"
 
 namespace itk
@@ -78,11 +76,9 @@ public:
    * can only INCREASE its number of threads. */
   virtual void SetMaximumNumberOfThreads( ThreadIdType numberOfThreads ) override;
 
-  using JobSemaphoreType = ThreadPool::Semaphore;
-
   struct ThreadPoolInfoStruct :WorkUnitInfo
     {
-    JobSemaphoreType Semaphore;
+    std::future< ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER > Future;
     };
 
 protected:
@@ -94,8 +90,8 @@ private:
   // Thread pool instance and factory
   ThreadPool::Pointer m_ThreadPool;
 
-  /** An array of thread info containing a thread id
-   *  (0, 1, 2, .. ITK_MAX_THREADS-1), the thread count, and a pointer
+  /** An array of work unit information containing a work unit id
+   *  (0, 1, 2, .. ITK_MAX_THREADS-1), work unit count, and a pointer
    *  to void so that user data can be passed to each thread. */
   ThreadPoolInfoStruct m_ThreadInfoArray[ITK_MAX_THREADS];
 

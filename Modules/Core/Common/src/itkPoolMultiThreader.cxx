@@ -78,7 +78,7 @@ void PoolMultiThreader::SetMaximumNumberOfThreads(ThreadIdType numberOfThreads)
 
 void PoolMultiThreader::SingleMethodExecute()
 {
-  ThreadIdType thread_loop = 0;
+  ThreadIdType threadLoop = 0;
 
   if( !m_SingleMethod )
     {
@@ -88,71 +88,38 @@ void PoolMultiThreader::SingleMethodExecute()
   // obey the global maximum number of threads limit
   m_NumberOfWorkUnits = std::min( this->GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits );
 
-
-  // Spawn a set of threads through the SingleMethodProxy. Exceptions
-  // thrown from a thread will be caught by the SingleMethodProxy. A
-  // naive mechanism is in place for determining whether a thread
-  // threw an exception.
-  //
-  // Thanks to Hannu Helminen for suggestions on how to catch
-  // exceptions thrown by threads.
   bool exceptionOccurred = false;
   std::string exceptionDetails;
+  for ( threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop )
+    {
+    m_ThreadInfoArray[threadLoop].UserData = m_SingleData;
+    m_ThreadInfoArray[threadLoop].NumberOfWorkUnits = m_NumberOfWorkUnits;
+    m_ThreadInfoArray[threadLoop].Future = m_ThreadPool->AddWork( m_SingleMethod, &m_ThreadInfoArray[threadLoop] );
+    }
+
   try
     {
-    ThreadJob threadJob;
-    threadJob.m_ThreadFunction = (this->SingleMethodProxy);
-
-    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
-      {
-      m_ThreadInfoArray[thread_loop].UserData = m_SingleData;
-      m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-      m_ThreadInfoArray[thread_loop].ThreadFunction = m_SingleMethod;
-
-      threadJob.m_UserData = &m_ThreadInfoArray[thread_loop];
-      threadJob.m_Semaphore = &m_ThreadInfoArray[thread_loop].Semaphore;
-      try
-        {
-        m_ThreadPool->AddWork(threadJob);
-        }
-      catch (ExceptionObject& exc)
-        {
-        std::cerr << exc << std::endl;
-        throw;
-        }
-      }
-    }
-  catch( std::exception & e )
-    {
-    // get the details of the exception to rethrow them
-    exceptionDetails = e.what();
-    // If creation of any thread failed, we must make sure that all
-    // threads are correctly cleaned
-    exceptionOccurred = true;
-    }
-  catch( ... )
-    {
-    // If creation of any thread failed, we must make sure that all
-    // threads are correctly cleaned
-    exceptionOccurred = true;
-    }
-
-  // Now, the parent thread calls this->SingleMethod() itself
-  try
-    {
+    // Now, the parent thread calls this->SingleMethod() itself
     m_ThreadInfoArray[0].UserData = m_SingleData;
     m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
     m_SingleMethod( (void *)( &m_ThreadInfoArray[0] ) );
+
+    // The parent thread has finished SingleMethod()
+    // so now it waits for each of the other work units to finish
+    for ( threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop )
+      {
+      m_ThreadInfoArray[threadLoop].Future.get();
+      }
     }
   catch( ProcessAborted & )
     {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
-    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
+    for( threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop )
       {
       try
         {
-        m_ThreadPool->WaitForJob(m_ThreadInfoArray[thread_loop].Semaphore);
+        m_ThreadInfoArray[threadLoop].Future.get();
         }
       catch (ExceptionObject& exc)
         {
@@ -178,30 +145,6 @@ void PoolMultiThreader::SingleMethodExecute()
     // if this method fails, we must make sure all threads are
     // correctly cleaned
     exceptionOccurred = true;
-    }
-  // The parent thread has finished this->SingleMethod() - so now it
-  // waits for each of the other processes to exit
-  for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
-    {
-    try
-      {
-      m_ThreadPool->WaitForJob(m_ThreadInfoArray[thread_loop].Semaphore);
-      }
-    catch (ExceptionObject& exc)
-      {
-      std::cerr << exc << std::endl;
-      throw;
-      }
-    catch( std::exception & e )
-      {
-      // get the details of the exception to rethrow them
-      exceptionDetails = e.what();
-      exceptionOccurred = true;
-      }
-    catch( ... )
-      {
-      exceptionOccurred = true;
-      }
     }
 
   if( exceptionOccurred )
