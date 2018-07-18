@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT ReplaceFeatureMapNanInfImageFilter:
 public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReplaceFeatureMapNanInfImageFilter);
+
   /** Standard Self typedef */
   typedef ReplaceFeatureMapNanInfImageFilter    Self;
   typedef ImageToImageFilter< TImage, TImage>   Superclass;
