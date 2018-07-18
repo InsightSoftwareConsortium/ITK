@@ -138,7 +138,9 @@ this->AfterThreadedGenerateData();
 
 Get/Set GlobalMaximumNumberOfThreads and GlobalDefaultNumberOfThreads
 now reside in `MultiThreaderBase`. With a warning, they are still
-available in `PlatformMultiThreader`.
+available in `PlatformMultiThreader`. The common case of
+`innerFilter->SetNumberOfThreads(1);` should be replaced by
+`innerFilter->SetNumberOfWorkUnits(1);`.
 
 To transition to the new threading model, it is usually enough to rename
 `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the

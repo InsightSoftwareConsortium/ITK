@@ -127,7 +127,7 @@ public:
     VHGW = 3
     };
 
-  void SetNumberOfThreads(ThreadIdType nb) override;
+  void SetNumberOfWorkUnits(ThreadIdType nb) override;
 
 protected:
   GrayscaleDilateImageFilter();

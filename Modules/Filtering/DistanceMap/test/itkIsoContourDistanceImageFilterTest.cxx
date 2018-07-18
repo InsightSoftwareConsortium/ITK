@@ -102,7 +102,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   IsoContourType::Pointer isocontour = IsoContourType::New();
   isocontour->SetInput( multiplier->GetOutput() );
   isocontour->SetFarValue(10);
-  //  isocontour->SetNumberOfThreads(8);
+  //  isocontour->SetNumberOfWorkUnits(8);
 
   if( itk::Math::NotAlmostEquals( isocontour->GetFarValue(), 10 ) )
     {
@@ -155,7 +155,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
 
   // Run isocontour with narrowband
   isocontour->NarrowBandingOn();
-  // isocontour->SetNumberOfThreads(8);
+  // isocontour->SetNumberOfWorkUnits(8);
   isocontour->SetNarrowBand(band);
 
   try

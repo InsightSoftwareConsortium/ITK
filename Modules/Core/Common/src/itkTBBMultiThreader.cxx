@@ -23,13 +23,19 @@
 #include <atomic>
 #include <thread>
 #include "tbb/parallel_for.h"
+#include "tbb/task_scheduler_init.h"
 
 namespace itk
 {
 
 TBBMultiThreader::TBBMultiThreader()
 {
-  m_NumberOfThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
+  ThreadIdType defaultThreads = std::max( 1u, GetGlobalDefaultNumberOfThreads() );
+#if defined( ITKV4_COMPATIBILITY )
+  m_NumberOfWorkUnits = defaultThreads;
+#else
+  m_NumberOfWorkUnits = 16 * defaultThreads;
+#endif
 }
 
 TBBMultiThreader::~TBBMultiThreader()
@@ -49,20 +55,26 @@ void TBBMultiThreader::SingleMethodExecute()
     itkExceptionMacro(<< "No single method set!");
     }
 
+  tbb::task_scheduler_init tbb_init( m_MaximumNumberOfThreads );
   //we request grain size of 1 and simple_partitioner to ensure there is no chunking
-  tbb::parallel_for(tbb::blocked_range<int>(0, m_NumberOfThreads, 1), [&](tbb::blocked_range<int>r)
+  tbb::parallel_for(tbb::blocked_range<int>(0, m_NumberOfWorkUnits, 1), [&](tbb::blocked_range<int>r)
     {
-    // Make sure that TBB did not call us with a block of "threads"
-    // but rather with only one "thread" to handle
+    // Make sure that TBB did not call us with a block of work units
+    // but rather with only one work unit to handle
     itkAssertInDebugAndIgnoreInReleaseMacro(r.begin() + 1 == r.end());
 
-    ThreadInfoStruct ti;
-    ti.ThreadID = r.begin();
+    WorkUnitInfo ti;
+    ti.WorkUnitID = r.begin();
     ti.UserData = m_SingleData;
-    ti.NumberOfThreads = m_NumberOfThreads;
+    ti.NumberOfWorkUnits = m_NumberOfWorkUnits;
     m_SingleMethod(&ti); //TBB takes care of properly propagating exceptions
     },
       tbb::simple_partitioner());
+}
+
+void TBBMultiThreader::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
+{
+  m_NumberOfWorkUnits = std::max( 1u, numberOfWorkUnits );
 }
 
 void TBBMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
@@ -88,6 +100,7 @@ TBBMultiThreader
     unsigned count = lastIndexPlus1 - firstIndex;
     std::atomic< SizeValueType > progress( 0 );
     std::thread::id callingThread = std::this_thread::get_id();
+    tbb::task_scheduler_init tbb_init( m_MaximumNumberOfThreads );
     //we request grain size of 1 and simple_partitioner to ensure there is no chunking
     tbb::parallel_for(
         tbb::blocked_range<SizeValueType>(firstIndex, lastIndexPlus1, 1),
@@ -223,7 +236,7 @@ void TBBMultiThreader
     filter->UpdateProgress(0.0f);
     }
 
-  if (m_NumberOfThreads == 1) //no multi-threading wanted
+  if (m_NumberOfWorkUnits == 1) //no multi-threading wanted
     {
     funcP(index, size);
     }
@@ -240,7 +253,7 @@ void TBBMultiThreader
     std::atomic<SizeValueType> pixelProgress = { 0 };
     SizeValueType totalCount = region.GetNumberOfPixels();
     std::thread::id callingThread = std::this_thread::get_id();
-
+    tbb::task_scheduler_init tbb_init( m_MaximumNumberOfThreads );
     tbb::parallel_for(regionSplitter, [&](TBBImageRegionSplitter regionToProcess)
       {
       if (filter && filter->GetAbortGenerateData())

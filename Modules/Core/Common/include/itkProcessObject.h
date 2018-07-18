@@ -439,9 +439,21 @@ public:
   itkGetConstReferenceMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
 
-  /** Get/Set the number of threads to create when executing. */
-  itkSetClampMacro(NumberOfThreads, ThreadIdType, 1, ITK_MAX_THREADS);
-  itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
+  /** Get/Set the number of work units to create when executing. */
+  itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
+  itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
+
+#if !defined( ITK_LEGACY_REMOVE ) || defined( ITKV4_COMPATIBILITY )
+  itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count))
+  {
+    this->SetNumberOfWorkUnits(count);
+  }
+
+  itkLegacyMacro(ThreadIdType GetNumberOfThreads() const)
+  {
+    return this->GetNumberOfWorkUnits();
+  }
+#endif // !ITK_LEGACY_REMOVE
 
   /** Return the multithreader used by this class. */
   MultiThreaderType * GetMultiThreader() const
@@ -467,7 +479,7 @@ protected:
    *  thread.
    *
    * This class is the same as DomainThreader, but it uses the MultiThreader and
-   * NumberOfThreads defined on the enclosing ProcessObject.
+   * NumberOfWorkUnits defined on the enclosing ProcessObject.
    *
    * \sa DomainThreader
    * \ingroup ITKCommon
@@ -494,9 +506,9 @@ protected:
     ProcessObjectDomainThreader();
     virtual ~ProcessObjectDomainThreader();
 
-    /** This is overridden to set the MultiThreader and number of threads used
-     * the same as the ProcessObject. */
-    virtual void DetermineNumberOfThreadsUsed();
+    /** This is overridden to set the MultiThreader and number of
+     * work units used to be the same as in ProcessObject. */
+    virtual void DetermineNumberOfWorkUnitsUsed();
    };
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
@@ -833,7 +845,7 @@ private:
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   MultiThreaderType::Pointer m_MultiThreader;
-  ThreadIdType               m_NumberOfThreads;
+  ThreadIdType               m_NumberOfWorkUnits;
 
   /** Memory management ivars */
   bool m_ReleaseDataBeforeUpdateFlag;

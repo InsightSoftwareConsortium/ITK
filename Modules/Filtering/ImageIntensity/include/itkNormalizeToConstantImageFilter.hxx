@@ -69,7 +69,7 @@ NormalizeToConstantImageFilter< TInputImage, TOutputImage >
   typename StatType::Pointer stat = StatType::New();
   stat->SetInput( input0 );
   progress->RegisterInternalFilter( stat, 0.5f );
-  stat->SetNumberOfThreads( this->GetNumberOfThreads() );
+  stat->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   stat->Update();
 
   using DivType = typename itk::DivideImageFilter< InputImageType,
@@ -78,7 +78,7 @@ NormalizeToConstantImageFilter< TInputImage, TOutputImage >
   typename DivType::Pointer div = DivType::New();
   div->SetInput( input0 );
   div->SetConstant2( static_cast< RealType >( stat->GetSum() ) / m_Constant );
-  div->SetNumberOfThreads( this->GetNumberOfThreads() );
+  div->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
 
   progress->RegisterInternalFilter( div, 0.5f );
 

@@ -231,7 +231,7 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
     }
   std::cout << "...finished. " << std::endl;
 
-  std::cout << "threads: metric: " << metric->GetNumberOfThreadsUsed() << "  optimizer: " << optimizer->GetNumberOfThreads() << std::endl;
+  std::cout << "threads: metric: " << metric->GetNumberOfWorkUnitsUsed() << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
 
   // try use the sparse sample point set in CC metric
   using PointSetType = MetricType::FixedSampledPointSetType;
@@ -267,7 +267,7 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
     return EXIT_FAILURE;
     }
   std::cout << "...finished. " << std::endl;
-  std::cout << "threads: metric: " << metric->GetNumberOfThreadsUsed() << "  optimizer: " << optimizer->GetNumberOfThreads() << std::endl;
+  std::cout << "threads: metric: " << metric->GetNumberOfWorkUnitsUsed() << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
 
   //warp the image with the displacement field
   resample->SetTransform( compositeTransform );

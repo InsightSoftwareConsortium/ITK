@@ -54,7 +54,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::Initialize()
 {
   m_RegionList = ( this->GetOutput()->GetNodeList() )
-                 ->SplitRegions( this->GetNumberOfThreads() );
+                 ->SplitRegions( this->GetNumberOfWorkUnits() );
   // The active set of pixels in the sparse image is split into multi-threading
   // regions once here for computationally efficiency.
   // Later GetSplitRegions is used to access these partitions.
@@ -85,7 +85,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 
   str.Filter = this;
   str.TimeStep = dt;
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -100,10 +100,10 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   FDThreadStruct *str;
   ThreadIdType    total, threadId, threadCount;
 
-  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->WorkUnitID;
+  threadCount = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->NumberOfWorkUnits;
   str = (FDThreadStruct *)
-        ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
+        ( ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -148,7 +148,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod
     (this->PrecalculateChangeThreaderCallback, &str);
 
@@ -173,7 +173,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   str.TimeStep = NumericTraits< TimeStepType >::ZeroValue();
   // Not used during the calculate change step for normals.
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod
     (this->CalculateChangeThreaderCallback, &str);
 
@@ -181,7 +181,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.  All of the time steps calculated
   // in each thread will be combined in the ResolveTimeStepMethod.
-  ThreadIdType threadCount = this->GetMultiThreader()->GetNumberOfThreads();
+  ThreadIdType threadCount = this->GetMultiThreader()->GetNumberOfWorkUnits();
 
   str.TimeStepList.resize(threadCount, false);
   str.ValidTimeStepList.resize(threadCount);
@@ -207,11 +207,11 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   FDThreadStruct *str;
   ThreadIdType    total, threadId, threadCount;
 
-  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->WorkUnitID;
+  threadCount = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->NumberOfWorkUnits;
 
   str = (FDThreadStruct *)
-        ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
+        ( ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -238,11 +238,11 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   FDThreadStruct *str;
   ThreadIdType    total, threadId, threadCount;
 
-  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->WorkUnitID;
+  threadCount = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->NumberOfWorkUnits;
 
   str = (FDThreadStruct *)
-        ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
+        ( ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

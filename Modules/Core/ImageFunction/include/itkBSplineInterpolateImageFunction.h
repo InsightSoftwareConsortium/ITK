@@ -291,9 +291,9 @@ public:
 
   itkGetConstMacro(SplineOrder, int);
 
-  void SetNumberOfThreads(ThreadIdType numThreads);
+  void SetNumberOfWorkUnits(ThreadIdType numThreads);
 
-  itkGetConstMacro(NumberOfThreads, ThreadIdType);
+  itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
 
   /** Set the input image.  This must be set by the user. */
   void SetInputImage(const TImageType *inputData) override;
@@ -410,7 +410,7 @@ private:
   // derivatives.
   bool m_UseImageDirection;
 
-  ThreadIdType          m_NumberOfThreads;
+  ThreadIdType          m_NumberOfWorkUnits;
   vnl_matrix< long > *  m_ThreadedEvaluateIndex;
   vnl_matrix< double > *m_ThreadedWeights;
   vnl_matrix< double > *m_ThreadedWeightsDerivative;

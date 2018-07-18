@@ -50,7 +50,7 @@ void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  const int NumberOfThreads = this->GetNumberOfThreads();
+  const int NumberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // if it is not initialized
   if ( !this->m_IsInitialized )
@@ -60,8 +60,8 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
     output->SetBufferedRegion( output->GetRequestedRegion() );
     output->Allocate();
 
-    //Set the number of threads before any other initialization happens
-    this->GetMultiThreader()->SetNumberOfThreads( NumberOfThreads );
+    //Set the number of work units before any other initialization happens
+    this->GetMultiThreader()->SetNumberOfWorkUnits( NumberOfWorkUnits );
 
     // Copy the input image to the output image.  Algorithms will operate
     // directly on the output image and the update buffer.
@@ -88,10 +88,10 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.
   str.TimeStepList.clear();
-  str.TimeStepList.resize( NumberOfThreads, NumericTraits< TimeStepType >::ZeroValue() );
+  str.TimeStepList.resize( NumberOfWorkUnits, NumericTraits< TimeStepType >::ZeroValue() );
 
   str.ValidTimeStepList.clear();
-  str.ValidTimeStepList.resize( NumberOfThreads, true );
+  str.ValidTimeStepList.resize( NumberOfWorkUnits, true );
 
   // Multithread the execution
   this->GetMultiThreader()->SetSingleMethod(this->IterateThreaderCallback, &str);
@@ -114,10 +114,10 @@ ITK_THREAD_RETURN_TYPE
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
 {
-  ThreadIdType threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType threadId = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   auto * str = (NarrowBandImageFilterBaseThreadStruct *)
-    ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
+    ( ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->UserData );
 
   str->Filter->ThreadedIterate(arg, threadId);
 
@@ -135,7 +135,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   //ThreadedApplyUpdate and ThreadedCalculateChanged
   // is called instead of ApplyUpdate and CalculateChange
   auto * str = (NarrowBandImageFilterBaseThreadStruct *)
-    ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
+    ( ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->UserData );
 
   IdentifierType iter = 0;
   while ( !( this->ThreadedHalt(arg) ) )
@@ -224,7 +224,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   // It should use the InsertNarrowBandNode function, which takes care of
   // memory management issues, to create the desired narrow band.
 
-  m_RegionList = m_NarrowBand->SplitBand( this->GetMultiThreader()->GetNumberOfThreads() );
+  m_RegionList = m_NarrowBand->SplitBand( this->GetMultiThreader()->GetNumberOfWorkUnits() );
 
   // The narrow band is split into multi-threading regions once here for
   // computationally efficiency. Later GetSplitRegions is used to access these
@@ -234,10 +234,10 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 
   // Allocation of flag variable to check if a given thread touch the outer part
   // of the narrowband. If this part is touched, band should be reinitialized.
-  m_TouchedForThread.resize( this->GetMultiThreader()->GetNumberOfThreads(), false );
+  m_TouchedForThread.resize( this->GetMultiThreader()->GetNumberOfWorkUnits(), false );
 
   // A global barrier for all threads.
-  m_Barrier->Initialize( this->GetMultiThreader()->GetNumberOfThreads() );
+  m_Barrier->Initialize( this->GetMultiThreader()->GetNumberOfWorkUnits() );
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -246,7 +246,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::InitializeIteration()
 {
   //Set m_Touched flag from threads information
-  for ( ThreadIdType i = 0; i < this->GetMultiThreader()->GetNumberOfThreads(); i++ )
+  for ( ThreadIdType i = 0; i < this->GetMultiThreader()->GetNumberOfWorkUnits(); i++ )
     {
     m_Touched = ( m_Touched || m_TouchedForThread[i] );
     m_TouchedForThread[i] = false;
@@ -259,7 +259,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
     CreateNarrowBand();
 
     // Rebuild the narrow band splits used in multithreading
-    m_RegionList = m_NarrowBand->SplitBand( this->GetMultiThreader()->GetNumberOfThreads() );
+    m_RegionList = m_NarrowBand->SplitBand( this->GetMultiThreader()->GetNumberOfWorkUnits() );
 
     m_Step = 0;
     m_Touched = false;

@@ -178,7 +178,7 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   // a different result
   std::cout << "Testing with different floating point correction settings." << std::endl;
   MetricType::DerivativeType derivativeWithFPC, derivativeWithOutFPC;
-  metric->SetMaximumNumberOfThreads( 1 );
+  metric->SetMaximumNumberOfWorkUnits( 1 );
   metric->SetUseFloatingPointCorrection( false ); //default
   metric->GetValueAndDerivative( valueReturn1, derivativeWithOutFPC );
   metric->SetUseFloatingPointCorrection( true );

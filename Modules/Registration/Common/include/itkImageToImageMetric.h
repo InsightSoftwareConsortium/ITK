@@ -187,9 +187,9 @@ public:
 
   itkGetConstReferenceMacro(UseFixedImageIndexes, bool);
 
-  /** Set/Get number of threads to use for computations. */
-  void SetNumberOfThreads(ThreadIdType numberOfThreads);
-  itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
+  /** Set/Get number of work units to use for computations. */
+  void SetNumberOfWorkUnits(ThreadIdType numberOfThreads);
+  itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
   /** Set/Get gradient computation. */
   itkSetMacro(ComputeGradient, bool);
@@ -364,7 +364,7 @@ public:
 
   SizeValueType m_NumberOfFixedImageSamples;
   //m_NumberOfPixelsCounted must be mutable because the const
-  //thread consolidation functions merge each threads valus
+  //thread consolidation functions merge each work unit's values
   //onto this accumulator variable.
   mutable SizeValueType m_NumberOfPixelsCounted;
 
@@ -385,7 +385,7 @@ public:
   FixedImageMaskConstPointer  m_FixedImageMask;
   MovingImageMaskConstPointer m_MovingImageMask;
 
-  ThreadIdType m_NumberOfThreads;
+  ThreadIdType m_NumberOfWorkUnits;
 
   bool m_UseAllPixels;
   bool m_UseSequentialSampling;

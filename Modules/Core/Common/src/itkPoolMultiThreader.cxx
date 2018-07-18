@@ -42,12 +42,17 @@ PoolMultiThreader::PoolMultiThreader() :
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
-    m_ThreadInfoArray[i].ThreadID = i;
+    m_ThreadInfoArray[i].WorkUnitID = i;
     }
 
   ThreadIdType idleCount = std::max<ThreadIdType>(1u, m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
-  ThreadIdType maxCount = std::max(1u, GetGlobalDefaultNumberOfThreads());
-  m_NumberOfThreads = std::min(maxCount, idleCount);
+  ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
+#if defined( ITKV4_COMPATIBILITY )
+  m_NumberOfWorkUnits = std::min( defaultThreads, idleCount );
+#else
+  m_NumberOfWorkUnits = std::min( 3 * defaultThreads, idleCount );
+#endif
+  m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }
 
 PoolMultiThreader::~PoolMultiThreader()
@@ -60,6 +65,17 @@ void PoolMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
   m_SingleData   = data;
 }
 
+void PoolMultiThreader::SetMaximumNumberOfThreads(ThreadIdType numberOfThreads)
+{
+  Superclass::SetMaximumNumberOfThreads( numberOfThreads );
+  ThreadIdType threadCount = m_ThreadPool->GetMaximumNumberOfThreads();
+  if ( threadCount < m_MaximumNumberOfThreads )
+    {
+    m_ThreadPool->AddThreads( m_MaximumNumberOfThreads - threadCount );
+    }
+  m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
+}
+
 void PoolMultiThreader::SingleMethodExecute()
 {
   ThreadIdType thread_loop = 0;
@@ -70,7 +86,7 @@ void PoolMultiThreader::SingleMethodExecute()
     }
 
   // obey the global maximum number of threads limit
-  m_NumberOfThreads = std::min( this->GetGlobalMaximumNumberOfThreads(), m_NumberOfThreads );
+  m_NumberOfWorkUnits = std::min( this->GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits );
 
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
@@ -87,10 +103,10 @@ void PoolMultiThreader::SingleMethodExecute()
     ThreadJob threadJob;
     threadJob.m_ThreadFunction = (this->SingleMethodProxy);
 
-    for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
       {
       m_ThreadInfoArray[thread_loop].UserData = m_SingleData;
-      m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+      m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
       m_ThreadInfoArray[thread_loop].ThreadFunction = m_SingleMethod;
 
       threadJob.m_UserData = &m_ThreadInfoArray[thread_loop];
@@ -125,14 +141,14 @@ void PoolMultiThreader::SingleMethodExecute()
   try
     {
     m_ThreadInfoArray[0].UserData = m_SingleData;
-    m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+    m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
     m_SingleMethod( (void *)( &m_ThreadInfoArray[0] ) );
     }
   catch( ProcessAborted & )
     {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
-    for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
       {
       try
         {
@@ -165,7 +181,7 @@ void PoolMultiThreader::SingleMethodExecute()
     }
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+  for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
     try
       {

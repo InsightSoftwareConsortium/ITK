@@ -77,9 +77,9 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 
   delete[] m_PerThread;
 
-  m_PerThread = new AlignedPerThreadType[this->m_NumberOfThreads];
+  m_PerThread = new AlignedPerThreadType[this->m_NumberOfWorkUnits];
 
-  for( ThreadIdType threadId = 0; threadId < this->m_NumberOfThreads; threadId++ )
+  for( ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; threadId++ )
     {
     m_PerThread[threadId].m_MSEDerivative.SetSize(this->m_NumberOfParameters);
     }
@@ -113,7 +113,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
     itkExceptionMacro(<< "Fixed image has not been assigned");
     }
 
-  for( unsigned int i = 0; i < this->m_NumberOfThreads; ++i )
+  for( unsigned int i = 0; i < this->m_NumberOfWorkUnits; ++i )
     {
     m_PerThread[i].m_MSE = NumericTraits<MeasureType>::ZeroValue();
     }
@@ -139,7 +139,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
     }
 
   double mse = m_PerThread[0].m_MSE;
-  for( unsigned int t = 1; t < this->m_NumberOfThreads; t++ )
+  for( unsigned int t = 1; t < this->m_NumberOfWorkUnits; t++ )
     {
     mse += m_PerThread[t].m_MSE;
     }
@@ -217,7 +217,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
   this->m_Transform->SetParameters(parameters);
 
   // Reset the joint pdfs to zero
-  for( unsigned int i = 0; i < this->m_NumberOfThreads; ++i )
+  for( unsigned int i = 0; i < this->m_NumberOfWorkUnits; ++i )
     {
     m_PerThread[i].m_MSE = NumericTraits<MeasureType>::ZeroValue();
     }
@@ -230,7 +230,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
   memset( derivative.data_block(),
           0,
           this->m_NumberOfParameters * sizeof( double ) );
-  for( ThreadIdType threadId = 0; threadId < this->m_NumberOfThreads; threadId++ )
+  for( ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; threadId++ )
     {
     memset( m_PerThread[threadId].m_MSEDerivative.data_block(),
             0,
@@ -256,7 +256,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
     }
 
   value = 0;
-  for( unsigned int t = 0; t < this->m_NumberOfThreads; t++ )
+  for( unsigned int t = 0; t < this->m_NumberOfWorkUnits; t++ )
     {
     value += m_PerThread[t].m_MSE;
     for( unsigned int parameter = 0; parameter < this->m_NumberOfParameters;

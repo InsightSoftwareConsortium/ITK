@@ -211,8 +211,8 @@ int PerformExpImageRegistration( int argc, char *argv[] )
             << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
             << "Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << std::endl
             << "FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << std::endl
-            << "Number of threads used: metric: " << imageMetric->GetNumberOfThreadsUsed()
-            << std::endl << " optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
+            << "Number of threads used: metric: " << imageMetric->GetNumberOfWorkUnitsUsed()
+            << std::endl << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
   }
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -353,9 +353,9 @@ int PerformExpImageRegistration( int argc, char *argv[] )
             << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl
             << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << std::endl
             << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << std::endl
-            << "Number of threads used: metric: " << correlationMetric->GetNumberOfThreadsUsed()
-            << "Number of threads used: metric: " << correlationMetric->GetNumberOfThreadsUsed()
-            << " optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfThreads() << std::endl;
+            << "Number of threads used: metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
+            << "Number of threads used: metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
+            << " optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();

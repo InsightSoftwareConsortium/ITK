@@ -51,7 +51,7 @@ int itkMaximumProjectionImageFilterTest2(int argc, char * argv[])
   filter->SetProjectionDimension( dim );
   // to be sure that the result is ok with several threads, even on a single
   // proc computer
-  filter->SetNumberOfThreads( 2 );
+  filter->SetNumberOfWorkUnits( 2 );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 

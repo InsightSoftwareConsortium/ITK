@@ -199,7 +199,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  std::cout << "Number of threads: metric: " << metric->GetNumberOfThreadsUsed() << " optimizer: " << optimizer->GetNumberOfThreads() << std::endl;
+  std::cout << "Number of threads: metric: " << metric->GetNumberOfWorkUnitsUsed() << " optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
   std::cout << "Scales: " << optimizer->GetScales() << " DoEstimateScales: " << optimizer->GetDoEstimateScales() << std::endl;
   std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
 

@@ -61,7 +61,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       typename LCI2IType::Pointer lci2i = LCI2IType::New();
       lci2i->SetInput( this->GetOutput() );
       // Respect the number of threads of the filter
-      lci2i->SetNumberOfThreads( this->GetNumberOfThreads() );
+      lci2i->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
       lci2i->Update();
       m_LabelImage = lci2i->GetOutput();
       }

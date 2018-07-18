@@ -112,7 +112,7 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
   plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in,
                                      (typename FFTWProxyType::ComplexType*)
                                      fftwOutput->GetBufferPointer(), flags,
-                                     this->GetNumberOfThreads());
+                                     this->GetNumberOfWorkUnits());
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 
@@ -122,7 +122,7 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
   halfToFullFilter->SetActualXDimensionIsOdd( inputSize[0] % 2 != 0 );
   halfToFullFilter->SetInput( fftwOutput );
   halfToFullFilter->GraftOutput( this->GetOutput() );
-  halfToFullFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  halfToFullFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   halfToFullFilter->UpdateLargestPossibleRegion();
   this->GraftOutput( halfToFullFilter->GetOutput() );
 }

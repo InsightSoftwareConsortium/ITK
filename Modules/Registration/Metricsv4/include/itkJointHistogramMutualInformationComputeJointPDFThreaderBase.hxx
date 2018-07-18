@@ -44,7 +44,7 @@ void
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::BeforeThreadedExecution()
 {
-  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
   delete[] this->m_JointHistogramMIPerThreadVariables;
   this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[ numThreadsUsed ];
   for( ThreadIdType i = 0; i < numThreadsUsed; ++i )
@@ -116,7 +116,7 @@ void
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::AfterThreadedExecution()
 {
-  const ThreadIdType numberOfThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numberOfThreadsUsed = this->GetNumberOfWorkUnitsUsed();
 
   using JointHistogramPixelType = typename JointHistogramType::PixelType;
   this->m_Associate->m_JointHistogramTotalCount = NumericTraits<SizeValueType>::ZeroValue();

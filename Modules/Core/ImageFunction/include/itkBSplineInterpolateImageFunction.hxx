@@ -46,7 +46,7 @@ template< typename TImageType, typename TCoordRep, typename TCoefficientType >
 BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::BSplineInterpolateImageFunction()
 {
-  m_NumberOfThreads = 1;
+  m_NumberOfWorkUnits = 1;
   m_ThreadedEvaluateIndex = nullptr;
   m_ThreadedWeights = nullptr;
   m_ThreadedWeightsDerivative = nullptr;
@@ -88,7 +88,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
   os << indent << "UseImageDirection = "
      << ( this->m_UseImageDirection ? "On" : "Off" ) << std::endl;
-  os << indent << "NumberOfThreads: " << m_NumberOfThreads  << std::endl;
+  os << indent << "NumberOfWorkUnits: " << m_NumberOfWorkUnits  << std::endl;
 }
 
 template< typename TImageType, typename TCoordRep, typename TCoefficientType >
@@ -139,9 +139,9 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 template< typename TImageType, typename TCoordRep, typename TCoefficientType >
 void
 BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
-::SetNumberOfThreads(ThreadIdType numThreads)
+::SetNumberOfWorkUnits(ThreadIdType numThreads)
 {
-  m_NumberOfThreads = numThreads;
+  m_NumberOfWorkUnits = numThreads;
   this->GeneratePointsToIndex();
 }
 
@@ -627,12 +627,12 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
   // index vector.  This is precomputed to save time during the interpolation
   // routine.
   delete[] m_ThreadedEvaluateIndex;
-  m_ThreadedEvaluateIndex = new vnl_matrix< long >[m_NumberOfThreads];
+  m_ThreadedEvaluateIndex = new vnl_matrix< long >[m_NumberOfWorkUnits];
   delete[] m_ThreadedWeights;
-  m_ThreadedWeights = new vnl_matrix< double >[m_NumberOfThreads];
+  m_ThreadedWeights = new vnl_matrix< double >[m_NumberOfWorkUnits];
   delete[] m_ThreadedWeightsDerivative;
-  m_ThreadedWeightsDerivative = new vnl_matrix< double >[m_NumberOfThreads];
-  for ( unsigned int i = 0; i < m_NumberOfThreads; i++ )
+  m_ThreadedWeightsDerivative = new vnl_matrix< double >[m_NumberOfWorkUnits];
+  for ( unsigned int i = 0; i < m_NumberOfWorkUnits; i++ )
     {
     m_ThreadedEvaluateIndex[i].set_size(ImageDimension, m_SplineOrder + 1);
     m_ThreadedWeights[i].set_size(ImageDimension, m_SplineOrder + 1);

@@ -119,20 +119,20 @@ BinaryReconstructionByDilationImageFilter<TInputImage>
   labelizer->SetInputForegroundValue( m_ForegroundValue );
   labelizer->SetOutputBackgroundValue( m_BackgroundValue );
   labelizer->SetFullyConnected( m_FullyConnected );
-  labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(labelizer, .25f);
 
   typename ReconstructionType::Pointer reconstruction = ReconstructionType::New();
   reconstruction->SetInput( labelizer->GetOutput() );
   reconstruction->SetMarkerImage( this->GetMarkerImage() );
   reconstruction->SetForegroundValue( m_ForegroundValue );
-  reconstruction->SetNumberOfThreads( this->GetNumberOfThreads() );
+  reconstruction->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(reconstruction, .25f);
 
   typename OpeningType::Pointer opening = OpeningType::New();
   opening->SetInput( reconstruction->GetOutput() );
   opening->SetLambda( true );
-  opening->SetNumberOfThreads( this->GetNumberOfThreads() );
+  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(opening, .25f);
 
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
@@ -140,7 +140,7 @@ BinaryReconstructionByDilationImageFilter<TInputImage>
   binarizer->SetForegroundValue( m_ForegroundValue );
   binarizer->SetBackgroundValue( m_BackgroundValue );
   binarizer->SetBackgroundImage( this->GetMaskImage() );
-  binarizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(binarizer, .5f);
 
   binarizer->GraftOutput( this->GetOutput() );

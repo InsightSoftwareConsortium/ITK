@@ -141,7 +141,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     this->m_MaxErrorNorm = NumericTraits<RealType>::ZeroValue();
 
     this->m_DoThreadedEstimateInverse = false;
-    this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+    this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)

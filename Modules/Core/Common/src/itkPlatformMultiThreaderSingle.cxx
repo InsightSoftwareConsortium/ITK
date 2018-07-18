@@ -38,12 +38,12 @@ void PlatformMultiThreader::MultipleMethodExecute()
   ThreadIdType thread_loop;
 
   // obey the global maximum number of threads limit
-  if ( m_NumberOfThreads > m_GlobalMaximumNumberOfThreads )
+  if ( m_NumberOfWorkUnits > m_GlobalMaximumNumberOfThreads )
     {
-    m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
+    m_NumberOfWorkUnits = m_GlobalMaximumNumberOfThreads;
     }
 
-  for ( thread_loop = 0; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for ( thread_loop = 0; thread_loop < m_NumberOfWorkUnits; thread_loop++ )
     {
     if ( m_MultipleMethod[thread_loop] == (ThreadFunctionType)0 )
       {
@@ -54,7 +54,7 @@ void PlatformMultiThreader::MultipleMethodExecute()
 
   // There is no multi threading, so there is only one thread.
   m_ThreadInfoArray[0].UserData    = m_MultipleData[0];
-  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
   ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
 }
 
@@ -66,7 +66,7 @@ ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType itkNotUsed( f
   return -1;
 }
 
-void PlatformMultiThreader::TerminateThread(ThreadIdType ThreadID)
+void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 {
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
@@ -84,7 +84,7 @@ PlatformMultiThreader
 
 ThreadProcessIdType
 PlatformMultiThreader
-::SpawnDispatchSingleMethodThread(PlatformMultiThreader::ThreadInfoStruct * itkNotUsed( threadInfo ))
+::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * itkNotUsed( threadInfo ))
 {
   // No threading library specified.  Do nothing.  The computation
   // will be run by the main execution thread.

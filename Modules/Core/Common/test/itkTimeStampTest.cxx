@@ -31,11 +31,11 @@ typedef struct {
 
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 {
-  using ThreadInfoType = itk::MultiThreaderBase::ThreadInfoStruct;
+  using ThreadInfoType = itk::MultiThreaderBase::WorkUnitInfo;
 
   auto * infoStruct = static_cast< ThreadInfoType * >( ptr );
 
-  const itk::ThreadIdType threadId = infoStruct->ThreadID;
+  const itk::ThreadIdType threadId = infoStruct->WorkUnitID;
 
   auto * helper = static_cast< TimeStampTestHelper * >( infoStruct->UserData );
 
@@ -55,11 +55,11 @@ int itkTimeStampTest(int, char*[])
 
     // Set up the multithreader
     itk::MultiThreaderBase::Pointer multithreader = itk::MultiThreaderBase::New();
-    multithreader->SetNumberOfThreads( ITK_MAX_THREADS+10 );// this will be clamped
+    multithreader->SetNumberOfWorkUnits( ITK_MAX_THREADS+10 );// this will be clamped
     multithreader->SetSingleMethod( modified_function, &helper);
 
     // Test that the number of threads has actually been clamped
-    const itk::ThreadIdType numberOfThreads = multithreader->GetNumberOfThreads();
+    const itk::ThreadIdType numberOfThreads = multithreader->GetMaximumNumberOfThreads();
 
     if( numberOfThreads > ITK_MAX_THREADS )
       {
@@ -68,17 +68,19 @@ int itkTimeStampTest(int, char*[])
       return EXIT_FAILURE;
       }
 
+    const itk::ThreadIdType numberOfWorkUnits = multithreader->GetNumberOfWorkUnits();
+
     // Set up the helper class
-    helper.counters.resize( numberOfThreads );
-    helper.timestamps.resize( numberOfThreads );
-    for(itk::ThreadIdType k=0; k < numberOfThreads; k++)
+    helper.counters.resize( numberOfWorkUnits );
+    helper.timestamps.resize( numberOfWorkUnits );
+    for(itk::ThreadIdType k=0; k < numberOfWorkUnits; k++)
     {
        helper.counters[k] = 0;
     }
 
     // Declare an array to test whether the all modified times have
     // been used
-    std::vector<bool> istimestamped( numberOfThreads );
+    std::vector<bool> istimestamped( numberOfWorkUnits );
 
     // Call Modified once  on any object to make it up-to-date
     multithreader->Modified();
@@ -96,7 +98,7 @@ int itkTimeStampTest(int, char*[])
 
       itk::ModifiedTimeType min_mtime = helper.timestamps[0].GetMTime();
       itk::ModifiedTimeType max_mtime = helper.timestamps[0].GetMTime();
-      for(itk::ThreadIdType k=0; k < numberOfThreads; k++)
+      for(itk::ThreadIdType k=0; k < numberOfWorkUnits; k++)
         {
         const itk::ModifiedTimeType & mtime = helper.timestamps[k].GetMTime();
         if ( mtime > max_mtime )
@@ -113,12 +115,12 @@ int itkTimeStampTest(int, char*[])
         }
 
       bool iter_success =
-             ( ((max_mtime-prev_mtime ) == numberOfThreads) &&
+             ( ((max_mtime-prev_mtime ) == numberOfWorkUnits) &&
                (min_mtime==prev_mtime+1) );
 
       if ( iter_success )
         {
-        for(itk::ThreadIdType k=0; k < numberOfThreads; k++)
+        for(itk::ThreadIdType k=0; k < numberOfWorkUnits; k++)
           {
           // Test whether the all modified times have
           // been used
@@ -151,11 +153,12 @@ int itkTimeStampTest(int, char*[])
         std::cerr << "min_mtime       : " << min_mtime << std::endl;
         std::cerr << "prev_mtime      : " << prev_mtime << std::endl;
         std::cerr << "num_threads     : " << numberOfThreads << std::endl;
+        std::cerr << "num_work_units  : " << numberOfWorkUnits << std::endl;
         std::cerr << "max - prev mtime: " << max_mtime - prev_mtime << std::endl;
         std::cerr << std::endl;
         success = false;
 
-        // Note that in a more general setting,  (max_mtime-prev_mtime)>numberOfThreads
+        // Note that in a more general setting,  (max_mtime-prev_mtime)>numberOfWorkUnits
         // might be a normal case since the modified time of a time stamp
         // is global. If a new itk object is created this will also increment
         // the time. In our specific test, there's no reason for another ITK object to be

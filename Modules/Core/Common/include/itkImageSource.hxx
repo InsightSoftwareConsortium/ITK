@@ -210,9 +210,9 @@ ImageSource<TOutputImage>
 
   const OutputImageType *outputPtr = this->GetOutput();
   const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
-  const unsigned int validThreads = splitter->GetNumberOfSplits(outputPtr->GetRequestedRegion(), this->GetNumberOfThreads());
+  const unsigned int validThreads = splitter->GetNumberOfSplits(outputPtr->GetRequestedRegion(), this->GetNumberOfWorkUnits());
 
-  this->GetMultiThreader()->SetNumberOfThreads(validThreads);
+  this->GetMultiThreader()->SetNumberOfWorkUnits(validThreads);
   this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
 
   this->GetMultiThreader()->SingleMethodExecute();
@@ -238,7 +238,7 @@ ImageSource< TOutputImage >
     }
   else
     {
-    this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+    this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)
@@ -287,10 +287,10 @@ ITK_THREAD_RETURN_TYPE
 ImageSource< TOutputImage >
 ::ThreaderCallback(void *arg)
 {
-  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->ThreadID;
-  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  ThreadIdType threadId = threadInfo->WorkUnitID;
+  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   ThreadStruct *str = (ThreadStruct *)(threadInfo->UserData);
 
   // execute the actual method with appropriate output region

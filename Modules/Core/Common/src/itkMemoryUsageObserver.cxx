@@ -149,7 +149,7 @@ typedef struct _SYSTEM_THREADS {
 
 typedef struct _SYSTEM_PROCESSES { // Information Class 5
   ULONG NextEntryDelta;
-  ULONG ThreadCount;
+  ULONG MaximumNumberOfThreads;
   ULONG Reserved1[6];
   LARGE_INTEGER CreateTime;
   LARGE_INTEGER UserTime;

@@ -231,7 +231,7 @@ int itkVideoToVideoFilterTest( int, char* [] )
     filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() );
 
   // Update the filter
-  filter->SetNumberOfThreads(1);
+  filter->SetNumberOfWorkUnits(1);
   filter->Update();
 
   // Report on output buffers

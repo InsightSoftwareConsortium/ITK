@@ -154,7 +154,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
       }
     }
   inputPadder->SetPadUpperBound( inputUpperBound );
-  inputPadder->SetNumberOfThreads( this->GetNumberOfThreads() );
+  inputPadder->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   inputPadder->SetInput( input );
   inputPadder->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( inputPadder, 0.5f * progressWeight );
@@ -167,7 +167,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   typename InputCastFilterType::Pointer inputCaster = InputCastFilterType::New();
   // See if we can avoid unnecessary casting and copying of memory
   inputCaster->InPlaceOn();
-  inputCaster->SetNumberOfThreads( this->GetNumberOfThreads() );
+  inputCaster->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   inputCaster->SetInput( inputPadder->GetOutput() );
   inputCaster->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( inputCaster, 0.5f * progressWeight );
@@ -185,7 +185,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
 {
   // Take the Fourier transform of the padded image.
   typename FFTFilterType::Pointer imageFFTFilter = FFTFilterType::New();
-  imageFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  imageFFTFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   imageFFTFilter->SetInput( paddedInput );
   imageFFTFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( imageFFTFilter, progressWeight );
@@ -224,7 +224,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
         NormalizeToConstantImageFilter< KernelImageType, InternalImageType >;
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
     normalizeFilter->SetConstant( NumericTraits< TInternalPrecision >::OneValue() );
-    normalizeFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+    normalizeFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     normalizeFilter->SetInput( kernel );
     normalizeFilter->ReleaseDataFlagOn();
     progress->RegisterInternalFilter( normalizeFilter,
@@ -236,7 +236,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     KernelPadPointer kernelPadder = KernelPadType::New();
     kernelPadder->SetConstant( NumericTraits< TInternalPrecision >::ZeroValue() );
     kernelPadder->SetPadUpperBound( kernelUpperBound );
-    kernelPadder->SetNumberOfThreads( this->GetNumberOfThreads() );
+    kernelPadder->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     kernelPadder->SetInput( normalizeFilter->GetOutput() );
     kernelPadder->ReleaseDataFlagOn();
     progress->RegisterInternalFilter( kernelPadder,
@@ -251,7 +251,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     KernelPadPointer kernelPadder = KernelPadType::New();
     kernelPadder->SetConstant( NumericTraits< TInternalPrecision >::ZeroValue() );
     kernelPadder->SetPadUpperBound( kernelUpperBound );
-    kernelPadder->SetNumberOfThreads( this->GetNumberOfThreads() );
+    kernelPadder->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     kernelPadder->SetInput( kernel );
     kernelPadder->ReleaseDataFlagOn();
     progress->RegisterInternalFilter( kernelPadder,
@@ -268,13 +268,13 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     kernelShift[i] = -(static_cast<typename KernelShiftFilterType::OffsetType::OffsetValueType>(kernelSize[i]/2));
     }
   kernelShifter->SetShift( kernelShift );
-  kernelShifter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  kernelShifter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   kernelShifter->SetInput( paddedKernelImage );
   kernelShifter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( kernelShifter, 0.1f * progressWeight );
 
   typename FFTFilterType::Pointer kernelFFTFilter = FFTFilterType::New();
-  kernelFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  kernelFFTFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   kernelFFTFilter->SetInput( kernelShifter->GetOutput() );
   progress->RegisterInternalFilter( kernelFFTFilter, 0.699f * progressWeight );
   kernelFFTFilter->Update();
@@ -293,7 +293,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     kernelOffset[i] = static_cast< InfoOffsetValueType >( inputIndex[i] - inputLowerBound[i] - kernelIndex[i] );
     }
   kernelInfoFilter->SetOutputOffset( kernelOffset );
-  kernelInfoFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  kernelInfoFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   kernelInfoFilter->SetInput( kernelFFTFilter->GetOutput() );
   progress->RegisterInternalFilter( kernelInfoFilter, 0.001f * progressWeight );
   kernelInfoFilter->Update();
@@ -310,7 +310,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
 {
   typename IFFTFilterType::Pointer ifftFilter = IFFTFilterType::New();
   ifftFilter->SetActualXDimensionIsOdd( this->GetXDimensionIsOdd() );
-  ifftFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  ifftFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   ifftFilter->SetInput( paddedOutput );
   ifftFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( ifftFilter, 0.6f * progressWeight );
@@ -347,7 +347,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     }
 
   // Graft the minipipeline output to this filter.
-  extractFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  extractFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   extractFilter->SetInput( paddedOutput );
   extractFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   progress->RegisterInternalFilter( extractFilter, progressWeight );

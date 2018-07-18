@@ -158,7 +158,7 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
     return EXIT_FAILURE;
     }
 
-  optimizer->SetNumberOfThreads( 1 );
+  optimizer->SetNumberOfWorkUnits( 1 );
 
   /* Test StartOptimization */
   TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );

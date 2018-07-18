@@ -73,7 +73,7 @@ int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::s
     cputimer.Start();
 
     // build pipeline
-    CPUFilter->SetNumberOfThreads( nThreads );
+    CPUFilter->SetNumberOfWorkUnits( nThreads );
 
     CPUFilter->SetOutsideValue( outsideValue );
     CPUFilter->SetInsideValue(  insideValue  );
@@ -86,7 +86,7 @@ int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::s
     cputimer.Stop();
 
     std::cout << "CPU binary threshold took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
+              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n" << std::endl;
 
     if( nThreads == 8 )
     {

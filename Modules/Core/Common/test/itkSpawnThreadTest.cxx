@@ -24,24 +24,19 @@
 
 
 typedef struct {
-  int   numberOfLoop;
+  int numberOfLoop;
   itk::MutexLock::Pointer sharedMutex;
 } SharedThreadData;
 
 void* ThreadFunction(void *ptr)
 {
-
   // Retrieve shared thread data and user data
-  auto * threadInfo = static_cast<itk::PlatformMultiThreader::ThreadInfoStruct*>(ptr);
-
-  itk::ThreadIdType localthreadId    = threadInfo->ThreadID;
-
-  auto * localThreadData = static_cast<SharedThreadData*>(threadInfo->UserData);
-
-  int localnumberOfLoop              = localThreadData->numberOfLoop;
+  auto * workUnitInfo = static_cast<itk::PlatformMultiThreader::WorkUnitInfo*>(ptr);
+  itk::ThreadIdType localthreadId = workUnitInfo->WorkUnitID;
+  auto * localThreadData = static_cast<SharedThreadData*>(workUnitInfo->UserData);
+  int localnumberOfLoop = localThreadData->numberOfLoop;
   itk::MutexLock::Pointer localMutex = localThreadData->sharedMutex;
 
-  // Loop
   for (int i = 0; i < localnumberOfLoop; ++i)
     {
     localMutex->Lock();

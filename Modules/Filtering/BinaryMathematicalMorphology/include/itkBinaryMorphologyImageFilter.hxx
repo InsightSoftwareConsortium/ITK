@@ -35,7 +35,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
   m_ForegroundValue = NumericTraits< InputPixelType >::max();
   m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
-  //this->SetNumberOfThreads(1);
+  //this->SetNumberOfWorkUnits(1);
   this->AnalyzeKernel();
 }
 

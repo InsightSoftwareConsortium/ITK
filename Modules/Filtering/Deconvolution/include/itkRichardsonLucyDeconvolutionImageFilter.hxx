@@ -51,7 +51,7 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
 
   // Set up minipipeline to compute estimate at each iteration
   m_ComplexMultiplyFilter1 = ComplexMultiplyType::New();
-  m_ComplexMultiplyFilter1->SetNumberOfThreads( this->GetNumberOfThreads() );
+  m_ComplexMultiplyFilter1->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   // Transformed estimate will be set as input 1 in Iteration()
   m_ComplexMultiplyFilter1->SetInput2( this->m_TransferFunction );
   m_ComplexMultiplyFilter1->InPlaceOn();
@@ -60,7 +60,7 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
                                     0.07f * iterationProgressWeight );
 
   m_IFFTFilter1 = IFFTFilterType::New();
-  m_IFFTFilter1->SetNumberOfThreads( this->GetNumberOfThreads() );
+  m_IFFTFilter1->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   m_IFFTFilter1->SetActualXDimensionIsOdd( this->GetXDimensionIsOdd() );
   m_IFFTFilter1->SetInput( m_ComplexMultiplyFilter1->GetOutput() );
   m_IFFTFilter1->ReleaseDataFlagOn();
@@ -68,7 +68,7 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
                                     0.2f * iterationProgressWeight );
 
   m_DivideFilter = DivideFilterType::New();
-  m_DivideFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  m_DivideFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   m_DivideFilter->SetInput1( m_PaddedInput );
   m_DivideFilter->SetInput2( m_IFFTFilter1->GetOutput() );
   m_DivideFilter->InPlaceOn();
@@ -78,7 +78,7 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
                                     0.1f * iterationProgressWeight );
 
   m_FFTFilter = FFTFilterType::New();
-  m_FFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  m_FFTFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   m_FFTFilter->SetInput( m_DivideFilter->GetOutput() );
   m_FFTFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( m_FFTFilter,
@@ -88,7 +88,7 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
   m_ConjugateAdaptor->SetImage( this->m_TransferFunction );
 
   m_ComplexMultiplyFilter2 = ComplexConjugateMultiplyType::New();
-  m_ComplexMultiplyFilter2->SetNumberOfThreads( this->GetNumberOfThreads() );
+  m_ComplexMultiplyFilter2->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   m_ComplexMultiplyFilter2->SetInput1( m_FFTFilter->GetOutput() );
   m_ComplexMultiplyFilter2->SetInput2( m_ConjugateAdaptor );
   m_ComplexMultiplyFilter2->ReleaseDataFlagOn();
@@ -96,7 +96,7 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
                                     0.07f * iterationProgressWeight );
 
   m_IFFTFilter2 = IFFTFilterType::New();
-  m_IFFTFilter2->SetNumberOfThreads( this->GetNumberOfThreads() );
+  m_IFFTFilter2->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   m_IFFTFilter2->SetActualXDimensionIsOdd( this->GetXDimensionIsOdd() );
   m_IFFTFilter2->SetInput( m_ComplexMultiplyFilter2->GetOutput() );
   m_IFFTFilter2->ReleaseDataFlagOn();
@@ -104,7 +104,7 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
                                     0.2f * iterationProgressWeight );
 
   m_MultiplyFilter = MultiplyFilterType::New();
-  m_MultiplyFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  m_MultiplyFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   // Current estimate will be set as input 1 in Iteration()
   m_MultiplyFilter->SetInput2( m_IFFTFilter2->GetOutput() );
   m_MultiplyFilter->InPlaceOn();

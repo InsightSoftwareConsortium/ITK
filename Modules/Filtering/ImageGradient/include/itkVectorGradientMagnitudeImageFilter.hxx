@@ -38,7 +38,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 
   m_UseImageSpacing = true;
   m_UsePrincipleComponents = true;
-  m_RequestedNumberOfThreads = this->GetNumberOfThreads();
+  m_RequestedNumberOfThreads = this->GetNumberOfWorkUnits();
   for ( i = 0; i < ImageDimension; i++ )
     {
     m_DerivativeWeights[i] = static_cast< TRealType >( 1.0 );
@@ -191,12 +191,12 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   // data is ok because we have a special solver.
   if ( m_UsePrincipleComponents == true && ImageDimension != 3 )
     {
-    m_RequestedNumberOfThreads = this->GetNumberOfThreads();
-    this->SetNumberOfThreads(1);
+    m_RequestedNumberOfThreads = this->GetNumberOfWorkUnits();
+    this->SetNumberOfWorkUnits(1);
     }
   else
     {
-    this->SetNumberOfThreads(m_RequestedNumberOfThreads);
+    this->SetNumberOfWorkUnits(m_RequestedNumberOfThreads);
     }
   //
   // cast might not be necessary, but CastImagefilter is optimized for

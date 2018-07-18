@@ -42,7 +42,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = TBBMultiThreader;
-  using Superclass = Object;
+  using Superclass = MultiThreaderBase;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -50,17 +50,21 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TBBMultiThreader, Object);
+  itkTypeMacro(TBBMultiThreader, MultiThreaderBase);
 
+  /** Get/Set the number of work units to create. TBBMultiThreader
+   * does not limit the number of work units. This number is
+   * only respected by SetSingleMethod/SingleMethodExecute. */
+  virtual void SetNumberOfWorkUnits( ThreadIdType numberOfWorkUnits ) override;
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
-   * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
+   * m_NumberOfWorkUnits work units. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
    * necessary. */
   void SingleMethodExecute() override;
 
   /** Set the SingleMethod to f() and the UserData field of the
-   * ThreadInfoStruct that is passed to it will be data.
+   * WorkUnitInfo that is passed to it will be data.
    * This method must be of type itkThreadFunctionType and
    * must take a single argument of type void. */
   void SetSingleMethod(ThreadFunctionType, void *data) override;

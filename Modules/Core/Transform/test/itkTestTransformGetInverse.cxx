@@ -65,7 +65,7 @@ template <typename TTransform>
 ITK_THREAD_RETURN_TYPE
 TestGetInverseThreadFunction(void *perThreadData)
 {
-  auto * ti = static_cast<itk::MultiThreaderBase::ThreadInfoStruct *>(perThreadData);
+  auto * ti = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(perThreadData);
   auto * td = static_cast<ThreadData<TTransform> *>(ti->UserData);
   for(unsigned int i = 0; i < 100000; ++i)
     {

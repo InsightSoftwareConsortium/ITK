@@ -53,7 +53,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   this->m_CachedNumberOfLocalParameters = this->m_Associate->GetNumberOfLocalParameters();
 
   /* Per-thread results */
-  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
   delete[] m_GetValueAndDerivativePerThreadVariables;
   this->m_GetValueAndDerivativePerThreadVariables = new AlignedGetValueAndDerivativePerThreadStruct[ numThreadsUsed ];
 
@@ -120,7 +120,7 @@ void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::AfterThreadedExecution()
 {
-  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
   this->m_Associate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::ZeroValue();

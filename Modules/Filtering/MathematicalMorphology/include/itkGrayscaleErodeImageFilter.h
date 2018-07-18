@@ -127,7 +127,7 @@ public:
   /** GrayscaleErodeImageFilter need to set its internal filters as modified */
   void Modified() const override;
 
-  void SetNumberOfThreads(ThreadIdType nb) override;
+  void SetNumberOfWorkUnits(ThreadIdType nb) override;
 
 protected:
   GrayscaleErodeImageFilter();

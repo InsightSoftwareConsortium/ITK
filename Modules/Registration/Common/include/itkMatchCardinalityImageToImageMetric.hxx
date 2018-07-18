@@ -75,8 +75,8 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 
   m_ThreadMatches.clear();
   m_ThreadCounts.clear();
-  m_ThreadMatches.resize( this->GetNumberOfThreads() );
-  m_ThreadCounts.resize( this->GetNumberOfThreads() );
+  m_ThreadMatches.resize( this->GetNumberOfWorkUnits() );
+  m_ThreadCounts.resize( this->GetNumberOfWorkUnits() );
 
   typename std::vector< MeasureType >::iterator mIt;
   std::vector< SizeValueType >::iterator cIt;
@@ -96,7 +96,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   ThreadStruct str;
   str.Metric = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
@@ -263,10 +263,10 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   ThreadStruct *str;
   ThreadIdType  total, threadId, threadCount;
 
-  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->WorkUnitID;
+  threadCount = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->NumberOfWorkUnits;
 
-  str = (ThreadStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
+  str = (ThreadStruct *)( ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->UserData );
 
   // execute the actual method with appropriate computation region
   // first find out how many pieces extent can be split into.

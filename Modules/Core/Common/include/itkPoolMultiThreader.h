@@ -51,7 +51,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = PoolMultiThreader;
-  using Superclass = Object;
+  using Superclass = MultiThreaderBase;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -59,24 +59,28 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PoolMultiThreader, Object);
+  itkTypeMacro(PoolMultiThreader, MultiThreaderBase);
 
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
-   * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
+   * m_NumberOfWorkUnits work units. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
    * necessary. */
   void SingleMethodExecute() override;
 
   /** Set the SingleMethod to f() and the UserData field of the
-   * ThreadInfoStruct that is passed to it will be data.
+   * WorkUnitInfo that is passed to it will be data.
    * This method must be of type itkThreadFunctionType and
    * must take a single argument of type void. */
   void SetSingleMethod(ThreadFunctionType, void *data) override;
 
+  /** Set the number of threads to use. PoolMultiThreader
+   * can only INCREASE its number of threads. */
+  virtual void SetMaximumNumberOfThreads( ThreadIdType numberOfThreads ) override;
+
   using JobSemaphoreType = ThreadPool::Semaphore;
 
-  struct ThreadPoolInfoStruct :ThreadInfoStruct
+  struct ThreadPoolInfoStruct :WorkUnitInfo
     {
     JobSemaphoreType Semaphore;
     };

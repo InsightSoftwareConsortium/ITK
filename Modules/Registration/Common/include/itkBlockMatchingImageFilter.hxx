@@ -60,7 +60,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
-  os << indent << "Number of threads: " << this->GetNumberOfThreads() << std::endl
+  os << indent << "Number of threads: " << this->GetNumberOfWorkUnits() << std::endl
      << indent << "m_BlockRadius: " << m_BlockRadius << std::endl
      << indent << "m_SearchRadius: " << m_SearchRadius << std::endl;
 }
@@ -95,7 +95,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
@@ -210,8 +210,8 @@ ITK_THREAD_RETURN_TYPE
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::ThreaderCallback(void *arg)
 {
-  auto * str = (ThreadStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
-  ThreadIdType threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  auto * str = (ThreadStruct *)( ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->UserData );
+  ThreadIdType threadId = ( (MultiThreaderBase::WorkUnitInfo *)( arg ) )->WorkUnitID;
 
   str->Filter->ThreadedGenerateData( threadId );
 
@@ -227,7 +227,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FeaturePointsConstPointer featurePoints = this->GetFeaturePoints();
 
-  SizeValueType threadCount = this->GetNumberOfThreads();
+  SizeValueType threadCount = this->GetNumberOfWorkUnits();
 
   // compute first point and number of points (count) for this thread
   SizeValueType count = m_PointsCount / threadCount;

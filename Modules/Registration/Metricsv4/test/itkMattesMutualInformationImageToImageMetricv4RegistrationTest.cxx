@@ -203,7 +203,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   optimizer->StartOptimization();
 
   std::cout << "Affine registration complete. GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
-  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << std::endl;
+  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
 
   // now add the displacement field to the composite transform
   compositeTransform->AddTransform( affineTransform );

@@ -83,7 +83,7 @@ void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   // Initialize statistics about difference image.
   m_MinimumDifference = NumericTraits< OutputPixelType >::max();
@@ -249,7 +249,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
   // Set statistics about difference image.
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   for ( ThreadIdType i = 0; i < numberOfThreads; ++i )
     {
