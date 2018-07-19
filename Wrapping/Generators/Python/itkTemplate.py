@@ -344,13 +344,29 @@ class itkTemplate(object):
 
 
     def __call__(self, *args, **kwargs):
+        """Create a process object, update with the inputs and
+        attributes, and return the result.
+
+        The syntax is the same as the one used in New().
+
+        UpdateLargestPossibleRegion() is execute and the current output,
+        or tuple of outputs if there is more than
+        one, is returned.
+
+        For example,
+
+          outputImage = itk.MedianImageFilter(inputImage, Radius=(1,2))
+        """
         filt = self.New(*args, **kwargs)
         try:
             filt.UpdateLargestPossibleRegion()
-            img = filt.GetOutput()
+            if filt.GetNumberOfIndexedOutputs() == 1:
+                result = filt.GetOutput()
+            else:
+                result = tuple([filt.GetOutput(idx) for idx in range(filt.GetNumberOfIndexedOutputs())])
         except AttributeError:
-            img = filt
-        return img
+            result = filt
+        return result
 
     def New(self, *args, **kwargs):
         """Instantiate the template with a type implied from its input.

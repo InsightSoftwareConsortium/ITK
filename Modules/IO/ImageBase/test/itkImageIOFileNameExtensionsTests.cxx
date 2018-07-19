@@ -19,7 +19,7 @@
 #include "itkImageIOBase.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkImageIOFileNameExtensionsTests( int , char * [] )
 {

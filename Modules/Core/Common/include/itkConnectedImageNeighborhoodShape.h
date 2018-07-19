@@ -25,6 +25,17 @@
 #include <cstdint> // For uintmax_t
 #include <limits>
 
+// C++11 does not guarantee that assert can be used in constexpr
+// functions. This is a work-around for GCC 4.8, 4.9. Originating
+// from Andrzej's C++ blog:
+//  https://akrzemi1.wordpress.com/2017/05/18/asserts-in-constexpr-functions/
+#if defined NDEBUG
+# define ITK_X_ASSERT(CHECK) void(0)
+#else
+# define ITK_X_ASSERT(CHECK) \
+    ( (CHECK) ? void(0) : []{assert(!#CHECK);}() )
+#endif
+
 namespace itk
 {
 namespace Experimental
@@ -36,6 +47,12 @@ namespace Experimental
  * pixel connectivity. Eases creating a sequence of offsets to construct a
  * ShapedImageNeighborhoodRange object. Can also be used to specify the shape
  * of a ShapedNeighborhoodIterator, using its ActivateOffset member function.
+ *
+ * This shape class supports generating offsets in colexicographic order. Which
+ * means that, for example, a sequence of generated offsets for a 2-dimensional
+ * shape will have offset {1, 0} before offset {0, 1}. This order was chosen
+ * because it is usually in agreement with the order of the corresponding
+ * neighbor pixels, as stored in the internal image buffer.
  *
  * The following example generates the offsets for a 3-dimensional 18-connected
  * neighborhood shape, including the center pixel, and asserts that the result
@@ -173,7 +190,7 @@ private:
     const std::uintmax_t b) ITK_NOEXCEPT
   {
     return ((a + b) >= a) && ((a + b) >= b) ? (a + b) :
-      (assert(!"CalculateSum overflow!"), 0);
+      (ITK_X_ASSERT(!"CalculateSum overflow!"), 0);
   }
 
 
@@ -184,7 +201,7 @@ private:
     const std::uintmax_t b) ITK_NOEXCEPT
   {
     return (((a * b) / a) == b) && (((a * b) / b) == a) ? (a * b) :
-      (assert(!"CalculateProduct overflow!"), 0);
+      (ITK_X_ASSERT(!"CalculateProduct overflow!"), 0);
   }
 
 
@@ -195,7 +212,7 @@ private:
   {
     return (n < std::numeric_limits<std::uintmax_t>::digits) ?
       (std::uintmax_t{ 1 } << n) :
-      (assert(!"CalculatePowerOfTwo overflow!"), 0);
+      (ITK_X_ASSERT(!"CalculatePowerOfTwo overflow!"), 0);
   }
 
 
@@ -217,7 +234,7 @@ private:
     const std::uintmax_t k) ITK_NOEXCEPT
   {
     return
-      (k > n) ? (assert(!"Out of range!"), 0) :
+      (k > n) ? (ITK_X_ASSERT(!"Out of range!"), 0) :
       (k == 0) ? 1 :
       CalculateProduct(n, CalculateBinomialCoefficient(n - 1, k - 1)) / k;
   }
@@ -247,7 +264,7 @@ private:
     const std::size_t i,
     const std::size_t m) ITK_NOEXCEPT
   {
-    return assert(i >= m), CalculateSum(
+    return ITK_X_ASSERT(i >= m), CalculateSum(
       CalculateNumberOfHypercubesOnBoundaryOfCube(i, ImageDimension),
       ((i <= m)? 0 : CalculateSumOfNumberOfHypercubesOnBoundaryOfCube(i - 1, m)));
   }
@@ -275,5 +292,7 @@ private:
 
 } // namespace Experimental
 } // namespace itk
+
+#undef ITK_X_ASSERT
 
 #endif

@@ -60,7 +60,7 @@ namespace itk
     m_GlobalDefaultNumberOfThreads(0)
     {};
     // GlobalDefaultThreaderTypeIsInitialized is used only in this
-    // file to ensure that the ITK_GLOBAL_DEFAULT_THEADER or
+    // file to ensure that the ITK_GLOBAL_DEFAULT_THREADER or
     // ITK_USE_THREADPOOL environmenal variables are
     // only used as a fall back option.  If the SetGlobalDefaultThreaderType
     // API is ever used by the developer, the developers choice is
@@ -70,7 +70,7 @@ namespace itk
 
     // Global value to control weather the threadpool implementation should
     // be used. This defaults to the environmental variable
-    // ITK_GLOBAL_DEFAULT_THEADER. If that is not present, then
+    // ITK_GLOBAL_DEFAULT_THREADER. If that is not present, then
     // ITK_USE_THREADPOOL is examined.
     MultiThreaderBase::ThreaderType m_GlobalDefaultThreader;
 
@@ -229,8 +229,8 @@ MultiThreaderBase
     if (!m_MultiThreaderBaseGlobals->GlobalDefaultThreaderTypeIsInitialized )
       {
       std::string envVar;
-      // first check ITK_GLOBAL_DEFAULT_THEADER
-      if ( itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_THEADER", envVar) )
+      // first check ITK_GLOBAL_DEFAULT_THREADER
+      if ( itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_THREADER", envVar) )
         {
         envVar = itksys::SystemTools::UpperCase(envVar);
         ThreaderType threaderT = ThreaderTypeFromString(envVar);
@@ -246,8 +246,8 @@ MultiThreaderBase
         envVar = itksys::SystemTools::UpperCase(envVar);
         itkGenericOutputMacro("Warning: ITK_USE_THREADPOOL \
 has been deprecated since ITK v5.0. \
-You should now use ITK_GLOBAL_DEFAULT_THEADER\
-\nFor example ITK_GLOBAL_DEFAULT_THEADER=Pool");
+You should now use ITK_GLOBAL_DEFAULT_THREADER\
+\nFor example ITK_GLOBAL_DEFAULT_THREADER=Pool");
         if(envVar != "NO" && envVar != "OFF" && envVar != "FALSE")
           {
           MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType::Pool);
@@ -339,20 +339,35 @@ void MultiThreaderBase::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
 
 }
 
-void MultiThreaderBase::SetNumberOfThreads(ThreadIdType numberOfThreads)
+void MultiThreaderBase::SetMaximumNumberOfThreads( ThreadIdType numberOfThreads )
 {
-  if( m_NumberOfThreads == numberOfThreads &&
+  if( m_MaximumNumberOfThreads == numberOfThreads &&
       numberOfThreads <= m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads )
     {
     return;
     }
 
-  m_NumberOfThreads = numberOfThreads;
+  m_MaximumNumberOfThreads = numberOfThreads;
 
   // clamp between 1 and m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads
-  m_NumberOfThreads  = std::min( m_NumberOfThreads,
-                                 m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads );
-  m_NumberOfThreads  = std::max( m_NumberOfThreads, NumericTraits<ThreadIdType>::OneValue() );
+  m_MaximumNumberOfThreads = std::min( m_MaximumNumberOfThreads, m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads );
+  m_MaximumNumberOfThreads = std::max( m_MaximumNumberOfThreads, NumericTraits< ThreadIdType >::OneValue() );
+}
+
+void MultiThreaderBase::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
+{
+  if( m_NumberOfWorkUnits == numberOfWorkUnits &&
+      numberOfWorkUnits <= m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads )
+    {
+    return;
+    }
+
+  m_NumberOfWorkUnits = numberOfWorkUnits;
+
+  // clamp between 1 and m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads
+  m_NumberOfWorkUnits  = std::min( m_NumberOfWorkUnits,
+                                   m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads );
+  m_NumberOfWorkUnits  = std::max( m_NumberOfWorkUnits, NumericTraits<ThreadIdType>::OneValue() );
 
 }
 
@@ -399,8 +414,11 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
 
 
 MultiThreaderBase::MultiThreaderBase()
+  : m_SingleMethod{ nullptr }
+  , m_SingleData{ nullptr }
 {
-  m_NumberOfThreads = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
+  m_MaximumNumberOfThreads = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
+  m_NumberOfWorkUnits = m_MaximumNumberOfThreads;
 }
 
 MultiThreaderBase::~MultiThreaderBase()
@@ -411,30 +429,30 @@ ITK_THREAD_RETURN_TYPE
 MultiThreaderBase
 ::SingleMethodProxy(void *arg)
 {
-  // grab the ThreadInfoStruct originally prescribed
-  auto * threadInfoStruct = static_cast<MultiThreaderBase::ThreadInfoStruct *>( arg );
+  // grab the WorkUnitInfo originally prescribed
+  auto * threadInfoStruct = static_cast<MultiThreaderBase::WorkUnitInfo *>( arg );
 
   // execute the user specified threader callback, catching any exceptions
   try
     {
     ( *threadInfoStruct->ThreadFunction )(arg);
-    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::SUCCESS;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::SUCCESS;
     }
   catch( ProcessAborted & )
     {
-    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ITK_PROCESS_ABORTED_EXCEPTION;
     }
   catch( ExceptionObject & )
     {
-    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::ITK_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ITK_EXCEPTION;
     }
   catch( std::exception & )
     {
-    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::STD_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::STD_EXCEPTION;
     }
   catch( ... )
     {
-    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::UNKNOWN;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::UNKNOWN;
     }
 
   return ITK_THREAD_RETURN_VALUE;
@@ -492,10 +510,10 @@ ITK_THREAD_RETURN_TYPE
 MultiThreaderBase
 ::ParallelizeArrayHelper(void * arg)
 {
-  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   auto* threadInfo = static_cast< ThreadInfo* >( arg );
-  ThreadIdType threadId = threadInfo->ThreadID;
-  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  ThreadIdType threadId = threadInfo->WorkUnitID;
+  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   auto* acParams = static_cast< struct ArrayCallback* >( threadInfo->UserData );
 
   if ( acParams->filter && acParams->filter->GetAbortGenerateData() )
@@ -587,10 +605,10 @@ ITK_THREAD_RETURN_TYPE
 MultiThreaderBase
 ::ParallelizeImageRegionHelper(void * arg)
 {
-  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   auto * threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->ThreadID;
-  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  ThreadIdType threadId = threadInfo->WorkUnitID;
+  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   auto * rnc = static_cast<struct RegionAndCallback *>(threadInfo->UserData);
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
@@ -642,7 +660,8 @@ void MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of Threads: " << m_NumberOfThreads << "\n";
+  os << indent << "Number of Work Units: " << m_NumberOfWorkUnits << "\n";
+  os << indent << "Number of Threads: " << m_MaximumNumberOfThreads << "\n";
   os << indent << "Global Maximum Number Of Threads: "
      << m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads << std::endl;
   os << indent << "Global Default Number Of Threads: "

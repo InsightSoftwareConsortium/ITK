@@ -118,9 +118,9 @@ public:
   using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
 
   /** Set the maximum number of threads to be used. */
-  void SetNumberOfThreads( const ThreadIdType threads );
+  void SetNumberOfWorkUnits( const ThreadIdType threads );
   /** Set the maximum number of threads to be used. */
-  ThreadIdType GetNumberOfThreads() const;
+  ThreadIdType GetNumberOfWorkUnits() const;
 
 protected:
   LevelSetEvolution();
@@ -231,9 +231,9 @@ public:
   using UpdateLevelSetFilterPointer = typename UpdateLevelSetFilterType::Pointer;
 
   /** Set the maximum number of threads to be used. */
-  void SetNumberOfThreads( const ThreadIdType threads );
+  void SetNumberOfWorkUnits( const ThreadIdType threads );
   /** Set the maximum number of threads to be used. */
-  ThreadIdType GetNumberOfThreads() const;
+  ThreadIdType GetNumberOfWorkUnits() const;
 
 protected:
   LevelSetEvolution();

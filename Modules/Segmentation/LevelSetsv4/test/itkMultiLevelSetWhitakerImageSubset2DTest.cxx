@@ -236,7 +236,7 @@ int itkMultiLevelSetWhitakerImageSubset2DTest( int argc, char* argv[] )
   evolution->SetEquationContainer( equationContainer );
   evolution->SetStoppingCriterion( criterion );
   evolution->SetLevelSetContainer( lscontainer );
-  evolution->SetNumberOfThreads( 1 );
+  evolution->SetNumberOfWorkUnits( 1 );
 
   try
     {

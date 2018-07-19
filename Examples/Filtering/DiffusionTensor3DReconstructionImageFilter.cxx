@@ -281,7 +281,7 @@ int main( int argc, char *argv[] )
   tensorReconstructionFilter->SetGradientImage( DiffusionVectors, reader->GetOutput() );
 
   // This is necessary until we fix netlib/dsvdc.c
-  tensorReconstructionFilter->SetNumberOfThreads( 1 );
+  tensorReconstructionFilter->SetNumberOfWorkUnits( 1 );
 
   tensorReconstructionFilter->SetBValue(b0);
   tensorReconstructionFilter->SetThreshold( static_cast<

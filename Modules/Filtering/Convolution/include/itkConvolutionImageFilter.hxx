@@ -61,7 +61,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     using NormalizeFilterType = NormalizeToConstantImageFilter< KernelImageType, RealImageType >;
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
     normalizeFilter->SetConstant( NumericTraits< RealPixelType >::OneValue() );
-    normalizeFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+    normalizeFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     normalizeFilter->SetInput( this->GetKernelImage() );
     normalizeFilter->ReleaseDataFlagOn();
     progress->RegisterInternalFilter( normalizeFilter, 0.1f );
@@ -117,7 +117,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     typename PadImageFilterType::Pointer kernelPadImageFilter = PadImageFilterType::New();
     kernelPadImageFilter->SetConstant( NumericTraits< KernelImagePixelType >::ZeroValue() );
     kernelPadImageFilter->SetPadLowerBound( this->GetKernelPadSize() );
-    kernelPadImageFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+    kernelPadImageFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     kernelPadImageFilter->ReleaseDataFlagOn();
     kernelPadImageFilter->SetInput( flipper->GetOutput() );
     progress->RegisterInternalFilter( kernelPadImageFilter, 0.1f );
@@ -144,7 +144,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   convolutionFilter->SetOperator( kernelOperator );
   convolutionFilter->OverrideBoundaryCondition( this->GetBoundaryCondition() );
   convolutionFilter->SetInput( localInput );
-  convolutionFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  convolutionFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   convolutionFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( convolutionFilter, 1.0f - optionalFilterWeights );
 
@@ -177,7 +177,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     CropFilterPointer cropFilter = CropFilterType::New();
     cropFilter->SetLowerBoundaryCropSize( lowerCropSize );
     cropFilter->SetUpperBoundaryCropSize( upperCropSize );
-    cropFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+    cropFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     cropFilter->InPlaceOn();
     progress->RegisterInternalFilter( cropFilter, 0.1f );
     cropFilter->SetInput( convolutionFilter->GetOutput() );

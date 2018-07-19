@@ -28,13 +28,16 @@ namespace itk
  * of threads.
  *
  * A barrier class is used to synchronize threaded execution by allowing
- * threads to block until each has reached a desired state.  As each thread
+ * threads to block until each has reached a desired state. As each thread
  * enters the barrier it blocks. When all threads have entered the barrier,
  * all released and continue to execute.
  *
- * A thread enters the barrier by calling Wait() on the barrier class.
- * To set up a barrier class, call Initialize(n) where n is the number of
- * waiting threads that will trigger a release of the barrier.
+ * A thread enters the barrier by calling Barrier::Wait() on the barrier
+ * class. To set up a barrier class, call Barrier::Initialize(unsigned int),
+ * specifying the number of waiting threads that will trigger a release of the
+ * barrier as the argument.
+ *
+ * NOTE: This class is only compatible with PlatformMultiThreader!
  *
  * \ingroup ITKCommon
  */

@@ -180,7 +180,7 @@ LevelSetEvolutionComputeIterationThreader<
       TLevelSetEvolution >
 ::BeforeThreadedExecution()
 {
-  const ThreadIdType numberOfThreads = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numberOfThreads = this->GetNumberOfWorkUnitsUsed();
   this->m_NodePairsPerThread.resize( numberOfThreads );
 
   for( ThreadIdType ii = 0; ii < numberOfThreads; ++ii )
@@ -237,7 +237,7 @@ LevelSetEvolutionComputeIterationThreader<
   LevelSetIdentifierType levelSetId = it->GetIdentifier();
   typename LevelSetEvolutionType::LevelSetLayerType * levelSetLayerUpdateBuffer = this->m_Associate->m_UpdateBuffer[ levelSetId ];
 
-  const ThreadIdType numberOfThreads = this->GetNumberOfThreadsUsed();
+  const ThreadIdType numberOfThreads = this->GetNumberOfWorkUnitsUsed();
   for( ThreadIdType ii = 0; ii < numberOfThreads; ++ii )
     {
     typename std::vector< NodePairType >::const_iterator pairIt = this->m_NodePairsPerThread[ii].begin();

@@ -20,6 +20,7 @@
 #include "itkRandomImageSource.h"
 #include "itkVectorImage.h"
 #include <iostream>
+#include "itkFloatingPointExceptions.h"
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
@@ -219,6 +220,16 @@ bool TestVectorImageCast()
 int itkCastImageFilterTest( int, char* [] )
 {
   std::cout << "itkCastImageFilterTest Start" << std::endl;
+
+  // This test casts floats to char, generating float point exceptions.
+  // We disable float point exceptions only for this tests
+  bool fpeSupport = itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport();
+  bool fpeStatus = itk::FloatingPointExceptions::GetEnabled();
+  if (fpeSupport && fpeStatus)
+    {
+    std::cout << "FloatingPointExceptions are disabled only for this test." << std::endl;
+    itk::FloatingPointExceptions::Disable();
+    }
 
   bool success =
     TestCastFrom< char >() &&

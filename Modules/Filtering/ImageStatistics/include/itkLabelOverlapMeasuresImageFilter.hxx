@@ -59,7 +59,7 @@ void
 LabelOverlapMeasuresImageFilter<TLabelImage>
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   // Resize the thread temporaries
   this->m_LabelSetMeasuresPerThread.resize( numberOfThreads );
@@ -80,7 +80,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
 ::AfterThreadedGenerateData()
 {
   // Run through the map for each thread and accumulate the set measures.
-  for( ThreadIdType n = 0; n < this->GetNumberOfThreads(); n++ )
+  for( ThreadIdType n = 0; n < this->GetNumberOfWorkUnits(); n++ )
     {
     // Iterate over the map for this thread
     for( MapConstIterator threadIt = this->m_LabelSetMeasuresPerThread[n].begin();

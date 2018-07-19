@@ -79,7 +79,7 @@ int runGPUMeanImageFilterTest(const std::string& inFile, const std::string& outF
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfThreads( nThreads );
+    CPUFilter->SetNumberOfWorkUnits( nThreads );
 
     CPUFilter->SetInput( reader->GetOutput() );
     CPUFilter->SetRadius( indexRadius );
@@ -88,7 +88,7 @@ int runGPUMeanImageFilterTest(const std::string& inFile, const std::string& outF
     cputimer.Stop();
 
     std::cout << "CPU mean filter took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
+              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n" << std::endl;
 
     // -------
 

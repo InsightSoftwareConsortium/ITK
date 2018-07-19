@@ -256,10 +256,14 @@ def GetArrayFromImage(imageOrFilter, keepAxes=False, updateLargestPossibleRegion
     """
     return _GetArrayFromImage(imageOrFilter, "GetArrayFromImage", keepAxes, updateLargestPossibleRegion)
 
+array_from_image = GetArrayFromImage
+
 def GetArrayViewFromImage(imageOrFilter, keepAxes=False, updateLargestPossibleRegion=True):
     """Get an array view with the content of the image buffer
     """
     return _GetArrayFromImage(imageOrFilter, "GetArrayViewFromImage", keepAxes, updateLargestPossibleRegion)
+
+array_view_from_image = GetArrayViewFromImage
 
 def _GetImageFromArray(arr, function, isVector):
     """Get an ITK image from a Python array.
@@ -281,10 +285,14 @@ def GetImageFromArray(arr, isVector=False):
     """
     return _GetImageFromArray(arr, "GetImageFromArray", isVector)
 
+image_from_array = GetImageFromArray
+
 def GetImageViewFromArray(arr, isVector=False):
     """Get an ITK image view from a Python array.
     """
     return _GetImageFromArray(arr, "GetImageViewFromArray", isVector)
+
+image_view_from_array = GetImageFromArray
 
 def _GetArrayFromVnlObject(vnlObject, function):
     """Get an array with the content of vnlObject
@@ -307,10 +315,14 @@ def GetArrayFromVnlVector(vnlVector):
     """
     return _GetArrayFromVnlObject(vnlVector, "GetArrayFromVnlVector")
 
+array_from_vnl_vector = GetArrayFromVnlVector
+
 def GetArrayViewFromVnlVector(vnlVector):
     """Get an array view of vnlVector
     """
     return _GetArrayFromVnlObject(vnlVector, "GetArrayViewFromVnlVector")
+
+array_view_from_vnl_vector = GetArrayFromVnlVector
 
 def GetArrayFromVnlMatrix(vnlMatrix):
     """Get an array with the content of vnlMatrix
@@ -321,6 +333,8 @@ def GetArrayViewFromVnlMatrix(vnlMatrix):
     """Get an array view of vnlMatrix
     """
     return _GetArrayFromVnlObject(vnlMatrix, "GetArrayViewFromVnlMatrix")
+
+array_from_vnl_matrix = GetArrayFromVnlMatrix
 
 def _GetVnlObjectFromArray(arr, function):
     """Get a vnl object from a Python array.
@@ -337,10 +351,14 @@ def GetVnlVectorFromArray(arr):
     """
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray")
 
+vnl_vector_from_array = GetVnlVectorFromArray
+
 def GetVnlMatrixFromArray(arr):
     """Get a vnl matrix from a Python array.
     """
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray")
+
+vnl_matrix_from_array = GetVnlMatrixFromArray
 
 # return an image
 from itkTemplate import image, output
@@ -423,13 +441,6 @@ def imwrite(imageOrFilter, fileName, compression=False):
         UseCompression=compression)
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
-
-# For backwards compatibility
-def write(*args, **kwargs):
-    import warnings
-    warnings.warn("WrapITK warning: itk.write() is deprecated. "
-            "Use itk.imwrite() instead.")
-    imwrite(*args, **kwargs)
 
 def imread(fileName, pixelType=None):
     """Read an image from a file and return an itk.Image.
@@ -575,123 +586,6 @@ def set_inputs(newItkObject, args=[], kargs={}):
                 attribName = _snake_to_camel(attribName)
             attrib = getattr(newItkObject, 'Set' + attribName)
             attrib(output(value))
-
-
-def show(input, **kargs):
-    """display an image
-    """
-    import itk
-    img = output(input)
-    if img.GetImageDimension() == 3 and "show3D" in dir(itk):
-        return itk.show3D(input, **kargs)
-    else:
-        # print("2D not supported yet, use the 3D viewer.")
-        return show2D(input, **kargs)
-
-
-class show2D:
-
-    """Display a 2D image
-    """
-
-    def __init__(self, imageOrFilter, Label=False, Title=None):
-        import tempfile
-        import itk
-        import os
-        import platform
-        # get some data from the environment
-        command = os.environ.get("WRAPITK_SHOW2D_COMMAND")
-        if command is None:
-            if platform.system() == "Darwin":
-                command = (
-                    "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); "
-                    "run (\"View 100%%\"); rename(\"%(title)s\");'")
-            else:
-                command = (
-                    "imagej %(image)s -run 'View 100%%' -eval "
-                    "'rename(\"%(title)s\")' &")
-
-        label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND")
-        if label_command is None:
-            if platform.system() == "Darwin":
-                label_command = (
-                    "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); "
-                    "run (\"View 100%%\"); rename(\"%(title)s\"); "
-                    "run(\"3-3-2 RGB\");'")
-            else:
-                label_command = (
-                    "imagej %(image)s -run 'View 100%%' -eval "
-                    "'rename(\"%(title)s\")' -run '3-3-2 RGB' &")
-
-        compress = os.environ.get(
-            "WRAPITK_SHOW2D_COMPRESS",
-            "true").lower() in ["on", "true", "yes", "1"]
-        extension = os.environ.get("WRAPITK_SHOW2D_EXTENSION", ".tif")
-
-        # use the tempfile module to get a non used file name and to put
-        # the file at the rignt place
-        self.__tmpFile__ = tempfile.NamedTemporaryFile(suffix=extension)
-        # get an updated image
-        img = output(imageOrFilter)
-        img.UpdateOutputInformation()
-        img.Update()
-        if Title is None:
-            # try to generate a title
-            s = img.GetSource()
-            if s:
-                s = itk.down_cast(s)
-                if hasattr(img, "GetSourceOutputIndex"):
-                    o = '[%s]' % img.GetSourceOutputIndex()
-                elif hasattr(img, "GetSourceOutputName"):
-                    o = '[%s]' % img.GetSourceOutputName()
-                else:
-                    o = ""
-                Title = "%s%s" % (s.__class__.__name__, o)
-            else:
-                Title = img.__class__.__name__
-            try:
-                import IPython
-                ip = IPython.get_ipython()
-                if ip is not None:
-                    names = []
-                    ref = imageOrFilter
-                    if s:
-                        ref = s
-                    for n, v in ip.user_ns.iteritems():
-                        if isinstance(v, itk.LightObject) and v == ref:
-                            names.append(n)
-                    if names != []:
-                        Title = ", ".join(names) + " - " + Title
-            except ImportError:
-                # just do nothing
-                pass
-        # change the LabelMaps to an Image, so we can look at them easily
-        if 'LabelMap' in dir(itk) and img.GetNameOfClass() == 'LabelMap':
-            # retreive the biggest label in the label map
-            maxLabel = img.GetNthLabelObject(
-                img.GetNumberOfLabelObjects() - 1).GetLabel()
-            # search for a filter to convert the label map
-            lab = itk.LabelMapToLabelImageFilter.keys()
-            maxVal = itk.NumericTraits[itk.template(params[1])[1][0]].max()
-            cond = params[0] == class_(img) and maxVal >= maxLabel
-            label_image_type = sorted([params[1] for params in lab if cond])[0]
-            convert = itk.LabelMapToLabelImageFilter[
-                img, label_image_type].New(img)
-            convert.Update()
-            img = convert.GetOutput()
-            # this is a label image - force the parameter
-            Label = True
-        write(img, self.__tmpFile__.name, compress)
-        # now run imview
-        import os
-        if Label:
-            os.system(
-                label_command %
-                {"image": self.__tmpFile__.name, "title": Title})
-        else:
-            os.system(
-                command %
-                {"image": self.__tmpFile__.name, "title": Title})
 
 
 class templated_class:

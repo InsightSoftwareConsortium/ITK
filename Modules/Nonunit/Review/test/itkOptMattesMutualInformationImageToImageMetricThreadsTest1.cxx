@@ -122,7 +122,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
     {
     try
       {
-      metric->SetNumberOfThreads( numberOfThreads );
+      metric->SetNumberOfWorkUnits( numberOfThreads );
       metric->ReinitializeSeed( 76926294 );
       metric->Initialize();
 

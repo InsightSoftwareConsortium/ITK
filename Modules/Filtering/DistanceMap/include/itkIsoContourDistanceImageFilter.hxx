@@ -139,10 +139,10 @@ ITK_THREAD_RETURN_TYPE
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 ::ThreaderFullCallback(void *arg)
 {
-  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->ThreadID;
-  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  ThreadIdType threadId = threadInfo->WorkUnitID;
+  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   using FilterStruct = typename ImageSource<TOutputImage>::ThreadStruct;
   FilterStruct* str = (FilterStruct *)(threadInfo->UserData);
   Self* filter = static_cast<Self*>(str->Filter.GetPointer());
@@ -177,12 +177,12 @@ void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  // Instead of using GetNumberOfThreads, we need to split the image into the
+  // Instead of using GetNumberOfWorkUnits, we need to split the image into the
   // number of regions that will actually be returned by
   // itkImageSource::SplitRequestedRegion. Sometimes this number is less than
   // the number of threads requested.
   OutputImageRegionType dummy;
-  unsigned int actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfThreads(), dummy);
+  unsigned int actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfWorkUnits(), dummy);
 
   m_Spacing = this->GetInput()->GetSpacing();
 

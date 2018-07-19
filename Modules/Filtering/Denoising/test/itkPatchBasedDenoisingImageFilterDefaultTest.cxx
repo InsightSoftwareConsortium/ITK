@@ -47,7 +47,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   filter->SetInput( reader->GetOutput() );
 
   // Use 2 threads for consistency
-  filter->SetNumberOfThreads( 2 );
+  filter->SetNumberOfWorkUnits( 2 );
 
   // Denoise the image
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );

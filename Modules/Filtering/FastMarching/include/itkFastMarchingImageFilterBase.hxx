@@ -306,11 +306,14 @@ Solve( OutputImageType* oImage,
     {
     cc = static_cast< double >( m_InputCache->GetPixel(iNode) ) /
         this->m_NormalizationFactor;
-#if defined(__APPLE__) && (__clang_major__ == 3) && (__clang_minor__ == 0) && defined(NDEBUG) && defined(__x86_64__)
-    cc = -1.0 * itk::Math::sqr(1.0 / (cc + itk::Math::eps) );
-#else
-    cc = -1.0 * itk::Math::sqr(1.0 / cc);
-#endif
+    if (itk::Math::FloatAlmostEqual<double>(cc, 0.0))
+      {
+      cc = -1.0 * itk::Math::sqr(1.0 / (cc + itk::Math::eps) );
+      }
+    else
+      {
+      cc = -1.0 * itk::Math::sqr(1.0 / cc);
+      }
     }
 
   double discrim = 0.;

@@ -48,7 +48,7 @@ namespace itk
  * GenerateData(), the image processing will run in a single thread and the
  * implementation is responsible for allocating its output data.  If a filter
  * provides an implementation of ThreadedGenerateData() instead, the image
- * will be divided into a number of pieces, a number of threads will be
+ * will be divided into a number of work units, a number of threads will be
  * spawned, and ThreadedGenerateData() will be called in each thread.  Here,
  * the output memory will be allocated by this superclass prior to calling
  * ThreadedGenerateData().

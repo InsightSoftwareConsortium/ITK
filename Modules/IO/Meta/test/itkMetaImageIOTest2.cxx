@@ -24,7 +24,7 @@
 #include "itkTestingHashImageFilter.h"
 #include "itkTestingMacros.h"
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 namespace
 {

@@ -22,7 +22,7 @@
 #include "itkImageFileWriter.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 template <typename TPixel>
 class RawImageReaderAndWriter

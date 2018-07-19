@@ -132,7 +132,7 @@ void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   // Resize the thread temporaries
   m_MeanDistance.SetSize(numberOfThreads);
@@ -161,7 +161,7 @@ void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::AfterThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   // find mean over all threads
   IdentifierType  count = 0;

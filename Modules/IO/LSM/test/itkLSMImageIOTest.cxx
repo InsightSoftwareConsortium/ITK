@@ -20,7 +20,7 @@
 #include "itkLSMImageIO.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkLSMImageIOTest(int argc, char* argv[])
 {

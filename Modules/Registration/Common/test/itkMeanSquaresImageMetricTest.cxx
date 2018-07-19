@@ -207,7 +207,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   // Compute a reference metric and partial derivative with one
   // thread. NOTE - this test checks for consistency in the answer
   // computed by differing numbers of threads, not correctness.
-  metric->SetNumberOfThreads(1);
+  metric->SetNumberOfWorkUnits(1);
   metric->Initialize();
   parameters[1] = 2.0;
   MetricType::MeasureType    referenceMeasure;
@@ -223,7 +223,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   for (int currNumThreadsToTest = 1; currNumThreadsToTest <= 8; currNumThreadsToTest++)
     {
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(currNumThreadsToTest);
-    metric->SetNumberOfThreads(currNumThreadsToTest);
+    metric->SetNumberOfWorkUnits(currNumThreadsToTest);
     metric->Initialize();
 
     std::cout << "Threads Metric    d(Metric)/d(param[1]) " << std::endl;
@@ -269,7 +269,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   // threads is reduced to 2. These are arbitrary numbers of threads
   // used to verify the correctness of the metric under a particular
   // usage scenario.
-  metric->SetNumberOfThreads(8);
+  metric->SetNumberOfWorkUnits(8);
   constexpr int numThreads = 2;
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numThreads);
   metric->Initialize();

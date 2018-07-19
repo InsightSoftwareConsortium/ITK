@@ -150,7 +150,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   TEST_SET_GET_VALUE( numIterations, filter->GetNumberOfIterations() );
 
   // Number of threads to use in parallel
-  filter->SetNumberOfThreads( numThreads );
+  filter->SetNumberOfWorkUnits( numThreads );
 
   // Sampling the image to find similar patches
   typename SamplerType::Pointer sampler = SamplerType::New();

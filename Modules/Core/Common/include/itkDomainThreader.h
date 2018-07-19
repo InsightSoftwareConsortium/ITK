@@ -48,9 +48,9 @@ namespace itk
  *  Since a threaded operation is relatively complex compared to a simple serial
  *  operation, a class instead of a simple method is required.  Inside this
  *  class, the method to partition the data is handled, the logic for
- *  determining the number of threads is determined, and operations surrounding
+ *  deciding the number of work units is determined, and operations surrounding
  *  the threading are encapsulated into the class with the
- *  \c DetermineNumberOfThreadsToUse, \c BeforeThreadedExecution, \c ThreadedExecution,
+ *  \c DetermineNumberOfWorkUnitsToUse, \c BeforeThreadedExecution, \c ThreadedExecution,
  *  and \c AfterThreadedExecution virtual methods.
  *
  *  \tparam TDomainPartitioner A class that inherits from
@@ -90,22 +90,35 @@ public:
   void Execute( AssociateType * enclosingClass, const DomainType & domain );
 
   /** Set/Get the DomainPartitioner. */
-  itkSetObjectMacro(       DomainPartitioner, DomainPartitionerType );
-  itkGetModifiableObjectMacro(DomainPartitioner, DomainPartitionerType );
+  itkSetObjectMacro( DomainPartitioner, DomainPartitionerType );
+  itkGetModifiableObjectMacro( DomainPartitioner, DomainPartitionerType );
 
-  /** Accessor for number of threads that were actually used in the last
+  /** Accessor for number of work units that were actually used in the last
    * ThreadedExecution. */
-  itkGetConstMacro( NumberOfThreadsUsed, ThreadIdType );
+  itkGetConstMacro( NumberOfWorkUnitsUsed, ThreadIdType );
 
   /** Return the multithreader used by this class. */
   MultiThreaderBase * GetMultiThreader() const;
 
+  /** Convenience methods to set/get the desired number of work units to use.
+   * \warning When setting the desired number of work units, it might be clamped by
+   * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads().
+   * */
+  ThreadIdType GetNumberOfWorkUnits() const
+  {
+    return this->m_MultiThreader->GetNumberOfWorkUnits();
+  }
+  void SetNumberOfWorkUnits( const ThreadIdType workUnits );
+
   /** Convenience methods to set/get the maximum number of threads to use.
    * \warning When setting the maximum number of threads, it will be clamped by
-   * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() and ITK_MAX_THREADS.
+   * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads().
    * */
-  ThreadIdType GetMaximumNumberOfThreads() const;
-  void SetMaximumNumberOfThreads( const ThreadIdType threads );
+  ThreadIdType GetMaximumNumberOfThreads() const
+  {
+    return this->m_MultiThreader->GetMaximumNumberOfThreads();
+  }
+  void SetMaximumNumberOfThreads(const ThreadIdType threads);
 
 protected:
   DomainThreader();
@@ -113,7 +126,7 @@ protected:
 
   /** This is evauated at the beginning of Execute() so that it can be used in
    * BeforeThreadedExecution(). */
-  virtual void DetermineNumberOfThreadsUsed();
+  virtual void DetermineNumberOfWorkUnitsUsed();
 
   /** When \c Execute is run, this method is run singled-threaded before \c
    * ThreadedExecution.  Inside this method optional operations such as
@@ -154,11 +167,11 @@ private:
     DomainThreader     * domainThreader;
     };
 
-  /** Store the actual number of threads used, which may be less than
+  /** Store the actual number of work units used, which may be less than
    * the number allocated by the threader if the object does not split
    * well into that number.
    * This value is determined at the beginning of \c Execute(). */
-  ThreadIdType                             m_NumberOfThreadsUsed;
+  ThreadIdType                             m_NumberOfWorkUnitsUsed;
   typename DomainPartitionerType::Pointer  m_DomainPartitioner;
   DomainType                               m_CompleteDomain;
   MultiThreaderBase::Pointer               m_MultiThreader;

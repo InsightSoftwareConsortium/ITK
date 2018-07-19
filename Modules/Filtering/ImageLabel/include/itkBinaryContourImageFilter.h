@@ -194,7 +194,7 @@ private:
 
   LineMapType   m_ForegroundLineMap;
   LineMapType   m_BackgroundLineMap;
-  ThreadIdType  m_NumberOfThreads;
+  ThreadIdType  m_NumberOfWorkUnits;
 
   InputImagePixelType  m_ForegroundValue;
   OutputImagePixelType m_BackgroundValue;

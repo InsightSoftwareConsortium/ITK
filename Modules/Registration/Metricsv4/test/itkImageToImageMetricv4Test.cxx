@@ -374,7 +374,7 @@ int ImageToImageMetricv4TestRunSingleTest(
 
   // Check number of threads and valid points
   std::cout << "--Number of threads used: "
-            << metric->GetNumberOfThreadsUsed() << std::endl;
+            << metric->GetNumberOfWorkUnitsUsed() << std::endl;
   if( metric->GetNumberOfValidPoints() != ( expectedNumberOfPoints ) )
     {
     std::cerr << "Expected number of valid points to be "
@@ -510,7 +510,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   for( itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6;
                                                             numberOfThreads++ )
     {
-    metric->SetMaximumNumberOfThreads( numberOfThreads );
+    metric->SetMaximumNumberOfWorkUnits( numberOfThreads );
     for( signed char useMovingFilter = 1;
             useMovingFilter >= 0; --useMovingFilter )
       {

@@ -84,7 +84,7 @@ void openWriteStream(METAIO_STREAM::ofstream & outputStream, const char * fname,
     }
 }
 
-const unsigned int MAXPATHLENGHT = 2048;
+const unsigned int MAXPATHLENGTH = 2048;
 
 } // end anonymous namespace
 
@@ -348,7 +348,7 @@ PrintInfo() const
 
   MetaObject::PrintInfo();
 
-  char s[MAXPATHLENGHT];
+  char s[MAXPATHLENGTH];
   MET_ImageModalityToString(m_Modality, s);
   METAIO_STREAM::cout << "Modality = " << s << METAIO_STREAM::endl;
 
@@ -386,7 +386,7 @@ PrintInfo() const
     }
   METAIO_STREAM::cout << METAIO_STREAM::endl;
 
-  char str[MAXPATHLENGHT];
+  char str[MAXPATHLENGTH];
   MET_TypeToString(m_ElementType, str);
   METAIO_STREAM::cout << "ElementType = " << str << METAIO_STREAM::endl;
 
@@ -1380,8 +1380,8 @@ ReadStream(int _nDims,
     int i;
     size_t j;
     bool usePath;
-    char pathName[MAXPATHLENGHT];
-    char fName[MAXPATHLENGHT];
+    char pathName[MAXPATHLENGTH];
+    char fName[2*MAXPATHLENGTH+1];
     usePath = MET_GetFilePath(m_FileName, pathName);
 
     if(!strcmp("Local", m_ElementDataFileName) ||
@@ -1467,7 +1467,7 @@ ReadStream(int _nDims,
       int minV = 1;
       int maxV = m_DimSize[m_NDims-1];
       int stepV = 1;
-      char s[MAXPATHLENGHT];
+      char s[MAXPATHLENGTH];
       METAIO_STREAM::ifstream* readStreamTemp = new METAIO_STREAM::ifstream;
       MET_StringToWordArray(m_ElementDataFileName, &nWrds, &wrds);
       if(nWrds >= 2)
@@ -1669,11 +1669,11 @@ Write(const char *_headName,
       }
     }
 
-  char pathName[MAXPATHLENGHT];
+  char pathName[MAXPATHLENGTH];
   bool usePath = MET_GetFilePath(m_FileName, pathName);
   if(usePath)
     {
-    char elementPathName[MAXPATHLENGHT];
+    char elementPathName[MAXPATHLENGTH];
     MET_GetFilePath(m_ElementDataFileName, elementPathName);
     if(!strcmp(pathName, elementPathName))
       {
@@ -1882,7 +1882,7 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
     // Write the region
     if( !M_FileExists(filename.c_str()) )
       {
-      char pathName[MAXPATHLENGHT];
+      char pathName[MAXPATHLENGTH];
       MET_GetFilePath(_headName, pathName);
       filename = pathName+filename;
       }
@@ -1997,11 +1997,11 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
         }
       }
 
-    char pathName[MAXPATHLENGHT];
+    char pathName[MAXPATHLENGTH];
     bool usePath = MET_GetFilePath(m_FileName, pathName);
     if(usePath)
       {
-      char elementPathName[MAXPATHLENGHT];
+      char elementPathName[MAXPATHLENGTH];
       MET_GetFilePath(m_ElementDataFileName, elementPathName);
       if(!strcmp(pathName, elementPathName))
         {
@@ -2048,7 +2048,7 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
 
       dataPos = 0;
 
-      char dataFileName[MAXPATHLENGHT];
+      char dataFileName[MAXPATHLENGTH+256];
       if(usePath&& !FileIsFullPath(m_ElementDataFileName))
         {
         sprintf(dataFileName, "%s%s", pathName, m_ElementDataFileName);
@@ -2294,7 +2294,7 @@ M_SetupWriteFields(void)
   MET_InitWriteField(mF, "DimSize", MET_INT_ARRAY, m_NDims, m_DimSize);
   m_Fields.push_back(mF);
 
-  char s[MAXPATHLENGHT];
+  char s[MAXPATHLENGTH];
   if(m_HeaderSize > 0 || m_HeaderSize == -1)
     {
     mF = new MET_FieldRecordType;
@@ -2640,8 +2640,8 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream,
     }
   else // write the data in a separate file
     {
-    char dataFileName[MAXPATHLENGHT];
-    char pathName[MAXPATHLENGHT];
+    char dataFileName[MAXPATHLENGTH+256];
+    char pathName[MAXPATHLENGTH];
     bool usePath = MET_GetFilePath(m_FileName, pathName);
     if(usePath&& !FileIsFullPath(m_ElementDataFileName))
       {
@@ -2655,7 +2655,7 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream,
     if(strstr(dataFileName, "%")) // write slice by slice
       {
       int i;
-      char fName[MAXPATHLENGHT];
+      char fName[MAXPATHLENGTH];
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
       METAIO_STL::streamoff elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
@@ -2742,7 +2742,7 @@ M_WriteElementData(METAIO_STREAM::ofstream * _fstream,
     {
     if(m_CompressedData)
       {
-      // the data is writen in writes no bigger then MaxIOChunk
+      // the data is written in writes no bigger then MaxIOChunk
       METAIO_STL::streamoff bytesRemaining = _dataQuantity;
       while ( bytesRemaining )
         {
@@ -2758,7 +2758,7 @@ M_WriteElementData(METAIO_STREAM::ofstream * _fstream,
       MET_SizeOfType(m_ElementType, &elementSize);
       METAIO_STL::streamoff elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
 
-      // the data is writen in writes no bigger then MaxIOChunk
+      // the data is written in writes no bigger then MaxIOChunk
       METAIO_STL::streamoff bytesRemaining = _dataQuantity * elementNumberOfBytes;
       while ( bytesRemaining )
         {
@@ -2770,7 +2770,7 @@ M_WriteElementData(METAIO_STREAM::ofstream * _fstream,
       }
     }
 
-  // check the the io stream did not fail in the process of writing
+  // check if the io stream did not fail in the process of writing
   if ( _fstream->fail() )
     {
     METAIO_STREAM::cerr
@@ -2874,8 +2874,8 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
       }
 
     bool usePath;
-    char pathName[MAXPATHLENGHT];
-    char fName[MAXPATHLENGHT];
+    char pathName[MAXPATHLENGTH];
+    char fName[2*MAXPATHLENGTH+1];
     usePath = MET_GetFilePath(m_FileName, pathName);
 
     if(!strcmp("Local", m_ElementDataFileName) ||
@@ -2988,7 +2988,7 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
       int minV = 1;
       int maxV = m_DimSize[m_NDims-1];
       int stepV = 1;
-      char s[MAXPATHLENGHT];
+      char s[MAXPATHLENGTH];
       METAIO_STREAM::ifstream* readStreamTemp = new METAIO_STREAM::ifstream;
       MET_StringToWordArray(m_ElementDataFileName, &nWrds, &wrds);
       if(nWrds >= 2)
@@ -3580,7 +3580,7 @@ M_ReadElementData(METAIO_STREAM::ifstream * _fstream,
     return false;
     }
 
-  // check the the io stream did not fail in the process of reading
+  // check if the io stream did not fail in the process of reading
   if ( _fstream->fail() )
     {
     METAIO_STREAM::cerr

@@ -292,7 +292,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   typename ImageSource<TOutputImage>::ThreadStruct str1;
   str1.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str1 );
 
   // Multithread the generation of the control point lattice.
@@ -415,8 +415,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 {
   if( !this->m_IsFittingComplete )
     {
-    this->m_DeltaLatticePerThread.resize( this->GetNumberOfThreads() );
-    this->m_OmegaLatticePerThread.resize( this->GetNumberOfThreads() );
+    this->m_DeltaLatticePerThread.resize( this->GetNumberOfWorkUnits() );
+    this->m_OmegaLatticePerThread.resize( this->GetNumberOfWorkUnits() );
 
     typename RealImageType::SizeType size;
     for( unsigned int i = 0; i < ImageDimension; i++ )
@@ -431,7 +431,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         }
       }
 
-    for( unsigned int n = 0; n < this->GetNumberOfThreads(); n++ )
+    for( unsigned int n = 0; n < this->GetNumberOfWorkUnits(); n++ )
       {
       this->m_OmegaLatticePerThread[n] = RealImageType::New();
       this->m_OmegaLatticePerThread[n]->SetRegions( size );
@@ -456,7 +456,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   // number.
   if( !this->m_IsFittingComplete )
     {
-    return this->GetNumberOfThreads();
+    return this->GetNumberOfWorkUnits();
     }
   else // we split on the output region for reconstruction
     {
@@ -517,13 +517,13 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
   // Determine which points should be handled by this particular thread.
 
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
   auto numberOfPointsPerThread = static_cast<SizeValueType>(
     input->GetNumberOfPoints() / numberOfThreads );
 
   unsigned int start = threadId * numberOfPointsPerThread;
   unsigned int end = start + numberOfPointsPerThread;
-  if( threadId == this->GetNumberOfThreads() - 1 )
+  if( threadId == this->GetNumberOfWorkUnits() - 1 )
     {
     end = input->GetNumberOfPoints();
     }
@@ -756,7 +756,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       this->m_OmegaLatticePerThread[0],
       this->m_OmegaLatticePerThread[0]->GetLargestPossibleRegion() );
 
-    for( ThreadIdType n = 1; n < this->GetNumberOfThreads(); n++ )
+    for( ThreadIdType n = 1; n < this->GetNumberOfWorkUnits(); n++ )
       {
       ImageRegionIterator< PointDataImageType > Itd(
         this->m_DeltaLatticePerThread[n],

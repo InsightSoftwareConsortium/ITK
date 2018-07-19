@@ -36,19 +36,12 @@ namespace itk
  * \class ThreadPool
  * \brief Thread pool maintains a constant number of threads.
  *
- * Thread pool is called and initialized from within the MultiThreader.
+ * Thread pool is called and initialized from within the PoolMultiThreader.
  * Initially the thread pool is started with GlobalDefaultNumberOfThreads.
  * The ThreadJob class is used to submit jobs to the thread pool. The ThreadJob's
  * necessary members need to be set and then the ThreadJob can be passed to the
  * ThreadPool by calling its AddWork method.
  * One can then wait for the job by calling the WaitForJob method.
- *
- * When thread pool is in use by the MultiThreader, invoking SetNumberOfThreads
- * on MultiThreader will only increase the number of jobs submitted to the
- * ThreadPool, it will not increase the number of threads. This trick can be
- * used to increase the number of chunks, which can help load balancing in
- * case the algorithm takes more time for some parts of the image, and there
- * is relatively small overhead for chunking (splitting the image for processing).
  *
  * If more threads are required, e.g. in case when Barrier is used,
  * AddThreads method should be invoked.
@@ -91,6 +84,11 @@ public:
 
   /** Can call this method if we want to add extra threads to the pool. */
   void AddThreads(ThreadIdType count);
+
+  ThreadIdType GetMaximumNumberOfThreads() const
+  {
+    return m_Threads.size();
+  }
 
   /** The approximate number of idle threads. */
   int GetNumberOfCurrentlyIdleThreads() const;

@@ -132,6 +132,96 @@ SlopeInterceptTest()
   return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
+template <typename PixelType>
+int
+SlopeInterceptWriteTest()
+{
+  //
+  // fill out an image and write it as nifti.
+  const char *filename = "SlopeIntercept.nii";
+  typedef itk::Image<PixelType,3> OutputImageType;
+  typename OutputImageType::RegionType region;
+  typename OutputImageType::IndexType start;
+  start[0] = 0;
+  start[1] = 0;
+  start[2] = 0;
+  typename OutputImageType::SizeType size;
+  size[0] = 8;
+  size[1] = 8;
+  size[2] = 4;
+  region.SetSize(size);
+  region.SetIndex(start);
+  typename OutputImageType::Pointer outputimage = OutputImageType::New();
+  outputimage->SetRegions(region);
+  outputimage->Allocate();
+  typedef itk::ImageRegionIterator<OutputImageType> OutputIteratorType;
+  OutputIteratorType itout(outputimage,outputimage->GetLargestPossibleRegion());
+  itout.GoToBegin();
+  for(unsigned i = 0; i < 256; i++,++itout)
+    {
+    if(itout.IsAtEnd())
+      {
+      return EXIT_FAILURE;
+      }
+    itout.Set(static_cast<PixelType>(i));
+    }
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  typename WriterType::Pointer writer = WriterType::New();
+  itk::NiftiImageIO::Pointer niftiImageIO(itk::NiftiImageIO::New());
+  niftiImageIO->SetRescaleSlope(1.0/256.0);
+  niftiImageIO->SetRescaleIntercept(-10.0);
+  writer->SetImageIO(niftiImageIO);
+  writer->SetFileName(filename);
+  writer->SetInput(outputimage);
+  try
+    {
+    writer->Update();
+    }
+  catch (itk::ExceptionObject &err)
+    {
+    std::cerr << "Exception Object caught: " << std::endl
+              << err << std::endl;
+    throw;
+    }
+  //
+  // read the image back in
+  typedef itk::Image<float,3> ImageType;
+  typename ImageType::Pointer image;
+  try
+    {
+    image = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
+    }
+  catch(...)
+    {
+    itk::IOTestHelper::Remove(filename);
+    return EXIT_FAILURE;
+    }
+  typedef itk::ImageRegionIterator<ImageType> IteratorType;
+  IteratorType it(image,image->GetLargestPossibleRegion());
+  it.GoToBegin();
+  double maxerror = 0.0;
+  for(unsigned i = 0; i < 256; i++,++it)
+    {
+    if(it.IsAtEnd())
+      {
+      return EXIT_FAILURE;
+      }
+    if(!Equal(it.Value(),static_cast<float>(i)/256.0-10.0))
+      {
+      //      return EXIT_FAILURE;
+      double error = std::abs(it.Value() -
+                             (static_cast<double>(i)/256.0-10.0));
+      if(error > maxerror)
+        {
+        maxerror = error;
+        }
+      }
+    }
+  std::cerr << "Max error " << maxerror << std::endl;
+  itk::IOTestHelper::Remove(filename);
+  return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
+}
+
 //
 // test vector images
 int itkNiftiImageIOTest5(int ac, char* av[])
@@ -155,5 +245,12 @@ int itkNiftiImageIOTest5(int ac, char* av[])
   success |= SlopeInterceptTest<unsigned int,NIFTI_TYPE_UINT32>();
   success |= SlopeInterceptTest<long long,NIFTI_TYPE_INT64>();
   success |= SlopeInterceptTest<unsigned long long,NIFTI_TYPE_UINT64>();
+  success |= SlopeInterceptWriteTest<unsigned char>();
+  success |= SlopeInterceptWriteTest<short>();
+  success |= SlopeInterceptWriteTest<unsigned short>();
+  success |= SlopeInterceptWriteTest<int>();
+  success |= SlopeInterceptWriteTest<unsigned int>();
+  success |= SlopeInterceptWriteTest<long long>();
+  success |= SlopeInterceptWriteTest<unsigned long long>();
   return success;
 }

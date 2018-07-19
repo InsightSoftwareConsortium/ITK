@@ -26,7 +26,7 @@ itk::MutexLock::Pointer sharedMutex;
 ITK_THREAD_RETURN_TYPE execute(void *ptr)
 {
   // Here - get any args from ptr.
-  auto * threadInfo = static_cast<itk::MultiThreaderBase::ThreadInfoStruct*>(ptr);
+  auto * threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo*>(ptr);
 
   auto * data = static_cast<int *>(threadInfo->UserData);
 

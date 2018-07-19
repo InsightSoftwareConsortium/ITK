@@ -92,7 +92,7 @@ int itkExpImageFilterAndAdaptorTest(int, char* [] )
 
   // Connect the input images
   filter->SetInput( inputImage );
-  filter->SetNumberOfThreads(1);
+  filter->SetNumberOfWorkUnits(1);
 
   // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();

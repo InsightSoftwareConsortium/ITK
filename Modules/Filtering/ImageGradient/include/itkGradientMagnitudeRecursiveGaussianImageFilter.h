@@ -125,7 +125,7 @@ public:
   void SetNormalizeAcrossScale(bool normalizeInScaleSpace);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
-  void SetNumberOfThreads(ThreadIdType nb) override;
+  void SetNumberOfWorkUnits(ThreadIdType nb) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

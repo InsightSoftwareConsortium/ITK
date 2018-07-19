@@ -78,12 +78,12 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   labelizer->SetInputForegroundValue(m_InputForegroundValue);
   labelizer->SetOutputBackgroundValue(m_OutputBackgroundValue);
   labelizer->SetFullyConnected(m_FullyConnected);
-  labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
+  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   progress->RegisterInternalFilter(labelizer, .5f);
 
   typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
   valuator->SetInput( labelizer->GetOutput() );
-  valuator->SetNumberOfThreads( this->GetNumberOfThreads() );
+  valuator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   valuator->SetComputePerimeter(m_ComputePerimeter);
   valuator->SetComputeFeretDiameter(m_ComputeFeretDiameter);
   valuator->SetComputeOrientedBoundingBox(m_ComputeOrientedBoundingBox);

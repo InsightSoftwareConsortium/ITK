@@ -20,10 +20,12 @@
 #include "itkConnectedImageNeighborhoodShape.h"
 
 #include "itkImageNeighborhoodOffsets.h"
+#include "itkLexicographicCompare.h"
 
 #include "itkOffset.h"
 #include "itkSize.h"
 
+#include <algorithm> // For is_sorted and lexicographical_compare.
 #include <climits> // For INT_MAX and SIZE_MAX.
 #include <vector>
 
@@ -79,6 +81,7 @@ namespace
     ASSERT_EQ(GenerateImageNeighborhoodOffsets(shape), expectedOffsets);
   }
 
+
   template <unsigned int VImageDimension>
   void Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included()
   {
@@ -101,7 +104,33 @@ namespace
       const OffsetType middleOffset = offsets[(numberOfOffsets - 1) / 2];
       ASSERT_EQ(middleOffset, allZeroOffset);
     }
+  }
 
+
+  template <unsigned int VImageDimension>
+  void Assert_Offsets_are_unique_and_colexicographically_ordered()
+  {
+    using ShapeType =
+      itk::Experimental::ConnectedImageNeighborhoodShape<VImageDimension>;
+    using OffsetType = itk::Offset<VImageDimension>;
+
+    for (unsigned int maximumCityblockDistance = 0; maximumCityblockDistance < VImageDimension; ++maximumCityblockDistance)
+    {
+      for (bool includeCenterPixel : { false, true })
+      {
+        const ShapeType shape{ maximumCityblockDistance, includeCenterPixel };
+        const std::vector<OffsetType> offsets = GenerateImageNeighborhoodOffsets(shape);
+        const auto beginOfOffsets = offsets.begin();
+        const auto endOfOffsets = offsets.end();
+
+        ASSERT_TRUE(std::is_sorted(beginOfOffsets, endOfOffsets,
+          itk::Functor::CoLexicographicCompare{}));
+
+        // adjacent_find allows checking that each offset is unique, as we can
+        // assume at this point that the offsets are sorted.
+        ASSERT_EQ(std::adjacent_find(beginOfOffsets, endOfOffsets), endOfOffsets);
+      }
+    }
   }
 
 } // namespace
@@ -189,4 +218,12 @@ TEST(ConnectedImageNeighborhoodShape, The_middle_offset_is_all_zero_when_center_
   Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included<1>();
   Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included<2>();
   Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included<3>();
+}
+
+
+TEST(ConnectedImageNeighborhoodShape, Offsets_are_unique_and_colexicographically_ordered)
+{
+  Assert_Offsets_are_unique_and_colexicographically_ordered<1>();
+  Assert_Offsets_are_unique_and_colexicographically_ordered<2>();
+  Assert_Offsets_are_unique_and_colexicographically_ordered<3>();
 }

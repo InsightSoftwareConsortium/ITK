@@ -41,7 +41,7 @@ StatisticsImageFilter< TInputImage >
     }
   // allocate the data objects for the outputs which are
   // just decorators around real types
-  for ( int i = 3; i < 7; ++i )
+  for ( int i = 3; i < 8; ++i )
     {
     typename RealObjectType::Pointer output =
       static_cast< RealObjectType * >( this->MakeOutput(i).GetPointer() );
@@ -54,7 +54,7 @@ StatisticsImageFilter< TInputImage >
   this->GetSigmaOutput()->Set( NumericTraits< RealType >::max() );
   this->GetVarianceOutput()->Set( NumericTraits< RealType >::max() );
   this->GetSumOutput()->Set(NumericTraits< RealType >::ZeroValue());
-
+  this->GetSumOfSquaresOutput()->Set(NumericTraits< RealType >::ZeroValue());
   this->DynamicMultiThreadingOff();
 }
 
@@ -78,6 +78,7 @@ StatisticsImageFilter< TInputImage >
     case 4:
     case 5:
     case 6:
+    case 7:
       return RealObjectType::New().GetPointer();
       break;
     default:
@@ -183,6 +184,23 @@ StatisticsImageFilter< TInputImage >
   return static_cast< const RealObjectType * >( this->ProcessObject::GetOutput(6) );
 }
 
+
+template< typename TInputImage >
+typename StatisticsImageFilter< TInputImage >::RealObjectType *
+StatisticsImageFilter< TInputImage >
+::GetSumOfSquaresOutput()
+{
+  return static_cast< RealObjectType * >( this->ProcessObject::GetOutput(7) );
+}
+
+template< typename TInputImage >
+const typename StatisticsImageFilter< TInputImage >::RealObjectType *
+StatisticsImageFilter< TInputImage >
+::GetSumOfSquaresOutput() const
+{
+  return static_cast< const RealObjectType * >( this->ProcessObject::GetOutput(7) );
+}
+
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
@@ -225,7 +243,7 @@ void
 StatisticsImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   // Resize the thread temporaries
   m_Count.SetSize(numberOfThreads);
@@ -251,7 +269,7 @@ StatisticsImageFilter< TInputImage >
   SizeValueType   count;
   RealType        sumOfSquares;
 
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   PixelType minimum;
   PixelType maximum;
@@ -297,6 +315,7 @@ StatisticsImageFilter< TInputImage >
   this->GetSigmaOutput()->Set(sigma);
   this->GetVarianceOutput()->Set(variance);
   this->GetSumOutput()->Set(sum);
+  this->GetSumOfSquaresOutput()->Set(sumOfSquares);
 }
 
 template< typename TInputImage >
@@ -368,10 +387,11 @@ StatisticsImageFilter< TImage >
      << static_cast< typename NumericTraits< PixelType >::PrintType >( this->GetMinimum() ) << std::endl;
   os << indent << "Maximum: "
      << static_cast< typename NumericTraits< PixelType >::PrintType >( this->GetMaximum() ) << std::endl;
-  os << indent << "Sum: "      << this->GetSum() << std::endl;
-  os << indent << "Mean: "     << this->GetMean() << std::endl;
-  os << indent << "Sigma: "    << this->GetSigma() << std::endl;
-  os << indent << "Variance: " << this->GetVariance() << std::endl;
+  os << indent << "Sum: "          << this->GetSum() << std::endl;
+  os << indent << "Mean: "         << this->GetMean() << std::endl;
+  os << indent << "Sigma: "        << this->GetSigma() << std::endl;
+  os << indent << "Variance: "     << this->GetVariance() << std::endl;
+  os << indent << "SumOfSquares: " << this->GetSumOfSquares() << std::endl;
 }
 } // end namespace itk
 #endif

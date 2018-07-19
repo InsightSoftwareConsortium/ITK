@@ -67,7 +67,7 @@ int runGPUDiscreteGaussianImageFilterTest(const std::string& inFile, const std::
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfThreads( nThreads );
+    CPUFilter->SetNumberOfWorkUnits( nThreads );
 
     CPUFilter->SetInput( reader->GetOutput() );
     CPUFilter->SetVariance( variance );
@@ -76,7 +76,7 @@ int runGPUDiscreteGaussianImageFilterTest(const std::string& inFile, const std::
     cputimer.Stop();
 
     std::cout << "CPU Gaussian Filter took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
+              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n" << std::endl;
 
     // -------
 

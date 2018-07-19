@@ -6,6 +6,7 @@ itk_module(ITKIOBruker
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOMeta
   FACTORY_NAMES
     ImageIO::Bruker2dseq
   DESCRIPTION

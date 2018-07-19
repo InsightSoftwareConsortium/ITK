@@ -73,7 +73,7 @@ int runGPUNeighborhoodOperatorImageFilterTest(const std::string& inFile, const s
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfThreads( nThreads );
+    CPUFilter->SetNumberOfWorkUnits( nThreads );
 
     CPUFilter->SetInput( reader->GetOutput() );
     CPUFilter->SetOperator( oper );
@@ -82,7 +82,7 @@ int runGPUNeighborhoodOperatorImageFilterTest(const std::string& inFile, const s
     cputimer.Stop();
 
     std::cout << "CPU NeighborhoodFilter took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
+              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n" << std::endl;
 
     // -------
 

@@ -23,7 +23,7 @@
 #include "itkRawImageIO.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkRawImageIOTest(int argc, char* argv[])
 {

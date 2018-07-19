@@ -189,10 +189,10 @@ ITK_THREAD_RETURN_TYPE
 ImageToHistogramFilter< TImage >
 ::ThreaderMinMaxCallback(void *arg)
 {
-  using ThreadInfo = MultiThreaderBase::ThreadInfoStruct;
+  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->ThreadID;
-  ThreadIdType threadCount = threadInfo->NumberOfThreads;
+  ThreadIdType threadId = threadInfo->WorkUnitID;
+  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   using FilterStruct = typename ImageTransformer< TImage >::ThreadStruct;
   FilterStruct* str = (FilterStruct *)(threadInfo->UserData);
   Self* filter = static_cast<Self*>(str->Filter.GetPointer());
@@ -216,10 +216,10 @@ ImageToHistogramFilter< TImage >
 ::BeforeThreadedGenerateData()
 {
   // find the actual number of threads
-  long nbOfThreads = this->GetNumberOfThreads();
+  long nbOfThreads = this->GetNumberOfWorkUnits();
   if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfWorkUnits(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
     }
   // number of threads can be constrained by the region size, so call the
   // SplitRequestedRegion

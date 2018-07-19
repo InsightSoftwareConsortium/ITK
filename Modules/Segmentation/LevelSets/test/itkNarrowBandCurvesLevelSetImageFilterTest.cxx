@@ -159,7 +159,7 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char* argv[] )
   // set the convergence criteria
   curvesFilter->SetNumberOfIterations( 50 );
 
-  curvesFilter->SetNumberOfThreads(2);
+  curvesFilter->SetNumberOfWorkUnits(2);
 
   /**
    * Threshold the output level set to display the final contour.

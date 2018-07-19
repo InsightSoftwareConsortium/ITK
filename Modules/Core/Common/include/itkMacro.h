@@ -79,13 +79,21 @@ namespace itk
 #if defined(__clang__) && defined(__has_warning)
 #define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
 #define CLANG_PRAGMA_POP  ITK_PRAGMA(clang diagnostic pop)
-# if __has_warning("-Wfloat-equal")
+#if __has_warning("-Wfloat-equal")
 #define CLANG_SUPPRESS_Wfloat_equal ITK_PRAGMA( clang diagnostic ignored "-Wfloat-equal" )
-# endif
+#else
+#define CLANG_SUPPRESS_Wfloat_equal
+#endif
+#if __has_warning( "-Wc++14-extensions" )
+#define CLANG_SUPPRESS_Wc__14_extensions ITK_PRAGMA( clang diagnostic ignored "-Wc++14-extensions" )
+#else
+#define CLANG_SUPPRESS_Wc__14_extensions
+#endif
 #else
 #define CLANG_PRAGMA_PUSH
 #define CLANG_PRAGMA_POP
 #define CLANG_SUPPRESS_Wfloat_equal
+#define CLANG_SUPPRESS_Wc__14_extensions
 #endif
 
 // Define ITK_GCC_PRAGMA_DIAG(param1 [param2 [...]]) macro.

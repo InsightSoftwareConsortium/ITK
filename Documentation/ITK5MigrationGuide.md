@@ -51,10 +51,10 @@ Visual Studio 2013 (MSVC 12.0) and earlier cannot be used to build ITK since ver
 Modern CMake requirement
 ------------------------
 
-ITK now requires [CMake 3.9.5](https://github.com/InsightSoftwareConsortium/ITK/commit/3525bf45200bd9845259ea9a88f586684cc522db)
-to be configured. While only a few features enabled by this modern version of CMake
-are being used for 5.0 release, a modern version of CMake is a prerequisite
-for a bigger update of the ITK's build system. This is planned for a later version.
+ITK now requires **CMake 3.10.2** to be configured. While only a few features
+enabled by this modern version of CMake are being used for 5.0 release, a
+modern version of CMake is a prerequisite for a bigger update of the ITK's
+build system. This is planned for a later version.
 
 Before making other changes in suggested in this document,
 your code should work with the latest version of CMake.
@@ -72,22 +72,21 @@ been updated to match these changes.
 Multithreading refactored
 -------------------------
 
-Get/Set GlobalMaximumNumberOfThreads and GlobalDefaultNumberOfThreads have been moved
-from [itk::MultiThreader](https://itk.org/Insight/Doxygen/html/itkMultiThreader_8h.html)
-to [itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/itkMultiThreaderBase_8h.html)
-(a new class). Instead of a single MultiThreader class which could optionally delegate work
+Since ITK 5.0 `MultiThreader` has been split into a class hierarchy.
+Instead of a single `MultiThreader` class which could optionally delegate work
 to an [itk:ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
-there is now a class hierarchy.
+there is now a class hierarchy. Most of the time you will want to replace `MultiThreader` by
+[itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/classitk_1_1MultiThreaderBase.html).
 
-PlatformMultiThreader is essentially the old MultiThreader, renamed.
-PoolMultiThreader behaves like the old MultiThreader with
-`ITK_USE_THREADPOOL=ON`.
-There is an addition of TBBMultiThreader, which uses
-Intel Thread Building Blocks library's thread-pool with load balancing.
+[PlatformMultiThreader](https://itk.org/Insight/Doxygen/html/itkPlatformMultiThreader_8h.html)
+is essentially the old `MultiThreader`, renamed. `PoolMultiThreader` behaves like
+the old `MultiThreader` with `ITK_USE_THREADPOOL=ON`. There is an addition of
+[TBBMultiThreader](https://itk.org/Insight/Doxygen/html/classitk_1_1TBBMultiThreader.html),
+which uses Intel Thread Building Blocks library's thread-pool with load balancing.
 The option to build TBB needs to be enabled during CMake configure step.
 The default multi-threader can be set via environment variable
-`ITK_GLOBAL_DEFAULT_THEADER` with allowed case-insensitive values of
-`Platform`, `Pool` and `TBB`, e.g. `ITK_GLOBAL_DEFAULT_THEADER=tbb`.
+`ITK_GLOBAL_DEFAULT_THREADER` with allowed case-insensitive values of
+`Platform`, `Pool` and `TBB`, e.g. `ITK_GLOBAL_DEFAULT_THREADER=tbb`.
 
 For filter multi-threading, a new signature has been introduced:
 `void DynamicThreadedGenerateData( const OutputRegionType& threadRegion )`.
@@ -97,10 +96,116 @@ To temporarily get the old behavior (classic signature invoked by default),
 set `ITKV4_COMPATIBILITY` to `ON` in CMake configuration of ITK.
 To permanently have your filter use the classic threading model,
 invoke `this->DynamicMultiThreadingOff();` in the filter constructor.
+That is required if any of the following is true:
+ * Your filter needs a constant number of threads (known in advance)
+ * Your filter uses `threadId` parameter in `ThreadedGenerateData()`
+ * Your filter uses a custom region splitting method
+
+Additionally, replace `MultiThreader` by PlatformMultiThreader
+if any of the following is true:
+ * Your filter uses cross-thread synchronization e.g. itkBarrier
+ * Your filter uses MultipleMethodExecute()
+ * Your filter uses SpawnThread/TerminateThread
+
+It is stronly advised not to explicitly use PlatformMultiThreader.
+SpawnThread/TerminateThread and MultipleMethodExecute can be
+replaced by C++11 `std::thread`. And below code example shows
+how to remove dependence on barrier by using ParallelizeImageRegion.
+
+- Pattern with Barrier:
+```C++
+ThreadedGenerateData()
+{
+//code1 (parallel)
+myBarrier->Wait();
+if (threadId==0)
+  //code2 single-threaded
+//code3 (parallel)
+}
+```
+after refactoring to not use barrier:
+```C++
+GenerateData() //Not Threaded
+{
+this->AllocateOutputs();
+this->BeforeThreadedGenerateData();
+ParallelizeImageRegion(code1 as lambda)
+//code2 single-threaded
+ParallelizeImageRegion(code3 as lambda)
+this->AfterThreadedGenerateData();
+}
+```
+
+- Pattern with Arrays:
+If you are storing the results of threading computations in an `Array`,
+you might use instead `std::atomic`.
+You can see an example of this for an external module in
+[this commit](https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/pull/32/commits/a8014c186ac53837362a0cb9db46ae224b8e9584).
+Before, using `Array`:
+```C++
+// Members:
+Array<SizeValueType> m_NumVoxelsInsideMask;
+BeforeThreadedGenerateData()
+{
+  // Resize the thread temporaries
+  m_NumVoxelsInsideMask.SetSize(this->GetNumberOfThreads());
+  m_NumVoxelsInsideMask.Fill(0);
+}
+
+ThreadedGenerateData(const RegionType & outputRegionForThread,
+                     ThreadIdType threadId)
+{
+  // Do algorithm per threadId
+  // Store the results per thread at the end
+  m_NumVoxelsInsideMask[threadId] = numVoxelsForThisRegion;
+}
+
+AfterThreadedGenerateData()
+{
+  // Retrieve and sum all the results per thread.
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  SizeValueType numVoxelsInsideMask = 0;
+  for (unsigned int i = 0; i < numberOfThreads; ++i )
+    {
+    numVoxelsInsideMask += m_NumVoxelsInsideMask[i];
+    }
+}
+```
+After, using `std::atomic`:
+```C++
+// Members:
+std::atomic<SizeValueType> m_NumVoxelsInsideMask;
+BeforeThreadedGenerateData()
+{
+  // Initialize atomics
+  m_NumVoxelsInsideMask.store(0);
+}
+
+DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
+{
+  // Do algorithm without handling threadId
+  m_NumVoxelsInsideMask.fetch_add(numVoxelsForThisRegion, std::memory_order_relaxed);
+}
+
+AfterThreadedGenerateData()
+{
+  // Get the value from the atomic
+  SizeValueType numVoxelsInsideMask = m_NumVoxelsInsideMask.load();
+}
+```
+
+Get/Set GlobalMaximumNumberOfThreads and GlobalDefaultNumberOfThreads
+now reside in `MultiThreaderBase`. With a warning, they are still
+available in `PlatformMultiThreader`. The common case of
+`innerFilter->SetNumberOfThreads(1);` should be replaced by
+`innerFilter->SetNumberOfWorkUnits(1);`.
 
 To transition to the new threading model, it is usually enough to rename
 `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
 `threadId` parameter, and remove progress reporting which uses `threadId`.
+Progress is being reported by Multithreaders on behalf of filters which
+use `DynamicThreadedGenerateData` signature.
+
 If your class needs to also work with legacy code where
 `ITKV4_COMPATIBILITY` is enabled, invoke
 `this->DynamicMultiThreadingOn();` in the filter constructor. An example of

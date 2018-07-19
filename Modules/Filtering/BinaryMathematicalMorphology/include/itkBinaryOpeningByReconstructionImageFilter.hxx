@@ -66,7 +66,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
   erode->SetKernel( this->GetKernel() );
   erode->SetInput( this->GetInput() );
   erode->ReleaseDataFlagOn();
-  erode->SetNumberOfThreads( this->GetNumberOfThreads() );
+  erode->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
 
   typename BinaryReconstructionByDilationImageFilter<OutputImageType>::Pointer
     dilate = BinaryReconstructionByDilationImageFilter<OutputImageType>::New();
@@ -76,7 +76,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
   dilate->SetMaskImage( this->GetInput() );
   dilate->SetFullyConnected( m_FullyConnected );
   dilate->ReleaseDataFlagOn();
-  dilate->SetNumberOfThreads( this->GetNumberOfThreads() );
+  dilate->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
 
   /** set up the minipipeline */
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();

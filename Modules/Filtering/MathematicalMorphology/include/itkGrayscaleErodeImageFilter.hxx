@@ -41,13 +41,13 @@ GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
 template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
-::SetNumberOfThreads(ThreadIdType nb)
+::SetNumberOfWorkUnits(ThreadIdType nb)
 {
-  Superclass::SetNumberOfThreads(nb);
-  m_HistogramFilter->SetNumberOfThreads(nb);
-  m_AnchorFilter->SetNumberOfThreads(nb);
-  m_VHGWFilter->SetNumberOfThreads(nb);
-  m_BasicFilter->SetNumberOfThreads(nb);
+  Superclass::SetNumberOfWorkUnits(nb);
+  m_HistogramFilter->SetNumberOfWorkUnits(nb);
+  m_AnchorFilter->SetNumberOfWorkUnits(nb);
+  m_VHGWFilter->SetNumberOfWorkUnits(nb);
+  m_BasicFilter->SetNumberOfWorkUnits(nb);
 }
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >

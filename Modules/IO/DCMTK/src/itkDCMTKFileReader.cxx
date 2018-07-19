@@ -34,6 +34,7 @@
 #include "dcmtk/dcmdata/dcvrobow.h"        /* for DcmOtherByteOtherWord */
 #include "dcmtk/dcmdata/dcvrui.h"          /* for DcmUniqueIdentifier */
 #include "dcmtk/dcmdata/dcfilefo.h"        /* for DcmFileFormat */
+#include "dcmtk/dcmdata/dcmetinf.h"        /* for DcmMetaInfo */
 #include "dcmtk/dcmdata/dcdeftag.h"        /* for DCM_NumberOfFrames */
 #include "dcmtk/dcmdata/dcvrlo.h"          /* for DcmLongString */
 #include "dcmtk/dcmdata/dcvrtm.h"          /* for DCMTime */
@@ -373,17 +374,17 @@ bool
 DCMTKFileReader
 ::CanReadFile(const std::string &filename)
 {
-  auto * DFile = new DcmFileFormat();
+  auto *MInfo = new DcmMetaInfo();
   bool rval = false;
-  if( DFile &&
-      DFile->loadFile(filename.c_str(),
+  if( MInfo &&
+      MInfo->loadFile(filename.c_str(),
                       EXS_Unknown,
                       EGL_noChange,
                       65536) == EC_Normal)
     {
     rval = true;
     }
-  delete DFile;
+  delete MInfo;
   return rval;
 }
 

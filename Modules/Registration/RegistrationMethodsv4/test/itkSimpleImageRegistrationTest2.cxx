@@ -311,7 +311,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   std::cout << "Affine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
             << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
-            << std::endl << " optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
+            << std::endl << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
   }
 
   using CompositeTransformType = itk::CompositeTransform< double, VImageDimension >;

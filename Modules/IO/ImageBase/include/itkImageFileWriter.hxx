@@ -123,7 +123,6 @@ ImageFileWriter< TInputImage >
     itkExceptionMacro(<< "No filename was specified");
     }
 
-#if !defined(SPECIFIC_IMAGEIO_MODULE_TEST)
   if ( m_ImageIO.IsNull() ||
        ( m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile( m_FileName.c_str() ) ) )
     {
@@ -144,7 +143,6 @@ ImageFileWriter< TInputImage >
                                               ImageIOFactory::WriteMode);
     m_FactorySpecifiedImageIO = true;
     }
-#endif
 
   if ( m_ImageIO.IsNull() )
     {

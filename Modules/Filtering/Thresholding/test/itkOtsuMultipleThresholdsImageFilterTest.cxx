@@ -21,6 +21,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
 {
@@ -51,6 +52,10 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, OtsuMultipleThresholdsImageFilter,
+    ImageToImageFilter );
+
   RescaleType::Pointer rescaler = RescaleType::New();
   WriterType::Pointer writer = WriterType::New();
 
@@ -59,46 +64,30 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   // Set up the reader
   reader->SetFileName( argv[1] );
 
-  // Set up the filter parameters.
+  // Set up the filter parameters
   filter->SetInput( reader->GetOutput() );
-  filter->SetNumberOfHistogramBins (atoi(argv[3]));
-  filter->SetNumberOfThresholds( atoi(argv[4]) );
-  filter->SetLabelOffset( atoi(argv[5]) );
+
+  auto numberOfHistogramBins = static_cast< itk::SizeValueType >(atoi( argv[3] ) );
+  filter->SetNumberOfHistogramBins( numberOfHistogramBins );
+  TEST_SET_GET_VALUE( numberOfHistogramBins, filter->GetNumberOfHistogramBins() );
+
+  auto numberOfThresholds = static_cast< itk::SizeValueType >(atoi( argv[4] ) );
+  filter->SetNumberOfThresholds( numberOfThresholds );
+  TEST_SET_GET_VALUE( numberOfThresholds, filter->GetNumberOfThresholds() );
+
+  auto labelOffset =  static_cast< FilterType::OutputPixelType >(atoi( argv[5] ) );
+  filter->SetLabelOffset( labelOffset );
+  TEST_SET_GET_VALUE( labelOffset, filter->GetLabelOffset() );
+
   if( argc > 6 )
-  {
-    filter->SetValleyEmphasis(atoi(argv[6]));
-  }
-  try
     {
-    filter->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
+    bool valleyEmphasis =  static_cast< bool >( atoi( argv[6] ) );
+    filter->SetValleyEmphasis( valleyEmphasis );
+    TEST_SET_GET_VALUE( valleyEmphasis, filter->GetValleyEmphasis() );
     }
 
-  // Test GetMacros
-  unsigned long numberOfHistogramBins = filter->GetNumberOfHistogramBins();
-  std::cout << "filter->GetNumberOfHistogramBins(): "
-            << numberOfHistogramBins
-            << std::endl;
-  unsigned long numberOfThresholds = filter->GetNumberOfThresholds();
-  std::cout << "filter->GetNumberOfThresholds(): "
-            << numberOfThresholds
-            << std::endl;
-  OutputPixelType labelOffset = filter->GetLabelOffset();
-  std::cout << "filter->GetLabelOffset(): "
-            << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>( labelOffset )
-            << std::endl;
-  FilterType::ThresholdVectorType thresholds = filter->GetThresholds();
-  std::cout << "filter->GetThresholds(): ";
-  for (double threshold : thresholds)
-    {
-    std::cout << itk::NumericTraits<FilterType::InputPixelType>::PrintType(threshold) << " ";
-    }
-  std::cout << std::endl;
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
 
   // Rescale the image so that it can be seen.  The output of the
   // filter contains labels that are numbered sequentially, so the
@@ -110,16 +99,9 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   // Write out the test image
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
 
   return EXIT_SUCCESS;
 }

@@ -154,7 +154,7 @@ itkObjectFactoryTest2.cxx
 itkObjectFactoryTest3.cxx
 itkMinimumMaximumImageCalculatorTest.cxx
 itkSliceIteratorTest.cxx
-itkPlatformMultiThreaderTest.cxx
+itkMultiThreaderBaseTest.cxx
 itkMultiThreaderTypeFromEnvironmentTest
 itkMultiThreadingEnvironmentTest.cxx
 itkMultiThreaderParallelizeArrayTest.cxx
@@ -196,8 +196,12 @@ if(NOT ITK_LEGACY_REMOVE)
   list(APPEND ITKCommon2Tests itkSpawnThreadTest.cxx)
 endif()
 
+# Notes:
+# (1) Tests are arbitrarly split into two drivers to avoid memory issues.
+# (2) itkFloatingPointExceptionsExtern.cxx is associated with the first driver.
+#     only because it is indeed to build itkFloatingPointExceptionsTest.
 CreateTestDriver(ITKCommon1 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
-CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}")
+CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}" itkFloatingPointExceptionsExtern.cxx)
 
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
@@ -377,38 +381,53 @@ if(0)
 endif()
 
 itk_add_test(NAME itkMetaDataDictionaryTest COMMAND ITKCommon2TestDriver itkMetaDataDictionaryTest)
-itk_add_test(NAME itkPlatformMultiThreaderTest COMMAND ITKCommon2TestDriver itkPlatformMultiThreaderTest)
+
+itk_add_test(NAME itkMultiThreaderBaseTestPlatform
+  COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
+set_tests_properties(itkMultiThreaderBaseTestPlatform
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Platform")
+itk_add_test(NAME itkMultiThreaderBaseTestPool
+  COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
+set_tests_properties(itkMultiThreaderBaseTestPool
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Pool")
+itk_add_test(NAME itkMultiThreaderBaseTest3
+  COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest 3) # test with 3 threads
 
 itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPlatform
   COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest PlatFORM)
 set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPlatform
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=plaTform")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=plaTform")
 
 itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestPool
   COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest PooL)
 set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestPool
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=pOoL") # tests letter case too
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=pOoL") # tests letter case too
 
 if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
+  itk_add_test(NAME itkMultiThreaderBaseTestTBB
+    COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
+  set_tests_properties(itkMultiThreaderBaseTestTBB
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=TBB")
+
   itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
   set_tests_properties(itkMultiThreaderTypeFromEnvironmentTestTBB
-    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=tbb") # tests letter case too
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=tbb") # tests letter case too
 
   itk_add_test(NAME itkMultiThreaderParallelizeArrayTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
   set_tests_properties(itkMultiThreaderParallelizeArrayTestTBB
-    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=TBB")
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=TBB")
 endif()
 
 itk_add_test(NAME itkMultiThreaderParallelizeArrayTestPlatform
   COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
 set_tests_properties(itkMultiThreaderParallelizeArrayTestPlatform
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Platform")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Platform")
 itk_add_test(NAME itkMultiThreaderParallelizeArrayTestPool
   COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest)
 set_tests_properties(itkMultiThreaderParallelizeArrayTestPool
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Pool")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Pool")
 itk_add_test(NAME itkMultiThreaderParallelizeArrayTest3
   COMMAND ITKCommon2TestDriver itkMultiThreaderParallelizeArrayTest 3) # test with 3 threads
 
@@ -534,7 +553,7 @@ itk_add_test(NAME itkCompensatedSummationTest2 COMMAND ITKCommon2TestDriver itkC
 # this test depends on being able to raise C++ exceptions from
 # the signal handler. This is apparently not something that
 # works properly
-if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux" AND ITK_HAS_FEENABLEEXCEPT)
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin|Linux")
   itk_add_test(NAME itkFloatingPointExceptionsTest1 COMMAND ITKCommon1TestDriver
     itkFloatingPointExceptionsTest DivByZero)
   itk_add_test(NAME itkFloatingPointExceptionsTest2 COMMAND ITKCommon1TestDriver

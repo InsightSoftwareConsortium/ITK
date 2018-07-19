@@ -25,7 +25,7 @@
 #include "itkTestingMacros.h"
 
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 int itkPNGImageIOTestPalette( int argc, char * argv[] )
 {

@@ -61,7 +61,7 @@ namespace
     constexpr double radius = 7.0;
     CreateCircle<ImageType>(image, center, radius);
 
-    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType >;
+    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType, PixelType>;
 
     const FilterType::Pointer filter = FilterType::New();
 
@@ -84,7 +84,7 @@ namespace
 
     using ImageType = itk::Image<PixelType>;
 
-    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType >;
+    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType, PixelType >;
 
     const FilterType::Pointer filter = FilterType::New();
 
@@ -136,9 +136,8 @@ namespace
 
     using OutputPixelType = unsigned long;
 
-    // By default, the radius image has the same type as the output image (the accumulator image).
     // FilterType2 has 'double' as radius pixel type, allowing a slightly more accurate radius estimation.
-    using FilterType1 = itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType >;
+    using FilterType1 = itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType, unsigned long >;
     using FilterType2 = itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType, double >;
 
     const FilterType1::Pointer filter1 = FilterType1::New();
@@ -356,7 +355,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
 
   // Define the HoughTransform filter
   using HoughTransformFilterType = itk::HoughTransform2DCirclesImageFilter< HoughSpacePixelType,
-    HoughSpacePixelType >;
+    HoughSpacePixelType, HoughSpacePixelType >;
 
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 

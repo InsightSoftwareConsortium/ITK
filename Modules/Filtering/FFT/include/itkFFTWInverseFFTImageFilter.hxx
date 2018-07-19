@@ -77,7 +77,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
   using FullToHalfFilterType = FullToHalfHermitianImageFilter< InputImageType >;
   typename FullToHalfFilterType::Pointer fullToHalfFilter = FullToHalfFilterType::New();
   fullToHalfFilter->SetInput( this->GetInput() );
-  fullToHalfFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  fullToHalfFilter->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   fullToHalfFilter->UpdateLargestPossibleRegion();
 
   auto * in = (typename FFTWProxyType::ComplexType *) fullToHalfFilter->GetOutput()->GetBufferPointer();
@@ -92,7 +92,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 
   plan = FFTWProxyType::Plan_dft_c2r( ImageDimension, sizes, in, out, m_PlanRigor,
-                                      this->GetNumberOfThreads(), false );
+                                      this->GetNumberOfWorkUnits(), false );
   FFTWProxyType::Execute( plan );
 
   // Some cleanup.

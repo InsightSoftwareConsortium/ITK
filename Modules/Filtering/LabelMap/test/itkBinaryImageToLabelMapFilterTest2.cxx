@@ -55,7 +55,7 @@ int itkBinaryImageToLabelMapFilterTest2( int argc, char * argv [] )
   imageToLabel->SetFullyConnected(true);
   imageToLabel->SetInputForegroundValue( atoi(argv[3]) );
   imageToLabel->SetOutputBackgroundValue( atoi(argv[4]) );
-  imageToLabel->SetNumberOfThreads( atoi(argv[5]) );
+  imageToLabel->SetNumberOfWorkUnits( atoi(argv[5]) );
   imageToLabel->Update();
 
   std::cout << "There are " << imageToLabel->GetOutput()->GetNumberOfLabelObjects() << " objects." << std::endl;

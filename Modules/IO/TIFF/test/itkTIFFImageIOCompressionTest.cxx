@@ -23,7 +23,7 @@
 #include "itkTestingMacros.h"
 #include <fstream>
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
+// Specific ImageIO test
 
 
 namespace

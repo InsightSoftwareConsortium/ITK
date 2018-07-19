@@ -103,7 +103,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2Run( typename TMetric::Measur
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( fixedTransform );
   metric->SetMovingTransform( movingTransform );
-  metric->SetMaximumNumberOfThreads( 1 );
+  metric->SetMaximumNumberOfWorkUnits( 1 );
 
   metric->DebugOn();
 

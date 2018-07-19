@@ -72,7 +72,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
     using CastType = CastImageFilter< TInputImage, TOutputImage>;
     typename CastType::Pointer cast = CastType::New();
     cast->SetInput( this->GetInput() );
-    cast->SetNumberOfThreads( this->GetNumberOfThreads() );
+    cast->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     cast->SetInPlace( false );
     cast->GraftOutput( this->GetOutput() );
     cast->Update();

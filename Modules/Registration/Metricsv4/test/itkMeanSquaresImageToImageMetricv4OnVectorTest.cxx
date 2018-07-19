@@ -118,7 +118,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( fixedTransform );
   metric->SetMovingTransform( movingTransform );
-  metric->SetMaximumNumberOfThreads( 1 );
+  metric->SetMaximumNumberOfWorkUnits( 1 );
 
   metric->DebugOn();
 

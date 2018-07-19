@@ -109,7 +109,7 @@ int itkDecimateFramesVideoFilterTest( int argc, char* argv[] )
   itk::ObjectFactoryBase::RegisterFactory( itk::FileListVideoIOFactory::New() );
 
   // For the sake of debugging output, just use one thread
-  filter->SetNumberOfThreads(1);
+  filter->SetNumberOfWorkUnits(1);
 
   // Update the writer to run everything
   writer->Update();

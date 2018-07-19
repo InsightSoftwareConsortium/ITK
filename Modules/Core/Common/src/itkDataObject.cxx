@@ -33,7 +33,7 @@ namespace itk
 bool DataObject:: m_GlobalReleaseDataFlag = false;
 
 DataObjectError
-::DataObjectError():
+::DataObjectError() noexcept:
   ExceptionObject(), m_DataObject(nullptr)
 {}
 
@@ -48,7 +48,7 @@ DataObjectError
 {}
 
 DataObjectError
-::DataObjectError(const DataObjectError & orig):
+::DataObjectError(const DataObjectError & orig) noexcept:
   ExceptionObject(orig)
 {
   m_DataObject = orig.m_DataObject;
@@ -56,7 +56,7 @@ DataObjectError
 
 DataObjectError &
 DataObjectError
-::operator=(const DataObjectError & orig)
+::operator=(const DataObjectError & orig) noexcept
 {
   ExceptionObject::operator=(orig);
   m_DataObject = orig.m_DataObject;
@@ -65,14 +65,14 @@ DataObjectError
 
 void
 DataObjectError
-::SetDataObject(DataObject *dobj)
+::SetDataObject(DataObject *dobj) noexcept
 {
   m_DataObject = dobj;
 }
 
 DataObject *
 DataObjectError
-::GetDataObject()
+::GetDataObject() noexcept
 {
   return m_DataObject;
 }
@@ -96,7 +96,7 @@ DataObjectError
 }
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError():
+::InvalidRequestedRegionError() noexcept:
   DataObjectError()
 {}
 
@@ -111,13 +111,13 @@ InvalidRequestedRegionError
 {}
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError(const InvalidRequestedRegionError & orig):
+::InvalidRequestedRegionError(const InvalidRequestedRegionError & orig) noexcept:
   DataObjectError(orig)
 {}
 
 InvalidRequestedRegionError &
 InvalidRequestedRegionError
-::operator=(const InvalidRequestedRegionError & orig)
+::operator=(const InvalidRequestedRegionError & orig) noexcept
 {
   DataObjectError::operator=(orig);
   return *this;

@@ -102,12 +102,10 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
     m_ExceptionMessage = err.GetDescription();
     }
 
-#if !defined(SPECIFIC_IMAGEIO_MODULE_TEST)
   if ( m_UserSpecifiedImageIO == false ) //try creating via factory
     {
     m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::ReadMode);
     }
-#endif
 
   if ( m_ImageIO.IsNull() )
     {

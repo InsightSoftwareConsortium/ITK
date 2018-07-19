@@ -33,9 +33,9 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
   this->m_CurrentIteration = 0;
   this->m_NumberOfIterations = 100;
   this->m_CurrentMetricValue = 0;
-  // Initialize, but w/out calling SetNumberOfThreads, to avoid
+  // Initialize, but w/out calling SetNumberOfWorkUnits, to avoid
   // valgrind warning.
-  this->m_NumberOfThreads = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
+  this->m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
   this->m_ScalesAreIdentity = false;
   this->m_WeightsAreIdentity = true;
   this->m_DoEstimateScales = true;
@@ -55,7 +55,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of threads: " << this->m_NumberOfThreads << std::endl;
+  os << indent << "Number of work units: " << this->m_NumberOfWorkUnits << std::endl;
   os << indent << "Number of scales:  " << this->m_Scales.Size() << std::endl;
   if( this->GetScalesInitialized() )
     {
@@ -92,15 +92,15 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
-::SetNumberOfThreads( ThreadIdType number )
+::SetNumberOfWorkUnits( ThreadIdType number )
 {
   if( number < 1 )
     {
-    itkExceptionMacro("Number of threads must be > 0");
+    itkExceptionMacro("Number of work units must be > 0");
     }
-  if( number != this->m_NumberOfThreads )
+  if( number != this->m_NumberOfWorkUnits )
     {
-    this->m_NumberOfThreads = number;
+    this->m_NumberOfWorkUnits = number;
     this->Modified();
     }
 }

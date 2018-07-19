@@ -19,6 +19,7 @@
 #define itkFiniteCylinderSpatialFunction_hxx
 
 #include "itkFiniteCylinderSpatialFunction.h"
+#include "itkFloatingPointExceptions.h"
 #include <cmath>
 
 namespace itk
@@ -95,7 +96,20 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
   //if length_test is less than the length of the cylinder (half actually,
   // because its length from the center), than
   //the point is within the length of the cylinder along the medial axis
+  bool saveFPEState(true);
+  if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
+    {
+    saveFPEState = FloatingPointExceptions::GetEnabled();
+    FloatingPointExceptions::Disable();
+    }
+
   const double distanceFromCenter = dot_product( medialAxisVector.GetVnlVector(), pointVector.GetVnlVector() );
+
+  // restore state
+  if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
+    {
+    FloatingPointExceptions::SetEnabled(saveFPEState);
+    }
 
   if ( std::fabs(distanceFromCenter) <= ( halfAxisLength )
        && m_Radius >= std::sqrt( std::pow(pointVector.GetVnlVector().magnitude(), 2.0) - std::pow(distanceFromCenter, 2.0) ) )

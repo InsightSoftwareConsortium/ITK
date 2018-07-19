@@ -69,10 +69,9 @@ static const char *TSStrings[] = {
   "1.2.840.10008.1.2.4.100",
   // Old ACR NEMA, fake a TS
   "ImplicitVRBigEndianACRNEMA",
-#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
   // Weird Papyrus
   "1.2.840.10008.1.20",
-#endif
+  // CT_private_ELE,
   "1.3.46.670589.33.1.4.1",
   // JPIP Referenced
   "1.2.840.10008.1.2.4.94",

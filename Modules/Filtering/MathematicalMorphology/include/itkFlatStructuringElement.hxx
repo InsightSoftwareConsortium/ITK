@@ -990,7 +990,7 @@ FlatStructuringElement< VDimension >::ComputeBufferFromLines()
   typename DilateType::Pointer dilate = DilateType::New();
   // suspect that multithreading does odd things when images are
   // really tiny
-  dilate->SetNumberOfThreads(1);
+  dilate->SetNumberOfWorkUnits(1);
   dilate->SetInput(sourceImage);
   dilate->SetKernel(*this);
   dilate->Update();

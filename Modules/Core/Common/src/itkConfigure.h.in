@@ -18,7 +18,7 @@
 #ifndef itkConfigure_h
 #define itkConfigure_h
 
-/* Define granual compiler features. */
+/* Define granular compiler features. */
 #include "itk_compiler_detection.h"
 
 /*

@@ -93,7 +93,7 @@ namespace itk
  * Although this filter has been written to support multiple threads, please
  * set the number of threads to 1.
  * \code
- *         filter->SetNumberOfThreads(1);
+ *         filter->SetNumberOfWorkUnits(1);
  * \endcode
  * This is due to buggy code in netlib/dsvdc, that is called by vnl_svd.
  * (used to compute the pseudo-inverse to find the dual tensor basis).

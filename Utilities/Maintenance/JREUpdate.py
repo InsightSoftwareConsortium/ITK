@@ -10,8 +10,8 @@ plugin "just works".
 The Fiji fellows maintain Git repositories that tracks the OpenJDK JRE.
 Here we clone that repository and create the JRE tarball from it.
 
-Currently, the tarball needs to be uploaded manually to midas3.kitware.com.
-In the future, pydas can be used for automatic upload.
+Currently, the tarball needs to be uploaded manually to data.kitware.com.
+In the future, the Python girder client can be used for automatic upload.
 """
 
 from __future__ import print_function

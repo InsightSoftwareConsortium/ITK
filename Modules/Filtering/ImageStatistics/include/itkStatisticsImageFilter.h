@@ -26,9 +26,9 @@
 namespace itk
 {
 /** \class StatisticsImageFilter
- * \brief Compute min. max, variance and mean of an Image.
+ * \brief Compute min, max, variance and mean of an Image.
  *
- * StatisticsImageFilter computes the minimum, maximum, sum, mean, variance
+ * StatisticsImageFilter computes the minimum, maximum, sum, sum of squares, mean, variance
  * sigma of an image.  The filter needs all of its input image.  It
  * behaves as a filter with an input and output. Thus it can be inserted
  * in a pipline with other filters and the statistics will only be
@@ -126,6 +126,13 @@ public:
   RealObjectType * GetSumOutput();
 
   const RealObjectType * GetSumOutput() const;
+
+  /** Return the compute Sum of Squares. */
+  RealType GetSumOfSquares() const
+  { return this->GetSumOfSquaresOutput()->Get(); }
+  RealObjectType * GetSumOfSquaresOutput();
+
+  const RealObjectType * GetSumOfSquaresOutput() const;
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */

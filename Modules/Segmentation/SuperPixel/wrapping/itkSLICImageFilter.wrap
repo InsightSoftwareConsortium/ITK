@@ -1,0 +1,19 @@
+itk_wrap_class("itk::SLICImageFilter" POINTER_WITH_SUPERCLASS)
+  set(to_types "${ITKM_IT}")
+  if(ITK_WRAP_unsigned_short)
+    list(APPEND to_types "US")
+  endif()
+
+  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${to_types}" 2+)
+
+  set(from_types "${WRAP_ITK_SCALAR}")
+
+  # VectorImages
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(f ${from_types})
+      foreach(t ${to_types})
+        itk_wrap_template("${ITKM_VI${f}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${f}${d}},${ITKT_I${t}${d}}")
+      endforeach()
+    endforeach()
+  endforeach()
+itk_end_wrap_class()

@@ -209,6 +209,9 @@ def LoadModule(name, namespace=None):
                     DebugPrintError("%s not found in module %s because of "
                                     "exception:\n %s"
                                     % (swigClassName, name, e))
+        if 'snake_case_functions' in data:
+            for snakeCaseFunction in data['snake_case_functions']:
+                namespace[snakeCaseFunction] = getattr(module, snakeCaseFunction)
 
     if itkConfig.ImportCallback:
         itkConfig.ImportCallback(name, 1)

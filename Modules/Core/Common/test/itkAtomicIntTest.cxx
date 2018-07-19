@@ -243,7 +243,7 @@ int itkAtomicIntTest(int, char*[])
   itk::ModifiedTimeType beforeMTime = AnObject->GetMTime();
 
   mt->SetSingleMethod(MyFunction, nullptr);
-  mt->SetNumberOfThreads(NumThreads);
+  mt->SetNumberOfWorkUnits( NumThreads );
   mt->SingleMethodExecute();
 
   mt->SetSingleMethod(MyFunction2, nullptr);

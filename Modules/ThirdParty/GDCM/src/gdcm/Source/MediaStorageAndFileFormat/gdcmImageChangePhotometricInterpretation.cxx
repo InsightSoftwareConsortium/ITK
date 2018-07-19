@@ -93,6 +93,114 @@ bool ImageChangePhotometricInterpretation::ChangeMonochrome()
   return success;
 }
 
+bool ImageChangePhotometricInterpretation::ChangeYBR2RGB()
+{
+  // Ok let's give up on this one for now.
+  // We would need to take care of Pixel Padding Value to actually be able to
+  // invert the image without this information we potentially will be making
+  // mistake. just like Largest Image Pixel Value and other would be wrong
+  const Bitmap &image = *Input;
+  PhotometricInterpretation pi = image.GetPhotometricInterpretation();
+  //assert( pi == PhotometricInterpretation::MONOCHROME1 || pi == PhotometricInterpretation::MONOCHROME2 );
+  if( pi == PI )
+  {
+    return true;
+  }
+
+  unsigned long len = image.GetBufferLength();
+  unsigned char *p = new unsigned char[len];
+  image.GetBuffer( (char*)p );
+
+  unsigned char rgb[3];
+  unsigned char ybr[3];
+  for( unsigned long i = 0; i < len / 3; ++i ) {
+    ybr[0] = p[ 3 * i + 0];
+    ybr[1] = p[ 3 * i + 1];
+    ybr[2] = p[ 3 * i + 2];
+    YBR2RGB(rgb, ybr);
+    p[ 3 * i + 0] = rgb[0];
+    p[ 3 * i + 1] = rgb[1];
+    p[ 3 * i + 2] = rgb[2];
+  }
+
+  DataElement &de = Output->GetDataElement();
+  de.SetByteValue( (char*)p, len);
+  //Output->GetLUT().Clear();
+  Output->SetPhotometricInterpretation( PI );
+  //Output->GetPixelFormat().SetSamplesPerPixel( 3 );
+  //Output->SetPlanarConfiguration( 0 ); // FIXME OT-PAL-8-face.dcm has a PlanarConfiguration while being PALETTE COLOR...
+  //const TransferSyntax &ts = image.GetTransferSyntax();
+  ////assert( ts == TransferSyntax::RLELossless );
+  //if( ts.IsExplicit() )
+  //  {
+  //  Output->SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
+  //  }
+  //else
+  //  {
+  //  assert( ts.IsImplicit() );
+  //  Output->SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
+  //  }
+
+
+  bool success = true;
+  delete[] p;
+  return success;
+}
+
+bool ImageChangePhotometricInterpretation::ChangeRGB2YBR()
+{
+  // Ok let's give up on this one for now.
+  // We would need to take care of Pixel Padding Value to actually be able to
+  // invert the image without this information we potentially will be making
+  // mistake. just like Largest Image Pixel Value and other would be wrong
+  const Bitmap &image = *Input;
+  PhotometricInterpretation pi = image.GetPhotometricInterpretation();
+  //assert( pi == PhotometricInterpretation::MONOCHROME1 || pi == PhotometricInterpretation::MONOCHROME2 );
+  if( pi == PI )
+  {
+    return true;
+  }
+
+  unsigned long len = image.GetBufferLength();
+  unsigned char *p = new unsigned char[len];
+  image.GetBuffer( (char*)p );
+
+  unsigned char rgb[3];
+  unsigned char ybr[3];
+  for( unsigned long i = 0; i < len / 3; ++i ) {
+    ybr[0] = p[ 3 * i + 0];
+    ybr[1] = p[ 3 * i + 1];
+    ybr[2] = p[ 3 * i + 2];
+    RGB2YBR(rgb, ybr);
+    p[ 3 * i + 0] = rgb[0];
+    p[ 3 * i + 1] = rgb[1];
+    p[ 3 * i + 2] = rgb[2];
+  }
+
+  DataElement &de = Output->GetDataElement();
+  de.SetByteValue( (char*)p, len);
+  //Output->GetLUT().Clear();
+  Output->SetPhotometricInterpretation( PI );
+  //Output->GetPixelFormat().SetSamplesPerPixel( 3 );
+  //Output->SetPlanarConfiguration( 0 ); // FIXME OT-PAL-8-face.dcm has a PlanarConfiguration while being PALETTE COLOR...
+  //const TransferSyntax &ts = image.GetTransferSyntax();
+  ////assert( ts == TransferSyntax::RLELossless );
+  //if( ts.IsExplicit() )
+  //  {
+  //  Output->SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
+  //  }
+  //else
+  //  {
+  //  assert( ts.IsImplicit() );
+  //  Output->SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
+  //  }
+
+
+  bool success = true;
+  delete[] p;
+  return success;
+}
+
 bool ImageChangePhotometricInterpretation::Change()
 {
   // PS 3.3 - 2008 C.7.6.3.1.2 Photometric Interpretation
@@ -108,7 +216,7 @@ bool ImageChangePhotometricInterpretation::Change()
     CR = + .5000R - .4187G - .0813B + 128
     Note: The above is based on CCIR Recommendation 601-2 dated 1990.
     */
-    return false;
+    return ChangeRGB2YBR();
     }
   else if( PI == PhotometricInterpretation::RGB )
     {
@@ -119,7 +227,7 @@ bool ImageChangePhotometricInterpretation::Change()
      * 1.0000e+00   -3.4411e-01   -7.1410e-01
      * 1.0000e+00    1.7720e+00   -1.3458e-04
      */
-    return false;
+    return ChangeYBR2RGB();
     }
   else if( PI == PhotometricInterpretation::MONOCHROME1 || PI == PhotometricInterpretation::MONOCHROME2 )
     {

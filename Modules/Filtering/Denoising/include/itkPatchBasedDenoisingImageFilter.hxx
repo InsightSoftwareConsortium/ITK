@@ -312,7 +312,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   this->EmptyCaches();
 
   // initialize thread data struct
-  const unsigned int numThreads = this->GetNumberOfThreads();
+  const unsigned int numThreads = this->GetNumberOfWorkUnits();
   for( unsigned int thread = 0; thread < numThreads; ++thread )
     {
     ThreadDataStruct newStruct;
@@ -690,7 +690,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   ThreadFilterStruct str;
   str.Filter = this;
   str.Img = const_cast<InputImageType*>(img);
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->RiemannianMinMaxThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -703,11 +703,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::RiemannianMinMaxThreaderCallback(void * arg)
 {
-  const unsigned int threadId    = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId    = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->WorkUnitID;
+  const unsigned int threadCount = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->NumberOfWorkUnits;
 
   const ThreadFilterStruct * str =
-    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -956,7 +956,19 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   // Compute phi = (acos((s/n) * sqrt(1/n)) / 3)
   RealTensorValueT phi;
-  phi = std::acos( (s/n) * 1/sqrtn) / 3;
+  double acos_arg = (s/n) * 1/sqrtn;
+  // When floating point exceptions are enabled, std::acos generates
+  // NaNs (domain errors) if std::abs(acos_arg) > 1.0
+  // We treat those out of domain arguments as 1.0 (the max allowed value
+  // of the std::acos domain), in such case phi = acos(1.0) = acos(-1.0) = 0.0
+  if(std::abs(acos_arg) <= 1.0)
+    {
+    phi = std::acos(acos_arg) / 3;
+    }
+  else
+    {
+    phi = 0.0;
+    }
 
   // Now compute the eigenvalues
   // lambda1 = I1/3 + 2*sqrt(n)*cos(phi)
@@ -1416,7 +1428,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // Set up for multithreaded processing.
   ThreadFilterStruct str;
   str.Filter = this;
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -1433,11 +1445,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdateThreaderCallback( void * arg )
 {
-  const unsigned int threadId    = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId    = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->WorkUnitID;
+  const unsigned int threadCount = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->NumberOfWorkUnits;
 
   const ThreadFilterStruct * str =
-    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -1476,7 +1488,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   str.Filter = this;
 
   // Calculate sigma update
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ComputeSigmaUpdateThreaderCallback,
                                             &str);
 
@@ -1554,11 +1566,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeSigmaUpdateThreaderCallback( void * arg )
 {
-  const unsigned int threadId    = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId    = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->WorkUnitID;
+  const unsigned int threadCount = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->NumberOfWorkUnits;
 
   const ThreadFilterStruct * str =
-    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -1999,7 +2011,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   // Compute smoothing updated for intensites at each pixel
   // based on gradient of the joint entropy
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ComputeImageUpdateThreaderCallback,
                                             &str);
 
@@ -2012,11 +2024,11 @@ ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeImageUpdateThreaderCallback( void * arg )
 {
-  const unsigned int threadId = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->ThreadID;
-  const unsigned int threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->NumberOfThreads;
+  const unsigned int threadId = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->WorkUnitID;
+  const unsigned int threadCount = ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->NumberOfWorkUnits;
 
   const ThreadFilterStruct *str =
-    (ThreadFilterStruct *)( ( (MultiThreaderBase::ThreadInfoStruct *)(arg) )->UserData);
+    (ThreadFilterStruct *)( ( (MultiThreaderBase::WorkUnitInfo *)(arg) )->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
