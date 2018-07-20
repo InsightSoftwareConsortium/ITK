@@ -228,6 +228,7 @@ endif()
 # built in debug, we preemptively set it to an empty string to avoid having a postfix
 # added to the ITK library names.
 set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Generate debug library name with a postfix.")
+mark_as_advanced(CMAKE_DEBUG_POSTFIX)
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
