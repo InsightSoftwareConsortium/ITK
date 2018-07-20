@@ -234,7 +234,7 @@ def _get_itk_pixelid(numpy_array_type):
                 return _np_itk[key]
             raise e
 
-def _GetArrayFromImage(imageOrFilter, function):
+def _GetArrayFromImage(imageOrFilter, function, keepAxes, updateLargestPossibleRegion):
     """Get an Array with the content of the image buffer
     """
     # Check for numpy
@@ -248,38 +248,42 @@ def _GetArrayFromImage(imageOrFilter, function):
     ImageType = keys[0]
     # Create a numpy array of the type of the input image
     templatedFunction = getattr(itk.PyBuffer[keys[0]], function)
-    return templatedFunction(output(imageOrFilter))
+    return templatedFunction(output(imageOrFilter), keepAxes, updateLargestPossibleRegion)
 
-def GetArrayFromImage(imageOrFilter):
+def GetArrayFromImage(imageOrFilter, keepAxes=False, updateLargestPossibleRegion=True):
     """Get an array with the content of the image buffer
     """
-    return _GetArrayFromImage(imageOrFilter, "GetArrayFromImage")
+    return _GetArrayFromImage(imageOrFilter, "GetArrayFromImage", keepAxes, updateLargestPossibleRegion)
 
-def GetArrayViewFromImage(imageOrFilter):
+def GetArrayViewFromImage(imageOrFilter, keepAxes=False, updateLargestPossibleRegion=True):
     """Get an array view with the content of the image buffer
     """
-    return _GetArrayFromImage(imageOrFilter, "GetArrayViewFromImage")
+    return _GetArrayFromImage(imageOrFilter, "GetArrayViewFromImage", keepAxes, updateLargestPossibleRegion)
 
-def _GetImageFromArray(arr, function):
+def _GetImageFromArray(arr, function, isVector):
     """Get an ITK image from a Python array.
     """
     if not HAVE_NUMPY:
         raise ImportError('Numpy not available.')
     import itk
     PixelType = _get_itk_pixelid(arr)
-    ImageType = itk.Image[PixelType,arr.ndim]
+    if isVector:
+        Dimension = arr.ndim - 1
+    else:
+        Dimension = arr.ndim
+    ImageType = itk.Image[PixelType, Dimension]
     templatedFunction = getattr(itk.PyBuffer[ImageType], function)
-    return templatedFunction(arr)
+    return templatedFunction(arr, isVector)
 
-def GetImageFromArray(arr):
+def GetImageFromArray(arr, isVector=False):
     """Get an ITK image from a Python array.
     """
-    return _GetImageFromArray(arr, "GetImageFromArray")
+    return _GetImageFromArray(arr, "GetImageFromArray", isVector)
 
-def GetImageViewFromArray(arr):
+def GetImageViewFromArray(arr, isVector=False):
     """Get an ITK image view from a Python array.
     """
-    return _GetImageFromArray(arr, "GetImageViewFromArray")
+    return _GetImageFromArray(arr, "GetImageViewFromArray", isVector)
 
 def _GetArrayFromVnlObject(vnlObject, function):
     """Get an array with the content of vnlObject

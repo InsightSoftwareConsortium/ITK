@@ -158,20 +158,45 @@ assert down_casted.__class__ == ReaderType
 # BridgeNumPy
 try:
     # Images
-    import numpy
+    import numpy as np
     image = itk.imread(fileName)
     arr = itk.GetArrayFromImage(image)
     arr.fill(1)
-    assert numpy.any(arr != itk.GetArrayFromImage(image))
+    assert np.any(arr != itk.GetArrayFromImage(image))
     view = itk.GetArrayViewFromImage(image)
     view.fill(1)
-    assert numpy.all(view == itk.GetArrayFromImage(image))
+    assert np.all(view == itk.GetArrayFromImage(image))
     image = itk.GetImageFromArray(arr)
     image.FillBuffer(2)
-    assert numpy.any(arr != itk.GetArrayFromImage(image))
+    assert np.any(arr != itk.GetArrayFromImage(image))
     image = itk.GetImageViewFromArray(arr)
     image.FillBuffer(2)
-    assert numpy.all(arr == itk.GetArrayFromImage(image))
+    assert np.all(arr == itk.GetArrayFromImage(image))
+    image = itk.GetImageFromArray(arr, isVector=True)
+    assert image.GetImageDimension() == 2
+    image = itk.GetImageViewFromArray(arr, isVector=True)
+    assert image.GetImageDimension() == 2
+    arr = np.array([[1,2,3],[4,5,6]]).astype(np.uint8)
+    assert arr.shape[0] == 2
+    assert arr.shape[1] == 3
+    assert arr[1,1] == 5
+    image = itk.GetImageFromArray(arr)
+    arrKeepAxes = itk.GetArrayFromImage(image, keepAxes=True)
+    assert arrKeepAxes.shape[0] == 3
+    assert arrKeepAxes.shape[1] == 2
+    assert arrKeepAxes[1,1] == 4
+    arr = itk.GetArrayFromImage(image, keepAxes=False)
+    assert arr.shape[0] == 2
+    assert arr.shape[1] == 3
+    assert arr[1,1] == 5
+    arrKeepAxes = itk.GetArrayViewFromImage(image, keepAxes=True)
+    assert arrKeepAxes.shape[0] == 3
+    assert arrKeepAxes.shape[1] == 2
+    assert arrKeepAxes[1,1] == 4
+    arr = itk.GetArrayViewFromImage(image, keepAxes=False)
+    assert arr.shape[0] == 2
+    assert arr.shape[1] == 3
+    assert arr[1,1] == 5
     # VNL Vectors
     v1 = itk.vnl_vector.D(2)
     v1.fill(1)
@@ -194,7 +219,7 @@ try:
     assert m1.get(0,0) == view[0,0]
     view[0,0] = 0
     assert m1.get(0,0) == view[0,0]
-    arr = numpy.zeros([3,3])
+    arr = np.zeros([3,3])
     m_vnl = itk.GetVnlMatrixFromArray(arr)
     assert m_vnl(0,0) == 0
     m_vnl.put(0,0,3)
