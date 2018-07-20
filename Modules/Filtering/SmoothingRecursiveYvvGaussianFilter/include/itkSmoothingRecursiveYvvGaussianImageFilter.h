@@ -126,7 +126,7 @@ public:
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   void
-  SetNumberOfThreads(ThreadIdType nb) override;
+  SetNumberOfWorkUnits(ThreadIdType nb) override;
 
   bool
   CanRunInPlace(void) const override;
