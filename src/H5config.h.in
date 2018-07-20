@@ -3,17 +3,16 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
-/* Define if the memory buffers being written to disk should be cleared before
-   writing. */
-#undef CLEAR_MEMORY
-
 /* Define if C++ compiler recognizes offsetof */
 #undef CXX_HAVE_OFFSETOF
+
+/* Define if this is a debug build. */
+#undef DEBUG_BUILD
 
 /* Define the default plugins path to compile */
 #undef DEFAULT_PLUGINDIR
 
-/* Define if `dev_t' is a scalar */
+/* Define if dev_t is a scalar */
 #undef DEV_T_IS_SCALAR
 
 /* Define to dummy `main' function (if any) required to link to the Fortran
@@ -29,6 +28,42 @@
 
 /* As FC_FUNC, but for C identifiers containing underscores. */
 #undef FC_FUNC_
+
+/* Define if Fortran C_LONG_DOUBLE is different from C_DOUBLE */
+#undef FORTRAN_C_LONG_DOUBLE_IS_UNIQUE
+
+/* Define if we have Fortran C_LONG_DOUBLE */
+#undef FORTRAN_HAVE_C_LONG_DOUBLE
+
+/* Define if we have Fortran intrinsic C_SIZEOF */
+#undef FORTRAN_HAVE_C_SIZEOF
+
+/* Define if we have Fortran intrinsic SIZEOF */
+#undef FORTRAN_HAVE_SIZEOF
+
+/* Define if we have Fortran intrinsic STORAGE_SIZE */
+#undef FORTRAN_HAVE_STORAGE_SIZE
+
+/* Determine the size of C long double */
+#undef FORTRAN_SIZEOF_LONG_DOUBLE
+
+/* Define Fortran compiler ID */
+#undef Fortran_COMPILER_ID
+
+/* Define valid Fortran INTEGER KINDs */
+#undef H5CONFIG_F_IKIND
+
+/* Define number of valid Fortran INTEGER KINDs */
+#undef H5CONFIG_F_NUM_IKIND
+
+/* Define number of valid Fortran REAL KINDs */
+#undef H5CONFIG_F_NUM_RKIND
+
+/* Define valid Fortran REAL KINDs */
+#undef H5CONFIG_F_RKIND
+
+/* Define valid Fortran REAL KINDs Sizeof */
+#undef H5CONFIG_F_RKIND_SIZEOF
 
 /* Define to 1 if you have the `alarm' function. */
 #undef HAVE_ALARM
@@ -73,6 +108,9 @@
 /* Define if library information should be embedded in the executables */
 #undef HAVE_EMBEDDED_LIBINFO
 
+/* Define to 1 if you have the `fcntl' function. */
+#undef HAVE_FCNTL
+
 /* Define to 1 if you have the <features.h> header file. */
 #undef HAVE_FEATURES_H
 
@@ -81,6 +119,12 @@
 
 /* Define if support for szip filter is enabled */
 #undef HAVE_FILTER_SZIP
+
+/* Determine if __float128 is available */
+#undef HAVE_FLOAT128
+
+/* Define to 1 if you have the `flock' function. */
+#undef HAVE_FLOCK
 
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
@@ -93,6 +137,9 @@
 
 /* Define if the compiler understands the __FUNCTION__ keyword */
 #undef HAVE_FUNCTION
+
+/* Determine if INTEGER*16 is available */
+#undef HAVE_Fortran_INTEGER_SIZEOF_16
 
 /* Define to 1 if you have the `GetConsoleScreenBufferInfo' function. */
 #undef HAVE_GETCONSOLESCREENBUFFERINFO
@@ -115,7 +162,7 @@
 /* Define if the compiler understands inline */
 #undef HAVE_INLINE
 
-/* Define if library will contain instrumentation to detect correct
+/* Define if parallel library will contain instrumentation to detect correct
    optimization operation */
 #undef HAVE_INSTRUMENTED_LIBRARY
 
@@ -152,8 +199,20 @@
 /* Define to 1 if you have the `z' library (-lz). */
 #undef HAVE_LIBZ
 
+/* Define to 1 if you have the `llround' function. */
+#undef HAVE_LLROUND
+
+/* Define to 1 if you have the `llroundf' function. */
+#undef HAVE_LLROUNDF
+
 /* Define to 1 if you have the `longjmp' function. */
 #undef HAVE_LONGJMP
+
+/* Define to 1 if you have the `lround' function. */
+#undef HAVE_LROUND
+
+/* Define to 1 if you have the `lroundf' function. */
+#undef HAVE_LROUNDF
 
 /* Define to 1 if you have the `lstat' function. */
 #undef HAVE_LSTAT
@@ -170,10 +229,10 @@
 /* Define to 1 if you have the <mpe.h> header file. */
 #undef HAVE_MPE_H
 
-/* Define if `MPI_Comm_c2f' and `MPI_Comm_f2c' exists */
+/* Define if MPI_Comm_c2f and MPI_Comm_f2c exist */
 #undef HAVE_MPI_MULTI_LANG_Comm
 
-/* Define if `MPI_Info_c2f' and `MPI_Info_f2c' exists */
+/* Define if MPI_Info_c2f and MPI_Info_f2c exist */
 #undef HAVE_MPI_MULTI_LANG_Info
 
 /* Define if we have parallel support */
@@ -182,11 +241,20 @@
 /* Define to 1 if you have the <pthread.h> header file. */
 #undef HAVE_PTHREAD_H
 
+/* Define to 1 if you have the <quadmath.h> header file. */
+#undef HAVE_QUADMATH_H
+
 /* Define to 1 if you have the `random' function. */
 #undef HAVE_RANDOM
 
 /* Define to 1 if you have the `rand_r' function. */
 #undef HAVE_RAND_R
+
+/* Define to 1 if you have the `round' function. */
+#undef HAVE_ROUND
+
+/* Define to 1 if you have the `roundf' function. */
+#undef HAVE_ROUNDF
 
 /* Define to 1 if you have the `setjmp' function. */
 #undef HAVE_SETJMP
@@ -215,8 +283,11 @@
 /* Define to 1 if you have the `srandom' function. */
 #undef HAVE_SRANDOM
 
-/* Define if `struct stat' has the `st_blocks' field */
+/* Define if struct stat has the st_blocks field */
 #undef HAVE_STAT_ST_BLOCKS
+
+/* Define to 1 if you have the <stdbool.h> header file. */
+#undef HAVE_STDBOOL_H
 
 /* Define to 1 if you have the <stddef.h> header file. */
 #undef HAVE_STDDEF_H
@@ -236,10 +307,16 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define if `struct text_info' is defined */
+/* Define to 1 if you have the `strtoll' function. */
+#undef HAVE_STRTOLL
+
+/* Define to 1 if you have the `strtoull' function. */
+#undef HAVE_STRTOULL
+
+/* Define if struct text_info is defined */
 #undef HAVE_STRUCT_TEXT_INFO
 
-/* Define if `struct videoconfig' is defined */
+/* Define if struct videoconfig is defined */
 #undef HAVE_STRUCT_VIDEOCONFIG
 
 /* Define to 1 if you have the `symlink' function. */
@@ -247,6 +324,9 @@
 
 /* Define to 1 if you have the `system' function. */
 #undef HAVE_SYSTEM
+
+/* Define to 1 if you have the <sys/file.h> header file. */
+#undef HAVE_SYS_FILE_H
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
 #undef HAVE_SYS_IOCTL_H
@@ -275,7 +355,7 @@
 /* Define if we have thread safe support */
 #undef HAVE_THREADSAFE
 
-/* Define if `timezone' is a global variable */
+/* Define if timezone is a global variable */
 #undef HAVE_TIMEZONE
 
 /* Define if the ioctl TIOCGETD is defined */
@@ -287,7 +367,7 @@
 /* Define to 1 if you have the `tmpfile' function. */
 #undef HAVE_TMPFILE
 
-/* Define if `tm_gmtoff' is a member of `struct tm' */
+/* Define if tm_gmtoff is a member of struct tm */
 #undef HAVE_TM_GMTOFF
 
 /* Define to 1 if you have the <unistd.h> header file. */
@@ -323,7 +403,7 @@
 /* Define if the compiler understands __inline__ */
 #undef HAVE___INLINE__
 
-/* Define if HDF5's high-level library headers should be included in hdf5.h */
+/* Define if the high-level library headers should be included in hdf5.h */
 #undef INCLUDE_HL
 
 /* Define if your system can convert long double to (unsigned) long long
@@ -342,9 +422,11 @@
    with special algorithm. */
 #undef LONG_TO_LDOUBLE_SPECIAL
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
+
+/* Define to enable internal memory allocation sanity checking. */
+#undef MEMORY_ALLOC_SANITY_CHECK
 
 /* Define if the metadata trace file code is to be compiled in */
 #undef METADATA_TRACE_FILE
@@ -376,8 +458,17 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* Determine the maximum decimal precision in C */
+#undef PAC_C_MAX_REAL_PRECISION
+
+/* Define Fortran Maximum Real Decimal Precision */
+#undef PAC_FC_MAX_REAL_PRECISION
+
 /* Width for printf() for type `long long' or `__int64', use `ll' */
 #undef PRINTF_LL_WIDTH
+
+/* The size of `bool', as computed by sizeof. */
+#undef SIZEOF_BOOL
 
 /* The size of `char', as computed by sizeof. */
 #undef SIZEOF_CHAR
@@ -490,6 +581,12 @@
 /* The size of `unsigned', as computed by sizeof. */
 #undef SIZEOF_UNSIGNED
 
+/* The size of `_Quad', as computed by sizeof. */
+#undef SIZEOF__QUAD
+
+/* The size of `__float128', as computed by sizeof. */
+#undef SIZEOF___FLOAT128
+
 /* The size of `__int64', as computed by sizeof. */
 #undef SIZEOF___INT64
 
@@ -508,6 +605,9 @@
 
 /* Define using v1.6 public API symbols by default */
 #undef USE_16_API_DEFAULT
+
+/* Define using v1.8 public API symbols by default */
+#undef USE_18_API_DEFAULT
 
 /* Define if a memory checking tool will be used on the library, to cause
    library to be very picky about memory operations and also disable the

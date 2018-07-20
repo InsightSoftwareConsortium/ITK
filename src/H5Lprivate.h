@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -50,6 +48,54 @@
 /* Library Private Typedefs */
 /****************************/
 
+/* User data for path traversal routine for getting link value by index */
+typedef struct {
+    /* In */
+    H5_index_t idx_type;               /* Index to use */
+    H5_iter_order_t order;              /* Order to iterate in index */
+    hsize_t n;                          /* Offset of link within index */
+    hid_t dxpl_id;                      /* DXPL to use in callback */
+    size_t size;                        /* Size of user buffer */
+
+    /* Out */
+    void *buf;                          /* User buffer */
+} H5L_trav_gvbi_t;
+
+/* User data for path traversal routine for getting link info by index */
+typedef struct {
+    /* In */
+    H5_index_t idx_type;               /* Index to use */
+    H5_iter_order_t order;              /* Order to iterate in index */
+    hsize_t n;                          /* Offset of link within index */
+    hid_t dxpl_id;                      /* DXPL to use in callback */
+
+    /* Out */
+    H5L_info_t      *linfo;             /* Buffer to return to user */
+} H5L_trav_gibi_t;
+
+/* User data for path traversal routine for getting name by index */
+typedef struct {
+    /* In */
+    H5_index_t idx_type;                /* Index to use */
+    H5_iter_order_t order;              /* Order to iterate in index */
+    hsize_t n;                          /* Offset of link within index */
+    size_t size;                        /* Size of name buffer */
+    hid_t dxpl_id;                      /* DXPL to use in callback */
+
+    /* Out */
+    char *name;                         /* Buffer to return name to user */
+    ssize_t name_len;                   /* Length of full name */
+} H5L_trav_gnbi_t;
+
+/* User data for path traversal routine for removing link by index */
+typedef struct {
+    /* In */
+    H5_index_t idx_type;               /* Index to use */
+    H5_iter_order_t order;              /* Order to iterate in index */
+    hsize_t n;                          /* Offset of link within index */
+    hid_t dxpl_id;                      /* DXPL to use in callback */
+} H5L_trav_rmbi_t;
+
 /* Structure for external link traversal callback property */
 typedef struct H5L_elink_cb_t {
     H5L_elink_traverse_t      func;
@@ -81,6 +127,9 @@ H5_DLL hid_t H5L_get_default_lcpl(void);
 H5_DLL herr_t H5L_move(H5G_loc_t *src_loc, const char *src_name,
     H5G_loc_t *dst_loc, const char *dst_name, hbool_t copy_flag,
     hid_t lcpl_id, hid_t lapl_id, hid_t dxpl_id);
+H5_DLL htri_t H5L_exists_tolerant(const H5G_loc_t *loc, const char *name, hid_t lapl_id,
+    hid_t dxpl_id);
+H5_DLL htri_t H5L_exists(const H5G_loc_t *loc, const char *name, hid_t lapl_id, hid_t dxpl_id);
 H5_DLL herr_t H5L_get_info(const H5G_loc_t *loc, const char *name,
     H5L_info_t *linkbuf/*out*/, hid_t lapl_id, hid_t dxpl_id);
 H5_DLL herr_t H5L_delete(H5G_loc_t *loc, const char *name, hid_t lapl_id,

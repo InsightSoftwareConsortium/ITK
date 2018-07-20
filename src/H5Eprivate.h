@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -70,6 +68,17 @@ typedef struct H5E_t H5E_t;
 }
 
 /*
+ * HGOTO_ERROR_TAG macro, used like HGOTO_ERROR between H5_BEGIN_TAG and
+ * H5_END_TAG statements.  Resets the metadata tag before leaving the function.
+ */
+#define HGOTO_ERROR_TAG(maj, min, ret_val, ...) {                              \
+   if(H5AC_tag(my_dxpl_id, prv_tag, NULL) < 0)                                 \
+      HERROR(H5E_CACHE, H5E_CANTTAG, "unable to apply metadata tag");          \
+   HCOMMON_ERROR(maj, min, __VA_ARGS__);                                       \
+   HGOTO_DONE(ret_val)                                                         \
+}
+
+/*
  * HGOTO_DONE macro, used to facilitate normal return between a FUNC_ENTER()
  * and a FUNC_LEAVE() within a function body. The argument is the return
  * value which is assigned to the `ret_value' variable.	 Control branches to
@@ -77,14 +86,15 @@ typedef struct H5E_t H5E_t;
  */
 #define HGOTO_DONE(ret_val) {ret_value = ret_val; goto done;}
 
-/* Library-private functions defined in H5E package */
-H5_DLL herr_t H5E_init(void);
-H5_DLL herr_t H5E_push_stack(H5E_t *estack, const char *file, const char *func,
-    unsigned line, hid_t cls_id, hid_t maj_id, hid_t min_id, const char *desc);
-H5_DLL herr_t H5E_printf_stack(H5E_t *estack, const char *file, const char *func,
-    unsigned line, hid_t cls_id, hid_t maj_id, hid_t min_id, const char *fmt, ...);
-H5_DLL herr_t H5E_clear_stack(H5E_t *estack);
-H5_DLL herr_t H5E_dump_api_stack(int is_api);
+/*
+ * HGOTO_DONE_TAG macro, used like HGOTO_DONE between H5_BEGIN_TAG and
+ * H5_END_TAG statements.  Resets the metadata tag before leaving the function.
+ */
+#define HGOTO_DONE_TAG(ret_val, err) {                                         \
+   if(H5AC_tag(my_dxpl_id, prv_tag, NULL) < 0)                                 \
+      HGOTO_ERROR(H5E_CACHE, H5E_CANTTAG, err, "unable to apply metadata tag") \
+   HGOTO_DONE(ret_val)                                                         \
+}
 
 /*
  * Macros handling system error messages as described in C standard.
@@ -124,6 +134,59 @@ extern	int	H5E_mpi_error_str_len;
     HGOTO_ERROR(H5E_INTERNAL, H5E_MPI, retcode, str);			      \
 }
 #endif /* H5_HAVE_PARALLEL */
+
+
+/******************************************************************************/
+/* Revisions to Error Macros, to go with Revisions to FUNC_ENTER/LEAVE Macros */
+/******************************************************************************/
+
+/*
+ * H5E_PRINTF macro, used to facilitate error reporting between a BEGIN_FUNC()
+ * and an END_FUNC() within a function body.  The arguments are the minor
+ * error number, a description of the error (as a printf-like format string),
+ * and an optional set of arguments for the printf format arguments.
+ */
+#define H5E_PRINTF(...) H5E_printf_stack(NULL, __FILE__, FUNC, __LINE__, H5E_ERR_CLS_g, H5_MY_PKG_ERR,  __VA_ARGS__)
+
+/*
+ * H5_LEAVE macro, used to facilitate control flow between a
+ * BEGIN_FUNC() and an END_FUNC() within a function body.  The argument is
+ * the return value.
+ * The return value is assigned to a variable `ret_value' and control branches
+ * to the `catch_except' label, if we're not already past it.
+ */
+#define H5_LEAVE(v) {							      \
+    ret_value = v;							      \
+    if(!past_catch)							      \
+        goto catch_except;						      \
+}
+
+/*
+ * H5E_THROW macro, used to facilitate error reporting between a
+ * FUNC_ENTER() and a FUNC_LEAVE() within a function body.  The arguments are
+ * the minor error number, and an error string.
+ * The return value is assigned to a variable `ret_value' and control branches
+ * to the `catch_except' label, if we're not already past it.
+ */
+#define H5E_THROW(...) {						      \
+    H5E_PRINTF(__VA_ARGS__);						      \
+    H5_LEAVE(fail_value)						      \
+}
+
+/* Macro for "catching" flow of control when an error occurs.  Note that the
+ *      H5_LEAVE macro won't jump back here once it's past this point.
+ */
+#define CATCH catch_except:; past_catch = TRUE;
+
+
+/* Library-private functions defined in H5E package */
+H5_DLL herr_t H5E_init(void);
+H5_DLL herr_t H5E_push_stack(H5E_t *estack, const char *file, const char *func,
+    unsigned line, hid_t cls_id, hid_t maj_id, hid_t min_id, const char *desc);
+H5_DLL herr_t H5E_printf_stack(H5E_t *estack, const char *file, const char *func,
+    unsigned line, hid_t cls_id, hid_t maj_id, hid_t min_id, const char *fmt, ...)H5_ATTR_FORMAT(printf, 8, 9);
+H5_DLL herr_t H5E_clear_stack(H5E_t *estack);
+H5_DLL herr_t H5E_dump_api_stack(hbool_t is_api);
 
 #endif /* _H5Eprivate_H */
 

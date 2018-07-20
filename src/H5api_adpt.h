@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -21,28 +19,6 @@
 #ifndef H5API_ADPT_H
 #define H5API_ADPT_H
 
-/*
- * Does the compiler support the __attribute__(()) syntax?  It's no
- * big deal if we don't.
- *
- * Note that Solaris Studio supports attribute, but does not support the
- * attributes we use.
- */
-#ifdef __cplusplus
-#   define H5_ATTR_FORMAT(X,Y,Z)  /*void*/
-#   define H5_ATTR_UNUSED    /*void*/
-#   define H5_ATTR_NORETURN  /*void*/
-#else /* __cplusplus */
-#if defined(H5_HAVE_ATTRIBUTE) && !defined(__SUNPRO_C)
-#   define H5_ATTR_FORMAT(X,Y,Z)  __attribute__((format(X, Y, Z)))
-#   define H5_ATTR_UNUSED    __attribute__((unused))
-#   define H5_ATTR_NORETURN  __attribute__((noreturn))
-#else
-#   define H5_ATTR_FORMAT(X,Y,Z)  /*void*/
-#   define H5_ATTR_UNUSED    /*void*/
-#   define H5_ATTR_NORETURN  /*void*/
-#endif
-#endif /* __cplusplus */
 
 /* This will only be defined if HDF5 was built with CMake */
 #ifdef H5_BUILT_AS_DYNAMIC_LIB

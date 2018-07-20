@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -59,16 +57,15 @@
  *
  */
 
-/* Interface initialization */
-#define H5_INTERFACE_INIT_FUNC	H5SL_init_interface
+#include "H5SLmodule.h"         /* This source code file is part of the H5SL module */
 
 
 /* Private headers needed */
 #include "H5private.h"		/* Generic Functions			*/
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5FLprivate.h"	/* Free Lists                           */
+#include "H5MMprivate.h"	/* Memory management                    */
 #include "H5SLprivate.h"	/* Skip list routines			*/
-#include "H5MMprivate.h"    /* Memory management                    */
 
 /* Local Macros */
 
@@ -576,6 +573,9 @@ static H5SL_node_t *H5SL_insert_common(H5SL_t *slist, void *item, const void *ke
 static herr_t H5SL_release_common(H5SL_t *slist, H5SL_operator_t op, void *op_data);
 static herr_t H5SL_close_common(H5SL_t *slist, H5SL_operator_t op, void *op_data);
 
+/* Package initialization variable */
+hbool_t H5_PKG_INIT_VAR = FALSE;
+
 /* Declare a free list to manage the H5SL_t struct */
 H5FL_DEFINE_STATIC(H5SL_t);
 
@@ -590,12 +590,11 @@ static size_t H5SL_fac_nalloc_g;
 
 /*--------------------------------------------------------------------------
  NAME
-    H5SL_init_interface
+    H5SL__init_package
  PURPOSE
     Initialize interface-specific information
  USAGE
-    herr_t H5SL_init_interface()
-
+    herr_t H5SL__init_package()
  RETURNS
     Non-negative on success/Negative on failure
  DESCRIPTION
@@ -605,10 +604,10 @@ static size_t H5SL_fac_nalloc_g;
  EXAMPLES
  REVISION LOG
 --------------------------------------------------------------------------*/
-static herr_t
-H5SL_init_interface(void)
+herr_t
+H5SL__init_package(void)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Allocate space for array of factories */
     H5SL_fac_g = (H5FL_fac_head_t **)H5MM_malloc(sizeof(H5FL_fac_head_t *));
@@ -621,7 +620,64 @@ H5SL_init_interface(void)
     H5SL_fac_nused_g = 1;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5SL_init_interface() */
+} /* end H5SL__init_package() */
+
+
+/*--------------------------------------------------------------------------
+ NAME
+    H5SL_term_package
+ PURPOSE
+    Terminate all the H5FL factories used in this package, and clear memory
+ USAGE
+    int H5SL_term_package()
+ RETURNS
+    Success:	Positive if any action might have caused a change in some
+                other interface; zero otherwise.
+   	Failure:	Negative
+ DESCRIPTION
+    Release any resources allocated.
+ GLOBAL VARIABLES
+ COMMENTS, BUGS, ASSUMPTIONS
+     Can't report errors...
+ EXAMPLES
+ REVISION LOG
+--------------------------------------------------------------------------*/
+int H5SL_term_package(void)
+{
+    int     n = 0;
+
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
+
+    if(H5_PKG_INIT_VAR) {
+        /* Terminate all the factories */
+        if(H5SL_fac_nused_g > 0) {
+            size_t  i;
+            herr_t  ret;
+
+            for(i = 0; i < H5SL_fac_nused_g; i++) {
+                ret = H5FL_fac_term(H5SL_fac_g[i]);
+                HDassert(ret >= 0);
+            } /* end if */
+            H5SL_fac_nused_g = 0;
+
+            n++;
+        } /* end if */
+
+        /* Free the list of factories */
+        if(H5SL_fac_g) {
+            H5SL_fac_g = (H5FL_fac_head_t **)H5MM_xfree((void *)H5SL_fac_g);
+            H5SL_fac_nalloc_g = 0;
+
+            n++;
+        } /* end if */
+
+        /* Mark the interface as uninitialized */
+        if(0 == n)
+            H5_PKG_INIT_VAR = FALSE;
+    } /* end if */
+
+    FUNC_LEAVE_NOAPI(n)
+} /* H5SL_term_package() */
 
 
 /*--------------------------------------------------------------------------
@@ -649,7 +705,7 @@ H5SL_init_interface(void)
 static H5SL_node_t *
 H5SL_new_node(void *item, const void *key, uint32_t hashval)
 {
-    H5SL_node_t *ret_value;      /* New skip list node */
+    H5SL_node_t *ret_value = NULL;      /* New skip list node */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -938,7 +994,7 @@ H5SL_create(H5SL_type_t type, H5SL_cmp_t cmp)
 {
     H5SL_t *new_slist = NULL;   /* Pointer to new skip list object created */
     H5SL_node_t *header;        /* Pointer to skip list header node */
-    H5SL_t *ret_value;          /* Return value */
+    H5SL_t *ret_value = NULL;   /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1097,7 +1153,7 @@ done:
 H5SL_node_t *
 H5SL_add(H5SL_t *slist, void *item, const void *key)
 {
-    H5SL_node_t *ret_value;                   /* Return value */
+    H5SL_node_t *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -1228,12 +1284,12 @@ done:
 void *
 H5SL_remove_first(H5SL_t *slist)
 {
-    void *ret_value = NULL;                     /* Return value */
-    H5SL_node_t *head = slist->header;          /* Skip list header */
-    H5SL_node_t *tmp = slist->header->forward[0]; /* Temporary node pointer */
-    H5SL_node_t *next;                          /* Next node to search for */
-    size_t      level = slist->curr_level;      /* Skip list level */
-    size_t      i;                              /* Index */
+    void        *ret_value = NULL;                  /* Return value             */
+    H5SL_node_t *head = slist->header;              /* Skip list header         */
+    H5SL_node_t *tmp = slist->header->forward[0];   /* Temporary node pointer   */
+    H5SL_node_t *next;                              /* Next node to search for  */
+    size_t      level;                              /* Skip list level          */
+    size_t      i;                                  /* Index                    */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -1242,6 +1298,10 @@ H5SL_remove_first(H5SL_t *slist)
 
     /* Not currently supported */
     HDassert(!slist->safe_iterating);
+
+    /* Assign level */
+    H5_CHECK_OVERFLOW(slist->curr_level, int, size_t);
+    level = (size_t)slist->curr_level;
 
     /* Check internal consistency */
     /* (Pre-condition) */
@@ -1425,9 +1485,9 @@ done:
 void *
 H5SL_less(H5SL_t *slist, const void *key)
 {
-    H5SL_node_t *x;                             /* Current node to examine */
-    uint32_t hashval = 0;                       /* Hash value for key */
-    void *ret_value;                            /* Return value */
+    H5SL_node_t *x;             /* Current node to examine */
+    uint32_t hashval = 0;       /* Hash value for key */
+    void *ret_value = NULL;     /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -1534,9 +1594,9 @@ done:
 void *
 H5SL_greater(H5SL_t *slist, const void *key)
 {
-    H5SL_node_t *x;                             /* Current node to examine */
-    uint32_t hashval = 0;                       /* Hash value for key */
-    void *ret_value;                            /* Return value */
+    H5SL_node_t *x;                     /* Current node to examine */
+    uint32_t hashval = 0;               /* Hash value for key */
+    void *ret_value = NULL;             /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -1726,9 +1786,9 @@ done:
 H5SL_node_t *
 H5SL_below(H5SL_t *slist, const void *key)
 {
-    H5SL_node_t *x;                             /* Current node to examine */
-    uint32_t hashval = 0;                       /* Hash value for key */
-    H5SL_node_t *ret_value;                     /* Return value */
+    H5SL_node_t *x;                     /* Current node to examine */
+    uint32_t hashval = 0;               /* Hash value for key */
+    H5SL_node_t *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -1832,9 +1892,9 @@ done:
 H5SL_node_t *
 H5SL_above(H5SL_t *slist, const void *key)
 {
-    H5SL_node_t *x;                             /* Current node to examine */
-    uint32_t hashval = 0;                       /* Hash value for key */
-    H5SL_node_t *ret_value;                     /* Return value */
+    H5SL_node_t *x;                     /* Current node to examine */
+    uint32_t hashval = 0;               /* Hash value for key */
+    H5SL_node_t *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -2508,51 +2568,4 @@ H5SL_close(H5SL_t *slist)
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5SL_close() */
-
-
-/*--------------------------------------------------------------------------
- NAME
-    H5SL_term_interface
- PURPOSE
-    Terminate all the H5FL factories used in this package, and clear memory
- USAGE
-    int H5SL_term_interface()
- RETURNS
-    Success:	Positive if any action might have caused a change in some
-                other interface; zero otherwise.
-   	Failure:	Negative
- DESCRIPTION
-    Release any resources allocated.
- GLOBAL VARIABLES
- COMMENTS, BUGS, ASSUMPTIONS
-     Can't report errors...
- EXAMPLES
- REVISION LOG
---------------------------------------------------------------------------*/
-int H5SL_term_interface(void)
-{
-    size_t  i;
-    herr_t  ret;
-    int     n = H5_interface_initialize_g ? 1 : 0;
-
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
-
-    if(n) {
-        /* Terminate all the factories */
-        for(i=0; i<H5SL_fac_nused_g; i++) {
-            ret = H5FL_fac_term(H5SL_fac_g[i]);
-            HDassert(ret >= 0);
-        }
-        H5SL_fac_nused_g = 0;
-
-        /* Free the list of factories */
-        H5SL_fac_g = (H5FL_fac_head_t **)H5MM_xfree((void *)H5SL_fac_g);
-        H5SL_fac_nalloc_g = 0;
-
-        /* Mark the interface as uninitialized */
-        H5_interface_initialize_g = 0;
-    } /* end if */
-
-    FUNC_LEAVE_NOAPI(n)
-} /* H5SL_term_interface() */
 

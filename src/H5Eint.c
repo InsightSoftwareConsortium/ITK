@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -28,10 +26,7 @@
 /* Module Setup */
 /****************/
 
-#define H5E_PACKAGE		/*suppress error about including H5Epkg   */
-
-/* Interface initialization */
-#define H5_INTERFACE_INIT_FUNC	H5E_init_int_interface
+#include "H5Emodule.h"          /* This source code file is part of the H5E module */
 
 
 /***********/
@@ -117,27 +112,6 @@ int	H5E_mpi_error_str_len;
 
 
 
-/*--------------------------------------------------------------------------
-NAME
-   H5E_init_int_interface -- Initialize interface-specific information
-USAGE
-    herr_t H5E_init_int_interface()
-RETURNS
-    Non-negative on success/Negative on failure
-DESCRIPTION
-    Initializes any interface-specific data or routines.  (Just calls
-    H5E_init() currently).
-
---------------------------------------------------------------------------*/
-static herr_t
-H5E_init_int_interface(void)
-{
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
-
-    FUNC_LEAVE_NOAPI(H5E_init())
-} /* H5E_init_int_interface() */
-
-
 /*-------------------------------------------------------------------------
  * Function:	H5E_get_msg
  *
@@ -154,7 +128,7 @@ H5E_init_int_interface(void)
 ssize_t
 H5E_get_msg(const H5E_msg_t *msg, H5E_type_t *type, char *msg_str, size_t size)
 {
-    ssize_t       len;          /* Length of error message */
+    ssize_t       len = -1;     /* Length of error message */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -767,8 +741,16 @@ H5E_printf_stack(H5E_t *estack, const char *file, const char *func, unsigned lin
 done:
     if(va_started)
         va_end(ap);
+#ifdef H5_HAVE_VASPRINTF
+    /* Memory was allocated with HDvasprintf so it needs to be freed
+     * with HDfree
+     */
+    if(tmp)
+        HDfree(tmp);
+#else /* H5_HAVE_VASPRINTF */
     if(tmp)
         H5MM_xfree(tmp);
+#endif /* H5_HAVE_VASPRINTF */
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5E_printf_stack() */
@@ -1001,7 +983,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5E_dump_api_stack(int is_api)
+H5E_dump_api_stack(hbool_t is_api)
 {
     herr_t ret_value = SUCCEED;   /* Return value */
 

@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -28,7 +26,7 @@
 /* Module Setup */
 /****************/
 
-#define H5G_PACKAGE		/*suppress error about including H5Gpkg	  */
+#include "H5Gmodule.h"          /* This source code file is part of the H5G module */
 
 
 /***********/
@@ -159,7 +157,7 @@ H5G_link_cmp_name_dec(const void *lnk1, const void *lnk2)
 static int
 H5G_link_cmp_corder_inc(const void *lnk1, const void *lnk2)
 {
-    int ret_value;              /* Return value */
+    int ret_value = -1;         /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -194,7 +192,7 @@ H5G_link_cmp_corder_inc(const void *lnk1, const void *lnk2)
 static int
 H5G_link_cmp_corder_dec(const void *lnk1, const void *lnk2)
 {
-    int ret_value;              /* Return value */
+    int ret_value = -1;         /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -226,7 +224,10 @@ herr_t
 H5G__ent_to_link(H5O_link_t *lnk, const H5HL_t *heap,
     const H5G_entry_t *ent, const char *name)
 {
-    FUNC_ENTER_PACKAGE_NOERR
+    hbool_t dup_soft = FALSE;           /* xstrdup the symbolic link name or not */
+    herr_t ret_value = SUCCEED;         /* Return value */
+
+    FUNC_ENTER_PACKAGE
 
     /* check arguments */
     HDassert(lnk);
@@ -238,18 +239,21 @@ H5G__ent_to_link(H5O_link_t *lnk, const H5HL_t *heap,
     lnk->cset = H5F_DEFAULT_CSET;
     lnk->corder = 0;
     lnk->corder_valid = FALSE;       /* Creation order not valid for this link */
-    lnk->name = H5MM_xstrdup(name);
-    HDassert(lnk->name);
+    if((lnk->name = H5MM_xstrdup(name)) == NULL)
+        HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to duplicate link name")
 
     /* Object is a symbolic or hard link */
     if(ent->type == H5G_CACHED_SLINK) {
         const char *s;          /* Pointer to link value */
 
-        s = (const char *)H5HL_offset_into(heap, ent->cache.slink.lval_offset);
-        HDassert(s);
+        if((s = (const char *)H5HL_offset_into(heap, ent->cache.slink.lval_offset)) == NULL)
+            HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to get symbolic link name")
 
         /* Copy the link value */
-        lnk->u.soft.name = H5MM_xstrdup(s);
+        if((lnk->u.soft.name = H5MM_xstrdup(s)) == NULL)
+            HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to duplicate symbolic link name")
+
+        dup_soft = TRUE;
 
         /* Set link type */
         lnk->type = H5L_TYPE_SOFT;
@@ -262,7 +266,14 @@ H5G__ent_to_link(H5O_link_t *lnk, const H5HL_t *heap,
         lnk->type = H5L_TYPE_HARD;
     } /* end else */
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
+done:
+    if(ret_value < 0) {
+        if(lnk->name)
+            H5MM_xfree(lnk->name);
+        if(ent->type == H5G_CACHED_SLINK && dup_soft)
+            H5MM_xfree(lnk->u.soft.name);
+    }
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G__ent_to_link() */
 
 

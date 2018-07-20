@@ -6,129 +6,131 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-// Class DSetCreatPropList represents the HDF5 dataset creation property list
-// and inherits from PropList.
 
 #ifndef __H5DSCreatPropList_H
 #define __H5DSCreatPropList_H
 
-#ifndef H5_NO_NAMESPACE
 namespace H5 {
-#endif
+
+// Class forwarding
+class DataType;
+class DataSpace;
 
 /*! \class DSetCreatPropList
-    \brief Class DSetCreatPropList represents the dataset creation property
-    list.
+    \brief Class DSetCreatPropList inherits from ObjCreatPropList and provides
+    wrappers for the HDF5 dataset creation property functions.
 */
+//  Inheritance: ObjCreatPropList -> PropList -> IdComponent
 class H5_DLLCPP DSetCreatPropList : public ObjCreatPropList {
    public:
-	///\brief Default dataset creation property list.
-	static const DSetCreatPropList& DEFAULT;
+        ///\brief Default dataset creation property list.
+        static const DSetCreatPropList& DEFAULT;
 
-	// Creates a dataset creation property list.
-	DSetCreatPropList();
+        // Creates a dataset creation property list.
+        DSetCreatPropList();
 
-	// Queries whether all the filters set in this property list are
-	// available currently.
-	bool allFiltersAvail();
+        // Queries whether all the filters set in this property list are
+        // available currently.
+        bool allFiltersAvail() const;
 
-	// Get space allocation time for this property.
-	H5D_alloc_time_t getAllocTime();
+        // Get space allocation time for this property.
+        H5D_alloc_time_t getAllocTime() const;
 
-	// Set space allocation time for dataset during creation.
-	void setAllocTime(H5D_alloc_time_t alloc_time);
+        // Set space allocation time for dataset during creation.
+        void setAllocTime(H5D_alloc_time_t alloc_time) const;
 
-	// Retrieves the size of the chunks used to store a chunked layout dataset.
-	int getChunk( int max_ndims, hsize_t* dim ) const;
+        // Retrieves the size of the chunks used to store a chunked layout dataset.
+        int getChunk(int max_ndims, hsize_t* dim) const;
 
-	// Sets the size of the chunks used to store a chunked layout dataset.
-	void setChunk( int ndims, const hsize_t* dim ) const;
+        // Sets the size of the chunks used to store a chunked layout dataset.
+        void setChunk(int ndims, const hsize_t* dim) const;
 
-	// Returns information about an external file.
-	void getExternal( unsigned idx, size_t name_size, char* name, off_t& offset, hsize_t& size ) const;
+        // Returns information about an external file.
+        void getExternal(unsigned idx, size_t name_size, char* name, off_t& offset, hsize_t& size) const;
 
-	// Returns the number of external files for a dataset.
-	int getExternalCount() const;
+        // Returns the number of external files for a dataset.
+        int getExternalCount() const;
 
-	// Gets fill value writing time.
-	H5D_fill_time_t getFillTime();
+        // Gets fill value writing time.
+        H5D_fill_time_t getFillTime() const;
 
-	// Sets fill value writing time for dataset.
-	void setFillTime(H5D_fill_time_t fill_time);
+        // Sets fill value writing time for dataset.
+        void setFillTime(H5D_fill_time_t fill_time) const;
 
-	// Retrieves a dataset fill value.
-	void getFillValue( const DataType& fvalue_type, void* value ) const;
+        // Retrieves a dataset fill value.
+        void getFillValue(const DataType& fvalue_type, void* value) const;
 
-	// Sets a dataset fill value.
-	void setFillValue( const DataType& fvalue_type, const void* value ) const;
+        // Sets a dataset fill value.
+        void setFillValue(const DataType& fvalue_type, const void* value) const;
 
-	// Returns information about a filter in a pipeline.
-	H5Z_filter_t getFilter(int filter_number, unsigned int& flags, size_t& cd_nelmts, unsigned int* cd_values, size_t namelen, char name[], unsigned int &filter_config) const;
+        // Returns information about a filter in a pipeline.
+        H5Z_filter_t getFilter(int filter_number, unsigned int& flags, size_t& cd_nelmts, unsigned int* cd_values, size_t namelen, char name[], unsigned int &filter_config) const;
 
-	// Returns information about a filter in a pipeline given the filter id.
-	void getFilterById(H5Z_filter_t filter_id, unsigned int &flags, size_t &cd_nelmts, unsigned int* cd_values, size_t namelen, char name[], unsigned int &filter_config) const;
+        // Returns information about a filter in a pipeline given the filter id.
+        void getFilterById(H5Z_filter_t filter_id, unsigned int &flags, size_t &cd_nelmts, unsigned int* cd_values, size_t namelen, char name[], unsigned int &filter_config) const;
 
-	// Gets the layout of the raw data storage of the data that uses this
-	// property list.
-	H5D_layout_t getLayout() const;
+        // Gets the layout of the raw data storage of the data that uses this
+        // property list.
+        H5D_layout_t getLayout() const;
 
-	// Sets the type of storage used to store the raw data for the
-	// dataset that uses this property list.
-	void setLayout(H5D_layout_t layout) const;
+        // Sets the type of storage used to store the raw data for the
+        // dataset that uses this property list.
+        void setLayout(H5D_layout_t layout) const;
 
-	// Returns the number of filters in the pipeline.
-	int getNfilters() const;
+        // Returns the number of filters in the pipeline.
+        int getNfilters() const;
 
-	// Checks if fill value has been defined for this property.
-	H5D_fill_value_t isFillValueDefined();
+        // Checks if fill value has been defined for this property.
+        H5D_fill_value_t isFillValueDefined() const;
 
-	// Modifies the specified filter.
-	void modifyFilter( H5Z_filter_t filter_id, unsigned int flags, size_t cd_nelmts, const unsigned int cd_values[] ) const;
+        // Modifies the specified filter.
+        void modifyFilter(H5Z_filter_t filter_id, unsigned int flags, size_t cd_nelmts, const unsigned int cd_values[]) const;
 
-	// Remove one or all filters from the filter pipeline.
-	void removeFilter( H5Z_filter_t filter_id) const;
+        // Remove one or all filters from the filter pipeline.
+        void removeFilter(H5Z_filter_t filter_id) const;
 
-	// Sets compression method and compression level.
-	void setDeflate( int level ) const;
+        // Sets compression method and compression level.
+        void setDeflate(int level) const;
 
-	// Adds an external file to the list of external files.
-	void setExternal( const char* name, off_t offset, hsize_t size ) const;
+        // Adds an external file to the list of external files.
+        void setExternal(const char* name, off_t offset, hsize_t size) const;
 
-	// Adds a filter to the filter pipeline.
-	void setFilter( H5Z_filter_t filter, unsigned int flags = 0, size_t cd_nelmts = 0, const unsigned int cd_values[] = NULL) const;
+        // Adds a filter to the filter pipeline.
+        void setFilter(H5Z_filter_t filter, unsigned int flags = 0, size_t cd_nelmts = 0, const unsigned int cd_values[] = NULL) const;
 
-	// Sets Fletcher32 checksum of EDC for this property list.
-	void setFletcher32() const;
+        // Sets Fletcher32 checksum of EDC for this property list.
+        void setFletcher32() const;
 
-	// Sets method of the shuffle filter.
-	void setShuffle() const;
+        // Sets method of the shuffle filter.
+        void setShuffle() const;
 
-	// Sets SZIP compression method.
-	void setSzip(unsigned int options_mask, unsigned int pixels_per_block) const;
+        // Sets SZIP compression method.
+        void setSzip(unsigned int options_mask, unsigned int pixels_per_block) const;
 
-	// Sets N-bit compression method.
-	void setNbit() const;
+        // Sets N-bit compression method.
+        void setNbit() const;
 
-	///\brief Returns this class name.
-	virtual H5std_string fromClass () const { return("DSetCreatPropList"); }
+        // Maps elements of a virtual dataset to elements of the source dataset.
+        void setVirtual(const DataSpace& vspace, const char *src_fname, const char *src_dsname, const DataSpace& sspace) const;
+        void setVirtual(const DataSpace& vspace, const H5std_string src_fname, const H5std_string src_dsname, const DataSpace& sspace) const;
 
-	// Copy constructor: creates a copy of a DSetCreatPropList object.
-	DSetCreatPropList(const DSetCreatPropList& orig);
+        ///\brief Returns this class name.
+        virtual H5std_string fromClass () const { return("DSetCreatPropList"); }
 
-	// Creates a copy of an existing dataset creation property list
-	// using the property list id.
-	DSetCreatPropList(const hid_t plist_id);
+        // Copy constructor - same as the original DSetCreatPropList.
+        DSetCreatPropList(const DSetCreatPropList& orig);
 
-	// Noop destructor.
-	virtual ~DSetCreatPropList();
+        // Creates a copy of an existing dataset creation property list
+        // using the property list id.
+        DSetCreatPropList(const hid_t plist_id);
+
+        // Noop destructor.
+        virtual ~DSetCreatPropList();
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -136,14 +138,14 @@ class H5_DLLCPP DSetCreatPropList : public ObjCreatPropList {
         static void deleteConstants();
 
     private:
-	static DSetCreatPropList* DEFAULT_;
+        static DSetCreatPropList* DEFAULT_;
 
         // Creates the global constant, should only be used by the library
         static DSetCreatPropList* getConstant();
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
-};
-#ifndef H5_NO_NAMESPACE
-}
-#endif
+
+}; // end of DSetCreatPropList
+} // namespace H5
+
 #endif // __H5DSCreatPropList_H

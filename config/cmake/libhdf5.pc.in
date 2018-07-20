@@ -1,0 +1,14 @@
+prefix=@_PKG_CONFIG_PREFIX@
+exec_prefix=@_PKG_CONFIG_EXEC_PREFIX@
+libdir=@_PKG_CONFIG_LIBDIR@
+includedir=@_PKG_CONFIG_INCLUDEDIR@
+
+Name: @_PKG_CONFIG_LIBNAME@
+Description: HDF5 (Hierarchical Data Format 5) Software Library
+Version: @_PKG_CONFIG_VERSION@
+
+Cflags: -I${includedir}
+Libs: -L${libdir} @_PKG_CONFIG_SH_LIBS@
+Requires: @_PKG_CONFIG_REQUIRES@
+Libs.private: @_PKG_CONFIG_LIBS_PRIVATE@ @_PKG_CONFIG_LIBS@
+Requires.private: @_PKG_CONFIG_REQUIRES_PRIVATE@

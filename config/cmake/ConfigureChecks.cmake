@@ -1,18 +1,23 @@
+#
+# Copyright by The HDF Group.
+# All rights reserved.
+#
+# This file is part of HDF5.  The full HDF5 copyright notice, including
+# terms governing use, modification, and redistribution, is contained in
+# the COPYING file, which can be found at the root of the source code
+# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# If you do not have access to either file, you may request a copy from
+# help@hdfgroup.org.
+#
 #-----------------------------------------------------------------------------
 # Include all the necessary files for macros
 #-----------------------------------------------------------------------------
 set (HDF_PREFIX "H5")
 include (${HDF_RESOURCES_EXT_DIR}/ConfigureChecks.cmake)
-include (${CMAKE_ROOT}/Modules/TestForSTDNamespace.cmake)
 
-#-----------------------------------------------------------------------------
-# Option to Clear File Buffers before write --enable-clear-file-buffers
-#-----------------------------------------------------------------------------
-option (HDF5_Enable_Clear_File_Buffers "Securely clear file buffers before writing to file" ON)
-if (HDF5_Enable_Clear_File_Buffers)
-  set (H5_CLEAR_MEMORY 1)
-endif (HDF5_Enable_Clear_File_Buffers)
-MARK_AS_ADVANCED (HDF5_Enable_Clear_File_Buffers)
+if (HDF5_ENABLE_USING_MEMCHECKER)
+  set (H5_USING_MEMCHECKER 1)
+endif ()
 
 #-----------------------------------------------------------------------------
 # Option for --enable-strict-format-checks
@@ -20,7 +25,7 @@ MARK_AS_ADVANCED (HDF5_Enable_Clear_File_Buffers)
 option (HDF5_STRICT_FORMAT_CHECKS "Whether to perform strict file format checks" OFF)
 if (HDF5_STRICT_FORMAT_CHECKS)
   set (H5_STRICT_FORMAT_CHECKS 1)
-endif (HDF5_STRICT_FORMAT_CHECKS)
+endif ()
 MARK_AS_ADVANCED (HDF5_STRICT_FORMAT_CHECKS)
 
 #-----------------------------------------------------------------------------
@@ -29,7 +34,7 @@ MARK_AS_ADVANCED (HDF5_STRICT_FORMAT_CHECKS)
 option (HDF5_METADATA_TRACE_FILE "Enable metadata trace file collection" OFF)
 if (HDF5_METADATA_TRACE_FILE)
   set (H5_METADATA_TRACE_FILE 1)
-endif (HDF5_METADATA_TRACE_FILE)
+endif ()
 MARK_AS_ADVANCED (HDF5_METADATA_TRACE_FILE)
 
 # ----------------------------------------------------------------------
@@ -41,7 +46,7 @@ MARK_AS_ADVANCED (HDF5_METADATA_TRACE_FILE)
 option (HDF5_WANT_DATA_ACCURACY "IF data accuracy is guaranteed during data conversions" ON)
 if (HDF5_WANT_DATA_ACCURACY)
   set (H5_WANT_DATA_ACCURACY 1)
-endif (HDF5_WANT_DATA_ACCURACY)
+endif ()
 MARK_AS_ADVANCED (HDF5_WANT_DATA_ACCURACY)
 
 # ----------------------------------------------------------------------
@@ -53,7 +58,7 @@ MARK_AS_ADVANCED (HDF5_WANT_DATA_ACCURACY)
 option (HDF5_WANT_DCONV_EXCEPTION "exception handling functions is checked during data conversions" ON)
 if (HDF5_WANT_DCONV_EXCEPTION)
   set (H5_WANT_DCONV_EXCEPTION 1)
-endif (HDF5_WANT_DCONV_EXCEPTION)
+endif ()
 MARK_AS_ADVANCED (HDF5_WANT_DCONV_EXCEPTION)
 
 # ----------------------------------------------------------------------
@@ -62,7 +67,7 @@ MARK_AS_ADVANCED (HDF5_WANT_DCONV_EXCEPTION)
 option (HDF5_ENABLE_CODESTACK "Enable the function stack tracing (for developer debugging)." OFF)
 if (HDF5_ENABLE_CODESTACK)
   set (H5_HAVE_CODESTACK 1)
-endif (HDF5_ENABLE_CODESTACK)
+endif ()
 MARK_AS_ADVANCED (HDF5_ENABLE_CODESTACK)
 
 #-----------------------------------------------------------------------------
@@ -71,7 +76,7 @@ MARK_AS_ADVANCED (HDF5_ENABLE_CODESTACK)
 option (HDF5_ENABLE_HSIZET "Enable datasets larger than memory" ON)
 if (HDF5_ENABLE_HSIZET)
   set (${HDF_PREFIX}_HAVE_LARGE_HSIZET 1)
-endif (HDF5_ENABLE_HSIZET)
+endif ()
 
 # so far we have no check for this
 set (H5_HAVE_TMPFILE 1)
@@ -85,10 +90,10 @@ set (H5_DEFAULT_VFD H5FD_SEC2)
 if (NOT DEFINED "H5_DEFAULT_PLUGINDIR")
   if (WINDOWS)
     set (H5_DEFAULT_PLUGINDIR "%ALLUSERSPROFILE%\\\\hdf5\\\\lib\\\\plugin")
-  else (WINDOWS)
+  else ()
     set (H5_DEFAULT_PLUGINDIR "/usr/local/hdf5/lib/plugin")
-  endif (WINDOWS)
-endif (NOT DEFINED "H5_DEFAULT_PLUGINDIR")
+  endif ()
+endif ()
 
 if (WINDOWS)
   set (H5_HAVE_WINDOWS 1)
@@ -97,7 +102,7 @@ if (WINDOWS)
   # that is, "drive-letter:\" (e.g. "C:") or "drive-letter:/" (e.g. "C:/").
   # (This flag should be _unset_ for all machines, except for Windows)
   set (H5_HAVE_WINDOW_PATH 1)
-endif (WINDOWS)
+endif ()
 
 # ----------------------------------------------------------------------
 # END of WINDOWS Hard code Values
@@ -107,9 +112,9 @@ CHECK_FUNCTION_EXISTS (difftime          H5_HAVE_DIFFTIME)
 
 # Find the library containing clock_gettime()
 if (NOT WINDOWS)
-  CHECK_FUNCTION_EXISTS(clock_gettime CLOCK_GETTIME_IN_LIBC)
-  CHECK_LIBRARY_EXISTS(rt clock_gettime "" CLOCK_GETTIME_IN_LIBRT)
-  CHECK_LIBRARY_EXISTS(posix4 clock_gettime "" CLOCK_GETTIME_IN_LIBPOSIX4)
+  CHECK_FUNCTION_EXISTS (clock_gettime CLOCK_GETTIME_IN_LIBC)
+  CHECK_LIBRARY_EXISTS (rt clock_gettime "" CLOCK_GETTIME_IN_LIBRT)
+  CHECK_LIBRARY_EXISTS (posix4 clock_gettime "" CLOCK_GETTIME_IN_LIBPOSIX4)
   if (CLOCK_GETTIME_IN_LIBC)
     set (H5_HAVE_CLOCK_GETTIME 1)
   elseif (CLOCK_GETTIME_IN_LIBRT)
@@ -118,15 +123,15 @@ if (NOT WINDOWS)
   elseif (CLOCK_GETTIME_IN_LIBPOSIX4)
     set (H5_HAVE_CLOCK_GETTIME 1)
     list (APPEND LINK_LIBS posix4)
-  endif (CLOCK_GETTIME_IN_LIBC)
-endif (NOT WINDOWS)
+  endif ()
+endif ()
 #-----------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------
 #  Check if Direct I/O driver works
 #-----------------------------------------------------------------------------
 if (NOT WINDOWS)
-  option (HDF5_ENABLE_DIRECT_VFD "Build the Direct I/O Virtual File Driver" ON)
+  option (HDF5_ENABLE_DIRECT_VFD "Build the Direct I/O Virtual File Driver" OFF)
   if (HDF5_ENABLE_DIRECT_VFD)
     set (msg "Performing TEST_DIRECT_VFD_WORKS")
     set (MACRO_CHECK_FUNCTION_DEFINITIONS "-DTEST_DIRECT_VFD_WORKS -D_GNU_SOURCE ${CMAKE_REQUIRED_FLAGS}")
@@ -137,33 +142,44 @@ if (NOT WINDOWS)
         OUTPUT_VARIABLE OUTPUT
     )
     if (TEST_DIRECT_VFD_WORKS_COMPILE)
-      if (TEST_DIRECT_VFD_WORKS_RUN  MATCHES 0)
+      if (TEST_DIRECT_VFD_WORKS_RUN MATCHES 0)
         HDF_FUNCTION_TEST (HAVE_DIRECT)
         set (CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
         add_definitions ("-D_GNU_SOURCE")
-      else (TEST_DIRECT_VFD_WORKS_RUN  MATCHES 0)
+      else ()
         set (TEST_DIRECT_VFD_WORKS "" CACHE INTERNAL ${msg})
         message (STATUS "${msg}... no")
         file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
               "Test TEST_DIRECT_VFD_WORKS Run failed with the following output and exit code:\n ${OUTPUT}\n"
         )
-      endif (TEST_DIRECT_VFD_WORKS_RUN  MATCHES 0)
-    else (TEST_DIRECT_VFD_WORKS_COMPILE )
+      endif ()
+    else ()
       set (TEST_DIRECT_VFD_WORKS "" CACHE INTERNAL ${msg})
       message (STATUS "${msg}... no")
       file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
           "Test TEST_DIRECT_VFD_WORKS Compile failed with the following output:\n ${OUTPUT}\n"
       )
-    endif (TEST_DIRECT_VFD_WORKS_COMPILE)
-  endif (HDF5_ENABLE_DIRECT_VFD)
-endif (NOT WINDOWS)
+    endif ()
+  endif ()
+endif ()
 
+#-----------------------------------------------------------------------------
+# Check if C has __float128 extension
+#-----------------------------------------------------------------------------
+
+CHECK_TYPE_SIZE("__float128" SIZEOF___FLOAT128)
+if (${HAVE_SIZEOF___FLOAT128})
+  set (H5_HAVE_FLOAT128 1)
+else ()
+  set (H5_HAVE_FLOAT128 0)
+  set (SIZEOF___FLOAT128 0)
+endif ()
 
 #-----------------------------------------------------------------------------
 # Macro to determine the various conversion capabilities
 #-----------------------------------------------------------------------------
-MACRO (H5ConversionTests TEST msg)
-  if ("${TEST}" MATCHES "^${TEST}$")
+macro (H5ConversionTests TEST msg)
+  if (NOT DEFINED ${TEST})
    # message (STATUS "===> ${TEST}")
     TRY_RUN (${TEST}_RUN   ${TEST}_COMPILE
         ${CMAKE_BINARY_DIR}
@@ -172,41 +188,26 @@ MACRO (H5ConversionTests TEST msg)
         OUTPUT_VARIABLE OUTPUT
     )
     if (${TEST}_COMPILE)
-      if (${TEST}_RUN  MATCHES 0)
+      if (${TEST}_RUN MATCHES 0)
         set (${TEST} 1 CACHE INTERNAL ${msg})
         message (STATUS "${msg}... yes")
-      else (${TEST}_RUN  MATCHES 0)
+      else ()
         set (${TEST} "" CACHE INTERNAL ${msg})
         message (STATUS "${msg}... no")
         file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
               "Test ${TEST} Run failed with the following output and exit code:\n ${OUTPUT}\n"
         )
-      endif (${TEST}_RUN  MATCHES 0)
-    else (${TEST}_COMPILE )
+      endif ()
+    else ()
       set (${TEST} "" CACHE INTERNAL ${msg})
       message (STATUS "${msg}... no")
       file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
           "Test ${TEST} Compile failed with the following output:\n ${OUTPUT}\n"
       )
-    endif (${TEST}_COMPILE)
+    endif ()
 
-  endif ("${TEST}" MATCHES "^${TEST}$")
-ENDMACRO (H5ConversionTests)
-
-#-----------------------------------------------------------------------------
-# Macro to make some of the conversion tests easier to write/read
-#-----------------------------------------------------------------------------
-MACRO (H5MiscConversionTest  VAR TEST msg)
-  if ("${TEST}" MATCHES "^${TEST}$")
-    if (${VAR})
-      set (${TEST} 1 CACHE INTERNAL ${msg})
-      message (STATUS "${msg}... yes")
-    else (${VAR})
-      set (${TEST} "" CACHE INTERNAL ${msg})
-      message (STATUS "${msg}... no")
-    endif (${VAR})
-  endif ("${TEST}" MATCHES "^${TEST}$")
-ENDMACRO (H5MiscConversionTest)
+  endif ()
+endmacro ()
 
 #-----------------------------------------------------------------------------
 # Check various conversion capabilities
@@ -214,9 +215,9 @@ ENDMACRO (H5MiscConversionTest)
 
 # ----------------------------------------------------------------------
 # Set the flag to indicate that the machine is using a special algorithm to convert
-# 'long double' to '(unsigned) long' values.  (This flag should only be set for 
-# the IBM Power6 Linux.  When the bit sequence of long double is 
-# 0x4351ccf385ebc8a0bfcc2a3c3d855620, the converted value of (unsigned)long 
+# 'long double' to '(unsigned) long' values.  (This flag should only be set for
+# the IBM Power6 Linux.  When the bit sequence of long double is
+# 0x4351ccf385ebc8a0bfcc2a3c3d855620, the converted value of (unsigned)long
 # is 0x004733ce17af227f, not the same as the library's conversion to 0x004733ce17af2282.
 # The machine's conversion gets the correct value.  We define the macro and disable
 # this kind of test until we figure out what algorithm they use.
@@ -224,10 +225,10 @@ ENDMACRO (H5MiscConversionTest)
 H5ConversionTests (H5_LDOUBLE_TO_LONG_SPECIAL  "Checking IF your system converts long double to (unsigned) long values with special algorithm")
 # ----------------------------------------------------------------------
 # Set the flag to indicate that the machine is using a special algorithm
-# to convert some values of '(unsigned) long' to 'long double' values.  
-# (This flag should be off for all machines, except for IBM Power6 Linux, 
-# when the bit sequences are 003fff..., 007fff..., 00ffff..., 01ffff..., 
-# ..., 7fffff..., the compiler uses a unknown algorithm.  We define a 
+# to convert some values of '(unsigned) long' to 'long double' values.
+# (This flag should be off for all machines, except for IBM Power6 Linux,
+# when the bit sequences are 003fff..., 007fff..., 00ffff..., 01ffff...,
+# ..., 7fffff..., the compiler uses a unknown algorithm.  We define a
 # macro and skip the test for now until we know about the algorithm.
 #
 H5ConversionTests (H5_LONG_TO_LDOUBLE_SPECIAL "Checking IF your system can convert (unsigned) long to long double values with special algorithm")
@@ -256,7 +257,7 @@ H5ConversionTests (H5_NO_ALIGNMENT_RESTRICTIONS "Checking IF alignment restricti
 
 # -----------------------------------------------------------------------
 # wrapper script variables
-# 
+#
 set (prefix ${CMAKE_INSTALL_PREFIX})
 set (exec_prefix "\${prefix}")
 set (libdir "${exec_prefix}/lib")
@@ -267,4 +268,4 @@ set (CXX ${CMAKE_CXX_COMPILER})
 set (FC ${CMAKE_Fortran_COMPILER})
 foreach (LINK_LIB ${LINK_LIBS})
   set (LIBS "${LIBS} -l${LINK_LIB}")
-endforeach (LINK_LIB ${LINK_LIBS})
+endforeach ()

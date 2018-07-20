@@ -1,3 +1,14 @@
+#
+# Copyright by The HDF Group.
+# All rights reserved.
+#
+# This file is part of HDF5.  The full HDF5 copyright notice, including
+# terms governing use, modification, and redistribution, is contained in
+# the COPYING file, which can be found at the root of the source code
+# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# If you do not have access to either file, you may request a copy from
+# help@hdfgroup.org.
+#
 
 # - Find SZIP library
 # - Derived from the FindTiff.cmake that is included with cmake
@@ -24,7 +35,7 @@
 # made to remove references to Qt and make this file more generally applicable
 #########################################################################
 
-MACRO (SZIP_ADJUST_LIB_VARS basename)
+macro (SZIP_ADJUST_LIB_VARS basename)
   if (${basename}_INCLUDE_DIR)
 
     # if only the release version was found, set the debug variable also to the release version
@@ -32,38 +43,37 @@ MACRO (SZIP_ADJUST_LIB_VARS basename)
       set (${basename}_LIBRARY_DEBUG ${${basename}_LIBRARY_RELEASE})
       set (${basename}_LIBRARY       ${${basename}_LIBRARY_RELEASE})
       set (${basename}_LIBRARIES     ${${basename}_LIBRARY_RELEASE})
-    endif (${basename}_LIBRARY_RELEASE AND NOT ${basename}_LIBRARY_DEBUG)
+    endif ()
 
     # if only the debug version was found, set the release variable also to the debug version
     if (${basename}_LIBRARY_DEBUG AND NOT ${basename}_LIBRARY_RELEASE)
       set (${basename}_LIBRARY_RELEASE ${${basename}_LIBRARY_DEBUG})
       set (${basename}_LIBRARY         ${${basename}_LIBRARY_DEBUG})
       set (${basename}_LIBRARIES       ${${basename}_LIBRARY_DEBUG})
-    endif (${basename}_LIBRARY_DEBUG AND NOT ${basename}_LIBRARY_RELEASE)
+    endif ()
     if (${basename}_LIBRARY_DEBUG AND ${basename}_LIBRARY_RELEASE)
       # if the generator supports configuration types then set
       # optimized and debug libraries, or if the CMAKE_BUILD_TYPE has a value
       if (CMAKE_CONFIGURATION_TYPES OR CMAKE_BUILD_TYPE)
         set (${basename}_LIBRARY       optimized ${${basename}_LIBRARY_RELEASE} debug ${${basename}_LIBRARY_DEBUG})
-      else (CMAKE_CONFIGURATION_TYPES OR CMAKE_BUILD_TYPE)
+      else ()
         # if there are no configuration types and CMAKE_BUILD_TYPE has no value
         # then just use the release libraries
         set (${basename}_LIBRARY       ${${basename}_LIBRARY_RELEASE} )
-      endif (CMAKE_CONFIGURATION_TYPES OR CMAKE_BUILD_TYPE)
+      endif ()
       set (${basename}_LIBRARIES       optimized ${${basename}_LIBRARY_RELEASE} debug ${${basename}_LIBRARY_DEBUG})
-    endif (${basename}_LIBRARY_DEBUG AND ${basename}_LIBRARY_RELEASE)
+    endif ()
 
     set (${basename}_LIBRARY ${${basename}_LIBRARY} CACHE FILEPATH "The ${basename} library")
 
     if (${basename}_LIBRARY)
       set (${basename}_FOUND 1)
-    endif (${basename}_LIBRARY)
-
-  endif (${basename}_INCLUDE_DIR )
+    endif ()
+  endif ()
 
   # Make variables changeble to the advanced user
   MARK_AS_ADVANCED (${basename}_LIBRARY ${basename}_LIBRARY_RELEASE ${basename}_LIBRARY_DEBUG ${basename}_INCLUDE_DIR )
-ENDMACRO (SZIP_ADJUST_LIB_VARS)
+endmacro ()
 
 
 # Look for the header file.
@@ -93,10 +103,10 @@ FIND_PATH (SZIP_INCLUDE_DIR
 if (WIN32)
     set (SZIP_SEARCH_DEBUG_NAMES "sz_d;libsz_d")
     set (SZIP_SEARCH_RELEASE_NAMES "sz;libsz;libszip")
-else (WIN32)
+else ()
     set (SZIP_SEARCH_DEBUG_NAMES "sz_d")
     set (SZIP_SEARCH_RELEASE_NAMES "sz;szip")
-endif (WIN32)
+endif ()
 
 # Look for the library.
 FIND_LIBRARY (SZIP_LIBRARY_DEBUG
@@ -120,16 +130,15 @@ if (SZIP_INCLUDE_DIR AND SZIP_LIBRARY)
   if (SZIP_LIBRARY_DEBUG)
     get_filename_component (SZIP_LIBRARY_PATH ${SZIP_LIBRARY_DEBUG} PATH)
     set (SZIP_LIB_DIR  ${SZIP_LIBRARY_PATH})
-  elseif (SZIP_LIBRARY_RELEASE)
+  elseif ()
     get_filename_component (SZIP_LIBRARY_PATH ${SZIP_LIBRARY_RELEASE} PATH)
     set (SZIP_LIB_DIR  ${SZIP_LIBRARY_PATH})
-  endif (SZIP_LIBRARY_DEBUG)
-
-else (SZIP_INCLUDE_DIR AND SZIP_LIBRARY)
+  endif ()
+else ()
   set (SZIP_FOUND 0)
   set (SZIP_LIBRARIES)
   set (SZIP_INCLUDE_DIRS)
-endif (SZIP_INCLUDE_DIR AND SZIP_LIBRARY)
+endif ()
 
 # Report the results.
 if (NOT SZIP_FOUND)
@@ -138,12 +147,12 @@ if (NOT SZIP_FOUND)
   )
   if (NOT SZIP_FIND_QUIETLY)
     message (STATUS "${SZIP_DIR_MESSAGE}")
-  else (NOT SZIP_FIND_QUIETLY)
+  else ()
     if (SZIP_FIND_REQUIRED)
       message (FATAL_ERROR "SZip was NOT found and is Required by this project")
-    endif (SZIP_FIND_REQUIRED)
-  endif (NOT SZIP_FIND_QUIETLY)
-endif (NOT SZIP_FOUND)
+    endif ()
+  endif ()
+endif ()
 
 if (SZIP_FOUND)
   include (CheckSymbolExists)
@@ -161,7 +170,7 @@ if (SZIP_FOUND)
   set (CMAKE_REQUIRED_FLAGS    ${CMAKE_REQUIRED_FLAGS_SAVE})
   #
   #############################################
-endif (SZIP_FOUND)
+endif ()
 
 if (FIND_SZIP_DEBUG)
   message (STATUS "SZIP_INCLUDE_DIR: ${SZIP_INCLUDE_DIR}")
@@ -169,4 +178,4 @@ if (FIND_SZIP_DEBUG)
   message (STATUS "SZIP_LIBRARY_DEBUG: ${SZIP_LIBRARY_DEBUG}")
   message (STATUS "SZIP_LIBRARY_RELEASE: ${SZIP_LIBRARY_RELEASE}")
   message (STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
-endif (FIND_SZIP_DEBUG)
+endif ()

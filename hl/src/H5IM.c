@@ -5,12 +5,10 @@
 *                                                                           *
 * This file is part of HDF5.  The full HDF5 copyright notice, including     *
 * terms governing use, modification, and redistribution, is contained in    *
-* the files COPYING and Copyright.html.  COPYING can be found at the root   *
-* of the source code distribution tree; Copyright.html can be found at the  *
-* root level of an installed copy of the electronic HDF5 document set and   *
-* is linked from the top-level documents page.  It can also be found at     *
-* http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
-* access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "H5IMprivate.h"
@@ -31,7 +29,6 @@
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -86,7 +83,6 @@ herr_t H5IMmake_image_8bit( hid_t loc_id,
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Interlace Mode Dimensions in the Dataspace
 * INTERLACE_PIXEL [height][width][pixel components]
@@ -240,7 +236,6 @@ herr_t H5IM_find_palette( hid_t loc_id )
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -255,12 +250,12 @@ herr_t H5IMget_image_info( hid_t loc_id,
                           char *interlace,
                           hssize_t *npals )
 {
-    hid_t       did;
-    hid_t       sid;
+    hid_t       did                     = -1;
+    hid_t       sid                     = -1;
     hsize_t     dims[IMAGE24_RANK];
-    hid_t       aid;
-    hid_t       asid;
-    hid_t       atid;
+    hid_t       aid                     = -1;
+    hid_t       asid                    = -1;
+    hid_t       atid                    = -1;
     H5T_class_t aclass;
     int         has_pal;
     int         has_attr;
@@ -396,10 +391,14 @@ herr_t H5IMget_image_info( hid_t loc_id,
     return 0;
 
 out:
-    H5Dclose( did );
-    H5Aclose( aid );
-    H5Sclose( asid );
-    H5Tclose( atid );
+    if(did > 0)
+        H5Dclose( did );
+    if(aid > 0)
+        H5Aclose( aid );
+    if(asid > 0)
+        H5Sclose( asid );
+    if(atid > 0)
+        H5Tclose( atid );
     return -1;
 
 }
@@ -418,7 +417,6 @@ out:
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -469,7 +467,6 @@ out:
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -526,7 +523,6 @@ herr_t H5IMmake_palette( hid_t loc_id,
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 *  An image (dataset) within an HDF5 file may optionally specify an array of
 *  palettes to be viewed with. The dataset will have an attribute
@@ -704,7 +700,6 @@ out:
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -897,7 +892,6 @@ out:
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -957,7 +951,7 @@ herr_t H5IMget_palette_info( hid_t loc_id,
             goto out;
 
         /* Get the actual palette */
-        if ( (pal_id = H5Rdereference( did, H5R_OBJECT, &refbuf[pal_number] )) < 0)
+        if ( (pal_id = H5Rdereference2(did, H5P_DEFAULT, H5R_OBJECT, &refbuf[pal_number])) < 0)
             goto out;
 
         if ( (pal_space_id = H5Dget_space( pal_id )) < 0)
@@ -1014,7 +1008,6 @@ out:
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -1075,7 +1068,7 @@ herr_t H5IMget_palette( hid_t loc_id,
             goto out;
 
         /* Get the palette id */
-        if ( (pal_id = H5Rdereference( did, H5R_OBJECT, &refbuf[pal_number] )) < 0)
+        if ( (pal_id = H5Rdereference2(did, H5P_DEFAULT, H5R_OBJECT, &refbuf[pal_number])) < 0)
             goto out;
 
         /* Read the palette dataset */
@@ -1122,7 +1115,6 @@ out:
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *
@@ -1227,7 +1219,6 @@ out:
 *
 * Comments:
 *  based on HDF5 Image and Palette Specification
-*  http://hdf.ncsa.uiuc.edu/HDF5/H5Image/ImageSpec.html
 *
 * Modifications:
 *

@@ -1,25 +1,32 @@
+#
+# Copyright by The HDF Group.
+# All rights reserved.
+#
+# This file is part of HDF5.  The full HDF5 copyright notice, including
+# terms governing use, modification, and redistribution, is contained in
+# the COPYING file, which can be found at the root of the source code
+# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# If you do not have access to either file, you may request a copy from
+# help@hdfgroup.org.
+#
 #-------------------------------------------------------------------------------
-macro (H5_SET_LIB_OPTIONS libtarget libname libtype)
+macro (H5_SET_LIB_OPTIONS libtarget libname libtype libpackage)
   set (LIB_OUT_NAME "${libname}")
   # SOVERSION passed in ARGN when shared
   if (${libtype} MATCHES "SHARED")
-    if (ARGN)
-      set (PACKAGE_SOVERSION ${ARGN})
-    else (ARGN)
-      set (PACKAGE_SOVERSION ${HDF5_PACKAGE_SOVERSION})
-    endif (ARGN)
+    set (PACKAGE_SOVERSION ${HDF5_${libpackage}_PACKAGE_SOVERSION})
     if (WIN32)
       set (LIBHDF_VERSION ${HDF5_PACKAGE_VERSION_MAJOR})
-    else (WIN32)
-      set (LIBHDF_VERSION ${HDF5_PACKAGE_VERSION})
-    endif (WIN32)
+    else ()
+      set (LIBHDF_VERSION ${HDF5_${libpackage}_PACKAGE_SOVERSION_MAJOR})
+    endif ()
     set_target_properties (${libtarget} PROPERTIES VERSION ${LIBHDF_VERSION})
     if (WIN32)
         set (${LIB_OUT_NAME} "${LIB_OUT_NAME}-${PACKAGE_SOVERSION}")
-    else (WIN32)
+    else ()
         set_target_properties (${libtarget} PROPERTIES SOVERSION ${PACKAGE_SOVERSION})
-    endif (WIN32)
-  endif (${libtype} MATCHES "SHARED")
+    endif ()
+  endif ()
   HDF_SET_LIB_OPTIONS (${libtarget} ${LIB_OUT_NAME} ${libtype})
 
   #-- Apple Specific install_name for libraries
@@ -31,7 +38,7 @@ macro (H5_SET_LIB_OPTIONS libtarget libname libtype)
           INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib"
           BUILD_WITH_INSTALL_RPATH ${HDF5_BUILD_WITH_INSTALL_NAME}
       )
-    endif (HDF5_BUILD_WITH_INSTALL_NAME)
+    endif ()
     if (HDF5_BUILD_FRAMEWORKS)
       if (${libtype} MATCHES "SHARED")
         # adapt target to build frameworks instead of dylibs
@@ -42,8 +49,8 @@ macro (H5_SET_LIB_OPTIONS libtarget libname libtype)
             MACOSX_FRAMEWORK_IDENTIFIER org.hdfgroup.${libtarget}
             MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${HDF5_PACKAGE_VERSION_MAJOR}
             MACOSX_FRAMEWORK_BUNDLE_VERSION ${HDF5_PACKAGE_VERSION_MAJOR})
-      endif (${libtype} MATCHES "SHARED")
-    endif (HDF5_BUILD_FRAMEWORKS)
-  endif (APPLE)
+      endif ()
+    endif ()
+  endif ()
 
-endmacro (H5_SET_LIB_OPTIONS)
+endmacro ()

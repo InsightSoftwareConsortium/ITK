@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -35,7 +33,7 @@
 /* Module Setup */
 /****************/
 
-#define H5F_PACKAGE		/*suppress error about including H5Fpkg	  */
+#include "H5Fmodule.h"          /* This source code file is part of the H5F module */
 
 
 /***********/
@@ -260,8 +258,9 @@ herr_t
 H5F_cwfs_advance_heap(H5F_t *f, H5HG_heap_t *heap, hbool_t add_heap)
 {
     unsigned u;                         /* Local index variable */
+    herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOERR
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check args */
     HDassert(f);
@@ -281,7 +280,8 @@ H5F_cwfs_advance_heap(H5F_t *f, H5HG_heap_t *heap, hbool_t add_heap)
         f->shared->cwfs[f->shared->ncwfs - 1] = heap;
     } /* end if */
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* H5F_cwfs_advance_heap() */
 
 
@@ -302,8 +302,9 @@ herr_t
 H5F_cwfs_remove_heap(H5F_file_t *shared, H5HG_heap_t *heap)
 {
     unsigned u;                         /* Local index variable */
+    herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOERR
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check args */
     HDassert(shared);
@@ -318,6 +319,7 @@ H5F_cwfs_remove_heap(H5F_file_t *shared, H5HG_heap_t *heap)
         } /* end if */
     } /* end for */
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* H5F_cwfs_remove_heap() */
 

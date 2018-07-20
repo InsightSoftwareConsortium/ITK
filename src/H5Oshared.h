@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -49,9 +47,9 @@
  */
 static H5_INLINE void *
 H5O_SHARED_DECODE(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned mesg_flags,
-    unsigned *ioflags, const uint8_t *p)
+    unsigned *ioflags, size_t p_size, const uint8_t *p)
 {
-    void *ret_value;            /* Return value */
+    void *ret_value = NULL;     /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -69,7 +67,7 @@ H5O_SHARED_DECODE(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned mesg_flags,
     if(mesg_flags & H5O_MSG_FLAG_SHARED) {
         /* Retrieve native message info indirectly through shared message */
         if(NULL == (ret_value = H5O_shared_decode(f, dxpl_id, open_oh, ioflags, p, H5O_SHARED_TYPE)))
-	    HGOTO_ERROR(H5E_OHDR, H5E_CANTDECODE, NULL, "unable to decode shared message")
+            HGOTO_ERROR(H5E_OHDR, H5E_CANTDECODE, NULL, "unable to decode shared message")
 
         /* We currently do not support automatically fixing shared messages */
 #ifdef H5_STRICT_FORMAT_CHECKS
@@ -81,8 +79,8 @@ H5O_SHARED_DECODE(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned mesg_flags,
     } /* end if */
     else {
         /* Decode native message directly */
-        if(NULL == (ret_value = H5O_SHARED_DECODE_REAL(f, dxpl_id, open_oh, mesg_flags, ioflags, p)))
-	    HGOTO_ERROR(H5E_OHDR, H5E_CANTDECODE, NULL, "unable to decode native message")
+        if(NULL == (ret_value = H5O_SHARED_DECODE_REAL(f, dxpl_id, open_oh, mesg_flags, ioflags, p_size, p)))
+            HGOTO_ERROR(H5E_OHDR, H5E_CANTDECODE, NULL, "unable to decode native message")
     } /* end else */
 
 done:
@@ -166,7 +164,7 @@ static H5_INLINE size_t
 H5O_SHARED_SIZE(const H5F_t *f, hbool_t disable_shared, const void *_mesg)
 {
     const H5O_shared_t *sh_mesg = (const H5O_shared_t *)_mesg;     /* Pointer to shared message portion of actual message */
-    size_t ret_value;           /* Return value */
+    size_t ret_value = 0;       /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -324,7 +322,7 @@ H5O_SHARED_COPY_FILE(H5F_t *file_src, void *_native_src, H5F_t *file_dst,
     void *udata, hid_t dxpl_id)
 {
     void *dst_mesg = NULL;      /* Destination message */
-    void *ret_value;            /* Return value */
+    void *ret_value = NULL;     /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 

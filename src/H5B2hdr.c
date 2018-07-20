@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -28,7 +26,8 @@
 /* Module Setup */
 /****************/
 
-#define H5B2_PACKAGE		/*suppress error about including H5B2pkg  */
+#include "H5B2module.h"         /* This source code file is part of the H5B2 module */
+
 
 /***********/
 /* Headers */
@@ -37,7 +36,8 @@
 #include "H5B2pkg.h"		/* v2 B-trees				*/
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5MFprivate.h"	/* File memory management		*/
-#include "H5VMprivate.h"		/* Vectors and arrays 			*/
+#include "H5MMprivate.h"	/* Memory management			*/
+#include "H5VMprivate.h"	/* Vectors and arrays 			*/
 
 /****************/
 /* Local Macros */
@@ -94,7 +94,7 @@ H5FL_SEQ_DEFINE(H5B2_node_info_t);
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_init
+ * Function:	H5B2__hdr_init
  *
  * Purpose:	Allocate & initialize B-tree header info
  *
@@ -107,7 +107,7 @@ H5FL_SEQ_DEFINE(H5B2_node_info_t);
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_hdr_init(H5B2_hdr_t *hdr, const H5B2_create_t *cparam, void *ctx_udata,
+H5B2__hdr_init(H5B2_hdr_t *hdr, const H5B2_create_t *cparam, void *ctx_udata,
     uint16_t depth)
 {
     size_t sz_max_nrec;                 /* Temporary variable for range checking */
@@ -115,7 +115,7 @@ H5B2_hdr_init(H5B2_hdr_t *hdr, const H5B2_create_t *cparam, void *ctx_udata,
     unsigned u;                         /* Local index variable */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -130,10 +130,6 @@ H5B2_hdr_init(H5B2_hdr_t *hdr, const H5B2_create_t *cparam, void *ctx_udata,
     HDassert(cparam->merge_percent > 0 && cparam->merge_percent <= 100);
     HDassert(cparam->split_percent > 0 && cparam->split_percent <= 100);
     HDassert(cparam->merge_percent < (cparam->split_percent / 2));
-
-    /* Initialize basic information */
-    hdr->rc = 0;
-    hdr->pending_delete = FALSE;
 
     /* Assign dynamic information */
     hdr->depth = depth;
@@ -150,9 +146,7 @@ H5B2_hdr_init(H5B2_hdr_t *hdr, const H5B2_create_t *cparam, void *ctx_udata,
     /* Allocate "page" for node I/O */
     if(NULL == (hdr->page = H5FL_BLK_MALLOC(node_page, hdr->node_size)))
         HGOTO_ERROR(H5E_BTREE, H5E_NOSPACE, FAIL, "memory allocation failed")
-#ifdef H5_CLEAR_MEMORY
-HDmemset(hdr->page, 0, hdr->node_size);
-#endif /* H5_CLEAR_MEMORY */
+    HDmemset(hdr->page, 0, hdr->node_size);
 
     /* Allocate array of node info structs */
     if(NULL == (hdr->node_info = H5FL_SEQ_MALLOC(H5B2_node_info_t, (size_t)(hdr->depth + 1))))
@@ -207,23 +201,29 @@ HDmemset(hdr->page, 0, hdr->node_size);
         } /* end for */
     } /* end if */
 
+    /* Determine if we are doing SWMR writes.  Only enable for data chunks for now. */
+    hdr->swmr_write = (H5F_INTENT(hdr->f) & H5F_ACC_SWMR_WRITE) > 0
+            && (hdr->cls->id == H5B2_CDSET_ID || hdr->cls->id == H5B2_CDSET_FILT_ID);
+
+    /* Reset the shadow epoch */
+    hdr->shadow_epoch = 0;
+
     /* Create the callback context, if the callback exists */
-    if(hdr->cls->crt_context) {
+    if(hdr->cls->crt_context)
         if(NULL == (hdr->cb_ctx = (*hdr->cls->crt_context)(ctx_udata)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTCREATE, FAIL, "unable to create v2 B-tree client callback context")
-    } /* end if */
 
 done:
     if(ret_value < 0)
-        if(H5B2_hdr_free(hdr) < 0)
+        if(H5B2__hdr_free(hdr) < 0)
             HDONE_ERROR(H5E_BTREE, H5E_CANTFREE, FAIL, "unable to free shared v2 B-tree info")
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_hdr_init() */
+} /* end H5B2__hdr_init() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_alloc
+ * Function:	H5B2__hdr_alloc
  *
  * Purpose:	Allocate B-tree header
  *
@@ -236,12 +236,12 @@ done:
  *-------------------------------------------------------------------------
  */
 H5B2_hdr_t *
-H5B2_hdr_alloc(H5F_t *f)
+H5B2__hdr_alloc(H5F_t *f)
 {
     H5B2_hdr_t *hdr = NULL;             /* v2 B-tree header */
-    H5B2_hdr_t *ret_value;              /* Return value */
+    H5B2_hdr_t *ret_value = NULL;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -256,7 +256,7 @@ H5B2_hdr_alloc(H5F_t *f)
     hdr->f = f;
     hdr->sizeof_addr = H5F_SIZEOF_ADDR(f);
     hdr->sizeof_size = H5F_SIZEOF_SIZE(f);
-    hdr->hdr_size = H5B2_HEADER_SIZE(hdr);
+    hdr->hdr_size = H5B2_HEADER_SIZE_HDR(hdr);
     hdr->root.addr = HADDR_UNDEF;
 
     /* Set return value */
@@ -265,11 +265,11 @@ H5B2_hdr_alloc(H5F_t *f)
 done:
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_hdr_alloc() */
+} /* end H5B2__hdr_alloc() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_hdr_create
+ * Function:	H5B2__hdr_create
  *
  * Purpose:	Create new fractal heap header
  *
@@ -282,13 +282,14 @@ done:
  *-------------------------------------------------------------------------
  */
 haddr_t
-H5B2_hdr_create(H5F_t *f, hid_t dxpl_id, const H5B2_create_t *cparam,
+H5B2__hdr_create(H5F_t *f, hid_t dxpl_id, const H5B2_create_t *cparam,
     void *ctx_udata)
 {
-    H5B2_hdr_t *hdr = NULL;     /* The new v2 B-tree header information */
-    haddr_t ret_value;          /* Return value */
+    H5B2_hdr_t *hdr = NULL;             /* The new v2 B-tree header information */
+    hbool_t inserted = FALSE;           /* Whether the header was inserted into cache */
+    haddr_t ret_value = HADDR_UNDEF;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -297,35 +298,58 @@ H5B2_hdr_create(H5F_t *f, hid_t dxpl_id, const H5B2_create_t *cparam,
     HDassert(cparam);
 
     /* Allocate v2 B-tree header */
-    if(NULL == (hdr = H5B2_hdr_alloc(f)))
+    if(NULL == (hdr = H5B2__hdr_alloc(f)))
         HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, HADDR_UNDEF, "allocation failed for B-tree header")
 
     /* Initialize shared B-tree info */
-    if(H5B2_hdr_init(hdr, cparam, ctx_udata, (uint16_t)0) < 0)
+    if(H5B2__hdr_init(hdr, cparam, ctx_udata, (uint16_t)0) < 0)
         HGOTO_ERROR(H5E_BTREE, H5E_CANTINIT, HADDR_UNDEF, "can't create shared B-tree info")
 
     /* Allocate space for the header on disk */
     if(HADDR_UNDEF == (hdr->addr = H5MF_alloc(f, H5FD_MEM_BTREE, dxpl_id, (hsize_t)hdr->hdr_size)))
         HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, HADDR_UNDEF, "file allocation failed for B-tree header")
 
+    /* Create 'top' proxy for extensible array entries */
+    if(hdr->swmr_write)
+        if(NULL == (hdr->top_proxy = H5AC_proxy_entry_create()))
+            HGOTO_ERROR(H5E_BTREE, H5E_CANTCREATE, HADDR_UNDEF, "can't create v2 B-tree proxy")
+
     /* Cache the new B-tree node */
     if(H5AC_insert_entry(f, dxpl_id, H5AC_BT2_HDR, hdr->addr, hdr, H5AC__NO_FLAGS_SET) < 0)
         HGOTO_ERROR(H5E_BTREE, H5E_CANTINSERT, HADDR_UNDEF, "can't add B-tree header to cache")
+    inserted = TRUE;
+
+    /* Add header as child of 'top' proxy */
+    if(hdr->top_proxy)
+        if(H5AC_proxy_entry_add_child(hdr->top_proxy, f, dxpl_id, hdr) < 0)
+            HGOTO_ERROR(H5E_BTREE, H5E_CANTSET, HADDR_UNDEF, "unable to add v2 B-tree header as child of array proxy")
 
     /* Set address of v2 B-tree header to return */
     ret_value = hdr->addr;
 
 done:
-    if(!H5F_addr_defined(ret_value) && hdr)
-        if(H5B2_hdr_free(hdr) < 0)
-            HDONE_ERROR(H5E_BTREE, H5E_CANTRELEASE, HADDR_UNDEF, "unable to release v2 B-tree header")
+    if(!H5F_addr_defined(ret_value))
+        if(hdr) {
+            /* Remove from cache, if inserted */
+            if(inserted)
+                if(H5AC_remove_entry(hdr) < 0)
+                    HDONE_ERROR(H5E_BTREE, H5E_CANTREMOVE, HADDR_UNDEF, "unable to remove v2 B-tree header from cache")
+
+            /* Release header's disk space */
+            if(H5F_addr_defined(hdr->addr) && H5MF_xfree(f, H5FD_MEM_BTREE, dxpl_id, hdr->addr, (hsize_t)hdr->hdr_size) < 0)
+                HDONE_ERROR(H5E_BTREE, H5E_CANTFREE, HADDR_UNDEF, "unable to free v2 B-tree header")
+
+            /* Destroy header */
+            if(H5B2__hdr_free(hdr) < 0)
+                HDONE_ERROR(H5E_BTREE, H5E_CANTRELEASE, HADDR_UNDEF, "unable to release v2 B-tree header")
+        } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_hdr_create() */
+} /* end H5B2__hdr_create() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_incr
+ * Function:	H5B2__hdr_incr
  *
  * Purpose:	Increment reference count on B-tree header
  *
@@ -338,11 +362,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_hdr_incr(H5B2_hdr_t *hdr)
+H5B2__hdr_incr(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(hdr);
@@ -357,11 +381,11 @@ H5B2_hdr_incr(H5B2_hdr_t *hdr)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_incr_hdr() */
+} /* end H5B2__hdr_incr() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_decr
+ * Function:	H5B2__hdr_decr
  *
  * Purpose:	Decrement reference count on B-tree header
  *
@@ -374,11 +398,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_hdr_decr(H5B2_hdr_t *hdr)
+H5B2__hdr_decr(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(hdr);
@@ -394,11 +418,11 @@ H5B2_hdr_decr(H5B2_hdr_t *hdr)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_hdr_decr() */
+} /* end H5B2__hdr_decr() */
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5B2_hdr_fuse_incr
+ * Function:	H5B2__hdr_fuse_incr
  *
  * Purpose:     Increment file reference count on shared v2 B-tree header
  *
@@ -411,7 +435,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_hdr_fuse_incr(H5B2_hdr_t *hdr)
+H5B2__hdr_fuse_incr(H5B2_hdr_t *hdr)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -422,11 +446,11 @@ H5B2_hdr_fuse_incr(H5B2_hdr_t *hdr)
     hdr->file_rc++;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5B2_hdr_fuse_incr() */
+} /* end H5B2__hdr_fuse_incr() */
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5B2_hdr_fuse_decr
+ * Function:	H5B2__hdr_fuse_decr
  *
  * Purpose:     Decrement file reference count on shared v2 B-tree header
  *
@@ -439,7 +463,7 @@ H5B2_hdr_fuse_incr(H5B2_hdr_t *hdr)
  *-------------------------------------------------------------------------
  */
 size_t
-H5B2_hdr_fuse_decr(H5B2_hdr_t *hdr)
+H5B2__hdr_fuse_decr(H5B2_hdr_t *hdr)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -451,11 +475,11 @@ H5B2_hdr_fuse_decr(H5B2_hdr_t *hdr)
     hdr->file_rc--;
 
     FUNC_LEAVE_NOAPI(hdr->file_rc)
-} /* end H5B2_hdr_fuse_decr() */
+} /* end H5B2__hdr_fuse_decr() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_dirty
+ * Function:	H5B2__hdr_dirty
  *
  * Purpose:	Mark B-tree header as dirty
  *
@@ -468,11 +492,11 @@ H5B2_hdr_fuse_decr(H5B2_hdr_t *hdr)
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_hdr_dirty(H5B2_hdr_t *hdr)
+H5B2__hdr_dirty(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(hdr);
@@ -483,11 +507,109 @@ H5B2_hdr_dirty(H5B2_hdr_t *hdr)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_hdr_dirty() */
+} /* end H5B2__hdr_dirty() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_free
+ * Function:	H5B2__hdr_protect
+ *
+ * Purpose:	Convenience wrapper around protecting v2 B-tree header
+ *
+ * Return:	Non-NULL pointer to header on success/NULL on failure
+ *
+ * Programmer:	Quincey Koziol
+ *		koziol@hdfgroup.org
+ *		Dec 18 2015
+ *
+ *-------------------------------------------------------------------------
+ */
+H5B2_hdr_t *
+H5B2__hdr_protect(H5F_t *f, hid_t dxpl_id, haddr_t hdr_addr, void *ctx_udata,
+    unsigned flags)
+{
+    H5B2_hdr_cache_ud_t udata;          /* User data for cache callbacks */
+    H5B2_hdr_t *hdr = NULL;             /* v2 B-tree header */
+    H5B2_hdr_t *ret_value = NULL;       /* Return value */
+
+    FUNC_ENTER_PACKAGE
+
+    /* Sanity check */
+    HDassert(f);
+    HDassert(H5F_addr_defined(hdr_addr));
+
+    /* only the H5AC__READ_ONLY_FLAG may appear in flags */
+    HDassert((flags & (unsigned)(~H5AC__READ_ONLY_FLAG)) == 0);
+
+    /* Set up user data for cache callbacks */
+    udata.f = f;
+    udata.addr = hdr_addr;
+    udata.ctx_udata = ctx_udata;
+
+    /* Protect the header */
+    if(NULL == (hdr = (H5B2_hdr_t *)H5AC_protect(f, dxpl_id, H5AC_BT2_HDR, hdr_addr, &udata, flags)))
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, NULL, "unable to load v2 B-tree header, address = %llu", (unsigned long long)hdr_addr)
+    hdr->f = f;   /* (Must be set again here, in case the header was already in the cache -QAK) */
+
+    /* Create top proxy, if it doesn't exist */
+    if(hdr->swmr_write && NULL == hdr->top_proxy) {
+        /* Create 'top' proxy for v2 B-tree entries */
+        if(NULL == (hdr->top_proxy = H5AC_proxy_entry_create()))
+            HGOTO_ERROR(H5E_BTREE, H5E_CANTCREATE, NULL, "can't create v2 B-tree proxy")
+
+        /* Add header as child of 'top' proxy */
+        if(H5AC_proxy_entry_add_child(hdr->top_proxy, f, dxpl_id, hdr) < 0)
+            HGOTO_ERROR(H5E_BTREE, H5E_CANTSET, NULL, "unable to add v2 B-tree header as child of proxy")
+    } /* end if */
+
+    /* Set return value */
+    ret_value = hdr;
+
+done:
+    /* Clean up on error */
+    if(!ret_value) {
+        /* Release the header, if it was protected */
+        if(hdr && H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_HDR, hdr_addr, hdr, H5AC__NO_FLAGS_SET) < 0)
+            HDONE_ERROR(H5E_BTREE, H5E_CANTUNPROTECT, NULL, "unable to unprotect v2 B-tree header, address = %llu", (unsigned long long)hdr_addr)
+    } /* end if */
+
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5B2__hdr_protect() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:	H5B2__hdr_unprotect
+ *
+ * Purpose:	Convenience wrapper around unprotecting v2 B-tree header
+ *
+ * Return:	Non-negative on success/Negative on failure
+ *
+ * Programmer:	Quincey Koziol
+ *		koziol@hdfgroup.org
+ *		Dec 18 2015
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5B2__hdr_unprotect(H5B2_hdr_t *hdr, hid_t dxpl_id, unsigned cache_flags)
+{
+    herr_t ret_value = SUCCEED;         /* Return value */
+
+    FUNC_ENTER_PACKAGE
+
+    /* Sanity check */
+    HDassert(hdr);
+
+    /* Unprotect the header */
+    if(H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_HDR, hdr->addr, hdr, cache_flags) < 0)
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTUNPROTECT, FAIL, "unable to unprotect v2 B-tree header, address = %llu", (unsigned long long)hdr->addr)
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5B2__hdr_unprotect() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:	H5B2__hdr_free
  *
  * Purpose:	Free B-tree header info
  *
@@ -500,11 +622,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_hdr_free(H5B2_hdr_t *hdr)
+H5B2__hdr_free(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(hdr);
@@ -543,13 +665,16 @@ H5B2_hdr_free(H5B2_hdr_t *hdr)
     } /* end if */
 
     /* Release the min & max record info, if set */
-    if(hdr->min_native_rec) {
-	HDfree(hdr->min_native_rec);
-	hdr->min_native_rec = NULL;
-    } /* end if */
-    if(hdr->max_native_rec) {
-	HDfree(hdr->max_native_rec);
-	hdr->max_native_rec = NULL;
+    if(hdr->min_native_rec)
+	hdr->min_native_rec = H5MM_xfree(hdr->min_native_rec);
+    if(hdr->max_native_rec)
+	hdr->max_native_rec = H5MM_xfree(hdr->max_native_rec);
+
+    /* Destroy the 'top' proxy */
+    if(hdr->top_proxy) {
+        if(H5AC_proxy_entry_dest(hdr->top_proxy) < 0)
+            HGOTO_ERROR(H5E_BTREE, H5E_CANTRELEASE, FAIL, "unable to destroy v2 B-tree 'top' proxy")
+        hdr->top_proxy = NULL;
     } /* end if */
 
     /* Free B-tree header info */
@@ -557,11 +682,11 @@ H5B2_hdr_free(H5B2_hdr_t *hdr)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_hdr_free() */
+} /* end H5B2__hdr_free() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_delete
+ * Function:	H5B2__hdr_delete
  *
  * Purpose:	Delete a v2 B-tree, starting with the header
  *
@@ -574,12 +699,12 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_hdr_delete(H5B2_hdr_t *hdr, hid_t dxpl_id)
+H5B2__hdr_delete(H5B2_hdr_t *hdr, hid_t dxpl_id)
 {
     unsigned cache_flags = H5AC__NO_FLAGS_SET;  /* Flags for unprotecting v2 B-tree header */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(hdr);
@@ -600,7 +725,7 @@ H5B2_hdr_delete(H5B2_hdr_t *hdr, hid_t dxpl_id)
 
     /* Delete all nodes in B-tree */
     if(H5F_addr_defined(hdr->root.addr))
-        if(H5B2_delete_node(hdr, dxpl_id, hdr->depth, &hdr->root, hdr->remove_op, hdr->remove_op_data) < 0)
+        if(H5B2__delete_node(hdr, dxpl_id, hdr->depth, &hdr->root, hdr, hdr->remove_op, hdr->remove_op_data) < 0)
             HGOTO_ERROR(H5E_BTREE, H5E_CANTDELETE, FAIL, "unable to delete B-tree nodes")
 
     /* Indicate that the heap header should be deleted & file space freed */
@@ -608,9 +733,9 @@ H5B2_hdr_delete(H5B2_hdr_t *hdr, hid_t dxpl_id)
 
 done:
     /* Unprotect the header with appropriate flags */
-    if(H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_HDR, hdr->addr, hdr, cache_flags) < 0)
-        HDONE_ERROR(H5E_BTREE, H5E_CANTUNPROTECT, FAIL, "unable to release B-tree header")
+    if(H5B2__hdr_unprotect(hdr, dxpl_id, cache_flags) < 0)
+        HDONE_ERROR(H5E_BTREE, H5E_CANTUNPROTECT, FAIL, "unable to release v2 B-tree header")
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5B2_hdr_delete() */
+} /* end H5B2__hdr_delete() */
 
