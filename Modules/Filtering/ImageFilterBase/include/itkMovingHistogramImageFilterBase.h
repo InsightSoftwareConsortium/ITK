@@ -132,7 +132,7 @@ public:
 
   using OffsetListType = typename std::list< OffsetType >;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename Functor::LexicographicCompare< OffsetType > >;
+  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare >;
 
   /** Set kernel (structuring element). */
   void SetKernel(const KernelType & kernel) override;

@@ -76,7 +76,7 @@ public:
   using RegionType = typename LabelMapType::RegionType;
 
   using LayerType = std::map< InputType, OutputType,
-                    Functor::LexicographicCompare< InputType > >;
+                    Functor::LexicographicCompare >;
   using LayerIterator = typename LayerType::iterator;
   using LayerConstIterator = typename LayerType::const_iterator;
 

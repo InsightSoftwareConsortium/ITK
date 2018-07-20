@@ -86,7 +86,7 @@ public:
 
   using OffsetListType = typename std::list< OffsetType >;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare< OffsetType > >;
+  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare >;
 
   /** Set/Get the boundary value.
    *  Subclasses should set their own values. */

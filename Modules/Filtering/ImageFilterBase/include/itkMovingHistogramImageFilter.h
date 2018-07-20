@@ -129,7 +129,7 @@ public:
 
   using OffsetListType = typename std::list< OffsetType >;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename Functor::LexicographicCompare< OffsetType > >;
+  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare >;
 
   /** Configure the histogram.
    *  Subclasses must override this method. */
