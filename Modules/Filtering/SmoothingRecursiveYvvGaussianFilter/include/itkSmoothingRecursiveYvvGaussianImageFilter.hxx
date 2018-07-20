@@ -1,10 +1,27 @@
-#pragma once
-#ifndef _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_HXX_
-#  define _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_HXX_
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
-#  include "itkSmoothingRecursiveYvvGaussianImageFilter.h"
-#  include "itkImageRegionIteratorWithIndex.h"
-#  include "itkProgressAccumulator.h"
+#ifndef itkSmoothingRecursiveYvvGaussianImageFilter_hxx
+#define itkSmoothingRecursiveYvvGaussianImageFilter_hxx
+
+#include "itkSmoothingRecursiveYvvGaussianImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkProgressAccumulator.h"
 
 // #define VERBOSE
 
@@ -56,7 +73,7 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRe
   this->m_Sigma.Fill(0.0);
   this->SetSigma(1.0);
 
-#  ifdef VERBOSE
+#ifdef VERBOSE
   std::cout << "-----------Smoothing filter TYPES\n";
 
   if (typeid(typename TInputImage::PixelType) == typeid(double))
@@ -83,7 +100,7 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRe
     std::cout << "InternalRealType double\n";
   }
 
-#  endif
+#endif
 }
 
 template <typename TInputImage, typename TOutputImage>

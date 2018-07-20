@@ -1,12 +1,29 @@
-#pragma once
-#ifndef _ITK_RECURSIVE_LINE_YVV_GAUSSIAN_IMAGE_FILTER_HXX_
-#  define _ITK_RECURSIVE_LINE_YVV_GAUSSIAN_IMAGE_FILTER_HXX_
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
-#  include "itkRecursiveLineYvvGaussianImageFilter.h"
-#  include "itkObjectFactory.h"
-#  include "itkImageLinearIteratorWithIndex.h"
-#  include "itkImageLinearConstIteratorWithIndex.h"
-#  include "itkProgressReporter.h"
+#ifndef itkRecursiveLineYvvGaussianImageFilter_hxx
+#define itkRecursiveLineYvvGaussianImageFilter_hxx
+
+#include "itkRecursiveLineYvvGaussianImageFilter.h"
+#include "itkObjectFactory.h"
+#include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageLinearConstIteratorWithIndex.h"
+#include "itkProgressReporter.h"
 
 // #define VERBOSE
 
@@ -22,7 +39,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::RecursiveLineYvv
   this->InPlaceOff();
 
   m_ImageRegionSplitter = ImageRegionSplitterDirection::New();
-#  ifdef VERBOSE
+#ifdef VERBOSE
   std::cout << "-----------Line filter TYPES\n";
 
   if (typeid(typename TInputImage::PixelType) == typeid(double))
@@ -46,7 +63,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::RecursiveLineYvv
 
   /*if( typeid ( InternalRealType ) == typeid ( double ))
           std::cout<<"InternalRealType double\n"; */
-#  endif
+#endif
 }
 
 /**
@@ -136,7 +153,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarReal
 
   m_MMatrix /= (1 + m_B1 - m_B2 + m_B3) * (1 - m_B1 - m_B2 - m_B3) * (1 + m_B2 + (m_B1 - m_B3) * m_B3);
 
-#  ifdef VERBOSE
+#ifdef VERBOSE
   std::cout << "cB   " << m_B << std::endl;
   std::cout << "cB1  " << m_B1 << std::endl;
   std::cout << "cB2  " << m_B2 << std::endl;
@@ -149,7 +166,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarReal
       std::cout << "cM(" << i << "," << j << ")  " << m_MMatrix(i, j) << std::endl;
     }
   }
-#  endif
+#endif
 }
 
 /**

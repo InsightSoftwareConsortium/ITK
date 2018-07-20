@@ -1,28 +1,27 @@
 /*=========================================================================
  *
- * Copyright Insight Software Consortium
+ *  Copyright Insight Software Consortium
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *=========================================================================*/
 
-#pragma once
-#ifndef _ITK_RECURSIVE_LINE_YVV_GAUSSIAN_IMAGE_FILTER_H_
-#  define _ITK_RECURSIVE_LINE_YVV_GAUSSIAN_IMAGE_FILTER_H_
+#ifndef itkRecursiveLineYvvGaussianImageFilter_h
+#define itkRecursiveLineYvvGaussianImageFilter_h
 
-#  include <itkInPlaceImageFilter.h>
-#  include <itkNumericTraits.h>
-#  include <itkImageRegionSplitterDirection.h>
+#include <itkInPlaceImageFilter.h>
+#include <itkNumericTraits.h>
+#include <itkImageRegionSplitterDirection.h>
 
 namespace itk
 {
@@ -70,13 +69,13 @@ public:
    * meant for scalars.
    */
   typedef typename TInputImage::PixelType InputPixelType;
-#  ifdef WITH_DOUBLE
+#ifdef WITH_DOUBLE
   typedef typename NumericTraits<InputPixelType>::RealType       RealType;
   typedef typename NumericTraits<InputPixelType>::ScalarRealType ScalarRealType;
-#  else
+#else
   typedef typename NumericTraits<InputPixelType>::FloatType RealType;
   typedef typename NumericTraits<InputPixelType>::FloatType ScalarRealType;
-#  endif
+#endif
 
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
@@ -191,8 +190,8 @@ private:
 };
 } // end namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkRecursiveLineYvvGaussianImageFilter.hxx"
-#  endif
-
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkRecursiveLineYvvGaussianImageFilter.hxx"
 #endif
+
+#endif // itkRecursiveLineYvvGaussianImageFilter_h
