@@ -1,16 +1,34 @@
-#include <iostream>
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
 #include <fstream>
+#include <iostream>
 
 #include "itkCastImageFilter.h"
-#include "itkSmoothingRecursiveYvvGaussianImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkTimeProbe.h"
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkSmoothingRecursiveYvvGaussianImageFilter.h"
+#include "itkTimeProbe.h"
 
+#include "itkGPUContextManager.h"
 #include "itkGPUImage.h"
 #include "itkGPUKernelManager.h"
-#include "itkGPUContextManager.h"
 #include "itkGPUSmoothingRecursiveYvvGaussianImageFilter.h"
 
 
@@ -140,8 +158,8 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
     for (cit.GoToBegin(), git.GoToBegin(); !cit.IsAtEnd(); ++cit, ++git)
     {
       double err = (double)(cit.Get()) - (double)(git.Get());
-      //         if(err > 0.1 || (double)cit.Get() < 0.1) std::cout << "CPU : " << (double)(cit.Get()) << ", GPU : " <<
-      //         (double)(git.Get()) << std::endl;
+      //         if(err > 0.1 || (double)cit.Get() < 0.1) std::cout << "CPU : " << (double)(cit.Get()) << ", GPU : "
+      //         << (double)(git.Get()) << std::endl;
       diff += err * err;
       nPix++;
     }
