@@ -27,6 +27,7 @@
 #include "itkImportImageContainer.h"
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkProgressAccumulator.h"
+#include "itkDefaultConvertPixelTraits.h"
 
 namespace itk
 {
@@ -35,7 +36,7 @@ TileImageFilter< TInputImage, TOutputImage >
 ::TileImageFilter()
 {
   m_Layout.Fill(0);
-  m_DefaultPixelValue = NumericTraits< OutputPixelType >::ZeroValue();
+  m_DefaultPixelValue = NumericTraits< OutputPixelType >::ZeroValue(m_DefaultPixelValue);
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -48,12 +49,25 @@ TileImageFilter< TInputImage, TOutputImage >
 
   typename TOutputImage::Pointer output = this->GetOutput();
 
+  typedef typename TInputImage::template Rebind<InputPixelType, OutputImageDimension>::Type TempImageType;
 
-  typedef Image< InputPixelType, OutputImageDimension > TempImageType;
+  OutputPixelType defaultPixelValue = m_DefaultPixelValue;
+  if (NumericTraits<OutputPixelType>::GetLength(defaultPixelValue) == 0)
+    {
+    const OutputPixelComponentType zeroComponent = NumericTraits<OutputPixelComponentType>::ZeroValue();
+    const unsigned int nComponents = output->GetNumberOfComponentsPerPixel();
+    NumericTraits<OutputPixelType>::SetLength(defaultPixelValue, nComponents );
+    for (unsigned int n=0; n<nComponents; n++)
+      {
+      DefaultConvertPixelTraits<OutputPixelType>::SetNthComponent( n,
+                                                                   defaultPixelValue,
+                                                                   zeroComponent );
+      }
+    }
 
   // Allocate the output and initialize to default value
   this->AllocateOutputs();
-  output->FillBuffer(m_DefaultPixelValue);
+  output->FillBuffer(defaultPixelValue);
 
   ImageRegionIterator< TileImageType > it( m_TileImage, m_TileImage->GetBufferedRegion() );
   it.GoToBegin();
@@ -105,7 +119,7 @@ TileImageFilter< TInputImage, TOutputImage >
 
       const TInputImage * inputImage = this->GetInput( it.Get().m_ImageNumber );
 
-      typedef ImportImageContainer< SizeValueType, InputPixelType > PixelContainerType;
+      typedef typename TempImageType::PixelContainer PixelContainerType;
 
       tempImage->SetPixelContainer( const_cast< PixelContainerType * >( inputImage->GetPixelContainer() ) );
 
@@ -127,7 +141,7 @@ TileImageFilter< TInputImage, TOutputImage >
 {
   for ( unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); i++ )
     {
-    TInputImage *input = const_cast< TInputImage * >( this->GetInput(i) );
+    TInputImage * input = const_cast< TInputImage * >( this->GetInput(i) );
     if ( input )
       {
       input->SetRequestedRegionToLargestPossibleRegion();
@@ -140,13 +154,18 @@ void
 TileImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
+
+  // Do not call the superclass's GenerateOutptuInformation method.
+  // The input images are likely a different dimension than the input,
+  // so the superclass's implementation is not compatible.
+
   // Supply spacing, origin and LargestPossibleRegion for the output.
   // This method does most of the work for this filter. In addition to
   // the spacing, origin and region, this method computes the source
   // region and destination index for multiple invocations of the
   // PasteImageFilter.
-  OutputImagePointer outputPtr = this->GetOutput();
-  InputImagePointer  inputPtr = const_cast< TInputImage * >( this->GetInput() );
+  TOutputImage * outputPtr = this->GetOutput();
+  TInputImage *  inputPtr = const_cast< TInputImage * >( this->GetInput() );
 
   if ( !outputPtr || !inputPtr )
     {
@@ -336,6 +355,58 @@ TileImageFilter< TInputImage, TOutputImage >
   outputLargestPossibleRegion.SetSize(outputSize);
   outputLargestPossibleRegion.SetIndex(outputIndex);
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+
+  // Support VectorImages by setting number of components on output.
+  const unsigned int numComponents = inputPtr->GetNumberOfComponentsPerPixel();
+  if ( numComponents != outputPtr->GetNumberOfComponentsPerPixel() )
+    {
+    outputPtr->SetNumberOfComponentsPerPixel( numComponents );
+    }
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+TileImageFilter< TInputImage, TOutputImage >
+::VerifyInputInformation()
+{
+
+  // Do not call superclass's VerifyInputInformation method.
+  // Intentionally do not verify input's spacing, direction or origin
+  // since the images are going to be tiled in some way which likely
+  // has no physical location meaning.
+
+  // Verify that all input have the same number of components
+
+  typename TInputImage::ConstPointer image = this->GetInput();
+
+  if( image.IsNull() )
+    {
+    itkExceptionMacro( << "Input not set as expected!" );
+    }
+
+  const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();
+
+  typename Superclass::DataObjectPointerArraySizeType idx = 1;
+
+  for(; idx < this->GetNumberOfIndexedInputs(); ++idx )
+    {
+    image = this->GetInput(idx);
+
+    // If the input was not set it could still be null
+    if( image.IsNull() )
+      {
+      // An invalid requested region exception will be generated later.
+      continue;
+      }
+
+
+    if( numComponents != image->GetNumberOfComponentsPerPixel() )
+      {
+      itkExceptionMacro( << "Primary input has " << numComponents << " numberOfComponents "
+                         << "but input " << idx << " has "
+                         << image->GetNumberOfComponentsPerPixel() << "!" );
+      }
+    }
 }
 
 template< typename TInputImage, typename TOutputImage >

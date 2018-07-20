@@ -73,6 +73,8 @@ public:
   typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
+  typedef typename NumericTraits<OutputPixelType>::ValueType OutputPixelComponentType;
+
   typedef typename TInputImage::SizeType    InputSizeType;
   typedef typename TInputImage::IndexType   InputIndexType;
   typedef typename TInputImage::RegionType  InputImageRegionType;
@@ -144,7 +146,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TileImageFilter);
