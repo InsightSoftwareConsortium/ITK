@@ -23,19 +23,11 @@
 
 #  include "itkGPUSmoothingRecursiveYvvGaussianImageFilter.h"
 
-// #define VERBOSE
 namespace itk
 {
-/**
- * Constructor
- */
 template <typename TInputImage, typename TOutputImage>
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUSmoothingRecursiveYvvGaussianImageFilter()
 {
-#  ifdef VERBOSE
-  telltale = rand();
-  std::cout << telltale << ". GPUSmoothing::constructor \n";
-#  endif
   m_NormalizeAcrossScale = false;
   otPtr = dynamic_cast<GPUOutputImage *>(this->ProcessObject::GetOutput(0));
 
@@ -79,32 +71,19 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::BuildKer
   GetTypenameInString(typeid(ScalarRealType), defines);
   defines << "#define MAX_LINE_LENGTH " << maxLineSize << "\n";
 
-#  ifdef VERBOSE
-  std::cout << telltale << ".   Defines: \n" << defines.str() << "\n";
-#  endif
-
   // load, build, create kernel
   this->m_GPUKernelManager->LoadProgramFromString(GPUSource, defines.str().c_str());
   m_FilterGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("YvvFilter");
 }
 
-/**
- *   Compute filter for Gaussian kernel.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType spacing)
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ". GPUSmoothing::SetUp with spacing " << spacing << "\n";
-#  endif
   const ScalarRealType sigmad = this->GetSigma() / spacing;
 
   if (this->GetSigma() >= 0.5)
   {
-#  ifdef VERBOSE
-    std::cout << telltale << ". GPUSmoothing::SetUp with sigma " << m_Sigma << "\n";
-#  endif
     // Compute q according to 16 in Young et al on Gabor filering
     ScalarRealType q = 0;
     if (sigmad >= 3.556)
@@ -155,17 +134,18 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(Sc
       (m_B1 * m_B2 + m_B3 * m_B2 * m_B2 - m_B1 * m_B3 * m_B3 - m_B3 * m_B3 * m_B3 - m_B3 * m_B2 + m_B3) / factor;
     m_CPUMatrix[8] = (m_B3 * (m_B1 + m_B3 * m_B2)) / factor;
 
-#  ifdef VERBOSE
-    for (int i = 0; i < 4; ++i)
+    if (this->GetDebug())
     {
-      std::cout << "B" << i << "  " << m_Bvalues[i] << std::endl;
-    }
+      for (int i = 0; i < 4; ++i)
+      {
+        std::cout << "B" << i << "  " << m_Bvalues[i] << std::endl;
+      }
 
-    for (int i = 0; i < 9; ++i)
-    {
-      std::cout << "M" << i << "  " << m_CPUMatrix[i] << std::endl;
+      for (int i = 0; i < 9; ++i)
+      {
+        std::cout << "M" << i << "  " << m_CPUMatrix[i] << std::endl;
+      }
     }
-#  endif
     this->AllocateGPUCoefficients();
     this->Modified();
   }
@@ -175,9 +155,6 @@ template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetInput(const TInputImage * input)
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ".   GPUSmoothingRecursiveYvvGaussianImageFilter::SetInput \n";
-#  endif
   // ProcessObject is not const_correct so this const_cast is required
   ProcessObject::SetNthInput(0, const_cast<TInputImage *>(input));
 
@@ -199,27 +176,18 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetInput
   }
 }
 
-// Set value of Sigma (isotropic)
 template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(ScalarRealType sigma)
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ". GPUSmoothing::SetSigma: " << sigma << " \n";
-#  endif
   SigmaArrayType sigmas(sigma);
   this->SetSigmaArray(sigmas);
 }
-
-// Set value of Sigma (an-isotropic)
 
 template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(const SigmaArrayType & sigma)
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ". GPUSmoothing::SetSigmaArray" << m_Sigma << " vs new: " << sigma[0] << " \n";
-#  endif
   if (this->m_Sigma != sigma)
   {
     this->m_Sigma = sigma;
@@ -227,24 +195,16 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetSigma
     const typename InputImageType::SpacingType & pixelSize = this->GetOutput()->GetSpacing();
     if (pixelSize[0] != 0)
     {
-#  ifdef VERBOSE
-      std::cout << telltale << ". GPUSmoothing::SetSigmaArray. pixelSize: [" << pixelSize[0] << "," << pixelSize[1]
-                << "," << pixelSize[2] << "] \n";
-#  endif
       this->SetUp(pixelSize[0]);
     }
     this->Modified();
   }
 }
 
-// Get the sigma array.
 template <typename TInputImage, typename TOutputImage>
 typename GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SigmaArrayType
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray() const
 {
-  /*#ifdef VERBOSE
-          std::cout<< telltale << ". GPUSmoothing::GetSigmaArray \n";
-  #endif*/
   return m_Sigma;
 }
 
@@ -254,22 +214,13 @@ template <typename TInputImage, typename TOutputImage>
 typename GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::ScalarRealType
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
 {
-  /*#ifdef VERBOSE
-          std::cout<< telltale << ". GPUSmoothing::GetSigma \n";
-  #endif*/
   return m_Sigma[0];
 }
 
-/**
- * Set Normalize Across Scale Space
- */
 template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcrossScale(bool normalize)
 {
-  /*#ifdef VERBOSE
-          std::cout<< telltale << ". GPUSmoothing::SetNormalizeAcrossScale \n";
-  #endif*/
   m_NormalizeAcrossScale = normalize;
   this->Modified();
 }
@@ -279,9 +230,6 @@ void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion() throw(
   InvalidRequestedRegionError)
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ". GPUSmoothing::GenerateInputRequestedRegion \n";
-#  endif
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
@@ -300,9 +248,6 @@ void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(
   DataObject * output)
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ". GPUSmoothing::EnlargeOutputRequestedRegion \n";
-#  endif
   TOutputImage * out = dynamic_cast<TOutputImage *>(output);
 
   if (out)
@@ -315,10 +260,6 @@ template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::AllocateGPUCoefficients()
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ".   GPUSmoothingRecursiveYvvGaussianImageFilter::AllocateGPUInputBuffer \n";
-#  endif
-
   m_GPUBCoefficientsDataManager = GPUDataManager::New();
   m_GPUBCoefficientsDataManager->SetBufferSize(4 * sizeof(ScalarRealType));
   m_GPUBCoefficientsDataManager->SetCPUBufferPointer(m_Bvalues);
@@ -347,9 +288,6 @@ template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData(void)
 {
-#  ifdef VERBOSE
-  std::cout << telltale << ".    GPUSmoothing::GPUGenerateData \n";
-#  endif
   if (m_FilterGPUKernelHandle == -1)
   {
     this->BuildKernel();
@@ -370,9 +308,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
   for (int i = 0; i < ndim; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, argidx++, sizeof(int), &(m_requestedSize[i]));
-#  ifdef VERBOSE
-    std::cout << telltale << ".Arg     " << argidx << ": " << m_requestedSize[i] << "\n";
-#  endif
   }
 
   const unsigned int dimArg = argidx;
@@ -382,17 +317,11 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
     int globalSize1D = (m_requestedSize[1] > m_requestedSize[0] ? m_requestedSize[1] : m_requestedSize[0]);
 
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, dimArg, sizeof(unsigned int), &(X));
-#  ifdef VERBOSE
-    std::cout << telltale << ". Calling 1D kernel on X.\n";
-#  endif
     this->m_GPUKernelManager->LaunchKernel1D(m_FilterGPUKernelHandle, globalSize1D, 16);
 
     // change ONLY input and direction of filter
     this->m_GPUKernelManager->SetKernelArgWithImage(m_FilterGPUKernelHandle, 0, otPtr->GetGPUDataManager());
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, dimArg, sizeof(unsigned int), &(Y));
-#  ifdef VERBOSE
-    std::cout << telltale << ". Calling 1D kernel on Y.\n";
-#  endif
     this->m_GPUKernelManager->LaunchKernel1D(m_FilterGPUKernelHandle, globalSize1D, 16);
   }
   else
@@ -401,25 +330,16 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
     //  dimension.
 
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, argidx++, sizeof(unsigned int), &(X));
-#  ifdef VERBOSE
-    std::cout << telltale << ". Calling 2D kernel on X.\n";
-#  endif
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[2], m_requestedSize[1], 16, 16);
 
     // change ONLY input and direction of filter
     this->m_GPUKernelManager->SetKernelArgWithImage(m_FilterGPUKernelHandle, 0, otPtr->GetGPUDataManager());
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, dimArg, sizeof(unsigned int), &(Y));
-#  ifdef VERBOSE
-    std::cout << telltale << ". Calling 2D kernel on Y.\n";
-#  endif
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[0], m_requestedSize[2], 16, 16);
 
     // input is already pointing to previous output; change ONLY direction of
     //  filter
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, dimArg, sizeof(unsigned int), &(Z));
-#  ifdef VERBOSE
-    std::cout << telltale << ". Calling 2D kernel on Z.\n";
-#  endif
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[0], m_requestedSize[1], 16, 16);
   }
 }
@@ -429,9 +349,6 @@ void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
                                                                                   Indent         indent) const
 {
-  /*#ifdef VERBOSE
-          std::cout<< telltale << ". GPUSmoothing::PrintSelf \n";
-  #endif*/
   Superclass::PrintSelf(os, indent);
 
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;

@@ -36,9 +36,6 @@ writeImage(std::string filterLabel, ImageType * result)
   typedef itk::Image<unsigned char, ImageType::ImageDimension>   UnsignedCharImageType;
   typedef itk::CastImageFilter<ImageType, UnsignedCharImageType> CastFilterType;
   typedef itk::ImageFileWriter<UnsignedCharImageType>            WriterType;
-#ifdef VERBOSE
-  std::cout << "..........." << filterLabel << ": Preparing to write out filtered image.\n";
-#endif
 
   std::string outputFilename = filterLabel;
 
@@ -66,10 +63,6 @@ writeImage(std::string filterLabel, ImageType * result)
   {
     std::cerr << e << std::endl;
   }
-
-#ifdef VERBOSE
-  std::cout << "..........." << filterLabel << ": result written to " << outputFilename << "\n";
-#endif
 }
 
 
@@ -125,10 +118,6 @@ testCpuFilter(std::string &                                 filterLabel,
               std::string                                   parameters,
               itk::TimeProbesCollectorBase *                timeCollector)
 {
-#ifdef VERBOSE
-  std::cout << "-----------" << filterLabel << ": Starting tests.\n";
-#endif
-
   typedef typename FilterType::InputImageType InputImage;
   typename InputImage::Pointer                src;
   void *                                      imgPtr = &src;
@@ -160,9 +149,6 @@ testCpuFilter(std::string &                                 filterLabel,
   {
     src->Modified();
     filter->Modified();
-#ifdef VERBOSE
-    std::cout << "-----------" << filterLabel << ": Start.\n";
-#endif
 
     timeCollector->Start(filterLabel.c_str());
     filter->Update();
@@ -170,10 +156,6 @@ testCpuFilter(std::string &                                 filterLabel,
     timeCollector->Stop(filterLabel.c_str());
 
     writeImage<typename FilterType::InputImageType>(filterLabel + parameters, filter->GetOutput());
-
-#ifdef VERBOSE
-    std::cout << "-----------" << filterLabel << ": Stop.\n";
-#endif
   }
 
   src->DisconnectPipeline();
@@ -196,9 +178,6 @@ testGpuFilter(std::string &                                 filterLabel,
               itk::TimeProbesCollectorBase *                timeCollector,
               bool                                          measureWithSync)
 {
-#  ifdef VERBOSE
-  std::cout << "-----------" << filterLabel << ": Starting tests.\n";
-#  endif
   typedef typename FilterType::InputImageType InputImage;
 
   typename InputImage::Pointer src;
@@ -232,9 +211,6 @@ testGpuFilter(std::string &                                 filterLabel,
   {
     // src->Modified(); //No need, filter->Update forces call to GPUGenerateData()
     filter->Modified();
-#  ifdef VERBOSE
-    std::cout << "-----------" << filterLabel << ": Start run.\n";
-#  endif
     if (measureWithSync)
     {
       timeCollector->Start(filterLabel.c_str());
@@ -250,10 +226,6 @@ testGpuFilter(std::string &                                 filterLabel,
       filter->GetOutput()->UpdateBuffers();
     }
     writeImage<InputImage>(filterLabel + parameters, filter->GetOutput());
-
-#  ifdef VERBOSE
-    std::cout << "-----------" << filterLabel << ": Stop.\n";
-#  endif
   }
 
   src->DisconnectPipeline();

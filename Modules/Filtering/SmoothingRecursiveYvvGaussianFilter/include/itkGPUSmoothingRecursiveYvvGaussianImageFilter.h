@@ -200,7 +200,6 @@ private:
   typename GPUOutputImage::SizeType m_requestedSize;
   /** Standard deviation of the gaussian used for smoothing */
   SigmaArrayType m_Sigma;
-  int            telltale; // TODO: REMOVE
 };
 } // end namespace itk
 

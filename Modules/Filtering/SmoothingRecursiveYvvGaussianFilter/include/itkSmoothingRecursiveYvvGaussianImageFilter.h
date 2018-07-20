@@ -113,27 +113,21 @@ public:
    axis. */
   void
   SetSigmaArray(const SigmaArrayType & sigmas);
-
   void
   SetSigma(ScalarRealType sigma);
-
   SigmaArrayType
   GetSigmaArray() const;
-
   ScalarRealType
   GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian */
   void
   SetNormalizeAcrossScale(bool normalizeInScaleSpace);
-
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   void
   SetNumberOfThreads(ThreadIdType nb) override;
 
-  // See super class for doxygen documentation
-  //
   bool
   CanRunInPlace(void) const override;
 
@@ -174,7 +168,6 @@ private:
 
   /** Standard deviation of the gaussian used for smoothing */
   SigmaArrayType m_Sigma;
-  int            telltale; // TODO: REMOVE
 };
 } // end namespace itk
 
