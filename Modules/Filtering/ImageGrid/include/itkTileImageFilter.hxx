@@ -50,8 +50,6 @@ TileImageFilter< TInputImage, TOutputImage >
 
   TOutputImage* output = this->GetOutput();
 
-  typedef typename TInputImage::template Rebind<InputPixelType, OutputImageDimension>::Type TempImageType;
-
   using TempImageType = typename TInputImage::template RebindImageType<InputPixelType, OutputImageDimension>;
 
   OutputPixelType defaultPixelValue = m_DefaultPixelValue;
