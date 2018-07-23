@@ -25,23 +25,22 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash 84c2851a4df419b5834114bbfafa8d3e)
-    set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-linux.tar.gz")
+    set(_castxml_hash 1e0f51ab98592ac9934bb1c93040fd473519a02d1e3ce0090443f4f3566eb8354eb3e5bd04a2c91d832d33d0d712363c508bd2304da34db9963787890808ec9e)
+    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash b862fcc384b496c0d9a39dea0386454a)
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460537/castxml-windows.zip)
-    set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-windows.zip")
+    set(_castxml_hash 2fa32cd083ed901499774eb34249c70c2d32a93c55e27dbb62f5ec3c7386ab6745dbbad78c653a0909b05b5d965839ec31ad9fca294cc0b7af9dfc15e2a7e063)
+    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash e784aa985f59f57f4d71339bd60e27a8)
-    set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-macosx.tar.gz")
+    set(_castxml_hash 1c379ea91f4c0d9b8127d841edee7c415fdde40665a2a3682aef22def75bd1cea99d26bb3b1b243e61e976d78233ed12a2614236e76206d1ae083583f4bc17ea)
+    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   endif()
@@ -53,7 +52,7 @@ else()
     endif()
     ExternalProject_Add(castxml
       URL ${_castxml_url}
-      URL_MD5 ${_castxml_hash}
+      URL_HASH SHA512=${_castxml_hash}
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -98,10 +97,10 @@ else()
         itk_download_attempt_check(Clang)
       endif()
       set(llvm_version 5.0.0)
-      set(llvm_md5 e3782305ff4a60ad9bbc3a926425786f)
+      set(llvm_hash a65412cb45c73f73fcdef8016d3538114c1d0d1c6a5ed030a20e5049a6582b7926f184f2a3c065550e92e8ac27743bbf1a87b76be85949c0114d0320264018bd)
       ExternalProject_Add(llvm
-        URL https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${llvm_md5}&name=llvm-${llvm_version}.src.tar.gz
-        URL_MD5 ${llvm_md5}
+        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${llvm_hash}/download"
+        URL_HASH SHA512=${llvm_hash}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
         CMAKE_ARGS -Wno-dev
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
@@ -115,13 +114,13 @@ else()
           -DLLVM_INCLUDE_DOCS:BOOL=OFF
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
         )
-      set(clang_md5 79eddb9b1f6e6ee8e9eeff1245d3f359)
+      set(clang_hash f4d46cb0e76b84d8270da7bc62927c6c3acfa42cf9982012842f5e56b4b846ca4fc6ddb1ed6370cc5b6cd224c0dc420a7f3550d867855c23bcc20a3a3ee2d1bc)
       ExternalProject_Add(clang
         # This is the upstream source code repackages in a .tar.gz for
         # compatibility with older CMake. Also the tests/ and doc/ directories
         # are removed to remove symlink files and save space.
-        URL https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${clang_md5}&name=cfe-${llvm_version}.src.tar.gz
-        URL_MD5 ${clang_md5}
+        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${clang_hash}/download"
+        URL_HASH SHA512=${clang_hash}
         DEPENDS llvm
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
         CMAKE_ARGS -Wno-dev

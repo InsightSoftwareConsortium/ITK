@@ -304,7 +304,7 @@ Run the scripts
 ```
 
 to upload the testing data from a local store on the ITK
-https://midas3.kitware.com/midas/ and http://slicer.kitware.com/midas3/
+http://slicer.kitware.com/midas3/
 community. This script requires that pydas is installed.
 
 Note: If you get the following error message:
