@@ -82,15 +82,15 @@ else()
     endif()
 
     set(_fftw_target_version 3.3.4)
-    set(_fftw_url_md5 "2edab8c06b24feeb3b82bbb3ebf3e7b3")
-    set(_fftw_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_fftw_url_md5}&name=fftw-${_fftw_target_version}.tar.gz")
+    set(_fftw_url_hash "1ee2c7bec3657f6846e63c6dfa71410563830d2b951966bf0123bd8f4f2f5d6b50f13b76d9a7b0eae70e44856f829ca6ceb3d080bb01649d1572c9f3f68e8eb1")
+    set(_fftw_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_fftw_url_hash}/download")
 
     if(ITK_USE_FFTWF)
       itk_download_attempt_check(FFTW)
       ExternalProject_add(fftwf
         PREFIX fftwf
         URL "${_fftw_url}"
-        URL_MD5 "${_fftw_url_md5}"
+        URL_HASH SHA512="${_fftw_url_hash}"
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
@@ -118,7 +118,7 @@ else()
       ExternalProject_add(fftwd
         PREFIX fftwd
         URL "${_fftw_url}"
-        URL_MD5 "${_fftw_url_md5}"
+        URL_HASH SHA512="${_fftw_url_hash}"
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
