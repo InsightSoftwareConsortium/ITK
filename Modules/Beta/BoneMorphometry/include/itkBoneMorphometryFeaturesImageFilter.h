@@ -69,11 +69,11 @@ public ImageToImageFilter< TInputImage, TOutputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoneMorphometryFeaturesImageFilter);
 
-  /** Standard Self typedef */
-  typedef BoneMorphometryFeaturesImageFilter              Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard Self type alias. */
+  using Self = BoneMorphometryFeaturesImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,31 +81,31 @@ public:
   /** Runtime information support. */
   itkTypeMacro(BoneMorphometryFeaturesImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer    InputImagePointer;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
 
-  /** Mask related typedefs. */
-  typedef typename TMaskImage::Pointer    MaskImagePointer;
+  /** Mask related type alias. */
+  using MaskImagePointer = typename TMaskImage::Pointer;
 
-  /** Output related typedefs. */
-  typedef typename TOutputImage::Pointer                            OutputImagePointer;
-  typedef typename TOutputImage::RegionType                         OutputRegionType;
-  typedef typename TOutputImage::PixelType                          OutputPixelType;
-  typedef typename NumericTraits< OutputPixelType >::ScalarRealType OutputRealType;
+  /** Output related type alias. */
+  using OutputImagePointer = typename TOutputImage::Pointer; 
+  using OutputRegionType = typename TOutputImage::RegionType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputRealType = typename NumericTraits< OutputPixelType >::ScalarRealType;
 
-  /** NeighborhoodIterator typedef */
-  typedef ConstantBoundaryCondition< TInputImage >                           BoundaryConditionType;
-  typedef ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >    NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::RadiusType                      NeighborhoodRadiusType;
-  typedef typename NeighborhoodIteratorType::OffsetType                      NeighborhoodOffsetType;
-  typedef typename NeighborhoodIteratorType::NeighborIndexType               NeighborIndexType;
+  /** NeighborhoodIterator type alias. */
+  using BoundaryConditionType = ConstantBoundaryCondition< TInputImage >;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >;
+  using NeighborhoodRadiusType = typename NeighborhoodIteratorType::RadiusType;
+  using NeighborhoodOffsetType = typename NeighborhoodIteratorType::OffsetType;
+  using NeighborIndexType = typename NeighborhoodIteratorType::NeighborIndexType;
 
   /** Type to use for computations. */
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Methods to set/get the mask image */
   itkSetInputMacro(MaskImage, TMaskImage);
@@ -131,20 +131,18 @@ public:
 
 protected:
   BoneMorphometryFeaturesImageFilter();
-  virtual ~BoneMorphometryFeaturesImageFilter() {}
+  ~BoneMorphometryFeaturesImageFilter() override {}
 
-  /** Do final mean and variance computation from data accumulated in threads.
-    */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  /** Do final mean and variance computation from data accumulated in threads. */
+  void GenerateOutputInformation() override;
 
   /** Multi-thread version GenerateData. */
-  virtual void  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) ITK_OVERRIDE;
+  virtual void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
   bool IsInsideNeighborhood(const NeighborhoodOffsetType &iteratedOffset);
   bool IsInsideMaskRegion(const IndexType &imageIndex, const typename TMaskImage::SizeType &maskSize);
 
-
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

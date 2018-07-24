@@ -38,18 +38,17 @@ int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] 
     return EXIT_FAILURE;
     }
 
-  const unsigned int ImageDimension = 3;
-  const unsigned int VectorComponentDimension = 5;
+  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int VectorComponentDimension = 5;
 
   // Declare types
-  typedef float                                         InputPixelType;
-  typedef itk::Image< InputPixelType, ImageDimension >  InputImageType;
-  typedef itk::ImageFileReader< InputImageType >        ReaderType;
+  using InputPixelType = float;
+  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef float                                         OutputPixelComponentType;
-  typedef itk::Vector< OutputPixelComponentType, VectorComponentDimension >
-                                                        OutputPixelType;
-  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
+  using OutputPixelComponentType = float;
+  using OutputPixelType = itk::Vector< OutputPixelComponentType, VectorComponentDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
@@ -60,7 +59,7 @@ int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] 
   maskReader->SetFileName( argv[2] );
 
   // Create the filter
-  typedef itk::BoneMorphometryFeaturesImageFilter<InputImageType, OutputImageType, InputImageType> FilterType;
+  using FilterType = itk::BoneMorphometryFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
 
@@ -70,13 +69,13 @@ int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] 
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  typedef itk::ReplaceFeatureMapNanInfImageFilter<OutputImageType> PostProcessingFilterType;
+  using PostProcessingFilterType = itk::ReplaceFeatureMapNanInfImageFilter<OutputImageType>;
   PostProcessingFilterType::Pointer postProcessingFilter = PostProcessingFilterType::New();
 
   postProcessingFilter->SetInput( filter->GetOutput() );
 
   // Create and set up a writer
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( postProcessingFilter->GetOutput() );

@@ -69,7 +69,7 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
     TImage* outputPtr = this->GetOutput();
     outputPtr->SetRegions( this->GetInput()->GetLargestPossibleRegion());
     outputPtr->Allocate();
-    typedef ImageRegionIterator< TImage > IteratorType;
+    using IteratorType = ImageRegionIterator< TImage >;
     IteratorType outputIt( outputPtr, outputPtr->GetLargestPossibleRegion() );
     outputIt.GoToBegin();
     interIt.GoToBegin();
