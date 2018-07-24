@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
@@ -164,15 +165,7 @@ protected:
    */
   void AfterThreadedGenerateData() override;
 
-  /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const RegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
-
-  void DynamicThreadedGenerateData( const RegionType &) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  void DynamicThreadedGenerateData( const RegionType &) override;
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion() override;
@@ -181,11 +174,13 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  Array< RealType >       m_ThreadSum;
-  Array< RealType >       m_SumOfSquares;
-  Array< SizeValueType >  m_Count;
-  Array< PixelType >      m_ThreadMin;
-  Array< PixelType >      m_ThreadMax;
+  RealType       m_ThreadSum;
+  RealType       m_SumOfSquares;
+  SizeValueType  m_Count;
+  PixelType      m_ThreadMin;
+  PixelType      m_ThreadMax;
+
+  SimpleFastMutexLock m_Mutex;
 }; // end of class
 } // end namespace itk
 

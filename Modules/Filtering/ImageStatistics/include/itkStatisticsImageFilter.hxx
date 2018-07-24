@@ -21,13 +21,18 @@
 
 
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkMutexLockHolder.h"
 
 namespace itk
 {
 template< typename TInputImage >
 StatisticsImageFilter< TInputImage >
-::StatisticsImageFilter():m_ThreadSum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
+::StatisticsImageFilter()
+  :m_ThreadSum(1),
+   m_SumOfSquares(1),
+   m_Count(1),
+   m_ThreadMin(1),
+   m_ThreadMax(1)
 {
   // first output is a copy of the image, DataObject created by superclass
   //
@@ -55,7 +60,6 @@ StatisticsImageFilter< TInputImage >
   this->GetVarianceOutput()->Set( NumericTraits< RealType >::max() );
   this->GetSumOutput()->Set(NumericTraits< RealType >::ZeroValue());
   this->GetSumOfSquaresOutput()->Set(NumericTraits< RealType >::ZeroValue());
-  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage >
@@ -243,21 +247,13 @@ void
 StatisticsImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
   // Resize the thread temporaries
-  m_Count.SetSize(numberOfThreads);
-  m_SumOfSquares.SetSize(numberOfThreads);
-  m_ThreadSum.SetSize(numberOfThreads);
-  m_ThreadMin.SetSize(numberOfThreads);
-  m_ThreadMax.SetSize(numberOfThreads);
+  m_Count = NumericTraits< SizeValueType >::ZeroValue();
+  m_SumOfSquares = NumericTraits< RealType >::ZeroValue();
+  m_ThreadSum = NumericTraits< RealType >::ZeroValue();
+  m_ThreadMin = NumericTraits< PixelType >::max();
+  m_ThreadMax = NumericTraits< PixelType >::NonpositiveMin();
 
-  // Initialize the temporaries
-  m_Count.Fill(NumericTraits< SizeValueType >::ZeroValue());
-  m_ThreadSum.Fill(NumericTraits< RealType >::ZeroValue());
-  m_SumOfSquares.Fill(NumericTraits< RealType >::ZeroValue());
-  m_ThreadMin.Fill( NumericTraits< PixelType >::max() );
-  m_ThreadMax.Fill( NumericTraits< PixelType >::NonpositiveMin() );
 }
 
 template< typename TInputImage >
@@ -265,48 +261,16 @@ void
 StatisticsImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
 {
-  ThreadIdType    i;
-  SizeValueType   count;
-  RealType        sumOfSquares;
+  const SizeValueType count = m_Count;
+  const RealType      sumOfSquares = m_SumOfSquares;
+  const PixelType     minimum = m_ThreadMin;
+  const PixelType     maximum = m_ThreadMax;
+  const RealType      sum = m_ThreadSum;
 
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
-  PixelType minimum;
-  PixelType maximum;
-  RealType  mean;
-  RealType  sigma;
-  RealType  variance;
-  RealType  sum;
-
-  sum = sumOfSquares = NumericTraits< RealType >::ZeroValue();
-  count = 0;
-
-  // Find the min/max over all threads and accumulate count, sum and
-  // sum of squares
-  minimum = NumericTraits< PixelType >::max();
-  maximum = NumericTraits< PixelType >::NonpositiveMin();
-  for ( i = 0; i < numberOfThreads; i++ )
-    {
-    count += m_Count[i];
-    sum += m_ThreadSum[i];
-    sumOfSquares += m_SumOfSquares[i];
-
-    if ( m_ThreadMin[i] < minimum )
-      {
-      minimum = m_ThreadMin[i];
-      }
-    if ( m_ThreadMax[i] > maximum )
-      {
-      maximum = m_ThreadMax[i];
-      }
-    }
-  // compute statistics
-  mean = sum / static_cast< RealType >( count );
-
-  // unbiased estimate
-  variance = ( sumOfSquares - ( sum * sum / static_cast< RealType >( count ) ) )
-             / ( static_cast< RealType >( count ) - 1 );
-  sigma = std::sqrt(variance);
+  const RealType  mean = sum / static_cast< RealType >( count );
+  const RealType  variance = ( sumOfSquares - ( sum * sum / static_cast< RealType >( count ) ) )
+    / ( static_cast< RealType >( count ) - 1 );
+  const RealType  sigma = std::sqrt(variance);
 
   // Set the outputs
   this->GetMinimumOutput()->Set(minimum);
@@ -321,16 +285,8 @@ StatisticsImageFilter< TInputImage >
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const RegionType & regionForThread)
 {
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if( size0 == 0)
-    {
-    return;
-    }
-  RealType  realValue;
-  PixelType value;
 
   RealType sum = NumericTraits< RealType >::ZeroValue();
   RealType sumOfSquares = NumericTraits< RealType >::ZeroValue();
@@ -338,27 +294,17 @@ StatisticsImageFilter< TInputImage >
   PixelType min = NumericTraits< PixelType >::max();
   PixelType max = NumericTraits< PixelType >::NonpositiveMin();
 
-  ImageScanlineConstIterator< TInputImage > it (this->GetInput(),  outputRegionForThread);
-
-  // support progress methods/callbacks
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, static_cast<itk::SizeValueType>( numberOfLinesToProcess ) );
+  ImageScanlineConstIterator< TInputImage > it (this->GetInput(),  regionForThread);
 
   // do the work
   while ( !it.IsAtEnd() )
     {
     while ( !it.IsAtEndOfLine() )
       {
-      value = it.Get();
-      realValue = static_cast< RealType >( value );
-      if ( value < min )
-        {
-        min = value;
-        }
-      if ( value > max )
-        {
-        max  = value;
-        }
+      const PixelType& value  = it.Get();
+      const RealType    realValue = static_cast< RealType >( value );
+      min = std::min(min, value);
+      max = std::max(max, value);
 
       sum += realValue;
       sumOfSquares += ( realValue * realValue );
@@ -366,14 +312,15 @@ StatisticsImageFilter< TInputImage >
       ++it;
       }
     it.NextLine();
-    progress.CompletedPixel();
+
     }
 
-  m_ThreadSum[threadId] = sum;
-  m_SumOfSquares[threadId] = sumOfSquares;
-  m_Count[threadId] = count;
-  m_ThreadMin[threadId] = min;
-  m_ThreadMax[threadId] = max;
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  m_ThreadSum += sum;
+  m_SumOfSquares += sumOfSquares;
+  m_Count += count;
+  m_ThreadMin = std::min( min, m_ThreadMin );
+  m_ThreadMax = std::max( max, m_ThreadMax );
 }
 
 template< typename TImage >
@@ -383,6 +330,7 @@ StatisticsImageFilter< TImage >
 {
   Superclass::PrintSelf(os, indent);
 
+  os << indent << "Count: " << static_cast< typename NumericTraits<SizeValueType>::PrintType>( this->m_Count ) << std::endl;
   os << indent << "Minimum: "
      << static_cast< typename NumericTraits< PixelType >::PrintType >( this->GetMinimum() ) << std::endl;
   os << indent << "Maximum: "
