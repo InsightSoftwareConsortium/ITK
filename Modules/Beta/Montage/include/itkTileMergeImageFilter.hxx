@@ -253,7 +253,7 @@ TileMergeImageFilter<TImageType, TInterpolator>
   SizeValueType linearIndex = this->nDIndexToLinearIndex(nDIndex);
   const auto cInput = static_cast<ImageType *>(this->GetInput(linearIndex));
   ImagePointer input = const_cast<ImageType *>(cInput);
-  if (input.GetPointer() == this->m_Dummy.GetPointer())
+  if (input.GetPointer() == reinterpret_cast<ImageType *>(this->m_Dummy.GetPointer()))
     {
     ImagePointer outputImage = this->GetOutput();
     RegionType reqR = outputImage->GetRequestedRegion();
@@ -270,7 +270,7 @@ TileMergeImageFilter<TImageType, TInterpolator>
 
     if (mustRead)
       {
-      typename Superclass::ReaderType::Pointer reader = Superclass::ReaderType::New();
+      typename ReaderType::Pointer reader = ReaderType::New();
       reader->SetFileName(this->m_Filenames[linearIndex]);
       reader->UpdateOutputInformation();
       m_Tiles[linearIndex] = reader->GetOutput();
@@ -323,7 +323,9 @@ TileMergeImageFilter<TImageType, TInterpolator>
       {
       TileIndexType nDIndex = this->LinearIndexTonDIndex(i);
       ImageConstPointer input = this->GetImage(nDIndex, reg0);
-      this->UpdateMosaicBounds(nDIndex, m_Transforms[i], input, input0);
+      this->UpdateMosaicBounds(nDIndex, m_Transforms[i],
+          reinterpret_cast<const typename Superclass::ImageType *>(input.GetPointer()),
+          reinterpret_cast<const typename Superclass::ImageType *>(input0.GetPointer()));
       }
     }
 
@@ -418,15 +420,16 @@ TileMergeImageFilter<TImageType, TInterpolator>
     this->UpdateProgress(0.0);
     for (unsigned i = 0; i < m_Regions.size(); i++)
       {
-      PixelType val = 0;
-      PixelType bits = sizeof(PixelType) * 8;
+      PixelType val = NumericTraits<PixelType>::Zero;
+      PixelType val1 = NumericTraits<PixelType>::One;
+      unsigned bits = sizeof(typename NumericTraits<PixelType>::ValueType) * 8;
       if (m_RegionContributors[i].empty())
         {
         val = NumericTraits<PixelType>::max();
         }
       for (auto tile : m_RegionContributors[i])
         {
-        val += std::pow(2, tile%bits);
+        val += val1 * std::pow(2, tile%bits);
         }
       RegionType currentRegion = m_Regions[i];
       if (currentRegion.Crop(reqR)) //intersection is not empty
@@ -541,6 +544,9 @@ TileMergeImageFilter<TImageType, TInterpolator>
       tileRegions[t] = &m_InputMappings[tileIndices[t]];
       }
 
+    using SumType = typename NumericTraits<PixelType>::AccumulateType;
+    SumType zeroSum = NumericTraits<SumType>::Zero;
+
     if (!interpolate)
       {
       std::vector<ImageRegionConstIterator<ImageType> > iIt(nTiles);
@@ -553,15 +559,15 @@ TileMergeImageFilter<TImageType, TInterpolator>
         {
         ImageIndexType pixelIndex = oIt.GetIndex();
         SizeValueType dist = 0;
-        double sum = 0.0;
+        SumType sum = zeroSum;
         for (unsigned t = 0; t < nTiles; t++)
           {
           SizeValueType dt = this->DistanceFromEdge(pixelIndex, *tileRegions[t]);
-          sum += iIt[t].Get()*dt;
+          sum += SumType(iIt[t].Get())*dt;
           dist += dt;
           ++iIt[t];
           }
-        sum /= dist;
+        sum = sum / dist;
         oIt.Set(sum);
         ++oIt;
         }
@@ -585,16 +591,16 @@ TileMergeImageFilter<TImageType, TInterpolator>
         {
         ImageIndexType pixelIndex = oIt.GetIndex();
         SizeValueType dist = 0;
-        double sum = 0.0;
+        SumType sum = zeroSum;
         for (unsigned t = 0; t < nTiles; t++)
           {
           SizeValueType dt = this->DistanceFromEdge(pixelIndex, *tileRegions[t]);
           ContinuousIndexType continuousIndex = pixelIndex;
           continuousIndex += continuousIndexDifferences[t];
-          sum += iInt[t]->EvaluateAtContinuousIndex(continuousIndex)*dt;
+          sum += SumType(iInt[t]->EvaluateAtContinuousIndex(continuousIndex))*dt;
           dist += dt;
           }
-        sum /= dist;
+        sum = sum / dist;
         oIt.Set(sum);
         ++oIt;
         }

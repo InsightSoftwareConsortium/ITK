@@ -20,6 +20,7 @@
 
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMath.h"
+#include "itkNumericTraits.h"
 
 #ifndef NDEBUG
 #include "itkImageFileWriter.h"
@@ -80,8 +81,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_MovingFFT = FFTFilterType::New();
   m_IFFT = IFFTFilterType::New();
 
-  m_FixedConstantPadder->SetConstant( 0 );
-  m_MovingConstantPadder->SetConstant( 0 );
+  m_FixedConstantPadder->SetConstant( NumericTraits<FixedImagePixelType>::Zero );
+  m_MovingConstantPadder->SetConstant( NumericTraits<MovingImagePixelType>::Zero );
   m_FixedMirrorWEDPadder->SetDecayBase( 0.75 );
   m_MovingMirrorWEDPadder->SetDecayBase( 0.75 );
 
