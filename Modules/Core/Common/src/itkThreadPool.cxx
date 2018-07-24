@@ -19,8 +19,7 @@
 
 #include "itkThreadPool.h"
 #include "itksys/SystemTools.hxx"
-#include "itkMutexLockHolder.h"
-#include "itkSimpleFastMutexLock.h"
+#include "itkThreadSupport.h"
 
 #include <algorithm>
 
@@ -30,9 +29,9 @@ namespace itk
   {
     ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
     // To lock on the internal variables.
-    SimpleFastMutexLock m_Mutex;
+    std::mutex          m_Mutex;
     ThreadPool::Pointer m_ThreadPoolInstance;
-    bool m_DoNotWaitForThreads;
+    bool                m_DoNotWaitForThreads;
   };
 }//end of itk namespace
 
@@ -117,7 +116,7 @@ ThreadPool::Pointer
 ThreadPool
 ::GetInstance()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
+  std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
 
   // This is called once, on-demand to ensure that m_ThreadPoolGlobals is
   // initialized.
@@ -172,14 +171,27 @@ ThreadPool
 }
 
 ThreadPool
-::ThreadPool() :
-  m_ExceptionOccurred(false)
+::ThreadPool()
+  : m_Stopping( false )
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
   m_ThreadPoolGlobals->m_ThreadPoolInstance = this; //threads need this
   m_ThreadPoolGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
-  PlatformCreate(m_ThreadsSemaphore);
+  ThreadIdType threadCount = ThreadPool::GetGlobalDefaultNumberOfThreads();
+  m_Threads.reserve( threadCount );
+  for ( unsigned int i = 0; i < threadCount; ++i )
+    {
+      m_Threads.emplace_back( &ThreadPool::ThreadExecute );
+    }
 }
+
+#if !defined( ITK_LEGACY_REMOVE )
+ThreadIdType
+ThreadPool
+::GetGlobalDefaultNumberOfThreadsByPlatform()
+{
+  return std::thread::hardware_concurrency();
+}
+#endif
 
 ThreadIdType
 ThreadPool
@@ -240,7 +252,7 @@ ThreadPool
   // otherwise, set number of threads based on system information
   if( threadCount <= 0 )
     {
-    threadCount = GetGlobalDefaultNumberOfThreadsByPlatform();
+    threadCount = std::thread::hardware_concurrency();
     }
 
   // limit the number of threads to m_GlobalMaximumNumberOfThreads
@@ -256,44 +268,27 @@ void
 ThreadPool
 ::AddThreads(ThreadIdType count)
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
-  m_Threads.reserve(m_Threads.size() + count);
+  std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
+  m_Threads.reserve( m_Threads.size() + count );
   for( unsigned int i = 0; i < count; ++i )
     {
-    AddThread();
+    m_Threads.emplace_back( &ThreadPool::ThreadExecute );
     }
 }
 
-void
+std::mutex&
 ThreadPool
-::DeleteThreads()
+::GetMutex()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
-  for (auto & thread : m_Threads)
-    {
-    if (!PlatformClose(thread))
-      {
-      m_ExceptionOccurred = true;
-      }
-    }
+  return m_ThreadPoolGlobals->m_Mutex;
 }
 
 int
 ThreadPool
 ::GetNumberOfCurrentlyIdleThreads() const
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
-  if ( m_Threads.empty() ) //not yet initialized
-    {
-    const_cast<ThreadPool *>(this)->AddThreads(ThreadPool::GetGlobalDefaultNumberOfThreads());
-    }
+  std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
   return int(m_Threads.size()) - int(m_WorkQueue.size()); // lousy approximation
-}
-
-ITK_THREAD_RETURN_TYPE
-noOperation(void *)
-{
-  return ITK_THREAD_RETURN_VALUE;
 }
 
 ThreadPool
@@ -313,90 +308,51 @@ ThreadPool
     waitCount = 0;
     }
 
-  std::vector<Semaphore> jobSem(waitCount);
-  for (ThreadIdType i = 0; i < waitCount; i++)
-    {
-    ThreadJob dummy;
-    dummy.m_ThreadFunction = &noOperation;
-    dummy.m_Semaphore = &jobSem[i];
-    dummy.m_UserData = nullptr; //makes dummy jobs easier to spot while debugging
-    AddWork(dummy);
-    }
-
-  for (ThreadIdType i = 0; i < waitCount; i++)
-    {
-    WaitForJob(jobSem[i]);
-    }
-
-  DeleteThreads();
-  PlatformDelete(m_ThreadsSemaphore);
-}
-
-void
-ThreadPool
-::WaitForJob(Semaphore& jobSemaphore)
-{
-  PlatformWait(jobSemaphore);
-  PlatformDelete(jobSemaphore);
-}
-
-void
-ThreadPool
-::AddWork(const ThreadJob& threadJob)
-{
   {
-    MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
-    if ( m_Threads.empty() ) //first job
-      {
-      AddThreads(ThreadPool::GetGlobalDefaultNumberOfThreads());
-      }
-    m_WorkQueue.push_back(threadJob);
+    std::unique_lock< std::mutex > mutexHolder( m_ThreadPoolGlobals->m_Mutex );
+    this->m_Stopping = true;
   }
 
-  PlatformCreate(*threadJob.m_Semaphore);
-  PlatformSignal(m_ThreadsSemaphore);
+  if (waitCount > 0)
+    {
+    m_Condition.notify_all();
+    for (ThreadIdType i = 0; i < waitCount; i++)
+      {
+      m_Threads[i].join();
+      }
+    }
 }
 
 
-ITK_THREAD_RETURN_TYPE
+void
 ThreadPool
-::ThreadExecute(void *)
+::ThreadExecute()
 {
   //plain pointer does not increase reference count
   ThreadPool* threadPool = m_ThreadPoolGlobals->m_ThreadPoolInstance.GetPointer();
-  try
+
+  while ( true )
     {
-    while (true)
-      {
-      threadPool->PlatformWait(threadPool->m_ThreadsSemaphore);
+      std::function< void() > task;
 
-      ThreadJob job;
       {
-      MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_ThreadPoolGlobals->m_Mutex);
-      if (threadPool->m_WorkQueue.empty()) //another thread stole work meant for me
-        {
-        itkGenericExceptionMacro(<< "Work queue is empty!");
-        }
-      job = threadPool->m_WorkQueue.front();
-      threadPool->m_WorkQueue.pop_front();
-      } //releases the lock
-
-      if (job.m_ThreadFunction == &noOperation)
-        {
-        PlatformSignal(*job.m_Semaphore);
-        break; //exit infinite while loop
-        }
-      job.m_ThreadFunction(job.m_UserData); //execute the job, lock has been released
-      PlatformSignal(*job.m_Semaphore);
+        std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
+        threadPool->m_Condition.wait( mutexHolder,
+          [threadPool]
+          {
+            return threadPool->m_Stopping || !threadPool->m_WorkQueue.empty();
+          }
+        );
+        if ( threadPool->m_Stopping && threadPool->m_WorkQueue.empty() )
+          {
+            return;
+          }
+        task = std::move( threadPool->m_WorkQueue.front() );
+        threadPool->m_WorkQueue.pop_front();
       }
+
+      task(); //execute the task
     }
-  catch (ExceptionObject& exc)
-    {
-    std::cerr << exc << std::endl;
-    threadPool->m_ExceptionOccurred = true;
-    throw;
-    }
-  return ITK_THREAD_RETURN_VALUE;
 }
 
 ThreadPoolGlobals * ThreadPool::m_ThreadPoolGlobals;

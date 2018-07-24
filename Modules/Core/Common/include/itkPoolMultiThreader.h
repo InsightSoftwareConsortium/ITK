@@ -29,8 +29,6 @@
 #define itkPoolMultiThreader_h
 
 #include "itkMultiThreaderBase.h"
-
-
 #include "itkThreadPool.h"
 
 namespace itk
@@ -74,15 +72,31 @@ public:
    * must take a single argument of type void. */
   void SetSingleMethod(ThreadFunctionType, void *data) override;
 
+  /** Parallelize an operation over an array. If filter argument is not nullptr,
+   * this function will update its progress as each index is completed. */
+  void
+  ParallelizeArray(
+    SizeValueType firstIndex,
+    SizeValueType lastIndexPlus1,
+    ArrayThreadingFunctorType aFunc,
+    ProcessObject* filter ) override;
+
+  /** Break up region into smaller chunks, and call the function with chunks as parameters. */
+  void
+  ParallelizeImageRegion(
+    unsigned int dimension,
+    const IndexValueType index[],
+    const SizeValueType size[],
+    ThreadingFunctorType funcP,
+    ProcessObject* filter) override;
+
   /** Set the number of threads to use. PoolMultiThreader
    * can only INCREASE its number of threads. */
-  virtual void SetMaximumNumberOfThreads( ThreadIdType numberOfThreads ) override;
-
-  using JobSemaphoreType = ThreadPool::Semaphore;
+  void SetMaximumNumberOfThreads( ThreadIdType numberOfThreads ) override;
 
   struct ThreadPoolInfoStruct :WorkUnitInfo
     {
-    JobSemaphoreType Semaphore;
+    std::future< ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER > Future;
     };
 
 protected:
@@ -94,8 +108,8 @@ private:
   // Thread pool instance and factory
   ThreadPool::Pointer m_ThreadPool;
 
-  /** An array of thread info containing a thread id
-   *  (0, 1, 2, .. ITK_MAX_THREADS-1), the thread count, and a pointer
+  /** An array of work unit information containing a work unit id
+   *  (0, 1, 2, .. ITK_MAX_THREADS-1), work unit count, and a pointer
    *  to void so that user data can be passed to each thread. */
   ThreadPoolInfoStruct m_ThreadInfoArray[ITK_MAX_THREADS];
 

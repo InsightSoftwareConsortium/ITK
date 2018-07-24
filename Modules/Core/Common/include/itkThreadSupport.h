@@ -50,6 +50,7 @@ namespace itk
 #define ITK_DEFAULT_THREAD_ID    0
 #define ITK_THREAD_RETURN_VALUE  NULL /* This is from a c library, and always needs to be NULL, not nullptr */
 #define ITK_THREAD_RETURN_TYPE   void *
+#define ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER void *
 
 #elif defined(ITK_USE_WIN32_THREADS)
 
@@ -61,6 +62,7 @@ namespace itk
 #define ITK_DEFAULT_THREAD_ID   INVALID_HANDLE_VALUE
 #define ITK_THREAD_RETURN_VALUE 0
 #define ITK_THREAD_RETURN_TYPE unsigned __stdcall
+#define ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER unsigned
 
 #else
 
@@ -72,6 +74,7 @@ namespace itk
 #define ITK_DEFAULT_THREAD_ID    0
 #define ITK_THREAD_RETURN_VALUE
 #define ITK_THREAD_RETURN_TYPE void
+#define ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER void
 
 #endif
 

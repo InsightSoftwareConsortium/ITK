@@ -27,6 +27,8 @@
  *=========================================================================*/
 #include "itkPoolMultiThreader.h"
 #include "itkNumericTraits.h"
+#include "itkProcessObject.h"
+#include "itkImageSourceCommon.h"
 #include <iostream>
 #include <string>
 #if !defined( ITK_LEGACY_FUTURE_REMOVE )
@@ -78,7 +80,7 @@ void PoolMultiThreader::SetMaximumNumberOfThreads(ThreadIdType numberOfThreads)
 
 void PoolMultiThreader::SingleMethodExecute()
 {
-  ThreadIdType thread_loop = 0;
+  ThreadIdType threadLoop = 0;
 
   if( !m_SingleMethod )
     {
@@ -88,71 +90,38 @@ void PoolMultiThreader::SingleMethodExecute()
   // obey the global maximum number of threads limit
   m_NumberOfWorkUnits = std::min( this->GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits );
 
-
-  // Spawn a set of threads through the SingleMethodProxy. Exceptions
-  // thrown from a thread will be caught by the SingleMethodProxy. A
-  // naive mechanism is in place for determining whether a thread
-  // threw an exception.
-  //
-  // Thanks to Hannu Helminen for suggestions on how to catch
-  // exceptions thrown by threads.
   bool exceptionOccurred = false;
   std::string exceptionDetails;
+  for ( threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop )
+    {
+    m_ThreadInfoArray[threadLoop].UserData = m_SingleData;
+    m_ThreadInfoArray[threadLoop].NumberOfWorkUnits = m_NumberOfWorkUnits;
+    m_ThreadInfoArray[threadLoop].Future = m_ThreadPool->AddWork( m_SingleMethod, &m_ThreadInfoArray[threadLoop] );
+    }
+
   try
     {
-    ThreadJob threadJob;
-    threadJob.m_ThreadFunction = (this->SingleMethodProxy);
-
-    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
-      {
-      m_ThreadInfoArray[thread_loop].UserData = m_SingleData;
-      m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-      m_ThreadInfoArray[thread_loop].ThreadFunction = m_SingleMethod;
-
-      threadJob.m_UserData = &m_ThreadInfoArray[thread_loop];
-      threadJob.m_Semaphore = &m_ThreadInfoArray[thread_loop].Semaphore;
-      try
-        {
-        m_ThreadPool->AddWork(threadJob);
-        }
-      catch (ExceptionObject& exc)
-        {
-        std::cerr << exc << std::endl;
-        throw;
-        }
-      }
-    }
-  catch( std::exception & e )
-    {
-    // get the details of the exception to rethrow them
-    exceptionDetails = e.what();
-    // If creation of any thread failed, we must make sure that all
-    // threads are correctly cleaned
-    exceptionOccurred = true;
-    }
-  catch( ... )
-    {
-    // If creation of any thread failed, we must make sure that all
-    // threads are correctly cleaned
-    exceptionOccurred = true;
-    }
-
-  // Now, the parent thread calls this->SingleMethod() itself
-  try
-    {
+    // Now, the parent thread calls this->SingleMethod() itself
     m_ThreadInfoArray[0].UserData = m_SingleData;
     m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
     m_SingleMethod( (void *)( &m_ThreadInfoArray[0] ) );
+
+    // The parent thread has finished SingleMethod()
+    // so now it waits for each of the other work units to finish
+    for ( threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop )
+      {
+      m_ThreadInfoArray[threadLoop].Future.get();
+      }
     }
   catch( ProcessAborted & )
     {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
-    for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
+    for( threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop )
       {
       try
         {
-        m_ThreadPool->WaitForJob(m_ThreadInfoArray[thread_loop].Semaphore);
+        m_ThreadInfoArray[threadLoop].Future.get();
         }
       catch (ExceptionObject& exc)
         {
@@ -179,30 +148,6 @@ void PoolMultiThreader::SingleMethodExecute()
     // correctly cleaned
     exceptionOccurred = true;
     }
-  // The parent thread has finished this->SingleMethod() - so now it
-  // waits for each of the other processes to exit
-  for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
-    {
-    try
-      {
-      m_ThreadPool->WaitForJob(m_ThreadInfoArray[thread_loop].Semaphore);
-      }
-    catch (ExceptionObject& exc)
-      {
-      std::cerr << exc << std::endl;
-      throw;
-      }
-    catch( std::exception & e )
-      {
-      // get the details of the exception to rethrow them
-      exceptionDetails = e.what();
-      exceptionOccurred = true;
-      }
-    catch( ... )
-      {
-      exceptionOccurred = true;
-      }
-    }
 
   if( exceptionOccurred )
     {
@@ -213,6 +158,160 @@ void PoolMultiThreader::SingleMethodExecute()
     else
       {
       itkExceptionMacro(<< "Exception occurred during SingleMethodExecute" << std::endl << exceptionDetails);
+      }
+    }
+}
+
+void
+PoolMultiThreader
+::ParallelizeArray(
+  SizeValueType firstIndex,
+  SizeValueType lastIndexPlus1,
+  ArrayThreadingFunctorType aFunc,
+  ProcessObject * filter)
+{
+  if (filter)
+    {
+    filter->UpdateProgress(0.0f);
+    }
+
+  if ( firstIndex + 1 < lastIndexPlus1 )
+    {
+    SizeValueType chunkSize = ( lastIndexPlus1 - firstIndex ) / m_NumberOfWorkUnits;
+    if ((lastIndexPlus1 - firstIndex) % m_NumberOfWorkUnits > 0)
+      {
+      chunkSize++; // we want slightly bigger chunks to be processed first
+      }
+
+    SizeValueType workUnit = 0;
+    for ( SizeValueType i = firstIndex; i < lastIndexPlus1; i += chunkSize )
+      {
+      m_ThreadInfoArray[workUnit++].Future = m_ThreadPool->AddWork(
+        [aFunc]( SizeValueType start, SizeValueType end)
+        {
+          for ( SizeValueType ii = start; ii < end; ii++ )
+          {
+            aFunc( ii );
+          }
+          // make this lambda have the same signature as m_SingleMethod
+          return (ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER)0;
+        },
+        i,
+        std::min( i + chunkSize, lastIndexPlus1 ) );
+      }
+    itkAssertOrThrowMacro( workUnit <= m_NumberOfWorkUnits,
+      "Number of work units was somehow miscounted!" );
+    //now wait for all computations to finish
+    for (SizeValueType i = 0; i < workUnit; i++)
+      {
+      m_ThreadInfoArray[i].Future.get();
+      if ( filter )
+        {
+        filter->UpdateProgress( ( i + 1 ) / float( workUnit ) );
+        }
+      }
+    }
+  else if ( firstIndex + 1 == lastIndexPlus1 )
+    {
+    aFunc( firstIndex );
+    }
+  // else nothing needs to be executed
+
+  if (filter)
+    {
+    filter->UpdateProgress(1.0f);
+    if (filter->GetAbortGenerateData())
+      {
+      std::string msg;
+      ProcessAborted e(__FILE__, __LINE__);
+      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
+          + " during multi-threaded part of filter execution";
+      e.SetDescription(msg);
+      throw e;
+      }
+    }
+}
+
+void
+PoolMultiThreader
+::ParallelizeImageRegion(
+  unsigned int dimension,
+  const IndexValueType index[],
+  const SizeValueType size[],
+  ThreadingFunctorType funcP,
+  ProcessObject * filter)
+{
+  if (filter)
+    {
+    filter->UpdateProgress(0.0f);
+    }
+
+  if ( m_NumberOfWorkUnits == 1 ) // no multi-threading wanted
+    {
+    funcP( index, size ); //process whole region
+    }
+  else
+    {
+    ImageIORegion region(dimension);
+    for (unsigned d = 0; d < dimension; d++)
+      {
+      region.SetIndex(d, index[d]);
+      region.SetSize(d, size[d]);
+      }
+    if ( region.GetNumberOfPixels() <= 1 )
+      {
+      funcP( index, size ); //process whole region
+      }
+    else
+      {
+      const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
+      ThreadIdType splitCount = splitter->GetNumberOfSplits( region, m_NumberOfWorkUnits );
+      itkAssertOrThrowMacro( splitCount <= m_NumberOfWorkUnits,
+        "Split count is greater than number of work units!" );
+      // now wait for all computations to finish
+      for ( ThreadIdType i = 0; i < splitCount; i++ )
+        {
+        ImageIORegion iRegion = region;
+        ThreadIdType total = splitter->GetSplit( i, splitCount, iRegion );
+        if (i < total)
+          {
+          m_ThreadInfoArray[i].Future = m_ThreadPool->AddWork(
+            [funcP, iRegion]()
+            {
+              funcP( &iRegion.GetIndex()[0], &iRegion.GetSize()[0] );
+              // make this lambda have the same signature as m_SingleMethod
+              return (ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER)0;
+            }
+            );
+          }
+        else
+          {
+          itkExceptionMacro( "Could not get work unit " << i
+            << " even though we checked possible number of splits beforehand!" );
+          }
+        }
+
+      for (ThreadIdType i = 0; i < splitCount; i++)
+        {
+        m_ThreadInfoArray[i].Future.get();
+        if ( filter )
+          {
+          filter->UpdateProgress( ( i + 1 ) / float( splitCount ) );
+          }
+        }
+      }
+    }
+  if (filter)
+    {
+    filter->UpdateProgress(1.0f);
+    if (filter->GetAbortGenerateData())
+      {
+      std::string msg;
+      ProcessAborted e(__FILE__, __LINE__);
+      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
+          + " during multi-threaded part of filter execution";
+      e.SetDescription(msg);
+      throw e;
       }
     }
 }

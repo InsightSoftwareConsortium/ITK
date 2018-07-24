@@ -147,12 +147,6 @@ if(WIN32)
   list(APPEND ITKCommon_SRCS itkWin32OutputWindow.cxx)
 endif()
 
-if(ITK_USE_WIN32_THREADS)
-  list(APPEND ITKCommon_SRCS itkThreadPoolWin32.cxx)
-elseif(ITK_USE_PTHREADS)
-  list(APPEND ITKCommon_SRCS itkThreadPoolPosix.cxx)
-endif()
-
 if(ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon_SRCS itkDynamicLoader.cxx)
 endif()
