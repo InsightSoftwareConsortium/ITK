@@ -52,7 +52,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Scalable Simple Linear Iterative Clustering (SSLIC) Using a
  * Generic and Parallel Approach" by Lowekamp B. C., Chen D. T., Yaniv
- * Z., Yoo T. S.
+ * Z., Yoo T. S.  https://hdl.handle.net/1926/3596
  *
  * \ingroup Segmentation ITKSuperPixel MultiThreading
  */
