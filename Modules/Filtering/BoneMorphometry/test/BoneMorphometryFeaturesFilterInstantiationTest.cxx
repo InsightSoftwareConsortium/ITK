@@ -34,13 +34,13 @@ BoneMorphometryFeaturesFilterInstantiationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   // Declare types
-  typedef float InputPixelType;
+  using InputPixelType = float;
 
-  typedef itk::Image<InputPixelType, ImageDimension> InputImageType;
-  typedef itk::ImageFileReader<InputImageType>       ReaderType;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
@@ -51,8 +51,8 @@ BoneMorphometryFeaturesFilterInstantiationTest(int argc, char * argv[])
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::BoneMorphometryFeaturesFilter<InputImageType> FilterType;
-  FilterType::Pointer                                        filter = FilterType::New();
+  using FilterType = itk::BoneMorphometryFeaturesFilter<InputImageType>;
+  FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(filter, BoneMorphometryFeaturesFilter, ImageToImageFilter);
 
