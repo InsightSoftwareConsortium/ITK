@@ -29,19 +29,22 @@ endforeach()
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
 
-project(ITK CXX C)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
+
+include(itkVersion)
+set(ITK_VERSION
+    "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
+project(ITK
+  VERSION ${ITK_VERSION}
+  LANGUAGES CXX C)
 
 set(ITK_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
-set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 
 if (APPLE)
   include(itkApple)
 endif ()
 
 include(itkCompilerChecks)
-include(itkVersion)
-set(ITK_VERSION
-    "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
 include(itkSupportMacros)
 
 # Configure CMake variables that will be used in the module macros
