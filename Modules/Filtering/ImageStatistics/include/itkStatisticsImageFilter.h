@@ -23,6 +23,7 @@
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkSimpleFastMutexLock.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
@@ -38,6 +39,9 @@ namespace itk
  * The filter passes its input through unmodified.  The filter is
  * threaded. It computes statistics in each thread then combines them in
  * its AfterThreadedGenerate method.
+ *
+ * Internally a compensated summation algorithm is used for the
+ * accumulation of intensities to improve accuracy for large images.
  *
  * \ingroup MathematicalStatisticsImageFilters
  * \ingroup ITKImageStatistics
@@ -174,11 +178,12 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  RealType       m_ThreadSum;
-  RealType       m_SumOfSquares;
-  SizeValueType  m_Count;
-  PixelType      m_ThreadMin;
-  PixelType      m_ThreadMax;
+  CompensatedSummation<RealType> m_ThreadSum;
+  CompensatedSummation<RealType> m_SumOfSquares;
+
+  SizeValueType m_Count;
+  PixelType     m_ThreadMin;
+  PixelType     m_ThreadMax;
 
   SimpleFastMutexLock m_Mutex;
 }; // end of class

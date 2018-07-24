@@ -262,10 +262,10 @@ StatisticsImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
 {
   const SizeValueType count = m_Count;
-  const RealType      sumOfSquares = m_SumOfSquares;
+  const RealType      sumOfSquares(m_SumOfSquares);
   const PixelType     minimum = m_ThreadMin;
   const PixelType     maximum = m_ThreadMax;
-  const RealType      sum = m_ThreadSum;
+  const RealType      sum(m_ThreadSum);
 
   const RealType  mean = sum / static_cast< RealType >( count );
   const RealType  variance = ( sumOfSquares - ( sum * sum / static_cast< RealType >( count ) ) )
@@ -288,8 +288,8 @@ StatisticsImageFilter< TInputImage >
 ::DynamicThreadedGenerateData(const RegionType & regionForThread)
 {
 
-  RealType sum = NumericTraits< RealType >::ZeroValue();
-  RealType sumOfSquares = NumericTraits< RealType >::ZeroValue();
+  CompensatedSummation<RealType> sum = NumericTraits< RealType >::ZeroValue();
+  CompensatedSummation<RealType> sumOfSquares = NumericTraits< RealType >::ZeroValue();
   SizeValueType count = NumericTraits< SizeValueType >::ZeroValue();
   PixelType min = NumericTraits< PixelType >::max();
   PixelType max = NumericTraits< PixelType >::NonpositiveMin();
