@@ -322,23 +322,23 @@ private:
     // Pixel type class that is either 'const' or non-const qualified, depending on QualifiedImageType.
     using QualifiedPixelType = typename std::conditional<IsImageTypeConst, const PixelType, PixelType>::type;
 
-    // Pointer to the buffer of the image. Should not be null.
-    QualifiedInternalPixelType* m_ImageBufferPointer;
+    // Pointer to the buffer of the image. Only null when the iterator is default-constructed.
+    QualifiedInternalPixelType* m_ImageBufferPointer = nullptr;
 
     // Image size.
-    ImageSizeType m_ImageSize;
+    ImageSizeType m_ImageSize = { {} };
 
     // A copy of the offset table of the image.
-    OffsetType m_OffsetTable;
+    OffsetType m_OffsetTable = { {} };
 
     // The accessor of the image.
     NeighborhoodAccessorFunctorType m_NeighborhoodAccessor;
 
     // The pixel coordinates of the location of the neighborhood.
     // May be outside the image!
-    IndexType m_Location;
+    IndexType m_Location = { {} };
 
-    const OffsetType* m_CurrentOffset;
+    const OffsetType* m_CurrentOffset = nullptr;
 
     // Clamps the index between [0 .. imageSizeValue>
     static IndexValueType GetClampedIndexValue(
@@ -379,6 +379,14 @@ private:
     using pointer = QualifiedPixelType*;
     using iterator_category = std::random_access_iterator_tag;
 
+
+    /** Default-constructor, as required for any C++11 Forward Iterator. Offers
+     * the guarantee added to the C++14 Standard: "value-initialized iterators
+     * may be compared and shall compare equal to other value-initialized
+     * iterators of the same type."
+     */
+    QualifiedIterator() = default;
+
     /** Constructor that allows implicit conversion from non-const to const
      * iterator. Also serves as copy-constructor of a non-const iterator.  */
     QualifiedIterator(const QualifiedIterator<false>& arg) ITK_NOEXCEPT
@@ -394,9 +402,12 @@ private:
     {
     }
 
+
     /**  Returns a reference to the current pixel. */
     reference operator*() const ITK_NOEXCEPT
     {
+      assert(m_CurrentOffset != nullptr);
+
       const OffsetType currentOffset = (*m_CurrentOffset);
       QualifiedInternalPixelType* internalPixelPointer = m_ImageBufferPointer;
 
@@ -413,6 +424,7 @@ private:
     /** Prefix increment ('++it'). */
     QualifiedIterator& operator++() ITK_NOEXCEPT
     {
+      assert(m_CurrentOffset != nullptr);
       ++m_CurrentOffset;
       return *this;
     }
@@ -431,6 +443,7 @@ private:
     /** Prefix decrement ('--it'). */
     QualifiedIterator& operator--() ITK_NOEXCEPT
     {
+      assert(m_CurrentOffset != nullptr);
       --m_CurrentOffset;
       return *this;
     }
