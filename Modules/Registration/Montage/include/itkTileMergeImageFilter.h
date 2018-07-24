@@ -22,6 +22,7 @@
 #include "itkTileMontage.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkSimpleFastMutexLock.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -39,14 +40,17 @@ namespace itk
  * \ingroup Montage
  */
 template <typename TImageType, typename TInterpolator = LinearInterpolateImageFunction<TImageType, float> >
-class ITK_TEMPLATE_EXPORT TileMergeImageFilter: public TileMontage<TImageType, typename TInterpolator::CoordRepType>
+class ITK_TEMPLATE_EXPORT TileMergeImageFilter
+    : public TileMontage<Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>, typename TInterpolator::CoordRepType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TileMergeImageFilter);
 
+  /** We define superclass with scalar pixel type, to enable compiling even when RGB pixel is supplied. */
+  using Superclass = TileMontage<Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>, typename TInterpolator::CoordRepType>;
+
   /** Standard class type aliases. */
   using Self = TileMergeImageFilter;
-  using Superclass = TileMontage<TImageType, typename TInterpolator::CoordRepType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   using ImageType = TImageType;
@@ -74,8 +78,8 @@ public:
   using typename Superclass::ContinuousIndexType;
 
   /** Image's dependent types. */
-  using typename Superclass::PixelType;
-  using typename Superclass::RegionType;//using RegionType = typename Superclass::RegionType;
+  using PixelType = typename TImageType::PixelType;
+  using typename Superclass::RegionType; //using RegionType = typename Superclass::RegionType;
   using typename Superclass::PointType;
   using typename Superclass::SpacingType;
   using typename Superclass::OffsetType;
@@ -159,6 +163,9 @@ protected:
   {
     return ImageType::New();
   }
+
+  /** For reading if only filename was given. */
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   /** If not already read, reads the image into memory.
    * Only the part which overlaps output image's requested region is read.
