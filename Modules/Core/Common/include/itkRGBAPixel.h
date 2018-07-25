@@ -90,20 +90,24 @@ public:
 
   RGBAPixel & operator=(const ComponentType r[4]);
 
-  /** Aritmetic operations between pixels. Return a new RGBPixel. */
+  /** Aritmetic operations between pixels. Return a new RGBAPixel. */
   Self operator+(const Self & vec) const;
-
   Self operator-(const Self & vec) const;
-
-  const Self & operator+=(const Self & vec);
-
-  const Self & operator-=(const Self & vec);
-
   Self operator *(const ComponentType & f) const;
+  Self operator /(const ComponentType & f) const;
+
+  /** Arithmetic-assigment operators. */
+  const Self & operator+=(const Self & vec);
+  const Self & operator-=(const Self & vec);
+  const Self & operator*=(const ComponentType & f);
+  const Self & operator/=(const ComponentType & f);
+
+  /** Implements strict weak ordering. For use in STL, e.g. std::map. */
+  bool operator<(const Self & vec) const;
 
   bool operator==(const Self & vec) const;
 
-  /** Return the number of componentsxquery-rep. */
+  /** Return the number of components. */
   static unsigned int GetNumberOfComponents() { return 4; }
 
   /** Return the value for the Nth component. */

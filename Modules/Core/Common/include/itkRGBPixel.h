@@ -96,16 +96,19 @@ public:
   Self & operator=(const ComponentType r[3]);
 
   /** Aritmetic operations between pixels. Return a new RGBPixel. */
+  /** Aritmetic operations between pixels. Return a new RGBAPixel. */
   Self operator+(const Self & vec) const;
-
   Self operator-(const Self & vec) const;
-
-  const Self & operator+=(const Self & vec);
-
-  const Self & operator-=(const Self & vec);
-
   Self operator *(const ComponentType & f) const;
+  Self operator /(const ComponentType & f) const;
 
+  /** Arithmetic-assigment operators. */
+  const Self & operator+=(const Self & vec);
+  const Self & operator-=(const Self & vec);
+  const Self & operator*=(const ComponentType & f);
+  const Self & operator/=(const ComponentType & f);
+
+  /** Implements strict weak ordering. For use in STL, e.g. std::map. */
   bool operator<(const Self & vec) const;
 
   bool operator==(const Self & vec) const;
@@ -162,13 +165,10 @@ public:
 };
 
 template< typename TComponent  >
-std::ostream & operator<<(std::ostream & os,
-                                     const RGBPixel< TComponent > & c);
+std::ostream & operator<<(std::ostream & os, const RGBPixel< TComponent > & c);
 
 template< typename TComponent  >
-std::istream & operator>>(std::istream & is,
-                                     RGBPixel< TComponent > & c);
-
+std::istream & operator>>(std::istream & is, RGBPixel< TComponent > & c);
 
 template<typename T>
 inline void swap( RGBPixel<T> &a, RGBPixel<T> &b )
