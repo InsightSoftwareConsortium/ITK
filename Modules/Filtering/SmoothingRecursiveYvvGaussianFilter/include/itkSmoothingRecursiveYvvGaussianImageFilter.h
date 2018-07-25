@@ -1,31 +1,30 @@
 /*=========================================================================
  *
- * Copyright Insight Software Consortium
+ *  Copyright Insight Software Consortium
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *=========================================================================*/
-#pragma once
 
-#ifndef _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
-#  define _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
+#ifndef itkSmoothingRecursiveYvvGaussianImageFilter_h
+#define itkSmoothingRecursiveYvvGaussianImageFilter_h
 
-#  include "itkRecursiveLineYvvGaussianImageFilter.h"
-#  include "itkCastImageFilter.h"
-#  include "itkImage.h"
-#  include "itkPixelTraits.h"
-#  include "itkCommand.h"
-#  include "itkFixedArray.h"
+#include "itkRecursiveLineYvvGaussianImageFilter.h"
+#include "itkCastImageFilter.h"
+#include "itkImage.h"
+#include "itkPixelTraits.h"
+#include "itkCommand.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
@@ -60,13 +59,13 @@ public:
   typedef TInputImage                     InputImageType;
   typedef TOutputImage                    OutputImageType;
   typedef typename TInputImage::PixelType PixelType;
-#  ifdef WITH_DOUBLE
+#ifdef WITH_DOUBLE
   typedef typename NumericTraits<PixelType>::RealType       RealType;
   typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
-#  else
+#else
   typedef typename NumericTraits<PixelType>::FloatType RealType;
   typedef typename NumericTraits<PixelType>::FloatType ScalarRealType;
-#  endif
+#endif
 
   /** Runtime information support. */
   itkTypeMacro(SmoothingRecursiveYvvGaussianImageFilter, InPlaceImageFilter);
@@ -114,35 +113,29 @@ public:
    axis. */
   void
   SetSigmaArray(const SigmaArrayType & sigmas);
-
   void
   SetSigma(ScalarRealType sigma);
-
   SigmaArrayType
   GetSigmaArray() const;
-
   ScalarRealType
   GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian */
   void
   SetNormalizeAcrossScale(bool normalizeInScaleSpace);
-
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   void
-  SetNumberOfThreads(ThreadIdType nb) override;
+  SetNumberOfWorkUnits(ThreadIdType nb) override;
 
-  // See super class for doxygen documentation
-  //
   bool
   CanRunInPlace(void) const override;
 
-#  ifdef ITK_USE_CONCEPT_CHECKING
+#ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   /** End concept checking */
-#  endif
+#endif
 protected:
   SmoothingRecursiveYvvGaussianImageFilter();
   ~SmoothingRecursiveYvvGaussianImageFilter() override {}
@@ -175,12 +168,11 @@ private:
 
   /** Standard deviation of the gaussian used for smoothing */
   SigmaArrayType m_Sigma;
-  int            telltale; // TODO: REMOVE
 };
 } // end namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkSmoothingRecursiveYvvGaussianImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkSmoothingRecursiveYvvGaussianImageFilter.hxx"
+#endif
 
 #endif
