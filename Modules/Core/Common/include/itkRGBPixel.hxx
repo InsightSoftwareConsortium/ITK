@@ -20,12 +20,10 @@
 #include "itkRGBPixel.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include <algorithm>
 
 namespace itk
 {
-/**
- * Assigment from a plain array
- */
 template< typename T >
 RGBPixel< T > &
 RGBPixel< T >
@@ -35,9 +33,6 @@ RGBPixel< T >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 RGBPixel< T >
 RGBPixel< T >
@@ -52,9 +47,6 @@ RGBPixel< T >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 RGBPixel< T >
 RGBPixel< T >
@@ -69,9 +61,6 @@ RGBPixel< T >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 const RGBPixel< T > &
 RGBPixel< T >
@@ -84,9 +73,6 @@ RGBPixel< T >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 const RGBPixel< T > &
 RGBPixel< T >
@@ -99,9 +85,31 @@ RGBPixel< T >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
+template< typename T >
+const RGBPixel< T > &
+RGBPixel< T >
+::operator*=(const ComponentType & r)
+{
+  for ( unsigned int i = 0; i < 3; i++ )
+    {
+    ( *this )[i] *= r;
+    }
+  return *this;
+}
+
+
+template< typename T >
+const RGBPixel< T > &
+RGBPixel< T >
+::operator/=(const ComponentType & r)
+{
+  for ( unsigned int i = 0; i < 3; i++ )
+    {
+    ( *this )[i] /= r;
+    }
+  return *this;
+}
+
 template< typename T >
 RGBPixel< T >
 RGBPixel< T >
@@ -116,9 +124,20 @@ RGBPixel< T >
   return result;
 }
 
-/**
- * Returns the results from a test for equality (all components must be equal)
- */
+template< typename T >
+RGBPixel< T >
+RGBPixel< T >
+::operator/(const ComponentType & r) const
+{
+  Self result;
+
+  for ( unsigned int i = 0; i < 3; i++ )
+    {
+    result[i] = ( *this )[i] / r;
+    }
+  return result;
+}
+
 template< typename T >
 bool
 RGBPixel< T >
@@ -134,27 +153,14 @@ RGBPixel< T >
   return true;
 }
 
-/**
- * Returns the results from a test for less than (all components must be less than)
- */
 template< typename T >
 bool
 RGBPixel< T >
 ::operator<(const Self & r) const
 {
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    if ( ( *this )[i] >= r[i] )
-      {
-      return false;
-      }
-    }
-  return true;
+  return std::lexicographical_compare( this->Begin(), this->End(), r.Begin(), r.End() );
 }
 
-/**
- * Compute luminance
- */
 template< typename T >
 typename RGBPixel< T >::LuminanceType
 RGBPixel< T >
@@ -168,9 +174,6 @@ RGBPixel< T >
   return luminance;
 }
 
-/**
- * Print content to an ostream
- */
 template< typename TComponent >
 std::ostream &
 operator<<(std::ostream & os, const RGBPixel< TComponent > & c)
@@ -181,9 +184,6 @@ operator<<(std::ostream & os, const RGBPixel< TComponent > & c)
   return os;
 }
 
-/**
- * Read content from an istream
- */
 template< typename TComponent >
 std::istream &
 operator>>(std::istream & is, RGBPixel< TComponent > & c)

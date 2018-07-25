@@ -19,12 +19,10 @@
 #define itkRGBAPixel_hxx
 #include "itkRGBAPixel.h"
 #include "itkNumericTraits.h"
+#include <algorithm>
 
 namespace itk
 {
-/**
- * Assignment Operator
- */
 template< typename T >
 RGBAPixel< T > &
 RGBAPixel< T >
@@ -34,9 +32,6 @@ RGBAPixel< T >
   return *this;
 }
 
-/**
- * Assigment from a plain array
- */
 template< typename T >
 RGBAPixel< T > &
 RGBAPixel< T >
@@ -46,9 +41,6 @@ RGBAPixel< T >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 RGBAPixel< T >
 RGBAPixel< T >
@@ -63,9 +55,6 @@ RGBAPixel< T >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 RGBAPixel< T >
 RGBAPixel< T >
@@ -80,9 +69,6 @@ RGBAPixel< T >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 const RGBAPixel< T > &
 RGBAPixel< T >
@@ -95,9 +81,6 @@ RGBAPixel< T >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T >
 const RGBAPixel< T > &
 RGBAPixel< T >
@@ -110,9 +93,31 @@ RGBAPixel< T >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
+template< typename T >
+const RGBAPixel< T >&
+RGBAPixel< T >
+::operator*=(const ComponentType & r)
+{
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    ( *this )[i] *= r;
+    }
+  return *this;
+}
+
+
+template< typename T >
+const RGBAPixel< T >&
+RGBAPixel< T >
+::operator/=(const ComponentType & r)
+{
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    ( *this )[i] /= r;
+    }
+  return *this;
+}
+
 template< typename T >
 RGBAPixel< T >
 RGBAPixel< T >
@@ -127,9 +132,20 @@ RGBAPixel< T >
   return result;
 }
 
-/**
- * Returns the results from a test for equality (all components must be equal)
- */
+template< typename T >
+RGBAPixel< T >
+RGBAPixel< T >
+::operator/(const ComponentType & r) const
+{
+  Self result;
+
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    result[i] = ( *this )[i] / r;
+    }
+  return result;
+}
+
 template< typename T >
 bool
 RGBAPixel< T >
@@ -145,9 +161,14 @@ RGBAPixel< T >
   return true;
 }
 
-/**
- * Compute luminance
- */
+template< typename T >
+bool
+RGBAPixel< T >
+::operator<(const Self & r) const
+{
+  return std::lexicographical_compare( this->Begin(), this->End(), r.Begin(), r.End() );
+}
+
 template< typename T >
 typename RGBAPixel< T >::LuminanceType
 RGBAPixel< T >
@@ -161,9 +182,6 @@ RGBAPixel< T >
   return luminance;
 }
 
-/**
- * Print content to an ostream
- */
 template< typename TComponent >
 std::ostream &
 operator<<(std::ostream & os, const RGBAPixel< TComponent > & c)
@@ -175,9 +193,6 @@ operator<<(std::ostream & os, const RGBAPixel< TComponent > & c)
   return os;
 }
 
-/**
- * Read content from an istream
- */
 template< typename TComponent >
 std::istream &
 operator>>(std::istream & is, RGBAPixel< TComponent > & c)
