@@ -158,55 +158,14 @@ CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Transform   = " << std::endl;
-  if ( m_Transform )
-    {
-    os << indent << m_Transform  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
+  itkPrintSelfObjectMacro(Transform);
+  itkPrintSelfObjectMacro(FixedImage);
+  itkPrintSelfObjectMacro(MovingImage);
 
-  os << indent << "FixedImage   = " << std::endl;
-  if ( m_FixedImage )
-    {
-    os << indent << m_FixedImage  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
+  os << indent << "UseMoments  = " << m_UseMoments << std::endl;
+  itkPrintSelfObjectMacro(MovingCalculator);
+  itkPrintSelfObjectMacro(FixedCalculator)
 
-  os << indent << "MovingImage   = " << std::endl;
-  if ( m_MovingImage )
-    {
-    os << indent << m_MovingImage  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
-
-  os << indent << "MovingMomentCalculator   = " << std::endl;
-  if ( m_UseMoments && m_MovingCalculator )
-    {
-    os << indent << m_MovingCalculator  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
-
-  os << indent << "FixedMomentCalculator   = " << std::endl;
-  if ( m_UseMoments && m_FixedCalculator )
-    {
-    os << indent << m_FixedCalculator  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
 }
 }  // namespace itk
 
