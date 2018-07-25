@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <functional>
 #include <cassert>
+#include <cmath>
 
 namespace itk
 {
@@ -220,8 +221,8 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
   SizeType size;
   for (unsigned d = 0; d < ImageDimension; d++)
     {
-    ind[d] = std::ceil(minIndex[d]);
-    size[d] = maxIndex[d] - ind[d];
+    ind[d] = std::round(minIndex[d]);
+    size[d] = std::round(maxIndex[d] - ind[d]);
     }
   RegionType region;
   region.SetIndex(ind);
