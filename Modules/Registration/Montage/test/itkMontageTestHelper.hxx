@@ -61,7 +61,7 @@ void WriteTransform(const TransformType* transform, std::string filename)
 }
 
  //do the registrations and calculate registration errors
-template<typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
+template<typename PixelType, typename AccumulatePixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
 int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
     const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods,
     bool setMontageDirectly)
@@ -170,7 +170,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         result = EXIT_FAILURE;
         }
       // write generated mosaic
-      using Resampler = itk::TileMergeImageFilter<OriginalImageType>;
+      using Resampler = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
       typename Resampler::Pointer resampleF = Resampler::New();
       itk::SimpleFilterWatcher fw2(resampleF, "resampler");
 #ifndef DISABLE_SETTING_MONTAGE_DIRECTLY
