@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #define DISABLE_SETTING_MONTAGE_DIRECTLY
+#include "itkRGBPixel.h"
 #include "itkMockMontageHelper.hxx"
 #include "itkMontageTestHelper.hxx"
 
@@ -28,7 +29,7 @@ int itkMontageTestRGB(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  using PixelType = itk::RGBPixel<unsigned short>;
+  using PixelType = itk::RGBPixel<unsigned char>;
   constexpr unsigned Dimension = 2;
   using PointType = itk::Point<double, Dimension>;
   using VectorType = itk::Vector<double, Dimension>;
@@ -68,8 +69,8 @@ int itkMontageTestRGB(int argc, char* argv[])
       }
     }
 
-  int r2 = montageTest<PixelType, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], true, false);
-  int r1 = mockMontageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], false);
+  int r2 = montageTest<PixelType, itk::RGBPixel<unsigned int>, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], true, false);
+  int r1 = mockMontageTest<unsigned char, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], false);
 
   if (r1 == EXIT_FAILURE || r2 == EXIT_FAILURE)
     {

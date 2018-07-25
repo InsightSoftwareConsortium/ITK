@@ -35,11 +35,17 @@ namespace itk
  * all of the input tiles. The pixels not covered by any input tile
  * will have the value specified by the Background member variable.
  *
+ * TPixelAccumulateType needs to allow bigger numbers when overlap regions are large.
+ * For example, char's default accumulation type is short,
+ * but int might be preferred for montages with large overlaps of input tiles.
+ *
  * \author Dženan Zukić, dzenan.zukic@kitware.com
  *
  * \ingroup Montage
  */
-template <typename TImageType, typename TInterpolator = LinearInterpolateImageFunction<TImageType, float> >
+template <typename TImageType,
+    typename TPixelAccumulateType = typename NumericTraits<typename TImageType::PixelType>::AccumulateType,
+    typename TInterpolator = LinearInterpolateImageFunction<TImageType, float> >
 class ITK_TEMPLATE_EXPORT TileMergeImageFilter
     : public TileMontage<Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>, typename TInterpolator::CoordRepType>
 {
