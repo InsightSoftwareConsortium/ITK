@@ -19,6 +19,8 @@
 
 #include <iostream>
 #include "itkMath.h"
+#include "itkStreamingImageFilter.h"
+
 namespace
 {
 
@@ -309,7 +311,6 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
       itk::StreamingImageFilter<OutputImageType,OutputImageType>;
   StreamerType::Pointer streamer = StreamerType::New();
   streamer->SetInput( pyramid2->GetOutput( testLevel ) );
-  streamer->SetNumberOfStreamDivisions( 3 );
   streamer->Update();
 
   std::cout << "Compare standalone and streamed outputs" << std::endl;
