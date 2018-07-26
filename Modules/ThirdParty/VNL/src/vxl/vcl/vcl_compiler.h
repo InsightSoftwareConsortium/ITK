@@ -7,12 +7,6 @@
 // It's much better to determine the compiler automatically here than to depend
 // on command-line flags being set.
 //
-// Be careful when modifying this file. In general, you need to make
-// sure that exactly one of the preprocessor flags is defined. For
-// example, if the compiler is GCC 5.3.0, then VCL_GCC should be
-// defined, VCL_GCC_5 should be defined, and VCL_GCC_53 should be
-// defined. Others, like VCL_GCC_51 *should not* be defined.
-//
 // Note that this is most commonly implemented using a cascade of if
 // statements. Be careful to add your statements to the correct place
 // in the cascade list.
@@ -45,80 +39,41 @@
 #if defined(__GNUC__) && !defined(__ICC) // icc 8.0 defines __GNUC__
 # define VCL_GCC
 # if (__GNUC__ < 4)
-#  error "forget it."
-# elif (__GNUC__==4)
-#  define VCL_GCC_4
-#  if (__GNUC_MINOR__ > 0 )
-#   define VCL_GCC_41
-#  else
-#   define VCL_GCC_40
-#  endif
-# elif (__GNUC__==5)
-#  define VCL_GCC_5
-#  if (__GNUC_MINOR__ > 2 )
-#   define VCL_GCC_53
-#  elif (__GNUC_MINOR__ > 1 )
-#   define VCL_GCC_52
-#  elif (__GNUC_MINOR__ > 0 )
-#   define VCL_GCC_51
-#  else
-#   define VCL_GCC_50
-#  endif
-# elif (__GNUC__==6)
-#  define VCL_GCC_6
-#  if (__GNUC_MINOR__ > 2 )
-#   define VCL_GCC_63
-#  elif (__GNUC_MINOR__ > 1 )
-#   define VCL_GCC_62
-#  elif (__GNUC_MINOR__ > 0 )
-#   define VCL_GCC_61
-#  else
-#   define VCL_GCC_60
-#  endif
-# elif (__GNUC__==7)
-#  define VCL_GCC_7
-#  if (__GNUC_MINOR__ > 2 )
-#   define VCL_GCC_73
-#  elif (__GNUC_MINOR__ > 1 )
-#   define VCL_GCC_72
-#  elif (__GNUC_MINOR__ > 0 )
-#   define VCL_GCC_71
-#  else
-#   define VCL_GCC_70
-#  endif
-# elif (__GNUC__==8)
-#  define VCL_GCC_8
-#  if (__GNUC_MINOR__ > 2 )
-#   define VCL_GCC_83
-#  elif (__GNUC_MINOR__ > 1 )
-#   define VCL_GCC_82
-#  elif (__GNUC_MINOR__ > 0 )
-#   define VCL_GCC_81
-#  else
-#   define VCL_GCC_80
-#  endif
-# else
-#  error "Dunno about this gcc"
+#  error "Invalid VCL_GCC version not supported."
 # endif
+#define VCL_GCC_4  "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_40 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_41 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_42 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_43 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_5  "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_50 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_51 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_52 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_53 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_6  "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_60 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_61 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_62 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_63 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_7  "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_70  "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_71 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_GCC_72 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
 #endif
 
 #if defined(_WIN32) || defined(WIN32)
 # define VCL_WIN32
 # if defined(_MSC_VER)
 #  define VCL_VC
-#  define VCL_VC_DOTNET 1 // VC is at least version >= 7.0
-
-// In future use VCL_VC_13_1 for 13.1, etc.
-#  if _MSC_VER >= 1700     // Visual Studio 2011 = Version 11.x
-#   define VCL_VC_11
-#  elif _MSC_VER >= 1600     // Visual Studio 2010 = Version 10.x
-#   define VCL_VC_10
-#  elif _MSC_VER >= 1500     // Visual Studio 2008 = Version 9.x
-#   define VCL_VC_9
-#  else
+#  if _MSC_VER < 1500     // Visual Studio 2008 = Version 9.x
 #   error "Invalid VCL_VC version"
 #  endif
 # endif
+#define VCL_VC_DOTNET "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_VC_9 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_VC_10 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
+#define VCL_VC_11 "VXL no longer supplies aliases for compiler versions, use the compiler defines directly"
 #endif
 
 // win32 or vc++ ?
