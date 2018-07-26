@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -22,7 +20,7 @@
 /* Module Setup */
 /****************/
 
-#define H5G_PACKAGE		/*suppress error about including H5Gpkg	  */
+#include "H5Gmodule.h"          /* This source code file is part of the H5G module */
 
 
 /***********/
@@ -93,7 +91,7 @@ H5FL_BLK_EXTERN(str_buf);
  *-------------------------------------------------------------------------
  */
 herr_t
-H5G__ent_decode_vec(const H5F_t *f, const uint8_t **pp, H5G_entry_t *ent, unsigned n)
+H5G__ent_decode_vec(const H5F_t *f, const uint8_t **pp, const uint8_t *p_end, H5G_entry_t *ent, unsigned n)
 {
     unsigned    u;                      /* Local index variable */
     herr_t      ret_value = SUCCEED;    /* Return value */
@@ -106,9 +104,12 @@ H5G__ent_decode_vec(const H5F_t *f, const uint8_t **pp, H5G_entry_t *ent, unsign
     HDassert(ent);
 
     /* decode entries */
-    for(u = 0; u < n; u++)
+    for(u = 0; u < n; u++) {
+        if(*pp > p_end)
+            HGOTO_ERROR(H5E_SYM, H5E_CANTDECODE, FAIL, "ran off the end of the image buffer")
         if(H5G_ent_decode(f, pp, ent + u) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTDECODE, FAIL, "can't decode")
+    }
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -173,7 +174,7 @@ H5G_ent_decode(const H5F_t *f, const uint8_t **pp, H5G_entry_t *ent)
             HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "unknown symbol table entry cache type")
     } /* end switch */
 
-    *pp = p_ret + H5G_SIZEOF_ENTRY(f);
+    *pp = p_ret + H5G_SIZEOF_ENTRY_FILE(f);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -240,7 +241,7 @@ done:
 herr_t
 H5G_ent_encode(const H5F_t *f, uint8_t **pp, const H5G_entry_t *ent)
 {
-    uint8_t	*p_ret = *pp + H5G_SIZEOF_ENTRY(f);
+    uint8_t	*p_ret = *pp + H5G_SIZEOF_ENTRY_FILE(f);
     herr_t      ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -411,8 +412,8 @@ H5G__ent_convert(H5F_t *f, hid_t dxpl_id, H5HL_t *heap, const char *name,
      * Add the new name to the heap.
      */
     name_offset = H5HL_insert(f, dxpl_id, heap, HDstrlen(name) + 1, name);
-    if(0 == name_offset || (size_t)(-1) == name_offset)
-	HGOTO_ERROR(H5E_SYM, H5E_CANTINSERT, FAIL, "unable to insert symbol name into heap")
+    if(0 == name_offset || UFAIL == name_offset)
+        HGOTO_ERROR(H5E_SYM, H5E_CANTINSERT, FAIL, "unable to insert symbol name into heap")
     ent->name_off = name_offset;
 
     /* Build correct information for symbol table entry based on link type */
@@ -460,7 +461,7 @@ H5G__ent_convert(H5F_t *f, hid_t dxpl_id, H5HL_t *heap, const char *name,
                 targ_oloc.addr = lnk->u.hard.addr;
 
                 /* Get the object header */
-                if(NULL == (oh = H5O_protect(&targ_oloc, dxpl_id, H5AC_READ)))
+                if(NULL == (oh = H5O_protect(&targ_oloc, dxpl_id, H5AC__READ_ONLY_FLAG, FALSE)))
                     HGOTO_ERROR(H5E_SYM, H5E_CANTPROTECT, FAIL, "unable to protect target object header")
 
                 /* Check if a symbol table message exists */
@@ -505,7 +506,7 @@ H5G__ent_convert(H5F_t *f, hid_t dxpl_id, H5HL_t *heap, const char *name,
                 size_t	lnk_offset;		/* Offset to sym-link value	*/
 
                 /* Insert link value into local heap */
-                if((size_t)(-1) == (lnk_offset = H5HL_insert(f, dxpl_id, heap,
+                if(UFAIL == (lnk_offset = H5HL_insert(f, dxpl_id, heap,
                         HDstrlen(lnk->u.soft.name) + 1, lnk->u.soft.name)))
                     HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to write link value to local heap")
 
@@ -543,8 +544,8 @@ herr_t
 H5G__ent_debug(const H5G_entry_t *ent, FILE *stream, int indent, int fwidth,
     const H5HL_t *heap)
 {
-    const char		*lval = NULL;
-    int nested_indent, nested_fwidth;
+    const char  *lval = NULL;
+    int         nested_indent, nested_fwidth;
 
     FUNC_ENTER_PACKAGE_NOERR
 
@@ -553,14 +554,14 @@ H5G__ent_debug(const H5G_entry_t *ent, FILE *stream, int indent, int fwidth,
     nested_fwidth = MAX(0, fwidth - 3);
 
     HDfprintf(stream, "%*s%-*s %lu\n", indent, "", fwidth,
-	      "Name offset into private heap:",
-	      (unsigned long) (ent->name_off));
+              "Name offset into private heap:",
+	          (unsigned long) (ent->name_off));
 
     HDfprintf(stream, "%*s%-*s %a\n", indent, "", fwidth,
-	      "Object header address:", ent->header);
+              "Object header address:", ent->header);
 
     HDfprintf(stream, "%*s%-*s ", indent, "", fwidth,
-	      "Cache info type:");
+              "Cache info type:");
     switch(ent->type) {
         case H5G_NOTHING_CACHED:
             HDfprintf(stream, "Nothing Cached\n");
@@ -583,13 +584,13 @@ H5G__ent_debug(const H5G_entry_t *ent, FILE *stream, int indent, int fwidth,
             HDfprintf(stream, "%*s%-*s\n", indent, "", fwidth,
                       "Cached information:");
             HDfprintf(stream, "%*s%-*s %lu\n", nested_indent, "", nested_fwidth,
-                       "Link value offset:",
-                       (unsigned long)(ent->cache.slink.lval_offset));
+                      "Link value offset:",
+                      (unsigned long)(ent->cache.slink.lval_offset));
             if(heap) {
                 lval = (const char *)H5HL_offset_into(heap, ent->cache.slink.lval_offset);
                 HDfprintf(stream, "%*s%-*s %s\n", nested_indent, "", nested_fwidth,
-                           "Link value:",
-                           lval);
+                          "Link value:",
+                          (lval == NULL) ? "" : lval);
             } /* end if */
             else
                 HDfprintf(stream, "%*s%-*s\n", nested_indent, "", nested_fwidth, "Warning: Invalid heap address given, name not displayed!");

@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -22,7 +20,7 @@
 /* Module Setup */
 /****************/
 
-#define H5D_PACKAGE		/*suppress error about including H5Dpkg	  */
+#include "H5Dmodule.h"          /* This source code file is part of the H5D module */
 
 
 /***********/
@@ -103,6 +101,7 @@ const H5D_layout_ops_t H5D_LOPS_EFL[1] = {{
     H5D__efl_readvv,
     H5D__efl_writevv,
     NULL,
+    NULL,
     NULL
 }};
 
@@ -129,14 +128,11 @@ static herr_t
 H5D__efl_construct(H5F_t *f, H5D_t *dset)
 {
     size_t dt_size;                     /* Size of datatype */
-    hsize_t dim[H5O_LAYOUT_NDIMS];	/* Current size of data in elements */
-    hsize_t max_dim[H5O_LAYOUT_NDIMS];  /* Maximum size of data in elements */
     hssize_t stmp_size;                 /* Temporary holder for raw data size */
     hsize_t tmp_size;                   /* Temporary holder for raw data size */
     hsize_t max_points;                 /* Maximum elements */
     hsize_t max_storage;                /* Maximum storage size */
-    int ndims;                          /* Rank of dataspace */
-    int i;                              /* Local index variable */
+    unsigned u;                         /* Local index variable */
     herr_t ret_value = SUCCEED;         /* Return value */
 
     FUNC_ENTER_STATIC
@@ -152,11 +148,9 @@ H5D__efl_construct(H5F_t *f, H5D_t *dset)
      */
 
     /* Check for invalid dataset dimensions */
-    if((ndims = H5S_get_simple_extent_dims(dset->shared->space, dim, max_dim)) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "unable to initialize contiguous storage")
-    for(i = 1; i < ndims; i++)
-        if(max_dim[i] > dim[i])
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "only the first dimension can be extendible")
+    for(u = 1; u < dset->shared->ndims; u++)
+        if(dset->shared->max_dims[u] > dset->shared->curr_dims[u])
+            HGOTO_ERROR(H5E_DATASET, H5E_UNSUPPORTED, FAIL, "only the first dimension can be extendible")
 
     /* Retrieve the size of the dataset's datatype */
     if(0 == (dt_size = H5T_get_size(dset->shared->type)))
@@ -290,13 +284,13 @@ H5D__efl_read(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size
         HDassert(buf);
         if(u >= efl->nused)
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "read past logical end of file")
-        if(H5F_OVERFLOW_HSIZET2OFFT(efl->slot[u].offset + skip))
+        if(H5F_OVERFLOW_HSIZET2OFFT((hsize_t)efl->slot[u].offset + skip))
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed")
         if(H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name")
-        if((fd = HDopen(full_name, O_RDONLY, 0)) < 0)
+        if((fd = HDopen(full_name, O_RDONLY)) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL, "unable to open external raw data file")
-        if(HDlseek(fd, (HDoff_t)(efl->slot[u].offset + skip), SEEK_SET) < 0)
+        if(HDlseek(fd, (HDoff_t)(efl->slot[u].offset + (HDoff_t)skip), SEEK_SET) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_SEEKERROR, FAIL, "unable to seek in external raw data file")
 #ifndef NDEBUG
         tempto_read = MIN((size_t)(efl->slot[u].size-skip), (hsize_t)size);
@@ -382,17 +376,17 @@ H5D__efl_write(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t siz
         HDassert(buf);
         if(u >= efl->nused)
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "write past logical end of file")
-        if(H5F_OVERFLOW_HSIZET2OFFT(efl->slot[u].offset + skip))
+        if(H5F_OVERFLOW_HSIZET2OFFT((hsize_t)efl->slot[u].offset + skip))
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed")
         if(H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name")
-        if((fd = HDopen(full_name, O_CREAT | O_RDWR, 0666)) < 0) {
+        if((fd = HDopen(full_name, O_CREAT | O_RDWR, H5_POSIX_CREATE_MODE_RW)) < 0) {
             if(HDaccess(full_name, F_OK) < 0)
                 HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL, "external raw data file does not exist")
             else
                 HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL, "unable to open external raw data file")
             } /* end if */
-        if(HDlseek(fd, (HDoff_t)(efl->slot[u].offset + skip), SEEK_SET) < 0)
+        if(HDlseek(fd, (HDoff_t)(efl->slot[u].offset + (HDoff_t)skip), SEEK_SET) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_SEEKERROR, FAIL, "unable to seek in external raw data file")
 #ifndef NDEBUG
         tempto_write = MIN(efl->slot[u].size - skip, (hsize_t)size);
@@ -472,7 +466,7 @@ H5D__efl_readvv(const H5D_io_info_t *io_info,
     size_t mem_max_nseq, size_t *mem_curr_seq, size_t mem_len_arr[], hsize_t mem_off_arr[])
 {
     H5D_efl_readvv_ud_t udata;  /* User data for H5VM_opvv() operator */
-    ssize_t ret_value;          /* Return value (Total size of sequence in bytes) */
+    ssize_t ret_value = -1;     /* Return value (Total size of sequence in bytes) */
 
     FUNC_ENTER_STATIC
 
@@ -556,7 +550,7 @@ H5D__efl_writevv(const H5D_io_info_t *io_info,
     size_t mem_max_nseq, size_t *mem_curr_seq, size_t mem_len_arr[], hsize_t mem_off_arr[])
 {
     H5D_efl_writevv_ud_t udata;  /* User data for H5VM_opvv() operator */
-    ssize_t ret_value;          /* Return value (Total size of sequence in bytes) */
+    ssize_t ret_value = -1;      /* Return value (Total size of sequence in bytes) */
 
     FUNC_ENTER_STATIC
 

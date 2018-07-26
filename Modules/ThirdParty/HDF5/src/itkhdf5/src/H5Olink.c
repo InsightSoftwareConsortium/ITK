@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -24,9 +22,10 @@
  *-------------------------------------------------------------------------
  */
 
-#define H5G_PACKAGE		/*suppress error about including H5Gpkg	  */
-#define H5L_PACKAGE		/*suppress error about including H5Lpkg	  */
-#define H5O_PACKAGE		/*suppress error about including H5Opkg	  */
+#define H5G_FRIEND		/*suppress error about including H5Gpkg   */
+#define H5L_FRIEND		/*suppress error about including H5Lpkg	  */
+#include "H5Omodule.h"          /* This source code file is part of the H5O module */
+
 
 #include "H5private.h"		/* Generic Functions			*/
 #include "H5Eprivate.h"		/* Error handling		  	*/
@@ -40,7 +39,7 @@
 
 /* PRIVATE PROTOTYPES */
 static void *H5O_link_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
-    unsigned mesg_flags, unsigned *ioflags, const uint8_t *p);
+    unsigned mesg_flags, unsigned *ioflags, size_t p_size, const uint8_t *p);
 static herr_t H5O_link_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
 static void *H5O_link_copy(const void *_mesg, void *_dest);
 static size_t H5O_link_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
@@ -119,12 +118,13 @@ H5FL_DEFINE_STATIC(H5O_link_t);
  */
 static void *
 H5O_link_decode(H5F_t *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
-    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags,
+    size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5O_link_t          *lnk = NULL;    /* Pointer to link message */
     size_t              len = 0;        /* Length of a string in the message */
     unsigned char       link_flags;     /* Flags for encoding link info */
-    void                *ret_value;     /* Return value */
+    void                *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -411,7 +411,7 @@ H5O_link_copy(const void *_mesg, void *_dest)
 {
     const H5O_link_t    *lnk = (const H5O_link_t *) _mesg;
     H5O_link_t          *dest = (H5O_link_t *) _dest;
-    void                *ret_value;     /* Return value */
+    void                *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -478,9 +478,9 @@ static size_t
 H5O_link_size(const H5F_t *f, hbool_t H5_ATTR_UNUSED disable_shared, const void *_mesg)
 {
     const H5O_link_t *lnk = (const H5O_link_t *)_mesg;
-    uint64_t name_len;    /* Length of name */
-    size_t name_size;   /* Size of encoded name length */
-    size_t ret_value;   /* Return value */
+    uint64_t name_len;          /* Length of name */
+    size_t name_size;           /* Size of encoded name length */
+    size_t ret_value = 0;       /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -727,7 +727,7 @@ H5O_link_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *native_src, H5F_t H5_AT
     H5O_copy_t H5_ATTR_UNUSED *cpy_info, void H5_ATTR_UNUSED *udata, hid_t H5_ATTR_UNUSED dxpl_id)
 {
     H5O_link_t  *link_src = (H5O_link_t *)native_src;
-    void        *ret_value;          /* Return value */
+    void *ret_value = NULL;     /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -834,7 +834,7 @@ H5O_link_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void
     HDfprintf(stream, "%*s%-*s %s\n", indent, "", fwidth,
 	      "Link Name Character Set:", (lnk->cset == H5T_CSET_ASCII ?
                 "ASCII" : (lnk->cset == H5T_CSET_UTF8 ? "UTF-8" : "Unknown")));
-    HDfprintf(stream, "%*s%-*s %s\n", indent, "", fwidth,
+    HDfprintf(stream, "%*s%-*s '%s'\n", indent, "", fwidth,
 	      "Link Name:", lnk->name);
 
     /* Display link-specific information */
@@ -845,7 +845,7 @@ H5O_link_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void
             break;
 
         case H5L_TYPE_SOFT:
-            HDfprintf(stream, "%*s%-*s %s\n", indent, "", fwidth,
+            HDfprintf(stream, "%*s%-*s '%s'\n", indent, "", fwidth,
                       "Link Value:", lnk->u.soft.name);
             break;
 

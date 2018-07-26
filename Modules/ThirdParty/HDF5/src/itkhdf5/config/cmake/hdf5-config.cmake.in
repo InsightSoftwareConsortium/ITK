@@ -1,3 +1,14 @@
+#
+# Copyright by The HDF Group.
+# All rights reserved.
+#
+# This file is part of HDF5.  The full HDF5 copyright notice, including
+# terms governing use, modification, and redistribution, is contained in
+# the COPYING file, which can be found at the root of the source code
+# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# If you do not have access to either file, you may request a copy from
+# help@hdfgroup.org.
+#
 #-----------------------------------------------------------------------------
 # HDF5 Config file for compiling against hdf5 build/install directory
 #-----------------------------------------------------------------------------
@@ -14,6 +25,7 @@ set (${HDF5_PACKAGE_NAME}_VALID_COMPONENTS
     HL
     CXX_HL
     Fortran_HL
+    Java
     Tools
 )
 
@@ -22,8 +34,8 @@ set (${HDF5_PACKAGE_NAME}_VALID_COMPONENTS
 #-----------------------------------------------------------------------------
 set (${HDF5_PACKAGE_NAME}_ENABLE_PARALLEL @HDF5_ENABLE_PARALLEL@)
 set (${HDF5_PACKAGE_NAME}_BUILD_FORTRAN   @HDF5_BUILD_FORTRAN@)
-set (${HDF5_PACKAGE_NAME}_ENABLE_F2003    @HDF5_ENABLE_F2003@)
 set (${HDF5_PACKAGE_NAME}_BUILD_CPP_LIB   @HDF5_BUILD_CPP_LIB@)
+set (${HDF5_PACKAGE_NAME}_BUILD_JAVA      @HDF5_BUILD_JAVA@)
 set (${HDF5_PACKAGE_NAME}_BUILD_TOOLS     @HDF5_BUILD_TOOLS@)
 set (${HDF5_PACKAGE_NAME}_BUILD_HL_LIB    @HDF5_BUILD_HL_LIB@)
 set (${HDF5_PACKAGE_NAME}_ENABLE_Z_LIB_SUPPORT @HDF5_ENABLE_Z_LIB_SUPPORT@)
@@ -32,19 +44,34 @@ set (${HDF5_PACKAGE_NAME}_ENABLE_SZIP_ENCODING @HDF5_ENABLE_SZIP_ENCODING@)
 set (${HDF5_PACKAGE_NAME}_BUILD_SHARED_LIBS    @BUILD_SHARED_LIBS@)
 set (${HDF5_PACKAGE_NAME}_PACKAGE_EXTLIBS      @HDF5_PACKAGE_EXTLIBS@)
 set (${HDF5_PACKAGE_NAME}_EXPORT_LIBRARIES @HDF5_LIBRARIES_TO_EXPORT@)
+set (${HDF5_PACKAGE_NAME}_TOOLSET "@CMAKE_GENERATOR_TOOLSET@")
 
 #-----------------------------------------------------------------------------
 # Dependencies
 #-----------------------------------------------------------------------------
 if (${HDF5_PACKAGE_NAME}_ENABLE_PARALLEL)
-  set (${HDF5_PACKAGE_NAME}_MPI_C_INCLUDE_PATH "@MPI_C_INCLUDE_PATH@")
+  set (${HDF5_PACKAGE_NAME}_MPI_C_INCLUDE_PATH "@MPI_C_INCLUDE_DIRS@")
   set (${HDF5_PACKAGE_NAME}_MPI_C_LIBRARIES    "@MPI_C_LIBRARIES@")
+  if (${HDF5_PACKAGE_NAME}_BUILD_FORTRAN)
+    set (${HDF5_PACKAGE_NAME}_MPI_Fortran_INCLUDE_PATH "@MPI_Fortran_INCLUDE_DIRS@")
+    set (${HDF5_PACKAGE_NAME}_MPI_Fortran_LIBRARIES    "@MPI_Fortran_LIBRARIES@")
+  endif ()
+endif ()
+
+if (${HDF5_PACKAGE_NAME}_BUILD_JAVA)
+  set (${HDF5_PACKAGE_NAME}_JAVA_INCLUDE_DIRS
+      @PACKAGE_CURRENT_BUILD_DIR@/lib/jarhdf5-@HDF5_VERSION_STRING@.jar
+      @PACKAGE_CURRENT_BUILD_DIR@/lib/slf4j-api-1.7.5.jar
+      @PACKAGE_CURRENT_BUILD_DIR@/lib/slf4j-nop-1.7.5.jar
+  )
+  set (${HDF5_PACKAGE_NAME}_JAVA_LIBRARY "@PACKAGE_CURRENT_BUILD_DIR@/lib")
+  set (${HDF5_PACKAGE_NAME}_JAVA_LIBRARIES "${${HDF5_PACKAGE_NAME}_JAVA_LIBRARY}")
 endif ()
 
 #-----------------------------------------------------------------------------
 # Directories
 #-----------------------------------------------------------------------------
-set (${HDF5_PACKAGE_NAME}_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@" "${${HDF5_PACKAGE_NAME}_MPI_C_INCLUDE_PATH}")
+set (${HDF5_PACKAGE_NAME}_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@" "${${HDF5_PACKAGE_NAME}_MPI_C_INCLUDE_DIRS}")
 
 set (${HDF5_PACKAGE_NAME}_SHARE_DIR "@PACKAGE_SHARE_INSTALL_DIR@")
 set_and_check (${HDF5_PACKAGE_NAME}_BUILD_DIR "@PACKAGE_CURRENT_BUILD_DIR@")
@@ -79,12 +106,12 @@ set (HDF5_VERSION_MINOR  @HDF5_VERSION_MINOR@)
 #-----------------------------------------------------------------------------
 if (NOT TARGET "@HDF5_PACKAGE@")
   if (${HDF5_PACKAGE_NAME}_ENABLE_Z_LIB_SUPPORT AND ${HDF5_PACKAGE_NAME}_PACKAGE_EXTLIBS AND NOT TARGET "zlib")
-    include (@PACKAGE_SHARE_INSTALL_DIR@/@ZLIB_PACKAGE_NAME@@HDF_PACKAGE_EXT@-targets.cmake)
+    include (@PACKAGE_SHARE_INSTALL_DIR@/@ZLIB_PACKAGE_NAME@/@ZLIB_PACKAGE_NAME@@HDF_PACKAGE_EXT@-targets.cmake)
   endif ()
   if (${HDF5_PACKAGE_NAME}_ENABLE_SZIP_SUPPORT AND ${HDF5_PACKAGE_NAME}_PACKAGE_EXTLIBS AND NOT TARGET "szip")
-    include (@PACKAGE_SHARE_INSTALL_DIR@/@SZIP_PACKAGE_NAME@@HDF_PACKAGE_EXT@-targets.cmake)
+    include (@PACKAGE_SHARE_INSTALL_DIR@/@SZIP_PACKAGE_NAME@/@SZIP_PACKAGE_NAME@@HDF_PACKAGE_EXT@-targets.cmake)
   endif ()
-  include (@PACKAGE_SHARE_INSTALL_DIR@/@HDF5_PACKAGE@@HDF_PACKAGE_EXT@-targets.cmake)
+  include (@PACKAGE_SHARE_INSTALL_DIR@/@HDF5_PACKAGE@/@HDF5_PACKAGE@@HDF_PACKAGE_EXT@-targets.cmake)
 endif ()
 
 # Handle default component(static) :
@@ -124,6 +151,8 @@ foreach (libtype IN LISTS ${HDF5_PACKAGE_NAME}_LIB_TYPE)
       set (hdf5_comp "hdf5_hl")
     elseif (${comp} STREQUAL "CXX_HL")
       set (hdf5_comp "hdf5_hl_cpp")
+    elseif (${comp} STREQUAL "Java")
+      set (hdf5_comp "hdf5_java")
     elseif (${comp} STREQUAL "Tools")
       set (hdf5_comp "hdf5_tools")
     elseif (${comp} STREQUAL "Fortran")
@@ -133,9 +162,17 @@ foreach (libtype IN LISTS ${HDF5_PACKAGE_NAME}_LIB_TYPE)
       set (hdf5_comp2 "hdf5_hl_f90cstub")
       set (hdf5_comp "hdf5_hl_fortran")
     endif ()
-    list (FIND ${HDF5_PACKAGE_NAME}_EXPORT_LIBRARIES "${hdf5_comp}-${libtype}" HAVE_COMP)
+    if (${comp} STREQUAL "Java")
+      list (FIND ${HDF5_PACKAGE_NAME}_EXPORT_LIBRARIES "${hdf5_comp}" HAVE_COMP)
+    else ()
+      list (FIND ${HDF5_PACKAGE_NAME}_EXPORT_LIBRARIES "${hdf5_comp}-${libtype}" HAVE_COMP)
+    endif ()
     if (${HAVE_COMP} LESS 0)
-      set (${HDF5_PACKAGE_NAME}_${libtype}_${comp}_FOUND 0)
+      if (${comp} STREQUAL "Java")
+        set (${HDF5_PACKAGE_NAME}_${comp}_FOUND 0)
+      else ()
+        set (${HDF5_PACKAGE_NAME}_${libtype}_${comp}_FOUND 0)
+      endif ()
     else ()
       if (hdf5_comp2)
         list (FIND ${HDF5_PACKAGE_NAME}_EXPORT_LIBRARIES "${hdf5_comp2}-${libtype}" HAVE_COMP2)
@@ -144,12 +181,16 @@ foreach (libtype IN LISTS ${HDF5_PACKAGE_NAME}_LIB_TYPE)
         else ()
           set (${HDF5_PACKAGE_NAME}_${libtype}_${comp}_FOUND 1)
           string(TOUPPER ${HDF5_PACKAGE_NAME}_${comp}_${libtype}_LIBRARY COMP_LIBRARY)
-          set (${COMP_LIBRARY} ${${COMP_LIBRARY}} ${hdf5_comp2}-${libtype} ${hdf5_comp}-${libtype})
+          set (${COMP_LIBRARY} ${${COMP_LIBRARY}} @HDF5_PACKAGE@::${hdf5_comp2}-${libtype} @HDF5_PACKAGE@::${hdf5_comp}-${libtype})
         endif ()
+      elseif (${comp} STREQUAL "Java")
+        set (${HDF5_PACKAGE_NAME}_${comp}_FOUND 1)
+        string(TOUPPER ${HDF5_PACKAGE_NAME}_${comp}_LIBRARY COMP_LIBRARY)
+        set (${COMP_LIBRARY} ${${COMP_LIBRARY}} hdf5::${hdf5_comp})
       else ()
         set (${HDF5_PACKAGE_NAME}_${libtype}_${comp}_FOUND 1)
         string(TOUPPER ${HDF5_PACKAGE_NAME}_${comp}_${libtype}_LIBRARY COMP_LIBRARY)
-        set (${COMP_LIBRARY} ${${COMP_LIBRARY}} ${hdf5_comp}-${libtype})
+        set (${COMP_LIBRARY} ${${COMP_LIBRARY}} @HDF5_PACKAGE@::${hdf5_comp}-${libtype})
       endif ()
     endif ()
   endforeach ()

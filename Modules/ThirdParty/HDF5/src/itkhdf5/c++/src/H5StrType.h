@@ -6,64 +6,72 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifndef __H5StrType_H
 #define __H5StrType_H
 
-#ifndef H5_NO_NAMESPACE
 namespace H5 {
-#endif
 
-//! Class StrType operates on HDF5 string datatypes.
+/*! \class StrType
+    \brief StrType is a derivative of a DataType and operates on HDF5
+    string datatype.
+*/
+//  Inheritance: AtomType -> DataType -> H5Object -> H5Location -> IdComponent
 class H5_DLLCPP StrType : public AtomType {
    public:
-	// Creates a string type using a predefined type
-	StrType(const PredType& pred_type);
+        // Creates a string type using a predefined type
+        StrType(const PredType& pred_type);
 
-	// Creates a string type with specified length - may be obsolete
-	StrType(const PredType& pred_type, const size_t& size);
+        // Creates a string type with specified length - may be obsolete
+        StrType(const PredType& pred_type, const size_t& size);
 
-	// Creates a string type with specified length
-	StrType(const int dummy, const size_t& size);
+        // Creates a string type with specified length
+        StrType(const int dummy, const size_t& size);
 
         // Gets the string datatype of the specified dataset
-	StrType(const DataSet& dataset);
+        StrType(const DataSet& dataset);
 
-	// Retrieves the character set type of this string datatype.
-	H5T_cset_t getCset() const;
+        // Constructors that open an HDF5 string datatype, given a location.
+        StrType(const H5Location& loc, const char* name);
+        StrType(const H5Location& loc, const H5std_string& name);
 
-	// Sets character set to be used.
-	void setCset(H5T_cset_t cset) const;
+        // Returns an StrType object via DataType* by decoding the
+        // binary object description of this type.
+        virtual DataType* decode() const;
 
-	// Retrieves the string padding method for this string datatype.
-	H5T_str_t getStrpad() const;
+        // Retrieves the character set type of this string datatype.
+        H5T_cset_t getCset() const;
 
-	// Defines the storage mechanism for character strings.
-	void setStrpad(H5T_str_t strpad) const;
+        // Sets character set to be used.
+        void setCset(H5T_cset_t cset) const;
 
-	///\brief Returns this class name.
-	virtual H5std_string fromClass () const { return("StrType"); }
+        // Retrieves the string padding method for this string datatype.
+        H5T_str_t getStrpad() const;
 
-	// default constructor
-	StrType();
+        // Defines the storage mechanism for character strings.
+        void setStrpad(H5T_str_t strpad) const;
 
-	// Creates a string datatype using an existing id
-	StrType(const hid_t existing_id);
+        ///\brief Returns this class name.
+        virtual H5std_string fromClass () const { return("StrType"); }
 
-	// Copy constructor - makes a copy of the original object
-	StrType(const StrType& original);
+        // default constructor
+        StrType();
 
-	// Noop destructor.
-	virtual ~StrType();
-};
-#ifndef H5_NO_NAMESPACE
-}
-#endif
+        // Creates a string datatype using an existing id
+        StrType(const hid_t existing_id);
+
+        // Copy constructor: same as the original StrType.
+        StrType(const StrType& original);
+
+        // Noop destructor.
+        virtual ~StrType();
+
+}; // end of StrType
+} // namespace H5
+
 #endif // __H5StrType_H

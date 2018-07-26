@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -18,7 +16,7 @@
  *	       Tuesday, November 25, 1997
  */
 
-#define H5O_PACKAGE		/*suppress error about including H5Opkg	  */
+#include "H5Omodule.h"          /* This source code file is part of the H5O module */
 
 
 #include "H5private.h"		/* Generic Functions			*/
@@ -30,7 +28,7 @@
 
 /* PRIVATE PROTOTYPES */
 static void *H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
-    unsigned mesg_flags, unsigned *ioflags, const uint8_t *p);
+    unsigned mesg_flags, unsigned *ioflags, size_t p_size, const uint8_t *p);
 static herr_t H5O_efl_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
 static void *H5O_efl_copy(const void *_mesg, void *_dest);
 static size_t H5O_efl_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
@@ -69,17 +67,17 @@ const H5O_msg_class_t H5O_MSG_EFL[1] = {{
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5O_efl_decode
+ * Function:    H5O_efl_decode
  *
  * Purpose:	Decode an external file list message and return a pointer to
- *		the message (and some other data).
+ *          the message (and some other data).
  *
- * Return:	Success:	Ptr to a new message struct.
+ * Return:  Success:    Ptr to a new message struct.
  *
- *		Failure:	NULL
+ *          Failure:    NULL
  *
  * Programmer:	Robb Matzke
- *		Tuesday, November 25, 1997
+ *              Tuesday, November 25, 1997
  *
  * Modification:
  *              Raymond Lu
@@ -90,14 +88,15 @@ const H5O_msg_class_t H5O_MSG_EFL[1] = {{
  */
 static void *
 H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
-    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags,
+    size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
-    H5O_efl_t		*mesg = NULL;
-    int			version;
-    const char		*s = NULL;
-    H5HL_t              *heap;
-    size_t		u;      /* Local index variable */
-    void *ret_value;            /* Return value */
+    H5O_efl_t   *mesg = NULL;
+    int         version;
+    const char  *s = NULL;
+    H5HL_t      *heap;
+    size_t      u;                  /* Local index variable */
+    void        *ret_value = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -106,12 +105,12 @@ H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
     HDassert(p);
 
     if(NULL == (mesg = (H5O_efl_t *)H5MM_calloc(sizeof(H5O_efl_t))))
-	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* Version */
     version = *p++;
     if(version != H5O_EFL_VERSION)
-	HGOTO_ERROR(H5E_OHDR, H5E_CANTLOAD, NULL, "bad version number for external file list message")
+        HGOTO_ERROR(H5E_OHDR, H5E_CANTLOAD, NULL, "bad version number for external file list message")
 
     /* Reserved */
     p += 3;
@@ -128,7 +127,7 @@ H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
 #ifndef NDEBUG
     HDassert(H5F_addr_defined(mesg->heap_addr));
 
-    if(NULL == (heap = H5HL_protect(f, dxpl_id, mesg->heap_addr, H5AC_READ)))
+    if(NULL == (heap = H5HL_protect(f, dxpl_id, mesg->heap_addr, H5AC__READ_ONLY_FLAG)))
         HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, NULL, "unable to read protect link value")
 
     s = (const char *)H5HL_offset_into(heap, 0);
@@ -143,24 +142,26 @@ H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
     /* Decode the file list */
     mesg->slot = (H5O_efl_entry_t *)H5MM_calloc(mesg->nalloc * sizeof(H5O_efl_entry_t));
     if(NULL == mesg->slot)
-	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
-    if(NULL == (heap = H5HL_protect(f, dxpl_id, mesg->heap_addr, H5AC_READ)))
+    if(NULL == (heap = H5HL_protect(f, dxpl_id, mesg->heap_addr, H5AC__READ_ONLY_FLAG)))
         HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, NULL, "unable to read protect link value")
     for(u = 0; u < mesg->nused; u++) {
-	/* Name */
-	H5F_DECODE_LENGTH (f, p, mesg->slot[u].name_offset);
+        /* Name */
+        H5F_DECODE_LENGTH (f, p, mesg->slot[u].name_offset);
 
-        s = (const char *)H5HL_offset_into(heap, mesg->slot[u].name_offset);
-	HDassert(s && *s);
-	mesg->slot[u].name = H5MM_xstrdup (s);
+        if((s = (const char *)H5HL_offset_into(heap, mesg->slot[u].name_offset)) == NULL)
+            HGOTO_ERROR(H5E_SYM, H5E_CANTGET, NULL, "unable to get external file name")
+        if(*s == (char)'\0')
+            HGOTO_ERROR(H5E_SYM, H5E_CANTGET, NULL, "invalid external file name")
+        mesg->slot[u].name = H5MM_xstrdup (s);
         HDassert(mesg->slot[u].name);
 
-	/* File offset */
-	H5F_DECODE_LENGTH (f, p, mesg->slot[u].offset);
+        /* File offset */
+        H5F_DECODE_LENGTH (f, p, mesg->slot[u].offset);
 
-	/* Size */
-	H5F_DECODE_LENGTH (f, p, mesg->slot[u].size);
+        /* Size */
+        H5F_DECODE_LENGTH (f, p, mesg->slot[u].size);
     } /* end for */
 
     if(H5HL_unprotect(heap) < 0)
@@ -258,64 +259,47 @@ H5O_efl_copy(const void *_mesg, void *_dest)
 {
     const H5O_efl_t	*mesg = (const H5O_efl_t *) _mesg;
     H5O_efl_t		*dest = (H5O_efl_t *) _dest;
-    size_t		u;              /* Local index variable */
-    void                *ret_value;     /* Return value */
+    size_t		u;                      /* Local index variable */
+    hbool_t             slot_allocated = FALSE; /* Flag to indicate that dynamic allocation has begun */
+    void                *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
     /* check args */
     HDassert(mesg);
-    if(!dest) {
-	if(NULL == (dest = (H5O_efl_t *)H5MM_calloc(sizeof(H5O_efl_t))))
-	    HGOTO_ERROR(H5E_OHDR, H5E_CANTALLOC, NULL, "can't allocate efl message")
-        if(NULL == (dest->slot = (H5O_efl_entry_t *)H5MM_calloc(mesg->nalloc * sizeof(H5O_efl_entry_t))))
-	    HGOTO_ERROR(H5E_OHDR, H5E_CANTALLOC, NULL, "can't allocate efl message slots")
-    } /* end if */
-    else if(dest->nalloc < mesg->nalloc) {
-        H5O_efl_entry_t *temp_slot;     /* Temporary pointer to new slot information */
 
-        /* Allocate new 'slot' information */
-        if(NULL == (temp_slot = (H5O_efl_entry_t *)H5MM_calloc(mesg->nalloc * sizeof(H5O_efl_entry_t))))
+    /* Allocate destination message, if necessary */
+    if(!dest && NULL == (dest = (H5O_efl_t *)H5MM_calloc(sizeof(H5O_efl_t))))
+        HGOTO_ERROR(H5E_OHDR, H5E_CANTALLOC, NULL, "can't allocate efl message")
+
+    /* copy */
+    *dest = *mesg;
+
+    /* Deep copy allocated information */
+    if(dest->nalloc > 0) {
+        if(NULL == (dest->slot = (H5O_efl_entry_t *)H5MM_calloc(dest->nalloc * sizeof(H5O_efl_entry_t))))
             HGOTO_ERROR(H5E_OHDR, H5E_CANTALLOC, NULL, "can't allocate efl message slots")
-
-        /* Release old 'slot' information */
-        for(u = 0; u < dest->nused; u++)
-            dest->slot[u].name = (char *)H5MM_xfree(dest->slot[u].name);
-        dest->slot = (H5O_efl_entry_t *)H5MM_xfree(dest->slot);
-
-        /* Point to new 'slot' information */
-        dest->slot = temp_slot;
+        slot_allocated = TRUE;
+        for(u = 0; u < mesg->nused; u++) {
+            dest->slot[u] = mesg->slot[u];
+            if(NULL == (dest->slot[u].name = H5MM_xstrdup(mesg->slot[u].name)))
+                HGOTO_ERROR(H5E_OHDR, H5E_CANTALLOC, NULL, "can't allocate efl message slot name")
+        } /* end for */
     } /* end if */
-    else {
-        /* Release old 'slot' information */
-        for(u = 0; u < dest->nused; u++)
-            dest->slot[u].name = (char *)H5MM_xfree(dest->slot[u].name);
-    } /* end else */
-    dest->heap_addr = mesg->heap_addr;
-    dest->nalloc = mesg->nalloc;
-    dest->nused = mesg->nused;
-
-    for(u = 0; u < mesg->nused; u++) {
-	dest->slot[u] = mesg->slot[u];
-	if(NULL == (dest->slot[u].name = H5MM_xstrdup(mesg->slot[u].name)))
-            HGOTO_ERROR(H5E_OHDR, H5E_CANTALLOC, NULL, "can't allocate efl message slot name")
-    } /* end for */
 
     /* Set return value */
     ret_value = dest;
 
 done:
     if(NULL == ret_value) {
-        if(dest && NULL == _dest) {
-            if(dest->slot) {
-                for(u = 0; u < mesg->nused; u++) {
-                    if(dest->slot[u].name != NULL && dest->slot[u].name != mesg->slot[u].name)
-                        dest->slot[u].name = (char *)H5MM_xfree(dest->slot[u].name);
-                } /* end for */
-                dest->slot = (H5O_efl_entry_t *)H5MM_xfree(dest->slot);
-            } /* end if */
-            dest = (H5O_efl_t *)H5MM_xfree(dest);
+        if(slot_allocated) {
+            for(u = 0; u < dest->nused; u++)
+                if(dest->slot[u].name != NULL && dest->slot[u].name != mesg->slot[u].name)
+                    dest->slot[u].name = (char *)H5MM_xfree(dest->slot[u].name);
+            dest->slot = (H5O_efl_entry_t *)H5MM_xfree(dest->slot);
         } /* end if */
+        if(NULL == _dest)
+            dest = (H5O_efl_t *)H5MM_xfree(dest);
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -389,8 +373,10 @@ H5O_efl_reset(void *_mesg)
 
     /* reset */
     if(mesg->slot) {
-        for(u = 0; u < mesg->nused; u++)
+        for(u = 0; u < mesg->nused; u++) {
             mesg->slot[u].name = (char *)H5MM_xfree(mesg->slot[u].name);
+            mesg->slot[u].name_offset = 0;
+        } /* end for */
         mesg->slot = (H5O_efl_entry_t *)H5MM_xfree(mesg->slot);
     } /* end if */
     mesg->heap_addr = HADDR_UNDEF;
@@ -460,11 +446,11 @@ H5O_efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_ds
 {
     H5O_efl_t   *efl_src = (H5O_efl_t *) mesg_src;
     H5O_efl_t   *efl_dst = NULL;
-    H5HL_t      *heap = NULL;                           /* Pointer to local heap for EFL file names */
+    H5HL_t      *heap = NULL;                   /* Pointer to local heap for EFL file names */
     size_t      idx, size, name_offset, heap_size;
-    void        *ret_value;          /* Return value */
+    void        *ret_value = NULL;              /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_NOAPI_NOINIT_TAG(dxpl_id, H5AC__COPIED_TAG, NULL)
 
     /* check args */
     HDassert(efl_src);
@@ -487,11 +473,11 @@ H5O_efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_ds
         HGOTO_ERROR(H5E_EFL, H5E_CANTINIT, NULL, "can't create heap")
 
     /* Pin the heap down in memory */
-    if(NULL == (heap = H5HL_protect(file_dst, dxpl_id, efl_dst->heap_addr, H5AC_WRITE)))
+    if(NULL == (heap = H5HL_protect(file_dst, dxpl_id, efl_dst->heap_addr, H5AC__NO_FLAGS_SET)))
         HGOTO_ERROR(H5E_EFL, H5E_PROTECT, NULL, "unable to protect EFL file name heap")
 
     /* Insert "empty" name first */
-    if((size_t)(-1) == (name_offset = H5HL_insert(file_dst, dxpl_id, heap, (size_t)1, "")))
+    if(UFAIL == (name_offset = H5HL_insert(file_dst, dxpl_id, heap, (size_t)1, "")))
         HGOTO_ERROR(H5E_EFL, H5E_CANTINSERT, NULL, "can't insert file name into heap")
     HDassert(0 == name_offset);
 
@@ -508,7 +494,7 @@ H5O_efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_ds
     /* copy the name from the source */
     for(idx = 0; idx < efl_src->nused; idx++) {
         efl_dst->slot[idx].name = H5MM_xstrdup(efl_src->slot[idx].name);
-        if((size_t)(-1) == (efl_dst->slot[idx].name_offset = H5HL_insert(file_dst, dxpl_id, heap,
+        if(UFAIL == (efl_dst->slot[idx].name_offset = H5HL_insert(file_dst, dxpl_id, heap,
                 HDstrlen(efl_dst->slot[idx].name) + 1, efl_dst->slot[idx].name)))
             HGOTO_ERROR(H5E_EFL, H5E_CANTINSERT, NULL, "can't insert file name into heap")
     } /* end for */
@@ -524,7 +510,7 @@ done:
         if(efl_dst)
             H5MM_xfree(efl_dst);
 
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, NULL)
 } /* end H5O_efl_copy_file() */
 
 

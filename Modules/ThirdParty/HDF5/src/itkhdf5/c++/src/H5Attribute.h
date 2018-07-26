@@ -6,116 +6,99 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifndef __H5Attribute_H
 #define __H5Attribute_H
 
-#ifndef H5_NO_NAMESPACE
 namespace H5 {
-#endif
 
 /*! \class Attribute
     \brief Class Attribute operates on HDF5 attributes.
 
     An attribute has many characteristics similar to a dataset, thus both
     Attribute and DataSet are derivatives of AbstractDs.  Attribute also
-    inherits from IdComponent because an attribute is an HDF5 component that
-    is identified by an identifier.
+    inherits from H5Location because an attribute can be used to specify
+    a location.
 */
-class H5_DLLCPP Attribute : public AbstractDs, public IdComponent {
+//  Inheritance: multiple H5Location/AbstractDs -> IdComponent
+class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
    public:
 
-	// Copy constructor: makes a copy of an existing Attribute object.
-	Attribute( const Attribute& original );
+        // Copy constructor: same as the original Attribute.
+        Attribute(const Attribute& original);
 
-	// Default constructor
-	Attribute();
+        // Default constructor
+        Attribute();
 
-	// Creates a copy of an existing attribute using the attribute id
-	Attribute( const hid_t attr_id );
+        // Creates a copy of an existing attribute using the attribute id
+        Attribute(const hid_t attr_id);
 
-	// Closes this attribute.
-	virtual void close();
+        // Closes this attribute.
+        virtual void close();
 
-	// Gets the name of the file, in which this attribute belongs.
-	H5std_string getFileName() const;
+        // Gets the name of this attribute.
+        ssize_t getName(char* attr_name, size_t buf_size = 0) const;
+        H5std_string getName(size_t len) const;
+        H5std_string getName() const;
+        ssize_t getName(H5std_string& attr_name, size_t len = 0) const;
+        // The overloaded function below is replaced by the one above and it
+        // is kept for backward compatibility purpose.
+        ssize_t getName(size_t buf_size, H5std_string& attr_name) const;
 
-	// Gets the name of this attribute.
-	ssize_t getName(char* attr_name, size_t buf_size = 0) const;
-	H5std_string getName(size_t len) const;
-	H5std_string getName() const;
-	ssize_t getName(H5std_string& attr_name, size_t len = 0) const;
-	// The overloaded function below is replaced by the one above and it
-	// is kept for backward compatibility purpose.
-	ssize_t getName( size_t buf_size, H5std_string& attr_name ) const;
+        // Gets a copy of the dataspace for this attribute.
+        virtual DataSpace getSpace() const;
 
-	// Gets a copy of the dataspace for this attribute.
-	virtual DataSpace getSpace() const;
+        // Returns the amount of storage size required for this attribute.
+        virtual hsize_t getStorageSize() const;
 
-	// Returns the amount of storage size required for this attribute.
-	virtual hsize_t getStorageSize() const;
+        // Returns the in memory size of this attribute's data.
+        virtual size_t getInMemDataSize() const;
 
-	// Returns the in memory size of this attribute's data.
-	virtual size_t getInMemDataSize() const;
+        // Reads data from this attribute.
+        void read(const DataType& mem_type, void *buf) const;
+        void read(const DataType& mem_type, H5std_string& strg) const;
 
-	// Reads data from this attribute.
-	void read( const DataType& mem_type, void *buf ) const;
-	void read( const DataType& mem_type, H5std_string& strg ) const;
+        // Writes data to this attribute.
+        void write(const DataType& mem_type, const void *buf) const;
+        void write(const DataType& mem_type, const H5std_string& strg) const;
 
-	// Writes data to this attribute.
-	void write(const DataType& mem_type, const void *buf ) const;
-	void write(const DataType& mem_type, const H5std_string& strg ) const;
+        ///\brief Returns this class name.
+        virtual H5std_string fromClass () const { return("Attribute"); }
 
-	// Flushes all buffers associated with the file specified by this
-	// attribute to disk.
-	void flush( H5F_scope_t scope ) const;
+        // Gets the attribute id.
+        virtual hid_t getId() const;
 
-	///\brief Returns this class name.
-	virtual H5std_string fromClass () const { return("Attribute"); }
-
-	// Gets the attribute id.
-	virtual hid_t getId() const;
-
-	// Destructor: properly terminates access to this attribute.
-	virtual ~Attribute();
+        // Destructor: properly terminates access to this attribute.
+        virtual ~Attribute();
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
    protected:
-	// Sets the attribute id.
-	virtual void p_setId(const hid_t new_id);
+        // Sets the attribute id.
+        virtual void p_setId(const hid_t new_id);
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
    private:
-	hid_t id;	// HDF5 attribute id
+        hid_t id;        // HDF5 attribute id
 
-	// This function contains the common code that is used by
-	// getTypeClass and various API functions getXxxType
-	// defined in AbstractDs for generic datatype and specific
-	// sub-types
-	virtual hid_t p_get_type() const;
+        // This function contains the common code that is used by
+        // getTypeClass and various API functions getXxxType
+        // defined in AbstractDs for generic datatype and specific
+        // sub-types
+        virtual hid_t p_get_type() const;
 
-	// Reads variable or fixed len strings from this attribute.
-	void p_read_variable_len(const DataType& mem_type, H5std_string& strg) const;
-	void p_read_fixed_len(const DataType& mem_type, H5std_string& strg) const;
+        // Reads variable or fixed len strings from this attribute.
+        void p_read_variable_len(const DataType& mem_type, H5std_string& strg) const;
+        void p_read_fixed_len(const DataType& mem_type, H5std_string& strg) const;
 
-	// do not inherit H5Object::iterateAttrs
-	int iterateAttrs() { return 0; }
+        // Friend function to set Attribute id.  For library use only.
+        friend void f_Attribute_setId(Attribute* attr, hid_t new_id);
 
-	// do not inherit H5Object::renameAttr
-	void renameAttr() {}
+}; // end of Attribute
+} // namespace H5
 
-	// Friend function to set Attribute id.  For library use only.
-	friend void f_Attribute_setId(Attribute* attr, hid_t new_id);
-
-};
-#ifndef H5_NO_NAMESPACE
-}
-#endif
 #endif // __H5Attribute_H

@@ -1,0 +1,79 @@
+#
+# Copyright by The HDF Group.
+# All rights reserved.
+#
+# This file is part of HDF5.  The full HDF5 copyright notice, including
+# terms governing use, modification, and redistribution, is contained in
+# the COPYING file, which can be found at the root of the source code
+# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# If you do not have access to either file, you may request a copy from
+# help@hdfgroup.org.
+#
+#
+# To be used by projects that make use of CMakeified hdf-java
+#
+
+#
+# Find the HDFJAVA includes and get all installed hdf-java library settings from
+# HDFJAVA-config.cmake file : Requires a CMake compatible hdf-java-@HDFJAVA_PACKAGE_VERSION@ or later
+# for this feature to work. The following vars are set if hdf-java is found.
+#
+# HDFJAVA_FOUND               - True if found, otherwise all other vars are undefined
+# HDFJAVA_VERSION_STRING      - full version (e.g. @HDFJAVA_PACKAGE_VERSION@)
+# HDFJAVA_VERSION_MAJOR       - major part of version (e.g. @HDFJAVA_PACKAGE_VERSION_MAJOR@)
+# HDFJAVA_VERSION_MINOR       - minor part (e.g. @HDFJAVA_PACKAGE_VERSION_MINOR@)
+#
+# Target names that are valid (depending on enabled options)
+# will be the following
+#
+#
+# To aid in finding HDFJAVA as part of a subproject set
+# HDFJAVA_ROOT_DIR_HINT to the location where @HDFJAVA_PACKAGE@@HDF_PACKAGE_EXT@-config.cmake lies
+
+INCLUDE (SelectLibraryConfigurations)
+INCLUDE (FindPackageHandleStandardArgs)
+
+# The HINTS option should only be used for values computed from the system.
+set (_HDFJAVA_HINTS
+    $ENV{HOME}/.local
+    $ENV{HDFJAVA_ROOT}
+    $ENV{HDFJAVA_ROOT_DIR_HINT}
+)
+# Hard-coded guesses should still go in PATHS. This ensures that the user
+# environment can always override hard guesses.
+set (_HDFJAVA_PATHS
+    $ENV{HOME}/.local
+    $ENV{HDFJAVA_ROOT}
+    $ENV{HDFJAVA_ROOT_DIR_HINT}
+    /usr/lib/@HDFJAVA_PACKAGE@
+    /usr/share/@HDFJAVA_PACKAGE@
+    /usr/local/@HDFJAVA_PACKAGE@
+    /usr/local/@HDFJAVA_PACKAGE@/share
+)
+
+FIND_PATH (HDFJAVA_ROOT_DIR "@HDFJAVA_PACKAGE@@HDF_PACKAGE_EXT@-config.cmake"
+    HINTS ${_HDFJAVA_HINTS}
+    PATHS ${_HDFJAVA_PATHS}
+    PATH_SUFFIXES
+        cmake/@HDFJAVA_PACKAGE@
+        lib/cmake/@HDFJAVA_PACKAGE@
+        share/cmake/@HDFJAVA_PACKAGE@
+)
+
+FIND_PATH (HDFJAVA_LIBRARY "jarhdf5-@HDFJAVA_PACKAGE_VERSION@.jar"
+    HINTS ${_HDFJAVA_HINTS}
+    PATHS ${_HDFJAVA_PATHS}
+    PATH_SUFFIXES
+        lib
+)
+
+if (HDFJAVA_ROOT_DIR)
+  set (HDFJAVA_FOUND "YES")
+  INCLUDE (${HDFJAVA_ROOT_DIR}/@HDFJAVA_PACKAGE@@HDF_PACKAGE_EXT@-config.cmake)
+  set (HDFJAVA_LIBRARIES "${HDFJAVA_LIBRARY}")
+  set (HDFJAVA_INCLUDE_DIRS
+        ${HDFJAVA_LIBRARY}/jarhdf-@HDFJAVA_PACKAGE_VERSION@.jar
+        ${HDFJAVA_LIBRARY}/jarhdf5-@HDFJAVA_PACKAGE_VERSION@.jar
+  )
+
+endif ()
