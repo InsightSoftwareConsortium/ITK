@@ -63,7 +63,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   /* Setup default options assuming dense-sampling */
   this->m_UseFixedImageGradientFilter  = true;
   this->m_UseMovingImageGradientFilter = true;
-  this->m_UseFixedSampledPointSet      = false;
+  this->m_UseSampledPointSet      = false;
+  this->m_UseVirtualSampledPointSet      = false;
 
   this->m_FloatingPointCorrectionResolution = 1e6;
   this->m_UseFloatingPointCorrection = false;
@@ -145,7 +146,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 
   /* Map the fixed samples into the virtual domain and store in
    * a searpate point set. */
-  if( this->m_UseFixedSampledPointSet )
+  if( this->m_UseSampledPointSet && !this->m_UseVirtualSampledPointSet)
     {
     this->MapFixedSampledPointSetToVirtual();
     }
@@ -244,7 +245,7 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetValueAndDerivativeExecute() const
 {
-  if( this->m_UseFixedSampledPointSet ) // sparse sampling
+  if( this->m_UseSampledPointSet ) // sparse sampling
     {
     SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if( numberOfPoints < 1 )
@@ -492,7 +493,7 @@ ThreadIdType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetMaximumNumberOfWorkUnits() const
 {
-  if( this->m_UseFixedSampledPointSet )
+  if( this->m_UseSampledPointSet )
     {
     return this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
     }
@@ -504,7 +505,7 @@ ThreadIdType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetNumberOfWorkUnitsUsed() const
 {
-  if( this->m_UseFixedSampledPointSet )
+  if( this->m_UseSampledPointSet )
     {
     return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
     }
@@ -571,7 +572,7 @@ SizeValueType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetNumberOfDomainPoints() const
 {
-  if( this->m_UseFixedSampledPointSet )
+  if( this->m_UseSampledPointSet )
     {
     //The virtual sampled point set holds the actual points
     // over which we're evaluating over.

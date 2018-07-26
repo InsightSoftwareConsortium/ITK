@@ -84,7 +84,7 @@ namespace itk {
  * value that measures the similarity between the two objects.
  *
  * \note Sparse sampling is not supported by this metric. An exception will be
- * thrown if m_UseFixedSampledPointSet is set. Support for sparse sampling
+ * thrown if m_UseSampledPointSet is set. Support for sparse sampling
  * will require a parallel implementation of the neighborhood scanning, which
  * currently caches information as the neighborhood window moves.
  *

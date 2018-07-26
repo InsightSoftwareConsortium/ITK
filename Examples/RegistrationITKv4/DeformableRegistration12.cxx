@@ -228,7 +228,7 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 32 );
   metric->SetUseMovingImageGradientFilter( false );
   metric->SetUseFixedImageGradientFilter( false );
-  metric->SetUseFixedSampledPointSet( false );
+  metric->SetUseSampledPointSet( false );
 
   using OptimizerType = itk::LBFGSBOptimizerv4;
   OptimizerType::Pointer      optimizer     = OptimizerType::New();

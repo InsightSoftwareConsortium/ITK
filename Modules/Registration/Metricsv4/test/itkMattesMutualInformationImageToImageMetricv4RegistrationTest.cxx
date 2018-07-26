@@ -151,7 +151,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   if( ! doSampling )
     {
     std::cout << "Dense sampling." << std::endl;
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     }
   else
     {
@@ -173,7 +173,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
       }
     std::cout << "Setting point set with " << ind << " points of " << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
     metric->SetFixedSampledPointSet( pset );
-    metric->SetUseFixedSampledPointSet( true );
+    metric->SetUseSampledPointSet( true );
     std::cout << "Testing metric with point set..." << std::endl;
     }
 
@@ -219,7 +219,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     {
     std::cout << "Follow affine with deformable registration " << std::endl;
     metric->SetMovingTransform( compositeTransform );
-    metric->SetUseFixedSampledPointSet( doSampling );
+    metric->SetUseSampledPointSet( doSampling );
     metric->Initialize();
 
     // Optimizer

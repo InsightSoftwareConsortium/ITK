@@ -159,7 +159,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedImageGradientFilter( false );
-  mutualInformationMetric->SetUseFixedSampledPointSet( false );
+  mutualInformationMetric->SetUseSampledPointSet( false );
   mutualInformationMetric->SetVirtualDomainFromImage( fixedImage );
   affineSimple->SetMetric( mutualInformationMetric );
 

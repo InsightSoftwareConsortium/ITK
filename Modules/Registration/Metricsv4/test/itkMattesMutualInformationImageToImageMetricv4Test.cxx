@@ -273,7 +273,7 @@ int TestMattesMetricWithAffineTransform(
       }
     std::cout << "Setting point set with " << ind << " points of " << imgFixed->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
     metric->SetFixedSampledPointSet( pset );
-    metric->SetUseFixedSampledPointSet( true );
+    metric->SetUseSampledPointSet( true );
     }
 
   // initialize the metric before use

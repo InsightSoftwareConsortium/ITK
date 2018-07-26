@@ -258,7 +258,7 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
     // this uses only 1500 points so it's probably not a great multi-thread test for the sparse case
   std::cout << "Setting point set with " << ind << " points of " << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
   metric->SetFixedSampledPointSet( pset );
-  metric->SetUseFixedSampledPointSet( true );
+  metric->SetUseSampledPointSet( true );
   std::cout << "Testing metric with point set..." << std::endl;
 
   // Assign images and transforms.
@@ -300,7 +300,7 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   compositeTransform->SetAllTransformsToOptimizeOn(); //Set back to optimize all.
   compositeTransform->SetOnlyMostRecentTransformToOptimizeOn(); //set to optimize the displacement field
   metric->SetMovingTransform( compositeTransform );
-  metric->SetUseFixedSampledPointSet( false );
+  metric->SetUseSampledPointSet( false );
   metric->Initialize();
 
   // Optimizer

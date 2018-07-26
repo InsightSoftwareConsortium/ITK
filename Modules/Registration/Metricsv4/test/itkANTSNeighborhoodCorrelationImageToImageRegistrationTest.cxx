@@ -250,7 +250,7 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
       ct++;
     }
   metric->SetFixedSampledPointSet( pset );
-  metric->SetUseFixedSampledPointSet( true );
+  metric->SetUseSampledPointSet( true );
   metric->Initialize();
   try
     {

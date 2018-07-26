@@ -77,7 +77,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedImageGradientFilter( false );
-  mutualInformationMetric->SetUseFixedSampledPointSet( false );
+  mutualInformationMetric->SetUseSampledPointSet( false );
   this->m_Metric = mutualInformationMetric;
 
   using DefaultScalesEstimatorType = RegistrationParameterScalesFromPhysicalShift<DefaultMetricType>;
@@ -1034,13 +1034,15 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
     if( multiMetric )
       {
-      dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedSampledPointSet( samplePointSet );
-      dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetUseFixedSampledPointSet( true );
+      dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetVirtualSampledPointSet( samplePointSet );
+      dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->UseSampledPointSetOn();
+      dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->UseVirtualSampledPointSetOn();
       }
     else
       {
-      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedSampledPointSet( samplePointSet );
-      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetUseFixedSampledPointSet( true );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetVirtualSampledPointSet( samplePointSet );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->UseSampledPointSetOn();
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->UseVirtualSampledPointSetOn();
       }
     }
 }
