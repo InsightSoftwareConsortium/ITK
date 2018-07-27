@@ -421,8 +421,8 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
     this->UpdateProgress(0.0);
     for (unsigned i = 0; i < m_Regions.size(); i++)
       {
-      PixelType val = NumericTraits<PixelType>::Zero;
-      PixelType val1 = NumericTraits<PixelType>::One;
+      PixelType val = NumericTraits<PixelType>::ZeroValue();
+      PixelType val1 = NumericTraits<PixelType>::OneValue();
       unsigned bits = sizeof(typename NumericTraits<PixelType>::ValueType) * 8;
       if (m_RegionContributors[i].empty())
         {
@@ -545,7 +545,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
       tileRegions[t] = &m_InputMappings[tileIndices[t]];
       }
 
-    TPixelAccumulateType zeroSum = NumericTraits<TPixelAccumulateType>::Zero;
+    TPixelAccumulateType zeroSum = NumericTraits<TPixelAccumulateType>::ZeroValue();
 
     if (!interpolate)
       {
