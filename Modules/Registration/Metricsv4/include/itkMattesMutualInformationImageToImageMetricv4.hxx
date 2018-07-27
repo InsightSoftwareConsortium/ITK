@@ -228,7 +228,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
   const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
 
-  if( this->GetNumberOfValidPoints() < numberOfPoints / 16 )
+  if( this->GetNumberOfValidPoints() == 0 )
     {
     itkExceptionMacro("Too many samples map outside moving image buffer. There are only "
                       << this->m_NumberOfValidPoints << " valid points out of "
