@@ -47,6 +47,8 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   using ImageType = TImageType;
+  //using ImagePointer = typename ImageType::Pointer;
+  //using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -228,7 +230,7 @@ private:
     ContinuousIndexType m_MinOuter; //minimum index for total montage
     ContinuousIndexType m_MaxOuter; //maximum index for total montage
 
-    template <typename TImageTypeInner, typename TInterpolatorInner>
+    template <typename TImageTypeInner, typename TPixelAccumulateType, typename TInterpolatorInner>
     friend class TileMergeImageFilter;
 }; // class TileMontage
 

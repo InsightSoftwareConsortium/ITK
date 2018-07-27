@@ -22,6 +22,7 @@
 #include "itkTileMontage.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkSimpleFastMutexLock.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -34,19 +35,28 @@ namespace itk
  * all of the input tiles. The pixels not covered by any input tile
  * will have the value specified by the Background member variable.
  *
+ * TPixelAccumulateType needs to allow bigger numbers when overlap regions are large.
+ * For example, char's default accumulation type is short,
+ * but int might be preferred for montages with large overlaps of input tiles.
+ *
  * \author Dženan Zukić, dzenan.zukic@kitware.com
  *
  * \ingroup Montage
  */
-template <typename TImageType, typename TInterpolator = LinearInterpolateImageFunction<TImageType, float> >
-class ITK_TEMPLATE_EXPORT TileMergeImageFilter: public TileMontage<TImageType, typename TInterpolator::CoordRepType>
+template <typename TImageType,
+    typename TPixelAccumulateType = typename NumericTraits<typename TImageType::PixelType>::AccumulateType,
+    typename TInterpolator = LinearInterpolateImageFunction<TImageType, float> >
+class ITK_TEMPLATE_EXPORT TileMergeImageFilter
+    : public TileMontage<Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>, typename TInterpolator::CoordRepType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TileMergeImageFilter);
 
+  /** We define superclass with scalar pixel type, to enable compiling even when RGB pixel is supplied. */
+  using Superclass = TileMontage<Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>, typename TInterpolator::CoordRepType>;
+
   /** Standard class type aliases. */
   using Self = TileMergeImageFilter;
-  using Superclass = TileMontage<TImageType, typename TInterpolator::CoordRepType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   using ImageType = TImageType;
@@ -74,8 +84,8 @@ public:
   using typename Superclass::ContinuousIndexType;
 
   /** Image's dependent types. */
-  using typename Superclass::PixelType;
-  using typename Superclass::RegionType;//using RegionType = typename Superclass::RegionType;
+  using PixelType = typename TImageType::PixelType;
+  using typename Superclass::RegionType; //using RegionType = typename Superclass::RegionType;
   using typename Superclass::PointType;
   using typename Superclass::SpacingType;
   using typename Superclass::OffsetType;
@@ -159,6 +169,9 @@ protected:
   {
     return ImageType::New();
   }
+
+  /** For reading if only filename was given. */
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   /** If not already read, reads the image into memory.
    * Only the part which overlaps output image's requested region is read.

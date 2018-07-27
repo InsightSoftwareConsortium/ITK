@@ -61,21 +61,23 @@ void WriteTransform(const TransformType* transform, std::string filename)
 }
 
  //do the registrations and calculate registration errors
-template<typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
+template<typename PixelType, typename AccumulatePixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
 int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
     const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods,
     bool setMontageDirectly)
 {
   int result = EXIT_SUCCESS;
+  using ScalarPixelType = typename itk::NumericTraits<PixelType>::ValueType;
   constexpr unsigned Dimension = 2;
   using PointType = itk::Point<double, Dimension>;
   using VectorType = itk::Vector<double, Dimension>;
   using TransformType = itk::TranslationTransform<double, Dimension>;
-  using ImageType = itk::Image< PixelType, Dimension>;
-  using ImageTypePointer = typename ImageType::Pointer;
-  using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
+  using ScalarImageType = itk::Image< ScalarPixelType, Dimension>;
+  using OriginalImageType = itk::Image< PixelType, Dimension>; // possibly RGB instead of scalar
+  using ImageTypePointer = typename ScalarImageType::Pointer;
+  using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ScalarImageType, ScalarImageType>;
   using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
-  typename ImageType::SpacingType sp;
+  typename ScalarImageType::SpacingType sp;
   sp.Fill(1.0); //OMC test assumes unit spacing, tiles test has explicit unit spacing
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
@@ -100,7 +102,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
     registrationErrors << std::endl;
 
 
-    using MontageType = itk::TileMontage<ImageType>;
+    using MontageType = itk::TileMontage<ScalarImageType>;
     typename MontageType::Pointer montage = MontageType::New();
     montage->SetMontageSize({ xMontageSize, yMontageSize });
     montage->SetOriginAdjustment(stageCoords[1][1]);
@@ -168,14 +170,16 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         result = EXIT_FAILURE;
         }
       // write generated mosaic
-      using Resampler = itk::TileMergeImageFilter<ImageType>;
+      using Resampler = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
       typename Resampler::Pointer resampleF = Resampler::New();
       itk::SimpleFilterWatcher fw2(resampleF, "resampler");
+#ifndef DISABLE_SETTING_MONTAGE_DIRECTLY
       if (setMontageDirectly)
         {
         resampleF->SetMontage(montage);
         }
       else
+#endif
         {
         resampleF->SetMontageSize({ xMontageSize, yMontageSize });
         resampleF->SetOriginAdjustment(stageCoords[1][1]);
@@ -192,7 +196,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
           }
         }
       //resampleF->Update();
-      using WriterType = itk::ImageFileWriter<ImageType>;
+      using WriterType = itk::ImageFileWriter<OriginalImageType>;
       typename WriterType::Pointer w = WriterType::New();
       w->SetInput(resampleF->GetOutput());
       //resampleF->DebugOn(); //generate an image of contributing regions
