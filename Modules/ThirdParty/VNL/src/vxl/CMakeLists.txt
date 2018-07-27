@@ -27,7 +27,9 @@ foreach(p
     ## Only policies introduced after the cmake_minimum_required
     ## version need to explicitly be set to NEW.
 
-    ##----- Policies Introduced by CMake 3.10¶
+    ##----- Policies Introduced by CMake 3.12
+    CMP0075  #: Include file check macros honor CMAKE_REQUIRED_LIBRARIES.
+    ##----- Policies Introduced by CMake 3.10
     CMP0071  #: Let AUTOMOC and AUTOUIC process GENERATED files.
     CMP0070  #: Define file(GENERATE) behavior for relative paths.
     ##----- Policies Introduced by CMake 3.9
