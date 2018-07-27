@@ -31,6 +31,7 @@
 #include "itkStatisticsImageFilter.h"
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkWindowConvergenceMonitoringFunction.h"
+#include "itkNeighborhoodAlgorithm.h"
 
 namespace itk
 {
