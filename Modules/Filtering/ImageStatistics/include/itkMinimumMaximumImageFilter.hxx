@@ -19,8 +19,9 @@
 #define itkMinimumMaximumImageFilter_hxx
 #include "itkMinimumMaximumImageFilter.h"
 
-#include "itkImageRegionIterator.h"
-#include "itkProgressReporter.h"
+
+#include "itkImageScanlineIterator.h"
+#include "itkMutexLockHolder.h"
 
 #include <vector>
 
@@ -46,7 +47,6 @@ MinimumMaximumImageFilter< TInputImage >
   this->GetMinimumOutput()->Set( NumericTraits< PixelType >::max() );
   this->GetMaximumOutput()->Set( NumericTraits< PixelType >::NonpositiveMin() );
 
-  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage >
@@ -144,13 +144,8 @@ void
 MinimumMaximumImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
-  // Create the thread temporaries
-  m_ThreadMin = std::vector< PixelType >( numberOfThreads,
-                                          NumericTraits< PixelType >::max() );
-  m_ThreadMax = std::vector< PixelType >( numberOfThreads,
-                                          NumericTraits< PixelType >::NonpositiveMin() );
+  m_ThreadMin = NumericTraits< PixelType >::max();
+  m_ThreadMax = NumericTraits< PixelType >::NonpositiveMin();
 }
 
 template< typename TInputImage >
@@ -158,79 +153,63 @@ void
 MinimumMaximumImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
 {
-  ThreadIdType i;
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
-  PixelType minimum, maximum;
-
-  // Find the min/max over all threads
-  minimum = NumericTraits< PixelType >::max();
-  maximum = NumericTraits< PixelType >::NonpositiveMin();
-  for ( i = 0; i < numberOfThreads; i++ )
-    {
-    if ( m_ThreadMin[i] < minimum )
-      {
-      minimum = m_ThreadMin[i];
-      }
-    if ( m_ThreadMax[i] > maximum )
-      {
-      maximum = m_ThreadMax[i];
-      }
-    }
-
-  // Set the outputs
-  this->GetMinimumOutput()->Set(minimum);
-  this->GetMaximumOutput()->Set(maximum);
+  this->GetMinimumOutput()->Set(m_ThreadMin);
+  this->GetMaximumOutput()->Set(m_ThreadMax);
 }
 
 template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
-::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const RegionType & regionForThread)
 {
-  if ( outputRegionForThread.GetNumberOfPixels() == 0 )
-    return;
-
-  PixelType localMin = m_ThreadMin[threadId];
-  PixelType localMax = m_ThreadMax[threadId];
-
-  ImageRegionConstIterator< TInputImage > it (this->GetInput(), outputRegionForThread);
-
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels()/2 );
-
-  // Handle the odd pixel separately
-  if ( outputRegionForThread.GetNumberOfPixels()%2 == 1 )
+  if ( regionForThread.GetNumberOfPixels() == 0 )
     {
-    const PixelType value = it.Get();
-    localMin = localMax = value;
-    ++it;
+    return;
     }
 
-  // do the work for the even number of pixels 2 at a time
+  PixelType localMin = NumericTraits< PixelType >::max();
+  PixelType localMax = NumericTraits< PixelType >::NonpositiveMin();
+
+  ImageScanlineConstIterator< TInputImage > it (this->GetInput(),  regionForThread);
+
+
+  // do the work
   while ( !it.IsAtEnd() )
     {
-    const PixelType value1 = it.Get();
-    ++it;
-    const PixelType value2 = it.Get();
-    ++it;
+    // Handle the odd pixel separately
+    if ( regionForThread.GetSize(0)%2 == 1 )
+      {
+      const PixelType value = it.Get();
+      localMin = std::min(value, localMin);
+      localMax = std::max(value, localMax);
+      ++it;
+      }
 
-    if (value1 > value2)
+    while ( !it.IsAtEndOfLine() )
       {
-      localMax = std::max(value1,localMax);
-      localMin = std::min(value2,localMin);
+      const PixelType value1 = it.Get();
+      ++it;
+      const PixelType value2 = it.Get();
+      ++it;
+
+      if (value1 > value2)
+        {
+        localMax = std::max(value1,localMax);
+        localMin = std::min(value2,localMin);
+        }
+      else
+        {
+        localMax = std::max(value2,localMax);
+        localMin = std::min(value1,localMin);
+        }
       }
-    else
-      {
-      localMax = std::max(value2,localMax);
-      localMin = std::min(value1,localMin);
-      }
-    progress.CompletedPixel();
+    it.NextLine();
+
     }
 
-  m_ThreadMin[threadId] = localMin;
-  m_ThreadMax[threadId] = localMax;
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  m_ThreadMin = std::min(localMin, m_ThreadMin);
+  m_ThreadMax = std::max(localMax, m_ThreadMax);
 }
 
 template< typename TImage >

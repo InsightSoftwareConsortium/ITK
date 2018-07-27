@@ -20,6 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkSimpleFastMutexLock.h"
 
 #include <vector>
 
@@ -127,15 +128,7 @@ protected:
     */
   void AfterThreadedGenerateData() override;
 
-  /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const RegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
-
-  void DynamicThreadedGenerateData( const RegionType & ) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  void DynamicThreadedGenerateData( const RegionType & ) override;
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion() override;
@@ -144,8 +137,10 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  std::vector< PixelType > m_ThreadMin;
-  std::vector< PixelType > m_ThreadMax;
+  PixelType m_ThreadMin;
+  PixelType m_ThreadMax;
+
+  SimpleFastMutexLock m_Mutex;
 };
 } // end namespace itk
 
