@@ -119,6 +119,7 @@ public:
 
   /**  Type of the Moving image. */
   using MovingImageType = TMovingImage;
+  using MovingImagePixelType = typename MovingImageType::PixelType;
   using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */

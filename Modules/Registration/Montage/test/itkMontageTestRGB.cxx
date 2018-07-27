@@ -16,32 +16,30 @@
  *
  *=========================================================================*/
 
+#define DISABLE_SETTING_MONTAGE_DIRECTLY
+#include "itkRGBPixel.h"
 #include "itkMockMontageHelper.hxx"
 #include "itkMontageTestHelper.hxx"
 
-int itkMontageTestTiles(int argc, char* argv[])
+int itkMontageTestRGB(int argc, char* argv[])
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <mockTSV> <montageTSV> [NamePrefix]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <mockTSV> <montageTSV>" << std::endl;
     return EXIT_FAILURE;
     }
 
+  using PixelType = itk::RGBPixel<unsigned char>;
   constexpr unsigned Dimension = 2;
   using PointType = itk::Point<double, Dimension>;
   using VectorType = itk::Vector<double, Dimension>;
   using TransformType = itk::TranslationTransform<double, Dimension>;
 
-  constexpr unsigned xMontageSize = 10;
-  constexpr unsigned yMontageSize = 10;
+  constexpr unsigned xMontageSize = 2;
+  constexpr unsigned yMontageSize = 2;
   using PositionTableType = std::array<std::array<PointType, xMontageSize>, yMontageSize>;
   using FilenameTableType = std::array<std::array<std::string, xMontageSize>, yMontageSize>;
 
-  std::string namePrefix = "Image";
-  if (argc >= 5)
-    {
-    namePrefix = argv[4];
-    }
   PositionTableType stageCoords, actualCoords;
   FilenameTableType filenames;
 
@@ -67,13 +65,12 @@ int itkMontageTestTiles(int argc, char* argv[])
         fActual >> p[d];
         }
       actualCoords[y][x] = p;
-      filenames[y][x] = std::string(argv[1]) + "/" + namePrefix + "_" + std::to_string(x + 1) + "_" + std::to_string(y + 1) + ".tif";
+      filenames[y][x] = std::string(argv[1]) + "/VisibleHumanMale1608_" + std::to_string(x + 1) + "_" + std::to_string(y + 1) + ".png";
       }
     }
 
-  //do not vary padding methods, because padding is not required for images in this test 
-  int r2 = montageTest<unsigned short, double, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], false, true);
-  int r1 = mockMontageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], false);
+  int r2 = montageTest<PixelType, itk::RGBPixel<unsigned int>, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], true, false);
+  int r1 = mockMontageTest<unsigned char, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], false);
 
   if (r1 == EXIT_FAILURE || r2 == EXIT_FAILURE)
     {

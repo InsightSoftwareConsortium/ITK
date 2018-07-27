@@ -33,8 +33,8 @@ int itkMontageGenericTests( int, char** const )
   using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PCMType>;
   using MontageTypeD = itk::TileMontage<ImageType, double>;
   using MontageTypeF = itk::TileMontage<ImageType, float>;
-  using MergingTypeD = itk::TileMergeImageFilter<ImageType, itk::LinearInterpolateImageFunction<ImageType, double> >;
-  using MergingTypeF = itk::TileMergeImageFilter<ImageType, itk::LinearInterpolateImageFunction<ImageType, float> >;
+  using MergingTypeD = itk::TileMergeImageFilter<ImageType, double, itk::LinearInterpolateImageFunction<ImageType, double> >;
+  using MergingTypeF = itk::TileMergeImageFilter<ImageType, float, itk::LinearInterpolateImageFunction<ImageType, float> >;
   using TileIndexType = typename MergingTypeF::TileIndexType;
   using SizeType = typename MergingTypeF::SizeType;
 

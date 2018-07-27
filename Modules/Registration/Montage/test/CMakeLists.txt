@@ -7,6 +7,7 @@ set(MontageTests
   itkPhaseCorrelationImageRegistrationMethodTestFiles.cxx
   itkMontageTestTiles.cxx
   itkMontageTestOMC.cxx
+  itkMontageTestRGB.cxx
   itkMontageGenericTests.cxx
   )
 
@@ -136,6 +137,16 @@ AddTestOMC(15)
 AddTestOMC(16)
 AddTestOMC(17)
 AddTestOMC(18)
+
+itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestRGB
+  COMMAND MontageTestDriver
+  --compare DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/VisibleHumanMale1608.png}
+                 ${TESTING_OUTPUT_PATH}/itkMontageTestRGB0_1.mha
+  itkMontageTestRGB
+    DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGB
+    ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
+  )
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
   itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
