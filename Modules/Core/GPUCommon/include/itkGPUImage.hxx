@@ -126,6 +126,7 @@ template <typename TPixel, unsigned int VImageDimension>
 void GPUImage< TPixel, VImageDimension >::SetPixelContainer(PixelContainer *container)
 {
   Superclass::SetPixelContainer( container );
+  m_DataManager->SetCPUBufferPointer( Superclass::GetBufferPointer() );
   m_DataManager->SetCPUDirtyFlag( false );
   m_DataManager->SetGPUDirtyFlag( true );
 }
