@@ -75,8 +75,9 @@ public:
   /** Standard class type aliases. */
   using Self = CompensatedSummation;
 
-  /** Constructor. */
+  /** Constructors. */
   CompensatedSummation();
+  CompensatedSummation(FloatType value);
 
   /** Copy constructor. */
   CompensatedSummation( const Self & rhs );
@@ -86,6 +87,7 @@ public:
   /** Add an element to the sum. */
   void AddElement( const FloatType & element );
   Self & operator+=( const FloatType & rhs );
+  Self & operator+=( const Self & rhs );
 
   /** Subtract an element from the sum. */
   Self & operator-=( const FloatType & rhs );
@@ -103,6 +105,9 @@ public:
 
   /** Get the sum. */
   const AccumulateType & GetSum() const;
+
+  /** explicit conversion */
+  explicit operator FloatType() const;
 
 private:
   AccumulateType m_Sum;
