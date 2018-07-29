@@ -176,28 +176,28 @@ try:
     image = itk.GetImageViewFromArray(arr)
     image.FillBuffer(2)
     assert np.all(arr == itk.GetArrayFromImage(image))
-    image = itk.GetImageFromArray(arr, isVector=True)
+    image = itk.GetImageFromArray(arr, is_vector=True)
     assert image.GetImageDimension() == 2
-    image = itk.GetImageViewFromArray(arr, isVector=True)
+    image = itk.GetImageViewFromArray(arr, is_vector=True)
     assert image.GetImageDimension() == 2
     arr = np.array([[1,2,3],[4,5,6]]).astype(np.uint8)
     assert arr.shape[0] == 2
     assert arr.shape[1] == 3
     assert arr[1,1] == 5
     image = itk.GetImageFromArray(arr)
-    arrKeepAxes = itk.GetArrayFromImage(image, keepAxes=True)
+    arrKeepAxes = itk.GetArrayFromImage(image, keep_axes=True)
     assert arrKeepAxes.shape[0] == 3
     assert arrKeepAxes.shape[1] == 2
     assert arrKeepAxes[1,1] == 4
-    arr = itk.GetArrayFromImage(image, keepAxes=False)
+    arr = itk.GetArrayFromImage(image, keep_axes=False)
     assert arr.shape[0] == 2
     assert arr.shape[1] == 3
     assert arr[1,1] == 5
-    arrKeepAxes = itk.GetArrayViewFromImage(image, keepAxes=True)
+    arrKeepAxes = itk.GetArrayViewFromImage(image, keep_axes=True)
     assert arrKeepAxes.shape[0] == 3
     assert arrKeepAxes.shape[1] == 2
     assert arrKeepAxes[1,1] == 4
-    arr = itk.GetArrayViewFromImage(image, keepAxes=False)
+    arr = itk.GetArrayViewFromImage(image, keep_axes=False)
     assert arr.shape[0] == 2
     assert arr.shape[1] == 3
     assert arr[1,1] == 5
