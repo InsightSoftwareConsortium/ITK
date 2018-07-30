@@ -43,8 +43,8 @@ namespace itk
  *
  * \ingroup BSplineGradient
  */
-template <class TInputImage, class TOutputValueType>
-class BSplineApproximationGradientImageFilter
+template <typename TInputImage, typename TOutputValueType>
+class ITK_TEMPLATE_EXPORT BSplineApproximationGradientImageFilter
   : public ImageToImageFilter<
       TInputImage,
       Image<CovariantVector<TOutputValueType, TInputImage::ImageDimension>, TInputImage::ImageDimension>>
