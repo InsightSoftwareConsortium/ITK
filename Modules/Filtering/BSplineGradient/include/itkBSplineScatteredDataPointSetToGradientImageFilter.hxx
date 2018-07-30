@@ -20,6 +20,7 @@
 
 #include "itkBSplineScatteredDataPointSetToGradientImageFilter.h"
 
+
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodAlgorithm.h" // face calculator
 
