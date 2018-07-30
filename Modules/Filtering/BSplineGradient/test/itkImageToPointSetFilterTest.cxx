@@ -15,51 +15,49 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkImageFileReader.h"
+#include "itkMesh.h"
+#include "itkMeshFileWriter.h"
 
-#include "itkNormalDistributionImageSource.h"
-
-#include "itkImageFileWriter.h"
-#include "itkTestingMacros.h"
+#include "itkImageToPointSetFilter.h"
 
 int
-itkNormalDistributionImageSourceTest(int argc, char * argv[])
+itkImageToPointSetFilterTest(int argc, char * argv[])
 {
-  if (argc < 2)
+  if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " outputImage";
+    std::cerr << " inputImage outputMesh";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
-  const char * outputImageFileName = argv[1];
 
   const unsigned int                       Dimension = 2;
   typedef float                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  typedef itk::Image<PixelType, Dimension> InputImageType;
+  typedef itk::Mesh<PixelType, Dimension>  OutputMeshType;
 
-  typedef itk::NormalDistributionImageSource<ImageType> DistributionSourceType;
-  DistributionSourceType::Pointer                       distributionSource = DistributionSourceType::New();
+  typedef itk::ImageFileReader<InputImageType> ReaderType;
+  ReaderType::Pointer                          reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
 
-  EXERCISE_BASIC_OBJECT_METHODS(distributionSource, NormalDistributionImageSource, GenerateImageSource);
+  typedef itk::ImageToPointSetFilter<InputImageType, OutputMeshType> FilterType;
+  FilterType::Pointer                                                filter = FilterType::New();
+  filter->SetInput(0, reader->GetOutput());
 
+  typedef itk::MeshFileWriter<OutputMeshType> WriterType;
+  WriterType::Pointer                         writer = WriterType::New();
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  ImageType::SizeType size;
-  size.Fill(128);
-  distributionSource->SetSize(size);
-
-  std::cout << distributionSource << std::endl;
-
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
-  writer->SetFileName(outputImageFileName);
-  writer->SetInput(distributionSource->GetOutput());
   try
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (itk::ExceptionObject & ex)
   {
-    std::cerr << "Error: " << error << std::endl;
+    std::cerr << "Exception caught!" << std::endl;
+    std::cerr << ex << std::endl;
     return EXIT_FAILURE;
   }
 

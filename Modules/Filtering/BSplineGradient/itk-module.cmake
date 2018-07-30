@@ -12,13 +12,12 @@ itk_module(
   BSplineGradient
   DEPENDS
     ITKCommon
-    ITKStatistics
+    ITKMesh
   COMPILE_DEPENDS
-    ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKIOMeshVTK
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
-  ENABLE_SHARED
 )
