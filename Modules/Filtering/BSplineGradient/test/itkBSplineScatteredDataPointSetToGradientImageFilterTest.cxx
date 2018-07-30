@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientMagnitudeImageFilter.h"
+#include "itkVectorMagnitudeImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMesh.h"
@@ -77,7 +77,7 @@ itkBSplineScatteredDataPointSetToGradientImageFilterTest(int argc, char * argv[]
   pointSetToGradient->SetNumberOfControlPoints(ncps);
   pointSetToGradient->SetNumberOfLevels(3);
 
-  typedef itk::GradientMagnitudeImageFilter<PointSetToGradientFilterType::OutputImageType, OutputImageType>
+  typedef itk::VectorMagnitudeImageFilter<PointSetToGradientFilterType::OutputImageType, OutputImageType>
                                        GradientMagnitudeFilterType;
   GradientMagnitudeFilterType::Pointer gradientMagnitude = GradientMagnitudeFilterType::New();
   gradientMagnitude->SetInput(pointSetToGradient->GetOutput());

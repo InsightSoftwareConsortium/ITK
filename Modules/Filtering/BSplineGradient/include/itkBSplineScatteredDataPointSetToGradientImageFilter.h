@@ -22,6 +22,7 @@
 #include "itkPointSet.h"
 #include "itkPointSetToImageFilter.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkBSplineControlPointImageFunction.h"
 #include "itkVector.h"
 #include "itkVariableSizeMatrix.h"
 
@@ -100,6 +101,8 @@ public:
 
   typedef typename BSplineScatteredDataFilterType::ArrayType ArrayType;
 
+  typedef BSplineControlPointImageFunction<InternalImageType> BSplineControlPointImageFunctionType;
+
   void
   SetNumberOfLevels(unsigned int levels)
   {
@@ -127,14 +130,15 @@ public:
   itkSetObjectMacro(BSplineScatteredDataFilter, BSplineScatteredDataFilterType);
   itkGetObjectMacro(BSplineScatteredDataFilter, BSplineScatteredDataFilterType);
 
+
   /** Type of the outputs. */
-  typedef itk::ProcessObject::DataObjectPointerArray DataObjectPointerArray;
+  typedef ProcessObject::DataObjectPointerArray DataObjectPointerArray;
 
 protected:
   /** This is not a CovariantVector, but a VariableSizeMatrix where every row
    * corresponds to components of the input data vector, and every column
    * corresponds to the gradient component in each direction. */
-  typedef VariableSizeMatrix<float> InternalGradientType;
+  typedef typename BSplineControlPointImageFunctionType::GradientType InternalGradientType;
 
   BSplineScatteredDataPointSetToGradientImageFilter();
   virtual ~BSplineScatteredDataPointSetToGradientImageFilter() {}
