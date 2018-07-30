@@ -23,7 +23,7 @@
 #include "itkGaussianOperator.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressAccumulator.h"
-#include "itkStreamingImageFilter.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -116,7 +116,7 @@ void
 DiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  typename TOutputImage::Pointer output = this->GetOutput();
+  TOutputImage * output = this->GetOutput();
 
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
@@ -136,19 +136,7 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
   if ( filterDimensionality == 0 )
     {
     // no smoothing, copy input to output
-    ImageRegionConstIterator< InputImageType > inIt(
-      localInput,
-      this->GetOutput()->GetRequestedRegion() );
-    ImageRegionIterator< OutputImageType > outIt(
-      output,
-      this->GetOutput()->GetRequestedRegion() );
-
-    while ( !inIt.IsAtEnd() )
-      {
-      outIt.Set( static_cast< OutputPixelType >( inIt.Get() ) );
-      ++inIt;
-      ++outIt;
-      }
+    ImageAlgorithm::Copy( localInput.GetPointer(), output, this->GetOutput()->GetRequestedRegion(), this->GetOutput()->GetRequestedRegion());
     return;
     }
 
@@ -175,14 +163,10 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
   using SingleFilterType = NeighborhoodOperatorImageFilter< InputImageType,
                                            OutputImageType, RealOutputPixelValueType >;
 
-  using StreamingFilterType =
-      StreamingImageFilter< OutputImageType, OutputImageType >;
-
   using FirstFilterPointer = typename FirstFilterType::Pointer;
   using IntermediateFilterPointer = typename IntermediateFilterType::Pointer;
   using LastFilterPointer = typename LastFilterType::Pointer;
   using SingleFilterPointer = typename SingleFilterType::Pointer;
-  using StreamingFilterPointer = typename StreamingFilterType::Pointer;
 
   // Create a series of operators
   using OperatorType = GaussianOperator< RealOutputPixelValueType, ImageDimension >;
@@ -257,7 +241,7 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
     {
     // Setup a full mini-pipeline and stream the data through the
     // pipeline.
-    unsigned int numberOfStages = filterDimensionality * this->GetInternalNumberOfStreamDivisions() + 1;
+    const unsigned int numberOfStages = filterDimensionality;
 
     // First filter convolves and changes type from input type to real type
     FirstFilterPointer firstFilter = FirstFilterType::New();
@@ -294,7 +278,6 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
     // Last filter convolves and changes type from real type to output type
     LastFilterPointer lastFilter = LastFilterType::New();
     lastFilter->SetOperator(oper[filterDimensionality - 1]);
-    lastFilter->ReleaseDataFlagOn();
     if ( filterDimensionality > 2 )
       {
       lastFilter->SetInput( intermediateFilters[filterDimensionality - 3]->GetOutput() );
@@ -305,20 +288,13 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
       }
     progress->RegisterInternalFilter(lastFilter, 1.0f / numberOfStages);
 
-    // Put in a StreamingImageFilter so the mini-pipeline is processed
-    // in chunks to minimize memory usage
-    StreamingFilterPointer streamingFilter = StreamingFilterType::New();
-    streamingFilter->SetInput( lastFilter->GetOutput() );
-    streamingFilter->SetNumberOfStreamDivisions( this->GetInternalNumberOfStreamDivisions() );
-    progress->RegisterInternalFilter(streamingFilter, 1.0f / numberOfStages);
-
     // Graft this filters output onto the mini-pipeline so the mini-pipeline
     // has the correct region ivars and will write to this filters bulk data
     // output.
-    streamingFilter->GraftOutput(output);
+    lastFilter->GraftOutput(output);
 
     // Update the last filter in the chain
-    streamingFilter->Update();
+    lastFilter->Update();
 
     // Graft the last output of the mini-pipeline onto this filters output so
     // the final output has the correct region ivars and a handle to the final
@@ -326,6 +302,26 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
     this->GraftOutput(output);
     }
 }
+
+#if !defined( ITK_LEGACY_REMOVE )
+template< typename TInputImage, typename TOutputImage >
+unsigned int
+DiscreteGaussianImageFilter< TInputImage, TOutputImage >
+::GetInternalNumberOfStreamDivisions(void) const
+{
+  return 1;
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+DiscreteGaussianImageFilter< TInputImage, TOutputImage >
+::SetInternalNumberOfStreamDivisions(unsigned int)
+{
+#if !defined( ITK_LEGACY_SILENT )
+  itkWarningMacro( "SetInternalNumberOfStreamDivisions has been removed as the filter no longer internally streams!" );
+#endif
+}
+#endif
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -339,7 +335,6 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
-  os << indent << "InternalNumberOfStreamDivisions: " << m_InternalNumberOfStreamDivisions << std::endl;
 }
 } // end namespace itk
 
