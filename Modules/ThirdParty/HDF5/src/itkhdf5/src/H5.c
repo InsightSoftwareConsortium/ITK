@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /****************/
@@ -21,16 +19,18 @@
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"          /* Generic Functions                    */
-#include "H5ACprivate.h"        /* Metadata cache                       */
-#include "H5Dprivate.h"         /* Datasets                             */
-#include "H5Eprivate.h"         /* Error handling                       */
-#include "H5FLprivate.h"        /* Free lists                           */
-#include "H5Lprivate.h"         /* Links                                */
-#include "H5MMprivate.h"        /* Memory management                    */
-#include "H5Pprivate.h"         /* Property lists                       */
-#include "H5SLprivate.h"        /* Skip lists                           */
-#include "H5Tprivate.h"         /* Datatypes                            */
+#include "H5private.h"          /* Generic Functions                        */
+#include "H5ACprivate.h"        /* Metadata cache                           */
+#include "H5Dprivate.h"         /* Datasets                                 */
+#include "H5Eprivate.h"         /* Error handling                           */
+#include "H5FLprivate.h"        /* Free lists                               */
+#include "H5FSprivate.h"        /* File free space                          */
+#include "H5Lprivate.h"         /* Links                                    */
+#include "H5MMprivate.h"        /* Memory management                        */
+#include "H5Pprivate.h"         /* Property lists                           */
+#include "H5SLprivate.h"        /* Skip lists                               */
+#include "H5Tprivate.h"         /* Datatypes                                */
+#include "H5FSprivate.h"        /* File free space                          */
 
 /****************/
 /* Local Macros */
@@ -64,21 +64,26 @@ static int H5_mpi_delete_cb(MPI_Comm comm, int keyval, void *attr_val, int *flag
 /* Library Private Variables */
 /*****************************/
 
+/* HDF5 API Entered variable */
+/* (move to H5.c when new FUNC_ENTER macros in actual use -QAK) */
+hbool_t H5_api_entered_g = FALSE;
+
 /* statically initialize block for pthread_once call used in initializing */
 /* the first global mutex                                                 */
 #ifdef H5_HAVE_THREADSAFE
 H5_api_t H5_g;
 #else
 hbool_t H5_libinit_g = FALSE;   /* Library hasn't been initialized */
+hbool_t H5_libterm_g = FALSE;   /* Library isn't being shutdown */
 #endif
 
 #ifdef H5_HAVE_MPE
 hbool_t H5_MPEinit_g = FALSE;	/* MPE Library hasn't been initialized */
 #endif
 
-char			H5_lib_vers_info_g[] = H5_VERS_INFO;
+char                    H5_lib_vers_info_g[] = H5_VERS_INFO;
 static hbool_t          H5_dont_atexit_g = FALSE;
-H5_debug_t		H5_debug_g;		/*debugging info	*/
+H5_debug_t              H5_debug_g; /* debugging info */
 
 
 /*******************/
@@ -201,6 +206,10 @@ H5_init_library(void)
      * property classes.
      * The link interface needs to be initialized so that link property lists
      * have their properties registered.
+     * The FS module needs to be initialized as a result of the fix for HDFFV-10160:
+     *   It might not be initialized during normal file open. 
+     *   When the application does not close the file, routines in the module might
+     *   be called via H5_term_library() when shutting down the file.
      */
     if(H5E_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize error interface")
@@ -214,13 +223,15 @@ H5_init_library(void)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize metadata caching interface")
     if(H5L_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize link interface")
+    if(H5FS_init() < 0)
+       HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize FS interface")
 
     /* Debugging? */
     H5_debug_mask("-all");
     H5_debug_mask(HDgetenv("HDF5_DEBUG"));
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value);
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5_init_library() */
 
 
@@ -232,11 +243,6 @@ done:
  *		library-specific data.
  *
  * Return:	void
- *
- * Programmer:	Robb Matzke
- *              Friday, November 20, 1998
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -258,6 +264,9 @@ H5_term_library(void)
     if(!(H5_INIT_GLOBAL))
 	goto done;
 
+    /* Indicate that the library is being shut down */
+    H5_TERM_GLOBAL = TRUE;
+
     /* Check if we should display error output */
     (void)H5Eget_auto2(H5E_DEFAULT, &func, NULL);
 
@@ -267,30 +276,61 @@ H5_term_library(void)
      * way that would necessitate some cleanup work in the other interface.
      */
 #define DOWN(F)								      \
-    (((n = H5##F##_term_interface()) && (at + 8) < sizeof loop)?	      \
-     (sprintf(loop + at, "%s%s", (at ? "," : ""), #F),			      \
+    (((n = H5##F##_term_package()) && (at + 8) < sizeof loop)?	      \
+     (HDsprintf(loop + at, "%s%s", (at ? "," : ""), #F),			      \
       at += HDstrlen(loop + at),					      \
       n):                                                                     \
      ((n > 0 && (at + 5) < sizeof loop) ?				      \
-     (sprintf(loop + at, "..."),					      \
+     (HDsprintf(loop + at, "..."),					      \
       at += HDstrlen(loop + at),					      \
      n) : n))
 
     do {
-	pending = 0;
+        pending = 0;
+
         /* Try to organize these so the "higher" level components get shut
          * down before "lower" level components that they might rely on. -QAK
          */
-	pending += DOWN(R);
-	pending += DOWN(D);
-	pending += DOWN(L);
-	pending += DOWN(G);
-	pending += DOWN(A);
-	pending += DOWN(S);
-	pending += DOWN(T);
+        pending += DOWN(L);
+
+        /* Close the "top" of various interfaces (IDs, etc) but don't shut
+         *  down the whole interface yet, so that the object header messages
+         *  get serialized correctly for entries in the metadata cache and the
+         *  symbol table entry in the superblock gets serialized correctly, etc.
+         *  all of which is performed in the 'F' shutdown.
+         */
+        pending += DOWN(A_top);
+        pending += DOWN(D_top);
+        pending += DOWN(G_top);
+        pending += DOWN(R_top);
+        pending += DOWN(S_top);
+        pending += DOWN(T_top);
+
         /* Don't shut down the file code until objects in files are shut down */
         if(pending == 0)
             pending += DOWN(F);
+
+        /* Don't shut down the property list code until all objects that might
+         * use property lists are shut down */
+        if(pending == 0)
+            pending += DOWN(P);
+
+        /* Wait to shut down the "bottom" of various interfaces until the
+         *      files are closed, so pieces of the file can be serialized
+         *      correctly.
+         */
+        if(pending == 0) {
+            /* Shut down the "bottom" of the attribute, dataset, group,
+             *  reference, dataspace, and datatype interfaces, fully closing
+             *  out the interfaces now.
+             */
+            pending += DOWN(A);
+            pending += DOWN(D);
+            pending += DOWN(G);
+            pending += DOWN(R);
+            pending += DOWN(S);
+            pending += DOWN(T);
+        } /* end if */
 
         /* Don't shut down "low-level" components until "high-level" components
          * have successfully shut down.  This prevents property lists and IDs
@@ -301,9 +341,7 @@ H5_term_library(void)
             pending += DOWN(AC);
             pending += DOWN(Z);
             pending += DOWN(FD);
-            pending += DOWN(P);
             pending += DOWN(PL);
-
             /* Don't shut down the error code until other APIs which use it are shut down */
             if(pending == 0)
                 pending += DOWN(E);
@@ -316,14 +354,14 @@ H5_term_library(void)
             /* Don't shut down the free list code until _everything_ else is down */
             if(pending == 0)
                 pending += DOWN(FL);
-        }
+        } /* end if */
     } while(pending && ntries++ < 100);
 
     if(pending) {
         /* Only display the error message if the user is interested in them. */
         if(func) {
-            fprintf(stderr, "HDF5: infinite loop closing library\n");
-            fprintf(stderr, "      %s\n", loop);
+            HDfprintf(stderr, "HDF5: infinite loop closing library\n");
+            HDfprintf(stderr, "      %s\n", loop);
 #ifndef NDEBUG
             HDabort();
 #endif /* NDEBUG */
@@ -360,12 +398,22 @@ H5_term_library(void)
         (void)H5MM_free(tmp_open_stream);
     } /* end while */
 
+#if defined H5_MEMORY_ALLOC_SANITY_CHECK
+    /* Sanity check memory allocations */
+    H5MM_final_sanity_check();
+#endif /* H5_MEMORY_ALLOC_SANITY_CHECK */
+
+    /* Reset flag indicating that the library is being shut down */
+    H5_TERM_GLOBAL = FALSE;
+
     /* Mark library as closed */
     H5_INIT_GLOBAL = FALSE;
+
 done:
 #ifdef H5_HAVE_THREADSAFE
     H5_API_UNLOCK
 #endif /* H5_HAVE_THREADSAFE */
+
     return;
 } /* end H5_term_library() */
 
@@ -387,11 +435,6 @@ done:
  *
  *		Failure:	negative if this function is called more than
  *				once or if it is called too late.
- *
- * Programmer:	Robb Matzke
- *              Friday, November 20, 1998
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -426,11 +469,6 @@ H5dont_atexit(void)
  * Return:	Success:	non-negative
  *
  *		Failure:	negative
- *
- * Programmer:	Quincey Koziol
- *              Saturday, March 11, 2000
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -476,13 +514,6 @@ done:
  *
  *		Failure:	negative
  *
- * Programmer:	Quincey Koziol
- *              Wednesday, August 2, 2000
- *
- * Modifications:   Neil Fortner
- *                  Wednesday, April 8, 2009
- *                  Added support for factory free lists
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -506,30 +537,26 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5_debug_mask
+ * Function:    H5_debug_mask
  *
- * Purpose:	Set runtime debugging flags according to the string S.  The
- *		string should contain file numbers and package names
- *		separated by other characters. A file number applies to all
- *		following package names up to the next file number. The
- *		initial file number is `2' (the standard error stream). Each
- *		package name can be preceded by a `+' or `-' to add or remove
- *		the package from the debugging list (`+' is the default). The
- *		special name `all' means all packages.
+ * Purpose:     Set runtime debugging flags according to the string S.  The
+ *              string should contain file numbers and package names
+ *              separated by other characters. A file number applies to all
+ *              following package names up to the next file number. The
+ *              initial file number is `2' (the standard error stream). Each
+ *              package name can be preceded by a `+' or `-' to add or remove
+ *              the package from the debugging list (`+' is the default). The
+ *              special name `all' means all packages.
  *
- *		The name `trace' indicates that API tracing is to be turned
- *		on or off.
+ *              The name `trace' indicates that API tracing is to be turned
+ *              on or off.
  *
- * Return:	void
+ *              The name 'ttop' indicates that only top-level API calls
+ *              should be shown. This also turns on tracing as if the
+ *              'trace' word was shown.
  *
- * Programmer:	Robb Matzke
- *              Wednesday, August 19, 1998
+ * Return:      void
  *
- * Modifications:
- *              Robb Matzke, 2002-08-08
- *              Accepts the `ttop' word. If enabled then show only the
- *              top level API calls, otherwise show all API calls.  Also
- *              turns on tracing as if the `trace' word was present.
  *-------------------------------------------------------------------------
  */
 static void
@@ -541,55 +568,57 @@ H5_debug_mask(const char *s)
     hbool_t	clear;
 
     while (s && *s) {
-	if (HDisalpha(*s) || '-'==*s || '+'==*s) {
-	    /* Enable or Disable debugging? */
-	    if ('-'==*s) {
-		clear = TRUE;
-		s++;
-	    } else if ('+'==*s) {
-		clear = FALSE;
-		s++;
-	    } else {
-		clear = FALSE;
-	    }
 
-	    /* Get the name */
-	    for (i=0; HDisalpha(*s); i++, s++)
-		if (i<sizeof pkg_name)
+        if (HDisalpha(*s) || '-'==*s || '+'==*s) {
+
+            /* Enable or Disable debugging? */
+            if ('-'==*s) {
+                clear = TRUE;
+                s++;
+            } else if ('+'==*s) {
+                clear = FALSE;
+                s++;
+            } else {
+                clear = FALSE;
+            } /* end if */
+
+            /* Get the name */
+            for (i=0; HDisalpha(*s); i++, s++)
+                if (i<sizeof pkg_name)
                     pkg_name[i] = *s;
-	    pkg_name[MIN(sizeof(pkg_name)-1, i)] = '\0';
+            pkg_name[MIN(sizeof(pkg_name)-1, i)] = '\0';
 
-	    /* Trace, all, or one? */
-	    if (!HDstrcmp(pkg_name, "trace")) {
-		H5_debug_g.trace = clear ? NULL : stream;
+            /* Trace, all, or one? */
+            if (!HDstrcmp(pkg_name, "trace")) {
+                H5_debug_g.trace = clear ? NULL : stream;
             } else if (!HDstrcmp(pkg_name, "ttop")) {
                 H5_debug_g.trace = stream;
                 H5_debug_g.ttop = (hbool_t)!clear;
             } else if (!HDstrcmp(pkg_name, "ttimes")) {
                 H5_debug_g.trace = stream;
                 H5_debug_g.ttimes = (hbool_t)!clear;
-	    } else if (!HDstrcmp(pkg_name, "all")) {
-		for (i=0; i<(size_t)H5_NPKGS; i++)
-		    H5_debug_g.pkg[i].stream = clear ? NULL : stream;
-	    } else {
-		for (i=0; i<(size_t)H5_NPKGS; i++) {
-		    if (!HDstrcmp(H5_debug_g.pkg[i].name, pkg_name)) {
-			H5_debug_g.pkg[i].stream = clear ? NULL : stream;
-			break;
-		    }
-		}
-		if (i>=(size_t)H5_NPKGS)
-		    fprintf(stderr, "HDF5_DEBUG: ignored %s\n", pkg_name);
-	    }
+            } else if (!HDstrcmp(pkg_name, "all")) {
+                for (i=0; i<(size_t)H5_NPKGS; i++)
+                    H5_debug_g.pkg[i].stream = clear ? NULL : stream;
+            } else {
+                for (i=0; i<(size_t)H5_NPKGS; i++) {
+                    if (!HDstrcmp(H5_debug_g.pkg[i].name, pkg_name)) {
+                        H5_debug_g.pkg[i].stream = clear ? NULL : stream;
+                        break;
+		            } /* end if */
+                } /* end for */
+                if (i>=(size_t)H5_NPKGS)
+                    HDfprintf(stderr, "HDF5_DEBUG: ignored %s\n", pkg_name);
+            } /* end if-else */
 
-	} else if (HDisdigit(*s)) {
-	    int fd = (int)HDstrtol(s, &rest, 0);
-	    H5_debug_open_stream_t *open_stream;
+        } else if (HDisdigit(*s)) {
+            int fd = (int)HDstrtol(s, &rest, 0);
+            H5_debug_open_stream_t *open_stream;
 
-	    if((stream = HDfdopen(fd, "w")) != NULL) {
-	        (void)HDsetvbuf(stream, NULL, _IOLBF, (size_t)0);
+            if((stream = HDfdopen(fd, "w")) != NULL) {
+                (void)HDsetvbuf(stream, NULL, _IOLBF, (size_t)0);
 
-	        if(NULL == (open_stream = (H5_debug_open_stream_t *)H5MM_malloc(sizeof(H5_debug_open_stream_t)))) {
+                if(NULL == (open_stream = (H5_debug_open_stream_t *)H5MM_malloc(sizeof(H5_debug_open_stream_t)))) {
                     (void)HDfclose(stream);
                     return;
                 } /* end if */
@@ -598,11 +627,15 @@ H5_debug_mask(const char *s)
                 open_stream->next = H5_debug_g.open_stream;
                 H5_debug_g.open_stream = open_stream;
             } /* end if */
-	    s = rest;
-	} else {
-	    s++;
-	}
-    }
+
+            s = rest;
+        } else {
+            s++;
+        } /* end if-else */
+    } /* end while */
+
+    return;
+
 } /* end H5_debug_mask() */
 
 #ifdef H5_HAVE_PARALLEL
@@ -614,8 +647,6 @@ H5_debug_mask(const char *s)
  *              library when the communicator is destroyed, i.e. on MPI_Finalize.
  *
  * Return:	MPI_SUCCESS
- *
- * Programmer:	Mohamad Chaarawi, February 2015
  *
  *-------------------------------------------------------------------------
  */
@@ -640,13 +671,6 @@ static int H5_mpi_delete_cb(MPI_Comm H5_ATTR_UNUSED comm, int H5_ATTR_UNUSED key
  *		printf("version %u.%u release %u", maj, min, rel)
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Unknown
- *
- * Modifications:
- * 	Robb Matzke, 4 Mar 1998
- *	Now use "normal" data types for the interface.  Any of the arguments
- *	may be null pointers
  *
  *-------------------------------------------------------------------------
  */
@@ -680,13 +704,6 @@ done:
  * Return:	Success:	SUCCEED
  *
  *		Failure:	abort()
- *
- * Programmer:	Robb Matzke
- *              Tuesday, April 21, 1998
- *
- * Modifications:
- *	Albert Cheng, May 12, 2001
- *	Added verification of H5_VERS_INFO.
  *
  *-------------------------------------------------------------------------
  */
@@ -778,7 +795,7 @@ H5check_version(unsigned majnum, unsigned minnum, unsigned relnum)
 	HDsnprintf(lib_str, sizeof(lib_str), "HDF5 library version: %d.%d.%d",
 	    H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE);
 	if(*substr) {
-	    HDstrncat(lib_str, "-", 1);
+	    HDstrncat(lib_str, "-", (size_t)1);
 	    HDstrncat(lib_str, substr, (sizeof(lib_str) - HDstrlen(lib_str)) - 1);
 	} /* end if */
 	if (HDstrcmp(lib_str, H5_lib_vers_info_g)){
@@ -812,11 +829,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:  Robb Matzke
- *              Tuesday, December  9, 1997
- *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -838,11 +850,6 @@ done:
  * Purpose:	Terminate the library and release all resources.
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Robb Matzke
- *              Friday, January 30, 1998
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -892,7 +899,7 @@ H5allocate_memory(size_t size, hbool_t clear)
 {
     void *ret_value = NULL;
 
-    FUNC_ENTER_API_NOINIT;
+    FUNC_ENTER_API_NOINIT
     H5TRACE2("*x", "zb", size, clear);
 
     if(clear)
@@ -901,7 +908,6 @@ H5allocate_memory(size_t size, hbool_t clear)
         ret_value = H5MM_malloc(size);
 
     FUNC_LEAVE_API(ret_value)
-
 } /* end H5allocate_memory() */
 
 
@@ -934,13 +940,12 @@ H5resize_memory(void *mem, size_t size)
 {
     void *ret_value = NULL;
 
-    FUNC_ENTER_API_NOINIT;
+    FUNC_ENTER_API_NOINIT
     H5TRACE2("*x", "*xz", mem, size);
 
     ret_value = H5MM_realloc(mem, size);
 
     FUNC_LEAVE_API(ret_value)
-
 } /* end H5resize_memory() */
 
 
@@ -959,14 +964,13 @@ H5resize_memory(void *mem, size_t size)
 herr_t
 H5free_memory(void *mem)
 {
-    FUNC_ENTER_API_NOINIT;
+    FUNC_ENTER_API_NOINIT
     H5TRACE1("e", "*x", mem);
 
     /* At this time, it is impossible for this to fail. */
-    HDfree(mem);
+    H5MM_xfree(mem);
 
     FUNC_LEAVE_API(SUCCEED)
-
 } /* end H5free_memory() */
 
 
@@ -1009,6 +1013,9 @@ H5is_library_threadsafe(hbool_t *is_ts)
  *
  *    NOTE:     The main purpose of this is for handling Win32 thread cleanup
  *              on thread/process detach.
+ *
+ *              Only enabled when the shared Windows library is built with
+ *              thread safety enabled.
  *
  * Return:      TRUE on success, FALSE on failure
  *

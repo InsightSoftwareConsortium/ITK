@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Programmer:  Robb Matzke <matzke@llnl.gov>
@@ -20,30 +18,33 @@
  *		uninitialized data points of a dataset.
  */
 
-#define H5O_PACKAGE		/*suppress error about including H5Opkg	  */
+#include "H5Omodule.h"          /* This source code file is part of the H5O module */
 
-#include "H5private.h"		/* Generic Functions			*/
-#include "H5Dprivate.h"		/* Datasets				*/
-#include "H5Eprivate.h"		/* Error handling		  	*/
-#include "H5FLprivate.h"	/* Free Lists				*/
-#include "H5Iprivate.h"		/* IDs			  		*/
-#include "H5MMprivate.h"	/* Memory management			*/
-#include "H5Opkg.h"             /* Object headers			*/
-#include "H5Pprivate.h"		/* Property lists			*/
-#include "H5Sprivate.h"		/* Dataspaces				*/
+
+#include "H5private.h"      /* Generic Functions    */
+#include "H5Dprivate.h"     /* Datasets	            */
+#include "H5Eprivate.h"     /* Error handling       */
+#include "H5FLprivate.h"    /* Free Lists           */
+#include "H5Iprivate.h"     /* IDs                  */
+#include "H5MMprivate.h"    /* Memory management    */
+#include "H5Opkg.h"         /* Object headers       */
+#include "H5Pprivate.h"     /* Property lists       */
+#include "H5Sprivate.h"     /* Dataspaces           */
 
 
 static void  *H5O_fill_old_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
-    unsigned mesg_flags, unsigned *ioflags, const uint8_t *p);
+    unsigned mesg_flags, unsigned *ioflags, size_t p_size, const uint8_t *p);
 static herr_t H5O_fill_old_encode(H5F_t *f, uint8_t *p, const void *_mesg);
 static size_t H5O_fill_old_size(const H5F_t *f, const void *_mesg);
 static void  *H5O_fill_new_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
-    unsigned mesg_flags, unsigned *ioflags, const uint8_t *p);
+    unsigned mesg_flags, unsigned *ioflags, size_t p_size, const uint8_t *p);
 static herr_t H5O_fill_new_encode(H5F_t *f, uint8_t *p, const void *_mesg);
 static size_t H5O_fill_new_size(const H5F_t *f, const void *_mesg);
 static void  *H5O_fill_copy(const void *_mesg, void *_dest);
 static herr_t H5O_fill_reset(void *_mesg);
 static herr_t H5O_fill_free(void *_mesg);
+static herr_t H5O_fill_pre_copy_file(H5F_t *file_src, const void *mesg_src,
+    hbool_t *deleted, const H5O_copy_t *cpy_info, void *udata);
 static herr_t H5O_fill_debug(H5F_t *f, hid_t dxpl_id, const void *_mesg, FILE *stream,
 			     int indent, int fwidth);
 
@@ -106,51 +107,58 @@ static herr_t H5O_fill_debug(H5F_t *f, hid_t dxpl_id, const void *_mesg, FILE *s
 
 /* This message derives from H5O message class, for old fill value before version 1.5 */
 const H5O_msg_class_t H5O_MSG_FILL[1] = {{
-    H5O_FILL_ID,                /*message id number                     */
-    "fill",                     /*message name for debugging            */
-    sizeof(H5O_fill_t),		/*native message size                   */
-    H5O_SHARE_IS_SHARABLE|H5O_SHARE_IN_OHDR,	/* messages are sharable?       */
-    H5O_fill_shared_decode,	/*decode message                        */
-    H5O_fill_shared_encode,	/*encode message                        */
-    H5O_fill_copy,		/*copy the native value                 */
-    H5O_fill_shared_size,	/*raw message size			*/
-    H5O_fill_reset,		/*free internal memory			*/
-    H5O_fill_free,		/* free method				*/
-    H5O_fill_shared_delete,	/* file delete method			*/
-    H5O_fill_shared_link,	/* link method				*/
-    NULL,			/* set share method			*/
-    NULL,		    	/*can share method		*/
-    NULL,			/* pre copy native value to file	*/
-    H5O_fill_shared_copy_file,	/* copy native value to file		*/
-    H5O_fill_shared_post_copy_file,	/* post copy native value to file	*/
-    NULL,			/* get creation index		*/
-    NULL,			/* set creation index		*/
-    H5O_fill_shared_debug       /*debug the message			*/
+    H5O_FILL_ID,                /*message id number                         */
+    "fill",                     /*message name for debugging                */
+    sizeof(H5O_fill_t),         /*native message size                       */
+    H5O_SHARE_IS_SHARABLE|H5O_SHARE_IN_OHDR,    /* messages are sharable?   */
+    H5O_fill_shared_decode,     /*decode message                            */
+    H5O_fill_shared_encode,     /*encode message                            */
+    H5O_fill_copy,              /*copy the native value                     */
+    H5O_fill_shared_size,       /*raw message size                          */
+    H5O_fill_reset,             /*free internal memory                      */
+    H5O_fill_free,              /* free method                              */
+    H5O_fill_shared_delete,     /* file delete method                       */
+    H5O_fill_shared_link,       /* link method                              */
+    NULL,                       /* set share method                         */
+    NULL,                       /*can share method                          */
+    H5O_fill_pre_copy_file,     /* pre copy native value to file            */
+    H5O_fill_shared_copy_file,  /* copy native value to file                */
+    H5O_fill_shared_post_copy_file, /* post copy native value to file       */
+    NULL,                       /* get creation index                       */
+    NULL,                       /* set creation index                       */
+    H5O_fill_shared_debug       /*debug the message                         */
 }};
 
 /* This message derives from H5O message class, for new fill value after version 1.4  */
 const H5O_msg_class_t H5O_MSG_FILL_NEW[1] = {{
-    H5O_FILL_NEW_ID,		/*message id number			*/
-    "fill_new", 		/*message name for debugging		*/
-    sizeof(H5O_fill_t),		/*native message size			*/
-    H5O_SHARE_IS_SHARABLE|H5O_SHARE_IN_OHDR,	/* messages are sharable?       */
-    H5O_fill_new_shared_decode,	/*decode message			*/
-    H5O_fill_new_shared_encode,	/*encode message			*/
-    H5O_fill_copy,		/*copy the native value			*/
-    H5O_fill_new_shared_size,	/*raw message size			*/
-    H5O_fill_reset,		/*free internal memory			*/
-    H5O_fill_free,		/* free method				*/
-    H5O_fill_new_shared_delete,	/* file delete method			*/
-    H5O_fill_new_shared_link,	/* link method				*/
-    NULL,			/* set share method			*/
-    NULL,		    	/*can share method		*/
-    NULL,			/* pre copy native value to file	*/
-    H5O_fill_new_shared_copy_file, /* copy native value to file		*/
-    H5O_fill_new_shared_post_copy_file,	/* post copy native value to file	*/
-    NULL,			/* get creation index		*/
-    NULL,			/* set creation index		*/
-    H5O_fill_new_shared_debug	/*debug the message			*/
+    H5O_FILL_NEW_ID,                    /*message id number                 */
+    "fill_new",                         /*message name for debugging        */
+    sizeof(H5O_fill_t),                 /*native message size               */
+    H5O_SHARE_IS_SHARABLE|H5O_SHARE_IN_OHDR,    /* messages are sharable?   */
+    H5O_fill_new_shared_decode,         /*decode message                    */
+    H5O_fill_new_shared_encode,         /*encode message                    */
+    H5O_fill_copy,                      /*copy the native value             */
+    H5O_fill_new_shared_size,           /*raw message size                  */
+    H5O_fill_reset,                     /*free internal memory              */
+    H5O_fill_free,                      /* free method                      */
+    H5O_fill_new_shared_delete,         /* file delete method               */
+    H5O_fill_new_shared_link,           /* link method                      */
+    NULL,                               /* set share method                 */
+    NULL,                               /*can share method                  */
+    H5O_fill_pre_copy_file,             /* pre copy native value to file    */
+    H5O_fill_new_shared_copy_file,      /* copy native value to file        */
+    H5O_fill_new_shared_post_copy_file, /* post copy native value to file   */
+    NULL,                               /* get creation index               */
+    NULL,                               /* set creation index               */
+    H5O_fill_new_shared_debug           /*debug the message	                */
 }};
+
+/* Format version bounds for fill value */
+const unsigned H5O_fill_ver_bounds[] = {
+    H5O_FILL_VERSION_1,     /* H5F_LIBVER_EARLIEST */
+    H5O_FILL_VERSION_2,     /* H5F_LIBVER_V18 */
+    H5O_FILL_VERSION_LATEST /* H5F_LIBVER_LATEST */
+};
 
 /* Masks, shift values & flags for fill value message */
 #define H5O_FILL_MASK_ALLOC_TIME        0x03
@@ -172,11 +180,11 @@ H5FL_BLK_EXTERN(type_conv);
  * Function:	H5O_fill_new_decode
  *
  * Purpose:	Decode a new fill value message.  The new fill value
- * 		message is fill value plus space allocation time and
- * 		fill value writing time and whether fill value is defined.
+ *          message is fill value plus space allocation time and
+ *          fill value writing time and whether fill value is defined.
  *
- * Return:	Success:	Ptr to new message in native struct.
- *		Failure:	NULL
+ * Return:	Success:    Ptr to new message in native struct.
+ *          Failure:    NULL
  *
  * Programmer:  Raymond Lu
  *              Feb 26, 2002
@@ -185,10 +193,11 @@ H5FL_BLK_EXTERN(type_conv);
  */
 static void *
 H5O_fill_new_decode(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
-    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags,
+    size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5O_fill_t	*fill = NULL;
-    void	*ret_value;
+    void *ret_value = NULL;     /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -196,7 +205,7 @@ H5O_fill_new_decode(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t
     HDassert(p);
 
     if(NULL == (fill = H5FL_CALLOC(H5O_fill_t)))
-	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed for fill value message")
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed for fill value message")
 
     /* Version */
     fill->version = *p++;
@@ -277,7 +286,7 @@ done:
     if(!ret_value && fill) {
         if(fill->buf)
             H5MM_xfree(fill->buf);
-	fill = H5FL_FREE(H5O_fill_t, fill);
+        fill = H5FL_FREE(H5O_fill_t, fill);
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -299,10 +308,11 @@ done:
  */
 static void *
 H5O_fill_old_decode(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
-    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags,
+    size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
-    H5O_fill_t *fill = NULL;		/* Decoded fill value message */
-    void *ret_value;                    /* Return value */
+    H5O_fill_t *fill = NULL;	/* Decoded fill value message */
+    void *ret_value = NULL;     /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -337,7 +347,7 @@ done:
     if(!ret_value && fill) {
         if(fill->buf)
             H5MM_xfree(fill->buf);
-	fill = H5FL_FREE(H5O_fill_t, fill);
+	    fill = H5FL_FREE(H5O_fill_t, fill);
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -348,8 +358,8 @@ done:
  * Function:	H5O_fill_new_encode
  *
  * Purpose:	Encode a new fill value message.  The new fill value
- *              message is fill value plus space allocation time and
- *              fill value writing time and whether fill value is defined.
+ *          message is fill value plus space allocation time and
+ *          fill value writing time and whether fill value is defined.
  *
  * Return:	Non-negative on success/Negative on failure
  *
@@ -482,7 +492,7 @@ H5O_fill_old_encode(H5F_t H5_ATTR_UNUSED *f, uint8_t *p, const void *_fill)
  *		whether fill value is defined.
  *
  * Return:	Success:	Ptr to _DEST
- *		Failure:	NULL
+ *		    Failure:	NULL
  *
  * Programmer:  Raymond Lu
  *              Feb 26, 2002
@@ -492,16 +502,16 @@ H5O_fill_old_encode(H5F_t H5_ATTR_UNUSED *f, uint8_t *p, const void *_fill)
 static void *
 H5O_fill_copy(const void *_src, void *_dst)
 {
-    const H5O_fill_t	*src = (const H5O_fill_t *)_src;
-    H5O_fill_t		*dst = (H5O_fill_t *)_dst;
-    void		*ret_value;
+    const H5O_fill_t    *src = (const H5O_fill_t *)_src;
+    H5O_fill_t          *dst = (H5O_fill_t *)_dst;
+    void                *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
     HDassert(src);
 
     if(!dst && NULL == (dst = H5FL_MALLOC(H5O_fill_t)))
-	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed for fill message")
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed for fill message")
 
     /* Shallow copy basic fields */
     *dst = *src;
@@ -517,16 +527,16 @@ H5O_fill_copy(const void *_src, void *_dst)
     /* Copy fill value and its size */
     if(src->buf) {
         H5_CHECK_OVERFLOW(src->size, ssize_t, size_t);
-	if(NULL == (dst->buf = H5MM_malloc((size_t)src->size)))
-	    HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed for fill value")
-	HDmemcpy(dst->buf, src->buf, (size_t)src->size);
+        if(NULL == (dst->buf = H5MM_malloc((size_t)src->size)))
+            HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed for fill value")
+        HDmemcpy(dst->buf, src->buf, (size_t)src->size);
 
         /* Check for needing to convert/copy fill value */
         if(src->type) {
             H5T_path_t *tpath;      /* Conversion information */
 
             /* Set up type conversion function */
-            if(NULL == (tpath = H5T_path_find(src->type, dst->type, NULL, NULL, H5AC_ind_dxpl_id, FALSE)))
+            if(NULL == (tpath = H5T_path_find(src->type, dst->type, NULL, NULL, H5AC_noio_dxpl_id, FALSE)))
                 HGOTO_ERROR(H5E_OHDR, H5E_UNSUPPORTED, NULL, "unable to convert between src and dst data types")
 
             /* If necessary, convert fill value datatypes (which copies VL components, etc.) */
@@ -554,7 +564,7 @@ H5O_fill_copy(const void *_src, void *_dst)
                 } /* end if */
 
                 /* Convert fill value */
-                if(H5T_convert(tpath, src_id, dst_id, (size_t)1, (size_t)0, (size_t)0, dst->buf, bkg_buf, H5AC_ind_dxpl_id) < 0) {
+                if(H5T_convert(tpath, src_id, dst_id, (size_t)1, (size_t)0, (size_t)0, dst->buf, bkg_buf, H5AC_noio_dxpl_id) < 0) {
                     H5I_dec_ref(src_id);
                     H5I_dec_ref(dst_id);
                     if(bkg_buf)
@@ -580,9 +590,9 @@ done:
     if(!ret_value && dst) {
         if(dst->buf)
             H5MM_xfree(dst->buf);
-	if(dst->type)
+        if(dst->type)
             H5T_close(dst->type);
-	if(!_dst)
+        if(!_dst)
             dst = H5FL_FREE(H5O_fill_t, dst);
     } /* end if */
 
@@ -594,13 +604,13 @@ done:
  * Function:	H5O_fill_new_size
  *
  * Purpose:	Returns the size of the raw message in bytes not counting the
- *		message type or size fields, but only the data fields.  This
- *		function doesn't take into account alignment.  The new fill
- *		value message is fill value plus space allocation time and
- *              fill value writing time and whether fill value is defined.
+ *          message type or size fields, but only the data fields.  This
+ *          function doesn't take into account alignment.  The new fill
+ *          value message is fill value plus space allocation time and
+ *          fill value writing time and whether fill value is defined.
  *
  * Return:	Success:	Message data size in bytes w/o alignment.
- *		Failure:	0
+ *          Failure:	0
  *
  * Programmer:  Raymond Lu
  *              Feb 26, 2002
@@ -610,8 +620,8 @@ done:
 static size_t
 H5O_fill_new_size(const H5F_t H5_ATTR_UNUSED *f, const void *_fill)
 {
-    const H5O_fill_t	*fill = (const H5O_fill_t *)_fill;
-    size_t		ret_value;
+    const H5O_fill_t    *fill = (const H5O_fill_t *)_fill;
+    size_t              ret_value = 0;          /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -708,7 +718,7 @@ H5O_fill_reset_dyn(H5O_fill_t *fill)
                 HGOTO_ERROR(H5E_OHDR, H5E_CANTCREATE, FAIL, "can't create scalar dataspace")
 
             /* Reclaim any variable length components of the fill value */
-            if(H5D_vlen_reclaim(fill_type_id, fill_space, H5P_DATASET_XFER_DEFAULT, fill->buf) < 0) {
+            if(H5D_vlen_reclaim(fill_type_id, fill_space, H5AC_noio_dxpl_id, fill->buf) < 0) {
                 H5S_close(fill_space);
                 HGOTO_ERROR(H5E_OHDR, H5E_BADITER, FAIL, "unable to reclaim variable-length fill value data")
             } /* end if */
@@ -722,8 +732,8 @@ H5O_fill_reset_dyn(H5O_fill_t *fill)
     } /* end if */
     fill->size = 0;
     if(fill->type) {
-	H5T_close(fill->type);
-	fill->type = NULL;
+	    H5T_close(fill->type);
+        fill->type = NULL;
     } /* end if */
 
 done:
@@ -790,6 +800,42 @@ H5O_fill_free(void *fill)
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5O_fill_free() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:    H5O_fill_pre_copy_file
+ *
+ * Purpose:     Perform any necessary actions before copying message between
+ *              files.
+ *
+ * Return:      Success:        Non-negative
+ *              Failure:        Negative
+ *
+ * Programmer:  Vailin Choi; Dec 2017
+ *
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5O_fill_pre_copy_file(H5F_t H5_ATTR_UNUSED *file_src, const void *mesg_src,
+    hbool_t H5_ATTR_UNUSED *deleted, const H5O_copy_t *cpy_info, void H5_ATTR_UNUSED *udata)
+{
+    const H5O_fill_t	*fill_src = (const H5O_fill_t *)mesg_src;   /* Source fill value */
+    herr_t ret_value = SUCCEED;   /* Return value */
+
+    FUNC_ENTER_NOAPI_NOINIT
+
+    /* check args */
+    HDassert(cpy_info);
+    HDassert(cpy_info->file_dst);
+
+    /* Check to ensure that the version of the message to be copied does not exceed
+       the message version allowed by the destination file's high bound */
+    if(fill_src->version > H5O_fill_ver_bounds[H5F_HIGH_BOUND(cpy_info->file_dst)])
+        HGOTO_ERROR(H5E_OHDR, H5E_BADRANGE, FAIL, "fill value message version out of bounds")
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5O_fill_pre_copy_file() */
 
 
 /*-------------------------------------------------------------------------
@@ -884,13 +930,13 @@ H5O_fill_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void
 	      "Size:", fill->size);
     HDfprintf(stream, "%*s%-*s ", indent, "", fwidth, "Data type:");
     if(fill->type) {
-	H5T_debug(fill->type, stream);
-	fprintf(stream, "\n");
+        H5T_debug(fill->type, stream);
+        HDfprintf(stream, "\n");
     } /* end if */
     else
-	fprintf(stream, "<dataset type>\n");
+        HDfprintf(stream, "<dataset type>\n");
 
-    FUNC_LEAVE_NOAPI(SUCCEED);
+    FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5O_fill_debug() */
 
 
@@ -898,9 +944,9 @@ H5O_fill_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void
  * Function:	H5O_fill_convert
  *
  * Purpose:	Convert a fill value from whatever data type it currently has
- *		to the specified dataset type.  The `type' field of the fill
- *		value struct will be set to NULL to indicate that it has the
- *		same type as the dataset.
+ *          to the specified dataset type.  The `type' field of the fill
+ *          value struct will be set to NULL to indicate that it has the
+ *          same type as the dataset.
  *
  * Return:	Non-negative on success/Negative on failure
  *
@@ -926,21 +972,21 @@ H5O_fill_convert(H5O_fill_t *fill, H5T_t *dset_type, hbool_t *fill_changed, hid_
     /* No-op cases */
     if(!fill->buf || !fill->type || 0 == H5T_cmp(fill->type, dset_type, FALSE)) {
         /* Don't need datatype for fill value */
-	if(fill->type)
+        if(fill->type)
             H5T_close(fill->type);
-	fill->type = NULL;
+        fill->type = NULL;
 
         /* Note that the fill value info has changed */
         *fill_changed = TRUE;
 
-	HGOTO_DONE(SUCCEED);
+        HGOTO_DONE(SUCCEED);
     } /* end if */
 
     /*
      * Can we convert between source and destination data types?
      */
     if(NULL == (tpath = H5T_path_find(fill->type, dset_type, NULL, NULL, dxpl_id, FALSE)))
-	HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, FAIL, "unable to convert between src and dst datatypes")
+        HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, FAIL, "unable to convert between src and dst datatypes")
 
     /* Don't bother doing anything if there will be no actual conversion */
     if(!H5T_path_noop(tpath)) {
@@ -993,33 +1039,44 @@ done:
     if(bkg)
         H5MM_xfree(bkg);
 
-    FUNC_LEAVE_NOAPI(ret_value);
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5O_fill_convert() */
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5O_fill_set_latest_version
+ * Function:    H5O_fill_set_version
  *
- * Purpose:     Set the encoding for a fill value to the latest version.
+ * Purpose:     Set the version to encode a fill value with.
  *
- * Return:	Non-negative on success/Negative on failure
+ * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, July 24, 2007
+ * Programmer:  Vailin Choi; December 2017
  *
  *-------------------------------------------------------------------------
  */
 herr_t
-H5O_fill_set_latest_version(H5O_fill_t *fill)
+H5O_fill_set_version(H5F_t *f, H5O_fill_t *fill)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
+    unsigned version;           /* Message version */
+    herr_t ret_value = SUCCEED; /* Return value */
+
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
+    HDassert(f);
     HDassert(fill);
 
-    /* Set encoding of fill value to latest version */
-    fill->version = H5O_FILL_VERSION_LATEST;
+    /* Upgrade to the version indicated by the file's low bound if higher */
+    version = MAX(fill->version, H5O_fill_ver_bounds[H5F_LOW_BOUND(f)]);
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5O_fill_set_latest_version() */
+    /* Version bounds check */
+    if(version > H5O_fill_ver_bounds[H5F_HIGH_BOUND(f)])
+        HGOTO_ERROR(H5E_OHDR, H5E_BADRANGE, FAIL, "Filter pipeline version out of bounds")
+
+    /* Set the message version */
+    fill->version = version;
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5O_fill_set_version() */
 

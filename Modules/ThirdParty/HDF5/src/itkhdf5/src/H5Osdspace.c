@@ -5,16 +5,14 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define H5O_PACKAGE	/*suppress error about including H5Opkg	  */
-#define H5S_PACKAGE		/*prevent warning from including H5Spkg.h */
+#include "H5Omodule.h"          /* This source code file is part of the H5O module */
+#define H5S_FRIEND		/*prevent warning from including H5Spkg.h */
 
 #include "H5private.h"		/* Generic Functions			*/
 #include "H5Dprivate.h"		/* Datasets				*/
@@ -28,7 +26,7 @@
 
 /* PRIVATE PROTOTYPES */
 static void *H5O_sdspace_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
-    unsigned mesg_flags, unsigned *ioflags, const uint8_t *p);
+    unsigned mesg_flags, unsigned *ioflags, size_t p_size, const uint8_t *p);
 static herr_t H5O_sdspace_encode(H5F_t *f, uint8_t *p, const void *_mesg);
 static void *H5O_sdspace_copy(const void *_mesg, void *_dest);
 static size_t H5O_sdspace_size(const H5F_t *f, const void *_mesg);
@@ -112,12 +110,13 @@ H5FL_ARR_EXTERN(hsize_t);
 --------------------------------------------------------------------------*/
 static void *
 H5O_sdspace_decode(H5F_t *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
-    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags,
+    size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5S_extent_t	*sdim = NULL;/* New extent dimensionality structure */
-    void		*ret_value;
-    unsigned		i;		/* local counting variable */
     unsigned		flags, version;
+    unsigned		i;                      /* Local counting variable */
+    void                *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -302,7 +301,7 @@ H5O_sdspace_copy(const void *_mesg, void *_dest)
 {
     const H5S_extent_t	   *mesg = (const H5S_extent_t *)_mesg;
     H5S_extent_t	   *dest = (H5S_extent_t *)_dest;
-    void                   *ret_value;          /* Return value */
+    void                   *ret_value = NULL;   /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -312,7 +311,7 @@ H5O_sdspace_copy(const void *_mesg, void *_dest)
 	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* Copy extent information */
-    if(H5S_extent_copy(dest, mesg, TRUE) < 0)
+    if(H5S_extent_copy_real(dest, mesg, TRUE) < 0)
         HGOTO_ERROR(H5E_DATASPACE, H5E_CANTCOPY, NULL, "can't copy extent")
 
     /* Set return value */
@@ -352,7 +351,7 @@ static size_t
 H5O_sdspace_size(const H5F_t *f, const void *_mesg)
 {
     const H5S_extent_t	*space = (const H5S_extent_t *)_mesg;
-    size_t		ret_value;
+    size_t		ret_value = 0;  /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -443,7 +442,7 @@ H5O_sdspace_free(void *mesg)
  */
 static herr_t
 H5O_sdspace_pre_copy_file(H5F_t H5_ATTR_UNUSED *file_src, const void *mesg_src,
-    hbool_t H5_ATTR_UNUSED *deleted, const H5O_copy_t H5_ATTR_UNUSED *cpy_info, void *_udata)
+    hbool_t H5_ATTR_UNUSED *deleted, const H5O_copy_t *cpy_info, void *_udata)
 {
     const H5S_extent_t *src_space_extent = (const H5S_extent_t *)mesg_src;  /* Source dataspace extent */
     H5D_copy_file_ud_t *udata = (H5D_copy_file_ud_t *)_udata;   /* Dataset copying user data */
@@ -454,6 +453,13 @@ H5O_sdspace_pre_copy_file(H5F_t H5_ATTR_UNUSED *file_src, const void *mesg_src,
     /* check args */
     HDassert(file_src);
     HDassert(src_space_extent);
+    HDassert(cpy_info);
+    HDassert(cpy_info->file_dst);
+
+    /* Check to ensure that the version of the message to be copied does not exceed
+       the message version allowed by the destination file's high bound */
+    if(src_space_extent->version > H5O_sdspace_ver_bounds[H5F_HIGH_BOUND(cpy_info->file_dst)])
+        HGOTO_ERROR(H5E_OHDR, H5E_BADRANGE, FAIL, "dataspace message version out of bounds")
 
     /* If the user data is non-NULL, assume we are copying a dataset
      * and make a copy of the dataspace extent for later in the object copying
@@ -467,7 +473,7 @@ H5O_sdspace_pre_copy_file(H5F_t H5_ATTR_UNUSED *file_src, const void *mesg_src,
             HGOTO_ERROR(H5E_DATASPACE, H5E_NOSPACE, FAIL, "dataspace extent allocation failed")
 
         /* Create a copy of the dataspace extent */
-        if(H5S_extent_copy(udata->src_space_extent, src_space_extent, TRUE) < 0)
+        if(H5S_extent_copy_real(udata->src_space_extent, src_space_extent, TRUE) < 0)
             HGOTO_ERROR(H5E_DATASPACE, H5E_CANTCOPY, FAIL, "can't copy extent")
     } /* end if */
 

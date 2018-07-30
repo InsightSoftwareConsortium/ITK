@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -22,10 +20,7 @@
 /* Module Setup */
 /****************/
 
-#define H5T_PACKAGE		/*suppress error about including H5Tpkg	  */
-
-/* Interface initialization */
-#define H5_INTERFACE_INIT_FUNC	H5T_init_array_interface
+#include "H5Tmodule.h"          /* This source code file is part of the H5T module */
 
 
 /***********/
@@ -76,28 +71,6 @@
 /* Local Variables */
 /*******************/
 
-
-
-/*--------------------------------------------------------------------------
-NAME
-   H5T_init_array_interface -- Initialize interface-specific information
-USAGE
-    herr_t H5T_init_array_interface()
-
-RETURNS
-    Non-negative on success/Negative on failure
-DESCRIPTION
-    Initializes any interface-specific data or routines.  (Just calls
-    H5T_init_iterface currently).
-
---------------------------------------------------------------------------*/
-static herr_t
-H5T_init_array_interface(void)
-{
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
-
-    FUNC_LEAVE_NOAPI(H5T_init())
-} /* H5T_init_array_interface() */
 
 
 /*-------------------------------------------------------------------------
@@ -179,8 +152,8 @@ done:
 H5T_t *
 H5T__array_create(H5T_t *base, unsigned ndims, const hsize_t dim[/* ndims */])
 {
-    H5T_t	*ret_value;	/* new array data type	*/
-    unsigned    u;              /* local index variable */
+    unsigned    u;                      /* Local index variable */
+    H5T_t	*ret_value = NULL;	/* New array data type	*/
 
     FUNC_ENTER_PACKAGE
 

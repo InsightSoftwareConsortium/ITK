@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -22,10 +20,40 @@
 #include "H5Rpublic.h"
 
 /* Private headers needed by this file */
+#include "H5Fprivate.h"         /* Files                                    */
+#include "H5Gprivate.h"         /* Groups                                   */
+#include "H5Oprivate.h"         /* Object headers                           */
+#include "H5Sprivate.h"         /* Dataspaces                               */
 
-/* Internal data structures */
 
-/* Private functions */
+/**************************/
+/* Library Private Macros */
+/**************************/
+
+
+/****************************/
+/* Library Private Typedefs */
+/****************************/
+
+
+/*****************************/
+/* Library Private Variables */
+/*****************************/
+
+
+/******************************/
+/* Library Private Prototypes */
+/******************************/
+
+H5_DLL herr_t H5R_create(void *ref, H5G_loc_t *loc, const char *name,
+    H5R_type_t ref_type, H5S_t *space, hid_t dxpl_id);
+H5_DLL H5S_t * H5R_get_region(H5F_t *file, hid_t dxpl_id, const void *_ref);
+H5_DLL ssize_t H5R_get_name(H5F_t *file, hid_t lapl_id, hid_t dxpl_id, hid_t id,
+    H5R_type_t ref_type, const void *_ref, char *name, size_t size);
+H5_DLL herr_t H5R_get_obj_type(H5F_t *file, hid_t dxpl_id, H5R_type_t ref_type,
+    const void *_ref, H5O_type_t *obj_type);
+H5_DLL hid_t H5R_dereference(H5F_t *file, hid_t dapl_id, hid_t dxpl_id, H5R_type_t ref_type,
+    const void *_ref, hbool_t app_ref);
 
 #endif  /* _H5Rprivate_H */
 

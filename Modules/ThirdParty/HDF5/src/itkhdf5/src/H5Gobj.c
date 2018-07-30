@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -28,7 +26,7 @@
 /* Module Setup */
 /****************/
 
-#define H5G_PACKAGE		/*suppress error about including H5Gpkg  */
+#include "H5Gmodule.h"          /* This source code file is part of the H5G module */
 
 
 /***********/
@@ -59,6 +57,7 @@
  */
 typedef struct {
     H5F_t      *f;              /* Pointer to file for insertion */
+    haddr_t     oh_addr;        /* Address of the object header */
     hid_t       dxpl_id;        /* DXPL during insertion */
     H5O_linfo_t *linfo;         /* Pointer to link info */
 } H5G_obj_oh_it_ud1_t;
@@ -155,7 +154,7 @@ H5G__obj_create(H5F_t *f, hid_t dxpl_id, H5G_obj_create_t *gcrt_info,
         HGOTO_ERROR(H5E_SYM, H5E_CANTGET, FAIL, "can't get group info")
 
     /* Get the pipeline property */
-    if(H5P_get(gc_plist, H5O_CRT_PIPELINE_NAME, &pline) < 0)
+    if(H5P_peek(gc_plist, H5O_CRT_PIPELINE_NAME, &pline) < 0)
         HGOTO_ERROR(H5E_SYM, H5E_CANTGET, FAIL, "can't get group info")
 
     /* Call the "real" group creation routine now */
@@ -186,7 +185,7 @@ H5G__obj_create_real(H5F_t *f, hid_t dxpl_id, const H5O_ginfo_t *ginfo,
     H5G_obj_create_t *gcrt_info, H5O_loc_t *oloc/*out*/)
 {
     size_t hdr_size;                    /* Size of object header to request */
-    hbool_t use_latest_format;          /* Flag indicating the new group format should be used */
+    hbool_t use_at_least_v18;           /* Flag indicating the new group format should be used */
     hid_t gcpl_id = gcrt_info->gcpl_id; /* Group creation property list ID */
     herr_t ret_value = SUCCEED;         /* Return value */
 
@@ -203,24 +202,23 @@ H5G__obj_create_real(H5F_t *f, hid_t dxpl_id, const H5O_ginfo_t *ginfo,
 
     /* Check for invalid access request */
     if(0 == (H5F_INTENT(f) & H5F_ACC_RDWR))
-	HGOTO_ERROR(H5E_CACHE, H5E_BADVALUE, FAIL, "no write intent on file")
+        HGOTO_ERROR(H5E_CACHE, H5E_BADVALUE, FAIL, "no write intent on file")
 
-    /* Check for using the latest version of the group format */
+    /* Check for using the latest version of the group format which is introduced in v18 */
     /* (add more checks for creating "new format" groups when needed) */
-    if(H5F_USE_LATEST_FORMAT(f) || linfo->track_corder
-            || (pline && pline->nused))
-        use_latest_format = TRUE;
+    if((H5F_LOW_BOUND(f) >= H5F_LIBVER_V18) || linfo->track_corder || (pline && pline->nused))
+        use_at_least_v18 = TRUE;
     else
-        use_latest_format = FALSE;
+        use_at_least_v18 = FALSE;
 
     /* Make certain that the creation order is being tracked if an index is
      *  going to be built on it.
      */
     if(linfo->index_corder && !linfo->track_corder)
-	HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "must track creation order to create index for it")
+        HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "must track creation order to create index for it")
 
     /* Check if we should be using the latest version of the group format */
-    if(use_latest_format) {
+    if(use_at_least_v18) {
         H5O_link_t lnk;                     /* Temporary link message info for computing message size */
         char null_char = '\0';              /* Character for creating null string */
         size_t ginfo_size;                  /* Size of the group info message */
@@ -263,10 +261,10 @@ H5G__obj_create_real(H5F_t *f, hid_t dxpl_id, const H5O_ginfo_t *ginfo,
      * incremented if the object is added to the group directed graph.
      */
     if(H5O_create(f, dxpl_id, hdr_size, (size_t)1, gcpl_id, oloc/*out*/) < 0)
-	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "can't create header")
+        HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "can't create header")
 
     /* Check for format of group to create */
-    if(use_latest_format) {
+    if(use_at_least_v18) {
         /* Insert link info message */
         /* (Casting away const OK - QAK) */
         if(H5O_msg_create(oloc, H5O_LINFO_ID, 0, H5O_UPDATE_TIME, (void *)linfo, dxpl_id) < 0)
@@ -319,10 +317,10 @@ done:
 htri_t
 H5G__obj_get_linfo(const H5O_loc_t *grp_oloc, H5O_linfo_t *linfo, hid_t dxpl_id)
 {
-    H5B2_t *bt2_name = NULL;            /* v2 B-tree handle for name index */
-    htri_t ret_value;           /* Return value */
+    H5B2_t *bt2_name = NULL;    /* v2 B-tree handle for name index */
+    htri_t ret_value = FAIL;    /* Return value */
 
-    FUNC_ENTER_PACKAGE
+    FUNC_ENTER_PACKAGE_TAG(dxpl_id, grp_oloc->addr, FAIL)
 
     /* check arguments */
     HDassert(grp_oloc);
@@ -362,7 +360,7 @@ done:
     if(bt2_name && H5B2_close(bt2_name, dxpl_id) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CLOSEERROR, FAIL, "can't close v2 B-tree for name index")
 
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G__obj_get_linfo() */
 
 
@@ -387,7 +385,7 @@ H5G_obj_compact_to_dense_cb(const void *_mesg, unsigned H5_ATTR_UNUSED idx, void
     H5G_obj_oh_it_ud1_t *udata = (H5G_obj_oh_it_ud1_t *)_udata;     /* 'User data' passed in */
     herr_t ret_value = H5_ITER_CONT;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_NOAPI_NOINIT_TAG(udata->dxpl_id, udata->oh_addr, FAIL)
 
     /* check arguments */
     HDassert(lnk);
@@ -398,7 +396,7 @@ H5G_obj_compact_to_dense_cb(const void *_mesg, unsigned H5_ATTR_UNUSED idx, void
         HGOTO_ERROR(H5E_SYM, H5E_CANTINSERT, FAIL, "unable to insert link into dense storage")
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G_obj_compact_to_dense_cb() */
 
 
@@ -468,7 +466,7 @@ H5G_obj_insert(const H5O_loc_t *grp_oloc, const char *name, H5O_link_t *obj_lnk,
     hbool_t use_new_dense = FALSE;      /* Whether to use "dense" form of 'new format' group */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(FAIL)
+    FUNC_ENTER_NOAPI_TAG(dxpl_id, grp_oloc->addr, FAIL)
 
     /* check arguments */
     HDassert(grp_oloc && grp_oloc->file);
@@ -532,6 +530,7 @@ H5G_obj_insert(const H5O_loc_t *grp_oloc, const char *name, H5O_link_t *obj_lnk,
 
             /* Set up user data for object header message iteration */
             udata.f = grp_oloc->file;
+            udata.oh_addr = grp_oloc->addr;
             udata.dxpl_id = dxpl_id;
             udata.linfo = &linfo;
 
@@ -638,7 +637,7 @@ done:
     if(pline && H5O_msg_reset(H5O_PLINE_ID, pline) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CANTFREE, FAIL, "can't release pipeline")
 
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G_obj_insert() */
 
 
@@ -664,9 +663,9 @@ H5G__obj_iterate(const H5O_loc_t *grp_oloc,
 {
     H5O_linfo_t	linfo;		/* Link info message */
     htri_t linfo_exists;        /* Whether the link info message exists */
-    herr_t ret_value;           /* Return value */
+    herr_t ret_value = FAIL;    /* Return value */
 
-    FUNC_ENTER_PACKAGE
+    FUNC_ENTER_PACKAGE_TAG(dxpl_id, grp_oloc->addr, FAIL)
 
     /* Sanity check */
     HDassert(grp_oloc);
@@ -709,7 +708,7 @@ H5G__obj_iterate(const H5O_loc_t *grp_oloc,
     } /* end else */
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G__obj_iterate() */
 
 
@@ -811,9 +810,9 @@ H5G_obj_get_name_by_idx(const H5O_loc_t *oloc, H5_index_t idx_type,
 {
     H5O_linfo_t	linfo;		/* Link info message */
     htri_t linfo_exists;        /* Whether the link info message exists */
-    ssize_t ret_value;          /* Return value */
+    ssize_t ret_value = -1;     /* Return value */
 
-    FUNC_ENTER_NOAPI(FAIL)
+    FUNC_ENTER_NOAPI_TAG(dxpl_id, oloc->addr, FAIL)
 
     /* Sanity check */
     HDassert(oloc && oloc->file);
@@ -852,7 +851,7 @@ H5G_obj_get_name_by_idx(const H5O_loc_t *oloc, H5_index_t idx_type,
     } /* end else */
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G_obj_get_name_by_idx() */
 
 
@@ -986,7 +985,7 @@ H5G_obj_remove(const H5O_loc_t *oloc, H5RS_str_t *grp_full_path_r, const char *n
     hbool_t     use_old_format; /* Whether to use 'old format' (symbol table) for deletion or not */
     herr_t	ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(FAIL)
+    FUNC_ENTER_NOAPI_TAG(dxpl_id, oloc->addr, FAIL)
 
     /* Sanity check */
     HDassert(oloc);
@@ -1026,7 +1025,7 @@ H5G_obj_remove(const H5O_loc_t *oloc, H5RS_str_t *grp_full_path_r, const char *n
             HGOTO_ERROR(H5E_SYM, H5E_CANTUPDATE, FAIL, "unable to update link info")
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G_obj_remove() */
 
 
@@ -1052,7 +1051,7 @@ H5G_obj_remove_by_idx(const H5O_loc_t *grp_oloc, H5RS_str_t *grp_full_path_r,
     hbool_t     use_old_format; /* Whether to use 'old format' (symbol table) for deletion or not */
     herr_t	ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(FAIL)
+    FUNC_ENTER_NOAPI_TAG(dxpl_id, grp_oloc->addr, FAIL)
 
     /* Sanity check */
     HDassert(grp_oloc && grp_oloc->file);
@@ -1103,7 +1102,7 @@ H5G_obj_remove_by_idx(const H5O_loc_t *grp_oloc, H5RS_str_t *grp_full_path_r,
     } /* end if */
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G_obj_remove() */
 
 
@@ -1128,7 +1127,7 @@ H5G__obj_lookup(const H5O_loc_t *grp_oloc, const char *name, H5O_link_t *lnk,
     htri_t linfo_exists;                /* Whether the link info message exists */
     htri_t     ret_value = FALSE;       /* Return value */
 
-    FUNC_ENTER_PACKAGE
+    FUNC_ENTER_PACKAGE_TAG(dxpl_id, grp_oloc->addr, FAIL)
 
     /* check arguments */
     HDassert(grp_oloc && grp_oloc->file);
@@ -1157,7 +1156,7 @@ H5G__obj_lookup(const H5O_loc_t *grp_oloc, const char *name, H5O_link_t *lnk,
     } /* end else */
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G__obj_lookup() */
 
 
@@ -1183,7 +1182,7 @@ H5G_obj_lookup_by_idx(const H5O_loc_t *grp_oloc, H5_index_t idx_type,
     htri_t linfo_exists;                /* Whether the link info message exists */
     herr_t     ret_value = SUCCEED;     /* Return value */
 
-    FUNC_ENTER_NOAPI(FAIL)
+    FUNC_ENTER_NOAPI_TAG(dxpl_id, grp_oloc->addr, FAIL)
 
     /* check arguments */
     HDassert(grp_oloc && grp_oloc->file);
@@ -1222,6 +1221,6 @@ H5G_obj_lookup_by_idx(const H5O_loc_t *grp_oloc, H5_index_t idx_type,
     } /* end else */
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI_TAG(ret_value, FAIL)
 } /* end H5G_obj_lookup_by_idx() */
 

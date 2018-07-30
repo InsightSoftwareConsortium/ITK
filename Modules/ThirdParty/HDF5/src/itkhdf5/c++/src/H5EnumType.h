@@ -6,73 +6,81 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifndef __H5EnumType_H
 #define __H5EnumType_H
 
-#ifndef H5_NO_NAMESPACE
 namespace H5 {
-#endif
 
-//! Class EnumType operates on HDF5 enum datatypes.
+/*! \class EnumType
+    \brief EnumType is a derivative of a DataType and operates on HDF5
+    enum datatypes.
+*/
+//  Inheritance: DataType -> H5Object -> H5Location -> IdComponent
 class H5_DLLCPP EnumType : public DataType {
 
    public:
-	// Creates an empty enumeration datatype based on a native signed
-	// integer type, whose size is given by size.
-	EnumType( size_t size );
+        // Creates an empty enumeration datatype based on a native signed
+        // integer type, whose size is given by size.
+        EnumType(size_t size);
 
-	// Gets the enum datatype of the specified dataset
-	EnumType( const DataSet& dataset );  // H5Dget_type
+        // Gets the enum datatype of the specified dataset
+        EnumType(const DataSet& dataset);  // H5Dget_type
 
-	// Creates a new enum datatype based on an integer datatype
-	EnumType( const IntType& data_type );  // H5Tenum_create
+        // Creates a new enum datatype based on an integer datatype
+        EnumType(const IntType& data_type);  // H5Tenum_create
 
-	// Returns the number of members in this enumeration datatype.
-	int getNmembers () const;
+        // Constructors that open an enum datatype, given a location.
+        EnumType(const H5Location& loc, const char* name);
+        EnumType(const H5Location& loc, const H5std_string& name);
 
-	// Returns the index of a member in this enumeration data type.
-	int getMemberIndex(const char* name) const;
-	int getMemberIndex(const H5std_string& name) const;
+        // Returns an EnumType object via DataType* by decoding the
+        // binary object description of this type.
+        virtual DataType* decode() const;
 
-	// Returns the value of an enumeration datatype member
-	void getMemberValue( unsigned memb_no, void *value ) const;
+        // Returns the number of members in this enumeration datatype.
+        int getNmembers () const;
 
-	// Inserts a new member to this enumeration type.
-	void insert( const char* name, void *value ) const;
-	void insert( const H5std_string& name, void *value ) const;
+        // Returns the index of a member in this enumeration data type.
+        int getMemberIndex(const char* name) const;
+        int getMemberIndex(const H5std_string& name) const;
 
-	// Returns the symbol name corresponding to a specified member
-	// of this enumeration datatype.
-	H5std_string nameOf( void *value, size_t size ) const;
+        // Returns the value of an enumeration datatype member
+        void getMemberValue(unsigned memb_no, void *value) const;
 
-	// Returns the value corresponding to a specified member of this
-	// enumeration datatype.
-	void valueOf( const char* name, void *value ) const;
-	void valueOf( const H5std_string& name, void *value ) const;
+        // Inserts a new member to this enumeration type.
+        void insert(const char* name, void *value) const;
+        void insert(const H5std_string& name, void *value) const;
 
-	///\brief Returns this class name.
-	virtual H5std_string fromClass () const { return("EnumType"); }
+        // Returns the symbol name corresponding to a specified member
+        // of this enumeration datatype.
+        H5std_string nameOf(void *value, size_t size) const;
 
-	// Default constructor
-	EnumType();
+        // Returns the value corresponding to a specified member of this
+        // enumeration datatype.
+        void valueOf(const char* name, void *value) const;
+        void valueOf(const H5std_string& name, void *value) const;
 
-	// Creates an enumeration datatype using an existing id
-	EnumType( const hid_t existing_id );
+        ///\brief Returns this class name.
+        virtual H5std_string fromClass () const { return("EnumType"); }
 
-	// Copy constructor: makes a copy of the original EnumType object.
-	EnumType( const EnumType& original );
+        // Default constructor
+        EnumType();
 
-	virtual ~EnumType();
-};
-#ifndef H5_NO_NAMESPACE
-}
-#endif
+        // Creates an enumeration datatype using an existing id
+        EnumType(const hid_t existing_id);
+
+        // Copy constructor: same as the original EnumType.
+        EnumType(const EnumType& original);
+
+        virtual ~EnumType();
+
+}; // end of EnumType
+} // namespace H5
+
 #endif // __H5EnumType_H

@@ -5,21 +5,18 @@
 *                                                                           *
 * This file is part of HDF5.  The full HDF5 copyright notice, including     *
 * terms governing use, modification, and redistribution, is contained in    *
-* the files COPYING and Copyright.html.  COPYING can be found at the root   *
-* of the source code distribution tree; Copyright.html can be found at the  *
-* root level of an installed copy of the electronic HDF5 document set and   *
-* is linked from the top-level documents page.  It can also be found at     *
-* http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
-* access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "H5LTprivate.h"
-#include "H5private.h"
 
 /* For Lex and Yacc */
 #define         COL             3
@@ -867,13 +864,13 @@ out:
 */
 hid_t H5LTopen_file_image(void *buf_ptr, size_t buf_size, unsigned flags)
 {
-    hid_t		fapl, file_id;	/* HDF5 identifiers */
-    unsigned            file_open_flags;/* Flags for image open */
-    char                file_name[64];	/* Filename buffer */
-    size_t              alloc_incr;     /* Buffer allocation increment */
-    size_t              min_incr = 65536; /* Minimum buffer increment */
-    double              buf_prcnt = 0.1f;  /* Percentage of buffer size to set
-                                             as increment */
+    hid_t		        fapl=-1, file_id=-1;    /* HDF5 identifiers */
+    unsigned            file_open_flags;        /* Flags for image open */
+    char                file_name[64];	        /* Filename buffer */
+    size_t              alloc_incr;             /* Buffer allocation increment */
+    size_t              min_incr = 65536;       /* Minimum buffer increment */
+    double              buf_prcnt = 0.1f;       /* Percentage of buffer size to set
+                                                    as increment */
     static long         file_name_counter; 
     H5FD_file_image_callbacks_t callbacks = {&image_malloc, &image_memcpy, 
                                            &image_realloc, &image_free, 
@@ -895,8 +892,8 @@ hid_t H5LTopen_file_image(void *buf_ptr, size_t buf_size, unsigned flags)
     /* set allocation increment to a percentage of the supplied buffer size, or
      * a pre-defined minimum increment value, whichever is larger
      */
-    if ((buf_prcnt * buf_size) > min_incr)
-        alloc_incr = (size_t)(buf_prcnt * buf_size);
+    if ((size_t)(buf_prcnt * (double)buf_size) > min_incr)
+        alloc_incr = (size_t)(buf_prcnt * (double)buf_size);
     else
         alloc_incr = min_incr;
 
@@ -3358,7 +3355,7 @@ herr_t H5LTget_attribute_long( hid_t loc_id,
 *
 * Date: June 17, 2005
 *
-* Comments: This funstion was added to suuport INTEGER*8 Fortran types
+* Comments: This function was added to support INTEGER*8 Fortran types
 *
 * Modifications:
 *

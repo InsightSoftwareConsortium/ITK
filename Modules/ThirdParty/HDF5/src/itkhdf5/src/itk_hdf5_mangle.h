@@ -791,7 +791,7 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define H5Fget_file_image itk_H5Fget_file_image
 #define H5Fget_filesize itk_H5Fget_filesize
 #define H5Fget_freespace itk_H5Fget_freespace
-#define H5Fget_info itk_H5Fget_info
+#define H5Fget_info2 itk_H5Fget_info2
 #define H5Fget_intent itk_H5Fget_intent
 #define H5Fget_mdc_config itk_H5Fget_mdc_config
 #define H5Fget_mdc_hit_rate itk_H5Fget_mdc_hit_rate
@@ -1746,7 +1746,7 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define H5R_init itk_H5R_init
 #define H5R_term_interface itk_H5R_term_interface
 #define H5Rcreate itk_H5Rcreate
-#define H5Rdereference itk_H5Rdereference
+#define H5Rdereference2 itk_H5Rdereference2
 #define H5Rget_name itk_H5Rget_name
 #define H5Rget_obj_type1 itk_H5Rget_obj_type1
 #define H5Rget_obj_type2 itk_H5Rget_obj_type2

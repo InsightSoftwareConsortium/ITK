@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -127,16 +125,16 @@ H5_timer_begin (H5_timer_t *timer)
 #ifdef H5_HAVE_GETRUSAGE
     HDgetrusage (RUSAGE_SELF, &rusage);
     timer->utime = (double)rusage.ru_utime.tv_sec +
-                   ((double)rusage.ru_utime.tv_usec / 1e6F);
+                   ((double)rusage.ru_utime.tv_usec / (double)1e6F);
     timer->stime = (double)rusage.ru_stime.tv_sec +
-                   ((double)rusage.ru_stime.tv_usec / 1e6F);
+                   ((double)rusage.ru_stime.tv_usec / (double)1e6F);
 #else
     timer->utime = 0.0F;
     timer->stime = 0.0F;
 #endif
 #ifdef H5_HAVE_GETTIMEOFDAY
     HDgettimeofday (&etime, NULL);
-    timer->etime = (double)etime.tv_sec + ((double)etime.tv_usec / 1e6F);
+    timer->etime = (double)etime.tv_sec + ((double)etime.tv_usec / (double)1e6F);
 #else
     timer->etime = 0.0F;
 #endif
@@ -166,9 +164,9 @@ H5_timer_end (H5_timer_t *sum/*in,out*/, H5_timer_t *timer/*in,out*/)
     HDassert(timer);
     H5_timer_begin(&now);
 
-    timer->utime = MAX(0.0F, now.utime - timer->utime);
-    timer->stime = MAX(0.0F, now.stime - timer->stime);
-    timer->etime = MAX(0.0F, now.etime - timer->etime);
+    timer->utime = MAX((double)0.0F, now.utime - timer->utime);
+    timer->stime = MAX((double)0.0F, now.stime - timer->stime);
+    timer->etime = MAX((double)0.0F, now.etime - timer->etime);
 
     if (sum) {
         sum->utime += timer->utime;
@@ -208,28 +206,28 @@ H5_bandwidth(char *buf/*out*/, double nbytes, double nseconds)
 {
     double	bw;
 
-    if(nseconds <= 0.0F)
+    if(nseconds <= (double)0.0F)
         HDstrcpy(buf, "       NaN");
     else {
         bw = nbytes/nseconds;
-        if(H5_DBL_ABS_EQUAL(bw, 0.0F))
-	        HDstrcpy(buf, "0.000  B/s");
-        else if(bw < 1.0F)
+        if(H5_DBL_ABS_EQUAL(bw, (double)0.0F))
+            HDstrcpy(buf, "0.000  B/s");
+        else if(bw < (double)1.0F)
             sprintf(buf, "%10.4e", bw);
-        else if(bw < H5_KB) {
+        else if(bw < (double)H5_KB) {
             sprintf(buf, "%05.4f", bw);
             HDstrcpy(buf+5, "  B/s");
-        } else if(bw < H5_MB) {
-            sprintf(buf, "%05.4f", bw / H5_KB);
+        } else if(bw < (double)H5_MB) {
+            sprintf(buf, "%05.4f", bw / (double)H5_KB);
             HDstrcpy(buf+5, " kB/s");
-        } else if(bw < H5_GB) {
-            sprintf(buf, "%05.4f", bw / H5_MB);
+        } else if(bw < (double)H5_GB) {
+            sprintf(buf, "%05.4f", bw / (double)H5_MB);
             HDstrcpy(buf+5, " MB/s");
-        } else if(bw < H5_TB) {
-            sprintf(buf, "%05.4f", bw / H5_GB);
+        } else if(bw < (double)H5_TB) {
+            sprintf(buf, "%05.4f", bw / (double)H5_GB);
             HDstrcpy(buf+5, " GB/s");
-        } else if(bw < H5_EB) {
-            sprintf(buf, "%05.4f", bw / H5_TB);
+        } else if(bw < (double)H5_PB) {
+            sprintf(buf, "%05.4f", bw / (double)H5_TB);
             HDstrcpy(buf+5, " TB/s");
         } else {
             sprintf(buf, "%10.4e", bw);

@@ -5,17 +5,15 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define H5A_PACKAGE             /*prevent warning from including H5Apkg   */
-#define H5O_PACKAGE		/*suppress error about including H5Opkg	  */
-#define H5S_PACKAGE	        /*suppress error about including H5Spkg	  */
+#define H5A_FRIEND		/*suppress error about including H5Apkg   */
+#include "H5Omodule.h"          /* This source code file is part of the H5O module */
+#define H5S_FRIEND	        /*suppress error about including H5Spkg	  */
 
 
 #include "H5private.h"		/* Generic Functions			*/
@@ -28,7 +26,7 @@
 /* PRIVATE PROTOTYPES */
 static herr_t H5O_attr_encode(H5F_t *f, uint8_t *p, const void *mesg);
 static void *H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
-    unsigned mesg_flags, unsigned *ioflags, const uint8_t *p);
+    unsigned mesg_flags, unsigned *ioflags, size_t p_size, const uint8_t *p);
 static void *H5O_attr_copy(const void *_mesg, void *_dest);
 static size_t H5O_attr_size(const H5F_t *f, const void *_mesg);
 static herr_t H5O_attr_free(void *mesg);
@@ -123,13 +121,16 @@ H5FL_EXTERN(H5S_extent_t);
 --------------------------------------------------------------------------*/
 static void *
 H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned H5_ATTR_UNUSED mesg_flags,
-    unsigned *ioflags, const uint8_t *p)
+    unsigned *ioflags, size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5A_t		*attr = NULL;
     H5S_extent_t	*extent;	/*extent dimensionality information  */
     size_t		name_len;   	/*attribute name length */
+    size_t		dt_size;   	/* Datatype size */
+    hssize_t		sds_size;   	/* Signed Dataspace size */
+    hsize_t		ds_size;   	/* Dataspace size */
     unsigned            flags = 0;      /* Attribute flags */
-    H5A_t		*ret_value;     /* Return value */
+    H5A_t		*ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -184,7 +185,7 @@ H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned H5_ATTR_UNUSED
 
     /* Decode the attribute's datatype */
     if(NULL == (attr->shared->dt = (H5T_t *)(H5O_MSG_DTYPE->decode)(f, dxpl_id, open_oh,
-        ((flags & H5O_ATTR_FLAG_TYPE_SHARED) ? H5O_MSG_FLAG_SHARED : 0), ioflags, p)))
+        ((flags & H5O_ATTR_FLAG_TYPE_SHARED) ? H5O_MSG_FLAG_SHARED : 0), ioflags, attr->shared->dt_size, p)))
         HGOTO_ERROR(H5E_ATTR, H5E_CANTDECODE, NULL, "can't decode attribute datatype")
     if(attr->shared->version < H5O_ATTR_VERSION_2)
         p += H5O_ALIGN_OLD(attr->shared->dt_size);
@@ -199,7 +200,7 @@ H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned H5_ATTR_UNUSED
 
     /* Decode attribute's dataspace extent */
     if((extent = (H5S_extent_t *)(H5O_MSG_SDSPACE->decode)(f, dxpl_id, open_oh,
-        ((flags & H5O_ATTR_FLAG_SPACE_SHARED) ? H5O_MSG_FLAG_SHARED : 0), ioflags, p)) == NULL)
+            ((flags & H5O_ATTR_FLAG_SPACE_SHARED) ? H5O_MSG_FLAG_SHARED : 0), ioflags, attr->shared->ds_size, p)) == NULL)
         HGOTO_ERROR(H5E_ATTR, H5E_CANTDECODE, NULL, "can't decode attribute dataspace")
 
     /* Copy the extent information to the dataspace */
@@ -217,8 +218,19 @@ H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned H5_ATTR_UNUSED
     else
         p += attr->shared->ds_size;
 
+    /* Get the datatype's size */
+    if(0 == (dt_size = H5T_get_size(attr->shared->dt)))
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTGET, NULL, "unable to get datatype size")
+
+    /* Get the datatype & dataspace sizes */
+    if(0 == (dt_size = H5T_get_size(attr->shared->dt)))
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTGET, NULL, "unable to get datatype size")
+    if((sds_size = H5S_GET_EXTENT_NPOINTS(attr->shared->ds)) < 0)
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTGET, NULL, "unable to get dataspace size")
+    ds_size = (hsize_t)sds_size;
+
     /* Compute the size of the data */
-    H5_CHECKED_ASSIGN(attr->shared->data_size, size_t, H5S_GET_EXTENT_NPOINTS(attr->shared->ds) * H5T_get_size(attr->shared->dt), hsize_t);
+    H5_CHECKED_ASSIGN(attr->shared->data_size, size_t, ds_size * (hsize_t)dt_size, hsize_t);
 
     /* Go get the data */
     if(attr->shared->data_size) {
@@ -380,7 +392,7 @@ done:
 static void *
 H5O_attr_copy(const void *_src, void *_dst)
 {
-    void *ret_value;            /* Return value */
+    void *ret_value = NULL;            /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -496,10 +508,6 @@ H5O_attr_reset(void H5_ATTR_UNUSED *_mesg)
  * Programmer:	Quincey Koziol
  *              Thursday, November 18, 2004
  *
- * Modification:Raymond Lu
- *              4 June 2008
- *              Let this function call H5A_close in turn.
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -614,14 +622,23 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_attr_pre_copy_file(H5F_t H5_ATTR_UNUSED *file_src, const void H5_ATTR_UNUSED *native_src,
+H5O_attr_pre_copy_file(H5F_t H5_ATTR_UNUSED *file_src, const void *native_src,
     hbool_t *deleted, const H5O_copy_t *cpy_info, void H5_ATTR_UNUSED *udata)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
+    const H5A_t *attr_src = (const H5A_t *)native_src;  /* Source attribute */
+    herr_t ret_value = SUCCEED;                         /* Return value */
+
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check args */
     HDassert(deleted);
     HDassert(cpy_info);
+    HDassert(cpy_info->file_dst);
+
+    /* Check to ensure that the version of the message to be copied does not exceed
+       the message version allowed by the destination file's high bound */
+    if(attr_src->shared->version > H5O_attr_ver_bounds[H5F_HIGH_BOUND(cpy_info->file_dst)])
+        HGOTO_ERROR(H5E_OHDR, H5E_BADRANGE, FAIL, "attribute message version out of bounds")
 
     /* If we are not copying attributes into the destination file, indicate
      *  that this message should be deleted.
@@ -629,7 +646,8 @@ H5O_attr_pre_copy_file(H5F_t H5_ATTR_UNUSED *file_src, const void H5_ATTR_UNUSED
     if(cpy_info->copy_without_attr)
         *deleted = TRUE;
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5O_attr_pre_copy_file() */
 
 
@@ -652,7 +670,7 @@ H5O_attr_copy_file(H5F_t *file_src, const H5O_msg_class_t H5_ATTR_UNUSED *mesg_t
     void *native_src, H5F_t *file_dst, hbool_t *recompute_size,
     H5O_copy_t *cpy_info, void H5_ATTR_UNUSED *udata, hid_t dxpl_id)
 {
-    void        *ret_value;             /* Return value */
+    void *ret_value = NULL;     /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
