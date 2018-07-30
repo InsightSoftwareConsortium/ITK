@@ -14,10 +14,12 @@ itk_module(
     ITKCommon
     ITKMesh
   COMPILE_DEPENDS
+    ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
     ITKIOMeshVTK
+    ITKImageGradient
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
 )
