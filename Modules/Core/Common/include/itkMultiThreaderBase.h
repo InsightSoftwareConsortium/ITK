@@ -261,7 +261,7 @@ CLANG_PRAGMA_POP
         [funcP](const IndexValueType index[], const SizeValueType size[])
     {
       ImageRegion<VDimension> region;
-      for (unsigned d = 0; d < VDimension; d++)
+      for (unsigned int d = 0; d < VDimension; ++d)
         {
         region.SetIndex(d, index[d]);
         region.SetSize(d, size[d]);
@@ -269,6 +269,54 @@ CLANG_PRAGMA_POP
       funcP(region);
         },
         filter);
+  }
+
+  /** Similar to ParallelizeImageRegion, but do not split the region along one
+   * of the directions. */
+  template<unsigned int VDimension>
+  void ParallelizeImageRegionRestrictDirection(unsigned int restrictedDirection,
+    const ImageRegion<VDimension> & requestedRegion,
+    TemplatedThreadingFunctorType<VDimension> funcP,
+    ProcessObject* filter)
+  {
+    constexpr unsigned int Dimension = VDimension;
+    constexpr unsigned int SplitDimension = Dimension - 1;
+    using SplitRegionType = ImageRegion<SplitDimension>;
+
+    SplitRegionType splitRegion;
+    for( unsigned int splitDimension = 0, dimension = 0; dimension < Dimension; ++dimension )
+      {
+      if( dimension == restrictedDirection )
+        {
+        continue;
+        }
+      splitRegion.SetIndex( splitDimension, requestedRegion.GetIndex( dimension ) );
+      splitRegion.SetSize( splitDimension, requestedRegion.GetSize( dimension ) );
+      ++splitDimension;
+      }
+
+    this->ParallelizeImageRegion(
+      SplitDimension,
+      splitRegion.GetIndex().m_InternalArray,
+      splitRegion.GetSize().m_InternalArray,
+      [&](const IndexValueType index[], const SizeValueType size[])
+      {
+      ImageRegion<VDimension> restrictedRequestedRegion;
+      restrictedRequestedRegion.SetIndex( restrictedDirection, requestedRegion.GetIndex( restrictedDirection ) );
+      restrictedRequestedRegion.SetSize( restrictedDirection, requestedRegion.GetSize( restrictedDirection ) );
+      for( unsigned int splitDimension = 0, dimension = 0; dimension < Dimension; ++dimension )
+        {
+        if( dimension == restrictedDirection )
+          {
+          continue;
+          }
+        restrictedRequestedRegion.SetIndex( dimension, index[splitDimension] );
+        restrictedRequestedRegion.SetSize( dimension, size[splitDimension] );
+        ++splitDimension;
+        }
+      funcP( restrictedRequestedRegion );
+      },
+      filter );
   }
 
   /** Break up region into smaller chunks, and call the function with chunks as parameters.
