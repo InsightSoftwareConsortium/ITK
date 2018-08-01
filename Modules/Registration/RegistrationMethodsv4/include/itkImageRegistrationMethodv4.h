@@ -115,10 +115,12 @@ public:
   /** Input type alias for the images and transforms. */
   using FixedImageType = TFixedImage;
   using FixedImagePointer = typename FixedImageType::Pointer;
-  using FixedImagesContainerType = std::vector<FixedImagePointer>;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using FixedImagesContainerType = std::vector<FixedImageConstPointer>;
   using MovingImageType = TMovingImage;
   using MovingImagePointer = typename MovingImageType::Pointer;
-  using MovingImagesContainerType = std::vector<MovingImagePointer>;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
+  using MovingImagesContainerType = std::vector<MovingImageConstPointer>;
 
   using PointSetType = TPointSet;
   using PointSetConstPointer = typename PointSetType::ConstPointer;

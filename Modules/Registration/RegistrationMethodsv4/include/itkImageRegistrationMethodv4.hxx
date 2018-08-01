@@ -20,7 +20,7 @@
 
 #include "itkImageRegistrationMethodv4.h"
 
-#include "itkDiscreteGaussianImageFilter.h"
+#include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -602,41 +602,51 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         ( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC &&
           multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC ) )
       {
-      using FixedImageSmoothingFilterType = DiscreteGaussianImageFilter<FixedImageType, FixedImageType>;
-      typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
-      if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+      if ( this->m_SmoothingSigmasPerLevel[level] > 0 )
         {
-        fixedImageSmoothingFilter->SetUseImageSpacingOn();
+        using FixedImageSmoothingFilterType = SmoothingRecursiveGaussianImageFilter<FixedImageType, FixedImageType>;
+        typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
+        typename FixedImageSmoothingFilterType::SigmaArrayType fixedImageSigmaArray( this->m_SmoothingSigmasPerLevel[level] );
+
+        if( !this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits  )
+          {
+          auto & fixedSpacing  = this->GetFixedImage( n )->GetSpacing();
+          for ( unsigned int i = 0; i < fixedImageSigmaArray.Size(); ++i )
+            {
+            fixedImageSigmaArray[i] *= fixedSpacing[i];
+            }
+          }
+        fixedImageSmoothingFilter->SetSigmaArray( fixedImageSigmaArray );
+        fixedImageSmoothingFilter->SetInput( this->GetFixedImage( n ) );
+
+        this->m_FixedSmoothImages[n] = fixedImageSmoothingFilter->GetOutput();
+        fixedImageSmoothingFilter->Update();
+        fixedImageSmoothingFilter->GetOutput()->DisconnectPipeline();
+
+        using MovingImageSmoothingFilterType = SmoothingRecursiveGaussianImageFilter<MovingImageType, MovingImageType>;
+        typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
+        typename MovingImageSmoothingFilterType::SigmaArrayType movingImageSigmaArray( this->m_SmoothingSigmasPerLevel[level] );
+
+        if( !this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits  )
+          {
+          auto & movingSpacing  = this->GetMovingImage( n )->GetSpacing();
+          for ( unsigned int i = 0; i < movingImageSigmaArray.Size(); ++i )
+            {
+            movingImageSigmaArray[i] *= movingSpacing[i];
+            }
+          }
+        movingImageSmoothingFilter->SetSigmaArray( movingImageSigmaArray );
+        movingImageSmoothingFilter->SetInput( this->GetMovingImage( n ) );
+
+        this->m_MovingSmoothImages[n] = movingImageSmoothingFilter->GetOutput();
+        movingImageSmoothingFilter->Update();
+        movingImageSmoothingFilter->GetOutput()->DisconnectPipeline();
         }
       else
         {
-        fixedImageSmoothingFilter->SetUseImageSpacingOff();
+        this->m_MovingSmoothImages[n] = this->GetMovingImage( n );
+        this->m_FixedSmoothImages[n] = this->GetFixedImage( n );
         }
-      fixedImageSmoothingFilter->SetVariance( itk::Math::sqr( this->m_SmoothingSigmasPerLevel[level] ) );
-      fixedImageSmoothingFilter->SetMaximumError( 0.01 );
-      fixedImageSmoothingFilter->SetInput( this->GetFixedImage( n ) );
-
-      this->m_FixedSmoothImages[n] = fixedImageSmoothingFilter->GetOutput();
-      this->m_FixedSmoothImages[n]->Update();
-      this->m_FixedSmoothImages[n]->DisconnectPipeline();
-
-      using MovingImageSmoothingFilterType = DiscreteGaussianImageFilter<MovingImageType, MovingImageType>;
-      typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
-      if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
-        {
-        movingImageSmoothingFilter->SetUseImageSpacingOn();
-        }
-      else
-        {
-        movingImageSmoothingFilter->SetUseImageSpacingOff();
-        }
-      movingImageSmoothingFilter->SetVariance( itk::Math::sqr( this->m_SmoothingSigmasPerLevel[level] ) );
-      movingImageSmoothingFilter->SetMaximumError( 0.01 );
-      movingImageSmoothingFilter->SetInput( this->GetMovingImage( n ) );
-
-      this->m_MovingSmoothImages[n] = movingImageSmoothingFilter->GetOutput();
-      this->m_MovingSmoothImages[n]->Update();
-      this->m_MovingSmoothImages[n]->DisconnectPipeline();
 
       // Update the image metric
 
