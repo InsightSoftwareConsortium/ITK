@@ -337,17 +337,17 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
     m_CrossDilator[threadId] = CrossDilateType::New();
     m_BallDilator[threadId] = BallDilateType::New();
     m_And[threadId] = AndFilterType::New();
-    m_And[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
+    m_And[threadId]->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     using SizeType = Size<BoolSliceType::ImageDimension>;
     SizeType size;
     size.Fill(1);
 
-    m_CrossDilator[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
+    m_CrossDilator[threadId]->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     m_CrossStructuringElement[threadId].SetRadius(size);
     m_CrossStructuringElement[threadId].CreateStructuringElement();
     m_CrossDilator[threadId]->SetKernel(m_CrossStructuringElement[threadId]);
 
-    m_BallDilator[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
+    m_BallDilator[threadId]->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     m_BallStructuringElement[threadId].SetRadius(size);
     m_BallStructuringElement[threadId].CreateStructuringElement();
     m_BallDilator[threadId]->SetKernel(m_BallStructuringElement[threadId]);
@@ -424,7 +424,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
   if (!initialized[threadId])
   {
     m_Or[threadId] = OrType::New();
-    m_Or[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
+    m_Or[threadId]->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     initialized[threadId] = true;
   }
 
@@ -468,7 +468,7 @@ MorphologicalContourInterpolator<TImage>::MaurerDM(typename BoolSliceType::Point
   {
     filter[threadId] = FilterType::New();
     filter[threadId]->SetUseImageSpacing(false); // interpolation algorithm calls for working in index space
-    filter[threadId]->SetNumberOfThreads(1);     // excessive threading is counterproductive
+    filter[threadId]->SetNumberOfWorkUnits(1);   // excessive threading is counterproductive
     initialized[threadId] = true;
   }
   filter[threadId]->SetInput(mask);
@@ -577,9 +577,9 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   if (!initialized[threadId])
   {
     threshold[threadId] = FloatBinarizerType::New();
-    threshold[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
+    threshold[threadId]->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     m_And[threadId] = AndFilterType::New();
-    m_And[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
+    m_And[threadId]->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     initialized[threadId] = true;
   }
   threshold[threadId]->SetInput(sdf);
@@ -741,7 +741,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   if (!initialized[threadId])
   {
     sAnd[threadId] = AndSliceType::New();
-    sAnd[threadId]->SetNumberOfThreads(1); // excessive threading is counterproductive
+    sAnd[threadId]->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     initialized[threadId] = true;
   }
   sAnd[threadId]->SetInput(0, iSlice);
@@ -924,7 +924,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
 
   using CastType = UnaryFunctorImageFilter<SliceType, BoolSliceType, MatchesID<TImage>>;
   typename CastType::Pointer caster = CastType::New();
-  caster->SetNumberOfThreads(1); // excessive threading is counterproductive
+  caster->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
   caster->SetFunctor(matchesID);
   caster->SetInput(iConn);
   caster->Update();
