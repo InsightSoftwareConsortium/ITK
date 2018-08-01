@@ -272,51 +272,61 @@ CLANG_PRAGMA_POP
   }
 
   /** Similar to ParallelizeImageRegion, but do not split the region along one
-   * of the directions. */
+   * of the directions. If VDimension is 1, restrictedDirection is ignored
+   * and no parallelization occurs. */
   template<unsigned int VDimension>
   void ParallelizeImageRegionRestrictDirection(unsigned int restrictedDirection,
     const ImageRegion<VDimension> & requestedRegion,
     TemplatedThreadingFunctorType<VDimension> funcP,
     ProcessObject* filter)
   {
-    constexpr unsigned int Dimension = VDimension;
-    constexpr unsigned int SplitDimension = Dimension - 1;
-    using SplitRegionType = ImageRegion<SplitDimension>;
-
-    SplitRegionType splitRegion;
-    for( unsigned int splitDimension = 0, dimension = 0; dimension < Dimension; ++dimension )
+    if (VDimension <= 1) // Cannot split, no parallelization
       {
-      if( dimension == restrictedDirection )
-        {
-        continue;
-        }
-      splitRegion.SetIndex( splitDimension, requestedRegion.GetIndex( dimension ) );
-      splitRegion.SetSize( splitDimension, requestedRegion.GetSize( dimension ) );
-      ++splitDimension;
+      MultiThreaderBase::HandleFilterProgress( filter, 0.0f );
+      funcP(requestedRegion);
+      MultiThreaderBase::HandleFilterProgress( filter, 1.0f );
       }
-
-    this->ParallelizeImageRegion(
-      SplitDimension,
-      splitRegion.GetIndex().m_InternalArray,
-      splitRegion.GetSize().m_InternalArray,
-      [&](const IndexValueType index[], const SizeValueType size[])
+    else // Can split, parallelize!
       {
-      ImageRegion<VDimension> restrictedRequestedRegion;
-      restrictedRequestedRegion.SetIndex( restrictedDirection, requestedRegion.GetIndex( restrictedDirection ) );
-      restrictedRequestedRegion.SetSize( restrictedDirection, requestedRegion.GetSize( restrictedDirection ) );
+      constexpr unsigned int Dimension = VDimension;
+      constexpr unsigned int SplitDimension = (Dimension-1) ? Dimension-1 : Dimension;
+      using SplitRegionType = ImageRegion<SplitDimension>;
+
+      SplitRegionType splitRegion;
       for( unsigned int splitDimension = 0, dimension = 0; dimension < Dimension; ++dimension )
         {
         if( dimension == restrictedDirection )
           {
           continue;
           }
-        restrictedRequestedRegion.SetIndex( dimension, index[splitDimension] );
-        restrictedRequestedRegion.SetSize( dimension, size[splitDimension] );
+        splitRegion.SetIndex( splitDimension, requestedRegion.GetIndex( dimension ) );
+        splitRegion.SetSize( splitDimension, requestedRegion.GetSize( dimension ) );
         ++splitDimension;
         }
-      funcP( restrictedRequestedRegion );
-      },
-      filter );
+
+      this->ParallelizeImageRegion(
+        SplitDimension,
+        splitRegion.GetIndex().m_InternalArray,
+        splitRegion.GetSize().m_InternalArray,
+        [&](const IndexValueType index[], const SizeValueType size[])
+        {
+        ImageRegion<VDimension> restrictedRequestedRegion;
+        restrictedRequestedRegion.SetIndex( restrictedDirection, requestedRegion.GetIndex( restrictedDirection ) );
+        restrictedRequestedRegion.SetSize( restrictedDirection, requestedRegion.GetSize( restrictedDirection ) );
+        for( unsigned int splitDimension = 0, dimension = 0; dimension < Dimension; ++dimension )
+          {
+          if( dimension == restrictedDirection )
+            {
+            continue;
+            }
+          restrictedRequestedRegion.SetIndex( dimension, index[splitDimension] );
+          restrictedRequestedRegion.SetSize( dimension, size[splitDimension] );
+          ++splitDimension;
+          }
+        funcP( restrictedRequestedRegion );
+        },
+        filter );
+      }
   }
 
   /** Break up region into smaller chunks, and call the function with chunks as parameters.
@@ -340,6 +350,10 @@ protected:
   MultiThreaderBase();
   ~MultiThreaderBase() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  /** Updates progress if progress is non-negative and checks for abort.
+   * If "abort generate data" is set, throws the ProcessAborted exception. */
+  static void HandleFilterProgress(ProcessObject *filter, float progress = -1.0f);
 
   struct ArrayCallback
   {

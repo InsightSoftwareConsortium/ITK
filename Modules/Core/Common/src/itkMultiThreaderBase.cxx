@@ -458,6 +458,29 @@ MultiThreaderBase
   return ITK_THREAD_RETURN_VALUE;
 }
 
+
+void
+MultiThreaderBase
+::HandleFilterProgress(ProcessObject *filter, float progress)
+{
+  if (filter)
+    {
+    if (progress >= 0.0f)
+      {
+      filter->UpdateProgress(progress);
+      }
+    if (filter->GetAbortGenerateData())
+      {
+      std::string msg;
+      ProcessAborted e(__FILE__, __LINE__);
+      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
+          + " during multi-threaded part of filter execution";
+      e.SetDescription(msg);
+      throw e;
+      }
+    }
+}
+
 void
 MultiThreaderBase
 ::ParallelizeArray(
@@ -468,10 +491,7 @@ MultiThreaderBase
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
-  if (filter)
-    {
-    filter->UpdateProgress(0.0f);
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
 
   if ( firstIndex + 1 < lastIndexPlus1 )
     {
@@ -491,19 +511,7 @@ MultiThreaderBase
     }
   // else nothing needs to be executed
 
-  if (filter)
-    {
-    filter->UpdateProgress(1.0f);
-    if (filter->GetAbortGenerateData())
-      {
-      std::string msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
-          + " during multi-threaded part of filter execution";
-      e.SetDescription(msg);
-      throw e;
-      }
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 ITK_THREAD_RETURN_TYPE
@@ -516,15 +524,7 @@ MultiThreaderBase
   ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   auto* acParams = static_cast< struct ArrayCallback* >( threadInfo->UserData );
 
-  if ( acParams->filter && acParams->filter->GetAbortGenerateData() )
-    {
-    std::string msg;
-    ProcessAborted e( __FILE__, __LINE__ );
-    msg += "AbortGenerateData was called in " + std::string( acParams->filter->GetNameOfClass() )
-        + " during multi-threaded part of filter execution";
-    e.SetDescription(msg);
-    throw e;
-    }
+  MultiThreaderBase::HandleFilterProgress(acParams->filter);
 
   SizeValueType range = acParams->lastIndexPlus1 - acParams->firstIndex;
   double fraction = double( range ) / threadCount;
@@ -553,6 +553,7 @@ MultiThreaderBase
   return ITK_THREAD_RETURN_VALUE;
 }
 
+
 void
 MultiThreaderBase
 ::ParallelizeImageRegion(
@@ -564,10 +565,7 @@ MultiThreaderBase
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
-  if (filter)
-    {
-    filter->UpdateProgress(0.0f);
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
 
   SizeValueType pixelCount = 1;
   for (unsigned d = 0; d < dimension; d++)
@@ -586,19 +584,7 @@ MultiThreaderBase
   this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
   this->SingleMethodExecute();
 
-  if (filter)
-    {
-    filter->UpdateProgress(1.0f);
-    if (filter->GetAbortGenerateData())
-      {
-      std::string msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
-          + " during multi-threaded part of filter execution";
-      e.SetDescription(msg);
-      throw e;
-      }
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 ITK_THREAD_RETURN_TYPE
@@ -620,15 +606,7 @@ MultiThreaderBase
     }
   ThreadIdType total = splitter->GetSplit(threadId, threadCount, region);
 
-  if (rnc->filter && rnc->filter->GetAbortGenerateData())
-    {
-    std::string msg;
-    ProcessAborted e(__FILE__, __LINE__);
-    msg += "AbortGenerateData was called in " + std::string(rnc->filter->GetNameOfClass() )
-        + " during multi-threaded part of filter execution";
-    e.SetDescription(msg);
-    throw e;
-    }
+  MultiThreaderBase::HandleFilterProgress(rnc->filter);
 
   if ( threadId < total )
     {

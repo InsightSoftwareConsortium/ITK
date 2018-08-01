@@ -170,10 +170,7 @@ PoolMultiThreader
   ArrayThreadingFunctorType aFunc,
   ProcessObject * filter)
 {
-  if (filter)
-    {
-    filter->UpdateProgress(0.0f);
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
 
   if ( firstIndex + 1 < lastIndexPlus1 )
     {
@@ -217,19 +214,7 @@ PoolMultiThreader
     }
   // else nothing needs to be executed
 
-  if (filter)
-    {
-    filter->UpdateProgress(1.0f);
-    if (filter->GetAbortGenerateData())
-      {
-      std::string msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
-          + " during multi-threaded part of filter execution";
-      e.SetDescription(msg);
-      throw e;
-      }
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 void
@@ -241,10 +226,7 @@ PoolMultiThreader
   ThreadingFunctorType funcP,
   ProcessObject * filter)
 {
-  if (filter)
-    {
-    filter->UpdateProgress(0.0f);
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
 
   if ( m_NumberOfWorkUnits == 1 ) // no multi-threading wanted
     {
@@ -301,19 +283,7 @@ PoolMultiThreader
         }
       }
     }
-  if (filter)
-    {
-    filter->UpdateProgress(1.0f);
-    if (filter->GetAbortGenerateData())
-      {
-      std::string msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
-          + " during multi-threaded part of filter execution";
-      e.SetDescription(msg);
-      throw e;
-      }
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 void PoolMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
