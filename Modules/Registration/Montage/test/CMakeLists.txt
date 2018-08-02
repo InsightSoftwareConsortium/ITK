@@ -8,6 +8,7 @@ set(MontageTests
   itkMontageTestTiles.cxx
   itkMontageTestOMC.cxx
   itkMontageTestRGB.cxx
+  itkMontageTestTi7.cxx
   itkMontageGenericTests.cxx
   )
 
@@ -148,6 +149,17 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestRGB
     ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
   )
 
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7)
+  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTi7Slice36
+    COMMAND MontageTestDriver
+    itkMontageTestTi7
+      ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7Slice36
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7Slice36
+    )
+  set_tests_properties(itkPhaseCorrelationImageRegistrationMethodTestTi7Slice36 PROPERTIES TIMEOUT 3000)
+endif()
+  
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
   itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
     COMMAND MontageTestDriver
