@@ -1988,7 +1988,7 @@ extern hbool_t H5_MPEinit_g;   /* Has the MPE Library been initialized? */
 #endif /* H5_MY_PKG */
 
 
-#ifndef NDEBUG
+#if 0 //#ifndef NDEBUG //ITK's symbol name mangling always fails this check
 #define FUNC_ENTER_CHECK_NAME(asrt)                                           \
     {                                                                         \
         static hbool_t func_check = FALSE;                                    \
