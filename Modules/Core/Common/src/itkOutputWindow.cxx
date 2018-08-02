@@ -25,12 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifdef _WIN32
-# include "itkWin32OutputWindow.h"
-#else
 # include "itkOutputWindow.h"
 # include "itkObjectFactory.h"
-#endif
 
 namespace itk
 {
@@ -126,14 +122,9 @@ OutputWindow
     // if the factory did not provide one, then create it here
     if ( !OutputWindow::m_Instance )
       {
-      // For the windows OS, use a special output window
-#ifdef _WIN32
-      OutputWindow::m_Instance = Win32OutputWindow::New();
-#else
       OutputWindow::m_Instance = new OutputWindow;
       // Remove extra reference from construction.
       OutputWindow::m_Instance->UnRegister();
-#endif
       }
     }
   /**
