@@ -64,7 +64,7 @@ template< typename TOutputImage >
 int ImageSeriesReader< TOutputImage >
 ::ComputeMovingDimensionIndex(ReaderType *reader)
 {
-  // This method computes the the diminesion index which we are going
+  // This method computes the the dimension index which we are going
   // to be moving in for slices
 
   unsigned int movingDimension = reader->GetImageIO()->GetNumberOfDimensions();
@@ -74,8 +74,8 @@ int ImageSeriesReader< TOutputImage >
     movingDimension = TOutputImage::ImageDimension - 1;
     }
 
-  const TOutputImage * readerOutput = reader->GetOutput();
-  SizeType dimSize = readerOutput->GetLargestPossibleRegion().GetSize();
+  const TOutputImage * first = reader->GetOutput();
+  SizeType dimSize = first->GetLargestPossibleRegion().GetSize();
 
   // collapse the number of dimensions in image if any of the last
   // dimensions are one
@@ -93,16 +93,11 @@ void ImageSeriesReader< TOutputImage >
 {
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  Array< float > position1(TOutputImage::ImageDimension); position1.Fill(0.0f);
-  Array< float > position2(TOutputImage::ImageDimension); position2.Fill(0.0f);
-
-  ImageRegionType largestRegion;
-  typename TOutputImage::SpacingType spacing;
-  typename TOutputImage::PointType origin;
-  typename TOutputImage::DirectionType direction;
-  unsigned int numberOfComponents = 1;
-
-  origin.Fill(0.0);
+  using SpacingScalarType = typename TOutputImage::SpacingValueType;
+  Array< SpacingScalarType > position1( TOutputImage::ImageDimension );
+  position1.Fill(0.0f);
+  Array< SpacingScalarType > positionN( TOutputImage::ImageDimension );
+  positionN.Fill(0.0f);
 
   std::string key("ITK_ImageOrigin");
 
@@ -117,130 +112,107 @@ void ImageSeriesReader< TOutputImage >
     }
   m_MetaDataDictionaryArray.clear();
 
-  if ( m_FileNames.size() == 0 )
+  const auto numberOfFiles = static_cast< int >( m_FileNames.size() );
+  if ( numberOfFiles == 0 )
     {
     itkExceptionMacro(<< "At least one filename is required.");
     }
 
-  const auto numberOfFiles = static_cast< int >( m_FileNames.size() );
-  for ( int i = 0; i < 2 && i < numberOfFiles; ++i )
+  const int  firstFileName = ( m_ReverseOrder ? numberOfFiles - 1 : 0 );
+  const int  lastFileName = ( m_ReverseOrder ? 0 : numberOfFiles - 1 );
+
+  typename ReaderType::Pointer firstReader = ReaderType::New();
+  typename ReaderType::Pointer lastReader = ReaderType::New();
+  firstReader->SetFileName( m_FileNames[firstFileName].c_str() );
+  lastReader->SetFileName( m_FileNames[lastFileName].c_str() );
+  if ( m_ImageIO )
     {
-    const int iFileName = ( m_ReverseOrder ? numberOfFiles - i - 1 : i );
-
-    typename ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName( m_FileNames[iFileName].c_str() );
-    if ( m_ImageIO )
-      {
-      reader->SetImageIO(m_ImageIO);
-      }
-
-    // update the MetaDataDictionary and output information
-    reader->UpdateOutputInformation();
-
-    const TOutputImage * readerOutput = reader->GetOutput();
-
-    if ( m_FileNames.size() == 1 )
-      {
-      // ----------------------------
-      // there is only one file need to copy all of it's meta data
-      spacing = readerOutput->GetSpacing();
-      origin = readerOutput->GetOrigin();
-      direction = readerOutput->GetDirection();
-      largestRegion = readerOutput->GetLargestPossibleRegion();
-      numberOfComponents = readerOutput->GetNumberOfComponentsPerPixel();
-
-      // the slice moving direction for a single image can be the
-      // output image dimensions, since this will indicate that we can
-      // not move in the slice moving direction
-      this->m_NumberOfDimensionsInImage = reader->GetImageIO()->GetNumberOfDimensions();
-      if ( this->m_NumberOfDimensionsInImage > TOutputImage::ImageDimension )
-        {
-        this->m_NumberOfDimensionsInImage = TOutputImage::ImageDimension;
-        }
-      }
-    else if ( i == 0 )
-      {
-      // ----------------------------
-      // first of multiple slices
-
-      spacing = readerOutput->GetSpacing();
-      direction = readerOutput->GetDirection();
-      numberOfComponents = readerOutput->GetNumberOfComponentsPerPixel();
-
-      SizeType dimSize = readerOutput->GetLargestPossibleRegion().GetSize();
-
-      // compute the moving dimensions index, or the number of image
-      // dimensions we are going to use
-      this->m_NumberOfDimensionsInImage = ComputeMovingDimensionIndex(reader);
-
-      dimSize[this->m_NumberOfDimensionsInImage] = static_cast<typename SizeType::SizeValueType>( m_FileNames.size() );
-
-      IndexType start;
-      start.Fill(0);
-      largestRegion.SetSize(dimSize);
-      largestRegion.SetIndex(start);
-
-      // Initialize the position to the origin returned by the reader
-      unsigned int j;
-      for ( j = 0; j < TOutputImage::ImageDimension; j++ )
-        {
-        position1[j] = static_cast< float >( readerOutput->GetOrigin()[j] );
-        }
-      // Override the position if there is an ITK_ImageOrigin
-      ExposeMetaData< Array< float > >(reader->GetImageIO()->GetMetaDataDictionary(), key, position1);
-
-      for ( j = 0; j < TOutputImage::ImageDimension; j++ )
-        {
-        if ( j < position1.size() )
-          {
-          origin[j] = position1[j];
-          }
-        else
-          {
-          origin[j] = static_cast< float >( readerOutput->GetOrigin()[j] );
-          }
-        }
-      }
-    else if ( i == 1 )
-      {
-      // ----------------------------
-      // second of multiple slices
-
-      // Initialize the position to the origin returned by the reader
-      unsigned int j;
-      for ( j = 0; j < TOutputImage::ImageDimension; j++ )
-        {
-        position2[j] = static_cast< float >( readerOutput->GetOrigin()[j] );
-        }
-      // Override the position if there is an ITK_ImageOrigin
-      ExposeMetaData< Array< float > >(reader->GetImageIO()->GetMetaDataDictionary(), key, position2);
-
-      // Compute the inter slice spacing by computing the distance
-      // between two consective slices
-      float interSliceSpacing = 0.0f;
-      for ( j = 0; j < position1.size(); ++j )
-        {
-        interSliceSpacing += itk::Math::sqr(position2[j] - position1[j]);
-        }
-      interSliceSpacing = static_cast< float >( std::sqrt(interSliceSpacing) );
-
-      if ( interSliceSpacing == 0.0f )
-        {
-        interSliceSpacing = 1.0f;
-        }
-
-      // set interslice spacing
-      spacing[this->m_NumberOfDimensionsInImage] = interSliceSpacing;
-      }
+    firstReader->SetImageIO(m_ImageIO);
+    lastReader->SetImageIO( m_ImageIO );
     }
 
-  output->SetOrigin(origin);       // Set the image origin
-  output->SetSpacing(spacing);     // Set the image spacing
-  output->SetDirection(direction); // Set the image direction
+  // update the MetaDataDictionary and output information
+  firstReader->UpdateOutputInformation();
+  const TOutputImage* first = firstReader->GetOutput();
+
+  typename TOutputImage::SpacingType spacing = first->GetSpacing();
+  typename TOutputImage::PointType origin = first->GetOrigin();
+  typename TOutputImage::DirectionType direction = first->GetDirection();
+  ImageRegionType largestRegion = first->GetLargestPossibleRegion();
+  unsigned int numberOfComponents = first->GetNumberOfComponentsPerPixel();
+
+  if ( numberOfFiles == 1 )
+    {
+    // just retain all of the file's meta data
+
+    // the slice moving direction for a single image can be the
+    // output image dimensions, since this will indicate that we can
+    // not move in the slice moving direction
+    this->m_NumberOfDimensionsInImage = firstReader->GetImageIO()->GetNumberOfDimensions();
+    if ( this->m_NumberOfDimensionsInImage > TOutputImage::ImageDimension )
+      {
+      this->m_NumberOfDimensionsInImage = TOutputImage::ImageDimension;
+      }
+    }
+  else
+    {
+    // first of multiple slices
+    spacing = first->GetSpacing();
+    direction = first->GetDirection();
+    numberOfComponents = first->GetNumberOfComponentsPerPixel();
+    SizeType dimSize = largestRegion.GetSize();
+
+    // compute the moving dimensions index, or the number of image
+    // dimensions we are going to use
+    this->m_NumberOfDimensionsInImage = ComputeMovingDimensionIndex( firstReader );
+    dimSize[this->m_NumberOfDimensionsInImage] = static_cast<typename SizeType::SizeValueType>( numberOfFiles );
+    IndexType start;
+    start.Fill(0);
+    largestRegion.SetSize(dimSize);
+    largestRegion.SetIndex(start);
+
+    // Initialize the position to the origin returned by the reader
+    unsigned int j;
+    for ( j = 0; j < TOutputImage::ImageDimension; j++ )
+      {
+      position1[j] = static_cast< SpacingScalarType >( origin[j] );
+      }
+    // Override the position if there is an ITK_ImageOrigin
+    ExposeMetaData< Array< SpacingScalarType > >( firstReader->GetImageIO()->GetMetaDataDictionary(), key, position1 );
+
+
+    // last of multiple slices
+    lastReader->UpdateOutputInformation();
+    const TOutputImage* last = lastReader->GetOutput();
+
+    // Initialize the position to the origin returned by the reader
+    for ( j = 0; j < TOutputImage::ImageDimension; j++ )
+      {
+      positionN[j] = static_cast< SpacingScalarType >( last->GetOrigin()[j] );
+      }
+    // Override the position if there is an ITK_ImageOrigin
+    ExposeMetaData< Array< SpacingScalarType > >( lastReader->GetImageIO()->GetMetaDataDictionary(), key, positionN );
+
+    // Compute and set the inter slice spacing
+    SpacingScalarType interSliceSpacing = 0.0;
+    for ( j = 0; j < position1.size(); ++j )
+      {
+      interSliceSpacing += itk::Math::sqr(positionN[j] - position1[j]);
+      }
+    interSliceSpacing = static_cast< SpacingScalarType >( std::sqrt( interSliceSpacing ) / (numberOfFiles -1 ) );
+    if ( interSliceSpacing == 0.0 )
+      {
+      interSliceSpacing = 1.0;
+      }
+    spacing[this->m_NumberOfDimensionsInImage] = interSliceSpacing;
+    }
+
+  output->SetOrigin(origin);
+  output->SetSpacing(spacing);
+  output->SetDirection(direction);
   output->SetLargestPossibleRegion(largestRegion);
 
-  // If a VectorImage, this requires us to set the
-  // VectorLength before allocate
+  // If a VectorImage, this requires us to set the VectorLength before allocate
   if ( strcmp(output->GetNameOfClass(), "VectorImage") == 0 )
     {
     using AccessorFunctorType = typename TOutputImage::AccessorFunctorType;
@@ -367,7 +339,7 @@ void ImageSeriesReader< TOutputImage >
                            << " and does not match the required size "
                            << validSize
                            << " from file "
-                           << m_FileNames[m_ReverseOrder ? m_FileNames.size() - 1 : 0].c_str() );
+                           << m_FileNames[m_ReverseOrder ? numberOfFiles - 1 : 0].c_str() );
         }
 
       // get the size of the region to be read
