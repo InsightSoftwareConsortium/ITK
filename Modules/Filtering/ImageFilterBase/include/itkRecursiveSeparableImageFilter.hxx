@@ -21,7 +21,6 @@
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkProgressReporter.h"
 #include <new>
 
 namespace itk
@@ -49,12 +48,10 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   m_BM2( 0.0 ),
   m_BM3( 0.0 ),
   m_BM4( 0.0 ),
-  m_Direction( 0 ),
-  m_ImageRegionSplitter(ImageRegionSplitterDirection::New())
+  m_Direction( 0 )
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
-  this->DynamicMultiThreadingOff();
 
   this->InPlaceOff();
 }
@@ -202,18 +199,14 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
 
 template< typename TInputImage, typename TOutputImage >
-const ImageRegionSplitterBase*
-RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::GetImageRegionSplitter(void) const
-{
-  return this->m_ImageRegionSplitter;
-}
-
-template< typename TInputImage, typename TOutputImage >
 void
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+::GenerateData()
 {
+  // Call a method that can be overriden by a subclass to allocate
+  // memory for the filter's outputs
+  this->AllocateOutputs();
+
   using RegionType = ImageRegion< TInputImage::ImageDimension >;
 
   typename TInputImage::ConstPointer inputImage( this->GetInputImage () );
@@ -229,9 +222,6 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   const typename InputImageType::SpacingType & pixelSize =
     inputImage->GetSpacing();
 
-
-  this->m_ImageRegionSplitter->SetDirection(m_Direction);
-
   this->SetUp(pixelSize[m_Direction]);
 
   RegionType region = outputImage->GetRequestedRegion();
@@ -243,6 +233,10 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
     itkExceptionMacro("The number of pixels along direction " << this->m_Direction <<
       " is less than 4. This filter requires a minimum of four pixels along the dimension to be processed.");
     }
+
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<TOutputImage::ImageDimension>(
+      m_Direction, region, [this](const RegionType & lambdaRegion) { this->DynamicThreadedGenerateData(lambdaRegion); }, this);
 }
 
 /**
@@ -252,7 +246,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   using OutputPixelType = typename TOutputImage::PixelType;
 
@@ -287,15 +281,12 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
     inputIterator.GoToBegin();
     outputIterator.GoToBegin();
 
-    const SizeValueType numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(this->m_Direction);
-    ProgressReporter   progress(this, threadId, numberOfLinesToProcess, 10);
-
     while ( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
       {
       unsigned int i = 0;
       while ( !inputIterator.IsAtEndOfLine() )
         {
-        inps[i++]      = inputIterator.Get();
+        inps[i++] = inputIterator.Get();
         ++inputIterator;
         }
 
@@ -310,10 +301,6 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
       inputIterator.NextLine();
       outputIterator.NextLine();
-
-      // Although the method name is CompletedPixel(),
-      // this is being called after each line is processed
-      progress.CompletedPixel();
       }
     }
   catch (...)

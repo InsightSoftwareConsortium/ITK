@@ -90,10 +90,7 @@ TBBMultiThreader
   ArrayThreadingFunctorType aFunc,
   ProcessObject* filter )
 {
-  if (filter)
-    {
-    filter->UpdateProgress(0.0f);
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
 
   if ( firstIndex + 1 < lastIndexPlus1 )
     {
@@ -109,15 +106,7 @@ TBBMultiThreader
         // Make sure that TBB did not call us with a block of "threads"
         // but rather with only one "thread" to handle
         itkAssertInDebugAndIgnoreInReleaseMacro(r.begin() + 1 == r.end());
-        if ( filter && filter->GetAbortGenerateData() )
-          {
-          std::string msg;
-          ProcessAborted e( __FILE__, __LINE__ );
-          msg += "AbortGenerateData was called in " + std::string( filter->GetNameOfClass() )
-              + " during multi-threaded part of filter execution";
-          e.SetDescription(msg);
-          throw e;
-          }
+        MultiThreaderBase::HandleFilterProgress(filter);
 
         aFunc( r.begin() ); //invoke the function
 
@@ -139,19 +128,7 @@ TBBMultiThreader
     }
   // else nothing needs to be executed
 
-  if (filter)
-    {
-    filter->UpdateProgress(1.0f);
-    if (filter->GetAbortGenerateData())
-      {
-      std::string msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
-          + " during multi-threaded part of filter execution";
-      e.SetDescription(msg);
-      throw e;
-      }
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 }
@@ -231,10 +208,7 @@ void TBBMultiThreader
     ThreadingFunctorType funcP,
     ProcessObject* filter)
 {
-  if (filter)
-    {
-    filter->UpdateProgress(0.0f);
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
 
   if (m_NumberOfWorkUnits == 1) //no multi-threading wanted
     {
@@ -256,15 +230,7 @@ void TBBMultiThreader
     tbb::task_scheduler_init tbb_init( m_MaximumNumberOfThreads );
     tbb::parallel_for(regionSplitter, [&](TBBImageRegionSplitter regionToProcess)
       {
-      if (filter && filter->GetAbortGenerateData())
-        {
-        std::string msg;
-        ProcessAborted e(__FILE__, __LINE__);
-        msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
-            + " during multi-threaded part of filter execution";
-        e.SetDescription(msg);
-        throw e;
-        }
+      MultiThreaderBase::HandleFilterProgress(filter);
       funcP(&regionToProcess.GetIndex()[0], &regionToProcess.GetSize()[0]);
       if (filter) //filter is provided, update progress
         {
@@ -279,18 +245,6 @@ void TBBMultiThreader
       }); //we implicitly use auto_partitioner for load balancing
     }
 
-  if (filter)
-    {
-    filter->UpdateProgress(1.0f);
-    if (filter->GetAbortGenerateData())
-      {
-      std::string msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass() )
-          + " during multi-threaded part of filter execution";
-      e.SetDescription(msg);
-      throw e;
-      }
-    }
+  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 }

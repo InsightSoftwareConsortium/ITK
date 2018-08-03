@@ -84,45 +84,20 @@ BinaryContourImageFilter<TInputImage, TOutputImage>
 
   this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   //parallelize in a way which does not split the region along X axis
-  //to accomplish this, we parallelize a region with lower dimension
-  //which we extend with full scanlines along X
-  this->GetMultiThreader()->ParallelizeImageRegion(
-      ImageDimension - 1,
-      &reqRegion.GetIndex()[1],
-      &reqRegion.GetSize()[1],
-      [&](const IndexValueType index[], const SizeValueType size[])
-      {
-      RegionType r;
-      r.SetIndex(0, reqRegion.GetIndex(0));
-      r.SetSize(0, reqRegion.GetSize(0));
-      for (unsigned d = 1; d < ImageDimension; d++)
-        {
-        r.SetIndex(d, index[d - 1]);
-        r.SetSize(d, size[d - 1]);
-        }
-      this->DynamicThreadedGenerateData(r);
-      },
-      nullptr);
+  constexpr unsigned int restrictedDirection = 0;
+  this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection< ImageDimension >( restrictedDirection,
+    reqRegion,
+    [this](const RegionType & outputRegionForThread) { this->DynamicThreadedGenerateData( outputRegionForThread ); },
+    nullptr
+    );
   this->UpdateProgress(0.5f);
 
   //avoid splitting the region along X
-  this->GetMultiThreader()->ParallelizeImageRegion(
-      ImageDimension - 1,
-      &reqRegion.GetIndex()[1],
-      &reqRegion.GetSize()[1],
-      [&](const IndexValueType index[], const SizeValueType size[])
-      {
-      RegionType r;
-      r.SetIndex(0, reqRegion.GetIndex(0));
-      r.SetSize(0, reqRegion.GetSize(0));
-      for (unsigned d = 1; d < ImageDimension; d++)
-        {
-        r.SetIndex(d, index[d - 1]);
-        r.SetSize(d, size[d - 1]);
-        }
-      this->ThreadedIntegrateData(r);
-      },
-      nullptr);
+  this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection< ImageDimension >( restrictedDirection,
+    reqRegion,
+    [this](const RegionType & outputRegionForThread) { this->ThreadedIntegrateData( outputRegionForThread ); },
+    nullptr
+    );
   this->UpdateProgress(0.99f);
 
   this->AfterThreadedGenerateData();
