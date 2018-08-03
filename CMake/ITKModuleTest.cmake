@@ -262,7 +262,6 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
       set(_skip_dependency "SKIP_DEPENDENCY")
     endif()
     gtest_add_tests(TARGET ${exe}
-      SOURCES ${KitTests}
       ${_skip_dependency}
       )
   endif()
