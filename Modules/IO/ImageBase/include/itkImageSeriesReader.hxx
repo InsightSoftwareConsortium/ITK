@@ -22,6 +22,7 @@
 
 #include "itkImageAlgorithm.h"
 #include "itkArray.h"
+#include "itkVector.h"
 #include "itkMath.h"
 #include "itkProgressReporter.h"
 #include "itkMetaDataObject.h"
@@ -52,6 +53,7 @@ void ImageSeriesReader< TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ReverseOrder: " << m_ReverseOrder << std::endl;
+  os << indent << "ForceOrthogonalDirection: " << m_ForceOrthogonalDirection << std::endl;
   os << indent << "UseStreaming: " << m_UseStreaming << std::endl;
 
   itkPrintSelfObjectMacro( ImageIO );
@@ -194,17 +196,28 @@ void ImageSeriesReader< TOutputImage >
     ExposeMetaData< Array< SpacingScalarType > >( lastReader->GetImageIO()->GetMetaDataDictionary(), key, positionN );
 
     // Compute and set the inter slice spacing
-    SpacingScalarType interSliceSpacing = 0.0;
-    for ( j = 0; j < position1.size(); ++j )
+    // and last (usually third) axis of direction
+    Vector< SpacingScalarType, TOutputImage::ImageDimension > dirN;
+    for ( j = 0; j < TOutputImage::ImageDimension; ++j )
       {
-      interSliceSpacing += itk::Math::sqr(positionN[j] - position1[j]);
+      dirN[j] = positionN[j] - position1[j];
       }
-    interSliceSpacing = static_cast< SpacingScalarType >( std::sqrt( interSliceSpacing ) / (numberOfFiles -1 ) );
-    if ( interSliceSpacing == 0.0 )
+    SpacingScalarType dirNnorm = dirN.GetNorm();
+    if ( Math::AlmostEquals(dirNnorm, 0.0) )
       {
-      interSliceSpacing = 1.0;
+      spacing[this->m_NumberOfDimensionsInImage] = 1.0;
       }
-    spacing[this->m_NumberOfDimensionsInImage] = interSliceSpacing;
+    else
+      {
+      spacing[this->m_NumberOfDimensionsInImage] = dirNnorm / ( numberOfFiles - 1 );
+      if ( !m_ForceOrthogonalDirection )
+        {
+        for ( j = 0; j < TOutputImage::ImageDimension; ++j )
+          {
+          direction[j][this->m_NumberOfDimensionsInImage] = dirN[j] / dirNnorm;
+          }
+        }
+      }
     }
 
   output->SetOrigin(origin);

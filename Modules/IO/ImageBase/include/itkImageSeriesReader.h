@@ -116,6 +116,12 @@ public:
   itkGetConstMacro(ReverseOrder, bool);
   itkBooleanMacro(ReverseOrder);
 
+  /** Do we want to force orthogonal direction cosines? On by default.
+   * Turning it off enables proper reading of DICOM series with gantry tilt. */
+  itkSetMacro( ForceOrthogonalDirection, bool );
+  itkGetConstMacro( ForceOrthogonalDirection, bool );
+  itkBooleanMacro( ForceOrthogonalDirection );
+
   /** Set/Get the ImageIO helper class. By default, the
    * ImageSeriesReader uses the factory mechanism of the
    * ImageFileReader to determine the file type. This method can be
@@ -160,6 +166,7 @@ protected:
   ImageSeriesReader() :
     m_ImageIO(nullptr),
     m_ReverseOrder(false),
+    m_ForceOrthogonalDirection(true),
     m_NumberOfDimensionsInImage(0),
     m_UseStreaming(true),
     m_MetaDataDictionaryArrayUpdate(true)
@@ -175,6 +182,9 @@ protected:
 
   /** Select the traversal order. */
   bool m_ReverseOrder;
+
+  /** Do we want to force orthogonal direction cosines? */
+  bool m_ForceOrthogonalDirection;
 
   /** A list of filenames to be processed. */
   FileNamesContainer m_FileNames;
