@@ -38,13 +38,6 @@
 
 #include <thread>
 
-constexpr unsigned int Dimension = 2;
-using InputPixelType = unsigned char;
-using InputImageType = itk::Image< InputPixelType, Dimension >;
-using LevelSetPixelType = float;
-using LevelSetImageType = itk::Image< LevelSetPixelType, Dimension >;
-using LevelSetType = itk::LevelSetDenseImage< LevelSetImageType >;
-
 struct NeedToPauseInformation
 {
   itk::SimpleMutexLock            m_Mutex;
@@ -106,10 +99,15 @@ private:
 /** \class KeypressPauseCommand
  * The VTK class to detect the keypress and signal that a pause is needed.
  * */
+template <typename TInputImage>
 class KeypressPauseCommand: public vtkCommand
 {
 public:
-  using VisualizationType = itk::VTKVisualizeImageLevelSetIsoValues< InputImageType, LevelSetType >;
+  using LevelSetPixelType = float;
+  static constexpr unsigned int Dimension = TInputImage::ImageDimension;
+  using LevelSetImageType = itk::Image< LevelSetPixelType, Dimension >;
+  using LevelSetType = itk::LevelSetDenseImage< LevelSetImageType >;
+  using VisualizationType = itk::VTKVisualizeImageLevelSetIsoValues< TInputImage, LevelSetType >;
 
   KeypressPauseCommand(){}
 
@@ -184,22 +182,23 @@ public:
 
 private:
   NeedToPauseInformation *   m_NeedToPauseInformation;
-  VisualizationType::Pointer m_Visualizer;
+  typename VisualizationType::Pointer m_Visualizer;
 };
 
-template< typename TInputImage, typename TLevelSetType >
+template< typename TInputImage >
 void
 visualizeLevelSet( TInputImage * inputImage,
   const int numberOfIterations,
   ProcessingPauseCommand * pauseCommand,
-  KeypressPauseCommand * keypressCommand )
+  KeypressPauseCommand<TInputImage> * keypressCommand )
 {
+  using LevelSetType = typename KeypressPauseCommand<TInputImage>::LevelSetType;
   using LevelSetOutputType = typename LevelSetType::OutputType;
   using LevelSetRealType = typename LevelSetType::OutputRealType;
 
   // Generate a binary mask that will be used as initialization for the level
   // set evolution.
-  using BinaryImageType = typename itk::Image< LevelSetOutputType, InputImageType::ImageDimension >;
+  using BinaryImageType = typename itk::Image< LevelSetOutputType, TInputImage::ImageDimension >;
   typename BinaryImageType::Pointer binary = BinaryImageType::New();
   binary->SetRegions( inputImage->GetLargestPossibleRegion() );
   binary->CopyInformation( inputImage );
@@ -250,20 +249,20 @@ visualizeLevelSet( TInputImage * inputImage,
   // Create the terms.
   //
   // // Chan and Vese internal term
-  using ChanAndVeseInternalTermType = itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
+  using ChanAndVeseInternalTermType = itk::LevelSetEquationChanAndVeseInternalTerm< TInputImage, LevelSetContainerType >;
   typename ChanAndVeseInternalTermType::Pointer cvInternalTerm = ChanAndVeseInternalTermType::New();
   cvInternalTerm->SetInput( inputImage );
   cvInternalTerm->SetCoefficient( 0.5 );
   std::cout << "Chan and Vese internal term created" << std::endl;
 
   // // Chan and Vese external term
-  using ChanAndVeseExternalTermType = typename itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >;
+  using ChanAndVeseExternalTermType = typename itk::LevelSetEquationChanAndVeseExternalTerm< TInputImage, LevelSetContainerType >;
   typename ChanAndVeseExternalTermType::Pointer cvExternalTerm = ChanAndVeseExternalTermType::New();
   cvExternalTerm->SetInput( inputImage );
   std::cout << "Chan and Vese external term created" << std::endl;
 
   // Create term container (equation rhs)
-  using TermContainerType = typename itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
+  using TermContainerType = typename itk::LevelSetEquationTermContainer< TInputImage, LevelSetContainerType >;
   typename TermContainerType::Pointer termContainer = TermContainerType::New();
   termContainer->SetLevelSetContainer( levelSetContainer );
   termContainer->SetInput( inputImage );
@@ -348,6 +347,10 @@ int itkVTKVisualizeLevelSetsInteractivePauseTest( int argc, char* argv[] )
     }
 
   // Image Dimension
+  constexpr unsigned int Dimension = 2;
+  using InputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+
 
   // Read input image (to be processed).
   using ReaderType = itk::ImageFileReader< InputImageType >;
@@ -366,7 +369,8 @@ int itkVTKVisualizeLevelSetsInteractivePauseTest( int argc, char* argv[] )
   ProcessingPauseCommand::Pointer processingPauseCommand = ProcessingPauseCommand::New();
   processingPauseCommand->SetNeedToPauseInformation( &needToPauseInformation );
 
-  vtkSmartPointer< KeypressPauseCommand > keypressPauseCommand = vtkSmartPointer< KeypressPauseCommand >::New();
+  using KPCType = KeypressPauseCommand<InputImageType>;
+  vtkSmartPointer< KPCType > keypressPauseCommand = vtkSmartPointer< KPCType >::New();
   keypressPauseCommand->SetNeedToPauseInformation( &needToPauseInformation );
   vtkSmartPointer< vtkRenderWindow > renderWindow = vtkSmartPointer< vtkRenderWindow >::New();
   keypressPauseCommand->GetVisualizer()->SetRenderWindow( renderWindow );
@@ -390,7 +394,7 @@ int itkVTKVisualizeLevelSetsInteractivePauseTest( int argc, char* argv[] )
   try
     {
     std::thread visThread(
-        visualizeLevelSet< InputImageType, LevelSetType >,
+        visualizeLevelSet< InputImageType >,
         input.GetPointer(),
         numberOfIterations,
         processingPauseCommand.GetPointer(),

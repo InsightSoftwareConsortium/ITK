@@ -288,12 +288,11 @@ CLANG_PRAGMA_POP
       }
     else // Can split, parallelize!
       {
-      constexpr unsigned int Dimension = VDimension;
-      constexpr unsigned int SplitDimension = (Dimension-1) ? Dimension-1 : Dimension;
+      constexpr unsigned int SplitDimension = (VDimension-1) ? VDimension-1 : VDimension;
       using SplitRegionType = ImageRegion<SplitDimension>;
 
       SplitRegionType splitRegion;
-      for( unsigned int splitDimension = 0, dimension = 0; dimension < Dimension; ++dimension )
+      for( unsigned int splitDimension = 0, dimension = 0; dimension < VDimension; ++dimension )
         {
         if( dimension == restrictedDirection )
           {
@@ -313,7 +312,7 @@ CLANG_PRAGMA_POP
         ImageRegion<VDimension> restrictedRequestedRegion;
         restrictedRequestedRegion.SetIndex( restrictedDirection, requestedRegion.GetIndex( restrictedDirection ) );
         restrictedRequestedRegion.SetSize( restrictedDirection, requestedRegion.GetSize( restrictedDirection ) );
-        for( unsigned int splitDimension = 0, dimension = 0; dimension < Dimension; ++dimension )
+        for( unsigned int splitDimension = 0, dimension = 0; dimension < VDimension; ++dimension )
           {
           if( dimension == restrictedDirection )
             {
