@@ -294,32 +294,37 @@ ThreadPool
 ThreadPool
 ::~ThreadPool()
 {
-  unsigned waitCount = m_Threads.size();
+  bool waitForThreads = m_Threads.size() > 0;
 #if defined(_WIN32) && defined(ITKCommon_EXPORTS)
-  //this destructor is called during DllMain's DLL_PROCESS_DETACH.
+  //This destructor is called during DllMain's DLL_PROCESS_DETACH.
   //Because ITKCommon-4.X.dll is usually being detached due to process termination,
   //lpvReserved is non-NULL meaning that "all threads in the process
   //except the current thread either have exited already or have been
   //explicitly terminated by a call to the ExitProcess function".
-  waitCount = 0;
-#endif
+  waitForThreads = false;
+#else
   if(m_ThreadPoolGlobals->m_DoNotWaitForThreads)
     {
-    waitCount = 0;
+    waitForThreads = false;
     }
+#endif
 
   {
     std::unique_lock< std::mutex > mutexHolder( m_ThreadPoolGlobals->m_Mutex );
     this->m_Stopping = true;
   }
 
-  if (waitCount > 0)
+  if (waitForThreads)
     {
     m_Condition.notify_all();
-    for (ThreadIdType i = 0; i < waitCount; i++)
-      {
-      m_Threads[i].join();
-      }
+    }
+
+  // Even if the threads have already been terminated,
+  // we should join() the std::thread variables.
+  // Otherwise some sanity check in debug mode makes a problem.
+  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+    {
+    m_Threads[i].join();
     }
 }
 
