@@ -57,3 +57,5 @@ extract_source () {
 }
 
 . "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
+
+echo "Don't forget to manually update the mangling as described in ${BASH_SOURCE%/*}/src/itkhdf5/src/itk_hdf5_mangle.h"
