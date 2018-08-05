@@ -26,6 +26,10 @@ if (CMAKE_CXX_COMPILER AND CMAKE_CXX_COMPILER_LOADED)
   include (TestForSTDNamespace)
 endif ()
 
+if(POLICY CMP0075)
+  cmake_policy(SET CMP0075 NEW)
+endif()
+
 #-----------------------------------------------------------------------------
 # APPLE/Darwin setup
 #-----------------------------------------------------------------------------
