@@ -500,10 +500,6 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
     {
     point = this->m_BulkTransform->TransformPoint(point);
     }
-  else
-    {
-    point = point;
-    }
 
   // if no coefficients are set, this isn't a proper BSpline Transform
   if( this->m_CoefficientImages[0]->GetBufferPointer() == nullptr)
