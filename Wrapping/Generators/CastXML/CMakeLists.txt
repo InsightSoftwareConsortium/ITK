@@ -25,21 +25,21 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash 1e0f51ab98592ac9934bb1c93040fd473519a02d1e3ce0090443f4f3566eb8354eb3e5bd04a2c91d832d33d0d712363c508bd2304da34db9963787890808ec9e)
+    set(_castxml_hash 8bd733abd146b094d147f82905d6b496b4182ef5c1291f90cf8d8b49b012007203b7371c93bbc444d3779d196ac3f1c838a6dcf598d522cb33898b8620eedea3)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash 2fa32cd083ed901499774eb34249c70c2d32a93c55e27dbb62f5ec3c7386ab6745dbbad78c653a0909b05b5d965839ec31ad9fca294cc0b7af9dfc15e2a7e063)
+    set(_castxml_hash 016619654f553c0a79de9072d1f880a842f9720e25e90232b84129bbe89889342259f716691e748925857802a727ad139849cf427ea1aa22f4e5b2e6a38fcf7d)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash 1c379ea91f4c0d9b8127d841edee7c415fdde40665a2a3682aef22def75bd1cea99d26bb3b1b243e61e976d78233ed12a2614236e76206d1ae083583f4bc17ea)
+    set(_castxml_hash 79a6cdbb0d22e73646ccf67ab4b0069ca1943476ab364e0eb22238694f26a1ea36e255ff599b6dfd550d76bace8aa1036b390f26f0e0f8b361d57ef887bca7b0)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
@@ -96,8 +96,8 @@ else()
         itk_download_attempt_check(LLVM)
         itk_download_attempt_check(Clang)
       endif()
-      set(llvm_version 5.0.0)
-      set(llvm_hash a65412cb45c73f73fcdef8016d3538114c1d0d1c6a5ed030a20e5049a6582b7926f184f2a3c065550e92e8ac27743bbf1a87b76be85949c0114d0320264018bd)
+      set(llvm_version 6.0.1)
+      set(llvm_hash cbbb00eb99cfeb4aff623ee1a5ba075e7b5a76fc00c5f9f539ff28c108598f5708a0369d5bd92683def5a20c2fe60cab7827b42d628dbfcc79b57e0e91b84dd9)
       ExternalProject_Add(llvm
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${llvm_hash}/download"
         URL_HASH SHA512=${llvm_hash}
@@ -114,7 +114,7 @@ else()
           -DLLVM_INCLUDE_DOCS:BOOL=OFF
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
         )
-      set(clang_hash f4d46cb0e76b84d8270da7bc62927c6c3acfa42cf9982012842f5e56b4b846ca4fc6ddb1ed6370cc5b6cd224c0dc420a7f3550d867855c23bcc20a3a3ee2d1bc)
+      set(clang_hash f64ba9290059f6e36fee41c8f32bf483609d31c291fcd2f77d41fecfdf3c8233a5e23b93a1c73fed03683823bd6e72757ed993dd32527de3d5f2b7a64bb031b9)
       ExternalProject_Add(clang
         # This is the upstream source code repackages in a .tar.gz for
         # compatibility with older CMake. Also the tests/ and doc/ directories
@@ -144,8 +144,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2017-11-06
-      GIT_TAG 3a81f3cc3060be86064ba2e666d30b0c358cc847
+      # CastXML master, 2018-08-06
+      GIT_TAG ae9312119f768840cddfee22d0996266c7a06848
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
