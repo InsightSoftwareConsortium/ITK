@@ -19,8 +19,8 @@ fi
 
 # Update the git tag for the version you are merging
 git_url="https://github.com/gccxml/pygccxml"
-git_tag="v1.9.0"
-upstream_sha="c1b521e79bb897ec10853cedc589fa1bc66dc105"
+git_tag="develop"
+upstream_sha="87b4e12d211b37b2225e632b2881c4531613d4d7"
 
 #
 # Once the merge has been done
