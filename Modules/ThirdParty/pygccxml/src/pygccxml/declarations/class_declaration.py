@@ -12,14 +12,13 @@ This modules contains definition for next C++ declarations:
     - small helper class for describing C++ class hierarchy
 """
 
-import warnings
 from . import scopedef
 from . import declaration_utils
 from . import declaration
 from . import templates
-from . import cpptypes
 from . import byte_info
 from . import elaborated_info
+from . import type_traits
 
 
 class ACCESS_TYPES(object):
@@ -43,15 +42,17 @@ class CLASS_TYPES(object):
 def get_partial_name(name):
     from . import container_traits  # prevent cyclic dependencies
     ct = container_traits.find_container_traits(name)
+
     if ct:
         return ct.remove_defaults(name)
-    elif templates.is_instantiation(name):
+
+    if templates.is_instantiation(name):
         tmpl_name, args = templates.split(name)
         for i, arg_name in enumerate(args):
             args[i] = get_partial_name(arg_name.strip())
         return templates.join(tmpl_name, args)
-    else:
-        return name
+
+    return name
 
 
 class hierarchy_info_t(object):
@@ -164,6 +165,7 @@ class class_declaration_t(declaration.declaration_t):
         return []
 
     def i_depend_on_them(self, recursive=True):
+        self._warn_deprecated()
         return []
 
     @property
@@ -186,9 +188,6 @@ class class_t(
 
     """describes class definition"""
 
-    # Can be set from outside
-    USE_DEMANGLED_AS_NAME = True
-
     def __init__(
             self,
             name='',
@@ -210,47 +209,9 @@ class class_t(
         self._aliases = []
         self._recursive_bases = None
         self._recursive_derived = None
-        self._use_demangled_as_name = False
-
-    @property
-    def use_demangled_as_name(self):
-        return class_t.USE_DEMANGLED_AS_NAME
-
-    @use_demangled_as_name.setter
-    def use_demangled_as_name(self, use_demangled_as_name):
-        self._use_demangled_as_name = use_demangled_as_name
 
     def _get_name_impl(self):
-        if not self._name:  # class with empty name
-            return self._name
-        elif self.use_demangled_as_name and self.demangled:
-
-            if not self.cache.demangled_name:
-                fname = declaration_utils.full_name(self.parent)
-                if fname.startswith('::') and \
-                        not self.demangled.startswith('::'):
-                    fname = fname[2:]
-                if self.demangled.startswith(fname):
-                    tmp = self.demangled[len(fname):]  # demangled::name
-                    if tmp.startswith('::'):
-                        tmp = tmp[2:]
-                    if '<' not in tmp and '<' in self._name:
-                        # we have template class, but for some reason demangled
-                        # name doesn't contain any template
-                        # This happens for std::string class, but this breaks
-                        # other cases, because this behaviour is not consistent
-                        self.cache.demangled_name = self._name
-                        return self.cache.demangled_name
-                    else:
-                        self.cache.demangled_name = tmp
-                        return tmp
-                else:
-                    self.cache.demangled_name = self._name
-                    return self._name
-            else:
-                return self.cache.demangled_name
-        else:
-            return self._name
+        return self._name
 
     def __str__(self):
         name = declaration_utils.full_name(self)
@@ -418,12 +379,12 @@ class class_t(
             return self.protected_members
         elif access == ACCESS_TYPES.PRIVATE:
             return self.private_members
-        else:
-            all_members = []
-            all_members.extend(self.public_members)
-            all_members.extend(self.protected_members)
-            all_members.extend(self.private_members)
-            return all_members
+
+        all_members = []
+        all_members.extend(self.public_members)
+        all_members.extend(self.protected_members)
+        all_members.extend(self.private_members)
+        return all_members
 
     def adopt_declaration(self, decl, access):
         """adds new declaration to the class
@@ -500,12 +461,16 @@ class class_t(
         return answer
 
     def i_depend_on_them(self, recursive=True):
+        self._warn_deprecated()
+        # Deprecated method. The cyclic import will be removed with the method
+        # in the next release, so we can disable the cyclic import check here.
+        from . import dependencies  # pylint: disable=R0401
 
         answer = []
 
         for base in self.bases:
             answer.append(
-                dependency_info_t(
+                dependencies.dependency_info_t(
                     self,
                     base.related_class,
                     base.access_type,
@@ -518,13 +483,12 @@ class class_t(
         return answer
 
     def _get_partial_name_impl(self):
-        from . import type_traits  # prevent cyclic dependencies
         if type_traits.is_std_string(self):
             return 'string'
-        elif type_traits.is_std_wstring(self):
+        if type_traits.is_std_wstring(self):
             return 'wstring'
-        else:
-            return get_partial_name(self.name)
+
+        return get_partial_name(self.name)
 
     @property
     def top_class(self):
@@ -541,111 +505,3 @@ class class_t(
 
 
 class_types = (class_t, class_declaration_t)
-
-
-class impl_details(object):
-
-    @staticmethod
-    def dig_declarations(depend_on_it):
-
-        # FIXME: prevent cyclic imports
-        from . import type_traits
-
-        if isinstance(depend_on_it, declaration.declaration_t):
-            return [depend_on_it]
-        base_type = type_traits.base_type(
-            type_traits.remove_alias(depend_on_it))
-        if isinstance(base_type, cpptypes.declarated_t):
-            return [base_type.declaration]
-        elif isinstance(base_type, cpptypes.calldef_type_t):
-            result = []
-            result.extend(impl_details.dig_declarations(base_type.return_type))
-            for argtype in base_type.arguments_types:
-                result.extend(impl_details.dig_declarations(argtype))
-            if isinstance(base_type, cpptypes.member_function_type_t):
-                result.extend(
-                    impl_details.dig_declarations(
-                        base_type.class_inst))
-            return result
-        return []
-
-
-class dependency_info_t(object):
-
-    def __init__(self, decl, depend_on_it, access_type=None, hint=None):
-        object.__init__(self)
-
-        assert isinstance(depend_on_it, (class_t, cpptypes.type_t))
-        self._decl = decl
-        self._depend_on_it = depend_on_it
-        self._access_type = access_type
-        self._hint = hint
-
-    @property
-    def declaration(self):
-        return self._decl
-
-    @property
-    def decl(self):
-        """
-        Deprecated since 1.9.0. Will be removed in 2.0.0.
-
-        """
-        warnings.warn(
-            "The decl attribute is deprecated.\n" +
-            "Please use the declaration attribute instead.",
-            DeprecationWarning)
-        return self._decl
-
-    @property
-    def depend_on_it(self):
-        return self._depend_on_it
-
-    @property
-    def access_type(self):
-        return self._access_type
-
-    @access_type.setter
-    def access_type(self, access_type):
-        self._access_type = access_type
-
-    def __str__(self):
-        return 'declaration "%s" depends( %s ) on "%s" ' \
-               % (self.declaration, self.access_type, self.depend_on_it)
-
-    @property
-    def hint(self):
-        """The declaration, that report dependency can put some additional
-        inforamtion about dependency. It can be used later"""
-        return self._hint
-
-    def find_out_depend_on_it_declarations(self):
-        """If declaration depends on other declaration and not on some type
-        this function will return reference to it. Otherwise None will be
-        returned
-        """
-        return impl_details.dig_declarations(self.depend_on_it)
-
-    @staticmethod
-    def i_depend_on_them(decl):
-        """Returns set of declarations. every item in the returned set,
-        depends on a declaration from the input"""
-
-        to_be_included = set()
-        for dependency_info in decl.i_depend_on_them():
-            for ddecl in dependency_info.find_out_depend_on_it_declarations():
-                if ddecl:
-                    to_be_included.add(ddecl)
-
-        if isinstance(decl.parent, class_t):
-            to_be_included.add(decl.parent)
-        return to_be_included
-
-    @staticmethod
-    def we_depend_on_them(decls):
-        """Returns set of declarations. every item in the returned set,
-        depends on a declaration from the input"""
-        to_be_included = set()
-        for decl in decls:
-            to_be_included.update(dependency_info_t.i_depend_on_them(decl))
-        return to_be_included

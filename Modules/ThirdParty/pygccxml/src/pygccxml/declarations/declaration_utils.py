@@ -3,10 +3,8 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-import warnings
 
-
-def declaration_path(decl, with_defaults=None):
+def declaration_path(decl):
     """
     Returns a list of parent declarations names.
 
@@ -19,11 +17,6 @@ def declaration_path(decl, with_defaults=None):
                                   parent name and last item the inputted
                                   declaration name.
     """
-
-    if with_defaults is not None:
-        # Deprecated since 1.9.0, will be removed in 2.0.0
-        warnings.warn(
-            "The with_defaults parameter is deprecated.\n", DeprecationWarning)
 
     if not decl:
         return []
@@ -42,8 +35,8 @@ def declaration_path(decl, with_defaults=None):
         result.reverse()
         decl.cache.declaration_path = result
         return result
-    else:
-        return decl.cache.declaration_path
+
+    return decl.cache.declaration_path
 
 
 def partial_declaration_path(decl):
@@ -81,8 +74,8 @@ def partial_declaration_path(decl):
         result.reverse()
         decl.cache.partial_declaration_path = result
         return result
-    else:
-        return decl.cache.partial_declaration_path
+
+    return decl.cache.partial_declaration_path
 
 
 def full_name_from_declaration_path(dpath):

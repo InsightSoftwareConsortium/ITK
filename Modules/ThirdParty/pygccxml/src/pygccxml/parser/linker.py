@@ -59,8 +59,8 @@ class linker_t(
             return base
         elif type_id == '...':
             return declarations.ellipsis_t()
-        else:
-            return declarations.unknown_t()
+
+        return declarations.unknown_t()
 
     def __link_compound_type(self):
         self.__inst.base = self.__link_type(self.__inst.base)
@@ -109,6 +109,8 @@ class linker_t(
 
     def visit_casting_operator(self):
         self.__link_calldef()
+        # FIXME: is the patch still needed as the demangled name support has
+        # been dropped?
         # will be fixed by patcher. It is needed because of demangled name
         # taken into account
         # self.__inst._name = 'operator ' + self.__inst.return_type.decl_string
@@ -269,10 +271,7 @@ class linker_t(
         self.__link_compound_type()
 
     def visit_pointer(self):
-        gen = self.__xml_generator_from_xml_file
-        if (gen.is_castxml or gen.is_gccxml_09 or gen.is_gccxml_09_buggy) and \
-                isinstance(self.__inst.base,
-                           declarations.member_variable_type_t):
+        if isinstance(self.__inst.base, declarations.member_variable_type_t):
             original_inst = self.__inst
             self.__inst = self.__inst.base
             self.visit_member_variable_type()

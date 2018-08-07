@@ -84,5 +84,5 @@ class impl_details(object):
                         return cpptypes.pointer_t(found)
         if len(found) == 1:
             return found[0]
-        else:
-            return None
+
+        return None

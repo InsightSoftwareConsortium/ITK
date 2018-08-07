@@ -33,15 +33,15 @@ class default_argument_patcher_t(object):
             return self.__fix_invalid_integral
         elif self.__is_constructor_call(func, arg):
             return self.__fix_constructor_call
-        else:
-            return None
+
+        return None
 
     @staticmethod
     def __join_names(prefix, suffix):
         if prefix == '::':
             return '::' + suffix
-        else:
-            return prefix + '::' + suffix
+
+        return prefix + '::' + suffix
 
     @staticmethod
     def __is_unqualified_enum(func, arg):

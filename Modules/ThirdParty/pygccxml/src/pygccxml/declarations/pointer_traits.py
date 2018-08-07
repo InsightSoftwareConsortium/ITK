@@ -9,6 +9,7 @@ from . import class_declaration
 from . import class_declaration_traits
 from . import class_traits
 from . import traits_impl_details
+from . import runtime_errors
 
 
 class internal_type_traits(object):
@@ -17,8 +18,8 @@ class internal_type_traits(object):
     # TODO: add exists function
     @staticmethod
     def get_by_name(type_, name):
-        if class_declaration_traits.is_my_case(type_):
-            cls = class_traits.declaration_class(type_)
+        if class_traits.is_my_case(type_):
+            cls = class_traits.get_declaration(type_)
             return type_traits.remove_declarated(
                 cls.typedef(name, recursive=False).decl_type)
         elif class_declaration_traits.is_my_case(type_):
@@ -72,7 +73,10 @@ class smart_pointer_traits(object):
                 'Type "%s" is not an instantiation of \
                 boost::shared_ptr or std::shared_ptr' %
                 type_.decl_string)
-        return internal_type_traits.get_by_name(type_, "value_type")
+        try:
+            return internal_type_traits.get_by_name(type_, "element_type")
+        except runtime_errors.declaration_not_found_t:
+            return _search_in_bases(type_)
 
 
 class auto_ptr_traits(object):
@@ -103,4 +107,23 @@ class auto_ptr_traits(object):
             raise TypeError(
                 'Type "%s" is not instantiation of std::auto_ptr' %
                 type_.decl_string)
-        return internal_type_traits.get_by_name(type_, "element_type")
+        try:
+            return internal_type_traits.get_by_name(type_, "element_type")
+        except runtime_errors.declaration_not_found_t:
+            return _search_in_bases(type_)
+
+
+def _search_in_bases(type_):
+    """Implementation detail."""
+    found = False
+    for base_type in type_.declaration.bases:
+        try:
+            found = internal_type_traits.get_by_name(
+                base_type.related_class, "element_type")
+        except runtime_errors.declaration_not_found_t:
+            pass
+        if found:
+            return found
+    raise RuntimeError(
+        ("Unable to find 'element_type' declaration '%s'"
+         "in type '%s'.") % type_.decl_string)

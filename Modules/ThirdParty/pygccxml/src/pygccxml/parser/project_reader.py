@@ -4,7 +4,7 @@
 # See http://www.boost.org/LICENSE_1_0.txt
 
 import os
-import time
+import timeit
 
 import pygccxml.declarations
 
@@ -316,11 +316,11 @@ class project_reader_t(object):
             namespaces.append(decls)
 
         self.logger.debug("Flushing cache... ")
-        start_time = time.clock()
+        start_time = timeit.default_timer()
         self.__dcache.flush()
         self.logger.debug(
             "Cache has been flushed in %.1f secs",
-            (time.clock() - start_time))
+            (timeit.default_timer() - start_time))
         answer = []
         self.logger.debug("Joining namespaces ...")
         for file_nss in namespaces:
@@ -515,9 +515,9 @@ class project_reader_t(object):
         if decl.mangled is not None:
             # gccxml
             return decl.location.as_tuple(), decl.mangled
-        else:
-            # castxml
-            return decl.location.as_tuple(), decl.name
+
+        # castxml
+        return decl.location.as_tuple(), decl.name
 
     def _relink_declarated_types(self, leaved_classes, declarated_types):
 
@@ -587,12 +587,11 @@ class project_reader_t(object):
                 for arg in cpptype.arguments_types:
                     types.extend(get_from_type(arg))
                 return types
-            else:
-                assert isinstance(
-                    cpptype,
-                    (pygccxml.declarations.unknown_t,
-                     pygccxml.declarations.ellipsis_t))
-                return []
+            assert isinstance(
+                cpptype,
+                (pygccxml.declarations.unknown_t,
+                 pygccxml.declarations.ellipsis_t))
+            return []
         types = []
         for decl in pygccxml.declarations.make_flatten(namespaces):
             if isinstance(decl, pygccxml.declarations.calldef_t):
