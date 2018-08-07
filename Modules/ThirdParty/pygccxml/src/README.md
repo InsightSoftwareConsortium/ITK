@@ -10,8 +10,12 @@ module does not need to be compiled as it is a pure Python module. We do not
 allow (for the moment) the usage the system's `pygccxml` and rely on the one
 shipped here.
 
-See `Modules/ThirdParty/VNL/src/README.md` for update procedure of the
-snapshot using a subtree merge.
+To update pygccxml in ITK:
 
-The last merged upstream snapshot commit hash is:
-`9f6f8dfecd74fdec274c1dbc273f785b529b5909`
+1. In *UpdatepygccxmlFromUpstream.sh*, update `git_tag` and `upstream_sha`,
+   and commit the result
+2. Run *UpdatepygccxmlFromUpstream.sh* from the top level of the ITK
+   repository
+3. Follow the instructions to resolve any merged conflicts.
+4. In *UpdatepygccxmlFromUpstream.sh*, update the sha on the `git branch
+   pygccxml-upstream` line and commit the result
