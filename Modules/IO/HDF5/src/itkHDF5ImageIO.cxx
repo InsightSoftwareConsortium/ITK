@@ -1173,8 +1173,15 @@ HDF5ImageIO
     {
     this->CloseH5File();
     this->CloseDataSet();
-    this->m_H5File = new H5::H5File(this->GetFileName(),
-                                    H5F_ACC_TRUNC);
+
+    H5::FileAccPropList fapl;
+    // File format which is backwards compatible with HDF5 version 1.8
+    fapl.setLibverBounds(H5F_LIBVER_V18, H5F_LIBVER_V18);
+    this->m_H5File = new H5::H5File(
+      this->GetFileName(),
+      H5F_ACC_TRUNC,
+      H5::FileCreatPropList::DEFAULT,
+      fapl);
     this->m_VoxelDataSet = new H5::DataSet();
 
     this->WriteString(ItkVersion,
