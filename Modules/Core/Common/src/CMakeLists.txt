@@ -141,6 +141,7 @@ set(ITKCommon_SRCS
   itkThreadPool.cxx
   itkRandomVariateGeneratorBase.cxx
   itkMath.cxx
+  itkProgressTransformer.cxx
   )
 
 if(WIN32)

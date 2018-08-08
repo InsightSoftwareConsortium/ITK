@@ -60,6 +60,8 @@ namespace itk
 class ITKCommon_EXPORT ProgressReporter
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN( ProgressReporter );
+
   /** Constructor sets progress to 0 because the filter is starting.  */
   ProgressReporter(ProcessObject *filter, ThreadIdType threadId,
                    SizeValueType numberOfPixels,
@@ -105,9 +107,6 @@ protected:
   SizeValueType  m_PixelsBeforeUpdate;
   float          m_InitialProgress;
   float          m_ProgressWeight;
-
-private:
-  ProgressReporter() = delete;
 };
 } // end namespace itk
 

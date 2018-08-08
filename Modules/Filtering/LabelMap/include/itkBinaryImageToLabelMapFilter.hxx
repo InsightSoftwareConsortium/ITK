@@ -25,6 +25,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkProgressReporter.h"
+#include "itkProgressTransformer.h"
 
 namespace itk
 {
@@ -90,6 +91,8 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   this->SetupLineOffsets();
 
+  ProgressTransformer progress1( 0.0f, 0.5f, this );
+
   MultiThreaderBase* multiThreader = this->GetMultiThreader();
   multiThreader->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   multiThreader->template ParallelizeImageRegionRestrictDirection< TOutputImage::ImageDimension >(
@@ -99,7 +102,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     {
       this->DynamicThreadedGenerateData( lambdaRegion );
     },
-    this );
+    progress1.GetProcessObject());
 
   // compute the total number of labels
   SizeValueType nbOfLabels = 0;
@@ -128,11 +131,13 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
       }
     }
 
+  ProgressTransformer progress2( 0.55f, 0.6f, this );
   multiThreader->ParallelizeArray(
-    0, m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->ComputeEquivalence( index ); }, nullptr );
+    0, m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->ComputeEquivalence( index ); }, progress2.GetProcessObject());
 
+  ProgressTransformer progress3( 0.6f, 0.75f, this );
   multiThreader->ParallelizeArray(
-    0, m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->MergeLabels( index ); }, nullptr );
+    0, m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->MergeLabels( index ); }, progress3.GetProcessObject());
 
   // AfterThreadedGenerateData
   typename TInputImage::ConstPointer input = this->GetInput();
