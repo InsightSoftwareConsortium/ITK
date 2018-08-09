@@ -8,7 +8,6 @@ defines class that describes C++ typedef declaration
 """
 
 from . import declaration
-from . import class_declaration
 from . import byte_info
 
 
@@ -21,7 +20,7 @@ class typedef_t(declaration.declaration_t, byte_info.byte_info):
         declaration.declaration_t.__init__(self, name)
         byte_info.byte_info.__init__(self)
         self._decl_type = decl_type
-        if not isinstance(decl_type, str):
+        if not isinstance(decl_type, str) and decl_type is not None:
             self.byte_size = decl_type.byte_size
             self.byte_align = decl_type.byte_align
 
@@ -34,8 +33,7 @@ class typedef_t(declaration.declaration_t, byte_info.byte_info):
             return False
         return self.decl_type == other.decl_type
 
-    def __hash__(self):
-        return super(typedef_t, self).__hash__()
+    __hash__ = declaration.declaration_t.__hash__
 
     @property
     def decl_type(self):
@@ -49,4 +47,8 @@ class typedef_t(declaration.declaration_t, byte_info.byte_info):
         self.byte_align = decl_type.byte_align
 
     def i_depend_on_them(self, recursive=True):
-        return [class_declaration.dependency_info_t(self, self.decl_type)]
+        self._warn_deprecated()
+        # Deprecated method. The cyclic import will be removed with the method
+        # in the next release, so we can disable the cyclic import check here.
+        from . import dependencies  # pylint: disable=R0401
+        return [dependencies.dependency_info_t(self, self.decl_type)]

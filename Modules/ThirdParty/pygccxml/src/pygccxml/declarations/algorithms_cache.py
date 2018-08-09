@@ -17,7 +17,6 @@ class declaration_algs_cache_t(object):
         self._full_name = None
         self._full_partial_name = None
         self._access_type = None
-        self._demangled_name = None
         self._declaration_path = None
         self._partial_declaration_path = None
         self._container_key_type = None
@@ -78,16 +77,6 @@ class declaration_algs_cache_t(object):
         if not self.enabled:
             access_type = None
         self._access_type = access_type
-
-    @property
-    def demangled_name(self):
-        return self._demangled_name
-
-    @demangled_name.setter
-    def demangled_name(self, demangled_name):
-        if not self.enabled:
-            demangled_name = None
-        self._demangled_name = demangled_name
 
     @property
     def declaration_path(self):
@@ -185,7 +174,6 @@ class declaration_algs_cache_t(object):
         self.full_name = None
         self.full_partial_name = None
         self.access_type = None
-        self.demangled_name = None
         self.declaration_path = None
         self.partial_declaration_path = None
         self.container_key_type = None
@@ -200,7 +188,6 @@ class declaration_algs_cache_t(object):
     def reset_name_based(self):
         self.full_name = None
         self.full_partial_name = None
-        self.demangled_name = None
         self.declaration_path = None
         self.partial_declaration_path = None
         self.container_key_type = None

@@ -127,8 +127,8 @@ def find_trivial_constructor(type_):
         allow_empty=True)
     if trivial:
         return trivial[0]
-    else:
-        return None
+
+    return None
 
 
 def find_copy_constructor(type_):
@@ -148,11 +148,11 @@ def find_copy_constructor(type_):
         allow_empty=True)
     if copy_:
         return copy_[0]
-    else:
-        return None
+
+    return None
 
 
-def find_noncopyable_vars(type_, already_visited_cls_vars=None):
+def find_noncopyable_vars(class_type, already_visited_cls_vars=None):
     """
     Returns list of all `noncopyable` variables.
 
@@ -161,7 +161,7 @@ def find_noncopyable_vars(type_, already_visited_cls_vars=None):
     whatever variables pointing to classes have been found.
 
     Args:
-        type_ (declarations.class_t): the class to be searched.
+        class_type (declarations.class_t): the class to be searched.
         already_visited_cls_vars (list): optional list of vars that should not
             be checked a second time, to prevent infinite recursions.
 
@@ -169,10 +169,11 @@ def find_noncopyable_vars(type_, already_visited_cls_vars=None):
         list: list of all `noncopyable` variables.
 
     """
-    assert isinstance(type_, class_declaration.class_t)
+
+    assert isinstance(class_type, class_declaration.class_t)
 
     logger = utils.loggers.cxx_parser
-    mvars = type_.variables(
+    mvars = class_type.variables(
         lambda v: not v.type_qualifiers.has_static,
         recursive=False,
         allow_empty=True)
@@ -187,25 +188,27 @@ def find_noncopyable_vars(type_, already_visited_cls_vars=None):
 
     for mvar in mvars:
 
-        type_ = type_traits.remove_reference(mvar.decl_type)
+        var_type = type_traits.remove_reference(mvar.decl_type)
 
-        if type_traits.is_const(type_):
-            no_const = type_traits.remove_const(type_)
+        if type_traits.is_const(var_type):
+            no_const = type_traits.remove_const(var_type)
             if type_traits.is_fundamental(no_const) or is_enum(no_const):
                 logger.debug(
                     (message + "- fundamental or enum"),
-                    type_.decl_string)
+                    var_type.decl_string)
                 noncopyable_vars.append(mvar)
             if is_class(no_const):
-                logger.debug((message + " - class"), type_.decl_string)
+                logger.debug((message + " - class"), var_type.decl_string)
                 noncopyable_vars.append(mvar)
             if type_traits.is_array(no_const):
-                logger.debug((message + " - array"), type_.decl_string)
+                logger.debug((message + " - array"), var_type.decl_string)
                 noncopyable_vars.append(mvar)
 
-        if class_traits.is_my_case(type_):
+        if type_traits.is_pointer(var_type):
+            continue
 
-            cls = class_traits.get_declaration(type_)
+        if class_traits.is_my_case(var_type):
+            cls = class_traits.get_declaration(var_type)
 
             # Exclude classes that have already been visited.
             if cls in already_visited_cls_vars:
@@ -215,12 +218,12 @@ def find_noncopyable_vars(type_, already_visited_cls_vars=None):
             if is_noncopyable(cls, already_visited_cls_vars):
                 logger.debug(
                     (message + " - class that is not copyable"),
-                    type_.decl_string)
+                    var_type.decl_string)
                 noncopyable_vars.append(mvar)
 
     logger.debug((
         "__contains_noncopyable_mem_var - %s - FALSE - doesn't " +
-        "contain noncopyable members"), type_.decl_string)
+        "contain noncopyable members"), class_type.decl_string)
 
     return noncopyable_vars
 
@@ -370,8 +373,7 @@ class __is_convertible_t(object):
         if type_traits.is_same(target, cpptypes.pointer_t(cpptypes.void_t())):
             if type_traits.is_integral(src) or is_enum(src):
                 return False
-            else:
-                return True  # X => void*
+            return True  # X => void*
         if type_traits.is_pointer(src) and \
             type_traits.is_pointer(target) and \
             type_traits.is_const(target.base) and \
@@ -696,11 +698,11 @@ def __is_noncopyable_single(class_, already_visited_cls_vars=None):
             ("__is_noncopyable_single(TRUE) - %s - contains noncopyable " +
              "members"), class_.decl_string)
         return True
-    else:
-        logger.debug((
-            "__is_noncopyable_single(FALSE) - %s - COPYABLE, because is " +
-            "doesn't contains noncopyable members"), class_.decl_string)
-        return False
+
+    logger.debug((
+        "__is_noncopyable_single(FALSE) - %s - COPYABLE, because is " +
+        "doesn't contains noncopyable members"), class_.decl_string)
+    return False
 
 
 def is_noncopyable(class_, already_visited_cls_vars=None):
@@ -722,7 +724,6 @@ def is_noncopyable(class_, already_visited_cls_vars=None):
     class_decl = class_traits.get_declaration(class_)
 
     true_header = "is_noncopyable(TRUE) - %s - " % class_.decl_string
-    # false_header = "is_noncopyable(false) - %s - " % class_.decl_string
 
     if is_union(class_):
         return False
@@ -780,14 +781,14 @@ def is_noncopyable(class_, already_visited_cls_vars=None):
     elif has_destructor(class_decl) and not has_public_destructor(class_decl):
         logger.debug(true_header + "has private destructor")
         return True
-    else:
-        return __is_noncopyable_single(class_decl, already_visited_cls_vars)
+
+    return __is_noncopyable_single(class_decl, already_visited_cls_vars)
 
 
 def is_unary_operator(oper):
     """returns True, if operator is unary operator, otherwise False"""
     # definition:
-    # memeber in class
+    # member in class
     # ret-type operator symbol()
     # ret-type operator [++ --](int)
     # globally
@@ -804,25 +805,23 @@ def is_unary_operator(oper):
         elif oper.symbol in ['++', '--'] and \
                 isinstance(oper.arguments[0].decl_type, cpptypes.int_t):
             return True
-        else:
-            return False
-    else:
-        if len(oper.arguments) == 1:
-            return True
-        elif oper.symbol in ['++', '--'] \
-                and len(oper.arguments) == 2 \
-                and isinstance(oper.arguments[1].decl_type, cpptypes.int_t):
-            # may be I need to add additional check whether first argument is
-            # reference or not?
-            return True
-        else:
-            return False
+        return False
+
+    if len(oper.arguments) == 1:
+        return True
+    elif oper.symbol in ['++', '--'] \
+            and len(oper.arguments) == 2 \
+            and isinstance(oper.arguments[1].decl_type, cpptypes.int_t):
+        # may be I need to add additional check whether first argument is
+        # reference or not?
+        return True
+    return False
 
 
 def is_binary_operator(oper):
     """returns True, if operator is binary operator, otherwise False"""
     # definition:
-    # memeber in class
+    # member in class
     # ret-type operator symbol(arg)
     # globally
     # ret-type operator symbol( arg1, arg2 )
@@ -834,16 +833,15 @@ def is_binary_operator(oper):
         return False
     if oper.symbol not in symbols:
         return False
+
     if isinstance(oper, calldef_members.member_operator_t):
         if len(oper.arguments) == 1:
             return True
-        else:
-            return False
-    else:
-        if len(oper.arguments) == 2:
-            return True
-        else:
-            return False
+        return False
+
+    if len(oper.arguments) == 2:
+        return True
+    return False
 
 
 def is_copy_constructor(constructor):

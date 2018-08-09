@@ -107,18 +107,10 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
     def is_builtin_decl(decl):
         if not decl.name.startswith('__builtin_'):
             return False
-        # FIXME: This won't probably not work with CastXML.
-        # It either needs to be removed or improved
-        return decl.location and decl.location.file_name \
-            and decl.location.file_name.endswith('gccxml_builtins.h')
 
     @staticmethod
     def __nice_decl_name(inst):
-        name = inst.__class__.__name__
-        return name
-        # if name.endswith( '_t' ):
-        #    name = name[:-len('_t')]
-        # return name.replace( '_', ' ' )
+        return inst.__class__.__name__
 
     def print_decl_header(self):
         header = self.__nice_decl_name(
@@ -127,8 +119,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
             ' ' *
             self.level *
             self.INDENT_SIZE +
-            header.ljust(
-                self.JUSTIFY) +
+            header.ljust(self.JUSTIFY) +
             os.linesep)
         if self.__print_details:
             curr_level = self.level + 1
@@ -147,8 +138,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                     ' ' *
                     curr_level *
                     self.INDENT_SIZE +
-                    artificial.ljust(
-                        self.JUSTIFY))
+                    artificial.ljust(self.JUSTIFY))
                 if self.__inst.attributes:
                     attributes = 'attributes: %s' % self.__inst.attributes
                     self.writer(
@@ -156,15 +146,6 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                         curr_level *
                         self.INDENT_SIZE +
                         attributes)
-                if self.__inst.demangled:
-                    # Working only with gccxml.
-                    # No demangled attribute with castxml
-                    demangled = 'demangled: %s' % self.__inst.demangled
-                    self.writer(
-                        ' ' *
-                        curr_level *
-                        self.INDENT_SIZE +
-                        demangled)
 
                 # Mangled name is only available for functions and variables
                 # when using castxml.
@@ -266,31 +247,27 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
             ' ' *
             curr_level *
             self.INDENT_SIZE +
-            class_type.ljust(
-                self.JUSTIFY))
+            class_type.ljust(self.JUSTIFY))
         if self.__print_details:
             byte_size = 'size: %d' % self.__inst.byte_size
             self.writer(
                 ' ' *
                 curr_level *
                 self.INDENT_SIZE +
-                byte_size.ljust(
-                    self.JUSTIFY))
+                byte_size.ljust(self.JUSTIFY))
             try:
                 byte_align = 'align: %d' % self.__inst.byte_align
                 self.writer(
                     ' ' *
                     curr_level *
                     self.INDENT_SIZE +
-                    byte_align.ljust(
-                        self.JUSTIFY))
+                    byte_align.ljust(self.JUSTIFY))
             except NotImplementedError:
                 self.writer(
                     ' ' *
                     curr_level *
                     self.INDENT_SIZE +
-                    "align: not implemented".ljust(
-                        self.JUSTIFY))
+                    "align: not implemented".ljust(self.JUSTIFY))
 
         if self.__inst.aliases:
             aliases = sorted([typedef.name for typedef in self.__inst.aliases])
@@ -299,8 +276,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                 ' ' *
                 curr_level *
                 self.INDENT_SIZE +
-                msg.ljust(
-                    self.JUSTIFY) +
+                msg.ljust(self.JUSTIFY) +
                 os.linesep)
 
         def print_hierarchy(hierarchy_type, classes, curr_level):
@@ -308,8 +284,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                 ' ' *
                 curr_level *
                 self.INDENT_SIZE +
-                hierarchy_type.ljust(
-                    self.JUSTIFY) +
+                hierarchy_type.ljust(self.JUSTIFY) +
                 os.linesep)
             curr_level += 1
             for class_ in classes:
@@ -319,8 +294,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                     ' ' *
                     curr_level *
                     self.INDENT_SIZE +
-                    class_str.ljust(
-                        self.JUSTIFY) +
+                    class_str.ljust(self.JUSTIFY) +
                     os.linesep)
                 access = 'access type: ' + "'%s'" % str(class_.access)
                 self.writer(' ' *
@@ -345,8 +319,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                 ' ' *
                 curr_level *
                 self.INDENT_SIZE +
-                members_type.ljust(
-                    self.JUSTIFY) +
+                members_type.ljust(self.JUSTIFY) +
                 os.linesep)
             if self.__recursive:
                 curr_level += 1
@@ -375,8 +348,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
             ' ' *
             curr_level *
             self.INDENT_SIZE +
-            'values:'.ljust(
-                self.JUSTIFY) +
+            'values:'.ljust(self.JUSTIFY) +
             os.linesep)
         value_level = ' ' * (curr_level + 1) * self.INDENT_SIZE
         self.writer(os.linesep + os.linesep)
@@ -429,31 +401,27 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                     ' ' *
                     curr_level *
                     self.INDENT_SIZE +
-                    bits.ljust(
-                        self.JUSTIFY))
+                    bits.ljust(self.JUSTIFY))
 
             byte_size = 'size: %d' % self.__inst.decl_type.byte_size
             self.writer(
                 ' ' *
                 curr_level *
                 self.INDENT_SIZE +
-                byte_size.ljust(
-                    self.JUSTIFY))
+                byte_size.ljust(self.JUSTIFY))
             try:
                 byte_align = 'align: %d' % self.__inst.decl_type.byte_align
                 self.writer(
                     ' ' *
                     curr_level *
                     self.INDENT_SIZE +
-                    byte_align.ljust(
-                        self.JUSTIFY))
+                    byte_align.ljust(self.JUSTIFY))
             except NotImplementedError:
                 self.writer(
                     ' ' *
                     curr_level *
                     self.INDENT_SIZE +
-                    "align: not implemented".ljust(
-                        self.JUSTIFY))
+                    "align: not implemented".ljust(self.JUSTIFY))
             byte_offset = 'offset: %d' % self.__inst.byte_offset
             self.writer(
                 ' ' *

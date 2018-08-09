@@ -45,8 +45,7 @@ class variable_t(declaration.declaration_t):
             and self.value == other.value \
             and self.bits == other.bits
 
-    def __hash__(self):
-        return super(variable_t, self).__hash__()
+    __hash__ = declaration.declaration_t.__hash__
 
     @property
     def decl_type(self):
@@ -119,11 +118,15 @@ class variable_t(declaration.declaration_t):
         self._mangled = mangled
 
     def i_depend_on_them(self, recursive=True):
-        return [class_declaration.dependency_info_t(self, self.decl_type)]
+        # Deprecated method. The cyclic import will be removed with the method
+        # in the next release, so we can disable the cyclic import check here.
+        from . import dependencies  # pylint: disable=R0401
+        self._warn_deprecated()
+        return [dependencies.dependency_info_t(self, self.decl_type)]
 
     def get_mangled_name(self):
-        if not self._mangled and not self._demangled \
+        if not self._mangled \
            and not isinstance(self.parent, class_declaration.class_t):
             return self.name
-        else:
-            return self._mangled
+
+        return self._mangled

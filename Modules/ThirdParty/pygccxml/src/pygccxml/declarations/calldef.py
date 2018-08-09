@@ -17,11 +17,7 @@ This modules contains definition for next C++ declarations:
     - destructor
 """
 from . import cpptypes
-from . import declaration_utils
 from . import declaration
-from . import class_declaration
-from . import call_invocation
-from . import type_traits
 from . import calldef_types
 
 
@@ -64,12 +60,11 @@ class argument_t(object):
     def __str__(self):
         if self.ellipsis:
             return "..."
-        else:
-            if self.default_value is None:
-                return "%s %s" % (self.decl_type, self.name)
-            else:
-                return "%s %s=%s" % (
-                    self.decl_type, self.name, self.default_value)
+
+        if self.default_value is None:
+            return "%s %s" % (self.decl_type, self.name)
+
+        return "%s %s=%s" % (self.decl_type, self.name, self.default_value)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
@@ -162,7 +157,6 @@ class calldef_t(declaration.declaration_t):
         self._exceptions = exceptions
         self._return_type = return_type
         self._has_extern = has_extern
-        self._demangled_name = None
         self._calling_convention = None
         self._has_inline = None
         self._mangled = mangled
@@ -187,7 +181,6 @@ class calldef_t(declaration.declaration_t):
             self.has_extern,
             self.does_throw,
             self.exceptions.sort(),
-            self.demangled_name,
             self.has_inline]
 
         items.extend(self._get__cmp__call_items())
@@ -201,13 +194,11 @@ class calldef_t(declaration.declaration_t):
             and self.arguments == other.arguments \
             and self.has_extern == other.has_extern \
             and self.does_throw == other.does_throw \
-            and self.exceptions.sort() == other.exceptions.sort() \
-            and self.demangled_name == other.demangled_name
+            and self.exceptions.sort() == other.exceptions.sort()
 
     def __hash__(self):
         return (super(calldef_t, self).__hash__() ^
                 hash(self.return_type) ^
-                hash(self.demangled_name) ^
                 hash(self.name))
 
     @property
@@ -314,77 +305,14 @@ class calldef_t(declaration.declaration_t):
     def has_inline(self, has_inline):
         self._has_inline = has_inline
 
-    def __remove_parent_fname(self, demangled):
-        """implementation details"""
-        demangled = demangled.strip()
-        parent_fname = declaration_utils.full_name(self.parent)
-        if parent_fname.startswith('::') and not demangled.startswith('::'):
-            parent_fname = parent_fname[2:]
-        demangled = demangled[len(parent_fname):]
-        return demangled
-
-    @property
-    def demangled_name(self):
-
-        """returns function demangled name. It can help you to deal with
-            function template instantiations"""
-
-        if not self.demangled:
-            self._demangled_name = ''
-
-        if self._demangled_name:
-            return self._demangled_name
-
-        if self._demangled_name == '':
-            return self.name
-
-        demangled = self.demangled
-        if self.return_type:
-            return_type = type_traits.remove_alias(
-                self.return_type).decl_string
-
-            if return_type.startswith('::') and not \
-                    self.demangled.startswith('::'):
-                return_type = return_type[2:]
-            demangled = self.demangled
-            if demangled.startswith(return_type):
-                demangled = demangled[len(return_type):]
-                demangled = demangled.strip()
-        # removing scope
-        demangled_name = call_invocation.name(
-            self.__remove_parent_fname(demangled))
-        if demangled_name.startswith('::'):
-            demangled_name = demangled_name[2:]
-        # to be on the safe side
-        if demangled_name.startswith(self.name):
-            self._demangled_name = demangled_name
-            return self._demangled_name
-
-        # well, I am going to try an other strategy
-        fname = declaration_utils.full_name(self)
-        found = self.demangled.find(fname)
-        if found == -1:
-            if fname.startswith('::'):
-                fname = fname[2:]
-            found = self.demangled.find(fname)
-            if found == -1:
-                self._demangled_name = ''
-                return self.name
-        demangled_name = call_invocation.name(self.demangled[found:])
-        demangled_name = self.__remove_parent_fname(demangled_name)
-        if demangled_name.startswith('::'):
-            demangled_name = demangled_name[2:]
-        # to be on the safe side
-        if demangled_name.startswith(self.name):
-            self._demangled_name = demangled_name
-            return self._demangled_name
-        self._demangled_name = ''
-        return self.name
-
     def _report(self, *args, **keywd):
-        return class_declaration.dependency_info_t(self, *args, **keywd)
+        # Implementation detail. Will be removed when the deprecated
+        # i_depend_on_them method is dropped
+        from . import dependencies  # pylint: disable=R0401
+        return dependencies.dependency_info_t(self, *args, **keywd)
 
     def i_depend_on_them(self, recursive=True):
+        self._warn_deprecated()
         answer = []
         if self.return_type:
             answer.append(
@@ -395,6 +323,7 @@ class calldef_t(declaration.declaration_t):
             answer.append(self._report(exc, hint="exception"))
         return answer
 
+    # pylint: disable=R0201
     def guess_calling_convention(self):
         """This function should be overriden in the derived classes and return
         more-or-less successfull guess about calling convention"""

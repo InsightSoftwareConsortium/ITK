@@ -20,7 +20,6 @@ import os
 import os.path
 import gzip
 import hashlib
-import warnings
 try:
     import cPickle as pickle
 except ImportError:
@@ -71,11 +70,10 @@ class directory_cache_t(declarations_cache.cache_base_t):
     modified since the last run).
     """
 
-    def __init__(
-            self, dir="cache", directory="cache",
-            compression=False, sha1_sigs=True):
+    def __init__(self, directory="cache", compression=False, sha1_sigs=True):
         """
-        :param dir: cache directory path, it is created, if it does not exist
+        :param directory: cache directory path, it is created,
+                          if it does not exist
 
         :param compression: if `True`, the cache files will be compressed
                             using `gzip`
@@ -84,15 +82,6 @@ class directory_cache_t(declarations_cache.cache_base_t):
                          checked by computing a `sha1` digest or by checking
                          the modification date
         """
-
-        if dir != "cache":
-            # Somebody explicitly set a different value for dir
-            warnings.warn(
-                "The dir argument is deprecated.\n" +
-                "Please use the directory argument instead.",
-                DeprecationWarning)
-            # Deprecated since 1.9.0, will be removed in 2.0.0
-            directory = dir
 
         declarations_cache.cache_base_t.__init__(self)
 

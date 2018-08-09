@@ -8,8 +8,6 @@ Describe a C++ namespace declaration.
 
 """
 
-import warnings
-
 from . import scopedef
 from . import declaration_utils
 
@@ -144,19 +142,6 @@ class namespace_t(scopedef.scopedef_t):
                 allow_empty=allow_empty)
         )
 
-    def nss(self, name=None, function=None, recursive=None, allow_empty=None):
-        """
-        Deprecated method. Use the namespaces() method instead.
-
-        Deprecated since v1.9.0. Will be removed in v2.0.0
-        """
-        warnings.warn(
-            "The nss() method is deprecated. \n" +
-            "Please use the namespaces() method instead.",
-            DeprecationWarning)
-
-        return self.namespaces(name, function, recursive, allow_empty)
-
     def free_function(
             self,
             name=None,
@@ -184,31 +169,6 @@ class namespace_t(scopedef.scopedef_t):
                 header_file=header_file,
                 recursive=recursive)
         )
-
-    def free_fun(
-            self,
-            name=None,
-            function=None,
-            return_type=None,
-            arg_types=None,
-            header_dir=None,
-            header_file=None,
-            recursive=None):
-        """
-        Deprecated method. Use the free_function() method instead.
-
-        Deprecated since v1.9.0. Will be removed in v2.0.0
-        """
-        warnings.warn(
-            "The free_fun() method is deprecated. \n" +
-            "Please use the free_function() method instead.",
-            DeprecationWarning)
-
-        return self.free_function(
-            name, function,
-            return_type, arg_types,
-            header_dir, header_file,
-            recursive)
 
     def free_functions(
             self,
@@ -239,32 +199,6 @@ class namespace_t(scopedef.scopedef_t):
                 recursive=recursive,
                 allow_empty=allow_empty)
         )
-
-    def free_funs(
-            self,
-            name=None,
-            function=None,
-            return_type=None,
-            arg_types=None,
-            header_dir=None,
-            header_file=None,
-            recursive=None,
-            allow_empty=None):
-        """
-        Deprecated method. Use the free_functions() method instead.
-
-        Deprecated since v1.9.0. Will be removed in v2.0.0
-        """
-        warnings.warn(
-            "The free_funs() method is deprecated. \n" +
-            "Please use the free_functions() method instead.",
-            DeprecationWarning)
-
-        return self.free_functions(
-            name, function,
-            return_type, arg_types,
-            header_dir, header_file,
-            recursive, allow_empty)
 
     def free_operator(
             self,
@@ -328,6 +262,7 @@ class namespace_t(scopedef.scopedef_t):
         )
 
     def i_depend_on_them(self, recursive=True):
+        self._warn_deprecated()
         answer = []
         if recursive:
             for decl in self.declarations:
