@@ -13,9 +13,9 @@
 #define MI2_LENGTH "length"
 #define MI2_CLASS "class"
 
-/* So we build with 1.8.4 */  
-#ifndef H5F_LIBVER_18
-#define H5F_LIBVER_18 H5F_LIBVER_LATEST
+/* Make 1.8.x compatible files if building with 1.10.x */  
+#if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
+#define H5F_LIBVER_V18 H5F_LIBVER_LATEST
 #endif
 
 /************************************************************************
@@ -2218,6 +2218,8 @@ hdf_open(const char *path, int mode)
     
     /*Set cachine parameters*/
     fpid=H5Pcreate( H5P_FILE_ACCESS );
+    /* Limit file compatability to 1.8.x */
+    H5Pset_libver_bounds (fpid, H5F_LIBVER_V18, H5F_LIBVER_V18);
     
     /*setup a bigger cache to work with typical chunking ( MI_MAX_VAR_BUFFER_SIZE )*/
     H5Pset_cache(fpid, 0, 2503, miget_cfg_present(MICFG_MINC_FILE_CACHE)?miget_cfg_int(MICFG_MINC_FILE_CACHE)*100000:MI_MAX_VAR_BUFFER_SIZE*10, 1.0);
@@ -2228,6 +2230,7 @@ hdf_open(const char *path, int mode)
             hid_t prp_id;
 
             prp_id = H5Pcreate(H5P_FILE_ACCESS);
+            H5Pset_libver_bounds (prp_id, H5F_LIBVER_V18, H5F_LIBVER_V18);
             H5Pset_fapl_mmap(prp_id, 8192, 1);
             file_id = H5Fopen(path, mode & 0x7FFF, prp_id);
             H5Pclose(prp_id);
@@ -2326,10 +2329,11 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
 
     /*Set cachine parameters*/
     fpid = H5Pcreate (H5P_FILE_ACCESS);
+    /* Limit file compatability to 1.8.x */
+    H5Pset_libver_bounds (fpid, H5F_LIBVER_V18, H5F_LIBVER_V18);
     
     /*setup a bigger cache to work with typical chunking ( MI_MAX_VAR_BUFFER_SIZE )*/
-    H5Pset_cache(fpid, 0, 2503, miget_cfg_present(MICFG_MINC_FILE_CACHE)?miget_cfg_int(MICFG_MINC_FILE_CACHE)*100000:MI_MAX_VAR_BUFFER_SIZE*10, 1.0);
-    
+    H5Pset_cache(fpid, 0, 2503, miget_cfg_present(MICFG_MINC_FILE_CACHE)?miget_cfg_int(MICFG_MINC_FILE_CACHE)*100000:MI_MAX_VAR_BUFFER_SIZE*10, 1.0);    
    
     /* Convert the MINC (NetCDF) mode to a HDF5 mode.
      */
@@ -2339,9 +2343,6 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
     else {
       cmode = H5F_ACC_TRUNC;
     }
-
-    /*VF use all the features of new HDF5 1.8*/
-    H5Pset_libver_bounds (fpid, H5F_LIBVER_18, H5F_LIBVER_18);
 
     H5E_BEGIN_TRY {
         file_id = H5Fcreate(path, cmode, H5P_DEFAULT, fpid);

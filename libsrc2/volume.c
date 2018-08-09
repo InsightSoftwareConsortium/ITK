@@ -32,9 +32,9 @@
 #include "minc2.h"
 #include "minc2_private.h"
 
-/* So we build with 1.8.4 */  
-#ifndef H5F_LIBVER_18
-#define H5F_LIBVER_18 H5F_LIBVER_LATEST
+/* Build with 1.8.x support if using 1.10.x */ 
+#if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
+#define H5F_LIBVER_V18 H5F_LIBVER_LATEST
 #endif
 
 /*Used to optimize chunking size for faster MINC1 API access*/
@@ -117,6 +117,7 @@ static hid_t _hdf_open(const char *path, int mode)
   int ndims;*/
   
   prp_id = H5Pcreate(H5P_FILE_ACCESS);
+  H5Pset_libver_bounds(prp_id, H5F_LIBVER_V18, H5F_LIBVER_V18);
   H5Pset_cache(prp_id, 0, 2503, miget_cfg_present(MICFG_MINC_FILE_CACHE)?miget_cfg_int(MICFG_MINC_FILE_CACHE)*100000:_MI1_MAX_VAR_BUFFER_SIZE*10, 1.0);
   
   H5E_BEGIN_TRY {
@@ -218,8 +219,8 @@ static hid_t _hdf_create(const char *path, int cmode)
   
   fpid = H5Pcreate (H5P_FILE_ACCESS);
 
-  /*VF use all the features of new HDF5 1.8*/
-  H5Pset_libver_bounds (fpid, H5F_LIBVER_18, H5F_LIBVER_18);
+  /* Limit filetype to 1.8.x */
+  H5Pset_libver_bounds(fpid, H5F_LIBVER_V18, H5F_LIBVER_V18);
   
   H5Pset_cache(fpid, 0, 2503, miget_cfg_present(MICFG_MINC_FILE_CACHE)?miget_cfg_int(MICFG_MINC_FILE_CACHE)*100000:_MI1_MAX_VAR_BUFFER_SIZE*100, 1.0);
   
