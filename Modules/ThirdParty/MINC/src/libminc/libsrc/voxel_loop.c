@@ -1120,7 +1120,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
       }
       else {
          set_ncopts(0);
-         (void) ncattdel(outmincid, outimgid, MIvalid_range);  /*VF: why is this needed?*/
+         (void) ncattdel(outmincid, outimgid, MIvalid_range);  /*VF: needed for MINC v2 and not for MINC v1*/
          set_ncopts(NC_OPTS_VAL);
       }
    }
@@ -1669,7 +1669,6 @@ PRIVATE int do_voxel_loop(Loop_Options *loop_options,
       if( loop_options->is_labels )
       {
          /*Have to write out global valid range and global image range*/
-         
          if ((global_minimum[ofile] == DBL_MAX) && 
              (global_maximum[ofile] == -DBL_MAX)) {
             global_minimum[ofile] = 0.0;
@@ -1689,6 +1688,7 @@ PRIVATE int do_voxel_loop(Loop_Options *loop_options,
          }
          (void) mivarput1(outmincid, minid, 0, NC_DOUBLE, NULL, &valid_range[0]);
          (void) mivarput1(outmincid, maxid, 0, NC_DOUBLE, NULL, &valid_range[1]);
+         /*VF: if MINC2 this works, if MINC1 - variables are not updated?*/
          (void) miset_valid_range(outmincid, imgid, valid_range);
       }
    }
