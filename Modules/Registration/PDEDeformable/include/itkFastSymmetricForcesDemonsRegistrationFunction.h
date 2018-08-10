@@ -23,6 +23,7 @@
 #include "itkInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkWarpImageFilter.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {

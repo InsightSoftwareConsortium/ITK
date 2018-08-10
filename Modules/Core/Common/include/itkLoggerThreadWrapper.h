@@ -131,7 +131,7 @@ private:
 
   OutputContainerType m_OutputQ;
 
-  SimpleFastMutexLock m_Mutex;
+  mutable SimpleFastMutexLock m_Mutex;
 
   DelayType m_Delay;
 
