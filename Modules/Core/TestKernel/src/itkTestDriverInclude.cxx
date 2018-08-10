@@ -842,7 +842,7 @@ int HashTestImage( const char *testImageFilename,
     case itk::ImageIOBase::DOUBLE:
       std::cerr << "Hashing is not supporting for float and double images." << std::endl;
       itkGenericExceptionMacro( "Hashing is not supported for images of float or doubles." );
-      break;
+
     case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
     default:
       assert( false ); // should never get here unless we forgot a type

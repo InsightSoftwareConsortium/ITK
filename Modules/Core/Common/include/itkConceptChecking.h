@@ -198,8 +198,8 @@ struct Assignable {
   struct Constraints {
     void constraints()
     {
-      a = a;
-      const_constraints(a);
+      T x = a;
+      const_constraints(x);
     }
 
     void const_constraints(const T & b)
