@@ -73,7 +73,7 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInterna
   // Invoke the pipeline in the helper threader
   // refer to DomainThreader::Execute()
 
-  if( this->m_UseFixedSampledPointSet ) // sparse sampling
+  if( this->m_UseSampledPointSet ) // sparse sampling
     {
     SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if( numberOfPoints < 1 )

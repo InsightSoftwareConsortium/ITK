@@ -320,7 +320,7 @@ int main( int argc, char *argv[] )
   //
   // One mechanism for bringing the metric to its limit is to disable the
   // sampling and use all the pixels present in the FixedImageRegion. This can
-  // be done with the \code{SetUseFixedSampledPointSet( false )} method.
+  // be done with the \code{SetUseSampledPointSet( false )} method.
   // You may want to try this
   // option only while you are fine tuning all other parameters of your
   // registration. We don't use this method in this current example though.

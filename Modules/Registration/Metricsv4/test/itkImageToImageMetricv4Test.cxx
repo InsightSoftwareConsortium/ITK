@@ -663,7 +663,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
 
   std::cout << "Setting point set..." << std::endl;
   metric->SetFixedSampledPointSet( pset );
-  metric->SetUseFixedSampledPointSet( true );
+  metric->SetUseSampledPointSet( true );
   std::cout << "Testing metric outpute..." << std::endl;
   ImageToImageMetricv4TestComputeIdentityTruthValues(
                                                 metric, fixedImage, movingImage,

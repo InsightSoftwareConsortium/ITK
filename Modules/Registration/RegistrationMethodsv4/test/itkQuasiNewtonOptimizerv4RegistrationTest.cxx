@@ -174,7 +174,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
       }
     std::cout << "Setting point set with " << ind << " points of " << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
     miMetric->SetFixedSampledPointSet( pset );
-    miMetric->SetUseFixedSampledPointSet( true );
+    miMetric->SetUseSampledPointSet( true );
     std::cout << "Testing metric with point set..." << std::endl;
     }
   else if (metricString.compare("anc") == 0)
@@ -244,7 +244,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   compositeTransform->SetAllTransformsToOptimizeOn(); //Set back to optimize all.
   compositeTransform->SetOnlyMostRecentTransformToOptimizeOn(); //set to optimize the displacement field
   metric->SetMovingTransform( compositeTransform );
-  metric->SetUseFixedSampledPointSet( false );
+  metric->SetUseSampledPointSet( false );
   metric->Initialize();
 
   // Optimizer

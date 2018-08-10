@@ -159,7 +159,7 @@ int itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char *arg
     }
   std::cout << "Setting point set with " << ind << " points of " << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
   metric->SetFixedSampledPointSet( pset );
-  metric->SetUseFixedSampledPointSet( true );
+  metric->SetUseSampledPointSet( true );
   std::cout << "Testing metric with point set..." << std::endl;
 
 
@@ -203,7 +203,7 @@ int itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char *arg
   // Optimize only the displacement field, but still using the previously-compute affine transformation
   compositeTransform->SetOnlyMostRecentTransformToOptimizeOn(); //set to optimize the displacement field
   metric->SetMovingTransform( compositeTransform );
-  metric->SetUseFixedSampledPointSet( false );
+  metric->SetUseSampledPointSet( false );
   metric->Initialize();
 
   // Optimizer

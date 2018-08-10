@@ -168,7 +168,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
     ct++;
     }
   metric->SetFixedSampledPointSet( pset );
-  metric->SetUseFixedSampledPointSet( true );
+  metric->SetUseSampledPointSet( true );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
   if( rotateinput ) metric->SetMovingImage( resample->GetOutput() );

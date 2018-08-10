@@ -357,7 +357,7 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   metricSparse->SetFixedTransform(transformFId);
   metricSparse->SetMovingTransform(transformMdisplacement);
   metricSparse->SetFixedSampledPointSet( pset );
-  metricSparse->SetUseFixedSampledPointSet( true );
+  metricSparse->SetUseSampledPointSet( true );
 
   try
     {

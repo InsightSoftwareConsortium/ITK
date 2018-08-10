@@ -225,7 +225,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   /**
    * First, we compute the joint histogram
    */
-  if( this->m_UseFixedSampledPointSet )
+  if( this->m_UseSampledPointSet )
     {
     SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if( numberOfPoints < 1 )

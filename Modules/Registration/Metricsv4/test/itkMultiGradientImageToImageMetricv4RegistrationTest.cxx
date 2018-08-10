@@ -117,7 +117,7 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   if( 0 )
     {
     std::cout << "Dense sampling." << std::endl;
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     }
   else
     {
@@ -138,9 +138,9 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
         ct++;
       }
     metric->SetFixedSampledPointSet( pset );
-    metric->SetUseFixedSampledPointSet( true );
+    metric->SetUseSampledPointSet( true );
     metric2->SetFixedSampledPointSet( pset );
-    metric2->SetUseFixedSampledPointSet( true );
+    metric2->SetUseSampledPointSet( true );
     std::cout << "Testing metric with point set..." << std::endl;
     }
 

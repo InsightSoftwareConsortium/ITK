@@ -96,8 +96,9 @@ namespace itk
  * Internally, the points are transformed into the virtual domain as needed.
  * \note The attributes/data of each point in the set are not used, but rather
  * the point's geometric coordinates.
- * Point sets are set via SetFixedSampledPointSet, and the point set is enabled
- * for use by calling SetUseFixedSampledPointSet.
+ * Point sets are enabled by calling UseSampledPointSet, then the
+ * SetFixedSampledPointSet is called or SetVirtualSampledPointSet
+ * along with SetUseVirtualSampledPointSet.
  * \note If the point set is sparse, the option SetUse[Fixed|Moving]ImageGradientFilter
  * typically should be disabled to avoid excessive computation. However,
  * the gradient values of the fixed image are not cached
@@ -415,13 +416,30 @@ public:
   itkSetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
   itkGetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
 
-  /** Set/Get flag to use fixed image domain sampling point set */
-  itkSetMacro(UseFixedSampledPointSet, bool);
-  itkGetConstReferenceMacro(UseFixedSampledPointSet, bool);
-  itkBooleanMacro(UseFixedSampledPointSet);
+  /** Set/Get the virtual image domain sampling point set */
+  itkSetObjectMacro(VirtualSampledPointSet, VirtualPointSetType);
+  itkGetConstObjectMacro(VirtualSampledPointSet, VirtualPointSetType);
 
-  /** Get the virtual domain sampling point set */
-  itkGetModifiableObjectMacro(VirtualSampledPointSet, VirtualPointSetType);
+  /** Set/Get flag to use a domain sampling point set */
+  itkSetMacro(UseSampledPointSet, bool);
+  itkGetConstReferenceMacro(UseSampledPointSet, bool);
+  itkBooleanMacro(UseSampledPointSet);
+
+  /** Set/Get flag to indicate of the VirtualSampledPointSet is set
+   * over the FixedSampledPointSet*/
+  itkSetMacro(UseVirtualSampledPointSet, bool);
+  itkGetConstReferenceMacro(UseVirtualSampledPointSet, bool);
+  itkBooleanMacro(UseVirtualSampledPointSet);
+
+#if !defined(ITK_LEGACY_REMOVE)
+  /** UseFixedSampledPointSet is deprecated and has been replaced
+  * with UseSampledPointsSet. */
+  itkLegacyMacro( virtual void SetUseFixedSampledPointSet(bool v) ) { this->SetUseSampledPointSet(v);}
+  itkLegacyMacro( virtual bool GetUseFixedSampledPointSet(void) const ) {return this->GetUseSampledPointSet();}
+  itkLegacyMacro( virtual void UseFixedSampledPointSetOn(void) ) {return this->UseSampledPointSetOn();}
+  itkLegacyMacro( virtual void UseFixedSampledPointSetOff(void) ) {return this->UseSampledPointSetOff();}
+#endif
+
 
   /** Set/Get the gradient filter */
   itkSetObjectMacro( FixedImageGradientFilter, FixedImageGradientFilterType );
@@ -708,8 +726,12 @@ protected:
   FixedSampledPointSetConstPointer        m_FixedSampledPointSet;
   VirtualPointSetPointer                  m_VirtualSampledPointSet;
 
-  /** Flag to use FixedSampledPointSet, i.e. Sparse sampling. */
-  bool                                    m_UseFixedSampledPointSet;
+  /** Flag to use a SampledPointSet, i.e. Sparse sampling. */
+  bool                                    m_UseSampledPointSet;
+
+  /** Flag to indicate the user set VirtualSampledPointSet over
+  FixedSampledPointSet */
+  bool                                    m_UseVirtualSampledPointSet;
 
   ImageToImageMetricv4();
   ~ImageToImageMetricv4() override;
