@@ -1175,8 +1175,11 @@ HDF5ImageIO
     this->CloseDataSet();
 
     H5::FileAccPropList fapl;
+#if (H5_VERS_MAJOR>1) || (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR>10) || (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR==10)&&(H5_VERS_RELEASE>=2)
     // File format which is backwards compatible with HDF5 version 1.8
+    // Only HDF5 v1.10.2 has both setLibverBounds method and H5F_LIBVER_V18 constant
     fapl.setLibverBounds(H5F_LIBVER_V18, H5F_LIBVER_V18);
+#endif
     this->m_H5File = new H5::H5File(
       this->GetFileName(),
       H5F_ACC_TRUNC,
