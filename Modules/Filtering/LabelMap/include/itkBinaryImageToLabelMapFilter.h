@@ -19,15 +19,13 @@
 #define itkBinaryImageToLabelMapFilter_h
 
 #include "itkImageToImageFilter.h"
-#include <list>
+#include <deque>
 #include <map>
+#include <mutex>
 #include <vector>
-#include "itkProgressReporter.h"
-#include "itkBarrier.h"
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
-#include "itkImageRegionSplitterDirection.h"
-#include "itkPlatformMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -117,8 +115,6 @@ public:
   using OutputOffsetType = typename TOutputImage::OffsetType;
   using OutputImagePixelType = typename TOutputImage::PixelType;
 
-  using ListType = std::list< IndexType >;
-
   /**
    * Set/Get whether the connected components are defined strictly by
    * face connectivity or by face+edge+vertex connectivity.  Default is
@@ -160,16 +156,11 @@ protected:
 
   using InternalLabelType = SizeValueType;
 
-  void BeforeThreadedGenerateData() override;
+  void DynamicThreadedGenerateData( const RegionType & outputRegionForThread ) override;
+  void ComputeEquivalence( const SizeValueType workUnitResultsIndex );
+  void MergeLabels( const SizeValueType workUnitResultsIndex );
 
-  void AfterThreadedGenerateData() override;
-
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-  void DynamicThreadedGenerateData( const RegionType & ) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  void GenerateData() override;
 
   /** BinaryImageToLabelMapFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -182,19 +173,12 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
-  /** Provide an ImageRegionSplitter that does not split along the first
-   * dimension -- we assume the data is complete along this dimension when
-   * threading. */
-  const ImageRegionSplitterBase* GetImageRegionSplitter() const override;
-
 private:
-  // some additional types
   using OutSizeType = typename TOutputImage::RegionType::SizeType;
 
   // types to support the run length encoding of lines
-  class runLength
+  struct runLength
   {
-  public:
     // run length information - may be a more type safe way of doing this
     SizeValueType length;
     typename InputImageType::IndexType where; // Index of the start of the run
@@ -207,6 +191,7 @@ private:
   using LineMapType = std::vector< lineEncoding >;
 
   using OffsetVectorType = std::vector< OffsetValueType >;
+  OffsetVectorType m_LineOffsets;
 
   // the types to support union-find operations
   using UnionFindType = std::vector< InternalLabelType >;
@@ -215,43 +200,37 @@ private:
   using ConsecutiveVectorType = std::vector< OutputPixelType >;
   ConsecutiveVectorType m_Consecutive;
 
-  // functions to support union-find operations
-  void InitUnion(const InternalLabelType size);
-
-  void InsertSet(const InternalLabelType label);
-
   InternalLabelType LookupSet(const InternalLabelType label);
 
   void LinkLabels(const InternalLabelType lab1, const InternalLabelType lab2);
 
   SizeValueType CreateConsecutive();
 
-  //////////////////
   bool CheckNeighbors(const OutputIndexType & A,
                       const OutputIndexType & B);
 
   void CompareLines(lineEncoding & current, const lineEncoding & Neighbour);
 
-  void FillOutput(const LineMapType & LineMap,
-                  ProgressReporter & progress);
-
-  void SetupLineOffsets(OffsetVectorType & LineOffsets);
-
-  void Wait();
+  void SetupLineOffsets();
 
   OutputPixelType m_OutputBackgroundValue;
   InputPixelType  m_InputForegroundValue;
 
   SizeValueType m_NumberOfObjects;
 
+  std::mutex m_Mutex;
+
   bool m_FullyConnected;
 
-  std::vector< SizeValueType >   m_NumberOfLabels;
-  std::vector< SizeValueType >   m_FirstLineIdToJoin;
+  struct WorkUnitData
+  {
+    SizeValueType numberOfLabels;
+    SizeValueType firstLineIdForThread;
+    SizeValueType firstLineIdToJoin;
+    SizeValueType numberOfLineIdsToJoin;
+  };
 
-  typename Barrier::Pointer m_Barrier;
-
-  ImageRegionSplitterDirection::Pointer m_ImageRegionSplitter;
+  std::deque< WorkUnitData > m_WorkUnitResults;
 
 #if !defined( ITK_WRAPPING_PARSER )
   LineMapType m_LineMap;
