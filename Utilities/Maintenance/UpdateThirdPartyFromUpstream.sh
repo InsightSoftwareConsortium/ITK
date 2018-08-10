@@ -61,6 +61,7 @@ update_from_upstream()
 {
 ## Set up paths ##
 local module_path=$( cd "$( dirname "$0" )" && pwd )
+module_path=$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$module_path")
 local toplevel_path=$(cd "$module_path" && git rev-parse --show-toplevel)
 if [[ $? -ne 0 ]]; then
   die "Could not find the top-level of a Git repository in \"$module_path\""
