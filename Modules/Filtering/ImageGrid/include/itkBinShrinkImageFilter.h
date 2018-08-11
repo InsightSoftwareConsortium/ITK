@@ -19,7 +19,7 @@
 #define itkBinShrinkImageFilter_h
 
 #include "itkShrinkImageFilter.h"
-#include "itkEnableIf.h"
+#include <type_traits>
 
 namespace itk
 {
@@ -131,7 +131,7 @@ private:
 
   /** Round different pixel types. */
   template< class TOutputType, class TInputType >
-  typename EnableIfC<std::numeric_limits<TOutputType>::is_integer,  TOutputType>::Type
+    typename std::enable_if<std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
   RoundIfInteger( TInputType input )
     {
       return Math::Round< TOutputType >( input );
@@ -140,7 +140,7 @@ private:
   // For Non-fundamental types numeric_limits is not specialized, and
   // is_integer defaults to false.
   template< class TOutputType, class TInputType >
-  typename DisableIfC<std::numeric_limits<TOutputType>::is_integer,  TOutputType>::Type
+    typename std::enable_if<!std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
   RoundIfInteger( const TInputType & input, ...)
     {
       return static_cast<TOutputType>(input);
