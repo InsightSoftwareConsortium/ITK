@@ -3,8 +3,8 @@ itk_module_test()
 add_compile_options(-D_SCL_SECURE_NO_WARNINGS) # disable non-standard warning on MSVC
 
 set(MontageTests
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic.cxx
-  itkPhaseCorrelationImageRegistrationMethodTestFiles.cxx
+  itkMontagePCMTestSynthetic.cxx
+  itkMontagePCMTestFiles.cxx
   itkMontageTestTiles.cxx
   itkMontageTestOMC.cxx
   itkMontageTestRGB.cxx
@@ -19,103 +19,103 @@ set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/../Testing/Temporary")
 itk_add_test(NAME itkMontageGenericTests
   COMMAND MontageTestDriver itkMontageGenericTests)
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cc
+itk_add_test(NAME itkMontagePCMTestSynthetic_2cc
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     2cc
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cc.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cc.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cc.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cc.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2ff
+itk_add_test(NAME itkMontagePCMTestSynthetic_2ff
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     2ff
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2ff.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2ff.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2ff.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2ff.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2dd
+itk_add_test(NAME itkMontagePCMTestSynthetic_2dd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     2dd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2dd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2dd.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2dd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2dd.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf
+itk_add_test(NAME itkMontagePCMTestSynthetic_2cf
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     2cf
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2fd
+itk_add_test(NAME itkMontagePCMTestSynthetic_2fd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     2fd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_2cf.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cc
+itk_add_test(NAME itkMontagePCMTestSynthetic_3cc
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     3cc
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cc.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cc.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cc.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cc.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3ff
+itk_add_test(NAME itkMontagePCMTestSynthetic_3ff
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     3ff
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3ff.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3ff.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3ff.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3ff.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3dd
+itk_add_test(NAME itkMontagePCMTestSynthetic_3dd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     3dd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3dd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3dd.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3dd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3dd.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cf
+itk_add_test(NAME itkMontagePCMTestSynthetic_3cf
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     3cf
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3cf.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cf.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cf.tfm
   )
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3fd
+itk_add_test(NAME itkMontagePCMTestSynthetic_3fd
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     3fd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3fd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_3fd.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3fd.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3fd.tfm
   )
 
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldFail
+itk_add_test(NAME itkMontagePCMTestSynthetic_ShouldFail
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestSynthetic
+  itkMontagePCMTestSynthetic
     2cc
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldNotExist.nrrd
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldNotExist.tfm
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_ShouldNotExist.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_ShouldNotExist.tfm
     0.9 1.1
   )
-set_tests_properties(itkPhaseCorrelationImageRegistrationMethodTestSynthetic_ShouldFail PROPERTIES WILL_FAIL TRUE)
+set_tests_properties(itkMontagePCMTestSynthetic_ShouldFail PROPERTIES WILL_FAIL TRUE)
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
+itk_add_test(NAME itkMontagePCMTestFiles
   COMMAND MontageTestDriver
-  itkPhaseCorrelationImageRegistrationMethodTestFiles
+  itkMontagePCMTestFiles
     DATA{Input/OMC/FlatField/14/100.tif}
     DATA{Input/OMC/FlatField/14/101.tif}
-    ${TESTING_OUTPUT_PATH}/itkPhaseCorrelationImageRegistrationMethodTestFiles.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles.nrrd
     1136.0
     0.0
     12.0651
@@ -124,7 +124,7 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestFiles
 
 
 function(AddTestOMC slicerNumber)
-  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestOMC${slicerNumber}
+  itk_add_test(NAME itkMontageTestOMC${slicerNumber}
     COMMAND MontageTestDriver
     itkMontageTestOMC
       DATA{${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
@@ -139,7 +139,7 @@ AddTestOMC(16)
 AddTestOMC(17)
 AddTestOMC(18)
 
-itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestRGB
+itk_add_test(NAME itkMontageTestRGB
   COMMAND MontageTestDriver
   --compare DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/VisibleHumanMale1608.png}
                  ${TESTING_OUTPUT_PATH}/itkMontageTestRGB0_1.mha
@@ -150,18 +150,18 @@ itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestRGB
   )
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7)
-  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTi7Slice36
+  itk_add_test(NAME itkMontageTestTi7Slice36
     COMMAND MontageTestDriver
     itkMontageTestTi7
       ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7Slice36
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7Slice36
     )
-  set_tests_properties(itkPhaseCorrelationImageRegistrationMethodTestTi7Slice36 PROPERTIES TIMEOUT 3000)
+  set_tests_properties(itkMontageTestTi7Slice36 PROPERTIES TIMEOUT 3000)
 endif()
   
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
-  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestTiles
+  itk_add_test(NAME itkMontageTestTiles
     COMMAND MontageTestDriver
     itkMontageTestTiles
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
@@ -171,7 +171,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles)
-  itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTestNoisyTiles
+  itk_add_test(NAME itkMontageTestNoisyTiles
     COMMAND MontageTestDriver
     itkMontageTestTiles
       ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles
