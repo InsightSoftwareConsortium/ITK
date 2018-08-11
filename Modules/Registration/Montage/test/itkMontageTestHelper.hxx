@@ -60,11 +60,12 @@ void WriteTransform(const TransformType* transform, std::string filename)
   tWriter->Update();
 }
 
- //do the registrations and calculate registration errors
+//do the registrations and calculate registration errors
+//negative peakMethodToUse means to try them all
 template<typename PixelType, typename AccumulatePixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
 int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
     const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods,
-    bool setMontageDirectly)
+    int peakMethodToUse, bool setMontageDirectly)
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits<PixelType>::ValueType;
@@ -123,6 +124,10 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       peakMethod <= static_cast<PeakFinderUnderlying>(PeakInterpolationType::Last);
       peakMethod++)
       {
+      if (peakMethodToUse >= 0)
+        {
+        peakMethod = static_cast<PeakFinderUnderlying>(peakMethodToUse);
+        }
       montage->GetModifiablePCMOptimizer()->SetPeakInterpolationMethod(static_cast<PeakInterpolationType>(peakMethod));
       montage->Modified(); // optimizer is not an "input" to PCM
       //so its modification does not cause a pipeline update automatically
@@ -205,6 +210,10 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       //w->UseCompressionOn();
       w->SetNumberOfStreamDivisions(3);
       w->Update();
+      if (peakMethodToUse >= 0) //peak method was specified
+        {
+        break; //do not try them all
+        }
       }
 
     if (!varyPaddingMethods)
