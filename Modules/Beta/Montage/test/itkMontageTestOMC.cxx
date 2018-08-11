@@ -81,7 +81,7 @@ int itkMontageTestOMC(int argc, char* argv[])
       }
     }
 
-  int r2 = montageTest<unsigned short, double, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], true, false);
+  int r2 = montageTest<unsigned short, double, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[3], true, -1, false);
   int r1 = mockMontageTest<unsigned short, xMontageSize, yMontageSize>(stageCoords, actualCoords, filenames, argv[2], true);
 
   if (r1 == EXIT_FAILURE || r2 == EXIT_FAILURE)

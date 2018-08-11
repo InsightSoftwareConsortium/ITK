@@ -317,7 +317,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
 }
 
 
-int itkPhaseCorrelationImageRegistrationMethodTestSynthetic( int argc, char* argv[] )
+int itkMontagePCMTestSynthetic( int argc, char* argv[] )
 {
   if( argc < 2 )
     {
