@@ -140,7 +140,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
 }
 
 
-int itkPhaseCorrelationImageRegistrationMethodTestFiles( int argc, char* argv[] )
+int itkMontagePCMTestFiles( int argc, char* argv[] )
 {
   if( argc < 7 )
     {
