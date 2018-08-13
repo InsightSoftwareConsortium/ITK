@@ -85,7 +85,7 @@ the old `MultiThreader` with `ITK_USE_THREADPOOL=ON`. There is an addition of
 which uses Intel Thread Building Blocks library's thread-pool with load balancing.
 The option to build TBB needs to be enabled during CMake configure step.
 The default multi-threader can be set via environment variable
-`ITK_GLOBAL_DEFAULT_THREADER` with allowed case-insensitive values of
+`ITK_GLOBAL_DEFAULT_THREADER` with allows case-insensitive values of
 `Platform`, `Pool` and `TBB`, e.g. `ITK_GLOBAL_DEFAULT_THREADER=tbb`.
 
 For filter multi-threading, a new signature has been introduced:
@@ -196,9 +196,17 @@ AfterThreadedGenerateData()
 
 Get/Set GlobalMaximumNumberOfThreads and GlobalDefaultNumberOfThreads
 now reside in `MultiThreaderBase`. With a warning, they are still
-available in `PlatformMultiThreader`. The common case of
+available in `PlatformMultiThreader`. In image filters and other
+descendents of `ProcessObject`, method `SetNumberOfThreads`
+has been renamed into `SetNumberOfWorkUnits`. For `MultiThreaderBase`
+and descendents, `SetNumberOfThreads` has been split into
+`SetMaximumNumberOfThreads` and `SetNumberOfWorkUnits`.
+Load balancing is possible when `NumberOfWorkUnits` is greater
+than the number of threads. The common case of
 `innerFilter->SetNumberOfThreads(1);` should be replaced by
-`innerFilter->SetNumberOfWorkUnits(1);`.
+`innerFilter->SetNumberOfWorkUnits(1);`. Generally, in most places
+where threads were being manipulated before, work units should be
+accessed or changed now.
 
 To transition to the new threading model, it is usually enough to rename
 `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
