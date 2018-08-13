@@ -25,6 +25,31 @@ need to be corralled into the `release` branch afterwards.
 
 When releasing a new ITK version, the following steps are be taken:
 
+### Bug fix release
+
+  * **Before the release**: post a topic on the [ITK discussion] requesting
+    additional bug fix patches that should be merged to the `release` branch.
+  * **Create the release**.
+    * Bump ITK's version
+    * Tag the ITK repository
+    * Bump ITKPythonPackage's version
+  * **Generate tarballs**
+    * Generate the *InsightToolkit* and *InsightData* tarballs.
+    * Tarballs are tested locally.
+    * Generate Python packages and ITKPythonBuilds.
+    * Tarballs are posted to [ITK GitHub Releases].
+    * Tarballs are archived on the [ITK data.kitware.com Releases].
+    * Tarballs are linked from the ITK [download page].
+    * Python packages are uploaded to PyPI
+    * conda-forge libitk and itk Packages are updated
+  * Announcement
+    * GitHub Release
+    * Discourse
+    * Kitware Blog
+
+
+### Feature release
+
   * **Before the RC announcement**: last period for adding classes and
     features.
     * New features and new methods can be added during this period.
@@ -49,12 +74,10 @@ When releasing a new ITK version, the following steps are be taken:
     * For the final RC, only gatekeeper merges will occur.
   * **Create the release**.
   * **Updating documentation, guides and websites**.
-  * **Generating tarballs**
-    * Tarballs are posted to [SourceForge].
+  * **Generate tarballs**
+    * Tarballs are posted to [ITK GitHub Releases].
     * Tarballs are linked from the ITK [download page].
   * Announcement
-
-**Note**: ITK minor releases (patch) do not have a tagged release candidate.
 
 Initial steps
 -------------
@@ -152,7 +175,7 @@ The following must be ensured before tagging the ITK repository:
     * For bugfix releases, this is done before the tag. For feature releases,
     this is done after the final tag.
   * Make sure **all new remote modules are built in by the Doxygen build**.
-  * **Update** the `WikiExamples` and `SphinxExamples`` remote modules.
+  * **Update** the `WikiExamples` and `SphinxExamples` remote modules.
 
 ### Increment the version number
 
@@ -163,6 +186,72 @@ branch could serve as the start of the new release branch.
 
 After creating the release branch, submit another merge request to update the
 master branch's minor version number.
+
+Archive ExternalData
+--------------------
+
+Set the environmental or CMake variable `ExternalData_OBJECT_STORES` to a
+local directory. e.g.
+
+```sh
+   $ export ExternalData_OBJECT_STORES=${HOME}/data
+```
+
+Pre-populate the store with the contents of the 'InsightData' tarballs from a
+ previous release. Once the tarball extracted, move the content of its
+ subfolder called `.ExternalData` in your local `ExternalData_OBJECT_STORES`
+ directory.
+
+Then, from the ITK build directory, configure ITK enabling the flags:
+  * `ITK_WRAP_PYTHON`
+  * `ITK_LEGACY_SILENT`
+  * `BUILD_TESTING`
+  * `BUILD_EXAMPLES`
+
+If you have previously enabled remote modules using the same ITK source
+directory, either verify that they are enabled in your current build, or remove
+their source directory that has been added inside ITK source directory
+(i.e. `./Modules/Remote/$name_of_remote_module`).
+
+Build the `ITKData` target
+
+```sh
+   $ make ITKData
+```
+
+This will download new testing data since the previous release.
+
+Next, run the script from within the ITK source directory:
+
+```sh
+   $ ./Utilities/Maintenance/ContentLinkSynchronization.sh ${ExternalData_OBJECT_STORES}
+```
+
+Do not use `--cleanup` as for the purpose of the GitHub resource, it is
+important to keep the older files: some are from older revisions of ITK, and
+people continue to use the older versions of ITK and request the testing data.
+
+This is will verify all contents, fully populate the `MD5/` and `SHA512/`
+directories in the object store, and create any missing `.md5` or `.sha512`
+content links. If any new content link files are created, commit the result.
+
+Next, archive the data on data.kitware.com. Create a folder, e.g.
+`$MAJOR_VERSION.$MINOR_VERSION`, in `ITK/ITKTestingData`, and run
+
+```sh
+   $ ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py --object-store ${HOME}/data --parent-id <the-girder-id-of-the-folder-created> --api-key <your-girder-user-api-key>
+```
+
+This script requires the girder-client Python package install from Girder
+master, November 2016 or later, (Girder > 2.0.0).
+
+Archive the `InsightData` contents on ITK's file server at kitware:
+
+```sh
+   $ rsync -v -r /tmp/InsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION/.ExternalData/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
+```
+
+Update the data archive at https://github.com/InsightSoftwareConsortium/ITKTestingData.
 
 Tag the ITK repository
 ----------------------
@@ -227,103 +316,11 @@ For minor releases, merge the release branch into `master` branch as for a
 normal commit, and resolve conflicts (arising from mismatch in version number)
 by keeping `master` branch versions.
 
-Email the current maintainers with the `release_root` hash and version number
-so that `kwrobot` may be updated to check if merge requests are eligible for
-this release branch.
-
-Announce to the [ITK discussion] that the release branch has been created.
-
 ### Remote modules
 
 Add any new remote modules to nightly builds. Some builds may be difficult to add
 due to third-party dependencies.
 
-Archive ExternalData
---------------------
-
-Set the environmental or CMake variable `ExternalData_OBJECT_STORES` to a
-local directory. e.g.
-
-```sh
-   $ export ExternalData_OBJECT_STORES=${HOME}/data
-```
-
-Pre-populate the store with the contents of the 'InsightData' tarballs from a
- previous release. Once the tarball extracted, move the content of its
- subfolder called `.ExternalData` in your local `ExternalData_OBJECT_STORES`
- directory.
-
-Then, from the ITK build directory, configure ITK enabling he flags:
-  * `ITK_WRAP_PYTHON`
-  * `ITK_LEGACY_SILENT`
-  * `BUILD_TESTING`
-  * `BUILD_EXAMPLES`
-
-If you have previously enabled remote modules using the same ITK source
-directory, either verify that they are enabled in your current build, or remove
-their source directory that has been added inside ITK source directory
-(i.e. `./Modules/Remote/$name_of_remote_module`).
-
-Build the `ITKData` target
-
-```sh
-   $ make ITKData
-```
-
-This will download new testing data since the previous release.
-
-Next, run the script from within the ITK source directory:
-
-```sh
-   $ ./Utilities/Maintenance/ContentLinkSynchronization.sh ${ExternalData_OBJECT_STORES}
-```
-
-Do not use `--cleanup` as for the purpose of the GitHub resource, it is
-important to keep the older files: some are from older revisions of ITK, and
-people continue to use the older versions of ITK and request the testing data.
-
-This is will verify all contents, fully populate the `MD5/` and `SHA512/`
-directories in the object store, and create any missing `.md5` or `.sha512`
-content links. If any new content link files are created, commit the result.
-
-Next, archive the data on data.kitware.com. Create a folder, e.g.
-`$MAJOR_VERSION.$MINOR_VERSION`, in `ITK/ITKTestingData`, and run
-
-```sh
-   $ ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py --object-store ${HOME}/data --parent-id <the-girder-id-of-the-folder-created> --api-key <your-girder-user-api-key>
-````
-
-This script requires the girder-client Python package install from Girder
-master, November 2016 or later, (Girder > 2.0.0).
-
-Run the scripts
-
-```sh
-   $ ./Utilities/Maintenance/ArchiveTestingDataOnAzure.py
-   $ ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py
-   $ ./Utilities/Maintenance/ArchiveTestingDataOnMidas.py
-```
-
-to upload the testing data from a local store on the ITK
-http://slicer.kitware.com/midas3/
-community. This script requires that pydas is installed.
-
-Note: If you get the following error message:
-
-```sh
-   $ pydas.exceptions.InvalidPolicy: 'Request failed with HTTP status code 200, Midas Server error code -151, and response content {"stat":"fail","message":"Invalid policy or itemid","code":"-151"}'
-```
-
-make sure you have the permissions to write in the ITK collection on the
-Midas server.
-
-Archive the `InsightData` contents on ITK's file server at kitware:
-
-```sh
-   $ rsync -v -r /tmp/InsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION/.ExternalData/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
-```
-
-Update the data archive at https://github.com/InsightSoftwareConsortium/ITKTestingData.
 
 Create Tarballs
 ---------------
@@ -829,3 +826,5 @@ excellent packaging.
 [PyPi]: https://pypi.python.org/pypi
 [ResearchGate]: https://www.researchgate.net/project/Insight-Toolkit-ITK
 [SourceForge]: https://sourceforge.net/downloads/itk/itk/
+[ITK GitHub Releases]: https://github.com/InsightSoftwareConsortium/ITK/releases
+[ITK data.kitware.com Releases]: https://data.kitware.com/#item/5b22a47f8d777f2e622564d8
