@@ -87,7 +87,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThre
   }
 
   OutputImageType * output = this->GetOutput();
-  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
+  output->FillBuffer(NumericTraits<OutputPixelType>::ZeroValue());
 }
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>

@@ -36,7 +36,7 @@ void
 TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::BeforeThreadedGenerateData()
 {
   OutputImageType * output = this->GetOutput();
-  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
+  output->FillBuffer(NumericTraits<OutputPixelType>::ZeroValue());
 
   const TransformType * input = this->GetTransform();
   if (input == nullptr)
