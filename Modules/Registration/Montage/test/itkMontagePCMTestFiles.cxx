@@ -65,6 +65,9 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   typename PhaseCorrelationMethodType::Pointer phaseCorrelationMethod = PhaseCorrelationMethodType::New();
   phaseCorrelationMethod->SetFixedImage( fixedImage );
   phaseCorrelationMethod->SetMovingImage( movingImage );
+  typename PhaseCorrelationMethodType::SizeType pad;
+  pad.Fill(8 * sizeof(TFixedImagePixel));
+  phaseCorrelationMethod->SetObligatoryPadding(pad);
   phaseCorrelationMethod->DebugOn();
 
   // Operator type

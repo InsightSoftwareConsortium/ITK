@@ -61,6 +61,9 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
   typename PhaseCorrelationMethodType::Pointer phaseCorrelationMethod = PhaseCorrelationMethodType::New();
   phaseCorrelationMethod->SetFixedImage(fixedImage);
   phaseCorrelationMethod->SetMovingImage(movingImage);
+  typename PhaseCorrelationMethodType::SizeType pad;
+  pad.Fill(8 * sizeof(PixelType));
+  phaseCorrelationMethod->SetObligatoryPadding(pad);
   //phaseCorrelationMethod->DebugOn();
 
   using PMType = typename PhaseCorrelationMethodType::PaddingMethod;
@@ -96,9 +99,6 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
     out << '\t' << peakMethod;
     std::cout << "    PeakMethod" << peakMethod << ":";
 
-    typename PhaseCorrelationMethodType::SizeType imageSize = fixedImage->GetLargestPossibleRegion().GetSize();
-    imageSize = phaseCorrelationMethod->RoundUpToFFTSize(imageSize);
-    phaseCorrelationMethod->SetPadToSize(imageSize); //all images are the same size
     phaseCorrelationMethod->Update();
 
     using TransformType = itk::TranslationTransform<double, Dimension>;

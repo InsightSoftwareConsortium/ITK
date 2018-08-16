@@ -39,6 +39,12 @@ TileMontage<TImageType, TCoordinate>
   m_OriginAdjustment.Fill(0);
   m_ForcedSpacing.Fill(0);
 
+  //make default padding sufficient for exponential decay to zero
+  m_ObligatoryPadding.Fill(0);
+  SizeType pad;
+  pad.Fill(8 * sizeof(typename TImageType::PixelType));
+  this->SetObligatoryPadding(pad);
+
   m_FinishedTiles = 0;
   SizeType initialSize;
   initialSize.Fill(1);
@@ -59,7 +65,8 @@ TileMontage<TImageType, TCoordinate>
   os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;
   os << indent << "Finished Tiles: " << m_FinishedTiles << std::endl;
   os << indent << "Origin Adjustment: " << m_OriginAdjustment << std::endl;
-  os << indent << "Forced Spacing: " << m_ForcedSpacing << std::endl;  
+  os << indent << "Forced Spacing: " << m_ForcedSpacing << std::endl;
+  os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
 
   auto nullCount = std::count(m_Filenames.begin(), m_Filenames.end(), std::string());
   os << indent << "Filenames (filled/capcity): " << m_Filenames.size() - nullCount
@@ -103,14 +110,22 @@ TileMontage<TImageType, TCoordinate>
 template<typename TImageType, typename TCoordinate>
 typename TileMontage<TImageType, TCoordinate>::ImageType*
 TileMontage<TImageType, TCoordinate>
-::GetImage(TileIndexType nDIndex)
+::GetImage(TileIndexType nDIndex, bool metadatOnly)
 {
   DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex(nDIndex);
   auto imagePtr = static_cast<ImageType *>(this->GetInput(linearIndex));
-  if (imagePtr == m_Dummy.GetPointer()) //filename given, we have to read it
+  if ( imagePtr == m_Dummy.GetPointer() //filename given, we have to read it
+      || (!metadatOnly && imagePtr->GetBufferedRegion().GetNumberOfPixels() == 0) )
     {
     m_Reader->SetFileName(m_Filenames[linearIndex]);
-    m_Reader->Update();
+    if (metadatOnly)
+      {
+      m_Reader->UpdateOutputInformation();
+      }
+    else
+      {
+      m_Reader->Update();
+      }
     typename ImageType::Pointer image = m_Reader->GetOutput();
     image->DisconnectPipeline();
 
@@ -174,8 +189,8 @@ TileMontage<TImageType, TCoordinate>
   DataObjectPointerArraySizeType lFixedInd = nDIndexToLinearIndex(fixed);
   DataObjectPointerArraySizeType lMovingInd = nDIndexToLinearIndex(moving);
 
-  auto mImage = this->GetImage(moving);
-  m_PCM->SetFixedImage(this->GetImage(fixed));
+  auto mImage = this->GetImage(moving, false);
+  m_PCM->SetFixedImage(this->GetImage(fixed, false));
   m_PCM->SetMovingImage(mImage);
   m_PCM->SetFixedImageFFT(m_FFTCache[lFixedInd]); //maybe null
   m_PCM->SetMovingImageFFT(m_FFTCache[lMovingInd]); //maybe null
@@ -360,7 +375,8 @@ TileMontage<TImageType, TCoordinate>
       this->SetNthOutput(i, this->MakeOutput(i).GetPointer());
       }
     //the rest of this code determines average and maximum tile sizes
-    auto input = static_cast<const TImageType*>(this->GetInput(i));
+    TileIndexType nDIndex = this->LinearIndexTonDIndex(i);
+    ImageType* input = this->GetImage(nDIndex, true);
     RegionType reg = input->GetLargestPossibleRegion();
     for (unsigned d = 0; d < ImageDimension; d++)
       {
@@ -385,7 +401,8 @@ TileMontage<TImageType, TCoordinate>
       {
       forceSame = false;
       }
-    }
+    maxSizes[d] += 2 * m_ObligatoryPadding[d];
+  }
   if (forceSame)
     {
     maxSizes = m_PCM->RoundUpToFFTSize(maxSizes);

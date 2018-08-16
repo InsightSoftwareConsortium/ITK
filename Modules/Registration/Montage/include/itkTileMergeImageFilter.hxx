@@ -254,7 +254,8 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
   SizeValueType linearIndex = this->nDIndexToLinearIndex(nDIndex);
   const auto cInput = static_cast<ImageType *>(this->GetInput(linearIndex));
   ImagePointer input = const_cast<ImageType *>(cInput);
-  if (input.GetPointer() == reinterpret_cast<ImageType *>(this->m_Dummy.GetPointer()))
+  if (input.GetPointer() == reinterpret_cast<ImageType *>(this->m_Dummy.GetPointer())
+      || wantedRegion.GetNumberOfPixels() > 0)
     {
     ImagePointer outputImage = this->GetOutput();
     RegionType reqR = outputImage->GetRequestedRegion();
@@ -458,8 +459,11 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
   RegionType reg0;
   for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
     {
-    m_Tiles[i]->SetBufferedRegion(reg0);
-    m_Tiles[i]->Allocate(false);
+    if (m_Tiles[i])
+      {
+      m_Tiles[i]->SetBufferedRegion(reg0);
+      m_Tiles[i]->Allocate(false);
+      }
     }
 }
 
