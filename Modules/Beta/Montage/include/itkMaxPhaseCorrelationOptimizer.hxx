@@ -137,15 +137,18 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
       } //for ImageDimension
     } //if Interpolation != None
 
-  const typename ImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::RegionType lpr = input->GetLargestPossibleRegion();
+  const typename ImageType::IndexType oIndex = lpr.GetIndex();
+  const typename ImageType::SizeType size = lpr.GetSize();
   const typename ImageType::SpacingType spacing = input->GetSpacing();
   const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
   const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * maxIndex[i];
-    OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - IndexValueType(size[i]));
+    IndexValueType adjustedSize = IndexValueType(size[i] + oIndex[i]);
+    OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
+    OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize);
     if (std::abs(directOffset) <= std::abs(mirrorOffset))
       {
       offset[i] = directOffset;

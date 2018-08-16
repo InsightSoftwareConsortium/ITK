@@ -116,8 +116,30 @@ public:
   itkSetMacro(ForcedSpacing, SpacingType);
   itkGetConstMacro(ForcedSpacing, SpacingType);
 
+  /** Set/Get obligatory padding.
+   * If set, padding of this many pixels is added on both beginning and end
+   * sides of each dimension of the image. */
+  virtual void SetObligatoryPadding(const SizeType pad)
+  {
+    if (this->m_ObligatoryPadding != pad)
+      {
+      this->m_ObligatoryPadding = pad;
+      m_PCM->SetObligatoryPadding(pad);
+      this->Modified();
+      }
+  }
+  itkGetConstMacro(ObligatoryPadding, SizeType);
+
   /** Set/Get the PhaseCorrelationImageRegistrationMethod. */
-  itkSetObjectMacro(PCM, PCMType);
+  virtual void SetPCM(PCMType* pcm)
+  {
+    if (this->m_PCM != pcm)
+      {
+      this->m_PCM = pcm;
+      m_PCM->SetObligatoryPadding(m_ObligatoryPadding);
+      this->Modified();
+      }
+  }
   itkGetModifiableObjectMacro(PCM, PCMType);
 
   /** Set/Get the PhaseCorrelationImageRegistrationMethod. */
@@ -170,7 +192,7 @@ protected:
   using ReaderType = itk::ImageFileReader< ImageType >;
 
   /** Just get image pointer if the image is present, otherwise read it from file. */
-  ImageType* GetImage(TileIndexType nDIndex);
+  ImageType* GetImage(TileIndexType nDIndex, bool metadatOnly);
 
   DataObjectPointerArraySizeType nDIndexToLinearIndex(TileIndexType nDIndex) const;
   TileIndexType LinearIndexTonDIndex(DataObjectPointerArraySizeType linearIndex) const;
@@ -214,6 +236,7 @@ private:
     SizeValueType m_FinishedTiles;
     PointType     m_OriginAdjustment;
     SpacingType   m_ForcedSpacing;
+    SizeType      m_ObligatoryPadding;
 
     std::vector<std::string>     m_Filenames;
     std::vector<FFTConstPointer> m_FFTCache;

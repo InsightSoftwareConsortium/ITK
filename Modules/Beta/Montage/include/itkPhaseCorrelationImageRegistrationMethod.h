@@ -223,6 +223,12 @@ public:
   itkSetMacro(PadToSize, SizeType);
   itkGetConstMacro(PadToSize, SizeType);
 
+  /** Set/Get obligatory padding.
+   * If set, padding of this many pixels is added on both beginning and end
+   * sides of each dimension of the image. */
+  itkSetMacro(ObligatoryPadding, SizeType);
+  itkGetConstMacro(ObligatoryPadding, SizeType);
+
   /** \class PaddingMethod
    *  \brief Different methods of padding the images to satisfy FFT size requirements.
    *  \ingroup Montage */
@@ -329,6 +335,7 @@ private:
 
   ParametersType m_TransformParameters;
   SizeType       m_PadToSize;
+  SizeType       m_ObligatoryPadding;
   PaddingMethod  m_PaddingMethod;
 
   typename FixedPadderImageFilter::Pointer    m_FixedPadder;
