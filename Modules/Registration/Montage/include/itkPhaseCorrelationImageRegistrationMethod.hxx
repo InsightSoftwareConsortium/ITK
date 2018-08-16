@@ -87,8 +87,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_MovingMirrorWEDPadder->SetDecayBase( 0.75 );
 
   m_PadToSize.Fill( 0 );
-  m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay; //make sure the next call does modifications
-  SetPaddingMethod(PaddingMethod::Zero); //this initializes a few things
+  m_PaddingMethod = PaddingMethod::Zero; //make sure the next call does modifications
+  SetPaddingMethod(PaddingMethod::MirrorWithExponentialDecay); //this initializes a few things
 
   m_TransformParameters = ParametersType(ImageDimension);
   m_TransformParameters.Fill( 0.0f );
