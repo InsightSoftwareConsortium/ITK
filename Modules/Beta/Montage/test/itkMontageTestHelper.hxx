@@ -62,10 +62,11 @@ void WriteTransform(const TransformType* transform, std::string filename)
 
 //do the registrations and calculate registration errors
 //negative peakMethodToUse means to try them all
+//streamSubdivisions of 1 disables streaming (higher memory useage, less cluttered debug output)
 template<typename PixelType, typename AccumulatePixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType>
 int montageTest(const PositionTableType& stageCoords, const PositionTableType& actualCoords,
     const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods,
-    int peakMethodToUse, bool setMontageDirectly)
+    int peakMethodToUse, bool setMontageDirectly, unsigned streamSubdivisions)
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits<PixelType>::ValueType;
@@ -208,7 +209,7 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       //MetaImage format supports streaming
       w->SetFileName(outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + ".mha");
       //w->UseCompressionOn();
-      w->SetNumberOfStreamDivisions(3);
+      w->SetNumberOfStreamDivisions(streamSubdivisions);
       w->Update();
       if (peakMethodToUse >= 0) //peak method was specified
         {
