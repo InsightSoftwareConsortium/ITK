@@ -60,7 +60,10 @@ void
 TileMontage<TImageType, TCoordinate>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
+  if (this->GetDebug())
+    {
+    Superclass::PrintSelf(os, indent); // this can be overwhelming
+    }
   os << indent << "Montage size: " << m_MontageSize << std::endl;
   os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;
   os << indent << "Finished Tiles: " << m_FinishedTiles << std::endl;
