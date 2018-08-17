@@ -38,22 +38,57 @@ Array2D< TValue >
 /** Constructor from a vnl_matrix */
 template< typename TValue >
 Array2D< TValue >
-::Array2D(const VnlMatrixType & matrix):vnl_matrix< TValue >(matrix)
+::Array2D(const VnlMatrixType & matrix):
+  vnl_matrix< TValue >(matrix)
 {}
+
+
+/** Move Constructor from a vnl_matrix */
+template< typename TValue >
+Array2D< TValue >
+::Array2D( VnlMatrixType && matrix):
+  vnl_matrix< TValue >()
+{
+  matrix.swap(*this);
+}
 
 /** Copy Constructor  */
 template< typename TValue >
 Array2D< TValue >
-::Array2D(const Self & array):vnl_matrix< TValue >(array)
+::Array2D(const Self & array):
+  vnl_matrix< TValue >(array)
 {}
+
+
+/** Move Copy Constructor  */
+template< typename TValue >
+Array2D< TValue >
+::Array2D( Self && array):
+  Array2D< TValue >()
+{
+  this->Swap(array);
+}
+
 
 /** Assignment Operator from Array */
 template< typename TValue >
 const Array2D< TValue > &
 Array2D< TValue >
-::operator=(const Self & array)
+::operator=(const Self &array)
 {
   this->VnlMatrixType::operator=(array);
+  return *this;
+}
+
+
+/** Move Assignment Operator from Array */
+template< typename TValue >
+Array2D< TValue > &
+Array2D< TValue >
+::operator=(Self &&array)
+{
+  Self temp(array);
+  this->Swap(temp);
   return *this;
 }
 
@@ -64,6 +99,18 @@ Array2D< TValue >
 ::operator=(const VnlMatrixType & matrix)
 {
   this->VnlMatrixType::operator=(matrix);
+  return *this;
+}
+
+
+/** Move Assignment Operator from vnl_matrix */
+template< typename TValue >
+Array2D< TValue > &
+Array2D< TValue >
+::operator=(VnlMatrixType && matrix)
+{
+  Self temp(matrix);
+  this->Swap(temp);
   return *this;
 }
 

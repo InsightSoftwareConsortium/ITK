@@ -42,6 +42,38 @@ Array<TValue>
 {
 }
 
+
+/** Move Copy constructor */
+template < typename TValue >
+Array<TValue>
+::Array( Self && rhs)
+  : Array()
+{
+  this->Swap(rhs);
+}
+
+
+/** conversion from vnl_vector */
+template < typename TValue >
+Array<TValue>
+::Array(const VnlVectorType & rhs)
+  : vnl_vector<TValue>(rhs),
+    // The vnl vector copy constructor creates new memory
+    // no matter the setting of let array manage memory of rhs
+    m_LetArrayManageMemory(true)
+{
+}
+
+
+/** Move  from vnl_vector  */
+template < typename TValue >
+Array<TValue>
+::Array(VnlVectorType && rhs)
+  : Array()
+{
+  this->VnlVectorType::swap(rhs);
+}
+
 /** Constructor with size */
 template< typename TValue >
 Array< TValue >
@@ -173,6 +205,7 @@ Array< TValue >
   return *this;
 }
 
+
 template< typename TValue >
 const typename Array< TValue >
 ::Self &
@@ -193,6 +226,33 @@ Array< TValue >
     }
   return *this;
 }
+
+
+template< typename TValue >
+typename Array< TValue >
+::Self &
+Array< TValue >
+::operator=(Self && rhs)
+{
+  if ( this != &rhs )
+    {
+    Self temp(std::move(rhs));
+    this->Swap(temp);
+    }
+  return *this;
+}
+
+template< typename TValue >
+typename Array< TValue >
+::Self &
+Array< TValue >
+::operator=( VnlVectorType && rhs)
+{
+  Self temp(rhs);
+  this->Swap(temp);
+  return *this;
+}
+
 } // namespace itk
 
 #endif

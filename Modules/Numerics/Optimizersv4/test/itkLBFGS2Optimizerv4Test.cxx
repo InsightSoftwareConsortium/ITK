@@ -84,7 +84,9 @@ public:
 
     std::cout << "GetDerivative ( " << x << " , " << y << ") = ";
 
-    derivative = DerivativeType(SpaceDimension);
+    // DerivativeType tmp(SpaceDimension);
+    // derivative = std::move(tmp);
+    derivative.SetSize(SpaceDimension);
     derivative[0] = -(3*x + 2*y -2);
     derivative[1] = -(2*x + 6*y +8);
 

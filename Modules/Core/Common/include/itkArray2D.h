@@ -54,11 +54,16 @@ public:
   Array2D();
   Array2D(unsigned int rows, unsigned int cols);
   Array2D(const Self & array);
+  Array2D(Self && array);
   Array2D(const VnlMatrixType & matrix);
+  Array2D(VnlMatrixType && matrix);
 
-  const Self & operator=(const Self & array);
+  const Self & operator=(const Self &array);
+  Self & operator=(Self &&array);
 
   const Self & operator=(const VnlMatrixType & matrix);
+  Self & operator=(VnlMatrixType && matrix);
+
 
   void Fill(TValue const & v) { this->fill(v); }
 
@@ -76,6 +81,11 @@ public:
 
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(unsigned int m, unsigned int n);
+
+  void Swap(Array2D &other)  noexcept
+    {
+      this->VnlMatrixType::swap(other);
+    }
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
@@ -105,6 +115,14 @@ std::ostream & operator<<(std::ostream & os, const Array2D< TValue > & arr)
 
   return os;
 }
+
+
+template< typename TValue >
+inline void swap(Array2D<TValue> &a, Array2D<TValue> &b)
+{
+  a.Swap(b);
+}
+
 
 // declaration of specialization
 template<> ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);

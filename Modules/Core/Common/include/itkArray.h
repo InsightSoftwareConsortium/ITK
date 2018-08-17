@@ -66,6 +66,10 @@ public:
   /** Copy constructor.  Uses VNL copy construtor with correct
    *  setting for memory management.                          */
   Array(const Array&);
+  Array(Array&&);
+
+  Array(const VnlVectorType&);
+  Array(VnlVectorType&&);
 
   /** Constructor with size. Size can only be changed by assignment */
   explicit Array(SizeValueType dimension);
@@ -114,10 +118,12 @@ public:
     this->fill(v);
     }
 
-  /** Copy opertor */
+  /** Copy operator */
   const Self & operator=(const Self & rhs);
+  Self & operator=(Self && rhs);
 
   const Self & operator=(const VnlVectorType & rhs);
+  Self & operator=(VnlVectorType && rhs);
 
   /** Return the number of elements in the Array  */
   SizeValueType Size() const
@@ -175,10 +181,12 @@ public:
 #endif
 
   void Swap(Array &other)
-    {
+  {
+      itkAssertInDebugAndIgnoreInReleaseMacro(m_LetArrayManageMemory == other.m_LetArrayManageMemory);
+      if (m_LetArrayManageMemory != other.m_LetArrayManageMemory)
+        throw;
       using std::swap;
       this->VnlVectorType::swap(other);
-      swap(this->m_LetArrayManageMemory, other.m_LetArrayManageMemory);
     }
 
 private:
