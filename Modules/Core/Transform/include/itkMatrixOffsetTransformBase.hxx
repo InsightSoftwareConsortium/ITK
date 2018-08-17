@@ -683,13 +683,7 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
                                        JacobianType & jac) const
 {
   jac.SetSize( MatrixType::RowDimensions, MatrixType::ColumnDimensions );
-  for( unsigned int i = 0; i < MatrixType::RowDimensions; i++ )
-    {
-    for( unsigned int j = 0; j < MatrixType::ColumnDimensions; j++ )
-      {
-      jac[i][j] = this->GetMatrix()[i][j];
-      }
-    }
+  jac = this->GetMatrix().GetVnlMatrix();
 }
 
 
@@ -701,13 +695,7 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
                                        JacobianType & jac) const
 {
   jac.SetSize( MatrixType::ColumnDimensions, MatrixType::RowDimensions );
-  for( unsigned int i = 0; i < MatrixType::ColumnDimensions; i++ )
-    {
-    for( unsigned int j = 0; j < MatrixType::RowDimensions; j++ )
-      {
-      jac[i][j] = this->GetInverseMatrix()[i][j];
-      }
-    }
+  jac = this->GetMatrix().GetVnlMatrix();
 }
 
 
