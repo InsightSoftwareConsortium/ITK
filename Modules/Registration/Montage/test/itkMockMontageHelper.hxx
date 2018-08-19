@@ -139,6 +139,10 @@ int mockMontageTest(const PositionTableType& stageCoords, const PositionTableTyp
       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
       padMethod++)
     {
+    if (!varyPaddingMethods) // go straight to the last, best method
+      {
+      padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+      }
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
     std::cout << "Padding method " << padMethod << std::endl;
     registrationErrors << "Fixed <- Moving\tPeakInterpolationMethod";
@@ -172,10 +176,6 @@ int mockMontageTest(const PositionTableType& stageCoords, const PositionTableTyp
     if (avgError >= 1.0)
       {
       result = EXIT_FAILURE;
-      }
-    if (!varyPaddingMethods)
-      {
-      break;
       }
     }
   return result;
