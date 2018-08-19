@@ -90,6 +90,10 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
       padMethod++)
     {
+    if (!varyPaddingMethods) // go straight to the last, best method
+      {
+      padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+      }
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
     std::cout << "Padding method " << padMethod << std::endl;
     registrationErrors << "PeakInterpolationMethod";
@@ -217,10 +221,6 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
         }
       }
 
-    if (!varyPaddingMethods)
-      {
-      break;
-      }
     std::cout << std::endl;
     }
   return result;
