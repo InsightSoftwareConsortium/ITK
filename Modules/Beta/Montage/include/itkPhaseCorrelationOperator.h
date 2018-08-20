@@ -34,10 +34,6 @@ namespace itk
  *  This frequency ratio is computed at every index of output correlation
  *  surface.
  *
- *  This class provides interface for further techniques to improve the
- *  registration performance. Method AdjustOutputInformation() enables for
- *  example to limit the computation only to low frequencies.
- *
  *  As this is a convenient place for band-pass filtering of the input images.
  *  the interface for that is provided by SetBandPassControlPoints() method.
  *
@@ -128,27 +124,6 @@ protected:
   /** PhaseCorrelationOperator can be implemented as a multithreaded filter.
    *  This method performs the computation. */
   void DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread ) override;
-
-  /** After the largest possible output data size is determined, this method
-   * is called to additionally adjust the output parameters (reduce the size).
-   *
-   *  The method is called in GenerateOutputInformation() method, so the input
-   *  spacing, index and size can be determined from the inputs 0 (fixed image)
-   *  and 1 (moving image).
-   *
-   *  This method empty here and can be reimplemented by child filters.
-   */
-  virtual void AdjustOutputInformation(
-                 typename ImageType::SpacingType & spacing,
-                 typename ImageType::IndexType   & index,
-                 typename ImageType::SizeType    & size      ) {};
-
-  /** Override VerifyInputInformation() since this filter's inputs do not need
-   * to occupy the same physical space.
-   *
-   * \sa ProcessObject::VerifyInputInformation
-   */
-  void VerifyInputInformation() override {}
 
 protected:
   BandPassPointsType m_BandPassControlPoints;

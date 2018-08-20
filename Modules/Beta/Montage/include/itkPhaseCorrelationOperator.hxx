@@ -283,9 +283,6 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
     outputStartIndex[i] = fixedStartIndex[i];
     }
 
-  // additionally adjust the data size
-  this->AdjustOutputInformation( outputSpacing, outputStartIndex, outputSize );
-
   output->SetSpacing( outputSpacing );
 
   typename ImageType::RegionType outputLargestPossibleRegion;
