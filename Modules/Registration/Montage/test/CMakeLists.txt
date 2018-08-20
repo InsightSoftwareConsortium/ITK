@@ -134,6 +134,30 @@ itk_add_test(NAME itkMontagePCMTestFiles16
     5.3629
   )
 
+itk_add_test(NAME itkMontagePCMTestFilesSynthetic1
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/Rect1.png}
+    DATA{Input/Synthetic/Rect2.png}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesSynthetic1.nrrd
+    0.0
+    0.0
+    -21.0
+    35.0
+  )
+
+itk_add_test(NAME itkMontagePCMTestFilesSynthetic1N
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/Rect1N.png}
+    DATA{Input/Synthetic/Rect2N.png}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesSynthetic1N.nrrd
+    0.0
+    0.0
+    -21.0
+    35.0
+  )
+
 function(AddTestOMC slicerNumber)
   itk_add_test(NAME itkMontageTestOMC${slicerNumber}
     COMMAND MontageTestDriver
