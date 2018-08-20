@@ -1179,6 +1179,9 @@ HDF5ImageIO
     // File format which is backwards compatible with HDF5 version 1.8
     // Only HDF5 v1.10.2 has both setLibverBounds method and H5F_LIBVER_V18 constant
     fapl.setLibverBounds(H5F_LIBVER_V18, H5F_LIBVER_V18);
+#elif (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR==10)&&(H5_VERS_RELEASE<2)
+#error The selected version of HDF5 library does not support setting backwards compatibility at run-time.\
+  Please use a different version of HDF5, e.g. the one bundled with ITK (by setting ITK_USE_SYSTEM_HDF5 to OFF).
 #endif
     this->m_H5File = new H5::H5File(
       this->GetFileName(),
