@@ -158,6 +158,20 @@ itk_add_test(NAME itkMontagePCMTestFilesSynthetic1N
     35.0
   )
 
+itk_add_test(NAME itkMontagePCMTestFilesSynthetic3D
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/Cuboid1.mha}
+    DATA{Input/Synthetic/Cuboid2.mha}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesSynthetic3D.nrrd
+    0.0
+    0.0
+    0.0
+    -21.0
+    35.0
+    1.0
+  )
+
 function(AddTestOMC slicerNumber)
   itk_add_test(NAME itkMontageTestOMC${slicerNumber}
     COMMAND MontageTestDriver
