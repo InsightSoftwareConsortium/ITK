@@ -708,13 +708,14 @@ CompositeTransform<TParametersValueType, NDimensions>
       transform->ComputeJacobianWithRespectToPosition(transformedPoint, jacobianWithRespectToPosition);
 
       //outJacobian[0:offsetLast, 0:NDimensions] = jacobianWithRespectToPosition *outJacobian[0:NDimensions,0:offsetLast]
-      JacobianType update_j(jacobianWithRespectToPosition.rows(), offsetLast);
-      for (int r = 0; r < update_j.rows(); ++r)
+      assert(jacobianWithRespectToPosition.rows() == NDimensions);
+      JacobianType update_j(NDimensions, offsetLast);
+      for (unsigned int r = 0; r < NDimensions; ++r)
         {
-        for (int c = 0; c < update_j.cols(); ++c)
+        for (unsigned int c = 0; c < update_j.cols(); ++c)
           {
           update_j[r][c] = 0.0;
-          for (int k = 0; k < NDimensions; ++k)
+          for (unsigned int k = 0; k < NDimensions; ++k)
             {
             update_j[r][c] += jacobianWithRespectToPosition[r][k] * outJacobian[k][c];
             }
