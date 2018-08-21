@@ -687,27 +687,25 @@ CompositeTransform<TParametersValueType, NDimensions>
       offset += numberOfLocalParameters;
       }
 
-    /** The composite transform needs to compose previous jacobians
-     *  (those closer to the originating point) with the current
-     *  transform's jacobian.  We therefore update the previous
-     *  jacobian by multiplying the current matrix jumping over the
-     *  first transform. The matrix here refers to  dT/dx at the point.
-     *  For example, in the affine transform, this is the affine matrix.
+    /* The composite transform needs to compose previous jacobians
+     * (those closer to the originating point) with the current
+     * transform's jacobian.  We therefore update the previous
+     * jacobian by multiplying the current matrix jumping over the
+     * first transform. The matrix here refers to  dT/dx at the point.
+     * For example, in the affine transform, this is the affine matrix.
      *
-     *  TODO: for general transform, there should be something like
-     *  GetPartialDerivativeOfPointCoordinates
+     * Also, noted the multiplication contains all the affine matrix from
+     * all transforms no matter they are going to be optimized or not.
      *
-     *  Also, noted the multiplication contains all the affine matrix from
-     *  all transforms no matter they are going to be optimized or not
+     * Update every old term by left multiplying dTk / dT{k-1}
+     * do this before computing the transformedPoint for the next
+     * iteration.
      */
-
-    // update every old term by left multiplying dTk / dT{k-1}
-    // do this before computing the transformedPoint for the next iteration
     if( offsetLast > 0 )
       {
       transform->ComputeJacobianWithRespectToPosition(transformedPoint, jacobianWithRespectToPosition);
 
-      //outJacobian[0:offsetLast, 0:NDimensions] = jacobianWithRespectToPosition *outJacobian[0:NDimensions,0:offsetLast]
+      // outJacobian[0:offsetLast, 0:NDimensions] = jacobianWithRespectToPosition *outJacobian[0:NDimensions,0:offsetLast]
       assert(jacobianWithRespectToPosition.rows() == NDimensions);
       JacobianType update_j(NDimensions, offsetLast);
       for (unsigned int r = 0; r < NDimensions; ++r)
@@ -723,8 +721,6 @@ CompositeTransform<TParametersValueType, NDimensions>
         }
       outJacobian.update(update_j, 0, 0);
 
-
-      // itkExceptionMacro(" To sort out with new ComputeJacobianWithRespectToPosition prototype ");
       }
 
     /* Transform the point so it's ready for next transform's Jacobian */
