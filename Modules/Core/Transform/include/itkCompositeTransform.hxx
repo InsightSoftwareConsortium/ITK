@@ -614,6 +614,13 @@ CompositeTransform<TParametersValueType, NDimensions>
   //NOTE: assert( outJacobian.GetSize == ( NDimensions, this->GetNumberOfLocalParameters() ) )
   //NOTE: assert( jacobianWithRespectToPosition.GetSize == (NDimensions, NDimensions) )
 
+  if ( this->GetNumberOfTransforms() == 1)
+    {
+    const TransformType * const transform = this->GetNthTransformConstPointer( 0 );
+    transform->ComputeJacobianWithRespectToParameters( p, outJacobian );
+    return;
+    }
+
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   OutputPointType transformedPoint( p );
@@ -700,10 +707,21 @@ CompositeTransform<TParametersValueType, NDimensions>
       {
       transform->ComputeJacobianWithRespectToPosition(transformedPoint, jacobianWithRespectToPosition);
 
-      const JacobianType & old_j = outJacobian.extract(NDimensions, offsetLast, 0, 0);
-      const JacobianType & update_j = jacobianWithRespectToPosition * old_j;
-
+      //outJacobian[0:offsetLast, 0:NDimensions] = jacobianWithRespectToPosition *outJacobian[0:NDimensions,0:offsetLast]
+      JacobianType update_j(jacobianWithRespectToPosition.rows(), offsetLast);
+      for (int r = 0; r < update_j.rows(); ++r)
+        {
+        for (int c = 0; c < update_j.cols(); ++c)
+          {
+          update_j[r][c] = 0.0;
+          for (int k = 0; k < NDimensions; ++k)
+            {
+            update_j[r][c] += jacobianWithRespectToPosition[r][k] * outJacobian[k][c];
+            }
+          }
+        }
       outJacobian.update(update_j, 0, 0);
+
 
       // itkExceptionMacro(" To sort out with new ComputeJacobianWithRespectToPosition prototype ");
       }
