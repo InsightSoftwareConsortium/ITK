@@ -26,22 +26,13 @@ namespace itk
 template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
 ::SpatialObjectPoint()
+: m_ID(-1), m_X(0.0)
 {
-  m_ID = -1;
   m_Color.SetRed(1.0); // red by default
   m_Color.SetGreen(0);
   m_Color.SetBlue(0);
   m_Color.SetAlpha(1);
-  for ( unsigned int i = 0; i < TPointDimension; i++ )
-    {
-    m_X[i] = 0;
-    }
 }
-
-/** Destructor */
-template< unsigned int TPointDimension >
-SpatialObjectPoint< TPointDimension >
-::~SpatialObjectPoint() = default;
 
 /** Return the color of the point */
 template< unsigned int TPointDimension >
@@ -179,39 +170,6 @@ SpatialObjectPoint< TPointDimension >
 ::SetPosition(const PointType & newX)
 {
   m_X = newX;
-}
-
-/** Set the position : 3D case */
-template< unsigned int TPointDimension >
-void
-SpatialObjectPoint< TPointDimension >
-::SetPosition(const double x0, const double x1, const double x2)
-{
-  m_X[0] = x0;
-  m_X[1] = x1;
-  m_X[2] = x2;
-}
-
-/** Set the position : 2D case */
-template< unsigned int TPointDimension >
-void
-SpatialObjectPoint< TPointDimension >
-::SetPosition(const double x0, const double x1)
-{
-  m_X[0] = x0;
-  m_X[1] = x1;
-}
-
-/** Copy a point to another point */
-template< unsigned int TPointDimension >
-typename SpatialObjectPoint< TPointDimension >::Self &
-SpatialObjectPoint< TPointDimension >
-::operator=(const SpatialObjectPoint & rhs)
-{
-  m_ID = rhs.m_ID;
-  m_X = rhs.m_X;
-  m_Color = rhs.m_Color;
-  return *this;
 }
 
 /** PrintSelfMethod */
