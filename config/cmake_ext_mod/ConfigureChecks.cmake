@@ -14,17 +14,12 @@
 #-----------------------------------------------------------------------------
 include (CheckFunctionExists)
 include (CheckIncludeFile)
-include (CheckIncludeFileCXX)
 include (CheckIncludeFiles)
 include (CheckLibraryExists)
 include (CheckSymbolExists)
 include (CheckTypeSize)
 include (CheckVariableExists)
-include (CheckFortranFunctionExists)
 include (TestBigEndian)
-if (CMAKE_CXX_COMPILER AND CMAKE_CXX_COMPILER_LOADED)
-  include (TestForSTDNamespace)
-endif ()
 
 #-----------------------------------------------------------------------------
 # APPLE/Darwin setup
@@ -223,17 +218,6 @@ CHECK_INCLUDE_FILE_CONCAT ("stddef.h"        ${HDF_PREFIX}_HAVE_STDDEF_H)
 CHECK_INCLUDE_FILE_CONCAT ("stdint.h"        ${HDF_PREFIX}_HAVE_STDINT_H)
 CHECK_INCLUDE_FILE_CONCAT ("unistd.h"        ${HDF_PREFIX}_HAVE_UNISTD_H)
 
-# IF the c compiler found stdint, check the C++ as well. On some systems this
-# file will be found by C but not C++, only do this test IF the C++ compiler
-# has been initialized (e.g. the project also includes some c++)
-if (${HDF_PREFIX}_HAVE_STDINT_H AND CMAKE_CXX_COMPILER_LOADED)
-  CHECK_INCLUDE_FILE_CXX ("stdint.h" ${HDF_PREFIX}_HAVE_STDINT_H_CXX)
-  if (NOT ${HDF_PREFIX}_HAVE_STDINT_H_CXX)
-    set (${HDF_PREFIX}_HAVE_STDINT_H "" CACHE INTERNAL "Have includes HAVE_STDINT_H")
-    set (USE_INCLUDES ${USE_INCLUDES} "stdint.h")
-  endif ()
-endif ()
-
 # Darwin
 CHECK_INCLUDE_FILE_CONCAT ("mach/mach_time.h" ${HDF_PREFIX}_HAVE_MACH_MACH_TIME_H)
 
@@ -331,8 +315,6 @@ if (NOT WINDOWS)
   endif ()
 endif ()
 
-add_definitions (${HDF_EXTRA_FLAGS})
-
 #-----------------------------------------------------------------------------
 # Check for HAVE_OFF64_T functionality
 #-----------------------------------------------------------------------------
@@ -340,17 +322,12 @@ if (NOT WINDOWS OR MINGW)
   HDF_FUNCTION_TEST (HAVE_OFF64_T)
   if (${HDF_PREFIX}_HAVE_OFF64_T)
     CHECK_FUNCTION_EXISTS (lseek64            ${HDF_PREFIX}_HAVE_LSEEK64)
-    CHECK_FUNCTION_EXISTS (fseeko64           ${HDF_PREFIX}_HAVE_FSEEKO64)
-    CHECK_FUNCTION_EXISTS (ftello64           ${HDF_PREFIX}_HAVE_FTELLO64)
-    CHECK_FUNCTION_EXISTS (ftruncate64        ${HDF_PREFIX}_HAVE_FTRUNCATE64)
   endif ()
 
   CHECK_FUNCTION_EXISTS (fseeko               ${HDF_PREFIX}_HAVE_FSEEKO)
-  CHECK_FUNCTION_EXISTS (ftello               ${HDF_PREFIX}_HAVE_FTELLO)
 
   HDF_FUNCTION_TEST (HAVE_STAT64_STRUCT)
   if (HAVE_STAT64_STRUCT)
-    CHECK_FUNCTION_EXISTS (fstat64            ${HDF_PREFIX}_HAVE_FSTAT64)
     CHECK_FUNCTION_EXISTS (stat64             ${HDF_PREFIX}_HAVE_STAT64)
   endif ()
 endif ()
@@ -582,71 +559,6 @@ if (NOT WINDOWS)
       HAVE_SOCKLEN_T
   )
     HDF_FUNCTION_TEST (${test})
-  endforeach ()
-endif ()
-
-# For other CXX specific tests, use this MACRO.
-macro (HDF_CXX_FUNCTION_TEST OTHER_TEST)
-  if (NOT DEFINED ${OTHER_TEST})
-    set (MACRO_CHECK_FUNCTION_DEFINITIONS "-D${OTHER_TEST} ${CMAKE_REQUIRED_FLAGS}")
-    set (OTHER_TEST_ADD_LIBRARIES)
-    if (CMAKE_REQUIRED_LIBRARIES)
-      set (OTHER_TEST_ADD_LIBRARIES "-DLINK_LIBRARIES:STRING=${CMAKE_REQUIRED_LIBRARIES}")
-    endif ()
-
-    foreach (def
-        HAVE_SYS_TIME_H
-        HAVE_UNISTD_H
-        HAVE_SYS_TYPES_H
-        HAVE_SYS_SOCKET_H
-        HAVE_SYS_FILE_H
-    )
-      if ("${${HDF_PREFIX}_${def}}")
-        set (MACRO_CHECK_FUNCTION_DEFINITIONS "${MACRO_CHECK_FUNCTION_DEFINITIONS} -D${def}")
-      endif ()
-    endforeach ()
-
-    if (LARGEFILE)
-      set (MACRO_CHECK_FUNCTION_DEFINITIONS
-          "${MACRO_CHECK_FUNCTION_DEFINITIONS} -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE"
-      )
-    endif ()
-
-    #message (STATUS "Performing ${OTHER_TEST}")
-    TRY_COMPILE (${OTHER_TEST}
-        ${CMAKE_BINARY_DIR}
-        ${HDF_RESOURCES_EXT_DIR}/HDFCXXTests.cpp
-        CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${MACRO_CHECK_FUNCTION_DEFINITIONS}
-        "${OTHER_TEST_ADD_LIBRARIES}"
-        OUTPUT_VARIABLE OUTPUT
-    )
-    if (${OTHER_TEST} EQUAL 0)
-      set (${OTHER_TEST} 1 CACHE INTERNAL "CXX test ${FUNCTION}")
-      message (STATUS "Performing CXX Test ${OTHER_TEST} - Success")
-    else ()
-      message (STATUS "Performing CXX Test ${OTHER_TEST} - Failed")
-      set (${OTHER_TEST} "" CACHE INTERNAL "CXX test ${FUNCTION}")
-      file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
-          "Performing CXX Test ${OTHER_TEST} failed with the following output:\n"
-          "${OUTPUT}\n"
-      )
-    endif ()
-  endif ()
-endmacro ()
-
-#-----------------------------------------------------------------------------
-# Check a bunch of cxx functions
-#-----------------------------------------------------------------------------
-if (CMAKE_CXX_COMPILER_LOADED)
-  foreach (test
-      OLD_HEADER_FILENAME
-      ${HDF_PREFIX}_NO_NAMESPACE
-      ${HDF_PREFIX}_NO_STD
-      BOOL_NOTDEFINED
-      NO_STATIC_CAST
-      CXX_HAVE_OFFSETOF
-  )
-    HDF_CXX_FUNCTION_TEST (${test})
   endforeach ()
 endif ()
 

@@ -263,7 +263,7 @@ H5FD_multi_term(void)
 /*-------------------------------------------------------------------------
  * Function:	H5Pset_fapl_split
  *
- * Purpose:	Compatability function. Makes the multi driver act like the
+ * Purpose:	Compatibility function. Makes the multi driver act like the
  *		old split driver which stored meta data in one file and raw
  *		data in another file.
  *

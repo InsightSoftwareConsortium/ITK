@@ -45,6 +45,9 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
         // Gets the creation property list of this dataset.
         DSetCreatPropList getCreatePlist() const;
 
+        // Gets the access property list of this dataset.
+        DSetAccPropList getAccessPlist() const;
+
         // Returns the address of this dataset in the file.
         haddr_t getOffset() const;
 

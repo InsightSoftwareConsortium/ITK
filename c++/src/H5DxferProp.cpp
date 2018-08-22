@@ -299,6 +299,7 @@ ssize_t DSetMemXferPropList::getDataTransform(char* exp, size_t buf_size) const
 // Function:    DSetMemXferPropList::getDataTransform
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It takes no parameter and returns a \c H5std_string for the expression.
+///
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------

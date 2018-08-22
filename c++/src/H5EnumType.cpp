@@ -24,6 +24,7 @@
 #include "H5DataSpace.h"
 #include "H5LcreatProp.h"
 #include "H5LaccProp.h"
+#include "H5DaccProp.h"
 #include "H5Location.h"
 #include "H5Object.h"
 #include "H5AbstractDs.h"
@@ -150,6 +151,7 @@ EnumType::EnumType(const H5Location& loc, const H5std_string& dtype_name) : Data
 // Function:    EnumType::decode
 ///\brief       Returns an EnumType object via DataType* by decoding the
 ///             binary object description of this type.
+///
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------

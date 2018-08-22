@@ -1342,7 +1342,7 @@ done:
  * Programmer:	Quincey Koziol
  *		Monday, October 18, 1999
  *
- * Notes: 	Basically a new public API wrapper around the H5E_push_stack
+ * Notes: 	Basically a new public API wrapper around the H5E__push_stack
  *              function.
  *
  *-------------------------------------------------------------------------
@@ -1413,7 +1413,7 @@ H5Epush2(hid_t err_stack, const char *file, const char *func, unsigned line,
 #endif /* H5_HAVE_VASPRINTF */
 
     /* Push the error on the stack */
-    if(H5E_push_stack(estack, file, func, line, cls_id, maj_id, min_id, tmp) < 0)
+    if(H5E__push_stack(estack, file, func, line, cls_id, maj_id, min_id, tmp) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTSET, FAIL, "can't push error on stack")
 
 done:

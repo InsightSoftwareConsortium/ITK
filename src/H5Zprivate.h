@@ -93,7 +93,6 @@ H5_DLL H5Z_filter_info_t *H5Z_filter_info(const struct H5O_pline_t *pline,
         H5Z_filter_t filter);
 H5_DLL htri_t H5Z_filter_in_pline(const struct H5O_pline_t *pline, H5Z_filter_t filter);
 H5_DLL htri_t H5Z_all_filters_avail(const struct H5O_pline_t *pline);
-H5_DLL herr_t H5Z_unregister(H5Z_filter_t filter_id);
 H5_DLL htri_t H5Z_filter_avail(H5Z_filter_t id);
 H5_DLL herr_t H5Z_delete(struct H5O_pline_t *pline, H5Z_filter_t filter);
 H5_DLL herr_t H5Z_get_filter_info(H5Z_filter_t filter, unsigned int *filter_config_flags);

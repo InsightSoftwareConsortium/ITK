@@ -1304,7 +1304,7 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
 
                             case H5I_DATASPACE:
                                 HDfprintf(out, "%ld (dspace)", (long)obj);
-                                /* Save the rank of simple data spaces for arrays */
+                                /* Save the rank of simple dataspaces for arrays */
                                 /* This may generate recursive call to the library... -QAK */
                                 {
                                     H5S_t *space;

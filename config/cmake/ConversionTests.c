@@ -25,7 +25,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-int main(void) HDF_NO_UBSAN
+int HDF_NO_UBSAN main(void)
 {
     long double         ld = 20041683600089727.779961L;
     long                ll;
@@ -86,7 +86,7 @@ done:
 #include <string.h>
 #include <stdlib.h>
 
-int main(void) HDF_NO_UBSAN
+int HDF_NO_UBSAN main(void)
 {
     long double         ld;
     long                ll;
@@ -149,7 +149,7 @@ done:
 #include <string.h>
 #include <stdlib.h>
 
-int main(void) HDF_NO_UBSAN
+int HDF_NO_UBSAN main(void)
 {
     long double         ld = 20041683600089727.779961L;
     long long           ll;
@@ -192,7 +192,7 @@ done:
 #include <string.h>
 #include <stdlib.h>
 
-int main(void) HDF_NO_UBSAN
+int HDF_NO_UBSAN main(void)
 {
     long double         ld;
     long long           ll;
@@ -253,8 +253,8 @@ int FC_DUMMY_MAIN()
 { return 1;}
 #endif
 #endif
-int
-main () HDF_NO_UBSAN
+int HDF_NO_UBSAN
+main ()
 {
 
     char *chp = "beefs";

@@ -137,7 +137,7 @@ typedef enum H5D_mpio_actual_chunk_opt_mode_t {
 
 typedef enum H5D_mpio_actual_io_mode_t {
     /* The following four values are conveniently defined as a bit field so that
-     * we can switch from the default to indpendent or collective and then to
+     * we can switch from the default to independent or collective and then to
      * mixed without having to check the original value.
      *
      * NO_COLLECTIVE means that either collective I/O wasn't requested or that
@@ -164,7 +164,8 @@ typedef enum H5D_mpio_no_collective_cause_t {
     H5D_MPIO_MPI_OPT_TYPES_ENV_VAR_DISABLED = 0x08,
     H5D_MPIO_NOT_SIMPLE_OR_SCALAR_DATASPACES = 0x10,
     H5D_MPIO_NOT_CONTIGUOUS_OR_CHUNKED_DATASET = 0x20,
-    H5D_MPIO_NO_COLLECTIVE_MAX_CAUSE = 0x40
+    H5D_MPIO_PARALLEL_FILTERED_WRITES_DISABLED = 0x40,
+    H5D_MPIO_NO_COLLECTIVE_MAX_CAUSE = 0x80
 } H5D_mpio_no_collective_cause_t;
 
 /********************/

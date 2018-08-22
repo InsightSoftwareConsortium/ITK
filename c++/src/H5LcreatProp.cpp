@@ -105,6 +105,7 @@ LinkCreatPropList::LinkCreatPropList(const hid_t plist_id) : PropList(plist_id) 
 //--------------------------------------------------------------------------
 // Function:    LinkCreatPropList::setCharEncoding
 ///\brief       Sets the character encoding of the string.
+///
 ///\exception   H5::PropListIException
 // March, 2018
 //--------------------------------------------------------------------------
@@ -121,6 +122,7 @@ void LinkCreatPropList::setCharEncoding(H5T_cset_t encoding) const
 //--------------------------------------------------------------------------
 // Function:    LinkCreatPropList::getCharEncoding
 ///\brief       Gets the character encoding of the string.
+///\return      The character encoding
 ///\exception   H5::PropListIException
 // March, 2018
 //--------------------------------------------------------------------------

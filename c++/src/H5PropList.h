@@ -92,7 +92,7 @@ class H5_DLLCPP PropList : public IdComponent {
         // Determines whether a property list is a certain class.
         bool isAClass(const PropList& prop_class) const;
 
-        /// Query the existance of a property in a property object.
+        /// Query the existence of a property in a property object.
         bool propExist(const char* name) const;
         bool propExist(const H5std_string& name) const;
 

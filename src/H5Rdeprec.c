@@ -37,11 +37,12 @@
 #include "H5Ppublic.h"          /* Property lists                           */
 
 /* Private headers needed by this file */
-#include "H5private.h"		    /* Generic Functions                        */
-#include "H5ACprivate.h"	    /* Metadata cache                           */
-#include "H5Eprivate.h"		    /* Error handling                           */
-#include "H5Gprivate.h"		    /* Groups                                   */
-#include "H5Oprivate.h"		    /* Object headers                           */
+#include "H5private.h"		/* Generic Functions                        */
+#include "H5ACprivate.h"	/* Metadata cache                           */
+#include "H5CXprivate.h"        /* API Contexts                             */
+#include "H5Eprivate.h"		/* Error handling                           */
+#include "H5Gprivate.h"		/* Groups                                   */
+#include "H5Oprivate.h"		/* Object headers                           */
 #include "H5Rpkg.h"             /* References                               */
 
 
@@ -117,7 +118,7 @@ H5Rget_obj_type1(hid_t id, H5R_type_t ref_type, const void *ref)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5G_UNKNOWN, "invalid reference pointer")
 
     /* Get the object information */
-    if (H5R_get_obj_type(loc.oloc->file, H5AC_ind_read_dxpl_id, ref_type, ref, &obj_type) < 0)
+    if(H5R__get_obj_type(loc.oloc->file, ref_type, ref, &obj_type) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, H5G_UNKNOWN, "unable to determine object type")
 
     /* Set return value */
@@ -140,7 +141,7 @@ done:
  *      ref         IN: Reference to open
  *
  * Return:      Success:	Valid HDF5 ID
- *              Failure:    Negative
+ *              Failure:    H5I_INVALID_HID
  *
  *-------------------------------------------------------------------------
  */
@@ -149,25 +150,25 @@ H5Rdereference1(hid_t obj_id, H5R_type_t ref_type, const void *_ref)
 {
     H5G_loc_t loc;      /* Group location */
     H5F_t *file = NULL; /* File object */
-    hid_t ret_value;
+    hid_t ret_value = H5I_INVALID_HID;	/* Return value */
 
-    FUNC_ENTER_API(FAIL)
+    FUNC_ENTER_API(H5I_INVALID_HID)
     H5TRACE3("i", "iRt*x", obj_id, ref_type, _ref);
 
     /* Check args */
     if (H5G_loc(obj_id, &loc) < 0)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a location")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, H5I_INVALID_HID, "not a location")
     if (ref_type <= H5R_BADTYPE || ref_type >= H5R_MAXTYPE)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference type")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference type")
     if (_ref == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference pointer")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference pointer")
 
     /* Get the file pointer from the entry */
     file = loc.oloc->file;
 
     /* Create reference */
-    if ((ret_value = H5R_dereference(file, H5P_DATASET_ACCESS_DEFAULT, H5AC_ind_read_dxpl_id, ref_type, _ref, TRUE)) < 0)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, FAIL, "unable dereference object")
+    if((ret_value = H5R__dereference(file, H5P_DATASET_ACCESS_DEFAULT, ref_type, _ref)) < 0)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, H5I_INVALID_HID, "unable dereference object")
 
 done:
     FUNC_LEAVE_API(ret_value)

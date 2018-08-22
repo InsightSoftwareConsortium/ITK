@@ -468,7 +468,7 @@ H5std_string PropList::getProperty(const char* name) const
         throw PropListIException(inMemFunc("getProperty"), "H5Pget failed");
     }
 
-    // Return propety value as a string after deleting temp C-string
+    // Return property value as a string after deleting temp C-string
     H5std_string prop_strg(prop_strg_C);
     delete []prop_strg_C;
     return (prop_strg);

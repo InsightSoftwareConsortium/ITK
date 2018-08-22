@@ -36,6 +36,7 @@
 /* Headers */
 /***********/
 #include "H5private.h"		/* Generic Functions			*/
+#include "H5CXprivate.h"        /* API Contexts                         */
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5Fpkg.h"             /* File access				*/
 #include "H5Iprivate.h"		/* IDs			  		*/
@@ -100,6 +101,7 @@ herr_t
 H5Fget_info1(hid_t obj_id, H5F_info1_t *finfo)
 {
     H5F_t *f;                           /* Top file in mount hierarchy */
+    H5F_info2_t finfo2;                 /* Current file info struct */
     herr_t ret_value = SUCCEED;         /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -127,17 +129,14 @@ H5Fget_info1(hid_t obj_id, H5F_info1_t *finfo)
     } /* end else */
     HDassert(f->shared);
 
-    /* Reset file info struct */
-    HDmemset(finfo, 0, sizeof(*finfo));
+    /* Get the current file info */
+    if(H5F__get_info(f, &finfo2) < 0)
+        HGOTO_ERROR(H5E_FILE, H5E_CANTGET, FAIL, "unable to retrieve file info")
 
-    /* Get the size of the superblock extension */
-    if(H5F__super_size(f, H5AC_ind_read_dxpl_id, NULL, &finfo->super_ext_size) < 0)
-	HGOTO_ERROR(H5E_FILE, H5E_CANTGET, FAIL, "Unable to retrieve superblock extension size")
-
-    /* Check for SOHM info */
-    if(H5F_addr_defined(f->shared->sohm_addr))
-        if(H5SM_ih_size(f, H5AC_ind_read_dxpl_id, &finfo->sohm.hdr_size, &finfo->sohm.msgs_info) < 0)
-            HGOTO_ERROR(H5E_FILE, H5E_CANTGET, FAIL, "Unable to retrieve SOHM index & heap storage info")
+    /* Copy the compatible fields into the older struct */
+    finfo->super_ext_size = finfo2.super.super_ext_size;
+    finfo->sohm.hdr_size = finfo2.sohm.hdr_size;
+    finfo->sohm.msgs_info = finfo2.sohm.msgs_info;
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -150,7 +149,7 @@ done:
  * Purpose:     Enable switching between latest or non-latest format while
  *              a file is open.
  *              This is deprecated starting release 1.10.2 and is modified
- *              to call the private H5F_set_libver_bounds() to set the
+ *              to call the private H5F__set_libver_bounds() to set the
  *              bounds.
  *
  *              Before release 1.10.2, the library supports only two
@@ -199,7 +198,7 @@ H5Fset_latest_format(hid_t file_id, hbool_t latest_format)
         low = H5F_LIBVER_EARLIEST;
 
     /* Call private set_libver_bounds function to set the bounds */
-    if(H5F_set_libver_bounds(f, low, high) < 0)
+    if(H5F__set_libver_bounds(f, low, high) < 0)
         HGOTO_ERROR(H5E_FILE, H5E_CANTSET, FAIL, "cannot set low/high bounds")
 
 done:

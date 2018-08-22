@@ -50,7 +50,7 @@ typedef int H5Z_filter_t;
                                          * unlimited amount, but currently each
                                          * filter uses a bit in a 32-bit field,
                                          * so the format would have to be
-                                         * changed to accomodate that)
+                                         * changed to accommodate that)
                                          */
 
 /* Flags for filter definition (stored) */

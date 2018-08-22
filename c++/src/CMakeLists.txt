@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.10)
-PROJECT (HDF5_CPP_SRC)
+project (HDF5_CPP_SRC CXX)
 
 #-----------------------------------------------------------------------------
 # Generate configure file
@@ -21,6 +21,7 @@ set (CPP_SOURCES
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DataSet.cpp
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DataSpace.cpp
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DataType.cpp
+    ${HDF5_CPP_SRC_SOURCE_DIR}/H5DaccProp.cpp
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DcreatProp.cpp
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DxferProp.cpp
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5EnumType.cpp
@@ -58,6 +59,7 @@ set (CPP_HDRS
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DataSet.h
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DataSpace.h
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DataType.h
+    ${HDF5_CPP_SRC_SOURCE_DIR}/H5DaccProp.h
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DcreatProp.h
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5DxferProp.h
     ${HDF5_CPP_SRC_SOURCE_DIR}/H5EnumType.h
@@ -83,28 +85,35 @@ set (CPP_HDRS
 )
 
 add_library (${HDF5_CPP_LIB_TARGET} STATIC ${CPP_SOURCES} ${CPP_HDRS})
-TARGET_C_PROPERTIES (${HDF5_CPP_LIB_TARGET} STATIC " " " ")
+target_include_directories(${HDF5_CPP_LIB_TARGET}
+    PRIVATE "${HDF5_SRC_DIR};${HDF5_BINARY_DIR};$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_INCLUDE_DIRS}>"
+    INTERFACE "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
+)
+target_compile_definitions(${HDF5_CPP_LIB_TARGET}
+    PRIVATE $<$<BOOL:${HDF5_ENABLE_PARALLEL}>:MPICH_SKIP_MPICXX;MPICH_IGNORE_CXX_SEEK># Parallel/MPI, prevent spurious cpp/cxx warnings
+)
+TARGET_C_PROPERTIES (${HDF5_CPP_LIB_TARGET} STATIC)
 target_link_libraries (${HDF5_CPP_LIB_TARGET} PUBLIC ${HDF5_LIB_TARGET})
 set_global_variable (HDF5_LIBRARIES_TO_EXPORT "${HDF5_LIBRARIES_TO_EXPORT};${HDF5_CPP_LIB_TARGET}")
 H5_SET_LIB_OPTIONS (${HDF5_CPP_LIB_TARGET} ${HDF5_CPP_LIB_NAME} STATIC 0)
-set_target_properties (${HDF5_CPP_LIB_TARGET} PROPERTIES
-    FOLDER libraries/cpp
-    INTERFACE_INCLUDE_DIRECTORIES "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
-)
+set_target_properties (${HDF5_CPP_LIB_TARGET} PROPERTIES FOLDER libraries/cpp)
 set (install_targets ${HDF5_CPP_LIB_TARGET})
 
 if (BUILD_SHARED_LIBS)
   add_library (${HDF5_CPP_LIBSH_TARGET} SHARED ${CPP_SOURCES} ${CPP_HDRS})
-  TARGET_C_PROPERTIES (${HDF5_CPP_LIBSH_TARGET} SHARED " " " ")
+  target_include_directories(${HDF5_CPP_LIBSH_TARGET}
+      PRIVATE "${HDF5_SRC_DIR};${HDF5_BINARY_DIR};$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_INCLUDE_DIRS}>"
+      INTERFACE "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
+  )
+  target_compile_definitions(${HDF5_CPP_LIBSH_TARGET}
+      PUBLIC "H5_BUILT_AS_DYNAMIC_LIB"
+      PRIVATE $<$<BOOL:${HDF5_ENABLE_PARALLEL}>:MPICH_SKIP_MPICXX;MPICH_IGNORE_CXX_SEEK># Parallel/MPI, prevent spurious cpp/cxx warnings
+  )
+  TARGET_C_PROPERTIES (${HDF5_CPP_LIBSH_TARGET} SHARED)
   target_link_libraries (${HDF5_CPP_LIBSH_TARGET} PUBLIC ${HDF5_LIBSH_TARGET})
   set_global_variable (HDF5_LIBRARIES_TO_EXPORT "${HDF5_LIBRARIES_TO_EXPORT};${HDF5_CPP_LIBSH_TARGET}")
   H5_SET_LIB_OPTIONS (${HDF5_CPP_LIBSH_TARGET} ${HDF5_CPP_LIB_NAME} SHARED "CXX")
-  set_target_properties (${HDF5_CPP_LIBSH_TARGET} PROPERTIES
-      FOLDER libraries/cpp
-      COMPILE_DEFINITIONS "H5_BUILT_AS_DYNAMIC_LIB"
-      INTERFACE_INCLUDE_DIRECTORIES "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
-      INTERFACE_COMPILE_DEFINITIONS H5_BUILT_AS_DYNAMIC_LIB=1
-  )
+  set_target_properties (${HDF5_CPP_LIBSH_TARGET} PROPERTIES FOLDER libraries/cpp)
   set (install_targets ${install_targets} ${HDF5_CPP_LIBSH_TARGET})
 endif ()
 
