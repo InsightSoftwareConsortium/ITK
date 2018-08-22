@@ -73,6 +73,8 @@ public:
   using FixedParametersType = typename Superclass::FixedParametersType;
   using FixedParametersValueType = typename Superclass::FixedParametersValueType;
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
   using ScalarType = typename Superclass::ScalarType;
   using InputVectorType = typename Superclass::InputVectorType;
   using OutputVectorType = typename Superclass::OutputVectorType;
@@ -112,6 +114,7 @@ public:
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
   void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** The Euler angle representation of a rotation is not unique and
    * depends on the order of rotations. In general there are 12

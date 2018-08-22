@@ -60,6 +60,8 @@ public:
   using ParametersType = typename Superclass::ParametersType;
   using FixedParametersType = typename Superclass::FixedParametersType;
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
   using ScalarType = typename Superclass::ScalarType;
   using InputVectorType = typename Superclass::InputVectorType;
   using OutputVectorType = typename Superclass::OutputVectorType;

@@ -608,7 +608,7 @@ CompositeTransform<TParametersValueType, NDimensions>
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 CompositeTransform<TParametersValueType, NDimensions>
-::ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType & jacobianWithRespectToPosition ) const
+::ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType &) const
 {
   //NOTE: This must have been done outside of outJacobian.SetSize( NDimensions, this->GetNumberOfLocalParameters() );
   //NOTE: assert( outJacobian.GetSize == ( NDimensions, this->GetNumberOfLocalParameters() ) )
@@ -703,6 +703,7 @@ CompositeTransform<TParametersValueType, NDimensions>
      */
     if( offsetLast > 0 )
       {
+      JacobianPositionType jacobianWithRespectToPosition;
       transform->ComputeJacobianWithRespectToPosition(transformedPoint, jacobianWithRespectToPosition);
 
       // Perform the following matrix multiplication in-place:

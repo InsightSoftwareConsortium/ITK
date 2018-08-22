@@ -116,8 +116,10 @@ public:
   using ParametersValueType = typename Superclass::ParametersValueType;
   /** Derivative type */
   using DerivativeType = typename Superclass::DerivativeType;
-  /** Jacobian type. */
+  /** Jacobian types. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
   /** Standard coordinate point type for this class. */

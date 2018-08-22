@@ -24,6 +24,7 @@
 #include "itkDiffusionTensor3D.h"
 #include "itkVariableLengthVector.h"
 #include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_matrix_fixed.h"
 #include "itkMatrix.h"
 
 namespace itk
@@ -66,7 +67,7 @@ namespace itk
  *                                                             JacobianType &) const<br>
  *   virtual void                      ComputeJacobianWithRespectToPosition(
  *                                                             const InputPointType & x,
- *                                                             JacobianType &jacobian ) const;<br>
+ *                                                             JacobianPositionType &jacobian ) const;<br>
  *
  * Since TranformVector and TransformCovariantVector have multiple
  * overloaded methods from the base class, subclasses must specify:<br>
@@ -124,6 +125,8 @@ public:
 
   /** Type of the Jacobian matrix. */
   using JacobianType = Array2D<ParametersValueType>;
+  using JacobianPositionType = vnl_matrix_fixed<ParametersValueType, NOutputDimensions, NInputDimensions>;
+  using InverseJacobianPositionType = vnl_matrix_fixed<ParametersValueType, NInputDimensions, NOutputDimensions>;
 
   /** Standard vector type for this class. */
   using InputVectorType = Vector<TParametersValueType, NInputDimensions>;
@@ -510,12 +513,13 @@ public:
    *  transforms it would be unclear what parameters would refer to.
    *  Generally, global transforms should return an indentity jacobian
    *  since there is no change with respect to position. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType & itkNotUsed(x), JacobianType & itkNotUsed(jacobian) ) const
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType & itkNotUsed(x), JacobianPositionType & itkNotUsed(jacobian) ) const
   {
     itkExceptionMacro(
-      "ComputeJacobianWithRespectToPosition( InputPointType, JacobianType"
+      "ComputeJacobianWithRespectToPosition( InputPointType, JacobianType )"
       " is unimplemented for " << this->GetNameOfClass() );
   }
+  itkLegacyMacro(virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const);
 
 
   /** This provides the ability to get a local jacobian value
@@ -523,7 +527,9 @@ public:
    *  transforms it would be unclear what parameters would refer to.
    *  Generally, global transforms should return an indentity jacobian
    *  since there is no change with respect to position. */
-  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const;
+  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
+                                                           InverseJacobianPositionType & jacobian ) const;
+  itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const);
 
 protected:
   /**
@@ -541,7 +547,8 @@ protected:
   mutable FixedParametersType m_FixedParameters;
 
   OutputDiffusionTensor3DType PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(
-    const InputDiffusionTensor3DType, const JacobianType ) const;
+    const InputDiffusionTensor3DType &,
+    const InverseJacobianPositionType &) const;
 
   mutable DirectionChangeMatrix m_DirectionChange;
 

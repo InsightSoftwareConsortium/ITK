@@ -161,7 +161,7 @@ template<typename TParametersValueType, unsigned int NDimensions>
 void
 DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeJacobianWithRespectToPosition( const InputPointType & point,
-                                        JacobianType & jacobian ) const
+                                        JacobianPositionType & jacobian ) const
 {
   IndexType idx;
 
@@ -173,7 +173,7 @@ template<typename TParametersValueType, unsigned int NDimensions>
 void
 DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeJacobianWithRespectToPosition( const IndexType & index,
-                                        JacobianType & jacobian ) const
+                                        JacobianPositionType & jacobian ) const
 {
   this->ComputeJacobianWithRespectToPositionInternal( index, jacobian, false );
 }
@@ -182,7 +182,7 @@ template<typename TParametersValueType, unsigned int NDimensions>
 void
 DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeInverseJacobianWithRespectToPosition( const InputPointType & point,
-                                        JacobianType & jacobian ) const
+                                        InverseJacobianPositionType & jacobian ) const
 {
   IndexType idx;
   this->m_DisplacementField->TransformPhysicalPointToIndex(point, idx);
@@ -194,7 +194,7 @@ void
 DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::GetInverseJacobianOfForwardFieldWithRespectToPosition(
   const InputPointType & point,
-  JacobianType & jacobian,
+  JacobianPositionType & jacobian,
   bool useSVD ) const
 {
   IndexType idx;
@@ -209,13 +209,13 @@ void
 DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::GetInverseJacobianOfForwardFieldWithRespectToPosition(
   const IndexType & index,
-  JacobianType & jacobian,
+  JacobianPositionType & jacobian,
   bool useSVD ) const
 {
   if( useSVD )
     {
     this->ComputeJacobianWithRespectToPositionInternal( index, jacobian, false );
-    vnl_svd<typename JacobianType::ValueType> svd( jacobian );
+    vnl_svd<typename JacobianPositionType::element_type> svd( jacobian );
     for( unsigned int i = 0; i < jacobian.rows(); i++ )
       {
       for( unsigned int j = 0; j < jacobian.cols(); j++ )
@@ -234,10 +234,9 @@ template<typename TParametersValueType, unsigned int NDimensions>
 void
 DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeJacobianWithRespectToPositionInternal( const IndexType & index,
-                                                JacobianType & jacobian,
+                                                JacobianPositionType & jacobian,
                                                 bool doInverseJacobian ) const
 {
-  jacobian.SetSize(NDimensions, NDimensions);
 
   typename DisplacementFieldType::SizeType size =
     this->m_DisplacementField->GetLargestPossibleRegion().GetSize();
@@ -343,11 +342,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 
   if( !isValidJacobianCalcLocat )
     {
-    jacobian.Fill(0.0);
-    for( unsigned int i = 0; i < NDimensions; i++ )
-      {
-      jacobian(i, i) = 1.0;
-      }
+    jacobian.set_identity();
     }
 }
 

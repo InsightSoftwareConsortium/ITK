@@ -204,14 +204,9 @@ template<typename TParametersValueType, unsigned int NDimensions>
 void
 TranslationTransform<TParametersValueType, NDimensions>
 ::ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                       JacobianType & jac) const
+                                       JacobianPositionType & jac) const
 {
-  jac.SetSize( NDimensions, NDimensions );
-  jac.Fill(0.0);
-  for( unsigned int dim = 0; dim < NDimensions; dim++ )
-    {
-    jac[dim][dim] = 1.0;
-    }
+  jac.set_identity();
 }
 
 

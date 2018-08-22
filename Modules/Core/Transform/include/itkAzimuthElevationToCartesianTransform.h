@@ -111,6 +111,8 @@ public:
 
   /** Jacobian type.   */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Standard scalar type for this class. */
   using ScalarType = typename Superclass::ScalarType;

@@ -126,8 +126,10 @@ public:
   using ParametersType = typename Superclass::ParametersType;
   using ParametersValueType = typename Superclass::ParametersValueType;
 
-  /** Jacobian Type   */
+  /** Jacobian Types   */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
@@ -391,6 +393,7 @@ public:
 
   OutputVectorPixelType TransformSymmetricSecondRankTensor( const InputVectorPixelType & tensor ) const override;
 
+
   /** Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation.
@@ -402,15 +405,19 @@ public:
    */
   void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const override;
 
+
   /** Get the jacobian with respect to position. This simply returns
    * the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const override;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianPositionType & jac) const override;
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Get the jacobian with respect to position. This simply returns
    * the inverse of the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const override;
+  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x,
+                                                   InverseJacobianPositionType & jac) const override;
+  using Superclass::ComputeInverseJacobianWithRespectToPosition;
 
   /** Create inverse of an affine transformation
    *

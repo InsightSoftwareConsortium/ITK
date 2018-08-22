@@ -69,8 +69,10 @@ public:
   using FixedParametersType = typename Superclass::FixedParametersType;
   using ParametersType = typename Superclass::ParametersType;
 
-  /** Jacobian type. */
+  /** Jacobian types. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Standard vector type for this class. */
   using ScaleType = FixedArray<TParametersValueType, NDimensions>;
@@ -117,7 +119,8 @@ public:
    *  matrix because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const override;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianPositionType & jac) const override;
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Set the factors of an Scale Transform
    * This method sets the factors of an ScaleTransform to a

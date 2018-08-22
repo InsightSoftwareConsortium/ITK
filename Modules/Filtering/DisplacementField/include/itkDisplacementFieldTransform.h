@@ -114,8 +114,10 @@ public:
   using ParametersType = typename Superclass::ParametersType;
   using ParametersValueType = typename Superclass::ParametersValueType;
 
-  /** Jacobian type. */
+  /** Jacobian types. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
@@ -333,19 +335,22 @@ public:
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const override;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianPositionType & j ) const override;
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /**
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const override;
+  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x,
+                                                   InverseJacobianPositionType & j ) const override;
+  using Superclass::ComputeInverseJacobianWithRespectToPosition;
 
   /**
    * Compute the jacobian with respect to the position, by index.
    * \c j will be resized as needed.
    */
-  virtual void ComputeJacobianWithRespectToPosition(const IndexType  & x, JacobianType & j ) const;
+  virtual void ComputeJacobianWithRespectToPosition(const IndexType  & x, JacobianPositionType & j ) const;
 
   /**
    * Compute the inverse jacobian of the forward displacement field with
@@ -359,7 +364,7 @@ public:
    * setting \c useSVD to true
    */
   virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const InputPointType & point,
-                                                                     JacobianType & jacobian,
+                                                                     JacobianPositionType & jacobian,
                                                                      bool useSVD = false ) const;
 
   /**
@@ -373,7 +378,8 @@ public:
    * method is more computationally expensive and may be used by
    * setting \c useSVD to true
    */
-  virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const IndexType & index, JacobianType & jacobian,
+  virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const IndexType & index,
+                                                                     JacobianPositionType & jacobian,
                                                                      bool useSVD = false ) const;
 
   void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
@@ -450,7 +456,8 @@ private:
    * \c doInverseJacobian indicates that the inverse jacobian
    * should be returned
    */
-  virtual void ComputeJacobianWithRespectToPositionInternal(const IndexType & index, JacobianType & jacobian,
+  virtual void ComputeJacobianWithRespectToPositionInternal(const IndexType & index,
+                                                            JacobianPositionType & jacobian,
                                                             bool doInverseJacobian) const;
 
   /**

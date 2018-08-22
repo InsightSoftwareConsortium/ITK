@@ -71,8 +71,10 @@ public:
   using FixedParametersType = typename Superclass::FixedParametersType;
   using ParametersType = typename Superclass::ParametersType;
 
-  /** Standard Jacobian container. */
+  /** Standard Jacobian containers. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** The number of parameters defininig this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
@@ -169,11 +171,13 @@ public:
   /** Compute the Jacobian Matrix of the transformation at one point */
   void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
 
+
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jac) const override;
+  void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianPositionType & jac) const override;
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Set the parameters to the IdentityTransform */
   void SetIdentity();

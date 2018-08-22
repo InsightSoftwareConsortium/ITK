@@ -87,6 +87,8 @@ public:
 
   /** Jacobian type. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   // / Standard matrix type for this class
   using MatrixType = typename Superclass::MatrixType;

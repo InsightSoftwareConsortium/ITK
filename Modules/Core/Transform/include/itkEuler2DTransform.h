@@ -68,6 +68,8 @@ public:
 
   /** Jacobian type. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Point type. */
   using InputPointType = typename Superclass::InputPointType;
