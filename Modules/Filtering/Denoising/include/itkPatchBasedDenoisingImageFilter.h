@@ -29,8 +29,7 @@
 #include "itkFixedArray.h"
 #include "itkMatrix.h"
 #include "itkRegionConstrainedSubsampler.h"
-#include "itkEnableIf.h"
-#include "itkIsSame.h"
+#include <type_traits>
 
 #include <vector>
 
@@ -225,6 +224,13 @@ protected:
 
   void GenerateInputRequestedRegion() override;
 
+  template<typename T, typename U = void> using DisableIfMultiComponent =
+    typename std::enable_if<std::is_same<T, typename NumericTraits<T>::ValueType>::value, U >;
+
+  template<typename T, typename U = void> using EnableIfMultiComponent =
+    typename std::enable_if<!std::is_same<T, typename NumericTraits<T>::ValueType>::value, U >;
+
+
   /** \brief A method to generically get a component.
    *
    * The same function name can be used to generically access for
@@ -232,9 +238,7 @@ protected:
    * is ignored.
   */
   template< typename T>
-  typename EnableIfC<
-    IsSame<T, typename NumericTraits<T>::ValueType>::Value,
-    T >::Type
+    typename DisableIfMultiComponent<T, T>::type
   GetComponent(const T pix,
                unsigned int itkNotUsed( idx ) ) const
   {
@@ -248,9 +252,7 @@ protected:
   }
 
   template< typename T>
-  typename DisableIfC<
-    IsSame<T, typename NumericTraits<T>::ValueType>::Value,
-    typename NumericTraits<T>::ValueType>::Type
+    typename EnableIfMultiComponent<T, typename NumericTraits<T>::ValueType>::type
   GetComponent(const T& pix,
                unsigned int idx ) const
   {
@@ -262,8 +264,7 @@ protected:
   void
   SetComponent( T &pix,
                 unsigned int itkNotUsed( idx ),
-                typename EnableIfC< IsSame<T,
-                                           typename NumericTraits<T>::ValueType>::Value, RealValueType>::Type val) const
+                typename DisableIfMultiComponent<T, RealValueType>::type val) const
   {
     pix = val;
   }
@@ -272,9 +273,7 @@ protected:
   void
   SetComponent( T &pix,
                 unsigned int idx,
-                typename DisableIfC< IsSame<T,
-                                            typename NumericTraits<T>::ValueType>::Value,
-                                     RealValueType>::Type val) const
+                typename EnableIfMultiComponent<T, RealValueType>::type val) const
   {
     pix[idx] =  val;
   }
@@ -294,19 +293,15 @@ protected:
       }
   }
 
-  template< typename TImageType>
-  typename EnableIfC<
-    IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
-    >::Type
+  template< typename TImageType >
+    typename DisableIfMultiComponent<typename TImageType::PixelType>::type
   ComputeMinMax(const TImageType* img)
   {
     DispatchedMinMax(img);
   }
 
-  template< typename TImageType>
-  typename DisableIfC<
-    IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
-    >::Type
+  template< typename TImageType >
+    typename EnableIfMultiComponent<typename TImageType::PixelType>::type
   ComputeMinMax(const TImageType* img)
   {
     DispatchedArrayMinMax(img);
