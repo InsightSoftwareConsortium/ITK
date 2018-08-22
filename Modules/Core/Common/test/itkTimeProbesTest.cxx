@@ -119,8 +119,6 @@ int itkTimeProbesTest(int, char* [] )
     Image3DType::Pointer image3D = Image3DType::New();
     Image3DType::Pointer orientedImage3D = Image3DType::New();
 
-    Image3DType::PointType point3D;
-
     using Region3DType = itk::ImageRegion< 3 >;
     using Size3DType = Region3DType::SizeType;
     Region3DType region3D;

@@ -130,7 +130,6 @@ int itkWarpImageFilterTest(int, char* [] )
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  ImageType::PointType point;
   for( Iterator inIter( input, region ); !inIter.IsAtEnd(); ++inIter )
     {
     inIter.Set( pattern.Evaluate( inIter.GetIndex(), size, size, padValue ) );

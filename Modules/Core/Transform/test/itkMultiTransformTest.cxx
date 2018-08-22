@@ -270,7 +270,6 @@ int itkMultiTransformTest(int, char *[] )
 
   /* Test inverse */
   MultiTransformType::Pointer   inverseMultiTransform = MultiTransformType::New();
-  Superclass::OutputPointType   inverseTruth, inverseOutput;
   if( ! multiTransform->GetInverse( inverseMultiTransform ) )
     {
     std::cout << "ERROR: GetInverse() failed." << std::endl;

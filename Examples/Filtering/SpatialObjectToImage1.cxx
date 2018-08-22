@@ -224,7 +224,6 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType  translation;
-  TransformType::CenterType        center;
 
   translation[ 0 ] =  size[0] * spacing[0] / 2.0;
   translation[ 1 ] =  size[1] * spacing[1] / 4.0;

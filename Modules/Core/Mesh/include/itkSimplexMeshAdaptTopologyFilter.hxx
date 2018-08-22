@@ -404,7 +404,7 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
   InputPolygonPointIdIterator pointIt =  simplexCell->PointIdsBegin();
 
   InputVectorType tmp;
-  InputPointType  p1, p2, cellCenter;
+  InputPointType  p1, cellCenter;
 
   p1.Fill(0);
   cellCenter.Fill(0);

@@ -98,7 +98,7 @@ void IterativeInverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
     {
     // calculate the inverted field
     InputImagePointType         mappedPoint, newPoint;
-    OutputImagePointType        point, originalPoint, newRemappedPoint;
+    OutputImagePointType        originalPoint;
     OutputImageIndexType        index;
     OutputImagePixelType        displacement, outputValue;
     FieldInterpolatorOutputType forwardVector;

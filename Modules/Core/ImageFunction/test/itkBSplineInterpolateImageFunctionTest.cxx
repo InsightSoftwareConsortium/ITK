@@ -460,7 +460,6 @@ int test3DSplineDerivative()
     std::cout << "Testing Derivatives of 3D B-Spline of Order "<< splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
     ContinuousIndexType3D cindex;
-    PointType3D point;
     bool passed;
 
     // These values test

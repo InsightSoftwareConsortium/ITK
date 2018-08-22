@@ -78,23 +78,30 @@ public:
   /** VectorType define the difference between two Points */
   using VectorType = Vector< ValueType, NPointDimension >;
 
-  /** Default constructor has nothing to do. */
-  Point() {}
-
-  /** Pass-through constructors for the Array base class. */
+  /** Default constructor. */
+  Point() = default;
+  /** Default copy constructor. */
+  Point(const Point & r) = default;
+  /** Default move constructor. */
+  Point( Point && r) = default;
+  /** Pass-through constructors for different type points. */
   template< typename TPointValueType >
   Point(const Point< TPointValueType, NPointDimension > & r):BaseArray(r) {}
+  /** Pass-through constructors for plain arrays. */
   template< typename TPointValueType >
   Point(const TPointValueType r[NPointDimension]):BaseArray(r) {}
   Point(const ValueType r[NPointDimension]):BaseArray(r) {}
+  /** Pass-through constructors for single values */
   template< typename TPointValueType >
   Point(const TPointValueType & v):BaseArray(v) {}
   Point(const ValueType & v):BaseArray(v) {}
 
-  /** Pass-through assignment operator for the Array base class. */
-  Point & operator=(const Self & r);
-
+  /** Default copy assignment operator. */
+  Point & operator=(const Point & r) = default;
+  /** Pass-through assignment operator for a plain array. */
   Point & operator=(const ValueType r[NPointDimension]);
+  /** Default move assignment operator. */
+  Point & operator=(Point &&) = default;
 
   /** Compare two points for equality. */
   bool

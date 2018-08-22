@@ -86,7 +86,6 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
   using MeasurementVectorType2b = itk::Array< float >;
   using MeasurementVectorType3b = itk::VariableLengthVector< float >;
   using MeasurementVectorType4b = std::vector< float >;
-  using MeasurementVectorType5b = itk::NumericTraits<float>::MeasurementVectorType;
 
 
   MeasurementVectorType1 measure1;
@@ -117,7 +116,6 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
   MeasurementVectorType2b measure2b;
   MeasurementVectorType3b measure3b;
   MeasurementVectorType4b measure4b;
-  MeasurementVectorType5b measure5b;
 
   itk::NumericTraits< MeasurementVectorType1b >::SetLength( measure1b, length2 );
   itk::NumericTraits< MeasurementVectorType2b >::SetLength( measure2b, length2 );

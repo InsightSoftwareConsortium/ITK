@@ -419,8 +419,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // to an output pixel
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
-  PointType tmpOutputPoint;
-  PointType tmpInputPoint;
 
   const InputImageRegionType &largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 

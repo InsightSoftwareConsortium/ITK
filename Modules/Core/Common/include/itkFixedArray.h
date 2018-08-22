@@ -131,9 +131,19 @@ public:
 
 public:
   /** Constructors */
-  FixedArray();
+  /** Defaults */
+  FixedArray() = default;
+  /** Default Copy Constructor for the same type */
+  FixedArray(const FixedArray & r) = default;
+  /** Default Copy Assignment for the same type */
+  FixedArray & operator=(const FixedArray & r) = default;
+  /** Conversion constructors */
   FixedArray(const ValueType r[VLength]);
   FixedArray(const ValueType & r);
+  /** Default Move Constructor */
+  FixedArray(FixedArray &&) = default;
+  /** Default Move Assignment */
+  FixedArray & operator=(FixedArray && r) = default;
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< typename TFixedArrayValueType >

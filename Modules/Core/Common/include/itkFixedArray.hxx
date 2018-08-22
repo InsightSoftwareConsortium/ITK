@@ -23,15 +23,6 @@
 namespace itk
 {
 /**
- * Default constructor uses compiler's default initialization of memory.
- * For efficiency, no initialization to zero is done.
- */
-template< typename TValue, unsigned int VLength >
-FixedArray< TValue, VLength >
-::FixedArray()
-{}
-
-/**
  * Constructor to initialize entire array to one value.
  */
 template< typename TValue, unsigned int VLength >
