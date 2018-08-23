@@ -9,6 +9,9 @@ set(ITKVNLInstantiation_SRCS
   vnl_c_vector+ushort-.cxx
   vnl_vector+ushort-.cxx
   vnl_matrix_fixed+double.3.12-.cxx
+  vnl_matrix_fixed+double.2.3-.cxx
+  vnl_matrix_fixed+double.10.10-.cxx
+  vnl_matrix_fixed+float.10.10-.cxx
   vnl_c_vector+char-.cxx
   vnl_c_vector+short-.cxx
   vnl_matrix+short-.cxx
@@ -24,6 +27,29 @@ set(ITKVNLInstantiation_SRCS
   vnl_c_vector+longlong-.cxx
   vnl_vector+short-.cxx
   vnl_matrix+ushort-.cxx
+  vnl_svd_fixed+double.2.2-.cxx
+  vnl_svd_fixed+double.2.3-.cxx
+  vnl_svd_fixed+double.3.2-.cxx
+  vnl_svd_fixed+double.4.4-.cxx
+  vnl_svd_fixed+double.10.10-.cxx
+  vnl_svd_fixed+float.2.2-.cxx
+  vnl_svd_fixed+float.2.3-.cxx
+  vnl_svd_fixed+float.4.4-.cxx
+  vnl_svd_fixed+float.10.10-.cxx
+  vnl_fortran_copy_fixed+double.2.2-.cxx
+  vnl_fortran_copy_fixed+double.2.3-.cxx
+  vnl_fortran_copy_fixed+double.3.2-.cxx
+  vnl_fortran_copy_fixed+double.4.4-.cxx
+  vnl_fortran_copy_fixed+double.10.10-.cxx
+  vnl_fortran_copy_fixed+float.4.4-.cxx
+  vnl_fortran_copy_fixed+float.2.2-.cxx
+  vnl_fortran_copy_fixed+float.2.3-.cxx
+  vnl_fortran_copy_fixed+float.4.4-.cxx
+  vnl_fortran_copy_fixed+float.10.10-.cxx
+  vnl_diag_matrix_fixed+double.2-.cxx
+  vnl_diag_matrix_fixed+double.10-.cxx
+  vnl_diag_matrix_fixed+float.2-.cxx
+  vnl_diag_matrix_fixed+float.10-.cxx
   )
 
 itk_module_add_library(ITKVNLInstantiation ${ITKVNLInstantiation_SRCS})
