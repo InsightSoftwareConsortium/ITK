@@ -601,18 +601,18 @@ CompositeTransform<TParametersValueType, NDimensions>
    * M rows = dimensionality of the transforms
    * N cols = total number of parameters in the selected sub transforms. */
   outJacobian.SetSize( NDimensions, this->GetNumberOfLocalParameters() );
-  JacobianType jacobianWithRespectToPosition(NDimensions, NDimensions);
+  JacobianType jacobianWithRespectToPosition;
   this->ComputeJacobianWithRespectToParametersCachedTemporaries( p, outJacobian, jacobianWithRespectToPosition );
 }
 
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 CompositeTransform<TParametersValueType, NDimensions>
-::ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType &) const
+::ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType &cacheJacobian) const
 {
   //NOTE: This must have been done outside of outJacobian.SetSize( NDimensions, this->GetNumberOfLocalParameters() );
-  //NOTE: assert( outJacobian.GetSize == ( NDimensions, this->GetNumberOfLocalParameters() ) )
-  //NOTE: assert( jacobianWithRespectToPosition.GetSize == (NDimensions, NDimensions) )
+  assert( outJacobian.rows() == NDimensions &&
+          outJacobian.cols() == this->GetNumberOfLocalParameters());
 
   if ( this->GetNumberOfTransforms() == 1)
     {
@@ -681,9 +681,9 @@ CompositeTransform<TParametersValueType, NDimensions>
 
       const NumberOfParametersType numberOfLocalParameters = transform->GetNumberOfLocalParameters();
 
-      typename TransformType::JacobianType current_jacobian( NDimensions, numberOfLocalParameters );
-      transform->ComputeJacobianWithRespectToParameters( transformedPoint, current_jacobian );
-      outJacobian.update( current_jacobian, 0, offset );
+      cacheJacobian.SetSize( NDimensions, numberOfLocalParameters );
+      transform->ComputeJacobianWithRespectToParameters( transformedPoint, cacheJacobian );
+      outJacobian.update( cacheJacobian, 0, offset );
       offset += numberOfLocalParameters;
       }
 

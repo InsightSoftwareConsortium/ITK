@@ -368,13 +368,14 @@ public:
   /**
    * Expanded interface to Compute the Jacobian with respect to the parameters for the compositie
    * transform using Jacobian rule. This version takes in temporary
-   * variables to avoid excessive constructions.
-   * NOTE: outJacobian and jacobianWithRespectToPosition MUST be sized
-   * prior to the call; outJacobian's size should be
-   * [NDimensions, this->GetNumberOfLocalParameters() ]
-   * jacobianWithRespectToPosition size == [ NDimensions, NDimensions ]
+   * variables to avoid excessive constructions and memory allocations.
+   * NOTE: outJacobian MUST be sized correctly prior to the call;
+   * outJacobian's size should be [NDimensions, this->GetNumberOfLocalParameters() ]
+   * jacobianCache may be resized internally and will be reused between calls
    */
-  void ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType & jacobianWithRespectToPosition ) const override;
+  void ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p,
+                                                                JacobianType & outJacobian,
+                                                                JacobianType & cacheJacobian ) const override;
 
 protected:
   CompositeTransform();

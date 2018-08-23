@@ -501,7 +501,7 @@ public:
    *  already set. */
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const = 0;
 
-  virtual void ComputeJacobianWithRespectToParametersCachedTemporaries(const InputPointType  & p, JacobianType & jacobian, JacobianType & itkNotUsed(jacobianWithRespectToPosition) ) const
+  virtual void ComputeJacobianWithRespectToParametersCachedTemporaries(const InputPointType  & p, JacobianType & jacobian, JacobianType & itkNotUsed(cachedJacobian) ) const
   {
     //NOTE: default implementation is not optimized, and just falls back to original methods.
     this->ComputeJacobianWithRespectToParameters(p, jacobian);

@@ -20,7 +20,7 @@
 
 #include "itkTransform.h"
 #include "itkCrossHelper.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
+#include "vnl/algo/vnl_svd_fixed.h"
 
 namespace itk
 {
@@ -524,11 +524,9 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
   JacobianPositionType forward_jacobian;
   this->ComputeJacobianWithRespectToPosition( pnt, forward_jacobian );
 
-  jacobian.SetSize(NInputDimensions, NOutputDimensions);
-
-  vnl_svd<typename JacobianPositionType::element_type> svd( forward_jacobian );
-  jacobian = svd.inverse();
-
+  using SVDAlgorithmType = vnl_svd_fixed<typename JacobianPositionType::element_type, NOutputDimensions, NInputDimensions>;
+  SVDAlgorithmType svd( forward_jacobian );
+  jacobian.set(svd.inverse().data_block());
 }
 
 template<typename TParametersValueType,

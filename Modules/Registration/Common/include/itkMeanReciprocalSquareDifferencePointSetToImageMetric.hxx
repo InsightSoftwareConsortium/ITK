@@ -132,7 +132,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
   TransformJacobianType jacobian(TMovingImage::ImageDimension,this->m_Transform->GetNumberOfParameters());
-  TransformJacobianType jacobianCache(TMovingImage::ImageDimension, TMovingImage::ImageDimension);
+  TransformJacobianType jacobianCache;
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {

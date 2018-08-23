@@ -66,8 +66,8 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
       this->m_GetValueAndDerivativePerThreadVariables[i].LocalDerivatives.SetSize( this->m_CachedNumberOfLocalParameters );
       this->m_GetValueAndDerivativePerThreadVariables[i].MovingTransformJacobian.SetSize(
         this->m_Associate->VirtualImageDimension, this->m_CachedNumberOfLocalParameters );
-      this->m_GetValueAndDerivativePerThreadVariables[i].MovingTransformJacobianPositional.SetSize(
-        this->m_Associate->VirtualImageDimension, this->m_Associate->VirtualImageDimension );
+      // Not pre-allocated since it may not be used
+      //this->m_GetValueAndDerivativePerThreadVariables[i].MovingTransformJacobianPositional
       if ( this->m_Associate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
         {
         /* For transforms with local support, e.g. displacement field,
