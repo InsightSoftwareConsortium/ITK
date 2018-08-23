@@ -705,22 +705,27 @@ CompositeTransform<TParametersValueType, NDimensions>
       {
       transform->ComputeJacobianWithRespectToPosition(transformedPoint, jacobianWithRespectToPosition);
 
-      // outJacobian[0:offsetLast, 0:NDimensions] = jacobianWithRespectToPosition *outJacobian[0:NDimensions,0:offsetLast]
+      // Perform the following matrix multiplication in-place:
+      // outJacobian[0:NDimensions,0:offsetLast] = jacobianWithRespectToPosition*outJacobian[0:NDimensions,0:offsetLast]
       assert(jacobianWithRespectToPosition.rows() == NDimensions);
-      JacobianType update_j(NDimensions, offsetLast);
-      for (unsigned int r = 0; r < NDimensions; ++r)
+      double temp[NDimensions];
+      for (unsigned int c = 0; c < offsetLast; ++c)
         {
-        for (unsigned int c = 0; c < update_j.cols(); ++c)
+        for (unsigned int r = 0; r < NDimensions; ++r)
           {
-          update_j[r][c] = 0.0;
+          temp[r] = 0.0;
+          //update_j[r][c] = 0.0;
           for (unsigned int k = 0; k < NDimensions; ++k)
             {
-            update_j[r][c] += jacobianWithRespectToPosition[r][k] * outJacobian[k][c];
+            //update_j[r][c]
+            temp[r] += jacobianWithRespectToPosition[r][k] * outJacobian[k][c];
             }
           }
+        for (unsigned int r = 0; r < NDimensions; ++r)
+          {
+          outJacobian[r][c] = temp[r];
+          }
         }
-      outJacobian.update(update_j, 0, 0);
-
       }
 
     /* Transform the point so it's ready for next transform's Jacobian */
