@@ -51,10 +51,10 @@ typedef enum {
 /* Define enum for modifications to class */
 typedef enum {
     H5P_MOD_ERR=(-1),   /* Indicate an error */
-    H5P_MOD_INC_CLS,    /* Increment the dependant class count*/
-    H5P_MOD_DEC_CLS,    /* Decrement the dependant class count*/
-    H5P_MOD_INC_LST,    /* Increment the dependant list count*/
-    H5P_MOD_DEC_LST,    /* Decrement the dependant list count*/
+    H5P_MOD_INC_CLS,    /* Increment the dependent class count*/
+    H5P_MOD_DEC_CLS,    /* Decrement the dependent class count*/
+    H5P_MOD_INC_LST,    /* Increment the dependent list count*/
+    H5P_MOD_DEC_LST,    /* Decrement the dependent list count*/
     H5P_MOD_INC_REF,    /* Increment the ID reference count*/
     H5P_MOD_DEC_REF,    /* Decrement the ID reference count*/
     H5P_MOD_MAX         /* Upper limit on class modifications */
@@ -89,7 +89,7 @@ struct H5P_genclass_t {
     size_t     nprops;     /* Number of properties in class */
     unsigned   plists;     /* Number of property lists that have been created since the last modification to the class */
     unsigned   classes;    /* Number of classes that have been derived since the last modification to the class */
-    unsigned   ref_count;  /* Number of oustanding ID's open on this class object */
+    unsigned   ref_count;  /* Number of outstanding ID's open on this class object */
     hbool_t    deleted;    /* Whether this class has been deleted and is waiting for dependent classes & proplists to close */
     unsigned   revision;   /* Revision number of a particular class (global) */
     H5SL_t    *props;      /* Skip list containing properties */

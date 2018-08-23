@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 #
 # Copyright by The HDF Group.
 # Copyright by the Board of Trustees of the University of Illinois.
@@ -38,7 +38,7 @@ HL="@HL@"
 ##    $CLINKER $H5BLD_CPPFLAGS $CPPFLAGS $H5BLD_CXXFLAGS $CXXFLAGS        ##
 ##    $LDFLAGS $LIBS $clibpath $link_objs $link_args $shared_link         ##
 ##                                                                        ##
-## These settings can be overriden by setting HDF5_CXXFLAGS,              ##
+## These settings can be overridden by setting HDF5_CXXFLAGS,              ##
 ## HDF5_CPPFLAGS, HDF5_LDFLAGS, or HDF5_LIBS in the environment.          ##
 ##                                                                        ##
 ############################################################################
@@ -140,7 +140,7 @@ usage() {
   echo "                                 [default: no except when built with only"
   echo "                                           shared libraries]"
   echo " You can also add or change paths and flags to the compile line using"
-  echo " the following environment varibles or by assigning them to their counterparts"
+  echo " the following environment variables or by assigning them to their counterparts"
   echo " in the 'Things You Can Modify to Override...'" section of $prog_name
   echo " "
   echo "  Variable              Current value to be replaced"
@@ -311,7 +311,7 @@ fi
 
 if test "x$do_link" = "xyes"; then
   shared_link=""
-  # conditionnaly link with the hl library  
+  # conditionally link with the hl library  
   if test "X$HL" = "Xhl"; then
    libraries=" $libraries -lhdf5_hl_cpp -lhdf5_cpp -lhdf5_hl -lhdf5 "
   else

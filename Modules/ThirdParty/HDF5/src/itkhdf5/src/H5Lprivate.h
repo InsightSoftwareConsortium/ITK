@@ -54,7 +54,6 @@ typedef struct {
     H5_index_t idx_type;               /* Index to use */
     H5_iter_order_t order;              /* Order to iterate in index */
     hsize_t n;                          /* Offset of link within index */
-    hid_t dxpl_id;                      /* DXPL to use in callback */
     size_t size;                        /* Size of user buffer */
 
     /* Out */
@@ -67,7 +66,6 @@ typedef struct {
     H5_index_t idx_type;               /* Index to use */
     H5_iter_order_t order;              /* Order to iterate in index */
     hsize_t n;                          /* Offset of link within index */
-    hid_t dxpl_id;                      /* DXPL to use in callback */
 
     /* Out */
     H5L_info_t      *linfo;             /* Buffer to return to user */
@@ -80,7 +78,6 @@ typedef struct {
     H5_iter_order_t order;              /* Order to iterate in index */
     hsize_t n;                          /* Offset of link within index */
     size_t size;                        /* Size of name buffer */
-    hid_t dxpl_id;                      /* DXPL to use in callback */
 
     /* Out */
     char *name;                         /* Buffer to return name to user */
@@ -93,7 +90,6 @@ typedef struct {
     H5_index_t idx_type;               /* Index to use */
     H5_iter_order_t order;              /* Order to iterate in index */
     hsize_t n;                          /* Offset of link within index */
-    hid_t dxpl_id;                      /* DXPL to use in callback */
 } H5L_trav_rmbi_t;
 
 /* Structure for external link traversal callback property */
@@ -115,27 +111,22 @@ typedef struct H5L_elink_cb_t {
 /* General operations on links */
 H5_DLL herr_t H5L_init(void);
 H5_DLL herr_t H5L_link(const H5G_loc_t *new_loc, const char *new_name,
-    H5G_loc_t *obj_loc, hid_t lcpl_id, hid_t lapl_id, hid_t dxpl_id);
+    H5G_loc_t *obj_loc, hid_t lcpl_id);
 H5_DLL herr_t H5L_link_object(const H5G_loc_t *new_loc, const char *new_name,
-    H5O_obj_create_t *ocrt_info, hid_t lcpl_id, hid_t lapl_id, hid_t dxpl_id);
+    H5O_obj_create_t *ocrt_info, hid_t lcpl_id);
 H5_DLL herr_t H5L_create_hard(H5G_loc_t *cur_loc, const char *cur_name,
-    const H5G_loc_t *link_loc, const char *link_name, hid_t lcpl_id,
-    hid_t lapl_id, hid_t dxpl_id);
+    const H5G_loc_t *link_loc, const char *link_name, hid_t lcpl_id);
 H5_DLL herr_t H5L_create_soft(const char *target_path, const H5G_loc_t *cur_loc,
-    const char *cur_name, hid_t lcpl_id, hid_t lapl_id, hid_t dxpl_id);
-H5_DLL hid_t H5L_get_default_lcpl(void);
-H5_DLL herr_t H5L_move(H5G_loc_t *src_loc, const char *src_name,
-    H5G_loc_t *dst_loc, const char *dst_name, hbool_t copy_flag,
-    hid_t lcpl_id, hid_t lapl_id, hid_t dxpl_id);
-H5_DLL htri_t H5L_exists_tolerant(const H5G_loc_t *loc, const char *name, hid_t lapl_id,
-    hid_t dxpl_id);
-H5_DLL htri_t H5L_exists(const H5G_loc_t *loc, const char *name, hid_t lapl_id, hid_t dxpl_id);
+    const char *cur_name, hid_t lcpl_id);
+H5_DLL herr_t H5L_move(const H5G_loc_t *src_loc, const char *src_name,
+    const H5G_loc_t *dst_loc, const char *dst_name, hbool_t copy_flag,
+    hid_t lcpl_id);
+H5_DLL htri_t H5L_exists_tolerant(const H5G_loc_t *loc, const char *name);
 H5_DLL herr_t H5L_get_info(const H5G_loc_t *loc, const char *name,
-    H5L_info_t *linkbuf/*out*/, hid_t lapl_id, hid_t dxpl_id);
-H5_DLL herr_t H5L_delete(H5G_loc_t *loc, const char *name, hid_t lapl_id,
-    hid_t dxpl_id);
-H5_DLL herr_t H5L_get_val(H5G_loc_t *loc, const char *name, void *buf/*out*/,
-    size_t size, hid_t lapl_id, hid_t dxpl_id);
+    H5L_info_t *linkbuf/*out*/);
+H5_DLL herr_t H5L_delete(const H5G_loc_t *loc, const char *name);
+H5_DLL herr_t H5L_get_val(const H5G_loc_t *loc, const char *name, void *buf/*out*/,
+    size_t size);
 H5_DLL herr_t H5L_register_external(void);
 
 /* User-defined link functions */

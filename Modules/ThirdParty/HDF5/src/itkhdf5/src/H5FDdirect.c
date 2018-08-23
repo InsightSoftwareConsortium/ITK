@@ -951,7 +951,7 @@ H5FD_direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UN
       do {
          /* Read the aligned data in file first.  Not able to handle interrupted
      * system calls and partial results like sec2 driver does because the
-     * data may no longer be aligned. It's expecially true when the data in
+     * data may no longer be aligned. It's especially true when the data in
      * file is smaller than ALLOC_SIZE. */
         HDmemset(copy_buf, 0, alloc_size);
 
@@ -1138,9 +1138,9 @@ H5FD_direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
 
         /*
           * Read the aligned data first if the aligned region doesn't fall
-         * entirely in the range to be writen.  Not able to handle interrupted
+         * entirely in the range to be written.  Not able to handle interrupted
      * system calls and partial results like sec2 driver does because the
-     * data may no longer be aligned. It's expecially true when the data in
+     * data may no longer be aligned. It's especially true when the data in
      * file is smaller than ALLOC_SIZE.  Only read the entire section if
                  * both ends are misaligned, otherwise only read the block on the
                  * misaligned end.

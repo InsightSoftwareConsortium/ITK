@@ -27,17 +27,17 @@
 #include "H5Opkg.h"             /* Object headers			*/
 
 /* PRIVATE PROTOTYPES */
-static void *H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
-    unsigned mesg_flags, unsigned *ioflags, size_t p_size, const uint8_t *p);
+static void *H5O_efl_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags,
+    unsigned *ioflags, size_t p_size, const uint8_t *p);
 static herr_t H5O_efl_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
 static void *H5O_efl_copy(const void *_mesg, void *_dest);
 static size_t H5O_efl_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
-static herr_t H5O_efl_reset(void *_mesg);
-static void *H5O_efl_copy_file(H5F_t *file_src, void *mesg_src,
+static herr_t H5O__efl_reset(void *_mesg);
+static void *H5O__efl_copy_file(H5F_t *file_src, void *mesg_src,
     H5F_t *file_dst, hbool_t *recompute_size, unsigned *mesg_flags,
-    H5O_copy_t *cpy_info, void *udata, hid_t dxpl_id);
-static herr_t H5O_efl_debug(H5F_t *f, hid_t dxpl_id, const void *_mesg, FILE * stream,
-			    int indent, int fwidth);
+    H5O_copy_t *cpy_info, void *udata);
+static herr_t H5O__efl_debug(H5F_t *f, const void *_mesg, FILE * stream,
+    int indent, int fwidth);
 
 /* This message derives from H5O message class */
 const H5O_msg_class_t H5O_MSG_EFL[1] = {{
@@ -49,18 +49,18 @@ const H5O_msg_class_t H5O_MSG_EFL[1] = {{
     H5O_efl_encode,	    	/*encode message		*/
     H5O_efl_copy,	    	/*copy native value		*/
     H5O_efl_size,	    	/*size of message on disk	*/
-    H5O_efl_reset,	    	/*reset method		    	*/
-    NULL,		            /* free method			*/
+    H5O__efl_reset,	    	/*reset method		    	*/
+    NULL,		        /* free method			*/
     NULL,		        /* file delete method		*/
     NULL,			/* link method			*/
     NULL,			/*set share method		*/
     NULL,		    	/*can share method		*/
     NULL,			/* pre copy native value to file */
-    H5O_efl_copy_file,		/* copy native value to file    */
+    H5O__efl_copy_file,		/* copy native value to file    */
     NULL,			/* post copy native value to file    */
     NULL,			/* get creation index		*/
     NULL,			/* set creation index		*/
-    H5O_efl_debug	    	/*debug the message		*/
+    H5O__efl_debug	    	/*debug the message		*/
 }};
 
 #define H5O_EFL_VERSION		1
@@ -87,7 +87,7 @@ const H5O_msg_class_t H5O_MSG_EFL[1] = {{
  *-------------------------------------------------------------------------
  */
 static void *
-H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
+H5O_efl_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh,
     unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags,
     size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
@@ -127,7 +127,7 @@ H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
 #ifndef NDEBUG
     HDassert(H5F_addr_defined(mesg->heap_addr));
 
-    if(NULL == (heap = H5HL_protect(f, dxpl_id, mesg->heap_addr, H5AC__READ_ONLY_FLAG)))
+    if(NULL == (heap = H5HL_protect(f, mesg->heap_addr, H5AC__READ_ONLY_FLAG)))
         HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, NULL, "unable to read protect link value")
 
     s = (const char *)H5HL_offset_into(heap, 0);
@@ -144,7 +144,7 @@ H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
     if(NULL == mesg->slot)
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
-    if(NULL == (heap = H5HL_protect(f, dxpl_id, mesg->heap_addr, H5AC__READ_ONLY_FLAG)))
+    if(NULL == (heap = H5HL_protect(f, mesg->heap_addr, H5AC__READ_ONLY_FLAG)))
         HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, NULL, "unable to read protect link value")
     for(u = 0; u < mesg->nused; u++) {
         /* Name */
@@ -348,7 +348,7 @@ H5O_efl_size(const H5F_t *f, hbool_t H5_ATTR_UNUSED disable_shared, const void *
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5O_efl_reset
+ * Function:	H5O__efl_reset
  *
  * Purpose:	Frees internal pointers and resets the message to an
  *		initialial state.
@@ -361,12 +361,12 @@ H5O_efl_size(const H5F_t *f, hbool_t H5_ATTR_UNUSED disable_shared, const void *
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_efl_reset(void *_mesg)
+H5O__efl_reset(void *_mesg)
 {
     H5O_efl_t	*mesg = (H5O_efl_t *) _mesg;
     size_t	u;              /* Local index variable */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
+    FUNC_ENTER_STATIC_NOERR
 
     /* check args */
     HDassert(mesg);
@@ -383,7 +383,7 @@ H5O_efl_reset(void *_mesg)
     mesg->nused = mesg->nalloc = 0;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5O_efl_reset() */
+} /* end H5O__efl_reset() */
 
 
 /*-------------------------------------------------------------------------
@@ -426,7 +426,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5O_efl_copy_file
+ * Function:    H5O__efl_copy_file
  *
  * Purpose:     Copies an efl message from _MESG to _DEST in file
  *
@@ -440,9 +440,9 @@ done:
  *-------------------------------------------------------------------------
  */
 static void *
-H5O_efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_dst,
+H5O__efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_dst,
     hbool_t H5_ATTR_UNUSED *recompute_size, unsigned H5_ATTR_UNUSED *mesg_flags,
-    H5O_copy_t H5_ATTR_UNUSED *cpy_info, void H5_ATTR_UNUSED *_udata, hid_t dxpl_id)
+    H5O_copy_t H5_ATTR_UNUSED *cpy_info, void H5_ATTR_UNUSED *_udata)
 {
     H5O_efl_t   *efl_src = (H5O_efl_t *) mesg_src;
     H5O_efl_t   *efl_dst = NULL;
@@ -450,7 +450,7 @@ H5O_efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_ds
     size_t      idx, size, name_offset, heap_size;
     void        *ret_value = NULL;              /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_TAG(dxpl_id, H5AC__COPIED_TAG, NULL)
+    FUNC_ENTER_STATIC_TAG(H5AC__COPIED_TAG)
 
     /* check args */
     HDassert(efl_src);
@@ -469,15 +469,15 @@ H5O_efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_ds
         heap_size += H5HL_ALIGN(HDstrlen(efl_src->slot[idx].name) + 1);
 
     /* Create name heap */
-    if(H5HL_create(file_dst, dxpl_id, heap_size, &efl_dst->heap_addr/*out*/) < 0)
+    if(H5HL_create(file_dst, heap_size, &efl_dst->heap_addr/*out*/) < 0)
         HGOTO_ERROR(H5E_EFL, H5E_CANTINIT, NULL, "can't create heap")
 
     /* Pin the heap down in memory */
-    if(NULL == (heap = H5HL_protect(file_dst, dxpl_id, efl_dst->heap_addr, H5AC__NO_FLAGS_SET)))
+    if(NULL == (heap = H5HL_protect(file_dst, efl_dst->heap_addr, H5AC__NO_FLAGS_SET)))
         HGOTO_ERROR(H5E_EFL, H5E_PROTECT, NULL, "unable to protect EFL file name heap")
 
     /* Insert "empty" name first */
-    if(UFAIL == (name_offset = H5HL_insert(file_dst, dxpl_id, heap, (size_t)1, "")))
+    if(UFAIL == (name_offset = H5HL_insert(file_dst, heap, (size_t)1, "")))
         HGOTO_ERROR(H5E_EFL, H5E_CANTINSERT, NULL, "can't insert file name into heap")
     HDassert(0 == name_offset);
 
@@ -494,7 +494,7 @@ H5O_efl_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *mesg_src, H5F_t *file_ds
     /* copy the name from the source */
     for(idx = 0; idx < efl_src->nused; idx++) {
         efl_dst->slot[idx].name = H5MM_xstrdup(efl_src->slot[idx].name);
-        if(UFAIL == (efl_dst->slot[idx].name_offset = H5HL_insert(file_dst, dxpl_id, heap,
+        if(UFAIL == (efl_dst->slot[idx].name_offset = H5HL_insert(file_dst, heap,
                 HDstrlen(efl_dst->slot[idx].name) + 1, efl_dst->slot[idx].name)))
             HGOTO_ERROR(H5E_EFL, H5E_CANTINSERT, NULL, "can't insert file name into heap")
     } /* end for */
@@ -510,12 +510,12 @@ done:
         if(efl_dst)
             H5MM_xfree(efl_dst);
 
-    FUNC_LEAVE_NOAPI_TAG(ret_value, NULL)
-} /* end H5O_efl_copy_file() */
+    FUNC_LEAVE_NOAPI_TAG(ret_value)
+} /* end H5O__efl_copy_file() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5O_efl_debug
+ * Function:	H5O__efl_debug
  *
  * Purpose:	Prints debugging info for a message.
  *
@@ -527,13 +527,13 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_efl_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void *_mesg, FILE * stream,
-	      int indent, int fwidth)
+H5O__efl_debug(H5F_t H5_ATTR_UNUSED *f, const void *_mesg, FILE * stream,
+    int indent, int fwidth)
 {
     const H5O_efl_t	   *mesg = (const H5O_efl_t *) _mesg;
     size_t		    u;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOERR
+    FUNC_ENTER_STATIC_NOERR
 
     /* check args */
     HDassert(f);
@@ -573,5 +573,5 @@ H5O_efl_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void 
     } /* end for */
 
     FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5O_efl_debug() */
+} /* end H5O__efl_debug() */
 

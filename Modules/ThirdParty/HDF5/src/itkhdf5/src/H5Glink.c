@@ -553,8 +553,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5G__link_name_replace(H5F_t *file, hid_t dxpl_id, H5RS_str_t *grp_full_path_r,
-    const H5O_link_t *lnk)
+H5G__link_name_replace(H5F_t *file, H5RS_str_t *grp_full_path_r, const H5O_link_t *lnk)
 {
     H5RS_str_t *obj_path_r = NULL;      /* Full path for link being removed */
     herr_t ret_value = SUCCEED;         /* Return value */
@@ -567,7 +566,7 @@ H5G__link_name_replace(H5F_t *file, hid_t dxpl_id, H5RS_str_t *grp_full_path_r,
     /* Search the open IDs and replace names for unlinked object */
     if(grp_full_path_r) {
         obj_path_r = H5G_build_fullpath_refstr_str(grp_full_path_r, lnk->name);
-        if(H5G_name_replace(lnk, H5G_NAME_DELETE, file, obj_path_r, NULL, NULL, dxpl_id) < 0)
+        if(H5G_name_replace(lnk, H5G_NAME_DELETE, file, obj_path_r, NULL, NULL) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTDELETE, FAIL, "unable to replace name")
     } /* end if */
 

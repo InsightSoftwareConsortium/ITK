@@ -15,7 +15,7 @@
  * Programmer:  Quincey Koziol <koziol@ncsa.uiuc.edu>
  *              Tuesday, November 10, 1998
  *
- * Purpose:	"None" selection data space I/O functions.
+ * Purpose:	"None" selection dataspace I/O functions.
  */
 
 #include "H5Smodule.h"          /* This source code file is part of the H5S module */
@@ -47,7 +47,7 @@ static int H5S__none_unlim_dim(const H5S_t *space);
 static htri_t H5S_none_is_contiguous(const H5S_t *space);
 static htri_t H5S_none_is_single(const H5S_t *space);
 static htri_t H5S_none_is_regular(const H5S_t *space);
-static herr_t H5S_none_adjust_u(H5S_t *space, const hsize_t *offset);
+static void H5S_none_adjust_u(H5S_t *space, const hsize_t *offset);
 static herr_t H5S_none_project_scalar(const H5S_t *space, hsize_t *offset);
 static herr_t H5S_none_project_simple(const H5S_t *space, H5S_t *new_space, hsize_t *offset);
 static herr_t H5S_none_iter_init(H5S_sel_iter_t *iter, const H5S_t *space);
@@ -408,7 +408,7 @@ H5S_none_copy(H5S_t *dst, const H5S_t H5_ATTR_UNUSED *src, hbool_t H5_ATTR_UNUSE
     TRUE if the selection fits within the extent, FALSE if it does not and
         Negative on an error.
  DESCRIPTION
-    Determines if the current selection at the current offet fits within the
+    Determines if the current selection at the current offset fits within the
     extent for the dataspace.  Offset is irrelevant for this type of selection.
  GLOBAL VARIABLES
  COMMENTS, BUGS, ASSUMPTIONS
@@ -746,11 +746,11 @@ H5S_none_is_regular(const H5S_t H5_ATTR_UNUSED *space)
  PURPOSE
     Adjust an "none" selection by subtracting an offset
  USAGE
-    herr_t H5S_none_adjust_u(space, offset)
+    void H5S_none_adjust_u(space, offset)
         H5S_t *space;           IN/OUT: Pointer to dataspace to adjust
         const hsize_t *offset; IN: Offset to subtract
  RETURNS
-    Non-negative on success, negative on failure
+    None
  DESCRIPTION
     Moves selection by subtracting an offset from it.
  GLOBAL VARIABLES
@@ -758,7 +758,7 @@ H5S_none_is_regular(const H5S_t H5_ATTR_UNUSED *space)
  EXAMPLES
  REVISION LOG
 --------------------------------------------------------------------------*/
-static herr_t
+static void
 H5S_none_adjust_u(H5S_t H5_ATTR_UNUSED *space, const hsize_t H5_ATTR_UNUSED *offset)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOERR
@@ -767,7 +767,7 @@ H5S_none_adjust_u(H5S_t H5_ATTR_UNUSED *space, const hsize_t H5_ATTR_UNUSED *off
     HDassert(space);
     HDassert(offset);
 
-    FUNC_LEAVE_NOAPI(FAIL)
+    FUNC_LEAVE_NOAPI_VOID
 }   /* H5S_none_adjust_u() */
 
 
@@ -900,7 +900,7 @@ H5Sselect_none(hid_t spaceid)
 
     /* Check args */
     if(NULL == (space = (H5S_t *)H5I_object_verify(spaceid, H5I_DATASPACE)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data space")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataspace")
 
     /* Change to "none" selection */
     if(H5S_select_none(space) < 0)

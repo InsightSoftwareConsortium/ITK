@@ -142,12 +142,14 @@ H5_DLLVAR H5P_genclass_t *H5P_CLS_LINK_ACCESS_g;
 H5_DLLVAR H5P_genclass_t *H5P_CLS_STRING_CREATE_g;
 
 /* Internal property list classes */
+H5_DLLVAR const struct H5P_libclass_t H5P_CLS_LCRT[1];  /* Link creation */
 H5_DLLVAR const struct H5P_libclass_t H5P_CLS_LACC[1];  /* Link access */
 H5_DLLVAR const struct H5P_libclass_t H5P_CLS_AACC[1];  /* Attribute access */
 H5_DLLVAR const struct H5P_libclass_t H5P_CLS_DACC[1];  /* Dataset access */
 H5_DLLVAR const struct H5P_libclass_t H5P_CLS_GACC[1];  /* Group access */
 H5_DLLVAR const struct H5P_libclass_t H5P_CLS_TACC[1];  /* Named datatype access */
 H5_DLLVAR const struct H5P_libclass_t H5P_CLS_FACC[1];  /* File access */
+H5_DLLVAR const struct H5P_libclass_t H5P_CLS_OCPY[1];  /* Object copy */
 
 /******************************/
 /* Library Private Prototypes */
@@ -198,8 +200,7 @@ H5_DLL herr_t H5P_get_filter_by_id(H5P_genplist_t *plist, H5Z_filter_t id,
     unsigned int *flags, size_t *cd_nelmts, unsigned cd_values[],
     size_t namelen, char name[], unsigned *filter_config);
 H5_DLL htri_t H5P_filter_in_pline(H5P_genplist_t *plist, H5Z_filter_t id);
-H5_DLL herr_t H5P_verify_apl_and_dxpl(hid_t *acspl_id, const H5P_libclass_t *libclass, 
-    hid_t *dxpl_id, hid_t loc_id, hbool_t is_collective);
+H5_DLL hid_t H5P_get_default(const H5P_libclass_t *pclass);
 
 /* Query internal fields of the property list struct */
 H5_DLL hid_t H5P_get_plist_id(const H5P_genplist_t *plist);
@@ -213,7 +214,7 @@ H5_DLL H5P_genplist_t *H5P_object_verify(hid_t plist_id, hid_t pclass_id);
 H5_DLL herr_t H5P_fill_value_defined(H5P_genplist_t *plist,
     H5D_fill_value_t *status);
 H5_DLL herr_t H5P_get_fill_value(H5P_genplist_t *plist, const struct H5T_t *type,
-    void *value, hid_t dxpl_id);
+    void *value);
 
 #endif /* _H5Pprivate_H */
 

@@ -50,6 +50,7 @@ H5E_ATOM_g=
 H5E_NONE_MAJOR_g=    
 H5E_SLIST_g=    
 H5E_ARGS_g=    
+H5E_CONTEXT_g=    
 H5E_EARRAY_g=    
 H5E_PLINE_g=    
 H5E_ERROR_g=    

@@ -271,29 +271,58 @@ H5S_mpio_create_point_datatype (size_t elmt_size, hsize_t num_points,
       if(NULL == (inner_disps = (MPI_Aint *)H5MM_malloc(sizeof(MPI_Aint) * (size_t)total_types)))
           HGOTO_ERROR(H5E_DATASPACE, H5E_CANTALLOC, FAIL, "can't allocate array of blocks")
 
+#if MPI_VERSION < 3
+      /* Allocate block sizes for MPI datatype call */
+      if(NULL == (blocks = (int *)H5MM_malloc(sizeof(int) * bigio_count)))
+          HGOTO_ERROR(H5E_DATASPACE, H5E_CANTALLOC, FAIL, "can't allocate array of blocks")
+
+      for(u = 0; u < bigio_count; u++)
+          blocks[u] = 1;
+#endif
+
       for(i=0 ; i<num_big_types ; i++) {
+#if MPI_VERSION >= 3
           if(MPI_SUCCESS != (mpi_code = MPI_Type_create_hindexed_block(bigio_count,
                                                                        1,
                                                                        &disp[i*bigio_count],
                                                                        elmt_type,
                                                                        &inner_types[i]))) {
-             HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed_block failed", mpi_code);
+              HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed_block failed", mpi_code);
           }
+#else
+          if(MPI_SUCCESS != (mpi_code = MPI_Type_create_hindexed((int)bigio_count,
+                                                                      blocks,
+                                                                      &disp[i*bigio_count],
+                                                                      elmt_type,
+                                                                      &inner_types[i]))) {
+              HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed failed", mpi_code)
+          }
+#endif
           inner_blocks[i] = 1;
           inner_disps[i]  = 0;
       }
 
       if(remaining_points) {
+#if MPI_VERSION >= 3
           if(MPI_SUCCESS != (mpi_code = MPI_Type_create_hindexed_block(remaining_points,
                                                                        1,
                                                                        &disp[num_big_types*bigio_count],
                                                                        elmt_type,
                                                                        &inner_types[num_big_types]))) {
               HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed_block failed", mpi_code);
-	  }
+	      }
+#else
+          if(MPI_SUCCESS != (mpi_code = MPI_Type_create_hindexed((int)remaining_points,
+                                                                      blocks,
+                                                                      &disp[num_big_types*bigio_count],
+                                                                      elmt_type,
+                                                                      &inner_types[num_big_types]))) {
+              HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed failed", mpi_code)
+          }
+#endif
           inner_blocks[num_big_types] = 1;
           inner_disps[num_big_types] = 0;
-        }
+      }
 
       if(MPI_SUCCESS != (mpi_code = MPI_Type_create_struct(total_types,
                                                            inner_blocks,
@@ -909,10 +938,9 @@ H5S_mpio_hyper_type(const H5S_t *space, size_t elmt_size,
         else
             inner_type = outer_type;
     } /* end for */
-/***************************
-*  End of loop, walking
-*  thru dimensions.
-***************************/
+/******************************************
+*  End of loop, walking through dimensions.
+*******************************************/
 
     /* At this point inner_type is actually the outermost type, even for 0-trip loop */
     *new_type = inner_type;
@@ -1362,7 +1390,7 @@ H5S_mpio_space_type(const H5S_t *space, size_t elmt_size, MPI_Datatype *new_type
 
         case H5S_NO_CLASS:
         default:
-            HDassert("unknown data space type" && 0);
+            HDassert("unknown dataspace type" && 0);
             break;
     } /* end switch */
 

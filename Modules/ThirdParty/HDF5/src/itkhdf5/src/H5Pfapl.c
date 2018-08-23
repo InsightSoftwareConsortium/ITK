@@ -396,7 +396,7 @@ static const hbool_t H5F_def_coll_md_write_flag_g = H5F_ACS_COLL_MD_WRITE_FLAG_D
 static const H5AC_cache_image_config_t H5F_def_mdc_initCacheImageCfg_g = H5F_ACS_META_CACHE_INIT_IMAGE_CONFIG_DEF;  /* Default metadata cache image settings */
 static const size_t H5F_def_page_buf_size_g = H5F_ACS_PAGE_BUFFER_SIZE_DEF;      /* Default page buffer size */
 static const unsigned H5F_def_page_buf_min_meta_perc_g = H5F_ACS_PAGE_BUFFER_MIN_META_PERC_DEF;      /* Default page buffer minimum metadata size */
-static const unsigned H5F_def_page_buf_min_raw_perc_g = H5F_ACS_PAGE_BUFFER_MIN_RAW_PERC_DEF;      /* Default page buffer minumum raw data size */
+static const unsigned H5F_def_page_buf_min_raw_perc_g = H5F_ACS_PAGE_BUFFER_MIN_RAW_PERC_DEF;      /* Default page buffer mininum raw data size */
 
 
 /*-------------------------------------------------------------------------
@@ -1713,7 +1713,7 @@ H5Pget_mdc_image_config(hid_t plist_id, H5AC_cache_image_config_t *config_ptr)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "Unknown image config version.")
 
     /* If we ever support multiple versions of H5AC_cache_config_t, we
-     * will have to get the cannonical version here, and then translate
+     * will have to get the canonical version here, and then translate
      * to the version of the structure supplied.
      */
 
@@ -1808,7 +1808,7 @@ H5Pget_mdc_config(hid_t plist_id, H5AC_cache_config_t *config_ptr)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "Unknown config version.")
 
     /* If we ever support multiple versions of H5AC_cache_config_t, we
-     * will have to get the cannonical version here, and then translate
+     * will have to get the canonical version here, and then translate
      * to the version of the structure supplied.
      */
 
@@ -2322,7 +2322,7 @@ done:
  *              necessary to represent features used.
  *              (This is the "make certain to take advantage of <new feature>
  *              in the file format" use case (maybe <new feature> is smaller
- *              or scales better than an ealier version, which would otherwise
+ *              or scales better than an earlier version, which would otherwise
  *              be used))
  *
  *         LOW = H5F_FORMAT_1_2_0, HIGH = H5F_FORMAT_1_6_0 => creates objects
@@ -2549,7 +2549,7 @@ H5Pset_file_image(hid_t fapl_id, void *buf_ptr, size_t buf_len)
 
     /* validate parameters */
     if(!(((buf_ptr == NULL) && (buf_len == 0)) || ((buf_ptr != NULL) && (buf_len > 0))))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "inconsistant buf_ptr and buf_len")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "inconsistent buf_ptr and buf_len")
 
     /* Get the plist structure */
     if(NULL == (fapl = H5P_object_verify(fapl_id, H5P_FILE_ACCESS)))
@@ -2652,7 +2652,7 @@ H5Pget_file_image(hid_t fapl_id, void **buf_ptr_ptr, size_t *buf_len_ptr)
     if(H5P_peek(fapl, H5F_ACS_FILE_IMAGE_INFO_NAME, &image_info) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get file image info")
 
-    /* verify file image field consistancy */
+    /* verify file image field consistency */
     HDassert(((image_info.buffer != NULL) && (image_info.size > 0)) ||
              ((image_info.buffer == NULL) && (image_info.size == 0)));
 
@@ -2728,7 +2728,7 @@ H5Pset_file_image_callbacks(hid_t fapl_id, H5FD_file_image_callbacks_t *callback
     if(H5P_peek(fapl, H5F_ACS_FILE_IMAGE_INFO_NAME, &info) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get old file image info")
 
-    /* verify file image field consistancy */
+    /* verify file image field consistency */
     HDassert(((info.buffer != NULL) && (info.size > 0)) ||
              ((info.buffer == NULL) && (info.size == 0)));
 
@@ -2804,7 +2804,7 @@ H5Pget_file_image_callbacks(hid_t fapl_id, H5FD_file_image_callbacks_t *callback
     if(H5P_peek(fapl, H5F_ACS_FILE_IMAGE_INFO_NAME, &info) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get file image info")
 
-    /* verify file image field consistancy */
+    /* verify file image field consistency */
     HDassert(((info.buffer != NULL) && (info.size > 0)) ||
              ((info.buffer == NULL) && (info.size == 0)));
 
@@ -2858,7 +2858,7 @@ H5P__file_image_info_copy(void *value)
 
         info = (H5FD_file_image_info_t *)value;
 
-        /* verify file image field consistancy */
+        /* verify file image field consistency */
         HDassert(((info->buffer != NULL) && (info->size > 0)) ||
                  ((info->buffer == NULL) && (info->size == 0)));
 
@@ -2932,7 +2932,7 @@ H5P__file_image_info_free(void *value)
 
         info = (H5FD_file_image_info_t *)value;
 
-        /* Verify file image field consistancy */
+        /* Verify file image field consistency */
         HDassert(((info->buffer != NULL) && (info->size > 0)) ||
                  ((info->buffer == NULL) && (info->size == 0)));
 

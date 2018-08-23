@@ -31,6 +31,7 @@
 /* Headers */
 /***********/
 #include "H5private.h"		/* Generic Functions			*/
+#include "H5CXprivate.h"        /* API Contexts                         */
 #include "H5Dprivate.h"		/* Datasets				*/
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5Fpkg.h"             /* File access				*/
@@ -1041,8 +1042,11 @@ H5FDalloc(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, hsize_t size)
         if(TRUE != H5P_isa_class(dxpl_id, H5P_DATASET_XFER))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, HADDR_UNDEF, "not a data transfer property list")
 
+    /* Set DXPL for operation */
+    H5CX_set_dxpl(dxpl_id);
+
     /* Do the real work */
-    if(HADDR_UNDEF == (ret_value = H5FD_alloc_real(file, dxpl_id, type, size, NULL, NULL)))
+    if(HADDR_UNDEF == (ret_value = H5FD__alloc_real(file, type, size, NULL, NULL)))
 	HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, HADDR_UNDEF, "unable to allocate file memory")
 
     /* (Note compensating for base address subtraction in internal routine) */
@@ -1088,9 +1092,12 @@ H5FDfree(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, hsize_t siz
         if(TRUE != H5P_isa_class(dxpl_id, H5P_DATASET_XFER))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data transfer property list")
 
+    /* Set DXPL for operation */
+    H5CX_set_dxpl(dxpl_id);
+
     /* Do the real work */
     /* (Note compensating for base address addition in internal routine) */
-    if(H5FD_free_real(file, dxpl_id, type, addr - file->base_addr, size) < 0)
+    if(H5FD_free_real(file, type, addr - file->base_addr, size) < 0)
         HGOTO_ERROR(H5E_VFL, H5E_CANTFREE, FAIL, "file deallocation request failed")
 
 done:
@@ -1359,7 +1366,6 @@ herr_t
 H5FDread(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t size,
 	 void *buf/*out*/)
 {
-    H5FD_io_info_t fdio_info;           /* File driver I/O object */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1378,24 +1384,12 @@ H5FDread(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t size
     if(!buf)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "null result buffer")
 
-    /* Set up the file driver I/O info object */
-    fdio_info.file = file;
-    if(H5FD_MEM_DRAW == type) {
-        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(H5AC_ind_read_dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-    } /* end if */
-    else {
-        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(H5AC_rawdata_dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-    } /* end else */
+    /* Set DXPL for operation */
+    H5CX_set_dxpl(dxpl_id);
 
     /* Do the real work */
     /* (Note compensating for base address addition in internal routine) */
-    if(H5FD_read(&fdio_info, type, addr - file->base_addr, size, buf) < 0)
+    if(H5FD_read(file, type, addr - file->base_addr, size, buf) < 0)
 	HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "file read request failed")
 
 done:
@@ -1421,7 +1415,6 @@ herr_t
 H5FDwrite(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t size,
 	  const void *buf)
 {
-    H5FD_io_info_t fdio_info;           /* File driver I/O object */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1439,24 +1432,12 @@ H5FDwrite(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t siz
     if(!buf)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "null buffer")
 
-    /* Set up the file driver I/O info object */
-    fdio_info.file = file;
-    if(H5FD_MEM_DRAW == type) {
-        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(H5AC_ind_read_dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-    } /* end if */
-    else {
-        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(H5AC_rawdata_dxpl_id)))
-            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
-    } /* end else */
+    /* Set DXPL for operation */
+    H5CX_set_dxpl(dxpl_id);
 
     /* The real work */
     /* (Note compensating for base address addition in internal routine) */
-    if(H5FD_write(&fdio_info, type, addr - file->base_addr, size, buf) < 0)
+    if(H5FD_write(file, type, addr - file->base_addr, size, buf) < 0)
 	HGOTO_ERROR(H5E_VFL, H5E_WRITEERROR, FAIL, "file write request failed")
 
 done:
@@ -1496,13 +1477,16 @@ H5FDflush(H5FD_t *file, hid_t dxpl_id, hbool_t closing)
         if(TRUE != H5P_isa_class(dxpl_id, H5P_DATASET_XFER))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data transfer property list")
 
+    /* Set DXPL for operation */
+    H5CX_set_dxpl(dxpl_id);
+
     /* Do the real work */
-    if(H5FD_flush(file, dxpl_id, closing) < 0)
+    if(H5FD_flush(file, closing) < 0)
 	HGOTO_ERROR(H5E_VFL, H5E_CANTFLUSH, FAIL, "file flush request failed")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}
+} /* end H5FDflush() */
 
 
 /*-------------------------------------------------------------------------
@@ -1516,15 +1500,16 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5FD_flush(H5FD_t *file, hid_t dxpl_id, hbool_t closing)
+H5FD_flush(H5FD_t *file, hbool_t closing)
 {
     herr_t      ret_value = SUCCEED;       /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
 
+    /* Sanity checks */
     HDassert(file && file->cls);
 
-    if(file->cls->flush && (file->cls->flush)(file, dxpl_id, closing) < 0)
+    if(file->cls->flush && (file->cls->flush)(file, H5CX_get_dxpl(), closing) < 0)
         HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, FAIL, "driver flush request failed")
 
 done:
@@ -1559,13 +1544,16 @@ H5FDtruncate(H5FD_t *file, hid_t dxpl_id, hbool_t closing)
         if(TRUE != H5P_isa_class(dxpl_id, H5P_DATASET_XFER))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data transfer property list")
 
+    /* Set DXPL for operation */
+    H5CX_set_dxpl(dxpl_id);
+
     /* Do the real work */
-    if(H5FD_truncate(file, dxpl_id, closing) < 0)
+    if(H5FD_truncate(file, closing) < 0)
 	HGOTO_ERROR(H5E_VFL, H5E_CANTUPDATE, FAIL, "file flush request failed")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}
+} /* end H5FDtruncate() */
 
 
 /*-------------------------------------------------------------------------
@@ -1579,15 +1567,17 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5FD_truncate(H5FD_t *file, hid_t dxpl_id, hbool_t closing)
+H5FD_truncate(H5FD_t *file, hbool_t closing)
 {
-    herr_t      ret_value = SUCCEED;       /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
 
+    /* Sanity checks */
     HDassert(file && file->cls);
 
-    if(file->cls->truncate && (file->cls->truncate)(file, dxpl_id, closing) < 0)
+    /* Dispatch to driver */
+    if(file->cls->truncate && (file->cls->truncate)(file, H5CX_get_dxpl(), closing) < 0)
         HGOTO_ERROR(H5E_VFL, H5E_CANTUPDATE, FAIL, "driver truncate request failed")
 
 done:

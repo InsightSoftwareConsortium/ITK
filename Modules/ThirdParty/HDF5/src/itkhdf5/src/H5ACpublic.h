@@ -39,7 +39,7 @@ extern "C" {
  * structure H5AC_cache_config_t
  *
  * H5AC_cache_config_t is a public structure intended for use in public APIs.
- * At least in its initial incarnation, it is basicaly a copy of struct
+ * At least in its initial incarnation, it is basically a copy of struct
  * H5C_auto_size_ctl_t, minus the report_fcn field, and plus the
  * dirty_bytes_threshold field.
  *
@@ -212,7 +212,7 @@ extern "C" {
  *
  * flash_incr_mode:  Instance of the H5C_cache_flash_incr_mode enumerated
  *      type whose value indicates whether and by which algorithm we should
- *      make flash increases in the size of the cache to accomodate insertion
+ *      make flash increases in the size of the cache to accommodate insertion
  *      of large entries and large increases in the size of a single entry.
  *
  *      The addition of the flash increment mode was occasioned by performance
@@ -379,7 +379,7 @@ extern "C" {
  *     synchronize updates between caches. (See above for outline and
  *    motivation.)
  *
- *    This value MUST be consistant across all processes accessing the
+ *    This value MUST be consistent across all processes accessing the
  *    file.  This field is ignored unless HDF5 has been compiled for
  *    parallel.
  *

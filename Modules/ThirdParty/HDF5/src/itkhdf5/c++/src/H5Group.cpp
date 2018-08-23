@@ -29,6 +29,7 @@
 #include "H5DxferProp.h"
 #include "H5LcreatProp.h"
 #include "H5LaccProp.h"
+#include "H5DaccProp.h"
 #include "H5Location.h"
 #include "H5Object.h"
 #include "H5AbstractDs.h"
@@ -65,6 +66,7 @@ Group::Group(const Group& original) : H5Object(), CommonFG(), id(original.id)
 //--------------------------------------------------------------------------
 // Function:    Group::closeObjId
 ///\brief       Closes an object, which was opened with Group::getObjId
+///
 ///\exception   H5::FileIException or H5::GroupIException
 // Programmer   Binh-Minh Ribler - March, 2017
 //--------------------------------------------------------------------------

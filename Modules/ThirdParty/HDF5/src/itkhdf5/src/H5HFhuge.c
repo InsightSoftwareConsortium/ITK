@@ -64,12 +64,12 @@
 /********************/
 
 /* Local v2 B-tree operations */
-static herr_t H5HF_huge_bt2_create(H5HF_hdr_t *hdr, hid_t dxpl_id);
+static herr_t H5HF__huge_bt2_create(H5HF_hdr_t *hdr);
 
 /* Local 'huge' object support routines */
 static hsize_t H5HF_huge_new_id(H5HF_hdr_t *hdr);
-static herr_t H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id,
-    const uint8_t *id, hbool_t is_read, H5HF_operator_t op, void *op_data);
+static herr_t H5HF__huge_op_real(H5HF_hdr_t *hdr, const uint8_t *id,
+    hbool_t is_read, H5HF_operator_t op, void *op_data);
 
 
 /*********************/
@@ -88,7 +88,7 @@ static herr_t H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id,
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_bt2_create
+ * Function:	H5HF__huge_bt2_create
  *
  * Purpose:	Create the v2 B-tree for tracking the huge objects in the heap
  *
@@ -101,12 +101,12 @@ static herr_t H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id,
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_huge_bt2_create(H5HF_hdr_t *hdr, hid_t dxpl_id)
+H5HF__huge_bt2_create(H5HF_hdr_t *hdr)
 {
     H5B2_create_t bt2_cparam;           /* v2 B-tree creation parameters */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_STATIC
 
     /*
      * Check arguments.
@@ -155,7 +155,7 @@ H5HF_huge_bt2_create(H5HF_hdr_t *hdr, hid_t dxpl_id)
     bt2_cparam.merge_percent = H5HF_HUGE_BT2_MERGE_PERC;
 
     /* Create v2 B-tree for tracking 'huge' objects */
-    if(NULL == (hdr->huge_bt2 = H5B2_create(hdr->f, dxpl_id, &bt2_cparam, hdr->f)))
+    if(NULL == (hdr->huge_bt2 = H5B2_create(hdr->f, &bt2_cparam, hdr->f)))
         HGOTO_ERROR(H5E_HEAP, H5E_CANTCREATE, FAIL, "can't create v2 B-tree for tracking 'huge' heap objects")
 
     /* Retrieve the v2 B-tree's address in the file */
@@ -164,7 +164,7 @@ H5HF_huge_bt2_create(H5HF_hdr_t *hdr, hid_t dxpl_id)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_bt2_create() */
+} /* end H5HF__huge_bt2_create() */
 
 
 /*-------------------------------------------------------------------------
@@ -291,7 +291,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_insert
+ * Function:	H5HF__huge_insert
  *
  * Purpose:	Insert a 'huge' object into the file and track it
  *
@@ -304,8 +304,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_insert(H5HF_hdr_t *hdr, hid_t dxpl_id, size_t obj_size, void *obj,
-    void *_id)
+H5HF__huge_insert(H5HF_hdr_t *hdr, size_t obj_size, void *obj, void *_id)
 {
     uint8_t *id = (uint8_t *)_id;       /* Pointer to ID buffer */
     haddr_t obj_addr;                   /* Address of object in the file */
@@ -314,7 +313,7 @@ H5HF_huge_insert(H5HF_hdr_t *hdr, hid_t dxpl_id, size_t obj_size, void *obj,
     unsigned filter_mask = 0;           /* Filter mask for object (only used for filtered objects) */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 #ifdef QAK
 HDfprintf(stderr, "%s: obj_size = %Zu\n", FUNC, obj_size);
 #endif /* QAK */
@@ -330,14 +329,14 @@ HDfprintf(stderr, "%s: obj_size = %Zu\n", FUNC, obj_size);
     /* Check if the v2 B-tree for tracking 'huge' heap objects has been created yet */
     if(!H5F_addr_defined(hdr->huge_bt2_addr)) {
         /* Go create (& open) v2 B-tree */
-        if(H5HF_huge_bt2_create(hdr, dxpl_id) < 0)
+        if(H5HF__huge_bt2_create(hdr) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTCREATE, FAIL, "can't create v2 B-tree for tracking 'huge' heap objects")
     } /* end if */
     else {
         /* Check if v2 B-tree is open yet */
         if(NULL == hdr->huge_bt2) {
             /* Open existing v2 B-tree */
-            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f)))
+            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, hdr->huge_bt2_addr, hdr->f)))
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for tracking 'huge' heap objects")
         } /* end if */
     } /* end else */
@@ -377,11 +376,11 @@ HDfprintf(stderr, "%s: obj_size = %Zu, obj = %p\n", FUNC, obj_size, obj);
     } /* end else */
 
     /* Allocate space in the file for storing the 'huge' object */
-    if(HADDR_UNDEF == (obj_addr = H5MF_alloc(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, dxpl_id, (hsize_t)write_size)))
+    if(HADDR_UNDEF == (obj_addr = H5MF_alloc(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, (hsize_t)write_size)))
         HGOTO_ERROR(H5E_HEAP, H5E_NOSPACE, FAIL, "file allocation failed for fractal heap huge object")
 
     /* Write the object's data to disk */
-    if(H5F_block_write(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, obj_addr, write_size, H5AC_rawdata_dxpl_id, write_buf) < 0)
+    if(H5F_block_write(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, obj_addr, write_size, write_buf) < 0)
         HGOTO_ERROR(H5E_HEAP, H5E_WRITEERROR, FAIL, "writing 'huge' object to file failed")
 
     /* Release buffer for writing, if we had one */
@@ -405,7 +404,7 @@ HDfprintf(stderr, "%s: obj_rec = {%a, %Hu, %x, %Hu}\n", FUNC, obj_rec.addr, obj_
 #endif /* QAK */
 
             /* Insert record for object in v2 B-tree */
-            if(H5B2_insert(hdr->huge_bt2, dxpl_id, &obj_rec) < 0)
+            if(H5B2_insert(hdr->huge_bt2, &obj_rec) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTINSERT, FAIL, "couldn't insert object tracking record in v2 B-tree")
 
             /* Encode ID for user */
@@ -426,7 +425,7 @@ HDfprintf(stderr, "%s: obj_rec = {%a, %Hu}\n", FUNC, obj_rec.addr, obj_rec.len);
 #endif /* QAK */
 
             /* Insert record for object in v2 B-tree */
-            if(H5B2_insert(hdr->huge_bt2, dxpl_id, &obj_rec) < 0)
+            if(H5B2_insert(hdr->huge_bt2, &obj_rec) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTINSERT, FAIL, "couldn't insert object tracking record in v2 B-tree")
 
             /* Encode ID for user */
@@ -473,7 +472,7 @@ HDfprintf(stderr, "%s: indir_rec = {%a, %Hu, %Hu}\n", FUNC, indir_rec.addr, indi
         } /* end else */
 
         /* Insert record for tracking object in v2 B-tree */
-        if(H5B2_insert(hdr->huge_bt2, dxpl_id, ins_rec) < 0)
+        if(H5B2_insert(hdr->huge_bt2, ins_rec) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTINSERT, FAIL, "couldn't insert object tracking record in v2 B-tree")
 
         /* Encode ID for user */
@@ -491,11 +490,11 @@ HDfprintf(stderr, "%s: indir_rec = {%a, %Hu, %Hu}\n", FUNC, indir_rec.addr, indi
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_insert() */
+} /* end H5HF__huge_insert() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_get_obj_len
+ * Function:	H5HF__huge_get_obj_len
  *
  * Purpose:	Get the size of a 'huge' object in a fractal heap
  *
@@ -508,12 +507,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_get_obj_len(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
-    size_t *obj_len_p)
+H5HF__huge_get_obj_len(H5HF_hdr_t *hdr, const uint8_t *id, size_t *obj_len_p)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -547,7 +545,7 @@ H5HF_huge_get_obj_len(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
         /* Check if v2 B-tree is open yet */
         if(NULL == hdr->huge_bt2) {
             /* Open existing v2 B-tree */
-            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f)))
+            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, hdr->huge_bt2_addr, hdr->f)))
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for tracking 'huge' heap objects")
         } /* end if */
 
@@ -559,7 +557,7 @@ H5HF_huge_get_obj_len(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
             UINT64DECODE_VAR(id, search_rec.id, hdr->huge_id_size)
 
             /* Look up object in v2 B-tree */
-            if(H5B2_find(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_filt_indir_found, &found_rec) != TRUE)
+            if(H5B2_find(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_filt_indir_found, &found_rec) != TRUE)
                 HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "can't find object in B-tree")
 
             /* Retrieve the object's length */
@@ -573,7 +571,7 @@ H5HF_huge_get_obj_len(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
             UINT64DECODE_VAR(id, search_rec.id, hdr->huge_id_size)
 
             /* Look up object in v2 B-tree */
-            if(H5B2_find(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
+            if(H5B2_find(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
                 HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "can't find object in B-tree")
 
             /* Retrieve the object's length */
@@ -583,7 +581,7 @@ H5HF_huge_get_obj_len(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_get_obj_len() */
+} /* end H5HF__huge_get_obj_len() */
 
 
 /*-------------------------------------------------------------------------
@@ -600,13 +598,12 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF__huge_get_obj_off(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
-    hsize_t *obj_off_p)
+H5HF__huge_get_obj_off(H5HF_hdr_t *hdr, const uint8_t *id, hsize_t *obj_off_p)
 {
     haddr_t obj_addr;                   /* Object's address in the file */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -631,7 +628,7 @@ H5HF__huge_get_obj_off(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
         /* Check if v2 B-tree is open yet */
         if(NULL == hdr->huge_bt2) {
             /* Open existing v2 B-tree */
-            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f)))
+            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, hdr->huge_bt2_addr, hdr->f)))
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for tracking 'huge' heap objects")
         } /* end if */
 
@@ -643,7 +640,7 @@ H5HF__huge_get_obj_off(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
             UINT64DECODE_VAR(id, search_rec.id, hdr->huge_id_size)
 
             /* Look up object in v2 B-tree */
-            if(H5B2_find(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_filt_indir_found, &found_rec) != TRUE)
+            if(H5B2_find(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_filt_indir_found, &found_rec) != TRUE)
                 HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "can't find object in B-tree")
 
             /* Retrieve the object's address & length */
@@ -657,7 +654,7 @@ H5HF__huge_get_obj_off(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
             UINT64DECODE_VAR(id, search_rec.id, hdr->huge_id_size)
 
             /* Look up object in v2 B-tree */
-            if(H5B2_find(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
+            if(H5B2_find(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
                 HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "can't find object in B-tree")
 
             /* Retrieve the object's address & length */
@@ -674,7 +671,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_op_real
+ * Function:	H5HF__huge_op_real
  *
  * Purpose:	Internal routine to perform an operation on a 'huge' object
  *
@@ -687,8 +684,8 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
-    hbool_t is_read, H5HF_operator_t op, void *op_data)
+H5HF__huge_op_real(H5HF_hdr_t *hdr, const uint8_t *id, hbool_t is_read,
+    H5HF_operator_t op, void *op_data)
 {
     void *read_buf = NULL;              /* Pointer to buffer for reading */
     haddr_t obj_addr;                   /* Object's address in the file */
@@ -696,7 +693,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
     unsigned filter_mask = 0;           /* Filter mask for object (only used for filtered objects) */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_STATIC
 
     /*
      * Check arguments.
@@ -725,7 +722,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
         /* Check if v2 B-tree is open yet */
         if(NULL == hdr->huge_bt2) {
             /* Open existing v2 B-tree */
-            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f)))
+            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, hdr->huge_bt2_addr, hdr->f)))
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for tracking 'huge' heap objects")
         } /* end if */
 
@@ -737,7 +734,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
             UINT64DECODE_VAR(id, search_rec.id, hdr->huge_id_size)
 
             /* Look up object in v2 B-tree */
-            if(H5B2_find(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_filt_indir_found, &found_rec) != TRUE)
+            if(H5B2_find(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_filt_indir_found, &found_rec) != TRUE)
                 HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "can't find object in B-tree")
 
             /* Retrieve the object's address & length */
@@ -753,7 +750,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
             UINT64DECODE_VAR(id, search_rec.id, hdr->huge_id_size)
 
             /* Look up object in v2 B-tree */
-            if(H5B2_find(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
+            if(H5B2_find(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
                 HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "can't find object in B-tree")
 
             /* Retrieve the object's address & length */
@@ -772,7 +769,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 
     /* Read the object's (possibly filtered) data from the file */
     /* (reads directly into application's buffer if no filters are present) */
-    if(H5F_block_read(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, obj_addr, (size_t)obj_size, H5AC_rawdata_dxpl_id, read_buf) < 0)
+    if(H5F_block_read(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, obj_addr, (size_t)obj_size, read_buf) < 0)
         HGOTO_ERROR(H5E_HEAP, H5E_READERROR, FAIL, "can't read 'huge' object's data from the file")
 
     /* Check for I/O pipeline filter on heap */
@@ -816,11 +813,11 @@ done:
         read_buf = H5MM_xfree(read_buf);
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_op_real() */
+} /* end H5HF__huge_op_real() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_write
+ * Function:	H5HF__huge_write
  *
  * Purpose:	Write a 'huge' object to the heap
  *
@@ -838,14 +835,13 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_write(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
-    const void *obj)
+H5HF__huge_write(H5HF_hdr_t *hdr, const uint8_t *id, const void *obj)
 {
     haddr_t obj_addr;                   /* Object's address in the file */
     size_t obj_size;                    /* Object's size in the file */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -877,7 +873,7 @@ H5HF_huge_write(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
         /* Check if v2 B-tree is open yet */
         if(NULL == hdr->huge_bt2) {
             /* Open existing v2 B-tree */
-            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f)))
+            if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, hdr->huge_bt2_addr, hdr->f)))
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for tracking 'huge' heap objects")
         } /* end if */
 
@@ -885,7 +881,7 @@ H5HF_huge_write(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
         UINT64DECODE_VAR(id, search_rec.id, hdr->huge_id_size)
 
         /* Look up object in v2 B-tree */
-        if(H5B2_find(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
+        if(H5B2_find(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_indir_found, &found_rec) != TRUE)
             HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "can't find object in B-tree")
 
         /* Retrieve the object's address & length */
@@ -895,16 +891,16 @@ H5HF_huge_write(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 
     /* Write the object's data to the file */
     /* (writes directly from application's buffer) */
-    if(H5F_block_write(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, obj_addr, obj_size, H5AC_rawdata_dxpl_id, obj) < 0)
+    if(H5F_block_write(hdr->f, H5FD_MEM_FHEAP_HUGE_OBJ, obj_addr, obj_size, obj) < 0)
         HGOTO_ERROR(H5E_HEAP, H5E_WRITEERROR, FAIL, "writing 'huge' object to file failed")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_write() */
+} /* end H5HF__huge_write() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_read
+ * Function:	H5HF__huge_read
  *
  * Purpose:	Read a 'huge' object from the heap
  *
@@ -917,11 +913,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_read(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id, void *obj)
+H5HF__huge_read(H5HF_hdr_t *hdr, const uint8_t *id, void *obj)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -931,16 +927,16 @@ H5HF_huge_read(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id, void *obj)
     HDassert(obj);
 
     /* Call the internal 'op' routine */
-    if(H5HF_huge_op_real(hdr, dxpl_id, id, TRUE, NULL, obj) < 0)
+    if(H5HF__huge_op_real(hdr, id, TRUE, NULL, obj) < 0)
         HGOTO_ERROR(H5E_HEAP, H5E_CANTOPERATE, FAIL, "unable to operate on heap object")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_read() */
+} /* end H5HF__huge_read() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_op
+ * Function:	H5HF__huge_op
  *
  * Purpose:	Operate directly on a 'huge' object
  *
@@ -953,12 +949,12 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_op(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
-    H5HF_operator_t op, void *op_data)
+H5HF__huge_op(H5HF_hdr_t *hdr, const uint8_t *id, H5HF_operator_t op,
+    void *op_data)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -968,16 +964,16 @@ H5HF_huge_op(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
     HDassert(op);
 
     /* Call the internal 'op' routine routine */
-    if(H5HF_huge_op_real(hdr, dxpl_id, id, FALSE, op, op_data) < 0)
+    if(H5HF__huge_op_real(hdr, id, FALSE, op, op_data) < 0)
         HGOTO_ERROR(H5E_HEAP, H5E_CANTOPERATE, FAIL, "unable to operate on heap object")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_op() */
+} /* end H5HF__huge_op() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_remove
+ * Function:	H5HF__huge_remove
  *
  * Purpose:	Remove a 'huge' object from the file and the v2 B-tree tracker
  *
@@ -990,12 +986,12 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
+H5HF__huge_remove(H5HF_hdr_t *hdr, const uint8_t *id)
 {
     H5HF_huge_remove_ud_t udata;       /* User callback data for v2 B-tree remove call */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -1007,7 +1003,7 @@ H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
     /* Check if v2 B-tree is open yet */
     if(NULL == hdr->huge_bt2) {
         /* Open existing v2 B-tree */
-        if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f)))
+        if(NULL == (hdr->huge_bt2 = H5B2_open(hdr->f, hdr->huge_bt2_addr, hdr->f)))
             HGOTO_ERROR(H5E_HEAP, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for tracking 'huge' heap objects")
     } /* end if */
 
@@ -1016,7 +1012,6 @@ H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
 
     /* Set up the common callback info */
     udata.hdr = hdr;
-    udata.dxpl_id = dxpl_id;
 
     /* Check for 'huge' object ID that encodes address & length directly */
     if(hdr->huge_ids_direct) {
@@ -1030,7 +1025,7 @@ H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
 
             /* Remove the record for tracking the 'huge' object from the v2 B-tree */
             /* (space in the file for the object is freed in the 'remove' callback) */
-            if(H5B2_remove(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_filt_dir_remove, &udata) < 0)
+            if(H5B2_remove(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_filt_dir_remove, &udata) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTREMOVE, FAIL, "can't remove object from B-tree")
         } /* end if */
         else {
@@ -1043,7 +1038,7 @@ H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
 
             /* Remove the record for tracking the 'huge' object from the v2 B-tree */
             /* (space in the file for the object is freed in the 'remove' callback) */
-            if(H5B2_remove(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_dir_remove, &udata) < 0)
+            if(H5B2_remove(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_dir_remove, &udata) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTREMOVE, FAIL, "can't remove object from B-tree")
         } /* end else */
     } /* end if */
@@ -1056,7 +1051,7 @@ H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
 
             /* Remove the record for tracking the 'huge' object from the v2 B-tree */
             /* (space in the file for the object is freed in the 'remove' callback) */
-            if(H5B2_remove(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_filt_indir_remove, &udata) < 0)
+            if(H5B2_remove(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_filt_indir_remove, &udata) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTREMOVE, FAIL, "can't remove object from B-tree")
         } /* end if */
         else {
@@ -1067,7 +1062,7 @@ H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
 
             /* Remove the record for tracking the 'huge' object from the v2 B-tree */
             /* (space in the file for the object is freed in the 'remove' callback) */
-            if(H5B2_remove(hdr->huge_bt2, dxpl_id, &search_rec, H5HF__huge_bt2_indir_remove, &udata) < 0)
+            if(H5B2_remove(hdr->huge_bt2, &search_rec, H5HF__huge_bt2_indir_remove, &udata) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTREMOVE, FAIL, "can't remove object from B-tree")
         } /* end else */
     } /* end else */
@@ -1082,11 +1077,11 @@ H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_remove() */
+} /* end H5HF__huge_remove() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_term
+ * Function:	H5HF__huge_term
  *
  * Purpose:	Shut down the information for tracking 'huge' objects
  *
@@ -1099,11 +1094,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_term(H5HF_hdr_t *hdr, hid_t dxpl_id)
+H5HF__huge_term(H5HF_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -1116,7 +1111,7 @@ H5HF_huge_term(H5HF_hdr_t *hdr, hid_t dxpl_id)
         HDassert(H5F_addr_defined(hdr->huge_bt2_addr));
 
         /* Close v2 B-tree index */
-        if(H5B2_close(hdr->huge_bt2, dxpl_id) < 0)
+        if(H5B2_close(hdr->huge_bt2) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTCLOSEOBJ, FAIL, "can't close v2 B-tree")
         hdr->huge_bt2 = NULL;
     } /* end if */
@@ -1130,7 +1125,7 @@ H5HF_huge_term(H5HF_hdr_t *hdr, hid_t dxpl_id)
 
         /* Delete the v2 B-tree */
         /* (any v2 B-tree class will work here) */
-        if(H5B2_delete(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f, NULL, NULL) < 0)
+        if(H5B2_delete(hdr->f, hdr->huge_bt2_addr, hdr->f, NULL, NULL) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTDELETE, FAIL, "can't delete v2 B-tree")
 
         /* Reset the information about 'huge' objects in the file */
@@ -1145,11 +1140,11 @@ H5HF_huge_term(H5HF_hdr_t *hdr, hid_t dxpl_id)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_term() */
+} /* end H5HF__huge_term() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5HF_huge_delete
+ * Function:	H5HF__huge_delete
  *
  * Purpose:	Delete all the 'huge' objects in the heap, and the v2 B-tree
  *              tracker for them
@@ -1163,13 +1158,13 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5HF_huge_delete(H5HF_hdr_t *hdr, hid_t dxpl_id)
+H5HF__huge_delete(H5HF_hdr_t *hdr)
 {
     H5HF_huge_remove_ud_t udata;       /* User callback data for v2 B-tree remove call */
     H5B2_remove_t op;                   /* Callback for v2 B-tree removal */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /*
      * Check arguments.
@@ -1181,7 +1176,6 @@ H5HF_huge_delete(H5HF_hdr_t *hdr, hid_t dxpl_id)
 
     /* Set up the callback info */
     udata.hdr = hdr;
-    udata.dxpl_id = dxpl_id;
 
     /* Set the v2 B-tree callback operator */
     if(hdr->huge_ids_direct) {
@@ -1198,10 +1192,10 @@ H5HF_huge_delete(H5HF_hdr_t *hdr, hid_t dxpl_id)
     } /* end else */
 
     /* Delete the v2 B-tree */
-    if(H5B2_delete(hdr->f, dxpl_id, hdr->huge_bt2_addr, hdr->f, op, &udata) < 0)
+    if(H5B2_delete(hdr->f, hdr->huge_bt2_addr, hdr->f, op, &udata) < 0)
         HGOTO_ERROR(H5E_HEAP, H5E_CANTDELETE, FAIL, "can't delete v2 B-tree")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5HF_huge_delete() */
+} /* end H5HF__huge_delete() */
 

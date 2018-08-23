@@ -180,7 +180,7 @@ SIMPLE_TEST(struct tm tm; tm.tm_gmtoff=0);
 #include <time.h>
 SIMPLE_TEST(struct tm tm; tm.__tm_gmtoff=0);
 
-#endif /* HAVE_TM_GMTOFF */
+#endif /* HAVE_TM___GMTOFF */
 
 #ifdef HAVE_TIMEZONE
 
@@ -436,13 +436,13 @@ int main ()
 
 SIMPLE_TEST(struct videoconfig w; w.numtextcols=0);
 
-#endif /* HAVE_TM_GMTOFF */
+#endif /* HAVE_STRUCT_VIDEOCONFIG */
 
 #ifdef HAVE_STRUCT_TEXT_INFO
 
 SIMPLE_TEST(struct text_info w; w.screenwidth=0);
 
-#endif /* HAVE_TM_GMTOFF */
+#endif /* HAVE_STRUCT_TEXT_INFO */
 
 #if defined( HAVE_INLINE ) || defined( HAVE___INLINE__ ) || defined( HAVE___INLINE )
 #ifndef __cplusplus
