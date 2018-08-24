@@ -123,7 +123,8 @@ public:
    */
   const SeriesUIDContainerType & GetSeriesUIDs();
 
-  /** Recursively parse the input directory */
+  /** Recursively parse the input directory.
+   * Must be set before the call to SetInputDirectory(). */
   itkSetMacro(Recursive, bool);
   itkGetConstMacro(Recursive, bool);
   itkBooleanMacro(Recursive);
