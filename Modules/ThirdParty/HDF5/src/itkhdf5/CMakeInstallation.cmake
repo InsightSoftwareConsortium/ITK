@@ -23,17 +23,6 @@ if (WIN32)
   find_program (WIX_EXECUTABLE candle  PATHS "${CPACK_WIX_ROOT}/bin")
 endif ()
 
-#-----------------------------------------------------------------------------
-# Add file(s) to CMake Install
-#-----------------------------------------------------------------------------
-if (NOT HDF5_INSTALL_NO_DEVELOPMENT)
-  install (
-      FILES ${HDF5_BINARY_DIR}/H5pubconf.h
-      DESTINATION ${HDF5_INSTALL_INCLUDE_DIR}
-      COMPONENT Development
-  )
-endif ()
-
 if(0) # Skip for ITK internal build
 
 #-----------------------------------------------------------------------------

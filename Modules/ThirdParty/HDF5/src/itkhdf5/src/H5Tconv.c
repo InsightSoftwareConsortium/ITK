@@ -26,6 +26,7 @@
 /* Headers */
 /***********/
 #include "H5private.h"		/* Generic Functions			*/
+#include "H5CXprivate.h"        /* API Contexts                         */
 #include "H5Dprivate.h"		/* Datasets				*/
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5FLprivate.h"	/* Free Lists                           */
@@ -108,7 +109,7 @@
  *		least as large as the destination.  Overflows can occur when
  *		the destination is narrower than the source.
  *
- * xF:          Integers to float-point(float or double) values where the desination
+ * xF:          Integers to float-point(float or double) values where the destination
  *              is at least as wide as the source.  This case cannot generate
  *              overflows.
  *
@@ -677,7 +678,6 @@
     hbool_t	s_mv, d_mv;		/*move data to align it?	*/    \
     ssize_t	s_stride, d_stride;	/*src and dst strides		*/    \
     size_t      safe;                   /*how many elements are safe to process in each pass */ \
-    H5P_genplist_t      *plist;         /*Property list pointer         */    \
     H5T_conv_cb_t       cb_struct;      /*conversion callback structure */    \
                                                                               \
     switch (cdata->command) {						      \
@@ -722,13 +722,9 @@
 	CI_INC_SRC(s_mv)						      \
 	CI_INC_DST(d_mv)						      \
 	                                                                      \
-        /* Get the plist structure */                                         \
-        if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))    \
-            HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID") \
-                                                                              \
         /* Get conversion exception callback property */                      \
-        if(H5P_get(plist, H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)             \
-            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback") \
+        if(H5CX_get_dt_conv_cb(&cb_struct) < 0)                               \
+            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get conversion exception callback") \
                                                                               \
         /* Get source and destination datatypes */			      \
         if(NULL == (st = (H5T_t *)H5I_object(src_id)) || NULL == (dt = (H5T_t *)H5I_object(dst_id))) \
@@ -1039,9 +1035,9 @@ H5FL_BLK_DEFINE_STATIC(array_seq);
  */
 herr_t
 H5T__conv_noop(hid_t H5_ATTR_UNUSED src_id, hid_t H5_ATTR_UNUSED dst_id, H5T_cdata_t *cdata,
-	      size_t H5_ATTR_UNUSED nelmts, size_t H5_ATTR_UNUSED buf_stride,
-              size_t H5_ATTR_UNUSED bkg_stride, void H5_ATTR_UNUSED *buf,
-	      void H5_ATTR_UNUSED *background, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t H5_ATTR_UNUSED nelmts, size_t H5_ATTR_UNUSED buf_stride,
+    size_t H5_ATTR_UNUSED bkg_stride, void H5_ATTR_UNUSED *buf,
+    void H5_ATTR_UNUSED *background)
 {
     herr_t      ret_value = SUCCEED;       /* Return value */
 
@@ -1082,15 +1078,13 @@ done:
  * Programmer:	Robb Matzke
  *		Friday, January 25, 2002
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_order_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                    size_t nelmts, size_t buf_stride,
                    size_t H5_ATTR_UNUSED bkg_stride, void *_buf,
-                   void H5_ATTR_UNUSED *background, hid_t H5_ATTR_UNUSED dxpl_id)
+                   void H5_ATTR_UNUSED *background)
 {
     uint8_t	*buf = (uint8_t*)_buf;
     H5T_t	*src = NULL;
@@ -1496,20 +1490,12 @@ done:
  * Programmer:	Robb Matzke
  *		Tuesday, January 13, 1998
  *
- * Modifications:
- *		Robb Matzke, 1999-06-16
- *		Added the `stride' argument. If its value is non-zero then we
- *		stride through memory converting one value at each location;
- *		otherwise we assume that the values should be packed.
- *
- * 		Robb Matzke, 1999-06-16
- *		Added support for bitfields.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_order(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 	       size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *_buf,
-               void H5_ATTR_UNUSED *background, hid_t H5_ATTR_UNUSED dxpl_id)
+               void H5_ATTR_UNUSED *background)
 {
     uint8_t	*buf = (uint8_t*)_buf;
     H5T_t	*src = NULL;
@@ -1603,18 +1589,12 @@ done:
  * Programmer:	Robb Matzke
  *		Thursday, May 20, 1999
  *
- * Modifications:
- *		Robb Matzke, 1999-06-16
- *		Added support for non-zero strides. If BUF_STRIDE is non-zero
- *		then convert one value at each memory location advancing
- *		BUF_STRIDE bytes each time; otherwise assume both source and
- *		destination values are packed.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_b_b(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 	     size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *_buf,
-             void H5_ATTR_UNUSED *background, hid_t dxpl_id)
+             void H5_ATTR_UNUSED *background)
 {
     uint8_t	*buf = (uint8_t*)_buf;
     H5T_t	*src = NULL, *dst = NULL;	/*source and dest datatypes	*/
@@ -1627,7 +1607,6 @@ H5T__conv_b_b(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t	msb_pad_offset;		/*offset for dest MSB padding	*/
     size_t	i;
     uint8_t     *src_rev=NULL;          /*order-reversed source buffer  */
-    H5P_genplist_t      *plist;         /*property list pointer         */
     H5T_conv_cb_t       cb_struct = {NULL, NULL};      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
     hbool_t             reverse;        /*if reverse the order of destination        */
@@ -1683,13 +1662,9 @@ H5T__conv_b_b(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                 direction = -1;
             }
 
-            /* Get the plist structure */
-            if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
-
             /* Get conversion exception callback property */
-            if(H5P_get(plist, H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
+            if(H5CX_get_dt_conv_cb(&cb_struct) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t *)H5MM_calloc(src->shared->size);
@@ -1857,8 +1832,6 @@ done:
  * Programmer:	Neil Fortner
  *		Wednesday, October 1, 2008
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 static H5T_conv_struct_t *
@@ -1908,16 +1881,9 @@ H5T_conv_struct_free(H5T_conv_struct_t *priv)
  *		source member doesn't have a corresponding destination member
  *		then the src2dst[i]=-1.
  *
- * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Robb Matzke
- *		Monday, January 26, 1998
- *
- * Modifications:
- *              Raymond Lu, 3 May 2007
- *              Added the detection for a special optimization case when the
- *              source and destination members are a subset of each other, and
- *              the order is the same, and no conversion is needed.  For example:
+ *              Special optimization case when the source and destination
+ *              members are a subset of each other, and the order is the same,
+ *              and no conversion is needed.  For example:
  *                  struct source {            struct destination {
  *                      TYPE1 A;      -->          TYPE1 A;
  *                      TYPE2 B;      -->          TYPE2 B;
@@ -1936,10 +1902,15 @@ H5T_conv_struct_free(H5T_conv_struct_t *priv)
  *              The optimization is simply moving data to the appropriate
  *              places in the buffer.
  *
+ * Return:	Non-negative on success/Negative on failure
+ *
+ * Programmer:	Robb Matzke
+ *		Monday, January 26, 1998
+ *
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5T_conv_struct_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata, hid_t dxpl_id)
+H5T_conv_struct_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata)
 {
     H5T_conv_struct_t	*priv = (H5T_conv_struct_t*)(cdata->priv);
     int		        *src2dst = NULL;
@@ -2024,7 +1995,7 @@ H5T_conv_struct_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata, hid_t dxpl_id)
 
     for(i = 0; i < src_nmembs; i++) {
         if(src2dst[i] >= 0) {
-            H5T_path_t *tpath = H5T_path_find(src->shared->u.compnd.memb[i].type, dst->shared->u.compnd.memb[src2dst[i]].type, NULL, NULL, dxpl_id, FALSE);
+            H5T_path_t *tpath = H5T_path_find(src->shared->u.compnd.memb[i].type, dst->shared->u.compnd.memb[src2dst[i]].type);
 
             if(NULL == (priv->memb_path[i] = tpath)) {
                 cdata->priv = H5T_conv_struct_free(priv);
@@ -2131,7 +2102,7 @@ H5T__conv_struct_subset(const H5T_cdata_t *cdata)
  *
  * 		For each element do
  *		  For I=1..NELMTS do
- *		    If sizeof detination type <= sizeof source type then
+ *		    If sizeof destination type <= sizeof source type then
  *		      Convert member to destination type;
  *		    Move member as far left as possible;
  *
@@ -2151,7 +2122,7 @@ H5T__conv_struct_subset(const H5T_cdata_t *cdata)
  */
 herr_t
 H5T__conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-    size_t buf_stride, size_t bkg_stride, void *_buf, void *_bkg, hid_t dxpl_id)
+    size_t buf_stride, size_t bkg_stride, void *_buf, void *_bkg)
 {
     uint8_t	*buf = (uint8_t *)_buf;	/*cast for pointer arithmetic	*/
     uint8_t	*bkg = (uint8_t *)_bkg;	/*background pointer arithmetic	*/
@@ -2187,7 +2158,7 @@ H5T__conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             if(H5T_COMPOUND != dst->shared->type) 
                 HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_COMPOUND datatype")
 
-            if(H5T_conv_struct_init(src, dst, cdata, dxpl_id) < 0)
+            if(H5T_conv_struct_init(src, dst, cdata) < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data")
             break;
 
@@ -2207,7 +2178,7 @@ H5T__conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             HDassert(priv);
             HDassert(bkg && cdata->need_bkg);
 
-            if(cdata->recalc && H5T_conv_struct_init(src, dst, cdata, dxpl_id) < 0)
+            if(cdata->recalc && H5T_conv_struct_init(src, dst, cdata) < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data")
 
             /*
@@ -2261,8 +2232,7 @@ H5T__conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                         if(H5T_convert(priv->memb_path[u], priv->src_memb_id[u],
                                 priv->dst_memb_id[src2dst[u]],
                                 (size_t)1, (size_t)0, (size_t)0, /*no striding (packed array)*/
-                                xbuf + src_memb->offset, xbkg + dst_memb->offset,
-                                dxpl_id) < 0)
+                                xbuf + src_memb->offset, xbkg + dst_memb->offset) < 0)
                             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member")
                         HDmemmove(xbuf + offset, xbuf + src_memb->offset, dst_memb->size);
                         offset += dst_memb->size;
@@ -2293,8 +2263,7 @@ H5T__conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                         if(H5T_convert(priv->memb_path[i],
                                     priv->src_memb_id[i], priv->dst_memb_id[src2dst[i]],
                                     (size_t)1, (size_t)0, (size_t)0, /*no striding (packed array)*/
-                                    xbuf + offset, xbkg + dst_memb->offset,
-                                    dxpl_id) < 0)
+                                    xbuf + offset, xbkg + dst_memb->offset) < 0)
                             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member")
                     } /* end if */
                     else
@@ -2345,7 +2314,7 @@ done:
  *		function.  The algorithm is basically:
  *
  * 		For each member of the struct
- *		  If sizeof detination type <= sizeof source type then
+ *		  If sizeof destination type <= sizeof source type then
  *		    Convert member to destination type for all elements
  *		    Move memb to BKG buffer for all elements
  *		  Else
@@ -2358,37 +2327,7 @@ done:
  *
  *		Copy BKG to BUF for all elements
  *
- * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Robb Matzke
- *		Thursday, January 22, 1998
- *
- * Modifications:
- *		Robb Matzke, 1999-06-16
- *              Added support for non-zero strides. If BUF_STRIDE is
- *              non-zero then convert one value at each memory location
- *              advancing BUF_STRIDE bytes each time; otherwise assume both
- *              source and destination values are packed.
- *
- * 		Robb Matzke, 1999-06-16
- *		If the source and destination data structs are the same size
- *		then we can convert on a field-by-field basis instead of an
- *		element by element basis. In other words, for all struct
- *		elements being converted by this function call, first convert
- *		all of the field1's, then all field2's, etc. This can
- *		drastically reduce the number of calls to H5T_convert() and
- *		thereby eliminate most of the conversion constant overhead.
- *
- *              Robb Matzke, 2000-05-17
- *              Added the BKG_STRIDE argument to fix a design bug. If
- *              BUF_STRIDE and BKG_STRIDE are both non-zero then each
- *              data element converted will be placed temporarily at a
- *              multiple of BKG_STRIDE in the BKG buffer; otherwise the
- *              BKG buffer is assumed to be a packed array of destination
- *              datatype.
- *
- *              Raymond Lu, 3 May 2007
- *              Optimize a special case when the source and destination members
+ *              Special case when the source and destination members
  *              are a subset of each other, and the order is the same, and no
  *              conversion is needed.  For example:
  *                  struct source {            struct destination {
@@ -2401,12 +2340,16 @@ done:
  *              The optimization is simply moving data to the appropriate
  *              places in the buffer.
  *
+ * Return:	Non-negative on success/Negative on failure
+ *
+ * Programmer:	Robb Matzke
+ *		Thursday, January 22, 1998
+ *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-    size_t nelmts, size_t buf_stride, size_t bkg_stride, void *_buf,
-    void *_bkg, hid_t dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t bkg_stride, void *_buf, void *_bkg)
 {
     uint8_t	*buf = (uint8_t *)_buf;	/*cast for pointer arithmetic	*/
     uint8_t	*bkg = (uint8_t *)_bkg;	/*background pointer arithmetic	*/
@@ -2444,7 +2387,7 @@ H5T__conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                 HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_COMPOUND datatype")
 
             /* Initialize data which is relatively constant */
-            if(H5T_conv_struct_init(src, dst, cdata, dxpl_id) < 0)
+            if(H5T_conv_struct_init(src, dst, cdata) < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data")
             priv = (H5T_conv_struct_t *)(cdata->priv);
             src2dst = priv->src2dst;
@@ -2478,7 +2421,7 @@ H5T__conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                         offset -= src_memb->size;
                         if(dst_memb->size > src->shared->size-offset) {
                             cdata->priv = H5T_conv_struct_free(priv);
-                            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "convertion is unsupported by this function")
+                            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "conversion is unsupported by this function")
                         } /* end if */
                     } /* end if */
                 } /* end for */
@@ -2500,7 +2443,7 @@ H5T__conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                 HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
             /* Update cached data if necessary */
-            if(cdata->recalc && H5T_conv_struct_init(src, dst, cdata, dxpl_id)<0)
+            if(cdata->recalc && H5T_conv_struct_init(src, dst, cdata) < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data")
             priv = (H5T_conv_struct_t *)(cdata->priv);
             HDassert(priv);
@@ -2565,7 +2508,7 @@ H5T__conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                         xbkg = bkg + dst_memb->offset;
                         if(H5T_convert(priv->memb_path[u], priv->src_memb_id[u],
                                 priv->dst_memb_id[src2dst[u]], nelmts,
-                                buf_stride, bkg_stride, xbuf, xbkg, dxpl_id) < 0)
+                                buf_stride, bkg_stride, xbuf, xbkg) < 0)
                             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member")
                         for(elmtno = 0; elmtno < nelmts; elmtno++) {
                             HDmemmove(xbkg, xbuf, dst_memb->size);
@@ -2601,7 +2544,7 @@ H5T__conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                         xbkg = bkg + dst_memb->offset;
                         if(H5T_convert(priv->memb_path[i], priv->src_memb_id[i],
                                 priv->dst_memb_id[src2dst[i]], nelmts,
-                                buf_stride, bkg_stride, xbuf, xbkg, dxpl_id) < 0)
+                                buf_stride, bkg_stride, xbuf, xbkg) < 0)
                             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member")
                         for(elmtno = 0; elmtno < nelmts; elmtno++) {
                             HDmemmove(xbkg, xbuf, dst_memb->size);
@@ -2644,8 +2587,6 @@ done:
  *
  * Programmer:	Robb Matzke
  *              Monday, January  4, 1999
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -2792,8 +2733,8 @@ done:
  */
 herr_t
 H5T__conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-	      size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *_buf,
-              void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *_buf,
+    void H5_ATTR_UNUSED *bkg)
 {
     uint8_t	*buf = (uint8_t*)_buf;	/*cast for pointer arithmetic	*/
     H5T_t	*src = NULL, *dst = NULL;	/*src and dst datatypes	*/
@@ -2801,7 +2742,6 @@ H5T__conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     ssize_t	src_delta, dst_delta;	/*conversion strides		*/
     int	n;			/*src value cast as native int	*/
     H5T_enum_struct_t *priv = (H5T_enum_struct_t*)(cdata->priv);
-    H5P_genplist_t      *plist;         /*property list pointer         */
     H5T_conv_cb_t       cb_struct;      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
     size_t	i;			/*counters			*/
@@ -2879,13 +2819,9 @@ H5T__conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                 d = buf + (nelmts - 1) * dst->shared->size;
             }
 
-            /* Get the plist structure */
-            if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
-
             /* Get conversion exception callback property */
-            if(H5P_get(plist, H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
+            if(H5CX_get_dt_conv_cb(&cb_struct) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             for(i = 0; i < nelmts; i++, s += src_delta, d += dst_delta) {
                 if(priv->length) {
@@ -2990,7 +2926,7 @@ done:
 herr_t
 H5T__conv_enum_numeric(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 	      size_t H5_ATTR_UNUSED buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *_buf,
-              void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+              void H5_ATTR_UNUSED *bkg)
 {
     H5T_t	*src, *dst;		/*src and dst datatypes	*/
     H5T_t	*src_parent;		/*parent type for src           */
@@ -3025,14 +2961,14 @@ H5T__conv_enum_numeric(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t ne
 
             src_parent = src->shared->parent;
 
-            if(NULL == (tpath = H5T_path_find(src_parent, dst, NULL, NULL, dxpl_id, FALSE))) {
+            if(NULL == (tpath = H5T_path_find(src_parent, dst))) {
 	        HGOTO_ERROR(H5E_DATASET, H5E_UNSUPPORTED, FAIL, "unable to convert between src and dest datatype")
             } else if(!H5T_path_noop(tpath)) {
                 if((src_parent_id = H5I_register(H5I_DATATYPE, H5T_copy(src_parent, H5T_COPY_ALL), FALSE)) < 0) 
                     HGOTO_ERROR(H5E_DATASET, H5E_CANTREGISTER, FAIL, "unable to register types for conversion")
 
                 /* Convert the data */
-                if(H5T_convert(tpath, src_parent_id, dst_id, nelmts, buf_stride, bkg_stride, _buf, bkg, dxpl_id) < 0)
+                if(H5T_convert(tpath, src_parent_id, dst_id, nelmts, buf_stride, bkg_stride, _buf, bkg) < 0)
                     HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "datatype conversion failed")
             }
             break;
@@ -3073,30 +3009,13 @@ done:
  * Programmer:	Quincey Koziol
  *		Wednesday, May 26, 1999
  *
- * Modifications:
- *
- *		Quincey Koziol, 2 July, 1999
- *		Enabled support for non-zero strides. If BUF_STRIDE is non-zero
- *		then convert one value at each memory location advancing
- *		BUF_STRIDE bytes each time; otherwise assume both source and
- *		destination values are packed.
- *
- *		Raymond Lu, 26 June, 2002
- *		Background buffer is used for freeing heap objects storing
- * 		old data.  At this moment, it only frees the first level of
- *		VL datatype.  It doesn't handle nested VL datatypes.
- *
- *              Raymond Lu, 8 November 2011
- *              I put a condition check to prevent the conversion of VL strings
- *              between ASCII and UTF8.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-    size_t buf_stride, size_t bkg_stride, void *buf, void *bkg, hid_t dxpl_id)
+    size_t buf_stride, size_t bkg_stride, void *buf, void *bkg)
 {
-    H5T_vlen_alloc_info_t _vl_alloc_info;       /* VL allocation info buffer */
-    H5T_vlen_alloc_info_t *vl_alloc_info = &_vl_alloc_info;   /* VL allocation info */
+    H5T_vlen_alloc_info_t vl_alloc_info;/* VL allocation info */
     H5T_path_t	*tpath = NULL;		/* Type conversion path		     */
     hbool_t     noop_conv = FALSE;      /* Flag to indicate a noop conversion */
     hbool_t     write_to_file = FALSE;  /* Flag to indicate writing to file */
@@ -3187,7 +3106,7 @@ H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             dst_base_size = H5T_get_size(dst->shared->parent);
 
             /* Set up conversion path for base elements */
-            if(NULL == (tpath = H5T_path_find(src->shared->parent, dst->shared->parent, NULL, NULL, dxpl_id, FALSE)))
+            if(NULL == (tpath = H5T_path_find(src->shared->parent, dst->shared->parent)))
                 HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unable to convert between src and dest datatypes")
             else if(!H5T_path_noop(tpath)) {
                 if((tsrc_id = H5I_register(H5I_DATATYPE, H5T_copy(src->shared->parent, H5T_COPY_ALL), FALSE)) < 0 ||
@@ -3208,7 +3127,7 @@ H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             } /* end if */
 
             /* Get the allocation info */
-            if(H5T_vlen_get_alloc_info(dxpl_id, &vl_alloc_info) < 0)
+            if(H5CX_get_vlen_alloc_info(&vl_alloc_info) < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to retrieve VL allocation info")
 
             /* Set flags to indicate we are writing to or reading from the file */
@@ -3263,7 +3182,7 @@ H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                     /* Check for "nil" source sequence */
                     if((*(src->shared->u.vlen.isnull))(src->shared->u.vlen.f, s)) {
                         /* Write "nil" sequence to destination location */
-                        if((*(dst->shared->u.vlen.setnull))(dst->shared->u.vlen.f, dxpl_id, d, b) < 0)
+                        if((*(dst->shared->u.vlen.setnull))(dst->shared->u.vlen.f, d, b) < 0)
                             HGOTO_ERROR(H5E_DATATYPE, H5E_WRITEERROR, FAIL, "can't set VL data to 'nil'")
                     } /* end if */
                     else {
@@ -3304,7 +3223,7 @@ H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                             } /* end if */
 
                             /* Read in VL sequence */
-                            if((*(src->shared->u.vlen.read))(src->shared->u.vlen.f, dxpl_id, s, conv_buf, src_size) < 0)
+                            if((*(src->shared->u.vlen.read))(src->shared->u.vlen.f, s, conv_buf, src_size) < 0)
                                 HGOTO_ERROR(H5E_DATATYPE, H5E_READERROR, FAIL, "can't read VL data")
                         } /* end else */
 
@@ -3334,7 +3253,7 @@ H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                                     } /* end if */
                                     H5F_addr_decode(dst->shared->u.vlen.f, &tmp, &(bg_hobjid.addr));
                                     UINT32DECODE(tmp, bg_hobjid.idx);
-                                    if(NULL == H5HG_read(dst->shared->u.vlen.f, dxpl_id, &bg_hobjid, tmp_buf, NULL))
+                                    if(NULL == H5HG_read(dst->shared->u.vlen.f, &bg_hobjid, tmp_buf, NULL))
                                         HGOTO_ERROR(H5E_DATATYPE, H5E_READERROR, FAIL, "can't read VL sequence into background buffer")
                                 } /* end if */
 
@@ -3344,12 +3263,12 @@ H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                             } /* end if */
 
                             /* Convert VL sequence */
-                            if(H5T_convert(tpath, tsrc_id, tdst_id, seq_len, (size_t)0, (size_t)0, conv_buf, tmp_buf, dxpl_id) < 0)
+                            if(H5T_convert(tpath, tsrc_id, tdst_id, seq_len, (size_t)0, (size_t)0, conv_buf, tmp_buf) < 0)
                                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "datatype conversion failed")
                         } /* end if */
 
                         /* Write sequence to destination location */
-                        if((*(dst->shared->u.vlen.write))(dst->shared->u.vlen.f, dxpl_id, vl_alloc_info, d, conv_buf, b, seq_len, dst_base_size) < 0)
+                        if((*(dst->shared->u.vlen.write))(dst->shared->u.vlen.f, &vl_alloc_info, d, conv_buf, b, seq_len, dst_base_size) < 0)
                             HGOTO_ERROR(H5E_DATATYPE, H5E_WRITEERROR, FAIL, "can't write VL data")
 
                         if(!noop_conv) {
@@ -3366,7 +3285,7 @@ H5T__conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                                     if(parent_seq_len > 0) {
                                         H5F_addr_decode(dst->shared->u.vlen.f, &tmp, &(parent_hobjid.addr));
                                         UINT32DECODE(tmp, parent_hobjid.idx);
-                                        if(H5HG_remove(dst->shared->u.vlen.f, dxpl_id, &parent_hobjid) < 0)
+                                        if(H5HG_remove(dst->shared->u.vlen.f, &parent_hobjid) < 0)
                                             HGOTO_ERROR(H5E_DATATYPE, H5E_WRITEERROR, FAIL, "Unable to remove heap object")
                                     } /* end if */
                                 } /* end for */
@@ -3421,14 +3340,11 @@ done:
  * Programmer:	Quincey Koziol
  *		Monday, November 6, 2000
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_array(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-	      size_t buf_stride, size_t bkg_stride, void *_buf,
-              void H5_ATTR_UNUSED *_bkg, hid_t dxpl_id)
+    size_t buf_stride, size_t bkg_stride, void *_buf, void H5_ATTR_UNUSED *_bkg)
 {
     H5T_path_t	*tpath;		        /* Type conversion path		     */
     hid_t       tsrc_id = -1, tdst_id = -1;/*temporary type atoms	     */
@@ -3507,7 +3423,7 @@ H5T__conv_array(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             dst_delta = (ssize_t)direction * (ssize_t)(buf_stride ? buf_stride : dst->shared->size);
 
             /* Set up conversion path for base elements */
-            if(NULL == (tpath = H5T_path_find(src->shared->parent, dst->shared->parent, NULL, NULL, dxpl_id, FALSE))) {
+            if(NULL == (tpath = H5T_path_find(src->shared->parent, dst->shared->parent))) {
                 HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unable to convert between src and dest datatypes")
             } else if (!H5T_path_noop(tpath)) {
                 if((tsrc_id = H5I_register(H5I_DATATYPE, H5T_copy(src->shared->parent, H5T_COPY_ALL), FALSE)) < 0 ||
@@ -3531,7 +3447,7 @@ H5T__conv_array(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                 HDmemmove(dp, sp, src->shared->size);
 
                 /* Convert array */
-                if(H5T_convert(tpath, tsrc_id, tdst_id, src->shared->u.array.nelem, (size_t)0, bkg_stride, dp, bkg_buf, dxpl_id) < 0)
+                if(H5T_convert(tpath, tsrc_id, tdst_id, src->shared->u.array.nelem, (size_t)0, bkg_stride, dp, bkg_buf) < 0)
                     HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "datatype conversion failed")
 
                 /* Advance the source & destination pointers */
@@ -3571,26 +3487,11 @@ done:
  * Programmer:	Robb Matzke
  *		Wednesday, June 10, 1998
  *
- * Modifications:
- *		Robb Matzke, 7 Jul 1998
- *		Added overflow handling.
- *
- *		Robb Matzke, 1999-06-16
- *		Added support for non-zero strides. If BUF_STRIDE is non-zero
- *		then convert one value at each memory location advancing
- *		BUF_STRIDE bytes each time; otherwise assume both source and
- *		destination values are packed.
- *
- *              Raymond Lu
- *              Wednesday, April 21, 2004
- *              There is a new design for exception handling like overflow,
- *              which is passed in as a transfer property.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_i_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-    hid_t dxpl_id)
+    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_t	*src = NULL;		/*source datatype		*/
     H5T_t	*dst = NULL;		/*destination datatype		*/
@@ -3605,7 +3506,6 @@ H5T__conv_i_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t	first;
     ssize_t	sfirst;			/*a signed version of `first'	*/
     size_t	i;                      /*Local index variables         */
-    H5P_genplist_t      *plist;         /*property list pointer         */
     H5T_conv_cb_t       cb_struct={NULL, NULL};      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
     hbool_t             reverse;        /*if reverse the order of destination        */
@@ -3668,13 +3568,9 @@ H5T__conv_i_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             src_delta = (ssize_t)direction * (ssize_t)(buf_stride ? buf_stride : src->shared->size);
             dst_delta = (ssize_t)direction * (ssize_t)(buf_stride ? buf_stride : dst->shared->size);
 
-            /* Get the plist structure */
-            if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
-
             /* Get conversion exception callback property */
-            if(H5P_get(plist,H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
+            if(H5CX_get_dt_conv_cb(&cb_struct) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src->shared->size);
@@ -3982,29 +3878,11 @@ done:
  * Programmer:	Robb Matzke
  *		Tuesday, June 23, 1998
  *
- * Modifications:
- *		Robb Matzke, 7 Jul 1998
- *		Added overflow handling.
- *
- *		Robb Matzke, 1999-06-16
- *		Added support for non-zero strides. If BUF_STRIDE is non-zero
- *		then convert one value at each memory location advancing
- *		BUF_STRIDE bytes each time; otherwise assume both source and
- *		destination values are packed.
- *
- *              Robb Matzke, 2001-02-02
- *              Oops, forgot to increment the exponent when rounding the
- *              significand resulted in a carry. Thanks to Guillaume Colin
- *              de Verdiere for finding this one!
- *
- *              Raymond Lu, 2006-03-13
- *              Added support for VAX floating-point types.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_f_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-    hid_t dxpl_id)
+    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg)
 {
     /* Traversal-related variables */
     H5T_t	*src_p;			/*source datatype		*/
@@ -4034,7 +3912,6 @@ H5T__conv_f_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t	i;			/*miscellaneous counters	*/
     size_t	implied;		/*destination implied bits	*/
     hbool_t     denormalized = FALSE;   /*is either source or destination denormalized?*/
-    H5P_genplist_t      *plist;         /*property list pointer         */
     H5T_conv_cb_t       cb_struct = {NULL, NULL};      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
     hbool_t             reverse;        /*if reverse the order of destination        */
@@ -4105,13 +3982,9 @@ H5T__conv_f_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             src_delta = (ssize_t)direction * (ssize_t)(buf_stride ? buf_stride : src_p->shared->size);
             dst_delta = (ssize_t)direction * (ssize_t)(buf_stride ? buf_stride : dst_p->shared->size);
 
-            /* Get the plist structure */
-            if(NULL == (plist = H5P_object_verify(dxpl_id,H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
-
             /* Get conversion exception callback property */
-            if(H5P_get(plist,H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
+            if(H5CX_get_dt_conv_cb(&cb_struct) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src_p->shared->size);
@@ -4377,7 +4250,7 @@ H5T__conv_f_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                     /*
                      * The exponent is too small to fit in the exponent field,
                      * but by shifting the mantissa to the right we can
-                     * accomodate that value.  The mantissa of course is no
+                     * accommodate that value.  The mantissa of course is no
                      * longer normalized.
                      */
                     mrsh += (size_t)(1 - expo);
@@ -4590,22 +4463,12 @@ done:
  * Programmer:	Robb Matzke
  *		Friday, August	7, 1998
  *
- * Modifications:
- *		Robb Matzke, 1999-06-16
- *		Added support for non-zero strides. If BUF_STRIDE is non-zero
- *		then convert one value at each memory location advancing
- *		BUF_STRIDE bytes each time; otherwise assume both source and
- *		destination values are packed.
- *
- *              Raymond Lu, 8 November 2011
- *              I put a condition check to prevent the conversion of strings
- *              between ASCII and UTF8.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-	      size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf,
-              void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf,
+    void H5_ATTR_UNUSED *bkg)
 {
     H5T_t	*src=NULL;		/*source datatype		*/
     H5T_t	*dst=NULL;		/*destination datatype		*/
@@ -4834,15 +4697,12 @@ done:
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_su(SCHAR, UCHAR, signed char, unsigned char, -, -);
 }
@@ -4860,15 +4720,12 @@ H5T__conv_schar_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_us(UCHAR, SCHAR, unsigned char, signed char, -, SCHAR_MAX);
 }
@@ -4886,15 +4743,12 @@ H5T__conv_uchar_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(SCHAR, SHORT, signed char, short, -, -);
 }
@@ -4912,15 +4766,12 @@ H5T__conv_schar_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(SCHAR, USHORT, signed char, unsigned short, -, -);
 }
@@ -4938,15 +4789,12 @@ H5T__conv_schar_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(UCHAR, SHORT, unsigned char, short, -, SHRT_MAX);
 }
@@ -4964,15 +4812,12 @@ H5T__conv_uchar_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(UCHAR, USHORT, unsigned char, unsigned short, -, -);
 }
@@ -4990,14 +4835,12 @@ H5T__conv_uchar_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(SCHAR, INT, signed char, int, -, -);
 }
@@ -5015,14 +4858,12 @@ H5T__conv_schar_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(SCHAR, UINT, signed char, unsigned, -, -);
 }
@@ -5040,14 +4881,12 @@ H5T__conv_schar_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(UCHAR, INT, unsigned char, int, -, INT_MAX);
 }
@@ -5065,14 +4904,12 @@ H5T__conv_uchar_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(UCHAR, UINT, unsigned char, unsigned, -, -);
 }
@@ -5090,14 +4927,12 @@ H5T__conv_uchar_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(SCHAR, LONG, signed char, long, -, -);
 }
@@ -5115,15 +4950,12 @@ H5T__conv_schar_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(SCHAR, ULONG, signed char, unsigned long, -, -);
 }
@@ -5141,14 +4973,12 @@ H5T__conv_schar_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(UCHAR, LONG, unsigned char, long, -, LONG_MAX);
 }
@@ -5166,15 +4996,12 @@ H5T__conv_uchar_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(UCHAR, ULONG, unsigned char, unsigned long, -, -);
 }
@@ -5192,15 +5019,12 @@ H5T__conv_uchar_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(SCHAR, LLONG, signed char, long long, -, -);
 }
@@ -5218,15 +5042,12 @@ H5T__conv_schar_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(SCHAR, ULLONG, signed char, unsigned long long, -, -);
 }
@@ -5244,15 +5065,12 @@ H5T__conv_schar_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(UCHAR, LLONG, unsigned char, long long, -, LLONG_MAX);
 }
@@ -5270,15 +5088,12 @@ H5T__conv_uchar_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(UCHAR, ULLONG, unsigned char, unsigned long long, -, -);
 }
@@ -5296,15 +5111,12 @@ H5T__conv_uchar_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(SHORT, SCHAR, short, signed char, SCHAR_MIN, SCHAR_MAX);
 }
@@ -5322,15 +5134,12 @@ H5T__conv_short_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(SHORT, UCHAR, short, unsigned char, -, UCHAR_MAX);
 }
@@ -5348,15 +5157,12 @@ H5T__conv_short_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(USHORT, SCHAR, unsigned short, signed char, -, SCHAR_MAX);
 }
@@ -5374,15 +5180,12 @@ H5T__conv_ushort_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(USHORT, UCHAR, unsigned short, unsigned char, -, UCHAR_MAX);
 }
@@ -5400,15 +5203,12 @@ H5T__conv_ushort_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_su(SHORT, USHORT, short, unsigned short, -, -);
 }
@@ -5426,15 +5226,12 @@ H5T__conv_short_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_us(USHORT, SHORT, unsigned short, short, -, SHRT_MAX);
 }
@@ -5452,15 +5249,12 @@ H5T__conv_ushort_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride,
-                   size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		   hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(SHORT, INT, short, int, -, -);
 }
@@ -5478,15 +5272,12 @@ H5T__conv_short_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride,
-                    size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		    hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(SHORT, UINT, short, unsigned, -, -);
 }
@@ -5504,15 +5295,12 @@ H5T__conv_short_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride,
-                    size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		    hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(USHORT, INT, unsigned short, int, -, INT_MAX);
 }
@@ -5530,15 +5318,12 @@ H5T__conv_ushort_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(USHORT, UINT, unsigned short, unsigned, -, -);
 }
@@ -5556,15 +5341,12 @@ H5T__conv_ushort_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride,
-                    size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		    hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(SHORT, LONG, short, long, -, -);
 }
@@ -5582,15 +5364,12 @@ H5T__conv_short_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(SHORT, ULONG, short, unsigned long, -, -);
 }
@@ -5608,15 +5387,12 @@ H5T__conv_short_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(USHORT, LONG, unsigned short, long, -, LONG_MAX);
 }
@@ -5634,15 +5410,12 @@ H5T__conv_ushort_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(USHORT, ULONG, unsigned short, unsigned long, -, -);
 }
@@ -5660,15 +5433,12 @@ H5T__conv_ushort_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(SHORT, LLONG, short, long long, -, -);
 }
@@ -5686,15 +5456,12 @@ H5T__conv_short_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(SHORT, ULLONG, short, unsigned long long, -, -);
 }
@@ -5712,15 +5479,12 @@ H5T__conv_short_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(USHORT, LLONG, unsigned short, long long, -, LLONG_MAX);
 }
@@ -5738,15 +5502,12 @@ H5T__conv_ushort_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(USHORT, ULLONG, unsigned short, unsigned long long, -, -);
 }
@@ -5764,15 +5525,12 @@ H5T__conv_ushort_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride,
-                   size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		   hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(INT, SCHAR, int, signed char, SCHAR_MIN, SCHAR_MAX);
 }
@@ -5790,15 +5548,12 @@ H5T__conv_int_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride,
-                   size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		   hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(INT, UCHAR, int, unsigned char, -, UCHAR_MAX);
 }
@@ -5816,15 +5571,12 @@ H5T__conv_int_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride,
-                    size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		    hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(UINT, SCHAR, unsigned, signed char, -, SCHAR_MAX);
 }
@@ -5842,15 +5594,12 @@ H5T__conv_uint_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride,
-                    size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		    hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(UINT, UCHAR, unsigned, unsigned char, -, UCHAR_MAX);
 }
@@ -5868,15 +5617,12 @@ H5T__conv_uint_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride,
-                   size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		   hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(INT, SHORT, int, short, SHRT_MIN, SHRT_MAX);
 }
@@ -5894,15 +5640,12 @@ H5T__conv_int_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride,
-                    size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		    hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(INT, USHORT, int, unsigned short, -, USHRT_MAX);
 }
@@ -5920,15 +5663,12 @@ H5T__conv_int_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride,
-                    size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		    hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(UINT, SHORT, unsigned, short, -, SHRT_MAX);
 }
@@ -5946,15 +5686,12 @@ H5T__conv_uint_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(UINT, USHORT, unsigned, unsigned short, -, USHRT_MAX);
 }
@@ -5972,14 +5709,12 @@ H5T__conv_uint_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		  size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                  void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_su(INT, UINT, int, unsigned, -, -);
 }
@@ -5997,14 +5732,12 @@ H5T__conv_int_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		  size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                  void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_us(UINT, INT, unsigned, int, -, INT_MAX);
 }
@@ -6022,14 +5755,12 @@ H5T__conv_uint_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		  size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                  void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(INT, LONG, int, long, -, -);
 }
@@ -6047,14 +5778,12 @@ H5T__conv_int_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(INT, LONG, int, unsigned long, -, -);
 }
@@ -6072,14 +5801,12 @@ H5T__conv_int_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(UINT, LONG, unsigned, long, -, LONG_MAX);
 }
@@ -6097,14 +5824,12 @@ H5T__conv_uint_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(UINT, ULONG, unsigned, unsigned long, -, -);
 }
@@ -6122,14 +5847,12 @@ H5T__conv_uint_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(INT, LLONG, int, long long, -, -);
 }
@@ -6147,14 +5870,12 @@ H5T__conv_int_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(INT, ULLONG, int, unsigned long long, -, -);
 }
@@ -6172,14 +5893,12 @@ H5T__conv_int_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(UINT, LLONG, unsigned, long long, -, LLONG_MAX);
 }
@@ -6197,15 +5916,12 @@ H5T__conv_uint_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(UINT, ULLONG, unsigned, unsigned long long, -, -);
 }
@@ -6223,14 +5939,12 @@ H5T__conv_uint_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(LONG, SCHAR, long, signed char, SCHAR_MIN, SCHAR_MAX);
 }
@@ -6248,14 +5962,12 @@ H5T__conv_long_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(LONG, UCHAR, long, unsigned char, -, UCHAR_MAX);
 }
@@ -6273,15 +5985,12 @@ H5T__conv_long_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(ULONG, SCHAR, unsigned long, signed char, -, SCHAR_MAX);
 }
@@ -6299,15 +6008,12 @@ H5T__conv_ulong_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(ULONG, UCHAR, unsigned long, unsigned char, -, UCHAR_MAX);
 }
@@ -6325,14 +6031,12 @@ H5T__conv_ulong_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(LONG, SHORT, long, short, SHRT_MIN, SHRT_MAX);
 }
@@ -6350,15 +6054,12 @@ H5T__conv_long_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(LONG, USHORT, long, unsigned short, -, USHRT_MAX);
 }
@@ -6376,14 +6077,12 @@ H5T__conv_long_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                     void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(ULONG, SHORT, unsigned long, short, -, SHRT_MAX);
 }
@@ -6401,15 +6100,12 @@ H5T__conv_ulong_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(ULONG, USHORT, unsigned long, unsigned short, -, USHRT_MAX);
 }
@@ -6427,14 +6123,12 @@ H5T__conv_ulong_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		  size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                  void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(LONG, INT, long, int, INT_MIN, INT_MAX);
 }
@@ -6452,14 +6146,12 @@ H5T__conv_long_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(LONG, UINT, long, unsigned, -, UINT_MAX);
 }
@@ -6477,14 +6169,12 @@ H5T__conv_long_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(ULONG, INT, unsigned long, int, -, INT_MAX);
 }
@@ -6502,14 +6192,12 @@ H5T__conv_ulong_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(ULONG, UINT, unsigned long, unsigned, -, UINT_MAX);
 }
@@ -6527,14 +6215,12 @@ H5T__conv_ulong_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_su(LONG, ULONG, long, unsigned long, -, -);
 }
@@ -6552,14 +6238,12 @@ H5T__conv_long_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_us(ULONG, LONG, unsigned long, long, -, LONG_MAX);
 }
@@ -6577,14 +6261,12 @@ H5T__conv_ulong_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sS(LONG, LLONG, long, long long, -, -);
 }
@@ -6602,15 +6284,12 @@ H5T__conv_long_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_sU(LONG, ULLONG, long, unsigned long long, -, -);
 }
@@ -6628,15 +6307,12 @@ H5T__conv_long_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uS(ULONG, LLONG, unsigned long, long long, -, LLONG_MAX);
 }
@@ -6654,15 +6330,12 @@ H5T__conv_ulong_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_uU(ULONG, ULLONG, unsigned long, unsigned long long, -, -);
 }
@@ -6680,15 +6353,12 @@ H5T__conv_ulong_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(LLONG, SCHAR, long long, signed char, SCHAR_MIN, SCHAR_MAX);
 }
@@ -6706,15 +6376,12 @@ H5T__conv_llong_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(LLONG, UCHAR, long long, unsigned char, -, UCHAR_MAX);
 }
@@ -6732,15 +6399,12 @@ H5T__conv_llong_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(ULLONG, SCHAR, unsigned long long, signed char, -, SCHAR_MAX);
 }
@@ -6758,15 +6422,12 @@ H5T__conv_ullong_schar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-                      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(ULLONG, UCHAR, unsigned long long, unsigned char, -, UCHAR_MAX);
 }
@@ -6784,15 +6445,12 @@ H5T__conv_ullong_uchar(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(LLONG, SHORT, long long, short, SHRT_MIN, SHRT_MAX);
 }
@@ -6810,15 +6468,12 @@ H5T__conv_llong_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(LLONG, USHORT, long long, unsigned short, -, USHRT_MAX);
 }
@@ -6836,15 +6491,12 @@ H5T__conv_llong_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(ULLONG, SHORT, unsigned long long, short, -, SHRT_MAX);
 }
@@ -6862,15 +6514,12 @@ H5T__conv_ullong_short(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(ULLONG, USHORT, unsigned long long, unsigned short, -, USHRT_MAX);
 }
@@ -6888,14 +6537,12 @@ H5T__conv_ullong_ushort(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		   size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                   void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(LLONG, INT, long long, int, INT_MIN, INT_MAX);
 }
@@ -6913,14 +6560,12 @@ H5T__conv_llong_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(LLONG, UINT, long long, unsigned, -, UINT_MAX);
 }
@@ -6938,14 +6583,12 @@ H5T__conv_llong_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(ULLONG, INT, unsigned long long, int, -, INT_MAX);
 }
@@ -6963,15 +6606,12 @@ H5T__conv_ullong_int(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(ULLONG, UINT, unsigned long long, unsigned, -, UINT_MAX);
 }
@@ -6989,14 +6629,12 @@ H5T__conv_ullong_uint(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
-                    void *buf, void H5_ATTR_UNUSED *bkg, hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ss(LLONG, LONG, long long, long, LONG_MIN, LONG_MAX);
 }
@@ -7014,15 +6652,12 @@ H5T__conv_llong_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Su(LLONG, ULONG, long long, unsigned long, -, ULONG_MAX);
 }
@@ -7040,15 +6675,12 @@ H5T__conv_llong_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		     size_t nelmts, size_t buf_stride,
-                     size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-		     hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Us(ULLONG, LONG, unsigned long long, long, -, LONG_MAX);
 }
@@ -7066,15 +6698,12 @@ H5T__conv_ullong_long(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Friday, November 13, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Uu(ULLONG, ULONG, unsigned long long, unsigned long, -, ULONG_MAX);
 }
@@ -7092,15 +6721,12 @@ H5T__conv_ullong_ulong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_su(LLONG, ULLONG, long long, unsigned long long, -, -);
 }
@@ -7118,15 +6744,12 @@ H5T__conv_llong_ullong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Monday, November 16, 1998
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		      size_t nelmts, size_t buf_stride,
-                      size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                      hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_us(ULLONG, LLONG, unsigned long long, long long, -, LLONG_MAX);
 }
@@ -7143,19 +6766,12 @@ H5T__conv_ullong_llong(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Tuesday, June 23, 1998
  *
- * Modifications:
- *		Robb Matzke, 1999-06-16
- *		Added support for non-zero strides. If BUF_STRIDE is non-zero
- *		then convert one value at each memory location advancing
- *		BUF_STRIDE bytes each time; otherwise assume both source and
- *		destination values are packed.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_fF(FLOAT, DOUBLE, float, double, -, -);
 }
@@ -7172,16 +6788,13 @@ H5T__conv_float_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, Feb 25, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5_SIZEOF_LONG_DOUBLE != 0
 herr_t
 H5T__conv_float_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_fF(FLOAT, LDOUBLE, float, long double, -, -);
 }
@@ -7199,22 +6812,12 @@ H5T__conv_float_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Robb Matzke
  *		Tuesday, June 23, 1998
  *
- * Modifications:
- *		Robb Matzke, 7 Jul 1998
- *		Added overflow handling.
- *
- *		Robb Matzke, 1999-06-16
- *		Added support for non-zero strides. If BUF_STRIDE is non-zero
- *		then convert one value at each memory location advancing
- *		BUF_STRIDE bytes each time; otherwise assume both source and
- *		destination values are packed.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ff(DOUBLE, FLOAT, double, float, -FLT_MAX, FLT_MAX);
 }
@@ -7231,16 +6834,13 @@ H5T__conv_double_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, Feb 25, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5_SIZEOF_LONG_DOUBLE != 0
 herr_t
 H5T__conv_double_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_fF(DOUBLE, LDOUBLE, double, long double, -, -);
 }
@@ -7258,16 +6858,13 @@ H5T__conv_double_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, Feb 25, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5_SIZEOF_LONG_DOUBLE != 0
 herr_t
 H5T__conv_ldouble_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ff(LDOUBLE, FLOAT, long double, float, -FLT_MAX, FLT_MAX);
 }
@@ -7285,16 +6882,13 @@ H5T__conv_ldouble_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, Feb 25, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5_SIZEOF_LONG_DOUBLE != 0
 herr_t
 H5T__conv_ldouble_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_Ff(LDOUBLE, DOUBLE, long double, double, -DBL_MAX, DBL_MAX);
 }
@@ -7312,15 +6906,12 @@ H5T__conv_ldouble_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(SCHAR, FLOAT, signed char, float, -, -);
 }
@@ -7337,15 +6928,12 @@ H5T__conv_schar_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(SCHAR, DOUBLE, signed char, double, -, -);
 }
@@ -7362,15 +6950,12 @@ H5T__conv_schar_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_schar_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(SCHAR, LDOUBLE, signed char, long double, -, -);
 }
@@ -7387,15 +6972,12 @@ H5T__conv_schar_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(UCHAR, FLOAT, unsigned char, float, -, -);
 }
@@ -7412,15 +6994,12 @@ H5T__conv_uchar_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(UCHAR, DOUBLE, unsigned char, double, -, -);
 }
@@ -7437,15 +7016,12 @@ H5T__conv_uchar_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uchar_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(UCHAR, LDOUBLE, unsigned char, long double, -, -);
 }
@@ -7462,15 +7038,12 @@ H5T__conv_uchar_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(SHORT, FLOAT, short, float, -, -);
 }
@@ -7487,15 +7060,12 @@ H5T__conv_short_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(SHORT, DOUBLE, short, double, -, -);
 }
@@ -7512,15 +7082,12 @@ H5T__conv_short_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_short_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(SHORT, LDOUBLE, short, long double, -, -);
 }
@@ -7537,15 +7104,12 @@ H5T__conv_short_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(USHORT, FLOAT, unsigned short, float, -, -);
 }
@@ -7562,15 +7126,12 @@ H5T__conv_ushort_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(USHORT, DOUBLE, unsigned short, double, -, -);
 }
@@ -7587,15 +7148,12 @@ H5T__conv_ushort_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ushort_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(USHORT, LDOUBLE, unsigned short, long double, -, -);
 }
@@ -7612,15 +7170,12 @@ H5T__conv_ushort_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(INT, FLOAT, int, float, -, -);
 }
@@ -7637,15 +7192,12 @@ H5T__conv_int_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(INT, DOUBLE, int, double, -, -);
 }
@@ -7662,15 +7214,12 @@ H5T__conv_int_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_int_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(INT, LDOUBLE, int, long double, -, -);
 }
@@ -7687,15 +7236,12 @@ H5T__conv_int_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(UINT, FLOAT, unsigned int, float, -, -);
 }
@@ -7712,15 +7258,12 @@ H5T__conv_uint_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(UINT, DOUBLE, unsigned int, double, -, -);
 }
@@ -7737,15 +7280,12 @@ H5T__conv_uint_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_uint_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(UINT, LDOUBLE, unsigned int, long double, -, -);
 }
@@ -7762,15 +7302,12 @@ H5T__conv_uint_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(LONG, FLOAT, long, float, -, -);
 }
@@ -7787,15 +7324,12 @@ H5T__conv_long_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(LONG, DOUBLE, long, double, -, -);
 }
@@ -7812,15 +7346,12 @@ H5T__conv_long_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_long_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(LONG, LDOUBLE, long, long double, -, -);
 }
@@ -7837,15 +7368,12 @@ H5T__conv_long_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(ULONG, FLOAT, unsigned long, float, -, -);
 }
@@ -7862,15 +7390,12 @@ H5T__conv_ulong_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(ULONG, DOUBLE, unsigned long, double, -, -);
 }
@@ -7887,15 +7412,12 @@ H5T__conv_ulong_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ulong_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(ULONG, LDOUBLE, unsigned long, long double, -, -);
 }
@@ -7912,15 +7434,12 @@ H5T__conv_ulong_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(LLONG, FLOAT, long long, float, -, -);
 }
@@ -7937,15 +7456,12 @@ H5T__conv_llong_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_llong_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(LLONG, DOUBLE, long long, double, -, -);
 }
@@ -7962,16 +7478,13 @@ H5T__conv_llong_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5T_CONV_INTERNAL_LLONG_LDOUBLE
 herr_t
 H5T__conv_llong_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(LLONG, LDOUBLE, long long, long double, -, -);
 }
@@ -7989,15 +7502,12 @@ H5T__conv_llong_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(ULLONG, FLOAT, unsigned long long, float, -, -);
 }
@@ -8014,15 +7524,12 @@ H5T__conv_ullong_float (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ullong_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(ULLONG, DOUBLE, unsigned long long, double, -, -);
 }
@@ -8039,16 +7546,13 @@ H5T__conv_ullong_double (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5T_CONV_INTERNAL_ULLONG_LDOUBLE
 herr_t
 H5T__conv_ullong_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
     H5T_CONV_xF(ULLONG, LDOUBLE, unsigned long long, long double, -, -);
 }
@@ -8066,15 +7570,12 @@ H5T__conv_ullong_ldouble (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_schar (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, SCHAR, float, signed char, SCHAR_MIN, SCHAR_MAX);
@@ -8093,15 +7594,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_uchar (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, UCHAR, float, unsigned char, 0, UCHAR_MAX);
@@ -8120,15 +7618,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_schar (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, SCHAR, double, signed char, SCHAR_MIN, SCHAR_MAX);
@@ -8147,15 +7642,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_uchar (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, UCHAR, double, unsigned char, 0, UCHAR_MAX);
@@ -8174,15 +7666,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_schar (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, SCHAR, long double, signed char, SCHAR_MIN, SCHAR_MAX);
@@ -8201,15 +7690,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_uchar (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, UCHAR, long double, unsigned char, 0, UCHAR_MAX);
@@ -8228,15 +7714,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_short (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, SHORT, float, short, SHRT_MIN, SHRT_MAX);
@@ -8255,15 +7738,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_ushort (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, USHORT, float, unsigned short, 0, USHRT_MAX);
@@ -8282,15 +7762,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_short (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, SHORT, double, short, SHRT_MIN, SHRT_MAX);
@@ -8309,15 +7786,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_ushort (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, USHORT, double, unsigned short, 0, USHRT_MAX);
@@ -8336,15 +7810,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_short (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, SHORT, long double, short, SHRT_MIN, SHRT_MAX);
@@ -8363,15 +7834,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_ushort (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, USHORT, long double, unsigned short, 0, USHRT_MAX);
@@ -8390,15 +7858,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_int (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, INT, float, int, INT_MIN, INT_MAX);
@@ -8417,15 +7882,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_uint (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, UINT, float, unsigned int, 0, UINT_MAX);
@@ -8444,15 +7906,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_int (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, INT, double, int, INT_MIN, INT_MAX);
@@ -8471,15 +7930,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_uint (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, UINT, double, unsigned int, 0, UINT_MAX);
@@ -8498,15 +7954,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_int (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, INT, long double, int, INT_MIN, INT_MAX);
@@ -8525,15 +7978,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_uint (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, UINT, long double, unsigned int, 0, UINT_MAX);
@@ -8552,15 +8002,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_long (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, LONG, float, long, LONG_MIN, LONG_MAX);
@@ -8579,15 +8026,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_ulong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, ULONG, float, unsigned long, 0, ULONG_MAX);
@@ -8606,15 +8050,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_long (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, LONG, double, long, LONG_MIN, LONG_MAX);
@@ -8633,15 +8074,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_ulong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, ULONG, double, unsigned long, 0, ULONG_MAX);
@@ -8660,15 +8098,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_long (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, LONG, long double, long, LONG_MIN, LONG_MAX);
@@ -8687,15 +8122,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_ldouble_ulong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, ULONG, long double, unsigned long, 0, ULONG_MAX);
@@ -8714,15 +8146,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_llong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, LLONG, float, long long, LLONG_MIN, LLONG_MAX);
@@ -8741,15 +8170,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_float_ullong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(FLOAT, ULLONG, float, unsigned long long, 0, ULLONG_MAX);
@@ -8768,15 +8194,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_llong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, LLONG, double, long long, LLONG_MIN, LLONG_MAX);
@@ -8795,15 +8218,12 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Friday, November 7, 2003
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_double_ullong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(DOUBLE, ULLONG, double, unsigned long long, 0, ULLONG_MAX);
@@ -8822,16 +8242,13 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5T_CONV_INTERNAL_LDOUBLE_LLONG
 herr_t
 H5T__conv_ldouble_llong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t H5_ATTR_UNUSED dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, LLONG, long double, long long, LLONG_MIN, LLONG_MAX);
@@ -8851,16 +8268,13 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Tuesday, Febuary 1, 2005
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 #if H5T_CONV_INTERNAL_LDOUBLE_ULLONG
 herr_t
 H5T__conv_ldouble_ullong (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
-		       size_t nelmts, size_t buf_stride,
-                       size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-                       hid_t dxpl_id)
+    size_t nelmts, size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride,
+    void *buf, void H5_ATTR_UNUSED *bkg)
 {
 H5_GCC_DIAG_OFF(float-equal)
     H5T_CONV_Fx(LDOUBLE, ULLONG, long double, unsigned long long, 0, ULLONG_MAX);
@@ -8881,8 +8295,6 @@ H5_GCC_DIAG_ON(float-equal)
  * Programmer:	Raymond Lu
  *		Wednesday, Jan 21, 2004
  *
- * Modifications:
- *
  *              Raymond Lu
  *              Wednesday, April 21, 2004
  *              There is a new design for exception handling like overflow,
@@ -8895,8 +8307,7 @@ H5_GCC_DIAG_ON(float-equal)
  */
 herr_t
 H5T__conv_f_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-    hid_t dxpl_id)
+    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg)
 {
     /* Traversal-related variables */
     H5T_t	*src_p;			/*source datatype		*/
@@ -8921,7 +8332,6 @@ H5T__conv_f_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t	i;			/*miscellaneous counters	*/
     size_t	first;                  /*first bit(MSB) in an integer  */
     ssize_t	sfirst;			/*a signed version of `first'	*/
-    H5P_genplist_t      *plist;         /*Property list pointer         */
     H5T_conv_cb_t       cb_struct={NULL, NULL};      /*conversion callback structure */
     hbool_t     truncated;              /*if fraction value is dropped  */
     hbool_t     reverse;                /*if reverse order of destination at the end */
@@ -8985,13 +8395,9 @@ H5T__conv_f_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             buf_size = (size_t) (HDpow((double)2.0f, (double)src.u.f.esize) / 8 + 1);
             int_buf = (uint8_t*)H5MM_calloc(buf_size);
 
-            /* Get the plist structure. Do I need to close it? */
-            if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
-
             /* Get conversion exception callback property */
-            if(H5P_get(plist, H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
+            if(H5CX_get_dt_conv_cb(&cb_struct) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src_p->shared->size);
@@ -9467,22 +8873,11 @@ done:
  * Programmer:	Raymond Lu
  *		Friday, Feb 6, 2004
  *
- * Modifications:
- *
- *              Raymond Lu
- *              Wednesday, April 21, 2004
- *              There is a new design for exception handling like overflow,
- *              which is passed in as a transfer property.
- *
- *              Raymond Lu
- *              Monday, March 13, 2006
- *              Added support for VAX floating-point types.
  *-------------------------------------------------------------------------
  */
 herr_t
 H5T__conv_i_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
-    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg,
-    hid_t dxpl_id)
+    size_t buf_stride, size_t H5_ATTR_UNUSED bkg_stride, void *buf, void H5_ATTR_UNUSED *bkg)
 {
     /* Traversal-related variables */
     H5T_t	*src_p;			/*source datatype		*/
@@ -9510,7 +8905,6 @@ H5T__conv_i_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t	i;			/*miscellaneous counters	*/
     size_t	first;                  /*first bit(MSB) in an integer  */
     ssize_t	sfirst;			/*a signed version of `first'	*/
-    H5P_genplist_t      *plist;         /*Property list pointer         */
     H5T_conv_cb_t       cb_struct = {NULL, NULL};      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
     hbool_t             reverse;        /*if reverse the order of destination   */
@@ -9573,13 +8967,9 @@ H5T__conv_i_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             buf_size = (src.prec > dst.u.f.msize ? src.prec : dst.u.f.msize)/8 + 1;
             int_buf = (uint8_t*)H5MM_calloc(buf_size);
 
-            /* Get the plist structure */
-            if(NULL == (plist = H5P_object_verify(dxpl_id,H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
-
             /* Get conversion exception callback property */
-            if(H5P_get(plist,H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
+            if(H5CX_get_dt_conv_cb(&cb_struct) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src_p->shared->size);
@@ -9898,11 +9288,6 @@ done:
  * Programmer:	Raymond Lu
  *		April 26, 2004
  *
- * Modifications:
- *
- *              Raymond Lu
- *              March 13, 2006
- *              Add support for VAX floating-point types.
  *-------------------------------------------------------------------------
  */
 static herr_t

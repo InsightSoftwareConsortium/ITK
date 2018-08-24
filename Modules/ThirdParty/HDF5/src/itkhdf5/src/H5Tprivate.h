@@ -100,7 +100,7 @@ typedef struct H5T_subset_info_t {
 /* Forward declarations for prototype arguments */
 struct H5O_t;
 
-/* The native endianess of the platform */
+/* The native endianness of the platform */
 H5_DLLVAR H5T_order_t H5T_native_order_g;
 
 /* Private functions */
@@ -108,6 +108,7 @@ H5_DLL herr_t H5T_init(void);
 H5_DLL H5T_t *H5T_copy(H5T_t *old_dt, H5T_copy_t method);
 H5_DLL herr_t H5T_lock(H5T_t *dt, hbool_t immutable);
 H5_DLL herr_t H5T_close(H5T_t *dt);
+H5_DLL herr_t H5T_close_real(H5T_t *dt);
 H5_DLL H5T_t *H5T_get_super(const H5T_t *dt);
 H5_DLL H5T_class_t H5T_get_class(const H5T_t *dt, htri_t internal);
 H5_DLL htri_t H5T_detect_class(const H5T_t *dt, H5T_class_t cls, hbool_t from_api);
@@ -122,17 +123,14 @@ H5_DLL htri_t H5T_is_immutable(const H5T_t *dt);
 H5_DLL htri_t H5T_is_named(const H5T_t *dt);
 H5_DLL herr_t H5T_convert_committed_datatype(H5T_t *dt, H5F_t *f);
 H5_DLL htri_t H5T_is_relocatable(const H5T_t *dt);
-H5_DLL H5T_path_t *H5T_path_find(const H5T_t *src, const H5T_t *dst,
-    const char *name, H5T_conv_t func, hid_t dxpl_id, hbool_t is_api);
+H5_DLL H5T_path_t *H5T_path_find(const H5T_t *src, const H5T_t *dst);
 H5_DLL hbool_t H5T_path_noop(const H5T_path_t *p);
 H5_DLL H5T_bkg_t H5T_path_bkg(const H5T_path_t *p);
 H5_DLL H5T_subset_info_t *H5T_path_compound_subset(const H5T_path_t *p);
 H5_DLL herr_t H5T_convert(H5T_path_t *tpath, hid_t src_id, hid_t dst_id,
-    size_t nelmts, size_t buf_stride, size_t bkg_stride, void *buf, void *bkg,
-    hid_t dset_xfer_plist);
+    size_t nelmts, size_t buf_stride, size_t bkg_stride, void *buf, void *bkg);
 H5_DLL herr_t H5T_vlen_reclaim(void *elem, hid_t type_id, unsigned ndim, const hsize_t *point, void *_op_data);
-H5_DLL herr_t H5T_vlen_reclaim_elmt(void *elem, H5T_t *dt, hid_t dxpl_id);
-H5_DLL herr_t H5T_vlen_get_alloc_info(hid_t dxpl_id, H5T_vlen_alloc_info_t **vl_alloc_info);
+H5_DLL herr_t H5T_vlen_reclaim_elmt(void *elem, H5T_t *dt);
 H5_DLL htri_t H5T_set_loc(H5T_t *dt, H5F_t *f, H5T_loc_t loc);
 H5_DLL htri_t H5T_is_sensible(const H5T_t *dt);
 H5_DLL uint32_t H5T_hash(H5F_t * file, const H5T_t *dt);
@@ -145,9 +143,9 @@ H5_DLL htri_t H5T_is_variable_str(const H5T_t *dt);
 H5_DLL H5R_type_t H5T_get_ref_type(const H5T_t *dt);
 
 /* Operations on named datatypes */
-H5_DLL H5T_t *H5T_open(const H5G_loc_t *loc, hid_t dxpl_id);
+H5_DLL H5T_t *H5T_open(const H5G_loc_t *loc);
 H5_DLL htri_t H5T_committed(const H5T_t *type);
-H5_DLL int H5T_link(const H5T_t *type, int adjust, hid_t dxpl_id);
+H5_DLL int H5T_link(const H5T_t *type, int adjust);
 H5_DLL herr_t H5T_update_shared(H5T_t *type);
 
 /* Field functions (for both compound & enumerated types) */

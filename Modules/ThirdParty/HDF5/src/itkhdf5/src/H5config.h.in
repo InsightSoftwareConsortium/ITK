@@ -603,6 +603,9 @@
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #undef TIME_WITH_SYS_TIME
 
+/* Define using v1.10 public API symbols by default */
+#undef USE_110_API_DEFAULT
+
 /* Define using v1.6 public API symbols by default */
 #undef USE_16_API_DEFAULT
 

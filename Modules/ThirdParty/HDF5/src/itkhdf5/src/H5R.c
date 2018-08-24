@@ -23,6 +23,7 @@
 /***********/
 #include "H5private.h"          /* Generic Functions                        */
 #include "H5ACprivate.h"        /* Metadata cache                           */
+#include "H5CXprivate.h"        /* API Contexts                             */
 #include "H5Eprivate.h"         /* Error handling                           */
 #include "H5Gprivate.h"         /* Groups                                   */
 #include "H5Iprivate.h"         /* IDs                                      */
@@ -113,9 +114,13 @@ H5Rcreate(void *ref, hid_t loc_id, const char *name, H5R_type_t ref_type, hid_t 
     if (space_id != (-1) && (NULL == (space = (H5S_t *)H5I_object_verify(space_id, H5I_DATASPACE))))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataspace")
 
+    /* Set up collective metadata if appropriate */
+    if(H5CX_set_loc(loc_id) < 0)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTSET, FAIL, "can't set access property list info")
+
     /* Create reference */
-    if ((ret_value = H5R_create(ref, &loc, name, ref_type, space, H5AC_ind_read_dxpl_id)) < 0)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, FAIL, "unable to create reference")
+    if((ret_value = H5R__create(ref, &loc, name, ref_type, space)) < 0)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTCREATE, FAIL, "unable to create reference")
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -136,7 +141,7 @@ done:
         void *ref;      IN: Reference to open.
 
  RETURNS
-    Valid ID on success, Negative on failure
+    Valid ID on success, H5I_INVALID_HID on failure
  DESCRIPTION
     Given a reference to some object, open that object and return an ID for
     that object.
@@ -154,32 +159,31 @@ H5Rdereference2(hid_t obj_id, hid_t oapl_id, H5R_type_t ref_type, const void *_r
 {
     H5G_loc_t loc;      /* Group location */
     H5F_t *file = NULL; /* File object */
-    hid_t dxpl_id = H5AC_ind_read_dxpl_id; /* dxpl used by library */
-    hid_t ret_value;
+    hid_t ret_value = H5I_INVALID_HID;	/* Return value */
 
-    FUNC_ENTER_API(FAIL)
+    FUNC_ENTER_API(H5I_INVALID_HID)
     H5TRACE4("i", "iiRt*x", obj_id, oapl_id, ref_type, _ref);
 
     /* Check args */
     if (H5G_loc(obj_id, &loc) < 0)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a location")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, H5I_INVALID_HID, "not a location")
     if (oapl_id < 0)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a property list")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, H5I_INVALID_HID, "not a property list")
     if (ref_type <= H5R_BADTYPE || ref_type >= H5R_MAXTYPE)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference type")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference type")
     if (_ref == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference pointer")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference pointer")
 
-    /* Verify access property list and get correct dxpl */
-    if (H5P_verify_apl_and_dxpl(&oapl_id, H5P_CLS_DACC, &dxpl_id, obj_id, FALSE) < 0)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTSET, FAIL, "can't set access and transfer property lists")
+    /* Verify access property list and set up collective metadata if appropriate */
+    if(H5CX_set_apl(&oapl_id, H5P_CLS_DACC, obj_id, FALSE) < 0)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTSET, FAIL, "can't set access property list info")
 
     /* Get the file pointer from the entry */
     file = loc.oloc->file;
 
     /* Create reference */
-    if ((ret_value = H5R_dereference(file, oapl_id, dxpl_id, ref_type, _ref, TRUE)) < 0)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, FAIL, "unable to dereference object")
+    if((ret_value = H5R__dereference(file, oapl_id, ref_type, _ref)) < 0)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTOPENOBJ, H5I_INVALID_HID, "unable to dereference object")
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -199,7 +203,7 @@ done:
         void *ref;        IN: Reference to open.
 
  RETURNS
-    Valid ID on success, Negative on failure
+    Valid ID on success, H5I_INVALID_HID on failure
  DESCRIPTION
     Given a reference to some object, creates a copy of the dataset pointed
     to's dataspace and defines a selection in the copy which is the region
@@ -214,26 +218,26 @@ H5Rget_region(hid_t id, H5R_type_t ref_type, const void *ref)
 {
     H5G_loc_t loc;          /* Object's group location */
     H5S_t *space = NULL;    /* Dataspace object */
-    hid_t ret_value;
+    hid_t ret_value = H5I_INVALID_HID;	/* Return value */
 
-    FUNC_ENTER_API(FAIL)
+    FUNC_ENTER_API(H5I_INVALID_HID)
     H5TRACE3("i", "iRt*x", id, ref_type, ref);
 
     /* Check args */
     if (H5G_loc(id, &loc) < 0)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a location")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, H5I_INVALID_HID, "not a location")
     if (ref_type != H5R_DATASET_REGION)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference type")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference type")
     if (ref == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference pointer")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference pointer")
 
     /* Get the dataspace with the correct region selected */
-    if ((space = H5R_get_region(loc.oloc->file, H5AC_ind_read_dxpl_id, ref)) == NULL)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTCREATE, FAIL, "unable to create dataspace")
+    if(NULL == (space = H5R__get_region(loc.oloc->file, ref)))
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTGET, H5I_INVALID_HID, "unable to retrieve dataspace")
 
     /* Atomize */
     if ((ret_value = H5I_register(H5I_DATASPACE, space, TRUE)) < 0)
-        HGOTO_ERROR(H5E_ATOM, H5E_CANTREGISTER, FAIL, "unable to register dataspace atom")
+        HGOTO_ERROR(H5E_ATOM, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register dataspace atom")
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -282,8 +286,8 @@ H5Rget_obj_type2(hid_t id, H5R_type_t ref_type, const void *ref,
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference pointer")
 
     /* Get the object information */
-    if (H5R_get_obj_type(loc.oloc->file, H5AC_ind_read_dxpl_id, ref_type, ref, obj_type) < 0)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, FAIL, "unable to determine object type")
+    if(H5R__get_obj_type(loc.oloc->file, ref_type, ref, obj_type) < 0)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTGET, FAIL, "unable to determine object type")
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -307,7 +311,7 @@ done:
                             when passing in the size)
 
  RETURNS
-    Non-negative length of the path on success, Negative on failure
+    Non-negative length of the path on success, -1 on failure
  DESCRIPTION
     Given a reference to some object, determine a path to the object
     referenced in the file.
@@ -331,23 +335,23 @@ H5Rget_name(hid_t id, H5R_type_t ref_type, const void *_ref, char *name,
     H5F_t *file;        /* File object */
     ssize_t ret_value;  /* Return value */
 
-    FUNC_ENTER_API(FAIL)
+    FUNC_ENTER_API((-1))
     H5TRACE5("Zs", "iRt*x*sz", id, ref_type, _ref, name, size);
 
     /* Check args */
     if (H5G_loc(id, &loc) < 0)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a location")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, (-1), "not a location")
     if (ref_type <= H5R_BADTYPE || ref_type >= H5R_MAXTYPE)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference type")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, (-1), "invalid reference type")
     if (_ref == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference pointer")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, (-1), "invalid reference pointer")
 
     /* Get the file pointer from the entry */
     file = loc.oloc->file;
 
     /* Get name */
-    if ((ret_value = H5R_get_name(file, H5P_DEFAULT, H5AC_ind_read_dxpl_id, id, ref_type, _ref, name, size)) < 0)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, FAIL, "unable to determine object path")
+    if((ret_value = H5R__get_name(file, id, ref_type, _ref, name, size)) < 0)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTGET, (-1), "unable to determine object path")
 
 done:
     FUNC_LEAVE_API(ret_value)

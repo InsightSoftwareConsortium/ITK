@@ -1,4 +1,5 @@
-PROJECT (HDF5_HL_CPP)
+cmake_minimum_required (VERSION 3.10)
+project (HDF5_HL_CPP CXX)
 
 #-----------------------------------------------------------------------------
 # Main HL lib is in /src

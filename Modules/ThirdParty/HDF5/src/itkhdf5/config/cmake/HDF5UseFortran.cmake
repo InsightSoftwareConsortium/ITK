@@ -10,21 +10,23 @@
 # help@hdfgroup.org.
 #
 
-## Check for non-standard extenstion quadmath.h
-
-CHECK_INCLUDE_FILES(quadmath.h C_HAVE_QUADMATH)
-
-if (${C_HAVE_QUADMATH})
-  set(HAVE_QUADMATH 1)
-else ()
-  set(HAVE_QUADMATH 0)
-endif ()
-
 #
 # This file provides functions for HDF5 specific Fortran support.
 #
 #-------------------------------------------------------------------------------
 ENABLE_LANGUAGE (Fortran)
+set (HDF_PREFIX "H5")
+include (CheckFortranFunctionExists)
+
+## Check for non-standard extenstion quadmath.h
+
+CHECK_INCLUDE_FILES(quadmath.h C_HAVE_QUADMATH)
+
+if (${C_HAVE_QUADMATH})
+  set(${HDF_PREFIX}_HAVE_QUADMATH_H 1)
+else ()
+  set(${HDF_PREFIX}_HAVE_QUADMATH_H 0)
+endif ()
 
 # The provided CMake Fortran macros don't provide a general compile/run function
 # so this one is used.
@@ -96,9 +98,9 @@ CHECK_FORTRAN_FEATURE(c_long_double
 )
 
 if (${FORTRAN_HAVE_C_LONG_DOUBLE})
-  set (FORTRAN_HAVE_C_LONG_DOUBLE 1)
+  set (${HDF_PREFIX}_FORTRAN_HAVE_C_LONG_DOUBLE 1)
 else ()
-  set (FORTRAN_HAVE_C_LONG_DOUBLE 0)
+  set (${HDF_PREFIX}_FORTRAN_HAVE_C_LONG_DOUBLE 0)
 endif ()
 
 # Check to see C_LONG_DOUBLE is different from C_DOUBLE
@@ -109,17 +111,17 @@ CHECK_FORTRAN_FEATURE(c_long_double
   FORTRAN_C_LONG_DOUBLE_IS_UNIQUE
 )
 if (${FORTRAN_C_LONG_DOUBLE_IS_UNIQUE})
-  set (FORTRAN_C_LONG_DOUBLE_IS_UNIQUE 1)
+  set (${HDF_PREFIX}_FORTRAN_C_LONG_DOUBLE_IS_UNIQUE 1)
 else ()
-  set (FORTRAN_C_LONG_DOUBLE_IS_UNIQUE 0)
+  set (${HDF_PREFIX}_FORTRAN_C_LONG_DOUBLE_IS_UNIQUE 0)
 endif ()
 
 ## Set the sizeof function for use later in the fortran tests
-if (FORTRAN_HAVE_STORAGE_SIZE)
+if (${HDF_PREFIX}_FORTRAN_HAVE_STORAGE_SIZE)
   set (FC_SIZEOF_A "STORAGE_SIZE(a, c_size_t)/STORAGE_SIZE(c_char_'a',c_size_t)")
   set (FC_SIZEOF_B "STORAGE_SIZE(b, c_size_t)/STORAGE_SIZE(c_char_'a',c_size_t)")
   set (FC_SIZEOF_C "STORAGE_SIZE(c, c_size_t)/STORAGE_SIZE(c_char_'a',c_size_t)")
-elseif (FORTRAN_HAVE_C_SIZEOF)
+elseif (${HDF_PREFIX}_FORTRAN_HAVE_C_SIZEOF)
   set (FC_SIZEOF_A "SIZEOF(a)")
   set (FC_SIZEOF_B "SIZEOF(b)")
   set (FC_SIZEOF_C "SIZEOF(c)")
@@ -151,7 +153,7 @@ string (REGEX REPLACE "\n" ";" PROG_OUTPUT "${PROG_OUTPUT}")
 
 list (GET PROG_OUTPUT 0 pac_validIntKinds)
 list (GET PROG_OUTPUT 1 pac_validRealKinds)
-list (GET PROG_OUTPUT 2 H5_PAC_FC_MAX_REAL_PRECISION)
+list (GET PROG_OUTPUT 2 ${HDF_PREFIX}_PAC_FC_MAX_REAL_PRECISION)
 
 # If the lists are empty then something went wrong.
 if (NOT pac_validIntKinds)
@@ -160,7 +162,7 @@ endif ()
 if (NOT pac_validRealKinds)
     message (FATAL_ERROR "Failed to find available REAL KINDs for Fortran")
 endif ()
-if (NOT H5_PAC_FC_MAX_REAL_PRECISION)
+if (NOT ${HDF_PREFIX}_PAC_FC_MAX_REAL_PRECISION)
     message (FATAL_ERROR "No output from Fortran decimal precision program")
 endif ()
 
@@ -172,13 +174,13 @@ list (GET PROG_OUTPUT 4 NUM_RKIND)
 
 set (PAC_FORTRAN_NUM_INTEGER_KINDS "${NUM_IKIND}")
 
-set (H5CONFIG_F_NUM_IKIND "INTEGER, PARAMETER :: num_ikinds = ${NUM_IKIND}")
-set (H5CONFIG_F_IKIND "INTEGER, DIMENSION(1:num_ikinds) :: ikind = (/${pac_validIntKinds}/)")
+set (${HDF_PREFIX}_H5CONFIG_F_NUM_IKIND "INTEGER, PARAMETER :: num_ikinds = ${NUM_IKIND}")
+set (${HDF_PREFIX}_H5CONFIG_F_IKIND "INTEGER, DIMENSION(1:num_ikinds) :: ikind = (/${pac_validIntKinds}/)")
 
 message (STATUS "....NUMBER OF INTEGER KINDS FOUND ${PAC_FORTRAN_NUM_INTEGER_KINDS}")
 message (STATUS "....REAL KINDS FOUND ${PAC_FC_ALL_REAL_KINDS}")
-message (STATUS "....INTEGER KINDS FOUND ${PAC_FC_ALL_REAL_KINDS}")
-message (STATUS "....MAX DECIMAL PRECISION ${H5_PAC_FC_MAX_REAL_PRECISION}")
+message (STATUS "....INTEGER KINDS FOUND ${PAC_FC_ALL_INTEGER_KINDS}")
+message (STATUS "....MAX DECIMAL PRECISION ${${HDF_PREFIX}_PAC_FC_MAX_REAL_PRECISION}")
 
 #-----------------------------------------------------------------------------
 # Determine the available KINDs for REALs and INTEGERs
@@ -263,7 +265,7 @@ string (REGEX REPLACE ",$" "" pack_real_sizeof "${pack_real_sizeof}")
 #Remove spaces
 string (REGEX REPLACE " " "" pack_real_sizeof "${pack_real_sizeof}")
 
-set (H5CONFIG_F_RKIND_SIZEOF "INTEGER, DIMENSION(1:num_rkinds) :: rkind_sizeof = (/${pack_real_sizeof}/)")
+set (${HDF_PREFIX}_H5CONFIG_F_RKIND_SIZEOF "INTEGER, DIMENSION(1:num_rkinds) :: rkind_sizeof = (/${pack_real_sizeof}/)")
 
 message (STATUS "....FOUND SIZEOF for REAL KINDs \{${pack_real_sizeof}\}")
 
@@ -336,13 +338,12 @@ if (NOT PAC_FORTRAN_NATIVE_DOUBLE_KIND)
 endif ()
 
 
-set (FORTRAN_SIZEOF_LONG_DOUBLE ${${HDF_PREFIX}_SIZEOF_LONG_DOUBLE})
-#set (H5_SIZEOF_LONG_DOUBLE ${${HDF_PREFIX}_SIZEOF_LONG_DOUBLE})
+set (${HDF_PREFIX}_FORTRAN_SIZEOF_LONG_DOUBLE ${${HDF_PREFIX}_SIZEOF_LONG_DOUBLE})
 
 # remove the invalid kind from the list
-if (NOT(${SIZEOF___FLOAT128} EQUAL 0))
-   if (NOT(${SIZEOF___FLOAT128} EQUAL ${max_real_fortran_sizeof})
-       AND NOT(${FORTRAN_SIZEOF_LONG_DOUBLE} EQUAL ${max_real_fortran_sizeof})
+if (NOT(${${HDF_PREFIX}_SIZEOF___FLOAT128} EQUAL 0))
+   if (NOT(${${HDF_PREFIX}_SIZEOF___FLOAT128} EQUAL ${max_real_fortran_sizeof})
+       AND NOT(${${HDF_PREFIX}_FORTRAN_SIZEOF_LONG_DOUBLE} EQUAL ${max_real_fortran_sizeof})
        # account for the fact that the C compiler can have 16-byte __float128 and the fortran compiler only has 8-byte doubles,
        # so we don't want to remove the 8-byte fortran doubles.
        AND NOT(${PAC_FORTRAN_NATIVE_DOUBLE_SIZEOF} EQUAL ${max_real_fortran_sizeof}))
@@ -355,15 +356,15 @@ if (NOT(${SIZEOF___FLOAT128} EQUAL 0))
    endif ()
 endif ()
 
-set (H5CONFIG_F_NUM_RKIND "INTEGER, PARAMETER :: num_rkinds = ${NUM_RKIND}")
+set (${HDF_PREFIX}_H5CONFIG_F_NUM_RKIND "INTEGER, PARAMETER :: num_rkinds = ${NUM_RKIND}")
 
 string (REGEX REPLACE "{" "" OUT_VAR ${PAC_FC_ALL_REAL_KINDS})
 string (REGEX REPLACE "}" "" OUT_VAR ${OUT_VAR})
-set (H5CONFIG_F_RKIND "INTEGER, DIMENSION(1:num_rkinds) :: rkind = (/${OUT_VAR}/)")
+set (${HDF_PREFIX}_H5CONFIG_F_RKIND "INTEGER, DIMENSION(1:num_rkinds) :: rkind = (/${OUT_VAR}/)")
 
 string (REGEX REPLACE "{" "" OUT_VAR ${PAC_FC_ALL_REAL_KINDS_SIZEOF})
 string (REGEX REPLACE "}" "" OUT_VAR ${OUT_VAR})
-set (H5CONFIG_F_RKIND_SIZEOF "INTEGER, DIMENSION(1:num_rkinds) :: rkind_sizeof = (/${OUT_VAR}/)")
+set (${HDF_PREFIX}_H5CONFIG_F_RKIND_SIZEOF "INTEGER, DIMENSION(1:num_rkinds) :: rkind_sizeof = (/${OUT_VAR}/)")
 
 ENABLE_LANGUAGE (C)
 
@@ -422,9 +423,9 @@ set (PROG_SRC
     "
 #include <float.h>
 #include <stdio.h>
-#define CHECK_FLOAT128 ${SIZEOF___FLOAT128}
+#define CHECK_FLOAT128 ${${HDF_PREFIX}_SIZEOF___FLOAT128}
 #if CHECK_FLOAT128!=0
-# if ${HAVE_QUADMATH}!=0
+# if ${${HDF_PREFIX}_HAVE_QUADMATH_H}!=0
 #include <quadmath.h>
 # endif
 # ifdef FLT128_DIG
@@ -459,19 +460,19 @@ string (REGEX REPLACE "\n" ";" PROG_OUTPUT "${PROG_OUTPUT}")
 list (GET PROG_OUTPUT 0 LDBL_DIG)
 list (GET PROG_OUTPUT 1 FLT128_DIG)
 
-if (SIZEOF___FLOAT128 EQUAL 0 OR FLT128_DIG EQUAL 0)
-  set (H5_HAVE_FLOAT128 0)
-  set (SIZEOF___FLOAT128 0)
-  set (H5_PAC_C_MAX_REAL_PRECISION ${LDBL_DIG})
+if (${HDF_PREFIX}_SIZEOF___FLOAT128 EQUAL 0 OR FLT128_DIG EQUAL 0)
+  set (${HDF_PREFIX}_HAVE_FLOAT128 0)
+  set (${HDF_PREFIX}_SIZEOF___FLOAT128 0)
+  set (${HDF_PREFIX}_PAC_C_MAX_REAL_PRECISION ${LDBL_DIG})
 else ()
-  set(H5_PAC_C_MAX_REAL_PRECISION ${FLT128_DIG})
+  set(${HDF_PREFIX}_PAC_C_MAX_REAL_PRECISION ${FLT128_DIG})
 endif ()
 
 
 # Setting definition if there is a 16 byte fortran integer
 string (FIND ${PAC_FC_ALL_INTEGER_KINDS_SIZEOF} "16" pos)
 if (${pos} EQUAL -1)
-  set (HAVE_Fortran_INTEGER_SIZEOF_16 0)
+  set (${HDF_PREFIX}_HAVE_Fortran_INTEGER_SIZEOF_16 0)
 else ()
-  set (HAVE_Fortran_INTEGER_SIZEOF_16 1)
+  set (${HDF_PREFIX}_HAVE_Fortran_INTEGER_SIZEOF_16 1)
 endif ()

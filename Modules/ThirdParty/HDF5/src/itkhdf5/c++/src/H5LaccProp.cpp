@@ -107,6 +107,7 @@ LinkAccPropList::LinkAccPropList(const hid_t plist_id) : PropList(plist_id) {}
 ///\brief       Set the number of soft or user-defined link traversals allowed
 ///             before the library assumes it has found a cycle and aborts the
 ///             traversal.
+///
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - March 1, 2017
 //--------------------------------------------------------------------------
@@ -124,6 +125,7 @@ void LinkAccPropList::setNumLinks(size_t nlinks) const
 // Function:    LinkAccPropList::getNumLinks
 ///\brief       Gets the number of soft or user-defined links that can be
 ///             traversed before a failure occurs.
+///
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - March 1, 2017
 //--------------------------------------------------------------------------

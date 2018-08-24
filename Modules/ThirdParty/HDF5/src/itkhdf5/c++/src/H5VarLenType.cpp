@@ -21,6 +21,7 @@
 #include "H5DcreatProp.h"
 #include "H5LcreatProp.h"
 #include "H5LaccProp.h"
+#include "H5DaccProp.h"
 #include "H5Location.h"
 #include "H5Object.h"
 #include "H5DataType.h"
@@ -132,6 +133,7 @@ VarLenType::VarLenType(const H5Location& loc, const H5std_string& dtype_name) : 
 // Function:    VarLenType::decode
 ///\brief       Returns an VarLenType object via DataType* by decoding the
 ///             binary object description of this type.
+///
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------

@@ -30,6 +30,7 @@
 #include "H5DcreatProp.h"
 #include "H5LcreatProp.h"
 #include "H5LaccProp.h"
+#include "H5DaccProp.h"
 #include "H5Location.h"
 #include "H5Object.h"
 #include "H5DataType.h"
@@ -169,6 +170,27 @@ DSetCreatPropList DataSet::getCreatePlist() const
     DSetCreatPropList create_plist;
     f_PropList_setId(&create_plist, create_plist_id);
     return(create_plist);
+}
+
+//--------------------------------------------------------------------------
+// Function:    DataSet::getAccessPlist
+///\brief       Gets the dataset access property list.
+///\return      DSetAccPropList instance
+///\exception   H5::DataSetIException
+// July 2018
+//--------------------------------------------------------------------------
+DSetAccPropList DataSet::getAccessPlist() const
+{
+    hid_t access_plist_id = H5Dget_access_plist(id);
+    if (access_plist_id < 0)
+    {
+        throw DataSetIException("DataSet::getAccessPlist", "H5Dget_access_plist failed");
+    }
+
+    // create and return the DSetCreatPropList object
+    DSetAccPropList access_plist;
+    f_PropList_setId(&access_plist, access_plist_id);
+    return(access_plist);
 }
 
 //--------------------------------------------------------------------------

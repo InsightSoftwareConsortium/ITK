@@ -21,6 +21,7 @@
 #include "H5DcreatProp.h"
 #include "H5LcreatProp.h"
 #include "H5LaccProp.h"
+#include "H5DaccProp.h"
 #include "H5Location.h"
 #include "H5Object.h"
 #include "H5DataType.h"
@@ -914,10 +915,14 @@ September 2015:
                 + PredType
                 + DataSpace
                 + PropList (and its subclasses below)
-                + FileAccPropList
-                + FileCreatPropList
                 + DSetMemXferPropList
                 + DSetCreatPropList
+                + DSetAccPropList
+                + FileAccPropList
+                + FileCreatPropList
+                + LinkAccPropList
+                + LinkCreatPropList
+                + ObjCreatPropList
 
         The new method includes these main points:
 
@@ -1042,18 +1047,24 @@ September 2015:
         4.  This section shows the differences between the old and new methods
             for allocating the following constants
                 - PropList constant, PropList::DEFAULT.
+                - DSetAccPropList constant, DSetAccPropList::DEFAULT.
                 - DSetCreatPropList constant, DSetCreatPropList::DEFAULT.
                 - DSetMemXferPropList constant, DSetMemXferPropList::DEFAULT.
                 - FileCreatPropList constant, FileCreatPropList::DEFAULT.
                 - FileAccPropList constant, FileAccPropList::DEFAULT.
+                - LinkAccPropList constant, LinkAccPropList::DEFAULT.
+                - LinkCreatPropList constant, LinkCreatPropList::DEFAULT.
+                - ObjCreatPropList constant, ObjCreatPropList::DEFAULT.
 
             For these constants, the library has the same changes, except the
             class names and the HDF5 corresponding constants. Only the items
             of PropList are listed, and "PropList" can be replaced by any of
-            DSetCreatPropList, DSetMemXferPropList, FileCreatPropList,
-            FileAccPropList for those classes.  The HDF5 C constant "H5P_DEFAULT"
-            can be replaced by any of these respectively: H5P_DATASET_CREATE,
-            H5P_DATASET_XFER, H5P_FILE_CREATE, and H5P_FILE_ACCESS.
+            DSetAccPropList, DSetCreatPropList, DSetMemXferPropList,
+            FileCreatPropList, FileAccPropList, LinkAccPropList, LinkCreatPropList,
+            ObjCreatPropList for those classes.  The HDF5 C constant "H5P_DEFAULT"
+            can be replaced by any of these respectively: H5P_DATASET_ACCESS,
+            H5P_DATASET_CREATE, H5P_DATASET_XFER, H5P_FILE_CREATE, H5P_FILE_ACCESS,
+            H5P_LINK_ACCESS, H5P_LINK_CREATE, and H5P_OBJECT_CREATE.
 
         Old Method:
         ----------

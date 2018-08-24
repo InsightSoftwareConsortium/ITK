@@ -1203,7 +1203,7 @@ H5F_get_first_alloc_dealloc(const H5F_t *f)
  *           Failure:    (can't happen)
  *-------------------------------------------------------------------------
  */
-hbool_t
+haddr_t
 H5F_get_eoa_pre_fsm_fsalloc(const H5F_t *f)
 {
     /* Use FUNC_ENTER_NOAPI_NOINIT_NOERR here to avoid performance issues */

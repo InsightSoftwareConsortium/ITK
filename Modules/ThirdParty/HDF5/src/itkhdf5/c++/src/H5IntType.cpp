@@ -22,6 +22,7 @@
 #include "H5DxferProp.h"
 #include "H5LcreatProp.h"
 #include "H5LaccProp.h"
+#include "H5DaccProp.h"
 #include "H5Location.h"
 #include "H5Object.h"
 #include "H5DataType.h"
@@ -131,6 +132,7 @@ IntType::IntType(const H5Location& loc, const H5std_string& dtype_name) : AtomTy
 // Function:    IntType::decode
 ///\brief       Returns an IntType object via DataType* by decoding the
 ///             binary object description of this type.
+///
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------

@@ -322,7 +322,7 @@ IdComponent::~IdComponent() {}
 
 //
 // Implementation of protected functions for HDF5 Reference Interface
-// and miscelaneous helpers.
+// and miscellaneous helpers.
 //
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

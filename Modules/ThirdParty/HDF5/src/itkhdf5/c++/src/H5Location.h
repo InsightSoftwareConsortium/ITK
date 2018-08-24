@@ -105,13 +105,18 @@ class H5_DLLCPP H5Location : public IdComponent {
         Group openGroup(const char* name) const;
         Group openGroup(const H5std_string& name) const;
 
-        // Creates a new dataset in this group.
-        DataSet createDataSet(const char* name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& create_plist = DSetCreatPropList::DEFAULT) const;
-        DataSet createDataSet(const H5std_string& name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& create_plist = DSetCreatPropList::DEFAULT) const;
+        // Creates a new dataset in this location.
+        DataSet createDataSet(const char* name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& create_plist = DSetCreatPropList::DEFAULT, const DSetAccPropList& dapl = DSetAccPropList::DEFAULT, const LinkCreatPropList& lcpl = LinkCreatPropList::DEFAULT) const;
+        DataSet createDataSet(const H5std_string& name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& create_plist = DSetCreatPropList::DEFAULT, const DSetAccPropList& dapl = DSetAccPropList::DEFAULT, const LinkCreatPropList& lcpl = LinkCreatPropList::DEFAULT) const;
+
+        // Deprecated to add LinkCreatPropList and DSetAccPropList - 1.10.3
+        // DataSet createDataSet(const char* name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& create_plist = DSetCreatPropList::DEFAULT) const;
+        // DataSet createDataSet(const H5std_string& name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& create_plist = DSetCreatPropList::DEFAULT) const;
 
         // Opens an existing dataset at this location.
-        DataSet openDataSet(const char* name) const;
-        DataSet openDataSet(const H5std_string& name) const;
+        // DSetAccPropList is added - 1.10.3
+        DataSet openDataSet(const char* name, const DSetAccPropList& dapl = DSetAccPropList::DEFAULT) const;
+        DataSet openDataSet(const H5std_string& name, const DSetAccPropList& dapl = DSetAccPropList::DEFAULT) const;
 
         H5L_info_t getLinkInfo(const char* link_name, const LinkAccPropList& lapl = LinkAccPropList::DEFAULT) const;
         H5L_info_t getLinkInfo(const H5std_string& link_name, const LinkAccPropList& lapl = LinkAccPropList::DEFAULT) const;
@@ -141,6 +146,27 @@ class H5_DLLCPP H5Location : public IdComponent {
         unsigned childObjVersion(const char* objname) const;
         unsigned childObjVersion(const H5std_string& objname) const;
 
+        // Retrieves information about an HDF5 object.
+        void getObjinfo(H5O_info_t& objinfo, unsigned fields = H5O_INFO_BASIC) const;
+
+        // Retrieves information about an HDF5 object, given its name.
+        void getObjinfo(const char* name, H5O_info_t& objinfo,
+                unsigned fields = H5O_INFO_BASIC,
+                const LinkAccPropList& lapl = LinkAccPropList::DEFAULT) const;
+        void getObjinfo(const H5std_string& name, H5O_info_t& objinfo,
+                unsigned fields = H5O_INFO_BASIC,
+                const LinkAccPropList& lapl = LinkAccPropList::DEFAULT) const;
+
+        // Retrieves information about an HDF5 object, given its index.
+        void getObjinfo(const char* grp_name, H5_index_t idx_type,
+                H5_iter_order_t order, hsize_t idx, H5O_info_t& objinfo,
+                unsigned fields = H5O_INFO_BASIC,
+                const LinkAccPropList& lapl = LinkAccPropList::DEFAULT) const;
+        void getObjinfo(const H5std_string& grp_name, H5_index_t idx_type,
+                H5_iter_order_t order, hsize_t idx, H5O_info_t& objinfo,
+                unsigned fields = H5O_INFO_BASIC,
+                const LinkAccPropList& lapl = LinkAccPropList::DEFAULT) const;
+
 #ifndef H5_NO_DEPRECATED_SYMBOLS
         // Returns the type of an object in this group, given the
         // object's index.
@@ -149,7 +175,7 @@ class H5_DLLCPP H5Location : public IdComponent {
         H5G_obj_t getObjTypeByIdx(hsize_t idx, H5std_string& type_name) const;
 
         // Returns information about an HDF5 object, given by its name,
-        // at this location.
+        // at this location. - Deprecated
         void getObjinfo(const char* name, hbool_t follow_link, H5G_stat_t& statbuf) const;
         void getObjinfo(const H5std_string& name, hbool_t follow_link, H5G_stat_t& statbuf) const;
         void getObjinfo(const char* name, H5G_stat_t& statbuf) const;
