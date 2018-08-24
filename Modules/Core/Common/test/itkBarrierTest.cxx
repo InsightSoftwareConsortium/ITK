@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkBarrier.h"
-#include "itkPlatformMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkTestingMacros.h"
 
 
@@ -49,9 +49,9 @@ public:
 
 ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
 {
-  itk::ThreadIdType threadId = ( (itk::PlatformMultiThreader::WorkUnitInfo *)(ptr) )->WorkUnitID;
+  itk::ThreadIdType threadId = ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->WorkUnitID;
   auto * data = static_cast<BarrierTestUserData *>(
-                  ( (itk::PlatformMultiThreader::WorkUnitInfo *)(ptr) )->UserData );
+                  ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
 
   for (unsigned int i = 0;  i < data->m_NumberOfIterations; i++)
     {
@@ -69,7 +69,7 @@ ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
 ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
 {
   auto * data = static_cast<BarrierTestUserData *>(
-                  ( (itk::PlatformMultiThreader::WorkUnitInfo *)(ptr) )->UserData );
+                  ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
 
   for (unsigned int i = 0; i < data->m_NumberOfIterations; i++)
     {
@@ -92,9 +92,9 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
 
 ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
 {
-  itk::ThreadIdType threadId = ( (itk::PlatformMultiThreader::WorkUnitInfo *)(ptr) )->WorkUnitID;
+  itk::ThreadIdType threadId = ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->WorkUnitID;
   auto * data = static_cast<BarrierTestUserData *>(
-                  ( (itk::PlatformMultiThreader::WorkUnitInfo *)(ptr) )->UserData );
+                  ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
 
   if (threadId == data->m_NumberOfWorkUnits - 1)
     {
@@ -111,7 +111,7 @@ ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
 ITK_THREAD_RETURN_TYPE BarrierSpecialTest( void *ptr )
 {
   auto * data = static_cast<BarrierTestUserData *>(
-                  ( (itk::PlatformMultiThreader::WorkUnitInfo *)(ptr) )->UserData );
+                  ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
 
   for (unsigned int j = 0; j < 1000; j++ )
     {
@@ -136,12 +136,15 @@ int itkBarrierTest(int argc, char *argv[])
 
   try
     {
-    itk::PlatformMultiThreader::Pointer multithreader = itk::PlatformMultiThreader::New();
-    //itk::ThreadIdType maxThreads = multithreader->GetGlobalDefaultNumberOfThreads();
-    //if (multithreader->GetUseThreadPool() && maxThreads < number_of_threads)
-    //  {
-    //  multithreader->GetModifiableThreadPool()->AddThreads(number_of_threads - maxThreads);
-    //  }
+    itk::MultiThreaderBase::Pointer multithreader = itk::MultiThreaderBase::New();
+    multithreader->SetMaximumNumberOfThreads(number_of_threads);
+    if (multithreader->GetMaximumNumberOfThreads() < number_of_threads)
+      {
+      std::cerr << "Could not increase number of threads to "<< number_of_threads
+        << " in " << multithreader->GetNameOfClass() << std::endl;
+      return EXIT_FAILURE;
+      }
+
     multithreader->SetNumberOfWorkUnits( number_of_threads );
     multithreader->SetSingleMethod( BarrierTestCallback, &data);
 
