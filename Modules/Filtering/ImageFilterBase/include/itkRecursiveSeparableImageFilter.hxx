@@ -201,12 +201,8 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+::BeforeThreadedGenerateData()
 {
-  // Call a method that can be overriden by a subclass to allocate
-  // memory for the filter's outputs
-  this->AllocateOutputs();
-
   using RegionType = ImageRegion< TInputImage::ImageDimension >;
 
   typename TInputImage::ConstPointer inputImage( this->GetInputImage () );
@@ -224,7 +220,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
   this->SetUp(pixelSize[m_Direction]);
 
-  RegionType region = outputImage->GetRequestedRegion();
+  const RegionType region = outputImage->GetRequestedRegion();
 
   const unsigned int ln = region.GetSize()[this->m_Direction];
 
@@ -233,10 +229,29 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
     itkExceptionMacro("The number of pixels along direction " << this->m_Direction <<
       " is less than 4. This filter requires a minimum of four pixels along the dimension to be processed.");
     }
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+RecursiveSeparableImageFilter< TInputImage, TOutputImage >
+::GenerateData()
+{
+  // Call a method that can be overridden by a subclass to allocate
+  // memory for the filter's outputs
+  this->AllocateOutputs();
+
+  // Call a method that can be overridden by a subclass to perform
+  // some calculations prior to splitting the main computations into
+  // separate threads
+  this->BeforeThreadedGenerateData();
+
+  using RegionType = ImageRegion< TInputImage::ImageDimension >;
+  typename TOutputImage::Pointer outputImage(this->GetOutput());
+  const RegionType region = outputImage->GetRequestedRegion();
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<TOutputImage::ImageDimension>(
-      m_Direction, region, [this](const RegionType & lambdaRegion) { this->DynamicThreadedGenerateData(lambdaRegion); }, this);
+    this->m_Direction, region, [this](const RegionType & lambdaRegion) { this->DynamicThreadedGenerateData(lambdaRegion); }, this);
 }
 
 /**

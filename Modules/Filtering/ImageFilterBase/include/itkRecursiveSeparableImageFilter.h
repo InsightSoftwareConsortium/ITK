@@ -101,6 +101,8 @@ protected:
   ~RecursiveSeparableImageFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+  void BeforeThreadedGenerateData() override;
+
   void GenerateData() override;
 
   void DynamicThreadedGenerateData( const OutputImageRegionType & ) override;
