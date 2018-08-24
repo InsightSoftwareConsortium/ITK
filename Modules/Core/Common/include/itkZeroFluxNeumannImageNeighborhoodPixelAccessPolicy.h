@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef itkBorderReplicatingImageNeighborhoodPixelAccessPolicy_h
-#define itkBorderReplicatingImageNeighborhoodPixelAccessPolicy_h
+#ifndef itkZeroFluxNeumannImageNeighborhoodPixelAccessPolicy_h
+#define itkZeroFluxNeumannImageNeighborhoodPixelAccessPolicy_h
 
 #include "itkIndex.h"
 #include "itkOffset.h"
@@ -29,7 +29,7 @@ namespace Experimental
 {
 
 /**
- * \class BorderReplicatingImageNeighborhoodPixelAccessPolicy
+ * \class ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy
  * ImageNeighborhoodPixelAccessPolicy class for ShapedImageNeighborhoodRange.
  * Allows getting and setting the value of a pixel, located in a specified
  * neighborhood location, at a specified offset. Uses "border replication" as
@@ -41,7 +41,7 @@ namespace Experimental
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class BorderReplicatingImageNeighborhoodPixelAccessPolicy final
+class ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy final
 {
 private:
   using NeighborhoodAccessorFunctorType = typename TImage::NeighborhoodAccessorFunctorType;
@@ -91,17 +91,17 @@ private:
 
 public:
   // Deleted member functions:
-  BorderReplicatingImageNeighborhoodPixelAccessPolicy() = delete;
-  BorderReplicatingImageNeighborhoodPixelAccessPolicy& operator=(const BorderReplicatingImageNeighborhoodPixelAccessPolicy&) = delete;
+  ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy() = delete;
+  ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy& operator=(const ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy&) = delete;
 
   // Explicitly-defaulted functions:
-  ~BorderReplicatingImageNeighborhoodPixelAccessPolicy() = default;
-  BorderReplicatingImageNeighborhoodPixelAccessPolicy(
-    const BorderReplicatingImageNeighborhoodPixelAccessPolicy&) ITK_NOEXCEPT = default;
+  ~ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy() = default;
+  ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy(
+    const ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy&) ITK_NOEXCEPT = default;
 
   /** Constructor called directly by the pixel proxy of
    * ShapedImageNeighborhoodRange. */
-  BorderReplicatingImageNeighborhoodPixelAccessPolicy(
+  ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy(
     const ImageSizeType& imageSize,
     const OffsetType& offsetTable,
     const NeighborhoodAccessorFunctorType& neighborhoodAccessor,
