@@ -18,13 +18,13 @@ export LC_COLLATE=POSIX
 nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/itk_/, ""); print }' | sed 's/\(.*\)/#define \1\ itk_\1/' | sort -u
 
 Explanation:
-1) Set environmental variable LC_COLLATE to POSIX so sorting deals with the underscores correctly.
-2) The nm command extracts all global/external symbols from the library.
-3) The grep command extracts all the public symbols from the library. (Text, Data, Read-only data, Small objects).
-4) The first awk command prints out only the third column which is the symbol name (the first 2 columns are location and type) (also removes the leading underscore on macOS).
-5) The second awk command prints remove any "itk_" prefix that exists already.
-6) The sed command mangles the symbols and formats the output in such a way to be copy and pasted below.
-7) The sort commands sorts the lines alphabetically and discards duplicates.
+export sets environmental variable LC_COLLATE to POSIX so sorting deals with the underscores correctly.
+The nm command extracts all global/external symbols from the library.
+The grep command extracts all the public symbols from the library. (Text, Data, Read-only data, Small objects).
+The first awk command prints out only the third column which is the symbol name (the first 2 columns are location and type) (also removes the leading underscore on macOS).
+The second awk command prints remove any "itk_" prefix that exists already.
+The sed command mangles the symbols and formats the output in such a way to be copy and pasted below.
+The sort commands sorts the lines alphabetically and discards duplicates.
 
 The following commands are used to generate the suggested symbols on Windows systems:
 
@@ -32,15 +32,15 @@ dumpbin /symbols libitkhdf5* > symbol_table.txt (Must be done from the Visual St
 cat symbol_table.txt | grep "External" | grep -i "HDF5" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' (Must be done in git bash)
 
 For the bash commands:
-The first command prints the symbol table
-The second command extracts all the external symbols
-The third command only extracts those symbols with HDF5 in them (case-insensitive)
-The fourth command only prints out the last column (which is the symbol name)
-The fifth command only prints out those symbols which have not been mangled with itk_ already
-The sixth command removes duplicates
-The seventh and eighth commmands mangles the symbols and formats the output in such a way to be easily copy and pasted below.
+cat is just used to start piping the symbol_table file
+first grep extracts all the external symbols
+second grep only extracts those symbols with HDF5 in them (case-insensitive)
+from awk onwards the process is the same as for Linux and Mac
 
 The developer will then need to *MANUALLY* add the symbols to the list below.
+
+After building, note any duplicate symbol warnings and remove corresponding definitions are are delegated to versioned definitions,
+e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_info2
 */
 
 #define H5AC_BT itk_H5AC_BT
@@ -1378,7 +1378,6 @@ The developer will then need to *MANUALLY* add the symbols to the list below.
 #define H5Fget_filesize itk_H5Fget_filesize
 #define H5Fget_free_sections itk_H5Fget_free_sections
 #define H5Fget_freespace itk_H5Fget_freespace
-#define H5Fget_info itk_H5Fget_info
 #define H5Fget_info1 itk_H5Fget_info1
 #define H5Fget_info2 itk_H5Fget_info2
 #define H5Fget_intent itk_H5Fget_intent
@@ -2296,13 +2295,10 @@ The developer will then need to *MANUALLY* add the symbols to the list below.
 #define H5Oflush itk_H5Oflush
 #define H5Oget_comment itk_H5Oget_comment
 #define H5Oget_comment_by_name itk_H5Oget_comment_by_name
-#define H5Oget_info itk_H5Oget_info
 #define H5Oget_info1 itk_H5Oget_info1
 #define H5Oget_info2 itk_H5Oget_info2
-#define H5Oget_info_by_idx itk_H5Oget_info_by_idx
 #define H5Oget_info_by_idx1 itk_H5Oget_info_by_idx1
 #define H5Oget_info_by_idx2 itk_H5Oget_info_by_idx2
-#define H5Oget_info_by_name itk_H5Oget_info_by_name
 #define H5Oget_info_by_name1 itk_H5Oget_info_by_name1
 #define H5Oget_info_by_name2 itk_H5Oget_info_by_name2
 #define H5Oincr_refcount itk_H5Oincr_refcount
@@ -2313,10 +2309,8 @@ The developer will then need to *MANUALLY* add the symbols to the list below.
 #define H5Orefresh itk_H5Orefresh
 #define H5Oset_comment itk_H5Oset_comment
 #define H5Oset_comment_by_name itk_H5Oset_comment_by_name
-#define H5Ovisit itk_H5Ovisit
 #define H5Ovisit1 itk_H5Ovisit1
 #define H5Ovisit2 itk_H5Ovisit2
-#define H5Ovisit_by_name itk_H5Ovisit_by_name
 #define H5Ovisit_by_name1 itk_H5Ovisit_by_name1
 #define H5Ovisit_by_name2 itk_H5Ovisit_by_name2
 #define H5PB_add_new_page itk_H5PB_add_new_page
@@ -2753,7 +2747,6 @@ The developer will then need to *MANUALLY* add the symbols to the list below.
 #define H5R_term_package itk_H5R_term_package
 #define H5R_top_term_package itk_H5R_top_term_package
 #define H5Rcreate itk_H5Rcreate
-#define H5Rdereference itk_H5Rdereference
 #define H5Rdereference1 itk_H5Rdereference1
 #define H5Rdereference2 itk_H5Rdereference2
 #define H5Rget_name itk_H5Rget_name
