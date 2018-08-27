@@ -1916,33 +1916,6 @@ ProcessObject
 }
 
 
-template< typename TDomainPartitioner, typename TAssociate >
-ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
-::ProcessObjectDomainThreader()
-{
-}
-
-
-template< typename TDomainPartitioner, typename TAssociate >
-ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
-::~ProcessObjectDomainThreader()
-{
-}
-
-
-template< typename TDomainPartitioner, typename TAssociate >
-void
-ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
-::DetermineNumberOfWorkUnitsUsed()
-{
-  MultiThreaderBase * multiThreader = this->m_Associate->GetMultiThreader();
-  this->SetMultiThreader( multiThreader );
-  multiThreader->SetNumberOfWorkUnits( this->m_Associate->GetNumberOfWorkUnits() );
-
-  Superclass::DetermineNumberOfWorkUnitsUsed();
-}
-
-
 void
 ProcessObject
 ::SetNumberOfRequiredInputs( DataObjectPointerArraySizeType nb )

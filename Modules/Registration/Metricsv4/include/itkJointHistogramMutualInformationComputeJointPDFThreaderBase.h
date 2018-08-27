@@ -25,7 +25,7 @@ namespace itk
 {
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreaderBase
- * \brief Comput the JointPDF image.
+ * \brief Compute the JointPDF image.
  *
  * This is a helper to compute the joint pdf image for the
  * JointHistogramMutualInformationImageToImageMetricv4.

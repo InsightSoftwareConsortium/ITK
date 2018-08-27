@@ -474,43 +474,6 @@ protected:
   ProcessObject();
   ~ProcessObject() override;
 
-  /** \class ProcessObjectDomainThreader
-   *  \brief Multi-threaded processing on a domain by processing sub-domains per
-   *  thread.
-   *
-   * This class is the same as DomainThreader, but it uses the MultiThreader and
-   * NumberOfWorkUnits defined on the enclosing ProcessObject.
-   *
-   * \sa DomainThreader
-   * \ingroup ITKCommon
-   */
-  template< typename TDomainPartitioner, typename TAssociate >
-  class ProcessObjectDomainThreader: public DomainThreader< TDomainPartitioner, TAssociate >
-  {
-  public:
-    ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObjectDomainThreader);
-
-    /** Standard class type aliases. */
-    using Self = ProcessObjectDomainThreader;
-    using Superclass = DomainThreader< TDomainPartitioner, ProcessObject::Self >;
-    using Pointer = SmartPointer< Self >;
-    using ConstPointer = SmartPointer< const Self >;
-
-    using DomainPartitionerType = typename Superclass::DomainPartitionerType;
-    using DomainType = typename Superclass::DomainType;
-
-    /** Run-time type information (and related methods). */
-    itkTypeMacro( ProcessObject::ProcessObjectDomainThreader, DomainThreader );
-
-  protected:
-    ProcessObjectDomainThreader();
-    virtual ~ProcessObjectDomainThreader();
-
-    /** This is overridden to set the MultiThreader and number of
-     * work units used to be the same as in ProcessObject. */
-    virtual void DetermineNumberOfWorkUnitsUsed();
-   };
-
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   //
