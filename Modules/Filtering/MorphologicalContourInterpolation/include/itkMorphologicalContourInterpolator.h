@@ -328,9 +328,9 @@ protected:
                  typename SliceType::RegionType        newRegion);
 
   /** The returns cardingal of the symmetric distance between images.
-  The images must cover the same region */
+  The images must cover the same region. */
   IdentifierType
-  CardSymDifference(typename BoolSliceType::Pointer & shape1, typename BoolSliceType::Pointer & shape2);
+  CardinalSymmetricDifference(typename BoolSliceType::Pointer & shape1, typename BoolSliceType::Pointer & shape2);
 
   /** Copied from ImageSource and changed to allocate a cleared buffer. */
   void

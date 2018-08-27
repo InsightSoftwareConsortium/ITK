@@ -267,29 +267,29 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
   using BallDilateType = BinaryDilateImageFilter<BoolSliceType, BoolSliceType, BallStructuringElementType>;
 
   thread_local bool                              initialized = false;
-  thread_local typename CrossDilateType::Pointer m_CrossDilator = CrossDilateType::New();
-  thread_local typename BallDilateType::Pointer  m_BallDilator = BallDilateType::New();
-  thread_local CrossStructuringElementType       m_CrossStructuringElement;
-  thread_local BallStructuringElementType        m_BallStructuringElement;
+  thread_local typename CrossDilateType::Pointer crossDilator = CrossDilateType::New();
+  thread_local typename BallDilateType::Pointer  ballDilator = BallDilateType::New();
+  thread_local CrossStructuringElementType       crossStructuringElement;
+  thread_local BallStructuringElementType        ballStructuringElement;
   using AndFilterType = AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType>;
-  thread_local typename AndFilterType::Pointer m_And = AndFilterType::New();
+  thread_local typename AndFilterType::Pointer andFilter = AndFilterType::New();
 
   if (!initialized) // make sure these non-trivial operations are executed only once per thread
   {
-    m_And->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
+    andFilter->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
     using SizeType = Size<BoolSliceType::ImageDimension>;
     SizeType size;
     size.Fill(1);
 
-    m_CrossDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
-    m_CrossStructuringElement.SetRadius(size);
-    m_CrossStructuringElement.CreateStructuringElement();
-    m_CrossDilator->SetKernel(m_CrossStructuringElement);
+    crossDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
+    crossStructuringElement.SetRadius(size);
+    crossStructuringElement.CreateStructuringElement();
+    crossDilator->SetKernel(crossStructuringElement);
 
-    m_BallDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
-    m_BallStructuringElement.SetRadius(size);
-    m_BallStructuringElement.CreateStructuringElement();
-    m_BallDilator->SetKernel(m_BallStructuringElement);
+    ballDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
+    ballStructuringElement.SetRadius(size);
+    ballStructuringElement.CreateStructuringElement();
+    ballDilator->SetKernel(ballStructuringElement);
 
     initialized = true;
   }
@@ -297,26 +297,26 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
   typename BoolSliceType::Pointer temp;
   if (m_UseBallStructuringElement)
   {
-    m_BallDilator->SetInput(seed);
-    m_BallDilator->GetOutput()->SetRegions(seed->GetRequestedRegion());
-    m_BallDilator->Update();
-    temp = m_BallDilator->GetOutput();
+    ballDilator->SetInput(seed);
+    ballDilator->GetOutput()->SetRegions(seed->GetRequestedRegion());
+    ballDilator->Update();
+    temp = ballDilator->GetOutput();
   }
   else
   {
-    m_CrossDilator->SetInput(seed);
-    m_CrossDilator->GetOutput()->SetRegions(seed->GetRequestedRegion());
-    m_CrossDilator->Update();
-    temp = m_CrossDilator->GetOutput();
+    crossDilator->SetInput(seed);
+    crossDilator->GetOutput()->SetRegions(seed->GetRequestedRegion());
+    crossDilator->Update();
+    temp = crossDilator->GetOutput();
   }
   temp->DisconnectPipeline();
   // temp->SetRegions(mask->GetLargestPossibleRegion()); //not needed when seed and mask have same regions
 
-  m_And->SetInput(0, mask);
-  m_And->SetInput(1, temp);
-  m_And->GetOutput()->SetRegions(seed->GetRequestedRegion());
-  m_And->Update();
-  typename BoolSliceType::Pointer result = m_And->GetOutput();
+  andFilter->SetInput(0, mask);
+  andFilter->SetInput(1, temp);
+  andFilter->GetOutput()->SetRegions(seed->GetRequestedRegion());
+  andFilter->Update();
+  typename BoolSliceType::Pointer result = andFilter->GetOutput();
   result->DisconnectPipeline();
   return result;
 } // >::Dilate1
@@ -356,18 +356,18 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
 
   // generate union of transition sequences
   using OrType = OrImageFilter<BoolSliceType>;
-  thread_local typename OrType::Pointer m_Or = OrType::New();
-  m_Or->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
+  thread_local typename OrType::Pointer orFilter = OrType::New();
+  orFilter->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
 
   std::vector<typename BoolSliceType::Pointer> seq;
   for (unsigned x = 0; x < iSeq.size(); x++)
   {
-    m_Or->SetInput(0, iSeq[x]);
+    orFilter->SetInput(0, iSeq[x]);
     unsigned xj = ratio * x;
-    m_Or->SetInput(1, jSeq[xj]);
-    m_Or->GetOutput()->SetRegions(iMask->GetRequestedRegion());
-    m_Or->Update();
-    seq.push_back(m_Or->GetOutput());
+    orFilter->SetInput(1, jSeq[xj]);
+    orFilter->GetOutput()->SetRegions(iMask->GetRequestedRegion());
+    orFilter->Update();
+    seq.push_back(orFilter->GetOutput());
     seq.back()->DisconnectPipeline();
   }
 
@@ -376,8 +376,8 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
   IdentifierType min = iMask->GetRequestedRegion().GetNumberOfPixels();
   for (unsigned x = 0; x < iSeq.size(); x++)
   {
-    IdentifierType iS = CardSymDifference(seq[x], iMask);
-    IdentifierType jS = CardSymDifference(seq[x], jMask);
+    IdentifierType iS = CardinalSymmetricDifference(seq[x], iMask);
+    IdentifierType jS = CardinalSymmetricDifference(seq[x], jMask);
     IdentifierType xScore = iS >= jS ? iS - jS : jS - iS; // abs(iS-jS)
     if (xScore < min)
     {
@@ -496,21 +496,21 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   using FloatBinarizerType = BinaryThresholdImageFilter<FloatSliceType, BoolSliceType>;
   using AndFilterType = AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType>;
   thread_local typename FloatBinarizerType::Pointer threshold = FloatBinarizerType::New();
-  thread_local typename AndFilterType::Pointer      m_And = AndFilterType::New();
+  thread_local typename AndFilterType::Pointer      andFilter = AndFilterType::New();
   // excessive threading is counterproductive
   threshold->SetNumberOfWorkUnits(1);
-  m_And->SetNumberOfWorkUnits(1);
+  andFilter->SetNumberOfWorkUnits(1);
 
   threshold->SetInput(sdf);
   threshold->SetUpperThreshold(float(bestBin) / fractioning);
   threshold->GetOutput()->SetRequestedRegion(sdf->GetRequestedRegion());
   threshold->Update();
 
-  m_And->SetInput(threshold->GetOutput());
-  m_And->SetInput(1, orImage);
-  m_And->GetOutput()->SetRequestedRegion(orImage->GetRequestedRegion());
-  m_And->Update();
-  typename BoolSliceType::Pointer median = m_And->GetOutput();
+  andFilter->SetInput(threshold->GetOutput());
+  andFilter->SetInput(1, orImage);
+  andFilter->GetOutput()->SetRequestedRegion(orImage->GetRequestedRegion());
+  andFilter->Update();
+  typename BoolSliceType::Pointer median = andFilter->GetOutput();
   return median;
 } // >::FindMedianImageDistances
 
@@ -1073,8 +1073,8 @@ MorphologicalContourInterpolator<TImage>::Intersection(typename SliceType::Point
 
 template <typename TImage>
 IdentifierType
-MorphologicalContourInterpolator<TImage>::CardSymDifference(typename BoolSliceType::Pointer & iShape,
-                                                            typename BoolSliceType::Pointer & jShape)
+MorphologicalContourInterpolator<TImage>::CardinalSymmetricDifference(typename BoolSliceType::Pointer & iShape,
+                                                                      typename BoolSliceType::Pointer & jShape)
 {
   typename BoolSliceType::RegionType      region = iShape->GetLargestPossibleRegion();
   IdentifierType                          count = 0;
