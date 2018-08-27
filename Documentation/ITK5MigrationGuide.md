@@ -47,6 +47,15 @@ as well as [range-based loops](https://github.com/InsightSoftwareConsortium/ITK/
 are also now used in ITK. However, due to limitations in C++11 support
 Visual Studio 2013 (MSVC 12.0) and earlier cannot be used to build ITK since version 5.0.
 
+Availability of C++11 standard allows use of many Standard Library features
+which were previously implemented as portable ITK classes.
+The standard library classes are preferred over ITK's implementations.
+The most notable examples of this are:
+ * [atomic integers](https://itk.org/Doxygen/html/classitk_1_1AtomicInt.html) should be replaced by `std::atomic`.
+ * [mutex locks](https://itk.org/Doxygen/html/classitk_1_1MutexLock.html)
+and related classes should be replaced by the similarly named classes from
+[<mutex>](https://en.cppreference.com/w/cpp/header/mutex) header.
+ * itksys::hash_map should be replaced by [std::unordered_map](https://en.cppreference.com/w/cpp/container/unordered_map).
 
 Modern CMake requirement
 ------------------------
