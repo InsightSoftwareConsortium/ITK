@@ -101,12 +101,27 @@ public:
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
+  /** Should the threshold value be mid-point of the bin or the maximum?
+   * Default is to return bin maximum. */
+  itkSetMacro(ReturnBinMidpoint, bool);
+  itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
+  itkBooleanMacro(ReturnBinMidpoint);
+
 protected:
-  OtsuThresholdImageFilter()
-    {
+  OtsuThresholdImageFilter() :
+      m_ReturnBinMidpoint( false )
+  {
     this->SetCalculator( CalculatorType::New() );
-    }
+  }
   ~OtsuThresholdImageFilter() override {};
+
+  void GenerateData() override
+  {
+    auto calc = static_cast<CalculatorType *>(this->GetModifiableCalculator());
+    calc->SetReturnBinMidpoint(m_ReturnBinMidpoint);
+    this->Superclass::GenerateData();
+  }
+  bool m_ReturnBinMidpoint;
 };
 
 } // end namespace itk

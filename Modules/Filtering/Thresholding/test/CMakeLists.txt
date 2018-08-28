@@ -12,6 +12,7 @@ itkLiThresholdImageFilterTest.cxx
 itkMaximumEntropyThresholdImageFilterTest.cxx
 itkMomentsThresholdImageFilterTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
+itkOtsuMultipleThresholdsCalculatorTest2.cxx
 itkOtsuMultipleThresholdsImageFilterTest.cxx
 itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest.cxx
 itkOtsuThresholdCalculatorTest.cxx
@@ -47,7 +48,7 @@ itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkOtsuMultipleThresholdsImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest.png
-    itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/peppers.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest.png 64 3 2)
+    itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/peppers.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest.png 64 3 2 0 1)
 
 itk_add_test(NAME itkThresholdLabelerImageFilterTest
       COMMAND ITKThresholdingTestDriver itkThresholdLabelerImageFilterTest)
@@ -57,6 +58,8 @@ itk_add_test(NAME itkThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver itkThresholdImageFilterTest)
 itk_add_test(NAME itkOtsuMultipleThresholdsCalculatorTest
       COMMAND ITKThresholdingTestDriver itkOtsuMultipleThresholdsCalculatorTest)
+itk_add_test(NAME itkOtsuMultipleThresholdsCalculatorTest2
+      COMMAND ITKThresholdingTestDriver itkOtsuMultipleThresholdsCalculatorTest2)
 itk_add_test(NAME itkBinaryThresholdImageFilterTest2
       COMMAND ITKThresholdingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png}
@@ -175,7 +178,7 @@ itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest3
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkOtsuMultipleThresholdsImageFilterTest3.png}
               ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest3.png
-    itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DotOnVaryingBackground.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest3.png 64 1 2 0)
+    itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DotOnVaryingBackground.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest3.png 64 1 2 0 1)
 
 # Test the valley emphasis algorithm on an image with a small dark region.
 itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest4
@@ -183,6 +186,19 @@ itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest4
     --compare DATA{Baseline/itkOtsuMultipleThresholdsImageFilterTest4.png}
               ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest4.png
     itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DotOnVaryingBackground.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest4.png 64 1 2 1)
+
+itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest5
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkOtsuMultipleThresholdsImageFilterTest5.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest5.png
+    itkOtsuMultipleThresholdsImageFilterTest DATA{Input/image_3modes.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest5.png 128 2 0)
+
+itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest6
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkOtsuMultipleThresholdsImageFilterTest5.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest6.png
+    itkOtsuMultipleThresholdsImageFilterTest DATA{Input/image_3modes.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest6.png 128 2 0 0 1)
+set_tests_properties(itkOtsuMultipleThresholdsImageFilterTest6 PROPERTIES WILL_FAIL TRUE)
 
 itk_add_test(NAME itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest
       COMMAND ITKThresholdingTestDriver
@@ -289,7 +305,7 @@ itk_add_test(NAME itkOtsuThresholdImageFilterTestShort
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkOtsuThresholdImageFilterTestShort.png}
               ${ITK_TEST_OUTPUT_DIR}/itkOtsuThresholdImageFilterTestShort.png
-    itkOtsuThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkOtsuThresholdImageFilterTestShort.png)
+    itkOtsuThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkOtsuThresholdImageFilterTestShort.png 256 0 1)
 
 itk_add_test(NAME itkRenyiEntropyThresholdImageFilterTestShort
       COMMAND ITKThresholdingTestDriver

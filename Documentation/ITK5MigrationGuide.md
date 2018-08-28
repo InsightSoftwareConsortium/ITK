@@ -244,6 +244,10 @@ have multiple `ParallelizeRegion` calls or a long single-threaded section.
 An example of how to add progress reporting can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITK/commit/dd0b0d128d6c0760cefd8a958107cb0e841b51b4).
 
+Otsu filters now return correct threshold (bin's maximum value instead of mid-point) by default.
+To keep old behavior, use `filter->SetReturnBinMidpoint( true );`.
+This change should be relevant only in tests.
+
 Update scripts
 --------------
 

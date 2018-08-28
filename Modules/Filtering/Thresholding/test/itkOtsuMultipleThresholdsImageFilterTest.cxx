@@ -82,8 +82,13 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   if( argc > 6 )
     {
     bool valleyEmphasis =  static_cast< bool >( atoi( argv[6] ) );
-    filter->SetValleyEmphasis( valleyEmphasis );
-    TEST_SET_GET_VALUE( valleyEmphasis, filter->GetValleyEmphasis() );
+    TEST_SET_GET_BOOLEAN( filter, ValleyEmphasis, valleyEmphasis );
+    }
+
+  if( argc > 7 )
+    {
+    bool returnBinMidpoint =  static_cast< bool >( atoi( argv[7] ) );
+    TEST_SET_GET_BOOLEAN( filter, ReturnBinMidpoint, returnBinMidpoint );
     }
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
