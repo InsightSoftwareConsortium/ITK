@@ -360,7 +360,7 @@ macro(itk_end_wrap_module_swig_interface)
         --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
         --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
         --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
-      DEPENDS ${xml_files} ${IGENERATOR} ${typedef_in_files}
+        DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
       VERBATIM
     )
   endif()
