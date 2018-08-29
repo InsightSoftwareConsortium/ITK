@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkImageScanlineIterator.h"
+#include "itkProgressTransformer.h"
 
 namespace itk {
 
@@ -68,21 +69,22 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   this->AllocateOutputs();
 
   Superclass::BeforeThreadedGenerateData();
-  this->UpdateProgress(0.01f);
 
+  ProgressTransformer pt( 0.01f, 0.5f, this );
   this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
-  this->UpdateProgress(0.5f);
+        { this->DynamicThreadedGenerateData(outputRegionForThread); },
+        pt.GetProcessObject() );
 
+  ProgressTransformer pt2( 0.5f, 0.99f, this );
   // and delegate to the superclass implementation to use the thread support for the label objects
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { this->SuperclassDynamicTGD(outputRegionForThread); }, nullptr);
-  this->UpdateProgress(0.99f);
+        { this->SuperclassDynamicTGD(outputRegionForThread); },
+        pt2.GetProcessObject() );
 
   this->AfterThreadedGenerateData();
   this->UpdateProgress(1.0f);

@@ -24,6 +24,7 @@
 #include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
 #include "itkMutexLockHolder.h"
+#include "itkProgressTransformer.h"
 
 namespace itk
 {
@@ -118,7 +119,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   this->m_MaxErrorNorm = NumericTraits<RealType>::max();
   this->m_MeanErrorNorm = NumericTraits<RealType>::max();
   unsigned int iteration = 0;
-  this->UpdateProgress(0.01f);
+
+  float oldProgress = 0.0f;
 
   while( iteration++ < this->m_MaximumNumberOfIterations &&
     this->m_MaxErrorNorm > this->m_MaxErrorToleranceThreshold &&
@@ -140,13 +142,15 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     this->m_MeanErrorNorm = NumericTraits<RealType>::ZeroValue();
     this->m_MaxErrorNorm = NumericTraits<RealType>::ZeroValue();
 
+    float newProgress = float(2 * iteration - 1) / (2 * m_MaximumNumberOfIterations);
+    ProgressTransformer pt( oldProgress, newProgress, this );
     this->m_DoThreadedEstimateInverse = false;
     this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
     this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)
-          { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
-    this->UpdateProgress(float(2 * iteration - 1) / (2 * m_MaximumNumberOfIterations));
+          { this->DynamicThreadedGenerateData(outputRegionForThread); },
+        pt.GetProcessObject() );
 
     this->m_MeanErrorNorm /= static_cast<RealType>( numberOfPixelsInRegion );
 
@@ -156,13 +160,17 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
       this->m_Epsilon = 0.75;
       }
 
+    oldProgress=newProgress;
+    newProgress = float(2 * iteration) / (2 * m_MaximumNumberOfIterations);
+    ProgressTransformer pt2( oldProgress, newProgress, this );
     // Multithread processing to estimate inverse field
     this->m_DoThreadedEstimateInverse = true;
     this->GetMultiThreader()->template ParallelizeImageRegion<TOutputImage::ImageDimension>(
         this->GetOutput()->GetRequestedRegion(),
         [this](const OutputImageRegionType & outputRegionForThread)
-          { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
-    this->UpdateProgress(float(2 * iteration) / (2 * m_MaximumNumberOfIterations));
+          { this->DynamicThreadedGenerateData(outputRegionForThread); },
+        pt2.GetProcessObject() );
+    oldProgress=newProgress;
     }
 
   this->UpdateProgress(1.0f);
