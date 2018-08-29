@@ -78,16 +78,12 @@ macro(itk_end_wrap_module_DOC)
     set(outputs ${ITK_WRAP_DOC_DOXYGEN_XML_FILES})
 
     # run doxygen
-    add_custom_command(
-      OUTPUT ${outputs} "${library_doc_build_dir}/xml/combine.xslt"  # this file is always produced and avoid an error if ${outputs} is empty
+    add_custom_target(${WRAPPER_LIBRARY_NAME}Doxygen ALL
       COMMAND "${DOXYGEN_EXECUTABLE}" "${library_doxygen_config_file}"
-#      WORKING_DIRECTORY ${ITK_WRAP_DOC_BINARY_DIR}
+      #BYPRODUCTS ${outputs} "${library_doc_build_dir}/xml/combine.xslt"
       DEPENDS ${ITK_WRAP_DOC_DOXYGEN_HEADERS} "${library_doxygen_config_file}"
       COMMENT "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure."
     )
-
-    add_custom_target(${WRAPPER_LIBRARY_NAME}Doxygen ALL DEPENDS ${outputs} ${ITK_WRAP_DOC_DOCSTRING_FILES})
-
 endmacro()
 
 macro(itk_wrap_submodule_DOC module)
@@ -108,10 +104,11 @@ macro(itk_end_wrap_submodule_DOC)
     set(itk_doxy2swig_py "${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.py")
     set(swig_doc_interface_file ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i)
     add_custom_command(
-    OUTPUT ${swig_doc_interface_file}
-    COMMAND ${PYTHON_EXECUTABLE} ${itk_doxy2swig_py} ${doxy2swig_config_file} ${swig_doc_interface_file}
-    DEPENDS ${ITK_WRAP_DOC_DOXYGEN_XML_FILES} ${doxy2swig_config_file} ${itk_doxy2swig_py}
-#    COMMENT "-- Wrapping library ${WRAPPER_MODULE_NAME}: Generating swig interface for inline documentation."
+      OUTPUT ${swig_doc_interface_file}
+      COMMAND ${PYTHON_EXECUTABLE} ${itk_doxy2swig_py} ${doxy2swig_config_file} ${swig_doc_interface_file}
+      #DEPENDS ${ITK_WRAP_DOC_DOXYGEN_XML_FILES} ${doxy2swig_config_file} ${itk_doxy2swig_py}
+      DEPENDS ${WRAPPER_LIBRARY_NAME}Doxygen ${doxy2swig_config_file} ${itk_doxy2swig_py}
+  #    COMMENT "-- Wrapping library ${WRAPPER_MODULE_NAME}: Generating swig interface for inline documentation."
     )
     list(APPEND ITK_WRAP_DOC_DOCSTRING_FILES ${swig_doc_interface_file})
 endmacro()
