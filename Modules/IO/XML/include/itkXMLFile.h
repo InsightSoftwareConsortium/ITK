@@ -150,6 +150,7 @@ public:
   /** Write the XML file, based on the Input Object */
   virtual int WriteFile() = 0;
 
+#if !defined( ITK_WRAPPING_PARSER )
   /** Write out a start element tag */
   void WriteStartElement(const char *const tag, std::ofstream & file)
   {
@@ -185,6 +186,7 @@ public:
   {
     WriteCharacterData(data.c_str(), file);
   }
+#endif
 
 protected:
   T          *m_InputObject;    // object to write out to an XML file
