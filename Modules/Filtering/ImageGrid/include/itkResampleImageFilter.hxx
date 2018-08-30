@@ -495,7 +495,65 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   InputImagePointer inputPtr  =
     const_cast< TInputImage * >( this->GetInput() );
 
-  // Determining the actual input region is non-trivial, especially
+
+  // Check whether the input or the output is a
+  // SpecialCoordinatesImage. If either are, then we cannot use the
+  // fast path since index mapping will definitely not be linear.
+  typedef SpecialCoordinatesImage< PixelType, ImageDimension >           OutputSpecialCoordinatesImageType;
+  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
+
+  const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
+       || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );
+
+  OutputImageType *outputPtr = this->GetOutput();
+  // Get the input transform
+  const TransformType *transformPtr = this->GetTransform();
+  
+  // Check whether we can use upstream streaming for resampling. Upstream streaming
+  // can be used if the transformation is linear. Transform respond
+  // to the IsLinear() call.
+  if ( !isSpecialCoordinatesImage && transformPtr->GetTransformCategory() == TransformType::Linear )
+    {
+    typename TOutputImage::RegionType outputLargestPossibleRegion;
+    outputLargestPossibleRegion = outputPtr->GetRequestedRegion();
+
+    // Define a few indices that will be used to translate from an input pixel
+    // to an output pixel
+    PointType outputPoint;         // Coordinates of current output pixel
+    PointType inputPoint;          // Coordinates of current input pixel
+
+    ContinuousInputIndexType contInputIndex;
+
+    typename TInputImage::RegionType inputRequestedRegion;
+    typename TInputImage::IndexType inputIndex;
+  
+    // Determine the floor of the current output index
+    outputPtr->TransformIndexToPhysicalPoint(outputLargestPossibleRegion.GetIndex(), outputPoint);
+    // Compute corresponding input pixel position
+    inputPoint = transformPtr->TransformPoint(outputPoint);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, contInputIndex);
+    for (unsigned int dim=0; dim < OutputImageType::ImageDimension; ++dim)
+	{
+	inputIndex[dim] = Math::Floor<IndexValueType>( contInputIndex[dim] );
+	}
+    inputRequestedRegion.SetIndex( inputIndex );
+
+    // Determine the ceil of the current output upper index
+    outputPtr->TransformIndexToPhysicalPoint(outputLargestPossibleRegion.GetUpperIndex(), outputPoint);
+    // Compute corresponding input pixel position
+    inputPoint = transformPtr->TransformPoint(outputPoint);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, contInputIndex);
+    for (unsigned int dim=0; dim < OutputImageType::ImageDimension; ++dim)
+	{
+	inputIndex[dim] = Math::Ceil<IndexValueType>( contInputIndex[dim] );
+	}
+    inputRequestedRegion.SetUpperIndex( inputIndex );
+    
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    return;
+    }
+
+  // Otherwise, determining the actual input region is non-trivial, especially
   // when we cannot assume anything about the transform being used.
   // So we do the easy thing and request the entire input image.
   //
