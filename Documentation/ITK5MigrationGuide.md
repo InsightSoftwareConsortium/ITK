@@ -235,6 +235,13 @@ Class changes
 [FilterWatcher](../Modules/Core/TestKernel/include/itkFilterWatcher.h) was deleted.
 It should be replaced by [itk::SimpleFilterWatcher](../Modules/Core/Common/include/itkSimpleFilterWatcher.h).
 
+Since ProgressReporter does not work well with the new threading model,
+it should be replaced by ProgressTransformer.
+This only applies to classes which use `GenerateData` method, and either
+have multiple ParallelizeRegion calls or a long single-threaded section.
+An example of how to add progress reporting can be found in
+[this commit](https://github.com/InsightSoftwareConsortium/ITK/commit/dd0b0d128d6c0760cefd8a958107cb0e841b51b4).
+
 Update scripts
 --------------
 
