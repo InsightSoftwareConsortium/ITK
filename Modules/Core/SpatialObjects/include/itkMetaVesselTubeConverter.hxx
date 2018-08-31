@@ -81,15 +81,7 @@ MetaVesselTubeConverter< NDimensions >
     {
     VesselTubePointType pnt;
 
-    using SOPointType = typename VesselTubeSpatialObjectType::PointType;
-    SOPointType point;
-
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
-      {
-      point[ii] = ( *it2 )->m_X[ii];
-      }
-
-    pnt.SetPosition(point);
+    pnt.SetPosition( ( *it2 )->m_X );
     pnt.SetRadius( ( *it2 )->m_R );
     pnt.SetMedialness( ( *it2 )->m_Medialness );
     pnt.SetRidgeness( ( *it2 )->m_Ridgeness );
