@@ -21,6 +21,11 @@
 #include "itkMultipleLogOutput.h"
 #include "itkRealTimeClock.h"
 
+#ifdef DEBUG
+#undef DEBUG // HDF5 publicly exports this define when built in debug mode
+// That messes up the DEBUG enumeration in PriorityLevelType.
+#endif
+
 namespace itk
 {
 /** \class LoggerBase
