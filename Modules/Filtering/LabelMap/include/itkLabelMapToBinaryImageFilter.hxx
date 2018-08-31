@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionIterator.h"
+#include "itkProgressTransformer.h"
 
 namespace itk
 {
@@ -69,19 +70,21 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
   this->BeforeThreadedGenerateData();
   this->UpdateProgress(0.05f);
 
+  ProgressTransformer pt( 0.05f, 0.5f, this );
   this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { this->DynamicThreadedGenerateData(outputRegionForThread); }, nullptr);
-  this->UpdateProgress(0.5f);
+        { this->DynamicThreadedGenerateData(outputRegionForThread); },
+        pt.GetProcessObject() );
 
+  ProgressTransformer pt2( 0.5f, 0.99f, this );
   // delegate to the superclass implementation to use the thread support for the label objects
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread)
-        { this->SuperclassDynamicTGD(outputRegionForThread); }, nullptr);
-  this->UpdateProgress(0.99f);
+        { this->SuperclassDynamicTGD(outputRegionForThread); },
+        pt2.GetProcessObject() );
 
   this->AfterThreadedGenerateData();
   this->UpdateProgress(1.0f);
