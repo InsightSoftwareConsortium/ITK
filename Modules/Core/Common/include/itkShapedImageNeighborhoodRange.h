@@ -26,6 +26,7 @@
 #include <limits>
 #include <type_traits> // For conditional and is_const.
 
+#include "itkBorderReplicatingImageNeighborhoodPixelAccessPolicy.h"
 #include "itkIndex.h"
 #include "itkSize.h"
 
@@ -88,7 +89,8 @@ namespace Experimental
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
-template<typename TImage>
+template<typename TImage,
+  typename TImageNeighborhoodPixelAccessPolicy = BorderReplicatingImageNeighborhoodPixelAccessPolicy<TImage>>
 class ShapedImageNeighborhoodRange final
 {
 private:
@@ -107,73 +109,11 @@ private:
   // PixelProxy: internal class that aims to act like a reference to a pixel:
   // It acts either like 'PixelType &' or like 'const PixelType &', depending
   // on its boolean template argument, VIsConst.
-  // The proxy retrieves the pixel value from a NeighborhoodAccessor.
+  // The proxy retrieves the pixel value using a ImageNeighborhoodPixelAccessPolicy.
   // Note: the extra TDummy argument aims to fix AppleClang 6.0.0.6000056 error
   // "explicit specialization of 'PixelProxy'"and GCC 5.4.0 error "explicit
   // specialization in non-namespace scope".
   template <bool VIsConst, typename TDummy = void> class PixelProxy {};
-
-  // Internal helper class for PixelProxy. Takes care of
-  // exchanging the pixel value with the NeighborhoodAccessor.
-  template <bool VIsConst>
-  class PixelProxyHelper final
-  {
-  private:
-    // Const and non-const helpers are friends, in order to implement the
-    // constructor that allow conversion from non-const to const iterator.
-    friend class PixelProxyHelper<!VIsConst>;
-
-    using QualifiedInternalPixelType =
-      typename std::conditional<VIsConst, const InternalPixelType, InternalPixelType>::type;
-
-    // Pointer to the internal image buffer, pointing at the current pixel.
-    QualifiedInternalPixelType* m_InternalPixel;
-
-    // A reference to the accessor of the image.
-    const NeighborhoodAccessorFunctorType& m_NeighborhoodAccessor;
-
-  public:
-    // Deleted member functions:
-    PixelProxyHelper() = delete;
-    PixelProxyHelper& operator=(const PixelProxyHelper&) = delete;
-
-    // Explicitly-defaulted destructor:
-    ~PixelProxyHelper() = default;
-
-    // Constructor that allows implicit conversion from non-const to const
-    // helper. Also serves as copy-constructor of a non-const helper.  */
-    PixelProxyHelper(const PixelProxyHelper<false>& proxyHelper) ITK_NOEXCEPT
-      :
-      m_InternalPixel{ proxyHelper.m_InternalPixel },
-      m_NeighborhoodAccessor(proxyHelper.m_NeighborhoodAccessor)
-    {
-    }
-
-    // Constructor called directly by both proxy template instantiations.
-    PixelProxyHelper(
-      QualifiedInternalPixelType* const internalPixel,
-      const NeighborhoodAccessorFunctorType& neighborhoodAccessor) ITK_NOEXCEPT
-      :
-      m_InternalPixel{ internalPixel },
-      m_NeighborhoodAccessor(neighborhoodAccessor)
-    {
-    }
-
-    PixelType GetPixelValue() const ITK_NOEXCEPT
-    {
-      return m_NeighborhoodAccessor.Get(m_InternalPixel);
-    }
-
-    // Note: this member function is written as a member function template,
-    // instead of a non-template function to avoid irrelevant compilation
-    // errors when the class template is instantiated for a 'const' proxy.
-    template <typename TPixelType>
-    void SetPixelValue(const TPixelType& pixelValue) ITK_NOEXCEPT
-    {
-      m_NeighborhoodAccessor.Set(m_InternalPixel, pixelValue);
-    }
-  };
-
 
   // PixelProxy specialization for const pixel types:
   // acts like 'const PixelType &'
@@ -181,8 +121,11 @@ private:
   class PixelProxy<true, TDummy> final
   {
   private:
-    // Internal helper object.
-    const PixelProxyHelper<true> m_Helper;
+    // Pointer to the buffer of the image. Should not be null.
+    const InternalPixelType* const m_ImageBufferPointer;
+
+    // Pixel access policy.
+    const TImageNeighborhoodPixelAccessPolicy m_PixelAccessPolicy;
 
   public:
     // Deleted member functions:
@@ -195,24 +138,29 @@ private:
 
     // Constructor, called directly by operator*() of the iterator class.
     PixelProxy(
-      const InternalPixelType* const internalPixel,
-      const NeighborhoodAccessorFunctorType& neighborhoodAccessor) ITK_NOEXCEPT
+      const InternalPixelType* const imageBufferPointer,
+      const ImageSizeType& imageSize,
+      const OffsetType& offsetTable,
+      const NeighborhoodAccessorFunctorType& neighborhoodAccessor,
+      const IndexType& pixelIndex) ITK_NOEXCEPT
       :
-    m_Helper{ internalPixel, neighborhoodAccessor }
+    m_ImageBufferPointer{imageBufferPointer},
+    m_PixelAccessPolicy{ imageSize, offsetTable, neighborhoodAccessor, pixelIndex }
     {
     }
 
     // Allows implicit conversion from non-const to const proxy.
     PixelProxy(const PixelProxy<false>& pixelProxy) ITK_NOEXCEPT
       :
-    m_Helper{ pixelProxy.m_Helper}
+    m_ImageBufferPointer{ pixelProxy.m_ImageBufferPointer },
+    m_PixelAccessPolicy{ pixelProxy.m_PixelAccessPolicy}
     {
     }
 
     // Conversion operator.
     operator PixelType() const ITK_NOEXCEPT
     {
-      return m_Helper.GetPixelValue();
+      return m_PixelAccessPolicy.GetPixelValue(m_ImageBufferPointer);
     }
   };
 
@@ -227,44 +175,43 @@ private:
     // a non-const proxy to a const proxy.
     friend class PixelProxy<true>;
 
-    // Internal helper object.
-    PixelProxyHelper<false> m_Helper;
+    // Pointer to the buffer of the image. Should not be null.
+    InternalPixelType* const m_ImageBufferPointer;
+
+    // Pixel access policy.
+    const TImageNeighborhoodPixelAccessPolicy m_PixelAccessPolicy;
 
   public:
     // Deleted member functions:
     PixelProxy() = delete;
 
-    // Explicitly-defaulted destructor:
+    // Explicitly-defaulted member functions:
     ~PixelProxy() = default;
+    PixelProxy(const PixelProxy&) ITK_NOEXCEPT = default;
 
     // Constructor, called directly by operator*() of the iterator class.
     PixelProxy(
-      InternalPixelType* const internalPixel,
-      const NeighborhoodAccessorFunctorType& neighborhoodAccessor) ITK_NOEXCEPT
+      InternalPixelType* const imageBufferPointer,
+      const ImageSizeType& imageSize,
+      const OffsetType& offsetTable,
+      const NeighborhoodAccessorFunctorType& neighborhoodAccessor,
+      const IndexType& pixelIndex) ITK_NOEXCEPT
       :
-    m_Helper{ internalPixel, neighborhoodAccessor }
-    {
-    }
-
-    // Copy-constructor. Note that Visual C++ 2015 rejected an
-    // explicitly-defaulted copy-constructor here. That triggered
-    // "error C2280: attempting to reference a deleted function"
-    PixelProxy(const PixelProxy& pixelProxy) ITK_NOEXCEPT
-      :
-      m_Helper{ pixelProxy.m_Helper }
+    m_ImageBufferPointer{imageBufferPointer},
+    m_PixelAccessPolicy{ imageSize, offsetTable, neighborhoodAccessor, pixelIndex }
     {
     }
 
     // Conversion operator.
     operator PixelType() const ITK_NOEXCEPT
     {
-      return m_Helper.GetPixelValue();
+      return m_PixelAccessPolicy.GetPixelValue(m_ImageBufferPointer);
     }
 
     // Operator to assign a pixel value to the proxy.
     PixelProxy& operator=(const PixelType& pixelValue) ITK_NOEXCEPT
     {
-      m_Helper.SetPixelValue(pixelValue);
+      m_PixelAccessPolicy.SetPixelValue(m_ImageBufferPointer, pixelValue);
       return *this;
     }
 
@@ -281,9 +228,12 @@ private:
 
     friend void swap(PixelProxy lhs, PixelProxy rhs) ITK_NOEXCEPT
     {
-      const auto pixelValue = lhs.m_Helper.GetPixelValue();
-      lhs.m_Helper.SetPixelValue(rhs.m_Helper.GetPixelValue());
-      rhs.m_Helper.SetPixelValue(pixelValue);
+      const auto lhsPixelValue = lhs.m_PixelAccessPolicy.GetPixelValue(lhs.m_ImageBufferPointer);
+      const auto rhsPixelValue = rhs.m_PixelAccessPolicy.GetPixelValue(rhs.m_ImageBufferPointer);
+
+      // Swap only the pixel values, not the image buffer pointers!
+      lhs.m_PixelAccessPolicy.SetPixelValue(lhs.m_ImageBufferPointer, rhsPixelValue);
+      rhs.m_PixelAccessPolicy.SetPixelValue(rhs.m_ImageBufferPointer, lhsPixelValue);
     }
   };
 
@@ -339,15 +289,6 @@ private:
     IndexType m_Location = { {} };
 
     const OffsetType* m_CurrentOffset = nullptr;
-
-    // Clamps the index between [0 .. imageSizeValue>
-    static IndexValueType GetClampedIndexValue(
-      const IndexValueType indexValue,
-      const ImageSizeValueType imageSizeValue) ITK_NOEXCEPT
-    {
-      return (indexValue <= 0) ? 0 :
-        (static_cast<ImageSizeValueType>(indexValue) < imageSizeValue) ? indexValue : static_cast<IndexValueType>(imageSizeValue - 1);
-    }
 
     // Private constructor, used to create the begin and the end iterator of a range.
     // Only used by its friend class ShapedImageNeighborhoodRange.
@@ -406,18 +347,7 @@ private:
     /**  Returns a reference to the current pixel. */
     reference operator*() const ITK_NOEXCEPT
     {
-      assert(m_CurrentOffset != nullptr);
-
-      const OffsetType currentOffset = (*m_CurrentOffset);
-      QualifiedInternalPixelType* internalPixelPointer = m_ImageBufferPointer;
-
-      for (ImageDimensionType i = 0; i < ImageDimension; ++i)
-      {
-        internalPixelPointer += m_OffsetTable[i] *
-          GetClampedIndexValue(currentOffset[i] + m_Location[i], m_ImageSize[i]);
-      }
-
-      return reference(internalPixelPointer, m_NeighborhoodAccessor);
+      return reference(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location + *m_CurrentOffset);
     }
 
 
