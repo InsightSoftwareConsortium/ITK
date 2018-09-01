@@ -61,6 +61,8 @@ struct ITKIOTransformHDF5_EXPORT HDF5CommonPathNames
   // writing.
   static const std::string transformGroupName;
   static const std::string transformTypeName;
+  static const std::string transformFixedNameMisspelled;
+  static const std::string transformParamsNameMisspelled;
   static const std::string transformFixedName;
   static const std::string transformParamsName;
   static const std::string ItkVersion;

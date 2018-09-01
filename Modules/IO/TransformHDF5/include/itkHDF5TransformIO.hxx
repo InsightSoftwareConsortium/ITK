@@ -357,13 +357,17 @@ HDF5TransformIOTemplate<TParametersValueType>
       // Composite transform doesn't store its own parameters
       if(transformType.find("CompositeTransform") == std::string::npos)
         {
-        std::string fixedParamsName(transformName);
-        fixedParamsName += transformFixedName;
+        std::string fixedParamsName(transformName + transformFixedName);
+        if(! this->m_H5File->exists(fixedParamsName) ){
+          fixedParamsName = transformName + transformFixedNameMisspelled;
+        }
         FixedParametersType fixedparams(this->ReadFixedParameters(fixedParamsName));
         transform->SetFixedParameters(fixedparams);
 
-        std::string paramsName(transformName);
-        paramsName += transformParamsName;
+        std::string paramsName(transformName + transformParamsName);
+        if(! this->m_H5File->exists(paramsName) ){
+          paramsName = transformName + transformParamsNameMisspelled;
+        }
         ParametersType params = this->ReadParameters(paramsName);
         transform->SetParametersByValue(params);
         }
@@ -409,13 +413,11 @@ HDF5TransformIOTemplate<TParametersValueType>
     //
     // write out Fixed Parameters
     FixedParametersType FixedtmpArray = curTransform->GetFixedParameters();
-    std::string fixedParamsName(transformName);
-    fixedParamsName += transformFixedName;
+    const std::string fixedParamsName(transformName + transformFixedName);
     this->WriteFixedParameters(fixedParamsName,FixedtmpArray);
     // parameters
     ParametersType tmpArray = curTransform->GetParameters();
-    std::string paramsName(transformName);
-    paramsName += transformParamsName;
+    const std::string paramsName(transformName + transformParamsName);
     this->WriteParameters(paramsName,tmpArray);
     }
 }
