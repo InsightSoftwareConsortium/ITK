@@ -26,7 +26,7 @@
 #include <limits>
 #include <type_traits> // For conditional and is_const.
 
-#include "itkBorderReplicatingImageNeighborhoodPixelAccessPolicy.h"
+#include "itkZeroFluxNeumannImageNeighborhoodPixelAccessPolicy.h"
 #include "itkIndex.h"
 #include "itkSize.h"
 
@@ -90,7 +90,7 @@ namespace Experimental
  * \ingroup ITKCommon
  */
 template<typename TImage,
-  typename TImageNeighborhoodPixelAccessPolicy = BorderReplicatingImageNeighborhoodPixelAccessPolicy<TImage>>
+  typename TImageNeighborhoodPixelAccessPolicy = ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy<TImage>>
 class ShapedImageNeighborhoodRange final
 {
 private:
