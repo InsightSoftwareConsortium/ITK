@@ -28,18 +28,23 @@ namespace itk
 // writing.
 const std::string HDF5CommonPathNames::transformGroupName(std::string("/TransformGroup"));
 const std::string HDF5CommonPathNames::transformTypeName("/TransformType");
-const std::string HDF5CommonPathNames::transformFixedName("/TranformFixedParameters");
-const std::string HDF5CommonPathNames::transformParamsName("/TranformParameters");
+
+const std::string HDF5CommonPathNames::transformFixedNameMisspelled("/TranformFixedParameters");
+const std::string HDF5CommonPathNames::transformParamsNameMisspelled("/TranformParameters");
+const std::string HDF5CommonPathNames::transformFixedName("/TransformFixedParameters");
+const std::string HDF5CommonPathNames::transformParamsName("/TransformParameters");
+
 const std::string HDF5CommonPathNames::ItkVersion("/ITKVersion");
 const std::string HDF5CommonPathNames::HDFVersion("/HDFVersion");
 const std::string HDF5CommonPathNames::OSName("/OSName");
 const std::string HDF5CommonPathNames::OSVersion("/OSVersion");
 
+
 // I couldn't figure out a way to represent transforms
 // excepts as groups -- the HDF5 composite only allows
 // fixed-size structures.
 // Since (for now) transforms are ordered in a file, but
-// not nameed, I name them by their order in the file,
+// not named, I name them by their order in the file,
 // beginning with zero.
 const std::string
 GetTransformName(int i)

@@ -183,8 +183,6 @@ static int oneTest(const std::string goodname,const std::string badname, const b
   using AffineTransformTypeNotRegistered = typename itk::AffineTransform<TParametersValueType,10>;
   typename AffineTransformType::Pointer        affine = AffineTransformType::New();
 
-  itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New() );
-
   // Set it's parameters
   {
   typename AffineTransformType::ParametersType p =
@@ -363,6 +361,8 @@ static int oneTest(const std::string goodname,const std::string badname, const b
 
 int itkIOTransformHDF5Test(int argc, char* argv[])
 {
+
+  itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New() );
   if (argc > 2)
     {
     itksys::SystemTools::ChangeDirectory(argv[2]);
@@ -376,13 +376,35 @@ int itkIOTransformHDF5Test(int argc, char* argv[])
     const int result2 =  oneTest<double>("Transforms_double.hdf5", "TransformsBad_double.hdf5", false );
     return ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) );
     }
-    if(testType == "compressed")
+    else if(testType == "compressed")
     {
     const int result1 =  oneTest<float>("Transforms_float_compressed.h5", "TransformsBad_float_compressed.h5", true );
     const int result2 =  oneTest<double>("Transforms_double_compressed.hdf5", "TransformsBad_double_compressed.hdf5", true );
     return ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) );
     }
+    else if ( itksys::SystemTools::FileExists(testType) ) // Assume the final parameter is a filename to be read
+    {
+      // This test only verifies that the test can read the transform.
+      typedef typename itk::TransformFileReaderTemplate<double> TFM_READER_TYPE;
+        TFM_READER_TYPE::Pointer
+        reader = TFM_READER_TYPE::New();
+      reader->SetFileName( testType );
+      reader->Update();
+      TFM_READER_TYPE::TransformListType * myTransformList = reader->GetTransformList();
+      if ( myTransformList->size() != 1 )
+      {
+        return EXIT_FAILURE;
+      }
+      if ( myTransformList->front()->GetTransformTypeAsString() != "VersorRigid3DTransform_double_3_3" )
+      {
+        std::cerr << "Incorrect transform type identified "
+                  << myTransformList->front()->GetTransformTypeAsString() << " != VersorRigid3DTransform_double_3_3"
+                  << std::endl;
+        return EXIT_FAILURE;
+      }
+      return EXIT_SUCCESS;
+    }
   }
-  std::cerr << "ERROR: first argument must be one of [uncompressed|compressed]" << std::endl;
+  std::cerr << "ERROR: first argument must be one of [uncompressed|compressed|<filename to read>]" << std::endl;
   return EXIT_FAILURE;
 }
