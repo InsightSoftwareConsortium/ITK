@@ -42,6 +42,8 @@ public:
   itkTypeMacro( TransformTestHelper, Transform );
 
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+
   using ParametersType = typename Superclass::ParametersType;
   using InputPointType = typename Superclass::InputPointType;
   using OutputPointType = typename Superclass::OutputPointType;
@@ -150,12 +152,12 @@ public:
     jacobian.Fill(1);
   }
 
+  using Superclass::ComputeJacobianWithRespectToPosition;
   void ComputeJacobianWithRespectToPosition(
     const InputPointType &,
-    JacobianType & jacobian ) const override
+    JacobianPositionType & jacobian ) const override
   {
-    jacobian.SetSize(NOutputDimensions, NInputDimensions);
-    jacobian.Fill(1);
+    jacobian.fill(1.0);
   }
 
 };
@@ -270,18 +272,20 @@ public:
       std::cerr << e << std::endl;
       }
 
+    typename TransformType::JacobianPositionType jacobian_position;
     try
       {
-      transform->ComputeJacobianWithRespectToPosition(pnt, jacobian);
+      transform->ComputeJacobianWithRespectToPosition(pnt, jacobian_position);
       }
     catch( itk::ExceptionObject & e )
       {
       std::cerr << e << std::endl;
       }
 
+    typename TransformType::InverseJacobianPositionType inv_jacobian_position;
     try
       {
-      transform->ComputeInverseJacobianWithRespectToPosition(pnt, jacobian);
+      transform->ComputeInverseJacobianWithRespectToPosition(pnt, inv_jacobian_position);
       }
     catch( itk::ExceptionObject & e )
       {

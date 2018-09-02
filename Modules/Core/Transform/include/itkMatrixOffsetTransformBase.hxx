@@ -680,9 +680,8 @@ template<typename TParametersValueType, unsigned int NInputDimensions,
 void
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>
 ::ComputeJacobianWithRespectToPosition(const InputPointType  &,
-                                       JacobianType & jac) const
+                                       JacobianPositionType & jac) const
 {
-  jac.SetSize( MatrixType::RowDimensions, MatrixType::ColumnDimensions );
   jac = this->GetMatrix().GetVnlMatrix();
 }
 
@@ -692,9 +691,8 @@ template<typename TParametersValueType, unsigned int NInputDimensions,
 void
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>
 ::ComputeInverseJacobianWithRespectToPosition(const InputPointType  &,
-                                       JacobianType & jac) const
+                                              InverseJacobianPositionType & jac) const
 {
-  jac.SetSize( MatrixType::ColumnDimensions, MatrixType::RowDimensions );
   jac = this->GetMatrix().GetVnlMatrix();
 }
 

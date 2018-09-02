@@ -159,7 +159,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 
   itk::Array<FloatType> dTdt(dim);
 
-  JacobianType jacobianCache(dim,dim);
+  JacobianType jacobianCache;
   JacobianType jacobian(dim,
                         (this->GetTransformForward() ?
                          this->m_Metric->GetMovingTransform()->GetNumberOfParameters()

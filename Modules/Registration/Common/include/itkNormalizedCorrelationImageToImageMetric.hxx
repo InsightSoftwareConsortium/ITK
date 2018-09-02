@@ -222,7 +222,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   TransformJacobianType jacobian(TFixedImage::ImageDimension,
                                  this->m_Transform->GetNumberOfParameters());
-  TransformJacobianType jacobianCache(TFixedImage::ImageDimension,TFixedImage::ImageDimension);
+  TransformJacobianType jacobianCache;
 
   // Compute contributions to derivatives
   ti.GoToBegin();

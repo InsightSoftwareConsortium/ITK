@@ -116,8 +116,10 @@ public:
   using ParametersValueType = typename Superclass::ParametersValueType;
   /** Derivative type */
   using DerivativeType = typename Superclass::DerivativeType;
-  /** Jacobian type. */
+  /** Jacobian types. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
   /** Standard coordinate point type for this class. */
@@ -366,13 +368,14 @@ public:
   /**
    * Expanded interface to Compute the Jacobian with respect to the parameters for the compositie
    * transform using Jacobian rule. This version takes in temporary
-   * variables to avoid excessive constructions.
-   * NOTE: outJacobian and jacobianWithRespectToPosition MUST be sized
-   * prior to the call; outJacobian's size should be
-   * [NDimensions, this->GetNumberOfLocalParameters() ]
-   * jacobianWithRespectToPosition size == [ NDimensions, NDimensions ]
+   * variables to avoid excessive constructions and memory allocations.
+   * NOTE: outJacobian MUST be sized correctly prior to the call;
+   * outJacobian's size should be [NDimensions, this->GetNumberOfLocalParameters() ]
+   * jacobianCache may be resized internally and will be reused between calls
    */
-  void ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType & jacobianWithRespectToPosition ) const override;
+  void ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p,
+                                                                JacobianType & outJacobian,
+                                                                JacobianType & cacheJacobian ) const override;
 
 protected:
   CompositeTransform();

@@ -254,7 +254,7 @@ int itkSplineKernelTransformTest(int , char* [] )
         }
       }
       {
-      TPSTransform2DType::JacobianType   testJacobian;
+      TPSTransform2DType::JacobianPositionType   testJacobian;
       TPSTransform2DType::InputPointType testVector;
       testVector[0] = 0.0;
       testVector[1] = 1.0;

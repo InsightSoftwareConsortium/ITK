@@ -62,6 +62,8 @@ public:
 
   /** Jacobian Type */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;

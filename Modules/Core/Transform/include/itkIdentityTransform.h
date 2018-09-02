@@ -79,6 +79,8 @@ public:
 
   /** Type of the Jacobian matrix. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
@@ -178,23 +180,20 @@ public:
   void ComputeJacobianWithRespectToParameters( const InputPointType &,
                                                        JacobianType & jacobian) const override
   {
-    jacobian = this->m_IdentityJacobian;
+    jacobian = this->m_ZeroJacobian;
   }
+
 
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
   void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType & jac) const override
+                                            JacobianPositionType & jac) const override
   {
-    jac.SetSize( NDimensions, NDimensions );
-    jac.Fill(0.0);
-    for( unsigned int dim = 0; dim < NDimensions; dim++ )
-      {
-      jac[dim][dim] = 1.0;
-      }
+    jac.set_identity();
   }
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /* Always returns true if not null, as an identity is it's own inverse */
   bool GetInverse( Self *inverseTransform ) const
@@ -243,17 +242,17 @@ public:
 
 protected:
   IdentityTransform() : Transform<TParametersValueType, NDimensions, NDimensions>(0),
-    m_IdentityJacobian(NDimensions, 0)
+    m_ZeroJacobian(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the
     // constructor.
-    this->m_IdentityJacobian.Fill(0.0);
+    this->m_ZeroJacobian.Fill(0.0);
   }
 
   ~IdentityTransform() override {}
 
 private:
-  JacobianType m_IdentityJacobian;
+  JacobianType m_ZeroJacobian;
 };
 } // end namespace itk
 

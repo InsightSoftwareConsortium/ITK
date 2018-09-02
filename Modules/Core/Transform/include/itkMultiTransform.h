@@ -92,6 +92,8 @@ public:
   using DerivativeType = typename Superclass::DerivativeType;
   /** Jacobian type. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
 

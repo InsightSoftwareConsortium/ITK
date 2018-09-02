@@ -73,8 +73,10 @@ public:
   using ParametersType = typename Superclass::ParametersType;
   using ParametersValueType = typename ParametersType::ValueType;
 
-  /** Jacobian type. */
+  /** Jacobian types. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Standard matrix type for this class. */
   using MatrixType = Matrix<TParametersValueType, Self::InputSpaceDimension,
@@ -214,11 +216,12 @@ public:
   void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
   void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const override
+                                                    JacobianPositionType &) const override
   {
     itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Set a fixed offset: this allow to center the object to be transformed */
   itkGetConstReferenceMacro(FixedOffset, OffsetType);

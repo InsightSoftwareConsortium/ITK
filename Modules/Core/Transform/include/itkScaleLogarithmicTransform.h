@@ -66,6 +66,8 @@ public:
 
   /** Jacobian type. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Standard vector type for this class. */
   using ScaleType = typename Superclass::ScaleType;

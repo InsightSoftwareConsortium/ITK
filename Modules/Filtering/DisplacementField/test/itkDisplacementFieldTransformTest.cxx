@@ -126,8 +126,8 @@ bool sameTensor( const TTensor & t1, const TTensor & t2, double epsilon = 1e-8 )
   return pass;
 }
 
-template <typename TArray2D>
-bool sameArray2D( const TArray2D & a1, const TArray2D & a2, double epsilon = 1e-8 )
+template <typename TArray2D, typename TArray2D_ARG1>
+bool sameArray2D( const TArray2D & a1, const TArray2D_ARG1 & a2, double epsilon = 1e-8 )
 {
   bool pass = true;
 
@@ -144,10 +144,10 @@ bool sameArray2D( const TArray2D & a1, const TArray2D & a2, double epsilon = 1e-
         std::cout << "Error at index (" << j << ", " << i << ")" << std::endl;
         std::cout << "Expected: "
           << static_cast< typename itk::NumericTraits<
-          typename TArray2D::ValueType >::PrintType >( a1(j, i) )
+          typename TArray2D::element_type >::PrintType >( a1(j, i) )
           << ", but got: "
           << static_cast< typename itk::NumericTraits<
-          typename TArray2D::ValueType >::PrintType >( a2(j, i) )
+          typename TArray2D_ARG1::element_type >::PrintType >( a2(j, i) )
           << std::endl;
         pass = false;
         }
@@ -340,8 +340,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   testPoint[1] = 8;
 
   // Test LocalJacobian methods
-  DisplacementTransformType::JacobianType jacobian( DisplacementTransformType::Dimension,
-    DisplacementTransformType::Dimension );
+  DisplacementTransformType::JacobianPositionType jacobian;
 
   displacementTransform->ComputeJacobianWithRespectToPosition( testPoint, jacobian );
 

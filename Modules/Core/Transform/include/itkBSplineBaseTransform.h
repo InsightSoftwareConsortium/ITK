@@ -66,6 +66,8 @@ public:
 
   /** Standard Jacobian container. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
@@ -277,11 +279,12 @@ public:
 
   void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const override = 0;
 
-  void ComputeJacobianWithRespectToPosition( const InputPointType &, JacobianType & ) const override
+  void ComputeJacobianWithRespectToPosition( const InputPointType &, JacobianPositionType & ) const override
   {
     itkExceptionMacro( << "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Return the number of parameters that completely define the Transfom */
   NumberOfParametersType GetNumberOfParameters() const override = 0;

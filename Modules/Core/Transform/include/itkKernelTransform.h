@@ -87,8 +87,10 @@ public:
   using FixedParametersType = typename Superclass::FixedParametersType;
   using ParametersType = typename Superclass::ParametersType;
 
-  /** Jacobian type. */
+  /** Jacobian types. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
@@ -171,11 +173,12 @@ public:
   void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
   void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const override
+                                                    JacobianPositionType &) const override
   {
     itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Set the Transformation Parameters and update the internal transformation.
    * The parameters represent the source landmarks. Each landmark point is

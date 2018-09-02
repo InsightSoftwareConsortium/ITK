@@ -163,6 +163,8 @@ public:
 
   /** Standard Jacobian container. */
   using JacobianType = typename Superclass::JacobianType;
+  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** The number of parameters defininig this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
