@@ -18,7 +18,7 @@
 #ifndef itkBinaryImageToLabelMapFilter_h
 #define itkBinaryImageToLabelMapFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkScanlineFilterCommon.h"
 #include <deque>
 #include <map>
 #include <mutex>
@@ -61,6 +61,7 @@ template< typename TInputImage,
             LabelMap< LabelObject< SizeValueType, TInputImage::ImageDimension > > >
 class ITK_TEMPLATE_EXPORT BinaryImageToLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
+  , protected ScanlineFilterCommon< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLabelMapFilter);
@@ -142,19 +143,10 @@ public:
   itkSetMacro(InputForegroundValue, InputPixelType);
   itkGetConstMacro(InputForegroundValue, InputPixelType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
-#endif
-
 protected:
   BinaryImageToLabelMapFilter();
   ~BinaryImageToLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  using InternalLabelType = SizeValueType;
 
   void DynamicThreadedGenerateData( const RegionType & outputRegionForThread ) override;
   void ComputeEquivalence( const SizeValueType workUnitResultsIndex );
@@ -173,70 +165,24 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
+  using ScanlineFunctions = ScanlineFilterCommon< TInputImage, TOutputImage >;
+
+  using InternalLabelType         = typename ScanlineFunctions::InternalLabelType;
+  using OutSizeType               = typename ScanlineFunctions::OutSizeType;
+  using RunLength                 = typename ScanlineFunctions::RunLength;
+  using LineEncodingType          = typename ScanlineFunctions::LineEncodingType;
+  using LineEncodingIterator      = typename ScanlineFunctions::LineEncodingIterator;
+  using LineEncodingConstIterator = typename ScanlineFunctions::LineEncodingConstIterator;
+  using OffsetVectorType          = typename ScanlineFunctions::OffsetVectorType;
+  using OffsetVectorConstIterator = typename ScanlineFunctions::OffsetVectorConstIterator;
+  using LineMapType               = typename ScanlineFunctions::LineMapType;
+  using UnionFindType             = typename ScanlineFunctions::UnionFindType;
+  using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+
 private:
-  using OutSizeType = typename TOutputImage::RegionType::SizeType;
-
-  // types to support the run length encoding of lines
-  struct runLength
-  {
-    // run length information - may be a more type safe way of doing this
-    SizeValueType length;
-    typename InputImageType::IndexType where; // Index of the start of the run
-    InternalLabelType label;                  // the initial label of the run
-  };
-
-  using lineEncoding = std::vector< runLength >;
-
-  // the map storing lines
-  using LineMapType = std::vector< lineEncoding >;
-
-  using OffsetVectorType = std::vector< OffsetValueType >;
-  OffsetVectorType m_LineOffsets;
-
-  // the types to support union-find operations
-  using UnionFindType = std::vector< InternalLabelType >;
-  UnionFindType m_UnionFind;
-
-  using ConsecutiveVectorType = std::vector< OutputPixelType >;
-  ConsecutiveVectorType m_Consecutive;
-
-  InternalLabelType LookupSet(const InternalLabelType label);
-
-  void LinkLabels(const InternalLabelType lab1, const InternalLabelType lab2);
-
-  SizeValueType CreateConsecutive();
-
-  bool CheckNeighbors(const OutputIndexType & A,
-                      const OutputIndexType & B);
-
-  void CompareLines(lineEncoding & current, const lineEncoding & Neighbour);
-
-  void SetupLineOffsets();
-
-  SizeValueType IndexToLinearIndex( const IndexType& index )
-  {
-    SizeValueType linearIndex = 0;
-    SizeValueType stride = 1;
-    RegionType requestedRegion = this->GetOutput()->GetRequestedRegion();
-    // ignore x axis, which is always full size
-    for ( unsigned dim = 1; dim < ImageDimension; dim++ )
-      {
-      itkAssertOrThrowMacro( requestedRegion.GetIndex( dim ) <= index[dim],
-          "Index must be within the requested region!" );
-      linearIndex += ( index[dim] - requestedRegion.GetIndex( dim ) ) * stride;
-      stride *= requestedRegion.GetSize( dim );
-      }
-    return linearIndex;
-  }
-
   OutputPixelType m_OutputBackgroundValue;
   InputPixelType  m_InputForegroundValue;
-
-  SizeValueType m_NumberOfObjects;
-
-  std::mutex m_Mutex;
-
-  bool m_FullyConnected;
+  SizeValueType   m_NumberOfObjects;
 
   struct WorkUnitData
   {

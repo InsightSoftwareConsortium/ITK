@@ -8,6 +8,7 @@ itk_module(ITKConnectedComponents
     ITKImageIntensity
     ITKThresholding
     ITKImageGrid
+    ITKImageLabel
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

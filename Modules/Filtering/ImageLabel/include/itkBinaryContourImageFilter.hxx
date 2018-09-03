@@ -27,18 +27,18 @@
 #include "itkImageRegionIterator.h"
 #include "itkMaskImageFilter.h"
 #include "itkConnectedComponentAlgorithm.h"
+#include "itkProgressTransformer.h"
 #include "itkMath.h"
 
 namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 BinaryContourImageFilter< TInputImage, TOutputImage >
-::BinaryContourImageFilter()
+::BinaryContourImageFilter() :
+  ScanlineFilterCommon< TInputImage, TOutputImage >(this),
+  m_ForegroundValue( NumericTraits< OutputImagePixelType >::max() ),
+  m_BackgroundValue( NumericTraits< OutputImagePixelType >::NonpositiveMin() )
 {
-  m_FullyConnected = false;
-  m_ForegroundValue = NumericTraits< InputImagePixelType >::max();
-  m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
-  m_NumberOfWorkUnits = 0;
   this->SetInPlace(false);
   this->DynamicMultiThreadingOn();
 }
@@ -78,7 +78,9 @@ BinaryContourImageFilter<TInputImage, TOutputImage>
   this->UpdateProgress(0.0f);
   this->AllocateOutputs();
   this->BeforeThreadedGenerateData();
-  this->UpdateProgress(0.05f);
+  this->SetupLineOffsets(true);
+
+  ProgressTransformer progress1( 0.05f, 0.5f, this );
 
   RegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
@@ -88,17 +90,17 @@ BinaryContourImageFilter<TInputImage, TOutputImage>
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection< ImageDimension >( restrictedDirection,
     reqRegion,
     [this](const RegionType & outputRegionForThread) { this->DynamicThreadedGenerateData( outputRegionForThread ); },
-    nullptr
+    progress1.GetProcessObject()
     );
-  this->UpdateProgress(0.5f);
+
+  ProgressTransformer progress2( 0.5f, 0.99f, this );
 
   //avoid splitting the region along X
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection< ImageDimension >( restrictedDirection,
     reqRegion,
     [this](const RegionType & outputRegionForThread) { this->ThreadedIntegrateData( outputRegionForThread ); },
-    nullptr
+    progress2.GetProcessObject()
     );
-  this->UpdateProgress(0.99f);
 
   this->AfterThreadedGenerateData();
   this->UpdateProgress(1.0f);
@@ -122,25 +124,6 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 
   m_BackgroundLineMap.clear();
   m_BackgroundLineMap.resize(linecount);
-}
-
-template<typename TInputImage, typename TOutputImage>
-SizeValueType
-BinaryContourImageFilter<TInputImage, TOutputImage>
-::IndexToLinearIndex(IndexType index)
-{
-  SizeValueType li = 0;
-  SizeValueType stride = 1;
-  RegionType r = this->GetOutput()->GetRequestedRegion();
-  //ignore x axis, which is always full size
-  for (unsigned d = 1; d < ImageDimension; d++)
-    {
-    itkAssertOrThrowMacro(r.GetIndex(d) <= index[d],
-        "Index must be within requested region!");
-    li += (index[d] - r.GetIndex(d))*stride;
-    stride *= r.GetSize(d);
-    }
-  return li;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -195,7 +178,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
           ++outLineIt;
           }
         // create the run length object to go in the vector
-        fgLine.push_back( runLength( length, thisIndex ) );
+        fgLine.push_back( RunLength( length, thisIndex ) );
         }
       else
         {
@@ -216,11 +199,11 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
           ++outLineIt;
           }
         // create the run length object to go in the vector
-        bgLine.push_back( runLength( length, thisIndex ) );
+        bgLine.push_back( RunLength( length, thisIndex ) );
         }
       }
 
-    SizeValueType lineId = IndexToLinearIndex(inLineIt.GetIndex());
+    SizeValueType lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
 
     m_ForegroundLineMap[lineId] = fgLine;
     m_BackgroundLineMap[lineId] = bgLine;
@@ -239,35 +222,46 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
   outLineIt.SetDirection(0);
 
-  OffsetVec LineOffsets;
-  SetupLineOffsets(LineOffsets);
-
-  RegionType reqRegion = output->GetRequestedRegion();
-  SizeValueType pixelcount = reqRegion.GetNumberOfPixels();
-  SizeValueType xsize = reqRegion.GetSize()[0];
-  OffsetValueType linecount = pixelcount / xsize;
+  OffsetValueType linecount = m_ForegroundLineMap.size();
 
   for (outLineIt.GoToBegin(); !outLineIt.IsAtEnd(); outLineIt.NextLine())
     {
-    SizeValueType thisIdx = IndexToLinearIndex(outLineIt.GetIndex());
+    SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if ( !m_ForegroundLineMap[thisIdx].empty() )
       {
-      for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
-            I != LineOffsets.end();
+      for ( OffsetVectorConstIterator I = this->m_LineOffsets.begin();
+            I != this->m_LineOffsets.end();
             ++I )
         {
-        OffsetValueType NeighIdx = thisIdx + ( *I );
+        OffsetValueType neighIdx = thisIdx + ( *I );
 
         // check if the neighbor is in the map
-        if ( NeighIdx >= 0 && NeighIdx < OffsetValueType(linecount) && !m_BackgroundLineMap[NeighIdx].empty() )
+        if ( neighIdx >= 0 && neighIdx < OffsetValueType(linecount) && !m_BackgroundLineMap[neighIdx].empty() )
           {
           // Now check whether they are really neighbors
-          bool areNeighbors =
-            CheckNeighbors(m_ForegroundLineMap[thisIdx][0].m_Where, m_BackgroundLineMap[NeighIdx][0].m_Where);
+          bool areNeighbors = this->CheckNeighbors(m_ForegroundLineMap[thisIdx][0].where, m_BackgroundLineMap[neighIdx][0].where);
           if ( areNeighbors )
             {
-            // Compare the two lines
-            CompareLines(m_ForegroundLineMap[thisIdx], m_BackgroundLineMap[NeighIdx]);
+            this->CompareLines(
+              m_ForegroundLineMap[thisIdx],
+              m_BackgroundLineMap[neighIdx],
+              true,
+              false,
+              m_BackgroundValue,
+              [this, output](
+                 const LineEncodingConstIterator& foregroundRun,
+                 const LineEncodingConstIterator&,
+                 OffsetValueType oStart,
+                 OffsetValueType oLast)
+              {
+                itkAssertInDebugAndIgnoreInReleaseMacro(oStart <= oLast);
+                OutputIndexType idx = foregroundRun->where;
+                for ( OffsetValueType x = oStart; x <= oLast; ++x )
+                  {
+                  idx[0] = x;
+                  output->SetPixel(idx, this->m_ForegroundValue);
+                  }
+              });
             }
           }
         }
@@ -287,212 +281,15 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
-::SetupLineOffsets(OffsetVec & LineOffsets)
-{
-  // Create a neighborhood so that we can generate a table of offsets
-  // to "previous" line indexes
-  // We are going to mis-use the neighborhood iterators to compute the
-  // offset for us. All this messing around produces an array of
-  // offsets that will be used to index the map
-  OutputImagePointer output = this->GetOutput();
-
-  const unsigned int PretendDimension = ImageDimension - 1;
-
-  using PretendImageType = Image< OffsetValueType, PretendDimension >;
-  using PretendImagePointer = typename PretendImageType::Pointer;
-  using PretendImageRegionType = typename PretendImageType::RegionType;
-  using PretendSizeType = typename PretendImageType::RegionType::SizeType;
-  using PretendIndexType = typename PretendImageType::RegionType::IndexType;
-
-  PretendImagePointer fakeImage = PretendImageType::New();
-
-  PretendImageRegionType LineRegion;
-  //LineRegion = PretendImageType::RegionType::New();
-
-  OutputSizeType OutSize = output->GetRequestedRegion().GetSize();
-
-  PretendSizeType PretendSize;
-
-  // The first dimension has been collapsed
-  for ( unsigned int i = 0; i < PretendDimension; i++ )
-    {
-    PretendSize[i] = OutSize[i + 1];
-    }
-
-  LineRegion.SetSize(PretendSize);
-  fakeImage->SetRegions(LineRegion);
-
-  PretendSizeType kernelRadius;
-  kernelRadius.Fill(1);
-
-  using LineNeighborhoodType = ConstShapedNeighborhoodIterator< PretendImageType >;
-  LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
-
-  setConnectivity(&lnit, m_FullyConnected);
-
-  typename LineNeighborhoodType::IndexListType ActiveIndexes;
-  ActiveIndexes = lnit.GetActiveIndexList();
-
-  typename LineNeighborhoodType::IndexListType::const_iterator LI;
-
-  PretendIndexType idx = LineRegion.GetIndex();
-  OffsetValueType  offset = fakeImage->ComputeOffset(idx);
-
-  for ( LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI )
-    {
-    LineOffsets.push_back(
-      fakeImage->ComputeOffset( idx + lnit.GetOffset(*LI) ) - offset );
-    }
-
-  LineOffsets.push_back(0);
-  // LineOffsets is the thing we wanted.
-}
-
-template< typename TInputImage, typename TOutputImage >
-bool
-BinaryContourImageFilter< TInputImage, TOutputImage >
-::CheckNeighbors(const OutputIndexType & A,
-                 const OutputIndexType & B)
-{
-  // this checks whether the line encodings are really neighbors. The
-  // first dimension gets ignored because the encodings are along that
-  // axis
-  for ( unsigned int i = 1; i < ImageDimension; i++ )
-    {
-    if ( itk::Math::abs( A[i] - B[i] ) > 1 )
-      {
-      return ( false );
-      }
-    }
-  return ( true );
-}
-
-template< typename TInputImage, typename TOutputImage >
-void
-BinaryContourImageFilter< TInputImage, TOutputImage >
-::CompareLines(LineEncodingType & current, const LineEncodingType & Neighbour)
-{
-  bool             sameLine = true;
-  OutputOffsetType Off = current[0].m_Where - Neighbour[0].m_Where;
-
-  for ( unsigned int i = 1; i < ImageDimension; i++ )
-    {
-    if ( Off[i] != 0 )
-      {
-      sameLine = false;
-      break;
-      }
-    }
-
-  OffsetValueType offset = 0;
-  if ( m_FullyConnected || sameLine )
-    {
-    offset = 1;
-    }
-
-  OutputImagePointer output = this->GetOutput();
-
-  // out marker iterator
-  auto mIt = Neighbour.begin();
-
-  for ( auto cIt = current.begin();
-        cIt != current.end();
-        ++cIt )
-    {
-    // the start x position
-    OffsetValueType cStart = cIt->m_Where[0];
-    OffsetValueType cLast = cStart + cIt->m_Length - 1;
-
-    bool lineCompleted = false;
-
-    for ( auto nIt = mIt;
-          nIt != Neighbour.end() && !lineCompleted;
-          ++nIt )
-      {
-      OffsetValueType nStart = nIt->m_Where[0];
-      OffsetValueType nLast = nStart + nIt->m_Length - 1;
-
-      // there are a few ways that neighbouring lines might overlap
-      //   neighbor      S------------------E
-      //   current    S------------------------E
-      //-------------
-      //   neighbor      S------------------E
-      //   current    S----------------E
-      //-------------
-      //   neighbor      S------------------E
-      //   current             S------------------E
-      //-------------
-      //   neighbor      S------------------E
-      //   current             S-------E
-      //-------------
-      OffsetValueType ss1 = nStart - offset;
-      OffsetValueType ee2 = nLast + offset;
-
-      bool eq = false;
-
-      OffsetValueType oStart = 0;
-      OffsetValueType oLast = 0;
-
-      // the logic here can probably be improved a lot
-      if ( ( ss1 >= cStart ) && ( ee2 <= cLast ) )
-        {
-        // case 1
-        eq = true;
-        oStart = ss1;
-        oLast = ee2;
-        }
-      else if ( ( ss1 <= cStart ) && ( ee2 >= cLast ) )
-        {
-        // case 4
-        eq = true;
-        oStart = cStart;
-        oLast = cLast;
-        }
-      else if ( ( ss1 <= cLast ) && ( ee2 >= cLast ) )
-        {
-        // case 2
-        eq = true;
-        oStart = ss1;
-        oLast = cLast;
-        }
-      else if ( ( ss1 <= cStart ) && ( ee2 >= cStart ) )
-        {
-        // case 3
-        eq = true;
-        oStart = cStart;
-        oLast = ee2;
-        }
-
-      if ( eq )
-        {
-        itkAssertOrThrowMacro( ( oStart <= oLast ), "Start and Last out of order" );
-        IndexType idx = cIt->m_Where;
-        for ( OffsetValueType x = oStart; x <= oLast; x++ )
-          {
-          idx[0] = x;
-          output->SetPixel(idx, m_ForegroundValue);
-          }
-        if ( oStart == cStart && oLast == cLast )
-          {
-          lineCompleted = true;
-          }
-        }
-      }
-    }
-}
-
-template< typename TInputImage, typename TOutputImage >
-void
-BinaryContourImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: "  << this->m_FullyConnected << std::endl;
+  os << indent << "BackgroundValue: " <<
+        static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
   os << indent << "ForegroundValue: "
      << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_ForegroundValue ) << std::endl;
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
 }
 } // end namespace itk
 
