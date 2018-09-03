@@ -25,6 +25,7 @@
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkConnectedComponentAlgorithm.h"
+#include "itkProgressTransformer.h"
 
 namespace itk
 {
@@ -75,52 +76,24 @@ LabelContourImageFilter<TInputImage, TOutputImage>
   this->UpdateProgress(0.0f);
   this->AllocateOutputs();
   this->BeforeThreadedGenerateData();
-  this->UpdateProgress(0.05f);
+
+  ProgressTransformer progress1(0.01f, 0.5f, this);
 
   OutputRegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
   this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
-  //parallelize in a way which does not split the region along X axis
-  //to accomplish this, we parallelize a region with lower dimension
-  //which we extend with full scanlines along X
-  this->GetMultiThreader()->ParallelizeImageRegion(
-      ImageDimension - 1,
-      &reqRegion.GetIndex()[1],
-      &reqRegion.GetSize()[1],
-      [&](const IndexValueType index[], const SizeValueType size[])
-      {
-        OutputRegionType r;
-        r.SetIndex(0, reqRegion.GetIndex(0));
-        r.SetSize(0, reqRegion.GetSize(0));
-        for (unsigned d = 1; d < ImageDimension; d++)
-          {
-          r.SetIndex(d, index[d - 1]);
-          r.SetSize(d, size[d - 1]);
-      }
-      this->DynamicThreadedGenerateData(r);
-      },
-      nullptr);
-  this->UpdateProgress(0.5f);
+  this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<ImageDimension>(
+      0, //do not split along X axis
+      reqRegion,
+      [this](const OutputRegionType& r){ this->DynamicThreadedGenerateData(r); },
+      progress1.GetProcessObject() );
 
-  //avoid splitting the region along X
-  this->GetMultiThreader()->ParallelizeImageRegion(
-      ImageDimension - 1,
-      &reqRegion.GetIndex()[1],
-      &reqRegion.GetSize()[1],
-      [&](const IndexValueType index[], const SizeValueType size[])
-      {
-      OutputRegionType r;
-      r.SetIndex(0, reqRegion.GetIndex(0));
-      r.SetSize(0, reqRegion.GetSize(0));
-      for (unsigned d = 1; d < ImageDimension; d++)
-        {
-        r.SetIndex(d, index[d - 1]);
-        r.SetSize(d, size[d - 1]);
-        }
-      this->ThreadedIntegrateData(r);
-      },
-      nullptr);
-  this->UpdateProgress(0.99f);
+  ProgressTransformer progress2(0.5f, 0.99f, this);
+  this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<ImageDimension>(
+      0, //do not split along X axis
+      reqRegion,
+      [this](const OutputRegionType& r){ this->ThreadedIntegrateData(r); },
+      progress2.GetProcessObject() );
 
   this->AfterThreadedGenerateData();
   this->UpdateProgress(1.0f);
