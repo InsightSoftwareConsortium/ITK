@@ -72,24 +72,19 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // Call a method that can be overriden by a subclass to allocate
   // memory for the filter's outputs
   this->AllocateOutputs();
-
-  this->m_FullyConnected = this->m_FullyConnected;
+  this->SetupLineOffsets( false );
   OutputImageType * output = this->GetOutput();
   output->SetBackgroundValue(this->m_OutputBackgroundValue);
 
   const typename OutputImageType::RegionType & requestedRegion = output->GetRequestedRegion();
   const typename OutputImageType::SizeType & requestedSize = requestedRegion.GetSize();
 
-  // set up the vars used in the threads
-  this->m_WorkUnitResults.clear();
-  this->m_LineOffsets.clear();
-
   const SizeValueType pixelcount = requestedRegion.GetNumberOfPixels();
   const SizeValueType xsize = requestedSize[0];
   const SizeValueType linecount = pixelcount / xsize;
-  m_LineMap.resize(linecount);
-
-  this->SetupLineOffsets(false);
+  this->m_LineMap.resize(linecount);
+  this->m_NumberOfLabels.store( 0 );
+  this->SetupLineOffsets( false );
 
   ProgressTransformer progress1( 0.0f, 0.5f, this );
 
@@ -105,39 +100,19 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     progress1.GetProcessObject());
 
   // compute the total number of labels
-  SizeValueType nbOfLabels = 0;
-  for ( SizeValueType i = 0; i < m_WorkUnitResults.size(); ++i )
-    {
-    nbOfLabels += m_WorkUnitResults[i].numberOfLabels;
-    }
+  SizeValueType nbOfLabels = this->m_NumberOfLabels.load();
 
-  // set up the union find structure
-  this->InitUnion( nbOfLabels );
   // insert all the labels into the structure -- an extra loop but
   // saves complicating the ones that come later
-  typename LineMapType::iterator MapBegin, MapEnd, LineIt;
-  MapBegin = m_LineMap.begin();
-  MapEnd = m_LineMap.end();
-  LineIt = MapBegin;
-  InternalLabelType label = 1;
-  for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
-    {
-    LineEncodingIterator cIt;
-    for ( cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt )
-      {
-      cIt->label = label;
-      this->m_UnionFind[label] = label;
-      label++;
-      }
-    }
+  this->InitUnion( nbOfLabels );
 
   ProgressTransformer progress2( 0.55f, 0.6f, this );
   multiThreader->ParallelizeArray(
-    0, m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->ComputeEquivalence( index ); }, progress2.GetProcessObject());
+    0, this->m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->ComputeEquivalence( index, true ); }, progress2.GetProcessObject());
 
   ProgressTransformer progress3( 0.6f, 0.75f, this );
   multiThreader->ParallelizeArray(
-    0, m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->MergeLabels( index ); }, progress3.GetProcessObject());
+    0, this->m_WorkUnitResults.size(), [this]( SizeValueType index ) { this->ComputeEquivalence( index, false ); }, progress3.GetProcessObject());
 
   // AfterThreadedGenerateData
   typename TInputImage::ConstPointer input = this->GetInput();
@@ -146,17 +121,15 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // check for overflow exception here
   if ( m_NumberOfObjects > static_cast< SizeValueType >( NumericTraits< OutputPixelType >::max() ) )
     {
-    itkExceptionMacro(
-      << "Number of objects (" << m_NumberOfObjects << ") greater than maximum of output pixel type ("
-      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( NumericTraits< OutputPixelType >::
-                                                                                   max() ) << ").");
+    itkExceptionMacro( << "Number of objects (" << m_NumberOfObjects << ") greater than maximum of output pixel type ("
+      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( NumericTraits< OutputPixelType >::max() ) << ").");
     }
 
   for ( SizeValueType thisIdx = 0; thisIdx < linecount; thisIdx++ )
     {
     // now fill the labelled sections
-    LineEncodingConstIterator cIt = m_LineMap[thisIdx].begin();
-    const LineEncodingConstIterator cEnd = m_LineMap[thisIdx].end();
+    LineEncodingConstIterator cIt = this->m_LineMap[thisIdx].begin();
+    const LineEncodingConstIterator cEnd = this->m_LineMap[thisIdx].end();
 
     while ( cIt != cEnd )
       {
@@ -169,9 +142,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     }
 
   //clear and make sure memory is freed
-  std::deque<WorkUnitData>().swap(m_WorkUnitResults);
+  std::deque<WorkUnitData>().swap(this->m_WorkUnitResults);
   OffsetVectorType().swap(this->m_LineOffsets);
-  LineMapType().swap(m_LineMap);
+  LineMapType().swap(this->m_LineMap);
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -179,37 +152,14 @@ void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
 {
-  TOutputImage * output = this->GetOutput();
   const TInputImage * input = this->GetInput();
-
-  // create a line iterator
   using InputLineIteratorType = ImageScanlineConstIterator< InputImageType >;
   InputLineIteratorType inLineIt(input, outputRegionForThread);
 
-  const SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
+  WorkUnitData  workUnitData = this->CreateWorkUnitData( outputRegionForThread );
+  SizeValueType lineId = workUnitData.firstLine;
 
-  // find the split axis
-  const IndexType & outputRegionIdx = output->GetRequestedRegion().GetIndex();
-  const IndexType & outputRegionForThreadIdx = outputRegionForThread.GetIndex();
-  const SizeType & outputRegionForThreadSize = outputRegionForThread.GetSize();
-  int splitAxis = TOutputImage::ImageDimension - 1;
-
-  WorkUnitData workUnitData = { 0, 0, 0, 0 };
-
-  workUnitData.firstLineIdForThread = this->IndexToLinearIndex( outputRegionForThreadIdx );
-  SizeValueType lineId = workUnitData.firstLineIdForThread;
-
-  SizeType localRegionSize = outputRegionForThreadSize;
-  localRegionSize[splitAxis] -= 1;
-  SizeValueType lastLineIdForThread = workUnitData.firstLineIdForThread
-    + RegionType(outputRegionIdx, localRegionSize).GetNumberOfPixels() / xsizeForThread;
-  workUnitData.firstLineIdToJoin = lastLineIdForThread;
-
-  // found the number of line ids to join
-  workUnitData.numberOfLineIdsToJoin =
-    RegionType( outputRegionIdx, outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread
-    - RegionType(outputRegionIdx, localRegionSize).GetNumberOfPixels() / xsizeForThread;
-
+  SizeValueType nbOfLabels = 0;
   for ( inLineIt.GoToBegin();
         !inLineIt.IsAtEnd();
         inLineIt.NextLine() )
@@ -235,7 +185,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
         // create the run length object to go in the vector
         RunLength thisRun( length, thisIndex, 0 ); // will give a real label later
         thisLine.push_back(thisRun);
-        ++workUnitData.numberOfLabels;
+        ++nbOfLabels;
         }
       else
         {
@@ -243,105 +193,13 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
         }
       }
     // equivalent to assignment because thisLine goes of out scope afterwards
-    m_LineMap[lineId].swap( thisLine );
+    this->m_LineMap[lineId].swap( thisLine );
     ++lineId;
     }
 
+  this->m_NumberOfLabels.fetch_add( nbOfLabels, std::memory_order_relaxed );
   std::lock_guard<std::mutex> mutexHolder(this->m_Mutex);
   this->m_WorkUnitResults.push_back( workUnitData );
-}
-
-template< typename TInputImage, typename TOutputImage >
-void
-BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::ComputeEquivalence(const SizeValueType workUnitResultsIndex)
-{
-  // process the map and make appropriate entries in an equivalence table
-  const OffsetValueType linecount = m_LineMap.size();
-
-  for ( SizeValueType thisIdx = m_WorkUnitResults[workUnitResultsIndex].firstLineIdForThread;
-        thisIdx < m_WorkUnitResults[workUnitResultsIndex].firstLineIdToJoin;
-        ++thisIdx )
-    {
-    if ( !m_LineMap[thisIdx].empty() )
-      {
-      typename OffsetVectorType::const_iterator I = this->m_LineOffsets.begin();
-      while ( I != this->m_LineOffsets.end() )
-        {
-        OffsetValueType neighIdx = thisIdx + ( *I );
-        // check if the neighbor is in the map
-        if ( neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty() )
-          {
-          // Now check whether they are really neighbors
-          bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
-          if ( areNeighbors )
-            {
-            this->CompareLines(
-              m_LineMap[thisIdx],
-              m_LineMap[neighIdx],
-              false,
-              false,
-              m_OutputBackgroundValue,
-              [this](
-                 const LineEncodingConstIterator& currentRun,
-                 const LineEncodingConstIterator& neighborRun,
-                 OffsetValueType,
-                 OffsetValueType)
-              {
-                this->LinkLabels(neighborRun->label, currentRun->label);
-              });
-            }
-          }
-        ++I;
-        }
-      }
-    }
-}
-
-template< typename TInputImage, typename TOutputImage >
-void
-BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::MergeLabels( const SizeValueType workUnitResultsIndex )
-{
-  const OffsetValueType linecount = m_LineMap.size();
-  WorkUnitData wud = m_WorkUnitResults[workUnitResultsIndex];
-  for ( SizeValueType thisIdx = wud.firstLineIdToJoin;
-        thisIdx < wud.firstLineIdToJoin + wud.numberOfLineIdsToJoin;
-        ++thisIdx )
-    {
-    if ( !m_LineMap[thisIdx].empty() )
-      {
-      typename OffsetVectorType::const_iterator I = this->m_LineOffsets.begin();
-      while ( I != this->m_LineOffsets.end() )
-        {
-        OffsetValueType neighIdx = thisIdx + ( *I );
-        // check if the neighbor is in the map
-        if ( neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty() )
-          {
-          // Now check whether they are really neighbors
-          bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
-          if ( areNeighbors )
-            {
-            this->CompareLines(
-              m_LineMap[thisIdx],
-              m_LineMap[neighIdx],
-              false,
-              false,
-              m_OutputBackgroundValue,
-              [this](
-                 const LineEncodingConstIterator& currentRun,
-                 const LineEncodingConstIterator& neighborRun,
-                 OffsetValueType,
-                 OffsetValueType)
-              {
-                this->LinkLabels(neighborRun->label, currentRun->label);
-              });
-            }
-          }
-        ++I;
-        }
-      }
-    }
 }
 
 
