@@ -78,15 +78,7 @@ MetaTubeConverter< NDimensions >
     {
     TubePointType pnt;
 
-    using PointType = typename TubeSpatialObjectType::PointType;
-    PointType point;
-
-    for ( unsigned int i = 0; i < ndims; i++ )
-      {
-      point[i] = ( *it2 )->m_X[i];
-      }
-
-    pnt.SetPosition(point);
+    pnt.SetPosition( ( *it2 )->m_X );
     pnt.SetRadius( ( *it2 )->m_R );
 
     for ( unsigned int i = 0; i < ndims; i++ )
