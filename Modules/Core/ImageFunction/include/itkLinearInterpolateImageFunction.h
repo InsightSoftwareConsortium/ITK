@@ -107,9 +107,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Number of neighbors used in the interpolation */
-  static const unsigned long m_Neighbors;
-
   struct DispatchBase {};
   template< unsigned int >
   struct Dispatch: public DispatchBase {};

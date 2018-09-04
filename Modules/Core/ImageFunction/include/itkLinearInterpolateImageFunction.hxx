@@ -25,14 +25,6 @@
 
 namespace itk
 {
-
-// Define the number of neighbors
-template< typename TInputImage, typename TCoordRep >
-const unsigned long
-LinearInterpolateImageFunction< TInputImage, TCoordRep >
-::m_Neighbors = 1 << TInputImage::ImageDimension;
-
-
 template< typename TInputImage, typename TCoordRep >
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::LinearInterpolateImageFunction()
@@ -80,7 +72,10 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 
   Concept::Detail::UniqueType< typename NumericTraits< InputPixelType >::ScalarRealType >();
 
-  for ( unsigned int counter = 0; counter < m_Neighbors; ++counter )
+  // Number of neighbors used in the interpolation
+  constexpr unsigned long numberOfNeighbors = 1 << TInputImage::ImageDimension;
+
+  for ( unsigned int counter = 0; counter < numberOfNeighbors; ++counter )
     {
     InternalComputationType overlap = 1.0;    // Fraction overlap
     unsigned int upper = counter;  // Each bit indicates upper/lower neighbour
