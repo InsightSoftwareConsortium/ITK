@@ -42,12 +42,12 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
 
   if ( doDilate )
     {
-    m_Extreme = NumericTraits< PixelType >::NonpositiveMin();
+    m_Extreme = NumericTraits< RealType >::NonpositiveMin();
     m_MagnitudeSign = 1;
     }
   else
     {
-    m_Extreme = NumericTraits< PixelType >::max();
+    m_Extreme = NumericTraits< RealType >::max();
     m_MagnitudeSign = -1;
     }
   m_UseImageSpacing = false;

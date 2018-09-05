@@ -228,14 +228,12 @@ void doOneDimensionErodeFirstPass(TInIter & inputIterator, TOutDistIter & output
                                   const unsigned direction,
                                   const int m_MagnitudeSign,
                                   const bool m_UseImageSpacing,
-                                  const RealType m_Extreme,
                                   const RealType image_scale,
                                   const RealType Sigma,
                                   const bool lastpass)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
-  (void)m_Extreme; // avoid warning
   using LineBufferType = typename itk::Array< RealType >;
   using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;
@@ -358,13 +356,11 @@ void doOneDimensionDilateFirstPass(TInIter & inputIterator, TOutDistIter & outpu
                                    const unsigned direction,
                                    const int m_MagnitudeSign,
                                    const bool m_UseImageSpacing,
-                                   const RealType m_Extreme,
                                    const RealType image_scale,
                                    const RealType Sigma)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
-  (void)m_Extreme; // stop warnings
   using LineBufferType = typename itk::Array< RealType >;
   using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;

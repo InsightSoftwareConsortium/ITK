@@ -130,7 +130,7 @@ protected:
   RadiusType m_Radius;
   RadiusType m_Scale;
   using DistanceImageType = typename itk::Image< RealType, TInputImage::ImageDimension >;
-  typename TInputImage::PixelType m_Extreme;
+  RealType m_Extreme;
 
   typename DistanceImageType::Pointer m_DistanceImage;
 
