@@ -5,10 +5,10 @@
 %extend itkPyBuffer@PyBufferTypes@{
     %pythoncode %{
 
-    def GetArrayViewFromImage(image, keepAxes=False, updateLargestPossibleRegion=True):
+    def GetArrayViewFromImage(image, keep_axes=False, update=True):
         """Get a NumPy array view of a ITK Image.
 
-        When *keepAxes* is *False*, the NumPy array will have C-order
+        When *keep_axes* is *False*, the NumPy array will have C-order
         indexing. This is the reverse of how indices are specified in ITK,
         i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
         algorithms in NumPy / SciPy.
@@ -21,7 +21,7 @@
         if not HAVE_NUMPY:
             raise ImportError('Numpy not available.')
 
-        if updateLargestPossibleRegion:
+        if update:
             # Ensure the image regions and image pixel buffer have been updated
             # correctly
             source = image.GetSource()
@@ -37,7 +37,7 @@
         if(image.GetNumberOfComponentsPerPixel() > 1):
             shape = [image.GetNumberOfComponentsPerPixel(), ] + shape
 
-        if keepAxes == False:
+        if keep_axes == False:
             shape = shape[::-1]
 
         pixelType     = "@PixelType@"
@@ -49,10 +49,10 @@
 
     GetArrayViewFromImage = staticmethod(GetArrayViewFromImage)
 
-    def GetArrayFromImage(image, keepAxes=False, updateLargestPossibleRegion=True):
+    def GetArrayFromImage(image, keep_axes=False, update=True):
         """Get a NumPy ndarray from an ITK Image.
 
-        When *keepAxes* is *False*, the NumPy array will have C-order
+        When *keep_axes* is *False*, the NumPy array will have C-order
         indexing. This is the reverse of how indices are specified in ITK,
         i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
         algorithms in NumPy / SciPy.
@@ -63,14 +63,14 @@
         if not HAVE_NUMPY:
             raise ImportError('Numpy not available.')
 
-        if updateLargestPossibleRegion:
+        if update:
             # Ensure the image regions and image pixel buffer have been updated
             # correctly
             source = image.GetSource()
             if source:
                 source.UpdateLargestPossibleRegion()
 
-        arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image, keepAxes)
+        arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image, keep_axes)
 
         # perform deep copy of the image buffer
         arr = numpy.array(arrayView, copy=True)
@@ -80,10 +80,10 @@
 
     GetArrayFromImage = staticmethod(GetArrayFromImage)
 
-    def GetImageViewFromArray(ndarr, isVector=False):
+    def GetImageViewFromArray(ndarr, is_vector=False):
         """Get an ITK Image view of a NumPy array.
 
-        If isVector is True, then a 3D array will be treated as a 2D vector image,
+        If is_vector is True, then a 3D array will be treated as a 2D vector image,
         otherwise it will be treated as a 3D image.
 
         If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
@@ -110,7 +110,7 @@
             raise "Array memory is not contiguous. Try converting your array with " \
                   + "`ascontiguousarray()` or `copy()` or use `GetImageFromArray()`"
 
-        if ( ndarr.ndim == 3 and isVector ) or (ndarr.ndim == 4):
+        if ( ndarr.ndim == 3 and is_vector ) or (ndarr.ndim == 4):
             imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-2::-1], ndarr.shape[-1] )
         elif ndarr.ndim in ( 2, 3 ):
             imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[::-1], 1)
@@ -119,13 +119,13 @@
 
     GetImageViewFromArray = staticmethod(GetImageViewFromArray)
 
-    def GetImageFromArray(ndarr, isVector=False):
+    def GetImageFromArray(ndarr, is_vector=False):
         """Get an ITK Image of a NumPy array.
 
         This is a deep copy of the NumPy array buffer and is completely safe without potential
         side effects.
 
-        If isVector is True, then a 3D array will be treated as a 2D vector image,
+        If is_vector is True, then a 3D array will be treated as a 2D vector image,
         otherwise it will be treated as a 3D image.
 
         If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
@@ -142,7 +142,7 @@
         # perform deep copy of the array buffer
         array_copy = numpy.array(ndarr)
 
-        image = itkPyBuffer@PyBufferTypes@.GetImageViewFromArray(array_copy, isVector)
+        image = itkPyBuffer@PyBufferTypes@.GetImageViewFromArray(array_copy, is_vector)
 
         # attaches the copy of the array to the image to avoid releasing memory
         # when leaving current scope.

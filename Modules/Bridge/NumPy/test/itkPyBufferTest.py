@@ -102,7 +102,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         vectorImage.Allocate();
         vectorndarr           = itk.PyBuffer[VectorImageType].GetArrayViewFromImage(vectorImage)
 
-        convertedvectorImage  = itk.PyBuffer[VectorImageType].GetImageViewFromArray(vectorndarr, isVector=True)
+        convertedvectorImage  = itk.PyBuffer[VectorImageType].GetImageViewFromArray(vectorndarr, is_vector=True)
 
     def test_NumPyBridge_itkRGBImage(self):
         "Try to convert an RGB ITK image to NumPy array view"
@@ -122,7 +122,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         rgbImage.Allocate();
         rgbndarr              = itk.PyBuffer[RGBImageType].GetArrayViewFromImage(rgbImage)
 
-        convertedRGBImage     = itk.PyBuffer[RGBImageType].GetImageViewFromArray(rgbndarr, isVector=True)
+        convertedRGBImage     = itk.PyBuffer[RGBImageType].GetImageViewFromArray(rgbndarr, is_vector=True)
 
     def test_NumPyBridge_itkRGBAImage(self):
         "Try to convert an RGBA ITK image to NumPy array view"
@@ -142,7 +142,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         rgbaImage.Allocate();
         rgbandarr             = itk.PyBuffer[RGBAImageType].GetArrayViewFromImage(rgbaImage)
 
-        convertedRGBAImage    = itk.PyBuffer[RGBAImageType].GetImageViewFromArray(rgbandarr, isVector=True)
+        convertedRGBAImage    = itk.PyBuffer[RGBAImageType].GetImageViewFromArray(rgbandarr, is_vector=True)
 
     def test_NumPyBridge_itkVectorPixelImage(self):
         "Try to convert an ITK image with vector pixels to NumPy array view"
@@ -162,7 +162,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         vectorImage.Allocate();
         vectorndarr           = itk.PyBuffer[VectorImageType].GetArrayViewFromImage(vectorImage)
 
-        convertedVectorImage  = itk.PyBuffer[VectorImageType].GetImageViewFromArray(vectorndarr, isVector=True)
+        convertedVectorImage  = itk.PyBuffer[VectorImageType].GetImageViewFromArray(vectorndarr, is_vector=True)
 
     def test_NumPyBridge_FortranOrder(self):
         "Try to convert an ITK image to / from a NumPy array with Fortran order"
