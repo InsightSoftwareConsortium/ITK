@@ -87,7 +87,6 @@ LabelSetErodeImageFilter< TInputImage, TOutputImage >
                                                        this->m_CurrentDimension,
                                                        this->m_MagnitudeSign,
                                                        this->m_UseImageSpacing,
-                                                       this->m_Extreme,
                                                        image_scale,
                                                        this->m_Scale[this->m_CurrentDimension],
                                                        lastpass);
