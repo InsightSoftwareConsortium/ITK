@@ -12,9 +12,9 @@ All code which was marked as legacy in ITK 4.13 has been removed.
 External code which previously required
 `ITK_LEGACY_REMOVE` CMake option to be `OFF` in order to build will now fail
 to compile. Before starting migration to v5 (as explained in this guide),
-migration to v4 should be finished so the external code builds
+migration to v4 should be finished. Dependent code should build and pass tests
 with `ITK_LEGACY_REMOVE` turned `ON` when compiling against
-[ITK v4.13](https://github.com/InsightSoftwareConsortium/ITK/releases/tag/v4.13.0).
+[ITK v4.13](https://github.com/InsightSoftwareConsortium/ITK/releases/tag/v4.13.1).
 
 Code which was marked as `ITK_FUTURE_LEGACY_REMOVE` has been now
 re-flagged as `ITK_LEGACY_REMOVE`. There have been some other
@@ -22,17 +22,17 @@ deprecations and API changes. The new behavior is activated by setting
 `ITK_LEGACY_REMOVE` to `ON`. By default, compatibility with v4 is retained
 (`ITK_LEGACY_REMOVE=OFF`).
 
-Once the external code builds successfully with default configuration,
-`ITK_LEGACY_REMOVE` should be set to `ON`.
-Possible further build errors and/or warnings should be addressed.
-Once it builds without legacy options, the migration to v5 is complete.
+Once external code builds successfully with the default configuration,
+`ITK_LEGACY_REMOVE` should be set to `ON`.  Possible additional build errors
+and/or warnings should be addressed.  Once dependent code builds and passes
+tests without legacy options, migration to v5 is complete.
 
 C++11
 -----
 
-The main improvement in this release is that ITK has been updated to fully use C++11.
-Prior to that, a limited subset of C++11 functionalities were already available in ITK
-through back-ports and macros that would take advantage of this standard if possible.
+A major improvement in ITK 5 is to fully adopt C++11.
+Prior to ITK 5, a limited subset of C++11 functionalities were available in ITK
+through back-ports and macros. This functionality was enabled when ITK was built with the C++11 standard enabled.
 ITK 5.0.0 deprecates or removes these macros (e.g. `ITK_NULLPTR`, `ITK_DELETED_FUNCTION`,
 `ITK_NOEXCEPT`, `ITK_CONSTEXPR`) and directly uses C++11 keywords such as
 [delete](https://github.com/InsightSoftwareConsortium/ITK/commit/02128abbd0bf790deadc86a28c62c4a25e23518b),
@@ -44,11 +44,11 @@ The keywords [auto](https://github.com/InsightSoftwareConsortium/ITK/commit/de71
 and  `using` [[1](https://github.com/InsightSoftwareConsortium/ITK/commit/66e5d6b3bcc28f1a85b702086b6cedc8cab6723b),
 [2](https://github.com/InsightSoftwareConsortium/ITK/commit/f21c1d27025575167ea9194214aa5bf17a0a5495)]
 as well as [range-based loops](https://github.com/InsightSoftwareConsortium/ITK/commit/48daed0751df99bcb5fd1077e78ceb1b47546ccc)
-are also now used in ITK. However, due to limitations in C++11 support
-Visual Studio 2013 (MSVC 12.0) and earlier cannot be used to build ITK since version 5.0.
+are also now used in ITK. As a consequence, due to limitations in C++11 support
+Visual Studio 2013 (MSVC 12.0) and other older C++ complilers cannot be used to build ITK from 5.0 and forward.
 
-Availability of C++11 standard allows use of many Standard Library features
-which were previously implemented as portable ITK classes.
+Availability of the C++11 standard allows use of many Standard Library
+features. These were previously implemented as portable ITK classes.
 The standard library classes are preferred over ITK's implementations.
 The most notable examples of this are:
  * [atomic integers](https://itk.org/Doxygen/html/classitk_1_1AtomicInt.html) should be replaced by `std::atomic`.
@@ -60,19 +60,19 @@ and related classes should be replaced by the similarly named classes from
 Modern CMake requirement
 ------------------------
 
-ITK now requires **CMake 3.10.2** to be configured. While only a few features
+ITK now requires **CMake 3.10.2** for configuration. While only a few features
 enabled by this modern version of CMake are being used for 5.0 release, a
-modern version of CMake is a prerequisite for a bigger update of the ITK's
-build system. This is planned for a later version.
+modern version of CMake is a prerequisite for future more aggressive updates
+to ITK's build system. This is planned for a later version.
 
-Before making other changes in suggested in this document,
+Before making other changes suggested in this document,
 your code should work with the latest version of CMake.
 
 Updated style
 -------------
 
 Important changes in style have also been integrated in ITK to match
-the C++11 best practices. This includes replacing `typedef` calls with
+C++11 best practices. This includes replacing `typedef` calls with
 the keyword `using`, the usage of the keyword `auto` when appropriate,
 and moving the macro `ITK_DISALLOW_COPY_AND_ASSIGN` from the private
 class section to the public class section. The ITK Software Guide has
@@ -81,28 +81,29 @@ been updated to match these changes.
 Multithreading refactored
 -------------------------
 
-Since ITK 5.0 `MultiThreader` has been split into a class hierarchy.
-Instead of a single `MultiThreader` class which could optionally delegate work
-to an [itk:ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
-there is now a class hierarchy. Most of the time you will want to replace `MultiThreader` by
+Since ITK 5.0 `itk::MultiThreader` has been split into a class hierarchy.
+Instead of a single `itk::MultiThreader` class which could optionally delegate work
+to an [itk::ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
+there are now multiple backends to provide thread-based parallel processing.
+Most of the time you will want to replace `itk::MultiThreader` by
 [itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/classitk_1_1MultiThreaderBase.html).
 
 [PlatformMultiThreader](https://itk.org/Insight/Doxygen/html/itkPlatformMultiThreader_8h.html)
-is essentially the old `MultiThreader`, renamed. `PoolMultiThreader` behaves like
-the old `MultiThreader` with `ITK_USE_THREADPOOL=ON`. There is an addition of
+is essentially the old `itk::MultiThreader`, renamed. `itk::PoolMultiThreader` behaves like
+the old `itk::MultiThreader` with `ITK_USE_THREADPOOL=ON`. There is an addition of
 [TBBMultiThreader](https://itk.org/Insight/Doxygen/html/classitk_1_1TBBMultiThreader.html),
-which uses Intel Thread Building Blocks library's thread-pool with load balancing.
-The option to build TBB needs to be enabled during CMake configure step.
+which uses Intel Thread Building Blocks library's thread-pool, with has load balancing features.
+The option to build TBB support must be enabled during the CMake configuration step.
 The default multi-threader can be set via environment variable
-`ITK_GLOBAL_DEFAULT_THREADER` with allows case-insensitive values of
+`ITK_GLOBAL_DEFAULT_THREADER` with possible case-insensitive values of
 `Platform`, `Pool` and `TBB`, e.g. `ITK_GLOBAL_DEFAULT_THREADER=tbb`.
 
 For filter multi-threading, a new signature has been introduced:
 `void DynamicThreadedGenerateData( const OutputRegionType& threadRegion )`.
 By default, this new signature is invoked instead of the classic
-`void ThreadedGenerateData( const OutputRegionType&, ThreadIdType )`.
-To temporarily get the old behavior (classic signature invoked by default),
-set `ITKV4_COMPATIBILITY` to `ON` in CMake configuration of ITK.
+`void ThreadedGenerateData( const OutputRegionType& threadRegion, ThreadIdType threadId )`.
+To temporarily obtain the old behavior (classic signature invoked by default),
+set `ITKV4_COMPATIBILITY` to `ON` in ITK's CMake configuration.
 To permanently have your filter use the classic threading model,
 invoke `this->DynamicMultiThreadingOff();` in the filter constructor.
 That is required if any of the following is true:
@@ -110,18 +111,18 @@ That is required if any of the following is true:
  * Your filter uses `threadId` parameter in `ThreadedGenerateData()`
  * Your filter uses a custom region splitting method
 
-Additionally, replace `MultiThreader` by PlatformMultiThreader
+Additionally, replace `itk::MultiThreader` by `itk::PlatformMultiThreader`
 if any of the following is true:
- * Your filter uses cross-thread synchronization e.g. itkBarrier
- * Your filter uses MultipleMethodExecute()
- * Your filter uses SpawnThread/TerminateThread
+ * Your filter uses cross-thread synchronization e.g. `itk::Barrier`
+ * Your filter uses `MultipleMethodExecute()`
+ * Your filter uses `SpawnThread`/`TerminateThread`
 
-It is stronly advised not to explicitly use PlatformMultiThreader.
-SpawnThread/TerminateThread and MultipleMethodExecute can be
-replaced by C++11 `std::thread`. And below code example shows
+It is strongly advised to not explicitly use `itk::PlatformMultiThreader`.
+`SpawnThread`/`TerminateThread` and `MultipleMethodExecute` can be
+replaced by C++11 `std::thread`. Code in the example below shows
 how to remove dependence on barrier by using ParallelizeImageRegion.
 
-- Pattern with Barrier:
+- Pattern for Multiple Parallel Operations:
 ```C++
 ThreadedGenerateData()
 {
@@ -145,12 +146,13 @@ this->AfterThreadedGenerateData();
 }
 ```
 
-- Pattern with Arrays:
-If you are storing the results of threading computations in an `Array`,
-you might use instead `std::atomic`.
-You can see an example of this for an external module in
+- Pattern for Parallel Counting:
+Previously parallel counting was often storing per-thread counts in an `itk::Array`
+and aggregating the result in a filter's `AfterThreadedGenerateData()`.
+With C++11, you might want to instead use `std::atomic`.
+An external module example that demonstrates this can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/pull/32/commits/a8014c186ac53837362a0cb9db46ae224b8e9584).
-Before, using `Array`:
+Before, using `itk::Array`:
 ```C++
 // Members:
 Array<SizeValueType> m_NumVoxelsInsideMask;
@@ -203,11 +205,11 @@ AfterThreadedGenerateData()
 }
 ```
 
-Get/Set GlobalMaximumNumberOfThreads and GlobalDefaultNumberOfThreads
-now reside in `MultiThreaderBase`. With a warning, they are still
-available in `PlatformMultiThreader`. In image filters and other
-descendents of `ProcessObject`, method `SetNumberOfThreads`
-has been renamed into `SetNumberOfWorkUnits`. For `MultiThreaderBase`
+`Get/SetGlobalMaximumNumberOfThreads()` and `GlobalDefaultNumberOfThreads()`
+now reside in `itk::MultiThreaderBase`. With a warning, they are still
+available in `itk::PlatformMultiThreader`. In image filters and other
+descendents of `itk::ProcessObject`, method `SetNumberOfThreads`
+has been renamed into `SetNumberOfWorkUnits`. For `itk::MultiThreaderBase`
 and descendents, `SetNumberOfThreads` has been split into
 `SetMaximumNumberOfThreads` and `SetNumberOfWorkUnits`.
 Load balancing is possible when `NumberOfWorkUnits` is greater
@@ -220,25 +222,25 @@ accessed or changed now.
 To transition to the new threading model, it is usually enough to rename
 `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
 `threadId` parameter, and remove progress reporting which uses `threadId`.
-Progress is being reported by Multithreaders on behalf of filters which
+Progress is being reported by multi-threaders on behalf of filters which
 use `DynamicThreadedGenerateData` signature.
 
 If your class needs to also work with legacy code where
 `ITKV4_COMPATIBILITY` is enabled, invoke
 `this->DynamicMultiThreadingOn();` in the filter constructor. An example of
-external module transitioning to the new threading model can be found in
+an external module that transitioned to the new threading model can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/commit/f794baa7546f9bb8b7d89ae3a083c9a432d55df0).
 
 Class changes
 -------------
 
-[FilterWatcher](../Modules/Core/TestKernel/include/itkFilterWatcher.h) was deleted.
+[itk::FilterWatcher](../Modules/Core/TestKernel/include/itkFilterWatcher.h) was deleted.
 It should be replaced by [itk::SimpleFilterWatcher](../Modules/Core/Common/include/itkSimpleFilterWatcher.h).
 
-Since ProgressReporter does not work well with the new threading model,
-it should be replaced by ProgressTransformer.
-This only applies to classes which use `GenerateData` method, and either
-have multiple ParallelizeRegion calls or a long single-threaded section.
+Since `itk::ProgressReporter` does not work well with the new threading model,
+it should be replaced by `itk::ProgressTransformer`.
+This only applies to classes which use `GenerateData()` method, and either
+have multiple `ParallelizeRegion` calls or a long single-threaded section.
 An example of how to add progress reporting can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITK/commit/dd0b0d128d6c0760cefd8a958107cb0e841b51b4).
 
@@ -247,4 +249,4 @@ Update scripts
 
 [Utilities/ITKv5Preparation](../Utilities/ITKv5Preparation/) directory contains
 bash scripts which have been used to update ITK to version 5. These scripts
-can assist with updating external code bases to ITK v5 content and style.
+can assist with updating external code bases to ITK 5 content and style.
