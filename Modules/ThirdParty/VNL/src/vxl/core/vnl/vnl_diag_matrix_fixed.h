@@ -82,6 +82,8 @@ class VNL_TEMPLATE_EXPORT vnl_diag_matrix_fixed
 
   inline T& operator () (unsigned i, unsigned j) {
     assert(i == j);
+    // Avoid unused parameter warning
+    (void)j;
     return diagonal_[i];
   }
   inline T& operator() (unsigned i) { return diagonal_[i]; }
