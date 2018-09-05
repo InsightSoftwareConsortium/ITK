@@ -166,5 +166,9 @@ int itkTranslationTransformTest(int ,char *[] )
   std::cout << "Back transform a vector :" << std::endl
             << v4[0] << " , " << v4[1] << std::endl;
 
+  using TranslationTransform1DType = itk::TranslationTransform< double, 1 >;
+  auto translationTransform1D = TranslationTransform1DType::New();
+  std::cout << "Translation Transform 1D: " << translationTransform1D << std::endl;
+
   return any;
 }
