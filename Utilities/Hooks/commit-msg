@@ -56,7 +56,8 @@ while IFS='' read line; do
   PERF:   - performance improvement
   STYLE:  - no logic impact (indentation, comments)
   WIP:    - Work In Progress not ready for merge
-To reference JIRA issue XXXX, add " (#ITK-XXXX)" to the END of the FIRST line.'
+To reference GitHub issue XXXX, add "Issue #XXXX" to the commit message.
+If the issue addresses an open issue, add "Closes #XXXX" to the message.'
 
     # Reject bug number reference that CDash rejects.
     echo "$line" |
