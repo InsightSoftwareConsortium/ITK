@@ -10,6 +10,11 @@
 # help@hdfgroup.org.
 #
 #-----------------------------------------------------------------------------
+if(POLICY CMP0075)
+  cmake_policy(SET CMP0075 NEW) # CMake 3.12.1: Include file check macros honor CMAKE_REQUIRED_LIBRARIES.
+endif()
+
+#-----------------------------------------------------------------------------
 # Include all the necessary files for macros
 #-----------------------------------------------------------------------------
 set (HDF_PREFIX "H5")
