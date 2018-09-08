@@ -85,7 +85,7 @@ Initial steps
 Check the [ITK issue tracking] for critical bugs, or [gerrit] for critical
 fixes.
 
-### Annoucements
+### Announcements
 
 Announcements should be sent to the community first and Linux distribution
 maintainers.
@@ -114,8 +114,7 @@ Patches can accumulate over time in distributions as time goes on. An email
 asking if anything needs to go into the next release should be sent to
 maintainers of the packages.
 
-This ITK [blog post] describes the Linux distributions to which ITK is
-available.
+This ITK [blog post] describes the Linux distributions that package ITK.
 
 Integrate bug fixes in the release branch
 -----------------------------------------
@@ -302,10 +301,10 @@ Update the `release` branch only during feature releases after the tag for the
 release. Perform a `fast-forward` merge of `master` into release:
 
 ```sh
-   $ git checkout $release_branch
-   $ git reset --hard origin/$release_branch
-   $ git merge --ff-only <version tag>
-   $ git push origin $release_branch
+   $ git checkout release
+   $ git reset --hard origin/release
+   $ git merge --ff-only v$version
+   $ git push origin release
    $ git checkout master
 ```
 
@@ -372,56 +371,6 @@ Alternatively,
 ```
 can be used to specify the version starting with `v`.
 
-### Copy the files to SourceForge
-
-This is to be done only by
-
-  * Ken Martin (@martinken) <ken.martin@kitware.com>
-  * Matt McCormick (@thewtex) <matt.mccormick@kitware.com>
-  * François Budin (@fbudin69500) <francois.budin@kitware.com>
-  * Brad King (@bradking) <brad.king@kitware.com>
-  * Jean-Christophe Fillion-Robin (@jcfr) <jchris.fillionr@kitware.com>
-  * Brad Lowekamp (@blowekamp) <blowekamp@mail.nih.gov>
-
-Go to the site:
-
-  https://sourceforge.net/downloads/itk/itk/
-
-and provide user name and password
-
-Then
-
-  * Use the `Add Folder` button to create a folder for the release.
-  * Click on the folder to open it
-  * Use the `Add File` button to upload files. The interface allows to select
-    multiple files for simultaneous upload.
-
-Large files, like the Doxygen HTML tarball, need to be uploaded with scp, a la:
-
-```sh
-   $ scp InsightDoxygenDocHtml-$version.tar.gz mmmccormic@frs.sourceforge.net:/home/frs/project/itk/itk/$MAJOR_VERSION.$MINOR_VERSION/InsightDoxygenDocHtml-$version.tar.gz
-```
-
-After the tarballs have been uploaded to [SourceForge], their `MD5` sums must
-be checked (the `i` info button on Sourceforge.net and locally with the
-`md5sum` command). Also, tarballs must be downloaded from [SourceForge] and an
-`Experimental` build run on Linux, macOS, and Windows, to check the that they
-do not contain any configuration, build or test errors.
-
-Generate Binaries
------------------
-
-`TODO`
-
-### Linux
-
-
-### macOS
-
-
-### Windows
-
-
 Generate Python Packages
 ------------------------
 
@@ -444,11 +393,70 @@ First, merge the
 `master` branch into the `release` branch.
 
 Next, update the `VERSION` variable in *ITKPythonPackage/itkVersion.py* and
-`ITK_GIT_TAG` in *ITKPythonPackage/CMakeLists.txt*.
+`ITK_GIT_TAG` in *ITKPythonPackage/CMakeLists.txt*. Commit the update locally
+to the release branch.
 
 Then [build the
 wheels](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Python_packages.html)
-from the `release` branch on Linux, macOS, and Windows.
+from the `release` branch locally.
+
+Next, tag the release branch `HEAD` and push to GitHub:
+
+```sh
+  $ git tag -m "ITKPythonPackage $version" -s v$version HEAD
+  $ git push upstream release v$version
+```
+
+Build the sdist and wheels for Linux:
+
+```sh
+  $ ssh metroplex
+  $ cd ~/Packaging/ITKPythonPackage
+  $ git reset --hard HEAD
+  $ git fetch origin
+  $ git checkout v$version
+  $ git clean -fdx
+  $ /home/kitware/Support/skbuild-venv/bin/python setup.py sdist --formats=gztar,zip
+  $ ./scripts/dockcross-manylinux-build-wheels.sh
+  $ tar cvzf /tmp/dist-linux.tar.gz ./dist
+  $ rm dist/*
+  $ cd ..
+  $ ./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
+```
+
+Build the wheels for macOS:
+
+```sh
+  $ ssh misty
+  $ cd ~/Dashboards/ITK/ITKPythonPackage
+  $ git reset --hard HEAD
+  $ git fetch origin
+  $ git checkout v$version
+  $ git clean -fdx
+  $ ./scripts/macpython-build-wheels.sh
+  $ tar cvzf /tmp/dist-macos.tar.gz ./dist
+  $ rm dist/*
+  $ cd ..
+  $ ./ITKPythonPackage/scripts/macpython-build-tarball.sh
+```
+
+Build the wheels for Windows:
+
+```sh
+  $ vncviewer overload # Open Git Bash shell
+  $ cd /c/P/IPP
+  $ git reset --hard HEAD
+  $ get fetch origin
+  $ git checkout v$version
+  $ git clean -fdx
+  $ export PATH=/c/cmake-3.12.1/bin:$PATH
+  $ /c/Python36-x64/python.exe ./scripts/windows_build_wheels.py
+  $ tar cvzf /c/P/dist-windows.tar.gz ./dist
+  $ rm dist/*
+  $ cd ..
+  $ rm -f ./ITKPythonBuilds-windows.zip
+  $ powershell "IPP/scripts/windows-build-tarball.ps1"
+```
 
 ### Upload the wheels to PyPI
 
@@ -473,8 +481,8 @@ ctest -R Python
 
 ### Upload the ITKPythonBuilds
 
-Create a new GitHub Release in the
-[ITKPythonPackage repository](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/releases)
+Create a new GitHub Release from the new git tag in the
+[ITKPythonPackage repository](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/releases),
 and upload the wheels there.
 
 Also, create a corresponding GitHub Release in the
@@ -575,6 +583,15 @@ To create `ItkSoftwareGuide.pdf` to put at itk.org/ItkSoftwareGuide.pdf from
    $ pdftk ITKSoftwareGuide-Book1.pdf ITKSoftwareGuide-Book2.pdf cat output /tmp/ItkSoftwareGuide.pdf
 ```
 
+Update *ItkSoftwareGuide.pdf* hosted at itk.org. Many links point at this resource.
+
+
+```sh
+   $ scp /tmp/ItkSoftwareGuide.pdf public.kitware.com:/tmp/
+   $ cd /projects/Insight/WWW/InsightWeb
+   $ rm ItkSoftwareGuide.pdf
+   $ mv /tmp/ItkSoftwareGuide.pdf ./ItkSoftwareGuide.pdf
+```
 ### Prepare the print version
 
 Set the `PDF_QUALITY_LEVEL` to `Printer`, and rebuild. Remove the junk initial
@@ -640,37 +657,54 @@ on the `ITKWikiExamples` repository), and run:
    $ gzip -9 InsightWikiExamples-${version}.tar
 ```
 
-Upload to public.kitware.com
-----------------------------
+Upload the release artifacts to GitHub
+--------------------------------------
 
-The generated files must be uploaded to the Kitware FTP directory at
-[public.kitware.com]
+[GitHub Releases](https://help.github.com/articles/creating-releases/) are how
+we distribute project release artifacts from ITK 5 and onward. Prior to ITK 5,
+ITK releases were [hosted on
+Sourceforge.net](https://sourceforge.net/projects/itk/).
+
+Visit the [ITK GitHub
+Releases](https://github.com/InsightSoftwareConsortium/ITK/releases) page.
+There will be a new release that was generated by pushing the Git tag. Click
+the tag's link to start creating the GitHub Release.
+
+Then, click the *Edit Tag* link.
+
+Set the release title to "ITK $version", e.g. *ITK 5.0.0* or *ITK 5.0 Release
+Candidate 1*.
+
+Add the release notes (described below).
+
+Upload the release artifacts. These include:
+
+- InsightToolkit-$version.tar.gz
+- InsightToolkit-$version.tar.xz
+- InsightToolkit-$version.tar.zip
+- InsightData-$version.tar.gz
+- InsightData-$version.tar.xz
+- InsightData-$version.tar.zip
+- TODO: Add more...
+
+If this is an alpha, beta, or release candidate release, check the *This is a
+pre-release* box.
+
+Click *Update release*.
 
 
-```sh
-   $ scp   InsightData-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz                  kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightData-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.xz                  kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightData-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.zip                     kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz               kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.xz               kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.zip                  kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightDoxygenDocHtml-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz        kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightDoxygenDocTag-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz         kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightDoxygenDocXml-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz         kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   ItkSoftwareGuide.pdf                                                             kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightSoftwareGuide-Book1-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.pdf      kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightSoftwareGuide-Book2-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.pdf      kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightSoftwareGuideHtml-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz     kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightWikiExamples-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz          kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-   $ scp   InsightWikiExamples-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.zip             kitware@public:/projects/Insight/WWW/InsightWeb/files/v$MAJOR_VERSION.$MINOR_VERSION
-```
+Upload the release artifacts to data.kitware.com
+------------------------------------------------
 
-```sh
-   $ ssh kitware@public
-   $ cd /projects/Insight/WWW/InsightWeb
-   $ rm ItkSoftwareGuide.pdf
-   $ ln -s files/v$MAJOR_VERSION.$MINOR_VERSION/ItkSoftwareGuide.pdf ItkSoftwareGuide.pdf
-```
+Backup and archive the release artifacts in the [data.kitware.com ITK
+Collection Releases
+folder](https://data.kitware.com/#collection/57b5c9e58d777f126827f5a1/folder/5b1ec0378d777f2e622561e9).
+
+This should include
+
+1. GitHub Release artifacts
+2. Python packages
+3. Python builds
 
 Update the Website
 ------------------
@@ -714,17 +748,6 @@ keep the wiki information up-to-date:
 ```
 
 Delete the `kwrobot` time stamp commits.
-
-Update JIRA issue tracker
--------------------------
-
-In the [ITK issue tracking] to create a new version to make possible for users
-to report bug pertaining to that specific ITK release:
-
-  * Create the next release target milestone with *Administration* -> *ITK* ->
-    *Versions* -> *Add*.
-  * Release the current release milestone with *Agile* -> *Classic* ... ->
-    Right click the release on the left -> *Release*.
 
 Further Testing
 ---------------
