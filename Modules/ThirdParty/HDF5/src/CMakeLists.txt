@@ -50,6 +50,7 @@ set(HDF5_ENABLE_GROUPSIX_WARNINGS OFF CACHE INTERNAL "Enable group six warnings"
 set(HDF5_ENABLE_GROUPTHREE_WARNINGS OFF CACHE INTERNAL "Enable group three warnings")
 set(HDF5_ENABLE_GROUPTWO_WARNINGS OFF CACHE INTERNAL "Enable group two warnings")
 set(HDF5_ENABLE_GROUPZERO_WARNINGS OFF CACHE INTERNAL "Enable group zero warnings")
+set(HDF5_GENERATE_HEADERS OFF CACHE INTERNAL "Rebuild Generated Files")
 set(HDF5_PACK_EXAMPLES OFF CACHE INTERNAL "Package the HDF5 Library Examples Compressed File")
 set(HDF5_NO_PACKAGES OFF CACHE INTERNAL "CPACK - Disable packaging")
 set(HDF5_TEST_VFD OFF CACHE INTERNAL "Execute tests with different VFDs")
