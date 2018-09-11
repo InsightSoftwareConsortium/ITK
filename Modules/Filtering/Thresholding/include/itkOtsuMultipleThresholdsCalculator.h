@@ -92,6 +92,13 @@ public:
   itkGetConstReferenceMacro(ValleyEmphasis, bool);
   itkBooleanMacro(ValleyEmphasis);
 
+  /** Should the threshold value be mid-point of the bin or the maximum?
+   * Default is to return bin maximum. */
+  itkSetMacro(ReturnBinMidpoint, bool);
+  itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
+  itkBooleanMacro(ReturnBinMidpoint);
+
+
 protected:
   OtsuMultipleThresholdsCalculator();
   ~OtsuMultipleThresholdsCalculator() override {}
@@ -108,6 +115,7 @@ private:
   SizeValueType m_NumberOfThresholds;
   OutputType    m_Output;
   bool          m_ValleyEmphasis;
+  bool          m_ReturnBinMidpoint;
 };
 } // end of namespace itk
 

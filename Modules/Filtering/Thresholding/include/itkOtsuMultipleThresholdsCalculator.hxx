@@ -27,7 +27,8 @@ template< typename TInputHistogram >
 OtsuMultipleThresholdsCalculator< TInputHistogram >
 ::OtsuMultipleThresholdsCalculator() :
   m_NumberOfThresholds( 1 ),
-  m_ValleyEmphasis( false )
+  m_ValleyEmphasis( false ),
+  m_ReturnBinMidpoint( false )
 {
   m_Output.resize(m_NumberOfThresholds);
   std::fill(m_Output.begin(), m_Output.end(), NumericTraits< MeasurementType >::ZeroValue());
@@ -326,7 +327,14 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 
   for ( j = 0; j < m_NumberOfThresholds; j++ )
     {
-    m_Output[j] = histogram->GetMeasurement(maxVarThresholdIndexes[j],0);
+    if (m_ReturnBinMidpoint)
+      {
+      m_Output[j] = histogram->GetMeasurement(maxVarThresholdIndexes[j],0);
+      }
+    else
+      {
+      m_Output[j] = histogram->GetMaxs()[0][maxVarThresholdIndexes[j]];
+      }
     }
 }
 

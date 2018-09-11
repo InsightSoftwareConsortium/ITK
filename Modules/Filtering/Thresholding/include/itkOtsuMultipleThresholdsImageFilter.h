@@ -114,6 +114,12 @@ public:
   itkGetConstReferenceMacro(ValleyEmphasis, bool);
   itkBooleanMacro(ValleyEmphasis);
 
+  /** Should the threshold value be mid-point of the bin or the maximum?
+   * Default is to return bin maximum. */
+  itkSetMacro(ReturnBinMidpoint, bool);
+  itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
+  itkBooleanMacro(ReturnBinMidpoint);
+
   /** Get the computed threshold. */
   const ThresholdVectorType & GetThresholds() const
   {
@@ -144,6 +150,7 @@ private:
   OutputPixelType     m_LabelOffset;
   ThresholdVectorType m_Thresholds;
   bool                m_ValleyEmphasis;
+  bool                m_ReturnBinMidpoint;
 };
 } // end namespace itk
 

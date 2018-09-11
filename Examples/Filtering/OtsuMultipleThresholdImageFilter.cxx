@@ -123,6 +123,8 @@ int main( int argc, char * argv[] )
   calculator->SetNumberOfThresholds( atoi( argv[4] ) );
   // Software Guide : EndCodeSnippet
 
+  calculator->SetReturnBinMidpoint( true ); //regression test requires this
+
   constexpr OutputPixelType outsideValue  = 0;
   constexpr OutputPixelType insideValue  = 255;
 

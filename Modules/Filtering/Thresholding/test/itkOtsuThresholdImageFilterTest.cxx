@@ -21,6 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
 {
@@ -54,21 +55,26 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
   reader->SetFileName( argv[1] );
   filter->SetInput( reader->GetOutput() );
   if( argc > 3 )
-  {
+    {
     filter->SetNumberOfHistogramBins (atoi(argv[3]));
-  }
+    }
   if( argc > 4 )
-  {
+    {
     bool flipOutputIntensities = atoi(argv[4]);
     if( flipOutputIntensities )
-    {
+      {
       // Flip the inside and outside values.
       FilterType::OutputPixelType outsideValue = filter->GetInsideValue();
       FilterType::OutputPixelType insideValue = filter->GetOutsideValue();
       filter->SetInsideValue( insideValue );
       filter->SetOutsideValue( outsideValue );
+      }
     }
-  }
+  if( argc > 5 )
+    {
+    bool returnBinMidpoint =  static_cast< bool >( atoi( argv[5] ) );
+    TEST_SET_GET_BOOLEAN( filter, ReturnBinMidpoint, returnBinMidpoint );
+    }
   filter->Update();
 
   // Test GetMacros

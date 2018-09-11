@@ -62,6 +62,12 @@ public:
   using HistogramType = THistogram;
   using OutputType = TOutput;
 
+  /** Should the threshold value be mid-point of the bin or the maximum?
+   * Default is to return bin maximum. */
+  itkSetMacro(ReturnBinMidpoint, bool);
+  itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
+  itkBooleanMacro(ReturnBinMidpoint);
+
   /** for backward compatibility. Update() should be preferred. */
   void Compute()
   {
@@ -69,7 +75,8 @@ public:
   }
 
 protected:
-  OtsuThresholdCalculator()
+  OtsuThresholdCalculator() :
+    m_ReturnBinMidpoint( false )
   {
     m_OtsuMultipleThresholdsCalculator = OtsuMultipleThresholdsCalculator<THistogram>::New();
   }
@@ -79,6 +86,8 @@ protected:
 
 private:
   typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator;
+
+  bool m_ReturnBinMidpoint;
 };
 
 } // end namespace itk
