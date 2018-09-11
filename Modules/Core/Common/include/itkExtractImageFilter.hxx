@@ -93,7 +93,9 @@ ExtractImageFilter< TInputImage, TOutputImage >
 
   if ( nonzeroSizeCount != OutputImageDimension )
     {
-    itkExceptionMacro("Extraction Region not consistent with output image");
+    itkExceptionMacro("Extraction Region not consistent with output image, "
+                      << "expected " << OutputImageDimension-InputImageDimension
+                      << " zero sized dimensions to collapse." );
     }
 
   m_OutputImageRegion.SetSize(outputSize);
