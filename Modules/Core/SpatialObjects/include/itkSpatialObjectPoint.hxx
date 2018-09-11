@@ -25,7 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
-::SpatialObjectPoint(void)
+::SpatialObjectPoint()
 {
   m_ID = -1;
   m_Color.SetRed(1.0); // red by default
@@ -41,14 +41,14 @@ SpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
-::~SpatialObjectPoint(void)
+::~SpatialObjectPoint()
 {}
 
 /** Return the color of the point */
 template< unsigned int TPointDimension >
 const typename SpatialObjectPoint< TPointDimension >::PixelType &
 SpatialObjectPoint< TPointDimension >
-::GetColor(void) const
+::GetColor() const
 {
   return m_Color;
 }
@@ -87,7 +87,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 SpatialObjectPoint< TPointDimension >
-::GetRed(void) const
+::GetRed() const
 {
   return m_Color.GetRed();
 }
@@ -105,7 +105,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 SpatialObjectPoint< TPointDimension >
-::GetGreen(void) const
+::GetGreen() const
 {
   return m_Color.GetGreen();
 }
@@ -123,7 +123,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 SpatialObjectPoint< TPointDimension >
-::GetBlue(void) const
+::GetBlue() const
 {
   return m_Color.GetBlue();
 }
@@ -141,7 +141,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 SpatialObjectPoint< TPointDimension >
-::GetAlpha(void) const
+::GetAlpha() const
 {
   return m_Color.GetAlpha();
 }
@@ -159,7 +159,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 int
 SpatialObjectPoint< TPointDimension >
-::GetID(void) const
+::GetID() const
 {
   return m_ID;
 }
@@ -168,7 +168,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename SpatialObjectPoint< TPointDimension >::PointType &
 SpatialObjectPoint< TPointDimension >
-::GetPosition(void) const
+::GetPosition() const
 {
   return m_X;
 }

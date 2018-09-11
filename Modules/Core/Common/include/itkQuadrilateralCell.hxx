@@ -42,7 +42,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 QuadrilateralCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -54,7 +54,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 QuadrilateralCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -178,7 +178,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadrilateralCell< TCellInterface >::PointIdIterator
 QuadrilateralCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -191,7 +191,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadrilateralCell< TCellInterface >::PointIdConstIterator
 QuadrilateralCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -203,7 +203,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadrilateralCell< TCellInterface >::PointIdIterator
 QuadrilateralCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -216,7 +216,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadrilateralCell< TCellInterface >::PointIdConstIterator
 QuadrilateralCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -228,7 +228,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadrilateralCell< TCellInterface >::CellFeatureCount
 QuadrilateralCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return NumberOfVertices;
 }
@@ -240,7 +240,7 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadrilateralCell< TCellInterface >::CellFeatureCount
 QuadrilateralCell< TCellInterface >
-::GetNumberOfEdges(void) const
+::GetNumberOfEdges() const
 {
   return Self::NumberOfEdges;
 }

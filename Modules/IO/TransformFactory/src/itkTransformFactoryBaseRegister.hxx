@@ -75,7 +75,7 @@ namespace
 template< typename TParameterType, unsigned int D>
 struct RegisterTransformsD
 {
-  static void Register(void)
+  static void Register()
     {
       TransformFactory< AffineTransform<TParameterType, D> >::RegisterTransform ();
       TransformFactory< CompositeTransform<TParameterType, D> >::RegisterTransform();
@@ -91,7 +91,7 @@ struct RegisterTransformsD
 template<typename TParameterType>
 struct RegisterTransformsD<TParameterType, 1>
 {
-  static void Register(void) {}
+  static void Register() {}
 };
 }
 

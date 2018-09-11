@@ -183,7 +183,7 @@ void MINCImageIO::Read(void *buffer)
   delete[] count;
 }
 
-void MINCImageIO::CleanupDimensions(void)
+void MINCImageIO::CleanupDimensions()
 {
   if( this->m_MINCPImpl->m_DimensionName )
     {
@@ -238,7 +238,7 @@ void MINCImageIO::AllocateDimensions(int nDims)
 }
 
 // close existing volume, cleanup internal structures
-void MINCImageIO::CloseVolume(void)
+void MINCImageIO::CloseVolume()
 {
   this->CleanupDimensions();
 
@@ -900,7 +900,7 @@ bool MINCImageIO::CanWriteFile(const char *file)
 /*
  * fill out the appropriate header information
 */
-void MINCImageIO::WriteImageInformation(void)
+void MINCImageIO::WriteImageInformation()
 {
   const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int nComp = this->GetNumberOfComponents();

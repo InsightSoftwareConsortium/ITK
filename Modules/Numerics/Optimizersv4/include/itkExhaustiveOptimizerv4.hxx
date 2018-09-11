@@ -49,7 +49,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 ExhaustiveOptimizerv4<TInternalComputationValueType>
-::StartWalking(void)
+::StartWalking()
 {
   itkDebugMacro("StartWalking");
   this->InvokeEvent( StartEvent() );
@@ -106,7 +106,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 ExhaustiveOptimizerv4<TInternalComputationValueType>
-::ResumeWalking(void)
+::ResumeWalking()
 {
   itkDebugMacro("ResumeWalk");
   m_Stop = false;
@@ -153,7 +153,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 ExhaustiveOptimizerv4<TInternalComputationValueType>
-::StopWalking(void)
+::StopWalking()
 {
   itkDebugMacro("StopWalking");
 
@@ -164,7 +164,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 ExhaustiveOptimizerv4<TInternalComputationValueType>
-::AdvanceOneStep(void)
+::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 

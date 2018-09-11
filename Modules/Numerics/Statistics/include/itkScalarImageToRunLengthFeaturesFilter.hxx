@@ -103,7 +103,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::GenerateData(void)
+::GenerateData()
 {
   if ( this->m_FastCalculations )
     {

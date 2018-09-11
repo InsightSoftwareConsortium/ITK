@@ -54,7 +54,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother(void) const override;
+  ::itk::LightObject::Pointer CreateAnother() const override;
 
 
   /**
@@ -121,7 +121,7 @@ public:
   Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const override;
 
   /** Get the degrees of freedom for each node */
-  unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const override
+  unsigned int GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 3;
   }
@@ -129,7 +129,7 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer GetMaterial(void) const override
+  Material::ConstPointer GetMaterial() const override
   {
     return dynamic_cast<const Material *>(m_mat);
   }
@@ -141,7 +141,7 @@ public:
   }
 
   /** No edges to populate in this class */
-  void PopulateEdgeIds(void) override { /* empty */ }
+  void PopulateEdgeIds() override { /* empty */ }
 
 protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;

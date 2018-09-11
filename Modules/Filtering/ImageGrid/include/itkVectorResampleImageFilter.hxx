@@ -215,7 +215,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 ModifiedTimeType
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 

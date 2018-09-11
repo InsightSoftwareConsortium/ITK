@@ -34,7 +34,7 @@ GiplImageIOFactory::~GiplImageIOFactory()
 {}
 
 const char *
-GiplImageIOFactory::GetITKSourceVersion(void) const
+GiplImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +50,7 @@ GiplImageIOFactory::GetDescription() const
 
 static bool GiplImageIOFactoryHasBeenRegistered;
 
-void ITKIOGIPL_EXPORT GiplImageIOFactoryRegister__Private(void)
+void ITKIOGIPL_EXPORT GiplImageIOFactoryRegister__Private()
 {
   if( ! GiplImageIOFactoryHasBeenRegistered )
     {

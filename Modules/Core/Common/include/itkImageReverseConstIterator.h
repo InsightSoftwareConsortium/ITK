@@ -317,7 +317,7 @@ public:
   { return m_Region; }
 
   /** Get the pixel value */
-  const PixelType Get(void) const
+  const PixelType Get() const
   { return m_PixelAccessorFunctor.Get( *( m_Buffer + m_Offset ) ); }
 
   /** Set the pixel value */
@@ -330,13 +330,13 @@ public:
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value(void) const
+  const PixelType & Value() const
   { return *( m_Buffer + m_Offset ); }
 
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value(void)
+  const PixelType & Value()
   { return *( m_Buffer + m_Offset ); }
 
   /** Move an iterator to the beginning of the region. "Begin" for a reverse

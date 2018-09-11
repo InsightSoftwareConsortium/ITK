@@ -140,7 +140,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
 template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   ImagePointer outputPtr     = this->GetOutput(0);
 
@@ -161,7 +161,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
 template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
-::GenerateData(void)
+::GenerateData()
 {
   ImageConstPointer inputImagePtr = this->GetImageInput();
   PathConstPointer  inputPathPtr  = this->GetPathInput();

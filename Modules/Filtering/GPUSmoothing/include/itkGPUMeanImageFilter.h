@@ -121,7 +121,7 @@ public:
   itkTypeMacro(GPUMeanImageFilterFactory, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     GPUMeanImageFilterFactory::Pointer factory = GPUMeanImageFilterFactory::New();
 

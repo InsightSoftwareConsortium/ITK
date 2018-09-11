@@ -72,7 +72,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
 template <typename TInputImage>
 typename ImageToRectilinearFEMObjectFilter<TInputImage>::InputImageType *
 ImageToRectilinearFEMObjectFilter<TInputImage>
-::GetInput(void)
+::GetInput()
 {
   if( this->GetNumberOfInputs() < 1 )
     {

@@ -120,7 +120,7 @@ public:
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void)
+  PixelType & Value()
   {
     // const_cast is needed here because m_Buffer is declared as a const
     // pointer in the superclass which is the ConstIterator.

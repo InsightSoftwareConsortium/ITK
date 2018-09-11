@@ -536,7 +536,7 @@ protected:
 
   /** Set/Get the name associated with the Primary input.  Defaults to "Primary". */
   virtual void SetPrimaryInputName(const DataObjectIdentifierType & key);
-  virtual const char *GetPrimaryInputName( void ) const
+  virtual const char *GetPrimaryInputName() const
   { return this->m_IndexedInputs[0]->first.c_str(); }
 
   /** Set the main input */
@@ -615,7 +615,7 @@ protected:
 
   /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
   virtual void SetPrimaryOutputName(const DataObjectIdentifierType & key);
-  virtual const char *GetPrimaryOutputName( void ) const
+  virtual const char *GetPrimaryOutputName() const
   { return this->m_IndexedOutputs[0]->first.c_str(); }
 
   /** Method used internally for getting an indexed output. */

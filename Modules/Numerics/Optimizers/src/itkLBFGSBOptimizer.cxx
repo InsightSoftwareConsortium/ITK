@@ -335,7 +335,7 @@ LBFGSBOptimizer::SetCostFunction(SingleValuedCostFunction *costFunction)
  */
 void
 LBFGSBOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   // Check if all the bounds parameters are the same size as the initial
   // parameters.

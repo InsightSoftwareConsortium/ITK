@@ -113,7 +113,7 @@ VersorRigid3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 const typename VersorRigid3DTransform<TParametersValueType>::ParametersType
 & VersorRigid3DTransform<TParametersValueType>
-::GetParameters(void) const
+::GetParameters() const
   {
   itkDebugMacro(<< "Getting parameters ");
 

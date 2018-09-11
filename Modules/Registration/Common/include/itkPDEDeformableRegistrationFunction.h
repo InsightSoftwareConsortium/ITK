@@ -71,7 +71,7 @@ public:
   { m_MovingImage = ptr; }
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const
+  const MovingImageType * GetMovingImage() const
   { return m_MovingImage; }
 
   /** Set the fixed image. */
@@ -79,7 +79,7 @@ public:
   { m_FixedImage = ptr; }
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const
+  const FixedImageType * GetFixedImage() const
   { return m_FixedImage; }
 
   /** Set the deformation field image. */
@@ -88,7 +88,7 @@ public:
 
   /** Get the deformation field. This function should have been
    *  declared const. It is not for backward compatibility reasons. */
-  DisplacementFieldType * GetDisplacementField(void)
+  DisplacementFieldType * GetDisplacementField()
   { return m_DisplacementField; }
 
   void SetEnergy(double e) { m_Energy = e; }

@@ -100,7 +100,7 @@ public:
   bool ComputeLocalBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
   /** Set the slice position */
   void SetSlicePosition(unsigned int dimension, int position);

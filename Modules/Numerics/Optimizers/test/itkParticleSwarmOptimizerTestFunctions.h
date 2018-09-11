@@ -74,7 +74,7 @@ public:
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return 1;
   }
@@ -138,7 +138,7 @@ public:
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return 2;
   }
@@ -185,7 +185,7 @@ public:
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return 2;
   }

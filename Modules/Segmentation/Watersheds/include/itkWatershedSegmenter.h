@@ -128,7 +128,7 @@ public:
   static constexpr short NULL_FLOW = -1;
 
   /** Get/Set the input image.   */
-  InputImageType * GetInputImage(void)
+  InputImageType * GetInputImage()
   {
     return itkDynamicCastInDebugMode< InputImageType * >
            ( this->ProcessObject::GetInput(0) );
@@ -139,7 +139,7 @@ public:
 
   /** Get/Set the labeled output image.  The output image is always of
     IdentifierType integers. */
-  OutputImageType * GetOutputImage(void)
+  OutputImageType * GetOutputImage()
   {
     return itkDynamicCastInDebugMode< OutputImageType * >
            ( this->ProcessObject::GetOutput(0) );
@@ -150,7 +150,7 @@ public:
 
   /** Get/Set the segment table.  The segment table is a table of segmentation
    * information identifying each region produced by the labeling algorithm. */
-  SegmentTableType * GetSegmentTable(void)
+  SegmentTableType * GetSegmentTable()
   {
     return itkDynamicCastInDebugMode< SegmentTableType * >
            ( this->ProcessObject::GetOutput(1) );
@@ -161,7 +161,7 @@ public:
 
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
-  BoundaryType * GetBoundary(void)
+  BoundaryType * GetBoundary()
   {
     return itkDynamicCastInDebugMode< BoundaryType * >
            ( this->ProcessObject::GetOutput(2) );

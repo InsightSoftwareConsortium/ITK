@@ -22,7 +22,7 @@ namespace itk
 
 
 ParticleSwarmOptimizer
-::ParticleSwarmOptimizer(void)
+::ParticleSwarmOptimizer()
 {
   //magic numbers based on the analysis described in M. Clerc, J. Kennedy,
   //"The particle swarm - explosion, stability, and convergence in a
@@ -50,7 +50,7 @@ ParticleSwarmOptimizer
 
 void
 ParticleSwarmOptimizer
-::UpdateSwarm( void )
+::UpdateSwarm()
 {
   unsigned int j, k, n;
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer

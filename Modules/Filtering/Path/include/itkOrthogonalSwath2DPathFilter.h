@@ -91,7 +91,7 @@ protected:
   ~OrthogonalSwath2DPathFilter() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   // Find the "L" for the maximum merit over the range L-1 to L+1 at F & x.

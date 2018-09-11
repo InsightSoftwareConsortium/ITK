@@ -52,7 +52,7 @@ private:
 
 }
 
-bool TestSettingTranslation(void)
+bool TestSettingTranslation()
 {
 
     itk::Matrix<double, 3, 3> R;

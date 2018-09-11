@@ -132,7 +132,7 @@ public:
    * corresponds to Z. */
   void SetScale(const ScaleType & scale);
 
-  void ComputeMatrix(void) override;
+  void ComputeMatrix() override;
 
   /** Compose with another ScaleTransform. */
   void Compose(const Self *other, bool pre = false);

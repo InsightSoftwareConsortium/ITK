@@ -44,7 +44,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::Initialize( void )
+::Initialize()
 {
   Superclass::Initialize();
 
@@ -133,7 +133,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 typename LightObject::Pointer
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::InternalClone( void ) const
+::InternalClone() const
 {
   typename Self::Pointer rval = Self::New();
   rval->SetMovingPointSet( this->m_MovingPointSet );

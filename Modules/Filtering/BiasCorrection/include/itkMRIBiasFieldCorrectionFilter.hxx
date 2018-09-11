@@ -57,7 +57,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 template< typename TImage, typename TImageMask, typename TBiasField >
 unsigned int
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
-::GetNumberOfParameters(void) const
+::GetNumberOfParameters() const
 {
   if ( m_BiasField == nullptr )
     {

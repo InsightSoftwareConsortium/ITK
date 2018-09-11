@@ -95,7 +95,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 template< typename TInputSpatialObject >
 void
 SpatialObjectDuplicator< TInputSpatialObject >
-::Update(void)
+::Update()
 {
   if ( !m_Input )
     {

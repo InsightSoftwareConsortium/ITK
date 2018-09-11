@@ -85,7 +85,7 @@ itk::Versor<double> TestCreateRotationVersorFromAngles(const double alpha, const
  * This test that the conversion to and from Rotaion Matrix and
  * Versor produces consistent results.
  */
-int RotationMatrixToVersorTest(void)
+int RotationMatrixToVersorTest()
 {
   int errorCount=0;
   //const double onedegree=1e-10*itk::Math::pi/180.0;

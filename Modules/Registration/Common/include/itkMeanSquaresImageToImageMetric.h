@@ -86,7 +86,7 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  void Initialize(void) override;
+  void Initialize() override;
 
   /**  Get the value. */
   MeasureType GetValue(const ParametersType & parameters) const override;

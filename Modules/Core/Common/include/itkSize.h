@@ -78,7 +78,7 @@ public:
   static constexpr unsigned int Dimension = VDimension;
 
   /** Get the dimension. */
-  static constexpr unsigned int GetSizeDimension(void)
+  static constexpr unsigned int GetSizeDimension()
   {
     return VDimension;
   }

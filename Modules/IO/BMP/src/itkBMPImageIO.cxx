@@ -738,7 +738,7 @@ BMPImageIO
 
 void
 BMPImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {}
 
 /** The write function is not implemented */

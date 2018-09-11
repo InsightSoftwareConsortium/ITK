@@ -65,7 +65,7 @@ public:
   /** Get the current time.
    *  Warning: the returned value is not the elapsed time since the last Start() call.
    */
-  TimeStampType GetInstantValue(void) const override;
+  TimeStampType GetInstantValue() const override;
 
   /** Get a handle to m_RealTimeClock. */
   itkGetConstObjectMacro( RealTimeClock, RealTimeClock );

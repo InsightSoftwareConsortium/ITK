@@ -115,7 +115,7 @@ LevenbergMarquardtOptimizer
  */
 void
 LevenbergMarquardtOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   this->InvokeEvent( StartEvent() );
 

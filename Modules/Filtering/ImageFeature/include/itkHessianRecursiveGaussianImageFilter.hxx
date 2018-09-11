@@ -175,7 +175,7 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   itkDebugMacro(<< "HessianRecursiveGaussianImageFilter generating data ");
 

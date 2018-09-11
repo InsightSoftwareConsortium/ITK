@@ -96,7 +96,7 @@ public:
   GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
 
   /** Method required by the base class StreamingImageIOBase */
-  SizeType GetHeaderSize(void) const override;
+  SizeType GetHeaderSize() const override;
 
   /** Define the tile size to use when writing out an image. */
   void SetTileSize(int x, int y);
@@ -106,7 +106,7 @@ public:
    * These methods are re-overridden to not support streaming for
    * now...
    */
-  bool CanStreamWrite( void ) override;
+  bool CanStreamWrite() override;
 
 protected:
   JPEG2000ImageIO();

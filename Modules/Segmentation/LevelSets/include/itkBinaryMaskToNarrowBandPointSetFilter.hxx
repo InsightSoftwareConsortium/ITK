@@ -102,7 +102,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
-::GenerateData(void)
+::GenerateData()
 {
   m_DistanceFilter->SetNarrowBandwidth(m_BandWidth);
 

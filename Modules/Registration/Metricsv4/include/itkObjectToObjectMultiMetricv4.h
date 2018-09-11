@@ -143,7 +143,7 @@ public:
   /** Get the number of metrics */
   SizeValueType GetNumberOfMetrics() const;
 
-  void Initialize(void) override;
+  void Initialize() override;
 
   /** Set fixed object (image, point set, etc.)*/
   void SetFixedObject( const ObjectType *itkNotUsed( object ) ) override
@@ -190,7 +190,7 @@ public:
   /** Get the metrics queue */
   const MetricQueueType & GetMetricQueue() const;
 
-  bool SupportsArbitraryVirtualDomainSamples( void ) const override;
+  bool SupportsArbitraryVirtualDomainSamples() const override;
 
   using MetricCategoryType = typename Superclass::MetricCategoryType;
 

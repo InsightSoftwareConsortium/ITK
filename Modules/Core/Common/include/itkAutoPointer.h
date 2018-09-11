@@ -79,7 +79,7 @@ public:
 
   /** Clear the AutoPointer. If it had a pointer the object
       is deleted and the pointer is set to null. */
-  void Reset(void)
+  void Reset()
   {
     if ( m_IsOwner )
       {
@@ -90,7 +90,7 @@ public:
   }
 
   /** Explicitly set the ownership */
-  void TakeOwnership(void)
+  void TakeOwnership()
   { m_IsOwner = true; }
 
   /** Explicitly set the ownership */
@@ -116,7 +116,7 @@ public:
   }
 
   /** Query for the ownership */
-  bool IsOwner(void) const
+  bool IsOwner() const
   { return m_IsOwner; }
 
   /** Release the pointer hold by the current AutoPointer
@@ -131,7 +131,7 @@ public:
    *  Note that the AutoPointer still points to the object after the
    *  ReleaseOwnership operation, but it doesn't own the object any
    *  more. */
-  ObjectType * ReleaseOwnership(void)
+  ObjectType * ReleaseOwnership()
   {
     m_IsOwner = false;
     return m_Pointer;

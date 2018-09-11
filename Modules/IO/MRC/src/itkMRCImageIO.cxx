@@ -95,7 +95,7 @@ bool MRCImageIO::CanReadFile(const char *filename)
   return true;
 }
 
-MRCImageIO::SizeType MRCImageIO::GetHeaderSize(void) const
+MRCImageIO::SizeType MRCImageIO::GetHeaderSize() const
 {
   if ( m_MRCHeader.IsNull() )
     {
@@ -105,7 +105,7 @@ MRCImageIO::SizeType MRCImageIO::GetHeaderSize(void) const
   return m_MRCHeader->GetExtendedHeaderSize() + m_MRCHeader->GetHeaderSize();
 }
 
-void MRCImageIO::ReadImageInformation(void)
+void MRCImageIO::ReadImageInformation()
 {
   std::ifstream file;
 
@@ -357,7 +357,7 @@ void MRCImageIO::UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin)
   m_MRCHeader->m_Header.amean = float(mean);
 }
 
-void MRCImageIO::UpdateHeaderFromImageIO(void)
+void MRCImageIO::UpdateHeaderFromImageIO()
 {
   MRCHeaderObject::Header header;
 

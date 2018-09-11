@@ -71,7 +71,7 @@ public:
   using OutputImageType = TOutputImage;
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  void Update(void) override;
+  void Update() override;
 
   /**
    * Method for creation through the object factory.
@@ -110,7 +110,7 @@ private:
  */
 template <typename TInputImage, typename TOutputImage>
 void ExampleImageFilter<TInputImage, TOutputImage>
-::Update(void)
+::Update()
 {
   this->Execute(Dispatch<ImageDimension>());
 }

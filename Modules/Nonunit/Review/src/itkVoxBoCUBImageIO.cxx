@@ -612,7 +612,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
 
 void
 VoxBoCUBImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {
   if ( m_Writer == nullptr )
     {

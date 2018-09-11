@@ -133,37 +133,37 @@ public:
   itkGetModifiableObjectMacro(MaterialContainer, MaterialContainerType);
 
   /** Get the Degrees of Freedom for the FE model */
-  unsigned int GetNumberOfDegreesOfFreedom(void) const
+  unsigned int GetNumberOfDegreesOfFreedom() const
   {
     return m_NGFN;
   }
 
   /** Get the Degrees of Freedom for the FE model */
-  unsigned int GetNumberOfMultiFreedomConstraints(void) const
+  unsigned int GetNumberOfMultiFreedomConstraints() const
   {
     return m_NMFC;
   }
 
   /** Get the Number of nodes in the FE mesh */
-  unsigned int GetNumberOfNodes(void) const
+  unsigned int GetNumberOfNodes() const
   {
     return m_NodeContainer->Size();
   }
 
   /** Get the Number of elements in the FE mesh */
-  unsigned int GetNumberOfElements(void) const
+  unsigned int GetNumberOfElements() const
   {
     return m_ElementContainer->Size();
   }
 
   /** Get the Number of Loads in the FE problem */
-  unsigned int GetNumberOfLoads(void) const
+  unsigned int GetNumberOfLoads() const
   {
     return m_LoadContainer->Size();
   }
 
   /** Get the Number of Materials in the FE problem */
-  unsigned int GetNumberOfMaterials(void) const
+  unsigned int GetNumberOfMaterials() const
   {
     return m_MaterialContainer->Size();
   }

@@ -49,7 +49,7 @@ PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 template< typename TFixedPointSet, typename TMovingPointSet >
 void
 PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
-::Initialize(void)
+::Initialize()
 {
   if ( !m_Transform )
     {

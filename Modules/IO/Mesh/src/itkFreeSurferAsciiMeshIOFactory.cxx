@@ -44,7 +44,7 @@ FreeSurferAsciiMeshIOFactory
 
 const char *
 FreeSurferAsciiMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -60,7 +60,7 @@ FreeSurferAsciiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferAsciiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private(void)
+void ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private()
 {
   if( ! FreeSurferAsciiMeshIOFactoryHasBeenRegistered )
     {

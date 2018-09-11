@@ -243,7 +243,7 @@ public:
   }
 
   /** Get the pixel value */
-  PixelType Get(void) const
+  PixelType Get() const
   {
     return m_PixelAccessorFunctor.Get(*m_Position);
   }
@@ -251,7 +251,7 @@ public:
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value(void) const
+  const PixelType & Value() const
   {
     return *m_Position;
   }
@@ -263,13 +263,13 @@ public:
   void GoToReverseBegin();
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtReverseEnd(void) const
+  bool IsAtReverseEnd() const
   {
     return !m_Remaining;
   }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd(void) const
+  bool IsAtEnd() const
   {
     return !m_Remaining;
   }

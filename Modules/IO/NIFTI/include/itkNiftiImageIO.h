@@ -136,7 +136,7 @@ protected:
   ~NiftiImageIO() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual bool GetUseLegacyModeForTwoFileWriting(void) const { return false; }
+  virtual bool GetUseLegacyModeForTwoFileWriting() const { return false; }
 
 private:
   //Try to use the Q and S form codes from MetaDataDictionary if they are specified

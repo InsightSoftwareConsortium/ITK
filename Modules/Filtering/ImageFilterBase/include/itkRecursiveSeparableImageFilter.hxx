@@ -75,7 +75,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::GetInputImage(void)
+::GetInputImage()
 {
   return dynamic_cast< const TInputImage * >(
            ( ProcessObject::GetInput(0) ) );

@@ -90,7 +90,7 @@ public:
 protected:
   ComposeImageFilter();
 
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 
   void BeforeThreadedGenerateData() override;
 

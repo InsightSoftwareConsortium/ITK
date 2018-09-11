@@ -124,7 +124,7 @@ public:
   { m_MovingImageInterpolator = ptr; }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator(void)
+  InterpolatorType * GetMovingImageInterpolator()
   { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */

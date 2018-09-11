@@ -786,7 +786,7 @@ bool JPEG2000ImageIO::CanWriteFile(const char *filename)
 
 void
 JPEG2000ImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {
   itkDebugMacro(<< "WriteImageInformation()");
 
@@ -1178,7 +1178,7 @@ JPEG2000ImageIO
 }
 
 JPEG2000ImageIO::SizeType
-JPEG2000ImageIO::GetHeaderSize(void) const
+JPEG2000ImageIO::GetHeaderSize() const
 {
   return 0;
 }
@@ -1247,7 +1247,7 @@ JPEG2000ImageIO
 
 bool
 JPEG2000ImageIO
-::CanStreamWrite( void )
+::CanStreamWrite()
 {
   // we currently can't stream write for now...
   return false;

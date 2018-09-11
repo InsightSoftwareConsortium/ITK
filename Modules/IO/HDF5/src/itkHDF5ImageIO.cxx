@@ -1160,7 +1160,7 @@ HDF5ImageIO
  */
 void
 HDF5ImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {
   //
   // guard so that image information
@@ -1477,7 +1477,7 @@ HDF5ImageIO
 // GetHeaderSize -- return 0
 ImageIOBase::SizeType
 HDF5ImageIO
-::GetHeaderSize(void) const
+::GetHeaderSize() const
 {
   return 0;
 }

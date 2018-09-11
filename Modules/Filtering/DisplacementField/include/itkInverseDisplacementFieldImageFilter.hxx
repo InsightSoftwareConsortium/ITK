@@ -338,7 +338,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 ModifiedTimeType
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 

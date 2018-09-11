@@ -97,7 +97,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 void
 TubeSpatialObject< TDimension, TTubePointType >
-::Clear(void)
+::Clear()
 {
   m_Points.clear();
 }
@@ -372,7 +372,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 bool
 TubeSpatialObject< TDimension, TTubePointType >
-::ComputeTangentAndNormals(void)
+::ComputeTangentAndNormals()
 {
   itkDebugMacro("Computing the tangent vectors of the tube");
 

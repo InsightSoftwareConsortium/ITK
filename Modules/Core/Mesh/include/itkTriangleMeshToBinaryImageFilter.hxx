@@ -68,7 +68,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 template< typename TInputMesh, typename TOutputImage >
 typename TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >::InputMeshType *
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
-::GetInput(void)
+::GetInput()
 {
   return static_cast< TInputMesh * >( this->GetInput() );
 }
@@ -162,7 +162,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 template< typename TInputMesh, typename TOutputImage >
 void
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() called");
 

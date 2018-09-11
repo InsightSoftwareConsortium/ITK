@@ -135,7 +135,7 @@ protected:
   HDF5ImageIO();
   ~HDF5ImageIO() override;
 
-  SizeType GetHeaderSize(void) const override;
+  SizeType GetHeaderSize() const override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

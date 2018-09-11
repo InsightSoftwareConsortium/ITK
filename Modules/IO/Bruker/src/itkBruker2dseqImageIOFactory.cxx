@@ -43,13 +43,13 @@ Bruker2dseqImageIOFactory::~Bruker2dseqImageIOFactory()
 {}
 
 const char *
-Bruker2dseqImageIOFactory::GetITKSourceVersion(void) const
+Bruker2dseqImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-Bruker2dseqImageIOFactory::GetDescription(void) const
+Bruker2dseqImageIOFactory::GetDescription() const
 {
   return "Bruker2dseq ImageIO Factory, allows the loading of Bruker2dseq"
          " images into Insight";
@@ -60,7 +60,7 @@ Bruker2dseqImageIOFactory::GetDescription(void) const
 
 static bool Bruker2dseqImageIOFactoryHasBeenRegistered;
 
-void ITKIOBruker_EXPORT Bruker2dseqImageIOFactoryRegister__Private(void)
+void ITKIOBruker_EXPORT Bruker2dseqImageIOFactoryRegister__Private()
 {
   if( ! Bruker2dseqImageIOFactoryHasBeenRegistered )
     {

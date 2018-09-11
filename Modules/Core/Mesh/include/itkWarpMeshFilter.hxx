@@ -38,7 +38,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 const typename WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >::DisplacementFieldType *
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
-::GetDisplacementField(void) const
+::GetDisplacementField() const
 {
   return itkDynamicCastInDebugMode< const DisplacementFieldType * >
          ( this->ProcessObject::GetInput(1) );
@@ -72,7 +72,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 void
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
-::GenerateData(void)
+::GenerateData()
 {
   using InputPointsContainer = typename TInputMesh::PointsContainer;
   using OutputPointsContainer = typename TOutputMesh::PointsContainer;

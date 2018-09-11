@@ -291,7 +291,7 @@ void IPLCommonImageIO::SortImageListByNameDescend()
  */
 void
 IPLCommonImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {
   RAISE_EXCEPTION();
 }

@@ -41,7 +41,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 TetrahedronCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -53,7 +53,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 TetrahedronCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -335,7 +335,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename TetrahedronCell< TCellInterface >::PointIdIterator
 TetrahedronCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -348,7 +348,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename TetrahedronCell< TCellInterface >::PointIdConstIterator
 TetrahedronCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -360,7 +360,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename TetrahedronCell< TCellInterface >::PointIdIterator
 TetrahedronCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -373,7 +373,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename TetrahedronCell< TCellInterface >::PointIdConstIterator
 TetrahedronCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -385,7 +385,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename TetrahedronCell< TCellInterface >::CellFeatureCount
 TetrahedronCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return Self::NumberOfVertices;
 }
@@ -397,7 +397,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename TetrahedronCell< TCellInterface >::CellFeatureCount
 TetrahedronCell< TCellInterface >
-::GetNumberOfEdges(void) const
+::GetNumberOfEdges() const
 {
   return Self::NumberOfEdges;
 }
@@ -409,7 +409,7 @@ TetrahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename TetrahedronCell< TCellInterface >::CellFeatureCount
 TetrahedronCell< TCellInterface >
-::GetNumberOfFaces(void) const
+::GetNumberOfFaces() const
 {
   return Self::NumberOfFaces;
 }

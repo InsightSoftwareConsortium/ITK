@@ -23,7 +23,7 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer Element2DC0LinearTriangularStress::CreateAnother(void) const
+::itk::LightObject::Pointer Element2DC0LinearTriangularStress::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();

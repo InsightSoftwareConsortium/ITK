@@ -45,7 +45,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
 
 template <typename TMoving, typename TFixed>
 ::itk::LightObject::Pointer
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();

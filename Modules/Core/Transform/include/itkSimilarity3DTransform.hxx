@@ -55,7 +55,7 @@ Similarity3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 Similarity3DTransform<TParametersValueType>
-::SetIdentity(void)
+::SetIdentity()
 {
   this->Superclass::SetIdentity();
   this->m_Scale = 1.0;
@@ -196,7 +196,7 @@ Similarity3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 const typename Similarity3DTransform<TParametersValueType>::ParametersType
 & Similarity3DTransform<TParametersValueType>
-::GetParameters(void) const
+::GetParameters() const
   {
   itkDebugMacro(<< "Getting parameters ");
 
@@ -305,7 +305,7 @@ Similarity3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 Similarity3DTransform<TParametersValueType>
-::ComputeMatrixParameters(void)
+::ComputeMatrixParameters()
 {
   MatrixType matrix = this->GetMatrix();
 

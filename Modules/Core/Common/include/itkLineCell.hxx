@@ -40,7 +40,7 @@ LineCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 LineCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -52,7 +52,7 @@ LineCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 LineCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -157,7 +157,7 @@ LineCell< TCellInterface >
 template< typename TCellInterface >
 typename LineCell< TCellInterface >::PointIdIterator
 LineCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -170,7 +170,7 @@ LineCell< TCellInterface >
 template< typename TCellInterface >
 typename LineCell< TCellInterface >::PointIdConstIterator
 LineCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -182,7 +182,7 @@ LineCell< TCellInterface >
 template< typename TCellInterface >
 typename LineCell< TCellInterface >::PointIdIterator
 LineCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -195,7 +195,7 @@ LineCell< TCellInterface >
 template< typename TCellInterface >
 typename LineCell< TCellInterface >::PointIdConstIterator
 LineCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -207,7 +207,7 @@ LineCell< TCellInterface >
 template< typename TCellInterface >
 typename LineCell< TCellInterface >::CellFeatureCount
 LineCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return Self::NumberOfPoints;
 }

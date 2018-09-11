@@ -197,10 +197,10 @@ public:
 
     /** Get the index into the VectorContainer associated with this iterator.
         */
-    ElementIdentifier Index(void) const { return static_cast< ElementIdentifier >( m_Pos ); }
+    ElementIdentifier Index() const { return static_cast< ElementIdentifier >( m_Pos ); }
 
     /** Get the value at this iterator's location in the VectorContainer.   */
-    Element & Value(void) const { return *m_Iter; }
+    Element & Value() const { return *m_Iter; }
 
 private:
     size_type      m_Pos;
@@ -248,9 +248,9 @@ public:
 
     /** Get the index into the VectorContainer associated with this iterator.
         */
-    ElementIdentifier Index(void) const { return static_cast< ElementIdentifier >( m_Pos ); }
+    ElementIdentifier Index() const { return static_cast< ElementIdentifier >( m_Pos ); }
     /** Get the value at this iterator's location in the VectorContainer.   */
-    const Element & Value(void) const { return *m_Iter; }
+    const Element & Value() const { return *m_Iter; }
 
 private:
     size_type           m_Pos;

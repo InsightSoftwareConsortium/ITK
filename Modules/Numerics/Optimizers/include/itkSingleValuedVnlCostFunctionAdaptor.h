@@ -68,7 +68,7 @@ public:
   { m_CostFunction = costFunction; }
 
   /** Get the CostFunction deriving from SingleValuedCostFunction */
-  const SingleValuedCostFunction * GetCostFunction(void) const
+  const SingleValuedCostFunction * GetCostFunction() const
   { return m_CostFunction; }
 
   /**  Delegate computation of the value to the CostFunction. */

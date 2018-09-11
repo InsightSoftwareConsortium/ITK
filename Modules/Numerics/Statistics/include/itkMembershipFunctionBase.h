@@ -133,7 +133,7 @@ protected:
       MeasurementVectorType() );
   }
 
-  ~MembershipFunctionBase(void) override {}
+  ~MembershipFunctionBase() override {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

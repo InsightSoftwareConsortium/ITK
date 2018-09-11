@@ -43,7 +43,7 @@ TxtTransformIOFactory::~TxtTransformIOFactory()
 {}
 
 const char *
-TxtTransformIOFactory::GetITKSourceVersion(void) const
+TxtTransformIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -59,7 +59,7 @@ TxtTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool TxtTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformInsightLegacy_EXPORT TxtTransformIOFactoryRegister__Private(void)
+void ITKIOTransformInsightLegacy_EXPORT TxtTransformIOFactoryRegister__Private()
 {
   if( ! TxtTransformIOFactoryHasBeenRegistered )
     {

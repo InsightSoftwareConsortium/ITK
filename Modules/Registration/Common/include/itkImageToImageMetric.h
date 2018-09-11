@@ -156,7 +156,7 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Get the number of pixels considered in the computation. */
-  SizeValueType GetNumberOfMovingImageSamples(void)
+  SizeValueType GetNumberOfMovingImageSamples()
   {
     return this->GetNumberOfPixelsCounted();
   }
@@ -206,17 +206,17 @@ public:
   void SetTransformParameters(const ParametersType & parameters) const;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return m_Transform->GetNumberOfParameters();
   }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void);
+  virtual void Initialize();
 
   /** Initialize the components related to supporting multiple threads */
-  virtual void MultiThreadingInitialize(void);
+  virtual void MultiThreadingInitialize();
 
   /** Number of spatial samples to used to compute metric
    *   This sets the number of samples.  */
@@ -230,7 +230,7 @@ public:
     this->SetNumberOfFixedImageSamples(num);
   }
 
-  SizeValueType GetNumberOfSpatialSamples(void)
+  SizeValueType GetNumberOfSpatialSamples()
   {
     return this->GetNumberOfFixedImageSamples();
   }
@@ -250,12 +250,12 @@ public:
    * This value override IntensityThreshold, Masks, and SequentialSampling. */
   void SetUseAllPixels(bool useAllPixels);
 
-  void UseAllPixelsOn(void)
+  void UseAllPixelsOn()
   {
     this->SetUseAllPixels(true);
   }
 
-  void UseAllPixelsOff(void)
+  void UseAllPixelsOff()
   {
     this->SetUseAllPixels(false);
   }

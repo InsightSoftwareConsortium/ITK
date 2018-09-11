@@ -52,7 +52,7 @@ public:
   itkTypeMacro(TestFactory3, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     TestFactory3::Pointer factory = TestFactory3::New();
     itk::ObjectFactoryBase::RegisterFactory(factory);

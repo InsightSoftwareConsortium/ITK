@@ -132,7 +132,7 @@ public:
   void GoToBegin();
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtBegin(void) const
+  bool IsAtBegin() const
   {
     return !this->m_Remaining;
   }

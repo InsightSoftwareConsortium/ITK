@@ -225,7 +225,7 @@ bool Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(
   return returnStatus;
 }
 
-void Element2DC0QuadraticTriangular::PopulateEdgeIds(void)
+void Element2DC0QuadraticTriangular::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 

@@ -50,9 +50,9 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion(void) const override;
+  const char * GetITKSourceVersion() const override;
 
-  const char * GetDescription(void) const override;
+  const char * GetDescription() const override;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformFactoryBase, ObjectFactoryBase);
@@ -114,7 +114,7 @@ private:
 
   // Called by the type specific methods
   template <typename TParameterType>
-  static void RegisterTransformFactory(void);
+  static void RegisterTransformFactory();
 
   static TransformFactoryBase *m_Factory;
 };

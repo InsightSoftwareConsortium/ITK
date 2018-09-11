@@ -218,7 +218,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
 template< typename TOutputImage >
 ModifiedTimeType
 LandmarkDisplacementFieldSource< TOutputImage >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 

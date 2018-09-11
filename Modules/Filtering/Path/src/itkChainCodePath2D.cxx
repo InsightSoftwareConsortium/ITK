@@ -58,7 +58,7 @@ ChainCodePath2D
 
 std::string
 ChainCodePath2D
-::GetChainCodeAsString(void) const
+::GetChainCodeAsString() const
 {
   std::string printableChain;
 

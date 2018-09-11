@@ -34,7 +34,7 @@ BMPImageIOFactory::~BMPImageIOFactory()
 {}
 
 const char *
-BMPImageIOFactory::GetITKSourceVersion(void) const
+BMPImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +50,7 @@ BMPImageIOFactory::GetDescription() const
 
 static bool BMPImageIOFactoryHasBeenRegistered;
 
-void ITKIOBMP_EXPORT BMPImageIOFactoryRegister__Private(void)
+void ITKIOBMP_EXPORT BMPImageIOFactoryRegister__Private()
 {
   if( ! BMPImageIOFactoryHasBeenRegistered )
     {

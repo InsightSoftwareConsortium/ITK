@@ -154,7 +154,7 @@ protected:
    * the execution of the filter. This method must be called after invoking
    * SetNonConnectivity().
    */
-  void ComputeConnectivityOffsets( void );
+  void ComputeConnectivityOffsets();
 
 private:
   unsigned                   m_NonConnectivity;

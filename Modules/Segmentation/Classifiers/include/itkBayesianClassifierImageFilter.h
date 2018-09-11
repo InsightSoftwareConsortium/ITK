@@ -211,7 +211,7 @@ protected:
 
   void GenerateData() override;
 
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 
   /** Compute the posteriors using the Bayes rule. If no priors are available,
    *  then the posteriors are just a copy of the memberships.

@@ -41,7 +41,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 TriangleCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -53,7 +53,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 TriangleCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -178,7 +178,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename TriangleCell< TCellInterface >::PointIdIterator
 TriangleCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -191,7 +191,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename TriangleCell< TCellInterface >::PointIdConstIterator
 TriangleCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -203,7 +203,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename TriangleCell< TCellInterface >::PointIdIterator
 TriangleCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -216,7 +216,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename TriangleCell< TCellInterface >::PointIdConstIterator
 TriangleCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -228,7 +228,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename TriangleCell< TCellInterface >::CellFeatureCount
 TriangleCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return Self::NumberOfVertices;
 }
@@ -240,7 +240,7 @@ TriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename TriangleCell< TCellInterface >::CellFeatureCount
 TriangleCell< TCellInterface >
-::GetNumberOfEdges(void) const
+::GetNumberOfEdges() const
 {
   return Self::NumberOfEdges;
 }

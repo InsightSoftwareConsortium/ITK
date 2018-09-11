@@ -25,7 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TPointDimension >
 VesselTubeSpatialObjectPoint< TPointDimension >
-::VesselTubeSpatialObjectPoint(void):Superclass()
+::VesselTubeSpatialObjectPoint():Superclass()
 {
   m_Medialness = 0;
   m_Ridgeness = 0;
@@ -39,13 +39,13 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 VesselTubeSpatialObjectPoint< TPointDimension >
-::~VesselTubeSpatialObjectPoint(void)
+::~VesselTubeSpatialObjectPoint()
 {}
 
 template< unsigned int TPointDimension >
 float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetMedialness(void) const
+::GetMedialness() const
 {
   return m_Medialness;
 }
@@ -61,7 +61,7 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetRidgeness(void) const
+::GetRidgeness() const
 {
   return m_Ridgeness;
 }
@@ -77,7 +77,7 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetBranchness(void) const
+::GetBranchness() const
 {
   return m_Branchness;
 }
@@ -93,7 +93,7 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 bool
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetMark(void) const
+::GetMark() const
 {
   return m_Mark;
 }
@@ -109,7 +109,7 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetAlpha1(void) const
+::GetAlpha1() const
 {
   return m_Alpha1;
 }
@@ -125,7 +125,7 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetAlpha2(void) const
+::GetAlpha2() const
 {
   return m_Alpha2;
 }
@@ -141,7 +141,7 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetAlpha3(void) const
+::GetAlpha3() const
 {
   return m_Alpha3;
 }

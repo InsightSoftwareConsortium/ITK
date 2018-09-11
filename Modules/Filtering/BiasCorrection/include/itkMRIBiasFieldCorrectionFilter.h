@@ -139,7 +139,7 @@ public:
   void InitializeDistributions(Array< double > classMeans,
                                Array< double > classSigmas);
 
-  unsigned int GetNumberOfParameters(void) const override;
+  unsigned int GetNumberOfParameters() const override;
 
 protected:
   /** Constructor. */

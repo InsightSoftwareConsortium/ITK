@@ -157,12 +157,12 @@ public:
   itkGetConstReferenceMacro(ComputeGradient, bool);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   { return m_Transform->GetNumberOfParameters(); }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void);
+  virtual void Initialize();
 
 protected:
   PointSetToImageMetric();

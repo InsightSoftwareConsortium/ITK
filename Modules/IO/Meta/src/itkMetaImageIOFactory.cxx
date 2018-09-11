@@ -50,7 +50,7 @@ MetaImageIOFactory::GetDescription() const
 
 static bool MetaImageIOFactoryHasBeenRegistered;
 
-void ITKIOMeta_EXPORT MetaImageIOFactoryRegister__Private(void)
+void ITKIOMeta_EXPORT MetaImageIOFactoryRegister__Private()
 {
   if( ! MetaImageIOFactoryHasBeenRegistered )
     {

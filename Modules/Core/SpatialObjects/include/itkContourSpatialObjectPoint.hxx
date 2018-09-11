@@ -24,7 +24,7 @@ namespace itk
 {
 template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
-::ContourSpatialObjectPoint(void)
+::ContourSpatialObjectPoint()
 {
   this->m_ID = 0;
   m_Normal.Fill(0);
@@ -33,7 +33,7 @@ ContourSpatialObjectPoint< TPointDimension >
 
 template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
-::~ContourSpatialObjectPoint(void)
+::~ContourSpatialObjectPoint()
 {}
 
 template< unsigned int TPointDimension >
@@ -66,7 +66,7 @@ ContourSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename ContourSpatialObjectPoint< TPointDimension >::PointType &
 ContourSpatialObjectPoint< TPointDimension >
-::GetPickedPoint(void) const
+::GetPickedPoint() const
 {
   return m_PickedPoint;
 }
@@ -101,7 +101,7 @@ ContourSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename ContourSpatialObjectPoint< TPointDimension >::VectorType &
 ContourSpatialObjectPoint< TPointDimension >
-::GetNormal(void) const
+::GetNormal() const
 {
   return m_Normal;
 }

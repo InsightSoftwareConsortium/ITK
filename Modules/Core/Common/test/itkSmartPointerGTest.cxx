@@ -44,7 +44,7 @@ public:
 
   itkNewMacro(Derived1);
 
-  void Register(void) const override
+  void Register() const override
     {
       ++m_RegisterCount;
       Superclass::Register();

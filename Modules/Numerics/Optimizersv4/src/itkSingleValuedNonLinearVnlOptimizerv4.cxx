@@ -88,21 +88,21 @@ SingleValuedNonLinearVnlOptimizerv4
 
 const SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizerv4
-::GetCostFunctionAdaptor(void) const
+::GetCostFunctionAdaptor() const
 {
   return this->m_CostFunctionAdaptor;
 }
 
 SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizerv4
-::GetCostFunctionAdaptor(void)
+::GetCostFunctionAdaptor()
 {
   return this->m_CostFunctionAdaptor;
 }
 
 SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizerv4
-::GetNonConstCostFunctionAdaptor(void) const
+::GetNonConstCostFunctionAdaptor() const
 {
   return this->m_CostFunctionAdaptor;
 }

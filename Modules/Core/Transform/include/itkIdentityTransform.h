@@ -145,7 +145,7 @@ public:
    *
    * This is a nullptr operation in the case of this particular transform.
      The method is provided only to comply with the interface of other transforms. */
-  void SetIdentity(void)
+  void SetIdentity()
   {
   }
 

@@ -134,7 +134,7 @@ public:
 
   void SetNumberOfWorkUnits(ThreadIdType nb) override;
 
-  bool CanRunInPlace( void ) const override;
+  bool CanRunInPlace() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -149,7 +149,7 @@ protected:
   ~SmoothingRecursiveGaussianImageFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   /** SmoothingRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, SmoothingRecursiveGaussianImageFilter needs to provide

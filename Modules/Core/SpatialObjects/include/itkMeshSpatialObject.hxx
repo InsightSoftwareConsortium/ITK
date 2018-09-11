@@ -194,7 +194,7 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 typename MeshSpatialObject< TMesh >::MeshType *
 MeshSpatialObject< TMesh >
-::GetMesh(void)
+::GetMesh()
 {
   return m_Mesh.GetPointer();
 }
@@ -202,7 +202,7 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 const typename MeshSpatialObject< TMesh >::MeshType *
 MeshSpatialObject< TMesh >
-::GetMesh(void) const
+::GetMesh() const
 {
   return m_Mesh.GetPointer();
 }
@@ -223,7 +223,7 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 ModifiedTimeType
 MeshSpatialObject< TMesh >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestMTime = Superclass::GetMTime();
   const ModifiedTimeType MeshMTime = m_Mesh->GetMTime();

@@ -124,7 +124,7 @@ public:
 
   /** Get the container of outside points. The outside points are
    * stored in a VectorContainer of LevelSetNodes. */
-  NodeContainerPointer GetOutsidePoints(void)
+  NodeContainerPointer GetOutsidePoints()
   { return m_OutsidePoints; }
 
   /** Locate the level set. This method evokes the level set

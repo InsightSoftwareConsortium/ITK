@@ -170,7 +170,7 @@ MapContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename MapContainer< TElementIdentifier, TElement >::ConstIterator
 MapContainer< TElementIdentifier, TElement >
-::Begin(void) const
+::Begin() const
 {
   return ConstIterator( this->MapType::begin() );
 }
@@ -181,7 +181,7 @@ MapContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename MapContainer< TElementIdentifier, TElement >::ConstIterator
 MapContainer< TElementIdentifier, TElement >
-::End(void) const
+::End() const
 {
   return ConstIterator( this->MapType::end() );
 }
@@ -192,7 +192,7 @@ MapContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename MapContainer< TElementIdentifier, TElement >::Iterator
 MapContainer< TElementIdentifier, TElement >
-::Begin(void)
+::Begin()
 {
   return Iterator( this->MapType::begin() );
 }
@@ -203,7 +203,7 @@ MapContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename MapContainer< TElementIdentifier, TElement >::Iterator
 MapContainer< TElementIdentifier, TElement >
-::End(void)
+::End()
 {
   return Iterator( this->MapType::end() );
 }
@@ -214,7 +214,7 @@ MapContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename MapContainer< TElementIdentifier, TElement >::ElementIdentifier
 MapContainer< TElementIdentifier, TElement >
-::Size(void) const
+::Size() const
 {
   return static_cast< ElementIdentifier >( this->MapType::size() );
 }
@@ -251,7 +251,7 @@ MapContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 void
 MapContainer< TElementIdentifier, TElement >
-::Squeeze(void)
+::Squeeze()
 {}
 
 /**
@@ -261,7 +261,7 @@ MapContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 void
 MapContainer< TElementIdentifier, TElement >
-::Initialize(void)
+::Initialize()
 {
   this->MapType::clear();
 }

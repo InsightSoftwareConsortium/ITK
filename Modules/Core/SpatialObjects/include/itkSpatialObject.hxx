@@ -29,7 +29,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TDimension >
 SpatialObject< TDimension >
-::SpatialObject(void)
+::SpatialObject()
 {
   m_TypeName = "SpatialObject";
   m_Dimension = TDimension;
@@ -60,7 +60,7 @@ SpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 SpatialObject< TDimension >
-::~SpatialObject(void)
+::~SpatialObject()
 {
   this->Clear();
 }
@@ -70,7 +70,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::Clear(void)
+::Clear()
 {
   auto pos = m_InternalChildrenList.begin();
   auto it =  m_InternalChildrenList.begin();
@@ -366,7 +366,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetObjectToNodeTransform(void)
+::GetObjectToNodeTransform()
 {
   return m_AffineGeometryFrame->GetModifiableObjectToNodeTransform();
 }
@@ -375,7 +375,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetModifiableObjectToNodeTransform(void)
+::GetModifiableObjectToNodeTransform()
 {
   return m_AffineGeometryFrame->GetModifiableObjectToNodeTransform();
 }
@@ -384,7 +384,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetObjectToNodeTransform(void) const
+::GetObjectToNodeTransform() const
 {
   return m_AffineGeometryFrame->GetObjectToNodeTransform();
 }
@@ -393,7 +393,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetObjectToParentTransform(void)
+::GetObjectToParentTransform()
 {
   return static_cast< TreeNodeType * >(
            m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
@@ -404,7 +404,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetObjectToParentTransform(void) const
+::GetObjectToParentTransform() const
 {
   return static_cast< TreeNodeType * >(
            m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
@@ -415,7 +415,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetIndexToObjectTransform(void) const
+::GetIndexToObjectTransform() const
 {
   return m_AffineGeometryFrame->GetIndexToObjectTransform();
 }
@@ -485,7 +485,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 ModifiedTimeType
 SpatialObject< TDimension >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
@@ -659,7 +659,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned long
 SpatialObject< TDimension >
-::GetTransformMTime(void)
+::GetTransformMTime()
 {
   return m_ObjectToParentTransform->GetMTime();
 }
@@ -668,7 +668,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned long
 SpatialObject< TDimension >
-::GetWorldTransformMTime(void)
+::GetWorldTransformMTime()
 {
   return m_IndexToWorldTransform->GetMTime();
 }
@@ -677,7 +677,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 SpatialObject< TDimension > *
 SpatialObject< TDimension >
-::GetParent(void)
+::GetParent()
 {
   if ( m_TreeNode->HasParent() )
     {
@@ -690,7 +690,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 const SpatialObject< TDimension > *
 SpatialObject< TDimension >
-::GetParent(void) const
+::GetParent() const
 {
   if ( m_TreeNode->HasParent() )
     {
@@ -719,7 +719,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::HasParent(void) const
+::HasParent() const
 {
   return m_TreeNode->HasParent();
 }
@@ -890,7 +890,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::PropertyType *
 SpatialObject< TDimension >
-::GetProperty(void)
+::GetProperty()
 {
   return m_Property;
 }
@@ -906,7 +906,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::Update(void)
+::Update()
 {
   Superclass::Update();
 
@@ -941,7 +941,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetNodeToParentNodeTransform(void)
+::GetNodeToParentNodeTransform()
 {
   if ( m_TreeNode )
     {
@@ -954,7 +954,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetNodeToParentNodeTransform(void) const
+::GetNodeToParentNodeTransform() const
 {
   if ( m_TreeNode )
     {

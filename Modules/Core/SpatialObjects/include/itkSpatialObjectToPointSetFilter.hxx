@@ -60,7 +60,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 template< typename TInputSpatialObject, typename TOutputPointSet >
 const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >::InputSpatialObjectType *
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::GetInput(void)
+::GetInput()
 {
   return static_cast< const TInputSpatialObject * >( this->GetPrimaryInput() );
 }
@@ -76,7 +76,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::GenerateData(void)
+::GenerateData()
 {
   // Get the input and output pointers
   const InputSpatialObjectType *inputObject  = this->GetInput();

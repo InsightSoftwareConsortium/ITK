@@ -82,7 +82,7 @@ public:
 
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
     {
     return SpaceDimension;
     }

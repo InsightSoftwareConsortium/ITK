@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  void Initialize(void) override
+  void Initialize() override
   {
     this->m_OriginalPath = nullptr;
     this->m_OrthogonalCorrectionTable = nullptr;

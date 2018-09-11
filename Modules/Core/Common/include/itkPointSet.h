@@ -145,7 +145,7 @@ public:
   /** PointSet-level operation interface. */
   void PassStructure(Self *inputPointSet);
 
-  void Initialize(void) override;
+  void Initialize() override;
 
   PointIdentifier GetNumberOfPoints() const;
 

@@ -73,7 +73,7 @@ protected:
   ~PathToChainCodePathFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   bool m_MaximallyConnected;

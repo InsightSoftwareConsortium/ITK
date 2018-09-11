@@ -31,7 +31,7 @@ namespace itk
 /* Set initial value of some parameters in the constructor */
 template< typename TInputImage, typename TClassifiedImage >
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
-::RGBGibbsPriorFilter(void):
+::RGBGibbsPriorFilter():
   m_InputImage(nullptr),
   m_TrainingImage(nullptr),
   m_LabelledImage(nullptr),

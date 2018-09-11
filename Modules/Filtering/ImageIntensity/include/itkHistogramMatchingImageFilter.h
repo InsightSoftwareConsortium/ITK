@@ -108,7 +108,7 @@ public:
   /** Set/Get the source image. */
   void SetSourceImage(const InputImageType *source)
   { this->SetInput(source); }
-  const InputImageType * GetSourceImage(void)
+  const InputImageType * GetSourceImage()
   { return this->GetInput(); }
 
   /** Set/Get the reference image. */

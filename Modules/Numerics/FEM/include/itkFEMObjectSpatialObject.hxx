@@ -69,7 +69,7 @@ FEMObjectSpatialObject< TDimension>
 template< unsigned int TDimension>
 ModifiedTimeType
 FEMObjectSpatialObject< TDimension>
-::GetMTime( void ) const
+::GetMTime() const
 {
   ModifiedTimeType latestMTime = Superclass::GetMTime();
   const ModifiedTimeType femobjectMTime = m_FEMObject->GetMTime();

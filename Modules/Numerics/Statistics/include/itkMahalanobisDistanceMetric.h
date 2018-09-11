@@ -111,7 +111,7 @@ public:
 
 protected:
   MahalanobisDistanceMetric();
-  ~MahalanobisDistanceMetric(void) override {}
+  ~MahalanobisDistanceMetric() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

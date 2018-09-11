@@ -179,10 +179,10 @@ public:
     bool operator!=(const ConstIterator & r) const { return m_Iter != r.m_Iter; }
 
     /** Get the index into the MapContainer associated with this iterator.   */
-    ElementIdentifier Index(void) const { return m_Iter->first; }
+    ElementIdentifier Index() const { return m_Iter->first; }
 
     /** Get the value at this iterator's location in the MapContainer.   */
-    Element & Value(void) { return m_Iter->second; }
+    Element & Value() { return m_Iter->second; }
 
 private:
     MapIterator m_Iter;
@@ -220,10 +220,10 @@ public:
     bool operator!=(const ConstIterator & r) const { return m_Iter != r.m_Iter; }
 
     /** Get the index into the MapContainer associated with this iterator.   */
-    ElementIdentifier Index(void) const { return m_Iter->first; }
+    ElementIdentifier Index() const { return m_Iter->first; }
 
     /** Get the value at this iterator's location in the MapContainer.   */
-    const Element & Value(void) const { return m_Iter->second; }
+    const Element & Value() const { return m_Iter->second; }
 
 private:
     MapConstIterator m_Iter;

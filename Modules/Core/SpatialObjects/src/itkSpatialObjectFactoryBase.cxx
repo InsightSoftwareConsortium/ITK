@@ -47,7 +47,7 @@ void SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
 }
 
 const char *
-SpatialObjectFactoryBase::GetITKSourceVersion(void) const
+SpatialObjectFactoryBase::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }

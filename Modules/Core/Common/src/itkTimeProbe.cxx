@@ -31,7 +31,7 @@ TimeProbe
 
 TimeProbe::TimeStampType
 TimeProbe
-::GetInstantValue(void) const
+::GetInstantValue() const
 {
   return m_RealTimeClock->GetTimeInSeconds();
 }

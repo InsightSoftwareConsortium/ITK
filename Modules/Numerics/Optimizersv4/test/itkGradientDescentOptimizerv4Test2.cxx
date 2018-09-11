@@ -57,7 +57,7 @@ public:
     m_Parameters.Fill( 0 );
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) override {}
+  void Initialize() throw ( itk::ExceptionObject ) override {}
 
   void GetDerivative( DerivativeType & derivative ) const override
   {
@@ -91,7 +91,7 @@ public:
     m_Parameters += update;
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return SpaceDimension * 3;
   }

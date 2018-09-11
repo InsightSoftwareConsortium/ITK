@@ -67,13 +67,13 @@ public:
   { return !m_Maximize; }
   void SetMinimize(bool v)
   { this->SetMaximize(!v); }
-  void    MinimizeOn(void)
+  void    MinimizeOn()
   { SetMaximize(false); }
-  void    MinimizeOff(void)
+  void    MinimizeOff()
   { SetMaximize(true); }
 
   /** Start optimization. */
-  void    StartOptimization(void) override;
+  void    StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters.
    * \sa StopOptimization */

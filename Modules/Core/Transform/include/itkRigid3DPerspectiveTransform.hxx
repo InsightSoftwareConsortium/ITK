@@ -205,7 +205,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPoi
 // Transform a point
 template<typename TParametersValueType>
 void
-Rigid3DPerspectiveTransform<TParametersValueType>::ComputeMatrix(void)
+Rigid3DPerspectiveTransform<TParametersValueType>::ComputeMatrix()
 {
   m_RotationMatrix = m_Versor.GetMatrix();
 }

@@ -243,12 +243,12 @@ bool StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const 
   return true;
 }
 
-bool StreamingImageIOBase::CanStreamRead(void)
+bool StreamingImageIOBase::CanStreamRead()
 {
   return true;
 }
 
-bool StreamingImageIOBase::CanStreamWrite(void)
+bool StreamingImageIOBase::CanStreamWrite()
 {
   return true;
 }
@@ -384,7 +384,7 @@ ImageIORegion StreamingImageIOBase::GenerateStreamableReadRegionFromRequestedReg
   return streamableRegion;
 }
 
-bool StreamingImageIOBase::RequestedToStream(void) const
+bool StreamingImageIOBase::RequestedToStream() const
 {
   // we choose the max dimension and then pad the smaller with ones
   //

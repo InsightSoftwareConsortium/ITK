@@ -100,9 +100,9 @@ public:
   { return !m_Maximize; }
   void SetMinimize(bool v)
   { this->SetMaximize(!v); }
-  void    MinimizeOn(void)
+  void    MinimizeOn()
   { SetMaximize(false); }
-  void    MinimizeOff(void)
+  void    MinimizeOff()
   { SetMaximize(true); }
 
   /** Set/Get maximum iteration limit. */

@@ -69,7 +69,7 @@ public:
 protected:
   MomentsThresholdCalculator() {};
   ~MomentsThresholdCalculator() override {};
-  void GenerateData(void) override;
+  void GenerateData() override;
 };
 
 } // end namespace itk

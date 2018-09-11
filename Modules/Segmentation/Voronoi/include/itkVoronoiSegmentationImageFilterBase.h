@@ -168,7 +168,7 @@ public:
   virtual void MakeSegmentObject();
 
   /** Return the Voroni Diagram structure. */
-  VoronoiPointer GetVoronoiDiagram(void)
+  VoronoiPointer GetVoronoiDiagram()
   { return m_WorkingVD; }
 
 #if !defined( ITK_WRAPPING_PARSER )  // generates invalid iterator instantiation

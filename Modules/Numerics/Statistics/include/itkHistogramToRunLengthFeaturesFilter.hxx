@@ -75,7 +75,7 @@ HistogramToRunLengthFeaturesFilter<THistogram>
 template<typename THistogram>
 void
 HistogramToRunLengthFeaturesFilter< THistogram>::
-GenerateData( void )
+GenerateData()
 {
   const HistogramType * inputHistogram = this->GetInput();
 

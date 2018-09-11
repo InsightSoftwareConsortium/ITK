@@ -74,7 +74,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 template< typename TOutputImage, typename ConvertPixelTraits >
 void
 ImageFileReader< TOutputImage, ConvertPixelTraits >
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   typename TOutputImage::Pointer output = this->GetOutput();
 

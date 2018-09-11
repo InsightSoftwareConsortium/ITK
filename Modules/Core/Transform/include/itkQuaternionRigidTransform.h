@@ -105,13 +105,13 @@ public:
   /** Get the rotation from an QuaternionRigidTransform.
    * This method returns the value of the rotation of the
    * QuaternionRigidTransform. */
-  const VnlQuaternionType & GetRotation(void) const
+  const VnlQuaternionType & GetRotation() const
   {
     return m_Rotation;
   }
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity(void) override;
+  void SetIdentity() override;
 
   /** Set the transformation from a container of parameters.
    * This is typically used by optimizers.

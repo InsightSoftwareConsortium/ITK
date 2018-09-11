@@ -81,7 +81,7 @@ GradientDescentOptimizer
  */
 void
 GradientDescentOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
 
@@ -96,7 +96,7 @@ GradientDescentOptimizer
  */
 void
 GradientDescentOptimizer
-::ResumeOptimization(void)
+::ResumeOptimization()
 {
   itkDebugMacro("ResumeOptimization");
 
@@ -151,7 +151,7 @@ GradientDescentOptimizer
  */
 void
 GradientDescentOptimizer
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
 
@@ -164,7 +164,7 @@ GradientDescentOptimizer
  */
 void
 GradientDescentOptimizer
-::AdvanceOneStep(void)
+::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 

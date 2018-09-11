@@ -27,7 +27,7 @@ bool ITKCommon_EXPORT ci_equal(char a, char b)
 MapRecord::~MapRecord()
 {}
 
-void MapRecord::Reset(void)
+void MapRecord::Reset()
 {
   m_Tokens.clear();
   m_RecordName = "";

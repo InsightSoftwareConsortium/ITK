@@ -60,17 +60,17 @@ public:
   using MovingImageType = itk::Image<TMovingPixelType,NDimension>;
   using FixedImageType = itk::Image<TFixedPixelType,NDimension >;
 
-const MovingImageType * GetMovingImage(void) const
+const MovingImageType * GetMovingImage() const
   {
   return m_MovingImage.GetPointer();
   }
 
-const FixedImageType * GetFixedImage(void) const
+const FixedImageType * GetFixedImage() const
   {
   return m_FixedImage.GetPointer();
   }
 
-const ParametersType & GetActualParameters(void) const
+const ParametersType & GetActualParameters() const
 {
   return m_Parameters;
 }

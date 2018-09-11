@@ -100,7 +100,7 @@ public:
     std::cout << derivative[1] << ")" << std::endl;
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
     {
     return SpaceDimension;
     }

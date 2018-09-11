@@ -79,7 +79,7 @@ protected:
   void GenerateData() override;
 
   /** Generate additional information in the output  */
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 };
 } // end namespace itk
 

@@ -518,7 +518,7 @@ bool PNGImageIO::CanWriteFile(const char *name)
   return false;
 }
 
-void PNGImageIO::WriteImageInformation(void)
+void PNGImageIO::WriteImageInformation()
 {}
 
 void PNGImageIO::Write(const void *buffer)

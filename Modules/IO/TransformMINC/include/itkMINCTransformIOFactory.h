@@ -53,7 +53,7 @@ namespace itk
     itkTypeMacro(MINCTransformIOFactory, ObjectFactoryBase);
 
     /** Register one factory of this type  */
-    static void RegisterOneFactory(void)
+    static void RegisterOneFactory()
     {
       MINCTransformIOFactory::Pointer metaFactory = MINCTransformIOFactory::New();
 

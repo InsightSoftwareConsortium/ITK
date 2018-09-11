@@ -76,7 +76,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
-::GetInput(void) const
+::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }

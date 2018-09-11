@@ -71,7 +71,7 @@ ImageFileWriter< TInputImage >
 template< typename TInputImage >
 const typename ImageFileWriter< TInputImage >::InputImageType *
 ImageFileWriter< TInputImage >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< TInputImage * >( this->GetPrimaryInput() );
 }
@@ -373,7 +373,7 @@ ImageFileWriter< TInputImage >
 template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
-::GenerateData(void)
+::GenerateData()
 {
   const InputImageType *input = this->GetInput();
   InputImageRegionType  largestRegion = input->GetLargestPossibleRegion();

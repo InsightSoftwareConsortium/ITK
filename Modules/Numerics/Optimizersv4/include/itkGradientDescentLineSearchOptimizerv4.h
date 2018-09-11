@@ -112,7 +112,7 @@ public:
 protected:
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  void AdvanceOneStep(void) override;
+  void AdvanceOneStep() override;
 
   /** Default constructor */
   GradientDescentLineSearchOptimizerv4Template();

@@ -28,7 +28,7 @@ namespace itk
 template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
-::NextLine(void)
+::NextLine()
 {
   // Move to next line
   this->m_PositionIndex[m_Direction_B]++;
@@ -46,7 +46,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
-::PreviousLine(void)
+::PreviousLine()
 {
   // Move to previous line
   this->m_PositionIndex[m_Direction_B]--;
@@ -64,7 +64,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
-::GoToBeginOfSlice(void)
+::GoToBeginOfSlice()
 {
   // Move to beginning of Slice
   this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];
@@ -78,7 +78,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
-::NextSlice(void)
+::NextSlice()
 {
   // Move to beginning of Slice
   this->m_Position -= m_LineJump
@@ -115,7 +115,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
-::PreviousSlice(void)
+::PreviousSlice()
 {
   // Move to end of Slice
   this->m_PositionIndex[m_Direction_B] = this->m_EndIndex[m_Direction_B] - 1;
@@ -152,7 +152,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtEndOfLine(void)
+::IsAtEndOfLine()
 {
   return this->m_PositionIndex[m_Direction_A] >= this->m_EndIndex[m_Direction_A];
 }
@@ -163,7 +163,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtEndOfSlice(void)
+::IsAtEndOfSlice()
 {
   return this->m_PositionIndex[m_Direction_B] >= this->m_EndIndex[m_Direction_B];
 }
@@ -174,7 +174,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtReverseEndOfLine(void)
+::IsAtReverseEndOfLine()
 {
   return this->m_PositionIndex[m_Direction_A] < this->m_BeginIndex[m_Direction_A];
 }
@@ -185,7 +185,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtReverseEndOfSlice(void)
+::IsAtReverseEndOfSlice()
 {
   return this->m_PositionIndex[m_Direction_B] < this->m_BeginIndex[m_Direction_B];
 }

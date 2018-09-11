@@ -77,7 +77,7 @@ public:
 protected:
   LiThresholdCalculator() {};
   ~LiThresholdCalculator() override {};
-  void GenerateData(void) override;
+  void GenerateData() override;
 };
 
 } // end namespace itk

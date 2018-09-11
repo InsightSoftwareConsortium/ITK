@@ -40,7 +40,7 @@ ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPat
 template< typename TInputChainCodePath, typename TOutputFourierSeriesPath >
 void
 ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
-::GenerateData(void)
+::GenerateData()
 {
   IndexType           index;
   VectorType          indexVector;

@@ -24,7 +24,7 @@ namespace fem
 {
 
 // Overload the CreateAnother() method
-::itk::LightObject::Pointer LoadElement::CreateAnother(void) const
+::itk::LightObject::Pointer LoadElement::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();
@@ -45,7 +45,7 @@ void LoadElement::AddNextElementInternal(const Element *e)
   this->m_Element.push_back(p);
 }
 
-unsigned int LoadElement::GetNumberOfElements(void)
+unsigned int LoadElement::GetNumberOfElements()
 {
   return static_cast<unsigned int>( this->m_Element.size() );
 }

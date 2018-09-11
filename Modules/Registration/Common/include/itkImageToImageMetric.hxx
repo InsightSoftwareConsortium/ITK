@@ -292,7 +292,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize(void)
+::Initialize()
 {
   if ( !m_Transform )
     {
@@ -369,7 +369,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::MultiThreadingInitialize(void)
+::MultiThreadingInitialize()
 {
   this->SetNumberOfWorkUnits(m_NumberOfWorkUnits);
 
@@ -1167,7 +1167,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedPreProcessInitiate(void) const
+::GetValueMultiThreadedPreProcessInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1179,7 +1179,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedInitiate(void) const
+::GetValueMultiThreadedInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1196,7 +1196,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedPostProcessInitiate(void) const
+::GetValueMultiThreadedPostProcessInitiate() const
 {
   m_Threader->SetSingleMethod( GetValueMultiThreadedPostProcess,
                                const_cast< void * >( static_cast< const void * >( &m_ThreaderParameter ) ) );
@@ -1330,7 +1330,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedPreProcessInitiate(void) const
+::GetValueAndDerivativeMultiThreadedPreProcessInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1342,7 +1342,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedInitiate(void) const
+::GetValueAndDerivativeMultiThreadedInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1359,7 +1359,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedPostProcessInitiate(void) const
+::GetValueAndDerivativeMultiThreadedPostProcessInitiate() const
 {
   m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreadedPostProcess,
                                (void *)( &m_ThreaderParameter ) );

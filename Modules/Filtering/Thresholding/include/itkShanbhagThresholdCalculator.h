@@ -69,7 +69,7 @@ public:
 protected:
   ShanbhagThresholdCalculator() {};
   ~ShanbhagThresholdCalculator() override {};
-  void GenerateData(void) override;
+  void GenerateData() override;
 };
 
 } // end namespace itk

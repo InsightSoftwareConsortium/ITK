@@ -56,7 +56,7 @@ MeshFileWriter< TInputMesh >
 template< typename TInputMesh >
 const typename MeshFileWriter< TInputMesh >::InputMeshType *
 MeshFileWriter< TInputMesh >
-::GetInput(void)
+::GetInput()
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
@@ -252,7 +252,7 @@ MeshFileWriter< TInputMesh >
 template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
-::WritePoints(void)
+::WritePoints()
 {
   const InputMeshType *input = this->GetInput();
 
@@ -267,7 +267,7 @@ MeshFileWriter< TInputMesh >
 template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
-::WriteCells(void)
+::WriteCells()
 {
   itkDebugMacro(<< "Writing cells: " << m_FileName);
 
@@ -281,7 +281,7 @@ MeshFileWriter< TInputMesh >
 template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
-::WritePointData(void)
+::WritePointData()
 {
   const InputMeshType *input = this->GetInput();
 
@@ -304,7 +304,7 @@ MeshFileWriter< TInputMesh >
 template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
-::WriteCellData(void)
+::WriteCellData()
 {
   const InputMeshType *input = this->GetInput();
 

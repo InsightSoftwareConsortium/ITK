@@ -44,7 +44,7 @@ FreeSurferBinaryMeshIOFactory
 
 const char *
 FreeSurferBinaryMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -60,7 +60,7 @@ FreeSurferBinaryMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferBinaryMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private(void)
+void ITKIOMesh_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private()
 {
   if( ! FreeSurferBinaryMeshIOFactoryHasBeenRegistered )
     {

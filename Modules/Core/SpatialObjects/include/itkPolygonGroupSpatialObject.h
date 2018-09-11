@@ -102,8 +102,8 @@ public:
                         char *name = nullptr) const override;
 
 protected:
-  PolygonGroupSpatialObject(void) {}
-  ~PolygonGroupSpatialObject(void) override {}
+  PolygonGroupSpatialObject() {}
+  ~PolygonGroupSpatialObject() override {}
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION

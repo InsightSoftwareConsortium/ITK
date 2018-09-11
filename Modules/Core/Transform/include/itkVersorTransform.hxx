@@ -86,7 +86,7 @@ VersorTransform<TParametersValueType>
 template<typename TParametersValueType>
 const typename VersorTransform<TParametersValueType>::ParametersType
 & VersorTransform<TParametersValueType>
-::GetParameters(void) const
+::GetParameters() const
   {
   this->m_Parameters[0] = this->m_Versor.GetRight()[0];
   this->m_Parameters[1] = this->m_Versor.GetRight()[1];
@@ -134,7 +134,7 @@ VersorTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>
-::ComputeMatrix(void)
+::ComputeMatrix()
 {
   this->SetVarMatrix( m_Versor.GetMatrix() );
 }
@@ -143,7 +143,7 @@ VersorTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>
-::ComputeMatrixParameters(void)
+::ComputeMatrixParameters()
 {
   m_Versor.Set( this->GetMatrix() );
 }

@@ -32,7 +32,7 @@
 
 /* Allows testing up to TDimension=4 */
 template< unsigned int TDimension >
-int RunTest( void )
+int RunTest()
  {
  using PixelType = float;
  const   unsigned int                                  Dimensions = TDimension;

@@ -75,7 +75,7 @@ public:
   }
 
   /** Return the number of points in the list */
-  virtual SizeValueType GetNumberOfPoints(void) const
+  virtual SizeValueType GetNumberOfPoints() const
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetNumberOfPoints() is not"
                     << " implemented in the base class" << std::endl);

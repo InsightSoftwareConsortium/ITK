@@ -37,7 +37,7 @@ ImageDuplicator< TInputImage >
 template< typename TInputImage >
 void
 ImageDuplicator< TInputImage >
-::Update(void)
+::Update()
 {
   if ( !m_InputImage )
     {

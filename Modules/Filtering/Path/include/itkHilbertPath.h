@@ -130,7 +130,7 @@ public:
     }
 
   /** Needed for Pipelining */
-  void Initialize( void ) override
+  void Initialize() override
     {
     this->Clear();
     this->ConstructHilbertPath();

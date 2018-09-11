@@ -117,7 +117,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 template< typename TOutputImage, typename TParametersValueType>
 void
 TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   OutputImageType * output = this->GetOutput();
   if ( !output )

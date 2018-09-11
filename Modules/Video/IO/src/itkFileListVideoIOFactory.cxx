@@ -34,7 +34,7 @@ FileListVideoIOFactory::~FileListVideoIOFactory()
 {}
 
 const char *
-FileListVideoIOFactory::GetITKSourceVersion(void) const
+FileListVideoIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +50,7 @@ FileListVideoIOFactory::GetDescription() const
 
 static bool FileListVideoIOFactoryHasBeenRegistered;
 
-void FileListVideoIOFactoryRegister__Private(void)
+void FileListVideoIOFactoryRegister__Private()
 {
   if( ! FileListVideoIOFactoryHasBeenRegistered )
     {

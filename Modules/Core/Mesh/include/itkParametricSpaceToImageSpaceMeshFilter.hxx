@@ -51,7 +51,7 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
-::GenerateData(void)
+::GenerateData()
 {
   using InputPointsContainer = typename TInputMesh::PointsContainer;
   using OutputPointsContainer = typename TOutputMesh::PointsContainer;

@@ -28,7 +28,7 @@ namespace fem
 template <typename TMoving, typename TFixed>
 ::itk::LightObject::Pointer
 ImageMetricLoad<TMoving, TFixed>
-::CreateAnother(void) const
+::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();
@@ -62,7 +62,7 @@ ImageMetricLoad<TMoving, TFixed>
 template <typename TMoving, typename TFixed>
 void
 ImageMetricLoad<TMoving, TFixed>
-::InitializeMetric(void)
+::InitializeMetric()
 {
   if( !m_Transform )
     {

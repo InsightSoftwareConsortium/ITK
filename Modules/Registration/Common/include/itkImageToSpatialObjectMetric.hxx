@@ -38,7 +38,7 @@ ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
 template< typename TFixedImage, typename TMovingSpatialObject >
 unsigned int
 ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
-::GetNumberOfParameters( void ) const
+::GetNumberOfParameters() const
 {
   if ( !m_Transform )
     {
@@ -54,7 +54,7 @@ ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
 template< typename TFixedImage, typename TMovingSpatialObject >
 void
 ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
-::Initialize(void)
+::Initialize()
 {
   if ( !m_Transform )
     {

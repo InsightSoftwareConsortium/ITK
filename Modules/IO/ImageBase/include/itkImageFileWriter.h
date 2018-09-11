@@ -150,7 +150,7 @@ public:
    * is written. */
   void SetIORegion(const ImageIORegion & region);
 
-  const ImageIORegion & GetIORegion(void) const
+  const ImageIORegion & GetIORegion() const
   {
     return m_PasteIORegion;
   }
@@ -200,7 +200,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Does the real work. */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   std::string m_FileName;

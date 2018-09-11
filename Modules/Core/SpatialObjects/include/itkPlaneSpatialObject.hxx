@@ -103,7 +103,7 @@ PlaneSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PlaneSpatialObject< TDimension >
-::ComputeLocalBoundingBox(void) const
+::ComputeLocalBoundingBox() const
 {
   itkDebugMacro("Computing tube bounding box");
 

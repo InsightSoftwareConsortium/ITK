@@ -102,7 +102,7 @@ public:
 protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  void PopulateEdgeIds(void) override;
+  void PopulateEdgeIds() override;
 
 };
 } // end namespace fem

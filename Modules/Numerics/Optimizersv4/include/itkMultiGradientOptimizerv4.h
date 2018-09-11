@@ -102,7 +102,7 @@ public:
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  void StopOptimization(void) override;
+  void StopOptimization() override;
 
   /** Resume the optimization. Can be called after StopOptimization to
    * resume. The bulk of the optimization work loop is here. */

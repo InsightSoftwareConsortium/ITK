@@ -110,7 +110,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro( "StopOptimization called with a description - "
     << this->GetStopConditionDescription() );

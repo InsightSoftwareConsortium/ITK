@@ -167,7 +167,7 @@ public:
   }
 
   /** Get output deformation field. */
-  const DisplacementFieldType * GetDisplacementField(void)
+  const DisplacementFieldType * GetDisplacementField()
   { return this->GetOutput(); }
 
   /** Get the number of valid inputs.  For

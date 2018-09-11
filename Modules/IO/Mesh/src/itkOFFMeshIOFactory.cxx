@@ -44,7 +44,7 @@ OFFMeshIOFactory
 
 const char *
 OFFMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -60,7 +60,7 @@ OFFMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OFFMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT OFFMeshIOFactoryRegister__Private(void)
+void ITKIOMesh_EXPORT OFFMeshIOFactoryRegister__Private()
 {
   if( ! OFFMeshIOFactoryHasBeenRegistered )
     {

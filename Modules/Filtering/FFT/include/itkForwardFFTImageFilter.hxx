@@ -65,7 +65,7 @@ struct DispatchFFTW_Forward_New< TSelfPointer, TInputImage, TOutputImage, float 
 template< typename TInputImage, typename TOutputImage >
 typename ForwardFFTImageFilter< TInputImage, TOutputImage >::Pointer
 ForwardFFTImageFilter< TInputImage, TOutputImage >
-::New(void)
+::New()
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
 

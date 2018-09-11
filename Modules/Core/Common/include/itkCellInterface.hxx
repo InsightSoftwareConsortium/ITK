@@ -28,7 +28,7 @@ namespace itk
 template< typename TPixelType, typename TCellTraits >
 unsigned int
 CellInterface< TPixelType, TCellTraits >
-::GetInterpolationOrder(void) const
+::GetInterpolationOrder() const
 {
   return 1;
 }
@@ -41,7 +41,7 @@ CellInterface< TPixelType, TCellTraits >
 template< typename TPixelType, typename TCellTraits >
 typename CellInterface< TPixelType, TCellTraits >::PointIdConstIterator
 CellInterface< TPixelType, TCellTraits >
-::GetPointIds(void) const
+::GetPointIds() const
 {
   return this->PointIdsBegin();
 }
@@ -87,7 +87,7 @@ CellInterface< TPixelType, TCellTraits >
 template< typename TPixelType, typename TCellTraits >
 bool
 CellInterface< TPixelType, TCellTraits >
-::IsExplicitBoundary(void)
+::IsExplicitBoundary()
 {
   return !m_UsingCells.empty();
 }
@@ -134,7 +134,7 @@ CellInterface< TPixelType, TCellTraits >
 template< typename TPixelType, typename TCellTraits >
 unsigned int
 CellInterface< TPixelType, TCellTraits >
-::GetNumberOfUsingCells(void)
+::GetNumberOfUsingCells()
 {
   return static_cast< unsigned int >( m_UsingCells.size() );
 }
@@ -147,7 +147,7 @@ CellInterface< TPixelType, TCellTraits >
 template< typename TPixelType, typename TCellTraits >
 typename CellInterface< TPixelType, TCellTraits >::UsingCellsContainerIterator
 CellInterface< TPixelType, TCellTraits >
-::UsingCellsBegin(void)
+::UsingCellsBegin()
 {
   return m_UsingCells.begin();
 }
@@ -158,7 +158,7 @@ CellInterface< TPixelType, TCellTraits >
 template< typename TPixelType, typename TCellTraits >
 typename CellInterface< TPixelType, TCellTraits >::UsingCellsContainerIterator
 CellInterface< TPixelType, TCellTraits >
-::UsingCellsEnd(void)
+::UsingCellsEnd()
 {
   return m_UsingCells.end();
 }

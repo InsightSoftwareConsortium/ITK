@@ -152,7 +152,7 @@ ImageSource< TOutputImage >
 template< typename TOutputImage >
 const ImageRegionSplitterBase*
 ImageSource< TOutputImage >
-::GetImageRegionSplitter(void) const
+::GetImageRegionSplitter() const
 {
   return this->GetGlobalDefaultSplitter();
 }

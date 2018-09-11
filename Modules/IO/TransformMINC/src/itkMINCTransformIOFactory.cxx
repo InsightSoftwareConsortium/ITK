@@ -46,7 +46,7 @@ MINCTransformIOFactory::~MINCTransformIOFactory()
 {}
 
 const char *
-MINCTransformIOFactory::GetITKSourceVersion(void) const
+MINCTransformIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -62,7 +62,7 @@ MINCTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool MINCTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformMINC_EXPORT MINCTransformIOFactoryRegister__Private(void)
+void ITKIOTransformMINC_EXPORT MINCTransformIOFactoryRegister__Private()
 {
   if( ! MINCTransformIOFactoryHasBeenRegistered )
     {

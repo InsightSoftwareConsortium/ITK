@@ -144,7 +144,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::OffsetValueType *
 ImageAdaptor< TImage, TAccessor >
-::GetOffsetTable(void) const
+::GetOffsetTable() const
 {
   return m_Image->GetOffsetTable();
 }
@@ -247,7 +247,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::SpacingType &
 ImageAdaptor< TImage, TAccessor >
-::GetSpacing(void) const
+::GetSpacing() const
 {
   return m_Image->GetSpacing();
 }
@@ -316,7 +316,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::PointType &
 ImageAdaptor< TImage, TAccessor >
-::GetOrigin(void) const
+::GetOrigin() const
 {
   return m_Image->GetOrigin();
 }
@@ -335,7 +335,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::DirectionType &
 ImageAdaptor< TImage, TAccessor >
-::GetDirection(void) const
+::GetDirection() const
 {
   return m_Image->GetDirection();
 }
@@ -414,7 +414,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::RegionType &
 ImageAdaptor< TImage, TAccessor >
-::GetBufferedRegion(void) const
+::GetBufferedRegion() const
 {
   // delegation to internal image
   return m_Image->GetBufferedRegion();
@@ -437,7 +437,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::RegionType &
 ImageAdaptor< TImage, TAccessor >
-::GetLargestPossibleRegion(void) const
+::GetLargestPossibleRegion() const
 {
   // delegation to internal image
   return m_Image->GetLargestPossibleRegion();
@@ -486,7 +486,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::RegionType &
 ImageAdaptor< TImage, TAccessor >
-::GetRequestedRegion(void) const
+::GetRequestedRegion() const
 {
   // delegation to internal image
   return m_Image->GetRequestedRegion();

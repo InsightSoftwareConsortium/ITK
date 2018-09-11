@@ -177,7 +177,7 @@ protected:
   void GenerateData() override;
 
   /** Run the solver and produce a warped FEM object. */
-  void RunSolver(void) override;
+  void RunSolver() override;
 
   /** Initialize matrix, vector, solution, interpolation grid, and landmark. */
   void Initialization();

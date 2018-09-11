@@ -176,7 +176,7 @@ public:
 
     /** Method for creation through the object factory.   */
     //itkNewMacro(Self);
-    static Pointer New(void) { Pointer smartPtr = new Self; smartPtr->UnRegister(); return smartPtr; }
+    static Pointer New() { Pointer smartPtr = new Self; smartPtr->UnRegister(); return smartPtr; }
 
     /** Run-time type information (and related methods).   */
     itkTypeMacro(MultiVisitor, LightObject);
@@ -232,20 +232,20 @@ protected:
 
   /**  Return the type of the cell (one of the CellGeometry enums
    *   listed above). */
-  virtual CellGeometry GetType(void) const = 0;
+  virtual CellGeometry GetType() const = 0;
 
   /** Create a new copy of this cell.  This is provided so that a copy can
    * be made without knowing the cell type. */
   virtual void MakeCopy(CellAutoPointer &) const = 0;
 
   /** Get the topological dimension of this cell. */
-  virtual unsigned int GetDimension(void) const = 0;
+  virtual unsigned int GetDimension() const = 0;
 
   /** Get the interpolation order of the cell.  Usually linear. */
   virtual unsigned int GetInterpolationOrder() const;
 
   /** Get the number of points required to define the cell. */
-  virtual unsigned int GetNumberOfPoints(void) const = 0;
+  virtual unsigned int GetNumberOfPoints() const = 0;
 
   /** Get the number of boundary features of a given dimension on this cell. */
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const = 0;
@@ -276,18 +276,18 @@ protected:
   virtual void SetPointId(int localId, PointIdentifier) = 0;
 
   /** Get a begin iterator to the list of point identifiers used by the cell. */
-  virtual PointIdIterator PointIdsBegin(void) = 0;
+  virtual PointIdIterator PointIdsBegin() = 0;
 
   /** Get a const begin iterator to the list of point identifiers used
    * by the cell. */
-  virtual PointIdConstIterator PointIdsBegin(void) const = 0;
+  virtual PointIdConstIterator PointIdsBegin() const = 0;
 
   /** Get an end iterator to the list of point identifiers used by the cell. */
-  virtual PointIdIterator PointIdsEnd(void) = 0;
+  virtual PointIdIterator PointIdsEnd() = 0;
 
   /** Get a const end iterator to the list of point identifiers used
    * by the cell. */
-  virtual PointIdConstIterator PointIdsEnd(void) const = 0;
+  virtual PointIdConstIterator PointIdsEnd() const = 0;
 
   /** Get/Set the point id list used by the cell */
   using PointIdentifierContainerType = itk::Array<PointIdentifier>;
@@ -361,7 +361,7 @@ protected:
   CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return nullptr; }
 
   /** Compute the square of the diagonal length of the bounding box. */
-  CoordRepType GetBoundingBoxDiagonalLength2(void) { return NumericTraits< CoordRepType >::ZeroValue(); }
+  CoordRepType GetBoundingBoxDiagonalLength2() { return NumericTraits< CoordRepType >::ZeroValue(); }
 
   /** Intersect the given bounding box (bounds[PointDimension*2]) with a line
    * given by an origin (origin[PointDimension]) and direction

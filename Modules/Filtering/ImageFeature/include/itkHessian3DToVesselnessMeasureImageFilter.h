@@ -134,7 +134,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   typename EigenAnalysisFilterType::Pointer m_SymmetricEigenValueFilter;

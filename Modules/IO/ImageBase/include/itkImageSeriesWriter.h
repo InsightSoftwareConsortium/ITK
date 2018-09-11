@@ -205,7 +205,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Does the real work. */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   /** Transition method used for DEPRECATING old functionality.
    *  This method should be removed after release ITK 1.8 */

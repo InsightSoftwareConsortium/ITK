@@ -51,7 +51,7 @@ public:
   itkTypeMacro(DCMTKImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     DCMTKImageIOFactory::Pointer DCMTKFactory = DCMTKImageIOFactory::New();
 

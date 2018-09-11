@@ -25,7 +25,7 @@
 #include "itkTestingMacros.h"
 
 namespace {
-bool ExtractImageInPlaceTest( void )
+bool ExtractImageInPlaceTest()
 {
   // This is to test the InPlace option
   using ImageType = itk::Image< float, 3 >;

@@ -80,13 +80,13 @@ public:
   itkCellVisitMacro(Superclass::POLYGON_CELL);
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType(void) const override
+  CellGeometry GetType() const override
   { return Superclass::POLYGON_CELL; }
   void MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension(void) const override;
+  unsigned int GetDimension() const override;
 
-  unsigned int GetNumberOfPoints(void) const override;
+  unsigned int GetNumberOfPoints() const override;
 
   CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
@@ -106,13 +106,13 @@ public:
   void ClearPoints();
 
   void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin(void) override;
+  PointIdIterator      PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin(void) const override;
+  PointIdConstIterator PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd(void) override;
+  PointIdIterator      PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd(void) const override;
+  PointIdConstIterator PointIdsEnd() const override;
 
   /** Polygon-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;

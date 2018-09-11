@@ -51,7 +51,7 @@ public:
   itkTypeMacro(VXLVideoIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     VXLVideoIOFactory::Pointer VXLFactory = VXLVideoIOFactory::New();
 

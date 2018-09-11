@@ -23,7 +23,7 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method
-::itk::LightObject::Pointer MaterialLinearElasticity::CreateAnother(void) const
+::itk::LightObject::Pointer MaterialLinearElasticity::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();

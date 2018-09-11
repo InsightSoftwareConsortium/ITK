@@ -862,7 +862,7 @@ bool NrrdImageIO::CanWriteFile(const char *name)
   return false;
 }
 
-void NrrdImageIO::WriteImageInformation(void)
+void NrrdImageIO::WriteImageInformation()
 {
   // Nothing needs doing here.
 }

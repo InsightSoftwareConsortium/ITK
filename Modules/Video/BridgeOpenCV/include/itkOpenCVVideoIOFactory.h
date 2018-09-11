@@ -52,7 +52,7 @@ public:
   itkTypeMacro(OpenCVVideoIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     OpenCVVideoIOFactory::Pointer OpenCVFactory = OpenCVVideoIOFactory::New();
 

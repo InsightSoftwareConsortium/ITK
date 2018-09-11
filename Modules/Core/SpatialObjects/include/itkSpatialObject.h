@@ -125,7 +125,7 @@ public:
   virtual bool HasParent() const;
 
   /** Get the typename of the SpatialObject */
-  virtual const char * GetTypeName(void) const { return m_TypeName.c_str(); }
+  virtual const char * GetTypeName() const { return m_TypeName.c_str(); }
 
   /** Dimension of the object.  This constant is used by functions that are
    * templated over SpatialObject type when they need compile time access
@@ -133,7 +133,7 @@ public:
   static constexpr unsigned int ObjectDimension = VDimension;
 
   /** Get the dimensionality of the object */
-  unsigned int GetObjectDimension(void) const { return VDimension; }
+  unsigned int GetObjectDimension() const { return VDimension; }
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -204,11 +204,11 @@ public:
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
   /** Returns the latest modified time of the spatial object, but not
    *  the modification time of the children */
-  ModifiedTimeType GetObjectMTime(void) const
+  ModifiedTimeType GetObjectMTime() const
   {
     return Superclass::GetMTime();
   }
@@ -357,7 +357,7 @@ public:
   /** Returns a pointer to the property object applied to this class. */
   PropertyType * GetProperty();
 
-  const PropertyType * GetProperty(void) const { return m_Property; }
+  const PropertyType * GetProperty() const { return m_Property; }
 
   /** Set the property applied to the object. */
   void SetProperty(PropertyType *property);
@@ -371,7 +371,7 @@ public:
   itkGetConstReferenceMacro(ParentId, int);
 
   /** Specify that the object has been updated */
-  void Update(void) override;
+  void Update() override;
 
   /** Set the tree container */
   itkSetObjectMacro(TreeNode, TreeNodeType)
@@ -399,11 +399,11 @@ public:
    */
   const TransformType * GetIndexToObjectTransform() const;
 
-  TransformType * GetModifiableIndexToObjectTransform(void)
+  TransformType * GetModifiableIndexToObjectTransform()
     {
     return m_AffineGeometryFrame->GetModifiableIndexToObjectTransform();
     }
-  TransformType * GetIndexToObjectTransform(void)
+  TransformType * GetIndexToObjectTransform()
     {
     return m_AffineGeometryFrame->GetModifiableIndexToObjectTransform();
     }

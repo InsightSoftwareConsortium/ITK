@@ -435,9 +435,9 @@ public:
   /** UseFixedSampledPointSet is deprecated and has been replaced
   * with UseSampledPointsSet. */
   itkLegacyMacro( virtual void SetUseFixedSampledPointSet(bool v) ) { this->SetUseSampledPointSet(v);}
-  itkLegacyMacro( virtual bool GetUseFixedSampledPointSet(void) const ) {return this->GetUseSampledPointSet();}
-  itkLegacyMacro( virtual void UseFixedSampledPointSetOn(void) ) {return this->UseSampledPointSetOn();}
-  itkLegacyMacro( virtual void UseFixedSampledPointSetOff(void) ) {return this->UseSampledPointSetOff();}
+  itkLegacyMacro( virtual bool GetUseFixedSampledPointSet() const ) {return this->GetUseSampledPointSet();}
+  itkLegacyMacro( virtual void UseFixedSampledPointSetOn() ) {return this->UseSampledPointSetOn();}
+  itkLegacyMacro( virtual void UseFixedSampledPointSetOff() ) {return this->UseSampledPointSetOff();}
 #endif
 
 
@@ -562,7 +562,7 @@ public:
    * before entering the registration loop, during which GetValue or
    * GetDerivative will be called repeatedly. It must be called again if
    * metric settings are changed before beginning a new registration. */
-  void Initialize(void) override;
+  void Initialize() override;
 
   MeasureType GetValue() const override;
 
@@ -580,7 +580,7 @@ public:
    * For informational purposes. */
   itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
 
-  bool SupportsArbitraryVirtualDomainSamples( void ) const override
+  bool SupportsArbitraryVirtualDomainSamples() const override
   {
     return true;
   }

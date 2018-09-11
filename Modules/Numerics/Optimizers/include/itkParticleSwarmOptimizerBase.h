@@ -115,7 +115,7 @@ public:
   itkBooleanMacro( PrintSwarm )
 
   /** Start optimization. */
-  void StartOptimization( void ) override;
+  void StartOptimization() override;
 
 
   /** Set/Get number of particles in the swarm - the maximal number of function

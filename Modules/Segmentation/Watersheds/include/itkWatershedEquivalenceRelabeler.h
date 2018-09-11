@@ -75,7 +75,7 @@ public:
   /** Set/Get the image to relabel.   */
   void SetInputImage(ImageType *img)
   { this->ProcessObject::SetNthInput(0, img); }
-  const ImageType * GetInputImage(void)
+  const ImageType * GetInputImage()
   {
     return static_cast< ImageType * >
            ( this->ProcessObject::GetInput(0) );

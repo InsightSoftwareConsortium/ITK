@@ -284,7 +284,7 @@ public:
   void AfterThreadedGenerateData() override;
 
   /** Compute the Modified Time based on the changed components. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

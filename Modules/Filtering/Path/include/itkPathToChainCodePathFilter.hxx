@@ -34,7 +34,7 @@ PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
 template< typename TInputPath, typename TOutputChainCodePath >
 void
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::GenerateData(void)
+::GenerateData()
 {
   OffsetType offset;
   OffsetType tempOffset;

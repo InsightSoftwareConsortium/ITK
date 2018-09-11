@@ -176,7 +176,7 @@ public:
    * \sa NextLine
    * \sa IsAtEndOfLine
    */
-  void GoToBeginOfLine(void)
+  void GoToBeginOfLine()
   {
     this->m_Offset = m_SpanBeginOffset;
   }
@@ -189,14 +189,14 @@ public:
    * \sa NextLine
    * \sa IsAtEndOfLine
    */
-  void GoToEndOfLine(void)
+  void GoToEndOfLine()
   {
     this->m_Offset = m_SpanEndOffset;
   }
 
   /** Test if the index is at the end of line
    */
-  inline bool IsAtEndOfLine(void)
+  inline bool IsAtEndOfLine()
   {
     return this->m_Offset >= m_SpanEndOffset;
   }
@@ -223,7 +223,7 @@ public:
    * \sa operator++
    * \sa IsAtEndOfLine
    */
-  inline void NextLine(void)
+  inline void NextLine()
   {
     this->Increment();
   };

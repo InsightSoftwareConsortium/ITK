@@ -59,7 +59,7 @@ ImageRandomConstIteratorWithIndex< TImage >
 template< typename TImage >
 typename ImageRandomConstIteratorWithIndex< TImage >::SizeValueType
 ImageRandomConstIteratorWithIndex< TImage >
-::GetNumberOfSamples(void) const
+::GetNumberOfSamples() const
 {
   return m_NumberOfSamplesRequested;
 }

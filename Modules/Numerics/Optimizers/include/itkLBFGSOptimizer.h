@@ -110,7 +110,7 @@ public:
   vnl_lbfgs * GetOptimizer();
 
   /** Start optimization with an initial value. */
-  void StartOptimization(void) override;
+  void StartOptimization() override;
 
   /** Plug in a Cost Function into the optimizer  */
   void SetCostFunction(SingleValuedCostFunction *costFunction) override;

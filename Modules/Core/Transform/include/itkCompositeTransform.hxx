@@ -907,7 +907,7 @@ CompositeTransform<TParametersValueType, NDimensions>
 template<typename TParametersValueType, unsigned int NDimensions>
 typename CompositeTransform<TParametersValueType, NDimensions>::NumberOfParametersType
 CompositeTransform<TParametersValueType, NDimensions>
-::GetNumberOfParameters(void) const
+::GetNumberOfParameters() const
 {
   /* Returns to total number of params in all transforms currently
    * set to be used for optimized.

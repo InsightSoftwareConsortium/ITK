@@ -32,7 +32,7 @@ public:
   void SetValue(float val) { m_Value = val; }
 
 protected:
-  void M_SetupReadFields(void) override
+  void M_SetupReadFields() override
     {
       MetaObject::M_SetupReadFields();
       auto * mf = new MET_FieldRecordType;
@@ -40,7 +40,7 @@ protected:
       mf->terminateRead = false;
       m_Fields.push_back(mf);
     }
-  void M_SetupWriteFields(void) override
+  void M_SetupWriteFields() override
     {
       strcpy(m_ObjectTypeName,"Dummy");
       MetaObject::M_SetupWriteFields();
@@ -49,7 +49,7 @@ protected:
       MET_InitWriteField(mf, "Value", MET_FLOAT, m_Value);
       m_Fields.push_back(mf);
     }
-  bool M_Read(void) override
+  bool M_Read() override
     {
       if(!MetaObject::M_Read())
         {

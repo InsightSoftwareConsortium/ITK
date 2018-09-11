@@ -73,7 +73,7 @@ public:
   }
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const
+  const MovingImageType * GetMovingImage() const
   {
     return m_MovingImage;
   }
@@ -85,7 +85,7 @@ public:
   }
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const
+  const FixedImageType * GetFixedImage() const
   {
     return m_FixedImage;
   }
@@ -98,7 +98,7 @@ public:
 
   /** Get the deformation field. This function should have been
    *  declared const. It is not for backward compatibility reasons. */
-  DisplacementFieldType * GetDisplacementField(void)
+  DisplacementFieldType * GetDisplacementField()
   {
     return m_DisplacementField;
   }

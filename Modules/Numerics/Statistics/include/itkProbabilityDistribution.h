@@ -148,8 +148,8 @@ public:
   virtual double GetVariance() const = 0;
 
 protected:
-  ProbabilityDistribution(void);
-  ~ProbabilityDistribution(void) override;
+  ProbabilityDistribution();
+  ~ProbabilityDistribution() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   ParametersType m_Parameters;

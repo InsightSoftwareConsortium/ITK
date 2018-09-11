@@ -116,7 +116,7 @@ void VTKImageExport< TInputImage >::SetInput(const InputImageType *input)
  */
 template< typename TInputImage >
 typename VTKImageExport< TInputImage >::InputImageType *
-VTKImageExport< TInputImage >::GetInput(void)
+VTKImageExport< TInputImage >::GetInput()
 {
   return itkDynamicCastInDebugMode< TInputImage * >( this->ProcessObject::GetInput(0) );
 }

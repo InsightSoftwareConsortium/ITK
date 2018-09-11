@@ -259,11 +259,11 @@ public:
   virtual void Graft(const Self *data);
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor(void)
+  AccessorType GetPixelAccessor()
   { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor(void) const
+  const AccessorType GetPixelAccessor() const
   { return AccessorType(); }
 
   /** Return the NeighborhoodAccessor functor */

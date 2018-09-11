@@ -40,7 +40,7 @@ QuadraticEdgeCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 QuadraticEdgeCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -52,7 +52,7 @@ QuadraticEdgeCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 QuadraticEdgeCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -165,7 +165,7 @@ QuadraticEdgeCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticEdgeCell< TCellInterface >::PointIdIterator
 QuadraticEdgeCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -178,7 +178,7 @@ QuadraticEdgeCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticEdgeCell< TCellInterface >::PointIdConstIterator
 QuadraticEdgeCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -190,7 +190,7 @@ QuadraticEdgeCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticEdgeCell< TCellInterface >::PointIdIterator
 QuadraticEdgeCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -203,7 +203,7 @@ QuadraticEdgeCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticEdgeCell< TCellInterface >::PointIdConstIterator
 QuadraticEdgeCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -215,7 +215,7 @@ QuadraticEdgeCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticEdgeCell< TCellInterface >::CellFeatureCount
 QuadraticEdgeCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return Self::NumberOfVertices;
 }

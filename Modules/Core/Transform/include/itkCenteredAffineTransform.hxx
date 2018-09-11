@@ -41,7 +41,7 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::
 template<typename TParametersValueType, unsigned int NDimensions>
 const typename CenteredAffineTransform<TParametersValueType,
                                        NDimensions>::ParametersType
-& CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters(void) const
+& CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters() const
   {
   // Transfer the linear part
   unsigned int par = 0;

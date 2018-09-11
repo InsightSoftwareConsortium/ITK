@@ -64,7 +64,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize(void)
+::Initialize()
 {
   unsigned int iFilter;  // Index of Sobel filters for each dimension
 
@@ -156,7 +156,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::ComputeMovedGradientRange(void) const
+::ComputeMovedGradientRange() const
 {
   unsigned int           iDimension;
   MovedGradientPixelType gradient;
@@ -198,7 +198,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::ComputeVariance(void) const
+::ComputeVariance() const
 {
   unsigned int           iDimension;
   SizeValueType          nPixels;

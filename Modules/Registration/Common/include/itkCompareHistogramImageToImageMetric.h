@@ -124,7 +124,7 @@ public:
   itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   { return this->GetTransform()->GetNumberOfParameters(); }
 
   /** Forms the histogram of the training images to prepare to evaluate the

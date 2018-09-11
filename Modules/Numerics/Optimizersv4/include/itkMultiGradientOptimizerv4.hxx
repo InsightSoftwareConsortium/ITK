@@ -99,7 +99,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro( "StopOptimization called with a description - "
                 << this->GetStopConditionDescription() );

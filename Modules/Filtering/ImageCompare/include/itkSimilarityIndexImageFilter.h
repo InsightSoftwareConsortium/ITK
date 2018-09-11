@@ -104,7 +104,7 @@ public:
   void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1(void)
+  const InputImage1Type * GetInput1()
   { return this->GetInput(); }
 
   /** Get the secong input. */

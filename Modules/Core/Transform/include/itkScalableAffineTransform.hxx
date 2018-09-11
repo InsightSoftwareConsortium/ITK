@@ -113,7 +113,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 ScalableAffineTransform<TParametersValueType, NDimensions>
-::SetIdentity(void)
+::SetIdentity()
 {
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {

@@ -113,7 +113,7 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  void Initialize(void) override
+  void Initialize() override
   {
     m_VertexList->Initialize();
   }

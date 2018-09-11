@@ -35,7 +35,7 @@ template <typename UComponentType>
 typename DisableIfC<
   NumericTraits< UComponentType >::IsInteger, UComponentType>::Type
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
-::DefaultAlphaValue( void )
+::DefaultAlphaValue()
 {
   return NumericTraits<UComponentType>::One;
 }
@@ -48,7 +48,7 @@ template <typename UComponentType>
 typename EnableIfC<
   NumericTraits< UComponentType >::IsInteger, UComponentType>::Type
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
-::DefaultAlphaValue( void )
+::DefaultAlphaValue()
 {
   return NumericTraits<UComponentType>::max();
 }

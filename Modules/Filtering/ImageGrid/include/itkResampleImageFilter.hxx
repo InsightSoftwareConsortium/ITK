@@ -524,7 +524,7 @@ template< typename TInputImage,
           typename TTransformPrecisionType >
 ModifiedTimeType
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
