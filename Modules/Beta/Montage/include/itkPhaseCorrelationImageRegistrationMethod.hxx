@@ -21,6 +21,7 @@
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
+#include <algorithm>
 
 #ifndef NDEBUG
 #include "itkImageFileWriter.h"
@@ -213,7 +214,8 @@ typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::Siz
 PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
 ::RoundUpToFFTSize(typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::SizeType size)
 {
-  const SizeValueType sizeGreatestPrimeFactor = m_FixedFFT->GetSizeGreatestPrimeFactor();
+  //FFTs are faster when image size can be factorized using smaller prime numbers
+  const auto sizeGreatestPrimeFactor = std::min< SizeValueType >(7, m_FixedFFT->GetSizeGreatestPrimeFactor() );
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
     {
