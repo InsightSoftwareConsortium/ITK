@@ -326,11 +326,19 @@ protected:
   virtual void LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
   /** Cast pixel from interpolator output to PixelType. */
+  itkLegacyMacro(
   virtual PixelType CastPixelWithBoundsChecking( const InterpolatorOutputType value,
                                                  const ComponentType minComponent,
-                                                 const ComponentType maxComponent) const;
+                                                 const ComponentType maxComponent) const);
 
 private:
+  static PixelComponentType CastComponentWithBoundsChecking(const ComponentType value);
+
+  static PixelType CastPixelWithBoundsChecking(const ComponentType value);
+
+  template <typename TPixel>
+  static PixelType CastPixelWithBoundsChecking(const TPixel value);
+
   SizeType                m_Size;         // Size of the output image
   InterpolatorPointerType m_Interpolator; // Image function for
                                           // interpolation
