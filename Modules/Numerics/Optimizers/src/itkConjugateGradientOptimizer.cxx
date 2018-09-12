@@ -46,7 +46,7 @@ ConjugateGradientOptimizer
  */
 vnl_conjugate_gradient *
 ConjugateGradientOptimizer
-::GetOptimizer(void)
+::GetOptimizer()
 {
   return m_VnlOptimizer;
 }
@@ -99,7 +99,7 @@ ConjugateGradientOptimizer
  */
 void
 ConjugateGradientOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   this->InvokeEvent( StartEvent() );
 
@@ -153,7 +153,7 @@ ConjugateGradientOptimizer
  */
 SizeValueType
 ConjugateGradientOptimizer
-::GetNumberOfIterations(void) const
+::GetNumberOfIterations() const
 {
   return m_VnlOptimizer->get_max_function_evals();
 }
@@ -163,7 +163,7 @@ ConjugateGradientOptimizer
  */
 SizeValueType
 ConjugateGradientOptimizer
-::GetCurrentIteration(void) const
+::GetCurrentIteration() const
 {
   return m_VnlOptimizer->get_num_iterations();
 }

@@ -104,7 +104,7 @@ public:
   static constexpr ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
   static constexpr ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
-  void Initialize(void) override;
+  void Initialize() override;
 
   /** Accessors for the image intensity difference threshold use
    *  in derivative calculation */

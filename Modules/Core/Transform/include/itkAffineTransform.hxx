@@ -325,7 +325,7 @@ AffineTransform<TParametersValueType, NDimensions>
 template<typename TParametersValueType, unsigned int NDimensions>
 typename AffineTransform<TParametersValueType, NDimensions>::ScalarType
 AffineTransform<TParametersValueType, NDimensions>
-::Metric(void) const
+::Metric() const
 {
   ScalarType result = 0.0, term;
 

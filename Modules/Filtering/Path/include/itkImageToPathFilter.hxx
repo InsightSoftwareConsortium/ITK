@@ -75,7 +75,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 template< typename TInputImage, typename TOutputPath >
 const typename ImageToPathFilter< TInputImage, TOutputPath >::InputImageType *
 ImageToPathFilter< TInputImage, TOutputPath >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }

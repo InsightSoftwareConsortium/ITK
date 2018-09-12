@@ -40,7 +40,7 @@ MinimumMaximumImageCalculator< TInputImage >
 template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
-::Compute(void)
+::Compute()
 {
   if ( !m_RegionSetByUser )
     {
@@ -71,7 +71,7 @@ MinimumMaximumImageCalculator< TInputImage >
 template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
-::ComputeMinimum(void)
+::ComputeMinimum()
 {
   if ( !m_RegionSetByUser )
     {
@@ -95,7 +95,7 @@ MinimumMaximumImageCalculator< TInputImage >
 template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
-::ComputeMaximum(void)
+::ComputeMaximum()
 {
   if ( !m_RegionSetByUser )
     {

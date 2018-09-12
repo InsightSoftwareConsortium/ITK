@@ -109,7 +109,7 @@ public:
   }
 
   /** Get the container of auxiliary values at the initial alive points. */
-  AuxValueContainer * GetAuxiliaryAliveValues(void)
+  AuxValueContainer * GetAuxiliaryAliveValues()
   {
     return m_AuxAliveValues.GetPointer();
   }

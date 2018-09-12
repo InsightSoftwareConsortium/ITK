@@ -64,7 +64,7 @@ public:
   itkGetMacro(NumberOfIterations, unsigned int);
 
   /** Returns the time step used for dynamic problems. */
-  Float GetTimeStep(void) const override
+  Float GetTimeStep() const override
   {
     return this->m_TimeStep;
   }
@@ -85,7 +85,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Initialize the linear system wrapper. */
-  void InitializeLinearSystemWrapper(void) override;
+  void InitializeLinearSystemWrapper() override;
 
   /**
    * When assembling the element matrix into master matrix, we
@@ -100,7 +100,7 @@ protected:
    * Combine the M, C and K matrices into one big system of linear
    * equations.
    */
-  void FinalizeMatrixAfterAssembly( void ) override;
+  void FinalizeMatrixAfterAssembly() override;
 
 
   /** Method invoked by the pipeline in order to trigger the computation. */
@@ -108,7 +108,7 @@ protected:
 
   /** Solve for the displacement vector u at a given time.
   * Update the total solution as well. */
-  void RunSolver(void) override;
+  void RunSolver() override;
 
   /** Solve for the displacement vector u for one iteration. */
   void Solve();

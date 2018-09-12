@@ -151,10 +151,10 @@ public:
                                      DerivativeType  & Derivative) const override = 0;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters( void ) const override;
+  unsigned int GetNumberOfParameters() const override;
 
   /** Initialize the metric */
-  virtual void Initialize(void);
+  virtual void Initialize();
 
   /** Get the last transformation parameters visited by
    * the optimizer. This function overload the superclass's one */

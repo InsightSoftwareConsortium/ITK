@@ -23,7 +23,7 @@ namespace itk
 
 
 ParticleSwarmOptimizerBase
-::ParticleSwarmOptimizerBase(void):
+::ParticleSwarmOptimizerBase():
   m_FunctionBestValue(0),
   m_IterationIndex(0)
 {
@@ -231,7 +231,7 @@ ParticleSwarmOptimizerBase
 
 void
 ParticleSwarmOptimizerBase
-::StartOptimization( void )
+::StartOptimization()
 {
   unsigned int j, k, n, index, prevIndex;
   bool converged = false;

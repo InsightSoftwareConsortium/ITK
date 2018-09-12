@@ -37,7 +37,7 @@ HDF5ImageIOFactory::~HDF5ImageIOFactory()
 {}
 
 const char *
-HDF5ImageIOFactory::GetITKSourceVersion(void) const
+HDF5ImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -53,7 +53,7 @@ HDF5ImageIOFactory::GetDescription() const
 
 static bool HDF5ImageIOFactoryHasBeenRegistered;
 
-void ITKIOHDF5_EXPORT HDF5ImageIOFactoryRegister__Private(void)
+void ITKIOHDF5_EXPORT HDF5ImageIOFactoryRegister__Private()
 {
   if( ! HDF5ImageIOFactoryHasBeenRegistered )
     {

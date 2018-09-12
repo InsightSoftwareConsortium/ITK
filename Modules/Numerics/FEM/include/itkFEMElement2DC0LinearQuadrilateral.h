@@ -104,7 +104,7 @@ public:
   Float Determinant2x2(const VectorType & c1, const VectorType & c2) const;
 
 protected:
-  void PopulateEdgeIds(void) override;
+  void PopulateEdgeIds() override;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

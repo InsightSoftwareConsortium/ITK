@@ -40,7 +40,7 @@ SolverHyperbolic<VDimension>
 template <unsigned int VDimension>
 void
 SolverHyperbolic<VDimension>
-::InitializeLinearSystemWrapper(void)
+::InitializeLinearSystemWrapper()
 {
   // Set the maximum number of matrices and vectors that
   // we will need to store inside.
@@ -114,7 +114,7 @@ SolverHyperbolic<VDimension>
 template <unsigned int VDimension>
 void
 SolverHyperbolic<VDimension>
-::FinalizeMatrixAfterAssembly( void )
+::FinalizeMatrixAfterAssembly()
 {
   // Apply the boundary conditions to the matrix
   // FIXME: this doesn't work in general

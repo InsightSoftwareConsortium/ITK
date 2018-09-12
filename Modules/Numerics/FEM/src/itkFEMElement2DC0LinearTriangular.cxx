@@ -228,7 +228,7 @@ Element2DC0LinearTriangular
   delete pJlocal;
 }
 
-void Element2DC0LinearTriangular::PopulateEdgeIds(void)
+void Element2DC0LinearTriangular::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 

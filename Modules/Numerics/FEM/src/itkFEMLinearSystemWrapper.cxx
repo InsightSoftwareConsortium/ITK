@@ -25,7 +25,7 @@ namespace fem
 
 LinearSystemWrapper::~LinearSystemWrapper() {}
 
-void LinearSystemWrapper::Clean(void)
+void LinearSystemWrapper::Clean()
 {
   unsigned int i;
 

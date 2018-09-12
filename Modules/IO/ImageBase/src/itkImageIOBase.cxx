@@ -919,7 +919,7 @@ ImageRegionSplitterBase::Pointer ioDefaultSplitter;
 }
 
 const ImageRegionSplitterBase*
-ImageIOBase::GetImageRegionSplitter(void) const
+ImageIOBase::GetImageRegionSplitter() const
 {
   if ( ioDefaultSplitter.IsNull() )
     {

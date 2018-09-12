@@ -70,7 +70,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  static Pointer New(void);
+  static Pointer New();
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiThreaderBase, Object);

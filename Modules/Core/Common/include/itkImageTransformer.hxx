@@ -78,7 +78,7 @@ ImageTransformer< TInputImage >
 template< typename TInputImage >
 const typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
-::GetInput(void) const
+::GetInput() const
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
@@ -95,7 +95,7 @@ ImageTransformer< TInputImage >
 template< typename TInputImage >
 typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
-::GetInput(void)
+::GetInput()
 {
   if ( this->GetNumberOfInputs() < 1 )
     {

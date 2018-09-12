@@ -39,7 +39,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::ClassifyDiagram(void)
+::ClassifyDiagram()
 {
   PointIdIterator currPit;
   PointIdIterator currPitEnd;
@@ -77,7 +77,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::GenerateAddingSeeds(void)
+::GenerateAddingSeeds()
 {
   EdgeIterator eit;
   auto eitend = this->m_WorkingVD->EdgeEnd();
@@ -105,7 +105,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::MakeSegmentBoundary(void)
+::MakeSegmentBoundary()
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
 
@@ -134,7 +134,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::MakeSegmentObject(void)
+::MakeSegmentObject()
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
 

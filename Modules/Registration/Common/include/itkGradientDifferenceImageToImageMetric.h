@@ -132,7 +132,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  void Initialize(void) override;
+  void Initialize() override;
 
   /** Write gradient images to a files for debugging purposes. */
   void WriteGradientImagesToFiles() const;

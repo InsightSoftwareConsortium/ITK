@@ -70,7 +70,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   // Override the method in itkImageSource, so we can set the vector length of
   // the output itk::VectorImage

@@ -91,7 +91,7 @@ ReflectiveImageRegionConstIterator< TImage >
 template< typename TImage >
 void
 ReflectiveImageRegionConstIterator< TImage >
-::GoToBegin(void)
+::GoToBegin()
 {
   this->m_PositionIndex = this->m_BeginIndex + this->m_BeginOffset;
   this->m_Position = this->m_Image->GetBufferPointer()

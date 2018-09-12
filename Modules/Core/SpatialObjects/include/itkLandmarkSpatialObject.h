@@ -80,7 +80,7 @@ public:
   SpatialObjectPointType * GetPoint(IdentifierType id) override { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints(void) const override
+  SizeValueType GetNumberOfPoints() const override
   {
     return static_cast<SizeValueType>( m_Points.size() );
   }
@@ -107,7 +107,7 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the Landmark. */
-  bool ComputeLocalBoundingBox(void) const override;
+  bool ComputeLocalBoundingBox() const override;
 
 protected:
   PointListType m_Points;

@@ -86,7 +86,7 @@ public:
   void GenerateData() override;
 
   /** Prepare the output. */
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 
   /** Select if the indices of input image pixels will be
    * stored as data at each one of the mesh points.

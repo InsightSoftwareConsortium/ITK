@@ -40,7 +40,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 QuadraticTriangleCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -52,7 +52,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 QuadraticTriangleCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -177,7 +177,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticTriangleCell< TCellInterface >::PointIdIterator
 QuadraticTriangleCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -190,7 +190,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticTriangleCell< TCellInterface >::PointIdConstIterator
 QuadraticTriangleCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -202,7 +202,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticTriangleCell< TCellInterface >::PointIdIterator
 QuadraticTriangleCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -215,7 +215,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticTriangleCell< TCellInterface >::PointIdConstIterator
 QuadraticTriangleCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -227,7 +227,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticTriangleCell< TCellInterface >::CellFeatureCount
 QuadraticTriangleCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return Self::NumberOfVertices;
 }
@@ -239,7 +239,7 @@ QuadraticTriangleCell< TCellInterface >
 template< typename TCellInterface >
 typename QuadraticTriangleCell< TCellInterface >::CellFeatureCount
 QuadraticTriangleCell< TCellInterface >
-::GetNumberOfEdges(void) const
+::GetNumberOfEdges() const
 {
   return Self::NumberOfEdges;
 }

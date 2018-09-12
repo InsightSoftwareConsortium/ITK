@@ -96,7 +96,7 @@ public:
     this->ProcessObject::SetNthInput(0, img);
   }
 
-  ImageType * GetInputImage(void)
+  ImageType * GetInputImage()
   {
     return itkDynamicCastInDebugMode< ImageType * >
            ( this->ProcessObject::GetInput(0) );
@@ -108,7 +108,7 @@ public:
     this->ProcessObject::SetNthOutput(0, img);
   }
 
-  ImageType * GetOutputImage(void)
+  ImageType * GetOutputImage()
   {
     return itkDynamicCastInDebugMode< ImageType * >
            ( this->ProcessObject::GetOutput(0) );
@@ -120,7 +120,7 @@ public:
     this->ProcessObject::SetNthInput(1, et);
   }
 
-  SegmentTreeType * GetInputSegmentTree(void)
+  SegmentTreeType * GetInputSegmentTree()
   {
     return itkDynamicCastInDebugMode< SegmentTreeType * >
            ( this->ProcessObject::GetInput(1) );

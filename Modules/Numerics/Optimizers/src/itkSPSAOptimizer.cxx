@@ -116,7 +116,7 @@ SPSAOptimizer
  */
 SPSAOptimizer::MeasureType
 SPSAOptimizer
-::GetValue(void) const
+::GetValue() const
 {
   /**
    * The SPSA does not compute the cost function value at
@@ -131,7 +131,7 @@ SPSAOptimizer
  */
 void
 SPSAOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
 
@@ -162,7 +162,7 @@ SPSAOptimizer
 
 void
 SPSAOptimizer
-::ResumeOptimization(void)
+::ResumeOptimization()
 {
   itkDebugMacro("ResumeOptimization");
 
@@ -205,7 +205,7 @@ SPSAOptimizer
  */
 void
 SPSAOptimizer
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
   m_Stop = true;
@@ -217,7 +217,7 @@ SPSAOptimizer
  */
 void
 SPSAOptimizer
-::AdvanceOneStep(void)
+::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 

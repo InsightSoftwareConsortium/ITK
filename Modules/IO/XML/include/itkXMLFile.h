@@ -101,7 +101,7 @@ public:
   void SetOutputObject(T *obj) { m_OutputObject = obj; }
   /** Get the output object, after an XML File has been successfully parsed.
    */
-  T * GetOutputObject(void) { return m_OutputObject; }
+  T * GetOutputObject() { return m_OutputObject; }
 
 protected:
   XMLReader() :

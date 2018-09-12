@@ -87,7 +87,7 @@ public:
     GetDerivative( derivative );
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) override
+  void Initialize() throw ( itk::ExceptionObject ) override
   {
     m_Parameters.SetSize( SpaceDimension );
   }
@@ -97,7 +97,7 @@ public:
     return SpaceDimension;
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }

@@ -204,7 +204,7 @@ VectorContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename VectorContainer< TElementIdentifier, TElement >::ConstIterator
 VectorContainer< TElementIdentifier, TElement >
-::Begin(void) const
+::Begin() const
 {
   return ConstIterator( 0, this->VectorType::begin() );
 }
@@ -215,7 +215,7 @@ VectorContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename VectorContainer< TElementIdentifier, TElement >::ConstIterator
 VectorContainer< TElementIdentifier, TElement >
-::End(void) const
+::End() const
 {
   return ConstIterator( this->VectorType::size() - 1, this->VectorType::end() );
 }
@@ -226,7 +226,7 @@ VectorContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename VectorContainer< TElementIdentifier, TElement >::Iterator
 VectorContainer< TElementIdentifier, TElement >
-::Begin(void)
+::Begin()
 {
   return Iterator( 0, this->VectorType::begin() );
 }
@@ -237,7 +237,7 @@ VectorContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename VectorContainer< TElementIdentifier, TElement >::Iterator
 VectorContainer< TElementIdentifier, TElement >
-::End(void)
+::End()
 {
   return Iterator( this->VectorType::size() - 1, this->VectorType::end() );
 }
@@ -248,7 +248,7 @@ VectorContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 typename VectorContainer< TElementIdentifier, TElement >::ElementIdentifier
 VectorContainer< TElementIdentifier, TElement >
-::Size(void) const
+::Size() const
 {
   return static_cast<ElementIdentifier>( this->VectorType::size() );
 }
@@ -259,7 +259,7 @@ VectorContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 void
 VectorContainer< TElementIdentifier, TElement >
-::Initialize(void)
+::Initialize()
 {
   this->VectorType::clear();
 }
@@ -281,7 +281,7 @@ VectorContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 void
 VectorContainer< TElementIdentifier, TElement >
-::Squeeze(void)
+::Squeeze()
 {}
 } // end namespace itk
 

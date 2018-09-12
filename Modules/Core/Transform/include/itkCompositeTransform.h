@@ -340,15 +340,15 @@ public:
 
   /* Get total number of parameters for transforms that are set to be
    * optimized */
-  NumberOfParametersType GetNumberOfParameters(void) const override;
+  NumberOfParametersType GetNumberOfParameters() const override;
 
   /* Get total number of local parameters for transforms that are set
    * to be optimized */
-  NumberOfParametersType GetNumberOfLocalParameters(void) const override;
+  NumberOfParametersType GetNumberOfLocalParameters() const override;
 
   /* Get total number of fixed parameters for transforms that are set
    * to be optimized */
-  NumberOfParametersType GetNumberOfFixedParameters(void) const override;
+  NumberOfParametersType GetNumberOfFixedParameters() const override;
 
   /** Update the transform's parameters by the values in \c update.
    * See GetParameters() for parameter ordering. */

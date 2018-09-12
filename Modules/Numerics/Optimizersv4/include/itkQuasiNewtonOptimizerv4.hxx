@@ -105,7 +105,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
-::AdvanceOneStep(void)
+::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
   const SizeValueType numPara = this->m_Metric->GetNumberOfParameters();

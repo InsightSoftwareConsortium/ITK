@@ -282,7 +282,7 @@ namespace itk
   itkCloneMacro(x)
 
 #define itkSimpleNewMacro(x)                                   \
-  static Pointer New(void)                                     \
+  static Pointer New()                                         \
     {                                                          \
     Pointer smartPtr = ::itk::ObjectFactory< x >::Create();    \
     if ( smartPtr == nullptr )                \
@@ -294,7 +294,7 @@ namespace itk
     }
 
 #define itkCreateAnotherMacro(x)                               \
-  ::itk::LightObject::Pointer CreateAnother(void) const override \
+  ::itk::LightObject::Pointer CreateAnother() const override \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -322,7 +322,7 @@ namespace itk
  * initializing an object's reference count to 1 (needed for proper
  * initialization of process objects and data objects cycles). */
 #define itkFactorylessNewMacro(x)                              \
-  static Pointer New(void)                                     \
+  static Pointer New()                                         \
     {                                                          \
     Pointer smartPtr;                                          \
     x *     rawPtr = new x;                                    \
@@ -330,7 +330,7 @@ namespace itk
     rawPtr->UnRegister();                                      \
     return smartPtr;                                           \
     }                                                          \
-  ::itk::LightObject::Pointer CreateAnother(void) const override \
+  ::itk::LightObject::Pointer CreateAnother() const override \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \

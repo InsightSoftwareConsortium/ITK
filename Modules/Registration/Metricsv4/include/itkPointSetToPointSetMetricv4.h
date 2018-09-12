@@ -291,9 +291,9 @@ public:
    * Initialize the metric by making sure that all the components
    *  are present and plugged together correctly.
    */
-  void Initialize( void ) override;
+  void Initialize() override;
 
-  bool SupportsArbitraryVirtualDomainSamples( void ) const override
+  bool SupportsArbitraryVirtualDomainSamples() const override
   {
     /* An arbitrary point in the virtual domain will not always
      * correspond to a point within either point set. */

@@ -122,7 +122,7 @@ public:
   }
 
   /** Gets the pointer to the decision rule being used. */
-  DecisionRuleType * GetDecisionRule(void)
+  DecisionRuleType * GetDecisionRule()
   {
     return m_DecisionRule.GetPointer();
   }

@@ -99,7 +99,7 @@ public:
    * and mass matrix again. This is only generated before the
    * first iteration.
    */
-  void ResetIterations(void)
+  void ResetIterations()
   {
     m_Iterations = 0;
   }
@@ -133,7 +133,7 @@ public:
   itkGetMacro(Rho, Float);
 
   /** Returns the time step used for dynamic problems. */
-  Float GetTimeStep(void) const override
+  Float GetTimeStep() const override
   {
     return m_TimeStep;
   }
@@ -210,7 +210,7 @@ protected:
   /**
    * Solve for the displacement vector u at a given time.  Update the total solution as well.
    */
-  void RunSolver(void) override;
+  void RunSolver() override;
 
   /**
    * Helper initialization function before assembly but after generate GFN.

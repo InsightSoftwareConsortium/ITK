@@ -121,9 +121,9 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;
-  void BeforeThreadedGenerateData(void) override;
+  void BeforeThreadedGenerateData() override;
   void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId) override;
-  void AfterThreadedGenerateData(void) override;
+  void AfterThreadedGenerateData() override;
   static ITK_THREAD_RETURN_TYPE ThreaderMinMaxCallback(void *arg);
 
   /** Method that construct the outputs */

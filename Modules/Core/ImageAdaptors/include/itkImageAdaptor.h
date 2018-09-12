@@ -297,11 +297,11 @@ public:
   ModifiedTimeType GetMTime() const override;
 
   /** Return the Data Accesor object */
-  AccessorType & GetPixelAccessor(void)
+  AccessorType & GetPixelAccessor()
   { return m_PixelAccessor; }
 
   /** Return the Data Accesor object */
-  const AccessorType & GetPixelAccessor(void) const
+  const AccessorType & GetPixelAccessor() const
   { return m_PixelAccessor; }
 
   /** Sets the Data Accesor object */

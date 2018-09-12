@@ -187,7 +187,7 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   itkDebugMacro(<< "GradientMagnitudeRecursiveGaussianImageFilter generating data ");
 

@@ -118,7 +118,7 @@ public:
   }
 
   /** Get the pixel value */
-  const PixelType Get(void) const
+  const PixelType Get() const
   {
     return m_Image->GetPixel(m_CurrentImageIndex);
   }

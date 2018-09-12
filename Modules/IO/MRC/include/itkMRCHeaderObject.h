@@ -247,7 +247,7 @@ public:
   SizeValueType GetExtendedHeaderSize() const;
 
   /** the expected number of bytes in the header */
-  SizeValueType GetHeaderSize(void) const
+  SizeValueType GetHeaderSize() const
     {
       return sizeof( Header );
     }

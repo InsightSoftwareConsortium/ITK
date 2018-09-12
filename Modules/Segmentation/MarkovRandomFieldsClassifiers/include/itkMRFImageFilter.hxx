@@ -23,7 +23,7 @@ namespace itk
 {
 template< typename TInputImage, typename TClassifiedImage >
 MRFImageFilter< TInputImage, TClassifiedImage >
-::MRFImageFilter(void):
+::MRFImageFilter():
   m_NumberOfClasses(0),
   m_MaximumNumberOfIterations(50),
   m_ErrorCounter(0),
@@ -54,7 +54,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 
 template< typename TInputImage, typename TClassifiedImage >
 MRFImageFilter< TInputImage, TClassifiedImage >
-::~MRFImageFilter(void)
+::~MRFImageFilter()
 {}
 
 template< typename TInputImage, typename TClassifiedImage >

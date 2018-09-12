@@ -81,9 +81,9 @@ public:
    * is the radius and the next SpaceDimension parameters represent the center. */
   void SetParameters(const ParametersType &) override;
 
-  unsigned int GetNumberOfShapeParameters(void) const override
+  unsigned int GetNumberOfShapeParameters() const override
   { return 1; }
-  unsigned int GetNumberOfPoseParameters(void) const override
+  unsigned int GetNumberOfPoseParameters() const override
   { return SpaceDimension; }
 
   /** Evaluate the signed distance from a shape at a given position. */

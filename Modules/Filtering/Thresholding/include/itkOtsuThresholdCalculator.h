@@ -82,7 +82,7 @@ protected:
   }
   ~OtsuThresholdCalculator() override {};
   void PrintSelf(std::ostream & os, Indent indent) const override;
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator;

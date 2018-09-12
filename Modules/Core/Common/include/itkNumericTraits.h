@@ -627,8 +627,8 @@ public:
   static constexpr unsigned int ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned int ITKCommon_EXPORT One = 1;
 
-  static constexpr unsigned int min(void) { return 0; }
-  static constexpr unsigned int max(void) { return static_cast< unsigned int >( -1 ); }
+  static constexpr unsigned int min() { return 0; }
+  static constexpr unsigned int max() { return static_cast< unsigned int >( -1 ); }
   static constexpr unsigned int min(unsigned int) { return std::numeric_limits< ValueType >::min(); }
   static constexpr unsigned int max(unsigned int) { return std::numeric_limits< ValueType >::max(); }
   static constexpr unsigned int NonpositiveMin() { return 0; }

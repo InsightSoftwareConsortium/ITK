@@ -165,16 +165,16 @@ public:
   ValueType GetScalar() const;
 
   /** Returns the X component. */
-  ValueType GetX(void) const { return m_X; }
+  ValueType GetX() const { return m_X; }
 
   /** Returns the Y component. */
-  ValueType GetY(void) const { return m_Y; }
+  ValueType GetY() const { return m_Y; }
 
   /** Returns the Z component. */
-  ValueType GetZ(void) const { return m_Z; }
+  ValueType GetZ() const { return m_Z; }
 
   /** Returns the W component. */
-  ValueType GetW(void) const { return m_W; }
+  ValueType GetW() const { return m_W; }
 
   /** Returns the rotation angle in radians.  */
   ValueType GetAngle() const;

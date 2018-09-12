@@ -479,7 +479,7 @@ void DCMTKImageIO::ReadImageInformation()
 
 void
 DCMTKImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {}
 
 /** */

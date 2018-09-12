@@ -50,7 +50,7 @@ protected:
     using ShapeLabelMapType = itk::LabelMap<LabelObjectType>;
 
 
-    static typename ImageType::Pointer CreateImage(void)
+    static typename ImageType::Pointer CreateImage()
       {
         typename ImageType::Pointer image = ImageType::New();
 

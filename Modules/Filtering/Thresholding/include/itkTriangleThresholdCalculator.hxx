@@ -30,7 +30,7 @@ namespace itk
 template<typename THistogram, typename TOutput>
 void
 TriangleThresholdCalculator<THistogram, TOutput>
-::GenerateData(void)
+::GenerateData()
 {
   const HistogramType * histogram = this->GetInput();
 

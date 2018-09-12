@@ -42,7 +42,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 HexahedronCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -54,7 +54,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 HexahedronCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -191,7 +191,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename HexahedronCell< TCellInterface >::PointIdIterator
 HexahedronCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -204,7 +204,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename HexahedronCell< TCellInterface >::PointIdConstIterator
 HexahedronCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -216,7 +216,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename HexahedronCell< TCellInterface >::PointIdIterator
 HexahedronCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -229,7 +229,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename HexahedronCell< TCellInterface >::PointIdConstIterator
 HexahedronCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -241,7 +241,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename HexahedronCell< TCellInterface >::CellFeatureCount
 HexahedronCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return Self::NumberOfVertices;
 }
@@ -253,7 +253,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename HexahedronCell< TCellInterface >::CellFeatureCount
 HexahedronCell< TCellInterface >
-::GetNumberOfEdges(void) const
+::GetNumberOfEdges() const
 {
   return Self::NumberOfEdges;
 }
@@ -265,7 +265,7 @@ HexahedronCell< TCellInterface >
 template< typename TCellInterface >
 typename HexahedronCell< TCellInterface >::CellFeatureCount
 HexahedronCell< TCellInterface >
-::GetNumberOfFaces(void) const
+::GetNumberOfFaces() const
 {
   return Self::NumberOfFaces;
 }

@@ -75,7 +75,7 @@ public:
 protected:
   IsoDataThresholdCalculator() {}
   ~IsoDataThresholdCalculator() override {}
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   using SizeValueType = typename HistogramType::SizeValueType;
   using InstanceIdentifier = typename HistogramType::InstanceIdentifier;

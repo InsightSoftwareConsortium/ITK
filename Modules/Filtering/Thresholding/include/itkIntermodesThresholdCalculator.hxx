@@ -50,7 +50,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
 template<typename THistogram, typename TOutput>
 void
 IntermodesThresholdCalculator<THistogram, TOutput>
-::GenerateData(void)
+::GenerateData()
 {
   const HistogramType * histogram = this->GetInput();
 

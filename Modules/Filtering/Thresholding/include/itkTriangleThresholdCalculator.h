@@ -73,7 +73,7 @@ public:
 protected:
   TriangleThresholdCalculator() {};
   ~TriangleThresholdCalculator() override {};
-  void GenerateData(void) override;
+  void GenerateData() override;
 };
 
 } // end namespace itk

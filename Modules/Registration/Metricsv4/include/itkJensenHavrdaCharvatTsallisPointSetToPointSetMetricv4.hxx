@@ -50,7 +50,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 template<typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
-::Initialize( void )
+::Initialize()
 {
   Superclass::Initialize();
 
@@ -189,7 +189,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 template<typename TPointSet, class TInternalComputationValueType>
 typename LightObject::Pointer
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
-::InternalClone( void ) const
+::InternalClone() const
 {
   typename Self::Pointer rval = Self::New();
   rval->SetMovingPointSet( this->m_MovingPointSet );

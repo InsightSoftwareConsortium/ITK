@@ -97,7 +97,7 @@ public:
   double GetCurrentIntensity() const;
 
   /// Return the ray point spacing in mm
-  double GetRayPointSpacing(void) const
+  double GetRayPointSpacing() const
   {
     typename InputImageType::SpacingType spacing = this->m_Image->GetSpacing();
 
@@ -289,7 +289,7 @@ protected:
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::Initialise(void)
+::Initialise()
 {
   // Save the dimensions of the volume and calculate the bounding box
   this->RecordVolumeDimensions();
@@ -306,7 +306,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::RecordVolumeDimensions(void)
+::RecordVolumeDimensions()
 {
   typename InputImageType::SpacingType spacing = this->m_Image->GetSpacing();
   SizeType dim = this->m_Image->GetLargestPossibleRegion().GetSize();
@@ -327,7 +327,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::DefineCorners(void)
+::DefineCorners()
 {
   // Define corner positions as if at the origin
 
@@ -370,7 +370,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::CalcPlanesAndCorners(void)
+::CalcPlanesAndCorners()
 {
   int j;
 
@@ -728,7 +728,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::EndPointsInVoxels(void)
+::EndPointsInVoxels()
 {
   m_RayVoxelStartPosition[0] = m_RayStartCoordInMM[0] / m_VoxelDimensionInX;
   m_RayVoxelStartPosition[1] = m_RayStartCoordInMM[1] / m_VoxelDimensionInY;
@@ -746,7 +746,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::CalcDirnVector(void)
+::CalcDirnVector()
 {
   double xNum, yNum, zNum;
 
@@ -919,7 +919,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 bool
 RayCastHelper< TInputImage, TCoordRep >
-::AdjustRayLength(void)
+::AdjustRayLength()
 {
   bool startOK, endOK;
 
@@ -1010,7 +1010,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::Reset(void)
+::Reset()
 {
   int i;
 
@@ -1065,7 +1065,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::InitialiseVoxelPointers(void)
+::InitialiseVoxelPointers()
 {
   IndexType index;
 
@@ -1196,7 +1196,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
-::IncrementVoxelPointers(void)
+::IncrementVoxelPointers()
 {
   double xBefore = m_Position3Dvox[0].GetSum();
   double yBefore = m_Position3Dvox[1].GetSum();
@@ -1230,7 +1230,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< typename TInputImage, typename TCoordRep >
 double
 RayCastHelper< TInputImage, TCoordRep >
-::GetCurrentIntensity(void) const
+::GetCurrentIntensity() const
 {
   double a, b, c, d;
   double y, z;

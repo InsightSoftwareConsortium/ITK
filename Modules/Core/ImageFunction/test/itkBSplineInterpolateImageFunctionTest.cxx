@@ -560,7 +560,7 @@ int testInteger3DSpline()
 
 //Test to verify that EvaluateDerivativeAtContinuousIndex and EvaluateValueAndDerivativeAtContinuousIndex
 //produce identical results.
-int testEvaluateValueAndDerivative(void)
+int testEvaluateValueAndDerivative()
 {
   constexpr unsigned int ImageDimension = 2;
   using PixelType = float;

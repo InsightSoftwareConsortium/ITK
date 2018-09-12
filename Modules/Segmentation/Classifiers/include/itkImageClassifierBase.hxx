@@ -24,13 +24,13 @@ namespace itk
 template< typename TInputImage,
           typename TClassifiedImage >
 ImageClassifierBase< TInputImage, TClassifiedImage >
-::ImageClassifierBase(void)
+::ImageClassifierBase()
 {}
 
 template< typename TInputImage,
           typename TClassifiedImage >
 ImageClassifierBase< TInputImage, TClassifiedImage >
-::~ImageClassifierBase(void)
+::~ImageClassifierBase()
 {}
 
 /**

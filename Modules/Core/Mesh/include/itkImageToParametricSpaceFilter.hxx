@@ -96,7 +96,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 template< typename TInputImage, typename TOutputMesh >
 void
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
-::GenerateData(void)
+::GenerateData()
 {
   OutputMeshPointer         mesh      = this->GetOutput();
   PointsContainerPointer    points    = mesh->GetPoints();

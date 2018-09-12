@@ -103,7 +103,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 template<typename THistogram, typename TOutput>
 void
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
-::GenerateData(void)
+::GenerateData()
 {
   const HistogramType * histogram = this->GetInput();
 

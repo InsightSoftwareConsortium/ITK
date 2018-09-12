@@ -43,7 +43,7 @@ MatlabTransformIOFactory::~MatlabTransformIOFactory()
 {}
 
 const char *
-MatlabTransformIOFactory::GetITKSourceVersion(void) const
+MatlabTransformIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -59,7 +59,7 @@ MatlabTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool MatlabTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformMatlab_EXPORT MatlabTransformIOFactoryRegister__Private(void)
+void ITKIOTransformMatlab_EXPORT MatlabTransformIOFactoryRegister__Private()
 {
   if( ! MatlabTransformIOFactoryHasBeenRegistered )
     {

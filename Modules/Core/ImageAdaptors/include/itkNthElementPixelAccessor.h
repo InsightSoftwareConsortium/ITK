@@ -71,7 +71,7 @@ public:
   { return static_cast<ExternalType>( DefaultConvertPixelTraits<InternalType>::GetNthComponent( m_ElementNumber, input ) ); }
 
   /** Get the element number to access in the container */
-  unsigned int GetElementNumber(void) const
+  unsigned int GetElementNumber() const
   { return m_ElementNumber; }
 
   /** Set the element number to access in the container */
@@ -153,7 +153,7 @@ public:
 
 
   /** Get the element number to access in the container */
-  unsigned int GetElementNumber(void) const
+  unsigned int GetElementNumber() const
   { return m_ElementNumber; }
 
   /** Set the element number to access in the container */

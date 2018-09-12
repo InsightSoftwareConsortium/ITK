@@ -96,7 +96,7 @@ public:
   using ScaleType = TParametersValueType;
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity(void) override;
+  void SetIdentity() override;
 
   /** Directly set the rotation matrix of the transform.
    *
@@ -120,7 +120,7 @@ public:
    * represents the scaling factor. */
   void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** Set/Get the value of the isotropic scaling factor */
   void SetScale(ScaleType scale);

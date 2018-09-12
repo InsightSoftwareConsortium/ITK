@@ -140,7 +140,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   /** GradientMagnitudeRecursiveGaussianImageFilter needs all of the
    * input to produce an output. Therefore,

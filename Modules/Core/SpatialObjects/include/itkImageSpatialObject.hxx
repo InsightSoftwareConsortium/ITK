@@ -313,7 +313,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 const typename ImageSpatialObject< TDimension,  PixelType >::ImageType *
 ImageSpatialObject< TDimension,  PixelType >
-::GetImage(void) const
+::GetImage() const
 {
   return m_Image.GetPointer();
 }
@@ -335,7 +335,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 ModifiedTimeType
 ImageSpatialObject< TDimension,  PixelType >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestMTime = Superclass::GetMTime();
   const ModifiedTimeType imageMTime = m_Image->GetMTime();

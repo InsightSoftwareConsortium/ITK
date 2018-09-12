@@ -120,10 +120,10 @@ public:
   static constexpr unsigned int PointDimension = TOutputMesh::PointDimension;
 
   /** Some type alias associated with the output mesh. */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   /** Some type alias associated with the output mesh. */
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 
   /** accept the input image */
   using Superclass::SetInput;

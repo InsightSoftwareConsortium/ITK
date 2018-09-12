@@ -94,7 +94,7 @@ protected:
 
   ~IntermodesThresholdCalculator() override {}
 
-  void GenerateData(void) override;
+  void GenerateData() override;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;

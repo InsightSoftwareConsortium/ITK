@@ -320,13 +320,13 @@ public:
   { return m_Image.GetPointer(); }
 
   /** Get the pixel value */
-  PixelType Get(void) const
+  PixelType Get() const
   { return m_PixelAccessorFunctor.Get( *( m_Buffer + m_Offset ) ); }
 
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value(void) const
+  const PixelType & Value() const
   { return *( m_Buffer + m_Offset ); }
 
   /** Move an iterator to the beginning of the region. "Begin" is
@@ -345,14 +345,14 @@ public:
 
   /** Is the iterator at the beginning of the region? "Begin" is defined
    * as the first pixel in the region. */
-  bool IsAtBegin(void) const
+  bool IsAtBegin() const
   {
     return ( m_Offset == m_BeginOffset );
   }
 
   /** Is the iterator at the end of the region? "End" is defined as one
    * pixel past the last pixel of the region. */
-  bool IsAtEnd(void) const
+  bool IsAtEnd() const
   {
     return ( m_Offset == m_EndOffset );
   }

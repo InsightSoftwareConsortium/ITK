@@ -151,12 +151,12 @@ public:
   { return m_NeighborhoodAccessorFunctor.Get( this->GetCenterPointer() ); }
 
   /** Returns a smartpointer to the image on which this iterator operates. */
-  const ImageType * GetImagePointer(void) const
+  const ImageType * GetImagePointer() const
   { return m_ConstImage; }
 
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
-  ITK_ITERATOR_VIRTUAL IndexType GetIndex(void) const ITK_ITERATOR_FINAL
+  ITK_ITERATOR_VIRTUAL IndexType GetIndex() const ITK_ITERATOR_FINAL
   { return m_Loop;  }
 
   inline IndexType GetFastIndexPlusOffset(const OffsetType & o) const

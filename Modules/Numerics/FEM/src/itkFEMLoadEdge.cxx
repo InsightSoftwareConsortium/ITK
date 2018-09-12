@@ -24,7 +24,7 @@ namespace fem
 {
 
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadEdge::CreateAnother(void) const
+::itk::LightObject::Pointer LoadEdge::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();

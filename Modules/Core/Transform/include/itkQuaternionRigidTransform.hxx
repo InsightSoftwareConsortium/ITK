@@ -72,7 +72,7 @@ QuaternionRigidTransform<TParametersValueType>::SetRotation(const VnlQuaternionT
 // Set the parameters in order to fit an Identity transform
 template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TParametersValueType>::SetIdentity(void)
+QuaternionRigidTransform<TParametersValueType>::SetIdentity()
 {
   m_Rotation = VnlQuaternionType(0, 0, 0, 1);
   this->Superclass::SetIdentity();

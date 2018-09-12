@@ -58,7 +58,7 @@ public:
   vnl_levenberg_marquardt * GetOptimizer() const;
 
   /** Start optimization with an initial value. */
-  void StartOptimization(void) override;
+  void StartOptimization() override;
 
   /** Plug in a Cost Function into the optimizer  */
   void SetCostFunction(MultipleValuedCostFunction *costFunction) override;

@@ -79,7 +79,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 typename EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >::EigenValueImageType *
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
-::GetMaxEigenValue(void)
+::GetMaxEigenValue()
 {
   return dynamic_cast< EigenValueImageType * >(
            this->ProcessObject::GetOutput(0) );
@@ -91,7 +91,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 typename EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >::EigenValueImageType *
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
-::GetMinEigenValue(void)
+::GetMinEigenValue()
 {
   return dynamic_cast< EigenValueImageType * >(
            this->ProcessObject::GetOutput(1) );
@@ -103,7 +103,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 typename EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >::EigenVectorImageType *
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
-::GetMaxEigenVector(void)
+::GetMaxEigenVector()
 {
   auto * eigenVector = dynamic_cast< EigenVectorImageType * >(
     this->ProcessObject::GetOutput(2) );

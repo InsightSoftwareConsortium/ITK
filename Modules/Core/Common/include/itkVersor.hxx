@@ -75,7 +75,7 @@ Versor< T >
 template< typename T >
 vnl_quaternion< T >
 Versor< T >
-::GetVnlQuaternion(void) const
+::GetVnlQuaternion() const
 {
   return vnl_quaternion< T >(m_X, m_Y, m_Z, m_W);
 }
@@ -185,7 +185,7 @@ Versor< T >
 template< typename T >
 Versor< T >
 Versor< T >
-::GetConjugate(void) const
+::GetConjugate() const
 {
   Self result;
 
@@ -201,7 +201,7 @@ Versor< T >
 template< typename T >
 Versor< T >
 Versor< T >
-::GetReciprocal(void) const
+::GetReciprocal() const
 {
   Self result;
 
@@ -217,7 +217,7 @@ Versor< T >
 template< typename T >
 typename Versor< T >::ValueType
 Versor< T >
-::GetTensor(void) const
+::GetTensor() const
 {
   const auto tensor = static_cast< ValueType >(
       std::sqrt(m_X * m_X + m_Y * m_Y + m_Z * m_Z + m_W * m_W) );
@@ -229,7 +229,7 @@ Versor< T >
 template< typename T >
 void
 Versor< T >
-::Normalize(void)
+::Normalize()
 {
   const ValueType tensor = this->GetTensor();
 
@@ -251,7 +251,7 @@ Versor< T >
 template< typename T >
 typename Versor< T >::VectorType
 Versor< T >
-::GetAxis(void) const
+::GetAxis() const
 {
   VectorType axis;
 
@@ -281,7 +281,7 @@ Versor< T >
 template< typename T >
 typename Versor< T >::VectorType
 Versor< T >
-::GetRight(void) const
+::GetRight() const
 {
   VectorType axis;
 
@@ -296,7 +296,7 @@ Versor< T >
 template< typename T >
 typename Versor< T >::ValueType
 Versor< T >
-::GetScalar(void) const
+::GetScalar() const
 {
   return m_W;
 }
@@ -305,7 +305,7 @@ Versor< T >
 template< typename T >
 typename Versor< T >::ValueType
 Versor< T >
-::GetAngle(void) const
+::GetAngle() const
 {
   const auto ax = static_cast< RealType >( m_X );
   const auto ay = static_cast< RealType >( m_Y );
@@ -322,7 +322,7 @@ Versor< T >
 template< typename T >
 Versor< T >
 Versor< T >
-::SquareRoot(void) const
+::SquareRoot() const
 {
   const ValueType newScalar = std::sqrt( static_cast< double >( 1.0 + m_W ) );
   const double    sqrtOfTwo    = std::sqrt(2.0f);
@@ -662,7 +662,7 @@ Versor< T >
 template< typename T >
 Matrix< T, 3, 3 >
 Versor< T >
-::GetMatrix(void) const
+::GetMatrix() const
 {
   Matrix< T, 3, 3 > matrix;
 

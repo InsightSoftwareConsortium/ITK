@@ -104,14 +104,14 @@ public:
   const TPixel * GetBufferPointer() const override;
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor(void)
+  AccessorType GetPixelAccessor()
   {
     m_DataManager->SetGPUBufferDirty();
     return Superclass::GetPixelAccessor();
   }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor(void) const
+  const AccessorType GetPixelAccessor() const
   {
     m_DataManager->UpdateCPUBuffer();
     return Superclass::GetPixelAccessor();
@@ -213,7 +213,7 @@ public:
   itkTypeMacro(GPUImageFactory, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     GPUImageFactory::Pointer factory = GPUImageFactory::New();
 

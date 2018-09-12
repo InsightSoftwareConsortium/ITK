@@ -138,7 +138,7 @@ protected:
   //
 
   /** GenerateOutputInformation does not rely on input information */
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 
   /** Request the largest possible region on all inputs. */
   void GenerateInputRequestedRegion() override
@@ -148,7 +148,7 @@ protected:
     this->GetNonConstPathInput()->SetRequestedRegionToLargestPossibleRegion();
   }
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   //
   //--------------------------------------------------------------------------

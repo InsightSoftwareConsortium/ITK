@@ -60,7 +60,7 @@ LSMImageIOFactory::GetDescription() const
 
 static bool LSMImageIOFactoryHasBeenRegistered;
 
-void ITKIOLSM_EXPORT LSMImageIOFactoryRegister__Private(void)
+void ITKIOLSM_EXPORT LSMImageIOFactoryRegister__Private()
 {
   if( ! LSMImageIOFactoryHasBeenRegistered )
     {

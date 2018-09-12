@@ -37,7 +37,7 @@ GE5ImageIOFactory::~GE5ImageIOFactory()
 {}
 
 const char *
-GE5ImageIOFactory::GetITKSourceVersion(void) const
+GE5ImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -53,7 +53,7 @@ GE5ImageIOFactory::GetDescription() const
 
 static bool GE5ImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GE5ImageIOFactoryRegister__Private(void)
+void ITKIOGE_EXPORT GE5ImageIOFactoryRegister__Private()
 {
   if( ! GE5ImageIOFactoryHasBeenRegistered )
     {

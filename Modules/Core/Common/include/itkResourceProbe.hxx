@@ -63,7 +63,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::Reset(void)
+::Reset()
 {
   this->m_TotalValue        = NumericTraits< ValueType >::ZeroValue();
   this->m_StartValue        = NumericTraits< ValueType >::ZeroValue();
@@ -82,7 +82,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 std::string
 ResourceProbe< ValueType, MeanType >
-::GetType(void) const
+::GetType() const
 {
   return this->m_TypeString;
 }
@@ -91,7 +91,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 std::string
 ResourceProbe< ValueType, MeanType >
-::GetUnit(void) const
+::GetUnit() const
 {
   return this->m_UnitString;
 }
@@ -100,7 +100,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::Start(void)
+::Start()
 {
   this->m_NumberOfStarts++;
   this->m_StartValue = this->GetInstantValue();
@@ -110,7 +110,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::Stop(void)
+::Stop()
 {
   ValueType probevalue = this->GetInstantValue() - this->m_StartValue;
   if ( this->m_NumberOfStops == this->m_NumberOfStarts )
@@ -129,7 +129,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 typename ResourceProbe< ValueType, MeanType >::CountType
 ResourceProbe< ValueType, MeanType >
-::GetNumberOfStarts(void) const
+::GetNumberOfStarts() const
 {
   return this->m_NumberOfStarts;
 }
@@ -138,7 +138,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 typename ResourceProbe< ValueType, MeanType >::CountType
 ResourceProbe< ValueType, MeanType >
-::GetNumberOfStops(void) const
+::GetNumberOfStops() const
 {
   return this->m_NumberOfStops;
 }
@@ -147,7 +147,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 typename ResourceProbe< ValueType, MeanType >::CountType
 ResourceProbe< ValueType, MeanType >
-::GetNumberOfIteration(void) const
+::GetNumberOfIteration() const
 {
   return this->m_NumberOfIteration;
 }
@@ -156,7 +156,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 ValueType
 ResourceProbe< ValueType, MeanType >
-::GetTotal(void) const
+::GetTotal() const
 {
   return this->m_TotalValue;
 }
@@ -165,7 +165,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 MeanType
 ResourceProbe< ValueType, MeanType >
-::GetMean(void) const
+::GetMean() const
 {
   MeanType meanValue = NumericTraits< MeanType >::ZeroValue();
 

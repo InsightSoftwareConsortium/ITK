@@ -83,7 +83,7 @@ public:
   { return &( m_ControlPoints[id] ); }
 
   /** Return the number of control points in the list */
-  SizeValueType GetNumberOfControlPoints(void) const
+  SizeValueType GetNumberOfControlPoints() const
   { return static_cast<SizeValueType>( m_ControlPoints.size() ); }
 
   /** Returns a reference to the list of the interpolated points. */
@@ -104,7 +104,7 @@ public:
   { return &( m_InterpolatedPoints[id] ); }
 
   /** Return the number of interpolated points in the list */
-  SizeValueType GetNumberOfInterpolatedPoints(void) const
+  SizeValueType GetNumberOfInterpolatedPoints() const
   { return static_cast<SizeValueType>( m_InterpolatedPoints.size() ); }
 
   enum InterpolationType { NO_INTERPOLATION = 0,
@@ -155,7 +155,7 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the Contour. */
-  bool ComputeLocalBoundingBox(void) const override;
+  bool ComputeLocalBoundingBox() const override;
 
 protected:
   ControlPointListType      m_ControlPoints;

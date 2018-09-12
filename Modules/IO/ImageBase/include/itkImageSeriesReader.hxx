@@ -91,7 +91,7 @@ int ImageSeriesReader< TOutputImage >
 
 template< typename TOutputImage >
 void ImageSeriesReader< TOutputImage >
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   typename TOutputImage::Pointer output = this->GetOutput();
 

@@ -182,7 +182,7 @@ public:
   itkGetConstReferenceMacro(Shift, RealType);
 
   /** Process to execute before entering the multithreaded section. */
-  void BeforeThreadedGenerateData(void) override;
+  void BeforeThreadedGenerateData() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

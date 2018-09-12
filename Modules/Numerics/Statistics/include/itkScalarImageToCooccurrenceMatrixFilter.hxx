@@ -137,7 +137,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 template< typename TImageType, typename THistogramFrequencyContainer >
 void
 ScalarImageToCooccurrenceMatrixFilter< TImageType,
-                                       THistogramFrequencyContainer >::GenerateData(void)
+                                       THistogramFrequencyContainer >::GenerateData()
 {
   auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
@@ -346,7 +346,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 template< typename TImageType, typename THistogramFrequencyContainer >
 void
 ScalarImageToCooccurrenceMatrixFilter< TImageType,
-                                       THistogramFrequencyContainer >::NormalizeHistogram(void)
+                                       THistogramFrequencyContainer >::NormalizeHistogram()
 {
   auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 

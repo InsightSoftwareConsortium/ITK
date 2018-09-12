@@ -179,7 +179,7 @@ protected:
 
   void SingleThreadedConnectivity();
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 
   void AfterThreadedGenerateData() override;

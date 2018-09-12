@@ -192,7 +192,7 @@ public:
   using InputSymmetricSecondRankTensorType = typename TransformType::InputSymmetricSecondRankTensorType;
   using OutputSymmetricSecondRankTensorType = typename TransformType::OutputSymmetricSecondRankTensorType;
 
-  bool RunTests( void )
+  bool RunTests()
   {
     std::cout << "Testing itkTransform<" << NInputDimensions << "," << NOutputDimensions << ">" << std::endl;
     typename TransformType::Pointer transform = TransformType::New();

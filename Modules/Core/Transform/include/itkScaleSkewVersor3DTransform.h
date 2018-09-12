@@ -128,7 +128,7 @@ public:
    **  */
   void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   void SetScale(const ScaleVectorType & scale);
 
@@ -165,9 +165,9 @@ protected:
   }
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void) override;
+  void ComputeMatrix() override;
 
-  void ComputeMatrixParameters(void) override;
+  void ComputeMatrixParameters() override;
 
 private:
   /**  Vector containing the scale. */

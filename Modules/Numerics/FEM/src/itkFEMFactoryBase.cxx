@@ -86,7 +86,7 @@ void FEMFactoryBase::RegisterDefaultTypes()
 }
 
 const char *
-FEMFactoryBase::GetITKSourceVersion(void) const
+FEMFactoryBase::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }

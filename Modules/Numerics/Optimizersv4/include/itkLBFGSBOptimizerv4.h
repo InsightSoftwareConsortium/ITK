@@ -105,7 +105,7 @@ public:
   void SetInitialPosition(const ParametersType & param);
 
   /** Get the position to initialize the optimization. */
-  ParametersType & GetInitialPosition(void)
+  ParametersType & GetInitialPosition()
   {
   return m_InitialPosition;
   }

@@ -180,7 +180,7 @@ LinearSystemWrapperVNL::Float LinearSystemWrapperVNL::GetSolutionValue(unsigned 
     }
 }
 
-void LinearSystemWrapperVNL::Solve(void)
+void LinearSystemWrapperVNL::Solve()
 {
   if( ( m_Matrices->size() == 0 ) || ( m_Vectors->size() == 0 ) || ( m_Solutions->size() == 0 ) )
     {

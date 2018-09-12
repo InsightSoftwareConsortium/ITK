@@ -168,7 +168,7 @@ public:
   }
 
   /** Return the Focal Distance */
-  double GetFocalDistance(void) const
+  double GetFocalDistance() const
   {
     return m_FocalDistance;
   }

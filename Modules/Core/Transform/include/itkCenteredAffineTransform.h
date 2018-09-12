@@ -92,7 +92,7 @@ public:
    * center and the translation parameters. */
   void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** Compute the Jacobian of the transformation
    *

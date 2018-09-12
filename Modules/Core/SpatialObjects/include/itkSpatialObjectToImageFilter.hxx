@@ -78,7 +78,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 template< typename TInputSpatialObject, typename TOutputImage >
 const typename SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >::InputSpatialObjectType *
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
-::GetInput(void)
+::GetInput()
 {
   return static_cast< const TInputSpatialObject * >( this->GetPrimaryInput() );
 }
@@ -271,7 +271,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 template< typename TInputSpatialObject, typename TOutputImage >
 const typename SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >::DirectionType &
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
-::GetDirection(void) const
+::GetDirection() const
 {
   return m_Direction;
 }
@@ -282,7 +282,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   unsigned int i;
 

@@ -434,7 +434,7 @@ void Element::PrintSelf(std::ostream& os, Indent indent) const
     }
 }
 
-::itk::LightObject::Pointer Element::Node::CreateAnother(void) const
+::itk::LightObject::Pointer Element::Node::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();
@@ -449,7 +449,7 @@ void Element::PrintSelf(std::ostream& os, Indent indent) const
   return smartPtr;
 }
 
-void Element::Node::ClearDegreesOfFreedom(void) const
+void Element::Node::ClearDegreesOfFreedom() const
 {
   m_dof.clear();
 }
@@ -462,7 +462,7 @@ void Element::Node::PrintSelf(std::ostream& os, Indent indent) const
   // os << indent << "Elements: " << this->m_elements << std::endl;
 }
 
-Material::ConstPointer Element::GetMaterial(void) const
+Material::ConstPointer Element::GetMaterial() const
 {
   return nullptr;
 }
@@ -476,12 +476,12 @@ void Element::SetNode(unsigned int n, Node::Pointer node)
   this->SetNode(n,NodeIDType(node));
 }
 
-unsigned int Element::GetNumberOfDegreesOfFreedom(void) const
+unsigned int Element::GetNumberOfDegreesOfFreedom() const
 {
   return this->GetNumberOfNodes() * this->GetNumberOfDegreesOfFreedomPerNode();
 }
 
-std::vector<std::vector<int> > Element::GetEdgeIds(void) const
+std::vector<std::vector<int> > Element::GetEdgeIds() const
 {
   return this->m_EdgeIds;
 }

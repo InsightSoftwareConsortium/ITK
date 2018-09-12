@@ -36,7 +36,7 @@ template< typename TInputImage,
           typename TMembershipFunction,
           typename TTrainingImage >
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
-::~ImageGaussianModelEstimator(void)
+::~ImageGaussianModelEstimator()
 {
   delete[] m_Covariance;
 }

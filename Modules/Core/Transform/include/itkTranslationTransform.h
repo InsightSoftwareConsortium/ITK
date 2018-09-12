@@ -105,7 +105,7 @@ public:
 
   /** This method returns the value of the offset of the
    * TranslationTransform. */
-  const OutputVectorType & GetOffset(void) const
+  const OutputVectorType & GetOffset() const
   {
     return m_Offset;
   }

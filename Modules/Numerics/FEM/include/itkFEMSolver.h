@@ -243,7 +243,7 @@ public:
    * \note Physical coordinates in an image correspond to the global
    *       coordinate system in which the mesh (nodes) are.
    */
-  const InterpolationGridType * GetInterpolationGrid(void) const
+  const InterpolationGridType * GetInterpolationGrid() const
   {
     return m_InterpolationGrid.GetPointer();
   }
@@ -308,7 +308,7 @@ protected:
    * In this class it is only used to apply the BCs. You may however
    * use it to perform other stuff in derived solver classes.
    */
-  virtual void FinalizeMatrixAfterAssembly(void)
+  virtual void FinalizeMatrixAfterAssembly()
   {
     // Apply the boundary conditions to the K matrix
     this->ApplyBC();

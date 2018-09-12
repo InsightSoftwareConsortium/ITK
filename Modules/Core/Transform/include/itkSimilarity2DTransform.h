@@ -220,13 +220,13 @@ protected:
   /** Compute matrix from angle and scale. This is used in Set methods
    * to update the underlying matrix whenever a transform parameter
    * is changed. */
-  void ComputeMatrix(void) override;
+  void ComputeMatrix() override;
 
   /** Compute the angle and scale from the matrix. This is used to compute
    * transform parameters from a given matrix. This is used in
    * MatrixOffsetTransformBase::Compose() and
    * MatrixOffsetTransformBase::GetInverse(). */
-  void ComputeMatrixParameters(void) override;
+  void ComputeMatrixParameters() override;
 
   /** Set the scale without updating underlying variables. */
   void SetVarScale(ScaleType scale)

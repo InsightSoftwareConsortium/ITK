@@ -47,7 +47,7 @@ BYUMeshIOFactory
 
 const char *
 BYUMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -64,7 +64,7 @@ BYUMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool BYUMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshBYU_EXPORT BYUMeshIOFactoryRegister__Private(void)
+void ITKIOMeshBYU_EXPORT BYUMeshIOFactoryRegister__Private()
 {
   if( ! BYUMeshIOFactoryHasBeenRegistered )
     {

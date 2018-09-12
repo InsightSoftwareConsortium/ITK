@@ -90,7 +90,7 @@ public:
   virtual void AdvanceOneStep();
 
   /** Start optimization. */
-  void    StartOptimization(void) override;
+  void    StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */

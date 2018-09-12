@@ -57,7 +57,7 @@ FileFreeImageIOFactory::~FileFreeImageIOFactory()
 }
 
 const char*
-FileFreeImageIOFactory::GetITKSourceVersion(void) const
+FileFreeImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }

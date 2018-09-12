@@ -218,7 +218,7 @@ ImageRegistrationMethod< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 ImageRegistrationMethod< TFixedImage, TMovingImage >
-::StartOptimization(void)
+::StartOptimization()
 {
   try
     {

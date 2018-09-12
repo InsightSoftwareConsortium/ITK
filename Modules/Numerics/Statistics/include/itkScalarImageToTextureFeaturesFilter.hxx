@@ -88,7 +88,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >
 
 template< typename TImage, typename THistogramFrequencyContainer >
 void
-ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::GenerateData(void)
+ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::GenerateData()
 {
   if ( m_FastCalculations )
     {
@@ -102,7 +102,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Gene
 
 template< typename TImage, typename THistogramFrequencyContainer >
 void
-ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::FullCompute(void)
+ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::FullCompute()
 {
   size_t   numOffsets = m_Offsets->size();
   size_t   numFeatures = m_RequestedFeatures->size();
@@ -199,7 +199,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
 
 template< typename TImage, typename THistogramFrequencyContainer >
 void
-ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::FastCompute(void)
+ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::FastCompute()
 {
   // Compute the feature for the first offset
   typename OffsetVector::ConstIterator offsetIt = m_Offsets->Begin();

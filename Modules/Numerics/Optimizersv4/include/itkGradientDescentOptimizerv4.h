@@ -188,7 +188,7 @@ public:
   void StartOptimization( bool doOnlyInitialization = false ) override;
 
   /** Stop the optimization. */
-  void StopOptimization(void) override;
+  void StopOptimization() override;
 
   /** Resume the optimization. */
   void ResumeOptimization() override;

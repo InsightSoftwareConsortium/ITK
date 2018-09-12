@@ -38,7 +38,7 @@ void MetaArrayReader
 }
 
 MetaArray * MetaArrayReader
-::GetMetaArrayPointer(void)
+::GetMetaArrayPointer()
 {
   return &m_MetaArray;
 }

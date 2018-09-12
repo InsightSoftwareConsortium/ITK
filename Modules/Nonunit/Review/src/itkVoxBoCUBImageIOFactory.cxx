@@ -43,7 +43,7 @@ VoxBoCUBImageIOFactory::~VoxBoCUBImageIOFactory()
 {}
 
 const char *
-VoxBoCUBImageIOFactory::GetITKSourceVersion(void) const
+VoxBoCUBImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }

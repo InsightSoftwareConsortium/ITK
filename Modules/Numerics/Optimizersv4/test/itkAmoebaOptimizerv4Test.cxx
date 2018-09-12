@@ -93,7 +93,7 @@ public:
     GetDerivative( derivative );
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) override
+  void Initialize() throw ( itk::ExceptionObject ) override
   {
     m_Parameters.SetSize( SpaceDimension );
   }
@@ -103,7 +103,7 @@ public:
     return SpaceDimension;
   }
 
-  Superclass::NumberOfParametersType GetNumberOfParameters(void) const override
+  Superclass::NumberOfParametersType GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }
@@ -201,7 +201,7 @@ public:
     GetDerivative( derivative );
     }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) override
+  void Initialize() throw ( itk::ExceptionObject ) override
     {
     m_Parameters.SetSize( SpaceDimension );
     }
@@ -211,7 +211,7 @@ public:
     return SpaceDimension;
     }
 
-  Superclass::NumberOfParametersType GetNumberOfParameters(void) const override
+  Superclass::NumberOfParametersType GetNumberOfParameters() const override
     {
     return SpaceDimension;
     }

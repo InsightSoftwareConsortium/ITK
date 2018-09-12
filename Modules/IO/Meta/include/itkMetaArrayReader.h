@@ -60,37 +60,37 @@ public:
   void Update();
 
   /** Return the MetaIO type that corresponds to the element type. */
-  MET_ValueEnumType GetDataType(void) const
+  MET_ValueEnumType GetDataType() const
   {
     return m_MetaArray.ElementType();
   }
 
   /** Size is used by itkArray and VariableLengthVector. */
-  int Size(void) const
+  int Size() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetNumberOfElements is used by itkArray and VariableLengthVector. */
-  int GetNumberOfElements(void) const
+  int GetNumberOfElements() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetVectorDimension is used by itkVector. */
-  int GetVectorDimension(void) const
+  int GetVectorDimension() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetNumberOfComponents is used by itkVector and itkCovariantVector. */
-  int GetNumberOfComponents(void) const
+  int GetNumberOfComponents() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetCovariantVectorDimension is used by itkVector. */
-  int GetCovariantVectorDimension(void) const
+  int GetCovariantVectorDimension() const
   {
     return m_MetaArray.Length();
   }

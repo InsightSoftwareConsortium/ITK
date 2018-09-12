@@ -400,7 +400,7 @@ public:
     return Self::DisplacementField;
   }
 
-  NumberOfParametersType GetNumberOfLocalParameters(void) const override
+  NumberOfParametersType GetNumberOfLocalParameters() const override
   {
     return Dimension;
   }

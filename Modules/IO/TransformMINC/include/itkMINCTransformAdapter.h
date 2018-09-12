@@ -222,7 +222,7 @@ public:
 
   /** Set the transformation to an Identity
     */
-  virtual void SetIdentity( void )
+  virtual void SetIdentity()
   {
     cleanup();
   }
@@ -239,7 +239,7 @@ public:
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  NumberOfParametersType GetNumberOfParameters(void) const override
+  NumberOfParametersType GetNumberOfParameters() const override
   {
     //this transform is defined by XFM file
     itkExceptionMacro( << "Not Defined" );
@@ -253,7 +253,7 @@ public:
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  const ParametersType & GetParameters(void) const override
+  const ParametersType & GetParameters() const override
   {
     itkExceptionMacro( << "Not Implemented" );
     return m_Parameters;
@@ -267,7 +267,7 @@ public:
     m_Initialized=true;
   }
 
-  void Invert(void)
+  void Invert()
   {
     if(!m_Initialized)
       itkExceptionMacro( << "XFM not initialized" );
@@ -295,7 +295,7 @@ protected:
     cleanup();
   }
 
-  void cleanup(void)
+  void cleanup()
   {
     if(m_Initialized)
       {

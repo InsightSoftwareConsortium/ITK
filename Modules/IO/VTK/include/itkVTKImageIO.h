@@ -67,12 +67,12 @@ public:
 // see super class for documentation
   //
   // overidden to return true only when supported
-  bool CanStreamWrite(void) override;
+  bool CanStreamWrite() override;
 
   // see super class for documentation
   //
   // overidden to return true only when supported
-  bool CanStreamRead(void) override;
+  bool CanStreamRead() override;
 
 
   /*-------- This part of the interface deals with reading data. ------ */

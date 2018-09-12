@@ -155,7 +155,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetStandardDe
 
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
-void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::RunRegistration(void)
+void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::RunRegistration()
 {
 
   MultiResSolve();

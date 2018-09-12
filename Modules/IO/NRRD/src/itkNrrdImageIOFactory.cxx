@@ -34,7 +34,7 @@ NrrdImageIOFactory::~NrrdImageIOFactory()
 {}
 
 const char *
-NrrdImageIOFactory::GetITKSourceVersion(void) const
+NrrdImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +50,7 @@ NrrdImageIOFactory::GetDescription() const
 
 static bool NrrdImageIOFactoryHasBeenRegistered;
 
-void ITKIONRRD_EXPORT NrrdImageIOFactoryRegister__Private(void)
+void ITKIONRRD_EXPORT NrrdImageIOFactoryRegister__Private()
 {
   if( ! NrrdImageIOFactoryHasBeenRegistered )
     {

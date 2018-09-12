@@ -117,7 +117,7 @@ public:
   }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator(void)
+  InterpolatorType * GetMovingImageInterpolator()
   {
     return m_MovingImageInterpolator;
   }

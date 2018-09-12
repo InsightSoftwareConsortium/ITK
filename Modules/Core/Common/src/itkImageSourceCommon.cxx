@@ -30,7 +30,7 @@ SimpleFastMutexLock globalDefaultSplitterLock;
 ImageRegionSplitterBase::Pointer globalDefaultSplitter;
 }
 
-const ImageRegionSplitterBase*  ImageSourceCommon::GetGlobalDefaultSplitter(void)
+const ImageRegionSplitterBase*  ImageSourceCommon::GetGlobalDefaultSplitter()
 {
   if ( globalDefaultSplitter.IsNull() )
     {

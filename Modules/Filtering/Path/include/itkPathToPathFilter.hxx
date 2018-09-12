@@ -64,7 +64,7 @@ PathToPathFilter< TInputPath, TOutputPath >
 template< typename TInputPath, typename TOutputPath >
 const typename PathToPathFilter< TInputPath, TOutputPath >::InputPathType *
 PathToPathFilter< TInputPath, TOutputPath >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< const TInputPath * >( this->GetPrimaryInput() );
 }

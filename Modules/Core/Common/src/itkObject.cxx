@@ -631,7 +631,7 @@ Object
 
 MetaDataDictionary &
 Object
-::GetMetaDataDictionary(void)
+::GetMetaDataDictionary()
 {
   if ( m_MetaDataDictionary == nullptr )
     {
@@ -642,7 +642,7 @@ Object
 
 const MetaDataDictionary &
 Object
-::GetMetaDataDictionary(void) const
+::GetMetaDataDictionary() const
 {
   if ( m_MetaDataDictionary == nullptr )
     {

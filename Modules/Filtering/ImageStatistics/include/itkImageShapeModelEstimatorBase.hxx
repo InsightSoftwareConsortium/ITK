@@ -25,7 +25,7 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
-::ImageShapeModelEstimatorBase(void)
+::ImageShapeModelEstimatorBase()
 {}
 
 template< typename TInputImage, typename TOutputImage >

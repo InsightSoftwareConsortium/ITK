@@ -267,7 +267,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 const TimeStamp&
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualDomainTimeStamp( void ) const
+::GetVirtualDomainTimeStamp() const
 {
   if( ! this->GetVirtualImage() )
     {
@@ -360,7 +360,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualSpacingType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualSpacing( void ) const
+::GetVirtualSpacing() const
 {
   if( this->m_VirtualImage )
     {
@@ -378,7 +378,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualDirectionType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualDirection( void ) const
+::GetVirtualDirection() const
 {
   if( this->m_VirtualImage )
     {
@@ -396,7 +396,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualOriginType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualOrigin( void ) const
+::GetVirtualOrigin() const
 {
   if( this->m_VirtualImage )
     {
@@ -414,7 +414,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualRegionType &
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualRegion( void ) const
+::GetVirtualRegion() const
 {
   if( this->m_VirtualImage )
     {

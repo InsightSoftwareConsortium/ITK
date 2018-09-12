@@ -25,7 +25,7 @@ namespace itk
 template< typename TInputImage,
           typename TMembershipFunction >
 ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::ImageKmeansModelEstimator(void)
+::ImageKmeansModelEstimator()
 {
   m_ValidInCodebook  = false;
   m_DoubleMaximum    = NumericTraits< double >::max();
@@ -43,7 +43,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 template< typename TInputImage,
           typename TMembershipFunction >
 ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::~ImageKmeansModelEstimator(void)
+::~ImageKmeansModelEstimator()
 {}
 
 /**

@@ -66,7 +66,7 @@ void onUserRemove( itk::Object *o, const itk::EventObject &, void *data )
   o->RemoveObserver(idToRemove);
 }
 
-int testDeleteObserverDuringEvent(void)
+int testDeleteObserverDuringEvent()
 {
   itk::Object::Pointer o = itk::Object::New();
 
@@ -170,7 +170,7 @@ int testDeleteObserverDuringEvent(void)
 }
 
 
-int testCommandConstObject(void)
+int testCommandConstObject()
 {
 
   itk::Object::Pointer o = itk::Object::New();
@@ -201,7 +201,7 @@ int testCommandConstObject(void)
 }
 
 
-int testCommandRecursiveObject(void)
+int testCommandRecursiveObject()
 {
   // this test has an command invoking another event, while removing a
   // a Command.
@@ -262,7 +262,7 @@ int testCommandRecursiveObject(void)
 }
 
 
-bool testDeleteEventThrow(void)
+bool testDeleteEventThrow()
 {
   // check the case where an exception in thrown in the DeleteEvent
   itk::Object::Pointer o = itk::Object::New();

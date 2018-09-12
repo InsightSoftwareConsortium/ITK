@@ -113,7 +113,7 @@ double NormalVariateGenerator::GetVariate()
 
 /*      -----------------------------------------------------   */
 
-double NormalVariateGenerator::FastNorm(void)
+double NormalVariateGenerator::FastNorm()
 {
   int    i;
   int    inc    = 0;

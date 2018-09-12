@@ -26,7 +26,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TPointDimension >
 TubeSpatialObjectPoint< TPointDimension >
-::TubeSpatialObjectPoint(void)
+::TubeSpatialObjectPoint()
 {
   m_NumDimensions = TPointDimension;
   m_T.Fill(0);
@@ -38,14 +38,14 @@ TubeSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 TubeSpatialObjectPoint< TPointDimension >
-::~TubeSpatialObjectPoint(void)
+::~TubeSpatialObjectPoint()
 {}
 
 /** Get the radius */
 template< unsigned int TPointDimension >
 float
 TubeSpatialObjectPoint< TPointDimension >
-::GetRadius(void) const
+::GetRadius() const
 {
   return m_R;
 }
@@ -62,7 +62,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetTangent(void) const
+::GetTangent() const
 {
   return m_T;
 }
@@ -176,7 +176,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 unsigned short int
 TubeSpatialObjectPoint< TPointDimension >
-::GetNumDimensions(void) const
+::GetNumDimensions() const
 {
   return m_NumDimensions;
 }

@@ -120,7 +120,7 @@ public:
   itkTypeMacro(GPUGradientAnisotropicDiffusionImageFilterFactory, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     GPUGradientAnisotropicDiffusionImageFilterFactory::Pointer factory =
       GPUGradientAnisotropicDiffusionImageFilterFactory::New();

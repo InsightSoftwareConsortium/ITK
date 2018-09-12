@@ -92,7 +92,7 @@ Solver<VDimension>
 template <unsigned int VDimension>
 typename Solver<VDimension>::FEMObjectType *
 Solver<VDimension>
-::GetInput(void)
+::GetInput()
   {
   if( this->GetNumberOfInputs() < 1 )
     {
@@ -203,7 +203,7 @@ Solver<VDimension>
 template <unsigned int VDimension>
 void
 Solver<VDimension>
-::InitializeLinearSystemWrapper(void)
+::InitializeLinearSystemWrapper()
 {
   // set the maximum number of matrices and vectors that
   // we will need to store inside.

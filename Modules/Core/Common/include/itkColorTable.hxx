@@ -46,7 +46,7 @@ ColorTable< TPixel >
 template< typename TPixel >
 void
 ColorTable< TPixel >
-::UseDiscreteColors(void)
+::UseDiscreteColors()
 {
   this->DeleteColors();
 

@@ -122,7 +122,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro( "StopOptimization called with a description - "
                 << this->GetStopConditionDescription() );

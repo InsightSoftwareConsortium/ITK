@@ -169,19 +169,19 @@ public:
   }
 
   /** Return the matrix. */
-  inline InternalMatrixType & GetVnlMatrix(void)
+  inline InternalMatrixType & GetVnlMatrix()
   {
     return m_Matrix;
   }
 
   /** Return the matrix. */
-  inline const InternalMatrixType & GetVnlMatrix(void) const
+  inline const InternalMatrixType & GetVnlMatrix() const
   {
     return m_Matrix;
   }
 
   /** Set the matrix to identity. */
-  inline void SetIdentity(void)
+  inline void SetIdentity()
   {
     m_Matrix.set_identity();
   }
@@ -249,7 +249,7 @@ public:
   }
 
   /** Return the inverse matrix. */
-  inline vnl_matrix_fixed< T, NColumns, NRows > GetInverse(void) const
+  inline vnl_matrix_fixed< T, NColumns, NRows > GetInverse() const
   {
     if ( vnl_determinant(m_Matrix) == 0.0 )
       {
@@ -260,7 +260,7 @@ public:
   }
 
   /** Return the transposed matrix. */
-  inline vnl_matrix_fixed< T, NColumns, NRows > GetTranspose(void) const
+  inline vnl_matrix_fixed< T, NColumns, NRows > GetTranspose() const
   {
     return m_Matrix.transpose();
   }

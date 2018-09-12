@@ -26,7 +26,7 @@ namespace itk
 template< typename THistogram, typename TOutput >
 void
 OtsuThresholdCalculator< THistogram, TOutput >
-::GenerateData(void)
+::GenerateData()
 {
   this->UpdateProgress(0.0);
   // Compute the Otsu threshold using the OtsuMultipleThresholdsCalculator to ensure code reusability.

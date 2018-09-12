@@ -42,14 +42,14 @@ ExhaustiveOptimizer
  * Start walking
  */
 
-void ExhaustiveOptimizer::StartOptimization(void)
+void ExhaustiveOptimizer::StartOptimization()
 {
   this->StartWalking();
 }
 
 void
 ExhaustiveOptimizer
-::StartWalking(void)
+::StartWalking()
 {
   itkDebugMacro("StartWalking");
   this->InvokeEvent( StartEvent() );
@@ -106,7 +106,7 @@ ExhaustiveOptimizer
  */
 void
 ExhaustiveOptimizer
-::ResumeWalking(void)
+::ResumeWalking()
 {
   itkDebugMacro("ResumeWalk");
   m_Stop = false;
@@ -152,7 +152,7 @@ ExhaustiveOptimizer
 
 void
 ExhaustiveOptimizer
-::StopWalking(void)
+::StopWalking()
 {
   itkDebugMacro("StopWalking");
 
@@ -162,7 +162,7 @@ ExhaustiveOptimizer
 
 void
 ExhaustiveOptimizer
-::AdvanceOneStep(void)
+::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 

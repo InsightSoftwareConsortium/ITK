@@ -71,7 +71,7 @@ template<> itk::ImageBase<3>::DirectionType PreFillDirection<3> ();
 template<> itk::ImageBase<4>::DirectionType PreFillDirection<4> ();
 
 template <typename T>
-int MakeNiftiImage(void)
+int MakeNiftiImage()
 {
   using ImageType = itk::Image<T, 3>;
   const char *filename = "test.nii";

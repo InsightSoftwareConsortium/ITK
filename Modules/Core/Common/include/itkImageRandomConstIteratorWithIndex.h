@@ -155,27 +155,27 @@ public:
   }
 
   /** Move an iterator to the beginning of the region. */
-  void GoToBegin(void)
+  void GoToBegin()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = 0L;
   }
 
   /** Move an iterator to one position past the End of the region. */
-  void GoToEnd(void)
+  void GoToEnd()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = m_NumberOfSamplesRequested;
   }
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtBegin(void) const
+  bool IsAtBegin() const
   {
     return ( m_NumberOfSamplesDone == 0L );
   }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd(void) const
+  bool IsAtEnd() const
   {
     return ( m_NumberOfSamplesDone >= m_NumberOfSamplesRequested );
   }

@@ -78,13 +78,13 @@ public:
 
   StringType GetName() const;
 
-  ModifiedTimeType GetMTime(void){ return m_MTime; }
+  ModifiedTimeType GetMTime() { return m_MTime; }
 
 protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void Modified(void){ m_MTime++; }
+  void Modified() { m_MTime++; }
 
 private:
   PixelType        m_Color;

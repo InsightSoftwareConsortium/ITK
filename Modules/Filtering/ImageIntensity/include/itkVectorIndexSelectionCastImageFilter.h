@@ -117,7 +117,7 @@ public:
       }
   }
 
-  unsigned int GetIndex(void) const
+  unsigned int GetIndex() const
   {
     return this->GetFunctor().GetIndex();
   }

@@ -437,7 +437,7 @@ bool JPEGImageIO::CanWriteFile(const char *name)
   return false;
 }
 
-void JPEGImageIO::WriteImageInformation(void)
+void JPEGImageIO::WriteImageInformation()
 {}
 
 void JPEGImageIO::Write(const void *buffer)

@@ -167,7 +167,7 @@ void MultivariateLegendrePolynomial
 
 const MultivariateLegendrePolynomial::CoefficientArrayType &
 MultivariateLegendrePolynomial
-::GetCoefficients(void) const
+::GetCoefficients() const
 {
   return m_CoefficientArray;
 }

@@ -21,7 +21,7 @@
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkStdStreamStateSave.h"
 
-static bool TestDisplacementJacobianDeterminantValue(void)
+static bool TestDisplacementJacobianDeterminantValue()
 {
   bool testPassed = true;
   constexpr unsigned int ImageDimension = 2;

@@ -106,7 +106,7 @@ bool VTKImageIO::CanReadFile(const char *filename)
 }
 
 
-bool VTKImageIO::CanStreamRead(void)
+bool VTKImageIO::CanStreamRead()
 {
   bool canStreamRead = true;
   canStreamRead &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;
@@ -114,7 +114,7 @@ bool VTKImageIO::CanStreamRead(void)
   return canStreamRead;
 }
 
-bool VTKImageIO::CanStreamWrite(void)
+bool VTKImageIO::CanStreamWrite()
 {
   bool canStreamWrite = true;
   canStreamWrite &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;

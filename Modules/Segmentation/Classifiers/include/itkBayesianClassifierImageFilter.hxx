@@ -117,7 +117,7 @@ template< typename TInputVectorImage, typename TLabelsType,
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 

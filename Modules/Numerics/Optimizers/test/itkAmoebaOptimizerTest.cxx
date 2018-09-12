@@ -120,7 +120,7 @@ public:
       }
     }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
     {
     return SpaceDimension;
     }
@@ -184,7 +184,7 @@ public:
                                   "no derivative available" );
     }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
     {
     return 1;
     }

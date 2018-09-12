@@ -113,7 +113,7 @@ CenteredEuler3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 const typename CenteredEuler3DTransform<TParametersValueType>::ParametersType
 & CenteredEuler3DTransform<TParametersValueType>
-::GetParameters(void) const
+::GetParameters() const
   {
   ParametersType parameters;
 

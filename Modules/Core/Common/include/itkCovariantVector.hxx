@@ -147,7 +147,7 @@ CovariantVector< T, NVectorDimension >
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
-::GetSquaredNorm(void) const
+::GetSquaredNorm() const
 {
   RealValueType sum = NumericTraits< RealValueType >::ZeroValue();
 
@@ -162,7 +162,7 @@ CovariantVector< T, NVectorDimension >
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
-::GetNorm(void) const
+::GetNorm() const
 {
   return std::sqrt( this->GetSquaredNorm() );
 }
@@ -170,7 +170,7 @@ CovariantVector< T, NVectorDimension >
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
-::Normalize(void)
+::Normalize()
 {
   const RealValueType norm = this->GetNorm();
 
@@ -196,7 +196,7 @@ CovariantVector< T, NVectorDimension >
 template< typename T, unsigned int NVectorDimension >
 vnl_vector_ref< T >
 CovariantVector< T, NVectorDimension >
-::GetVnlVector(void)
+::GetVnlVector()
 {
   return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
 }
@@ -204,7 +204,7 @@ CovariantVector< T, NVectorDimension >
 template< typename T, unsigned int NVectorDimension >
 vnl_vector< T >
 CovariantVector< T, NVectorDimension >
-::GetVnlVector(void) const
+::GetVnlVector() const
 {
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally

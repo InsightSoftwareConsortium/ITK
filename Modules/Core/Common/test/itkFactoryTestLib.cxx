@@ -161,7 +161,7 @@ public:
   itkTypeMacro(ImportImageContainerFactory, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     ImportImageContainerFactory::Pointer factory = ImportImageContainerFactory::New();
     itk::ObjectFactoryBase::RegisterFactory(factory);

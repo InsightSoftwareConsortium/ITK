@@ -56,7 +56,7 @@ InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 template< typename TInputMesh, typename TOutputMesh, typename TSpatialFunction >
 void
 InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
-::GenerateData(void)
+::GenerateData()
 {
   using InputPointsContainer = typename TInputMesh::PointsContainer;
 

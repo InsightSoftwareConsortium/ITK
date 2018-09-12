@@ -201,7 +201,7 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this
   // minipipeline

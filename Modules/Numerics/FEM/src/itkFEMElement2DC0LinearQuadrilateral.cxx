@@ -166,7 +166,7 @@ Element2DC0LinearQuadrilateral
   return isInside;
 }
 
-void Element2DC0LinearQuadrilateral::PopulateEdgeIds(void)
+void Element2DC0LinearQuadrilateral::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 

@@ -655,7 +655,7 @@ void LinearSystemWrapperItpack::AddSolutionValue(unsigned int i, Float value, un
   ( *m_Solutions )[solutionIndex][i] += value;
 }
 
-void LinearSystemWrapperItpack::Solve(void)
+void LinearSystemWrapperItpack::Solve()
 {
   /* error checking */
   if( !m_Order || !m_Matrices || !m_Vectors || !m_Solutions )
@@ -1153,7 +1153,7 @@ void LinearSystemWrapperItpack::MultiplyMatrixSolution(unsigned int resultVector
 }
 
 
-LinearSystemWrapperItpack::~LinearSystemWrapperItpack(void)
+LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
 {
   delete m_Matrices;
 

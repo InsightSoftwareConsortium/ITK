@@ -366,7 +366,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::ClassifyDiagram(void)
+::ClassifyDiagram()
 {
   PointIdIterator currPit;
   PointIdIterator currPitEnd;
@@ -420,7 +420,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::GenerateAddingSeeds(void)
+::GenerateAddingSeeds()
 {
   EdgeIterator eit;
   auto eitend = m_WorkingVD->EdgeEnd();
@@ -445,7 +445,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::RunSegmentOneStep(void)
+::RunSegmentOneStep()
 {
   m_NumberOfPixels.resize(m_NumberOfSeeds);
   m_Label.resize(m_NumberOfSeeds);
@@ -472,7 +472,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::RunSegment(void)
+::RunSegment()
 {
   bool ok = 1;
 
@@ -535,7 +535,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::GenerateData(void)
+::GenerateData()
 {
   // Allocate the output
   this->GetOutput()
@@ -565,7 +565,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::BeforeNextStep(void)
+::BeforeNextStep()
 {
   m_VDGenerator->AddSeeds( m_NumberOfSeedsToAdded, m_SeedsToAdded.begin() );
   m_LastStepSeeds = m_NumberOfSeeds;
@@ -575,7 +575,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::MakeSegmentBoundary(void)
+::MakeSegmentBoundary()
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
 
@@ -607,7 +607,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::MakeSegmentObject(void)
+::MakeSegmentObject()
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
 

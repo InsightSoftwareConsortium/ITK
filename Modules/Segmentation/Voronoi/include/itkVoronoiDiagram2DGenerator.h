@@ -112,7 +112,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Voronoi Diagram based on the current list of seeds. */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   unsigned int m_NumberOfSeeds;

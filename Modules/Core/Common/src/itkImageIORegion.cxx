@@ -236,7 +236,7 @@ ImageIORegion
    * multiplies the size components. */
 ImageIORegion::SizeValueType
 ImageIORegion
-::GetNumberOfPixels(void) const
+::GetNumberOfPixels() const
 {
   size_t numPixels = 1;
 

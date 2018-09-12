@@ -457,7 +457,7 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::InitializeBufferedRegion(void)
+::InitializeBufferedRegion()
 {
   //
   // We don't modify ourselves because the "ReleaseData" methods depend upon

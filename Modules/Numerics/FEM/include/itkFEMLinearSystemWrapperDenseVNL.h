@@ -125,7 +125,7 @@ public:
   {
     ( *( ( *m_Solutions )[solutionIndex] ) )(i) += value;
   }
-  void  Solve(void) override;
+  void  Solve() override;
 
   /* matrix & vector manipulation routines */
   void  ScaleMatrix(Float scale, unsigned int matrixIndex) override;

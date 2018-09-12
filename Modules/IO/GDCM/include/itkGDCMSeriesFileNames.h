@@ -139,7 +139,7 @@ public:
    *   and SeriesName to identify when a single SeriesUID contains
    *   multiple 3D volumes - as can occur with perfusion and DTI imaging
    */
-  bool GetUseSeriesDetails(void)
+  bool GetUseSeriesDetails()
   {
     return m_UseSeriesDetails;
   }

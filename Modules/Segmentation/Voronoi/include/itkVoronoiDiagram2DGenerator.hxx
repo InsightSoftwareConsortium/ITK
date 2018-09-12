@@ -135,7 +135,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::SortSeeds(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::SortSeeds()
 {
   std::sort(m_Seeds.begin(), m_Seeds.end(), comp);
 }
@@ -174,7 +174,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GetSeed(int SeedID)
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::GenerateData(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::GenerateData()
 {
   SortSeeds();
   m_OutputVD->SetSeeds( m_NumberOfSeeds, m_Seeds.begin() );
@@ -184,7 +184,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateData(void)
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::UpdateDiagram(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::UpdateDiagram()
 {
   this->GenerateData();
 }
@@ -241,7 +241,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::Pointonbnd(int VertID)
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram()
 {
   auto * rawEdges = new EdgeInfoDQ[m_NumberOfSeeds];
 
@@ -811,7 +811,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::intersect(FortuneSite *newV, Fortune
 
 template< typename TCoordRepType >
 typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneHalfEdge *
-VoronoiDiagram2DGenerator< TCoordRepType >::getPQmin(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::getPQmin()
 {
   FortuneHalfEdge *curr = m_PQHash[m_PQmin].m_Next;
 
@@ -1031,7 +1031,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::makeEndPoint(FortuneEdge *task, bool
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune()
 {
   unsigned int i;
 

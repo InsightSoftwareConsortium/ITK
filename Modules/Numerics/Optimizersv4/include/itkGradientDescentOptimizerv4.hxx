@@ -66,7 +66,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
-::StopOptimization(void)
+::StopOptimization()
 {
   if( this->m_ReturnBestParametersAndValue )
     {

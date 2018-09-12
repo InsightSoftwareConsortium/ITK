@@ -71,7 +71,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 template< typename TInputPointSet, typename TOutputImage >
 const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPointSetType *
 PointSetToImageFilter< TInputPointSet, TOutputImage >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< const TInputPointSet * >( this->GetPrimaryInput() );
 }
@@ -138,7 +138,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   unsigned int i;
 

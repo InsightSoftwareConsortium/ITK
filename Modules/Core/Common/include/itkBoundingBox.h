@@ -166,7 +166,7 @@ public:
   bool IsInside(const PointType &) const;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
   /** Duplicates this bounding box */
   Pointer DeepCopy() const;

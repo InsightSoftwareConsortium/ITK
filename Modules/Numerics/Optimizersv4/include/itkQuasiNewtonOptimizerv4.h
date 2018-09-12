@@ -185,7 +185,7 @@ protected:
    * Advance one step using the Quasi-Newton step. When the Newton step
    * is invalid, the gradient step will be used.
    */
-  void AdvanceOneStep(void) override;
+  void AdvanceOneStep() override;
 
   QuasiNewtonOptimizerv4Template();
   ~QuasiNewtonOptimizerv4Template() override;

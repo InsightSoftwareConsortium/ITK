@@ -59,7 +59,7 @@ PointSetToImageMetric< TFixedPointSet, TMovingImage >
 template< typename TFixedPointSet, typename TMovingImage >
 void
 PointSetToImageMetric< TFixedPointSet, TMovingImage >
-::Initialize(void)
+::Initialize()
 {
   if ( !m_Transform )
     {

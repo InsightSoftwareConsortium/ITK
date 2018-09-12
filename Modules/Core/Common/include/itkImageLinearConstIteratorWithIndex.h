@@ -170,13 +170,13 @@ public:
   void GoToEndOfLine();
 
   /** Test if the index is at the end of line */
-  inline bool IsAtEndOfLine(void)
+  inline bool IsAtEndOfLine()
   {
     return this->m_PositionIndex[m_Direction] >= this->m_EndIndex[m_Direction];
   }
 
   /** Test if the index is at the begin of line */
-  inline bool IsAtReverseEndOfLine(void)
+  inline bool IsAtReverseEndOfLine()
   {
     return this->m_PositionIndex[m_Direction] < this->m_BeginIndex[m_Direction];
   }
@@ -229,7 +229,7 @@ template< typename TImage >
 inline
 void
 ImageLinearConstIteratorWithIndex< TImage >
-::NextLine(void)
+::NextLine()
 {
   this->m_Position -= this->m_OffsetTable[m_Direction]
                       * ( this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction] );
@@ -267,7 +267,7 @@ template< typename TImage >
 inline
 void
 ImageLinearConstIteratorWithIndex< TImage >
-::PreviousLine(void)
+::PreviousLine()
 {
   this->m_Position += this->m_OffsetTable[m_Direction]
                       * ( this->m_EndIndex[m_Direction] - 1 - this->m_PositionIndex[m_Direction] );

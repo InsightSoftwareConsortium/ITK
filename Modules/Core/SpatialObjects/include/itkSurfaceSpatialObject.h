@@ -77,7 +77,7 @@ public:
   SpatialObjectPointType * GetPoint(IdentifierType id) override { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints(void) const override
+  SizeValueType GetNumberOfPoints() const override
   {
     return static_cast<SizeValueType>( m_Points.size() );
   }

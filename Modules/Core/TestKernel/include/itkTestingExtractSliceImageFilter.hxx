@@ -293,7 +293,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 ExtractSliceImageFilter< TInputImage, TOutputImage >
-::GetInput(void) const
+::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }

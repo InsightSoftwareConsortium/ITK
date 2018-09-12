@@ -47,7 +47,7 @@ template< typename TInputImage, typename TOutputImage >
 typename BinaryPruningImageFilter<
   TInputImage, TOutputImage >::OutputImageType *
 BinaryPruningImageFilter< TInputImage, TOutputImage >
-::GetPruning(void)
+::GetPruning()
 {
   return dynamic_cast< OutputImageType * >(
            this->ProcessObject::GetOutput(0) );
@@ -59,7 +59,7 @@ BinaryPruningImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryPruningImageFilter< TInputImage, TOutputImage >
-::PrepareData(void)
+::PrepareData()
 {
   itkDebugMacro(<< "PrepareData Start");
   OutputImagePointer pruneImage = GetPruning();

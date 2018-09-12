@@ -83,7 +83,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::MapToSphere(void)
+::MapToSphere()
 {
   this->m_MapToSphere = true;
 }
@@ -94,7 +94,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::MapToPlane(void)
+::MapToPlane()
 {
   this->m_MapToSphere = false;
 }
@@ -116,7 +116,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::GenerateData(void)
+::GenerateData()
 {
   using OutputPointsContainer = typename TOutputMesh::PointsContainer;
   using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;

@@ -152,11 +152,11 @@ public:
   void GoToEnd() { m_Position = m_End; }
 
   /** Is the iterator at the beginning of the tree? */
-  bool IsAtBegin(void) const { return ( m_Position == m_Begin ); }
+  bool IsAtBegin() const { return ( m_Position == m_Begin ); }
 
   /** Is the iterator at the end of the tree?. The iterator is at the
    * end if it points to nullptr */
-  bool IsAtEnd(void) const { return ( m_Position == m_End ); }
+  bool IsAtEnd() const { return ( m_Position == m_End ); }
 
   /** Clone the iterator */
   virtual TreeIteratorBase< TTreeType > * Clone() = 0;

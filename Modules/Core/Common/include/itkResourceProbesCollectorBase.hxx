@@ -236,7 +236,7 @@ ResourceProbesCollectorBase< TProbe >
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
-::Clear(void)
+::Clear()
 {
   this->m_Probes.clear();
 }

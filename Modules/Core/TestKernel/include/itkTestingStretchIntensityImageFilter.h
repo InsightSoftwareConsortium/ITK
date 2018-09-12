@@ -98,7 +98,7 @@ protected:
   ~StretchIntensityImageFilter() override {}
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData(void) override;
+  void BeforeThreadedGenerateData() override;
 
   /** Print internal ivars */
   void PrintSelf(std::ostream & os, Indent indent) const override;

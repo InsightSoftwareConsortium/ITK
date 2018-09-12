@@ -152,13 +152,13 @@ public:
   }
 
   /** Get the Red component. */
-  const ComponentType & GetRed(void) const { return this->operator[](0); }
+  const ComponentType & GetRed() const { return this->operator[](0); }
 
   /** Get the Green component. */
-  const ComponentType & GetGreen(void) const { return this->operator[](1); }
+  const ComponentType & GetGreen() const { return this->operator[](1); }
 
   /** Get the Blue component. */
-  const ComponentType & GetBlue(void) const { return this->operator[](2); }
+  const ComponentType & GetBlue() const { return this->operator[](2); }
 
   /** Get Luminance out of RGB */
   LuminanceType GetLuminance() const;

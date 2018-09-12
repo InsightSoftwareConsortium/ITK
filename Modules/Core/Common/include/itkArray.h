@@ -120,9 +120,9 @@ public:
   const Self & operator=(const VnlVectorType & rhs);
 
   /** Return the number of elements in the Array  */
-  SizeValueType Size(void) const
+  SizeValueType Size() const
   { return static_cast<SizeValueType >( this->size() ); }
-  unsigned int GetNumberOfElements(void) const
+  unsigned int GetNumberOfElements() const
   { return static_cast<SizeValueType >( this->size() ); }
 
   /** Get one element */
@@ -136,7 +136,7 @@ public:
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(SizeValueType sz);
 
-  SizeValueType GetSize(void) const
+  SizeValueType GetSize() const
   { return static_cast< SizeValueType >( this->size() ); }
 
   /** Set the pointer from which the data is imported.

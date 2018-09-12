@@ -69,7 +69,7 @@ ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
-::Initialize(void)
+::Initialize()
 {
   if ( !m_ShapeFunction )
     {

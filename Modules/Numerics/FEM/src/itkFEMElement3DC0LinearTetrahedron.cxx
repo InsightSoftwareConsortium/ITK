@@ -171,7 +171,7 @@ Element3DC0LinearTetrahedron
     }
 }
 
-void Element3DC0LinearTetrahedron::PopulateEdgeIds(void)
+void Element3DC0LinearTetrahedron::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 

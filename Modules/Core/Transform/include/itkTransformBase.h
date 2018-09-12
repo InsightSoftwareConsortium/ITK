@@ -68,16 +68,16 @@ public:
   using NumberOfParametersType = IdentifierType;
 
   /** Return the number of parameters that completely define the Transfom  */
-  virtual NumberOfParametersType GetNumberOfParameters(void) const = 0;
+  virtual NumberOfParametersType GetNumberOfParameters() const = 0;
 
   /** Get the Transformation Parameters. */
-  virtual const ParametersType & GetParameters(void) const = 0;
+  virtual const ParametersType & GetParameters() const = 0;
 
   /** Get the size of the input space */
-  virtual unsigned int GetInputSpaceDimension(void) const = 0;
+  virtual unsigned int GetInputSpaceDimension() const = 0;
 
   /** Get the size of the output space */
-  virtual unsigned int GetOutputSpaceDimension(void) const = 0;
+  virtual unsigned int GetOutputSpaceDimension() const = 0;
 
   /** Set the transformation parameters and update internal transformation. */
   virtual void SetParameters(const ParametersType &) = 0;

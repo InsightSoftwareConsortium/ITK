@@ -83,7 +83,7 @@ public:
 
   /** Returns the instant value of the probed system.
    */
-  virtual ValueType   GetInstantValue(void) const = 0;
+  virtual ValueType   GetInstantValue() const = 0;
 
   /** Returns the accumulated value changes between the starts and stops
    *  of the probe */

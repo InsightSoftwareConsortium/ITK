@@ -73,7 +73,7 @@ template< typename TPointIdentifier, int VPointDimension,
 const typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                             TPointsContainer >::PointsContainer *
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetPoints(void) const
+::GetPoints() const
 {
   itkDebugMacro("returning Points container of " << m_PointsContainer);
 
@@ -86,7 +86,7 @@ template< typename TPointIdentifier, int VPointDimension,
 const typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                             TPointsContainer >::PointsContainer *
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetCorners(void)
+::GetCorners()
 {
   m_CornersContainer->clear();
 
@@ -134,7 +134,7 @@ template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 bool
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::ComputeBoundingBox(void) const
+::ComputeBoundingBox() const
 {
   if ( !m_PointsContainer )
     {
@@ -196,7 +196,7 @@ template< typename TPointIdentifier, int VPointDimension,
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::PointType
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetCenter(void) const
+::GetCenter() const
 {
   this->ComputeBoundingBox();
 
@@ -214,7 +214,7 @@ template< typename TPointIdentifier, int VPointDimension,
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::PointType
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetMinimum(void) const
+::GetMinimum() const
 {
   this->ComputeBoundingBox();
 
@@ -246,7 +246,7 @@ template< typename TPointIdentifier, int VPointDimension,
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::PointType
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetMaximum(void) const
+::GetMaximum() const
 {
   this->ComputeBoundingBox();
 
@@ -306,7 +306,7 @@ template< typename TPointIdentifier, int VPointDimension,
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::AccumulateType
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetDiagonalLength2(void) const
+::GetDiagonalLength2() const
 {
   typename NumericTraits< CoordRepType >::AccumulateType
   dist2 = NumericTraits< CoordRepType >::ZeroValue();
@@ -351,7 +351,7 @@ template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 ModifiedTimeType
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetMTime(void) const
+::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
@@ -370,7 +370,7 @@ template< typename TPointIdentifier, int VPointDimension,
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::Pointer
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::DeepCopy(void) const
+::DeepCopy() const
 {
   Pointer clone = Self::New();
 

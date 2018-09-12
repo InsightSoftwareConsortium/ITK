@@ -73,7 +73,7 @@ protected:
   KittlerIllingworthThresholdCalculator() {}
   ~KittlerIllingworthThresholdCalculator() override {}
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
   using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;

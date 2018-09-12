@@ -51,7 +51,7 @@ public:
   using MeanMemoryLoadType = double;
 
 protected:
-  MemoryLoadType GetInstantValue(void) const override;
+  MemoryLoadType GetInstantValue() const override;
 
 private:
   mutable MemoryUsageObserver m_MemoryObserver;

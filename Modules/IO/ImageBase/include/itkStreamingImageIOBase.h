@@ -65,12 +65,12 @@ public:
   // see super class for documentation
   //
   // overidden to return true
-  bool CanStreamWrite(void) override;
+  bool CanStreamWrite() override;
 
   // see super class for documentation
   //
   // overidden to return true
-  bool CanStreamRead(void) override;
+  bool CanStreamRead() override;
 
   // see super class for documentation
   //
@@ -146,13 +146,13 @@ protected:
   virtual bool StreamWriteBufferAsBinary(std::ostream & os, const void *buffer);
 
   /** \brief Returns the size of the header in the file */
-  virtual SizeType GetHeaderSize(void) const = 0;
+  virtual SizeType GetHeaderSize() const = 0;
 
   /** \brief Returns the byte offset into the file where the data is located
    *
    * The default implementation is to return the header size.
    */
-  virtual SizeType GetDataPosition(void) const { return this->GetHeaderSize(); }
+  virtual SizeType GetDataPosition() const { return this->GetHeaderSize(); }
 };
 } // namespace itk
 

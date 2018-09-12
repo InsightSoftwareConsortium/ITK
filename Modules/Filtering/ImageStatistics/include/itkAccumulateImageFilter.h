@@ -123,7 +123,7 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   unsigned int m_AccumulateDimension;

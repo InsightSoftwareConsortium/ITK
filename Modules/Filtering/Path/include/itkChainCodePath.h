@@ -135,7 +135,7 @@ public:
   }
 
   /** Needed for Pipelining */
-  void Initialize(void) override
+  void Initialize() override
   {
     m_Start = this->GetZeroIndex();
     this->Clear();

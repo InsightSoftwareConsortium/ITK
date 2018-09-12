@@ -84,7 +84,7 @@ public:
 
   /** Set the object's value. Added for API consistency with itkBinaryErode
     filter */
-  PixelType GetErodeValue(void)
+  PixelType GetErodeValue()
   {
     return this->GetObjectValue();
   }

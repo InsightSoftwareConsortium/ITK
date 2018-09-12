@@ -44,13 +44,13 @@ VTKImageIOFactory::~VTKImageIOFactory()
 {}
 
 const char *
-VTKImageIOFactory::GetITKSourceVersion(void) const
+VTKImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-VTKImageIOFactory::GetDescription(void) const
+VTKImageIOFactory::GetDescription() const
 {
   return "VTK ImageIO Factory, allows the loading of VTK images into ITK";
 }
@@ -60,7 +60,7 @@ VTKImageIOFactory::GetDescription(void) const
 
 static bool VTKImageIOFactoryHasBeenRegistered;
 
-void ITKIOVTK_EXPORT VTKImageIOFactoryRegister__Private(void)
+void ITKIOVTK_EXPORT VTKImageIOFactoryRegister__Private()
 {
   if( ! VTKImageIOFactoryHasBeenRegistered )
     {

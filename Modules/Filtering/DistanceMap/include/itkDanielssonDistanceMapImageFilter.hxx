@@ -76,7 +76,7 @@ template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::OutputImageType *
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::GetDistanceMap(void)
+::GetDistanceMap()
 {
   return dynamic_cast< OutputImageType * >(
            this->ProcessObject::GetOutput(0) );
@@ -89,7 +89,7 @@ template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::VoronoiImageType *
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::GetVoronoiMap(void)
+::GetVoronoiMap()
 {
   return dynamic_cast< VoronoiImageType* >(
            this->ProcessObject::GetOutput(1) );
@@ -102,7 +102,7 @@ template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::VectorImageType *
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::GetVectorDistanceMap(void)
+::GetVectorDistanceMap()
 {
   return dynamic_cast< VectorImageType * >(
            this->ProcessObject::GetOutput(2) );
@@ -114,7 +114,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 void
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::PrepareData(void)
+::PrepareData()
 {
   itkDebugMacro(<< "PrepareData Start");
   VoronoiImagePointer voronoiMap = this->GetVoronoiMap();

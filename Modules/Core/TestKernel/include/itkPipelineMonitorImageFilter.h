@@ -148,11 +148,11 @@ namespace itk
    bool VerifyInputFilterRequestedLargestRegion();
 
 
-   unsigned int GetNumberOfUpdates(void) const { return m_NumberOfUpdates; }
-   RegionVectorType GetOutputRequestedRegions(void) const {return m_OutputRequestedRegions;}
-   RegionVectorType GetInputRequestedRegions(void) const {return m_InputRequestedRegions;}
-   RegionVectorType GetUpdatedBufferedRegions(void) const {return m_UpdatedBufferedRegions; }
-   RegionVectorType GetUpdatedRequestedRegions(void) const {return m_UpdatedRequestedRegions; }
+   unsigned int GetNumberOfUpdates() const { return m_NumberOfUpdates; }
+   RegionVectorType GetOutputRequestedRegions() const {return m_OutputRequestedRegions;}
+   RegionVectorType GetInputRequestedRegions() const {return m_InputRequestedRegions;}
+   RegionVectorType GetUpdatedBufferedRegions() const {return m_UpdatedBufferedRegions; }
+   RegionVectorType GetUpdatedRequestedRegions() const {return m_UpdatedRequestedRegions; }
 
    itkGetConstMacro(UpdatedOutputOrigin, PointType);
    itkGetConstMacro(UpdatedOutputDirection, DirectionType);
@@ -170,8 +170,8 @@ namespace itk
    void GenerateOutputInformation() override;
    void PropagateRequestedRegion(DataObject *output) override;
    void EnlargeOutputRequestedRegion( DataObject *output) override;
-   void GenerateInputRequestedRegion(void) override;
-   void GenerateData(void) override;
+   void GenerateInputRequestedRegion() override;
+   void GenerateData() override;
 
  protected:
 
