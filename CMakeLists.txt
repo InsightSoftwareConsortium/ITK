@@ -302,6 +302,7 @@ endif()
 # Manage FFT v3 Options
 #
 option(ITK_USE_MKL "Use system Intel Math Kernel Library (MKL) for FFT computation." OFF)
+mark_as_advanced(ITK_USE_MKL)
 if(ITK_USE_MKL)
   # The following lines are only useful if one sets `ITK_USE_MKL` to ON in
   # the command line. Otherwise, the first CMake run will always initialize

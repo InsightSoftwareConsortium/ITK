@@ -75,6 +75,7 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       set(ITK_USE_TBB_WITH_MKL OFF CACHE BOOL "Use TBB threading in MKL" FORCE)
     else()
       option(ITK_USE_TBB_WITH_MKL "Use TBB threading in MKL" ON)
+      mark_as_advanced(ITK_USE_TBB_WITH_MKL)
     endif()
 
     if(CMAKE_SIZEOF_VOID_P EQUAL "8")
