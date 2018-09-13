@@ -32,7 +32,9 @@ template< typename TInputImage, typename TOutputImage >
 FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWRealToHalfHermitianForwardFFTImageFilter()
 {
+#ifndef ITK_USE_CUFFTW
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -117,7 +119,9 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
+#ifndef ITK_USE_CUFFTW
   os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -125,7 +129,11 @@ SizeValueType
 FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GetSizeGreatestPrimeFactor() const
 {
+#ifdef ITK_USE_CUFFTW
+  return 7;
+#else
   return FFTWProxyType::GREATEST_PRIME_FACTOR;
+#endif
 }
 
 } // namespace itk

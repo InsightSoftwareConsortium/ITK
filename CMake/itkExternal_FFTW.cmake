@@ -3,7 +3,7 @@
 include(ITK_CheckCCompilerFlag)
 
 
-if(NOT ITK_USE_MKL)
+if(NOT ITK_USE_MKL AND NOT ITK_USE_CUFFTW)
   set(msg "ATTENTION: You have enabled the use of FFTW.")
   set(msg "${msg} This library is distributed under a GPL license.")
   set(msg "${msg} By enabling this option, the ITK libraries binary")

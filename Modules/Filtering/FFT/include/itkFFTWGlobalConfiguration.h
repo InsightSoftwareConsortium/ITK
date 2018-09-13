@@ -28,7 +28,11 @@
 
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
+#if defined( ITK_USE_CUFFTW )
+#include "cufftw.h"
+#else
 #include "fftw3.h"
+#endif
 #include <algorithm>
 #include <cctype>
 
