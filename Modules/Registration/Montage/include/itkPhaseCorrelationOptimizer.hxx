@@ -22,23 +22,33 @@
 
 namespace itk
 {
-
-
 template < typename TImage >
 PhaseCorrelationOptimizer<TImage>
 ::PhaseCorrelationOptimizer()
 {
   this->SetNumberOfRequiredInputs( 3 );
-  this->SetNumberOfRequiredOutputs( 1 );  // for the parameters
-
-  m_Offset.Fill( 0 );
-
-  OffsetOutputPointer offsetDecorator =
-      static_cast< OffsetOutputType * >( this->MakeOutput(0).GetPointer() );
-  this->ProcessObject::SetNthOutput( 0, offsetDecorator.GetPointer() );
-  //itkDebugMacro( "output is " << this->GetOutput()->Get() );
+  this->SetOffsetCount(4);
 }
 
+template<typename TImage>
+void
+PhaseCorrelationOptimizer<TImage>
+::SetOffsetCount(unsigned count)
+{
+  if ( m_Offsets.size() != count )
+    {
+    this->SetNumberOfRequiredOutputs( count );
+    for (unsigned i = m_Offsets.size(); i < count; i++)
+      {
+      OffsetOutputPointer offsetDecorator =
+          static_cast< OffsetOutputType * >( this->MakeOutput(i).GetPointer() );
+      this->ProcessObject::SetNthOutput( i, offsetDecorator.GetPointer() );
+      }
+    m_Offsets.resize(count);
+
+    this->Modified();
+    }
+}
 
 template < typename TImage >
 void
@@ -46,9 +56,13 @@ PhaseCorrelationOptimizer<TImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Offset: " << m_Offset << std::endl;
+  os << indent << "Offsets:";
+  for (unsigned i = 0; i < m_Offsets.size(); i++)
+    {
+    os << " " << m_Offsets[i];
+    }
+  os << std::endl;
 }
-
 
 template < typename TImage >
 void
@@ -71,19 +85,21 @@ PhaseCorrelationOptimizer<TImage>
       {
       itkDebugMacro( "exception called while computing offset - passing" );
 
-      m_Offset = empty;
+      this->SetOffsetCount(1);
+      m_Offsets[0] = empty;
 
       // pass exception to caller
       throw err;
       }
     }
 
-  // write the result to the output
-  OffsetOutputType * output =
-      static_cast< OffsetOutputType * >( this->ProcessObject::GetOutput(0) );
-  output->Set(m_Offset);
+  for (unsigned i = 0; i < m_Offsets.size(); i++)
+    {
+    // write the result to the output
+    OffsetOutputType * output = static_cast< OffsetOutputType * >( this->ProcessObject::GetOutput(0) );
+    output->Set(m_Offsets[i]);
+    }
 }
-
 
 template < typename TImage >
 void
@@ -99,7 +115,6 @@ PhaseCorrelationOptimizer<TImage>
     }
 }
 
-
 template < typename TImage >
 void
 PhaseCorrelationOptimizer<TImage>
@@ -114,7 +129,6 @@ PhaseCorrelationOptimizer<TImage>
     }
 }
 
-
 template < typename TImage >
 void
 PhaseCorrelationOptimizer<TImage>
@@ -126,32 +140,6 @@ PhaseCorrelationOptimizer<TImage>
     this->ProcessObject::SetNthInput(2, const_cast< ImageBase<ImageType::ImageDimension> * >( image ) );
 
     this->Modified();
-    }
-}
-
-
-template < typename TImage >
-const typename PhaseCorrelationOptimizer<TImage>::OffsetOutputType *
-PhaseCorrelationOptimizer<TImage>
-::GetOutput() const
-{
-  return static_cast< const OffsetOutputType * >(
-                                          this->ProcessObject::GetOutput(0) );
-}
-
-
-template < typename TImage >
-DataObject::Pointer
-PhaseCorrelationOptimizer<TImage>
-::MakeOutput( DataObjectPointerArraySizeType output )
-{
-  switch (output)
-    {
-    case 0:
-      return static_cast<DataObject*>(OffsetOutputType::New().GetPointer());
-      break;
-    default:
-      itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
     }
 }
 

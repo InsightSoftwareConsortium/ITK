@@ -82,7 +82,8 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     }
 
   m_MaxCalculator->SetImage( input );
-  m_MaxCalculator->SetN(2 * (static_cast<unsigned>(std::pow(3, ImageDimension)) - 1));
+  m_MaxCalculator->SetN((this->m_Offsets.size() / 2) *
+      (static_cast<unsigned>(std::pow(3, ImageDimension)) - 1));
 
   try
     {
@@ -173,6 +174,16 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     indices.swap(tIndices);
   }
 
+  if (this->m_Offsets.size() > maxs.size())
+    {
+    this->SetOffsetCount(maxs.size());
+    }
+  else
+    {
+    maxs.resize(this->m_Offsets.size());
+    indices.resize(this->m_Offsets.size());
+    }
+
   for (unsigned m = 0; m < maxs.size(); m++)
     {
     using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
@@ -239,8 +250,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
         }
       }
 
-    this->SetOffset( offset );
-    break; // TODO: handle this properly
+    this->m_Offsets[m] = offset;
     }
 }
 

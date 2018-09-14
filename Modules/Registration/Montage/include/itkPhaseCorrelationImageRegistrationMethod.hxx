@@ -349,12 +349,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     if ( m_RealOptimizer )
       {
       m_RealOptimizer->Update();
-      offset = m_RealOptimizer->GetOffset();
+      offset = m_RealOptimizer->GetOffsets()[0];
       }
     else
       {
       m_ComplexOptimizer->Update();
-      offset = m_ComplexOptimizer->GetOffset();
+      offset = m_ComplexOptimizer->GetOffsets()[0];
       }
     phaseCorrelation->Graft( m_IFFT->GetOutput() );
 
