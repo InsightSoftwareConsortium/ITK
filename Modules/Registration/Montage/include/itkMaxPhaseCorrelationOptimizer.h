@@ -19,7 +19,7 @@
 #define itkMaxPhaseCorrelationOptimizer_h
 
 #include "itkPhaseCorrelationOptimizer.h"
-#include "itkMinimumMaximumImageCalculator.h"
+#include "itkNMinimaMaximaImageCalculator.h"
 
 namespace itk
 {
@@ -69,6 +69,9 @@ public:
   /** Dimensionality of input and output data. */
   itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
 
+  /** Real correlation surface's pixel type. */
+  using PixelType = typename ImageType::PixelType;
+
   /** Type for the output parameters.
   *  It defines a position in the optimization search space. */
   using OffsetType = typename Superclass::OffsetType;
@@ -89,7 +92,7 @@ protected:
   /** This method is executed by superclass to execute the computation. */
   void ComputeOffset() override;
 
-  using MaxCalculatorType = MinimumMaximumImageCalculator< ImageType >;
+  using MaxCalculatorType = NMinimaMaximaImageCalculator< ImageType >;
 
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator;
