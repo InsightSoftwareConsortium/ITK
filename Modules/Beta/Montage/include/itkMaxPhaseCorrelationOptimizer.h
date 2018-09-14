@@ -84,6 +84,10 @@ public:
   itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethod);
   void SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod);
 
+  /** Get/Set suppresion aggressiveness of trivial [0,0,...] solution. */
+  itkGetConstMacro(ZeroSupression, PixelType);
+  itkSetClampMacro(ZeroSupression, PixelType, 1.0, 100.0);
+
 protected:
   MaxPhaseCorrelationOptimizer();
   virtual ~MaxPhaseCorrelationOptimizer() {};
@@ -97,6 +101,7 @@ protected:
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator;
   PeakInterpolationMethod             m_PeakInterpolationMethod;
+  PixelType                           m_ZeroSupression;
 };
 
 } // end namespace itk
