@@ -38,6 +38,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 {
   m_MaxCalculator = MaxCalculatorType::New();
   m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
+  m_ZeroSupression = std::pow(1.5, ImageDimension);
 }
 
 
@@ -148,6 +149,33 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
       }
     }
 
+  //supress trivial zero solution
+  const typename ImageType::IndexType oIndex = lpr.GetIndex();
+  const PixelType zeroDeemphasis1 = std::max<PixelType>(1.0, m_ZeroSupression / 2.0);
+  for (i = 0; i < maxs.size(); i++)
+    {
+    //calculate maximum distance along any dimension
+    SizeValueType dist = 0;
+    for (unsigned d = 0; d < ImageDimension; d++)
+      {
+      SizeValueType d1 = std::abs(indices[i][d] - oIndex[d]);
+      if (d1 > size[d] / 2) //wrap around
+        {
+        d1 = size[d] - d1;
+        }
+      dist = std::max(dist, d1);
+      }
+
+    if (dist == 0)
+      {
+      maxs[i] /= m_ZeroSupression;
+      }
+    else if (dist == 1)
+      {
+      maxs[i] /= zeroDeemphasis1;
+      }
+    }
+
   //now we need to re-sort the values
   {
     std::vector<unsigned> sIndices;
@@ -230,7 +258,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
         } //for ImageDimension
       } //if Interpolation != None
 
-    const typename ImageType::IndexType oIndex = lpr.GetIndex();
     const typename ImageType::SpacingType spacing = input->GetSpacing();
     const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
     const typename ImageType::PointType movingOrigin = moving->GetOrigin();
