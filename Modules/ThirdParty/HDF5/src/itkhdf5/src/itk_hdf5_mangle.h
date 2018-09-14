@@ -39,7 +39,12 @@ from awk onwards the process is the same as for Linux and Mac
 
 The developer will then need to *MANUALLY* add the symbols to the list below.
 
-After building, note any duplicate symbol warnings and remove corresponding definitions are are delegated to versioned definitions,
+Note that running the above procedure will give somewhat different results on
+different platforms and also with different build options. When updating this file
+one should run the procudure on all major platforms and union the results. Or at the
+least, be wary of removing symbols just because they were not output in your environment.
+
+After building, note any duplicate symbol warnings and remove corresponding definitions that are delegated to versioned definitions,
 e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_info2
 */
 
