@@ -34,6 +34,7 @@
 #include "H5private.h"      /* Generic Functions    */
 #include "H5Eprivate.h"     /* Error handling       */
 #include "H5Opkg.h"         /* Object headers       */
+#include "H5CXprivate.h"
 
 
 /****************/
