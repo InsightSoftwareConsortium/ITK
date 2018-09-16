@@ -250,7 +250,11 @@ You should now use ITK_GLOBAL_DEFAULT_THREADER\
 \nFor example ITK_GLOBAL_DEFAULT_THREADER=Pool");
         if(envVar != "NO" && envVar != "OFF" && envVar != "FALSE")
           {
+#ifdef __EMSCRIPTEN__
+          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType::Platform);
+#else
           MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType::Pool);
+#endif
           }
         else
           {
