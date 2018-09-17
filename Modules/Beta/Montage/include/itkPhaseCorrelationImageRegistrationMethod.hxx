@@ -215,7 +215,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
 ::RoundUpToFFTSize(typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::SizeType size)
 {
   //FFTs are faster when image size can be factorized using smaller prime numbers
-  const auto sizeGreatestPrimeFactor = std::min< SizeValueType >(7, m_FixedFFT->GetSizeGreatestPrimeFactor() );
+  const auto sizeGreatestPrimeFactor = std::min< SizeValueType >(5, m_FixedFFT->GetSizeGreatestPrimeFactor() );
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
     {
