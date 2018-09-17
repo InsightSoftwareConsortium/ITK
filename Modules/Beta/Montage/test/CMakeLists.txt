@@ -202,8 +202,8 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7)
   itk_add_test(NAME itkMontagePCMTestFiles36
     COMMAND MontageTestDriver
     itkMontagePCMTestFiles
-      DATA{Input/Ti7/FlatFielded/36/1004.tif}
-      DATA{Input/Ti7/FlatFielded/36/1005.tif}
+      DATA{Input/Ti7/FlatFielded/1004.tif}
+      DATA{Input/Ti7/FlatFielded/1005.tif}
       ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles36.nrrd
       480.0
       0.0
