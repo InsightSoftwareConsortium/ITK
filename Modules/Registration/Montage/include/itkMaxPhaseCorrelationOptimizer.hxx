@@ -19,6 +19,7 @@
 #define itkMaxPhaseCorrelationOptimizer_hxx
 
 #include "itkMaxPhaseCorrelationOptimizer.h"
+#include <cmath>
 #include <type_traits>
 
 /*
@@ -37,6 +38,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 {
   m_MaxCalculator = MaxCalculatorType::New();
   m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
+  m_ZeroSuppression = std::pow(1.5, ImageDimension);
 }
 
 
@@ -81,10 +83,12 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     }
 
   m_MaxCalculator->SetImage( input );
+  m_MaxCalculator->SetN((this->m_Offsets.size() / 2) *
+      (static_cast<unsigned>(std::pow(3, ImageDimension)) - 1));
 
   try
     {
-    m_MaxCalculator->ComputeMaximum();
+    m_MaxCalculator->ComputeMaxima();
     }
   catch( ExceptionObject& err )
     {
@@ -92,71 +96,189 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     throw err;
     }
 
-  using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
-  ContinuousIndexType maxIndex = m_MaxCalculator->GetIndexOfMaximum();
-
-  if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) //interpolate the peak
+  typename MaxCalculatorType::ValueVector maxs = m_MaxCalculator->GetMaxima();
+  typename MaxCalculatorType::IndexVector indices = m_MaxCalculator->GetIndicesOfMaxima();
+  itkAssertOrThrowMacro(maxs.size() == indices.size(),
+      "Maxima and their indices must have the same number of elements");
+  std::greater<PixelType> compGreater;
+  auto zeroBound = std::upper_bound(maxs.begin(), maxs.end(), 0.0, compGreater);
+  if (zeroBound != maxs.end()) //there are some non-positive values in here
     {
-    typename ImageType::PixelType y0, y1 = m_MaxCalculator->GetMaximum(), y2;
-    typename ImageType::IndexType tempIndex = m_MaxCalculator->GetIndexOfMaximum();
-    typename ImageType::RegionType region = input->GetLargestPossibleRegion();
+    unsigned i = zeroBound - maxs.begin();
+    maxs.resize(i);
+    indices.resize(i);
+    }
 
-    for( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      tempIndex[i] = maxIndex[i] - 1;
-      if( ! region.IsInside( tempIndex ) )
-        {
-        tempIndex[i] = maxIndex[i];
-        continue;
-        }
-      y0 = input->GetPixel( tempIndex );
-      tempIndex[i] = maxIndex[i] + 1;
-      if( ! region.IsInside( tempIndex ) )
-        {
-        tempIndex[i] = maxIndex[i];
-        continue;
-        }
-      y2 = input->GetPixel( tempIndex );
-      tempIndex[i] = maxIndex[i];
-
-      OffsetScalarType omega, theta;
-      switch (m_PeakInterpolationMethod)
-        {
-        case PeakInterpolationMethod::Parabolic:
-            maxIndex[i] += ( y0 - y2 ) / ( 2 * ( y0 - 2 * y1 + y2 ) );
-            break;
-        case PeakInterpolationMethod::Cosine:
-            omega = std::acos( ( y0 + y2 ) / ( 2 * y1 ) );
-            theta = std::atan( ( y0 - y2 ) / ( 2 * y1 * std::sin( omega ) ) );
-            maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
-            break;
-        default:
-            itkAssertInDebugAndIgnoreInReleaseMacro("Unknown interpolation method");
-            break;
-        } //switch PeakInterpolationMethod
-      } //for ImageDimension
-    } //if Interpolation != None
-
-  const typename ImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
-  const typename ImageType::SpacingType spacing = input->GetSpacing();
-  const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
-  const typename ImageType::PointType movingOrigin = moving->GetOrigin();
-
-  for( unsigned int i = 0; i < ImageDimension; ++i )
+  //eliminate indices belonging to the same blurry peak
+  //condition used is city-block distance of one
+  const typename ImageType::RegionType lpr = input->GetLargestPossibleRegion();
+  const typename ImageType::SizeType size = lpr.GetSize();
+  unsigned i = 1;
+  while (i < indices.size())
     {
-    OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * maxIndex[i];
-    OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - IndexValueType(size[i]));
-    if (std::abs(directOffset) <= std::abs(mirrorOffset))
+    unsigned k = 0;
+    while (k < i)
       {
-      offset[i] = directOffset;
+      //calculate maximum distance along any dimension
+      SizeValueType dist = 0;
+      for (unsigned d = 0; d < ImageDimension; d++)
+        {
+        SizeValueType d1 = std::abs(indices[i][d] - indices[k][d]);
+        if (d1 > size[d] / 2) //wrap around
+          {
+          d1 = size[d] - d1;
+          }
+        dist = std::max(dist, d1);
+        }
+      if (dist < 2) //for city-block this is equivalent to:  dist == 1
+        {
+        break;
+        }
+      ++k;
       }
-    else
+
+    if (k < i) //k is nearby
       {
-      offset[i] = mirrorOffset;
+      maxs[k] += maxs[i]; //join amplitudes
+      maxs.erase(maxs.begin() + i);
+      indices.erase(indices.begin() + i);
+      }
+    else //examine next index
+      {
+      ++i;
       }
     }
 
-  this->SetOffset( offset );
+  //supress trivial zero solution
+  const typename ImageType::IndexType oIndex = lpr.GetIndex();
+  const PixelType zeroDeemphasis1 = std::max<PixelType>(1.0, m_ZeroSuppression / 2.0);
+  for (i = 0; i < maxs.size(); i++)
+    {
+    //calculate maximum distance along any dimension
+    SizeValueType dist = 0;
+    for (unsigned d = 0; d < ImageDimension; d++)
+      {
+      SizeValueType d1 = std::abs(indices[i][d] - oIndex[d]);
+      if (d1 > size[d] / 2) //wrap around
+        {
+        d1 = size[d] - d1;
+        }
+      dist = std::max(dist, d1);
+      }
+
+    if (dist == 0)
+      {
+      maxs[i] /= m_ZeroSuppression;
+      }
+    else if (dist == 1)
+      {
+      maxs[i] /= zeroDeemphasis1;
+      }
+    }
+
+  //now we need to re-sort the values
+  {
+    std::vector<unsigned> sIndices;
+    sIndices.reserve(maxs.size());
+    for (unsigned i = 0; i < maxs.size(); i++)
+      {
+      sIndices.push_back(i);
+      }
+    std::sort(sIndices.begin(), sIndices.end(),
+        [maxs](unsigned a, unsigned b)
+        {
+          return maxs[a] > maxs[b];
+        });
+
+    //now apply sorted order
+    typename MaxCalculatorType::ValueVector tMaxs(maxs.size());
+    typename MaxCalculatorType::IndexVector tIndices(maxs.size());
+    for (unsigned i = 0; i < maxs.size(); i++)
+      {
+      tMaxs[i] = maxs[sIndices[i]];
+      tIndices[i] = indices[sIndices[i]];
+      }
+    maxs.swap(tMaxs);
+    indices.swap(tIndices);
+  }
+
+  if (this->m_Offsets.size() > maxs.size())
+    {
+    this->SetOffsetCount(maxs.size());
+    }
+  else
+    {
+    maxs.resize(this->m_Offsets.size());
+    indices.resize(this->m_Offsets.size());
+    }
+
+  for (unsigned m = 0; m < maxs.size(); m++)
+    {
+    using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
+    ContinuousIndexType maxIndex = indices[m];
+
+    if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) //interpolate the peak
+      {
+      typename ImageType::PixelType y0, y1 = maxs[m], y2;
+      typename ImageType::IndexType tempIndex = indices[m];
+
+      for( unsigned int i = 0; i < ImageDimension; i++ )
+        {
+        tempIndex[i] = maxIndex[i] - 1;
+        if( ! lpr.IsInside( tempIndex ) )
+          {
+          tempIndex[i] = maxIndex[i];
+          continue;
+          }
+        y0 = input->GetPixel( tempIndex );
+        tempIndex[i] = maxIndex[i] + 1;
+        if( ! lpr.IsInside( tempIndex ) )
+          {
+          tempIndex[i] = maxIndex[i];
+          continue;
+          }
+        y2 = input->GetPixel( tempIndex );
+        tempIndex[i] = maxIndex[i];
+
+        OffsetScalarType omega, theta;
+        switch (m_PeakInterpolationMethod)
+          {
+          case PeakInterpolationMethod::Parabolic:
+              maxIndex[i] += ( y0 - y2 ) / ( 2 * ( y0 - 2 * y1 + y2 ) );
+              break;
+          case PeakInterpolationMethod::Cosine:
+              omega = std::acos( ( y0 + y2 ) / ( 2 * y1 ) );
+              theta = std::atan( ( y0 - y2 ) / ( 2 * y1 * std::sin( omega ) ) );
+              maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
+              break;
+          default:
+              itkAssertInDebugAndIgnoreInReleaseMacro("Unknown interpolation method");
+              break;
+          } //switch PeakInterpolationMethod
+        } //for ImageDimension
+      } //if Interpolation != None
+
+    const typename ImageType::SpacingType spacing = input->GetSpacing();
+    const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
+    const typename ImageType::PointType movingOrigin = moving->GetOrigin();
+
+    for( unsigned int i = 0; i < ImageDimension; ++i )
+      {
+      IndexValueType adjustedSize = IndexValueType(size[i] + oIndex[i]);
+      OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
+      OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize);
+      if (std::abs(directOffset) <= std::abs(mirrorOffset))
+        {
+        offset[i] = directOffset;
+        }
+      else
+        {
+        offset[i] = mirrorOffset;
+        }
+      }
+
+    this->m_Offsets[m] = offset;
+    }
 }
 
 } //end namespace itk

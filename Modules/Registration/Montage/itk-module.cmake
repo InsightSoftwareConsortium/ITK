@@ -19,6 +19,7 @@ itk_module(Montage
     ITKIOImageBase
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
+    # ITKIOHDF5 # hdf5 is another format which supports streaming
     ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"

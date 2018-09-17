@@ -65,6 +65,9 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   typename PhaseCorrelationMethodType::Pointer phaseCorrelationMethod = PhaseCorrelationMethodType::New();
   phaseCorrelationMethod->SetFixedImage( fixedImage );
   phaseCorrelationMethod->SetMovingImage( movingImage );
+  typename PhaseCorrelationMethodType::SizeType pad;
+  pad.Fill(8 * sizeof(TFixedImagePixel));
+  phaseCorrelationMethod->SetObligatoryPadding(pad);
   phaseCorrelationMethod->DebugOn();
 
   // Operator type
@@ -94,9 +97,9 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
 
     const unsigned int numberOfParameters = finalParameters.Size();
     ParametersType actualParameters( numberOfParameters );
-    for (unsigned int ii = 6; ii < 6 + numberOfParameters; ++ii )
+    for (unsigned int ii = 4 + VDimension; ii < 4 + VDimension + numberOfParameters; ++ii)
       {
-      actualParameters[ii - 6] = atof( argv[ii] );
+      actualParameters[ii - 4 - VDimension] = atof( argv[ii] );
       }
 
 
@@ -145,14 +148,32 @@ int itkMontagePCMTestFiles( int argc, char* argv[] )
   if( argc < 7 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " <fixedImageFile> <movingImageFile> <phaseCorrelationImage>";
-    std::cerr << " initialX initialY trueX trueY" << std::endl;
+    std::cerr << "  <fixedImageFile> <movingImageFile> <phaseCorrelationImage>";
+    std::cerr << "  initialX initialY [initialZ]  trueX trueY [trueZ]" << std::endl;
     return EXIT_FAILURE;
     }
 
   try
     {
-    return itk::PhaseCorrelationRegistrationFiles< 2, unsigned short, unsigned short >( argc, argv );
+    itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
+        argv[1], itk::ImageIOFactory::ReadMode);
+    imageIO->SetFileName(argv[1]);
+    imageIO->ReadImageInformation();
+    //const itk::ImageIOBase::IOComponentType pixelType = imageIO->GetComponentType();
+    const size_t numDimensions = imageIO->GetNumberOfDimensions();
+    if (numDimensions <= 2)
+      {
+      return itk::PhaseCorrelationRegistrationFiles< 2, unsigned short, unsigned short >(argc, argv);
+      }
+    else if (numDimensions == 3)
+      {
+      return itk::PhaseCorrelationRegistrationFiles< 3, unsigned short, unsigned short >(argc, argv);
+      }
+    else
+      {
+      std::cerr << "Only 2D and 3D scalar images are supported!" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   catch( itk::ExceptionObject & error )
     {
