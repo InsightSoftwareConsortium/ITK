@@ -40,8 +40,10 @@ namespace itk
 
 template< typename TImage >
 FFTWComplexToComplexFFTImageFilter< TImage >
-::FFTWComplexToComplexFFTImageFilter():
-  m_PlanRigor( FFTWGlobalConfiguration::GetPlanRigor() )
+::FFTWComplexToComplexFFTImageFilter()
+#ifndef ITK_USE_CUFFTW
+  :m_PlanRigor( FFTWGlobalConfiguration::GetPlanRigor() )
+#endif
 {
   this->DynamicMultiThreadingOn();
 }
@@ -149,7 +151,9 @@ FFTWComplexToComplexFFTImageFilter< TImage >
 {
   Superclass::PrintSelf(os, indent);
 
+#ifndef ITK_USE_CUFFTW
   os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
+#endif
 }
 
 } // end namespace itk

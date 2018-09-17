@@ -301,7 +301,8 @@ endif()
 #-----------------------------------------------------------------------------
 # Manage FFT v3 Options
 #
-option(ITK_USE_MKL "Use system MKL" OFF)
+option(ITK_USE_MKL "Use system Intel Math Kernel Library (MKL) for FFT computation." OFF)
+mark_as_advanced(ITK_USE_MKL)
 if(ITK_USE_MKL)
   # The following lines are only useful if one sets `ITK_USE_MKL` to ON in
   # the command line. Otherwise, the first CMake run will always initialize
@@ -312,7 +313,22 @@ if(ITK_USE_MKL)
   set(ITK_USE_SYSTEM_FFTW ON CACHE BOOL "Use an installed version of fftw")
   if(NOT ITK_USE_FFTWD OR NOT ITK_USE_FFTWF OR NOT ITK_USE_SYSTEM_FFTW)
     message(FATAL_ERROR "ITK_USE_MKL is set to ON. ITK_USE_FFTWD, ITK_USE_FFTWF\
- and ITK_USE_SYSTEM_FFTW must be set to ON too.")
+ and ITK_USE_SYSTEM_FFTW must be set to ON, too.")
+  endif()
+endif()
+option(ITK_USE_CUFFTW "Use NVidia CUDA cuFFT with its FFTW interface for FFT computation." OFF)
+mark_as_advanced(ITK_USE_CUFFTW)
+if(ITK_USE_CUFFTW)
+  # The following lines are only useful if one sets `ITK_USE_CUFFTW` to ON in
+  # the command line. Otherwise, the first CMake run will always initialize
+  # these variables to false. The error message will help the user to set
+  # the appropriate values.
+  set(ITK_USE_FFTWD ON CACHE BOOL "Use double precision fftw if found")
+  set(ITK_USE_FFTWF ON CACHE BOOL "Use single precision fftw if found")
+  set(ITK_USE_SYSTEM_FFTW ON CACHE BOOL "Use an installed version of fftw")
+  if(NOT ITK_USE_FFTWD OR NOT ITK_USE_FFTWF OR NOT ITK_USE_SYSTEM_FFTW)
+    message(FATAL_ERROR "ITK_USE_CUFFTW is set to ON. ITK_USE_FFTWD, ITK_USE_FFTWF\
+ and ITK_USE_SYSTEM_FFTW must be set to ON, too.")
   endif()
 endif()
 # ITK_USE_FFTWD -- use double precision fftw

@@ -56,18 +56,36 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     )
   endif()
 
-  find_path(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
+  if(ITK_USE_CUFFTW)
+    find_path(CUFFTW_INCLUDE_PATH cufftw.h ${FFTW_INC_SEARCHPATH})
+  else()
+    find_path(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
+  endif()
 
   if(FFTW_INCLUDE_PATH)
-    file(TO_CMAKE_PATH "${FFTW_INCLUDE_PATH}" FFTW_INCLUDE_PATH)
-    set(FFTW_INCLUDE ${FFTW_INCLUDE_PATH})
+    if(ITK_USE_CUFFTW)
+      file(TO_CMAKE_PATH "${CUFFTW_INCLUDE_PATH}" CUFFTW_INCLUDE_PATH)
+      set(FFTW_INCLUDE ${CUFFTW_INCLUDE_PATH})
+    else()
+      file(TO_CMAKE_PATH "${FFTW_INCLUDE_PATH}" FFTW_INCLUDE_PATH)
+      set(FFTW_INCLUDE ${FFTW_INCLUDE_PATH})
+    endif()
   endif()
 
   if(FFTW_INCLUDE)
     include_directories(${FFTW_INCLUDE})
   endif()
 
-  if(ITK_USE_MKL)
+  if(ITK_USE_CUFFTW)
+    find_library(CUFFTW_LIB cufftw ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
+    find_library(CUFFT_LIB cufft ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
+    unset(FFTWD_LIB CACHE)
+    unset(FFTWF_LIB CACHE)
+    unset(FFTWD_THREADS_LIB CACHE)
+    unset(FFTWF_THREADS_LIB CACHE)
+    set(FFTWF_LIB ${CUFFT_LIB} ${CUFFTW_LIB})
+    set(FFTWD_LIB ${CUFFT_LIB} ${CUFFTW_LIB})
+  elseif(ITK_USE_MKL)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
       # See MKL configuration help page:
       # https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
@@ -75,6 +93,7 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       set(ITK_USE_TBB_WITH_MKL OFF CACHE BOOL "Use TBB threading in MKL" FORCE)
     else()
       option(ITK_USE_TBB_WITH_MKL "Use TBB threading in MKL" ON)
+      mark_as_advanced(ITK_USE_TBB_WITH_MKL)
     endif()
 
     if(CMAKE_SIZEOF_VOID_P EQUAL "8")

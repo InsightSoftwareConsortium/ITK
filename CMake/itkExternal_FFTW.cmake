@@ -3,12 +3,14 @@
 include(ITK_CheckCCompilerFlag)
 
 
-set(msg "ATTENTION: You have enabled the use of FFTW.")
-set(msg "${msg} This library is distributed under a GPL license.")
-set(msg "${msg} By enabling this option, the ITK libraries binary")
-set(msg "${msg} that is built will be covered by a GPL license")
-set(msg "${msg} and so will any executable that is linked against these libraries.")
-message("${msg}")
+if(NOT ITK_USE_MKL AND NOT ITK_USE_CUFFTW)
+  set(msg "ATTENTION: You have enabled the use of FFTW.")
+  set(msg "${msg} This library is distributed under a GPL license.")
+  set(msg "${msg} By enabling this option, the ITK libraries binary")
+  set(msg "${msg} that is built will be covered by a GPL license")
+  set(msg "${msg} and so will any executable that is linked against these libraries.")
+  message("${msg}")
+endif()
 
 #--check_c_compiler_flag(-fopenmp C_HAS_fopenmp)
 #--if(${C_HAS_fopenmp} AND FALSE)
