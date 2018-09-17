@@ -254,7 +254,9 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
   SizeValueType linearIndex = this->nDIndexToLinearIndex(nDIndex);
   const auto cInput = static_cast<ImageType *>(this->GetInput(linearIndex));
   ImagePointer input = const_cast<ImageType *>(cInput);
-  if (input.GetPointer() == reinterpret_cast<ImageType *>(this->m_Dummy.GetPointer()))
+
+  if (input.GetPointer() == reinterpret_cast<ImageType *>(this->m_Dummy.GetPointer())
+      || wantedRegion.GetNumberOfPixels() > 0)
     {
     ImagePointer outputImage = this->GetOutput();
     RegionType reqR = outputImage->GetRequestedRegion();
@@ -283,20 +285,20 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
         reader->Update();
         }
       m_Tiles[linearIndex]->DisconnectPipeline();
-      }
-    input = m_Tiles[linearIndex];
-  }
 
-  PointType origin = input->GetOrigin();
-  for (unsigned d = 0; d < ImageDimension; d++)
-    {
-    origin[d] += this->m_OriginAdjustment[d] * nDIndex[d];
-    }
-  input->SetOrigin(origin);
-  if (this->m_ForcedSpacing[0] != 0)
-    {
-    input->SetSpacing(this->m_ForcedSpacing);
-    }
+      PointType origin = m_Tiles[linearIndex]->GetOrigin();
+      for (unsigned d = 0; d < ImageDimension; d++)
+        {
+        origin[d] += this->m_OriginAdjustment[d] * nDIndex[d];
+        }
+      m_Tiles[linearIndex]->SetOrigin(origin);
+      if (this->m_ForcedSpacing[0] != 0)
+        {
+          m_Tiles[linearIndex]->SetSpacing(this->m_ForcedSpacing);
+        }
+      }
+    return m_Tiles[linearIndex];
+  }
 
   return input;
 }
@@ -458,8 +460,11 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
   RegionType reg0;
   for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
     {
-    m_Tiles[i]->SetBufferedRegion(reg0);
-    m_Tiles[i]->Allocate(false);
+    if (m_Tiles[i])
+      {
+      m_Tiles[i]->SetBufferedRegion(reg0);
+      m_Tiles[i]->Allocate(false);
+      }
     }
 }
 

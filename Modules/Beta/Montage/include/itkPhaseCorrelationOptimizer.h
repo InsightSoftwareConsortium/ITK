@@ -21,6 +21,7 @@
 #include "itkImage.h"
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include <vector>
 
 namespace itk
 {
@@ -78,8 +79,11 @@ public:
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = typename DataObject::Pointer;
 
+  /** Resulting vector of offsets. */
+  using OffsetVector = std::vector<OffsetType>;
+
   /** Get the computed offset. */
-  itkGetConstReferenceMacro( Offset, OffsetType );
+  itkGetConstReferenceMacro( Offsets, OffsetVector);
 
   /** Sets the input image to the optimizer. */
   void SetInput( const ImageType * image );
@@ -91,11 +95,26 @@ public:
   void SetMovingImage(const ImageBase<ImageType::ImageDimension> * image);
 
   /** Returns the offset resulting from the registration process  */
-  const OffsetOutputType * GetOutput() const;
+  const OffsetOutputType * GetOutput(unsigned index) const
+  {
+    return static_cast< const OffsetOutputType * >( this->ProcessObject::GetOutput(index) );
+  }
+
+  /** Get/Set number of maximums to be computed.
+   * Resulting count could be smaller than requested!
+   * After Update is called, check count again. */
+  virtual void SetOffsetCount(unsigned count);
+  virtual unsigned GetOffsetCount() const
+  {
+    return m_Offsets.size();
+  }
 
   /** Make a DataObject of the correct type to be used as the specified
    *  output. */
-  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override
+  {
+    return static_cast<DataObject*>(OffsetOutputType::New().GetPointer());
+  }
 
 protected:
   PhaseCorrelationOptimizer();
@@ -106,17 +125,13 @@ protected:
    * the output values. */
   void GenerateData () override;
 
-
   /** This method is executed by this type and must be reimplemented by child
    *  filter to perform the computation.
    */
   virtual void ComputeOffset() = 0;
 
-  /** Provides derived classes with the ability to set this private var */
-  itkSetMacro( Offset, OffsetType );
-
-private:
-  OffsetType    m_Offset;
+protected:
+  OffsetVector m_Offsets;
 };
 
 } // end namespace itk

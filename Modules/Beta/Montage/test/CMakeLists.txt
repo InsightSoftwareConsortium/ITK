@@ -110,18 +110,67 @@ itk_add_test(NAME itkMontagePCMTestSynthetic_ShouldFail
   )
 set_tests_properties(itkMontagePCMTestSynthetic_ShouldFail PROPERTIES WILL_FAIL TRUE)
 
-itk_add_test(NAME itkMontagePCMTestFiles
+itk_add_test(NAME itkMontagePCMTestFiles14
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
     DATA{Input/OMC/FlatField/14/100.tif}
     DATA{Input/OMC/FlatField/14/101.tif}
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles.nrrd
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles14.nrrd
     1136.0
     0.0
     12.0651
     4.6711893
   )
 
+# itk_add_test(NAME itkMontagePCMTestFiles16
+  # COMMAND MontageTestDriver
+  # itkMontagePCMTestFiles
+    # DATA{Input/OMC/FlatField/16/107.tif}
+    # DATA{Input/OMC/FlatField/16/108.tif}
+    # ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles16.nrrd
+    # 1136.0
+    # 0.0
+    # 12.3862
+    # 5.3629
+  # )
+
+itk_add_test(NAME itkMontagePCMTestFilesSynthetic1
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/Rect1.png}
+    DATA{Input/Synthetic/Rect2.png}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesSynthetic1.nrrd
+    0.0
+    0.0
+    -21.0
+    35.0
+  )
+
+itk_add_test(NAME itkMontagePCMTestFilesSynthetic1N
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/Rect1N.png}
+    DATA{Input/Synthetic/Rect2N.png}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesSynthetic1N.nrrd
+    0.0
+    0.0
+    -21.0
+    35.0
+  )
+
+itk_add_test(NAME itkMontagePCMTestFilesSynthetic3D
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/Cuboid1.nrrd}
+    DATA{Input/Synthetic/Cuboid2.nrrd}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesSynthetic3D.nrrd
+    0.0
+    0.0
+    0.0
+    -21.0
+    35.0
+    1.0
+  )
 
 function(AddTestOMC slicerNumber)
   itk_add_test(NAME itkMontageTestOMC${slicerNumber}
@@ -150,6 +199,18 @@ itk_add_test(NAME itkMontageTestRGB
   )
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7)
+  itk_add_test(NAME itkMontagePCMTestFiles36
+    COMMAND MontageTestDriver
+    itkMontagePCMTestFiles
+      DATA{Input/Ti7/FlatFielded/36/1004.tif}
+      DATA{Input/Ti7/FlatFielded/36/1005.tif}
+      ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles36.nrrd
+      480.0
+      0.0
+      0.5186747297993
+      1.48522189017301
+    )
+
   itk_add_test(NAME itkMontageTestTi7Slice36
     COMMAND MontageTestDriver
     itkMontageTestTi7
@@ -157,7 +218,6 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7)
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7Slice36
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7Slice36
     )
-  set_tests_properties(itkMontageTestTi7Slice36 PROPERTIES TIMEOUT 3000)
 endif()
   
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)

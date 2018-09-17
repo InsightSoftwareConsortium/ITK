@@ -21,6 +21,7 @@
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
+#include <algorithm>
 
 #ifndef NDEBUG
 #include "itkImageFileWriter.h"
@@ -87,8 +88,9 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   m_MovingMirrorWEDPadder->SetDecayBase( 0.75 );
 
   m_PadToSize.Fill( 0 );
-  m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay; //make sure the next call does modifications
-  SetPaddingMethod(PaddingMethod::Zero); //this initializes a few things
+  m_ObligatoryPadding.Fill( 8 );
+  m_PaddingMethod = PaddingMethod::Zero; //make sure the next call does modifications
+  SetPaddingMethod(PaddingMethod::MirrorWithExponentialDecay); //this initializes a few things
 
   m_TransformParameters = ParametersType(ImageDimension);
   m_TransformParameters.Fill( 0.0f );
@@ -212,7 +214,8 @@ typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::Siz
 PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
 ::RoundUpToFFTSize(typename PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>::SizeType size)
 {
-  const SizeValueType sizeGreatestPrimeFactor = m_FixedFFT->GetSizeGreatestPrimeFactor();
+  //FFTs are faster when image size can be factorized using smaller prime numbers
+  const auto sizeGreatestPrimeFactor = std::min< SizeValueType >(7, m_FixedFFT->GetSizeGreatestPrimeFactor() );
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
     {
@@ -259,6 +262,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
         {
         maxSize[d] = movingSize[d];
         }
+      //we need to pad on both ends along this dimension
+      maxSize[d] += 2 * m_ObligatoryPadding[d];
       }
 
     fftSize = RoundUpToFFTSize(maxSize);
@@ -288,20 +293,24 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   SizeType fixedPad, movingPad;
   for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-    if ( fixedSize[d] > fftSize[d] )
+    if ( fixedSize[d] + 2 * m_ObligatoryPadding[d] > fftSize[d] )
       {
       itkExceptionMacro("PadToSize(" << fftSize[d] << ") for dimension " << d
-          << " must be larger than fixed image size (" << fixedSize[d] << ")");
+          << " must be larger than fixed image size (" << fixedSize[d] << ")"
+          << " and twice the obligatory padding (" << m_ObligatoryPadding[d] << ")");
       }
-    fixedPad[d] = fftSize[d] - fixedSize[d];
-    if ( movingSize[d] > fftSize[d] )
+    fixedPad[d] = (fftSize[d] - fixedSize[d]) - m_ObligatoryPadding[d];
+    if ( movingSize[d] + 2 * m_ObligatoryPadding[d] > fftSize[d] )
       {
       itkExceptionMacro("PadToSize(" << fftSize[d] << ") for dimension " << d
-          << " must be larger than moving image size (" << movingSize[d] << ")");
+          << " must be larger than moving image size (" << movingSize[d] << ")"
+          << " and twice the obligatory padding (" << m_ObligatoryPadding[d] << ")");
       }
-    movingPad[d] = fftSize[d] - movingSize[d];
+    movingPad[d] = (fftSize[d] - movingSize[d]) - m_ObligatoryPadding[d];
   }
 
+  m_FixedPadder->SetPadLowerBound(m_ObligatoryPadding);
+  m_MovingPadder->SetPadLowerBound(m_ObligatoryPadding);
   m_FixedPadder->SetPadUpperBound( fixedPad );
   m_MovingPadder->SetPadUpperBound( movingPad );
 }
@@ -340,12 +349,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     if ( m_RealOptimizer )
       {
       m_RealOptimizer->Update();
-      offset = m_RealOptimizer->GetOffset();
+      offset = m_RealOptimizer->GetOffsets()[0];
       }
     else
       {
       m_ComplexOptimizer->Update();
-      offset = m_ComplexOptimizer->GetOffset();
+      offset = m_ComplexOptimizer->GetOffsets()[0];
       }
     phaseCorrelation->Graft( m_IFFT->GetOutput() );
 
@@ -402,8 +411,11 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   os << indent << "Complex Optimizer: " << m_ComplexOptimizer.GetPointer() << std::endl;
   os << indent << "Fixed Padder: " << m_FixedPadder.GetPointer() << std::endl;
   os << indent << "Moving Padder: " << m_MovingPadder.GetPointer() << std::endl;
-  
+
+  os << indent << "Pad To Size: " << m_PadToSize << std::endl;
+  os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
   os << indent << "Padding Method: " << int(m_PaddingMethod) << std::endl;
+
   os << indent << "Fixed Image: " << m_FixedImage.GetPointer() << std::endl;
   os << indent << "Moving Image: " << m_MovingImage.GetPointer() << std::endl;
   os << indent << "Fixed Image FFT: " << m_FixedImageFFT.GetPointer() << std::endl;

@@ -61,6 +61,9 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
   typename PhaseCorrelationMethodType::Pointer phaseCorrelationMethod = PhaseCorrelationMethodType::New();
   phaseCorrelationMethod->SetFixedImage(fixedImage);
   phaseCorrelationMethod->SetMovingImage(movingImage);
+  typename PhaseCorrelationMethodType::SizeType pad;
+  pad.Fill(8 * sizeof(PixelType));
+  phaseCorrelationMethod->SetObligatoryPadding(pad);
   //phaseCorrelationMethod->DebugOn();
 
   using PMType = typename PhaseCorrelationMethodType::PaddingMethod;
@@ -96,9 +99,6 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
     out << '\t' << peakMethod;
     std::cout << "    PeakMethod" << peakMethod << ":";
 
-    typename PhaseCorrelationMethodType::SizeType imageSize = fixedImage->GetLargestPossibleRegion().GetSize();
-    imageSize = phaseCorrelationMethod->RoundUpToFFTSize(imageSize);
-    phaseCorrelationMethod->SetPadToSize(imageSize); //all images are the same size
     phaseCorrelationMethod->Update();
 
     using TransformType = itk::TranslationTransform<double, Dimension>;
@@ -139,6 +139,10 @@ int mockMontageTest(const PositionTableType& stageCoords, const PositionTableTyp
       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
       padMethod++)
     {
+    if (!varyPaddingMethods) // go straight to the last, best method
+      {
+      padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+      }
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
     std::cout << "Padding method " << padMethod << std::endl;
     registrationErrors << "Fixed <- Moving\tPeakInterpolationMethod";
@@ -172,10 +176,6 @@ int mockMontageTest(const PositionTableType& stageCoords, const PositionTableTyp
     if (avgError >= 1.0)
       {
       result = EXIT_FAILURE;
-      }
-    if (!varyPaddingMethods)
-      {
-      break;
       }
     }
   return result;
