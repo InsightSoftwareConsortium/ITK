@@ -192,7 +192,7 @@ protected:
   using ReaderType = itk::ImageFileReader< ImageType >;
 
   /** Just get image pointer if the image is present, otherwise read it from file. */
-  ImageType* GetImage(TileIndexType nDIndex, bool metadatOnly);
+  ImageType* GetImage(TileIndexType nDIndex, bool metadataOnly);
 
   DataObjectPointerArraySizeType nDIndexToLinearIndex(TileIndexType nDIndex) const;
   TileIndexType LinearIndexTonDIndex(DataObjectPointerArraySizeType linearIndex) const;

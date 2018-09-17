@@ -38,7 +38,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 {
   m_MaxCalculator = MaxCalculatorType::New();
   m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
-  m_ZeroSupression = std::pow(1.5, ImageDimension);
+  m_ZeroSuppression = std::pow(1.5, ImageDimension);
 }
 
 
@@ -151,7 +151,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 
   //supress trivial zero solution
   const typename ImageType::IndexType oIndex = lpr.GetIndex();
-  const PixelType zeroDeemphasis1 = std::max<PixelType>(1.0, m_ZeroSupression / 2.0);
+  const PixelType zeroDeemphasis1 = std::max<PixelType>(1.0, m_ZeroSuppression / 2.0);
   for (i = 0; i < maxs.size(); i++)
     {
     //calculate maximum distance along any dimension
@@ -168,7 +168,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 
     if (dist == 0)
       {
-      maxs[i] /= m_ZeroSupression;
+      maxs[i] /= m_ZeroSuppression;
       }
     else if (dist == 1)
       {

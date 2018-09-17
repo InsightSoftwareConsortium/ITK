@@ -113,15 +113,15 @@ TileMontage<TImageType, TCoordinate>
 template<typename TImageType, typename TCoordinate>
 typename TileMontage<TImageType, TCoordinate>::ImageType*
 TileMontage<TImageType, TCoordinate>
-::GetImage(TileIndexType nDIndex, bool metadatOnly)
+::GetImage(TileIndexType nDIndex, bool metadataOnly)
 {
   DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex(nDIndex);
   auto imagePtr = static_cast<ImageType *>(this->GetInput(linearIndex));
   if ( imagePtr == m_Dummy.GetPointer() //filename given, we have to read it
-      || (!metadatOnly && imagePtr->GetBufferedRegion().GetNumberOfPixels() == 0) )
+      || (!metadataOnly && imagePtr->GetBufferedRegion().GetNumberOfPixels() == 0) )
     {
     m_Reader->SetFileName(m_Filenames[linearIndex]);
-    if (metadatOnly)
+    if (metadataOnly)
       {
       m_Reader->UpdateOutputInformation();
       }
