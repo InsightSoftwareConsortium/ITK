@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITKCommon
- *
+ * \ingroup Montage
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT NMinimaMaximaImageCalculator:public Object
