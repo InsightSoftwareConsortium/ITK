@@ -161,8 +161,8 @@ itk_add_test(NAME itkMontagePCMTestFilesSynthetic1N
 itk_add_test(NAME itkMontagePCMTestFilesSynthetic3D
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
-    DATA{Input/Synthetic/Cuboid1.mha}
-    DATA{Input/Synthetic/Cuboid2.mha}
+    DATA{Input/Synthetic/Cuboid1.nrrd}
+    DATA{Input/Synthetic/Cuboid2.nrrd}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesSynthetic3D.nrrd
     0.0
     0.0
