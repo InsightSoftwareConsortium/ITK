@@ -198,7 +198,7 @@ itk_add_test(NAME itkMontageTestRGB
     ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
   )
 
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7)
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/1000.tif)
   itk_add_test(NAME itkMontagePCMTestFiles36
     COMMAND MontageTestDriver
     itkMontagePCMTestFiles
@@ -211,12 +211,20 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7)
       1.48522189017301
     )
 
-  itk_add_test(NAME itkMontageTestTi7Slice36
+  itk_add_test(NAME itkMontageTestTi7Slice36flat
     COMMAND MontageTestDriver
     itkMontageTestTi7
       ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7Slice36
-      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7Slice36
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7flat36
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7flat36
+    )
+    
+  itk_add_test(NAME itkMontageTestTi7Slice36raw
+    COMMAND MontageTestDriver
+    itkMontageTestTi7
+      "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Raw/Ti-7Al_Region #2_150_Mosaic_36.tif_Files"
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7raw36
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7raw36
     )
 endif()
   
