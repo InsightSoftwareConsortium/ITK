@@ -332,7 +332,10 @@ protected:
                                                  const ComponentType maxComponent) const);
 
 private:
-  static PixelComponentType CastComponentWithBoundsChecking(const ComponentType value);
+  static PixelComponentType CastComponentWithBoundsChecking(const PixelComponentType value);
+
+  template <typename TComponent>
+  static PixelComponentType CastComponentWithBoundsChecking(const TComponent value);
 
   static PixelType CastPixelWithBoundsChecking(const ComponentType value);
 

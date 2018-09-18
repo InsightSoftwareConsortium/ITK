@@ -260,14 +260,35 @@ template< typename TInputImage,
           typename TInterpolatorPrecisionType,
           typename TTransformPrecisionType >
 auto ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::CastComponentWithBoundsChecking(const ComponentType value) -> PixelComponentType
+::CastComponentWithBoundsChecking(const PixelComponentType value) -> PixelComponentType
 {
-  constexpr auto minComponent = static_cast<ComponentType>(NumericTraits< PixelComponentType >::NonpositiveMin());
-  constexpr auto maxComponent = static_cast<ComponentType>(NumericTraits< PixelComponentType >::max());
+  // Just return the argument. In this case, there is no need to cast or clamp its value.
+  return value;
+}
 
-  // Return the equivalent of C++17 std::clamp(value, minComponent, maxComponent):
-  return static_cast<PixelComponentType>((value < minComponent) ? minComponent :
-    (value > maxComponent) ? maxComponent : value);
+
+template< typename TInputImage,
+          typename TOutputImage,
+          typename TInterpolatorPrecisionType,
+          typename TTransformPrecisionType >
+template <typename TComponent>
+auto ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
+::CastComponentWithBoundsChecking(const TComponent value) -> PixelComponentType
+{
+  static_assert(std::is_same<TComponent, ComponentType>::value,
+    "TComponent should just be the same as the ComponentType!");
+  static_assert(!std::is_same<TComponent, PixelComponentType>::value,
+    "For PixelComponentType there is a more appropriate overload, that should be called instead!");
+
+  // Retrieve minimum and maximum values at compile-time:
+  constexpr auto minPixelComponent = NumericTraits< PixelComponentType >::NonpositiveMin();
+  constexpr auto maxPixelComponent = NumericTraits< PixelComponentType >::max();
+  constexpr auto minComponent = static_cast<ComponentType>(minPixelComponent);
+  constexpr auto maxComponent = static_cast<ComponentType>(maxPixelComponent);
+
+  // Clamp the value between minPixelComponent and maxPixelComponent:
+  return (value <= minComponent) ? minPixelComponent :
+    (value >= maxComponent) ? maxPixelComponent : static_cast<PixelComponentType>(value);
 }
 
 
