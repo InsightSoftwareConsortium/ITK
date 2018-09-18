@@ -213,6 +213,22 @@ private:
 
   void SetupLineOffsets();
 
+  SizeValueType IndexToLinearIndex( const IndexType& index )
+  {
+    SizeValueType linearIndex = 0;
+    SizeValueType stride = 1;
+    RegionType requestedRegion = this->GetOutput()->GetRequestedRegion();
+    // ignore x axis, which is always full size
+    for ( unsigned dim = 1; dim < ImageDimension; dim++ )
+      {
+      itkAssertOrThrowMacro( requestedRegion.GetIndex( dim ) <= index[dim],
+          "Index must be within the requested region!" );
+      linearIndex += ( index[dim] - requestedRegion.GetIndex( dim ) ) * stride;
+      stride *= requestedRegion.GetSize( dim );
+      }
+    return linearIndex;
+  }
+
   OutputPixelType m_OutputBackgroundValue;
   InputPixelType  m_InputForegroundValue;
 
