@@ -292,6 +292,7 @@ itk_add_test(NAME itkPadImageFilterTest
       COMMAND ITKImageGridTestDriver itkPadImageFilterTest)
 
 set( ITKImageGridGTests
+  itkResampleImageFilterGTest.cxx
   itkSliceImageFilterTest.cxx
   itkTileImageFilterGTest.cxx )
 
