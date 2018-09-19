@@ -58,8 +58,6 @@ void
 BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
-
   m_Pp = 0;
   m_Pl = 0;
   m_PlX = 0;

@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-bonemorphometry',
-    version='1.1.0',
+    version='1.1.1',
     author='Jean-Baptiste Vimort',
     author_email='jb.vimort@kitware.com',
     packages=['itk'],
@@ -49,6 +49,6 @@ setup(
     keywords='ITK InsightToolkit',
     url=r'https://itk.org/',
     install_requires=[
-        r'itk'
+        r'itk>=5.0b01'
     ]
     )
