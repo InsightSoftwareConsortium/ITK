@@ -193,16 +193,12 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // find the split axis
   const IndexType & outputRegionIdx = output->GetRequestedRegion().GetIndex();
   const IndexType & outputRegionForThreadIdx = outputRegionForThread.GetIndex();
-  SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
   const SizeType & outputRegionForThreadSize = outputRegionForThread.GetSize();
-  int splitAxis = ( TOutputImage::ImageDimension > 1 ) ? 1 : 0;
+  int splitAxis = TOutputImage::ImageDimension - 1;
 
   WorkUnitData workUnitData = { 0, 0, 0, 0 };
 
-  // compute the number of pixels before that threads
-  outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  workUnitData.firstLineIdForThread =
-    RegionType(outputRegionIdx, outputRegionSize).GetNumberOfPixels() / xsizeForThread;
+  workUnitData.firstLineIdForThread = this->IndexToLinearIndex( outputRegionForThreadIdx );
   SizeValueType lineId = workUnitData.firstLineIdForThread;
 
   SizeType localRegionSize = outputRegionForThreadSize;
@@ -252,7 +248,8 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
         ++inLineIt;
         }
       }
-    m_LineMap[lineId] = thisLine;
+    // equivalent to assignment because thisLine goes of out scope afterwards
+    m_LineMap[lineId].swap( thisLine );
     ++lineId;
     }
 

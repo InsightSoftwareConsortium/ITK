@@ -51,6 +51,8 @@ ImageToHistogramFilter< TImage >
     autoMinMax->Set(true);
     }
    this->ProcessObject::SetInput( "AutoMinimumMaximum", autoMinMax );
+
+   this->SetNumberOfWorkUnits( MultiThreaderBase::GetGlobalDefaultNumberOfThreads() );
 }
 
 template< typename TImage >
@@ -217,10 +219,6 @@ ImageToHistogramFilter< TImage >
 {
   // find the actual number of threads
   long nbOfThreads = this->GetNumberOfWorkUnits();
-  if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    nbOfThreads = std::min( this->GetNumberOfWorkUnits(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
-    }
   // number of threads can be constrained by the region size, so call the
   // SplitRequestedRegion
   // to get the real number of threads which will be used
