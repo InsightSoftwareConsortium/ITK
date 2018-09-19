@@ -21,6 +21,7 @@ foreach(p
     ## version need to explicitly be set to NEW.
     CMP0070 #3.10.0 Define ``file(GENERATE)`` behavior for relative paths.
     CMP0071 #3.10.0 Let ``AUTOMOC`` and ``AUTOUIC`` process ``GENERATED`` files.
+    CMP0074 #3.12.0 `find_package()`` uses ``<PackageName>_ROOT`` variables.
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
