@@ -339,6 +339,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
       WriteDebug(m_MovingFFT->GetOutput(), "m_MovingFFT.nrrd");
       }
 
+    m_FixedPadder->UpdateOutputInformation(); // to make sure xSize is valid
     unsigned xSize = m_FixedPadder->GetOutput()->GetLargestPossibleRegion().GetSize(0);
     m_IFFT->SetActualXDimensionIsOdd(xSize % 2 != 0);
     RealImageType * phaseCorrelation = static_cast< RealImageType * >(this->ProcessObject::GetOutput(1));
