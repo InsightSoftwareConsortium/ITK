@@ -130,8 +130,6 @@ int itkStatisticsAlgorithmTest2(int, char* [] )
   SubsampleType::Pointer subsample = SubsampleType::New();
   subsample->SetSample(sample);
 
-  PixelType temp;
-
   // each algorithm test will be compared with the sorted
   // refVector
   std::vector< int > refVector;

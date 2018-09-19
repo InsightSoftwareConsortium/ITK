@@ -390,7 +390,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   // cluster is a reference to array
   ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
   typename InputImageType::RegionType localRegion;
-  typename InputImageType::PointType pt;
   IndexType idx;
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
@@ -491,7 +490,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
   ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
   typename InputImageType::RegionType localRegion;
-  typename InputImageType::PointType pt;
   IndexType idx;
 
   for (unsigned int d = 0; d < ImageDimension; ++d)

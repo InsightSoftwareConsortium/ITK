@@ -25,18 +25,6 @@
 namespace itk
 {
 /**
- * Assignment Operator
- */
-template< typename T, unsigned int TPointDimension >
-Point< T, TPointDimension > &
-Point< T, TPointDimension >
-::operator=(const Self & r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-/**
  * Assignment from a plain array
  */
 template< typename T, unsigned int TPointDimension >

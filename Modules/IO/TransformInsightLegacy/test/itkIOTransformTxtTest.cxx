@@ -35,7 +35,6 @@ static int oneTest(const std::string & outputDirectory, const char *goodname,con
   using AffineTransformType = itk::AffineTransform<ScalarType,4>;
   using AffineTransformTypeNotRegistered = itk::AffineTransform<ScalarType,10>;
   typename AffineTransformType::Pointer affine = AffineTransformType::New();
-  typename AffineTransformType::InputPointType cor;
 
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New() );
 

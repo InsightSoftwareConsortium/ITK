@@ -1012,7 +1012,6 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 
   EdgeIterator    eit;
   auto eitend = m_WorkingVD->EdgeEnd();
-  PointType       adds;
   Point< int, 2 > seeds;
   for ( eit = m_WorkingVD->EdgeBegin(); eit != eitend; ++eit )
     {
