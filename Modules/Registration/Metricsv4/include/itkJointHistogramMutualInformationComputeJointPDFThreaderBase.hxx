@@ -70,7 +70,6 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
 {
   typename AssociateType::Superclass::FixedImagePointType     mappedFixedPoint;
   typename AssociateType::Superclass::FixedImagePixelType     fixedImageValue;
-  typename AssociateType::Superclass::FixedImageGradientType  fixedImageGradients;
   typename AssociateType::Superclass::MovingImagePointType    mappedMovingPoint;
   typename AssociateType::Superclass::MovingImagePixelType    movingImageValue;
   typename AssociateType::Superclass::MovingImageGradientType movingImageGradients;

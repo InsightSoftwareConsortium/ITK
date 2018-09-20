@@ -247,7 +247,6 @@ template < typename TDomainPartitioner, typename TImageToImageMetric, typename T
    FixedImagePixelType fixedImageValue;
    MovingImagePointType mappedMovingPoint;
    MovingImagePixelType movingImageValue;
-   MovingImageGradientType movingImageGradient;
    bool pointIsValid;
 
    this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(index, virtualPoint);

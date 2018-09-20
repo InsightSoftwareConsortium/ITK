@@ -21,6 +21,7 @@
 #include "itkRGBAPixel.h"
 #include "itkRGBPixel.h"
 #include "itkPoint.h"
+#include "itkSymmetricSecondRankTensor.h"
 #include "itkVector.h"
 
 #include <gtest/gtest.h>
@@ -44,6 +45,12 @@ TEST(TypeTraits, Vector) {
 
 TEST(TypeTraits, CovariantVector) {
   using T = itk::CovariantVector<float, 3>;
+  EXPECT_EQ(std::is_trivial<T>::value, true);
+  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+}
+
+TEST(TypeTraits, SymmetricSecondRankTensor) {
+  using T = itk::SymmetricSecondRankTensor<float, 3>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }

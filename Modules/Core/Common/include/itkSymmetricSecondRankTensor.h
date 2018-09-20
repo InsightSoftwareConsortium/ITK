@@ -104,8 +104,13 @@ public:
   using SymmetricEigenAnalysisType = SymmetricEigenAnalysis< MatrixType,
                                   EigenValuesArrayType, EigenVectorsMatrixType >;
 
-  /** Default constructor has nothing to do. */
-  SymmetricSecondRankTensor() { this->Fill(0); }
+  /** Constructors */
+  SymmetricSecondRankTensor() = default;
+  SymmetricSecondRankTensor(const SymmetricSecondRankTensor &) = default;
+  SymmetricSecondRankTensor(SymmetricSecondRankTensor &&) = default;
+  SymmetricSecondRankTensor& operator=(const SymmetricSecondRankTensor &) = default;
+  SymmetricSecondRankTensor& operator=(SymmetricSecondRankTensor &&) = default;
+  ~SymmetricSecondRankTensor() = default;
 
   SymmetricSecondRankTensor (const ComponentType & r) { this->Fill(r); }
 
