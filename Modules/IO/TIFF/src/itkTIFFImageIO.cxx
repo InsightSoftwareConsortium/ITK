@@ -322,6 +322,26 @@ void TIFFImageIO::ReadImageInformation()
 
   ReadTIFFTags();
 
+  // if the tiff file is multi-pages
+  if ( m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles > 1 )
+    {
+    this->SetNumberOfDimensions(3);
+    if ( m_InternalImage->m_SubFiles > 0 )
+      {
+      m_Dimensions[2] = m_InternalImage->m_SubFiles;
+      }
+    else
+      {
+      m_Dimensions[2] = m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles;
+      }
+    m_Spacing[2] = 1.0;
+    m_Origin[2] = 0.0;
+    }
+  else
+    {
+    this->SetNumberOfDimensions(2);
+    }
+
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
 
@@ -463,22 +483,6 @@ void TIFFImageIO::ReadImageInformation()
       itkWarningMacro(<< "Could not read this palette image as scalar+Palette because of its TIFF format");
       m_IsReadAsScalarPlusPalette = false;
       }
-    }
-
-  // if the tiff file is multi-pages
-  if ( m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles > 1 )
-    {
-    this->SetNumberOfDimensions(3);
-    if ( m_InternalImage->m_SubFiles > 0 )
-      {
-      m_Dimensions[2] = m_InternalImage->m_SubFiles;
-      }
-    else
-      {
-      m_Dimensions[2] = m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles;
-      }
-    m_Spacing[2] = 1.0;
-    m_Origin[2] = 0.0;
     }
 
 }
