@@ -80,7 +80,6 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
 {
   const double halfAxisLength = 0.5 * m_AxisLength;
 
-  Vector< double, VDimension > orientationVector;
   Vector< double, VDimension > pointVector;
   Vector< double, VDimension > medialAxisVector;
 

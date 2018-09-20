@@ -127,9 +127,6 @@ MetaContourConverter< NDimensions >
     using PointType = typename ControlPointType::PointType;
     PointType point;
 
-    using VectorType = typename ControlPointType::VectorType;
-    VectorType normal;
-
     for ( unsigned int i = 0; i < ndims; i++ )
       {
       point[i] = ( *itI )->m_X[i];

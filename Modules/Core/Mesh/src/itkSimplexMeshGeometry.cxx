@@ -91,7 +91,7 @@ SimplexMeshGeometry
   circleCenter = this->neighbors[0] + tmp;
 
   // Compute the circum sphere (center and radius) of a point
-  VectorType d, dXc, bXd, sphereTmp, denom;
+  VectorType d, dXc, bXd, sphereTmp;
 
   d = pos - this->neighbors[0];
   dXc.SetVnlVector( cross_3d< double >( d.GetVnlVector(), c.GetVnlVector() ) );
