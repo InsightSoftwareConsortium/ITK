@@ -23,14 +23,6 @@
 
 namespace itk
 {
-template< typename T >
-RGBAPixel< T > &
-RGBAPixel< T >
-::operator=(const Self & r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
 
 template< typename T >
 RGBAPixel< T > &

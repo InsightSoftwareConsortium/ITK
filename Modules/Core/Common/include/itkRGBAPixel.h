@@ -76,18 +76,21 @@ public:
   using ComponentType = TComponent;
   using LuminanceType = typename NumericTraits< ComponentType >::RealType;
 
-  /** Default constructor has nothing to do. */
-  RGBAPixel() { this->Fill(0); }
-  RGBAPixel (const ComponentType & r) { this->Fill(r); }
+  /** Default constructors */
+  RGBAPixel() = default;
+  RGBAPixel(const RGBAPixel &) = default;
+  RGBAPixel & operator=(const RGBAPixel & r) = default;
+  RGBAPixel( RGBAPixel &&) = default;
+  RGBAPixel & operator=(RGBAPixel && r) = default;
+  ~RGBAPixel() = default;
 
   /** Pass-through constructor for the Array base class. */
   template< typename TRGBAPixelValueType >
   RGBAPixel(const RGBAPixel< TRGBAPixelValueType > & r):BaseArray(r) {}
   RGBAPixel(const ComponentType r[4]):BaseArray(r) {}
+  RGBAPixel(const ComponentType & r) { this->Fill(r); }
 
   /** Pass-through assignment operator for the Array base class. */
-  RGBAPixel & operator=(const Self & r);
-
   RGBAPixel & operator=(const ComponentType r[4]);
 
   /** Aritmetic operations between pixels. Return a new RGBAPixel. */

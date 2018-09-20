@@ -95,8 +95,13 @@ public:
   /** Get a vnl_vector with a copy of the internal memory block. */
   vnl_vector< T > GetVnlVector() const;
 
-  /** Default constructor and copy constructors. */
-  Vector():BaseArray() {}
+  /** Default constructors, assignments and destructor */
+  Vector() = default;
+  Vector(const Vector&) = default;
+  Vector(Vector&&) = default;
+  Vector & operator=(const Vector &) = default;
+  Vector & operator=(Vector &&) = default;
+  ~Vector() = default;
 
 #if !defined( ITK_LEGACY_FUTURE_REMOVE )
   /** Constructor to initialize entire vector to one value.

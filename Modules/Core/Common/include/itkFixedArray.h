@@ -144,6 +144,8 @@ public:
   FixedArray(FixedArray &&) = default;
   /** Default Move Assignment */
   FixedArray & operator=(FixedArray && r) = default;
+  /** Default non-virtual destructor */
+  ~FixedArray() = default;
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< typename TFixedArrayValueType >
@@ -162,19 +164,6 @@ public:
     {
       std::copy(r, r + this->Size(), this->GetDataPointer());
     }
-
-  /** This destructor is not virtual for performance reasons. However, this
-   * means that subclasses cannot allocate memory.
-   *
-   * The destructor is PURPOSELY NOT DEFINED, in order to prevent inefficient
-   * byte alignment of arrays of this object.
-   *
-   * ~FixedArray();
-   *
-   * For a full discussion, see
-   * https://www.itk.org/mailman/private/insight-developers/2008-June/010480.html
-   *
-   */
 
   /** Operator= defined for a variety of types. */
   template< typename TFixedArrayValueType >

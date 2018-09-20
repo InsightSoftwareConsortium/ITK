@@ -16,7 +16,12 @@
  *
  *=========================================================================*/
 #include "itkFixedArray.h"
+// Derived from FixedArray (1st)
+#include "itkCovariantVector.h"
+#include "itkRGBAPixel.h"
+#include "itkRGBPixel.h"
 #include "itkPoint.h"
+#include "itkVector.h"
 
 #include <gtest/gtest.h>
 #include <type_traits>
@@ -24,14 +29,39 @@
 // info: is_pod (c++20 deprecated) is equivalent to is_trivial && is_standard_layout
 // info: type_traits cannot differentiate if a explicit move constructible/assignmet exist.
 
+
+TEST(TypeTraits, FixedArray) {
+  using T = itk::FixedArray<float, 3>;
+  EXPECT_EQ(std::is_trivial<T>::value, true);
+  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+}
+
+TEST(TypeTraits, Vector) {
+  using T = itk::Vector<float, 3>;
+  EXPECT_EQ(std::is_trivial<T>::value, true);
+  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+}
+
+TEST(TypeTraits, CovariantVector) {
+  using T = itk::CovariantVector<float, 3>;
+  EXPECT_EQ(std::is_trivial<T>::value, true);
+  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+}
+
 TEST(TypeTraits, Point) {
   using T = itk::Point<float>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(TypeTraits, FixedArray) {
-  using T = itk::FixedArray<float, 3>;
+TEST(TypeTraits, RGBAPixel) {
+  using T = itk::RGBAPixel<unsigned int>;
+  EXPECT_EQ(std::is_trivial<T>::value, true);
+  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+}
+
+TEST(TypeTraits, RGBPixel) {
+  using T = itk::RGBPixel<unsigned int>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }

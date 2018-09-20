@@ -37,15 +37,6 @@ CovariantVector< T, TVectorDimension >
 template< typename T, unsigned int NVectorDimension >
 CovariantVector< T, NVectorDimension > &
 CovariantVector< T, NVectorDimension >
-::operator=(const Self & r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-template< typename T, unsigned int NVectorDimension >
-CovariantVector< T, NVectorDimension > &
-CovariantVector< T, NVectorDimension >
 ::operator=(const ValueType r[NVectorDimension])
 {
   BaseArray::operator=(r);
