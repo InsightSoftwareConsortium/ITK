@@ -80,6 +80,8 @@ public:
 
   /** Default constructor. */
   Point() = default;
+  /** Default non-virtual destructor. */
+  ~Point() = default;
   /** Default copy constructor. */
   Point(const Point & r) = default;
   /** Default move constructor. */

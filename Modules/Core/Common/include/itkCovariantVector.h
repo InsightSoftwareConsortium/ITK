@@ -102,12 +102,17 @@ public:
   vnl_vector< T > GetVnlVector() const;
 
   /** Default constructor. */
-  CovariantVector():BaseArray() {}
+  CovariantVector() = default;
+  CovariantVector(const CovariantVector&) = default;
+  CovariantVector(CovariantVector&&) = default;
+  CovariantVector & operator=(const CovariantVector &) = default;
+  CovariantVector & operator=(CovariantVector &&) = default;
+  ~CovariantVector() = default;
 
   /**
   * Constructor to initialize entire vector to one value.
   */
-  CovariantVector(const ValueType & r);
+  explicit CovariantVector(const ValueType & r);
 
   /** Pass-through constructor for the Array base class. Implicit casting is
    * performed to initialize constructor from any another one of datatype. */
@@ -117,16 +122,14 @@ public:
   CovariantVector(const ValueType r[Dimension]):BaseArray(r) {}
 
   /** Assignment operator with implicit casting from another data type */
-  template< typename Tt >
-  Self & operator=(const Tt & v)
+  template< typename TCovariantVectorValueType >
+  Self & operator=(const CovariantVector< TCovariantVectorValueType, NVectorDimension > & r)
   {
-    BaseArray::operator=(v);
+    BaseArray::operator=(r);
     return *this;
   }
 
   /** Pass-through assignment operator for the Array base class. */
-  CovariantVector & operator=(const Self & r);
-
   CovariantVector & operator=(const ValueType r[NVectorDimension]);
 
   /** Scalar operator*=.  Scales elements by a scalar. */

@@ -75,8 +75,14 @@ public:
   using ComponentType = TComponent;
   using LuminanceType = typename NumericTraits< ComponentType >::RealType;
 
-  /** Default constructor has nothing to do */
-  RGBPixel() {}
+  /** Default constructors */
+  RGBPixel() = default;
+  RGBPixel(const RGBPixel&) = default;
+  RGBPixel(RGBPixel&&) = default;
+  RGBPixel & operator=(const RGBPixel &) = default;
+  RGBPixel & operator=(RGBPixel &&) = default;
+  ~RGBPixel() = default;
+
   /** Constructor to fill Red=Blug=Green= r. */
   RGBPixel (const ComponentType & r) { this->Fill(r); }
 
