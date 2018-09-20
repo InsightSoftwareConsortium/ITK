@@ -21,6 +21,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkMetaDataObject.h"
 #include "itkTestingMacros.h"
+#include "itkTIFFImageIO.h"
 
 
 int itkTIFFImageIOInfoTest( int argc, char * argv[] )
@@ -32,20 +33,38 @@ int itkTIFFImageIOInfoTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  constexpr unsigned int Dimension = 2;
-  using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  const std::string filename = argv[1];
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName( filename );
+  tiffImageIO->ReadImageInformation();
 
-  reader->Update();
+
+  std::cout << "Dimensions: ( ";
+  for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
+    {
+    std::cout << tiffImageIO->GetDimensions(d) << " ";
+    }
+  std::cout << ")" << std::endl;
+
+  std::cout << "Origin: ( ";
+  for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
+    {
+    std::cout << tiffImageIO->GetOrigin(d) << " ";
+    }
+  std::cout << ")" << std::endl;
+
+  std::cout << "Spacing: ( ";
+  for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
+    {
+    std::cout << tiffImageIO->GetSpacing(d) << " ";
+    }
+  std::cout << ")" << std::endl;
 
   using DictionaryType = itk::MetaDataDictionary;
   using MetaDataStringType = itk::MetaDataObject< std::string >;
 
-  const DictionaryType & dictionary = reader->GetImageIO()->GetMetaDataDictionary();
+  const DictionaryType & dictionary = tiffImageIO->GetMetaDataDictionary();
   auto itr = dictionary.Begin();
   auto end = dictionary.End();
 
