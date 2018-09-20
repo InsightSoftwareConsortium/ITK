@@ -358,14 +358,29 @@ HDF5TransformIOTemplate<TParametersValueType>
       if(transformType.find("CompositeTransform") == std::string::npos)
         {
         std::string fixedParamsName(transformName + transformFixedName);
+#if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
+         // check if group exists
+        htri_t exists = H5Lexists( this->m_H5File->getId(),
+                                   fixedParamsName.c_str(),
+                                   H5P_DEFAULT);
+        if ( exists == 0 ) {
+#else
         if(! this->m_H5File->exists(fixedParamsName) ){
+#endif
           fixedParamsName = transformName + transformFixedNameMisspelled;
         }
         FixedParametersType fixedparams(this->ReadFixedParameters(fixedParamsName));
         transform->SetFixedParameters(fixedparams);
 
         std::string paramsName(transformName + transformParamsName);
+#if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
+        exists = H5Lexists( this->m_H5File->getId(),
+                            paramsName.c_str(),
+                            H5P_DEFAULT);
+        if ( exists == 0 ) {
+#else
         if(! this->m_H5File->exists(paramsName) ){
+#endif
           paramsName = transformName + transformParamsNameMisspelled;
         }
         ParametersType params = this->ReadParameters(paramsName);
