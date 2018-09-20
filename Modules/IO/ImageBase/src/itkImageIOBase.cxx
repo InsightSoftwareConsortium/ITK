@@ -20,8 +20,9 @@
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkSimpleFastMutexLock.h"
 #include "itkMutexLockHolder.h"
-
 #include "itksys/SystemTools.hxx"
+
+#include <iterator>
 
 namespace itk
 {
@@ -1070,6 +1071,22 @@ ImageIOBase
   return axis;
 }
 
+namespace
+{
+template <typename T>
+std::ostream & operator<<( std::ostream & os, const std::vector<T>& v)
+{
+  if ( v.empty() )
+    {
+    return os << "( )";
+    }
+
+  os << "( ";
+  std::copy( v.begin(), v.end()-1, std::ostream_iterator<T>(os, ", ") );
+  return os << v.back() << " )";
+}
+}
+
 void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -1083,18 +1100,9 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Pixel Type: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
   os << indent << "Component Type: " << this->GetComponentTypeAsString(m_ComponentType)
      << std::endl;
-  os << indent << "Dimensions: ( ";
-  for( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
-    {
-    os << m_Dimensions[i] << " ";
-    }
-  os << ")" << std::endl;
-  os << indent << "Origin: ( ";
-  for( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
-    {
-    os << m_Origin[i] << " ";
-    }
-  os << ")" << std::endl;
+  os << indent << "Dimensions: " << m_Dimensions << std::endl;
+  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "Spacing: " << m_Spacing << std::endl;
 
   if( m_UseCompression )
     {
