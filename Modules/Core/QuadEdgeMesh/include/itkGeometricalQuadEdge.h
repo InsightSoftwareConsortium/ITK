@@ -109,9 +109,12 @@ public:
   itkQEAccessorsMacro(Superclass, Self, DualType);
 
 public:
-  /** Memory creation methods. */
   GeometricalQuadEdge();
-  ~GeometricalQuadEdge() override {}
+  GeometricalQuadEdge(const GeometricalQuadEdge &) = default;
+  GeometricalQuadEdge(GeometricalQuadEdge &&) = default;
+  GeometricalQuadEdge & operator=(const GeometricalQuadEdge &) = default;
+  GeometricalQuadEdge & operator=(GeometricalQuadEdge &&) = default;
+  virtual ~GeometricalQuadEdge() override = default;
 
   /** Set methods. */
   inline void SetOrigin(const OriginRefType v)

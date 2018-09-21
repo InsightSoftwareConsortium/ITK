@@ -248,6 +248,10 @@ public:
 
   /** Object creation methods. */
   QuadEdge();
+  QuadEdge(const QuadEdge &) = default;
+  QuadEdge(QuadEdge &&) = default;
+  QuadEdge & operator=(const QuadEdge &) = default;
+  QuadEdge & operator=(QuadEdge &&) = default;
   virtual ~QuadEdge();
 
   /** Sub-algebra Set methods. */
