@@ -79,9 +79,9 @@ public:
   /** Default constructors */
   RGBAPixel() = default;
   RGBAPixel(const RGBAPixel &) = default;
-  RGBAPixel & operator=(const RGBAPixel & r) = default;
+  RGBAPixel & operator=(const RGBAPixel &) = default;
   RGBAPixel( RGBAPixel &&) = default;
-  RGBAPixel & operator=(RGBAPixel && r) = default;
+  RGBAPixel & operator=(RGBAPixel &&) = default;
   ~RGBAPixel() = default;
 
   /** Pass-through constructor for the Array base class. */

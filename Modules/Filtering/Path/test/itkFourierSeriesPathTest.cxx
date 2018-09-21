@@ -32,7 +32,7 @@ int itkFourierSeriesPathTest( int, char*[] )
 
   InputType  input;
   OffsetType offset;
-  VectorType cosV, sinV, v;
+  VectorType cosV, sinV;
 
   PathType::Pointer path = PathType::New();
 
