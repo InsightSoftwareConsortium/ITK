@@ -30,6 +30,9 @@ const std::string HDF5CommonPathNames::transformGroupName(std::string("/Transfor
 const std::string HDF5CommonPathNames::transformTypeName("/TransformType");
 const std::string HDF5CommonPathNames::transformFixedName("/TranformFixedParameters");
 const std::string HDF5CommonPathNames::transformParamsName("/TranformParameters");
+
+const std::string HDF5CommonPathNames::transformFixedNameCorrected("/TransformFixedParameters");
+const std::string HDF5CommonPathNames::transformParamsNameCorrected("/TransformParameters");
 const std::string HDF5CommonPathNames::ItkVersion("/ITKVersion");
 const std::string HDF5CommonPathNames::HDFVersion("/HDFVersion");
 const std::string HDF5CommonPathNames::OSName("/OSName");

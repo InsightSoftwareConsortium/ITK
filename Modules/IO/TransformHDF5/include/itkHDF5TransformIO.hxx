@@ -335,13 +335,28 @@ HDF5TransformIOTemplate<TParametersValueType>
       // Composite transform doesn't store its own parameters
       if(transformType.find("CompositeTransform") == std::string::npos)
         {
-        std::string fixedParamsName(transformName);
-        fixedParamsName += transformFixedName;
+        std::string fixedParamsName(transformName + transformFixedName);
+
+        // check if group exists
+        htri_t exists = H5Lexists( this->m_H5File->getId(),
+                                   fixedParamsName.c_str(),
+                                   H5P_DEFAULT);
+        if ( exists == 0 )
+           {
+           fixedParamsName = transformName + transformFixedNameCorrected;
+           }
         FixedParametersType fixedparams(this->ReadFixedParameters(fixedParamsName));
         transform->SetFixedParameters(fixedparams);
 
-        std::string paramsName(transformName);
-        paramsName += transformParamsName;
+        std::string paramsName(transformName + transformParamsName);
+
+        exists = H5Lexists( this->m_H5File->getId(),
+                            paramsName.c_str(),
+                            H5P_DEFAULT);
+        if ( exists == 0 )
+          {
+          paramsName = transformName + transformParamsNameCorrected;
+          }
         ParametersType params = this->ReadParameters(paramsName);
         transform->SetParametersByValue(params);
         }
