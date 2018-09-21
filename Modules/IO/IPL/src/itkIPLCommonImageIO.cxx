@@ -199,21 +199,20 @@ void IPLCommonImageIO::ReadImageInformation()
   for ( i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; i++ )
     {
     const char *curFname =  Dir->GetFile(static_cast<unsigned int>( i ) );
-    char        fullPath[IOCommon::ITK_MAXPATHLEN + 1];
-    sprintf(fullPath, "%s/%s", imagePath, curFname);
 
     if ( curFname == nullptr )
       {
       break;
       }
-    else if ( FileNameToRead == fullPath ) //strcmp(curFname,FileNameToRead) ==
+     const std::string fullPath=std::string(imagePath) + "/" + curFname;
+     if ( FileNameToRead == fullPath ) //strcmp(curFname,FileNameToRead) ==
                                            // 0)
       {
       continue;
       }
     try
       {
-      curImageHeader = this->ReadHeader(fullPath);
+      curImageHeader = this->ReadHeader(fullPath.c_str());
       }
     catch ( itk::ExceptionObject & )
       {
