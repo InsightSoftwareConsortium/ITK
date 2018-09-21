@@ -188,7 +188,7 @@ PoolMultiThreader
             aFunc( ii );
           }
           // make this lambda have the same signature as m_SingleMethod
-          return (ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER)0;
+          return static_cast<ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER>( ITK_DEFAULT_THREAD_ID );
         },
         i,
         std::min( i + chunkSize, lastIndexPlus1 ) );
@@ -259,7 +259,7 @@ PoolMultiThreader
             {
               funcP( &iRegion.GetIndex()[0], &iRegion.GetSize()[0] );
               // make this lambda have the same signature as m_SingleMethod
-              return (ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER)0;
+              return static_cast<ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER>( ITK_DEFAULT_THREAD_ID );
             }
             );
           }

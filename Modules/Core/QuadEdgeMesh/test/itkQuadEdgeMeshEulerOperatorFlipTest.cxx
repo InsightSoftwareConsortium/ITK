@@ -58,7 +58,7 @@ int itkQuadEdgeMeshEulerOperatorFlipTest( int , char * [] )
   delete dummy;
   std::cout << "OK" << std::endl;
   std::cout << "     " << "Test No QE Input";
-  if( flipEdge->Evaluate( (QEType*)0 ) )
+  if( flipEdge->Evaluate( (QEType*)nullptr ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;

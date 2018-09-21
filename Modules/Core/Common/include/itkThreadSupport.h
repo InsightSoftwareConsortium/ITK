@@ -59,7 +59,7 @@ namespace itk
   using FastMutexType = CRITICAL_SECTION;
   typedef unsigned(__stdcall * ThreadFunctionType)(void *);
   using ThreadProcessIdType = HANDLE;
-#define ITK_DEFAULT_THREAD_ID   INVALID_HANDLE_VALUE
+#define ITK_DEFAULT_THREAD_ID   unsigned(-1)
 #define ITK_THREAD_RETURN_VALUE 0
 #define ITK_THREAD_RETURN_TYPE unsigned __stdcall
 #define ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER unsigned
