@@ -126,13 +126,13 @@ public:
   }
 
   /** Compose with another TranslationTransform. */
-  void Compose(const Self *other, bool pre = 0);
+  void Compose(const Self *other, bool pre = false);
 
   /** Compose affine transformation with a translation.
    * This method modifies self to include a translation of the
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise. */
-  void Translate(const OutputVectorType & offset, bool pre = 0);
+  void Translate(const OutputVectorType & offset, bool pre = false);
 
   /** Transform by an affine transformation.
    * This method applies the affine transform given by self to a

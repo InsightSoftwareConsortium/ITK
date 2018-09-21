@@ -356,7 +356,7 @@ public:
    * with self; that is the resulting transformation consists of
    * first applying self to the source, followed by other.
    * This updates the Translation based on current center. */
-  void Compose(const Self *other, bool pre = 0);
+  void Compose(const Self *other, bool pre = false);
 
   /** Transform by an affine transformation
    *
