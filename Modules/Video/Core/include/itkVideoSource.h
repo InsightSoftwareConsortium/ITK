@@ -164,7 +164,7 @@ protected:
 
   /** Static thread callback function for the MultiThreaderBase. This gives control
    * to ThreadedGenerateData(). */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback(void* arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback(void* arg);
 
   /** Internal structure used for passing image data into the threading library
     */

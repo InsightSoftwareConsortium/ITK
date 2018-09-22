@@ -124,7 +124,7 @@ protected:
   void BeforeThreadedGenerateData() override;
   void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId) override;
   void AfterThreadedGenerateData() override;
-  static ITK_THREAD_RETURN_TYPE ThreaderMinMaxCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderMinMaxCallback(void *arg);
 
   /** Method that construct the outputs */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;

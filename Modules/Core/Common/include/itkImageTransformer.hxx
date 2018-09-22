@@ -330,7 +330,7 @@ ImageTransformer< TInputImage >
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
 template< typename TInputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageTransformer< TInputImage >
 ::ThreaderCallback(void *arg)
 {
@@ -359,7 +359,7 @@ ImageTransformer< TInputImage >
   //   few threads idle.
   //   }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 } // end namespace itk
 

@@ -231,6 +231,14 @@ If your class needs to also work with legacy code where
 an external module that transitioned to the new threading model can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/commit/f794baa7546f9bb8b7d89ae3a083c9a432d55df0).
 
+The variables `ITK_MAX_THREADS` and `ITK_DEFAULT_THREAD_ID` are now in the `itk::` namespace.
+Backwards compatibility is currently supported by exposing these to the global namespace
+with
+```C++
+  using itk::ITK_MAX_THREADS;
+  using itk::ITK_DEFAULT_THREAD_ID;
+```
+
 Class changes
 -------------
 

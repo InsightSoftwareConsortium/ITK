@@ -23,7 +23,7 @@
 
 itk::MutexLock::Pointer sharedMutex;
 
-ITK_THREAD_RETURN_TYPE execute(void *ptr)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION execute(void *ptr)
 {
   // Here - get any args from ptr.
   auto * threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo*>(ptr);
@@ -47,7 +47,7 @@ ITK_THREAD_RETURN_TYPE execute(void *ptr)
       }
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 int itkThreadPoolTest(int argc, char* argv[])

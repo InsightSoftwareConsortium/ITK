@@ -187,7 +187,7 @@ ImageToHistogramFilter< TImage >
 
 
 template< typename TImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToHistogramFilter< TImage >
 ::ThreaderMinMaxCallback(void *arg)
 {
@@ -209,7 +209,7 @@ ImageToHistogramFilter< TImage >
     filter->ThreadedComputeMinimumAndMaximum(splitRegion, threadId);
     }
   // else don't use this thread. Threads were not split conveniently.
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TImage >

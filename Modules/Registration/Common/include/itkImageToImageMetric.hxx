@@ -1207,7 +1207,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedPreProcess(void *arg)
 {
@@ -1221,14 +1221,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueThreadPreProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreaded(void *arg)
 {
@@ -1242,14 +1242,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueThread(threadId);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedPostProcess(void *arg)
 {
@@ -1263,7 +1263,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueThreadPostProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TFixedImage, typename TMovingImage  >
@@ -1370,7 +1370,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedPreProcess(void *arg)
 {
@@ -1384,14 +1384,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueAndDerivativeThreadPreProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreaded(void *arg)
 {
@@ -1405,14 +1405,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueAndDerivativeThread(threadId);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedPostProcess(void *arg)
 {
@@ -1426,7 +1426,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueAndDerivativeThreadPostProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TFixedImage, typename TMovingImage  >

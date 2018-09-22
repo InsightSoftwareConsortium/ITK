@@ -302,7 +302,7 @@ private:
   void AllocateUpdateBuffer() override {}
 
   /** This method gives support for a multithread iterative scheme. */
-  static ITK_THREAD_RETURN_TYPE IterateThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION IterateThreaderCallback(void *arg);
 
   /** This method is a thread implementation of the iterative scheme implemented
    * in itkFiniteDifferenceImageFilter::GenerateData. It relies on ThreadedApplyUpdate

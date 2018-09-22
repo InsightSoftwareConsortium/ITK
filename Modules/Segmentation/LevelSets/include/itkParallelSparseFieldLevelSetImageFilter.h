@@ -516,7 +516,7 @@ protected:
    *  executing simultaneously.  */
   void Iterate();
 
-  static ITK_THREAD_RETURN_TYPE IterateThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION IterateThreaderCallback(void *arg);
 
   /** This method allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply

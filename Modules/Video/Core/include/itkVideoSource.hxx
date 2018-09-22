@@ -359,7 +359,7 @@ SplitRequestedSpatialRegion(int i, int num,
 // ThreaderCallback -- Copied from ImageSource
 //
 template<typename TOutputVideoStream>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 VideoSource<TOutputVideoStream>::
 ThreaderCallback(void* arg)
 {
@@ -387,7 +387,7 @@ ThreaderCallback(void* arg)
   //   few threads idle.
   //   }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 } // end namespace itk

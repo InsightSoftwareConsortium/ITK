@@ -110,7 +110,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
 {
@@ -121,7 +121,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 
   str->Filter->ThreadedIterate(arg, threadId);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImage, typename TOutputImage >

@@ -25,14 +25,14 @@ static int done = 0;
 static int numberOfIterations = 10;
 static itk::MutexLock::Pointer sharedMutex = nullptr;
 
-static ITK_THREAD_RETURN_TYPE Runner(void*);
+static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION Runner(void*);
 static int Thread(int);
 } // namespace itkSTLThreadTestImpl
 
 int itkSTLThreadTest(int argc, char* argv[])
 {
   // Choose a number of threads.
-  int numThreads = 10;
+  std::size_t numThreads = 10;
   if(argc > 1)
     {
     int nt = std::stoi(argv[1]);
@@ -53,9 +53,9 @@ int itkSTLThreadTest(int argc, char* argv[])
     }
 
   // Enforce limit on number of threads.
-  if(numThreads > ITK_MAX_THREADS)
+  if(numThreads > itk::ITK_MAX_THREADS)
     {
-    numThreads = ITK_MAX_THREADS;
+    numThreads = itk::ITK_MAX_THREADS;
     }
 
   // Report what we'll do.
@@ -73,8 +73,7 @@ int itkSTLThreadTest(int argc, char* argv[])
 
   // Create result array.  Assume failure.
   auto * results = new int[numThreads];
-  int i;
-  for(i=0; i < numThreads; ++i)
+  for(std::size_t i=0; i < numThreads; ++i)
     {
     results[i] = 0;
     }
@@ -88,7 +87,7 @@ int itkSTLThreadTest(int argc, char* argv[])
 
   // Report results.
   int result = 0;
-  for(i=0; i < numThreads; ++i)
+  for(std::size_t i=0; i < numThreads; ++i)
     {
     if(!results[i])
       {
@@ -122,7 +121,7 @@ int itkSTLThreadTest(int argc, char* argv[])
 namespace itkSTLThreadTestImpl
 {
 
-static ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
+static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION Runner(void* infoIn)
 {
   // Get the thread id and result pointer and run the method for this
   // thread.
@@ -137,7 +136,7 @@ static ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
     {
     itkSTLThreadTestImpl::Thread(tnum);
     }
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 static int Thread(int tnum)

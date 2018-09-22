@@ -135,7 +135,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 
 
 template<typename TInputImage, typename TOutputImage>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 ::ThreaderFullCallback(void *arg)
 {
@@ -165,7 +165,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
       }
     }
   // else don't use this thread. Threads were not split conveniently.
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**

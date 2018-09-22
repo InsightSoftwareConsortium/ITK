@@ -53,7 +53,7 @@ itk::Object::Pointer AnObject;
 }
 
 
-ITK_THREAD_RETURN_TYPE MyFunction(void *)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION MyFunction(void *)
 {
   for (unsigned i=0; i<Target/NumThreads; i++)
     {
@@ -68,10 +68,10 @@ ITK_THREAD_RETURN_TYPE MyFunction(void *)
     AnObject->Modified();
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE MyFunction2(void *)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION MyFunction2(void *)
 {
   for (unsigned i=0; i<Target/NumThreads; i++)
     {
@@ -80,10 +80,10 @@ ITK_THREAD_RETURN_TYPE MyFunction2(void *)
     --TotalAtomic64;
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE MyFunction3(void *)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION MyFunction3(void *)
 {
   for (unsigned i=0; i<Target/NumThreads; i++)
     {
@@ -94,10 +94,10 @@ ITK_THREAD_RETURN_TYPE MyFunction3(void *)
     Values64[idx]++;
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE MyFunction4(void *)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION MyFunction4(void *)
 {
   for (unsigned i=0; i<Target/NumThreads; i++)
     {
@@ -112,10 +112,10 @@ ITK_THREAD_RETURN_TYPE MyFunction4(void *)
     TotalAtomic64 -= 1;
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE MyFunctionPtr(void *)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION MyFunctionPtr(void *)
 {
   for (unsigned i=0; i<Target/NumThreads; i++)
     {
@@ -126,7 +126,7 @@ ITK_THREAD_RETURN_TYPE MyFunctionPtr(void *)
     (*ptr64) = 1;
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template<class T>
