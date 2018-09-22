@@ -182,8 +182,8 @@ namespace itk
    void PrintSelf(std::ostream &os, Indent indent) const override;
  private:
 
-   PipelineMonitorImageFilter(const PipelineMonitorImageFilter &); // not implemented
-   void operator=(const PipelineMonitorImageFilter &); // not implemented
+   PipelineMonitorImageFilter(const PipelineMonitorImageFilter &) = delete;
+   void operator=(const PipelineMonitorImageFilter &) = delete;
 
    bool m_ClearPipelineOnGenerateOutputInformation;
 

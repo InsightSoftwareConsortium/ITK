@@ -35,7 +35,8 @@ namespace itk
         return this != & rhs;
       }
 
-      /* NOTE: operator== purposefully NOT defined. It is not required
+      bool operator==(const TanHelper & other) const = delete;
+      /* NOTE: operator== NOT defined. It is not required
        * as part of the defined specification for a Function.
       bool operator==(const TanHelper & other) const
       {

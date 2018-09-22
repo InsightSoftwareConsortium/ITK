@@ -45,8 +45,8 @@ public:
                       size_t size);
 
 private:
-  ConvertPixelBuffer();
-  ~ConvertPixelBuffer();
+  ConvertPixelBuffer() = delete;
+  ~ConvertPixelBuffer() = delete;
 };
 } //namespace ITK
 

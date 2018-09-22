@@ -78,12 +78,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SymmetricEllipsoidInteriorExteriorSpatialFunction(const Self &); //purposely
-                                                                   // not
-                                                                   // implemented
-  void operator=(const Self &);                                    //purposely
-                                                                   // not
-                                                                   // implemented
+  SymmetricEllipsoidInteriorExteriorSpatialFunction(const Self &) = delete;
+  void operator=(const Self &) = delete;
 
   /** The center of the ellipsoid. */
   InputType m_Center;

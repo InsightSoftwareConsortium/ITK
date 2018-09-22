@@ -105,8 +105,8 @@ protected:
   MeasureType m_MeasureBound;
 
 private:
-  QuadEdgeMeshDecimationCriterion(const Self &);
-  void operator=(const Self &);
+  QuadEdgeMeshDecimationCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -155,8 +155,8 @@ protected:
   ~NumberOfPointsCriterion() {}
 
 private:
-  NumberOfPointsCriterion(const Self &);
-  void operator=(const Self &);
+  NumberOfPointsCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -206,8 +206,8 @@ protected:
   ~NumberOfFacesCriterion() override {}
 
 private:
-  NumberOfFacesCriterion(const Self &);
-  void operator=(const Self &);
+  NumberOfFacesCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -257,8 +257,8 @@ protected:
   ~MaxMeasureBoundCriterion() override {}
 
 private:
-  MaxMeasureBoundCriterion(const Self &);
-  void operator=(const Self &);
+  MaxMeasureBoundCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -308,8 +308,8 @@ protected:
   ~MinMeasureBoundCriterion() {}
 
 private:
-  MinMeasureBoundCriterion(const Self &);
-  void operator=(const Self &);
+  MinMeasureBoundCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 }
 

@@ -127,8 +127,8 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
   private:
     DomainMapType m_DomainMap;
 
-    LevelSetDomainMapImageFilter ( Self& );   // intentionally not implemented
-    void operator= ( const Self& );   // intentionally not implemented
+    LevelSetDomainMapImageFilter ( Self& ) = delete;
+    void operator= ( const Self& ) = delete;
 
     const InputImageType *m_InputImage;
     OutputImageType      *m_OutputImage;

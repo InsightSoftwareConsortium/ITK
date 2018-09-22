@@ -111,8 +111,8 @@ protected:
   ~FixedCenterOfRotationAffineTransform() override;
 
 private:
-  FixedCenterOfRotationAffineTransform(const Self & other);
-  const Self & operator=(const Self &);
+  FixedCenterOfRotationAffineTransform(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 }; //class FixedCenterOfRotationAffineTransform
 }  // namespace itk
 

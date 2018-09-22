@@ -102,7 +102,7 @@ protected:
                               ParametersType & tempCoord);
 
 private:
-  FRPROptimizer(const FRPROptimizer &); // not implemented
+  FRPROptimizer(const FRPROptimizer &) = delete;
 
   typedef enum {
     FletchReeves,

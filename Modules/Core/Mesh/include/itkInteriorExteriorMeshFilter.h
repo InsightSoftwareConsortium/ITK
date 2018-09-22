@@ -91,13 +91,8 @@ protected:
   typename SpatialFunctionType::Pointer m_SpatialFunction;
 
 private:
-  InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter &); //purposely
-                                                                  // not
-                                                                  // implemented
-  void operator=(const InteriorExteriorMeshFilter &);             //purposely
-
-  // not
-  // implemented
+  InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter &) = delete;
+  void operator=(const InteriorExteriorMeshFilter &) = delete;
 };
 } // end namespace itk
 

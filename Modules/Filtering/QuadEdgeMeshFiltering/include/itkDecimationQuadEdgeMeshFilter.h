@@ -112,8 +112,8 @@ protected:
   OutputMeshType *m_OutputMesh;
 
 private:
-  DecimationQuadEdgeMeshFilter(const Self &);
-  void operator=(const Self &);
+  DecimationQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 }
 

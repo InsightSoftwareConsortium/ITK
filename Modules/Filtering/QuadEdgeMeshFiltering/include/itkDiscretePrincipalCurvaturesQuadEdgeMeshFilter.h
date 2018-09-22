@@ -153,12 +153,8 @@ protected:
   }
 
 private:
-  DiscretePrincipalCurvaturesQuadEdgeMeshFilter(const Self &); // purposely
-                                                                  // not
-                                                                  // implemented
-  void operator=(const Self &);                                   // purposely
-                                                                  // not
-                                                                  // implemented
+  DiscretePrincipalCurvaturesQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 }
 

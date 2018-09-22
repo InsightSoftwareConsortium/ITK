@@ -141,8 +141,8 @@ protected:
 
 private:
 
-  ScalableAffineTransform(const Self & other);
-  const Self & operator=(const Self &);
+  ScalableAffineTransform(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 
   double          m_Scale[NDimensions];
   InputVectorType m_MatrixScale;

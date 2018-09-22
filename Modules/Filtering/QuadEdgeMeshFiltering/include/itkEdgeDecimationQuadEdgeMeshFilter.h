@@ -299,8 +299,8 @@ protected:
   bool IsCriterionSatisfied() override;
 
 private:
-  EdgeDecimationQuadEdgeMeshFilter(const Self &);
-  void operator=(const Self &);
+  EdgeDecimationQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 
 };
 }

@@ -278,8 +278,8 @@ protected:
 
 private:
 
-  AffineTransform(const Self & other);
-  const Self & operator=(const Self &);
+  AffineTransform(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 }; //class AffineTransform
 
 }  // namespace itk
