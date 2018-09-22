@@ -12,4 +12,4 @@ script:
 - chmod u+x macpython-download-cache-and-build-module-wheels.sh
 - ./macpython-download-cache-and-build-module-wheels.sh
 - tar -zcvf dist.tar.gz dist/
-- curl -F file="@dist.tar.gz" https://filebin.ca/upload.php
+- curl --upload-file dist.tar.gz https://transfer.sh/dist.tar.gz
