@@ -90,7 +90,7 @@ int itkMapRankImageFilterTest(int ac, char* av[] )
 
   try
     {
-    int r = atoi( av[3] );
+    int r = std::stoi( av[3] );
     filter->SetInput(input->GetOutput());
     filter->SetRadius( r );
     filter->SetRank( 0.5 );

@@ -72,10 +72,10 @@ int itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char *argv[])
   // Connect the input
   filter->SetInput( mesh );
 
-  CellIdentifier  polarCellId = atoi( argv[3] );
+  CellIdentifier  polarCellId = std::stoi( argv[3] );
   filter->SetPolarCellIdentifier( polarCellId );
 
-  int mapToSphere = atoi( argv[5] );
+  int mapToSphere = std::stoi( argv[5] );
 
   if( mapToSphere == 1 )
     {

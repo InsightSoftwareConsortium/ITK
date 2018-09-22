@@ -48,17 +48,17 @@ int itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetInput( reader->GetOutput() );
 
   //testing get/set ForegroundValue macro
-  int ForegroundValue = ( atoi(argv[3]) );
+  int ForegroundValue = ( std::stoi(argv[3]) );
   KeepNObjects->SetForegroundValue( ForegroundValue );
   TEST_SET_GET_VALUE( ForegroundValue, KeepNObjects->GetForegroundValue() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[4]) );
+  int BackgroundValue = ( std::stoi(argv[4]) );
   KeepNObjects->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
   //testing get and set macros for Lambda
-  unsigned int numberOfObjects = atoi( argv[5] );
+  unsigned int numberOfObjects = std::stoi( argv[5] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
   TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
 
@@ -70,7 +70,7 @@ int itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[6] );
+  bool reverseOrdering = std::stoi( argv[6] );
   KeepNObjects->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
 
@@ -82,12 +82,12 @@ int itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, KeepNObjects->GetFullyConnected() );
 
   //testing get and set macros or FullyConnected
-  bool fullyConnected = atoi( argv[7] );
+  bool fullyConnected = std::stoi( argv[7] );
   KeepNObjects->SetFullyConnected( fullyConnected );
   TEST_SET_GET_VALUE( fullyConnected , KeepNObjects->GetFullyConnected() );
 
   //testing get and set macros for Attribute
-  BinaryKeepNObjectsType::AttributeType attribute = atoi( argv[8] );
+  BinaryKeepNObjectsType::AttributeType attribute = std::stoi( argv[8] );
   KeepNObjects->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
 

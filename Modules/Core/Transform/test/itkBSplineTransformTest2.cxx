@@ -269,7 +269,7 @@ int itkBSplineTransformTest2( int argc, char * argv[] )
 
    if( argc > 6 )
      {
-     splineOrder = atoi( argv[6] );
+     splineOrder = std::stoi( argv[6] );
      }
 
    int status = 0;

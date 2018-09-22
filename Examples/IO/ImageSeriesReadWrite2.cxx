@@ -125,7 +125,7 @@ int main( int argc, char ** argv )
   std::string directory = argv[1];
   std::string regularExpression = argv[2];
 
-  const unsigned int subMatch = atoi( argv[3] );
+  const unsigned int subMatch = std::stoi( argv[3] );
 
   std::string outputFilename = argv[4];
 

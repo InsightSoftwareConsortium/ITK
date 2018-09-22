@@ -101,7 +101,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   ConstIteratorType inputIt(  inputImage,  inputImage->GetRequestedRegion() );
-  inputIt.SetNumberOfSamples( ::atoi( argv[2]) );
+  inputIt.SetNumberOfSamples( ::std::stoi( argv[2]) );
   inputIt.ReinitializeSeed();
 // Software Guide : EndCodeSnippet
 

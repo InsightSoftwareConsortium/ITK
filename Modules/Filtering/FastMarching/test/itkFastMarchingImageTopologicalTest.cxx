@@ -147,12 +147,12 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
 
   fastMarching->SetTopologyCheck( FastMarchingType::Nothing );
 
-  if( argc > 6 && atoi( argv[6] ) == 1 )
+  if( argc > 6 && std::stoi( argv[6] ) == 1 )
     {
     std::cout << "Strict." << std::endl;
     fastMarching->SetTopologyCheck( FastMarchingType::Strict );
     }
-  if( argc > 6 && atoi( argv[6] ) == 2 )
+  if( argc > 6 && std::stoi( argv[6] ) == 2 )
     {
     std::cout << "No handles." << std::endl;
     fastMarching->SetTopologyCheck( FastMarchingType::NoHandles );
@@ -265,7 +265,7 @@ int itkFastMarchingImageTopologicalTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      return FastMarchingImageFilter<2>( argc, argv );

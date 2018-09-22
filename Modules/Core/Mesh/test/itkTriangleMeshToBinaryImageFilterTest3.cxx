@@ -65,9 +65,9 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 
   ImageType::SizeType size;
 
-  size[0] = atoi( argv[3] );
-  size[1] = atoi( argv[4] );
-  size[2] = atoi( argv[5] );
+  size[0] = std::stoi( argv[3] );
+  size[1] = std::stoi( argv[4] );
+  size[2] = std::stoi( argv[5] );
 
   imageFilter->SetSize( size );
 

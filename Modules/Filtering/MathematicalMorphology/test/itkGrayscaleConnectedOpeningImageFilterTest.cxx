@@ -77,8 +77,8 @@ int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
   connectedOpening->SetInput(  reader->GetOutput() );
 
   InputImageType::IndexType seed;
-  seed[0] = atoi(argv[3]);
-  seed[1] = atoi(argv[4]);
+  seed[0] = std::stoi(argv[3]);
+  seed[1] = std::stoi(argv[4]);
   connectedOpening->SetSeed(seed);
 
   // Run the filter

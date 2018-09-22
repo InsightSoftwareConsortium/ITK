@@ -64,7 +64,7 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
 
   if ( argc >= 5 )
     {
-    convolver->SetNormalize( static_cast<bool>( atoi( argv[4] ) ) );
+    convolver->SetNormalize( static_cast<bool>( std::stoi( argv[4] ) ) );
     }
 
   if ( argc >= 6 )

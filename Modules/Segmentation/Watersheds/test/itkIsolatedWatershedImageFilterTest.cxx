@@ -92,13 +92,13 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   TRY_EXPECT_EXCEPTION( filter->Update() );
 
 
-  seed1[0] = atoi( argv[3] );
-  seed1[1] = atoi( argv[4] );
+  seed1[0] = std::stoi( argv[3] );
+  seed1[1] = std::stoi( argv[4] );
   filter->SetSeed1( seed1 );
   TEST_SET_GET_VALUE( seed1, filter->GetSeed1() );
 
-  seed2[0] = atoi( argv[5] );
-  seed2[1] = atoi( argv[6] );
+  seed2[0] = std::stoi( argv[5] );
+  seed2[1] = std::stoi( argv[6] );
   filter->SetSeed2( seed2 );
   TEST_SET_GET_VALUE( seed2, filter->GetSeed2() );
 

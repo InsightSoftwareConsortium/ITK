@@ -57,11 +57,11 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
 
   if( argc >= 7 )
     {
-    numberOfIterations = atoi( argv[6] );
+    numberOfIterations = std::stoi( argv[6] );
     }
   if( argc >= 8 )
     {
-    numberOfDisplacementIterations = atoi( argv[7] );
+    numberOfDisplacementIterations = std::stoi( argv[7] );
     }
   std::cout << " iterations "<< numberOfIterations
     << " displacementIterations " << numberOfDisplacementIterations << std::endl;
@@ -331,7 +331,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  unsigned int Dimension = atoi(argv[1]);
+  unsigned int Dimension = std::stoi(argv[1]);
 
   if (Dimension==2)
     {

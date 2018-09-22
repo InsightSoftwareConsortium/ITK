@@ -64,7 +64,7 @@ int itkKdTreeTest2( int argc, char * argv [] )
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
-  const unsigned int bucketSize = atoi( argv[2] );
+  const unsigned int bucketSize = std::stoi( argv[2] );
 
   treeGenerator->SetSample( sample );
   treeGenerator->SetBucketSize( bucketSize );

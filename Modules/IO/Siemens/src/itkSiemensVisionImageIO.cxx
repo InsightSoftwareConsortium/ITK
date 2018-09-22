@@ -146,17 +146,17 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   this->GetStringAt(f, TEXT_STUDY_NUM2, tmpStr, TEXT_STUDY_NUM2_LEN);
   tmpStr[TEXT_STUDY_NUM2_LEN] = '\0';
-  hdr->seriesNumber = atoi(tmpStr);
+  hdr->seriesNumber = std::stoi(tmpStr);
   DB(hdr->seriesNumber);
 
   this->GetStringAt(f, TEXT_IMG_NUMBER, tmpStr, TEXT_IMG_NUMBER_LEN);
   tmpStr[TEXT_IMG_NUMBER_LEN] = '\0';
-  hdr->imageNumber = atoi(tmpStr);
+  hdr->imageNumber = std::stoi(tmpStr);
   DB(hdr->imageNumber);
 
   this->GetStringAt(f, TEXT_SLICE_THCK, tmpStr, TEXT_SLICE_THCK_LEN);
   tmpStr[TEXT_SLICE_THCK_LEN] = '\0';
-  hdr->sliceThickness = atoi(tmpStr);
+  hdr->sliceThickness = std::stoi(tmpStr);
   hdr->sliceGap = 0.0f;
 
   DB(hdr->sliceThickness);
@@ -169,12 +169,12 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   this->GetStringAt(f, TEXT_ACQ_MTRX_FREQ, tmpStr, TEXT_ACQ_MTRX_FREQ_LEN);
   tmpStr[TEXT_ACQ_MTRX_FREQ_LEN] = '\0';
-  hdr->acqXsize = atoi(tmpStr);
+  hdr->acqXsize = std::stoi(tmpStr);
   DB(hdr->acqXsize);
 
   this->GetStringAt(f, TEXT_ACQ_MTRX_PHASE, tmpStr, TEXT_ACQ_MTRX_PHASE_LEN);
   tmpStr[TEXT_ACQ_MTRX_PHASE_LEN] = '\0';
-  hdr->acqYsize = atoi(tmpStr);
+  hdr->acqYsize = std::stoi(tmpStr);
   DB(hdr->acqYsize);
 
   this->GetStringAt(f, TEXT_FOVH, tmpStr, TEXT_FOVH_LEN);
@@ -297,7 +297,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   this->GetStringAt(f, TEXT_ECHO_NUM, tmpStr, TEXT_ECHO_NUM_LEN);
   tmpStr[TEXT_ECHO_NUM_LEN] = '\0';
-  hdr->echoNumber = (int)atoi(tmpStr);
+  hdr->echoNumber = (int)std::stoi(tmpStr);
   DB(hdr->echoNumber);
 
   this->GetDoubleAt( f,  HDR_FLIP_ANGLE, &tmpDble, sizeof( double ) );

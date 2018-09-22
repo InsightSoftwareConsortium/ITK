@@ -114,7 +114,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc > 6 )
     {
-    unsigned int numberOfSigmaSteps = atoi( argv[6] );
+    unsigned int numberOfSigmaSteps = std::stoi( argv[6] );
     multiScaleEnhancementFilter->SetNumberOfSigmaSteps( numberOfSigmaSteps );
 
     if( multiScaleEnhancementFilter->GetNumberOfSigmaSteps() != numberOfSigmaSteps )
@@ -126,12 +126,12 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc > 7 )
     {
-    objectnessFilter->SetObjectDimension( atoi(argv[7]) );
+    objectnessFilter->SetObjectDimension( std::stoi(argv[7]) );
     }
 
   if ( argc > 8 )
     {
-    objectnessFilter->SetBrightObject( atoi(argv[8]) );
+    objectnessFilter->SetBrightObject( std::stoi(argv[8]) );
     }
 
   multiScaleEnhancementFilter->GenerateScalesOutputOn();

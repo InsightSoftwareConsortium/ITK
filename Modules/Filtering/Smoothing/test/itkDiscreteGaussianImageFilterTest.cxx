@@ -104,8 +104,8 @@ int itkDiscreteGaussianImageFilterTest(int , char * [] )
 
       // Run Test
       itk::Size<3> sz;
-      sz[0] = 100; //atoi(argv[1]);
-      sz[1] = 100; // atoi(argv[2]);
+      sz[0] = 100; //std::stoi(argv[1]);
+      sz[1] = 100; // std::stoi(argv[2]);
       sz[2] = 40;
 
       itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;

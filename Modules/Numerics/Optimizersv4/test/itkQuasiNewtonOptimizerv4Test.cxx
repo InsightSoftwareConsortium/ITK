@@ -237,7 +237,7 @@ int itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
 
   if( argc >= 2 )
     {
-    numberOfIterations = atoi( argv[1] );
+    numberOfIterations = std::stoi( argv[1] );
     }
   if (argc >= 3)
     {

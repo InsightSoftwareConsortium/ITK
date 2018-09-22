@@ -70,7 +70,7 @@ int itkDCMTKSeriesStreamReadImageWrite( int argc, char* argv[] )
   bool forceNoStreaming = true;
   if( argc > 6 )
     {
-    if( atoi(argv[6]) != 1 )
+    if( std::stoi(argv[6]) != 1 )
       {
       forceNoStreaming = false;
       }

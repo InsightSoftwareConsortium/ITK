@@ -64,7 +64,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     }
   if( argc > 5 )
     {
-    maxKernelWidth = atoi( argv[5] );
+    maxKernelWidth = std::stoi( argv[5] );
     }
 
   double varianceValue = sigma * sigma;

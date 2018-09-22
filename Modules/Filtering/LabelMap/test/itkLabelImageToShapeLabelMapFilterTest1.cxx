@@ -49,15 +49,15 @@ int itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   L2SType::Pointer l2s = L2SType::New();
   l2s->SetInput( reader->GetOutput() );
 
-  const PixelType backgroundValue = atoi(argv[3]);
+  const PixelType backgroundValue = std::stoi(argv[3]);
   l2s->SetBackgroundValue( backgroundValue );
   TEST_SET_GET_VALUE( backgroundValue, l2s->GetBackgroundValue() );
 
-  const bool computeFeretDiameter = atoi( argv[4]);
+  const bool computeFeretDiameter = std::stoi( argv[4]);
   l2s->SetComputeFeretDiameter( computeFeretDiameter );
   TEST_SET_GET_VALUE( computeFeretDiameter, l2s->GetComputeFeretDiameter() );
 
-  const bool computePerimeter = atoi( argv[5]);
+  const bool computePerimeter = std::stoi( argv[5]);
   l2s->SetComputePerimeter( computePerimeter );
   TEST_SET_GET_VALUE( computePerimeter, l2s->GetComputeFeretDiameter() );
 

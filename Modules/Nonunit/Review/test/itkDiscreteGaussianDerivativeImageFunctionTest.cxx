@@ -56,7 +56,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
     {
     order[i] = static_cast<
       typename GaussianDerivativeImageFunctionType::OrderArrayType::ValueType >(
-      atoi( argv[3] ) );
+      std::stoi( argv[3] ) );
     }
 
   double sigma = atof( argv[4] );
@@ -72,13 +72,13 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
     }
   if( argc > 6 )
     {
-    maxKernelWidth = atoi( argv[6] );
+    maxKernelWidth = std::stoi( argv[6] );
     }
   if( argc > 7 )
     {
     interpolationMode =
       static_cast< typename GaussianDerivativeImageFunctionType::InterpolationModeType >(
-      atoi( argv[7] ) );
+      std::stoi( argv[7] ) );
     }
 
 

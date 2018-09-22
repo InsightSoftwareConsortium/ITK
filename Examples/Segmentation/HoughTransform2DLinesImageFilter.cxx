@@ -174,7 +174,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   houghFilter->SetInput(threshFilter->GetOutput());
-  houghFilter->SetNumberOfLines(atoi(argv[3]));
+  houghFilter->SetNumberOfLines(std::stoi(argv[3]));
 
   if(argc > 4 )
     {

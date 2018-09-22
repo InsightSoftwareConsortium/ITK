@@ -304,12 +304,12 @@ int main( int argc, const char *argv[] )
   const std::string fixedImageFile  = argv[1];
   const std::string movingImageFile = argv[2];
   const std::string outImagefile    = argv[3];
-  const PixelType backgroundGrayLevel  = (argc >4 )? atoi(argv[4]): 100;
+  const PixelType backgroundGrayLevel  = (argc >4 )? std::stoi(argv[4]): 100;
   const std::string checkerBoardBefore = (argc >5 )?      argv[5]: "";
   const std::string checkerBoardAfter  = (argc >6 )?      argv[6]: "";
-  const bool useExplicitPDFderivatives = (argc >7 )? static_cast<bool>(atoi(argv[7])): false;
-  const int numberOfBins               = (argc >8 )? atoi(argv[8]): 0;
-  const int numberOfSamples            = (argc >9 )? atoi(argv[9]): 0;
+  const bool useExplicitPDFderivatives = (argc >7 )? static_cast<bool>(std::stoi(argv[7])): false;
+  const int numberOfBins               = (argc >8 )? std::stoi(argv[8]): 0;
+  const int numberOfSamples            = (argc >9 )? std::stoi(argv[9]): 0;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;

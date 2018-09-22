@@ -59,7 +59,7 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
-  filter->SetIndex(atoi(argv[3]));
+  filter->SetIndex(std::stoi(argv[3]));
   // Software Guide : EndCodeSnippet
 
 

@@ -63,7 +63,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   kmeansFilter->SetUseNonContiguousLabels( argv[3] );
 
-  const unsigned int numberOfInitialClasses = atoi( argv[4] );
+  const unsigned int numberOfInitialClasses = std::stoi( argv[4] );
 
   constexpr unsigned int numberOfArgumentsBeforeMeans = 5;
   if( static_cast<unsigned int>(argc) < numberOfInitialClasses + numberOfArgumentsBeforeMeans )

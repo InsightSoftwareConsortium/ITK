@@ -49,8 +49,8 @@ runViewImage(int argc, char* argv[])
     }
   if ( argc == 5 )
     {
-    winWidth = atoi(argv[3]);
-    winHeight = atoi(argv[4]);
+    winWidth = std::stoi(argv[3]);
+    winHeight = std::stoi(argv[4]);
     }
   const std::string inputImage  = argv[1];
 

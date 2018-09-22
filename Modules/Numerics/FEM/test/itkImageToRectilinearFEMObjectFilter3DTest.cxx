@@ -43,12 +43,12 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   vnl_vector<unsigned int> numberOfElements;
   pixelsPerElement.set_size(3);
   numberOfElements.set_size(3);
-  pixelsPerElement[0] = static_cast<unsigned int>( atoi( argv[2] ) );
-  pixelsPerElement[1] = static_cast<unsigned int>( atoi( argv[3] ) );
-  pixelsPerElement[2] = static_cast<unsigned int>( atoi( argv[4] ) );
-  numberOfElements[0] = static_cast<unsigned int>( atoi( argv[5] ) );
-  numberOfElements[1] = static_cast<unsigned int>( atoi( argv[6] ) );
-  numberOfElements[2] = static_cast<unsigned int>( atoi( argv[7] ) );
+  pixelsPerElement[0] = static_cast<unsigned int>( std::stoi( argv[2] ) );
+  pixelsPerElement[1] = static_cast<unsigned int>( std::stoi( argv[3] ) );
+  pixelsPerElement[2] = static_cast<unsigned int>( std::stoi( argv[4] ) );
+  numberOfElements[0] = static_cast<unsigned int>( std::stoi( argv[5] ) );
+  numberOfElements[1] = static_cast<unsigned int>( std::stoi( argv[6] ) );
+  numberOfElements[2] = static_cast<unsigned int>( std::stoi( argv[7] ) );
 
   ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
   reader->SetFileName(argv[1]);
@@ -91,8 +91,8 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
 
   // Test the resulting FEMOBject
   bool               foundError = false;
-  const auto expectedNumberOfNodes = static_cast<unsigned int>( atoi( argv[8] ) );
-  const auto expectedNumberOfElements = static_cast<unsigned int>( atoi( argv[9] ) );
+  const auto expectedNumberOfNodes = static_cast<unsigned int>( std::stoi( argv[8] ) );
+  const auto expectedNumberOfElements = static_cast<unsigned int>( std::stoi( argv[9] ) );
 
   vnl_vector<unsigned int> testPixelsPerElement = meshFilter->GetPixelsPerElement();
   vnl_vector<unsigned int> testNumberOfElements = meshFilter->GetNumberOfElements();
@@ -194,10 +194,10 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
     }
 
 
-  const auto numberOfNodesToTest = static_cast<unsigned int>( atoi( argv[10] ) );
+  const auto numberOfNodesToTest = static_cast<unsigned int>( std::stoi( argv[10] ) );
   for( unsigned int i = 0; i < numberOfNodesToTest; i++ )
     {
-    auto nodeNumber = static_cast<unsigned int>( atoi( argv[11 + i * 4] ) );
+    auto nodeNumber = static_cast<unsigned int>( std::stoi( argv[11 + i * 4] ) );
     vnl_vector<double> loc;
     loc.set_size(3);
     loc[0] = atof( argv[11 + i * 4 + 1] );
@@ -222,20 +222,20 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
 
     }
 
-  const auto numberOfElementsToTest = static_cast<unsigned int>( atoi( argv[11 + numberOfNodesToTest * 4] ) );
+  const auto numberOfElementsToTest = static_cast<unsigned int>( std::stoi( argv[11 + numberOfNodesToTest * 4] ) );
   for( unsigned int i = 0; i < numberOfElementsToTest; i++ )
     {
-    auto elementNumber = static_cast<unsigned int>( atoi( argv[12 + numberOfNodesToTest * 4 + i * 9] ) );
+    auto elementNumber = static_cast<unsigned int>( std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9] ) );
     vnl_vector<int> nodes;
     nodes.set_size(8);
-    nodes[0] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 1] );
-    nodes[1] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 2] );
-    nodes[2] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 3] );
-    nodes[3] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 4] );
-    nodes[4] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 5] );
-    nodes[5] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 6] );
-    nodes[6] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 7] );
-    nodes[7] = atoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 8] );
+    nodes[0] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 1] );
+    nodes[1] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 2] );
+    nodes[2] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 3] );
+    nodes[3] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 4] );
+    nodes[4] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 5] );
+    nodes[5] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 6] );
+    nodes[6] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 7] );
+    nodes[7] = std::stoi( argv[12 + numberOfNodesToTest * 4 + i * 9 + 8] );
 
     std::cout << "Element (" << elementNumber << ") Test " << i << ": ";
     if( (femObject->GetElement(elementNumber)->GetNode(0)->GetGlobalNumber() != nodes[0]) ||

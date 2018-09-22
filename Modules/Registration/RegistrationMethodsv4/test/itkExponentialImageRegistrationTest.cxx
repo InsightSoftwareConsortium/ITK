@@ -168,7 +168,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 #ifdef NDEBUG
-  affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+  affineOptimizer->SetNumberOfIterations( std::stoi( argv[5] ) );
 #else
   affineOptimizer->SetNumberOfIterations( 1 );
 #endif
@@ -266,7 +266,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
 #ifdef NDEBUG
-  optimizer->SetNumberOfIterations( atoi( argv[6] ) );
+  optimizer->SetNumberOfIterations( std::stoi( argv[6] ) );
 #else
   optimizer->SetNumberOfIterations( 1 );
 #endif
@@ -426,7 +426,7 @@ int itkExponentialImageRegistrationTest( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      PerformExpImageRegistration<2>( argc, argv );

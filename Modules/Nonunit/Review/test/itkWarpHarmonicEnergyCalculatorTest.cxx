@@ -92,7 +92,7 @@ int itkWarpHarmonicEnergyCalculatorTest( int argc, char* argv[] )
     Object );
 
 
-  auto useImageSpacing = static_cast< bool >( atoi( argv[1] ) );
+  auto useImageSpacing = static_cast< bool >( std::stoi( argv[1] ) );
   TEST_SET_GET_BOOLEAN( calculator, UseImageSpacing, useImageSpacing );
 
   CalculatorType::WeightsType derivativeWeights;

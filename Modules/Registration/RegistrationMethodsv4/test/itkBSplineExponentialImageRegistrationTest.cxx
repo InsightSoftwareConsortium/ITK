@@ -157,7 +157,7 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
 #ifdef NDEBUG
-  affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+  affineOptimizer->SetNumberOfIterations( std::stoi( argv[5] ) );
 #else
   affineOptimizer->SetNumberOfIterations( 1 );
 #endif
@@ -263,7 +263,7 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
 #ifdef NDEBUG
-  optimizer->SetNumberOfIterations( atoi( argv[6] ) );
+  optimizer->SetNumberOfIterations( std::stoi( argv[6] ) );
 #else
   optimizer->SetNumberOfIterations( 1 );
 #endif
@@ -404,7 +404,7 @@ int itkBSplineExponentialImageRegistrationTest( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      PerformBSplineExpImageRegistration<2>( argc, argv );

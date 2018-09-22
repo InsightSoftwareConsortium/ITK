@@ -60,7 +60,7 @@ int itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv [] )
   filter->SetInput( reader->GetOutput() );
   writer->SetInput( filter->GetOutput() );
 
-  const unsigned int index = atoi( argv[3] );
+  const unsigned int index = std::stoi( argv[3] );
 
   filter->SetIndex( index );
 

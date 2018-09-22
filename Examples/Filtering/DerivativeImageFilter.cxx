@@ -124,8 +124,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetOrder(     atoi( argv[4] ) );
-  filter->SetDirection( atoi( argv[5] ) );
+  filter->SetOrder(     std::stoi( argv[4] ) );
+  filter->SetDirection( std::stoi( argv[5] ) );
   // Software Guide : EndCodeSnippet
 
 

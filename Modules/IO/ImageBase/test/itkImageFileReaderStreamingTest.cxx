@@ -34,7 +34,7 @@ int itkImageFileReaderStreamingTest(int argc, char* argv[])
   bool expectedToStream = true;
   if( argc > 2 )
     {
-    if( atoi(argv[2]) != 1 )
+    if( std::stoi(argv[2]) != 1 )
       {
       expectedToStream = false;
       }
@@ -43,7 +43,7 @@ int itkImageFileReaderStreamingTest(int argc, char* argv[])
   bool forceNoStreamingInput = false;
   if( argc > 3 )
     {
-    if( atoi(argv[3]) == 1 )
+    if( std::stoi(argv[3]) == 1 )
       {
       forceNoStreamingInput = true;
       }

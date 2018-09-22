@@ -22,11 +22,11 @@
 template<unsigned int vecLength>
 int itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char* argv[] )
 {
-  int imageSize = atoi( argv[1] );
-  int reps = atoi( argv[2] );
-  bool doEAI = atoi( argv[3] );
-  bool doEACI = atoi( argv[4] );
-  bool doE = atoi( argv[5] );
+  int imageSize = std::stoi( argv[1] );
+  int reps = std::stoi( argv[2] );
+  bool doEAI = std::stoi( argv[3] );
+  bool doEACI = std::stoi( argv[4] );
+  bool doE = std::stoi( argv[5] );
 
   std::cout << "imageSize: " << imageSize << " reps: " << reps << " doEAI, doEACI, doE: " << doEAI << ", " << doEACI << ", " << doE << std::endl;
   std::cout << "vecLength: " << vecLength << std::endl;
@@ -125,7 +125,7 @@ int itkCentralDifferenceImageFunctionOnVectorSpeedTest(int argc, char* argv[] )
     std::cerr << "usage: size reps doEAI doEACI doE vecLength" << std::endl;
     return EXIT_FAILURE;
     }
-  int vecLength = atoi( argv[6] );
+  int vecLength = std::stoi( argv[6] );
 
   switch( vecLength )
     {

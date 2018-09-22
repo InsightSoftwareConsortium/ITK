@@ -297,7 +297,7 @@ int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
 
   if( argc >= 2 )
     {
-    numberOfIterations = atoi( argv[1] );
+    numberOfIterations = std::stoi( argv[1] );
     }
   if (argc >= 3)
     {
@@ -305,15 +305,15 @@ int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
     }
   if (argc >= 4)
     {
-    estimateLearningRateOnce = atoi( argv[3] );
+    estimateLearningRateOnce = std::stoi( argv[3] );
     }
   if (argc >= 5)
     {
-    estimateLearningRateAtEachIteration = atoi( argv[4] );
+    estimateLearningRateAtEachIteration = std::stoi( argv[4] );
     }
   if (argc >= 6)
     {
-    estimateScales = atoi( argv[5] );
+    estimateScales = std::stoi( argv[5] );
     }
 
   constexpr unsigned int Dimension = 2;

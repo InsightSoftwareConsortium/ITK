@@ -132,7 +132,7 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
 
 
   // Set the scale normalization flag
-  bool normalizeAcrossScale = atoi( argv[3] );
+  bool normalizeAcrossScale = std::stoi( argv[3] );
   TEST_SET_GET_BOOLEAN( filter, NormalizeAcrossScale, normalizeAcrossScale );
 
   // Set the value ofthe standard deviation of the Gaussian used for smoothing

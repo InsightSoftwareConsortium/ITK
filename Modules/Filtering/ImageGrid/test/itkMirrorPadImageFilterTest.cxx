@@ -53,12 +53,12 @@ int RunTest( int argc, char* argv[] )
   typename OutImageType::SizeType pad;
   if( argc > 5 )
     {
-    pad.Fill( atoi( argv[5] ) );
+    pad.Fill( std::stoi( argv[5] ) );
     filter->SetPadLowerBound(pad);
     }
   if( argc > 6 )
     {
-    pad.Fill( atoi( argv[6] ) );
+    pad.Fill( std::stoi( argv[6] ) );
     filter->SetPadUpperBound(pad);
     }
 

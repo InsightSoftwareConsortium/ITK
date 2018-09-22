@@ -187,7 +187,7 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
   deconvolutionFilter->SetAlpha( alpha );
   deconvolutionFilter->SetBeta( beta );
   deconvolutionFilter->SetInput( convolutionFilter->GetOutput() );
-  deconvolutionFilter->SetNumberOfIterations( atoi( argv[3] ) );
+  deconvolutionFilter->SetNumberOfIterations( std::stoi( argv[3] ) );
   deconvolutionFilter->UpdateLargestPossibleRegion();
 
   std::cout << "Kernel parameters: " << kernelSource->GetParameters()

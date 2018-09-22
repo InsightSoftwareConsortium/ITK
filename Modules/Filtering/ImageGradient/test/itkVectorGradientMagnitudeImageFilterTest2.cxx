@@ -48,7 +48,7 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
-  const int mode = ::atoi( av[3] );
+  const int mode = ::std::stoi( av[3] );
 
   if ( mode == 1)
     {
@@ -74,7 +74,7 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
     // Extract one slice to write for regression testing
     CharImage3Type::RegionType extractedRegion = rescale->GetOutput()->GetRequestedRegion();
     extractedRegion.SetSize(2,1);
-    extractedRegion.SetIndex(2,::atoi(av[4]));
+    extractedRegion.SetIndex(2,::std::stoi(av[4]));
 
     CharImage2Type::Pointer extractedImage = CharImage2Type::New();
     CharImage2Type::RegionType reg;

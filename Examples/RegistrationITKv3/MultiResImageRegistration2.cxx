@@ -370,13 +370,13 @@ int main( int argc, char *argv[] )
   if( argc > 8 )
     {
     // optionally, override the values with numbers taken from the command line arguments.
-    metric->SetNumberOfHistogramBins( atoi( argv[8] ) );
+    metric->SetNumberOfHistogramBins( std::stoi( argv[8] ) );
     }
 
   if( argc > 9 )
     {
     // optionally, override the values with numbers taken from the command line arguments.
-    metric->SetNumberOfSpatialSamples( atoi( argv[9] ) );
+    metric->SetNumberOfSpatialSamples( std::stoi( argv[9] ) );
     }
 
  //  Software Guide : BeginLatex
@@ -399,7 +399,7 @@ int main( int argc, char *argv[] )
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    metric->SetUseExplicitPDFDerivatives( std::stoi( argv[7] ) );
     }
 
   //  Software Guide : BeginLatex
@@ -530,7 +530,7 @@ int main( int argc, char *argv[] )
   PixelType backgroundGrayLevel = 100;
   if( argc > 4 )
     {
-    backgroundGrayLevel = atoi( argv[4] );
+    backgroundGrayLevel = std::stoi( argv[4] );
     }
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );

@@ -61,10 +61,10 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
 
 
-  auto useCompression = static_cast< bool >( atoi( argv[3] ) );
+  auto useCompression = static_cast< bool >( std::stoi( argv[3] ) );
   TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
 
-  int compressionLevel = atoi( argv[4] );
+  int compressionLevel = std::stoi( argv[4] );
   io->SetCompressionLevel( compressionLevel );
   TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
 

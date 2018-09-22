@@ -135,7 +135,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
-  diffusion->SetNumberOfIterations( atoi(argv[4]) );
+  diffusion->SetNumberOfIterations( std::stoi(argv[4]) );
   diffusion->SetConductanceParameter( atof(argv[3]) );
   diffusion->SetTimeStep(0.125);
   // Software Guide : EndCodeSnippet
@@ -151,7 +151,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   GradientMagnitudeFilterType::Pointer
     gradient = GradientMagnitudeFilterType::New();
-  gradient->SetUsePrincipleComponents(atoi(argv[7]));
+  gradient->SetUsePrincipleComponents(std::stoi(argv[7]));
   // Software Guide : EndCodeSnippet
 
 

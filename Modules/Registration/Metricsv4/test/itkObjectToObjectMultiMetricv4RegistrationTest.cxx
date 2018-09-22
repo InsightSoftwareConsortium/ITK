@@ -193,7 +193,7 @@ int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
   int numberOfIterations = 30;
   if( argc > 1 )
     {
-    numberOfIterations = atoi( argv[1] );
+    numberOfIterations = std::stoi( argv[1] );
     }
 
   // create an affine transform

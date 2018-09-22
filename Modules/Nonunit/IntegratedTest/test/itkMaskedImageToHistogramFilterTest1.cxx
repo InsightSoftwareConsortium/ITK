@@ -63,7 +63,7 @@ int itkMaskedImageToHistogramFilterTest1( int argc, char * argv [] )
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   histogramFilter->SetInput( compose->GetOutput() );
   histogramFilter->SetMaskImage( reader3->GetOutput() );
-  histogramFilter->SetMaskValue( atoi(argv[4]) );
+  histogramFilter->SetMaskValue( std::stoi(argv[4]) );
   itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
   using HistogramType = HistogramFilterType::HistogramType;

@@ -163,7 +163,7 @@ int main( int argc, char *argv[] )
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[6] ) );
+    metric->SetUseExplicitPDFDerivatives( std::stoi( argv[6] ) );
     }
 
 

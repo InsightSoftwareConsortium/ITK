@@ -164,11 +164,11 @@ int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
   using IterativeSolverTraits = VNLIterativeSparseSolverTraits< TCoord >;
   using LUSolverTraits = VNLSparseLUSolverTraits< TCoord >;
 
-  if( atoi( argv[4] ) == 0 )
+  if( std::stoi( argv[4] ) == 0 )
     {
     return ParameterizationQuadEdgeMeshFilterTest< IterativeSolverTraits >( argc, argv );
     }
-  else if( atoi( argv[4] ) == 1 )
+  else if( std::stoi( argv[4] ) == 1 )
     {
     return ParameterizationQuadEdgeMeshFilterTest< LUSolverTraits >( argc, argv );
     }

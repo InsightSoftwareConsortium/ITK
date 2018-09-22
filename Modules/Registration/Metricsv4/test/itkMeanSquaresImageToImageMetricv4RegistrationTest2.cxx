@@ -64,7 +64,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char *argv[])
     }
   if( argc > 5 )
     {
-    maxIterations = atoi( argv[5] );
+    maxIterations = std::stoi( argv[5] );
     }
   if( argc > 6 )
     {
@@ -76,7 +76,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char *argv[])
     }
   if( argc > 8 )
     {
-    trace = static_cast<bool>( atoi( argv[8] ) );
+    trace = static_cast<bool>( std::stoi( argv[8] ) );
     }
 
   std::cout << argc << std::endl;

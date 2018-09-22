@@ -58,7 +58,7 @@ int itkValuedRegionalMaximaImageFilterTest( int argc, char * argv[] )
     ValuedRegionalMaximaImageFilter,
     ValuedRegionalExtremaImageFilter );
 
-  bool fullyConnected = atoi( argv[4] );
+  bool fullyConnected = std::stoi( argv[4] );
   TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
 

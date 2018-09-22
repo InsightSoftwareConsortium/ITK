@@ -196,12 +196,12 @@ int main( int argc, char *argv[] )
 
   if( argc > 7 )
     {
-    numberOfBins = atoi( argv[7] );
+    numberOfBins = std::stoi( argv[7] );
     }
 
   if( argc > 8 )
     {
-    numberOfSamples = atoi( argv[8] );
+    numberOfSamples = std::stoi( argv[8] );
     }
 
 
@@ -233,7 +233,7 @@ int main( int argc, char *argv[] )
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[9] ) );
+    metric->SetUseExplicitPDFDerivatives( std::stoi( argv[9] ) );
     }
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
@@ -381,7 +381,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 4 )
     {
-    defaultPixelValue = atoi( argv[4] );
+    defaultPixelValue = std::stoi( argv[4] );
     }
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );

@@ -119,7 +119,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   registrator->SetMaximumUpdateStepLength( maximumUpdateStepLength );
 
 
-  const int gradientType = atoi( argv[1] );
+  const int gradientType = std::stoi( argv[1] );
 
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
 
@@ -141,7 +141,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
 
   std::cout << "GradientType = " << registrator->GetUseGradientType() << std::endl;
 
-  const int useFirstOrderExponential = atoi( argv[2] );
+  const int useFirstOrderExponential = std::stoi( argv[2] );
 
   if( useFirstOrderExponential == 0 )
     {

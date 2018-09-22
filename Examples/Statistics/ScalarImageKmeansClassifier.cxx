@@ -93,7 +93,7 @@ int main( int argc, char * argv [] )
 
   kmeansFilter->SetInput( reader->GetOutput() );
 
-  const unsigned int numberOfInitialClasses = atoi( argv[4] );
+  const unsigned int numberOfInitialClasses = std::stoi( argv[4] );
   // Software Guide : EndCodeSnippet
 
 
@@ -114,7 +114,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int useNonContiguousLabels = atoi( argv[3] );
+  const unsigned int useNonContiguousLabels = std::stoi( argv[3] );
 
   kmeansFilter->SetUseNonContiguousLabels( useNonContiguousLabels );
   // Software Guide : EndCodeSnippet

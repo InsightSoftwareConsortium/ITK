@@ -58,10 +58,10 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, MorphologicalWatershedImageFilter,
     ImageToImageFilter );
 
-  bool markWatershedLine = atoi( argv[3] );
+  bool markWatershedLine = std::stoi( argv[3] );
   TEST_SET_GET_BOOLEAN( filter, MarkWatershedLine, markWatershedLine );
 
-  bool fullyConnected = atoi( argv[4] );
+  bool fullyConnected = std::stoi( argv[4] );
   TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
   auto level = static_cast< FilterType::InputImagePixelType >( atof( argv[5] ) );

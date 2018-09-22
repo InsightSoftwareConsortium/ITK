@@ -111,18 +111,18 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
     }
 
   int testStatus = EXIT_SUCCESS;
-  if( atoi( argv[2] ) == 0 )
+  if( std::stoi( argv[2] ) == 0 )
     {
     testStatus =
       itkPhysicalPointImageSourceTest< itk::Image< itk::Point< double, ImageDimension >, ImageDimension > >(
       std::string( argv[1] ), size, spacing, origin, direction );
     }
-  else if( atoi( argv[2] ) == 1 )
+  else if( std::stoi( argv[2] ) == 1 )
     {
     testStatus = itkPhysicalPointImageSourceTest< itk::VectorImage< double, ImageDimension > >(
       std::string( argv[1] ), size, spacing, origin, direction );
     }
-  else if( atoi( argv[2] ) == 2 )
+  else if( std::stoi( argv[2] ) == 2 )
     {
     spacing.Fill( 1.123 );
     origin.Fill( -0.987 );

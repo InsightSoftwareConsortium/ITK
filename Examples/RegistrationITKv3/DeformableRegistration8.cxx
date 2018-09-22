@@ -220,7 +220,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 10 )
     {
-    numberOfGridNodesInOneDimension = atoi( argv[10] );
+    numberOfGridNodesInOneDimension = std::stoi( argv[10] );
     }
 
   // Software Guide : BeginCodeSnippet
@@ -337,7 +337,7 @@ int main( int argc, char *argv[] )
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    metric->SetUseExplicitPDFDerivatives( std::stoi( argv[7] ) );
     }
 
   if( argc > 8 )
@@ -347,7 +347,7 @@ int main( int argc, char *argv[] )
     // make the algorithm run faster but it will have a cost on the amount of memory
     // that needs to be allocated. This option is only relevant when using the
     // BSplineTransform.
-    metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
+    metric->SetUseCachingOfBSplineWeights( std::stoi( argv[8] ) );
     }
 
 

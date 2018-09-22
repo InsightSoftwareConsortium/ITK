@@ -331,34 +331,34 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
 
   const std::string outFileName( argv[2] );
 
-  const unsigned int numDimensions = atoi( argv[3] );
+  const unsigned int numDimensions = std::stoi( argv[3] );
 
-  const unsigned int numComponents = atoi( argv[4] );
+  const unsigned int numComponents = std::stoi( argv[4] );
 
   char* kernelBandwithSigma = argv[5];
 
   unsigned int numIterations = 1;
   if( argc > 6 )
     {
-    numIterations = atoi( argv[6] );
+    numIterations = std::stoi( argv[6] );
     }
 
   unsigned int numThreads = 1;
   if( argc > 7 )
     {
-    numThreads = atoi( argv[7] );
+    numThreads = std::stoi( argv[7] );
     }
 
   unsigned int numToSample = 1000;
   if( argc > 8 )
     {
-    numToSample = atoi( argv[8] );
+    numToSample = std::stoi( argv[8] );
     }
 
   bool computeConditionalDerivatives = false;
   if( argc > 9 )
     {
-    computeConditionalDerivatives = static_cast< bool >( atoi( argv[9] ) );
+    computeConditionalDerivatives = static_cast< bool >( std::stoi( argv[9] ) );
     }
 
   double kernelBandwidthMultFactor = 1.0;

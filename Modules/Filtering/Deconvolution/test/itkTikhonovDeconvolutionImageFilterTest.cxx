@@ -64,7 +64,7 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
   bool normalize = false;
   if( argc >= 5 )
     {
-    normalize = static_cast< bool >( atoi( argv[4] ) );
+    normalize = static_cast< bool >( std::stoi( argv[4] ) );
     }
 
   convolutionFilter->SetNormalize( normalize );

@@ -589,7 +589,7 @@ void Bruker2dseqImageIO::Read(void *buffer)
         }
       else
         {
-        sizeToSwap *= atoi(i[0].c_str());
+        sizeToSwap *= std::stoi(i[0].c_str());
         }
       }
     if (sizeToSwap > 1)
@@ -831,7 +831,7 @@ void Bruker2dseqImageIO::ReadImageInformation()
           // Anything dimension that isn't a slice needs to be collapsed into the 4th dimension
           if (i[1] != "<FG_SLICE>")
             {
-            sizeT *= atoi(i[0].c_str());
+            sizeT *= std::stoi(i[0].c_str());
             }
           }
         }

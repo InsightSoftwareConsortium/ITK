@@ -287,7 +287,7 @@ int main( int argc, char *argv[] )
   unsigned int maxNumberOfIterations = 300;
   if( argc > 7 )
     {
-    maxNumberOfIterations = atoi( argv[7] );
+    maxNumberOfIterations = std::stoi( argv[7] );
     }
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( steplength );

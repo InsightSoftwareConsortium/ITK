@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 
   if( argc > 5 )
     {
-    numberOfIterations = atoi( argv[5] );
+    numberOfIterations = std::stoi( argv[5] );
     }
 
 

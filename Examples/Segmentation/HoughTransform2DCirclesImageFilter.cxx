@@ -145,7 +145,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   houghFilter->SetInput( reader->GetOutput() );
 
-  houghFilter->SetNumberOfCircles( atoi(argv[3]) );
+  houghFilter->SetNumberOfCircles( std::stoi(argv[3]) );
   houghFilter->SetMinimumRadius(   atof(argv[4]) );
   houghFilter->SetMaximumRadius(   atof(argv[5]) );
 
@@ -155,7 +155,7 @@ int main( int argc, char *argv[] )
     }
   if( argc > 7 )
     {
-    houghFilter->SetSigmaGradient( atoi(argv[7]) );
+    houghFilter->SetSigmaGradient( std::stoi(argv[7]) );
     }
   if( argc > 8 )
     {

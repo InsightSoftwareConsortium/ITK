@@ -471,8 +471,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  seedPosition;
 
-  seedPosition[0] = atoi( argv[3] );
-  seedPosition[1] = atoi( argv[4] );
+  seedPosition[0] = std::stoi( argv[3] );
+  seedPosition[1] = std::stoi( argv[4] );
 
 
   //  Nodes are created as stack variables and initialized with a value and an
@@ -501,13 +501,13 @@ int main( int argc, char *argv[] )
   seeds->Initialize();
   seeds->InsertElement( 0, node );
 
-  seedPosition[0] = atoi( argv[5] );
-  seedPosition[1] = atoi( argv[6] );
+  seedPosition[0] = std::stoi( argv[5] );
+  seedPosition[1] = std::stoi( argv[6] );
   node.SetIndex( seedPosition );
   seeds->InsertElement( 1, node );
 
-  seedPosition[0] = atoi( argv[7] );
-  seedPosition[1] = atoi( argv[8] );
+  seedPosition[0] = std::stoi( argv[7] );
+  seedPosition[1] = std::stoi( argv[8] );
   node.SetIndex( seedPosition );
   seeds->InsertElement( 2, node );
 
@@ -613,7 +613,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int numberOfPCAModes = atoi( argv[14] );
+  const unsigned int numberOfPCAModes = std::stoi( argv[14] );
 
   // Software Guide : BeginCodeSnippet
   using ShapeFunctionType = itk::PCAShapeSignedDistanceFunction<

@@ -197,9 +197,9 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      dx=atoi(argv[1]);
+      dx=std::stoi(argv[1]);
       argc--; argv++;
-      dy=atoi(argv[1]);
+      dy=std::stoi(argv[1]);
       argc--; argv++;
       }
 

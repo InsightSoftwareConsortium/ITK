@@ -157,7 +157,7 @@ int itkBSplineControlPointImageFilterTest( int argc, char *argv[] )
 
   int successOrFailure = EXIT_FAILURE;
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
     {
     case 2:
       successOrFailure = BSpline<2>( argc, argv );

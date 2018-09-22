@@ -129,7 +129,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int numberOfIterations = atoi( argv[4] );
+  const unsigned int numberOfIterations = std::stoi( argv[4] );
   const double       timeStep = atof( argv[5] );
 
 

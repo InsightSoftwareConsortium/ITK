@@ -347,7 +347,7 @@ int main( int argc, char *argv[] )
   if( argc > 7 )
     {
     // optionally, override the values with numbers taken from the command line arguments.
-    transMetric->SetNumberOfHistogramBins( atoi( argv[7] ) );
+    transMetric->SetNumberOfHistogramBins( std::stoi( argv[7] ) );
     }
 
   transOptimizer->SetNumberOfIterations( 200 );
@@ -475,7 +475,7 @@ int main( int argc, char *argv[] )
   if( argc > 7 )
     {
     // optionally, override the values with numbers taken from the command line arguments.
-    affineMetric->SetNumberOfHistogramBins( atoi( argv[7] ) );
+    affineMetric->SetNumberOfHistogramBins( std::stoi( argv[7] ) );
     }
 
 
@@ -870,7 +870,7 @@ int main( int argc, char *argv[] )
   PixelType backgroundGrayLevel = 100;
   if( argc > 4 )
     {
-    backgroundGrayLevel = atoi( argv[4] );
+    backgroundGrayLevel = std::stoi( argv[4] );
     }
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );

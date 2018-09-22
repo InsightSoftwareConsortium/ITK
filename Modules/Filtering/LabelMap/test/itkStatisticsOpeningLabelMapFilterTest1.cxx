@@ -70,7 +70,7 @@ int itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 
   // Testing get and set macros for ReverseOrdering
-  bool reverseOrdering = atoi( argv[5] );
+  bool reverseOrdering = std::stoi( argv[5] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
@@ -82,7 +82,7 @@ int itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   // Testing get and set macros for Attribute
-  LabelOpeningType::AttributeType attribute = atoi( argv[6] );
+  LabelOpeningType::AttributeType attribute = std::stoi( argv[6] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
 

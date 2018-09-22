@@ -129,8 +129,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int radiusX = atoi( argv[3] );
-  const unsigned int radiusY = atoi( argv[4] );
+  const unsigned int radiusX = std::stoi( argv[3] );
+  const unsigned int radiusY = std::stoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   InputImageType::SizeType indexRadius;

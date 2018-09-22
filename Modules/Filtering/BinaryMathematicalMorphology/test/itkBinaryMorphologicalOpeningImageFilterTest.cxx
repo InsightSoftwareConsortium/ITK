@@ -48,7 +48,7 @@ int itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   using KernelType = itk::BinaryBallStructuringElement< InputPixelType, dim >;
   KernelType ball;
   KernelType::SizeType ballSize;
-  ballSize.Fill( atoi( argv[3] ) );
+  ballSize.Fill( std::stoi( argv[3] ) );
   ball.SetRadius( ballSize );
   ball.CreateStructuringElement();
 
@@ -61,14 +61,14 @@ int itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
     std::cerr << "Wrong Background default value" << std::endl;
     return EXIT_FAILURE;
     }
-  filter->SetBackgroundValue( atoi( argv[4] ) );
+  filter->SetBackgroundValue( std::stoi( argv[4] ) );
 
   if( filter->GetForegroundValue() != itk::NumericTraits<InputPixelType>::max() )
     {
     std::cerr << "Wrong Foreground default value" << std::endl;
     return EXIT_FAILURE;
     }
-  filter->SetForegroundValue( atoi( argv[5] ) );
+  filter->SetForegroundValue( std::stoi( argv[5] ) );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 

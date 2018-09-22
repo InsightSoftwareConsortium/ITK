@@ -92,7 +92,7 @@ int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
 
   const std::string outFileName( argv[2] );
 
-  const unsigned int numDimensions = atoi( argv[3] );
+  const unsigned int numDimensions = std::stoi( argv[3] );
 
   using PixelComponentType = float;
 

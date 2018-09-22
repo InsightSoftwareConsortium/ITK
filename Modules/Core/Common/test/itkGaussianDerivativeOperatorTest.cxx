@@ -92,8 +92,8 @@ int itkGaussianDerivativeOperatorTest( int argc, char *argv[] )
     {
     double variance = atof(argv[1]);
     double error = atof(argv[2]);
-    unsigned int width = atoi(argv[3]);
-    unsigned int order = atoi(argv[4]);
+    unsigned int width = std::stoi(argv[3]);
+    unsigned int order = std::stoi(argv[4]);
 
     TestGaussianOperator( variance, error, width, order );
     return EXIT_FAILURE;

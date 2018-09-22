@@ -221,7 +221,7 @@ int itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const
 
   if( argc >= 2 )
     {
-    numberOfIterations = atoi( argv[1] );
+    numberOfIterations = std::stoi( argv[1] );
     }
   if (argc >= 3)
     {

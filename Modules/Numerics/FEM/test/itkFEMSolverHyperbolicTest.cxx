@@ -151,8 +151,8 @@ int itkFEMSolverHyperbolicTest(int ac, char* av[])
 
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  unsigned int niter = atoi ( av[2] );
-  unsigned int w = atoi( av[3] );
+  unsigned int niter = std::stoi ( av[2] );
+  unsigned int w = std::stoi( av[3] );
   std::vector<double> solution;
   if (ac > 4)
     {

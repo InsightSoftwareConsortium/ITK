@@ -95,7 +95,7 @@ int itkMultiThreaderBaseTest(int argc, char* argv[])
   int numberOfThreads = 10;
   if( argc > 1 )
     {
-    const int nt = atoi( argv[1] );
+    const int nt = std::stoi( argv[1] );
     if(nt > 1)
       {
       numberOfThreads = nt;

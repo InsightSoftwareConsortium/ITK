@@ -162,7 +162,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   itk::ThresholdingPixelAccessor  accessor;
-  accessor.SetThreshold( atoi( argv[3] ) );
+  accessor.SetThreshold( std::stoi( argv[3] ) );
   adaptor->SetPixelAccessor( accessor );
 // Software Guide : EndCodeSnippet
 

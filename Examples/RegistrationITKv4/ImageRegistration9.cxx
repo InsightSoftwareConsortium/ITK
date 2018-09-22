@@ -305,7 +305,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 7 )
     {
-    maxNumberOfIterations = atoi( argv[7] );
+    maxNumberOfIterations = std::stoi( argv[7] );
     }
 
 

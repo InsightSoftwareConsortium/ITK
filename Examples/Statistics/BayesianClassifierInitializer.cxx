@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     }
 
   bayesianInitializer->SetInput( reader->GetOutput() );
-  bayesianInitializer->SetNumberOfClasses( atoi( argv[3] ) );
+  bayesianInitializer->SetNumberOfClasses( std::stoi( argv[3] ) );
 
   // TODO add test where we specify membership functions
 
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
     IteratorType it( extractedComponentImage,
                      extractedComponentImage->GetLargestPossibleRegion() );
 
-    const unsigned int componentToExtract = atoi( argv[4] );
+    const unsigned int componentToExtract = std::stoi( argv[4] );
     cit.GoToBegin();
     it.GoToBegin();
     while( !cit.IsAtEnd() )

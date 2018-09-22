@@ -60,7 +60,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
 
   if( argc > 3 )
     {
-    verbose = atoi( argv[3] );
+    verbose = std::stoi( argv[3] );
     }
 
   try
@@ -88,7 +88,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
 
   if( argc > 4 )
     {
-    numberOfSamples = atoi( argv[4] );
+    numberOfSamples = std::stoi( argv[4] );
     }
   metric->SetNumberOfFixedImageSamples( numberOfSamples );
 

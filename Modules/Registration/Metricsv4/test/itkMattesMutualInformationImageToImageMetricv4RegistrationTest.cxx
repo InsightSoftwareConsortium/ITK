@@ -60,15 +60,15 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
 
   if( argc >= 5 )
     {
-    numberOfIterations = atoi( argv[4] );
+    numberOfIterations = std::stoi( argv[4] );
     }
   if( argc >= 6 )
     {
-    numberOfDisplacementIterations = atoi( argv[5] );
+    numberOfDisplacementIterations = std::stoi( argv[5] );
     }
   if( argc >= 7 )
     {
-    doSampling = atoi( argv[6] );
+    doSampling = std::stoi( argv[6] );
     }
 
   std::cout << " iterations "<< numberOfIterations

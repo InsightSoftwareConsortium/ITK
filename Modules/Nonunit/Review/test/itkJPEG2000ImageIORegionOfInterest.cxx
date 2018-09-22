@@ -60,12 +60,12 @@ int itkJPEG2000ImageIORegionOfInterest( int argc, char * argv[] )
   //  example, the specification of the region is taken from the command line
   //  arguments (this example assumes that a 2D image is being processed).
   OutputImageType::IndexType start;
-  start[0] = atoi( argv[3] );
-  start[1] = atoi( argv[4] );
+  start[0] = std::stoi( argv[3] );
+  start[1] = std::stoi( argv[4] );
 
   OutputImageType::SizeType size;
-  size[0] = atoi( argv[5] );
-  size[1] = atoi( argv[6] );
+  size[0] = std::stoi( argv[5] );
+  size[1] = std::stoi( argv[6] );
 
   OutputImageType::RegionType desiredRegion;
   desiredRegion.SetSize(  size  );

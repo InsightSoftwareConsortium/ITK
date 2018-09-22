@@ -39,7 +39,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   unsigned int j;
   char* dataFileName = argv[1];
   int dataSize = 2000;
-  int bucketSize = atoi( argv[3] );
+  int bucketSize = std::stoi( argv[3] );
   double minStandardDeviation = atof( argv[2] );
 
   itk::Array< double > trueMeans(4);

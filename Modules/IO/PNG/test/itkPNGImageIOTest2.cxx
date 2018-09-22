@@ -82,11 +82,11 @@ int itkPNGImageIOTest2( int argc, char * argv[] )
   auto useCompression = static_cast< bool >( argv[3] );
   TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
 
-  int compressionLevel = atoi( argv[4] );
+  int compressionLevel = std::stoi( argv[4] );
   io->SetCompressionLevel( compressionLevel );
   TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
 
-  auto expandRGBPalette = static_cast< bool >( atoi( argv[5] ) );
+  auto expandRGBPalette = static_cast< bool >( std::stoi( argv[5] ) );
   TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   if( io->CanReadFile( "" ) )

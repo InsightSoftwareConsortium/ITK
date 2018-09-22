@@ -72,7 +72,7 @@ int itkBorderQuadEdgeMeshFilterTest( int argc, char* argv[] )
   border_transform->SetRadius( border_transform->GetRadius() );
   border_transform->GetNameOfClass();
 
-  int border = atoi( argv[2] );
+  int border = std::stoi( argv[2] );
   switch( border )  // choose border type
     {
     case 0: // square shaped domain
@@ -89,7 +89,7 @@ int itkBorderQuadEdgeMeshFilterTest( int argc, char* argv[] )
   std::cout << "Transform type is: " << border_transform->GetTransformType( );
   std::cout << std::endl;
 
-  int pick = atoi( argv[3] );
+  int pick = std::stoi( argv[3] );
   switch( pick )
     {
     case 0:

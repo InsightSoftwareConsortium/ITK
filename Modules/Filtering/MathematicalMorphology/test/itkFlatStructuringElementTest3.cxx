@@ -71,11 +71,11 @@ int itkFlatStructuringElementTest3(int argc, char *argv[])
 
   int dimension = 2;
   std::string outputImage = argv[1];
-  int radius = atoi(argv[2]);
-  int lines = atoi(argv[3]);
+  int radius = std::stoi(argv[2]);
+  int lines = std::stoi(argv[3]);
   if ( argc > 4 )
     {
-    dimension = atoi(argv[4]);
+    dimension = std::stoi(argv[4]);
     }
 
   if (dimension == 2)

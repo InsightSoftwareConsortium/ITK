@@ -78,19 +78,19 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
 
   if( argc >= 6 )
     {
-    numberOfAffineIterations = atoi( argv[5] );
+    numberOfAffineIterations = std::stoi( argv[5] );
     }
   if( argc >= 7 )
     {
-    numberOfDeformableIterationsLevel0 = atoi( argv[6] );
+    numberOfDeformableIterationsLevel0 = std::stoi( argv[6] );
     }
   if( argc >= 8 )
     {
-    numberOfDeformableIterationsLevel1 = atoi( argv[7] );
+    numberOfDeformableIterationsLevel1 = std::stoi( argv[7] );
     }
   if( argc >= 9 )
     {
-    numberOfDeformableIterationsLevel2 = atoi( argv[8] );
+    numberOfDeformableIterationsLevel2 = std::stoi( argv[8] );
     }
   if( argc >= 10 )
     {
@@ -413,7 +413,7 @@ int itkTimeVaryingVelocityFieldImageRegistrationTest( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      PerformTimeVaryingVelocityFieldImageRegistration<2>( argc, argv );

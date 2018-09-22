@@ -181,7 +181,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int iterations = atoi( argv[6] );
+  const unsigned int iterations = std::stoi( argv[6] );
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetNumberOfIterations( iterations );
@@ -220,8 +220,8 @@ int main( int argc, char *argv[] )
 
   InputImageType::IndexType  index;
 
-  index[0] = atoi( argv[3] );
-  index[1] = atoi( argv[4] );
+  index[0] = std::stoi( argv[3] );
+  index[1] = std::stoi( argv[4] );
 
 
   // Software Guide : BeginCodeSnippet

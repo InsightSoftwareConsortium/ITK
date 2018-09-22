@@ -79,22 +79,22 @@ int itkAreaOpeningImageFilterTest(int argc, char * argv[])
 
   filter->SetInput( reader->GetOutput() );
 
-  filter->SetLambda( atoi(argv[3]) );
-  if ( filter->GetLambda( ) != atoi(argv[3]) )
+  filter->SetLambda( std::stoi(argv[3]) );
+  if ( filter->GetLambda( ) != std::stoi(argv[3]) )
     {
     std::cerr << "Set/Get Lambda problem." << std::endl;
     return EXIT_FAILURE;
     }
 
-  filter->SetFullyConnected( atoi(argv[4]) );
-  if ( filter->GetFullyConnected( ) != (bool)atoi(argv[4]) )
+  filter->SetFullyConnected( std::stoi(argv[4]) );
+  if ( filter->GetFullyConnected( ) != (bool)std::stoi(argv[4]) )
     {
     std::cerr << "Set/Get FullyConnected problem." << std::endl;
     return EXIT_FAILURE;
     }
 
-  filter->SetUseImageSpacing( atoi(argv[5]) );
-  if ( filter->GetUseImageSpacing( ) != (bool)atoi(argv[5]) )
+  filter->SetUseImageSpacing( std::stoi(argv[5]) );
+  if ( filter->GetUseImageSpacing( ) != (bool)std::stoi(argv[5]) )
     {
     std::cerr << "Set/Get UseImageSpacing problem." << std::endl;
     return EXIT_FAILURE;

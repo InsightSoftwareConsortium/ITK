@@ -52,7 +52,7 @@ int itkBorderQuadEdgeMeshFilterTest2( int argc, char* argv[] )
   border_transform->SetInput( source->GetOutput()  );
   border_transform->SetTransformType( BorderTransformType::SQUARE_BORDER_TRANSFORM );
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
     {
     case 0:
         border_transform->SetBorderPick( BorderTransformType::LONGEST );

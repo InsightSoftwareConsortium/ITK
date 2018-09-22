@@ -69,7 +69,7 @@ int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  auto iterations = static_cast< unsigned int >( atoi( argv[4] ) );
+  auto iterations = static_cast< unsigned int >( std::stoi( argv[4] ) );
   deconvolutionFilter->SetNumberOfIterations( iterations );
 
   // Add an observer to report on filter iteration progress

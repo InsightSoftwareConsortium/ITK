@@ -61,7 +61,7 @@ int itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
   obo->SetInput( i2l->GetOutput() );
   obo->SetFilter( dilate );
   obo->SetPadSize( rad );
-  obo->SetKeepLabels( atoi(argv[3]) );
+  obo->SetKeepLabels( std::stoi(argv[3]) );
 //  obo->SetBinaryInternalOutput( false );
   itk::SimpleFilterWatcher watcher(obo, "filter");
 

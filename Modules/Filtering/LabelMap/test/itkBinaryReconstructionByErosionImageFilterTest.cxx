@@ -49,11 +49,11 @@ int itkBinaryReconstructionByErosionImageFilterTest(int argc, char * argv[])
   LabelReconstructionType::Pointer reconstruction = LabelReconstructionType::New();
 
   //testing get and set macros for Lambda
-  int fg = atoi( argv[4] );
+  int fg = std::stoi( argv[4] );
   reconstruction->SetForegroundValue( fg );
   TEST_SET_GET_VALUE( fg , reconstruction->GetForegroundValue() );
 
-  int bg = atoi( argv[5] );
+  int bg = std::stoi( argv[5] );
   reconstruction->SetBackgroundValue( bg );
   TEST_SET_GET_VALUE( bg , reconstruction->GetBackgroundValue() );
 

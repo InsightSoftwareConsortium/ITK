@@ -68,8 +68,8 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
 
   for( unsigned int i = numberOfArgumentsBeforeLabels; i < numberOfArguments; i += 2 )
     {
-    const LabelPixelType  oldLabel = atoi( argv[i]   );
-    const LabelPixelType  newLabel = atoi( argv[i+1] );
+    const LabelPixelType  oldLabel = std::stoi( argv[i]   );
+    const LabelPixelType  newLabel = std::stoi( argv[i+1] );
 
     std::cout << "Label pair : ";
     std::cout << static_cast< LabelPrintType >( oldLabel ) << " -> ";

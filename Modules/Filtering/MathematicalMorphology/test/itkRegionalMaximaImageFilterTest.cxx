@@ -115,10 +115,10 @@ int itkRegionalMaximaImageFilterTest( int argc, char * argv[] )
   std::string outputImageFile = argv[2];
   std::string outputImageFile2 = argv[3];
 
-  unsigned int dimension = atoi( argv[4] );
+  unsigned int dimension = std::stoi( argv[4] );
 
-  bool fullyConnected = atoi( argv[5] );
-  bool flatIsMaxima = atoi( argv[6] );
+  bool fullyConnected = std::stoi( argv[5] );
+  bool flatIsMaxima = std::stoi( argv[6] );
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited

@@ -104,14 +104,14 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
   if( argc >= 3 )
     {
-    unsigned int objectDimension = atoi( argv[3] );
+    unsigned int objectDimension = std::stoi( argv[3] );
     objectnessFilter->SetObjectDimension( objectDimension );
     TEST_SET_GET_VALUE( objectDimension, objectnessFilter->GetObjectDimension() );
     }
 
   if( argc >= 4 )
     {
-    brightObject = atoi( argv[4] );
+    brightObject = std::stoi( argv[4] );
     objectnessFilter->SetBrightObject( brightObject );
     TEST_SET_GET_VALUE( brightObject, objectnessFilter->GetBrightObject() );
     }

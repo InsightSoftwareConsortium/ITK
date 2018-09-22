@@ -60,7 +60,7 @@ int itkFFTPadImageFilterTest( int argc, char * argv[] )
   // Create the filters
   FFTPadType::Pointer  fftpad = FFTPadType::New();
   fftpad->SetInput(  reader->GetOutput() );
-  fftpad->SetSizeGreatestPrimeFactor( atoi( argv[3] ) );
+  fftpad->SetSizeGreatestPrimeFactor( std::stoi( argv[3] ) );
   std::string padMethod = argv[4];
   if( padMethod == "Mirror")
     {

@@ -120,7 +120,7 @@ int itkGPUDemonsRegistrationFilterTest(int argc, char *argv[])
     }
   int returnValue = EXIT_SUCCESS;
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      returnValue = GPUDemonsRegistrationFilterTestTemplate<2>( argc, argv );
@@ -225,7 +225,7 @@ template <unsigned VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer itkGPUDemons(int, char *argv[])
 {
   const unsigned int Dimension = VDimension;
-  unsigned int numOfIterations = atoi( argv[2] );
+  unsigned int numOfIterations = std::stoi( argv[2] );
 
   using PixelType = unsigned short;
 
@@ -352,7 +352,7 @@ template <unsigned VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer itkCPUDemons(int, char *argv[])
 {
   const unsigned int Dimension = VDimension;
-  unsigned int numOfIterations = atoi( argv[2] );
+  unsigned int numOfIterations = std::stoi( argv[2] );
 
   using PixelType = unsigned short;
 

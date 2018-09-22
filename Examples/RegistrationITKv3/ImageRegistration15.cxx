@@ -138,7 +138,7 @@ int main( int argc, char *argv[] )
   unsigned int numberOfHistogramBins = 32;
   if( argc > 4 )
     {
-    numberOfHistogramBins = atoi( argv[4] );
+    numberOfHistogramBins = std::stoi( argv[4] );
     std::cout << "Using " << numberOfHistogramBins << " Histogram bins"
               << std::endl;
     }

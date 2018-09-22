@@ -62,8 +62,8 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
   FilterType::Pointer filter = FilterType::New();
 
   // setup the filter
-  filter->SetDifferenceThreshold( atoi( argv[4] ) );
-  filter->SetToleranceRadius(     atoi( argv[5] ) );
+  filter->SetDifferenceThreshold( std::stoi( argv[4] ) );
+  filter->SetToleranceRadius(     std::stoi( argv[5] ) );
 
   itk::SimpleFilterWatcher watcher( filter, "Difference");
 

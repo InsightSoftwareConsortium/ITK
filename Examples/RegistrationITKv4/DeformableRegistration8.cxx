@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 8 )
     {
-    numberOfGridNodesInOneDimension = atoi( argv[8] );
+    numberOfGridNodesInOneDimension = std::stoi( argv[8] );
     }
 
   using InitializerType = itk::BSplineTransformInitializer< TransformType,

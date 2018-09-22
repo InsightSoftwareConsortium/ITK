@@ -104,7 +104,7 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
 
   if( argc > 4 )
     {
-    JPEGQuality = atoi( argv[4] );
+    JPEGQuality = std::stoi( argv[4] );
     }
 
   std::string inputFilename = argv[1];

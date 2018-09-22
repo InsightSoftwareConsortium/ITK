@@ -48,7 +48,7 @@ int itkShapeRelabelImageFilterTest1(int argc, char * argv[])
   opening->SetInput( reader->GetOutput() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[3]) );
+  int BackgroundValue = ( std::stoi(argv[3]) );
   opening->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
 
@@ -60,12 +60,12 @@ int itkShapeRelabelImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[4] );
+  bool reverseOrdering = std::stoi( argv[4] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  RelabelType::AttributeType attribute = atoi( argv[5] );
+  RelabelType::AttributeType attribute = std::stoi( argv[5] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
 

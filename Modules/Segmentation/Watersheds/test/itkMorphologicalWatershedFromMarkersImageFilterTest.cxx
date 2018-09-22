@@ -62,10 +62,10 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
     ImageToImageFilter );
 
 
-  bool markWatershedLine = atoi( argv[4] );
+  bool markWatershedLine = std::stoi( argv[4] );
   TEST_SET_GET_BOOLEAN( filter, MarkWatershedLine, markWatershedLine );
 
-  bool fullyConnected = atoi( argv[5] );
+  bool fullyConnected = std::stoi( argv[5] );
   TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
 

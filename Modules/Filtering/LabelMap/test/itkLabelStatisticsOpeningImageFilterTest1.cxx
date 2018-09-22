@@ -55,7 +55,7 @@ int itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   opening->SetInput2( reader2->GetOutput() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[4]) );
+  int BackgroundValue = ( std::stoi(argv[4]) );
   opening->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
 
@@ -72,12 +72,12 @@ int itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[6] );
+  bool reverseOrdering = std::stoi( argv[6] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  LabelOpeningType::AttributeType attribute = atoi( argv[7] );
+  LabelOpeningType::AttributeType attribute = std::stoi( argv[7] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
 

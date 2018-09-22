@@ -100,7 +100,7 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
 
   if( argc >= 5 )
     {
-    ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = atoi( argv[4] );
+    ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = std::stoi( argv[4] );
     if( !itk::Math::IsPrime(sizeGreatestPrimeFactor) )
       {
       std::cerr << "A prime number is expected for the greatest prime factor size!" << std::endl;
@@ -112,7 +112,7 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
 
   if( argc >= 6 )
     {
-    auto normalize = static_cast<bool>( atoi( argv[5] ) );
+    auto normalize = static_cast<bool>( std::stoi( argv[5] ) );
     convoluter->SetNormalize( normalize );
     TEST_SET_GET_VALUE( normalize, convoluter->GetNormalize() );
 

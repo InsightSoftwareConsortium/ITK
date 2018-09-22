@@ -122,7 +122,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   filter->SetSelectFraction( selectionFraction );
   TEST_SET_GET_VALUE( selectionFraction, filter->GetSelectFraction() );
 
-  unsigned int nonConnectivity = atoi( argv[7] );
+  unsigned int nonConnectivity = std::stoi( argv[7] );
   filter->SetNonConnectivity( nonConnectivity );
   TEST_SET_GET_VALUE( nonConnectivity, filter->GetNonConnectivity() );
 
@@ -138,11 +138,11 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   filter->SetSearchRadius( searchRadius );
   TEST_SET_GET_VALUE( searchRadius, filter->GetSearchRadius() );
 
-  unsigned int approximationSteps = atoi( argv[10] );
+  unsigned int approximationSteps = std::stoi( argv[10] );
   filter->SetApproximationSteps( approximationSteps );
   TEST_SET_GET_VALUE( approximationSteps, filter->GetApproximationSteps() );
 
-  unsigned int outlierRejectionSteps = atoi( argv[11] );
+  unsigned int outlierRejectionSteps = std::stoi( argv[11] );
   filter->SetOutlierRejectionSteps( outlierRejectionSteps );
   TEST_SET_GET_VALUE( outlierRejectionSteps, filter->GetOutlierRejectionSteps() );
 

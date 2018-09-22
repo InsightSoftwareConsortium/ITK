@@ -83,7 +83,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   auto sigmaValue = static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[3] ) );
   GridSourceType::ArrayType sigma;
   sigma.Fill( sigmaValue );
-  auto variableSigma = static_cast< bool >( atoi( argv[4] ) );
+  auto variableSigma = static_cast< bool >( std::stoi( argv[4] ) );
 
   if( variableSigma )
     {
@@ -102,7 +102,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   gridSpacing.Fill( spacing );
 
 
-  auto variableGridSpacing = static_cast< bool >( atoi( argv[6] ) );
+  auto variableGridSpacing = static_cast< bool >( std::stoi( argv[6] ) );
   if( variableGridSpacing )
     {
     for( unsigned int i = 0; i < gridSpacing.Size(); ++i )
@@ -121,7 +121,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( gridOffset, gridImage->GetGridOffset() );
 
 
-  auto gridAllDimensions = static_cast< bool >( atoi( argv[8] ) );
+  auto gridAllDimensions = static_cast< bool >( std::stoi( argv[8] ) );
   GridSourceType::BoolArrayType whichDimension;
   whichDimension.Fill( gridAllDimensions );
 
@@ -134,10 +134,10 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( whichDimension, gridImage->GetWhichDimensions() );
 
 
-  auto useBSplineKernel = static_cast< bool >( atoi( argv[10] ) );
+  auto useBSplineKernel = static_cast< bool >( std::stoi( argv[10] ) );
   if( useBSplineKernel )
     {
-    unsigned int bSplineOrder = atoi( argv[11] );
+    unsigned int bSplineOrder = std::stoi( argv[11] );
     // Specify B-Spline function
     if( bSplineOrder == 3 )
       {

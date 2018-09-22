@@ -77,8 +77,8 @@ int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
   // Now proceed to apply the Gaussian derivative filter in both directions
 
   DerivativeFilterType::OrderArrayType order;
-  order[0] = atoi( argv[3] );
-  order[1] = atoi( argv[4] );
+  order[0] = std::stoi( argv[3] );
+  order[1] = std::stoi( argv[4] );
 
   derivativeFilter->SetOrder( order );
   TEST_SET_GET_VALUE( order, derivativeFilter->GetOrder() );
@@ -95,7 +95,7 @@ int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
     }
   else if( argc > 8 )
     {
-    maxKernelWidth = atoi( argv[7] );
+    maxKernelWidth = std::stoi( argv[7] );
     }
 
   DerivativeFilterType::ArrayType variance;

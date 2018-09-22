@@ -533,7 +533,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  unsigned int numberOfHistogramBins = atoi( argv[7] );
+  unsigned int numberOfHistogramBins = std::stoi( argv[7] );
   MetricType::HistogramType::SizeType histogramSize;
   histogramSize.SetSize(2);
   histogramSize[0] = numberOfHistogramBins;
@@ -630,7 +630,7 @@ int main( int argc, char *argv[] )
 
   observer->SetInitialHistogramFile( argv[5] );
 
-  if( atoi(argv[4]) )
+  if( std::stoi(argv[4]) )
     {
     observer->SetWriteHistogramsAfterEveryIteration( true );
     }

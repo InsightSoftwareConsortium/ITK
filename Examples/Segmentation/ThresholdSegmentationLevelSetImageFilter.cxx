@@ -219,7 +219,7 @@ int main( int argc, char *argv[] )
     thresholdSegmentation->SetNumberOfIterations( 1200 );
 
   //    thresholdSegmentation->SetMaximumRMSError( atof(argv[8]) );
-  //    thresholdSegmentation->SetNumberOfIterations( atoi(argv[9]) );
+  //    thresholdSegmentation->SetNumberOfIterations( std::stoi(argv[9]) );
 
   // Software Guide : BeginLatex
   //
@@ -273,8 +273,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  seedPosition;
 
-  seedPosition[0] = atoi( argv[3] );
-  seedPosition[1] = atoi( argv[4] );
+  seedPosition[0] = std::stoi( argv[3] );
+  seedPosition[1] = std::stoi( argv[4] );
 
   //  Nodes are created as stack variables and initialized with a value and an
   //  \doxygen{Index} position. Note that here we assign the value of minus the

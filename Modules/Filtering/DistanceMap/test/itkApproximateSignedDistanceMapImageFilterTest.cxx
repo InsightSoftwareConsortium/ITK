@@ -70,7 +70,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
 
   // Make a binary input image based on the signed distance function
   // using the inside and outside values
-  const InputPixelType insideValue =  atoi( argv[1] );
+  const InputPixelType insideValue =  std::stoi( argv[1] );
   constexpr InputPixelType outsideValue  = 0;
 
   InputImageType::Pointer image = InputImageType::New();

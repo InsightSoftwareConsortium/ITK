@@ -101,7 +101,7 @@ int main( int argc, char * argv[] )
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  const unsigned int repetitions = atoi( argv[3] );
+  const unsigned int repetitions = std::stoi( argv[3] );
 
 
   //  Software Guide : BeginLatex

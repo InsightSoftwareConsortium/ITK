@@ -245,7 +245,7 @@ ThreadPool
     {
     if( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
       {
-      threadCount = static_cast<ThreadIdType>( atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
+      threadCount = static_cast<ThreadIdType>( std::stoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
       }
     }
 

@@ -85,8 +85,8 @@ int itkFFTShiftImageFilterTest(int argc, char * argv[])
 
   filter->SetInput( reader->GetOutput() );
 
-  filter->SetInverse( static_cast<bool>( atoi( argv[3] ) ) );
-  if ( filter->GetInverse( ) != static_cast<bool>(atoi(argv[3])) )
+  filter->SetInverse( static_cast<bool>( std::stoi( argv[3] ) ) );
+  if ( filter->GetInverse( ) != static_cast<bool>(std::stoi(argv[3])) )
     {
     std::cerr << "Set/Get Inverse problem." << std::endl;
     return EXIT_FAILURE;

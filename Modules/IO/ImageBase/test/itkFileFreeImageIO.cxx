@@ -74,7 +74,7 @@ FileFreeImageIO
     this->SplitString(findSize.match(1), ",", tempVector);
     for (std::vector<std::string>::size_type i = 0; i < tempVector.size(); i++)
       {
-      sizeVector.push_back(atoi(tempVector[i].c_str()));
+      sizeVector.push_back(std::stoi(tempVector[i].c_str()));
       }
     }
 

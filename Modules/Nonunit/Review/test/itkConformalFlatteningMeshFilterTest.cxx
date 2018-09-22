@@ -73,12 +73,12 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   if( argc > 4 )
     {
-    polarCellId = atoi( argv[4] );
+    polarCellId = std::stoi( argv[4] );
     }
 
   filter->SetPolarCellIdentifier( polarCellId );
 
-  int mapToSphere = atoi( argv[3] );
+  int mapToSphere = std::stoi( argv[3] );
 
   if( mapToSphere == 1 )
     {

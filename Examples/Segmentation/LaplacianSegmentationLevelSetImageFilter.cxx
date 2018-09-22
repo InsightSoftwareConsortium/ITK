@@ -150,7 +150,7 @@ int main( int argc, char *argv[] )
     itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
                                                   InternalImageType >;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
-  diffusion->SetNumberOfIterations( atoi(argv[4]) );
+  diffusion->SetNumberOfIterations( std::stoi(argv[4]) );
   diffusion->SetTimeStep(0.125);
   diffusion->SetConductanceParameter( atof(argv[5]) );
   // Software Guide : EndCodeSnippet
@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   laplacianSegmentation->SetMaximumRMSError( 0.002 );
-  laplacianSegmentation->SetNumberOfIterations( ::atoi(argv[8]) );
+  laplacianSegmentation->SetNumberOfIterations( ::std::stoi(argv[8]) );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

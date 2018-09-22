@@ -47,7 +47,7 @@ int itkImageFileWriterStreamingTest1(int argc, char* argv[])
   bool forceNoStreamingInput = false;
   if ( argc > 4 )
     {
-      if ( atoi( argv[4] ) == 1 )
+      if ( std::stoi( argv[4] ) == 1 )
           forceNoStreamingInput = true;
     }
 

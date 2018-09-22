@@ -75,8 +75,8 @@ int itkDiscreteGaussianImageFilterTest2(int argc, char *argv[])
       return EXIT_FAILURE;
       }
 
-    unsigned int img_dim = atoi(argv[1]);
-    unsigned int vec_dim = atoi(argv[2]);
+    unsigned int img_dim = std::stoi(argv[1]);
+    unsigned int vec_dim = std::stoi(argv[2]);
 
     if (img_dim != 2)
       {

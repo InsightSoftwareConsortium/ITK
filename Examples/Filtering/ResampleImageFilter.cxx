@@ -107,7 +107,7 @@ int main( int argc, char * argv[] )
 
   if( argc >= 4 )
     {
-    exampleAction = atoi( argv[3] );
+    exampleAction = std::stoi( argv[3] );
     }
 
   //  Software Guide : BeginLatex

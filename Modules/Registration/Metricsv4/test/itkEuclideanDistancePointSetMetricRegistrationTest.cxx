@@ -203,7 +203,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
   auto maximumPhysicalStepSize = static_cast<double>( 2.0 );
   if( argc > 1 )
     {
-    numberOfIterations = atoi( argv[1] );
+    numberOfIterations = std::stoi( argv[1] );
     }
   if( argc > 2 )
     {

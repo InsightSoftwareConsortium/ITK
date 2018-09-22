@@ -77,8 +77,8 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
 
   padLabelMapFilter->SetInput( i2l->GetOutput() );
   PadLabelMapFilterType::SizeType size;
-  size[0] = atoi( argv[3] );
-  size[1] = atoi( argv[4] );
+  size[0] = std::stoi( argv[3] );
+  size[1] = std::stoi( argv[4] );
 
   padLabelMapFilter->SetPadSize( size );
   TEST_SET_GET_VALUE( size, padLabelMapFilter->GetLowerBoundaryPadSize() );

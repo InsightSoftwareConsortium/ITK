@@ -58,7 +58,7 @@ int itkThreadPoolTest(int argc, char* argv[])
   int count = 1000;
   if( argc > 1 )
     {
-    const int nt = atoi( argv[1] );
+    const int nt = std::stoi( argv[1] );
     if(nt > 1)
       {
       count = nt;

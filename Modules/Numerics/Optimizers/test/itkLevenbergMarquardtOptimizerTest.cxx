@@ -414,7 +414,7 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
 
   if( argc > 5 )
     {
-    Max_Iterations = atoi( argv[5] );
+    Max_Iterations = std::stoi( argv[5] );
     }
 
   std::cout << "F_Tolerance      = " << F_Tolerance << std::endl;

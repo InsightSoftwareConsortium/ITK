@@ -83,9 +83,9 @@ int main( int argc, char * argv [] )
   const char * inputLabelImageFileName = argv[2];
   const char * outputImageFileName     = argv[3];
 
-  const unsigned int numberOfIterations = atoi( argv[4] );
+  const unsigned int numberOfIterations = std::stoi( argv[4] );
   const double       smoothingFactor    = atof( argv[5] );
-  const unsigned int numberOfClasses    = atoi( argv[6] );
+  const unsigned int numberOfClasses    = std::stoi( argv[6] );
 
   constexpr unsigned int numberOfArgumentsBeforeMeans = 7;
 

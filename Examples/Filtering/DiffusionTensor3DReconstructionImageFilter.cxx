@@ -232,7 +232,7 @@ int main( int argc, char *argv[] )
   // If we need to write out the reference and gradient images to a file..
   // Easier viewing them with a viewer than if they were in a single NRRD
   // file
-  if( (argc > 4) && (atoi(argv[6])) )
+  if( (argc > 4) && (std::stoi(argv[6])) )
     {
     unsigned int referenceImageIndex = 0;
     using GradientWriterType = itk::ImageFileWriter< GradientImageType >;

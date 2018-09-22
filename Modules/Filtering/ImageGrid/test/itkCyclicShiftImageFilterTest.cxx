@@ -52,8 +52,8 @@ int itkCyclicShiftImageFilterTest(int argc, char * argv[])
   changeInfoFilter->SetInput( reader->GetOutput() );
 
   CyclicShiftFilterType::OffsetType shift;
-  shift[0] = atoi( argv[2] );
-  shift[1] = atoi( argv[3] );
+  shift[0] = std::stoi( argv[2] );
+  shift[1] = std::stoi( argv[3] );
 
   CyclicShiftFilterType::Pointer shiftFilter = CyclicShiftFilterType::New();
   shiftFilter->SetShift( shift );

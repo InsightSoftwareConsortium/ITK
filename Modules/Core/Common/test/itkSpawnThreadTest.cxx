@@ -56,7 +56,7 @@ int itkSpawnThreadTest(int argc, char* argv[])
   int loop = 100;
   if( argc > 1 )
     {
-    const int nt = atoi( argv[1] );
+    const int nt = std::stoi( argv[1] );
     if(nt > 1)
       {
       loop = nt;
