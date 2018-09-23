@@ -19,6 +19,7 @@
 #include "itksys/SystemTools.hxx"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
@@ -85,7 +86,6 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
 #define GE_PROD_STR    "SIEMENS"
 #define TEMPLEN 2048
-  char tmpStr[TEMPLEN], tmpStr2[TEMPLEN], tmpStr3[TEMPLEN];
   auto * hdr = new GEImageHeader;
   if ( hdr == nullptr )
     {
@@ -144,6 +144,9 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     if ( hdr->scanner[i] == ' ' ) { hdr->scanner[i] = '-'; }
     }
 
+  char tmpStr[TEMPLEN];
+  char tmpStr2[TEMPLEN];
+
   this->GetStringAt(f, TEXT_STUDY_NUM2, tmpStr, TEXT_STUDY_NUM2_LEN);
   tmpStr[TEXT_STUDY_NUM2_LEN] = '\0';
   hdr->seriesNumber = std::stoi(tmpStr);
@@ -201,12 +204,20 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
   this->GetStringAt(f, TEXT_ANGLE_FLAG3, tmpStr2, TEXT_ANGLE_FLAG3_LEN);
   tmpStr2[TEXT_ANGLE_FLAG3_LEN] = '\0';
 
-  this->GetStringAt(f, TEXT_ANGLE, tmpStr3, TEXT_ANGLE_LEN);
-  tmpStr3[TEXT_ANGLE_LEN] = '\0';
-
+  std::string text_angle_len;
+  {
+    char tmpStr3[TEMPLEN];
+    this->GetStringAt(f, TEXT_ANGLE, tmpStr3, TEXT_ANGLE_LEN);
+    tmpStr3[TEXT_ANGLE_LEN] = '\0';
+    text_angle_len = tmpStr3;
+  }
+  // An empty string implies an angle less than 45 degrees for backwards compatibility
+  text_angle_len.erase(
+      std::remove_if(text_angle_len.begin(), text_angle_len.end(),isspace),
+      text_angle_len.end() ); //Remove all whitespace
   if ( strcmp(tmpStr, "Cor") == 0 )
     {
-    if ( std::fabs( std::stod(tmpStr3) ) <= 45.0 )
+    if ( text_angle_len.empty() || std::fabs( std::stod(text_angle_len) ) <= 45.0 )
       {
       //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
@@ -229,7 +240,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else if ( strcmp(tmpStr, "Sag") == 0 )
     {
-    if ( std::fabs( std::stod(tmpStr3) ) <= 45.0 )
+    if ( text_angle_len.empty() || std::fabs( std::stod(text_angle_len) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -253,7 +264,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else
     {
-    if ( std::fabs( std::stod(tmpStr3) ) <= 45.0 )
+    if ( text_angle_len.empty() || std::fabs( std::stod(text_angle_len) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
