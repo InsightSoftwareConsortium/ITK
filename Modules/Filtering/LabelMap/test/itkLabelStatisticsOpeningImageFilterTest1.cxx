@@ -77,9 +77,13 @@ int itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  LabelOpeningType::AttributeType attribute = std::stoi( argv[7] );
-  opening->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
+  opening->SetAttribute(LabelOpeningType::LabelObjectType::PERIMETER_ON_BORDER);
+  TEST_SET_GET_VALUE( LabelOpeningType::LabelObjectType::PERIMETER_ON_BORDER, opening->GetAttribute() );
+
+  const std::string attributeByName{ argv[7] };
+  opening->SetAttribute( attributeByName ); // SetAttribute accepts a string for conversion to internal label code
+  const LabelOpeningType::AttributeType attributeByCode = LabelOpeningType::LabelObjectType::LABEL;
+  TEST_SET_GET_VALUE( attributeByCode, opening->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 

@@ -71,9 +71,11 @@ int itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( atof( argv[4] ), change->GetScale() );
 
 
-  bool changeBackground = std::stoi( argv[5] );
+  const std::string shouldChangBackgroundBoolean{ argv[5] };
+  static const std::string trueString{ "true" };
+  const bool changeBackground =  (shouldChangBackgroundBoolean == trueString) ? true : false;
   change->SetChangeBackgroundValue( changeBackground );
-  TEST_SET_GET_VALUE( (std::stoi( argv[5] ) != 0), change->GetChangeBackgroundValue() );
+  TEST_SET_GET_VALUE( changeBackground, change->GetChangeBackgroundValue() );
 
   change->ChangeBackgroundValueOff();
   TEST_SET_GET_VALUE( false, change->GetChangeBackgroundValue() );

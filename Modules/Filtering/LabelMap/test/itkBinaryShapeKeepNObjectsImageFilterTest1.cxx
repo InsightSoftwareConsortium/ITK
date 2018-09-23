@@ -86,10 +86,15 @@ int itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetFullyConnected( fullyConnected );
   TEST_SET_GET_VALUE( fullyConnected , KeepNObjects->GetFullyConnected() );
 
+
   //testing get and set macros for Attribute
-  BinaryKeepNObjectsType::AttributeType attribute = std::stoi( argv[8] );
-  KeepNObjects->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
+  KeepNObjects->SetAttribute(BinaryKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER);
+  TEST_SET_GET_VALUE( BinaryKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER, KeepNObjects->GetAttribute() );
+
+  const std::string attributeByName{ argv[8] };
+  KeepNObjects->SetAttribute( attributeByName ); // SetAttribute accepts a string for conversion to internal label code
+  const BinaryKeepNObjectsType::AttributeType attributeByCode = BinaryKeepNObjectsType::LabelObjectType::LABEL;
+  TEST_SET_GET_VALUE( attributeByCode, KeepNObjects->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 

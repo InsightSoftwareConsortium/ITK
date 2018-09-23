@@ -70,9 +70,13 @@ int itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  LabelKeepNObjectsType::AttributeType attribute = std::stoi( argv[6] );
-  KeepNObjects->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
+  KeepNObjects->SetAttribute(LabelKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER);
+  TEST_SET_GET_VALUE( LabelKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER, KeepNObjects->GetAttribute() );
+
+  const std::string attributeByName{ argv[6] };
+  KeepNObjects->SetAttribute( attributeByName ); // SetAttribute accepts a string for conversion to internal label code
+  const LabelKeepNObjectsType::AttributeType attributeByCode = LabelKeepNObjectsType::LabelObjectType::LABEL;
+  TEST_SET_GET_VALUE( attributeByCode, KeepNObjects->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
