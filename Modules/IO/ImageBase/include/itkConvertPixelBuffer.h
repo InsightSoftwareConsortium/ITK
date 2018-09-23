@@ -161,8 +161,8 @@ protected:
   DefaultAlphaValue();
 
 private:
-  ConvertPixelBuffer();
-  ~ConvertPixelBuffer();
+  ConvertPixelBuffer() = delete;
+  ~ConvertPixelBuffer() = delete;
 
 };
 } //namespace ITK

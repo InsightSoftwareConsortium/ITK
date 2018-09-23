@@ -526,8 +526,8 @@ protected:
   itkGetConstMacro(Singular, bool);
 private:
 
-  MatrixOffsetTransformBase(const Self & other);
-  const Self & operator=(const Self &);
+  MatrixOffsetTransformBase(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 
   MatrixType                m_Matrix;           // Matrix of the transformation
   OutputVectorType          m_Offset;           // Offset of the transformation

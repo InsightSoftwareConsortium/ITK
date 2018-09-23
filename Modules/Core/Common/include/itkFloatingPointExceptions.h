@@ -76,10 +76,9 @@ public:
   static bool HasFloatingPointExceptionsSupport();
 
 private:
-  FloatingPointExceptions();                                // Not implemented.
-  FloatingPointExceptions(const FloatingPointExceptions &); // Not
-                                                            // implemented.
-  void operator=(const FloatingPointExceptions &);          // Not implemented.
+  FloatingPointExceptions() = delete;
+  FloatingPointExceptions(const FloatingPointExceptions &) = delete;
+  void operator=(const FloatingPointExceptions &) = delete;
 
   /** static member that controls what happens during an exception */
   static ExceptionAction m_ExceptionAction;

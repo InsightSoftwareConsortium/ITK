@@ -55,10 +55,10 @@ private:
 
   /** hide the copy constructor to allow only direct construction of the adapter
     */
-  STLContainerAdaptor(const STLContainerAdaptor & r);
+  STLContainerAdaptor(const STLContainerAdaptor & r) = delete;
 
   /* hide and avoid operator= */
-  const STLContainerAdaptor & operator=(const STLContainerAdaptor & r);
+  const STLContainerAdaptor & operator=(const STLContainerAdaptor & r) = delete;
 
 public:
   STLContainerAdaptor(AdapteeType & adaptee):m_AdapteeRef(adaptee) {}

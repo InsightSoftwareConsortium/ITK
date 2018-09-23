@@ -45,7 +45,7 @@ public:
   std::string operator() (TValue val);
 
 private:
-  NumberToString & operator=(const NumberToString &); // not defined
+  NumberToString & operator=(const NumberToString &) = delete;
 };
 
 // declaration of specialization

@@ -206,8 +206,8 @@ protected:
 #endif
 
 private:
-  RGBGibbsPriorFilter(const Self &);
-  void operator=(const Self &);
+  RGBGibbsPriorFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 
   using InputImageSizeType = typename TInputImage::SizeType;
 

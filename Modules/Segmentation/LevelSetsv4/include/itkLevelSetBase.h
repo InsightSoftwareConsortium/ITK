@@ -110,7 +110,7 @@ public:
         }
 
     private:
-      DataType();
+      DataType() = delete;
     };
 
   /** \struct LevelSetDataType

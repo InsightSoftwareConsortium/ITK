@@ -58,10 +58,10 @@ private:
 
   /** hide the copy constructor to allow only direct construction of the adapter
     */
-  STLConstContainerAdaptor(const STLConstContainerAdaptor & r);
+  STLConstContainerAdaptor(const STLConstContainerAdaptor & r) = delete;
 
   /* hide and avoid operator= */
-  const STLConstContainerAdaptor & operator=(const STLConstContainerAdaptor & r);
+  const STLConstContainerAdaptor & operator=(const STLConstContainerAdaptor & r) = delete;
 
 public:
 

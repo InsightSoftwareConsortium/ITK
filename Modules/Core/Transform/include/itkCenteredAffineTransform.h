@@ -116,8 +116,8 @@ protected:
   ~CenteredAffineTransform() override;
 
 private:
-  CenteredAffineTransform(const Self & other);
-  const Self & operator=(const Self &);
+  CenteredAffineTransform(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 
 }; // class CenteredAffineTransform
 }  // namespace itk

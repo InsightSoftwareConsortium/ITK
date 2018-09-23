@@ -69,7 +69,7 @@ protected:
   const TreeIteratorBase< TTreeType > *m_ChangePosition;
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /**  \class TreeNodeChangeEvent
@@ -98,7 +98,7 @@ public:
   TreeNodeChangeEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /** \class TreeAddEvent
@@ -133,7 +133,7 @@ public:
   TreeAddEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /** \class TreeRemoveEvent
@@ -168,7 +168,7 @@ public:
   TreeRemoveEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /** \class TreePruneEvent
@@ -197,7 +197,7 @@ public:
   TreePruneEvent(const Self & s):TreeRemoveEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 } // namespace itk
 

@@ -94,7 +94,7 @@ protected:
 
 private:
   using EventFactoryFunction = EventObject *();
-  void operator=(const EventObject &);
+  void operator=(const EventObject &) = delete;
 };
 
 /** Generic inserter operator for EventObject and its subclasses. */
