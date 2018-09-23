@@ -42,8 +42,10 @@ namespace itk
  * Mingli Chen, Weiguo Lu, Quan Chen, Knneth J. Ruchala and Gusavo H. Olivera
  * described in the paper
  *
- * "A simple fixed-point approach to invert a Displacement field",
- * Medical Physics, vol. 35, issue 1, p. 81,
+\verbatim
+"A simple fixed-point approach to invert a Displacement field",
+Medical Physics, vol. 35, issue 1, p. 81
+\endverbatim
  * is applied.
  *
  * \author Marcel Lüthi, Computer Science Department, University of Basel
