@@ -77,7 +77,7 @@ public:
       PixelType maskLabel = 1.0;
       if( argc > 6 )
         {
-        maskLabel = static_cast<PixelType>( atof( argv[6] ) );
+        maskLabel = static_cast<PixelType>( std::stod( argv[6] ) );
         }
 
       typename ReaderType::Pointer labelImageReader = ReaderType::New();

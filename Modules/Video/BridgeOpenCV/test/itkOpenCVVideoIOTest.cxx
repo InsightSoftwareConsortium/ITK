@@ -543,5 +543,5 @@ int itkOpenCVVideoIOTest( int argc, char *argv[] )
   itk::ObjectFactoryBase::RegisterFactory( itk::OpenCVVideoIOFactory::New() );
 
   return test_OpenCVVideoIO(argv[1], argv[2], argv[3], argv[4], std::stoi(argv[5]), std::stoi(argv[6]),
-                            std::stoi(argv[7]), atof(argv[8]) );
+                            std::stoi(argv[7]), std::stod(argv[8]) );
 }

@@ -102,7 +102,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   filter->SetSeed2( seed2 );
   TEST_SET_GET_VALUE( seed2, filter->GetSeed2() );
 
-  double threshold = atof( argv[7] );
+  double threshold = std::stod( argv[7] );
   filter->SetThreshold( threshold );
   TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
 
@@ -118,7 +118,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   filter->SetUpperValueLimit( upperValueLimit );
   TEST_SET_GET_VALUE( upperValueLimit, filter->GetUpperValueLimit() );
 
-  double isolatedValueTolerance = atof( argv[8] );
+  double isolatedValueTolerance = std::stod( argv[8] );
   filter->SetIsolatedValueTolerance( isolatedValueTolerance );
   TEST_SET_GET_VALUE( isolatedValueTolerance,
     filter->GetIsolatedValueTolerance() );

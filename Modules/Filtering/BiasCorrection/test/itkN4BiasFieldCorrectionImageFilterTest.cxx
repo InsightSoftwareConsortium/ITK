@@ -206,7 +206,7 @@ int N4( int argc, char *argv[] )
   float splineDistance = 200;
   if( argc > 7 )
     {
-    splineDistance = atof( argv[7] );
+    splineDistance = std::stod( argv[7] );
     }
 
   itk::SizeValueType lowerBound[ImageDimension];

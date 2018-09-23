@@ -179,12 +179,12 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   this->GetStringAt(f, TEXT_FOVH, tmpStr, TEXT_FOVH_LEN);
   tmpStr[TEXT_FOVH_LEN] = '\0';
-  hdr->xFOV = static_cast< float >( atof(tmpStr) );
+  hdr->xFOV = static_cast< float >( std::stod(tmpStr) );
   DB(hdr->xFOV);
 
   this->GetStringAt(f, TEXT_FOVV, tmpStr, TEXT_FOVV_LEN);
   tmpStr[TEXT_FOVV_LEN] = '\0';
-  hdr->yFOV = static_cast< float >( atof(tmpStr) );
+  hdr->yFOV = static_cast< float >( std::stod(tmpStr) );
   DB(hdr->yFOV);
 
   this->GetDoubleAt( f, HDR_PIXELSIZE_ROW, &tmpDble, sizeof( double ) );
@@ -206,7 +206,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   if ( strcmp(tmpStr, "Cor") == 0 )
     {
-    if ( std::fabs( atof(tmpStr3) ) <= 45.0 )
+    if ( std::fabs( std::stod(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
@@ -229,7 +229,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else if ( strcmp(tmpStr, "Sag") == 0 )
     {
-    if ( std::fabs( atof(tmpStr3) ) <= 45.0 )
+    if ( std::fabs( std::stod(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -253,7 +253,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else
     {
-    if ( std::fabs( atof(tmpStr3) ) <= 45.0 )
+    if ( std::fabs( std::stod(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
@@ -279,7 +279,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
   /* fprintf(stderr, "Plane %d\n", hdr->imagePlane); */
   this->GetStringAt(f, TEXT_SLICE_POS, tmpStr, TEXT_SLICE_POS_LEN);
   tmpStr[TEXT_SLICE_POS_LEN] = '\0';
-  hdr->sliceLocation = static_cast< float >( atof(tmpStr) );
+  hdr->sliceLocation = static_cast< float >( std::stod(tmpStr) );
   DB(hdr->sliceLocation);
 
   /* fprintf(stderr, "Slice Location %f\n", hdr->sliceLocation); */

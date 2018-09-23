@@ -60,7 +60,7 @@ int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
   CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage( reader->GetOutput() );
   calculator->SetNumberOfIterations( std::stoi( argv[2] ) );
-  calculator->SetSigmaFactor( atof( argv[3] ) );
+  calculator->SetSigmaFactor( std::stod( argv[3] ) );
   calculator->SetMaskValue( 255 );
 
   // Exercise Get methods

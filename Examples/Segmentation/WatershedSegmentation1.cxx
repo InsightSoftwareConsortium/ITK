@@ -136,7 +136,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations( std::stoi(argv[4]) );
-  diffusion->SetConductanceParameter( atof(argv[3]) );
+  diffusion->SetConductanceParameter( std::stod(argv[3]) );
   diffusion->SetTimeStep(0.125);
   // Software Guide : EndCodeSnippet
 
@@ -166,8 +166,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   WatershedFilterType::Pointer watershed = WatershedFilterType::New();
-  watershed->SetLevel( atof(argv[6]) );
-  watershed->SetThreshold( atof(argv[5]) );
+  watershed->SetLevel( std::stod(argv[6]) );
+  watershed->SetThreshold( std::stod(argv[5]) );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

@@ -60,7 +60,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char *argv[])
 
   if( argc > 4 )
     {
-    gTolerance = atof( argv[4] );
+    gTolerance = std::stod( argv[4] );
     }
   if( argc > 5 )
     {
@@ -68,11 +68,11 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char *argv[])
     }
   if( argc > 6 )
     {
-    lineSearchTol = atof( argv[6] );
+    lineSearchTol = std::stod( argv[6] );
     }
   if( argc > 7 )
     {
-    stepLength = atof( argv[7] );
+    stepLength = std::stod( argv[7] );
     }
   if( argc > 8 )
     {

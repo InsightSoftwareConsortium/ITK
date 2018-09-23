@@ -416,7 +416,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double sigma = atof( argv[6] );
+  const double sigma = std::stod( argv[6] );
 
   // Software Guide : BeginCodeSnippet
   gradientMagnitude->SetSigma(  sigma  );
@@ -432,8 +432,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double alpha =  atof( argv[7] );
-  const double beta  =  atof( argv[8] );
+  const double alpha =  std::stod( argv[7] );
+  const double beta  =  std::stod( argv[8] );
 
   // Software Guide : BeginCodeSnippet
   sigmoid->SetAlpha( alpha );
@@ -492,7 +492,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double initialDistance = atof( argv[5] );
+  const double initialDistance = std::stod( argv[5] );
 
   // Software Guide : BeginCodeSnippet
   NodeType node;
@@ -626,8 +626,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double curvatureScaling   = atof( argv[  9 ] );
-  const double propagationScaling = atof( argv[ 10 ] );
+  const double curvatureScaling   = std::stod( argv[  9 ] );
+  const double propagationScaling = std::stod( argv[ 10 ] );
 
   //  Software Guide : BeginCodeSnippet
   shapeDetection->SetPropagationScaling(  propagationScaling );

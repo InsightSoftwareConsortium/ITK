@@ -285,7 +285,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   displacementFieldRegistration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
   displacementFieldRegistration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
   displacementFieldRegistration->SetMetric( correlationMetric );
-  displacementFieldRegistration->SetLearningRate( atof( argv[6] ) );
+  displacementFieldRegistration->SetLearningRate( std::stod( argv[6] ) );
   displacementFieldRegistration->SetNumberOfIterationsPerLevel( numberOfIterationsPerLevel );
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel( adaptors );
 

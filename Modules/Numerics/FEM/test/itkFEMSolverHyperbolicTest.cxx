@@ -159,7 +159,7 @@ int itkFEMSolverHyperbolicTest(int ac, char* av[])
     solution.resize( ac - 4 );
     for (int i=4;i<ac;i++)
       {
-      solution[i-4] = atof(av[i]);
+      solution[i-4] = std::stod(av[i]);
       }
     }
 

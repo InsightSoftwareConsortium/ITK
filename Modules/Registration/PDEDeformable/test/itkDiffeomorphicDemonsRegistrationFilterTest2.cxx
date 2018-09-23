@@ -110,11 +110,11 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   registrator->SetMaximumKernelWidth( 10 );
 
 
-  const double intensityDifferenceThreshold = atof( argv[6] );
+  const double intensityDifferenceThreshold = std::stod( argv[6] );
 
   registrator->SetIntensityDifferenceThreshold( intensityDifferenceThreshold );
 
-  const double maximumUpdateStepLength = atof( argv[7] );
+  const double maximumUpdateStepLength = std::stod( argv[7] );
 
   registrator->SetMaximumUpdateStepLength( maximumUpdateStepLength );
 

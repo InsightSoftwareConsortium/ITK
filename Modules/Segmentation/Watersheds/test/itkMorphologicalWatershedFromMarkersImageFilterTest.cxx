@@ -136,7 +136,7 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
 
     if( argc > 7 )
       {
-      overlay->SetOpacity( atof( argv[7] ) );
+      overlay->SetOpacity( std::stod( argv[7] ) );
       }
 
     TRY_EXPECT_NO_EXCEPTION( rgbwriter->Update() );

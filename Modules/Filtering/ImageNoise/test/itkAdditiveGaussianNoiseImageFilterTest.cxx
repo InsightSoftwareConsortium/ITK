@@ -53,7 +53,7 @@ int itkAdditiveGaussianNoiseImageFilterTest(int argc, char * argv[])
   double stdDev = 1.0;
   if( argc >= 4 )
     {
-    stdDev = atof( argv[3] );
+    stdDev = std::stod( argv[3] );
     }
   additiveGaussianNoiseFilter->SetStandardDeviation( stdDev );
   TEST_SET_GET_VALUE( stdDev, additiveGaussianNoiseFilter->GetStandardDeviation() );
@@ -61,7 +61,7 @@ int itkAdditiveGaussianNoiseImageFilterTest(int argc, char * argv[])
   double mean = 0.0;
   if( argc >= 5 )
     {
-    mean = atof( argv[4] );
+    mean = std::stod( argv[4] );
     }
   additiveGaussianNoiseFilter->SetMean( mean );
   TEST_SET_GET_VALUE( mean, additiveGaussianNoiseFilter->GetMean() );

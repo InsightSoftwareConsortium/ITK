@@ -123,7 +123,7 @@ int main( int argc, char * argv[] )
 
   if( argc > 3 )
     {
-    double scale = atof( argv[3] );
+    double scale = std::stod( argv[3] );
     for(unsigned int i=0; i<Dimension; i++)
       {
       spacing[i] *= scale;
@@ -137,9 +137,9 @@ int main( int argc, char * argv[] )
     {
     ImageType::PointType::VectorType translation;
 
-    translation[0] = atof ( argv[4] );
-    translation[1] = atof ( argv[5] );
-    translation[2] = atof ( argv[6] );
+    translation[0] = std::stod( argv[4] );
+    translation[1] = std::stod( argv[5] );
+    translation[2] = std::stod( argv[6] );
 
     origin += translation;
 
@@ -149,7 +149,7 @@ int main( int argc, char * argv[] )
 
   if( argc > 7 )
     {
-    double additionalAngle = atof( argv[7] );
+    double additionalAngle = std::stod( argv[7] );
 
     itk::Versor< itk::SpacePrecisionType >  rotation;
     double angleInRadians = additionalAngle * itk::Math::pi / 180.0;

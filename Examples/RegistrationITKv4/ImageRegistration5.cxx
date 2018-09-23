@@ -420,7 +420,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 6 )
     {
-    initialStepLength = atof( argv[6] );
+    initialStepLength = std::stod( argv[6] );
     }
 
   // Software Guide : BeginCodeSnippet

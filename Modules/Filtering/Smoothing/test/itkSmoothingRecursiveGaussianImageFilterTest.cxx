@@ -136,7 +136,7 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
   TEST_SET_GET_BOOLEAN( filter, NormalizeAcrossScale, normalizeAcrossScale );
 
   // Set the value ofthe standard deviation of the Gaussian used for smoothing
-  SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = atof( argv[4] );
+  SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = std::stod( argv[4] );
   SmoothingRecursiveGaussianImageFilterType::SigmaArrayType sigma;
   sigma.Fill( sigmaValue );
 

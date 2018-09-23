@@ -107,7 +107,7 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
   double theta = 0;
   if( argc >= 4 )
     {
-    theta = atof( argv[3] );
+    theta = std::stod( argv[3] );
     }
 
   int testStatus = EXIT_SUCCESS;

@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 
   if( argc > 4 )
     {
-    maximumRMSError = atof( argv[4] );
+    maximumRMSError = std::stod( argv[4] );
     }
 
   if( argc > 5 )

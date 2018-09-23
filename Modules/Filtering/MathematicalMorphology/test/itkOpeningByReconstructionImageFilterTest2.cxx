@@ -70,13 +70,13 @@ int itkOpeningByReconstructionImageFilterTest2(int argc, char* argv [] )
 
   //fill spacing and origin
   OriginType origin;
-  origin[0]=atof(argv[4]);
-  origin[1]=atof(argv[5]);
+  origin[0]=std::stod(argv[4]);
+  origin[1]=std::stod(argv[5]);
   inputImage->SetOrigin(origin);
 
   SpacingType spacing;
-  spacing[0]=atof(argv[6]);
-  spacing[1]=atof(argv[7]);
+  spacing[0]=std::stod(argv[6]);
+  spacing[1]=std::stod(argv[7]);
   inputImage->SetSpacing(spacing);
 
 

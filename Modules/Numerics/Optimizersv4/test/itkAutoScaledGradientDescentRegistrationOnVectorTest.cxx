@@ -225,7 +225,7 @@ int itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const
     }
   if (argc >= 3)
     {
-    shiftOfStep = atof( argv[2] );
+    shiftOfStep = std::stod( argv[2] );
     }
 
   constexpr unsigned int Dimension = 2;

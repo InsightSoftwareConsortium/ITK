@@ -170,7 +170,7 @@ int main( int argc, char *argv[] )
   indexSeed1[0] = std::stoi( argv[3] );
   indexSeed1[1] = std::stoi( argv[4] );
 
-  const InternalPixelType lowerThreshold = atof( argv[5] );
+  const InternalPixelType lowerThreshold = std::stod( argv[5] );
 
   InternalImageType::IndexType  indexSeed2;
 

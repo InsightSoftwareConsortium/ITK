@@ -241,7 +241,7 @@ int itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
     }
   if (argc >= 3)
     {
-    shiftOfStep = atof( argv[2] );
+    shiftOfStep = std::stod( argv[2] );
     }
 
   constexpr unsigned int Dimension = 2;

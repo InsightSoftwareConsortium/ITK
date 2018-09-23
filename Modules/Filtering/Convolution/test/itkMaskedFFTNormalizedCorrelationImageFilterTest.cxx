@@ -49,7 +49,7 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   FilterType::RealPixelType requiredFractionOfOverlappingPixels = 0;
   if( argc > 4 )
     {
-    requiredFractionOfOverlappingPixels = atof(argv[4]);
+    requiredFractionOfOverlappingPixels = std::stod(argv[4]);
     }
 
   ReaderType::Pointer fixedImageReader = ReaderType::New();

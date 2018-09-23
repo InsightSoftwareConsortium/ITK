@@ -100,9 +100,9 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  const double factorX = atof( argv[3] );
-  const double factorY = atof( argv[4] );
-  const double factorZ = atof( argv[5] );
+  const double factorX = std::stod( argv[3] );
+  const double factorY = std::stod( argv[4] );
+  const double factorZ = std::stod( argv[5] );
 // Software Guide : EndCodeSnippet
 
 

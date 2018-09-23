@@ -90,8 +90,8 @@ int itkGaussianDerivativeOperatorTest( int argc, char *argv[] )
 
   if (argc == 5 )
     {
-    double variance = atof(argv[1]);
-    double error = atof(argv[2]);
+    double variance = std::stod(argv[1]);
+    double error = std::stod(argv[2]);
     unsigned int width = std::stoi(argv[3]);
     unsigned int order = std::stoi(argv[4]);
 

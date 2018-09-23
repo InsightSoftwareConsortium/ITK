@@ -33,7 +33,7 @@ int itkImageFillBufferTest(int argc, char * argv[])
   ImageType::Pointer image = ImageType::New();
 
   ImageType::SizeType size;
-  size[0] = (ImageType::SizeValueType) (atof(argv[1])*1024);
+  size[0] = (ImageType::SizeValueType) (std::stod(argv[1])*1024);
   size[1] = 1024;
   size[2] = 1024;
 

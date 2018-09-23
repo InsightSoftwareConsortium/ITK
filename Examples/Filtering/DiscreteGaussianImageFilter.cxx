@@ -138,7 +138,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  const double gaussianVariance = atof( argv[3] );
+  const double gaussianVariance = std::stod( argv[3] );
   const unsigned int maxKernelWidth = std::stoi( argv[4] );
 
 

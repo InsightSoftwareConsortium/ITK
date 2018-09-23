@@ -364,7 +364,7 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
   double kernelBandwidthMultFactor = 1.0;
   if( argc > 10 )
     {
-    kernelBandwidthMultFactor = atof( argv[10] );
+    kernelBandwidthMultFactor = std::stod( argv[10] );
     }
 
   const std::vector< std::string > modelChoices{ "GAUSSIAN", "RICIAN" , "POISSON" , "NOMODEL" };
@@ -394,7 +394,7 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
       }
     if( argc > 12 )
       {
-      noiseModelFidelityWeight = atof( argv[12] );
+      noiseModelFidelityWeight = std::stod( argv[12] );
       }
     else
       {

@@ -86,7 +86,7 @@ int itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char *argv[])
     filter->MapToPlane();
     }
 
-  double scale = atof( argv[4] );
+  double scale = std::stod( argv[4] );
 
   filter->SetScale( scale );
 

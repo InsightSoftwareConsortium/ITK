@@ -146,12 +146,12 @@ int main( int argc, char *argv[] )
   houghFilter->SetInput( reader->GetOutput() );
 
   houghFilter->SetNumberOfCircles( std::stoi(argv[3]) );
-  houghFilter->SetMinimumRadius(   atof(argv[4]) );
-  houghFilter->SetMaximumRadius(   atof(argv[5]) );
+  houghFilter->SetMinimumRadius(   std::stod(argv[4]) );
+  houghFilter->SetMaximumRadius(   std::stod(argv[5]) );
 
   if( argc > 6 )
     {
-    houghFilter->SetSweepAngle( atof(argv[6]) );
+    houghFilter->SetSweepAngle( std::stod(argv[6]) );
     }
   if( argc > 7 )
     {
@@ -159,11 +159,11 @@ int main( int argc, char *argv[] )
     }
   if( argc > 8 )
     {
-    houghFilter->SetVariance( atof(argv[8]) );
+    houghFilter->SetVariance( std::stod(argv[8]) );
     }
   if( argc > 9 )
     {
-    houghFilter->SetDiscRadiusRatio( atof(argv[9]) );
+    houghFilter->SetDiscRadiusRatio( std::stod(argv[9]) );
     }
 
   houghFilter->Update();

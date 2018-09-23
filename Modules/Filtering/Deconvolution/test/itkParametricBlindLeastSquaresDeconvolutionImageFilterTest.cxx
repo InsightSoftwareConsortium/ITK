@@ -182,8 +182,8 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
   kernelSource->SetParameters( parameters );
 
   deconvolutionFilter->NormalizeOn();
-  double alpha = atof( argv[4] );
-  double beta  = atof( argv[5] );
+  double alpha = std::stod( argv[4] );
+  double beta  = std::stod( argv[5] );
   deconvolutionFilter->SetAlpha( alpha );
   deconvolutionFilter->SetBeta( beta );
   deconvolutionFilter->SetInput( convolutionFilter->GetOutput() );

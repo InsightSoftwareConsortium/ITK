@@ -207,7 +207,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
     }
   if( argc > 2 )
     {
-    maximumPhysicalStepSize = atof( argv[2] );
+    maximumPhysicalStepSize = std::stod( argv[2] );
     }
 
   auto pointMax = static_cast<double>( 100.0 );

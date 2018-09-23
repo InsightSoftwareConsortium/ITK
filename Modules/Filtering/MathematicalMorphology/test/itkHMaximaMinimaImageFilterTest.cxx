@@ -79,10 +79,10 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
 
   // Set up the filters
   hMaximaFilter->SetInput( reader->GetOutput() );
-  hMaximaFilter->SetHeight( static_cast< InputPixelType >( atof( argv[3] ) ) );
+  hMaximaFilter->SetHeight( static_cast< InputPixelType >( std::stod( argv[3] ) ) );
 
   hMinimaFilter->SetInput( hMaximaFilter->GetOutput() );
-  hMinimaFilter->SetHeight( static_cast< InputPixelType >( atof( argv[3] ) ) );
+  hMinimaFilter->SetHeight( static_cast< InputPixelType >( std::stod( argv[3] ) ) );
 
   // Run the filter
   writer->SetInput( hMinimaFilter->GetOutput() );

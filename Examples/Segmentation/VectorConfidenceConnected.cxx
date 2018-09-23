@@ -157,7 +157,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double multiplier = atof( argv[5] );
+  const double multiplier = std::stod( argv[5] );
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetMultiplier( multiplier );

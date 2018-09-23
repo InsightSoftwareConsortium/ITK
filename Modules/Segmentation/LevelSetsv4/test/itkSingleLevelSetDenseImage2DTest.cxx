@@ -81,7 +81,7 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
   seedPosition[0] = std::stoi( argv[2] );
   seedPosition[1] = std::stoi( argv[3] );
 
-  const double initialDistance = atof( argv[4] );
+  const double initialDistance = std::stod( argv[4] );
   const double seedValue = - initialDistance;
 
   NodeType node;

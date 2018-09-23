@@ -64,7 +64,7 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
   bool fullyConnected = std::stoi( argv[4] );
   TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
-  auto level = static_cast< FilterType::InputImagePixelType >( atof( argv[5] ) );
+  auto level = static_cast< FilterType::InputImagePixelType >( std::stod( argv[5] ) );
   filter->SetLevel( level );
   TEST_SET_GET_VALUE( level, filter->GetLevel() );
 
@@ -118,7 +118,7 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
 
     if( argc > 7 )
       {
-      overlay->SetOpacity( atof( argv[7] ) );
+      overlay->SetOpacity( std::stod( argv[7] ) );
       }
 
     TRY_EXPECT_NO_EXCEPTION( rgbwriter->Update() );

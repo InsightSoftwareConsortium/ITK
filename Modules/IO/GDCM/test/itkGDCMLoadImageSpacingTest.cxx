@@ -43,8 +43,8 @@ int itkGDCMLoadImageSpacingTest(int argc, char *argv[])
     }
 
   const char * imageFilename = argv[1];
-  const double spacing0 = atof( argv[2] );
-  const double spacing1 = atof( argv[3] );
+  const double spacing0 = std::stod( argv[2] );
+  const double spacing1 = std::stod( argv[3] );
 
   using ImageType = itk::Image<unsigned short, 2>;
   using ReaderType = itk::ImageFileReader<ImageType>;

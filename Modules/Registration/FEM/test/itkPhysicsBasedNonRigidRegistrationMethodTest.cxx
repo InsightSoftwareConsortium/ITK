@@ -118,7 +118,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   filter->SetMesh( mesh );
   TEST_SET_GET_VALUE( mesh, filter->GetMesh() );
 
-  double selectionFraction = atof( argv[6] );
+  double selectionFraction = std::stod( argv[6] );
   filter->SetSelectFraction( selectionFraction );
   TEST_SET_GET_VALUE( selectionFraction, filter->GetSelectFraction() );
 
@@ -126,13 +126,13 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   filter->SetNonConnectivity( nonConnectivity );
   TEST_SET_GET_VALUE( nonConnectivity, filter->GetNonConnectivity() );
 
-  auto blockRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( atof( argv[8] ) );
+  auto blockRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( std::stod( argv[8] ) );
   PBNRRFilterType::ImageSizeType blockRadius;
   blockRadius.Fill( blockRadiusValue );
   filter->SetBlockRadius( blockRadius );
   TEST_SET_GET_VALUE( blockRadius, filter->GetBlockRadius() );
 
-  auto searchRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( atof( argv[9] ) );
+  auto searchRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( std::stod( argv[9] ) );
   PBNRRFilterType::ImageSizeType searchRadius;
   searchRadius.Fill( searchRadiusValue );
   filter->SetSearchRadius( searchRadius );

@@ -369,8 +369,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double propagationScaling = atof( argv[11] );
-  const double shapePriorScaling  = atof( argv[12] );
+  const double propagationScaling = std::stod( argv[11] );
+  const double shapePriorScaling  = std::stod( argv[12] );
 
   //  Software Guide : BeginCodeSnippet
   geodesicActiveContour->SetPropagationScaling( propagationScaling );
@@ -449,7 +449,7 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
 
-  const double sigma = atof( argv[10] );
+  const double sigma = std::stod( argv[10] );
   gradientMagnitude->SetSigma(  sigma  );
 
 
@@ -485,7 +485,7 @@ int main( int argc, char *argv[] )
   //  command line arguments. The rule of thumb for the user is to select this
   //  value as the distance from the seed points at which she want the initial
   //  contour to be.
-  const double initialDistance = atof( argv[9] );
+  const double initialDistance = std::stod( argv[9] );
 
   NodeType node;
 
@@ -872,8 +872,8 @@ int main( int argc, char *argv[] )
   ShapeFunctionType::ParametersType parameters(
                                              shape->GetNumberOfParameters() );
   parameters.Fill( 0.0 );
-  parameters[numberOfPCAModes + 1] = atof( argv[16] ); // startX
-  parameters[numberOfPCAModes + 2] = atof( argv[17] ); // startY
+  parameters[numberOfPCAModes + 1] = std::stod( argv[16] ); // startX
+  parameters[numberOfPCAModes + 2] = std::stod( argv[17] ); // startY
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

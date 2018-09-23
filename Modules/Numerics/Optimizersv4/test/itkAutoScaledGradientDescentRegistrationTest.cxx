@@ -301,7 +301,7 @@ int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
     }
   if (argc >= 3)
     {
-    shiftOfStep = atof( argv[2] );
+    shiftOfStep = std::stod( argv[2] );
     }
   if (argc >= 4)
     {

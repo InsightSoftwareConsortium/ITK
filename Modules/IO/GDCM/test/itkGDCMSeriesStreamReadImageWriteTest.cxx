@@ -62,9 +62,9 @@ int itkGDCMSeriesStreamReadImageWriteTest( int argc, char* argv[] )
 
   ImageType::SpacingType expectedSpacing;
 
-  expectedSpacing[0] = atof(argv[3]);
-  expectedSpacing[1] = atof(argv[4]);
-  expectedSpacing[2] = atof(argv[5]);
+  expectedSpacing[0] = std::stod(argv[3]);
+  expectedSpacing[1] = std::stod(argv[4]);
+  expectedSpacing[2] = std::stod(argv[5]);
 
 
   bool forceNoStreaming = true;

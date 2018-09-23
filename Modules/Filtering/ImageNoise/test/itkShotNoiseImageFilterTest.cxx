@@ -51,7 +51,7 @@ int itkShotNoiseImageFilterTest(int argc, char * argv[])
   double scale = 1.0;
   if( argc >= 4 )
     {
-    scale = atof( argv[3] );
+    scale = std::stod( argv[3] );
     }
   shotNoiseImageFilter->SetScale( scale );
   TEST_SET_GET_VALUE( scale, shotNoiseImageFilter->GetScale() );

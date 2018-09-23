@@ -69,17 +69,17 @@ int main(int argc, char* argv[])
 
   if( argc > 3 )
     {
-    variance = atof( argv[3] );
+    variance = std::stod( argv[3] );
     }
 
   if( argc > 4 )
     {
-    upperThreshold = atof( argv[4] );
+    upperThreshold = std::stod( argv[4] );
     }
 
   if( argc > 5 )
     {
-    lowerThreshold = atof( argv[5] );
+    lowerThreshold = std::stod( argv[5] );
     }
 
   std::cout << "Variance = " << variance << std::endl;

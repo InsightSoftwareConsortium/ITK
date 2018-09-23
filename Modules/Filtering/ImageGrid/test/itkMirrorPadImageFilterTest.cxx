@@ -46,7 +46,7 @@ int RunTest( int argc, char* argv[] )
 
   if( argc > 4 )
     {
-    double decayFactor = atof( argv[4] );
+    double decayFactor = std::stod( argv[4] );
     filter->SetDecayBase( decayFactor );
     }
 

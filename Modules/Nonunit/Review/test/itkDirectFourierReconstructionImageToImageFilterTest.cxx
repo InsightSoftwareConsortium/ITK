@@ -90,12 +90,12 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
 
   SmootherType::Pointer smoother = SmootherType::New();
   smoother->SetInput( reader->GetOutput() );
-  smoother->SetSigma( atof( argv[17] ) );
+  smoother->SetSigma( std::stod( argv[17] ) );
   smoother->SetDirection( std::stoi( argv[3] ) );
 
 
   ReconstructionFilterType::Pointer reconstruct = ReconstructionFilterType::New();
-  if ( atof( argv[17] ) == 0 )
+  if ( std::stod( argv[17] ) == 0 )
     {
     reconstruct->SetInput( reader->GetOutput() );
     }
@@ -108,7 +108,7 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
   reconstruct->SetAlphaDirection( std::stoi( argv[5] ) );
   reconstruct->SetZeroPadding( std::stoi( argv[6] ) );
   reconstruct->SetOverSampling( std::stoi( argv[7] ) );
-  reconstruct->SetCutoff( atof( argv[8] ) );
+  reconstruct->SetCutoff( std::stod( argv[8] ) );
   reconstruct->SetRadialSplineOrder( std::stoi( argv[9] ) );
   reconstruct->SetAlphaRange( std::stoi( argv[10] ) );
 

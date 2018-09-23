@@ -171,8 +171,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double  alpha = atof( argv[5] );
-  const double  beta  = atof( argv[6] );
+  const double  alpha = std::stod( argv[5] );
+  const double  beta  = std::stod( argv[6] );
 
   // Software Guide : BeginCodeSnippet
   sigmoidFilter->SetAlpha(  alpha  );

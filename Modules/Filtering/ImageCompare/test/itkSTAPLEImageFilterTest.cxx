@@ -183,7 +183,7 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
     stapler->AddFileName( argv[i+5] );
     }
 
-  stapler->SetConfidenceWeight( static_cast<double>( atof(argv[4]) ));
+  stapler->SetConfidenceWeight( static_cast<double>( std::stod(argv[4]) ));
   stapler->SetOutputFileName( argv[2] );
   stapler->SetForeground( static_cast<unsigned short>( std::stoi(argv[3])) );
 

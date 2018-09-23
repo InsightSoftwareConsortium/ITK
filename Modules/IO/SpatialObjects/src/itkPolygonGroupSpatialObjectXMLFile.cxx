@@ -96,17 +96,17 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
     }
   else if ( itksys::SystemTools::Strucmp(name, "X-RESOLUTION") == 0 )
     {
-    float res = atof( m_CurCharacterData.c_str() );
+    float res = std::stod( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< float >(thisDic, ROI_X_RESOLUTION, res);
     }
   else if ( itksys::SystemTools::Strucmp(name, "Y-RESOLUTION") == 0 )
     {
-    float res = atof( m_CurCharacterData.c_str() );
+    float res = std::stod( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< float >(thisDic, ROI_Y_RESOLUTION, res);
     }
   else if ( itksys::SystemTools::Strucmp(name, "Z-RESOLUTION") == 0 )
     {
-    float res = atof( m_CurCharacterData.c_str() );
+    float res = std::stod( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< float >(thisDic, ROI_Z_RESOLUTION, res);
     }
   else if ( itksys::SystemTools::Strucmp(name, "NUM-SEGMENTS") == 0 )

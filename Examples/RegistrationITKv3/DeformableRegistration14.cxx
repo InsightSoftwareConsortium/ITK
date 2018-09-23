@@ -233,7 +233,7 @@ int main( int argc, char *argv[] )
   // Optionally, get the step length from the command line arguments
   if( argc > 12 )
     {
-    optimizer->SetMaximumStepLength( atof( argv[12] ) );
+    optimizer->SetMaximumStepLength( std::stod( argv[12] ) );
     }
 
   // Optionally, get the number of iterations from the command line arguments

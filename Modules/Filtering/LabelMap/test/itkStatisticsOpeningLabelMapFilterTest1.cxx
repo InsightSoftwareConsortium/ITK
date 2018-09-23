@@ -65,7 +65,7 @@ int itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
     ShapeOpeningLabelMapFilter);
 
   // Testing get and set macros for Lambda
-  double lambda = atof( argv[4] );
+  double lambda = std::stod( argv[4] );
   opening->SetLambda( lambda );
   TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 

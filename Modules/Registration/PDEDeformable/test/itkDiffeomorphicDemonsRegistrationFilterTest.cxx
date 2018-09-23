@@ -196,11 +196,11 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
 
-  const double intensityDifferenceThreshold = atof( argv[3] );
-  const double maximumUpdateStepLength = atof( argv[4] );
+  const double intensityDifferenceThreshold = std::stod( argv[3] );
+  const double maximumUpdateStepLength = std::stod( argv[4] );
   const unsigned int numberOfIterations = std::stoi( argv[5] );
-  const double standardDeviations = atof( argv[6] );
-  const double maximumError = atof( argv[7] );
+  const double standardDeviations = std::stod( argv[6] );
+  const double maximumError = std::stod( argv[7] );
   const unsigned int maximumKernelWidth = std::stoi( argv[8] );
 
   registrator->SetIntensityDifferenceThreshold( intensityDifferenceThreshold );

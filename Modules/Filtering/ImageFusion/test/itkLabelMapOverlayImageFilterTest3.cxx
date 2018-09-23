@@ -50,7 +50,7 @@ int itkLabelMapOverlayImageFilterTest3(int argc, char * argv[])
   ColorizerType::Pointer colorizer = ColorizerType::New();
   colorizer->SetInput( converter->GetOutput() );
   colorizer->SetFeatureImage( reader2->GetOutput() );
-  colorizer->SetOpacity( atof(argv[4]) );
+  colorizer->SetOpacity( std::stod(argv[4]) );
 
   // Replace colormap with a custom one
   // Just cycle through three colors for this test

@@ -244,14 +244,14 @@ int main( int argc, char *argv[] )
 
   if( argc > 7 )
     {
-    initialScale =  atof( argv[7] );
+    initialScale =  std::stod( argv[7] );
     }
 
   double initialAngle = 0.0;
 
   if( argc > 8 )
     {
-    initialAngle =  atof( argv[8] );
+    initialAngle =  std::stod( argv[8] );
     }
 
   // Software Guide : BeginCodeSnippet
@@ -320,7 +320,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 6 )
     {
-    steplength = atof( argv[6] );
+    steplength = std::stod( argv[6] );
     }
 
   // Software Guide : BeginCodeSnippet

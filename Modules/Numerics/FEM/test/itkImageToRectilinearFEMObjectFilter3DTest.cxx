@@ -200,9 +200,9 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
     auto nodeNumber = static_cast<unsigned int>( std::stoi( argv[11 + i * 4] ) );
     vnl_vector<double> loc;
     loc.set_size(3);
-    loc[0] = atof( argv[11 + i * 4 + 1] );
-    loc[1] = atof( argv[11 + i * 4 + 2] );
-    loc[2] = atof( argv[11 + i * 4 + 3] );
+    loc[0] = std::stod( argv[11 + i * 4 + 1] );
+    loc[1] = std::stod( argv[11 + i * 4 + 2] );
+    loc[2] = std::stod( argv[11 + i * 4 + 3] );
     std::cout << "Node (" << nodeNumber << ") Test " << i << ": ";
     if( (std::fabs(femObject->GetNode(nodeNumber)->GetCoordinates()[0] - loc[0]) > tolerance) ||
         (std::fabs(femObject->GetNode(nodeNumber)->GetCoordinates()[1] - loc[1]) > tolerance) ||

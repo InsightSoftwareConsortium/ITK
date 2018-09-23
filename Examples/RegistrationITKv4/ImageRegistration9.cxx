@@ -263,7 +263,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 8 )
     {
-    translationScale = atof( argv[8] );
+    translationScale = std::stod( argv[8] );
     }
 
 
@@ -297,7 +297,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 6 )
     {
-    steplength = atof( argv[6] );
+    steplength = std::stod( argv[6] );
     }
 
 

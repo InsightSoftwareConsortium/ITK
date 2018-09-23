@@ -143,7 +143,7 @@ int main( int argc, char * argv[] )
 
 
   const unsigned int numberOfIterations = std::stoi( argv[3] );
-  const double       noiseLevel = atof( argv[4] );
+  const double       noiseLevel = std::stod( argv[4] );
 
 
   //  Software Guide : BeginLatex

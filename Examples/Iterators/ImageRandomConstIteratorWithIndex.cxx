@@ -117,7 +117,7 @@ int main( int argc, char *argv[] )
     {
     mean += static_cast<float>( inputIt.Get() );
     }
-  mean = mean / ::atof( argv[2] );
+  mean = mean / ::std::stod( argv[2] );
 
 // Software Guide : EndCodeSnippet
   std::cout << "Mean estimate with " << argv[2] << " samples is " << mean << std::endl;

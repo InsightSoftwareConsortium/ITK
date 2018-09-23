@@ -40,7 +40,7 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
 
   using CriterionPointer = typename CriterionType::Pointer;
 
-  InternalPixelType stoppingValue = atof( argv[5] );
+  InternalPixelType stoppingValue = std::stod( argv[5] );
 
   CriterionPointer criterion = CriterionType::New();
   criterion->SetThreshold( stoppingValue );

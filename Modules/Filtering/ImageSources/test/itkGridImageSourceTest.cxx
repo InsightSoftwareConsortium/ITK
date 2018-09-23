@@ -55,7 +55,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
 
 
   // Specify image parameters
-  auto size = static_cast< ImageType::SizeValueType >( atof( argv[2] ) );
+  auto size = static_cast< ImageType::SizeValueType >( std::stod( argv[2] ) );
   ImageType::SizeType imageSize;
   imageSize.Fill( size );
 
@@ -80,7 +80,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( scale, gridImage->GetScale() );
 
 
-  auto sigmaValue = static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[3] ) );
+  auto sigmaValue = static_cast< GridSourceType::ArrayType::ValueType >( std::stod( argv[3] ) );
   GridSourceType::ArrayType sigma;
   sigma.Fill( sigmaValue );
   auto variableSigma = static_cast< bool >( std::stoi( argv[4] ) );
@@ -97,7 +97,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( sigma, gridImage->GetSigma() );
 
 
-  auto spacing = static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[5] ) );
+  auto spacing = static_cast< GridSourceType::ArrayType::ValueType >( std::stod( argv[5] ) );
   GridSourceType::ArrayType gridSpacing;
   gridSpacing.Fill( spacing );
 
@@ -114,7 +114,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( gridSpacing, gridImage->GetGridSpacing() );
 
 
-  auto offset = static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[7] ) );
+  auto offset = static_cast< GridSourceType::ArrayType::ValueType >( std::stod( argv[7] ) );
   GridSourceType::ArrayType gridOffset;
   gridOffset.Fill( offset );
   gridImage->SetGridOffset( gridOffset );
@@ -125,7 +125,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   GridSourceType::BoolArrayType whichDimension;
   whichDimension.Fill( gridAllDimensions );
 
-  bool toggleLastGridDimension = atof( argv[9] );
+  bool toggleLastGridDimension = std::stod( argv[9] );
   if( toggleLastGridDimension )
     {
     whichDimension[ImageDimension - 1] = !gridAllDimensions;

@@ -58,7 +58,7 @@ int itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
   deconvolutionFilter->SetInput( convolutionFilter->GetOutput() );
   deconvolutionFilter->SetKernelImage( kernelReader->GetOutput() );
   deconvolutionFilter->NormalizeOn();
-  deconvolutionFilter->SetAlpha( atof( argv[5] ) );
+  deconvolutionFilter->SetAlpha( std::stod( argv[5] ) );
   auto iterations = static_cast< unsigned int >( std::stoi( argv[4] ) );
   deconvolutionFilter->SetNumberOfIterations( iterations );
 

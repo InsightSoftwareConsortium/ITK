@@ -51,7 +51,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
 
 
   // Set up operator parameters
-  double sigma = atof( argv[3] );
+  double sigma = std::stod( argv[3] );
 
   double maxError = 0.001;
   unsigned int maxKernelWidth = 100;
@@ -61,7 +61,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
 
   if( argc > 4 )
     {
-    maxError = atof( argv[4] );
+    maxError = std::stod( argv[4] );
     }
   if( argc > 5 )
     {

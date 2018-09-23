@@ -85,10 +85,10 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
 
   // Set up the filters
   hConvexFilter->SetInput( reader->GetOutput() );
-  hConvexFilter->SetHeight( atof( argv[3] ) );
+  hConvexFilter->SetHeight( std::stod( argv[3] ) );
 
   hConcaveFilter->SetInput( reader->GetOutput() );
-  hConcaveFilter->SetHeight( atof( argv[3] ) );
+  hConcaveFilter->SetHeight( std::stod( argv[3] ) );
 
   // Create a filter to add the two images
   using AddFilterType = itk::AddImageFilter<

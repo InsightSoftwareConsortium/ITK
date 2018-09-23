@@ -94,7 +94,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
     }
   if( argc >= 10 )
     {
-    learningRate = atof( argv[9] );
+    learningRate = std::stod( argv[9] );
     }
 
   const unsigned int ImageDimension = TDimension;

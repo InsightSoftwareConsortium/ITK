@@ -229,7 +229,7 @@ int itkImageToImageMetricv4RegistrationTestRunAll (int argc, char *argv[])
     }
   if( argc > 2 )
     {
-    maximumStepSize1 = atof( argv[2] );
+    maximumStepSize1 = std::stod( argv[2] );
     }
   if( argc > 3 )
     {
@@ -237,7 +237,7 @@ int itkImageToImageMetricv4RegistrationTestRunAll (int argc, char *argv[])
     }
   if( argc > 4 )
     {
-    maximumStepSize2 = atof( argv[4] );
+    maximumStepSize2 = std::stod( argv[4] );
     }
   if( argc > 5 )
     {

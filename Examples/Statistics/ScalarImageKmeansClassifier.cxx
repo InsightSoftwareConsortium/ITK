@@ -147,7 +147,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   for( unsigned k=0; k < numberOfInitialClasses; k++ )
     {
-    const double userProvidedInitialMean = atof( argv[k+argoffset] );
+    const double userProvidedInitialMean = std::stod( argv[k+argoffset] );
     kmeansFilter->AddClassWithInitialMean( userProvidedInitialMean );
     }
   // Software Guide : EndCodeSnippet

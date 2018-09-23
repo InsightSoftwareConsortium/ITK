@@ -72,7 +72,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->AddSeed( seed2 );
 
   filter->SetReplaceValue( 255 );
-  filter->SetMultiplier(  atof( av[7] ) );
+  filter->SetMultiplier(  std::stod( av[7] ) );
   filter->SetNumberOfIterations( std::stoi( av[8] ) );
 
   try
@@ -133,7 +133,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   vFilter->AddSeed( seed1 );
   vFilter->AddSeed( seed2 );
   vFilter->SetReplaceValue( 255 );
-  vFilter->SetMultiplier(  atof( av[7] ) );
+  vFilter->SetMultiplier(  std::stod( av[7] ) );
   vFilter->SetNumberOfIterations( std::stoi( av[8] ) );
   vFilter->Update();
 

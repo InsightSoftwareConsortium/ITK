@@ -33,7 +33,7 @@ int itkDiscreteGaussianImageFilterTestA(int argc, char* argv[])
     using ImageType = TIMAGE;
 
     const char * input_file_name = argv[3];
-    float sigma = atof(argv[4]);
+    float sigma = std::stod(argv[4]);
     const char * output_file_name = argv[5];
 
     using ReaderType = itk::ImageFileReader<ImageType>;

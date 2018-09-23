@@ -62,7 +62,7 @@ int itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
 
   //testing get and set macros for Lambda
-  double lambda = atof( argv[6] );
+  double lambda = std::stod( argv[6] );
   opening->SetLambda( lambda );
   TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 

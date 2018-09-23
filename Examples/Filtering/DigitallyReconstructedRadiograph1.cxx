@@ -131,7 +131,7 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      rx=atof(argv[1]);
+      rx=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -139,7 +139,7 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      ry=atof(argv[1]);
+      ry=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -147,7 +147,7 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      rz=atof(argv[1]);
+      rz=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -155,7 +155,7 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      threshold=atof(argv[1]);
+      threshold=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -163,11 +163,11 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      tx=atof(argv[1]);
+      tx=std::stod(argv[1]);
       argc--; argv++;
-      ty=atof(argv[1]);
+      ty=std::stod(argv[1]);
       argc--; argv++;
-      tz=atof(argv[1]);
+      tz=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -175,11 +175,11 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      cx=atof(argv[1]);
+      cx=std::stod(argv[1]);
       argc--; argv++;
-      cy=atof(argv[1]);
+      cy=std::stod(argv[1]);
       argc--; argv++;
-      cz=atof(argv[1]);
+      cz=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -187,9 +187,9 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      sx=atof(argv[1]);
+      sx=std::stod(argv[1]);
       argc--; argv++;
-      sy=atof(argv[1]);
+      sy=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -207,7 +207,7 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      sid=atof(argv[1]);
+      sid=std::stod(argv[1]);
       argc--; argv++;
       }
 
@@ -215,9 +215,9 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      o2Dx=atof(argv[1]);
+      o2Dx=std::stod(argv[1]);
       argc--; argv++;
-      o2Dy=atof(argv[1]);
+      o2Dy=std::stod(argv[1]);
       argc--; argv++;
       }
 

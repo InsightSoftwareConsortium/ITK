@@ -59,7 +59,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
       std::stoi( argv[3] ) );
     }
 
-  double sigma = atof( argv[4] );
+  double sigma = std::stod( argv[4] );
 
   double maxError = 0.001;
   unsigned int maxKernelWidth = 100;
@@ -68,7 +68,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
 
   if( argc > 5 )
     {
-    maxError = atof( argv[5] );
+    maxError = std::stod( argv[5] );
     }
   if( argc > 6 )
     {

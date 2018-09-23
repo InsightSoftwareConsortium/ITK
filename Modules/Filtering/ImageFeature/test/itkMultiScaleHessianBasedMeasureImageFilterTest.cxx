@@ -90,7 +90,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
    if ( argc > 4 )
     {
-    double sigmaMinimum = atof( argv[4] );
+    double sigmaMinimum = std::stod( argv[4] );
     multiScaleEnhancementFilter->SetSigmaMinimum( sigmaMinimum );
 
     if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum ) > tolerance )
@@ -102,7 +102,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc > 5 )
     {
-    double sigmaMaximum = atof( argv[5] );
+    double sigmaMaximum = std::stod( argv[5] );
     multiScaleEnhancementFilter->SetSigmaMaximum( sigmaMaximum );
 
     if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum ) > tolerance )

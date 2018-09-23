@@ -236,8 +236,8 @@ int main( int argc, char *argv[])
   //
   //  Software Guide : EndLatex
 
-  const InternalPixelType lowerThreshold = atof( argv[5] );
-  const InternalPixelType upperThreshold = atof( argv[6] );
+  const InternalPixelType lowerThreshold = std::stod( argv[5] );
+  const InternalPixelType upperThreshold = std::stod( argv[6] );
 
   // Software Guide : BeginCodeSnippet
   connectedThreshold->SetLower(  lowerThreshold  );

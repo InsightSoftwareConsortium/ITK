@@ -320,7 +320,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   displacementFieldRegistration->SetMetric( correlationMetric );
 
   const typename DisplacementFieldRegistrationType::RealType local_epsilon = itk::NumericTraits< typename DisplacementFieldRegistrationType::RealType >::epsilon();
-  const typename DisplacementFieldRegistrationType::RealType local_LearningRate = atof( argv[6] );
+  const typename DisplacementFieldRegistrationType::RealType local_LearningRate = std::stod( argv[6] );
   displacementFieldRegistration->SetLearningRate( local_LearningRate );
   if ( displacementFieldRegistration->GetLearningRate() - local_LearningRate > local_epsilon )
     {

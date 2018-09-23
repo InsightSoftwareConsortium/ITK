@@ -46,7 +46,7 @@ int itkResampleImageTest4(int argc, char * argv [] )
   float scaling = 10.0;
   if (argc > 1)
     {
-    scaling = atof( argv[1] );
+    scaling = std::stod( argv[1] );
     }
 
   // Create and configure an image

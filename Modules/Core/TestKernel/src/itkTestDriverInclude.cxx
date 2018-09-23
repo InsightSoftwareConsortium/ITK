@@ -279,7 +279,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.intensityTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.intensityTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -290,7 +290,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.coordinateTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.coordinateTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -301,7 +301,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.directionTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.directionTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }

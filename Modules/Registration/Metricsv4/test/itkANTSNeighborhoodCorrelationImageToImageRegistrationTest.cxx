@@ -82,11 +82,11 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
     }
   if( argc >= 6 )
     {
-    learningRate = atof( argv[5] );
+    learningRate = std::stod( argv[5] );
     }
   if( argc == 7 )
     {
-    deformationLearningRate = atof( argv[6] );
+    deformationLearningRate = std::stod( argv[6] );
     }
   std::cout << " iterations "<< numberOfIterations << " learningRate "<<learningRate << std::endl;
 

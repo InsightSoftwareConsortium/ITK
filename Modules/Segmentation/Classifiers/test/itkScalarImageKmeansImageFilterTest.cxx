@@ -81,7 +81,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   for(unsigned k=0; k<numberOfInitialClasses; k++)
     {
-    kmeansFilter->AddClassWithInitialMean( atof( argv[k+numberOfArgumentsBeforeMeans] ) );
+    kmeansFilter->AddClassWithInitialMean( std::stod( argv[k+numberOfArgumentsBeforeMeans] ) );
     }
 
 

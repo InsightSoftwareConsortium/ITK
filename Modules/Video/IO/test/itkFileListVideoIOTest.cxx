@@ -304,5 +304,5 @@ int itkFileListVideoIOTest( int argc, char *argv[] )
     }
   return test_FileListVideoIO(inFile.c_str(), argv[6], argv[7], argv[8],
                               std::stoi(argv[9]), std::stoi(argv[10]),
-                              std::stoi(argv[11]), atof(argv[12]));
+                              std::stoi(argv[11]), std::stod(argv[12]));
 }

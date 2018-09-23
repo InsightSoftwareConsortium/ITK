@@ -71,8 +71,8 @@ int main( int argc, char * argv[] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  const double angleInDegrees = atof( argv[3] );
-  const double scale          = atof( argv[4] );
+  const double angleInDegrees = std::stod( argv[3] );
+  const double scale          = std::stod( argv[4] );
 
   using FilterType = itk::ResampleImageFilter<
                   InputImageType, OutputImageType >;
