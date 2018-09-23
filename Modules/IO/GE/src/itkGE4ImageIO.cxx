@@ -211,9 +211,16 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "Image Number = %d\n", hdr->imageNumber); cerr << debugbuf; )
 
   /* Get Images-Per-Slice from IMAGE Header */
-  this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PHASENUM * 2, tmpStr, 3);
+  const int per_slice_status = this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PHASENUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
-  hdr->imagesPerSlice = std::stoi (tmpStr);
+  if (strlen(tmpStr) > 0  && per_slice_status >=0 )
+  {
+    hdr->imagesPerSlice = static_cast<short>(std::stoi(tmpStr));
+  }
+  else
+  {
+    hdr->imagesPerSlice = 0; // Use default of 0 to mimic previous atoi failure result.
+  }
   RGEDEBUG(std::sprintf (debugbuf, "Images Per Slice = %d\n", hdr->imagesPerSlice); cerr << debugbuf; )
 
   /* Get the Slice Location from the IMAGE Header */
