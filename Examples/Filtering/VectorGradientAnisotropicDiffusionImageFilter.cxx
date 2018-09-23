@@ -65,7 +65,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputGradientImageFile ";
     std::cerr << "outputSmoothedGradientImageFile ";
-    std::cerr << "numberOfIterations  timeStep  " << std::endl;
+    std::cerr << "numberOfIterations timeStep" << std::endl;
     return EXIT_FAILURE;
     }
 
