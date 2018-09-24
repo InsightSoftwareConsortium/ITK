@@ -105,7 +105,7 @@ public:
                                   EigenValuesArrayType, EigenVectorsMatrixType >;
 
   /** Constructors */
-  SymmetricSecondRankTensor() = default;
+  SymmetricSecondRankTensor() { this->Fill(0); }
   SymmetricSecondRankTensor(const SymmetricSecondRankTensor &) = default;
   SymmetricSecondRankTensor(SymmetricSecondRankTensor &&) = default;
   SymmetricSecondRankTensor& operator=(const SymmetricSecondRankTensor &) = default;
