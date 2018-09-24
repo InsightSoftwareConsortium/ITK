@@ -75,7 +75,7 @@ public:
                                      DerivativeType & derivative) const;
 
 protected:
-  SingleValuedCostFunction() {}
+  SingleValuedCostFunction() = default;
   ~SingleValuedCostFunction() override;
 };
 } // end namespace itk

@@ -43,8 +43,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
  */
 template< typename TInputImage, typename TOutputImage >
 StreamingImageFilter< TInputImage, TOutputImage >
-::~StreamingImageFilter()
-{}
+::~StreamingImageFilter() = default;
 
 /**
  *

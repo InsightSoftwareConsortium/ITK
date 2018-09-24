@@ -87,7 +87,7 @@ public:
 
 protected:
   AttributePositionLabelMapFilter();
-  ~AttributePositionLabelMapFilter() override {};
+  ~AttributePositionLabelMapFilter() override = default;
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 

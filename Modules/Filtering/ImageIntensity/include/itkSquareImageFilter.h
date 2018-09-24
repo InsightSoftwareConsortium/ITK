@@ -40,8 +40,8 @@ class Square
 {
 public:
   using RealType = typename NumericTraits< TInput >::RealType;
-  Square() {}
-  ~Square() {}
+  Square() = default;
+  ~Square() = default;
   bool operator!=(const Square &) const
   {
     return false;
@@ -100,7 +100,7 @@ protected:
 #endif
     }
 
-  ~SquareImageFilter() override {}
+  ~SquareImageFilter() override = default;
 };
 } // end namespace itk
 

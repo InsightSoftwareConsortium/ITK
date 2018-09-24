@@ -86,9 +86,7 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 template<typename TParametersValueType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>
-::~MatrixOffsetTransformBase()
-{
-}
+::~MatrixOffsetTransformBase() = default;
 
 
 template<typename TParametersValueType, unsigned int NInputDimensions,

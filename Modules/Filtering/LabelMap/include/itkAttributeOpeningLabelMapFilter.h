@@ -104,7 +104,7 @@ public:
 
 protected:
   AttributeOpeningLabelMapFilter();
-  ~AttributeOpeningLabelMapFilter() override {};
+  ~AttributeOpeningLabelMapFilter() override = default;
 
   void GenerateData() override;
 

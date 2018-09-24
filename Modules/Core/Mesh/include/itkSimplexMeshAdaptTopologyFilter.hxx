@@ -46,8 +46,7 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >::SimplexMeshAdaptTopol
 
 template< typename TInputMesh, typename TOutputMesh >
 SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
-::~SimplexMeshAdaptTopologyFilter()
-{}
+::~SimplexMeshAdaptTopologyFilter() = default;
 
 template< typename TInputMesh, typename TOutputMesh >
 void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >

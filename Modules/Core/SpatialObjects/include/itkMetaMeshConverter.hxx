@@ -30,8 +30,7 @@ namespace itk
 /** Constructor */
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
-::MetaMeshConverter()
-{}
+::MetaMeshConverter() = default;
 
 template < unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 typename MetaMeshConverter< NDimensions, PixelType, TMeshTraits >::MetaObjectType *

@@ -93,8 +93,8 @@ public:
   itkTypeMacro(ComplexToRealImageAdaptor, ImageAdaptor);
 
 protected:
-  ComplexToRealImageAdaptor() {}
-  ~ComplexToRealImageAdaptor() override {}
+  ComplexToRealImageAdaptor() = default;
+  ~ComplexToRealImageAdaptor() override = default;
 };
 } // end namespace itk
 

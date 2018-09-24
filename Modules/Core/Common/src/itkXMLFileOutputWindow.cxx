@@ -26,12 +26,10 @@ namespace itk
  * Prompting off by default
  */
 XMLFileOutputWindow
-::XMLFileOutputWindow()
-{}
+::XMLFileOutputWindow() = default;
 
 XMLFileOutputWindow
-::~XMLFileOutputWindow()
-{}
+::~XMLFileOutputWindow() = default;
 
 void
 XMLFileOutputWindow

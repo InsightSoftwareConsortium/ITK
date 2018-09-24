@@ -105,7 +105,7 @@ public:
 
 protected:
   GrayscaleConnectedClosingImageFilter();
-  ~GrayscaleConnectedClosingImageFilter() override {}
+  ~GrayscaleConnectedClosingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleConnectedClosingImageFilter needs the entire input be

@@ -341,7 +341,7 @@ protected:
   VectorImage();
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  ~VectorImage() override {}
+  ~VectorImage() override = default;
   void Graft(const DataObject *data) override;
   using Superclass::Graft;
 private:

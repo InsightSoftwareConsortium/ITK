@@ -126,7 +126,7 @@ public:
 
 protected:
   WienerDeconvolutionImageFilter();
-  ~WienerDeconvolutionImageFilter() override {}
+  ~WienerDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */
   void GenerateData() override;
@@ -144,7 +144,7 @@ class ITK_TEMPLATE_EXPORT WienerDeconvolutionFunctor
 {
 public:
   WienerDeconvolutionFunctor() { m_KernelZeroMagnitudeThreshold = 0.0; }
-  ~WienerDeconvolutionFunctor() {}
+  ~WienerDeconvolutionFunctor() = default;
 
   bool operator!=( const WienerDeconvolutionFunctor & ) const
   {

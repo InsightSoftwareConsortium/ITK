@@ -148,7 +148,7 @@ public:
   }
 
 protected:
-  TreeChangeListener() {};
+  TreeChangeListener() = default;
 };
 
 /*

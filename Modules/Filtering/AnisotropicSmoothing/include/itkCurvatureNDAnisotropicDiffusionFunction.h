@@ -120,7 +120,7 @@ public:
 
 protected:
   CurvatureNDAnisotropicDiffusionFunction();
-  ~CurvatureNDAnisotropicDiffusionFunction() override {}
+  ~CurvatureNDAnisotropicDiffusionFunction() override = default;
 
 private:
   /** Inner product function. */

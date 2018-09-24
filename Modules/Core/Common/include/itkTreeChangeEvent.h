@@ -47,7 +47,7 @@ public:
   TreeChangeEvent(const TreeIteratorBase< TTreeType > & position) { m_ChangePosition = &position; }
 
   /** Destructor */
-  ~TreeChangeEvent() override {}
+  ~TreeChangeEvent() override = default;
 
   /** Get the event name */
   const char * GetEventName() const override { return "TreeChangeEvent"; }
@@ -84,7 +84,7 @@ public:
   using Self = TreeNodeChangeEvent;
   using Superclass = TreeChangeEvent< TTreeType >;
 
-  TreeNodeChangeEvent() {}
+  TreeNodeChangeEvent() = default;
 
   TreeNodeChangeEvent(const TreeIteratorBase< TTreeType > & position):
     TreeChangeEvent< TTreeType >(position) {}
@@ -115,7 +115,7 @@ public:
   using Superclass = TreeChangeEvent< TTreeType >;
 
   /** Constructor */
-  TreeAddEvent() {}
+  TreeAddEvent() = default;
 
   /** Copy constructor */
   TreeAddEvent(const TreeIteratorBase< TTreeType > & position):
@@ -150,7 +150,7 @@ public:
   using Superclass = TreeChangeEvent< TTreeType >;
 
   /** Constructor */
-  TreeRemoveEvent(){}
+  TreeRemoveEvent()= default;
 
   /** Copy constructor */
   TreeRemoveEvent(const TreeIteratorBase< TTreeType > & position):
@@ -183,7 +183,7 @@ public:
   using Self = TreePruneEvent;
   using Superclass = TreeRemoveEvent< TTreeType >;
 
-  TreePruneEvent(){}
+  TreePruneEvent()= default;
 
   TreePruneEvent(const TreeIteratorBase< TTreeType > & position):
   TreeRemoveEvent< TTreeType >(position) {}

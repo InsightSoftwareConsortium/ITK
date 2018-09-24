@@ -106,7 +106,7 @@ public:
 
   /** Assignment operator, allows to initialize one time stamp by copying from
    * another. */
-  const Self & operator=( const Self & other );
+  Self & operator=( const Self & other ) = default;
 
   /** Set/Get the pointer to GlobalTimeStamp.
    * Note that SetGlobalTimeStamp is not concurrent thread safe. */

@@ -30,8 +30,7 @@ MetaImageIOFactory::MetaImageIOFactory()
                           CreateObjectFunction< MetaImageIO >::New() );
 }
 
-MetaImageIOFactory::~MetaImageIOFactory()
-{}
+MetaImageIOFactory::~MetaImageIOFactory() = default;
 
 const char *
 MetaImageIOFactory::GetITKSourceVersion() const

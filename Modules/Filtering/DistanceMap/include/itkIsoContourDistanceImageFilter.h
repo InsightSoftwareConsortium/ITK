@@ -151,7 +151,7 @@ public:
 
 protected:
   IsoContourDistanceImageFilter();
-  ~IsoContourDistanceImageFilter() override {}
+  ~IsoContourDistanceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

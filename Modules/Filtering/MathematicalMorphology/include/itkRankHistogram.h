@@ -74,8 +74,7 @@ public:
     m_RankIt = m_Map.begin();  // equivalent to setting to the initial value
   }
 
-  ~RankHistogram()
-  {}
+  ~RankHistogram() = default;
 
   RankHistogram & operator=( const RankHistogram & hist )
   {
@@ -286,7 +285,7 @@ public:
     m_Rank = 0.5;
   }
 
-  ~VectorRankHistogram() {}
+  ~VectorRankHistogram() = default;
 
   bool IsValid()
   {

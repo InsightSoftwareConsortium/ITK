@@ -86,7 +86,7 @@ public:
 
 protected:
   CyclicShiftImageFilter();
-  ~CyclicShiftImageFilter() override {}
+  ~CyclicShiftImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter needs the entire input be available so it needs to

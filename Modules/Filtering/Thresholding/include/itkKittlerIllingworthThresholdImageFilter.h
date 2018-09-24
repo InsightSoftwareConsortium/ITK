@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~KittlerIllingworthThresholdImageFilter() override {};
+  ~KittlerIllingworthThresholdImageFilter() override = default;
 };
 
 } // end namespace itk

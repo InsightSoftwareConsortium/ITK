@@ -150,8 +150,8 @@ public:
 #endif
 
 protected:
-  ConnectedComponentFunctorImageFilter() {}
-  ~ConnectedComponentFunctorImageFilter() override {}
+  ConnectedComponentFunctorImageFilter() = default;
+  ~ConnectedComponentFunctorImageFilter() override = default;
   ConnectedComponentFunctorImageFilter(const Self &) {}
 
   FunctorType m_Functor;

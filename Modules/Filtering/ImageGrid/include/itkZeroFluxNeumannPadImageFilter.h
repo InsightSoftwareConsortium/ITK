@@ -112,7 +112,7 @@ public:
 
 protected:
   ZeroFluxNeumannPadImageFilter();
-  ~ZeroFluxNeumannPadImageFilter() override {};
+  ~ZeroFluxNeumannPadImageFilter() override = default;
 
 private:
   ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;

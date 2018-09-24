@@ -76,7 +76,7 @@ public:
 
 protected:
   QuadEdgeMeshEulerOperatorFlipEdgeFunction();
-  ~QuadEdgeMeshEulerOperatorFlipEdgeFunction() override {}
+  ~QuadEdgeMeshEulerOperatorFlipEdgeFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

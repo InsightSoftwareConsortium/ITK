@@ -67,8 +67,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  ShanbhagThresholdCalculator() {};
-  ~ShanbhagThresholdCalculator() override {};
+  ShanbhagThresholdCalculator() = default;
+  ~ShanbhagThresholdCalculator() override = default;
   void GenerateData() override;
 };
 

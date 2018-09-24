@@ -61,7 +61,7 @@ public:
 
 protected:
   GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::OneValue() / std::sqrt(static_cast< TRealValueType >(2.0 * itk::Math::pi )) ) {};
-  ~GaussianKernelFunction() override {};
+  ~GaussianKernelFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 

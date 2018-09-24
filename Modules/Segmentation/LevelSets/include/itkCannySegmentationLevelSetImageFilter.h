@@ -188,7 +188,7 @@ public:
 #endif
 
 protected:
-  ~CannySegmentationLevelSetImageFilter() override {}
+  ~CannySegmentationLevelSetImageFilter() override = default;
   CannySegmentationLevelSetImageFilter();
 
 private:

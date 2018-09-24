@@ -132,7 +132,7 @@ public:
 
 protected:
   BSplineDecompositionImageFilter();
-  ~BSplineDecompositionImageFilter() override {}
+  ~BSplineDecompositionImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

@@ -80,7 +80,7 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
     class LevelSetDomain
       {
       public:
-        LevelSetDomain() {}
+        LevelSetDomain() = default;
 
         LevelSetDomain( const InputImageRegionType& reg,
                         InputImagePixelType  iList ) :

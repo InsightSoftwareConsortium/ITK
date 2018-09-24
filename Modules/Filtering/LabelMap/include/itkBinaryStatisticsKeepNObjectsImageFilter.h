@@ -182,7 +182,7 @@ public:
 
 protected:
   BinaryStatisticsKeepNObjectsImageFilter();
-  ~BinaryStatisticsKeepNObjectsImageFilter() override {}
+  ~BinaryStatisticsKeepNObjectsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryStatisticsKeepNObjectsImageFilter needs the entire input be

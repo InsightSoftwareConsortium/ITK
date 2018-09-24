@@ -64,8 +64,7 @@ ITK_GCC_PRAGMA_DIAG(ignored "-Wmaybe-uninitialized")
  */
 template< typename T >
 SimpleDataObjectDecorator< T >
-::~SimpleDataObjectDecorator()
-{}
+::~SimpleDataObjectDecorator() = default;
 
 /**
  *

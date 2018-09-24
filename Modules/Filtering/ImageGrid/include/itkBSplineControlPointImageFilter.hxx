@@ -61,9 +61,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
 
 template<typename InputImage, typename TOutputImage>
 BSplineControlPointImageFilter<InputImage, TOutputImage>
-::~BSplineControlPointImageFilter()
-{
-}
+::~BSplineControlPointImageFilter() = default;
 
 template<typename TInputImage, typename TOutputImage>
 void

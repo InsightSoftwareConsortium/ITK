@@ -90,8 +90,8 @@ public:
 
 private:
 
-  RegistrationParameterScalesFromIndexShiftTestMetric() {}
-  ~RegistrationParameterScalesFromIndexShiftTestMetric() override {}
+  RegistrationParameterScalesFromIndexShiftTestMetric() = default;
+  ~RegistrationParameterScalesFromIndexShiftTestMetric() override = default;
 
 };
 

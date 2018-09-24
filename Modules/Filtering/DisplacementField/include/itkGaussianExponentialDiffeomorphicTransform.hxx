@@ -38,9 +38,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 
 template<typename TParametersValueType, unsigned int NDimensions>
 GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::
-~GaussianExponentialDiffeomorphicTransform()
-{
-}
+~GaussianExponentialDiffeomorphicTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 void

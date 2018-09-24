@@ -30,8 +30,7 @@ JPEGImageIOFactory::JPEGImageIOFactory()
                           CreateObjectFunction< JPEGImageIO >::New() );
 }
 
-JPEGImageIOFactory::~JPEGImageIOFactory()
-{}
+JPEGImageIOFactory::~JPEGImageIOFactory() = default;
 
 const char *
 JPEGImageIOFactory::GetITKSourceVersion() const

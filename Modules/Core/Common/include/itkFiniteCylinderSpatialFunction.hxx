@@ -40,8 +40,7 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
 
 template< unsigned int VDimension, typename TInput >
 FiniteCylinderSpatialFunction< VDimension, TInput >
-::~FiniteCylinderSpatialFunction()
-{}
+::~FiniteCylinderSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 void

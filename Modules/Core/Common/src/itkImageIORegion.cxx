@@ -31,8 +31,7 @@ ImageIORegion
 }
 
 ImageIORegion
-::~ImageIORegion()
-{}
+::~ImageIORegion() = default;
 
 ImageIORegion
 ::ImageIORegion(unsigned int dimension)

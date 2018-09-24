@@ -35,8 +35,7 @@ VTKImageIO::VTKImageIO()
   this->AddSupportedWriteExtension(".vtk");
 }
 
-VTKImageIO::~VTKImageIO()
-{}
+VTKImageIO::~VTKImageIO() = default;
 
 int VTKImageIO::GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCase, SizeValueType count)
 {

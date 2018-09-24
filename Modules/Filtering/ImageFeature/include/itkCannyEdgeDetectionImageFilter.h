@@ -226,7 +226,7 @@ protected:
                                OutputImageType, OutputImageType >;
 
 private:
-  ~CannyEdgeDetectionImageFilter() override {}
+  ~CannyEdgeDetectionImageFilter() override = default;
 
   /** Allocate storage for update buffers used during calculation of multiple steps. */
   void AllocateUpdateBuffer();

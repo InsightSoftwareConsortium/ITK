@@ -49,8 +49,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 /* Destructor. */
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::~VoronoiSegmentationImageFilterBase()
-{}
+::~VoronoiSegmentationImageFilterBase() = default;
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void

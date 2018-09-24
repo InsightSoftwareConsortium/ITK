@@ -70,8 +70,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  KittlerIllingworthThresholdCalculator() {}
-  ~KittlerIllingworthThresholdCalculator() override {}
+  KittlerIllingworthThresholdCalculator() = default;
+  ~KittlerIllingworthThresholdCalculator() override = default;
 
   void GenerateData() override;
 

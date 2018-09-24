@@ -128,9 +128,7 @@ public:
   }
 
 protected:
-  Rigid3DTransform()
-  {
-  }
+  Rigid3DTransform() = default;
 };                                //class Rigid3DTransform
 }  // namespace v3
 }  // namespace itk

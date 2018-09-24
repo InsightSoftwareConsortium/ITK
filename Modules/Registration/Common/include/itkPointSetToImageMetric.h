@@ -166,7 +166,7 @@ public:
 
 protected:
   PointSetToImageMetric();
-  ~PointSetToImageMetric() override {}
+  ~PointSetToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   mutable SizeValueType m_NumberOfPixelsCounted;

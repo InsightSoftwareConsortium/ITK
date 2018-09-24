@@ -34,8 +34,7 @@ LightProcessObject
  * UnRegister() the use of any input classes.
  */
 LightProcessObject
-::~LightProcessObject()
-{}
+::~LightProcessObject() = default;
 
 /**
  * Update the progress of the process object. If a ProgressMethod exists,

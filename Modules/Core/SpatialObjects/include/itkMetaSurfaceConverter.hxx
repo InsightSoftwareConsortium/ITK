@@ -25,8 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int NDimensions >
 MetaSurfaceConverter< NDimensions >
-::MetaSurfaceConverter()
-{}
+::MetaSurfaceConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaSurfaceConverter< NDimensions >::MetaObjectType *

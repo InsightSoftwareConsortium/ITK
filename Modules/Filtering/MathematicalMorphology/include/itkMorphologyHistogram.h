@@ -34,7 +34,7 @@ public:
 
   using MapType = typename std::map< TInputPixel, IdentifierType, TCompare >;
 
-  MorphologyHistogram(){}
+  MorphologyHistogram()= default;
 
   inline void AddBoundary()
   {

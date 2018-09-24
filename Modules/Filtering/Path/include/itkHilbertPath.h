@@ -150,7 +150,7 @@ public:
 
 protected:
   HilbertPath();
-  ~HilbertPath() override {}
+  ~HilbertPath() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:

@@ -249,7 +249,7 @@ protected:
     this->m_ZeroJacobian.Fill(0.0);
   }
 
-  ~IdentityTransform() override {}
+  ~IdentityTransform() override = default;
 
 private:
   JacobianType m_ZeroJacobian;

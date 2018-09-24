@@ -103,7 +103,7 @@ public:
 
 protected:
   BinaryOpeningByReconstructionImageFilter();
-  ~BinaryOpeningByReconstructionImageFilter() override {};
+  ~BinaryOpeningByReconstructionImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryOpeningByReconstructionImageFilter need to make sure they request enough of an

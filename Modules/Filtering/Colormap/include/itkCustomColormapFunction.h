@@ -95,8 +95,8 @@ public:
     }
 
 protected:
-  CustomColormapFunction() {}
-  ~CustomColormapFunction() override {}
+  CustomColormapFunction() = default;
+  ~CustomColormapFunction() override = default;
 
 private:
   ChannelType m_RedChannel;

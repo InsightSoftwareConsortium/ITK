@@ -34,8 +34,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT Add2
 {
 public:
-  Add2() {}
-  ~Add2() {}
+  Add2() = default;
+  ~Add2() = default;
   bool operator!=(const Add2 &) const
   {
     return false;
@@ -62,8 +62,8 @@ template< typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class ITK_TEMPLATE_EXPORT Add3
 {
 public:
-  Add3() {}
-  ~Add3() {}
+  Add3() = default;
+  ~Add3() = default;
   bool operator!=(const Add3 &) const
   {
     return false;
@@ -90,8 +90,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT Sub2
 {
 public:
-  Sub2() {}
-  ~Sub2() {}
+  Sub2() = default;
+  ~Sub2() = default;
   bool operator!=(const Sub2 &) const
   {
     return false;
@@ -116,8 +116,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT Mult
 {
 public:
-  Mult() {}
-  ~Mult() {}
+  Mult() = default;
+  ~Mult() = default;
   bool operator!=(const Mult &) const
   {
     return false;
@@ -142,8 +142,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class ITK_TEMPLATE_EXPORT Div
 {
 public:
-  Div() {}
-  ~Div() {}
+  Div() = default;
+  ~Div() = default;
   bool operator!=(const Div &) const
   {
     return false;
@@ -183,7 +183,7 @@ public:
     m_Constant = NumericTraits< TOutput >::ZeroValue();
   };
 
-  ~DivideOrZeroOut() {};
+  ~DivideOrZeroOut() = default;
 
   bool operator!=( const DivideOrZeroOut & other ) const
   {
@@ -218,8 +218,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class ITK_TEMPLATE_EXPORT Modulus
 {
 public:
-  Modulus() {  }
-  ~Modulus() {}
+  Modulus() = default;
+  ~Modulus() = default;
 
   bool operator!=(const Modulus &) const
   {
@@ -259,7 +259,7 @@ class ITK_TEMPLATE_EXPORT ModulusTransform
 {
 public:
   ModulusTransform() { m_Dividend = 5; }
-  ~ModulusTransform() {}
+  ~ModulusTransform() = default;
   void SetDividend(TOutput dividend) { m_Dividend = dividend; }
 
   bool operator!=(const ModulusTransform & other) const
@@ -375,8 +375,8 @@ template< class TInput1, class TOutput = TInput1 >
 class UnaryMinus
 {
 public:
-  UnaryMinus() {}
-  ~UnaryMinus() {}
+  UnaryMinus() = default;
+  ~UnaryMinus() = default;
   bool operator!=(const UnaryMinus &) const
   {
     return false;

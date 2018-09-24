@@ -144,7 +144,7 @@ public:
 
 protected:
   GradientDifferenceImageToImageMetric();
-  ~GradientDifferenceImageToImageMetric() override {}
+  ~GradientDifferenceImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute the range of the moved image gradients. */

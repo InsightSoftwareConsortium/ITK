@@ -98,7 +98,7 @@ public:
 
 protected:
   BinaryMorphologicalOpeningImageFilter();
-  ~BinaryMorphologicalOpeningImageFilter() override {}
+  ~BinaryMorphologicalOpeningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Single-threaded version of GenerateData.  This filter delegates

@@ -25,8 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int NDimensions >
 MetaGaussianConverter< NDimensions >
-::MetaGaussianConverter()
-{}
+::MetaGaussianConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaGaussianConverter< NDimensions >::MetaObjectType *

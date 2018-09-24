@@ -98,7 +98,7 @@ protected:
 #endif
     }
 
-  ~DivideImageFilter() override {}
+  ~DivideImageFilter() override = default;
 
   void VerifyPreconditions() override
   {

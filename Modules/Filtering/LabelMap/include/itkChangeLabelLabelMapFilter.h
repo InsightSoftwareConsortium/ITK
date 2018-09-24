@@ -101,7 +101,7 @@ public:
 
 protected:
   ChangeLabelLabelMapFilter();
-  ~ChangeLabelLabelMapFilter() override {}
+  ~ChangeLabelLabelMapFilter() override = default;
 
   void GenerateData() override;
 

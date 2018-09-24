@@ -148,7 +148,7 @@ public:
 
 protected:
   ConfidenceConnectedImageFilter();
-  ~ConfidenceConnectedImageFilter() override {}
+  ~ConfidenceConnectedImageFilter() override = default;
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion() override;

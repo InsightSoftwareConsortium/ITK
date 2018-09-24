@@ -199,7 +199,7 @@ public:
 
 protected:
   ObjectByObjectLabelMapFilter();
-  ~ObjectByObjectLabelMapFilter() override {};
+  ~ObjectByObjectLabelMapFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   void GenerateData() override;

@@ -42,8 +42,7 @@ template< unsigned int VDimension,
           typename TLevelSetValueType,
           typename TEquationContainer >
 UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
-::~UpdateWhitakerSparseLevelSet()
-{}
+::~UpdateWhitakerSparseLevelSet() = default;
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,

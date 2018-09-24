@@ -36,8 +36,8 @@ template< typename TInput, typename TOutput >
 class ITK_TEMPLATE_EXPORT Cast
 {
 public:
-  Cast() {}
-  virtual ~Cast() {}
+  Cast() = default;
+  virtual ~Cast() = default;
   bool operator!=(const Cast &) const
   {
     return false;

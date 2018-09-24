@@ -53,9 +53,7 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  PowellBoundedCostFunction()
-  {
-  }
+  PowellBoundedCostFunction() = default;
 
 
   void GetDerivative( const ParametersType & ,

@@ -164,7 +164,7 @@ public:
 
 protected:
   LabelStatisticsOpeningImageFilter();
-  ~LabelStatisticsOpeningImageFilter() override {}
+  ~LabelStatisticsOpeningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelStatisticsOpeningImageFilter needs the entire input be

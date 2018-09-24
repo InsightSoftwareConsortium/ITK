@@ -83,7 +83,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  RegistrationInterfaceCommand() {};
+  RegistrationInterfaceCommand() = default;
 
 public:
   using RegistrationType = TRegistration;

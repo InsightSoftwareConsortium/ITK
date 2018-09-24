@@ -159,7 +159,7 @@ public:
 
 protected:
   KdTreeBasedKmeansEstimator();
-  ~KdTreeBasedKmeansEstimator() override {}
+  ~KdTreeBasedKmeansEstimator() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -180,7 +180,7 @@ public:
       int Size;
     };   // end of struct
 
-    virtual ~CandidateVector() {}
+    virtual ~CandidateVector() = default;
 
     /** returns the number of candidate = k */
     int Size() const

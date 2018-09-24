@@ -40,9 +40,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 template< typename TInputImage, typename TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
-::~LevelSetEquationTermBase()
-{
-}
+::~LevelSetEquationTermBase() = default;
 
 // ----------------------------------------------------------------------------
 template< typename TInputImage, typename TLevelSetContainer >

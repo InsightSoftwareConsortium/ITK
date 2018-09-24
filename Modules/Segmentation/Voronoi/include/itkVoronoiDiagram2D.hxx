@@ -35,9 +35,7 @@ VoronoiDiagram2D< TCoordRepType >
 
 template< typename TCoordRepType >
 VoronoiDiagram2D< TCoordRepType >
-::~VoronoiDiagram2D()
-{
-}
+::~VoronoiDiagram2D() = default;
 
 
 template< typename TCoordRepType >

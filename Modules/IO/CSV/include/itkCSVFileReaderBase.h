@@ -173,7 +173,7 @@ protected:
   std::string                  m_Line;
 
   CSVFileReaderBase();
-  ~CSVFileReaderBase() override {}
+  ~CSVFileReaderBase() override = default;
   /** Print method */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -75,7 +75,7 @@ public:
   using VirtualPointType = typename Superclass::VirtualPointType;
 
 protected:
-  JointHistogramMutualInformationComputeJointPDFThreader() {}
+  JointHistogramMutualInformationComputeJointPDFThreader() = default;
 
   /** Walk through the domain, and call this->ProcessPoint on every point. */
   void ThreadedExecution( const DomainType & subdomain,
@@ -116,7 +116,7 @@ public:
   using VirtualPointSetType = typename JointHistogramMetricType::VirtualPointSetType;
 
 protected:
-  JointHistogramMutualInformationComputeJointPDFThreader() {}
+  JointHistogramMutualInformationComputeJointPDFThreader() = default;
 
   /** Walk through the domain, and call this->ProcessPoint on every point. */
   void ThreadedExecution( const DomainType & subdomain,

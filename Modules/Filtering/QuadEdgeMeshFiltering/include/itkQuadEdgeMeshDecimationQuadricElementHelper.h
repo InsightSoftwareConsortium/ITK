@@ -70,8 +70,7 @@ public:
     this->ComputeAMatrixAndBVector();
   }
 
-  ~QuadEdgeMeshDecimationQuadricElementHelper()
-  {}
+  ~QuadEdgeMeshDecimationQuadricElementHelper() = default;
 
   CoefficientVectorType GetCoefficients() const
   {

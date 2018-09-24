@@ -111,7 +111,7 @@ public:
                const IndexType & lastIndex);
 
   /** Default Destructor. */
-  ~LineIterator() override {}
+  ~LineIterator() override = default;
 };
 } // end namespace itk
 

@@ -161,7 +161,7 @@ public:
     using pointer = typename MapIterator::pointer;
     using reference = typename MapIterator::reference;
 
-    Iterator() {}
+    Iterator() = default;
     Iterator(const Iterator & i):m_Iter(i.m_Iter) {}
     Iterator(const MapIterator & i):m_Iter(i) {}
     Iterator & operator=(const Iterator & r ) { m_Iter = r.m_Iter; return *this; }
@@ -202,7 +202,7 @@ public:
     using pointer = typename MapConstIterator::pointer;
     using reference = typename MapConstIterator::reference;
 
-    ConstIterator() {}
+    ConstIterator() = default;
     ConstIterator(const MapConstIterator & ci):m_Iter(ci) {}
     ConstIterator(const Iterator & r) : m_Iter( r.m_Iter ) {}
     ConstIterator & operator=(const ConstIterator & r ) { m_Iter = r.m_Iter; return *this; }

@@ -79,9 +79,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 
 template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::~ImageToImageMetricv4()
-{
-}
+::~ImageToImageMetricv4() = default;
 
 template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void

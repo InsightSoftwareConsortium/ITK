@@ -116,7 +116,7 @@ public:
 
 protected:
   AnisotropicFourthOrderLevelSetImageFilter();
-  ~AnisotropicFourthOrderLevelSetImageFilter() override {}
+  ~AnisotropicFourthOrderLevelSetImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter halts when the iteration count reaches the specified count. */

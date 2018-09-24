@@ -91,8 +91,8 @@ public:
   itkTypeMacro(Log10ImageAdaptor, ImageAdaptor);
 
 protected:
-  Log10ImageAdaptor() {}
-  ~Log10ImageAdaptor() override {}
+  Log10ImageAdaptor() = default;
+  ~Log10ImageAdaptor() override = default;
 };
 } // end namespace itk
 

@@ -75,7 +75,7 @@ protected:
   MetaObjectType *CreateMetaObject() override;
 
   MetaMeshConverter();
-  ~MetaMeshConverter() override {}
+  ~MetaMeshConverter() override = default;
 };
 } // end namespace itk
 

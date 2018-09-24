@@ -137,7 +137,7 @@ protected:
   Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   Similarity3DTransform(unsigned int paramDim);
   Similarity3DTransform();
-  ~Similarity3DTransform() override {}
+  ~Similarity3DTransform() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

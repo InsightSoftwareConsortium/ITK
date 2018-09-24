@@ -66,8 +66,8 @@ public:
   double Evaluate(const ValueType & a, const ValueType & b) const;
 
 protected:
-  EuclideanDistanceMetric() {}
-  ~EuclideanDistanceMetric() override {}
+  EuclideanDistanceMetric() = default;
+  ~EuclideanDistanceMetric() override = default;
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

@@ -53,9 +53,7 @@ Rigid2DTransform<TParametersValueType>
 
 template<typename TParametersValueType>
 Rigid2DTransform<TParametersValueType>::
-~Rigid2DTransform()
-{
-}
+~Rigid2DTransform() = default;
 
 
 template<typename TParametersValueType>

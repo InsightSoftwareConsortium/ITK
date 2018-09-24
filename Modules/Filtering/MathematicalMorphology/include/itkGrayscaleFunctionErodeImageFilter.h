@@ -110,7 +110,7 @@ public:
 
 protected:
   GrayscaleFunctionErodeImageFilter();
-  ~GrayscaleFunctionErodeImageFilter() override {}
+  ~GrayscaleFunctionErodeImageFilter() override = default;
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value

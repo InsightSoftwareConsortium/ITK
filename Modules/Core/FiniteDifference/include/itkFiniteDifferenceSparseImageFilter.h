@@ -115,7 +115,7 @@ public:
 
 protected:
   FiniteDifferenceSparseImageFilter();
-  ~FiniteDifferenceSparseImageFilter() override {}
+  ~FiniteDifferenceSparseImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method splits the active pixels of the sparse image into equal size

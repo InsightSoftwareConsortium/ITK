@@ -31,8 +31,7 @@ RegularizedHeavisideStepFunction< TInput, TOutput >
 
 template< typename TInput, typename TOutput >
 RegularizedHeavisideStepFunction< TInput, TOutput >
-::~RegularizedHeavisideStepFunction()
-{}
+::~RegularizedHeavisideStepFunction() = default;
 
 template< typename TInput, typename TOutput >
 void

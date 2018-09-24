@@ -36,9 +36,7 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::~GaussianExponentialDiffeomorphicTransformParametersAdaptor()
-{
-}
+::~GaussianExponentialDiffeomorphicTransformParametersAdaptor() = default;
 
 template<typename TTransform>
 void

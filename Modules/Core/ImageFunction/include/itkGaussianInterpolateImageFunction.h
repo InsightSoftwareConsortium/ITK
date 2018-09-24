@@ -146,7 +146,7 @@ public:
 
 protected:
   GaussianInterpolateImageFunction();
-  ~GaussianInterpolateImageFunction() override {};
+  ~GaussianInterpolateImageFunction() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   virtual void ComputeBoundingBox();

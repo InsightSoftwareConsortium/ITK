@@ -74,7 +74,7 @@ public:
   /** Boolean comparison functor for use in sorting functions.  */
   struct merge_comp:public std:: binary_function< bool, const merge_t &,
                                                   const merge_t & > {
-    merge_comp() {}
+    merge_comp() = default;
     bool operator()(const merge_t & a, const merge_t & b)
     {
       return b.saliency < a.saliency;
@@ -160,8 +160,8 @@ public:
   void Initialize() override;
 
 protected:
-  SegmentTree() {}
-  ~SegmentTree() override {}
+  SegmentTree() = default;
+  ~SegmentTree() override = default;
   SegmentTree(const Self &) {}
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;

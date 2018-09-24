@@ -70,7 +70,7 @@ protected:
   MetaObjectType *CreateMetaObject() override;
 
   MetaEllipseConverter();
-  ~MetaEllipseConverter() override {}
+  ~MetaEllipseConverter() override = default;
 };
 
 } // end namespace itk

@@ -113,7 +113,7 @@ protected:
   NeighborhoodOperatorImageFunction();
   NeighborhoodOperatorImageFunction(const Self &){}
 
-  ~NeighborhoodOperatorImageFunction() override {}
+  ~NeighborhoodOperatorImageFunction() override = default;
 
   void operator=(const Self &){}
   void PrintSelf(std::ostream & os, Indent indent) const override;

@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  GreyColormapFunction() {}
-  ~GreyColormapFunction() override {}
+  GreyColormapFunction() = default;
+  ~GreyColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

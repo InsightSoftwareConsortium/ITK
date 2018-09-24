@@ -40,8 +40,7 @@ MeanSampleFilter< TSample >
 
 template< typename TSample >
 MeanSampleFilter< TSample >
-::~MeanSampleFilter()
-{}
+::~MeanSampleFilter() = default;
 
 template< typename TSample >
 void

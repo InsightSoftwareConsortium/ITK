@@ -140,7 +140,7 @@ protected:
     this->SetThreshold(1.8);
   }
 
-  ~VectorThresholdSegmentationLevelSetFunction() override {}
+  ~VectorThresholdSegmentationLevelSetFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

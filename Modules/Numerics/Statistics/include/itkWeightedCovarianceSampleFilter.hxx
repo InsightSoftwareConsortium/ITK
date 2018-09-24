@@ -34,8 +34,7 @@ WeightedCovarianceSampleFilter< TSample >
 
 template< typename TSample >
 WeightedCovarianceSampleFilter< TSample >
-::~WeightedCovarianceSampleFilter()
-{}
+::~WeightedCovarianceSampleFilter() = default;
 
 template< typename TSample >
 void

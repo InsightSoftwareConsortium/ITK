@@ -108,7 +108,7 @@ protected:
     this->m_MarkerValue = NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin();
   }
 
-  ~ReconstructionByDilationImageFilter() override {}
+  ~ReconstructionByDilationImageFilter() override = default;
 };
 // end ReconstructionByDilationImageFilter
 }

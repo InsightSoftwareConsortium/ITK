@@ -342,7 +342,7 @@ public:
 
 protected:
   ParallelSparseFieldLevelSetImageFilter();
-  ~ParallelSparseFieldLevelSetImageFilter() override {}
+  ~ParallelSparseFieldLevelSetImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Connectivity information for examining neighbor pixels.   */

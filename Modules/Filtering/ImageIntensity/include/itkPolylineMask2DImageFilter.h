@@ -103,7 +103,7 @@ public:
 
 protected:
   PolylineMask2DImageFilter();
-  ~PolylineMask2DImageFilter() override {}
+  ~PolylineMask2DImageFilter() override = default;
 
   void GenerateData() override;
 };

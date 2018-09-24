@@ -81,8 +81,8 @@ public:
   void CalculateAverageGradientMagnitudeSquared(TImage *) override;
 
 protected:
-  VectorAnisotropicDiffusionFunction() {}
-  ~VectorAnisotropicDiffusionFunction() override {}
+  VectorAnisotropicDiffusionFunction() = default;
+  ~VectorAnisotropicDiffusionFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 };

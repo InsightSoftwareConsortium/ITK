@@ -40,8 +40,7 @@ BioRadImageIOFactory::BioRadImageIOFactory()
                           CreateObjectFunction< BioRadImageIO >::New() );
 }
 
-BioRadImageIOFactory::~BioRadImageIOFactory()
-{}
+BioRadImageIOFactory::~BioRadImageIOFactory() = default;
 
 const char *
 BioRadImageIOFactory::GetITKSourceVersion() const

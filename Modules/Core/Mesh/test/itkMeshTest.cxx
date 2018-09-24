@@ -111,7 +111,7 @@ public:
     {
       m_CountClass->m_QuadraticTriangleCellType++;
     }
-  virtual ~VisitCells() {}
+  virtual ~VisitCells() = default;
 
   CountClass* m_CountClass;
   VisitCells()

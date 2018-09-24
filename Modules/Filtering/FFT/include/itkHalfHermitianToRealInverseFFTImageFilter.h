@@ -89,7 +89,7 @@ public:
 
 protected:
   HalfHermitianToRealInverseFFTImageFilter();
-  ~HalfHermitianToRealInverseFFTImageFilter() override {}
+  ~HalfHermitianToRealInverseFFTImageFilter() override = default;
 
   /** The output may be a different size from the input if complex conjugate
    * symmetry is implicit. */

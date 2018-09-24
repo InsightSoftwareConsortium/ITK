@@ -209,7 +209,7 @@ public:
 
     /** Constructor just takes the cell and feature identifiers, or defaults
      *  to their individual default values.  */
-    BoundaryAssignmentIdentifier() {}
+    BoundaryAssignmentIdentifier() = default;
     BoundaryAssignmentIdentifier(CellIdentifier cellId,
                                  CellFeatureIdentifier featureId):
       m_CellId(cellId), m_FeatureId(featureId) {}

@@ -83,7 +83,7 @@ public:
   virtual int ReadFile();
 
 protected:
-  ParticleSwarmOptimizerSAXReader() {}
+  ParticleSwarmOptimizerSAXReader() = default;
 
   /** Process tag 'optimizer' attributes. */
   void ProcessOptimizerAttributes( const char** atts, ParticleSwarmOptimizer* opt );

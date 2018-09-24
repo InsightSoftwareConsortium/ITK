@@ -19,5 +19,5 @@
 
 namespace itk
 {
-MultipleValuedCostFunction::~MultipleValuedCostFunction() {}
+MultipleValuedCostFunction::~MultipleValuedCostFunction() = default;
 }

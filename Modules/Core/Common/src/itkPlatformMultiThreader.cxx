@@ -64,9 +64,7 @@ PlatformMultiThreader::PlatformMultiThreader()
     }
 }
 
-PlatformMultiThreader::~PlatformMultiThreader()
-{
-}
+PlatformMultiThreader::~PlatformMultiThreader() = default;
 
 void PlatformMultiThreader::SetMaximumNumberOfThreads( ThreadIdType numberOfThreads )
 {

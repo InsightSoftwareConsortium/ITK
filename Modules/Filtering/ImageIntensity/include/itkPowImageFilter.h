@@ -35,7 +35,7 @@ class Pow
 {
 public:
 
-  Pow() {}
+  Pow() = default;
   bool operator!=(const Pow &) const
   {
     // we contain no data, so we are always the same
@@ -128,7 +128,7 @@ protected:
 #endif
     }
 
-  ~PowImageFilter() override {}
+  ~PowImageFilter() override = default;
 };
 } // end namespace itk
 

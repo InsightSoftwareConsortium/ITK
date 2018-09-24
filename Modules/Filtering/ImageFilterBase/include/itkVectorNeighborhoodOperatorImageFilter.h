@@ -139,7 +139,7 @@ protected:
     this->DynamicMultiThreadingOn();
   }
 
-  ~VectorNeighborhoodOperatorImageFilter() override {}
+  ~VectorNeighborhoodOperatorImageFilter() override = default;
 
   /** VectorNeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

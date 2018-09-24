@@ -54,8 +54,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 
 template< typename TInputImage, typename TClassifiedImage >
 MRFImageFilter< TInputImage, TClassifiedImage >
-::~MRFImageFilter()
-{}
+::~MRFImageFilter() = default;
 
 template< typename TInputImage, typename TClassifiedImage >
 void

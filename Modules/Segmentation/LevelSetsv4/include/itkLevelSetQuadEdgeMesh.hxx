@@ -25,13 +25,11 @@ namespace itk
 {
 template< typename TMesh >
 LevelSetQuadEdgeMesh< TMesh >
-::LevelSetQuadEdgeMesh()
-{}
+::LevelSetQuadEdgeMesh() = default;
 
 template< typename TMesh >
 LevelSetQuadEdgeMesh< TMesh >
-::~LevelSetQuadEdgeMesh()
-{}
+::~LevelSetQuadEdgeMesh() = default;
 
 template< typename TMesh >
 typename LevelSetQuadEdgeMesh< TMesh >::OutputType

@@ -130,7 +130,7 @@ public:
 
 protected:
   HessianToObjectnessMeasureImageFilter();
-  ~HessianToObjectnessMeasureImageFilter() override {}
+  ~HessianToObjectnessMeasureImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void VerifyPreconditions() override;

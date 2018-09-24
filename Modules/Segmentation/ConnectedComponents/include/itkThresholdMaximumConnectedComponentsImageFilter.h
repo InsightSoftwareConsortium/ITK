@@ -152,7 +152,7 @@ public:
 
 protected:
   ThresholdMaximumConnectedComponentsImageFilter();
-  ~ThresholdMaximumConnectedComponentsImageFilter() override {}
+  ~ThresholdMaximumConnectedComponentsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

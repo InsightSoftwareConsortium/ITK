@@ -147,7 +147,7 @@ public:
 
 protected:
   LabelMapOverlayImageFilter();
-  ~LabelMapOverlayImageFilter() override {};
+  ~LabelMapOverlayImageFilter() override = default;
 
   /** LabelMapOverlayImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

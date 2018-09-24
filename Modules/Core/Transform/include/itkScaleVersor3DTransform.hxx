@@ -33,9 +33,7 @@ ScaleVersor3DTransform<TParametersValueType>
 // Destructor
 template<typename TParametersValueType>
 ScaleVersor3DTransform<TParametersValueType>
-::~ScaleVersor3DTransform()
-{
-}
+::~ScaleVersor3DTransform() = default;
 
 // Constructor with arguments
 template<typename TParametersValueType>

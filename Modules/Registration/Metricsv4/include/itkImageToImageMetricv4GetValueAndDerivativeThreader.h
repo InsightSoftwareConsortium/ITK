@@ -96,7 +96,7 @@ public:
 
 protected:
   /** Constructor. */
-  ImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  ImageToImageMetricv4GetValueAndDerivativeThreader() = default;
 
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
@@ -167,7 +167,7 @@ public:
 
 protected:
   /** Constructor. */
-  ImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  ImageToImageMetricv4GetValueAndDerivativeThreader() = default;
 
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */

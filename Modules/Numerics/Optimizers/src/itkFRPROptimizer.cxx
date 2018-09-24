@@ -32,8 +32,7 @@ FRPROptimizer
 }
 
 FRPROptimizer
-::~FRPROptimizer()
-{}
+::~FRPROptimizer() = default;
 
 void
 FRPROptimizer

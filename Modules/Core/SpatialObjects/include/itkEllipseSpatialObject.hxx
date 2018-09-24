@@ -36,8 +36,7 @@ EllipseSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 EllipseSpatialObject< TDimension >
-::~EllipseSpatialObject()
-{}
+::~EllipseSpatialObject() = default;
 
 /** Set all radii to the same radius value */
 template< unsigned int TDimension >

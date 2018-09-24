@@ -144,7 +144,7 @@ public:
 
 protected:
   BinaryReconstructionByErosionImageFilter();
-  ~BinaryReconstructionByErosionImageFilter() override {};
+  ~BinaryReconstructionByErosionImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryReconstructionByErosionImageFilter needs the entire input be

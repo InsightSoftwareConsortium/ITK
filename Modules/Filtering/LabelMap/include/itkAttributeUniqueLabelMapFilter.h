@@ -101,7 +101,7 @@ public:
 
 protected:
   AttributeUniqueLabelMapFilter();
-  ~AttributeUniqueLabelMapFilter() override {};
+  ~AttributeUniqueLabelMapFilter() override = default;
 
   void GenerateData() override;
 

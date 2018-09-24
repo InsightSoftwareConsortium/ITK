@@ -25,8 +25,7 @@ SegmentationBorder
 {}
 
 SegmentationBorder
-::~SegmentationBorder()
-{}
+::~SegmentationBorder() = default;
 
 /**
  * PrintSelf

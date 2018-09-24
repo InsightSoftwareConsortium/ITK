@@ -113,8 +113,8 @@ public:
 #endif
 
 protected:
-  HardConnectedComponentImageFilter() {}
-  ~HardConnectedComponentImageFilter() override {}
+  HardConnectedComponentImageFilter() = default;
+  ~HardConnectedComponentImageFilter() override = default;
 
   /**
    * Standard pipeline method.

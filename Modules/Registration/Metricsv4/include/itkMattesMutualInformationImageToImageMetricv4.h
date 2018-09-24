@@ -287,9 +287,7 @@ public:
     {
     }
 
-    ~DerivativeBufferManager()
-    {
-    }
+    ~DerivativeBufferManager() = default;
 
     size_t GetCachedNumberOfLocalParameters() const
     {

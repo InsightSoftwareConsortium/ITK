@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT ScalarToRGBPixelFunctor
 {
 public:
   ScalarToRGBPixelFunctor();
-  ~ScalarToRGBPixelFunctor() {}
+  ~ScalarToRGBPixelFunctor() = default;
 
   using RGBComponentType = unsigned char;
   using RGBPixelType = RGBPixel< RGBComponentType >;

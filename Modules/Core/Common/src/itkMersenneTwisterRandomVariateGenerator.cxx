@@ -79,7 +79,7 @@ MersenneTwisterRandomVariateGenerator
 }
 
 MersenneTwisterRandomVariateGenerator
-::~MersenneTwisterRandomVariateGenerator() {}
+::~MersenneTwisterRandomVariateGenerator() = default;
 
 MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator

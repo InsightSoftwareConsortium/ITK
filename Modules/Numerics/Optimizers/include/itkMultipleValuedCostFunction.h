@@ -76,7 +76,7 @@ public:
                              DerivativeType & derivative) const = 0;
 
 protected:
-  MultipleValuedCostFunction() {}
+  MultipleValuedCostFunction() = default;
   ~MultipleValuedCostFunction() override;
 };
 } // end namespace itk

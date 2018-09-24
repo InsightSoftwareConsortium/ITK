@@ -61,9 +61,7 @@ GiftiMeshIO
 }
 
 GiftiMeshIO
-::~GiftiMeshIO()
-{
-}
+::~GiftiMeshIO() = default;
 
 bool
 GiftiMeshIO

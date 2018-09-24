@@ -54,9 +54,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 
 template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
-::~InvertDisplacementFieldImageFilter()
-{
-}
+::~InvertDisplacementFieldImageFilter() = default;
 
 template<typename TInputImage, typename TOutputImage>
 void

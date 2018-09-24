@@ -143,7 +143,7 @@ public:
 
 protected:
   ChainCodePath();
-  ~ChainCodePath() override {}
+  ~ChainCodePath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

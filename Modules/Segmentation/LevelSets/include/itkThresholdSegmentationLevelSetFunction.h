@@ -168,7 +168,7 @@ protected:
     this->SetEdgeWeight(0.0);
   }
 
-  ~ThresholdSegmentationLevelSetFunction() override {}
+  ~ThresholdSegmentationLevelSetFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

@@ -33,8 +33,8 @@ template< typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class Modulus3
 {
 public:
-  Modulus3() {}
-  ~Modulus3() {}
+  Modulus3() = default;
+  ~Modulus3() = default;
   bool operator!=(const Modulus3 &) const
   {
     return false;
@@ -99,8 +99,8 @@ public:
                TernaryFunctorImageFilter);
 
 protected:
-  TernaryMagnitudeImageFilter() {}
-  ~TernaryMagnitudeImageFilter() override {}
+  TernaryMagnitudeImageFilter() = default;
+  ~TernaryMagnitudeImageFilter() override = default;
 };
 } // end namespace itk
 

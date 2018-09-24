@@ -133,7 +133,7 @@ public:
 
 protected:
   ReinitializeLevelSetImageFilter();
-  ~ReinitializeLevelSetImageFilter() override {}
+  ~ReinitializeLevelSetImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Internal type alias. */

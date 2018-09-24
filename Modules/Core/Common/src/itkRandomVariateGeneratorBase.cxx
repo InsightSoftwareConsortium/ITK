@@ -21,7 +21,7 @@ namespace itk
 {
 namespace Statistics
 {
-RandomVariateGeneratorBase::RandomVariateGeneratorBase() {}
-RandomVariateGeneratorBase::~RandomVariateGeneratorBase() {}
+RandomVariateGeneratorBase::RandomVariateGeneratorBase() = default;
+RandomVariateGeneratorBase::~RandomVariateGeneratorBase() = default;
 } // end of namespace Statistics
 } // end of namespace itk

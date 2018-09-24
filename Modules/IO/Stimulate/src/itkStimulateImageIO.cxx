@@ -44,8 +44,7 @@ StimulateImageIO::StimulateImageIO()
   this->AddSupportedWriteExtension(".spr");
 }
 
-StimulateImageIO::~StimulateImageIO()
-{}
+StimulateImageIO::~StimulateImageIO() = default;
 
 // This method will only test if the header looks like a
 //Stimulate image file.

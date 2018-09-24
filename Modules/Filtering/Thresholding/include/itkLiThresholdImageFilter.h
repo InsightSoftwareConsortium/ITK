@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~LiThresholdImageFilter() override {};
+  ~LiThresholdImageFilter() override = default;
 };
 
 } // end namespace itk

@@ -51,7 +51,7 @@ public:
   itkGetConstMacro( FooFileName, std::string );
 
 private:
-  DOMTestObject() {}
+  DOMTestObject() = default;
 
   std::string m_FooValue;
   std::string m_FooFileName;

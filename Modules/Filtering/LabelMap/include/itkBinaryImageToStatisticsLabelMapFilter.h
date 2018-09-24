@@ -181,7 +181,7 @@ public:
 
 protected:
   BinaryImageToStatisticsLabelMapFilter();
-  ~BinaryImageToStatisticsLabelMapFilter() override {}
+  ~BinaryImageToStatisticsLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryImageToStatisticsLabelMapFilter needs the entire input be

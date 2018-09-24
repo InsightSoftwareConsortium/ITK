@@ -25,9 +25,7 @@ namespace itk
 
 template< typename TMetric >
 RegistrationParameterScalesFromIndexShift< TMetric >
-::RegistrationParameterScalesFromIndexShift()
-{
-}
+::RegistrationParameterScalesFromIndexShift() = default;
 
 template< typename TMetric >
 void

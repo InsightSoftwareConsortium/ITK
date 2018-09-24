@@ -103,7 +103,7 @@ public:
 
 protected:
   ImageDuplicator();
-  ~ImageDuplicator() override {}
+  ~ImageDuplicator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

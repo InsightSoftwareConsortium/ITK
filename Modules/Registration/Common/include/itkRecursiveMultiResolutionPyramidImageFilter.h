@@ -111,7 +111,7 @@ public:
 
 protected:
   RecursiveMultiResolutionPyramidImageFilter();
-  ~RecursiveMultiResolutionPyramidImageFilter() override {}
+  ~RecursiveMultiResolutionPyramidImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate the output data. */

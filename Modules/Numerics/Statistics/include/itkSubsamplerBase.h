@@ -119,7 +119,7 @@ protected:
   typename LightObject::Pointer InternalClone() const override;
 
   SubsamplerBase();
-  ~SubsamplerBase() override {};
+  ~SubsamplerBase() override = default;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

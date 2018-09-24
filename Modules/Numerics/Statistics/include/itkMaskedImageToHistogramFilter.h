@@ -82,7 +82,7 @@ public:
 
 protected:
   MaskedImageToHistogramFilter();
-  ~MaskedImageToHistogramFilter() override {}
+  ~MaskedImageToHistogramFilter() override = default;
 
   void ThreadedGenerateData( const RegionType & inputRegionForThread, ThreadIdType threadId ) override;
   void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId ) override;

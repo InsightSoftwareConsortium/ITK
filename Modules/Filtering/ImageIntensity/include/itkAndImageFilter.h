@@ -91,7 +91,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~AndImageFilter() override {}
+  ~AndImageFilter() override = default;
 };
 } // end namespace itk
 

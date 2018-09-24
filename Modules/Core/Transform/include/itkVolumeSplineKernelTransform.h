@@ -76,8 +76,8 @@ public:
   using PointsIterator = typename Superclass::PointsIterator;
 
 protected:
-  VolumeSplineKernelTransform() {}
-  ~VolumeSplineKernelTransform() override {}
+  VolumeSplineKernelTransform() = default;
+  ~VolumeSplineKernelTransform() override = default;
 
   /** These (rather redundant) type alias are needed because on type alias are not inherited. */
   using GMatrixType = typename Superclass::GMatrixType;

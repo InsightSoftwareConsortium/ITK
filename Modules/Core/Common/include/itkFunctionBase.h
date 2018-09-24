@@ -65,8 +65,8 @@ public:
   virtual OutputType Evaluate(const InputType & input) const = 0;
 
 protected:
-  FunctionBase(){}
-  ~FunctionBase() override {}
+  FunctionBase()= default;
+  ~FunctionBase() override = default;
 };
 } // end namespace itk
 

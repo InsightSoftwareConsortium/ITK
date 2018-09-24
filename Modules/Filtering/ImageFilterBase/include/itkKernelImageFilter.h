@@ -93,7 +93,7 @@ public:
 
 protected:
   KernelImageFilter();
-  ~KernelImageFilter() override {}
+  ~KernelImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -36,8 +36,7 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
-::~ObjectToObjectMetricBaseTemplate()
-{}
+::~ObjectToObjectMetricBaseTemplate() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>

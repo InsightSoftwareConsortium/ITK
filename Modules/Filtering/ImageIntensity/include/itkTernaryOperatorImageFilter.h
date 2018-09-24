@@ -94,8 +94,8 @@ public:
                TernaryFunctorImageFilter);
 
 protected:
-  TernaryOperatorImageFilter() {}
-  ~TernaryOperatorImageFilter() override {}
+  TernaryOperatorImageFilter() = default;
+  ~TernaryOperatorImageFilter() override = default;
 };
 } // end namespace itk
 

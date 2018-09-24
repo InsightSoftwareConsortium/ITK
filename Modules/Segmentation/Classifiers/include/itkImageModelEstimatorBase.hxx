@@ -33,8 +33,7 @@ ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 template< typename TInputImage,
           typename TMembershipFunction >
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::~ImageModelEstimatorBase()
-{}
+::~ImageModelEstimatorBase() = default;
 
 template< typename TInputImage,
           typename TMembershipFunction >

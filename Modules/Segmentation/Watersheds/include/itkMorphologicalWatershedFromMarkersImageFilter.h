@@ -160,7 +160,7 @@ public:
 
 protected:
   MorphologicalWatershedFromMarkersImageFilter();
-  ~MorphologicalWatershedFromMarkersImageFilter() override {}
+  ~MorphologicalWatershedFromMarkersImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MorphologicalWatershedFromMarkersImageFilter needs to request the

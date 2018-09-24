@@ -24,8 +24,8 @@ class mammal
  public:
    virtual int GetType()=0;
    virtual bool operator== (mammal &);
-   mammal() {};
-   virtual ~mammal() {};
+   mammal() = default;
+   virtual ~mammal() = default;
  };
 
 class human : public mammal

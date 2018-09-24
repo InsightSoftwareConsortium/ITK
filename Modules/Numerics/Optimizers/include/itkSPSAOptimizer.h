@@ -201,7 +201,7 @@ public:
 protected:
 
   SPSAOptimizer();
-  ~SPSAOptimizer() override {}
+  ~SPSAOptimizer() override = default;
 
   /** PrintSelf method. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

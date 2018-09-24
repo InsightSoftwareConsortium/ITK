@@ -59,9 +59,7 @@ public:
 
   using MeasureType = double;
 
-  LBFGSCostFunction()
-  {
-  }
+  LBFGSCostFunction() = default;
 
   double GetValue( const ParametersType & position ) const override
   {

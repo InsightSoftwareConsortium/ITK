@@ -339,9 +339,7 @@ Bruker2dseqImageIO::Bruker2dseqImageIO() :
     }
 }
 
-Bruker2dseqImageIO::~Bruker2dseqImageIO()
-{
-}
+Bruker2dseqImageIO::~Bruker2dseqImageIO() = default;
 
 void Bruker2dseqImageIO::SwapBytesIfNecessary(void *buff, SizeValueType components)
 {

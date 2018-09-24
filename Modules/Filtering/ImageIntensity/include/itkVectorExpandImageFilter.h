@@ -158,7 +158,7 @@ public:
 protected:
 
   VectorExpandImageFilter();
-  ~VectorExpandImageFilter() override {}
+  ~VectorExpandImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VectorExpandImageFilter is implemented as a multithreaded filter.

@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  HotColormapFunction() {}
-  ~HotColormapFunction() override {}
+  HotColormapFunction() = default;
+  ~HotColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

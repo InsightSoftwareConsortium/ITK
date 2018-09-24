@@ -50,8 +50,7 @@ SimplexMeshVolumeCalculator< TInputMesh >
 
 template< typename TInputMesh >
 SimplexMeshVolumeCalculator< TInputMesh >
-::~SimplexMeshVolumeCalculator()
-{}
+::~SimplexMeshVolumeCalculator() = default;
 
 template< typename TInputMesh >
 void SimplexMeshVolumeCalculator< TInputMesh >

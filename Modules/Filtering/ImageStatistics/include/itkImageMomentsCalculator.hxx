@@ -68,8 +68,7 @@ ImageMomentsCalculator< TImage >::ImageMomentsCalculator()
 // Destructor
 template< typename TImage >
 ImageMomentsCalculator< TImage >::
-~ImageMomentsCalculator()
-{}
+~ImageMomentsCalculator() = default;
 
 template< typename TInputImage >
 void

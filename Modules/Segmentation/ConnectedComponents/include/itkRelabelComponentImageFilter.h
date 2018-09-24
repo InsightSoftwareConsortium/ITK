@@ -253,7 +253,7 @@ protected:
     m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0),
     m_SortByObjectSize(true)
   { this->InPlaceOff(); }
-  ~RelabelComponentImageFilter() override {}
+  ~RelabelComponentImageFilter() override = default;
 
   /**
    * Standard pipeline method.

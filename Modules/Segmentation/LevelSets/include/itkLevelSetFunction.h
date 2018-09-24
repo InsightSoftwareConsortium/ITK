@@ -303,7 +303,7 @@ protected:
   {
   }
 
-  ~LevelSetFunction() override {}
+  ~LevelSetFunction() override = default;
   void PrintSelf(std::ostream & s, Indent indent) const override;
 
   /** Constants used in the time step calculation. */

@@ -133,7 +133,7 @@ public:
 
 protected:
   LevelSetNeighborhoodExtractor();
-  ~LevelSetNeighborhoodExtractor() override {}
+  ~LevelSetNeighborhoodExtractor() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typename LevelSetImageType::PixelType GetLargeValue() const

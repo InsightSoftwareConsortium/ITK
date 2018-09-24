@@ -186,7 +186,7 @@ public:
 
 protected:
   ObjectMorphologyImageFilter();
-  ~ObjectMorphologyImageFilter() override {}
+  ~ObjectMorphologyImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */

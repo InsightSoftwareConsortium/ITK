@@ -33,8 +33,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class Maximum
 {
 public:
-  Maximum() {}
-  ~Maximum() {}
+  Maximum() = default;
+  ~Maximum() = default;
   bool operator!=(const Maximum &) const
   {
     return false;
@@ -124,7 +124,7 @@ protected:
 #endif
     }
 
-  ~MaximumImageFilter() override {}
+  ~MaximumImageFilter() override = default;
 };
 } // end namespace itk
 

@@ -184,8 +184,8 @@ public:
   }
 
 protected:
-  VectorImageToImageAdaptor() {}
-  ~VectorImageToImageAdaptor() override {}
+  VectorImageToImageAdaptor() = default;
+  ~VectorImageToImageAdaptor() override = default;
 };
 } // end namespace itk
 

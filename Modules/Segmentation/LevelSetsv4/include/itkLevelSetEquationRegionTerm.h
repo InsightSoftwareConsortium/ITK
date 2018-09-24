@@ -49,7 +49,7 @@ protected:
   LevelSetEquationRegionTerm() : Superclass()
   {}
 
-  virtual ~LevelSetEquationRegionTerm() {}
+  virtual ~LevelSetEquationRegionTerm() = default;
 };
 }
 #endif // itkLevelSetEquationRegionTerm_h

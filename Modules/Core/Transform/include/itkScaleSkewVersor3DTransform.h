@@ -150,7 +150,7 @@ protected:
   ScaleSkewVersor3DTransform();
   ScaleSkewVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   ScaleSkewVersor3DTransform(unsigned int paramDims);
-  ~ScaleSkewVersor3DTransform() override {}
+  ~ScaleSkewVersor3DTransform() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

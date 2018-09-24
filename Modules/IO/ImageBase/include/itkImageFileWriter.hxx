@@ -53,8 +53,7 @@ ImageFileWriter< TInputImage >
 //---------------------------------------------------------
 template< typename TInputImage >
 ImageFileWriter< TInputImage >
-::~ImageFileWriter()
-{}
+::~ImageFileWriter() = default;
 
 //---------------------------------------------------------
 template< typename TInputImage >

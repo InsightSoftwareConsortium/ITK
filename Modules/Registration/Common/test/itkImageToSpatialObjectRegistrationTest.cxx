@@ -86,7 +86,7 @@ public:
     }
 
 protected:
-  IterationCallback() {};
+  IterationCallback() = default;
   WeakPointer<OptimizerType>   m_Optimizer;
 
 };

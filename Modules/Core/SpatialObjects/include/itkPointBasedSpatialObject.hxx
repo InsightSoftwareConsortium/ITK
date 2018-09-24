@@ -35,8 +35,7 @@ PointBasedSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 PointBasedSpatialObject< TDimension >
-::~PointBasedSpatialObject()
-{}
+::~PointBasedSpatialObject() = default;
 
 /** Print the object */
 template< unsigned int TDimension >

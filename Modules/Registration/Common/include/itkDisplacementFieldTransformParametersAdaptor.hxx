@@ -38,9 +38,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 DisplacementFieldTransformParametersAdaptor<TTransform>
-::~DisplacementFieldTransformParametersAdaptor()
-{
-}
+::~DisplacementFieldTransformParametersAdaptor() = default;
 
 template<typename TTransform>
 void

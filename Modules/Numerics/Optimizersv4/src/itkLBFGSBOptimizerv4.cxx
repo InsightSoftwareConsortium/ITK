@@ -70,9 +70,7 @@ LBFGSBOptimizerv4
 }
 
 LBFGSBOptimizerv4
-::~LBFGSBOptimizerv4()
-{
-}
+::~LBFGSBOptimizerv4() = default;
 
 void
 LBFGSBOptimizerv4

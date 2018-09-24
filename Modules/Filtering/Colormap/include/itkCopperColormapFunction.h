@@ -62,8 +62,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  CopperColormapFunction() {}
-  ~CopperColormapFunction() override {}
+  CopperColormapFunction() = default;
+  ~CopperColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

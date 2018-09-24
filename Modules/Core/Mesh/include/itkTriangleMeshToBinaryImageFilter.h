@@ -36,7 +36,7 @@ public:
   double m_X;
   int    m_Sign;
 
-  Point1D(){}
+  Point1D()= default;
   Point1D(const double p, const int s)
   {
     m_X = p;

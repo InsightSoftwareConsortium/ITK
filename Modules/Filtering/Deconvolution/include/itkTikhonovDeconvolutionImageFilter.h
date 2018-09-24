@@ -103,7 +103,7 @@ public:
 
 protected:
   TikhonovDeconvolutionImageFilter();
-  ~TikhonovDeconvolutionImageFilter() override {}
+  ~TikhonovDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */
   void GenerateData() override;
@@ -121,7 +121,7 @@ class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionFunctor
 {
 public:
   TikhonovDeconvolutionFunctor() {m_RegularizationConstant = 0.0;}
-  ~TikhonovDeconvolutionFunctor() {}
+  ~TikhonovDeconvolutionFunctor() = default;
 
   bool operator!=( const TikhonovDeconvolutionFunctor & ) const
   {

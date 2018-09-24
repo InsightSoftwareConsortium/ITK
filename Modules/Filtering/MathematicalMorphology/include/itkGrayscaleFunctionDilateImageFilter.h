@@ -110,7 +110,7 @@ public:
 
 protected:
   GrayscaleFunctionDilateImageFilter();
-  ~GrayscaleFunctionDilateImageFilter() override {}
+  ~GrayscaleFunctionDilateImageFilter() override = default;
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value

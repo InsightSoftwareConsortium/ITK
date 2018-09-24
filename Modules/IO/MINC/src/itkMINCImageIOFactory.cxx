@@ -30,9 +30,7 @@ MINCImageIOFactory::MINCImageIOFactory()
                           CreateObjectFunction< MINCImageIO >::New() );
 }
 
-MINCImageIOFactory::~MINCImageIOFactory()
-{
-}
+MINCImageIOFactory::~MINCImageIOFactory() = default;
 
 const char *
 MINCImageIOFactory::GetITKSourceVersion() const

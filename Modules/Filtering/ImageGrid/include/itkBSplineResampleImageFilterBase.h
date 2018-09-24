@@ -159,7 +159,7 @@ protected:
     );
 
   BSplineResampleImageFilterBase();
-  ~BSplineResampleImageFilterBase() override {}
+  ~BSplineResampleImageFilterBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   int m_SplineOrder;                      // User specified spline order

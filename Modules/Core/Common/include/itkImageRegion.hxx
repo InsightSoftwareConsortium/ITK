@@ -48,8 +48,7 @@ ImageRegion< VImageDimension >
  */
 template< unsigned int VImageDimension >
 ImageRegion< VImageDimension >
-::~ImageRegion()
-{}
+::~ImageRegion() = default;
 
 template< unsigned int VImageDimension >
 typename ImageRegion< VImageDimension >::IndexType

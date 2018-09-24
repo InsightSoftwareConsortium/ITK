@@ -107,7 +107,7 @@ public:
 
 protected:
   ConvolutionImageFilterBase();
-  ~ConvolutionImageFilterBase() override {}
+  ~ConvolutionImageFilterBase() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

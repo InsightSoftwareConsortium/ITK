@@ -116,7 +116,7 @@ public:
 
 protected:
   ImageTransformer();
-  ~ImageTransformer() override {}
+  ~ImageTransformer() override = default;
 
   /** The image transformer is assumed to need the whole input.
    *

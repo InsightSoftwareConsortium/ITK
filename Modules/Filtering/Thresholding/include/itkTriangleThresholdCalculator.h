@@ -71,8 +71,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  TriangleThresholdCalculator() {};
-  ~TriangleThresholdCalculator() override {};
+  TriangleThresholdCalculator() = default;
+  ~TriangleThresholdCalculator() override = default;
   void GenerateData() override;
 };
 

@@ -106,7 +106,7 @@ public:
 
 protected:
   GrayscaleConnectedOpeningImageFilter();
-  ~GrayscaleConnectedOpeningImageFilter() override {}
+  ~GrayscaleConnectedOpeningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleConnectedOpeningImageFilter needs the entire input be

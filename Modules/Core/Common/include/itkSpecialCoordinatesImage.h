@@ -285,7 +285,7 @@ protected:
   SpecialCoordinatesImage();
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  ~SpecialCoordinatesImage() override {}
+  ~SpecialCoordinatesImage() override = default;
 
 private:
   /** Memory for the current buffer. */

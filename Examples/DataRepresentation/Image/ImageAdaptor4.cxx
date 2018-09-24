@@ -77,11 +77,7 @@ public:
     }
 
   ThresholdingPixelAccessor &
-    operator=( const ThresholdingPixelAccessor & vpa )
-    {
-    m_Threshold = vpa.m_Threshold;
-    return *this;
-    }
+    operator=( const ThresholdingPixelAccessor & vpa ) = default;
 
 private:
   InternalType m_Threshold;

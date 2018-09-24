@@ -58,8 +58,8 @@ public:
   virtual unsigned int GetNumberOfParameters() const  = 0;
 
 protected:
-  CostFunctionTemplate() {}
-  ~CostFunctionTemplate() override {}
+  CostFunctionTemplate() = default;
+  ~CostFunctionTemplate() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 

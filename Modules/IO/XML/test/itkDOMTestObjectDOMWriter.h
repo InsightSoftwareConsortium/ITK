@@ -44,7 +44,7 @@ public:
   itkTypeMacro(DOMTestObjectDOMWriter, DOMWriter);
 
 protected:
-  DOMTestObjectDOMWriter() {}
+  DOMTestObjectDOMWriter() = default;
 
   /**
    * This function is called automatically when update functions are performed.

@@ -36,7 +36,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTestCommandIterationUpdate() {};
+  itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTestCommandIterationUpdate() = default;
 
 public:
 

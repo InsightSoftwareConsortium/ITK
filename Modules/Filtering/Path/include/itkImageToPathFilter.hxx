@@ -43,8 +43,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 
 template< typename TInputImage, typename TOutputPath >
 ImageToPathFilter< TInputImage, TOutputPath >
-::~ImageToPathFilter()
-{}
+::~ImageToPathFilter() = default;
 
 
 template< typename TInputImage, typename TOutputPath >

@@ -144,7 +144,7 @@ public:
 
 protected:
   UnaryGeneratorImageFilter();
-  ~UnaryGeneratorImageFilter() override {}
+  ~UnaryGeneratorImageFilter() override = default;
 
   /** UnaryGeneratorImageFilter can produce an image which is a different
    * resolution than its input image.  As such, UnaryGeneratorImageFilter

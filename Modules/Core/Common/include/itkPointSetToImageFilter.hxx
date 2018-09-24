@@ -43,8 +43,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 
 template< typename TInputPointSet, typename TOutputImage >
 PointSetToImageFilter< TInputPointSet, TOutputImage >
-::~PointSetToImageFilter()
-{}
+::~PointSetToImageFilter() = default;
 
 template< typename TInputPointSet, typename TOutputImage >
 void

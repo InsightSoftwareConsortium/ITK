@@ -121,7 +121,7 @@ public:
 
 protected:
   SaltAndPepperNoiseImageFilter();
-  ~SaltAndPepperNoiseImageFilter() override {}
+  ~SaltAndPepperNoiseImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

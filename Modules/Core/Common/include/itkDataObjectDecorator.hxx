@@ -38,16 +38,14 @@ namespace itk
  */
 template< typename T >
 DataObjectDecorator< T >
-::DataObjectDecorator()
-{}
+::DataObjectDecorator() = default;
 
 /**
  *
  */
 template< typename T >
 DataObjectDecorator< T >
-::~DataObjectDecorator()
-{}
+::~DataObjectDecorator() = default;
 
 /**
  *

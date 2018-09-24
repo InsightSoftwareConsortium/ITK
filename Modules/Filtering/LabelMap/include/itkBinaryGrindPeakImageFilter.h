@@ -110,7 +110,7 @@ public:
 
 protected:
   BinaryGrindPeakImageFilter();
-  ~BinaryGrindPeakImageFilter() override {};
+  ~BinaryGrindPeakImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryGrindPeakImageFilter needs the entire input be

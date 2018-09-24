@@ -40,8 +40,7 @@ GroupSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 GroupSpatialObject< TDimension >
-::~GroupSpatialObject()
-{}
+::~GroupSpatialObject() = default;
 
 /** Print the object */
 template< unsigned int TDimension >

@@ -267,7 +267,7 @@ public:
 
 protected:
   OrientImageFilter();
-  ~OrientImageFilter() override {}
+  ~OrientImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** OrientImageFilter needs the entire input be

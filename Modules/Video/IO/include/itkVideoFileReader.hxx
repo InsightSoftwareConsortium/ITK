@@ -44,10 +44,7 @@ VideoFileReader< TOutputVideoStream >
 
 template< typename TOutputVideoStream >
 VideoFileReader< TOutputVideoStream >
-::~VideoFileReader()
-{
-
-}
+::~VideoFileReader() = default;
 
 template< typename TOutputVideoStream >
 void

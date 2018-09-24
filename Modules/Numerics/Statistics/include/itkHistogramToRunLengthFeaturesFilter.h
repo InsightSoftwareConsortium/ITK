@@ -161,7 +161,7 @@ public:
 
 protected:
   HistogramToRunLengthFeaturesFilter();
-  ~HistogramToRunLengthFeaturesFilter() override {};
+  ~HistogramToRunLengthFeaturesFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Make a DataObject to be used for output output. */

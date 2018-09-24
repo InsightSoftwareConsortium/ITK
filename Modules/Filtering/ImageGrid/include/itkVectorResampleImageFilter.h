@@ -210,7 +210,7 @@ public:
 
 protected:
   VectorResampleImageFilter();
-  ~VectorResampleImageFilter() override {}
+  ~VectorResampleImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VectorResampleImageFilter can be implemented as a multithreaded filter. Therefore,

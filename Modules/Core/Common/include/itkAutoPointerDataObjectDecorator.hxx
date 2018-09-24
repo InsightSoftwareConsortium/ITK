@@ -41,8 +41,7 @@ AutoPointerDataObjectDecorator< T >
 /** Destructor */
 template< typename T >
 AutoPointerDataObjectDecorator< T >
-::~AutoPointerDataObjectDecorator()
-{}
+::~AutoPointerDataObjectDecorator() = default;
 
 /** Set value */
 template< typename T >

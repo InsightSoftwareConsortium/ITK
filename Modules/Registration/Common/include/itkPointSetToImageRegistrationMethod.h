@@ -166,7 +166,7 @@ public:
 
 protected:
   PointSetToImageRegistrationMethod();
-  ~PointSetToImageRegistrationMethod() override {}
+  ~PointSetToImageRegistrationMethod() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void  GenerateData() override;

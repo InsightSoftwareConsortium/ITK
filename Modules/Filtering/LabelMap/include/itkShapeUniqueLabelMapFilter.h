@@ -106,7 +106,7 @@ public:
 
 protected:
   ShapeUniqueLabelMapFilter();
-  ~ShapeUniqueLabelMapFilter() override {}
+  ~ShapeUniqueLabelMapFilter() override = default;
 
   void GenerateData() override;
 

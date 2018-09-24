@@ -47,8 +47,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
  */
 template< typename TInputImage, typename TOutputImage >
 InPlaceImageFilter< TInputImage, TOutputImage >
-::~InPlaceImageFilter()
-{}
+::~InPlaceImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

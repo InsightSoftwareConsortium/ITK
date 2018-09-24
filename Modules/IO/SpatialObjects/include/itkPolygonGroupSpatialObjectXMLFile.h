@@ -59,8 +59,8 @@ public:
   int CanReadFile(const char *name) override;
 
 protected:
-  PolygonGroupSpatialObjectXMLFileReader() {}
-  ~PolygonGroupSpatialObjectXMLFileReader() override {}
+  PolygonGroupSpatialObjectXMLFileReader() = default;
+  ~PolygonGroupSpatialObjectXMLFileReader() override = default;
 
   void StartElement(const char *name, const char **atts) override;
 
@@ -107,8 +107,8 @@ public:
   int WriteFile() override;
 
 protected:
-  PolygonGroupSpatialObjectXMLFileWriter() {}
-  ~PolygonGroupSpatialObjectXMLFileWriter() override {}
+  PolygonGroupSpatialObjectXMLFileWriter() = default;
+  ~PolygonGroupSpatialObjectXMLFileWriter() override = default;
 };
 }
 #endif

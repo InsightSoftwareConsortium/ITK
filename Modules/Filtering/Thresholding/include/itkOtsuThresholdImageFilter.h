@@ -113,7 +113,7 @@ protected:
   {
     this->SetCalculator( CalculatorType::New() );
   }
-  ~OtsuThresholdImageFilter() override {};
+  ~OtsuThresholdImageFilter() override = default;
 
   void GenerateData() override
   {

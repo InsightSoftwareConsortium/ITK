@@ -79,7 +79,7 @@ protected:
     this->m_MeasureBound = itk::NumericTraits< MeasureType >::ZeroValue();
   }
 
-  ~QuadEdgeMeshDecimationCriterion() override {}
+  ~QuadEdgeMeshDecimationCriterion() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
@@ -151,8 +151,8 @@ public:
   }
 
 protected:
-  NumberOfPointsCriterion() {}
-  ~NumberOfPointsCriterion() {}
+  NumberOfPointsCriterion() = default;
+  ~NumberOfPointsCriterion() = default;
 
 private:
   NumberOfPointsCriterion(const Self &) = delete;
@@ -202,8 +202,8 @@ public:
   }
 
 protected:
-  NumberOfFacesCriterion() {}
-  ~NumberOfFacesCriterion() override {}
+  NumberOfFacesCriterion() = default;
+  ~NumberOfFacesCriterion() override = default;
 
 private:
   NumberOfFacesCriterion(const Self &) = delete;
@@ -254,7 +254,7 @@ public:
 
 protected:
   MaxMeasureBoundCriterion():Superclass() {}
-  ~MaxMeasureBoundCriterion() override {}
+  ~MaxMeasureBoundCriterion() override = default;
 
 private:
   MaxMeasureBoundCriterion(const Self &) = delete;
@@ -304,8 +304,8 @@ public:
   }
 
 protected:
-  MinMeasureBoundCriterion() {}
-  ~MinMeasureBoundCriterion() {}
+  MinMeasureBoundCriterion() = default;
+  ~MinMeasureBoundCriterion() = default;
 
 private:
   MinMeasureBoundCriterion(const Self &) = delete;

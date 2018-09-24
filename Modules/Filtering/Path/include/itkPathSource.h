@@ -174,7 +174,7 @@ public:
 
 protected:
   PathSource();
-  ~PathSource() override {}
+  ~PathSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // Inherit the empty ProcessObject::GenerateData()

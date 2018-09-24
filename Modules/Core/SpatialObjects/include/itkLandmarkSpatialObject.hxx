@@ -40,8 +40,7 @@ LandmarkSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 LandmarkSpatialObject< TDimension >
-::~LandmarkSpatialObject()
-{}
+::~LandmarkSpatialObject() = default;
 
 /** Get the list of points which are defining the blob */
 template< unsigned int TDimension >

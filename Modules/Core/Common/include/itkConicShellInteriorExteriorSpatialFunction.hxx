@@ -36,8 +36,7 @@ ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 
 template< unsigned int VDimension, typename TInput >
 ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
-::~ConicShellInteriorExteriorSpatialFunction()
-{}
+::~ConicShellInteriorExteriorSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 void

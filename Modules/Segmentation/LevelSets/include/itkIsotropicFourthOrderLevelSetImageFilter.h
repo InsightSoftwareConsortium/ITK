@@ -106,7 +106,7 @@ public:
 
 protected:
   IsotropicFourthOrderLevelSetImageFilter();
-  ~IsotropicFourthOrderLevelSetImageFilter() override {}
+  ~IsotropicFourthOrderLevelSetImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The LevelSetFunctionWithRefitTerm object. */

@@ -33,9 +33,7 @@ BYUMeshIO
 }
 
 BYUMeshIO
-::~BYUMeshIO()
-{
-}
+::~BYUMeshIO() = default;
 
 bool
 BYUMeshIO

@@ -55,9 +55,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
 template<typename TInputImage, typename TInputPointSet, typename TOutputImage>
 DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
-::~DisplacementFieldToBSplineImageFilter()
-{
-}
+::~DisplacementFieldToBSplineImageFilter() = default;
 
 template<typename TInputImage, typename TInputPointSet, typename TOutputImage>
 void

@@ -95,7 +95,7 @@ public:
 
 protected:
   StretchIntensityImageFilter();
-  ~StretchIntensityImageFilter() override {}
+  ~StretchIntensityImageFilter() override = default;
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData() override;

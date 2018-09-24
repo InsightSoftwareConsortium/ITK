@@ -66,7 +66,7 @@ public:
 
 protected:
   VnlComplexToComplexFFTImageFilter();
-  ~VnlComplexToComplexFFTImageFilter() override {}
+  ~VnlComplexToComplexFFTImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override;
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

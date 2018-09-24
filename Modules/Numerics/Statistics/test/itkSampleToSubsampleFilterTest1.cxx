@@ -41,8 +41,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  SubsamplerTester() {}
-  ~SubsamplerTester() override {}
+  SubsamplerTester() = default;
+  ~SubsamplerTester() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override
     {
     this->Superclass::PrintSelf(os,indent);

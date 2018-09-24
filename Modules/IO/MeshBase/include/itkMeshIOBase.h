@@ -515,7 +515,7 @@ public:
 
 protected:
   MeshIOBase();
-  ~MeshIOBase() override {}
+  ~MeshIOBase() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

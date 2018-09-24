@@ -55,7 +55,7 @@ protected:
   UnaryCorrespondenceMatrix();
 
   /** Default Destructor. */
-  ~UnaryCorrespondenceMatrix() override {}
+  ~UnaryCorrespondenceMatrix() override = default;
 };
 } // end namespace itk
 

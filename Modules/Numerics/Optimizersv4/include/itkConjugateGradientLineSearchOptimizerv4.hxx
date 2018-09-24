@@ -28,17 +28,14 @@ namespace itk
  */
 template<typename TInternalComputationValueType>
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
-::ConjugateGradientLineSearchOptimizerv4Template()
-{
-}
+::ConjugateGradientLineSearchOptimizerv4Template() = default;
 
 /**
  * Destructor
  */
 template<typename TInternalComputationValueType>
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
-::~ConjugateGradientLineSearchOptimizerv4Template()
-{}
+::~ConjugateGradientLineSearchOptimizerv4Template() = default;
 
 
 /**

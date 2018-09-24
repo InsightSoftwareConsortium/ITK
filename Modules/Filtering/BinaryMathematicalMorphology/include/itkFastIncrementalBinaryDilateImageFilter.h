@@ -81,8 +81,8 @@ public:
   itkTypeMacro(FastIncrementalBinaryDilateImageFilter, ImageToImageFilter);
 
 protected:
-  FastIncrementalBinaryDilateImageFilter() {}
-  ~FastIncrementalBinaryDilateImageFilter() override {}
+  FastIncrementalBinaryDilateImageFilter() = default;
+  ~FastIncrementalBinaryDilateImageFilter() override = default;
 };
 } // end namespace itk
 

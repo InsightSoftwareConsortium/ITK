@@ -41,8 +41,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 DTITubeSpatialObjectPoint< TPointDimension >
-::~DTITubeSpatialObjectPoint()
-{}
+::~DTITubeSpatialObjectPoint() = default;
 
 template< unsigned int TPointDimension >
 void

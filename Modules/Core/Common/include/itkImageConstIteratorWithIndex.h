@@ -150,7 +150,7 @@ public:
                               const RegionType & region);
 
   /** Default Destructor. */
-  virtual ~ImageConstIteratorWithIndex() {};
+  virtual ~ImageConstIteratorWithIndex() = default;
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */

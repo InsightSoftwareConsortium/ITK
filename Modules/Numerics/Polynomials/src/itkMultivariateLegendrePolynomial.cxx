@@ -59,8 +59,7 @@ MultivariateLegendrePolynomial
 }
 
 MultivariateLegendrePolynomial
-::~MultivariateLegendrePolynomial()
-{}
+::~MultivariateLegendrePolynomial() = default;
 
 void MultivariateLegendrePolynomial
 ::Print(std::ostream & os)

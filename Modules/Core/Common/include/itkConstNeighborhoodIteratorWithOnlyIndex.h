@@ -94,7 +94,7 @@ public:
   ConstNeighborhoodIteratorWithOnlyIndex();
 
   /** Virtual destructor */
-  ~ConstNeighborhoodIteratorWithOnlyIndex() override {}
+  ~ConstNeighborhoodIteratorWithOnlyIndex() override = default;
 
   /** Copy constructor */
   ConstNeighborhoodIteratorWithOnlyIndex(const ConstNeighborhoodIteratorWithOnlyIndex &);

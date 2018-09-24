@@ -96,8 +96,8 @@ public:
     std::cout << "Cell # " << cellId << " is a TriangleType ";
     std::cout << t->GetNumberOfPoints() << std::endl;
     }
-  CustomTriangleVisitor() {}
-  virtual ~CustomTriangleVisitor() {}
+  CustomTriangleVisitor() = default;
+  virtual ~CustomTriangleVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
 #endif

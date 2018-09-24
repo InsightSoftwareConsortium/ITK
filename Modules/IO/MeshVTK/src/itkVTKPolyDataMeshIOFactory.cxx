@@ -41,8 +41,7 @@ VTKPolyDataMeshIOFactory
 }
 
 VTKPolyDataMeshIOFactory
-::~VTKPolyDataMeshIOFactory()
-{}
+::~VTKPolyDataMeshIOFactory() = default;
 
 
 const char *

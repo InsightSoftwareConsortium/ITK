@@ -32,8 +32,8 @@ class TensorRelativeAnisotropyFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
-  TensorRelativeAnisotropyFunction() {}
-  ~TensorRelativeAnisotropyFunction() {}
+  TensorRelativeAnisotropyFunction() = default;
+  ~TensorRelativeAnisotropyFunction() = default;
   bool operator!=(const TensorRelativeAnisotropyFunction &) const
   {
     return false;
@@ -111,8 +111,8 @@ public:
 #endif
 
 protected:
-  TensorRelativeAnisotropyImageFilter() {}
-  ~TensorRelativeAnisotropyImageFilter() override {}
+  TensorRelativeAnisotropyImageFilter() = default;
+  ~TensorRelativeAnisotropyImageFilter() override = default;
 };
 } // end namespace itk
 

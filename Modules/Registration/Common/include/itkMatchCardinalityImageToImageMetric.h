@@ -130,7 +130,7 @@ public:
 
 protected:
   MatchCardinalityImageToImageMetric();
-  ~MatchCardinalityImageToImageMetric() override {}
+  ~MatchCardinalityImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

@@ -46,8 +46,7 @@ OnePlusOneEvolutionaryOptimizer
 }
 
 OnePlusOneEvolutionaryOptimizer
-::~OnePlusOneEvolutionaryOptimizer()
-{}
+::~OnePlusOneEvolutionaryOptimizer() = default;
 
 void
 OnePlusOneEvolutionaryOptimizer

@@ -37,9 +37,7 @@ CompositeTransform<TParametersValueType, NDimensions>::CompositeTransform()
 template
 <typename TParametersValueType, unsigned int NDimensions>
 CompositeTransform<TParametersValueType, NDimensions>::
-~CompositeTransform()
-{
-}
+~CompositeTransform() = default;
 
 
 template

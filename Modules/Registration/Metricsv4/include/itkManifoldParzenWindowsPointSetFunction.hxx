@@ -40,9 +40,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 
 template <typename TPointSet, typename TOutput, typename TCoordRep>
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
-::~ManifoldParzenWindowsPointSetFunction()
-{
-}
+::~ManifoldParzenWindowsPointSetFunction() = default;
 
 template <typename TPointSet, typename TOutput, typename TCoordRep>
 void

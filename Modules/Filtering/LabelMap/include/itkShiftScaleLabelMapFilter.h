@@ -92,7 +92,7 @@ public:
 
 protected:
   ShiftScaleLabelMapFilter();
-  ~ShiftScaleLabelMapFilter() override {}
+  ~ShiftScaleLabelMapFilter() override = default;
 
   void GenerateData() override;
 

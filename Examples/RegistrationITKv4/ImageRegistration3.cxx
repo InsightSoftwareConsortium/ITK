@@ -139,7 +139,7 @@ public:
 // Software Guide : BeginCodeSnippet
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 // Software Guide : EndCodeSnippet
 
 public:

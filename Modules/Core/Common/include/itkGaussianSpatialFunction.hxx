@@ -36,8 +36,7 @@ GaussianSpatialFunction< TOutput, VImageDimension, TInput >
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
 GaussianSpatialFunction< TOutput, VImageDimension, TInput >
-::~GaussianSpatialFunction()
-{}
+::~GaussianSpatialFunction() = default;
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
 typename GaussianSpatialFunction< TOutput, VImageDimension, TInput >::OutputType

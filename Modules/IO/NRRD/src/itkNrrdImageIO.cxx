@@ -36,9 +36,7 @@ NrrdImageIO::NrrdImageIO()
   this->AddSupportedReadExtension(".nhdr");
 }
 
-NrrdImageIO::~NrrdImageIO()
-{
-}
+NrrdImageIO::~NrrdImageIO() = default;
 
 bool NrrdImageIO::SupportsDimension(unsigned long dim)
 {

@@ -45,7 +45,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate() {};
+  itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate() = default;
 
 public:
 

@@ -107,7 +107,7 @@ protected:
       this->GetProperty()->SetBlue(0);
       this->GetProperty()->SetAlpha(1);
     }
-  ~DummySpatialObject() override {}
+  ~DummySpatialObject() override = default;
 
 private:
   float m_Value;
@@ -195,8 +195,8 @@ protected:
     return dynamic_cast<MetaObjectType *>(new DummyMetaObjectType);
   }
 
-  MetaDummyConverter() {}
-  ~MetaDummyConverter() override {}
+  MetaDummyConverter() = default;
+  ~MetaDummyConverter() override = default;
 };
 
 }

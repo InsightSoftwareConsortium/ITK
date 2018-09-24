@@ -42,8 +42,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 MultiStartOptimizerv4Template<TInternalComputationValueType>
-::~MultiStartOptimizerv4Template()
-{}
+::~MultiStartOptimizerv4Template() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>

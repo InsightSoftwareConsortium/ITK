@@ -29,7 +29,7 @@ class MRCImageIOTester
 public:
   virtual int Test(int argc, char* argv[] );
 
-  virtual ~MRCImageIOTester(){ }
+  virtual ~MRCImageIOTester()= default;
 
   static bool Write( const std::string &filePrefix, std::string &outputPath );
 

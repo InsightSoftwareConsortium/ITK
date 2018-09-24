@@ -82,7 +82,7 @@ public:
 
 protected:
   BoxSigmaImageFilter();
-  ~BoxSigmaImageFilter() override {}
+  ~BoxSigmaImageFilter() override = default;
 
   /** Multi-thread version GenerateData. */
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

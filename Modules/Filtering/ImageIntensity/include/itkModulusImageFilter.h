@@ -81,7 +81,7 @@ public:
 
 protected:
   ModulusImageFilter();
-  ~ModulusImageFilter() override {}
+  ~ModulusImageFilter() override = default;
 
 };
 } // end namespace itk

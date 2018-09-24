@@ -29,8 +29,7 @@ ConditionalConstIterator< TImageType >
 
 template< typename TImageType >
 ConditionalConstIterator< TImageType >
-::~ConditionalConstIterator()
-{}
+::~ConditionalConstIterator() = default;
 } // end namespace itk
 
 #endif

@@ -56,12 +56,7 @@ DataObjectError
 
 DataObjectError &
 DataObjectError
-::operator=(const DataObjectError & orig) noexcept
-{
-  ExceptionObject::operator=(orig);
-  m_DataObject = orig.m_DataObject;
-  return *this;
-}
+::operator=(const DataObjectError & orig) noexcept = default;
 
 void
 DataObjectError
@@ -111,17 +106,11 @@ InvalidRequestedRegionError
 {}
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError(const InvalidRequestedRegionError & orig) noexcept:
-  DataObjectError(orig)
-{}
+::InvalidRequestedRegionError(const InvalidRequestedRegionError & orig) noexcept = default;
 
 InvalidRequestedRegionError &
 InvalidRequestedRegionError
-::operator=(const InvalidRequestedRegionError & orig) noexcept
-{
-  DataObjectError::operator=(orig);
-  return *this;
-}
+::operator=(const InvalidRequestedRegionError & orig) noexcept = default;
 
 void
 InvalidRequestedRegionError
@@ -146,8 +135,7 @@ DataObject::DataObject():m_UpdateMTime()
 
 //----------------------------------------------------------------------------
 DataObject
-::~DataObject()
-{}
+::~DataObject() = default;
 
 //----------------------------------------------------------------------------
 void

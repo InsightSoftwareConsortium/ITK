@@ -24,15 +24,11 @@ namespace itk
 {
 template< typename TImage >
 LevelSetDomainPartition< TImage >::
-LevelSetDomainPartition()
-{
-}
+LevelSetDomainPartition() = default;
 
 template< typename TImage >
 LevelSetDomainPartition< TImage >::
-~LevelSetDomainPartition()
-{
-}
+~LevelSetDomainPartition() = default;
 
 template< typename TImage >
 void

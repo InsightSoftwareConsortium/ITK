@@ -41,8 +41,7 @@ BYUMeshIOFactory
 
 
 BYUMeshIOFactory
-::~BYUMeshIOFactory()
-{}
+::~BYUMeshIOFactory() = default;
 
 
 const char *

@@ -39,8 +39,7 @@ FreeSurferAsciiMeshIOFactory
 }
 
 FreeSurferAsciiMeshIOFactory
-::~FreeSurferAsciiMeshIOFactory()
-{}
+::~FreeSurferAsciiMeshIOFactory() = default;
 
 const char *
 FreeSurferAsciiMeshIOFactory

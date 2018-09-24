@@ -80,7 +80,7 @@ protected:
 
   /** Constructor */
   SpatialObjectTreeNode();
-  ~SpatialObjectTreeNode() override {}
+  ~SpatialObjectTreeNode() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   TransformPointer m_NodeToParentNodeTransform;

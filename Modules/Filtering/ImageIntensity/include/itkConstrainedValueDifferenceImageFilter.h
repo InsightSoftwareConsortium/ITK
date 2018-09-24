@@ -58,8 +58,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class ConstrainedValueDifference
 {
 public:
-  ConstrainedValueDifference() {}
-  ~ConstrainedValueDifference() {}
+  ConstrainedValueDifference() = default;
+  ~ConstrainedValueDifference() = default;
   bool operator!=(const ConstrainedValueDifference &) const
   {
     return false;
@@ -131,7 +131,7 @@ protected:
 #endif
     }
 
-  ~ConstrainedValueDifferenceImageFilter() override {}
+  ~ConstrainedValueDifferenceImageFilter() override = default;
 };
 } // end namespace itk
 

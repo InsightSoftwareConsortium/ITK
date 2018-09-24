@@ -47,8 +47,8 @@ template< typename TInput, typename TOutput >
 class VectorMagnitude
 {
 public:
-  VectorMagnitude() {}
-  ~VectorMagnitude() {}
+  VectorMagnitude() = default;
+  ~VectorMagnitude() = default;
 
   bool operator!=(const VectorMagnitude &) const
   {
@@ -106,7 +106,7 @@ protected:
     }
 
 
-  ~VectorMagnitudeImageFilter() override {}
+  ~VectorMagnitudeImageFilter() override = default;
 };
 } // end namespace itk
 

@@ -92,7 +92,7 @@ protected:
 #endif
     }
 
-  ~OrImageFilter() override {}
+  ~OrImageFilter() override = default;
 };
 } // end namespace itk
 

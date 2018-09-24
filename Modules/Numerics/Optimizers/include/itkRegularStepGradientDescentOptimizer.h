@@ -54,8 +54,8 @@ public:
   using CostFunctionPointer = CostFunctionType::Pointer;
 
 protected:
-  RegularStepGradientDescentOptimizer() {}
-  ~RegularStepGradientDescentOptimizer() override {}
+  RegularStepGradientDescentOptimizer() = default;
+  ~RegularStepGradientDescentOptimizer() override = default;
 
   /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.

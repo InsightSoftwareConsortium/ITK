@@ -168,7 +168,7 @@ public:
     m_BackgroundColor = rgb;
   }
 
-  ~LabelToRGBFunctor() {}
+  ~LabelToRGBFunctor() = default;
 
   std::vector< TRGBPixel > m_Colors;
 

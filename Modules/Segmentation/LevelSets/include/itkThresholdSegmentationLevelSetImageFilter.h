@@ -192,7 +192,7 @@ public:
   }
 
 protected:
-  ~ThresholdSegmentationLevelSetImageFilter() override {}
+  ~ThresholdSegmentationLevelSetImageFilter() override = default;
   ThresholdSegmentationLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

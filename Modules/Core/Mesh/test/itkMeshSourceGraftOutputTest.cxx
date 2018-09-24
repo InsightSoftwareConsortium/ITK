@@ -59,7 +59,7 @@ public:
 
 protected:
   MeshSourceGraftOutputFilter();
-  ~MeshSourceGraftOutputFilter() override {};
+  ~MeshSourceGraftOutputFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Generate Requested Data */

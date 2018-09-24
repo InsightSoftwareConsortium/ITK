@@ -38,8 +38,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
-::~VoronoiSegmentationImageFilter()
-{}
+::~VoronoiSegmentationImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void

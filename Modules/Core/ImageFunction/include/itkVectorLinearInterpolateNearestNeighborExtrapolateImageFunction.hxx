@@ -37,8 +37,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
  */
 template< typename TInputImage, typename TCoordRep >
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
-::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction()
-{}
+::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() = default;
 
 /**
  * PrintSelf

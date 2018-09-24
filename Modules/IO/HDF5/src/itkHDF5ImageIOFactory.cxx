@@ -33,8 +33,7 @@ HDF5ImageIOFactory::HDF5ImageIOFactory()
                           CreateObjectFunction< HDF5ImageIO >::New() );
 }
 
-HDF5ImageIOFactory::~HDF5ImageIOFactory()
-{}
+HDF5ImageIOFactory::~HDF5ImageIOFactory() = default;
 
 const char *
 HDF5ImageIOFactory::GetITKSourceVersion() const

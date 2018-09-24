@@ -174,7 +174,7 @@ public:
 
 protected:
   ScalarImageToCooccurrenceMatrixFilter();
-  ~ScalarImageToCooccurrenceMatrixFilter() override {}
+  ~ScalarImageToCooccurrenceMatrixFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void FillHistogram(RadiusType radius, RegionType region);

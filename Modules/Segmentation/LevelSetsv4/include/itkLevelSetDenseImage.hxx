@@ -26,14 +26,12 @@ namespace itk
 // ----------------------------------------------------------------------------
 template< typename TImage >
 LevelSetDenseImage< TImage >
-::LevelSetDenseImage()
-{}
+::LevelSetDenseImage() = default;
 
 // ----------------------------------------------------------------------------
 template< typename TImage >
 LevelSetDenseImage< TImage >
-::~LevelSetDenseImage()
-{}
+::~LevelSetDenseImage() = default;
 
 // ----------------------------------------------------------------------------
 template< typename TImage >

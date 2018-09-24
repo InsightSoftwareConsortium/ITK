@@ -34,7 +34,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate() {};
+  itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate() = default;
 
 public:
 

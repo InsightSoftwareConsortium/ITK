@@ -38,8 +38,7 @@ CovarianceSampleFilter< TSample >
 
 template< typename TSample >
 CovarianceSampleFilter< TSample >
-::~CovarianceSampleFilter()
-{}
+::~CovarianceSampleFilter() = default;
 
 template< typename TSample >
 void

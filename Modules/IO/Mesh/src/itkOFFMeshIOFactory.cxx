@@ -39,8 +39,7 @@ OFFMeshIOFactory
 }
 
 OFFMeshIOFactory
-::~OFFMeshIOFactory()
-{}
+::~OFFMeshIOFactory() = default;
 
 const char *
 OFFMeshIOFactory

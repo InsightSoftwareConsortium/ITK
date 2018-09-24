@@ -52,8 +52,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::VoronoiSegmentat
 /* Destructor. */
 template< typename TInputImage, typename TOutputImage >
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::
-~VoronoiSegmentationRGBImageFilter()
-{}
+~VoronoiSegmentationRGBImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

@@ -122,7 +122,7 @@ protected:
     this->ProcessObject::SetNthOutput( 0, img.GetPointer() );
   }
 
-  ~EquivalenceRelabeler() override {}
+  ~EquivalenceRelabeler() override = default;
   EquivalenceRelabeler(const Self &) {}
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;

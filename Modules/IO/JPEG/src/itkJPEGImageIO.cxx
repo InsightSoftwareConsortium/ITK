@@ -295,8 +295,7 @@ JPEGImageIO::JPEGImageIO()
   this->AddSupportedReadExtension(".JPEG");
 }
 
-JPEGImageIO::~JPEGImageIO()
-{}
+JPEGImageIO::~JPEGImageIO() = default;
 
 void JPEGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {

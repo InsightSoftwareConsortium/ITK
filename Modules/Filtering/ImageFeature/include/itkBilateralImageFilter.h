@@ -180,7 +180,7 @@ protected:
   BilateralImageFilter();
 
   /** Destructor. */
-  ~BilateralImageFilter() override {}
+  ~BilateralImageFilter() override = default;
 
   /** PrintSelf. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

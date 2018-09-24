@@ -79,8 +79,8 @@ public:
                            DomainType& subDomain) const = 0;
 
 protected:
-  ThreadedDomainPartitioner(){}
-  ~ThreadedDomainPartitioner() override {}
+  ThreadedDomainPartitioner()= default;
+  ~ThreadedDomainPartitioner() override = default;
 };
 
 } // end namespace itk

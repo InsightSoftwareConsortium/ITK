@@ -41,8 +41,7 @@ SampleToHistogramFilter< TSample, THistogram >
 
 template< typename TSample, typename THistogram >
 SampleToHistogramFilter< TSample, THistogram >
-::~SampleToHistogramFilter()
-{}
+::~SampleToHistogramFilter() = default;
 
 template< typename TSample, typename THistogram >
 void

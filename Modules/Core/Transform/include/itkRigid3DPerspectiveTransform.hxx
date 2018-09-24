@@ -40,9 +40,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>
 // Destructor
 template<typename TParametersValueType>
 Rigid3DPerspectiveTransform<TParametersValueType>::
-~Rigid3DPerspectiveTransform()
-{
-}
+~Rigid3DPerspectiveTransform() = default;
 
 // Print self
 template<typename TParametersValueType>

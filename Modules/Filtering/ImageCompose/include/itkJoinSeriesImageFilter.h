@@ -95,7 +95,7 @@ public:
 
 protected:
   JoinSeriesImageFilter();
-  ~JoinSeriesImageFilter() override {}
+  ~JoinSeriesImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VeriyInputInformation() to add the additional check

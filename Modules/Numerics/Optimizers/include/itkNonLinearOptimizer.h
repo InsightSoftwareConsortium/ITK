@@ -55,7 +55,7 @@ public:
   using ScalesType = Superclass::ScalesType;
 
 protected:
-  NonLinearOptimizer() {}
+  NonLinearOptimizer() = default;
   ~NonLinearOptimizer() override;
 };
 } // end namespace itk

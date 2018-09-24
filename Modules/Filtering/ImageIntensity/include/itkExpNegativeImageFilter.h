@@ -36,7 +36,7 @@ class ExpNegative
 {
 public:
   ExpNegative() { m_Factor = 1.0; }
-  ~ExpNegative() {}
+  ~ExpNegative() = default;
 
   bool operator!=(const ExpNegative & other) const
   {
@@ -137,8 +137,8 @@ public:
 #endif
 
 protected:
-  ExpNegativeImageFilter() {}
-  ~ExpNegativeImageFilter() override {}
+  ExpNegativeImageFilter() = default;
+  ~ExpNegativeImageFilter() override = default;
 };
 } // end namespace itk
 

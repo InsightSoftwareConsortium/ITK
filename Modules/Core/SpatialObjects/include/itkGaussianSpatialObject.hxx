@@ -38,8 +38,7 @@ GaussianSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 GaussianSpatialObject< TDimension >
-::~GaussianSpatialObject()
-{}
+::~GaussianSpatialObject() = default;
 
 /** The z-score is the root mean square of the z-scores along
  *  each principal axis. */

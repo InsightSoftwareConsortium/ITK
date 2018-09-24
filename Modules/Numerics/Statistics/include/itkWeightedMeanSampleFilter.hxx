@@ -37,8 +37,7 @@ WeightedMeanSampleFilter< TSample >
 
 template< typename TSample >
 WeightedMeanSampleFilter< TSample >
-::~WeightedMeanSampleFilter()
-{}
+::~WeightedMeanSampleFilter() = default;
 
 template< typename TSample >
 void

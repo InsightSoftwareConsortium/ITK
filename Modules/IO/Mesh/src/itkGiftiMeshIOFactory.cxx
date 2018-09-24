@@ -39,8 +39,7 @@ GiftiMeshIOFactory
 }
 
 GiftiMeshIOFactory
-::~GiftiMeshIOFactory()
-{}
+::~GiftiMeshIOFactory() = default;
 
 const char *
 GiftiMeshIOFactory

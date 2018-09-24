@@ -30,8 +30,7 @@ NrrdImageIOFactory::NrrdImageIOFactory()
                           CreateObjectFunction< NrrdImageIO >::New() );
 }
 
-NrrdImageIOFactory::~NrrdImageIOFactory()
-{}
+NrrdImageIOFactory::~NrrdImageIOFactory() = default;
 
 const char *
 NrrdImageIOFactory::GetITKSourceVersion() const

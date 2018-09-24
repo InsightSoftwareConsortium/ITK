@@ -74,8 +74,8 @@ public:
   void ReleaseGlobalDataPointer(void *) const override {}
 
 protected:
-  DummyFunction() {}
-  ~DummyFunction() override {}
+  DummyFunction() = default;
+  ~DummyFunction() override = default;
 };
 
 }

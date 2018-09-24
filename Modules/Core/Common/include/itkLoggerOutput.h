@@ -97,7 +97,7 @@ public:
 
 protected:
   LoggerOutput():m_Logger(nullptr) {}
-  ~LoggerOutput() override {}
+  ~LoggerOutput() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

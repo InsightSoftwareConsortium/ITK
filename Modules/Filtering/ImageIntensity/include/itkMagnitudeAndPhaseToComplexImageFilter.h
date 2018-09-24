@@ -58,8 +58,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class MagnitudeAndPhaseToComplex
 {
 public:
-  MagnitudeAndPhaseToComplex() {}
-  ~MagnitudeAndPhaseToComplex() {}
+  MagnitudeAndPhaseToComplex() = default;
+  ~MagnitudeAndPhaseToComplex() = default;
   bool operator!=(const MagnitudeAndPhaseToComplex &) const
   {
     return false;
@@ -132,7 +132,7 @@ protected:
 #endif
     }
 
-  ~MagnitudeAndPhaseToComplexImageFilter() override {}
+  ~MagnitudeAndPhaseToComplexImageFilter() override = default;
 };
 } // end namespace itk
 

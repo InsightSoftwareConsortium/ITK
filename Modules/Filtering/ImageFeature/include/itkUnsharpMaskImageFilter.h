@@ -145,7 +145,7 @@ public:
 
 protected:
   UnsharpMaskImageFilter();
-  ~UnsharpMaskImageFilter() override {}
+  ~UnsharpMaskImageFilter() override = default;
 
   /**
   * UnsharpMaskImageFilter needs a larger input requested region than

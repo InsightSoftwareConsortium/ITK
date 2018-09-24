@@ -36,8 +36,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
 template< typename TInput, typename TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
-::~FastMarchingQuadEdgeMeshFilterBase()
-{}
+::~FastMarchingQuadEdgeMeshFilterBase() = default;
 
 template< typename TInput, typename TOutput >
 IdentifierType

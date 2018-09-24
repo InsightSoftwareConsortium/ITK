@@ -32,9 +32,7 @@ FreeSurferBinaryMeshIO
 }
 
 FreeSurferBinaryMeshIO
-::~FreeSurferBinaryMeshIO()
-{
-}
+::~FreeSurferBinaryMeshIO() = default;
 
 bool
 FreeSurferBinaryMeshIO

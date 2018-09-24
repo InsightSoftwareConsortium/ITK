@@ -76,7 +76,7 @@ public:
   using NeighborhoodAccessorFunctorType = typename TInputImage::NeighborhoodAccessorFunctorType;
 
   /** Default constructor. */
-  ImageBoundaryCondition() {}
+  ImageBoundaryCondition() = default;
 
   /** Runtime information support. */
   virtual const char * GetNameOfClass() const
@@ -106,7 +106,7 @@ public:
     const NeighborhoodType *data,
     const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const = 0;
 
-  virtual ~ImageBoundaryCondition() {}
+  virtual ~ImageBoundaryCondition() = default;
 
   /** Tell if the boundary condition can index to any location within
     * the associated iterator's neighborhood or if it has some limited

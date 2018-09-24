@@ -39,9 +39,7 @@ TransformFileWriterTemplate<TParametersValueType>
 
 template<typename TParametersValueType>
 TransformFileWriterTemplate<TParametersValueType>
-::~TransformFileWriterTemplate()
-{
-}
+::~TransformFileWriterTemplate() = default;
 
 /** Set the writer to append to the specified file */
 template<typename TParametersValueType>

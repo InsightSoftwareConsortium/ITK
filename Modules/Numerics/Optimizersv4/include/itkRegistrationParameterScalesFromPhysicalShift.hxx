@@ -25,9 +25,7 @@ namespace itk
 
 template< typename TMetric >
 RegistrationParameterScalesFromPhysicalShift< TMetric >
-::RegistrationParameterScalesFromPhysicalShift()
-{
-}
+::RegistrationParameterScalesFromPhysicalShift() = default;
 
 template< typename TMetric >
 void

@@ -63,9 +63,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::~MattesMutualInformationImageToImageMetricv4()
-{
-}
+::~MattesMutualInformationImageToImageMetricv4() = default;
 
 
 /**

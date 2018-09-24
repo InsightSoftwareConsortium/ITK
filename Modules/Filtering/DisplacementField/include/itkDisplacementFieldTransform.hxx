@@ -65,9 +65,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::DisplacementField
 
 template<typename TParametersValueType, unsigned int NDimensions>
 DisplacementFieldTransform<TParametersValueType, NDimensions>::
-~DisplacementFieldTransform()
-{
-}
+~DisplacementFieldTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 typename DisplacementFieldTransform<TParametersValueType, NDimensions>::OutputPointType

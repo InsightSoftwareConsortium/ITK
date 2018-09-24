@@ -62,7 +62,7 @@ protected:
     this->m_OutputMesh = nullptr;
   }
 
-  ~DecimationQuadEdgeMeshFilter() override {}
+  ~DecimationQuadEdgeMeshFilter() override = default;
 
   CriterionPointer m_Criterion;
   SizeValueType    m_Iteration;

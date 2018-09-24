@@ -26,8 +26,7 @@ SegmentationRegion
 {}
 
 SegmentationRegion
-::~SegmentationRegion()
-{}
+::~SegmentationRegion() = default;
 
 /**
  * PrintSelf

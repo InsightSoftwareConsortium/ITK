@@ -218,7 +218,7 @@ public:
 
 protected:
   ESMDemonsRegistrationFunction();
-  ~ESMDemonsRegistrationFunction() override {}
+  ~ESMDemonsRegistrationFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */

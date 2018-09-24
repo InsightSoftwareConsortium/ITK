@@ -205,7 +205,7 @@ public:
 
 protected:
   DanielssonDistanceMapImageFilter();
-  ~DanielssonDistanceMapImageFilter() override {}
+  ~DanielssonDistanceMapImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute Danielsson distance map and Voronoi Map. */

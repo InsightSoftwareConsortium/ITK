@@ -381,7 +381,7 @@ protected:
     m_FirstSampleDistance = 0;
   }
 
-  ~PhasedArray3DSpecialCoordinatesImage() override {}
+  ~PhasedArray3DSpecialCoordinatesImage() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

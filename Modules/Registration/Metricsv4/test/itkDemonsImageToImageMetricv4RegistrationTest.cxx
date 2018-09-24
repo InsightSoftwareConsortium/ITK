@@ -55,7 +55,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate() {};
+  itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate() = default;
 
 public:
 

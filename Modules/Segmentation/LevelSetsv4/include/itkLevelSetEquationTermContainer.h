@@ -141,9 +141,9 @@ public:
   class ConstIterator
   {
   public:
-    ConstIterator() {}
+    ConstIterator() = default;
     ConstIterator( const MapTermContainerConstIteratorType& it ) : m_Iterator( it ) {}
-    ~ConstIterator() {}
+    ~ConstIterator() = default;
     ConstIterator( const Iterator& it ) : m_Iterator( it.m_Iterator ) {}
     ConstIterator & operator * () { return *this; }
     ConstIterator * operator->() { return this; }
@@ -202,10 +202,10 @@ public:
   class Iterator
   {
   public:
-    Iterator() {}
+    Iterator() = default;
     Iterator( const MapTermContainerIteratorType& it ) : m_Iterator( it ) {}
     Iterator( const ConstIterator& it ) : m_Iterator( it.m_Iterator ) {}
-    ~Iterator() {}
+    ~Iterator() = default;
 
     Iterator & operator * () { return *this; }
     Iterator * operator ->() { return this; }

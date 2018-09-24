@@ -53,8 +53,8 @@ template< typename TInput, typename TOutput >
 class ITK_TEMPLATE_EXPORT ChangeLabel
 {
 public:
-  ChangeLabel() {}
-  ~ChangeLabel() {}
+  ChangeLabel() = default;
+  ~ChangeLabel() = default;
 
   using ChangeMapType = std::map< TInput, TOutput >;
 
@@ -162,7 +162,7 @@ public:
 
 protected:
   ChangeLabelImageFilter();
-  ~ChangeLabelImageFilter() override {}
+  ~ChangeLabelImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk

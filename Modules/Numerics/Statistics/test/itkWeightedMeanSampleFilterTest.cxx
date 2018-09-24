@@ -65,8 +65,8 @@ public:
     }
 
 protected:
-  WeightedMeanTestFunction() {}
-  ~WeightedMeanTestFunction() override {}
+  WeightedMeanTestFunction() = default;
+  ~WeightedMeanTestFunction() override = default;
 }; // end of class
 
 

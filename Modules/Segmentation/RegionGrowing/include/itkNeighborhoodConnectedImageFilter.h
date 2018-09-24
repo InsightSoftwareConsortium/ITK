@@ -117,7 +117,7 @@ public:
 
 protected:
   NeighborhoodConnectedImageFilter();
-  ~NeighborhoodConnectedImageFilter() override {}
+  ~NeighborhoodConnectedImageFilter() override = default;
   std::vector< IndexType > m_Seeds;
 
   InputImagePixelType m_Lower;

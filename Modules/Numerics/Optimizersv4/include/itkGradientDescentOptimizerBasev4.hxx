@@ -56,8 +56,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
-::~GradientDescentOptimizerBasev4Template()
-{}
+::~GradientDescentOptimizerBasev4Template() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>

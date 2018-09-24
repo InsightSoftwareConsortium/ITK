@@ -48,8 +48,8 @@ template< typename TPixel1, typename TPixel2 >
 class JoinFunctor
 {
 public:
-  JoinFunctor() {}
-  ~JoinFunctor() {}
+  JoinFunctor() = default;
+  ~JoinFunctor() = default;
 
   /** Standard type alias */
   using Self = JoinFunctor;
@@ -247,7 +247,7 @@ public:
 
 protected:
   JoinImageFilter() {Superclass::SetFunctor(FunctorType());}
-  ~JoinImageFilter() override {}
+  ~JoinImageFilter() override = default;
 };
 } // end namespace itk
 

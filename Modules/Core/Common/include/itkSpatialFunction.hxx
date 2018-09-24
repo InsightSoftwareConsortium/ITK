@@ -24,13 +24,11 @@ namespace itk
 {
 template< typename TFunctionValue, unsigned int VImageDimension, typename TInput >
 SpatialFunction< TFunctionValue, VImageDimension, TInput >
-::SpatialFunction()
-{}
+::SpatialFunction() = default;
 
 template< typename TFunctionValue, unsigned int VImageDimension, typename TInput >
 SpatialFunction< TFunctionValue, VImageDimension, TInput >
-::~SpatialFunction()
-{}
+::~SpatialFunction() = default;
 
 template< typename TFunctionValue, unsigned int VImageDimension, typename TInput >
 void

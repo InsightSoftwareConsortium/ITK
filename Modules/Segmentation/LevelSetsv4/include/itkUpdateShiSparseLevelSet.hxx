@@ -37,8 +37,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 template< unsigned int VDimension,
           typename TEquationContainer >
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >
-::~UpdateShiSparseLevelSet()
-{}
+::~UpdateShiSparseLevelSet() = default;
 
 
 template< unsigned int VDimension, typename TEquationContainer >

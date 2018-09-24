@@ -128,7 +128,7 @@ public:
 
 protected:
   ShapeRelabelImageFilter();
-  ~ShapeRelabelImageFilter() override {}
+  ~ShapeRelabelImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ShapeRelabelImageFilter needs the entire input be

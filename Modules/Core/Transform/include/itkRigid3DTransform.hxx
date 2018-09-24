@@ -44,8 +44,7 @@ Rigid3DTransform<TParametersValueType>::Rigid3DTransform(const MatrixType & matr
 // Destructor
 template<typename TParametersValueType>
 Rigid3DTransform<TParametersValueType>::
-~Rigid3DTransform()
-{}
+~Rigid3DTransform() = default;
 
 // Print self
 template<typename TParametersValueType>

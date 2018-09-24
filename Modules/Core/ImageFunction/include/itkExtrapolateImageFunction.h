@@ -109,8 +109,8 @@ public:
     const IndexType & index) const override = 0;
 
 protected:
-  ExtrapolateImageFunction(){}
-  ~ExtrapolateImageFunction() override {}
+  ExtrapolateImageFunction()= default;
+  ~ExtrapolateImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 };

@@ -24,13 +24,11 @@ namespace itk
 {
 template< typename TItemType >
 MatrixResizeableDataObject< TItemType >
-::MatrixResizeableDataObject()
-{}
+::MatrixResizeableDataObject() = default;
 
 template< typename TItemType >
 MatrixResizeableDataObject< TItemType >
-::~MatrixResizeableDataObject()
-{}
+::~MatrixResizeableDataObject() = default;
 } // end namespace itk
 
 #endif

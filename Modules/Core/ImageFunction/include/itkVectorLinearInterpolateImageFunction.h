@@ -94,7 +94,7 @@ public:
 
 protected:
   VectorLinearInterpolateImageFunction();
-  ~VectorLinearInterpolateImageFunction() override {}
+  ~VectorLinearInterpolateImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

@@ -124,7 +124,7 @@ public:
 
 protected:
   SumOfSquaresImageFunction();
-  ~SumOfSquaresImageFunction() override {}
+  ~SumOfSquaresImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

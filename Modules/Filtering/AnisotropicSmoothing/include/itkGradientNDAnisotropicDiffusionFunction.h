@@ -106,7 +106,7 @@ public:
 
 protected:
   GradientNDAnisotropicDiffusionFunction();
-  ~GradientNDAnisotropicDiffusionFunction() override {}
+  ~GradientNDAnisotropicDiffusionFunction() override = default;
 
   /** Inner product function. */
   NeighborhoodInnerProduct< ImageType > m_InnerProduct;

@@ -169,7 +169,7 @@ protected:
   CenteredSimilarity2DTransform();
   CenteredSimilarity2DTransform(unsigned int spaceDimension, unsigned int parametersDimension);
 
-  ~CenteredSimilarity2DTransform() override {}
+  ~CenteredSimilarity2DTransform() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 

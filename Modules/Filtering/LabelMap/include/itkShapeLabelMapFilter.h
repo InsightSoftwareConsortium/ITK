@@ -135,7 +135,7 @@ public:
 
 protected:
   ShapeLabelMapFilter();
-  ~ShapeLabelMapFilter() override {}
+  ~ShapeLabelMapFilter() override = default;
 
   void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
 

@@ -113,7 +113,7 @@ public:
 protected:
   CleanQuadEdgeMeshFilter();
 
-  ~CleanQuadEdgeMeshFilter() override {}
+  ~CleanQuadEdgeMeshFilter() override = default;
 
   void GenerateData() override;
 

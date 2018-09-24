@@ -137,7 +137,7 @@ public:
 
 protected:
   PasteImageFilter();
-  ~PasteImageFilter() override {}
+  ~PasteImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PasteImageFilter can be implemented as a multithreaded filter.

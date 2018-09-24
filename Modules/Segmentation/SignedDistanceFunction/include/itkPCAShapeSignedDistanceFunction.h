@@ -170,7 +170,7 @@ public:
 
 protected:
   PCAShapeSignedDistanceFunction();
-  ~PCAShapeSignedDistanceFunction() override {}
+  ~PCAShapeSignedDistanceFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

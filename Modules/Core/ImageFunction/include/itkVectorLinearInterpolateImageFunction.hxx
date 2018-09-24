@@ -37,8 +37,7 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
  */
 template< typename TInputImage, typename TCoordRep >
 VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
-::VectorLinearInterpolateImageFunction()
-{}
+::VectorLinearInterpolateImageFunction() = default;
 
 /**
  * PrintSelf

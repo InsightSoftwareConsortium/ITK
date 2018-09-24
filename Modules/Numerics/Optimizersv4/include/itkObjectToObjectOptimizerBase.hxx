@@ -44,8 +44,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
-::~ObjectToObjectOptimizerBaseTemplate()
-{}
+::~ObjectToObjectOptimizerBaseTemplate() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>

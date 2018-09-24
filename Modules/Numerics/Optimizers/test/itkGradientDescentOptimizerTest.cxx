@@ -53,9 +53,7 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  gradientCostFunction()
-  {
-  }
+  gradientCostFunction() = default;
 
 
   MeasureType  GetValue( const ParametersType & parameters ) const override

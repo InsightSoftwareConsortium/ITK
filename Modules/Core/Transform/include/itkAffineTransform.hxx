@@ -45,9 +45,7 @@ AffineTransform<TParametersValueType, NDimensions>::AffineTransform(const Matrix
 /**  Destructor */
 template<typename TParametersValueType, unsigned int NDimensions>
 AffineTransform<TParametersValueType, NDimensions>::
-~AffineTransform()
-{
-}
+~AffineTransform() = default;
 
 /** Print self */
 template<typename TParametersValueType, unsigned int NDimensions>

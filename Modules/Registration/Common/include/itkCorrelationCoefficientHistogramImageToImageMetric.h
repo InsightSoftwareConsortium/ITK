@@ -81,8 +81,8 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
-  CorrelationCoefficientHistogramImageToImageMetric(){}
-  ~CorrelationCoefficientHistogramImageToImageMetric() override {}
+  CorrelationCoefficientHistogramImageToImageMetric()= default;
+  ~CorrelationCoefficientHistogramImageToImageMetric() override = default;
 
   /** Evaluates the sum of squared differences from the histogram. */
   MeasureType EvaluateMeasure(HistogramType & histogram) const override;

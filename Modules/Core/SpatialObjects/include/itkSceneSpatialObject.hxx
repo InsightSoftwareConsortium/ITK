@@ -32,8 +32,7 @@ SceneSpatialObject< TSpaceDimension >
 /** Destructor */
 template< unsigned int TSpaceDimension >
 SceneSpatialObject< TSpaceDimension >
-::~SceneSpatialObject()
-{}
+::~SceneSpatialObject() = default;
 
 /** Add a spatial object to the SceneSpatialObject */
 template< unsigned int TSpaceDimension >

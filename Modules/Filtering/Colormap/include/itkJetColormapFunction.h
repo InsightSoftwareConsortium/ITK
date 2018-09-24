@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  JetColormapFunction() {}
-  ~JetColormapFunction() override {}
+  JetColormapFunction() = default;
+  ~JetColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

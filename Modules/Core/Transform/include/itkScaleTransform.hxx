@@ -34,9 +34,7 @@ ScaleTransform<TParametersValueType, NDimensions>
 
 template<typename TParametersValueType, unsigned int NDimensions>
 ScaleTransform<TParametersValueType, NDimensions>::
-~ScaleTransform()
-{
-}
+~ScaleTransform() = default;
 
 
 template<typename TParametersValueType, unsigned int NDimensions>

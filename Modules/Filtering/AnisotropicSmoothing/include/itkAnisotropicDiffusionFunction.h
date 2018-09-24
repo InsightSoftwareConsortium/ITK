@@ -233,7 +233,7 @@ protected:
     m_TimeStep                 = 0.125f;  // default value
   }
 
-  ~AnisotropicDiffusionFunction() override {}
+  ~AnisotropicDiffusionFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

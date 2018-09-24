@@ -70,7 +70,7 @@ protected:
 
   /** Constructor and Destructor */
   ImageFilterToVideoFilterWrapper();
-  ~ImageFilterToVideoFilterWrapper() override {}
+  ~ImageFilterToVideoFilterWrapper() override = default;
 
   /** PrintSelf */
   void PrintSelf(std::ostream & os, Indent indent) const override;

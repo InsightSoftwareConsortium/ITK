@@ -103,7 +103,7 @@ public:
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
 
-  SobelOperator() {}
+  SobelOperator() = default;
   SobelOperator(const Self & other):
     NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
   {}

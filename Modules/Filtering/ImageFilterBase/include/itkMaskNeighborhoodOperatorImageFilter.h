@@ -151,7 +151,7 @@ public:
 protected:
   MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::ZeroValue()),
     m_UseDefaultValue(true) {}
-  ~MaskNeighborhoodOperatorImageFilter() override {}
+  ~MaskNeighborhoodOperatorImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MaskNeighborhoodOperatorImageFilter needs to request enough of an

@@ -68,7 +68,7 @@ protected:
 
   /** Constructor and Destructor */
   FrameAverageVideoFilter();
-  ~FrameAverageVideoFilter() override {}
+  ~FrameAverageVideoFilter() override = default;
 
   /** PrintSelf */
   void PrintSelf(std::ostream & os, Indent indent) const override;

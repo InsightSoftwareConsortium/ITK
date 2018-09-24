@@ -35,9 +35,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
 
 template< typename TDomainPartitioner, typename TAssociate >
 DomainThreader< TDomainPartitioner, TAssociate >
-::~DomainThreader()
-{
-}
+::~DomainThreader() = default;
 
 template< typename TDomainPartitioner, typename TAssociate >
 MultiThreaderBase *

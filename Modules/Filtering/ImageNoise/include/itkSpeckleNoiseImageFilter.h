@@ -97,7 +97,7 @@ public:
 
 protected:
   SpeckleNoiseImageFilter();
-  ~SpeckleNoiseImageFilter()  override {}
+  ~SpeckleNoiseImageFilter()  override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

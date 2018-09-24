@@ -101,7 +101,7 @@ public:
 
 protected:
   UnaryFunctorImageFilter();
-  ~UnaryFunctorImageFilter() override {}
+  ~UnaryFunctorImageFilter() override = default;
 
   /** UnaryFunctorImageFilter can produce an image which is a different
    * resolution than its input image.  As such, UnaryFunctorImageFilter

@@ -127,7 +127,7 @@ public:
 
 protected:
   GradientDescentOptimizer();
-  ~GradientDescentOptimizer() override {}
+  ~GradientDescentOptimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // made protected so subclass can access

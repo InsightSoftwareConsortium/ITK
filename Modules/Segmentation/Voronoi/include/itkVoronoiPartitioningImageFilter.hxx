@@ -33,8 +33,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 /* destructor */
 template< typename TInputImage, typename TOutputImage >
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::~VoronoiPartitioningImageFilter()
-{}
+::~VoronoiPartitioningImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

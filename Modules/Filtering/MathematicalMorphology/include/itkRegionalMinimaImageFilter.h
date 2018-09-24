@@ -127,7 +127,7 @@ public:
 
 protected:
   RegionalMinimaImageFilter();
-  ~RegionalMinimaImageFilter() override {}
+  ~RegionalMinimaImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** RegionalMinimaImageFilter needs the entire input be

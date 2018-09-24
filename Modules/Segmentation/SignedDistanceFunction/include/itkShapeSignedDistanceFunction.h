@@ -105,9 +105,9 @@ public:
 
 protected:
 
-  ShapeSignedDistanceFunction() {}
+  ShapeSignedDistanceFunction() = default;
 
-  ~ShapeSignedDistanceFunction() override {}
+  ~ShapeSignedDistanceFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

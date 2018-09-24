@@ -45,8 +45,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 */
 template<typename TInternalComputationValueType>
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
-::~GradientDescentLineSearchOptimizerv4Template()
-{}
+::~GradientDescentLineSearchOptimizerv4Template() = default;
 
 
 /**

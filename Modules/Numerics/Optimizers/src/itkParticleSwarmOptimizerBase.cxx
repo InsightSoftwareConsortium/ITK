@@ -40,9 +40,7 @@ ParticleSwarmOptimizerBase
 }
 
 ParticleSwarmOptimizerBase
-::~ParticleSwarmOptimizerBase()
-{
-}
+::~ParticleSwarmOptimizerBase() = default;
 
 
 void

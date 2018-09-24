@@ -24,8 +24,7 @@ namespace itk
 {
 template< typename TItemType >
 UnaryCorrespondenceMatrix< TItemType >
-::UnaryCorrespondenceMatrix()
-{}
+::UnaryCorrespondenceMatrix() = default;
 } // end namespace itk
 
 #endif

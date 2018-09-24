@@ -144,7 +144,7 @@ public:
 
 protected:
   MeshFileReader();
-  ~MeshFileReader() override {}
+  ~MeshFileReader() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Convert a block of pixels from one type to another. */

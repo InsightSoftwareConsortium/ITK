@@ -94,7 +94,7 @@ protected:
   WeightedCentroidKdTreeGenerator();
 
   /** Destructor */
-  ~WeightedCentroidKdTreeGenerator() override {}
+  ~WeightedCentroidKdTreeGenerator() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

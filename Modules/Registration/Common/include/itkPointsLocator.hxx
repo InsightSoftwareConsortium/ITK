@@ -32,9 +32,7 @@ PointsLocator<TPointsContainer>
 
 template<typename TPointsContainer>
 PointsLocator<TPointsContainer>
-::~PointsLocator()
-{
-}
+::~PointsLocator() = default;
 
 template<typename TPointsContainer>
 void

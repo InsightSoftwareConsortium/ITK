@@ -35,8 +35,7 @@ namespace itk
 {
 template< typename TMapDataType >
 MapFileParser< TMapDataType >
-::~MapFileParser()
-{}
+::~MapFileParser() = default;
 
 template< typename TMapDataType >
 bool
@@ -100,8 +99,7 @@ MapFileParser< TMapDataType >
 
 template< typename TSmapsDataType >
 SmapsFileParser< TSmapsDataType >
-::~SmapsFileParser()
-{}
+::~SmapsFileParser() = default;
 
 /* SmapsFileParser implementation */
 template< typename TSmapsDataType >
@@ -147,8 +145,7 @@ void SmapsFileParser< TSmapsDataType >::ReadFile(const std::string & mapFileLoca
 
 template< typename TVMMapDataType >
 VMMapFileParser< TVMMapDataType >
-::~VMMapFileParser()
-{}
+::~VMMapFileParser() = default;
 
 /* VMapFileParser implementation */
 template< typename TVMMapDataType >

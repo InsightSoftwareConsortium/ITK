@@ -130,8 +130,8 @@ public:
   }
 
 protected:
-  NearestNeighborExtrapolateImageFunction(){}
-  ~NearestNeighborExtrapolateImageFunction() override {}
+  NearestNeighborExtrapolateImageFunction()= default;
+  ~NearestNeighborExtrapolateImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 };

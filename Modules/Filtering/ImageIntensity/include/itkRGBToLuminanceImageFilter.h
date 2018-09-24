@@ -42,8 +42,8 @@ public:
   using ComponentType = typename TInput::ComponentType;
   using RealType = typename itk::NumericTraits< ComponentType >::RealType;
 
-  RGBToLuminance() {}
-  ~RGBToLuminance() {}
+  RGBToLuminance() = default;
+  ~RGBToLuminance() = default;
   bool operator!=(const RGBToLuminance &) const
   {
     return false;
@@ -96,7 +96,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~RGBToLuminanceImageFilter() override {}
+  ~RGBToLuminanceImageFilter() override = default;
 };
 } // end namespace itk
 

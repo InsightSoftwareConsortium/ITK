@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  WinterColormapFunction() {}
-  ~WinterColormapFunction() override {}
+  WinterColormapFunction() = default;
+  ~WinterColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

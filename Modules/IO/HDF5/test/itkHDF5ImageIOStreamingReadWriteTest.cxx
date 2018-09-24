@@ -63,7 +63,7 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
     {
       m_Value = NumericTraits< typename TOutputImage::PixelType >::ZeroValue();
     }
-    ~DemoImageSource() override {}
+    ~DemoImageSource() override = default;
 
     /** Does the real work. */
     void GenerateData() override

@@ -56,7 +56,7 @@ protected:
   {
     m_Value = NumericTraits< typename TOutputImage::PixelType >::ZeroValue();
   }
-  ~ConstantImageSource() override {}
+  ~ConstantImageSource() override = default;
 
   /** Does the real work. */
   void GenerateData() override;

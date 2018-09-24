@@ -121,7 +121,7 @@ public:
 
 protected:
   GrayscaleGrindPeakImageFilter();
-  ~GrayscaleGrindPeakImageFilter() override {}
+  ~GrayscaleGrindPeakImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleGrindPeakImageFilter needs the entire input be

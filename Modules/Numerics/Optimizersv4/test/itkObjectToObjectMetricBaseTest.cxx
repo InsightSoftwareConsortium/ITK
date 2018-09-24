@@ -86,8 +86,8 @@ public:
   ParametersType  m_Parameters;
 
 private:
-  ObjectToObjectMetricTestMetric() {}
-  ~ObjectToObjectMetricTestMetric() override {}
+  ObjectToObjectMetricTestMetric() = default;
+  ~ObjectToObjectMetricTestMetric() override = default;
 };
 
 int itkObjectToObjectMetricBaseTest(int ,char * [])

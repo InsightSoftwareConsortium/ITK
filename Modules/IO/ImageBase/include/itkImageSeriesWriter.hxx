@@ -49,8 +49,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 //---------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >
 ImageSeriesWriter< TInputImage, TOutputImage >
-::~ImageSeriesWriter()
-{}
+::~ImageSeriesWriter() = default;
 
 //---------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >

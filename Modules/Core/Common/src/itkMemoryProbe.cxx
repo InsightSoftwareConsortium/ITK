@@ -25,8 +25,7 @@ MemoryProbe
 {}
 
 MemoryProbe
-::~MemoryProbe()
-{}
+::~MemoryProbe() = default;
 
 MemoryProbe::MemoryLoadType
 MemoryProbe

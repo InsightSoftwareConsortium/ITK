@@ -130,7 +130,7 @@ public:
 
 protected:
   BinaryThinningImageFilter();
-  ~BinaryThinningImageFilter() override {}
+  ~BinaryThinningImageFilter() override = default;
 
   /** Compute thinning Image. */
   void GenerateData() override;

@@ -125,8 +125,8 @@ public:
 #endif
 
 protected:
-  MeanProjectionImageFilter() {}
-  ~MeanProjectionImageFilter() override {}
+  MeanProjectionImageFilter() = default;
+  ~MeanProjectionImageFilter() override = default;
 };                                         // end MeanProjectionImageFilter
 } //end namespace itk
 

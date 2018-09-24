@@ -94,7 +94,7 @@ public:
   { return m_StrideTable[i]; }
 
   SparseFieldCityBlockNeighborList();
-  ~SparseFieldCityBlockNeighborList() {}
+  ~SparseFieldCityBlockNeighborList() = default;
 
   void Print(std::ostream & os) const;
 

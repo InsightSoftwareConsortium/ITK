@@ -89,7 +89,7 @@ protected:
   InputImageType * GetNonConstImageInput();
   InputPathType * GetNonConstPathInput();
   ImageAndPathToImageFilter();
-  ~ImageAndPathToImageFilter() override {}
+  ~ImageAndPathToImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };

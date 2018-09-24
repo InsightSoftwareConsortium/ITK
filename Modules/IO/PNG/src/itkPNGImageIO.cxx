@@ -301,8 +301,7 @@ PNGImageIO::PNGImageIO() :
   this->AddSupportedReadExtension(".PNG");
 }
 
-PNGImageIO::~PNGImageIO()
-{}
+PNGImageIO::~PNGImageIO() = default;
 
 void PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {

@@ -41,9 +41,7 @@ LBFGS2Optimizerv4
 
 
 LBFGS2Optimizerv4
-::~LBFGS2Optimizerv4()
-{
-}
+::~LBFGS2Optimizerv4() = default;
 
 void
 LBFGS2Optimizerv4

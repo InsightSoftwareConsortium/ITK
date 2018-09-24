@@ -30,8 +30,7 @@ BMPImageIOFactory::BMPImageIOFactory()
                           CreateObjectFunction< BMPImageIO >::New() );
 }
 
-BMPImageIOFactory::~BMPImageIOFactory()
-{}
+BMPImageIOFactory::~BMPImageIOFactory() = default;
 
 const char *
 BMPImageIOFactory::GetITKSourceVersion() const

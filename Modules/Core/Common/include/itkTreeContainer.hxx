@@ -51,8 +51,7 @@ TreeContainer< TValue >::TreeContainer(TreeContainer< TValue > & )
 
 /** Destructor */
 template< typename TValue >
-TreeContainer< TValue >::~TreeContainer()
-{}
+TreeContainer< TValue >::~TreeContainer() = default;
 
 /** Set the root of the tree */
 template< typename TValue >

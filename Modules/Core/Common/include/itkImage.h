@@ -281,7 +281,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
   void Graft(const DataObject *data) override;
 
-  ~Image() override {}
+  ~Image() override = default;
 
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be

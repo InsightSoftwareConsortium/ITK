@@ -44,7 +44,7 @@ public:
     m_FirstBarrier->Initialize(number_of_threads);
     m_SecondBarrier->Initialize(number_of_threads);
   }
-  ~BarrierTestUserData() {}
+  ~BarrierTestUserData() = default;
 };
 
 ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )

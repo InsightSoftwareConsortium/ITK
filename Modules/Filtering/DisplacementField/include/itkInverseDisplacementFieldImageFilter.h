@@ -175,7 +175,7 @@ public:
 
 protected:
   InverseDisplacementFieldImageFilter();
-  ~InverseDisplacementFieldImageFilter() override {}
+  ~InverseDisplacementFieldImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

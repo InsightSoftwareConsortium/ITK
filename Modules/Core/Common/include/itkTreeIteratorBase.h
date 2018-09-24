@@ -190,7 +190,7 @@ public:
     return *this;
   }
 
-  virtual ~TreeIteratorBase() {}
+  virtual ~TreeIteratorBase() = default;
 
 protected:
 

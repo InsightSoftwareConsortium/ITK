@@ -82,7 +82,7 @@ public:
 
 protected:
   BoxImageFilter();
-  ~BoxImageFilter() override {}
+  ~BoxImageFilter() override = default;
 
   void GenerateInputRequestedRegion() override;
 

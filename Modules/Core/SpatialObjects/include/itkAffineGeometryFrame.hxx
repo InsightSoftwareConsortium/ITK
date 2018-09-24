@@ -40,8 +40,7 @@ AffineGeometryFrame< TScalar, NDimensions >
 /** Destructor */
 template< typename TScalar, unsigned int NDimensions >
 AffineGeometryFrame< TScalar, NDimensions >
-::~AffineGeometryFrame()
-{}
+::~AffineGeometryFrame() = default;
 
 /** Initialize the transform */
 template< typename TScalar, unsigned int NDimensions >

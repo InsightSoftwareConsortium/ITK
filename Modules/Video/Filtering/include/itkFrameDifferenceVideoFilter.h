@@ -69,7 +69,7 @@ protected:
 
   /** Constructor and Destructor */
   FrameDifferenceVideoFilter();
-  ~FrameDifferenceVideoFilter() override {}
+  ~FrameDifferenceVideoFilter() override = default;
 
   /** PrintSelf */
   void PrintSelf(std::ostream & os, Indent indent) const override;

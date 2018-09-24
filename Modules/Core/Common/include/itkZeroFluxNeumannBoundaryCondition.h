@@ -79,7 +79,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Default constructor. */
-  ZeroFluxNeumannBoundaryCondition() {}
+  ZeroFluxNeumannBoundaryCondition() = default;
 
   /** Runtime information support. */
   const char * GetNameOfClass() const override

@@ -26,11 +26,9 @@ namespace itk
 {
 SpatialObjectFactoryBase *SpatialObjectFactoryBase:: m_Factory = nullptr;
 
-SpatialObjectFactoryBase::SpatialObjectFactoryBase()
-{}
+SpatialObjectFactoryBase::SpatialObjectFactoryBase() = default;
 
-SpatialObjectFactoryBase::~SpatialObjectFactoryBase()
-{}
+SpatialObjectFactoryBase::~SpatialObjectFactoryBase() = default;
 
 void SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
 {

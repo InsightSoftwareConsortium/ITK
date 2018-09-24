@@ -42,9 +42,7 @@ MetaDataObject< MetaDataObjectType >
 
 template< typename MetaDataObjectType >
 MetaDataObject< MetaDataObjectType >
-::~MetaDataObject()
-{
-}
+::~MetaDataObject() = default;
 
 template< typename MetaDataObjectType >
 const char *

@@ -34,7 +34,7 @@ public:
     m_Counter = 0;
     m_CountLimit = 12;
   }
-  ~ConditionVariableTestUserData() {}
+  ~ConditionVariableTestUserData() = default;
 };
 
 

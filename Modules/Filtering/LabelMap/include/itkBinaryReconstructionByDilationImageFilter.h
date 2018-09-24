@@ -144,7 +144,7 @@ public:
 
 protected:
   BinaryReconstructionByDilationImageFilter();
-  ~BinaryReconstructionByDilationImageFilter() override {};
+  ~BinaryReconstructionByDilationImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryReconstructionByDilationImageFilter needs the entire input be

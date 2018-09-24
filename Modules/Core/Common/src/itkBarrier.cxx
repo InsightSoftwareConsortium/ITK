@@ -27,9 +27,7 @@ Barrier::Barrier() :
 {
 }
 
-Barrier::~Barrier()
-{
-}
+Barrier::~Barrier() = default;
 
 void Barrier::Initialize(unsigned int n)
 {

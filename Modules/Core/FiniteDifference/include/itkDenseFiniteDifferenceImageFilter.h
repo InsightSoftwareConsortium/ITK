@@ -118,7 +118,7 @@ public:
 protected:
   DenseFiniteDifferenceImageFilter()
   { m_UpdateBuffer = UpdateBufferType::New(); }
-  ~DenseFiniteDifferenceImageFilter() override {}
+  ~DenseFiniteDifferenceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** A simple method to copy the data from the input to the output.  ( Supports

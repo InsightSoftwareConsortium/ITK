@@ -28,7 +28,7 @@ class GoogleTestFixture
 {
 public:
   GoogleTestFixture() : m_C(1) {}
-  ~GoogleTestFixture() override {}
+  ~GoogleTestFixture() override = default;
 
 protected:
   void SetUp() override {}

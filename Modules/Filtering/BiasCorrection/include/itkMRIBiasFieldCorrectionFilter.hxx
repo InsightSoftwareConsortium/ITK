@@ -393,8 +393,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
-::~MRIBiasFieldCorrectionFilter()
-{}
+::~MRIBiasFieldCorrectionFilter() = default;
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void

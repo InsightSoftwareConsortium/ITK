@@ -24,8 +24,8 @@
 class StaplerBase
 {
 public:
-  StaplerBase()  {}
-  virtual ~StaplerBase() {}
+  StaplerBase()  = default;
+  virtual ~StaplerBase() = default;
 
   void SetOutputFileName( const char *s )
   { m_OutputFile = s; }
@@ -80,7 +80,7 @@ public:
     m_Stapler = StapleFilterType::New();
     this->SetForeground(1);
   }
-  ~Stapler() override {}
+  ~Stapler() override = default;
 
   double GetConfidenceWeight( ) const override
   { return m_Stapler->GetConfidenceWeight(); }

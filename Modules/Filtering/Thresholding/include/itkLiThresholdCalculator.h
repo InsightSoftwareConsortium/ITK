@@ -75,8 +75,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  LiThresholdCalculator() {};
-  ~LiThresholdCalculator() override {};
+  LiThresholdCalculator() = default;
+  ~LiThresholdCalculator() override = default;
   void GenerateData() override;
 };
 

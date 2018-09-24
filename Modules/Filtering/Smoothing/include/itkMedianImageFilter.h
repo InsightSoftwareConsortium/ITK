@@ -97,7 +97,7 @@ public:
 
 protected:
   MedianImageFilter();
-  ~MedianImageFilter() override {}
+  ~MedianImageFilter() override = default;
 
   /** MedianImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

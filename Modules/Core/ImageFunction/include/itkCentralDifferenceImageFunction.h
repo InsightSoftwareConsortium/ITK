@@ -207,7 +207,7 @@ public:
 
 protected:
   CentralDifferenceImageFunction();
-  ~CentralDifferenceImageFunction() override {}
+  ~CentralDifferenceImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

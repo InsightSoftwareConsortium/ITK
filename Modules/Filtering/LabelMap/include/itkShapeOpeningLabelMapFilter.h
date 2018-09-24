@@ -117,7 +117,7 @@ public:
 
 protected:
   ShapeOpeningLabelMapFilter();
-  ~ShapeOpeningLabelMapFilter() override {}
+  ~ShapeOpeningLabelMapFilter() override = default;
 
   void GenerateData() override;
 

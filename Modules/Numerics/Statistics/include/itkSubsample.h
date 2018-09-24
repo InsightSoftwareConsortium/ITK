@@ -283,7 +283,7 @@ private:
 
 protected:
   Subsample();
-  ~Subsample() override {}
+  ~Subsample() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

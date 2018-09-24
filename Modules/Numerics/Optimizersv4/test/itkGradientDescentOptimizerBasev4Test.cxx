@@ -82,10 +82,10 @@ public:
   { Superclass::PrintSelf( os, indent ); }
 
 protected:
-  ~GradientDescentOptimizerBasev4TestMetric() override {}
+  ~GradientDescentOptimizerBasev4TestMetric() override = default;
 
 private:
-  GradientDescentOptimizerBasev4TestMetric() {}
+  GradientDescentOptimizerBasev4TestMetric() = default;
   ParametersType m_Parameters;
 };
 
@@ -136,8 +136,8 @@ public:
 
 protected:
 
-  GradientDescentOptimizerBasev4TestOptimizer(){}
-  ~GradientDescentOptimizerBasev4TestOptimizer() override {}
+  GradientDescentOptimizerBasev4TestOptimizer()= default;
+  ~GradientDescentOptimizerBasev4TestOptimizer() override = default;
 };
 
 

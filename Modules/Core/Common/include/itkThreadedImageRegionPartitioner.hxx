@@ -32,9 +32,7 @@ ThreadedImageRegionPartitioner<VDimension>
 
 template <unsigned int VDimension>
 ThreadedImageRegionPartitioner<VDimension>
-::~ThreadedImageRegionPartitioner()
-{
-}
+::~ThreadedImageRegionPartitioner() = default;
 
 template <unsigned int VDimension>
 ThreadIdType

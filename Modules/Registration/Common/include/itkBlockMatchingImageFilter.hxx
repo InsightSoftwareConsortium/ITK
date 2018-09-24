@@ -50,9 +50,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
 
 template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
-::~BlockMatchingImageFilter()
-{
-}
+::~BlockMatchingImageFilter() = default;
 
 template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void

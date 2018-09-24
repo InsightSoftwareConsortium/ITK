@@ -137,7 +137,7 @@ public:
 
 protected:
   OtsuMultipleThresholdsImageFilter();
-  ~OtsuMultipleThresholdsImageFilter() override {}
+  ~OtsuMultipleThresholdsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateInputRequestedRegion() override;

@@ -43,9 +43,7 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 // Destructor
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
-::~BSplineBaseTransform()
-{
-}
+::~BSplineBaseTransform() = default;
 
 
 // Set the parameters

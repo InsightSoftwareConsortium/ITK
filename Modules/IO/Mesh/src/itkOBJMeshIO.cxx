@@ -32,9 +32,7 @@ OBJMeshIO
 }
 
 OBJMeshIO
-::~OBJMeshIO()
-{
-}
+::~OBJMeshIO() = default;
 
 bool
 OBJMeshIO

@@ -58,8 +58,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
  */
 template< typename TInputImage, typename TOutputMesh >
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
-::~BinaryMaskToNarrowBandPointSetFilter()
-{}
+::~BinaryMaskToNarrowBandPointSetFilter() = default;
 
 /**
  *

@@ -90,7 +90,7 @@ public:
 
 protected:
   MinMaxCurvatureFlowFunction();
-  ~MinMaxCurvatureFlowFunction() override {}
+  ~MinMaxCurvatureFlowFunction() override = default;
 
   using StencilOperatorType = Neighborhood< PixelType, Self::ImageDimension >;
   StencilOperatorType m_StencilOperator;

@@ -32,8 +32,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
 template< typename TInputMesh, typename TOutputMesh >
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-::~NormalQuadEdgeMeshFilter()
-{}
+::~NormalQuadEdgeMeshFilter() = default;
 
 template< typename TInputMesh, typename TOutputMesh >
 typename NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::OutputFaceNormalType

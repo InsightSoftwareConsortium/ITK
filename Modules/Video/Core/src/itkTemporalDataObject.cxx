@@ -43,8 +43,7 @@ TemporalDataObject::TemporalDataObject()
 
 //----------------------------------------------------------------------------
 TemporalDataObject
-::~TemporalDataObject()
-{}
+::~TemporalDataObject() = default;
 
 //----------------------------------------------------------------------------
 TemporalDataObject::TemporalUnitType

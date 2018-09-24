@@ -45,8 +45,8 @@ template< typename TInput, typename TOutput >
 class VectorCast
 {
 public:
-  VectorCast() {}
-  ~VectorCast() {}
+  VectorCast() = default;
+  ~VectorCast() = default;
   bool operator!=(const VectorCast &) const
   {
     return false;
@@ -111,8 +111,8 @@ public:
 #endif
 
 protected:
-  VectorCastImageFilter() {}
-  ~VectorCastImageFilter() override {}
+  VectorCastImageFilter() = default;
+  ~VectorCastImageFilter() override = default;
 };
 } // end namespace itk
 

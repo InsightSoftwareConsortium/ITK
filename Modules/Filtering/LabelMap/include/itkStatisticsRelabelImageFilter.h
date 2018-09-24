@@ -155,7 +155,7 @@ public:
 
 protected:
   StatisticsRelabelImageFilter();
-  ~StatisticsRelabelImageFilter() override {}
+  ~StatisticsRelabelImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** StatisticsRelabelImageFilter needs the entire input be

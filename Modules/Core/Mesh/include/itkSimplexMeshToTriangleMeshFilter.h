@@ -106,7 +106,7 @@ public:
     /**
      * default destructor
      */
-    virtual ~SimplexCellVisitor() {}
+    virtual ~SimplexCellVisitor() = default;
 
     /**
      * \brief visits all polygon cells and compute the cell centers

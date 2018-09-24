@@ -95,7 +95,7 @@ public:
 
 protected:
   QuadEdgeMeshToQuadEdgeMeshFilter();
-  ~QuadEdgeMeshToQuadEdgeMeshFilter() override {}
+  ~QuadEdgeMeshToQuadEdgeMeshFilter() override = default;
 
   virtual void CopyInputMeshToOutputMesh();
 

@@ -66,7 +66,7 @@ public:
 
 protected:
   QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() : m_OldPointID(0) {}
-  ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() override {}
+  ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() override = default;
 
 private:
   PointIdentifier m_OldPointID;

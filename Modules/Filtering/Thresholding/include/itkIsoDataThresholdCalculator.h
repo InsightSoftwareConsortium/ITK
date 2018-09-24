@@ -73,8 +73,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  IsoDataThresholdCalculator() {}
-  ~IsoDataThresholdCalculator() override {}
+  IsoDataThresholdCalculator() = default;
+  ~IsoDataThresholdCalculator() override = default;
   void GenerateData() override;
 
   using SizeValueType = typename HistogramType::SizeValueType;

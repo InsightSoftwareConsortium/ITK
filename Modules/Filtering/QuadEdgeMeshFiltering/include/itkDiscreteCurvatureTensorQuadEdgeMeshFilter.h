@@ -56,8 +56,8 @@ public:
 #endif
 
 protected:
-  DiscreteCurvatureTensorQuadEdgeMeshFilter() {}
-  ~DiscreteCurvatureTensorQuadEdgeMeshFilter() {}
+  DiscreteCurvatureTensorQuadEdgeMeshFilter() = default;
+  ~DiscreteCurvatureTensorQuadEdgeMeshFilter() = default;
 
   ///TODO to be implemented
   virtual void GenerateData()

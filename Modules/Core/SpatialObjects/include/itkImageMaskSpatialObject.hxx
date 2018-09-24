@@ -36,8 +36,7 @@ ImageMaskSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 ImageMaskSpatialObject< TDimension >
-::~ImageMaskSpatialObject()
-{}
+::~ImageMaskSpatialObject() = default;
 
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not

@@ -99,8 +99,8 @@ public:
   }
 
 protected:
-  ExampleImageSource() {};
-  ~ExampleImageSource() override {};
+  ExampleImageSource() = default;
+  ~ExampleImageSource() override = default;
 };
 }
 

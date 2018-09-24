@@ -137,7 +137,7 @@ public:
 
 protected:
   ReconstructionImageFilter();
-  ~ReconstructionImageFilter() override {}
+  ~ReconstructionImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ValuedRegionalExtremaImageFilter needs the entire input be

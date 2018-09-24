@@ -129,7 +129,7 @@ public:
 
 protected:
   GrayscaleMorphologicalOpeningImageFilter();
-  ~GrayscaleMorphologicalOpeningImageFilter() override {}
+  ~GrayscaleMorphologicalOpeningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

@@ -55,8 +55,7 @@ RandomImageSource< TOutputImage >
 
 template< typename TOutputImage >
 RandomImageSource< TOutputImage >
-::~RandomImageSource()
-{}
+::~RandomImageSource() = default;
 
 template< typename TOutputImage >
 void

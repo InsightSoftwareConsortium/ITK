@@ -90,7 +90,7 @@ public:
 
 protected:
   FFTShiftImageFilter();
-  ~FFTShiftImageFilter() override {}
+  ~FFTShiftImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override GenerateData method to set some parameters in the

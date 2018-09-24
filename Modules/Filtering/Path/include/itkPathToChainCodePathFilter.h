@@ -70,7 +70,7 @@ public:
 
 protected:
   PathToChainCodePathFilter();
-  ~PathToChainCodePathFilter() override {}
+  ~PathToChainCodePathFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

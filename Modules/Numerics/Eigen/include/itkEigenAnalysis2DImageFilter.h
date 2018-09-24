@@ -117,7 +117,7 @@ public:
 
 protected:
   EigenAnalysis2DImageFilter();
-  ~EigenAnalysis2DImageFilter() override {}
+  ~EigenAnalysis2DImageFilter() override = default;
 
   void GenerateData() override;
 };

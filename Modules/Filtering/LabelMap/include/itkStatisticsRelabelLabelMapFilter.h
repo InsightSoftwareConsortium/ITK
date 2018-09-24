@@ -87,7 +87,7 @@ public:
 
 protected:
   StatisticsRelabelLabelMapFilter();
-  ~StatisticsRelabelLabelMapFilter() override {}
+  ~StatisticsRelabelLabelMapFilter() override = default;
 
   void GenerateData() override;
 };                                               // end of class

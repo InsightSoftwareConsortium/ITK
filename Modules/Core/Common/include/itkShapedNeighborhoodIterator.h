@@ -185,11 +185,11 @@ public:
 
   /** An  iterator for the ShapedNeighborhood classes. */
   struct Iterator:public ConstIterator {
-    Iterator() {}
+    Iterator() = default;
     Iterator(Self *s) :
       ConstIterator(s) {}
 
-    ~Iterator() ITK_ITERATOR_OVERRIDE {}
+    ~Iterator() ITK_ITERATOR_OVERRIDE = default;
     Iterator & operator=(const Iterator & o)
     {
       ConstIterator::operator=(o);
@@ -209,12 +209,10 @@ public:
   };
 
   /** Default constructor */
-  ShapedNeighborhoodIterator()
-  {
-  }
+  ShapedNeighborhoodIterator() = default;
 
   /** Virtual destructor */
-  ~ShapedNeighborhoodIterator() override {}
+  ~ShapedNeighborhoodIterator() override = default;
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */

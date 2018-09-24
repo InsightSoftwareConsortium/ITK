@@ -40,8 +40,8 @@ template< typename TInput, typename TOutput >
 class EdgePotential
 {
 public:
-  EdgePotential() {}
-  ~EdgePotential() {}
+  EdgePotential() = default;
+  ~EdgePotential() = default;
   bool operator!=(const EdgePotential &) const
   {
     return false;
@@ -97,7 +97,7 @@ protected:
 #endif
     }
 
-  ~EdgePotentialImageFilter() override {}
+  ~EdgePotentialImageFilter() override = default;
 };
 } // end namespace itk
 

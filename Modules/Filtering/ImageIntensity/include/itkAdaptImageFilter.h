@@ -44,7 +44,7 @@ public:
 
   /** Constructor and destructor. */
   AccessorFunctor():m_Accessor() {}
-  ~AccessorFunctor() {}
+  ~AccessorFunctor() = default;
 
   /** operator().  This is the "call" method of the functor. */
   using OutputType = typename TAccessor::ExternalType;
@@ -167,8 +167,8 @@ public:
   }
 
 protected:
-  AdaptImageFilter() {}
-  ~AdaptImageFilter() override {}
+  AdaptImageFilter() = default;
+  ~AdaptImageFilter() override = default;
 };
 } // end namespace itk
 

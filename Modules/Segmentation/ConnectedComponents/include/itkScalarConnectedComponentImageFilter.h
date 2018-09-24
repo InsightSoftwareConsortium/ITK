@@ -58,8 +58,7 @@ public:
     m_Threshold = NumericTraits< TInput >::ZeroValue();
   }
 
-  ~SimilarPixelsFunctor()
-  {}
+  ~SimilarPixelsFunctor() = default;
 
   bool operator!=(const SimilarPixelsFunctor & other) const
   {
@@ -153,8 +152,8 @@ public:
 #endif
 
 protected:
-  ScalarConnectedComponentImageFilter() {}
-  ~ScalarConnectedComponentImageFilter() override {}
+  ScalarConnectedComponentImageFilter() = default;
+  ~ScalarConnectedComponentImageFilter() override = default;
 };
 } // end namespace itk
 

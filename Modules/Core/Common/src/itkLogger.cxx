@@ -19,6 +19,6 @@
 
 namespace itk
 {
-Logger::Logger() {}
-Logger::~Logger() {}
+Logger::Logger() = default;
+Logger::~Logger() = default;
 }

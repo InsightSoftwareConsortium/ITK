@@ -162,7 +162,7 @@ public:
 
 protected:
   BinaryImageToShapeLabelMapFilter();
-  ~BinaryImageToShapeLabelMapFilter() override {}
+  ~BinaryImageToShapeLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryImageToShapeLabelMapFilter needs the entire input be available.

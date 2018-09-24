@@ -118,7 +118,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
   virtual void AddInstanceIdentifier( InstanceIdentifier ) = 0;
 
   /** Destructor */
-  virtual ~KdTreeNode() {}  // needed to subclasses will actually be deleted
+  virtual ~KdTreeNode() = default;  // needed to subclasses will actually be deleted
 }; // end of class
 
 /** \class KdTreeNonterminalNode
@@ -145,7 +145,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode:public KdTreeNode<TSample>
   KdTreeNonterminalNode( unsigned int, MeasurementType, Superclass *,
     Superclass * );
 
-  ~KdTreeNonterminalNode() override {}
+  ~KdTreeNonterminalNode() override = default;
 
   bool IsTerminal() const override
   {
@@ -253,7 +253,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNo
   KdTreeWeightedCentroidNonterminalNode( unsigned int, MeasurementType,
     Superclass *, Superclass *, CentroidType &, unsigned int );
 
-  ~KdTreeWeightedCentroidNonterminalNode() override {}
+  ~KdTreeWeightedCentroidNonterminalNode() override = default;
 
   /** Not a terminal node. */
   bool IsTerminal() const override
@@ -366,7 +366,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode:public KdTreeNode<TSample>
   using CentroidType = typename Superclass::CentroidType;
   using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
-  KdTreeTerminalNode() {}
+  KdTreeTerminalNode() = default;
 
   ~KdTreeTerminalNode() override
   {
@@ -540,7 +540,7 @@ public:
     NearestNeighbors( std::vector<double> & cache_vector) : m_FarthestNeighborIndex(0), m_Distances(cache_vector)  {}
 
     /** Destructor */
-    ~NearestNeighbors() {}
+    ~NearestNeighbors() = default;
 
     /** Initialize the internal instance identifier and distance holders
      * with the size, k */

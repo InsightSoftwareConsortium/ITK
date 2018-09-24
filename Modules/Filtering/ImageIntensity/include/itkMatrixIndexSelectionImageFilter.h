@@ -29,7 +29,7 @@ class MatrixIndexSelection
 {
 public:
   MatrixIndexSelection() { m_I = m_J = 0; }
-  ~MatrixIndexSelection() {}
+  ~MatrixIndexSelection() = default;
 
   void GetIndices(unsigned int & i, unsigned int & j) const { i = m_I; j = m_J; }
   void SetIndices(unsigned int i, unsigned int j) { m_I = i; m_J = j; }
@@ -119,8 +119,8 @@ public:
 #endif
 
 protected:
-  MatrixIndexSelectionImageFilter() {}
-  ~MatrixIndexSelectionImageFilter() override {}
+  MatrixIndexSelectionImageFilter() = default;
+  ~MatrixIndexSelectionImageFilter() override = default;
 };
 } // end namespace itk
 

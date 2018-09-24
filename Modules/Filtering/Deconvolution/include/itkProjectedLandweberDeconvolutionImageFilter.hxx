@@ -25,15 +25,11 @@ namespace itk
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 ProjectedLandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
-::ProjectedLandweberDeconvolutionImageFilter()
-{
-}
+::ProjectedLandweberDeconvolutionImageFilter() = default;
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 ProjectedLandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
-::~ProjectedLandweberDeconvolutionImageFilter()
-{
-}
+::~ProjectedLandweberDeconvolutionImageFilter() = default;
 
 } // end namespace itk
 

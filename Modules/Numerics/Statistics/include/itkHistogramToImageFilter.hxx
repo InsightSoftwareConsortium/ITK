@@ -35,8 +35,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
 /** Destructor */
 template< typename THistogram, typename TImage, typename TFunction >
 HistogramToImageFilter< THistogram, TImage, TFunction >
-::~HistogramToImageFilter()
-{}
+::~HistogramToImageFilter() = default;
 
 /** Set the Input Histogram */
 template< typename THistogram, typename TImage, typename TFunction >

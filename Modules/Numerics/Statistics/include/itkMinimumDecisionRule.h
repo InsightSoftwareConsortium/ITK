@@ -64,8 +64,8 @@ public:
   ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const override;
 
 protected:
-  MinimumDecisionRule() {}
-  ~MinimumDecisionRule() override {}
+  MinimumDecisionRule() = default;
+  ~MinimumDecisionRule() override = default;
 
 };  // end of class
 } // end of namespace Statistics

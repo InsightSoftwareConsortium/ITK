@@ -46,7 +46,7 @@ public:
 
 protected:
   FastMarchingStoppingCriterionBaseHelperTest() : Superclass() {}
-  ~FastMarchingStoppingCriterionBaseHelperTest() override {}
+  ~FastMarchingStoppingCriterionBaseHelperTest() override = default;
 
   void SetCurrentNode( const NodeType& ) override {}
 

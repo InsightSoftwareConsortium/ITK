@@ -109,7 +109,7 @@ public:
 
 protected:
   MorphologicalWatershedImageFilter();
-  ~MorphologicalWatershedImageFilter() override {}
+  ~MorphologicalWatershedImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MorphologicalWatershedImageFilter needs the entire input be

@@ -185,8 +185,8 @@ public:
   }
 
 protected:
-  RawImageIOFactory() {}
-  ~RawImageIOFactory() override {}
+  RawImageIOFactory() = default;
+  ~RawImageIOFactory() override = default;
   using myProductType = RawImageIO< TPixel, VImageDimension >;
   const myProductType *m_MyProduct;
 };

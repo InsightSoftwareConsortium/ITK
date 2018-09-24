@@ -35,8 +35,8 @@ template< typename TInput, typename TOutput >
 class ComplexToImaginary
 {
 public:
-  ComplexToImaginary() {}
-  ~ComplexToImaginary() {}
+  ComplexToImaginary() = default;
+  ~ComplexToImaginary() = default;
   bool operator!=(const ComplexToImaginary &) const
   {
     return false;
@@ -96,7 +96,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~ComplexToImaginaryImageFilter() override {}
+  ~ComplexToImaginaryImageFilter() override = default;
 };
 } // end namespace itk
 

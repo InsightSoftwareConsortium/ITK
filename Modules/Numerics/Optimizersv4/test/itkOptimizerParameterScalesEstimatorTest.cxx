@@ -64,8 +64,8 @@ public:
     }
 
 protected:
-  OptimizerParameterScalesEstimatorTest(){};
-  ~OptimizerParameterScalesEstimatorTest() override {};
+  OptimizerParameterScalesEstimatorTest()= default;
+  ~OptimizerParameterScalesEstimatorTest() override = default;
 };
 
 /**

@@ -145,7 +145,7 @@ public:
   }
 
   /** Default Destructor. */
-  virtual ~ImageReverseConstIterator() {}
+  virtual ~ImageReverseConstIterator() = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */

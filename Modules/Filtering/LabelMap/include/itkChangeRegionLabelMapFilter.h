@@ -102,8 +102,8 @@ public:
   itkGetConstReferenceMacro(Region, OutputImageRegionType);
 
 protected:
-  ChangeRegionLabelMapFilter() {}
-  ~ChangeRegionLabelMapFilter() override {}
+  ChangeRegionLabelMapFilter() = default;
+  ~ChangeRegionLabelMapFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

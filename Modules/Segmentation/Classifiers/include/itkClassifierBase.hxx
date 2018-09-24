@@ -34,8 +34,7 @@ ClassifierBase< TDataContainer >
 
 template< typename TDataContainer >
 ClassifierBase< TDataContainer >
-::~ClassifierBase()
-{}
+::~ClassifierBase() = default;
 
 template< typename TDataContainer >
 void

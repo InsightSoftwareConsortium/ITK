@@ -81,7 +81,7 @@ public:
 
 protected:
   InteriorExteriorMeshFilter();
-  ~InteriorExteriorMeshFilter() override {}
+  ~InteriorExteriorMeshFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate requested data. */

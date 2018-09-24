@@ -358,7 +358,7 @@ public:
 #endif
 
 protected:
-  ~NarrowBandLevelSetImageFilter() override {}
+  ~NarrowBandLevelSetImageFilter() override = default;
   NarrowBandLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

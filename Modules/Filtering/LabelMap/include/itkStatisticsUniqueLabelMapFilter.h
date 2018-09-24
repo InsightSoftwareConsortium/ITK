@@ -83,7 +83,7 @@ public:
 
 protected:
   StatisticsUniqueLabelMapFilter();
-  ~StatisticsUniqueLabelMapFilter() override {}
+  ~StatisticsUniqueLabelMapFilter() override = default;
 
   void GenerateData() override;
 };

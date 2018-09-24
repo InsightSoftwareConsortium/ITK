@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Sqrt
 {
 public:
-  Sqrt() {}
-  ~Sqrt() {}
+  Sqrt() = default;
+  ~Sqrt() = default;
   bool operator!=(const Sqrt &) const
   {
     return false;
@@ -101,7 +101,7 @@ protected:
 #endif
     }
 
-  ~SqrtImageFilter() override {}
+  ~SqrtImageFilter() override = default;
 };
 } // end namespace itk
 

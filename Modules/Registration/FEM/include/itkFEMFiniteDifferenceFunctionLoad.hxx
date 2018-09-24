@@ -79,8 +79,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
 
   if( !m_DifferenceFunction )
     {
-    typename defaultRegistrationFunctionType::Pointer drfp
-      = defaultRegistrationFunctionType::New();
+    typename defaultRegistrationFunctionType::Pointer drfp = defaultRegistrationFunctionType::New();
     this->SetMetric(static_cast<FiniteDifferenceFunctionType *>(drfp) );
     }
 

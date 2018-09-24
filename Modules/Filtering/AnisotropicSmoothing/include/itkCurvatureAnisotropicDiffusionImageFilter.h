@@ -96,7 +96,7 @@ protected:
     this->SetDifferenceFunction(q);
   }
 
-  ~CurvatureAnisotropicDiffusionImageFilter() override {}
+  ~CurvatureAnisotropicDiffusionImageFilter() override = default;
 
   void InitializeIteration() override
   {

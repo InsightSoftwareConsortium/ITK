@@ -105,7 +105,7 @@ public:
 
 protected:
   RegularStepGradientDescentBaseOptimizer();
-  ~RegularStepGradientDescentBaseOptimizer() override {}
+  ~RegularStepGradientDescentBaseOptimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance one step following the gradient direction

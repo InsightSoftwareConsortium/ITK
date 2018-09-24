@@ -57,9 +57,7 @@ public:
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
 
-  OnePlusOneCostFunction()
-  {
-  }
+  OnePlusOneCostFunction() = default;
 
 
   MeasureType  GetValue( const ParametersType & parameters ) const override

@@ -56,8 +56,8 @@ public:
   virtual OutputType Evaluate(QEType *e);
 
 protected:
-  QuadEdgeMeshEulerOperatorJoinFacetFunction(){}
-  ~QuadEdgeMeshEulerOperatorJoinFacetFunction() override {}
+  QuadEdgeMeshEulerOperatorJoinFacetFunction()= default;
+  ~QuadEdgeMeshEulerOperatorJoinFacetFunction() override = default;
 };
 } // end namespace itk
 

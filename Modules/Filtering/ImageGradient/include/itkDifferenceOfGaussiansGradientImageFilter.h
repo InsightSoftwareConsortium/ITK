@@ -87,7 +87,7 @@ public:
 
 protected:
   DifferenceOfGaussiansGradientImageFilter();
-  ~DifferenceOfGaussiansGradientImageFilter() override {}
+  ~DifferenceOfGaussiansGradientImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method for evaluating the implicit function over the image. */

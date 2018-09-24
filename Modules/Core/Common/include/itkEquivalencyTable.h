@@ -137,8 +137,8 @@ public:
   //  void PrintHashTable();
 
 protected:
-  EquivalencyTable()  {}
-  ~EquivalencyTable() override {}
+  EquivalencyTable()  = default;
+  ~EquivalencyTable() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   HashTableType m_HashMap;

@@ -106,7 +106,7 @@ protected:
     m_LowerBoundaryCropSize.Fill(0);
   }
 
-  ~CropImageFilter() override {}
+  ~CropImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateOutputInformation() override;

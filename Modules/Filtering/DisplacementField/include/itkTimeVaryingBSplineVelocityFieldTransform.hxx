@@ -51,9 +51,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::
-~TimeVaryingBSplineVelocityFieldTransform()
-{
-}
+~TimeVaryingBSplineVelocityFieldTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 void

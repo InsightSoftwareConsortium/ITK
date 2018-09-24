@@ -30,7 +30,7 @@ CacheableScalarFunction
 {
 }
 
-CacheableScalarFunction::~CacheableScalarFunction() {}
+CacheableScalarFunction::~CacheableScalarFunction() = default;
 
 void
 CacheableScalarFunction

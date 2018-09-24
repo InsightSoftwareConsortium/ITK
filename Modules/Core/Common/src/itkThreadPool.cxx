@@ -66,7 +66,7 @@ class ThreadPoolGlobalsInitializer
 public:
   using Self = ThreadPoolGlobalsInitializer;
 
-  ThreadPoolGlobalsInitializer() {}
+  ThreadPoolGlobalsInitializer() = default;
 
   /** Delete the thread pool globals if it was created. */
   ~ThreadPoolGlobalsInitializer()

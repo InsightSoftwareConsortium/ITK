@@ -79,7 +79,7 @@ public:
 
 protected:
   WarpMeshFilter();
-  ~WarpMeshFilter() override {}
+  ~WarpMeshFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */

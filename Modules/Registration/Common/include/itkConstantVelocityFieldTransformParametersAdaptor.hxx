@@ -38,9 +38,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::~ConstantVelocityFieldTransformParametersAdaptor()
-{
-}
+::~ConstantVelocityFieldTransformParametersAdaptor() = default;
 
 template<typename TTransform>
 void

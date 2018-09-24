@@ -42,8 +42,7 @@ ImageAdaptor< TImage, TAccessor >
  */
 template< typename TImage, typename TAccessor >
 ImageAdaptor< TImage, TAccessor >
-::~ImageAdaptor()
-{}
+::~ImageAdaptor() = default;
 
 template< typename TImage, typename TAccessor >
 void

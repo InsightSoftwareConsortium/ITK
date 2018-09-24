@@ -137,7 +137,7 @@ public:
       }
   }
 
-  ~HexahedronCell() override {}
+  ~HexahedronCell() override = default;
 };
 } // end namespace itk
 

@@ -96,8 +96,8 @@ public:
   }
 
 protected:
-  RMSCommand()  {}
-  ~RMSCommand() override {}
+  RMSCommand()  = default;
+  ~RMSCommand() override = default;
 };
 
 
@@ -125,8 +125,8 @@ public:
   }
 
 protected:
-  TSIFTNProgressCommand()  {}
-  ~TSIFTNProgressCommand() override {}
+  TSIFTNProgressCommand()  = default;
+  ~TSIFTNProgressCommand() override = default;
 };
 
 

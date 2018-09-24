@@ -26,8 +26,7 @@ namespace Statistics
 {
 template< typename TMeasurementVector >
 ListSample< TMeasurementVector >
-::ListSample()
-{}
+::ListSample() = default;
 
 template< typename TMeasurementVector >
 void

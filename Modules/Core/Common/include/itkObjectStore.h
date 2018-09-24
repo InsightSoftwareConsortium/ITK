@@ -140,7 +140,7 @@ protected:
     MemoryBlock(SizeValueType n):Size(n)
     { Begin = new ObjectType[n];  }
 
-    ~MemoryBlock()  {}   // Purposely does *not* free memory
+    ~MemoryBlock()  = default;   // Purposely does *not* free memory
 
     void Delete()
     {

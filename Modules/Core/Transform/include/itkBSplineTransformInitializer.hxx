@@ -38,9 +38,7 @@ BSplineTransformInitializer<TTransform, TImage>
 
 template<typename TTransform, typename TImage>
 BSplineTransformInitializer<TTransform, TImage>
-::~BSplineTransformInitializer()
-{
-}
+::~BSplineTransformInitializer() = default;
 
 template<typename TTransform, typename TImage>
 void

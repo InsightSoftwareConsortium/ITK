@@ -79,8 +79,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
 template<typename TInputPointSet, typename TOutputImage>
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::~BSplineScatteredDataPointSetToImageFilter()
-{}
+::~BSplineScatteredDataPointSetToImageFilter() = default;
 
 template<typename TInputPointSet, typename TOutputImage>
 void

@@ -80,7 +80,7 @@ protected:
   {
     m_OtsuMultipleThresholdsCalculator = OtsuMultipleThresholdsCalculator<THistogram>::New();
   }
-  ~OtsuThresholdCalculator() override {};
+  ~OtsuThresholdCalculator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
   void GenerateData() override;
 

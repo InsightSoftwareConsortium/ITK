@@ -35,8 +35,8 @@ template< typename TInput, typename TOutput >
 class ComplexToPhase
 {
 public:
-  ComplexToPhase() {}
-  ~ComplexToPhase() {}
+  ComplexToPhase() = default;
+  ~ComplexToPhase() = default;
   bool operator!=(const ComplexToPhase &) const
   {
     return false;
@@ -96,7 +96,7 @@ protected:
 #endif
     }
 
-  ~ComplexToPhaseImageFilter() override {}
+  ~ComplexToPhaseImageFilter() override = default;
 };
 } // end namespace itk
 

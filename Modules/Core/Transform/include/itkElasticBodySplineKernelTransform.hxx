@@ -30,8 +30,7 @@ ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ElasticBody
 
 template<typename TParametersValueType, unsigned int NDimensions>
 ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::
-~ElasticBodySplineKernelTransform()
-{}
+~ElasticBodySplineKernelTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 void

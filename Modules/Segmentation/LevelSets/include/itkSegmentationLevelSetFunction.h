@@ -162,7 +162,7 @@ protected:
   VectorType AdvectionField(const NeighborhoodType &,
                                     const FloatOffsetType &, GlobalDataStruct *gd) const override;
 
-  ~SegmentationLevelSetFunction() override {}
+  ~SegmentationLevelSetFunction() override = default;
   SegmentationLevelSetFunction()
   {
     m_SpeedImage = ImageType::New();

@@ -128,7 +128,7 @@ protected:
   VersorRigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   VersorRigid3DTransform(unsigned int paramDim);
   VersorRigid3DTransform();
-  ~VersorRigid3DTransform() override {}
+  ~VersorRigid3DTransform() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };                                      // class VersorRigid3DTransform

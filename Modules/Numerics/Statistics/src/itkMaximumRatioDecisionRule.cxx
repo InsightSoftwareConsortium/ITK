@@ -23,9 +23,7 @@ namespace itk
 namespace Statistics
 {
 MaximumRatioDecisionRule
-::MaximumRatioDecisionRule()
-{
-}
+::MaximumRatioDecisionRule() = default;
 
 void
 MaximumRatioDecisionRule

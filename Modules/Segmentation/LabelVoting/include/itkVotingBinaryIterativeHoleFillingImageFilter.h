@@ -139,7 +139,7 @@ public:
 
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
-  ~VotingBinaryIterativeHoleFillingImageFilter() override {}
+  ~VotingBinaryIterativeHoleFillingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

@@ -238,7 +238,7 @@ protected:
     m_MaximumNumberOfOverlappingPixels = 0;
     m_AccumulatedProgress = 0.0;
   }
-  ~MaskedFFTNormalizedCorrelationImageFilter() override {}
+  ~MaskedFFTNormalizedCorrelationImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Overlap the VerifyInputInformation method */

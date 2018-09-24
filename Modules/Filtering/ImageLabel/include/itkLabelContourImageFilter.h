@@ -130,7 +130,7 @@ public:
 protected:
 
   LabelContourImageFilter();
-  ~LabelContourImageFilter() override {}
+  ~LabelContourImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

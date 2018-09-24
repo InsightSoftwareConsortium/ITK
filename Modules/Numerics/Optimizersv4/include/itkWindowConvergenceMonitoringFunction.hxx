@@ -40,8 +40,7 @@ WindowConvergenceMonitoringFunction<TScalar>
 
 template<typename TScalar>
 WindowConvergenceMonitoringFunction<TScalar>
-::~WindowConvergenceMonitoringFunction()
-{}
+::~WindowConvergenceMonitoringFunction() = default;
 
 template<typename TScalar>
 void

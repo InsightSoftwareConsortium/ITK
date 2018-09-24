@@ -141,7 +141,7 @@ public:
 
 protected:
   MovingHistogramImageFilterBase();
-  ~MovingHistogramImageFilterBase() override {}
+  ~MovingHistogramImageFilterBase() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

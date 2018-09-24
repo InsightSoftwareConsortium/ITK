@@ -44,8 +44,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
  */
 template< typename TInputImage, typename TOutputMesh >
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
-::~ImageToParametricSpaceFilter()
-{}
+::~ImageToParametricSpaceFilter() = default;
 
 /**
  *

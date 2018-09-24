@@ -120,7 +120,7 @@ public:
 
 protected:
   ParametricPath();
-  ~ParametricPath() override {}
+  ~ParametricPath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Default 1D input increment amount to trace along the path.  Also, the

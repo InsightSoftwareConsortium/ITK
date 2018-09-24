@@ -33,8 +33,7 @@ ContourSpatialObjectPoint< TPointDimension >
 
 template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
-::~ContourSpatialObjectPoint()
-{}
+::~ContourSpatialObjectPoint() = default;
 
 template< unsigned int TPointDimension >
 void

@@ -31,9 +31,7 @@ LevelSetDomainPartitionImageWithKdTree< TImage >
 
 template< typename TImage >
 LevelSetDomainPartitionImageWithKdTree< TImage >
-::~LevelSetDomainPartitionImageWithKdTree()
-{
-}
+::~LevelSetDomainPartitionImageWithKdTree() = default;
 
 template< typename TImage >
 void LevelSetDomainPartitionImageWithKdTree< TImage >

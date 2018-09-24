@@ -96,7 +96,7 @@ public:
 
 protected:
   CenteredVersorTransformInitializer();
-  ~CenteredVersorTransformInitializer() override {}
+  ~CenteredVersorTransformInitializer() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

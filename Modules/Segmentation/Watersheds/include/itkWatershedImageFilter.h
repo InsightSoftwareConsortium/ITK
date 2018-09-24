@@ -254,7 +254,7 @@ public:
 
 protected:
   WatershedImageFilter();
-  ~WatershedImageFilter() override {}
+  ~WatershedImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** An opportunity to Allocate/Deallocate bulk data.

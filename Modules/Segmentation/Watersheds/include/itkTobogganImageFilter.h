@@ -109,7 +109,7 @@ public:
 
 protected:
   TobogganImageFilter();
-  ~TobogganImageFilter() override {}
+  ~TobogganImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };                                   // end of class
 } // end namespace itk

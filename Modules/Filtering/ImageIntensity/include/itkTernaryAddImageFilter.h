@@ -69,8 +69,8 @@ public:
                TernaryFunctorImageFilter);
 
 protected:
-  TernaryAddImageFilter() {}
-  virtual ~TernaryAddImageFilter() {}
+  TernaryAddImageFilter() = default;
+  virtual ~TernaryAddImageFilter() = default;
 };
 } // end namespace itk
 

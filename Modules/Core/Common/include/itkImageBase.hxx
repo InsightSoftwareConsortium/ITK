@@ -86,8 +86,7 @@ ImageBase< VImageDimension >
 
 template< unsigned int VImageDimension >
 ImageBase< VImageDimension >
-::~ImageBase()
-{}
+::~ImageBase() = default;
 
 
 template< unsigned int VImageDimension >

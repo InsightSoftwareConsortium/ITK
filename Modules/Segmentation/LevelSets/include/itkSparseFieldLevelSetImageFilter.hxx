@@ -145,8 +145,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::~SparseFieldLevelSetImageFilter()
-{}
+::~SparseFieldLevelSetImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

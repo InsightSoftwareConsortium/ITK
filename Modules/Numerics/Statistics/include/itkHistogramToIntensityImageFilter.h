@@ -49,7 +49,7 @@ public:
   HistogramIntensityFunction():
     m_TotalFrequency(1) {}
 
-  ~HistogramIntensityFunction() {}
+  ~HistogramIntensityFunction() = default;
 
   inline OutputPixelType operator()(const TInput & A) const
   {
@@ -97,8 +97,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  HistogramToIntensityImageFilter() {}
-  ~HistogramToIntensityImageFilter() override {}
+  HistogramToIntensityImageFilter() = default;
+  ~HistogramToIntensityImageFilter() override = default;
 };
 } // end namespace itk
 

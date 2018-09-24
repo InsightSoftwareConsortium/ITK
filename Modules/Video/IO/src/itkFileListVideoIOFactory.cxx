@@ -30,8 +30,7 @@ FileListVideoIOFactory::FileListVideoIOFactory()
                           CreateObjectFunction< FileListVideoIO >::New() );
 }
 
-FileListVideoIOFactory::~FileListVideoIOFactory()
-{}
+FileListVideoIOFactory::~FileListVideoIOFactory() = default;
 
 const char *
 FileListVideoIOFactory::GetITKSourceVersion() const

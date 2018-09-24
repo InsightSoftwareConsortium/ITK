@@ -138,8 +138,8 @@ public:
   }
 
 protected:
-  VectorInterpolateImageFunction() {}
-  ~VectorInterpolateImageFunction() override {}
+  VectorInterpolateImageFunction() = default;
+  ~VectorInterpolateImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 };

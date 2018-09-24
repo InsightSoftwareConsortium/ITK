@@ -57,8 +57,8 @@ protected:
   {
     return "Mask";
   }
-  MetaImageMaskConverter() {}
-  ~MetaImageMaskConverter() override {}
+  MetaImageMaskConverter() = default;
+  ~MetaImageMaskConverter() override = default;
 };
 
 } // end namespace itk

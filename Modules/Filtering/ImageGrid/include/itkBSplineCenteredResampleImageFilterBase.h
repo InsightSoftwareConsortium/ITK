@@ -105,7 +105,7 @@ protected:
 
 protected:
   BSplineCenteredResampleImageFilterBase();
-  ~BSplineCenteredResampleImageFilterBase() override {}
+  ~BSplineCenteredResampleImageFilterBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

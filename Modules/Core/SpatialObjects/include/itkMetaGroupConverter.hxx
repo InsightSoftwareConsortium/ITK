@@ -25,8 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int NDimensions >
 MetaGroupConverter< NDimensions >
-::MetaGroupConverter()
-{}
+::MetaGroupConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaGroupConverter< NDimensions >::MetaObjectType *

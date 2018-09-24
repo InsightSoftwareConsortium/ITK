@@ -105,8 +105,8 @@ public:
 #endif
 
 protected:
-  MirrorPadImageFilter() {}
-  ~MirrorPadImageFilter() override {}
+  MirrorPadImageFilter() = default;
+  ~MirrorPadImageFilter() override = default;
 
 
   /** Convert from the output index to the input index taking

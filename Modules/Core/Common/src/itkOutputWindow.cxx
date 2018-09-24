@@ -42,8 +42,7 @@ OutputWindow
 }
 
 OutputWindow
-::~OutputWindow()
-{}
+::~OutputWindow() = default;
 
 void
 OutputWindowDisplayText(const char *message)

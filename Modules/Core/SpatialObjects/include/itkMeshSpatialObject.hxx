@@ -38,8 +38,7 @@ MeshSpatialObject< TMesh >
 /** Destructor */
 template< typename TMesh >
 MeshSpatialObject< TMesh >
-::~MeshSpatialObject()
-{}
+::~MeshSpatialObject() = default;
 
 /** Return true if the given point is inside the Mesh */
 template< typename TMesh >

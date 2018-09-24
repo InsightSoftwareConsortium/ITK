@@ -55,8 +55,7 @@ InPlaceLabelMapFilter< TInputImage >
  */
 template< typename TInputImage >
 InPlaceLabelMapFilter< TInputImage >
-::~InPlaceLabelMapFilter()
-{}
+::~InPlaceLabelMapFilter() = default;
 
 template< typename TInputImage >
 void

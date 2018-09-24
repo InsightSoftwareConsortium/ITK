@@ -42,7 +42,7 @@ public:
     , m_MaskingValue(NumericTraits< TMask >::ZeroValue())
   {
   }
-  ~MaskNegatedInput() {}
+  ~MaskNegatedInput() = default;
   bool operator!=(const MaskNegatedInput &) const
   {
     return false;
@@ -213,8 +213,8 @@ public:
 #endif
 
 protected:
-  MaskNegatedImageFilter() {}
-  ~MaskNegatedImageFilter() override {}
+  MaskNegatedImageFilter() = default;
+  ~MaskNegatedImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

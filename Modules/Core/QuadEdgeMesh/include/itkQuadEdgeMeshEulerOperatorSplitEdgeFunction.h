@@ -87,7 +87,7 @@ protected:
     m_SplitVertex = SplitVertex::New();
   }
 
-  ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() override {}
+  ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() override = default;
 
 private:
   typename SplitVertex::Pointer m_SplitVertex;

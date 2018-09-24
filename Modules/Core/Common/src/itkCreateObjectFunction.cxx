@@ -19,6 +19,6 @@
 
 namespace itk
 {
-CreateObjectFunctionBase::CreateObjectFunctionBase() {}
-CreateObjectFunctionBase::~CreateObjectFunctionBase() {}
+CreateObjectFunctionBase::CreateObjectFunctionBase() = default;
+CreateObjectFunctionBase::~CreateObjectFunctionBase() = default;
 }

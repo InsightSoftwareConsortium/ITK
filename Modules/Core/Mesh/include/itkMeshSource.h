@@ -145,7 +145,7 @@ public:
 
 protected:
   MeshSource();
-  ~MeshSource() override {}
+  ~MeshSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Requested region of Mesh is specified as i of N unstructured regions.
