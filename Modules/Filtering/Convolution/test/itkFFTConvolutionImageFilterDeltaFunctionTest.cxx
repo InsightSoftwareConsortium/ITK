@@ -66,7 +66,7 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   convolver->SetInput( deltaFunctionImage );
   convolver->SetKernelImage( reader->GetOutput() );
 
-  ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = atoi( argv[3] );
+  ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = std::stoi( argv[3] );
   if( !itk::Math::IsPrime( sizeGreatestPrimeFactor ) )
     {
     std::cerr << "A prime number is expected for the greatest prime factor size!" << std::endl;

@@ -65,25 +65,25 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 
   ImageType::SizeType size;
 
-  size[0] = atoi( argv[3] );
-  size[1] = atoi( argv[4] );
-  size[2] = atoi( argv[5] );
+  size[0] = std::stoi( argv[3] );
+  size[1] = std::stoi( argv[4] );
+  size[2] = std::stoi( argv[5] );
 
   imageFilter->SetSize( size );
 
   ImageType::PointType origin;
 
-  origin[0] = atof( argv[6] );
-  origin[1] = atof( argv[7] );
-  origin[2] = atof( argv[8] );
+  origin[0] = std::stod( argv[6] );
+  origin[1] = std::stod( argv[7] );
+  origin[2] = std::stod( argv[8] );
 
   imageFilter->SetOrigin( origin );
 
   ImageType::SpacingType spacing;
 
-  spacing[0] = atof( argv[9] );
-  spacing[1] = atof( argv[10] );
-  spacing[2] = atof( argv[11] );
+  spacing[0] = std::stod( argv[9] );
+  spacing[1] = std::stod( argv[10] );
+  spacing[2] = std::stod( argv[11] );
 
   imageFilter->SetSpacing( spacing );
 

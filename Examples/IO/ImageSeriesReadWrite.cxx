@@ -89,8 +89,8 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int first = atoi( argv[1] );
-  const unsigned int last  = atoi( argv[2] );
+  const unsigned int first = std::stoi( argv[1] );
+  const unsigned int last  = std::stoi( argv[2] );
 
   const char * outputFilename = argv[3];
 

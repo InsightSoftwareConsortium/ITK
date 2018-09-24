@@ -48,12 +48,12 @@ int itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetInput( reader->GetOutput() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[3]) );
+  int BackgroundValue = ( std::stoi(argv[3]) );
   KeepNObjects->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
   //testing get and set macros for NumberOfObjects
-  unsigned int numberOfObjects = atoi( argv[4] );
+  unsigned int numberOfObjects = std::stoi( argv[4] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
   TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
 
@@ -65,14 +65,18 @@ int itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[5] );
+  bool reverseOrdering = std::stoi( argv[5] );
   KeepNObjects->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  LabelKeepNObjectsType::AttributeType attribute = atoi( argv[6] );
-  KeepNObjects->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
+  KeepNObjects->SetAttribute(LabelKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER);
+  TEST_SET_GET_VALUE( LabelKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER, KeepNObjects->GetAttribute() );
+
+  const std::string attributeByName{ argv[6] };
+  KeepNObjects->SetAttribute( attributeByName ); // SetAttribute accepts a string for conversion to internal label code
+  const LabelKeepNObjectsType::AttributeType attributeByCode = LabelKeepNObjectsType::LabelObjectType::LABEL;
+  TEST_SET_GET_VALUE( attributeByCode, KeepNObjects->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 

@@ -187,7 +187,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     int numthreads = 10;
     if (argc > 2)
       {
-      numthreads = atoi(argv[2]);
+      numthreads = std::stoi(argv[2]);
       }
 
     // Create an ITK StdStreamLogOutputs

@@ -110,7 +110,7 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   itk::SobelOperator<PixelType, 2> sobelOperator;
-  sobelOperator.SetDirection( ::atoi(argv[3]) );
+  sobelOperator.SetDirection( ::std::stoi(argv[3]) );
   sobelOperator.CreateDirectional();
   // Software Guide : EndCodeSnippet
 

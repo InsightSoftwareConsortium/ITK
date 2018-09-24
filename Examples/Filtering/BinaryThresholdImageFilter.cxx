@@ -184,8 +184,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const OutputPixelType outsideValue = atoi( argv[5] );
-  const OutputPixelType insideValue  = atoi( argv[6] );
+  const OutputPixelType outsideValue = std::stoi( argv[5] );
+  const OutputPixelType insideValue  = std::stoi( argv[6] );
 
   // Software Guide : BeginCodeSnippet
   filter->SetOutsideValue( outsideValue );
@@ -203,8 +203,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const InputPixelType lowerThreshold = atoi( argv[3] );
-  const InputPixelType upperThreshold = atoi( argv[4] );
+  const InputPixelType lowerThreshold = std::stoi( argv[3] );
+  const InputPixelType upperThreshold = std::stoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   filter->SetLowerThreshold( lowerThreshold );

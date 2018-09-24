@@ -201,19 +201,26 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
   /* Get Series-Number from SERIES Header */
   this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SERIES_NUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
-  hdr->seriesNumber = atoi (tmpStr);
+  hdr->seriesNumber = std::stoi (tmpStr);
   RGEDEBUG(std::sprintf (debugbuf, "Series Number = %d\n", hdr->seriesNumber); cerr << debugbuf; )
 
   /* Get Image-Number from IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_IMAGE_NUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
-  hdr->imageNumber = atoi (tmpStr);
+  hdr->imageNumber = std::stoi (tmpStr);
   RGEDEBUG(std::sprintf (debugbuf, "Image Number = %d\n", hdr->imageNumber); cerr << debugbuf; )
 
   /* Get Images-Per-Slice from IMAGE Header */
-  this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PHASENUM * 2, tmpStr, 3);
+  const int per_slice_status = this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PHASENUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
-  hdr->imagesPerSlice = atoi (tmpStr);
+  if (strlen(tmpStr) > 0  && per_slice_status >=0 )
+  {
+    hdr->imagesPerSlice = static_cast<short>(std::stoi(tmpStr));
+  }
+  else
+  {
+    hdr->imagesPerSlice = 0; // Use default of 0 to mimic previous atoi failure result.
+  }
   RGEDEBUG(std::sprintf (debugbuf, "Images Per Slice = %d\n", hdr->imagesPerSlice); cerr << debugbuf; )
 
   /* Get the Slice Location from the IMAGE Header */

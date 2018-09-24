@@ -66,7 +66,7 @@ int itkImageIODirection2DTest( int ac, char * av[] )
     {
     for( unsigned int col = 0; col < Dimension; ++col )
       {
-      const double expectedValue = atof( av[ element++ ] );
+      const double expectedValue = std::stod( av[ element++ ] );
       const double currentValue = directionCosines[row][col];
       const double difference = currentValue - expectedValue;
       if( itk::Math::abs( difference ) > tolerance )

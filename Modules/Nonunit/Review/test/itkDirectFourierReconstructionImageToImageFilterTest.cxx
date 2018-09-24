@@ -90,12 +90,12 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
 
   SmootherType::Pointer smoother = SmootherType::New();
   smoother->SetInput( reader->GetOutput() );
-  smoother->SetSigma( atof( argv[17] ) );
-  smoother->SetDirection( atoi( argv[3] ) );
+  smoother->SetSigma( std::stod( argv[17] ) );
+  smoother->SetDirection( std::stoi( argv[3] ) );
 
 
   ReconstructionFilterType::Pointer reconstruct = ReconstructionFilterType::New();
-  if ( atof( argv[17] ) == 0 )
+  if ( std::stod( argv[17] ) == 0 )
     {
     reconstruct->SetInput( reader->GetOutput() );
     }
@@ -103,14 +103,14 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
     {
     reconstruct->SetInput( smoother->GetOutput() );
     }
-  reconstruct->SetRDirection( atoi( argv[3] ) );
-  reconstruct->SetZDirection( atoi( argv[4] ) );
-  reconstruct->SetAlphaDirection( atoi( argv[5] ) );
-  reconstruct->SetZeroPadding( atoi( argv[6] ) );
-  reconstruct->SetOverSampling( atoi( argv[7] ) );
-  reconstruct->SetCutoff( atof( argv[8] ) );
-  reconstruct->SetRadialSplineOrder( atoi( argv[9] ) );
-  reconstruct->SetAlphaRange( atoi( argv[10] ) );
+  reconstruct->SetRDirection( std::stoi( argv[3] ) );
+  reconstruct->SetZDirection( std::stoi( argv[4] ) );
+  reconstruct->SetAlphaDirection( std::stoi( argv[5] ) );
+  reconstruct->SetZeroPadding( std::stoi( argv[6] ) );
+  reconstruct->SetOverSampling( std::stoi( argv[7] ) );
+  reconstruct->SetCutoff( std::stod( argv[8] ) );
+  reconstruct->SetRadialSplineOrder( std::stoi( argv[9] ) );
+  reconstruct->SetAlphaRange( std::stoi( argv[10] ) );
 
   CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
   reconstruct->AddObserver( itk::ProgressEvent(), observer );
@@ -127,13 +127,13 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
   ROIFilterType::IndexType start;
   ROIFilterType::SizeType size;
 
-  start[0] = atoi( argv[11] );
-  start[1] = atoi( argv[12] );
-  start[2] = atoi( argv[13] );
+  start[0] = std::stoi( argv[11] );
+  start[1] = std::stoi( argv[12] );
+  start[2] = std::stoi( argv[13] );
 
-  size[0] = atoi( argv[14] );
-  size[1] = atoi( argv[15] );
-  size[2] = atoi( argv[16] );
+  size[0] = std::stoi( argv[14] );
+  size[1] = std::stoi( argv[15] );
+  size[2] = std::stoi( argv[16] );
 
   ROIFilterType::RegionType requestedRegion;
   requestedRegion.SetIndex( start );

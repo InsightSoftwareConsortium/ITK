@@ -46,7 +46,7 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 
   FilterType::IndexType seed;
 
-  seed[0] = atoi(av[3]); seed[1] = atoi(av[4]);
+  seed[0] = std::stoi(av[3]); seed[1] = std::stoi(av[4]);
   filter->SetSeed(seed);
 
   filter->SetLower (0);

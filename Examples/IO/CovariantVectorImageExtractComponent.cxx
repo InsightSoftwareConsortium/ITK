@@ -127,7 +127,7 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int indexOfComponentToExtract = atoi( argv[4] );
+  const unsigned int indexOfComponentToExtract = std::stoi( argv[4] );
 
   if( indexOfComponentToExtract >= Dimension )
     {

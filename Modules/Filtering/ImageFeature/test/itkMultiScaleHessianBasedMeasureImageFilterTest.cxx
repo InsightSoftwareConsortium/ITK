@@ -90,7 +90,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
    if ( argc > 4 )
     {
-    double sigmaMinimum = atof( argv[4] );
+    double sigmaMinimum = std::stod( argv[4] );
     multiScaleEnhancementFilter->SetSigmaMinimum( sigmaMinimum );
 
     if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum ) > tolerance )
@@ -102,7 +102,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc > 5 )
     {
-    double sigmaMaximum = atof( argv[5] );
+    double sigmaMaximum = std::stod( argv[5] );
     multiScaleEnhancementFilter->SetSigmaMaximum( sigmaMaximum );
 
     if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum ) > tolerance )
@@ -114,7 +114,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc > 6 )
     {
-    unsigned int numberOfSigmaSteps = atoi( argv[6] );
+    unsigned int numberOfSigmaSteps = std::stoi( argv[6] );
     multiScaleEnhancementFilter->SetNumberOfSigmaSteps( numberOfSigmaSteps );
 
     if( multiScaleEnhancementFilter->GetNumberOfSigmaSteps() != numberOfSigmaSteps )
@@ -126,12 +126,12 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc > 7 )
     {
-    objectnessFilter->SetObjectDimension( atoi(argv[7]) );
+    objectnessFilter->SetObjectDimension( std::stoi(argv[7]) );
     }
 
   if ( argc > 8 )
     {
-    objectnessFilter->SetBrightObject( atoi(argv[8]) );
+    objectnessFilter->SetBrightObject( std::stoi(argv[8]) );
     }
 
   multiScaleEnhancementFilter->GenerateScalesOutputOn();

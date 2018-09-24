@@ -56,7 +56,7 @@ int itkParticleSwarmOptimizerTest(int argc, char* argv[] )
 {
   if( argc > 1 )
     {
-    verboseFlag = atoi(argv[1]) ? true : false;
+    verboseFlag = std::stoi(argv[1]) ? true : false;
     }
 
   unsigned int i, allIterations=10;

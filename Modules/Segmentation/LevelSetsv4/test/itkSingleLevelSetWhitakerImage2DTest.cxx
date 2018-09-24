@@ -160,7 +160,7 @@ int itkSingleLevelSetWhitakerImage2DTest( int argc, char* argv[] )
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
-  criterion->SetNumberOfIterations( atoi( argv[2]) );
+  criterion->SetNumberOfIterations( std::stoi( argv[2]) );
 
   LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer( equationContainer );

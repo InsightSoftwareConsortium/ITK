@@ -35,7 +35,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   int numThreads = 10;
   if(argc > 1)
     {
-    int nt = atoi(argv[1]);
+    int nt = std::stoi(argv[1]);
     if(nt > 1)
       {
       numThreads = nt;
@@ -45,7 +45,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   // Choose a number of iterations (0 is infinite).
   if(argc > 2)
     {
-    int ni = atoi(argv[2]);
+    int ni = std::stoi(argv[2]);
     if(ni >= 0)
       {
       itkSTLThreadTestImpl::numberOfIterations = ni;

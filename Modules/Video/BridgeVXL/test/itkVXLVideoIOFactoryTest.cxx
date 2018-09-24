@@ -79,5 +79,5 @@ int itkVXLVideoIOFactoryTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  return test_VXLVideoIOFactory(argv[1], argv[2], atoi(argv[3]));
+  return test_VXLVideoIOFactory(argv[1], argv[2], std::stoi(argv[3]));
 }

@@ -56,7 +56,7 @@ int itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char* argv[] )
 {
   if( argc > 1 )
     {
-    initalizationBasedTestVerboseFlag = atoi(argv[1]) ? true : false;
+    initalizationBasedTestVerboseFlag = std::stoi(argv[1]) ? true : false;
     }
 
   unsigned int i, allIterations=10;

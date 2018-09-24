@@ -81,7 +81,7 @@ int itkAttributeRelabelLabelMapFilterTest1(int argc, char * argv[])
   relabel->ReverseOrderingOff();
   TEST_SET_GET_VALUE( false, relabel->GetReverseOrdering() );
 
-  bool reverseOrdering = atoi( argv[3] );
+  bool reverseOrdering = std::stoi( argv[3] );
   relabel->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , relabel->GetReverseOrdering() );
 

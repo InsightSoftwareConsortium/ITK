@@ -164,11 +164,11 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
     return -1;
     }
 
-  if ( ::atoi(argv[1]) == 2 )
+  if ( ::std::stoi(argv[1]) == 2 )
     {
     stapler = new Stapler<2>;
     }
-  else if ( ::atoi(argv[1]) == 3 )
+  else if ( ::std::stoi(argv[1]) == 3 )
     {
     stapler = new Stapler<3>;
     }
@@ -183,9 +183,9 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
     stapler->AddFileName( argv[i+5] );
     }
 
-  stapler->SetConfidenceWeight( static_cast<double>( atof(argv[4]) ));
+  stapler->SetConfidenceWeight( static_cast<double>( std::stod(argv[4]) ));
   stapler->SetOutputFileName( argv[2] );
-  stapler->SetForeground( static_cast<unsigned short>( atoi(argv[3])) );
+  stapler->SetForeground( static_cast<unsigned short>( std::stoi(argv[3])) );
 
   // Execute the stapler
   int ret = stapler->Execute();

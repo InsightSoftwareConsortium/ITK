@@ -56,11 +56,11 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
   filter->SetInput( reader->GetOutput() );
   if( argc > 3 )
     {
-    filter->SetNumberOfHistogramBins (atoi(argv[3]));
+    filter->SetNumberOfHistogramBins (std::stoi(argv[3]));
     }
   if( argc > 4 )
     {
-    bool flipOutputIntensities = atoi(argv[4]);
+    bool flipOutputIntensities = std::stoi(argv[4]);
     if( flipOutputIntensities )
       {
       // Flip the inside and outside values.
@@ -72,7 +72,7 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
     }
   if( argc > 5 )
     {
-    bool returnBinMidpoint =  static_cast< bool >( atoi( argv[5] ) );
+    bool returnBinMidpoint =  static_cast< bool >( std::stoi( argv[5] ) );
     TEST_SET_GET_BOOLEAN( filter, ReturnBinMidpoint, returnBinMidpoint );
     }
   filter->Update();

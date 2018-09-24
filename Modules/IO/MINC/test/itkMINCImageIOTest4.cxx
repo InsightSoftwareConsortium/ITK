@@ -115,10 +115,10 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
     {
       if(argc==7)
         {
-        total=atof( argv[3] );
-        mx=atof( argv[4] );
-        my=atof( argv[5] );
-        mz=atof( argv[6] );
+        total=std::stod( argv[3] );
+        mx=std::stod( argv[4] );
+        my=std::stod( argv[5] );
+        mz=std::stod( argv[6] );
         }
         else
         {

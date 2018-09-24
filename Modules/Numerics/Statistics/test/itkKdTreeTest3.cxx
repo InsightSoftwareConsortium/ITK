@@ -51,7 +51,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
   //
   // Generate a sample of random points
   //
-  const unsigned int numberOfDataPoints = atoi( argv[1] );
+  const unsigned int numberOfDataPoints = std::stoi( argv[1] );
   MeasurementVectorType mv( measurementVectorSize );
   for ( unsigned int i = 0; i < numberOfDataPoints; ++i )
     {
@@ -63,7 +63,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
-  const unsigned int bucketSize = atoi( argv[4] );
+  const unsigned int bucketSize = std::stoi( argv[4] );
 
   treeGenerator->SetSample( sample );
   treeGenerator->SetBucketSize( bucketSize );
@@ -75,7 +75,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
 
   MeasurementVectorType queryPoint( measurementVectorSize );
 
-  unsigned int numberOfNeighbors = atoi( argv[3] );
+  unsigned int numberOfNeighbors = std::stoi( argv[3] );
   if (numberOfNeighbors > numberOfDataPoints)
     {
     numberOfNeighbors = numberOfDataPoints;
@@ -89,7 +89,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
 
   unsigned int numberOfFailedPoints1 = 0;
 
-  const unsigned int numberOfTestPoints = atoi( argv[2] );
+  const unsigned int numberOfTestPoints = std::stoi( argv[2] );
 
   //
   //  Check that for every point in the sample, its closest point is itself.

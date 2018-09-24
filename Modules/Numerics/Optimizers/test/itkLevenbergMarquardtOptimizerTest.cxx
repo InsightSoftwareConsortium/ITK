@@ -394,27 +394,27 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
 
   if( argc > 1 )
     {
-    F_Tolerance = atof( argv[1] );
+    F_Tolerance = std::stod( argv[1] );
     }
 
   if( argc > 2 )
     {
-    G_Tolerance = atof( argv[2] );
+    G_Tolerance = std::stod( argv[2] );
     }
 
   if( argc > 3 )
     {
-    X_Tolerance = atof( argv[3] );
+    X_Tolerance = std::stod( argv[3] );
     }
 
   if( argc > 4 )
     {
-    Epsilon_Function = atof( argv[4] );
+    Epsilon_Function = std::stod( argv[4] );
     }
 
   if( argc > 5 )
     {
-    Max_Iterations = atoi( argv[5] );
+    Max_Iterations = std::stoi( argv[5] );
     }
 
   std::cout << "F_Tolerance      = " << F_Tolerance << std::endl;

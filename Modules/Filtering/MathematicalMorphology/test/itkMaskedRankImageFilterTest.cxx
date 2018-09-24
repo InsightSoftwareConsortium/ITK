@@ -127,7 +127,7 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
 
   try
     {
-    int r = atoi( av[4] );
+    int r = std::stoi( av[4] );
     filter->SetInput(input->GetOutput());
     filter->SetMaskImage(input2->GetOutput());
     filter->SetRadius( r );

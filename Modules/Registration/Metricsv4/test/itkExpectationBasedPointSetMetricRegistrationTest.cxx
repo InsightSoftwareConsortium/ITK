@@ -65,7 +65,7 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   unsigned int numberOfIterations = 10;
   if( argc > 1 )
     {
-    numberOfIterations = atoi( argv[1] );
+    numberOfIterations = std::stoi( argv[1] );
     }
 
   using PointSetType = itk::PointSet<unsigned char, Dimension>;

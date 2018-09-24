@@ -118,31 +118,31 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   filter->SetMesh( mesh );
   TEST_SET_GET_VALUE( mesh, filter->GetMesh() );
 
-  double selectionFraction = atof( argv[6] );
+  double selectionFraction = std::stod( argv[6] );
   filter->SetSelectFraction( selectionFraction );
   TEST_SET_GET_VALUE( selectionFraction, filter->GetSelectFraction() );
 
-  unsigned int nonConnectivity = atoi( argv[7] );
+  unsigned int nonConnectivity = std::stoi( argv[7] );
   filter->SetNonConnectivity( nonConnectivity );
   TEST_SET_GET_VALUE( nonConnectivity, filter->GetNonConnectivity() );
 
-  auto blockRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( atof( argv[8] ) );
+  auto blockRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( std::stod( argv[8] ) );
   PBNRRFilterType::ImageSizeType blockRadius;
   blockRadius.Fill( blockRadiusValue );
   filter->SetBlockRadius( blockRadius );
   TEST_SET_GET_VALUE( blockRadius, filter->GetBlockRadius() );
 
-  auto searchRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( atof( argv[9] ) );
+  auto searchRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( std::stod( argv[9] ) );
   PBNRRFilterType::ImageSizeType searchRadius;
   searchRadius.Fill( searchRadiusValue );
   filter->SetSearchRadius( searchRadius );
   TEST_SET_GET_VALUE( searchRadius, filter->GetSearchRadius() );
 
-  unsigned int approximationSteps = atoi( argv[10] );
+  unsigned int approximationSteps = std::stoi( argv[10] );
   filter->SetApproximationSteps( approximationSteps );
   TEST_SET_GET_VALUE( approximationSteps, filter->GetApproximationSteps() );
 
-  unsigned int outlierRejectionSteps = atoi( argv[11] );
+  unsigned int outlierRejectionSteps = std::stoi( argv[11] );
   filter->SetOutlierRejectionSteps( outlierRejectionSteps );
   TEST_SET_GET_VALUE( outlierRejectionSteps, filter->GetOutlierRejectionSteps() );
 

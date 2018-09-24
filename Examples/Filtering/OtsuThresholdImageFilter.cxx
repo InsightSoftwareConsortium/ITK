@@ -160,8 +160,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const OutputPixelType outsideValue = atoi( argv[3] );
-  const OutputPixelType insideValue  = atoi( argv[4] );
+  const OutputPixelType outsideValue = std::stoi( argv[3] );
+  const OutputPixelType insideValue  = std::stoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   filter->SetOutsideValue( outsideValue );

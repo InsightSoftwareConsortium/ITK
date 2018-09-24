@@ -56,18 +56,18 @@ int main( int argc, char *argv[] )
   hessianFilter->SetInput( reader->GetOutput() );
   if( argc >= 4 )
     {
-    hessianFilter->SetSigma( static_cast< double >(atof(argv[3])) );
+    hessianFilter->SetSigma( static_cast< double >(std::stod(argv[3])) );
     }
   vesselnessFilter->SetInput( hessianFilter->GetOutput() );
   writer->SetInput( vesselnessFilter->GetOutput() );
   writer->SetFileName( argv[2] );
   if( argc >= 5 )
     {
-    vesselnessFilter->SetAlpha1( static_cast< double >(atof(argv[4])));
+    vesselnessFilter->SetAlpha1( static_cast< double >(std::stod(argv[4])));
     }
   if( argc >= 6 )
     {
-    vesselnessFilter->SetAlpha2( static_cast< double >(atof(argv[5])));
+    vesselnessFilter->SetAlpha2( static_cast< double >(std::stod(argv[5])));
     }
 
   writer->Update();

@@ -166,7 +166,7 @@ int itkSimpleImageRegistrationTest4( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
     {
     case 2:
       return ImageRegistration<2>( argc, argv );

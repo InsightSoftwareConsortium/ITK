@@ -60,7 +60,7 @@ int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
   VoronoiSegmentationType::Pointer voronoi=VoronoiSegmentationType::New();
   voronoi->SetInput( gaussian3->GetOutput() );
   voronoi->SetNumberOfSeeds( 6 );
-  voronoi->SetOutputBoundary( atoi(argv[3]) == 1 );
+  voronoi->SetOutputBoundary( std::stoi(argv[3]) == 1 );
   voronoi->SetSteps( 7 );
   voronoi->SetSigmaThreshold( 4.0 );
   voronoi->SetMinRegion( 10 );

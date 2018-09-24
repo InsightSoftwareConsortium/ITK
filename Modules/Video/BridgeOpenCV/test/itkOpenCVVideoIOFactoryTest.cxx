@@ -115,5 +115,5 @@ int itkOpenCVVideoIOFactoryTest ( int argc, char *argv[] )
 
   itk::ObjectFactoryBase::RegisterFactory( itk::OpenCVVideoIOFactory::New() );
 
-  return test_OpenCVVideoIOFactory(argv[1], argv[2], atoi(argv[3]));
+  return test_OpenCVVideoIOFactory(argv[1], argv[2], std::stoi(argv[3]));
 }

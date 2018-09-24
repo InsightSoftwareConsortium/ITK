@@ -44,9 +44,9 @@ int itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
  using I2LType = itk::BinaryFillholeImageFilter< IType >;
   I2LType::Pointer reconstruction = I2LType::New();
   reconstruction->SetInput( reader->GetOutput() );
-  reconstruction->SetFullyConnected( atoi(argv[3]) );
-  reconstruction->SetForegroundValue( atoi(argv[4]) );
-//   reconstruction->SetBackgroundValue( atoi(argv[5]) );
+  reconstruction->SetFullyConnected( std::stoi(argv[3]) );
+  reconstruction->SetForegroundValue( std::stoi(argv[4]) );
+//   reconstruction->SetBackgroundValue( std::stoi(argv[5]) );
   itk::SimpleFilterWatcher watcher(reconstruction, "filter");
 
   using WriterType = itk::ImageFileWriter< IType >;

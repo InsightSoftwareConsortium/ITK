@@ -132,8 +132,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int radiusX = atoi( argv[3] );
-  const unsigned int radiusY = atoi( argv[4] );
+  const unsigned int radiusX = std::stoi( argv[3] );
+  const unsigned int radiusY = std::stoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   ImageType::SizeType indexRadius;
@@ -196,7 +196,7 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int numberOfIterations = atoi( argv[5] );
+  const unsigned int numberOfIterations = std::stoi( argv[5] );
 
   // Software Guide : BeginCodeSnippet
   filter->SetMaximumNumberOfIterations( numberOfIterations );

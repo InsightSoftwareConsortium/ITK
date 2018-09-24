@@ -61,12 +61,12 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
   // Tests for raising code coverage
   EXERCISE_BASIC_OBJECT_METHODS(filter, LabelContourImageFilter, InPlaceImageFilter);
   TRY_EXPECT_EXCEPTION(filter->Update());
-  TEST_SET_GET_BOOLEAN(filter, FullyConnected, atoi(argv[3]));
+  TEST_SET_GET_BOOLEAN(filter, FullyConnected, std::stoi(argv[3]));
 
   filter->SetInput( reader->GetOutput() );
 
-  filter->SetBackgroundValue( atoi(argv[4]) );
-  if ( filter->GetBackgroundValue( ) != atoi(argv[4]) )
+  filter->SetBackgroundValue( std::stoi(argv[4]) );
+  if ( filter->GetBackgroundValue( ) != std::stoi(argv[4]) )
     {
     std::cerr << "Set/Get BackgroundValue problem." << std::endl;
     return EXIT_FAILURE;

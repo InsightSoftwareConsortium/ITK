@@ -46,7 +46,7 @@ int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
 
   filter->SetInput(reader->GetOutput());
 
-  int mode = ::atoi( av[3] );
+  int mode = ::std::stoi( av[3] );
   if ( mode == 1)
     {
     filter->SetUsePrincipleComponentsOn();

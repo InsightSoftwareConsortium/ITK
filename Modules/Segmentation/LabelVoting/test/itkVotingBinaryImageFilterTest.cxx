@@ -92,7 +92,7 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
 
   const std::string infname = argv[1];
   const std::string outfname = argv[2];
-  const unsigned int radius = atoi( argv[3] );
+  const unsigned int radius = std::stoi( argv[3] );
   const long foregroundValue = atol( argv[4] );
   const long backgroundValue = atol( argv[5] );
 

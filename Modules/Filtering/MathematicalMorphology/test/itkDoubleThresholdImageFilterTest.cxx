@@ -92,7 +92,7 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
   int thresholds[4];
   for(unsigned i = 0; i < 4; ++i)
     {
-    thresholds[i] = atoi(argv[i+3]);
+    thresholds[i] = std::stoi(argv[i+3]);
     }
   threshold->SetThreshold1( thresholds[0] );
   threshold->SetThreshold2( thresholds[1] );

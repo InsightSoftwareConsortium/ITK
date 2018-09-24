@@ -369,8 +369,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double propagationScaling = atof( argv[11] );
-  const double shapePriorScaling  = atof( argv[12] );
+  const double propagationScaling = std::stod( argv[11] );
+  const double shapePriorScaling  = std::stod( argv[12] );
 
   //  Software Guide : BeginCodeSnippet
   geodesicActiveContour->SetPropagationScaling( propagationScaling );
@@ -449,7 +449,7 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
 
-  const double sigma = atof( argv[10] );
+  const double sigma = std::stod( argv[10] );
   gradientMagnitude->SetSigma(  sigma  );
 
 
@@ -471,8 +471,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  seedPosition;
 
-  seedPosition[0] = atoi( argv[3] );
-  seedPosition[1] = atoi( argv[4] );
+  seedPosition[0] = std::stoi( argv[3] );
+  seedPosition[1] = std::stoi( argv[4] );
 
 
   //  Nodes are created as stack variables and initialized with a value and an
@@ -485,7 +485,7 @@ int main( int argc, char *argv[] )
   //  command line arguments. The rule of thumb for the user is to select this
   //  value as the distance from the seed points at which she want the initial
   //  contour to be.
-  const double initialDistance = atof( argv[9] );
+  const double initialDistance = std::stod( argv[9] );
 
   NodeType node;
 
@@ -501,13 +501,13 @@ int main( int argc, char *argv[] )
   seeds->Initialize();
   seeds->InsertElement( 0, node );
 
-  seedPosition[0] = atoi( argv[5] );
-  seedPosition[1] = atoi( argv[6] );
+  seedPosition[0] = std::stoi( argv[5] );
+  seedPosition[1] = std::stoi( argv[6] );
   node.SetIndex( seedPosition );
   seeds->InsertElement( 1, node );
 
-  seedPosition[0] = atoi( argv[7] );
-  seedPosition[1] = atoi( argv[8] );
+  seedPosition[0] = std::stoi( argv[7] );
+  seedPosition[1] = std::stoi( argv[8] );
   node.SetIndex( seedPosition );
   seeds->InsertElement( 2, node );
 
@@ -613,7 +613,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int numberOfPCAModes = atoi( argv[14] );
+  const unsigned int numberOfPCAModes = std::stoi( argv[14] );
 
   // Software Guide : BeginCodeSnippet
   using ShapeFunctionType = itk::PCAShapeSignedDistanceFunction<
@@ -872,8 +872,8 @@ int main( int argc, char *argv[] )
   ShapeFunctionType::ParametersType parameters(
                                              shape->GetNumberOfParameters() );
   parameters.Fill( 0.0 );
-  parameters[numberOfPCAModes + 1] = atof( argv[16] ); // startX
-  parameters[numberOfPCAModes + 2] = atof( argv[17] ); // startY
+  parameters[numberOfPCAModes + 1] = std::stod( argv[16] ); // startX
+  parameters[numberOfPCAModes + 2] = std::stod( argv[17] ); // startY
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

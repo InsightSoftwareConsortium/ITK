@@ -174,7 +174,7 @@ int itkGPUDiscreteGaussianImageFilterTest(int argc, char *argv[])
   unsigned int dim = 3;
   if( argc >= 4 )
   {
-    dim = atoi( argv[3] );
+    dim = std::stoi( argv[3] );
   }
 
   if( dim == 2 )

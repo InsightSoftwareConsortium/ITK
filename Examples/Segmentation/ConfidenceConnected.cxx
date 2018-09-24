@@ -306,8 +306,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  index;
 
-  index[0] = atoi( argv[3] );
-  index[1] = atoi( argv[4] );
+  index[0] = std::stoi( argv[3] );
+  index[1] = std::stoi( argv[4] );
 
 
   // Software Guide : BeginCodeSnippet

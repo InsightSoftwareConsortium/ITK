@@ -106,8 +106,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetVariance( atof( argv[3] ) );
-  filter->SetMaximumError( atof( argv[4] ) );
+  filter->SetVariance( std::stod( argv[3] ) );
+  filter->SetMaximumError( std::stod( argv[4] ) );
   // Software Guide : EndCodeSnippet
 
 

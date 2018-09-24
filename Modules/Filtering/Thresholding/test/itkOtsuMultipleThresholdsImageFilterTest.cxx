@@ -67,27 +67,27 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   // Set up the filter parameters
   filter->SetInput( reader->GetOutput() );
 
-  auto numberOfHistogramBins = static_cast< itk::SizeValueType >(atoi( argv[3] ) );
+  auto numberOfHistogramBins = static_cast< itk::SizeValueType >(std::stoi( argv[3] ) );
   filter->SetNumberOfHistogramBins( numberOfHistogramBins );
   TEST_SET_GET_VALUE( numberOfHistogramBins, filter->GetNumberOfHistogramBins() );
 
-  auto numberOfThresholds = static_cast< itk::SizeValueType >(atoi( argv[4] ) );
+  auto numberOfThresholds = static_cast< itk::SizeValueType >(std::stoi( argv[4] ) );
   filter->SetNumberOfThresholds( numberOfThresholds );
   TEST_SET_GET_VALUE( numberOfThresholds, filter->GetNumberOfThresholds() );
 
-  auto labelOffset =  static_cast< FilterType::OutputPixelType >(atoi( argv[5] ) );
+  auto labelOffset =  static_cast< FilterType::OutputPixelType >(std::stoi( argv[5] ) );
   filter->SetLabelOffset( labelOffset );
   TEST_SET_GET_VALUE( labelOffset, filter->GetLabelOffset() );
 
   if( argc > 6 )
     {
-    bool valleyEmphasis =  static_cast< bool >( atoi( argv[6] ) );
+    bool valleyEmphasis =  static_cast< bool >( std::stoi( argv[6] ) );
     TEST_SET_GET_BOOLEAN( filter, ValleyEmphasis, valleyEmphasis );
     }
 
   if( argc > 7 )
     {
-    bool returnBinMidpoint =  static_cast< bool >( atoi( argv[7] ) );
+    bool returnBinMidpoint =  static_cast< bool >( std::stoi( argv[7] ) );
     TEST_SET_GET_BOOLEAN( filter, ReturnBinMidpoint, returnBinMidpoint );
     }
 

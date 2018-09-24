@@ -233,13 +233,13 @@ int main( int argc, char *argv[] )
   // Optionally, get the step length from the command line arguments
   if( argc > 12 )
     {
-    optimizer->SetMaximumStepLength( atof( argv[12] ) );
+    optimizer->SetMaximumStepLength( std::stod( argv[12] ) );
     }
 
   // Optionally, get the number of iterations from the command line arguments
   if( argc > 13 )
     {
-    optimizer->SetNumberOfIterations( atoi( argv[13] ) );
+    optimizer->SetNumberOfIterations( std::stoi( argv[13] ) );
     }
 
   // Create the Command observer and register it with the optimizer.
@@ -260,7 +260,7 @@ int main( int argc, char *argv[] )
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    metric->SetUseExplicitPDFDerivatives( std::stoi( argv[7] ) );
     }
 
   if( argc > 8 )
@@ -270,7 +270,7 @@ int main( int argc, char *argv[] )
     // make the algorithm run faster but it will have a cost on the amount of memory
     // that needs to be allocated. This option is only relevant when using the
     // BSplineTransform.
-    metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
+    metric->SetUseCachingOfBSplineWeights( std::stoi( argv[8] ) );
     }
 
   // Add time and memory probes

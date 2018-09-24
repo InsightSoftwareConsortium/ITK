@@ -57,7 +57,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
   InputPixelType minLabel =
                  itk::NumericTraits<InputPixelType>::NonpositiveMin();
 
-  const unsigned int minimumPixelArea = atoi( argv[3] );
+  const unsigned int minimumPixelArea = std::stoi( argv[3] );
 
   using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();

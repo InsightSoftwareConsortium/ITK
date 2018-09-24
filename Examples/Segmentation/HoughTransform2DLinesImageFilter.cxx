@@ -174,16 +174,16 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   houghFilter->SetInput(threshFilter->GetOutput());
-  houghFilter->SetNumberOfLines(atoi(argv[3]));
+  houghFilter->SetNumberOfLines(std::stoi(argv[3]));
 
   if(argc > 4 )
     {
-    houghFilter->SetVariance(atof(argv[4]));
+    houghFilter->SetVariance(std::stod(argv[4]));
     }
 
   if(argc > 5 )
     {
-    houghFilter->SetDiscRadius(atof(argv[5]));
+    houghFilter->SetDiscRadius(std::stod(argv[5]));
     }
   houghFilter->Update();
   AccumulatorImageType::Pointer localAccumulator = houghFilter->GetOutput();

@@ -63,11 +63,11 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
 
   StructuringElementType   structuringElement;
 
-  structuringElement.SetRadius(atoi(argv[3]));
+  structuringElement.SetRadius(std::stoi(argv[3]));
   structuringElement.CreateStructuringElement();
 
   filter->SetKernel( structuringElement );
-  if (atoi(argv[4]) == 0)
+  if (std::stoi(argv[4]) == 0)
     {
     filter->PreserveIntensitiesOff();
     }

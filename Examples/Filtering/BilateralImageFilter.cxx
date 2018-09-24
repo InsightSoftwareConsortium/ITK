@@ -183,9 +183,9 @@ int main( int argc, char * argv[] )
   double domainSigmas[ Dimension ];
   for(double & domainSigma : domainSigmas)
     {
-    domainSigma = atof( argv[3] );
+    domainSigma = std::stod( argv[3] );
     }
-  const double rangeSigma = atof( argv[4] );
+  const double rangeSigma = std::stod( argv[4] );
   // Software Guide : EndCodeSnippet
 
 

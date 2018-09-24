@@ -249,7 +249,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const InternalPixelType  timeThreshold = atof( argv[8] );
+  const InternalPixelType  timeThreshold = std::stod( argv[8] );
 
   // Software Guide : BeginCodeSnippet
   thresholder->SetLowerThreshold(           0.0  );
@@ -436,7 +436,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double sigma = atof( argv[5] );
+  const double sigma = std::stod( argv[5] );
 
   // Software Guide : BeginCodeSnippet
   gradientMagnitude->SetSigma(  sigma  );
@@ -472,8 +472,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double alpha =  atof( argv[6] );
-  const double beta  =  atof( argv[7] );
+  const double alpha =  std::stod( argv[6] );
+  const double beta  =  std::stod( argv[7] );
 
 
   // Software Guide : BeginCodeSnippet
@@ -522,8 +522,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  seedPosition;
 
-  seedPosition[0] = atoi( argv[3] );
-  seedPosition[1] = atoi( argv[4] );
+  seedPosition[0] = std::stoi( argv[3] );
+  seedPosition[1] = std::stoi( argv[4] );
 
 
   //  Software Guide : BeginLatex
@@ -664,7 +664,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double stoppingTime = atof( argv[9] );
+  const double stoppingTime = std::stod( argv[9] );
 
   // Software Guide : BeginCodeSnippet
   fastMarching->SetStoppingValue(  stoppingTime  );

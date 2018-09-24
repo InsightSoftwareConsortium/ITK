@@ -204,8 +204,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const InputPixelType lowerThreshold = atoi( argv[4] );
-  const InputPixelType upperThreshold = atoi( argv[5] );
+  const InputPixelType lowerThreshold = std::stoi( argv[4] );
+  const InputPixelType upperThreshold = std::stoi( argv[5] );
 
   // Software Guide : BeginCodeSnippet
   thresholder->SetInput( reader->GetOutput() );

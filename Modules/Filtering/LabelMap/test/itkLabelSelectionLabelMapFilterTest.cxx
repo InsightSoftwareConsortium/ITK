@@ -52,8 +52,8 @@ int itkLabelSelectionLabelMapFilterTest(int argc, char * argv[])
   using ChangeType = itk::LabelSelectionLabelMapFilter< LabelMapType >;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
-  change->SetExclude( atoi(argv[3]) );
-  change->SetLabel( atoi(argv[4]) );
+  change->SetExclude( std::stoi(argv[3]) );
+  change->SetLabel( std::stoi(argv[4]) );
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;

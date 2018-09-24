@@ -68,7 +68,7 @@ public:
 
     if( argc > 4 )
       {
-      radius.Fill( atoi( argv[4] ) );
+      radius.Fill( std::stoi( argv[4] ) );
       fractalFilter->SetNeighborhoodRadius( radius );
       }
 
@@ -77,7 +77,7 @@ public:
       PixelType maskLabel = 1.0;
       if( argc > 6 )
         {
-        maskLabel = static_cast<PixelType>( atof( argv[6] ) );
+        maskLabel = static_cast<PixelType>( std::stod( argv[6] ) );
         }
 
       typename ReaderType::Pointer labelImageReader = ReaderType::New();
@@ -140,7 +140,7 @@ int itkStochasticFractalDimensionImageFilterTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int imageDimension = atoi( argv[1] );
+  const unsigned int imageDimension = std::stoi( argv[1] );
 
   switch( imageDimension )
     {

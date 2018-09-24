@@ -26,7 +26,7 @@ int itkMultiThreadingEnvironmentTest(int argc, char* argv[])
     std::cout << "ERROR: KNOWN VALUE REQUIRED" << std::endl;
     return EXIT_FAILURE;
     }
-  const auto requiredValue = static_cast<unsigned int>( atoi( argv[1] ) );
+  const auto requiredValue = static_cast<unsigned int>( std::stoi( argv[1] ) );
 
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   if(threader.IsNull())

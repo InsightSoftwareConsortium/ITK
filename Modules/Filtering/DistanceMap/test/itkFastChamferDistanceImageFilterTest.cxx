@@ -223,7 +223,7 @@ int itkFastChamferDistanceImageFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  int Dimension = atoi( argv[1] );
+  int Dimension = std::stoi( argv[1] );
 
   std::cout <<"Dimension = " << Dimension << std::endl;
   if( Dimension == 1 )

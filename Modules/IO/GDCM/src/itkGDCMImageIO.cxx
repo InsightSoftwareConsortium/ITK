@@ -1042,10 +1042,10 @@ void GDCMImageIO::Write(const void *buffer)
     {
     if ( bitsAllocated != "" && bitsStored != "" && highBit != "" && pixelRep != "" )
       {
-      outpixeltype.SetBitsAllocated( static_cast<unsigned short int>(atoi( bitsAllocated.c_str() ) ));
-      outpixeltype.SetBitsStored( static_cast<unsigned short int>(atoi( bitsStored.c_str() )) );
-      outpixeltype.SetHighBit( static_cast<unsigned short int>(atoi( highBit.c_str()) ) );
-      outpixeltype.SetPixelRepresentation( static_cast<unsigned short int>(atoi( pixelRep.c_str() )) );
+      outpixeltype.SetBitsAllocated( static_cast<unsigned short int>(std::stoi( bitsAllocated.c_str() ) ));
+      outpixeltype.SetBitsStored( static_cast<unsigned short int>(std::stoi( bitsStored.c_str() )) );
+      outpixeltype.SetHighBit( static_cast<unsigned short int>(std::stoi( highBit.c_str()) ) );
+      outpixeltype.SetPixelRepresentation( static_cast<unsigned short int>(std::stoi( pixelRep.c_str() )) );
       if ( this->GetNumberOfComponents() != 1 )
         {
         itkExceptionMacro(<< "Sorry Dave I can't do that");

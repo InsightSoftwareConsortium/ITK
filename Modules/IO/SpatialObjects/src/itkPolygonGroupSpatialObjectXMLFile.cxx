@@ -81,37 +81,37 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
     }
   else if ( itksys::SystemTools::Strucmp(name, "X-SIZE") == 0 )
     {
-    int size = atoi( m_CurCharacterData.c_str() );
+    int size = std::stoi( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< int >(thisDic, ROI_X_SIZE, size);
     }
   else if ( itksys::SystemTools::Strucmp(name, "Y-SIZE") == 0 )
     {
-    int size = atoi( m_CurCharacterData.c_str() );
+    int size = std::stoi( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< int >(thisDic, ROI_Y_SIZE, size);
     }
   else if ( itksys::SystemTools::Strucmp(name, "Z-SIZE") == 0 )
     {
-    int size = atoi( m_CurCharacterData.c_str() );
+    int size = std::stoi( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< int >(thisDic, ROI_Z_SIZE, size);
     }
   else if ( itksys::SystemTools::Strucmp(name, "X-RESOLUTION") == 0 )
     {
-    float res = atof( m_CurCharacterData.c_str() );
+    float res = std::stod( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< float >(thisDic, ROI_X_RESOLUTION, res);
     }
   else if ( itksys::SystemTools::Strucmp(name, "Y-RESOLUTION") == 0 )
     {
-    float res = atof( m_CurCharacterData.c_str() );
+    float res = std::stod( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< float >(thisDic, ROI_Y_RESOLUTION, res);
     }
   else if ( itksys::SystemTools::Strucmp(name, "Z-RESOLUTION") == 0 )
     {
-    float res = atof( m_CurCharacterData.c_str() );
+    float res = std::stod( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< float >(thisDic, ROI_Z_RESOLUTION, res);
     }
   else if ( itksys::SystemTools::Strucmp(name, "NUM-SEGMENTS") == 0 )
     {
-    int size = atoi( m_CurCharacterData.c_str() );
+    int size = std::stoi( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< int >(thisDic, ROI_NUM_SEGMENTS, size);
     }
   else if ( itksys::SystemTools::Strucmp(name, "POINT") == 0 )

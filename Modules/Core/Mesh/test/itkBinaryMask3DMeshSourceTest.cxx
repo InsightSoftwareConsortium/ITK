@@ -100,7 +100,7 @@ int itkBinaryMask3DMeshSourceTest(int argc, char *argv[] )
 
   if ( argc == 2 )
     {
-    if ( atoi( argv[1] ) == 1 )
+    if ( std::stoi( argv[1] ) == 1 )
       {
       size[0] = 9;
       size[1] = 9;

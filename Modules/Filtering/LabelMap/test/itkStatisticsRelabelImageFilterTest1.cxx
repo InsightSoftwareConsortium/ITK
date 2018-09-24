@@ -52,7 +52,7 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   statisticsRelabel->SetFeatureImage( reader2->GetOutput() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[4]) );
+  int BackgroundValue = ( std::stoi(argv[4]) );
   statisticsRelabel->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, statisticsRelabel->GetBackgroundValue() );
 
@@ -64,12 +64,12 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, statisticsRelabel->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[5] );
+  bool reverseOrdering = std::stoi( argv[5] );
   statisticsRelabel->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , statisticsRelabel->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  RelabelType::AttributeType attribute = atoi( argv[6] );
+  RelabelType::AttributeType attribute = std::stoi( argv[6] );
   statisticsRelabel->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, statisticsRelabel->GetAttribute() );
 

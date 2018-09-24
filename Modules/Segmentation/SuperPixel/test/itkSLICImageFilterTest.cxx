@@ -91,8 +91,8 @@ int itkSLICImageFilterTest(int argc, char *argv[])
     }
 
 
-  const bool enforceConnectivity = (argc > 4) ? atoi(argv[4]) : 1;
-  const unsigned int gridSize = (argc > 3) ? atoi(argv[3] ) : 20;
+  const bool enforceConnectivity = (argc > 4) ? std::stoi(argv[4]) : 1;
+  const unsigned int gridSize = (argc > 3) ? std::stoi(argv[3] ) : 20;
   const char *inFileName = argv[1];
   const char *outFileName = argv[2];
 

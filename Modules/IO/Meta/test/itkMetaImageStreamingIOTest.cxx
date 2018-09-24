@@ -92,7 +92,7 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
   unsigned int numberOfDataPieces = 4;
   if( ac > 3 )
     {
-    numberOfDataPieces = atoi( av[3] );
+    numberOfDataPieces = std::stoi( av[3] );
     }
 
   streamer->SetNumberOfStreamDivisions( numberOfDataPieces );

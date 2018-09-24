@@ -95,11 +95,11 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
 
   filter->SetCovariance(  covariance );
 
-  const double threshold = atof( av[4] );
+  const double threshold = std::stod( av[4] );
 
   filter->SetThreshold( threshold );
 
-  const double curvatureScaling = atof( av[5] );
+  const double curvatureScaling = std::stod( av[5] );
 
   filter->SetCurvatureScaling( curvatureScaling );
 

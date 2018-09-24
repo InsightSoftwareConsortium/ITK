@@ -111,7 +111,7 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
 
 
   int testStatus = EXIT_SUCCESS;
-  if( atoi( argv[2] ) == 0 )
+  if( std::stoi( argv[2] ) == 0 )
     {
     testStatus = itkGaborImageSourceTestHelper< 2 >( argv[1], false );
     }

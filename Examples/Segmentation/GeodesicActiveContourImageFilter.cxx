@@ -274,7 +274,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double propagationScaling = atof( argv[9] );
+  const double propagationScaling = std::stod( argv[9] );
 
   //  Software Guide : BeginCodeSnippet
   geodesicActiveContour->SetPropagationScaling( propagationScaling );
@@ -335,7 +335,7 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
 
-  const double sigma = atof( argv[6] );
+  const double sigma = std::stod( argv[6] );
   gradientMagnitude->SetSigma(  sigma  );
 
 
@@ -344,8 +344,8 @@ int main( int argc, char *argv[] )
   //  have been discussed in Sections~\ref{sec:IntensityNonLinearMapping} and
   //  \ref{sec:FastMarchingImageFilter}.
 
-  const double alpha =  atof( argv[7] );
-  const double beta  =  atof( argv[8] );
+  const double alpha =  std::stod( argv[7] );
+  const double beta  =  std::stod( argv[8] );
 
   sigmoid->SetAlpha( alpha );
   sigmoid->SetBeta(  beta  );
@@ -369,8 +369,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  seedPosition;
 
-  seedPosition[0] = atoi( argv[3] );
-  seedPosition[1] = atoi( argv[4] );
+  seedPosition[0] = std::stoi( argv[3] );
+  seedPosition[1] = std::stoi( argv[4] );
 
 
   //  Nodes are created as stack variables and initialized with a value and an
@@ -383,7 +383,7 @@ int main( int argc, char *argv[] )
   //  command line arguments. The rule of thumb for the user is to select this
   //  value as the distance from the seed points at which she want the initial
   //  contour to be.
-  const double initialDistance = atof( argv[5] );
+  const double initialDistance = std::stod( argv[5] );
 
   NodeType node;
 

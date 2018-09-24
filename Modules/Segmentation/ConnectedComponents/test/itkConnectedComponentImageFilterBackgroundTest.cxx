@@ -33,7 +33,7 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
   constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension >;
 
-  auto background = static_cast< PixelType >( atoi( argv[ 1 ] ) );
+  auto background = static_cast< PixelType >( std::stoi( argv[ 1 ] ) );
 
   // Create an image with an arbitrary background value and a number
   // of islands with pixel values above and below the background value

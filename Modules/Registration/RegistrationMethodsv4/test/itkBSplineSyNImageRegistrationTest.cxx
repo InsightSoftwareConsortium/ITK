@@ -209,7 +209,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   typename DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize( 3 );
 #ifdef NDEBUG
-  numberOfIterationsPerLevel[0] = atoi( argv[5] );
+  numberOfIterationsPerLevel[0] = std::stoi( argv[5] );
   numberOfIterationsPerLevel[1] = 2;
   numberOfIterationsPerLevel[2] = 1;
 #else
@@ -285,7 +285,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   displacementFieldRegistration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
   displacementFieldRegistration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
   displacementFieldRegistration->SetMetric( correlationMetric );
-  displacementFieldRegistration->SetLearningRate( atof( argv[6] ) );
+  displacementFieldRegistration->SetLearningRate( std::stod( argv[6] ) );
   displacementFieldRegistration->SetNumberOfIterationsPerLevel( numberOfIterationsPerLevel );
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel( adaptors );
 
@@ -366,7 +366,7 @@ int itkBSplineSyNImageRegistrationTest( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      PerformBSplineSyNImageRegistration<2>( argc, argv );

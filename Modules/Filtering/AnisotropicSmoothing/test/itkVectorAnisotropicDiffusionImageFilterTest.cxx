@@ -49,10 +49,10 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
 
       // Run Test
       itk::Size<2> sz;
-      sz[0] = 100; //atoi(argv[1]);
-      sz[1] = 100; // atoi(argv[2]);
-      //      sz[2] = 10;//atoi(argv[3]);
-      //      sz[3] = 5;//atoi(argv[4]);
+      sz[0] = 100; //std::stoi(argv[1]);
+      sz[1] = 100; // std::stoi(argv[2]);
+      //      sz[2] = 10;//std::stoi(argv[3]);
+      //      sz[3] = 5;//std::stoi(argv[4]);
       itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
       test1.SetImageSize(sz);
       test1.SetFilter(filter);

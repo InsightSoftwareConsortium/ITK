@@ -101,7 +101,7 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
 
   bool exception_caught = false;
 
-  if( atoi( argv[1] ) == 0 )
+  if( std::stoi( argv[1] ) == 0 )
     {
     constexpr unsigned Dimension  = 3;
     using ImageType = itk::Image<PixelType, Dimension>;
@@ -131,7 +131,7 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
     }
   else
     {
-    if( atoi( argv[1] ) == 1 )
+    if( std::stoi( argv[1] ) == 1 )
       {
       using MeshType = itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits< PixelType, 3, bool, bool > >;
 

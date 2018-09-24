@@ -164,7 +164,7 @@ int main( int argc, char *argv[] )
       {
       std::cout << *itKey << " ---> " << metaString << std::endl;
       readb0 = true;
-      b0 = atof(metaString.c_str());
+      b0 = std::stod(metaString.c_str());
       }
     }
   std::cout << "Number of gradient images: "
@@ -232,7 +232,7 @@ int main( int argc, char *argv[] )
   // If we need to write out the reference and gradient images to a file..
   // Easier viewing them with a viewer than if they were in a single NRRD
   // file
-  if( (argc > 4) && (atoi(argv[6])) )
+  if( (argc > 4) && (std::stoi(argv[6])) )
     {
     unsigned int referenceImageIndex = 0;
     using GradientWriterType = itk::ImageFileWriter< GradientImageType >;
@@ -286,7 +286,7 @@ int main( int argc, char *argv[] )
   tensorReconstructionFilter->SetBValue(b0);
   tensorReconstructionFilter->SetThreshold( static_cast<
       TensorReconstructionImageFilterType::ReferencePixelType >(
-                                                    atof(argv[2])));
+                                                    std::stod(argv[2])));
   tensorReconstructionFilter->Update();
 
 

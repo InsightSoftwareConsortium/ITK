@@ -51,7 +51,7 @@ int itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
   double stdDev = 1.0;
   if( argc >= 4 )
     {
-    stdDev = atof( argv[3] );
+    stdDev = std::stod( argv[3] );
     }
   speckleNoiseImageFilter->SetStandardDeviation( stdDev );
   TEST_SET_GET_VALUE( stdDev, speckleNoiseImageFilter->GetStandardDeviation() );

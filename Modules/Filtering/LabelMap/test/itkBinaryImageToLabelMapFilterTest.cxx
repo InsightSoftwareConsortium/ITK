@@ -57,9 +57,9 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
   TRY_EXPECT_EXCEPTION( imageToLabel->Update() );
   imageToLabel->ResetPipeline();
 
-  imageToLabel->SetFullyConnected( atoi(argv[3]) );
-  imageToLabel->SetInputForegroundValue( atoi(argv[4]) );
-  imageToLabel->SetOutputBackgroundValue( atoi(argv[5]) );
+  imageToLabel->SetFullyConnected( std::stoi(argv[3]) );
+  imageToLabel->SetInputForegroundValue( std::stoi(argv[4]) );
+  imageToLabel->SetOutputBackgroundValue( std::stoi(argv[5]) );
 
   itk::SimpleFilterWatcher watcher( imageToLabel );
 
@@ -77,7 +77,7 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
   labelToImage->SetInput( imageToLabel->GetOutput() );
   writer->SetInput( labelToImage->GetOutput() );
 
-  bool expectfailure = atoi( argv[6] );
+  bool expectfailure = std::stoi( argv[6] );
 
   if( expectfailure )
     {

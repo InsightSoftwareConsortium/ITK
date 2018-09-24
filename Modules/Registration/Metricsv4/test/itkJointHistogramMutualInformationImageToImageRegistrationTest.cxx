@@ -151,11 +151,11 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   unsigned int numberOfDisplacementIterations = 10;
   if( argc >= 5 )
     {
-    numberOfIterations = atoi( argv[4] );
+    numberOfIterations = std::stoi( argv[4] );
     }
   if( argc >= 6 )
     {
-    numberOfDisplacementIterations = atoi( argv[5] );
+    numberOfDisplacementIterations = std::stoi( argv[5] );
     }
   std::cout << " iterations "<< numberOfIterations
     << " displacementIterations " << numberOfDisplacementIterations << std::endl;

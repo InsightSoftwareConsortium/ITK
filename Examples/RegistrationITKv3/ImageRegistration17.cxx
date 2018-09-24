@@ -180,8 +180,8 @@ int main( int argc, char *argv[] )
 
   if( argc > 5 )
     {
-    initialParameters[0] = atof( argv[4] );
-    initialParameters[1] = atof( argv[5] );
+    initialParameters[0] = std::stod( argv[4] );
+    initialParameters[1] = std::stod( argv[5] );
     }
 
   registration->SetInitialTransformParameters( initialParameters  );

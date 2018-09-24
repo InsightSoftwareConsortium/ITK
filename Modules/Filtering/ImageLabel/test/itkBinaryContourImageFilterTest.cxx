@@ -67,17 +67,17 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
 
   TRY_EXPECT_EXCEPTION(filter->Update());
 
-  TEST_SET_GET_BOOLEAN(filter, FullyConnected, atoi(argv[3]));
+  TEST_SET_GET_BOOLEAN(filter, FullyConnected, std::stoi(argv[3]));
 
-  filter->SetForegroundValue( atoi(argv[4]) );
-  if ( filter->GetForegroundValue( ) != atoi(argv[4]) )
+  filter->SetForegroundValue( std::stoi(argv[4]) );
+  if ( filter->GetForegroundValue( ) != std::stoi(argv[4]) )
     {
     std::cerr << "Set/Get ForegroundValue problem." << std::endl;
     return EXIT_FAILURE;
     }
 
-  filter->SetBackgroundValue( atoi(argv[5]) );
-  if ( filter->GetBackgroundValue( ) != atoi(argv[5]) )
+  filter->SetBackgroundValue( std::stoi(argv[5]) );
+  if ( filter->GetBackgroundValue( ) != std::stoi(argv[5]) )
     {
     std::cerr << "Set/Get BackgroundValue problem." << std::endl;
     return EXIT_FAILURE;

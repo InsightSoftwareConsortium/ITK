@@ -99,7 +99,7 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
 
   gaussianImage->SetOutputParametersFromImage( referenceImage );
 
-  bool normalized = atoi( argv[2] ) != 0;
+  bool normalized = std::stoi( argv[2] ) != 0;
   TEST_SET_GET_BOOLEAN( gaussianImage, Normalized, normalized );
 
   gaussianImage->SetMean( mean );

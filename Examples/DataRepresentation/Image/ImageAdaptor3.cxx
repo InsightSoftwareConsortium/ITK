@@ -171,7 +171,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   itk::VectorPixelAccessor  accessor;
-  accessor.SetIndex( atoi( argv[3] ) );
+  accessor.SetIndex( std::stoi( argv[3] ) );
   adaptor->SetPixelAccessor( accessor );
 // Software Guide : EndCodeSnippet
 

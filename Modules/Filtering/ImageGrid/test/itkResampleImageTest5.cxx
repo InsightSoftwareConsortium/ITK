@@ -54,7 +54,7 @@ int itkResampleImageTest5(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  float scaling = atof( argv[1] );
+  float scaling = std::stod( argv[1] );
 
   // Create and configure an image
   ImagePointerType image = ImageType::New();

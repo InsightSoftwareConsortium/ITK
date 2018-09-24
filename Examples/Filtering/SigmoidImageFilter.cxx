@@ -144,8 +144,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const OutputPixelType outputMinimum = atoi( argv[3] );
-  const OutputPixelType outputMaximum = atoi( argv[4] );
+  const OutputPixelType outputMinimum = std::stoi( argv[3] );
+  const OutputPixelType outputMaximum = std::stoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   sigmoidFilter->SetOutputMinimum(   outputMinimum  );
@@ -171,8 +171,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double  alpha = atof( argv[5] );
-  const double  beta  = atof( argv[6] );
+  const double  alpha = std::stod( argv[5] );
+  const double  beta  = std::stod( argv[6] );
 
   // Software Guide : BeginCodeSnippet
   sigmoidFilter->SetAlpha(  alpha  );

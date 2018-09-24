@@ -33,7 +33,7 @@ int itkDiscreteGaussianImageFilterTestA(int argc, char* argv[])
     using ImageType = TIMAGE;
 
     const char * input_file_name = argv[3];
-    float sigma = atof(argv[4]);
+    float sigma = std::stod(argv[4]);
     const char * output_file_name = argv[5];
 
     using ReaderType = itk::ImageFileReader<ImageType>;
@@ -75,8 +75,8 @@ int itkDiscreteGaussianImageFilterTest2(int argc, char *argv[])
       return EXIT_FAILURE;
       }
 
-    unsigned int img_dim = atoi(argv[1]);
-    unsigned int vec_dim = atoi(argv[2]);
+    unsigned int img_dim = std::stoi(argv[1]);
+    unsigned int vec_dim = std::stoi(argv[2]);
 
     if (img_dim != 2)
       {

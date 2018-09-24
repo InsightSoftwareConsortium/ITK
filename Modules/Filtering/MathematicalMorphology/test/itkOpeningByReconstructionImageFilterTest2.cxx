@@ -62,7 +62,7 @@ int itkOpeningByReconstructionImageFilterTest2(int argc, char* argv [] )
   // Define regions of input image
   RegionType region;
   SizeType size;
-  size.Fill(atoi(argv[2]));
+  size.Fill(std::stoi(argv[2]));
   IndexType index;
   index.Fill(0);
   region.SetSize(size);
@@ -70,13 +70,13 @@ int itkOpeningByReconstructionImageFilterTest2(int argc, char* argv [] )
 
   //fill spacing and origin
   OriginType origin;
-  origin[0]=atof(argv[4]);
-  origin[1]=atof(argv[5]);
+  origin[0]=std::stod(argv[4]);
+  origin[1]=std::stod(argv[5]);
   inputImage->SetOrigin(origin);
 
   SpacingType spacing;
-  spacing[0]=atof(argv[6]);
-  spacing[1]=atof(argv[7]);
+  spacing[0]=std::stod(argv[6]);
+  spacing[1]=std::stod(argv[7]);
   inputImage->SetSpacing(spacing);
 
 
@@ -94,11 +94,11 @@ int itkOpeningByReconstructionImageFilterTest2(int argc, char* argv [] )
 
   StructuringElementType   structuringElement;
 
-  structuringElement.SetRadius(atoi(argv[2]));
+  structuringElement.SetRadius(std::stoi(argv[2]));
   structuringElement.CreateStructuringElement();
 
   filter->SetKernel( structuringElement );
-  if (atoi(argv[3]) == 0)
+  if (std::stoi(argv[3]) == 0)
     {
     filter->PreserveIntensitiesOff();
     }

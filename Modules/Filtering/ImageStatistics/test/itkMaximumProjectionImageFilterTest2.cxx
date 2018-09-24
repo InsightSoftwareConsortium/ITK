@@ -35,7 +35,7 @@ int itkMaximumProjectionImageFilterTest2(int argc, char * argv[])
 
   // Legacy compat with older MetaImages
   itk::MetaImageIO::SetDefaultDoublePrecision(6);
-  int dim = atoi(argv[1]);
+  int dim = std::stoi(argv[1]);
 
   using PixelType = unsigned char;
 

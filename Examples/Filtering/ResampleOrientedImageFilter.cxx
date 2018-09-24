@@ -67,10 +67,10 @@ int main( int argc, char * argv[] )
     }
 
   OutputImageType::DirectionType direction;
-  direction(0,0) = atoi(argv[3]);
-  direction(1,0) = atoi(argv[4]);
-  direction(0,1) = atoi(argv[5]);
-  direction(1,1) = atoi(argv[6]);
+  direction(0,0) = std::stoi(argv[3]);
+  direction(1,0) = std::stoi(argv[4]);
+  direction(0,1) = std::stoi(argv[5]);
+  direction(1,1) = std::stoi(argv[6]);
   filter->SetOutputDirection(direction);
 
   InputImageType::SizeType   size;

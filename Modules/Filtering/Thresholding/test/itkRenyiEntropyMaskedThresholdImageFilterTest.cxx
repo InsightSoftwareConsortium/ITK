@@ -67,7 +67,7 @@ int itkRenyiEntropyMaskedThresholdImageFilterTest(int argc, char* argv[] )
   maskreader->SetFileName(argv[2]);
   filter->SetInput( reader->GetOutput() );
   filter->SetMaskImage( maskreader->GetOutput() );
-  // filter->SetNumberOfHistogramBins (atoi(argv[3]));
+  // filter->SetNumberOfHistogramBins (std::stoi(argv[3]));
   writer->SetInput( filter->GetOutput() );
 
   filter->Update();

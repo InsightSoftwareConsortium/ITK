@@ -144,7 +144,7 @@ int main( int argc, char *argv[] )
   unsigned int numberOfHistogramBins = 32;
   if( argc > 4 )
     {
-    numberOfHistogramBins = atoi( argv[4] );
+    numberOfHistogramBins = std::stoi( argv[4] );
     std::cout << "Using " << numberOfHistogramBins << " Histogram bins"
               << std::endl;
     }
@@ -197,15 +197,15 @@ int main( int argc, char *argv[] )
   double initialAngle = 0.0;
   if( argc > 7 )
     {
-    initialAngle = atof( argv[7] );
+    initialAngle = std::stod( argv[7] );
     }
   transform->SetAngle( initialAngle );
   TransformType::OutputVectorType initialTranslation
                                                  = transform->GetTranslation();
   if( argc > 9 )
     {
-    initialTranslation[0] += atof( argv[8] );
-    initialTranslation[1] += atof( argv[9] );
+    initialTranslation[0] += std::stod( argv[8] );
+    initialTranslation[1] += std::stod( argv[9] );
     }
   transform->SetTranslation( initialTranslation );
 
@@ -239,14 +239,14 @@ int main( int argc, char *argv[] )
   double initialRadius = 0.05;
   if( argc > 5 )
     {
-    initialRadius = atof( argv[5] );
+    initialRadius = std::stod( argv[5] );
     std::cout << "Using initial radius = " << initialRadius << std::endl;
     }
   optimizer->Initialize( initialRadius );
   double epsilon = 0.001;
   if( argc > 6 )
     {
-    epsilon = atof( argv[6] );
+    epsilon = std::stod( argv[6] );
     std::cout << "Using epsilon = " << epsilon << std::endl;
     }
   optimizer->SetEpsilon( epsilon );

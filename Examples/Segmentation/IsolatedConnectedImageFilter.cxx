@@ -167,15 +167,15 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  indexSeed1;
 
-  indexSeed1[0] = atoi( argv[3] );
-  indexSeed1[1] = atoi( argv[4] );
+  indexSeed1[0] = std::stoi( argv[3] );
+  indexSeed1[1] = std::stoi( argv[4] );
 
-  const InternalPixelType lowerThreshold = atof( argv[5] );
+  const InternalPixelType lowerThreshold = std::stod( argv[5] );
 
   InternalImageType::IndexType  indexSeed2;
 
-  indexSeed2[0] = atoi( argv[6] );
-  indexSeed2[1] = atoi( argv[7] );
+  indexSeed2[0] = std::stoi( argv[6] );
+  indexSeed2[1] = std::stoi( argv[7] );
 
 
   // Software Guide : BeginCodeSnippet

@@ -77,10 +77,10 @@ int itkSingleLevelSetDenseAdvectionImage2DTest( int argc, char* argv[] )
   NodeContainer::Pointer seeds = NodeContainer::New();
 
   ImageType::IndexType  seedPosition;
-  seedPosition[0] = atoi( argv[2] );
-  seedPosition[1] = atoi( argv[3] );
+  seedPosition[0] = std::stoi( argv[2] );
+  seedPosition[1] = std::stoi( argv[3] );
 
-  const double initialDistance = atof( argv[4] );
+  const double initialDistance = std::stod( argv[4] );
   const double seedValue = - initialDistance;
 
   NodeType node;
@@ -144,7 +144,7 @@ int itkSingleLevelSetDenseAdvectionImage2DTest( int argc, char* argv[] )
   AdvectionTermType::Pointer advectionTerm = AdvectionTermType::New();
   advectionTerm->SetInput( input );
   advectionTerm->SetCoefficient( 1.0 );
-  advectionTerm->SetDerivativeSigma( atof( argv[6] ) );
+  advectionTerm->SetDerivativeSigma( std::stod( argv[6] ) );
   std::cout << "LevelSet 1: Advection term created" << std::endl;
 
   // **************** CREATE ALL EQUATIONS ****************

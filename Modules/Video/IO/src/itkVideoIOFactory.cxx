@@ -58,7 +58,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
     // Check camera readability if reading from camera
     else if (mode == ReadCameraMode)
       {
-      int cameraIndex = atoi(arg);
+      int cameraIndex = std::stoi(arg);
       if (j->CanReadCamera(cameraIndex))
         {
         return j;

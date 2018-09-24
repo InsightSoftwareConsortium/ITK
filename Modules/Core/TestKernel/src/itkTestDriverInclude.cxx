@@ -239,7 +239,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       threadEnv += (*av)[i + 1];
       itksys::SystemTools::PutEnv( threadEnv.c_str() );
       // and set the number of threads locally for the comparison
-      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(atoi((*av)[i + 1]));
+      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(std::stoi((*av)[i + 1]));
       *av += 2;
       *ac -= 2;
       }
@@ -257,7 +257,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.numberOfPixelsTolerance = atoi((*av)[i + 1]);
+      regressionTestParameters.numberOfPixelsTolerance = std::stoi((*av)[i + 1]);
       *av += 2;
       *ac -= 2;
       }
@@ -268,7 +268,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-     regressionTestParameters.radiusTolerance = atoi((*av)[i + 1]);
+     regressionTestParameters.radiusTolerance = std::stoi((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -279,7 +279,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.intensityTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.intensityTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -290,7 +290,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.coordinateTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.coordinateTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -301,7 +301,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.directionTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.directionTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }

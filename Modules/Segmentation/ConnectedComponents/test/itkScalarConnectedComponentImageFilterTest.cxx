@@ -112,18 +112,18 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
 
   filter->SetInput (reader->GetOutput());
   filter->SetMaskImage (mask);
-  filter->SetDistanceThreshold( atoi(argv[3]) );
+  filter->SetDistanceThreshold( std::stoi(argv[3]) );
   filter->SetFunctor(filter->GetFunctor());
 
   if (argc > 4)
     {
-    int fullyConnected = atoi( argv[4] );
+    int fullyConnected = std::stoi( argv[4] );
     filter->SetFullyConnected( fullyConnected );
     }
   relabel->SetInput( filter->GetOutput() );
   if (argc > 5)
     {
-    int minSize = atoi( argv[5] );
+    int minSize = std::stoi( argv[5] );
     relabel->SetMinimumObjectSize( minSize );
     std::cerr << "minSize: " << minSize << std::endl;
     }

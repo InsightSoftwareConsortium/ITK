@@ -27,8 +27,8 @@ int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  int imageSize = atoi( argv[1] );
-  int reps = atoi( argv[2] );
+  int imageSize = std::stoi( argv[1] );
+  int reps = std::stoi( argv[2] );
 
   std::cout << "imageSize: " << imageSize << " reps: " << reps << std::endl;
 

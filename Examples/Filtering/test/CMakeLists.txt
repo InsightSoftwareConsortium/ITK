@@ -404,7 +404,7 @@ itk_add_test(NAME  VectorGradientAnisotropicDiffusionImageFilterTest COMMAND ${I
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/VectorGradientAnisotropicDiffusionImageFilterOriginal.png
         ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
-        .25 5
+        5 .124
 )
 itk_add_test(NAME  VectorCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/VectorCurvatureAnisotropicDiffusionImageFilter.png,:}
@@ -413,7 +413,7 @@ itk_add_test(NAME  VectorCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilterOriginal.png
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
-        0.125 5
+        5 0.124
 )
 itk_add_test(NAME  VectorIndexSelectionTest COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/VectorIndexSelection.png}

@@ -34,7 +34,7 @@ int itkGPUReductionTest(int argc, char *argv[])
   int numPixels = 256;
   if (argc > 1)
   {
-    numPixels  = atoi(argv[1]);
+    numPixels  = std::stoi(argv[1]);
   }
 
   // create input

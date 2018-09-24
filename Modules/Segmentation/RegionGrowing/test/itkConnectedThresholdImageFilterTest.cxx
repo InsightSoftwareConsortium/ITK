@@ -68,8 +68,8 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
 
 
   ConnectedThresholdImageFilterType::IndexType seed;
-  seed[0] = atoi( argv[3] );
-  seed[1] = atoi( argv[4] );
+  seed[0] = std::stoi( argv[3] );
+  seed[1] = std::stoi( argv[4] );
 
   connectedThresholdFilter->AddSeed( seed );
   ConnectedThresholdImageFilterType::SeedContainerType seedContainer =
@@ -98,11 +98,11 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
   TEST_SET_GET_VALUE( upperInputPixelObject->Get(), connectedThresholdFilter->GetUpper() );
 
 
-  ConnectedThresholdImageFilterType::InputImagePixelType lowerThreshold = atoi( argv[5] );
+  ConnectedThresholdImageFilterType::InputImagePixelType lowerThreshold = std::stoi( argv[5] );
   connectedThresholdFilter->SetLower( lowerThreshold );
   TEST_SET_GET_VALUE( lowerThreshold, connectedThresholdFilter->GetLower() );
 
-  ConnectedThresholdImageFilterType::InputImagePixelType upperThreshold = atoi( argv[6] );
+  ConnectedThresholdImageFilterType::InputImagePixelType upperThreshold = std::stoi( argv[6] );
   connectedThresholdFilter->SetUpper( upperThreshold );
   TEST_SET_GET_VALUE( upperThreshold, connectedThresholdFilter->GetUpper() );
 
@@ -113,7 +113,7 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
   // Test the use of full (8 connectivity in 2D) on this image
   if( argc > 7 )
     {
-    ConnectedThresholdImageFilterType::ConnectivityEnumType conenctivity = atoi( argv[7] ) ?
+    ConnectedThresholdImageFilterType::ConnectivityEnumType conenctivity = std::stoi( argv[7] ) ?
       ConnectedThresholdImageFilterType::FullConnectivity : ConnectedThresholdImageFilterType::FaceConnectivity;
     connectedThresholdFilter->SetConnectivity( conenctivity );
     TEST_SET_GET_VALUE( conenctivity, connectedThresholdFilter->GetConnectivity() );

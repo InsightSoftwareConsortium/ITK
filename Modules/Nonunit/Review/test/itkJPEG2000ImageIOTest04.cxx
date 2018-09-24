@@ -48,7 +48,7 @@ int itkJPEG2000ImageIOTest04( int argc, char * argv[] )
   using IOBaseType = itk::JPEG2000ImageIO;
 
   IOBaseType::Pointer base = IOBaseType::New();
-  base->SetTileSize( atoi( argv[3] ), atoi( argv[4] ) );
+  base->SetTileSize( std::stoi( argv[3] ), std::stoi( argv[4] ) );
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

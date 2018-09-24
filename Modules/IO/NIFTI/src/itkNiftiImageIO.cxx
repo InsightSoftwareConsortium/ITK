@@ -1838,7 +1838,7 @@ unsigned int NiftiImageIO::getQFormCodeFromDictionary() const
   // Convert the numeric code from string to int
   if ( itk::ExposeMetaData< std::string >(thisDic, "qform_code", temp) )
   {
-    return atoi(temp.c_str());
+    return std::stoi(temp.c_str());
   }
   return NIFTI_XFORM_SCANNER_ANAT; // Guess NIFTI_XFORM_SCANNER_ANAT if no other information provided.
 }
@@ -1855,7 +1855,7 @@ unsigned int NiftiImageIO::getSFormCodeFromDictionary() const
   // Convert the numeric code from string to int
   if ( itk::ExposeMetaData< std::string >(thisDic, "sform_code", temp) )
   {
-    return atoi(temp.c_str());
+    return std::stoi(temp.c_str());
   }
   return NIFTI_XFORM_UNKNOWN; // Guess NIFTI_XFORM_UNKNOWN to indicate that only qform is relevant.
 }

@@ -258,7 +258,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   typename DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize( 3 );
 #ifdef NDEBUG
-  numberOfIterationsPerLevel[0] = atoi( argv[5] );
+  numberOfIterationsPerLevel[0] = std::stoi( argv[5] );
   numberOfIterationsPerLevel[1] = 2;
   numberOfIterationsPerLevel[2] = 1;
 #else
@@ -320,7 +320,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   displacementFieldRegistration->SetMetric( correlationMetric );
 
   const typename DisplacementFieldRegistrationType::RealType local_epsilon = itk::NumericTraits< typename DisplacementFieldRegistrationType::RealType >::epsilon();
-  const typename DisplacementFieldRegistrationType::RealType local_LearningRate = atof( argv[6] );
+  const typename DisplacementFieldRegistrationType::RealType local_LearningRate = std::stod( argv[6] );
   displacementFieldRegistration->SetLearningRate( local_LearningRate );
   if ( displacementFieldRegistration->GetLearningRate() - local_LearningRate > local_epsilon )
     {
@@ -431,7 +431,7 @@ int itkSyNImageRegistrationTest( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      PerformDisplacementFieldImageRegistration<2>( argc, argv );

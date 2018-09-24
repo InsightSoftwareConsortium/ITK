@@ -225,27 +225,27 @@ int itkImageToImageMetricv4RegistrationTestRunAll (int argc, char *argv[])
 
   if( argc > 1 )
     {
-    numberOfIterations1 = atoi( argv[1] );
+    numberOfIterations1 = std::stoi( argv[1] );
     }
   if( argc > 2 )
     {
-    maximumStepSize1 = atof( argv[2] );
+    maximumStepSize1 = std::stod( argv[2] );
     }
   if( argc > 3 )
     {
-    numberOfIterations2 = atoi( argv[3] );
+    numberOfIterations2 = std::stoi( argv[3] );
     }
   if( argc > 4 )
     {
-    maximumStepSize2 = atof( argv[4] );
+    maximumStepSize2 = std::stod( argv[4] );
     }
   if( argc > 5 )
     {
-    doSampling = atoi( argv[5] );
+    doSampling = std::stoi( argv[5] );
     }
   if( argc > 6 )
     {
-    doGradientFilter = atoi( argv[6] );
+    doGradientFilter = std::stoi( argv[6] );
     }
 
   std::cout << std::endl << "******************* Dimension: " << Dimension << std::endl;

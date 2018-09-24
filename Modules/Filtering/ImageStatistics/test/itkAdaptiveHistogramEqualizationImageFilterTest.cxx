@@ -45,7 +45,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   reader->SetFileName( argv[1] );
 
   FilterType::ImageSizeType radius;
-  radius.Fill( atoi(argv[3]) );
+  radius.Fill( std::stoi(argv[3]) );
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -57,11 +57,11 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   filter->SetInput( reader->GetOutput() );
   filter->SetRadius( radius );
 
-  float alpha = atof(argv[4]);
+  float alpha = std::stod(argv[4]);
   filter->SetAlpha( alpha );
   TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
 
-  float beta = atof(argv[5]);
+  float beta = std::stod(argv[5]);
   filter->SetBeta( beta );
   TEST_SET_GET_VALUE( beta, filter->GetBeta() );
 

@@ -88,7 +88,7 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   flipper->SetFlipAxes( flipAxes );
   TEST_SET_GET_VALUE( flipAxes, flipper->GetFlipAxes() );
 
-  auto flipAboutOrigin = static_cast< bool >( atoi( argv[1] ) );
+  auto flipAboutOrigin = static_cast< bool >( std::stoi( argv[1] ) );
   TEST_SET_GET_BOOLEAN( flipper, FlipAboutOrigin, flipAboutOrigin );
 
   flipper->SetInput( inputImage );

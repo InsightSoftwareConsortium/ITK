@@ -40,8 +40,8 @@ int itkHalfToFullHermitianImageFilterTest(int argc, char *argv[])
 
   RandomSourceType::Pointer source = RandomSourceType::New();
   RandomSourceType::SizeType size;
-  size[0] = atoi( argv[1] );
-  size[1] = atoi( argv[2] );
+  size[0] = std::stoi( argv[1] );
+  size[1] = std::stoi( argv[2] );
   source->SetMin( 0.0f );
   source->SetMax( 1.0f );
   source->SetSize( size );

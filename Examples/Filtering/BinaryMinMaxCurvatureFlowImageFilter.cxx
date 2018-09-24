@@ -141,15 +141,15 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int numberOfIterations = atoi( argv[3] );
+  const unsigned int numberOfIterations = std::stoi( argv[3] );
 
-  const double       timeStep = atof( argv[4] );
+  const double       timeStep = std::stod( argv[4] );
 
   using RadiusType = FilterType::RadiusValueType;
 
   const RadiusType radius = atol( argv[5] );
 
-  const double threshold = atof( argv[6] );
+  const double threshold = std::stod( argv[6] );
 
 
   //  Software Guide : BeginLatex

@@ -253,7 +253,7 @@ int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
     if (argc > i + expectedExceptionOffset)
       {
       expectException[i] = 0;
-      if (atoi(argv[i+expectedExceptionOffset]) == 1)
+      if (std::stoi(argv[i+expectedExceptionOffset]) == 1)
         expectException[i] = 1;
       }
     else

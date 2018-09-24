@@ -206,7 +206,7 @@ int N4( int argc, char *argv[] )
   float splineDistance = 200;
   if( argc > 7 )
     {
-    splineDistance = atof( argv[7] );
+    splineDistance = std::stod( argv[7] );
     }
 
   itk::SizeValueType lowerBound[ImageDimension];
@@ -266,8 +266,8 @@ int N4( int argc, char *argv[] )
 
   if( argc > 4 )
     {
-    shrinker->SetShrinkFactors( atoi( argv[4] ) );
-    maskshrinker->SetShrinkFactors( atoi( argv[4] ) );
+    shrinker->SetShrinkFactors( std::stoi( argv[4] ) );
+    maskshrinker->SetShrinkFactors( std::stoi( argv[4] ) );
     }
   shrinker->Update();
   inputImage = shrinker->GetOutput();
@@ -337,7 +337,7 @@ int itkN4BiasFieldCorrectionImageFilterTest( int argc, char *argv[] )
     exit( EXIT_FAILURE );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
     {
     case 2:
       return N4<2>( argc, argv );
