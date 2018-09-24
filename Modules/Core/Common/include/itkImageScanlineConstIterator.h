@@ -196,7 +196,7 @@ public:
 
   /** Test if the index is at the end of line
    */
-  inline bool IsAtEndOfLine()
+  inline bool IsAtEndOfLine() const
   {
     return this->m_Offset >= m_SpanEndOffset;
   }

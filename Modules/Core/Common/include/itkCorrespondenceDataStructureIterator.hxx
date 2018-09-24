@@ -47,7 +47,7 @@ CorrespondenceDataStructureIterator< TStructureType >
 template< typename TStructureType >
 bool
 CorrespondenceDataStructureIterator< TStructureType >
-::IsAtEnd()
+::IsAtEnd() const
 {
   return m_IsAtEnd;
 }

@@ -91,7 +91,7 @@ public:
   virtual const PixelType Get() const = 0;
 
   /** Is the iterator at the end of the region? */
-  virtual bool IsAtEnd() = 0;
+  virtual bool IsAtEnd() const = 0;
 
   /** Walk forward one index. */
   virtual void operator++() = 0;

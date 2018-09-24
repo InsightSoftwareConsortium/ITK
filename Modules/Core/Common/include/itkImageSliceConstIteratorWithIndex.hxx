@@ -152,7 +152,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtEndOfLine()
+::IsAtEndOfLine() const
 {
   return this->m_PositionIndex[m_Direction_A] >= this->m_EndIndex[m_Direction_A];
 }
@@ -163,7 +163,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtEndOfSlice()
+::IsAtEndOfSlice() const
 {
   return this->m_PositionIndex[m_Direction_B] >= this->m_EndIndex[m_Direction_B];
 }
@@ -174,7 +174,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtReverseEndOfLine()
+::IsAtReverseEndOfLine() const
 {
   return this->m_PositionIndex[m_Direction_A] < this->m_BeginIndex[m_Direction_A];
 }
@@ -185,7 +185,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
-::IsAtReverseEndOfSlice()
+::IsAtReverseEndOfSlice() const
 {
   return this->m_PositionIndex[m_Direction_B] < this->m_BeginIndex[m_Direction_B];
 }

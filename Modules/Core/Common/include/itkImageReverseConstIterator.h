@@ -355,14 +355,14 @@ public:
 
   /** Is the iterator at the beginning of the (reverse) region? "Begin" for
    * a reverse iterator is the last pixel in the region. */
-  bool IsAtBegin()
+  bool IsAtBegin() const
   {
     return ( m_Offset == m_BeginOffset );
   }
 
   /** Is the iterator at the end of the (reverse) region? "End" for a reverse
    * iterator is one pixel before the first pixel in the region. */
-  bool IsAtEnd()
+  bool IsAtEnd() const
   {
     return ( m_Offset == m_EndOffset );
   }

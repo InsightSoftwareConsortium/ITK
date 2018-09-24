@@ -124,7 +124,7 @@ public:
   }
 
   /** Is the iterator at the end of the line? */
-  bool IsAtEnd()
+  bool IsAtEnd() const
   {
     return m_IsAtEnd;
   }
