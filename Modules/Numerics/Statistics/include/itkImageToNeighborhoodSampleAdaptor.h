@@ -299,7 +299,7 @@ public:
 
 protected:
   ImageToNeighborhoodSampleAdaptor();
-  ~ImageToNeighborhoodSampleAdaptor() override {}
+  ~ImageToNeighborhoodSampleAdaptor() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:

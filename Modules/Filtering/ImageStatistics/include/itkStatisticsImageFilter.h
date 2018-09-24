@@ -154,7 +154,7 @@ public:
 
 protected:
   StatisticsImageFilter();
-  ~StatisticsImageFilter() override {}
+  ~StatisticsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Pass the input through unmodified. Do this by Grafting in the

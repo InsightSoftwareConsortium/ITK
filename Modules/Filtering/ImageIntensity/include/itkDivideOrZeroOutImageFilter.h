@@ -104,8 +104,8 @@ public:
   }
 
 protected:
-  DivideOrZeroOutImageFilter() {};
-  ~DivideOrZeroOutImageFilter() override {};
+  DivideOrZeroOutImageFilter() = default;
+  ~DivideOrZeroOutImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override
     {

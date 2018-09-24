@@ -88,7 +88,7 @@ protected:
     this->SetDifferenceFunction(p);
   }
 
-  ~GradientAnisotropicDiffusionImageFilter() override {}
+  ~GradientAnisotropicDiffusionImageFilter() override = default;
 };
 } // end namspace itk
 

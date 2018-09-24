@@ -91,7 +91,7 @@ public:
   using DirectionType = Superclass::DirectionType;
 
   /** Constructor */
-  SpatialOrientationAdapter() {}
+  SpatialOrientationAdapter() = default;
 
   /** convert from direction cosines. */
   OrientationType FromDirectionCosines(const DirectionType & Dir) override;

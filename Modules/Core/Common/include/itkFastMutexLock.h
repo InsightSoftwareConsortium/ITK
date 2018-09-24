@@ -85,8 +85,8 @@ public:
   void Unlock();
 
 protected:
-  FastMutexLock() {}
-  ~FastMutexLock() override {}
+  FastMutexLock() = default;
+  ~FastMutexLock() override = default;
 
   SimpleFastMutexLock m_SimpleFastMutexLock;
   void PrintSelf(std::ostream & os, Indent indent) const override;

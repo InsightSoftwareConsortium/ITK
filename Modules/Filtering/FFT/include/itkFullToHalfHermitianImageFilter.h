@@ -85,7 +85,7 @@ public:
 
 protected:
   FullToHalfHermitianImageFilter();
-  ~FullToHalfHermitianImageFilter() override {}
+  ~FullToHalfHermitianImageFilter() override = default;
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 

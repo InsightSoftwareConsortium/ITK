@@ -111,8 +111,8 @@ public:
   void AdaptTransformParameters() override {};
 
 protected:
-  TransformParametersAdaptor() {}
-  ~TransformParametersAdaptor() override {}
+  TransformParametersAdaptor() = default;
+  ~TransformParametersAdaptor() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override
   {

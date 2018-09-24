@@ -61,9 +61,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::~SLICImageFilter()
-{
-}
+::~SLICImageFilter() = default;
 
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>

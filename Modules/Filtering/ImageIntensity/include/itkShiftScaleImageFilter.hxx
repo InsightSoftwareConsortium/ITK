@@ -42,8 +42,7 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 ShiftScaleImageFilter< TInputImage, TOutputImage >
-::~ShiftScaleImageFilter()
-{}
+::~ShiftScaleImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

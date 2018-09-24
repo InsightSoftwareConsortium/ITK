@@ -27,9 +27,7 @@ namespace itk
 
 template< typename TImage, typename TLevelSetEvolution >
 LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
-::LevelSetEvolutionUpdateLevelSetsThreader()
-{
-}
+::LevelSetEvolutionUpdateLevelSetsThreader() = default;
 
 template< typename TImage, typename TLevelSetEvolution >
 void

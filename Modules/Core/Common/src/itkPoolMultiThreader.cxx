@@ -56,9 +56,7 @@ PoolMultiThreader::PoolMultiThreader() :
   m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }
 
-PoolMultiThreader::~PoolMultiThreader()
-{
-}
+PoolMultiThreader::~PoolMultiThreader() = default;
 
 void PoolMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 {

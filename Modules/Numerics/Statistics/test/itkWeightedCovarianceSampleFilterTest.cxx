@@ -88,8 +88,8 @@ public:
     }
 
 protected:
-  WeightedCovarianceTestFunction() {}
-  ~WeightedCovarianceTestFunction() override {}
+  WeightedCovarianceTestFunction() = default;
+  ~WeightedCovarianceTestFunction() override = default;
 }; // end of class
 
 

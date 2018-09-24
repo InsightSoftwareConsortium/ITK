@@ -109,8 +109,8 @@ public:
   virtual void PrecomputeSparseUpdate(NeighborhoodType &) const {}
 
 protected:
-  FiniteDifferenceSparseImageFunction() {}
-  ~FiniteDifferenceSparseImageFunction() override {}
+  FiniteDifferenceSparseImageFunction() = default;
+  ~FiniteDifferenceSparseImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk

@@ -190,7 +190,7 @@ public:
 
 protected:
   HistogramThresholdImageFilter();
-  ~HistogramThresholdImageFilter() override {};
+  ~HistogramThresholdImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   void GenerateInputRequestedRegion() override;

@@ -42,7 +42,7 @@ public:
   using IteratorType = TIterator;
   using Self = ThreadedIteratorRangePartitionerDomain;
 
-  ThreadedIteratorRangePartitionerDomain() {}
+  ThreadedIteratorRangePartitionerDomain() = default;
 
   ThreadedIteratorRangePartitionerDomain( const IteratorType & begin, const IteratorType & end )
     {

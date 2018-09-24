@@ -72,8 +72,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
 template< typename TInputMesh, typename TOutputMesh >
 DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
-::~DeformableSimplexMesh3DFilter()
-{}
+::~DeformableSimplexMesh3DFilter() = default;
 
 /* PrintSelf. */
 template< typename TInputMesh, typename TOutputMesh >

@@ -40,9 +40,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 MultiGradientOptimizerv4Template<TInternalComputationValueType>
-::~MultiGradientOptimizerv4Template()
-{
-}
+::~MultiGradientOptimizerv4Template() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>

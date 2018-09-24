@@ -35,9 +35,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::MultiTransfor
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::
-~MultiTransform()
-{
-}
+~MultiTransform() = default;
 
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>

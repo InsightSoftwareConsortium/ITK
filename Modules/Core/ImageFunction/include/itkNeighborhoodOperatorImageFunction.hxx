@@ -29,8 +29,7 @@ namespace itk
 /** Set the Input Image */
 template< typename TInputImage, typename TOutput >
 NeighborhoodOperatorImageFunction< TInputImage, TOutput >
-::NeighborhoodOperatorImageFunction()
-{}
+::NeighborhoodOperatorImageFunction() = default;
 
 /** Print self method */
 template< typename TInputImage, typename TOutput >

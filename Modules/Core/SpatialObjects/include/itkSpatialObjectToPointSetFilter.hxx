@@ -34,8 +34,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
 template< typename TInputSpatialObject, typename TOutputPointSet >
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::~SpatialObjectToPointSetFilter()
-{}
+::~SpatialObjectToPointSetFilter() = default;
 
 template< typename TInputSpatialObject, typename TOutputPointSet >
 void

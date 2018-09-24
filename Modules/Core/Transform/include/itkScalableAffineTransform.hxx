@@ -81,9 +81,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>
 /** Destructor */
 template<typename TParametersValueType, unsigned int NDimensions>
 ScalableAffineTransform<TParametersValueType, NDimensions>
-::~ScalableAffineTransform()
-{
-}
+::~ScalableAffineTransform() = default;
 
 /** Print self */
 template<typename TParametersValueType, unsigned int NDimensions>

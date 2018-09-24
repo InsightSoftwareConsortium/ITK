@@ -142,7 +142,7 @@ public:
 
 protected:
   ImageClassifierFilter();
-  ~ImageClassifierFilter() override {}
+  ~ImageClassifierFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Starts the classification process */

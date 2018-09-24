@@ -143,7 +143,7 @@ public:
   LineConstIterator(const ImageType *imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
 
   /** Default Destructor. */
-  virtual ~LineConstIterator() {}
+  virtual ~LineConstIterator() = default;
 
 protected: //made protected so other iterators can access
   /** Smart pointer to the source image. */

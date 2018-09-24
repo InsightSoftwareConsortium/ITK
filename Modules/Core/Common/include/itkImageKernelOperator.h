@@ -60,7 +60,7 @@ public:
   itkTypeMacro(ImageKernelOperator, NeighborhoodOperator);
 
   /** Constructor. */
-  ImageKernelOperator() {}
+  ImageKernelOperator() = default;
 
   /** Copy constructor */
   ImageKernelOperator(const Self & orig):

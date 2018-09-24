@@ -89,8 +89,8 @@ public:
 
 private:
 
-  RegistrationParameterScalesFromPhysicalShiftTestMetric() {}
-  ~RegistrationParameterScalesFromPhysicalShiftTestMetric() override {}
+  RegistrationParameterScalesFromPhysicalShiftTestMetric() = default;
+  ~RegistrationParameterScalesFromPhysicalShiftTestMetric() override = default;
 
 };
 

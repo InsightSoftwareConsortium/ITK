@@ -123,8 +123,7 @@ BioRadImageIO::BioRadImageIO()
   this->AddSupportedReadExtension(".pic");
 }
 
-BioRadImageIO::~BioRadImageIO()
-{}
+BioRadImageIO::~BioRadImageIO() = default;
 
 // This method will only test if the header looks like a
 // BioRad image file.

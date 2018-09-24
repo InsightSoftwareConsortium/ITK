@@ -68,8 +68,8 @@ public:
   void CalculateAverageGradientMagnitudeSquared(TImage *) override;
 
 protected:
-  ScalarAnisotropicDiffusionFunction() {}
-  ~ScalarAnisotropicDiffusionFunction() override {}
+  ScalarAnisotropicDiffusionFunction() = default;
+  ~ScalarAnisotropicDiffusionFunction() override = default;
 };
 } // end namespace itk
 

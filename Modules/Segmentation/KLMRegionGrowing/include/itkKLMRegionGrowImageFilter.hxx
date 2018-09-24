@@ -39,8 +39,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
-::~KLMRegionGrowImageFilter()
-{}
+::~KLMRegionGrowImageFilter() = default;
 
 /**
  * PrintSelf

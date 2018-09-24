@@ -67,8 +67,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  MomentsThresholdCalculator() {};
-  ~MomentsThresholdCalculator() override {};
+  MomentsThresholdCalculator() = default;
+  ~MomentsThresholdCalculator() override = default;
   void GenerateData() override;
 };
 

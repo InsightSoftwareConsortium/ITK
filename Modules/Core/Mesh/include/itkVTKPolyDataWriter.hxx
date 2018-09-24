@@ -41,8 +41,7 @@ VTKPolyDataWriter< TInputMesh >
 //
 template< typename TInputMesh >
 VTKPolyDataWriter< TInputMesh >
-::~VTKPolyDataWriter()
-{}
+::~VTKPolyDataWriter() = default;
 
 //
 // Set the input mesh

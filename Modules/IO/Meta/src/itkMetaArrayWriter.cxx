@@ -30,8 +30,7 @@ MetaArrayWriter
 }
 
 MetaArrayWriter
-::~MetaArrayWriter()
-{}
+::~MetaArrayWriter() = default;
 
 void MetaArrayWriter
 ::ConvertTo(MET_ValueEnumType _metaElementType)

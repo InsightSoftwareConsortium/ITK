@@ -101,7 +101,7 @@ public:
 
 protected:
   AttributeKeepNObjectsLabelMapFilter();
-  ~AttributeKeepNObjectsLabelMapFilter() override {};
+  ~AttributeKeepNObjectsLabelMapFilter() override = default;
 
   void GenerateData() override;
 

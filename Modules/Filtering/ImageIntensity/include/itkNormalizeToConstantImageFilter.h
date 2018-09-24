@@ -107,7 +107,7 @@ public:
 
 protected:
   NormalizeToConstantImageFilter();
-  ~NormalizeToConstantImageFilter() override {};
+  ~NormalizeToConstantImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   void GenerateInputRequestedRegion() override;

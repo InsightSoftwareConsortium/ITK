@@ -105,7 +105,7 @@ public:
 
 protected:
   ArchetypeSeriesFileNames();
-  ~ArchetypeSeriesFileNames() override {}
+  ~ArchetypeSeriesFileNames() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method that actually does the archetype matching/grouping */

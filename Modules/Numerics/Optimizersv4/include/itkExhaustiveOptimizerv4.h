@@ -141,7 +141,7 @@ public:
 
 protected:
   ExhaustiveOptimizerv4();
-  ~ExhaustiveOptimizerv4() override {}
+  ~ExhaustiveOptimizerv4() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance to the next grid position. */

@@ -47,8 +47,8 @@ template< typename TInput, typename TOutput >
 class BoundedReciprocal
 {
 public:
-  BoundedReciprocal() {}
-  ~BoundedReciprocal() {}
+  BoundedReciprocal() = default;
+  ~BoundedReciprocal() = default;
   bool operator!=(const BoundedReciprocal &) const
   {
     return false;
@@ -106,7 +106,7 @@ protected:
 #endif
     }
 
-  ~BoundedReciprocalImageFilter() override {}
+  ~BoundedReciprocalImageFilter() override = default;
 };
 } // end namespace itk
 

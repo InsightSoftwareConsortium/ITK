@@ -32,9 +32,7 @@ OFFMeshIO
 }
 
 OFFMeshIO
-::~OFFMeshIO()
-{
-}
+::~OFFMeshIO() = default;
 
 bool
 OFFMeshIO

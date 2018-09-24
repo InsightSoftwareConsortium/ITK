@@ -33,7 +33,7 @@ public:
 
   using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
 
-  DataObjectConstIterator() {}
+  DataObjectConstIterator() = default;
 
   DataObjectConstIterator(const DataObjectConstIterator & iter)
   {

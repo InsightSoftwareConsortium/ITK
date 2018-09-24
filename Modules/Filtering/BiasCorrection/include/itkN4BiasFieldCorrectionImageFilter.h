@@ -373,7 +373,7 @@ public:
 
 protected:
   N4BiasFieldCorrectionImageFilter();
-  ~N4BiasFieldCorrectionImageFilter() override {}
+  ~N4BiasFieldCorrectionImageFilter() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   void GenerateData() override;

@@ -119,7 +119,7 @@ public:
 
 protected:
   HMaximaImageFilter();
-  ~HMaximaImageFilter() override {}
+  ~HMaximaImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** HMaximaImageFilter needs the entire input be

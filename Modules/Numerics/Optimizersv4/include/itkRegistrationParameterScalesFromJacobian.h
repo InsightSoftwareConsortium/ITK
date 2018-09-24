@@ -98,7 +98,7 @@ public:
 
 protected:
   RegistrationParameterScalesFromJacobian();
-  ~RegistrationParameterScalesFromJacobian() override {};
+  ~RegistrationParameterScalesFromJacobian() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

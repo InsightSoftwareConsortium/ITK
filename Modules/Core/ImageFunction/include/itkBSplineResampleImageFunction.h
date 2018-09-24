@@ -88,8 +88,8 @@ public:
   }
 
 protected:
-  BSplineResampleImageFunction() {}
-  ~BSplineResampleImageFunction() override {}
+  BSplineResampleImageFunction() = default;
+  ~BSplineResampleImageFunction() override = default;
 };
 } // namespace itk
 

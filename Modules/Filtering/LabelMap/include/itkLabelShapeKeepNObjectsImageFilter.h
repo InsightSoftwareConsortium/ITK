@@ -141,7 +141,7 @@ public:
 
 protected:
   LabelShapeKeepNObjectsImageFilter();
-  ~LabelShapeKeepNObjectsImageFilter() override {}
+  ~LabelShapeKeepNObjectsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelShapeKeepNObjectsImageFilter needs the entire input be

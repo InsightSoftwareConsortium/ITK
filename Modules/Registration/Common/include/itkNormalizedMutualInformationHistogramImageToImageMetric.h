@@ -91,8 +91,8 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
-  NormalizedMutualInformationHistogramImageToImageMetric(){}
-  ~NormalizedMutualInformationHistogramImageToImageMetric() override {}
+  NormalizedMutualInformationHistogramImageToImageMetric()= default;
+  ~NormalizedMutualInformationHistogramImageToImageMetric() override = default;
 
   /** Evaluates the normalized mutual information from the histogram. */
   MeasureType EvaluateMeasure(HistogramType & histogram) const override;

@@ -130,7 +130,7 @@ public:
 
 protected:
   Hessian3DToVesselnessMeasureImageFilter();
-  ~Hessian3DToVesselnessMeasureImageFilter() override {}
+  ~Hessian3DToVesselnessMeasureImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */

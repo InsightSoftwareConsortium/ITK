@@ -129,7 +129,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  ~LaplacianImageFilter() override {}
+  ~LaplacianImageFilter() override = default;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all

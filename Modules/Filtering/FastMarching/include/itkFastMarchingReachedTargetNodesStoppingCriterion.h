@@ -161,7 +161,7 @@ protected:
   }
 
   /** Destructor */
-  ~FastMarchingReachedTargetNodesStoppingCriterion() override {}
+  ~FastMarchingReachedTargetNodesStoppingCriterion() override = default;
 
   TargetConditionType     m_TargetCondition;
   std::vector< NodeType > m_TargetNodes;

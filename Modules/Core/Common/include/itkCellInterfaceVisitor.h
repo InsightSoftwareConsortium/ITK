@@ -70,8 +70,8 @@ public:
   virtual int GetCellTopologyId() = 0;
 
 protected:
-  CellInterfaceVisitor() {}
-  ~CellInterfaceVisitor() override {}
+  CellInterfaceVisitor() = default;
+  ~CellInterfaceVisitor() override = default;
 };
 
 /** \class CellInterfaceVisitorImplementation
@@ -136,8 +136,8 @@ public:
   }
 
 protected:
-  CellInterfaceVisitorImplementation() {}
-  ~CellInterfaceVisitorImplementation() override {}
+  CellInterfaceVisitorImplementation() = default;
+  ~CellInterfaceVisitorImplementation() override = default;
 };
 } // end namespace itk
 

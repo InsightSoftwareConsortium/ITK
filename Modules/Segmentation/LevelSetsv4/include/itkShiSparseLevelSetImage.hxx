@@ -35,9 +35,7 @@ ShiSparseLevelSetImage< VDimension >
 
 template< unsigned int VDimension >
 ShiSparseLevelSetImage< VDimension >
-::~ShiSparseLevelSetImage()
-{
-}
+::~ShiSparseLevelSetImage() = default;
 
 
 template< unsigned int VDimension >

@@ -46,8 +46,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 /** Destructor */
 template< unsigned int TDimension, typename TTubePointType >
 TubeSpatialObject< TDimension, TTubePointType >
-::~TubeSpatialObject()
-{}
+::~TubeSpatialObject() = default;
 
 /** Get the list of points composing the tube */
 template< unsigned int TDimension, typename TTubePointType >

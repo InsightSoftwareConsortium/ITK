@@ -56,8 +56,7 @@ ResourceProbe< ValueType, MeanType >
 
 template< typename ValueType, typename MeanType >
 ResourceProbe< ValueType, MeanType >
-::~ResourceProbe()
-{}
+::~ResourceProbe() = default;
 
 
 template< typename ValueType, typename MeanType >

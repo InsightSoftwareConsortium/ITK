@@ -124,7 +124,7 @@ public:
 
 protected:
   ScalarToRGBColormapImageFilter();
-  ~ScalarToRGBColormapImageFilter() override {}
+  ~ScalarToRGBColormapImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

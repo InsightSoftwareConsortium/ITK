@@ -19,7 +19,7 @@
 
 namespace itk
 {
-MeshFileReaderException::~MeshFileReaderException() noexcept {}
+MeshFileReaderException::~MeshFileReaderException() noexcept = default;
 
 MeshFileReaderException::MeshFileReaderException(const char *file, unsigned int line,
                           const char *message,

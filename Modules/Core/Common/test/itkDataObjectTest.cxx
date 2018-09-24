@@ -39,8 +39,8 @@ public:
   itkTypeMacro(DataObjectTestHelper, DataObject);
 
 protected:
-  DataObjectTestHelper() {}
-  ~DataObjectTestHelper() override {}
+  DataObjectTestHelper() = default;
+  ~DataObjectTestHelper() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
     {
     this->Superclass::PrintSelf( os, indent );

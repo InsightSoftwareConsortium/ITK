@@ -136,7 +136,7 @@ public:
 
 protected:
   NormalVectorDiffusionFunction();
-  ~NormalVectorDiffusionFunction() override {}
+  ~NormalVectorDiffusionFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The method called in anisotropic diffusion to inhibit diffusion across

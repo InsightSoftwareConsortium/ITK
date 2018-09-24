@@ -138,7 +138,7 @@ public:
 
 protected:
   ShotNoiseImageFilter();
-  ~ShotNoiseImageFilter() override {}
+  ~ShotNoiseImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

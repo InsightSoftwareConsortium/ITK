@@ -136,8 +136,8 @@ class RescaleDynamicRangeFunctor
 {
 public:
   using OutputPixelType = unsigned char;
-  RescaleDynamicRangeFunctor() {};
-  ~RescaleDynamicRangeFunctor() {};
+  RescaleDynamicRangeFunctor() = default;
+  ~RescaleDynamicRangeFunctor() = default;
   inline OutputPixelType operator()( const TInput &A )
     {
     if( (A > 0.0) )
@@ -232,7 +232,7 @@ public:
 
     }
 
-  ~HistogramWriter() { };
+  ~HistogramWriter() = default;
 
   void SetMetric( MetricPointer metric )
     {

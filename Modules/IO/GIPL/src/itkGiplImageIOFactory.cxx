@@ -30,8 +30,7 @@ GiplImageIOFactory::GiplImageIOFactory()
                           CreateObjectFunction< GiplImageIO >::New() );
 }
 
-GiplImageIOFactory::~GiplImageIOFactory()
-{}
+GiplImageIOFactory::~GiplImageIOFactory() = default;
 
 const char *
 GiplImageIOFactory::GetITKSourceVersion() const

@@ -114,7 +114,7 @@ public:
 
 protected:
   FourierSeriesPath();
-  ~FourierSeriesPath() override {}
+  ~FourierSeriesPath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

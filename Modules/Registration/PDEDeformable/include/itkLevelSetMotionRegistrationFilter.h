@@ -179,7 +179,7 @@ public:
 
 protected:
   LevelSetMotionRegistrationFilter();
-  ~LevelSetMotionRegistrationFilter() override {}
+  ~LevelSetMotionRegistrationFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */

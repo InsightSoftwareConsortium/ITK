@@ -202,7 +202,7 @@ public:
 
 protected:
   HistogramToTextureFeaturesFilter();
-  ~HistogramToTextureFeaturesFilter() override {}
+  ~HistogramToTextureFeaturesFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Make a DataObject to be used for output output. */

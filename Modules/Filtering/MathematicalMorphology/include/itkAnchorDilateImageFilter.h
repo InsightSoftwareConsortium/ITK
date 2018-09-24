@@ -53,7 +53,7 @@ protected:
   {
     this->m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
   }
-  ~AnchorDilateImageFilter() override {}
+  ~AnchorDilateImageFilter() override = default;
 
 private:
 

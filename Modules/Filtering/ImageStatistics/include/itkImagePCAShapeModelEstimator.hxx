@@ -35,8 +35,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
-::~ImagePCAShapeModelEstimator()
-{}
+::~ImagePCAShapeModelEstimator() = default;
 
 /**
  * PrintSelf

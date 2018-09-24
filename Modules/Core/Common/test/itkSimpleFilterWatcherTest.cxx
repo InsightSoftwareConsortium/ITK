@@ -28,8 +28,8 @@ namespace itk
     class TanHelper
     {
     public:
-      TanHelper() {}
-      ~TanHelper() {}
+      TanHelper() = default;
+      ~TanHelper() = default;
       bool operator!=(const TanHelper & rhs) const
       {
         return this != & rhs;
@@ -84,8 +84,8 @@ namespace itk
     // End concept checking
   #endif
   protected:
-    TanHelperImageFilter() {}
-    ~TanHelperImageFilter() override {}
+    TanHelperImageFilter() = default;
+    ~TanHelperImageFilter() override = default;
   };
 
 }

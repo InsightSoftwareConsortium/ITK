@@ -121,7 +121,7 @@ public:
 
 protected:
   BinaryMedianImageFilter();
-  ~BinaryMedianImageFilter() override {}
+  ~BinaryMedianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryMedianImageFilter can be implemented as a multithreaded filter.

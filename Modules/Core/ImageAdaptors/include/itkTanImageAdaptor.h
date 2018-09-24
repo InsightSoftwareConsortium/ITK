@@ -92,8 +92,8 @@ public:
   itkTypeMacro(TanImageAdaptor, ImageAdaptor);
 
 protected:
-  TanImageAdaptor() {}
-  ~TanImageAdaptor() override {}
+  TanImageAdaptor() = default;
+  ~TanImageAdaptor() override = default;
 };
 } // end namespace itk
 

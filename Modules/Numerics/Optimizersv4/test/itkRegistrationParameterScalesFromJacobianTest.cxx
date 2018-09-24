@@ -90,8 +90,8 @@ public:
 
 private:
 
-  RegistrationParameterScalesFromJacobianTestMetric() {}
-  ~RegistrationParameterScalesFromJacobianTestMetric() override {}
+  RegistrationParameterScalesFromJacobianTestMetric() = default;
+  ~RegistrationParameterScalesFromJacobianTestMetric() override = default;
 
 };
 

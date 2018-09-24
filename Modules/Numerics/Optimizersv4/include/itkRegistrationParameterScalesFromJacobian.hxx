@@ -25,9 +25,7 @@ namespace itk
 
 template< typename TMetric >
 RegistrationParameterScalesFromJacobian< TMetric >
-::RegistrationParameterScalesFromJacobian()
-{
-}
+::RegistrationParameterScalesFromJacobian() = default;
 
 /** Compute parameter scales from average jacobian norms.
  *  For each parameter, compute the squared norm of its transform Jacobian,

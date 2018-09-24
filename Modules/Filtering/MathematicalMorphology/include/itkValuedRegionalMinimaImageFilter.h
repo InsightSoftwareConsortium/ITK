@@ -98,7 +98,7 @@ protected:
     this->SetMarkerValue( NumericTraits< typename TOutputImage::PixelType >::max() );
   }
 
-  ~ValuedRegionalMinimaImageFilter() override {}
+  ~ValuedRegionalMinimaImageFilter() override = default;
 };                                               // end
                                                  // ValuedRegionalMinimaImageFilter
 } //end namespace itk

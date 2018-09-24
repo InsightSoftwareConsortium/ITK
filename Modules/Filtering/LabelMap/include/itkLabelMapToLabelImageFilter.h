@@ -87,7 +87,7 @@ public:
 
 protected:
   LabelMapToLabelImageFilter();
-  ~LabelMapToLabelImageFilter() override {}
+  ~LabelMapToLabelImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override;
 

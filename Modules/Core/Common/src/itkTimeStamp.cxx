@@ -56,7 +56,7 @@ public:
   using Self = GlobalTimeStampInitializer;
   using GlobalTimeStampType = ::itk::TimeStamp::GlobalTimeStampType;
 
-  GlobalTimeStampInitializer() {}
+  GlobalTimeStampInitializer() = default;
 
   /** Delete the time stamp if it was created. */
   ~GlobalTimeStampInitializer()
@@ -102,16 +102,6 @@ TimeStamp
 ::New()
 {
   return new Self;
-}
-
-/**
- * Make this timestamp to be the same as another one.
- */
-const TimeStamp &
-TimeStamp::operator=( const Self & other )
-{
-  this->m_ModifiedTime = other.m_ModifiedTime;
-  return *this;
 }
 
 

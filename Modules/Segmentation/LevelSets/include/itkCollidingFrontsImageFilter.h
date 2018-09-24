@@ -153,7 +153,7 @@ public:
 
 protected:
   CollidingFrontsImageFilter();
-  ~CollidingFrontsImageFilter() override {}
+  ~CollidingFrontsImageFilter() override = default;
 
   void GenerateData() override;
 

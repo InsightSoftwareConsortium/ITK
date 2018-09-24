@@ -88,7 +88,7 @@ public:
 
 protected:
   Optimizer();
-  ~Optimizer() override {}
+  ~Optimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set the current position. */

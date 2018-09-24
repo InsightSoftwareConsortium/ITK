@@ -289,7 +289,7 @@ public:
   {
   public:
 
-    ConstIterator() {}
+    ConstIterator() = default;
 
     ConstIterator(const Self *lm)
     {
@@ -371,7 +371,7 @@ public:
   {
   public:
 
-    Iterator() {}
+    Iterator() = default;
 
     Iterator(Self *lm)
     {
@@ -449,7 +449,7 @@ public:
 
 protected:
   LabelMap();
-  ~LabelMap() override {}
+  ~LabelMap() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
   void Graft(const DataObject *data) override;
   using Superclass::Graft;

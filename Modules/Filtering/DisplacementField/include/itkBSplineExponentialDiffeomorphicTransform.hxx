@@ -45,9 +45,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::
-~BSplineExponentialDiffeomorphicTransform()
-{
-}
+~BSplineExponentialDiffeomorphicTransform() = default;
 
 /**
  * set mesh size for update field

@@ -75,8 +75,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  YenThresholdCalculator() {};
-  ~YenThresholdCalculator() override {};
+  YenThresholdCalculator() = default;
+  ~YenThresholdCalculator() override = default;
   void GenerateData() override;
 };
 

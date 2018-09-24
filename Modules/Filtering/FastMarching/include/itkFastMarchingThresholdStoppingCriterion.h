@@ -72,7 +72,7 @@ protected:
     m_Threshold( NumericTraits< OutputPixelType >::ZeroValue() )
   {}
 
-  ~FastMarchingThresholdStoppingCriterion() override {}
+  ~FastMarchingThresholdStoppingCriterion() override = default;
 
   OutputPixelType m_Threshold;
 

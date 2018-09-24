@@ -152,7 +152,7 @@ private:
       m_Coord.Fill( NumericTraits< CoordRepType >::max() );
     }
 
-    ~FortuneSite(){}
+    ~FortuneSite()= default;
   };
 
   class FortuneEdge
@@ -172,7 +172,7 @@ private:
       m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = nullptr;
     }
 
-    ~FortuneEdge(){}
+    ~FortuneEdge()= default;
   };
 
   class FortuneHalfEdge
@@ -206,7 +206,7 @@ private:
       m_Next(edge.m_Next)
     {}
 
-    ~FortuneHalfEdge() {}
+    ~FortuneHalfEdge() = default;
   };
 
   double m_Pxmin;

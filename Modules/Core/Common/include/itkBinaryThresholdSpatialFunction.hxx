@@ -33,8 +33,7 @@ BinaryThresholdSpatialFunction< TFunction >
 
 template< typename TFunction >
 BinaryThresholdSpatialFunction< TFunction >
-::~BinaryThresholdSpatialFunction()
-{}
+::~BinaryThresholdSpatialFunction() = default;
 
 template< typename TFunction >
 void

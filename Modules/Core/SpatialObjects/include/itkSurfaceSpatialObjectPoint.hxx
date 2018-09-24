@@ -34,8 +34,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 SurfaceSpatialObjectPoint< TPointDimension >
-::~SurfaceSpatialObjectPoint()
-{}
+::~SurfaceSpatialObjectPoint() = default;
 
 /** Set the normal : N-D case */
 template< unsigned int TPointDimension >

@@ -119,7 +119,7 @@ protected:
     this->SetNumberOfRequiredInputs(2);
   }
 
-  ~RegionFromReferenceLabelMapFilter() override {}
+  ~RegionFromReferenceLabelMapFilter() override = default;
 
   void GenerateOutputInformation() override;
 

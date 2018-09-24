@@ -202,7 +202,7 @@ public:
 
 protected:
   LabelOverlapMeasuresImageFilter();
-  ~LabelOverlapMeasuresImageFilter() override {};
+  ~LabelOverlapMeasuresImageFilter() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /**

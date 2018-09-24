@@ -41,8 +41,7 @@ SurfaceSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 SurfaceSpatialObject< TDimension >
-::~SurfaceSpatialObject()
-{}
+::~SurfaceSpatialObject() = default;
 
 /** Get the list of points composing the surface */
 template< unsigned int TDimension >

@@ -90,8 +90,8 @@ public:
   itkTypeMacro(CosImageAdaptor, ImageAdaptor);
 
 protected:
-  CosImageAdaptor() {}
-  ~CosImageAdaptor() override {}
+  CosImageAdaptor() = default;
+  ~CosImageAdaptor() override = default;
 };
 } // end namespace itk
 

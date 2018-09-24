@@ -201,7 +201,7 @@ public:
 #endif
 
 protected:
-  ~NarrowBandThresholdSegmentationLevelSetImageFilter() override {}
+  ~NarrowBandThresholdSegmentationLevelSetImageFilter() override = default;
   NarrowBandThresholdSegmentationLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

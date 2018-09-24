@@ -123,7 +123,7 @@ private:
 class ITKCommon_EXPORT OctreeNodeBranch
 {
 public:
-  OctreeNodeBranch() {}
+  OctreeNodeBranch() = default;
   OctreeNodeBranch(OctreeBase *parent)
   {
     for (auto & leaf : m_Leaves)

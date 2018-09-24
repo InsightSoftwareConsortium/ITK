@@ -94,8 +94,8 @@ public:
 
 private:
 
-  RegistrationParameterScalesEstimatorTestMetric() {}
-  ~RegistrationParameterScalesEstimatorTestMetric() override {}
+  RegistrationParameterScalesEstimatorTestMetric() = default;
+  ~RegistrationParameterScalesEstimatorTestMetric() override = default;
 
 };
 
@@ -192,8 +192,8 @@ public:
     }
 
 protected:
-  RegistrationParameterScalesEstimatorTest(){};
-  ~RegistrationParameterScalesEstimatorTest() override {};
+  RegistrationParameterScalesEstimatorTest()= default;
+  ~RegistrationParameterScalesEstimatorTest() override = default;
 };
 
 /**

@@ -100,7 +100,7 @@ public:
 
 protected:
   WrapPadImageFilter();
-  ~WrapPadImageFilter() override {}
+  ~WrapPadImageFilter() override = default;
 
 private:
   PeriodicBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;

@@ -72,7 +72,7 @@ public:
 
 protected:
   MultipleValuedNonLinearOptimizer();
-  ~MultipleValuedNonLinearOptimizer() override {}
+  ~MultipleValuedNonLinearOptimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   CostFunctionPointer m_CostFunction;

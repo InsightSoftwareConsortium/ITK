@@ -86,7 +86,7 @@ protected:
     this->m_Boundary = NumericTraits< PixelType >::max();
   }
 
-  ~MovingHistogramErodeImageFilter() override {}
+  ~MovingHistogramErodeImageFilter() override = default;
 };                                               // end of class
 } // end namespace itk
 

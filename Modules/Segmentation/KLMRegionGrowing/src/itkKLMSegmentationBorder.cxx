@@ -28,8 +28,7 @@ KLMSegmentationBorder
 }
 
 KLMSegmentationBorder
-::~KLMSegmentationBorder()
-{}
+::~KLMSegmentationBorder() = default;
 
 /**
  * PrintSelf

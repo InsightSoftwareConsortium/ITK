@@ -39,8 +39,7 @@ TxtTransformIOFactory::TxtTransformIOFactory()
                           CreateObjectFunction< TxtTransformIOTemplate< double > >::New() );
 }
 
-TxtTransformIOFactory::~TxtTransformIOFactory()
-{}
+TxtTransformIOFactory::~TxtTransformIOFactory() = default;
 
 const char *
 TxtTransformIOFactory::GetITKSourceVersion() const

@@ -19,11 +19,9 @@
 
 namespace itk
 {
-  Command::Command()
-    {}
+  Command::Command() = default;
 
-  Command::~Command()
-    {}
+  Command::~Command() = default;
 
   CStyleCommand::CStyleCommand() :
     m_ClientData( nullptr ),

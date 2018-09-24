@@ -295,7 +295,7 @@ public:
 
 protected:
   ResampleImageFilter();
-  ~ResampleImageFilter() override {}
+  ~ResampleImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VeriyInputInformation() since this filter's inputs do

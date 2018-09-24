@@ -124,7 +124,7 @@ public:
       this->GoToBegin();
     }
 
-    ITK_ITERATOR_VIRTUAL ~ConstIterator() {}
+    ITK_ITERATOR_VIRTUAL ~ConstIterator() = default;
 
     ConstIterator & operator=(const ConstIterator & o)
     {
@@ -233,7 +233,7 @@ public:
   }
 
   /** Virtual destructor */
-  ~ConstShapedNeighborhoodIterator() override {}
+  ~ConstShapedNeighborhoodIterator() override = default;
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */

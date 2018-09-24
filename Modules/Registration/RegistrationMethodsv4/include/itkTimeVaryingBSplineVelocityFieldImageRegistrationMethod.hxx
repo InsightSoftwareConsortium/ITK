@@ -55,9 +55,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
-::~TimeVaryingBSplineVelocityFieldImageRegistrationMethod()
-{
-}
+::~TimeVaryingBSplineVelocityFieldImageRegistrationMethod() = default;
 
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.

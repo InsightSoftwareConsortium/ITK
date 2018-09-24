@@ -66,8 +66,8 @@ public:
   virtual void CharacterDataHandler(const char *inData, int inLength) = 0;
 
 protected:
-  XMLReaderBase() {}
-  ~XMLReaderBase() override {}
+  XMLReaderBase() = default;
+  ~XMLReaderBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Instantiates and invokes the XML parser for the file named by
@@ -108,7 +108,7 @@ protected:
     m_OutputObject(nullptr)
   {}
 
-  ~XMLReader() override {}
+  ~XMLReader() override = default;
 
   T *m_OutputObject;
 };

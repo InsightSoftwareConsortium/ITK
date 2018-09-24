@@ -123,7 +123,7 @@ public:
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Constructor and destructor */
-  PolygonCell() {}
+  PolygonCell() = default;
   PolygonCell(PointIdentifier NumberOfPoints)
   {
     for ( PointIdentifier i = 0; i < NumberOfPoints; i++ )
@@ -133,7 +133,7 @@ public:
     this->BuildEdges();
   }
 
-  ~PolygonCell() override {}
+  ~PolygonCell() override = default;
 
 protected:
   std::vector< EdgeInfo >        m_Edges;

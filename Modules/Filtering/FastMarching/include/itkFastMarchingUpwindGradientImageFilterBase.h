@@ -94,7 +94,7 @@ public:
 
 protected:
   FastMarchingUpwindGradientImageFilterBase();
-  ~FastMarchingUpwindGradientImageFilterBase() override {}
+  ~FastMarchingUpwindGradientImageFilterBase() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

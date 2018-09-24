@@ -35,9 +35,7 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 
 template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
-::~LevelSetEquationPropagationTerm()
-{
-}
+::~LevelSetEquationPropagationTerm() = default;
 
 
 template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >

@@ -158,7 +158,7 @@ protected:
     m_ForegroundValue = NumericTraits< OutputImagePixelType >::OneValue();
   }
 
-  ~ZeroCrossingBasedEdgeDetectionImageFilter() override {}
+  ~ZeroCrossingBasedEdgeDetectionImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard pipeline method. While this class does not implement a

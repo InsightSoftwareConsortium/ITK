@@ -66,7 +66,7 @@ public:
 protected:
   WatershedMiniPipelineProgressCommand():m_Count(0.0), m_Filter(nullptr),
     m_NumberOfFilters(1) {}
-  ~WatershedMiniPipelineProgressCommand() override {}
+  ~WatershedMiniPipelineProgressCommand() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

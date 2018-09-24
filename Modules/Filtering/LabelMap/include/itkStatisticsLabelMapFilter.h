@@ -133,7 +133,7 @@ public:
 
 protected:
   StatisticsLabelMapFilter();
-  ~StatisticsLabelMapFilter() override {}
+  ~StatisticsLabelMapFilter() override = default;
 
   void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
 

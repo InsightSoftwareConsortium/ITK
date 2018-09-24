@@ -112,7 +112,7 @@ protected:
     this->ProcessObject::SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
   }
-  ~HistogramThresholdCalculator() override {};
+  ~HistogramThresholdCalculator() override = default;
   using ProcessObject::SetInput;
 };
 

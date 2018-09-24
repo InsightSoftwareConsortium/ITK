@@ -109,8 +109,8 @@ public:
       " is unimplemented for " << this->GetNameOfClass() );
     }
 protected:
-  MultiTransformTestTransform(){};
-  ~MultiTransformTestTransform() override {};
+  MultiTransformTestTransform()= default;
+  ~MultiTransformTestTransform() override = default;
 };
 
 /******/

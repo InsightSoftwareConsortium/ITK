@@ -164,7 +164,7 @@ public:
 
 protected:
   HistogramMatchingImageFilter();
-  ~HistogramMatchingImageFilter() override {}
+  ~HistogramMatchingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void BeforeThreadedGenerateData() override;

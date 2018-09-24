@@ -35,8 +35,8 @@ template< typename TInput, typename TOutput >
 class ComplexToModulus
 {
 public:
-  ComplexToModulus() {}
-  ~ComplexToModulus() {}
+  ComplexToModulus() = default;
+  ~ComplexToModulus() = default;
   bool operator!=(const ComplexToModulus &) const
   {
     return false;
@@ -96,7 +96,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~ComplexToModulusImageFilter() override {}
+  ~ComplexToModulusImageFilter() override = default;
 };
 } // end namespace itk
 

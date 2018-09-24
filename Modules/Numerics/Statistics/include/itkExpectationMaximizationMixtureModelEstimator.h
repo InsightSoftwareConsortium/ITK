@@ -162,7 +162,7 @@ public:
 
 protected:
   ExpectationMaximizationMixtureModelEstimator();
-  ~ExpectationMaximizationMixtureModelEstimator() override {}
+  ~ExpectationMaximizationMixtureModelEstimator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   bool CalculateDensities();

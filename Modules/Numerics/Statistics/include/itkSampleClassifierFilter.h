@@ -124,7 +124,7 @@ public:
 
 protected:
   SampleClassifierFilter();
-  ~SampleClassifierFilter() override {}
+  ~SampleClassifierFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Starts the classification process */

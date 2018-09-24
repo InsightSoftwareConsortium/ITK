@@ -40,8 +40,7 @@ StimulateImageIOFactory::StimulateImageIOFactory()
                           CreateObjectFunction< StimulateImageIO >::New() );
 }
 
-StimulateImageIOFactory::~StimulateImageIOFactory()
-{}
+StimulateImageIOFactory::~StimulateImageIOFactory() = default;
 
 const char *
 StimulateImageIOFactory::GetITKSourceVersion() const

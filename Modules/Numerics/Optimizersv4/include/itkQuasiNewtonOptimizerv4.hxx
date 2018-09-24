@@ -51,9 +51,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 
 template<typename TInternalComputationValueType>
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
-::~QuasiNewtonOptimizerv4Template()
-{
-}
+::~QuasiNewtonOptimizerv4Template() = default;
 
 template<typename TInternalComputationValueType>
 void

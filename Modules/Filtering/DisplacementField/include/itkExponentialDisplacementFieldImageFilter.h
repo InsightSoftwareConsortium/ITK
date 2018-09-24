@@ -130,7 +130,7 @@ public:
 
 protected:
   ExponentialDisplacementFieldImageFilter();
-  ~ExponentialDisplacementFieldImageFilter() override {}
+  ~ExponentialDisplacementFieldImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

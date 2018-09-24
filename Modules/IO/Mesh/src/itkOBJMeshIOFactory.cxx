@@ -39,8 +39,7 @@ OBJMeshIOFactory
 }
 
 OBJMeshIOFactory
-::~OBJMeshIOFactory()
-{}
+::~OBJMeshIOFactory() = default;
 
 const char *
 OBJMeshIOFactory

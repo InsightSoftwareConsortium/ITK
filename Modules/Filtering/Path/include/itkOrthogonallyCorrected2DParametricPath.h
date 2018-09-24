@@ -112,7 +112,7 @@ public:
 
 protected:
   OrthogonallyCorrected2DParametricPath();
-  ~OrthogonallyCorrected2DParametricPath() override {}
+  ~OrthogonallyCorrected2DParametricPath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

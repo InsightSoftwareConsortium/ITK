@@ -51,7 +51,7 @@ class BinaryAccumulator
 {
 public:
   BinaryAccumulator( SizeValueType ) {}
-  ~BinaryAccumulator(){}
+  ~BinaryAccumulator()= default;
 
   inline void Initialize()
   {
@@ -158,7 +158,7 @@ protected:
     m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
   }
 
-  ~BinaryProjectionImageFilter() override {}
+  ~BinaryProjectionImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

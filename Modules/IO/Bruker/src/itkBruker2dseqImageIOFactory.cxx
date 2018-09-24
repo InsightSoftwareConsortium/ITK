@@ -39,8 +39,7 @@ Bruker2dseqImageIOFactory::Bruker2dseqImageIOFactory()
                           CreateObjectFunction< Bruker2dseqImageIO >::New() );
 }
 
-Bruker2dseqImageIOFactory::~Bruker2dseqImageIOFactory()
-{}
+Bruker2dseqImageIOFactory::~Bruker2dseqImageIOFactory() = default;
 
 const char *
 Bruker2dseqImageIOFactory::GetITKSourceVersion() const

@@ -143,7 +143,7 @@ public:
 
 protected:
   KappaSigmaThresholdImageFilter();
-  ~KappaSigmaThresholdImageFilter() override {}
+  ~KappaSigmaThresholdImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateInputRequestedRegion() override;

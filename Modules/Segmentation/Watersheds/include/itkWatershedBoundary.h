@@ -197,7 +197,7 @@ public:
 
 protected:
   Boundary();
-  ~Boundary() override {}
+  ~Boundary() override = default;
   Boundary(const Self &) {}
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;

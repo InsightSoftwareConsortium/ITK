@@ -79,7 +79,7 @@ public:
 
 protected:
   AnchorErodeDilateImageFilter();
-  ~AnchorErodeDilateImageFilter() override {}
+  ~AnchorErodeDilateImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */

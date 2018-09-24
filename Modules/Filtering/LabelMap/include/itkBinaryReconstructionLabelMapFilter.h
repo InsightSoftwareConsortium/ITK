@@ -124,7 +124,7 @@ public:
 
 protected:
   BinaryReconstructionLabelMapFilter();
-  ~BinaryReconstructionLabelMapFilter() override {};
+  ~BinaryReconstructionLabelMapFilter() override = default;
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 

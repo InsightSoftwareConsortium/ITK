@@ -192,7 +192,7 @@ public:
   PathConstIterator(const ImageType *imagePtr, const PathType  *pathPtr);
 
   /** Default Destructor. */
-  virtual ~PathConstIterator() {}
+  virtual ~PathConstIterator() = default;
 
 protected: //made protected so other iterators can access
   // This "constant" is initialized in the constructor

@@ -146,7 +146,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  RegistrationInterfaceCommand() {};
+  RegistrationInterfaceCommand() = default;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

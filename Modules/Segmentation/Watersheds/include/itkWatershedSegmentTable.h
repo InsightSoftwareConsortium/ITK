@@ -60,7 +60,7 @@ public:
   /** The value type for lists of adjacencies contained in each table
       entry */
   struct edge_pair_t {
-    edge_pair_t() {}
+    edge_pair_t() = default;
     edge_pair_t(IdentifierType l, ScalarType s):label(l), height(s) {}
     IdentifierType label;
     ScalarType height;
@@ -206,7 +206,7 @@ protected:
   SegmentTable() :
     m_MaximumDepth(0)
   {}
-  ~SegmentTable() override {}
+  ~SegmentTable() override = default;
 
   HashMapType m_HashMap;
 

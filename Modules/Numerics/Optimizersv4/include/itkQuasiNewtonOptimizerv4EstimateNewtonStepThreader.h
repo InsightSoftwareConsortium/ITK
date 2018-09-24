@@ -56,8 +56,8 @@ protected:
   void ThreadedExecution( const IndexRangeType & subrange,
                                   const ThreadIdType threadId ) override;
 
-  QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}
-  ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() override {}
+  QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() = default;
+  ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() override = default;
 };
 
 /** This helps to meet backward compatibility */

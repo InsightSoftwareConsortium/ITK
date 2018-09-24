@@ -46,7 +46,7 @@ class ITK_TEMPLATE_EXPORT ThresholdLabeler
 {
 public:
   ThresholdLabeler() { m_LabelOffset = NumericTraits< TOutput >::OneValue(); }
-  ~ThresholdLabeler() {}
+  ~ThresholdLabeler() = default;
 
   using RealThresholdType = typename NumericTraits< TInput >::RealType;
   using RealThresholdVector = std::vector< RealThresholdType >;
@@ -197,7 +197,7 @@ public:
 
 protected:
   ThresholdLabelerImageFilter();
-  ~ThresholdLabelerImageFilter() override {}
+  ~ThresholdLabelerImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method is used to set the state of the filter before

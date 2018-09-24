@@ -87,8 +87,8 @@ public:
   virtual SizeValueType GetSizeGreatestPrimeFactor() const;
 
 protected:
-  ForwardFFTImageFilter() {}
-  ~ForwardFFTImageFilter() override {}
+  ForwardFFTImageFilter() = default;
+  ~ForwardFFTImageFilter() override = default;
 
   /** This class requires the entire input. */
   void GenerateInputRequestedRegion() override;

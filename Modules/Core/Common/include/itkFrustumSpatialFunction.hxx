@@ -35,8 +35,7 @@ FrustumSpatialFunction< VDimension, TInput >::FrustumSpatialFunction() :
 }
 
 template< unsigned int VDimension, typename TInput >
-FrustumSpatialFunction< VDimension, TInput >::~FrustumSpatialFunction()
-{}
+FrustumSpatialFunction< VDimension, TInput >::~FrustumSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 typename FrustumSpatialFunction< VDimension, TInput >::OutputType

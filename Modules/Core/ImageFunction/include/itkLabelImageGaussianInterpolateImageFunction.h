@@ -113,7 +113,7 @@ public:
 
 protected:
   LabelImageGaussianInterpolateImageFunction();
-  ~LabelImageGaussianInterpolateImageFunction() override {};
+  ~LabelImageGaussianInterpolateImageFunction() override = default;
 
 private:
   /**

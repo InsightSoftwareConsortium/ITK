@@ -140,7 +140,7 @@ protected:
   KdTreeGenerator();
 
   /** Destructor */
-  ~KdTreeGenerator() override {}
+  ~KdTreeGenerator() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

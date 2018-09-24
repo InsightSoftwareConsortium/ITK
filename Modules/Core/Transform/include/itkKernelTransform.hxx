@@ -42,9 +42,7 @@ KernelTransform<TParametersValueType, NDimensions>::KernelTransform() : Supercla
 
 template<typename TParametersValueType, unsigned int NDimensions>
 KernelTransform<TParametersValueType, NDimensions>::
-~KernelTransform()
-{
-}
+~KernelTransform() = default;
 
 
 template<typename TParametersValueType, unsigned int NDimensions>

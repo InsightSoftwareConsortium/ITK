@@ -64,7 +64,7 @@ public:
   GradientType   EvaluateGradient( const PointType & point ) const;
 
 protected:
-  LevelSetTestFunction() {}
+  LevelSetTestFunction() = default;
 };
 
 } // end namespace itk

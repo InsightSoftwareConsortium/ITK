@@ -47,7 +47,7 @@ public:
 #endif
   }
 
-  ~IntensityLinearTransform() {}
+  ~IntensityLinearTransform() = default;
   void SetFactor(RealType a) { m_Factor = a; }
   void SetOffset(RealType b) { m_Offset = b; }
   void SetMinimum(TOutput min) { m_Minimum = min; }
@@ -202,7 +202,7 @@ public:
 
 protected:
   RescaleIntensityImageFilter();
-  ~RescaleIntensityImageFilter() override {}
+  ~RescaleIntensityImageFilter() override = default;
 
 private:
   RealType m_Scale;

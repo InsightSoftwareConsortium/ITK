@@ -132,7 +132,7 @@ public:
 
 protected:
   DoubleThresholdImageFilter();
-  ~DoubleThresholdImageFilter() override {}
+  ~DoubleThresholdImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DoubleThresholdImageFilter needs all of the input. So it must

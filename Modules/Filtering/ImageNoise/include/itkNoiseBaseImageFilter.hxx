@@ -36,9 +36,7 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 NoiseBaseImageFilter<TInputImage, TOutputImage>
-::~NoiseBaseImageFilter()
-{
-}
+::~NoiseBaseImageFilter() = default;
 
 template <class TInputImage, class TOutputImage>
 void

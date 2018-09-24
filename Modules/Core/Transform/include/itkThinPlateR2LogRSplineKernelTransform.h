@@ -77,8 +77,8 @@ public:
   using PointsIterator = typename Superclass::PointsIterator;
 
 protected:
-  ThinPlateR2LogRSplineKernelTransform() {}
-  ~ThinPlateR2LogRSplineKernelTransform() override {}
+  ThinPlateR2LogRSplineKernelTransform() = default;
+  ~ThinPlateR2LogRSplineKernelTransform() override = default;
 
   using GMatrixType = typename Superclass::GMatrixType;
   /** Compute G(x)

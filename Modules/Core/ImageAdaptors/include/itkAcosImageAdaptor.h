@@ -92,8 +92,8 @@ public:
   itkTypeMacro(AcosImageAdaptor, ImageAdaptor);
 
 protected:
-  AcosImageAdaptor() {}
-  ~AcosImageAdaptor() override {}
+  AcosImageAdaptor() = default;
+  ~AcosImageAdaptor() override = default;
 };
 } // end namespace itk
 

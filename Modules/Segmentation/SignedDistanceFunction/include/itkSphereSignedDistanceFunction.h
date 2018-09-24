@@ -91,7 +91,7 @@ public:
 
 protected:
   SphereSignedDistanceFunction();
-  ~SphereSignedDistanceFunction() override {}
+  ~SphereSignedDistanceFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

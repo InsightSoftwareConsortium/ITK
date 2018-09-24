@@ -214,7 +214,7 @@ protected:
   Similarity2DTransform(unsigned int parametersDimension);
   Similarity2DTransform();
 
-  ~Similarity2DTransform() override {}
+  ~Similarity2DTransform() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute matrix from angle and scale. This is used in Set methods

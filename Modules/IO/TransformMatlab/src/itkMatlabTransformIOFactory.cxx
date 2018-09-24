@@ -39,8 +39,7 @@ MatlabTransformIOFactory::MatlabTransformIOFactory()
                           CreateObjectFunction< MatlabTransformIOTemplate< double >  >::New() );
 }
 
-MatlabTransformIOFactory::~MatlabTransformIOFactory()
-{}
+MatlabTransformIOFactory::~MatlabTransformIOFactory() = default;
 
 const char *
 MatlabTransformIOFactory::GetITKSourceVersion() const

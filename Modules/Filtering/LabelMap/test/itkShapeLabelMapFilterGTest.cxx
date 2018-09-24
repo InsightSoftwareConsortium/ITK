@@ -31,8 +31,8 @@ class ShapeLabelMapFixture
   : public ::testing::Test
 {
 public:
-  ShapeLabelMapFixture() {}
-  ~ShapeLabelMapFixture() override {}
+  ShapeLabelMapFixture() = default;
+  ~ShapeLabelMapFixture() override = default;
 
 protected:
   void SetUp() override {}

@@ -96,8 +96,8 @@ public:
   itkTypeMacro(AbsImageAdaptor, ImageAdaptor);
 
 protected:
-  AbsImageAdaptor() {}
-  ~AbsImageAdaptor() override {}
+  AbsImageAdaptor() = default;
+  ~AbsImageAdaptor() override = default;
 };
 } // end namespace itk
 

@@ -19,7 +19,7 @@
 
 namespace itk
 {
-MeshFileWriterException::~MeshFileWriterException() noexcept {}
+MeshFileWriterException::~MeshFileWriterException() noexcept = default;
 
 MeshFileWriterException::MeshFileWriterException(const char *file, unsigned int line,
                           const char *message,

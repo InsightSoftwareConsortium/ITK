@@ -91,9 +91,9 @@ public:
 
 protected:
   /** Constructor */
-  SimpleLogger() {};
+  SimpleLogger() = default;
   /** Destructor */
-  ~SimpleLogger() override {};
+  ~SimpleLogger() override = default;
 };  // class Logger
 
 class LogTester

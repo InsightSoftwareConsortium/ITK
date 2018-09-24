@@ -331,7 +331,7 @@ public:
       valueIndex = 0;
     }
 
-    ~FixedImageSamplePoint() {}
+    ~FixedImageSamplePoint() = default;
 
 public:
     FixedImagePointType point;

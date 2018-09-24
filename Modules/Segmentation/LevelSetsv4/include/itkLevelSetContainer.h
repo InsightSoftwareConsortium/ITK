@@ -82,8 +82,8 @@ public:
   using DomainIteratorType = typename Superclass::DomainIteratorType;
 
 protected:
-  LevelSetContainer() {}
-  ~LevelSetContainer() override {}
+  LevelSetContainer() = default;
+  ~LevelSetContainer() override = default;
 };
 
 /**
@@ -180,8 +180,8 @@ public:
     }
 
 protected:
-  LevelSetContainer() {}
-  ~LevelSetContainer() override {}
+  LevelSetContainer() = default;
+  ~LevelSetContainer() override = default;
 };
 
 }

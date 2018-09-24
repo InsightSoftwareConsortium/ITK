@@ -48,10 +48,8 @@ public:
   itkTypeMacro(TestImage, Image);
 
   // Methods from itkObject
-  ~TestImage() override {}
-  TestImage()
-    {
-    }
+  ~TestImage() override = default;
+  TestImage() = default;
 };
 
 template<typename TPixel, unsigned int VImageDimension=3>
@@ -73,10 +71,8 @@ public:
   itkTypeMacro(TestImage2, Image);
 
   // Methods from itkObject
-  ~TestImage2() override {}
-  TestImage2()
-    {
-    }
+  ~TestImage2() override = default;
+  TestImage2() = default;
 };
 
 class TestFactory : public itk::ObjectFactoryBase

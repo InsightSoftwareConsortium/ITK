@@ -155,7 +155,7 @@ public:
 
 protected:
   BinaryShapeOpeningImageFilter();
-  ~BinaryShapeOpeningImageFilter() override {}
+  ~BinaryShapeOpeningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryShapeOpeningImageFilter needs the entire input to be available.

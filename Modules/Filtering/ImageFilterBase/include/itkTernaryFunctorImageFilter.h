@@ -132,7 +132,7 @@ public:
 
 protected:
   TernaryFunctorImageFilter();
-  ~TernaryFunctorImageFilter() override {}
+  ~TernaryFunctorImageFilter() override = default;
 
   /** Validate the presence of all three inputs. If one or more inputs
    * are missing, throw an exception. */

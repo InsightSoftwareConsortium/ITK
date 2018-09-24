@@ -201,7 +201,7 @@ public:
 
 protected:
   TDistribution();
-  ~TDistribution() override {}
+  ~TDistribution() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };                              // end of class

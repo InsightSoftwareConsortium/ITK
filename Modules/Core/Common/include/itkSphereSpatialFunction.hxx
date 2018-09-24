@@ -33,8 +33,7 @@ SphereSpatialFunction< VImageDimension, TInput >
 
 template< unsigned int VImageDimension, typename TInput >
 SphereSpatialFunction< VImageDimension, TInput >
-::~SphereSpatialFunction()
-{}
+::~SphereSpatialFunction() = default;
 
 template< unsigned int VImageDimension, typename TInput >
 typename SphereSpatialFunction< VImageDimension, TInput >::OutputType

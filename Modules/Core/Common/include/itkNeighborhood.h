@@ -108,7 +108,7 @@ public:
   }
 
   /** Default destructor. */
-  virtual ~Neighborhood() {}
+  virtual ~Neighborhood() = default;
 
   /** Copy constructor. */
   Neighborhood(const Self & other);

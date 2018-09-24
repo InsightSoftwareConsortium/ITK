@@ -127,8 +127,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::~BoundingBox()
-{}
+::~BoundingBox() = default;
 
 template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >

@@ -196,7 +196,7 @@ protected:
     m_InternalNumberOfStreamDivisions = ImageDimension * ImageDimension;
   }
 
-  ~DiscreteGaussianDerivativeImageFilter() override {}
+  ~DiscreteGaussianDerivativeImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

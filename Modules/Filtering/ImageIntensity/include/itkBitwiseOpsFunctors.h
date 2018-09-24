@@ -34,8 +34,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT AND
 {
 public:
-  AND() {}
-  ~AND() {}
+  AND() = default;
+  ~AND() = default;
   bool operator!=(const AND &) const
   {
     return false;
@@ -61,8 +61,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT OR
 {
 public:
-  OR() {}
-  ~OR() {}
+  OR() = default;
+  ~OR() = default;
   bool operator!=(const OR &) const
   {
     return false;
@@ -88,8 +88,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT XOR
 {
 public:
-  XOR() {}
-  ~XOR() {}
+  XOR() = default;
+  ~XOR() = default;
   bool operator!=(const XOR &) const
   {
     return false;

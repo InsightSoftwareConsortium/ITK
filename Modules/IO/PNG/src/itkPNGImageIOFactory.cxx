@@ -30,8 +30,7 @@ PNGImageIOFactory::PNGImageIOFactory()
                           CreateObjectFunction< PNGImageIO >::New() );
 }
 
-PNGImageIOFactory::~PNGImageIOFactory()
-{}
+PNGImageIOFactory::~PNGImageIOFactory() = default;
 
 const char *
 PNGImageIOFactory::GetITKSourceVersion() const

@@ -128,8 +128,8 @@ public:
   void Unlock();
 
 protected:
-  MutexLock() {}
-  ~MutexLock() override {}
+  MutexLock() = default;
+  ~MutexLock() override = default;
 
   SimpleMutexLock m_SimpleMutexLock;
   void PrintSelf(std::ostream & os, Indent indent) const override;

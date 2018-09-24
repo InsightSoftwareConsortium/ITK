@@ -126,7 +126,7 @@ public:
 
 protected:
   MorphologicalGradientImageFilter();
-  ~MorphologicalGradientImageFilter() override {}
+  ~MorphologicalGradientImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

@@ -25,8 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int NDimensions >
 MetaLineConverter< NDimensions >
-::MetaLineConverter()
-{}
+::MetaLineConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaLineConverter< NDimensions >::MetaObjectType *

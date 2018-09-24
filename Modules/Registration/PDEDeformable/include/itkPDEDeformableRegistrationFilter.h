@@ -200,7 +200,7 @@ public:
 
 protected:
   PDEDeformableRegistrationFilter();
-  ~PDEDeformableRegistrationFilter() override {}
+  ~PDEDeformableRegistrationFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Supplies the halting criteria for this class of filters.  The

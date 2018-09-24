@@ -135,7 +135,7 @@ public:
 
 protected:
   SparseImage();
-  ~SparseImage() override {}
+  ~SparseImage() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

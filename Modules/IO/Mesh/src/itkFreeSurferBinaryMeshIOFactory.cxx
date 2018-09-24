@@ -39,8 +39,7 @@ FreeSurferBinaryMeshIOFactory
 }
 
 FreeSurferBinaryMeshIOFactory
-::~FreeSurferBinaryMeshIOFactory()
-{}
+::~FreeSurferBinaryMeshIOFactory() = default;
 
 const char *
 FreeSurferBinaryMeshIOFactory

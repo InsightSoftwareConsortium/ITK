@@ -40,9 +40,7 @@ ContourExtractor2DImageFilter< TInputImage >
 
 template< typename TInputImage >
 ContourExtractor2DImageFilter< TInputImage >
-::~ContourExtractor2DImageFilter()
-{
-}
+::~ContourExtractor2DImageFilter() = default;
 
 
 template< typename TInputImage >

@@ -107,7 +107,7 @@ public:
 
 protected:
   MergeLabelMapFilter();
-  ~MergeLabelMapFilter() override {}
+  ~MergeLabelMapFilter() override = default;
 
   void GenerateData() override;
 

@@ -81,8 +81,8 @@ public:
   ParametersType  m_Parameters;
 
 private:
-  ObjectToObjectOptimizerBaseTestMetric() {}
-  ~ObjectToObjectOptimizerBaseTestMetric() override {}
+  ObjectToObjectOptimizerBaseTestMetric() = default;
+  ~ObjectToObjectOptimizerBaseTestMetric() override = default;
 };
 
 /* Define a simple derived optimizer class.

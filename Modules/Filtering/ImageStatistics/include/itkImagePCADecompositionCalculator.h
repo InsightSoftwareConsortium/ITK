@@ -128,7 +128,7 @@ public:
 
 protected:
   ImagePCADecompositionCalculator();
-  ~ImagePCADecompositionCalculator() override {}
+  ~ImagePCADecompositionCalculator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void CalculateBasisMatrix();

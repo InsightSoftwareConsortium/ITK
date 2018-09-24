@@ -31,15 +31,13 @@ namespace itk
 // -----------------------------------------------------------------------------
 template< typename TElement,
           typename TElementIdentifier >
-ElementWrapperInterface< TElement, TElementIdentifier >::ElementWrapperInterface()
-  {}
+ElementWrapperInterface< TElement, TElementIdentifier >::ElementWrapperInterface() = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
 template< typename TElement,
           typename TElementIdentifier >
-ElementWrapperInterface< TElement, TElementIdentifier >::~ElementWrapperInterface()
-  {}
+ElementWrapperInterface< TElement, TElementIdentifier >::~ElementWrapperInterface() = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
@@ -60,16 +58,14 @@ ElementWrapperInterface< TElement, TElementIdentifier >::m_ElementNotFound
 template< typename TElementWrapperPointer,
           typename TElementIdentifier >
 ElementWrapperPointerInterface< TElementWrapperPointer, TElementIdentifier >::
-ElementWrapperPointerInterface()
-{}
+ElementWrapperPointerInterface() = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
 template< typename TElementWrapperPointer,
           typename TElementIdentifier >
 ElementWrapperPointerInterface< TElementWrapperPointer, TElementIdentifier >::
-~ElementWrapperPointerInterface()
-{}
+~ElementWrapperPointerInterface() = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
@@ -151,7 +147,7 @@ MinPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority
 
 // -----------------------------------------------------------------------------
 template< typename TElement,  typename TElementPriority, typename TElementIdentifier > MinPriorityQueueElementWrapper< TElement, TElementPriority, TElementIdentifier >::
-~MinPriorityQueueElementWrapper() {}
+~MinPriorityQueueElementWrapper() = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
@@ -330,7 +326,7 @@ template<
   >
 PriorityQueueContainer< TElementWrapper, TElementWrapperInterface,
   TElementPriority, TElementIdentifier >::
-~PriorityQueueContainer()  {}
+~PriorityQueueContainer()  = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------

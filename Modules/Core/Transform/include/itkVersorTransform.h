@@ -135,7 +135,7 @@ protected:
   VersorTransform();
 
   /** Destroy an VersorTransform object */
-  ~VersorTransform() override {}
+  ~VersorTransform() override = default;
 
   void SetVarVersor(const VersorType & newVersor)
   {

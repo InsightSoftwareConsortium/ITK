@@ -55,7 +55,7 @@ public:
     itkNewMacro( Self );
 
   protected:
-    TestDomainThreader() {};
+    TestDomainThreader() = default;
 
   private:
     void BeforeThreadedExecution() override

@@ -38,9 +38,7 @@ VideoIOBase::VideoIOBase() :
 {
 }
 
-VideoIOBase::~VideoIOBase()
-{
-}
+VideoIOBase::~VideoIOBase() = default;
 
 void VideoIOBase::PrintSelf(std::ostream & os, Indent indent) const
 {

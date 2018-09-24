@@ -161,7 +161,7 @@ public:
 
 protected:
   BayesianClassifierInitializationImageFilter();
-  ~BayesianClassifierInitializationImageFilter() override {}
+  ~BayesianClassifierInitializationImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the membership functions. This will be called only if the membership

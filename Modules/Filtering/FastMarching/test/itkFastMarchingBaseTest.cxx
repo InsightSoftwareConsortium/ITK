@@ -48,8 +48,8 @@ public:
   using LabelType = typename Superclass::LabelType;
 
 protected:
-  FastMarchingBaseTestHelper() {}
-  ~FastMarchingBaseTestHelper() override {}
+  FastMarchingBaseTestHelper() = default;
+  ~FastMarchingBaseTestHelper() override = default;
 
   IdentifierType GetTotalNumberOfNodes() const override
     { return 1; }

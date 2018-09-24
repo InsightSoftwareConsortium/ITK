@@ -541,7 +541,7 @@ protected:
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
-  ~Transform() override { }
+  ~Transform() override = default;
 
   mutable ParametersType      m_Parameters;
   mutable FixedParametersType m_FixedParameters;

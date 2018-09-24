@@ -43,7 +43,7 @@ public:
   itkTypeMacro(DOMTestObjectDOMReader, DOMReader);
 
 protected:
-  DOMTestObjectDOMReader() {}
+  DOMTestObjectDOMReader() = default;
 
   /**
    * This function is called automatically when update functions are performed.

@@ -54,9 +54,7 @@ FastMarchingBase()
 // -----------------------------------------------------------------------------
 template< typename TInput, typename TOutput >
 FastMarchingBase< TInput, TOutput >::
-~FastMarchingBase()
-  {
-  }
+~FastMarchingBase() = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------

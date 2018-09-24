@@ -96,9 +96,7 @@ public:
   using DerivativeValueType = typename Superclass::DerivativeValueType;
 
 protected:
-  VanilaImageToImageMetricv4GetValueAndDerivativeThreader()
-  {
-  }
+  VanilaImageToImageMetricv4GetValueAndDerivativeThreader() = default;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -175,7 +173,7 @@ protected:
     this->m_SparseGetValueAndDerivativeThreader = VanillaSparseGetValueAndDerivativeThreaderType::New();
   }
 
-  ~VanillaImageToImageMetricv4() override {}
+  ~VanillaImageToImageMetricv4() override = default;
 
   // template <unsigned int VVirtualImageDimension, typename TMovingTransformType>
   // template <>

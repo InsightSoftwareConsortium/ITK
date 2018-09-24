@@ -119,7 +119,7 @@ private:
 
 protected:
   VTKImageExportBase();
-  ~VTKImageExportBase() override {}
+  ~VTKImageExportBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   using DataObjectPointer = DataObject::Pointer;

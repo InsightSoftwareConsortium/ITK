@@ -48,8 +48,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 /** Destructor */
 template< typename TInputPath, typename TOutputImage >
 PathToImageFilter< TInputPath, TOutputImage >
-::~PathToImageFilter()
-{}
+::~PathToImageFilter() = default;
 
 /** Set the Input SpatialObject */
 template< typename TInputPath, typename TOutputImage >

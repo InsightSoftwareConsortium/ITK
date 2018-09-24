@@ -91,8 +91,8 @@ public:
   itkTypeMacro(ComplexToPhaseImageAdaptor, ImageAdaptor);
 
 protected:
-  ComplexToPhaseImageAdaptor() {}
-  ~ComplexToPhaseImageAdaptor() override {}
+  ComplexToPhaseImageAdaptor() = default;
+  ~ComplexToPhaseImageAdaptor() override = default;
 };
 } // end namespace itk
 

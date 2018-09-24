@@ -64,9 +64,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::
-~ConstantVelocityFieldTransform()
-{
-}
+~ConstantVelocityFieldTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 void

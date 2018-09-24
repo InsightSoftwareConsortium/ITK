@@ -216,7 +216,7 @@ public:
 
 protected:
   WarpVectorImageFilter();
-  ~WarpVectorImageFilter() override {}
+  ~WarpVectorImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** WarpVectorImageFilter is implemented as a multi-threaded filter.

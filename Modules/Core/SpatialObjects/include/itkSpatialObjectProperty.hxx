@@ -36,8 +36,7 @@ SpatialObjectProperty< TComponentType >
 
 template< typename TComponentType >
 SpatialObjectProperty< TComponentType >
-::~SpatialObjectProperty()
-{}
+::~SpatialObjectProperty() = default;
 
 template< typename TComponentType >
 const typename SpatialObjectProperty< TComponentType >::PixelType &

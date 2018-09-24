@@ -34,9 +34,7 @@ ParticleSwarmOptimizer
 
 
 ParticleSwarmOptimizer
-::~ParticleSwarmOptimizer()
-{
-}
+::~ParticleSwarmOptimizer() = default;
 
 void
 ParticleSwarmOptimizer

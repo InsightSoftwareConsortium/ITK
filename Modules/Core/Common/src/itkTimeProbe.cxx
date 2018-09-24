@@ -26,8 +26,7 @@ TimeProbe
 }
 
 TimeProbe
-::~TimeProbe()
-{}
+::~TimeProbe() = default;
 
 TimeProbe::TimeStampType
 TimeProbe

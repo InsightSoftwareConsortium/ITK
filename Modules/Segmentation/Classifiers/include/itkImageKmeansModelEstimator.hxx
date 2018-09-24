@@ -43,8 +43,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 template< typename TInputImage,
           typename TMembershipFunction >
 ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::~ImageKmeansModelEstimator()
-{}
+::~ImageKmeansModelEstimator() = default;
 
 /**
  * PrintSelf

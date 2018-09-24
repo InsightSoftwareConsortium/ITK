@@ -47,7 +47,7 @@ public:
   using DisplacementFieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 

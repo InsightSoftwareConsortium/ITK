@@ -38,8 +38,8 @@ class SymmetricEigenAnalysisFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
-  SymmetricEigenAnalysisFunction() {}
-  ~SymmetricEigenAnalysisFunction() {}
+  SymmetricEigenAnalysisFunction() = default;
+  ~SymmetricEigenAnalysisFunction() = default;
   using CalculatorType = SymmetricEigenAnalysis< TInput, TOutput >;
   bool operator!=(const SymmetricEigenAnalysisFunction &) const
   {
@@ -190,8 +190,8 @@ public:
 #endif
 
 protected:
-  SymmetricEigenAnalysisImageFilter() {}
-  ~SymmetricEigenAnalysisImageFilter() override {}
+  SymmetricEigenAnalysisImageFilter() = default;
+  ~SymmetricEigenAnalysisImageFilter() override = default;
 };
 } // end namespace itk
 

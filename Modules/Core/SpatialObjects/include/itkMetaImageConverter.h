@@ -78,7 +78,7 @@ protected:
   typename ImageType::Pointer AllocateImage(const ImageMetaObjectType *image);
 
   MetaImageConverter();
-  ~MetaImageConverter() override {}
+  ~MetaImageConverter() override = default;
 };
 
 } // end namespace itk

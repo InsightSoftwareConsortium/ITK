@@ -189,7 +189,7 @@ public:
   {
   public:
 
-    ConstLineIterator() {}
+    ConstLineIterator() = default;
 
     ConstLineIterator(const Self *lo)
     {

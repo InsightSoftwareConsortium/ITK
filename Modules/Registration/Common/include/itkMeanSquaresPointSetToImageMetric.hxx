@@ -28,9 +28,7 @@ namespace itk
  */
 template <typename TFixedPointSet, typename TMovingImage>
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
-::MeanSquaresPointSetToImageMetric()
-{
-}
+::MeanSquaresPointSetToImageMetric() = default;
 
 /**
  * Get the match Measure

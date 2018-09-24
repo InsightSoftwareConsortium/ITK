@@ -103,7 +103,7 @@ public:
   ConstNeighborhoodIterator();
 
   /** Virtual destructor */
-  ~ConstNeighborhoodIterator() override {}
+  ~ConstNeighborhoodIterator() override = default;
 
   /** Copy constructor */
   ConstNeighborhoodIterator(const ConstNeighborhoodIterator &);

@@ -161,7 +161,7 @@ public:
 protected:
 
   HoughTransform2DLinesImageFilter();
-  ~HoughTransform2DLinesImageFilter() override {}
+  ~HoughTransform2DLinesImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -58,8 +58,8 @@ protected:
   void ThreadedExecution( const IndexRangeType & subrange,
                                   const ThreadIdType threadId ) override;
 
-  GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate() {}
-  ~GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate() override {}
+  GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate() = default;
+  ~GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate() override = default;
 };
 
 /** This helps to meet backward compatibility */

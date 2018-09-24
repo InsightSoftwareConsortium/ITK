@@ -114,7 +114,7 @@ public:
       }
   }
 
-  ~QuadraticTriangleCell() override {}
+  ~QuadraticTriangleCell() override = default;
 
 protected:
   /** Store the number of points needed for a triangle. */

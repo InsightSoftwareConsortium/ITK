@@ -107,7 +107,7 @@ public:
 
 protected:
   HConvexImageFilter();
-  ~HConvexImageFilter() override {}
+  ~HConvexImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** HConvexImageFilter needs the entire input be

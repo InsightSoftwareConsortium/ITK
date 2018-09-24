@@ -40,8 +40,7 @@ HDF5TransformIOFactory::HDF5TransformIOFactory()
                           CreateObjectFunction< HDF5TransformIOTemplate< double > >::New() );
 }
 
-HDF5TransformIOFactory::~HDF5TransformIOFactory()
-{}
+HDF5TransformIOFactory::~HDF5TransformIOFactory() = default;
 
 const char *
 HDF5TransformIOFactory::GetITKSourceVersion() const

@@ -100,7 +100,7 @@ public:
 
 protected:
   ConvolutionImageFilter();
-  ~ConvolutionImageFilter() override {}
+  ~ConvolutionImageFilter() override = default;
 
   /** ConvolutionImageFilter needs the entire image kernel, which in
    * general is going to be a different size then the output requested

@@ -36,8 +36,7 @@ SampleToSubsampleFilter< TSample >
 
 template< typename TSample >
 SampleToSubsampleFilter< TSample >
-::~SampleToSubsampleFilter()
-{}
+::~SampleToSubsampleFilter() = default;
 
 template< typename TSample >
 void

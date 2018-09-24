@@ -120,7 +120,7 @@ public:
 
 protected:
   ExhaustiveOptimizer();
-  ~ExhaustiveOptimizer() override {}
+  ~ExhaustiveOptimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance to the next grid position. */

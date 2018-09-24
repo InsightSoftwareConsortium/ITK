@@ -117,7 +117,7 @@ public:
       }
   }
 
-  ~QuadrilateralCell() override {}
+  ~QuadrilateralCell() override = default;
 
 protected:
   /** Store the number of points needed for a quadrilateral. */

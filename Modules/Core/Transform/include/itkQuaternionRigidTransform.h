@@ -133,7 +133,7 @@ protected:
   QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);
   QuaternionRigidTransform(unsigned int paramDims);
   QuaternionRigidTransform();
-  ~QuaternionRigidTransform() override {}
+  ~QuaternionRigidTransform() override = default;
 
   void ComputeMatrix() override;
 

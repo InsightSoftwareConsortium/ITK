@@ -132,7 +132,7 @@ protected:
   Euler3DTransform(unsigned int paramsSpaceDims);
   Euler3DTransform();
 
-  ~Euler3DTransform() override {}
+  ~Euler3DTransform() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

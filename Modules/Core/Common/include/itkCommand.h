@@ -144,7 +144,7 @@ protected:
     m_ConstMemberFunction( nullptr )
   {}
 
-  ~MemberCommand() override {}
+  ~MemberCommand() override = default;
 };
 
 /** \class ReceptorMemberCommand
@@ -211,7 +211,7 @@ protected:
     m_MemberFunction( nullptr )
   {}
 
-  ~ReceptorMemberCommand() override {}
+  ~ReceptorMemberCommand() override = default;
 };
 
 /** \class SimpleMemberCommand
@@ -276,7 +276,7 @@ protected:
     m_MemberFunction( nullptr )
   {}
 
-  ~SimpleMemberCommand() override {}
+  ~SimpleMemberCommand() override = default;
 };
 
 /** \class SimpleConstMemberCommand
@@ -341,7 +341,7 @@ protected:
     m_MemberFunction( nullptr )
   {}
 
-  ~SimpleConstMemberCommand() override {}
+  ~SimpleConstMemberCommand() override = default;
 };
 
 /** \class CStyleCommand

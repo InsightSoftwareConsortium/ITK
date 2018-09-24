@@ -52,8 +52,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 /** Destructor */
 template< typename TInputMesh, typename TOutputImage >
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
-::~TriangleMeshToBinaryImageFilter()
-{}
+::~TriangleMeshToBinaryImageFilter() = default;
 
 /** Set the Input Mesh */
 template< typename TInputMesh, typename TOutputImage >

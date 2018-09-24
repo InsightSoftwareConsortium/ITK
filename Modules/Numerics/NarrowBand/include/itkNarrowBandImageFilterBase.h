@@ -221,7 +221,7 @@ protected:
     this->SetMultiThreader(PlatformMultiThreader::New());
   }
 
-  ~NarrowBandImageFilterBase() override {}
+  ~NarrowBandImageFilterBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   NarrowBandPointer m_NarrowBand;

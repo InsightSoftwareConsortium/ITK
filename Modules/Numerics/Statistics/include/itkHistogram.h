@@ -464,7 +464,7 @@ private:
 
 protected:
   Histogram();
-  ~Histogram() override {}
+  ~Histogram() override = default;
 
   // The number of bins for each dimension
   SizeType m_Size;

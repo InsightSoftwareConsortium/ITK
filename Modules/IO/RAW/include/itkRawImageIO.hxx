@@ -48,8 +48,7 @@ RawImageIO< TPixel, VImageDimension >::RawImageIO():
 }
 
 template< typename TPixel, unsigned int VImageDimension >
-RawImageIO< TPixel, VImageDimension >::~RawImageIO()
-{}
+RawImageIO< TPixel, VImageDimension >::~RawImageIO() = default;
 
 template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >::PrintSelf(std::ostream & os, Indent indent) const

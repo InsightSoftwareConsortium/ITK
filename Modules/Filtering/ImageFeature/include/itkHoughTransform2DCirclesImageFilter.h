@@ -175,7 +175,7 @@ public:
 protected:
 
   HoughTransform2DCirclesImageFilter();
-  ~HoughTransform2DCirclesImageFilter() override {}
+  ~HoughTransform2DCirclesImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

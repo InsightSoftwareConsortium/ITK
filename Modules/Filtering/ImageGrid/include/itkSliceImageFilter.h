@@ -124,7 +124,7 @@ public:
 
 protected:
   SliceImageFilter();
-  ~SliceImageFilter() override {}
+  ~SliceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
  /** SliceImageFilter produces an image which is a different

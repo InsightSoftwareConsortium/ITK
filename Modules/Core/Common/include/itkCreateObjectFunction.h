@@ -70,8 +70,8 @@ public:
   LightObject::Pointer CreateObject() override { return T::New().GetPointer(); }
 
 protected:
-  CreateObjectFunction() {}
-  ~CreateObjectFunction() override {}
+  CreateObjectFunction() = default;
+  ~CreateObjectFunction() override = default;
 };
 } // end namespace itk
 

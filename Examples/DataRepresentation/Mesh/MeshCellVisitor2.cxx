@@ -100,7 +100,7 @@ public:
     std::cout << "    associated with point id = ";
     std::cout << t->GetPointId() << std::endl;
     }
-  virtual ~CustomVertexVisitor() {}
+  virtual ~CustomVertexVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
 
@@ -121,7 +121,7 @@ class CustomLineVisitor
 {
 public:
   CustomLineVisitor():m_Mesh( nullptr ) {}
-  virtual ~CustomLineVisitor() {}
+  virtual ~CustomLineVisitor() = default;
 
   void SetMesh( MeshType * mesh ) { m_Mesh = mesh; }
 
@@ -175,7 +175,7 @@ public:
       ++pit;
       }
     }
-  virtual ~CustomTriangleVisitor() {}
+  virtual ~CustomTriangleVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
 #endif
@@ -201,7 +201,7 @@ public:
     std::cout << "  number of faces = ";
     std::cout << t->GetNumberOfFaces() << std::endl;
     }
-  virtual ~CustomTetrahedronVisitor() {}
+  virtual ~CustomTetrahedronVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
 

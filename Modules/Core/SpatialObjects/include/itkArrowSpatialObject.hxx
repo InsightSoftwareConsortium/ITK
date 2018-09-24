@@ -46,8 +46,7 @@ ArrowSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 ArrowSpatialObject< TDimension >
-::~ArrowSpatialObject()
-{}
+::~ArrowSpatialObject() = default;
 
 /** Set the length of the arrow */
 template< unsigned int TDimension >

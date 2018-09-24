@@ -42,8 +42,7 @@ MeshFileWriter< TInputMesh >
 
 template< typename TInputMesh >
 MeshFileWriter< TInputMesh >
-::~MeshFileWriter()
-{}
+::~MeshFileWriter() = default;
 
 template< typename TInputMesh >
 void

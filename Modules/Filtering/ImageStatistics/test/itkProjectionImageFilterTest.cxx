@@ -35,7 +35,7 @@ class BinaryAccumulator
 {
 public:
   BinaryAccumulator( unsigned long ) : m_IsForeground(false) {}
-  ~BinaryAccumulator(){}
+  ~BinaryAccumulator()= default;
 
   inline void Initialize()
     {

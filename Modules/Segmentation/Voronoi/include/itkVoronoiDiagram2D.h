@@ -157,8 +157,8 @@ public:
     int       m_LeftID;
     int       m_RightID;
     int       m_LineID;
-    VoronoiEdge(){}
-    ~VoronoiEdge(){}
+    VoronoiEdge()= default;
+    ~VoronoiEdge()= default;
   };
 
   /** The iterator for Voronoi edges, */

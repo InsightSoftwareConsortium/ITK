@@ -38,9 +38,7 @@ PointSetFunction<TInputPointSet, TOutput, TCoordRep>
  */
 template <typename TInputPointSet, typename TOutput, typename TCoordRep>
 PointSetFunction<TInputPointSet, TOutput, TCoordRep>
-::~PointSetFunction()
-{
-}
+::~PointSetFunction() = default;
 
 /**
  * Standard "PrintSelf" method

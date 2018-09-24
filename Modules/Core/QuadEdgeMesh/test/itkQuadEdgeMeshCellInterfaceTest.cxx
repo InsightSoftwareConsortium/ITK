@@ -53,7 +53,7 @@ public:
     (void)cellId;
     (void)t;
     }
-  virtual ~CustomQELineVisitor() {}
+  virtual ~CustomQELineVisitor() = default;
 };
 
 class CustomQEPolyVisitor
@@ -64,7 +64,7 @@ public:
     (void)cellId;
     (void)t;
     }
-  virtual ~CustomQEPolyVisitor() {}
+  virtual ~CustomQEPolyVisitor() = default;
 };
 
 // Test the cell interface

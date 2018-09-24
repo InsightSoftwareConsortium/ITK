@@ -134,8 +134,8 @@ public:
   }
 
 protected:
-  RMSCommand()  {}
-  ~RMSCommand() override {}
+  RMSCommand()  = default;
+  ~RMSCommand() override = default;
 };
 
 }

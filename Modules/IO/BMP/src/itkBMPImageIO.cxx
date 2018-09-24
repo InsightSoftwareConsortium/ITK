@@ -53,8 +53,7 @@ BMPImageIO::BMPImageIO() :
 }
 
 /** Destructor */
-BMPImageIO::~BMPImageIO()
-{}
+BMPImageIO::~BMPImageIO() = default;
 
 bool BMPImageIO::CanReadFile(const char *filename)
 {

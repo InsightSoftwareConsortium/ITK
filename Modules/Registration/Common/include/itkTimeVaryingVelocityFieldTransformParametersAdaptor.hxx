@@ -38,9 +38,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
-::~TimeVaryingVelocityFieldTransformParametersAdaptor()
-{
-}
+::~TimeVaryingVelocityFieldTransformParametersAdaptor() = default;
 
 template<typename TTransform>
 void

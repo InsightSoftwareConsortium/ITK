@@ -71,8 +71,8 @@ public:
   using OutputType = TOutput;
 
 protected:
-  MaximumEntropyThresholdCalculator() {};
-  ~MaximumEntropyThresholdCalculator() override {};
+  MaximumEntropyThresholdCalculator() = default;
+  ~MaximumEntropyThresholdCalculator() override = default;
   void GenerateData() override;
 };
 

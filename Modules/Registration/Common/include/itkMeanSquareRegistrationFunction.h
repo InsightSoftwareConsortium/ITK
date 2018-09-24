@@ -147,7 +147,7 @@ public:
 
 protected:
   MeanSquareRegistrationFunction();
-  ~MeanSquareRegistrationFunction() override {}
+  ~MeanSquareRegistrationFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */

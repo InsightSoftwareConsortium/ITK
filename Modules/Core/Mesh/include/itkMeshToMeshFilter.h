@@ -78,7 +78,7 @@ public:
 
 protected:
   MeshToMeshFilter();
-  ~MeshToMeshFilter() override {}
+  ~MeshToMeshFilter() override = default;
 
   void CopyInputMeshToOutputMeshPoints();
 

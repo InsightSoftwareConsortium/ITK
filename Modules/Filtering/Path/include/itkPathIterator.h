@@ -124,7 +124,7 @@ public:
   PathIterator(ImageType *imagePtr, const PathType  *pathPtr);
 
   /** Default Destructor. */
-  ~PathIterator() override {}
+  ~PathIterator() override = default;
 };
 } // end namespace itk
 

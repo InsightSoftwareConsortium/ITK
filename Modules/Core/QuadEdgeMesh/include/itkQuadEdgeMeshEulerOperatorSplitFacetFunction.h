@@ -59,8 +59,8 @@ public:
   virtual OutputType Evaluate(QEType *h, QEType *g);
 
 protected:
-  QuadEdgeMeshEulerOperatorSplitFacetFunction(){}
-  ~QuadEdgeMeshEulerOperatorSplitFacetFunction() override {}
+  QuadEdgeMeshEulerOperatorSplitFacetFunction()= default;
+  ~QuadEdgeMeshEulerOperatorSplitFacetFunction() override = default;
 };
 } // end namespace itk
 

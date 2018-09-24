@@ -102,7 +102,7 @@ protected:
   typename LightObject::Pointer InternalClone() const override;
 
   GaussianRandomSpatialNeighborSubsampler();
-  ~GaussianRandomSpatialNeighborSubsampler() override {};
+  ~GaussianRandomSpatialNeighborSubsampler() override = default;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

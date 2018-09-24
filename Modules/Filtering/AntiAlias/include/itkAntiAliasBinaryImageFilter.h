@@ -164,7 +164,7 @@ public:
 
 protected:
   AntiAliasBinaryImageFilter();
-  ~AntiAliasBinaryImageFilter() override {}
+  ~AntiAliasBinaryImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overridden from the parent class to indroduce a constraint on

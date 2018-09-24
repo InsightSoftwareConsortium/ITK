@@ -47,8 +47,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
-::~ImageToImageFilter()
-{}
+::~ImageToImageFilter() = default;
 
 
 template< typename TInputImage, typename TOutputImage >

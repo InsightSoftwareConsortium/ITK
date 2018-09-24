@@ -107,7 +107,7 @@ public:
 
 protected:
   ErodeObjectMorphologyImageFilter();
-  ~ErodeObjectMorphologyImageFilter() override {}
+  ~ErodeObjectMorphologyImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply the kernel to the neighborhood given.

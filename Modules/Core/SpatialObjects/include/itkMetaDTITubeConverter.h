@@ -70,7 +70,7 @@ protected:
   MetaObjectType *CreateMetaObject() override;
 
   MetaDTITubeConverter();
-  ~MetaDTITubeConverter() override {}
+  ~MetaDTITubeConverter() override = default;
 };
 } // end namespace itk
 

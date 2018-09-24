@@ -57,7 +57,7 @@ public:
   using PixelType = typename Superclass::PixelType;
 
   /** Constructor. */
-  BackwardDifferenceOperator() {}
+  BackwardDifferenceOperator() = default;
 
 protected:
   /** Necessary to work around a compiler bug in VC++. */

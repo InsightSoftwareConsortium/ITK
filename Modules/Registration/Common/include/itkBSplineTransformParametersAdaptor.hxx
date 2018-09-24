@@ -43,9 +43,7 @@ BSplineTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 BSplineTransformParametersAdaptor<TTransform>
-::~BSplineTransformParametersAdaptor()
-{
-}
+::~BSplineTransformParametersAdaptor() = default;
 
 template<typename TTransform>
 void

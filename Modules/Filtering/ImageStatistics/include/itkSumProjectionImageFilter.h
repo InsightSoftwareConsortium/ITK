@@ -51,7 +51,7 @@ class SumAccumulator
 {
 public:
   SumAccumulator( SizeValueType ) {}
-  ~SumAccumulator(){}
+  ~SumAccumulator()= default;
 
   inline void Initialize()
   {
@@ -115,8 +115,8 @@ public:
 #endif
 
 protected:
-  SumProjectionImageFilter() {}
-  ~SumProjectionImageFilter() override {}
+  SumProjectionImageFilter() = default;
+  ~SumProjectionImageFilter() override = default;
 };                                        // end SumProjectionImageFilter
 } //end namespace itk
 

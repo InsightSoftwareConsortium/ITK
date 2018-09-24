@@ -102,7 +102,7 @@ public:
       }
   }
 
-  ~LineCell() override {}
+  ~LineCell() override = default;
 
 protected:
   /** Store number of points needed for a line segment. */

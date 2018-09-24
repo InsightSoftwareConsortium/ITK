@@ -89,7 +89,7 @@ protected:
     {
     this->SetReverseOrdering( true );
     }
-  ~RelabelLabelMapFilter() override {}
+  ~RelabelLabelMapFilter() override = default;
 };                                     // end of class
 } // end namespace itk
 

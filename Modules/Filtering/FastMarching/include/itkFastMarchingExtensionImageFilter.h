@@ -135,7 +135,7 @@ public:
 
 protected:
   FastMarchingExtensionImageFilter();
-  ~FastMarchingExtensionImageFilter() override {}
+  ~FastMarchingExtensionImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void Initialize(LevelSetImageType *) override;

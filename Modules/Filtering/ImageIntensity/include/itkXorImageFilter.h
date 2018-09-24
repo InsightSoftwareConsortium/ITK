@@ -93,7 +93,7 @@ protected:
 #endif
     }
 
-  ~XorImageFilter() override {}
+  ~XorImageFilter() override = default;
 };
 } // end namespace itk
 

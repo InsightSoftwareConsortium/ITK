@@ -33,8 +33,7 @@ SiemensVisionImageIOFactory::SiemensVisionImageIOFactory()
                           CreateObjectFunction< SiemensVisionImageIO >::New() );
 }
 
-SiemensVisionImageIOFactory::~SiemensVisionImageIOFactory()
-{}
+SiemensVisionImageIOFactory::~SiemensVisionImageIOFactory() = default;
 
 const char *
 SiemensVisionImageIOFactory::GetITKSourceVersion() const

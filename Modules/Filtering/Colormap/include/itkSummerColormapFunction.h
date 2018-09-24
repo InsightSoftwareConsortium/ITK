@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  SummerColormapFunction() {}
-  ~SummerColormapFunction() override {}
+  SummerColormapFunction() = default;
+  ~SummerColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

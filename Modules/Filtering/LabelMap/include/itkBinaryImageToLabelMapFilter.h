@@ -151,7 +151,7 @@ public:
 
 protected:
   BinaryImageToLabelMapFilter();
-  ~BinaryImageToLabelMapFilter() override {}
+  ~BinaryImageToLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   using InternalLabelType = SizeValueType;

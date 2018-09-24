@@ -44,9 +44,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 
 template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
-::~LevelSetEquationAdvectionTerm()
-{
-}
+::~LevelSetEquationAdvectionTerm() = default;
 
 template< typename TInput, typename TLevelSetContainer >
 void

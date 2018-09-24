@@ -24,8 +24,7 @@ bool ITKCommon_EXPORT ci_equal(char a, char b)
   return tolower( static_cast< int >( a ) ) == tolower( static_cast< int >( b ) );
 }
 
-MapRecord::~MapRecord()
-{}
+MapRecord::~MapRecord() = default;
 
 void MapRecord::Reset()
 {
@@ -365,8 +364,7 @@ void MapData::Reset()
 
 /**              ---            SmapsData               ---              **/
 
-SmapsData_2_6::~SmapsData_2_6()
-{}
+SmapsData_2_6::~SmapsData_2_6() = default;
 
 std::istream & operator>>(std::istream & smapsStream, SmapsData_2_6 & data)
 {
@@ -423,8 +421,7 @@ VMMapData_10_2
 {}
 
 VMMapData_10_2
-::~VMMapData_10_2()
-{}
+::~VMMapData_10_2() = default;
 
 std::istream & operator>>(std::istream & stream, VMMapData_10_2 & data)
 {

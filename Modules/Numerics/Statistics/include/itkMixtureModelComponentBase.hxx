@@ -36,8 +36,7 @@ MixtureModelComponentBase< TSample >
 
 template< typename TSample >
 MixtureModelComponentBase< TSample >
-::~MixtureModelComponentBase()
-{}
+::~MixtureModelComponentBase() = default;
 
 template< typename TSample >
 void

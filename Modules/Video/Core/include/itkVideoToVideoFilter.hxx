@@ -38,9 +38,7 @@ VideoToVideoFilter()
 }
 template<typename TInputVideoStream, typename TOutputVideoStream>
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
-::~VideoToVideoFilter()
-{
-}
+::~VideoToVideoFilter() = default;
 
 template<typename TInputVideoStream, typename TOutputVideoStream>
 void

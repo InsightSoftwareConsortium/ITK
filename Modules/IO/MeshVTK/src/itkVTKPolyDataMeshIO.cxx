@@ -42,9 +42,7 @@ VTKPolyDataMeshIO
 }
 
 VTKPolyDataMeshIO
-::~VTKPolyDataMeshIO()
-{
-}
+::~VTKPolyDataMeshIO() = default;
 
 bool
 VTKPolyDataMeshIO

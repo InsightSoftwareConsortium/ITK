@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  HSVColormapFunction() {}
-  ~HSVColormapFunction() override {}
+  HSVColormapFunction() = default;
+  ~HSVColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

@@ -103,7 +103,7 @@ protected:
     this->SetDifferenceFunction(q);
   }
 
-  ~VectorCurvatureAnisotropicDiffusionImageFilter() override {}
+  ~VectorCurvatureAnisotropicDiffusionImageFilter() override = default;
 
   void InitializeIteration() override
   {

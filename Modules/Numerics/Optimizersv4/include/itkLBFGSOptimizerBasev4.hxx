@@ -85,9 +85,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 
 template<typename TInternalVnlOptimizerType>
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::~LBFGSOptimizerBasev4()
-{
-}
+::~LBFGSOptimizerBasev4() = default;
 
 template<typename TInternalVnlOptimizerType>
 void

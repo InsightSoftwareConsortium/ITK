@@ -120,7 +120,7 @@ protected:
     Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~AddImageFilter() override {}
+  ~AddImageFilter() override = default;
 };
 } // end namespace itk
 

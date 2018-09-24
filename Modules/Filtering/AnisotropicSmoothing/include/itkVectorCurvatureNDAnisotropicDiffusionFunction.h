@@ -88,7 +88,7 @@ public:
 
 protected:
   VectorCurvatureNDAnisotropicDiffusionFunction();
-  ~VectorCurvatureNDAnisotropicDiffusionFunction() override {}
+  ~VectorCurvatureNDAnisotropicDiffusionFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   {  Superclass::PrintSelf(os, indent);   }
 

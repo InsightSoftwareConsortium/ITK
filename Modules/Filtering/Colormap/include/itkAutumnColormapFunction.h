@@ -62,8 +62,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  AutumnColormapFunction() {}
-  ~AutumnColormapFunction() override {}
+  AutumnColormapFunction() = default;
+  ~AutumnColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

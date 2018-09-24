@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Sin
 {
 public:
-  Sin() {}
-  ~Sin() {}
+  Sin() = default;
+  ~Sin() = default;
   bool operator!=(const Sin &) const
   {
     return false;
@@ -104,7 +104,7 @@ protected:
 #endif
     }
 
-  ~SinImageFilter() override {}
+  ~SinImageFilter() override = default;
 };
 } // end namespace itk
 

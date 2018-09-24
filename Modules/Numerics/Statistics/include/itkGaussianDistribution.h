@@ -234,7 +234,7 @@ public:
 
 protected:
   GaussianDistribution();
-  ~GaussianDistribution() override {}
+  ~GaussianDistribution() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };                                    // end of class

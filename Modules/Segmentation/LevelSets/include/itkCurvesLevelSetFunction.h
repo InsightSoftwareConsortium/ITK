@@ -125,7 +125,7 @@ protected:
     this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
-  ~CurvesLevelSetFunction() override {}
+  ~CurvesLevelSetFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

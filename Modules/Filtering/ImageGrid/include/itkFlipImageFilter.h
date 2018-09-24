@@ -117,7 +117,7 @@ public:
 
 protected:
   FlipImageFilter();
-  ~FlipImageFilter() override {}
+  ~FlipImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FlipImageFilter can be implemented as a multithreaded filter.

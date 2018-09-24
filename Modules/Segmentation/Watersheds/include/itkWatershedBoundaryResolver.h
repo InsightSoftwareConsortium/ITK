@@ -128,7 +128,7 @@ protected:
     this->ProcessObject::SetNthOutput( 0, eq.GetPointer() );
   }
 
-  ~BoundaryResolver() override {}
+  ~BoundaryResolver() override = default;
   BoundaryResolver(const Self &) {}
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;

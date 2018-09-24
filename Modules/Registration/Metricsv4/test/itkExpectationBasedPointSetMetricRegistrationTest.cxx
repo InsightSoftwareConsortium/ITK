@@ -36,7 +36,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate() {};
+  itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate() = default;
 
 public:
 

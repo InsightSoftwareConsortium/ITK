@@ -93,8 +93,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  LogImageAdaptor() {}
-  ~LogImageAdaptor() override {}
+  LogImageAdaptor() = default;
+  ~LogImageAdaptor() override = default;
 };
 } // end namespace itk
 

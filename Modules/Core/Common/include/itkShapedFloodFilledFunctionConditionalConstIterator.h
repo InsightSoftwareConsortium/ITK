@@ -119,7 +119,7 @@ public:
   void InitializeIterator();
 
   /** Default Destructor. */
-  ~ShapedFloodFilledFunctionConditionalConstIterator() override {}
+  ~ShapedFloodFilledFunctionConditionalConstIterator() override = default;
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const override = 0;

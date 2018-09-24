@@ -51,9 +51,7 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   AnchorErodeDilateLine();
-  ~AnchorErodeDilateLine()
-  {
-  }
+  ~AnchorErodeDilateLine() = default;
 
 private:
   unsigned int m_Size;

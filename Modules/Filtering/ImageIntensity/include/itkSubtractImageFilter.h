@@ -104,7 +104,7 @@ protected:
 #endif
     }
 
-  ~SubtractImageFilter() override {}
+  ~SubtractImageFilter() override = default;
 };
 } // end namespace itk
 

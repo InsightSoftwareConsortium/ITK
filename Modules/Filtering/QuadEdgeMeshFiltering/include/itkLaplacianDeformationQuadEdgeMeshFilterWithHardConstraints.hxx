@@ -24,8 +24,7 @@ namespace itk
 {
 template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
 LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMesh, TSolverTraits >
-::LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints()
-{}
+::LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() = default;
 
 template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
 void

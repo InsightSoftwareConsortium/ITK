@@ -150,7 +150,7 @@ public:
 protected:
 
   CSVArray2DDataObject();
-  ~CSVArray2DDataObject() override {}
+  ~CSVArray2DDataObject() override = default;
   /** Print method */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -34,8 +34,8 @@ class TileImageFixture
 {
 public:
 
-  TileImageFixture() {}
-  ~TileImageFixture() override {}
+  TileImageFixture() = default;
+  ~TileImageFixture() override = default;
 
 protected:
 

@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~ShanbhagThresholdImageFilter() override {};
+  ~ShanbhagThresholdImageFilter() override = default;
 };
 
 } // end namespace itk

@@ -58,7 +58,7 @@ public:
   {
     m_RequiredNumberOfOverlappingPixels = 0;
   }
-  ~PostProcessCorrelation() {}
+  ~PostProcessCorrelation() = default;
 
   void SetRequiredNumberOfOverlappingPixels( SizeValueType value )
   {

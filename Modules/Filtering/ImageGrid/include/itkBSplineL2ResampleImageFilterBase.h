@@ -100,7 +100,7 @@ protected:
   void InitializePyramidSplineFilter(int SplineOrder) override;
 
   BSplineL2ResampleImageFilterBase();
-  ~BSplineL2ResampleImageFilterBase() override {}
+  ~BSplineL2ResampleImageFilterBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // namespace itk

@@ -147,7 +147,7 @@ public:
 
 protected:
   LabelMapMaskImageFilter();
-  ~LabelMapMaskImageFilter() override {};
+  ~LabelMapMaskImageFilter() override = default;
 
   /** LabelMapMaskImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

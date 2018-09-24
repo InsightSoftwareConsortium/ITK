@@ -42,8 +42,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 
 template< typename TOutputImage, typename ConvertPixelTraits >
 ImageFileReader< TOutputImage, ConvertPixelTraits >
-::~ImageFileReader()
-{}
+::~ImageFileReader() = default;
 
 template< typename TOutputImage, typename ConvertPixelTraits >
 void ImageFileReader< TOutputImage, ConvertPixelTraits >

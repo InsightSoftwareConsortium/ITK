@@ -82,8 +82,8 @@ public:
 #endif
 
 protected:
-  AggregateLabelMapFilter() {}
-  ~AggregateLabelMapFilter() override {}
+  AggregateLabelMapFilter() = default;
+  ~AggregateLabelMapFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

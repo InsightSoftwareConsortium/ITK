@@ -100,7 +100,7 @@ public:
 
 protected:
   LabelImageToLabelMapFilter();
-  ~LabelImageToLabelMapFilter() override {}
+  ~LabelImageToLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelImageToLabelMapFilter needs the entire input be

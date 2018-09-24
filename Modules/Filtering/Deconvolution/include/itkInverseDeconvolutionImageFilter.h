@@ -106,7 +106,7 @@ public:
 
 protected:
   InverseDeconvolutionImageFilter();
-  ~InverseDeconvolutionImageFilter() override {}
+  ~InverseDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */
   void GenerateData() override;
@@ -124,7 +124,7 @@ class ITK_TEMPLATE_EXPORT InverseDeconvolutionFunctor
 {
 public:
   InverseDeconvolutionFunctor() { m_KernelZeroMagnitudeThreshold = 0.0; }
-  ~InverseDeconvolutionFunctor() {}
+  ~InverseDeconvolutionFunctor() = default;
 
   bool operator!=( const InverseDeconvolutionFunctor & ) const
   {

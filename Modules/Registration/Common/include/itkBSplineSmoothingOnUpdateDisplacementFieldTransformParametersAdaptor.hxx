@@ -35,9 +35,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
-{
-}
+::~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() = default;
 
 /**
  * set mesh size for update field

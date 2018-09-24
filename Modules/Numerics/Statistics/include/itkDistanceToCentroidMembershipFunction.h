@@ -99,7 +99,7 @@ public:
 
 protected:
   DistanceToCentroidMembershipFunction();
-  ~DistanceToCentroidMembershipFunction() override {}
+  ~DistanceToCentroidMembershipFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Return a copy of the current membership function */

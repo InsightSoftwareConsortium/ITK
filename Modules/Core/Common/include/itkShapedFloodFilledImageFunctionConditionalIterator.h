@@ -103,7 +103,7 @@ public:
   { const_cast< ImageType * >( this->m_Image.GetPointer() )->GetPixel( this->m_IndexStack.front() ) = value; }
 
   /** Default Destructor. */
-  ~ShapedFloodFilledImageFunctionConditionalIterator() override {}
+  ~ShapedFloodFilledImageFunctionConditionalIterator() override = default;
 };
 } // end namespace itk
 

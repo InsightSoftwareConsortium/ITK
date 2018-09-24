@@ -88,8 +88,8 @@ public:
 #endif
 
 protected:
-  LabelUniqueLabelMapFilter() {};
-  ~LabelUniqueLabelMapFilter() override {};
+  LabelUniqueLabelMapFilter() = default;
+  ~LabelUniqueLabelMapFilter() override = default;
 }; // end of class
 
 } // end namespace itk

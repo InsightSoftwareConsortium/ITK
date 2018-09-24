@@ -34,8 +34,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class Atan2
 {
 public:
-  Atan2() {}
-  ~Atan2() {}
+  Atan2() = default;
+  ~Atan2() = default;
   bool operator!=(const Atan2 &) const
   {
     return false;
@@ -123,7 +123,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif // !defined( ITK_WRAPPING_PARSER )
     }
-  ~Atan2ImageFilter() override {}
+  ~Atan2ImageFilter() override = default;
 };
 } // end namespace itk
 

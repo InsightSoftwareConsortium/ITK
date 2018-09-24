@@ -83,7 +83,7 @@ public:
 
 protected:
   BinaryMinMaxCurvatureFlowFunction();
-  ~BinaryMinMaxCurvatureFlowFunction() override {}
+  ~BinaryMinMaxCurvatureFlowFunction() override = default;
 
 private:
   double m_Threshold;

@@ -122,7 +122,7 @@ public:
       }
   }
 
-  ~TetrahedronCell() override {}
+  ~TetrahedronCell() override = default;
 
 protected:
   /** Store the number of points needed for a tetrahedron. */

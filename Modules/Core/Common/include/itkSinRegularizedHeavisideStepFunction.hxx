@@ -30,8 +30,7 @@ SinRegularizedHeavisideStepFunction< TInput, TOutput >
 
 template< typename TInput, typename TOutput >
 SinRegularizedHeavisideStepFunction< TInput, TOutput >
-::~SinRegularizedHeavisideStepFunction()
-{}
+::~SinRegularizedHeavisideStepFunction() = default;
 
 
 template< typename TInput, typename TOutput >

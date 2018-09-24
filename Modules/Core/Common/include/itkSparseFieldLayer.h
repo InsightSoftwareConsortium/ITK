@@ -75,7 +75,7 @@ public:
   ConstSparseFieldLayerIterator(TNodeType *p)
   { m_Pointer = p; }
 
-  ~ConstSparseFieldLayerIterator() {}
+  ~ConstSparseFieldLayerIterator() = default;
 
 protected:
   TNodeType *m_Pointer;

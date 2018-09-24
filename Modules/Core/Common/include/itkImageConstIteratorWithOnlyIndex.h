@@ -135,7 +135,7 @@ public:
   ImageConstIteratorWithOnlyIndex(const TImage *ptr,const RegionType & region);
 
   /** Default Destructor. */
-  virtual ~ImageConstIteratorWithOnlyIndex() {};
+  virtual ~ImageConstIteratorWithOnlyIndex() = default;
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */

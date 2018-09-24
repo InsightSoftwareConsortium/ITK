@@ -87,7 +87,7 @@ public:
 
 protected:
   SphereMeshSource();
-  ~SphereMeshSource() override {}
+  ~SphereMeshSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

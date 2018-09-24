@@ -116,7 +116,7 @@ public:
 
 protected:
   IsolatedWatershedImageFilter();
-  ~IsolatedWatershedImageFilter() override {}
+  ~IsolatedWatershedImageFilter() override = default;
   IndexType m_Seed1;
   IndexType m_Seed2;
 

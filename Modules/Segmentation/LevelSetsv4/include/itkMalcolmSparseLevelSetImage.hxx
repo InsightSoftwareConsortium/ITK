@@ -35,9 +35,7 @@ MalcolmSparseLevelSetImage< VDimension >
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
 MalcolmSparseLevelSetImage< VDimension >
-::~MalcolmSparseLevelSetImage()
-{
-}
+::~MalcolmSparseLevelSetImage() = default;
 
 // ----------------------------------------------------------------------------
 

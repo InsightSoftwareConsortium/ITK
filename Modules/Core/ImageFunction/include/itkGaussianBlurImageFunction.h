@@ -160,7 +160,7 @@ public:
 
 protected:
   GaussianBlurImageFunction();
-  ~GaussianBlurImageFunction() override {}
+  ~GaussianBlurImageFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

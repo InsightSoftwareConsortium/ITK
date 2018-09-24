@@ -62,11 +62,9 @@ namespace TransformFactoryBasePrivate
 bool DefaultTransformsRegistered = false;
 }
 
-TransformFactoryBase::TransformFactoryBase()
-{}
+TransformFactoryBase::TransformFactoryBase() = default;
 
-TransformFactoryBase::~TransformFactoryBase()
-{}
+TransformFactoryBase::~TransformFactoryBase() = default;
 
 void TransformFactoryBase::RegisterDefaultTransforms()
 {

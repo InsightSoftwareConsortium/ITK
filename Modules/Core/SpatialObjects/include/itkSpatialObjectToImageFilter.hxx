@@ -49,8 +49,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 /** Destructor */
 template< typename TInputSpatialObject, typename TOutputImage >
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
-::~SpatialObjectToImageFilter()
-{}
+::~SpatialObjectToImageFilter() = default;
 
 /** Set the Input SpatialObject */
 template< typename TInputSpatialObject, typename TOutputImage >

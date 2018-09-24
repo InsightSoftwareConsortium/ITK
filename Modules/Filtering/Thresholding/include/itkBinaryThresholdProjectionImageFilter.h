@@ -53,7 +53,7 @@ class BinaryThresholdAccumulator
 {
 public:
   BinaryThresholdAccumulator(SizeValueType) {}
-  ~BinaryThresholdAccumulator(){}
+  ~BinaryThresholdAccumulator()= default;
 
   inline void Initialize()
   {
@@ -155,7 +155,7 @@ protected:
     m_ThresholdValue = NumericTraits< InputPixelType >::ZeroValue();
   }
 
-  ~BinaryThresholdProjectionImageFilter() override {}
+  ~BinaryThresholdProjectionImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

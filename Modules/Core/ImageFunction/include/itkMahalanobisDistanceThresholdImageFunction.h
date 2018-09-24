@@ -153,7 +153,7 @@ public:
 
 protected:
   MahalanobisDistanceThresholdImageFunction();
-  ~MahalanobisDistanceThresholdImageFunction() override {}
+  ~MahalanobisDistanceThresholdImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

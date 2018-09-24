@@ -126,7 +126,7 @@ public:
 
 protected:
   LevelSetVelocityNeighborhoodExtractor();
-  ~LevelSetVelocityNeighborhoodExtractor() override {}
+  ~LevelSetVelocityNeighborhoodExtractor() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void Initialize() override;

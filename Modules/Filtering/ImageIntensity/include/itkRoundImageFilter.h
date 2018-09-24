@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Round
 {
 public:
-  Round() {}
-  ~Round() {}
+  Round() = default;
+  ~Round() = default;
   bool operator!=(const Round &) const
   {
     return false;
@@ -92,7 +92,7 @@ protected:
 #endif
     }
 
-  ~RoundImageFilter() override {}
+  ~RoundImageFilter() override = default;
 };
 } // end namespace itk
 

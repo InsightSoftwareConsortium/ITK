@@ -34,8 +34,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class ConstrainedValueAddition
 {
 public:
-  ConstrainedValueAddition() {}
-  ~ConstrainedValueAddition() {}
+  ConstrainedValueAddition() = default;
+  ~ConstrainedValueAddition() = default;
   bool operator!=(const ConstrainedValueAddition &) const
   {
     return false;
@@ -136,7 +136,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~ConstrainedValueAdditionImageFilter() override {}
+  ~ConstrainedValueAdditionImageFilter() override = default;
 };
 } // end namespace itk
 

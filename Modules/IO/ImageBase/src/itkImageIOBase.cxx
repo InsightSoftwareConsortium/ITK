@@ -55,8 +55,7 @@ void ImageIOBase::Reset(const bool)
 
 }
 
-ImageIOBase::~ImageIOBase()
-{}
+ImageIOBase::~ImageIOBase() = default;
 
 const ImageIOBase::ArrayOfExtensionsType &
 ImageIOBase::GetSupportedWriteExtensions() const

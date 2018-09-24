@@ -60,7 +60,7 @@ public:
                     unsigned long stepsPerUpdate = 100);
 
   /** Destructor */
-  ~IterationReporter() {}
+  ~IterationReporter() = default;
 
   /** Called by a filter once per iteration.  */
   void CompletedStep()

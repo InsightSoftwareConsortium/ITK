@@ -142,7 +142,7 @@ public:
 
 protected:
   BinaryThresholdImageFunction();
-  ~BinaryThresholdImageFunction() override {}
+  ~BinaryThresholdImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

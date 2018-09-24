@@ -51,8 +51,7 @@ MetaImageIO::MetaImageIO()
   this->SetDoublePrecision(GetDefaultDoublePrecision());
 }
 
-MetaImageIO::~MetaImageIO()
-{}
+MetaImageIO::~MetaImageIO() = default;
 
 void MetaImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {

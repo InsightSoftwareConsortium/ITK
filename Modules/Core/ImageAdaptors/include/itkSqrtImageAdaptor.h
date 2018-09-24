@@ -90,8 +90,8 @@ public:
   itkTypeMacro(SqrtImageAdaptor, ImageAdaptor);
 
 protected:
-  SqrtImageAdaptor() {}
-  ~SqrtImageAdaptor() override {}
+  SqrtImageAdaptor() = default;
+  ~SqrtImageAdaptor() override = default;
 };
 } // end namespace itk
 

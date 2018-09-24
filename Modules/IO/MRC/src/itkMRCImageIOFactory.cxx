@@ -40,8 +40,7 @@ MRCImageIOFactory::MRCImageIOFactory()
                           CreateObjectFunction< MRCImageIO >::New() );
 }
 
-MRCImageIOFactory::~MRCImageIOFactory()
-{}
+MRCImageIOFactory::~MRCImageIOFactory() = default;
 
 const char *
 MRCImageIOFactory::GetITKSourceVersion() const

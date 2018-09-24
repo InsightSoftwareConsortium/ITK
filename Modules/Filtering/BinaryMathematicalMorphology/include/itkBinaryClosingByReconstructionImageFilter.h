@@ -98,7 +98,7 @@ public:
 
 protected:
   BinaryClosingByReconstructionImageFilter();
-  ~BinaryClosingByReconstructionImageFilter() override {};
+  ~BinaryClosingByReconstructionImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryClosingByReconstructionImageFilter need to make sure they request enough of an

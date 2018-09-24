@@ -29,9 +29,7 @@ FreeSurferAsciiMeshIO
 }
 
 FreeSurferAsciiMeshIO
-::~FreeSurferAsciiMeshIO()
-{
-}
+::~FreeSurferAsciiMeshIO() = default;
 
 bool
 FreeSurferAsciiMeshIO

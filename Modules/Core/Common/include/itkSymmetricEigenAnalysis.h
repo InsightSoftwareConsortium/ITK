@@ -79,7 +79,7 @@ public:
   m_Order(dimension),
   m_OrderEigenValues(OrderByValue) {}
 
-  ~SymmetricEigenAnalysis() {}
+  ~SymmetricEigenAnalysis() = default;
 
   using MatrixType = TMatrix;
   using EigenMatrixType = TEigenMatrix;

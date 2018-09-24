@@ -43,7 +43,7 @@ public:
     m_MaskingValue = NumericTraits< TMask >::ZeroValue();
     InitializeOutsideValue( static_cast<TOutput*>( nullptr ) );
   }
-  ~MaskInput() {}
+  ~MaskInput() = default;
   bool operator!=(const MaskInput &) const
   {
     return false;
@@ -228,8 +228,8 @@ public:
 #endif
 
 protected:
-  MaskImageFilter() {}
-  ~MaskImageFilter() override {}
+  MaskImageFilter() = default;
+  ~MaskImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

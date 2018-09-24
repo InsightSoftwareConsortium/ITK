@@ -159,9 +159,7 @@ public:
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
 
-  amoebaTestF2()
-   {
-   }
+  amoebaTestF2() = default;
 
   double GetValue( const ParametersType & parameters ) const override
     {

@@ -83,7 +83,7 @@ public:
   using RealType = typename TFilter::OutputTransformType::ScalarType;
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 

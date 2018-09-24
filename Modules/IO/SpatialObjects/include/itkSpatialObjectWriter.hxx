@@ -35,8 +35,7 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
 
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
-::~SpatialObjectWriter()
-{}
+::~SpatialObjectWriter() = default;
 
 /** Set the precision at which the transform should be written */
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >

@@ -73,9 +73,7 @@ FastMarchingImageFilterBase() :
 
 template< typename TInput, typename TOutput >
 FastMarchingImageFilterBase< TInput, TOutput >::
-~FastMarchingImageFilterBase()
-{
-}
+~FastMarchingImageFilterBase() = default;
 
 template< typename TInput, typename TOutput >
 void

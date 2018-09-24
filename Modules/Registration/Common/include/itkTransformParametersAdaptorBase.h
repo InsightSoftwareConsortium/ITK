@@ -89,8 +89,8 @@ public:
   virtual void AdaptTransformParameters() = 0;
 
 protected:
-  TransformParametersAdaptorBase() {}
-  ~TransformParametersAdaptorBase() override {}
+  TransformParametersAdaptorBase() = default;
+  ~TransformParametersAdaptorBase() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override
   {

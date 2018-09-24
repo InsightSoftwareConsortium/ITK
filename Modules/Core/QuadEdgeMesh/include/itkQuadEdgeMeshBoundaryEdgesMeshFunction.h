@@ -63,7 +63,7 @@ public:
   OutputType Evaluate(const InputType & mesh) const override;
 
 protected:
-  QuadEdgeMeshBoundaryEdgesMeshFunction() {}
+  QuadEdgeMeshBoundaryEdgesMeshFunction() = default;
 };
 }
 

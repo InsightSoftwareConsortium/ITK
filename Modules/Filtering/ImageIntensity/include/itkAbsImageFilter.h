@@ -33,8 +33,8 @@ template< typename TInput, typename TOutput >
 class Abs
 {
 public:
-  Abs() {}
-  ~Abs() {}
+  Abs() = default;
+  ~Abs() = default;
   bool operator!=(const Abs &) const
   {
     return false;
@@ -109,7 +109,7 @@ protected:
 #endif
     }
 
-  ~AbsImageFilter() override {}
+  ~AbsImageFilter() override = default;
 };
 } // end namespace itk
 

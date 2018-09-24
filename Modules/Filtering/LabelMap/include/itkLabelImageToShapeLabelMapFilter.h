@@ -137,7 +137,7 @@ public:
 
 protected:
   LabelImageToShapeLabelMapFilter();
-  ~LabelImageToShapeLabelMapFilter() override {}
+  ~LabelImageToShapeLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelImageToShapeLabelMapFilter needs the entire input be available.

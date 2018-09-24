@@ -60,9 +60,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 /** Destructor */
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::~PointSetToPointSetMetricv4()
-{
-}
+::~PointSetToPointSetMetricv4() = default;
 
 /** Initialize the metric */
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>

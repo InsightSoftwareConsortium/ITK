@@ -36,8 +36,7 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage >
 BSplineL2ResampleImageFilterBase< TInputImage, TOutputImage >
-::BSplineL2ResampleImageFilterBase()
-{}
+::BSplineL2ResampleImageFilterBase() = default;
 
 /**
  * Standard "PrintSelf" method

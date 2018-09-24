@@ -130,7 +130,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ~LaplacianSegmentationLevelSetImageFilter() override {}
+  ~LaplacianSegmentationLevelSetImageFilter() override = default;
   LaplacianSegmentationLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

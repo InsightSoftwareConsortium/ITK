@@ -118,7 +118,7 @@ protected:
 
 protected:
   BinaryMinMaxCurvatureFlowImageFilter();
-  ~BinaryMinMaxCurvatureFlowImageFilter() override {}
+  ~BinaryMinMaxCurvatureFlowImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration.

@@ -33,8 +33,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class Modulus2
 {
 public:
-  Modulus2() {}
-  ~Modulus2() {}
+  Modulus2() = default;
+  ~Modulus2() = default;
   bool operator!=(const Modulus2 &) const
   {
     return false;
@@ -124,7 +124,7 @@ protected:
 #endif
     }
 
-  ~BinaryMagnitudeImageFilter() override {}
+  ~BinaryMagnitudeImageFilter() override = default;
 };
 } // end namespace itk
 

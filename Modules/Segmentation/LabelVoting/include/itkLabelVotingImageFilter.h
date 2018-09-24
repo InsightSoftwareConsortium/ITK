@@ -164,7 +164,7 @@ public:
 
 protected:
   LabelVotingImageFilter();
-  ~LabelVotingImageFilter() override {}
+  ~LabelVotingImageFilter() override = default;
 
   /** Determine maximum label value in all input images and initialize
    * global data. */

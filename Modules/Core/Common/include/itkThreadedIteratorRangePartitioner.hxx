@@ -29,15 +29,11 @@ namespace itk
 
 template< typename TIterator >
 ThreadedIteratorRangePartitioner< TIterator >
-::ThreadedIteratorRangePartitioner()
-{
-}
+::ThreadedIteratorRangePartitioner() = default;
 
 template< typename TIterator >
 ThreadedIteratorRangePartitioner< TIterator >
-::~ThreadedIteratorRangePartitioner()
-{
-}
+::~ThreadedIteratorRangePartitioner() = default;
 
 template< typename TIterator >
 ThreadIdType

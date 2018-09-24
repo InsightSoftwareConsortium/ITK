@@ -55,9 +55,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
 
 template<typename TInputImage, typename TCoordRep>
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
-::~BSplineControlPointImageFunction()
-{
-}
+::~BSplineControlPointImageFunction() = default;
 
 template<typename TInputImage, typename TCoordRep>
 void

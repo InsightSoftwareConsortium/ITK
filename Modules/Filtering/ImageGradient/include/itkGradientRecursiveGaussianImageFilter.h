@@ -178,7 +178,7 @@ public:
 
 protected:
   GradientRecursiveGaussianImageFilter();
-  ~GradientRecursiveGaussianImageFilter() override {}
+  ~GradientRecursiveGaussianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */

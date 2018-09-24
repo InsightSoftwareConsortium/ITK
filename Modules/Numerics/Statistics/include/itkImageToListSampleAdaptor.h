@@ -293,7 +293,7 @@ public:
 
 protected:
   ImageToListSampleAdaptor();
-  ~ImageToListSampleAdaptor() override {}
+  ~ImageToListSampleAdaptor() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

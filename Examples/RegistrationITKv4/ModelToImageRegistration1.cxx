@@ -206,7 +206,7 @@ public:
 //  Software Guide : EndCodeSnippet
 
 protected:
-  IterationCallback() {};
+  IterationCallback() = default;
   itk::WeakPointer<OptimizerType>   m_Optimizer;
 };
 

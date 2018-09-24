@@ -47,9 +47,7 @@ CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(const M
 // Destructor
 template<typename TParametersValueType>
 CenteredEuler3DTransform<TParametersValueType>::
-~CenteredEuler3DTransform()
-{
-}
+~CenteredEuler3DTransform() = default;
 
 //
 // Set Parameters

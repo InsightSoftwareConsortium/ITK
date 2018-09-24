@@ -185,7 +185,7 @@ public:
 
 protected:
   BinaryMorphologyImageFilter();
-  ~BinaryMorphologyImageFilter() override {}
+  ~BinaryMorphologyImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

@@ -124,7 +124,7 @@ protected:
     this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
-  ~ShapeDetectionLevelSetFunction() override {}
+  ~ShapeDetectionLevelSetFunction() override = default;
 
 };
 } // end namespace itk

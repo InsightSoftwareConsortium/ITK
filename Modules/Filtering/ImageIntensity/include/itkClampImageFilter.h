@@ -172,7 +172,7 @@ public:
 
 protected:
   ClampImageFilter();
-  ~ClampImageFilter() override {}
+  ~ClampImageFilter() override = default;
 
   void GenerateData() override;
 

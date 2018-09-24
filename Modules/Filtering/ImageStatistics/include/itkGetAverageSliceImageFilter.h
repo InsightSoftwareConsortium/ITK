@@ -68,7 +68,7 @@ public:
 
 protected:
   GetAverageSliceImageFilter();
-  ~GetAverageSliceImageFilter() override {}
+  ~GetAverageSliceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

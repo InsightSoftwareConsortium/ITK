@@ -41,9 +41,7 @@ RingBuffer< TElement >
 
 template< typename TElement >
 RingBuffer< TElement >
-::~RingBuffer()
-{
-}
+::~RingBuffer() = default;
 
 
 //

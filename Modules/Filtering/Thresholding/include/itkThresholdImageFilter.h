@@ -135,7 +135,7 @@ public:
 
 protected:
   ThresholdImageFilter();
-  ~ThresholdImageFilter() override {}
+  ~ThresholdImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ThresholdImageFilter can be implemented as a multithreaded filter.

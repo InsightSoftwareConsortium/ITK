@@ -68,7 +68,7 @@ class ObjectFactoryBasePrivateInitializer
 public:
   using Self = ObjectFactoryBasePrivateInitializer;
 
-  ObjectFactoryBasePrivateInitializer() {}
+  ObjectFactoryBasePrivateInitializer() = default;
 
   /** Delete the time stamp if it was created. */
   ~ObjectFactoryBasePrivateInitializer()

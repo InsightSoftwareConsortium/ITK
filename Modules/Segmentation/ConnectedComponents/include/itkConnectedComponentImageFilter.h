@@ -171,7 +171,7 @@ protected:
     this->SetMultiThreader(PlatformMultiThreader::New());
   }
 
-  ~ConnectedComponentImageFilter() override {}
+  ~ConnectedComponentImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

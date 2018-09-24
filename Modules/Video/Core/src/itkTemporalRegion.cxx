@@ -36,9 +36,7 @@ TemporalRegion
 // Destructor
 //
 TemporalRegion
-::~TemporalRegion()
-{
-}
+::~TemporalRegion() = default;
 
 // ---------------------------------------------------------------------------
 void

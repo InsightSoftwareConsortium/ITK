@@ -98,7 +98,7 @@ public:
 
 protected:
   UnsharpMaskLevelSetImageFilter();
-  ~UnsharpMaskLevelSetImageFilter() override {}
+  ~UnsharpMaskLevelSetImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The LevelSetFunctionWithRefitTerm object. */

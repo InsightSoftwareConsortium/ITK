@@ -38,7 +38,7 @@ public:
   using AccumulatorType = typename NumericTraits< TInput1 >::AccumulateType;
   using RealType = typename NumericTraits< TInput1 >::RealType;
   WeightedAdd2() : m_Alpha(0.0), m_Beta(0.0) {}
-  ~WeightedAdd2() {}
+  ~WeightedAdd2() = default;
   bool operator!=(const WeightedAdd2 & other) const
   {
     if ( Math::NotExactlyEquals(m_Alpha, other.m_Alpha) )
@@ -168,8 +168,8 @@ public:
 #endif
 
 protected:
-  WeightedAddImageFilter() {}
-  ~WeightedAddImageFilter() override {}
+  WeightedAddImageFilter() = default;
+  ~WeightedAddImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override
     {

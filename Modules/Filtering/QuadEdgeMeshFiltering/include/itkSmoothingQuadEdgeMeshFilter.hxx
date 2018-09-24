@@ -37,8 +37,7 @@ SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 template< typename TInputMesh, typename TOutputMesh >
-SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::~SmoothingQuadEdgeMeshFilter()
-{}
+SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::~SmoothingQuadEdgeMeshFilter() = default;
 
 template< typename TInputMesh, typename TOutputMesh >
 void

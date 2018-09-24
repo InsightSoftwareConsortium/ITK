@@ -71,11 +71,7 @@ public:
 
   VectorPixelAccessor() : m_Index(0) {}
 
-  VectorPixelAccessor & operator=( const VectorPixelAccessor & vpa )
-    {
-      m_Index = vpa.m_Index;
-      return *this;
-    }
+  VectorPixelAccessor & operator=( const VectorPixelAccessor & vpa ) = default;
   ExternalType Get( const InternalType & input ) const
     {
     return static_cast<ExternalType>( input[ m_Index ] );

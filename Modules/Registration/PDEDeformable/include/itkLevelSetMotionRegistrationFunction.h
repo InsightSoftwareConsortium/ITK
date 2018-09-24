@@ -205,7 +205,7 @@ public:
 
 protected:
   LevelSetMotionRegistrationFunction();
-  ~LevelSetMotionRegistrationFunction() override {}
+  ~LevelSetMotionRegistrationFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */

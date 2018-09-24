@@ -157,7 +157,7 @@ public:
 
 protected:
   RecursiveGaussianImageFilter();
-  ~RecursiveGaussianImageFilter() override {}
+  ~RecursiveGaussianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.

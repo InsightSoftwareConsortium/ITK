@@ -84,8 +84,8 @@ public:
                                      DerivativeType & derivative) const = 0;
 
 protected:
-  SingleValuedCostFunctionv4Template() {}
-  ~SingleValuedCostFunctionv4Template() override {}
+  SingleValuedCostFunctionv4Template() = default;
+  ~SingleValuedCostFunctionv4Template() override = default;
 };
 
 /** This helps to meet backward compatibility */

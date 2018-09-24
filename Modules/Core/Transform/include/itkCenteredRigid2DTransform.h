@@ -161,7 +161,7 @@ public:
 
 protected:
   CenteredRigid2DTransform();
-  ~CenteredRigid2DTransform() override {}
+  ~CenteredRigid2DTransform() override = default;
 
   CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
 

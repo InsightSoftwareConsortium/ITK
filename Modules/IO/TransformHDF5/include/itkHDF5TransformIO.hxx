@@ -30,15 +30,11 @@ namespace itk
 {
 template<typename TParametersValueType>
 HDF5TransformIOTemplate<TParametersValueType>
-::HDF5TransformIOTemplate()
-{
-}
+::HDF5TransformIOTemplate() = default;
 
 template<typename TParametersValueType>
 HDF5TransformIOTemplate<TParametersValueType>
-::~HDF5TransformIOTemplate()
-{
-}
+::~HDF5TransformIOTemplate() = default;
 
 template<typename TParametersValueType>
 bool

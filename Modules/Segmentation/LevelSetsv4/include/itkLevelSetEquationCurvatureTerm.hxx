@@ -38,9 +38,7 @@ LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
 
 template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
 LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::~LevelSetEquationCurvatureTerm()
-{
-}
+::~LevelSetEquationCurvatureTerm() = default;
 
 template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
 void

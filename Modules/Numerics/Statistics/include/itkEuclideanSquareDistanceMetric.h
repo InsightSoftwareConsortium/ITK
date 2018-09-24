@@ -59,8 +59,8 @@ public:
   double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
 
 protected:
-  EuclideanSquareDistanceMetric() {}
-  ~EuclideanSquareDistanceMetric() override {}
+  EuclideanSquareDistanceMetric() = default;
+  ~EuclideanSquareDistanceMetric() override = default;
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

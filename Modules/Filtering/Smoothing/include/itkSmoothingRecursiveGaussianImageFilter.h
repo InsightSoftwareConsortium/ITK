@@ -146,7 +146,7 @@ public:
 
 protected:
   SmoothingRecursiveGaussianImageFilter();
-  ~SmoothingRecursiveGaussianImageFilter() override {}
+  ~SmoothingRecursiveGaussianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

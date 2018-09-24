@@ -102,7 +102,7 @@ public:
 
 protected:
   PadImageFilter();
-  ~PadImageFilter() override {}
+  ~PadImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PadImageFilter produces an image which is a different resolution

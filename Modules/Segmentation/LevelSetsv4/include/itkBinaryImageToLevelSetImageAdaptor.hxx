@@ -33,8 +33,7 @@ BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetIma
 
 template< typename TInputImage, typename TLevelSetImage >
 BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetImage > >
-::~BinaryImageToLevelSetImageAdaptor()
-{}
+::~BinaryImageToLevelSetImageAdaptor() = default;
 
 template< typename TInputImage, typename TLevelSetImage >
 void
@@ -65,16 +64,13 @@ template< typename TInput, typename TOutput >
 BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
-::BinaryImageToLevelSetImageAdaptor()
-{}
+::BinaryImageToLevelSetImageAdaptor() = default;
 
 template< typename TInput, typename TOutput >
 BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
-::~BinaryImageToLevelSetImageAdaptor()
-{
-}
+::~BinaryImageToLevelSetImageAdaptor() = default;
 
 template< typename TInput, typename TOutput >
 void
@@ -407,14 +403,11 @@ BinaryImageToLevelSetImageAdaptor<
 
 template< typename TInput >
 BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
-::BinaryImageToLevelSetImageAdaptor()
-{}
+::BinaryImageToLevelSetImageAdaptor() = default;
 
 template< typename TInput >
 BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
-::~BinaryImageToLevelSetImageAdaptor()
-{
-}
+::~BinaryImageToLevelSetImageAdaptor() = default;
 
 template< typename TInput >
 void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
@@ -569,9 +562,7 @@ BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::Im
 
 template< typename TInput >
 BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
-::~BinaryImageToLevelSetImageAdaptor()
-{
-}
+::~BinaryImageToLevelSetImageAdaptor() = default;
 
 template< typename TInput >
 void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >

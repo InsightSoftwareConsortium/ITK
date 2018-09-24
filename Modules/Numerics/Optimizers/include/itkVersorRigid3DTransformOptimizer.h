@@ -79,8 +79,8 @@ public:
                                  const DerivativeType & transformedGradient) override;
 
 protected:
-  VersorRigid3DTransformOptimizer() {}
-  ~VersorRigid3DTransformOptimizer() override {}
+  VersorRigid3DTransformOptimizer() = default;
+  ~VersorRigid3DTransformOptimizer() override = default;
 };
 } // end namespace itk
 

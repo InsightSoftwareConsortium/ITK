@@ -84,7 +84,7 @@ public:
 
 protected:
   HeavisideStepFunctionBase() : Superclass() {}
-  ~HeavisideStepFunctionBase() override {}
+  ~HeavisideStepFunctionBase() override = default;
 };
 }
 

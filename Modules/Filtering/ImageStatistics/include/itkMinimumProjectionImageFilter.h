@@ -49,7 +49,7 @@ class MinimumAccumulator
 {
 public:
   MinimumAccumulator( SizeValueType ) {}
-  ~MinimumAccumulator(){}
+  ~MinimumAccumulator()= default;
 
   inline void Initialize()
   {
@@ -105,8 +105,8 @@ public:
 #endif
 
 protected:
-  MinimumProjectionImageFilter() {}
-  ~MinimumProjectionImageFilter() override {}
+  MinimumProjectionImageFilter() = default;
+  ~MinimumProjectionImageFilter() override = default;
 };                                            // end
                                               // MinimumProjectionImageFilter
 } //end namespace itk

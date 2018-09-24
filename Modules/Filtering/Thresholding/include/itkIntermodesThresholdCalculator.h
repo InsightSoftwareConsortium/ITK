@@ -92,7 +92,7 @@ protected:
     m_UseInterMode = true;
   }
 
-  ~IntermodesThresholdCalculator() override {}
+  ~IntermodesThresholdCalculator() override = default;
 
   void GenerateData() override;
   void PrintSelf(std::ostream& os, Indent indent) const override;

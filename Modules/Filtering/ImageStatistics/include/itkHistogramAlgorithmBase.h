@@ -77,7 +77,7 @@ public:
 
 protected:
   HistogramAlgorithmBase();
-  ~HistogramAlgorithmBase() override {}
+  ~HistogramAlgorithmBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void Compute() = 0;

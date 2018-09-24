@@ -26,16 +26,12 @@ namespace itk
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 DiscreteLevelSetImage< TOutput, VDimension >
-::DiscreteLevelSetImage()
-{
-}
+::DiscreteLevelSetImage() = default;
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 DiscreteLevelSetImage< TOutput, VDimension >
-::~DiscreteLevelSetImage()
-{
-}
+::~DiscreteLevelSetImage() = default;
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >

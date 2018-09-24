@@ -118,7 +118,7 @@ class MultiThreaderBaseGlobalsInitializer
 public:
   using Self = MultiThreaderBaseGlobalsInitializer;
 
-  MultiThreaderBaseGlobalsInitializer() {}
+  MultiThreaderBaseGlobalsInitializer() = default;
 
   /** Delete the time stamp if it was created. */
   ~MultiThreaderBaseGlobalsInitializer()
@@ -425,9 +425,7 @@ MultiThreaderBase::MultiThreaderBase()
   m_NumberOfWorkUnits = m_MaximumNumberOfThreads;
 }
 
-MultiThreaderBase::~MultiThreaderBase()
-{
-}
+MultiThreaderBase::~MultiThreaderBase() = default;
 
 ITK_THREAD_RETURN_TYPE
 MultiThreaderBase

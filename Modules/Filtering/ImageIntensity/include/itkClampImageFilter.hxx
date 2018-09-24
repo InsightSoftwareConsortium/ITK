@@ -37,7 +37,7 @@ Clamp< TInput, TOutput >
 
 template< typename TInput, typename TOutput >
 Clamp< TInput, TOutput >
-::~Clamp() {}
+::~Clamp() = default;
 
 template< typename TInput, typename TOutput >
 typename Clamp< TInput, TOutput >::OutputType
@@ -87,7 +87,7 @@ Clamp< TInput, TOutput >
 
 template <typename TInputImage, typename TOutputImage>
 ClampImageFilter< TInputImage, TOutputImage >
-::ClampImageFilter() {}
+::ClampImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage>
 typename ClampImageFilter< TInputImage, TOutputImage >::OutputPixelType

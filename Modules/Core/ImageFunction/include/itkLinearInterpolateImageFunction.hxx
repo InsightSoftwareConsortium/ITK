@@ -27,13 +27,11 @@ namespace itk
 {
 template< typename TInputImage, typename TCoordRep >
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
-::LinearInterpolateImageFunction()
-{}
+::LinearInterpolateImageFunction() = default;
 
 template< typename TInputImage, typename TCoordRep >
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
-::~LinearInterpolateImageFunction()
-{}
+::~LinearInterpolateImageFunction() = default;
 
 template< typename TInputImage, typename TCoordRep >
 typename LinearInterpolateImageFunction< TInputImage, TCoordRep >

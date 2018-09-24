@@ -37,9 +37,7 @@ TransformIOBaseTemplate<TParametersValueType>
 
 template<typename TParametersValueType>
 TransformIOBaseTemplate<TParametersValueType>
-::~TransformIOBaseTemplate()
-{
-}
+::~TransformIOBaseTemplate() = default;
 
 template<typename TParametersValueType>
 void TransformIOBaseTemplate<TParametersValueType>

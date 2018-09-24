@@ -138,7 +138,7 @@ public:
 
 protected:
   ShrinkImageFilter();
-  ~ShrinkImageFilter() override {}
+  ~ShrinkImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ShrinkImageFilter can be implemented as a multithreaded filter.

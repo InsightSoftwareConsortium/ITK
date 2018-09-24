@@ -71,7 +71,7 @@ public:
     return m_Accessor(a) > m_Accessor(b);
   }
 
-  LabelObjectComparator() {}
+  LabelObjectComparator() = default;
   LabelObjectComparator(LabelObjectComparator const & from)
   {
     m_Accessor = from.m_Accessor;
@@ -92,7 +92,7 @@ public:
     return m_Accessor(a) < m_Accessor(b);
   }
 
-  LabelObjectReverseComparator() {}
+  LabelObjectReverseComparator() = default;
   LabelObjectReverseComparator(LabelObjectReverseComparator const & from)
   {
     m_Accessor = from.m_Accessor;

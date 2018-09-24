@@ -97,7 +97,7 @@ public:
 
 protected:
   LabelMapToRGBImageFilter();
-  ~LabelMapToRGBImageFilter() override {};
+  ~LabelMapToRGBImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override;
 

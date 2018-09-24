@@ -31,13 +31,11 @@ namespace itk
 {
 template<typename TParametersValueType>
 TxtTransformIOTemplate<TParametersValueType>
-::TxtTransformIOTemplate()
-{}
+::TxtTransformIOTemplate() = default;
 
 template<typename TParametersValueType>
 TxtTransformIOTemplate<TParametersValueType>
-::~TxtTransformIOTemplate()
-{}
+::~TxtTransformIOTemplate() = default;
 
 template<typename TParametersValueType>
 bool

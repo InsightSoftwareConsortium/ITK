@@ -26,14 +26,12 @@ namespace itk
 
 template< typename TOutput, unsigned int VDimension >
 LevelSetSparseImage< TOutput, VDimension >
-::LevelSetSparseImage()
-{}
+::LevelSetSparseImage() = default;
 
 
 template< typename TOutput, unsigned int VDimension >
 LevelSetSparseImage< TOutput, VDimension >
-::~LevelSetSparseImage()
-{}
+::~LevelSetSparseImage() = default;
 
 
 template< typename TOutput, unsigned int VDimension >

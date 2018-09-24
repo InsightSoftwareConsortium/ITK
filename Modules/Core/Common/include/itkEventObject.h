@@ -59,12 +59,12 @@ class ITKCommon_EXPORT EventObject
 public:
   /** Constructor and copy constructor.  Note that these functions will be
    * called when children are instantiated. */
-  EventObject() {}
+  EventObject() = default;
 
-  EventObject(const EventObject &){}
+  EventObject(const EventObject &)= default;
 
   /** Virtual destructor needed  */
-  virtual ~EventObject() {}
+  virtual ~EventObject() = default;
 
   /**  Create an Event of this type This method work as a Factory for
    *  creating events of each particular type. */

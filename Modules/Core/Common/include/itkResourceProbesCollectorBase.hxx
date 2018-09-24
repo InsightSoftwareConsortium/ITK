@@ -26,8 +26,7 @@ namespace itk
 
 template< typename TProbe >
 ResourceProbesCollectorBase< TProbe >
-::~ResourceProbesCollectorBase()
-{}
+::~ResourceProbesCollectorBase() = default;
 
 
 template< typename TProbe >

@@ -42,8 +42,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 
 template< typename TOutputMesh >
 AutomaticTopologyMeshSource< TOutputMesh >
-::~AutomaticTopologyMeshSource()
-{}
+::~AutomaticTopologyMeshSource() = default;
 
 template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType

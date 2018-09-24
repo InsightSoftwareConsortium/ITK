@@ -26,8 +26,7 @@ KLMSegmentationRegion
 }
 
 KLMSegmentationRegion
-::~KLMSegmentationRegion()
-{}
+::~KLMSegmentationRegion() = default;
 
 void
 KLMSegmentationRegion

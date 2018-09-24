@@ -279,7 +279,7 @@ protected:
     m_TerminationUpdateThreshold(1e-5)
   {
   }
-  ~MultiLabelSTAPLEImageFilter() override {}
+  ~MultiLabelSTAPLEImageFilter() override = default;
 
   void GenerateData() override;
 

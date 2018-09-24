@@ -106,7 +106,7 @@ public:
 
 protected:
   ShapeRelabelLabelMapFilter();
-  ~ShapeRelabelLabelMapFilter() override {}
+  ~ShapeRelabelLabelMapFilter() override = default;
 
   void GenerateData() override;
 

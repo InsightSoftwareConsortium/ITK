@@ -217,7 +217,7 @@ public:
         }
     }
 
-    ~MultiVisitor() override {}
+    ~MultiVisitor() override = default;
 
 protected:
     VisitorPointer m_Visitors[LAST_ITK_CELL];      // fixed array set to the
@@ -428,8 +428,8 @@ protected:
   itkTypeMacroNoParent(CellInterface);
 
 public:
-  CellInterface() {}
-  virtual ~CellInterface() {}
+  CellInterface() = default;
+  virtual ~CellInterface() = default;
   /** Cell internal utility routines. */
 
   /** Get the geometric position of a point. */

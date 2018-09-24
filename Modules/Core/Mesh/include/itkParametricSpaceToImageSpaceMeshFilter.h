@@ -72,7 +72,7 @@ public:
 
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
-  ~ParametricSpaceToImageSpaceMeshFilter() override {}
+  ~ParametricSpaceToImageSpaceMeshFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate requested data. */

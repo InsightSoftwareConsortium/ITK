@@ -35,8 +35,8 @@ class Add1
 {
 public:
   using AccumulatorType = typename NumericTraits< TInput >::AccumulateType;
-  Add1() {}
-  ~Add1() {}
+  Add1() = default;
+  ~Add1() = default;
   inline TOutput operator()(const std::vector< TInput > & B) const
   {
     AccumulatorType sum = NumericTraits< TOutput >::ZeroValue();
@@ -131,8 +131,8 @@ public:
 #endif
 
 protected:
-  NaryAddImageFilter() {}
-  ~NaryAddImageFilter() override {}
+  NaryAddImageFilter() = default;
+  ~NaryAddImageFilter() override = default;
 };
 } // end namespace itk
 

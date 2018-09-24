@@ -124,7 +124,7 @@ public:
 
 protected:
   BinaryPruningImageFilter();
-  ~BinaryPruningImageFilter() override {}
+  ~BinaryPruningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute thinning Image. */

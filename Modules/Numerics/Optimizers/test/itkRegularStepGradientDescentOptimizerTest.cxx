@@ -52,9 +52,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  RSGCostFunction()
-  {
-  }
+  RSGCostFunction() = default;
 
 
   MeasureType  GetValue( const ParametersType & parameters ) const override

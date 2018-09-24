@@ -45,8 +45,8 @@ public:
     }
 
 private:
-  Rigid3DTransformSurrogate() {}
-  ~Rigid3DTransformSurrogate() override {}
+  Rigid3DTransformSurrogate() = default;
+  ~Rigid3DTransformSurrogate() override = default;
 
 };
 

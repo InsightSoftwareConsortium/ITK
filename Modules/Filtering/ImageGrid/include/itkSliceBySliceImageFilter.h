@@ -159,7 +159,7 @@ public:
 
 protected:
   SliceBySliceImageFilter();
-  ~SliceBySliceImageFilter() override {}
+  ~SliceBySliceImageFilter() override = default;
 
   void VerifyInputInformation() override;
 

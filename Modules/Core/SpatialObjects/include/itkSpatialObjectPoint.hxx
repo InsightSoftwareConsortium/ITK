@@ -41,8 +41,7 @@ SpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
-::~SpatialObjectPoint()
-{}
+::~SpatialObjectPoint() = default;
 
 /** Return the color of the point */
 template< unsigned int TPointDimension >

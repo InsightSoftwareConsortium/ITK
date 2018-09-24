@@ -79,8 +79,8 @@ public:
   itkTypeMacro(ConvertLabelMapFilter, LabelMapFilter);
 
 protected:
-  ConvertLabelMapFilter() {}
-  ~ConvertLabelMapFilter() override {}
+  ConvertLabelMapFilter() = default;
+  ~ConvertLabelMapFilter() override = default;
 
   void GenerateData() override;
 };                                          // end of class

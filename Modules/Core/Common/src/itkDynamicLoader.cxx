@@ -19,12 +19,10 @@
 
 namespace itk
 {
-DynamicLoader::DynamicLoader()
-{}
+DynamicLoader::DynamicLoader() = default;
 
 //----------------------------------------------------------------------------
-DynamicLoader::~DynamicLoader()
-{}
+DynamicLoader::~DynamicLoader() = default;
 
 //----------------------------------------------------------------------------
 LibHandle DynamicLoader::OpenLibrary(const char *libname)

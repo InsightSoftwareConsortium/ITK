@@ -93,8 +93,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  AsinImageAdaptor() {}
-  ~AsinImageAdaptor() override {}
+  AsinImageAdaptor() = default;
+  ~AsinImageAdaptor() override = default;
 };
 } // end namespace itk
 

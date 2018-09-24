@@ -25,15 +25,11 @@ namespace itk
 
 template<typename TParametersValueType>
 TransformIOFactoryTemplate<TParametersValueType>
-::TransformIOFactoryTemplate()
-{
-}
+::TransformIOFactoryTemplate() = default;
 
 template<typename TParametersValueType>
 TransformIOFactoryTemplate<TParametersValueType>
-::~TransformIOFactoryTemplate()
-{
-}
+::~TransformIOFactoryTemplate() = default;
 
 template<typename TParametersValueType>
 typename TransformIOBaseTemplate<TParametersValueType>::Pointer

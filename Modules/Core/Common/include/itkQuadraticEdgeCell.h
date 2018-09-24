@@ -97,7 +97,7 @@ public:
       }
   }
 
-  ~QuadraticEdgeCell() override {}
+  ~QuadraticEdgeCell() override = default;
 
   /** Given the parametric coordinates of a point in the cell
    * returned the values of its ShapeFunctions */

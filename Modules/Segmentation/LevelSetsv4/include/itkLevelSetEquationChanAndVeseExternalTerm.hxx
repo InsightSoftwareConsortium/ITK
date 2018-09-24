@@ -35,9 +35,7 @@ LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 
 template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
-::~LevelSetEquationChanAndVeseExternalTerm()
-{
-}
+::~LevelSetEquationChanAndVeseExternalTerm() = default;
 
 
 template< typename TInput, typename TLevelSetContainer >

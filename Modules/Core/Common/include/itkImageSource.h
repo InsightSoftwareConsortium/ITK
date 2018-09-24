@@ -219,7 +219,7 @@ public:
 
 protected:
   ImageSource();
-  ~ImageSource() override {}
+  ~ImageSource() override = default;
 
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across

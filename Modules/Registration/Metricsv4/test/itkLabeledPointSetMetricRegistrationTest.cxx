@@ -39,7 +39,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate() {};
+  itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate() = default;
 
 public:
 

@@ -123,7 +123,7 @@ private:
 
   // Destructor. Only invoked via LightObject::UnRegister(), when its reference
   // count drops to zero.
-  ~ReferenceCountedExceptionData() override {}
+  ~ReferenceCountedExceptionData() override = default;
 };
 
 ExceptionObject::ExceptionObject() noexcept
@@ -342,27 +342,17 @@ ExceptionObject
   os << indent << std::endl;
 }
 
-MemoryAllocationError::~MemoryAllocationError() noexcept
-{
-}
+MemoryAllocationError::~MemoryAllocationError() noexcept = default;
 
-RangeError::~RangeError() noexcept
-{
-}
+RangeError::~RangeError() noexcept = default;
 
-InvalidArgumentError::~InvalidArgumentError() noexcept
-{
-}
+InvalidArgumentError::~InvalidArgumentError() noexcept = default;
 
-IncompatibleOperandsError::~IncompatibleOperandsError() noexcept
-{
-}
+IncompatibleOperandsError::~IncompatibleOperandsError() noexcept = default;
 
-ProcessAborted::~ProcessAborted() noexcept
-{
-}
+ProcessAborted::~ProcessAborted() noexcept = default;
 
-ExceptionObject::ReferenceCounterInterface::ReferenceCounterInterface() {}
-ExceptionObject::ReferenceCounterInterface::~ReferenceCounterInterface() {}
+ExceptionObject::ReferenceCounterInterface::ReferenceCounterInterface() = default;
+ExceptionObject::ReferenceCounterInterface::~ReferenceCounterInterface() = default;
 
 } // end namespace itk

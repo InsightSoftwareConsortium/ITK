@@ -79,9 +79,7 @@ TransformFileReaderTemplate<TParametersValueType>
 
 template<typename TParametersValueType>
 TransformFileReaderTemplate<TParametersValueType>
-::~TransformFileReaderTemplate()
-{
-}
+::~TransformFileReaderTemplate() = default;
 
 
 template<typename TParametersValueType>

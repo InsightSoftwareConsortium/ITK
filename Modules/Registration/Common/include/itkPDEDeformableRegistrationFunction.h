@@ -109,7 +109,7 @@ protected:
     m_GradientStep = 1.0;
   }
 
-  ~PDEDeformableRegistrationFunction() override {}
+  ~PDEDeformableRegistrationFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

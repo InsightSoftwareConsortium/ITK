@@ -132,14 +132,14 @@ protected:
       m_MaxChange = NumericTraits< ScalarValueType >::ZeroValue();
     }
 
-    ~GlobalDataStruct() {}
+    ~GlobalDataStruct() = default;
 
     ScalarValueType m_MaxChange;
   };
   /// @endcond
 
   CurvatureFlowFunction();
-  ~CurvatureFlowFunction() override {}
+  ~CurvatureFlowFunction() override = default;
 
 private:
   TimeStepType m_TimeStep;

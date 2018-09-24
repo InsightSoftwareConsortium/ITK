@@ -101,7 +101,7 @@ public:
 
 protected:
   OtsuMultipleThresholdsCalculator();
-  ~OtsuMultipleThresholdsCalculator() override {}
+  ~OtsuMultipleThresholdsCalculator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Increment the thresholds of one position along the histogram. */

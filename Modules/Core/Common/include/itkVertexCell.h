@@ -103,7 +103,7 @@ public:
       }
   }
 
-  ~VertexCell() override {}
+  ~VertexCell() override = default;
 
 protected:
   /**

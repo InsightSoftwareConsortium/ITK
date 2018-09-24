@@ -80,7 +80,7 @@ protected:
     Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~MultiplyImageFilter() override {}
+  ~MultiplyImageFilter() override = default;
 };
 } // end namespace itk
 

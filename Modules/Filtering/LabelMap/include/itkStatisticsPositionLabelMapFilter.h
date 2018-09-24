@@ -84,7 +84,7 @@ public:
 
 protected:
   StatisticsPositionLabelMapFilter();
-  ~StatisticsPositionLabelMapFilter() override {};
+  ~StatisticsPositionLabelMapFilter() override = default;
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 }; // end of class

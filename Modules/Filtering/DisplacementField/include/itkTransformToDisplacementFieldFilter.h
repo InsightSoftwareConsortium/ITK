@@ -158,7 +158,7 @@ public:
 
 protected:
   TransformToDisplacementFieldFilter();
-  ~TransformToDisplacementFieldFilter() override {}
+  ~TransformToDisplacementFieldFilter() override = default;
 
   /** Produces a Vector Image. */
   void GenerateOutputInformation() override;

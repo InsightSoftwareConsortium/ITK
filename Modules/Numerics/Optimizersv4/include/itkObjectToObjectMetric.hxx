@@ -52,9 +52,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage,
  typename TParametersValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::~ObjectToObjectMetric()
-{
-}
+::~ObjectToObjectMetric() = default;
 
 /*
  * Initialize

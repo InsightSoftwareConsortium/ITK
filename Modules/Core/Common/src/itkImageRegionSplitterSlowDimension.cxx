@@ -23,9 +23,7 @@ namespace itk
 {
 
 ImageRegionSplitterSlowDimension
-::ImageRegionSplitterSlowDimension()
-{
-}
+::ImageRegionSplitterSlowDimension() = default;
 
 unsigned int
 ImageRegionSplitterSlowDimension

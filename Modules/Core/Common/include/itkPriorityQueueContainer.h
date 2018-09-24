@@ -179,7 +179,7 @@ public:
   MaxPriorityQueueElementWrapper(ElementType element,
                                  ElementPriorityType priority);
 
-  ~MaxPriorityQueueElementWrapper() override {}
+  ~MaxPriorityQueueElementWrapper() override = default;
 
   virtual bool is_less(const MaxPriorityQueueElementWrapper & element1,
                const MaxPriorityQueueElementWrapper & element2) const;

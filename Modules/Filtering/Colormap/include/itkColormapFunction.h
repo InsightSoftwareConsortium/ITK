@@ -94,7 +94,7 @@ protected:
     this->m_MaximumRGBComponentValue = NumericTraits< RGBComponentType >::max();
     }
 
-  ~ColormapFunction() override {}
+  ~ColormapFunction() override = default;
 
   /**
    * Map [min, max] input values to [0, 1].

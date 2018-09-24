@@ -53,7 +53,7 @@ public:
   SimilarVectorsFunctor()
   { m_Threshold = itk::NumericTraits< typename TInput::ValueType >::ZeroValue(); }
 
-  ~SimilarVectorsFunctor() {}
+  ~SimilarVectorsFunctor() = default;
 
   void SetDistanceThreshold(const typename TInput::ValueType & thresh)
   { m_Threshold = thresh; }
@@ -135,8 +135,8 @@ public:
 #endif
 
 protected:
-  VectorConnectedComponentImageFilter() {}
-  ~VectorConnectedComponentImageFilter() override {}
+  VectorConnectedComponentImageFilter() = default;
+  ~VectorConnectedComponentImageFilter() override = default;
 };
 } // end namespace itk
 

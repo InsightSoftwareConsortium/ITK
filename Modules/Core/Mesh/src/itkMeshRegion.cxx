@@ -33,6 +33,5 @@ MeshRegion
  * Destructor for the MeshRegion class.
  */
 MeshRegion
-::~MeshRegion()
-{}
+::~MeshRegion() = default;
 } // end namespace itk

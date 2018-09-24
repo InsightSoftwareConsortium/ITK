@@ -153,7 +153,7 @@ public:
 
 protected:
   ScalarImageKmeansImageFilter();
-  ~ScalarImageKmeansImageFilter() override {}
+  ~ScalarImageKmeansImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method runs the statistical methods that identify the means of the

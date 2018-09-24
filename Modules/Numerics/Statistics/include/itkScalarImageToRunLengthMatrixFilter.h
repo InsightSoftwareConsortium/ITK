@@ -232,7 +232,7 @@ public:
 
 protected:
   ScalarImageToRunLengthMatrixFilter();
-  ~ScalarImageToRunLengthMatrixFilter() override {};
+  ~ScalarImageToRunLengthMatrixFilter() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Standard itk::ProcessObject subclass method. */

@@ -29,9 +29,7 @@
 
 namespace itk
 {
-TextOutput::TextOutput()
-{}
+TextOutput::TextOutput() = default;
 
-TextOutput::~TextOutput()
-{}
+TextOutput::~TextOutput() = default;
 }

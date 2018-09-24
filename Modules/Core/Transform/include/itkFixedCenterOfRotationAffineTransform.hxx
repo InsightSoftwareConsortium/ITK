@@ -50,9 +50,7 @@ FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::FixedCe
 /** Destructor */
 template<typename TParametersValueType, unsigned int NDimensions>
 FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::
-~FixedCenterOfRotationAffineTransform()
-{
-}
+~FixedCenterOfRotationAffineTransform() = default;
 } // namespace
 
 #endif

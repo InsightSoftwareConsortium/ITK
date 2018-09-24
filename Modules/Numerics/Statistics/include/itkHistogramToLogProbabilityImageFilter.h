@@ -60,7 +60,7 @@ public:
   HistogramLogProbabilityFunction():
     m_TotalFrequency(1) {}
 
-  ~HistogramLogProbabilityFunction() {}
+  ~HistogramLogProbabilityFunction() = default;
 
   inline OutputPixelType operator()(const TInput & A) const
   {
@@ -118,8 +118,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  HistogramToLogProbabilityImageFilter() {}
-  ~HistogramToLogProbabilityImageFilter() override {}
+  HistogramToLogProbabilityImageFilter() = default;
+  ~HistogramToLogProbabilityImageFilter() override = default;
 };
 } // end namespace itk
 

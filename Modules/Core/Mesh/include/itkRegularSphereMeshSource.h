@@ -94,7 +94,7 @@ public:
 
 protected:
   RegularSphereMeshSource();
-  ~RegularSphereMeshSource() override {}
+  ~RegularSphereMeshSource() override = default;
   void PrintSelf(std::ostream & os, itk::Indent indent) const override;
 
   void GenerateData() override;

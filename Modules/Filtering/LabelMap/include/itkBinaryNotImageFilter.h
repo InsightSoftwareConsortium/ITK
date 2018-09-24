@@ -57,8 +57,8 @@ template< typename TPixel >
 class BinaryNot
 {
 public:
-  BinaryNot() {};
-  ~BinaryNot() {};
+  BinaryNot() = default;
+  ~BinaryNot() = default;
   bool operator!=( const BinaryNot & ) const
     {
     return false;
@@ -124,7 +124,7 @@ protected:
     m_ForegroundValue = NumericTraits<PixelType>::max();
     m_BackgroundValue = NumericTraits<PixelType>::NonpositiveMin();
     }
-  ~BinaryNotImageFilter() override {}
+  ~BinaryNotImageFilter() override = default;
 
   void PrintSelf(std::ostream& os, Indent indent) const override
     {

@@ -37,8 +37,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
 template< typename TEquationContainer, typename TLevelSet >
 LevelSetEvolutionBase< TEquationContainer, TLevelSet >
-::~LevelSetEvolutionBase()
-{}
+::~LevelSetEvolutionBase() = default;
 
 template< typename TEquationContainer, typename TLevelSet >
 void

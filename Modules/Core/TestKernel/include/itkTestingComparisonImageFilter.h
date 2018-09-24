@@ -104,7 +104,7 @@ public:
 
 protected:
   ComparisonImageFilter();
-  ~ComparisonImageFilter() override {}
+  ~ComparisonImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

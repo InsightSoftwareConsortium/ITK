@@ -66,8 +66,8 @@ public:
   { return this->GetPixelAccessor().GetValue(); }
 
 protected:
-  AddImageAdaptor() {}
-  ~AddImageAdaptor() override {}
+  AddImageAdaptor() = default;
+  ~AddImageAdaptor() override = default;
 };
 } // end namespace itk
 

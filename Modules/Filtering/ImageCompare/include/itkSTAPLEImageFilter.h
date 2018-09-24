@@ -232,7 +232,7 @@ protected:
     m_ConfidenceWeight = 1.0;
   }
 
-  ~STAPLEImageFilter() override {}
+  ~STAPLEImageFilter() override = default;
   void GenerateData() override;
 
   void PrintSelf(std::ostream &, Indent) const override;

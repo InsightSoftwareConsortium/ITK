@@ -64,9 +64,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
-::~BSplineTransform()
-{
-}
+::~BSplineTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 std::string BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>

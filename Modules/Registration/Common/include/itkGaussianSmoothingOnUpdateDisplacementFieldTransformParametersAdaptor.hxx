@@ -36,9 +36,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::~GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
-{
-}
+::~GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() = default;
 
 template<typename TTransform>
 void

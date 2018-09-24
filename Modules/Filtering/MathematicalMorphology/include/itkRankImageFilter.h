@@ -124,7 +124,7 @@ public:
 
 protected:
   RankImageFilter();
-  ~RankImageFilter() override {}
+  ~RankImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

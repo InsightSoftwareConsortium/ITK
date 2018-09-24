@@ -46,8 +46,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
-::~SignedMaurerDistanceMapImageFilter()
-{}
+::~SignedMaurerDistanceMapImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 unsigned int

@@ -125,8 +125,8 @@ public:
                                                      OStreamType *fp);
 
 protected:
-  ByteSwapper() {}
-  ~ByteSwapper() override {}
+  ByteSwapper() = default;
+  ~ByteSwapper() override = default;
 
   /** Swap 2 bytes. */
   static void Swap2(void *p);

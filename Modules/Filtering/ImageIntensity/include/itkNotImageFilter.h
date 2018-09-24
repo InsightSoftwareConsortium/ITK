@@ -135,7 +135,7 @@ protected:
     this->GetFunctor().SetForegroundValue(true);
     this->GetFunctor().SetBackgroundValue(false);
   }
-  ~NotImageFilter() override {}
+  ~NotImageFilter() override = default;
 };
 } // end namespace itk
 

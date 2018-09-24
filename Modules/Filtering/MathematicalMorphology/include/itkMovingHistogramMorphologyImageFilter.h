@@ -100,7 +100,7 @@ public:
 
 protected:
   MovingHistogramMorphologyImageFilter();
-  ~MovingHistogramMorphologyImageFilter() override {}
+  ~MovingHistogramMorphologyImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */

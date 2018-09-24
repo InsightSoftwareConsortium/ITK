@@ -277,8 +277,8 @@ public:
   void Graft(const DataObject* data) override;
 
 protected:
-  VideoStream() {}
-  ~VideoStream() override {}
+  VideoStream() = default;
+  ~VideoStream() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

@@ -46,7 +46,7 @@
     using Pointer = itk::SmartPointer<CommandIterationUpdate>;
     itkNewMacro( CommandIterationUpdate );
   protected:
-    CommandIterationUpdate() {};
+    CommandIterationUpdate() = default;
 
     using InternalImageType = itk::Image< float, 2 >;
     using VectorPixelType = itk::Vector< float, 2 >;

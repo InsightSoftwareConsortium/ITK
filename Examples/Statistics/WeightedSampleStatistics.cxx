@@ -90,8 +90,8 @@ public:
     }
 
 protected:
-  ExampleWeightFunction() {}
-  ~ExampleWeightFunction() override {}
+  ExampleWeightFunction() = default;
+  ~ExampleWeightFunction() override = default;
 }; // end of class
 
 int main()

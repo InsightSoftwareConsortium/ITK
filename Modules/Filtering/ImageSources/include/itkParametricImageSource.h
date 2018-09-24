@@ -83,8 +83,8 @@ public:
   virtual unsigned int GetNumberOfParameters() const = 0;
 
 protected:
-  ParametricImageSource() {};
-  ~ParametricImageSource() override {}
+  ParametricImageSource() = default;
+  ~ParametricImageSource() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 };
 } // end namespace itk

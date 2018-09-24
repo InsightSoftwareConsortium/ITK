@@ -157,7 +157,7 @@ public:
 
 protected:
   CurvatureFlowImageFilter();
-  ~CurvatureFlowImageFilter() override {}
+  ~CurvatureFlowImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Supplies the halting criteria for this class of filters.  The

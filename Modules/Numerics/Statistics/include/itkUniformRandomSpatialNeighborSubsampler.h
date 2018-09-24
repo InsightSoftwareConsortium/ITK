@@ -140,7 +140,7 @@ protected:
   typename LightObject::Pointer InternalClone() const override;
 
   UniformRandomSpatialNeighborSubsampler();
-  ~UniformRandomSpatialNeighborSubsampler() override {};
+  ~UniformRandomSpatialNeighborSubsampler() override = default;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

@@ -41,9 +41,7 @@ AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>
 // Destructor
 template<typename TParametersValueType, unsigned int NDimensions>
 AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::
-~AzimuthElevationToCartesianTransform()
-{
-}
+~AzimuthElevationToCartesianTransform() = default;
 
 // Print self
 template<typename TParametersValueType, unsigned int NDimensions>

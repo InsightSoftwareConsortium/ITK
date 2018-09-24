@@ -163,7 +163,7 @@ public:
 
 protected:
   LabelStatisticsKeepNObjectsImageFilter();
-  ~LabelStatisticsKeepNObjectsImageFilter() override {}
+  ~LabelStatisticsKeepNObjectsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelStatisticsKeepNObjectsImageFilter needs the entire input be

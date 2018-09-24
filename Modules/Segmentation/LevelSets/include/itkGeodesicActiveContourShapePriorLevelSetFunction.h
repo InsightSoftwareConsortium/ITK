@@ -162,7 +162,7 @@ protected:
     m_DerivativeSigma = 1.0;
   }
 
-  ~GeodesicActiveContourShapePriorLevelSetFunction() override {}
+  ~GeodesicActiveContourShapePriorLevelSetFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

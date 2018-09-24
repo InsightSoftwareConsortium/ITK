@@ -128,7 +128,7 @@ public:
 
 protected:
   RegionalMaximaImageFilter();
-  ~RegionalMaximaImageFilter() override {}
+  ~RegionalMaximaImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** RegionalMaximaImageFilter needs the entire input be

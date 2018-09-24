@@ -46,8 +46,7 @@ DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
 
 template< typename TInputMesh, typename TOutputMesh >
 DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
-::~DeformableSimplexMesh3DBalloonForceFilter()
-{}
+::~DeformableSimplexMesh3DBalloonForceFilter() = default;
 
 /* PrintSelf. */
 template< typename TInputMesh, typename TOutputMesh >

@@ -131,7 +131,7 @@ protected:
     m_Spacing[0] = m_Spacing[1] = 1.0;
   }
 
-  ~ExtractOrthogonalSwath2DImageFilter() override {}
+  ~ExtractOrthogonalSwath2DImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   //--------------------------------------------------------------------------

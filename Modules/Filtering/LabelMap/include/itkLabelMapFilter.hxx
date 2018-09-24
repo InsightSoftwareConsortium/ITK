@@ -43,9 +43,7 @@ LabelMapFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 LabelMapFilter< TInputImage, TOutputImage >
-::~LabelMapFilter()
-{
-}
+::~LabelMapFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

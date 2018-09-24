@@ -37,8 +37,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 
 template<typename TInternalComputationValueType>
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
-::~RegularStepGradientDescentOptimizerv4()
-{}
+::~RegularStepGradientDescentOptimizerv4() = default;
 
 template<typename TInternalComputationValueType>
 void

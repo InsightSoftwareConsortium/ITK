@@ -74,8 +74,8 @@ public:
 #endif
 
 protected:
-  DiscreteMaximumCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteMaximumCurvatureQuadEdgeMeshFilter() override {}
+  DiscreteMaximumCurvatureQuadEdgeMeshFilter() = default;
+  ~DiscreteMaximumCurvatureQuadEdgeMeshFilter() override = default;
 
   OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
   {

@@ -79,7 +79,7 @@ protected:
     m_TargetNumberOfElements( NumericTraits< IdentifierType >::ZeroValue() )
   {}
 
-  ~FastMarchingNumberOfElementsStoppingCriterion() override {}
+  ~FastMarchingNumberOfElementsStoppingCriterion() override = default;
 
   IdentifierType  m_CurrentNumberOfElements;
   IdentifierType  m_TargetNumberOfElements;

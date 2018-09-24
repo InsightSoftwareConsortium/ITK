@@ -150,7 +150,7 @@ public:
 #endif
 
 protected:
-  ~NarrowBandCurvesLevelSetImageFilter() override {}
+  ~NarrowBandCurvesLevelSetImageFilter() override = default;
   NarrowBandCurvesLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

@@ -60,9 +60,7 @@ public:
   using MeasureType = double;
 
 
-  conjugateCostFunction()
-  {
-  }
+  conjugateCostFunction() = default;
 
   double GetValue( const ParametersType & position ) const override
   {

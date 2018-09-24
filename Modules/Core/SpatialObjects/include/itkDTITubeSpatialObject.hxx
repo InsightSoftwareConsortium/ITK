@@ -36,8 +36,7 @@ DTITubeSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 DTITubeSpatialObject< TDimension >
-::~DTITubeSpatialObject()
-{}
+::~DTITubeSpatialObject() = default;
 
 /** Print the object */
 template< unsigned int TDimension >

@@ -53,7 +53,7 @@ public:
   itkTypeMacro(ParticleSwarmOptimizerDOMReader, DOMReader);
 
 protected:
-  ParticleSwarmOptimizerDOMReader() {}
+  ParticleSwarmOptimizerDOMReader() = default;
 
   /**
    * This function is called automatically when update functions are performed.

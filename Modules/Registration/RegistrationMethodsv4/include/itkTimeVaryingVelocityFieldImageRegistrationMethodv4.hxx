@@ -51,9 +51,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
-::~TimeVaryingVelocityFieldImageRegistrationMethodv4()
-{
-}
+::~TimeVaryingVelocityFieldImageRegistrationMethodv4() = default;
 
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.

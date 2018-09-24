@@ -32,8 +32,8 @@ class TensorFractionalAnisotropyFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
-  TensorFractionalAnisotropyFunction() {}
-  ~TensorFractionalAnisotropyFunction() {}
+  TensorFractionalAnisotropyFunction() = default;
+  ~TensorFractionalAnisotropyFunction() = default;
   bool operator!=(const TensorFractionalAnisotropyFunction &) const
   {
     return false;
@@ -112,8 +112,8 @@ public:
 #endif
 
 protected:
-  TensorFractionalAnisotropyImageFilter() {}
-  ~TensorFractionalAnisotropyImageFilter() override {}
+  TensorFractionalAnisotropyImageFilter() = default;
+  ~TensorFractionalAnisotropyImageFilter() override = default;
 };
 } // end namespace itk
 

@@ -117,7 +117,7 @@ public:
 
 protected:
   HMinimaImageFilter();
-  ~HMinimaImageFilter() override {}
+  ~HMinimaImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** HMinimaImageFilter needs the entire input be

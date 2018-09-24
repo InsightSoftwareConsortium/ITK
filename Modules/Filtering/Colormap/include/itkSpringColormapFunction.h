@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  SpringColormapFunction() {}
-  ~SpringColormapFunction() override {}
+  SpringColormapFunction() = default;
+  ~SpringColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

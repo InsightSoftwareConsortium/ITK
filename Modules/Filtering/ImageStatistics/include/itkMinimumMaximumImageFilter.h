@@ -114,7 +114,7 @@ public:
 
 protected:
   MinimumMaximumImageFilter();
-  ~MinimumMaximumImageFilter() override {}
+  ~MinimumMaximumImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Pass the input through unmodified. Do this by Grafting in the

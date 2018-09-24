@@ -73,7 +73,7 @@ protected:
     }
 
   /** Destructor */
-  ~BinaryImageToLevelSetImageAdaptorBase() override {}
+  ~BinaryImageToLevelSetImageAdaptorBase() override = default;
 
   InputImagePointer       m_InputImage;
   LevelSetPointer         m_LevelSet;

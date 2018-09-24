@@ -79,8 +79,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ExampleImageFilter() {}
-  ~ExampleImageFilter() override {}
+  ExampleImageFilter() = default;
+  ~ExampleImageFilter() override = default;
 
 private:
   /**

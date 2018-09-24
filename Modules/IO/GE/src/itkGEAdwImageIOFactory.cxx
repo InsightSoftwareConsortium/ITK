@@ -33,8 +33,7 @@ GEAdwImageIOFactory::GEAdwImageIOFactory()
                           CreateObjectFunction< GEAdwImageIO >::New() );
 }
 
-GEAdwImageIOFactory::~GEAdwImageIOFactory()
-{}
+GEAdwImageIOFactory::~GEAdwImageIOFactory() = default;
 
 const char *
 GEAdwImageIOFactory::GetITKSourceVersion() const
