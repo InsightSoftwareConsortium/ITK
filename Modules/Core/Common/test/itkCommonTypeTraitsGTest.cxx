@@ -50,27 +50,30 @@ TEST(CommonTypeTraits, CovariantVectorIsPOD) {
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(CommonTypeTraits, SymmetricSecondRankTensorIsPOD) {
-  using T = itk::SymmetricSecondRankTensor<float, 3>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
-}
-
 TEST(CommonTypeTraits, PointIsPOD) {
   using T = itk::Point<float>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(CommonTypeTraits, RGBAPixelIsPOD) {
+TEST(CommonTypeTraits, RGBAPixelIsNotPOD) {
   using T = itk::RGBAPixel<unsigned int>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
+  // Because initialized to zero
+  EXPECT_EQ(std::is_trivial<T>::value, false);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(CommonTypeTraits, RGBPixelIsPOD) {
+TEST(CommonTypeTraits, RGBPixelIsNotPOD) {
   using T = itk::RGBPixel<unsigned int>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
+  // Because initialized to zero
+  EXPECT_EQ(std::is_trivial<T>::value, false);
+  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+}
+
+TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD) {
+  using T = itk::SymmetricSecondRankTensor<float, 3>;
+  // Because initialized to zero
+  EXPECT_EQ(std::is_trivial<T>::value, false);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 

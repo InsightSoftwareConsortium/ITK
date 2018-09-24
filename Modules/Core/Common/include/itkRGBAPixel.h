@@ -77,7 +77,7 @@ public:
   using LuminanceType = typename NumericTraits< ComponentType >::RealType;
 
   /** Default constructors */
-  RGBAPixel() = default;
+  RGBAPixel() { this->Fill(0); }
   RGBAPixel(const RGBAPixel &) = default;
   RGBAPixel & operator=(const RGBAPixel &) = default;
   RGBAPixel( RGBAPixel &&) = default;
