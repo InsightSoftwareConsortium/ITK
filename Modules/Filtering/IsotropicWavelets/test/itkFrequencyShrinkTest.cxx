@@ -237,14 +237,17 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   origin_new.Fill(0);
   typename ComplexImageType::SpacingType spacing_new;
   spacing_new.Fill(1);
+  typename ComplexImageType::DirectionType direction_new;
+  direction_new.SetIdentity();
   changeInputInfoFilter->SetInput(fftFilter->GetOutput());
-  changeInputInfoFilter->ChangeDirectionOff();
+  changeInputInfoFilter->ChangeDirectionOn();
   changeInputInfoFilter->ChangeRegionOff();
   changeInputInfoFilter->ChangeSpacingOn();
   changeInputInfoFilter->ChangeOriginOn();
   changeInputInfoFilter->UseReferenceImageOff();
   changeInputInfoFilter->SetOutputOrigin(origin_new);
   changeInputInfoFilter->SetOutputSpacing(spacing_new);
+  changeInputInfoFilter->SetOutputDirection(direction_new);
   changeInputInfoFilter->Update();
 
   auto shrinkBandFilter = ShrinkType::New();

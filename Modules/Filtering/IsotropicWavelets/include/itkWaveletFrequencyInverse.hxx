@@ -335,8 +335,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
     changeWaveletInfoFilter->SetInput(waveletLow);
     changeWaveletInfoFilter->UseReferenceImageOn();
     changeWaveletInfoFilter->SetReferenceImage(low_pass_per_level);
-    changeWaveletInfoFilter->ChangeDirectionOff();
     changeWaveletInfoFilter->ChangeRegionOn();
+    changeWaveletInfoFilter->ChangeDirectionOn();
     changeWaveletInfoFilter->ChangeSpacingOn();
     changeWaveletInfoFilter->ChangeOriginOn();
     changeWaveletInfoFilter->Update();
@@ -378,8 +378,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       changeWaveletHighInfoFilter->SetInput(highPassMasks[band]);
       changeWaveletHighInfoFilter->UseReferenceImageOn();
       changeWaveletHighInfoFilter->SetReferenceImage(bandInputImage);
-      changeWaveletHighInfoFilter->ChangeDirectionOff();
       changeWaveletHighInfoFilter->ChangeRegionOff();
+      changeWaveletHighInfoFilter->ChangeDirectionOn();
       changeWaveletHighInfoFilter->ChangeSpacingOn();
       changeWaveletHighInfoFilter->ChangeOriginOn();
       changeWaveletHighInfoFilter->UpdateLargestPossibleRegion();
