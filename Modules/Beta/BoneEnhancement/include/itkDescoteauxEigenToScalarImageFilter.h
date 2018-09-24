@@ -16,42 +16,42 @@
  *
  *=========================================================================*/
 
-#ifndef itkKrcahEigenToScalarImageFilter_h
-#define itkKrcahEigenToScalarImageFilter_h
+#ifndef itkDescoteauxEigenToScalarImageFilter_h
+#define itkDescoteauxEigenToScalarImageFilter_h
 
 #include "itkEigenToScalarImageFilter.h"
-#include "itkKrcahEigenToScalarParameterEstimationImageFilter.h"
-#include "itkKrcahEigenToScalarFunctorImageFilter.h"
+#include "itkDescoteauxEigenToScalarParameterEstimationImageFilter.h"
+#include "itkDescoteauxEigenToScalarFunctorImageFilter.h"
 
-namespace itk {
-/** \class KrcahEigenToScalarImageFilter
- * \brief Compute the Krcah sheetness measure from the eigenvalues
+namespace itk
+{
+/** \class DescoteauxEigenToScalarImageFilter
+ * \brief Compute the Descoteaux sheetness measure from the eigenvalues
  *
  * This is a convenience class implementing the EigenToScalarImageFilter
- * abstract class. This class computes the Krcah sheetness measure for
- * cortical bone. Internally, KrcahEigenToScalarParameterEstimationImageFilter
- * and KrcahEigenToScalarFunctorImageFilter are used for automatic parameter
+ * abstract class. This class computes the Descoteaux sheetness measure for
+ * cortical bone. Internally, DescoteauxEigenToScalarParameterEstimationImageFilter
+ * and DescoteauxEigenToScalarFunctorImageFilter are used for automatic parameter
  * estimation and implementation of the functor.
  * 
  * Before passing an input to MultiScaleHessianEnhancementImageFilter,
- * the KrcahEigenToScalarPreprocessingImageToImageFilter should be used.
+ * the DescoteauxEigenToScalarPreprocessingImageToImageFilter should be used.
  * 
  * \sa MultiScaleHessianEnhancementImageFilter
  * \sa EigenToScalarImageFilter
- * \sa KrcahEigenToScalarParameterEstimationImageFilter
- * \sa KrcahEigenToScalarFunctorImageFilter
- * \sa KrcahEigenToScalarPreprocessingImageToImageFilter
+ * \sa DescoteauxEigenToScalarParameterEstimationImageFilter
+ * \sa DescoteauxEigenToScalarFunctorImageFilter
  * 
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage = Image< unsigned char, TInputImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT KrcahEigenToScalarImageFilter:
+class ITK_TEMPLATE_EXPORT DescoteauxEigenToScalarImageFilter:
 public EigenToScalarImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard Self typedef */
-  typedef KrcahEigenToScalarImageFilter                         Self;
+  typedef DescoteauxEigenToScalarImageFilter                    Self;
   typedef EigenToScalarImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                                  Pointer;
   typedef SmartPointer< const Self >                            ConstPointer;
@@ -60,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KrcahEigenToScalarImageFilter, EigenToScalarImageFilter);
+  itkTypeMacro(DescoteauxEigenToScalarImageFilter, EigenToScalarImageFilter);
 
   /** Useful template typedefs. */
   typedef typename TInputImage::Pointer       InputImagePointer;
@@ -70,9 +70,10 @@ public:
   typedef typename TMaskImage::PixelType      MaskPixelType;
 
   /** Procesing filters */
-  typedef KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >   ParameterEstimationFilterType;
-  typedef typename ParameterEstimationFilterType::KrcahImplementationType               KrcahImplementationType;
-  typedef KrcahEigenToScalarFunctorImageFilter< TInputImage, TOutputImage >             UnaryFunctorFilterType;
+  typedef DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+            ParameterEstimationFilterType;
+  typedef DescoteauxEigenToScalarFunctorImageFilter< TInputImage, TOutputImage >
+            UnaryFunctorFilterType;
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
   typename Superclass::EigenValueOrderType GetEigenValueOrder() const ITK_OVERRIDE
@@ -102,23 +103,15 @@ public:
     return this->m_ParameterEstimationFilter->GetBackgroundValue();
   }
 
-  /** Methods to set/get the parameter set type */
-  virtual void SetParameterSet(const KrcahImplementationType back)
+  /** Methods to set/get the FrobeniusNormWeight */
+  virtual void SetFrobeniusNormWeight(const typename ParameterEstimationFilterType::RealType weight)
   {
-    this->m_ParameterEstimationFilter->SetParameterSet(back);
+    this->m_ParameterEstimationFilter->SetFrobeniusNormWeight(weight);
     this->Modified();
   }
-  virtual KrcahImplementationType GetParameterSet() const
+  typename ParameterEstimationFilterType::RealType GetFrobeniusNormWeight() const
   {
-    return this->m_ParameterEstimationFilter->GetParameterSet();
-  }
-  virtual void SetParameterSetToImplementation(){
-    this->m_ParameterEstimationFilter->SetParameterSetToImplementation();
-    this->Modified();
-  }
-  virtual void SetParameterSetToJournalArticle(){
-    this->m_ParameterEstimationFilter->SetParameterSetToJournalArticle();
-    this->Modified();
+    return this->m_ParameterEstimationFilter->GetFrobeniusNormWeight();
   }
 
   /** Methods to get the computed parameters */
@@ -128,8 +121,8 @@ public:
   typename UnaryFunctorFilterType::RealType GetBeta() const {
     return m_UnaryFunctorFilter->GetBeta();
   }
-  typename UnaryFunctorFilterType::RealType GetGamma() const {
-    return m_UnaryFunctorFilter->GetGamma();
+  typename UnaryFunctorFilterType::RealType GetC() const {
+    return m_UnaryFunctorFilter->GetC();
   }
 
   /** Methods to set/get the enhancment method */
@@ -155,12 +148,12 @@ public:
   itkConceptMacro( OutputHaveDimension3Check,
                    ( Concept::SameDimension< TOutputImage::ImageDimension, 3u >) );
   itkConceptMacro( InputFixedArrayHasDimension3Check,
-                  ( Concept::SameDimension< TInputImage::PixelType::Dimension, 3u >) );
+                   ( Concept::SameDimension< TInputImage::PixelType::Dimension, 3u >) );
   // End concept checking
 #endif
 protected:
-  KrcahEigenToScalarImageFilter();
-  virtual ~KrcahEigenToScalarImageFilter() {}
+  DescoteauxEigenToScalarImageFilter();
+  virtual ~DescoteauxEigenToScalarImageFilter() {}
 
   /** Override since the filter needs all the data for the algorithm */
   void GenerateInputRequestedRegion() ITK_OVERRIDE;
@@ -174,7 +167,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarImageFilter);
 
   /* Filter pipeline */
   typename ParameterEstimationFilterType::Pointer m_ParameterEstimationFilter;
@@ -183,7 +176,7 @@ private:
 } // end namespace 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKrcahEigenToScalarImageFilter.hxx"
+#include "itkDescoteauxEigenToScalarImageFilter.hxx"
 #endif
 
-#endif // itkKrcahEigenToScalarImageFilter_h
+#endif // itkDescoteauxEigenToScalarImageFilter_h

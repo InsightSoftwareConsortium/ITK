@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef itkKrcahEigenToScalarParameterEstimationImageFilter_hxx
-#define itkKrcahEigenToScalarParameterEstimationImageFilter_hxx
+#ifndef itkDescoteauxEigenToScalarParameterEstimationImageFilter_hxx
+#define itkDescoteauxEigenToScalarParameterEstimationImageFilter_hxx
 
-#include "itkKrcahEigenToScalarParameterEstimationImageFilter.h"
+#include "itkDescoteauxEigenToScalarParameterEstimationImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
@@ -27,12 +27,11 @@
 namespace itk
 {
 template< typename TInputImage, typename TMaskImage >
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::KrcahEigenToScalarParameterEstimationImageFilter():
-  m_ParameterSet(UseImplementationParameters),
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::DescoteauxEigenToScalarParameterEstimationImageFilter():
+  m_FrobeniusNormWeight(0.5f),
   m_BackgroundValue(NumericTraits< MaskPixelType >::Zero),
-  m_NumVoxels(1),
-  m_AccumulatedAverageTrace(1)
+  m_MaxFrobeniusNorm(1)
 {
   /* We require an input, optional mask */
   this->SetNumberOfRequiredInputs( 1 );
@@ -49,7 +48,7 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::AllocateOutputs()
 {
   /* Pass the input through as the output */
@@ -59,11 +58,11 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
-  
+
   if ( this->GetInput() )
   {
     InputImagePointer image = const_cast< typename Superclass::InputImageType * >( this->GetInput() );
@@ -78,7 +77,7 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
@@ -87,91 +86,60 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::BeforeThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   /* Resize threads */
-  m_AccumulatedAverageTrace.SetSize(numberOfThreads);
-  m_NumVoxels.SetSize(numberOfThreads);
-
-  m_AccumulatedAverageTrace.Fill(NumericTraits< RealType >::ZeroValue());
-  m_NumVoxels.Fill(NumericTraits< SizeValueType >::ZeroValue());
+  m_MaxFrobeniusNorm.SetSize(numberOfThreads);
+  m_MaxFrobeniusNorm.Fill(NumericTraits< RealType >::ZeroValue());
 }
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::AfterThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   /* Determine default parameters */
-  RealType alpha, beta, gamma;
-  switch(m_ParameterSet)
-  {
-    case UseImplementationParameters:
-      alpha = Math::sqrt2 * 0.5f;
-      beta = Math::sqrt2 * 0.5f;
-      gamma = Math::sqrt2 * 0.5f;
-      break;
-    case UseJournalParameters:
-      alpha = 0.5f;
-      beta = 0.5f;
-      gamma = 0.25f;
-      break;
-    default:
-      itkExceptionMacro(<< "Have bad parameterset enumeration " << m_ParameterSet);
-      break;
-  }
+  RealType alpha, beta, c;
+  alpha = 0.5f;
+  beta = 0.5f;
+  c = m_FrobeniusNormWeight;
 
   /* Accumulate over threads */
-  SizeValueType numVoxels = NumericTraits< SizeValueType >::ZeroValue();
-  RealType accumulatedAverageTrace = NumericTraits< RealType >::ZeroValue();
+  RealType maxFrobeniusNorm = NumericTraits< RealType >::ZeroValue();
 
   for (unsigned int i = 0; i < numberOfThreads; ++i )
   {
-    numVoxels += m_NumVoxels[i];
-    accumulatedAverageTrace += m_AccumulatedAverageTrace[i];
+    if (m_MaxFrobeniusNorm[i] > maxFrobeniusNorm)
+    {
+      maxFrobeniusNorm = m_MaxFrobeniusNorm[i];
+    }
   }
 
-  /* Do derived measure */
-  if (numVoxels > 0) {
-    RealType averageTrace = (RealType)accumulatedAverageTrace / (RealType)numVoxels;
-    gamma = gamma * averageTrace;
+  /* Scale c */
+  if (maxFrobeniusNorm > 0) {
+    c = c * maxFrobeniusNorm;
   }
 
   /* Assign outputs parameters */
   this->GetAlphaOutput()->Set( alpha );
   this->GetBetaOutput()->Set( beta );
-  this->GetGammaOutput()->Set( gamma );
+  this->GetCOutput()->Set( c );
 }
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  /* Determine which function to call */
-  RealType (Self::*traceFunction)(InputPixelType);
-  switch(m_ParameterSet)
-  {
-    case UseImplementationParameters:
-      traceFunction = &Self::CalculateTraceAccordingToImplementation;
-      break;
-    case UseJournalParameters:
-      traceFunction = &Self::CalculateTraceAccordingToJournalArticle;
-      break;
-    default:
-      itkExceptionMacro(<< "Have bad parameterset enumeration " << m_ParameterSet);
-      break;
-  }
-
   /* Count starts zero */
-  SizeValueType numVoxels = NumericTraits< SizeValueType >::ZeroValue();
-  RealType accumulatedAverageTrace = NumericTraits< RealType >::ZeroValue();
+  RealType maxFrobeniusNorm = NumericTraits< RealType >::ZeroValue();
+  RealType thisFrobeniusNorm;
 
   /* Get input pointer */
   InputImageConstPointer inputPointer = this->GetInput();
@@ -209,99 +177,90 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   {
     if ( (!maskPointer) ||  (maskPointer->GetPixel(inputIt.GetIndex()) != m_BackgroundValue) )
     {
-      numVoxels++;
-
-      /* Compute trace */
-      accumulatedAverageTrace += (this->*traceFunction)(inputIt.Get());
+      /* Compute max norm */
+      thisFrobeniusNorm = this->CalculateFrobeniusNorm(inputIt.Get());
+      if (thisFrobeniusNorm > maxFrobeniusNorm)
+      {
+        maxFrobeniusNorm = thisFrobeniusNorm;
+      }
     }
     ++inputIt;
     progress.CompletedPixel();
   }
 
   /* Store this thread */
-  m_AccumulatedAverageTrace[threadId] = accumulatedAverageTrace;
-  m_NumVoxels[threadId] = numVoxels;
+  m_MaxFrobeniusNorm[threadId] = maxFrobeniusNorm;
 }
 
 template< typename TInputImage, typename TMaskImage >
-typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::CalculateTraceAccordingToImplementation(InputPixelType pixel) {
-  /* Sum of the absolute value of the eigenvalues */
-  RealType trace = 0;
+typename DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::CalculateFrobeniusNorm(InputPixelType pixel) {
+  /* Forbenius norm is given by the square root of the sum of squares 
+   * of the eigenvalues for real, symmetric matricies
+   */
+  RealType norm = 0;
   for( unsigned int i = 0; i < pixel.Length; ++i) {
-    trace += Math::abs(pixel[i]);
+    norm += pixel[i]*pixel[i];
   }
-  return trace;
+  return sqrt(norm);
 }
 
 template< typename TInputImage, typename TMaskImage >
-typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::CalculateTraceAccordingToJournalArticle(InputPixelType pixel) {
-  /* Sum of the eigenvalues */
-  RealType trace = 0;
-  for( unsigned int i = 0; i < pixel.Length; ++i) {
-    trace += pixel[i];
-  }
-  return trace;
-}
-
-template< typename TInputImage, typename TMaskImage >
-typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+typename DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::GetAlphaOutput() {
   return static_cast< RealTypeDecoratedType * >( this->ProcessObject::GetOutput(1) );
 }
 
 template< typename TInputImage, typename TMaskImage >
-const typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+const typename DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::GetAlphaOutput() const {
   return static_cast< const RealTypeDecoratedType * >( this->ProcessObject::GetOutput(1) );
 }
 
 template< typename TInputImage, typename TMaskImage >
-typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+typename DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::GetBetaOutput() {
   return static_cast< RealTypeDecoratedType * >( this->ProcessObject::GetOutput(2) );
 }
 
 template< typename TInputImage, typename TMaskImage >
-const typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+const typename DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::GetBetaOutput() const {
   return static_cast< const RealTypeDecoratedType * >( this->ProcessObject::GetOutput(2) );
 }
 
 template< typename TInputImage, typename TMaskImage >
-typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::GetGammaOutput() {
+typename DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetCOutput() {
   return static_cast< RealTypeDecoratedType * >( this->ProcessObject::GetOutput(3) );
 }
 
 template< typename TInputImage, typename TMaskImage >
-const typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::GetGammaOutput() const {
+const typename DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetCOutput() const {
   return static_cast< const RealTypeDecoratedType * >( this->ProcessObject::GetOutput(3) );
 }
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_Alpha: " << this->GetAlpha() << std::endl;
-  os << indent << "m_Beta: " << this->GetBeta() << std::endl;
-  os << indent << "m_Gamma: " << this->GetGamma() << std::endl;
-  os << indent << "m_BackgroundValue: " << m_BackgroundValue << std::endl;
-  os << indent << "m_ParameterSet: " << m_ParameterSet << std::endl;
+  os << indent << "Alpha: " << this->GetAlpha() << std::endl;
+  os << indent << "Beta: " << this->GetBeta() << std::endl;
+  os << indent << "C: " << this->GetC() << std::endl;
+  os << indent << "BackgroundValue: " << GetBackgroundValue() << std::endl;
+  os << indent << "FrobeniusNormWeight: " << GetFrobeniusNormWeight() << std::endl;
 }
 
-} // end namespace itk
+} // end namespace
 
-#endif // itkKrcahEigenToScalarParameterEstimationImageFilter_hxx
+#endif // itkDescoteauxEigenToScalarParameterEstimationImageFilter_hxx

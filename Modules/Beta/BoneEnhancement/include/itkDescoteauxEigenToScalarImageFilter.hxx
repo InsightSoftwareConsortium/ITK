@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkKrcahEigenToScalarImageFilter_hxx
-#define itkKrcahEigenToScalarImageFilter_hxx
+#ifndef itkDescoteauxEigenToScalarImageFilter_hxx
+#define itkDescoteauxEigenToScalarImageFilter_hxx
 
-#include "itkKrcahEigenToScalarImageFilter.h"
+#include "itkDescoteauxEigenToScalarImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk
 {
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
-KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
-::KrcahEigenToScalarImageFilter()
+DescoteauxEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
+::DescoteauxEigenToScalarImageFilter()
 {
   /* Instantiate filters. */
   m_ParameterEstimationFilter               = ParameterEstimationFilterType::New();
@@ -37,7 +37,7 @@ KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
+DescoteauxEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -56,7 +56,7 @@ KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
+DescoteauxEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
@@ -65,18 +65,18 @@ KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
+DescoteauxEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::GenerateData()
 {
   /* Get inputs */
   InputImageConstPointer input = this->GetInput();
-
+  
   /* Connect filters */
   m_ParameterEstimationFilter->SetInput(input);
   m_UnaryFunctorFilter->SetInput(m_ParameterEstimationFilter->GetOutput());
   m_UnaryFunctorFilter->SetAlphaInput(m_ParameterEstimationFilter->GetAlphaOutput());
   m_UnaryFunctorFilter->SetBetaInput(m_ParameterEstimationFilter->GetBetaOutput());
-  m_UnaryFunctorFilter->SetGammaInput(m_ParameterEstimationFilter->GetGammaOutput());
+  m_UnaryFunctorFilter->SetCInput(m_ParameterEstimationFilter->GetCOutput());
 
   /* Setup progress reporter */
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -91,7 +91,7 @@ KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
+DescoteauxEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -101,4 +101,4 @@ KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 
 } // end namespace
 
-#endif // itkKrcahEigenToScalarImageFilter_hxx 
+#endif // itkDescoteauxEigenToScalarImageFilter_hxx 
