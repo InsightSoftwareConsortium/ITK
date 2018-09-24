@@ -1102,7 +1102,11 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Dimensions: " << m_Dimensions << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
-
+  os << indent << "Direction: " << std::endl;
+  for( const auto & direction : m_Direction )
+    {
+    os << indent << direction << std::endl;
+    }
   if( m_UseCompression )
     {
     os << indent << "UseCompression: On" << std::endl;
