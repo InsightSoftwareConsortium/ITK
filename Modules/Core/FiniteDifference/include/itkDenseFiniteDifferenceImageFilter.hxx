@@ -104,7 +104,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ApplyUpdateThreaderCallback(void *arg)
 {
@@ -125,7 +125,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
     str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, threadId);
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -172,7 +172,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::CalculateChangeThreaderCallback(void *arg)
 {
@@ -197,7 +197,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
     str->ValidTimeStepList[threadId] = true;
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImage, typename TOutputImage >

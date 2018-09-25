@@ -88,7 +88,7 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
   std::cout << "OK" << std::endl;
 
   std::cout << "     " << "Test No QE Input";
-  if( createCenterVertex->Evaluate( (QEType*)0 ) )
+  if( createCenterVertex->Evaluate( (QEType*)nullptr ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;

@@ -120,7 +120,7 @@ void PlatformMultiThreader::SingleMethodExecute()
   // checked in the WaitForSingleMethodThread loops
   for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
-    process_id[thread_loop] = 0;
+    process_id[thread_loop] = ITK_DEFAULT_THREAD_ID;
     }
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions

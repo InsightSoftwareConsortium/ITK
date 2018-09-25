@@ -133,7 +133,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 DomainThreader< TDomainPartitioner, TAssociate >
 ::ThreaderCallback( void* arg )
 {
@@ -160,7 +160,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
     thisDomainThreader->ThreadedExecution( subdomain, threadId );
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 }
 

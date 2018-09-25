@@ -57,7 +57,7 @@ private:
   itk::Logger* m_Logger;
 };
 
-ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages(void* arg)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreadedGenerateLogMessages(void* arg)
 {
   const auto* threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo*>(arg);
   if (threadInfo)
@@ -87,13 +87,13 @@ ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages(void* arg)
      // do stuff
     } else {
       std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
-      return ITK_THREAD_RETURN_VALUE;
+      return ITK_THREAD_RETURN_DEFAULT_VALUE;
     }
   } else {
     std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::WorkUnitInfo*" << std::endl;
-    return ITK_THREAD_RETURN_VALUE;
+    return ITK_THREAD_RETURN_DEFAULT_VALUE;
   }
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 ThreadDataVec create_threaded_data(int num_threads, itk::LoggerBase* logger)

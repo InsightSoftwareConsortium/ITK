@@ -699,7 +699,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 }
 
 template <typename TInputImage, typename TOutputImage>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::RiemannianMinMaxThreaderCallback(void * arg)
 {
@@ -725,7 +725,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                                                                      str->Filter->GetThreadData(threadId) ) );
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -1441,7 +1441,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 }
 
 template <typename TInputImage, typename TOutputImage>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdateThreaderCallback( void * arg )
 {
@@ -1464,7 +1464,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     str->Filter->ThreadedApplyUpdate(splitRegion, threadId);
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -1562,7 +1562,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 }
 
 template <typename TInputImage, typename TOutputImage>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeSigmaUpdateThreaderCallback( void * arg )
 {
@@ -1587,7 +1587,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                                                                        str->Filter->GetThreadData(threadId) ) );
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -2020,7 +2020,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 }
 
 template <typename TInputImage, typename TOutputImage>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeImageUpdateThreaderCallback( void * arg )
 {
@@ -2045,7 +2045,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                                                                        str->Filter->GetThreadData(threadId) ) );
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template <typename TInputImage, typename TOutputImage>

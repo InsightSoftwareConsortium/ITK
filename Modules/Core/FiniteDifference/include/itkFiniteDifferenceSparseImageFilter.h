@@ -150,7 +150,7 @@ protected:
   void ApplyUpdate(const TimeStepType& dt) override;
 
   /** Multi-threaded implementation of ApplyUpdate. */
-  static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ApplyUpdateThreaderCallback(void *arg);
 
   virtual void ThreadedApplyUpdate(const TimeStepType& dt,
                                    const ThreadRegionType & regionToProcess,
@@ -161,7 +161,7 @@ protected:
   TimeStepType CalculateChange() override;
 
   /** Multuthreaded implementation of CalculateChange */
-  static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION CalculateChangeThreaderCallback(void *arg);
 
   virtual TimeStepType ThreadedCalculateChange
     (const ThreadRegionType & regionToProcess, ThreadIdType threadId);
@@ -172,7 +172,7 @@ protected:
   virtual void PrecalculateChange();
 
   /** Multi-threaded implementation of PrecalculateChange */
-  static ITK_THREAD_RETURN_TYPE PrecalculateChangeThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION PrecalculateChangeThreaderCallback(void *arg);
 
   virtual void ThreadedPrecalculateChange
     (const ThreadRegionType & regionToProcess, ThreadIdType threadId);

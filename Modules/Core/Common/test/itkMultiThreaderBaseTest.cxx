@@ -45,7 +45,7 @@ bool SetAndVerifyGlobalMaximumNumberOfThreads( int value )
 {
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads( value );
   return VerifyRange( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(),
-        1, ITK_MAX_THREADS, "Range error in MaximumNumberOfThreads");
+        1, itk::ITK_MAX_THREADS, "Range error in MaximumNumberOfThreads");
 }
 
 bool SetAndVerifyGlobalDefaultNumberOfThreads( int value )
@@ -72,7 +72,7 @@ bool SetAndVerify( int number )
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   // PoolMultiThreader can only increase number of threads
   // so make sure to increase this before testing thread count
-  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads( ITK_MAX_THREADS );
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads( itk::ITK_MAX_THREADS );
   result &= SetAndVerifyMaximumNumberOfThreads( number, threader );
   //number of Work Units is not max-limited by TBBMultiThreader
   return result;
@@ -115,9 +115,9 @@ int itkMultiThreaderBaseTest(int argc, char* argv[])
   result &= SetAndVerify( 0 );
   result &= SetAndVerify( 1 );
   result &= SetAndVerify( 2 );
-  result &= SetAndVerify( ITK_MAX_THREADS );
-  result &= SetAndVerify( ITK_MAX_THREADS - 1 );
-  result &= SetAndVerify( ITK_MAX_THREADS + 1 );
+  result &= SetAndVerify( itk::ITK_MAX_THREADS );
+  result &= SetAndVerify( itk::ITK_MAX_THREADS - 1 );
+  result &= SetAndVerify( itk::ITK_MAX_THREADS + 1 );
   result &= SetAndVerify( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
   result &= SetAndVerify( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() - 1 );
   result &= SetAndVerify( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() + 1 );

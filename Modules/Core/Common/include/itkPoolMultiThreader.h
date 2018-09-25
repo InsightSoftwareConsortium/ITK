@@ -96,7 +96,7 @@ public:
 
   struct ThreadPoolInfoStruct :WorkUnitInfo
     {
-    std::future< ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER > Future;
+    std::future< ITK_THREAD_RETURN_TYPE > Future;
     };
 
 protected:

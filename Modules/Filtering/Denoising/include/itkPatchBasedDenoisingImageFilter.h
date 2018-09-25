@@ -426,15 +426,15 @@ protected:
 private:
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ComputeSigma for processing. */
-  static ITK_THREAD_RETURN_TYPE ComputeSigmaUpdateThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ComputeSigmaUpdateThreaderCallback( void *arg );
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ComputeImageUpdate for processing. */
-  static ITK_THREAD_RETURN_TYPE ComputeImageUpdateThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ComputeImageUpdateThreaderCallback( void *arg );
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ThreadedApplyUpdate for processing. */
-  static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ApplyUpdateThreaderCallback( void *arg );
 
   template <typename TInputImageType>
   void DispatchedMinMax(const TInputImageType* img);
@@ -450,7 +450,7 @@ private:
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ThreadedRiemannianMinMax for processing. */
-  static ITK_THREAD_RETURN_TYPE RiemannianMinMaxThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION RiemannianMinMaxThreaderCallback( void *arg );
 
   ThreadDataStruct ThreadedRiemannianMinMax(const InputImageRegionType& regionToProcess,
                                             const int itkNotUsed(threadId),

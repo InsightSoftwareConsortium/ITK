@@ -427,7 +427,7 @@ MultiThreaderBase::MultiThreaderBase()
 
 MultiThreaderBase::~MultiThreaderBase() = default;
 
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase
 ::SingleMethodProxy(void *arg)
 {
@@ -457,7 +457,7 @@ MultiThreaderBase
     threadInfoStruct->ThreadExitCode = WorkUnitInfo::UNKNOWN;
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 
@@ -516,7 +516,7 @@ MultiThreaderBase
   MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase
 ::ParallelizeArrayHelper(void * arg)
 {
@@ -552,7 +552,7 @@ MultiThreaderBase
       }
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 
@@ -589,7 +589,7 @@ MultiThreaderBase
   MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase
 ::ParallelizeImageRegionHelper(void * arg)
 {
@@ -625,7 +625,7 @@ MultiThreaderBase
       }
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 std::ostream& operator << (std::ostream& os,

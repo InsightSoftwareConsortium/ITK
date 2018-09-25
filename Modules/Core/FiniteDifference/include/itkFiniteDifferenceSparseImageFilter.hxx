@@ -93,7 +93,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 }
 
 template< typename TInputImageType, typename TSparseOutputImageType >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::ApplyUpdateThreaderCallback(void *arg)
 {
@@ -117,7 +117,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
     str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, threadId);
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImageType, typename TSparseOutputImageType >
@@ -200,7 +200,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 }
 
 template< typename TInputImageType, typename TSparseOutputImageType >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::CalculateChangeThreaderCallback(void *arg)
 {
@@ -227,11 +227,11 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
     str->ValidTimeStepList[threadId] = true;
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImageType, typename TSparseOutputImageType >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::PrecalculateChangeThreaderCallback(void *arg)
 {
@@ -256,7 +256,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
     str->Filter->ThreadedPrecalculateChange(splitRegion, threadId);
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImageType, typename TSparseOutputImageType >

@@ -505,11 +505,11 @@ public:
 
   void                           GetValueMultiThreadedPostProcessInitiate() const;
 
-  static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPreProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreadedPreProcess(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE  GetValueMultiThreaded(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreaded(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPostProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreadedPostProcess(void *arg);
 
   virtual inline void       GetValueThread(ThreadIdType threadId) const;
 
@@ -534,11 +534,11 @@ public:
 
   void                          GetValueAndDerivativeMultiThreadedPostProcessInitiate() const;
 
-  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPreProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreadedPreProcess(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreaded(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreaded(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPostProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreadedPostProcess(void *arg);
 
   virtual inline void  GetValueAndDerivativeThread(ThreadIdType threadId) const;
 

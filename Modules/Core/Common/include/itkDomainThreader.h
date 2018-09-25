@@ -154,7 +154,7 @@ protected:
   /** Static function used as a "callback" by the MultiThreaderBase.  The threading
    * library will call this routine for each thread, which will delegate the
    * control to the ThreadFunctor. */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback( void *arg );
 
   AssociateType * m_Associate;
 

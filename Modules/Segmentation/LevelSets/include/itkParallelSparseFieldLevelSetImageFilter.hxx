@@ -1149,7 +1149,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
 {
@@ -1323,7 +1323,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     // The active layer is too small => stop iterating
     if ( str->Filter->m_Stop == true )
       {
-      return ITK_THREAD_RETURN_VALUE;
+      return ITK_THREAD_RETURN_DEFAULT_VALUE;
       }
 
     // Threaded Apply Update
@@ -1358,7 +1358,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   str->Filter->ThreadedPostProcessOutput(
     str->Filter->m_Data[ThreadId].ThreadRegion);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImage, typename TOutputImage >

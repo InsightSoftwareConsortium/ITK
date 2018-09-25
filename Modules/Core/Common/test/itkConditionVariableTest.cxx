@@ -38,7 +38,7 @@ public:
 };
 
 
-ITK_THREAD_RETURN_TYPE ConditionVariableTestIncCount( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ConditionVariableTestIncCount( void *ptr )
 {
   auto * data = static_cast<ConditionVariableTestUserData *>(
                        ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
@@ -68,10 +68,10 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestIncCount( void *ptr )
       }
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE ConditionVariableTestWatchCount( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ConditionVariableTestWatchCount( void *ptr )
 {
   auto * data = static_cast<ConditionVariableTestUserData *>(
                   ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
@@ -84,10 +84,10 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestWatchCount( void *ptr )
     }
   data->m_Mutex.Unlock();
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE ConditionVariableTestCallback( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ConditionVariableTestCallback( void *ptr )
 {
   itk::ThreadIdType threadId = ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->WorkUnitID;
 
@@ -99,7 +99,7 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestCallback( void *ptr )
     {
     ConditionVariableTestIncCount( ptr );
     }
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 int itkConditionVariableTest(int , char*[])

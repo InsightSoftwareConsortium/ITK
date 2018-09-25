@@ -164,7 +164,7 @@ protected:
 
   void GenerateData() override;
 
-  static ITK_THREAD_RETURN_TYPE ThreaderFullCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderFullCallback(void *arg);
 
   void ThreadedGenerateDataFull(const OutputImageRegionType & outputRegionForThread,
                                 ThreadIdType threadId);

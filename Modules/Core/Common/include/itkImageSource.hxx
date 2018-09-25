@@ -283,7 +283,7 @@ before Update() is called. The best place is in class constructor.");
 // Callback routine used by the classic threading library. This routine just calls
 // the ThreadedGenerateData method after invoking (possibly) overloaded split region routine.
 template< typename TOutputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageSource< TOutputImage >
 ::ThreaderCallback(void *arg)
 {
@@ -303,7 +303,7 @@ ImageSource< TOutputImage >
     str->Filter->ThreadedGenerateData(splitRegion, threadId);
     }
   // else don't use this thread. Threads were not split conveniently.
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template<typename TOutputImage>

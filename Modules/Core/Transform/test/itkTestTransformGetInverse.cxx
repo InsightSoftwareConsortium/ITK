@@ -62,7 +62,7 @@ struct ThreadData
 };
 
 template <typename TTransform>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 TestGetInverseThreadFunction(void *perThreadData)
 {
   auto * ti = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(perThreadData);
@@ -72,7 +72,7 @@ TestGetInverseThreadFunction(void *perThreadData)
     td->m_Transform->GetInverse(td->m_Inverse.GetPointer());
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template <typename TTransform>
