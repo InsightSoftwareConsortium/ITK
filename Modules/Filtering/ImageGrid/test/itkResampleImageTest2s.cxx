@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
 #include "itkNearestNeighborExtrapolateImageFunction.h"
+#include "itkPipelineMonitorImageFilter.h"
 #include "itkTestingMacros.h"
 
 /* Further testing of itkResampleImageFilter
@@ -122,6 +123,10 @@ int itkResampleImageTest2s(int argc, char * argv [] )
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
+  typedef itk::PipelineMonitorImageFilter< ImageType > MonitorFilter;
+  
+  MonitorFilter::Pointer monitor = MonitorFilter::New();
+
   EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
 
   resample->SetInput( reader1->GetOutput() );
@@ -139,7 +144,8 @@ int itkResampleImageTest2s(int argc, char * argv [] )
   resample->SetInterpolator( interpolator );
   TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
 
-  writer1->SetInput( resample->GetOutput() );
+  monitor->SetInput( resample->GetOutput() );
+  writer1->SetInput( monitor->GetOutput() );
 
   // Check GetReferenceImage
   if( resample->GetReferenceImage() != reader2->GetOutput() )
@@ -159,6 +165,15 @@ int itkResampleImageTest2s(int argc, char * argv [] )
   catch( itk::ExceptionObject & excp )
     {
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  // this verifies that the pipeline was executed as expected along
+  // with correct region propagation and output information
+  if (!monitor->VerifyAllInputCanStream(8))
+    {
+    std::cout << "Streaming failed to execute as expected!" << std::endl;
+    std::cout << monitor;
     return EXIT_FAILURE;
     }
 
