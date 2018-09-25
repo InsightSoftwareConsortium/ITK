@@ -56,7 +56,7 @@ DataObjectError
 
 DataObjectError &
 DataObjectError
-::operator=(const DataObjectError & orig) noexcept = default;
+::operator=(const DataObjectError &) noexcept = default;
 
 void
 DataObjectError
