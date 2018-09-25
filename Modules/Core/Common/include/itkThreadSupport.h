@@ -60,7 +60,7 @@ namespace itk
   using FastMutexType = CRITICAL_SECTION;
   typedef unsigned(__stdcall * ThreadFunctionType)(void *);
   using ThreadProcessIdType = HANDLE;
-  constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
+  static const ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
   using ITK_THREAD_RETURN_TYPE = unsigned;
   constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = 0;
   // WINAPI expands to __stdcall which specifies a function call convention and has little no meaning on variable declarations
