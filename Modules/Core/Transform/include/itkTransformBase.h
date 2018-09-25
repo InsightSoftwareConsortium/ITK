@@ -127,8 +127,8 @@ public:
   virtual TransformCategoryType GetTransformCategory() const = 0;
 
 protected:
-  TransformBaseTemplate()= default;
-  ~TransformBaseTemplate() override = default;
+  TransformBaseTemplate() {};
+  ~TransformBaseTemplate() {};
 };
 
 /** This helps to meet backward compatibility */
