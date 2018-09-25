@@ -42,6 +42,8 @@ foreach(p
     ##----- Policies Introduced by CMake 3.4
     CMP0065  #: Do not add flags to export symbols from executables without the ENABLE_EXPORTS target property.
     CMP0064  #: Support new TEST if() operator.
+    ##----- Policies Introduced by CMake 3.4
+    CMP0074  #:.`find_package()`` uses ``<PackageName>_ROOT`` variables.
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
