@@ -35,7 +35,6 @@ endif()
     )
 
 else()
-
   set(MINC_LIBRARY_PREFIX itk)
   set(MINC_LIBRARY_NAME  ${MINC_LIBRARY_PREFIX}minc2)
   set(ITKMINC_LIBRARIES "${MINC_LIBRARY_NAME}")
