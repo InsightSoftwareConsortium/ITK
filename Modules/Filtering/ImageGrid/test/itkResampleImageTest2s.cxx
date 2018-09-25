@@ -153,6 +153,7 @@ int itkResampleImageTest2s(int argc, char * argv [] )
   std::cout << "Test with normal AffineTransform." << std::endl;
   try
     {
+    writer1->SetNumberOfStreamDivisions(8); //split into 8 pieces for streaming.
     writer1->Update();
     }
   catch( itk::ExceptionObject & excp )
@@ -175,6 +176,7 @@ int itkResampleImageTest2s(int argc, char * argv [] )
   writer2->SetInput( resample->GetOutput() );
   try
     {
+    writer2->SetNumberOfStreamDivisions(8); //demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
     writer2->Update();
     }
   catch( itk::ExceptionObject & excp )
@@ -191,6 +193,7 @@ int itkResampleImageTest2s(int argc, char * argv [] )
   std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
   try
     {
+    writer3->SetNumberOfStreamDivisions(8); //split into 8 pieces for streaming.
     writer3->Update();
     }
   catch( itk::ExceptionObject & excp )
@@ -206,6 +209,7 @@ int itkResampleImageTest2s(int argc, char * argv [] )
   std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << std::endl;
   try
     {
+    writer4->SetNumberOfStreamDivisions(8); //demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
     writer4->Update();
     }
   catch( itk::ExceptionObject & excp )
