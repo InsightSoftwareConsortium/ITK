@@ -26,6 +26,7 @@
 #include "itkImageScanlineIterator.h"
 #include "itkSpecialCoordinatesImage.h"
 #include "itkDefaultConvertPixelTraits.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -492,8 +493,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     }
 
   // Get pointers to the input and output
-  InputImagePointer inputPtr  =
-    const_cast< TInputImage * >( this->GetInput() );
+  InputImageType * inputPtr =
+    const_cast< InputImageType * >( this->GetInput() );
 
 
   // Check whether the input or the output is a
@@ -505,7 +506,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
        || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );
 
-  OutputImageType *outputPtr = this->GetOutput();
+  const OutputImageType *outputPtr = this->GetOutput();
   // Get the input transform
   const TransformType *transformPtr = this->GetTransform();
   
@@ -514,40 +515,10 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // to the IsLinear() call.
   if ( !isSpecialCoordinatesImage && transformPtr->GetTransformCategory() == TransformType::Linear )
     {
-    typename TOutputImage::RegionType outputLargestPossibleRegion;
-    outputLargestPossibleRegion = outputPtr->GetRequestedRegion();
-
-    // Define a few indices that will be used to translate from an input pixel
-    // to an output pixel
-    PointType outputPoint;         // Coordinates of current output pixel
-    PointType inputPoint;          // Coordinates of current input pixel
-
-    ContinuousInputIndexType contInputIndex;
-
     typename TInputImage::RegionType inputRequestedRegion;
-    typename TInputImage::IndexType inputIndex;
-  
-    // Determine the floor of the current output index
-    outputPtr->TransformIndexToPhysicalPoint(outputLargestPossibleRegion.GetIndex(), outputPoint);
-    // Compute corresponding input pixel position
-    inputPoint = transformPtr->TransformPoint(outputPoint);
-    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, contInputIndex);
-    for (unsigned int dim=0; dim < OutputImageType::ImageDimension; ++dim)
-	{
-	inputIndex[dim] = Math::Floor<IndexValueType>( contInputIndex[dim] );
-	}
-    inputRequestedRegion.SetIndex( inputIndex );
-
-    // Determine the ceil of the current output upper index
-    outputPtr->TransformIndexToPhysicalPoint(outputLargestPossibleRegion.GetUpperIndex(), outputPoint);
-    // Compute corresponding input pixel position
-    inputPoint = transformPtr->TransformPoint(outputPoint);
-    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, contInputIndex);
-    for (unsigned int dim=0; dim < OutputImageType::ImageDimension; ++dim)
-	{
-	inputIndex[dim] = Math::Ceil<IndexValueType>( contInputIndex[dim] );
-	}
-    inputRequestedRegion.SetUpperIndex( inputIndex );
+    inputRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(outputPtr->GetRequestedRegion(),
+	outputPtr,
+	inputPtr);
     
     inputPtr->SetRequestedRegion( inputRequestedRegion );
     return;
