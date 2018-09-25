@@ -106,11 +106,11 @@ InvalidRequestedRegionError
 {}
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError(const InvalidRequestedRegionError & orig) noexcept = default;
+::InvalidRequestedRegionError(const InvalidRequestedRegionError &) noexcept = default;
 
 InvalidRequestedRegionError &
 InvalidRequestedRegionError
-::operator=(const InvalidRequestedRegionError & orig) noexcept = default;
+::operator=(const InvalidRequestedRegionError &) noexcept = default;
 
 void
 InvalidRequestedRegionError
