@@ -231,7 +231,7 @@ public:
         }
     }
 
-    bool IsAtEnd()
+    bool IsAtEnd() const
     { return m_IsAtEnd; }
 
     SimpleForwardIterator & operator++()

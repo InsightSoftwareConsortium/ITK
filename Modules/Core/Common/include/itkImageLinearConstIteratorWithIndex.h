@@ -170,13 +170,13 @@ public:
   void GoToEndOfLine();
 
   /** Test if the index is at the end of line */
-  inline bool IsAtEndOfLine()
+  inline bool IsAtEndOfLine() const
   {
     return this->m_PositionIndex[m_Direction] >= this->m_EndIndex[m_Direction];
   }
 
   /** Test if the index is at the begin of line */
-  inline bool IsAtReverseEndOfLine()
+  inline bool IsAtReverseEndOfLine() const
   {
     return this->m_PositionIndex[m_Direction] < this->m_BeginIndex[m_Direction];
   }

@@ -42,7 +42,7 @@ public:
   }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd();
+  bool IsAtEnd() const;
 
   /** Walk forward one index. (prefix) */
   void operator++(){ GoToNext(); }

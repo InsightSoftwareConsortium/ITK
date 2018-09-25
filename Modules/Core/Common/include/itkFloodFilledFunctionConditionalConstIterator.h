@@ -152,7 +152,7 @@ public:
   { return this->m_Image->GetPixel( m_IndexStack.front() ); }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd() override
+  bool IsAtEnd() const override
   { return this->m_IsAtEnd; }
 
   /** Put more seeds on the list */
