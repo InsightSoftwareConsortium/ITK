@@ -76,7 +76,7 @@ public:
   static bool HasFloatingPointExceptionsSupport();
 
 private:
-  FloatingPointExceptions() = delete;
+  FloatingPointExceptions() = default;
   FloatingPointExceptions(const FloatingPointExceptions &) = delete;
   void operator=(const FloatingPointExceptions &) = delete;
 
