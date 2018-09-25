@@ -54,7 +54,7 @@ public:
 };
 }
 
-int itkResampleImageTest2(int argc, char * argv [] )
+int itkResampleImageTest2s(int argc, char * argv [] )
 {
 
   if( argc < 5 )
