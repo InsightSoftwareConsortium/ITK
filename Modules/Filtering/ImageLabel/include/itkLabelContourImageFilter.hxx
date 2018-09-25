@@ -20,10 +20,7 @@
 
 #include "itkLabelContourImageFilter.h"
 
-// don't think we need the indexed version as we only compute the
-// index at the start of each run, but there isn't a choice
-#include "itkImageLinearIteratorWithIndex.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkProgressTransformer.h"
 
@@ -125,22 +122,19 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   OutputImageType   *output = this->GetOutput();
   const InputImageType *input = this->GetInput();
 
-  using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
+  using InputLineIteratorType = ImageScanlineConstIterator< InputImageType >;
   InputLineIteratorType inLineIt(input, outputRegionForThread);
-  inLineIt.SetDirection(0);
 
-  using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
+  using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
-  outLineIt.SetDirection(0);
 
   outLineIt.GoToBegin();
   for ( inLineIt.GoToBegin();
         !inLineIt.IsAtEnd();
         inLineIt.NextLine(), outLineIt.NextLine() )
     {
-    inLineIt.GoToBeginOfLine();
-    outLineIt.GoToBeginOfLine();
-    LineEncodingType Line;
+    SizeValueType lineId = this->IndexToLinearIndex( inLineIt.GetIndex() );
+    LineEncodingType thisLine;
     while ( !inLineIt.IsAtEndOfLine() )
       {
       InputPixelType PVal = inLineIt.Get();
@@ -161,10 +155,9 @@ LabelContourImageFilter< TInputImage, TOutputImage >
       // create the run length object to go in the vector
       RunLength thisRun = { length, thisIndex, PVal };
 
-      Line.push_back(thisRun);
+      thisLine.push_back(thisRun);
       }
-    SizeValueType lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
-    m_LineMap[lineId] = Line;
+    m_LineMap[lineId] = thisLine;
     }
 
 }
@@ -176,9 +169,8 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 {
   OutputImageType *output = this->GetOutput();
 
-  using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
+  using OutputLineIteratorType = ImageScanlineIterator< OutputImageType >;
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
-  outLineIt.SetDirection(0);
 
   SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];

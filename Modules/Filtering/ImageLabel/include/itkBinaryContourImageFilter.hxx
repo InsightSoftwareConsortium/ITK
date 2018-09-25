@@ -20,11 +20,8 @@
 
 #include "itkBinaryContourImageFilter.h"
 
-// don't think we need the indexed version as we only compute the
-// index at the start of each run, but there isn't a choice
-#include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageScanlineIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
-#include "itkImageRegionIterator.h"
 #include "itkMaskImageFilter.h"
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkProgressTransformer.h"
@@ -134,22 +131,18 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   OutputImagePointer      output  = this->GetOutput();
   InputImageConstPointer  input   = this->GetInput();
 
-  using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
+  using InputLineIteratorType = ImageScanlineConstIterator< InputImageType >;
   InputLineIteratorType inLineIt(input, outputRegionForThread);
-  inLineIt.SetDirection(0);
 
-  using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
+  using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
-  outLineIt.SetDirection(0);
 
   outLineIt.GoToBegin();
   for ( inLineIt.GoToBegin();
         !inLineIt.IsAtEnd();
         inLineIt.NextLine(), outLineIt.NextLine() )
     {
-    inLineIt.GoToBeginOfLine();
-    outLineIt.GoToBeginOfLine();
-
+    SizeValueType lineId = this->IndexToLinearIndex( inLineIt.GetIndex() );
     LineEncodingType fgLine;
     LineEncodingType bgLine;
 
@@ -203,8 +196,6 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
         }
       }
 
-    SizeValueType lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
-
     m_ForegroundLineMap[lineId] = fgLine;
     m_BackgroundLineMap[lineId] = bgLine;
     lineId++;
@@ -218,9 +209,8 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 {
   OutputImagePointer output = this->GetOutput();
 
-  using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
+  using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
-  outLineIt.SetDirection(0);
 
   OffsetValueType linecount = m_ForegroundLineMap.size();
 

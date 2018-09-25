@@ -20,9 +20,8 @@
 
 #include "itkBinaryImageToLabelMapFilter.h"
 #include "itkNumericTraits.h"
-#include "itkImageScanlineConstIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
-#include "itkImageRegionIterator.h"
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkProgressReporter.h"
 #include "itkProgressTransformer.h"
@@ -184,7 +183,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   const TInputImage * input = this->GetInput();
 
   // create a line iterator
-  using InputLineIteratorType = itk::ImageScanlineConstIterator< InputImageType >;
+  using InputLineIteratorType = ImageScanlineConstIterator< InputImageType >;
   InputLineIteratorType inLineIt(input, outputRegionForThread);
 
   const SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
@@ -215,7 +214,6 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
         !inLineIt.IsAtEnd();
         inLineIt.NextLine() )
     {
-    inLineIt.GoToBeginOfLine();
     LineEncodingType thisLine;
     while ( !inLineIt.IsAtEndOfLine() )
       {

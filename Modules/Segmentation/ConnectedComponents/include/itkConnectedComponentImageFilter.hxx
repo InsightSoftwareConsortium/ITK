@@ -20,9 +20,7 @@
 
 #include "itkConnectedComponentImageFilter.h"
 
-// don't think we need the indexed version as we only compute the
-// index at the start of each run, but there isn't a choice
-#include "itkImageLinearConstIteratorWithIndex.h"
+#include "itkImageScanlineIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkMaskImageFilter.h"
@@ -89,9 +87,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     }
 
   ThreadIdType nbOfThreads = this->GetNumberOfWorkUnits();
-  if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
+  if ( MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = std::min( this->GetNumberOfWorkUnits(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfWorkUnits(), MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
     }
   // number of threads can be constrained by the region size, so call the
   // SplitRequestedRegion
@@ -124,9 +122,8 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   const auto nbOfThreads = static_cast<ThreadIdType>( m_NumberOfLabels.size() );
 
   // create a line iterator
-  using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex< InputImageType >;
+  using InputLineIteratorType = ImageScanlineConstIterator< InputImageType >;
   InputLineIteratorType inLineIt(m_Input, outputRegionForThread);
-  inLineIt.SetDirection(0);
 
   // set the progress reporter to deal with the number of lines
   const SizeValueType pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
@@ -159,7 +156,6 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
         !inLineIt.IsAtEnd();
         inLineIt.NextLine() )
     {
-    inLineIt.GoToBeginOfLine();
     LineEncodingType thisLine;
     while ( !inLineIt.IsAtEndOfLine() )
       {
