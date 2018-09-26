@@ -226,20 +226,20 @@ itk_add_test(NAME itkResampleImageTest2
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png)
 itk_add_test(NAME itkResampleImageTest2s
       COMMAND ITKImageGridTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ResampleImageTest2.png}
-              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ResampleImageTest2.png}
-              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png
-    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.png}
-              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.png
-    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.png}
-              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png
+    --compare DATA{Baseline/ResampleImageTest2.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.mha
+    --compare DATA{Baseline/ResampleImageTest2.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.mha
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.mha
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.mha
     itkResampleImageTest2s DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
                           DATA{${ITK_DATA_ROOT}/Input/circle.png}
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.png
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png)
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.mha
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.mha
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.mha
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.mha)
 itk_add_test(NAME itkResampleImageTest3
       COMMAND ITKImageGridTestDriver
     --compare DATA{Baseline/ResampleImageTest3.png}
