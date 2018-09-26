@@ -385,11 +385,11 @@ itk_add_test(NAME itkMetaDataDictionaryTest COMMAND ITKCommon2TestDriver itkMeta
 itk_add_test(NAME itkMultiThreaderBaseTestPlatform
   COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
 set_tests_properties(itkMultiThreaderBaseTestPlatform
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Platform")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Platform")
 itk_add_test(NAME itkMultiThreaderBaseTestPool
   COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
 set_tests_properties(itkMultiThreaderBaseTestPool
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Pool")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Pool")
 itk_add_test(NAME itkMultiThreaderBaseTest3
   COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest 3) # test with 3 threads
 
@@ -407,7 +407,7 @@ if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
   itk_add_test(NAME itkMultiThreaderBaseTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
   set_tests_properties(itkMultiThreaderBaseTestTBB
-    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=TBB")
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=TBB")
 
   itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
