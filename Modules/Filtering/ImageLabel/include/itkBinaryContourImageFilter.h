@@ -19,7 +19,7 @@
 #define itkBinaryContourImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
-#include "itkConceptChecking.h"
+#include "itkScanlineFilterCommon.h"
 #include <vector>
 
 namespace itk
@@ -52,6 +52,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT BinaryContourImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
+  , protected ScanlineFilterCommon< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryContourImageFilter);
@@ -96,16 +97,6 @@ public:
   using OutputInternalPixelType = typename OutputImageType::InternalPixelType;
 
   static constexpr unsigned int ImageDimension = OutputImageType::ImageDimension;
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
-
-  // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< Self::ImageDimension,
-                                             Self::OutputImageDimension > ) );
-#endif
-
   /**
    * Set/Get whether the connected components are defined strictly by
    * face connectivity or by face+edge+vertex connectivity.  Default is
@@ -137,8 +128,6 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  SizeValueType IndexToLinearIndex(IndexType index);
-
   void GenerateData() override;
 
   void BeforeThreadedGenerateData() override;
@@ -148,7 +137,6 @@ protected:
   void DynamicThreadedGenerateData(const RegionType& outputRegionForThread) override;
 
   void ThreadedIntegrateData(const RegionType& outputRegionForThread);
-
 
   /** BinaryContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -161,44 +149,27 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
+  using ScanlineFunctions = ScanlineFilterCommon< TInputImage, TOutputImage >;
+
+  using InternalLabelType         = typename ScanlineFunctions::InternalLabelType;
+  using OutSizeType               = typename ScanlineFunctions::OutSizeType;
+  using RunLength                 = typename ScanlineFunctions::RunLength;
+  using LineEncodingType          = typename ScanlineFunctions::LineEncodingType;
+  using LineEncodingIterator      = typename ScanlineFunctions::LineEncodingIterator;
+  using LineEncodingConstIterator = typename ScanlineFunctions::LineEncodingConstIterator;
+  using OffsetVectorType          = typename ScanlineFunctions::OffsetVectorType;
+  using OffsetVectorConstIterator = typename ScanlineFunctions::OffsetVectorConstIterator;
+  using LineMapType               = typename ScanlineFunctions::LineMapType;
+  using UnionFindType             = typename ScanlineFunctions::UnionFindType;
+  using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+
 private:
-  // types to support the run length encoding of lines
-  struct runLength
-  {
-    runLength( const OffsetValueType& iLength, const IndexType& iWhere ) :
-      m_Length( iLength ), m_Where( iWhere ) {}
 
-    // run length information - may be a more type safe way of doing this
-    OffsetValueType m_Length;
-
-    // Index of the start of the run
-    IndexType       m_Where;
-  };
-
-  using LineEncodingType = std::vector< runLength >;
-  using LineEncodingIterator = typename LineEncodingType::iterator;
-  using LineEncodingConstIterator = typename LineEncodingType::const_iterator;
-
-  // the map storing lines
-  using LineMapType = std::vector< LineEncodingType >;
-
-  using OffsetVec = std::vector< OffsetValueType >;
-
-  bool CheckNeighbors(const OutputIndexType & A,
-                      const OutputIndexType & B);
-
-  void CompareLines(LineEncodingType & current,
-                    const LineEncodingType & Neighbour);
-
-  void SetupLineOffsets(OffsetVec & LineOffsets);
-
-  LineMapType   m_ForegroundLineMap;
-  LineMapType   m_BackgroundLineMap;
-  ThreadIdType  m_NumberOfWorkUnits;
+  LineMapType     m_ForegroundLineMap;
+  LineMapType     m_BackgroundLineMap;
 
   InputImagePixelType  m_ForegroundValue;
   OutputImagePixelType m_BackgroundValue;
-  bool                 m_FullyConnected;
 };
 } // end namespace itk
 

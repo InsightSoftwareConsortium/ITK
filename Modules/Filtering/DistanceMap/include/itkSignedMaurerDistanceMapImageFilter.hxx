@@ -20,6 +20,7 @@
 
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkBinaryContourImageFilter.h"
 #include "itkProgressReporter.h"

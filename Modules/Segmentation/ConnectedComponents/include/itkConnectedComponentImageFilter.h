@@ -18,8 +18,7 @@
 #ifndef itkConnectedComponentImageFilter_h
 #define itkConnectedComponentImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkImage.h"
+#include "itkScanlineFilterCommon.h"
 #include <vector>
 #include <map>
 #include "itkProgressReporter.h"
@@ -59,6 +58,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage >
 class ITK_TEMPLATE_EXPORT ConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
+  , protected ScanlineFilterCommon< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedComponentImageFilter);
@@ -138,10 +138,6 @@ public:
   // only set after completion
   itkGetConstReferenceMacro(ObjectCount, LabelType);
 
-  // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
   itkConceptMacro( OutputImagePixelTypeIsInteger, ( Concept::IsInteger< OutputImagePixelType > ) );
 
   itkSetInputMacro(MaskImage, MaskImageType);
@@ -156,11 +152,11 @@ public:
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
 protected:
-  ConnectedComponentImageFilter()
+  ConnectedComponentImageFilter() :
+    ScanlineFilterCommon< TInputImage, TOutputImage >(this),
+    m_BackgroundValue( NumericTraits< OutputPixelType >::NonpositiveMin() )
   {
-    m_FullyConnected = false;
     m_ObjectCount = 0;
-    m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
 
     // implicit
     // #0 "Primary" required
@@ -174,9 +170,6 @@ protected:
   ~ConnectedComponentImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /**
-   * Standard pipeline methods.
-   */
   void BeforeThreadedGenerateData() override;
 
   void AfterThreadedGenerateData() override;
@@ -199,61 +192,25 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
-  bool m_FullyConnected;
+  using ScanlineFunctions = ScanlineFilterCommon< TInputImage, TOutputImage >;
+
+  using InternalLabelType         = typename ScanlineFunctions::InternalLabelType;
+  using OutSizeType               = typename ScanlineFunctions::OutSizeType;
+  using RunLength                 = typename ScanlineFunctions::RunLength;
+  using LineEncodingType          = typename ScanlineFunctions::LineEncodingType;
+  using LineEncodingIterator      = typename ScanlineFunctions::LineEncodingIterator;
+  using LineEncodingConstIterator = typename ScanlineFunctions::LineEncodingConstIterator;
+  using OffsetVectorType          = typename ScanlineFunctions::OffsetVectorType;
+  using OffsetVectorConstIterator = typename ScanlineFunctions::OffsetVectorConstIterator;
+  using LineMapType               = typename ScanlineFunctions::LineMapType;
+  using UnionFindType             = typename ScanlineFunctions::UnionFindType;
+  using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
 
 private:
-  LabelType            m_ObjectCount;
-  OutputImagePixelType m_BackgroundValue;
+  OutputPixelType m_BackgroundValue;
+  LabelType       m_ObjectCount;
 
-  // some additional types
-  using OutSizeType = typename TOutputImage::RegionType::SizeType;
-
-  // types to support the run length encoding of lines
-  class runLength
-  {
-public:
-    // run length information - may be a more type safe way of doing this
-    typename TInputImage::OffsetValueType   length;
-    typename TInputImage::IndexType         where;   // Index of the start of the run
-    LabelType                               label;   // the initial label of the run
-  };
-
-  using lineEncoding = std::vector< runLength >;
-
-  // the map storing lines
-  using LineMapType = std::vector< lineEncoding >;
-
-  using OffsetVec = std::vector< typename TInputImage::OffsetValueType >;
-
-  // the types to support union-find operations
-  using UnionFindType = std::vector< LabelType >;
-  UnionFindType m_UnionFind;
-  UnionFindType m_Consecutive;
-
-  // functions to support union-find operations
-  void InitUnion( SizeValueType size )
-  {
-    m_UnionFind = UnionFindType(size + 1);
-  }
-
-  void InsertSet(const LabelType label);
-
-  SizeValueType LookupSet(const LabelType label);
-
-  void LinkLabels(const LabelType lab1, const LabelType lab2);
-
-  SizeValueType CreateConsecutive();
-
-  //////////////////
-  bool CheckNeighbors(const OutputIndexType & A,
-                      const OutputIndexType & B);
-
-  void CompareLines(lineEncoding & current, const lineEncoding & Neighbour);
-
-  void FillOutput(const LineMapType & LineMap,
-                  ProgressReporter & progress);
-
-  void SetupLineOffsets(OffsetVec & LineOffsets);
+  void FillOutput(const LineMapType & LineMap, ProgressReporter & progress);
 
   void Wait()
   {
