@@ -696,35 +696,6 @@ HDF5ImageIO
     return false;
     }
 
-  //Do not read if it is a MINC file.
-  std::string filename(FileNameToRead);
-  std::string::size_type mncPos = filename.rfind(".mnc");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 4) )
-    {
-    return false;
-    }
-
-  mncPos = filename.rfind(".MNC");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 4) )
-    {
-    return false;
-    }
-
-  mncPos = filename.rfind(".mnc2");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 5) )
-    {
-    return false;
-    }
-
-  mncPos = filename.rfind(".MNC2");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 5) )
-    {
-    return false;
-    }
 
   // call standard method to determine HDF-ness
   bool rval;
@@ -733,7 +704,24 @@ HDF5ImageIO
   // or has some other problem.
   try
     {
+
     rval = H5::H5File::isHdf5(FileNameToRead);
+
+    std::unique_ptr<H5::H5File> h5file(new H5::H5File(FileNameToRead,
+                                                      H5F_ACC_RDONLY) );
+
+#if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
+    // check the file has the ITK ImageGroup
+    htri_t exists = H5Lexists( h5file->getId(),
+                               ImageGroup.c_str(),
+                               H5P_DEFAULT);
+    if ( exists <= 0 )
+#else
+    if(! h5file->exists(ImageGroup) )
+#endif
+      {
+      rval = false;
+      }
     }
   catch(...)
     {
