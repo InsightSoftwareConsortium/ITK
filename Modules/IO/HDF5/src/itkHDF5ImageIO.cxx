@@ -22,6 +22,8 @@
 #include "itksys/SystemTools.hxx"
 #include "itk_H5Cpp.h"
 
+#include <algorithm>
+
 namespace itk
 {
 
@@ -29,6 +31,18 @@ HDF5ImageIO::HDF5ImageIO() : m_H5File(nullptr),
                              m_VoxelDataSet(nullptr),
                              m_ImageInformationWritten(false)
 {
+
+  const char *hdf5Extensions[] =
+    {
+      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",nullptr,
+    };
+
+  for(unsigned i = 0; hdf5Extensions[i] != nullptr; i++)
+    {
+    this->AddSupportedWriteExtension(hdf5Extensions[i]);
+    this->AddSupportedReadExtension(hdf5Extensions[i]);
+    }
+
 }
 
 HDF5ImageIO::~HDF5ImageIO()
@@ -667,14 +681,12 @@ bool
 HDF5ImageIO
 ::CanWriteFile(const char *FileNameToWrite)
 {
-  const char *extensions[] =
+   std::string ext(itksys::SystemTools::GetFilenameLastExtension(FileNameToWrite));
+   std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+  for ( auto && candidate : this->GetSupportedWriteExtensions() )
     {
-      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",nullptr,
-    };
-  std::string ext(itksys::SystemTools::GetFilenameLastExtension(FileNameToWrite));
-  for(unsigned i = 0; extensions[i] != nullptr; i++)
-    {
-    if(ext == extensions[i])
+    if (ext == candidate)
       {
       return true;
       }
