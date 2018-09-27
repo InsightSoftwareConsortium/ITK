@@ -64,6 +64,8 @@ class ITK_TEMPLATE_EXPORT MultiScaleHessianEnhancementImageFilter:
 public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianEnhancementImageFilter);
+
   /** Standard Self typedef */
   typedef MultiScaleHessianEnhancementImageFilter         Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
@@ -170,7 +172,6 @@ private:
   /** Sigma member variables. */
   SigmaArrayType  m_SigmaArray;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianEnhancementImageFilter);
 }; // end of class
 } // end namespace itk
 

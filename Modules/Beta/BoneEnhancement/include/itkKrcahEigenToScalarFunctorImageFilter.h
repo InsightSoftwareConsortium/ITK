@@ -154,6 +154,8 @@ class KrcahEigenToScalarFunctorImageFilter :
         public UnaryFunctorImageFilter<TInputImage, TOutputImage,
                 Functor::KrcahEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType > > {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarFunctorImageFilter);
+
   /** Standard Self typedef */
   typedef KrcahEigenToScalarFunctorImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage, TOutputImage,
@@ -208,8 +210,6 @@ protected:
   virtual ~KrcahEigenToScalarFunctorImageFilter() {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarFunctorImageFilter);
-
   void PrintSelf(std::ostream & os, Indent indent) const
   {
     Superclass::PrintSelf(os, indent);

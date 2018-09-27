@@ -50,6 +50,8 @@ class ITK_TEMPLATE_EXPORT DescoteauxEigenToScalarImageFilter:
 public EigenToScalarImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarImageFilter);
+
   /** Standard Self typedef */
   typedef DescoteauxEigenToScalarImageFilter                    Self;
   typedef EigenToScalarImageFilter< TInputImage, TOutputImage > Superclass;
@@ -167,8 +169,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarImageFilter);
-
   /* Filter pipeline */
   typename ParameterEstimationFilterType::Pointer m_ParameterEstimationFilter;
   typename UnaryFunctorFilterType::Pointer        m_UnaryFunctorFilter;
