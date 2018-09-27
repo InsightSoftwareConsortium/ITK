@@ -144,7 +144,7 @@ protected:
   virtual ~MultiScaleHessianEnhancementImageFilter() {}
 
   /** Single threaded since we are connecting data */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Internal function to generate the response at a scale */
   inline typename TOutputImage::Pointer generateResponseAtScale(SigmaStepsType scaleLevel);
@@ -153,12 +153,12 @@ protected:
   InternalEigenValueOrderType ConvertType(ExternalEigenValueOrderType order);
 
   /** Override since the filter needs all the data for the algorithm */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Override since the filter produces all of its output */
-  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *data) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Internal filters. */

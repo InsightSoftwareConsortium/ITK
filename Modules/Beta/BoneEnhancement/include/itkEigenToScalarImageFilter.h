@@ -72,7 +72,7 @@ protected:
   EigenToScalarImageFilter() {}
   virtual ~EigenToScalarImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE {
+  void PrintSelf(std::ostream & os, Indent indent) const override {
     Superclass::PrintSelf(os, indent);
     os << indent << "EigenValueOrder: " << this->GetEigenValueOrder() << std::endl;
   }

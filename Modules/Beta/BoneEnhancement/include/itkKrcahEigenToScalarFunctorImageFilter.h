@@ -181,7 +181,7 @@ public:
   itkSetGetDecoratedInputMacro(Gamma, RealType);
 
   /** Need to access the input parameters at execution time */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE
+  void BeforeThreadedGenerateData() override
   {
     /* Set functor parameters after a call to Update() to make sure the input parameters resolve */
     this->GetFunctor().SetAlpha( this->GetAlphaInput()->Get() );

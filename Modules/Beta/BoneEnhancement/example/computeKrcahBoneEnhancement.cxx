@@ -12,11 +12,11 @@ class MyCommand : public itk::Command
   public:
     itkNewMacro( MyCommand );
   public:
-    void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE {
+    void Execute(itk::Object *caller, const itk::EventObject & event) override {
       Execute( (const itk::Object *)caller, event);
     }
  
-    void Execute(const itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE {
+    void Execute(const itk::Object * caller, const itk::EventObject & event) override {
       if( ! itk::ProgressEvent().CheckEvent( &event ) ) {
         return;
       }
