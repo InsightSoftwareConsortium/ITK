@@ -40,6 +40,8 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT EigenToScalarImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToScalarImageFilter);
+
   /** Standard Self typedef */
   typedef EigenToScalarImageFilter                      Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
@@ -80,9 +82,6 @@ protected:
     Superclass::PrintSelf(os, indent);
     os << indent << "EigenValueOrder: " << this->GetEigenValueOrder() << std::endl;
   }
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToScalarImageFilter);
 }; // end class
 } // namespace itk
 

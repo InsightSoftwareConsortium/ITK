@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT KrcahEigenToScalarPreprocessingImageToImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarPreprocessingImageToImageFilter);
+
   /** Standard Self typedef */
   typedef KrcahEigenToScalarPreprocessingImageToImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>     Superclass;
@@ -124,8 +126,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarPreprocessingImageToImageFilter);
-
   /* Internal member variables */
   RealType m_Sigma;
   RealType m_ScalingConstant;

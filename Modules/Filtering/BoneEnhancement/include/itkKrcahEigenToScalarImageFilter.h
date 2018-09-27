@@ -52,6 +52,8 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT KrcahEigenToScalarImageFilter : public EigenToScalarImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarImageFilter);
+
   /** Standard Self typedef */
   typedef KrcahEigenToScalarImageFilter                       Self;
   typedef EigenToScalarImageFilter<TInputImage, TOutputImage> Superclass;
@@ -197,8 +199,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarImageFilter);
-
   /* Filter pipeline */
   typename ParameterEstimationFilterType::Pointer m_ParameterEstimationFilter;
   typename UnaryFunctorFilterType::Pointer        m_UnaryFunctorFilter;

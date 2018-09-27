@@ -54,6 +54,8 @@ class ITK_TEMPLATE_EXPORT DescoteauxEigenToScalarParameterEstimationImageFilter
   : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarParameterEstimationImageFilter);
+
   /** Standard Self typedef */
   typedef DescoteauxEigenToScalarParameterEstimationImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TInputImage>          Superclass;
@@ -172,8 +174,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarParameterEstimationImageFilter);
-
   /* Parameters */
   RealType      m_FrobeniusNormWeight;
   MaskPixelType m_BackgroundValue;

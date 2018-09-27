@@ -81,6 +81,8 @@ class ITK_TEMPLATE_EXPORT KrcahEigenToScalarParameterEstimationImageFilter
   : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarParameterEstimationImageFilter);
+
   /** Standard Self typedef */
   typedef KrcahEigenToScalarParameterEstimationImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TInputImage>     Superclass;
@@ -218,8 +220,6 @@ protected:
   CalculateTraceAccordingToJournalArticle(InputPixelType pixel);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarParameterEstimationImageFilter);
-
   /* Parameters */
   KrcahImplementationType m_ParameterSet;
 
