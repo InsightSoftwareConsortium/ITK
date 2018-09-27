@@ -78,7 +78,7 @@ public:
 
   /** Image related typedefs. */
   typedef typename TInputImage::PixelType  PixelType;
-  itkStaticConstMacro(ImageDimension, unsigned int,  TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Hessian related typedefs. */
   typedef HessianRecursiveGaussianImageFilter< TInputImage >  HessianFilterType;
