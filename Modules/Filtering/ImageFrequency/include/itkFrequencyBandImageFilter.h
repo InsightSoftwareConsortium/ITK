@@ -53,7 +53,7 @@ namespace itk
  * and is not compatible with the hermitian optimization.
  *
  * If the output of the FFT is shifted, for example after applying \ref FFTShiftImageFilter,
- * use \ref FrequencyFFTShiftedLayoutImageRegionIteratorWithIndex.
+ * use \ref FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.
  *
  *
  * \ingroup ITKImageFrequency
