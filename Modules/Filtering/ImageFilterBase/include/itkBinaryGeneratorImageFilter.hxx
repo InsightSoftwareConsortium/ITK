@@ -139,7 +139,7 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
   const DecoratedInput2ImagePixelType *input = dynamic_cast< const DecoratedInput2ImagePixelType * >(
       this->ProcessObject::GetInput(1) );
-  if( input == ITK_NULLPTR )
+  if( input == nullptr )
     {
     itkExceptionMacro(<<"Constant 2 is not set");
     }
@@ -153,7 +153,7 @@ BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 ::GenerateOutputInformation()
 {
 
-  const DataObject * input = ITK_NULLPTR;
+  const DataObject * input = nullptr;
   const TInputImage1 * inputPtr1 =
     dynamic_cast< const TInputImage1 * >( ProcessObject::GetInput(0) );
   const TInputImage2 * inputPtr2 =
