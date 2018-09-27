@@ -25,7 +25,7 @@
 int itkKrcahEigenToScalarFunctorImageFilterTest( int argc, char * argv[] )
 {
   /* typedefs, instantiate filter */
-  const unsigned int                              Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   typedef double                                  ImagePixelType;
   typedef itk::Image< ImagePixelType, Dimension > ImageType;
 

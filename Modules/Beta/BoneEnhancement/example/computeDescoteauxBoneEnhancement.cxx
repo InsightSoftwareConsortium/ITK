@@ -78,7 +78,7 @@ int main(int argc, char * argv[])
   std::cout << std::endl;
 
   /* Setup Types */
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   typedef short                                       InputPixelType;
   typedef itk::Image<InputPixelType, ImageDimension>  InputImageType;
   typedef float                                       OutputPixelType;

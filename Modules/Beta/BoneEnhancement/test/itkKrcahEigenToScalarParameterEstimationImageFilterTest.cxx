@@ -23,7 +23,7 @@
 
 int itkKrcahEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
 {
-  const unsigned int                              Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   typedef unsigned int                            MaskPixelType;
   typedef itk::Image< MaskPixelType, Dimension >  MaskType;
 

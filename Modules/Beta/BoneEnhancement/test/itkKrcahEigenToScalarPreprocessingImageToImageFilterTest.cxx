@@ -21,7 +21,7 @@
 
 int itkKrcahEigenToScalarPreprocessingImageToImageFilterTest( int, char * [] )
 {
-  const unsigned int                              Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   typedef char                                    InputPixelType;
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
 

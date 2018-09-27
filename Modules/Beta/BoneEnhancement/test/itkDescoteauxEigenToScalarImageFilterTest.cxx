@@ -23,7 +23,7 @@
 
 int itkDescoteauxEigenToScalarImageFilterTest( int argc, char * argv[] )
 {
-  const unsigned int                              Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   typedef unsigned int                            MaskPixelType;
   typedef itk::Image< MaskPixelType, Dimension >  MaskType;
 
