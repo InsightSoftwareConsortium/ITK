@@ -167,9 +167,10 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
     }
 }
 
-template<typename InputImageType, typename OutputImageType>
+template<typename InputImageType, typename OutputImageType, typename TransformType>
 typename OutputImageType::RegionType
 ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
+                                     const TransformType* transformPtr,
                                      const InputImageType* inputImage,
                                      const OutputImageType* outputImage)
 {
@@ -217,7 +218,14 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
 
     typedef Point< SpacePrecisionType, OutputImageType::ImageDimension > PointType;
     PointType point;
-    inputImage->TransformContinuousIndexToPhysicalPoint(currentCornerIndex, point);
+    if ( transformPtr == ITK_NULLPTR)
+      {
+      inputImage->TransformContinuousIndexToPhysicalPoint(currentCornerIndex, point);
+      }
+    else
+      {
+      point = transformPtr->TransformPoint(currentCornerIndex);
+      }
     outputImage->TransformPhysicalPointToContinuousIndex(point, corners[count]);
     }
 

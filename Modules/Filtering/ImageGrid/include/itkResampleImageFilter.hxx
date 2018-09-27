@@ -517,6 +517,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     {
     typename TInputImage::RegionType inputRequestedRegion;
     inputRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(outputPtr->GetRequestedRegion(),
+	transformPtr,
 	outputPtr,
 	inputPtr);
     
