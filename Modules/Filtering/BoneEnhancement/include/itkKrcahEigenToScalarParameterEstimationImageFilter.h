@@ -186,30 +186,30 @@ protected:
 
   /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
   void
-  AllocateOutputs() ITK_OVERRIDE;
+  AllocateOutputs() override;
 
   /** Initialize some accumulators before the threads run. */
   void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  BeforeThreadedGenerateData() override;
 
   /** Do final mean and variance computation from data accumulated in threads. */
   void
-  AfterThreadedGenerateData() ITK_OVERRIDE;
+  AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
   void
-  ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   /** Override since the filter needs all the data for the algorithm */
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   /** Override since the filter produces all of its output */
   void
-  EnlargeOutputRequestedRegion(DataObject * data) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Calculation of \f$ T \f$ changes depending on the implementation */
   inline RealType

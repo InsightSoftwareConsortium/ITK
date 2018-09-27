@@ -118,10 +118,10 @@ protected:
 
   /** Single threaded since we are connecting data */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarPreprocessingImageToImageFilter);

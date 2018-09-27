@@ -151,7 +151,7 @@ protected:
 
   /** Single threaded since we are connecting data */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /** Internal function to generate the response at a scale */
   inline typename TOutputImage::Pointer
@@ -163,14 +163,14 @@ protected:
 
   /** Override since the filter needs all the data for the algorithm */
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   /** Override since the filter produces all of its output */
   void
-  EnlargeOutputRequestedRegion(DataObject * data) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Internal filters. */
