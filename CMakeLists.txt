@@ -98,10 +98,6 @@ include(itkCheckSourceTree)
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 
 #-----------------------------------------------------------------------------
-# ITK version number.
-set(ITK_VERSION_MAJOR "4")
-set(ITK_VERSION_MINOR "13")
-set(ITK_VERSION_PATCH "0")
 configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)
