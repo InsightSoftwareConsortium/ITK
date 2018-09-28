@@ -39,7 +39,8 @@ namespace itk
  * \sa BinaryGeneratorImagFilter
  * \sa UnaryFunctorImageFilter TernaryFunctorImageFilter
  *
- * \ingroup IntensityImageFilters   MultiThreaded
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
  * \ingroup ITKImageFilterBase
  *
  * \wiki
