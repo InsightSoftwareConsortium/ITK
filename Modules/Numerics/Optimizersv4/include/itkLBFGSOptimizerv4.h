@@ -69,7 +69,7 @@ namespace itk
  *
  * [2] Jorge Nocedal.
  * Updating Quasi-Newton Matrices with Limited Storage.
- * Mathematics of Computation, Vol. 35, No. 151, pp. 773–782, 1980.
+ * Mathematics of Computation, Vol. 35, No. 151, pp. 773-782, 1980.
  *
  * [3] Dong C. Liu and Jorge Nocedal.
  * On the limited memory BFGS method for large scale optimization.
@@ -77,7 +77,7 @@ namespace itk
  *
  * [4] More, J. J. and D. J. Thuente.
  * Line Search Algorithms with Guaranteed Sufficient Decrease.
- * ACM Transactions on Mathematical Software 20, no. 3 (1994): 286–307.
+ * ACM Transactions on Mathematical Software 20, no. 3 (1994): 286-307.
  *
  * \ingroup ITKOptimizersv4
  */

@@ -210,7 +210,7 @@ participants. We will not accept harassment or other exclusionary behavior.
 
 Be aware of your impact and how intense interactions may be affecting people.
 Be direct, constructive and positive. We can all make mistakes; when we do, we
-take responsibility for your impact and your mistakes – if someone says they
+take responsibility for your impact and your mistakes - if someone says they
 have been harmed through your words or actions, listen carefully, apologize
 sincerely, and correct the behavior going forward. If someone has been harmed
 or offended, we listen carefully and respectfully, and work to right the wrong.

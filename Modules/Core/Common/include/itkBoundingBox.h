@@ -36,7 +36,9 @@
 
 namespace itk
 {
+
 /** \class BoundingBox
+ *
  * \brief Represent and compute information about bounding boxes.
  *
  * BoundingBox is a supporting class that represents, computes, and
@@ -51,14 +53,9 @@ namespace itk
  *
  * Template parameters for BoundingBox:
  *
- * TPointIdentifier =
- *     The type used to access a particular point (i.e., a point's id)
- *
- * TCoordRep =
- *     Numerical type with which to represent each coordinate value.
- *
- * VPointDimension =
- *    Geometric dimension of space.
+ * \tparam TPointIdentifier The type used to access a particular point (i.e., a point's id)
+ * \tparam TCoordRep Numerical type with which to represent each coordinate value.
+ * \tparam VPointDimension Geometric dimension of space.
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
@@ -68,7 +65,6 @@ namespace itk
  * \wikiexample{Utilities/BoundingBox,Bounding box}
  * \endwiki
  */
-
 template<
   typename TPointIdentifier = IdentifierType,
   unsigned int VPointDimension = 3,

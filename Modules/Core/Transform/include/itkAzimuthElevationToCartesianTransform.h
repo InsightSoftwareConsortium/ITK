@@ -24,6 +24,7 @@
 namespace itk
 {
 /** \class AzimuthElevationToCartesianTransform
+ *
  * \brief Transforms from an azimuth, elevation, radius coordinate system to
  * a Cartesian coordinate system, or vice versa.
  *
@@ -37,15 +38,18 @@ namespace itk
  *
  * The equations form performing the conversion from azimuth-elevation
  * coordinates to cartesian coordinates are as follows:
- * z = std::sqrt((r^2*(cos(azimuth))^2)/(1 + (cos(azimuth))^2 *
- *     (tan(elevation))^2);
- * x = z * std::tan(azimuth)
- * y = z * std::tan(elevation)
+\code
+z = std::sqrt((r^2*(cos(azimuth))^2)/(1 + (cos(azimuth))^2 * (tan(elevation))^2);
+x = z * std::tan(azimuth)
+y = z * std::tan(elevation)
+\endcode
  *
  * The reversed transforms are:
- * azimuth = arctan(x/y)
- * elevation = arctan(y/z)
- * r = std::sqrt(x^2 + y^2 + z^2)
+\code
+azimuth = arctan(x/y)
+elevation = arctan(y/z)
+r = std::sqrt(x^2 + y^2 + z^2)
+\endcode
  *
  * In this class, we can also set what a "forward" transform means.  If we call
  * SetForwardAzimuthElevationToCartesian(), a forward transform will return
@@ -67,12 +71,12 @@ namespace itk
  * over the scalar type?  Perhaps it should always be double, unless
  * there's a compatibility problem with the Point class.
  *
- * \todo  Derive this class from a yet undefined TransformBase class.
- *        Currently, this class derives from AffineTransform, although
- *        it is not an affine transform.
+ * \todo Derive this class from TransformBase class.
+ * Currently, this class derives from AffineTransform, although
+ * it is not an affine transform.
  *
- * \todo  Add a figure in the documentation that informs the formulas used in this class
- *        that are used to transform Cartesian to azimuth-elevation-radius
+ * \todo Add a figure in the documentation that informs the formulas used in this class
+ * that are used to transform Cartesian to azimuth-elevation-radius
  *
  * \ingroup ITKTransform
  *

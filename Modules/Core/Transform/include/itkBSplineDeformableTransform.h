@@ -59,41 +59,41 @@ namespace itk
  * is managed by the caller.
  *
  * The following illustrates the typical usage of this class:
- * \verbatim
- * using TransformType = BSplineDeformableTransform<double,2,3>;
- * TransformType::Pointer transform = TransformType::New();
- *
- * transform->SetGridRegion( region );
- * transform->SetGridSpacing( spacing );
- * transform->SetGridOrigin( origin );
- *
- * // NB: the region must be set first before setting the parameters
- *
- * TransformType::ParametersType parameters(
- *                                       transform->GetNumberOfParameters() );
- *
- * // Fill the parameters with values
- *
- * transform->SetParameters( parameters )
- *
- * outputPoint = transform->TransformPoint( inputPoint );
- *
- * \endverbatim
+\code
+using TransformType = BSplineDeformableTransform<double,2,3>;
+TransformType::Pointer transform = TransformType::New();
+
+transform->SetGridRegion( region );
+transform->SetGridSpacing( spacing );
+transform->SetGridOrigin( origin );
+
+// NB: the region must be set first before setting the parameters
+
+TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
+
+// Fill the parameters with values
+
+transform->SetParameters( parameters )
+
+outputPoint = transform->TransformPoint( inputPoint );
+
+\endcode
  *
  * An alternative way to set the B-spline coefficients is via array of
  * images. The grid region, spacing and origin information is taken
  * directly from the first image. It is assumed that the subsequent images
  * are the same buffered region. The following illustrates the API:
- * \verbatim
  *
- * TransformType::ImageConstPointer images[2];
- *
- * // Fill the images up with values
- *
- * transform->SetCoefficientImages( images );
- * outputPoint = transform->TransformPoint( inputPoint );
- *
- * \endverbatim
+\code
+
+TransformType::ImageConstPointer images[2];
+
+// Fill the images up with values
+
+transform->SetCoefficientImages( images );
+outputPoint = transform->TransformPoint( inputPoint );
+
+\endcode
  *
  * Warning: use either the SetParameters() or SetCoefficientImages()
  * API. Mixing the two modes may results in unexpected results.
