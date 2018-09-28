@@ -117,7 +117,11 @@ public:
       }
   }
 
+#if defined(__GNUC__) && (__GNUC__ > 5)
   ~QuadrilateralCell() override = default;
+#else
+  ~QuadrilateralCell() override {};
+#endif
 
 protected:
   /** Store the number of points needed for a quadrilateral. */
