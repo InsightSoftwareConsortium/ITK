@@ -997,8 +997,9 @@ endif ()
 if (HDF5_EXPORTED_TARGETS)
   if (BUILD_SHARED_LIBS)
     INSTALL_TARGET_PDB (${HDF5_LIBSH_TARGET} ${HDF5_INSTALL_BIN_DIR} libraries)
-  endif ()
+  else () # ITK: We only build the static library if BUILD_SHARED_LIBS is OFF
   INSTALL_TARGET_PDB (${HDF5_LIB_TARGET} ${HDF5_INSTALL_BIN_DIR} libraries)
+  endif () # ITK
 
   install (
       TARGETS
