@@ -128,7 +128,11 @@ public:
   TriangleCell():
     m_PointIds( NumberOfPoints, NumericTraits< PointIdentifier >::max() )
   {}
+#if defined(__GNUC__) && (__GNUC__ > 5)
   ~TriangleCell() override = default;
+#else
+  ~TriangleCell() override {};
+#endif
 
 protected:
   /** Store the number of points needed for a triangle. */
