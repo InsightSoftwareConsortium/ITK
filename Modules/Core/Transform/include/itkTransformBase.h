@@ -128,7 +128,7 @@ public:
 
 protected:
   TransformBaseTemplate() {};
-  ~TransformBaseTemplate() {};
+  ~TransformBaseTemplate() override {};
 };
 
 /** This helps to meet backward compatibility */
