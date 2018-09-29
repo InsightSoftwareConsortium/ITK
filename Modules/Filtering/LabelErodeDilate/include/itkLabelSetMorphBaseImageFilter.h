@@ -48,6 +48,8 @@ class ITK_EXPORT LabelSetMorphBaseImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetMorphBaseImageFilter);
+
   /** Standard class type alias. */
   using Self = LabelSetMorphBaseImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
@@ -115,8 +117,7 @@ protected:
   RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num,
                                        OutputImageRegionType & splitRegion) override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                    ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   void GenerateData(void) override;
 
@@ -129,7 +130,7 @@ protected:
   RadiusType m_Radius;
   RadiusType m_Scale;
   using DistanceImageType = typename itk::Image< RealType, TInputImage::ImageDimension >;
-  typename TInputImage::PixelType m_Extreme;
+  RealType m_Extreme;
 
   typename DistanceImageType::Pointer m_DistanceImage;
 
@@ -140,9 +141,6 @@ protected:
   // this is the first non-zero entry in the radius. Needed to
   // support elliptical operations
   RealType m_BaseSigma;
-private:
-  LabelSetMorphBaseImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
 };
 } // end namespace itk
 
