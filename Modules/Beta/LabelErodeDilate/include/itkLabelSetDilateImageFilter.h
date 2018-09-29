@@ -42,6 +42,8 @@ class ITK_EXPORT LabelSetDilateImageFilter:
   public LabelSetMorphBaseImageFilter< TInputImage, true, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetDilateImageFilter);
+
   /** Standard class type alias. */
   using Self = LabelSetDilateImageFilter;
   using Superclass = LabelSetMorphBaseImageFilter< TInputImage, true, TOutputImage >;
@@ -75,15 +77,13 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 protected:
-  LabelSetDilateImageFilter(){}
+  LabelSetDilateImageFilter()
+    { this->DynamicMultiThreadingOn(); }
   ~LabelSetDilateImageFilter() override {}
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  LabelSetDilateImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
-
   using DistanceImageType = typename Superclass::DistanceImageType;
 };
 } // end namespace itk

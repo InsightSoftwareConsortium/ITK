@@ -42,27 +42,28 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
 
   if ( doDilate )
     {
-    m_Extreme = NumericTraits< PixelType >::NonpositiveMin();
+    m_Extreme = NumericTraits< RealType >::NonpositiveMin();
     m_MagnitudeSign = 1;
     }
   else
     {
-    m_Extreme = NumericTraits< PixelType >::max();
+    m_Extreme = NumericTraits< RealType >::max();
     m_MagnitudeSign = -1;
     }
   m_UseImageSpacing = false;
 
   this->SetRadius(1);
+
+  this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, bool doDilate, typename TOutputImage >
 void
 LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // stop warnings
   (void)outputRegionForThread;
-  (void)threadId;
 }
 
 template< typename TInputImage, bool doDilate, typename TOutputImage >

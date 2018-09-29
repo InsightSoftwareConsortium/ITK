@@ -20,7 +20,6 @@
 
 #include <itkArray.h>
 
-#include "itkProgressReporter.h"
 #include <vector>
 namespace itk
 {
@@ -225,19 +224,16 @@ void DoLineLabelProp(LineBufferType & LineBuf, LineBufferType & tmpLineBuf,
 template< class TInIter, class TOutDistIter, class TOutLabIter, class RealType >
 void doOneDimensionErodeFirstPass(TInIter & inputIterator, TOutDistIter & outputIterator,
                                   TOutLabIter & outputLabIterator,
-                                  ProgressReporter & progress,
                                   const unsigned LineLength,
                                   const unsigned direction,
                                   const int m_MagnitudeSign,
                                   const bool m_UseImageSpacing,
-                                  const RealType m_Extreme,
                                   const RealType image_scale,
                                   const RealType Sigma,
                                   const bool lastpass)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
-  (void)m_Extreme; // avoid warning
   using LineBufferType = typename itk::Array< RealType >;
   using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;
@@ -350,25 +346,21 @@ void doOneDimensionErodeFirstPass(TInIter & inputIterator, TOutDistIter & output
     // now onto the next line
     inputIterator.NextLine();
     outputIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 
 template< class TInIter, class TOutDistIter, class TOutLabIter, class RealType >
 void doOneDimensionDilateFirstPass(TInIter & inputIterator, TOutDistIter & outputIterator,
                                    TOutLabIter & outputLabIterator,
-                                   ProgressReporter & progress,
                                    const unsigned LineLength,
                                    const unsigned direction,
                                    const int m_MagnitudeSign,
                                    const bool m_UseImageSpacing,
-                                   const RealType m_Extreme,
                                    const RealType image_scale,
                                    const RealType Sigma)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
-  (void)m_Extreme; // stop warnings
   using LineBufferType = typename itk::Array< RealType >;
   using LabelBufferType = typename itk::Array< typename TInIter::PixelType >;
   RealType iscale = 1.0;
@@ -436,14 +428,12 @@ void doOneDimensionDilateFirstPass(TInIter & inputIterator, TOutDistIter & outpu
     inputIterator.NextLine();
     outputIterator.NextLine();
     outputLabIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 
 template< class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType >
 void doOneDimensionErode(TInIter & inputIterator, TDistIter & inputDistIterator,
                          TOutDistIter & outputDistIterator, TOutLabIter & outputLabIterator,
-                         ProgressReporter & progress,
                          const unsigned LineLength,
                          const unsigned direction,
                          const int m_MagnitudeSign,
@@ -568,14 +558,12 @@ void doOneDimensionErode(TInIter & inputIterator, TDistIter & inputDistIterator,
     inputIterator.NextLine();
     inputDistIterator.NextLine();
     outputDistIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 
 template< class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType >
 void doOneDimensionDilate(TInIter & inputIterator, TDistIter & inputDistIterator,
                           TOutDistIter & outputDistIterator, TOutLabIter & outputLabIterator,
-                          ProgressReporter & progress,
                           const unsigned LineLength,
                           const unsigned direction,
                           const int m_MagnitudeSign,
@@ -652,7 +640,6 @@ void doOneDimensionDilate(TInIter & inputIterator, TDistIter & inputDistIterator
     outputLabIterator.NextLine();
     inputDistIterator.NextLine();
     outputDistIterator.NextLine();
-    progress.CompletedPixel();
     }
 }
 }
