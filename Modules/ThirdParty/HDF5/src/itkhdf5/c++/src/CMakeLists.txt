@@ -137,8 +137,9 @@ install (
 if (HDF5_EXPORTED_TARGETS)
   if (BUILD_SHARED_LIBS)
     INSTALL_TARGET_PDB (${HDF5_CPP_LIBSH_TARGET} ${HDF5_INSTALL_BIN_DIR} cpplibraries)
-  endif ()
+  else () # ITK: Build static library only with BUILD_SHARED_LIBS OFF
   INSTALL_TARGET_PDB (${HDF5_CPP_LIB_TARGET} ${HDF5_INSTALL_BIN_DIR} cpplibraries)
+  endif() # ITK
 
   install (
       TARGETS
