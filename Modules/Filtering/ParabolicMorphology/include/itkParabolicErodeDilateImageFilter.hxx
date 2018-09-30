@@ -165,7 +165,7 @@ template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
 ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData(void)
 {
-  ThreadIdType nbthreads = this->GetNumberOfThreads();
+  ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
   typename TInputImage::ConstPointer inputImage(this->GetInput());
   typename TOutputImage::Pointer     outputImage(this->GetOutput());
