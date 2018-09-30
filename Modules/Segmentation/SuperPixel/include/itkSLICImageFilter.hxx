@@ -190,7 +190,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     }
   itkDebugMacro("Initial Clustering Completed");
 
-  shrunkImage = ITK_NULLPTR;
+  shrunkImage = nullptr;
 
   m_DistanceImage = DistanceImageType::New();
   m_DistanceImage->CopyInformation(inputImage);
@@ -708,7 +708,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   if (m_EnforceConnectivity)
     {
 
-    m_DistanceImage = ITK_NULLPTR;
+    m_DistanceImage = nullptr;
 
     m_MarkerImage = MarkerImageType::New();
     m_MarkerImage->CopyInformation(inputImage);
@@ -735,8 +735,8 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   itkDebugMacro("Starting AfterThreadedGenerateData");
 
 
-  m_DistanceImage = ITK_NULLPTR;
-  m_MarkerImage = ITK_NULLPTR;
+  m_DistanceImage = nullptr;
+  m_MarkerImage = nullptr;
 
   // cleanup
   std::vector<ClusterComponentType>().swap(m_Clusters);
