@@ -2,6 +2,8 @@ set(ITKVNLInstantiation_SRCS
   vnl_vector+ulonglong-.cxx
   vnl_fft_base+float.3-.cxx
   vnl_fft_base+float.4-.cxx
+  vnl_matrix_fixed+double.1.1-.cxx
+  vnl_matrix_fixed+double.5.5-.cxx
   vnl_matrix_fixed_ref+double.2.2-.cxx
   vnl_matrix_fixed_ref+double.2.3-.cxx
   vnl_fft_base+double.3-.cxx
@@ -10,10 +12,13 @@ set(ITKVNLInstantiation_SRCS
   vnl_vector+ushort-.cxx
   vnl_matrix_fixed+double.3.12-.cxx
   vnl_matrix_fixed+double.2.3-.cxx
+  vnl_fortran_copy_fixed+double.5.5-.cxx
   vnl_matrix_fixed+double.10.10-.cxx
   vnl_matrix_fixed+float.10.10-.cxx
-  vnl_matrix_fixed+float.1.1-.cxx
   vnl_matrix_fixed+double.1.1-.cxx
+  vnl_matrix_fixed+float.1.1-.cxx
+  vnl_matrix_fixed+double.5.5-.cxx
+  vnl_matrix_fixed+float.5.5-.cxx
   vnl_c_vector+char-.cxx
   vnl_c_vector+short-.cxx
   vnl_matrix+short-.cxx
@@ -34,11 +39,13 @@ set(ITKVNLInstantiation_SRCS
   vnl_svd_fixed+double.2.3-.cxx
   vnl_svd_fixed+double.3.2-.cxx
   vnl_svd_fixed+double.4.4-.cxx
+  vnl_svd_fixed+double.5.5-.cxx
   vnl_svd_fixed+double.10.10-.cxx
   vnl_svd_fixed+float.1.1-.cxx
   vnl_svd_fixed+float.2.2-.cxx
   vnl_svd_fixed+float.2.3-.cxx
   vnl_svd_fixed+float.4.4-.cxx
+  vnl_svd_fixed+float.5.5-.cxx
   vnl_svd_fixed+float.10.10-.cxx
   vnl_fortran_copy_fixed+double.1.1-.cxx
   vnl_fortran_copy_fixed+double.2.2-.cxx
@@ -47,6 +54,8 @@ set(ITKVNLInstantiation_SRCS
   vnl_fortran_copy_fixed+double.4.4-.cxx
   vnl_fortran_copy_fixed+double.10.10-.cxx
   vnl_fortran_copy_fixed+float.1.1-.cxx
+  vnl_fortran_copy_fixed+float.4.4-.cxx
+  vnl_fortran_copy_fixed+float.5.5-.cxx
   vnl_fortran_copy_fixed+float.2.2-.cxx
   vnl_fortran_copy_fixed+float.2.3-.cxx
   vnl_fortran_copy_fixed+float.3.2-.cxx
@@ -54,9 +63,11 @@ set(ITKVNLInstantiation_SRCS
   vnl_fortran_copy_fixed+float.10.10-.cxx
   vnl_diag_matrix_fixed+double.1-.cxx
   vnl_diag_matrix_fixed+double.2-.cxx
+  vnl_diag_matrix_fixed+double.5-.cxx
   vnl_diag_matrix_fixed+double.10-.cxx
   vnl_diag_matrix_fixed+float.1-.cxx
   vnl_diag_matrix_fixed+float.2-.cxx
+  vnl_diag_matrix_fixed+float.5-.cxx
   vnl_diag_matrix_fixed+float.10-.cxx
   )
 
