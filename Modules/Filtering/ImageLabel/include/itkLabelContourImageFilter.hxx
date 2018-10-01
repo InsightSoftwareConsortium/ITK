@@ -153,7 +153,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
         ++outLineIt;
         }
       // create the run length object to go in the vector
-      RunLength thisRun = { length, thisIndex, PVal };
+      RunLength thisRun = { length, thisIndex, static_cast< InternalLabelType >( PVal ) };
 
       thisLine.push_back(thisRun);
       }
