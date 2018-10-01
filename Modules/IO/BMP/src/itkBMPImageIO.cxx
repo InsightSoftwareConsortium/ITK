@@ -45,11 +45,16 @@ BMPImageIO::BMPImageIO() :
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  this->AddSupportedWriteExtension(".bmp");
-  this->AddSupportedWriteExtension(".BMP");
+  const char *extensions[] =
+    {
+      ".bmp",".BMP",
+    };
 
-  this->AddSupportedReadExtension(".bmp");
-  this->AddSupportedReadExtension(".BMP");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 /** Destructor */
@@ -65,20 +70,8 @@ bool BMPImageIO::CanReadFile(const char *filename)
     itkDebugMacro(<< "No filename specified.");
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type BMPPos = fname.rfind(".bmp");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
 
-  BMPPos = fname.rfind(".BMP");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedReadExtension(filename, false);
 
   if ( !extensionFound )
     {
@@ -171,20 +164,7 @@ bool BMPImageIO::CanWriteFile(const char *name)
     itkDebugMacro(<< "No filename specified.");
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type BMPPos = filename.rfind(".bmp");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
-
-  BMPPos = filename.rfind(".BMP");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedWriteExtension(name, false);
 
   if ( !extensionFound )
     {
