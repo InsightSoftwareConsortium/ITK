@@ -55,7 +55,7 @@ namespace itk
  * VariationalRegistrationRegularizer. Different force terms and regularization methods can be combined by using the
  * methods SetDifferenceFunction() and SetRegularizer().
  *
- *  The implemented method can be summariced as follows:
+ *  The implemented method can be summarized as follows:
  *    - initialize \f$ u \f$ (default \f$ u=0 \f$)
  *    - <b>do</b>
  *      - compute the update field \f$ f^k \f$ using \f$ R(x) \f$ and the warped image \f$ T(x+u^k(x)) \f$

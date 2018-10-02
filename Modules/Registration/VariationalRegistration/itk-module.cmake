@@ -1,21 +1,11 @@
-set(
-  DOCUMENTATION
-  "This module contains a collection of classes for performing
-   variational image registration. See VariationalRegistrationFilter for a
-   brief introduction. For further information on the algorithm, please refer to:
+# the top-level README is used for describing this module, just
+# re-used it for documentation here
+# itk_module() defines the module dependencies in VariationalRegistration
+# The testing module in VariationalRegistration depends on ITKTestKernel
+# By convention those modules outside of ITK are not prefixed with
+# ITK.
 
-   Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
-   Estimation of lung motion fields in 4D CT data by variational non-linear
-   intensity-based registration: A comparison and evaluation study,
-   Phys. Med. Biol., 2014
-
-   Information on the implementation can be found in:
-
-   Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
-   A Flexible Variational Registration Framework, Insight Journal, 2014
-   http://hdl.handle.net/10380/3460"
-)
-
+# define the dependencies of the include module and the tests
 itk_module(
   VariationalRegistration
   DEPENDS
@@ -30,6 +20,8 @@ itk_module(
     ITKMathematicalMorphology
     ITKBinaryMathematicalMorphology
     ITKTestKernel #necessary to handle IO in src
+  TEST_DEPENDS
+    ITKTestKernel
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "${DOCUMENTATION}"
+  DESCRIPTION "Module ingested from upstream."
 )
