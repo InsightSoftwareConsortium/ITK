@@ -50,7 +50,8 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
+class VariationalRegistrationSSDFunction
+  : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationSSDFunction);
