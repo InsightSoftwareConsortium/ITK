@@ -101,11 +101,16 @@ itk_add_test(NAME itkGrayscaleConnectedOpeningImageFilterTest2
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedOpeningImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png
     itkGrayscaleConnectedOpeningImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png 150 169)
-itk_add_test(NAME itkGrayscaleFillholeImageFilterTest
+itk_add_test(NAME itkGrayscaleFillholeImageFilterTestFullyConnectedOff
       COMMAND ITKMathematicalMorphologyTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleFillholeImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png
-    itkGrayscaleFillholeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png)
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOff.png
+              5824569f359baf1160c0e0a1ed7b8d9e
+    itkGrayscaleFillholeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOff.png 0)
+itk_add_test(NAME itkGrayscaleFillholeImageFilterTestFullyConnectedOn
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOn.png
+              ec13ea7eb39ef73f441ff59a690e8ba0
+    itkGrayscaleFillholeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOn.png 1)
 itk_add_test(NAME itkGrayscaleFunctionDilateImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkGrayscaleFunctionDilateImageFilterTest.mha}
