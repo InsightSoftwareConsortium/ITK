@@ -934,6 +934,72 @@ ImageIOBase::GetImageRegionSplitter() const
   return ioDefaultSplitter;
 }
 
+
+bool
+ImageIOBase::HasSupportedReadExtension( const char *fileName, bool ignoreCase )
+{
+  return this->HasSupportedExtension( fileName,
+                                      this->GetSupportedReadExtensions(),
+                                      ignoreCase );
+}
+
+
+bool
+ImageIOBase::HasSupportedWriteExtension( const char *fileName, bool ignoreCase )
+{
+
+  return this->HasSupportedExtension( fileName,
+                                      this->GetSupportedWriteExtensions(),
+                                      ignoreCase );
+}
+
+
+bool
+ImageIOBase::HasSupportedExtension( const char * filename,
+                                    const ImageIOBase::ArrayOfExtensionsType &supportedExtensions,
+                                    bool ignoreCase )
+{
+
+  std::string ext = itksys::SystemTools::GetFilenameLastExtension(filename);
+  if ( ignoreCase )
+    {
+    std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+    }
+
+  for ( auto && candidate : supportedExtensions )
+    {
+    if ( ignoreCase )
+      {
+      size_t n = candidate.size();
+      if ( n == ext.size() && n > 0)
+        {
+
+        while ( true )
+          {
+          --n;
+          if (ext[n] != ::tolower(candidate[n]))
+            {
+            break;
+            }
+          if ( n == 0 )
+            {
+            return true;
+            }
+          }
+
+        }
+      }
+    else
+      {
+      if ( candidate == ext )
+        {
+        return true;
+        }
+      }
+    }
+  return false;
+}
+
 unsigned int
 ImageIOBase::GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int numberOfRequestedSplits,
                                                              const ImageIORegion & pasteRegion) const

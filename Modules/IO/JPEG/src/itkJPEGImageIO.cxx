@@ -98,34 +98,7 @@ bool JPEGImageIO::CanReadFile(const char *file)
     return false;
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type JPEGPos = filename.rfind(".jpeg");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 5 ) )
-    {
-    extensionFound = true;
-    }
-
-  JPEGPos = filename.rfind(".JPEG");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 5 ) )
-    {
-    extensionFound = true;
-    }
-
-  JPEGPos = filename.rfind(".jpg");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
-
-  JPEGPos = filename.rfind(".JPG");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedReadExtension(file, false);
 
   if ( !extensionFound )
     {
@@ -284,15 +257,16 @@ JPEGImageIO::JPEGImageIO()
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  this->AddSupportedWriteExtension(".jpg");
-  this->AddSupportedWriteExtension(".JPG");
-  this->AddSupportedWriteExtension(".jpeg");
-  this->AddSupportedWriteExtension(".JPEG");
+  const char *extensions[] =
+    {
+      ".jpg",".JPG", ".jpeg", ".JPEG"
+    };
 
-  this->AddSupportedReadExtension(".jpg");
-  this->AddSupportedReadExtension(".JPG");
-  this->AddSupportedReadExtension(".jpeg");
-  this->AddSupportedReadExtension(".JPEG");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 JPEGImageIO::~JPEGImageIO() = default;
@@ -405,35 +379,7 @@ bool JPEGImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  std::string::size_type JPEGPos = filename.rfind(".jpeg");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  JPEGPos = filename.rfind(".JPEG");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  JPEGPos = filename.rfind(".jpg");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  JPEGPos = filename.rfind(".JPG");
-  if ( ( JPEGPos != std::string::npos )
-       && ( JPEGPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, false);
 }
 
 void JPEGImageIO::WriteImageInformation()

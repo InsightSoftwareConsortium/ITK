@@ -420,20 +420,17 @@ NiftiImageIO::NiftiImageIO() :
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages
-  this->AddSupportedWriteExtension(".nia");
-  this->AddSupportedWriteExtension(".nii");
-  this->AddSupportedWriteExtension(".nii.gz");
 
-  this->AddSupportedReadExtension(".nia");
-  this->AddSupportedReadExtension(".nii");
-  this->AddSupportedReadExtension(".nii.gz");
+   const char *extensions[] =
+    {
+      ".nia", ".nii", ".nii.gz", ".hdr", ".img", ".img.gz"
+    };
 
-  this->AddSupportedWriteExtension(".hdr");
-  this->AddSupportedWriteExtension(".img");
-  this->AddSupportedWriteExtension(".img.gz");
-  this->AddSupportedReadExtension(".hdr");
-  this->AddSupportedReadExtension(".img");
-  this->AddSupportedReadExtension(".img.gz");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 NiftiImageIO::~NiftiImageIO()

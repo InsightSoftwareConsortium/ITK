@@ -294,11 +294,17 @@ PNGImageIO::PNGImageIO() :
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  this->AddSupportedWriteExtension(".png");
-  this->AddSupportedWriteExtension(".PNG");
+  const char *extensions[] =
+    {
+      ".png",".PNG"
+    };
 
-  this->AddSupportedReadExtension(".png");
-  this->AddSupportedReadExtension(".PNG");
+
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 PNGImageIO::~PNGImageIO() = default;
@@ -500,21 +506,7 @@ bool PNGImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  std::string::size_type pngPos = filename.rfind(".png");
-  if ( ( pngPos != std::string::npos )
-       && ( pngPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  pngPos = filename.rfind(".PNG");
-  if ( ( pngPos != std::string::npos )
-       && ( pngPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, false);
 }
 
 void PNGImageIO::WriteImageInformation()

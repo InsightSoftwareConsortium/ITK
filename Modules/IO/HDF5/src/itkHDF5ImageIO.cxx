@@ -32,15 +32,16 @@ HDF5ImageIO::HDF5ImageIO() : m_H5File(nullptr),
                              m_ImageInformationWritten(false)
 {
 
-  const char *hdf5Extensions[] =
+  const char *extensions[] =
     {
-      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",nullptr,
+      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5"
     };
 
-  for(unsigned i = 0; hdf5Extensions[i] != nullptr; i++)
+
+  for(auto ext : extensions)
     {
-    this->AddSupportedWriteExtension(hdf5Extensions[i]);
-    this->AddSupportedReadExtension(hdf5Extensions[i]);
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
     }
 
 }
@@ -679,19 +680,9 @@ HDF5ImageIO
 
 bool
 HDF5ImageIO
-::CanWriteFile(const char *FileNameToWrite)
+::CanWriteFile(const char *name)
 {
-   std::string ext(itksys::SystemTools::GetFilenameLastExtension(FileNameToWrite));
-   std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
-
-  for ( auto && candidate : this->GetSupportedWriteExtensions() )
-    {
-    if (ext == candidate)
-      {
-      return true;
-      }
-    }
-  return false;
+  return this->HasSupportedWriteExtension(name);
 }
 
 // This method will only test if the header looks like an

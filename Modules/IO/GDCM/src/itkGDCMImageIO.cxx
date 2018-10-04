@@ -101,15 +101,16 @@ GDCMImageIO::GDCMImageIO()
   // JPEG2000 was only recently added to the DICOM standard
   m_CompressionType = JPEG2000;
 
-  this->AddSupportedReadExtension(".dcm");
-  this->AddSupportedReadExtension(".DCM");
-  this->AddSupportedReadExtension(".dicom");
-  this->AddSupportedReadExtension(".DICOM");
+  const char *extensions[] =
+    {
+      ".dcm",".DCM", ".dicom", ".DICOM"
+    };
 
-  this->AddSupportedWriteExtension(".dcm");
-  this->AddSupportedWriteExtension(".DCM");
-  this->AddSupportedWriteExtension(".dicom");
-  this->AddSupportedWriteExtension(".DICOM");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 
 }
 
@@ -645,35 +646,7 @@ bool GDCMImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  std::string::size_type dcmPos = filename.rfind(".dcm");
-  if ( ( dcmPos != std::string::npos )
-       && ( dcmPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  dcmPos = filename.rfind(".DCM");
-  if ( ( dcmPos != std::string::npos )
-       && ( dcmPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  std::string::size_type dicomPos = filename.rfind(".dicom");
-  if ( ( dicomPos != std::string::npos )
-       && ( dicomPos == filename.length() - 6 ) )
-    {
-    return true;
-    }
-
-  dicomPos = filename.rfind(".DICOM");
-  if ( ( dicomPos != std::string::npos )
-       && ( dicomPos == filename.length() - 6 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, false);
 }
 
 void GDCMImageIO::WriteImageInformation()
