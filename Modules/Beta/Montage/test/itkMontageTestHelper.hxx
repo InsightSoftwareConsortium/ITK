@@ -160,12 +160,14 @@ int montageTest(const PositionTableType& stageCoords, const PositionTableType& a
           PointType p0;
           p0.Fill(0);
           ta += actualCoords[0][0] - p0; //account for tile zero maybe not being at coordinates 0
+          double singleError = 0.0;
           for (unsigned d = 0; d < Dimension; d++)
             {
             registrationErrors << '\t' << (tr[d] - ta[d]);
             std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
-            totalError += std::abs(tr[d] - ta[d]);
+            singleError += std::abs(tr[d] - ta[d]);
             }
+          totalError += singleError;
           registrationErrors << std::endl;
           WriteTransform(regTr, outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod)
               + "_Tr_" + std::to_string(x) + "_" + std::to_string(y) + ".tfm");
