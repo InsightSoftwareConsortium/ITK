@@ -228,7 +228,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
     )
 endif()
   
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
   itk_add_test(NAME itkMontageTestTiles
     COMMAND MontageTestDriver
     itkMontageTestTiles
@@ -238,7 +238,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
     )
 endif()
 
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles)
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
   itk_add_test(NAME itkMontageTestNoisyTiles
     COMMAND MontageTestDriver
     itkMontageTestTiles
