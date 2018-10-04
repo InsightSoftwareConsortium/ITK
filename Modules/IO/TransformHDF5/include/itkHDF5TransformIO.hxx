@@ -41,14 +41,33 @@ bool
 HDF5TransformIOTemplate<TParametersValueType>
 ::CanReadFile(const char *fileName)
 {
-  // call standard method to determine HDF-ness
-  bool rval;
   // HDF5 is so exception happy, we have to worry about
   // it throwing a wobbly here if the file doesn't exist
   // or has some other problem.
+  bool rval = true;
   try
     {
-    rval = H5::H5File::isHdf5(fileName);
+    htri_t ishdf5 = H5Fis_hdf5(fileName);
+
+    if (ishdf5 <= 0)
+      {
+      return false;
+      }
+
+    H5::H5File h5file(fileName, H5F_ACC_RDONLY);
+
+#if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
+    // check the file has the "TransformGroup"
+    htri_t exists = H5Lexists( h5file.getId(),
+                               transformGroupName.c_str(),
+                               H5P_DEFAULT);
+    if ( exists <= 0 )
+#else
+    if(! h5file.exists(transformGroupName) )
+#endif
+      {
+      rval = false;
+      }
     }
   catch(...)
     {
