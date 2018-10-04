@@ -1,0 +1,21 @@
+jobs:
+- job: Linux
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
+  pool:
+    vmImage: ubuntu-16.04
+  steps:
+    - script: |
+        set -x
+
+        git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+
+        sudo pip3 install ninja
+        sudo apt-get install -y python3-venv
+
+        c++ --version
+        cmake --version
+
+        ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
+      displayName: Build and Test
+      workingDirectory: $(Agent.BuildDirectory)
