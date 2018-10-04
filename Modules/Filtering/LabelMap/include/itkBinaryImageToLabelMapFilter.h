@@ -19,13 +19,8 @@
 #define itkBinaryImageToLabelMapFilter_h
 
 #include "itkScanlineFilterCommon.h"
-#include <deque>
-#include <map>
-#include <mutex>
-#include <vector>
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
-#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -149,8 +144,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void DynamicThreadedGenerateData( const RegionType & outputRegionForThread ) override;
-  void ComputeEquivalence( const SizeValueType workUnitResultsIndex );
-  void MergeLabels( const SizeValueType workUnitResultsIndex );
 
   void GenerateData() override;
 
@@ -178,25 +171,12 @@ protected:
   using LineMapType               = typename ScanlineFunctions::LineMapType;
   using UnionFindType             = typename ScanlineFunctions::UnionFindType;
   using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+  using WorkUnitData              = typename ScanlineFunctions::WorkUnitData;
 
 private:
   OutputPixelType m_OutputBackgroundValue;
   InputPixelType  m_InputForegroundValue;
   SizeValueType   m_NumberOfObjects;
-
-  struct WorkUnitData
-  {
-    SizeValueType numberOfLabels;
-    SizeValueType firstLineIdForThread;
-    SizeValueType firstLineIdToJoin;
-    SizeValueType numberOfLineIdsToJoin;
-  };
-
-  std::deque< WorkUnitData > m_WorkUnitResults;
-
-#if !defined( ITK_WRAPPING_PARSER )
-  LineMapType m_LineMap;
-#endif
 };
 } // end namespace itk
 

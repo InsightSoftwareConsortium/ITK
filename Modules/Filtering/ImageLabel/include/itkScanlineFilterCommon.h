@@ -20,9 +20,11 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkConstShapedNeighborhoodIterator.h"
+#include <atomic>
+#include <deque>
+#include <functional>
 #include <mutex>
 #include <vector>
-#include <functional>
 
 namespace itk
 {
@@ -129,11 +131,22 @@ protected:
   void InitUnion(InternalLabelType numberOfLabels)
   {
     m_UnionFind = UnionFindType( numberOfLabels + 1 );
-  }
 
-  void InsertSet(const InternalLabelType label)
-  {
-    m_UnionFind[label] = label;
+    typename LineMapType::iterator MapBegin, MapEnd, LineIt;
+    MapBegin = m_LineMap.begin();
+    MapEnd = m_LineMap.end();
+    LineIt = MapBegin;
+    InternalLabelType label = 1;
+    for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
+      {
+      LineEncodingIterator cIt;
+      for ( cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt )
+        {
+        cIt->label = label;
+        m_UnionFind[label] = label;
+        label++;
+        }
+      }
   }
 
   InternalLabelType LookupSet(const InternalLabelType label)
@@ -391,12 +404,84 @@ protected:
 
   typename EnclosingFilter::Pointer m_EnclosingFilter;
 
+  struct WorkUnitData
+  {
+    SizeValueType firstLine;
+    SizeValueType lastLine;
+  };
+
+  WorkUnitData CreateWorkUnitData( const RegionType& outputRegionForThread )
+  {
+    const SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
+    const SizeValueType numberOfLines = outputRegionForThread.GetNumberOfPixels() / xsizeForThread;
+
+    const SizeValueType firstLine = this->IndexToLinearIndex( outputRegionForThread.GetIndex() );
+    const SizeValueType lastLine = firstLine + numberOfLines - 1;
+
+    return WorkUnitData{ firstLine, lastLine };
+  }
+
+  /* Process the map and make appropriate entries in an equivalence table */
+  void ComputeEquivalence(const SizeValueType workUnitResultsIndex, bool strictlyLess)
+  {
+    const OffsetValueType linecount = m_LineMap.size();
+    WorkUnitData wud = m_WorkUnitResults[workUnitResultsIndex];
+    SizeValueType lastLine = wud.lastLine;
+    if (!strictlyLess)
+      {
+      lastLine++;
+      //make sure we are not wrapping around
+      itkAssertInDebugAndIgnoreInReleaseMacro( lastLine >= wud.lastLine );
+      }
+    for ( SizeValueType thisIdx = wud.firstLine; thisIdx < lastLine; ++thisIdx )
+      {
+      if ( !m_LineMap[thisIdx].empty() )
+        {
+        typename OffsetVectorType::const_iterator it = this->m_LineOffsets.begin();
+        while ( it != this->m_LineOffsets.end() )
+          {
+          OffsetValueType neighIdx = thisIdx + ( *it );
+          // check if the neighbor is in the map
+          if ( neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty() )
+            {
+            // Now check whether they are really neighbors
+            bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
+            if ( areNeighbors )
+              {
+              this->CompareLines(
+                m_LineMap[thisIdx],
+                m_LineMap[neighIdx],
+                false,
+                false,
+                0,
+                [this](
+                   const LineEncodingConstIterator& currentRun,
+                   const LineEncodingConstIterator& neighborRun,
+                   OffsetValueType,
+                   OffsetValueType)
+                {
+                  this->LinkLabels(neighborRun->label, currentRun->label);
+                });
+              }
+            }
+          ++it;
+          }
+        }
+      }
+  }
+
 protected:
   bool                  m_FullyConnected;
   OffsetVectorType      m_LineOffsets;
   UnionFindType         m_UnionFind;
   ConsecutiveVectorType m_Consecutive;
   std::mutex            m_Mutex;
+
+  std::atomic< SizeValueType > m_NumberOfLabels;
+  std::deque< WorkUnitData >   m_WorkUnitResults;
+#if !defined( ITK_WRAPPING_PARSER )
+  LineMapType m_LineMap;
+#endif
 };
 } // end namespace itk
 
