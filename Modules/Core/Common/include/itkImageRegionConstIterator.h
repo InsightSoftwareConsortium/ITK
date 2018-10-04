@@ -59,14 +59,14 @@ namespace itk
  * part of the region. This allows for simple processing loops of the form:
  *
  * \code
- *
- *      it = it.Begin();
- *      for (; !it.IsAtEnd(); ++it)
- *         {
- *         *it += 100.0;
- *         }
- *
- * \endcode
+
+        it = it.Begin();
+        for (; !it.IsAtEnd(); ++it)
+           {
+           *it += 100.0;
+           }
+
+   \endcode
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please

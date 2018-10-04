@@ -90,8 +90,8 @@ private:
  * required because internally this filter will perform the operation
  *
  * \code
- *        pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
- * \endcode
+          pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
+   \endcode
  *
  * Additionally the type resulting from the sum will be cast to
  * the pixel type of the output image.
@@ -99,9 +99,9 @@ private:
  * The total operation over one pixel will be
  *
  * \code
- *  output_pixel = static_cast<OutputPixelType>(
- *      input1_pixel * alpha + input2_pixel * (1-alpha) )
- * \endcode
+    output_pixel = static_cast<OutputPixelType>(
+        input1_pixel * alpha + input2_pixel * (1-alpha) )
+   \endcode
  *
  * The alpha parameter is set using SetAlpha.
  *

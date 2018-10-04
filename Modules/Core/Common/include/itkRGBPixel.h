@@ -38,11 +38,11 @@ namespace itk
  * The following syntax for assigning an index is allowed/suggested:
  *
  * \code
- *    RGBPixel<float> pixel; pixel = 1.0f, 0.0f, .5f;
- *    RGBPixel<char> pixelArray[2];
- *    pixelArray[0] = 255, 255, 255;
- *    pixelArray[1] = 255, 255, 244;
- * \endcode
+      RGBPixel<float> pixel; pixel = 1.0f, 0.0f, .5f;
+      RGBPixel<char> pixelArray[2];
+      pixelArray[0] = 255, 255, 255;
+      pixelArray[1] = 255, 255, 244;
+   \endcode
  *
  * Since RGBPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2]

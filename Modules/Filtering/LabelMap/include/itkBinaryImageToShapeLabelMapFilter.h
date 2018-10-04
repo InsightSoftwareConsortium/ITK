@@ -34,14 +34,14 @@ namespace itk
  * A typical use would be to iterate over the ShapeLabelObjects in the map,
  * using something like this:
  * \code
- * for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
- *   {
- *   FilterType::OutputImageType::LabelObjectType* shapeLabelObject =
- *     filter->GetOutput()->GetLabelObject(i);
- *   // Here you can get properties of the ShapeLabelObject
- *   std::cout << "Bounding box: " << shapeLabelObject->GetBoundingBox();
- *   }
- * \endcode
+   for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
+     {
+     FilterType::OutputImageType::LabelObjectType* shapeLabelObject =
+       filter->GetOutput()->GetLabelObject(i);
+     // Here you can get properties of the ShapeLabelObject
+     std::cout << "Bounding box: " << shapeLabelObject->GetBoundingBox();
+     }
+   \endcode
  *
  * This implementation was taken from the Insight Journal paper:
  * https://hdl.handle.net/1926/584  or

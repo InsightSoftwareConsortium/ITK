@@ -130,11 +130,11 @@ static constexpr float  float_sqrteps    = vnl_math::float_sqrteps;
  *          halfway cases are rounded towards the nearest even
  *          integer, e.g.
  *  \code
- *          RoundHalfIntegerToEven( 1.5) ==  2
- *          RoundHalfIntegerToEven(-1.5) == -2
- *          RoundHalfIntegerToEven( 2.5) ==  2
- *          RoundHalfIntegerToEven( 3.5) ==  4
- *  \endcode
+            RoundHalfIntegerToEven( 1.5) ==  2
+            RoundHalfIntegerToEven(-1.5) == -2
+            RoundHalfIntegerToEven( 2.5) ==  2
+            RoundHalfIntegerToEven( 3.5) ==  4
+    \endcode
  *
  *  The behavior of overflow is undefined due to numerous implementations.
  *
@@ -150,10 +150,10 @@ itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
  *
  *          halfway cases are rounded upward, e.g.
  *  \code
- *          RoundHalfIntegerUp( 1.5) ==  2
- *          RoundHalfIntegerUp(-1.5) == -1
- *          RoundHalfIntegerUp( 2.5) ==  3
- *  \endcode
+            RoundHalfIntegerUp( 1.5) ==  2
+            RoundHalfIntegerUp(-1.5) == -1
+            RoundHalfIntegerUp( 2.5) ==  3
+    \endcode
  *
  *  The behavior of overflow is undefined due to numerous implementations.
  *
