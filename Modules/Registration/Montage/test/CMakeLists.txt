@@ -198,7 +198,7 @@ itk_add_test(NAME itkMontageTestRGB
     ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
   )
 
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/1000.tif)
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
   itk_add_test(NAME itkMontagePCMTestFiles36
     COMMAND MontageTestDriver
     itkMontagePCMTestFiles
