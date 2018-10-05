@@ -31,6 +31,7 @@ set(CTEST_TEST_ARGS ${CTEST_TEST_ARGS} PARALLEL_LEVEL  ${PARALLEL_LEVEL})
 
 set_from_env(workspace "AGENT_BUILDDIRECTORY" REQUIRED)
 file(TO_CMAKE_PATH "${workspace}" CTEST_DASHBOARD_ROOT)
+file(RELATIVE_PATH dashboard_source_name "${workspace}" "$ENV{BUILD_SOURCESDIRECTORY}")
 # Make environment variables to CMake variables for CTest
 set_from_env(CTEST_CMAKE_GENERATOR "CTEST_CMAKE_GENERATOR" DEFAULT "Ninja")
 set_from_env(CTEST_CONFIGURATION_TYPE "CTEST_CONFIGURATION_TYPE" DEFAULT "Release")
@@ -38,6 +39,7 @@ set_from_env(CTEST_CONFIGURATION_TYPE "CTEST_CONFIGURATION_TYPE" DEFAULT "Releas
 if(NOT CTEST_BUILD_NAME)
   if(DEFINED ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH})
     set(branch "-$ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH}")
+    set(dashboard_model "Experimental")
   else()
     set(branch "-master")
   endif()
