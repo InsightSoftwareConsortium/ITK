@@ -21,9 +21,9 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itksys/hash_map.hxx"
 #include "itkHistogram.h"
-#include "itkFastMutexLock.h"
+#include <mutex>
+#include <unordered_map>
 #include <vector>
 
 namespace itk
@@ -46,8 +46,7 @@ namespace itk
  * zero.
  *
  * The filter passes its intensity input through unmodified.  The filter is
- * threaded. It computes statistics in each thread then combines them in
- * its AfterThreadedGenerate method.
+ * threaded.
  *
  * \ingroup MathematicalStatisticsImageFilters
  * \ingroup ITKImageStatistics
@@ -199,6 +198,8 @@ public:
       m_Histogram = l.m_Histogram;
     }
 
+    LabelStatistics(  LabelStatistics && ) = default;
+
     // added for completeness
     LabelStatistics &operator= (const LabelStatistics& l)
     {
@@ -231,9 +232,9 @@ public:
   };
 
   /** Type of the map used to store data per label */
-  using MapType = itksys::hash_map< LabelPixelType, LabelStatistics >;
-  using MapIterator = typename itksys::hash_map< LabelPixelType, LabelStatistics >::iterator;
-  using MapConstIterator = typename itksys::hash_map< LabelPixelType, LabelStatistics >::const_iterator;
+  using MapType = std::unordered_map< LabelPixelType, LabelStatistics >;
+  using MapIterator = typename MapType::iterator;
+  using MapConstIterator = typename MapType::const_iterator;
   using MapSizeType = IdentifierType;
 
   /** Type of the container used to store valid label values */
@@ -337,27 +338,19 @@ protected:
     AllocateOutputs method. */
   void AllocateOutputs() override;
 
-  /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() override;
-
   /** Do final mean and variance computation from data accumulated in threads.
     */
   void AfterThreadedGenerateData() override;
 
-  /** Multi-thread version GenerateData. */
-  void ThreadedGenerateData(const RegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
-
-  void DynamicThreadedGenerateData( const RegionType & ) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  void DynamicThreadedGenerateData( const RegionType & ) override;
 
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
-  std::vector< MapType >        m_LabelStatisticsPerThread;
+
+  void MergeMap( MapType &, MapType &) const;
+
   MapType                       m_LabelStatistics;
   ValidLabelValuesContainerType m_ValidLabelValues;
 
@@ -365,9 +358,11 @@ private:
 
   typename HistogramType::SizeType m_NumBins;
 
-  RealType            m_LowerBound;
-  RealType            m_UpperBound;
-  SimpleFastMutexLock m_Mutex;
+  RealType m_LowerBound;
+  RealType m_UpperBound;
+
+  std::mutex    m_Mutex;
+
 }; // end of class
 } // end namespace itk
 
