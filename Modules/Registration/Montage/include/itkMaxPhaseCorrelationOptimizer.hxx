@@ -38,7 +38,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 {
   m_MaxCalculator = MaxCalculatorType::New();
   m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
-  m_ZeroSuppression = std::pow(1.5, ImageDimension);
+  m_ZeroSuppression = 15;
 }
 
 
