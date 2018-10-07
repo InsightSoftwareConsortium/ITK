@@ -174,7 +174,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
       size.Fill(0);
       size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
       dogNeighborhood.SetRadius(size);
-      m_ImageNeighborhoodOffsets[direction] = Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(size);
+      m_ImageNeighborhoodOffsets[direction] = Experimental::GenerateRectangularImageNeighborhoodOffsets(size);
 
       typename GaussianDerivativeFunctionType::ArrayType s;
       s[0] = m_Sigma[direction];

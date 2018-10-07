@@ -47,7 +47,7 @@ namespace Experimental
  * \code
    const ImageType::IndexType location = {10, 20};
    const itk::Size<ImageType::ImageDimension> radius = { { 1, 2 } };
-   const std::vector<OffsetType> offsets = itk::GenerateHyperrectangularImageNeighborhoodOffsets(radius)
+   const std::vector<OffsetType> offsets = itk::GenerateRectangularImageNeighborhoodOffsets(radius)
    itk::ShapedImageNeighborhoodRange<ImageType> neighborhoodRange{ *image, location, offsets };
 
    for (auto&& neighborhoodPixel : neighborhoodRange)

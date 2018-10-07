@@ -64,28 +64,28 @@ TEST(ImageNeighborhoodOffsets, GenerateImageNeighborhoodOffsets_returns_empty_ve
 }
 
 
-TEST(ImageNeighborhoodOffsets, GenerateHyperrectangularImageNeighborhoodOffsets_returns_one_offset_for_default_radius)
+TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_returns_one_offset_for_default_radius)
 {
   const itk::Size<> radius = {{}};
-  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, std::vector<itk::Offset<>>(1));
 }
 
 
-TEST(ImageNeighborhoodOffsets, GenerateHyperrectangularImageNeighborhoodOffsets_for_smallest_horizontal_neigborhood)
+TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_for_smallest_horizontal_neigborhood)
 {
   const itk::Size<> radius = { { 1, 0 } };
-  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, (std::vector<itk::Offset<>>{ { { -1, 0 }}, { { 0, 0 } }, { { 1, 0 } } }));
 }
 
 
-TEST(ImageNeighborhoodOffsets, GenerateHyperrectangularImageNeighborhoodOffsets_for_smallest_vertical_neigborhood)
+TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_for_smallest_vertical_neigborhood)
 {
   const itk::Size<> radius = { { 0, 1 } };
-  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, (std::vector<itk::Offset<>>{ { { 0, -1 }}, { { 0, 0 } }, { { 0, 1 } } }));
 }
