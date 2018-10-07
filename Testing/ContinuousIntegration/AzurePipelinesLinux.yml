@@ -16,6 +16,8 @@ jobs:
         c++ --version
         cmake --version
 
+        export BUILD_EXAMPLES=OFF
+
         ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
       displayName: Build and Test
       workingDirectory: $(Agent.BuildDirectory)
