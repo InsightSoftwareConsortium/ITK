@@ -17,6 +17,7 @@ jobs:
         cmake --version
 
         export BUILD_EXAMPLES=OFF
+        export CTEST_BUILD_CONFIGURATION=MinSizeRel
 
         ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
       displayName: Build and Test

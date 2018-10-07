@@ -15,6 +15,7 @@ jobs:
         call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         set BUILD_SHARED_LIBS=ON
         set BUILD_EXAMPLES=OFF
+        set CTEST_BUILD_CONFIGURATION=MinSizeRel
         set CC=cl.exe
         set CXX=cl.exe
 
