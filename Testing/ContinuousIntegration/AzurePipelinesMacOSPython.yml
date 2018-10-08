@@ -1,0 +1,25 @@
+jobs:
+- job: macOS
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
+  pool:
+    vmImage: 'macOS 10.13'
+  steps:
+    - script: |
+        set -x
+
+        git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+
+        sudo pip3 install ninja
+        sudo apt-get install -y python3-venv
+
+        c++ --version
+        cmake --version
+
+        export BUILD_EXAMPLES=OFF
+        export CTEST_BUILD_CONFIGURATION=MinSizeRel
+        export ITK_WRAP_PYTHON=ON
+
+        ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
+      displayName: Build and Test
+      workingDirectory: $(Agent.BuildDirectory)
