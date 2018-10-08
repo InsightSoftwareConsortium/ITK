@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef itkHyperrectangularImageNeighborhoodShape_h
-#define itkHyperrectangularImageNeighborhoodShape_h
+#ifndef itkRectangularImageNeighborhoodShape_h
+#define itkRectangularImageNeighborhoodShape_h
 
 #include <algorithm> // For transform.
 #include <cassert>
@@ -31,8 +31,8 @@ namespace Experimental
 {
 
 /**
- * \class HyperrectangularImageNeighborhoodShape
- * Hyperrectangular image-neighborhood shape.
+ * \class RectangularImageNeighborhoodShape
+ * Rectangular (or hyperrectangular) image-neighborhood shape.
  * Eases creating a sequence of offsets for ShapedImageNeighborhoodRange.
  * Can also be used for ShapedNeighborhoodIterator.
  *
@@ -41,7 +41,7 @@ namespace Experimental
  \code
   const Index<> location = { 10, 20 };
   const Size<> radius = { { 1, 2 } };
-  const HyperrectangularImageNeighborhoodShape<2> shape{ radius };
+  const RectangularImageNeighborhoodShape<2> shape{ radius };
   const std::vector<Offset<>> offsets = GenerateImageNeighborhoodOffsets(shape);
   ShapedImageNeighborhoodRange<ImageType> neighborhoodRange{ *image, location, offsets };
  \endcode
@@ -52,13 +52,13 @@ namespace Experimental
  * \ingroup ITKCommon
  */
 template <unsigned int VImageDimension>
-class HyperrectangularImageNeighborhoodShape
+class RectangularImageNeighborhoodShape
 {
 public:
   static constexpr unsigned int ImageDimension = VImageDimension;
 
   /** Constructs a hyperrectangular shape whose size is specified by the radius */
-  constexpr explicit HyperrectangularImageNeighborhoodShape(
+  constexpr explicit RectangularImageNeighborhoodShape(
     const Size<ImageDimension>& radius) ITK_NOEXCEPT
   :
   m_Radius(radius),
