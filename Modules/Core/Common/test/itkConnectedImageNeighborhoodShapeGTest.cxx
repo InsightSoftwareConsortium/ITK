@@ -136,7 +136,7 @@ namespace
 } // namespace
 
 
-TEST(ConnectedImageNeighborhoodShape, GetNumberOfOffsets_returns_expected_value)
+TEST(ConnectedImageNeighborhoodShape, GetNumberOfOffsetsReturnsExpectedValue)
 {
   // 0-dimensional:
   Assert_GetNumberOfOffsets_returns_expected_number<0, 0, 0>();
@@ -166,7 +166,7 @@ TEST(ConnectedImageNeighborhoodShape, GetNumberOfOffsets_returns_expected_value)
 }
 
 
-TEST(ConnectedImageNeighborhoodShape, GenerateImageNeighborhoodOffsets_returns_expected_offsets)
+TEST(ConnectedImageNeighborhoodShape, GenerateImageNeighborhoodOffsetsReturnsExpectedOffsets)
 {
   Assert_GenerateImageNeighborhoodOffsets_returns_expected_offsets_excluding_center_pixel<1, 1>(
   {
@@ -213,7 +213,7 @@ TEST(ConnectedImageNeighborhoodShape, GenerateImageNeighborhoodOffsets_returns_e
 }
 
 
-TEST(ConnectedImageNeighborhoodShape, The_middle_offset_is_all_zero_when_center_pixel_is_included)
+TEST(ConnectedImageNeighborhoodShape, TheMiddleOffsetIsAllZeroWhenCenterPixelIsIncluded)
 {
   Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included<1>();
   Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included<2>();
@@ -221,7 +221,7 @@ TEST(ConnectedImageNeighborhoodShape, The_middle_offset_is_all_zero_when_center_
 }
 
 
-TEST(ConnectedImageNeighborhoodShape, Offsets_are_unique_and_colexicographically_ordered)
+TEST(ConnectedImageNeighborhoodShape, OffsetsAreUniqueAndColexicographicallyOrdered)
 {
   Assert_Offsets_are_unique_and_colexicographically_ordered<1>();
   Assert_Offsets_are_unique_and_colexicographically_ordered<2>();

@@ -54,7 +54,7 @@ public:
 } // namespace
 
 
-TEST(ImageNeighborhoodOffsets, GenerateImageNeighborhoodOffsets_returns_empty_vector_for_empty_shape)
+TEST(ImageNeighborhoodOffsets, GenerateImageNeighborhoodOffsetsReturnsEmptyVectorForEmptyShape)
 {
   constexpr unsigned int ImageDimension = 2;
   const EmptyImageNeighborhoodShape<ImageDimension> shape = {};
@@ -64,7 +64,7 @@ TEST(ImageNeighborhoodOffsets, GenerateImageNeighborhoodOffsets_returns_empty_ve
 }
 
 
-TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_returns_one_offset_for_default_radius)
+TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsReturnsOneOffsetForDefaultRadius)
 {
   const itk::Size<> radius = {{}};
   const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
@@ -73,7 +73,7 @@ TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_retur
 }
 
 
-TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_for_smallest_horizontal_neigborhood)
+TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsForSmallestHorizontalNeigborhood)
 {
   const itk::Size<> radius = { { 1, 0 } };
   const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
@@ -82,7 +82,7 @@ TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_for_s
 }
 
 
-TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsets_for_smallest_vertical_neigborhood)
+TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsForSmallestVerticalNeigborhood)
 {
   const itk::Size<> radius = { { 0, 1 } };
   const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
