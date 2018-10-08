@@ -349,6 +349,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 
     if ( m_RealOptimizer )
       {
+      m_RealOptimizer->SetOffsetCount(3); // update can reduce this, so we have to set it each time
       m_RealOptimizer->Update();
       offset = m_RealOptimizer->GetOffsets()[0];
       }
