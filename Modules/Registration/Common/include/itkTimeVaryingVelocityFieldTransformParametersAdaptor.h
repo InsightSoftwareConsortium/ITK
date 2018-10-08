@@ -36,10 +36,10 @@ namespace itk
  * transform.  As defined in the base class, the user can change the resolution via
  *
  *   \code
- *   transformAdaptor->SetTransform( transform );
- *   transformAdaptor->SetRequiredFixedParameters( fixedParameters );
- *   transformAdaptor->AdaptTransformParameters();
- *   \endcode
+     transformAdaptor->SetTransform( transform );
+     transformAdaptor->SetRequiredFixedParameters( fixedParameters );
+     transformAdaptor->AdaptTransformParameters();
+     \endcode
  *
  * or the user can use the more intuitive API for setting the fixed parameters.
  * E.g., often the user will want to maintain the same transform domain spatial
@@ -47,13 +47,13 @@ namespace itk
  * be done as follows:
  *
  *   \code
- *   transformAdaptor->SetTransform( transform );
- *   transformAdaptor->SetRequiredOrigin( displacementField->GetOrigin() );
- *   transformAdaptor->SetRequiredDirection( displacementField->GetDirection() );
- *   transformAdaptor->SetRequiredSize( requiredSize );
- *   transformAdaptor->SetRequiredSpacing( requiredSpacing );
- *   transformAdaptor->AdaptTransformParameters();
- *   \endcode
+     transformAdaptor->SetTransform( transform );
+     transformAdaptor->SetRequiredOrigin( displacementField->GetOrigin() );
+     transformAdaptor->SetRequiredDirection( displacementField->GetDirection() );
+     transformAdaptor->SetRequiredSize( requiredSize );
+     transformAdaptor->SetRequiredSpacing( requiredSpacing );
+     transformAdaptor->AdaptTransformParameters();
+     \endcode
  *
  * \author Nick Tustison
  * \author Brian Avants

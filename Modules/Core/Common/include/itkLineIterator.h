@@ -35,12 +35,12 @@ namespace itk
  * the same start and end index will visit exactly one pixel.
  *
  * \code
- * LineConstIterator<ImageType> it(image, I1, I2);
- * while (!it.IsAtEnd())
- * {
- *    // visits at least 1 pixel
- * }
- * \endcode
+   LineConstIterator<ImageType> it(image, I1, I2);
+   while (!it.IsAtEnd())
+   {
+      // visits at least 1 pixel
+   }
+   \endcode
  *
  * \author Benjamin King, Experimentelle Radiologie, Medizinische
  * Hochschule Hannover.

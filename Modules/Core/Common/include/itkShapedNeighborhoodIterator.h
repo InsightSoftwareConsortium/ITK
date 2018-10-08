@@ -47,11 +47,11 @@ namespace itk
  * you would do the following:
  *
  * \code
- * using ImageType = Image<float, 3>;
- * ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
- * ShapedNeighborhoodIterator<ImageType>::OffsetType offset = {{0,0,0}};
- * it.ActivateOffset(offset);
- * \endcode
+   using ImageType = Image<float, 3>;
+   ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
+   ShapedNeighborhoodIterator<ImageType>::OffsetType offset = {{0,0,0}};
+   it.ActivateOffset(offset);
+   \endcode
  *
  * where radius, image, and region are as described in NeighborhoodIterator.
  *
@@ -74,36 +74,36 @@ namespace itk
  * demonstrates the use of these iterators.
  *
  * \code
- * using ImageType = Image<float, 3>;
- * ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
- * .
- * .
- * .
- * it.ActivateOffset(offset1);
- * it.ActivateOffset(offset2);
- * it.ActivateOffset(offset3);
- * etc..
- * .
- * .
- * .
- * ShapedNeighborhoodIterator<ImageType>::Iterator i;
- * for (i = it.Begin(); ! i.IsAtEnd(); i++)
- * { i.Set(i.Get() + 1.0); }
- * \\ you may also use i != i.End(), but IsAtEnd() may be slightly faster.
- * \endcode
+   using ImageType = Image<float, 3>;
+   ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
+   .
+   .
+   .
+   it.ActivateOffset(offset1);
+   it.ActivateOffset(offset2);
+   it.ActivateOffset(offset3);
+   etc..
+   .
+   .
+   .
+   ShapedNeighborhoodIterator<ImageType>::Iterator i;
+   for (i = it.Begin(); ! i.IsAtEnd(); i++)
+   { i.Set(i.Get() + 1.0); }
+   \\ you may also use i != i.End(), but IsAtEnd() may be slightly faster.
+   \endcode
  *
  * You can also iterate backward through the neighbohood active list.
  *
  * \code
- * i = it.End();
- * i--;
- * while (i != it.Begin())
- * {
- *   i.Set(i.Get() + 1.0);
- *   i--;
- * }
- *  i.Set(i.Get() + 1.0);
- * \endcode
+   i = it.End();
+   i--;
+   while (i != it.Begin())
+   {
+     i.Set(i.Get() + 1.0);
+     i--;
+   }
+    i.Set(i.Get() + 1.0);
+   \endcode
  *
  * The Get() Set() syntax was chosen versus defining operator* for these
  * iterators because lvalue vs. rvalue context information is needed to

@@ -32,50 +32,50 @@ namespace itk
  * coordinate axes. The slice orientation of the iterator is defined by
  * specifying its two spanning axes using the methods:
  * \code
- * SetFirstDirection(n)
- * SetSecondDirection(n)
- * \endcode
+   SetFirstDirection(n)
+   SetSecondDirection(n)
+   \endcode
  * where n is the number of the axis.
  *
  * Use the following methods to move the iterator between slices:
  * \code
- * NextSlice()
- * PreviousSlice()
- * \endcode
+   NextSlice()
+   PreviousSlice()
+   \endcode
  *
  * To test the position of the iterator with respect to the end or beginning of
  * the slice use the following methods:
  * \code
- * IsAtReverseEndOfSlice()
- * IsAtEndOfSlice()
- * \endcode
+   IsAtReverseEndOfSlice()
+   IsAtEndOfSlice()
+   \endcode
  *
  * The following code, for example, illustrates the typical use of this
  * iterator.  For more information please see the Software Guide.
  *
  * \code
- *
- * ImageSliceConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetFirstDirection(2);
- * it.SetSecondDirection(0);
- *
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   while( !it.IsAtEndOfSlice() )
- *   {
- *     while( !it.IsAtEndOfLine() )
- *     {
- *        value = it.Get();  // it.Set() doesn't exist in the Const Iterator
- *        ++it;
- *     }
- *     it.NextLine();
- *   }
- *   it.NextSlice();
- *  }
- *
- *  \endcode
+
+   ImageSliceConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetFirstDirection(2);
+   it.SetSecondDirection(0);
+
+   it.GoToBegin();
+   while( !it.IsAtEnd() )
+   {
+     while( !it.IsAtEndOfSlice() )
+     {
+       while( !it.IsAtEndOfLine() )
+       {
+          value = it.Get();  // it.Set() doesn't exist in the Const Iterator
+          ++it;
+       }
+       it.NextLine();
+     }
+     it.NextSlice();
+    }
+
+    \endcode
  *
  *
  * \par MORE INFORMATION

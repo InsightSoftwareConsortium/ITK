@@ -50,16 +50,16 @@ struct ImageAlgorithm
  *
  * This method performs the equivalent to the following:
  * \code
- *     itk::ImageRegionConstIterator<TInputImage> it( inImage, inRegion );
- *     itk::ImageRegionIterator<TOutputImage> ot( outImage, outRegion );
- *
- *     while( !it.IsAtEnd() )
- *       {
- *       ot.Set( static_cast< typename TInputImage::PixelType >( it.Get() ) );
- *       ++ot;
- *       ++it;
- *       }
- * \endcode
+       itk::ImageRegionConstIterator<TInputImage> it( inImage, inRegion );
+       itk::ImageRegionIterator<TOutputImage> ot( outImage, outRegion );
+
+       while( !it.IsAtEnd() )
+         {
+         ot.Set( static_cast< typename TInputImage::PixelType >( it.Get() ) );
+         ++ot;
+         ++it;
+         }
+   \endcode
  *
  * \note: It is important not to explicitly pass the template
  * arguments to this method as it may not result in an optimized

@@ -77,9 +77,9 @@ namespace itk
  * determine two different quadrilaterals (at least one of which is
  * either degenerate or nonplanar).  If you call
  * \code
- *   AddQuadrilateral(a, b, c, d);
- *   AddQuadrilateral(a, c, d, b);
- * \endcode
+     AddQuadrilateral(a, b, c, d);
+     AddQuadrilateral(a, c, d, b);
+   \endcode
  * then only the first quadrilateral will actually be added.
  *
  * To add the topological information to an already constructed mesh
@@ -89,17 +89,17 @@ namespace itk
  * \b Example: The following code generates a mesh consisting of two
  * triangles sharing an edge.
  * \code
- *  using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
- *  MeshSourceType::Pointer meshSource = MeshSourceType::New();
- *  meshSource->AddTriangle(
- *    meshSource->AddPoint(0, 0, 0),
- *    meshSource->AddPoint(1, 0, 0),
- *    meshSource->AddPoint(0, 1, 0) );
- *  meshSource->AddTriangle(
- *    meshSource->AddPoint(0, 0, 0),
- *    meshSource->AddPoint(1, 0, 0),
- *    meshSource->AddPoint(0, 0, 1) );
- * \endcode
+    using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
+    MeshSourceType::Pointer meshSource = MeshSourceType::New();
+    meshSource->AddTriangle(
+      meshSource->AddPoint(0, 0, 0),
+      meshSource->AddPoint(1, 0, 0),
+      meshSource->AddPoint(0, 1, 0) );
+    meshSource->AddTriangle(
+      meshSource->AddPoint(0, 0, 0),
+      meshSource->AddPoint(1, 0, 0),
+      meshSource->AddPoint(0, 0, 1) );
+   \endcode
  *
  * This class inherits from itk::MeshSource so it fits conveniently into a
  * pipeline, but GetOutput() is always valid after every

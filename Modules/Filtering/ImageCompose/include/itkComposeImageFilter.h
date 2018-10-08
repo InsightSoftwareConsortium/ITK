@@ -34,12 +34,12 @@ namespace itk
  *
  * \par Inputs and Usage
  * \code
- *    filter->SetInput( 0, image0 );
- *    filter->SetInput( 1, image1 );
- *    ...
- *    filter->Update();
- *    itk::VectorImage< PixelType, dimension >::Pointer = filter->GetOutput();
- * \endcode
+      filter->SetInput( 0, image0 );
+      filter->SetInput( 1, image1 );
+      ...
+      filter->Update();
+      itk::VectorImage< PixelType, dimension >::Pointer = filter->GetOutput();
+   \endcode
  * All input images are expected to have the same template parameters and have
  * the same size and origin.
  *

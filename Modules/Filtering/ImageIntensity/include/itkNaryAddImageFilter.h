@@ -72,8 +72,8 @@ public:
  * required because internally this filter will perform the operation
  *
  * \code
- *        pixel_from_image_N + pixel_from_image_(N+1)
- * \endcode
+          pixel_from_image_N + pixel_from_image_(N+1)
+   \endcode
  *
  * Additionally the type resulting from the sum, will be cast to
  * the pixel type of the output image.
@@ -81,8 +81,8 @@ public:
  * The total operation over one pixel will be
  *
  * \code
- *  output_pixel = static_cast<OutputPixelType>( input_pixel_N + input_pixel_(N+1) )
- * \endcode
+    output_pixel = static_cast<OutputPixelType>( input_pixel_N + input_pixel_(N+1) )
+   \endcode
  *
  * For example, this filter could be used directly for adding images whose
  * pixels are vectors of the same dimension, and to store the resulting vector

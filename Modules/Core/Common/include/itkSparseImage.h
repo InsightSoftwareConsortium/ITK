@@ -42,15 +42,15 @@ namespace itk
  * is shown below:
  *
  * \code
- * struct NodeType
- * {
- * NodeType* Next;
- * NodeType* Previous;
- * ImageType::IndexType m_Index;
- * unsigned char m_Data;
- * };
- * using SparseImageType = itk::SparseImage<NodeType, 2>;
- * \endcode
+   struct NodeType
+   {
+   NodeType* Next;
+   NodeType* Previous;
+   ImageType::IndexType m_Index;
+   unsigned char m_Data;
+   };
+   using SparseImageType = itk::SparseImage<NodeType, 2>;
+   \endcode
  *
  * \par
  * This class provides the method AddNode which allocates a node variable,

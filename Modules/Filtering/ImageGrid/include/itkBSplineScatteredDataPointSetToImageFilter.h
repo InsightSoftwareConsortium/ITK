@@ -88,21 +88,21 @@ namespace itk
  * spline through the (ordered) 2D points (5,6) and (7,8), you should use:
  *
  * \code
- * using DataType = itk::Vector< float, 2 >;
- * PointSetType::PointType param0;
- * param0[0] = 0.0;
- * DataType p0;
- * p0[0] =  10.0; p0[1]= 10.0;
- * pointSet->SetPoint(0, param0);
- * pointSet->SetPointData( 0, p0 );
- *
- * PointSetType::PointType param1;
- * param1[0] = 1.0;
- * DataType p1;
- * p1[0] =  80.0; p1[1]= 50.0;
- * pointSet->SetPoint(1, param1);
- * pointSet->SetPointData( 1, p1 );
- * \endcode
+   using DataType = itk::Vector< float, 2 >;
+   PointSetType::PointType param0;
+   param0[0] = 0.0;
+   DataType p0;
+   p0[0] =  10.0; p0[1]= 10.0;
+   pointSet->SetPoint(0, param0);
+   pointSet->SetPointData( 0, p0 );
+
+   PointSetType::PointType param1;
+   param1[0] = 1.0;
+   DataType p1;
+   p1[0] =  80.0; p1[1]= 50.0;
+   pointSet->SetPoint(1, param1);
+   pointSet->SetPointData( 1, p1 );
+   \endcode
  *
  * \author Nicholas J. Tustison
  *

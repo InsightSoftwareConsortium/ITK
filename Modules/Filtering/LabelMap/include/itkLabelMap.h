@@ -45,12 +45,12 @@ namespace itk
  *
  * To iterate over the LabelObjects in the map, use:
  * \code
- * for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
- *   {
- *   FilterType::OutputImageType::LabelObjectType* labelObject =
- *     filter->GetOutput()->GetNthLabelObject(i);
- *   }
- * \endcode
+   for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
+     {
+     FilterType::OutputImageType::LabelObjectType* labelObject =
+       filter->GetOutput()->GetNthLabelObject(i);
+     }
+   \endcode
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

@@ -106,11 +106,11 @@ private:
  * filter will perform the operation
  *
  * \code
- *        if pixel_from_mask_image != mask_value
- *             pixel_output_image = output_value
- *        else
- *             pixel_output_image = pixel_input_image
- * \endcode
+          if pixel_from_mask_image != mask_value
+               pixel_output_image = output_value
+          else
+               pixel_output_image = pixel_input_image
+   \endcode
  *
  * The pixel from the input 1 is cast to the pixel type of the output image.
  *

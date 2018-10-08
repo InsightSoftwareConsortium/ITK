@@ -47,7 +47,7 @@ while ( !it.IsAtEnd() )
    it.NextLine();
    }
 
- * \endcode
+   \endcode
  *
  * Iterating beyond the end of a line results it undefined behavior.
  *

@@ -41,24 +41,24 @@ namespace itk
  *
  * For example, instead of
  * \code
- *   double sum = 0.0;
- *   for( unsigned int i = 0; i < array.Size(); ++i )
- *     {
- *     sum += array.GetElement(i);
- *     }
- * \endcode
+     double sum = 0.0;
+     for( unsigned int i = 0; i < array.Size(); ++i )
+       {
+       sum += array.GetElement(i);
+       }
+   \endcode
  *
  * do
  *
  * \code
- *   using CompensatedSummationType = CompensatedSummation<double>;
- *   CompensatedSummationType compensatedSummation;
- *   for( unsigned int i = 0; i < array.Size(); ++i )
- *     {
- *     compensatedSummation += array.GetElement(i);
- *     }
- *   double sum = compensatedSummation.GetSum();
- * \endcode
+     using CompensatedSummationType = CompensatedSummation<double>;
+     CompensatedSummationType compensatedSummation;
+     for( unsigned int i = 0; i < array.Size(); ++i )
+       {
+       compensatedSummation += array.GetElement(i);
+       }
+     double sum = compensatedSummation.GetSum();
+   \endcode
  *
  * \ingroup ITKCommon
  */

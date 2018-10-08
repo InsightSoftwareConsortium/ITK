@@ -60,8 +60,8 @@ namespace Statistics
  *
  * To use this code, files needing to call the generator should include:
  * \code
- * #include "FastNorm.h"
- * \endcode
+   #include "FastNorm.h"
+   \endcode
  * and be linked with the maths library (-lm)
  *        FastNorm.h contains declaration of the initialization routine
  * 'initnorm()', definition of a macro 'FastGauss' used to generate variates,

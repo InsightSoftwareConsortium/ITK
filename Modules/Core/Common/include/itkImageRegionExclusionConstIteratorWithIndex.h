@@ -61,36 +61,36 @@ namespace itk
  * processing loops of the form:
  *
  * \code
- *
- *  IteratorType it( image, image->GetRequestedRegion() );
- *
- *  it.SetExclusionRegion( exclusionRegion );
- *  it.GoToBegin();
- *
- *  while( ! it.IsAtEnd() )
- *  {
- *    it.Set( 100.0 + it.Get() );
- *    ++it;
- *  }
- *
- * \endcode
+
+    IteratorType it( image, image->GetRequestedRegion() );
+
+    it.SetExclusionRegion( exclusionRegion );
+    it.GoToBegin();
+
+    while( ! it.IsAtEnd() )
+    {
+      it.Set( 100.0 + it.Get() );
+      ++it;
+    }
+
+   \endcode
  *
  *  It also can be used for walking in the reverse direction like
  *
  * \code
- *
- *  IteratorType it( image, image->GetRequestedRegion() );
- *
- *  it.SetExclusionRegion( exclusionRegion );
- *  it.GoToEnd();
- *
- *  while( !it.IsAtBegin() )
- *  {
- *    it.Set( 100.0 );
- *    --it;
- *  }
- *
- * \endcode
+
+    IteratorType it( image, image->GetRequestedRegion() );
+
+    it.SetExclusionRegion( exclusionRegion );
+    it.GoToEnd();
+
+    while( !it.IsAtBegin() )
+    {
+      it.Set( 100.0 );
+      --it;
+    }
+
+   \endcode
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please

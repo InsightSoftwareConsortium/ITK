@@ -148,9 +148,9 @@ namespace itk
  *  a DenseGetValueAndDerivativeThreader and SparseGetValueAndDerivativeThreader
  *  must be defined. Then,
  *  \code
- *    this->m_DenseGetValueAndDerivativeThreader   = DenseDerivedClassGetValueAndDerivativeThreader::New();
- *    this->m_SparseGetValueAndDerivativeThreader  = SparseDerivedClassGetValueAndDerivativeThreader::New();
- *  \endcode
+      this->m_DenseGetValueAndDerivativeThreader   = DenseDerivedClassGetValueAndDerivativeThreader::New();
+      this->m_SparseGetValueAndDerivativeThreader  = SparseDerivedClassGetValueAndDerivativeThreader::New();
+    \endcode
  *  must be called in the constructor.
  *
  *  The ProcessPoint method of the derived threader must be overriden to
