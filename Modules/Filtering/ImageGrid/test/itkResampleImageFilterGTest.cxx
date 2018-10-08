@@ -67,7 +67,7 @@ void Expect_ResampleImageFilter_preserves_pixel_value(const TPixel inputPixel)
 } // namespace
 
 
-TEST(ResampleImageFilter, Filter_preserves_any_double_pixel_value_by_default)
+TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
 {
   using NumericLimits = std::numeric_limits<double>;
 
@@ -110,7 +110,7 @@ TEST(ResampleImageFilter, Filter_preserves_any_double_pixel_value_by_default)
 }
 
 
-TEST(ResampleImageFilter, Filter_preserves_min_and_max_int64_pixel_values_by_default)
+TEST(ResampleImageFilter, FilterPreservesMinAndMaxInt64PixelValuesByDefault)
 {
   Expect_ResampleImageFilter_preserves_pixel_value(std::numeric_limits<std::int64_t>::min());
 

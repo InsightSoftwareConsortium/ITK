@@ -20,7 +20,7 @@
 
 #include "itkArithmeticOpsFunctors.h"
 
-TEST(ArithmeticOpsTest,DivFloor_float)
+TEST(ArithmeticOpsTest,DivFloorFloat)
 {
 using OpType = itk::Functor::DivFloor<float,float,float>;
 
@@ -37,7 +37,7 @@ EXPECT_EQ(-3.0, op1(-5.0f,2.0f));
 EXPECT_NO_THROW(op1(5.0f,0.0f));
 }
 
-TEST(ArithmeticOpsTest,DivFloor_short)
+TEST(ArithmeticOpsTest,DivFloorShort)
 {
 using OpType = itk::Functor::DivFloor<short,short,short>;
 
