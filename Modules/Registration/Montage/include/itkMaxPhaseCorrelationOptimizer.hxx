@@ -38,7 +38,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 {
   m_MaxCalculator = MaxCalculatorType::New();
   m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
-  m_ZeroSuppression = std::pow(1.5, ImageDimension);
+  m_ZeroSuppression = 15;
 }
 
 
@@ -83,7 +83,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     }
 
   m_MaxCalculator->SetImage( input );
-  m_MaxCalculator->SetN((this->m_Offsets.size() / 2) *
+  m_MaxCalculator->SetN(std::ceil(this->m_Offsets.size() / 2) *
       (static_cast<unsigned>(std::pow(3, ImageDimension)) - 1));
 
   try

@@ -122,6 +122,18 @@ itk_add_test(NAME itkMontagePCMTestFiles14
     4.6711893
   )
 
+itk_add_test(NAME itkMontagePCMTestFiles15same
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/OMC/FlatField/15/107.tif}
+    DATA{Input/OMC/FlatField/15/107.tif}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles15same.nrrd
+    0.0
+    0.0
+    0.0
+    0.0
+  )
+
 # itk_add_test(NAME itkMontagePCMTestFiles16
   # COMMAND MontageTestDriver
   # itkMontagePCMTestFiles
@@ -198,37 +210,54 @@ itk_add_test(NAME itkMontageTestRGB
     ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
   )
 
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/1000.tif)
-  itk_add_test(NAME itkMontagePCMTestFiles36
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
+
+  set(flatFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36")
+  set(rawFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Raw/Ti-7Al_Region #2_150_Mosaic_36.tif_Files")
+  set(rawPrefix "${rawFolder}/Ti-7Al_Region #2_150_Mosaic_36_p")
+
+  itk_add_test(NAME itkMontagePCMTestFiles36_1004
     COMMAND MontageTestDriver
     itkMontagePCMTestFiles
-      DATA{Input/Ti7/FlatFielded/1004.tif}
-      DATA{Input/Ti7/FlatFielded/1005.tif}
-      ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles36.nrrd
+      ${flatFolder}/1004.tif
+      ${flatFolder}/1005.tif
+      ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles36_1004.nrrd
       480.0
       0.0
       0.5186747297993
       1.48522189017301
     )
 
+  # itk_add_test(NAME itkMontagePCMTestFiles36_088
+    # COMMAND MontageTestDriver
+    # itkMontagePCMTestFiles
+      # ${rawPrefix}088.tif
+      # ${rawPrefix}089.tif
+      # ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles36raw088_089.nrrd
+      # 480.0
+      # 0.0
+      # 1.0798103830525
+      # -1.4601269970894
+    # )
+
   itk_add_test(NAME itkMontageTestTi7Slice36flat
     COMMAND MontageTestDriver
     itkMontageTestTi7
-      ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36
+      ${flatFolder}
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7flat36
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7flat36
     )
-    
+
   itk_add_test(NAME itkMontageTestTi7Slice36raw
     COMMAND MontageTestDriver
     itkMontageTestTi7
-      "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Raw/Ti-7Al_Region #2_150_Mosaic_36.tif_Files"
+      ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7raw36
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7raw36
     )
 endif()
-  
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
+
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
   itk_add_test(NAME itkMontageTestTiles
     COMMAND MontageTestDriver
     itkMontageTestTiles
@@ -238,7 +267,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles)
     )
 endif()
 
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles)
+if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
   itk_add_test(NAME itkMontageTestNoisyTiles
     COMMAND MontageTestDriver
     itkMontageTestTiles
