@@ -152,7 +152,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorConvertsToConstIterator)
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of an std::vector constructor.
-TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeIteratorsCanBeUsedAsArgumentsStdVectorConstructor)
+TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdVectorConstructor)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -174,7 +174,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeIteratorsCanBeUsedAsArguments
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of std::reverse (which requires bidirectional iterators).
-TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsArgumentsOfStdReverseCopy)
+TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -212,7 +212,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsArgumentsOfStd
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of std::inner_product.
-TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfStdInnerProduct)
+TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdInnerProduct)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -233,7 +233,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfSt
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of std::for_each.
-TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeCanBeUsedInStdForEach)
+TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdForEach)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -255,7 +255,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeCanBeUsedInStdForEach)
 
 // Tests that a NeigborhoodRange can be used as the "range expression" of a
 // C++11 range-based for loop.
-TEST(ShapedImageNeighborhoodRange,  NeigborhoodRangeCanBeUsedWithRangeBasedForLoop)
+TEST(ShapedImageNeighborhoodRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -327,7 +327,7 @@ TEST(ShapedImageNeighborhoodRange, DistanceBetweenIteratorsCanBeObtainedBySubtra
 
 // Tests that ShapedImageNeighborhoodRange::iterator retrieves the same pixel values, in the same order,
 // as ConstNeighborhoodIterator.
-TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeIteratorRetrievesSamePixelValuesAsConstNeighborhoodIterator)
+TEST(ShapedImageNeighborhoodRange, IteratorRetrievesSamePixelValuesAsConstNeighborhoodIterator)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -355,7 +355,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeIteratorRetrieves
 
 // Tests that iterator::reference and const_iterator::reference act like a real
 // (built-in) C++ reference to the pixel type.
-TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeIteratorReferenceActsLikeARealReference)
+TEST(ShapedImageNeighborhoodRange, IteratorReferenceActsLikeARealReference)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -404,7 +404,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeIteratorReference
 
 
 // Tests that ShapedImageNeighborhoodRange<VectorImage<T>> is supported well.
-TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeSupportsVectorImage)
+TEST(ShapedImageNeighborhoodRange, SupportsVectorImage)
 {
   using ImageType = itk::VectorImage<unsigned char>;
   using PixelType = ImageType::PixelType;
@@ -444,7 +444,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeSupportsVectorIma
 }
 
 
-TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfStdSort)
+TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdSort)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -475,7 +475,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfSt
 }
 
 
-TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfStdNthElement)
+TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdNthElement)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -525,7 +525,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorIsDefaultConstructible)
 }
 
 
-TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsSupportRandomAccess)
+TEST(ShapedImageNeighborhoodRange, IteratorsSupportRandomAccess)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -651,7 +651,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsSupportRandomAccess)
 }
 
 
-TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeSupportsSubscript)
+TEST(ShapedImageNeighborhoodRange, SupportsSubscript)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -679,7 +679,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeSupportsSubscript)
 }
 
 
-TEST(ShapedImageNeighborhoodRange, RangeProvidesReverseIterators)
+TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
