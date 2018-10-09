@@ -23,6 +23,7 @@
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 #include <iostream>
 
@@ -114,7 +115,7 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
   plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in,
                                      (typename FFTWProxyType::ComplexType*)
                                      fftwOutput->GetBufferPointer(), flags,
-                                     this->GetNumberOfWorkUnits());
+                                     MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 
@@ -158,11 +159,7 @@ SizeValueType
 FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GetSizeGreatestPrimeFactor() const
 {
-#ifdef ITK_USE_CUFFTW
-  return 7;
-#else
   return FFTWProxyType::GREATEST_PRIME_FACTOR;
-#endif
 }
 
 } // namespace itk
