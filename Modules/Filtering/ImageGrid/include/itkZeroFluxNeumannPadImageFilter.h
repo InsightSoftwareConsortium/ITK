@@ -36,20 +36,20 @@ namespace itk
  *
  * For example, invoking this filter on an image with a corner like:
  * \code
- *               * * * * * * *
- *               * * * * * * *
- *               * * 1 2 3 4 5  (where * denotes pixels that lie
- *               * * 3 3 5 5 6          outside of the image boundary)
- *               * * 4 4 6 7 8
- * \endcode
+                 * * * * * * *
+                 * * * * * * *
+                 * * 1 2 3 4 5  (where * denotes pixels that lie
+                 * * 3 3 5 5 6          outside of the image boundary)
+                 * * 4 4 6 7 8
+   \endcode
  * returns the following padded image:
  * \code
- *               1 1 1 2 3 4 5
- *               1 1 1 2 3 4 5
- *               1 1 1 2 3 4 5
- *               3 3 3 3 5 5 6   (note the corner values)
- *               4 4 4 4 6 7 8
- * \endcode
+                 1 1 1 2 3 4 5
+                 1 1 1 2 3 4 5
+                 1 1 1 2 3 4 5
+                 3 3 3 3 5 5 6   (note the corner values)
+                 4 4 4 4 6 7 8
+   \endcode
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

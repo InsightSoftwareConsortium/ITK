@@ -44,11 +44,11 @@ namespace itk
  *
  * The pixels locations belonging to the LabelObject can be obtained using:
  * \code
- * for(unsigned int pixelId = 0; pixelId < labelObject->Size(); pixelId++)
- *   {
- *   std::cout << labelObject->GetIndex(pixelId);
- *   }
- * \endcode
+   for(unsigned int pixelId = 0; pixelId < labelObject->Size(); pixelId++)
+     {
+     std::cout << labelObject->GetIndex(pixelId);
+     }
+   \endcode
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

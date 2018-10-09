@@ -48,17 +48,17 @@ namespace itk
  * as follows:
  *
  * \code
- *
- * using TernaryType = itk::TernaryOperatorImageFilter< MaskType, ImageType >;
- * TernaryType::Pointer ternaryFilter = TernaryType::New();
- *
- * ternaryFilter->SetInput1( maskImage );
- * ternaryFilter->SetInput2( foregroundImage );
- * ternaryFilter->SetInput3( backgroundImage );
- *
- * ImageType::Pointer objectOnBackground = ternaryFilter->GetOutput();
- *
- * \endcode
+
+   using TernaryType = itk::TernaryOperatorImageFilter< MaskType, ImageType >;
+   TernaryType::Pointer ternaryFilter = TernaryType::New();
+
+   ternaryFilter->SetInput1( maskImage );
+   ternaryFilter->SetInput2( foregroundImage );
+   ternaryFilter->SetInput3( backgroundImage );
+
+   ImageType::Pointer objectOnBackground = ternaryFilter->GetOutput();
+
+   \endcode
  *
  * \ingroup ITKImageIntensity
  */

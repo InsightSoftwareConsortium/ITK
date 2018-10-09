@@ -62,12 +62,12 @@ public:
  * For example, for 4 connectivity, the indices refer to the following
  * neighbors:
  * \code
- *
- *  * 1 *
- *  2 * 3
- *  * 4 *
- *
- * \endcode
+
+    * 1 *
+    2 * 3
+    * 4 *
+
+   \endcode
  *
  * \ingroup ITKLevelSets
  */

@@ -121,11 +121,11 @@ private:
  * filter will perform the operation
  *
  * \code
- *        if pixel_from_mask_image != masking_value
- *             pixel_output_image = pixel_input_image
- *        else
- *             pixel_output_image = outside_value
- * \endcode
+          if pixel_from_mask_image != masking_value
+               pixel_output_image = pixel_input_image
+          else
+               pixel_output_image = outside_value
+   \endcode
  *
  * The pixel from the input 1 is cast to the pixel type of the output image.
  *

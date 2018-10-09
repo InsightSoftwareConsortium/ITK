@@ -548,6 +548,13 @@ protected:
 
   virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
 
+  /** Check fileName as an extensions contained in the supported
+   * extension list. If ignoreCase is true, the case of the characters
+   * is ignored.
+   */
+  virtual bool HasSupportedReadExtension( const char * fileName, bool ignoreCase = true );
+  virtual bool HasSupportedWriteExtension( const char * fileName, bool ignoreCase = true );
+
   /** Used internally to keep track of the type of the pixel. */
   IOPixelType m_PixelType;
 
@@ -704,6 +711,9 @@ protected:
                                                                const ImageIORegion & pasteRegion) const;
 
 private:
+
+  bool HasSupportedExtension( const char * , const ArrayOfExtensionsType &, bool tolower = true );
+
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };

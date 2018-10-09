@@ -73,7 +73,7 @@ namespace
 
 // Tests that a begin iterator compares equal to another begin iterator of the
 // same range. Also does this test for end iterators.
-TEST(ShapedImageNeighborhoodRange, Equivalent_begin_or_end_iterators_compare_equal)
+TEST(ShapedImageNeighborhoodRange, EquivalentBeginOrEndIteratorsCompareEqual)
 {
   using ImageType = itk::Image<int>;
 
@@ -82,7 +82,7 @@ TEST(ShapedImageNeighborhoodRange, Equivalent_begin_or_end_iterators_compare_equ
   const itk::Size<ImageType::ImageDimension> radius{{}};
   const ImageType::IndexType location {{}};
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   const itk::Experimental::ShapedImageNeighborhoodRange<ImageType>::iterator begin = range.begin();
@@ -110,7 +110,7 @@ TEST(ShapedImageNeighborhoodRange, Equivalent_begin_or_end_iterators_compare_equ
 }
 
 
-TEST(ShapedImageNeighborhoodRange, begin_and_end_do_not_compare_equal)
+TEST(ShapedImageNeighborhoodRange, BeginAndEndDoNotCompareEqual)
 {
   using ImageType = itk::Image<int>;
 
@@ -120,7 +120,7 @@ TEST(ShapedImageNeighborhoodRange, begin_and_end_do_not_compare_equal)
   const itk::Size<ImageType::ImageDimension> radius {{}};
   const ImageType::IndexType location {{}};
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   EXPECT_FALSE(range.begin() == range.end());
@@ -129,7 +129,7 @@ TEST(ShapedImageNeighborhoodRange, begin_and_end_do_not_compare_equal)
 
 
 // Tests that an iterator converts (implicitly) to a const_iterator.
-TEST(ShapedImageNeighborhoodRange, iterator_converts_to_const_iterator)
+TEST(ShapedImageNeighborhoodRange, IteratorConvertsToConstIterator)
 {
   using ImageType = itk::Image<int>;
 
@@ -138,7 +138,7 @@ TEST(ShapedImageNeighborhoodRange, iterator_converts_to_const_iterator)
   const itk::Size<ImageType::ImageDimension> radius {{}};
   const ImageType::IndexType location {{}};
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   const itk::Experimental::ShapedImageNeighborhoodRange<ImageType>::iterator begin = range.begin();
@@ -152,7 +152,7 @@ TEST(ShapedImageNeighborhoodRange, iterator_converts_to_const_iterator)
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of an std::vector constructor.
-TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_iterators_can_be_used_as_arguments_std_vector_constructor)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeIteratorsCanBeUsedAsArgumentsStdVectorConstructor)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -162,7 +162,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_iterators_can_be_used_as_arg
   const ImageType::IndexType location {{}};
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   // Easily store all pixels of the ShapedImageNeighborhoodRange in an std::vector:
@@ -174,7 +174,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_iterators_can_be_used_as_arg
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of std::reverse (which requires bidirectional iterators).
-TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_arguments_of_std_reverse_copy)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsArgumentsOfStdReverseCopy)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -184,7 +184,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_argument
   const ImageType::IndexType location {{}};
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   const unsigned numberOfNeighborhoodPixels = 3;
@@ -212,7 +212,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_argument
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of std::inner_product.
-TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_parameters_of_std_inner_product)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfStdInnerProduct)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -222,7 +222,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_paramete
   const ImageType::IndexType location {{}};
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   const double innerProduct = std::inner_product(range.begin(), range.end(), range.begin(), 0.0);
@@ -233,7 +233,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_paramete
 
 // Tests that the iterators of a NeigborhoodRange can be used as first and
 // second argument of std::for_each.
-TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_can_be_used_in_std_for_each)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeCanBeUsedInStdForEach)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -243,7 +243,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_can_be_used_in_std_for_each)
   const ImageType::IndexType location {{}};
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   std::for_each(range.begin(), range.end(), [](const PixelType pixel)
@@ -255,7 +255,7 @@ TEST(ShapedImageNeighborhoodRange, NeigborhoodRange_can_be_used_in_std_for_each)
 
 // Tests that a NeigborhoodRange can be used as the "range expression" of a
 // C++11 range-based for loop.
-TEST(ShapedImageNeighborhoodRange,  NeigborhoodRange_can_be_used_with_range_based_for_loop)
+TEST(ShapedImageNeighborhoodRange,  NeigborhoodRangeCanBeUsedWithRangeBasedForLoop)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -267,7 +267,7 @@ TEST(ShapedImageNeighborhoodRange,  NeigborhoodRange_can_be_used_with_range_base
   const ImageType::IndexType location {{}};
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
 
   for (const PixelType pixel : range)
@@ -296,7 +296,7 @@ TEST(ShapedImageNeighborhoodRange,  NeigborhoodRange_can_be_used_with_range_base
 
 // Tests that the distance between two iterators, it1 and it2, can be obtained by
 // subtraction (it2 - it1).
-TEST(ShapedImageNeighborhoodRange, Distance_between_iterators_can_be_obtained_by_subtraction)
+TEST(ShapedImageNeighborhoodRange, DistanceBetweenIteratorsCanBeObtainedBySubtraction)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -306,7 +306,7 @@ TEST(ShapedImageNeighborhoodRange, Distance_between_iterators_can_be_obtained_by
   const ImageType::IndexType location {{}};
   const itk::Size<ImageType::ImageDimension> radius = { { 2, 3 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType>::iterator it1 = range.begin();
@@ -327,7 +327,7 @@ TEST(ShapedImageNeighborhoodRange, Distance_between_iterators_can_be_obtained_by
 
 // Tests that ShapedImageNeighborhoodRange::iterator retrieves the same pixel values, in the same order,
 // as ConstNeighborhoodIterator.
-TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_iterator_retrieves_same_pixel_values_as_ConstNeighborhoodIterator)
+TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeIteratorRetrievesSamePixelValuesAsConstNeighborhoodIterator)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -337,7 +337,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_iterator_retriev
   const ImageType::IndexType location {{}};
   const itk::Size<ImageType::ImageDimension> radius = { { 2, 3 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<const ImageType> range{ *image, location, offsets };
 
   itk::ConstNeighborhoodIterator<ImageType> constNeighborhoodIterator(radius, image, image->GetRequestedRegion());
@@ -355,7 +355,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_iterator_retriev
 
 // Tests that iterator::reference and const_iterator::reference act like a real
 // (built-in) C++ reference to the pixel type.
-TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_iterator_reference_acts_like_a_real_reference)
+TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeIteratorReferenceActsLikeARealReference)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -366,7 +366,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_iterator_referen
   const ImageType::IndexType location = { { 1, 0 } };
   const itk::Size<ImageType::ImageDimension> radius = { { 1, 0 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
   RangeType::iterator it = range.begin();
 
@@ -404,7 +404,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_iterator_referen
 
 
 // Tests that ShapedImageNeighborhoodRange<VectorImage<T>> is supported well.
-TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_supports_VectorImage)
+TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRangeSupportsVectorImage)
 {
   using ImageType = itk::VectorImage<unsigned char>;
   using PixelType = ImageType::PixelType;
@@ -421,7 +421,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_supports_VectorI
   const ImageType::IndexType location = { { 0, 1 } };
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType>;
   RangeType range{ *image, location, offsets };
@@ -444,7 +444,7 @@ TEST(ShapedImageNeighborhoodRange, ShapedImageNeighborhoodRange_supports_VectorI
 }
 
 
-TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_parameters_of_std_sort)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfStdSort)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -454,7 +454,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_paramete
   const ImageType::IndexType location {{1, 1}};
   const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   // Initial order: (1, 2, 3, ..., 9).
@@ -475,7 +475,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_paramete
 }
 
 
-TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_parameters_of_std_nth_element)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsCanBeUsedAsParametersOfStdNthElement)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -485,7 +485,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_paramete
   const ImageType::IndexType location{ { 1, 1 } };
   const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::Experimental::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   std::reverse(range.begin(), range.end());
@@ -507,7 +507,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_can_be_used_as_paramete
 }
 
 
-TEST(ShapedImageNeighborhoodRange, Iterator_is_DefaultConstructible)
+TEST(ShapedImageNeighborhoodRange, IteratorIsDefaultConstructible)
 {
   using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<itk::Image<int>>;
 
@@ -525,7 +525,7 @@ TEST(ShapedImageNeighborhoodRange, Iterator_is_DefaultConstructible)
 }
 
 
-TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_support_random_access)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodIteratorsSupportRandomAccess)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -536,7 +536,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_support_random_access)
   const ImageType::IndexType location{ { 1, 1 } };
   const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
 
   // Testing expressions from Table 111 "Random access iterator requirements
@@ -651,7 +651,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_iterators_support_random_access)
 }
 
 
-TEST(ShapedImageNeighborhoodRange, Neigborhood_range_supports_subscript)
+TEST(ShapedImageNeighborhoodRange, NeigborhoodRangeSupportsSubscript)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -663,7 +663,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_range_supports_subscript)
   const ImageType::IndexType location{ { 1, 1 } };
   const itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
 
   const std::size_t numberOfNeighbors = range.size();
@@ -679,7 +679,7 @@ TEST(ShapedImageNeighborhoodRange, Neigborhood_range_supports_subscript)
 }
 
 
-TEST(ShapedImageNeighborhoodRange, Range_provides_reverse_iterators)
+TEST(ShapedImageNeighborhoodRange, RangeProvidesReverseIterators)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
@@ -690,7 +690,7 @@ TEST(ShapedImageNeighborhoodRange, Range_provides_reverse_iterators)
   const ImageType::IndexType location{ {} };
   const itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
-    itk::Experimental::GenerateHyperrectangularImageNeighborhoodOffsets(radius);
+    itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
 
   const unsigned numberOfNeighborhoodPixels = 3;

@@ -31,14 +31,14 @@ namespace itk
  * it is illustrated in the following code:
  *
  * \code
- *     medianFilter->Update();
- *     ImageType::Pointer image = medianFilter->GetOutput();
- *     using DuplicatorType = itk::ImageDuplicator< ImageType >;
- *     DuplicatorType::Pointer duplicator = DuplicatorType::New();
- *     duplicator->SetInputImage(image);
- *     duplicator->Update();
- *     ImageType::Pointer clonedImage = duplicator->GetOutput();
- * \endcode
+       medianFilter->Update();
+       ImageType::Pointer image = medianFilter->GetOutput();
+       using DuplicatorType = itk::ImageDuplicator< ImageType >;
+       DuplicatorType::Pointer duplicator = DuplicatorType::New();
+       duplicator->SetInputImage(image);
+       duplicator->Update();
+       ImageType::Pointer clonedImage = duplicator->GetOutput();
+   \endcode
  *
  * Note that the Update() method must be called explicitly in the filter
  * that provides the input to the ImageDuplicator object. This is needed

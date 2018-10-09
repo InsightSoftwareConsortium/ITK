@@ -101,6 +101,7 @@ WindowConvergenceMonitoringFunction<TScalar>
   typename BSplinerType::ArrayType ncps;
   ncps.Fill( bspliner->GetSplineOrder()[0] + 1 );
   bspliner->SetNumberOfControlPoints( ncps );
+  bspliner->SetNumberOfWorkUnits(1);
 
   typename EnergyProfileType::Pointer energyProfileWindow = EnergyProfileType::New();
   energyProfileWindow->Initialize();

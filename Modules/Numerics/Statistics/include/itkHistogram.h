@@ -61,8 +61,8 @@ namespace Statistics
  * instantiate a histogram as below:
  *
  * \code
- * using HistogramType = Histogram< THistogramMeasurement, typename TFrequencyContainer >;
- * \endcode
+   using HistogramType = Histogram< THistogramMeasurement, typename TFrequencyContainer >;
+   \endcode
  *
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer, VariableDimensionHistogram
  * \ingroup ITKStatistics

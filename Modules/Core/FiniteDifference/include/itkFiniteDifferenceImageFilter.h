@@ -39,11 +39,11 @@ namespace itk
  * the following pseudocode.
  *
  * \code
- *  WHILE NOT convergence:
- *     FOR ALL pixels i
- *        time_step = calculate_change(i)
- *        update(i, time_step)
- * \endcode
+    WHILE NOT convergence:
+       FOR ALL pixels i
+          time_step = calculate_change(i)
+          update(i, time_step)
+   \endcode
  *
  * \par
  * The following equation describes update \f$ n+1 \f$ at pixel \f$ i \f$ on

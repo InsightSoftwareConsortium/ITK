@@ -78,12 +78,12 @@ public:
  * perform an operation similar to:
  *
  * \code
- *    const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
- *    if(current_maximum < query_value)
- *      {
- *      current_maximum = query_value;
- *      }
- * \endcode
+      const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
+      if(current_maximum < query_value)
+        {
+        current_maximum = query_value;
+        }
+   \endcode
  * (where current_maximum is also of type OutputPixelType)
  *
  * for each of the n input images.

@@ -19,11 +19,6 @@
 #define itkConnectedComponentImageFilter_h
 
 #include "itkScanlineFilterCommon.h"
-#include <vector>
-#include <map>
-#include "itkProgressReporter.h"
-#include "itkBarrier.h"
-#include "itkPlatformMultiThreader.h"
 
 namespace itk
 {
@@ -163,23 +158,16 @@ protected:
 
     //  #1 "MaskImage" optional
     Self::AddOptionalInputName("MaskImage",1);
-    this->DynamicMultiThreadingOff();
-    this->SetMultiThreader(PlatformMultiThreader::New());
   }
 
   ~ConnectedComponentImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void BeforeThreadedGenerateData() override;
+  void GenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void DynamicThreadedGenerateData( const RegionType & ) override;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-  void DynamicThreadedGenerateData( const RegionType & ) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  void ThreadedWriteOutput( const RegionType & );
 
   /** ConnectedComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -205,31 +193,13 @@ protected:
   using LineMapType               = typename ScanlineFunctions::LineMapType;
   using UnionFindType             = typename ScanlineFunctions::UnionFindType;
   using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+  using WorkUnitData              = typename ScanlineFunctions::WorkUnitData;
 
 private:
   OutputPixelType m_BackgroundValue;
   LabelType       m_ObjectCount;
 
-  void FillOutput(const LineMapType & LineMap, ProgressReporter & progress);
-
-  void Wait()
-  {
-    // use m_NumberOfLabels.size() to get the number of thread used
-    if ( m_NumberOfLabels.size() > 1 )
-      {
-      m_Barrier->Wait();
-      }
-  }
-
-  typename std::vector< IdentifierType > m_NumberOfLabels;
-  typename std::vector< IdentifierType > m_FirstLineIdToJoin;
-
-  typename Barrier::Pointer m_Barrier;
-
   typename TInputImage::ConstPointer m_Input;
-#if !defined( ITK_WRAPPING_PARSER )
-  LineMapType m_LineMap;
-#endif
 };
 } // end namespace itk
 

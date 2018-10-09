@@ -36,19 +36,19 @@ namespace itk
  * An example operator to compute X derivatives of a 2D image can be
  * created with:
  * \code
- *       using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
- *       DerivativeOperatorType derivativeOperator;
- *       derivativeOperator.SetDirection(0); // X dimension
- *       itk::Size<2> radius;
- *       radius.Fill(1); // A radius of 1 in both dimensions is a 3x3 operator
- *       derivativeOperator.CreateToRadius(radius);
- * \endcode
+         using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
+         DerivativeOperatorType derivativeOperator;
+         derivativeOperator.SetDirection(0); // X dimension
+         itk::Size<2> radius;
+         radius.Fill(1); // A radius of 1 in both dimensions is a 3x3 operator
+         derivativeOperator.CreateToRadius(radius);
+   \endcode
  * and creates a kernel that looks like:
  * \code
- *       0        0 0
- *       0.5  0   -0.5
- *       0    0   0
- * \endcode
+         0        0 0
+         0.5  0   -0.5
+         0    0   0
+   \endcode
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood

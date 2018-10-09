@@ -48,22 +48,22 @@ namespace itk
  * This is the typical use of this iterator in a loop:
  *
  * \code
- *
- * ImageLinearConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetDirection(2);
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   while( !it.IsAtEndOfLine() )
- *   {
- *      value = it.Get();  // it.Set() doesn't exist in the Const Iterator
- *      ++it;
- *   }
- *   it.NextLine();
- *  }
- *
- *  \endcode
+
+   ImageLinearConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetDirection(2);
+   it.GoToBegin();
+   while( !it.IsAtEnd() )
+   {
+     while( !it.IsAtEndOfLine() )
+     {
+        value = it.Get();  // it.Set() doesn't exist in the Const Iterator
+        ++it;
+     }
+     it.NextLine();
+    }
+
+    \endcode
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please

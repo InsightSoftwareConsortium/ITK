@@ -71,13 +71,13 @@ namespace itk
  *
  * Example filter usage:
  * \code
- * using FilterType = itk::FFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
- * FilterType::Pointer filter = FilterType::New();
- * filter->SetFixedImage( fixedImage );
- * filter->SetMovingImage( movingImage );
- * filter->SetRequiredNumberOfOverlappingPixels(20);
- * filter->Update();
- * \endcode
+   using FilterType = itk::FFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
+   FilterType::Pointer filter = FilterType::New();
+   filter->SetFixedImage( fixedImage );
+   filter->SetMovingImage( movingImage );
+   filter->SetRequiredNumberOfOverlappingPixels(20);
+   filter->Update();
+   \endcode
  *
  * \warning The pixel type of the output image must be of real type
  * (float or double). ConceptChecking is used to enforce the output pixel

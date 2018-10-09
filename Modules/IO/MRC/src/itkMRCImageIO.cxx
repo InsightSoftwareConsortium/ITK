@@ -38,11 +38,16 @@ MRCImageIO::MRCImageIO()
   this->SetNumberOfDimensions(3);
   this->SetFileTypeToBinary();
 
-  this->AddSupportedReadExtension(".mrc");
-  this->AddSupportedReadExtension(".rec");
+  const char *extensions[] =
+    {
+      ".mrc",".rec"
+    };
 
-  this->AddSupportedWriteExtension(".mrc");
-  this->AddSupportedWriteExtension(".rec");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 void MRCImageIO::PrintSelf(std::ostream & os, Indent indent) const
@@ -54,9 +59,7 @@ bool MRCImageIO::CanReadFile(const char *filename)
 {
   std::string fname = filename;
 
-  if ( fname != ""
-       && ( fname.find(".mrc") < fname.length()
-            || fname.find(".rec") < fname.length() ) )
+  if (this->HasSupportedReadExtension(filename))
     {
     return true;
     }
@@ -328,13 +331,7 @@ bool MRCImageIO::CanWriteFile(const char *fname)
 {
   std::string filename = fname;
 
-  if ( filename.length() > 4
-       && ( filename.find(".mrc") == filename.length() - 4
-            || filename.find(".rec") == filename.length() - 4 ) )
-    {
-    return true;
-    }
-  return false;
+  return this->HasSupportedWriteExtension(fname);
 }
 
 template< typename TPixelType >

@@ -47,34 +47,34 @@ namespace itk
  * This is the typical use of this iterator in a loop:
  *
  * \code
- *
- * ImageRandomConstIteratorWithOnlyIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetNumberOfSamples(200);
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   std::cout << it.GetIndex() << std::endl;
- *   ++it;  // here it jumps to another random position inside the region
- *  }
- *
- *  \endcode
+
+   ImageRandomConstIteratorWithOnlyIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetNumberOfSamples(200);
+   it.GoToBegin();
+   while( !it.IsAtEnd() )
+   {
+     std::cout << it.GetIndex() << std::endl;
+     ++it;  // here it jumps to another random position inside the region
+    }
+
+    \endcode
  *
  * or
  *
  * \code
- *
- * ImageRandomConstIteratorWithOnlyIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetNumberOfSamples(200);
- * it.GoToEnd();
- * while( !it.IsAtBegin() )
- * {
- *   std::cout << it.GetIndex() << std::endl;
- *   --it;  // here it jumps to another random position inside the region
- *  }
- *
- *  \endcode
+
+   ImageRandomConstIteratorWithOnlyIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetNumberOfSamples(200);
+   it.GoToEnd();
+   while( !it.IsAtBegin() )
+   {
+     std::cout << it.GetIndex() << std::endl;
+     --it;  // here it jumps to another random position inside the region
+    }
+
+    \endcode
  *
  * \warning Incrementing the iterator (++it) followed by a decrement (--it)
  * or vice versa does not in general return the iterator to the same position.

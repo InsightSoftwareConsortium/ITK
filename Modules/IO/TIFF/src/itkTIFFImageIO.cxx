@@ -232,15 +232,16 @@ TIFFImageIO::TIFFImageIO() :
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  this->AddSupportedWriteExtension(".tif");
-  this->AddSupportedWriteExtension(".TIF");
-  this->AddSupportedWriteExtension(".tiff");
-  this->AddSupportedWriteExtension(".TIFF");
+  const char *extensions[] =
+    {
+      ".tif", ".TIF", ".tiff", ".TIFF"
+    };
 
-  this->AddSupportedReadExtension(".tif");
-  this->AddSupportedReadExtension(".TIF");
-  this->AddSupportedReadExtension(".tiff");
-  this->AddSupportedReadExtension(".TIFF");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 TIFFImageIO::~TIFFImageIO()
@@ -496,35 +497,7 @@ bool TIFFImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  std::string::size_type TIFFPos = filename.rfind(".TIFF");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  TIFFPos = filename.rfind(".tiff");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  TIFFPos = filename.rfind(".tif");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  TIFFPos = filename.rfind(".TIF");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name);
 }
 
 void TIFFImageIO::WriteImageInformation()
