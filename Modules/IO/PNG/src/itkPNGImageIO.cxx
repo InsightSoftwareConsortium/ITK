@@ -429,6 +429,11 @@ void PNGImageIO::ReadImageInformation()
 
       }
     }
+  if( !m_IsReadAsScalarPlusPalette )
+    {
+    // make sure not palette is left
+    m_ColorPalette.resize(0);
+    }
 
   // minimum of a byte per pixel
   if ( colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8 )
