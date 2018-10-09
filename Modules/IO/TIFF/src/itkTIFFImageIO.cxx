@@ -454,6 +454,11 @@ void TIFFImageIO::ReadImageInformation()
         }
       }
     }
+  if( !m_IsReadAsScalarPlusPalette )
+    {
+    // make sure the palette is empty
+    m_ColorPalette.resize(0);
+    }
 
 
   if ( !m_InternalImage->CanRead() )
@@ -960,8 +965,13 @@ void TIFFImageIO::ReadTIFFTags()
 
   this->InitializeColors();
   if ( m_TotalColors > -1 )
-    {// if a palette have been found
+    {// if a palette have been found store it in m_ColorPalette
     PopulateColorPalette();
+    }
+  else
+    {
+    // otherwise make sure that the stored palette is empty in the case it was already set
+    m_ColorPalette.resize(0);
     }
 
   for (int i = 0; i < tagCount; ++i)
