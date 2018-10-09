@@ -164,11 +164,7 @@ SizeValueType
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::GetSizeGreatestPrimeFactor() const
 {
-#ifdef ITK_USE_CUFFTW
-  return 7;
-#else
   return FFTWProxyType::GREATEST_PRIME_FACTOR;
-#endif
 }
 
 } // namespace itk
