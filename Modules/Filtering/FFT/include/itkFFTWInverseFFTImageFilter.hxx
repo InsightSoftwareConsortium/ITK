@@ -23,6 +23,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -94,7 +95,8 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 
   plan = FFTWProxyType::Plan_dft_c2r( ImageDimension, sizes, in, out, m_PlanRigor,
-                                      this->GetNumberOfWorkUnits(), false );
+                                      MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
+                                      false );
   FFTWProxyType::Execute( plan );
 
   // Some cleanup.

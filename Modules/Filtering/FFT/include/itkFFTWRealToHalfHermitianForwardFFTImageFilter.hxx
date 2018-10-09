@@ -20,6 +20,7 @@
 
 #include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -95,7 +96,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
     }
 
   plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in, out, flags,
-                                    this->GetNumberOfWorkUnits());
+                                     MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 }

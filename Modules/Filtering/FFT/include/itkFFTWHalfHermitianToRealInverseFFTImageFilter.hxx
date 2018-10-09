@@ -21,6 +21,7 @@
 #include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -97,7 +98,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
     sizes[(ImageDimension - 1) - i] = outputSize[i];
     }
   plan = FFTWProxyType::Plan_dft_c2r( ImageDimension, sizes, in, out, m_PlanRigor,
-                                      this->GetNumberOfWorkUnits(),
+                                      MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
                                       !m_CanUseDestructiveAlgorithm );
   if( !m_CanUseDestructiveAlgorithm )
     {
