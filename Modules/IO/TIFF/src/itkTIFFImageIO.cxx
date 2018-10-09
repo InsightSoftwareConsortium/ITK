@@ -138,7 +138,6 @@ unsigned int TIFFImageIO::GetFormat()
            m_ImageFormat = TIFFImageIO::PALETTE_RGB;
            return m_ImageFormat;
           }
-
         }
     }
   m_ImageFormat = TIFFImageIO::OTHER;
@@ -1311,7 +1310,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
           }
         break;
       case TIFFImageIO::PALETTE_RGB:
-        if ( this->GetExpandRGBPalette() || (!this->GetIsReadAsScalarPlusPalette()) )
+        if ( !this->GetIsReadAsScalarPlusPalette() )
           {
           switch ( m_InternalImage->m_BitsPerSample )
             {
