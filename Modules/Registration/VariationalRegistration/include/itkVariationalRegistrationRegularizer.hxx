@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 VariationalRegistrationRegularizer<TDisplacementField>::VariationalRegistrationRegularizer()
 {
   // Initialize default values.
@@ -38,7 +38,7 @@ VariationalRegistrationRegularizer<TDisplacementField>::VariationalRegistrationR
 /*
  * Print status information
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationRegularizer<TDisplacementField>::PrintSelf(std::ostream & os, Indent indent) const
 {

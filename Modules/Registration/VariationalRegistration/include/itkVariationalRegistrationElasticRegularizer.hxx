@@ -32,7 +32,7 @@ namespace itk
 /**
  * Default constructor
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 VariationalRegistrationElasticRegularizer<TDisplacementField>::VariationalRegistrationElasticRegularizer()
 {
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -64,7 +64,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::VariationalRegist
 /**
  * Generate data
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::GenerateData()
 {
@@ -81,7 +81,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::GenerateData()
 /*
  * Initialize flags
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::Initialize()
 {
@@ -142,7 +142,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::Initialize()
 /*
  * Reset data
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::FreeData()
 {
@@ -170,7 +170,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::FreeData()
 /**
  * Initialize FFT plans
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 bool
 VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElasticFFTPlans()
 {
@@ -210,7 +210,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
 /**
  * Initialize elastic matrix
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 bool
 VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElasticMatrix()
 {
@@ -238,7 +238,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
 /**
  * Execute regularization
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::Regularize()
 {
@@ -299,7 +299,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::Regularize()
 /**
  * Solve elastic LES
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLES()
 {
@@ -319,7 +319,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLES()
 /**
  * Solve elastic LES
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 ITK_THREAD_RETURN_TYPE
 VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLESThreaderCallback(void * arg)
 {
@@ -345,7 +345,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLESTh
 /**
  * Solve elastic LES
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElasticLES(OffsetValueType from,
                                                                                        OffsetValueType to)
@@ -587,7 +587,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
 /*
  * Calculate the index in the complex image for a given offset.
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 typename VariationalRegistrationElasticRegularizer<TDisplacementField>::DisplacementFieldType::IndexType
 VariationalRegistrationElasticRegularizer<TDisplacementField>::CalculateComplexImageIndex(OffsetValueType offset)
 {
@@ -608,7 +608,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::CalculateComplexI
 /*
  * Print status information
  */
-template <class TDisplacementField>
+template <typename TDisplacementField>
 void
 VariationalRegistrationElasticRegularizer<TDisplacementField>::PrintSelf(std::ostream & os, Indent indent) const
 {

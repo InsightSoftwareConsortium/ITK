@@ -26,7 +26,7 @@ namespace itk
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template <class TInputImage, class TOutputImage, class TDisplacementField>
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
 ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
