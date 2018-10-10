@@ -73,7 +73,11 @@ public:
   using Self = Proxy<float>;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
+#ifdef ITK_USE_CUFFTW
+  static constexpr SizeValueType GREATEST_PRIME_FACTOR = 7;
+#else
   static constexpr SizeValueType GREATEST_PRIME_FACTOR = 13;
+#endif
 
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,
@@ -397,7 +401,11 @@ public:
   using Self = Proxy<double>;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
+#ifdef ITK_USE_CUFFTW
+  static constexpr SizeValueType GREATEST_PRIME_FACTOR = 7;
+#else
   static constexpr SizeValueType GREATEST_PRIME_FACTOR = 13;
+#endif
 
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,
