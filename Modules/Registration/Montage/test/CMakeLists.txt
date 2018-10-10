@@ -19,85 +19,26 @@ set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/../Testing/Temporary")
 itk_add_test(NAME itkMontageGenericTests
   COMMAND MontageTestDriver itkMontageGenericTests)
 
-itk_add_test(NAME itkMontagePCMTestSynthetic_2cc
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    2cc
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cc.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cc.tfm
-  )
+function(AddTestSynthetic dimTTcode)
+  itk_add_test(NAME itkMontagePCMTestSynthetic_${dimTTcode}
+    COMMAND MontageTestDriver
+    itkMontagePCMTestSynthetic
+      ${dimTTcode}
+      ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_${dimTTcode}.nrrd
+      ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_${dimTTcode}.tfm
+    )
+endfunction()
 
-itk_add_test(NAME itkMontagePCMTestSynthetic_2ff
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    2ff
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2ff.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2ff.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_2dd
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    2dd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2dd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2dd.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_2cf
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    2cf
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_2fd
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    2fd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_2cf.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_3cc
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    3cc
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cc.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cc.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_3ff
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    3ff
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3ff.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3ff.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_3dd
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    3dd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3dd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3dd.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_3cf
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    3cf
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cf.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3cf.tfm
-  )
-
-itk_add_test(NAME itkMontagePCMTestSynthetic_3fd
-  COMMAND MontageTestDriver
-  itkMontagePCMTestSynthetic
-    3fd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3fd.nrrd
-    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestSynthetic_3fd.tfm
-  )
+AddTestSynthetic(2cc)
+AddTestSynthetic(2ff)
+AddTestSynthetic(2dd)
+AddTestSynthetic(2cf)
+AddTestSynthetic(2fd)
+AddTestSynthetic(3cc)
+AddTestSynthetic(3ff)
+AddTestSynthetic(3dd)
+AddTestSynthetic(3cf)
+AddTestSynthetic(3fd)
 
 
 itk_add_test(NAME itkMontagePCMTestSynthetic_ShouldFail
@@ -244,16 +185,16 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
     COMMAND MontageTestDriver
     itkMontageTestTi7
       ${flatFolder}
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7flat36
-      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7flat36
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7flat36_
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7flat36_
     )
 
   itk_add_test(NAME itkMontageTestTi7Slice36raw
     COMMAND MontageTestDriver
     itkMontageTestTi7
       ${rawFolder}
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7raw36
-      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7raw36
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7raw36_
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7raw36_
     )
 endif()
 
