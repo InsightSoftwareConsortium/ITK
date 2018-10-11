@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::VariationalRegistrationSSDFunction()
 {
   RadiusType r;
@@ -49,7 +49,7 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
 /**
  * Set the function state values before each iteration
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
 {
@@ -76,7 +76,7 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
 /**
  * Compute update at a specific neighborhood
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
 VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
@@ -153,7 +153,7 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
 /**
  * Standard "PrintSelf" method.
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
                                                                                              Indent indent) const

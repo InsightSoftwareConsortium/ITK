@@ -65,7 +65,7 @@ namespace itk
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 class VariationalRegistrationStopCriterion : public Command
 {
 public:

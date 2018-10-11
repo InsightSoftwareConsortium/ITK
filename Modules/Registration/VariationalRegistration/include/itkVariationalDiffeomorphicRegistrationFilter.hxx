@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   VariationalDiffeomorphicRegistrationFilter()
 {
@@ -42,7 +42,7 @@ VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacem
 /*
  * Set the mask image.
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SetInitialDisplacementField(
   DisplacementFieldType * /*ptr*/)
@@ -57,7 +57,7 @@ VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacem
 /*
  * Initialize flags
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::Initialize()
 {
@@ -97,7 +97,7 @@ VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacem
 /**
  * Get the metric value from the difference function
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::ApplyUpdate(
   const TimeStepType & dt)
@@ -114,7 +114,7 @@ VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacem
  * Calculates the deformation field by calculating the exponential
  * of the velocity field
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   CalcDeformationFromVelocityField(const DisplacementFieldType * velocityField)
@@ -134,7 +134,7 @@ VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacem
 /*
  * Print status information
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(
   std::ostream & os,

@@ -77,7 +77,7 @@ namespace itk
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType = float>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType = float>
 class VariationalRegistrationMultiResolutionFilter : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:

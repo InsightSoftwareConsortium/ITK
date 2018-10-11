@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::VariationalRegistrationStopCriterion()
 {
   // Set MR strategy to default
@@ -66,7 +66,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Variationa
 /**
  * Default destructor
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::~VariationalRegistrationStopCriterion()
 {
   if (m_IterationArray != nullptr)
@@ -81,7 +81,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::~Variation
  * Not implemented because registration filter must not be const to
  * return the result of check
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Execute(
   const itk::Object *      itkNotUsed(caller),
@@ -93,7 +93,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Execute(
 /**
  * Handle iteration event to check if stop criterion is fulfilled
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Execute(itk::Object *            caller,
                                                                               const itk::EventObject & event)
@@ -153,7 +153,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Execute(it
 /**
  *
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::SetModeForNextLevel(
   const unsigned int nextLevel,
@@ -215,7 +215,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::SetModeFor
 /**
  * Reset the fitting data
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::ResetFittingData()
 {
@@ -247,7 +247,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::ResetFitti
 /**
  * Set the number of iterations used for line fitting
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::SetNumberOfFittingIterations(int it)
 {
@@ -259,7 +259,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::SetNumberO
 /**
  * Set the metric value for the current iteration
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::SetNextMetricValue(const double value)
 {
@@ -308,7 +308,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::SetNextMet
 /**
  * Perform stop criterion check. This function returns false, if error occurred.
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 bool
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::CheckStopRegistration()
 {
@@ -444,7 +444,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::CheckStopR
 /**
  * Perform line fitting using linear regression
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::FitLine(const double * const x,
                                                                               const double * const y,
@@ -490,7 +490,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::FitLine(co
 /**
  * Standard "PrintSelf" method.
  */
-template <class TRegistrationFilter, class TMRFilter>
+template <typename TRegistrationFilter, typename TMRFilter>
 void
 VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::PrintSelf(std::ostream & os, Indent indent) const
 {

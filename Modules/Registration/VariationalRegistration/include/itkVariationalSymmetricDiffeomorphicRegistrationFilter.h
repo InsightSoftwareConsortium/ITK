@@ -87,7 +87,7 @@ namespace itk
  *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 class VariationalSymmetricDiffeomorphicRegistrationFilter
   : public VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
