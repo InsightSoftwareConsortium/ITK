@@ -256,7 +256,7 @@ public:
 
   /** Compute the Exponential of the unit quaternion
    * Exponentiation by a factor is equivalent to
-   * multiplication of the rotaion angle of the quaternion. */
+   * multiplication of the rotation angle of the quaternion. */
   Self Exponential(ValueType exponent) const;
 
 private:
