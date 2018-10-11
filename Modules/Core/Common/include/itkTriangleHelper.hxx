@@ -200,7 +200,6 @@ typename TriangleHelper< TPoint >::PointType
 TriangleHelper< TPoint >::ComputeConstrainedCircumCenter(const PointType & iP1,
                                                          const PointType & iP2, const PointType & iP3)
 {
-  PointType    oPt;
   const CoordRepType a = iP2.SquaredEuclideanDistanceTo (iP3);
   const CoordRepType b = iP1.SquaredEuclideanDistanceTo (iP3);
   const CoordRepType c = iP2.SquaredEuclideanDistanceTo (iP1);

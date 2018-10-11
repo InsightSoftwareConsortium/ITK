@@ -1,0 +1,7 @@
+itk_wrap_class("itk::ScanlineFilterCommon" POINTER)
+  itk_wrap_image_filter("${WRAP_ITK_REAL}" 2 2+)
+  UNIQUE(to_types "UL;${WRAP_ITK_INT}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_INT}" "${to_types}" 2+)
+  # wrap vector to int combinations because ConnectedComponentImageFilter uses them
+  itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_INT}" 2+)
+itk_end_wrap_class()

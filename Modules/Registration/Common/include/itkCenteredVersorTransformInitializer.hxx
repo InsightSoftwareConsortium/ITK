@@ -38,7 +38,7 @@ void
 CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
 ::InitializeTransform()
 {
-  // Compute moments and initialize center of rotaion and translation
+  // Compute moments and initialize center of rotation and translation
   this->Superclass::InitializeTransform();
 
   if ( this->m_ComputeRotation )
