@@ -26,7 +26,7 @@
 namespace itk
 {
 
-template <class TInputImage, class TOutputImage, unsigned int TComponents>
+template <typename TInputImage, typename TOutputImage, unsigned int TComponents>
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::SplitComponentsImageFilter()
 {
   this->m_ComponentsMask.Fill(true);
@@ -43,7 +43,7 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::SplitCompone
 }
 
 
-template <class TInputImage, class TOutputImage, unsigned int TComponents>
+template <typename TInputImage, typename TOutputImage, unsigned int TComponents>
 void
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::AllocateOutputs()
 {
@@ -70,7 +70,7 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::AllocateOutp
 }
 
 
-template <class TInputImage, class TOutputImage, unsigned int TComponents>
+template <typename TInputImage, typename TOutputImage, unsigned int TComponents>
 void
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::DynamicThreadedGenerateData(
   const OutputRegionType & outputRegion)
