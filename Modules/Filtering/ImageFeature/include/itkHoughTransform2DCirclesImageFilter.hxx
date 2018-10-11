@@ -34,6 +34,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   m_MinimumRadius( 0.0 ),
   m_MaximumRadius( 10.0 ),
   m_Threshold( 0.0 ),
+  m_GradientNormThreshold{ 1.0 },
   m_SigmaGradient( 1.0 ),
   m_NumberOfCircles( 1 ),
   m_DiscRadiusRatio( 1 ),
@@ -74,6 +75,21 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
+
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+void
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::VerifyPreconditions() const
+{
+  Superclass::VerifyPreconditions();
+
+  if ( ! (m_GradientNormThreshold >= 0.0) )
+  {
+    itkExceptionMacro("Failed precondition: GradientNormThreshold >= 0.");
+  }
+}
+
 
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
@@ -118,10 +134,11 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       double Vx = grad[0];
       double Vy = grad[1];
 
-      // if the gradient is not flat
-      if ( ( std::fabs(Vx) > 1 ) || ( std::fabs(Vy) > 1 ) )
+      const double norm = std::sqrt(Vx * Vx + Vy * Vy);
+
+      // if the gradient is not flat (using GradientNormThreshold to estimate flatness)
+      if ( norm > m_GradientNormThreshold )
         {
-        const double norm = std::sqrt(Vx * Vx + Vy * Vy);
         Vx /= norm;
         Vy /= norm;
 
@@ -290,6 +307,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Gradient Norm Threshold: " << m_GradientNormThreshold << std::endl;
   os << indent << "Minimum Radius:  " << m_MinimumRadius << std::endl;
   os << indent << "Maximum Radius: " << m_MaximumRadius << std::endl;
   os << indent << "Derivative Scale : " << m_SigmaGradient << std::endl;
