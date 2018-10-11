@@ -63,6 +63,8 @@ public:
    */
   using Self = ConnectedComponentImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass::Register;
+  using Superclass::UnRegister;
 
   /**
    * Types from the Superclass
