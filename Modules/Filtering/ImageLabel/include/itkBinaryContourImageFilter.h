@@ -64,6 +64,8 @@ public:
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using Superclass::Register;
+  using Superclass::UnRegister;
 
   /**
    * Run-time type information (and related methods)

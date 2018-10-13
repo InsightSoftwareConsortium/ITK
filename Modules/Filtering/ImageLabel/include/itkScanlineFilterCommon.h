@@ -44,6 +44,30 @@ class ScanlineFilterCommon
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScanlineFilterCommon);
 
+  using Self = ScanlineFilterCommon;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  void Register() const
+  {
+    Object* obj = static_cast< Object* >( m_EnclosingFilter.GetPointer() );
+    obj->Register();
+  }
+  void UnRegister() const noexcept
+  {
+    Object* obj = static_cast< Object* >( m_EnclosingFilter.GetPointer() );
+    obj->UnRegister();
+  }
+  static Pointer New()
+  {
+    Pointer smartPtr = ObjectFactory< Self >::Create();
+    if ( smartPtr == nullptr )
+      {
+      smartPtr = new Self( nullptr );
+      }
+    smartPtr->UnRegister();
+    return smartPtr;
+  }
+
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
@@ -479,9 +503,7 @@ protected:
 
   std::atomic< SizeValueType > m_NumberOfLabels;
   std::deque< WorkUnitData >   m_WorkUnitResults;
-#if !defined( ITK_WRAPPING_PARSER )
-  LineMapType m_LineMap;
-#endif
+  LineMapType                  m_LineMap;
 };
 } // end namespace itk
 
