@@ -11,15 +11,6 @@ itkDiscreteHessianGaussianImageFunctionTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
 itkImageFunctionTest.cxx
-itkJPEG2000ImageIOFactoryTest01.cxx
-itkJPEG2000ImageIORegionOfInterest.cxx
-itkJPEG2000ImageIOTest00.cxx
-itkJPEG2000ImageIOTest01.cxx
-itkJPEG2000ImageIOTest02.cxx
-itkJPEG2000ImageIOTest03.cxx
-itkJPEG2000ImageIOTest04.cxx
-itkJPEG2000ImageIOTest05.cxx
-itkJPEG2000ImageIOTest06.cxx
 itkLabelGeometryImageFilterTest.cxx
 itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseFiniteDifferenceImageFilterTest.cxx
@@ -135,30 +126,6 @@ itk_add_test(NAME itkGridForwardWarpImageFilterTest
      itkGridForwardWarpImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkGridForwardWarpImageFilterTest.mha )
 itk_add_test(NAME itkImageFunctionTest
       COMMAND ITKReviewTestDriver itkImageFunctionTest)
-itk_add_test(NAME itkJPEG2000Test00
-      COMMAND ITKReviewTestDriver itkJPEG2000ImageIORegionOfInterest
-              DATA{${ITK_DATA_ROOT}/Input/Bretagne1.j2k} ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif 160 120 320 240)
-itk_add_test(NAME itkJPEG2000Test01
-      COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest03
-              DATA{${ITK_DATA_ROOT}/Input/Bretagne1.j2k} ${ITK_TEST_OUTPUT_DIR}/Bretagne1_01.png)
-itk_add_test(NAME itkJPEG2000Test02
-      COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest03
-              DATA{${ITK_DATA_ROOT}/Input/Cevennes2.jp2} ${ITK_TEST_OUTPUT_DIR}/Cevennes2_01.png)
-itk_add_test(NAME itkJPEG2000Test03
-      COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest03
-              ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif ${ITK_TEST_OUTPUT_DIR}/Bretagne1_02.j2k)
-set_tests_properties( itkJPEG2000Test03 PROPERTIES
-  DEPENDS itkJPEG2000Test00
-  REQUIRED_FILES ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif )
-
-itk_add_test(NAME itkJPEG2000Test05
-      COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest05
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR} jp2)
-itk_add_test(NAME itkJPEG2000Test06
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1-unitspacing.tif}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
-    itkJPEG2000ImageIOTest06 DATA{${ITK_DATA_ROOT}/Input/cthead1.j2k} ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
 itk_add_test(NAME itkLabelGeometryImageFilterTest
       COMMAND ITKReviewTestDriver
     --compare DATA{${BASELINE}/itkLabelGeometryImageFilterTest.png}

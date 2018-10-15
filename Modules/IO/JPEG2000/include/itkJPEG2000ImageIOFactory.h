@@ -18,6 +18,8 @@
 #ifndef itkJPEG2000ImageIOFactory_h
 #define itkJPEG2000ImageIOFactory_h
 
+
+#include "ITKIOJPEG2000Export.h"
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
 
@@ -37,9 +39,9 @@ namespace itk
  *  JPEG2000 offers a large collection of interesting features including:
  *  compression (lossless and lossy), streaming, multi-channel images.
  *
- * \ingroup ITKReview
+ * \ingroup ITKIOJPEG2000
  */
-class JPEG2000ImageIOFactory:public ObjectFactoryBase
+class ITKIOJPEG2000_EXPORT JPEG2000ImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIOFactory);
@@ -65,9 +67,9 @@ public:
   /** Register one factory of this type  */
   static void RegisterOneFactory()
   {
-    JPEG2000ImageIOFactory::Pointer metaFactory = JPEG2000ImageIOFactory::New();
+    JPEG2000ImageIOFactory::Pointer factory = JPEG2000ImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(factory);
   }
 
 protected:

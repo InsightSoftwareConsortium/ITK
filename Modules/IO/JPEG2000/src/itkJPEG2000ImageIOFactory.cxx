@@ -44,4 +44,21 @@ JPEG2000ImageIOFactory::GetDescription() const
 {
   return "JPEG2000 ImageIO Factory, allows the loading of JPEG2000 images into insight";
 }
+
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool JPEG2000ImageIOFactoryHasBeenRegistered;
+
+void ITKIOJPEG2000_EXPORT JPEG2000ImageIOFactoryRegister__Private()
+{
+  if( ! JPEG2000ImageIOFactoryHasBeenRegistered )
+    {
+    JPEG2000ImageIOFactoryHasBeenRegistered = true;
+    JPEG2000ImageIOFactory::RegisterOneFactory();
+    }
+}
+
+
 } // end namespace itk
