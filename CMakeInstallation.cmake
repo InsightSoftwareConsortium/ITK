@@ -215,6 +215,7 @@ if (NOT HDF5_EXTERNALLY_CONFIGURED)
     if (HDF5_PACK_INSTALL_DOCS)
       set (release_files
           ${release_files}
+          ${HDF5_SOURCE_DIR}/release_docs/INSTALL_Warnings.txt
           ${HDF5_SOURCE_DIR}/release_docs/INSTALL_CMake.txt
           ${HDF5_SOURCE_DIR}/release_docs/HISTORY-1_8.txt
           ${HDF5_SOURCE_DIR}/release_docs/INSTALL

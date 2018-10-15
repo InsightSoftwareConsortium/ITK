@@ -46,6 +46,9 @@ endif ()
 #   dependencies of the HDF5 libs may be 'incomplete', add additional
 #   dependencies to this variable so that external projects pick them up
 #
+#option (HDF5_EXTERNAL_LIB_PREFIX "Use prefix for custom library naming." "")
+set (HDF5_EXTERNAL_LIB_PREFIX "" CACHE STRING "Use prefix for custom library naming.")
+mark_as_advanced (HDF5_EXTERNAL_LIB_PREFIX)
 # HDF5_EXTERNAL_LIB_PREFIX :
 #   If the parent project needs to install hdf libraries, but avoid
 #   name conflicts with system versions, then a prefix may be added
@@ -548,11 +551,11 @@ else ()
 endif ()
 
 include (${HDF_RESOURCES_DIR}/HDFCompilerFlags.cmake)
+set (CMAKE_MODULE_PATH ${HDF_RESOURCES_DIR} ${HDF_RESOURCES_EXT_DIR} ${CMAKE_MODULE_PATH})
 
 #-----------------------------------------------------------------------------
 # Option to Enable MPI Parallel
 #-----------------------------------------------------------------------------
-set (CMAKE_MODULE_PATH ${HDF_RESOURCES_DIR} ${HDF_RESOURCES_EXT_DIR} ${CMAKE_MODULE_PATH})
 option (HDF5_ENABLE_PARALLEL "Enable parallel build (requires MPI)" OFF)
 if (HDF5_ENABLE_PARALLEL)
   find_package(MPI REQUIRED)
@@ -586,7 +589,7 @@ if (HDF5_ENABLE_PARALLEL)
       set (LARGE_PARALLEL_IO OFF)
     endif ()
   else ()
-    message (STATUS "Parallel libraries not found")
+    message (FATAL_ERROR "Parallel libraries not found")
   endif ()
 endif ()
 
