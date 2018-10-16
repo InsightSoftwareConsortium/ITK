@@ -173,6 +173,8 @@ class KrcahEigenToScalarFunctorImageFilter
       Functor::KrcahEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarFunctorImageFilter);
+
   /** Standard Self typedef */
   typedef KrcahEigenToScalarFunctorImageFilter Self;
   typedef UnaryFunctorImageFilter<
@@ -204,7 +206,7 @@ public:
 
   /** Need to access the input parameters at execution time */
   void
-  BeforeThreadedGenerateData() ITK_OVERRIDE
+  BeforeThreadedGenerateData() override
   {
     /* Set functor parameters after a call to Update() to make sure the input parameters resolve */
     this->GetFunctor().SetAlpha(this->GetAlphaInput()->Get());
@@ -234,8 +236,6 @@ protected:
   virtual ~KrcahEigenToScalarFunctorImageFilter() {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarFunctorImageFilter);
-
   void
   PrintSelf(std::ostream & os, Indent indent) const
   {

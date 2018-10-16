@@ -56,6 +56,8 @@ class ITK_TEMPLATE_EXPORT KrcahEigenToScalarPreprocessingImageToImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarPreprocessingImageToImageFilter);
+
   /** Standard Self typedef */
   typedef KrcahEigenToScalarPreprocessingImageToImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>     Superclass;
@@ -70,7 +72,7 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Image related typedefs. */
   typedef typename TInputImage::PixelType                    PixelType;
@@ -118,14 +120,12 @@ protected:
 
   /** Single threaded since we are connecting data */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarPreprocessingImageToImageFilter);
-
   /* Internal member variables */
   RealType m_Sigma;
   RealType m_ScalingConstant;

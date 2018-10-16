@@ -63,6 +63,8 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT MultiScaleHessianEnhancementImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianEnhancementImageFilter);
+
   /** Standard Self typedef */
   typedef MultiScaleHessianEnhancementImageFilter       Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
@@ -77,7 +79,7 @@ public:
 
   /** Image related typedefs. */
   typedef typename TInputImage::PixelType PixelType;
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int           ImageDimension = TInputImage::ImageDimension;
 
   /** Hessian related typedefs. */
   typedef HessianRecursiveGaussianImageFilter<TInputImage> HessianFilterType;
@@ -128,14 +130,14 @@ public:
    * Note that these methods cannot throw exceptions according to the standard itkExceptionMacro since they are static
    * methods. Instead, they will return an empty sigma array on error.
    */
-  static Self::SigmaArrayType
+  static SigmaArrayType
   GenerateSigmaArray(SigmaType           SigmaMinimum,
                      SigmaType           SigmaMaximum,
                      SigmaStepsType      NumberOfSigmaSteps,
                      SigmaStepMethodEnum SigmaStepMethod);
-  static Self::SigmaArrayType
+  static SigmaArrayType
   GenerateEquispacedSigmaArray(SigmaType SigmaMinimum, SigmaType SigmaMaximum, SigmaStepsType NumberOfSigmaSteps);
-  static Self::SigmaArrayType
+  static SigmaArrayType
   GenerateLogarithmicSigmaArray(SigmaType SigmaMinimum, SigmaType SigmaMaximum, SigmaStepsType NumberOfSigmaSteps);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -151,7 +153,7 @@ protected:
 
   /** Single threaded since we are connecting data */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /** Internal function to generate the response at a scale */
   inline typename TOutputImage::Pointer
@@ -163,14 +165,14 @@ protected:
 
   /** Override since the filter needs all the data for the algorithm */
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   /** Override since the filter produces all of its output */
   void
-  EnlargeOutputRequestedRegion(DataObject * data) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Internal filters. */
@@ -182,7 +184,6 @@ private:
   /** Sigma member variables. */
   SigmaArrayType m_SigmaArray;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianEnhancementImageFilter);
 }; // end of class
 } // end namespace itk
 

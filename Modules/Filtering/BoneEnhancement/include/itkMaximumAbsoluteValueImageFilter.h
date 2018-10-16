@@ -77,6 +77,8 @@ class MaximumAbsoluteValueImageFilter
                                                                   typename TOutputImage::PixelType>>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
+
   /** Standard Self typedef */
   typedef MaximumAbsoluteValueImageFilter Self;
   typedef BinaryFunctorImageFilter<TInputImage1,
@@ -108,9 +110,6 @@ protected:
   MaximumAbsoluteValueImageFilter() {};
 
   virtual ~MaximumAbsoluteValueImageFilter() {}
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
 }; // end of class
 } // end namespace itk
 
