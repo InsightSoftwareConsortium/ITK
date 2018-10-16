@@ -45,7 +45,7 @@ namespace Functor {
  * \author: Thomas Fitze
  * \ingroup BoneEnhancement
  */
-template<class TInputPixel, class TOutputPixel>
+template<typename TInputPixel, typename TOutputPixel>
 class KrcahEigenToScalarFunctor {
 public:
   /* Basic type definitions */
