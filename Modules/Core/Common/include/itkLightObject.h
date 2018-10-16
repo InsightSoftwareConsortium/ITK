@@ -22,7 +22,7 @@
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
-#include "itkAtomicInt.h"
+#include <atomic>
 
 #include <iostream>
 #include <typeinfo>
@@ -138,7 +138,7 @@ protected:
   virtual LightObject::Pointer InternalClone() const;
 
   /** Number of uses of this object by other objects. */
-  mutable AtomicInt<int> m_ReferenceCount;
+  mutable std::atomic<int> m_ReferenceCount;
 
 };
 

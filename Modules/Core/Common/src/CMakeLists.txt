@@ -58,7 +58,6 @@ set(ITKCommon_SRCS
   itkLoggerOutput.cxx
   itkProgressAccumulator.cxx
   itkNumericTraits.cxx
-  itkMutexLock.cxx
   itkHexahedronCellTopology.cxx
   itkIndent.cxx
   itkEventObject.cxx
@@ -72,7 +71,6 @@ set(ITKCommon_SRCS
   itkTextOutput.cxx
   itkNumericTraitsTensorPixel2.cxx
   itkNumericTraitsFixedArrayPixel2.cxx
-  itkConditionVariable.cxx
   itkProcessObject.cxx
   itkBarrier.cxx
   itkSpatialOrientationAdapter.cxx
@@ -100,7 +98,6 @@ set(ITKCommon_SRCS
   itkImageRegionSplitterSlowDimension.cxx
   itkImageRegionSplitterDirection.cxx
   itkImageRegionSplitterMultidimensional.cxx
-  itkFastMutexLock.cxx
   itkVersion.cxx
   itkNumericTraitsRGBAPixel.cxx
   itkRealTimeClock.cxx
@@ -129,7 +126,6 @@ set(ITKCommon_SRCS
   itkObjectFactoryBase.cxx
   itkFloatingPointExceptions.cxx
   itkOutputWindow.cxx
-  itkSimpleFastMutexLock.cxx
   itkNumericTraitsDiffusionTensor3DPixel.cxx
   itkEquivalencyTable.cxx
   itkXMLFileOutputWindow.cxx

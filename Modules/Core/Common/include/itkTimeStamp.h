@@ -30,7 +30,7 @@
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
-#include "itkAtomicInt.h"
+#include <atomic>
 
 namespace itk
 {
@@ -62,7 +62,7 @@ public:
   /** Standard class type aliases. */
   using Self = TimeStamp;
 
-  using GlobalTimeStampType = AtomicInt< ModifiedTimeType >;
+  using GlobalTimeStampType = std::atomic< ModifiedTimeType >;
 
   /** Create an instance of this class. We don't want to use reference
    * counting. */

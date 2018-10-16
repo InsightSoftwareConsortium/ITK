@@ -6,4 +6,4 @@ considered as Legacy code, and will be removed from the toolkit
 in future releases.
 
 Deprecated:  Any code that provides a feature or function
-             that is no longer supported in ITKv4
+             that is no longer supported in ITKv5
