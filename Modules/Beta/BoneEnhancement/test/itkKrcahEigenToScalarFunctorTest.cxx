@@ -22,7 +22,7 @@
 int itkKrcahEigenToScalarFunctorTest( int argc, char * argv[] )
 {
   /* typedefs, instantiate functor */
-  const unsigned int                              Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   typedef double                                  ImagePixelType;
   typedef itk::Image< ImagePixelType, Dimension > ImageType;
 
