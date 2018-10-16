@@ -52,6 +52,8 @@ class ITK_TEMPLATE_EXPORT DescoteauxEigenToScalarImageFilter
   : public EigenToScalarImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarImageFilter);
+
   /** Standard Self typedef */
   typedef DescoteauxEigenToScalarImageFilter                  Self;
   typedef EigenToScalarImageFilter<TInputImage, TOutputImage> Superclass;
@@ -77,7 +79,7 @@ public:
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
   typename Superclass::EigenValueOrderType
-  GetEigenValueOrder() const ITK_OVERRIDE
+  GetEigenValueOrder() const override
   {
     return Superclass::OrderByMagnitude;
   }
@@ -170,22 +172,20 @@ protected:
 
   /** Override since the filter needs all the data for the algorithm */
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   /** Override since the filter produces all of its output */
   void
-  EnlargeOutputRequestedRegion(DataObject * data) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
   /** Single threaded since we are connecting data */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarImageFilter);
-
   /* Filter pipeline */
   typename ParameterEstimationFilterType::Pointer m_ParameterEstimationFilter;
   typename UnaryFunctorFilterType::Pointer        m_UnaryFunctorFilter;
