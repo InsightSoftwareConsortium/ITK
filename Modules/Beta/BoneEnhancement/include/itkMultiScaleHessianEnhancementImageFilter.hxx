@@ -36,7 +36,7 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   m_HessianFilter               = HessianFilterType::New();
   m_EigenAnalysisFilter         = EigenAnalysisFilterType::New();
   m_MaximumAbsoluteValueFilter  = MaximumAbsoluteValueFilterType::New();
-  m_EigenToScalarImageFilter    = ITK_NULLPTR; // has to be provided by the user.
+  m_EigenToScalarImageFilter    = nullptr; // has to be provided by the user.
 
   /* We require an input image */
   this->SetNumberOfRequiredInputs( 1 );

@@ -23,7 +23,7 @@
 
 int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] )
 {
-  const unsigned int                         Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   typedef int                                PixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
   typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType> MultiScaleHessianEnhancementImageFilterType;
@@ -32,23 +32,12 @@ int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] 
   /* Test the two cases of step size zero */
   ArrayType sigmaArray;
   bool exceptionCaught = false;
-  try
-  {
-    sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 5, 0);
-  }
-  catch( itk::ExceptionObject & err ) {
-    exceptionCaught = true;
-  }
-  TEST_EXPECT_TRUE(exceptionCaught);
-  exceptionCaught = false;
-  try
-  {
-    sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(5, 5, 0);
-  }
-  catch( itk::ExceptionObject & err ) {
-    exceptionCaught = true;
-  }
-  TEST_EXPECT_TRUE(exceptionCaught);
+
+  TRY_EXPECT_EXCEPTION(
+    sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 5, 0));
+
+  TRY_EXPECT_EXCEPTION(
+    sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(5, 5, 0) );
 
   /* Test that we get one when min equals max */
   ArrayType expectedOneSigmaArray;

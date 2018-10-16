@@ -80,6 +80,8 @@ class ITK_TEMPLATE_EXPORT KrcahEigenToScalarParameterEstimationImageFilter:
 public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarParameterEstimationImageFilter);
+
   /** Standard Self typedef */
   typedef KrcahEigenToScalarParameterEstimationImageFilter      Self;
   typedef ImageToImageFilter< TInputImage, TInputImage >        Superclass;
@@ -171,34 +173,32 @@ protected:
   virtual ~KrcahEigenToScalarParameterEstimationImageFilter() {}
 
   /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
-  void AllocateOutputs() ITK_OVERRIDE;
+  void AllocateOutputs() override;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** Do final mean and variance computation from data accumulated in threads. */
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+                             ThreadIdType threadId) override;
 
   /** Override since the filter needs all the data for the algorithm */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Override since the filter produces all of its output */
-  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *data) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Calculation of \f$ T \f$ changes depending on the implementation */
   inline RealType CalculateTraceAccordingToImplementation(InputPixelType pixel);
   inline RealType CalculateTraceAccordingToJournalArticle(InputPixelType pixel);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarParameterEstimationImageFilter);
-
   /* Parameters */
   KrcahImplementationType m_ParameterSet;
 

@@ -1,14 +1,20 @@
 ITKBoneEnhancement
-=================================
+==================
 
-.. image:: https://circleci.com/gh/Besler/ITKBoneEnhancement.svg?style=shield
+.. |CircleCI| image:: https://circleci.com/gh/Besler/ITKBoneEnhancement.svg?style=shield
     :target: https://circleci.com/gh/Besler/ITKBoneEnhancement
 
-.. image:: https://travis-ci.org/Besler/ITKBoneEnhancement.svg?branch=master
+.. |TravisCI| image:: https://travis-ci.org/Besler/ITKBoneEnhancement.svg?branch=master
     :target: https://travis-ci.org/Besler/ITKBoneEnhancement
 
-.. image:: https://img.shields.io/appveyor/ci/Besler/itkboneenhancement.svg
+.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/Besler/itkboneenhancement.svg
     :target: https://ci.appveyor.com/project/Besler/itkboneenhancement
+
+=========== =========== ===========
+   Linux      macOS       Windows
+=========== =========== ===========
+|CircleCI|  |TravisCI|  |AppVeyor|
+=========== =========== ===========
 
 This module is empty. It is a template that is a starting point for a module with actual content.
 

@@ -22,7 +22,7 @@
 
 int itkMaximumAbsoluteValueImageFilterTest( int, char * [] )
 {
-  const unsigned int                         Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   typedef int                                PixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
   typedef itk::MaximumAbsoluteValueImageFilter<ImageType> MaximumAbsoluteValueImageFilterType;
