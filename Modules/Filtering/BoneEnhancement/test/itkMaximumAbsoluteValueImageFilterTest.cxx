@@ -23,11 +23,11 @@
 int
 itkMaximumAbsoluteValueImageFilterTest(int, char *[])
 {
-  constexpr unsigned int                                  Dimension = 2;
-  typedef int                                             PixelType;
-  typedef itk::Image<PixelType, Dimension>                ImageType;
-  typedef itk::MaximumAbsoluteValueImageFilter<ImageType> MaximumAbsoluteValueImageFilterType;
-  MaximumAbsoluteValueImageFilterType::Pointer            maxAbsFilter = MaximumAbsoluteValueImageFilterType::New();
+  constexpr unsigned int Dimension = 2;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using MaximumAbsoluteValueImageFilterType = itk::MaximumAbsoluteValueImageFilter<ImageType>;
+  MaximumAbsoluteValueImageFilterType::Pointer maxAbsFilter = MaximumAbsoluteValueImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
 
@@ -53,9 +53,9 @@ itkMaximumAbsoluteValueImageFilterTest(int, char *[])
   image2->SetRegions(region);
   image2->Allocate();
 
-  typedef itk::ImageRegionIterator<ImageType> IteratorType;
-  IteratorType                                it1(image1, region);
-  IteratorType                                it2(image2, region);
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
+  IteratorType it1(image1, region);
+  IteratorType it2(image2, region);
   it1.GoToBegin();
   it2.GoToBegin();
   int i = 0;

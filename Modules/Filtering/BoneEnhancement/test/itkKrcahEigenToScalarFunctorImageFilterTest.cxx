@@ -25,17 +25,17 @@
 int
 itkKrcahEigenToScalarFunctorImageFilterTest(int argc, char * argv[])
 {
-  /* typedefs, instantiate filter */
-  constexpr unsigned int                        Dimension = 3;
-  typedef double                                ImagePixelType;
-  typedef itk::Image<ImagePixelType, Dimension> ImageType;
+  /* type alias, instantiate filter */
+  constexpr unsigned int Dimension = 3;
+  using ImagePixelType = double;
+  using ImageType = itk::Image<ImagePixelType, Dimension>;
 
-  typedef double                                     EigenValueType;
-  typedef itk::FixedArray<EigenValueType, Dimension> EigenValueArrayType;
-  typedef itk::Image<EigenValueArrayType, Dimension> EigenValueImageType;
+  using EigenValueType = double;
+  using EigenValueArrayType = itk::FixedArray<EigenValueType, Dimension>;
+  using EigenValueImageType = itk::Image<EigenValueArrayType, Dimension>;
 
-  typedef itk::KrcahEigenToScalarFunctorImageFilter<EigenValueImageType, ImageType> FilterType;
-  FilterType::Pointer                                                               krcahFilter = FilterType::New();
+  using FilterType = itk::KrcahEigenToScalarFunctorImageFilter<EigenValueImageType, ImageType>;
+  FilterType::Pointer krcahFilter = FilterType::New();
 
   /* Basic tests. Need to set parameters first. */
   krcahFilter->SetAlpha(0.5);
