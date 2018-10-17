@@ -20,6 +20,7 @@
 
 
 #include <fstream>
+#include "ITKIOJPEG2000Export.h"
 #include "itkStreamingImageIOBase.h"
 #include "memory"
 
@@ -45,9 +46,9 @@ class JPEG2000ImageIOInternal;
  *
  *
  *  \ingroup IOFilters
- * \ingroup ITKReview
+ * \ingroup ITKIOJPEG2000
  */
-class JPEG2000ImageIO:public StreamingImageIOBase
+class ITKIOJPEG2000_EXPORT JPEG2000ImageIO:public StreamingImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIO);
