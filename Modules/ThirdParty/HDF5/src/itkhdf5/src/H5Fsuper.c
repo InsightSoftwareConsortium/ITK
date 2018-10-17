@@ -407,8 +407,8 @@ H5F__super_read(H5F_t *f, H5P_genplist_t *fa_plist, hbool_t initial_read)
 #ifdef H5_HAVE_PARALLEL
     } /* end else */
 #endif /* H5_HAVE_PARALLEL */
-// BA    if(!H5F_addr_defined(super_addr))
-// BA        HGOTO_ERROR(H5E_FILE, H5E_NOTHDF5, FAIL, "file signature not found")
+   if(!H5F_addr_defined(super_addr))
+     HGOTO_ERROR(H5E_FILE, H5E_NOTHDF5, FAIL, "file signature not found")
 
     /* Check for userblock present */
     if(H5F_addr_gt(super_addr, 0)) {

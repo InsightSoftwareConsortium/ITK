@@ -1396,8 +1396,8 @@ H5F__open(const char *filename, unsigned flags, hid_t fcpl_id, hid_t fapl_id)
     HDassert(filename);
 
     /* Open the file */
-// BA   if(NULL == (ret_value = H5F_open(filename, flags, fcpl_id, fapl_id)))
-// BA        HGOTO_ERROR(H5E_FILE, H5E_CANTOPENFILE, NULL, "unable to open file")
+   if(NULL == (ret_value = H5F_open(filename, flags, fcpl_id, fapl_id)))
+        HGOTO_ERROR(H5E_FILE, H5E_CANTOPENFILE, NULL, "unable to open file")
 
 done:
     FUNC_LEAVE_NOAPI_VOL(ret_value)
@@ -1696,8 +1696,8 @@ H5F_open(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id)
     } /* end if */
     else if (1 == shared->nrefs) {
         /* Read the superblock if it hasn't been read before. */
-// BA        if(H5F__super_read(file, a_plist, TRUE) < 0)
-// BA           HGOTO_ERROR(H5E_FILE, H5E_READERROR, NULL, "unable to read superblock")
+       if(H5F__super_read(file, a_plist, TRUE) < 0)
+          HGOTO_ERROR(H5E_FILE, H5E_READERROR, NULL, "unable to read superblock")
 
         /* Create the page buffer before initializing the superblock */
         if(page_buf_size)
