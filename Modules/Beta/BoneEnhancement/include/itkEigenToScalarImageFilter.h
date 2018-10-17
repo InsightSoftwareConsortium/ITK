@@ -42,11 +42,11 @@ public ImageToImageFilter< TInputImage, TOutputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EigenToScalarImageFilter);
 
-  /** Standard Self typedef */
-  typedef EigenToScalarImageFilter                        Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard Self type alias */
+  using Self = EigenToScalarImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EigenToScalarImageFilter, ImageToImageFilter);

@@ -52,11 +52,11 @@ public EigenToScalarImageFilter< TInputImage, TOutputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarImageFilter);
 
-  /** Standard Self typedef */
-  typedef DescoteauxEigenToScalarImageFilter                    Self;
-  typedef EigenToScalarImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard Self type alias */
+  using Self = DescoteauxEigenToScalarImageFilter;
+  using Superclass = EigenToScalarImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,18 +64,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DescoteauxEigenToScalarImageFilter, EigenToScalarImageFilter);
 
-  /** Useful template typedefs. */
-  typedef typename TInputImage::Pointer       InputImagePointer;
-  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
-  typedef typename TMaskImage::Pointer        MaskImagePointer;
-  typedef typename TMaskImage::ConstPointer   MaskImageConstPointer;
-  typedef typename TMaskImage::PixelType      MaskPixelType;
+  /** Useful template type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using MaskImagePointer = typename TMaskImage::Pointer;
+  using MaskImageConstPointer = typename TMaskImage::ConstPointer;
+  using MaskPixelType = typename TMaskImage::PixelType;
 
   /** Procesing filters */
-  typedef DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-            ParameterEstimationFilterType;
-  typedef DescoteauxEigenToScalarFunctorImageFilter< TInputImage, TOutputImage >
-            UnaryFunctorFilterType;
+  using ParameterEstimationFilterType = DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >;
+  using UnaryFunctorFilterType = DescoteauxEigenToScalarFunctorImageFilter< TInputImage, TOutputImage >;
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
   typename Superclass::EigenValueOrderType GetEigenValueOrder() const override
