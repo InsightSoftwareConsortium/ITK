@@ -14,5 +14,5 @@ IEEE Trans Biomed Eng. 2008 Aug;55(8):2022-38. doi: 10.1109/TBME.2008.921158.
 This work is supported by NIH grant R01 EB014346
 'Continued development and maintenance of the ITK-SNAP 3D image segmentation software'."
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKMorphologicalContourInterpolation.git
-  GIT_TAG 210b1a92a3a2ff4611c769e8a657eeae448428a6
+  GIT_TAG 122c09652c13023b1ca1839cfa68e28b4fa3fbd2
   )
