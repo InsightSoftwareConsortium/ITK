@@ -51,7 +51,7 @@ namespace Functor
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template <class TInputPixel, class TOutputPixel>
+template <typename TInputPixel, typename TOutputPixel>
 class DescoteauxEigenToScalarFunctor
 {
 public:
