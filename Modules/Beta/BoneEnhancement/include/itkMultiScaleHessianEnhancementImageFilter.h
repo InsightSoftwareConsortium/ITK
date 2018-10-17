@@ -66,11 +66,11 @@ public ImageToImageFilter< TInputImage, TOutputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianEnhancementImageFilter);
 
-  /** Standard Self typedef */
-  typedef MultiScaleHessianEnhancementImageFilter         Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard Self type alias */
+  using Self = MultiScaleHessianEnhancementImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,43 +78,43 @@ public:
   /** Runtime information support. */
   itkTypeMacro(MultiScaleHessianEnhancementImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::PixelType  PixelType;
+  /** Image related type alias. */
+  using PixelType = typename TInputImage::PixelType;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  /** Hessian related typedefs. */
-  typedef HessianRecursiveGaussianImageFilter< TInputImage >  HessianFilterType;
-  typedef typename HessianFilterType::OutputImageType         HessianImageType;
-  typedef typename HessianImageType::PixelType                HessianPixelType;
+  /** Hessian related type alias. */
+  using HessianFilterType = HessianRecursiveGaussianImageFilter< TInputImage >;
+  using HessianImageType = typename HessianFilterType::OutputImageType;
+  using HessianPixelType = typename HessianImageType::PixelType;
 
-  /** Eigenvalue analysis related typedefs. The ITK python wrapping usually wraps floating types
+  /** Eigenvalue analysis related type alias. The ITK python wrapping usually wraps floating types
    * and not double types. For this reason, the eigenvalues are of type float.
    */
-  typedef typename NumericTraits< PixelType >::RealType                               RealType;
-  typedef typename NumericTraits< PixelType >::FloatType                              FloatType;
-  typedef Vector< FloatType, HessianPixelType::Dimension >                            EigenValueArrayType;
-  typedef Image< EigenValueArrayType, TInputImage::ImageDimension >                   EigenValueImageType;
-  typedef SymmetricEigenAnalysisImageFilter< HessianImageType, EigenValueImageType >  EigenAnalysisFilterType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
+  using FloatType = typename NumericTraits< PixelType >::FloatType;
+  using EigenValueArrayType = Vector< FloatType, HessianPixelType::Dimension >;
+  using EigenValueImageType = Image< EigenValueArrayType, TInputImage::ImageDimension >;
+  using EigenAnalysisFilterType = SymmetricEigenAnalysisImageFilter< HessianImageType, EigenValueImageType >;
 
-  /** Maximum over scale related typedefs. */
-  typedef MaximumAbsoluteValueImageFilter< TOutputImage > MaximumAbsoluteValueFilterType;
+  /** Maximum over scale related type alias. */
+  using MaximumAbsoluteValueFilterType = MaximumAbsoluteValueImageFilter< TOutputImage >;
 
-  /** Eigenvalue image to scalar image related typedefs */
-  typedef EigenToScalarImageFilter< EigenValueImageType, TOutputImage > EigenToScalarImageFilterType;
+  /** Eigenvalue image to scalar image related type alias */
+  using EigenToScalarImageFilterType = EigenToScalarImageFilter< EigenValueImageType, TOutputImage >;
 
   /** Need some types to determine how to order the eigenvalues */
-  // typedef typename Functor::SymmetricEigenAnalysisFunction::EigenValueOrderType InternalEigenValueOrderType;
-  typedef typename EigenAnalysisFilterType::FunctorType::EigenValueOrderType InternalEigenValueOrderType;
-  typedef typename EigenToScalarImageFilterType::EigenValueOrderType         ExternalEigenValueOrderType;
+  // using InternalEigenValueOrderType = typename Functor::SymmetricEigenAnalysisFunction::EigenValueOrderType;
+  using InternalEigenValueOrderType = typename EigenAnalysisFilterType::FunctorType::EigenValueOrderType;
+  using ExternalEigenValueOrderType = typename EigenToScalarImageFilterType::EigenValueOrderType;
 
   /** Set/Get the EigenToScalarImageFilter. */
   itkSetObjectMacro(EigenToScalarImageFilter, EigenToScalarImageFilterType);
   itkGetModifiableObjectMacro(EigenToScalarImageFilter, EigenToScalarImageFilterType);
 
   /** Sigma values. */
-  typedef RealType            SigmaType;
-  typedef Array< SigmaType >  SigmaArrayType;
-  typedef unsigned int        SigmaStepsType;
+  using SigmaType = RealType;
+  using SigmaArrayType = Array< SigmaType >;
+  using SigmaStepsType = unsigned int;
   typedef enum {
     EquispacedSigmaSteps = 0,
     LogarithmicSigmaSteps = 1

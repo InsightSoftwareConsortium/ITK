@@ -82,11 +82,11 @@ public ImageToImageFilter< TInputImage, TInputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarParameterEstimationImageFilter);
 
-  /** Standard Self typedef */
-  typedef KrcahEigenToScalarParameterEstimationImageFilter      Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage >        Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard Self type alias */
+  using Self = KrcahEigenToScalarParameterEstimationImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,23 +94,23 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(KrcahEigenToScalarParameterEstimationImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer       InputImagePointer;
-  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
-  typedef typename TInputImage::RegionType    InputRegionType;
-  typedef typename TInputImage::SizeType      InputSizeType;
-  typedef typename TInputImage::IndexType     InputIndexType;
-  typedef typename TInputImage::PixelType     InputPixelType;
-  typedef typename InputPixelType::ValueType  InputPixelValueType;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using InputRegionType = typename TInputImage::RegionType;
+  using InputSizeType = typename TInputImage::SizeType;
+  using InputIndexType = typename TInputImage::IndexType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputPixelValueType = typename InputPixelType::ValueType;
 
   /** Output region definitions */
-  typedef InputRegionType OutputRegionType;
+  using OutputRegionType = InputRegionType;
 
-  /** Mask related typedefs. */
-  typedef typename TMaskImage::Pointer      MaskImagePointer;
-  typedef typename TMaskImage::ConstPointer MaskImageConstPointer;
-  typedef typename TMaskImage::PixelType    MaskPixelType;
-  typedef typename TMaskImage::RegionType   MaskRegionType;
+  /** Mask related type alias. */
+  using MaskImagePointer = typename TMaskImage::Pointer;
+  using MaskImageConstPointer = typename TMaskImage::ConstPointer;
+  using MaskPixelType = typename TMaskImage::PixelType;
+  using MaskRegionType = typename TMaskImage::RegionType;
 
   /** Methods to set/get the mask image */
   itkSetInputMacro(MaskImage, TMaskImage);
@@ -137,8 +137,8 @@ public:
   }
 
   /** Parameters */
-  typedef typename NumericTraits< InputPixelValueType >::RealType RealType;
-  typedef SimpleDataObjectDecorator< RealType >                   RealTypeDecoratedType;
+  using RealType = typename NumericTraits< InputPixelValueType >::RealType;
+  using RealTypeDecoratedType = SimpleDataObjectDecorator< RealType >;
 
   /** Decorators for parameters so they can be passed as a process object */
   RealTypeDecoratedType * GetAlphaOutput();

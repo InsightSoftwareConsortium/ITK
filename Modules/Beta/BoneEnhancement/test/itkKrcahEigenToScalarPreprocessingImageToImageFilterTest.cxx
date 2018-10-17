@@ -22,10 +22,10 @@
 int itkKrcahEigenToScalarPreprocessingImageToImageFilterTest( int, char * [] )
 {
   constexpr unsigned int Dimension = 3;
-  typedef char                                    InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension > InputImageType;
+  using InputPixelType = char;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
 
-  typedef itk::KrcahEigenToScalarPreprocessingImageToImageFilter< InputImageType > FilterType;
+  using FilterType = itk::KrcahEigenToScalarPreprocessingImageToImageFilter< InputImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   /* Basic test */

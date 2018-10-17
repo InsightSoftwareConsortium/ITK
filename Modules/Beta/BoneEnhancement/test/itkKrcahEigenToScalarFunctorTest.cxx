@@ -21,16 +21,16 @@
 
 int itkKrcahEigenToScalarFunctorTest( int argc, char * argv[] )
 {
-  /* typedefs, instantiate functor */
+  /* type alias, instantiate functor */
   constexpr unsigned int Dimension = 3;
-  typedef double                                  ImagePixelType;
-  typedef itk::Image< ImagePixelType, Dimension > ImageType;
+  using ImagePixelType = double;
+  using ImageType = itk::Image< ImagePixelType, Dimension >;
 
-  typedef float                                         EigenValueType;
-  typedef itk::FixedArray< EigenValueType, Dimension >  EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, Dimension >  EigenValueImageType;
+  using EigenValueType = float;
+  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
+  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
 
-  typedef itk::Functor::KrcahEigenToScalarFunctor< EigenValueArrayType, ImagePixelType> FunctorType;
+  using FunctorType = itk::Functor::KrcahEigenToScalarFunctor< EigenValueArrayType, ImagePixelType>;
   FunctorType functor = FunctorType();
 
   /* Exercise basic set/get methods */
