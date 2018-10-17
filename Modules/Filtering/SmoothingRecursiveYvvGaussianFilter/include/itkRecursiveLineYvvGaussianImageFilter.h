@@ -19,9 +19,9 @@
 #ifndef itkRecursiveLineYvvGaussianImageFilter_h
 #define itkRecursiveLineYvvGaussianImageFilter_h
 
-#include <itkInPlaceImageFilter.h>
-#include <itkNumericTraits.h>
-#include <itkImageRegionSplitterDirection.h>
+#include "itkInPlaceImageFilter.h"
+#include "itkNumericTraits.h"
+#include "itkImageRegionSplitterDirection.h"
 
 namespace itk
 {
