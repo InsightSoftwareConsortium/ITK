@@ -88,13 +88,17 @@ JPEG2000ImageIO::JPEG2000ImageIO()
   this->m_Internal->m_NumberOfTilesInX = 0;
   this->m_Internal->m_NumberOfTilesInY = 0;
 
-  this->AddSupportedReadExtension(".j2k");
-  this->AddSupportedReadExtension(".jp2");
-  this->AddSupportedReadExtension(".jpt");
+  const char *extensions[] =
+    {
+      ".j2k", ".jp2", ".jpt"
+    };
 
-  this->AddSupportedWriteExtension(".j2k");
-  this->AddSupportedWriteExtension(".jp2");
-  this->AddSupportedWriteExtension(".jpt");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
+
 }
 
 JPEG2000ImageIO::~JPEG2000ImageIO()
@@ -120,16 +124,8 @@ bool JPEG2000ImageIO::CanReadFile(const char *filename)
     return false;
     }
 
-  std::string extension = itksys::SystemTools::GetFilenameLastExtension(filename);
 
-  if( extension == ".j2k" ||
-      extension == ".jp2" ||
-      extension == ".jpt" )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedReadExtension(filename);
 }
 
 void JPEG2000ImageIO::SetTileSize(int x, int y)
@@ -772,16 +768,7 @@ void JPEG2000ImageIO::Read(void *buffer)
 
 bool JPEG2000ImageIO::CanWriteFile(const char *filename)
 {
-  std::string extension = itksys::SystemTools::GetFilenameLastExtension(filename);
-
-  if( extension == ".j2k" ||
-      extension == ".jp2" ||
-      extension == ".jpt" )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(filename);
 }
 
 void
