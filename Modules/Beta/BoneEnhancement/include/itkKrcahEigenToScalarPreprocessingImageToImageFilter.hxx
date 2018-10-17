@@ -46,7 +46,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 KrcahEigenToScalarPreprocessingImageToImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw( InvalidRequestedRegionError )
 {
   // This implementation is copied from itkDiscreteGaussianImageFilter
 
