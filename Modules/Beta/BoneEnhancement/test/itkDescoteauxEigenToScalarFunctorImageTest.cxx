@@ -24,16 +24,16 @@
 
 int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
 {
-  /* typedefs, instantiate filter */
+  /* type alias, instantiate filter */
   constexpr unsigned int Dimension = 3;
-  typedef double                                  ImagePixelType;
-  typedef itk::Image< ImagePixelType, Dimension > ImageType;
+  using ImagePixelType = double;
+  using ImageType = itk::Image< ImagePixelType, Dimension >;
 
-  typedef double                                        EigenValueType;
-  typedef itk::FixedArray< EigenValueType, Dimension >  EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, Dimension >  EigenValueImageType;
+  using EigenValueType = double;
+  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
+  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
 
-  typedef itk::DescoteauxEigenToScalarFunctorImageFilter< EigenValueImageType, ImageType> FilterType;
+  using FilterType = itk::DescoteauxEigenToScalarFunctorImageFilter< EigenValueImageType, ImageType>;
   FilterType::Pointer descoFilter = FilterType::New();
 
   /* Basic tests. Need to set parameters first. */

@@ -52,7 +52,7 @@ template<class TInputPixel, class TOutputPixel>
 class DescoteauxEigenToScalarFunctor {
 public:
   /* Basic type definitions */
-  typedef typename NumericTraits< TOutputPixel >::RealType  RealType;
+  using RealType = typename NumericTraits< TOutputPixel >::RealType;
 
   DescoteauxEigenToScalarFunctor() :
     m_Direction(-1.0)
@@ -162,15 +162,14 @@ class DescoteauxEigenToScalarFunctorImageFilter :
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToScalarFunctorImageFilter);
 
-  /** Standard Self typedef */
-  typedef DescoteauxEigenToScalarFunctorImageFilter Self;
-  typedef UnaryFunctorImageFilter<TInputImage, TOutputImage,
-          Functor::DescoteauxEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType > >
-                                                    Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  /** Standard Self type alias */
+  using Self = DescoteauxEigenToScalarFunctorImageFilter;
+  using Superclass = UnaryFunctorImageFilter<TInputImage, TOutputImage,
+          Functor::DescoteauxEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Useful typedefs for numerics */
+  /** Useful type alias for numerics */
   typedef typename Functor::DescoteauxEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType > 
                     DescoteauxFunctorType;
   typedef typename DescoteauxFunctorType::RealType
@@ -183,7 +182,7 @@ public:
   itkTypeMacro(DescoteauxEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter);
 
   /** Define decorator types */
-  typedef SimpleDataObjectDecorator< RealType > InputParameterDecoratorType;
+  using InputParameterDecoratorType = SimpleDataObjectDecorator< RealType >;
 
   /** Process object */
   itkSetGetDecoratedInputMacro(Alpha, RealType);

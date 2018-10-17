@@ -24,14 +24,14 @@
 int itkDescoteauxEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
 {
   constexpr unsigned int Dimension = 3;
-  typedef unsigned int                            MaskPixelType;
-  typedef itk::Image< MaskPixelType, Dimension >  MaskType;
+  using MaskPixelType = unsigned int;
+  using MaskType = itk::Image< MaskPixelType, Dimension >;
 
-  typedef float                                         EigenValueType;
-  typedef itk::FixedArray< EigenValueType, Dimension >  EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, Dimension >  EigenValueImageType;
+  using EigenValueType = float;
+  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
+  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
   
-  typedef itk::DescoteauxEigenToScalarParameterEstimationImageFilter<EigenValueImageType, MaskType> DescoteauxEigenToScalarParameterEstimationImageFilterType;
+  using DescoteauxEigenToScalarParameterEstimationImageFilterType = itk::DescoteauxEigenToScalarParameterEstimationImageFilter<EigenValueImageType, MaskType>;
 
   DescoteauxEigenToScalarParameterEstimationImageFilterType::Pointer descoteauxParameterEstimator = DescoteauxEigenToScalarParameterEstimationImageFilterType::New();
 

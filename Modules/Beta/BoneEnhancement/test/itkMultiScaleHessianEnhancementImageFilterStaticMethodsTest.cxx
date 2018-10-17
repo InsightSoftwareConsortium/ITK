@@ -24,10 +24,10 @@
 int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] )
 {
   constexpr unsigned int Dimension = 2;
-  typedef int                                PixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType> MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
+  using PixelType = int;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
+  using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Test the two cases of step size zero */
   ArrayType sigmaArray;

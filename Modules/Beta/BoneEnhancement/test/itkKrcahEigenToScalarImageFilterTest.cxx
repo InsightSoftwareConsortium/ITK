@@ -24,17 +24,17 @@
 int itkKrcahEigenToScalarImageFilterTest( int argc, char * argv[] )
 {
   constexpr unsigned int Dimension = 3;
-  typedef unsigned int                            MaskPixelType;
-  typedef itk::Image< MaskPixelType, Dimension >  MaskType;
+  using MaskPixelType = unsigned int;
+  using MaskType = itk::Image< MaskPixelType, Dimension >;
 
-  typedef double                                    OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputType;
+  using OutputPixelType = double;
+  using OutputType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef float                                         EigenValueType;
-  typedef itk::FixedArray< EigenValueType, Dimension >  EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, Dimension >  EigenValueImageType;
+  using EigenValueType = float;
+  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
+  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
   
-  typedef itk::KrcahEigenToScalarImageFilter< EigenValueImageType, OutputType, MaskType > KrcahEigenToScalarImageFilterType;
+  using KrcahEigenToScalarImageFilterType = itk::KrcahEigenToScalarImageFilter< EigenValueImageType, OutputType, MaskType >;
 
   KrcahEigenToScalarImageFilterType::Pointer krcahFilter = KrcahEigenToScalarImageFilterType::New();
 

@@ -49,7 +49,7 @@ template<class TInputPixel, class TOutputPixel>
 class KrcahEigenToScalarFunctor {
 public:
   /* Basic type definitions */
-  typedef typename NumericTraits< TOutputPixel >::RealType  RealType;
+  using RealType = typename NumericTraits< TOutputPixel >::RealType;
 
   KrcahEigenToScalarFunctor() :
     m_Direction(-1.0)
@@ -156,17 +156,16 @@ class KrcahEigenToScalarFunctorImageFilter :
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarFunctorImageFilter);
 
-  /** Standard Self typedef */
-  typedef KrcahEigenToScalarFunctorImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage, TOutputImage,
-          Functor::KrcahEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType > >
-                                                Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  /** Standard Self type alias */
+  using Self = KrcahEigenToScalarFunctorImageFilter;
+  using Superclass = UnaryFunctorImageFilter<TInputImage, TOutputImage,
+          Functor::KrcahEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Useful typedefs for numerics */
-  typedef typename Functor::KrcahEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType > KrcahFunctorType;
-  typedef typename KrcahFunctorType::RealType                                                                             RealType;
+  /** Useful type alias for numerics */
+  using KrcahFunctorType = typename Functor::KrcahEigenToScalarFunctor<typename TInputImage::PixelType, typename TOutputImage::PixelType >;
+  using RealType = typename KrcahFunctorType::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -175,7 +174,7 @@ public:
   itkTypeMacro(KrcahEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter);
 
   /** Define decorator types */
-  typedef SimpleDataObjectDecorator< RealType > InputParameterDecoratorType;
+  using InputParameterDecoratorType = SimpleDataObjectDecorator< RealType >;
 
   /** Process object */
   itkSetGetDecoratedInputMacro(Alpha, RealType);
