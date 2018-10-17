@@ -6,7 +6,7 @@ jobs:
     vmImage: 'vs2017-win2016'
   steps:
     - script: |
-        git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+        git clone -b dashboard --single-branch https://github.com/thewtex/ITK.git ITK-dashboard
 
         pip3 install ninja
 
