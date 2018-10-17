@@ -89,20 +89,17 @@ int main(int argc, char * argv[])
 
   /* Setup Types */
   constexpr unsigned int ImageDimension = 3;
-  typedef short                                       InputPixelType;
-  typedef itk::Image<InputPixelType, ImageDimension>  InputImageType;
-  typedef float                                       OutputPixelType;
-  typedef itk::Image<OutputPixelType, ImageDimension> OutputImageType;
+  using InputPixelType = short;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using OutputPixelType = float;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader< InputImageType >      ReaderType;
-  typedef itk::ImageFileWriter< InputImageType >      PreprocessedWriterType;
-  typedef itk::ImageFileWriter< OutputImageType >     MeasureWriterType;
-  typedef itk::KrcahEigenToScalarPreprocessingImageToImageFilter< InputImageType >
-                                                      PreprocessFilterType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >
-                                                      MultiScaleHessianFilterType;
-  typedef itk::KrcahEigenToScalarImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >
-                                                      KrcahEigenToScalarFilterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using PreprocessedWriterType = itk::ImageFileWriter< InputImageType >;
+  using MeasureWriterType = itk::ImageFileWriter< OutputImageType >;
+  using PreprocessFilterType = itk::KrcahEigenToScalarPreprocessingImageToImageFilter< InputImageType >;
+  using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
+  using KrcahEigenToScalarFilterType = itk::KrcahEigenToScalarImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
 
   /* Do preprocessing */
   ReaderType::Pointer  reader = ReaderType::New();

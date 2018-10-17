@@ -58,11 +58,11 @@ public ImageToImageFilter< TInputImage, TOutputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarPreprocessingImageToImageFilter);
 
-  /** Standard Self typedef */
-  typedef KrcahEigenToScalarPreprocessingImageToImageFilter Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage >   Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+  /** Standard Self type alias */
+  using Self = KrcahEigenToScalarPreprocessingImageToImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,17 +74,17 @@ public:
    * of the two images is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::PixelType                     PixelType;
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename NumericTraits< PixelType >::RealType       RealType;
-  typedef typename NumericTraits<OutputPixelType>::ValueType  OutputPixelValueType;
+  /** Image related type alias. */
+  using PixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
+  using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
   /** Typedefs for internal filters */
-  typedef DiscreteGaussianImageFilter<TInputImage, TInputImage>       GaussianFilterType;
-  typedef SubtractImageFilter<TInputImage, TInputImage, TInputImage>  SubstractFilterType;
-  typedef MultiplyImageFilter<TInputImage, TInputImage, TInputImage>  MultiplyFilterType;
-  typedef AddImageFilter<TInputImage, TInputImage, TOutputImage>      AddFilterType;
+  using GaussianFilterType = DiscreteGaussianImageFilter<TInputImage, TInputImage>;
+  using SubstractFilterType = SubtractImageFilter<TInputImage, TInputImage, TInputImage>;
+  using MultiplyFilterType = MultiplyImageFilter<TInputImage, TInputImage, TInputImage>;
+  using AddFilterType = AddImageFilter<TInputImage, TInputImage, TOutputImage>;
 
   /** Flag to release data or not */
   itkSetMacro(ReleaseInternalFilterData, bool);

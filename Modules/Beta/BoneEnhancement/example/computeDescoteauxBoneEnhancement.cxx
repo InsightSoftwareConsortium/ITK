@@ -79,17 +79,15 @@ int main(int argc, char * argv[])
 
   /* Setup Types */
   constexpr unsigned int ImageDimension = 3;
-  typedef short                                       InputPixelType;
-  typedef itk::Image<InputPixelType, ImageDimension>  InputImageType;
-  typedef float                                       OutputPixelType;
-  typedef itk::Image<OutputPixelType, ImageDimension> OutputImageType;
+  using InputPixelType = short;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using OutputPixelType = float;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader< InputImageType >      ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >     MeasureWriterType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >
-                                                      MultiScaleHessianFilterType;
-  typedef itk::DescoteauxEigenToScalarImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >
-                                                      DescoteauxEigenToScalarImageFilterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using MeasureWriterType = itk::ImageFileWriter< OutputImageType >;
+  using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
+  using DescoteauxEigenToScalarImageFilterType = itk::DescoteauxEigenToScalarImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
 
   /* Do preprocessing */
   std::cout << "Reading in " << inputFileName << std::end;

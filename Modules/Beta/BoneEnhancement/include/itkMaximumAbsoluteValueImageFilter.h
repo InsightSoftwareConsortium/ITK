@@ -70,16 +70,16 @@ Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputI
 public:
     ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
 
-  /** Standard Self typedef */
-  typedef MaximumAbsoluteValueImageFilter Self;
-  typedef BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+  /** Standard Self type alias */
+  using Self = MaximumAbsoluteValueImageFilter;
+  using Superclass = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
           Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,
-                  typename TOutputImage::PixelType> > Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
-  typedef typename TInputImage1::PixelType            Input1PixelType;
-  typedef typename TInputImage2::PixelType            Input2PixelType;
-  typedef typename TOutputImage::PixelType            OutputPixelType;
+                  typename TOutputImage::PixelType> >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Input1PixelType = typename TInputImage1::PixelType;
+  using Input2PixelType = typename TInputImage2::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

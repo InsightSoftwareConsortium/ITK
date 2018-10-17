@@ -52,11 +52,11 @@ public EigenToScalarImageFilter< TInputImage, TOutputImage >
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarImageFilter);
 
-  /** Standard Self typedef */
-  typedef KrcahEigenToScalarImageFilter                         Self;
-  typedef EigenToScalarImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard Self type alias */
+  using Self = KrcahEigenToScalarImageFilter;
+  using Superclass = EigenToScalarImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,17 +64,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(KrcahEigenToScalarImageFilter, EigenToScalarImageFilter);
 
-  /** Useful template typedefs. */
-  typedef typename TInputImage::Pointer       InputImagePointer;
-  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
-  typedef typename TMaskImage::Pointer        MaskImagePointer;
-  typedef typename TMaskImage::ConstPointer   MaskImageConstPointer;
-  typedef typename TMaskImage::PixelType      MaskPixelType;
+  /** Useful template type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using MaskImagePointer = typename TMaskImage::Pointer;
+  using MaskImageConstPointer = typename TMaskImage::ConstPointer;
+  using MaskPixelType = typename TMaskImage::PixelType;
 
   /** Procesing filters */
-  typedef KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >   ParameterEstimationFilterType;
-  typedef typename ParameterEstimationFilterType::KrcahImplementationType               KrcahImplementationType;
-  typedef KrcahEigenToScalarFunctorImageFilter< TInputImage, TOutputImage >             UnaryFunctorFilterType;
+  using ParameterEstimationFilterType = KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >;
+  using KrcahImplementationType = typename ParameterEstimationFilterType::KrcahImplementationType;
+  using UnaryFunctorFilterType = KrcahEigenToScalarFunctorImageFilter< TInputImage, TOutputImage >;
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
   typename Superclass::EigenValueOrderType GetEigenValueOrder() const override

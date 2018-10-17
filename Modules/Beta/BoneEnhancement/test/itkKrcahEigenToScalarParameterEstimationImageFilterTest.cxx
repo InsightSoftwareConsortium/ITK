@@ -24,14 +24,14 @@
 int itkKrcahEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
 {
   constexpr unsigned int Dimension = 3;
-  typedef unsigned int                            MaskPixelType;
-  typedef itk::Image< MaskPixelType, Dimension >  MaskType;
+  using MaskPixelType = unsigned int;
+  using MaskType = itk::Image< MaskPixelType, Dimension >;
 
-  typedef float                                         EigenValueType;
-  typedef itk::FixedArray< EigenValueType, Dimension >  EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, Dimension >  EigenValueImageType;
+  using EigenValueType = float;
+  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
+  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
   
-  typedef itk::KrcahEigenToScalarParameterEstimationImageFilter<EigenValueImageType, MaskType> KrcahEigenToScalarParameterEstimationImageFilterType;
+  using KrcahEigenToScalarParameterEstimationImageFilterType = itk::KrcahEigenToScalarParameterEstimationImageFilter<EigenValueImageType, MaskType>;
 
   KrcahEigenToScalarParameterEstimationImageFilterType::Pointer krcahParameterEstimator = KrcahEigenToScalarParameterEstimationImageFilterType::New();
 
