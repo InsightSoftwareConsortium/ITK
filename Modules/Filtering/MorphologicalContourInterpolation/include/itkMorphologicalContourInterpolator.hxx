@@ -105,6 +105,7 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   // FullyConnected is related to structuring element used
   // true for ball, false for cross
   m_ConnectedComponents->SetFullyConnected(m_UseBallStructuringElement);
+  m_ConnectedComponents->SetBackgroundValue(NumericTraits<typename TImage::PixelType>::ZeroValue());
 }
 
 template <typename TImage>
