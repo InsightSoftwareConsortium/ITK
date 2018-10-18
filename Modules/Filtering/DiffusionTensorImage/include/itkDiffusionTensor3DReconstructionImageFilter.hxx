@@ -649,7 +649,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,
                                                  TMaskImageType >
-::VerifyPreconditions()
+::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
 
