@@ -699,28 +699,30 @@ HDF5ImageIO
     return false;
     }
 
-
-  // call standard method to determine HDF-ness
-  bool rval;
   // HDF5 is so exception happy, we have to worry about
   // it throwing a wobbly here if the file doesn't exist
   // or has some other problem.
+  bool rval = true;
   try
     {
 
-    rval = H5::H5File::isHdf5(FileNameToRead);
+    htri_t ishdf5 = H5Fis_hdf5(FileNameToRead);
 
-    std::unique_ptr<H5::H5File> h5file(new H5::H5File(FileNameToRead,
-                                                      H5F_ACC_RDONLY) );
+    if (ishdf5 <= 0)
+      {
+      return false;
+      }
+
+    H5::H5File h5file(FileNameToRead, H5F_ACC_RDONLY);
 
 #if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
     // check the file has the ITK ImageGroup
-    htri_t exists = H5Lexists( h5file->getId(),
+    htri_t exists = H5Lexists( h5file.getId(),
                                ImageGroup.c_str(),
                                H5P_DEFAULT);
     if ( exists <= 0 )
 #else
-    if(! h5file->exists(ImageGroup) )
+    if(! h5file.exists(ImageGroup) )
 #endif
       {
       rval = false;
