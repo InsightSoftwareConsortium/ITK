@@ -674,7 +674,7 @@ protected:
    * NumberOfRequiredInputs are set and not null.
    *
    */
-  virtual void VerifyPreconditions();
+  virtual void VerifyPreconditions() const;
 
   /** \brief Verifies that the inputs meta-data is consistent and valid
    * for continued execution of the pipeline, throws an exception if
