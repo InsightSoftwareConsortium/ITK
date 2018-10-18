@@ -119,7 +119,7 @@ FrequencyBandImageFilter< TImageType, TFrequencyIterator >
 template< typename TImageType, typename TFrequencyIterator >
 void
 FrequencyBandImageFilter< TImageType, TFrequencyIterator >
-::VerifyPreconditions()
+::VerifyPreconditions() const
 {
   this->Superclass::VerifyPreconditions();
 

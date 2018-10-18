@@ -1400,7 +1400,7 @@ ProcessObject
 
 void
 ProcessObject
-::VerifyPreconditions()
+::VerifyPreconditions() const
 {
   /**
    * Make sure that all the required named inputs are there and non null

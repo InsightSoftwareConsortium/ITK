@@ -100,7 +100,7 @@ protected:
 
   ~DivideImageFilter() override = default;
 
-  void VerifyPreconditions() override
+  void VerifyPreconditions() const override
   {
     Superclass::VerifyPreconditions();
 

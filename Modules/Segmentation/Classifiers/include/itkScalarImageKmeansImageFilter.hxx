@@ -46,7 +46,7 @@ void ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
-::VerifyPreconditions()
+::VerifyPreconditions() const
 {
   this->Superclass::VerifyPreconditions();
 
