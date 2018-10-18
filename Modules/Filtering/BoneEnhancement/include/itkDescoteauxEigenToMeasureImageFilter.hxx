@@ -35,9 +35,8 @@ DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObje
 
 template <typename TInputImage, typename TOutputImage, typename TInputSpatialObject>
 void
-DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   /* Get Inputs */
   ParameterArrayType                 parameters = this->GetParametersInput()->Get();
@@ -63,8 +62,6 @@ DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObje
   ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageRegionIterator<TOutputImage>              outputIt(outputPtr, outputRegionForThread);
 
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
@@ -81,7 +78,6 @@ DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObje
     }
     ++inputIt;
     ++outputIt;
-    progress.CompletedPixel(); // potential exception thrown here
   }
 }
 

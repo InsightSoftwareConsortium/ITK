@@ -21,6 +21,7 @@
 
 #include "itkMath.h"
 #include "itkEigenToMeasureParameterEstimationFilter.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
@@ -111,7 +112,7 @@ protected:
 
   /** Multi-thread version GenerateData. */
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) ITK_OVERRIDE;
 
   inline RealType
   CalculateFrobeniusNorm(const InputImagePixelType & pixel) const;
@@ -123,8 +124,10 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureParameterEstimationFilter);
 
   /* Member variables */
-  RealType        m_FrobeniusNormWeight;
-  Array<RealType> m_MaxFrobeniusNorm;
+  RealType m_FrobeniusNormWeight;
+  RealType m_MaxFrobeniusNorm;
+
+  SimpleFastMutexLock m_Mutex;
 }; // end class
 } // namespace itk
 

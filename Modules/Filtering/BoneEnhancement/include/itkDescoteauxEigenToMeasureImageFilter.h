@@ -125,7 +125,7 @@ protected:
 
   /** Multi-thread version GenerateData. */
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) ITK_OVERRIDE;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
