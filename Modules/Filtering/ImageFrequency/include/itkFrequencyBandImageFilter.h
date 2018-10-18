@@ -197,7 +197,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /* Checks the logic of FrequencyThresholds. */
-  void VerifyPreconditions() override;
+  void VerifyPreconditions() const override;
 
   void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
 

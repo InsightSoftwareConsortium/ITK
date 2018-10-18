@@ -46,7 +46,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
-::VerifyPreconditions()
+::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
   if ( m_ObjectDimension >= ImageDimension )
