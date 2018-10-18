@@ -20,6 +20,7 @@
 #define itkDescoteauxEigenToMeasureParameterEstimationFilter_hxx
 
 #include "itkDescoteauxEigenToMeasureParameterEstimationFilter.h"
+#include "itkMutexLockHolder.h"
 
 namespace itk {
 
@@ -43,11 +44,7 @@ void
 DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfCalls = this->GetNumberOfThreads()*this->GetNumberOfStreamDivisions();
-
-  /* Resize threads */
-  m_MaxFrobeniusNorm.SetSize(numberOfCalls);
-  m_MaxFrobeniusNorm.Fill(NumericTraits< RealType >::ZeroValue());
+  m_MaxFrobeniusNorm = NumericTraits< RealType >::NonpositiveMin();
 }
 
 template< typename TInputImage, typename TInputSpatialObject >
@@ -55,28 +52,15 @@ void
 DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
 ::AfterThreadedGenerateData()
 {
-  ThreadIdType numberOfCalls = this->GetNumberOfThreads()*this->GetNumberOfStreamDivisions();
-
   /* Determine default parameters */
   RealType alpha, beta, c;
   alpha = 0.5f;
   beta = 0.5f;
   c = 0.0f;
 
-  /* Accumulate over threads */
-  RealType maxFrobeniusNorm = NumericTraits< RealType >::ZeroValue();
-
-  for (unsigned int i = 0; i < numberOfCalls; ++i )
-  {
-    if (m_MaxFrobeniusNorm[i] > maxFrobeniusNorm)
-    {
-      maxFrobeniusNorm = m_MaxFrobeniusNorm[i];
-    }
-  }
-
   /* Scale c */
-  if (maxFrobeniusNorm > 0) {
-    c = m_FrobeniusNormWeight * maxFrobeniusNorm;
+  if (m_MaxFrobeniusNorm > 0) {
+    c = m_FrobeniusNormWeight * m_MaxFrobeniusNorm;
   }
 
   /* Assign outputs parameters */
@@ -91,7 +75,7 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObj
 template< typename TInputImage, typename TInputSpatialObject >
 void
 DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   /* If size is zero, return */
   const SizeValueType size0 = outputRegionForThread.GetSize(0);
@@ -100,9 +84,8 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObj
     return;
   }
 
-  /* Count starts zero */
-  RealType maxFrobeniusNorm = NumericTraits< RealType >::ZeroValue();
-  RealType thisFrobeniusNorm;
+  /* Keep track of the current max */
+  RealType max = NumericTraits< RealType >::NonpositiveMin();
 
   /* Get input and mask pointer */
   InputImageConstPointer inputPointer = this->GetInput();
@@ -132,11 +115,7 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObj
     if ( (!maskPointer) ||  (maskPointer->IsInside(point)) )
     {
       /* Compute max norm */
-      thisFrobeniusNorm = this->CalculateFrobeniusNorm(inputIt.Get());
-      if (thisFrobeniusNorm > maxFrobeniusNorm)
-      {
-        maxFrobeniusNorm = thisFrobeniusNorm;
-      }
+      max = std::max( max, this->CalculateFrobeniusNorm(inputIt.Get()) );
     }
 
     // Set 
@@ -147,8 +126,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObj
     ++outputIt;
   }
 
-  /* Store this thread */
-  m_MaxFrobeniusNorm[threadId] = maxFrobeniusNorm;
+  /* Block and store */
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  m_MaxFrobeniusNorm = std::max( m_MaxFrobeniusNorm, max );
 }
 
 template< typename TInputImage, typename TInputSpatialObject >
