@@ -234,8 +234,6 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(
   const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType &   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  ContinuousIndex<double, ImageDimension> inputIndexOutputOrigin;
-
   typename TOutputImage::SpacingType outputSpacing(inputSpacing);
   typename TOutputImage::SizeType    outputSize;
   typename TOutputImage::IndexType   outputStartIndex;

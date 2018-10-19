@@ -47,10 +47,12 @@ IndexToLevelBandSteerablePyramid(unsigned int linearIndex, unsigned int levels, 
 }
 
 // Instantiation
-template unsigned int
+template <>
+unsigned int
 ComputeMaxNumberOfLevels<3>(const Size<3> & inputSize, const unsigned int & scaleFactor);
 
-template unsigned int
+template <>
+unsigned int
 ComputeMaxNumberOfLevels<2>(const Size<2> & inputSize, const unsigned int & scaleFactor);
 } // end namespace utils
 } // end namespace itk

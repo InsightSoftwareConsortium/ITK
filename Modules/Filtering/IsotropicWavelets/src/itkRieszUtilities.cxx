@@ -41,33 +41,40 @@ ComputeNumberOfComponents(const unsigned int & order, const unsigned int & dimen
 }
 
 // explicit instantiation of template functions with std::vector<unsigned int>
-template void
+template <>
+void
 ComputeUniqueIndices<std::vector<unsigned int>, 3>(
   std::vector<unsigned int>                                                      subIndex,
   std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
   unsigned int                                                                   init);
 
-template void
+template <>
+void
 ComputeUniqueIndices<std::vector<unsigned int>, 2>(
   std::vector<unsigned int>                                                      subIndex,
   std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
   unsigned int                                                                   init);
 
-template std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
+template <>
+std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
 ComputeAllPermutations<std::vector<unsigned int>>(
   const std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices);
 
-template std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
+template <>
+std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
 ComputeAllPossibleIndices<std::vector<unsigned int>, 3>(const unsigned int & order);
 
-template std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
+template <>
+std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
 ComputeAllPossibleIndices<std::vector<unsigned int>, 2>(const unsigned int & order);
 
-template bool
+template <>
+bool
 LessOrEqualIndiceComparisson<std::vector<unsigned int>, 3>(const std::vector<unsigned int> & rhs,
                                                            const std::vector<unsigned int> & lhs);
 
-template bool
+template <>
+bool
 LessOrEqualIndiceComparisson<std::vector<unsigned int>, 2>(const std::vector<unsigned int> & rhs,
                                                            const std::vector<unsigned int> & lhs);
 } // end namespace utils
