@@ -18,17 +18,19 @@
 #ifndef itkRieszUtilities_h
 #define itkRieszUtilities_h
 
+#include <algorithm>
+#include <functional>
 #include <set>
 #include <vector>
-#include <functional>
-#include <algorithm>
+
+#include "IsotropicWaveletsExport.h"
 
 namespace itk
 {
 namespace utils
 {
 /// Factorial
-long
+IsotropicWavelets_EXPORT long
 Factorial(long n);
 
 /**
@@ -40,7 +42,7 @@ Factorial(long n);
  *
  * @return NumberOfComponents given the order for the ImageDimension.
  */
-unsigned int
+IsotropicWavelets_EXPORT unsigned int
 ComputeNumberOfComponents(const unsigned int & order, const unsigned int & dimension);
 
 /**
@@ -55,7 +57,7 @@ ComputeNumberOfComponents(const unsigned int & order, const unsigned int & dimen
  * @param init position to evaluate  subIndex. Needed for recursion purposes.
  */
 template <typename TIndicesArrayType, unsigned int VImageDimension>
-void
+IsotropicWavelets_EXPORT void
 ComputeUniqueIndices(TIndicesArrayType                                              subIndex,
                      std::set<TIndicesArrayType, std::greater<TIndicesArrayType>> & uniqueIndices,
                      unsigned int                                                   init = 0)
@@ -100,7 +102,7 @@ ComputeUniqueIndices(TIndicesArrayType                                          
  * Compute all the permutations from a set of uniqueIndices.
  */
 template <typename TIndicesArrayType>
-std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>
+IsotropicWavelets_EXPORT std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>
 ComputeAllPermutations(const std::set<TIndicesArrayType, std::greater<TIndicesArrayType>> & uniqueIndices)
 {
   using SetType = std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>;
@@ -124,7 +126,7 @@ ComputeAllPermutations(const std::set<TIndicesArrayType, std::greater<TIndicesAr
  * where \f$ \text{index}[i]>=0 \f$
  */
 template <typename TIndicesArrayType, unsigned int VImageDimension>
-std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>
+IsotropicWavelets_EXPORT std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>
 ComputeAllPossibleIndices(const unsigned int & order)
 {
   using SetType = std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>;
@@ -136,7 +138,7 @@ ComputeAllPossibleIndices(const unsigned int & order)
 }
 
 template <typename TIndicesArrayType, unsigned int VImageDimension>
-bool
+IsotropicWavelets_EXPORT bool
 LessOrEqualIndiceComparisson(const TIndicesArrayType & rhs, const TIndicesArrayType & lhs)
 {
   for (unsigned int i = 0; i < VImageDimension; ++i)

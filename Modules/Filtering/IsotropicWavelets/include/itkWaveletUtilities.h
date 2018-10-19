@@ -18,12 +18,14 @@
 #ifndef itkWaveletUtilities_h
 #define itkWaveletUtilities_h
 
-#include <vector>
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <vector>
 #include <itkFixedArray.h>
 #include <itkMath.h>
 #include <itkSize.h>
+
+#include "IsotropicWaveletsExport.h"
 
 namespace itk
 {
@@ -46,7 +48,7 @@ using IndexPairType = std::pair<unsigned int, unsigned int>;
  *
  * Note that bands and levels are always >= 1. The level/bands returned here corresponds to an index.
  */
-IndexPairType
+IsotropicWavelets_EXPORT IndexPairType
 IndexToLevelBandSteerablePyramid(unsigned int linearIndex, unsigned int levels, unsigned int bands);
 
 /** Compute max number of levels depending on the size of the image.
@@ -55,7 +57,7 @@ IndexToLevelBandSteerablePyramid(unsigned int linearIndex, unsigned int levels, 
  * returns 1 if any size is not divisible by the scale factor.
  */
 template <unsigned int VImageDimension>
-unsigned int
+IsotropicWavelets_EXPORT unsigned int
 ComputeMaxNumberOfLevels(const Size<VImageDimension> & inputSize, const unsigned int & scaleFactor)
 {
   FixedArray<unsigned int, VImageDimension> exponentPerAxis;
