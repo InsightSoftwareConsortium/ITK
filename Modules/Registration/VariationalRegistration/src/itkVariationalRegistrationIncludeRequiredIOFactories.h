@@ -28,7 +28,7 @@
 #include "itkNrrdImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
 #include "itkNiftiImageIOFactory.h"
-#include "itkTestDriverInclude.h"
+// #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
 void

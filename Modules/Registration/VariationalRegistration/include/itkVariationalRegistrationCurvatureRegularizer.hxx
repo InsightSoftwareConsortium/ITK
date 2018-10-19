@@ -394,7 +394,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureL
   // Solve LES for thread
   userStruct->Filter->ThreadedSolveCurvatureLES(userStruct->currentDimension, from, to);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**

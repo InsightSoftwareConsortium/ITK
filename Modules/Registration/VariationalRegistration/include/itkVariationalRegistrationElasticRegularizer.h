@@ -19,7 +19,7 @@
 #define itkVariationalRegistrationElasticRegularizer_h
 
 #include "itkVariationalRegistrationRegularizer.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 
