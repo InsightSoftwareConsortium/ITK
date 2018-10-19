@@ -27,6 +27,9 @@ Once external code builds successfully with the default configuration,
 and/or warnings should be addressed.  Once dependent code builds and passes
 tests without legacy options, migration to v5 is complete.
 
+Support for for pre-20160229 `VXL_VERSION_DATE_FULL` system installed
+versions of VXL has been removed.
+
 C++11
 -----
 

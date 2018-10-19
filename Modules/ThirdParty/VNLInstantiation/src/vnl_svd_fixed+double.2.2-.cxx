@@ -15,11 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/algo/vnl_svd_fixed.txx"
-#else
 #include "vnl/algo/vnl_svd_fixed.hxx"
-#endif
 #include "vnl_algo_export_override.h"
 VNL_SVD_FIXED_INSTANTIATE(double, 2, 2);

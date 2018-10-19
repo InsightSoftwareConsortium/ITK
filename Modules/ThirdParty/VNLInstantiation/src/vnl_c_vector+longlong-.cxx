@@ -16,10 +16,4 @@
  *
  *=========================================================================*/
 #include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20120316
-// NOTE: This VXL version checking code that aborts the
-//       build process is only preserved in this file.
-#  error "VXL version found is too old."
-#else
 void vnl_c_vector_longlong_dummy(void) {}
-#endif
