@@ -58,6 +58,9 @@ set(ITKVNLInstantiation_SRCS
   vnl_diag_matrix_fixed+float.1-.cxx
   vnl_diag_matrix_fixed+float.2-.cxx
   vnl_diag_matrix_fixed+float.10-.cxx
+
+  itk_vnl_matlab_print+float-.cxx
+  itk_vnl_matlab_print+double-.cxx
   )
 
 itk_module_add_library(ITKVNLInstantiation ${ITKVNLInstantiation_SRCS})

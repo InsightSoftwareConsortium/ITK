@@ -19,4 +19,3 @@
 #include "vnl/vnl_matlab_print.hxx"
 #include "vnl_export_override.h"
 VNL_MATRIX_FIXED_INSTANTIATE(float, 10, 10);
-template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<float,10,10> const&, char const*, vnl_matlab_print_format);
