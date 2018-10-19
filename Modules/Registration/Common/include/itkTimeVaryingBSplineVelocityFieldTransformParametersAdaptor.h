@@ -36,7 +36,7 @@ namespace itk
  * the displacement field resolution for greater flexibility in optimizing the
  * transform.  As defined in the base class, the user can change the resolution via
  *
- *   \code
+     \code
      transformAdaptor->SetTransform( transform );
      transformAdaptor->SetRequiredFixedParameters( fixedParameters );
      transformAdaptor->AdaptTransformParameters();
@@ -47,7 +47,7 @@ namespace itk
  * extent but only increase the field size and decrease the spacing.  This can
  * be done as follows:
  *
- *   \code
+     \code
      transformAdaptor->SetRequiredTransformDomainOrigin( displacementField->GetOrigin() );
      transformAdaptor->SetRequiredTransformDomainDirection( displacementField->GetDirection() );
      transformAdaptor->SetRequiredTransformDomainSize( requiredSize );

@@ -38,7 +38,7 @@ namespace itk
  * application:
  *     Here it is assumed that the transform is Euler3DTransform.
  *
- * \code
+   \code
     OptimizerType::StepsType steps( m_Transform->GetNumberOfParameters() );
     steps[0] = 10;
     steps[1] = 10;
@@ -50,7 +50,7 @@ namespace itk
  * The optimizer throws IterationEvents after every iteration. We use this to plot
  * the metric space in an image as follows:
  *
- * \code
+   \code
     if( itk::IterationEvent().CheckEvent(& event ) )
     {
       IndexType index;

@@ -41,7 +41,7 @@ namespace itk
  * be used to create the sparse equivalent of an itk::Image<unsigned char, 2>
  * is shown below:
  *
- * \code
+   \code
    struct NodeType
    {
    NodeType* Next;

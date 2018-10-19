@@ -31,7 +31,7 @@ namespace itk
  *  kernel.
  *
  *  For example, the simplest Laplacian Operator for 2D has the form:
- *  \code
+    \code
                 0   1   0
                 1  -4   1
                 0   1   0

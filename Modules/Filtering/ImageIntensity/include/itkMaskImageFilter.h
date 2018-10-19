@@ -120,7 +120,7 @@ private:
  * operator != with zero. This condition is required because internally this
  * filter will perform the operation
  *
- * \code
+   \code
           if pixel_from_mask_image != masking_value
                pixel_output_image = pixel_input_image
           else

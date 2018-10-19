@@ -33,7 +33,7 @@ namespace itk
  * or in an itk::VectorImage.
  *
  * \par Inputs and Usage
- * \code
+   \code
       filter->SetInput( 0, image0 );
       filter->SetInput( 1, image1 );
       ...

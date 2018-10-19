@@ -37,7 +37,7 @@ namespace itk
  * the B-spline grid resolution for greater flexibility in optimizing the
  * transform.  As defined in the base class, the user can change the resolution via
  *
- *   \code
+     \code
      transformAdaptor->SetTransform( transform );
      transformAdaptor->SetRequiredFixedParameters( fixedParameters );
      transformAdaptor->AdaptTransformParameters();
@@ -47,7 +47,7 @@ namespace itk
  * E.g., often the user will want to maintain the same transform domain spatial
  * extent but only increase the mesh size.  This can be done as follows:
  *
- *   \code
+     \code
      transformAdaptor->SetTransform( transform );
      transformAdaptor->SetRequiredTransformDomainOrigin( transform->GetTransformDomainOrigin() );
      transformAdaptor->SetRequiredTransformDomainDirection( transform->GetTransformDomainDirection() );

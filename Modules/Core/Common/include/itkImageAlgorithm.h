@@ -49,7 +49,7 @@ struct ImageAlgorithm
  * another. It may perform optimizations on the copy for efficiency.
  *
  * This method performs the equivalent to the following:
- * \code
+   \code
        itk::ImageRegionConstIterator<TInputImage> it( inImage, inRegion );
        itk::ImageRegionIterator<TOutputImage> ot( outImage, outRegion );
 

@@ -37,7 +37,7 @@ namespace itk
  *
  * Example usage:
  *
- * \code
+   \code
      ProgressReporter progress(this, threadId,
                                threadRegion.GetNumberOfPixels(), 100);
      for( each pixel )

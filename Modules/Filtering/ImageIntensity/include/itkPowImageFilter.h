@@ -68,19 +68,19 @@ public:
  * the output image.
  *
  * The total operation over one pixel will be
- * \code
+   \code
    output_pixel = static_cast< TOutput >( std::pow(static_cast<RealType>(A),static_cast<RealType>(B)) );
    \endcode
  *
  * The pow function can be applied to two images with the following:
- * \code
+   \code
    SetInput1( image1 );
    SetInput2( image2 );
    \endcode
  *
  * Additionally, this filter can be used to raise every pixel of an
  * image to a power of a constant by using
- * \code
+   \code
    SetInput1( image1 );
    SetConstant2( constant );
    \endcode

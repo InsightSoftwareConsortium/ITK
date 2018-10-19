@@ -109,7 +109,7 @@ namespace itk
  * size(fixedImage) + size(movingImage) - 1.
  *
  * Example filter usage:
- * \code
+   \code
    using FilterType = itk::MaskedFFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
    FilterType::Pointer filter = FilterType::New();
    filter->SetFixedImage( fixedImage );

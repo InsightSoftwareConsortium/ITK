@@ -30,7 +30,7 @@ namespace itk
  * is not intended to be used in a pipeline. Instead, the typical use will be like
  * it is illustrated in the following code:
  *
- * \code
+   \code
        medianFilter->Update();
        ImageType::Pointer image = medianFilter->GetOutput();
        using DuplicatorType = itk::ImageDuplicator< ImageType >;

@@ -71,7 +71,7 @@ public:
  * the operator+ with each other. This condition is
  * required because internally this filter will perform the operation
  *
- * \code
+   \code
           pixel_from_image_N + pixel_from_image_(N+1)
    \endcode
  *
@@ -80,7 +80,7 @@ public:
  *
  * The total operation over one pixel will be
  *
- * \code
+   \code
     output_pixel = static_cast<OutputPixelType>( input_pixel_N + input_pixel_(N+1) )
    \endcode
  *

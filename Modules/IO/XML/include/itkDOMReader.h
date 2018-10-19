@@ -46,7 +46,7 @@ namespace itk
  *
  * The following code snippet demontrates how to use a DOM-based reader that is derived from this class:
  *
- * \code
+   \code
        itk::MyObjectType::Pointer output_object;
        const char* input_xml_file_name = ...
        itk::MyObjectDOMReader::Pointer reader = itk::MyObjectDOMReader::New();

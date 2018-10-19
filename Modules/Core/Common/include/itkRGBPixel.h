@@ -37,7 +37,7 @@ namespace itk
  *
  * The following syntax for assigning an index is allowed/suggested:
  *
- * \code
+   \code
       RGBPixel<float> pixel; pixel = 1.0f, 0.0f, .5f;
       RGBPixel<char> pixelArray[2];
       pixelArray[0] = 255, 255, 255;

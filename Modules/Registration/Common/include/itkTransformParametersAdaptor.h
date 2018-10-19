@@ -38,7 +38,7 @@ namespace itk
  *
  * Basic usage will involve the user specifying the required fixed parameters, i.e.
  *
- *   \code
+     \code
      transformAdaptor->SetTransform( transform );
      transformAdaptor->SetRequiredFixedParameters( fixedParameters );
      transformAdaptor->AdaptTransformParameters();

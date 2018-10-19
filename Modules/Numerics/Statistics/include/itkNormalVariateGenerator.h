@@ -59,7 +59,7 @@ namespace Statistics
  *                C.S.Wallace, Monash University, 1994
  *
  * To use this code, files needing to call the generator should include:
- * \code
+   \code
    #include "FastNorm.h"
    \endcode
  * and be linked with the maths library (-lm)
