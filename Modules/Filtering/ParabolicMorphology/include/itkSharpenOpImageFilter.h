@@ -45,7 +45,7 @@ namespace itk
  */
 namespace Function
 {
-template <class TInput1, class TInput2, class TInput3, class TOutput>
+template <typename TInput1, typename TInput2, typename TInput3, typename TOutput>
 class SharpM
 {
 public:
