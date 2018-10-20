@@ -62,21 +62,20 @@ public:
   itkStaticConstMacro(PointSetDimension, unsigned int, TInputPointSet::PointDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TInputPointSet::PointDimension);
 
-  /** Standard class typedefs. */
-  typedef BSplineScatteredDataPointSetToGradientImageFilter Self;
+  /** Standard class type alias. */
+  using Self = BSplineScatteredDataPointSetToGradientImageFilter;
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputPointSet                      InputPointSetType;
-  typedef typename InputPointSetType::Pointer InputPointSetPointer;
-  typedef Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(ImageDimension)>,
-                itkGetStaticConstMacro(ImageDimension)>
-                                            OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Convenient type alias for simplifying declarations. */
+  using InputPointSetType = TInputPointSet;
+  using InputPointSetPointer = typename InputPointSetType::Pointer;
+  using OutputImageType = Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(ImageDimension)>,
+                                itkGetStaticConstMacro(ImageDimension)>;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Standard class typedefs. */
-  typedef PointSetToImageFilter<InputPointSetType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type alias. */
+  using Superclass = PointSetToImageFilter<InputPointSetType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,24 +83,24 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineScatteredDataPointSetToGradientImageFilter, PointSetToImageFilter);
 
-  /** Image typedef support. */
-  typedef typename InputPointSetType::PixelType InputPixelType;
+  /** Image type alias support. */
+  using InputPixelType = typename InputPointSetType::PixelType;
   itkStaticConstMacro(InputVectorDimension, unsigned int, InputPixelType::Dimension);
 
-  typedef typename InputPointSetType::PointType               InputPointType;
-  typedef TOutputValueType                                    OutputValueType;
-  typedef CovariantVector<OutputValueType, ImageDimension>    OutputPixelType;
-  typedef typename OutputImageType::RegionType                OutputImageRegionType;
-  typedef typename itk::Image<InputPixelType, ImageDimension> InternalImageType;
+  using InputPointType = typename InputPointSetType::PointType;
+  using OutputValueType = TOutputValueType;
+  using OutputPixelType = CovariantVector<OutputValueType, ImageDimension>;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using InternalImageType = typename itk::Image<InputPixelType, ImageDimension>;
 
   /** Internal filter type. */
-  typedef typename itk::BSplineScatteredDataPointSetToImageFilter<InputPointSetType, InternalImageType>
-                                                           BSplineScatteredDataFilterType;
-  typedef typename BSplineScatteredDataFilterType::Pointer BSplineScatteredDataFilterPointerType;
+  using BSplineScatteredDataFilterType =
+    typename itk::BSplineScatteredDataPointSetToImageFilter<InputPointSetType, InternalImageType>;
+  using BSplineScatteredDataFilterPointerType = typename BSplineScatteredDataFilterType::Pointer;
 
-  typedef typename BSplineScatteredDataFilterType::ArrayType ArrayType;
+  using ArrayType = typename BSplineScatteredDataFilterType::ArrayType;
 
-  typedef BSplineControlPointImageFunction<InternalImageType> BSplineControlPointImageFunctionType;
+  using BSplineControlPointImageFunctionType = BSplineControlPointImageFunction<InternalImageType>;
 
   void
   SetNumberOfLevels(unsigned int levels)
@@ -132,13 +131,13 @@ public:
 
 
   /** Type of the outputs. */
-  typedef ProcessObject::DataObjectPointerArray DataObjectPointerArray;
+  using DataObjectPointerArray = ProcessObject::DataObjectPointerArray;
 
 protected:
   /** This is not a CovariantVector, but a VariableSizeMatrix where every row
    * corresponds to components of the input data vector, and every column
    * corresponds to the gradient component in each direction. */
-  typedef typename BSplineControlPointImageFunctionType::GradientType InternalGradientType;
+  using InternalGradientType = typename BSplineControlPointImageFunctionType::GradientType;
 
   BSplineScatteredDataPointSetToGradientImageFilter();
   virtual ~BSplineScatteredDataPointSetToGradientImageFilter() {}

@@ -32,25 +32,25 @@ itkBSplineGradientImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int                       Dimension = 2;
-  typedef float                            PixelType;
-  typedef itk::Image<PixelType, Dimension> InputImageType;
+  const unsigned int Dimension = 2;
+  using PixelType = float;
+  using InputImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileReader<InputImageType> ReaderType;
-  ReaderType::Pointer                          reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
 
-  typedef itk::BSplineGradientImageFilter<InputImageType, PixelType> FilterType;
-  FilterType::Pointer                                                filter = FilterType::New();
+  using FilterType = itk::BSplineGradientImageFilter<InputImageType, PixelType>;
+  FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   reader->SetFileName(argv[1]);
 
-  typedef FilterType::OutputImageType                                        GradientImageType;
-  typedef itk::VectorMagnitudeImageFilter<GradientImageType, InputImageType> GradientMagnitudeFilterType;
+  using GradientImageType = FilterType::OutputImageType;
+  using GradientMagnitudeFilterType = itk::VectorMagnitudeImageFilter<GradientImageType, InputImageType>;
   GradientMagnitudeFilterType::Pointer gradientMagnitude = GradientMagnitudeFilterType::New();
   gradientMagnitude->SetInput(filter->GetOutput());
 
-  typedef itk::ImageFileWriter<InputImageType> WriterType;
-  WriterType::Pointer                          writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<InputImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(gradientMagnitude->GetOutput());
   writer->SetFileName(argv[2]);
 

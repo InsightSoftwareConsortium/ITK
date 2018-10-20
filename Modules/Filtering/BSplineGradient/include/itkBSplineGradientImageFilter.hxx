@@ -81,11 +81,11 @@ BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficien
   // This will calculate the coefficients.
   interpolator->SetInputImage(inputPtr);
 
-  typedef typename itk::ImageRegionIteratorWithIndex<OutputImageType> IteratorType;
-  typename OutputImageType::IndexType                                 index;
-  typename InterpolatorType::ContinuousIndexType                      contIndex;
-  unsigned int                                                        i;
-  IteratorType                                                        it(outputPtr, outputRegionForThread);
+  using IteratorType = typename itk::ImageRegionIteratorWithIndex<OutputImageType>;
+  typename OutputImageType::IndexType            index;
+  typename InterpolatorType::ContinuousIndexType contIndex;
+  unsigned int                                   i;
+  IteratorType                                   it(outputPtr, outputRegionForThread);
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {

@@ -120,12 +120,12 @@ BSplineScatteredDataPointSetToGradientImageFilter<TInputPointSet, TOutputValueTy
   bspliner->SetOrigin(this->m_BSplineScatteredDataFilter->GetOrigin());
   bspliner->SetInputImage(this->m_BSplineScatteredDataFilter->GetPhiLattice());
 
-  typedef typename itk::ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorType;
-  InternalGradientType                                                gradient;
-  OutputPixelType                                                     gradientPixel;
-  typename OutputImageType::PointType                                 point;
-  typename OutputImageRegionType::IndexType                           index;
-  unsigned int                                                        i, j;
+  using OutputIteratorType = typename itk::ImageRegionIteratorWithIndex<OutputImageType>;
+  InternalGradientType                      gradient;
+  OutputPixelType                           gradientPixel;
+  typename OutputImageType::PointType       point;
+  typename OutputImageRegionType::IndexType index;
+  unsigned int                              i, j;
 
   // We need to know the control point spacing.
   const typename OutputImageType::SpacingType spacing = output0->GetSpacing();
@@ -145,9 +145,9 @@ BSplineScatteredDataPointSetToGradientImageFilter<TInputPointSet, TOutputValueTy
   // We check to make sure we not ad the boundary of the image, because we get
   // weird edge effects and sometime we try to evaluate outside the BSpline
   // grid.
-  typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType> FaceCalculatorType;
-  FaceCalculatorType                                                                    faceCalculator;
-  typename FaceCalculatorType::RadiusType                                               radius;
+  using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>;
+  FaceCalculatorType                      faceCalculator;
+  typename FaceCalculatorType::RadiusType radius;
   radius.Fill(1);
   typename FaceCalculatorType::FaceListType           faceList = faceCalculator(output0, outputRegion, radius);
   typename FaceCalculatorType::FaceListType::iterator fit;

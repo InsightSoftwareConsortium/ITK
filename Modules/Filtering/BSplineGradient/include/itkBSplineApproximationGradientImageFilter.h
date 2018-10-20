@@ -54,36 +54,36 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef BSplineApproximationGradientImageFilter Self;
+  using Self = BSplineApproximationGradientImageFilter;
 
-  typedef TInputImage                                                              InputImageType;
-  typedef Image<CovariantVector<TOutputValueType, ImageDimension>, ImageDimension> OutputImageType;
-  typedef typename OutputImageType::Pointer                                        OutputImagePointer;
+  using InputImageType = TInputImage;
+  using OutputImageType = Image<CovariantVector<TOutputValueType, ImageDimension>, ImageDimension>;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  typedef ImageToImageFilter<InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
 
   itkTypeMacro(BSplineApproximationGradientImageFilter, ImageToImageFilter);
 
-  typedef TOutputValueType                                                 OutputValueType;
-  typedef typename InputImageType::PixelType                               InputPixelType;
-  typedef PointSet<InputPixelType, itkGetStaticConstMacro(ImageDimension)> PointSetType;
+  using OutputValueType = TOutputValueType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using PointSetType = PointSet<InputPixelType, itkGetStaticConstMacro(ImageDimension)>;
 
   itkStaticConstMacro(InputVectorDimension, unsigned int, InputPixelType::Dimension);
 
   /** Internal filter type */
   /** Internal filter type */
-  typedef BSplineScatteredDataPointSetToGradientImageFilter<PointSetType, OutputValueType> PointSetToGradientFilterType;
-  typedef typename PointSetToGradientFilterType::Pointer   PointSetToGradientFilterPointerType;
-  typedef typename PointSetToGradientFilterType::ArrayType ArrayType;
-  typedef Mesh<InputPixelType, ImageDimension>             MeshType;
-  typedef ImageToPointSetFilter<InputImageType, MeshType>  ImageToPointSetFilterType;
-  typedef typename ImageToPointSetFilterType::Pointer      ImageToPointSetFilterPointerType;
+  using PointSetToGradientFilterType = BSplineScatteredDataPointSetToGradientImageFilter<PointSetType, OutputValueType>;
+  using PointSetToGradientFilterPointerType = typename PointSetToGradientFilterType::Pointer;
+  using ArrayType = typename PointSetToGradientFilterType::ArrayType;
+  using MeshType = Mesh<InputPixelType, ImageDimension>;
+  using ImageToPointSetFilterType = ImageToPointSetFilter<InputImageType, MeshType>;
+  using ImageToPointSetFilterPointerType = typename ImageToPointSetFilterType::Pointer;
 
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ControlPointSpacingRatioType;
+  using ControlPointSpacingRatioType = FixedArray<double, itkGetStaticConstMacro(ImageDimension)>;
 
   /** Set/Get number of levels.  This is the number of levels used in the
    * BSplineScatteredDataPointSetToImageFilter for calculating the BSpline grid.
