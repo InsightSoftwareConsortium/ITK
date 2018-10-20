@@ -21,7 +21,7 @@
 
 #include "itkImageFileReader.h"
 
-template <class TDisplacementImageType>
+template <typename TDisplacementImageType>
 int
 ReadInDisplacements(const char * inputFile, typename TDisplacementImageType::Pointer & inputImage)
 {

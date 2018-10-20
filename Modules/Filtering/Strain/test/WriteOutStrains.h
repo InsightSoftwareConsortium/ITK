@@ -25,7 +25,7 @@
 #include "itkNthElementImageAdaptor.h"
 #include "itkVTKImageIO.h"
 
-template <class TPixel, unsigned int Dimension, class TTensorImage>
+template <typename TPixel, unsigned int Dimension, typename TTensorImage>
 int
 WriteOutStrains(const char * outputPrefix, TTensorImage * strainImage)
 {
