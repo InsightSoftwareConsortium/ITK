@@ -15,12 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-//#include "vnl/algo/vnl_fft_base.txx"
-print("%d",VXL_VERSION_DATE_FULL);
-#else
 #include "vnl/algo/vnl_fft_base.hxx"
-#endif
 #include "vnl_algo_export_override.h"
 VNL_FFT_BASE_INSTANTIATE(4, float);

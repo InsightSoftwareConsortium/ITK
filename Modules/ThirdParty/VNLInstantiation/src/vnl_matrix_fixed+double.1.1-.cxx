@@ -15,14 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_matrix_fixed.txx"
-#include "vnl/vnl_matlab_print.txx"
-#else
 #include "vnl/vnl_matrix_fixed.hxx"
 #include "vnl/vnl_matlab_print.hxx"
-#endif
 #include "vnl_export_override.h"
 VNL_MATRIX_FIXED_INSTANTIATE(double, 1, 1);
-template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<double,1,1> const&, char const*, vnl_matlab_print_format);
