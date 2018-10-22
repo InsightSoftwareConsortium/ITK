@@ -190,11 +190,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     return;
     }
 
-  if( outputRegionForThread.GetNumberOfPixels() == 0 )
-    {
-    return;
-    }
-
   const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
        || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );
 
