@@ -35,7 +35,7 @@ namespace itk
  *
  * An example operator to compute X derivatives of a 2D image can be
  * created with:
- * \code
+   \code
          using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
          DerivativeOperatorType derivativeOperator;
          derivativeOperator.SetDirection(0); // X dimension
@@ -44,7 +44,7 @@ namespace itk
          derivativeOperator.CreateToRadius(radius);
    \endcode
  * and creates a kernel that looks like:
- * \code
+   \code
          0        0 0
          0.5  0   -0.5
          0    0   0

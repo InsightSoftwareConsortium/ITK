@@ -35,7 +35,7 @@ namespace itk
  * in solving some classes of differential equations.
  *
  * For example, invoking this filter on an image with a corner like:
- * \code
+   \code
                  * * * * * * *
                  * * * * * * *
                  * * 1 2 3 4 5  (where * denotes pixels that lie
@@ -43,7 +43,7 @@ namespace itk
                  * * 4 4 6 7 8
    \endcode
  * returns the following padded image:
- * \code
+   \code
                  1 1 1 2 3 4 5
                  1 1 1 2 3 4 5
                  1 1 1 2 3 4 5

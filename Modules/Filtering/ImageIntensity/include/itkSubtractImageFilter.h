@@ -29,13 +29,13 @@ namespace itk
  * Subtract each pixel from image2 from its corresponding pixel in
  * image1:
  *
- * \code
+   \code
    Output = Input1 - Input2.
    \endcode
  *
  * This is done using
  *
- * \code
+   \code
    SetInput1( image1 );
    SetInput2( image2 );
    \endcode
@@ -46,7 +46,7 @@ namespace itk
  *
  * Additionally, a constant can be subtracted from every pixel in an image using:
  *
- * \code
+   \code
    SetInput1( image1 );
    SetConstant2( constant );
    \endcode

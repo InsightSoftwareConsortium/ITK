@@ -46,7 +46,7 @@ namespace itk
  * neighborhood.  For example, to activate the center pixel in the neighborhood,
  * you would do the following:
  *
- * \code
+   \code
    using ImageType = Image<float, 3>;
    ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
    ShapedNeighborhoodIterator<ImageType>::OffsetType offset = {{0,0,0}};
@@ -73,7 +73,7 @@ namespace itk
  * ConstShapedNeighborhoodIterator::ConstIterator.  The following example
  * demonstrates the use of these iterators.
  *
- * \code
+   \code
    using ImageType = Image<float, 3>;
    ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
    .
@@ -94,7 +94,7 @@ namespace itk
  *
  * You can also iterate backward through the neighbohood active list.
  *
- * \code
+   \code
    i = it.End();
    i--;
    while (i != it.Begin())

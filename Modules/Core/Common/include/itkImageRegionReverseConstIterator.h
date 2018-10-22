@@ -58,7 +58,7 @@ namespace itk
  * pixel in the row that is part of the region. This allows for simple
  * processing loops of the form:
  *
- * \code
+   \code
 
         it.GoToBegin();
         for (; !it.IsAtEnd(); ++it)

@@ -129,7 +129,7 @@ static constexpr float  float_sqrteps    = vnl_math::float_sqrteps;
  *
  *          halfway cases are rounded towards the nearest even
  *          integer, e.g.
- *  \code
+    \code
             RoundHalfIntegerToEven( 1.5) ==  2
             RoundHalfIntegerToEven(-1.5) == -2
             RoundHalfIntegerToEven( 2.5) ==  2
@@ -149,7 +149,7 @@ itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
  *  \tparam TInput must be float or double
  *
  *          halfway cases are rounded upward, e.g.
- *  \code
+    \code
             RoundHalfIntegerUp( 1.5) ==  2
             RoundHalfIntegerUp(-1.5) == -1
             RoundHalfIntegerUp( 2.5) ==  3

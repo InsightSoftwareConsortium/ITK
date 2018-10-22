@@ -44,7 +44,7 @@ namespace itk
  * image).
  *
  * To iterate over the LabelObjects in the map, use:
- * \code
+   \code
    for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
      {
      FilterType::OutputImageType::LabelObjectType* labelObject =

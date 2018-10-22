@@ -60,7 +60,7 @@ namespace itk
  * pixel in the row that is part of the region. This allows for simple
  * processing loops of the form:
  *
- * \code
+   \code
 
     IteratorType it( image, image->GetRequestedRegion() );
 
@@ -77,7 +77,7 @@ namespace itk
  *
  *  It also can be used for walking in the reverse direction like
  *
- * \code
+   \code
 
     IteratorType it( image, image->GetRequestedRegion() );
 

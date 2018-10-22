@@ -36,7 +36,7 @@ namespace itk
  * the operator+ with a pixel type of the image 2. This condition is
  * required because internally this filter will perform the operation
  *
- * \code
+   \code
           pixel_from_image_1 + pixel_from_image_2
    \endcode
  *
@@ -44,7 +44,7 @@ namespace itk
  * the pixel type of the output image.
  *
  * The total operation over one pixel will be
- * \code
+   \code
    output_pixel = static_cast<OutputPixelType>( input1_pixel + input2_pixel )
    \endcode
  *
@@ -53,14 +53,14 @@ namespace itk
  * in an output image of vector pixels.
  *
  * The images to be added are set using the methods:
- * \code
+   \code
    SetInput1( image1 );
    SetInput2( image2 );
    \endcode
  *
  * Additionally, this filter can be used to add a constant to every pixel of an
  * image by using
- * \code
+   \code
    SetInput1( image1 );
    SetConstant2( constant );
    \endcode

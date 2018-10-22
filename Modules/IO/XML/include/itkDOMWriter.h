@@ -47,7 +47,7 @@ namespace itk
  *
  * The following code snippet demontrates how to use a DOM-based writer that is derived from this class:
  *
- * \code
+   \code
        itk::MyObjectType::Pointer input_object = ...
        const char* output_xml_file_name = ...
        itk::MyObjectDOMWriter::Pointer writer = itk::MyObjectDOMWriter::New();

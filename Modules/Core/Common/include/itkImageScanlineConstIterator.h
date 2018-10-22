@@ -34,7 +34,7 @@ namespace itk
  *
  * The following is sample usage:
  *
- * \code
+   \code
 
 it = ImageScanlineConstIterator()
 while ( !it.IsAtEnd() )

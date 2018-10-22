@@ -44,7 +44,7 @@ namespace Experimental
  *
  * The following example creates a 3 x 5 neighborhood around pixel [10, 20]
  * and adds 42 to each neighborhood pixel, using a range-based for loop:
- * \code
+   \code
    const ImageType::IndexType location = {10, 20};
    const itk::Size<ImageType::ImageDimension> radius = { { 1, 2 } };
    const std::vector<OffsetType> offsets = itk::GenerateRectangularImageNeighborhoodOffsets(radius)
@@ -57,7 +57,7 @@ namespace Experimental
    \endcode
  *
  * The following example prints the values of the neighborhood pixels:
- * \code
+   \code
    for (const PixelType neighborhoodPixel : neighborhoodRange)
    {
      std::cout << neighborhoodPixel << std::endl;
@@ -66,7 +66,7 @@ namespace Experimental
  *
  * The inner product of the neighborhood with a kernel can be produced with
  * std::inner_product (from the Standard C++  header "numeric"), as follows:
- * \code
+   \code
    double result = std::inner_product(
      kernel.begin(),
      kernel.end(),

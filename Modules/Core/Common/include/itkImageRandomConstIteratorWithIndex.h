@@ -43,7 +43,7 @@ namespace itk
  *
  * This is the typical use of this iterator in a loop:
  *
- * \code
+   \code
 
    ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
 
@@ -59,7 +59,7 @@ namespace itk
  *
  * or
  *
- * \code
+   \code
 
    ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
 

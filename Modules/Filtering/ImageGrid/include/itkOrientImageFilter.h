@@ -74,7 +74,7 @@ namespace itk
  * orientation corresponding to the Analyze file format's 'CORONAL' orientation
  * you could do something like the following
  *
- * \code
+   \code
    // DEPRECATED -- using metadata for orientation is no longer supported
    //
    #include "itkAnalyzeImageIO.h"
@@ -110,7 +110,7 @@ namespace itk
    \endcode
  *
  * Or, using the direction cosines of the image,
- * \code
+   \code
    #include "itkAnalyzeImageIO.h"
    #include "itkImage.h"
    #include "itkOrientImageFilter.h"

@@ -76,7 +76,7 @@ namespace itk
  * for four points in R^3, then (a, b, c, d) and (a, c, d, b)
  * determine two different quadrilaterals (at least one of which is
  * either degenerate or nonplanar).  If you call
- * \code
+   \code
      AddQuadrilateral(a, b, c, d);
      AddQuadrilateral(a, c, d, b);
    \endcode
@@ -88,7 +88,7 @@ namespace itk
  *
  * \b Example: The following code generates a mesh consisting of two
  * triangles sharing an edge.
- * \code
+   \code
     using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
     MeshSourceType::Pointer meshSource = MeshSourceType::New();
     meshSource->AddTriangle(

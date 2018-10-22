@@ -33,7 +33,7 @@ namespace itk
  * The input image's scalar pixel values are mapped into a color map.
  * The color map is specified by passing the SetColormap function one of the
  * predefined maps. The following selects the "Hot" colormap:
- * \code
+   \code
    RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
    colormapImageFilter->SetColormap( RGBFilterType::Hot );
    \endcode
@@ -44,7 +44,7 @@ namespace itk
  * of a colormap with only 2 colors is given below. The blue and green channels
  * should be specified in the same manner.
  *
- * \code
+   \code
    // Create the custom colormap
    using ColormapType = itk::Function::CustomColormapFunction<RealImageType::PixelType,
    RGBImageType::PixelType>;

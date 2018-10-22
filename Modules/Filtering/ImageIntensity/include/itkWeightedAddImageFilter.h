@@ -89,7 +89,7 @@ private:
  * the operator+ with a pixel type of the image 2. This condition is
  * required because internally this filter will perform the operation
  *
- * \code
+   \code
           pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
    \endcode
  *
@@ -98,7 +98,7 @@ private:
  *
  * The total operation over one pixel will be
  *
- * \code
+   \code
     output_pixel = static_cast<OutputPixelType>(
         input1_pixel * alpha + input2_pixel * (1-alpha) )
    \endcode
