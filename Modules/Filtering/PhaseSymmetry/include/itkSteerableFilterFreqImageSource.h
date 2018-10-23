@@ -34,31 +34,31 @@ template <typename TOutputImage>
 class SteerableFilterFreqImageSource : public ImageSource<TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef SteerableFilterFreqImageSource Self;
-  typedef ImageSource<TOutputImage>      Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  /** Standard class type alias. */
+  using Self = SteerableFilterFreqImageSource;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Typedef for the output image PixelType. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+  /** Spacing type alias support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef typename TOutputImage::SpacingType SpacingType;
+  using SpacingType = typename TOutputImage::SpacingType;
 
-  /** Origin typedef support.  The origin is the geometric coordinates
+  /** Origin type alias support.  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef typename TOutputImage::PointType PointType;
+  using PointType = typename TOutputImage::PointType;
 
-  /** Direction typedef support.  The direction is the direction
+  /** Direction type alias support.  The direction is the direction
    * cosines of the image. */
-  typedef typename TOutputImage::DirectionType DirectionType;
+  using DirectionType = typename TOutputImage::DirectionType;
 
-  typedef std::vector<std::vector<double>> RangeType;
+  using RangeType = std::vector<std::vector<double>>;
 
   /** Dimensionality of the output image */
   itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
@@ -69,8 +69,8 @@ public:
   // Type used to store the range for each axis
 
   /** Size type matches that used for images */
-  typedef typename TOutputImage::SizeType      SizeType;
-  typedef typename TOutputImage::SizeValueType SizeValueType;
+  using SizeType = typename TOutputImage::SizeType;
+  using SizeValueType = typename TOutputImage::SizeValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SteerableFilterFreqImageSource, ImageSource);
@@ -116,8 +116,8 @@ public:
 
   // itkSetMacro(Ranges, RangeType);
 
-  typedef FixedArray<double, TOutputImage::ImageDimension - 1> DimMinusOneDoubleArrayType;
-  typedef FixedArray<double, TOutputImage::ImageDimension>     DoubleArrayType;
+  using DimMinusOneDoubleArrayType = FixedArray<double, TOutputImage::ImageDimension - 1>;
+  using DoubleArrayType = FixedArray<double, TOutputImage::ImageDimension>;
 
   itkSetMacro(Orientation, DoubleArrayType);
   itkGetConstReferenceMacro(Orientation, DoubleArrayType);

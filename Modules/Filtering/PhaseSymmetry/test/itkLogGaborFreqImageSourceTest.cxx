@@ -42,17 +42,17 @@ itkLogGaborFreqImageSourceTest(int argc, char * argv[])
 
   const unsigned int Dimension = 3;
 
-  typedef float                                   PixelType;
-  typedef itk::Image<PixelType, Dimension>        ImageType;
-  typedef std::complex<PixelType>                 ComplexPixelType;
-  typedef itk::Image<ComplexPixelType, Dimension> ComplexImageType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ComplexPixelType = std::complex<PixelType>;
+  using ComplexImageType = itk::Image<ComplexPixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImageFileName);
 
-  typedef itk::ForwardFFTImageFilter<ImageType, ComplexImageType> FFTFilterType;
-  FFTFilterType::Pointer                                          fftFilter = FFTFilterType::New();
+  using FFTFilterType = itk::ForwardFFTImageFilter<ImageType, ComplexImageType>;
+  FFTFilterType::Pointer fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
 
   try
@@ -66,13 +66,13 @@ itkLogGaborFreqImageSourceTest(int argc, char * argv[])
   }
 
 
-  typedef itk::ComplexToRealImageAdaptor<ComplexImageType, PixelType> ComplexToRealType;
-  ComplexToRealType::Pointer                                          complexToReal = ComplexToRealType::New();
+  using ComplexToRealType = itk::ComplexToRealImageAdaptor<ComplexImageType, PixelType>;
+  ComplexToRealType::Pointer complexToReal = ComplexToRealType::New();
   complexToReal->SetImage(fftFilter->GetOutput());
 
-  typedef itk::LogGaborFreqImageSource<ImageType> LogGaborSourceType;
-  LogGaborSourceType::Pointer                     logGaborSource = LogGaborSourceType::New();
-  ImageType::ConstPointer                         inputImage = reader->GetOutput();
+  using LogGaborSourceType = itk::LogGaborFreqImageSource<ImageType>;
+  LogGaborSourceType::Pointer logGaborSource = LogGaborSourceType::New();
+  ImageType::ConstPointer     inputImage = reader->GetOutput();
   logGaborSource->SetSize(inputImage->GetLargestPossibleRegion().GetSize());
   logGaborSource->SetSpacing(inputImage->GetSpacing());
   logGaborSource->SetDirection(inputImage->GetDirection());
@@ -85,26 +85,26 @@ itkLogGaborFreqImageSourceTest(int argc, char * argv[])
   logGaborSource->SetWavelengths(wavelengths);
   std::cout << logGaborSource << std::endl;
 
-  typedef itk::MultiplyImageFilter<ComplexToRealType, ImageType, ImageType> MultiplyFilterType;
-  MultiplyFilterType::Pointer                                               multiplyFilter = MultiplyFilterType::New();
+  using MultiplyFilterType = itk::MultiplyImageFilter<ComplexToRealType, ImageType, ImageType>;
+  MultiplyFilterType::Pointer multiplyFilter = MultiplyFilterType::New();
   multiplyFilter->SetInput1(complexToReal);
   multiplyFilter->SetInput2(logGaborSource->GetOutput());
 
-  typedef itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType> ComplexToImaginaryFilterType;
+  using ComplexToImaginaryFilterType = itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType>;
   ComplexToImaginaryFilterType::Pointer complexToImaginaryFilter = ComplexToImaginaryFilterType::New();
   complexToImaginaryFilter->SetInput(fftFilter->GetOutput());
 
-  typedef itk::ComposeImageFilter<ImageType, ComplexImageType> ComposeFilterType;
-  ComposeFilterType::Pointer                                   composeFilter = ComposeFilterType::New();
+  using ComposeFilterType = itk::ComposeImageFilter<ImageType, ComplexImageType>;
+  ComposeFilterType::Pointer composeFilter = ComposeFilterType::New();
   composeFilter->SetInput(0, multiplyFilter->GetOutput());
   composeFilter->SetInput(1, complexToImaginaryFilter->GetOutput());
 
-  typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  InverseFFTFilterType::Pointer                                   inverseFFTImageFilter = InverseFFTFilterType::New();
+  using InverseFFTFilterType = itk::InverseFFTImageFilter<ComplexImageType, ImageType>;
+  InverseFFTFilterType::Pointer inverseFFTImageFilter = InverseFFTFilterType::New();
   inverseFFTImageFilter->SetInput(composeFilter->GetOutput());
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(logGaborSource->GetOutput());
   writer->SetFileName(filterImageFileName);
   try
@@ -129,8 +129,8 @@ itkLogGaborFreqImageSourceTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::ImageFileWriter<ComplexImageType> ComplexWriterType;
-  ComplexWriterType::Pointer                     complexWriter = ComplexWriterType::New();
+  using ComplexWriterType = itk::ImageFileWriter<ComplexImageType>;
+  ComplexWriterType::Pointer complexWriter = ComplexWriterType::New();
   complexWriter->SetInput(fftFilter->GetOutput());
   complexWriter->SetFileName(inputFFTImageFileName);
   try
