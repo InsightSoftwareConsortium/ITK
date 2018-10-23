@@ -177,10 +177,13 @@ public:
   ITK_GCC_PRAGMA_DIAG_PUSH()
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+INTEL_PRAGMA_WARN_PUSH
+INTEL_SUPPRESS_warning_1292
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wc__14_extensions
   struct [[deprecated( "Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0" )]] ThreadInfoStruct
 CLANG_PRAGMA_POP
+INTEL_PRAGMA_WARN_POP
   {
     ThreadIdType ThreadID;
     ThreadIdType NumberOfThreads;
