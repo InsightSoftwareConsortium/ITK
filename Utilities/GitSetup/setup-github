@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+#=============================================================================
+# Copyright 2018 Kitware, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#=============================================================================
+
+# Run this script to set up the local Git repository to push to
+# a personal fork for this project in GitHub.
+
+# Project configuration instructions:
+#
+# - Populate adjacent "config" file with:
+#    github.protocol = Top GitHub protocol, if not 'https'
+#    github.host = Top GitHub fully qualified host name, if not github.com
+#    github.site = Top GitHub URL, if not "<protocol>://<host>"
+#    github.organization-name = Name of organization containing project in GitHub
+#    github.repo-name = Name of repository within GitHub organization
+#    github.url = GitHub push URL with "$username" placeholder,
+#                 if not "<site>/$username/<repo-name>.git"
+#    github.pushurl = GitHub push URL with "$username" placeholder,
+#                     if not "git@<host>:$username/<repo-name>.git"
+#    github.remote = GitHub remote name, if not "origin"
+#    upstream.url = Preferred fetch url for upstream remote
+#    upstream.remote = Preferred name for upstream remote
+
+die() {
+	echo 1>&2 "$@" ; exit 1
+}
+
+# Make sure we are inside the repository.
+cd "${BASH_SOURCE%/*}" &&
+
+# Load the project configuration.
+protocol=$(git config -f config --get github.protocol ||
+	   echo "https") &&
+host=$(git config -f config --get github.host || echo "github.com") &&
+site=$(git config -f config --get github.site ||
+       echo "$protocol://$host") &&
+organization_name=$(git config -f config --get github.organization-name) &&
+repo_name=$(git config -f config --get github.repo-name) &&
+pushurl_=$(git config -f config --get github.pushurl ||
+	   echo "git@$host:\$username/$repo_name.git") &&
+remote=$(git config -f config --get github.remote ||
+	 echo "origin") &&
+fetchurl_=$(git config -f config --get github.url ||
+	    echo "$site/\$username/$repo_name.git") ||
+die 'This project is not configured to use GitHub.'
+
+read -ep "Remote name for your forked repository? ['"$remote"']: " ans &&
+	if [ -n "$ans" ] && [ ! "$ans" == "$remote" ]; then
+		remote=$ans
+	fi
+git config github.fork.remote $remote
+
+# Get standard upstream url
+upstream_url=$(git config -f config --get upstream.url)
+upstream_remote=$(git config -f config --get upstream.remote)
+remote_url=$(git config --get remote."$remote".url)
+# Check if the remote was cloned with the upstream URL and recommend removal
+# if so.
+if test "$upstream_url" = "$remote_url"; then
+	echo 'Remote "'"$remote"'" uses the repository recommended to use as the "'"$upstream_remote"'" repository.'
+	read -ep 'Remove "'"$remote"'" remote and reconfigure as recommended? [y/N]: ' ans &&
+	if [ "$ans" == "y" ] || [ "$ans" == "Y" ]; then
+		git remote remove "$remote"
+		setup=1
+	else
+		setup=''
+	fi
+fi
+
+# Get current github push URL.
+pushurl=$(git config --get remote."$remote".pushurl ||
+	  git config --get remote."$remote".url || echo '') &&
+
+# Tell user about current configuration.
+if test -n "$pushurl"; then
+	echo 'Remote "'"$remote"'" is currently configured to push to
+
+  '"$pushurl"'
+' &&
+	read -ep 'Reconfigure GitHub? [y/N]: ' ans &&
+	if [ "$ans" == "y" ] || [ "$ans" == "Y" ]; then
+		setup=1
+	else
+		setup=''
+	fi
+else
+	echo 'Remote "'"$remote"'" is not configured.
+' &&
+	read -ep 'Configure GitHub to contribute to '"$repo_name"'? [Y/n]: ' ans &&
+	if [ "$ans" == "n" ] || [ "$ans" == "N" ]; then
+		exit 0
+	else
+		setup=1
+	fi
+fi &&
+
+setup_instructions='Add your SSH public keys at
+
+  '"$site"'/settings/keys
+
+Then visit the main repository at:
+
+  '"$site/$organization_name/$repo_name"'
+
+and use the Fork button in the upper right.
+'
+
+# Perform setup if necessary.
+if test -n "$setup"; then
+	echo 'Sign-in to GitHub to get/set your username at
+
+  '"$site/login"'
+
+'"$setup_instructions" &&
+	read -ep "GitHub username? [$USER]: " gu &&
+	if test -z "$gu"; then
+		gu="$USER"
+	fi &&
+	fetchurl="${fetchurl_/\$username/$gu}" &&
+	if test -z "$pushurl"; then
+		git remote add "$remote" "$fetchurl"
+	else
+		git config remote."$remote".url "$fetchurl"
+	fi &&
+	pushurl="${pushurl_/\$username/$gu}" &&
+	git config remote."$remote".pushurl "$pushurl" &&
+	echo 'Remote "'"$remote"'" is now configured to push to
+
+  '"$pushurl"'
+'
+fi &&
+
+# Optionally test GitHub access.
+if test -n "$pushurl"; then
+	read -ep 'Test access to GitHub (SSH)? [y/N]: ' ans &&
+	if [ "$ans" == "y" ] || [ "$ans" == "Y" ]; then
+		echo -n 'Testing GitHub access by SSH...'
+		if git ls-remote --heads "$pushurl" >/dev/null; then
+			echo 'passed.'
+		else
+			echo 'failed.' &&
+			die 'Could not access your GitHub fork of this project.
+'"$setup_instructions"
+		fi
+	fi
+fi

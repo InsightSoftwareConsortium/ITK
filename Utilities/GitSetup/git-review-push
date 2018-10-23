@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+#=============================================================================
+# Copyright 2010-2012 Kitware, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#=============================================================================
+
+USAGE="[<remote>] [--no-topic] [--dry-run] [--]"
+OPTIONS_SPEC=
+SUBDIRECTORY_OK=Yes
+. "$(git --exec-path)/git-sh-setup"
+
+# Load the project configuration.
+config="${BASH_SOURCE%/*}/config" &&
+upstream_remote=$(git config -f "$config" --get upstream.remote) &&
+host=$(git config -f "$config" --get github.host || echo "github.com") &&
+organization_name=$(git config -f "$config" --get github.organization-name) &&
+repo_name=$(git config -f "$config" --get github.repo-name)
+github_remote=$(git config --get github.fork.remote)
+#-----------------------------------------------------------------------------
+
+remote="$github_remote"
+refspecs=''
+no_topic=''
+dry_run=''
+force=''
+
+# Parse the command line options.
+while test $# != 0; do
+  case "$1" in
+    --no-topic) no_topic=1 ;;
+    --force) force=--force ;;
+    --dry-run)  dry_run=--dry-run ;;
+    --) shift; break ;;
+    -*) usage ;;
+    *) test -z "$remote" || usage ; remote="$1" ;;
+  esac
+  shift
+done
+test $# = 0 || usage
+
+# Default remote.
+test -n "$remote" || remote="origin"
+
+if test -z "$no_topic"; then
+  # Identify and validate the topic branch name.
+  topic="$(git symbolic-ref HEAD | sed -e 's|^refs/heads/||')"
+  if test "$topic" = "master"; then
+    die 'Please name your topic:
+    git checkout -b descriptive-name'
+  fi
+  refspecs="HEAD:$topic"
+fi
+
+# Exit early if we have nothing to push.
+if test -z "$refspecs"; then
+  echo "Nothing to push!"
+  exit 0
+fi
+
+# Fetch the current upstream master branch head.
+# This helps the computation of a minimal pack to push.
+if test -z "$upstream_remote"; then
+  echo "Fetching $upstream_remote master"
+  fetch_out=$(git fetch "$upstream_remote" master 2>&1) || die "$fetch_out"
+fi
+
+# Push.  Save output and exit code.
+echo "Pushing to $remote"
+push_stdout=$(git push --porcelain $force $dry_run "$remote" $refspecs); push_exit=$?
+echo "$push_stdout"
+
+# Reproduce the push exit code.
+exit $push_exit
