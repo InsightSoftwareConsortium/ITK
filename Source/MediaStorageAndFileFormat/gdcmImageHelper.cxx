@@ -917,6 +917,37 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
       assert( interceptslope.size() == 2 );
       return interceptslope;
       }
+
+    // Workaround to get intercept/slope from some Philips
+    // XRay3DAngiographic files
+    if (ms == MediaStorage::XRay3DAngiographicImageStorage && ForceRescaleInterceptSlope)
+      {
+      const Tag t3(0x0018,0x9530);
+      if(ds.FindDataElement( t3 ))
+        {
+        SmartPointer<SequenceOfItems> sqi = ds.GetDataElement( t3 ).GetValueAsSQ();
+        if(sqi && sqi->GetNumberOfItems() > 0)
+          {
+          const Item &item = sqi->GetItem(1);
+          const DataSet & subds = item.GetNestedDataSet();
+          const Tag tpi(0x0028,0x1052);
+          const Tag tps(0x0028,0x1053);
+          if( subds.FindDataElement(tps) &&  subds.FindDataElement(tpi))
+            {
+            const DataElement &dei = subds.GetDataElement( tpi );
+            Attribute<0x0028,0x1052> ati;
+            ati.SetFromDataElement( dei );
+            interceptslope.push_back( ati.GetValue() );
+            const DataElement &des = subds.GetDataElement( tps );
+            Attribute<0x0028,0x1053> ats;
+            ats.SetFromDataElement( des );
+            interceptslope.push_back( ats.GetValue() );
+            return interceptslope;
+            }
+          }
+        }
+      }
+
     //else
     //  {
     //  interceptslope.resize( 2 );
