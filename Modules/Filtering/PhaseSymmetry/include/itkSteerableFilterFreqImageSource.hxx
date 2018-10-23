@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template <class TOutputImage>
+template <typename TOutputImage>
 SteerableFilterFreqImageSource<TOutputImage>::SteerableFilterFreqImageSource()
 {
   // Initial image is 64 wide in each direction.
@@ -43,12 +43,12 @@ SteerableFilterFreqImageSource<TOutputImage>::SteerableFilterFreqImageSource()
 }
 
 
-template <class TOutputImage>
+template <typename TOutputImage>
 SteerableFilterFreqImageSource<TOutputImage>::~SteerableFilterFreqImageSource()
 {}
 
 
-template <class TOutputImage>
+template <typename TOutputImage>
 void
 SteerableFilterFreqImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
