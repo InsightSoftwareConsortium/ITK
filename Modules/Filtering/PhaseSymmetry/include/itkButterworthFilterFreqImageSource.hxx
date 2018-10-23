@@ -26,19 +26,19 @@
 namespace itk
 {
 
-template <class TOutputImage>
+template <typename TOutputImage>
 ButterworthFilterFreqImageSource<TOutputImage>::ButterworthFilterFreqImageSource()
   : m_Cutoff(0.4)
   , m_Order(4)
 {}
 
 
-template <class TOutputImage>
+template <typename TOutputImage>
 ButterworthFilterFreqImageSource<TOutputImage>::~ButterworthFilterFreqImageSource()
 {}
 
 
-template <class TOutputImage>
+template <typename TOutputImage>
 void
 ButterworthFilterFreqImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {

@@ -26,7 +26,7 @@
 namespace itk
 {
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
 {
   m_MultiplyImageFilter = MultiplyImageFilterType::New();
@@ -89,7 +89,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
 }
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize(void)
 {
@@ -187,7 +187,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize(void)
 }
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 {
@@ -375,7 +375,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 }
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
@@ -417,7 +417,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
 /**
  * GenerateData Performs the accumulation
  */
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(void)
 {
@@ -468,7 +468,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(v
 }
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {

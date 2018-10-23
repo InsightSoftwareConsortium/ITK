@@ -62,7 +62,7 @@ namespace itk
  *
  * \ingroup PhaseSymmetry
  */
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class PhaseSymmetryImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
