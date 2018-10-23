@@ -146,7 +146,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() const override;
 
 private:
   typename TileImageType::Pointer m_TileImage;

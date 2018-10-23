@@ -256,8 +256,10 @@ Otsu filters now return correct threshold (bin's maximum value instead of mid-po
 To keep old behavior, use `filter->SetReturnBinMidpoint( true );`.
 This change should be relevant only in tests.
 
-With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()` is declared `const`, so if
-you have overridden this virtual member function, make sure that you also add `const`.
+With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
+`itk::ProcessObject::VerifyInputInformation` are now declared `const`,
+so if you have overridden these virtual member function, make sure that you
+also add `const`. 
 
 Update scripts
 --------------

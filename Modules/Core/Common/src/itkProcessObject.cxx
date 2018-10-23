@@ -1446,7 +1446,7 @@ ProcessObject
 
 void
 ProcessObject
-::VerifyInputInformation()
+::VerifyInputInformation() const
 {
 }
 

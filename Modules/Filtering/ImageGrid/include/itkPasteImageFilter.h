@@ -133,7 +133,7 @@ public:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() const override {}
 
 protected:
   PasteImageFilter();
