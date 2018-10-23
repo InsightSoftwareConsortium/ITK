@@ -15,5 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-void vnl_matrix_longlong_dummy(void) {}
+#include "vnl/vnl_matrix_fixed.hxx"
+#include "vnl/vnl_matlab_print.hxx"
+#include "vnl_export_override.h"
+VNL_MATRIX_FIXED_INSTANTIATE(float, 8, 8);

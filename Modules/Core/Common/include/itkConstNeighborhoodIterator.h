@@ -167,14 +167,19 @@ public:
   ITK_ITERATOR_VIRTUAL NeighborhoodType GetNeighborhood() const ITK_ITERATOR_FINAL;
 
   /** Returns the pixel value located at a linear array location i. */
-  ITK_ITERATOR_VIRTUAL PixelType GetPixel(NeighborIndexType i) const ITK_ITERATOR_FINAL
+  ITK_ITERATOR_VIRTUAL PixelType GetPixel(const NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
-    if ( !m_NeedToUseBoundaryCondition )
+    if ( !m_NeedToUseBoundaryCondition || this->InBounds() )
       {
       return ( m_NeighborhoodAccessorFunctor.Get( this->operator[](i) ) );
       }
-    bool inbounds;
-    return this->GetPixel(i, inbounds);
+
+    OffsetType internalIndex;
+    OffsetType offset;
+
+    return this->IndexInBounds(i, internalIndex, offset) ?
+      m_NeighborhoodAccessorFunctor.Get(this->operator[](i)) :
+      m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, m_BoundaryCondition);
   }
 
   /** Return the pixel value located at a linear array location i.

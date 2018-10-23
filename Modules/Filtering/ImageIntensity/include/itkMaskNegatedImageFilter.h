@@ -105,7 +105,7 @@ private:
  * operator!=. This condition is required because internally this
  * filter will perform the operation
  *
- * \code
+   \code
           if pixel_from_mask_image != mask_value
                pixel_output_image = output_value
           else

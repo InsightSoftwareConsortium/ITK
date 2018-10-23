@@ -43,7 +43,7 @@ namespace itk
  * No need to reimplement CopyLinesFrom() since all derived class share the same type line data members.
  *
  * The pixels locations belonging to the LabelObject can be obtained using:
- * \code
+   \code
    for(unsigned int pixelId = 0; pixelId < labelObject->Size(); pixelId++)
      {
      std::cout << labelObject->GetIndex(pixelId);

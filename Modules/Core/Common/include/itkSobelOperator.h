@@ -34,7 +34,7 @@ namespace itk
  *
  * 1) Set the direction by calling  \code SetDirection \endcode
  * 2) call
- * \code
+   \code
    itk::Size<2> radius;
    radius.Fill(1);
    sobelOperator.CreateToRadius(radius);

@@ -41,7 +41,7 @@ namespace itk
  * \par Inputs and Usage
  * There are two ways to use this class. When you have one reference image and \c n
  * gradient images, you would use the class as
- * \code
+   \code
          filter->SetReferenceImage( image0 );
          filter->AddGradientImage( direction1, image1 );
          filter->AddGradientImage( direction2, image2 );
@@ -51,7 +51,7 @@ namespace itk
  * \par
  * When you have the 'n' gradient and one or more reference images in a single
  * multi-component image (VectorImage), you can specify the images simply as
- * \code
+   \code
          filter->SetGradientImage( directionsContainer, vectorImage );
    \endcode
  * Note that this method is used to specify both the reference and gradient images.
@@ -63,7 +63,7 @@ namespace itk
  *
  * \par Outputs
  * The output image is an image of Tensors:
- * \code
+   \code
          Image< DiffusionTensor3D< TTensorPixelType >, 3 >
    \endcode
  *
@@ -92,7 +92,7 @@ namespace itk
  * \warning
  * Although this filter has been written to support multiple threads, please
  * set the number of threads to 1.
- * \code
+   \code
            filter->SetNumberOfWorkUnits(1);
    \endcode
  * This is due to buggy code in netlib/dsvdc, that is called by vnl_svd.

@@ -15,11 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_fortran_copy_fixed.txx"
-#else
 #include "vnl/vnl_fortran_copy_fixed.hxx"
-#endif
 #include "vnl_export_override.h"
 VNL_FORTRAN_COPY_FIXED_INSTANTIATE(double, 10, 10);

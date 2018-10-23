@@ -47,7 +47,7 @@ namespace itk
  * A new image with the foreground object placed on the background can be obtained
  * as follows:
  *
- * \code
+   \code
 
    using TernaryType = itk::TernaryOperatorImageFilter< MaskType, ImageType >;
    TernaryType::Pointer ternaryFilter = TernaryType::New();

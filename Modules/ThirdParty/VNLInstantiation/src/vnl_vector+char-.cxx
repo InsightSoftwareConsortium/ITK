@@ -15,12 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_vector.txx"
-#else
 #include "vnl/vnl_vector.hxx"
-#endif
 #include "vnl_complex_traits+char-.h"
 #include "vnl_export_override.h"
 VNL_VECTOR_INSTANTIATE(char);

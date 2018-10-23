@@ -31,21 +31,21 @@ namespace itk
  * defined as a 2D plane spanned by two vectors pointing along orthogonal
  * coordinate axes. The slice orientation of the iterator is defined by
  * specifying its two spanning axes using the methods:
- * \code
+   \code
    SetFirstDirection(n)
    SetSecondDirection(n)
    \endcode
  * where n is the number of the axis.
  *
  * Use the following methods to move the iterator between slices:
- * \code
+   \code
    NextSlice()
    PreviousSlice()
    \endcode
  *
  * To test the position of the iterator with respect to the end or beginning of
  * the slice use the following methods:
- * \code
+   \code
    IsAtReverseEndOfSlice()
    IsAtEndOfSlice()
    \endcode
@@ -53,7 +53,7 @@ namespace itk
  * The following code, for example, illustrates the typical use of this
  * iterator.  For more information please see the Software Guide.
  *
- * \code
+   \code
 
    ImageSliceConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
 

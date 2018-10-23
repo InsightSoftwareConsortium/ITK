@@ -15,5 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-void vnl_c_vector_ulonglong_dummy(void) {}
+#include "vnl/algo/vnl_svd_fixed.hxx"
+#include "vnl_algo_export_override.h"
+VNL_SVD_FIXED_INSTANTIATE(double, 6, 6);

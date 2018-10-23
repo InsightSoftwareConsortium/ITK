@@ -15,11 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_c_vector.txx"
-#else
-#include "vnl/vnl_c_vector.hxx"
-#endif
+#include "vnl/vnl_fortran_copy_fixed.hxx"
 #include "vnl_export_override.h"
-VNL_C_VECTOR_INSTANTIATE_ordered(unsigned short);
+VNL_FORTRAN_COPY_FIXED_INSTANTIATE(double, 9, 9);

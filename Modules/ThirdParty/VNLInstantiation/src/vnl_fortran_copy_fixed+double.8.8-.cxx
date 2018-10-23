@@ -15,5 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-void vnl_matrix_ulonglong_dummy(void) {}
+#include "vnl/vnl_fortran_copy_fixed.hxx"
+#include "vnl_export_override.h"
+VNL_FORTRAN_COPY_FIXED_INSTANTIATE(double, 8, 8);

@@ -40,7 +40,7 @@ namespace itk
  * compensation (a variable to accumulate small errors)."
  *
  * For example, instead of
- * \code
+   \code
      double sum = 0.0;
      for( unsigned int i = 0; i < array.Size(); ++i )
        {
@@ -50,7 +50,7 @@ namespace itk
  *
  * do
  *
- * \code
+   \code
      using CompensatedSummationType = CompensatedSummation<double>;
      CompensatedSummationType compensatedSummation;
      for( unsigned int i = 0; i < array.Size(); ++i )

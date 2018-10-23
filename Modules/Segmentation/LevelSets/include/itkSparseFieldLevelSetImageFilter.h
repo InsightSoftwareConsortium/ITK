@@ -59,7 +59,7 @@ public:
  * Order of reference is lowest index to highest index in the neighborhood.
  * For example, for 4 connectivity, the indices refer to the following
  * neighbors:
- * \code
+   \code
 
     * 1 *
     2 * 3

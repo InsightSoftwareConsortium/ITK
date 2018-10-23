@@ -38,7 +38,7 @@ namespace itk
  *
  * The total operation over one pixel will be
  *
- * \code
+   \code
      if( !A )
        {
        return this->m_ForegroundValue;

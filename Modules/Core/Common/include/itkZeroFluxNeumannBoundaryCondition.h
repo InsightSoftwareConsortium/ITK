@@ -30,7 +30,7 @@ namespace itk
  *
  * For example, invoking this function object on a 7x5 iterator that masks
  * a region at an image corner (iterator is centered on the 2):
- * \code
+   \code
                  * * * * * * *
                  * * * * * * *
                  * * 1 2 3 4 5  (where * denotes pixels that lie
@@ -38,7 +38,7 @@ namespace itk
                  * * 4 4 6 7 8
    \endcode
  * returns the following neighborhood of values:
- * \code
+   \code
                  1 1 1 2 3 4 5
                  1 1 1 2 3 4 5
                  1 1 1 2 3 4 5

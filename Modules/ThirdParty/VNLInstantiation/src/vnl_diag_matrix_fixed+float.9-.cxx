@@ -15,6 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "vnl/vnl_matrix.hxx"
+#include "vnl/vnl_diag_matrix_fixed.hxx"
 #include "vnl_export_override.h"
-VNL_MATRIX_INSTANTIATE(unsigned short);
+VNL_DIAG_MATRIX_FIXED_INSTANTIATE(float, 9);

@@ -47,7 +47,7 @@ namespace itk
  *
  * This is the typical use of this iterator in a loop:
  *
- * \code
+   \code
 
    ImageLinearConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
 

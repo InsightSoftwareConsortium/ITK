@@ -33,7 +33,7 @@ namespace itk
  * The GetOutput() function returns an itk::ShapeLabelMap.
  * A typical use would be to iterate over the ShapeLabelObjects in the map,
  * using something like this:
- * \code
+   \code
    for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
      {
      FilterType::OutputImageType::LabelObjectType* shapeLabelObject =

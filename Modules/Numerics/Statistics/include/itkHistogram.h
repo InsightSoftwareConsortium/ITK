@@ -60,7 +60,7 @@ namespace Statistics
  * conveniently be obtained from MeasurementVectorTraits. For instance,
  * instantiate a histogram as below:
  *
- * \code
+   \code
    using HistogramType = Histogram< THistogramMeasurement, typename TFrequencyContainer >;
    \endcode
  *

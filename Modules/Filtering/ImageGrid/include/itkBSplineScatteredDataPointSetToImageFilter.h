@@ -87,7 +87,7 @@ namespace itk
  * coordinates of the point are set via SetPointData. For example, to compute a
  * spline through the (ordered) 2D points (5,6) and (7,8), you should use:
  *
- * \code
+   \code
    using DataType = itk::Vector< float, 2 >;
    PointSetType::PointType param0;
    param0[0] = 0.0;

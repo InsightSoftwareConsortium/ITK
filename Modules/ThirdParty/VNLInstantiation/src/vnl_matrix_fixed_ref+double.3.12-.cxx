@@ -15,11 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_matrix_fixed_ref.txx"
-#else
 #include "vnl/vnl_matrix_fixed_ref.hxx"
-#endif
 #include "vnl_export_override.h"
 VNL_MATRIX_FIXED_REF_INSTANTIATE(double, 3, 12);

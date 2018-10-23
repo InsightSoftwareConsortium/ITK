@@ -15,5 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-void vnl_vector_longlong_dummy(void) {}
+#include "vnl/vnl_diag_matrix_fixed.hxx"
+#include "vnl_export_override.h"
+VNL_DIAG_MATRIX_FIXED_INSTANTIATE(float, 6);

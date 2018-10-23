@@ -138,7 +138,6 @@ unsigned int TIFFImageIO::GetFormat()
            m_ImageFormat = TIFFImageIO::PALETTE_RGB;
            return m_ImageFormat;
           }
-
         }
     }
   m_ImageFormat = TIFFImageIO::OTHER;
@@ -453,6 +452,11 @@ void TIFFImageIO::ReadImageInformation()
         break;
         }
       }
+    }
+  if( !m_IsReadAsScalarPlusPalette )
+    {
+    // make sure the palette is empty
+    m_ColorPalette.resize(0);
     }
 
 
@@ -960,8 +964,13 @@ void TIFFImageIO::ReadTIFFTags()
 
   this->InitializeColors();
   if ( m_TotalColors > -1 )
-    {// if a palette have been found
+    {// if a palette have been found store it in m_ColorPalette
     PopulateColorPalette();
+    }
+  else
+    {
+    // otherwise make sure that the stored palette is empty in the case it was already set
+    m_ColorPalette.resize(0);
     }
 
   for (int i = 0; i < tagCount; ++i)
@@ -1311,7 +1320,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
           }
         break;
       case TIFFImageIO::PALETTE_RGB:
-        if ( this->GetExpandRGBPalette() || (!this->GetIsReadAsScalarPlusPalette()) )
+        if ( !this->GetIsReadAsScalarPlusPalette() )
           {
           switch ( m_InternalImage->m_BitsPerSample )
             {

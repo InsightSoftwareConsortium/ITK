@@ -64,20 +64,20 @@ public:
  * and the output image type.
  *
  * A typical use is to cast a
- * \code
+   \code
    itk::Image<type1, dim>
    \endcode
  * to a
- * \code
+   \code
    itk::Image<type2, dim>
    \endcode
  *
  * This filter can also be used to cast a
- * \code
+   \code
    itk::VectorImage<type1, dim>
    \endcode
  * to a
- * \code
+   \code
    itk::VectorImage<type2, dim>
    \endcode
  *

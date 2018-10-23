@@ -15,11 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_vector.txx"
-#else
-#include "vnl/vnl_vector.hxx"
-#endif
+#include "vnl/vnl_matrix_fixed.hxx"
+#include "vnl/vnl_matlab_print.hxx"
 #include "vnl_export_override.h"
-VNL_VECTOR_INSTANTIATE(unsigned short);
+VNL_MATRIX_FIXED_INSTANTIATE(double, 9, 9);

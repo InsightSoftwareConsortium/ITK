@@ -77,7 +77,7 @@ public:
  * operator<. This condition is required because internally this filter will
  * perform an operation similar to:
  *
- * \code
+   \code
       const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
       if(current_maximum < query_value)
         {

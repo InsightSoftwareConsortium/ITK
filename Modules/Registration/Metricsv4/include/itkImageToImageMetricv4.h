@@ -147,7 +147,7 @@ namespace itk
  *  ImageToImageMetricv4GetValueAndDerivativeThreader, from which
  *  a DenseGetValueAndDerivativeThreader and SparseGetValueAndDerivativeThreader
  *  must be defined. Then,
- *  \code
+    \code
       this->m_DenseGetValueAndDerivativeThreader   = DenseDerivedClassGetValueAndDerivativeThreader::New();
       this->m_SparseGetValueAndDerivativeThreader  = SparseDerivedClassGetValueAndDerivativeThreader::New();
     \endcode
