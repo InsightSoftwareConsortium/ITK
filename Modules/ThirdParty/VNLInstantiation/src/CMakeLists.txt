@@ -66,8 +66,6 @@ set(ITKVNLInstantiation_SRCS
   vnl_fortran_copy_fixed+double.9.9-.cxx
   vnl_fortran_copy_fixed+double.10.10-.cxx
   vnl_fortran_copy_fixed+float.1.1-.cxx
-  vnl_fortran_copy_fixed+float.4.4-.cxx
-  vnl_fortran_copy_fixed+float.5.5-.cxx
   vnl_fortran_copy_fixed+float.2.2-.cxx
   vnl_fortran_copy_fixed+float.2.3-.cxx
   vnl_fortran_copy_fixed+float.3.2-.cxx
