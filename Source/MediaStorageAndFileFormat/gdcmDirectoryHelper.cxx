@@ -174,6 +174,15 @@ std::string DirectoryHelper::RetrieveSOPInstanceUIDFromZPosition(double inZPos,
   std::vector<DataSet>::const_iterator itor;
   Tag thePosition(0x0020, 0x0032);
   Tag theSOPInstanceUID(0x0008, 0x0018);
+  Tag theSpacingBetweenSlice(0x0018, 0x0088);
+  double interSlice = 0.01;
+  if (inDS.begin() != inDS.end() && inDS.begin()->FindDataElement(theSpacingBetweenSlice))
+    {
+    DataElement tmpDe = inDS.begin()->GetDataElement(theSpacingBetweenSlice);
+    Attribute<0x0018,0x0088> tmpAt;
+    tmpAt.SetFromDataElement(tmpDe);
+    interSlice = fabs(tmpAt.GetValue())/2.0;
+    }
   std::string blank;//return only if there's a problem
   for (itor = inDS.begin(); itor != inDS.end(); itor++)
     {
@@ -182,7 +191,7 @@ std::string DirectoryHelper::RetrieveSOPInstanceUIDFromZPosition(double inZPos,
       DataElement de = itor->GetDataElement(thePosition);
       Attribute<0x0020,0x0032> at;
       at.SetFromDataElement( de );
-      if (fabs(at.GetValue(2) - inZPos)<0.01)
+      if (fabs(at.GetValue(2) - inZPos)<interSlice)
         {
         DataElement de2 = itor->GetDataElement(theSOPInstanceUID);
         const ByteValue* theVal = de2.GetByteValue();

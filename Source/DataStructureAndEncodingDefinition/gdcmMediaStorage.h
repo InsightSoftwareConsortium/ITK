@@ -133,6 +133,9 @@ public:
     XRay3DCraniofacialImageStorage,
     IVOCTForPresentation,
     IVOCTForProcessing,
+    LegacyConvertedEnhancedCTImageStorage,
+    LegacyConvertedEnhancedMRImageStorage,
+    LegacyConvertedEnhancedPETImageStorage,
     MS_END
   } MSType; // Media Storage Type
 

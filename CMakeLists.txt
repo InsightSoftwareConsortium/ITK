@@ -14,6 +14,9 @@ endif()
 if( POLICY CMP0063 )
   cmake_policy(SET CMP0063 NEW)
 endif()
+if( POLICY CMP0074 )
+  cmake_policy(SET CMP0074 NEW)
+endif()
 project(GDCM)
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -40,7 +43,7 @@ set(GDCM_PACKAGE_CONTACT "GDCM Developers <gdcm-developers@lists.sourceforge.net
 #----------------------------------------------------------------------------
 set(GDCM_MAJOR_VERSION 2)
 set(GDCM_MINOR_VERSION 8)
-set(GDCM_BUILD_VERSION 5)
+set(GDCM_BUILD_VERSION 8)
 set(GDCM_VERSION
   "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
 # let advanced user the option to define GDCM_API_VERSION:
@@ -594,6 +597,11 @@ endif()
 
 # Need to subdirs in Source/Common before Wrapping
 # to have gdcmConfigure.h around
+if(GDCM_STANDALONE)
+  set(BUILD_APPLICATIONS ${GDCM_BUILD_APPLICATIONS})
+else()
+  set(BUILD_APPLICATIONS OFF)
+endif()
 subdirs(Utilities)
 add_subdirectory(Source)
 
@@ -634,7 +642,7 @@ CHECK_INCLUDE_FILE("pthread.h"      GDCM_HAVE_PTHREAD_H)
 
 # Big endian thing:
 if(GDCM_STANDALONE)
-  include(${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+  include(TestBigEndian)
   TEST_BIG_ENDIAN(GDCM_WORDS_BIGENDIAN)
 endif()
 

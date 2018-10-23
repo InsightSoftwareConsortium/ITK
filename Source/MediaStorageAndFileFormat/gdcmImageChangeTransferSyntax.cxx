@@ -91,7 +91,7 @@ bool ImageChangeTransferSyntax::TryRAWCodec(const DataElement &pixelde, Bitmap c
     codec.SetPlanarConfiguration( input.GetPlanarConfiguration() );
     codec.SetPhotometricInterpretation( input.GetPhotometricInterpretation() );
     codec.SetPixelFormat( input.GetPixelFormat() );
-    codec.SetNeedOverlayCleanup( input.AreOverlaysInPixelData() );
+    codec.SetNeedOverlayCleanup( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() );
     DataElement out;
     //bool r = codec.Code(input.GetDataElement(), out);
     bool r = codec.Code(pixelde, out);
@@ -121,7 +121,7 @@ bool ImageChangeTransferSyntax::TryRLECodec(const DataElement &pixelde, Bitmap c
     codec.SetPlanarConfiguration( input.GetPlanarConfiguration() );
     codec.SetPhotometricInterpretation( input.GetPhotometricInterpretation() );
     codec.SetPixelFormat( input.GetPixelFormat() );
-    codec.SetNeedOverlayCleanup( input.AreOverlaysInPixelData() );
+    codec.SetNeedOverlayCleanup( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() );
     DataElement out;
     //bool r = codec.Code(input.GetDataElement(), out);
     bool r = codec.Code(pixelde, out);
@@ -133,6 +133,15 @@ bool ImageChangeTransferSyntax::TryRLECodec(const DataElement &pixelde, Bitmap c
     DataElement &de = output.GetDataElement();
     de.SetValue( out.GetValue() );
     UpdatePhotometricInterpretation( input, output );
+    if( input.GetPixelFormat().GetSamplesPerPixel() == 3 )
+    {
+      if( input.GetPlanarConfiguration() == 0 )
+      {
+        // http://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_G.2.html
+        // The use of separate segments implies that the Planar Configuration (0028,0006) will always be 1 for RLE compressed images.
+        output.SetPlanarConfiguration(1);
+      }
+    }
     return true;
     }
   return false;
@@ -172,7 +181,7 @@ bool ImageChangeTransferSyntax::TryJPEGCodec(const DataElement &pixelde, Bitmap 
     codec->SetPlanarConfiguration( input.GetPlanarConfiguration() );
     codec->SetPhotometricInterpretation( input.GetPhotometricInterpretation() );
     codec->SetPixelFormat( input.GetPixelFormat() );
-    codec->SetNeedOverlayCleanup( input.AreOverlaysInPixelData() );
+    codec->SetNeedOverlayCleanup( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() );
     // let's check we are not trying to compress 16bits with JPEG/Lossy/8bits
     if( !input.GetPixelFormat().IsCompatible( ts ) )
       {
@@ -242,16 +251,39 @@ bool ImageChangeTransferSyntax::TryJPEGLSCodec(const DataElement &pixelde, Bitma
     //codec.SetNumberOfDimensions( input.GetNumberOfDimensions() );
     codec->SetPlanarConfiguration( input.GetPlanarConfiguration() );
     codec->SetPhotometricInterpretation( input.GetPhotometricInterpretation() );
-    codec->SetNeedOverlayCleanup( input.AreOverlaysInPixelData() );
+    codec->SetNeedOverlayCleanup( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() );
     DataElement out;
     //bool r = codec.Code(input.GetDataElement(), out);
-    bool r = codec->Code(pixelde, out);
+    bool r;
+    if( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() )
+      {
+      const ByteValue *bv = pixelde.GetByteValue();
+      assert( bv );
+      gdcm::DataElement tmp;
+      tmp.SetByteValue( bv->GetPointer(), bv->GetLength());
+      bv = tmp.GetByteValue();
+      r = codec->CleanupUnusedBits((char*)bv->GetPointer(), bv->GetLength());
+      if(!r) return false;
+      r = codec->Code(tmp, out);
+      }
+    else
+      {
+      r = codec->Code(pixelde, out);
+      }
     if(!r) return false;
-    output.SetPlanarConfiguration( 0 );
 
     DataElement &de = output.GetDataElement();
     de.SetValue( out.GetValue() );
     UpdatePhotometricInterpretation( input, output );
+    if( input.GetPixelFormat().GetSamplesPerPixel() == 3 )
+    {
+      if( input.GetPlanarConfiguration() == 0 )
+      {
+        // http://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_8.2.3.html#table_8.2.3-1
+        output.SetPlanarConfiguration(1);
+      }
+    }
+
     return r;
     }
   return false;
@@ -278,7 +310,7 @@ bool ImageChangeTransferSyntax::TryJPEG2000Codec(const DataElement &pixelde, Bit
     codec->SetNumberOfDimensions( input.GetNumberOfDimensions() );
     codec->SetPlanarConfiguration( input.GetPlanarConfiguration() );
     codec->SetPhotometricInterpretation( input.GetPhotometricInterpretation() );
-    codec->SetNeedOverlayCleanup( input.AreOverlaysInPixelData() );
+    codec->SetNeedOverlayCleanup( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() );
     DataElement out;
     //bool r = codec.Code(input.GetDataElement(), out);
     bool r = codec->Code(pixelde, out);

@@ -45,7 +45,7 @@ bool SequenceOfItems::RemoveItemByIndex( const SizeType position )
     {
     return false;
     }
-  Items.erase (Items.begin() + position);
+  Items.erase (Items.begin() + position - 1);
   return true;
 }
 
