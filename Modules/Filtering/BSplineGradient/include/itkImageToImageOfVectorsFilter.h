@@ -57,26 +57,25 @@ class ITK_TEMPLATE_EXPORT ImageToImageOfVectorsFilter
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageOfVectorsFilter);
 
-  typedef ImageToImageFilter<
+  using Superclass = ImageToImageFilter<
     TInputImage,
-    Image<Vector<typename TInputImage::InternalPixelType, NComponents>, TInputImage::ImageDimension>>
-                                      Superclass;
-  typedef ImageToImageOfVectorsFilter Self;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+    Image<Vector<typename TInputImage::InternalPixelType, NComponents>, TInputImage::ImageDimension>>;
+  using Self = ImageToImageOfVectorsFilter;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkTypeMacro(ImageToImageOfVectorsFilter, ImageToImageFilter);
 
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef typename InputImageType::InternalPixelType InputPixelType;
+  using InputPixelType = typename InputImageType::InternalPixelType;
 
-  typedef Vector<InputPixelType, NComponents>    OutputPixelType;
-  typedef Image<OutputPixelType, ImageDimension> OutputImageType;
-  typedef typename OutputImageType::RegionType   RegionType;
+  using OutputPixelType = Vector<InputPixelType, NComponents>;
+  using OutputImageType = Image<OutputPixelType, ImageDimension>;
+  using RegionType = typename OutputImageType::RegionType;
 
-  typedef typename Superclass::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = typename Superclass::DataObjectPointerArraySizeType;
 
   virtual void
   SetNthInput(DataObjectPointerArraySizeType idx, const InputImageType * inputImage)

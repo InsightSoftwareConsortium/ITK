@@ -66,8 +66,8 @@ ImageToImageOfVectorsFilter<TInputImage, NComponents>::DynamicThreadedGenerateDa
   ImageRegionIterator<OutputImageType> oit(outputImage, outputRegionForThread);
   oit.GoToBegin();
 
-  typedef ImageRegionConstIterator<InputImageType> InputIteratorType;
-  std::vector<InputIteratorType *>                 inputItContainer;
+  using InputIteratorType = ImageRegionConstIterator<InputImageType>;
+  std::vector<InputIteratorType *> inputItContainer;
 
   for (unsigned int i = 0; i < NComponents; i++)
   {

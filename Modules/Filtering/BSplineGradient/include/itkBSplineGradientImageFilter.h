@@ -49,18 +49,18 @@ public:
   /** Extract dimension from input image. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef BSplineGradientImageFilter Self;
+  /** Standard class type alias. */
+  using Self = BSplineGradientImageFilter;
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                                                              InputImageType;
-  typedef typename InputImageType::Pointer                                         InputImagePointer;
-  typedef Image<CovariantVector<TOutputValueType, ImageDimension>, ImageDimension> OutputImageType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImageType = Image<CovariantVector<TOutputValueType, ImageDimension>, ImageDimension>;
 
-  /** Standard class typedefs. */
-  typedef ImageToImageFilter<InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  /** Standard class type alias. */
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,11 +68,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineGradientImageFilter, ImageToImageFilter);
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType                                             InputPixelType;
-  typedef TOutputValueType                                                               OutputValueType;
-  typedef CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)> OutputPixelType;
-  typedef typename OutputImageType::RegionType                                           OutputImageRegionType;
+  /** Image type alias support. */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputValueType = TOutputValueType;
+  using OutputPixelType = CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)>;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -82,10 +82,10 @@ public:
 #endif
 
   /** Typedefs for the interpolator. */
-  typedef TCoordRep                                                                           CoordRepType;
-  typedef TCoefficientType                                                                    CoefficientType;
-  typedef itk::BSplineInterpolateImageFunction<InputImageType, CoordRepType, CoefficientType> InterpolatorType;
-  typedef typename InterpolatorType::Pointer                                                  InterpolatorPointerType;
+  using CoordRepType = TCoordRep;
+  using CoefficientType = TCoefficientType;
+  using InterpolatorType = itk::BSplineInterpolateImageFunction<InputImageType, CoordRepType, CoefficientType>;
+  using InterpolatorPointerType = typename InterpolatorType::Pointer;
 
 protected:
   BSplineGradientImageFilter();
