@@ -26,9 +26,9 @@
 #include <limits>
 #include <type_traits> // For conditional and is_const.
 
-#include "itkZeroFluxNeumannImageNeighborhoodPixelAccessPolicy.h"
 #include "itkIndex.h"
 #include "itkSize.h"
+#include "itkZeroFluxNeumannImageNeighborhoodPixelAccessPolicy.h"
 
 namespace itk
 {
@@ -513,9 +513,6 @@ private:
 
   // ShapedImageNeighborhoodRange data members (strictly private):
 
-  // Pointer to the image. Should not be null!
-  ImageType* m_Image;
-
   // Pointer to the buffer of the image. Should not be null.
   QualifiedInternalPixelType* m_ImageBufferPointer;
 
@@ -554,7 +551,6 @@ public:
     const OffsetType* const shapeOffsets,
     const std::size_t numberOfNeigborhoodPixels)
     :
-  m_Image{ &image },
   m_ImageBufferPointer{image.ImageType::GetBufferPointer()},
   // Note: Use parentheses instead of curly braces to initialize data members,
   // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
@@ -599,14 +595,14 @@ public:
   /** Returns an iterator to the first neighborhood pixel. */
   iterator begin() const ITK_NOEXCEPT
   {
-    assert(m_Image != nullptr);
+    assert(m_ImageBufferPointer != nullptr);
     return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_ShapeOffsets);
   }
 
   /** Returns an 'end iterator' for this range. */
   iterator end() const ITK_NOEXCEPT
   {
-    assert(m_Image != nullptr);
+    assert(m_ImageBufferPointer != nullptr);
     return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_ShapeOffsets + m_NumberOfNeighborhoodPixels);
   }
 
