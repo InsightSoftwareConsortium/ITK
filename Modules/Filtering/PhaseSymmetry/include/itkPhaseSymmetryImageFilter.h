@@ -66,11 +66,11 @@ template <typename TInputImage, typename TOutputImage>
 class PhaseSymmetryImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef PhaseSymmetryImageFilter                      Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = PhaseSymmetryImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,26 +81,26 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                         InputImageType;
-  typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType;
-  typedef typename InputImageType::PixelType  InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  typedef OutputImagePixelType                    ComplexPixelComponentType;
-  typedef OutputImagePixelType                    ImagePixelType;
-  typedef std::complex<ComplexPixelComponentType> ComplexPixelType;
+  using ComplexPixelComponentType = OutputImagePixelType;
+  using ImagePixelType = OutputImagePixelType;
+  using ComplexPixelType = std::complex<ComplexPixelComponentType>;
 
-  typedef FixedArray<double, InputImageDimension>     ArrayType;
-  typedef FixedArray<double, InputImageDimension - 1> DimMinusOneDoubleArrayType;
-  typedef Array2D<double>                             MatrixType;
+  using ArrayType = FixedArray<double, InputImageDimension>;
+  using DimMinusOneDoubleArrayType = FixedArray<double, InputImageDimension - 1>;
+  using MatrixType = Array2D<double>;
 
-  typedef Image<ImagePixelType, InputImageDimension> FloatImageType;
+  using FloatImageType = Image<ImagePixelType, InputImageDimension>;
 
   itkSetMacro(Wavelengths, MatrixType);
   itkSetMacro(Orientations, MatrixType);
@@ -141,42 +141,42 @@ protected:
   static const int FFT_FORWARD = -1;
   static const int FFT_BACKWARD = 1;
 
-  typedef ForwardFFTImageFilter<InputImageType>            FFTFilterType;
-  typedef typename FFTFilterType::OutputImageType          ComplexImageType;
-  typedef ComplexToComplexFFTImageFilter<ComplexImageType> IFFTFilterType;
+  using FFTFilterType = ForwardFFTImageFilter<InputImageType>;
+  using ComplexImageType = typename FFTFilterType::OutputImageType;
+  using IFFTFilterType = ComplexToComplexFFTImageFilter<ComplexImageType>;
 
 
-  typedef std::vector<typename FloatImageType::Pointer> FloatImageStack;
-  typedef std::vector<FloatImageStack>                  FloatImageBank;
+  using FloatImageStack = std::vector<typename FloatImageType::Pointer>;
+  using FloatImageBank = std::vector<FloatImageStack>;
 
-  typedef MultiplyImageFilter<FloatImageType, FloatImageType>               MultiplyImageFilterType;
-  typedef MultiplyImageFilter<ComplexImageType, ComplexImageType>           ComplexMultiplyImageFilterType;
-  typedef DivideImageFilter<FloatImageType, FloatImageType, FloatImageType> DivideImageFilterType;
-  typedef AddImageFilter<FloatImageType, FloatImageType>                    AddImageFilterType;
-  typedef SqrtImageFilter<FloatImageType, FloatImageType>                   SqrtImageFilterType;
-  typedef SquareImageFilter<FloatImageType, FloatImageType>                 SquareImageFilterType;
-  typedef MaximumImageFilter<FloatImageType, FloatImageType>                MaxImageFilterType;
-  typedef ExpImageFilter<FloatImageType, FloatImageType>                    ExpImageFilterType;
-  typedef BoundedReciprocalImageFilter<FloatImageType, FloatImageType>      BoundedReciprocalImageFilterType;
-  typedef Atan2ImageFilter<FloatImageType, FloatImageType, FloatImageType>  Atan2ImageFilterType;
-  typedef AcosImageFilter<FloatImageType, FloatImageType>                   AcosImageFilterType;
+  using MultiplyImageFilterType = MultiplyImageFilter<FloatImageType, FloatImageType>;
+  using ComplexMultiplyImageFilterType = MultiplyImageFilter<ComplexImageType, ComplexImageType>;
+  using DivideImageFilterType = DivideImageFilter<FloatImageType, FloatImageType, FloatImageType>;
+  using AddImageFilterType = AddImageFilter<FloatImageType, FloatImageType>;
+  using SqrtImageFilterType = SqrtImageFilter<FloatImageType, FloatImageType>;
+  using SquareImageFilterType = SquareImageFilter<FloatImageType, FloatImageType>;
+  using MaxImageFilterType = MaximumImageFilter<FloatImageType, FloatImageType>;
+  using ExpImageFilterType = ExpImageFilter<FloatImageType, FloatImageType>;
+  using BoundedReciprocalImageFilterType = BoundedReciprocalImageFilter<FloatImageType, FloatImageType>;
+  using Atan2ImageFilterType = Atan2ImageFilter<FloatImageType, FloatImageType, FloatImageType>;
+  using AcosImageFilterType = AcosImageFilter<FloatImageType, FloatImageType>;
 
 
-  typedef LogGaborFreqImageSource<FloatImageType>          LogGaborFreqImageSourceType;
-  typedef SteerableFilterFreqImageSource<FloatImageType>   SteerableFiltersFreqImageSourceType;
-  typedef ButterworthFilterFreqImageSource<FloatImageType> ButterworthKernelFreqImageSourceType;
+  using LogGaborFreqImageSourceType = LogGaborFreqImageSource<FloatImageType>;
+  using SteerableFiltersFreqImageSourceType = SteerableFilterFreqImageSource<FloatImageType>;
+  using ButterworthKernelFreqImageSourceType = ButterworthFilterFreqImageSource<FloatImageType>;
 
-  typedef ShiftScaleImageFilter<FloatImageType, FloatImageType>           ShiftScaleImageFilterType;
-  typedef ComplexToRealImageFilter<ComplexImageType, FloatImageType>      ComplexToRealFilterType;
-  typedef ComplexToImaginaryImageFilter<ComplexImageType, FloatImageType> ComplexToImaginaryFilterType;
-  typedef ComplexToModulusImageFilter<ComplexImageType, FloatImageType>   ComplexToModulusFilterType;
-  typedef ComplexToPhaseImageFilter<ComplexImageType, FloatImageType>     ComplexToPhaseFilterType;
-  typedef ComposeImageFilter<FloatImageType, ComplexImageType>            RealAndImaginaryToComplexFilterType;
-  typedef MagnitudeAndPhaseToComplexImageFilter<InputImageType, InputImageType, ComplexImageType>
-                                                                  MagnitudeAndPhaseToComplexFilterType;
-  typedef FFTShiftImageFilter<ComplexImageType, ComplexImageType> ComplexFFTShiftImageFilterType;
-  typedef FFTShiftImageFilter<FloatImageType, FloatImageType>     DoubleFFTShiftImageFilterType;
-  typedef AbsImageFilter<FloatImageType, FloatImageType>          AbsImageFilterType;
+  using ShiftScaleImageFilterType = ShiftScaleImageFilter<FloatImageType, FloatImageType>;
+  using ComplexToRealFilterType = ComplexToRealImageFilter<ComplexImageType, FloatImageType>;
+  using ComplexToImaginaryFilterType = ComplexToImaginaryImageFilter<ComplexImageType, FloatImageType>;
+  using ComplexToModulusFilterType = ComplexToModulusImageFilter<ComplexImageType, FloatImageType>;
+  using ComplexToPhaseFilterType = ComplexToPhaseImageFilter<ComplexImageType, FloatImageType>;
+  using RealAndImaginaryToComplexFilterType = ComposeImageFilter<FloatImageType, ComplexImageType>;
+  using MagnitudeAndPhaseToComplexFilterType =
+    MagnitudeAndPhaseToComplexImageFilter<InputImageType, InputImageType, ComplexImageType>;
+  using ComplexFFTShiftImageFilterType = FFTShiftImageFilter<ComplexImageType, ComplexImageType>;
+  using DoubleFFTShiftImageFilterType = FFTShiftImageFilter<FloatImageType, FloatImageType>;
+  using AbsImageFilterType = AbsImageFilter<FloatImageType, FloatImageType>;
 
 private:
   PhaseSymmetryImageFilter(const Self &); // purposely not implemented

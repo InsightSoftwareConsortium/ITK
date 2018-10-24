@@ -90,8 +90,8 @@ SteerableFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputI
   // outputPtr->Allocate();
 
 
-  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
-  OutputIterator                                     outIt = OutputIterator(outputPtr, outputRegionForThread);
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
+  OutputIterator outIt = OutputIterator(outputPtr, outputRegionForThread);
 
   int ndims = TOutputImage::ImageDimension;
 

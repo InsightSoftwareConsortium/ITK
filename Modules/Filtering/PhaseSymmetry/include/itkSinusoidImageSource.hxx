@@ -105,14 +105,14 @@ SinusoidImageSource<TOutputImage>::GenerateData()
   outputPtr->Allocate();
 
   // Create and initialize a new gaussian function
-  typedef SinusoidSpatialFunction<double, ImageDimension> FunctionType;
-  typename FunctionType::Pointer                          sinusoid = FunctionType::New();
+  using FunctionType = SinusoidSpatialFunction<double, ImageDimension>;
+  typename FunctionType::Pointer sinusoid = FunctionType::New();
 
   sinusoid->SetFrequency(m_Frequency);
   sinusoid->SetphaseOffset(m_phaseOffset);
 
   // Create an iterator that will walk the output region
-  typedef ImageRegionIterator<TOutputImage>  OutputIterator;
+  using OutputIterator = ImageRegionIterator<TOutputImage>;
   const typename OutputImageType::RegionType requestedRegion = outputPtr->GetRequestedRegion();
   OutputIterator                             outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
 

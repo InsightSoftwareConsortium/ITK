@@ -31,23 +31,23 @@ template <typename TOutputImage>
 class LogGaborFreqImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef LogGaborFreqImageSource           Self;
-  typedef GenerateImageSource<TOutputImage> Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  /** Standard class type alias. */
+  using Self = LogGaborFreqImageSource;
+  using Superclass = GenerateImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Dimensionality of the output image */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  typedef TOutputImage                         OutputImageType;
-  typedef typename TOutputImage::RegionType    OutputImageRegionType;
-  typedef typename TOutputImage::SizeType      SizeType;
-  typedef typename TOutputImage::SpacingType   SpacingType;
-  typedef typename TOutputImage::PointType     PointType;
-  typedef typename TOutputImage::DirectionType DirectionType;
+  using OutputImageType = TOutputImage;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
+  using SizeType = typename TOutputImage::SizeType;
+  using SpacingType = typename TOutputImage::SpacingType;
+  using PointType = typename TOutputImage::PointType;
+  using DirectionType = typename TOutputImage::DirectionType;
 
-  typedef FixedArray<double, ImageDimension> ArrayType;
+  using ArrayType = FixedArray<double, ImageDimension>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LogGaborFreqImageSource, GenerateImageSource);

@@ -64,8 +64,8 @@ ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
     centerPoint[ii] = double(size[ii]) / 2.0;
   }
 
-  typedef ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorType;
-  OutputIteratorType                                    outIt(outputPtr, outputRegionForThread);
+  using OutputIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
+  OutputIteratorType outIt(outputPtr, outputRegionForThread);
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
     const typename TOutputImage::IndexType index = outIt.GetIndex();

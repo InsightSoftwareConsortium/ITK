@@ -44,11 +44,11 @@ template <typename TOutput = double,
 class SinusoidSpatialFunction : public SpatialFunction<TOutput, VImageDimension, TInput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef SinusoidSpatialFunction                           Self;
-  typedef SpatialFunction<TOutput, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  /** Standard class type alias. */
+  using Self = SinusoidSpatialFunction;
+  using Superclass = SpatialFunction<TOutput, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,13 +57,13 @@ public:
   itkTypeMacro(SinusoidSpatialFunction, SpatialFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Type used to store gaussian parameters. */
-  typedef FixedArray<double, VImageDimension> ArrayType;
+  using ArrayType = FixedArray<double, VImageDimension>;
 
   /** Evaluate the function at a given position. */
   OutputType

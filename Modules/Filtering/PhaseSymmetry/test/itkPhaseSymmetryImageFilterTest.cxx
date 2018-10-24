@@ -31,12 +31,12 @@ itkPhaseSymmetryImageFilterTest(int argc, char * argv[])
   const char * inputImageFileName = argv[1];
   const char * outputImageFileName = argv[2];
 
-  typedef float                            PixelType;
-  const unsigned int                       Dimension = 2;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  using PixelType = float;
+  const unsigned int Dimension = 2;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImageFileName);
 
   try
@@ -49,8 +49,8 @@ itkPhaseSymmetryImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputImageFileName);
 
   return EXIT_SUCCESS;
