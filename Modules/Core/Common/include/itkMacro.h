@@ -96,6 +96,17 @@ namespace itk
 #define CLANG_SUPPRESS_Wc__14_extensions
 #endif
 
+// Intel compiler convenience macros
+#if defined(__INTEL_COMPILER)
+#define INTEL_PRAGMA_WARN_PUSH ITK_PRAGMA(warning push)
+#define INTEL_PRAGMA_WARN_POP  ITK_PRAGMA(warning pop)
+#define INTEL_SUPPRESS_warning_1292  ITK_PRAGMA(warning disable 1292)
+#else
+#define INTEL_PRAGMA_WARN_PUSH
+#define INTEL_PRAGMA_WARN_POP
+#define INTEL_SUPPRESS_warning_1292
+#endif
+
 // Define ITK_GCC_PRAGMA_DIAG(param1 [param2 [...]]) macro.
 //
 // This macros sets a pragma diagnostic if it supported by the version
