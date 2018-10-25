@@ -22,7 +22,12 @@ deprecations and API changes. The new behavior is activated by setting
 `ITK_LEGACY_REMOVE` to `ON`. By default, compatibility with v4 is retained
 (`ITK_LEGACY_REMOVE=OFF`).
 
-Once external code builds successfully with the default configuration,
+The first step is to get the external code building against ITK compiled with
+`ITKV4_COMPATIBILITY` set to `ON`. Once that is accomplished, turn this
+option `OFF`. It is `OFF` by default.
+
+Once external code builds successfully with the default configuration
+(`ITKV4_COMPATIBILITY` and `ITK_LEGACY_REMOVE` both `OFF`),
 `ITK_LEGACY_REMOVE` should be set to `ON`.  Possible additional build errors
 and/or warnings should be addressed.  Once dependent code builds and passes
 tests without legacy options, migration to v5 is complete.
