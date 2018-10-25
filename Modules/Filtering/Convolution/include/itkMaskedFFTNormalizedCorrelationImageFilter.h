@@ -242,7 +242,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Overlap the VerifyInputInformation method */
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() const override;
 
   /** Standard pipeline method.*/
   void GenerateData() override;

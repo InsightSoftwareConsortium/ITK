@@ -148,7 +148,7 @@ protected:
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() const override;
 
 private:
   IndexType m_Start;

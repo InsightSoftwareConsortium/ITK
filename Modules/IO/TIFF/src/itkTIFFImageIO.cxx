@@ -501,7 +501,7 @@ bool TIFFImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  return this->HasSupportedWriteExtension(name);
+  return this->HasSupportedWriteExtension(name, false);
 }
 
 void TIFFImageIO::WriteImageInformation()

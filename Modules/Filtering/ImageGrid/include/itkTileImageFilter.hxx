@@ -368,7 +368,7 @@ TileImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 TileImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation()
+::VerifyInputInformation() const
 {
 
   // Do not call superclass's VerifyInputInformation method.

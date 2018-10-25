@@ -161,7 +161,7 @@ protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() override = default;
 
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() const override;
 
   void GenerateData() override;
 

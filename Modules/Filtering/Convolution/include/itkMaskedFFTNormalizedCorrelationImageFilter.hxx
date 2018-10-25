@@ -579,7 +579,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
-::VerifyInputInformation()
+::VerifyInputInformation() const
  {
   // Call the superclass' implementation of this method.
   Superclass::VerifyInputInformation();
