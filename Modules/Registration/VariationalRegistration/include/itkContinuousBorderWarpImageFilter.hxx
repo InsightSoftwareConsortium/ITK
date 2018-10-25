@@ -28,16 +28,12 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   InputImageConstPointer     inputPtr = this->GetInput();
   OutputImagePointer         outputPtr = this->GetOutput();
   const TDisplacementField * fieldPtr = this->GetDisplacementField();
-
-  // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
   // iterator for the output image
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
@@ -95,7 +91,6 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
 
       ++outputIt;
       ++fieldIt;
-      progress.CompletedPixel();
     }
   }
   else
@@ -140,7 +135,6 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
     //    outputIt.Set( value );
     //
     //    ++outputIt;
-    //    progress.CompletedPixel();
   }
 }
 

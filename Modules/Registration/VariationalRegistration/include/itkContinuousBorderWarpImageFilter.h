@@ -104,14 +104,12 @@ public:
   using PointType = typename Superclass::PointType;
 
 protected:
-  ContinuousBorderWarpImageFilter() {};
-  ~ContinuousBorderWarpImageFilter() override {};
+  ContinuousBorderWarpImageFilter() = default;
+  ~ContinuousBorderWarpImageFilter() override = default;
 
-  /** WarpImageFilter is implemented as a multi-threaded filter.
-   * As such, it needs to provide and implementation for
-   * ThreadedGenerateData(). */
+  /** WarpImageFilter is implemented as a multi-threaded filter. */
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
 } // end namespace itk
