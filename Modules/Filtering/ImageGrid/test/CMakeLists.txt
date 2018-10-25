@@ -45,10 +45,12 @@ itkWrapPadImageTest.cxx
 itkMirrorPadImageTest.cxx
 itkResampleImageTest.cxx
 itkResampleImageTest2.cxx
+itkResampleImageTest2s.cxx
 itkResampleImageTest3.cxx
 itkResampleImageTest4.cxx
 itkResampleImageTest5.cxx
 itkResampleImageTest6.cxx
+itkResampleImageTest7.cxx
 itkResamplePhasedArray3DSpecialCoordinatesImageTest.cxx
 itkPushPopTileImageFilterTest.cxx
 itkShrinkImageStreamingTest.cxx
@@ -223,6 +225,22 @@ itk_add_test(NAME itkResampleImageTest2
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png)
+itk_add_test(NAME itkResampleImageTest2s
+      COMMAND ITKImageGridTestDriver
+    --compare DATA{Baseline/ResampleImageTest2.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.mha
+    --compare DATA{Baseline/ResampleImageTest2.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.mha
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.mha
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.mha
+    itkResampleImageTest2s DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+                          DATA{${ITK_DATA_ROOT}/Input/circle.png}
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.mha
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.mha
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.mha
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.mha)
 itk_add_test(NAME itkResampleImageTest3
       COMMAND ITKImageGridTestDriver
     --compare DATA{Baseline/ResampleImageTest3.png}
@@ -241,6 +259,8 @@ itk_add_test(NAME itkResampleImageTest6
     --compare DATA{Baseline/ResampleImageTest6.png}
               ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png
     itkResampleImageTest6 10 ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png)
+itk_add_test(NAME itkResampleImageTest7
+      COMMAND ITKImageGridTestDriver itkResampleImageTest7)
 itk_add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
       COMMAND ITKImageGridTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 itk_add_test(NAME itkPushPopTileImageFilterTest
