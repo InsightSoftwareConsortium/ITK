@@ -127,7 +127,7 @@ public:
    * used to the create the parametric B-spline representation.  Most of the
    * settings for this filter involve setting the options on this object. */
   itkSetObjectMacro(BSplineScatteredDataFilter, BSplineScatteredDataFilterType);
-  itkGetObjectMacro(BSplineScatteredDataFilter, BSplineScatteredDataFilterType);
+  itkGetModifiableObjectMacro(BSplineScatteredDataFilter, BSplineScatteredDataFilterType);
 
 
   /** Type of the outputs. */
