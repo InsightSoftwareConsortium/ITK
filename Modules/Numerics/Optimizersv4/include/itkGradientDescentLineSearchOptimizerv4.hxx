@@ -185,6 +185,13 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
       {
       return this->GoldenSectionSearch( a, b, x );
       }
+    else if ( metricx == NumericTraits<TInternalComputationValueType>::max() )
+      {
+      // Keep the lower bounds when metricx and metricb are both max,
+      // likely due to no valid sample points, from too large of a
+      // learning rate.
+      return this->GoldenSectionSearch( a, x, b );
+      }
     else
       {
       return this->GoldenSectionSearch( x, b, c  );
