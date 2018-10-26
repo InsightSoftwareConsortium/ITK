@@ -19,9 +19,10 @@
 // First include the header file to be tested:
 #include "itkConnectedImageNeighborhoodShape.h"
 
+#include "itkConstShapedNeighborhoodIterator.h"
+#include "itkImage.h"
 #include "itkImageNeighborhoodOffsets.h"
 #include "itkLexicographicCompare.h"
-
 #include "itkOffset.h"
 #include "itkSize.h"
 
@@ -226,4 +227,65 @@ TEST(ConnectedImageNeighborhoodShape, OffsetsAreUniqueAndColexicographicallyOrde
   Assert_Offsets_are_unique_and_colexicographically_ordered<1>();
   Assert_Offsets_are_unique_and_colexicographically_ordered<2>();
   Assert_Offsets_are_unique_and_colexicographically_ordered<3>();
+}
+
+
+// Tests that the shape class supports a typical use case of itk::ConstShapedNeighborhoodIterator,
+// allowing to set the active offsets directly by GenerateImageNeighborhoodOffsets(shape).
+TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
+{
+  using ImageType = itk::Image<int>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = itk::Size<ImageDimension>;
+  using OffsetType = itk::Offset<ImageDimension>;
+
+  // Create a "dummy" image.
+  const auto image = ImageType::New();
+  SizeType imageSize;
+  imageSize.Fill(1);
+  image->SetRegions(imageSize);
+  image->Allocate(true);
+
+  // Create a radius, (just) large enough for all offsets activated below here.
+  SizeType radius;
+  radius.Fill(1);
+
+  itk::ConstShapedNeighborhoodIterator<ImageType> shapedNeighborhoodIterator{ radius, image, image->GetRequestedRegion() };
+
+  // Obvious initial expectation.
+  EXPECT_TRUE(shapedNeighborhoodIterator.GetActiveIndexList().empty());
+
+  // Activate offsets one by one (the "old-fashioned" way):
+  OffsetType offset = { {} };
+  for (auto& offsetValue: offset)
+  {
+    offsetValue = -1;
+    shapedNeighborhoodIterator.ActivateOffset(offset);
+    offsetValue = 1;
+    shapedNeighborhoodIterator.ActivateOffset(offset);
+    offsetValue = 0;
+  }
+
+  const auto activeIndexList = shapedNeighborhoodIterator.GetActiveIndexList();
+
+  // Obvious expectation after the previous ActivateOffset(offset) calls.
+  EXPECT_FALSE(activeIndexList.empty());
+
+  shapedNeighborhoodIterator.ClearActiveList();
+
+  // Obvious expectation after having called ClearActiveList().
+  EXPECT_TRUE(shapedNeighborhoodIterator.GetActiveIndexList().empty());
+
+  // Define a shape that should generate the same offsets as in the
+  // previous ActivateOffset(offset) calls.
+  constexpr bool cityBlockDistance = 1;
+  constexpr bool includeCenterPixel = false;
+  constexpr itk::Experimental::ConnectedImageNeighborhoodShape<ImageDimension>
+    shape{ cityBlockDistance, includeCenterPixel };
+
+  // Activate offsets directly from the shape:
+  shapedNeighborhoodIterator.ActivateOffsets(
+    itk::Experimental::GenerateImageNeighborhoodOffsets(shape));
+
+  ASSERT_EQ(shapedNeighborhoodIterator.GetActiveIndexList(), activeIndexList);
 }
