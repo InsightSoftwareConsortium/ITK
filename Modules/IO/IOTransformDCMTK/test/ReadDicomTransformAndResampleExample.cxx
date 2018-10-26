@@ -132,7 +132,7 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   using TransformListType = TransformReaderType::TransformListType;
-  TransformListType * transformList = transformReader->GetTransformList();
+  const TransformListType * transformList = transformReader->GetTransformList();
 
   using ReadTransformType = itk::CompositeTransform<ScalarType, Dimension>;
   TransformListType::const_iterator transformIt = transformList->begin();
