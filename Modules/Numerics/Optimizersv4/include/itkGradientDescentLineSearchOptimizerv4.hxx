@@ -113,8 +113,13 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 TInternalComputationValueType
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
-::GoldenSectionSearch( TInternalComputationValueType a, TInternalComputationValueType b, TInternalComputationValueType c )
+::GoldenSectionSearch( TInternalComputationValueType a,
+                       TInternalComputationValueType b,
+                       TInternalComputationValueType c,
+                       TInternalComputationValueType metricb )
 {
+  itkDebugMacro("GoldenSectionSearch: " << a << " " << b << " " << c << " " << metricb);
+
   if ( this->m_LineSearchIterations > this->m_MaximumLineSearchIterations )
     {
     return ( c + a ) / 2;
@@ -135,7 +140,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
     return ( c + a ) / 2;
     }
 
-  TInternalComputationValueType metricx, metricb;
+  TInternalComputationValueType metricx;
 
     {
       // Cache the learning rate , parameters , gradient
@@ -155,46 +160,49 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
     this->m_Metric->SetParameters( baseParameters );
     this->m_Gradient = baseGradient;
 
-    this->m_LearningRate = b;
-    this->ModifyGradientByLearningRate();
+    if ( metricb == NumericTraits<TInternalComputationValueType>::max())
+      {
+      this->m_LearningRate = b;
+      this->ModifyGradientByLearningRate();
 
-    this->m_Metric->UpdateTransformParameters( this->m_Gradient );
-    metricb = this->GetMetric()->GetValue( );
+      this->m_Metric->UpdateTransformParameters( this->m_Gradient );
+      metricb = this->GetMetric()->GetValue( );
 
-    /** reset position of transform and learning rate */
-    this->m_Metric->SetParameters( baseParameters );
-    this->m_Gradient = baseGradient;
-    this->m_LearningRate = baseLearningRate;
+      /** reset position of transform and learning rate */
+      this->m_Metric->SetParameters( baseParameters );
+      this->m_Gradient = baseGradient;
+      this->m_LearningRate = baseLearningRate;
+      }
     }
 
   /** golden section */
-  if (  metricx < metricb )
+  if ( metricx < metricb )
     {
     if (c - b > b - a)
       {
-      return this->GoldenSectionSearch( b, x, c );
+      return this->GoldenSectionSearch( b, x, c, metricx );
       }
     else
       {
-      return this->GoldenSectionSearch( a, x, b );
+      return this->GoldenSectionSearch( a, x, b, metricx );
       }
     }
   else
     {
     if ( c - b > b - a )
       {
-      return this->GoldenSectionSearch( a, b, x );
+      return this->GoldenSectionSearch( a, b, x, metricb );
       }
     else if ( metricx == NumericTraits<TInternalComputationValueType>::max() )
       {
       // Keep the lower bounds when metricx and metricb are both max,
       // likely due to no valid sample points, from too large of a
       // learning rate.
-      return this->GoldenSectionSearch( a, x, b );
+      return this->GoldenSectionSearch( a, x, b, metricx );
       }
     else
       {
-      return this->GoldenSectionSearch( x, b, c  );
+      return this->GoldenSectionSearch( x, b, c, metricb );
       }
     }
   }
