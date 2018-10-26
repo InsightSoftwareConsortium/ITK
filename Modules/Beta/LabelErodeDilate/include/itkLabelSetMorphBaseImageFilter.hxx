@@ -154,7 +154,7 @@ void
 LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
 ::GenerateData(void)
 {
-  ThreadIdType nbthreads = this->GetNumberOfThreads();
+  ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
   typename TInputImage::ConstPointer inputImage( this->GetInput () );
   typename TOutputImage::Pointer     outputImage( this->GetOutput() );
@@ -212,7 +212,7 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   typename ImageSource< TOutputImage >::ThreadStruct str;
   str.Filter = this;
   ProcessObject::MultiThreaderType *multithreader = this->GetMultiThreader();
-  multithreader->SetNumberOfThreads(nbthreads);
+  multithreader->SetNumberOfWorkUnits(nbthreads);
   multithreader->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
