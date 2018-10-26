@@ -427,10 +427,10 @@ public:
    * Note that by default the inverese transform is centered at
    * the origin. If you need to compute the inverse centered at a point, p,
    *
-   * \code
-   * transform2->SetCenter( p );
-   * transform1->GetInverse( transform2 );
-   * \endcode
+     \code
+     transform2->SetCenter( p );
+     transform1->GetInverse( transform2 );
+     \endcode
    *
    * transform2 will now contain the inverse of transform1 and will
    * with its center set to p. Flipping the two statements will produce an

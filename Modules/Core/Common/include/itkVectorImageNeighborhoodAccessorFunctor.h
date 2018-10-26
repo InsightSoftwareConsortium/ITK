@@ -63,13 +63,13 @@ public:
    * Typically a neighborhood iterator iterating on a neighborhood of an Image,
    * say \c image will set this in its constructor. For instance:
    *
-   * \code
-   * ConstNeighborhoodIterator( radius, image, )
-   *   {
-   *   ...
-   *   m_NeighborhoodAccessorFunctor.SetBegin( image->GetBufferPointer() );
-   *   }
-   * \endcode
+     \code
+     ConstNeighborhoodIterator( radius, image, )
+       {
+       ...
+       m_NeighborhoodAccessorFunctor.SetBegin( image->GetBufferPointer() );
+       }
+     \endcode
    */
   inline void SetBegin(const InternalPixelType *begin)
   { this->m_Begin = const_cast< InternalPixelType * >( begin ); }

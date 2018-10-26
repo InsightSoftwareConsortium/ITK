@@ -91,7 +91,7 @@ public:
  *
  * Typical usage:
  *
- * \code
+   \code
     QuickView viewer;
     viewer.AddImage(someFilter->GetOutput().
                     true (to flip image) or false.
