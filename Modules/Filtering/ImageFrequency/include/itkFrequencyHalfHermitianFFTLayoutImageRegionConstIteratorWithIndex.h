@@ -15,27 +15,31 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkFrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex_h
-#define itkFrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex_h
+#ifndef itkFrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex_h
+#define itkFrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex_h
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
-/** \class FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex
+/** \class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex
  * \brief A multi-dimensional iterator templated over image type that walks
  * pixels within a region and is specialized to keep track of its image index
  * location.
  *
  * This class is a specialization of ImageRegionConstIteratorWithIndex,
  * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the frequency of the bin.
- * The frequency bins depends on the image size. The default assumes that the image to iterate over is
+ * The frequency bins depends on the image size.
+ *
+ * The default assumes that the image to iterate over is
  * the output of a forward FFT filter, where the first index corresponds to 0 frequency, and Nyquist Frequencies are
  * in the middle, between positive and negative frequencies.
  *
- * This class can be specialized further to iterate over other frequency
- * layouts, for example shifted images (where 0 frequency is in the middle of the image, and Nyquist are in the border).
- * For different layout, use other frequency iterator.
+ * This class is specialized to iterate over the frequency
+ * layout that result after applying a \see RealToHalfHermitianFFTForwardFFTImageFilter
+ * For different layouts, use other frequency iterator.
+ * \sa itkFrequencyFFTLayoutImageRegionConstIteratorWithIndex
+ * \sa itkFrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex
  *
  * This iterator is for the frequency layout that results from applying a FFT (vnl or fftw) to an image.
  * The default ImageInformation is: Origin = {{0}}, Spacing = {{1}}.
@@ -49,32 +53,33 @@ namespace itk
  *
  * The frequency layout is assumed to be: where fs is frequency sampling, or frequency spacing (1.0 by default).
  * If N is even:
- * Nyquist frequency at index=N/2 is shared between + and - regions.
- * <------------positive f ---------------><------------negative f-------------->
- * 0(DC) fs/N 2*fs/N  ... (N/2 -1)*fs/N  fs/2   -(N/2-1)*fs/N  ...  -2*fs/N  -fs/N
+ * <------------ Frequencies --------------->
+ * 0(DC) fs/N 2*fs/N  ... (N/2 -1)*fs/N  fs/2
+ * <------------ Indices ------------------->
+ *   0    1     2     ...     (N/2-1)     N/2
  *
  * Example: Size 6:
- * +    |     -
  * ------------
- *      0       <-- DC Component (0 freq)
- * 1    |     5
- * 2    |     4
- *      3       <-- Shared between regions, unique Nyquist.
+ * 0 <-- DC Component (0 freq)
+ * 1
+ * 2
+ * 3 <-- Nyquist.
  *
  * If N is odd:
- * Nyquist frequency is not represented but there are simmetric largest frequencies at index=N/2, N/2 +1
- * <----------positive f ---------------><------------negative f----------------->
- * 0(DC) fs/N 2*fs/N  ...... fs/2*(N-1)/N    -fs/2*(N-1)/N  ...    -2*fs/N  -fs/N
+ * Nyquist frequency is not represented but there are symmetric largest frequencies at index=N/2, N/2 +1
+ * <----------positive f ------------------>
+ * 0(DC) fs/N  ......  fs/2*(N-2)/N   fs/2*(N-1)/N
+ * <------------ Indices ------------------>
+ *   0    1    ......    (N-1)/2 -1       N/2(rounded down, i.e (N-1)/2)
  *
  * Example: Size 5:
- * +    |     -
  * ------------
- *      0       <-- DC Component (0 freq)
- * 1    |     4
- * 2    |     3 <-- Absolute Largest Frequency bins (+, -)
+ * 0 <-- DC Component (0 freq)
+ * 1
+ * 2 <-- Largest Frequency bins
  *
  * Please see ImageRegionConstIteratorWithIndex for more information.
- * \sa ForwardFFTImageFilter
+ * \sa RealToHalfHermitianFFTForwardFFTImageFilter
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
@@ -111,12 +116,12 @@ namespace itk
  *
  */
 template< typename TImage >
-class FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex:
+class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex:
   public ImageRegionConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class type alias. */
-  using Self = FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex;
+  using Self = FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex;
   using Superclass = ImageRegionConstIteratorWithIndex< TImage >;
 
   /** Types inherited from the Superclass */
@@ -134,16 +139,19 @@ public:
   using FrequencyType = typename ImageType::SpacingType;
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
-  FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex() :
-    ImageRegionConstIteratorWithIndex< TImage >()
+  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex() :
+    ImageRegionConstIteratorWithIndex< TImage >(),
+    m_ActualXDimensionIsOdd(false)
   {
     this->Init();
   }
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex(const TImage *ptr, const RegionType & region) :
-    ImageRegionConstIteratorWithIndex< TImage >(ptr, region)
+  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(
+    const TImage *ptr, const RegionType & region) :
+    ImageRegionConstIteratorWithIndex< TImage >(ptr, region),
+    m_ActualXDimensionIsOdd(false)
   {
     this->Init();
   }
@@ -154,32 +162,42 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it) :
-    ImageRegionConstIteratorWithIndex< TImage >(it)
+  explicit FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(
+    const Superclass & it) :
+    ImageRegionConstIteratorWithIndex< TImage >(it),
+    m_ActualXDimensionIsOdd(false)
   {
     this->Init();
   }
 
   /*
-   * Image Index [0, N - 1] returns [-N/2 + 1, -1] (negative) union [0 to N/2] (positive). So index N/2 + 1 returns the bin 0.
-   * It is a shift by -N/2 + 1, from [0, N-1] to [-N/2 + 1, N/2]
+   * Image Index [0, N - 1] returns [0 to N/2] (positive) union [-N/2 + 1, -1] (negative).
+   * So index N/2 + 1 returns the bin -N/2 + 1.
    * If first index of the image is not zero, it stills returns values in the same range.
+   * f = [0, 1, ...,   N/2-1,     -N/2, ..., -1]  if N is even
+   * f = [0, 1, ..., (N-1)/2, -(N-1)/2, ..., -1]  if N is odd
    */
   IndexType GetFrequencyBin() const
   {
     IndexType freqInd;
-
     freqInd.Fill(0);
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
       {
-        freqInd[dim] = this->m_PositionIndex[dim] - this->m_ZeroFrequencyIndex[dim];
+      if (this->m_PositionIndex[dim] <= m_LargestPositiveFrequencyIndex[dim])
+        {
+        freqInd[dim] = this->m_PositionIndex[dim] - this->m_MinIndex[dim];
+        }
+      else //  -. From -N/2 + 1 (Nyquist if even) to -1 (-df in frequency)
+        {
+        freqInd[dim] = this->m_PositionIndex[dim] - (this->m_MaxIndex[dim] + 1);
+        }
       }
     return freqInd;
   }
 
   /** Note that this method is independent of the region in the constructor.
    * It takes into account the ImageInformation of the Image in the frequency domain.
-   * This iterator is for the frequency layout that results from applying a FFT and then ShiftFFT to center the zero frequency component.
+   * This iterator is for the frequency layout that results from applying a FFT (vnl or fftw) to an image.
    * If your image has a different layout, use other frequency iterator.
    * The default ImageInformation is: Origin = {{0}}, Spacing = {{1}}.
    * In this case the frequency values will be in the range: [-1/2, 1/2] Hz
@@ -189,6 +207,12 @@ public:
    *    The range should be always centered around zero.
    * b) The spacing control the range of frequencies (always around zero).
    *    If the spacing is = {{0.5}} we get a frequency range of [-1/4, 1/4] or [-pi/2, pi/2].
+   *
+   * f = [0, 1, ...,   N/2-1,     -N/2, ..., -1] * FrequencySpacing   if N is even
+   * f = [0, 1, ..., (N-1)/2, -(N-1)/2, ..., -1] * FrequencySpacing   if N is odd
+   *
+   * Where FrequencySpacing = samplingFrequency / N;
+   *   and samplingFrequency = 1.0 / inputImageSpatialDomainSpacing;
    */
   FrequencyType GetFrequency() const
   {
@@ -216,12 +240,20 @@ public:
   }
 
   /**
-   * Index with the zero frequency value.
-   * By default:
-   * ZeroFrequencyIndex = floor(sizeImage / 2);
-   * This is: N/2 if N even, (N - 1)/2 if N odd.
+   * Index corresponding to the first highest frequency (Nyquist) after a FFT transform.
+   * If the size of the image is even, the Nyquist frequency = fs/2 is unique and shared
+   * between positive and negative frequencies.
+   * (Even Size) LargestPositiveFrequencyIndex = originIndex + N / 2
+   * If odd, Nyquist frequency is not represented, but there is still a largest frequency at this index
+   * = fs/2 * (N-1)/N.
+   * (Odd Size) LargestPositiveFrequencyIndex = originIndex + (N + 1) / 2
    */
-  itkGetConstReferenceMacro(ZeroFrequencyIndex, IndexType);
+  itkGetConstReferenceMacro(LargestPositiveFrequencyIndex, IndexType);
+  /** Default to first index of the largest possible Region. */
+  itkGetConstReferenceMacro(MinIndex, IndexType);
+  /** Default to UpperIndex of the largest possible Region. */
+  itkGetConstReferenceMacro(MaxIndex, IndexType);
+
   /** Origin of frequencies is zero for FFT output. */
   itkGetConstReferenceMacro(FrequencyOrigin, FrequencyType);
 
@@ -233,38 +265,63 @@ public:
    * input image, and cannot be modified. */
   itkGetConstReferenceMacro(FrequencySpacing, FrequencyType);
 
-  /** Does nothing. This member only affects HalfHermitianFrequencyIterator.
-   * Provided for homogeneous interface between iterators. */
+  /** In images resulting from itkRealToHalfHermitianForwardFFT
+   * the size in the fastest dimension (0) is n/2 + 1.
+   * To compute the right frequency spacing and the original size,
+   * this information has to be provided.
+   */
   void SetActualXDimensionIsOdd(bool value)
     {
     this->m_ActualXDimensionIsOdd = value;
-    };
+    SizeType sizeImage =
+      this->m_Image->GetLargestPossibleRegion().GetSize();
+    auto size_estimated = 2 * ( sizeImage[0] - 1);
+    size_estimated += this->GetActualXDimensionIsOdd() ? 1 : 0;
+    this->m_FrequencySpacing[0] = 1.0 / (this->m_Image->GetSpacing()[0] * size_estimated);
+    }
   itkGetMacro(ActualXDimensionIsOdd, bool);
   itkBooleanMacro(ActualXDimensionIsOdd);
 
 private:
-  /** Calculate m_ZeroFrequencyIndex, and frequency spacing/origin.
+  /** Calculate Nyquist frequency index (m_LargestPositiveFrequencyIndex), Min/Max indices from LargestPossibleRegion.
+   * Also sets FrequencySpacing and FrequencyOrigin.
    * Called by constructors.  */
   void Init()
   {
-    IndexType minIndex =
-      this->m_Image->GetLargestPossibleRegion().GetIndex();
     SizeType sizeImage =
       this->m_Image->GetLargestPossibleRegion().GetSize();
+    this->m_MinIndex =
+      this->m_Image->GetLargestPossibleRegion().GetIndex();
+    this->m_MaxIndex =
+      this->m_Image->GetLargestPossibleRegion().GetUpperIndex();
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
       {
-      this->m_ZeroFrequencyIndex[dim] = static_cast<FrequencyValueType>(
-          minIndex[dim] + std::floor( sizeImage[dim] / 2.0 ));
+      this->m_LargestPositiveFrequencyIndex[dim] = static_cast<FrequencyValueType>(
+          this->m_MinIndex[dim] + sizeImage[dim] / 2 );
       // Set frequency metadata.
-      // Origin of frequencies is zero in the standard layout of a FFT output.
+      // Origin of frequencies is zero after a FFT.
       this->m_FrequencyOrigin[dim] = 0.0;
       // SamplingFrequency = 1.0 / SpatialImageSpacing
       // Freq_BinSize = SamplingFrequency / Size
       this->m_FrequencySpacing[dim] = 1.0 / (this->m_Image->GetSpacing()[dim] * sizeImage[dim]);
       }
+    // Corrections for Hermitian
+    // The fastest index has no negative frequencies.
+    this->m_LargestPositiveFrequencyIndex[0] = static_cast<FrequencyValueType>(
+          this->m_MaxIndex[0]);
+    // In fastest dimension only:
+    // Size_estimated_original = 2 * (Size_current - 1 )
+    // Where size_current is the size of the output of RealToHalfHermitianFFT
+    // Ex: Size Original = 10, Current = 6, Estimated = 10.
+    //     Size Original = 11, Current = 6, Estimated = 10.
+    auto size_estimated = 2 * ( sizeImage[0] - 1);
+    size_estimated += this->GetActualXDimensionIsOdd() ? 1 : 0;
+    this->m_FrequencySpacing[0] = 1.0 / (this->m_Image->GetSpacing()[0] * size_estimated);
   }
 
-  IndexType     m_ZeroFrequencyIndex;
+  IndexType     m_LargestPositiveFrequencyIndex;
+  IndexType     m_MinIndex;
+  IndexType     m_MaxIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
   bool          m_ActualXDimensionIsOdd;
