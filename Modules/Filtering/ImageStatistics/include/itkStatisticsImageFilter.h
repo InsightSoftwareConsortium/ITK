@@ -22,7 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 #include "itkCompensatedSummation.h"
 
 namespace itk
@@ -185,7 +185,7 @@ private:
   PixelType     m_ThreadMin;
   PixelType     m_ThreadMax;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 }; // end of class
 } // end namespace itk
 

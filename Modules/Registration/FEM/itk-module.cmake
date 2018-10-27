@@ -13,6 +13,7 @@ itk_module(ITKFEMRegistration
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSources
+    ITKIOMeta
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT

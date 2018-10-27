@@ -21,7 +21,7 @@
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkWarpImageFilter.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -277,7 +277,7 @@ private:
   mutable double        m_SumOfSquaredChange;
 
   /** Mutex lock to protect modification to metric. */
-  mutable SimpleFastMutexLock m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock;
 };
 } // end namespace itk
 

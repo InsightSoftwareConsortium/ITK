@@ -23,7 +23,7 @@
 #include <thread>
 
 #include "itkObjectFactory.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -131,7 +131,7 @@ private:
 
   OutputContainerType m_OutputQ;
 
-  mutable SimpleFastMutexLock m_Mutex;
+  mutable std::mutex m_Mutex;
 
   DelayType m_Delay;
 

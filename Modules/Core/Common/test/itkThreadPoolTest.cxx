@@ -19,9 +19,9 @@
 #include "itkMultiThreaderBase.h"
 #include "itkTimeProbe.h"
 #include "itkConfigure.h"
-#include "itkMutexLock.h"
+#include <mutex>
 
-itk::MutexLock::Pointer sharedMutex;
+std::shared_ptr< std::mutex > sharedMutex;
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION execute(void *ptr)
 {
@@ -30,9 +30,9 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION execute(void *ptr)
 
   auto * data = static_cast<int *>(threadInfo->UserData);
 
-  sharedMutex->Lock();
+  sharedMutex->lock();
   std::cout << "Ptr received  :" << ptr << ", Value " << *data << std::endl;
-  sharedMutex->Unlock();
+  sharedMutex->unlock();
 
   int    n = 10;
   int m = *data;
@@ -52,8 +52,7 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION execute(void *ptr)
 
 int itkThreadPoolTest(int argc, char* argv[])
 {
-
-  sharedMutex = itk::MutexLock::New();
+  sharedMutex = std::make_shared< std::mutex >();
 
   int count = 1000;
   if( argc > 1 )

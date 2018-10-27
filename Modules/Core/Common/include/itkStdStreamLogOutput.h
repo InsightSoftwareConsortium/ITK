@@ -21,7 +21,7 @@
 #include <iostream>
 #include <string>
 
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 #include "itkLogOutput.h"
 
 namespace itk
@@ -86,7 +86,7 @@ private:
 
   StreamPointerType m_Stream;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 };
 }
 

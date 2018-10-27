@@ -23,7 +23,7 @@
 #include "itkCovariantVector.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -255,7 +255,7 @@ private:
   mutable double        m_SumOfSquaredChange;
 
   /** Mutex lock to protect modification to metric. */
-  mutable SimpleFastMutexLock m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock;
 
   bool m_UseImageSpacing;
 };

@@ -29,8 +29,8 @@
 #include "itkPlatformMultiThreader.h"
 #include "itkPoolMultiThreader.h"
 #include "itkNumericTraits.h"
-#include "itkMutexLockHolder.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
+#include <mutex>
 #include "itksys/SystemTools.hxx"
 #include "itkImageSourceCommon.h"
 #include "itkProcessObject.h"
@@ -66,7 +66,7 @@ namespace itk
     // API is ever used by the developer, the developers choice is
     // respected over the environmental variable.
     bool GlobalDefaultThreaderTypeIsInitialized;
-    SimpleFastMutexLock globalDefaultInitializerLock;
+    std::mutex globalDefaultInitializerLock;
 
     // Global value to control weather the threadpool implementation should
     // be used. This defaults to the environmental variable
@@ -90,7 +90,7 @@ namespace itk
 
 namespace
 {
-static ::itk::SimpleFastMutexLock globalInitializerLock;
+static std::mutex globalInitializerLock;
 
 /** \brief A function which does nothing
  *
@@ -134,7 +134,7 @@ public:
       {
       // GetGlobalDefaultThreaderType() must be thread safe and can potentially call
       // this method, even though it is very unlikely.
-      ::itk::MutexLockHolder< ::itk::SimpleFastMutexLock > lock(globalInitializerLock);
+      std::lock_guard< std::mutex > lock(globalInitializerLock);
       if( !m_MultiThreaderBaseGlobals )
         {
         m_MultiThreaderBaseGlobals = new ::itk::MultiThreaderBaseGlobals;
@@ -222,7 +222,7 @@ MultiThreaderBase
 
   if( !m_MultiThreaderBaseGlobals->GlobalDefaultThreaderTypeIsInitialized )
     {
-    MutexLockHolder< SimpleFastMutexLock > lock(m_MultiThreaderBaseGlobals->globalDefaultInitializerLock);
+    std::lock_guard< std::mutex > lock(m_MultiThreaderBaseGlobals->globalDefaultInitializerLock);
 
     // After we have the lock, double check the initialization
     // flag to ensure it hasn't been changed by another thread.

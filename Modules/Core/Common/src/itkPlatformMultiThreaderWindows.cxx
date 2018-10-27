@@ -112,17 +112,17 @@ ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *User
     {
     if( !m_SpawnedThreadActiveFlagLock[id]  )
       {
-      m_SpawnedThreadActiveFlagLock[id] = MutexLock::New();
+      m_SpawnedThreadActiveFlagLock[id] = std::make_shared< std::mutex >();
       }
-    m_SpawnedThreadActiveFlagLock[id]->Lock();
+    m_SpawnedThreadActiveFlagLock[id]->lock();
     if( m_SpawnedThreadActiveFlag[id] == 0 )
       {
       // We've got a useable thread id, so grab it
       m_SpawnedThreadActiveFlag[id] = 1;
-      m_SpawnedThreadActiveFlagLock[id]->Unlock();
+      m_SpawnedThreadActiveFlagLock[id]->unlock();
       break;
       }
-    m_SpawnedThreadActiveFlagLock[id]->Unlock();
+    m_SpawnedThreadActiveFlagLock[id]->unlock();
 
     id++;
     }
@@ -157,9 +157,9 @@ void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
     return;
     }
 
-  m_SpawnedThreadActiveFlagLock[WorkUnitID]->Lock();
+  m_SpawnedThreadActiveFlagLock[WorkUnitID]->lock();
   m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
-  m_SpawnedThreadActiveFlagLock[WorkUnitID]->Unlock();
+  m_SpawnedThreadActiveFlagLock[WorkUnitID]->unlock();
 
   WaitForSingleObject(m_SpawnedThreadProcessID[WorkUnitID], INFINITE);
   CloseHandle(m_SpawnedThreadProcessID[WorkUnitID]);

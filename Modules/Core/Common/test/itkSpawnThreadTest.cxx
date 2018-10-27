@@ -21,7 +21,7 @@
 #include "itkTimeProbe.h"
 #include "itkConfigure.h"
 #include "itksys/SystemTools.hxx"
-
+#include "itkMutexLock.h"
 
 typedef struct {
   int numberOfLoop;

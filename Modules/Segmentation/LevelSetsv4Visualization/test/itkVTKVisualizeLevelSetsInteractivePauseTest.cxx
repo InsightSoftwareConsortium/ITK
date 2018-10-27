@@ -18,7 +18,6 @@
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkImageFileReader.h"
 #include "itkCommand.h"
-#include "itkConditionVariable.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
@@ -27,7 +26,7 @@
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetDenseImage.h"
-#include "itkMutexLock.h"
+#include <mutex>
 #include "itkVTKVisualizeImageLevelSetIsoValues.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
@@ -40,17 +39,10 @@
 
 struct NeedToPauseInformation
 {
-  itk::SimpleMutexLock            m_Mutex;
-  itk::ConditionVariable::Pointer m_ConditionVariable;
-  bool                            m_NeedToPause;
-  bool                            m_NeedToUpdateViz;
-
-  NeedToPauseInformation():
-      m_NeedToPause( false ),
-      m_NeedToUpdateViz( false )
-    {
-    m_ConditionVariable = itk::ConditionVariable::New();
-    }
+  std::mutex              m_Mutex;
+  std::condition_variable m_ConditionVariable;
+  bool                    m_NeedToPause = false;
+  bool                    m_NeedToUpdateViz = false;
 };
 
 /** \class ProcessingPauseCommand
@@ -76,14 +68,13 @@ public:
     {
     if( itk::IterationEvent().CheckEvent( &event ))
       {
-      this->m_NeedToPauseInformation->m_Mutex.Lock();
+      std::unique_lock< std::mutex > mutexHolder( this->m_NeedToPauseInformation->m_Mutex );
       std::cout << "An iteration occurred, checking if we need to pause...." << std::endl;
       if( this->m_NeedToPauseInformation->m_NeedToPause || this->m_NeedToPauseInformation->m_NeedToUpdateViz )
         {
-        this->m_NeedToPauseInformation->m_ConditionVariable->Wait( &(this->m_NeedToPauseInformation->m_Mutex));
+        this->m_NeedToPauseInformation->m_ConditionVariable.wait( mutexHolder );
         std::cout << "Done pausing..." << std::endl;
         }
-      this->m_NeedToPauseInformation->m_Mutex.Unlock();
       }
     }
 
@@ -129,7 +120,7 @@ public:
       {
       bool weArePaused;
       bool weWantToUpdateViz;
-      this->m_NeedToPauseInformation->m_Mutex.Lock();
+      this->m_NeedToPauseInformation->m_Mutex.lock();
       //std::cout << "We got a timer event" << std::endl;
       weArePaused = this->m_NeedToPauseInformation->m_NeedToPause;
       weWantToUpdateViz = this->m_NeedToPauseInformation->m_NeedToUpdateViz;
@@ -143,30 +134,30 @@ public:
           this->m_Visualizer->Update();
           this->m_Visualizer->GetRenderer()->ResetCamera();
           this->m_NeedToPauseInformation->m_NeedToUpdateViz = false;
-          this->m_NeedToPauseInformation->m_ConditionVariable->Signal();
+          this->m_NeedToPauseInformation->m_ConditionVariable.notify_one();
           }
         else // do it the next time around
           {
           this->m_NeedToPauseInformation->m_NeedToUpdateViz = true;
           }
         }
-      this->m_NeedToPauseInformation->m_Mutex.Unlock();
+      this->m_NeedToPauseInformation->m_Mutex.unlock();
       }
     else if( vtkCommand::KeyPressEvent == eventId )
       {
-      this->m_NeedToPauseInformation->m_Mutex.Lock();
+      this->m_NeedToPauseInformation->m_Mutex.lock();
       std::cout << "Got a keypress event..." << std::endl;
       bool weArePaused = this->m_NeedToPauseInformation->m_NeedToPause;
       if( weArePaused )
         {
         this->m_NeedToPauseInformation->m_NeedToPause = false;
-        this->m_NeedToPauseInformation->m_ConditionVariable->Signal();
+        this->m_NeedToPauseInformation->m_ConditionVariable.notify_one();
         }
       else
         {
         this->m_NeedToPauseInformation->m_NeedToPause = true;
         }
-      this->m_NeedToPauseInformation->m_Mutex.Unlock();
+      this->m_NeedToPauseInformation->m_Mutex.unlock();
       }
     }
 
