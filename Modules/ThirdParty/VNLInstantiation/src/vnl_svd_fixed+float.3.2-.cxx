@@ -15,6 +15,5 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "vnl/vnl_fortran_copy_fixed.hxx"
-#include "vnl_export_override.h"
-VNL_FORTRAN_COPY_FIXED_INSTANTIATE(double, 1, 1);
+#include "vnl/algo/vnl_svd_fixed.hxx"
+VNL_SVD_FIXED_INSTANTIATE(float, 3, 2);

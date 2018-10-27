@@ -32,18 +32,6 @@ foreach(p
     ##----- Policies Introduced by CMake 3.10
     CMP0071  #: Let AUTOMOC and AUTOUIC process GENERATED files.
     CMP0070  #: Define file(GENERATE) behavior for relative paths.
-    ##----- Policies Introduced by CMake 3.9
-    CMP0069  #: INTERPROCEDURAL_OPTIMIZATION is enforced when enabled.
-    CMP0068  #: RPATH settings on macOS do not affect install_name.
-    ##----- Policies Introduced by CMake 3.8
-    CMP0067  #: Honor language standard in try_compile() source-file signature.
-    ##----- Policies Introduced by CMake 3.7
-    CMP0066  #: Honor per-config flags in try_compile() source-file signature.
-    ##----- Policies Introduced by CMake 3.4
-    CMP0065  #: Do not add flags to export symbols from executables without the ENABLE_EXPORTS target property.
-    CMP0064  #: Support new TEST if() operator.
-    ##----- Policies Introduced by CMake 3.4
-    CMP0074  #:.`find_package()`` uses ``<PackageName>_ROOT`` variables.
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
