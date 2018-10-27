@@ -251,11 +251,11 @@ public:
    * special-coordinates image.  Filters designed to produce a particular kind
    * of special-coordinates image should do this automatically. */
   void SetSpacing(const SpacingType &) override {}
-  void SetSpacing(const double[VImageDimension]) override {}
-  void SetSpacing(const float[VImageDimension]) override {}
+  void SetSpacing(const double(&)[VImageDimension]) override {}
+  void SetSpacing(const float(&)[VImageDimension]) override {}
   void SetOrigin(const PointType) override {}
-  void SetOrigin(const double[VImageDimension]) override {}
-  void SetOrigin(const float[VImageDimension]) override {}
+  void SetOrigin(const double(&)[VImageDimension]) override {}
+  void SetOrigin(const float(&)[VImageDimension]) override {}
 
   /* It is ILLEGAL in C++ to make a templated member function virtual! */
   /* Therefore, we must just let templates take care of everything.    */

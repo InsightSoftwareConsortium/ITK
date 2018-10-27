@@ -68,7 +68,7 @@ public:
 
   QuadEdgeMeshPoint(const Superclass & r);
 
-  QuadEdgeMeshPoint(const ValueType r[VPointDimension]):Superclass(r)
+  QuadEdgeMeshPoint(const ValueType (&r)[VPointDimension]):Superclass(r)
   {
     this->Initialize();
   }

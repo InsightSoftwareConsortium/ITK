@@ -75,7 +75,7 @@ template< typename TInputImage,
           typename TTransformPrecisionType >
 void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::SetOutputSpacing(const double *spacing)
+::SetOutputSpacing(const double (&spacing)[ImageDimension])
 {
   SpacingType s;
   for(unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
@@ -91,7 +91,7 @@ template< typename TInputImage,
           typename TTransformPrecisionType >
 void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::SetOutputOrigin(const double *origin)
+::SetOutputOrigin(const double (&origin)[ImageDimension])
 {
   OriginPointType p(origin);
 

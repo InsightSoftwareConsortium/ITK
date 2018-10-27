@@ -24,24 +24,6 @@
 
 namespace itk
 {
-template< typename T, unsigned int TVectorDimension >
-CovariantVector< T, TVectorDimension >
-::CovariantVector(const ValueType & r)
-{
-  for ( typename BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i )
-    {
-    *i = r;
-    }
-}
-
-template< typename T, unsigned int NVectorDimension >
-CovariantVector< T, NVectorDimension > &
-CovariantVector< T, NVectorDimension >
-::operator=(const ValueType r[NVectorDimension])
-{
-  BaseArray::operator=(r);
-  return *this;
-}
 
 template< typename T, unsigned int NVectorDimension >
 const typename CovariantVector< T, NVectorDimension >::Self &

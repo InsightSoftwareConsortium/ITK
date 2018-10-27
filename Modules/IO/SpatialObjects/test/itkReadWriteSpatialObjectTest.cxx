@@ -934,21 +934,21 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           {
           if(itk::Math::NotExactlyEquals((*pit).GetPosition()[d], value))
             {
-            std::cout<<" [FAILED]"<<std::endl;
+            std::cout<<" [FAILED]: Positition: " << (*pit).GetPosition() <<std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if(itk::Math::NotExactlyEquals(((*pit).GetNormal(0))[d], d))
             {
-            std::cout<<" [FAILED]"<<std::endl;
+            std::cout<<" [FAILED]: Normal(0): " << (*pit).GetNormal(0) <<std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if(itk::Math::NotExactlyEquals(((*pit).GetNormal(1))[d], 2*d))
             {
-            std::cout<<" [FAILED]"<<std::endl;
+            std::cout<<" [FAILED]: Normal(1): " << (*pit).GetNormal(1) <<std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }

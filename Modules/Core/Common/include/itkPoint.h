@@ -85,20 +85,11 @@ public:
   Point & operator=(const Point &) = default;
   Point & operator=(Point &&) = default;
   ~Point() = default;
+  /* Inherit constructors from base class */
+  using Superclass::Superclass;
   /** Pass-through constructors for different type points. */
   template< typename TPointValueType >
   Point(const Point< TPointValueType, NPointDimension > & r):BaseArray(r) {}
-  /** Pass-through constructors for plain arrays. */
-  template< typename TPointValueType >
-  Point(const TPointValueType r[NPointDimension]):BaseArray(r) {}
-  Point(const ValueType r[NPointDimension]):BaseArray(r) {}
-  /** Pass-through constructors for single values */
-  template< typename TPointValueType >
-  Point(const TPointValueType & v):BaseArray(v) {}
-  Point(const ValueType & v):BaseArray(v) {}
-
-  /** Pass-through assignment operator for a plain array. */
-  Point & operator=(const ValueType r[NPointDimension]);
 
   /** Compare two points for equality. */
   bool

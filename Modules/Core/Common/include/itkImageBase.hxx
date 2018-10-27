@@ -120,7 +120,7 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::SetSpacing(const double spacing[VImageDimension])
+::SetSpacing(const double (&spacing)[VImageDimension])
 {
   this->InternalSetSpacing(spacing);
 }
@@ -129,7 +129,7 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::SetSpacing(const float spacing[VImageDimension])
+::SetSpacing(const float (&spacing)[VImageDimension])
 {
   this->InternalSetSpacing(spacing);
 }
@@ -138,7 +138,7 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::SetOrigin(const double origin[VImageDimension])
+::SetOrigin(const double (&origin)[VImageDimension])
 {
   PointType p(origin);
 
@@ -149,7 +149,7 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::SetOrigin(const float origin[VImageDimension])
+::SetOrigin(const float (&origin)[VImageDimension])
 {
   Point< float, VImageDimension > of(origin);
   PointType                       p;

@@ -103,22 +103,13 @@ public:
   Vector & operator=(Vector &&) = default;
   ~Vector() = default;
 
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-  /** Constructor to initialize entire vector to one value.
-   * \warning Not intended to convert a scalar value into
-   * a Vector filled with that value.
-   * \deprecated */
-  Vector(const ValueType & r);
-#else
-  /** Constructor to initialize entire vector to one value,
-   * if explicitly invoked. */
-  explicit Vector(const ValueType & r);
-#endif
+  /* Inherit constructors from base class */
+  using Superclass::Superclass;
 
   /** Pass-through constructor for the Array base class. */
   template< typename TVectorValueType >
   Vector(const Vector< TVectorValueType, NVectorDimension > & r):BaseArray(r) {}
-  Vector(const ValueType r[Dimension]):BaseArray(r) {}
+  Vector(const ValueType (&r)[Dimension]):BaseArray(r) {}
 
   /** Pass-through assignment operator for the Array base class. */
   template< typename TVectorValueType >
@@ -128,7 +119,7 @@ public:
     return *this;
   }
 
-  Vector & operator=(const ValueType r[NVectorDimension]);
+  Vector & operator=(const ValueType (&r)[NVectorDimension]);
 
   /** Scalar operator*=.  Scales elements by a scalar. */
   template< typename Tt >

@@ -26,19 +26,9 @@
 namespace itk
 {
 template< typename T, unsigned int TVectorDimension >
-Vector< T, TVectorDimension >
-::Vector(const ValueType & r)
-{
-  for ( typename BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i )
-    {
-    *i = r;
-    }
-}
-
-template< typename T, unsigned int TVectorDimension >
 Vector< T, TVectorDimension > &
 Vector< T, TVectorDimension >
-::operator=(const ValueType r[TVectorDimension])
+::operator=(const ValueType (&r)[TVectorDimension])
 {
   BaseArray::operator=(r);
   return *this;

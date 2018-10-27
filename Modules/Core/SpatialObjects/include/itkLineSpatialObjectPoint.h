@@ -60,7 +60,7 @@ public:
   const VectorType & GetNormal(unsigned int index) const;
 
   /** Set Normal */
-  void SetNormal(VectorType & normal, unsigned int index);
+  void SetNormal(const VectorType & normal, unsigned int index);
 
   /** Copy one LineSpatialObjectPoint to another */
   Self & operator=(const LineSpatialObjectPoint & rhs);

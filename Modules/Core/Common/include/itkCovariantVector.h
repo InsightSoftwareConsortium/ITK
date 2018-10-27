@@ -108,18 +108,14 @@ public:
   CovariantVector & operator=(const CovariantVector &) = default;
   CovariantVector & operator=(CovariantVector &&) = default;
   ~CovariantVector() = default;
-
-  /**
-  * Constructor to initialize entire vector to one value.
-  */
-  explicit CovariantVector(const ValueType & r);
+  /* Inherit constructors from base class */
+  using Superclass::Superclass;
 
   /** Pass-through constructor for the Array base class. Implicit casting is
    * performed to initialize constructor from any another one of datatype. */
   template< typename TVectorValueType >
   CovariantVector(const CovariantVector< TVectorValueType,
                                          NVectorDimension > & r):BaseArray(r) {}
-  CovariantVector(const ValueType r[Dimension]):BaseArray(r) {}
 
   /** Assignment operator with implicit casting from another data type */
   template< typename TCovariantVectorValueType >
@@ -128,9 +124,6 @@ public:
     BaseArray::operator=(r);
     return *this;
   }
-
-  /** Pass-through assignment operator for the Array base class. */
-  CovariantVector & operator=(const ValueType r[NVectorDimension]);
 
   /** Scalar operator*=.  Scales elements by a scalar. */
   template< typename Tt >

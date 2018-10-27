@@ -72,7 +72,7 @@ LineSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 LineSpatialObjectPoint< TPointDimension >
-::SetNormal(VectorType & normal, unsigned int index)
+::SetNormal(const VectorType & normal, unsigned int index)
 {
   m_NormalArray[index] = normal;
 }

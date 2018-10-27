@@ -74,23 +74,13 @@ MetaLineConverter< NDimensions >
     LinePointType pnt;
 
     using PointType = typename LinePointType::PointType;
-    PointType point;
     using NormalType = typename LinePointType::VectorType;
-
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
-      {
-      point[ii] = ( *it2 )->m_X[ii];
-      }
-
+    const PointType point(( *it2 )->m_X);
     pnt.SetPosition(point);
 
     for ( unsigned int ii = 0; ii < ndims - 1; ii++ )
       {
-      NormalType normal;
-      for ( unsigned int jj = 0; jj < ndims; jj++ )
-        {
-        normal[jj] = ( *it2 )->m_V[ii][jj];
-        }
+      const NormalType normal(( *it2 )->m_V[ii]);
       pnt.SetNormal(normal, ii);
       }
 

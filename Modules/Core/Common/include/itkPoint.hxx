@@ -25,18 +25,6 @@
 namespace itk
 {
 /**
- * Assignment from a plain array
- */
-template< typename T, unsigned int TPointDimension >
-Point< T, TPointDimension > &
-Point< T, TPointDimension >
-::operator=(const ValueType r[TPointDimension])
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-/**
  * In place increment by a vector
  */
 template< typename T, unsigned int TPointDimension >

@@ -51,6 +51,7 @@ template< typename TValue, unsigned int VLength = 3 >
 class ITK_TEMPLATE_EXPORT FixedArray
 {
 public:
+  using Self = FixedArray;
   /** Length constant */
   static constexpr unsigned int Length = VLength;
 
@@ -139,26 +140,28 @@ public:
   ~FixedArray() = default;
 
   /** Conversion constructors */
-  FixedArray(const ValueType r[VLength]);
+  /** From C array. Values are copied individually instead of with a binary copy.  This
+   * allows the ValueType's assignment operator to be executed. */
+  template<typename TScalarType>
+  FixedArray(const TScalarType (&r)[VLength])
+  {
+    for (unsigned int i = 0; i < VLength; ++i)
+      {
+      ( *this )[i] = static_cast<TValue>(r[i]);
+      }
+  }
+
   FixedArray(const ValueType & );
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< typename TFixedArrayValueType >
-  FixedArray(const FixedArray< TFixedArrayValueType, VLength > & r)
+  explicit FixedArray(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
-    typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-    Iterator i = this->Begin();
-    while ( i != this->End() )
+    for (unsigned int i = 0; i < VLength; ++i)
       {
-      *i++ = static_cast< TValue >( *input++ );
+      ( *this )[i] = static_cast<TValue>(r[i]);
       }
   }
-
-  template< typename TScalarValue >
-  FixedArray(const TScalarValue *r)
-    {
-      std::copy(r, r + this->Size(), this->GetDataPointer());
-    }
 
   /** Operator= defined for a variety of types. */
   template< typename TFixedArrayValueType >
@@ -176,7 +179,59 @@ public:
     return *this;
   }
 
+  template<typename TScalarType>
+  FixedArray & operator=(const TScalarType (&r)[VLength])
+  {
+    for (unsigned int i = 0; i < VLength; ++i)
+      {
+      ( *this )[i] = static_cast<TValue>(r[i]);
+      }
+    return *this;
+  }
+  /* Same as above, but providing extra checking to avoid copying if internal array already equal than input. */
   FixedArray & operator=(const ValueType r[VLength]);
+
+  template< typename TFixedArrayValueType >
+  FixedArray & operator-(const FixedArray< TFixedArrayValueType, VLength > & input)
+  {
+  Self result;
+  for ( unsigned int i = 0; i < Dimension; i++ )
+    {
+    result[i] = ( *this )[i] - static_cast<TFixedArrayValueType>(input[i]);
+    }
+  return result;
+  }
+
+  template< typename TFixedArrayValueType >
+  FixedArray & operator-=(const FixedArray< TFixedArrayValueType, VLength > & input)
+  {
+  for ( unsigned int i = 0; i < Dimension; i++ )
+    {
+    ( *this )[i] -= static_cast<TFixedArrayValueType>(input[i]);
+    }
+  return *this;
+  }
+
+  template< typename TFixedArrayValueType >
+  FixedArray & operator+(const FixedArray< TFixedArrayValueType, VLength > & input)
+  {
+  Self result;
+  for ( unsigned int i = 0; i < Dimension; i++ )
+    {
+    result[i] = ( *this )[i] + static_cast<TFixedArrayValueType>(input[i]);
+    }
+  return result;
+  }
+
+  template< typename TFixedArrayValueType >
+  FixedArray & operator+=(const FixedArray< TFixedArrayValueType, VLength > & input)
+  {
+  for ( unsigned int i = 0; i < Dimension; i++ )
+    {
+    ( *this )[i] += static_cast<TFixedArrayValueType>(input[i]);
+    }
+  return *this;
+  }
 
   /** Operators == and != are used to compare whether two arrays are equal.
    * Note that arrays are equal when the number of components (size) is the

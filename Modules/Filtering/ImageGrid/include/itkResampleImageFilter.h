@@ -218,14 +218,14 @@ public:
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing(const double *values);
+  virtual void SetOutputSpacing(const double (&values)[ImageDimension]);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, OriginPointType);
-  virtual void SetOutputOrigin(const double *values);
+  virtual void SetOutputOrigin(const double (&values)[ImageDimension]);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);

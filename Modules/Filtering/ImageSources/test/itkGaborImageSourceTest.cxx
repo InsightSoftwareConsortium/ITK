@@ -53,7 +53,7 @@ int itkGaborImageSourceTestHelper( char* outputFilename, bool calculcateImaginar
   gaborImage->SetSigma( sigma );
   TEST_SET_GET_VALUE( sigma, gaborImage->GetSigma() );
 
-  typename GaborSourceType::ArrayType mean = 0.1;
+  typename GaborSourceType::ArrayType mean = static_cast<GaborSourceType::ArrayType>(0.1);
   gaborImage->SetMean( mean );
   TEST_SET_GET_VALUE( mean, gaborImage->GetMean() );
 

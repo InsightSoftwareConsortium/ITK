@@ -36,24 +36,6 @@ FixedArray< TValue, VLength >
 }
 
 /**
- * Constructor assumes input points to array of correct size.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
-template< typename TValue, unsigned int VLength >
-FixedArray< TValue, VLength >
-::FixedArray(const ValueType r[VLength])
-{
-  ConstIterator input = r;
-  Iterator      i = this->Begin();
-
-  while ( i != this->End() )
-    {
-    *i++ = *input++;
-    }
-}
-
-/**
  * Assignment operator assumes input points to array of correct size.
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.

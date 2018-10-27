@@ -178,8 +178,8 @@ public:
    * as SpacePrecisionType but may be set from float or double.
    * \sa GetOrigin() */
   itkSetMacro(Origin, PointType);
-  virtual void SetOrigin(const double origin[VImageDimension]);
-  virtual void SetOrigin(const float origin[VImageDimension]);
+  virtual void SetOrigin(const double (&origin)[VImageDimension]);
+  virtual void SetOrigin(const float (&origin)[VImageDimension]);
 
   /** Set the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
@@ -400,8 +400,8 @@ public:
    * transforms of the image.
    * \sa GetSpacing() */
   virtual void SetSpacing(const SpacingType & spacing);
-  virtual void SetSpacing(const double spacing[VImageDimension]);
-  virtual void SetSpacing(const float spacing[VImageDimension]);
+  virtual void SetSpacing(const double (&spacing)[VImageDimension]);
+  virtual void SetSpacing(const float (&spacing)[VImageDimension]);
 
   /** Get the index (discrete) of a voxel from a physical point.
    * Floating point index results are rounded to integers
@@ -732,14 +732,14 @@ protected:
   void Graft(const DataObject *data) override;
 
 private:
-  void InternalSetSpacing(const SpacingValueType spacing[VImageDimension])
+  void InternalSetSpacing(const SpacingValueType (&spacing)[VImageDimension])
     {
       SpacingType s(spacing);
       this->SetSpacing(s);
     }
 
   template <typename TSpacingValue>
-  void InternalSetSpacing(const TSpacingValue spacing[VImageDimension])
+  void InternalSetSpacing(const TSpacingValue (&spacing)[VImageDimension])
     {
       Vector<TSpacingValue,VImageDimension> sf(spacing);
       SpacingType                           s;
