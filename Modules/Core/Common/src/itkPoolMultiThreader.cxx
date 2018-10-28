@@ -31,9 +31,6 @@
 #include "itkImageSourceCommon.h"
 #include <iostream>
 #include <string>
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_algorithm.h"
-#endif
 #include <algorithm>
 
 namespace itk

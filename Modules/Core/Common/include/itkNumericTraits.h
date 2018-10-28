@@ -41,9 +41,6 @@
     return std::numeric_limits< ValueType >::max(); \
     }
 
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_limits.h"
-#endif
 #include <limits> // for std::numeric_limits
 #include <complex>
 
@@ -304,17 +301,12 @@ public:
   static constexpr char NonpositiveMin() { return lowest(); }
   static constexpr bool IsPositive(char val) { return val > Zero; }
   static constexpr bool IsNonpositive(char val) { return val <= Zero; }
-// char on PowerPC, for example, is not signed
-#if VCL_CHAR_IS_SIGNED
-  static constexpr bool IsNegative(char val) { return val < Zero; }
-  static constexpr bool IsNonnegative(char val) { return val >= Zero; }
-  static constexpr bool IsSigned = true;
-#else
+
   static constexpr bool IsNegative(char) { return false; }
   static constexpr bool IsNonnegative(char) { return true; }
-  static constexpr bool IsSigned = false;
-#endif
-  static constexpr bool IsInteger = true;
+  static constexpr bool IsSigned = std::numeric_limits<char>::is_signed;
+
+  static constexpr bool IsInteger = std::numeric_limits<char>::is_integer;
   static constexpr bool IsComplex = false;
   static constexpr char ZeroValue() { return Zero; }
   static constexpr char OneValue() { return One; }
@@ -1081,14 +1073,9 @@ public:
 
   static bool IsPositive(Self val) { return val.real() > 0; }
   static bool IsNonpositive(Self val) { return val.real() <= 0; }
-// char on PowerPC, for example, is not signed
-#if VCL_CHAR_IS_SIGNED
   static bool IsNegative(Self val) { return val.real() < 0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0; }
-#else
-  static bool IsNegative(Self) { return false; }
-  static bool IsNonnegative(Self) { return true; }
-#endif
+
   static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;

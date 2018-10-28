@@ -19,9 +19,6 @@
 #define itkNoiseBaseImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include <vcl_ctime.h>
-#endif
 #include <ctime>
 
 namespace itk

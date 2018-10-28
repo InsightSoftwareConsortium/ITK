@@ -21,9 +21,6 @@
 #include "itkCSVArray2DFileReader.h"
 
 #include "itksys/SystemTools.hxx"
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include <vcl_limits.h>
-#endif
 #include <limits>
 
 namespace itk
