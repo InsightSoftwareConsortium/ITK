@@ -97,7 +97,7 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
   return m_DerivativeFilter->GetNormalizeAcrossScale();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HessianGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
