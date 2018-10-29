@@ -925,7 +925,6 @@ H5D__link_chunk_collective_io(H5D_io_info_t *io_info, const H5D_type_info_t *typ
     hbool_t chunk_final_ftype_is_derived = FALSE;
     H5D_storage_t ctg_store;                /* Storage info for "fake" contiguous dataset */
     size_t              total_chunks;
-    haddr_t            *total_chunk_addr_array = NULL;
     MPI_Datatype       *chunk_mtype = NULL;
     MPI_Datatype       *chunk_ftype = NULL;
     MPI_Aint           *chunk_disp_array = NULL;
@@ -1146,20 +1145,7 @@ if(H5DEBUG(D))
             mpi_buf_count  = (hsize_t)1;
         } /* end if */
         else {      /* no selection at all for this process */
-            /* Allocate chunking information */
-            if(NULL == (total_chunk_addr_array = (haddr_t *)H5MM_malloc(sizeof(haddr_t) * total_chunks)))
-                HGOTO_ERROR(H5E_DATASET, H5E_CANTALLOC, FAIL, "couldn't allocate total chunk address arraybuffer")
-
-            /* Retrieve chunk address map */
-            if(H5D__chunk_addrmap(io_info, total_chunk_addr_array) < 0)
-                HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk address")
-
-            /* Get chunk with lowest address */
-            ctg_store.contig.dset_addr = HADDR_MAX;
-            for(u = 0; u < total_chunks; u++)
-                if(total_chunk_addr_array[u] < ctg_store.contig.dset_addr)
-                    ctg_store.contig.dset_addr = total_chunk_addr_array[u];
-            HDassert(ctg_store.contig.dset_addr != HADDR_MAX);
+            ctg_store.contig.dset_addr = 0;
 
             /* Set the MPI datatype */
             chunk_final_ftype = MPI_BYTE;
@@ -1187,8 +1173,6 @@ if(H5DEBUG(D))
     HDfprintf(H5DEBUG(D),"before freeing memory inside H5D_link_collective_io ret_value = %d\n", ret_value);
 #endif
     /* Release resources */
-    if(total_chunk_addr_array)
-        H5MM_xfree(total_chunk_addr_array);
     if(chunk_addr_info_array)
         H5MM_xfree(chunk_addr_info_array);
     if(chunk_mtype)
