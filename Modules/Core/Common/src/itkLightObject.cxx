@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkLightObject.h"
+#include "itkObjectFactory.h"
 #include "itkFastMutexLock.h"
 
 // Better name demanging for gcc

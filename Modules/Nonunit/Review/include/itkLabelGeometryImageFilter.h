@@ -23,7 +23,7 @@
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itksys/hash_map.hxx"
-#include "itkFastMutexLock.h"
+#include "itkSimpleFastMutexLock.h"
 #include <vector>
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/vnl_det.h"
