@@ -241,32 +241,32 @@ public:
    * temporal region have been initialized and that the buffered spatial region
    * has been set for each of these frames. A typical setup would look like:
    *
-   * \code
-   *    // Set the temporal regions
-   *    TemporalRegionType temporalRegion;
-   *    temporalRegion.SetFrameStart( 0 );
-   *    temporalRegion.SetFrameDuration( 3 );
-   *    video->SetLargestPossibleTemporalRegion( temporalRegion );
-   *    video->SetRequestedTemporalRegion( temporalRegion );
-   *    video->SetBufferedTemporalRegion( temporalRegion );
-   *
-   *    // Initialize all frames in the buffered temporal region
-   *    video->InitializeEmptyFrames();
-   *
-   *    // Set the buffered spatial region for each frame
-   *    SpatialRegionType bufferedSpatialRegion;
-   *    SpatialRegionType::SizeType size;
-   *    SpatialRegionType::IndexType start;
-   *    size[0] = 50;
-   *    size[1] = 40;
-   *    start.Fill( 0 );
-   *    bufferedSpatialRegion.SetSize( size );
-   *    bufferedSpatialRegion.SetIndex( start );
-   *    video->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
-   *
-   *    // Allocate memory for the frames
-   *    video->Allocate();
-   * \endcode
+     \code
+        // Set the temporal regions
+        TemporalRegionType temporalRegion;
+        temporalRegion.SetFrameStart( 0 );
+        temporalRegion.SetFrameDuration( 3 );
+        video->SetLargestPossibleTemporalRegion( temporalRegion );
+        video->SetRequestedTemporalRegion( temporalRegion );
+        video->SetBufferedTemporalRegion( temporalRegion );
+
+        // Initialize all frames in the buffered temporal region
+        video->InitializeEmptyFrames();
+
+        // Set the buffered spatial region for each frame
+        SpatialRegionType bufferedSpatialRegion;
+        SpatialRegionType::SizeType size;
+        SpatialRegionType::IndexType start;
+        size[0] = 50;
+        size[1] = 40;
+        start.Fill( 0 );
+        bufferedSpatialRegion.SetSize( size );
+        bufferedSpatialRegion.SetIndex( start );
+        video->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
+
+        // Allocate memory for the frames
+        video->Allocate();
+     \endcode
    */
   void Allocate();
 

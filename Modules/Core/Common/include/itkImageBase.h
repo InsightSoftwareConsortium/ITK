@@ -634,10 +634,10 @@ public:
    * Filters that override the ProcessObject's GenerateOutputInformation()
    * should generally have the following line if they want to propagate meta-
    * data for both Image and VectorImage
-   * \code
-   * outputImage->SetNumberOfComponentsPerPixel(
-   *    inputImage->GetNumberOfComponentsPerPixel() )
-   * \endcode
+     \code
+     outputImage->SetNumberOfComponentsPerPixel(
+        inputImage->GetNumberOfComponentsPerPixel() )
+     \endcode
    *
    * \sa ImageBase, VectorImage
    *

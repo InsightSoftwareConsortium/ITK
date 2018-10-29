@@ -104,23 +104,23 @@ public:
    * particular ProcessObjects involved are filters.  The same
    * examples apply to non-image (e.g. Mesh) data as well.
    *
-   * \code
-   *   anotherFilter->SetInput( someFilter->GetOutput() );
-   *   anotherFilter->Update();
-   * \endcode
+     \code
+       anotherFilter->SetInput( someFilter->GetOutput() );
+       anotherFilter->Update();
+     \endcode
    *
    * In this situation, \a someFilter and \a anotherFilter are said
    * to constitute a \b pipeline.
    *
-   * \code
-   *   image = someFilter->GetOutput();
-   *   image->Update();
-   * \endcode
+     \code
+       image = someFilter->GetOutput();
+       image->Update();
+     \endcode
    *
-   * \code
-   *   someFilter->Update();
-   *   image = someFilter->GetOutput();
-   * \endcode
+     \code
+       someFilter->Update();
+       image = someFilter->GetOutput();
+     \endcode
    * (In the above example, the two lines of code can be in
    * either order.)
    *
@@ -157,24 +157,24 @@ public:
    * process object is implemented using a mini-pipeline which is
    * defined in its GenerateData() method.  The usage is:
    *
-   * \code
-   *    // Setup the mini-pipeline to process the input to this filter
-   *    // The input is not connected to the pipeline.
-   *    typename InputImageType::Pointer input = InputImageType::New();
-   *    input->Graft( const_cast< InputImageType * >( this->GetInput() );
-   *    firstFilterInMiniPipeline->SetInput( input );
-   *
-   *    // setup the mini-pipeline to calculate the correct regions
-   *    // and write to the appropriate bulk data block
-   *    lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
-   *
-   *    // execute the mini-pipeline
-   *    lastFilterInMiniPipeline->Update();
-   *
-   *    // graft the mini-pipeline output back onto this filter's output.
-   *    // this is needed to get the appropriate regions passed back.
-   *    this->GraftOutput( lastFilterInMiniPipeline->GetOutput() );
-   * \endcode
+     \code
+        // Setup the mini-pipeline to process the input to this filter
+        // The input is not connected to the pipeline.
+        typename InputImageType::Pointer input = InputImageType::New();
+        input->Graft( const_cast< InputImageType * >( this->GetInput() );
+        firstFilterInMiniPipeline->SetInput( input );
+
+        // setup the mini-pipeline to calculate the correct regions
+        // and write to the appropriate bulk data block
+        lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
+
+        // execute the mini-pipeline
+        lastFilterInMiniPipeline->Update();
+
+        // graft the mini-pipeline output back onto this filter's output.
+        // this is needed to get the appropriate regions passed back.
+        this->GraftOutput( lastFilterInMiniPipeline->GetOutput() );
+     \endcode
    *
    * For proper pipeline execution, a filter using a mini-pipeline
    * must implement the GenerateInputRequestedRegion(),

@@ -48,7 +48,7 @@ namespace fem
  * The standard way to setup a FE problem in ITK is to use the following
  * approach.
  *
- * \code
+   \code
          using FEMObjectType = itk::fem::FEMObject<3>;
          FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
          ...

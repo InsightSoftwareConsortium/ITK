@@ -176,10 +176,10 @@ public:
    * TPixelType, the following two rebinds result in the same type to
    * enable usage with the numeric trait's type.
    *
-   * \code
-   * typename InputImageType::template template Rebind<double>::Type RealImageType1;
-   * typename InputImageType::template template Rebind<VariableLengthVector<double> >::Type RealImageType2;
-   * \endcode
+     \code
+     typename InputImageType::template template Rebind<double>::Type RealImageType1;
+     typename InputImageType::template template Rebind<VariableLengthVector<double> >::Type RealImageType2;
+     \endcode
    *
    * \sa Image::Rebind
    * \deprecated Use template alias RebindImageType instead
