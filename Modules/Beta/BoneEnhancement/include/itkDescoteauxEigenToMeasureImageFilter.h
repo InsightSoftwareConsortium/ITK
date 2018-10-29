@@ -47,37 +47,39 @@ namespace itk {
  * \ingroup BoneEnhancement
  */
 template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
-class DescoteauxEigenToMeasureImageFilter :
-        public EigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject > {
+class DescoteauxEigenToMeasureImageFilter
+  : public EigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
+{
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureImageFilter);
+
   /** Standard Self typedef */
-  typedef DescoteauxEigenToMeasureImageFilter       Self;
-  typedef EigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
-                                                    Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  using Self          = DescoteauxEigenToMeasureImageFilter;
+  using Superclass    = EigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >;
+  using Pointer       = SmartPointer<Self>;
+  using ConstPointer  = SmartPointer<const Self>;
 
   /** Input typedefs */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePixelType    InputImagePixelType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
+  using InputImageType          = typename Superclass::InputImageType;
+  using InputImagePixelType     = typename Superclass::InputImagePixelType;
+  using InputImagePointer       = typename Superclass::InputImagePointer;
+  using InputImageConstPointer  = typename Superclass::InputImageConstPointer;
+  using InputImageRegionType    = typename Superclass::InputImageRegionType;
 
   /** Output typedefs */
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType  OutputImageRegionType;
-  typedef typename Superclass::OutputImagePixelType   OutputImagePixelType;
+  using OutputImageType       = typename Superclass::OutputImageType;
+  using OutputImagePointer    = typename Superclass::OutputImagePointer;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputImagePixelType  = typename Superclass::OutputImagePixelType;
 
   /** Parameter typedefs */
-  typedef typename Superclass::RealType               RealType;
-  typedef typename Superclass::ParameterArrayType     ParameterArrayType;
-  typedef typename Superclass::ParameterDecoratedType ParameterDecoratedType;
+  using RealType                = typename Superclass::RealType;
+  using ParameterArrayType      = typename Superclass::ParameterArrayType;
+  using ParameterDecoratedType  = typename Superclass::ParameterDecoratedType;
 
   /** Input SpatialObject typedefs. */
-  typedef typename Superclass::SpatialObjectType          SpatialObjectType;
-  typedef typename Superclass::SpatialObjectConstPointer  SpatialObjectConstPointer;
+  using SpatialObjectType  = typename Superclass::SpatialObjectType;
+  using SpatialObjectConstPointer  = typename Superclass::SpatialObjectConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,7 +88,7 @@ public:
   itkTypeMacro(DescoteauxEigenToMeasureImageFilter, EigenToMeasureImageFilter);
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
-  typename Superclass::EigenValueOrderType GetEigenValueOrder() const ITK_OVERRIDE
+  typename Superclass::EigenValueOrderType GetEigenValueOrder() const override
   {
     return Superclass::OrderByMagnitude;
   }
@@ -120,12 +122,10 @@ protected:
   inline OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel, RealType alpha, RealType beta, RealType c);
 
   /** Multi-thread version GenerateData. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) ITK_OVERRIDE;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureImageFilter);
-
   /* Member variables */
   RealType m_EnhanceType;
 }; // end class

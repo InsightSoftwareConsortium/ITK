@@ -38,43 +38,45 @@ namespace itk {
  * \ingroup BoneEnhancement
  */
 template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
-class ITK_TEMPLATE_EXPORT EigenToMeasureImageFilter:
-public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_TEMPLATE_EXPORT EigenToMeasureImageFilter
+  : public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureImageFilter);
+
   /** Standard Self typedef */
-  typedef EigenToMeasureImageFilter                       Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  using Self          = EigenToMeasureImageFilter;
+  using Superclass    = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer       = SmartPointer< Self >;
+  using ConstPointer  = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EigenToMeasureImageFilter, ImageToImageFilter);
 
   /** Input Image typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
-  typedef typename InputImagePixelType::ValueType PixelValueType;
+  using InputImageType          = TInputImage;
+  using InputImagePointer       = typename InputImageType::Pointer;
+  using InputImageConstPointer  = typename InputImageType::ConstPointer;
+  using InputImageRegionType    = typename InputImageType::RegionType;
+  using InputImagePixelType     = typename InputImageType::PixelType;
+  using PixelValueType          = typename InputImagePixelType::ValueType;
   itkStaticConstMacro(ImageDimension, unsigned int,  TInputImage::ImageDimension);
 
   /** Output image typedefs. */
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType;
-  typedef typename OutputImageType::PixelType   OutputImagePixelType;
+  using OutputImageType       = TOutputImage;
+  using OutputImagePointer    = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType  = typename OutputImageType::PixelType;
 
   /** Input SpatialObject typedefs. */
-  typedef TInputSpatialObject                       SpatialObjectType;
-  typedef typename SpatialObjectType::ConstPointer  SpatialObjectConstPointer;
+  using SpatialObjectType         = TInputSpatialObject;
+  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** Parameter typedefs. */
-  typedef typename NumericTraits< PixelValueType >::RealType  RealType;
-  typedef RealType                                            ParameterType;
-  typedef Array< ParameterType >                              ParameterArrayType;
-  typedef SimpleDataObjectDecorator< ParameterArrayType >     ParameterDecoratedType;
+  using RealType                = typename NumericTraits< PixelValueType >::RealType;
+  using ParameterType           = RealType;
+  using ParameterArrayType      = Array< ParameterType >;
+  using ParameterDecoratedType  = SimpleDataObjectDecorator< ParameterArrayType >;
 
   /** Process object */
   itkSetGetDecoratedInputMacro(Parameters, ParameterArrayType);
@@ -99,8 +101,6 @@ public:
 protected:
   EigenToMeasureImageFilter() {};
   virtual ~EigenToMeasureImageFilter() {}
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureImageFilter);
 }; // end class
 } /* end namespace */
 

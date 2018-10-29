@@ -62,17 +62,17 @@ namespace itk
  * \ingroup BoneEnhancement
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT MultiScaleHessianEnhancementImageFilter:
-public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_TEMPLATE_EXPORT MultiScaleHessianEnhancementImageFilter
+  : public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianEnhancementImageFilter);
 
   /** Standard Self type alias */
-  using Self = MultiScaleHessianEnhancementImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Self          = MultiScaleHessianEnhancementImageFilter;
+  using Superclass    = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer       = SmartPointer< Self >;
+  using ConstPointer  = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,54 +81,54 @@ public:
   itkTypeMacro(MultiScaleHessianEnhancementImageFilter, ImageToImageFilter);
 
   /** Input Image typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
+  using InputImageType          = TInputImage;
+  using InputImagePointer       = typename InputImageType::Pointer;
+  using InputImageConstPointer  = typename InputImageType::ConstPointer;
+  using InputImageRegionType    = typename InputImageType::RegionType;
+  using InputImagePixelType     = typename InputImageType::PixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,  TInputImage::ImageDimension);
 
   /** Output image typedefs. */
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer  OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType    OutputImageRegionType;
-  typedef typename OutputImageType::PixelType     OutputImagePixelType;
+  using OutputImageType         = TOutputImage;
+  using OutputImagePointer      = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType   = typename OutputImageType::RegionType;
+  using OutputImagePixelType    = typename OutputImageType::PixelType;
 
   /** Mask related typedefs. */
-  typedef ImageMaskSpatialObject< ImageDimension >  SpatialObjectType;
-  typedef typename SpatialObjectType::ConstPointer  SpatialObjectConstPointer;
+  using SpatialObjectType         = ImageMaskSpatialObject< ImageDimension >;
+  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** Methods to set/get the mask image */
   itkSetInputMacro(ImageMask, SpatialObjectType);
   itkGetInputMacro(ImageMask, SpatialObjectType);
 
   /** Hessian related typedefs. */
-  // typedef HessianRecursiveGaussianImageFilter< TInputImage >  HessianFilterType;
-  typedef HessianGaussianImageFilter< TInputImage >           HessianFilterType;
-  typedef typename HessianFilterType::OutputImageType         HessianImageType;
-  typedef typename HessianImageType::PixelType                HessianPixelType;
-  typedef typename HessianFilterType::InternalRealType        InternalRealType;
+  // using HessianFilterType = HessianRecursiveGaussianImageFilter< TInputImage >;
+  using HessianFilterType = HessianGaussianImageFilter< TInputImage >;
+  using HessianImageType  = typename HessianFilterType::OutputImageType;
+  using HessianPixelType  = typename HessianImageType::PixelType;
+  using InternalRealType  = typename HessianFilterType::InternalRealType;
 
   /** Eigenvalue analysis related type alias. The ITK python wrapping usually wraps floating types
    * and not double types. For this reason, the eigenvalues are of type float.
    */
-  typedef typename NumericTraits< InputImagePixelType >::RealType                     RealType;
-  typedef typename NumericTraits< InputImagePixelType >::FloatType                    FloatType;
-  typedef Vector< FloatType, HessianPixelType::Dimension >                            EigenValueArrayType;
-  typedef Image< EigenValueArrayType, TInputImage::ImageDimension >                   EigenValueImageType;
-  typedef SymmetricEigenAnalysisImageFilter< HessianImageType, EigenValueImageType >  EigenAnalysisFilterType;
+  using RealType                = typename NumericTraits< InputImagePixelType >::RealType;
+  using FloatType               = typename NumericTraits< InputImagePixelType >::FloatType;
+  using EigenValueArrayType     = Vector< FloatType, HessianPixelType::Dimension >;
+  using EigenValueImageType     = Image< EigenValueArrayType, TInputImage::ImageDimension >;
+  using EigenAnalysisFilterType = SymmetricEigenAnalysisImageFilter< HessianImageType, EigenValueImageType >;
 
   /** Maximum over scale related type alias. */
   using MaximumAbsoluteValueFilterType = MaximumAbsoluteValueImageFilter< TOutputImage >;
 
   /** Eigenvalue image to measure image related typedefs */
-  typedef EigenToMeasureImageFilter< EigenValueImageType, TOutputImage, SpatialObjectType > EigenToMeasureImageFilterType;
-  typedef EigenToMeasureParameterEstimationFilter< EigenValueImageType, SpatialObjectType > EigenToMeasureParameterEstimationFilterType;
+  using EigenToMeasureImageFilterType               = EigenToMeasureImageFilter< EigenValueImageType, TOutputImage, SpatialObjectType >;
+  using EigenToMeasureParameterEstimationFilterType = EigenToMeasureParameterEstimationFilter< EigenValueImageType, SpatialObjectType >;
   
   /** Need some types to determine how to order the eigenvalues */
-  typedef typename EigenAnalysisFilterType::FunctorType::EigenValueOrderType  InternalEigenValueOrderType;
-  typedef typename EigenToMeasureImageFilterType::EigenValueOrderType         ExternalEigenValueOrderType;
+  using InternalEigenValueOrderType = typename EigenAnalysisFilterType::FunctorType::EigenValueOrderType;
+  using ExternalEigenValueOrderType = typename EigenToMeasureImageFilterType::EigenValueOrderType;
 
   /** Set/Get the EigenToMeasureImageFilter. */
   itkSetObjectMacro(EigenToMeasureImageFilter, EigenToMeasureImageFilterType);
@@ -139,9 +139,9 @@ public:
   itkGetModifiableObjectMacro(EigenToMeasureParameterEstimationFilter, EigenToMeasureParameterEstimationFilterType);
 
   /** Sigma values. */
-  using SigmaType = RealType;
-  using SigmaArrayType = Array< SigmaType >;
-  using SigmaStepsType = unsigned int;
+  using SigmaType       = RealType;
+  using SigmaArrayType  = Array< SigmaType >;
+  using SigmaStepsType  = unsigned int;
   typedef enum {
     EquispacedSigmaSteps = 0,
     LogarithmicSigmaSteps = 1

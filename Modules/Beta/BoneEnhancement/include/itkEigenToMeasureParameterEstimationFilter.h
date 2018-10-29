@@ -47,41 +47,43 @@ namespace itk {
  * \ingroup BoneEnhancement
  */
 template< typename TInputImage, typename TInputSpatialObject >
-class ITK_TEMPLATE_EXPORT EigenToMeasureParameterEstimationFilter:
-public StreamingImageFilter< TInputImage, TInputImage >
+class ITK_TEMPLATE_EXPORT EigenToMeasureParameterEstimationFilter
+  : public StreamingImageFilter< TInputImage, TInputImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureParameterEstimationFilter);
+
   /** Standard Self typedef */
-  typedef EigenToMeasureParameterEstimationFilter           Self;
-  typedef StreamingImageFilter< TInputImage, TInputImage >  Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+  using Self          = EigenToMeasureParameterEstimationFilter;
+  using Superclass    = StreamingImageFilter< TInputImage, TInputImage >;
+  using Pointer       = SmartPointer< Self >;
+  using ConstPointer  = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EigenToMeasureParameterEstimationFilter, StreamingImageFilter);
 
   /** Input Image typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
-  typedef typename InputImagePixelType::ValueType PixelValueType;
+  using InputImageType          = TInputImage;
+  using InputImagePointer       = typename InputImageType::Pointer;
+  using InputImageConstPointer  = typename InputImageType::ConstPointer;
+  using InputImageRegionType    = typename InputImageType::RegionType;
+  using InputImagePixelType     = typename InputImageType::PixelType;
+  using PixelValueType          = typename InputImagePixelType::ValueType;
   itkStaticConstMacro(ImageDimension, unsigned int,  TInputImage::ImageDimension);
 
   /** Output image typedefs. */
-  typedef InputImageType        OutputImageType;
-  typedef InputImageRegionType  OutputImageRegionType;
+  using OutputImageType       = TInputImage;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Input SpatialObject typedefs. */
-  typedef TInputSpatialObject                       SpatialObjectType;
-  typedef typename SpatialObjectType::ConstPointer  SpatialObjectConstPointer;
+  using SpatialObjectType         = TInputSpatialObject;
+  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** Parameter typedefs. */
-  typedef typename NumericTraits< PixelValueType >::RealType  RealType;
-  typedef RealType                                            ParameterType;
-  typedef Array< ParameterType >                              ParameterArrayType;
-  typedef SimpleDataObjectDecorator< ParameterArrayType >     ParameterDecoratedType;
+  using RealType                = typename NumericTraits< PixelValueType >::RealType;
+  using ParameterType           = RealType;
+  using ParameterArrayType      = Array< ParameterType >;
+  using ParameterDecoratedType  = SimpleDataObjectDecorator< ParameterArrayType >;
 
   /** Decorators for parameters so they can be passed as a process object */
   ParameterDecoratedType * GetParametersOutput();
@@ -102,7 +104,7 @@ public:
    * or ThreadedGenerateData() method.  Instead, all the work is done
    * in UpdateOutputData() since it must update a little, execute a little,
    * update some more, execute some more, etc. */
-  void UpdateOutputData(DataObject *output) ITK_OVERRIDE;
+  void UpdateOutputData(DataObject *output) override;
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the
@@ -116,9 +118,7 @@ protected:
   EigenToMeasureParameterEstimationFilter();
   virtual ~EigenToMeasureParameterEstimationFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureParameterEstimationFilter);
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 }; //end class
 } // end namespace
 

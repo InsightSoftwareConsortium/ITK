@@ -76,20 +76,20 @@ public:
  * \ingroup BoneEnhancement
  */
 template<typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
-class ITK_TEMPLATE_EXPORT MaximumAbsoluteValueImageFilter :
-public BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
-Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,typename TOutputImage::PixelType> > 
+class ITK_TEMPLATE_EXPORT MaximumAbsoluteValueImageFilter
+  : public BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+    Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,typename TOutputImage::PixelType> > 
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
 
   /** Standard Self type alias */
-  using Self = MaximumAbsoluteValueImageFilter;
-  using Superclass = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
-          Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,
-                  typename TOutputImage::PixelType> >;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
+  using Self            = MaximumAbsoluteValueImageFilter;
+  using Superclass      = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+                          Functor::MaximumAbsoluteValue< typename TInputImage1::PixelType, typename TInputImage2::PixelType,
+                            typename TOutputImage::PixelType > >;
+  using Pointer         = SmartPointer<Self>;
+  using ConstPointer    = SmartPointer<const Self>;
   using Input1PixelType = typename TInputImage1::PixelType;
   using Input2PixelType = typename TInputImage2::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;

@@ -74,37 +74,39 @@ namespace itk {
  * \ingroup BoneEnhancement
  */
 template<typename TInputImage, typename TInputSpatialObject >
-class KrcahEigenToMeasureParameterEstimationFilter :
-        public EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject > {
+class KrcahEigenToMeasureParameterEstimationFilter
+  : public EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
+{
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureParameterEstimationFilter);
+
   /** Standard Self typedef */
-  typedef KrcahEigenToMeasureParameterEstimationFilter      Self;
-  typedef EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
-                                                            Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  using Self          = KrcahEigenToMeasureParameterEstimationFilter;
+  using Superclass    = EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >;
+  using Pointer       = SmartPointer<Self>;
+  using ConstPointer  = SmartPointer<const Self>;
   
   /** Input typedefs */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
-  typedef typename Superclass::InputImagePixelType    InputImagePixelType;
-  typedef typename Superclass::PixelValueType         PixelValueType;
+  using InputImageType          = typename Superclass::InputImageType;
+  using InputImagePointer       = typename Superclass::InputImagePointer;
+  using InputImageConstPointer  = typename Superclass::InputImageConstPointer;
+  using InputImageRegionType    = typename Superclass::InputImageRegionType;
+  using InputImagePixelType     = typename Superclass::InputImagePixelType;
+  using PixelValueType          = typename Superclass::PixelValueType;
 
   /** Output typedefs */
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::OutputImageRegionType  OutputImageRegionType;
-  typedef typename Superclass::OutputImagePixelType   OutputImagePixelType;
+  using OutputImageType       = typename Superclass::OutputImageType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputImagePixelType  = typename Superclass::OutputImagePixelType;
 
   /** Input SpatialObject typedefs. */
-  typedef typename Superclass::SpatialObjectType          SpatialObjectType;
-  typedef typename Superclass::SpatialObjectConstPointer  SpatialObjectConstPointer;
+  using SpatialObjectType         = typename Superclass::SpatialObjectType;
+  using SpatialObjectConstPointer = typename Superclass::SpatialObjectConstPointer;
 
   /** Parameter typedefs */
-  typedef typename Superclass::RealType               RealType;
-  typedef typename Superclass::ParameterArrayType     ParameterArrayType;
-  typedef typename Superclass::ParameterDecoratedType ParameterDecoratedType;
+  using RealType                = typename Superclass::RealType;
+  using ParameterArrayType      = typename Superclass::ParameterArrayType;
+  using ParameterDecoratedType  = typename Superclass::ParameterDecoratedType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -141,22 +143,20 @@ protected:
   virtual ~KrcahEigenToMeasureParameterEstimationFilter() {}
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** Do final mean and variance computation from data accumulated in threads. */
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) ITK_OVERRIDE;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   /** Calculation of \f$ T \f$ changes depending on the implementation */
   inline RealType CalculateTraceAccordingToImplementation(InputImagePixelType pixel);
   inline RealType CalculateTraceAccordingToJournalArticle(InputImagePixelType pixel);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureParameterEstimationFilter);
-
   /* Member variables */
   KrcahImplementationType         m_ParameterSet;
   CompensatedSummation<RealType>  m_ThreadCount;

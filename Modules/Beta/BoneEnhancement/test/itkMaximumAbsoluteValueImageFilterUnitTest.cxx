@@ -22,9 +22,9 @@
 
 TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages) {
   const unsigned int                                      Dimension = 2;
-  typedef int                                             PixelType;
-  typedef itk::Image< PixelType, Dimension >              ImageType;
-  typedef itk::MaximumAbsoluteValueImageFilter<ImageType> MaximumAbsoluteValueImageFilterType;
+  using PixelType                           = int;
+  using ImageType                           = itk::Image< PixelType, Dimension >;
+  using MaximumAbsoluteValueImageFilterType = itk::MaximumAbsoluteValueImageFilter<ImageType>;
   MaximumAbsoluteValueImageFilterType::Pointer maxAbsFilter = MaximumAbsoluteValueImageFilterType::New();
 
   /** Create an image and run a basic test */

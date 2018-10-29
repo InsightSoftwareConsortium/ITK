@@ -22,10 +22,10 @@
 
 TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSigmaArrayWithSizeZero) {
   const unsigned int                                                  Dimension = 3;
-  typedef int                                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >                          ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
+  using PixelType                                   = int;
+  using ImageType                                   = itk::Image< PixelType, Dimension >;
+  using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
+  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   ArrayType sigmaArray;
   EXPECT_ANY_THROW(sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 5, 0));
@@ -34,10 +34,10 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSi
 
 TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSigmaArrayWithMinEqualMax) {
   const unsigned int                                                  Dimension = 3;
-  typedef int                                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >                          ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
+  using PixelType                                   = int;
+  using ImageType                                   = itk::Image< PixelType, Dimension >;
+  using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
+  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Test that we get one when min equals max */
   ArrayType expectedOneSigmaArray;
@@ -54,10 +54,10 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSi
 
 TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEquispacedSigmaArray) {
   const unsigned int                                                  Dimension = 3;
-  typedef int                                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >                          ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
+  using PixelType                                   = int;
+  using ImageType                                   = itk::Image< PixelType, Dimension >;
+  using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
+  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;
@@ -79,10 +79,10 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEq
 
 TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEquispacedSigmaArrayWithFlip) {
   const unsigned int                                                  Dimension = 3;
-  typedef int                                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >                          ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
+  using PixelType                                   = int;
+  using ImageType                                   = itk::Image< PixelType, Dimension >;
+  using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
+  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;
@@ -104,10 +104,10 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEq
 
 TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLogarithmicSigmaArray) {
   const unsigned int                                                  Dimension = 3;
-  typedef int                                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >                          ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
+  using PixelType                                   = int;
+  using ImageType                                   = itk::Image< PixelType, Dimension >;
+  using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
+  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;
@@ -129,10 +129,10 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLo
 
 TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLogarithmicSigmaArrayWithFlip) {
   const unsigned int                                                  Dimension = 3;
-  typedef int                                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >                          ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
+  using PixelType                                   = int;
+  using ImageType                                   = itk::Image< PixelType, Dimension >;
+  using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
+  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;

@@ -21,9 +21,9 @@
 
 TEST(itkHessianGaussianImageFilterTest, ExerciseBasicMethods) {
   const unsigned int                                  Dimension = 2;
-  typedef int                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >          ImageType;
-  typedef itk::HessianGaussianImageFilter<ImageType>  HessianGaussianImageFilterType;
+  using PixelType                       = int;
+  using ImageType                       = itk::Image< PixelType, Dimension >;
+  using HessianGaussianImageFilterType  = itk::HessianGaussianImageFilter<ImageType>;
   HessianGaussianImageFilterType::Pointer hess_filter = HessianGaussianImageFilterType::New();
 
   /* Exercise basic set/get methods */

@@ -85,15 +85,12 @@ int main(int argc, char * argv[])
   using OutputPixelType = float;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader< InputImageType >      ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >     MeasureWriterType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >
-                                                      MultiScaleHessianFilterType;
-  typedef MultiScaleHessianFilterType::SpatialObjectType SpatialObjectType;
-  typedef itk::DescoteauxEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType, SpatialObjectType >
-                                                      DescoteauxEigenToMeasureImageFilterType;
-  typedef itk::DescoteauxEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType, SpatialObjectType >
-                                                      DescoteauxEigenToMeasureParameterEstimationFilterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using MeasureWriterType = itk::ImageFileWriter< OutputImageType >;
+  using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
+  using SpatialObjectType = MultiScaleHessianFilterType::SpatialObjectType;
+  using DescoteauxEigenToMeasureImageFilterType = itk::DescoteauxEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType, SpatialObjectType >;
+  using DescoteauxEigenToMeasureParameterEstimationFilterType = itk::DescoteauxEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType, SpatialObjectType >;
 
   /* Do preprocessing */
   std::cout << "Reading in " << inputFileName << std::endl;
