@@ -36,3 +36,4 @@ zap.pl           crlf=input
 
 # ExternalData content links must have LF newlines
 *.md5            crlf=input
+*.sha512         crlf=input
