@@ -21,6 +21,7 @@
 
 #include "itkOffset.h"
 
+#include <array>
 #include <cassert>
 #include <cstdint> // For uintmax_t
 #include <limits>
@@ -288,7 +289,29 @@ private:
     return (includeCenterPixel ? 1 : 0) +
       CalculateNumberOfConnectedNeighbors(maximumCityblockDistance);
   }
+
+
+  template <unsigned int VImageDimensionOfFriend, std::size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>
+  friend
+  std::array<
+    Offset<VImageDimensionOfFriend>,
+    ConnectedImageNeighborhoodShape<VImageDimensionOfFriend>::CalculateNumberOfOffsets(VMaximumCityblockDistance, VIncludeCenterPixel)>
+    GenerateConnectedImageNeighborhoodShapeOffsets() ITK_NOEXCEPT;
 };
+
+
+/** Generates the offsets for a connected image neighborhood shape. */
+template <unsigned int VImageDimension, std::size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>
+std::array<
+  Offset<VImageDimension>,
+  ConnectedImageNeighborhoodShape<VImageDimension>::CalculateNumberOfOffsets(VMaximumCityblockDistance, VIncludeCenterPixel)>
+GenerateConnectedImageNeighborhoodShapeOffsets() ITK_NOEXCEPT
+{
+  constexpr ConnectedImageNeighborhoodShape<VImageDimension> shape{ VMaximumCityblockDistance, VIncludeCenterPixel };
+  std::array<Offset<VImageDimension>, shape.GetNumberOfOffsets()> offsets;
+  shape.FillOffsets(offsets.data());
+  return offsets;
+}
 
 } // namespace Experimental
 } // namespace itk

@@ -278,14 +278,11 @@ TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 
   // Define a shape that should generate the same offsets as in the
   // previous ActivateOffset(offset) calls.
-  constexpr bool cityBlockDistance = 1;
+  constexpr std::size_t cityBlockDistance = 1;
   constexpr bool includeCenterPixel = false;
-  constexpr itk::Experimental::ConnectedImageNeighborhoodShape<ImageDimension>
-    shape{ cityBlockDistance, includeCenterPixel };
 
-  // Activate offsets directly from the shape:
   shapedNeighborhoodIterator.ActivateOffsets(
-    itk::Experimental::GenerateImageNeighborhoodOffsets(shape));
+    itk::Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, cityBlockDistance, includeCenterPixel>());
 
   ASSERT_EQ(shapedNeighborhoodIterator.GetActiveIndexList(), activeIndexList);
 }

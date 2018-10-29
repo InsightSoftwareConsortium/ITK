@@ -20,6 +20,7 @@
 #define itkUpdateShiSparseLevelSet_hxx
 
 #include "itkUpdateShiSparseLevelSet.h"
+#include "itkConnectedImageNeighborhoodShape.h"
 
 namespace itk
 {
@@ -78,18 +79,8 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
                                     this->m_InternalImage->GetLargestPossibleRegion() );
 
   neighIt.OverrideBoundaryCondition( &spNBC );
-
-  typename NeighborhoodIteratorType::OffsetType sparseOffset;
-  sparseOffset.Fill( 0 );
-
-  for( unsigned int dim = 0; dim < ImageDimension; ++dim )
-    {
-    sparseOffset[dim] = -1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 0;
-    }
+  neighIt.ActivateOffsets(
+    Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   // Step 2.1.1
   this->UpdateLayerPlusOne();
@@ -212,18 +203,8 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
                                     this->m_InternalImage->GetLargestPossibleRegion() );
 
   neighIt.OverrideBoundaryCondition( &spNBC );
-
-  typename NeighborhoodIteratorType::OffsetType sparseOffset;
-  sparseOffset.Fill( 0 );
-
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
-    sparseOffset[dim] = -1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 0;
-    }
+  neighIt.ActivateOffsets(
+    Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   LevelSetLayerType insertListIn;
   LevelSetLayerType insertListOut;
@@ -329,18 +310,8 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
                                     this->m_InternalImage->GetLargestPossibleRegion() );
 
   neighIt.OverrideBoundaryCondition( &spNBC );
-
-  typename NeighborhoodIteratorType::OffsetType sparseOffset;
-  sparseOffset.Fill( 0 );
-
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
-    sparseOffset[dim] = -1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 0;
-    }
+  neighIt.ActivateOffsets(
+    Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   LevelSetLayerType insertListIn;
   LevelSetLayerType insertListOut;
@@ -438,19 +409,8 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
                                     this->m_InternalImage->GetLargestPossibleRegion() );
 
   neighIt.OverrideBoundaryCondition( &spNBC );
-
-  typename NeighborhoodIteratorType::OffsetType sparseOffset;
-  sparseOffset.Fill( 0 );
-
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
-    sparseOffset[dim] = -1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 1;
-    neighIt.ActivateOffset( sparseOffset );
-    sparseOffset[dim] = 0;
-    }
-
+  neighIt.ActivateOffsets(
+    Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
   neighIt.SetLocation( idx );
 
   const LevelSetOutputType oppositeStatus = ( currentStatus == LevelSetType::PlusOneLayer() ) ?
