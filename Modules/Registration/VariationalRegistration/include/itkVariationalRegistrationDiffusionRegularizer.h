@@ -19,7 +19,6 @@
 #define itkVariationalRegistrationDiffusionRegularizer_h
 
 #include "itkVariationalRegistrationRegularizer.h"
-#include "itkMultiThreader.h"
 
 namespace itk
 {

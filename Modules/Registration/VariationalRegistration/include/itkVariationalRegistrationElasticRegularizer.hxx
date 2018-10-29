@@ -195,10 +195,10 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     this->m_PlanForward[i] = FFTWProxyType::Plan_dft_r2c(
-      ImageDimension, n, this->m_InputBuffer, this->m_ComplexBuffer[i], FFTW_MEASURE, this->GetNumberOfThreads());
+      ImageDimension, n, this->m_InputBuffer, this->m_ComplexBuffer[i], FFTW_MEASURE, this->GetNumberOfWorkUnits());
 
     this->m_PlanBackward[i] = FFTWProxyType::Plan_dft_c2r(
-      ImageDimension, n, this->m_ComplexBuffer[i], this->m_OutputBuffer, FFTW_MEASURE, this->GetNumberOfThreads());
+      ImageDimension, n, this->m_ComplexBuffer[i], this->m_OutputBuffer, FFTW_MEASURE, this->GetNumberOfWorkUnits());
   }
 
   // delete n
@@ -309,7 +309,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLES()
   elasticLESStr.totalComplexSize = this->m_TotalComplexSize;
 
   // Setup MultiThreader
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(this->SolveElasticLESThreaderCallback, &elasticLESStr);
 
   // Execute MultiThreader
@@ -324,9 +324,9 @@ ITK_THREAD_RETURN_TYPE
 VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLESThreaderCallback(void * arg)
 {
   // Get MultiThreader struct
-  auto * threadStruct = (MultiThreader::ThreadInfoStruct *)arg;
-  int    threadId = threadStruct->ThreadID;
-  int    threadCount = threadStruct->NumberOfThreads;
+  auto * threadStruct = (MultiThreaderBase::WorkUnitInfo *)arg;
+  int    threadId = threadStruct->WorkUnitID;
+  int    threadCount = threadStruct->NumberOfWorkUnits;
 
   // Calculate region for current thread
   auto * userStruct = (ElasticFFTThreadStruct *)threadStruct->UserData;
@@ -339,7 +339,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::SolveElasticLESTh
   // Solve LES for thread
   userStruct->Filter->ThreadedSolveElasticLES(from, to);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**

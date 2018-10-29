@@ -130,7 +130,7 @@ VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
 {
   auto * globalData = (GlobalDataStruct *)gd;
 
-  m_MetricCalculationLock.Lock();
+  std::lock_guard<std::mutex> mutexHolder(m_MetricCalculationLock);
 
   m_SumOfMetricValues += globalData->m_SumOfMetricValues;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
@@ -141,8 +141,6 @@ VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
     m_Metric = m_SumOfMetricValues / static_cast<double>(m_NumberOfPixelsProcessed);
     m_RMSChange = vcl_sqrt(m_SumOfSquaredChange / static_cast<double>(m_NumberOfPixelsProcessed));
   }
-
-  m_MetricCalculationLock.Unlock();
 
   delete globalData;
 }

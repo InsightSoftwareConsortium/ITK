@@ -19,7 +19,6 @@
 #define itkVariationalRegistrationRegularizer_h
 
 #include "itkInPlaceImageFilter.h"
-#include "itkMultiThreader.h"
 
 namespace itk
 {
