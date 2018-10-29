@@ -255,10 +255,19 @@ public:
    * input image, and cannot be modified. */
   itkGetConstReferenceMacro(FrequencySpacing, FrequencyType);
 
+  /** Does nothing. This member only affects HalfHermitianFrequencyIterator.
+   * Provided for homogeneous interface between iterators. */
+  void SetActualXDimensionIsOdd(bool value)
+    {
+    this->m_ActualXDimensionIsOdd = value;
+    };
+  itkGetMacro(ActualXDimensionIsOdd, bool);
+  itkBooleanMacro(ActualXDimensionIsOdd);
+
 private:
   /** Calculate Nyquist frequency index (m_LargestPositiveFrequencyIndex), Min/Max indices from LargestPossibleRegion.
    * Also sets FrequencySpacing and FrequencyOrigin.
-   * Called at constructors.  */
+   * Called by constructors.  */
   void Init()
   {
     SizeType sizeImage =
@@ -285,6 +294,7 @@ private:
   IndexType     m_MaxIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
+  bool          m_ActualXDimensionIsOdd;
 };
 } // end namespace itk
 #endif

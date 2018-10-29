@@ -14,6 +14,7 @@ itk_module(ITKImageFrequency
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity
+    ITKFFT
   DESCRIPTION
   "${DOCUMENTATION}"
   )

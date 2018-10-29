@@ -20,3 +20,9 @@ itk_add_test(NAME itkFrequencyBandImageFilterOddTest
 
 itk_python_expression_add_test(NAME itkFrequencyBandImageFilterPythonTest
   EXPRESSION "instance = itk.FrequencyBandImageFilter.New()")
+
+set(${itk-module}GTests
+  itkFrequencyIteratorsGTest.cxx
+  )
+
+CreateGoogleTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}GTests}")
