@@ -48,12 +48,9 @@ TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages) {
   image2->SetRegions(region);
   image2->Allocate();
 
-<<<<<<< HEAD:test/itkMaximumAbsoluteValueImageFilterTest.cxx
-  using IteratorType = itk::ImageRegionIterator< ImageType >;
-=======
   /* Iterate over images and set */
-  typedef itk::ImageRegionIterator< ImageType > IteratorType;
->>>>>>> ENH: Move itkMaximumAbsoluteValueImageFilterTest to GTest:test/itkMaximumAbsoluteValueImageFilterUnitTest.cxx
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
+
   IteratorType  it1( image1, region);
   IteratorType  it2( image2, region);
   it1.GoToBegin();

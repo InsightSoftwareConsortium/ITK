@@ -125,7 +125,7 @@ public:
    * \sa DiscreteGaussianDerivativeImageFilter::GenerateInputRequestedRegion() */
   // TODO
   virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  throw( InvalidRequestedRegionError ) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -137,10 +137,10 @@ public:
 protected:
   HessianGaussianImageFilter();
   virtual ~HessianGaussianImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HessianGaussianImageFilter);
