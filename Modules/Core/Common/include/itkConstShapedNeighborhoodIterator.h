@@ -307,6 +307,17 @@ public:
   ITK_ITERATOR_VIRTUAL void DeactivateOffset(const OffsetType & off) ITK_ITERATOR_FINAL
   { this->DeactivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
 
+  /** Activates a whole range of offsets, for example, an std::vector<OffsetType>,
+   * which could be from Experimental::GenerateImageNeighborhoodOffsets(shape). */
+  template <typename TOffsets>
+  void ActivateOffsets(const TOffsets& offsets)
+  {
+    for (const auto& offset: offsets)
+    {
+      this->ActivateOffset(offset);
+    }
+  }
+
   /** Removes all active pixels from this neighborhood. */
   ITK_ITERATOR_VIRTUAL void ClearActiveList() ITK_ITERATOR_FINAL
   {
