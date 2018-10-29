@@ -29,18 +29,18 @@ class itkDescoteauxEigenToMeasureImageFilterUnitTest : public ::testing::Test
 {
 public:
   /* Useful typedefs */
-  static const unsigned int                          DIMENSION = 3;
-  typedef T                                          PixelType;
-  typedef itk::Image<PixelType, DIMENSION>           OutputPixelType;
-  typedef float                                      EigenPixelType;
-  typedef itk::FixedArray<EigenPixelType, DIMENSION> EigenValueArrayType;
-  typedef itk::Image<EigenValueArrayType, DIMENSION> EigenImageType;
-  typedef itk::ImageMaskSpatialObject<DIMENSION>     SpatialObjectType;
-  typedef itk::Image<unsigned char, DIMENSION>       MaskImageType;
-  typedef typename itk::DescoteauxEigenToMeasureImageFilter<EigenImageType, OutputPixelType, SpatialObjectType>
-                                                  FilterType;
-  typedef typename FilterType::Pointer            FilterPointerType;
-  typedef typename FilterType::ParameterArrayType ParameterArrayType;
+  static const unsigned int DIMENSION = 3;
+  using PixelType = T;
+  using OutputPixelType = itk::Image<PixelType, DIMENSION>;
+  using EigenPixelType = float;
+  using EigenValueArrayType = itk::FixedArray<EigenPixelType, DIMENSION>;
+  using EigenImageType = itk::Image<EigenValueArrayType, DIMENSION>;
+  using SpatialObjectType = itk::ImageMaskSpatialObject<DIMENSION>;
+  using MaskImageType = itk::Image<unsigned char, DIMENSION>;
+  using FilterType =
+    typename itk::DescoteauxEigenToMeasureImageFilter<EigenImageType, OutputPixelType, SpatialObjectType>;
+  using FilterPointerType = typename FilterType::Pointer;
+  using ParameterArrayType = typename FilterType::ParameterArrayType;
 
   itkDescoteauxEigenToMeasureImageFilterUnitTest()
   {
@@ -165,7 +165,7 @@ protected:
 } // namespace
 
 // Define the templates we would like to test
-typedef ::testing::Types<double, float> TestingLabelTypes;
+using TestingLabelTypes = ::testing::Types<double, float>;
 TYPED_TEST_CASE(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestingLabelTypes);
 
 TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, InitialParameters)
@@ -187,7 +187,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestZerosImage)
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  typedef typename itk::Image<TypeParam, 3>    ImageType;
+  using ImageType = typename itk::Image<TypeParam, 3>;
   itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
   input.GoToBegin();
@@ -208,7 +208,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelBri
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  typedef typename itk::Image<TypeParam, 3>    ImageType;
+  using ImageType = typename itk::Image<TypeParam, 3>;
   itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
   input.GoToBegin();
@@ -230,7 +230,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelDar
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  typedef typename itk::Image<TypeParam, 3>    ImageType;
+  using ImageType = typename itk::Image<TypeParam, 3>;
   itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
   input.GoToBegin();
@@ -251,7 +251,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixe
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  typedef typename itk::Image<TypeParam, 3>    ImageType;
+  using ImageType = typename itk::Image<TypeParam, 3>;
   itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
   input.GoToBegin();
@@ -273,7 +273,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixe
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  typedef typename itk::Image<TypeParam, 3>    ImageType;
+  using ImageType = typename itk::Image<TypeParam, 3>;
   itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
   input.GoToBegin();
@@ -295,7 +295,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestWithSpatialObject
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  typedef typename itk::Image<TypeParam, 3>    ImageType;
+  using ImageType = typename itk::Image<TypeParam, 3>;
   itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
   itk::ContinuousIndex<double, 3>              point;
 

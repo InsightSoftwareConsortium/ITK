@@ -54,16 +54,18 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT HessianGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HessianGaussianImageFilter);
+
   /** Standard Self typedef */
-  typedef HessianGaussianImageFilter                    Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  using Self = HessianGaussianImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                 InputImageType;
-  typedef typename TInputImage::PixelType             PixelType;
-  typedef typename NumericTraits<PixelType>::RealType RealType;
+  using InputImageType = TInputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
@@ -71,30 +73,29 @@ public:
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
-  typedef float                                                InternalRealType;
-  typedef Image<InternalRealType, TInputImage::ImageDimension> RealImageType;
+  using InternalRealType = float;
+  using RealImageType = Image<InternalRealType, TInputImage::ImageDimension>;
 
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar
    *  smoothing filters to compute each one of the
    *  components of the gradient image pixels. */
-  typedef NthElementImageAdaptor<TOutputImage, InternalRealType> OutputImageAdaptorType;
-
-  typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
+  using OutputImageAdaptorType = NthElementImageAdaptor<TOutputImage, InternalRealType>;
+  using OutputImageAdaptorPointer = typename OutputImageAdaptorType::Pointer;
 
   /**  Derivative filter type */
-  typedef DiscreteGaussianDerivativeImageFilter<InputImageType, RealImageType> DerivativeFilterType;
+  using DerivativeFilterType = DiscreteGaussianDerivativeImageFilter<InputImageType, RealImageType>;
 
   /**  Pointer to a gaussian filter.  */
-  typedef typename DerivativeFilterType::Pointer DerivativeFilterPointer;
+  using DerivativeFilterPointer = typename DerivativeFilterType::Pointer;
 
   /**  Pointer to the Output Image */
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Type of the output Image */
-  typedef TOutputImage                                     OutputImageType;
-  typedef typename OutputImageType::PixelType              OutputPixelType;
-  typedef typename PixelTraits<OutputPixelType>::ValueType OutputComponentType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputComponentType = typename PixelTraits<OutputPixelType>::ValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HessianGaussianImageFilter, ImageToImageFilter);
@@ -124,7 +125,7 @@ public:
    * \sa DiscreteGaussianDerivativeImageFilter::GenerateInputRequestedRegion() */
   // TODO
   virtual void
-  GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)ITK_OVERRIDE;
+  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -137,15 +138,13 @@ protected:
   HessianGaussianImageFilter();
   virtual ~HessianGaussianImageFilter() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
   void
-  GenerateData(void) ITK_OVERRIDE;
+  GenerateData(void) override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HessianGaussianImageFilter);
-
   /** Internal filters **/
   DerivativeFilterPointer   m_DerivativeFilter;
   OutputImageAdaptorPointer m_ImageAdaptor;
