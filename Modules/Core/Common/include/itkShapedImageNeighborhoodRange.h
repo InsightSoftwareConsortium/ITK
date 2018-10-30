@@ -665,6 +665,15 @@ public:
   }
 
 
+  /** Sets the location of this neighborhood by specifying its pixel index.
+   * Typically, this is the index of the center pixel of the neighborhood.
+   */
+  void SetLocation(const IndexType& location) ITK_NOEXCEPT
+  {
+    m_Location = location;
+  }
+
+
   /** Explicitly-defaulted destructor. */
   ~ShapedImageNeighborhoodRange() = default;
 };
