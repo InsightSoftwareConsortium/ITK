@@ -334,21 +334,26 @@ TEST(ShapedImageNeighborhoodRange, IteratorRetrievesSamePixelValuesAsConstNeighb
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  const ImageType::IndexType location {{}};
+  const ImageType::IndexType initialLocation{{}};
+  const ImageType::IndexType testLocations[] = { {{}}, {{0, 1}}, {{1, 0}} };
   const itk::Size<ImageType::ImageDimension> radius = { { 2, 3 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
-  itk::Experimental::ShapedImageNeighborhoodRange<const ImageType> range{ *image, location, offsets };
-
+  itk::Experimental::ShapedImageNeighborhoodRange<const ImageType> range{ *image, initialLocation, offsets };
   itk::ConstNeighborhoodIterator<ImageType> constNeighborhoodIterator(radius, image, image->GetRequestedRegion());
-  constNeighborhoodIterator.SetLocation(location);
 
-  itk::SizeValueType i = 0;
-
-  for (const auto pixel : range)
+  for (const auto& location : testLocations)
   {
-    EXPECT_EQ(pixel, constNeighborhoodIterator.GetPixel(i));
-    ++i;
+    constNeighborhoodIterator.SetLocation(location);
+    range.SetLocation(location);
+
+    itk::SizeValueType i = 0;
+
+    for (const auto pixel : range)
+    {
+      EXPECT_EQ(pixel, constNeighborhoodIterator.GetPixel(i));
+      ++i;
+    }
   }
 }
 
