@@ -23,7 +23,7 @@ namespace itkSTLThreadTestImpl
 {
 static int done = 0;
 static int numberOfIterations = 10;
-static itk::MutexLock::Pointer sharedMutex = nullptr;
+static std::mutex threadMutex;
 
 static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION Runner(void*);
 static int Thread(int);
@@ -80,7 +80,6 @@ int itkSTLThreadTest(int argc, char* argv[])
 
   // Create and execute the threads.
   itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
-  itkSTLThreadTestImpl::sharedMutex    = itk::MutexLock::New();
   threader->SetSingleMethod(itkSTLThreadTestImpl::Runner, results);
   threader->SetNumberOfWorkUnits(numThreads);
   threader->SingleMethodExecute();
@@ -143,9 +142,9 @@ static int Thread(int tnum)
 {
   // Implementation in individual thread.  We don't care about
   // mutexing the output because it doesn't matter for the test.
-  itkSTLThreadTestImpl::sharedMutex->Lock();
+  threadMutex.lock();
   std::cout << "Starting " << tnum << "\n";
-  itkSTLThreadTestImpl::sharedMutex->Unlock();
+  threadMutex.unlock();
 
   // Create a list with which to play.
   std::list<int> l;
@@ -157,9 +156,9 @@ static int Thread(int tnum)
   while(!done && !(numberOfIterations && (iteration >= numberOfIterations)))
     {
     // Output progress of this thread.
-    itkSTLThreadTestImpl::sharedMutex->Lock();
+    threadMutex.lock();
     std::cout << tnum << ": " << iteration << "\n";
-    itkSTLThreadTestImpl::sharedMutex->Unlock();
+    threadMutex.unlock();
 
     // Fill the list.
     int j;
@@ -175,10 +174,10 @@ static int Thread(int tnum)
       {
       if(l.front() != j)
         {
-        itkSTLThreadTestImpl::sharedMutex->Lock();
+        threadMutex.lock();
         std::cerr << "Mismatch in thread " << tnum << "!\n";
         done = 1;
-        itkSTLThreadTestImpl::sharedMutex->Unlock();
+        threadMutex.unlock();
         }
       l.pop_front();
       }

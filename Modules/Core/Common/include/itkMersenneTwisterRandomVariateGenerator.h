@@ -23,8 +23,8 @@
 #include "itkRandomVariateGeneratorBase.h"
 #include "itkIntTypes.h"
 #include "itkMath.h"
-#include "itkMutexLockHolder.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
+#include <mutex>
 #include <climits>
 #include <ctime>
 
@@ -282,12 +282,12 @@ private:
   static Pointer CreateInstance();
 
   // Local lock to enable concurrent access to singleton
-  SimpleFastMutexLock m_InstanceLock;
+  std::mutex m_InstanceLock;
 
   // Static/Global Variable need to be thread-safely accessed
-  static Pointer             m_StaticInstance;
-  static SimpleFastMutexLock m_StaticInstanceLock;
-  static IntegerType         m_StaticDiffer;
+  static Pointer              m_StaticInstance;
+  static std::recursive_mutex m_StaticInstanceLock;
+  static IntegerType          m_StaticDiffer;
 
 };  // end of class
 
@@ -296,7 +296,7 @@ private:
 inline void
 MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_InstanceLock);
+  std::lock_guard<std::mutex> mutexHolder(m_InstanceLock);
   this->m_Seed = seed;
   // Initialize generator state with seed
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
@@ -367,7 +367,7 @@ MersenneTwisterRandomVariateGenerator::SetSeed()
 inline MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator::GetSeed()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_InstanceLock);
+  std::lock_guard<std::mutex> mutexHolder(m_InstanceLock);
   volatile IntegerType seed = this->m_Seed;
   return seed;
 }

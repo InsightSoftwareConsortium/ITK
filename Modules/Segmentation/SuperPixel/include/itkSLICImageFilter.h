@@ -19,7 +19,7 @@
 #define itkSLICImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -223,8 +223,8 @@ private:
 
   bool m_InitializationPerturbation;
 
-  double m_AverageResidual;
-  SimpleFastMutexLock m_Mutex;
+  double               m_AverageResidual;
+  std::mutex m_Mutex;
 };
 } // end namespace itk
 

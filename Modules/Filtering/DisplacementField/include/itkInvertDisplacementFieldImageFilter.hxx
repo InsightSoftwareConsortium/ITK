@@ -23,7 +23,7 @@
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 #include "itkProgressTransformer.h"
 
 namespace itk
@@ -245,7 +245,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
       ItE.Set( -displacement );
       }
       {
-      MutexLockHolder<SimpleFastMutexLock> holder(m_Mutex);
+      std::lock_guard<std::mutex> holder(m_Mutex);
       this->m_MeanErrorNorm += localMean;
       if( this->m_MaxErrorNorm < localMax )
         {

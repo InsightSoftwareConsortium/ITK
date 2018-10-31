@@ -26,7 +26,7 @@
 #include "itkOpenCLUtil.h"
 #include "itkGPUDataManager.h"
 #include "itkGPUContextManager.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {

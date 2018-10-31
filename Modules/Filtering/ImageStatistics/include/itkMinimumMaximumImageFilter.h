@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 #include <vector>
 
@@ -140,7 +140,7 @@ private:
   PixelType m_ThreadMin;
   PixelType m_ThreadMax;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 };
 } // end namespace itk
 

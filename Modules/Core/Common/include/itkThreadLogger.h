@@ -19,7 +19,7 @@
 #define itkThreadLogger_h
 
 #include "itkLogger.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 #include <string>
 #include <queue>
@@ -137,7 +137,7 @@ private:
 
   OutputContainerType m_OutputQ;
 
-  mutable SimpleFastMutexLock m_Mutex;
+  mutable std::mutex m_Mutex;
 
   DelayType m_Delay;
 

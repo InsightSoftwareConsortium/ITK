@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkBuildInformation.h"
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
 #include "itkObjectFactory.h"
 
 #include <algorithm>
@@ -35,7 +33,7 @@ m_Map.emplace(                                                                  
 
 namespace itk {
 
-SimpleFastMutexLock BuildInformation::m_Mutex;
+std::mutex BuildInformation::m_Mutex;
 BuildInformation::Pointer BuildInformation::m_InformationInstance;
 BuildInformation::MapType BuildInformation::m_Map;
 
@@ -50,7 +48,7 @@ BuildInformation::Pointer
 BuildInformation
 ::GetInstance()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   if (m_InformationInstance.IsNull())
   {
     m_InformationInstance = ObjectFactory<Self>::Create();
@@ -108,7 +106,6 @@ BuildInformation::GetAllKeys()
 BuildInformation
 ::BuildInformation()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
   m_InformationInstance = this; //threads need this
   m_InformationInstance->UnRegister(); // Remove extra reference
 

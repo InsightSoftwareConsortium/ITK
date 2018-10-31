@@ -18,8 +18,7 @@
 
 #include "itkImageIOBase.h"
 #include "itkImageRegionSplitterSlowDimension.h"
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 #include "itksys/SystemTools.hxx"
 
 #include <iterator>
@@ -913,7 +912,7 @@ void ImageIOBase::ReadBufferAsASCII(std::istream & is, void *buffer,
 
 namespace
 {
-SimpleFastMutexLock ioDefaultSplitterLock;
+std::mutex ioDefaultSplitterLock;
 ImageRegionSplitterBase::Pointer ioDefaultSplitter;
 
 }
@@ -925,7 +924,7 @@ ImageIOBase::GetImageRegionSplitter() const
     {
     // thread safe lazy initialization,  prevent race condition on
     // setting, with an atomic set if null.
-    MutexLockHolder< SimpleFastMutexLock > lock(ioDefaultSplitterLock);
+    std::lock_guard< std::mutex > lock( ioDefaultSplitterLock );
     if ( ioDefaultSplitter.IsNull() )
       {
       ioDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer();

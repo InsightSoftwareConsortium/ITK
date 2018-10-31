@@ -30,7 +30,7 @@
 
 #include "itkImageBase.h"
 
-#include "itkFastMutexLock.h"
+#include <mutex>
 #include "itkProcessObject.h"
 #include "itkSpatialOrientation.h"
 #include <cstring>

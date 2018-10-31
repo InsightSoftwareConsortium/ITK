@@ -20,7 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkObject.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -93,9 +93,9 @@ private:
   BuildInformation();
 
   /** To lock on the internal variables */
-  static SimpleFastMutexLock m_Mutex;
-  static Pointer             m_InformationInstance;
-  static MapType             m_Map;
+  static std::mutex m_Mutex;
+  static Pointer    m_InformationInstance;
+  static MapType    m_Map;
 };  // end of class
 } // end namespace itk
 #endif

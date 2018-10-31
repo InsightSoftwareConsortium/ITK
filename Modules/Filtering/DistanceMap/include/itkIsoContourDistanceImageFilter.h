@@ -22,7 +22,7 @@
 #include "itkNarrowBand.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkNumericTraits.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -196,7 +196,7 @@ private:
   NarrowBandPointer         m_NarrowBand;
   std::vector< RegionType > m_NarrowBandRegion;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 };
 } // namespace itk
 

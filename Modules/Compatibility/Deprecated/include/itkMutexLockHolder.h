@@ -38,7 +38,7 @@ namespace itk
  *  the event of an exception being thrown after the lock was
  *  created.
  *
- * \ingroup ITKCommon
+ * \ingroup ITKDeprecated
  */
 template< typename TMutex >
 class MutexLockHolder

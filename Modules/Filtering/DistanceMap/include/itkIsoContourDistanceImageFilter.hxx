@@ -21,7 +21,7 @@
 #include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 namespace itk
 {
@@ -410,7 +410,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 
         PixelRealType valNew0 = val0 * val;
         PixelRealType valNew1 = val1 * val;
-        MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+        std::lock_guard<std::mutex> mutexHolder(m_Mutex);
         if ( std::fabs( static_cast< double >( valNew0 ) ) < std::fabs( static_cast< double >( outNeigIt.GetNext(n, 0) ) ) )
           {
           outNeigIt.SetNext( n, 0, static_cast< PixelType >( valNew0 ) );

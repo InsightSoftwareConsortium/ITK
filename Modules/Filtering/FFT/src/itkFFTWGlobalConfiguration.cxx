@@ -137,7 +137,7 @@ static bool isDeclineString(std::string response)
   return false;
 }
 
-itk::SimpleFastMutexLock              itk::FFTWGlobalConfiguration::m_CreationLock;
+std::mutex              itk::FFTWGlobalConfiguration::m_CreationLock;
 itk::FFTWGlobalConfiguration::Pointer itk::FFTWGlobalConfiguration::m_Instance=nullptr;
 
 FFTWGlobalConfiguration::Pointer
@@ -146,7 +146,7 @@ FFTWGlobalConfiguration
 {
   if( ! FFTWGlobalConfiguration::m_Instance )
     {
-    FFTWGlobalConfiguration::m_CreationLock.Lock();
+    FFTWGlobalConfiguration::m_CreationLock.lock();
     //Need to make sure that during gaining access
     //to the lock that some other thread did not
     //initialize the singleton.
@@ -162,7 +162,7 @@ FFTWGlobalConfiguration
         throw e_; /* Explicit naming to work around Intel compiler bug.  */
         }
       }
-    FFTWGlobalConfiguration::m_CreationLock.Unlock();
+    FFTWGlobalConfiguration::m_CreationLock.unlock();
     }
   return FFTWGlobalConfiguration::m_Instance;
 }
@@ -790,7 +790,7 @@ FFTWGlobalConfiguration
   return ret;
 }
 
-SimpleFastMutexLock &
+std::mutex &
 FFTWGlobalConfiguration
 ::GetLockMutex()
 {

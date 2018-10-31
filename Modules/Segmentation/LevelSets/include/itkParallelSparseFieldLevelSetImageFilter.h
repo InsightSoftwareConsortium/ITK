@@ -18,13 +18,14 @@
 #ifndef itkParallelSparseFieldLevelSetImageFilter_h
 #define itkParallelSparseFieldLevelSetImageFilter_h
 
-#include <vector>
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkSparseFieldLayer.h"
 #include "itkObjectStore.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkMultiThreaderBase.h"
 #include "itkBarrier.h"
+#include <condition_variable>
+#include <vector>
 
 namespace itk
 {
@@ -750,8 +751,8 @@ protected:
      *  BUT also by the thread's neighbors. So they are NOT truly "local" data. */
     int m_Semaphore[2];
 
-    SimpleMutexLock            m_Lock[2];
-    ConditionVariable::Pointer m_Condition[2];
+    std::mutex              m_Lock[2];
+    std::condition_variable m_Condition[2];
 
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for
       signalling/waiting */

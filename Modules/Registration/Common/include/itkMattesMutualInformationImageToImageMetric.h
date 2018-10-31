@@ -24,7 +24,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 
 namespace itk

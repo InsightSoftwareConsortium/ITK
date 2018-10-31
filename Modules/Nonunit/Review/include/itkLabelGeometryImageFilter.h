@@ -23,7 +23,6 @@
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itksys/hash_map.hxx"
-#include "itkSimpleFastMutexLock.h"
 #include <vector>
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/vnl_det.h"
@@ -482,8 +481,6 @@ private:
   MapType       m_LabelGeometryMapper;
   LabelGeometry m_LabelGeometry;
   LabelsType    m_AllLabels;
-
-  SimpleFastMutexLock m_Mutex;
 }; // end of class
 
 } // end namespace itk

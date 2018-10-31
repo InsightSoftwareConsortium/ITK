@@ -29,7 +29,7 @@
 #define itkFEMFactoryBase_h
 
 #include "itkObjectFactoryBase.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 #include "ITKFEMExport.h"
 
 namespace itk
@@ -70,7 +70,7 @@ public:
   {
     if( m_Factory == nullptr )
       {
-      m_CreationLock.Lock();
+      m_CreationLock.lock();
       //Need to make sure that during gaining access
       //to the lock that some other thread did not
       //initialize the singleton.
@@ -89,7 +89,7 @@ public:
         ObjectFactoryBase::RegisterFactory( p );
         m_Factory = p.GetPointer();
         }
-      m_CreationLock.Unlock();
+      m_CreationLock.unlock();
       m_Factory->RegisterDefaultTypes(); //Not initialzie all default types.
       }
     return m_Factory;
@@ -109,8 +109,8 @@ protected:
   ~FEMFactoryBase() override;
 
 private:
-  static SimpleFastMutexLock m_CreationLock;
-  static FEMFactoryBase*     m_Factory;
+  static std::mutex      m_CreationLock;
+  static FEMFactoryBase* m_Factory;
 };
 } // end namespace itk
 

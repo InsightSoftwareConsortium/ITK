@@ -44,19 +44,19 @@ void
 ThreadLogger
 ::SetPriorityLevel(PriorityLevelType level)
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   this->m_OperationQ.push(SET_PRIORITY_LEVEL);
   this->m_LevelQ.push(level);
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
 }
 
 Logger::PriorityLevelType
 ThreadLogger
 ::GetPriorityLevel() const
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   PriorityLevelType level = this->m_PriorityLevel;
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
   return level;
 }
 
@@ -64,20 +64,20 @@ void
 ThreadLogger
 ::SetLevelForFlushing(PriorityLevelType level)
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   this->m_LevelForFlushing = level;
   this->m_OperationQ.push(SET_LEVEL_FOR_FLUSHING);
   this->m_LevelQ.push(level);
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
 }
 
 Logger::PriorityLevelType
 ThreadLogger
 ::GetLevelForFlushing() const
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   PriorityLevelType level = this->m_LevelForFlushing;
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
   return level;
 }
 
@@ -85,18 +85,18 @@ void
 ThreadLogger
 ::SetDelay(DelayType delay)
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   this->m_Delay = delay;
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
 }
 
 ThreadLogger::DelayType
 ThreadLogger
 ::GetDelay() const
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   DelayType delay = this->m_Delay;
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
   return delay;
 }
 
@@ -104,21 +104,21 @@ void
 ThreadLogger
 ::AddLogOutput(OutputType *output)
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   this->m_OperationQ.push(ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
 }
 
 void
 ThreadLogger
 ::Write(PriorityLevelType level, std::string const & content)
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   this->m_OperationQ.push(WRITE);
   this->m_MessageQ.push(content);
   this->m_LevelQ.push(level);
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
   if ( this->m_LevelForFlushing >= level )
     {
     this->InternalFlush();
@@ -129,9 +129,9 @@ void
 ThreadLogger
 ::Flush()
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
   this->m_OperationQ.push(FLUSH);
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
   this->InternalFlush();
 }
 
@@ -139,7 +139,7 @@ void
 ThreadLogger
 ::InternalFlush()
 {
-  this->m_Mutex.Lock();
+  this->m_Mutex.lock();
 
   while ( !this->m_OperationQ.empty() )
     {
@@ -172,7 +172,7 @@ ThreadLogger
     this->m_OperationQ.pop();
     }
   this->m_Output->Flush();
-  this->m_Mutex.Unlock();
+  this->m_Mutex.unlock();
 }
 
 void
@@ -181,7 +181,7 @@ ThreadLogger
 {
   while ( !m_TerminationRequested )
     {
-    m_Mutex.Lock();
+    m_Mutex.lock();
     while ( !m_OperationQ.empty() )
       {
       switch ( m_OperationQ.front() )
@@ -212,7 +212,7 @@ ThreadLogger
         }
       m_OperationQ.pop();
       }
-    m_Mutex.Unlock();
+    m_Mutex.unlock();
     itksys::SystemTools::Delay(this->GetDelay());
     }
 }

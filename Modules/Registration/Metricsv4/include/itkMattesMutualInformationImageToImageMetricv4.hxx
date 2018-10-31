@@ -20,8 +20,7 @@
 
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkCompensatedSummation.h"
-#include "itkMutexLock.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 namespace itk
 {
@@ -410,7 +409,7 @@ void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::DerivativeBufferManager
 ::Initialize( size_t maxBufferLength, const size_t cachedNumberOfLocalParameters,
-              SimpleFastMutexLock * parentDerivativeLockPtr,
+              std::mutex * parentDerivativeLockPtr,
               typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives)
 {
   m_CurrentFillSize = 0;
@@ -457,8 +456,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   if( m_CurrentFillSize ==  m_MaxBufferSize )
     {
     //Attempt to acquire the lock once
-    MutexLockHolder< SimpleFastMutexLock > FirstTryLockHolder(*this->m_ParentJointPDFDerivativesLockPtr, true);
-    if(FirstTryLockHolder.GetLockCaptured())
+    std::unique_lock< std::mutex > FirstTryLockHolder(
+      *this->m_ParentJointPDFDerivativesLockPtr, std::try_to_lock );
+    if(FirstTryLockHolder.owns_lock())
       {
       ReduceBuffer();
       }
@@ -466,8 +466,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
       {
       DoubleBufferSize();
       //Attempt to acquire the lock a second time
-      MutexLockHolder< SimpleFastMutexLock > SecondTryLockHolder(*this->m_ParentJointPDFDerivativesLockPtr, true);
-      if(SecondTryLockHolder.GetLockCaptured())
+      std::unique_lock< std::mutex > SecondTryLockHolder(
+        *this->m_ParentJointPDFDerivativesLockPtr, std::try_to_lock);
+      if(SecondTryLockHolder.owns_lock())
         {
         ReduceBuffer();
         }
@@ -489,7 +490,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 {
   if( m_CurrentFillSize > 0 )
     {
-    MutexLockHolder< SimpleFastMutexLock > LockHolder(*this->m_ParentJointPDFDerivativesLockPtr);
+    std::lock_guard< std::mutex > LockHolder(*this->m_ParentJointPDFDerivativesLockPtr);
     ReduceBuffer();
     }
 }

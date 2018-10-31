@@ -39,7 +39,6 @@
 #include "itkEuler3DTransform.h"
 #include "itkExpImageAdaptor.h"
 #include "itkExpNegativeImageAdaptor.h"
-#include "itkFastMutexLock.h"
 #include "itkFiniteCylinderSpatialFunction.h"
 #include "itkFrustumSpatialFunction.h"
 #include "itkGaussianDerivativeImageFunction.h"
@@ -60,7 +59,6 @@
 #include "itkMesh.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkMinimumDecisionRule.h"
-#include "itkMutexLock.h"
 #include "itkMultiThreaderBase.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"
@@ -231,10 +229,6 @@ int itkCommonPrintTest(int , char* [])
     itk::ExpNegativeImageAdaptor<InputType,OutputType>::New();
   std::cout << "------------ExpNegativeImageAdaptor" << ExpNegativeImageAdaptorObj;
 
-  itk::FastMutexLock::Pointer FastMutexLockObj =
-    itk::FastMutexLock::New();
-  std::cout << "------------FastMutexLock" << FastMutexLockObj;
-
   itk::FileOutputWindow::Pointer FileOutputWindowObj =
     itk::FileOutputWindow::New();
   std::cout << "------------FileOutputWindow" << FileOutputWindowObj;
@@ -354,10 +348,6 @@ int itkCommonPrintTest(int , char* [])
   itk::MultiThreaderBase::Pointer MultiThreaderObj =
     itk::MultiThreaderBase::New();
   std::cout << "------------MultiThreaderBase" << MultiThreaderObj;
-
-  itk::MutexLock::Pointer MutexLockObj =
-    itk::MutexLock::New();
-  std::cout << "------------MutexLock" << MutexLockObj;
 
   itk::NearestNeighborInterpolateImageFunction<InputType,float>::Pointer NearestNeighborInterpolateImageFunctionObj =
     itk::NearestNeighborInterpolateImageFunction<InputType,float>::New();
