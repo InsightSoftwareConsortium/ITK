@@ -52,7 +52,6 @@ itk_module(ITKReview
     ITKIOTIFF
     ITKIOVTK
     ITKIOXML
-    ITKIOJPEG2000
     ITKKLMRegionGrowing
     ITKLabelVoting
     ITKLevelSets
