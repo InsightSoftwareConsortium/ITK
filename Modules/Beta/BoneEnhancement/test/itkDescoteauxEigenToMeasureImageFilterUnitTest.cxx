@@ -36,11 +36,11 @@ public:
   using EigenPixelType      = float;
   using EigenValueArrayType = itk::FixedArray< EigenPixelType, DIMENSION >;
   using EigenImageType      = itk::Image< EigenValueArrayType, DIMENSION >;
-  using SpatialObjectType   = itk::ImageMaskSpatialObject< DIMENSION >;
   using MaskImageType       = itk::Image< unsigned char, DIMENSION >;
-  using FilterType          = typename itk::DescoteauxEigenToMeasureImageFilter< EigenImageType, OutputPixelType, SpatialObjectType>;
+  using FilterType          = typename itk::DescoteauxEigenToMeasureImageFilter< EigenImageType, OutputPixelType >;
   using FilterPointerType   = typename FilterType::Pointer;
   using ParameterArrayType  = typename FilterType::ParameterArrayType;
+  using SpatialObjectType   = itk::ImageMaskSpatialObject< DIMENSION >;
 
   itkDescoteauxEigenToMeasureImageFilterUnitTest() {
     /* Instantiate filter */
@@ -131,7 +131,6 @@ public:
       ++maskIt;
     }
 
-    /* Create Spatial Object */
     m_SpatialObject = SpatialObjectType::New();
     m_SpatialObject->SetImage(m_MaskImage);
   }
@@ -279,7 +278,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestWithSpatialObject
   this->m_Parameters[2] = 0.25;
   this->m_Filter->SetParameters(this->m_Parameters);
   this->m_Filter->SetInput(this->m_NonZeroEigenImage);
-  this->m_Filter->SetMaskingSpatialObject(this->m_SpatialObject);
+  this->m_Filter->SetMask(this->m_SpatialObject);
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 

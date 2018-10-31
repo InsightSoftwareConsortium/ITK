@@ -88,9 +88,8 @@ int main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader< InputImageType >;
   using MeasureWriterType = itk::ImageFileWriter< OutputImageType >;
   using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
-  using SpatialObjectType = MultiScaleHessianFilterType::SpatialObjectType;
-  using DescoteauxEigenToMeasureImageFilterType = itk::DescoteauxEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType, SpatialObjectType >;
-  using DescoteauxEigenToMeasureParameterEstimationFilterType = itk::DescoteauxEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType, SpatialObjectType >;
+  using DescoteauxEigenToMeasureImageFilterType = itk::DescoteauxEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
+  using DescoteauxEigenToMeasureParameterEstimationFilterType = itk::DescoteauxEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType >;
 
   /* Do preprocessing */
   std::cout << "Reading in " << inputFileName << std::endl;

@@ -20,8 +20,8 @@
 #define itkEigenToMeasureImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkSpatialObject.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkSpatialObject.h"
 
 namespace itk {
 /** \class EigenToMeasureImageFilter
@@ -37,7 +37,7 @@ namespace itk {
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
+template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT EigenToMeasureImageFilter
   : public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -68,9 +68,9 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType  = typename OutputImageType::PixelType;
 
-  /** Input SpatialObject typedefs. */
-  using SpatialObjectType         = TInputSpatialObject;
-  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
+  /** Input Mask typedefs. */
+  using MaskSpatialObjectType               = SpatialObject< Self::ImageDimension >;
+  using MaskSpatialObjectTypeConstPointer   = typename MaskSpatialObjectType::ConstPointer;
 
   /** Parameter typedefs. */
   using RealType                = typename NumericTraits< PixelValueType >::RealType;
@@ -82,8 +82,8 @@ public:
   itkSetGetDecoratedInputMacro(Parameters, ParameterArrayType);
 
   /** Methods to set/get the mask image */
-  itkSetInputMacro(MaskingSpatialObject, SpatialObjectType);
-  itkGetInputMacro(MaskingSpatialObject, SpatialObjectType);
+  itkSetInputMacro(Mask, MaskSpatialObjectType);
+  itkGetInputMacro(Mask, MaskSpatialObjectType);
 
   /** Template the EigenValueOrderType. Methods that inherit from this class can override this function
    * to produce a different eigenvalue ordering. Ideally, the enum EigenValueOrderType should come from
@@ -101,7 +101,16 @@ public:
 protected:
   EigenToMeasureImageFilter() {};
   virtual ~EigenToMeasureImageFilter() {}
+
+  virtual OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel) = 0;
+
+  /** Multi-thread version GenerateData. */
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 }; // end class
 } /* end namespace */
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkEigenToMeasureImageFilter.hxx"
+#endif
 
 #endif /* itkEigenToMeasureImageFilter_h */

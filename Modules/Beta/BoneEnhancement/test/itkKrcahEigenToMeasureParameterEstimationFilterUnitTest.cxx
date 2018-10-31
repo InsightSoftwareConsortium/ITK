@@ -34,11 +34,11 @@ public:
   using PixelType           = T;
   using EigenValueArrayType = itk::FixedArray< PixelType, DIMENSION >;
   using EigenImageType      = itk::Image< EigenValueArrayType, DIMENSION >;
-  using SpatialObjectType   = itk::ImageMaskSpatialObject< DIMENSION >;
   using MaskImageType       = itk::Image< unsigned char, DIMENSION >;
-  using FilterType          = typename itk::KrcahEigenToMeasureParameterEstimationFilter< EigenImageType, SpatialObjectType>;
+  using FilterType          = typename itk::KrcahEigenToMeasureParameterEstimationFilter< EigenImageType >;
   using FilterPointerType   = typename FilterType::Pointer;
   using ParameterArrayType  = typename FilterType::ParameterArrayType;
+  using SpatialObjectType   = itk::ImageMaskSpatialObject< DIMENSION >;
 
   itkKrcahEigenToMeasureParameterEstimationFilterUnitTest() {
     /* Instantiate filter */
@@ -243,7 +243,7 @@ TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestOnesImag
 
 TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestWithSpatialObjectImplementation) {
   this->m_Filter->SetInput(this->m_MaskingEigenImage);
-  this->m_Filter->SetMaskingSpatialObject(this->m_SpatialObject);
+  this->m_Filter->SetMask(this->m_SpatialObject);
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
@@ -255,7 +255,7 @@ TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestWithSpat
 
 TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestWithSpatialObjectJournalArticle) {
   this->m_Filter->SetInput(this->m_MaskingEigenImage);
-  this->m_Filter->SetMaskingSpatialObject(this->m_SpatialObject);
+  this->m_Filter->SetMask(this->m_SpatialObject);
   this->m_Filter->SetParameterSetToJournalArticle();
   EXPECT_NO_THROW(this->m_Filter->Update());
   EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);

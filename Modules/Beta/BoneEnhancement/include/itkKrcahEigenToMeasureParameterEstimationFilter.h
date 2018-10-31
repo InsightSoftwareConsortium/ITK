@@ -73,16 +73,16 @@ namespace itk {
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template<typename TInputImage, typename TInputSpatialObject >
+template<typename TInputImage >
 class KrcahEigenToMeasureParameterEstimationFilter
-  : public EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >
+  : public EigenToMeasureParameterEstimationFilter< TInputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureParameterEstimationFilter);
 
   /** Standard Self typedef */
   using Self          = KrcahEigenToMeasureParameterEstimationFilter;
-  using Superclass    = EigenToMeasureParameterEstimationFilter< TInputImage, TInputSpatialObject >;
+  using Superclass    = EigenToMeasureParameterEstimationFilter< TInputImage >;
   using Pointer       = SmartPointer<Self>;
   using ConstPointer  = SmartPointer<const Self>;
   
@@ -99,9 +99,9 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
   using OutputImagePixelType  = typename Superclass::OutputImagePixelType;
 
-  /** Input SpatialObject typedefs. */
-  using SpatialObjectType         = typename Superclass::SpatialObjectType;
-  using SpatialObjectConstPointer = typename Superclass::SpatialObjectConstPointer;
+  /** Input Mask typedefs. */
+  using MaskSpatialObjectType             = typename Superclass::MaskSpatialObjectType;
+  using MaskSpatialObjectTypeConstPointer = typename Superclass::MaskSpatialObjectTypeConstPointer;
 
   /** Parameter typedefs */
   using RealType                = typename Superclass::RealType;

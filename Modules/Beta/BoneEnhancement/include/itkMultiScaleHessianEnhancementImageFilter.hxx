@@ -135,11 +135,11 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   m_EigenToMeasureImageFilter->SetParametersInput(m_EigenToMeasureParameterEstimationFilter->GetParametersOutput());
 
   /* Set the mask */
-  SpatialObjectConstPointer mask = this->GetImageMask();
+  MaskSpatialObjectTypeConstPointer mask = this->GetImageMask();
   if (mask)
   {
-    m_EigenToMeasureParameterEstimationFilter->SetMaskingSpatialObject(mask);
-    m_EigenToMeasureParameterEstimationFilter->SetMaskingSpatialObject(mask);
+    m_EigenToMeasureParameterEstimationFilter->SetMask(mask);
+    m_EigenToMeasureParameterEstimationFilter->SetMask(mask);
   }
 
   /* After executing we want to release data to save memory */
@@ -239,7 +239,7 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   region = inputPtr->GetLargestPossibleRegion();
 
   /* Grab the mask pointer */
-  SpatialObjectConstPointer mask = this->GetImageMask();
+  MaskSpatialObjectTypeConstPointer mask = this->GetImageMask();
   if (!mask)
   {
     // No mask was set so we need to estimate parameters across the whole image
@@ -247,7 +247,7 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   }
 
   /* Crop the region */
-  typename SpatialObjectType::RegionType maskRegion = mask->GetAxisAlignedBoundingBoxRegion();
+  typename MaskSpatialObjectType::RegionType maskRegion = mask->GetAxisAlignedBoundingBoxRegion();
   region.Crop(maskRegion);
 
   return region;

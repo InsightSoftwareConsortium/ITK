@@ -24,7 +24,7 @@
 #include "itkMaximumAbsoluteValueImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
-#include "itkImageMaskSpatialObject.h"
+#include "itkSpatialObject.h"
 #include "itkEigenToMeasureImageFilter.h"
 #include "itkEigenToMeasureParameterEstimationFilter.h"
 
@@ -96,12 +96,12 @@ public:
   using OutputImagePixelType    = typename OutputImageType::PixelType;
 
   /** Mask related typedefs. */
-  using SpatialObjectType         = ImageMaskSpatialObject< ImageDimension >;
-  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
+  using MaskSpatialObjectType             = SpatialObject< ImageDimension >;
+  using MaskSpatialObjectTypeConstPointer = typename MaskSpatialObjectType::ConstPointer;
 
   /** Methods to set/get the mask image */
-  itkSetInputMacro(ImageMask, SpatialObjectType);
-  itkGetInputMacro(ImageMask, SpatialObjectType);
+  itkSetInputMacro(ImageMask, MaskSpatialObjectType);
+  itkGetInputMacro(ImageMask, MaskSpatialObjectType);
 
   /** Hessian related typedefs. */
   // using HessianFilterType = HessianRecursiveGaussianImageFilter< TInputImage >;
@@ -123,8 +123,8 @@ public:
   using MaximumAbsoluteValueFilterType = MaximumAbsoluteValueImageFilter< TOutputImage >;
 
   /** Eigenvalue image to measure image related typedefs */
-  using EigenToMeasureImageFilterType               = EigenToMeasureImageFilter< EigenValueImageType, TOutputImage, SpatialObjectType >;
-  using EigenToMeasureParameterEstimationFilterType = EigenToMeasureParameterEstimationFilter< EigenValueImageType, SpatialObjectType >;
+  using EigenToMeasureImageFilterType               = EigenToMeasureImageFilter< EigenValueImageType, TOutputImage >;
+  using EigenToMeasureParameterEstimationFilterType = EigenToMeasureParameterEstimationFilter< EigenValueImageType >;
   
   /** Need some types to determine how to order the eigenvalues */
   using InternalEigenValueOrderType = typename EigenAnalysisFilterType::FunctorType::EigenValueOrderType;

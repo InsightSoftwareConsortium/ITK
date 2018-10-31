@@ -20,8 +20,8 @@
 #define itkEigenToMeasureParameterEstimationFilter_h
 
 #include "itkStreamingImageFilter.h"
-#include "itkSpatialObject.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkSpatialObject.h"
 
 namespace itk {
 /** \class EigenToMeasureParameterEstimationFilter
@@ -46,7 +46,7 @@ namespace itk {
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template< typename TInputImage, typename TInputSpatialObject >
+template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT EigenToMeasureParameterEstimationFilter
   : public StreamingImageFilter< TInputImage, TInputImage >
 {
@@ -75,9 +75,9 @@ public:
   using OutputImageType       = TInputImage;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  /** Input SpatialObject typedefs. */
-  using SpatialObjectType         = TInputSpatialObject;
-  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
+  /** Input Mask typedefs. */
+  using MaskSpatialObjectType               = SpatialObject< Self::ImageDimension >;
+  using MaskSpatialObjectTypeConstPointer   = typename MaskSpatialObjectType::ConstPointer;
 
   /** Parameter typedefs. */
   using RealType                = typename NumericTraits< PixelValueType >::RealType;
@@ -96,8 +96,8 @@ public:
   }
 
   /** Methods to set/get the mask image */
-  itkSetInputMacro(MaskingSpatialObject, SpatialObjectType);
-  itkGetInputMacro(MaskingSpatialObject, SpatialObjectType);
+  itkSetInputMacro(Mask, MaskSpatialObjectType);
+  itkGetInputMacro(Mask, MaskSpatialObjectType);
 
   /** Override UpdateOutputData() from StreamingImageFilter to divide
    * upstream updates into pieces. This filter does not have a GenerateData()
@@ -106,14 +106,6 @@ public:
    * update some more, execute some more, etc. */
   void UpdateOutputData(DataObject *output) override;
 
-  /** Static function used as a "callback" by the MultiThreader.  The threading
-   * library will call this routine for each thread, which will delegate the
-   * control to ThreadedGenerateData(). */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback(void *arg);
-
-  struct ThreadStruct {
-    Pointer Filter;
-  };
 protected:
   EigenToMeasureParameterEstimationFilter();
   virtual ~EigenToMeasureParameterEstimationFilter() {}

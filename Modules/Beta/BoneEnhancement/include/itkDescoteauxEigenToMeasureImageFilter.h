@@ -46,16 +46,16 @@ namespace itk {
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
+template< typename TInputImage, typename TOutputImage >
 class DescoteauxEigenToMeasureImageFilter
-  : public EigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
+  : public EigenToMeasureImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureImageFilter);
 
   /** Standard Self typedef */
   using Self          = DescoteauxEigenToMeasureImageFilter;
-  using Superclass    = EigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >;
+  using Superclass    = EigenToMeasureImageFilter< TInputImage, TOutputImage >;
   using Pointer       = SmartPointer<Self>;
   using ConstPointer  = SmartPointer<const Self>;
 
@@ -76,10 +76,6 @@ public:
   using RealType                = typename Superclass::RealType;
   using ParameterArrayType      = typename Superclass::ParameterArrayType;
   using ParameterDecoratedType  = typename Superclass::ParameterDecoratedType;
-
-  /** Input SpatialObject typedefs. */
-  using SpatialObjectType  = typename Superclass::SpatialObjectType;
-  using SpatialObjectConstPointer  = typename Superclass::SpatialObjectConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -119,10 +115,10 @@ protected:
   DescoteauxEigenToMeasureImageFilter();
   virtual ~DescoteauxEigenToMeasureImageFilter() {}
 
-  inline OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel, const RealType& alpha, const RealType& beta, const RealType& c);
+  OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel) override;
 
-  /** Multi-thread version GenerateData. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  /** Check the input has the right number of parameters. */
+  void BeforeThreadedGenerateData() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 private:

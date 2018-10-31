@@ -101,9 +101,8 @@ int main(int argc, char * argv[])
 
   using PreprocessFilterType = itk::KrcahPreprocessingImageToImageFilter< InputImageType >;
   using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
-  using SpatialObjectType = MultiScaleHessianFilterType::SpatialObjectType;
-  using KrcahEigenToMeasureFilterType = itk::KrcahEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType, SpatialObjectType >;
-  using KrcahEigenToMeasureParameterEstimationFilterType = itk::KrcahEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType, SpatialObjectType >;
+  using KrcahEigenToMeasureFilterType = itk::KrcahEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
+  using KrcahEigenToMeasureParameterEstimationFilterType = itk::KrcahEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType >;
 
   /* Do preprocessing */
   ReaderType::Pointer  reader = ReaderType::New();

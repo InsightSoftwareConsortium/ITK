@@ -24,99 +24,70 @@
 #include "itkImageRegionIterator.h"
 
 namespace itk {
-template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
+template< typename TInputImage, typename TOutputImage >
+KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
 ::KrcahEigenToMeasureImageFilter() :
   Superclass(),
   m_EnhanceType(-1.0f)
 {}
 
-template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
+template< typename TInputImage, typename TOutputImage >
 void
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
+::BeforeThreadedGenerateData()
 {
-  /* Get Inputs */
   ParameterArrayType parameters = this->GetParametersInput()->Get();
-  InputImageConstPointer inputPtr = this->GetInput(0);
-  OutputImagePointer outputPtr = this->GetOutput(0);
-  SpatialObjectConstPointer maskPointer = this->GetMaskingSpatialObject();
-  typename InputImageType::PointType point;
-
-  /* Set parameters */
   if (parameters.GetSize() != 3)
   {
     itkExceptionMacro(<< "Parameters must have size 3. Given array of size " << parameters.GetSize());
   }
-
-  // Define the portion of the input to walk for this thread, using
-  // the CallCopyOutputRegionToInputRegion method allows for the input
-  // and output images to be different dimensions
-  InputImageRegionType inputRegionForThread;
-
-  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
-
-  // Define the iterators
-  ImageRegionConstIteratorWithIndex< TInputImage >  inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator< TOutputImage >               outputIt(outputPtr, outputRegionForThread);
-
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
-
-  while ( !inputIt.IsAtEnd() )
-  {
-    inputPtr->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ( (!maskPointer) ||  (maskPointer->IsInside(point)) )
-    {
-      outputIt.Set( ProcessPixel( inputIt.Get(), parameters[0], parameters[1], parameters[2] ) );
-    }
-    else
-    {
-      outputIt.Set( NumericTraits< OutputImagePixelType >::Zero );
-    }
-    ++inputIt;
-    ++outputIt;
-  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
-typename KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >::OutputImagePixelType
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
-::ProcessPixel(const InputImagePixelType& pixel, const RealType& alpha, const RealType& beta, const RealType& gamma)
+template< typename TInputImage, typename TOutputImage >
+typename KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
+KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
+::ProcessPixel(const InputImagePixelType& pixel)
 {
-    double sheetness = 0.0;
-    double a1 = static_cast<double>( pixel[0] );
-    double a2 = static_cast<double>( pixel[1] );
-    double a3 = static_cast<double>( pixel[2] );
-    double l1 = Math::abs(a1);
-    double l2 = Math::abs(a2);
-    double l3 = Math::abs(a3);
+  /* Grab parameters */
+  ParameterArrayType parameters = this->GetParametersInput()->Get();
+  RealType alpha = parameters[0];
+  RealType beta = parameters[1];
+  RealType gamma = parameters[2];
 
-    /* Avoid divisions by zero (or close to zero) */
-    if (static_cast<double>( l3 ) < Math::eps || static_cast<double>( l2 ) < Math::eps) {
-        return static_cast<OutputImagePixelType>( sheetness );
-    }
+  /* Grab pixel values */
+  double sheetness = 0.0;
+  double a1 = static_cast<double>( pixel[0] );
+  double a2 = static_cast<double>( pixel[1] );
+  double a3 = static_cast<double>( pixel[2] );
+  double l1 = Math::abs(a1);
+  double l2 = Math::abs(a2);
+  double l3 = Math::abs(a3);
 
-    /**
-     * Compute sheet, noise, and tube like measures. Note that the average trace of the
-     * Hessian matrix is implicitly included in \f$ \gamma \f$ here.
-     */
-    const double Rsheet = l2 / l3;
-    const double Rnoise = (l1 + l2 + l3); // T implicite in m_Gamma
-    const double Rtube = l1 / (l2 * l3);
+  /* Avoid divisions by zero (or close to zero) */
+  if (static_cast<double>( l3 ) < Math::eps || static_cast<double>( l2 ) < Math::eps) {
+      return static_cast<OutputImagePixelType>( sheetness );
+  }
 
-    /* Multiply together to get sheetness */
-    sheetness = (m_EnhanceType*a3/l3);
-    sheetness *= vcl_exp(-(Rsheet * Rsheet) / (alpha * alpha));
-    sheetness *= vcl_exp(-(Rtube * Rtube) / (beta * beta));
-    sheetness *= (1.0 - vcl_exp(-(Rnoise * Rnoise) / (gamma * gamma)));
+  /**
+   * Compute sheet, noise, and tube like measures. Note that the average trace of the
+   * Hessian matrix is implicitly included in \f$ \gamma \f$ here.
+   */
+  const double Rsheet = l2 / l3;
+  const double Rnoise = (l1 + l2 + l3); // T implicite in m_Gamma
+  const double Rtube = l1 / (l2 * l3);
 
-    return static_cast<OutputImagePixelType>( sheetness );
+  /* Multiply together to get sheetness */
+  sheetness = (m_EnhanceType*a3/l3);
+  sheetness *= vcl_exp(-(Rsheet * Rsheet) / (alpha * alpha));
+  sheetness *= vcl_exp(-(Rtube * Rtube) / (beta * beta));
+  sheetness *= (1.0 - vcl_exp(-(Rnoise * Rnoise) / (gamma * gamma)));
+
+  return static_cast<OutputImagePixelType>( sheetness );
 }
 
-template< typename TInputImage, typename TOutputImage, typename TInputSpatialObject >
+template< typename TInputImage, typename TOutputImage >
 void
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
+KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
