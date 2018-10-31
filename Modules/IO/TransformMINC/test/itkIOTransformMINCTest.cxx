@@ -57,7 +57,6 @@ static int check_linear(const char *linear_transform)
   const double tolerance = 1e-5;
 
   AffineTransformType::Pointer        affine = AffineTransformType::New();
-  AffineTransformType::InputPointType cor;
 
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New() );
 
