@@ -23,9 +23,11 @@
 #include "itkMath.h"
 
 namespace itk {
-namespace Functor {
-/** \class KrcahEigenToMeasureFunctor
- * \brief Eigenvalue to measure functor as defined by Krcah et al.
+/** \class KrcahEigenToMeasureImageFilter
+ * \brief Convert eigenvalues into a measure of sheetness according to the method of Krcah et al.
+ * 
+ * Converts a 3D fixed array of eigenvalues into a measure of sheetness according to the method
+ * of Krcah et al. The parameters of the filter should be set using KrcahEigentoScalarParameterEstimationImageFilter.
  * 
  * Computes the following equation for eigenvalues in a three
  * dimensional fixed array:
@@ -38,110 +40,6 @@ namespace Functor {
  * 
  * The scaling by the average trace of the Hessian matrix is implicit in \f$ \gamma \f$.
  * 
- * \sa KrcahEigenToMeasureImageFilter
- * 
- * \author: Thomas Fitze
- * \ingroup BoneEnhancement
- */
-template< typename TInputPixel, typename TOutputPixel>
-class KrcahEigenToMeasureFunctor {
-public:
-  /* Basic type definitions */
-  using RealType = typename NumericTraits< TOutputPixel >::RealType;
-
-  KrcahEigenToMeasureFunctor() :
-    m_Direction(-1.0)
-  {}
-
-  inline TOutputPixel operator()(const TInputPixel &A) {
-    double sheetness = 0.0;
-    double a1 = static_cast<double>( A[0] );
-    double a2 = static_cast<double>( A[1] );
-    double a3 = static_cast<double>( A[2] );
-    double l1 = Math::abs(a1);
-    double l2 = Math::abs(a2);
-    double l3 = Math::abs(a3);
-
-    /* Avoid divisions by zero (or close to zero) */
-    if (static_cast<double>( l3 ) < Math::eps || static_cast<double>( l2 ) < Math::eps) {
-        return static_cast<TOutputPixel>( sheetness );
-    }
-
-    /**
-     * Compute sheet, noise, and tube like measures. Note that the average trace of the
-     * Hessian matrix is implicitly included in \f$ \gamma \f$ here.
-     */
-    const double Rsheet = l2 / l3;
-    const double Rnoise = (l1 + l2 + l3); // T implicite in m_Gamma
-    const double Rtube = l1 / (l2 * l3);
-
-    /* Multiply together to get sheetness */
-    sheetness = (m_Direction*a3/l3);
-    sheetness *= vcl_exp(-(Rsheet * Rsheet) / (m_Alpha * m_Alpha));
-    sheetness *= vcl_exp(-(Rtube * Rtube) / (m_Beta * m_Beta));
-    sheetness *= (1.0 - vcl_exp(-(Rnoise * Rnoise) / (m_Gamma * m_Gamma)));
-
-    return static_cast<TOutputPixel>( sheetness );
-  }
-
-  /** Macro definition for set/get of parameters */
-  virtual void SetAlpha(const RealType alpha)
-  {
-    this->m_Alpha = alpha;
-  }
-  virtual void SetBeta(const RealType beta)
-  {
-    this->m_Beta = beta;
-  }
-  virtual void SetGamma(const RealType gamma)
-  {
-    this->m_Gamma= gamma;
-  }
-  RealType GetAlpha() const
-  {
-    return this->m_Alpha;
-  }
-  RealType GetBeta() const
-  {
-    return this->m_Beta;
-  }
-  RealType GetGamma() const
-  {
-    return this->m_Gamma;
-  }
-
-  /** Set/get the type to enhance */
-  void SetEnhanceBrightObjects()
-  {
-    m_Direction = -1.0;
-  }
-  void SetEnhanceDarkObjects()
-  {
-    m_Direction = 1.0;
-  }
-  RealType GetEnhanceType() const
-  {
-    return m_Direction;
-  }
-
-private:
-  /* Private member variables */
-  RealType m_Alpha;
-  RealType m_Beta;
-  RealType m_Gamma;
-  RealType m_Direction;
-}; // end class
-} // end Functor
-
-/** \class KrcahEigenToMeasureImageFilter
- * \brief Convert eigenvalues into a measure of sheetness according to the method of Krcah et al.
- * 
- * Converts a 3D fixed array of eigenvalues into a measure of sheetness according to the method
- * of Krcah et al. The parameters of the filter should be set using KrcahEigentoScalarParameterEstimationImageFilter.
- * 
- * The mathematics are defined in KrcahEigenToMeasureFunctor
- * 
- * \sa KrcahEigenToMeasureFunctor
  * \sa KrcahEigenToMeasureParameterEstimationFilter
  * \sa EigenToMeasureImageFilter
  * \sa MultiScaleHessianEnhancementImageFilter
@@ -153,6 +51,7 @@ template< typename TInputImage, typename TOutputImage, typename TInputSpatialObj
 class KrcahEigenToMeasureImageFilter
   : public EigenToMeasureImageFilter< TInputImage, TOutputImage, TInputSpatialObject >
 {
+public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureImageFilter);
 
   /** Standard Self typedef */
@@ -182,9 +81,6 @@ class KrcahEigenToMeasureImageFilter
   /** Input SpatialObject typedefs. */
   using SpatialObjectType         = typename Superclass::SpatialObjectType;
   using SpatialObjectConstPointer = typename Superclass::SpatialObjectConstPointer;
-
-  /** Functor typedefs. */
-  using FunctorType = typename Functor::KrcahEigenToMeasureFunctor< InputImagePixelType, OutputImagePixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -224,14 +120,15 @@ protected:
   KrcahEigenToMeasureImageFilter();
   virtual ~KrcahEigenToMeasureImageFilter() {}
 
+  inline OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel, const RealType& alpha, const RealType& beta, const RealType& gamma);
+
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 private:
   /* Member variables */
   RealType    m_EnhanceType;
-  FunctorType m_Functor;
 }; // end class
 } /* end namespace itk */
 

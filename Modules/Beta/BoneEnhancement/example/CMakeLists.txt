@@ -8,6 +8,7 @@ include_directories(../include)
 
 set(${module}_SRC
     computeKrcahBoneEnhancement.cxx
+    # computeDescoteauxBoneEnhancement.cxx
 )
 
 add_executable(${module} ${${module}_SRC} )

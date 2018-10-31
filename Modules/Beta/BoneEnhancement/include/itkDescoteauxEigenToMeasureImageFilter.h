@@ -119,7 +119,7 @@ protected:
   DescoteauxEigenToMeasureImageFilter();
   virtual ~DescoteauxEigenToMeasureImageFilter() {}
 
-  inline OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel, RealType alpha, RealType beta, RealType c);
+  inline OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel, const RealType& alpha, const RealType& beta, const RealType& c);
 
   /** Multi-thread version GenerateData. */
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

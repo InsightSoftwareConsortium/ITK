@@ -2,9 +2,10 @@
 #include "itkArray.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkKrcahEigenToScalarPreprocessingImageToImageFilter.h"
+#include "itkKrcahEigenToMeasureParameterEstimationFilter.h"
 #include "itkMultiScaleHessianEnhancementImageFilter.h"
-#include "itkKrcahEigenToScalarImageFilter.h"
+#include "itkKrcahEigenToMeasureImageFilter.h"
+#include "itkKrcahPreprocessingImageToImageFilter.h"
 #include "itkCommand.h"
 
 class MyCommand : public itk::Command
@@ -97,9 +98,12 @@ int main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader< InputImageType >;
   using PreprocessedWriterType = itk::ImageFileWriter< InputImageType >;
   using MeasureWriterType = itk::ImageFileWriter< OutputImageType >;
-  using PreprocessFilterType = itk::KrcahEigenToScalarPreprocessingImageToImageFilter< InputImageType >;
+
+  using PreprocessFilterType = itk::KrcahPreprocessingImageToImageFilter< InputImageType >;
   using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
-  using KrcahEigenToScalarFilterType = itk::KrcahEigenToScalarImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
+  using SpatialObjectType = MultiScaleHessianFilterType::SpatialObjectType;
+  using KrcahEigenToMeasureFilterType = itk::KrcahEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType, SpatialObjectType >;
+  using KrcahEigenToMeasureParameterEstimationFilterType = itk::KrcahEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType, SpatialObjectType >;
 
   /* Do preprocessing */
   ReaderType::Pointer  reader = ReaderType::New();
@@ -122,9 +126,11 @@ int main(int argc, char * argv[])
 
   /* Multiscale measure */
   MultiScaleHessianFilterType::Pointer multiScaleFilter = MultiScaleHessianFilterType::New();
-  KrcahEigenToScalarFilterType::Pointer krcahFilter = KrcahEigenToScalarFilterType::New();
+  KrcahEigenToMeasureFilterType::Pointer krcahFilter = KrcahEigenToMeasureFilterType::New();
+  KrcahEigenToMeasureParameterEstimationFilterType::Pointer estimationFilter = KrcahEigenToMeasureParameterEstimationFilterType::New();
   multiScaleFilter->SetInput(preprocessingFilter->GetOutput());
-  multiScaleFilter->SetEigenToScalarImageFilter(krcahFilter);
+  multiScaleFilter->SetEigenToMeasureImageFilter(krcahFilter);
+  multiScaleFilter->SetEigenToMeasureParameterEstimationFilter(estimationFilter);
   multiScaleFilter->SetSigmaArray(sigmaArray);
 
   std::cout << "Running multiScaleFilter..." << std::endl;
