@@ -49,15 +49,15 @@ namespace itk
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template <typename TInputImage, typename TOutputImage, typename TInputSpatialObject>
-class KrcahEigenToMeasureImageFilter : public EigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>
+template <typename TInputImage, typename TOutputImage>
+class KrcahEigenToMeasureImageFilter : public EigenToMeasureImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureImageFilter);
 
   /** Standard Self typedef */
   using Self = KrcahEigenToMeasureImageFilter;
-  using Superclass = EigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>;
+  using Superclass = EigenToMeasureImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -78,10 +78,6 @@ public:
   using RealType = typename Superclass::RealType;
   using ParameterArrayType = typename Superclass::ParameterArrayType;
   using ParameterDecoratedType = typename Superclass::ParameterDecoratedType;
-
-  /** Input SpatialObject typedefs. */
-  using SpatialObjectType = typename Superclass::SpatialObjectType;
-  using SpatialObjectConstPointer = typename Superclass::SpatialObjectConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -121,15 +117,12 @@ protected:
   KrcahEigenToMeasureImageFilter();
   virtual ~KrcahEigenToMeasureImageFilter() {}
 
-  inline OutputImagePixelType
-  ProcessPixel(const InputImagePixelType & pixel,
-               const RealType &            alpha,
-               const RealType &            beta,
-               const RealType &            gamma);
+  OutputImagePixelType
+  ProcessPixel(const InputImagePixelType & pixel) override;
 
-  /** Multi-thread version GenerateData. */
+  /** Check the input has the right number of parameters. */
   void
-  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  BeforeThreadedGenerateData() override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

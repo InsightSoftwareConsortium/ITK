@@ -25,9 +25,8 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TInputSpatialObject>
-KrcahEigenToMeasureParameterEstimationFilter<TInputImage,
-                                             TInputSpatialObject>::KrcahEigenToMeasureParameterEstimationFilter()
+template <typename TInputImage>
+KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::KrcahEigenToMeasureParameterEstimationFilter()
   : m_ParameterSet(UseImplementationParameters)
 {
   /* Set parameter size to 3 */
@@ -39,17 +38,17 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage,
   this->GetParametersOutput()->Set(parameters);
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::BeforeThreadedGenerateData()
+KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::BeforeThreadedGenerateData()
 {
   m_ThreadAccumulatedTrace = NumericTraits<RealType>::ZeroValue();
   m_ThreadCount = NumericTraits<RealType>::ZeroValue();
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::AfterThreadedGenerateData()
+KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::AfterThreadedGenerateData()
 {
   /* Determine default parameters */
   RealType alpha, beta, gamma;
@@ -92,9 +91,9 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::
   this->GetParametersOutput()->Set(parameters);
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::DynamicThreadedGenerateData(
+KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   /* If size is zero, return */
@@ -125,7 +124,7 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::
 
   /* Get input and mask pointer */
   InputImageConstPointer             inputPointer = this->GetInput();
-  SpatialObjectConstPointer          maskPointer = this->GetMaskingSpatialObject();
+  MaskSpatialObjectTypeConstPointer  maskPointer = this->GetMask();
   typename InputImageType::PointType point;
 
   OutputImageType * outputPtr = this->GetOutput(0);
@@ -169,9 +168,9 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::
   m_ThreadAccumulatedTrace += accum;
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
-typename KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::RealType
-KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::CalculateTraceAccordingToImplementation(
+template <typename TInputImage>
+typename KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::RealType
+KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::CalculateTraceAccordingToImplementation(
   InputImagePixelType pixel)
 {
   /* Sum of the absolute value of the eigenvalues */
@@ -183,9 +182,9 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::
   return trace;
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
-typename KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::RealType
-KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::CalculateTraceAccordingToJournalArticle(
+template <typename TInputImage>
+typename KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::RealType
+KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::CalculateTraceAccordingToJournalArticle(
   InputImagePixelType pixel)
 {
   /* Sum of the eigenvalues */
@@ -197,10 +196,9 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::
   return trace;
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+KrcahEigenToMeasureParameterEstimationFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "ParameterSet: " << GetParameterSet() << std::endl;

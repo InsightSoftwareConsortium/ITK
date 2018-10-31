@@ -25,9 +25,8 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TInputSpatialObject>
-DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::
-  DescoteauxEigenToMeasureParameterEstimationFilter()
+template <typename TInputImage>
+DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage>::DescoteauxEigenToMeasureParameterEstimationFilter()
   : Superclass()
   , m_FrobeniusNormWeight(0.5)
 {
@@ -40,16 +39,16 @@ DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObje
   this->GetParametersOutput()->Set(parameters);
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::BeforeThreadedGenerateData()
+DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage>::BeforeThreadedGenerateData()
 {
   m_MaxFrobeniusNorm = NumericTraits<RealType>::NonpositiveMin();
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::AfterThreadedGenerateData()
+DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage>::AfterThreadedGenerateData()
 {
   /* Determine default parameters */
   RealType alpha, beta, c;
@@ -72,9 +71,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObje
   this->GetParametersOutput()->Set(parameters);
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::DynamicThreadedGenerateData(
+DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   /* If size is zero, return */
@@ -89,7 +88,7 @@ DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObje
 
   /* Get input and mask pointer */
   InputImageConstPointer             inputPointer = this->GetInput();
-  SpatialObjectConstPointer          maskPointer = this->GetMaskingSpatialObject();
+  MaskSpatialObjectTypeConstPointer  maskPointer = this->GetMask();
   typename InputImageType::PointType point;
 
   OutputImageType * outputPtr = this->GetOutput(0);
@@ -131,9 +130,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObje
   m_MaxFrobeniusNorm = std::max(m_MaxFrobeniusNorm, max);
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
-typename DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::RealType
-DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::CalculateFrobeniusNorm(
+template <typename TInputImage>
+typename DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage>::RealType
+DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage>::CalculateFrobeniusNorm(
   const InputImagePixelType & pixel) const
 {
   /* Forbenius norm is given by the square root of the sum of squares
@@ -147,10 +146,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObje
   return sqrt(norm);
 }
 
-template <typename TInputImage, typename TInputSpatialObject>
+template <typename TInputImage>
 void
-DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject>::PrintSelf(std::ostream & os,
-                                                                                               Indent indent) const
+DescoteauxEigenToMeasureParameterEstimationFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "FrobeniusNormWeight: " << GetFrobeniusNormWeight() << std::endl;

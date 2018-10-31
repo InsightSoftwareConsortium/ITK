@@ -25,69 +25,33 @@
 
 namespace itk
 {
-template <typename TInputImage, typename TOutputImage, typename TInputSpatialObject>
-DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::
-  DescoteauxEigenToMeasureImageFilter()
-  : Superclass()
-  , m_EnhanceType(-1.0)
+template <typename TInputImage, typename TOutputImage>
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::DescoteauxEigenToMeasureImageFilter()
+  : m_EnhanceType(-1.0)
 {}
 
-template <typename TInputImage, typename TOutputImage, typename TInputSpatialObject>
+template <typename TInputImage, typename TOutputImage>
 void
-DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  /* Get Inputs */
-  ParameterArrayType                 parameters = this->GetParametersInput()->Get();
-  InputImageConstPointer             inputPtr = this->GetInput(0);
-  OutputImagePointer                 outputPtr = this->GetOutput(0);
-  SpatialObjectConstPointer          maskPointer = this->GetMaskingSpatialObject();
-  typename InputImageType::PointType point;
-
-  /* Test parameters */
+  ParameterArrayType parameters = this->GetParametersInput()->Get();
   if (parameters.GetSize() != 3)
   {
     itkExceptionMacro(<< "Parameters must have size 3. Given array of size " << parameters.GetSize());
   }
-
-  // Define the portion of the input to walk for this thread, using
-  // the CallCopyOutputRegionToInputRegion method allows for the input
-  // and output images to be different dimensions
-  InputImageRegionType inputRegionForThread;
-
-  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
-
-  // Define the iterators
-  ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator<TOutputImage>              outputIt(outputPtr, outputRegionForThread);
-
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
-
-  while (!inputIt.IsAtEnd())
-  {
-    inputPtr->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ((!maskPointer) || (maskPointer->IsInside(point)))
-    {
-      outputIt.Set(ProcessPixel(inputIt.Get(), parameters[0], parameters[1], parameters[2]));
-    }
-    else
-    {
-      outputIt.Set(NumericTraits<OutputImagePixelType>::Zero);
-    }
-    ++inputIt;
-    ++outputIt;
-  }
 }
 
-template <typename TInputImage, typename TOutputImage, typename TInputSpatialObject>
-typename DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::OutputImagePixelType
-DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::ProcessPixel(
-  const InputImagePixelType & pixel,
-  const RealType &            alpha,
-  const RealType &            beta,
-  const RealType &            c)
+template <typename TInputImage, typename TOutputImage>
+typename DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::ProcessPixel(const InputImagePixelType & pixel)
 {
+  /* Grab parameters */
+  ParameterArrayType parameters = this->GetParametersInput()->Get();
+  RealType           alpha = parameters[0];
+  RealType           beta = parameters[1];
+  RealType           c = parameters[2];
+
+  /* Grab pixel values */
   double sheetness = 0.0;
   double a1 = static_cast<double>(pixel[0]);
   double a2 = static_cast<double>(pixel[1]);
@@ -122,10 +86,9 @@ DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObje
   return static_cast<OutputImagePixelType>(sheetness);
 }
 
-template <typename TInputImage, typename TOutputImage, typename TInputSpatialObject>
+template <typename TInputImage, typename TOutputImage>
 void
-DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::PrintSelf(std::ostream & os,
-                                                                                               Indent indent) const
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Direction: " << GetEnhanceType() << std::endl;
