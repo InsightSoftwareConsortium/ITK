@@ -22,7 +22,6 @@
 #include "itkDescoteauxEigenToMeasureImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -85,9 +84,9 @@ template <typename TInputImage, typename TOutputImage, typename TInputSpatialObj
 typename DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::OutputImagePixelType
 DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage, TInputSpatialObject>::ProcessPixel(
   const InputImagePixelType & pixel,
-  RealType                    alpha,
-  RealType                    beta,
-  RealType                    c)
+  const RealType &            alpha,
+  const RealType &            beta,
+  const RealType &            c)
 {
   double sheetness = 0.0;
   double a1 = static_cast<double>(pixel[0]);
