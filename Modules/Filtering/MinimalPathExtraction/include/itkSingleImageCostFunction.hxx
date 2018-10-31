@@ -141,7 +141,7 @@ SingleImageCostFunction<TImage>::GetDerivative(const ParametersType & parameters
     //           (indicated by very large values) which may skew the gradient.
     //           To avoid this skewing effect, we reset gradient values larger
     //           than a given threshold.
-    if (vnl_math_abs(derivative[i]) > DerivativeThreshold)
+    if (vnl_math::abs(derivative[i]) > DerivativeThreshold)
     {
       derivative[i] = 0.0;
     }
