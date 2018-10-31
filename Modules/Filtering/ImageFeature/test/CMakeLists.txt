@@ -227,3 +227,21 @@ itk_python_add_test(NAME itkGradientVectorFlowImageFilterPythonTest
       ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestX.png
       ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestY.png
       50 50000.0 0.001)
+
+if(ITK_WRAP_float AND WRAP_2)
+  itk_python_add_test(NAME PythonLaplacianImageFilterTest
+    COMMAND LaplacianImageFilterTest.py
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/LaplacianImageFilterTest.png
+    )
+  itk_python_add_test(NAME PythonCannyEdgeDetectionImageFilterTest
+    TEST_DRIVER_ARGS
+      --compareNumberOfPixelsTolerance 1
+      --compare ${ITK_TEST_OUTPUT_DIR}/PythonCannyEdgeDetectionImageFilterTest.png
+        DATA{Baseline/PythonCannyEdgeDetectionImageFilterTest.png}
+    COMMAND CannyEdgeDetectionImageFilterTest.py
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/PythonCannyEdgeDetectionImageFilterTest.png
+      9
+    )
+endif()
