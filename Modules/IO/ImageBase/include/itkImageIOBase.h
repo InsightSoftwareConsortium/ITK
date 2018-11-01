@@ -110,6 +110,10 @@ public:
    * refers to the actual storage class associated with either a
    * SCALAR pixel type or elements of a compound pixel.
    */
+   // NOTE unsigned char, char, and signed char are 3 distinct types in C++
+   // the enum value UCHAR represents 'unsigned char'
+   // the enum value CHAR represents  'signed char'
+   // and the 'char' type maps to one of UCHAR or CHAR based on the platforms 'signededness'
   typedef  enum { UNKNOWNCOMPONENTTYPE, UCHAR, CHAR, USHORT, SHORT, UINT, INT,
                   ULONG, LONG, ULONGLONG, LONGLONG, FLOAT, DOUBLE } IOComponentType;
 
@@ -725,23 +729,20 @@ private:
   }
 
 // the following typemaps are not platform independent
-#if  VCL_CHAR_IS_SIGNED
-IMAGEIOBASE_TYPEMAP(signed char, CHAR);
-#endif // VCL_CHAR_IS_SIGNED
-IMAGEIOBASE_TYPEMAP(char, CHAR);
-IMAGEIOBASE_TYPEMAP(unsigned char, UCHAR);
-IMAGEIOBASE_TYPEMAP(short, SHORT);
-IMAGEIOBASE_TYPEMAP(unsigned short, USHORT);
-IMAGEIOBASE_TYPEMAP(int, INT);
-IMAGEIOBASE_TYPEMAP(unsigned int, UINT);
-IMAGEIOBASE_TYPEMAP(long, LONG);
-IMAGEIOBASE_TYPEMAP(unsigned long, ULONG);
-IMAGEIOBASE_TYPEMAP(long long, LONGLONG);
-IMAGEIOBASE_TYPEMAP(unsigned long long, ULONGLONG);
-IMAGEIOBASE_TYPEMAP(float, FLOAT);
-IMAGEIOBASE_TYPEMAP(double, DOUBLE);
+IMAGEIOBASE_TYPEMAP(signed char, IOComponentType::CHAR);
+IMAGEIOBASE_TYPEMAP(char, std::numeric_limits<char>::is_signed ? IOComponentType::CHAR : IOComponentType::UCHAR);
+IMAGEIOBASE_TYPEMAP(unsigned char, IOComponentType::UCHAR);
+IMAGEIOBASE_TYPEMAP(short, IOComponentType::SHORT);
+IMAGEIOBASE_TYPEMAP(unsigned short, IOComponentType::USHORT);
+IMAGEIOBASE_TYPEMAP(int, IOComponentType::INT);
+IMAGEIOBASE_TYPEMAP(unsigned int, IOComponentType::UINT);
+IMAGEIOBASE_TYPEMAP(long, IOComponentType::LONG);
+IMAGEIOBASE_TYPEMAP(unsigned long, IOComponentType::ULONG);
+IMAGEIOBASE_TYPEMAP(long long, IOComponentType::LONGLONG);
+IMAGEIOBASE_TYPEMAP(unsigned long long, IOComponentType::ULONGLONG);
+IMAGEIOBASE_TYPEMAP(float, IOComponentType::FLOAT);
+IMAGEIOBASE_TYPEMAP(double, IOComponentType::DOUBLE);
 #undef IMAGIOBASE_TYPEMAP
-
 
 } // end namespace itk
 
