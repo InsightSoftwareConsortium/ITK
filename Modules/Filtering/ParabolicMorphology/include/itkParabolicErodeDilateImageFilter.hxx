@@ -92,8 +92,8 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::SplitReque
   // determine the actual number of pieces that will be generated
   auto range = static_cast<double>(requestedRegionSize[splitAxis]);
 
-  auto         valuesPerThread = static_cast<unsigned int>(vcl_ceil(range / static_cast<double>(num)));
-  unsigned int maxThreadIdUsed = static_cast<unsigned int>(vcl_ceil(range / static_cast<double>(valuesPerThread))) - 1;
+  auto         valuesPerThread = static_cast<unsigned int>(std::ceil(range / static_cast<double>(num)));
+  unsigned int maxThreadIdUsed = static_cast<unsigned int>(std::ceil(range / static_cast<double>(valuesPerThread))) - 1;
 
   // Split the region
   if (i < maxThreadIdUsed)
@@ -165,7 +165,7 @@ template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
 ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData(void)
 {
-  ThreadIdType nbthreads = this->GetNumberOfThreads();
+  ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
   typename TInputImage::ConstPointer inputImage(this->GetInput());
   typename TOutputImage::Pointer     outputImage(this->GetOutput());
@@ -179,7 +179,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::GenerateDa
   str.Filter = this;
 
   ProcessObject::MultiThreaderType * multithreader = this->GetMultiThreader();
-  multithreader->SetNumberOfThreads(nbthreads);
+  multithreader->SetNumberOfWorkUnits(nbthreads);
   multithreader->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution

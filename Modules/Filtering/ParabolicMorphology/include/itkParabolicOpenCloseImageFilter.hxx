@@ -101,8 +101,8 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::SplitRequested
   // determine the actual number of pieces that will be generated
   auto range = static_cast<double>(requestedRegionSize[splitAxis]);
 
-  auto         valuesPerThread = static_cast<unsigned int>(vcl_ceil(range / static_cast<double>(num)));
-  unsigned int maxThreadIdUsed = static_cast<unsigned int>(vcl_ceil(range / static_cast<double>(valuesPerThread))) - 1;
+  auto         valuesPerThread = static_cast<unsigned int>(std::ceil(range / static_cast<double>(num)));
+  unsigned int maxThreadIdUsed = static_cast<unsigned int>(std::ceil(range / static_cast<double>(valuesPerThread))) - 1;
 
   // Split the region
   if (i < maxThreadIdUsed)
@@ -175,7 +175,7 @@ template <typename TInputImage, bool doOpen, typename TOutputImage>
 void
 ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData(void)
 {
-  ThreadIdType nbthreads = this->GetNumberOfThreads();
+  ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
   //  using InputConstIteratorType = ImageLinearConstIteratorWithIndex< TInputImage  > ;
   //  using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
@@ -197,7 +197,7 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData(v
   str.Filter = this;
 
   ProcessObject::MultiThreaderType * multithreader = this->GetMultiThreader();
-  multithreader->SetNumberOfThreads(nbthreads);
+  multithreader->SetNumberOfWorkUnits(nbthreads);
   multithreader->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
@@ -231,7 +231,7 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData(v
   // Set up the multithreaded processing
   typename ImageSource< TOutputImage >::ThreadStruct str;
   str.Filter = this;
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution - stage 1

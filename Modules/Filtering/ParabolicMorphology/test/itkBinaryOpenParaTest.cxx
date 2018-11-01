@@ -22,7 +22,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkTimeProbe.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include <itkBinaryThresholdImageFilter.h>
 #include "itkBinaryOpenParaImageFilter.h"
 
@@ -35,7 +35,7 @@ itkBinaryOpenParaTest(int argc, char * argv[])
     return (EXIT_FAILURE);
   }
 
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   constexpr int dim = 2;
 
   using PType = unsigned char;

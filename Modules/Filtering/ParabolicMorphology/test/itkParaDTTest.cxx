@@ -24,7 +24,7 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkMorphologicalDistanceTransformImageFilter.h"
 #include "itkTimeProbe.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 int
 itkParaDTTest(int argc, char * argv[])
@@ -37,7 +37,7 @@ itkParaDTTest(int argc, char * argv[])
     return (EXIT_FAILURE);
   }
 
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   constexpr int dim = 2;
 
   using PType = unsigned char;
