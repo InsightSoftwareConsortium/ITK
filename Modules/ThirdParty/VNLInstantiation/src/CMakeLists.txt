@@ -2,8 +2,8 @@
 set(ITKVNLInstantiation_SRCS
   vnl_fft_base+float.3-.cxx
   vnl_fft_base+float.4-.cxx
-  vnl_matrix_fixed+double.1.1-.cxx
-  vnl_matrix_fixed+double.5.5-.cxx
+  #vnl_matrix_fixed+double.1.1-.cxx
+  #vnl_matrix_fixed+double.5.5-.cxx
   vnl_matrix_fixed_ref+double.2.2-.cxx
   vnl_matrix_fixed_ref+double.2.3-.cxx
   vnl_fft_base+double.3-.cxx
