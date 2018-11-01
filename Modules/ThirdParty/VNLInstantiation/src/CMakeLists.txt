@@ -17,7 +17,7 @@ set(ITKVNLInstantiation_SRCS
   vnl_matrix_fixed+float.10.10-.cxx
   
 # dims 2-4,6 provided by vnl upstream ThirdParty
-  vnl_matrix_fixed+double.1.1-.cxx
+  # vnl_matrix_fixed+double.1.1-.cxx
   vnl_matrix_fixed+double.5.5-.cxx
   vnl_matrix_fixed+double.7.7-.cxx
   vnl_matrix_fixed+double.8.8-.cxx
