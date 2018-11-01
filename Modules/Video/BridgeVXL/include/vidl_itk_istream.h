@@ -60,7 +60,11 @@ public:
   virtual ~vidl_itk_istream() {}
 
   /** ITK's type info */
-  itkTypeMacro(vidl_itk_istream, vidl_istream);
+  // Cannot use as we do not derive from ITK Object with GetNameOfClass itkTypeMacro(vidl_itk_istream, vidl_istream);
+  const char *GetNameOfClass() const
+    {
+    return "vidl_itk_istream";
+    }
 
 
   /**-OPEN CLOSE-------------------------------------------------------------*/
