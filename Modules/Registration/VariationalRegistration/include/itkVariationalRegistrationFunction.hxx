@@ -139,7 +139,7 @@ VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
   if (m_NumberOfPixelsProcessed)
   {
     m_Metric = m_SumOfMetricValues / static_cast<double>(m_NumberOfPixelsProcessed);
-    m_RMSChange = vcl_sqrt(m_SumOfSquaredChange / static_cast<double>(m_NumberOfPixelsProcessed));
+    m_RMSChange = std::sqrt(m_SumOfSquaredChange / static_cast<double>(m_NumberOfPixelsProcessed));
   }
 
   delete globalData;

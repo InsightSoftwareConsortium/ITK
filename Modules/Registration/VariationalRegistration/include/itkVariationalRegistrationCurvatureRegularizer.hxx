@@ -264,7 +264,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
       const double a = (vnl_math::pi * (idx + 1)) / static_cast<double>(m_Size[dim]);
       //      const double a = (vnl_math::pi * idx ) / static_cast<double>(m_Size[dim]);
 
-      m_DiagonalMatrix[dim][idx] = -2.0 + 2.0 * vcl_cos(a);
+      m_DiagonalMatrix[dim][idx] = -2.0 + 2.0 * std::cos(a);
     }
   }
 

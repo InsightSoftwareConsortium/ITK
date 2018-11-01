@@ -267,12 +267,12 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::SetNextMet
 
   if (m_LineFittingUseAbsoluteValues)
   {
-    absValue = vcl_fabs(value);
+    absValue = std::fabs(value);
   }
   else if (value < 0)
   {
     itkWarningMacro(<< "Metric value is < 0");
-    absValue = vcl_fabs(value);
+    absValue = std::fabs(value);
   }
 
   if (m_ElapsedIterations == 0 || m_MaxMetricValue < 0)
@@ -411,7 +411,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::CheckStopR
     }
 
     // Check if regression line slope is above threshold.
-    if (vcl_fabs(m) < m_RegressionLineSlopeThreshold)
+    if (std::fabs(m) < m_RegressionLineSlopeThreshold)
     {
       // If max distance check should be performed, check if the maximal
       // distance of a value to the regression line is above a threshold.
@@ -422,7 +422,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::CheckStopR
         double dist = 0.0;
         for (int k = 0; k < m_NumberOfFittingIterations; k++)
         {
-          dist = vcl_fabs(m_DistanceArrayForFitting[k] - (m * m_IterationArray[k] + b));
+          dist = std::fabs(m_DistanceArrayForFitting[k] - (m * m_IterationArray[k] + b));
 
           // If distance check is above threshold, return false
           if (dist > m_MaxDistanceToRegressionLine)
