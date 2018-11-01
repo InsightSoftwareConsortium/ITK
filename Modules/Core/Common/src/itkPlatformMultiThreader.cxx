@@ -27,6 +27,7 @@
  *=========================================================================*/
 #include "itkPlatformMultiThreader.h"
 #include "itkNumericTraits.h"
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -66,7 +67,7 @@ PlatformMultiThreader::~PlatformMultiThreader() = default;
 void PlatformMultiThreader::SetMaximumNumberOfThreads( ThreadIdType numberOfThreads )
 {
   Superclass::SetMaximumNumberOfThreads( numberOfThreads );
-  Superclass::SetNumberOfWorkUnits( numberOfThreads );
+  Superclass::SetNumberOfWorkUnits( this->GetMaximumNumberOfThreads() );
 }
 
 void PlatformMultiThreader::SetNumberOfWorkUnits( ThreadIdType numberOfWorkUnits )
