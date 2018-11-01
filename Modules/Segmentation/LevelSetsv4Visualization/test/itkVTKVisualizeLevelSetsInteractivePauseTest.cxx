@@ -27,6 +27,7 @@
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetDenseImage.h"
 #include <mutex>
+#include <condition_variable>
 #include "itkVTKVisualizeImageLevelSetIsoValues.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
