@@ -60,7 +60,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
 
   using TransformListType = TransformReaderType::TransformListType;
-  const TransformListType * transformList = transformReader->GetTransformList();
+  const TransformListType * const transformList = transformReader->GetTransformList();
 
   using ReadTransformType = itk::CompositeTransform<ScalarType, Dimension>;
   TransformListType::const_iterator transformIt = transformList->begin();
