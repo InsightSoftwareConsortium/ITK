@@ -21,7 +21,7 @@
 
 
 #include "itkImageScanlineIterator.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 #include <vector>
 
@@ -207,7 +207,7 @@ MinimumMaximumImageFilter< TInputImage >
 
     }
 
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_ThreadMin = std::min(localMin, m_ThreadMin);
   m_ThreadMax = std::max(localMax, m_ThreadMax);
 }

@@ -59,7 +59,6 @@ static int compare_linear(const char *linear_transform)
 
   using AffineTransformType = itk::AffineTransform<double,3>;
   AffineTransformType::Pointer        affine = AffineTransformType::New();
-  AffineTransformType::InputPointType cor;
 
   AffineTransformType::OutputVectorType rot_axis;
   rot_axis[0]=1.0;

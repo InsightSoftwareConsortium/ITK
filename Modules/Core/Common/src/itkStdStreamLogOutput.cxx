@@ -45,45 +45,45 @@ void StdStreamLogOutput::SetStream(StreamType & Stream)
 /** flush a buffer */
 void StdStreamLogOutput::Flush()
 {
-  StdStreamLogOutput::m_Mutex.Lock();
+  StdStreamLogOutput::m_Mutex.lock();
   if ( this->m_Stream )
     {
     this->m_Stream->flush();
     }
-  StdStreamLogOutput::m_Mutex.Unlock();
+  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
 void StdStreamLogOutput::Write(double timestamp)
 {
-  StdStreamLogOutput::m_Mutex.Lock();
+  StdStreamLogOutput::m_Mutex.lock();
   if ( this->m_Stream )
     {
     ( *this->m_Stream ) << timestamp;
     }
-  StdStreamLogOutput::m_Mutex.Unlock();
+  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
 void StdStreamLogOutput::Write(std::string const & content)
 {
-  StdStreamLogOutput::m_Mutex.Lock();
+  StdStreamLogOutput::m_Mutex.lock();
   if ( this->m_Stream )
     {
     ( *this->m_Stream ) << content;
     }
-  StdStreamLogOutput::m_Mutex.Unlock();
+  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
 void StdStreamLogOutput::Write(std::string const & content, double timestamp)
 {
-  StdStreamLogOutput::m_Mutex.Lock();
+  StdStreamLogOutput::m_Mutex.lock();
   if ( this->m_Stream )
     {
     ( *this->m_Stream ) << timestamp << "  :  " << content;
     }
-  StdStreamLogOutput::m_Mutex.Unlock();
+  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 void StdStreamLogOutput::PrintSelf(std::ostream & os, Indent indent) const

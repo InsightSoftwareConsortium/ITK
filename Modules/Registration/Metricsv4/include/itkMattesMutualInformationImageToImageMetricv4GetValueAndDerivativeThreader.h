@@ -20,7 +20,7 @@
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
-#include "itkMutexLock.h"
+#include <mutex>
 
 namespace itk
 {

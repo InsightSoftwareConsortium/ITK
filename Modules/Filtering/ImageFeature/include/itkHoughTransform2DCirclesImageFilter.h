@@ -106,6 +106,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Verifies the preconditions of this filter. */
+  void VerifyPreconditions() const override;
+
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() override;
 
@@ -126,6 +129,11 @@ public:
 
   /** Get the threshold value. */
   itkGetConstMacro(Threshold, double);
+
+  /** Threshold for the norm of the gradient: Only pixels whose gradient norm is
+   * above this threshold are processed by the filter. The threshold must be >= 0. */
+  itkSetMacro(GradientNormThreshold, double);
+  itkGetConstMacro(GradientNormThreshold, double);
 
   /** Get the radius image. */
   itkGetModifiableObjectMacro(RadiusImage, RadiusImageType);
@@ -196,6 +204,7 @@ private:
   double                m_MinimumRadius;
   double                m_MaximumRadius;
   double                m_Threshold;
+  double                m_GradientNormThreshold;
   double                m_SigmaGradient;
 
   RadiusImagePointer    m_RadiusImage;

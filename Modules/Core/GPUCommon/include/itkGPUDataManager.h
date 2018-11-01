@@ -24,8 +24,8 @@
 #include "itkObjectFactory.h"
 #include "itkOpenCLUtil.h"
 #include "itkGPUContextManager.h"
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
+#include <mutex>
 
 namespace itk
 {
@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(GPUDataManager, Object);
 
-  using MutexHolderType = MutexLockHolder<SimpleFastMutexLock>;
+  using MutexHolderType = std::lock_guard<std::mutex>;
 
   /** total buffer size in bytes */
   void SetBufferSize( unsigned int num );
@@ -143,7 +143,7 @@ protected:
   bool m_IsCPUBufferDirty;
 
   /** Mutex lock to prevent r/w hazard for multithreaded code */
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 };
 
 } // namespace itk

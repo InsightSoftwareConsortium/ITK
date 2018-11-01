@@ -34,7 +34,8 @@ FrequencyBandImageFilter< TImageType, TFrequencyIterator >
   m_PassHighFrequencyThreshold(true),
   m_RadialBand(true),
   m_PassNegativeLowFrequencyThreshold(true),
-  m_PassNegativeHighFrequencyThreshold(true)
+  m_PassNegativeHighFrequencyThreshold(true),
+  m_ActualXDimensionIsOdd(false)
 {
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
@@ -146,6 +147,8 @@ FrequencyBandImageFilter< TImageType, TFrequencyIterator >
   ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
 
   FrequencyIteratorType freqIt(outputPtr, outputRegionForThread);
+  // Only for HalfHermitian Iterator this option changes frequency spacing
+  freqIt.SetActualXDimensionIsOdd(this->GetActualXDimensionIsOdd());
 
   freqIt.GoToBegin();
   FrequencyValueType f;

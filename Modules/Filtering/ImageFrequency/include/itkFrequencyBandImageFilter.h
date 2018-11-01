@@ -192,6 +192,15 @@ public:
   itkGetConstReferenceMacro(PassNegativeHighFrequencyThreshold, bool);
   itkBooleanMacro( PassNegativeHighFrequencyThreshold );
 
+  /** Set to true when the you are dealing with images in the frequency
+   * domain that have been computed using RealToHalfHermitianFFT, and the
+   * original image in the spatial domain was odd.
+   * Only needed when using HermitianFrequencyIterator and the original
+   * image was odd. **/
+  itkSetMacro( ActualXDimensionIsOdd, bool );
+  itkGetConstReferenceMacro(ActualXDimensionIsOdd, bool);
+  itkBooleanMacro( ActualXDimensionIsOdd );
+
 protected:
   FrequencyBandImageFilter();
   void PrintSelf(std::ostream & os, Indent indent) const override;
@@ -211,6 +220,7 @@ private:
   bool m_RadialBand;
   bool m_PassNegativeLowFrequencyThreshold;
   bool m_PassNegativeHighFrequencyThreshold;
+  bool m_ActualXDimensionIsOdd;
 };
 } // end namespace itk
 

@@ -166,7 +166,7 @@ public:
 
 private:
   /** Set the frequency metadata.
-   * Called at constructors.  */
+   * Called by constructors.  */
   void Init()
   {
     this->m_FrequencyOrigin = this->m_Image->GetOrigin();

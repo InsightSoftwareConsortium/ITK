@@ -129,7 +129,7 @@ protected:
 
   void AfterThreadedGenerateData() override;
 
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() const override;
 
   OutputPixelType m_DifferenceThreshold;
 

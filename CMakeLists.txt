@@ -364,15 +364,13 @@ if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
   include(itkExternal_FFTW)
 endif()
 
-if(NOT ITKV4_COMPATIBILITY)
-  set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
-  # Note WIN32 is true when targeting any windows system
-  if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)
-    set(ITK_USE_64BITS_IDS_DEFAULT "ON")
-  endif()
-  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64-bit integer types instead of long types for sizes and indexes. This is needed for managing images larger than 4Gb in some platforms." "${ITK_USE_64BITS_IDS_DEFAULT}")
-  mark_as_advanced(ITK_USE_64BITS_IDS)
+set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
+# Note WIN32 is true when targeting any windows system
+if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)
+  set(ITK_USE_64BITS_IDS_DEFAULT "ON")
 endif()
+option(ITK_USE_64BITS_IDS "When ON, ITK will use 64-bit integer types instead of long types for sizes and indexes. This is needed for managing images larger than 4Gb in some platforms." "${ITK_USE_64BITS_IDS_DEFAULT}")
+mark_as_advanced(ITK_USE_64BITS_IDS)
 
 # ITK turn on concept checking
 option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)

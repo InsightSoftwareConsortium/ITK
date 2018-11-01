@@ -65,7 +65,7 @@ namespace fem
  * which does the concrete work on finding the solution. See FEMRobustSolver for
  * details.
  *
- * \code
+   \code
 
     const unsigned int ParametricDimension = 3;
     const unsigned int DataDimension = 3;

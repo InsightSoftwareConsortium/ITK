@@ -20,6 +20,7 @@
 #include "itkThreadPool.h"
 #include "itksys/SystemTools.hxx"
 #include "itkThreadSupport.h"
+#include "itkNumericTraits.h"
 
 #include <algorithm>
 

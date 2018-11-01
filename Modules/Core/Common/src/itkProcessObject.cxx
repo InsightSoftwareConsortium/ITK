@@ -26,7 +26,7 @@
  *
  *=========================================================================*/
 #include "itkProcessObject.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 #include <cstdio>
 #include <sstream>
@@ -1446,7 +1446,7 @@ ProcessObject
 
 void
 ProcessObject
-::VerifyInputInformation()
+::VerifyInputInformation() const
 {
 }
 

@@ -14,6 +14,7 @@
  * nm lib@MANGLE_PREFIX@.a | grep " [RT] "
  */
 
+#define  opj_copy_image_header                 @MANGLE_PREFIX@_opj_copy_image_header
 #define  opj_create_compress                   @MANGLE_PREFIX@opj_create_compress
 #define  opj_create_decompress                 @MANGLE_PREFIX@opj_create_decompress
 #define  opj_decode                            @MANGLE_PREFIX@opj_decode
@@ -28,9 +29,17 @@
 #define  opj_get_cstr_index                    @MANGLE_PREFIX@opj_get_cstr_index
 #define  opj_get_cstr_info                     @MANGLE_PREFIX@opj_get_cstr_info
 #define  opj_get_decoded_tile                  @MANGLE_PREFIX@opj_get_decoded_tile
+#define  opj_image_comp_header_update          @MANGLE_PREFIX@_opj_image_comp_header_update
 #define  opj_image_create                      @MANGLE_PREFIX@opj_image_create
+#define  opj_image_create0                     @MANGLE_PREFIX@_opj_image_create0
 #define  opj_image_destroy                     @MANGLE_PREFIX@opj_image_destroy
 #define  opj_image_tile_create                 @MANGLE_PREFIX@opj_image_tile_create
+#define  opj_read_bytes_BE                     @MANGLE_PREFIX@_opj_read_bytes_BE
+#define  opj_read_bytes_LE                     @MANGLE_PREFIX@_opj_read_bytes_LE
+#define  opj_read_double_BE                    @MANGLE_PREFIX@_opj_read_double_BE
+#define  opj_read_double_LE                    @MANGLE_PREFIX@_opj_read_double_LE
+#define  opj_read_float_BE                     @MANGLE_PREFIX@_opj_read_float_BE
+#define  opj_read_float_LE                     @MANGLE_PREFIX@_opj_read_float_LE
 #define  opj_read_header                       @MANGLE_PREFIX@opj_read_header
 #define  opj_read_tile_header                  @MANGLE_PREFIX@opj_read_tile_header
 #define  opj_set_decode_area                   @MANGLE_PREFIX@opj_set_decode_area
@@ -40,22 +49,44 @@
 #define  opj_set_error_handler                 @MANGLE_PREFIX@opj_set_error_handler
 #define  opj_set_info_handler                  @MANGLE_PREFIX@opj_set_info_handler
 #define  opj_set_MCT                           @MANGLE_PREFIX@opj_set_MCT
+#define  opj_set_warning_handler               @MANGLE_PREFIX@opj_set_warning_handler
 #define  opj_setup_decoder                     @MANGLE_PREFIX@opj_setup_decoder
 #define  opj_setup_encoder                     @MANGLE_PREFIX@opj_setup_encoder
-#define  opj_set_warning_handler               @MANGLE_PREFIX@opj_set_warning_handler
 #define  opj_start_compress                    @MANGLE_PREFIX@opj_start_compress
 #define  opj_stream_create                     @MANGLE_PREFIX@opj_stream_create
 #define  opj_stream_create_default_file_stream @MANGLE_PREFIX@opj_stream_create_default_file_stream
 #define  opj_stream_create_file_stream         @MANGLE_PREFIX@opj_stream_create_file_stream
 #define  opj_stream_default_create             @MANGLE_PREFIX@opj_stream_default_create
+#define  opj_stream_default_read               @MANGLE_PREFIX@_opj_stream_default_read
+#define  opj_stream_default_seek               @MANGLE_PREFIX@_opj_stream_default_seek
+#define  opj_stream_default_skip               @MANGLE_PREFIX@_opj_stream_default_skip
+#define  opj_stream_default_write              @MANGLE_PREFIX@_opj_stream_default_write
 #define  opj_stream_destroy                    @MANGLE_PREFIX@opj_stream_destroy
+#define  opj_stream_flush                      @MANGLE_PREFIX@_opj_stream_flush
+#define  opj_stream_get_number_byte_left       @MANGLE_PREFIX@_opj_stream_get_number_byte_left
+#define  opj_stream_has_seek                   @MANGLE_PREFIX@_opj_stream_has_seek
+#define  opj_stream_read_data                  @MANGLE_PREFIX@_opj_stream_read_data
+#define  opj_stream_read_seek                  @MANGLE_PREFIX@_opj_stream_read_seek
+#define  opj_stream_read_skip                  @MANGLE_PREFIX@_opj_stream_read_skip
+#define  opj_stream_seek                       @MANGLE_PREFIX@_opj_stream_seek
 #define  opj_stream_set_read_function          @MANGLE_PREFIX@opj_stream_set_read_function
 #define  opj_stream_set_seek_function          @MANGLE_PREFIX@opj_stream_set_seek_function
 #define  opj_stream_set_skip_function          @MANGLE_PREFIX@opj_stream_set_skip_function
 #define  opj_stream_set_user_data              @MANGLE_PREFIX@opj_stream_set_user_data
 #define  opj_stream_set_user_data_length       @MANGLE_PREFIX@opj_stream_set_user_data_length
 #define  opj_stream_set_write_function         @MANGLE_PREFIX@opj_stream_set_write_function
+#define  opj_stream_skip                       @MANGLE_PREFIX@_opj_stream_skip
+#define  opj_stream_tell                       @MANGLE_PREFIX@_opj_stream_tell
+#define  opj_stream_write_data                 @MANGLE_PREFIX@_opj_stream_write_data
+#define  opj_stream_write_seek                 @MANGLE_PREFIX@_opj_stream_write_seek
+#define  opj_stream_write_skip                 @MANGLE_PREFIX@_opj_stream_write_skip
 #define  opj_version                           @MANGLE_PREFIX@opj_version
+#define  opj_write_bytes_BE                    @MANGLE_PREFIX@_opj_write_bytes_BE
+#define  opj_write_bytes_LE                    @MANGLE_PREFIX@_opj_write_bytes_LE
+#define  opj_write_double_BE                   @MANGLE_PREFIX@_opj_write_double_BE
+#define  opj_write_double_LE                   @MANGLE_PREFIX@_opj_write_double_LE
+#define  opj_write_float_BE                    @MANGLE_PREFIX@_opj_write_float_BE
+#define  opj_write_float_LE                    @MANGLE_PREFIX@_opj_write_float_LE
 #define  opj_write_tile                        @MANGLE_PREFIX@opj_write_tile
 
 #endif

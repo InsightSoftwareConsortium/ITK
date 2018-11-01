@@ -814,10 +814,8 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedAllocateData(ThreadIdType ThreadId)
 {
   static constexpr float SAFETY_FACTOR = 4.0;
-  unsigned int       i, j;
+  unsigned int i, j;
 
-  m_Data[ThreadId].m_Condition[0] = ConditionVariable::New();
-  m_Data[ThreadId].m_Condition[1] = ConditionVariable::New();
   m_Data[ThreadId].m_Semaphore[0] = 0;
   m_Data[ThreadId].m_Semaphore[1] = 0;
 
@@ -2578,8 +2576,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     {
     if ( m_Boundary[ThreadId - 1] == m_Boundary[ThreadId] )
       {
-      m_Data[ThreadId].m_SemaphoreArrayNumber =  1
-                                                - m_Data[ThreadId].m_SemaphoreArrayNumber;
+      m_Data[ThreadId].m_SemaphoreArrayNumber =  1 - m_Data[ThreadId].m_SemaphoreArrayNumber;
       return;
       }
     }
@@ -2628,10 +2625,10 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ThreadIdType ThreadId)
 {
   ThreadData &td = m_Data[ThreadId];
-  td.m_Lock[SemaphoreArrayNumber].Lock();
+  td.m_Lock[SemaphoreArrayNumber].lock();
   ++td.m_Semaphore[SemaphoreArrayNumber];
-  td.m_Condition[SemaphoreArrayNumber]->Signal();
-  td.m_Lock[SemaphoreArrayNumber].Unlock();
+  td.m_Condition[SemaphoreArrayNumber].notify_one();
+  td.m_Lock[SemaphoreArrayNumber].unlock();
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -2640,13 +2637,13 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::WaitForNeighbor(unsigned int SemaphoreArrayNumber, ThreadIdType ThreadId)
 {
   ThreadData &td = m_Data[ThreadId];
-  td.m_Lock[SemaphoreArrayNumber].Lock();
+  std::unique_lock< std::mutex > mutexHolder( td.m_Lock[SemaphoreArrayNumber] );
   if ( td.m_Semaphore[SemaphoreArrayNumber] == 0 )
     {
-    td.m_Condition[SemaphoreArrayNumber]->Wait( & td.m_Lock[SemaphoreArrayNumber]);
+    td.m_Condition[SemaphoreArrayNumber].wait( mutexHolder, [&td, SemaphoreArrayNumber]
+      { return (td.m_Semaphore[SemaphoreArrayNumber] != 0); } );
     }
   --td.m_Semaphore[SemaphoreArrayNumber];
-  td.m_Lock[SemaphoreArrayNumber].Unlock();
 }
 
 template< typename TInputImage, typename TOutputImage >

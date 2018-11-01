@@ -100,7 +100,7 @@ public:
 
   ThreadIdType GetMaximumNumberOfThreads() const
   {
-    return m_Threads.size();
+    return static_cast< ThreadIdType >( m_Threads.size() );
   }
 
   /** The approximate number of idle threads. */

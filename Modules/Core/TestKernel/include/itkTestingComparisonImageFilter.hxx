@@ -276,7 +276,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation()
+::VerifyInputInformation() const
 {
   if(m_VerifyInputInformation)
     {

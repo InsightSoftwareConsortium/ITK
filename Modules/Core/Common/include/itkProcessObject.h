@@ -686,7 +686,7 @@ protected:
    * check if all the inputs are in the same coordinate frame.
    *
    */
-  virtual void VerifyInputInformation();
+  virtual void VerifyInputInformation() const;
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is

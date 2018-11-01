@@ -25,8 +25,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
-#include "itkMutexLockHolder.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -276,7 +275,7 @@ public:
     /* All these methods are thread safe except ReduceBuffer */
 
     void Initialize( size_t maxBufferLength, const size_t cachedNumberOfLocalParameters,
-                     SimpleFastMutexLock * parentDerivativeLockPtr,
+                     std::mutex * parentDerivativeLockPtr,
                      typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
 
     void DoubleBufferSize();
@@ -332,13 +331,13 @@ private:
     size_t                       m_CachedNumberOfLocalParameters;
     size_t                       m_MaxBufferSize;
     // Pointer handle to parent version
-    SimpleFastMutexLock *   m_ParentJointPDFDerivativesLockPtr;
+    std::mutex *   m_ParentJointPDFDerivativesLockPtr;
     // Smart pointer handle to parent version
     typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
   };
 
   std::vector<DerivativeBufferManager>      m_ThreaderDerivativeManager;
-  SimpleFastMutexLock                       m_JointPDFDerivativesLock;
+  std::mutex                                m_JointPDFDerivativesLock;
   typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
 
   PDFValueType m_JointPDFSum;

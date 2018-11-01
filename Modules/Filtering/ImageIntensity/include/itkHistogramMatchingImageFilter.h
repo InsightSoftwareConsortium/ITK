@@ -179,7 +179,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() const override {}
 
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean(const InputImageType *image,

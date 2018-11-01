@@ -24,7 +24,7 @@
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 
 #include "ITKFFTExport.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
@@ -178,13 +178,13 @@ public:
   using Superclass = Object;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
-  using MutexType = SimpleFastMutexLock;
+  using MutexType = std::mutex;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTWGlobalConfiguration, Object);
 
   /** Get the mutex that protects calls to FFTW functions. */
-  static SimpleFastMutexLock & GetLockMutex();
+  static std::mutex & GetLockMutex();
 
   /** Set/Get wether a new wisdom is available compared to the
    * initial state. If a new wisdom is available, the wisdoms
@@ -304,9 +304,9 @@ private:
   itkFactorylessNewMacro(Self);
 
   static Pointer                m_Instance;
-  static SimpleFastMutexLock    m_CreationLock;
+  static std::mutex    m_CreationLock;
 
-  SimpleFastMutexLock           m_Lock;
+  std::mutex           m_Lock;
   bool                          m_NewWisdomAvailable;
   int                           m_PlanRigor;
   bool                          m_WriteWisdomCache;

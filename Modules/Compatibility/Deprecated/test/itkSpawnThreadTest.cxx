@@ -18,10 +18,11 @@
 
 #define ITK_LEGACY_TEST //so deprecation warnings are not triggered by this test
 #include "itkPlatformMultiThreader.h"
+#include "itkMutexLock.h"
 #include "itkTimeProbe.h"
 #include "itkConfigure.h"
 #include "itksys/SystemTools.hxx"
-
+#include "itkMutexLock.h"
 
 typedef struct {
   int numberOfLoop;

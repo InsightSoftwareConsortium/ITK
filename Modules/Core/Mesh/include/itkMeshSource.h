@@ -92,21 +92,21 @@ public:
    * process object is implemented using a mini-pipeline which is
    * defined in its GenerateData() method.  The usage is:
    *
-   * \code
-   *    // setup the mini-pipeline to process the input to this filter
-   *    firstFilterInMiniPipeline->SetInput( this->GetInput() );
-   *
-   *    // setup the mini-pipeline to calculate the correct regions
-   *    // and write to the appropriate bulk data block
-   *    lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
-   *
-   *    // execute the mini-pipeline
-   *    lastFilterInMiniPipeline->Update();
-   *
-   *    // graft the mini-pipeline output back onto this filter's output.
-   *    // this is needed to get the appropriate regions passed back.
-   *    this->GraftOutput( lastFilterInMiniPipeline->GetOutput() );
-   * \endcode
+     \code
+        // setup the mini-pipeline to process the input to this filter
+        firstFilterInMiniPipeline->SetInput( this->GetInput() );
+
+        // setup the mini-pipeline to calculate the correct regions
+        // and write to the appropriate bulk data block
+        lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
+
+        // execute the mini-pipeline
+        lastFilterInMiniPipeline->Update();
+
+        // graft the mini-pipeline output back onto this filter's output.
+        // this is needed to get the appropriate regions passed back.
+        this->GraftOutput( lastFilterInMiniPipeline->GetOutput() );
+     \endcode
    *
    * For proper pipeline execution, a filter using a mini-pipeline
    * must implement the GenerateInputRequestedRegion(),

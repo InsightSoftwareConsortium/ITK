@@ -113,7 +113,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::VerifyInputInformation()
+::VerifyInputInformation() const
 {
   if (ImageDimension != GetDisplacementField()->GetNumberOfComponentsPerPixel())
     {

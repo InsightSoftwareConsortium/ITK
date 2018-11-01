@@ -36,8 +36,6 @@
 
 #include "itkMath.h"
 
-#include "itkMutexLockHolder.h"
-
 #include <numeric>
 
 
@@ -342,7 +340,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     }
 
   // TODO improve merge algoithm
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_UpdateClusterPerThread.push_back(clusterMap);
 }
 

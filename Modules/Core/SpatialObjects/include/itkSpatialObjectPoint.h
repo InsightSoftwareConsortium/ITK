@@ -38,12 +38,11 @@ class ITK_TEMPLATE_EXPORT SpatialObjectPoint
 {
 public:
 
-  /** Constructor. This one defines the number of dimensions in the
-   * SpatialObjectPoint */
+  /** Constructor. */
   SpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~SpatialObjectPoint();
+  virtual ~SpatialObjectPoint() = default;
 
   using Self = SpatialObjectPoint;
   using PointType = Point< double, TPointDimension >;
@@ -63,12 +62,22 @@ public:
   /** Set the point object. Couldn't use macros for these methods. */
   void SetPosition(const PointType & newX);
 
-  void SetPosition(const double x0, const double x1);
-
-  void SetPosition(const double x0, const double x1, const double x2);
+  template <typename... TCoordinate>
+  void SetPosition(
+    const double firstCoordinate,
+    const TCoordinate... otherCoordinate)
+    {
+    static_assert((1 + sizeof...(otherCoordinate)) == TPointDimension,
+      "The number of coordinates must be equal to the dimensionality!");
+    const double coordinates[] =
+      {
+      firstCoordinate, static_cast<double>(otherCoordinate)...
+      };
+    m_X = coordinates;
+    }
 
   /** Copy one SpatialObjectPoint to another */
-  Self & operator=(const SpatialObjectPoint & rhs);
+  SpatialObjectPoint & operator=(const SpatialObjectPoint & rhs) = default;
 
   /** Set/Get color of the point */
   const PixelType & GetColor() const;

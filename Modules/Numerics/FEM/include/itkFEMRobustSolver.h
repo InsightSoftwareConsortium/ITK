@@ -39,7 +39,7 @@ namespace fem
  * noises in landmarks and advancing approximation to interpolation.
  * This solver takes a FEMObject as input and outputs a deformed FEMObject.
  *
- * \code
+   \code
          using FEMObjectType = itk::fem::FEMObject<3>;
          FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
          ...

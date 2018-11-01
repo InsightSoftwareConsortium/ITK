@@ -65,7 +65,7 @@ namespace itk
  * platform or compiler, mutexes, which are significantly slower, are used
  * as a fallback.
  *
- * \ingroup ITKCommon
+ * \ingroup ITKDeprecated
  */
 template <typename T>
 class AtomicInt
