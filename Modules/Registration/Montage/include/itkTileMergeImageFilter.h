@@ -21,9 +21,9 @@
 
 #include "itkTileMontage.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkSimpleFastMutexLock.h"
 #include "itkNumericTraits.h"
 #include <deque>
+#include <mutex>
 
 namespace itk
 {
@@ -206,7 +206,7 @@ private:
     PixelType m_Background; //default background value (not covered by any input tile)
 
     std::vector<TransformConstPointer> m_Transforms;
-    std::deque<SimpleFastMutexLock>    m_TileReadLocks; //to avoid reading the same tile by more than one thread in parallel
+    std::deque<std::mutex>             m_TileReadLocks; //to avoid reading the same tile by more than one thread in parallel
     //deque is not reallocated when resized, so no mutex moving causing a crash
     std::vector<ImagePointer>          m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
     typename Superclass::ConstPointer  m_Montage;
