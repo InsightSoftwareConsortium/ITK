@@ -73,16 +73,16 @@ namespace itk {
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template<typename TInputImage >
+template<typename TInputImage, typename TOutputImage = TInputImage>
 class KrcahEigenToMeasureParameterEstimationFilter
-  : public EigenToMeasureParameterEstimationFilter< TInputImage >
+  : public EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureParameterEstimationFilter);
 
   /** Standard Self typedef */
   using Self          = KrcahEigenToMeasureParameterEstimationFilter;
-  using Superclass    = EigenToMeasureParameterEstimationFilter< TInputImage >;
+  using Superclass    = EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >;
   using Pointer       = SmartPointer<Self>;
   using ConstPointer  = SmartPointer<const Self>;
   

@@ -46,16 +46,16 @@ namespace itk {
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT EigenToMeasureParameterEstimationFilter
-  : public StreamingImageFilter< TInputImage, TInputImage >
+  : public StreamingImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureParameterEstimationFilter);
 
   /** Standard Self typedef */
   using Self          = EigenToMeasureParameterEstimationFilter;
-  using Superclass    = StreamingImageFilter< TInputImage, TInputImage >;
+  using Superclass    = StreamingImageFilter< TInputImage, TOutputImage >;
   using Pointer       = SmartPointer< Self >;
   using ConstPointer  = SmartPointer< const Self >;
 
@@ -72,7 +72,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,  TInputImage::ImageDimension);
 
   /** Output image typedefs. */
-  using OutputImageType       = TInputImage;
+  using OutputImageType       = TOutputImage;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Input Mask typedefs. */

@@ -29,8 +29,8 @@
 namespace itk
 {
 
-template< typename TInputImage >
-EigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::EigenToMeasureParameterEstimationFilter()
 {
   /* Set stream parameters */
@@ -43,9 +43,9 @@ EigenToMeasureParameterEstimationFilter< TInputImage >
   this->GetParametersOutput()->Set( ParameterArrayType() );
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-EigenToMeasureParameterEstimationFilter< TInputImage >
+EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::UpdateOutputData(DataObject *itkNotUsed(output))
 {
   /** Prevent chasing our tail */
@@ -163,23 +163,23 @@ EigenToMeasureParameterEstimationFilter< TInputImage >
   this->m_Updating = false;
 }
 
-template< typename TInputImage >
-typename EigenToMeasureParameterEstimationFilter< TInputImage >::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+typename EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::GetParametersOutput() {
   return static_cast< ParameterDecoratedType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< typename TInputImage >
-const typename EigenToMeasureParameterEstimationFilter< TInputImage >::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+const typename EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::GetParametersOutput() const {
   return static_cast< const ParameterDecoratedType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-EigenToMeasureParameterEstimationFilter< TInputImage >
+EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

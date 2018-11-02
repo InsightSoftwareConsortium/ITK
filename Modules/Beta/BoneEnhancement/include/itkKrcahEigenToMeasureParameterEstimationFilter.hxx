@@ -24,8 +24,8 @@
 
 namespace itk {
 
-template< typename TInputImage >
-KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::KrcahEigenToMeasureParameterEstimationFilter() :
   m_ParameterSet(UseImplementationParameters)
 {
@@ -38,18 +38,18 @@ KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
   this->GetParametersOutput()->Set(parameters);
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
+KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   m_ThreadAccumulatedTrace = NumericTraits< RealType >::ZeroValue();
   m_ThreadCount = NumericTraits< RealType >::ZeroValue();
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
+KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
   /* Determine default parameters */
@@ -90,9 +90,9 @@ KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
   this->GetParametersOutput()->Set(parameters);
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
+KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   /* If size is zero, return */
@@ -167,9 +167,9 @@ KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
   m_ThreadAccumulatedTrace += accum;
 }
 
-template< typename TInputImage >
-typename KrcahEigenToMeasureParameterEstimationFilter< TInputImage >::RealType
-KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+typename KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >::RealType
+KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::CalculateTraceAccordingToImplementation(InputImagePixelType pixel) {
   /* Sum of the absolute value of the eigenvalues */
   RealType trace = 0;
@@ -179,9 +179,9 @@ KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
   return trace;
 }
 
-template< typename TInputImage >
-typename KrcahEigenToMeasureParameterEstimationFilter< TInputImage >::RealType
-KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+typename KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >::RealType
+KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::CalculateTraceAccordingToJournalArticle(InputImagePixelType pixel) {
   /* Sum of the eigenvalues */
   RealType trace = 0;
@@ -191,9 +191,9 @@ KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
   return trace;
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-KrcahEigenToMeasureParameterEstimationFilter< TInputImage >
+KrcahEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

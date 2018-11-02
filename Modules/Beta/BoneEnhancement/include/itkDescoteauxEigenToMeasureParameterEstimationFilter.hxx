@@ -24,8 +24,8 @@
 
 namespace itk {
 
-template< typename TInputImage >
-DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::DescoteauxEigenToMeasureParameterEstimationFilter() :
   Superclass(),
   m_FrobeniusNormWeight(0.5)
@@ -39,17 +39,17 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
   this->GetParametersOutput()->Set(parameters);
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
+DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   m_MaxFrobeniusNorm = NumericTraits< RealType >::NonpositiveMin();
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
+DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
   /* Determine default parameters */
@@ -72,9 +72,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
   this->GetParametersOutput()->Set(parameters);
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
+DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   /* If size is zero, return */
@@ -131,9 +131,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
   m_MaxFrobeniusNorm = std::max( m_MaxFrobeniusNorm, max );
 }
 
-template< typename TInputImage >
-typename DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >::RealType
-DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
+template< typename TInputImage, typename TOutputImage >
+typename DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >::RealType
+DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::CalculateFrobeniusNorm(const InputImagePixelType& pixel) const
 {
   /* Forbenius norm is given by the square root of the sum of squares 
@@ -146,9 +146,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
   return sqrt(norm);
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TOutputImage >
 void
-DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage >
+DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
