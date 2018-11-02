@@ -55,13 +55,13 @@ int main(int argc, char * argv[])
   std::string inputFileName = argv[1];
   std::string outputMeasureFileName = argv[2];
 
-  int enhanceBrightObjects = atoi(argv[3]);
-  int numberOfSigma = atoi(argv[4]);
+  int enhanceBrightObjects = std::stoi(argv[3]);
+  int numberOfSigma = std::stoi(argv[4]);
   double thisSigma;
   itk::Array< double > sigmaArray;
   sigmaArray.SetSize(numberOfSigma);
   for (unsigned int i = 0; i < numberOfSigma; ++i) {
-    thisSigma = atof(argv[5+i]);
+    thisSigma = std::stod(argv[5+i]);
     sigmaArray.SetElement(i, thisSigma);
   }
 
