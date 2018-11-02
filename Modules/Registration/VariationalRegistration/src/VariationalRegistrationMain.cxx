@@ -296,24 +296,24 @@ main(int argc, char * argv[])
         std::cout << "  Log filename:                    " << logFilename << std::endl;
         break;
       case 'e':
-        numberOfExponentiatorIterations = atoi(optarg);
+        numberOfExponentiatorIterations = std::stoi(optarg);
         std::cout << "  No. of exp. iterations:          " << numberOfExponentiatorIterations << std::endl;
         break;
       case 'i':
       case 'n':
-        numberOfIterations = atoi(optarg);
+        numberOfIterations = std::stoi(optarg);
         std::cout << "  No. of iterations:               " << numberOfIterations << std::endl;
         break;
       case 'l':
-        numberOfLevels = atoi(optarg);
+        numberOfLevels = std::stoi(optarg);
         std::cout << "  No. of multi-resolution levels:  " << numberOfLevels << std::endl;
         break;
       case 't':
-        timestep = atof(optarg);
+        timestep = std::stod(optarg);
         std::cout << "  Registration time step:          " << timestep << std::endl;
         break;
       case 's':
-        searchSpace = atoi(optarg);
+        searchSpace = std::stoi(optarg);
         if (searchSpace == 0)
         {
           std::cout << "  Search space:                    Standard" << std::endl;
@@ -332,7 +332,7 @@ main(int argc, char * argv[])
         }
         break;
       case 'u':
-        intVal = atoi(optarg);
+        intVal = std::stoi(optarg);
         if (intVal == 0)
         {
           std::cout << "  Use image spacing:               false" << std::endl;
@@ -345,7 +345,7 @@ main(int argc, char * argv[])
         }
         break;
       case 'r':
-        regularizerType = atoi(optarg);
+        regularizerType = std::stoi(optarg);
         if (regularizerType == 0)
         {
           std::cout << "  Regularizer:                     Gaussian" << std::endl;
@@ -369,23 +369,23 @@ main(int argc, char * argv[])
         }
         break;
       case 'a':
-        regulAlpha = atof(optarg);
+        regulAlpha = std::stod(optarg);
         std::cout << "  Regularization alpha:            " << regulAlpha << std::endl;
         break;
       case 'v':
-        regulVar = atof(optarg);
+        regulVar = std::stod(optarg);
         std::cout << "  Regularization variance:         " << regulVar << std::endl;
         break;
       case 'm':
-        regulMu = atof(optarg);
+        regulMu = std::stod(optarg);
         std::cout << "  Regularization mu:               " << regulMu << std::endl;
         break;
       case 'b':
-        regulLambda = atof(optarg);
+        regulLambda = std::stod(optarg);
         std::cout << "  Regularization lambda:           " << regulLambda << std::endl;
         break;
       case 'f':
-        forceType = atoi(optarg);
+        forceType = std::stoi(optarg);
         if (forceType == 0)
         {
           std::cout << "  Force type:                      Demons" << std::endl;
@@ -404,7 +404,7 @@ main(int argc, char * argv[])
         }
         break;
       case 'd':
-        forceDomain = atoi(optarg);
+        forceDomain = std::stoi(optarg);
         if (forceDomain == 0)
         {
           std::cout << "  Force domain:                    Warped moving image" << std::endl;
@@ -423,7 +423,7 @@ main(int argc, char * argv[])
         }
         break;
       case 'p':
-        stopCriterionPolicy = atoi(optarg);
+        stopCriterionPolicy = std::stoi(optarg);
         if (stopCriterionPolicy == 0)
         {
           std::cout << "  StopCriterion-Policy:            Default stop criterion on all levels." << std::endl;
@@ -445,11 +445,11 @@ main(int argc, char * argv[])
         }
         break;
       case 'g':
-        stopCriterionSlope = atof(optarg);
+        stopCriterionSlope = std::stod(optarg);
         std::cout << "  StopCrit. Grad. Threshold:       " << stopCriterionSlope << std::endl;
         break;
       case 'h':
-        intVal = atoi(optarg);
+        intVal = std::stoi(optarg);
         if (intVal == 0)
         {
           std::cout << "  Use histogram matching:          false" << std::endl;
@@ -462,7 +462,7 @@ main(int argc, char * argv[])
         }
         break;
       case 'q':
-        nccRadius = atoi(optarg);
+        nccRadius = std::stoi(optarg);
         std::cout << "  Radius size for NCC:             " << nccRadius << std::endl;
         break;
       case 'x':
