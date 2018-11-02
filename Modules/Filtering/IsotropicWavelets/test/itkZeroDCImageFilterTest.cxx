@@ -93,7 +93,7 @@ itkZeroDCImageFilterTest(int argc, char * argv[])
   unsigned int      dimension = 3;
   if (argc == 3)
   {
-    dimension = atoi(argv[2]);
+    dimension = std::stoi(argv[2]);
   }
 
   constexpr unsigned int ImageDimension = 3;

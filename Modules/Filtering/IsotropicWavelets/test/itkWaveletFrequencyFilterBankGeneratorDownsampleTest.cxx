@@ -123,13 +123,13 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
   }
   const std::string  inputImage = argv[1];
   const std::string  outputImage = argv[2];
-  const unsigned int inputBands = atoi(argv[3]);
+  const unsigned int inputBands = std::stoi(argv[3]);
   const std::string  waveletFunction = argv[4];
 
   unsigned int dimension = 3;
   if (argc == 6)
   {
-    dimension = atoi(argv[5]);
+    dimension = std::stoi(argv[5]);
   }
 
   constexpr unsigned int ImageDimension = 2;

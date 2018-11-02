@@ -174,11 +174,11 @@ itkRieszFrequencyFunctionTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int dimension = atoi(argv[1]);
+  unsigned int dimension = std::stoi(argv[1]);
   unsigned int order = 5;
   if (argc == 3)
   {
-    order = atoi(argv[2]);
+    order = std::stoi(argv[2]);
   }
 
   if (dimension == 2)

@@ -283,7 +283,7 @@ itkFrequencyExpandTest(int argc, char * argv[])
   unsigned int dimension = 3;
   if (argc == 4)
   {
-    dimension = atoi(argv[3]);
+    dimension = std::stoi(argv[3]);
   }
 
   if (dimension == 2)

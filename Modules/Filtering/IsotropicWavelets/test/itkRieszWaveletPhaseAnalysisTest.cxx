@@ -232,10 +232,10 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
 
   const std::string  inputImage = argv[1];
   const std::string  outputImage = argv[2];
-  const unsigned int inputLevels = atoi(argv[3]);
-  const unsigned int inputBands = atoi(argv[4]);
+  const unsigned int inputLevels = std::stoi(argv[3]);
+  const unsigned int inputBands = std::stoi(argv[4]);
   const std::string  waveletFunction = argv[5];
-  const unsigned int dimension = atoi(argv[6]);
+  const unsigned int dimension = std::stoi(argv[6]);
   const std::string  applySoftThresholdInput = argv[7];
   bool               applySoftThreshold = false;
   if (applySoftThresholdInput == "Apply")
@@ -255,7 +255,7 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
   double thresholdNumOfSigmas = 2.0;
   if (argc == 9)
   {
-    thresholdNumOfSigmas = atof(argv[8]);
+    thresholdNumOfSigmas = std::stod(argv[8]);
   }
 
   constexpr unsigned int ImageDimension = 2;

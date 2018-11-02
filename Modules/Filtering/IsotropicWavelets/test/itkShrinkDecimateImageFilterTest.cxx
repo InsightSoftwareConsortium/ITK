@@ -141,7 +141,7 @@ itkShrinkDecimateImageFilterTest(int argc, char * argv[])
   unsigned int dimension = 3;
   if (argc == 2)
   {
-    dimension = atoi(argv[1]);
+    dimension = std::stoi(argv[1]);
   }
 
   if (dimension == 2)

@@ -195,14 +195,14 @@ itkWaveletFrequencyInverseTest(int argc, char * argv[])
 
   const std::string  inputImage = argv[1];
   const std::string  outputImage = argv[2];
-  const unsigned int inputLevels = atoi(argv[3]);
-  const unsigned int inputBands = atoi(argv[4]);
+  const unsigned int inputLevels = std::stoi(argv[3]);
+  const unsigned int inputBands = std::stoi(argv[4]);
   const std::string  waveletFunction = argv[5];
 
   unsigned int dimension = 3;
   if (argc == 7)
   {
-    dimension = atoi(argv[6]);
+    dimension = std::stoi(argv[6]);
   }
 
   // const unsigned int ImageDimension = 3;

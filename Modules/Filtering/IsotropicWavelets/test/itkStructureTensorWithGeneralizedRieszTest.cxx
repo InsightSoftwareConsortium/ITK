@@ -240,10 +240,10 @@ itkStructureTensorWithGeneralizedRieszTest(int argc, char * argv[])
 
   const std::string  inputImage = argv[1];
   const std::string  outputImage = argv[2];
-  const unsigned int inputLevels = atoi(argv[3]);
-  const unsigned int inputBands = atoi(argv[4]);
+  const unsigned int inputLevels = std::stoi(argv[3]);
+  const unsigned int inputBands = std::stoi(argv[4]);
   const std::string  waveletFunction = argv[5];
-  const unsigned int inputRieszOrder = atoi(argv[6]);
+  const unsigned int inputRieszOrder = std::stoi(argv[6]);
   const std::string  applyReconstructionFactorsInput = argv[7];
   bool               applyReconstructionFactors = false;
   if (applyReconstructionFactorsInput == "Apply")
@@ -263,7 +263,7 @@ itkStructureTensorWithGeneralizedRieszTest(int argc, char * argv[])
   unsigned int dimension = 3;
   if (argc == 9)
   {
-    dimension = atoi(argv[8]);
+    dimension = std::stoi(argv[8]);
   }
 
   if (dimension == 2)

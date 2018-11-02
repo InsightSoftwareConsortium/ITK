@@ -103,10 +103,10 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
 
-  auto applySoftThreshold = static_cast<bool>(atoi(argv[3]));
+  auto applySoftThreshold = static_cast<bool>(std::stoi(argv[3]));
   TEST_SET_GET_BOOLEAN(phaseAnalyzer, ApplySoftThreshold, applySoftThreshold);
 
-  auto numOfSigmas = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[4]));
+  auto numOfSigmas = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(std::stod(argv[4]));
   phaseAnalyzer->SetNumOfSigmas(numOfSigmas);
   TEST_SET_GET_VALUE(numOfSigmas, phaseAnalyzer->GetNumOfSigmas());
 
@@ -116,7 +116,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 
 
   // Regression tests
-  auto expectedMeanAmp = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[5]));
+  auto expectedMeanAmp = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(std::stod(argv[5]));
   PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType computedMeanAmp = phaseAnalyzer->GetMeanAmp();
   if (itk::Math::NotAlmostEquals(expectedMeanAmp, computedMeanAmp))
   {
@@ -128,7 +128,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
     // testStatus = EXIT_FAILURE;
   }
 
-  auto expectedSigmaAmp = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[6]));
+  auto expectedSigmaAmp = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(std::stod(argv[6]));
   PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType computedSigmaAmp = phaseAnalyzer->GetSigmaAmp();
   if (itk::Math::NotAlmostEquals(expectedSigmaAmp, computedSigmaAmp))
   {
@@ -139,7 +139,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
     // testStatus = EXIT_FAILURE;
   }
 
-  auto expectedThreshold = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[7]));
+  auto expectedThreshold = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(std::stod(argv[7]));
   PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType computedThreshold = phaseAnalyzer->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, computedThreshold))
   {
