@@ -154,14 +154,14 @@ int Execute(int argc, char * argv[])
   int argIndex = 3;
   if( argIndex < argc )
     {
-    const double diffusionTime = atof(argv[argIndex++]);
+    const double diffusionTime = std::stod(argv[argIndex++]);
     if(diffusionTime==0) itkGenericExceptionMacro("Error: Unrecognized diffusion time (third argument).\n");
     diffusionFilter->SetDiffusionTime(diffusionTime);
     }
 
   if( argIndex < argc )
     {
-    const double lambda = atof(argv[argIndex++]);
+    const double lambda = std::stod(argv[argIndex++]);
     if(lambda==0.) itkGenericExceptionMacro("Error: Unrecognized lambda (fourth argument).\n");
     diffusionFilter->SetLambda(lambda);
     }
@@ -185,21 +185,21 @@ int Execute(int argc, char * argv[])
 
   if( argIndex < argc )
     {
-    const double noiseScale = atof(argv[argIndex++]);
+    const double noiseScale = std::stod(argv[argIndex++]);
     if(noiseScale==0.) itkGenericExceptionMacro("Error: Unrecognized noiseScale (sixth argument).\n");
     diffusionFilter->SetNoiseScale(noiseScale);
     }
 
   if( argIndex < argc )
     {
-    const double featureScale = atof(argv[argIndex++]);
+    const double featureScale = std::stod(argv[argIndex++]);
     if(featureScale==0.) itkGenericExceptionMacro("Error: Unrecognized featureScale (seventh argument).\n");
     diffusionFilter->SetFeatureScale(featureScale);
     }
 
   if( argIndex < argc )
     {
-    const double exponent = atof(argv[argIndex++]);
+    const double exponent = std::stod(argv[argIndex++]);
     if(exponent==0.) itkGenericExceptionMacro("Error: Unrecognized exponent (eighth argument).\n");
     diffusionFilter->SetExponent(exponent);
     }

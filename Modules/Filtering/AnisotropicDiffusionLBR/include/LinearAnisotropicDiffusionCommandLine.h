@@ -153,7 +153,7 @@ int Execute(int argc, char * argv[]){
     tensorReader->SetFileName(tensorImageFileName);
 
     // Import diffusion time
-    const double diffusionTime = atof(argv[2+1]);
+    const double diffusionTime = std::stod(argv[2+1]);
     if(diffusionTime==0) itkGenericExceptionMacro("Error: Unrecognized diffusion time (third argument).\n");
 
     // Import output image filename
@@ -168,13 +168,13 @@ int Execute(int argc, char * argv[]){
 
     int argIndex = 4+1;
     if(argIndex<argc){
-        const double ratioToMaxStableTimeStep = atof(argv[argIndex++]);
+        const double ratioToMaxStableTimeStep = std::stod(argv[argIndex++]);
         if(ratioToMaxStableTimeStep==0) itkGenericExceptionMacro("Error: Unrecognized RatioToMaxStableTimeStep (fourth argument).\n");
         diffusionFilter->SetRatioToMaxStableTimeStep(ratioToMaxStableTimeStep);
     }
 
     if(argIndex<argc){
-        const int maxNumberOfTimeSteps = atoi(argv[argIndex++]);
+        const int maxNumberOfTimeSteps = std::stoi(argv[argIndex++]);
         if(maxNumberOfTimeSteps==0) itkGenericExceptionMacro("Error: Unrecognized maxNumberOfTimeSteps (fifth argument).\n");
         diffusionFilter->SetMaxNumberOfTimeSteps(maxNumberOfTimeSteps);
     } else
