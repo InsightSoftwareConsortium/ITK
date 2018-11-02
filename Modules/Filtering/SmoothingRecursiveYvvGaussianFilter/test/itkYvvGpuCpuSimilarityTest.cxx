@@ -213,12 +213,12 @@ itkYvvGpuCpuSimilarityTest(int argc, char * argv[])
   }
 
   std::string  inputFilename(argv[1]);
-  unsigned int dim = atoi(argv[2]);
+  unsigned int dim = std::stoi(argv[2]);
 
   float sigma = 0.5;
-  if (argc > 3 && atoi(argv[3]) >= 0.5)
+  if (argc > 3 && std::stoi(argv[3]) >= 0.5)
   {
-    sigma = atof(argv[3]);
+    sigma = std::stod(argv[3]);
   }
 
   if (dim == 2)

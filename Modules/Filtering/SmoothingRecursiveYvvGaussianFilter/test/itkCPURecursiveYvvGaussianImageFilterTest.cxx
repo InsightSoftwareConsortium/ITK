@@ -37,9 +37,9 @@ itkCPURecursiveYvvGaussianImageFilterTest(int argc, char * argv[])
   }
 
   std::string  inputFilename(argv[1]);
-  unsigned int dim = atoi(argv[2]);
-  float        sigma = atof(argv[3]);
-  unsigned int ntests = atoi(argv[4]);
+  unsigned int dim = std::stoi(argv[2]);
+  float        sigma = std::stod(argv[3]);
+  unsigned int ntests = std::stoi(argv[4]);
 
   int                          res = EXIT_SUCCESS;
   itk::TimeProbesCollectorBase timeCollector;

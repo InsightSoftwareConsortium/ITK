@@ -51,7 +51,7 @@ itkYvvWhiteImageTest(int argc, char * argv[])
     die("missing arguments.");
   }
 
-  int dim = atoi(argv[1]);
+  int dim = std::stoi(argv[1]);
   if (argc < 4 + dim - 1)
   {
     die("missing arguments.");
@@ -66,11 +66,11 @@ itkYvvWhiteImageTest(int argc, char * argv[])
   float          sigma;
   try
   {
-    sigma = atof(argv[2]);
-    ntests = atoi(argv[3]);
+    sigma = std::stod(argv[2]);
+    ntests = std::stoi(argv[3]);
     for (int i = 0; i < dim; ++i)
     {
-      size[i] = atoi(argv[4 + i]);
+      size[i] = std::stoi(argv[4 + i]);
     }
   }
   catch (...)
