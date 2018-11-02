@@ -89,10 +89,10 @@ int itkLabelSetDilateTest(int argc, char *argv[])
   switch ( dim1 )
     {
     case 2:
-      status = doDilate< unsigned char, 2 >( argv[1], argv[3], atoi(argv[2]) );
+      status = doDilate< unsigned char, 2 >( argv[1], argv[3], std::stoi(argv[2]) );
       break;
     case 3:
-      status = doDilate< unsigned char, 3 >( argv[1], argv[3], atoi(argv[2]) );
+      status = doDilate< unsigned char, 3 >( argv[1], argv[3], std::stoi(argv[2]) );
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
