@@ -22,7 +22,6 @@
 #include "itkTileMergeImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMultiThreaderBase.h"
-#include "itkMutexLockHolder.h"
 #include <algorithm>
 #include <functional>
 #include <cassert>
@@ -261,7 +260,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>
     ImagePointer outputImage = this->GetOutput();
     RegionType reqR = outputImage->GetRequestedRegion();
     bool mustRead = true;
-    MutexLockHolder<SimpleFastMutexLock> mlh(m_TileReadLocks[linearIndex]);
+    std::lock_guard<std::mutex> lockGuard(m_TileReadLocks[linearIndex]);
     if (m_Tiles[linearIndex].IsNotNull())
       {
       RegionType r = m_Tiles[linearIndex]->GetBufferedRegion();
