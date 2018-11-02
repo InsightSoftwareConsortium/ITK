@@ -37,13 +37,15 @@ template <typename TInternalComputationValueType>
 class DCMTKTransformIO : public TransformIOBaseTemplate<TInternalComputationValueType>
 {
 public:
-  typedef DCMTKTransformIO                                       Self;
-  typedef TransformIOBaseTemplate<TInternalComputationValueType> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKTransformIO);
 
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::TransformListType      TransformListType;
-  typedef typename Superclass::ConstTransformListType ConstTransformListType;
+  using Self = DCMTKTransformIO;
+  using Superclass = TransformIOBaseTemplate<TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+
+  using TransformType = typename Superclass::TransformType;
+  using TransformListType = typename Superclass::TransformListType;
+  using ConstTransformListType = typename Superclass::ConstTransformListType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DCMTKTransformIO, TransformIOBaseTemplate);
@@ -77,11 +79,9 @@ public:
 
 protected:
   DCMTKTransformIO();
-  virtual ~DCMTKTransformIO();
+  ~DCMTKTransformIO() override;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKTransformIO);
-
   std::string m_FrameOfReferenceUID;
 };
 
