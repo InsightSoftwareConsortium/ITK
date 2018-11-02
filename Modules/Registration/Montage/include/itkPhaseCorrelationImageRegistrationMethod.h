@@ -18,22 +18,21 @@
 #ifndef itkPhaseCorrelationImageRegistrationMethod_h
 #define itkPhaseCorrelationImageRegistrationMethod_h
 
-#include "itkImage.h"
-#include "itkProcessObject.h"
-#include <complex>
 #include "itkConstantPadImageFilter.h"
-#include "itkMirrorPadImageFilter.h"
-#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
-#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkDataObjectDecorator.h"
+#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkImage.h"
+#include "itkMirrorPadImageFilter.h"
+#include "itkProcessObject.h"
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkTranslationTransform.h"
+#include <complex>
 
 #include "itkPhaseCorrelationOperator.h"
 #include "itkPhaseCorrelationOptimizer.h"
 
 namespace itk
 {
-
 /** \class PhaseCorrelationImageRegistrationMethod
  *  \brief Base class for phase-correlation-based image registration.
  *
@@ -94,23 +93,23 @@ namespace itk
  *
  * \ingroup Montage
  */
-template <typename TFixedImage, typename TMovingImage>
-class ITK_TEMPLATE_EXPORT PhaseCorrelationImageRegistrationMethod: public ProcessObject
+template< typename TFixedImage, typename TMovingImage >
+class ITK_TEMPLATE_EXPORT PhaseCorrelationImageRegistrationMethod : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_ASSIGN( PhaseCorrelationImageRegistrationMethod );
 
   /** Standard class type aliases. */
   using Self = PhaseCorrelationImageRegistrationMethod;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseCorrelationImageRegistrationMethod, ProcessObject);
+  itkTypeMacro( PhaseCorrelationImageRegistrationMethod, ProcessObject );
 
   /**  Type of the Fixed image. */
   using FixedImageType = TFixedImage;
@@ -126,18 +125,19 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int, FixedImageType::ImageDimension );
 
   /** Image and region size type. */
-  using SizeType = Size<ImageDimension>;
+  using SizeType = Size< ImageDimension >;
 
   /** Pixel type, that will be used by internal filters.
    *  It should be float for integral and float inputs and it should
    *  be double for double inputs */
-  using InternalPixelType = typename NumericTraits<FixedImagePixelType>::RealType;
+  using InternalPixelType = typename NumericTraits< FixedImagePixelType >::RealType;
 
   /** Type of the image, that is passed between the internal components. */
   using RealImageType = Image< InternalPixelType, ImageDimension >;
 
   /** Type of the image, that is passed between the internal components. */
-  using ComplexConjugateImageType = Image< std::complex< InternalPixelType >, itkGetStaticConstMacro(ImageDimension) >;
+  using ComplexConjugateImageType =
+    Image< std::complex< InternalPixelType >, itkGetStaticConstMacro( ImageDimension ) >;
 
   /**  Type of the Operator */
   using OperatorType = PhaseCorrelationOperator< InternalPixelType, ImageDimension >;
@@ -150,7 +150,7 @@ public:
   using ComplexOptimizerPointer = typename ComplexOptimizerType::Pointer;
 
   /**  Type for the transform. */
-  using TransformType = TranslationTransform<typename MovingImageType::PointType::ValueType,ImageDimension >;
+  using TransformType = TranslationTransform< typename MovingImageType::PointType::ValueType, ImageDimension >;
   using TransformPointer = typename TransformType::Pointer;
 
   /** Type for the output transform parameters (the shift). */
@@ -166,11 +166,11 @@ public:
   using DataObjectPointer = typename DataObject::Pointer;
 
   /** Set/Get the Fixed image. */
-  void SetFixedImage( const FixedImageType * fixedImage );
+  void SetFixedImage( const FixedImageType* fixedImage );
   itkGetConstObjectMacro( FixedImage, FixedImageType );
 
   /** Set/Get the Moving image. */
-  void SetMovingImage( const MovingImageType * movingImage );
+  void SetMovingImage( const MovingImageType* movingImage );
   itkGetConstObjectMacro( MovingImage, MovingImageType );
 
   /** Internal FFT filter type. */
@@ -180,38 +180,38 @@ public:
   using ComplexImageType = typename FFTFilterType::OutputImageType;
 
   /** Set the fixed image's cached FFT. */
-  void SetFixedImageFFT( const ComplexImageType * fixedImageFFT);
+  void SetFixedImageFFT( const ComplexImageType* fixedImageFFT );
 
   /** Get the fixed image's FFT (useful for caching).
    *  Available after Update() has been called. */
-  itkGetConstObjectMacro( FixedImageFFT, ComplexImageType);
+  itkGetConstObjectMacro( FixedImageFFT, ComplexImageType );
 
   /** Set the moving image's cached FFT. */
-  void SetMovingImageFFT( const ComplexImageType * movingImageFFT);
+  void SetMovingImageFFT( const ComplexImageType* movingImageFFT );
 
   /** Get the moving image's FFT (useful for caching).
    *  Available after Update() has been called. */
-  itkGetConstObjectMacro( MovingImageFFT, ComplexImageType);
+  itkGetConstObjectMacro( MovingImageFFT, ComplexImageType );
 
   /** Passes ReleaseDataFlag to internal filters. */
-  void SetReleaseDataFlag(bool flag) override;
+  void SetReleaseDataFlag( bool flag ) override;
 
   /** Passes ReleaseDataBeforeUpdateFlag to internal filters. */
-  void SetReleaseDataBeforeUpdateFlag(const bool flag) override;
+  void SetReleaseDataBeforeUpdateFlag( const bool flag ) override;
 
   /** Set/Get the Operator. */
   itkSetObjectMacro( Operator, OperatorType );
   itkGetConstObjectMacro( Operator, OperatorType );
 
   /** Set/Get the Optimizer. */
-  virtual void SetOptimizer (RealOptimizerType *);
-  virtual void SetOptimizer (ComplexOptimizerType *);
-  itkGetConstObjectMacro( RealOptimizer,  RealOptimizerType );
-  itkGetConstObjectMacro( ComplexOptimizer,  ComplexOptimizerType );
+  virtual void SetOptimizer( RealOptimizerType* );
+  virtual void SetOptimizer( ComplexOptimizerType* );
+  itkGetConstObjectMacro( RealOptimizer, RealOptimizerType );
+  itkGetConstObjectMacro( ComplexOptimizer, ComplexOptimizerType );
 
   /** Given an image size, returns the smallest size
    *  which factorizes using FFT's prime factors. */
-  SizeType RoundUpToFFTSize(SizeType inSize);
+  SizeType RoundUpToFFTSize( SizeType inSize );
 
   /** Set/Get the PadToSize.
    *  Unset by setting a size of all zeroes.
@@ -220,21 +220,27 @@ public:
    *
    *  If used in a montage, a maximum image size can be determined,
    *  RoundUpToFFTSize() called and the resulting size set as PadToSize. */
-  itkSetMacro(PadToSize, SizeType);
-  itkGetConstMacro(PadToSize, SizeType);
+  itkSetMacro( PadToSize, SizeType );
+  itkGetConstMacro( PadToSize, SizeType );
 
   /** Set/Get obligatory padding.
    * If set, padding of this many pixels is added on both beginning and end
    * sides of each dimension of the image. */
-  itkSetMacro(ObligatoryPadding, SizeType);
-  itkGetConstMacro(ObligatoryPadding, SizeType);
+  itkSetMacro( ObligatoryPadding, SizeType );
+  itkGetConstMacro( ObligatoryPadding, SizeType );
 
   /** \class PaddingMethod
    *  \brief Different methods of padding the images to satisfy FFT size requirements.
    *  \ingroup Montage */
-  enum class PaddingMethod { Zero = 0, Mirror, MirrorWithExponentialDecay, Last = MirrorWithExponentialDecay };
-  itkGetConstMacro(PaddingMethod, PaddingMethod);
-  void SetPaddingMethod(const PaddingMethod paddingMethod);
+  enum class PaddingMethod
+  {
+    Zero = 0,
+    Mirror,
+    MirrorWithExponentialDecay,
+    Last = MirrorWithExponentialDecay
+  };
+  itkGetConstMacro( PaddingMethod, PaddingMethod );
+  void SetPaddingMethod( const PaddingMethod paddingMethod );
 
   /** Get the correlation surface.
    *
@@ -242,11 +248,10 @@ public:
    *  complex optimizer is used, the real correlation surface is not available
    *  or is not up-to-date.
    */
-  virtual RealImageType * GetRealCorrelationSurface()
-    {
-    itkDebugMacro("returning RealCorrelationSurface address "
-                  << this->m_IFFT->GetOutput() );
-    if (m_IFFT.IsNotNull())
+  virtual RealImageType* GetRealCorrelationSurface()
+  {
+    itkDebugMacro( "returning RealCorrelationSurface address " << this->m_IFFT->GetOutput() );
+    if ( m_IFFT.IsNotNull() )
       {
       return m_IFFT->GetOutput();
       }
@@ -254,12 +259,11 @@ public:
       {
       return 0;
       }
-    }
-  virtual ComplexConjugateImageType * GetComplexCorrelationSurface()
-    {
-    itkDebugMacro("returning ComplexCorrelationSurface address "
-                  << this->m_Operator->GetOutput() );
-    if (m_Operator.IsNotNull())
+  }
+  virtual ComplexConjugateImageType* GetComplexCorrelationSurface()
+  {
+    itkDebugMacro( "returning ComplexCorrelationSurface address " << this->m_Operator->GetOutput() );
+    if ( m_Operator.IsNotNull() )
       {
       return m_Operator->GetOutput();
       }
@@ -267,31 +271,31 @@ public:
       {
       return 0;
       }
-    }
+  }
 
   /** Get the computed transformation parameters. */
   itkGetConstReferenceMacro( TransformParameters, ParametersType );
 
   /** Returns the transform resulting from the registration process  */
-  const TransformOutputType * GetOutput() const;
+  const TransformOutputType* GetOutput() const;
 
   /** Returns the phase correlation image from the registration process  */
-  const RealImageType * GetPhaseCorrelationImage() const;
+  const RealImageType* GetPhaseCorrelationImage() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkStaticConstMacro(MovingImageDimension, unsigned int, FixedImageType::ImageDimension );
+  itkStaticConstMacro( MovingImageDimension, unsigned int, FixedImageType::ImageDimension );
   /** Start concept checking */
-  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, MovingImageDimension>));
+  itkConceptMacro( SameDimensionCheck, (Concept::SameDimension< ImageDimension, MovingImageDimension >));
 #endif
 
 protected:
   PhaseCorrelationImageRegistrationMethod();
-  virtual ~PhaseCorrelationImageRegistrationMethod() {};
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  virtual ~PhaseCorrelationImageRegistrationMethod(){};
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;
 
   /** Initialize by setting the interconnects between the components. */
   virtual void Initialize();
@@ -338,14 +342,14 @@ private:
   SizeType       m_ObligatoryPadding;
   PaddingMethod  m_PaddingMethod;
 
-  typename FixedPadderImageFilter::Pointer    m_FixedPadder;
-  typename MovingPadderImageFilter::Pointer   m_MovingPadder;
-  typename FixedConstantPadderType::Pointer   m_FixedConstantPadder;
-  typename MovingConstantPadderType::Pointer  m_MovingConstantPadder;
-  typename FixedMirrorPadderType::Pointer     m_FixedMirrorPadder;
-  typename MovingMirrorPadderType::Pointer    m_MovingMirrorPadder;
-  typename FixedMirrorPadderType::Pointer     m_FixedMirrorWEDPadder;
-  typename MovingMirrorPadderType::Pointer    m_MovingMirrorWEDPadder;
+  typename FixedPadderImageFilter::Pointer   m_FixedPadder;
+  typename MovingPadderImageFilter::Pointer  m_MovingPadder;
+  typename FixedConstantPadderType::Pointer  m_FixedConstantPadder;
+  typename MovingConstantPadderType::Pointer m_MovingConstantPadder;
+  typename FixedMirrorPadderType::Pointer    m_FixedMirrorPadder;
+  typename MovingMirrorPadderType::Pointer   m_MovingMirrorPadder;
+  typename FixedMirrorPadderType::Pointer    m_FixedMirrorWEDPadder;
+  typename MovingMirrorPadderType::Pointer   m_MovingMirrorWEDPadder;
 
   typename FFTFilterType::Pointer  m_FixedFFT;
   typename FFTFilterType::Pointer  m_MovingFFT;

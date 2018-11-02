@@ -19,16 +19,16 @@
 #ifndef itkTileMontage_hxx
 #define itkTileMontage_hxx
 
-#include "itkTileMontage.h"
-#include "itkNumericTraits.h"
 #include "itkMultiThreaderBase.h"
+#include "itkNumericTraits.h"
+#include "itkTileMontage.h"
 #include <algorithm>
 #include <cassert>
 
 namespace itk
 {
-template<typename TImageType, typename TCoordinate>
-TileMontage<TImageType, TCoordinate>
+template< typename TImageType, typename TCoordinate >
+TileMontage< TImageType, TCoordinate >
 ::TileMontage()
 {
   m_PCM = PCMType::New();
@@ -36,33 +36,33 @@ TileMontage<TImageType, TCoordinate>
   m_PCMOptimizer = PCMOptimizerType::New();
   m_Reader = ReaderType::New();
   m_Dummy = ImageType::New();
-  m_OriginAdjustment.Fill(0);
-  m_ForcedSpacing.Fill(0);
+  m_OriginAdjustment.Fill( 0 );
+  m_ForcedSpacing.Fill( 0 );
 
-  //make default padding sufficient for exponential decay to zero
-  m_ObligatoryPadding.Fill(0);
+  // make default padding sufficient for exponential decay to zero
+  m_ObligatoryPadding.Fill( 0 );
   SizeType pad;
-  pad.Fill(8 * sizeof(typename TImageType::PixelType));
-  this->SetObligatoryPadding(pad);
+  pad.Fill( 8 * sizeof( typename TImageType::PixelType ) );
+  this->SetObligatoryPadding( pad );
 
   m_FinishedTiles = 0;
   SizeType initialSize;
-  initialSize.Fill(1);
+  initialSize.Fill( 1 );
   initialSize[0] = 2;
-  this->SetMontageSize(initialSize);
+  this->SetMontageSize( initialSize );
 
-  //required for GenerateOutputInformation to be called
-  this->SetNthOutput(0, this->MakeOutput(0).GetPointer());
+  // required for GenerateOutputInformation to be called
+  this->SetNthOutput( 0, this->MakeOutput( 0 ).GetPointer() );
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
-::PrintSelf(std::ostream & os, Indent indent) const
+TileMontage< TImageType, TCoordinate >
+::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  if (this->GetDebug())
+  if ( this->GetDebug() )
     {
-    Superclass::PrintSelf(os, indent); // this can be overwhelming
+    Superclass::PrintSelf( os, indent ); // this can be overwhelming
     }
   os << indent << "Montage size: " << m_MontageSize << std::endl;
   os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;
@@ -71,12 +71,12 @@ TileMontage<TImageType, TCoordinate>
   os << indent << "Forced Spacing: " << m_ForcedSpacing << std::endl;
   os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
 
-  auto nullCount = std::count(m_Filenames.begin(), m_Filenames.end(), std::string());
+  auto nullCount = std::count( m_Filenames.begin(), m_Filenames.end(), std::string() );
   os << indent << "Filenames (filled/capcity): " << m_Filenames.size() - nullCount
-      << "/" << m_Filenames.size() << std::endl;
-  nullCount = std::count(m_FFTCache.begin(), m_FFTCache.end(), nullptr);
+    << "/" << m_Filenames.size() << std::endl;
+  nullCount = std::count( m_FFTCache.begin(), m_FFTCache.end(), nullptr );
   os << indent << "FFTCache (filled/capcity): " << m_FFTCache.size() - nullCount
-      << "/" << m_FFTCache.size() << std::endl;
+    << "/" << m_FFTCache.size() << std::endl;
 
   os << indent << "PhaseCorrelationImageRegistrationMethod: " << m_PCM.GetPointer() << std::endl;
   os << indent << "PCM Optimizer: " << m_PCMOptimizer.GetPointer() << std::endl;
@@ -89,39 +89,39 @@ TileMontage<TImageType, TCoordinate>
   os << indent << "MaxOuter: " << m_MaxOuter << std::endl;
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
-::SetMontageSize(SizeType montageSize)
+TileMontage< TImageType, TCoordinate >
+::SetMontageSize( SizeType montageSize )
 {
-  if (m_MontageSize != montageSize)
+  if ( m_MontageSize != montageSize )
     {
     m_LinearMontageSize = 1u;
-    for (unsigned d = 0; d < ImageDimension; d++)
+    for ( unsigned d = 0; d < ImageDimension; d++ )
       {
       m_LinearMontageSize *= montageSize[d];
       }
-    this->SetNumberOfRequiredInputs(m_LinearMontageSize);
-    this->SetNumberOfRequiredOutputs(m_LinearMontageSize);
+    this->SetNumberOfRequiredInputs( m_LinearMontageSize );
+    this->SetNumberOfRequiredOutputs( m_LinearMontageSize );
     m_MontageSize = montageSize;
-    m_Filenames.resize(m_LinearMontageSize);
-    m_FFTCache.resize(m_LinearMontageSize);
+    m_Filenames.resize( m_LinearMontageSize );
+    m_FFTCache.resize( m_LinearMontageSize );
     this->Modified();
     }
 }
 
-template<typename TImageType, typename TCoordinate>
-typename TileMontage<TImageType, TCoordinate>::ImageType*
-TileMontage<TImageType, TCoordinate>
-::GetImage(TileIndexType nDIndex, bool metadataOnly)
+template< typename TImageType, typename TCoordinate >
+typename TileMontage< TImageType, TCoordinate >::ImageType*
+TileMontage< TImageType, TCoordinate >
+::GetImage( TileIndexType nDIndex, bool metadataOnly )
 {
-  DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex(nDIndex);
-  auto imagePtr = static_cast<ImageType *>(this->GetInput(linearIndex));
-  if ( imagePtr == m_Dummy.GetPointer() //filename given, we have to read it
-      || (!metadataOnly && imagePtr->GetBufferedRegion().GetNumberOfPixels() == 0) )
+  DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex( nDIndex );
+  auto imagePtr = static_cast< ImageType* >( this->GetInput( linearIndex ) );
+  if ( imagePtr == m_Dummy.GetPointer() // filename given, we have to read it
+       || ( !metadataOnly && imagePtr->GetBufferedRegion().GetNumberOfPixels() == 0 ) )
     {
-    m_Reader->SetFileName(m_Filenames[linearIndex]);
-    if (metadataOnly)
+    m_Reader->SetFileName( m_Filenames[linearIndex] );
+    if ( metadataOnly )
       {
       m_Reader->UpdateOutputInformation();
       }
@@ -133,105 +133,105 @@ TileMontage<TImageType, TCoordinate>
     image->DisconnectPipeline();
 
     PointType origin = image->GetOrigin();
-    for (unsigned d = 0; d < ImageDimension; d++)
+    for ( unsigned d = 0; d < ImageDimension; d++ )
       {
       origin[d] += m_OriginAdjustment[d] * nDIndex[d];
       }
-    image->SetOrigin(origin);
-    if (m_ForcedSpacing[0] != 0)
+    image->SetOrigin( origin );
+    if ( m_ForcedSpacing[0] != 0 )
       {
-      image->SetSpacing(m_ForcedSpacing);
+      image->SetSpacing( m_ForcedSpacing );
       }
 
-    this->SetNthInput(linearIndex, image);
+    this->SetNthInput( linearIndex, image );
     imagePtr = image.GetPointer();
     }
   return imagePtr;
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 DataObject::DataObjectPointerArraySizeType
-TileMontage<TImageType, TCoordinate>
-::nDIndexToLinearIndex(TileIndexType nDIndex) const
+TileMontage< TImageType, TCoordinate >
+::nDIndexToLinearIndex( TileIndexType nDIndex ) const
 {
   DataObjectPointerArraySizeType ind = 0;
-  SizeValueType stride = 1u;
-  for (unsigned d = 0; d < ImageDimension; d++)
+  SizeValueType                  stride = 1u;
+  for ( unsigned d = 0; d < ImageDimension; d++ )
     {
-    itkAssertOrThrowMacro(nDIndex[d] < m_MontageSize[d], "Tile index " << nDIndex
-        << " exceeds tile size " << m_MontageSize << " at dimension " << d);
+    itkAssertOrThrowMacro( nDIndex[d] < m_MontageSize[d],
+      "Tile index " << nDIndex << " exceeds tile size " << m_MontageSize << " at dimension " << d );
     ind += nDIndex[d] * stride;
     stride *= m_MontageSize[d];
     }
   return ind;
 }
 
-template<typename TImageType, typename TCoordinate>
-typename TileMontage<TImageType, TCoordinate>::TileIndexType
-TileMontage<TImageType, TCoordinate>
-::LinearIndexTonDIndex(DataObject::DataObjectPointerArraySizeType linearIndex) const
+template< typename TImageType, typename TCoordinate >
+typename TileMontage< TImageType, TCoordinate >::TileIndexType
+TileMontage< TImageType, TCoordinate >
+::LinearIndexTonDIndex( DataObject::DataObjectPointerArraySizeType linearIndex ) const
 {
   TileIndexType ind;
   SizeValueType stride = 1u;
-  for (unsigned d = 0; d < ImageDimension; d++)
+  for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     stride *= m_MontageSize[d];
     ind[d] = linearIndex % stride;
     linearIndex /= stride;
     }
-  itkAssertOrThrowMacro(linearIndex < stride, "Linear tile index " << linearIndex
-      << " exceeds total montage size " << stride);
+  itkAssertOrThrowMacro( linearIndex < stride,
+    "Linear tile index " << linearIndex << " exceeds total montage size " << stride );
   return ind;
 }
 
-template<typename TImageType, typename TCoordinate>
-typename TileMontage<TImageType, TCoordinate>::TransformPointer
-TileMontage<TImageType, TCoordinate>
-::RegisterPair(TileIndexType fixed, TileIndexType moving)
+template< typename TImageType, typename TCoordinate >
+typename TileMontage< TImageType, TCoordinate >::TransformPointer
+TileMontage< TImageType, TCoordinate >
+::RegisterPair( TileIndexType fixed, TileIndexType moving )
 {
-  DataObjectPointerArraySizeType lFixedInd = nDIndexToLinearIndex(fixed);
-  DataObjectPointerArraySizeType lMovingInd = nDIndexToLinearIndex(moving);
+  DataObjectPointerArraySizeType lFixedInd = nDIndexToLinearIndex( fixed );
+  DataObjectPointerArraySizeType lMovingInd = nDIndexToLinearIndex( moving );
 
-  auto mImage = this->GetImage(moving, false);
-  m_PCM->SetFixedImage(this->GetImage(fixed, false));
-  m_PCM->SetMovingImage(mImage);
-  m_PCM->SetFixedImageFFT(m_FFTCache[lFixedInd]); //maybe null
-  m_PCM->SetMovingImageFFT(m_FFTCache[lMovingInd]); //maybe null
-  //m_PCM->DebugOn();
+  auto mImage = this->GetImage( moving, false );
+  m_PCM->SetFixedImage( this->GetImage( fixed, false ) );
+  m_PCM->SetMovingImage( mImage );
+  m_PCM->SetFixedImageFFT( m_FFTCache[lFixedInd] ); // maybe null
+  m_PCM->SetMovingImageFFT( m_FFTCache[lMovingInd] ); // maybe null
+  // m_PCM->DebugOn();
   m_PCM->Update();
 
-  m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); //certainly not null
-  m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); //certrainly not null
+  m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); // certainly not null
+  m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
 
   const TransformType* regTr = m_PCM->GetOutput()->Get();
-  //this translation is in index space, convert it into physical space
+  // this translation is in index space, convert it into physical space
   typename TransformType::OutputVectorType translation = regTr->GetOffset();
   PointType p0, p;
   ContinuousIndexType ci;
-  ci.Fill(0.0);
-  mImage->TransformContinuousIndexToPhysicalPoint(ci, p0);
-  for (unsigned d = 0; d < ImageDimension; d++)
+  ci.Fill( 0.0 );
+  mImage->TransformContinuousIndexToPhysicalPoint( ci, p0 );
+  for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     ci[d] = translation[d];
     }
-  mImage->TransformContinuousIndexToPhysicalPoint(ci, p);
+  mImage->TransformContinuousIndexToPhysicalPoint( ci, p );
   translation = p - p0;
 
   TransformPointer t = TransformType::New();
-  t->SetOffset(translation);
+  t->SetOffset( translation );
   return t;
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
-::ReleaseMemory(TileIndexType finishedTile)
+TileMontage< TImageType, TCoordinate >
+::ReleaseMemory( TileIndexType finishedTile )
 {
   TileIndexType oldIndex;
   bool releaseTile = true;
-  for (unsigned dim = 0; dim < ImageDimension; dim++)
+  for ( unsigned dim = 0; dim < ImageDimension; dim++ )
     {
-    if (finishedTile[dim] > 0)
+    if ( finishedTile[dim] > 0 )
       {
       oldIndex[dim] = finishedTile[dim] - 1;
       }
@@ -240,216 +240,216 @@ TileMontage<TImageType, TCoordinate>
       releaseTile = false;
       }
     }
-  if (releaseTile)
+  if ( releaseTile )
     {
-    SizeValueType linearIndex = this->nDIndexToLinearIndex(oldIndex);
+    SizeValueType linearIndex = this->nDIndexToLinearIndex( oldIndex );
     m_FFTCache[linearIndex] = nullptr;
-    if (!m_Filenames[linearIndex].empty()) //release the input image too
+    if ( !m_Filenames[linearIndex].empty() ) // release the input image too
       {
-      this->SetInputTile(oldIndex, m_Dummy);
+      this->SetInputTile( oldIndex, m_Dummy );
       }
     }
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
-::MontageDimension(int d, TileIndexType initialTile)
+TileMontage< TImageType, TCoordinate >
+::MontageDimension( int d, TileIndexType initialTile )
 {
   TileIndexType currentIndex = initialTile;
-  if (d < 0)
+  if ( d < 0 )
     {
-    return; //nothing to do, terminate recursion
+    return; // nothing to do, terminate recursion
     }
   else // d>=0
     {
-    currentIndex[d] = 0; //montage first index in lower dimension
-    MontageDimension(d - 1, currentIndex);
+    currentIndex[d] = 0; // montage first index in lower dimension
+    MontageDimension( d - 1, currentIndex );
 
-    for (unsigned i = 1; i < m_MontageSize[d]; i++)
+    for ( unsigned i = 1; i < m_MontageSize[d]; i++ )
       {
-      //register i-th tile to adjacent tiles along all dimension (lower index only)
+      // register i-th tile to adjacent tiles along all dimension (lower index only)
       currentIndex[d] = i;
-      std::vector<TransformPointer> transforms;
-      for (unsigned regDim=0; regDim<ImageDimension; regDim++)
+      std::vector< TransformPointer > transforms;
+      for ( unsigned regDim = 0; regDim < ImageDimension; regDim++ )
         {
-        if (currentIndex[regDim] > 0) //we are not at the edge along this dimension
+        if ( currentIndex[regDim] > 0 ) // we are not at the edge along this dimension
           {
           TileIndexType referenceIndex = currentIndex;
           referenceIndex[regDim] = currentIndex[regDim] - 1;
-          TransformPointer t = this->RegisterPair(referenceIndex, currentIndex);
-          TransformConstPointer oldT = this->GetTransform(referenceIndex);
-          t->Compose(oldT, true);
-          transforms.push_back(t);
+          TransformPointer      t = this->RegisterPair( referenceIndex, currentIndex );
+          TransformConstPointer oldT = this->GetTransform( referenceIndex );
+          t->Compose( oldT, true );
+          transforms.push_back( t );
           }
         }
 
-      //determine how to best combine transforms - make average for now
-      TransformPointer t = TransformType::New(); //identity i.e. 0-translation by default
-      for (unsigned ti = 0; ti < transforms.size(); ti++)
+      // determine how to best combine transforms - make average for now
+      TransformPointer t = TransformType::New(); // identity i.e. 0-translation by default
+      for ( unsigned ti = 0; ti < transforms.size(); ti++ )
         {
-        t->SetOffset(t->GetOffset() + transforms[ti]->GetOffset() / transforms.size());
+        t->SetOffset( t->GetOffset() + transforms[ti]->GetOffset() / transforms.size() );
         }
 
-      this->WriteOutTransform(currentIndex, t);
+      this->WriteOutTransform( currentIndex, t );
 
-      //montage this index in lower dimension
-      MontageDimension(d - 1, currentIndex);
+      // montage this index in lower dimension
+      MontageDimension( d - 1, currentIndex );
 
-      this->ReleaseMemory(currentIndex); //kick old tile out of cache
+      this->ReleaseMemory( currentIndex ); // kick old tile out of cache
       }
 
-    //kick "rightmost" tile in previous row out of cache
+    // kick "rightmost" tile in previous row out of cache
     currentIndex[d] = m_MontageSize[d];
-    this->ReleaseMemory(currentIndex);
+    this->ReleaseMemory( currentIndex );
     }
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
-::WriteOutTransform(TileIndexType index, TransformPointer transform)
+TileMontage< TImageType, TCoordinate >
+::WriteOutTransform( TileIndexType index, TransformPointer transform )
 {
-  const SizeValueType linearIndex = this->nDIndexToLinearIndex(index);
-  auto dOut = this->GetOutput(linearIndex);
-  const auto cOut = static_cast<TransformOutputType *>(dOut);
-  auto decorator = const_cast<TransformOutputType *>(cOut);
-  decorator->Set(transform);
-  auto input0 = static_cast<const ImageType*>(this->GetInput(0));
-  auto input = static_cast<const ImageType*>(this->GetInput(linearIndex));
-  this->UpdateMosaicBounds(index, transform, input, input0);
+  const SizeValueType linearIndex = this->nDIndexToLinearIndex( index );
+  auto dOut = this->GetOutput( linearIndex );
+  const auto cOut = static_cast< TransformOutputType* >( dOut );
+  auto  decorator = const_cast< TransformOutputType* >( cOut );
+  decorator->Set( transform );
+  auto input0 = static_cast< const ImageType* >( this->GetInput( 0 ) );
+  auto input = static_cast< const ImageType* >( this->GetInput( linearIndex ) );
+  this->UpdateMosaicBounds( index, transform, input, input0 );
   m_FinishedTiles++;
-  this->UpdateProgress(float(m_FinishedTiles) / m_LinearMontageSize);
+  this->UpdateProgress( float( m_FinishedTiles ) / m_LinearMontageSize );
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
+TileMontage< TImageType, TCoordinate >
 ::UpdateMosaicBounds(
     TileIndexType index,
     TransformConstPointer transform,
-    const ImageType *input,
-    const ImageType *input0)
+    const ImageType* input,
+    const ImageType* input0 )
 {
   PointType p;
   ContinuousIndexType ci;
   ImageIndexType ind = input->GetLargestPossibleRegion().GetIndex();
-  input->TransformIndexToPhysicalPoint(ind, p);
+  input->TransformIndexToPhysicalPoint( ind, p );
   TransformPointer inverseT = TransformType::New();
-  transform->GetInverse(inverseT);
-  p = inverseT->TransformPoint(p);
-  input0->TransformPhysicalPointToContinuousIndex(p, ci);
-  for (unsigned d = 0; d < ImageDimension; d++)
+  transform->GetInverse( inverseT );
+  p = inverseT->TransformPoint( p );
+  input0->TransformPhysicalPointToContinuousIndex( p, ci );
+  for ( unsigned d = 0; d < ImageDimension; d++ )
     {
-    if (index[d] == 0) // this tile is on the minimum edge
+    if ( index[d] == 0 ) // this tile is on the minimum edge
       {
-      m_MinInner[d] = std::max(m_MinInner[d], ci[d]);
-      m_MinOuter[d] = std::min(m_MinOuter[d], ci[d]);
+      m_MinInner[d] = std::max( m_MinInner[d], ci[d] );
+      m_MinOuter[d] = std::min( m_MinOuter[d], ci[d] );
       }
     }
   ind += input->GetLargestPossibleRegion().GetSize();
-  input->TransformIndexToPhysicalPoint(ind, p);
-  p = inverseT->TransformPoint(p);
-  input0->TransformPhysicalPointToContinuousIndex(p, ci);
-  for (unsigned d = 0; d < ImageDimension; d++)
+  input->TransformIndexToPhysicalPoint( ind, p );
+  p = inverseT->TransformPoint( p );
+  input0->TransformPhysicalPointToContinuousIndex( p, ci );
+  for ( unsigned d = 0; d < ImageDimension; d++ )
     {
-    if (index[d] == m_MontageSize[d] - 1) // this tile is on the maximum edge
+    if ( index[d] == m_MontageSize[d] - 1 ) // this tile is on the maximum edge
       {
-      m_MaxOuter[d] = std::max(m_MaxOuter[d], ci[d]);
-      m_MaxInner[d] = std::min(m_MaxInner[d], ci[d]);
+      m_MaxOuter[d] = std::max( m_MaxOuter[d], ci[d] );
+      m_MaxInner[d] = std::min( m_MaxInner[d], ci[d] );
       }
     }
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
+TileMontage< TImageType, TCoordinate >
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
-  std::vector<double> sizes(ImageDimension); //default initialized to 0
+  std::vector< double > sizes( ImageDimension ); // default initialized to 0
   SizeType maxSizes;
-  maxSizes.Fill(0);
-  for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
+  maxSizes.Fill( 0 );
+  for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
     {
-    if (i > 0) //otherwise primary output has same modification time as this class
-      { //and GenerateData does not get called
-      this->SetNthOutput(i, this->MakeOutput(i).GetPointer());
+    if ( i > 0 ) // otherwise primary output has same modification time as this class
+      {          // and GenerateData does not get called
+      this->SetNthOutput( i, this->MakeOutput( i ).GetPointer() );
       }
-    //the rest of this code determines average and maximum tile sizes
-    TileIndexType nDIndex = this->LinearIndexTonDIndex(i);
-    ImageType* input = this->GetImage(nDIndex, true);
+    // the rest of this code determines average and maximum tile sizes
+    TileIndexType nDIndex = this->LinearIndexTonDIndex( i );
+    ImageType* input = this->GetImage( nDIndex, true );
     RegionType reg = input->GetLargestPossibleRegion();
-    for (unsigned d = 0; d < ImageDimension; d++)
+    for ( unsigned d = 0; d < ImageDimension; d++ )
       {
-      sizes[d] += reg.GetSize(d);
-      maxSizes[d] = std::max(maxSizes[d], reg.GetSize(d));
+      sizes[d] += reg.GetSize( d );
+      maxSizes[d] = std::max( maxSizes[d], reg.GetSize( d ) );
       }
     }
 
-  //divide by count to get average
-  for (unsigned d = 0; d < ImageDimension; d++)
+  // divide by count to get average
+  for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     sizes[d] /= m_LinearMontageSize;
     }
 
-  //if maximum size is more than twice the average along any dimension,
-  //we will not pad all the images to maxSize
-  //in most cases images will be of similar or exactly the same size
+  // if maximum size is more than twice the average along any dimension,
+  // we will not pad all the images to maxSize
+  // in most cases images will be of similar or exactly the same size
   bool forceSame = true;
-  for (unsigned d = 0; d < ImageDimension; d++)
+  for ( unsigned d = 0; d < ImageDimension; d++ )
     {
-    if (sizes[d] * 2 < maxSizes[d])
+    if ( sizes[d] * 2 < maxSizes[d] )
       {
       forceSame = false;
       }
     maxSizes[d] += 2 * m_ObligatoryPadding[d];
-  }
-  if (forceSame)
+    }
+  if ( forceSame )
     {
-    maxSizes = m_PCM->RoundUpToFFTSize(maxSizes);
-    m_PCM->SetPadToSize(maxSizes);
+    maxSizes = m_PCM->RoundUpToFFTSize( maxSizes );
+    m_PCM->SetPadToSize( maxSizes );
     }
 
-  //we connect these classes here in case user has provided new versions
-  m_PCM->SetOperator(m_PCMOperator);
-  m_PCM->SetOptimizer(m_PCMOptimizer);
+  // we connect these classes here in case user has provided new versions
+  m_PCM->SetOperator( m_PCMOperator );
+  m_PCM->SetOptimizer( m_PCMOptimizer );
 }
 
-template<typename TImageType, typename TCoordinate>
+template< typename TImageType, typename TCoordinate >
 void
-TileMontage<TImageType, TCoordinate>
+TileMontage< TImageType, TCoordinate >
 ::GenerateData()
-{  
-  //initialize mosaic bounds
-  auto input0 = static_cast<const ImageType*>(this->GetInput(0));
+{
+  // initialize mosaic bounds
+  auto input0 = static_cast< const ImageType* >( this->GetInput( 0 ) );
   ImageIndexType ind = input0->GetLargestPossibleRegion().GetIndex();
   m_MinInner = ind;
   m_MinOuter = ind;
   ind += input0->GetLargestPossibleRegion().GetSize();
   m_MaxOuter = ind;
-  m_MaxInner.Fill(NumericTraits<TCoordinate>::max());
+  m_MaxInner.Fill( NumericTraits< TCoordinate >::max() );
 
   typename TransformType::Pointer t0 = TransformType::New();
   TileIndexType ind0;
-  ind0.Fill(0);
+  ind0.Fill( 0 );
   m_FinishedTiles = 0;
-  
-  this->WriteOutTransform(ind0, t0); //write identity (no translation) for tile 0
-  this->MontageDimension(this->ImageDimension - 1, ind0);
 
-  //clear rest of the cache after montaging is finished
-  for (SizeValueType i = 0; i < m_LinearMontageSize; i++)
+  this->WriteOutTransform( ind0, t0 ); // write identity (no translation) for tile 0
+  this->MontageDimension( this->ImageDimension - 1, ind0 );
+
+  // clear rest of the cache after montaging is finished
+  for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
     {
     m_FFTCache[i] = nullptr;
-    if (!m_Filenames[i].empty()) //release the input image too
+    if ( !m_Filenames[i].empty() ) // release the input image too
       {
-      this->SetInputTile(this->LinearIndexTonDIndex(i), m_Dummy);
+      this->SetInputTile( this->LinearIndexTonDIndex( i ), m_Dummy );
       }
     }
 }
 
-} //namespace itk
+} // namespace itk
 
-#endif //itkTileMontage_hxx
+#endif // itkTileMontage_hxx
