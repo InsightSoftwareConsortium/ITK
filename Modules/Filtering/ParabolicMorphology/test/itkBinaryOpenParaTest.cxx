@@ -58,7 +58,7 @@ itkBinaryOpenParaTest(int argc, char * argv[])
   ThreshType::Pointer thresh = ThreshType::New();
   thresh->SetInput(reader->GetOutput());
 
-  thresh->SetUpperThreshold(atoi(argv[2]));
+  thresh->SetUpperThreshold(std::stoi(argv[2]));
   thresh->SetInsideValue(0);
   thresh->SetOutsideValue(1);
   // now to apply the erosion
@@ -68,7 +68,7 @@ itkBinaryOpenParaTest(int argc, char * argv[])
 
   filter->SetInput(thresh->GetOutput());
   filter->SetUseImageSpacing(true);
-  filter->SetRadius(atof(argv[3]));
+  filter->SetRadius(std::stod(argv[3]));
 
   using WriterType = itk::ImageFileWriter<IType>;
   WriterType::Pointer writer = WriterType::New();

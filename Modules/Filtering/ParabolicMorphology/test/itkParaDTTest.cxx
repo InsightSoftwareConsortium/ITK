@@ -64,7 +64,7 @@ itkParaDTTest(int argc, char * argv[])
   ThreshType::Pointer thresh = ThreshType::New();
   thresh->SetInput(input);
 
-  thresh->SetUpperThreshold(atoi(argv[2]));
+  thresh->SetUpperThreshold(std::stoi(argv[2]));
   thresh->SetInsideValue(0);
   thresh->SetOutsideValue(255);
 
@@ -74,7 +74,7 @@ itkParaDTTest(int argc, char * argv[])
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(thresh->GetOutput());
-  filter->SetOutsideValue(atoi(argv[3]));
+  filter->SetOutsideValue(std::stoi(argv[3]));
   try
   {
     filter->Update();

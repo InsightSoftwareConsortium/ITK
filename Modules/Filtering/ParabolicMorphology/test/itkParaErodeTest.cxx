@@ -40,7 +40,7 @@ itkParaErodeTest(int argc, char * argv[])
   float scale(1.0);
   if (argc > 4)
   {
-    scale = atof(argv[4]);
+    scale = std::stod(argv[4]);
   }
 
   using ReaderType = itk::ImageFileReader<IType>;
