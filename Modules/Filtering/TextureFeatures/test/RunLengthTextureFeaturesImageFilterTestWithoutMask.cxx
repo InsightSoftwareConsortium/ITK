@@ -67,20 +67,20 @@ RunLengthTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 
   if (argc >= 4)
   {
-    unsigned int numberOfBinsPerAxis = std::atoi(argv[3]);
+    unsigned int numberOfBinsPerAxis = std::stoi(argv[3]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType pixelValueMin = std::atof(argv[4]);
-    FilterType::PixelType pixelValueMax = std::atof(argv[5]);
+    FilterType::PixelType pixelValueMin = std::stod(argv[4]);
+    FilterType::PixelType pixelValueMax = std::stod(argv[5]);
     filter->SetHistogramValueMinimum(pixelValueMin);
     filter->SetHistogramValueMaximum(pixelValueMax);
 
-    FilterType::RealType minDistance = std::atof(argv[6]);
-    FilterType::RealType maxDistance = std::atof(argv[7]);
+    FilterType::RealType minDistance = std::stod(argv[6]);
+    FilterType::RealType maxDistance = std::stod(argv[7]);
     filter->SetHistogramDistanceMinimum(minDistance);
     filter->SetHistogramDistanceMaximum(maxDistance);
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[8]);
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::stoi(argv[8]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
