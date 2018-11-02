@@ -29,8 +29,8 @@
 namespace itk
 {
 
-template <typename TInputImage>
-EigenToMeasureParameterEstimationFilter<TInputImage>::EigenToMeasureParameterEstimationFilter()
+template <typename TInputImage, typename TOutputImage>
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::EigenToMeasureParameterEstimationFilter()
 {
   /* Set stream parameters */
   this->SetNumberOfStreamDivisions(10);
@@ -42,9 +42,9 @@ EigenToMeasureParameterEstimationFilter<TInputImage>::EigenToMeasureParameterEst
   this->GetParametersOutput()->Set(ParameterArrayType());
 }
 
-template <typename TInputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-EigenToMeasureParameterEstimationFilter<TInputImage>::UpdateOutputData(DataObject * itkNotUsed(output))
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * itkNotUsed(output))
 {
   /** Prevent chasing our tail */
   if (this->m_Updating)
@@ -157,23 +157,23 @@ EigenToMeasureParameterEstimationFilter<TInputImage>::UpdateOutputData(DataObjec
   this->m_Updating = false;
 }
 
-template <typename TInputImage>
-typename EigenToMeasureParameterEstimationFilter<TInputImage>::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter<TInputImage>::GetParametersOutput()
+template <typename TInputImage, typename TOutputImage>
+typename EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::GetParametersOutput()
 {
   return static_cast<ParameterDecoratedType *>(this->ProcessObject::GetOutput(1));
 }
 
-template <typename TInputImage>
-const typename EigenToMeasureParameterEstimationFilter<TInputImage>::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter<TInputImage>::GetParametersOutput() const
+template <typename TInputImage, typename TOutputImage>
+const typename EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::GetParametersOutput() const
 {
   return static_cast<const ParameterDecoratedType *>(this->ProcessObject::GetOutput(1));
 }
 
-template <typename TInputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-EigenToMeasureParameterEstimationFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

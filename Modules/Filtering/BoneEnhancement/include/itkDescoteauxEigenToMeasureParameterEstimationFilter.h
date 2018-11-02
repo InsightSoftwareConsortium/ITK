@@ -49,15 +49,16 @@ namespace itk
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template <typename TInputImage>
-class DescoteauxEigenToMeasureParameterEstimationFilter : public EigenToMeasureParameterEstimationFilter<TInputImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class DescoteauxEigenToMeasureParameterEstimationFilter
+  : public EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureParameterEstimationFilter);
 
   /** Standard Self typedef */
   using Self = DescoteauxEigenToMeasureParameterEstimationFilter;
-  using Superclass = EigenToMeasureParameterEstimationFilter<TInputImage>;
+  using Superclass = EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
