@@ -34,22 +34,22 @@ itkSinusoidImageSourceTest(int argc, char * argv[])
   double       xFrequency = 0.02;
   if (argc > 2)
   {
-    xFrequency = atof(argv[2]);
+    xFrequency = std::stod(argv[2]);
   }
   double yFrequency = 0.1;
   if (argc > 3)
   {
-    yFrequency = atof(argv[3]);
+    yFrequency = std::stod(argv[3]);
   }
   double zFrequency = 0.2;
   if (argc > 4)
   {
-    zFrequency = atof(argv[4]);
+    zFrequency = std::stod(argv[4]);
   }
   double phaseOffset = 0.2;
   if (argc > 5)
   {
-    phaseOffset = atof(argv[5]);
+    phaseOffset = std::stod(argv[5]);
   }
 
   // This can be changed!
