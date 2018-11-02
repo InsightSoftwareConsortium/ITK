@@ -77,7 +77,7 @@ public:
     }
 
   /** Copy one SpatialObjectPoint to another */
-  SpatialObjectPoint & operator=(const SpatialObjectPoint & rhs) = default;
+  SpatialObjectPoint & operator=(const SpatialObjectPoint & ) = default;
 
   /** Set/Get color of the point */
   const PixelType & GetColor() const;
