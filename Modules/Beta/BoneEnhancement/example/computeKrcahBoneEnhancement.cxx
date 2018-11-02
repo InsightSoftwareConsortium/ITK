@@ -58,14 +58,14 @@ int main(int argc, char * argv[])
   std::string outputPreprocessedFileName = argv[2];
   std::string outputMeasureFileName = argv[3];
 
-  int enhanceBrightObjects = atoi(argv[4]);
-  int parameterSetToImplement = atoi(argv[5]);
-  int numberOfSigma = atoi(argv[6]);
+  int enhanceBrightObjects = std::stoi(argv[4]);
+  int parameterSetToImplement = std::stoi(argv[5]);
+  int numberOfSigma = std::stoi(argv[6]);
   double thisSigma;
   itk::Array< double > sigmaArray;
   sigmaArray.SetSize(numberOfSigma);
   for (unsigned int i = 0; i < numberOfSigma; ++i) {
-    thisSigma = atof(argv[7+i]);
+    thisSigma = std::stod(argv[7+i]);
     sigmaArray.SetElement(i, thisSigma);
   }
 
