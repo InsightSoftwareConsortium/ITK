@@ -192,7 +192,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
                     itkExceptionMacro("Could not get expected matrix entry.");
                   }
                   ++matrixEntryIndex;
-                  transformParameters[row * Dimension + col] = atof(matrixString.c_str());
+                  transformParameters[row * Dimension + col] = std::stod(matrixString.c_str());
                 }
                 result = currentMatrixSequenceItem->findAndGetOFString(
                   DCM_FrameOfReferenceTransformationMatrix, matrixString, matrixEntryIndex);
@@ -201,7 +201,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
                   itkExceptionMacro("Could not get expected matrix entry.");
                 }
                 ++matrixEntryIndex;
-                transformParameters[Dimension * Dimension + row] = atof(matrixString.c_str());
+                transformParameters[Dimension * Dimension + row] = std::stod(matrixString.c_str());
               }
               affineTransform->SetParameters(transformParameters);
 
