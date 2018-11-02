@@ -37,7 +37,7 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
 template< typename TImage, typename TMaskImage >
 void
 MaskedImageToHistogramFilter< TImage, TMaskImage >
-::ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId )
+::ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread )
 {
   unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramMeasurementVectorType min( nbOfComponents );
@@ -68,16 +68,27 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
     ++inputIt;
     ++maskIt;
     }
-  this->m_Minimums[threadId] = min;
-  this->m_Maximums[threadId] = max;
+  std::lock_guard<std::mutex> mutexHolder( this->m_Mutex );
+  for( unsigned int i=0; i<nbOfComponents; i++ )
+    {
+    this->m_Minimum[i] = std::min( this->m_Minimum[i], min[i] );
+    this->m_Maximum[i] = std::max( this->m_Maximum[i], max[i] );
+    }
 }
 
 template< typename TImage, typename TMaskImage >
 void
 MaskedImageToHistogramFilter< TImage, TMaskImage >
-::ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId)
+::ThreadedComputeHistogram(const RegionType & inputRegionForThread)
 {
-  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const HistogramType *outputHistogram = this->GetOutput();
+
+  HistogramPointer histogram = HistogramType::New();
+  histogram->SetClipBinsAtEnds(outputHistogram->GetClipBinsAtEnds());
+  histogram->SetMeasurementVectorSize(nbOfComponents);
+  histogram->Initialize(outputHistogram->GetSize(), this->m_Minimum, this->m_Maximum);
+
   ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );
   ImageRegionConstIterator< TMaskImage > maskIt( this->GetMaskImage(), inputRegionForThread );
   inputIt.GoToBegin();
@@ -92,11 +103,28 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
       {
       const PixelType & p = inputIt.Get();
       NumericTraits<PixelType>::AssignToArray( p, m );
-      this->m_Histograms[threadId]->GetIndex( m, index );
-      this->m_Histograms[threadId]->IncreaseFrequencyOfIndex( index, 1 );
+      histogram->GetIndex( m, index );
+      histogram->IncreaseFrequencyOfIndex( index, 1 );
       }
     ++inputIt;
     ++maskIt;
+    }
+
+
+  std::lock_guard<std::mutex> mutexHolder( this->m_Mutex );
+
+  // reduce the results in the output histogram
+  HistogramType *writableOutputHistogram = this->GetOutput();
+
+  using HistogramIterator = typename HistogramType::ConstIterator;
+
+  HistogramIterator hit = histogram->Begin();
+  HistogramIterator end = histogram->End();
+  while ( hit != end )
+    {
+    writableOutputHistogram->GetIndex( hit.GetMeasurementVector(), index);
+    writableOutputHistogram->IncreaseFrequencyOfIndex( index, hit.GetFrequency() );
+    ++hit;
     }
 }
 

@@ -122,23 +122,25 @@ protected:
 
   void GenerateData() override;
   void BeforeThreadedGenerateData() override;
-  void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId) override;
   void AfterThreadedGenerateData() override;
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderMinMaxCallback(void *arg);
 
   /** Method that construct the outputs */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType) override;
 
-  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId );
+  virtual void ThreadedComputeHistogram(const RegionType &);
+  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread );
 
-  std::vector< HistogramPointer >               m_Histograms;
-  std::vector< HistogramMeasurementVectorType > m_Minimums;
-  std::vector< HistogramMeasurementVectorType > m_Maximums;
+  std::mutex m_Mutex;
+
+  HistogramMeasurementVectorType m_Minimum;
+  HistogramMeasurementVectorType m_Maximum;
 
 private:
   void ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size );
+
+
 };
 } // end of namespace Statistics
 } // end of namespace itk
