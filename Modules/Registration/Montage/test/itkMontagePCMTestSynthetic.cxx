@@ -182,7 +182,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
         //movingSpacing[i] = 1.0 / (0.8 + i); //test different spacing (unsupported)
         if (argc > 4 + int(i))
           {
-          movingSpacing[i] = atof(argv[4 + i]);
+          movingSpacing[i] = std::stod(argv[4 + i]);
           }
         movingSize[i] = (unsigned long)(size[i] / movingSpacing[i] + 3 * std::pow(-1, i));
         movingSize[i] = std::max<itk::SizeValueType>(movingSize[i], 7u);
