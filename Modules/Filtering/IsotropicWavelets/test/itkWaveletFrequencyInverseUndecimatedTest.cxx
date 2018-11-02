@@ -189,8 +189,8 @@ itkWaveletFrequencyInverseUndecimatedTest(int argc, char * argv[])
 
   const std::string  inputImage = argv[1];
   const std::string  outputImage = argv[2];
-  const unsigned int inputLevels = atoi(argv[3]);
-  const unsigned int inputBands = atoi(argv[4]);
+  const unsigned int inputLevels = std::stoi(argv[3]);
+  const unsigned int inputBands = std::stoi(argv[4]);
   const std::string  waveletFunction = argv[5];
   const std::string  inputUseWaveletFilterBankPyramid = argv[6];
   bool               useWaveletFilterBankPyramid = false;
@@ -203,7 +203,7 @@ itkWaveletFrequencyInverseUndecimatedTest(int argc, char * argv[])
     useWaveletFilterBankPyramid = false;
   }
 
-  unsigned int dimension = atoi(argv[7]);
+  unsigned int dimension = std::stoi(argv[7]);
 
   // const unsigned int ImageDimension = 3;
   // using PixelType = double;

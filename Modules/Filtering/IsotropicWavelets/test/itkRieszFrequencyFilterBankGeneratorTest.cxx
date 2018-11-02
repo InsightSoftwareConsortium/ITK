@@ -76,7 +76,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   unsigned int inputOrder = 0;
   TRY_EXPECT_EXCEPTION(filterBank->SetOrder(inputOrder));
 
-  inputOrder = atoi(argv[3]);
+  inputOrder = std::stoi(argv[3]);
   filterBank->SetOrder(inputOrder);
   TEST_SET_GET_VALUE(inputOrder, filterBank->GetOrder());
 

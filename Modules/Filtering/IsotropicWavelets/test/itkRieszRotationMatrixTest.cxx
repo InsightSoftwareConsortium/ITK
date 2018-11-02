@@ -346,7 +346,7 @@ itkRieszRotationMatrixTest(int argc, char * argv[])
   }
 
 
-  const unsigned int dimension = atoi(argv[1]);
+  const unsigned int dimension = std::stoi(argv[1]);
   if (dimension == 2)
   {
     return runRieszRotationMatrixTest<2>();
