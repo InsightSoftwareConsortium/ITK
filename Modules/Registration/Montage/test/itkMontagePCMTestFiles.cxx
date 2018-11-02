@@ -56,7 +56,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   typename MovingImageType::PointType origin = movingImage->GetOrigin();
   for (unsigned d = 0; d < VDimension; d++)
     {
-    origin[d] = atof(argv[4 + d]);
+    origin[d] = std::stod(argv[4 + d]);
     }
   movingImage->SetOrigin(origin);
 
@@ -99,7 +99,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
     ParametersType actualParameters( numberOfParameters );
     for (unsigned int ii = 4 + VDimension; ii < 4 + VDimension + numberOfParameters; ++ii)
       {
-      actualParameters[ii - 4 - VDimension] = atof( argv[ii] );
+      actualParameters[ii - 4 - VDimension] = std::stod( argv[ii] );
       }
 
 
