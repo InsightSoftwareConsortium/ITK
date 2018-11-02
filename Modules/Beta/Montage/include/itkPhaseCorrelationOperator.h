@@ -18,13 +18,12 @@
 #ifndef itkPhaseCorrelationOperator_h
 #define itkPhaseCorrelationOperator_h
 
-#include "itkImageToImageFilter.h"
 #include "itkFixedArray.h"
+#include "itkImageToImageFilter.h"
 #include <complex>
 
 namespace itk
 {
-
 /** \class PhaseCorrelationOperator
  *  \brief Computes the spectrum ratio in phase correlation method.
  *
@@ -43,35 +42,34 @@ namespace itk
  *
  * \ingroup Montage
  */
-template < typename TRealPixel, unsigned int VImageDimension >
-class ITK_TEMPLATE_EXPORT PhaseCorrelationOperator :
-  public ImageToImageFilter<
-      Image< std::complex< TRealPixel >, VImageDimension >,
-      Image< std::complex< TRealPixel >, VImageDimension > >
+template< typename TRealPixel, unsigned int VImageDimension >
+class ITK_TEMPLATE_EXPORT PhaseCorrelationOperator
+  : public ImageToImageFilter< Image< std::complex< TRealPixel >, VImageDimension >,
+                               Image< std::complex< TRealPixel >, VImageDimension > >
 {
-
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationOperator);
+  ITK_DISALLOW_COPY_AND_ASSIGN( PhaseCorrelationOperator );
 
   using Self = PhaseCorrelationOperator;
-  using Superclass = ImageToImageFilter<Image< std::complex< TRealPixel >, VImageDimension >, Image< std::complex< TRealPixel >, VImageDimension > >;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
-  using BandPassPointsType = FixedArray<TRealPixel, 4>;
+  using Superclass = ImageToImageFilter< Image< std::complex< TRealPixel >, VImageDimension >,
+                                         Image< std::complex< TRealPixel >, VImageDimension > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using BandPassPointsType = FixedArray< TRealPixel, 4 >;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseCorrelationOperator, ImageToImageFilter);
+  itkTypeMacro( PhaseCorrelationOperator, ImageToImageFilter );
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  itkStaticConstMacro( ImageDimension, unsigned int, VImageDimension );
 
   /** Set/Get control points for band-pass filtering.
    * These points represent radial distances from constant component.
    * The values of these points should be specified on 0.0-1.0 scale,
-   * 0.0 relating to constant frequency component, and 1.0 relating 
+   * 0.0 relating to constant frequency component, and 1.0 relating
    * to highest frequency along all dimensions.
    * Point values should be monotonitcally increasing:
    * 0 <= p[0] < p[1] < p[2] < p[3] <= 1.0
@@ -88,13 +86,13 @@ public:
    *  0|    *----*---*-------*---*----*
    * coef  0.0   p0  p1      p2  p3  1.0
    */
-  itkSetMacro(BandPassControlPoints, BandPassPointsType);
-  virtual void SetBandPassControlPoints(const BandPassPointsType& points);
-  itkGetConstMacro(BandPassControlPoints, BandPassPointsType);
+  itkSetMacro( BandPassControlPoints, BandPassPointsType );
+  virtual void SetBandPassControlPoints( const BandPassPointsType& points );
+  itkGetConstMacro( BandPassControlPoints, BandPassPointsType );
 
   /** Image type aliases. */
   using PixelType = TRealPixel;
-  using ComplexType = std::complex<PixelType>;
+  using ComplexType = std::complex< PixelType >;
   using ImageType = Image< ComplexType, ImageDimension >;
   using ImagePointer = typename ImageType::Pointer;
   using ImageConstPointer = typename ImageType::ConstPointer;
@@ -108,7 +106,7 @@ public:
 
 protected:
   PhaseCorrelationOperator();
-  virtual ~PhaseCorrelationOperator() {};
+  virtual ~PhaseCorrelationOperator(){};
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** PhaseCorrelationOperator produces an image which is a different

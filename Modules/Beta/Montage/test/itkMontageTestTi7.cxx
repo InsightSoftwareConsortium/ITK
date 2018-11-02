@@ -21,75 +21,75 @@
 
 int itkMontageTestTi7(int argc, char* argv[])
 {
-  if( argc < 3 )
+  if ( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <mockTSV> <montageTSV>" << std::endl;
     return EXIT_FAILURE;
     }
 
   constexpr unsigned Dimension = 2;
-  using PointType = itk::Point<double, Dimension>;
-  using VectorType = itk::Vector<double, Dimension>;
-  using TransformType = itk::TranslationTransform<double, Dimension>;
+  using PointType = itk::Point< double, Dimension >;
+  using VectorType = itk::Vector< double, Dimension >;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
 
   constexpr unsigned xMontageSize = 18;
   constexpr unsigned yMontageSize = 18;
-  using PositionTableType = std::array<std::array<PointType, xMontageSize>, yMontageSize>;
-  using FilenameTableType = std::array<std::array<std::string, xMontageSize>, yMontageSize>;
+  using PositionTableType = std::array< std::array< PointType, xMontageSize >, yMontageSize >;
+  using FilenameTableType = std::array< std::array< std::string, xMontageSize >, yMontageSize >;
 
   PositionTableType stageCoords, actualCoords;
   FilenameTableType filenames;
 
-  //read coordinates from files
-  std::ifstream fStage(std::string(argv[1]) + "/TileConfiguration.txt");
-  std::ifstream fActual(std::string(argv[1]) + "/TileConfiguration.registered.txt");
-  std::string temp;
-  std::getline(fStage, temp); //throw away header
-  std::getline(fStage, temp); //throw away header
-  std::getline(fStage, temp); //throw away header
-  std::getline(fStage, temp); //throw away header
-  std::getline(fActual, temp); //throw away header
-  std::getline(fActual, temp); //throw away header
-  std::getline(fActual, temp); //throw away header
-  std::getline(fActual, temp); //throw away header
+  // read coordinates from files
+  std::ifstream fStage( std::string( argv[1] ) + "/TileConfiguration.txt" );
+  std::ifstream fActual( std::string( argv[1] ) + "/TileConfiguration.registered.txt" );
+  std::string   temp;
+  std::getline( fStage, temp );  // throw away header
+  std::getline( fStage, temp );  // throw away header
+  std::getline( fStage, temp );  // throw away header
+  std::getline( fStage, temp );  // throw away header
+  std::getline( fActual, temp ); // throw away header
+  std::getline( fActual, temp ); // throw away header
+  std::getline( fActual, temp ); // throw away header
+  std::getline( fActual, temp ); // throw away header
 
-  for (unsigned y = 0; y < yMontageSize; y++)
+  for ( unsigned y = 0; y < yMontageSize; y++ )
     {
-    for (unsigned x = 0; x < xMontageSize; x++)
+    for ( unsigned x = 0; x < xMontageSize; x++ )
       {
-      std::getline(fStage, temp, ';');
-      filenames[y][x] = std::string(argv[1]) + std::string("/") + temp;
-      std::getline(fActual, temp, ';');
-      itkAssertOrThrowMacro(filenames[y][x] == std::string(argv[1]) + std::string("/") + temp,
+      std::getline( fStage, temp, ';' );
+      filenames[y][x] = std::string( argv[1] ) + std::string( "/" ) + temp;
+      std::getline( fActual, temp, ';' );
+      itkAssertOrThrowMacro( filenames[y][x] == std::string( argv[1] ) + std::string( "/" ) + temp,
           "Filenames in TileConfiguration.txt and TileConfiguration.registered.txt must match!"
-          << " Problem at y=" << y << " and x=" << x);
-      std::getline(fStage, temp, '(');
-      std::getline(fActual, temp, '(');
+          << " Problem at y=" << y << " and x=" << x );
+      std::getline( fStage, temp, '(' );
+      std::getline( fActual, temp, '(' );
 
       PointType p;
       fStage >> p[0];
       fStage.ignore();
       fStage >> p[1];
       stageCoords[y][x] = p;
-      std::getline(fStage, temp); //throw away rest of line
+      std::getline( fStage, temp ); // throw away rest of line
 
       fActual >> p[0];
       fActual.ignore();
       fActual >> p[1];
       actualCoords[y][x] = p;
-      std::getline(fActual, temp); //throw away rest of line
+      std::getline( fActual, temp ); // throw away rest of line
       }
     }
 
-  //do not vary padding methods in order to finish sooner
-  int r2 = montageTest<unsigned short, double, xMontageSize, yMontageSize>(
-      stageCoords, actualCoords, filenames, argv[3], false, 1, false, 5);
-  int r1 = mockMontageTest<unsigned short, xMontageSize, yMontageSize>(
-      stageCoords, actualCoords, filenames, argv[2], false);
+  // do not vary padding methods in order to finish sooner
+  int r2 = montageTest< unsigned short, double, xMontageSize, yMontageSize >(
+    stageCoords, actualCoords, filenames, argv[3], false, 1, false, 5 );
+  int r1 = mockMontageTest< unsigned short, xMontageSize, yMontageSize >(
+    stageCoords, actualCoords, filenames, argv[2], false );
 
-  if (r1 == EXIT_FAILURE || r2 == EXIT_FAILURE)
+  if ( r1 == EXIT_FAILURE || r2 == EXIT_FAILURE )
     {
-    return EXIT_FAILURE;
+      return EXIT_FAILURE;
     }
   return EXIT_SUCCESS;
 }
