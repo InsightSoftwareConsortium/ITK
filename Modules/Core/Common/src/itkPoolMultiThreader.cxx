@@ -29,6 +29,7 @@
 #include "itkNumericTraits.h"
 #include "itkProcessObject.h"
 #include "itkImageSourceCommon.h"
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -45,11 +46,10 @@ PoolMultiThreader::PoolMultiThreader() :
     }
 
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
-#if defined( ITKV4_COMPATIBILITY )
-  m_NumberOfWorkUnits = defaultThreads;
-#else
-  m_NumberOfWorkUnits = 4 * defaultThreads;
+#if !defined( ITKV4_COMPATIBILITY )
+  defaultThreads *= 4;
 #endif
+  m_NumberOfWorkUnits = std::min< ThreadIdType >( ITK_MAX_THREADS, defaultThreads );
   m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }
 
