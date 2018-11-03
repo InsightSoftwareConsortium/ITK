@@ -24,7 +24,7 @@
 #include "itkProgressAccumulator.h"
 #include "itkCropImageFilter.h"
 #include "itkConstantPadImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -83,7 +83,7 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     {
       typename TInputImage::SpacingValueType tsp = this->GetInput()->GetSpacing()[P];
       R[P] = 0.5 * (m_Radius[P] * m_Radius[P]) + tsp * tsp;
-      Pad[P] = (typename TInputImage::SizeType::SizeValueType)(vnl_math_rnd_halfinttoeven(m_Radius[P] / tsp + 1) + 1);
+      Pad[P] = (typename TInputImage::SizeType::SizeValueType)(itk::Math::rnd_halfinttoeven(m_Radius[P] / tsp + 1) + 1);
     }
     m_RectErode->SetScale(R);
     m_CircErode->SetScale(R);
