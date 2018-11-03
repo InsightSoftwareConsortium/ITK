@@ -225,7 +225,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
 
     for (unsigned int n = 0; n < this->m_ComplexSize[i]; n++)
     {
-      a = (2.0 * vnl_math::pi * n) / static_cast<double>(this->m_Size[i]);
+      a = (2.0 * itk::Math::pi * n) / static_cast<double>(this->m_Size[i]);
 
       this->m_MatrixCos[i][n] = 2.0 * std::cos(a);
       this->m_MatrixSin[i][n] = std::sin(a);
