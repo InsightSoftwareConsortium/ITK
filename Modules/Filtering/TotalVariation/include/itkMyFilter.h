@@ -19,6 +19,7 @@
 #define itkMyFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "TVopt.h"
 
 namespace itk
 {
