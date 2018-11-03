@@ -64,15 +64,15 @@ CoocurrenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 
   if (argc >= 4)
   {
-    unsigned int numberOfBinsPerAxis = std::atoi(argv[3]);
+    unsigned int numberOfBinsPerAxis = std::stoi(argv[3]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType pixelValueMin = std::atof(argv[4]);
-    FilterType::PixelType pixelValueMax = std::atof(argv[5]);
+    FilterType::PixelType pixelValueMin = std::stod(argv[4]);
+    FilterType::PixelType pixelValueMax = std::stod(argv[5]);
     filter->SetHistogramMinimum(pixelValueMin);
     filter->SetHistogramMaximum(pixelValueMax);
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[6]);
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::stoi(argv[6]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
