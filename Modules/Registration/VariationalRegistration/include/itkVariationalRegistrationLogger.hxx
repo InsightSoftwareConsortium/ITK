@@ -18,7 +18,7 @@
 #ifndef itkVariationalRegistrationLogger_hxx
 #define itkVariationalRegistrationLogger_hxx
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkVariationalRegistrationLogger.h"
 
 #include "itkVariationalRegistrationFilter.h"

@@ -25,7 +25,7 @@
 #include "itkBinaryDilateImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -298,11 +298,11 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
   m_ElapsedLevels = 0;
   m_StopRegistrationFlag = false;
 
-  unsigned int movingLevel = vnl_math_min((int)m_ElapsedLevels, (int)m_MovingImagePyramid->GetNumberOfLevels());
+  unsigned int movingLevel = std::min((int)m_ElapsedLevels, (int)m_MovingImagePyramid->GetNumberOfLevels());
 
-  unsigned int fixedLevel = vnl_math_min((int)m_ElapsedLevels, (int)m_FixedImagePyramid->GetNumberOfLevels());
+  unsigned int fixedLevel = std::min((int)m_ElapsedLevels, (int)m_FixedImagePyramid->GetNumberOfLevels());
 
-  unsigned int maskLevel = vnl_math_min((int)m_ElapsedLevels, (int)m_MaskImagePyramid->GetNumberOfLevels());
+  unsigned int maskLevel = std::min((int)m_ElapsedLevels, (int)m_MaskImagePyramid->GetNumberOfLevels());
 
   // Get valid input deformation field.
   DisplacementFieldPointer tempField = nullptr;
@@ -450,9 +450,9 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
     this->InvokeEvent(IterationEvent());
 
     // Increment level counter.
-    movingLevel = vnl_math_min((int)m_ElapsedLevels, (int)m_MovingImagePyramid->GetNumberOfLevels());
-    fixedLevel = vnl_math_min((int)m_ElapsedLevels, (int)m_FixedImagePyramid->GetNumberOfLevels());
-    maskLevel = vnl_math_min((int)m_ElapsedLevels, (int)m_MaskImagePyramid->GetNumberOfLevels());
+    movingLevel = std::min((int)m_ElapsedLevels, (int)m_MovingImagePyramid->GetNumberOfLevels());
+    fixedLevel = std::min((int)m_ElapsedLevels, (int)m_FixedImagePyramid->GetNumberOfLevels());
+    maskLevel = std::min((int)m_ElapsedLevels, (int)m_MaskImagePyramid->GetNumberOfLevels());
 
     // We can release data from pyramid which are no longer required.
     if (movingLevel > 0)

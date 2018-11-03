@@ -20,7 +20,7 @@
 
 #include "itkVariationalRegistrationStopCriterion.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -470,10 +470,10 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::FitLine(co
     {
       sumx += x[i];
       sumy += y[i];
-      sumx2 += vnl_math_sqr(x[i]);
+      sumx2 += itk::Math::sqr(x[i]);
       sumxy += x[i] * y[i];
     }
-    divisor = (sumx2 - (vnl_math_sqr(sumx) / dn));
+    divisor = (sumx2 - (itk::Math::sqr(sumx) / dn));
     if (divisor != 0)
     {
       *m = (sumxy - ((sumx * sumy) / dn)) / divisor;

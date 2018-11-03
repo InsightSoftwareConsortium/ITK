@@ -84,7 +84,7 @@ VariationalRegistrationGaussianRegularizer<TDisplacementField>::GenerateData()
   {
     // smooth along this dimension
     opers[j].SetDirection(j);
-    typename StandardDeviationsType::ValueType variance = vnl_math_sqr(this->GetStandardDeviations()[j]);
+    typename StandardDeviationsType::ValueType variance = itk::Math::sqr(this->GetStandardDeviations()[j]);
     if (this->GetUseImageSpacing())
     {
       // TODO Considering image spacing in a multi resolution setting leads to
@@ -100,7 +100,7 @@ VariationalRegistrationGaussianRegularizer<TDisplacementField>::GenerateData()
       //   }
       // // convert the variance from physical units to pixels
       // const double s = this->GetInput()->GetSpacing()[j];
-      // opers[j].SetVariance( variance / vnl_math_sqr(s) );
+      // opers[j].SetVariance( variance / itk::Math::sqr(s) );
     }
     else
     {

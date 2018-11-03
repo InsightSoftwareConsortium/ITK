@@ -87,7 +87,7 @@ extern "C"
 #include "itkImageFileWriter.h"
 #include "itkHistogramMatchingImageFilter.h"
 
-#include <vnl/vnl_math.h>
+#include <itkMath.h>
 
 using namespace itk;
 

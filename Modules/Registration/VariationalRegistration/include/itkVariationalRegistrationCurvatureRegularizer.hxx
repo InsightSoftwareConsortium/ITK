@@ -424,12 +424,12 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ThreadedSolveCu
   ValueType meanSquaredSpacing = 0.0;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    meanSquaredSpacing += vnl_math_sqr(m_Spacing[i]);
+    meanSquaredSpacing += itk::Math::sqr(m_Spacing[i]);
   }
   meanSquaredSpacing /= ImageDimension;
 
   // compute weight including the spacing of this dimension
-  const double weight = m_Alpha * meanSquaredSpacing / vnl_math_sqr(m_Spacing[currentDimension]);
+  const double weight = m_Alpha * meanSquaredSpacing / itk::Math::sqr(m_Spacing[currentDimension]);
 
   // Iterate over each pixel in thread range
   double                                    diagValue = 0;

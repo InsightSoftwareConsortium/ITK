@@ -372,13 +372,13 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
     double d11, d12, d13, d22, d23, d33;
     double invD11, invD12, invD13, invD22, invD23, invD33;
 
-    const double mu_hx2 = m_Mu / vnl_math_sqr(m_Spacing[0]);
-    const double mu_hy2 = m_Mu / vnl_math_sqr(m_Spacing[1]);
-    const double mu_hz2 = m_Mu / vnl_math_sqr(m_Spacing[2]);
+    const double mu_hx2 = m_Mu / itk::Math::sqr(m_Spacing[0]);
+    const double mu_hy2 = m_Mu / itk::Math::sqr(m_Spacing[1]);
+    const double mu_hz2 = m_Mu / itk::Math::sqr(m_Spacing[2]);
 
-    const double lambdaPlus2mu_hx2 = (m_Lambda + 2 * m_Mu) / vnl_math_sqr(m_Spacing[0]);
-    const double lambdaPlus2mu_hy2 = (m_Lambda + 2 * m_Mu) / vnl_math_sqr(m_Spacing[1]);
-    const double lambdaPlus2mu_hz2 = (m_Lambda + 2 * m_Mu) / vnl_math_sqr(m_Spacing[2]);
+    const double lambdaPlus2mu_hx2 = (m_Lambda + 2 * m_Mu) / itk::Math::sqr(m_Spacing[0]);
+    const double lambdaPlus2mu_hy2 = (m_Lambda + 2 * m_Mu) / itk::Math::sqr(m_Spacing[1]);
+    const double lambdaPlus2mu_hz2 = (m_Lambda + 2 * m_Mu) / itk::Math::sqr(m_Spacing[2]);
 
     const double lambdaPlusmu_hxhy = (m_Lambda + m_Mu) / (m_Spacing[0] * m_Spacing[1]);
     const double lambdaPlusmu_hxhz = (m_Lambda + m_Mu) / (m_Spacing[0] * m_Spacing[2]);
@@ -387,7 +387,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
     ValueType meanSquaredSpacing = 0.0;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      meanSquaredSpacing += vnl_math_sqr(m_Spacing[i]);
+      meanSquaredSpacing += itk::Math::sqr(m_Spacing[i]);
     }
     meanSquaredSpacing /= 3.0;
 
@@ -498,18 +498,18 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
     double d11, d12, d22;
     double invD11, invD12, invD22;
 
-    const double mu_hx2 = m_Mu / vnl_math_sqr(m_Spacing[0]);
-    const double mu_hy2 = m_Mu / vnl_math_sqr(m_Spacing[1]);
+    const double mu_hx2 = m_Mu / itk::Math::sqr(m_Spacing[0]);
+    const double mu_hy2 = m_Mu / itk::Math::sqr(m_Spacing[1]);
 
-    const double lambdaPlus2mu_hx2 = (m_Lambda + 2 * m_Mu) / vnl_math_sqr(m_Spacing[0]);
-    const double lambdaPlus2mu_hy2 = (m_Lambda + 2 * m_Mu) / vnl_math_sqr(m_Spacing[1]);
+    const double lambdaPlus2mu_hx2 = (m_Lambda + 2 * m_Mu) / itk::Math::sqr(m_Spacing[0]);
+    const double lambdaPlus2mu_hy2 = (m_Lambda + 2 * m_Mu) / itk::Math::sqr(m_Spacing[1]);
 
     const double lambdaPlusmu_hxhy = (m_Lambda + m_Mu) / (m_Spacing[0] * m_Spacing[1]);
 
     ValueType meanSquaredSpacing = 0.0;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      meanSquaredSpacing += vnl_math_sqr(m_Spacing[i]);
+      meanSquaredSpacing += itk::Math::sqr(m_Spacing[i]);
     }
     meanSquaredSpacing /= ImageDimension;
 

@@ -19,7 +19,7 @@
 #define itkVariationalRegistrationSSDFunction_hxx
 
 #include "itkVariationalRegistrationSSDFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -100,11 +100,11 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
 
   // Calculate spped value
   const double speedValue = fixedValue - warpedValue;
-  const double sqr_speedValue = vnl_math_sqr(speedValue);
+  const double sqr_speedValue = itk::Math::sqr(speedValue);
 
   // Calculate update
   PixelType update;
-  if (vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold)
+  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold)
   {
     update = m_ZeroUpdateReturn;
   }
