@@ -12,6 +12,7 @@ itk_module(
     ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOVTK
     ITKDisplacementField
     ITKIOVTK
   EXCLUDE_FROM_DEFAULT

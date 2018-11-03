@@ -62,13 +62,8 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::DynamicThread
   using ImageIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
   ImageIteratorType outputIt(output, region);
 
-  typename TransformType::JacobianType identity;
-  identity.SetSize(ImageDimension, ImageDimension);
-  identity.Fill(0.0);
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-  {
-    identity.SetElement(i, i, 1.0);
-  }
+  typename TransformType::JacobianPositionType identity;
+  identity.set_identity();
 
   // e_ij += 1/2( du_i/dx_j + du_j/dx_i )
   for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
@@ -76,7 +71,7 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::DynamicThread
     const typename OutputImageType::IndexType index = outputIt.GetIndex();
     typename OutputImageType::PointType       point;
     output->TransformIndexToPhysicalPoint(index, point);
-    typename TransformType::JacobianType jacobian;
+    typename TransformType::JacobianPositionType jacobian;
     input->ComputeJacobianWithRespectToPosition(point, jacobian);
     typename OutputImageType::PixelType outputPixel = outputIt.Get();
     for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -104,7 +99,7 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::DynamicThread
         const typename OutputImageType::IndexType index = outputIt.GetIndex();
         typename OutputImageType::PointType       point;
         output->TransformIndexToPhysicalPoint(index, point);
-        typename TransformType::JacobianType jacobian;
+        typename TransformType::JacobianPositionType jacobian;
         input->ComputeJacobianWithRespectToPosition(point, jacobian);
         jacobian -= identity;
         typename OutputImageType::PixelType outputPixel = outputIt.Get();
@@ -128,7 +123,7 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::DynamicThread
         const typename OutputImageType::IndexType index = outputIt.GetIndex();
         typename OutputImageType::PointType       point;
         output->TransformIndexToPhysicalPoint(index, point);
-        typename TransformType::JacobianType jacobian;
+        typename TransformType::JacobianPositionType jacobian;
         input->ComputeJacobianWithRespectToPosition(point, jacobian);
         jacobian -= identity;
         typename OutputImageType::PixelType outputPixel = outputIt.Get();
