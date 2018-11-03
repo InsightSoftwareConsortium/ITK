@@ -55,11 +55,11 @@ template <typename TRealValueType = double>
 class ITK_EXPORT GaussianDistanceKernel : public KernelFunctionBase<TRealValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianDistanceKernel             Self;
-  typedef KernelFunctionBase<TRealValueType> Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  /** Standard class type alias. */
+  using Self = GaussianDistanceKernel;
+  using Superclass = KernelFunctionBase<TRealValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianDistanceKernel, KernelFunction);
@@ -113,11 +113,11 @@ class ITK_EXPORT VectorFieldPCA : public Object
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorFieldPCA);
 
-  /** Standard class typedefs. */
-  typedef VectorFieldPCA           Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type alias. */
+  using Self = VectorFieldPCA;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -126,20 +126,20 @@ public:
   itkTypeMacro(VectorFieldPCA, Object);
 
   /** Type definitions for the PointSet. */
-  typedef TPointSetType InputPointSetType;
+  using InputPointSetType = TPointSetType;
 
   /** Definitions for points of the PointSet. */
-  typedef typename InputPointSetType::PointType InputPointType;
+  using InputPointType = typename InputPointSetType::PointType;
 
   /** Definitions for the PointsContainer. */
-  typedef typename InputPointSetType::PointsContainer PointsContainer;
-  typedef typename PointsContainer::Iterator          PointsContainerIterator;
+  using PointsContainer = typename InputPointSetType::PointsContainer;
+  using PointsContainerIterator = typename PointsContainer::Iterator;
 
   /** Pointer types for the PointSet. */
-  typedef typename InputPointSetType::Pointer InputPointSetPointer;
+  using InputPointSetPointer = typename InputPointSetType::Pointer;
 
   /** Const Pointer type for the PointSet. */
-  typedef typename InputPointSetType::ConstPointer InputPointSetConstPointer;
+  using InputPointSetConstPointer = typename InputPointSetType::ConstPointer;
 
   /**
    * \brief Input PointSet dimension
@@ -147,21 +147,21 @@ public:
   itkStaticConstMacro(InputMeshDimension, unsigned int, TPointSetType::PointDimension);
 
   /** type for the vector fields. */
-  typedef vnl_matrix<TVectorFieldElementType>            VectorFieldType;
-  typedef VectorContainer<unsigned int, VectorFieldType> VectorFieldSetType;
+  using VectorFieldType = vnl_matrix<TVectorFieldElementType>;
+  using VectorFieldSetType = VectorContainer<unsigned int, VectorFieldType>;
 
-  typedef typename VectorFieldSetType::Pointer      VectorFieldSetTypePointer;
-  typedef typename VectorFieldSetType::ConstPointer VectorFieldSetTypeConstPointer;
+  using VectorFieldSetTypePointer = typename VectorFieldSetType::Pointer;
+  using VectorFieldSetTypeConstPointer = typename VectorFieldSetType::ConstPointer;
 
   /** types for the output. */
-  typedef vnl_matrix<TPCType> MatrixType;
-  typedef vnl_vector<TPCType> VectorType;
+  using MatrixType = vnl_matrix<TPCType>;
+  using VectorType = vnl_vector<TPCType>;
 
-  typedef VectorContainer<unsigned int, MatrixType> BasisSetType;
-  typedef VectorContainer<unsigned int, VectorType> ResSetType;
+  using BasisSetType = VectorContainer<unsigned int, MatrixType>;
+  using ResSetType = VectorContainer<unsigned int, VectorType>;
 
-  typedef typename BasisSetType::Pointer       BasisSetTypePointer;
-  typedef typename KernelFunctionType::Pointer KernelFunctionPointer;
+  using BasisSetTypePointer = typename BasisSetType::Pointer;
+  using KernelFunctionPointer = typename KernelFunctionType::Pointer;
 
   /**
    * \brief Set and get the input point set.
