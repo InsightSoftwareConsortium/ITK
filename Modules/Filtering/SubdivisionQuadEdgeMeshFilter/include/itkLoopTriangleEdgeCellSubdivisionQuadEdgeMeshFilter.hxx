@@ -19,7 +19,7 @@
 #define itkLoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter_hxx
 
 #include "itkLoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <algorithm>
 
 namespace itk
@@ -187,7 +187,7 @@ LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Aver
   }
   else
   {
-    InputCoordType var = 0.375 + 0.25 * std::cos(2.0 * vnl_math::pi / nn);
+    InputCoordType var = 0.375 + 0.25 * std::cos(2.0 * itk::Math::pi / nn);
     InputCoordType beta = (0.625 - var * var) / nn;
     for (unsigned int kk = 0; kk < InputMeshType::PointDimension; ++kk)
     {
