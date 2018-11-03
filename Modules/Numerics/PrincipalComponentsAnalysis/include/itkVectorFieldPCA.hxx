@@ -278,7 +278,7 @@ VectorFieldPCA<TVectorFieldElementType,
   const double eigenvalue_epsilon = 1.0e-10;
   for (unsigned int k = 0; k < m_SetSize; k++)
   {
-    m_V0.scale_column(k, 1.0 / vcl_sqrt(m_PCAEigenValues(k) + eigenvalue_epsilon));
+    m_V0.scale_column(k, 1.0 / std::sqrt(m_PCAEigenValues(k) + eigenvalue_epsilon));
   }
 }
 

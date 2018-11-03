@@ -84,7 +84,7 @@ public:
   inline double
   Evaluate(const double & u) const override
   {
-    return (vcl_exp(u * m_OneOverMinusTwoSigmaSqr));
+    return (std::exp(u * m_OneOverMinusTwoSigmaSqr));
   }
 
 protected:
