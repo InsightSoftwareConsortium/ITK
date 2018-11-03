@@ -22,7 +22,7 @@
 #include "itkVectorFieldPCA.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/vnl_c_vector.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
