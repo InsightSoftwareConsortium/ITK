@@ -170,7 +170,7 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
       double NormRMSError = sqrt(diff / (double)nPix) / (maxPx - minPx); //
       std::cout << "Normalised RMS Error with sigma = " << sigma << " : " << NormRMSError << std::endl;
 
-      if (vnl_math_isnan(NormRMSError))
+      if (std::isnan(NormRMSError))
       {
         std::cout << "Normalised RMS Error with sigma = " << sigma << " is NaN! nPix: " << nPix << std::endl;
         return EXIT_FAILURE;
