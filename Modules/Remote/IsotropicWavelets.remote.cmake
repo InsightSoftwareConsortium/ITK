@@ -9,5 +9,5 @@ Cerdan, P.H. \"Steerable Isotropic Wavelets for Multiscale and Phase Analysis\".
 "
   # Upstream repository was transfered from phcerdan to InsightSoftwareConsortium
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIsotropicWavelets.git
-  GIT_TAG 80fefd47f5177d29328b0106bd2ff53fa84b0396
+  GIT_TAG 3f88e669f759cfb62d7ae6d5fc839974f24f480c
 )
