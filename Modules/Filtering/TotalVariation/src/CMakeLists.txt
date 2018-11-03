@@ -1,4 +1,4 @@
-set(TotalVariation_SRCS itkMyFilter.cxx)
+set(TotalVariation_SRCS itkProxTV.cxx)
 
 itk_module_add_library(TotalVariation ${TotalVariation_SRCS})
 itk_module_link_dependencies()

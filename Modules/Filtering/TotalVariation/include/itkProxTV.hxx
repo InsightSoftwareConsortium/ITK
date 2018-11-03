@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMyFilter_hxx
-#define itkMyFilter_hxx
+#ifndef itkProxTV_hxx
+#define itkProxTV_hxx
 
-#include "itkMyFilter.h"
+#include "itkProxTV.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
@@ -27,13 +27,13 @@ namespace itk
 {
 
 template <typename TInputImage, typename TOutputImage>
-MyFilter<TInputImage, TOutputImage>::MyFilter()
+ProxTV<TInputImage, TOutputImage>::ProxTV()
 {}
 
 
 template <typename TInputImage, typename TOutputImage>
 void
-MyFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+ProxTV<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
@@ -41,22 +41,14 @@ MyFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent)
 
 template <typename TInputImage, typename TOutputImage>
 void
-MyFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const OutputRegionType & outputRegion)
+ProxTV<TInputImage, TOutputImage>::GenerateData()
 {
   OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
   using InputRegionType = typename InputImageType::RegionType;
-  InputRegionType inputRegion = InputRegionType(outputRegion.GetSize());
-
-  itk::ImageRegionConstIterator<InputImageType> in(input, inputRegion);
-  itk::ImageRegionIterator<OutputImageType>     out(output, outputRegion);
-
-  for (in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd() && !out.IsAtEnd(); ++in, ++out)
-  {
-    out.Set(in.Get());
-  }
+  // InputRegionType inputRegion = InputRegionType(outputRegion.GetSize());
 }
 
 } // end namespace itk
 
-#endif // itkMyFilter_hxx
+#endif // itkProxTV_hxx

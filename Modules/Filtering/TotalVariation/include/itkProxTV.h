@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMyFilter_h
-#define itkMyFilter_h
+#ifndef itkProxTV_h
+#define itkProxTV_h
 
 #include "itkImageToImageFilter.h"
 #include "TVopt.h"
@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/** \class MyFilter
+/** \class ProxTV
  *
  * \brief Filters a image by iterating over its pixels.
  *
@@ -35,10 +35,10 @@ namespace itk
  *
  */
 template <typename TInputImage, typename TOutputImage>
-class MyFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ProxTV : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MyFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProxTV);
 
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -49,20 +49,20 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Standard class typedefs. */
-  using Self = MyFilter<InputImageType, OutputImageType>;
+  using Self = ProxTV<InputImageType, OutputImageType>;
   using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information. */
-  itkTypeMacro(MyFilter, ImageToImageFilter);
+  itkTypeMacro(ProxTV, ImageToImageFilter);
 
   /** Standard New macro. */
   itkNewMacro(Self);
 
 protected:
-  MyFilter();
-  virtual ~MyFilter() override {}
+  ProxTV();
+  virtual ~ProxTV() override {}
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -70,7 +70,7 @@ protected:
   typedef typename OutputImageType::RegionType OutputRegionType;
 
   virtual void
-  DynamicThreadedGenerateData(const OutputRegionType & outputRegion) override;
+  GenerateData() override;
 
 private:
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -81,7 +81,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkMyFilter.hxx"
+#  include "itkProxTV.hxx"
 #endif
 
-#endif // itkMyFilter
+#endif // itkProxTV
