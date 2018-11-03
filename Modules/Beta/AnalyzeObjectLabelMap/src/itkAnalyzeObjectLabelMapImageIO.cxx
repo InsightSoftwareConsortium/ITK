@@ -22,7 +22,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
-#include <vnl/vnl_math.h>
+#include <itkMath.h>
 #include "itk_zlib.h"
 #include <cstdio>
 #include <cstdlib>
