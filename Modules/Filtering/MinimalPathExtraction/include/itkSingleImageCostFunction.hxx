@@ -17,7 +17,7 @@
 #ifndef itkSingleImageCostFunction_hxx
 #define itkSingleImageCostFunction_hxx
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkSingleImageCostFunction.h"
 
 namespace itk
@@ -141,7 +141,7 @@ SingleImageCostFunction<TImage>::GetDerivative(const ParametersType & parameters
     //           (indicated by very large values) which may skew the gradient.
     //           To avoid this skewing effect, we reset gradient values larger
     //           than a given threshold.
-    if (vnl_math::abs(derivative[i]) > DerivativeThreshold)
+    if (itk::Math::abs(derivative[i]) > DerivativeThreshold)
     {
       derivative[i] = 0.0;
     }

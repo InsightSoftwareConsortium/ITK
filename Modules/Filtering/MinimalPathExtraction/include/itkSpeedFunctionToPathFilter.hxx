@@ -18,7 +18,7 @@
 #ifndef itkSpeedFunctionToPathFilter_hxx
 #define itkSpeedFunctionToPathFilter_hxx
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkSpeedFunctionToPathFilter.h"
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 
