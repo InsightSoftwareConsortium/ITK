@@ -237,7 +237,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
   auto duplicator = DuplicatorType::New();
   duplicator->SetInputImage(low_pass);
   duplicator->Update();
-  InputImagePointer low_pass_per_level = duplicator->GetModifiableOutput();
+  InputImagePointer low_pass_per_level = duplicator->GetOutput();
 
   using MultiplyFilterType = itk::MultiplyImageFilter<InputImageType>;
   auto scaleFactor = static_cast<double>(this->m_ScaleFactor);
