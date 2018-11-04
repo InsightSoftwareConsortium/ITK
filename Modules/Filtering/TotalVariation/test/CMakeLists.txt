@@ -12,5 +12,6 @@ itk_add_test(
     #   ${ITK_TEST_OUTPUT_DIR}/itkProxTVTestOutput.mha
     #   DATA{Baseline/itkProxTVTestOutput.mha}
     itkProxTVTest
-    ${ITK_TEST_OUTPUT_DIR}/itkProxTVTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkProxTVTestOutput2D.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkProxTVTestOutput3D.mha
 )

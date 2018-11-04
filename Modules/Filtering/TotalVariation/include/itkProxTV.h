@@ -40,13 +40,14 @@ class ProxTV : public ImageToImageFilter<TInputImage, TOutputImage>
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ProxTV);
 
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using InputImageType = TInputImage;
   using OutputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
+
+  using ArrayType = itk::FixedArray<double, ImageDimension>;
 
   /** Standard class typedefs. */
   using Self = ProxTV<InputImageType, OutputImageType>;
@@ -72,10 +73,29 @@ protected:
   virtual void
   GenerateData() override;
 
+  /** Set/Get the MaximumNumberOfIterations */
+  itkSetMacro(MaximumNumberOfIterations, unsigned int);
+  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
+
+  /** Set/Get the Weights */
+  itkSetMacro(Weights, ArrayType);
+  itkGetConstMacro(Weights, ArrayType);
+
+  /** Set/Get the Norms */
+  itkSetMacro(Norms, ArrayType);
+  itkGetConstMacro(Norms, ArrayType);
+
 private:
+  unsigned int m_MaximumNumberOfIterations;
+  ArrayType    m_Weights;
+  ArrayType    m_Norms;
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
-  // Add concept checking such as
-  // itkConceptMacro( FloatingPointPixel, ( itk::Concept::IsFloatingPoint< typename InputImageType::PixelType > ) );
+  /** ImageDimension enumeration   */
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
 #endif
 };
 } // namespace itk

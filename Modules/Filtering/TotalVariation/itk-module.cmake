@@ -13,6 +13,7 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKStatistics
+    ITKImageFilterBase
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS

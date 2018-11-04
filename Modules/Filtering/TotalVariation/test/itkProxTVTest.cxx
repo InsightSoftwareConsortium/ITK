@@ -21,19 +21,84 @@
 #include "itkCommand.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
+#include "itkImageScanlineIterator.h"
+
+template <typename TImageType>
+typename TImageType::Pointer
+Create2DImage()
+{
+  using ImageType = TImageType;
+  typename ImageType::SizeType size;
+  size.Fill(64);
+  size[1] = 50;
+  typename ImageType::Pointer image = ImageType::New();
+  image->SetRegions(size);
+  image->Allocate();
+  image->FillBuffer(1);
+  // Set a band
+  using ImageIterator = itk::ImageScanlineIterator<ImageType>;
+  typename ImageType::RegionType bandRegion;
+  bandRegion.SetIndex({ 0, 22 });
+  bandRegion.SetSize({ 64, 6 });
+  ImageIterator iter(image, bandRegion);
+
+  while (!iter.IsAtEnd())
+  {
+    while (!iter.IsAtEndOfLine())
+    {
+      iter.Set(255);
+      ++iter;
+    }
+    iter.NextLine();
+  }
+  return image;
+}
+
+template <typename TImageType>
+typename TImageType::Pointer
+Create3DImage()
+{
+  using ImageType = TImageType;
+  typename ImageType::SizeType size;
+  size.Fill(32);
+  size[1] = 16;
+  size[2] = 8;
+  typename ImageType::Pointer image = ImageType::New();
+  image->SetRegions(size);
+  image->Allocate();
+  image->FillBuffer(1);
+  // Set a band
+  using ImageIterator = itk::ImageScanlineIterator<ImageType>;
+  typename ImageType::RegionType bandRegion;
+  bandRegion.SetIndex({ 14, 0, 0 });
+  bandRegion.SetSize({ 6, 16, 8 });
+  ImageIterator iter(image, bandRegion);
+
+  while (!iter.IsAtEnd())
+  {
+    while (!iter.IsAtEndOfLine())
+    {
+      iter.Set(255);
+      ++iter;
+    }
+    iter.NextLine();
+  }
+  return image;
+}
 
 int
 itkProxTVTest(int argc, char * argv[])
 {
-  if (argc < 2)
+  if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " outputImage";
+    std::cerr << " outputImage2D";
+    std::cerr << " outputImage3D";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
-  const char * outputImageFileName = argv[1];
-
+  const char *       outputImageFileName = argv[1];
+  const char *       outputImage3DFileName = argv[2];
   const unsigned int Dimension = 2;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -43,30 +108,48 @@ itkProxTVTest(int argc, char * argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS(filter, ProxTV, ImageToImageFilter);
 
-  // Create input image to avoid test dependencies.
-  ImageType::SizeType size;
-  size.Fill(128);
-  ImageType::Pointer image = ImageType::New();
-  image->SetRegions(size);
-  image->Allocate();
-  image->FillBuffer(1.1f);
+  auto image = Create2DImage<ImageType>();
   filter->SetInput(image);
   filter->Update();
 
-  // using WriterType = itk::ImageFileWriter< ImageType >;
-  // WriterType::Pointer writer = WriterType::New();
-  // writer->SetFileName( outputImageFileName );
-  // writer->SetInput( filter->GetOutput() );
-  // writer->SetUseCompression(true);
-  // try
-  //   {
-  //   writer->Update();
-  //   }
-  // catch( itk::ExceptionObject & error )
-  //   {
-  //   std::cerr << "Error: " << error << std::endl;
-  //   return EXIT_FAILURE;
-  //   }
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(outputImageFileName);
+  writer->SetInput(filter->GetOutput());
+  writer->SetUseCompression(true);
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  /************ 3D *************/
+  using Image3DType = itk::Image<PixelType, 3>;
+  using Filter3DType = itk::ProxTV<Image3DType, Image3DType>;
+  Filter3DType::Pointer filter3D = Filter3DType::New();
+  EXERCISE_BASIC_OBJECT_METHODS(filter3D, ProxTV, ImageToImageFilter);
+  auto image3D = Create3DImage<Image3DType>();
+  filter3D->SetInput(image3D);
+  filter3D->Update();
+
+  using Writer3DType = itk::ImageFileWriter<Image3DType>;
+  Writer3DType::Pointer writer3d = Writer3DType::New();
+  writer3d->SetFileName(outputImage3DFileName);
+  writer3d->SetInput(filter3D->GetOutput());
+  writer3d->SetUseCompression(true);
+  try
+  {
+    writer3d->Update();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
