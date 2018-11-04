@@ -61,18 +61,6 @@ public:
   /** Standard New macro. */
   itkNewMacro(Self);
 
-protected:
-  ProxTV();
-  virtual ~ProxTV() override {}
-
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
-
-  typedef typename OutputImageType::RegionType OutputRegionType;
-
-  virtual void
-  GenerateData() override;
-
   /** Set/Get the MaximumNumberOfIterations */
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
   itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
@@ -84,6 +72,18 @@ protected:
   /** Set/Get the Norms */
   itkSetMacro(Norms, ArrayType);
   itkGetConstMacro(Norms, ArrayType);
+
+protected:
+  ProxTV();
+  virtual ~ProxTV() override {}
+
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typedef typename OutputImageType::RegionType OutputRegionType;
+
+  virtual void
+  GenerateData() override;
 
 private:
   unsigned int m_MaximumNumberOfIterations;

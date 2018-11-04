@@ -18,7 +18,6 @@
 
 #include "itkProxTV.h"
 
-#include "itkCommand.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 #include "itkImageScanlineIterator.h"

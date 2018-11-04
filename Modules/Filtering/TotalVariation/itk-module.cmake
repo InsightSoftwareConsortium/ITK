@@ -12,7 +12,6 @@ itk_module(
   TotalVariation
   DEPENDS
     ITKCommon
-    ITKStatistics
     ITKImageFilterBase
   COMPILE_DEPENDS
     ITKImageSources
