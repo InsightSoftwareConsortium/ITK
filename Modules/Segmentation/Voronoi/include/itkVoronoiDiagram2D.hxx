@@ -20,7 +20,6 @@
 #include "itkVoronoiDiagram2D.h"
 
 #include <algorithm>
-#include "vnl/vnl_sample.h"
 
 namespace itk
 {
