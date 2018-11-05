@@ -1,6 +1,5 @@
 // This is core/vnl/io/tests/test_bignum_io.cxx
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_bignum.h>
 #include <vnl/io/vnl_io_bignum.h>
 #include <vsl/vsl_binary_io.h>

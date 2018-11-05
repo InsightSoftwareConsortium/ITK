@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <vcl_compiler.h>
+#include <cassert>
 #include <vnl/vnl_double_2.h>
 #include <vnl/vnl_least_squares_function.h>
 #include <vnl/vnl_least_squares_cost_function.h>
@@ -30,7 +30,7 @@ class vnl_rosenbrock : public vnl_least_squares_function
  public:
   vnl_rosenbrock(): vnl_least_squares_function(2, 2, no_gradient) {}
 
-  void f(const vnl_vector<double>& x, vnl_vector<double>& fx)
+  void f(const vnl_vector<double>& x, vnl_vector<double>& fx) override
   {
     fx[0] = 10*(x[1] - x[0]*x[0]);
     fx[1] = 1 - x[0];
@@ -42,13 +42,13 @@ class vnl_rosenbrock_grad_cost_fun : public vnl_cost_function
  public:
   vnl_rosenbrock_grad_cost_fun(): vnl_cost_function(2) {}
 
-  double f(const vnl_vector<double>& x) {
+  double f(const vnl_vector<double>& x) override {
     double a = 10*(x[1] - x[0]*x[0]);
     double b = 1 - x[0];
     return a*a + b*b;
   }
 
-  void gradf(const vnl_vector<double>& x, vnl_vector<double>& g) {
+  void gradf(const vnl_vector<double>& x, vnl_vector<double>& g) override {
     double a = 10*(x[1] - x[0]*x[0]);
     double b = 1 - x[0];
     g[0] = 2 * a * (-20*x[0]) - 2 * b;

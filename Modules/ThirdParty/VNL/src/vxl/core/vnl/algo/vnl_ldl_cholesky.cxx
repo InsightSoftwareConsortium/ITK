@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_ldl_cholesky.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \brief Updateable Cholesky decomposition: A=LDL'
@@ -11,10 +8,9 @@
 //-----------------------------------------------------------------------------
 
 #include <cmath>
+#include <cassert>
 #include <iostream>
 #include "vnl_ldl_cholesky.h"
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
 #include <vnl/algo/vnl_netlib.h> // dpofa_(), dposl_(), dpoco_(), dpodi_()
 
 //: Cholesky decomposition.

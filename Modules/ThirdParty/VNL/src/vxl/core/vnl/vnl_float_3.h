@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_float_3.h
 #ifndef vnl_float_3_h_
 #define vnl_float_3_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Contains class vnl_float_3

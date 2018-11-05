@@ -3,8 +3,6 @@
 #include <iostream>
 #include <vnl/vnl_numeric_traits.h>
 #include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
-#include <vxl_config.h> // for VXL_BIG_ENDIAN
 
 static
 void check_pointer( const void* )
@@ -184,7 +182,7 @@ void test_numeric_traits()
   if (lm > 0) std::cout << lm << " is larger\n";
 #endif // TEST_SIGNED_OVERFLOW
 
-  unsigned char* x = (unsigned char*)(&fm);
+  auto* x = (unsigned char*)(&fm);
   int nr_of_ones = 0;
   std::cout << "vnl_numeric_traits<float>::maxval has internal representation ";
 #if VXL_BIG_ENDIAN

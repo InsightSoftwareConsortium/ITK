@@ -19,10 +19,9 @@
 
 #include <iostream>
 #include <sstream>
-#include <cstring>
 #include <vector>
+#include <cstring>
 #include <vnl/vnl_polynomial.h>
-#include <vcl_compiler.h>
 
 std::vector<vnl_polynomial<double> > stack;
 

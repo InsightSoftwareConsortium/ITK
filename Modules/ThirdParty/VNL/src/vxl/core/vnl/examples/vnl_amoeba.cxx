@@ -5,7 +5,6 @@
 // Converted to vxl by Peter Vanroose, February 2000
 //-----------------------------------------------------------------------------
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_double_2.h>
 #include <vnl/vnl_cost_function.h>
 #include <vnl/algo/vnl_amoeba.h>
@@ -16,7 +15,7 @@ class vnl_rosenbrock : public vnl_cost_function
  public:
   vnl_rosenbrock(): vnl_cost_function(2) {}
 
-  double f(const vnl_vector<double>& x)
+  double f(const vnl_vector<double>& x) override
   {
     double u = 10*(x[1] - x[0]*x[0]);
     double v = 1 - x[0];

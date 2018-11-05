@@ -14,7 +14,7 @@
 template<class T>
 void vsl_b_write(vsl_b_ostream & os, const vnl_vector<T> & p)
 {
-  const short io_version_no = 2;
+  constexpr short io_version_no = 2;
   vsl_b_write(os, io_version_no);
   vsl_b_write(os, p.size());
   if (p.size())
@@ -68,8 +68,8 @@ void vsl_print_summary(std::ostream & os,const vnl_vector<T> & p)
 }
 
 #define VNL_IO_VECTOR_INSTANTIATE(T) \
-template VNL_TEMPLATE_EXPORT void vsl_print_summary(std::ostream &, const vnl_vector<T > &); \
-template VNL_TEMPLATE_EXPORT void vsl_b_read(vsl_b_istream &, vnl_vector<T > &); \
-template VNL_TEMPLATE_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_vector<T > &)
+template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_vector<T > &); \
+template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_vector<T > &); \
+template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_vector<T > &)
 
 #endif // vnl_io_vector_hxx_

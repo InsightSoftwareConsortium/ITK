@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_lbfgsb.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 //
@@ -13,7 +10,6 @@
 #include <cstring>
 #include <iostream>
 #include "vnl_lbfgsb.h"
-#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_netlib.h> // setulb_()
 

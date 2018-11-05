@@ -50,8 +50,8 @@ class vcl_atomic_count
 
  private:
 
-    vcl_atomic_count(vcl_atomic_count const &);
-    vcl_atomic_count & operator=(vcl_atomic_count const &);
+    vcl_atomic_count(vcl_atomic_count const &) = delete;
+    vcl_atomic_count & operator=(vcl_atomic_count const &) = delete;
 
     mutable int value_;
 

@@ -124,7 +124,6 @@
 #include "itkEuler2DTransform.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkNormalVariateGenerator.h"
-#include "vnl/vnl_sample.h"
 #include "itkNumericSeriesFileNames.h"
 // Software Guide : EndCodeSnippet
 

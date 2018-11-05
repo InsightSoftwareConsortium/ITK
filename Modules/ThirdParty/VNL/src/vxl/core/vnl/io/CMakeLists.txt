@@ -34,3 +34,7 @@ target_link_libraries(${VXL_LIB_PREFIX}vnl_io ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PRE
 if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
+
+if (VXL_BUILD_OBJECT_LIBRARIES)
+  add_library(vnl_io-obj OBJECT ${vnl_io_sources})
+endif()

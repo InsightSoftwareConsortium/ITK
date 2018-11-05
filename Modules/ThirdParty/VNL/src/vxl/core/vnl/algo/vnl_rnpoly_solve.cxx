@@ -1,17 +1,12 @@
 // This is core/vnl/algo/vnl_rnpoly_solve.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 #include <cmath>
+#include <cassert>
 #include <iostream>
-#include <fstream>
-#include "vnl_rnpoly_solve.h"
+#include <vnl/algo/vnl_rnpoly_solve.h>
+#include <vnl/vnl_math.h>
 
-#include <vnl/vnl_math.h> // for vnl_math::twopi
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
 #ifdef DEBUG
 #endif
 
@@ -28,21 +23,21 @@ class vnl_rnpoly_solve_cmplx
   vnl_rnpoly_solve_cmplx(double a=0, double b=0) : R(a), C(b) {}
   inline double norm() const { return R*R+C*C; }
   inline vnl_rnpoly_solve_cmplx operator-() const
-  { return vnl_rnpoly_solve_cmplx(-R, -C); }
+  { return {-R, -C}; }
   inline vnl_rnpoly_solve_cmplx operator+(vnl_rnpoly_solve_cmplx const& Y) const
-  { return vnl_rnpoly_solve_cmplx(R+Y.R, C+Y.C); }
+  { return {R+Y.R, C+Y.C}; }
   inline vnl_rnpoly_solve_cmplx operator-(vnl_rnpoly_solve_cmplx const& Y) const
-  { return vnl_rnpoly_solve_cmplx(R-Y.R, C-Y.C); }
+  { return {R-Y.R, C-Y.C}; }
   inline vnl_rnpoly_solve_cmplx& operator+=(vnl_rnpoly_solve_cmplx const& Y)
   { R+=Y.R; C+=Y.C; return *this; }
   inline vnl_rnpoly_solve_cmplx& operator-=(vnl_rnpoly_solve_cmplx const& Y)
   { R-=Y.R; C-=Y.C; return *this; }
   inline vnl_rnpoly_solve_cmplx operator*(vnl_rnpoly_solve_cmplx const& Y) const
-  { return vnl_rnpoly_solve_cmplx(R*Y.R-C*Y.C, R*Y.C+C*Y.R); }
+  { return {R*Y.R-C*Y.C, R*Y.C+C*Y.R}; }
   inline vnl_rnpoly_solve_cmplx operator/(vnl_rnpoly_solve_cmplx const& Y) const
-  { double N=1.0/Y.norm(); return vnl_rnpoly_solve_cmplx((R*Y.R+C*Y.C)*N, (C*Y.R-R*Y.C)*N); }
+  { double N=1.0/Y.norm(); return {(R*Y.R+C*Y.C)*N, (C*Y.R-R*Y.C)*N}; }
   inline vnl_rnpoly_solve_cmplx operator*(double T) const
-  { return vnl_rnpoly_solve_cmplx(R*T, C*T); }
+  { return {R*T, C*T}; }
   inline vnl_rnpoly_solve_cmplx& operator*=(double T)
   { R*=T; C*=T; return *this; }
   inline vnl_rnpoly_solve_cmplx& operator*=(vnl_rnpoly_solve_cmplx const& Y)
@@ -63,7 +58,7 @@ std::vector<vnl_vector<double>*> vnl_rnpoly_solve::realroots(double tol)
 {
   tol *= tol; // squared tolerance
   std::vector<vnl_vector<double>*> rr;
-  std::vector<vnl_vector<double>*>::iterator rp = r_.begin(), ip = i_.begin();
+  auto rp = r_.begin(), ip = i_.begin();
   for (; rp != r_.end() && ip != i_.end(); ++rp, ++ip)
     if ((*ip)->squared_magnitude() < tol)
       rr.push_back(*rp);
@@ -790,9 +785,9 @@ bool vnl_rnpoly_solve::compute()
   std::cout << "Total degree: " << totdegree << std::endl
            << "# solutions : " << ans.size() << std::endl;
 #endif
-  for (unsigned int i=0; i<ans.size(); ++i)
+  for (auto & an : ans)
   {
-    assert(ans[i].size()==dim_);
+    assert(an.size()==dim_);
     rp=new vnl_vector<double>(dim_); r_.push_back(rp);
     ip=new vnl_vector<double>(dim_); i_.push_back(ip);
     for (unsigned int j=0; j<dim_; ++j)
@@ -800,7 +795,7 @@ bool vnl_rnpoly_solve::compute()
 #ifdef DEBUG
       std::cout << ans[i][j].R << " + j " << ans[i][j].C << std::endl;
 #endif
-      (*rp)[j]=ans[i][j].R; (*ip)[j]=ans[i][j].C;
+      (*rp)[j]=an[j].R; (*ip)[j]=an[j].C;
     }
 #ifdef DEBUG
     std::cout<< std::endl;

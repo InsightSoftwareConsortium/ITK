@@ -1,7 +1,4 @@
 // This is core/vnl/io/vnl_io_rational.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 
@@ -12,7 +9,7 @@
 //: Binary save self to stream.
 void vsl_b_write(vsl_b_ostream & os, const vnl_rational & p)
 {
-  const short io_version_no = 1;
+  constexpr short io_version_no = 1;
   vsl_b_write(os, io_version_no);
   vsl_b_write(os, p.numerator());
   vsl_b_write(os, p.denominator());

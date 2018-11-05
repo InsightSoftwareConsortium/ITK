@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_trace.h
 #ifndef vnl_trace_h_
 #define vnl_trace_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief Calculate trace of a matrix
@@ -21,7 +18,7 @@
 
 //: Calculate trace of a matrix
 // \relatesalso vnl_matrix
-template <class T> VNL_TEMPLATE_EXPORT
+template <class T> VNL_EXPORT
 T vnl_trace(vnl_matrix<T> const& M)
 {
   T sum(0);
@@ -33,7 +30,7 @@ T vnl_trace(vnl_matrix<T> const& M)
 
 //: Calculate trace of a matrix
 // \relatesalso vnl_matrix_fixed
-template <class T, unsigned int N1, unsigned int N2> VNL_TEMPLATE_EXPORT
+template <class T, unsigned int N1, unsigned int N2> VNL_EXPORT
 T vnl_trace(vnl_matrix_fixed<T,N1,N2> const& M)
 {
   T sum(0);

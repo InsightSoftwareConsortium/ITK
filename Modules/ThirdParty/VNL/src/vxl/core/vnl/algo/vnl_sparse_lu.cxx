@@ -1,13 +1,9 @@
 // This is core/vnl/algo/vnl_sparse_lu.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 #include <iostream>
+#include <cassert>
 #include "vnl_sparse_lu.h"
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
 
 #include <sparse/spMatrix.h>
 
@@ -20,7 +16,7 @@ vnl_sparse_lu::~vnl_sparse_lu()
 
 //: constructor - controls if condition information is computed
 vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode):
-  A_(M), factored_(false),condition_computed_(false), mode_(mode),norm_(0), rcond_(0), largest_(0), pivot_thresh_(0),absolute_thresh_(0),diag_pivoting_(1),pmatrix_(VXL_NULLPTR)
+  A_(M), factored_(false),condition_computed_(false), mode_(mode),norm_(0), rcond_(0), largest_(0), pivot_thresh_(0),absolute_thresh_(0),diag_pivoting_(1),pmatrix_(nullptr)
 {
   int n = (int)M.columns();
   assert(n == (int)(M.rows()));
@@ -32,14 +28,14 @@ vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode
     return;
   }
   // fill the internal sparse matrix from A_
-  spElement* pelement = VXL_NULLPTR;
+  spElement* pelement = nullptr;
   for (A_.reset(); A_.next();)
   {
     int r = A_.getrow();
     int c = A_.getcolumn();
     double v = A_.value();
     pelement = spGetElement(pmatrix_, r+1, c+1);
-    if (pelement == VXL_NULLPTR)
+    if (pelement == nullptr)
     {
       std::cout<< "In vnl_sparse_lu::vnl_sparse_lu - error in getting element\n";
       return;
@@ -79,7 +75,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
   }
   unsigned n = b.size();
   assert(n == A_.columns());
-  spREAL* rhs = new spREAL[n+1];
+  auto* rhs = new spREAL[n+1];
   for (unsigned i = 0; i<n; ++i)
     rhs[i+1]=b[i];
   if (mode_==verbose || mode_==estimate_condition_verbose)
@@ -138,7 +134,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
   }
   unsigned n = b.size();
   assert(n == A_.columns());
-  spREAL* rhs = new spREAL[n+1];
+  auto* rhs = new spREAL[n+1];
   for (unsigned i = 0; i<n; ++i)
     rhs[i+1]=b[i];
   int error = 0;

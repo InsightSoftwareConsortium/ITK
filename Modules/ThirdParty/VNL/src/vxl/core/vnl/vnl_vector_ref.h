@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_vector_ref.h
 #ifndef vnl_vector_ref_h_
 #define vnl_vector_ref_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief vnl_vector using user-supplied storage
@@ -23,8 +20,8 @@
 //: vnl_vector using user-supplied storage
 //   vnl_vector for which the data space has
 //   been supplied externally.
-VCL_TEMPLATE_EXPORT template <class T>
-class VNL_TEMPLATE_EXPORT vnl_vector_ref : public vnl_vector<T>
+template <class T>
+class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
 {
  public:
   typedef vnl_vector<T> Base;
@@ -34,9 +31,6 @@ class VNL_TEMPLATE_EXPORT vnl_vector_ref : public vnl_vector<T>
   vnl_vector_ref(unsigned n, T *space) : vnl_vector<T>() {
     Base::data = space;
     Base::num_elmts = n;
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    this->vnl_vector_own_data = 0;
-#endif
   }
 
   //: Copy constructor
@@ -45,15 +39,12 @@ class VNL_TEMPLATE_EXPORT vnl_vector_ref : public vnl_vector<T>
   vnl_vector_ref(vnl_vector_ref<T> const& v) : vnl_vector<T>() {
     Base::data = const_cast<T*>(v.data_block()); // const incorrect!
     Base::num_elmts = v.size();
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    this->vnl_vector_own_data = 0;
-#endif
   }
 
   //: Destructor
   // Prevents base destructor from releasing memory we don't own
   ~vnl_vector_ref() {
-    Base::data = VXL_NULLPTR;
+    Base::data = nullptr;
   }
 
   //: Reference to self to make non-const temporaries.

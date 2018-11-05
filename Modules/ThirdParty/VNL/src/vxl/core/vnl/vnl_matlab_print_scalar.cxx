@@ -4,10 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <complex>
-#include <iostream>
 #include "vnl_matlab_print_scalar.h"
-
-#include <vcl_compiler.h>
 
 void vnl_matlab_print_scalar(int v,
                              char *buf,

@@ -9,11 +9,13 @@
 #include <utility>
 #include <vector>
 #include <vnl/vnl_vector.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 template <class TValue, class TIndex>
-class VNL_TEMPLATE_EXPORT vnl_index_sort
+class VNL_EXPORT vnl_index_sort
 {
  public:
 

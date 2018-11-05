@@ -124,4 +124,8 @@ if(NETLIB_FOUND)
   if( BUILD_TESTING )
     add_subdirectory(tests)
   endif()
+
+  if (VXL_BUILD_OBJECT_LIBRARIES)
+    add_library(vnl_algo-obj OBJECT ${vnl_algo_sources})
+  endif()
 endif()

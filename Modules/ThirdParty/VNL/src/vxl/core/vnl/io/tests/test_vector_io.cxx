@@ -1,6 +1,5 @@
 // This is core/vnl/io/tests/test_vector_io.cxx
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/io/vnl_io_vector.h>
 #include <vsl/vsl_binary_io.h>
 #include <testlib/testlib_test.h>
@@ -12,7 +11,7 @@ void test_vector_double_io()
            << "Testing vnl_vector<double> io\n"
            << "*****************************\n";
   //// test constructors, accessors
-  const int n = 50;
+  constexpr int n = 50;
   vnl_vector<double> v_out(n), v_in;
 
   for (int i=0; i<n; i++)

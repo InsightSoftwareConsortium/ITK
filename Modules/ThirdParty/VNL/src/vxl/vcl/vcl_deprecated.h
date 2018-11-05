@@ -28,6 +28,7 @@
 // surest way to find out _where_ the deprecated function is called is
 // to define VXL_WARN_DEPRECATED_ABORT and then do a stack trace using
 // a debugger!
+#include <vcl_compiler_detection.h>
 
 #ifdef VXL_WARN_DEPRECATED
   #ifdef VXL_WARN_DEPRECATED_ABORT

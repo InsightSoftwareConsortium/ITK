@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_sparse_lm.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Matt Leotta (Brown)
@@ -13,11 +10,6 @@
 #include <iomanip>
 #include <algorithm>
 #include "vnl_sparse_lm.h"
-
-#include <vcl_compiler.h>
-
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
 #include <vnl/vnl_fastops.h>
 #include <vnl/vnl_vector_ref.h>
 #include <vnl/vnl_crs_index.h>
@@ -79,9 +71,7 @@ void vnl_sparse_lm::init(vnl_sparse_lst_sqr_function* f)
   allocate_matrices();
 }
 
-vnl_sparse_lm::~vnl_sparse_lm()
-{
-}
+vnl_sparse_lm::~vnl_sparse_lm() = default;
 
 
 //: Minimize the function supplied in the constructor until convergence or failure.
@@ -186,7 +176,7 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
         // this large inverse is the bottle neck of this algorithm
         vnl_matrix<double> H;
         vnl_cholesky Sa_cholesky(Sa,vnl_cholesky::quiet);
-        vnl_svd<double> *Sa_svd = VXL_NULLPTR;
+        vnl_svd<double> *Sa_svd = nullptr;
         // use SVD as a backup if Cholesky is deficient
         if ( Sa_cholesky.rank_deficiency() > 0 )
         {
@@ -364,8 +354,6 @@ void vnl_sparse_lm::allocate_matrices()
 {
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
-  // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   // Iterate through all i and j to set the size of the matrices and vectors defined above
   for (int i=0; i<num_a_; ++i)
@@ -377,10 +365,10 @@ void vnl_sparse_lm::allocate_matrices()
     Ma_[i].set_size(size_c_, ai_size);
 
     vnl_crs_index::sparse_vector row = crs.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      const unsigned int j = r_itr->second;
-      const unsigned int k = r_itr->first;
+      const unsigned int j = r_itr.second;
+      const unsigned int k = r_itr.first;
       const unsigned int bj_size = f_->number_of_params_b(j);
       const unsigned int eij_size = f_->number_of_residuals(k);
       A_[k].set_size(eij_size, ai_size);
@@ -407,7 +395,6 @@ void vnl_sparse_lm::compute_normal_equations()
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
   // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   // clear the ea and eb for summation
   ea_.fill(0.0);
@@ -434,10 +421,10 @@ void vnl_sparse_lm::compute_normal_equations()
     vnl_vector_ref<double> eai(ai_size, ea_.data_block()+f_->index_a(i));
 
     vnl_crs_index::sparse_vector row = crs.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      unsigned int j = r_itr->second;
-      unsigned int k = r_itr->first;;
+      unsigned int j = r_itr.second;
+      unsigned int k = r_itr.first;;
       vnl_matrix<double>& Aij = A_[k];
       vnl_matrix<double>& Bij = B_[k];
       vnl_matrix<double>& Cij = C_[k];
@@ -508,8 +495,6 @@ void vnl_sparse_lm::compute_invV_Y()
 {
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
-  // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   for (int j=0; j<num_b_; ++j) {
     vnl_matrix<double>& inv_Vj = inv_V_[j];
@@ -524,9 +509,9 @@ void vnl_sparse_lm::compute_invV_Y()
       inv_Vj = Vj_cholesky.inverse();
 
     vnl_crs_index::sparse_vector col = crs.sparse_col(j);
-    for (sv_itr c_itr=col.begin(); c_itr!=col.end(); ++c_itr)
+    for (auto & c_itr : col)
     {
-      unsigned int k = c_itr->first;
+      unsigned int k = c_itr.first;
       Y_[k] = W_[k]*inv_Vj;  // Y_ij = W_ij * inv(V_j)
     }
   }
@@ -539,7 +524,6 @@ void vnl_sparse_lm::compute_Z_Sa(vnl_matrix<double>& Sa)
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
   // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   // compute Z = RYt-Q and Sa
   for (int i=0; i<num_a_; ++i)
@@ -551,10 +535,10 @@ void vnl_sparse_lm::compute_Z_Sa(vnl_matrix<double>& Sa)
 
     // handle the diagonal blocks separately
     vnl_matrix<double> Sii(U_[i]); // copy Ui to initialize Sii
-    for (sv_itr ri = row_i.begin(); ri != row_i.end();  ++ri)
+    for (auto & ri : row_i)
     {
-      unsigned int j = ri->second;
-      unsigned int k = ri->first;
+      unsigned int j = ri.second;
+      unsigned int k = ri.first;
       vnl_matrix<double>& Yij = Y_[k];
       vnl_fastops::dec_X_by_ABt(Sii,Yij,W_[k]); // S_ii -= Y_ij * W_ij^T
       vnl_fastops::inc_X_by_ABt(Zi,R_[j],Yij);  // Z_i  += R_j * Y_ij^T
@@ -570,7 +554,7 @@ void vnl_sparse_lm::compute_Z_Sa(vnl_matrix<double>& Sa)
 
       // iterate through both sparse rows finding matching columns
       bool row_done = false;
-      for (sv_itr ri = row_i.begin(), rh = row_h.begin();
+      for (auto ri = row_i.begin(), rh = row_h.begin();
            ri != row_i.end() && rh != row_h.end();  ++ri, ++rh)
       {
         while (!row_done && ri->second != rh->second)
@@ -618,8 +602,6 @@ void vnl_sparse_lm::compute_Mb()
 {
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
-  // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   vnl_matrix<double> temp;
   // construct Mb = (-R-MaW)inv(V)
@@ -630,10 +612,10 @@ void vnl_sparse_lm::compute_Mb()
     temp -= R_[j];
 
     vnl_crs_index::sparse_vector col = crs.sparse_col(j);
-    for (sv_itr c_itr=col.begin(); c_itr!=col.end(); ++c_itr)
+    for (auto & c_itr : col)
     {
-      unsigned int k = c_itr->first;
-      unsigned int i = c_itr->second;
+      unsigned int k = c_itr.first;
+      unsigned int i = c_itr.second;
       vnl_fastops::dec_X_by_AB(temp,Ma_[i],W_[k]);
     }
     vnl_fastops::AB(Mb_[j],temp,inv_V_[j]);
@@ -689,7 +671,6 @@ void vnl_sparse_lm::compute_sea(vnl_vector<double> const& dc,
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
   // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   sea = ea_; // initialize se to ea_
   for (int i=0; i<num_a_; ++i)
@@ -699,11 +680,11 @@ void vnl_sparse_lm::compute_sea(vnl_vector<double> const& dc,
 
     vnl_fastops::inc_X_by_AtB(sei,Z_[i],dc);
 
-    for (sv_itr ri = row_i.begin(); ri != row_i.end();  ++ri)
+    for (auto & ri : row_i)
     {
-      unsigned int k = ri->first;
+      unsigned int k = ri.first;
       vnl_matrix<double>& Yij = Y_[k];
-      vnl_vector_ref<double> ebj(Yij.cols(), eb_.data_block()+f_->index_b(ri->second));
+      vnl_vector_ref<double> ebj(Yij.cols(), eb_.data_block()+f_->index_b(ri.second));
       sei -= Yij*ebj;  // se_i -= Y_ij * e_b_j
     }
   }
@@ -717,8 +698,6 @@ void vnl_sparse_lm::compute_Sa_sea(vnl_matrix<double>& Sa,
 {
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
-  // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   sea = ea_; // initialize se to ea_
   for (int i=0; i<num_a_; ++i)
@@ -728,12 +707,12 @@ void vnl_sparse_lm::compute_Sa_sea(vnl_matrix<double>& Sa,
 
     // handle the diagonal blocks and computation of se separately
     vnl_matrix<double> Sii(U_[i]); // copy Ui to initialize Sii
-    for (sv_itr ri = row_i.begin(); ri != row_i.end();  ++ri)
+    for (auto & ri : row_i)
     {
-      unsigned int k = ri->first;
+      unsigned int k = ri.first;
       vnl_matrix<double>& Yij = Y_[k];
       vnl_fastops::dec_X_by_ABt(Sii,Yij,W_[k]); // S_ii -= Y_ij * W_ij^T
-      vnl_vector_ref<double> ebj(Yij.cols(), eb_.data_block()+f_->index_b(ri->second));
+      vnl_vector_ref<double> ebj(Yij.cols(), eb_.data_block()+f_->index_b(ri.second));
       sei -= Yij*ebj;  // se_i -= Y_ij * e_b_j
     }
     Sa.update(Sii,f_->index_a(i),f_->index_a(i));
@@ -746,7 +725,7 @@ void vnl_sparse_lm::compute_Sa_sea(vnl_matrix<double>& Sa,
 
       // iterate through both sparse rows finding matching columns
       bool row_done = false;
-      for (sv_itr ri = row_i.begin(), rh = row_h.begin();
+      for (auto ri = row_i.begin(), rh = row_h.begin();
            ri != row_i.end() && rh != row_h.end();  ++ri, ++rh)
       {
         while (!row_done && ri->second != rh->second)
@@ -777,7 +756,6 @@ void vnl_sparse_lm::backsolve_db(vnl_vector<double> const& da,
   // CRS matrix of indices into e, A, B, C, W, Y
   const vnl_crs_index& crs = f_->residual_indices();
   // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
 
   for (int j=0; j<num_b_; ++j)
   {
@@ -787,10 +765,10 @@ void vnl_sparse_lm::backsolve_db(vnl_vector<double> const& da,
     {
       vnl_fastops::dec_X_by_AtB(seb,R_[j],dc);
     }
-    for (sv_itr c_itr=col.begin(); c_itr!=col.end(); ++c_itr)
+    for (auto & c_itr : col)
     {
-      unsigned int k = c_itr->first;
-      unsigned int i = c_itr->second;
+      unsigned int k = c_itr.first;
+      unsigned int i = c_itr.second;
       const vnl_vector_ref<double> dai(f_->number_of_params_a(i),
                                        const_cast<double*>(da.data_block()+f_->index_a(i)));
       vnl_fastops::dec_X_by_AtB(seb,W_[k],dai);

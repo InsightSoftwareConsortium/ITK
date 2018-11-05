@@ -1,18 +1,20 @@
 #!/bin/bash
-# \author
+# Script to remove use of atoi and atof that
+# are less rigorous in throwing exceptions.
+# \author Hans J. Johnson
 
 
-git grep  -l "\<atoi\> *(" |fgrep "(.cxx|.cpp|.cc|.h|.hxx|.hpp|.txx)" > /tmp/atoi_files.list
+git grep  -l "\<atoi\> *(" |grep -E "(.cxx|.cpp|.cc|.h|.hxx|.hpp|.txx)" > /tmp/atoi_files.list
 for ff in $(cat /tmp/atoi_files.list); do
   sed -i "" 's/ atoi *(/ std::stoi(/g' $ff
 done
 
-git grep  -l "\<atof\> *(" |fgrep "(.cxx|.cpp|.cc|.h|.hxx|.hpp|.txx)" > /tmp/atoi_files.list
+git grep  -l "\<atof\> *(" |grep -E "(.cxx|.cpp|.cc|.h|.hxx|.hpp|.txx)" > /tmp/atoi_files.list
 for ff in $(cat /tmp/atof_files.list); do
   sed -i "" 's/ atof *(/ std::stod(/g' $ff
 done
 
-echo > /tmp/COMMIT_MESSAGE_atoi <<EOF
+cat > /tmp/COMMIT_MESSAGE_atoi <<EOF
 STYLE: Prefer error checked std::sto[id] over ato[if]
 
 The ato[if] functions do not provide mechanisms for distinguishing between

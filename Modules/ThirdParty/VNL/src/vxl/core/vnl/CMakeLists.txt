@@ -1,5 +1,4 @@
 # vxl/core/vnl/CMakeLists.txt
-
 project(vnl)
 
 doxygen_add_library(core/vnl
@@ -114,6 +113,7 @@ set( vnl_sources
 
   # matrix operators
   vnl_fortran_copy.hxx         vnl_fortran_copy.h
+  vnl_fortran_copy_fixed.hxx   vnl_fortran_copy_fixed.h
   vnl_det.hxx                  vnl_det.h
                                vnl_transpose.h
                                vnl_inverse.h
@@ -236,6 +236,7 @@ set( vnl_sources
   vnl_gamma.cxx                vnl_gamma.h
                                vnl_beta.h
   vnl_erf.cxx                  vnl_erf.h
+  vnl_drand48.cpp              vnl_drand48.h
   vnl_sample.cxx               vnl_sample.h
   vnl_unary_function.hxx       vnl_unary_function.h
   vnl_identity.h
@@ -254,19 +255,6 @@ set( vnl_sources
 aux_source_directory(Templates vnl_sources)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-  # with optimisation, the is_finite etc functions fail on Alpha for long double:
-  set_source_files_properties(vnl_math.cxx PROPERTIES COMPILE_FLAGS -O0)
-  set_source_files_properties(vnl_bignum.cxx PROPERTIES COMPILE_FLAGS -O0)
-  # and these need too much memory with gcc 3.0 on Alpha:
-  set_source_files_properties(Templates/vnl_matrix+long-.cxx PROPERTIES COMPILE_FLAGS -O0)
-  set_source_files_properties(Templates/vnl_matrix+ulong-.cxx PROPERTIES COMPILE_FLAGS -O0)
-  set_source_files_properties(Templates/vnl_matrix+vcl_complex+double--.cxx PROPERTIES COMPILE_FLAGS -O0)
-  set_source_files_properties(Templates/vnl_matrix+vcl_complex+long_double--.cxx PROPERTIES COMPILE_FLAGS -O0)
-  set_source_files_properties(Templates/vnl_matrix_fixed+vnl_bignum.3.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
-  set_source_files_properties(Templates/vnl_vector+vnl_rational-.cxx PROPERTIES COMPILE_FLAGS -O0)
-  set_source_files_properties(Templates/vnl_vector_fixed+vnl_rational.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
-  # with optimisation, the vnl_na etc functions fail on x86_64:
-  set_source_files_properties(vnl_na.cxx PROPERTIES COMPILE_FLAGS -O1)
   # gcc must have -msse2 option to enable sse2 support
   if(VNL_CONFIG_ENABLE_SSE2)
     add_definitions( -msse2 )
@@ -301,6 +289,10 @@ endif()
 
 add_subdirectory(algo)
 
-if( BUILD_EXAMPLES )
+if( VXL_BUILD_EXAMPLES )
   add_subdirectory(examples)
+endif()
+
+if (VXL_BUILD_OBJECT_LIBRARIES)
+  add_library(vnl-obj OBJECT ${vnl_sources})
 endif()

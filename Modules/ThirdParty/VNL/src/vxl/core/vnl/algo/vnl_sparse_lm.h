@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_sparse_lm.h
 #ifndef vnl_sparse_lm_h_
 #define vnl_sparse_lm_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Sparse Levenberg Marquardt nonlinear least squares
@@ -18,7 +15,9 @@
 
 #include <iosfwd>
 #include <vector>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
@@ -41,7 +40,7 @@ class VNL_ALGO_EXPORT vnl_sparse_lm : public vnl_nonlinear_minimizer
   vnl_sparse_lm(vnl_sparse_lst_sqr_function& f);
 
   //: Destructor
-  ~vnl_sparse_lm();
+  ~vnl_sparse_lm() override;
 
   //: Minimize the function supplied in the constructor until convergence or failure.
   //  On return, a, b, and c are such that f(a,b,c) is the lowest value achieved.

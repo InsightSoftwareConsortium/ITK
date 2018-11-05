@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_float_4.h
 #ifndef vnl_float_4_h_
 #define vnl_float_4_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Contains class vnl_float_4

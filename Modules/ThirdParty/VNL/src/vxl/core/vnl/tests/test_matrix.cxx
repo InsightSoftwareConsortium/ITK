@@ -1,12 +1,10 @@
 // This is core/vnl/tests/test_matrix.cxx
 #include <iostream>
 #include <cmath>
-#include <exception>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h> // necessary for tests of methods set_diagonal() and get_diagonal()
 #include <vnl/vnl_copy.h>
 #include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
 
 // This function is used in testing later.
 template< typename T >
@@ -631,7 +629,7 @@ void test_matrix()
 #ifdef LEAK
   test_leak();
 #endif
-  test_extract( (double*)VXL_NULLPTR );
+  test_extract( (double*)nullptr );
 }
 
 TESTMAIN(test_matrix);

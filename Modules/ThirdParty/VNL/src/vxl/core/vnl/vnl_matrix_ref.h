@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_matrix_ref.h
 #ifndef vnl_matrix_ref_h_
 #define vnl_matrix_ref_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief vnl_matrix reference to user-supplied storage.
@@ -36,7 +33,7 @@
 //    operator new, and are therefore unlikely to be the unwitting subject
 //    of an operator delete.
 template <class T>
-class VNL_TEMPLATE_EXPORT vnl_matrix_ref : public vnl_matrix<T>
+class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
 {
   typedef vnl_matrix<T> Base;
 
@@ -48,9 +45,6 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_ref : public vnl_matrix<T>
       Base::data[i] = datablck + i * n;
     Base::num_rows = m;
     Base::num_cols = n;
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    this->vnl_matrix_own_data = 0;
-#endif
   }
 
   vnl_matrix_ref(vnl_matrix_ref<T> const & other) : vnl_matrix<T>() {
@@ -59,13 +53,10 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_ref : public vnl_matrix<T>
       Base::data[i] = const_cast<T*>(other.data_block()) + i * other.cols();
     Base::num_rows = other.rows();
     Base::num_cols = other.cols();
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    this->vnl_matrix_own_data = 0;
-#endif
   }
 
   ~vnl_matrix_ref() {
-    Base::data[0] = VXL_NULLPTR; // Prevent base dtor from releasing our memory
+    Base::data[0] = nullptr; // Prevent base dtor from releasing our memory
   }
 
   //: Reference to self to make non-const temporaries.

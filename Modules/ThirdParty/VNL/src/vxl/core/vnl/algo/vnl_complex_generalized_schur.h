@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_complex_generalized_schur.h
 #ifndef vnl_complex_generalized_schur_h_
 #define vnl_complex_generalized_schur_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief  Solves the generalized eigenproblem det(t A - s B) = 0.
@@ -47,7 +44,9 @@ VNL_ALGO_EXPORT bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
                            vnl_matrix<std::complex<double> > *L,
                            vnl_matrix<std::complex<double> > *R);
 
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 template <class T>
 std::complex<T> vnl_complex_generalized_schur_convert_cast(std::complex<double> a) { return static_cast<std::complex<T> >(a); }

@@ -26,7 +26,7 @@ extern "C" {
 #endif
 #include "v3p_f2c_original.h"
 char *F77_aloc(integer Len, char *whence);
-void sig_die(register char *s, int kill);
+void sig_die(char *s, int kill);
 integer i_dnnt(doublereal *x);
 double f__cabs(double real_value, double imag_value);
 void exit_(integer *rc);

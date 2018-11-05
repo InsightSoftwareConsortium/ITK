@@ -19,7 +19,9 @@
 // Created: 11-Mar-2001: TFC Copy of vnl_test
 // Created: 25-Apr-2002: AGAP Modified copy of testlib_test
 //
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 static int num_test;
 static int tests_passed;
@@ -34,7 +36,7 @@ void testlib_test_start(const char* name)
   test_name = name;
   std::cout << "-----------------------------------------------------------------------------\n"
            << "Start Testing";
-  if (test_name != VXL_NULLPTR) std::cout << ' ' << test_name;
+  if (test_name != nullptr) std::cout << ' ' << test_name;
   std::cout << ":\n-----------------------------------------------------------------------------\n" << std::flush;
  }
 

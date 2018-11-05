@@ -16,5 +16,4 @@
  *
  *=========================================================================*/
 #include "vnl/vnl_fortran_copy_fixed.hxx"
-#include "vnl_export_override.h"
 VNL_FORTRAN_COPY_FIXED_INSTANTIATE(float, 3, 2);

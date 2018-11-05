@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_sample.h
 #ifndef vnl_sample_h_
 #define vnl_sample_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 
 #include "vnl/vnl_export.h"
 //:
@@ -12,7 +9,6 @@
 // \author fsm
 // \verbatim
 //  Modifications
-//   2005-01-01 Peter Vanroose - use simple (but robust) rng when no DRAND48
 //   2007-03-26 Peter Vanroose - avoid returning log(0.0) by switching params
 //   2010-09-12 Peter Vanroose - added implementation for binomial sampling
 //   2010-09-12 Peter Vanroose - added Bernoulli (unfair coin toss) sampling
@@ -23,6 +19,9 @@ VNL_EXPORT void vnl_sample_reseed();
 
 //: re-seed the random number generator given a seed.
 VNL_EXPORT void vnl_sample_reseed(int seed);
+
+//: return a random number uniformly drawn on [0, 1.0)
+VNL_EXPORT double vnl_sample_uniform01();
 
 //: return a random number uniformly drawn on [a, b)
 VNL_EXPORT double vnl_sample_uniform(double a, double b);

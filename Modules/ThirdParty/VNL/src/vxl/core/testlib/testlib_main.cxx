@@ -5,14 +5,14 @@
 #include <exception>
 #include "testlib_register.h"
 
-#include <vcl_compiler.h>
-#if VCL_HAS_EXCEPTIONS
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
 #endif
 
-#if defined(VCL_VC)
+#if defined(_MSC_VER)
 #  include <crtdbg.h>
 #  include <windows.h>
-#  include <vcl_cstdio.h>
+#include <cstdio>
 
 LONG WINAPI vxl_exception_filter( struct _EXCEPTION_POINTERS *ExceptionInfo )
 {
@@ -44,7 +44,7 @@ LONG WINAPI vxl_exception_filter( struct _EXCEPTION_POINTERS *ExceptionInfo )
   std::printf("Execution aborted!\n");
   return EXCEPTION_EXECUTE_HANDLER;
 }
-#endif // defined(VCL_WIN32)
+#endif // defined(_WIN32)
 
 static std::vector<TestMainFunction> testlib_test_func_;
 static std::vector<std::string>       testlib_test_name_;
@@ -53,8 +53,8 @@ void
 list_test_names( std::ostream& ostr )
 {
   ostr << "The registered test names are:\n";
-  for ( unsigned int i = 0; i < testlib_test_name_.size(); ++i )
-    ostr << "   " << testlib_test_name_[i] << '\n';
+  for (const auto & i : testlib_test_name_)
+    ostr << "   " << i << '\n';
   ostr << "\nOmitting a test name, or specifying the name \"all\" will run all the tests.\n";
 }
 
@@ -68,7 +68,7 @@ testlib_enter_stealth_mode()
   if ( env_var1 || env_var2 ) {
 
   // Don't allow DART test to open critical error dialog boxes
-#if defined(VCL_VC)
+#if defined(_MSC_VER)
     // No abort or ANSI assertion failure dialog box
     _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
     _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
@@ -80,7 +80,7 @@ testlib_enter_stealth_mode()
     // No unhandled exceptions dialog box,
     // such as access violation and integer division by zero
     SetUnhandledExceptionFilter( vxl_exception_filter );
-#endif //defined(VCL_VC)
+#endif //defined(_MSC_VER)
 
     // Disable Borland's floating point exceptions.
   }
@@ -88,7 +88,6 @@ testlib_enter_stealth_mode()
 
 int testlib_run_test_unit(std::vector<std::string>::size_type i, int argc, char *argv[])
 {
-#if VCL_HAS_EXCEPTIONS
   char * env_var1 = std::getenv("DART_TEST_FROM_DART");
   char * env_var2 = std::getenv("DASHBOARD_TEST_FROM_CTEST");  // DART Client built in CMake
   if ( env_var1 || env_var2 ) {
@@ -102,9 +101,6 @@ int testlib_run_test_unit(std::vector<std::string>::size_type i, int argc, char 
       return 1;
     }
   }
-// Leave MS structured exceptions to the SE handler.
-  else
-#endif
   return testlib_test_func_[i]( argc, argv );
 }
 

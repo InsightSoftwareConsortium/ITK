@@ -1,10 +1,8 @@
 // This is core/vnl/algo/tests/test_sparse_lu.cxx
 #include <iostream>
 #include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vnl/algo/vnl_sparse_lu.h>
-#include "test_util.h"
 
 static void test_sparse_lu()
 {

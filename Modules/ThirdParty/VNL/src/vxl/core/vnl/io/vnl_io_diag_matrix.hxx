@@ -15,7 +15,7 @@
 template<class T>
 void vsl_b_write(vsl_b_ostream & os, const vnl_diag_matrix<T> & p)
 {
-  const short io_version_no = 1;
+  constexpr short io_version_no = 1;
   vsl_b_write(os, io_version_no);
   vsl_b_write(os, p.diagonal());
 }
@@ -55,8 +55,8 @@ void vsl_print_summary(std::ostream & os,const vnl_diag_matrix<T> & p)
 }
 
 #define VNL_IO_DIAG_MATRIX_INSTANTIATE(T) \
-template VNL_TEMPLATE_EXPORT void vsl_print_summary(std::ostream &, const vnl_diag_matrix<T > &); \
-template VNL_TEMPLATE_EXPORT void vsl_b_read(vsl_b_istream &, vnl_diag_matrix<T > &); \
-template VNL_TEMPLATE_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_diag_matrix<T > &)
+template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_diag_matrix<T > &); \
+template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_diag_matrix<T > &); \
+template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_diag_matrix<T > &)
 
 #endif // vnl_io_diag_matrix_hxx_

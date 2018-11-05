@@ -10,9 +10,12 @@
 //   2009-03-30 Peter Vanroose - Added arg_min() & arg_max() and reimplemented min() & max()
 // \endverbatim
 
-#include <vcl_compiler.h> // for macro decisions based on compiler type
+#include <vcl_compiler_detection.h>
+#ifdef __MSVC
+#  include <vcl_msvc_warnings.h>
+#endif // for macro decisions based on compiler type
 #include <vxl_config.h>   // for checking supported integer data types
-#include <vcl_cfloat.h>   // for DBL_MAX and FLT_MAX
+#include <cfloat>// for DBL_MAX and FLT_MAX
 
 #include <vnl/vnl_config.h> // is SSE enabled
 #include <vnl/vnl_alloc.h>  // is SSE enabled
@@ -40,13 +43,13 @@
 
 // Try and use compiler instructions for forcing inlining if possible
 // Also instruction for aligning stack memory is compiler dependent
-#if defined(VCL_GCC)
+#if defined(__GNUC__)
 // With attribute always_inline, gcc can give an error if a function
 // cannot be inlined, so it is disabled.  Problem seen on 64 bit
 // platforms with std::vector<vnl_rational>.
 # define VNL_SSE_FORCE_INLINE /* __attribute__((always_inline)) */ inline
 # define VNL_SSE_STACK_ALIGNED(x)  __attribute__((aligned(x))) VNL_EXPORT
-#elif defined VCL_VC
+#elif defined _MSC_VER
 # define VNL_SSE_FORCE_INLINE __forceinline
 # define VNL_SSE_STACK_ALIGNED(x)  __declspec(align(x)) VNL_EXPORT
 #else
@@ -70,7 +73,7 @@
 # define VNL_SSE_ALLOC(n,s,a) __mingw_aligned_malloc(n*s,a)
 # define VNL_SSE_FREE(v,n,s) __mingw_aligned_free(v)
 #elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_POSIX_MEMALIGN
-# include <vcl_cstdlib.h>
+#include <cstdlib>
 # define VNL_SSE_ALLOC(n,s,a) memalign(a,n*s)
 # define VNL_SSE_FREE(v,n,s) std::free(v)
 #else // sse2 disabled or could not get memory alignment support, use slower unaligned based intrinsics

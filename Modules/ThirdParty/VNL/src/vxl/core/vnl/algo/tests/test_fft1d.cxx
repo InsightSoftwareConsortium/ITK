@@ -22,7 +22,6 @@
 // \endverbatim
 
 //-----------------------------------------------------------------------------
-#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_fft_1d.h>
 
@@ -46,8 +45,8 @@ void test_fft_1d(int n)
   vnl_vector<std::complex<double> > fTestArrayFwd(n);
   std::vector<std::complex<double> > fTestVecConvert(n);
   std::vector<std::complex<double> > fTestVecFwd(n);
-  std::complex<double>* fTestPtrConvert = new std::complex<double>[n];
-  std::complex<double>* fTestPtrFwd = new std::complex<double>[n];
+  auto* fTestPtrConvert = new std::complex<double>[n];
+  auto* fTestPtrFwd = new std::complex<double>[n];
 
   //fill with data
   for (int iC = 0;iC < n;iC ++)

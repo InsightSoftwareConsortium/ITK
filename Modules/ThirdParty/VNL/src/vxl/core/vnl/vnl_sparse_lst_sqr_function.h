@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_sparse_lst_sqr_function.h
 #ifndef vnl_sparse_lst_sqr_function_h_
 #define vnl_sparse_lst_sqr_function_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Abstract base for sparse least squares functions
@@ -110,7 +107,7 @@ class VNL_EXPORT vnl_sparse_lst_sqr_function
                               UseGradient g = use_gradient,
                               UseWeights w = no_weights);
 
-  virtual ~vnl_sparse_lst_sqr_function() {}
+  virtual ~vnl_sparse_lst_sqr_function() = default;
 
   // the virtuals may call this to signal a failure.
   void throw_failure() { failure = true; }
@@ -198,21 +195,21 @@ class VNL_EXPORT vnl_sparse_lst_sqr_function
                    vnl_vector<double>& fij);
 
   //: Calculate the Jacobian A_ij, given the parameter vectors a_i, b_j, and c.
-  virtual void jac_Aij(int i, int j,
+  virtual void jac_Aij(unsigned int i, unsigned int j,
                        vnl_vector<double> const& ai,
                        vnl_vector<double> const& bj,
                        vnl_vector<double> const& c,
                        vnl_matrix<double>& Aij);
 
   //: Calculate the Jacobian B_ij, given the parameter vectors a_i, b_j, and c.
-  virtual void jac_Bij(int i, int j,
+  virtual void jac_Bij(unsigned int i, unsigned int j,
                        vnl_vector<double> const& ai,
                        vnl_vector<double> const& bj,
                        vnl_vector<double> const& c,
                        vnl_matrix<double>& Bij);
 
   //: Calculate the Jacobian C_ij, given the parameter vectors a_i, b_j, and c.
-  virtual void jac_Cij(int i, int j,
+  virtual void jac_Cij(unsigned int i, unsigned int j,
                        vnl_vector<double> const& ai,
                        vnl_vector<double> const& bj,
                        vnl_vector<double> const& c,

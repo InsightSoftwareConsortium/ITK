@@ -8,9 +8,7 @@
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <cstdlib>
 #include <vector>
-#include <vcl_compiler.h>
 #include <vnl/vnl_polynomial.h>
 
 int main(int argc, char* argv[])

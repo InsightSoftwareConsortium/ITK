@@ -12,12 +12,15 @@ find_path(GEOTIFF_INCLUDE_DIR geotiff.h
   PATHS
     /usr/local/include
     /usr/include
+    /usr/include/libgeotiff
 )
 
 set(GEOTIFF_NAMES ${GEOTIFF_NAMES} geotiff)
 find_library(GEOTIFF_LIBRARY
   NAMES ${GEOTIFF_NAMES}
-  PATHS /usr/lib /usr/local/lib
+  PATHS
+  /usr/lib /usr/local/lib
+  /usr/lib /usr/local/lib64
   )
 
 set( GEOTIFF_FOUND "NO" )

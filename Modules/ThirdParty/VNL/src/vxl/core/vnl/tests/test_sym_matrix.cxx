@@ -1,9 +1,7 @@
 // This is core/vnl/tests/test_sym_matrix.cxx
 #include <iostream>
-#include <exception>
 #include <vnl/vnl_sym_matrix.h>
 #include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
 
 static
 void test_int()

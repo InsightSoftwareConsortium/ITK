@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_matlab_header.h
 #ifndef vnl_matlab_header_h_
 #define vnl_matlab_header_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 
 #undef swap32
 #undef swap64

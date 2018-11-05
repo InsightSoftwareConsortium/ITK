@@ -1,9 +1,6 @@
 // This is core/vnl/io/vnl_io_bignum.h
 #ifndef vnl_io_bignum_h
 #define vnl_io_bignum_h
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author Ian Scott
@@ -12,7 +9,9 @@
 #include <iosfwd>
 #include <vsl/vsl_fwd.h>
 #include <vnl/vnl_bignum.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: Binary save vnl_bignum to stream.
 //  \relatesalso vnl_bignum

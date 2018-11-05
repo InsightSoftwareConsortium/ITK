@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_lsqr.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //
 // vnl_lsqr
 // Author: David Capel
@@ -9,12 +6,11 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <vector>
+#include <iostream>
+#include  <algorithm>
 #include "vnl_lsqr.h"
-#include <vcl_vector.h>
-#include <vcl_iostream.h>
 #include <vnl/vnl_vector_ref.h>
-
-#include <vnl/algo/vnl_netlib.h> // lsqr_()
 
 #include "lsqrBase.h"
 
@@ -24,12 +20,10 @@ public:
 
   lsqrVNL()
     {
-    this->ls_ = VXL_NULLPTR;
+    this->ls_ = nullptr;
     }
 
-  virtual ~lsqrVNL()
-    {
-    }
+  ~lsqrVNL() override = default;
 
   /**
    * computes y = y + A*x without altering x,
@@ -37,7 +31,7 @@ public:
    * The size of the vector x is n.
    * The size of the vector y is m.
    */
-  void Aprod1(unsigned int m, unsigned int n, const double * x, double * y ) const
+  void Aprod1(unsigned int m, unsigned int n, const double * x, double * y ) const override
     {
     vnl_vector_ref<double> x_ref(n, const_cast<double*>(x) );
     vnl_vector_ref<double> y_ref(m,y);
@@ -54,12 +48,12 @@ public:
    * The size of the vector x is n.
    * The size of the vector y is m.
    */
-  void Aprod2(unsigned int m, unsigned int n, double * x, const double * y ) const
+  void Aprod2(unsigned int m, unsigned int n, double * x, const double * y ) const override
     {
     vnl_vector_ref<double> x_ref(n,x);
     vnl_vector_ref<double> y_ref(m, const_cast<double*>( y ) );
 
-    vnl_vector_ref<double> tmp(n,rw);
+    vnl_vector_ref<double> tmp(n,this->rw);
     this->ls_->transpose_multiply(y_ref, tmp);
     x_ref += tmp;
     }
@@ -83,9 +77,7 @@ private:
 };
 
 
-vnl_lsqr::~vnl_lsqr()
-{
-}
+vnl_lsqr::~vnl_lsqr() = default;
 
 // Requires number_of_residuals() of workspace in rw.
 int vnl_lsqr::aprod_(const long* mode, const long* m, const long* n, double* x, double* y, long* /*leniw*/, long* /*lenrw*/, long* /*iw*/, double* rw, void* userdata)
@@ -95,7 +87,7 @@ int vnl_lsqr::aprod_(const long* mode, const long* m, const long* n, double* x, 
   // THE FUNCTIONALITY HAS BEEN MOVED TO THE lsqrVNL class above.
   // THE FUNCTIONS IS CONSERVED HERE ONLY FOR BACKWARD COMPATIBILITY.
   //
-  vnl_lsqr* self = static_cast<vnl_lsqr*>(userdata);
+  auto* self = static_cast<vnl_lsqr*>(userdata);
 
   //  If MODE = 1, compute  y = y + A*x.
   //  If MODE = 2, compute  x = x + A(transpose)*y.
@@ -122,25 +114,20 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   long m = ls_->get_number_of_residuals();
   long n = ls_->get_number_of_unknowns();
   double damp = 0;
-  long leniw = 1;
-  long* iw = VXL_NULLPTR;
-  long lenrw = m;
-#ifdef __GNUC__
-  double rw[m];
-  double v[n];
-  double w[n];
-  double se[n];
-#else
-  vcl_vector<double> rw(m);
-  vcl_vector<double> v(n);
-  vcl_vector<double> w(n);
-  vcl_vector<double> se(n);
-#endif
+
+  //NOTE: rw is a scratch space used for both intermediate residual and unknown computations
+  std::vector<double> rw(std::max(m,n));
+  std::vector<double> v(n);
+  std::vector<double> se(n);
+
   double atol = 0;
   double btol = 0;
+#ifdef THIS_CODE_IS_DISABLED_BECAUSE_THE_LSQR_CODE_FROM_NETLIB_WAS_COPYRIGHTED_BY_ACM
   double conlim = 0;
   long nout = -1;
-  double anorm, acond, rnorm, arnorm, xnorm;
+  double acond, rnorm, xnorm;
+#endif
+  double anorm, arnorm;
 
   vnl_vector<double> rhs(m);
   ls_->get_rhs(rhs);
@@ -149,9 +136,9 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
 
   solver.SetDamp( damp );
   solver.SetLinearSystem( this->ls_ );
-  solver.SetWorkingSpace( &rw[0] );
+  solver.SetWorkingSpace( rw.data() );
   solver.SetMaximumNumberOfIterations( max_iter_ );
-  solver.SetStandardErrorEstimates( &se[0] );
+  solver.SetStandardErrorEstimates( se.data() );
   solver.SetToleranceA( atol );
   solver.SetToleranceB( btol );
 
@@ -174,12 +161,12 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   anorm = solver.GetFrobeniusNormEstimateOfAbar();
   arnorm = solver.GetFinalEstimateOfNormOfResiduals();
 
-#if 0
-  vcl_cerr << "A Fro norm estimate      = " << anorm << vcl_endl
-           << "A condition estimate     = " << acond << vcl_endl
-           << "Residual norm estimate   = " << rnorm << vcl_endl
-           << "A'(Ax - b) norm estimate = " << arnorm << vcl_endl
-           << "x norm estimate          = " << xnorm << vcl_endl;
+#ifdef THIS_CODE_IS_DISABLED_BECAUSE_THE_LSQR_CODE_FROM_NETLIB_WAS_COPYRIGHTED_BY_ACM
+  std::cerr << "A Fro norm estimate      = " << anorm << std::endl
+           << "A condition estimate     = " << acond << std::endl
+           << "Residual norm estimate   = " << rnorm << std::endl
+           << "A'(Ax - b) norm estimate = " << arnorm << std::endl
+           << "x norm estimate          = " << xnorm << std::endl;
 #endif
 
   // We should return the return code, as translate_return_code is public and
@@ -188,16 +175,16 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   return return_code_;
 }
 
-void vnl_lsqr::diagnose_outcome(vcl_ostream& os) const
+void vnl_lsqr::diagnose_outcome(std::ostream& os) const
 {
   translate_return_code(os, return_code_);
-  os << __FILE__ " : residual norm estimate = " << resid_norm_estimate_ << vcl_endl
-     << __FILE__ " : result norm estimate   = " << result_norm_estimate_ << vcl_endl
-     << __FILE__ " : condition no. estimate = " << A_condition_estimate_ << vcl_endl
-     << __FILE__ " : iterations             = " << num_iter_ << vcl_endl;
+  os << __FILE__ " : residual norm estimate = " << resid_norm_estimate_ << std::endl
+     << __FILE__ " : result norm estimate   = " << result_norm_estimate_ << std::endl
+     << __FILE__ " : condition no. estimate = " << A_condition_estimate_ << std::endl
+     << __FILE__ " : iterations             = " << num_iter_ << std::endl;
 }
 
-void vnl_lsqr::translate_return_code(vcl_ostream& os, int rc)
+void vnl_lsqr::translate_return_code(std::ostream& os, int rc)
 {
   const char* vnl_lsqr_reasons[] = {
    "x = 0  is the exact solution. No iterations were performed.",
@@ -222,7 +209,7 @@ void vnl_lsqr::translate_return_code(vcl_ostream& os, int rc)
   };
 
   if
-    (rc < 0 || rc > 7) os << __FILE__ " : Illegal return code : " << rc << vcl_endl;
+    (rc < 0 || rc > 7) os << __FILE__ " : Illegal return code : " << rc << std::endl;
   else
-    os << __FILE__ " : " << vnl_lsqr_reasons[rc] << vcl_endl;
+    os << __FILE__ " : " << vnl_lsqr_reasons[rc] << std::endl;
 }

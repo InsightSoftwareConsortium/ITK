@@ -23,13 +23,15 @@
 // See the vxl tests for further examples (such as vil/tests).
 
 #include <string>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 typedef int (*TestMainFunction)( int, char*[] );
 
 //: Declare the existence of the test.
 // If you DECLARE( x ), then you will need to define a function int x_main(int,char*[]).
-#ifdef VCL_VC
+#ifdef _MSC_VER
 #define DECLARE( testname ) int _cdecl testname ## _main ( int argc, char* argv[] )
 #else
 #define DECLARE( testname )  int testname ## _main ( int argc, char* argv[] )

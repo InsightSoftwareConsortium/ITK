@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_vector_fixed.h
 #ifndef vnl_vector_fixed_h_
 #define vnl_vector_fixed_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Fixed length stack-stored vector
@@ -30,8 +27,10 @@
 
 #include <cstring>
 #include <iosfwd>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl_vector.h"
 #include "vnl_vector_ref.h"
 #include <vnl/vnl_c_vector.h>
@@ -40,8 +39,8 @@
 #include <vnl/vnl_error.h>
 #include "vnl/vnl_export.h"
 
-VCL_TEMPLATE_EXPORT template <class T, unsigned int n> class vnl_vector_fixed;
-VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
+template <class T, unsigned int n> class vnl_vector_fixed;
+template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
 //: Fixed length stack-stored, space-efficient vector.
 // vnl_vector_fixed is a fixed-length, stack storage vector. It has
@@ -85,7 +84,7 @@ VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_c
 // vnl_vector_fixed and vnl_vector, however, you will probably get a
 // vnl_vector result, with the corresponding malloc cost.
 template <class T, unsigned int n>
-class VNL_TEMPLATE_EXPORT vnl_vector_fixed
+class VNL_EXPORT vnl_vector_fixed
 {
  protected:
   T data_[n];
@@ -101,14 +100,16 @@ class VNL_TEMPLATE_EXPORT vnl_vector_fixed
   // couple of assembly instructions.)
 
   //: Construct an uninitialized n-vector
-  vnl_vector_fixed() {}
+  vnl_vector_fixed() = default;
 
   //: Copy constructor
   //  The dimensions must match.
-  vnl_vector_fixed( const vnl_vector_fixed<T,n>& rhs )
-  {
-    std::memcpy( data_, rhs.data_, sizeof data_ );
-  }
+  vnl_vector_fixed( const vnl_vector_fixed<T,n>& rhs ) = default;
+  vnl_vector_fixed( vnl_vector_fixed<T,n>&& rhs ) = default;
+  //: Copy operator
+  vnl_vector_fixed<T,n>& operator=( const vnl_vector_fixed<T,n>& rhs ) = default;
+  vnl_vector_fixed<T,n>& operator=( vnl_vector_fixed<T,n>&& rhs ) = default;
+
 
   //: Construct a fixed-n-vector copy of \a rhs.
   //  The dimensions must match.
@@ -170,12 +171,6 @@ class VNL_TEMPLATE_EXPORT vnl_vector_fixed
       return;
     }
     data_[0] = x0; data_[1] = x1; data_[2] = x2; data_[3] = x3;
-  }
-
-  //: Copy operator
-  vnl_vector_fixed<T,n>& operator=( const vnl_vector_fixed<T,n>& rhs ) {
-    std::memcpy( data_, rhs.data_, sizeof data_ );
-    return *this;
   }
 
   //: Copy data from a dynamic vector

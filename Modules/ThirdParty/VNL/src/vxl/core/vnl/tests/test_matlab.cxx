@@ -1,16 +1,13 @@
 // This is core/vnl/tests/test_matlab.cxx
 #include <iostream>
-#include <cstring>
+#include <cassert>
 #include <fstream>
 #include <testlib/testlib_test.h>
 //:
 // \file
 // \author fsm
 
-#include <vcl_compiler.h>
-
 #include <vpl/vpl.h>
-
 #include <vul/vul_temp_filename.h>
 
 #include <vnl/vnl_vector.h>
@@ -20,7 +17,6 @@
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/vnl_matlab_write.h>
 #include <vnl/vnl_matlab_read.h>
-#include <vnl/vnl_matlab_header.h>
 
 #if VXL_LITTLE_ENDIAN
 # define NONnative_BYTE_ORDER vnl_matlab_header::vnl_BIG_ENDIAN

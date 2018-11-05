@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_scatter_3x3.h
 #ifndef vnl_scatter_3x3_h_
 #define vnl_scatter_3x3_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief  3x3 scatter matrix

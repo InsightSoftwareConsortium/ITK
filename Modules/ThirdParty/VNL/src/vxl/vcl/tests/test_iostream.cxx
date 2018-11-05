@@ -1,127 +1,130 @@
 // include all the streams headers and <string>, to
 // ensure they are compatible.
-#include <vcl_string.h>
-#include <vcl_ios.h> // for vcl_ios_fixed etc.
-#include <vcl_iomanip.h> // for vcl_fixed etc.
-#include <vcl_iostream.h>
-#include <vcl_fstream.h>
-#include <vcl_sstream.h>
+#include <string>
+#include <ios>
+#include <iomanip>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 // This appears to do nothing, and it doesn't compile on MSVC with some weird error
 //      'flux' : illegal member initialization: 'fstream' is not a base or member
-#ifndef VCL_VC
-struct flux : public vcl_fstream
+#ifndef _MSC_VER
+struct flux : public std::fstream
 {
   // check that bitwise OR of {openmode}s works.
-  flux(vcl_ios_openmode mode = vcl_ios_in | vcl_ios_binary)
-    : vcl_fstream("/tmp/flux", mode) { }
+  flux(std::ios::openmode mode = std::ios::in | std::ios::binary)
+    : std::fstream("/tmp/flux", mode) { }
 };
 #endif
 
 int test_iostream_main(int /*argc*/,char* /*argv*/[])
 {
-  vcl_cout << vcl_string("hello, vcl") << vcl_endl
-           << vcl_oct <<  01000 << vcl_endl
-           << vcl_hex << 0x1000 << vcl_endl
-           << vcl_dec <<   1000 << vcl_endl
-           << vcl_endl;
+  std::cout << std::string("hello, vcl") << std::endl
+           << std::oct <<  01000 << std::endl
+           << std::hex << 0x1000 << std::endl
+           << std::dec <<   1000 << std::endl
+           << std::endl;
 
   // I/O formatting
-  vcl_cin.flags(vcl_ios_skipws | vcl_ios_boolalpha);
-  vcl_cout.unsetf(vcl_ios_dec);
-  vcl_ios_fmtflags flgs =
-    vcl_cout.setf(vcl_ios_uppercase |
-                  vcl_ios_showbase |
-                  vcl_ios_showpos |
-                  vcl_ios_showpoint);
-  vcl_cout.setf(vcl_ios_oct, vcl_ios_basefield);
-  vcl_cout.setf(vcl_ios_scientific, vcl_ios_floatfield);
-  vcl_cout.setf(vcl_ios_left, vcl_ios_adjustfield);
-  vcl_cout << "Scientific, precision=2, width=20, pad_right : [";
-  vcl_cout.precision(2); vcl_cout.width(20); vcl_cout.fill('x');
+  std::cin.flags(std::ios::skipws | std::ios::boolalpha);
+  std::cout.unsetf(std::ios::dec);
+  std::ios::fmtflags flgs =
+    std::cout.setf(std::ios::uppercase |
+                  std::ios::showbase |
+                  std::ios::showpos |
+                  std::ios::showpoint);
+  std::cout.setf(std::ios::oct, std::ios::basefield);
+  std::cout.setf(std::ios::scientific, std::ios::floatfield);
+  std::cout.setf(std::ios::left, std::ios::adjustfield);
+  std::cout << "Scientific, precision=2, width=20, pad_right : [";
+  std::cout.precision(2); std::cout.width(20); std::cout.fill('x');
   // Note that precision() only applies to the next numeric or string entry!
-  vcl_cout << 27182.81828 << "] oct " << 10 << vcl_endl;
-  vcl_cout.flags(vcl_ios_showbase | vcl_ios_showpoint);
-  vcl_cout.setf(vcl_ios_hex, vcl_ios_basefield);
-  vcl_cout.setf(vcl_ios_fixed, vcl_ios_floatfield);
-  vcl_cout.setf(vcl_ios_right, vcl_ios_adjustfield);
-  vcl_cout << "Fixed,      precision=2, width=20, pad_left  : [";
-  vcl_cout.width(20);
-  vcl_cout << 27182.81828 << "] hex " << 10 << vcl_endl;
-  vcl_cout.flags(flgs); // restore
-  vcl_cout.setf(vcl_ios_showpos);
-  vcl_cout.setf((vcl_ios_fmtflags)0, vcl_ios_floatfield);
-  vcl_cout.setf(vcl_ios_internal, vcl_ios_adjustfield);
-  vcl_cout << "Default,    precision=2, width=20, pad_intern: [";
-  vcl_cout.precision(2); vcl_cout.width(20);
-  vcl_cout << 27182.81828 << "] dec " << 10 << vcl_endl << vcl_endl;
+  std::cout << 27182.81828 << "] oct " << 10 << std::endl;
+  std::cout.flags(std::ios::showbase | std::ios::showpoint);
+  std::cout.setf(std::ios::hex, std::ios::basefield);
+  std::cout.setf(std::ios::fixed, std::ios::floatfield);
+  std::cout.setf(std::ios::right, std::ios::adjustfield);
+  std::cout << "Fixed,      precision=2, width=20, pad_left  : [";
+  std::cout.width(20);
+  std::cout << 27182.81828 << "] hex " << 10 << std::endl;
+  std::cout.flags(flgs); // restore
+  std::cout.setf(std::ios::showpos);
+  std::cout.setf((std::ios::fmtflags)0, std::ios::floatfield);
+  std::cout.setf(std::ios::internal, std::ios::adjustfield);
+  std::cout << "Default,    precision=2, width=20, pad_intern: [";
+  std::cout.precision(2); std::cout.width(20);
+  std::cout << 27182.81828 << "] dec " << 10 << std::endl << std::endl;
 
   // Now the same output, using manipulators from <iomanip> :
-  if (false) vcl_cin >> vcl_ws >> vcl_boolalpha;
-  vcl_cout << vcl_resetiosflags(vcl_ios_dec)
-           << vcl_uppercase << vcl_showbase << vcl_showpos << vcl_showpoint
-           << vcl_oct << vcl_scientific << vcl_left
+  if (false) std::cin >> std::ws >> std::boolalpha;
+  std::cout << std::resetiosflags(std::ios::dec)
+           << std::uppercase << std::showbase << std::showpos << std::showpoint
+           << std::oct << std::scientific << std::left
            << "Scientific, precision=2, width=20, pad_right : ["
-           << vcl_setprecision(2) << vcl_setw(20) << vcl_setfill('x')
-           << 27182.81828 << "] oct " << 10 << vcl_endl
-           << vcl_nouppercase << vcl_noshowpos
-           << vcl_hex << vcl_fixed << vcl_right
+           << std::setprecision(2) << std::setw(20) << std::setfill('x')
+           << 27182.81828 << "] oct " << 10 << std::endl
+           << std::nouppercase << std::noshowpos
+           << std::hex << std::fixed << std::right
            << "Fixed,      precision=2, width=20, pad_left  : ["
-           << vcl_setw(20)
-           << 27182.81828 << "] hex " << 10 << vcl_endl
-           << vcl_noshowbase << vcl_showpos << vcl_noshowpoint
-           << vcl_resetiosflags(vcl_ios_fixed | vcl_ios_scientific)
-           << vcl_resetiosflags(vcl_ios_right | vcl_ios_left)
-           << vcl_dec << vcl_internal
+           << std::setw(20)
+           << 27182.81828 << "] hex " << 10 << std::endl
+           << std::noshowbase << std::showpos << std::noshowpoint
+           << std::resetiosflags(std::ios::fixed | std::ios::scientific)
+           << std::resetiosflags(std::ios::right | std::ios::left)
+           << std::dec << std::internal
            << "Default,    precision=2, width=20, pad_intern: ["
-           << vcl_setprecision(2) << vcl_setw(20)
-           << 27182.81828 << "] dec " << 10 << vcl_endl << vcl_endl;
+           << std::setprecision(2) << std::setw(20)
+           << 27182.81828 << "] dec " << 10 << std::endl << std::endl;
 
-  vcl_streampos a = vcl_cin.tellg();
-  vcl_streampos b = vcl_cout.tellp();
+  std::streampos a = std::cin.tellg();
+  std::streampos b = std::cout.tellp();
   a = b; b = a; // quell warning about unused vars. compilers are sooo gullible.
 
-  vcl_streambuf *ptr = VXL_NULLPTR;
+  std::streambuf *ptr = nullptr;
   if (ptr) // quell warning.
     ++ ptr;
 
-  vcl_streamsize size = 3141;
+  std::streamsize size = 3141;
   ++ size; // quell warning.
 
   if (false) {
     int x;
-    vcl_cin >> x; // read from stdin [27.3.1.2]
-    vcl_cout << "cout goes to stdout [27.3.1.3]" << vcl_endl;
-    vcl_cerr << "cerr goes to stderr [27.3.1.4]" << vcl_endl;
-    vcl_clog << "clog goes to stderr [27.3.1.5]" << vcl_endl;
+    std::cin >> x; // read from stdin [27.3.1.2]
+    std::cout << "cout goes to stdout [27.3.1.3]" << std::endl;
+    std::cerr << "cerr goes to stderr [27.3.1.4]" << std::endl;
+    std::clog << "clog goes to stderr [27.3.1.5]" << std::endl;
   }
 
   if (false) {
-    vcl_ofstream f("dont_worry_this_file_is_not_created",
-                   vcl_ios_in |
-                   vcl_ios_out |
-                   vcl_ios_ate |
-                   vcl_ios_app |
-                   vcl_ios_trunc |
-                   vcl_ios_binary);
+    std::ofstream f("dont_worry_this_file_is_not_created",
+                   std::ios::in |
+                   std::ios::out |
+                   std::ios::ate |
+                   std::ios::app |
+                   std::ios::trunc |
+                   std::ios::binary);
 
     f.write("hello, file", 11);
     f.seekp(10);
-    f.seekp(-2, vcl_ios_cur);
-    f.seekp(1, vcl_ios_beg);
-    f.seekp(-1, vcl_ios_end);
+    f.seekp(-2, std::ios::cur);
+    f.seekp(1, std::ios::beg);
+    f.seekp(-1, std::ios::end);
     f.close();
   }
 
   if (false) {
     signed char sc;
-    vcl_cin >> sc;
+    std::cin >> sc;
 
     bool bb;
-    vcl_cin >> bb;
+    std::cin >> bb;
   }
 
-  vcl_stringstream s(vcl_ios_in | vcl_ios_out | vcl_ios_binary);
+  std::stringstream s(std::ios::in | std::ios::out | std::ios::binary);
 
   return !s;
 }

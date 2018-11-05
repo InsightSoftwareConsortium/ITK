@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_vector_fixed_ref.h
 #ifndef vnl_vector_fixed_ref_h_
 #define vnl_vector_fixed_ref_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Fixed size vnl_vector using user-supplied storage
@@ -21,13 +18,15 @@
 // \endverbatim
 
 #include <iosfwd>
-#include <vcl_cassert.h>
+#include <cassert>
 #include <vnl/vnl_vector_fixed.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 template <class T, unsigned int n>
-class VNL_TEMPLATE_EXPORT vnl_vector_fixed_ref_const
+class VNL_EXPORT vnl_vector_fixed_ref_const
 {
  protected:
   const T* data_;
@@ -301,7 +300,7 @@ class VNL_TEMPLATE_EXPORT vnl_vector_fixed_ref_const
 // Non const vector fixed reference
 
 template <class T, unsigned n>
-class VNL_TEMPLATE_EXPORT vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
+class VNL_EXPORT vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
 {
   typedef vnl_vector_fixed_ref_const<T,n> base;
 

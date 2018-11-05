@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_bracket_minimum.h>
 
@@ -8,7 +7,7 @@
 struct bm_square1 : public vnl_cost_function {
   bm_square1() : vnl_cost_function(1) {}
 
-  double f(const vnl_vector<double>& x) {
+  double f(const vnl_vector<double>& x) override {
     return (2 - x[0]) * (2 - x[0]) + 10;
   }
 };
@@ -16,7 +15,7 @@ struct bm_square1 : public vnl_cost_function {
 struct bm_quartic1 : public vnl_cost_function {
   bm_quartic1() : vnl_cost_function(1) {}
 
-  double f(const vnl_vector<double>& x) {
+  double f(const vnl_vector<double>& x) override {
     double y = (2 - x[0]) * (2 - x[0]);
     return y*y + 10;
   }

@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_sparse_symmetric_eigensystem.h
 #ifndef vnl_sparse_symmetric_eigensystem_h_
 #define vnl_sparse_symmetric_eigensystem_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Find the eigenvalues of a sparse symmetric matrix
@@ -19,7 +16,9 @@
 
 #include <vector>
 #include <vnl/vnl_sparse_matrix.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/algo/vnl_algo_export.h>
 
 //: Find the eigenvalues of a sparse symmetric matrix
