@@ -17,20 +17,37 @@
 #
 #==========================================================================*/
 
+# Run this script to set up your local repository for development with Git.
 
-# Run this script to set up development with git.
+cd "${BASH_SOURCE%/*}/.." &&
+Utilities/GitSetup/setup-user && echo &&
+Utilities/GitSetup/setup-hooks && echo &&
+Utilities/GitSetup/setup-git-aliases && echo &&
+(Utilities/GitSetup/setup-upstream ||
+ echo 'Failed to setup origin.  Run this again to retry.') && echo &&
+(Utilities/GitSetup/setup-github ||
+ echo 'Failed to setup GitHub.  Run this again to retry.') && echo &&
+Utilities/GitSetup/tips &&
+Utilities/GitSetup/github-tips
 
-die() {
-  echo 'Failure during ITK Git development setup' 1>&2
-  echo '----------------------------------------' 1>&2
-  echo '' 1>&2
-  echo "$@" 1>&2
-  exit 1
-}
+# Rebase master by default
+git config rebase.stat true
+git config branch.master.rebase true
 
-egrepq() {
-  egrep "$@" >/dev/null 2>/dev/null
-}
+# Disable old Gerrit hooks
+hook=$(git config --get hooks.GerritId) &&
+if "$hook"; then
+	echo '
+ITK has migrated from Gerrit to GitHub for code reviews.
+
+Disabling the GerritId hook that adds a "Change-Id" footer to commit
+messages for interaction with Gerrit. Also, removing the "gerrit" and "stage" remote.' &&
+	git config hooks.GerritId false
+	git config --get remote.gerrit.url > /dev/null && \
+          git remote remove gerrit
+	git config --get remote.stage.url > /dev/null && \
+          git remote remove stage
+fi
 
 # Make sure we are inside the repository.
 cd "$(echo "$0"|sed 's/[^/]*$//')"/..
@@ -41,7 +58,7 @@ if test -d .git/.git; then
 Please 'rm -rf' this directory."
 fi
 
-# Check to make sure we got a new enough git.
+# Check to make sure we have a new enough git.
 git_required_major_version=1
 git_required_minor_version=6
 git_required_release_version=6
@@ -82,71 +99,7 @@ elif test ${git_version_arr[0]} -eq $git_required_major_version; then
 fi
 echo -e "Git version $git_version is OK.\n"
 
-# add an "upstream" remote to make easier to maintain a fork outside of itk.org,
-# with an origin which is not itk.org
-if ! git config remote.origin.url | egrepq "://itk.org/ITK.git"; then
-  echo "We advise setting https://itk.org/ITK.git as your origin.
-
-If you choose not to do that, then other instructions will not work as expected."
-
-  read -ep "Do you wish to continue with this non-standard layout? [y/N]: " ans
-
-  if [ "$ans" == "" ] || [ "$ans" == "N" ] || [ "$ans" == "n" ]; then
-    echo "Please fix your origin remote, and re-run this script.
-
-Please run the following to correct the origin url:
-
-git remote set-url origin https://itk.org/ITK.git
-"
-    exit 1
-  else
-    echo "Setting up upstream remote to the itk.org repository..."
-    if ! git config remote.upstream.url > /dev/null ; then
-      git remote add upstream https://itk.org/ITK.git
-      git remote set-url --push upstream git@itk.org:ITK.git
-      echo "Done"
-    else
-      echo "upstream is already configured."
-    fi
-    echo
-    echo "WARNING: continuing with non-standard origin remote."
-  fi
-elif [ "`git config remote.origin.pushurl`" != "git@itk.org:ITK.git" ]; then
-  echo "Setting pushurl for origin."
-  git remote set-url --push origin git@itk.org:ITK.git
-else
-  echo "Configuration of origin verified."
-fi
-echo
-
-cd Utilities/DevelopmentSetupScripts
-
-echo "Checking basic user information..."
-./SetupUser.sh || exit 1
-echo
-
-echo "Setting up git hooks..."
-./SetupHooks.sh || exit 1
-echo
-
-echo "Setting up useful Git aliases..."
-./SetupGitAliases.sh || exit 1
-echo
-
-# Make this non-fatal, as it is useful to get the other stuff set up
-echo "Setting up Gerrit..."
-./SetupGerrit.sh || echo "Gerrit setup failed, continuing. Run this again to setup Gerrit."
-echo
-
-# Make the topic stage a non-fatal error too
-echo "Setting up the topic stage..."
-./SetupTopicStage.sh || echo "Failed to setup topic stage. Run this again to setup stage."
-echo
-
-echo "Suggesting git tips..."
-./GitTips.sh || exit 1
-echo
 
 # Record the version of this setup so Hooks/pre-commit can check it.
-SetupForDevelopment_VERSION=4
+SetupForDevelopment_VERSION=5
 git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}

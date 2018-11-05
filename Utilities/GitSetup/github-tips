@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#=============================================================================
+# Copyright 2017-2018 Kitware, Inc
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#=============================================================================
+
+# This script makes optional suggestions for working with GitHub.
+
+# Suggest pr alias
+echo '
+This repository was configured with a `git pr` alias. The alias is useful when
+checking out pull requests locally for review. Fetch and check out a pull
+request by number with:
+
+  git pr <pull-request-number>
+
+If curl and python3 are available, the pull request number can be omitted, and
+a list of open pull requests will be presented.
+'
+
+# Suggest hub
+if ! type hub >/dev/null 2>&1; then
+	echo '
+`hub` is a useful command line tool for working with GitHub. For installation
+and usage instructions, see:
+
+  https://hub.github.com/
+'
+fi
+
+# Suggest git series
+if ! git series -h >/dev/null 2>&1; then
+	echo '
+When working on an open source project, multiple revisions of a change are
+common as the change evolves through the code review process. For `git series`
+and usage instructions, see:
+
+  https://github.com/git-series/git-series
+'
+fi

@@ -33,9 +33,9 @@ Before you begin, perform initial setup:
 This script helps configure your GitHub fork remote, Git client-side hooks,
 and useful Git aliases. The default Git remote names for your fork and
 `InsightSoftwareConsortium/ITK` are `origin` and `upstream`, respectively.
-However, other remote names can be used.  Note that ITK defines some useful
-Git aliases, such as `pullall` or `prepush`, through the
-[`SetupGitAliases.sh`] script for general Git tasks in ITK.
+However, other remote names can be used. Note that ITK defines some useful
+Git aliases, such as `review-push`, `pr`, `pr-clean`, and `prepush`, through
+the [`setup-git-aliases`] script for general Git tasks in ITK.
 
 Visit the *Pro Git: Setup* resource in [GitHelp] for further
 information on setting up your local Git environment.
@@ -274,7 +274,7 @@ branch (*warning*: you could lose commits).
 [UpdatingThirdParty]: Documentation/UpdatingThirdParty.md
 
 [`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
-[`SetupGitAliases.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/DevelopmentSetupScripts/SetupGitAliases.sh
+[`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/GitSetup/setup-git-aliases
 
 [ITK's Discourse]: https://discourse.itk.org/
 
