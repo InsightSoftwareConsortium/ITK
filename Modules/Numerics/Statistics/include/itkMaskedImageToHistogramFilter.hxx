@@ -111,21 +111,7 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
     }
 
 
-  std::lock_guard<std::mutex> mutexHolder( this->m_Mutex );
-
-  // reduce the results in the output histogram
-  HistogramType *writableOutputHistogram = this->GetOutput();
-
-  using HistogramIterator = typename HistogramType::ConstIterator;
-
-  HistogramIterator hit = histogram->Begin();
-  HistogramIterator end = histogram->End();
-  while ( hit != end )
-    {
-    writableOutputHistogram->GetIndex( hit.GetMeasurementVector(), index);
-    writableOutputHistogram->IncreaseFrequencyOfIndex( index, hit.GetFrequency() );
-    ++hit;
-    }
+  this->ThreadedMergeHistogram( histogram );
 }
 
 } // end of namespace Statistics

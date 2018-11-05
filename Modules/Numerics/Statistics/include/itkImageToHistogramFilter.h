@@ -132,7 +132,12 @@ protected:
   virtual void ThreadedComputeHistogram(const RegionType &);
   virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread );
 
+
+  virtual void ThreadedMergeHistogram( HistogramType *histogram );
+
   std::mutex m_Mutex;
+
+  HistogramPointer m_MergeHistogram;
 
   HistogramMeasurementVectorType m_Minimum;
   HistogramMeasurementVectorType m_Maximum;
