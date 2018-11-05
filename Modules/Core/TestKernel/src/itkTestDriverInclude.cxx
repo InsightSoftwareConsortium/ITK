@@ -159,7 +159,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.compareList.push_back( ComparePairType((*av)[i + 1], (*av)[i + 2]) );
+      regressionTestParameters.compareList.emplace_back((*av)[i + 1], (*av)[i + 2] );
       (*av) += 3;
       *ac -= 3;
       }
@@ -214,7 +214,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
        }
 
 
-     hashTestList.push_back( HashPairType( filename, hashVector )  );
+     hashTestList.emplace_back( filename, hashVector  );
 
       }
     else if ( !skip && strcmp((*av)[i], "--") == 0 )

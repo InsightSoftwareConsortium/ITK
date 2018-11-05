@@ -41,7 +41,7 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
     auto * io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
     if ( io )
       {
-      possibleImageIO.push_back(io);
+      possibleImageIO.emplace_back(io);
       }
     else
       {

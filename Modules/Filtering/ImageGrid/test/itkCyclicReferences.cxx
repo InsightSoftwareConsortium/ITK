@@ -62,7 +62,7 @@ int itkCyclicReferences(int, char* [] )
   //test unregister from vector of data objects
   {
   std::vector<itk::DataObject::Pointer> v;
-  v.push_back(if2);
+  v.emplace_back(if2);
   }
   }//image
 

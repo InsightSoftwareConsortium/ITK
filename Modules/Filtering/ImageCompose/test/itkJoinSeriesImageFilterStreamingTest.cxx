@@ -77,7 +77,7 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
     extractor->InPlaceOn();
     extractor->ReleaseDataFlagOn();
 
-    savedPointers.push_back( extractor );
+    savedPointers.emplace_back(extractor );
 
     joinSeries->PushBackInput( extractor->GetOutput() );
 
