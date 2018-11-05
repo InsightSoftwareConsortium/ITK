@@ -87,6 +87,7 @@ else
 fi &&
 
 # Perform setup if necessary.
+# The prepush and reivew-push aliases do not work until upstream is fetched
 if test -n "$setup"; then
 	if test -z "$fetchurl"; then
 		git remote add "$remote" "$url"
@@ -97,6 +98,7 @@ if test -n "$setup"; then
 			echo 'Warning: failed to unset remote.'"$remote"'.pushurl'
 		fi
 	fi &&
+  git fetch "$remote" &&
 	echo 'Remote "'"$remote"'" is now configured to fetch from
 
   '"$url"'
