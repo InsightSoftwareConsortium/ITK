@@ -30,8 +30,8 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ProxTV<TInputImage, TOutputImage>::ProxTV()
   : m_MaximumNumberOfIterations(10)
-  , m_Norms(1.0)
-  , m_Weights(1.0)
+  , m_Weights(1.0) m_Norms(1.0)
+  ,
 {}
 
 
@@ -40,6 +40,9 @@ void
 ProxTV<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
+  os << indent << "Weights: " << m_Weights << std::endl;
+  os << indent << "Norms: " << m_Norms << std::endl;
 }
 
 
