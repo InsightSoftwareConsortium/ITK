@@ -16,7 +16,6 @@ jobs:
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
         sudo pip3 install ninja
-        sudo apt-get install -y python3-venv
 
         c++ --version
         cmake --version
