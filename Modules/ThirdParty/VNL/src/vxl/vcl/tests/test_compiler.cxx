@@ -1,4 +1,10 @@
-#include <vcl_compiler.h>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 // ------------------------------------------------
 
@@ -16,7 +22,7 @@ X<T>::X() : x(1728) { }
 
 // definition (not specialization) of static template member.
 template <class T>
-X<T> *X<T>::pl = VXL_NULLPTR;
+X<T> *X<T>::pl = nullptr;
 
 // explicit instantiation of class also instantiates statics.
 template struct X<int>;
@@ -34,7 +40,6 @@ struct A
 
 // ------------------------------------------------
 
-#include <vcl_iostream.h>
 
 void vcl_test_implicit_instantiation(int n);
 
@@ -43,26 +48,22 @@ int test_compiler_main(int /*argc*/,char* /*argv*/[])
 {
   int result = 0;
 
-  vcl_cout << "Testing static template member..." << vcl_flush;
-  if ( X<int>::pl == VXL_NULLPTR ) {
-    vcl_cout << "  PASSED" << vcl_endl;
+  std::cout << "Testing static template member..." << std::flush;
+  if ( X<int>::pl == nullptr ) {
+    std::cout << "  PASSED" << std::endl;
   }
   else {
-    vcl_cout << "**FAILED**" << vcl_endl;
+    std::cout << "**FAILED**" << std::endl;
     result = 1;
   }
 
   // If it links, it passed!
-  vcl_cout << "Testing implicit instantiation..." << vcl_flush;
+  std::cout << "Testing implicit instantiation..." << std::flush;
   vcl_test_implicit_instantiation(100);
-  vcl_cout << "  PASSED" << vcl_endl;
+  std::cout << "  PASSED" << std::endl;
 
   return result;
 }
-
-#include <vcl_vector.h>
-#include <vcl_map.h>
-#include <vcl_algorithm.h>
 
 struct mystery_type
 {
@@ -79,7 +80,7 @@ bool operator< (mystery_type const &, mystery_type const &);
 
 void vcl_test_implicit_instantiation(int n)
 {
-  vcl_vector<mystery_type> v;
+  std::vector<mystery_type> v;
   v.resize(n);
   for (int i=0; i<n; ++i) {
     v[i].a = i;
@@ -87,28 +88,25 @@ void vcl_test_implicit_instantiation(int n)
   }
   v.reserve(2*n);
   v.resize(n/2);
-  vcl_sort(v.begin(), v.end());
+  std::sort(v.begin(), v.end());
   v = v;
   v.clear();
 
-  typedef vcl_map<int, mystery_type, vcl_less<int> > map_t;
+  typedef std::map<int, mystery_type, std::less<int> > map_t;
   map_t m;
   for (int i=0; i<n; ++i)
     m.insert(map_t::value_type(0, mystery_type(i, i/float(n))));
   m.clear();
 }
 
-mystery_type::mystery_type()
-{ }
+mystery_type::mystery_type() = default;
 
 mystery_type::mystery_type(int a_, float b_)
   : a(a_), b(b_) { }
 
-mystery_type::mystery_type(mystery_type const &that)
-  : a(that.a), b(that.b) { }
+mystery_type::mystery_type(mystery_type const &that) = default;
 
-mystery_type &mystery_type::operator=(mystery_type const &that)
-{ a = that.a; b = that.b; return *this; }
+mystery_type &mystery_type::operator=(mystery_type const &that) = default;
 
 bool operator==(mystery_type const &x, mystery_type const &y)
 { return (x.a == y.a) && (x.b == y.b); }

@@ -34,8 +34,10 @@
 #include <iostream>
 #include <vector>
 #include <cstddef>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 //: finite modulo-N arithmetic
@@ -47,7 +49,7 @@
 // but all other operations remain valid.
 //
 template <int N>
-class VNL_TEMPLATE_EXPORT vnl_finite_int
+class VNL_EXPORT vnl_finite_int
 {
  private:
   int val_; //!< value of this number (smallest nonnegative representation)
@@ -64,7 +66,7 @@ class VNL_TEMPLATE_EXPORT vnl_finite_int
   //  Copy constructor
   inline vnl_finite_int(Base const& x) : val_(int(x)), mo_(x.mo_), lp1_(x.lp1_) {}
   //  Destructor
-  inline ~vnl_finite_int() {}
+  inline ~vnl_finite_int() = default;
   // Implicit conversions
   inline operator int() const { return val_; }
   inline operator int() { return val_; }
@@ -122,11 +124,11 @@ class VNL_TEMPLATE_EXPORT vnl_finite_int
     if (t_ != 0) return t_;
     std::vector<unsigned int> d = decompose();
     t_ = 1; unsigned int p = 1;
-    for (unsigned int i=0; i<d.size(); ++i)
+    for (unsigned int i : d)
     {
-      if (p != d[i]) t_ *= d[i]-1;
-      else           t_ *= d[i];
-      p = d[i];
+      if (p != i) t_ *= i-1;
+      else           t_ *= i;
+      p = i;
     }
     return t_;
   }
@@ -407,7 +409,7 @@ namespace vnl_math
   //:
   // \relatesalso vnl_finite_int
   template <int N>
-  inline bool isfinite(vnl_finite_int<N> const& x) {return true;}
+  inline bool isfinite(vnl_finite_int<N> const& ) {return true;}
 
  } // end namespace vnl_math
 
@@ -426,7 +428,7 @@ namespace vnl_math
 // anything more than that.
 //
 template <int N, int M>
-class VNL_TEMPLATE_EXPORT vnl_finite_int_poly
+class VNL_EXPORT vnl_finite_int_poly
 {
   typedef vnl_finite_int_poly<N,M> Base;
   typedef vnl_finite_int<N> Scalar;
@@ -448,7 +450,7 @@ class VNL_TEMPLATE_EXPORT vnl_finite_int_poly
   //  Copy constructor
   inline vnl_finite_int_poly(Base const& x) : val_(x.val_) {}
   //  Destructor
-  inline ~vnl_finite_int_poly() {}
+  inline ~vnl_finite_int_poly() = default;
 
   //: Formal degree of this polynomial
   inline std::size_t deg() const { return val_.size() - 1; }

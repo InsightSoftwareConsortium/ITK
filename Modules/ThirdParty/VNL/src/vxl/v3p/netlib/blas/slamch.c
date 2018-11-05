@@ -559,7 +559,7 @@ L30:
     real one, two;
     logical ieee;
     real half;
-    logical lrnd;
+    logical lrnd = 0; //variable 'lrnd' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
     static real leps; /* runtime-initialized constant */
     real zero;
     static integer lbeta; /* runtime-initialized constant */

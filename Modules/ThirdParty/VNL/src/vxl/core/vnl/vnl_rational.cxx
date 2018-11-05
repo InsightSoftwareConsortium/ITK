@@ -1,10 +1,10 @@
 // This is core/vnl/vnl_rational.cxx
+#include <cassert>
 #include "vnl_rational.h"
 //:
 // \file
 
 #include <vnl/vnl_numeric_traits.h> // for vnl_numeric_traits<long>::maxval
-#include <vcl_cassert.h>
 
 template<typename FloatingType>
 inline void makeNumDen( FloatingType d, long &num_, long &den_)

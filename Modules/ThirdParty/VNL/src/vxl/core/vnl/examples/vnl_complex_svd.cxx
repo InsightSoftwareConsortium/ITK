@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <complex>
-#include <vcl_compiler.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>

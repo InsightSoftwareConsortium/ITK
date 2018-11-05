@@ -15,7 +15,10 @@
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_inverse.h> // used for negative powers
-#include <vcl_cassert.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 //: Calculates nth power of a vnl_matrix_fixed (not using svd)
@@ -29,7 +32,7 @@
 //
 //  \relatesalso vnl_matrix_fixed
 
-template <class T, unsigned int d> VNL_TEMPLATE_EXPORT
+template <class T, unsigned int d> VNL_EXPORT
 vnl_matrix_fixed<T,d,d> vnl_power(vnl_matrix_fixed<T,d,d> const& m, int n)
 {
   assert(n >= 0 || d <= 4); // to allow the use of vnl_inverse()
@@ -56,7 +59,7 @@ vnl_matrix_fixed<T,d,d> vnl_power(vnl_matrix_fixed<T,d,d> const& m, int n)
 //
 //  \relatesalso vnl_matrix
 
-template <class T> VNL_TEMPLATE_EXPORT
+template <class T> VNL_EXPORT
 vnl_matrix<T> vnl_power(vnl_matrix<T> const& m, int n)
 {
   assert(m.rows() == m.columns());

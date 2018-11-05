@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_math.h
 #ifndef vnl_math_h_
 #define vnl_math_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Namespace with standard math functions
@@ -35,22 +32,19 @@
 //   Amitha Perera - 13 Sep 2002 - make constant initialization standards compliant.
 //   Peter Vanroose -22 Oct 2012 - was a class, now is a namespace
 //                                 also renamed functions vnl_math_isnan etc. to vnl_math::isnan
-//   Peter Vanroose -15 Nov 2012 - the deprecated vnl_math_* #defines are now only available when VNL_CONFIG_LEGACY_METHODS==1
 // \endverbatim
 
 #include <cmath>
 #include <algorithm>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "dll.h"
 #include <vxl_config.h>
 #include <vnl/vnl_config.h> // for VNL_CONFIG_ENABLE_SSE2_ROUNDING
-#include <vcl_config_compiler.h> //for VXL_CONSTEXPR_VAR definition
-#include "vnl/vnl_export.h"
+#include <vnl/vnl_export.h>
 #ifdef VNL_CHECK_FPU_ROUNDING_MODE
-# include <vcl_cassert.h>
-#endif
-#if VNL_CONFIG_LEGACY_METHODS
-# include <vcl_deprecated.h>
+#include <cassert>
 #endif
 
 // Figure out when the fast implementation can be used
@@ -72,7 +66,7 @@
 # define GCC_USE_FAST_IMPL 0
 #endif
 // Turn on fast impl when using msvc on 32 bits windows
-#if defined(VCL_VC) && !defined(_WIN64)
+#if defined(_MSC_VER) && !defined(_WIN64)
 # define VC_USE_FAST_IMPL 1
 #else
 # define VC_USE_FAST_IMPL 0
@@ -81,7 +75,7 @@
 
 
 //: Type-accessible infinities for use in templates.
-template <class T> VNL_TEMPLATE_EXPORT T vnl_huge_val(T);
+template <class T> VNL_EXPORT T vnl_huge_val(T);
 extern VNL_EXPORT long double   vnl_huge_val(long double);
 extern VNL_EXPORT double   vnl_huge_val(double);
 extern VNL_EXPORT float    vnl_huge_val(float);
@@ -102,33 +96,33 @@ extern VNL_EXPORT char     vnl_huge_val(char);
 namespace vnl_math
 {
   //: pi, e and all that
-  static VXL_CONSTEXPR_VAR double e                = 2.71828182845904523536;
-  static VXL_CONSTEXPR_VAR double log2e            = 1.44269504088896340736;
-  static VXL_CONSTEXPR_VAR double log10e           = 0.43429448190325182765;
-  static VXL_CONSTEXPR_VAR double ln2              = 0.69314718055994530942;
-  static VXL_CONSTEXPR_VAR double ln10             = 2.30258509299404568402;
-  static VXL_CONSTEXPR_VAR double pi               = 3.14159265358979323846;
-  static VXL_CONSTEXPR_VAR double twopi            = 6.28318530717958647692;
-  static VXL_CONSTEXPR_VAR double pi_over_2        = 1.57079632679489661923;
-  static VXL_CONSTEXPR_VAR double pi_over_4        = 0.78539816339744830962;
-  static VXL_CONSTEXPR_VAR double pi_over_180      = 0.01745329251994329577;
-  static VXL_CONSTEXPR_VAR double one_over_pi      = 0.31830988618379067154;
-  static VXL_CONSTEXPR_VAR double two_over_pi      = 0.63661977236758134308;
-  static VXL_CONSTEXPR_VAR double deg_per_rad      = 57.2957795130823208772;
-  static VXL_CONSTEXPR_VAR double sqrt2pi          = 2.50662827463100024161;
-  static VXL_CONSTEXPR_VAR double two_over_sqrtpi  = 1.12837916709551257390;
-  static VXL_CONSTEXPR_VAR double one_over_sqrt2pi = 0.39894228040143267794;
-  static VXL_CONSTEXPR_VAR double sqrt2            = 1.41421356237309504880;
-  static VXL_CONSTEXPR_VAR double sqrt1_2          = 0.70710678118654752440;
-  static VXL_CONSTEXPR_VAR double sqrt1_3          = 0.57735026918962573106;
-  static VXL_CONSTEXPR_VAR double euler            = 0.57721566490153286061;
+  static constexpr double e                = 2.71828182845904523536;
+  static constexpr double log2e            = 1.44269504088896340736;
+  static constexpr double log10e           = 0.43429448190325182765;
+  static constexpr double ln2              = 0.69314718055994530942;
+  static constexpr double ln10             = 2.30258509299404568402;
+  static constexpr double pi               = 3.14159265358979323846;
+  static constexpr double twopi            = 6.28318530717958647692;
+  static constexpr double pi_over_2        = 1.57079632679489661923;
+  static constexpr double pi_over_4        = 0.78539816339744830962;
+  static constexpr double pi_over_180      = 0.01745329251994329577;
+  static constexpr double one_over_pi      = 0.31830988618379067154;
+  static constexpr double two_over_pi      = 0.63661977236758134308;
+  static constexpr double deg_per_rad      = 57.2957795130823208772;
+  static constexpr double sqrt2pi          = 2.50662827463100024161;
+  static constexpr double two_over_sqrtpi  = 1.12837916709551257390;
+  static constexpr double one_over_sqrt2pi = 0.39894228040143267794;
+  static constexpr double sqrt2            = 1.41421356237309504880;
+  static constexpr double sqrt1_2          = 0.70710678118654752440;
+  static constexpr double sqrt1_3          = 0.57735026918962573106;
+  static constexpr double euler            = 0.57721566490153286061;
 
   //: IEEE double machine precision
-  static VXL_CONSTEXPR_VAR double eps              = 2.2204460492503131e-16;
-  static VXL_CONSTEXPR_VAR double sqrteps          = 1.490116119384766e-08;
+  static constexpr double eps              = 2.2204460492503131e-16;
+  static constexpr double sqrteps          = 1.490116119384766e-08;
   //: IEEE single machine precision
-  static VXL_CONSTEXPR_VAR float  float_eps        = 1.192092896e-07f;
-  static VXL_CONSTEXPR_VAR float  float_sqrteps    = 3.4526698307e-4f;
+  static constexpr float  float_eps        = 1.192092896e-07f;
+  static constexpr float  float_sqrteps    = 3.4526698307e-4f;
 
   //: Convert an angle to [0, 2Pi) range
   VNL_EXPORT double angle_0_to_2pi(double angle);
@@ -136,140 +130,74 @@ namespace vnl_math
   VNL_EXPORT double angle_minuspi_to_pi(double angle);
 }
 
-// We do not want to make assumptions about unknown types that happen
-// to have conversions to one of the fundamental types.  The templated
-// versions of isnan, isinf, and isfinite below serve as catch-alls to
-// cause linker errors if these functions are invoked with an unknown
-// type.  However, due to compiler bugs, the templates sometimes match
-// too often (see documentation of VCL_TEMPLATE_MATCHES_TOO_OFTEN) and
-// are selected over reference-binding overloads like those in
-// vnl_rational.h.  We add the catch-all templates only if the
-// compiler does not have this bug. -- Brad King
-
 // Note that the three template functions below should not be declared "inline"
 // since that would override the non-inline specialisations. - PVr.
 //
 
 namespace vnl_math
 {
-#if VXL_FULLCXX11SUPPORT
-  using std::isnan;
-  // Ensure proper conversion to bool type.
-  // Return a signed integer type has been seen with the following
-  // compilers/libstdc++:
-  //  g++ (GCC) 7.2.1 20170829 (Red Hat 7.2.1-1)
-  //  g++ (GCC) 6.3.1 20170216 (Red Hat 6.3.1-3)
-  template <typename TArg>
-  bool isinf(TArg&& arg)
-    {
-    return bool(std::isinf(std::forward<TArg>(arg)));
-    }
-  using std::isfinite;
-  using std::isnormal;
+#if defined(_MSC_VER)
+  // MSVC does not properly implement isfinite, iinf, isnan for C++11 conformance for integral types
+  // For integral types only:
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type isnan(_In_ T t) throw()
+  {
+    return std::isnan(static_cast<double>(t));
+  }
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type isinf(_In_ T t) throw()
+  {
+    return std::isinf(static_cast<double>(t));
+  }
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type isfinite(_In_ T t) throw()
+  {
+    return std::isfinite(static_cast<double>(t));
+  }
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type isnormal(_In_ T t) throw()
+  {
+    return std::isnormal(static_cast<double>(t));
+  }
+
+  // Floating point types can alias C++ standard that is implemented
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type isnan(_In_ T t) throw()
+  {
+	  return std::isnan(t);
+  }
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type isinf(_In_ T t) throw()
+  {
+	  return std::isinf(t);
+  }
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type isfinite(_In_ T t) throw()
+  {
+	  return std::isfinite(t);
+  }
+  template<typename T>
+  _Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type isnormal(_In_ T t) throw()
+  {
+	  return std::isnormal(t);
+  }
+#else
+	using std::isnan;
+	using std::isinf;
+	using std::isfinite;
+	using std::isnormal;
+#endif
   using std::max;
   using std::min;
   using std::cbrt;
+#if 0 // Use std::cbrt
   template <typename TArg>
   TArg cuberoot(TArg&& arg)
     {
     return std::cbrt(std::forward<TArg>(arg));
     }
+#endif
   using std::hypot;
-#else
- // isnan
- inline bool isnan(char)               { return false; }
- inline bool isnan(short)              { return false; }
- inline bool isnan(int)                { return false; }
- inline bool isnan(long)               { return false; }
- inline bool isnan(signed char)        { return false; }
- inline bool isnan(unsigned char)      { return false; }
- inline bool isnan(unsigned short)     { return false; }
- inline bool isnan(unsigned int)       { return false; }
- inline bool isnan(unsigned long)      { return false; }
-#if VCL_HAS_LONG_LONG
- inline bool isnan(long long)          { return false; }
- inline bool isnan(unsigned long long) { return false; }
-#endif
- VNL_EXPORT bool isnan(float);
- VNL_EXPORT bool isnan(double);
- VNL_EXPORT bool isnan(long double);
-#if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> VNL_TEMPLATE_EXPORT bool isnan(T);
-#endif
-
-
- // isinf
- inline bool isinf(char)               { return false; }
- inline bool isinf(short)              { return false; }
- inline bool isinf(int)                { return false; }
- inline bool isinf(long)               { return false; }
- inline bool isinf(signed char)        { return false; }
- inline bool isinf(unsigned char)      { return false; }
- inline bool isinf(unsigned short)     { return false; }
- inline bool isinf(unsigned int)       { return false; }
- inline bool isinf(unsigned long)      { return false; }
-#if VCL_HAS_LONG_LONG
- inline bool isinf(long long)          { return false; }
- inline bool isinf(unsigned long long) { return false; }
-#endif
- VNL_EXPORT bool isinf(float);
- VNL_EXPORT bool isinf(double);
- VNL_EXPORT bool isinf(long double);
-#if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> VNL_TEMPLATE_EXPORT bool isinf(T);
-#endif
-
- // isfinite
- inline bool isfinite(char)               { return true; }
- inline bool isfinite(short)              { return true; }
- inline bool isfinite(int)                { return true; }
- inline bool isfinite(long)               { return true; }
- inline bool isfinite(signed char)        { return true; }
- inline bool isfinite(unsigned char)      { return true; }
- inline bool isfinite(unsigned short)     { return true; }
- inline bool isfinite(unsigned int)       { return true; }
- inline bool isfinite(unsigned long)      { return true; }
-#if VCL_HAS_LONG_LONG
- inline bool isfinite(long long)          { return true; }
- inline bool isfinite(unsigned long long) { return true; }
-#endif
- VNL_EXPORT bool isfinite(float);
- VNL_EXPORT bool isfinite(double);
- VNL_EXPORT bool isfinite(long double);
-#if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> VNL_TEMPLATE_EXPORT bool isfinite(T);
-#endif
-
-// If we must use windows.h, we should at least sanitise it first
-#ifndef NOMINMAX
-  #define NOMINMAX
-#endif
-#ifdef max
-  #undef max
-#endif
-
-#ifdef min
-  #undef min
-#endif
-
-// max
-template<class T> VNL_TEMPLATE_EXPORT
-const T& max( const T& x, const T& y) { return std::max(x,y); }
-
-template<class T> VNL_TEMPLATE_EXPORT
-const T& min( const T& x, const T& y) { return std::min(x,y); }
-
-// cuberoot
-inline float  cuberoot(const float  &a) { return float((a<0) ? -std::exp(std::log(-a)/3) : std::exp(std::log(a)/3)); }
-inline double cuberoot(const double &a) { return       (a<0) ? -std::exp(std::log(-a)/3) : std::exp(std::log(a)/3); }
-
-// hypotenuse
-extern VNL_EXPORT int         hypot(int         x, int         y);
-extern VNL_EXPORT float       hypot(float       x, float       y);
-extern VNL_EXPORT double      hypot(double      x, double      y);
-extern VNL_EXPORT long double hypot(long double x, long double y);
-
-#endif //If not C++11 features
 
 #if USE_SSE2_IMPL // Fast sse2 implementation
 
@@ -620,10 +548,10 @@ inline unsigned int       abs(int x)                { return x < 0 ? -x : x; }
 inline unsigned int       abs(unsigned int x)       { return x; }
 inline unsigned long      abs(long x)               { return x < 0L ? -x : x; }
 inline unsigned long      abs(unsigned long x)      { return x; }
-#if VCL_HAS_LONG_LONG
+//long long - target type will have width of at least 64 bits. (since C++11)
 inline unsigned long long abs(long long x)          { return x < 0LL ? -x : x; }
 inline unsigned long long abs(unsigned long long x) { return x; }
-#endif
+
 inline float              abs(float x)              { return x < 0.0f ? -x : x; }
 inline double             abs(double x)             { return x < 0.0 ? -x : x; }
 inline long double        abs(long double x)        { return x < 0.0 ? -x : x; }
@@ -634,10 +562,10 @@ inline int                sqr(int x)                { return x*x; }
 inline unsigned int       sqr(unsigned int x)       { return x*x; }
 inline long               sqr(long x)               { return x*x; }
 inline unsigned long      sqr(unsigned long x)      { return x*x; }
-#if VCL_HAS_LONG_LONG
+//long long - target type will have width of at least 64 bits. (since C++11)
 inline long long          sqr(long long x)          { return x*x; }
 inline unsigned long long sqr(unsigned long long x) { return x*x; }
-#endif
+
 inline float              sqr(float x)              { return x*x; }
 inline double             sqr(double x)             { return x*x; }
 
@@ -647,28 +575,28 @@ inline int                cube(int x)                { return x*x*x; }
 inline unsigned int       cube(unsigned int x)       { return x*x*x; }
 inline long               cube(long x)               { return x*x*x; }
 inline unsigned long      cube(unsigned long x)      { return x*x*x; }
-#if VCL_HAS_LONG_LONG
+//long long - target type will have width of at least 64 bits. (since C++11)
 inline long long          cube(long long x)          { return x*x*x; }
 inline unsigned long long cube(unsigned long long x) { return x*x*x; }
-#endif
+
 inline float              cube(float x)              { return x*x*x; }
 inline double             cube(double x)             { return x*x*x; }
 
 // sgn (sign in -1, 0, +1)
 inline int sgn(int x)       { return x?((x>0)?1:-1):0; }
 inline int sgn(long x)      { return x?((x>0)?1:-1):0; }
-#if VCL_HAS_LONG_LONG
+//long long - target type will have width of at least 64 bits. (since C++11)
 inline int sgn(long long x) { return x?((x>0)?1:-1):0; }
-#endif
+
 inline int sgn(float x)     { return (x != 0)?((x>0)?1:-1):0; }
 inline int sgn(double x)    { return (x != 0)?((x>0)?1:-1):0; }
 
 // sgn0 (sign in -1, +1 only, useful for reals)
 inline int sgn0(int x)         { return (x>=0)?1:-1; }
 inline int sgn0(long x)        { return (x>=0)?1:-1; }
-#if VCL_HAS_LONG_LONG
+//long long - target type will have width of at least 64 bits. (since C++11)
 inline int sgn0(long long x)   { return (x>=0)?1:-1; }
-#endif
+
 inline int sgn0(float x)       { return (x>=0)?1:-1; }
 inline int sgn0(double x)      { return (x>=0)?1:-1; }
 
@@ -679,10 +607,10 @@ inline unsigned int       squared_magnitude(int                x) { return x*x; 
 inline unsigned int       squared_magnitude(unsigned int       x) { return x*x; }
 inline unsigned long      squared_magnitude(long               x) { return x*x; }
 inline unsigned long      squared_magnitude(unsigned long      x) { return x*x; }
-#if VCL_HAS_LONG_LONG
+//long long - target type will have width of at least 64 bits. (since C++11)
 inline unsigned long long squared_magnitude(long long          x) { return x*x; }
 inline unsigned long long squared_magnitude(unsigned long long x) { return x*x; }
-#endif
+
 inline float              squared_magnitude(float              x) { return x*x; }
 inline double             squared_magnitude(double             x) { return x*x; }
 inline long double        squared_magnitude(long double        x) { return x*x; }
@@ -711,26 +639,4 @@ inline double             remainder_floored(double x, double y)                 
 inline long double        remainder_floored(long double x, long double y)               { return fmod(fmod(x,y)+y,y); }
 
 } // end of namespace vnl_math
-
-#if VNL_CONFIG_LEGACY_METHODS // Legacy definitions, for backward compatibility; deprecated!
-#define vnl_math_isnan vnl_math::isnan
-#define vnl_math_isinf vnl_math::isinf
-#define vnl_math_isfinite vnl_math::isfinite
-#define vnl_math_rnd_halfinttoeven vnl_math::rnd_halfinttoeven
-#define vnl_math_rnd_halfintup vnl_math::rnd_halfintup
-#define vnl_math_rnd vnl_math::rnd
-#define vnl_math_floor vnl_math::floor
-#define vnl_math_ceil vnl_math::ceil
-#define vnl_math_abs vnl_math::abs
-#define vnl_math_max vnl_math::max
-#define vnl_math_min vnl_math::min
-#define vnl_math_sqr vnl_math::sqr
-#define vnl_math_cube vnl_math::cube
-#define vnl_math_sgn vnl_math::sgn
-#define vnl_math_sgn0 vnl_math::sgn0
-#define vnl_math_squared_magnitude vnl_math::squared_magnitude
-#define vnl_math_cuberoot vnl_math::cuberoot
-#define vnl_math_hypot vnl_math::hypot
-#endif // VNL_CONFIG_LEGACY_METHODS
-
 #endif // vnl_math_h_

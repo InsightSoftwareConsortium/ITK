@@ -11,7 +11,10 @@
 #include "vnl_real.h"
 #include "vnl_imag.h"
 
-#include <vcl_cassert.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //-----------------------------------------------------------------------
 

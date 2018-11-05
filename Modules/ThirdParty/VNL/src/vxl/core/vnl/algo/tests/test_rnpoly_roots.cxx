@@ -1,8 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <vcl_compiler.h>
 #include <vnl/vnl_real_npolynomial.h>
-#include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_rnpoly_solve.h>
 #include <testlib/testlib_test.h>
 
@@ -28,7 +26,7 @@ static void print_roots(vnl_rnpoly_solve& solver)
 static void unit_circles_intersect()
 {
   // Intersection of two unit circles, centered in (0,0) and in (1,0):
-  const unsigned int dim = 2; // two-dimensional problem setting
+  constexpr unsigned int dim = 2; // two-dimensional problem setting
 
   double f1_data[] = {1.0,1.0,-1.0}; vnl_vector<double> f1(f1_data, 3);
   vnl_matrix<unsigned int> p1(3,dim, 0); p1(0,0) = 2; p1(1,1) = 2;
@@ -71,7 +69,7 @@ static void unit_circles_intersect()
 static void ellipses_intersect()
 {
   // Real intersection of two ellipses, both centered in (0,0):
-  const unsigned int dim = 2; // two-dimensional problem setting
+  constexpr unsigned int dim = 2; // two-dimensional problem setting
 
   double f1_data[] = {1.0,2.0,-1.0}; vnl_vector<double> f1(f1_data, 3);
   vnl_matrix<unsigned int> p1(3,dim, 0); p1(0,0) = 2; p1(1,1) = 2;
@@ -120,7 +118,7 @@ static void ellipses_intersect()
 
 static void single_fourth_degree()
 {
-  const unsigned int dim = 1; // one-dimensional problem setting
+  constexpr unsigned int dim = 1; // one-dimensional problem setting
   vnl_vector<double> coeffs(5);
   // Coefficients from generating co-variance matrix for the following set of points:
   //   .9  -25.3 -118.7
@@ -155,7 +153,7 @@ static void single_fourth_degree()
 
 static void scaled_fourth_degree()
 {
-  const unsigned int dim = 1; // one-dimensional problem setting
+  constexpr unsigned int dim = 1; // one-dimensional problem setting
   vnl_vector<double> coeffs(5);
   // Coefficients from generating co-variance matrix for the following set of points:
   //   9  -253 -1187

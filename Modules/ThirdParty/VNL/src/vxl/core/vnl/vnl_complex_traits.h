@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_complex_traits.h
 #ifndef vnl_complex_traits_h_
 #define vnl_complex_traits_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief To allow templated algorithms to determine appropriate actions of conjugation, complexification etc.
@@ -16,52 +13,58 @@
 //-----------------------------------------------------------------------------
 
 #include <complex>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 template <class T> // the primary template is empty, by design.
 struct vnl_complex_traits;
 
-#define macro(T) \
+#define VCL_DEFINE_SPECIALIZATION_MACRO(T) \
 template <> struct VNL_EXPORT vnl_complex_traits<T > \
 { \
   enum { isreal = true }; \
   static T conjugate(T x) { return x; } \
   static std::complex<T> complexify(T x) { return std::complex<T >(x, (T)0); } \
 }
-#define makro(T) \
-macro(signed T); \
-macro(unsigned T)
-makro(char);
-makro(short);
-makro(int);
-makro(long);
-#if VCL_HAS_LONG_LONG
-makro(long long);
-#endif
-#undef makro
-#undef macro
+#define VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(T) \
+VCL_DEFINE_SPECIALIZATION_MACRO(signed T); \
+VCL_DEFINE_SPECIALIZATION_MACRO(unsigned T)
+VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(char);
+VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(short);
+VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(int);
+VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(long);
+//long long - target type will have width of at least 64 bits. (since C++11)
+VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(long long);
+
+//3.9.1 Fundamental types [basic.fundamental]
+//Plain char, signed char, and unsigned char are three distinct types
+// We must explicitly instantiate the char type without signed/unsigned prefix
+VCL_DEFINE_SPECIALIZATION_MACRO(char);
+#undef VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED
+#undef VCL_DEFINE_SPECIALIZATION_MACRO
 
 
 template <> struct VNL_EXPORT vnl_complex_traits<float>
 {
   enum { isreal = true };
   static float conjugate(float x) { return x; }
-  static std::complex<float> complexify(float x) { return std::complex<float>(x, 0.0f); }
+  static std::complex<float> complexify(float x) { return {x, 0.0f}; }
 };
 
 template <> struct VNL_EXPORT vnl_complex_traits<double>
 {
   enum { isreal = true };
   static double conjugate(double x) { return x; }
-  static std::complex<double> complexify(double x) { return std::complex<double>(x, 0.0); }
+  static std::complex<double> complexify(double x) { return {x, 0.0}; }
 };
 
 template <> struct VNL_EXPORT vnl_complex_traits<long double>
 {
   enum { isreal = true };
   static long double conjugate(long double x) { return x; }
-  static std::complex<long double> complexify(long double x) { return std::complex<long double>(x, 0.0); }
+  static std::complex<long double> complexify(long double x) { return {x, 0.0}; }
 };
 
 template <> struct VNL_EXPORT vnl_complex_traits<std::complex<float> >

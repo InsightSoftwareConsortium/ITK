@@ -1,7 +1,7 @@
 // This is core/vnl/algo/tests/test_symmetric_eigensystem.cxx
 #include <iostream>
-#include <algorithm>
 #include <ctime>
+#include <algorithm>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -15,8 +15,6 @@
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_random.h>
-#include <vcl_compiler.h>
-#include <vnl/vnl_c_vector.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
 //extern "C"
@@ -100,7 +98,7 @@ void test_symmetric_eigensystem()
   }
 
   { // compare speed and values of specialised 3x3 version with nxn version
-    const unsigned n = 20000;
+    constexpr unsigned n = 20000;
     double fixed_data[n][3];
     double netlib_data[n][3];
 
@@ -111,13 +109,13 @@ void test_symmetric_eigensystem()
       vnl_random rng(5);
 
       const std::clock_t timer_01 = std::clock();
-      for (unsigned c = 0; c < n; ++c)
+      for (auto & c : fixed_data)
       {
         M11 = rng.drand64()*10.0-5.0; M12 = rng.drand64()*10.0-5.0; M13 = rng.drand64()*10.0-5.0;
                                       M22 = rng.drand64()*10.0-5.0; M23 = rng.drand64()*10.0-5.0;
                                                                     M33 = rng.drand64()*10.0-5.0;
         vnl_symmetric_eigensystem_compute_eigenvals(M11, M12, M13, M22, M23, M33,
-                                                    fixed_data[c][0], fixed_data[c][1], fixed_data[c][2]);
+                                                    c[0], c[1], c[2]);
       }
       const std::clock_t timer_02 = std::clock();
       fixed_time = ( timer_02 - timer_01)/ (CLOCKS_PER_SEC/1000);
@@ -131,16 +129,16 @@ void test_symmetric_eigensystem()
       vnl_double_3 evals;
 
       const std::clock_t timer_03 = std::clock();
-      for (unsigned c = 0; c < n; ++c)
+      for (auto & c : netlib_data)
       {
         M(0,0)=rng.drand64()*10.0-5.0; M(1,0)=M(0,1)=rng.drand64()*10.0-5.0; M(2,0)=M(0,2)= rng.drand64()*10.0-5.0;
                                        M(1,1)=rng.drand64()*10.0-5.0;        M(2,1)=M(1,2)=rng.drand64()*10.0-5.0;
                                                                              M(2,2) = rng.drand64()*10.0-5.0;
 
         vnl_symmetric_eigensystem_compute(M.as_ref(), evecs.as_ref().non_const(), evals.as_ref().non_const());
-        netlib_data[c][0] = evals[0];
-        netlib_data[c][1] = evals[1];
-        netlib_data[c][2] = evals[2];
+        c[0] = evals[0];
+        c[1] = evals[1];
+        c[2] = evals[2];
       }
       const std::clock_t timer_04 = std::clock();
       netlib_time = ( timer_04 - timer_03)/ (CLOCKS_PER_SEC/1000);

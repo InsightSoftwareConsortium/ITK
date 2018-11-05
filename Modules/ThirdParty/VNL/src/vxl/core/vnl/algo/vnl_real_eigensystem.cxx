@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_real_eigensystem.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 //
@@ -11,9 +8,8 @@
 //-----------------------------------------------------------------------------
 
 #include <iostream>
+#include <cassert>
 #include "vnl_real_eigensystem.h"
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/algo/vnl_netlib.h> // rg_()
 

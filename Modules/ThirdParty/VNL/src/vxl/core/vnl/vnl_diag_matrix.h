@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_diag_matrix.h
 #ifndef vnl_diag_matrix_h_
 #define vnl_diag_matrix_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Contains class for diagonal matrices
@@ -21,15 +18,17 @@
 // \endverbatim
 
 #include <iosfwd>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include "vnl/vnl_export.h"
 
 // forward declarations
 template <class T> class vnl_diag_matrix;
-template <class T> VNL_TEMPLATE_EXPORT vnl_vector<T> operator*(vnl_diag_matrix<T> const&, vnl_vector<T> const&);
+template <class T> VNL_EXPORT vnl_vector<T> operator*(vnl_diag_matrix<T> const&, vnl_vector<T> const&);
 
 //: stores a diagonal matrix as a single vector.
 //  vnl_diag_matrix stores a diagonal matrix for time and space efficiency.
@@ -37,8 +36,8 @@ template <class T> VNL_TEMPLATE_EXPORT vnl_vector<T> operator*(vnl_diag_matrix<T
 //  operations (currently *, + and -) are overloaded to use more efficient
 //  algorithms.
 
-VCL_TEMPLATE_EXPORT template <class T>
-class VNL_TEMPLATE_EXPORT vnl_diag_matrix
+template <class T>
+class VNL_EXPORT vnl_diag_matrix
 {
   vnl_vector<T> diagonal_;
 
@@ -54,7 +53,7 @@ class VNL_TEMPLATE_EXPORT vnl_diag_matrix
   //: Construct a diagonal matrix from a vnl_vector.
   //  The vector elements become the diagonal elements.
   vnl_diag_matrix(vnl_vector<T> const& that): diagonal_(that) {}
- ~vnl_diag_matrix() {}
+ ~vnl_diag_matrix() = default;
 
   inline vnl_diag_matrix& operator=(vnl_diag_matrix<T> const& that) {
     this->diagonal_ = that.diagonal_;
@@ -175,7 +174,7 @@ class VNL_TEMPLATE_EXPORT vnl_diag_matrix
 
 //:
 // \relatesalso vnl_diag_matrix
-template <class T> VNL_TEMPLATE_EXPORT
+template <class T> VNL_EXPORT
 std::ostream& operator<< (std::ostream&, vnl_diag_matrix<T> const&);
 
 //: Convert a vnl_diag_matrix to a Matrix.

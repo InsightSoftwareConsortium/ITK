@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_int_matrix.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 //
@@ -13,7 +10,6 @@
 
 #include <fstream>
 #include "vnl_int_matrix.h"
-#include <vcl_compiler.h>
 
 //: Construct from matrix of double.
 //  The double-to-int conversion is simply the standard (int) cast.

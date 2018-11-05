@@ -31,7 +31,7 @@ class lsmrDense : public lsmrBase
 public:
 
   lsmrDense();
-  virtual ~lsmrDense();
+  ~lsmrDense() override;
 
   /**
    * computes y = y + A*x without altering x,
@@ -39,7 +39,7 @@ public:
    * The size of the vector x is n.
    * The size of the vector y is m.
    */
-  void Aprod1(unsigned int m, unsigned int n, const double * x, double * y ) const;
+  void Aprod1(unsigned int m, unsigned int n, const double * x, double * y ) const override;
 
   /**
    * computes x = x + A'*y without altering y,
@@ -47,7 +47,7 @@ public:
    * The size of the vector x is n.
    * The size of the vector y is m.
    */
-  void Aprod2(unsigned int m, unsigned int n, double * x, const double * y ) const;
+  void Aprod2(unsigned int m, unsigned int n, double * x, const double * y ) const override;
 
   /** Set the matrix A of the equation to be solved A*x = b. */
   void SetMatrix( double ** A );

@@ -3,7 +3,6 @@
   fsm
 */
 #include <iostream>
-#include <vcl_compiler.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>

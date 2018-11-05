@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_alloc.h
 #ifndef vnl_alloc_h_
 #define vnl_alloc_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author unknown
@@ -35,12 +32,14 @@
 // different types, limiting the utility of this approach.
 
 #include <cstddef>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
-VXL_CONSTEXPR_VAR int VNL_ALLOC_ALIGN = 8;
-VXL_CONSTEXPR_VAR std::size_t VNL_ALLOC_MAX_BYTES = 256;
-VXL_CONSTEXPR_VAR std::size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES/VNL_ALLOC_ALIGN;
+constexpr int VNL_ALLOC_ALIGN = 8;
+constexpr std::size_t VNL_ALLOC_MAX_BYTES = 256;
+constexpr std::size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES/VNL_ALLOC_ALIGN;
 
 class VNL_EXPORT vnl_alloc
 {
@@ -77,8 +76,8 @@ class VNL_EXPORT vnl_alloc
   class lock
   {
    public:
-    lock() {}
-    ~lock() {}
+    lock() = default;
+    ~lock() = default;
   };
   friend class lock;
 
@@ -99,7 +98,7 @@ class VNL_EXPORT vnl_alloc
     // This ensures that it is released in exit or during stack
     // unwinding.
     result = *my_free_list;
-    if (result == VXL_NULLPTR) {
+    if (result == nullptr) {
       void *r = refill(ROUND_UP(n));
       return r;
     }

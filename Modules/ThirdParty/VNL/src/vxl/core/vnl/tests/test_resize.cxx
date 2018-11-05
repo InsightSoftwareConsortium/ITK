@@ -2,7 +2,6 @@
 #include <iostream>
 #include <testlib/testlib_test.h>
 // \author fsm
-#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 

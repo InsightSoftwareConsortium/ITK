@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_least_squares_cost_function.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //
 // vnl_least_squares_cost_function
 // Author: Andrew W. Fitzgibbon, Oxford RRG

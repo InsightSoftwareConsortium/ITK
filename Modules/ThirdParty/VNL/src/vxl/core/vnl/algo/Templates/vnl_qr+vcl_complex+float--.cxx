@@ -1,7 +1,9 @@
 // This is core/vnl/algo/Templates/vnl_qr+std::complex+float--.cxx
 #include <complex>
 #include <iostream>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/algo/vnl_qr.hxx>
 //:
 // \file
@@ -16,7 +18,7 @@ VNL_QR_INSTANTIATE(std::complex<float>);
 //
 // hmm... that still doesn't work.
 
-#include <vcl_cassert.h>
+#include <cassert>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_copy.h>

@@ -2,19 +2,12 @@
 #define vcl_memory_h_
 
 #include <memory>
-#include  <utility>
-#include "vcl_compiler.h"
-
-// Needed to provide backwards compatibility between C++11 and older compilers
-// https://softwareengineering.stackexchange.com/questions/291141/how-to-handle-design-changes-for-auto-ptr-deprecation-in-c11
-#if __cplusplus >= 201103L || (defined(_CPPLIB_VER) && _CPPLIB_VER > 540)
-    template <typename T>
-    using vcl_unique_ptr = std::unique_ptr<T>;
-    #define vcl_move( value ) std::move(value)
-#else
-// NOTE:  THIS DOES NOT MEET THE STANDARDS FOR A UNIQUE POINTER!
-#   define vcl_unique_ptr std::auto_ptr
-#   define vcl_move( value ) value
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
 #endif
-
+#if VXL_LEGACY_FUTURE_REMOVE
+  # error  "Deprecated.  Use equivalent C++11 header instead. see: vxl/scripts/UseStandardHeaders.py"
+#else
+  # warning "This header will be removed in future versions of VXL.  Use equivalent C++11 header instead. see: vxl/scripts/UseStandardHeaders.py"
+#endif
 #endif // vcl_memory_h_

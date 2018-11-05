@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_nonlinear_minimizer.h
 #ifndef vnl_nonlinear_minimizer_h_
 #define vnl_nonlinear_minimizer_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief  Base class for nonlinear optimization
@@ -17,7 +14,9 @@
 // \endverbatim
 
 #include <string>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_matrix.h>
 #include "vnl/vnl_export.h"
 

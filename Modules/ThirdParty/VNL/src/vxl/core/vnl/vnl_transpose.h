@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_transpose.h
 #ifndef vnl_transpose_h_
 #define vnl_transpose_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Efficient matrix transpose
@@ -16,7 +13,9 @@
 // \endverbatim
 
 #include <iostream>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_fastops.h>
 #include "vnl/vnl_export.h"
 
@@ -36,7 +35,7 @@
 //
 //  NOTE: This only works for arguments of type vnl_matrix<double>
 
-class VNL_TEMPLATE_EXPORT vnl_transpose
+class VNL_EXPORT vnl_transpose
 {
   const vnl_matrix<double>& M_;
  public:

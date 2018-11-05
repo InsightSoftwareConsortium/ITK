@@ -1,15 +1,12 @@
 // @author fsm
 
 #include <iostream>
-#include <cmath>
-#include <vcl_compiler.h>
 
 #include <vnl/vnl_double_3.h>
-#include <vnl/vnl_double_3x3.h>
-#include <vnl/vnl_matrix_exp.h>
 #include <vnl/vnl_matlab_print.h>
-#include <vnl/vnl_rotation_matrix.h>
 #include <vnl/vnl_cross_product_matrix.h>
+#include "vnl_matrix_exp.h"
+#include "vnl_rotation_matrix.h"
 #include <testlib/testlib_test.h>
 
 void test_matrix_exp()

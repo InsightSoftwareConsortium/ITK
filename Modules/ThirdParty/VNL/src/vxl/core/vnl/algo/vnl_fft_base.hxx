@@ -5,7 +5,10 @@
 */
 #include "vnl_fft_base.h"
 #include <vnl/algo/vnl_fft.h>
-#include <vcl_cassert.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 template <int D, class T>
 void vnl_fft_base<D, T>::transform(std::complex<T> *signal, int dir)

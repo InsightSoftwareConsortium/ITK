@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_unary_function.h
 #ifndef vnl_unary_function_h_
 #define vnl_unary_function_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief Abstract 1D map
@@ -21,12 +18,14 @@
 // \endverbatim
 //
 //-----------------------------------------------------------------------------
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 //: Abstract 1D map between two types (read spaces)
 template <class Return, class Argument>
-class VNL_TEMPLATE_EXPORT vnl_unary_function
+class VNL_EXPORT vnl_unary_function
 {
  public:
 //  typedef std::numeric_limits<Return> limits;
@@ -43,9 +42,9 @@ class VNL_TEMPLATE_EXPORT vnl_unary_function
   //: Copy should allocate a copy of this on the heap and return it.
   // If Subclasses do not implement this function, it will return null, but many
   // applications will never call it, so this may not be a problem for you.
-  virtual vnl_unary_function<Return, Argument> * Copy() const { return VXL_NULLPTR; }
+  virtual vnl_unary_function<Return, Argument> * Copy() const { return nullptr; }
 
-  virtual ~vnl_unary_function() {}
+  virtual ~vnl_unary_function() = default;
 };
 
 #endif // vnl_unary_function_h_

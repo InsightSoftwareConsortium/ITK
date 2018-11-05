@@ -6,9 +6,7 @@
 //-----------------------------------------------------------------------------
 
 #include <complex>
-#include <cmath>
 #include "vnl_rational_traits.h"
-#include <vcl_compiler.h>
 
 const vnl_rational vnl_numeric_traits<vnl_rational>::zero = vnl_rational(0L,1L);
 const vnl_rational vnl_numeric_traits<vnl_rational>::one = vnl_rational(1L,1L);

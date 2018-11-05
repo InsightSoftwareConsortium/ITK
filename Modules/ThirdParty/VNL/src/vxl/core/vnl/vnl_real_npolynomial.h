@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_real_npolynomial.h
 #ifndef vnl_real_npolynomial_h_
 #define vnl_real_npolynomial_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief contains class for polynomials with N variables
@@ -33,7 +30,9 @@
 #include <iosfwd>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 //: real polynomial in N variables.

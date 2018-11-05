@@ -8,16 +8,13 @@
 // \endverbatim
 
 #include <iostream>
-#include <limits>
 #include <sstream>
 #include <iomanip>
-#include <vcl_compiler.h>
+#include <limits>
 #include <vnl/vnl_bignum.h>
 #include <vnl/vnl_bignum_traits.h>
-#include <vnl/vnl_numeric_traits.h> // for vnl_numeric_traits<double>::maxval
 
 #include <testlib/testlib_test.h>
-
 // Two auxiliary functions, used in multiplication and division tests
 
 // Factorial

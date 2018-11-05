@@ -1,7 +1,6 @@
 // This is core/vnl/tests/test_gamma.cxx
 #include <vnl/vnl_gamma.h>
 #include <vnl/vnl_erf.h>
-#include <vnl/vnl_math.h>
 #include <testlib/testlib_test.h>
 
 static void test_gamma()

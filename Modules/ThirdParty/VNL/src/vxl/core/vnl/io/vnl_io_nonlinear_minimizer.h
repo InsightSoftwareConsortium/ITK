@@ -1,9 +1,6 @@
 // This is core/vnl/io/vnl_io_nonlinear_minimizer.h
 #ifndef vnl_io_nonlinear_minimizer_h
 #define vnl_io_nonlinear_minimizer_h
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author dac
@@ -12,7 +9,9 @@
 #include <string>
 #include <vsl/vsl_binary_io.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: Base for objects which provide IO
 //  for classes derived from vnl_nonlinear_minimizer
@@ -20,10 +19,10 @@ class vnl_io_nonlinear_minimizer
 {
  public:
   //: Constructor
-  vnl_io_nonlinear_minimizer() {}
+  vnl_io_nonlinear_minimizer() = default;
 
   //: Destructor
-  virtual ~vnl_io_nonlinear_minimizer() {}
+  virtual ~vnl_io_nonlinear_minimizer() = default;
 
   //: Create new object of type vnl_nonlinear_minimizer on heap
   virtual vnl_nonlinear_minimizer* new_object() const;

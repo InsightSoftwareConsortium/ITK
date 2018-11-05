@@ -3,8 +3,6 @@
 
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_real_polynomial.h>
-#include <vnl/vnl_vector.h>
-#include <vcl_compiler.h>
 
 void test_real_polynomial()
 {

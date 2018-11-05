@@ -1,18 +1,11 @@
 // This is core/vnl/algo/vnl_complex_generalized_schur.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author fsm
 
 #include <iostream>
+#include <cassert>
 #include "vnl_complex_generalized_schur.h"
-
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
-
-#include <vnl/vnl_vector.h>
 
 #include <vnl/algo/vnl_netlib.h> // zgges_()
 
@@ -30,22 +23,22 @@ bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
   assert(B->rows() == B->cols());
 
   long n = A->rows();
-  assert(alpha!=VXL_NULLPTR); alpha->set_size(n);    alpha->fill(0);
-  assert(beta!=VXL_NULLPTR);  beta ->set_size(n);    beta ->fill(0);
-  assert(L!=VXL_NULLPTR);     L    ->set_size(n, n); L    ->fill(0);
-  assert(R!=VXL_NULLPTR);     R    ->set_size(n, n); R    ->fill(0);
+  assert(alpha!=nullptr); alpha->set_size(n);    alpha->fill(0);
+  assert(beta!=nullptr);  beta ->set_size(n);    beta ->fill(0);
+  assert(L!=nullptr);     L    ->set_size(n, n); L    ->fill(0);
+  assert(R!=nullptr);     R    ->set_size(n, n); R    ->fill(0);
 
   long sdim = 0;
   long lwork = 1000 + (8*n + 16);
-  std::complex<double> *work = new std::complex<double>[lwork];
-  double *rwork = new double[2*n + 1];
-  v3p_netlib_logical *bwork = new v3p_netlib_logical[n + 1];
+  auto *work = new std::complex<double>[lwork];
+  auto *rwork = new double[2*n + 1];
+  auto *bwork = new v3p_netlib_logical[n + 1];
   long info = 0;
   A->inplace_transpose();
   B->inplace_transpose();
   v3p_netlib_zgges_ ("V", "V",
                      "N",
-                     VXL_NULLPTR,
+                     nullptr,
                      &n,
                      A->data_block(), &n,
                      B->data_block(), &n,

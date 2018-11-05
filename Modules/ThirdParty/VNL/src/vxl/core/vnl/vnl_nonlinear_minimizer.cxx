@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_nonlinear_minimizer.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG, 22 Aug 99
@@ -9,7 +6,6 @@
 #include <iostream>
 #include <iomanip>
 #include "vnl_nonlinear_minimizer.h"
-#include <vcl_compiler.h>
 
 //: Default ctor sets verbosity etc.
 vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
@@ -29,9 +25,7 @@ vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
 {
 }
 
-vnl_nonlinear_minimizer::~vnl_nonlinear_minimizer()
-{
-}
+vnl_nonlinear_minimizer::~vnl_nonlinear_minimizer() = default;
 
 vnl_matrix<double> const& vnl_nonlinear_minimizer::get_covariance()
 {

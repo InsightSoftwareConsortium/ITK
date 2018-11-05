@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_matlab_write.h
 #ifndef vnl_matlab_write_h_
 #define vnl_matlab_write_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief Write to a MAT file
@@ -22,16 +19,18 @@
 // \endverbatim
 
 #include <iosfwd>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
-template <class T> VNL_TEMPLATE_EXPORT // scalar
+template <class T> VNL_EXPORT // scalar
 bool vnl_matlab_write(std::ostream &, T const &, char const *variable_name);
 
-template <class T> VNL_TEMPLATE_EXPORT // 1D array
+template <class T> VNL_EXPORT // 1D array
 bool vnl_matlab_write(std::ostream &, T const *, unsigned size, char const *variable_name);
 
-template <class T> VNL_TEMPLATE_EXPORT // 2D array
+template <class T> VNL_EXPORT // 2D array
 bool vnl_matlab_write(std::ostream &, T const * const *, unsigned rows, unsigned cols, char const *variable_name);
 
 #endif // vnl_matlab_write_h_

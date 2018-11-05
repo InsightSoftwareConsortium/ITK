@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_brent_minimizer.h>
 
@@ -9,7 +8,7 @@ struct brent_f1 : public vnl_cost_function {
   unsigned n_evals;
   brent_f1() : vnl_cost_function(1),n_evals(0) {}
 
-  double f(const vnl_vector<double>& x) { n_evals++;
+  double f(const vnl_vector<double>& x) override { n_evals++;
     return (2 - x[0]) * (2 - x[0]) + 10;
   }
 };
@@ -18,7 +17,7 @@ struct brent_f2 : public vnl_cost_function {
   unsigned n_evals;
   brent_f2() : vnl_cost_function(1),n_evals(0) {}
 
-  double f(const vnl_vector<double>& x) { n_evals++;
+  double f(const vnl_vector<double>& x) override { n_evals++;
     double y = (2 - x[0]) * (2 - x[0]);
     return y*y + 10;
   }

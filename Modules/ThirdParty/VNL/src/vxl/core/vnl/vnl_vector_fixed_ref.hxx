@@ -8,8 +8,10 @@
 #include <iostream>
 #include <cstdlib>
 #include "vnl_vector_fixed_ref.h"
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_math.h>  // for vnl_math::isfinite
 
 

@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_svd_economy.h
 #ifndef vnl_svd_economy_h_
 #define vnl_svd_economy_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief SVD wrapper that doesn't compute the left singular vectors, U.

@@ -25,7 +25,7 @@
 //: this macro defines the class.
 // e.g. use vnl_T_n_impl(int,2) to implement class vnl_int_2.
 #define vnl_T_n_class_impl(T,n) \
-class VNL_TEMPLATE_EXPORT vnl_##T##_##n : public vnl_vector_fixed<T ,n> \
+class VNL_EXPORT vnl_##T##_##n : public vnl_vector_fixed<T ,n> \
 { \
  public: \
   vnl_##T##_##n() { } \

@@ -1,6 +1,5 @@
 // This is core/vnl/io/tests/test_vector_fixed_io.cxx
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/io/vnl_io_vector_fixed.h>
 #include <vsl/vsl_binary_io.h>

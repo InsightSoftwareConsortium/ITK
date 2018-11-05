@@ -34,7 +34,7 @@ doublereal dlanst_(char *norm, integer *n, doublereal *d__, doublereal *e,
     integer i__;
     doublereal sum, scale;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    doublereal anorm;
+    doublereal anorm = 0.0; //warning: variable 'anorm' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
     extern /* Subroutine */ int dlassq_(integer *, doublereal *, integer *,
             doublereal *, doublereal *);
 

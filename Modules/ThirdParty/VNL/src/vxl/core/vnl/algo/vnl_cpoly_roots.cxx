@@ -1,8 +1,8 @@
 /*
   fsm
 */
+#include <cassert>
 #include "vnl_cpoly_roots.h"
-#include <vcl_cassert.h>
 #include <vnl/algo/vnl_complex_eigensystem.h>
 
 void vnl_cpoly_roots::compute(vnl_vector<std::complex<double> > const &a)

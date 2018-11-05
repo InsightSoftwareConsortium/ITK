@@ -2,7 +2,6 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
-#include <ctime>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -19,11 +18,7 @@
 //
 // For readability reasons, the rows are split in 2x 5 rows, with an extra
 // indentation for the second half of each row.
-
-#include <vcl_compiler.h>
-
 #include <vnl/algo/vnl_chi_squared.h>
-
 double cdf_baseline[] =
 {
   0.0, 0.9999922488859869, 0.9999999997449120, 0.9999999999999905, 1.0,
@@ -75,7 +70,7 @@ int test_functions()
   {
     for (unsigned int chisq_int = 0; chisq_int < 200; chisq_int += 20)
     {
-      const double chisq = static_cast<double>(chisq_int);
+      const auto chisq = static_cast<double>(chisq_int);
       const double cdf = vnl_chi_squared_cumulative(chisq,n);
       const double err = std::fabs(cdf - cdf_baseline[idx++]);
       std::cout << "vnl_chi_squared_cumulative(" << chisq << ',' << n << ')';
@@ -98,14 +93,14 @@ int test_functions()
 
   // rand() is not always a good random number generator,
   // so use the following congruential random number generator - PVr
-  static unsigned long sample_seed = (unsigned long)std::time(VXL_NULLPTR);
+  static auto sample_seed = (unsigned long)std::time(nullptr);
 
   double hist1[20];
-  for (int i=0; i<20; i++)
+  for (double & i : hist1)
   {
     sample_seed = (sample_seed*16807)%2147483647L;
     double u = double(sample_seed)/0x7fffffff; // 0x7fffffff == 2147483711L
-    hist1[i] = 10.0+20.0*(u-0.5); // uniform in the interval 0 - 20
+    i = 10.0+20.0*(u-0.5); // uniform in the interval 0 - 20
   }
   double chisq = 0;
   for (int i=0; i<20; i++)

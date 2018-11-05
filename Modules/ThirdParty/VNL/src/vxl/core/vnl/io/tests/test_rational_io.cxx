@@ -1,6 +1,5 @@
 // This is core/vnl/io/tests/test_rational_io.cxx
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_rational.h>
 #include <vnl/io/vnl_io_rational.h>
 #include <vsl/vsl_binary_io.h>

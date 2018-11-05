@@ -1,13 +1,10 @@
 // This is core/vnl/tests/test_vector.cxx
 #include <iostream>
 #include <sstream>
-#include <exception>
-#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_float_3.h>
 #include <vnl/vnl_float_4.h>
-#include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_cross.h>
 #include <testlib/testlib_test.h>

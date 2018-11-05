@@ -1,34 +1,19 @@
 #ifndef vxl_version_h_
 #define vxl_version_h_
 
+#include <vxl_config.h>
+
 //:
 // \file
 // \brief The VXL version.
 // This version number applies to the whole vxl tree, not just the
 // core libraries.
 
-//: Major version number.
-// This will only increase after major changes, or a large accumulation of
-// significant smaller ones.
-#define VXL_VERSION_MAJOR 1
-
-//: Minor version number.
-// This increments between versions. There is no
-// "even = release, odd = development" pattern, or anything like that.
-#define VXL_VERSION_MINOR 17
-
-//: Patch number.
-// This is only likely to be non-zero if a serious bug is found soon after the
-// release of x.y.0. The VXL-maintainers do not usually distinguish between bug fixes
-// and feature improvements, so the fix for most known bugs will first be released
-// in x.(y+1).0
-#define VXL_VERSION_PATCH 0
-
 //: Version date.  This is updated every day.
 // Formats are year=CCYY, month=MM, day=DD
 #define VXL_VERSION_DATE_YEAR 2018
-#define VXL_VERSION_DATE_MONTH 09
-#define VXL_VERSION_DATE_DAY 05
+#define VXL_VERSION_DATE_MONTH 11
+#define VXL_VERSION_DATE_DAY 04
 
 //: Helper macros to create strings with the preprocessor.
 #define VXL_VERSION_TO_STRING(s) VXL_VERSION_TO_STRING0(s)

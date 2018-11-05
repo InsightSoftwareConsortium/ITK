@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_matrix_fixed_ref.h
 #ifndef vnl_matrix_fixed_ref_h_
 #define vnl_matrix_fixed_ref_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Fixed size stack-stored vnl_matrix
@@ -142,8 +139,10 @@
 
 #include <iosfwd>
 #include <cstring>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector_fixed_ref.h>
@@ -168,7 +167,7 @@
 //
 
 template <class T, unsigned num_rows, unsigned num_cols>
-class VNL_TEMPLATE_EXPORT vnl_matrix_fixed_ref_const
+class VNL_EXPORT vnl_matrix_fixed_ref_const
 {
  protected:
   const T* data_;
@@ -351,7 +350,11 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed_ref_const
 
   //: abort if size is not as expected
   // This function does or tests nothing if NDEBUG is defined
+#ifndef NDEBUG
   void assert_size(unsigned rowz, unsigned colz) const
+#else
+  void assert_size(unsigned , unsigned ) const
+#endif
   {
 #ifndef NDEBUG
     assert_size_internal(rowz, colz);
@@ -392,7 +395,7 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed_ref_const
 
 
 template <class T, unsigned num_rows, unsigned num_cols>
-class VNL_TEMPLATE_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_cols>
+class VNL_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_cols>
 {
   typedef vnl_matrix_fixed_ref_const<T,num_rows,num_cols> base;
 

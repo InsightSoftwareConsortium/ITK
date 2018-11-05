@@ -4,14 +4,13 @@
 // \date    7 September 1999
 #include <complex>
 #include <iostream>
-#include <vcl_compiler.h>
-#include <vnl/algo/vnl_complex_eigensystem.h>
 
+#include <vnl/algo/vnl_complex_eigensystem.h>
 #include <testlib/testlib_test.h>
 
 void test_complex_eigensystem1()
 {
-  const unsigned N=6;
+  constexpr unsigned N = 6;
   double a_real[N*N] = {
     0.5965,   -0.7781,   -1.6925,    9.8017,   -3.5993,   -1.2015,
     2.8105,    1.3566,   -3.9000,    5.7772,    9.2020,    8.6676,

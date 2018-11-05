@@ -1,12 +1,8 @@
 // This is core/vnl/io/vnl_io_nonlinear_minimizer.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 
 #include "vnl_io_nonlinear_minimizer.h"
-#include <vsl/vsl_binary_io.h>
 #include <vsl/vsl_clipon_binary_loader.hxx>
 
 //: Create new object of type vnl_nonlinear_minimizer on heap
@@ -46,7 +42,7 @@ vnl_io_nonlinear_minimizer* vnl_io_nonlinear_minimizer::clone() const
 //: Binary save self to stream.
 void vsl_b_write(vsl_b_ostream & os, const vnl_nonlinear_minimizer & p)
 {
-  const short io_version_no = 1;
+  constexpr short io_version_no = 1;
   vsl_b_write(os, io_version_no);
   vsl_b_write(os, p.get_f_tolerance());
   vsl_b_write(os, p.get_x_tolerance());

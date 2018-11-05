@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_float_1x1.h
 #ifndef vnl_float_1x1_h_
 #define vnl_float_1x1_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief 1x1 matrix of float

@@ -5,8 +5,10 @@
 #include <iostream>
 #include "vnl_convolve.h"
 #include <vnl/algo/vnl_fft_1d.h> // this #includes <std::complex.h>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 template <class T1, class T2, class U>
 inline
@@ -47,7 +49,7 @@ vnl_vector<U> vnl_convolve_cyclic(vnl_vector<T1> const& v1, vnl_vector<T2> const
   if (n == 1) return vnl_vector<U>(1, U(v1[0]*v2[0]));
 
   if (use_fft)
-    return vnl_convolve_cyclic_using_fft(v1, v2, (U*)VXL_NULLPTR);
+    return vnl_convolve_cyclic_using_fft(v1, v2, (U*)nullptr);
 
   vnl_vector<U> ret(n, (U)0); // all elements already initialized to zero
   for (unsigned int k=0; k<n; ++k)
@@ -83,7 +85,7 @@ vnl_vector<U> vnl_convolve_using_fft(vnl_vector<T1> const& v1, vnl_vector<T2> co
   vnl_vector<U> w1(n, U(0)); for (unsigned i=0; i<v1.size(); ++i) w1[i]=U(v1[i]);
   vnl_vector<U> w2(n, U(0)); for (unsigned i=0; i<v2.size(); ++i) w2[i]=U(v2[i]);
   // convolve, using n-points FFT:
-  w1 = vnl_convolve_cyclic_using_fft(w1, w2, (U*)VXL_NULLPTR);
+  w1 = vnl_convolve_cyclic_using_fft(w1, w2, (U*)nullptr);
   // return w1, but possibly drop the last few (zero) entries:
   return vnl_vector<U>(v1.size()+v2.size()-1, v1.size()+v2.size()-1, w1.data_block());
 }
@@ -98,7 +100,7 @@ vnl_vector<T> vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2, int
   if (v2.size() == 1) return v1*v2[0];
 
   if (use_fft != 0)
-    return vnl_convolve_using_fft(v1, v2, (T*)VXL_NULLPTR, use_fft);
+    return vnl_convolve_using_fft(v1, v2, (T*)nullptr, use_fft);
 
   unsigned int n = v1.size() + v2.size() - 1;
   vnl_vector<T> ret(n, (T)0); // all elements already initialized to zero
@@ -120,7 +122,7 @@ vnl_vector<U> vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2, U
     return vnl_vector<U>(0);
 
   if (use_fft != 0)
-    return vnl_convolve_using_fft(v1, v2, (U*)VXL_NULLPTR, use_fft);
+    return vnl_convolve_using_fft(v1, v2, (U*)nullptr, use_fft);
 
   unsigned int n = v1.size() + v2.size() - 1;
   vnl_vector<U> ret(n, (U)0); // all elements already initialized to zero
