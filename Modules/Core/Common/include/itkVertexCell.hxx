@@ -234,7 +234,7 @@ VertexCell< TCellInterface >
       {
       pcoord[0] = -10.0;
       }
-    return 0;
+    return false;
     }
 }
 } // end namespace itk

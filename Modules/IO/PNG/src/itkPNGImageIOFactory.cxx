@@ -26,7 +26,7 @@ PNGImageIOFactory::PNGImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkPNGImageIO",
                           "PNG Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< PNGImageIO >::New() );
 }
 

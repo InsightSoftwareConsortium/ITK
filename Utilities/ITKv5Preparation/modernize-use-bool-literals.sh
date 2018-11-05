@@ -46,7 +46,7 @@ export CC=/Users/johnsonhj/local/ccache/bin/clang_ccache
 export CXX=/Users/johnsonhj/local/ccache/bin/clang++11_ccache
 export PATH=~/local/llvm/llvm_trunk-build/bin:$PATH
 cd ${BLDDIR}
-/Users/johnsonhj/Dashboard/src/scripts/run-clang-tidy.py -checks=-*,modernize-use-bool-literals  -header-filter=.* -fix
+/Users/johnsonhj/Dashboard/src/scripts/run-clang-tidy.py -extra-arg=-D__clang__ -checks=-*,modernize-use-bool-literals  -header-filter=.* -fix
 
 cd ${SRCDIR}
 git add -A && git commit --file ${CMTMSG}

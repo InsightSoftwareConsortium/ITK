@@ -35,7 +35,7 @@ VoxBoCUBImageIOFactory::VoxBoCUBImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkVoxBoCUBImageIO",
                           "VoxBo CUB Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< VoxBoCUBImageIO >::New() );
 }
 

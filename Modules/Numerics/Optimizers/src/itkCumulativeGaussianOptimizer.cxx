@@ -34,7 +34,7 @@ CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
   m_LowerAsymptote = 0;
   m_OffsetForMean = 0;
   m_DifferenceTolerance = 1e-10;
-  m_Verbose = 0;
+  m_Verbose = false;
   m_FitError = 0;
   m_FinalSampledArray = nullptr;
   m_CumulativeGaussianArray = nullptr;

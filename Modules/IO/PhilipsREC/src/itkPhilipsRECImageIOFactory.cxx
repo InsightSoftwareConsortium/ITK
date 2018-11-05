@@ -37,7 +37,7 @@ PhilipsRECImageIOFactory::PhilipsRECImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkPhilipsRECImageIO",
                           "Philips REC Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< PhilipsRECImageIO >::New() );
 }
 

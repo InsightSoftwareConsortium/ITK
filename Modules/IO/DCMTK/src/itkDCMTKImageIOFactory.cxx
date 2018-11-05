@@ -26,7 +26,7 @@ DCMTKImageIOFactory::DCMTKImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkDCMTKImageIO",
                           "DICOM Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< DCMTKImageIO >::New() );
 }
 

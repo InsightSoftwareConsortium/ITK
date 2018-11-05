@@ -36,7 +36,7 @@ StimulateImageIOFactory::StimulateImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkStimulateImageIO",
                           "Stimulate Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< StimulateImageIO >::New() );
 }
 

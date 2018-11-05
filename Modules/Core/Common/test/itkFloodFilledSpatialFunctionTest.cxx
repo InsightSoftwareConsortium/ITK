@@ -80,7 +80,7 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
 
     for(it.GoToBegin(); !it.IsAtEnd(); ++it)
       {
-      it.Set(0);
+      it.Set(false);
       }
 
     // Create and initialize a spatial function
@@ -130,7 +130,7 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
     // Iterate through the entire image and set interior pixels to 1
     for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
       {
-      sfi.Set(1);
+      sfi.Set(true);
       }
 
     } // end loop over iterator strategies

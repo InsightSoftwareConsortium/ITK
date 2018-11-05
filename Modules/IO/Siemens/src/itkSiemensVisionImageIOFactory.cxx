@@ -29,7 +29,7 @@ SiemensVisionImageIOFactory::SiemensVisionImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkSiemensVisionImageIO",
                           "SiemensVision Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< SiemensVisionImageIO >::New() );
 }
 

@@ -259,7 +259,7 @@ int itkAffineTransformTest(int, char *[])
     }
 
   /* Compose with an isotropic scaling */
-  aff2->Scale(.3, 1);
+  aff2->Scale(.3, true);
   std::cout << "Result of isotropic scaling:" << std::endl;
   aff2->Print( std::cout );
 
@@ -301,7 +301,7 @@ int itkAffineTransformTest(int, char *[])
     }
 
   /* Compose with a general N-D rotation */
-  aff2->Rotate(0, 1, 0.57, 1);
+  aff2->Rotate(0, 1, 0.57, true);
   std::cout << "Result of general rotation:" << std::endl;
   aff2->Print( std::cout );
 
@@ -321,7 +321,7 @@ int itkAffineTransformTest(int, char *[])
     }
 
   /* Compose with a 2-D rotation */
-  aff2->Rotate(0, 1, -0.57, 1);
+  aff2->Rotate(0, 1, -0.57, true);
   std::cout << "Result of 2-D rotation:" << std::endl;
   aff2->Print( std::cout );
 
@@ -501,7 +501,7 @@ int itkAffineTransformTest(int, char *[])
   axis[0] = .707;
   axis[1] = .707;
   axis[2] = .707;
-  aff3->Rotate3D(axis, 1.0, 1);
+  aff3->Rotate3D(axis, 1.0, true);
   std::cout << "Create and rotate a 3D transform:" << std::endl;
   aff3->Print( std::cout );
 

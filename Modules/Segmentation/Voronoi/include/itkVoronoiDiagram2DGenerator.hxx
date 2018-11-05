@@ -110,25 +110,25 @@ VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
 {
   if ( arg1[1] < arg2[1] )
     {
-    return 1;
+    return true;
     }
   else if ( arg1[1] > arg2[1] )
     {
-    return 0;
+    return false;
     }
   // arg1[1] == arg2[1]
   else if ( arg1[0] < arg2[0] )
     {
-    return 1;
+    return true;
     }
   else if ( arg1[0] > arg2[0] )
     {
-    return 0;
+    return false;
     }
   // arg1[0] == arg2[0]
   else
     {
-    return 0;
+    return false;
     }
 }
 
@@ -448,15 +448,15 @@ VoronoiDiagram2DGenerator< TCoordRepType >::right_of(FortuneHalfEdge *el, PointT
 
   bool right_of_site = ( ( ( *p )[0] ) > ( topsite->m_Coord[0] ) );
 
-  if ( right_of_site && ( !( el->m_RorL ) ) ) { return ( 1 ); }
-  if ( ( !right_of_site ) && ( el->m_RorL ) ) { return ( 0 ); }
+  if ( right_of_site && ( !( el->m_RorL ) ) ) { return ( true ); }
+  if ( ( !right_of_site ) && ( el->m_RorL ) ) { return ( false ); }
   bool above;
   bool fast;
   if ( e->m_A == 1.0 )
     {
     double dyp = ( ( *p )[1] ) - ( topsite->m_Coord[1] );
     double dxp = ( ( *p )[0] ) - ( topsite->m_Coord[0] );
-    fast = 0;
+    fast = false;
     if ( ( ( !right_of_site ) && ( ( e->m_B ) < 0.0 ) )
          || ( right_of_site && ( ( e->m_B ) >= 0.0 ) ) )
       {
@@ -467,7 +467,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::right_of(FortuneHalfEdge *el, PointT
       {
       above = ( ( ( ( *p )[0] ) + ( ( *p )[1] ) * ( e->m_B ) ) > e->m_C );
       if ( e->m_B < 0.0 ) { above = !above; }
-      if ( !above ) { fast = 1; }
+      if ( !above ) { fast = true; }
       }
     if ( !fast )
       {
@@ -635,7 +635,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::findLeftHE(PointType *p)
   FortuneHalfEdge *he = ELgethash(bucket);
   if ( he == nullptr )
     {
-    for ( i = 1; 1; i++ )
+    for ( i = 1; true; i++ )
       {
       if ( ( he = ELgethash(bucket - i) ) != nullptr ) { break; }
       if ( ( he = ELgethash(bucket + i) ) != nullptr ) { break; }
@@ -1110,7 +1110,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune()
   int Siteid = 0;
 
   i = 2;
-  bool ok = 1;
+  bool ok = true;
   while ( ok )
     {
     if ( m_PQcount != 0 )
@@ -1187,13 +1187,13 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune()
       deletePQ(rightHalfEdge);
       deleteEdgeList(rightHalfEdge);
 
-      saveBool = 0;
+      saveBool = false;
       if ( ( findSite->m_Coord[1] ) > ( topSite->m_Coord[1] ) )
         {
         saveSite = findSite;
         findSite = topSite;
         topSite = saveSite;
-        saveBool = 1;
+        saveBool = true;
         }
 
       bisect(&( Edgepool[Edgeid] ), findSite, topSite);
@@ -1227,7 +1227,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune()
       }
     else
       {
-      ok = 0;
+      ok = false;
       }
     }
 

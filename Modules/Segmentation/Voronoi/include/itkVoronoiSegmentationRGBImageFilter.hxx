@@ -192,7 +192,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TestHomogeneity(
       }
     }
 
-  bool ok = 1;
+  bool ok = true;
   j = 0;
   double savem, savev;
   while ( ok && ( j < 3 ) )
@@ -202,23 +202,23 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TestHomogeneity(
     if ( ( savem < -m_MeanTolerance[m_TestMean[j]] )
          || ( savem > m_MeanTolerance[m_TestMean[j]] ) )
       {
-      ok = 0;
+      ok = false;
       }
     if ( ( savev < -m_STDTolerance[m_TestSTD[j]] )
          || ( savev > m_STDTolerance[m_TestSTD[j]] ) )
       {
-      ok = 0;
+      ok = false;
       }
     j++;
     }
 
   if ( ok )
     {
-    return 1;
+    return true;
     }
   else
     {
-    return 0;
+    return false;
     }
 }
 
@@ -232,7 +232,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
   itk::ImageRegionIteratorWithIndex< RGBHCVImage >            iit(m_WorkingImage, region);
 
   unsigned int minx = 0, miny = 0, maxx = 0, maxy = 0;
-  bool         status = 0;
+  bool         status = false;
   for ( unsigned int i = 0; i < this->GetSize()[1]; i++ )
     {
     for ( unsigned int j = 0; j < this->GetSize()[0]; j++ )
@@ -243,7 +243,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
         minx = j;
         maxy = i;
         maxx = j;
-        status = 1;
+        status = true;
         }
       else if ( ( status == 1 ) && ( ait.Get() ) )
         {

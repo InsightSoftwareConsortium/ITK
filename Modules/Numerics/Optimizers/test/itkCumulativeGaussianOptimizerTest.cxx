@@ -75,7 +75,7 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   optimizer->SetDifferenceTolerance(differenceTolerance);
 
   // Print results after each iteration.
-  optimizer->SetVerbose(1);
+  optimizer->SetVerbose(true);
 
   // Set the data array.
   optimizer->SetDataArray(cumGaussianArray);

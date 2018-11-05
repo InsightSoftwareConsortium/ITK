@@ -25,7 +25,7 @@ namespace itk
 /** Constructor */
 BMPImageIO::BMPImageIO() :
   m_BitMapOffset( 0 ),
-  m_FileLowerLeft( 0 ),
+  m_FileLowerLeft( false ),
   m_Depth( 8 ),
   m_NumberOfColors( 0 ),
   m_ColorPaletteSize( 0 ),
@@ -463,11 +463,11 @@ void BMPImageIO::ReadImageInformation()
   if ( ysize < 0 )
     {
     ysize = -ysize;
-    m_FileLowerLeft = 0;
+    m_FileLowerLeft = false;
     }
   else
     {
-    m_FileLowerLeft = 1;
+    m_FileLowerLeft = true;
     }
 
   this->SetNumberOfDimensions(2);

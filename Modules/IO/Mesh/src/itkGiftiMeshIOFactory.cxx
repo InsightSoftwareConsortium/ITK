@@ -34,7 +34,7 @@ GiftiMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkGiftiMeshIO",
                          "Gifti Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< GiftiMeshIO >::New() );
 }
 

@@ -293,7 +293,7 @@ Element3DC0LinearHexahedron
         pc[i] = localPt[i];
         }
       }
-    return 0;
+    return false;
     }
 }
 

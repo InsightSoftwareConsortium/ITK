@@ -36,7 +36,7 @@ VTKImageIOFactory::VTKImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkVTKImageIO",
                           "VTK Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< VTKImageIO >::New() );
 }
 

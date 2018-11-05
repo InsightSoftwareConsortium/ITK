@@ -30,12 +30,12 @@ MatlabTransformIOFactory::MatlabTransformIOFactory()
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkMatlabTransformIO",
                           "Matlab Transform float IO",
-                          1,
+                          true,
                           CreateObjectFunction< MatlabTransformIOTemplate< float > >::New() );
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkMatlabTransformIO",
                           "Matlab Transform double IO",
-                          1,
+                          true,
                           CreateObjectFunction< MatlabTransformIOTemplate< double >  >::New() );
 }
 
