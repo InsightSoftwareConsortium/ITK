@@ -1,21 +1,25 @@
-#include <vcl_cctype.h>
+#include <iostream>
+#include <cctype>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 // Test the functionality, and also cause a link to make sure the
 // function exists.
 
 int test_cctype_main(int /*argc*/,char* /*argv*/[])
 {
-  return ! ( vcl_isspace(' ') && vcl_isspace('\n') && !vcl_isspace('a') &&
-             vcl_isalnum('1') && vcl_isalnum('z') && !vcl_isalnum('@') &&
-             vcl_isdigit('4') && !vcl_isdigit('k') && !vcl_isdigit('%') &&
-             vcl_isprint(' ') && vcl_isprint('(') && !vcl_isprint('\n') &&
-             vcl_isupper('A') && !vcl_isupper('a') && !vcl_isupper('1') &&
-             vcl_islower('b') && !vcl_islower('G') && !vcl_islower('8') &&
-             vcl_isalpha('A') && vcl_isalpha('a') && !vcl_isalpha('1') &&
-             vcl_isgraph('%') && vcl_isgraph('j') && !vcl_isgraph(' ') &&
-             vcl_ispunct('&') && !vcl_ispunct('a') && !vcl_ispunct(' ') &&
-             vcl_isxdigit('8') && vcl_isxdigit('F') && vcl_isxdigit('f') && !vcl_isxdigit('g') &&
-             vcl_iscntrl('\n') && vcl_iscntrl('\177') && !vcl_iscntrl('i') &&
-             vcl_tolower('A')=='a' && vcl_tolower('a')=='a' && vcl_tolower('@')=='@' &&
-             vcl_toupper('K')=='K' && vcl_toupper('j')=='J' && vcl_toupper('$')=='$' );
+  return ! ( std::isspace(' ') && std::isspace('\n') && !std::isspace('a') &&
+             std::isalnum('1') && std::isalnum('z') && !std::isalnum('@') &&
+             std::isdigit('4') && !std::isdigit('k') && !std::isdigit('%') &&
+             std::isprint(' ') && std::isprint('(') && !std::isprint('\n') &&
+             std::isupper('A') && !std::isupper('a') && !std::isupper('1') &&
+             std::islower('b') && !std::islower('G') && !std::islower('8') &&
+             std::isalpha('A') && std::isalpha('a') && !std::isalpha('1') &&
+             std::isgraph('%') && std::isgraph('j') && !std::isgraph(' ') &&
+             std::ispunct('&') && !std::ispunct('a') && !std::ispunct(' ') &&
+             std::isxdigit('8') && std::isxdigit('F') && std::isxdigit('f') && !std::isxdigit('g') &&
+             std::iscntrl('\n') && std::iscntrl('\177') && !std::iscntrl('i') &&
+             std::tolower('A')=='a' && std::tolower('a')=='a' && std::tolower('@')=='@' &&
+             std::toupper('K')=='K' && std::toupper('j')=='J' && std::toupper('$')=='$' );
 }

@@ -1,18 +1,16 @@
 // This is core/vnl/algo/tests/test_sparse_matrix.cxx
 #include <ctime>
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vnl/algo/vnl_sparse_symmetric_eigensystem.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 #include <vnl/algo/vnl_generalized_eigensystem.h>
-
 #include <testlib/testlib_test.h>
 
 // Test the sparse matrix operations.
 void doTest1()
 {
-  const unsigned int n = 20;
+  constexpr unsigned int n = 20;
 
   vnl_sparse_matrix<double> m1(n,n);
   for (unsigned i=0; i<n; i++) {
@@ -95,7 +93,7 @@ void doTest2()
 
 void doTest3()
 {
-  const unsigned int n = 20;
+  constexpr unsigned int n = 20;
 
   vnl_sparse_matrix<double> ms(n,n);
   vnl_matrix<double> md(n,n); md = 0.0; // Initialise to all zeros
@@ -115,7 +113,7 @@ void doTest3()
   }
   std::cout << "md:\n" << md << std::endl;
 
-  const unsigned int nvals = 2;
+  constexpr unsigned int nvals = 2;
   vnl_symmetric_eigensystem<double> ed(md);
   vnl_sparse_symmetric_eigensystem es;
   TEST ("vnl_sparse_symmetric_eigensystem::CalculateNPairs()",
@@ -132,7 +130,7 @@ void doTest3()
 
 void doTest4()
 {
-  const unsigned int n = 20;
+  constexpr unsigned int n = 20;
 
   vnl_sparse_matrix<double> ms(n,n);
   vnl_matrix<double> md(n,n); md = 0.0; // Initialise to all zeros
@@ -144,7 +142,7 @@ void doTest4()
     // ms(i,i) = md(i,i) = 1.0*(i+1)*(i+1);
   }
 
-  const unsigned int nvals = 3;
+  constexpr unsigned int nvals = 3;
   vnl_symmetric_eigensystem<double> ed(md);
   vnl_sparse_symmetric_eigensystem es;
   TEST("vnl_sparse_symmetric_eigensystem::CalculateNPairs() succeeded",
@@ -164,7 +162,7 @@ void doTest4()
 
 void doTest5()
 {
-  const unsigned int n = 20;
+  constexpr unsigned int n = 20;
 
   // testing the generaized case of CalculateNPairs
   // A * x = lambda * B * x
@@ -181,7 +179,7 @@ void doTest5()
     // ms(i,i) = md(i,i) = 1.0*(i+1)*(i+1);
   }
 
-  const unsigned int nvals = 3;
+  constexpr unsigned int nvals = 3;
   vnl_symmetric_eigensystem<double> ed(md);
   vnl_sparse_symmetric_eigensystem es;
   TEST("vnl_sparse_symmetric_eigensystem::CalculateNPairs(A, B) succeeded",
@@ -202,7 +200,7 @@ void doTest5()
 
 void doTest6()
 {
-  const int matOrd = 6;
+  constexpr int matOrd = 6;
   double Sdata[matOrd*matOrd] = {
     30.0000,   -3.4273,   13.9254,   13.7049,   -2.4446,   20.2380,
     -3.4273,   13.7049,   -2.4446,    1.3659,    3.6702,   -0.2282,

@@ -1,10 +1,7 @@
 #include <iostream>
-#include <vcl_compiler.h>
 
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_real_npolynomial.h>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
 
 void test_real_npolynomial()
 {

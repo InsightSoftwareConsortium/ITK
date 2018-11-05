@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_float_4x3.h
 #ifndef vnl_float_4x3_h_
 #define vnl_float_4x3_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief 4x3 matrix of float

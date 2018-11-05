@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_complex.h
 #ifndef vnl_complex_h_
 #define vnl_complex_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Complex additions to vnl_math.
@@ -22,7 +19,9 @@
 #include <cmath>
 #include <complex>
 #include <iosfwd>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_math.h>
 #include "vnl/vnl_export.h"
 
@@ -39,40 +38,6 @@ namespace vnl_math
  type_macro(double)
  type_macro(long double)
 #undef type_macro
-
-#ifdef NEED_COMPLEX_BIGNUM // should never be defined ;-)
-
-#include <vnl/vnl_bignum.h>
-
- inline bool isnan(std::complex<vnl_bignum> const& ) { return false; }
- inline bool isfinite(std::complex<vnl_bignum> const&) { return true; }
- inline vnl_bignum squared_magnitude(std::complex<vnl_bignum> const& z) { return std::norm(z); }
- inline vnl_bignum abs(std::complex<vnl_bignum> const& z) { return std::sqrt(double(std::norm(z))); }
- inline std::complex<vnl_bignum> sqr(std::complex<vnl_bignum> const& z) { return z*z; }
- inline std::ostream& operator<<(std::ostream& s, std::complex<vnl_bignum> const& z)
- { return s << '(' << z.real() << ',' << z.imag() << ')'; }
- inline std::istream& operator>>(std::istream& s, std::complex<vnl_bignum>& z)
- { vnl_bignum r, i; s >> r >> i; z=std::complex<vnl_bignum>(r,i); return s; }
-
-#endif // NEED_COMPLEX_BIGNUM
-
-#ifdef NEED_COMPLEX_RATIONAL // should probably not be defined ;-)
-
-#include <vnl/vnl_rational.h>
-
- inline bool isnan(std::complex<vnl_rational> const& z)
- { return isnan(std::real(z)) || isnan(std::imag(z)); }
- inline bool isfinite(std::complex<vnl_rational> const& z)
- { return isfinite(std::real(z)) && isfinite(std::imag(z)); }
- inline vnl_rational squared_magnitude(std::complex<vnl_rational> const& z) { return std::norm(z); }
- inline vnl_rational abs(std::complex<vnl_rational> const& z) { return std::sqrt(double(std::norm(z))); }
- inline std::complex<vnl_rational> sqr(std::complex<vnl_rational> const& z) { return z*z; }
- inline std::ostream& operator<< (std::ostream& s, std::complex<vnl_rational> const& z)
- { return s << '(' << z.real() << ',' << z.imag() << ')'; }
- inline std::istream& operator>> (std::istream& s, std::complex<vnl_rational>& z)
- { vnl_rational r, i; s >> r >> i; z=std::complex<vnl_rational>(r,i); return s; }
-
-#endif // NEED_COMPLEX_RATIONAL
 
 } // end namespace vnl_math
 

@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_lbfgs.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 //
@@ -14,7 +11,6 @@
 #include <iostream>
 #include <iomanip>
 #include "vnl_lbfgs.h"
-#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_netlib.h> // lbfgs_()
 
@@ -22,7 +18,7 @@
 // memory is set to 5, line_search_accuracy to 0.9.
 // Calls init_parameters
 vnl_lbfgs::vnl_lbfgs():
-  f_(VXL_NULLPTR)
+  f_(nullptr)
 {
   init_parameters();
 }

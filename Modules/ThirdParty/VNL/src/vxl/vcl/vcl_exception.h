@@ -2,15 +2,12 @@
 #define vcl_exception_h_
 
 #include <exception>
-#include "vcl_compiler.h"
-
-# define vcl_throw     throw
-# define vcl_try       try
-# define vcl_catch     catch
-# define vcl_catch_all catch (...)
-
-//vcl alias names to std names
-#define vcl_exception std::exception
-#define vcl_bad_exception std::bad_exception
-
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
+#if VXL_LEGACY_FUTURE_REMOVE
+  # error  "Deprecated.  Use equivalent C++11 header instead. see: vxl/scripts/UseStandardHeaders.py"
+#else
+  # warning "This header will be removed in future versions of VXL.  Use equivalent C++11 header instead. see: vxl/scripts/UseStandardHeaders.py"
+#endif
 #endif // vcl_exception_h_

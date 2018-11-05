@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_symmetric_eigensystem.h
 #ifndef vnl_symmetric_eigensystem_h_
 #define vnl_symmetric_eigensystem_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Find eigenvalues of a symmetric matrix
@@ -78,7 +75,7 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<T> const & A,
 
 //: Computes and stores the eigensystem decomposition of a symmetric matrix.
 
-VCL_TEMPLATE_EXPORT template <class T>
+template <class T>
 class vnl_symmetric_eigensystem
 {
  public:

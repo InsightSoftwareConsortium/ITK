@@ -16,7 +16,7 @@ class VNL_ALGO_EXPORT vnl_simpson_integral : public vnl_definite_integral
 
  public:
 
-  vnl_simpson_integral() {}
+  vnl_simpson_integral() = default;
 
   //: a and b are integral limits respectively.
   // n is the number of intervals used in integral.

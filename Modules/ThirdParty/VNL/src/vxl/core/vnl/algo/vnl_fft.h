@@ -1,14 +1,13 @@
 // This is core/vnl/algo/vnl_fft.h
 #ifndef vnl_fft_h_
 #define vnl_fft_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author fsm
 
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/algo/vnl_algo_export.h>
 
 //: use C++ overloading to find the correct FORTRAN routine from templated FFT code.

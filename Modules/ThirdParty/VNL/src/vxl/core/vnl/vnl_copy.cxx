@@ -1,15 +1,10 @@
 // This is core/vnl/vnl_copy.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author fsm
 
 #include <complex>
-#include "vnl_copy.h"
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>

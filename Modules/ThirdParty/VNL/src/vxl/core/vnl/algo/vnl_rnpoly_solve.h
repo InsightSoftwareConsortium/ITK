@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_rnpoly_solve.h
 #ifndef vnl_rnpoly_solve_h_
 #define vnl_rnpoly_solve_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Solves for roots of system of real polynomials
@@ -19,11 +16,14 @@
 //                               now using std::vector throughout instead of C arrays of fixed size
 // \endverbatim
 
+#include <utility>
 #include <vector>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_real_npolynomial.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/algo/vnl_algo_export.h>
+#include <vnl/vnl_real_npolynomial.h>
+#include <vnl/vnl_vector.h>
 
 //: Solves for roots of system of real polynomials
 //  Calculates all the roots of a system of N polynomials in N variables
@@ -43,8 +43,8 @@ class VNL_ALGO_EXPORT vnl_rnpoly_solve
   // Constructor---------------------------------------------------------------
 
   //: The constructor already does all the calculations
-  inline vnl_rnpoly_solve(std::vector<vnl_real_npolynomial*> const& ps)
-    : ps_(ps) { compute(); }
+  inline vnl_rnpoly_solve(std::vector<vnl_real_npolynomial*>  ps)
+    : ps_(std::move(ps)) { compute(); }
 
   // Destructor----------------------------------------------------------------
 

@@ -28,7 +28,7 @@ lsqrBase::lsqrBase()
   this->btol = 1e-6;
   this->conlim = 1.0 / ( 10 * sqrt( this->eps ) );
   this->itnlim = 10;
-  this->nout = NULL;
+  this->nout = nullptr;
   this->istop = 0;
   this->itn = 0;
   this->Anorm = 0.0;
@@ -40,15 +40,13 @@ lsqrBase::lsqrBase()
   this->dxmax = 0.0;
   this->maxdx = 0;
   this->wantse = false;
-  this->se = NULL;
+  this->se = nullptr;
   this->damp = 0.0;
   this->damped = false;
 }
 
 
-lsqrBase::~lsqrBase()
-{
-}
+lsqrBase::~lsqrBase() = default;
 
 
 unsigned int
@@ -283,9 +281,9 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   double sn2 = zero;
   double z = zero;
 
-  double * u = new double[m];
-  double * v = new double[n];
-  double * w = new double[n];
+  auto * u = new double[m];
+  auto * v = new double[n];
+  auto * w = new double[n];
 
   //-------------------------------------------------------------------
   //  Set up the first vectors u and v for the bidiagonalization.

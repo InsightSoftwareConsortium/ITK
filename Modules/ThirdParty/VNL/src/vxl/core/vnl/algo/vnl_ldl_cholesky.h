@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_ldl_cholesky.h
 #ifndef vnl_ldl_cholesky_h_
 #define vnl_ldl_cholesky_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Updateable Cholesky decomposition: A=LDL'
@@ -41,7 +38,7 @@ class VNL_ALGO_EXPORT vnl_ldl_cholesky
 
   //: Make cholesky decomposition of M optionally computing the reciprocal condition number.
   vnl_ldl_cholesky(vnl_matrix<double> const& M, Operation mode = verbose);
- ~vnl_ldl_cholesky() {}
+ ~vnl_ldl_cholesky() = default;
 
   //: Solve LS problem M x = b
   vnl_vector<double> solve(vnl_vector<double> const& b) const;
@@ -118,9 +115,9 @@ class VNL_ALGO_EXPORT vnl_ldl_cholesky
 
  private:
   //: Copy constructor - privatised to avoid it being used
-  vnl_ldl_cholesky(vnl_ldl_cholesky const & that);
+  vnl_ldl_cholesky(vnl_ldl_cholesky const & that) = delete;
   //: Assignment operator - privatised to avoid it being used
-  vnl_ldl_cholesky& operator=(vnl_ldl_cholesky const & that);
+  vnl_ldl_cholesky& operator=(vnl_ldl_cholesky const & that) = delete;
 
   //: Solve Mx=b, overwriting input vector with the solution.
   //  x points to beginning of an n-element vector containing b

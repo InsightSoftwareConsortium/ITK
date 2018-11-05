@@ -41,7 +41,7 @@ void x_write_tree(std::ostream & os, vnl_matrix<T> const& M, std::string name)
 
 #undef VNL_XIO_MATRIX_INSTANTIATE
 #define VNL_XIO_MATRIX_INSTANTIATE(T) \
-template VNL_TEMPLATE_EXPORT void x_write(std::ostream &, vnl_matrix<T > const&, std::string); \
-template VNL_TEMPLATE_EXPORT void x_write_tree(std::ostream &, vnl_matrix<T > const&, std::string)
+template VNL_EXPORT void x_write(std::ostream &, vnl_matrix<T > const&, std::string); \
+template VNL_EXPORT void x_write_tree(std::ostream &, vnl_matrix<T > const&, std::string)
 
 #endif // vnl_xio_matrix_hxx_

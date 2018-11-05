@@ -15,7 +15,8 @@ for ff in $( git grep -l "\(\s*\)const  *\([^=]*\)= *\([0-9\.][0-9\.]*\) *;" |fg
   sed -e  's/^\( *\)const  *\([^=]*\)= *\([0-9\.][0-9\.]*\) *;/\1constexpr \2 = \3;/g' | \
   sed -e  's/constexpr *\([^)]*\)) *= *0 *;/const \1) = 0;/g' | \
   sed -e  's/constexpr *\([^)]*\)) *const *= *0 *;/const \1) const = 0;/g' | \
-  sed -e  's/constexpr *\([^)]*\)) *const *override *= *0 *;/const \1) const override = 0;/g' > /tmp/temp_file
+  sed -e  's/constexpr *\([^)]*\)) *const *override *= *0 *;/const \1) const override = 0;/g' | \
+  sed -e  's/constexpr \(.*\)   *=/\1 =/g'  > /tmp/temp_file
   mv  /tmp/temp_file $ff
 done
 

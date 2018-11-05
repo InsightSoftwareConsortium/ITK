@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_cholesky.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // vnl_cholesky
@@ -11,10 +8,9 @@
 //-----------------------------------------------------------------------------
 
 #include <cmath>
+#include <cassert>
 #include <iostream>
 #include "vnl_cholesky.h"
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
 #include <vnl/algo/vnl_netlib.h> // dpofa_(), dposl_(), dpoco_(), dpodi_()
 
 //: Cholesky decomposition.
@@ -96,7 +92,7 @@ vnl_matrix<double> vnl_cholesky::inverse() const
   long n = A_.columns();
   vnl_matrix<double> I = A_;
   long job = 01;
-  v3p_netlib_dpodi_(I.data_block(), &n, &n, VXL_NULLPTR, &job);
+  v3p_netlib_dpodi_(I.data_block(), &n, &n, nullptr, &job);
 
   // Copy lower triangle into upper
   for (int i = 0; i < n; ++i)

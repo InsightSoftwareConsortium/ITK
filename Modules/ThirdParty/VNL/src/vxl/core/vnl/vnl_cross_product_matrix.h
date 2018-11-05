@@ -28,7 +28,7 @@
 //     e_3   0    -e_1
 //    -e_2   e_1   0
 // \endverbatim
-class VNL_TEMPLATE_EXPORT vnl_cross_product_matrix : public vnl_double_3x3
+class VNL_EXPORT vnl_cross_product_matrix : public vnl_double_3x3
 {
  public:
   typedef vnl_double_3x3 base;
@@ -36,8 +36,8 @@ class VNL_TEMPLATE_EXPORT vnl_cross_product_matrix : public vnl_double_3x3
   vnl_cross_product_matrix(vnl_vector_fixed<double,3> const& v) { set(v.data_block()); }
   vnl_cross_product_matrix(vnl_vector<double> const& v) { set(v.data_block()); }
   vnl_cross_product_matrix(const double* v) { set(v); }
-  vnl_cross_product_matrix(vnl_cross_product_matrix const& that): base(that) {}
- ~vnl_cross_product_matrix() {}
+  vnl_cross_product_matrix(vnl_cross_product_matrix const& that) = default;
+ ~vnl_cross_product_matrix() = default;
 
   vnl_cross_product_matrix& operator=(const vnl_cross_product_matrix& that) {
     base::operator= (that);

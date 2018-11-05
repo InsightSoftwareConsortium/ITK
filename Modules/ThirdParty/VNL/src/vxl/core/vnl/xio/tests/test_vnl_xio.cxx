@@ -4,9 +4,7 @@
 #include <vnl/xio/vnl_xio_vector_fixed.h>
 #include <vnl/xio/vnl_xio_vector.h>
 #include <vnl/xio/vnl_xio_quaternion.h>
-
 #include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
 
 static void test_xtreeio_matrix_fixed()
 {

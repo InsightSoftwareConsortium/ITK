@@ -1,9 +1,8 @@
 #include <iostream>
+#include <cassert>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_sparse_lst_sqr_function.h>
 #include <vnl/algo/vnl_sparse_lm.h>
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
 #include <vnl/vnl_random.h>
 #include <vnl/vnl_math.h>
 
@@ -41,8 +40,8 @@ static void normalize(vnl_vector<double>& a, vnl_vector<double>& b)
   mean_dist /= num_pts;
 
   // scale points
-  for (unsigned int i=0; i<b.size(); ++i) {
-    b[i] /= mean_dist;
+  for (double & i : b) {
+    i /= mean_dist;
   }
   // scale cameras
   for (unsigned int i=0; i<a.size()/3; ++i) {
@@ -107,7 +106,7 @@ class bundle_2d : public vnl_sparse_lst_sqr_function
            vnl_vector<double> const& ai,
            vnl_vector<double> const& bj,
            vnl_vector<double> const& /*c*/,
-           vnl_vector<double>& fxij)
+           vnl_vector<double>& fxij) override
   {
     double sa = std::sin(ai[0]);
     double ca = std::cos(ai[0]);
@@ -115,11 +114,11 @@ class bundle_2d : public vnl_sparse_lst_sqr_function
              - data_[residual_indices_(i,j)];
   }
 
-  void jac_Aij(int /*i*/, int /*j*/,
+  void jac_Aij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
                vnl_vector<double> const& bj,
                vnl_vector<double> const& /*c*/,
-               vnl_matrix<double>& Aij)
+               vnl_matrix<double>& Aij) override
   {
     double sa = std::sin(ai[0]);
     double ca = std::cos(ai[0]);
@@ -131,11 +130,11 @@ class bundle_2d : public vnl_sparse_lst_sqr_function
     Aij[0][2] = -(ca*bj[0] - sa*bj[1] + ai[1]) / (denom*denom);
   }
 
-  void jac_Bij(int /*i*/, int /*j*/,
+  void jac_Bij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
                vnl_vector<double> const& bj,
                vnl_vector<double> const& /*c*/,
-               vnl_matrix<double>& Bij)
+               vnl_matrix<double>& Bij) override
   {
     double sa = std::sin(ai[0]);
     double ca = std::cos(ai[0]);
@@ -149,7 +148,7 @@ class bundle_2d : public vnl_sparse_lst_sqr_function
              vnl_vector<double> const& /*a*/,
              vnl_vector<double> const& /*b*/,
              vnl_vector<double> const& /*c*/,
-             vnl_vector<double> const& /*e*/)
+             vnl_vector<double> const& /*e*/) override
   {
     //std::cout << "trace "<<iteration<< " a: "<<a<<std::endl;
   }
@@ -281,8 +280,8 @@ void test_prob1()
    vnl_random rnd;
 
    // add uniform random noise to each measurement
-   for (unsigned int i=0; i<proj2.size(); ++i) {
-     proj2[i] += (rnd.drand32()-0.5)*1e-6;
+   for (double & i : proj2) {
+     i += (rnd.drand32()-0.5)*1e-6;
    }
 
    // test 2D bundle adjustment with missing data and uniform noise
@@ -339,7 +338,7 @@ class bundle_2d_shared : public vnl_sparse_lst_sqr_function
            vnl_vector<double> const& ai,
            vnl_vector<double> const& bj,
            vnl_vector<double> const& c,
-           vnl_vector<double>& fxij)
+           vnl_vector<double>& fxij) override
   {
     double sa = std::sin(ai[0]);
     double ca = std::cos(ai[0]);
@@ -347,11 +346,11 @@ class bundle_2d_shared : public vnl_sparse_lst_sqr_function
              - data_[residual_indices_(i,j)];
   }
 
-  void jac_Aij(int /*i*/, int /*j*/,
+  void jac_Aij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
                vnl_vector<double> const& bj,
                vnl_vector<double> const& c,
-               vnl_matrix<double>& Aij)
+               vnl_matrix<double>& Aij) override
   {
     double sa = std::sin(ai[0]);
     double ca = std::cos(ai[0]);
@@ -362,11 +361,11 @@ class bundle_2d_shared : public vnl_sparse_lst_sqr_function
     Aij[0][2] = -c[0]*(ca*bj[0] - sa*bj[1] + ai[1]) / (denom*denom);
   }
 
-  void jac_Bij(int /*i*/, int /*j*/,
+  void jac_Bij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
                vnl_vector<double> const& bj,
                vnl_vector<double> const& c,
-               vnl_matrix<double>& Bij)
+               vnl_matrix<double>& Bij) override
   {
     double sa = std::sin(ai[0]);
     double ca = std::cos(ai[0]);
@@ -376,11 +375,11 @@ class bundle_2d_shared : public vnl_sparse_lst_sqr_function
     Bij[0][1] = (-c[0]*sa - ca*numer/denom)/denom;
   }
 
-  void jac_Cij(int /*i*/, int /*j*/,
+  void jac_Cij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
                vnl_vector<double> const& bj,
                vnl_vector<double> const& /*c*/,
-               vnl_matrix<double>& Cij)
+               vnl_matrix<double>& Cij) override
   {
     double sa = std::sin(ai[0]);
     double ca = std::cos(ai[0]);
@@ -512,8 +511,8 @@ void test_prob2()
    vnl_random rnd;
 
    // add uniform random noise to each measurement
-   for (unsigned int i=0; i<proj2.size(); ++i) {
-     proj2[i] += (rnd.drand32()-0.5)*1e-6;
+   for (double & i : proj2) {
+     i += (rnd.drand32()-0.5)*1e-6;
    }
 
    // test 2D bundle adjustment with missing data and uniform noise
@@ -569,7 +568,7 @@ class bundle_2d_robust : public bundle_2d
                          vnl_vector<double> const& /*bj*/,
                          vnl_vector<double> const& /*c*/,
                          vnl_vector<double> const& fij,
-                         double& weight)
+                         double& weight) override
   {
     int k = residual_indices_(i,j);
     assert(k>=0);
@@ -601,7 +600,7 @@ class bundle_2d_robust : public bundle_2d
              vnl_vector<double> const& /*a*/,
              vnl_vector<double> const& /*b*/,
              vnl_vector<double> const& /*c*/,
-             vnl_vector<double> const& /*e*/)
+             vnl_vector<double> const& /*e*/) override
   {
     //std::cout << "trace "<<iteration<< " a: "<<a<<std::endl;
   }
@@ -638,9 +637,9 @@ void test_prob3()
     init_a[3*i+1] += rnd.normal()*sigma_pos;
     init_a[3*i+2] += rnd.normal()*sigma_pos;
   }
-  for (unsigned i=0; i<init_b.size(); ++i)
+  for (double & i : init_b)
   {
-    init_b[i] += rnd.normal()*sigma_pos;
+    i += rnd.normal()*sigma_pos;
   }
 
   // create a generator function with ideal data and zeros for all projections
@@ -765,8 +764,8 @@ void test_prob3()
   }
 
   // add uniform random noise to each measurement
-  for (unsigned int i=0; i<proj2.size(); ++i) {
-    proj2[i] += (rnd.drand32()-0.5)*1e-6;
+  for (double & i : proj2) {
+    i += (rnd.drand32()-0.5)*1e-6;
   }
 
   // test 2D bundle adjustment with missing data and uniform noise

@@ -31,16 +31,28 @@ echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 echo ""
 remoteCache=${remoteFile//.remote.cmake}
 
+if [[ ! -d ${remoteCache} ]]; then
+  export git_protocol=https
+  clone_url=$(eval "echo $(cat ${remoteFile} | grep GIT_REPOSITORY |tail -1 |awk '{print $2}')")
+  echo clone_url
+  git clone ${clone_url} ${remoteCache}
+  pushd  ${remoteCache}
+    git submodule init
+    git submodule update --recursive
+  popd
+fi
+
 pushd ${remoteCache}
 git fetch origin
 git rebase origin/master
 HEAD_HASH=$(git rev-parse --verify HEAD)
-sed -i "" "s/GIT_TAG .*/GIT_TAG ${HEAD_HASH}/g" ${remoteFile}
+sed -i "" "s/GIT_TAG .*/GIT_TAG ${HEAD_HASH}/g" ../${remoteFile}
 MASTER_HASH=$(git rev-parse --verify origin/master)
 if [[ "${HEAD_HASH}" != "${MASTER_HASH}" ]]; then
     CURR_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     if [[ "${CURR_BRANCH}" != "${branchName}" ]]; then
       git checkout ${HEAD_HASH} -b ${branchName};
+      git submodule update --recursive
     fi
     git push --set-upstream origin ${branchName};
     hub pull-request -m "ENH: C++11 updates warning fixes

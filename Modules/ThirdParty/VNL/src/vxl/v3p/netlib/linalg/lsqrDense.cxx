@@ -21,13 +21,11 @@
 
 lsqrDense::lsqrDense()
 {
-  this->A = VXL_NULLPTR;
+  this->A = nullptr;
 }
 
 
-lsqrDense::~lsqrDense()
-{
-}
+lsqrDense::~lsqrDense() = default;
 
 
 void

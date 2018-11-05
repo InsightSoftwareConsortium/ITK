@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_rpoly_roots.h
 #ifndef vnl_rpoly_roots_h_
 #define vnl_rpoly_roots_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief Finds roots of a real polynomial
@@ -19,7 +16,9 @@
 //  \endverbatim
 
 #include <complex>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_algo_export.h>
 
@@ -56,7 +55,7 @@ class VNL_ALGO_EXPORT vnl_rpoly_roots
   // Operations----------------------------------------------------------------
 
   //: Return i'th complex root
-  std::complex<double> operator [] (int i) const { return std::complex<double>(r_[i], i_[i]); }
+  std::complex<double> operator [] (int i) const { return {r_[i], i_[i]}; }
 
   //: Complex vector of all roots.
   vnl_vector<std::complex<double> > roots() const;

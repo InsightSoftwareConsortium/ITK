@@ -1,18 +1,13 @@
 // This is core/vnl/vnl_linear_system.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author David Capel, capes@robots
 // \date   July 2000
 
 #include "vnl_linear_system.h"
-#include <vcl_cassert.h>
+#include <cassert>
 
-vnl_linear_system::~vnl_linear_system()
-{
-}
+vnl_linear_system::~vnl_linear_system() = default;
 
 void vnl_linear_system::apply_preconditioner(vnl_vector<double> const& x, vnl_vector<double> & px) const
 {

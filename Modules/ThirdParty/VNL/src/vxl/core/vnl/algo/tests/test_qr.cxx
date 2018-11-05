@@ -2,13 +2,11 @@
 #include <iostream>
 #include <complex>
 #include "test_util.h"
-#include <vcl_compiler.h>
-#include <testlib/testlib_test.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_random.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/algo/vnl_qr.h>
-
+#include <testlib/testlib_test.h>
 //--------------------------------------------------------------------------------
 
 void test_matrix(char const* name, const vnl_matrix<double>& A, double det = 0)
@@ -168,13 +166,13 @@ extern "C" void test_qr()
   double_test();
 
   std::cout << "-------------------- float\n";
-  new_test((float*)VXL_NULLPTR);
+  new_test((float*)nullptr);
   std::cout << "-------------------- double\n";
-  new_test((double*)VXL_NULLPTR);
+  new_test((double*)nullptr);
   std::cout << "-------------------- float_complex\n";
-  new_test((std::complex<float>*)VXL_NULLPTR);
+  new_test((std::complex<float>*)nullptr);
   std::cout << "-------------------- double_complex\n";
-  new_test((std::complex<double>*)VXL_NULLPTR);
+  new_test((std::complex<double>*)nullptr);
 }
 
 TESTMAIN(test_qr);

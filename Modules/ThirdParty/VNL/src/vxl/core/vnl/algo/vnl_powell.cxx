@@ -1,13 +1,10 @@
 // This is core/vnl/algo/vnl_powell.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 #include <iostream>
+#include <cassert>
 #include "vnl_powell.h"
 
-#include <vcl_cassert.h>
 #include <vnl/vnl_math.h>
 #undef VNL_USE_OLD_BRENT_MINIMIZER // #define VNL_USE_OLD_BRENT_MINIMIZER
 // This version was deprecated, and the refactoring to the new minimizer was not done correctly with respect to initialisation.
@@ -19,7 +16,9 @@
 #endif
 #ifdef DEBUG
 #include <vnl/vnl_matlab_print.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #endif
 
 class vnl_powell_1dfun : public vnl_cost_function
@@ -42,7 +41,7 @@ class vnl_powell_1dfun : public vnl_cost_function
     assert(dx.size() == n_);
   }
 
-  double f(const vnl_vector<double>& x)
+  double f(const vnl_vector<double>& x) override
   {
     uninit(x[0], tmpx_);
     double e = f_->f(tmpx_);

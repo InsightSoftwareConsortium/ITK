@@ -10,7 +10,7 @@
 # Flag that determines if we were able to successfully build Python.
 # Initialize to NO. Change below if yes.
 set(PYTHON_FOUND "NO" CACHE INTERNAL "Was Python successfully built?" )
-if(BUILD_BRL_PYTHON)
+if(VXL_BUILD_BRL_PYTHON)
 set(Python_ADDITIONAL_VERSIONS 2.7)
 find_package(PythonLibs)
 
@@ -46,4 +46,4 @@ if(PYTHON_INCLUDE_DIR)
 
  endif() #PYTHON_LIBRARY OR PYTHON_DEBUG_LIBRARY
 endif() #PYTHON_INCLUDE_DIR
-endif() # BUILD_BRL_PYTHON
+endif() # VXL_BUILD_BRL_PYTHON

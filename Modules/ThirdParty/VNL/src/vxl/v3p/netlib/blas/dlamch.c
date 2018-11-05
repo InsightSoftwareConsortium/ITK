@@ -561,7 +561,7 @@ L30:
     doublereal one, two;
     logical ieee;
     doublereal half;
-    logical lrnd;
+    logical lrnd = 0; //variable 'lrnd' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
     static doublereal leps; /* runtime-initialized constant */
     doublereal zero;
     static integer lbeta; /* runtime-initialized constant */

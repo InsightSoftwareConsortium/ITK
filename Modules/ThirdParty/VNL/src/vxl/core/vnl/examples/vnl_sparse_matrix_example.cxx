@@ -1,14 +1,11 @@
 #include <iostream>
-#include <cstdlib>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vnl/algo/vnl_sparse_symmetric_eigensystem.h>
 #include <vnl/vnl_random.h>
 
-#include <vcl_compiler.h>
-
 int main()
 {
-  const int N = 100;
+  constexpr int N = 100;
   vnl_sparse_matrix<double> a(N, N);
   vnl_random rg;
 

@@ -51,7 +51,7 @@ else()
       )
 
       if(CYGWIN)
-        if(VXL_BUILD_SHARED_LIBS)
+        if(BUILD_SHARED_LIBS)
            # No need to define PNG_USE_DLL here, because it's default for Cygwin.
         else()
           set(PNG_DEFINITIONS  ${PNG_DEFINITIONS} -DPNG_STATIC)

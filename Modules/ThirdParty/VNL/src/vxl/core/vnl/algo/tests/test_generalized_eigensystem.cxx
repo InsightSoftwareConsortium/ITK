@@ -9,7 +9,6 @@
 
 //-----------------------------------------------------------------------------
 
-#include <vcl_compiler.h>
 #include <vnl/algo/vnl_generalized_eigensystem.h>
 
 void test_generalized_eigensystem()

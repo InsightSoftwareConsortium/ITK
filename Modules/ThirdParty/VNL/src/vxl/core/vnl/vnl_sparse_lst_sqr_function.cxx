@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_sparse_lst_sqr_function.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Matt Leotta (Brown)
@@ -9,9 +6,8 @@
 
 
 #include <iostream>
+#include <cassert>
 #include "vnl_sparse_lst_sqr_function.h"
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
 #include <vnl/vnl_vector_ref.h>
 
 void vnl_sparse_lst_sqr_function::dim_warning(unsigned int nr_of_unknowns,
@@ -161,7 +157,6 @@ vnl_sparse_lst_sqr_function::f(vnl_vector<double> const& a,
                                vnl_vector<double> const& c,
                                vnl_vector<double>& e)
 {
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
@@ -169,10 +164,10 @@ vnl_sparse_lst_sqr_function::f(vnl_vector<double> const& a,
                                     const_cast<double*>(a.data_block())+index_a(i));
 
     vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      unsigned int j = r_itr->second;
-      unsigned int k = r_itr->first;
+      unsigned int j = r_itr.second;
+      unsigned int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
       const vnl_vector_ref<double> bj(number_of_params_b(j),
                                       const_cast<double*>(b.data_block())+index_b(j));
@@ -199,7 +194,6 @@ vnl_sparse_lst_sqr_function::jac_blocks(vnl_vector<double> const& a,
                                         std::vector<vnl_matrix<double> >& B,
                                         std::vector<vnl_matrix<double> >& C)
 {
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
@@ -207,10 +201,10 @@ vnl_sparse_lst_sqr_function::jac_blocks(vnl_vector<double> const& a,
                                     const_cast<double*>(a.data_block())+index_a(i));
 
     vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      unsigned int j = r_itr->second;
-      unsigned int k = r_itr->first;
+      unsigned int j = r_itr.second;
+      unsigned int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
       const vnl_vector_ref<double> bj(number_of_params_b(j),
                                       const_cast<double*>(b.data_block())+index_b(j));
@@ -240,7 +234,6 @@ vnl_sparse_lst_sqr_function::fd_jac_blocks(vnl_vector<double> const& a,
                                            std::vector<vnl_matrix<double> >& C,
                                            double stepsize)
 {
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
@@ -248,10 +241,10 @@ vnl_sparse_lst_sqr_function::fd_jac_blocks(vnl_vector<double> const& a,
                                     const_cast<double*>(a.data_block())+index_a(i));
 
     vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      unsigned int j = r_itr->second;
-      unsigned int k = r_itr->first;
+      unsigned int j = r_itr.second;
+      unsigned int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
       const vnl_vector_ref<double> bj(number_of_params_b(j),
                                       const_cast<double*>(b.data_block())+index_b(j));
@@ -277,7 +270,6 @@ vnl_sparse_lst_sqr_function::compute_weights(vnl_vector<double> const& a,
                                              vnl_vector<double> const& e,
                                              vnl_vector<double>& weights)
 {
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
@@ -285,10 +277,10 @@ vnl_sparse_lst_sqr_function::compute_weights(vnl_vector<double> const& a,
                                     const_cast<double*>(a.data_block())+index_a(i));
 
     vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      unsigned int j = r_itr->second;
-      unsigned int k = r_itr->first;
+      unsigned int j = r_itr.second;
+      unsigned int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
       const vnl_vector_ref<double> bj(number_of_params_b(j),
                                       const_cast<double*>(b.data_block())+index_b(j));
@@ -309,14 +301,13 @@ void
 vnl_sparse_lst_sqr_function::apply_weights(vnl_vector<double> const& weights,
                                            vnl_vector<double>& e)
 {
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
   {
     vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      unsigned int j = r_itr->second;
-      unsigned int k = r_itr->first;
+      unsigned int j = r_itr.second;
+      unsigned int k = r_itr.first;
       vnl_vector_ref<double> eij(number_of_residuals(k), e.data_block()+index_e(k));
       apply_weight_ij(i,j,weights[k],eij);
     }
@@ -335,14 +326,13 @@ vnl_sparse_lst_sqr_function::apply_weights(vnl_vector<double> const& weights,
                                            std::vector<vnl_matrix<double> >& B,
                                            std::vector<vnl_matrix<double> >& C)
 {
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
   {
     vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
-    for (sv_itr r_itr=row.begin(); r_itr!=row.end(); ++r_itr)
+    for (auto & r_itr : row)
     {
-      unsigned int j = r_itr->second;
-      unsigned int k = r_itr->first;
+      unsigned int j = r_itr.second;
+      unsigned int k = r_itr.first;
       apply_weight_ij(i,j,weights[k],A[k],B[k],C[k]);
     }
   }
@@ -364,7 +354,7 @@ vnl_sparse_lst_sqr_function::fij(int /*i*/, int /*j*/,
 
 //: Calculate the Jacobian A_ij, given the parameter vectors a_i, b_j, and c.
 void
-vnl_sparse_lst_sqr_function::jac_Aij(int /*i*/, int /*j*/,
+vnl_sparse_lst_sqr_function::jac_Aij(unsigned int /*i*/, unsigned int /*j*/,
                                      vnl_vector<double> const& /*ai*/,
                                      vnl_vector<double> const& /*bj*/,
                                      vnl_vector<double> const& /*c*/,
@@ -375,7 +365,7 @@ vnl_sparse_lst_sqr_function::jac_Aij(int /*i*/, int /*j*/,
 
 //: Calculate the Jacobian B_ij, given the parameter vectors a_i, b_j, and c.
 void
-vnl_sparse_lst_sqr_function::jac_Bij(int /*i*/, int /*j*/,
+vnl_sparse_lst_sqr_function::jac_Bij(unsigned int /*i*/, unsigned int /*j*/,
                                      vnl_vector<double> const& /*ai*/,
                                      vnl_vector<double> const& /*bj*/,
                                      vnl_vector<double> const& /*c*/,
@@ -386,7 +376,7 @@ vnl_sparse_lst_sqr_function::jac_Bij(int /*i*/, int /*j*/,
 
 //: Calculate the Jacobian C_ij, given the parameter vectors a_i, b_j, and c.
 void
-vnl_sparse_lst_sqr_function::jac_Cij(int /*i*/, int /*j*/,
+vnl_sparse_lst_sqr_function::jac_Cij(unsigned int /*i*/, unsigned int /*j*/,
                                      vnl_vector<double> const& /*ai*/,
                                      vnl_vector<double> const& /*bj*/,
                                      vnl_vector<double> const& /*c*/,

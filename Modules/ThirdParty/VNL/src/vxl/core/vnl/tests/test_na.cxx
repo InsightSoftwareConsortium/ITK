@@ -1,8 +1,6 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include <limits>
-#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_na.h>
 #include <testlib/testlib_test.h>

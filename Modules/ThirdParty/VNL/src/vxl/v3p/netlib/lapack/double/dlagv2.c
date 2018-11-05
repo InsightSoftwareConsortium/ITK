@@ -31,7 +31,9 @@ static integer c__1 = 1;
     doublereal d__1, d__2, d__3, d__4, d__5, d__6;
 
     /* Local variables */
-    doublereal r__, t, h1, h2, h3, wi, qq, rr, wr1, wr2, ulp;
+    doublereal r__, t, h1, h2, h3;
+    doublereal  wi = 0.0; //variable 'wi' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    doublereal qq, rr, wr1, wr2, ulp;
     extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *), dlag2_(
             doublereal *, integer *, doublereal *, integer *, doublereal *,

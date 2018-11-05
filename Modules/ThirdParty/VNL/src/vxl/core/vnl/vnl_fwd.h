@@ -5,7 +5,9 @@
 //:
 // \file
 // \author fsm
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 template <class T> struct vnl_complex_traits;
 template <class T> class vnl_numeric_traits;

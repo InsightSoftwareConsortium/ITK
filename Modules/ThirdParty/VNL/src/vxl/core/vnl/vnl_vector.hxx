@@ -40,8 +40,10 @@
 #include <algorithm>
 #include "vnl_vector.h"
 
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
+#include <cassert>
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_matrix.h>
@@ -53,12 +55,7 @@
 
 //--------------------------------------------------------------------------------
 
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-// vnl_vector owns its data by default.
-# define vnl_vector_construct_hack() vnl_vector_own_data = 1
-#else
 # define vnl_vector_construct_hack()
-#endif
 
 // This macro allocates the dynamic storage used by a vnl_vector.
 
@@ -113,45 +110,6 @@ vnl_vector<T>::vnl_vector (size_t len, size_t n, T const values[])
   }
 }
 
-#if VNL_CONFIG_LEGACY_METHODS // these constructors are deprecated and should not be used
-
-template<class T>
-vnl_vector<T>::vnl_vector (size_t len, T const& px, T const& py)
-{
-  VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(2, T const& px, T const& py)");
-  assert(len==2);
-  vnl_vector_construct_hack();
-  vnl_vector_alloc_blah(2);
-  this->data[0] = px;
-  this->data[1] = py;
-}
-
-template<class T>
-vnl_vector<T>::vnl_vector (size_t len, T const& px, T const& py, T const& pz)
-{
-  VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(3, T const& px, T const& py, T const& pz)");
-  assert(len==3);
-  vnl_vector_construct_hack();
-  vnl_vector_alloc_blah(3);
-  this->data[0] = px;
-  this->data[1] = py;
-  this->data[2] = pz;
-}
-
-template<class T>
-vnl_vector<T>::vnl_vector (size_t len, T const& px, T const& py, T const& pz, T const& pw)
-{
-  VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(4, T const& px, T const& py, T const& pz, T const& pt)");
-  assert(len==4);
-  vnl_vector_construct_hack();
-  vnl_vector_alloc_blah(4);
-  this->data[0] = px;
-  this->data[1] = py;
-  this->data[2] = pz;
-  this->data[3] = pw;
-}
-
-#endif // VNL_CONFIG_LEGACY_METHODS
 
 //: Creates a new copy of vector v. O(n).
 template<class T>
@@ -267,11 +225,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &v, vnl_matrix<T> const &M, vnl_t
 template<class T>
 vnl_vector<T>::~vnl_vector()
 {
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-  if (data && vnl_vector_own_data) destroy();
-#else
   if (data) destroy();
-#endif
 }
 
 //: Frees up the array inside vector. O(1).
@@ -288,7 +242,7 @@ void vnl_vector<T>::clear()
   if (data) {
     destroy();
     num_elmts = 0;
-    data = VXL_NULLPTR;
+    data = nullptr;
   }
 }
 
@@ -862,17 +816,6 @@ std::istream& operator>>(std::istream& s, vnl_vector<T>& M)
   M.read_ascii(s); return s;
 }
 
-template <class T>
-void vnl_vector<T>::inline_function_tickler()
-{
-  vnl_vector<T> v;
-  // fsm: hacks to get 2.96/2.97/3.0 to instantiate the inline functions.
-  v = T(3) + v;
-  v = T(3) - v;
-  v = T(3) * v;
-}
-
-
 //--------------------------------------------------------------------------------
 
 // The instantiation macros are split because some functions (angle, cos_angle)
@@ -881,9 +824,9 @@ void vnl_vector<T>::inline_function_tickler()
 #define VNL_VECTOR_INSTANTIATE_COMMON(T) \
 template class VNL_EXPORT vnl_vector<T >; \
 /* arithmetic, comparison etc */ \
-VCL_INSTANTIATE_INLINE(vnl_vector<T > operator+(T const, vnl_vector<T > const &)); \
-VCL_INSTANTIATE_INLINE(vnl_vector<T > operator-(T const, vnl_vector<T > const &)); \
-VCL_INSTANTIATE_INLINE(vnl_vector<T > operator*(T const, vnl_vector<T > const &)); \
+/*template VNL_EXPORT vnl_vector<T > operator+(T const, vnl_vector<T > const &) ; */ \
+/*template VNL_EXPORT vnl_vector<T > operator-(T const, vnl_vector<T > const &) ; */ \
+/*template VNL_EXPORT vnl_vector<T > operator*(T const, vnl_vector<T > const &) ; */ \
 template VNL_EXPORT vnl_vector<T > operator*(vnl_matrix<T > const &, vnl_vector<T > const &); \
 /* element-wise */ \
 template VNL_EXPORT vnl_vector<T > element_product(vnl_vector<T > const &, vnl_vector<T > const &); \

@@ -19,10 +19,8 @@
 // \endverbatim
 
 //-----------------------------------------------------------------------------
-#include <vcl_compiler.h>
 
 #include <vnl/vnl_complexify.h>
-#include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_fft_2d.h>
 
 inline static double function(unsigned i, unsigned j) { return i * j; }
@@ -41,8 +39,8 @@ void test_cplx(vnl_fft_prime_factors<double> const &/*prx*/,
 
 void test_fft2d ()
 {
-  const unsigned int rows = 64;
-  const unsigned int cols = 64;
+  constexpr unsigned int rows = 64;
+  constexpr unsigned int cols = 64;
 
   // calculate prime factors for this size array
   vnl_fft_prime_factors<double> prx (rows);

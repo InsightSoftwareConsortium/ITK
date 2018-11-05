@@ -1,13 +1,16 @@
 #ifndef vcl_sys_time_h_
 #define vcl_sys_time_h_
 
-#include <vcl_compiler.h>
+#include <vcl_compiler_detection.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
-#ifndef VCL_WIN32
+#ifndef _WIN32
 #include <sys/times.h>
 #endif
 
-#if defined(VCL_WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32) && !defined(__CYGWIN__)
 # include <sys/timeb.h>
 extern "C" int gettimeofday(struct timeval*, struct timezone*);
 
@@ -16,7 +19,7 @@ extern "C" int gettimeofday(struct timeval*, struct timezone*);
 # include <sys/timeb.h>
 # include <sys/times.h>
 
-#elif defined(VCL_GCC) && !defined(__INTEL_COMPILER)
+#elif defined(__GNUC__) && !defined(__INTEL_COMPILER)
 # define __restrict /* */
 # include <sys/time.h>
 # undef __restrict

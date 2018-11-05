@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_double_3x2.h
 #ifndef vnl_double_3x2_h_
 #define vnl_double_3x2_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief 3x2 matrix of double
@@ -27,7 +24,7 @@ class VNL_EXPORT vnl_double_3x2 : public vnl_matrix_fixed<double, 3, 2>
   typedef vnl_matrix_fixed<double, 3, 2> Base;
  public:
 
-  vnl_double_3x2() {}
+  vnl_double_3x2() = default;
 
   vnl_double_3x2(double r00, double r01,
                  double r10, double r11,

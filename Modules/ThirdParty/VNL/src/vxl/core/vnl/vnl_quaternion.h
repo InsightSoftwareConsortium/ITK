@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_quaternion.h
 #ifndef vnl_quaternion_h_
 #define vnl_quaternion_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Unit quaternion represents rotation in 3D.
@@ -24,7 +21,9 @@
 #include <iostream>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 //: 4-element vector that represents rotation in 3D.
@@ -60,15 +59,15 @@
 // return by value in arithmetic expressions like: q1 * q2 * q3 *...
 //
 
-VCL_TEMPLATE_EXPORT template <class T>
-class VNL_TEMPLATE_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
+template <class T>
+class VNL_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
 {
  private:
   typedef vnl_vector_fixed<T,4> Base;
  public:
 
   //: Constructor for null quaternion
-  vnl_quaternion() {}
+  vnl_quaternion() = default;
 
   //: Construct quaternion from components x,y,z,r
   vnl_quaternion(T x, T y, T z, T r);
@@ -98,7 +97,7 @@ class VNL_TEMPLATE_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
   inline vnl_quaternion(vnl_quaternion<T> const& from) : Base(from) {}
 
   //: Free internal array
-  inline ~vnl_quaternion() {} // vnl_vector_fixed will free data array
+  inline ~vnl_quaternion() = default; // vnl_vector_fixed will free data array
 
   //:  Overloads assignment operator to copy rhs quaternion into lhs quaternion.
   inline vnl_quaternion& operator= (vnl_quaternion<T> const& rhs) { Base::operator=(rhs); return *this; }
@@ -173,7 +172,7 @@ class VNL_TEMPLATE_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
 
 //: operator<<
 // \relatesalso vnl_quaternion
-template <class T> VNL_TEMPLATE_EXPORT
+template <class T> VNL_EXPORT
 std::istream& operator>> (std::istream& is, vnl_quaternion<T> &q)
 {
   vnl_vector_fixed<T,4> v;

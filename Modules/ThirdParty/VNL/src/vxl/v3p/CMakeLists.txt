@@ -5,12 +5,12 @@ project( vthreep )
 set( VTHREEP_INCLUDE_DIR ${vthreep_SOURCE_DIR} CACHE STATIC "v3p include files" )
 set( VTHREEP_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p CACHE STATIC "v3p include files" )
 
-if(BUILD_CORE_NUMERICS)
+if(VXL_BUILD_CORE_NUMERICS)
   add_subdirectory(netlib)
 endif()
 
 CMAKE_DEPENDENT_OPTION( VXL_FORCE_V3P_CLIPPER "Use V3P instead of any native Clipper library?" ON
-                          "BUILD_CORE_GEOMETRY" OFF)
+                          "VXL_BUILD_CORE_GEOMETRY" OFF)
 mark_as_advanced( VXL_FORCE_V3P_CLIPPER )
 if (VXL_FORCE_V3P_CLIPPER)
   add_subdirectory(clipper)
@@ -18,14 +18,14 @@ endif ()
 
 include(${VXL_CMAKE_DIR}/FindZLIB.cmake)
 CMAKE_DEPENDENT_OPTION( VXL_FORCE_V3P_ZLIB "Use V3P instead of any native ZLIB library?" OFF
-                        "BUILD_CORE_IMAGING" OFF)
+                        "VXL_BUILD_CORE_IMAGING" OFF)
 mark_as_advanced( VXL_FORCE_V3P_ZLIB )
 if (VXL_FORCE_V3P_ZLIB OR ( NOT VXL_USING_NATIVE_ZLIB ) AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/zlib)
   add_subdirectory(zlib)
 endif()
 
 
-if(BUILD_CORE_IMAGING)
+if(VXL_BUILD_CORE_IMAGING)
   option( VXL_FORCE_V3P_BZLIB2 "Use V3P instead of any native BZip2 library?" OFF)
   mark_as_advanced( VXL_FORCE_V3P_BZLIB2 )
   add_subdirectory(bzlib)

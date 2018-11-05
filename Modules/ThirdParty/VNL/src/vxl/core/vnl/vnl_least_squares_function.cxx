@@ -1,16 +1,12 @@
 // This is core/vnl/vnl_least_squares_function.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
 // \date   31 Aug 96
 
 #include <iostream>
+#include <cassert>
 #include "vnl_least_squares_function.h"
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
 
 void vnl_least_squares_function::dim_warning(unsigned int number_of_unknowns,
                                              unsigned int number_of_residuals)

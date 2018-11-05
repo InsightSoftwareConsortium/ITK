@@ -5,7 +5,6 @@
 
 #include <iostream>
 #include <vnl/algo/vnl_cpoly_roots.h>
-#include <vcl_compiler.h>
 
 int main()
 {

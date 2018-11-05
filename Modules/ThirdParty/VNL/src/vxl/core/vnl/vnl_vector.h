@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_vector.h
 #ifndef vnl_vector_h_
 #define vnl_vector_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author Andrew W. Fitzgibbon
@@ -12,7 +9,6 @@
 // Modifications
 // Comments re-written by Tim Cootes, for his sins.
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
-//   Mar.2004 - Peter Vanroose - deprecated fixed-size constructors now compile only when VNL_CONFIG_LEGACY_METHODS==1
 //   Mar.2009 - Peter Vanroose - added arg_min() and arg_max()
 //   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
@@ -20,6 +16,9 @@
 # include <vnl/vnl_error.h>
 
 #include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_tag.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h>
@@ -27,39 +26,36 @@
 #include "vnl/vnl_export.h"
 #ifndef NDEBUG
 # if VNL_CONFIG_CHECK_BOUNDS
-#  include <vcl_cassert.h>
+#include <cassert>
 # endif
 #else
 # undef VNL_CONFIG_CHECK_BOUNDS
 # define VNL_CONFIG_CHECK_BOUNDS 0
 # undef ERROR_CHECKING
 #endif
-#if VNL_CONFIG_LEGACY_METHODS
-# include <vcl_deprecated.h>
-#endif
 
-VCL_TEMPLATE_EXPORT template <class T> class vnl_vector;
-VCL_TEMPLATE_EXPORT template <class T> class vnl_matrix;
+template <class T> class vnl_vector;
+template <class T> class vnl_matrix;
 
 //----------------------------------------------------------------------
 
 #define v vnl_vector<T>
 #define m vnl_matrix<T>
-template <class T> VNL_TEMPLATE_EXPORT T      dot_product(v const&, v const&);
-template <class T> VNL_TEMPLATE_EXPORT T      inner_product(v const&, v const&);
-template <class T> VNL_TEMPLATE_EXPORT T      bracket(v const &, m const &, v const &);
-template <class T> VNL_TEMPLATE_EXPORT T      cos_angle(v const&, v const& );
-template <class T> VNL_TEMPLATE_EXPORT double angle(v const&, v const&);
-template <class T> VNL_TEMPLATE_EXPORT m      outer_product(v const&, v const&);
-template <class T> VNL_TEMPLATE_EXPORT v      operator+(T, v const&);
-template <class T> VNL_TEMPLATE_EXPORT v      operator-(T, v const&);
-template <class T> VNL_TEMPLATE_EXPORT v      operator*(T, v const&);
-// also exists as method: template <class T> VNL_TEMPLATE_EXPORT v      operator*(m const&, v const&);
-template <class T> VNL_TEMPLATE_EXPORT v      operator*(v const&, m const&);
-template <class T> VNL_TEMPLATE_EXPORT v      element_product(v const&,v const&);
-template <class T> VNL_TEMPLATE_EXPORT v      element_quotient(v const&,v const&);
-template <class T> VNL_TEMPLATE_EXPORT T      vnl_vector_ssd(v const&, v const&);
-template <class T> VNL_TEMPLATE_EXPORT void   swap(v &, v &);
+template <class T> VNL_EXPORT T      dot_product(v const&, v const&);
+template <class T> VNL_EXPORT T      inner_product(v const&, v const&);
+template <class T> VNL_EXPORT T      bracket(v const &, m const &, v const &);
+template <class T> VNL_EXPORT T      cos_angle(v const&, v const& );
+template <class T> VNL_EXPORT double angle(v const&, v const&);
+template <class T> VNL_EXPORT m      outer_product(v const&, v const&);
+template <class T> VNL_EXPORT v      operator+(T, v const&);
+template <class T> VNL_EXPORT v      operator-(T, v const&);
+template <class T> VNL_EXPORT v      operator*(T, v const&);
+// also exists as method: template <class T> VNL_EXPORT v      operator*(m const&, v const&);
+template <class T> VNL_EXPORT v      operator*(v const&, m const&);
+template <class T> VNL_EXPORT v      element_product(v const&,v const&);
+template <class T> VNL_EXPORT v      element_quotient(v const&,v const&);
+template <class T> VNL_EXPORT T      vnl_vector_ssd(v const&, v const&);
+template <class T> VNL_EXPORT void   swap(v &, v &);
 #undef v
 #undef m
 
@@ -75,13 +71,13 @@ template <class T> VNL_TEMPLATE_EXPORT void   swap(v &, v &);
 //
 // NOTE: Vectors are indexed from zero!  Thus valid elements are [0,size()-1].
 template<class T>
-class VNL_TEMPLATE_EXPORT vnl_vector
+class VNL_EXPORT vnl_vector
 {
  public:
   friend class vnl_matrix<T>;
 
   //: Creates an empty vector. O(1).
-  vnl_vector() : num_elmts(0) , data(VXL_NULLPTR) {}
+  vnl_vector() : num_elmts(0) , data(nullptr) {}
 
   //: Creates a vector containing n uninitialized elements.
   explicit vnl_vector(size_t len);
@@ -100,26 +96,6 @@ class VNL_TEMPLATE_EXPORT vnl_vector
   //: Copy constructor.
   vnl_vector(vnl_vector<T> const&);
 
-#if VNL_CONFIG_LEGACY_METHODS // these constructors are deprecated and should not be used
-  //: Creates a vector of length 2 and initializes with the arguments, px,py.
-  //  Requires that len==2.
-  //  Consider using vnl_vector_fixed<T,2> instead!
-  // \deprecated
-  vnl_vector(size_t len, T const& px, T const& py);
-
-  //: Creates a vector of length 3 and initializes with the arguments, px,py,pz.
-  //  Requires that len==3.
-  //  Consider using vnl_vector_fixed<T,3> instead!
-  // \deprecated
-  vnl_vector(size_t len, T const& px, T const& py, T const& pz);
-
-  //: Creates a vector of length 4 and initializes with the arguments.
-  //  Requires that len==4.
-  //  Consider using vnl_vector_fixed<T,4> instead!
-  // \deprecated
-  vnl_vector(size_t len, T const& px, T const& py, T const& pz, T const& pw);
-#endif
-
 #ifndef VXL_DOXYGEN_SHOULD_SKIP_THIS
 // <internal>
   // These constructors are here so that operator* etc can take
@@ -134,7 +110,7 @@ class VNL_TEMPLATE_EXPORT vnl_vector
   vnl_vector(vnl_vector<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // v * M
   vnl_vector(vnl_vector<T> &that, vnl_tag_grab)
     : num_elmts(that.num_elmts), data(that.data)
-  { that.num_elmts=0; that.data=VXL_NULLPTR; } // "*this" now uses "that"'s data.
+  { that.num_elmts=0; that.data=nullptr; } // "*this" now uses "that"'s data.
 // </internal>
 #endif
 
@@ -366,33 +342,6 @@ class VNL_TEMPLATE_EXPORT vnl_vector
   //: Set this to that and that to this
   void swap(vnl_vector<T> & that);
 
-#if VNL_CONFIG_LEGACY_METHODS // these methods are deprecated and should not be used
-  //: Return first element of vector
-  // \deprecated
-  T& x() const { VXL_DEPRECATED_MACRO("vnl_vector<T>::x()"); return data[0]; }
-  //: Return second element of vector
-  // \deprecated
-  T& y() const { VXL_DEPRECATED_MACRO("vnl_vector<T>::y()"); return data[1]; }
-  //: Return third element of vector
-  // \deprecated
-  T& z() const { VXL_DEPRECATED_MACRO("vnl_vector<T>::z()"); return data[2]; }
-  //: Return fourth element of vector
-  // \deprecated
-  T& t() const { VXL_DEPRECATED_MACRO("vnl_vector<T>::t()"); return data[3]; }
-  //: Set the first element (with bound checking)
-  // \deprecated
-  void set_x(T const&xx) { VXL_DEPRECATED_MACRO("vnl_vector<T>::set_x()"); if (size() >= 1) data[0] = xx; }
-  //: Set the second element (with bound checking)
-  // \deprecated
-  void set_y(T const&yy) { VXL_DEPRECATED_MACRO("vnl_vector<T>::set_y()"); if (size() >= 2) data[1] = yy; }
-  //: Set the third element (with bound checking)
-  // \deprecated
-  void set_z(T const&zz) { VXL_DEPRECATED_MACRO("vnl_vector<T>::set_z()"); if (size() >= 3) data[2] = zz; }
-  //: Set the fourth element (with bound checking)
-  // \deprecated
-  void set_t(T const&tt) { VXL_DEPRECATED_MACRO("vnl_vector<T>::set_t()"); if (size() >= 4) data[3] = tt; }
-#endif // VNL_CONFIG_LEGACY_METHODS
-
   //: Check that size()==sz if not, abort();
   // This function does or tests nothing if NDEBUG is defined
   void assert_size(size_t VXL_USED_IN_DEBUG(sz) ) const {
@@ -448,19 +397,10 @@ class VNL_TEMPLATE_EXPORT vnl_vector
   size_t num_elmts;           // Number of elements (length)
   T* data;                      // Pointer to the actual data
 
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-  // Since this bug exists, we need a flag that can be set during
-  // construction to tell our destructor whether we own data.
-  char vnl_vector_own_data;
-#endif
-
   void assert_size_internal(size_t sz) const;
   void assert_finite_internal() const;
 
   void destroy();
-
-  // inline function template instantiation hack for gcc 2.97 -- fsm
-  static void inline_function_tickler();
 };
 
 
@@ -550,9 +490,9 @@ inline T vnl_vector_ssd(vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 
 //: Write vector to a std::ostream
 // \relatesalso vnl_vector
-VCL_TEMPLATE_EXPORT template <class T> VNL_TEMPLATE_EXPORT std::ostream& operator<<(std::ostream &, vnl_vector<T> const&);
+template <class T> VNL_EXPORT std::ostream& operator<<(std::ostream &, vnl_vector<T> const&);
 //: Read vector from a std::istream
 // \relatesalso vnl_vector
-VCL_TEMPLATE_EXPORT template <class T> VNL_TEMPLATE_EXPORT std::istream& operator>>(std::istream &, vnl_vector<T>      &);
+template <class T> VNL_EXPORT std::istream& operator>>(std::istream &, vnl_vector<T>      &);
 
 #endif // vnl_vector_h_

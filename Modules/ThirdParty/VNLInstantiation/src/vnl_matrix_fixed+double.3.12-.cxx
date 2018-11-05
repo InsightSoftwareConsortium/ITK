@@ -16,5 +16,4 @@
  *
  *=========================================================================*/
 #include "vnl/vnl_matrix_fixed.hxx"
-#include "vnl_export_override.h"
 VNL_MATRIX_FIXED_INSTANTIATE(double, 3, 12);

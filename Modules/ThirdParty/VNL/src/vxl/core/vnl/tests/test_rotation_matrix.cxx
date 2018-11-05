@@ -6,18 +6,15 @@
 
 
 #include <iostream>
-#include <limits>
-#include <vcl_compiler.h>
 
 #include <testlib/testlib_test.h>
 
-#include <vnl/vnl_math.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_rotation_matrix.h>
 #include <vnl/vnl_random.h>
-
+#include <vnl/vnl_rotation_matrix.h>
+#include <vnl/vnl_math.h>
 
 //: Tolerance between doubles. This was inferred by trial and error.
 // Could be derived mathematically?
@@ -118,7 +115,7 @@ static bool calc_and_test_matrix(const vnl_vector<double>& axis,
 static void test_euler_rotations()
 {
   bool success = true;
-  const unsigned ntrials=100;
+  constexpr unsigned ntrials = 100;
   for (unsigned i=0; i<ntrials; ++i)
   {
     bool this_trial_ok = true;
