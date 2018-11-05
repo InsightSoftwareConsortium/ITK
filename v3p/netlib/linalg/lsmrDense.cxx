@@ -20,13 +20,11 @@
 
 lsmrDense::lsmrDense()
 {
-  this->A = VXL_NULLPTR;
+  this->A = nullptr;
 }
 
 
-lsmrDense::~lsmrDense()
-{
-}
+lsmrDense::~lsmrDense() = default;
 
 
 void

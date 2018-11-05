@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_sparse_lu.h
 #ifndef vnl_sparse_lu_h_
 #define vnl_sparse_lu_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Solution of the linear system Mx = b for sparse matrices

@@ -1,10 +1,9 @@
 // This is core/vnl/vnl_random.h
 #ifndef vnl_random_h
 #define vnl_random_h
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
 #endif
-#include <vcl_compiler.h>
 #include "vnl/vnl_export.h"
 
 //:
@@ -12,7 +11,7 @@
 // \author Aaron Kotcheff (Manchester)
 // \brief A superior random number generator
 
-VXL_CONSTEXPR_VAR unsigned int vnl_random_array_size = 37;
+constexpr unsigned int vnl_random_array_size = 37;
 
 //: A superior random number generator.
 // Implements a new random number generator that

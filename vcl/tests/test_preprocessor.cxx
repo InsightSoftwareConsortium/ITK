@@ -1,84 +1,67 @@
 // Try to check that compiler preprocessor definitions are sane.
 
-#include <vcl_compiler.h>
-#include <vcl_iostream.h>
+#include <iostream>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
+#include <vcl_compiler_detection.h>
 
 int test_preprocessor_main(int /*argc*/,char* /*argv*/[])
 {
-  unsigned compiler_count = 0;
-  unsigned major_count = 0;
-  unsigned minor_count = 0;
-
-#ifdef VCL_GCC
-  ++compiler_count;
-#endif
-
-#ifdef VCL_VC
-  ++compiler_count;
-#endif
-
-#ifdef VCL_ICC
-  ++compiler_count;
-#endif
+  constexpr unsigned compiler_count
+      = VXL_COMPILER_IS_Comeau
+        + VXL_COMPILER_IS_Intel
+        + VXL_COMPILER_IS_PathScale
+        + VXL_COMPILER_IS_Embarcadero
+        + VXL_COMPILER_IS_Borland
+        + VXL_COMPILER_IS_Watcom
+        + VXL_COMPILER_IS_OpenWatcom
+        + VXL_COMPILER_IS_SunPro
+        + VXL_COMPILER_IS_HP
+        + VXL_COMPILER_IS_Compaq
+        + VXL_COMPILER_IS_zOS
+        + VXL_COMPILER_IS_XL
+        + VXL_COMPILER_IS_VisualAge
+        + VXL_COMPILER_IS_PGI
+        + VXL_COMPILER_IS_Cray
+        + VXL_COMPILER_IS_TI
+        + VXL_COMPILER_IS_Fujitsu
+        + VXL_COMPILER_IS_SCO
+        + VXL_COMPILER_IS_AppleClang
+        + VXL_COMPILER_IS_Clang
+        + VXL_COMPILER_IS_GNU
+        + VXL_COMPILER_IS_MSVC
+        + VXL_COMPILER_IS_ADSP
+        + VXL_COMPILER_IS_IAR
+        + VXL_COMPILER_IS_ARMCC
+        + VXL_COMPILER_IS_MIPSpro;
 
   int result = 0;
 
-  vcl_cout << "Compiler brand uniquely identified: ";
+  std::cout << "Compiler brand uniquely identified: ";
   if ( compiler_count == 1 ) {
-    vcl_cout << "PASSED\n";
+    std::cout << "PASSED\n";
   } else if ( compiler_count < 1 ) {
     result = 1;
-    vcl_cout << "FAILED\n"
-             << "This compiler is not recognized by vcl_compiler.h.\n"
+    std::cout << "FAILED\n"
+             << "This compiler is not recognized by vcl_compiler_detection.h.\n"
              << "Please contact the VXL maintainers and ask them\n"
              << "to fix it. (vxl-maintainers@lists.sourceforge.net)\n";
   } else if ( compiler_count > 1 ) {
     result = 1;
-    vcl_cout << "FAILED\n"
+    std::cout << "FAILED\n"
              << "This compiler is recognized as multiple compilers\n"
-             << "by vcl_compiler.h.\n"
+             << "by vcl_compiler_detection.h.\n"
              << "Please contact the VXL maintainers and ask them\n"
              << "to fix it. (vxl-maintainers@lists.sourceforge.net)\n";
   }
 
-  vcl_cout << "Compiler release identified: ";
-  if ( major_count == 1 ) {
-    vcl_cout << "PASSED\n";
-  } else if ( major_count > 1 ) {
-    result = 1;
-    vcl_cout << "FAILED\n"
-             << "This release is recognized as multiple releases\n"
-             << "by vcl_compiler.h.\n"
-             << "Please contact the VXL maintainers and ask them\n"
-             << "to fix it. (vxl-maintainers@lists.sourceforge.net)\n";
-  } else {
-    vcl_cout << "(not identified) PASSED\n";
-  }
+  std::cout << "Compiler release identified: "
+            <<  VXL_COMPILER_VERSION_MAJOR << "."
+            <<  VXL_COMPILER_VERSION_MINOR << "."
+            <<  VXL_COMPILER_VERSION_PATCH ;
 
-  vcl_cout << "Compiler version identified: ";
-  if ( minor_count == 1 ) {
-    vcl_cout << "PASSED\n";
-  } else if ( minor_count > 1 ) {
-    result = 1;
-    vcl_cout << "FAILED\n"
-             << "This version is recognized as multiple versions\n"
-             << "by vcl_compiler.h.\n"
-             << "Please contact the VXL maintainers and ask them\n"
-             << "to fix it. (vxl-maintainers@lists.sourceforge.net)\n";
-  } else {
-    vcl_cout << "(not identified) PASSED\n";
-  }
-
-  vcl_cout <<  "Version identified implies release identified: ";
-  if ( minor_count>0 && major_count==0 ) {
-    result = 1;
-    vcl_cout << "FAILED\n"
-             << "This compiler defines a flag for the compiler version\n"
-             << "(minor version) without defining a flag for the\n"
-             << "corresponding release (major version)\n";
-  } else {
-    vcl_cout << "PASSED\n";
-  }
-
+  std::cout <<  "Version identified implies release identified: ";
+  std::cout << "PASSED\n";
   return result;
 }

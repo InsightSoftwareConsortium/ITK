@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_levenberg_marquardt.h
 #ifndef vnl_levenberg_marquardt_h_
 #define vnl_levenberg_marquardt_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Levenberg Marquardt nonlinear least squares
@@ -21,7 +18,9 @@
 //
 
 #include <iosfwd>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix.h>
@@ -48,7 +47,7 @@ class VNL_ALGO_EXPORT vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
   //: Initialize with the function object that is to be minimized.
   vnl_levenberg_marquardt(vnl_least_squares_function& f) { init(&f); }
 
-  ~vnl_levenberg_marquardt() VXL_OVERRIDE;
+  ~vnl_levenberg_marquardt() override;
 
   //: Minimize the function supplied in the constructor until convergence or failure.
   //  On return, x is such that f(x) is the lowest value achieved.

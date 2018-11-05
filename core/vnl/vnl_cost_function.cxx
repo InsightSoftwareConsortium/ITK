@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_cost_function.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
@@ -10,7 +7,7 @@
 //-----------------------------------------------------------------------------
 
 #include "vnl_cost_function.h"
-#include <vcl_cassert.h>
+#include <cassert>
 
 static bool f_calling_compute;
 
@@ -28,7 +25,7 @@ double vnl_cost_function::f(vnl_vector<double> const& x)
     assert(!"vnl_cost_function: RECURSION");
   double val;
   f_calling_compute = true;
-  this->compute(x, &val, VXL_NULLPTR);
+  this->compute(x, &val, nullptr);
   f_calling_compute = false;
   return val;
 }
@@ -39,7 +36,7 @@ void vnl_cost_function::gradf(vnl_vector<double> const& x, vnl_vector<double>& g
   if (f_calling_compute)
     assert(!"vnl_cost_function: RECURSION");
   f_calling_compute = true;
-  this->compute(x, VXL_NULLPTR, &g);
+  this->compute(x, nullptr, &g);
   f_calling_compute = false;
 }
 

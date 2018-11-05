@@ -1,6 +1,5 @@
 // This is core/vnl/tests/test_diag_matrix.cxx
 #include <iostream>
-#include <exception>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -9,12 +8,10 @@
 
 #include <vnl/vnl_diag_matrix.h>
 #include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_vector_fixed.h>
-#include <vcl_compiler.h>
 
 void test_diag_matrix()
 {
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
 
   vnl_diag_matrix<double> m1(N);
   for (unsigned i=0; i<N; i++)

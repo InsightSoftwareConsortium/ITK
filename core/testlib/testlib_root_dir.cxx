@@ -5,7 +5,9 @@
 //:
 // \file
 
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 // The following should have been created automatically by the
 // configuration scripts from vcl_where_root_dir.h.in

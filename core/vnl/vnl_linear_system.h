@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_linear_system.h
 #ifndef vnl_linear_system_h_
 #define vnl_linear_system_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Abstraction for a linear system of equations.

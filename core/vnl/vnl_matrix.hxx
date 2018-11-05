@@ -86,21 +86,17 @@
 #include <algorithm>
 #include "vnl_matrix.h"
 
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_numeric_traits.h>
 //--------------------------------------------------------------------------------
-
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-// vnl_matrix owns its data by default.
-# define vnl_matrix_construct_hack() vnl_matrix_own_data = 1
-#else
 # define vnl_matrix_construct_hack()
-#endif
 
 // This macro allocates and initializes the dynamic storage used by a vnl_matrix.
 #define vnl_matrix_alloc_blah() \
@@ -223,7 +219,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const& from)
   else {
     num_rows = 0;
     num_cols = 0;
-    data = VXL_NULLPTR;
+    data = nullptr;
   }
 }
 
@@ -363,11 +359,7 @@ template <class T>
 vnl_matrix<T>::~vnl_matrix()
 {
   // save some fcalls if data is 0 (i.e. in matrix_fixed)
-#if VCL_HAS_SLICED_DESTRUCTOR_BUG
-  if (data && vnl_matrix_own_data) destroy();
-#else
   if (data) destroy();
-#endif
 }
 
 //: Frees up the dynamic storage used by matrix.
@@ -386,7 +378,7 @@ void vnl_matrix<T>::clear()
     destroy();
     num_rows = 0;
     num_cols = 0;
-    data = VXL_NULLPTR;
+    data = nullptr;
   }
 }
 
@@ -510,14 +502,6 @@ std::istream& operator>>(std::istream& s, vnl_matrix<T>& M)
 {
   M.read_ascii(s);
   return s;
-}
-
-template <class T>
-void vnl_matrix<T>::inline_function_tickler()
-{
-  vnl_matrix<T> M;
-  // fsm: hack to get 2.96 to instantiate the inline function.
-  M = T(1) + T(3) * M;
 }
 
 template <class T>
@@ -1347,7 +1331,7 @@ bool vnl_matrix<T>::read_ascii(std::istream& s)
   while (true)
   {
     T* row = vnl_c_vector<T>::allocate_T(colz);
-    if (row == VXL_NULLPTR) {
+    if (row == nullptr) {
       std::cerr << "vnl_matrix<T>::read_ascii: Error, Out of memory on row "
                << row_vals.size() << std::endl;
       return false;
@@ -1638,8 +1622,8 @@ vnl_matrix<T>& vnl_matrix<T>::inplace_transpose()
 #define VNL_MATRIX_INSTANTIATE(T) \
 template class VNL_EXPORT vnl_matrix<T >; \
 template VNL_EXPORT vnl_matrix<T > operator-(T const &, vnl_matrix<T > const &); \
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator+(T const &, vnl_matrix<T > const &)); \
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator*(T const &, vnl_matrix<T > const &)); \
+/*template VNL_EXPORT vnl_matrix<T > operator+(T const &, vnl_matrix<T > const &) ; */ \
+/*template VNL_EXPORT vnl_matrix<T > operator*(T const &, vnl_matrix<T > const &) ; */ \
 template VNL_EXPORT T dot_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template VNL_EXPORT T inner_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template VNL_EXPORT T cos_angle(vnl_matrix<T > const &, vnl_matrix<T > const &); \

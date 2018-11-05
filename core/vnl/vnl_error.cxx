@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_error.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 //
@@ -17,9 +14,6 @@
 // provides this software "as is" without express or implied warranty.
 
 #include <iostream>
-#include <exception>
-#include "vnl_error.h"
-#include <vcl_compiler.h>
 
 //: Raise exception for invalid index.
 void vnl_error_vector_index (char const* fcn, int index)

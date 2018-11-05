@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_lbfgsb.h
 #ifndef vnl_lbfgsb_h_
 #define vnl_lbfgsb_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Limited memory Broyden Fletcher Goldfarb Shannon constrained opt
@@ -118,7 +115,7 @@ class VNL_ALGO_EXPORT vnl_lbfgsb : public vnl_nonlinear_minimizer
   double inf_norm_projected_gradient_;
 
  private:
-  vnl_lbfgsb(); // Not implemented
+  vnl_lbfgsb() = delete; // Not implemented
   void init_parameters();
   vnl_cost_function* f_;
 };

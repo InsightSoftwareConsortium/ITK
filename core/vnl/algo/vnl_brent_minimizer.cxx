@@ -1,21 +1,14 @@
 // This is core/vnl/algo/vnl_brent_minimizer.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 #include <cmath>
+#include <cassert>
 #include <iostream>
-#include <algorithm>
-#include "vnl_brent_minimizer.h"
-
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
-
-#include <vnl/vnl_vector.h>
+#include  <algorithm>
+#include <vnl/algo/vnl_brent_minimizer.h>
 #include <vnl/algo/vnl_bracket_minimum.h>
 
-static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(std::sqrt(5)-1);
+//static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(std::sqrt(5)-1);
 static const double COMPL_GOLD   = 0.381966011250105152; // = 0.5*(3-std::sqrt(5));
 static const double EPS          = 1e-8;
 
@@ -37,9 +30,7 @@ vnl_brent_minimizer::vnl_brent_minimizer(vnl_cost_function& functor)
   set_x_tolerance(1e-6);
 }
 
-vnl_brent_minimizer::~vnl_brent_minimizer()
-{
-}
+vnl_brent_minimizer::~vnl_brent_minimizer() = default;
 
 //: Find the minimum value of f(x) within a<= x <= c.
 // The minimum x is the return value.

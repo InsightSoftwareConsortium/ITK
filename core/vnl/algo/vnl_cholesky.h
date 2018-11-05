@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_cholesky.h
 #ifndef vnl_cholesky_h_
 #define vnl_cholesky_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Decomposition of symmetric matrix
@@ -43,7 +40,7 @@ class VNL_ALGO_EXPORT vnl_cholesky
 
   //: Make cholesky decomposition of M optionally computing the reciprocal condition number.
   vnl_cholesky(vnl_matrix<double> const& M, Operation mode = verbose);
- ~vnl_cholesky() {}
+ ~vnl_cholesky() = default;
 
   //: Solve LS problem M x = b
   vnl_vector<double> solve(vnl_vector<double> const& b) const;
@@ -92,9 +89,9 @@ class VNL_ALGO_EXPORT vnl_cholesky
 
  private:
   //: Copy constructor - privatised to avoid it being used
-  vnl_cholesky(vnl_cholesky const & that);
+  vnl_cholesky(vnl_cholesky const & that) = delete;
   //: Assignment operator - privatised to avoid it being used
-  vnl_cholesky& operator=(vnl_cholesky const & that);
+  vnl_cholesky& operator=(vnl_cholesky const & that) = delete;
 };
 
 #endif // vnl_cholesky_h_

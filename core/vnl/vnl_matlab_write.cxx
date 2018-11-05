@@ -1,20 +1,14 @@
 // This is core/vnl/vnl_matlab_write.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author fsm
 
 #include <iostream>
-#include <cstring>
 #include <complex>
-#include "vnl_matlab_write.h"
+#include <cstring>
 
-#include <vcl_compiler.h>
 #include <vnl/vnl_matlab_header.h>
 
-#include <vxl_config.h>
 #if VXL_LITTLE_ENDIAN // #ifdef i386
 # define native_BYTE_ORDER vnl_matlab_header::vnl_LITTLE_ENDIAN
 #else

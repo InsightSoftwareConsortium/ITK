@@ -4,12 +4,15 @@
   fsm
 */
 
-#include "vcl_compiler.h"
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
-#if defined(VCL_GCC)
+#include <vcl_compiler_detection.h>
+#if defined(VXL_COMPILER_IS_GNU)
 # warning "deprecated"
 
-#elif defined(VCL_VC)
+#elif defined(_MSC_VER)
 // This warning is issued if your source file includes a deprecated
 // header (e.g. vcl_strstream.h)  It can't figure out exactly where
 // the include came from, so you'll have to see which .cxx file

@@ -1,6 +1,5 @@
 // This is core/vnl/io/tests/test_sym_matrix_io.cxx
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_sym_matrix.h>
 #include <vnl/io/vnl_io_sym_matrix.h>
 #include <testlib/testlib_test.h>
@@ -12,7 +11,7 @@ void test_sym_matrix_double_io()
            << "Testing vnl_sym_matrix<double> io\n"
            << "*********************************\n";
   //// test constructors, accessors
-  const int n = 6;
+  constexpr int n = 6;
   vnl_sym_matrix<double> m_out( n), m_in1(n),m_in2;
 
   for (int i=0; i<n; i++)

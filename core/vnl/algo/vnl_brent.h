@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_brent.h
 #ifndef vnl_brent_h_
 #define vnl_brent_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author awf@robots.ox.ac.uk
@@ -29,7 +26,7 @@ class VNL_ALGO_EXPORT vnl_brent : public vnl_brent_minimizer
 {
  public:
   vnl_brent(vnl_cost_function* functor);
- ~vnl_brent();
+ ~vnl_brent() override;
 
   //: Find a minimum of f(x) near to ax.
   double minimize(double ax);

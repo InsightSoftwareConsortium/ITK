@@ -2,7 +2,6 @@
 // Peter Vanroose, February 2000
 
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/algo/vnl_svd.h>
 
 template <class D>  // D is often double or float

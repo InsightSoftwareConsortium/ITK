@@ -4,17 +4,14 @@
 // \author Ian Scott
 
 #include <vector>
-#include <iostream>
-#include <fstream>
 #include <ctime>
+#include <iostream>
 #include <algorithm>
-#include <string>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_random.h>
-#include <vcl_compiler.h>
 
-const unsigned nstests = 10;
+constexpr unsigned nstests = 10;
 
 
 void fill_with_rng(double * begin, const double * end, double a, double b, vnl_random &rng)
@@ -161,7 +158,7 @@ template <class T>
 void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const char *size,
                   vnl_random &rng)
 {
-  const unsigned n_data = 10;
+  constexpr unsigned n_data = 10;
   std::vector<vnl_vector<T> > x(n_data), y(n_data), z(n_data);
   std::vector<T> v(n_data);
   vnl_matrix<T> A(m,n);

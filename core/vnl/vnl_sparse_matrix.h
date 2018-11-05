@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_sparse_matrix.h
 #ifndef vnl_sparse_matrix_h_
 #define vnl_sparse_matrix_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief Simple sparse matrix
@@ -57,7 +54,9 @@
 
 #include <vector>
 #include <functional>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_vector.h>
 #include "vnl/vnl_export.h"
 
@@ -72,7 +71,7 @@
 //  value.  All rows are stored, as std::vector< row >;
 //
 template <class T>
-class VNL_TEMPLATE_EXPORT vnl_sparse_matrix_pair
+class VNL_EXPORT vnl_sparse_matrix_pair
 {
  public:
   unsigned int first;
@@ -106,7 +105,7 @@ class VNL_TEMPLATE_EXPORT vnl_sparse_matrix_pair
 //: Simple sparse matrix
 //  Stores non-zero elements as a sparse_matrix_pair
 template <class T>
-class VNL_TEMPLATE_EXPORT vnl_sparse_matrix
+class VNL_EXPORT vnl_sparse_matrix
 {
  public:
   typedef vnl_sparse_matrix_pair<T> pair_t;

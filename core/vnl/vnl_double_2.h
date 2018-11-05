@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_double_2.h
 #ifndef vnl_double_2_h_
 #define vnl_double_2_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief  alias for vnl_vector_fixed<double,2>

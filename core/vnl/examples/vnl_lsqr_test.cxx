@@ -1,7 +1,6 @@
 // This is core/vnl/examples/vnl_lsqr_test.cxx
 #include <cstdlib>
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vnl/vnl_sparse_matrix_linear_system.h>

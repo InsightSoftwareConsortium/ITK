@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_gaussian_kernel_1d.h
 #ifndef vnl_gaussian_kernel_1d_h_
 #define vnl_gaussian_kernel_1d_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Holds one half of a discretely sampled 1D gaussian distribution

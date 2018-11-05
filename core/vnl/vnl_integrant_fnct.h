@@ -10,8 +10,8 @@
 class VNL_EXPORT vnl_integrant_fnct
 {
  public:
-  vnl_integrant_fnct() {}
-  virtual ~vnl_integrant_fnct() {}
+  vnl_integrant_fnct() = default;
+  virtual ~vnl_integrant_fnct() = default;
 
   virtual double f_(double /*x*/) = 0;
 };

@@ -24,7 +24,6 @@ add_executable( vcl_test_all
      test_map.cxx
      test_memory.cxx
      test_multimap.cxx
-     test_new.cxx
      test_set.cxx
      test_stlfwd.cxx
      test_string.cxx
@@ -52,7 +51,6 @@ add_test( NAME vcl_test_limits COMMAND vcl_test_all test_limits )
 add_test( NAME vcl_test_map COMMAND vcl_test_all test_map )
 add_test( NAME vcl_test_memory COMMAND vcl_test_all test_memory )
 add_test( NAME vcl_test_multimap COMMAND vcl_test_all test_multimap )
-add_test( NAME vcl_test_new COMMAND vcl_test_all test_new )
 add_test( NAME vcl_test_set COMMAND vcl_test_all test_set )
 add_test( NAME vcl_test_string COMMAND vcl_test_all test_string )
 add_test( NAME vcl_test_sstream COMMAND vcl_test_all test_sstream )

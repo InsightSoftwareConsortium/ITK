@@ -1,8 +1,8 @@
 // @author fsm
 #include <cmath>
 #include <iostream>
+#include <cassert>
 #include <vnl/vnl_double_2.h>
-#include <vcl_compiler.h>
 
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_least_squares_function.h>
@@ -12,14 +12,14 @@ struct vnl_rosenbrock : public vnl_least_squares_function
 {
   vnl_rosenbrock(bool with_grad): vnl_least_squares_function(2, 2, with_grad ? use_gradient : no_gradient) {}
 
-  void f(vnl_vector<double> const& x, vnl_vector<double>& y) {
+  void f(vnl_vector<double> const& x, vnl_vector<double>& y) override {
     TEST("size of x", x.size(), 2);
     TEST("size of y", y.size(), 2);
     y[0] = 10*(x[1] - x[0]*x[0]);
     y[1] = 1 - x[0];
   }
 
-  void gradf(vnl_vector<double> const& x, vnl_matrix<double> &J) {
+  void gradf(vnl_vector<double> const& x, vnl_matrix<double> &J) override {
     TEST("size of x", x.size(), 2);
     TEST("size of J", J.rows() == 2 && J.cols() == 2, true);
     J[0][0] = -20 * x[0]; J[0][1] = 10;
@@ -34,11 +34,11 @@ struct linear_est : public vnl_least_squares_function
     A_(A), b_(b)
   { assert(A.rows() == b.size()); }
 
-  void f(vnl_vector<double> const& x, vnl_vector<double>& y) {
+  void f(vnl_vector<double> const& x, vnl_vector<double>& y) override {
     y = A_*x -b_;
   }
 
-  void gradf(vnl_vector<double> const& /*x*/, vnl_matrix<double> &J) {
+  void gradf(vnl_vector<double> const& /*x*/, vnl_matrix<double> &J) override {
     J=A_;
   }
 

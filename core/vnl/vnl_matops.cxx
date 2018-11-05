@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_matops.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
@@ -10,7 +7,7 @@
 //-----------------------------------------------------------------------------
 
 #include "vnl_matops.h"
-#include <vcl_cassert.h>
+#include <cassert>
 
 vnl_matrix<double> vnl_matops::cat(vnl_matrix<double> const &A, vnl_matrix<double> const &B)
 {

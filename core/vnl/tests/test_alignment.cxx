@@ -2,15 +2,12 @@
 #include <limits>
 #include <typeinfo>
 #include <iostream>
-#include <algorithm>
-#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix_ref.h>
 #include <vnl/vnl_vector_ref.h>
-#include <vnl/vnl_c_vector.h>
-#include <vnl/vnl_math.h>
 #include <vnl/vnl_random.h>
+#include <vnl/vnl_math.h>
 #include <vnl/vnl_sse.h>
 #include <testlib/testlib_test.h>
 
@@ -228,7 +225,7 @@ static void test_alignment_type()
            << "VNL_CONFIG_ENABLE_SSE2 is " << VNL_CONFIG_ENABLE_SSE2 << std::endl;
 
   // Set up random data arrays.
-  const unsigned ndata = 13; // not a multiple of 2
+  constexpr unsigned ndata = 13; // not a multiple of 2
   float matrix_data[ndata*ndata];
   float vector_data[ndata];
   float result_data[ndata];

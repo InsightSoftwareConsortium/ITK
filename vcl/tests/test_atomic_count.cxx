@@ -1,7 +1,11 @@
+#include <iostream>
+#include <cstdio>
 #include <vcl_atomic_count.h>
-#include <vcl_cstdio.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
-#define TEST(str,x,y) vcl_printf(str ":   "); if ((x)!=(y)) { vcl_printf("FAILED\n"); status = 1; } else { vcl_printf("PASSED\n"); }
+#define TEST(str,x,y) std::printf(str ":   "); if ((x)!=(y)) { std::printf("FAILED\n"); status = 1; } else { std::printf("PASSED\n"); }
 
 int test_atomic_count_main(int /*argc*/,char* /*argv*/[])
 {
@@ -9,7 +13,7 @@ int test_atomic_count_main(int /*argc*/,char* /*argv*/[])
 
   vcl_atomic_count c(0);
 
-  vcl_printf("\n");
+  std::printf("\n");
   TEST("Initialization is correct", c, 0);
 
   ++c; // now c==1

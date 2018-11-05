@@ -1,13 +1,11 @@
 // This is core/vnl/vnl_gamma.cxx
 #include <iostream>
+#include <cassert>
 #include "vnl_gamma.h"
 //:
 // \file
 // \brief Complete and incomplete gamma function approximations
 // \author Tim Cootes
-
-#include <vcl_compiler.h>
-#include <vcl_cassert.h>
 
 #if defined(__INTEL_COMPILER)
 # pragma warning (disable:279) /* controlling expression is constant */
@@ -31,7 +29,7 @@ double vnl_log_gamma(double x)
   return std::log(zp)+(x-0.5)*std::log(x1)-x1;
 }
 
-const int MAX_ITS = 100;
+constexpr int MAX_ITS = 100;
 const double MaxRelError = 3.0e-7;
 const double vnl_very_small = 1.0e-30;
 

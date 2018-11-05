@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_matops.h
 #ifndef vnl_matops_h_
 #define vnl_matops_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief A collection of Matrix operations

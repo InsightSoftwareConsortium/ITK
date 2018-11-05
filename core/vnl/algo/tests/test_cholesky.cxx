@@ -1,7 +1,6 @@
 // This is core/vnl/algo/tests/test_cholesky.cxx
 #include <iostream>
 #include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_cholesky.h>
 #include <vnl/vnl_inverse.h>

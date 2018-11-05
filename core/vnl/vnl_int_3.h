@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_int_3.h
 #ifndef vnl_int_3_h_
 #define vnl_int_3_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief  alias for vnl_vector_fixed<int,3>

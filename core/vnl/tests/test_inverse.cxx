@@ -48,7 +48,7 @@ static void test_inverse()
   TEST_NEAR("2x2 vnl_inverse_transpose", residue2.array_inf_norm(), 0.0, eps);
 
   // 2x2 inverse of random matrix
-  for (int i=0; i<4; ++i) M2[i] = rng.drand32(-1.0,1.0);
+  for (double & i : M2) i = rng.drand32(-1.0,1.0);
   vnl_double_2x2 m2r(M2);
   m2i = vnl_inverse(m2r);
   residue2 = m2r*m2i - id2;
@@ -96,7 +96,7 @@ static void test_inverse()
   TEST_NEAR("3x3 vnl_inverse_transpose", residue3.array_inf_norm(), 0.0, eps);
 
   // 3x3 inverse of random matrix
-  for (int i=0; i<9; ++i) M3[i] = rng.drand32(-1.0,1.0);
+  for (double & i : M3) i = rng.drand32(-1.0,1.0);
   vnl_double_3x3 m3r(M3);
   m3i = vnl_inverse(m3r);
   residue3 = m3r*m3i - id3;
@@ -145,7 +145,7 @@ static void test_inverse()
   TEST_NEAR("4x4 vnl_inverse_transpose", residue4.array_inf_norm(), 0.0, eps);
 
   // 4x4 inverse of random matrix
-  for (int i=0; i<16; ++i) M4[i] = rng.drand32(-1.0,1.0);
+  for (double & i : M4) i = rng.drand32(-1.0,1.0);
   vnl_double_4x4 m4r(M4);
   m4i = vnl_inverse(m4r);
   residue4 = m4r*m4i - id4;

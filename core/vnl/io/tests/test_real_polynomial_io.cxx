@@ -1,6 +1,5 @@
 // This is core/vnl/io/tests/test_real_polynomial_io.cxx
 #include <iostream>
-#include <vcl_compiler.h>
 #include <vnl/vnl_real_polynomial.h>
 #include <vnl/io/vnl_io_real_polynomial.h>
 #include <testlib/testlib_test.h>
@@ -12,7 +11,7 @@ void test_real_polynomial_io()
            << "Testing vnl_real_polynomial io\n"
            << "******************************\n";
   //// test constructors, accessors
-  const int n = 10;
+  constexpr int n = 10;
   vnl_vector<double> v(n);
 
   for (int i=0; i<n; i++)

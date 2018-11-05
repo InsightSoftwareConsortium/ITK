@@ -4,15 +4,13 @@
 #include "test_util.h"
 //:
 // \file
-#include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
-#include <vcl_cfloat.h>
 
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_random.h>
 #include <vnl/algo/vnl_svd.h>
 
+#include <testlib/testlib_test.h>
 
 template <class T, class S> static
 void test_hilbert(T /*dummy*/, char const* type, S residual)
@@ -182,15 +180,15 @@ void test_svd()
   test_ls();
   test_pmatrix();
   test_I();
-  test_svd_recomposition("float",              1e-5 , (float*)VXL_NULLPTR, rng);
-  test_svd_recomposition("double",             1e-10, (double*)VXL_NULLPTR, rng);
-  test_svd_recomposition("std::complex<float>",  1e-5 , (std::complex<float>*)VXL_NULLPTR, rng);
-  test_svd_recomposition("std::complex<double>", 1e-10, (std::complex<double>*)VXL_NULLPTR, rng);
+  test_svd_recomposition("float",              1e-5 , (float*)nullptr, rng);
+  test_svd_recomposition("double",             1e-10, (double*)nullptr, rng);
+  test_svd_recomposition("std::complex<float>",  1e-5 , (std::complex<float>*)nullptr, rng);
+  test_svd_recomposition("std::complex<double>", 1e-10, (std::complex<double>*)nullptr, rng);
 
-  test_nullvector("float",               5e-7,  (float*)VXL_NULLPTR, rng);
-  test_nullvector("double",              5e-15, (double*)VXL_NULLPTR, rng);
-  test_nullvector("std::complex<float>",  5e-7,  (std::complex<float>*)VXL_NULLPTR, rng);
-  test_nullvector("std::complex<double>", 5e-15, (std::complex<double>*)VXL_NULLPTR, rng);
+  test_nullvector("float",               5e-7,  (float*)nullptr, rng);
+  test_nullvector("double",              5e-15, (double*)nullptr, rng);
+  test_nullvector("std::complex<float>",  5e-7,  (std::complex<float>*)nullptr, rng);
+  test_nullvector("std::complex<double>", 5e-15, (std::complex<double>*)nullptr, rng);
 }
 
 TESTMAIN(test_svd);

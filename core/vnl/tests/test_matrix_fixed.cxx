@@ -3,15 +3,8 @@
 #include <cstddef>
 #include <cmath>
 #include <iostream>
-#include <exception>
-#include <cstdio>
-#ifdef TEST_MALLOC // see note below, at the other #ifdef TEST_MALLOC
-# include <vcl_new.h>
-#endif
-#include <vcl_compiler.h>
 
 #include <vnl/vnl_matrix_fixed.hxx>
-#include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_double_2x2.h>
@@ -28,7 +21,7 @@ int malloc_count = 0;
 // FIXME: Win32 will have different operator new in vnl dll from
 // the one generated here, so this test fails - RWMC.
 # define reset_count malloc_count = 0
-#if defined(VCL_WIN32)
+#if defined(_WIN32)
 # define check_count TEST("mallocs (no test)",true,true)
 #else
 # define check_count TEST("mallocs",malloc_count<=1,true)
@@ -572,39 +565,7 @@ void test_matrix_fixed()
   test_float();
   test_double();
 
-  test_extract( (double*)VXL_NULLPTR );
+  test_extract( (double*)nullptr );
 }
-
-#ifdef TEST_MALLOC
-      // BAD-BAD-BAD these operators new/delete are picked up by *all* tests!!!
-      //  The problem is that they don't provide new[] and delete[].  - PVr
-
-// with gcc 3.0, formatted stream output uses operator
-// new so printing to cout here causes stack overflow.
-
-void* operator new(std::size_t s)
-  // [18.4.1] lib.new.delete
-  throw(std::bad_alloc)
-{
-  void *r = std::malloc(s);
-
-  ++malloc_count;
-
-  if (verbose_malloc)
-    std::printf("malloc: %08lX for %d\n", (unsigned long)r, int(s));
-
-  return r;
-}
-
-void operator delete(void* s)
-  throw()
-{
-  if (verbose_malloc)
-    std::printf("delete: %08lX\n", (unsigned long)s);
-
-  std::free(s);
-}
-
-#endif // TEST_MALLOC
 
 TESTMAIN(test_matrix_fixed);

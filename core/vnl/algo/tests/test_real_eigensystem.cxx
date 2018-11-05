@@ -2,13 +2,13 @@
 #include <iostream>
 #include <complex>
 #include <testlib/testlib_test.h>
+
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
 // \date   23 Jan 96
 //
 //-----------------------------------------------------------------------------
-#include <vcl_compiler.h>
 #include <vnl/vnl_complexify.h>
 #include <vnl/algo/vnl_real_eigensystem.h>
 

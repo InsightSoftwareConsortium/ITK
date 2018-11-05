@@ -57,7 +57,7 @@ endif()
 
 target_link_libraries(vnl_test_all ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PREFIX}testlib ${CMAKE_THREAD_LIBS})
 
-if(BUILD_CORE_UTILITIES)
+if(VXL_BUILD_CORE_UTILITIES)
   add_executable( vnl_test_with_core_utils
     test_driver_with_core_utils.cxx
     test_matlab.cxx

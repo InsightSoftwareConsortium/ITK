@@ -1,5 +1,5 @@
+#include <cassert>
 #include "vnl_determinant.h"
-#include <vcl_cassert.h>
 
 int vnl_determinant(vnl_matrix<int> const &M, bool balance )
 {

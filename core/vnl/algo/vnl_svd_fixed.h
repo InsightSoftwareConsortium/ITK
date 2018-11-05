@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_svd_fixed.h
 #ifndef vnl_svd_fixed_h_
 #define vnl_svd_fixed_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Holds the singular value decomposition of a vnl_matrix_fixed.
@@ -17,7 +14,9 @@
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_diag_matrix_fixed.h>
 #include <vnl/algo/vnl_algo_export.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: Holds the singular value decomposition of a vnl_matrix_fixed.
 //
@@ -33,7 +32,7 @@
 //  Matrix.
 //
 
-VCL_TEMPLATE_EXPORT template <class T, unsigned int R, unsigned int C>
+template <class T, unsigned int R, unsigned int C>
 class vnl_svd_fixed
 {
  public:
@@ -56,7 +55,7 @@ class vnl_svd_fixed
   // zeroing is relative to |zero_out_tol| * sigma_max();
 
   vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const &M, double zero_out_tol = 0.0);
- ~vnl_svd_fixed() {}
+ ~vnl_svd_fixed() = default;
 
   // Data Access---------------------------------------------------------------
 
@@ -175,7 +174,7 @@ vnl_matrix_fixed<T,C,R> vnl_svd_fixed_inverse(vnl_matrix_fixed<T,R,C> const& m)
   return vnl_svd_fixed<T,R,C>(m).inverse();
 }
 
-VCL_TEMPLATE_EXPORT template <class T, unsigned int R, unsigned int C>
+template <class T, unsigned int R, unsigned int C>
 std::ostream& operator<<(std::ostream&, vnl_svd_fixed<T,R,C> const& svd);
 
 #endif // vnl_svd_fixed_h_

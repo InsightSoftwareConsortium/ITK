@@ -32,7 +32,7 @@ void x_write_tree(std::ostream & os, vnl_vector<T> const& v, std::string name)
 
 #undef VNL_XIO_VECTOR_INSTANTIATE
 #define VNL_XIO_VECTOR_INSTANTIATE(T) \
-template VNL_TEMPLATE_EXPORT void x_write(std::ostream &, vnl_vector<T > const&, std::string); \
-template VNL_TEMPLATE_EXPORT void x_write_tree(std::ostream &, vnl_vector<T > const&, std::string)
+template VNL_EXPORT void x_write(std::ostream &, vnl_vector<T > const&, std::string); \
+template VNL_EXPORT void x_write_tree(std::ostream &, vnl_vector<T > const&, std::string)
 
 #endif // vnl_xio_vector_hxx_

@@ -1,9 +1,6 @@
 // This is core/vnl/io/vnl_io_real_polynomial.h
 #ifndef vnl_io_real_polynomial_h
 #define vnl_io_real_polynomial_h
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author iscott

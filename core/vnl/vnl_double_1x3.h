@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_double_1x3.h
 #ifndef vnl_double_1x3_h_
 #define vnl_double_1x3_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief 1x3 matrix of double
