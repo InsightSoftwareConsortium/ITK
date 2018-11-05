@@ -24,6 +24,7 @@ jobs:
         export BUILD_EXAMPLES=OFF
         export CTEST_BUILD_CONFIGURATION=MinSizeRel
         export ITK_WRAP_PYTHON=ON
+        export BUILD_SHARED_LIBS=ON
 
         ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
       displayName: Build and Test
