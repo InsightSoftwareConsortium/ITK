@@ -19,7 +19,8 @@ execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy"
 # TODO: find the root cause and re-enable them.  See ITK-3006 on issues.itk.org.
 #itk_python_add_test(PythonFindEmptyClasses findEmptyClasses.py)
 if(_have_numpy_return_code EQUAL 0 AND ITK_BUILD_DEFAULT_MODULES)
-  itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
+  # Currently unreliably fails. See Issue #96
+  # itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
 
   itk_python_add_test(NAME PythonTiming COMMAND timing.py)
 endif()
