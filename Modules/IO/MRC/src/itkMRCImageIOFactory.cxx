@@ -36,7 +36,7 @@ MRCImageIOFactory::MRCImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkMRCImageIO",
                           "MRC Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< MRCImageIO >::New() );
 }
 

@@ -29,7 +29,7 @@ NiftiImageIOFactory::NiftiImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkNiftiImageIO",
                           "Nifti Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< NiftiImageIO >::New() );
 }
 

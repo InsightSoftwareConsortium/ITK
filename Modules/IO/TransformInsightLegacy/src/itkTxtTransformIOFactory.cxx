@@ -30,12 +30,12 @@ TxtTransformIOFactory::TxtTransformIOFactory()
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkTxtTransformIO",
                           "Txt Transform float IO",
-                          1,
+                          true,
                           CreateObjectFunction< TxtTransformIOTemplate< float > >::New() );
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkTxtTransformIO",
                           "Txt Transform double IO",
-                          1,
+                          true,
                           CreateObjectFunction< TxtTransformIOTemplate< double > >::New() );
 }
 

@@ -528,7 +528,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
       }                                                                 \
     }
 
-  if(0) {}
+  if(false) {}
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR,unsigned char)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::CHAR,char)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT,unsigned short)

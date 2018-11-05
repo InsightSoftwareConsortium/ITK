@@ -26,7 +26,7 @@ TIFFImageIOFactory::TIFFImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkTIFFImageIO",
                           "TIFF Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< TIFFImageIO >::New() );
 }
 

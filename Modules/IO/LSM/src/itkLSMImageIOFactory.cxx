@@ -36,7 +36,7 @@ LSMImageIOFactory::LSMImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkLSMImageIO",
                           "LSM Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< LSMImageIO >::New() );
 }
 

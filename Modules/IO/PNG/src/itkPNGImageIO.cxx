@@ -48,9 +48,9 @@ bool wrapSetjmp( png_structp & png_ptr )
 {
   if( setjmp( png_jmpbuf( png_ptr ) ) )
     {
-    return 1;
+    return true;
     }
-  return 0;
+  return false;
 }
 }
 

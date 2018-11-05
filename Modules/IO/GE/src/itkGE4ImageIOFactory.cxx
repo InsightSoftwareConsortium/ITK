@@ -29,7 +29,7 @@ GE4ImageIOFactory::GE4ImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGE4ImageIO",
                           "GE4 Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GE4ImageIO >::New() );
 }
 

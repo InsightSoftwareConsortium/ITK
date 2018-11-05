@@ -34,7 +34,7 @@ OFFMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkOFFMeshIO",
                          "OFF Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< OFFMeshIO >::New() );
 }
 

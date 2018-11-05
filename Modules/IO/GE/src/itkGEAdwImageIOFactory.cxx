@@ -29,7 +29,7 @@ GEAdwImageIOFactory::GEAdwImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGEAdwImageIO",
                           "GEAdw Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GEAdwImageIO >::New() );
 }
 

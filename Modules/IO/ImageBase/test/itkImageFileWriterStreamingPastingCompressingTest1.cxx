@@ -262,14 +262,14 @@ int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
 
   i = 0;
 
-  int retValue =                                         ActualTest(argv[1], argv[2], argv[3], 0, 0, 0, expectException[i++]);
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 0, 1, expectException[i++]);
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 1, 0, expectException[i++]);
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 1, 1, expectException[i++]);
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 0, 0, expectException[i++]);
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 0, 1, expectException[i++]);
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 1, 0, expectException[i++]);
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 1, 1, expectException[i++]);
+  int retValue =                                         ActualTest(argv[1], argv[2], argv[3], false, false, false, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], false, false, true, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], false, true, false, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], false, true, true, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], true, false, false, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], true, false, true, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], true, true, false, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], true, true, true, expectException[i++]);
 
 
   return retValue;

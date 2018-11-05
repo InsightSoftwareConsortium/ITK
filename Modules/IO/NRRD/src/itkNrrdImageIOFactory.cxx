@@ -26,7 +26,7 @@ NrrdImageIOFactory::NrrdImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkNrrdImageIO",
                           "Nrrd Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< NrrdImageIO >::New() );
 }
 

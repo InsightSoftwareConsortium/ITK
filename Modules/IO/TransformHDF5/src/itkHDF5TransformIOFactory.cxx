@@ -30,13 +30,13 @@ HDF5TransformIOFactory::HDF5TransformIOFactory()
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkHDF5TransformIO",
                           "HD5 Transform float IO",
-                          1,
+                          true,
                           CreateObjectFunction< HDF5TransformIOTemplate< float > >::New() );
 
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkHDF5TransformIO",
                           "HD5 Transform double IO",
-                          1,
+                          true,
                           CreateObjectFunction< HDF5TransformIOTemplate< double > >::New() );
 }
 

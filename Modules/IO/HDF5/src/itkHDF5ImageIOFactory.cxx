@@ -29,7 +29,7 @@ HDF5ImageIOFactory::HDF5ImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkHDF5ImageIO",
                           "HDF5 Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< HDF5ImageIO >::New() );
 }
 

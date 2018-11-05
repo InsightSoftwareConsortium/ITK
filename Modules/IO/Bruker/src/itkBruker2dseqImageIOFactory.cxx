@@ -35,7 +35,7 @@ Bruker2dseqImageIOFactory::Bruker2dseqImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkBruker2dseqImageIO",
                           "Bruker2dseq Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< Bruker2dseqImageIO >::New() );
 }
 

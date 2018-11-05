@@ -26,7 +26,7 @@ GDCMImageIOFactory::GDCMImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGDCMImageIO",
                           "GDCM Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GDCMImageIO >::New() );
 }
 
