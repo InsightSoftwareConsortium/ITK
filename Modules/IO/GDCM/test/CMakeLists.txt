@@ -143,3 +143,10 @@ itk_add_test(NAME itkGDCMLoadImageNoSpacingTest
     1.0
     1.0
   )
+
+if(ITK_WRAP_float AND WRAP_2)
+  itk_python_add_test(NAME PythonReadDicomAndReadTagTest
+    COMMAND ReadDicomAndReadTagTest.py
+      DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
+  )
+endif()

@@ -106,3 +106,10 @@ itk_add_test(NAME itkSpatialObjectTreeContainerIteratorTest
 itk_add_test(NAME itkNewMetaObjectTypeTest
       COMMAND ITKSpatialObjectsTestDriver itkNewMetaObjectTypeTest
       ${ITK_TEST_OUTPUT_DIR}/NewMetaObjectType.meta)
+
+if(ITK_WRAP_float AND WRAP_2)
+  itk_python_add_test(NAME PythonSpatialObjectTest
+    TEST_DRIVER_ARGS
+    COMMAND SpatialObjectTest.py
+    )
+endif()

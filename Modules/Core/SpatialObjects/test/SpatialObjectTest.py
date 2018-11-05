@@ -16,34 +16,11 @@
 #
 #==========================================================================*/
 
-#     INPUTS: {BrainProtonDensitySlice.png}
-#     OUTPUTS: {ResampleImageFilterOutput1.png}
-#     0
-
-#     INPUTS: {BrainProtonDensitySlice.png}
-#     OUTPUTS: {ResampleImageFilterOutput2.png}
-#     1
-
-#     INPUTS: {BrainProtonDensitySlice.png}
-#     OUTPUTS: {ResampleImageFilterOutput3.png}
-#     2
-
-#     INPUTS: {BrainProtonDensitySlice.png}
-#     OUTPUTS: {ResampleImageFilterOutput4.png}
-#     3
-
 from __future__ import print_function
 
 import itk
-from sys import argv, stderr, exit
 
 itk.auto_progress(2)
-
-# if( len(argv) < 3 ):
-#   print("""Missing Parameters
-# Usage: ResampleImageFilter.py inputImageFile outputImageFile
-# [exampleAction={0,1,2,3}]""", file=stderr)
-#   exit(1)
 
 dim = 2
 SOType = itk.SpatialObject[dim]
@@ -69,15 +46,6 @@ group.AddSpatialObject(ellipse)
 group.AddSpatialObject(box)
 group.AddSpatialObject(gaussian)
 
-filter = itk.SpatialObjectToImageFilter[SOType, InternalImageType].New(
+filter_ = itk.SpatialObjectToImageFilter[SOType, InternalImageType].New(
     group, Size=[100, 100], UseObjectValue=True)
-filter.Update()  # required ?!
-
-rescale = itk.RescaleIntensityImageFilter[
-    InternalImageType,
-    OutputImageType].New(
-    filter,
-    OutputMinimum=itk.NumericTraits[OutputPixelType].NonpositiveMin(),
-    OutputMaximum=itk.NumericTraits[OutputPixelType].max())
-
-itk.imwrite(rescale, argv[1])
+filter_.Update()

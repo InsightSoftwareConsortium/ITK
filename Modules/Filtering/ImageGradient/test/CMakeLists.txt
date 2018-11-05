@@ -90,3 +90,15 @@ itk_add_test(NAME itkGradientRecursiveGaussianFilterTest4
 itk_add_test(NAME itkDifferenceOfGaussiansGradientTest
 
       COMMAND ITKImageGradientTestDriver itkDifferenceOfGaussiansGradientTest)
+
+if(ITK_WRAP_float AND WRAP_2)
+  itk_python_add_test(NAME PythonGradientMagnitudeRecursiveGaussianImageFilterTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilterTest.png
+              DATA{Baseline/PythonGradientMagnitudeRecursiveGaussianImageFilterTest.png}
+    COMMAND GradientMagnitudeRecursiveGaussianImageFilterTest.py
+      DATA{Input/BrainProtonDensitySlice.png}
+      ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilterTest.png
+      5
+    )
+endif()

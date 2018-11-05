@@ -245,3 +245,45 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo
     2
 )
 set_property(TEST itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo APPEND PROPERTY LABELS RUNS_LONG)
+
+if(ITK_WRAP_float AND WRAP_2)
+  itk_python_add_test(NAME PythonFastMarchingLeftVentricleTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingLeftVentricleTest.png
+                DATA{Baseline/FastMarchingLeftVentricleTest.png}
+    COMMAND FastMarchingImageFilterTest.py
+    DATA{Input/BrainProtonDensitySlice.png}
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingLeftVentricleTest.png
+      81 114 1.0 -0.5 3.0 100 100
+    )
+
+  itk_python_add_test(NAME PythonFastMarchingRightVentricleTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingRightVentricleTest.png
+                DATA{Baseline/FastMarchingRightVentricleTest.png}
+    COMMAND FastMarchingImageFilterTest.py
+      DATA{Input/BrainProtonDensitySlice.png}
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingRightVentricleTest.png
+      99 114 1.0 -0.5 3.0 100 100
+    )
+
+  itk_python_add_test(NAME PythonFastMarchingWhiteMatterTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingWhiteMatterTest.png
+                DATA{Baseline/FastMarchingWhiteMatterTest.png}
+    COMMAND FastMarchingImageFilterTest.py
+      DATA{Input/BrainProtonDensitySlice.png}
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingWhiteMatterTest.png
+      56 92 1.0 -0.3 2.0 200 100
+    )
+
+  itk_python_add_test(NAME PythonFastMarchingGrayMatterTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingGrayMatterTest.png
+                DATA{Baseline/FastMarchingGrayMatterTest.png}
+    COMMAND FastMarchingImageFilterTest.py
+      DATA{Input/BrainProtonDensitySlice.png}
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingGrayMatterTest.png
+      40 90 .5 -0.3 2.0 200 100
+    )
+endif()
