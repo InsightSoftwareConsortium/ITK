@@ -180,13 +180,13 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
 
   std::vector<std::string> ColumnHeaders;
   std::vector<std::string> RowHeaders;
-  ColumnHeaders.push_back( "itkMatrixObject" );
-  ColumnHeaders.push_back( "Col1" );
-  ColumnHeaders.push_back( "Col2" );
-  ColumnHeaders.push_back( "Col3" );
-  RowHeaders.push_back( "Row1" );
-  RowHeaders.push_back( "Row2" );
-  RowHeaders.push_back( "Row3" );
+  ColumnHeaders.emplace_back("itkMatrixObject" );
+  ColumnHeaders.emplace_back("Col1" );
+  ColumnHeaders.emplace_back("Col2" );
+  ColumnHeaders.emplace_back("Col3" );
+  RowHeaders.emplace_back("Row1" );
+  RowHeaders.emplace_back("Row2" );
+  RowHeaders.emplace_back("Row3" );
 
   using fixedMatrixWriterType = itk::CSVNumericObjectFileWriter
           <double, NRows,NCols>;

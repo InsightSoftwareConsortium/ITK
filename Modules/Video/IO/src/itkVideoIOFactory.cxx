@@ -33,7 +33,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
     auto * io = dynamic_cast< VideoIOBase* >( allobject.GetPointer() );
     if (io)
       {
-      possibleVideoIO.push_back(io);
+      possibleVideoIO.emplace_back(io);
       }
     else
       {
