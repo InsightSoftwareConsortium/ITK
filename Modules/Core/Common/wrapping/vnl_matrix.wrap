@@ -1,7 +1,7 @@
 # auto include feature must be disable because the class is not in the file
 # with the same name
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-itk_wrap_include("vcl_complex.h")
+itk_wrap_include("complex")
 itk_wrap_include("vnl/vnl_vector.h")
 itk_wrap_include("vnl/vnl_matrix.h")
 
