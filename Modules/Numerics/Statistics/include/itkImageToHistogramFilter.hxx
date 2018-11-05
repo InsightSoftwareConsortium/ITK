@@ -153,8 +153,8 @@ ImageToHistogramFilter< TImage >
     else
       {
       m_Maximum.Fill( NumericTraits<ValueType>::max() + 0.5 );
-      // this->ApplyMarginalScale( min, max, size );
       }
+    // No marginal scaling is applied in this case
     }
 
   outputHistogram->SetMeasurementVectorSize(nbOfComponents);
@@ -182,6 +182,8 @@ ImageToHistogramFilter< TImage >
 
   m_Minimum.Fill( NumericTraits<ValueType>::max() );
   m_Maximum.Fill( NumericTraits<ValueType>::NonpositiveMin() );
+
+  m_MergeHistogram = nullptr;
 }
 
 template< typename TImage >
@@ -189,6 +191,9 @@ void
 ImageToHistogramFilter< TImage >
 ::AfterThreadedGenerateData()
 {
+  HistogramType *outputHistogram = this->GetOutput();
+  outputHistogram->Graft(m_MergeHistogram);
+  m_MergeHistogram = nullptr;
 }
 
 
@@ -230,7 +235,7 @@ ImageToHistogramFilter< TImage >
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedComputeHistogram(const RegionType & inputRegionForThread )
+::ThreadedComputeHistogram(const RegionType & inputRegionForThread)
 {
   const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   const HistogramType *outputHistogram = this->GetOutput();
@@ -255,21 +260,50 @@ ImageToHistogramFilter< TImage >
     ++inputIt;
     }
 
+  this->ThreadedMergeHistogram( histogram );
+}
 
-  std::lock_guard<std::mutex> mutexHolder( m_Mutex );
-
-  // reduce the results in the output histogram
-  HistogramType *writableOutputHistogram = this->GetOutput();
-
-  using HistogramIterator = typename HistogramType::ConstIterator;
-
-  HistogramIterator hit = histogram->Begin();
-  HistogramIterator end = histogram->End();
-  while ( hit != end )
+template< typename TImage >
+void
+ImageToHistogramFilter< TImage >
+::ThreadedMergeHistogram(HistogramType *histogram)
+{
+  while (true)
     {
-    writableOutputHistogram->GetIndex( hit.GetMeasurementVector(), index);
-    writableOutputHistogram->IncreaseFrequencyOfIndex( index, hit.GetFrequency() );
-    ++hit;
+
+    std::unique_lock<std::mutex> lock(m_Mutex);
+
+    if (m_MergeHistogram.IsNull())
+      {
+      m_MergeHistogram = std::move(histogram);
+      return;
+      }
+    else
+      {
+
+      // merge/reduce the local results with current values in m_MergeHistogram
+
+      // take ownership locally
+      HistogramPointer tomergeHistogram;
+      swap( m_MergeHistogram, tomergeHistogram );
+
+      // allow other threads to merge data
+      lock.unlock();
+
+      using HistogramIterator = typename HistogramType::ConstIterator;
+
+      HistogramIterator hit = tomergeHistogram->Begin();
+      HistogramIterator end = tomergeHistogram->End();
+
+      typename HistogramType::IndexType index;
+
+      while ( hit != end )
+        {
+        histogram->GetIndex( hit.GetMeasurementVector(), index);
+        histogram->IncreaseFrequencyOfIndex( index, hit.GetFrequency() );
+        ++hit;
+        }
+      }
     }
 }
 
