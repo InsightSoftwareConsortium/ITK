@@ -148,11 +148,6 @@ class itkTemplate(object):
                 # itk::Numerics::Sample -> itkSample
                 shortNameSize = len(re.sub(r':.*:', '', self.__name__))
                 attributeName = cl.__name__[shortNameSize:]
-        elif cl.__name__.startswith("vcl_complex"):
-            raise AttributeError('former vcl_complex, handling ' + str(cl.__name__))
-            # C++ name is likely to be std::complex here, instead of the
-            # expected vcl_complex
-            attributeName = cl.__name__[len("vcl_complex"):]
         else:
             shortName = re.sub(r':.*:', '', self.__name__)
 
