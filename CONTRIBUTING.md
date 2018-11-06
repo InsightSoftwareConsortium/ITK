@@ -53,6 +53,7 @@ three main steps:
      * [Create a Topic](#create-a-topic)
   2. Code Review
      * [Share a Topic](#share-a-topic)
+     * [Test a Topic](#test-a-topic)
      * [Revise a Topic](#revise-a-topic)
   3. Integrate Changes
      * [Merge a Topic](#merge-a-topic)
@@ -156,6 +157,20 @@ Push commits in your topic branch for review by the community:
 
 Optionally, discuss the change by opening a topic on [ITK's Discourse].
 
+Test a Topic
+------------
+
+When a topic is submitted, it is tested across the three major platforms
+before being merged. After the topic has been merged, it is tested on many
+platforms and configurations on the [nightly
+dashboard](https://open.cdash.org/index.php?project=Insight).
+
+If tests fail on a submitted topic, see the [Revise a Topic](#revise-a-topic)
+step on how to submit a revised version. After a topic is merged, please check
+the next day's nightly dashboard to ensure there are not any regressions. If
+there are any new warnings or errors, submit a follow-up patch as soon as
+possible.
+
 Revise a Topic
 --------------
 
@@ -196,19 +211,6 @@ for further information on changing multiple commits -i.e. not only the last
 one, but further back in your history-, and the* Pro Git: Rebasing *resource on
 taking all the changes that were committed on one branch and replaying them on
 another one.*)
-
-Test a Topic
-------------
-
-When a patch is submitted, it is tested across the three major platforms before
-being merged and tested on many platforms and configurations on the
-[nightly dashboard](https://open.cdash.org/index.php?project=Insight).
-
-If tests fail on a submitted topic, see the [Revise a Topic](#revise-a-topic)
-step on how to submit a revised version. After a topic is merged, please check
-the next day's nightly dashboard to ensure there are not any regressions. If
-there are any new warnings or errors, submit a follow-up patch as soon as
-possible.
 
 Merge a Topic
 -------------
