@@ -4,7 +4,7 @@ Contributing to ITK
 This page documents how to develop ITK using [Git].
 
 **Note**: *Git is an extremely powerful version control tool that supports many
-different "workflows" for indivudal development and collaboration. Here we
+different "workflows" for individual development and collaboration. Here we
 document procedures used by the ITK development community. In the interest of
 simplicity and brevity we do not provide an explanation of why we use this
 approach. Furthermore, this is not a Git tutorial. Please see our [GitHelp]
