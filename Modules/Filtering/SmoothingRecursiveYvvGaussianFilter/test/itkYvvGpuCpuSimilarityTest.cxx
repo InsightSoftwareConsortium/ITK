@@ -40,10 +40,10 @@
 // TODO: Test on Mac/Windows.
 
 #ifdef WITH_DOUBLE
-typedef double PixelType;
+using PixelType = double;
 #  define NRMSTH 5e-07
 #else
-typedef float PixelType;
+using PixelType = float;
 #  define NRMSTH 5e-04
 #endif
 
@@ -51,19 +51,19 @@ template <typename ImageType>
 int
 runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
 {
-  typedef PixelType InputPixelType;
-  typedef PixelType OutputPixelType;
+  using InputPixelType = PixelType;
+  using OutputPixelType = PixelType;
 
-  typedef itk::GPUImage<InputPixelType, ImageType::ImageDimension>     InputImageType;
-  typedef itk::GPUImage<OutputPixelType, ImageType::ImageDimension>    OutputImageType;
-  typedef itk::Image<unsigned char, ImageType::ImageDimension>         UnsignedCharImageType;
-  typedef itk::CastImageFilter<OutputImageType, UnsignedCharImageType> CastFilterType;
+  using InputImageType = itk::GPUImage<InputPixelType, ImageType::ImageDimension>;
+  using OutputImageType = itk::GPUImage<OutputPixelType, ImageType::ImageDimension>;
+  using UnsignedCharImageType = itk::Image<unsigned char, ImageType::ImageDimension>;
+  using CastFilterType = itk::CastImageFilter<OutputImageType, UnsignedCharImageType>;
 
-  typedef itk::SmoothingRecursiveYvvGaussianImageFilter<InputImageType, OutputImageType>    CPUYvvFilterType;
-  typedef itk::GPUSmoothingRecursiveYvvGaussianImageFilter<InputImageType, OutputImageType> GPUYvvFilterType;
+  using CPUYvvFilterType = itk::SmoothingRecursiveYvvGaussianImageFilter<InputImageType, OutputImageType>;
+  using GPUYvvFilterType = itk::GPUSmoothingRecursiveYvvGaussianImageFilter<InputImageType, OutputImageType>;
 
-  typedef itk::ImageFileReader<InputImageType>        ReaderType;
-  typedef itk::ImageFileWriter<UnsignedCharImageType> WriterType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<UnsignedCharImageType>;
 
   typename ReaderType::Pointer     reader = ReaderType::New();
   typename WriterType::Pointer     writer = WriterType::New();
@@ -130,7 +130,7 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
     GPUFilter->GetOutput()->UpdateBuffers(); // synchronization point (GPU->CPU memcpy)
     gputimer.Stop();
 
-    std::cout << "GPU Recursive YVV Gaussian Filter took " << gputimer.GetMean() << " seconds.\n";
+    using ImageCalculatorFilterType = itk::MinimumMaximumImageCalculator<ImageType>;
 
     castFilter->SetInput(GPUFilter->GetOutput());
     writer->SetInput(castFilter->GetOutput());
@@ -140,7 +140,7 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
     // RMS Error check
     // ---------------
 
-    typedef itk::MinimumMaximumImageCalculator<ImageType> ImageCalculatorFilterType;
+    using ImageCalculatorFilterType = itk::MinimumMaximumImageCalculator<ImageType>;
 
     typename ImageCalculatorFilterType::Pointer imageCalculatorFilter = ImageCalculatorFilterType::New();
     imageCalculatorFilter->SetImage(CPUFilter->GetOutput());
