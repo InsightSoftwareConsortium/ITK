@@ -256,26 +256,22 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
     }
 
   itkDebugMacro( "adjusting size of output image" );
-  // we need to compute the output spacing, the output image size, and the
-  // output image start index
-  unsigned int i;
-  const typename ImageType::SpacingType&
-    fixedSpacing = fixed->GetSpacing(),
-    movingSpacing = moving->GetSpacing();
-  const typename ImageType::SizeType&
-    fixedSize = fixed->GetLargestPossibleRegion().GetSize(),
-    movingSize = moving->GetLargestPossibleRegion().GetSize();
-  const typename ImageType::IndexType&
-    fixedStartIndex = fixed->GetLargestPossibleRegion().GetIndex();
+  // we need to compute the output spacing, the output image size,
+  // and the output image start index
+  const typename ImageType::SpacingType& fixedSpacing = fixed->GetSpacing();
+  const typename ImageType::SpacingType& movingSpacing = moving->GetSpacing();
+  const typename ImageType::SizeType& fixedSize = fixed->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::SizeType& movingSize = moving->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::IndexType& fixedStartIndex = fixed->GetLargestPossibleRegion().GetIndex();
 
   typename ImageType::SpacingType outputSpacing;
   typename ImageType::SizeType outputSize;
   typename ImageType::IndexType outputStartIndex;
 
-  for ( i = 0; i < ImageType::ImageDimension; i++ )
+  for ( unsigned i = 0; i < ImageType::ImageDimension; i++ )
     {
-    outputSpacing[i] = fixedSpacing[i] >= movingSpacing[i] ? fixedSpacing[i] : movingSpacing[i];
-    outputSize[i] = fixedSize[i] <= movingSize[i] ? fixedSize[i] : movingSize[i];
+    outputSpacing[i] = std::max( fixedSpacing[i], movingSpacing[i] );
+    outputSize[i] = std::min( fixedSize[i], movingSize[i] );
     outputStartIndex[i] = fixedStartIndex[i];
     }
 
@@ -304,7 +300,7 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   if ( ExposeMetaData< SizeScalarType >( fixedDic, std::string( "FFT_Actual_RealImage_Size" ), fixedX ) &&
        ExposeMetaData< SizeScalarType >( movingDic, std::string( "FFT_Actual_RealImage_Size" ), movingX ) )
     {
-    outputX = fixedX > movingX ? movingX : fixedX;
+    outputX = std::min( fixedX, movingX );
     EncapsulateMetaData< SizeScalarType >( outputDic, std::string( "FFT_Actual_RealImage_Size" ), outputX );
     }
 }
