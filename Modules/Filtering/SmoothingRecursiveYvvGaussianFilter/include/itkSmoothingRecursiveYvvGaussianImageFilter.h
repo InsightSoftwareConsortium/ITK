@@ -49,39 +49,39 @@ class ITK_EXPORT SmoothingRecursiveYvvGaussianImageFilter : public InPlaceImageF
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SmoothingRecursiveYvvGaussianImageFilter);
 
-  /** Standard class typedefs. */
-  typedef SmoothingRecursiveYvvGaussianImageFilter      Self;
-  typedef InPlaceImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type alias. */
+  using Self = SmoothingRecursiveYvvGaussianImageFilter;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Pixel Type of the input image */
-  typedef TInputImage                     InputImageType;
-  typedef TOutputImage                    OutputImageType;
-  typedef typename TInputImage::PixelType PixelType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
 #ifdef WITH_DOUBLE
-  typedef typename NumericTraits<PixelType>::RealType       RealType;
-  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 #else
-  typedef typename NumericTraits<PixelType>::FloatType RealType;
-  typedef typename NumericTraits<PixelType>::FloatType ScalarRealType;
+  using RealType = typename NumericTraits<PixelType>::FloatType;
+  using ScalarRealType = typename NumericTraits<PixelType>::FloatType;
 #endif
 
   /** Runtime information support. */
   itkTypeMacro(SmoothingRecursiveYvvGaussianImageFilter, InPlaceImageFilter);
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the type for the sigma array */
-  typedef FixedArray<ScalarRealType, itkGetStaticConstMacro(ImageDimension)> SigmaArrayType;
+  using SigmaArrayType = FixedArray<ScalarRealType, itkGetStaticConstMacro(ImageDimension)>;
 
   /** Define the image type for internal computations
    RealType is usually 'double' in NumericTraits.
    Here we prefer float in order to save memory.  */
 
-  typedef typename NumericTraits<PixelType>::FloatType                     InternalRealType;
-  typedef typename InputImageType::template Rebind<InternalRealType>::Type RealImageType;
+  using InternalRealType = typename NumericTraits<PixelType>::FloatType;
+  using RealImageType = typename InputImageType::template Rebind<InternalRealType>::Type;
 
   /**  The first in the pipeline  */
   typedef RecursiveLineYvvGaussianImageFilter<InputImageType, RealImageType> FirstGaussianFilterType;
@@ -93,16 +93,16 @@ public:
   typedef CastImageFilter<RealImageType, OutputImageType> CastingFilterType;
 
   /**  Pointer to a gaussian filter.  */
-  typedef typename InternalGaussianFilterType::Pointer InternalGaussianFilterPointer;
+  using InternalGaussianFilterPointer = typename InternalGaussianFilterType::Pointer;
 
   /**  Pointer to the first gaussian filter.  */
-  typedef typename FirstGaussianFilterType::Pointer FirstGaussianFilterPointer;
+  using FirstGaussianFilterPointer = typename FirstGaussianFilterType::Pointer;
 
   /**  Pointer to the last filter, casting  */
-  typedef typename CastingFilterType::Pointer CastingFilterPointer;
+  using CastingFilterPointer = typename CastingFilterType::Pointer;
 
   /**  Pointer to the Output Image */
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
