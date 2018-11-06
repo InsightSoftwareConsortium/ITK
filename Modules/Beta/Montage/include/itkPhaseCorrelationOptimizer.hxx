@@ -22,54 +22,54 @@
 
 namespace itk
 {
-template < typename TImage >
-PhaseCorrelationOptimizer<TImage>
+template< typename TImage >
+PhaseCorrelationOptimizer< TImage >
 ::PhaseCorrelationOptimizer()
 {
   this->SetNumberOfRequiredInputs( 3 );
-  this->SetOffsetCount(4);
+  this->SetOffsetCount( 4 );
 }
 
-template<typename TImage>
+template< typename TImage >
 void
-PhaseCorrelationOptimizer<TImage>
-::SetOffsetCount(unsigned count)
+PhaseCorrelationOptimizer< TImage >
+::SetOffsetCount( unsigned count )
 {
   if ( m_Offsets.size() != count )
     {
     this->SetNumberOfRequiredOutputs( count );
-    for (unsigned i = m_Offsets.size(); i < count; i++)
+    for ( unsigned i = m_Offsets.size(); i < count; i++ )
       {
       OffsetOutputPointer offsetDecorator =
           static_cast< OffsetOutputType * >( this->MakeOutput(i).GetPointer() );
       this->ProcessObject::SetNthOutput( i, offsetDecorator.GetPointer() );
       }
-    m_Offsets.resize(count);
+    m_Offsets.resize( count );
 
     this->Modified();
     }
 }
 
-template < typename TImage >
+template< typename TImage >
 void
-PhaseCorrelationOptimizer<TImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+PhaseCorrelationOptimizer< TImage >
+::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf( os, indent );
   os << indent << "Offsets:";
-  for (unsigned i = 0; i < m_Offsets.size(); i++)
+  for ( unsigned i = 0; i < m_Offsets.size(); i++ )
     {
     os << " " << m_Offsets[i];
     }
   os << std::endl;
 }
 
-template < typename TImage >
+template< typename TImage >
 void
-PhaseCorrelationOptimizer<TImage>
+PhaseCorrelationOptimizer< TImage >
 ::GenerateData()
 {
-  if (!m_Updating)
+  if ( !m_Updating )
     {
     this->Update();
     }
@@ -81,11 +81,11 @@ PhaseCorrelationOptimizer<TImage>
       {
       this->ComputeOffset();
       }
-    catch( ExceptionObject& err )
+    catch ( ExceptionObject& err )
       {
       itkDebugMacro( "exception called while computing offset - passing" );
 
-      this->SetOffsetCount(1);
+      this->SetOffsetCount( 1 );
       m_Offsets[0] = empty;
 
       // pass exception to caller
@@ -93,56 +93,53 @@ PhaseCorrelationOptimizer<TImage>
       }
     }
 
-  for (unsigned i = 0; i < m_Offsets.size(); i++)
+  for ( unsigned i = 0; i < m_Offsets.size(); i++ )
     {
     // write the result to the output
-    OffsetOutputType * output = static_cast< OffsetOutputType * >( this->ProcessObject::GetOutput(0) );
-    output->Set(m_Offsets[i]);
+    OffsetOutputType* output = static_cast< OffsetOutputType* >( this->ProcessObject::GetOutput( 0 ) );
+    output->Set( m_Offsets[i] );
     }
 }
 
-template < typename TImage >
+template< typename TImage >
 void
-PhaseCorrelationOptimizer<TImage>
-::SetInput( const ImageType * image )
+PhaseCorrelationOptimizer< TImage >
+::SetInput( const ImageType* image )
 {
-  itkDebugMacro("setting input image to " << image );
-  if ( this->GetInput(0) != image )
+  itkDebugMacro( "setting input image to " << image );
+  if ( this->GetInput( 0 ) != image )
     {
-    this->ProcessObject::SetNthInput(0, const_cast< ImageType * >( image ) );
-
+    this->ProcessObject::SetNthInput( 0, const_cast< ImageType* >( image ) );
     this->Modified();
     }
 }
 
-template < typename TImage >
+template< typename TImage >
 void
-PhaseCorrelationOptimizer<TImage>
-::SetFixedImage( const ImageBase<ImageType::ImageDimension> * image )
+PhaseCorrelationOptimizer< TImage >
+::SetFixedImage( const ImageBase< ImageType::ImageDimension >* image )
 {
-  itkDebugMacro("setting fixed image to " << image );
-  if ( this->GetInput(1) != image )
+  itkDebugMacro( "setting fixed image to " << image );
+  if ( this->GetInput( 1 ) != image )
     {
-    this->ProcessObject::SetNthInput(1, const_cast< ImageBase<ImageType::ImageDimension> * >( image ) );
-
+    this->ProcessObject::SetNthInput( 1, const_cast< ImageBase< ImageType::ImageDimension >* >( image ) );
     this->Modified();
     }
 }
 
-template < typename TImage >
+template< typename TImage >
 void
-PhaseCorrelationOptimizer<TImage>
-::SetMovingImage( const ImageBase<ImageType::ImageDimension> * image )
+PhaseCorrelationOptimizer< TImage >
+::SetMovingImage( const ImageBase< ImageType::ImageDimension >* image )
 {
-  itkDebugMacro("setting moving image to " << image );
-  if ( this->GetInput(2) != image )
+  itkDebugMacro( "setting moving image to " << image );
+  if ( this->GetInput( 2 ) != image )
     {
-    this->ProcessObject::SetNthInput(2, const_cast< ImageBase<ImageType::ImageDimension> * >( image ) );
-
+    this->ProcessObject::SetNthInput( 2, const_cast< ImageBase< ImageType::ImageDimension >* >( image ) );
     this->Modified();
     }
 }
 
-} //end namespace itk
+} // end namespace itk
 
 #endif

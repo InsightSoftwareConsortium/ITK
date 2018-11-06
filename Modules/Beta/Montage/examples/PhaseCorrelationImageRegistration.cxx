@@ -20,32 +20,31 @@
 //    INPUTS: {BrainProtonDensitySliceShifted13x17y.png}
 
 
-//include headers neccessary for phase correlation image registration
+// include headers neccessary for phase correlation image registration
+#include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkPhaseCorrelationOperator.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
 
-//include headers for image, IO, casting and resampling
+// include headers for image, IO, casting and resampling
+#include "itkCastImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkResampleImageFilter.h"
-#include "itkCastImageFilter.h"
 #include "itkTransformFileWriter.h"
 
 
 int main( int argc, char *argv[] )
 {
-
-  //inputs and output are passed as command line arguments
-  if( argc < 4 )
+  // inputs and output are passed as command line arguments
+  if ( argc < 4 )
     {
     std::cout << "Usage: " << std::endl;
     std::cout << argv[0] << "  FixedImageFile  MovingImageFile"
                          << "  OutputTransformFile" << std::endl;
     return EXIT_FAILURE;
     }
-  const char * fixedImageFile = argv[1];
-  const char * movingImageFile = argv[2];
-  const char * transformFile = argv[3];
+  const char* fixedImageFile = argv[1];
+  const char* movingImageFile = argv[2];
+  const char* transformFile = argv[3];
 
 
   //
@@ -54,9 +53,9 @@ int main( int argc, char *argv[] )
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
   using ImageType = itk::Image< PixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader<ImageType>;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
-  ReaderType::Pointer fixedReader  = ReaderType::New();
+  ReaderType::Pointer fixedReader = ReaderType::New();
   ReaderType::Pointer movingReader = ReaderType::New();
   fixedReader->SetFileName( fixedImageFile );
   movingReader->SetFileName( movingImageFile );
@@ -66,7 +65,7 @@ int main( int argc, char *argv[] )
     fixedReader->Update();
     movingReader->Update();
     }
-  catch (itk::ExceptionObject & e)
+  catch ( itk::ExceptionObject& e )
     {
     std::cerr << "Unable to read input images!" << std::endl;
     std::cerr << e << std::endl;
@@ -88,7 +87,7 @@ int main( int argc, char *argv[] )
   OperatorType::Pointer pcmOperator = OperatorType::New();
   pcmRegistration->SetOperator( pcmOperator );
 
-  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<RegistrationType>;
+  using OptimizerType = itk::MaxPhaseCorrelationOptimizer< RegistrationType >;
   OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   pcmRegistration->SetOptimizer( pcmOptimizer );
 
@@ -100,7 +99,7 @@ int main( int argc, char *argv[] )
     {
     pcmRegistration->Update();
     }
-  catch ( itk::ExceptionObject & e )
+  catch ( itk::ExceptionObject& e )
     {
     std::cout << "Some error during registration:" << std::endl;
     std::cout << e << std::endl;
@@ -131,7 +130,7 @@ int main( int argc, char *argv[] )
     {
     writer->Update();
     }
-  catch(itk::ExceptionObject & e)
+  catch ( itk::ExceptionObject& e )
     {
     std::cerr << "Unable to generate or write output image!" << std::endl;
     std::cerr << e << std::endl;
