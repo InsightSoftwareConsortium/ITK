@@ -31,7 +31,6 @@
 
 namespace itk
 {
-
 template < typename TRegistrationMethod >
 MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 ::MaxPhaseCorrelationOptimizer() : Superclass()
@@ -42,21 +41,21 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 }
 
 
-template < typename TRegistrationMethod >
+template< typename TRegistrationMethod >
 void
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
-::PrintSelf(std::ostream& os, Indent indent) const
+MaxPhaseCorrelationOptimizer< TRegistrationMethod >
+::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf( os, indent );
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
-  auto pim = static_cast<typename std::underlying_type<PeakInterpolationMethod>::type>(m_PeakInterpolationMethod);
+  auto pim = static_cast< typename std::underlying_type< PeakInterpolationMethod >::type >( m_PeakInterpolationMethod );
   os << indent << "PeakInterpolationMethod: " << pim << std::endl;
 }
 
-template<typename TRegistrationMethod>
+template< typename TRegistrationMethod >
 void
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
-::SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod)
+MaxPhaseCorrelationOptimizer< TRegistrationMethod >
+::SetPeakInterpolationMethod( const PeakInterpolationMethod peakInterpolationMethod )
 {
   if ( this->m_PeakInterpolationMethod != peakInterpolationMethod )
     {
@@ -65,32 +64,32 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     }
 }
 
-template < typename TRegistrationMethod >
+template< typename TRegistrationMethod >
 void
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
+MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 ::ComputeOffset()
 {
-  ImageConstPointer input = static_cast< ImageType * >(this->GetInput(0));
-  ImageConstPointer fixed = static_cast< ImageType * >(this->GetInput(1));
-  ImageConstPointer moving = static_cast< ImageType * >(this->GetInput(2));
+  ImageConstPointer input = static_cast< ImageType* >( this->GetInput( 0 ) );
+  ImageConstPointer fixed = static_cast< ImageType* >( this->GetInput( 1 ) );
+  ImageConstPointer moving = static_cast< ImageType* >( this->GetInput( 2 ) );
 
   OffsetType offset;
   offset.Fill( 0 );
 
-  if (!input)
+  if ( !input )
     {
     return;
     }
 
   m_MaxCalculator->SetImage( input );
-  m_MaxCalculator->SetN(std::ceil(this->m_Offsets.size() / 2) *
-      (static_cast<unsigned>(std::pow(3, ImageDimension)) - 1));
+  m_MaxCalculator->SetN( std::ceil( this->m_Offsets.size() / 2 ) *
+                         ( static_cast< unsigned >( std::pow( 3, ImageDimension ) ) - 1 ) );
 
   try
     {
     m_MaxCalculator->ComputeMaxima();
     }
-  catch( ExceptionObject& err )
+  catch ( ExceptionObject& err )
     {
     itkDebugMacro( "exception caught during execution of max calculator - passing " );
     throw err;
@@ -98,141 +97,137 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 
   typename MaxCalculatorType::ValueVector maxs = m_MaxCalculator->GetMaxima();
   typename MaxCalculatorType::IndexVector indices = m_MaxCalculator->GetIndicesOfMaxima();
-  itkAssertOrThrowMacro(maxs.size() == indices.size(),
-      "Maxima and their indices must have the same number of elements");
-  std::greater<PixelType> compGreater;
-  auto zeroBound = std::upper_bound(maxs.begin(), maxs.end(), 0.0, compGreater);
-  if (zeroBound != maxs.end()) //there are some non-positive values in here
+  itkAssertOrThrowMacro( maxs.size() == indices.size(),
+      "Maxima and their indices must have the same number of elements" );
+  std::greater< PixelType > compGreater;
+  auto zeroBound = std::upper_bound( maxs.begin(), maxs.end(), 0.0, compGreater );
+  if ( zeroBound != maxs.end() ) // there are some non-positive values in here
     {
     unsigned i = zeroBound - maxs.begin();
-    maxs.resize(i);
-    indices.resize(i);
+    maxs.resize( i );
+    indices.resize( i );
     }
 
-  //eliminate indices belonging to the same blurry peak
-  //condition used is city-block distance of one
+  // eliminate indices belonging to the same blurry peak
+  // condition used is city-block distance of one
   const typename ImageType::RegionType lpr = input->GetLargestPossibleRegion();
   const typename ImageType::SizeType size = lpr.GetSize();
   unsigned i = 1;
-  while (i < indices.size())
+  while ( i < indices.size() )
     {
     unsigned k = 0;
-    while (k < i)
+    while ( k < i )
       {
-      //calculate maximum distance along any dimension
+      // calculate maximum distance along any dimension
       SizeValueType dist = 0;
-      for (unsigned d = 0; d < ImageDimension; d++)
+      for ( unsigned d = 0; d < ImageDimension; d++ )
         {
-        SizeValueType d1 = std::abs(indices[i][d] - indices[k][d]);
-        if (d1 > size[d] / 2) //wrap around
+        SizeValueType d1 = std::abs( indices[i][d] - indices[k][d] );
+        if ( d1 > size[d] / 2 ) // wrap around
           {
           d1 = size[d] - d1;
           }
-        dist = std::max(dist, d1);
+        dist = std::max( dist, d1 );
         }
-      if (dist < 2) //for city-block this is equivalent to:  dist == 1
+      if ( dist < 2 ) // for city-block this is equivalent to:  dist == 1
         {
         break;
         }
       ++k;
       }
 
-    if (k < i) //k is nearby
+    if ( k < i ) // k is nearby
       {
-      maxs[k] += maxs[i]; //join amplitudes
-      maxs.erase(maxs.begin() + i);
-      indices.erase(indices.begin() + i);
+      maxs[k] += maxs[i]; // join amplitudes
+      maxs.erase( maxs.begin() + i );
+      indices.erase( indices.begin() + i );
       }
-    else //examine next index
+    else // examine next index
       {
       ++i;
       }
     }
 
-  //supress trivial zero solution
+  // supress trivial zero solution
   const typename ImageType::IndexType oIndex = lpr.GetIndex();
-  const PixelType zeroDeemphasis1 = std::max<PixelType>(1.0, m_ZeroSuppression / 2.0);
-  for (i = 0; i < maxs.size(); i++)
+  const PixelType                     zeroDeemphasis1 = std::max< PixelType >( 1.0, m_ZeroSuppression / 2.0 );
+  for ( i = 0; i < maxs.size(); i++ )
     {
-    //calculate maximum distance along any dimension
+    // calculate maximum distance along any dimension
     SizeValueType dist = 0;
-    for (unsigned d = 0; d < ImageDimension; d++)
+    for ( unsigned d = 0; d < ImageDimension; d++ )
       {
-      SizeValueType d1 = std::abs(indices[i][d] - oIndex[d]);
-      if (d1 > size[d] / 2) //wrap around
+      SizeValueType d1 = std::abs( indices[i][d] - oIndex[d] );
+      if ( d1 > size[d] / 2 ) // wrap around
         {
         d1 = size[d] - d1;
         }
-      dist = std::max(dist, d1);
+      dist = std::max( dist, d1 );
       }
 
-    if (dist == 0)
+    if ( dist == 0 )
       {
       maxs[i] /= m_ZeroSuppression;
       }
-    else if (dist == 1)
+    else if ( dist == 1 )
       {
       maxs[i] /= zeroDeemphasis1;
       }
     }
 
-  //now we need to re-sort the values
+  // now we need to re-sort the values
   {
-    std::vector<unsigned> sIndices;
-    sIndices.reserve(maxs.size());
-    for (unsigned i = 0; i < maxs.size(); i++)
+    std::vector< unsigned > sIndices;
+    sIndices.reserve( maxs.size() );
+    for ( unsigned i = 0; i < maxs.size(); i++ )
       {
-      sIndices.push_back(i);
+      sIndices.push_back( i );
       }
-    std::sort(sIndices.begin(), sIndices.end(),
-        [maxs](unsigned a, unsigned b)
-        {
-          return maxs[a] > maxs[b];
-        });
+    std::sort( sIndices.begin(), sIndices.end(), [maxs]( unsigned a, unsigned b ) { return maxs[a] > maxs[b]; } );
 
-    //now apply sorted order
-    typename MaxCalculatorType::ValueVector tMaxs(maxs.size());
-    typename MaxCalculatorType::IndexVector tIndices(maxs.size());
-    for (unsigned i = 0; i < maxs.size(); i++)
+    // now apply sorted order
+    typename MaxCalculatorType::ValueVector tMaxs( maxs.size() );
+    typename MaxCalculatorType::IndexVector tIndices( maxs.size() );
+    for ( unsigned i = 0; i < maxs.size(); i++ )
       {
       tMaxs[i] = maxs[sIndices[i]];
       tIndices[i] = indices[sIndices[i]];
       }
-    maxs.swap(tMaxs);
-    indices.swap(tIndices);
+    maxs.swap( tMaxs );
+    indices.swap( tIndices );
   }
 
-  if (this->m_Offsets.size() > maxs.size())
+  if ( this->m_Offsets.size() > maxs.size() )
     {
-    this->SetOffsetCount(maxs.size());
+    this->SetOffsetCount( maxs.size() );
     }
   else
     {
-    maxs.resize(this->m_Offsets.size());
-    indices.resize(this->m_Offsets.size());
+    maxs.resize( this->m_Offsets.size() );
+    indices.resize( this->m_Offsets.size() );
     }
 
-  for (unsigned m = 0; m < maxs.size(); m++)
+  for ( unsigned m = 0; m < maxs.size(); m++ )
     {
-    using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
+    using ContinuousIndexType = ContinuousIndex< OffsetScalarType, ImageDimension >;
     ContinuousIndexType maxIndex = indices[m];
 
-    if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) //interpolate the peak
+    if ( m_PeakInterpolationMethod != PeakInterpolationMethod::None ) // interpolate the peak
       {
       typename ImageType::PixelType y0, y1 = maxs[m], y2;
       typename ImageType::IndexType tempIndex = indices[m];
 
-      for( unsigned int i = 0; i < ImageDimension; i++ )
+      for ( unsigned int i = 0; i < ImageDimension; i++ )
         {
         tempIndex[i] = maxIndex[i] - 1;
-        if( ! lpr.IsInside( tempIndex ) )
+        if ( !lpr.IsInside( tempIndex ) )
           {
           tempIndex[i] = maxIndex[i];
           continue;
           }
         y0 = input->GetPixel( tempIndex );
         tempIndex[i] = maxIndex[i] + 1;
-        if( ! lpr.IsInside( tempIndex ) )
+        if ( !lpr.IsInside( tempIndex ) )
           {
           tempIndex[i] = maxIndex[i];
           continue;
@@ -241,33 +236,35 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
         tempIndex[i] = maxIndex[i];
 
         OffsetScalarType omega, theta;
-        switch (m_PeakInterpolationMethod)
+        switch ( m_PeakInterpolationMethod )
           {
           case PeakInterpolationMethod::Parabolic:
-              maxIndex[i] += ( y0 - y2 ) / ( 2 * ( y0 - 2 * y1 + y2 ) );
-              break;
+            maxIndex[i] += ( y0 - y2 ) / ( 2 * ( y0 - 2 * y1 + y2 ) );
+            break;
           case PeakInterpolationMethod::Cosine:
-              omega = std::acos( ( y0 + y2 ) / ( 2 * y1 ) );
-              theta = std::atan( ( y0 - y2 ) / ( 2 * y1 * std::sin( omega ) ) );
-              maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
-              break;
+            omega = std::acos( ( y0 + y2 ) / ( 2 * y1 ) );
+            theta = std::atan( ( y0 - y2 ) / ( 2 * y1 * std::sin( omega ) ) );
+            maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
+            break;
           default:
-              itkAssertInDebugAndIgnoreInReleaseMacro("Unknown interpolation method");
-              break;
-          } //switch PeakInterpolationMethod
-        } //for ImageDimension
-      } //if Interpolation != None
+            itkAssertInDebugAndIgnoreInReleaseMacro( "Unknown interpolation method" );
+            break;
+          } // switch PeakInterpolationMethod
+        } // for ImageDimension
+      } // if Interpolation != None
 
     const typename ImageType::SpacingType spacing = input->GetSpacing();
-    const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
-    const typename ImageType::PointType movingOrigin = moving->GetOrigin();
+    const typename ImageType::PointType   fixedOrigin = fixed->GetOrigin();
+    const typename ImageType::PointType   movingOrigin = moving->GetOrigin();
 
-    for( unsigned int i = 0; i < ImageDimension; ++i )
+    for ( unsigned int i = 0; i < ImageDimension; ++i )
       {
-      IndexValueType adjustedSize = IndexValueType(size[i] + oIndex[i]);
-      OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
-      OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize);
-      if (std::abs(directOffset) <= std::abs(mirrorOffset))
+      IndexValueType adjustedSize = IndexValueType( size[i] + oIndex[i] );
+      OffsetScalarType directOffset = ( movingOrigin[i] - fixedOrigin[i] )
+        - 1 * spacing[i] * ( maxIndex[i] - oIndex[i] );
+      OffsetScalarType mirrorOffset = ( movingOrigin[i] - fixedOrigin[i] )
+        - 1 * spacing[i] * ( maxIndex[i] - adjustedSize );
+      if ( std::abs( directOffset ) <= std::abs( mirrorOffset ) )
         {
         offset[i] = directOffset;
         }
@@ -281,6 +278,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     }
 }
 
-} //end namespace itk
+} // end namespace itk
 
 #endif

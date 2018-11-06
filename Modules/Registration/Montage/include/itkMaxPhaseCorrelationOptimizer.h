@@ -18,12 +18,11 @@
 #ifndef itkMaxPhaseCorrelationOptimizer_h
 #define itkMaxPhaseCorrelationOptimizer_h
 
-#include "itkPhaseCorrelationOptimizer.h"
 #include "itkNMinimaMaximaImageCalculator.h"
+#include "itkPhaseCorrelationOptimizer.h"
 
 namespace itk
 {
-
 /** \class MaxPhaseCorrelationOptimizer
  *  \brief Implements basic shift estimation from position of maximum peak.
  *
@@ -44,23 +43,23 @@ namespace itk
  *
  * \ingroup Montage
  */
-template < typename TRegistrationMethod >
-class ITK_TEMPLATE_EXPORT MaxPhaseCorrelationOptimizer :
-  public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
+template< typename TRegistrationMethod >
+class ITK_TEMPLATE_EXPORT MaxPhaseCorrelationOptimizer
+  : public PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType >
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaxPhaseCorrelationOptimizer);
+  ITK_DISALLOW_COPY_AND_ASSIGN( MaxPhaseCorrelationOptimizer );
 
   using Self = MaxPhaseCorrelationOptimizer;
-  using Superclass = PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType>;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MaxPhaseCorrelationOptimizer, PhaseCorrelationOptimizer);
+  itkTypeMacro( MaxPhaseCorrelationOptimizer, PhaseCorrelationOptimizer );
 
   /**  Type of the input image. */
   using ImageType = typename TRegistrationMethod::RealImageType;
@@ -73,25 +72,31 @@ public:
   using PixelType = typename ImageType::PixelType;
 
   /** Type for the output parameters.
-  *  It defines a position in the optimization search space. */
+   *  It defines a position in the optimization search space. */
   using OffsetType = typename Superclass::OffsetType;
   using OffsetScalarType = typename Superclass::OffsetScalarType;
 
   /** \class PeakInterpolationMethod
    *  \brief Different methods of interpolation the phase correlation peak.
    *  \ingroup Montage */
-  enum class PeakInterpolationMethod { None = 0, Parabolic, Cosine, Last = Cosine };
-  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethod);
-  void SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod);
+  enum class PeakInterpolationMethod
+  {
+    None = 0,
+    Parabolic,
+    Cosine,
+    Last = Cosine
+  };
+  itkGetConstMacro( PeakInterpolationMethod, PeakInterpolationMethod );
+  void SetPeakInterpolationMethod( const PeakInterpolationMethod peakInterpolationMethod );
 
   /** Get/Set suppresion aggressiveness of trivial [0,0,...] solution. */
-  itkGetConstMacro(ZeroSuppression, PixelType);
-  itkSetClampMacro(ZeroSuppression, PixelType, 1.0, 100.0);
+  itkGetConstMacro( ZeroSuppression, PixelType );
+  itkSetClampMacro( ZeroSuppression, PixelType, 1.0, 100.0 );
 
 protected:
   MaxPhaseCorrelationOptimizer();
-  virtual ~MaxPhaseCorrelationOptimizer() {};
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  virtual ~MaxPhaseCorrelationOptimizer(){};
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** This method is executed by superclass to execute the computation. */
   void ComputeOffset() override;

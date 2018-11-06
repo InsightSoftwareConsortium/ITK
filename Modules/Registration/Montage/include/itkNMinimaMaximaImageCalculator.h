@@ -21,8 +21,8 @@
 #include "itkMacro.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include <vector>
 #include <mutex>
+#include <vector>
 
 namespace itk
 {
@@ -38,10 +38,10 @@ namespace itk
  * \ingroup Montage
  */
 template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT NMinimaMaximaImageCalculator:public Object
+class ITK_TEMPLATE_EXPORT NMinimaMaximaImageCalculator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NMinimaMaximaImageCalculator);
+  ITK_DISALLOW_COPY_AND_ASSIGN( NMinimaMaximaImageCalculator );
 
   /** Standard class type aliases. */
   using Self = NMinimaMaximaImageCalculator;
@@ -50,10 +50,10 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NMinimaMaximaImageCalculator, Object);
+  itkTypeMacro( NMinimaMaximaImageCalculator, Object );
 
   /** Type definition for the input image. */
   using ImageType = TInputImage;
@@ -68,8 +68,8 @@ public:
   using PixelType = typename TInputImage::PixelType;
 
   /** Image dimensionality */
-  itkStaticConstMacro(ImageDimension, unsigned, TInputImage::ImageDimension);
-  //constexpr unsigned ImageDimension = TInputImage::VImageDimension;
+  itkStaticConstMacro( ImageDimension, unsigned, TInputImage::ImageDimension );
+  // constexpr unsigned ImageDimension = TInputImage::VImageDimension;
 
   /** Type definition for the input image index type. */
   using IndexType = typename TInputImage::IndexType;
@@ -85,7 +85,7 @@ public:
 
 
   /** Set the input image. */
-  itkSetConstObjectMacro(Image, ImageType);
+  itkSetConstObjectMacro( Image, ImageType );
 
   /** Compute the minimum value of intensity of the input image. */
   void ComputeMinima();
@@ -97,33 +97,33 @@ public:
   void Compute();
 
   /** Return the N minimum intensity values. */
-  itkGetConstReferenceMacro(Minima, ValueVector);
+  itkGetConstReferenceMacro( Minima, ValueVector );
 
   /** Return the N maximum intensity values. */
-  itkGetConstReferenceMacro(Maxima, ValueVector);
+  itkGetConstReferenceMacro( Maxima, ValueVector );
 
   /** Return the indices of the N minimum intensity values. */
-  itkGetConstReferenceMacro(IndicesOfMinima, IndexVector);
+  itkGetConstReferenceMacro( IndicesOfMinima, IndexVector );
 
   /** Return the indices of the N maximum intensity values. */
-  itkGetConstReferenceMacro(IndicesOfMaxima, IndexVector);
+  itkGetConstReferenceMacro( IndicesOfMaxima, IndexVector );
 
   /** Set the region over which the values will be computed */
-  void SetRegion(const RegionType & region);
+  void SetRegion( const RegionType& region );
 
   /** Get/Set the number of extreme intensity values to keep. */
-  itkGetConstMacro(N, SizeValueType);
-  itkSetMacro(N, SizeValueType);
+  itkGetConstMacro( N, SizeValueType );
+  itkSetMacro( N, SizeValueType );
 
 protected:
   NMinimaMaximaImageCalculator();
   ~NMinimaMaximaImageCalculator() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   template<typename Comparator = std::less<PixelType> >
-  void SortedInsert(ValueVector& vals, IndexVector& indices,
+  void SortedInsert( ValueVector& vals, IndexVector& indices,
       const PixelType& val, const IndexType& ind,
-      Comparator comp = Comparator());
+      Comparator comp = Comparator() );
   void InternalCompute();
 
 private:

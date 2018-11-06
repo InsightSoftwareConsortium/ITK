@@ -19,9 +19,9 @@
 #ifndef itkTileMontage_h
 #define itkTileMontage_h
 
-#include "itkPhaseCorrelationImageRegistrationMethod.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkImageFileReader.h"
+#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include <vector>
 
 namespace itk
@@ -35,34 +35,34 @@ namespace itk
  *
  * \ingroup Montage
  */
-template <typename TImageType, typename TCoordinate = float>
-class ITK_TEMPLATE_EXPORT TileMontage: public ProcessObject
+template< typename TImageType, typename TCoordinate = float >
+class ITK_TEMPLATE_EXPORT TileMontage : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TileMontage);
+  ITK_DISALLOW_COPY_AND_ASSIGN( TileMontage );
 
   /** Standard class type aliases. */
   using Self = TileMontage;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   using ImageType = TImageType;
-  //using ImagePointer = typename ImageType::Pointer;
-  //using ImageConstPointer = typename ImageType::ConstPointer;
+  // using ImagePointer = typename ImageType::Pointer;
+  // using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TileMontage, ProcessObject);
+  itkTypeMacro( TileMontage, ProcessObject );
 
   /** Dimensionality of input images. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
 
   /** Montage size and tile index types. */
-  using SizeType = Size<ImageDimension>;
-  using TileIndexType = Size<ImageDimension>;
-  using ContinuousIndexType = ContinuousIndex<TCoordinate, ImageDimension>;
+  using SizeType = Size< ImageDimension >;
+  using TileIndexType = Size< ImageDimension >;
+  using ContinuousIndexType = ContinuousIndex< TCoordinate, ImageDimension >;
 
   /** Image's dependent types. */
   using PixelType = typename ImageType::PixelType;
@@ -73,9 +73,10 @@ public:
   using ImageIndexType = typename ImageType::IndexType;
 
   /** Internal PhaseCorrelationImageRegistrationMethod's type alias. */
-  using PCMType = PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
+  using PCMType = PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
 
-  using PCMOperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< PixelType >::RealType, ImageDimension >;
+  using PCMOperatorType =
+    itk::PhaseCorrelationOperator< typename itk::NumericTraits< PixelType >::RealType, ImageDimension >;
 
   using PCMOptimizerType = itk::MaxPhaseCorrelationOptimizer< PCMType >;
 
@@ -85,96 +86,96 @@ public:
   using TransformConstPointer = typename TransformType::ConstPointer;
 
   /** Type for the output: Using Decorator pattern for enabling
-  *  the Transform to be passed in the data pipeline */
+   *  the Transform to be passed in the data pipeline */
   using TransformOutputType = DataObjectDecorator< TransformType >;
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = typename DataObject::Pointer;
 
   /** Passes ReleaseDataFlag to internal filters. */
-  void SetReleaseDataFlag(bool flag) override
+  void SetReleaseDataFlag( bool flag ) override
   {
-    Superclass::SetReleaseDataFlag(flag);
-    m_PCM->SetReleaseDataFlag(flag);
+    Superclass::SetReleaseDataFlag( flag );
+    m_PCM->SetReleaseDataFlag( flag );
   }
 
   /** Passes ReleaseDataBeforeUpdateFlag to internal filters. */
-  void SetReleaseDataBeforeUpdateFlag(const bool flag) override
+  void SetReleaseDataBeforeUpdateFlag( const bool flag ) override
   {
-    Superclass::SetReleaseDataBeforeUpdateFlag(flag);
-    m_PCM->SetReleaseDataBeforeUpdateFlag(flag);
+    Superclass::SetReleaseDataBeforeUpdateFlag( flag );
+    m_PCM->SetReleaseDataBeforeUpdateFlag( flag );
   }
 
   /** Set/Get the OriginAdjustment. Origin adjustment multiplied by tile index
    * is added to origin of images when only their filename is specified.
    * This allows assumed positions for tiles even if files have zero origin. */
-  itkSetMacro(OriginAdjustment, PointType);
-  itkGetConstMacro(OriginAdjustment, PointType);
+  itkSetMacro( OriginAdjustment, PointType );
+  itkGetConstMacro( OriginAdjustment, PointType );
 
   /** Set/Get forced spacing.
    * If set, overrides spacing for images read from files. */
-  itkSetMacro(ForcedSpacing, SpacingType);
-  itkGetConstMacro(ForcedSpacing, SpacingType);
+  itkSetMacro( ForcedSpacing, SpacingType );
+  itkGetConstMacro( ForcedSpacing, SpacingType );
 
   /** Set/Get obligatory padding.
    * If set, padding of this many pixels is added on both beginning and end
    * sides of each dimension of the image. */
-  virtual void SetObligatoryPadding(const SizeType pad)
+  virtual void SetObligatoryPadding( const SizeType pad )
   {
-    if (this->m_ObligatoryPadding != pad)
+    if ( this->m_ObligatoryPadding != pad )
       {
       this->m_ObligatoryPadding = pad;
-      m_PCM->SetObligatoryPadding(pad);
+      m_PCM->SetObligatoryPadding( pad );
       this->Modified();
       }
   }
-  itkGetConstMacro(ObligatoryPadding, SizeType);
+  itkGetConstMacro( ObligatoryPadding, SizeType );
 
   /** Set/Get the PhaseCorrelationImageRegistrationMethod. */
-  virtual void SetPCM(PCMType* pcm)
+  virtual void SetPCM( PCMType* pcm )
   {
-    if (this->m_PCM != pcm)
+    if ( this->m_PCM != pcm )
       {
       this->m_PCM = pcm;
-      m_PCM->SetObligatoryPadding(m_ObligatoryPadding);
+      m_PCM->SetObligatoryPadding( m_ObligatoryPadding );
       this->Modified();
       }
   }
-  itkGetModifiableObjectMacro(PCM, PCMType);
+  itkGetModifiableObjectMacro( PCM, PCMType );
 
   /** Set/Get the PhaseCorrelationImageRegistrationMethod. */
-  itkSetObjectMacro(PCMOptimizer, PCMOptimizerType);
-  itkGetModifiableObjectMacro(PCMOptimizer, PCMOptimizerType);
+  itkSetObjectMacro( PCMOptimizer, PCMOptimizerType );
+  itkGetModifiableObjectMacro( PCMOptimizer, PCMOptimizerType );
 
   /** Get/Set size of the image mosaic. */
-  itkGetConstMacro(MontageSize, SizeType);
-  void SetMontageSize(SizeType montageSize);
+  itkGetConstMacro( MontageSize, SizeType );
+  void SetMontageSize( SizeType montageSize );
 
   /** To be called for each tile position in the mosaic
    * before the call to Update(). */
-  void SetInputTile(TileIndexType position, ImageType* image)
+  void SetInputTile( TileIndexType position, ImageType* image )
   {
-    SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
-    this->SetNthInput(linearIndex, image);
+    SizeValueType linearIndex = this->nDIndexToLinearIndex( position );
+    this->SetNthInput( linearIndex, image );
     m_FFTCache[linearIndex] = nullptr;
   }
-  void SetInputTile(TileIndexType position, const std::string& imageFilename)
+  void SetInputTile( TileIndexType position, const std::string& imageFilename )
   {
-    SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
+    SizeValueType linearIndex = this->nDIndexToLinearIndex( position );
     m_Filenames[linearIndex] = imageFilename;
-    this->SetInputTile(position, m_Dummy);
+    this->SetInputTile( position, m_Dummy );
   }
 
   /** After Update(), the transform for each tile is available. */
-  TransformConstPointer GetOutputTransform(TileIndexType position)
+  TransformConstPointer GetOutputTransform( TileIndexType position )
   {
-    return static_cast<TransformOutputType *>(this->GetOutput(this->nDIndexToLinearIndex(position)))->Get();
+    return static_cast< TransformOutputType* >( this->GetOutput( this->nDIndexToLinearIndex( position ) ) )->Get();
   }
 
 protected:
   TileMontage();
-  virtual ~TileMontage() {};
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  virtual ~TileMontage(){};
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of the registration. */
   void GenerateData() override;
@@ -183,7 +184,7 @@ protected:
   void GenerateOutputInformation() override;
 
   /** Make a DataObject of the correct type to be used as the specified output. */
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override
+  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override
   {
     return TransformOutputType::New();
   }
@@ -192,29 +193,29 @@ protected:
   using ReaderType = itk::ImageFileReader< ImageType >;
 
   /** Just get image pointer if the image is present, otherwise read it from file. */
-  ImageType* GetImage(TileIndexType nDIndex, bool metadataOnly);
+  ImageType* GetImage( TileIndexType nDIndex, bool metadataOnly );
 
-  DataObjectPointerArraySizeType nDIndexToLinearIndex(TileIndexType nDIndex) const;
-  TileIndexType LinearIndexTonDIndex(DataObjectPointerArraySizeType linearIndex) const;
+  DataObjectPointerArraySizeType nDIndexToLinearIndex( TileIndexType nDIndex ) const;
+  TileIndexType LinearIndexTonDIndex( DataObjectPointerArraySizeType linearIndex ) const;
 
   /** Register a pair of images with given indices. Handles FFTcaching. */
-  TransformPointer RegisterPair(TileIndexType fixed, TileIndexType moving);
+  TransformPointer RegisterPair( TileIndexType fixed, TileIndexType moving );
 
   /** If possible, removes from memory tile with index smaller by 1 along all dimensions. */
-  void ReleaseMemory(TileIndexType finishedTile);
+  void ReleaseMemory( TileIndexType finishedTile );
 
   /** Montage this dimension, and all lower dimensions. */
-  void MontageDimension(int d, TileIndexType initialTile);
+  void MontageDimension( int d, TileIndexType initialTile );
 
   /** Accesses output, sets a transform to it, and updates progress. */
-  void WriteOutTransform(TileIndexType index, TransformPointer transform);
+  void WriteOutTransform( TileIndexType index, TransformPointer transform );
 
   /** Read out own output at the specified index. */
-  TransformConstPointer GetTransform(TileIndexType index)
+  TransformConstPointer GetTransform( TileIndexType index )
   {
-    const SizeValueType linearIndex = this->nDIndexToLinearIndex(index);
-    auto dOut = this->GetOutput(linearIndex);
-    return static_cast<TransformOutputType *>(dOut)->Get();
+    const SizeValueType linearIndex = this->nDIndexToLinearIndex( index );
+    auto dOut = this->GetOutput( linearIndex );
+    return static_cast< TransformOutputType* >( dOut )->Get();
   }
 
   /** Updates mosaic bounds. The transform applies to input.
@@ -223,7 +224,7 @@ protected:
       TileIndexType index,
       TransformConstPointer transform,
       const ImageType *input,
-      const ImageType *input0);
+      const ImageType *input0 );
 
   /** Image's FFT type. */
   using FFTType = typename PCMType::ComplexImageType;
@@ -231,30 +232,30 @@ protected:
   using FFTConstPointer = typename FFTType::ConstPointer;
 
 private:
-    SizeType      m_MontageSize;
-    SizeValueType m_LinearMontageSize;
-    SizeValueType m_FinishedTiles;
-    PointType     m_OriginAdjustment;
-    SpacingType   m_ForcedSpacing;
-    SizeType      m_ObligatoryPadding;
+  SizeType      m_MontageSize;
+  SizeValueType m_LinearMontageSize;
+  SizeValueType m_FinishedTiles;
+  PointType     m_OriginAdjustment;
+  SpacingType   m_ForcedSpacing;
+  SizeType      m_ObligatoryPadding;
 
-    std::vector<std::string>     m_Filenames;
-    std::vector<FFTConstPointer> m_FFTCache;
-    typename PCMType::Pointer    m_PCM;
-    typename ReaderType::Pointer m_Reader;
-    typename ImageType::Pointer  m_Dummy;
+  std::vector< std::string >     m_Filenames;
+  std::vector< FFTConstPointer > m_FFTCache;
+  typename PCMType::Pointer      m_PCM;
+  typename ReaderType::Pointer   m_Reader;
+  typename ImageType::Pointer    m_Dummy;
 
-    typename PCMOperatorType::Pointer   m_PCMOperator;
-    typename PCMOptimizerType::Pointer  m_PCMOptimizer;
+  typename PCMOperatorType::Pointer  m_PCMOperator;
+  typename PCMOptimizerType::Pointer m_PCMOptimizer;
 
-    //members needed for ResampleIntoSingleImage
-    ContinuousIndexType m_MinInner; //minimum index for cropped montage
-    ContinuousIndexType m_MaxInner; //maximum index for cropped montage
-    ContinuousIndexType m_MinOuter; //minimum index for total montage
-    ContinuousIndexType m_MaxOuter; //maximum index for total montage
+  // members needed for ResampleIntoSingleImage
+  ContinuousIndexType m_MinInner; // minimum index for cropped montage
+  ContinuousIndexType m_MaxInner; // maximum index for cropped montage
+  ContinuousIndexType m_MinOuter; // minimum index for total montage
+  ContinuousIndexType m_MaxOuter; // maximum index for total montage
 
-    template <typename TImageTypeInner, typename TPixelAccumulateType, typename TInterpolatorInner>
-    friend class TileMergeImageFilter;
+  template< typename TImageTypeInner, typename TPixelAccumulateType, typename TInterpolatorInner >
+  friend class TileMergeImageFilter;
 }; // class TileMontage
 
 } // namespace itk
@@ -263,4 +264,4 @@ private:
 #include "itkTileMontage.hxx"
 #endif
 
-#endif //itkTileMontage_h
+#endif // itkTileMontage_h
