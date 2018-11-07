@@ -131,7 +131,7 @@ public:
 
 protected:
   TileImageFilter();
-  // ~TileImageFilter(){} default implementation ok
+  ~TileImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

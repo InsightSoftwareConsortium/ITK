@@ -68,7 +68,7 @@ protected:
   {
     this->DynamicMultiThreadingOn();
   };
-  // virtual ~PhysicalPointImageSource() default implementation ok
+  ~PhysicalPointImageSource() override = default;
 
   void GenerateOutputInformation() override;
 
