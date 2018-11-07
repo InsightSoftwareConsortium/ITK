@@ -260,13 +260,13 @@ ImageToHistogramFilter< TImage >
     ++inputIt;
     }
 
-  this->ThreadedMergeHistogram( histogram );
+  this->ThreadedMergeHistogram( std::move(histogram) );
 }
 
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedMergeHistogram(HistogramType *histogram)
+::ThreadedMergeHistogram(HistogramPointer &&histogram)
 {
   while (true)
     {

@@ -111,7 +111,7 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
     }
 
 
-  this->ThreadedMergeHistogram( histogram );
+  this->ThreadedMergeHistogram( std::move(histogram) );
 }
 
 } // end of namespace Statistics
