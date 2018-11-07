@@ -18,6 +18,8 @@
 #ifndef itkImageToHistogramFilter_h
 #define itkImageToHistogramFilter_h
 
+#include <mutex>
+
 #include "itkHistogram.h"
 #include "itkImageTransformer.h"
 #include "itkSimpleDataObjectDecorator.h"
