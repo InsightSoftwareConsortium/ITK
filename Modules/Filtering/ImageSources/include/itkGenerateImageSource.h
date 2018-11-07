@@ -125,7 +125,7 @@ public:
 
 protected:
   GenerateImageSource();
-  // virtual ~GenerateImageSource() default implementation ok
+  ~GenerateImageSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateOutputInformation() override;

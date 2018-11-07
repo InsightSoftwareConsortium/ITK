@@ -122,7 +122,7 @@ public:
 
 protected:
   GridImageSource();
-  // ~GridImageSource(){} default implementation ok
+  ~GridImageSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
