@@ -85,9 +85,7 @@ UnaryGeneratorImageFilter< TInputImage, TOutputImage >
   m_DynamicThreadedGenerateDataFunction(outputRegionForThread);
 }
 
-/**
- * ThreadedGenerateData Performs the pixel-wise addition
- */
+
 template< typename TInputImage, typename TOutputImage >
 template< typename TFunctor >
 void

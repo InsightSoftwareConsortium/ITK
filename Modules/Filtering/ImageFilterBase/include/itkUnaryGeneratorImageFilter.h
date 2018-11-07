@@ -85,7 +85,7 @@ public:
 
 
 #if !defined( ITK_WRAPPING_PARSER )
-  /** Set the pixel functor by a C function pointer
+  /** Set the pixel functor by an std::function wrapper
    *
    * The functor defines an operation done per pixel.
    */
