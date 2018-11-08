@@ -183,9 +183,22 @@ namespace vnl_math
   }
 #else
 	using std::isnan;
-	using std::isinf;
 	using std::isfinite;
 	using std::isnormal;
+# if defined(__GNUC__) // https://en.cppreference.com/w/cpp/numeric/math/isinf indicates taht isinf should return bool
+        // Ensure proper conversion to bool type.
+        // Return a signed integer type has been seen with the following
+        // compilers/libstdc++:
+        //  g++ (GCC) 7.2.1 20170829 (Red Hat 7.2.1-1)
+        //  g++ (GCC) 6.3.1 20170216 (Red Hat 6.3.1-3)
+        template <typename TArg>
+        bool isinf(TArg&& arg)
+          {
+          return bool(std::isinf(std::forward<TArg>(arg)));
+          }
+# else
+	using std::isinf;
+# endif
 #endif
   using std::max;
   using std::min;
