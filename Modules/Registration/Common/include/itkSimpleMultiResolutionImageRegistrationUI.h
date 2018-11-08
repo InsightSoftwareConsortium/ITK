@@ -79,7 +79,7 @@ public:
 
   SimpleMultiResolutionImageRegistrationUI2( TRegistration * ptr ) :
     Superclass(ptr) {};
-  ~SimpleMultiResolutionImageRegistrationUI2() override= default;
+  ~SimpleMultiResolutionImageRegistrationUI2() override = default;
 
   void SetNumberOfIterations( itk::Array<unsigned int> & iter )
     {

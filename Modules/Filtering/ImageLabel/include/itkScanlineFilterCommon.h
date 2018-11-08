@@ -106,7 +106,7 @@ public:
     m_FullyConnected( false )
   {
   }
-  ~ScanlineFilterCommon() {}
+  ~ScanlineFilterCommon() = default;
 
 protected:
 
