@@ -1,3 +1,6 @@
+
+*This is a reminder of what a message in a pull request should minimally require. Please, **read the guidelines below**, and **delete** them so your pull request description only contains the intended message.*
+
 See the [CONTRIBUTING](CONTRIBUTING.md) guide. Specifically:
 
 Start ITK commit messages with a standard prefix (and a space):
@@ -18,4 +21,4 @@ A [reference to a related issue or pull request](https://help.github.com/article
 
 [@mentions](https://help.github.com/articles/basic-writing-and-formatting-syntax/#mentioning-people-and-teams) of the person or team responsible for reviewing proposed changes.
 
-Thanks for contributing to ITK!
+**Thanks for contributing to ITK!**
