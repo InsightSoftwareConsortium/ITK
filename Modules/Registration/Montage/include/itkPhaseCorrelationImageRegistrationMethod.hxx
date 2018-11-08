@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include <algorithm>
+#include <cmath>
 
 #ifndef NDEBUG
 #include "itkImageFileWriter.h"
@@ -75,6 +76,12 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorre
   m_MovingMirrorPadder = MovingMirrorPadderType::New();
   m_FixedMirrorWEDPadder = FixedMirrorPadderType::New();
   m_MovingMirrorWEDPadder = MovingMirrorPadderType::New();
+  m_BandPassFilter = BandBassFilterType::New();
+
+  m_ButterworthOrder = 3;
+  m_LowFrequency2 = 0.0025; // 0.05^2
+  m_HighFrequency2 = 0.25; // 0.5^2
+  m_BandPassFilter->SetFunctor( m_BandPassFunctor );
 
   m_FixedFFT = FFTFilterType::New();
   m_MovingFFT = FFTFilterType::New();
@@ -190,17 +197,39 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
     {
     m_Operator->SetMovingImage( m_MovingImageFFT );
     }
+  m_BandPassFilter->SetInput( m_Operator->GetOutput() );
+
+  using ImageFilter = ImageToImageFilter< ComplexImageType, ComplexImageType >;
+  ImageFilter* finalOperatorFilter = m_BandPassFilter;
+
+  if ( m_LowFrequency2 > 0.0 && m_HighFrequency2 > 0.0 )
+    {
+    m_BandPassFilter->SetFunctor( m_BandPassFunctor );
+    }
+  else if ( m_HighFrequency2 > 0.0 )
+    {
+    m_BandPassFilter->SetFunctor( m_HighPassFunctor );
+    }
+  else if ( m_LowFrequency2 > 0.0 )
+    {
+    m_BandPassFilter->SetFunctor( m_LowPassFunctor );
+    }
+  else // neither high nor low filtering is set
+    {
+    m_BandPassFilter->SetFunctor( m_IdentityFunctor );
+    finalOperatorFilter = m_Operator; //we skip the band-pass entirely
+    }
 
   if ( m_RealOptimizer )
     {
-    m_IFFT->SetInput( m_Operator->GetOutput() );
+    m_IFFT->SetInput( finalOperatorFilter->GetOutput() );
     m_RealOptimizer->SetInput( m_IFFT->GetOutput() );
     m_RealOptimizer->SetFixedImage( m_FixedImage );
     m_RealOptimizer->SetMovingImage( m_MovingImage );
     }
   else
     {
-    m_ComplexOptimizer->SetInput( m_Operator->GetOutput() );
+    m_ComplexOptimizer->SetInput( finalOperatorFilter->GetOutput() );
     m_ComplexOptimizer->SetFixedImage( m_FixedImage );
     m_ComplexOptimizer->SetMovingImage( m_MovingImage );
     }
@@ -372,6 +401,7 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
     if ( this->GetDebug() )
       {
       WriteDebug( m_IFFT->GetOutput(), "m_IFFT.nrrd" );
+      WriteDebug( m_BandPassFilter->GetOutput(), "m_BandPassFilter.nrrd" );
       WriteDebug( m_Operator->GetOutput(), "m_Operator.nrrd" );
       }
     }
