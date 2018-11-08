@@ -263,8 +263,8 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
           // All other parameters must be 0
           for ( unsigned int i = numberOfParameters; i < VDimension; i++ )
             {
-            if ( ( vnl_math_abs( finalParameters[i] ) > tolerance ) ||
-                 ( vnl_math_abs( finalParameters[i] ) > tolerance ) )
+            if ( ( std::abs( finalParameters[i] ) > tolerance ) ||
+                 ( std::abs( transformParameters[i] ) > tolerance ) )
               {
               std::cout << "Tolerance exceeded at component " << i << std::endl;
               pass = false;
