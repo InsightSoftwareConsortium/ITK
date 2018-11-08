@@ -36,7 +36,7 @@ BioRadImageIOFactory::BioRadImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkBioRadImageIO",
                           "BioRad Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< BioRadImageIO >::New() );
 }
 

@@ -35,7 +35,7 @@ BYUMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkBYUMeshIO",
                          "BYU Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< BYUMeshIO >::New() );
 }
 

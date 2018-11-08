@@ -49,7 +49,7 @@ DCMTKImageIO::DCMTKImageIO()
   m_UseJPEGCodec = false;
   m_UseJPLSCodec = false;
   m_UseRLECodec  = false;
-  m_DicomImageSetByUser = 0;
+  m_DicomImageSetByUser = false;
 
 
   const char *readExtensions[] =

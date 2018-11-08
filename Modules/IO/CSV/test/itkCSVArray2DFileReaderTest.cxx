@@ -205,10 +205,10 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
  test_row_names = dfo->GetRowHeaders();
 
  std::vector<std::string> row_names;
- row_names.push_back( "Jan" );
- row_names.push_back( "Feb" );
- row_names.push_back( "Mar,April" );
- row_names.push_back( "May" );
+ row_names.emplace_back("Jan" );
+ row_names.emplace_back("Feb" );
+ row_names.emplace_back("Mar,April" );
+ row_names.emplace_back("May" );
 
  if ( !testStringVector(row_names, test_row_names) )
    {
@@ -223,10 +223,10 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
  test_col_names = dfo->GetColumnHeaders();
 
  std::vector<std::string> col_names;
- col_names.push_back( "Africa" );
- col_names.push_back( "Asia" );
- col_names.push_back( "Aus" );
- col_names.push_back( "US,Can" );
+ col_names.emplace_back("Africa" );
+ col_names.emplace_back("Asia" );
+ col_names.emplace_back("Aus" );
+ col_names.emplace_back("US,Can" );
 
  if ( !testStringVector(col_names, test_col_names) )
    {

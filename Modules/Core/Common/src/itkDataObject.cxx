@@ -411,7 +411,7 @@ void
 DataObject
 ::DataHasBeenGenerated()
 {
-  this->m_DataReleased = 0;
+  this->m_DataReleased = false;
   this->Modified();
   this->m_UpdateMTime.Modified();
 }

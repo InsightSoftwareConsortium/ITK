@@ -80,7 +80,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   levelSetFilter->SetLevelSet( 0, levelSetReader1->GetOutput() );
   levelSetFilter->SetNumberOfIterations( nb_iteration );
   levelSetFilter->SetMaximumRMSError( rms );
-  levelSetFilter->SetUseImageSpacing( 0 );
+  levelSetFilter->SetUseImageSpacing( false );
   levelSetFilter->SetInPlace( false );
 
   MultiLevelSetType::FunctionType * function = levelSetFilter->GetDifferenceFunction(0);

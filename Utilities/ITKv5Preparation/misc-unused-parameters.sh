@@ -41,7 +41,7 @@ SRCDIR=${SRCDIR} #My local SRC
 BLDDIR=${BLDDIR} #My local BLD
 
 cd ${BLDDIR}
-run-clang-tidy.py -checks=-*,misc-unused-parameters -header-filter = .* -fix
+run-clang-tidy.py -extra-arg=-D__clang__ -checks=-*,misc-unused-parameters -header-filter = .* -fix
 
 EOF
 
@@ -49,7 +49,7 @@ export CC=/Users/johnsonhj/local/ccache/bin/clang_ccache
 export CXX=/Users/johnsonhj/local/ccache/bin/clang++11_ccache
 export PATH=~/local/llvm/llvm_trunk-build/bin:$PATH
 cd ${BLDDIR}
-/Users/johnsonhj/Dashboard/src/scripts/run-clang-tidy.py -checks=-*,misc-unused-parameters -header-filter = .* -fix
+/Users/johnsonhj/Dashboard/src/scripts/run-clang-tidy.py -extra-arg=-D__clang__ -checks=-*,misc-unused-parameters -header-filter = .* -fix
 
 cd ${SRCDIR}
 git add -A && git commit --file ${CMTMSG}

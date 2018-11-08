@@ -143,12 +143,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   int    i;
   if ( leftendy > rightendy )
     {
-    RorL = 1;
+    RorL = true;
     endy = rightendy;
     }
   else
     {
-    RorL = 0;
+    RorL = false;
     endy = leftendy;
     }
   if ( Math::AlmostEquals(leftP[1], beginy) )
@@ -262,12 +262,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     rightendy = rightP[1];
     if ( leftendy > rightendy )
       {
-      RorL = 1;
+      RorL = true;
       endy = rightendy;
       }
     else
       {
-      RorL = 0;
+      RorL = false;
       endy = leftendy;
       }
 
@@ -399,7 +399,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       {
       auto itend = m_WorkingVD->NeighborIdsEnd(i);
       auto it = m_WorkingVD->NeighborIdsBegin(i);
-      bool               bnd = 0;
+      bool               bnd = false;
       // and any adjacent region is homogeneous
       while ( ( it != itend ) && ( !bnd ) )
         {
@@ -473,7 +473,7 @@ void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::RunSegment()
 {
-  bool ok = 1;
+  bool ok = true;
 
   if ( m_Steps == 0 )
     {
@@ -484,7 +484,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
                           / static_cast< float >( NumericTraits< SizeValueType >::max() ) );
     if ( m_NumberOfBoundary == 0 )
       {
-      ok = 0;
+      ok = false;
       }
     while ( ( m_NumberOfSeedsToAdded != 0 ) && ok )
       {
@@ -516,7 +516,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       }
     if ( m_NumberOfBoundary == 0 )
       {
-      ok = 0;
+      ok = false;
       }
     int i = 1;
     while ( ( i < m_Steps ) && ok )
@@ -707,12 +707,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   int    i;
   if ( leftendy > rightendy )
     {
-    RorL = 1;
+    RorL = true;
     endy = rightendy;
     }
   else
     {
-    RorL = 0;
+    RorL = false;
     endy = leftendy;
     }
   if (Math::AlmostEquals( leftP[1], beginy ))
@@ -824,12 +824,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     rightendy = rightP[1];
     if ( leftendy > rightendy )
       {
-      RorL = 1;
+      RorL = true;
       endy = rightendy;
       }
     else
       {
-      RorL = 0;
+      RorL = false;
       endy = leftendy;
       }
 

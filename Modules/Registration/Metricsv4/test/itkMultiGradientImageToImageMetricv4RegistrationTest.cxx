@@ -114,7 +114,7 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->SetNumberOfHistogramBins(20);
   MetricType2::Pointer metric2 = MetricType2::New();
 
-  if( 0 )
+  if( false )
     {
     std::cout << "Dense sampling." << std::endl;
     metric->SetUseSampledPointSet( false );

@@ -26,11 +26,12 @@ namespace itk
 template< typename TDomainPartitioner, typename TAssociate >
 DomainThreader< TDomainPartitioner, TAssociate >
 ::DomainThreader()
+  : m_Associate(nullptr),
+    m_NumberOfWorkUnitsUsed(0)
 {
   this->m_DomainPartitioner = DomainPartitionerType::New();
   this->m_MultiThreader = MultiThreaderBase::New();
-  this->m_NumberOfWorkUnitsUsed = 0;
-  this->m_Associate = nullptr;
+  this->m_NumberOfWorkUnits = this->m_MultiThreader->GetNumberOfWorkUnits();
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
@@ -43,18 +44,6 @@ DomainThreader< TDomainPartitioner, TAssociate >
 ::GetMultiThreader() const
 {
   return this->m_MultiThreader;
-}
-
-template< typename TDomainPartitioner, typename TAssociate >
-void
-DomainThreader< TDomainPartitioner, TAssociate >
-::SetNumberOfWorkUnits( const ThreadIdType workUnits )
-{
-  if( workUnits != this->GetNumberOfWorkUnits() )
-    {
-    this->m_MultiThreader->SetNumberOfWorkUnits( workUnits );
-    this->Modified();
-    };
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
@@ -92,24 +81,18 @@ void
 DomainThreader< TDomainPartitioner, TAssociate >
 ::DetermineNumberOfWorkUnitsUsed()
 {
-  const ThreadIdType threaderNumberOfThreads = this->GetMultiThreader()->GetNumberOfWorkUnits();
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // Attempt a single dummy partition, just to get the number of subdomains actually created
   DomainType subdomain;
   this->m_NumberOfWorkUnitsUsed = this->m_DomainPartitioner->PartitionDomain(0,
-                                            threaderNumberOfThreads,
+                                            numberOfWorkUnits,
                                             this->m_CompleteDomain,
                                             subdomain);
 
-  if( this->m_NumberOfWorkUnitsUsed < threaderNumberOfThreads )
-    {
-    // If PartitionDomain is only able to create a lesser number of subdomains,
-    // ensure that superfluous work units aren't created
-    // DomainThreader::SetMaximumNumberOfThreads *should* already have been called by this point,
-    // but it's not fatal if it somehow gets called later
-    this->GetMultiThreader()->SetNumberOfWorkUnits(this->m_NumberOfWorkUnitsUsed);
-    }
-  else if( this->m_NumberOfWorkUnitsUsed > threaderNumberOfThreads )
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->m_NumberOfWorkUnitsUsed);
+
+  if( this->m_NumberOfWorkUnitsUsed > numberOfWorkUnits )
     {
     itkExceptionMacro( "A subclass of ThreadedDomainPartitioner::PartitionDomain"
                       << "returned more subdomains than were requested" );

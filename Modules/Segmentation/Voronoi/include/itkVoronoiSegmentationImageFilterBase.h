@@ -253,7 +253,7 @@ protected:
   void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
 
   virtual bool TestHomogeneity(IndexList &)
-  { return 1; }
+  { return true; }
 
   void FillPolygon(PointTypeDeque vertlist, OutputPixelType color = 1);
 

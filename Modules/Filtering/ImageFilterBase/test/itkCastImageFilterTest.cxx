@@ -100,6 +100,7 @@ bool TestCastFromTo()
     if ( itk::Math::NotExactlyEquals(outValue, expectedValue) )
 #endif
       {
+      std::cerr << "ERROR: " << outValue << " != " << expectedValue << std::endl;
       success = false;
       break;
       }
@@ -124,19 +125,20 @@ bool TestCastFromTo()
 template < typename TInputPixelType >
 bool TestCastFrom()
 {
-  bool success =
-    TestCastFromTo< TInputPixelType, char >() &&
-    TestCastFromTo< TInputPixelType, unsigned char >() &&
-    TestCastFromTo< TInputPixelType, short >() &&
-    TestCastFromTo< TInputPixelType, unsigned short >() &&
-    TestCastFromTo< TInputPixelType, int >() &&
-    TestCastFromTo< TInputPixelType, unsigned int >() &&
-    TestCastFromTo< TInputPixelType, long >() &&
-    TestCastFromTo< TInputPixelType, unsigned long >() &&
-    TestCastFromTo< TInputPixelType, long long >() &&
-    TestCastFromTo< TInputPixelType, unsigned long long >() &&
-    TestCastFromTo< TInputPixelType, float >() &&
-    TestCastFromTo< TInputPixelType, double >();
+  bool success = true;
+  success &= TestCastFromTo< TInputPixelType, char >();
+  success &= TestCastFromTo< TInputPixelType, signed char >();
+  success &= TestCastFromTo< TInputPixelType, unsigned char >();
+  success &= TestCastFromTo< TInputPixelType, short >();
+  success &= TestCastFromTo< TInputPixelType, unsigned short >();
+  success &= TestCastFromTo< TInputPixelType, int >();
+  success &= TestCastFromTo< TInputPixelType, unsigned int >();
+  success &= TestCastFromTo< TInputPixelType, long >();
+  success &= TestCastFromTo< TInputPixelType, unsigned long >();
+  success &= TestCastFromTo< TInputPixelType, long long >();
+  success &= TestCastFromTo< TInputPixelType, unsigned long long >();
+  success &= TestCastFromTo< TInputPixelType, float >();
+  success &= TestCastFromTo< TInputPixelType, double >();
 
   return success;
 }
@@ -231,20 +233,21 @@ int itkCastImageFilterTest( int, char* [] )
     itk::FloatingPointExceptions::Disable();
     }
 
-  bool success =
-    TestCastFrom< char >() &&
-    TestCastFrom< unsigned char >() &&
-    TestCastFrom< short >() &&
-    TestCastFrom< unsigned short >() &&
-    TestCastFrom< int >() &&
-    TestCastFrom< unsigned int >() &&
-    TestCastFrom< long >() &&
-    TestCastFrom< unsigned long >() &&
-    TestCastFrom< long long >() &&
-    TestCastFrom< unsigned long long >() &&
-    TestCastFrom< float >() &&
-    TestCastFrom< double >() &&
-    TestVectorImageCast();
+  bool success = true;
+  success &= TestCastFrom< char >();
+  success &= TestCastFrom< signed char >();
+  success &= TestCastFrom< unsigned char >();
+  success &= TestCastFrom< short >();
+  success &= TestCastFrom< unsigned short >();
+  success &= TestCastFrom< int >();
+  success &= TestCastFrom< unsigned int >();
+  success &= TestCastFrom< long >();
+  success &= TestCastFrom< unsigned long >();
+  success &= TestCastFrom< long long >();
+  success &= TestCastFrom< unsigned long long >();
+  success &= TestCastFrom< float >();
+  success &= TestCastFrom< double >();
+  success &= TestVectorImageCast();
 
   std::cout << std::endl;
   if ( !success )

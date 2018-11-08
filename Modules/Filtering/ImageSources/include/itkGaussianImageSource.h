@@ -128,7 +128,7 @@ public:
 
 protected:
   GaussianImageSource();
-  // ~GaussianImageSource(); default implementation ok
+  ~GaussianImageSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

@@ -26,7 +26,7 @@ BMPImageIOFactory::BMPImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkBMPImageIO",
                           "BMP Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< BMPImageIO >::New() );
 }
 

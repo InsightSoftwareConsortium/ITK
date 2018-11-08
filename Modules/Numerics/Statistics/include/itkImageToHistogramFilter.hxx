@@ -103,19 +103,12 @@ ImageToHistogramFilter< TImage >
   this->AllocateOutputs();
   this->BeforeThreadedGenerateData();
 
-  m_Histograms[0] = this->GetOutput(); // just use the main one
-  m_Histograms[0]->SetClipBinsAtEnds(true);
-  for (unsigned i=1; i<m_Histograms.size(); i++)
-    {
-    m_Histograms[i] = HistogramType::New();
-    m_Histograms[i]->SetClipBinsAtEnds(true);
-    }
+  HistogramType *outputHistogram = this->GetOutput();
+  outputHistogram->SetClipBinsAtEnds(true);
 
   // the parameter needed to initialize the histogram
-  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramSizeType size(nbOfComponents);
-  HistogramMeasurementVectorType min(nbOfComponents);
-  HistogramMeasurementVectorType max(nbOfComponents);
   if( this->GetHistogramSizeInput() )
     {
     // user provided value
@@ -128,86 +121,54 @@ ImageToHistogramFilter< TImage >
     }
 
   this->UpdateProgress(0.01f);
-  //HistogramType * hist = m_Histograms[threadId];
 
   if( this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum() )
     {
     // we have to compute the minimum and maximum values
-    this->ClassicMultiThread(this->ThreaderMinMaxCallback); //calls ThreadedComputeMinimumAndMaximum
+    this->GetMultiThreader()-> template ParallelizeImageRegion<ImageType::ImageDimension>(
+      this->GetInput()->GetRequestedRegion(),
+      [this](const RegionType & inputRegionForThread)
+      {this->ThreadedComputeMinimumAndMaximum(inputRegionForThread);},
+      this);
+
     this->UpdateProgress(0.3f);
 
-    min = m_Minimums[0];
-    max = m_Maximums[0];
-    for( unsigned int t=1; t<m_Minimums.size(); t++ )
-      {
-      for( unsigned int i=0; i<nbOfComponents; i++ )
-        {
-        min[i] = std::min( min[i], m_Minimums[t][i] );
-        max[i] = std::max( max[i], m_Maximums[t][i] );
-        }
-      }
-    this->ApplyMarginalScale( min, max, size );
+    this->ApplyMarginalScale( m_Minimum, m_Maximum, size );
+
     }
   else
     {
     if( this->GetHistogramBinMinimumInput() )
       {
-      min = this->GetHistogramBinMinimum();
+      m_Minimum = this->GetHistogramBinMinimum();
       }
     else
       {
-      min.Fill( NumericTraits<ValueType>::NonpositiveMin() - 0.5 );
+      m_Minimum.Fill( NumericTraits<ValueType>::NonpositiveMin() - 0.5 );
       }
     if( this->GetHistogramBinMaximumInput() )
       {
-      max = this->GetHistogramBinMaximum();
+      m_Maximum = this->GetHistogramBinMaximum();
       }
     else
       {
-      max.Fill( NumericTraits<ValueType>::max() + 0.5 );
-      // this->ApplyMarginalScale( min, max, size );
+      m_Maximum.Fill( NumericTraits<ValueType>::max() + 0.5 );
       }
+    // No marginal scaling is applied in this case
     }
 
-  // finally, initialize the histograms
-  for (unsigned i=0; i<m_Histograms.size(); i++)
-    {
-    m_Histograms[i]->SetMeasurementVectorSize(nbOfComponents);
-    m_Histograms[i]->Initialize(size, min, max);
-    }
+  outputHistogram->SetMeasurementVectorSize(nbOfComponents);
+  outputHistogram->Initialize(size, m_Minimum, m_Maximum);
 
-  this->ClassicMultiThread(this->ThreaderCallback); //parallelizes ThreadedGenerateData
+    this->GetMultiThreader()-> template ParallelizeImageRegion<ImageType::ImageDimension>(
+      this->GetInput()->GetRequestedRegion(),
+      [this](const RegionType & inputRegionForThread)
+      {this->ThreadedComputeHistogram(inputRegionForThread);},
+      this);
   this->UpdateProgress(0.8f);
 
   this->AfterThreadedGenerateData();
   this->UpdateProgress(1.0f);
-}
-
-
-template< typename TImage >
-ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-ImageToHistogramFilter< TImage >
-::ThreaderMinMaxCallback(void *arg)
-{
-  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
-  ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->WorkUnitID;
-  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
-  using FilterStruct = typename ImageTransformer< TImage >::ThreadStruct;
-  FilterStruct* str = (FilterStruct *)(threadInfo->UserData);
-  Self* filter = static_cast<Self*>(str->Filter.GetPointer());
-
-  // execute the actual method with appropriate output region
-  // first find out how many pieces extent can be split into.
-  typename TImage::RegionType splitRegion;
-  ThreadIdType total = filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
-
-  if ( threadId < total )
-    {
-    filter->ThreadedComputeMinimumAndMaximum(splitRegion, threadId);
-    }
-  // else don't use this thread. Threads were not split conveniently.
-  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TImage >
@@ -215,21 +176,14 @@ void
 ImageToHistogramFilter< TImage >
 ::BeforeThreadedGenerateData()
 {
-  // find the actual number of threads
-  long nbOfThreads = this->GetNumberOfWorkUnits();
-  this->GetMultiThreader()->SetNumberOfWorkUnits( nbOfThreads );
-  // number of work units could be clamped, so get actual number
-  nbOfThreads = this->GetMultiThreader()->GetNumberOfWorkUnits();
-  // number of work units can be constrained by the region size,
-  // so call the SplitRequestedRegion
-  // to get the real number of threads which will be used
-  RegionType splitRegion; // dummy region - just to call the following method
-  nbOfThreads = this->SplitRequestedRegion( 0, nbOfThreads, splitRegion );
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  m_Minimum = HistogramMeasurementVectorType( nbOfComponents );
+  m_Maximum = HistogramMeasurementVectorType( nbOfComponents );
 
-  // and allocate one histogram per thread
-  m_Histograms.resize(nbOfThreads);
-  m_Minimums.resize(nbOfThreads);
-  m_Maximums.resize(nbOfThreads);
+  m_Minimum.Fill( NumericTraits<ValueType>::max() );
+  m_Maximum.Fill( NumericTraits<ValueType>::NonpositiveMin() );
+
+  m_MergeHistogram = nullptr;
 }
 
 template< typename TImage >
@@ -237,36 +191,18 @@ void
 ImageToHistogramFilter< TImage >
 ::AfterThreadedGenerateData()
 {
-  // group the results in the output histogram
-  HistogramType * hist = m_Histograms[0];
-  typename HistogramType::IndexType index;
-  for( unsigned int i=1; i<m_Histograms.size(); i++ )
-    {
-    using HistogramIterator = typename HistogramType::ConstIterator;
-
-    HistogramIterator hit = m_Histograms[i]->Begin();
-    HistogramIterator end = m_Histograms[i]->End();
-    while ( hit != end )
-      {
-      hist->GetIndex( hit.GetMeasurementVector(), index);
-      hist->IncreaseFrequencyOfIndex( index, hit.GetFrequency() );
-      ++hit;
-      }
-    }
-
-  // and drop the temporary histograms
-  m_Histograms.clear();
-  m_Minimums.clear();
-  m_Maximums.clear();
+  HistogramType *outputHistogram = this->GetOutput();
+  outputHistogram->Graft(m_MergeHistogram);
+  m_MergeHistogram = nullptr;
 }
 
 
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread, ThreadIdType threadId )
+::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread)
 {
-  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramMeasurementVectorType min( nbOfComponents );
   HistogramMeasurementVectorType max( nbOfComponents );
 
@@ -287,16 +223,29 @@ ImageToHistogramFilter< TImage >
       }
     ++inputIt;
     }
-  m_Minimums[threadId] = min;
-  m_Maximums[threadId] = max;
+
+  std::lock_guard<std::mutex> mutexHolder( m_Mutex );
+  for( unsigned int i=0; i<nbOfComponents; i++ )
+    {
+    m_Minimum[i] = std::min( m_Minimum[i], min[i] );
+    m_Maximum[i] = std::max( m_Maximum[i], max[i] );
+    }
 }
 
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId)
+::ThreadedComputeHistogram(const RegionType & inputRegionForThread)
 {
-  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const HistogramType *outputHistogram = this->GetOutput();
+
+  HistogramPointer histogram = HistogramType::New();
+  histogram->SetClipBinsAtEnds(outputHistogram->GetClipBinsAtEnds());
+  histogram->SetMeasurementVectorSize(nbOfComponents);
+  histogram->Initialize(outputHistogram->GetSize(), m_Minimum, m_Maximum);
+
+
   ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );
   inputIt.GoToBegin();
   HistogramMeasurementVectorType m( nbOfComponents );
@@ -306,9 +255,55 @@ ImageToHistogramFilter< TImage >
     {
     const PixelType & p = inputIt.Get();
     NumericTraits<PixelType>::AssignToArray( p, m );
-    m_Histograms[threadId]->GetIndex( m, index );
-    m_Histograms[threadId]->IncreaseFrequencyOfIndex( index, 1 );
+    histogram->GetIndex( m, index );
+    histogram->IncreaseFrequencyOfIndex( index, 1 );
     ++inputIt;
+    }
+
+  this->ThreadedMergeHistogram( std::move(histogram) );
+}
+
+template< typename TImage >
+void
+ImageToHistogramFilter< TImage >
+::ThreadedMergeHistogram(HistogramPointer &&histogram)
+{
+  while (true)
+    {
+
+    std::unique_lock<std::mutex> lock(m_Mutex);
+
+    if (m_MergeHistogram.IsNull())
+      {
+      m_MergeHistogram = std::move(histogram);
+      return;
+      }
+    else
+      {
+
+      // merge/reduce the local results with current values in m_MergeHistogram
+
+      // take ownership locally
+      HistogramPointer tomergeHistogram;
+      swap( m_MergeHistogram, tomergeHistogram );
+
+      // allow other threads to merge data
+      lock.unlock();
+
+      using HistogramIterator = typename HistogramType::ConstIterator;
+
+      HistogramIterator hit = tomergeHistogram->Begin();
+      HistogramIterator end = tomergeHistogram->End();
+
+      typename HistogramType::IndexType index;
+
+      while ( hit != end )
+        {
+        histogram->GetIndex( hit.GetMeasurementVector(), index);
+        histogram->IncreaseFrequencyOfIndex( index, hit.GetFrequency() );
+        ++hit;
+        }
+      }
     }
 }
 
@@ -317,7 +312,7 @@ void
 ImageToHistogramFilter< TImage >
 ::ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size )
 {
-  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   bool clipHistograms = true;
   for ( unsigned int i = 0; i < nbOfComponents; i++ )
     {
@@ -376,10 +371,7 @@ ImageToHistogramFilter< TImage >
     }
   if( clipHistograms == false )
     {
-    for( unsigned int i=0; i<m_Histograms.size(); i++ )
-      {
-      m_Histograms[i]->SetClipBinsAtEnds(false);
-      }
+    this->GetOutput()->SetClipBinsAtEnds(false);
     }
 }
 

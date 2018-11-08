@@ -27,13 +27,6 @@ Repositories
 One may browse the repositories online using the [GitHub] search interface at
 [InsightSoftwareConsortium/ITK].
 
-| Repository                  | Purpose                                  | Access                                          | URL                          |
-| ----------------------------| ---------------------------------------- | ----------------------------------------------- | ---------------------------- |
-| <br/>`ITK.git` <br/>        | <br/> Insight Toolkit                    | clone (git) <br/> clone (http) <br/> push (ssh) | git://itk.org/ITK.git <br/> http://itk.org/ITK.git <br/> `git@itk.org:ITK.git` |
-| <br/> `stage/ITK.git` <br/> | <br/> ITK Topic Stage <br/>              | clone (git) <br/> clone (http) <br/> push (ssh) | git://itk.org/stage/ITK.git <br/> http://itk.org/stage/ITK.git <br/> `git@itk.org:stage/ITK.git` |
-| <br/> `ITKData.git` <br/>   | <br/> ITK `Testing/Data` Submodule <br/> | clone (git) <br/> clone (http) <br/> push (ssh) | git://itk.org/ITKData.git <br/> http://itk.org/ITKData.git <br/> `git@itk.org:ITKData.git` |
-
-
 Branches
 --------
 
@@ -43,19 +36,18 @@ branches:
   * `master`: Development (default)
   * `release`: Maintenance of latest release
   * `release-3.20`: Maintenance of the ITKv3 series
+  * `release-4.13`: Maintenance of the ITKv4 series
   * `nightly-master`: Follows master, updated at 01:00 UTC
   * `hooks`: Local commit hooks (place in `.git/hooks`)
   * `dashboard`: Dashboard script (setup a CDash client)
 
-Release branches converted from CVS have been artificially merged into
-`master`. Actual releases have tags named by the release version number.
+Actual releases have tags named by the release version number.
 
 
-
-[Dashboard]: Documentation/Dashboard.md
+[Dashboard]: Dashboard.md
 [Develop ITK]: CONTRIBUTING.md
-[Download ITK]: Documentation/Download.md
+[Download ITK]: Download.md
 [InsightSoftwareConsortium/ITK]: https://github.com/InsightSoftwareConsortium/ITK
-[Test ITK]: Documentation/Dashboard.md
+[Test ITK]: Dashboard.md
 
 [GitHub]: https://github.com/

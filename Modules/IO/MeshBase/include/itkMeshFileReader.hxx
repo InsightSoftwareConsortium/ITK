@@ -839,7 +839,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       numberOfPixels);                                                 \
     }
 
-  if ( 0 )
+  if ( false )
      {}
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::UCHAR, unsigned char)
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::CHAR, char)
@@ -916,7 +916,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       numberOfPixels);                                                 \
     }
 
-  if ( 0 )
+  if ( false )
      {}
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::UCHAR, unsigned char)
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::CHAR, char)

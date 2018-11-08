@@ -26,7 +26,7 @@ MINCImageIOFactory::MINCImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkMINCImageIO",
                           "MINC Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< MINCImageIO >::New() );
 }
 

@@ -101,11 +101,11 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
   if ( ( savemean > -m_MeanTolerance ) && ( savemean < m_MeanTolerance )
        && ( saveSTD < m_STDTolerance ) )
     {
-    return 1;
+    return true;
     }
   else
     {
-    return 0;
+    return false;
     }
 }
 
@@ -128,7 +128,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 
   unsigned int i, j;
   unsigned int minx = 0, miny = 0, maxx = 0, maxy = 0;
-  bool         status = 0;
+  bool         status = false;
   for ( i = 0; i < this->m_Size[1]; i++ )
     {
     for ( j = 0; j < this->m_Size[0]; j++ )
@@ -139,7 +139,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
         minx = j;
         maxy = i;
         maxx = j;
-        status = 1;
+        status = true;
         }
       else if ( ( status == 1 ) && ( ait.Get() ) )
         {

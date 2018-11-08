@@ -48,7 +48,7 @@ FileFreeImageIOFactory::FileFreeImageIOFactory()
   this->RegisterOverride("itkImageIOBase",
                          "itkFileFreeImageIO",
                          "ImageIO that creates an in-memory file from a text description",
-                         1,
+                         true,
                          CreateObjectFunction<FileFreeImageIO>::New());
 }
 

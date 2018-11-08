@@ -26,7 +26,7 @@ JPEGImageIOFactory::JPEGImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkJPEGImageIO",
                           "JPEG Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< JPEGImageIO >::New() );
 }
 

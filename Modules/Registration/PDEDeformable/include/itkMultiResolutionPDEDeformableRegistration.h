@@ -215,7 +215,7 @@ public:
 
 protected:
   MultiResolutionPDEDeformableRegistration();
-  // ~MultiResolutionPDEDeformableRegistration() {} default implementation ok
+  ~MultiResolutionPDEDeformableRegistration() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

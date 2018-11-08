@@ -4,7 +4,7 @@ Contributing to ITK
 This page documents how to develop ITK using [Git].
 
 **Note**: *Git is an extremely powerful version control tool that supports many
-different "workflows" for indivudal development and collaboration. Here we
+different "workflows" for individual development and collaboration. Here we
 document procedures used by the ITK development community. In the interest of
 simplicity and brevity we do not provide an explanation of why we use this
 approach. Furthermore, this is not a Git tutorial. Please see our [GitHelp]
@@ -15,13 +15,12 @@ Setup
 
 Before you begin, perform initial setup:
 
-  1. Register for [Gerrit access] and possibly for [Git push access].
-  2. Optionally download our
-     [one page PDF desk reference](https://itk.org/Wiki/images/1/10/GitITKCheatSheet.pdf).
+  1. [Register for a GitHub](https://github.com/join) account.
+  2. Optionally download our [one page PDF desk reference](https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/master/Documentation/GitCheatSheet.pdf).
   3. Follow the [download instructions] to create a local ITK clone:
 
 ```sh
-   $ git clone git://itk.org/ITK.git
+   $ git clone https://github.com/InsightSoftwareConsortium/ITK
 ```
 
   4. Run the developer setup script [`SetupForDevelopment.sh`] to prepare your
@@ -31,33 +30,33 @@ Before you begin, perform initial setup:
    $ ./Utilities/SetupForDevelopment.sh
 ```
 
-Note that ITK defines some useful Git aliases, such as `pullall` or `prepush`,
-through the [`SetupGitAliases.sh`] script for general Git tasks in ITK.
+This script helps configure your GitHub fork remote, Git client-side hooks,
+and useful Git aliases. The default Git remote names for your fork and
+`InsightSoftwareConsortium/ITK` are `origin` and `upstream`, respectively.
+However, other remote names can be used. Note that ITK defines some useful
+Git aliases, such as `review-push`, `pr`, `pr-clean`, and `prepush`, through
+the [`setup-git-aliases`] script for general Git tasks in ITK.
 
-Note that if you answer `y` to the question "Do you want to test push access to
-itk.org? \[y/N\]:", you will most likely receive the following error message:
-"Permission denied (publickey). fatal: Could not read from remote repository.".
-Only a few experienced contributors have push access. Having push access is
-not necessary to contribute to ITK.
-
-You may visit the *Pro Git: Setup* resource in [GitHelp] for further
+Visit the *Pro Git: Setup* resource in [GitHelp] for further
 information on setting up your local Git environment.
 
 Workflow
 --------
 
-ITK development uses a
-[branchy workflow](https://itk.org/Wiki/Git/Workflow/Topic) based on topic
-branches. Our collaboration workflow consists of three main steps:
+ITK development uses a branchy workflow based on topic branches.
+This corresponds to the *Fork & Pull Model* mentioned in the
+[GitHub flow guide]. Our collaboration workflow consists of
+three main steps:
 
   1. Local Development
      * [Update](#update)
      * [Create a Topic](#create-a-topic)
   2. Code Review
-     * [Share a Topic](#share-a-topic) (requires [Gerrit access])
+     * [Share a Topic](#share-a-topic)
+     * [Test a Topic](#test-a-topic)
      * [Revise a Topic](#revise-a-topic)
   3. Integrate Changes
-     * [Merge a Topic](#merge-a-topic) (requires [Gerrit push access])
+     * [Merge a Topic](#merge-a-topic)
      * [Delete a Topic](#delete-a-topic)
 
 Update
@@ -80,20 +79,20 @@ feature or fix to be developed given just the branch name.
 To start a new topic branch:
 
 ```sh
-   $ git fetch origin
+   $ git fetch upstream
 ```
 
-For new development, start the topic from `origin/master`:
+For new development, start the topic from `upstream/master`:
 
 ```sh
-   $ git checkout -b my-topic origin/master
+   $ git checkout -b my-topic upstream/master
 ```
 
-For release branch fixes, start the topic from `origin/release`, and by
+For release branch fixes, start the topic from `upstream/release`, and by
 convention use a topic name starting in `release-`:
 
 ```sh
-   $ git checkout -b my-topic origin/release
+   $ git checkout -b my-topic upstream/release
 ```
 
 (*You may visit the* Pro Git: Basic Branching *resource in [GitHelp] for
@@ -133,7 +132,8 @@ Share a Topic
 -------------
 
 When a topic is ready for review and possible inclusion, share it by pushing
-to Gerrit. Be sure you have registered for [Gerrit access][Access].
+to GitHub and opening a *pull request* on the *InsightSoftwareConsortium/ITK*
+upstream repository.
 
 Checkout the topic if it is not your current branch:
 
@@ -141,7 +141,7 @@ Checkout the topic if it is not your current branch:
    $ git checkout my-topic
 ```
 
-Check what commits will be pushed to Gerrit for review:
+Check what commits will be pushed to GitHub for review:
 
 ```sh
    $ git prepush
@@ -150,25 +150,33 @@ Check what commits will be pushed to Gerrit for review:
 Push commits in your topic branch for review by the community:
 
 ```sh
-   $ git gerrit-push
+   $ git review-push --force
 ```
 
 (*If the topic adds data see [this note](Documentation/Data.md#push).*)
 
-or if you started the topic from the release branch:
+Optionally, discuss the change by opening a topic on [ITK's Discourse].
 
-```sh
-   $ git push gerrit HEAD:refs/for/release/my-topic
-```
+Test a Topic
+------------
 
-Find your change in the [ITK Gerrit] instance and add [ITK reviewers].
+When a topic is submitted, it is tested across the three major platforms
+before being merged. After the topic has been merged, it is tested on many
+platforms and configurations on the [nightly
+dashboard](https://open.cdash.org/index.php?project=Insight).
+
+If tests fail on a submitted topic, see the [Revise a Topic](#revise-a-topic)
+step on how to submit a revised version. After a topic is merged, please check
+the next day's nightly dashboard to ensure there are not any regressions. If
+there are any new warnings or errors, submit a follow-up patch as soon as
+possible.
 
 Revise a Topic
 --------------
 
-If a topic is approved during Gerrit review, skip to the
-[next step](#merge-a-topic). Otherwise, revise the topic and push it back to
-Gerrit for another review.
+Usually, a topic goes through several revisions in the review process.
+Once a topic is approved during GitHub review, proceed to the
+[next step](#merge-a-topic).
 
 Checkout the topic if it is not your current branch:
 
@@ -194,8 +202,7 @@ To revise commits further back on the topic, say the `3`rd commit back:
 
 (*Substitute the correct number of commits back, as low as `1`.*)
 
-Follow Git's interactive instructions. Preserve the `Change-Id:` line at the
-bottom of each commit message.
+Follow Git's interactive instructions.
 
 Return to the [Share a Topic](#share-a-topic) step to share the revised topic.
 
@@ -205,70 +212,28 @@ one, but further back in your history-, and the* Pro Git: Rebasing *resource on
 taking all the changes that were committed on one branch and replaying them on
 another one.*)
 
-Test a Topic
-------------
-
-When a patch is submitted, it is tested across the three major platforms before
-being merged and tested on many platforms and configurations on the
-[nightly dashboard](https://open.cdash.org/index.php?project=Insight).
-
-If tests fail on a submitted topic, see the [Revise a Topic](#revise-a-topic)
-step on how to submit a revised version. After a topic is merged, please check
-the next day's nightly dashboard to ensure there are not any regressions. If
-there are any new warnings or errors, submit a follow-up patch as soon as
-possible.
-
-When a patch is submitted, macOS-Clang, Windows-MSVC, and Linux-GCC builds will
-start. Once they have finished, the build robots will make a comment on the
-patch with a link to their results visualized in CDash and mark the patch set
-as `Verified +1` or `Not Verified -1`. The results are submitted by the Kitware
-Build Robot Gerrit user.
-
-Builds can be spawned by adding the following comments to a patch set in Gerrit.
-
-  * `request build: all`
-  * `request build: osx`
-  * `request build: linux`
-  * `request build: windows`
-  * `request build: python`
-  * `request build: power8`
-  * `request build: cpp11`
-  * `request build: cpp14`
-
 Merge a Topic
 -------------
 
-**Only authorized developers with [Git push access] to `itk.org` may perform
-this step.**
+**Only authorized developers with GitHub merge permissions execute this step.**
 
-After a feature topic has been reviewed and approved in Gerrit, merge it into
-the upstream repository.
-
-Checkout the topic if it is not your current branch:
-
-```sh
-   $ git checkout my-topic
-```
-
-Merge the topic, which is originally forked off the `master` branch, to
-`master` branch:
-
-```sh
-   $ git gerrit-merge
-```
+After a feature topic has been reviewed and approved in GitHub, ITK
+maintainers will merge it into the upstream repository via the GitHub user
+interface.
 
 (*If the merge conflicts follow the printed instructions to resolve them.*)
 
-For bug fixes that are ready to be included in the next patch release, please
-post a message in the [ITK discussion] for assistance.
+For bug fixes that are ready to be included in the next patch release, make a
+comment on the pull request which states the topic should be merged to the
+`release` branch.
 
-Here are the recommended steps to merge a topic to both release and master
-branches, assuming the topic branch is forked off the release branch:
+Here are the recommended steps to merge a topic to both `release` and `master`
+branches, assuming the topic branch is forked off the `release` branch:
 
 ```sh
    $ git checkout release
    $ git merge --no-ff my-topic
-   $ git push origin release
+   $ git push upstream release
 ```
 
 and do:
@@ -276,7 +241,7 @@ and do:
 ```sh
    $ git checkout master
    $ git merge --no-ff release
-   $ git push origin master
+   $ git push upstream master
 ```
 
 to merge the `release` branch back to `master`.
@@ -301,24 +266,19 @@ Delete the local topic branch:
 
 The `branch -d` command works only when the topic branch has been correctly
 merged. Use `-D` instead of `-d` to force the deletion of an unmerged topic
-branch (**warning**: you could lose commits).
+branch (*warning*: you could lose commits).
 
 
 
 [README]: Documentation/README.md
-[Access]: Documentation/Access.md
 [download instructions]: Documentation/Download.md
-[Gerrit access]: Documentation/Access.md
-[Gerrit push access]: Documentation/Access.md
 [GitHelp]: Documentation/GitHelp.md
-[Git push access]: Documentation/Access.md
 [UpdatingThirdParty]: Documentation/UpdatingThirdParty.md
 
 [`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
-[`SetupGitAliases.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/DevelopmentSetupScripts/SetupGitAliases.sh
+[`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/GitSetup/setup-git-aliases
 
-[ITK discussion]: https://discourse.itk.org/
-[ITK Gerrit]: http://review.source.kitware.com/p/ITK
-[ITK reviewers]: http://review.source.kitware.com/#/admin/groups/9
+[ITK's Discourse]: https://discourse.itk.org/
 
 [Git]: http://git-scm.com
+[GitHub flow guide]: https://guides.github.com/introduction/flow/index.html

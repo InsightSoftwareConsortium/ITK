@@ -39,7 +39,7 @@
  *
  */
 
-namespace
+namespace itk_impl_details
 {
 
 template< typename TIterator >
@@ -122,7 +122,7 @@ BoxAccumulateFunction(const TInputImage *inputImage,
 
   NOutputIterator noutIt(kernelRadius, outputImage, outputRegion);
   // this iterator is fully connected
-  setConnectivityEarlyBox(&noutIt, true);
+  itk_impl_details::setConnectivityEarlyBox(&noutIt, true);
 
   ConstantBoundaryCondition< OutputImageType > oBC;
   oBC.SetConstant(NumericTraits< OutputPixelType >::ZeroValue() );
@@ -620,7 +620,7 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
 
   NOutputIterator noutIt(kernelRadius, outputImage, outputRegion);
   // this iterator is fully connected
-  setConnectivityEarlyBox(&noutIt, true);
+  itk_impl_details::setConnectivityEarlyBox(&noutIt, true);
 
   ConstantBoundaryCondition< OutputImageType > oBC;
   oBC.SetConstant(NumericTraits< OutputPixelType >::ZeroValue() );

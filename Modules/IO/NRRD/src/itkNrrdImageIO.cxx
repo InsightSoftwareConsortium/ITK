@@ -225,7 +225,7 @@ void NrrdImageIO::ReadImageInformation()
   try
     {
     // nrrd causes exceptions on purpose, so mask them
-    bool saveFPEState(0);
+    bool saveFPEState(false);
     if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
       {
       saveFPEState = FloatingPointExceptions::GetEnabled();

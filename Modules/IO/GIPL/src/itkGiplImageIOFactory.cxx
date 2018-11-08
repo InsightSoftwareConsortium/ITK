@@ -26,7 +26,7 @@ GiplImageIOFactory::GiplImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGiplImageIO",
                           "Gipl Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GiplImageIO >::New() );
 }
 

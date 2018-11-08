@@ -26,7 +26,7 @@ FileListVideoIOFactory::FileListVideoIOFactory()
   this->RegisterOverride( "itkVideoIOBase",
                           "itkFileListVideoIO",
                           "FileList Video IO",
-                          1,
+                          true,
                           CreateObjectFunction< FileListVideoIO >::New() );
 }
 

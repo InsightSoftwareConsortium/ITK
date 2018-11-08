@@ -34,7 +34,7 @@ FreeSurferBinaryMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkFreeSurferBinaryMeshIO",
                          "Freesurfer Binary Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< FreeSurferBinaryMeshIO >::New() );
 }
 

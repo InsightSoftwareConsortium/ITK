@@ -347,7 +347,7 @@ private:
     /**  Returns a reference to the current pixel. */
     reference operator*() const ITK_NOEXCEPT
     {
-      return reference(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location + *m_CurrentOffset);
+      return reference{m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location + *m_CurrentOffset};
     }
 
 

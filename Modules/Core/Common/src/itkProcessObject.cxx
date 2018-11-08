@@ -1383,7 +1383,7 @@ ProcessObject
   // Reset this object.
   //
   // Clear the updating flag.
-  m_Updating = 0;
+  m_Updating = false;
 
   //
   // Loop through the inputs

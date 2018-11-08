@@ -40,7 +40,7 @@ MeshIOFactory
 
     if ( io )
       {
-      possibleMeshIO.push_back(io);
+      possibleMeshIO.emplace_back(io);
       }
     else
       {

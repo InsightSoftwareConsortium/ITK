@@ -99,7 +99,7 @@ public:
 
 protected:
   GaborImageSource();
-  // ~GaborImageSource(); default implementation ok
+  ~GaborImageSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

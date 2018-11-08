@@ -32,13 +32,13 @@ MINCTransformIOFactory::MINCTransformIOFactory()
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkMINCTransformIO",
                           "MINC XFM Transform float IO",
-                          1,
+                          true,
                           CreateObjectFunction< MINCTransformIOTemplate< float > >::New() );
 
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkMINCTransformIO",
                           "MINC XFM Transform double IO",
-                          1,
+                          true,
                           CreateObjectFunction< MINCTransformIOTemplate< double > >::New() );
 }
 

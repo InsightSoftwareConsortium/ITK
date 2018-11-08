@@ -26,7 +26,7 @@ MetaImageIOFactory::MetaImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkMetaImageIO",
                           "Meta Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< MetaImageIO >::New() );
 }
 

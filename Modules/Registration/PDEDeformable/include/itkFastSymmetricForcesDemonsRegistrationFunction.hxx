@@ -238,7 +238,7 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
 
   // update the squared change value
   PointType newMappedCenterPoint;
-  bool      IsOutsideRegion = 0;
+  bool      IsOutsideRegion = false;
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if ( globalData )
@@ -247,7 +247,7 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
       newMappedCenterPoint[j] = mappedCenterPoint[j] + update[j];
       if ( index[j] < ( FirstIndex[j] + 2 ) || index[j] > ( LastIndex[j] - 3 ) )
         {
-        IsOutsideRegion = 1;
+        IsOutsideRegion = true;
         }
       }
     }

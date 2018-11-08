@@ -104,16 +104,16 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
     {
     std::vector<std::string> ColumnHeaders;
     std::vector<std::string> RowHeaders;
-    ColumnHeaders.push_back( "itkArray2DObject" );
-    ColumnHeaders.push_back( "Col1" );
-    ColumnHeaders.push_back( "Col2" );
-    ColumnHeaders.push_back( "Col3" );
-    ColumnHeaders.push_back( "Col4" );
-    ColumnHeaders.push_back( "Col5" );
-    ColumnHeaders.push_back( "Col6" );
-    RowHeaders.push_back( "Row1" );
-    RowHeaders.push_back( "Row2" );
-    RowHeaders.push_back( "Row3" );
+    ColumnHeaders.emplace_back("itkArray2DObject" );
+    ColumnHeaders.emplace_back("Col1" );
+    ColumnHeaders.emplace_back("Col2" );
+    ColumnHeaders.emplace_back("Col3" );
+    ColumnHeaders.emplace_back("Col4" );
+    ColumnHeaders.emplace_back("Col5" );
+    ColumnHeaders.emplace_back("Col6" );
+    RowHeaders.emplace_back("Row1" );
+    RowHeaders.emplace_back("Row2" );
+    RowHeaders.emplace_back("Row3" );
     writer->SetRowHeaders( RowHeaders );
     writer->SetColumnHeaders( ColumnHeaders );
     }

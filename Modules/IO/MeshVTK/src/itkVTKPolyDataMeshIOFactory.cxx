@@ -36,7 +36,7 @@ VTKPolyDataMeshIOFactory
   this->RegisterOverride("itkMeshIOBase",
                          "itkVTKPolyDataMeshIO",
                          "VTK Polydata IO",
-                         1,
+                         true,
                          CreateObjectFunction< VTKPolyDataMeshIO >::New() );
 }
 

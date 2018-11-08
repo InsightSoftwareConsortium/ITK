@@ -209,7 +209,7 @@ int itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char *arg
   // Optimizer
   RegistrationParameterScalesFromShiftType::ScalesType displacementScales( displacementTransform->GetNumberOfLocalParameters() );
   displacementScales.Fill(1);
-  if( 0 )
+  if( false )
     {
     optimizer->SetScales( displacementScales );
     }

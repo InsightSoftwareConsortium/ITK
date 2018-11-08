@@ -34,7 +34,7 @@ OBJMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkOBJMeshIO",
                          "OBJ Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< OBJMeshIO >::New() );
 }
 
