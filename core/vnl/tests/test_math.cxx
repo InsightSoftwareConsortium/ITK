@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <type_traits>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex.h> // for vnl_math::abs(std::complex)
 #include <testlib/testlib_test.h>
@@ -620,6 +621,27 @@ static void test_math()
 #endif
     }
 
+#define RETURN_TYPE_TEST( funcname, argtypename, returntypename ) \
+  { \
+  const bool test_return_type = std::is_same< decltype( vnl_math :: funcname( static_cast< argtypename >(123.4) ) ), returntypename >(); \
+  TEST("vnl_math::" #funcname " returns " #returntypename " type", test_return_type, true); \
+  } void()
+
+  RETURN_TYPE_TEST(isinf,int, bool);
+  RETURN_TYPE_TEST(isinf,float, bool);
+  RETURN_TYPE_TEST(isinf,double, bool);
+
+  RETURN_TYPE_TEST(isnan,int, bool);
+  RETURN_TYPE_TEST(isnan,float, bool);
+  RETURN_TYPE_TEST(isnan,double, bool);
+
+  RETURN_TYPE_TEST(isfinite,int, bool);
+  RETURN_TYPE_TEST(isfinite,float, bool);
+  RETURN_TYPE_TEST(isfinite,double, bool);
+
+  RETURN_TYPE_TEST(isnormal,int, bool);
+  RETURN_TYPE_TEST(isnormal,float, bool);
+  RETURN_TYPE_TEST(isnormal,double, bool);
 }
 
 TESTMAIN(test_math);

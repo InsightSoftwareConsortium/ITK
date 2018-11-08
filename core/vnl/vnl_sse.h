@@ -11,7 +11,7 @@
 // \endverbatim
 
 #include <vcl_compiler_detection.h>
-#ifdef __MSVC
+#ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif // for macro decisions based on compiler type
 #include <vxl_config.h>   // for checking supported integer data types
