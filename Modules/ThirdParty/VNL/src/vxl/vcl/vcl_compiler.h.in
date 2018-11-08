@@ -3,7 +3,7 @@
 
 //:
 // \file
-// This file either is generated from vcl_compiler_detection.h.in
+// This file is generated from vcl_compiler_detection.h.in
 // This file has mostly been replaced with
 // CMake supported features in the auto-generated
 // vcl_compiler_detection.h that should be included
@@ -82,6 +82,8 @@
 #pragma GCC poison VXL_STDLIB_HAS_QSORT                  //"ERROR:  Use C++11 cstdlib"
 
 #pragma GCC poison VXL_STDLIB_HAS_LRAND48                //"ERROR:  Use C++11 cstdlib"
+#pragma GCC poison VXL_STDLIB_HAS_DRAND48                //"ERROR:  drand48 is a posix functions and not generally portable. Use C++ <random> features"
+#pragma GCC poison VXL_STDLIB_HAS_SRAND48                //"ERROR:  srand48 is a posix functions and not generally portable. Use C++ <random> features"
 
 #pragma GCC poison VCL_FREEBSD                           //"ERROR: VCL_FREBSD has no use in VXL"
 #pragma GCC poison VCL_VOID_RETURN                       //"ERROR: VCL_VOID_RETURN has no use in VXL"
@@ -191,8 +193,8 @@
 #endif
 
 #if defined(_MSC_VER)
-#  if _MSC_VER < 1900     // Visual Studio 2015 = Version 14.x is needed to support
-#   error "Invalid _MSC_VER version Visual Studio 2015 = Version 14.x is needed to support C++11 features"
+#  if _MSC_VER < 1900
+#   error "Invalid _MSC_VER version. Visual Studio 2015 = Version 14.x is needed to support C++11 features"
 #  endif // <1900
 #endif // _MSC_VER
 #endif
