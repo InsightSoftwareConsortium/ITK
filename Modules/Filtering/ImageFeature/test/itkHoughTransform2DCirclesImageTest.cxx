@@ -404,6 +404,10 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   houghFilter->SetNumberOfCircles( numberOfCircles );
   TEST_SET_GET_VALUE( numberOfCircles, houghFilter->GetNumberOfCircles() );
 
+  bool useImageSpacing = false;
+  houghFilter->SetUseImageSpacing( useImageSpacing );
+  TEST_SET_GET_VALUE( useImageSpacing, houghFilter->GetUseImageSpacing() );
+
   houghFilter->SetInput( caster->GetOutput() );
 
   TRY_EXPECT_EXCEPTION( houghFilter->GetCircles() );
