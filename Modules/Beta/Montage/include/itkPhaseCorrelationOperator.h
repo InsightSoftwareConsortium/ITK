@@ -18,7 +18,6 @@
 #ifndef itkPhaseCorrelationOperator_h
 #define itkPhaseCorrelationOperator_h
 
-#include "itkFixedArray.h"
 #include "itkImageToImageFilter.h"
 #include <complex>
 
@@ -32,9 +31,6 @@ namespace itk
  *
  *  This frequency ratio is computed at every index of output correlation
  *  surface.
- *
- *  As this is a convenient place for band-pass filtering of the input images.
- *  the interface for that is provided by SetBandPassControlPoints() method.
  *
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
@@ -65,30 +61,6 @@ public:
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro( ImageDimension, unsigned int, VImageDimension );
-
-  /** Set/Get control points for band-pass filtering.
-   * These points represent radial distances from constant component.
-   * The values of these points should be specified on 0.0-1.0 scale,
-   * 0.0 relating to constant frequency component, and 1.0 relating
-   * to highest frequency along all dimensions.
-   * Point values should be monotonitcally increasing:
-   * 0 <= p[0] < p[1] < p[2] < p[3] <= 1.0
-   * All frequencies below p[0] and above p[3] are completely removed.
-   * All frequencies between p[1] and p[2] are completely kept.
-   * Frequencies between p[0] and p[1]; and between p[2] and p[3]
-   * are transition zones with linearly increasing (p0-p1)
-   * and decreasing (p2-p3) coefficient of influence. Function plot:
-   *   ^
-   *  1|             _________
-   *   |            /         \
-   *   |           /           \
-   *   |          /             \
-   *  0|    *----*---*-------*---*----*
-   * coef  0.0   p0  p1      p2  p3  1.0
-   */
-  itkSetMacro( BandPassControlPoints, BandPassPointsType );
-  virtual void SetBandPassControlPoints( const BandPassPointsType& points );
-  itkGetConstMacro( BandPassControlPoints, BandPassPointsType );
 
   /** Image type aliases. */
   using PixelType = TRealPixel;
@@ -122,9 +94,6 @@ protected:
   /** PhaseCorrelationOperator can be implemented as a multithreaded filter.
    *  This method performs the computation. */
   void DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread ) override;
-
-protected:
-  BandPassPointsType m_BandPassControlPoints;
 };
 
 } // end namespace itk
