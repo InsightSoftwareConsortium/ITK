@@ -18,16 +18,15 @@
 #ifndef itkFrequencyBandImageFilter_h
 #define itkFrequencyBandImageFilter_h
 
-#include <itkInPlaceImageFilter.h>
-#include <itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h>
+#include <itkUnaryFrequencyDomainFilter.h>
 
 namespace itk
 {
 /** \class FrequencyBandImageFilter
- * \brief Performs a frequency band filter in the range LowFrequencyThreshold and
- * HighFrequencyThreshold in an input image in the frequency domain.
+ * \brief Performs a frequency band filtering on a frequency domain image
  *
- * The default is a pass band between threshold frequencies [0,0.5] Hz or [0, pi] radians,
+ * The default filtering functor filters in the range LowFrequencyThreshold and
+ * HighFrequencyThreshold - pass band between threshold frequencies [0,0.5] Hz or [0, pi] radians,
  * where both boundary values also pass (equivalent to SetPassBand(true,true)).
  * A pass band sets to zero any value outside the defined range, and let pass without modification the input image inside the band.
  *
@@ -41,34 +40,23 @@ namespace itk
  * SetPassLow(High)FrequencyThreshold(bool). The default is to let pass low and high boundaries.
  * Also, SetPassBand(true, false), will let pass low boundary/threshold, and stop the high value.
  *
- * Filters in the module ITKImageFrequency work with input images in the frequency domain.
- * This filter is templated over a TFrequencyIterator depending on the
- * frequency layout of the input image.
- * Images in the dual space can be acquired experimentally, from scattering exaperiments or other techniques.
- * The layout of these images is the same as spatial domain images. Use \ref FrequencyImageRegionIteratorWithIndex
+ * This filter derives from \ref UnaryFrequencyDomainFilter and implements its own custom functor.
+ * If a different functor is set, the normal functionality of this filter will be lost.
  *
- * Frequency-domain images can be computed from any spatial-domain applying a Fourier Transform \ref ForwardFFTImageFilter.
- * Use \ref FrequencyFFTLayoutImageRegionIteratorWithIndex.
- * Please note that \ref FrequencyFFTLayoutImageRegionIteratorWithIndex requires a full FFT,
- * and is not compatible with the hermitian optimization.
- *
- * If the output of the FFT is shifted, for example after applying \ref FFTShiftImageFilter,
- * use \ref FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.
- *
+ * \sa UnaryFrequencyDomainFilter
  *
  * \ingroup ITKImageFrequency
  */
 template< typename TImageType,
   typename TFrequencyIterator = FrequencyFFTLayoutImageRegionIteratorWithIndex<TImageType> >
-class FrequencyBandImageFilter:
-  public InPlaceImageFilter<TImageType, TImageType>
+class FrequencyBandImageFilter : public UnaryFrequencyDomainFilter< TImageType, TFrequencyIterator >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyBandImageFilter);
 
   /** Standard class type alias. */
   using Self = FrequencyBandImageFilter;
-  using Superclass = InPlaceImageFilter<TImageType, TImageType>;
+  using Superclass = UnaryFrequencyDomainFilter< TImageType, TFrequencyIterator >;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -76,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrequencyBandImageFilter, InPlaceImageFilter);
+  itkTypeMacro(FrequencyBandImageFilter, UnaryFrequencyDomainFilter);
 
   /** Typedef to images */
   using ImageType = TImageType;
@@ -89,13 +77,6 @@ public:
   using ImageRegionType = typename TImageType::RegionType;
 
   static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
-  itkConceptMacro( ImageTypeHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TImageType::PixelType > ) );
-  /** End concept checking */
-#endif
 
   /** Frequency Iterator types */
   using FrequencyIteratorType = TFrequencyIterator;
@@ -192,14 +173,6 @@ public:
   itkGetConstReferenceMacro(PassNegativeHighFrequencyThreshold, bool);
   itkBooleanMacro( PassNegativeHighFrequencyThreshold );
 
-  /** Set to true when the you are dealing with images in the frequency
-   * domain that have been computed using RealToHalfHermitianFFT, and the
-   * original image in the spatial domain was odd.
-   * Only needed when using HermitianFrequencyIterator and the original
-   * image was odd. **/
-  itkSetMacro( ActualXDimensionIsOdd, bool );
-  itkGetConstReferenceMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro( ActualXDimensionIsOdd );
 
 protected:
   FrequencyBandImageFilter();
@@ -208,9 +181,12 @@ protected:
   /* Checks the logic of FrequencyThresholds. */
   void VerifyPreconditions() const override;
 
-  void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
+  /* This is the box functor, which implements the filter's behavior. */
+  void BandPass( FrequencyIteratorType& frequency );
 
 private:
+  std::function< void( const ImageRegionType& ) > m_DynamicThreadedGenerateDataFunction;
+
   FrequencyValueType m_LowFrequencyThreshold;
   FrequencyValueType m_HighFrequencyThreshold;
 
@@ -220,7 +196,6 @@ private:
   bool m_RadialBand;
   bool m_PassNegativeLowFrequencyThreshold;
   bool m_PassNegativeHighFrequencyThreshold;
-  bool m_ActualXDimensionIsOdd;
 };
 } // end namespace itk
 
