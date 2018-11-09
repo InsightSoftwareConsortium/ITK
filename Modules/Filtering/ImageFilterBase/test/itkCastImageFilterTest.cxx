@@ -61,18 +61,19 @@ bool TestCastFromTo()
   using FilterType = itk::CastImageFilter< InputImageType, OutputImageType >;
 
   using SourceType = itk::RandomImageSource< InputImageType >;
-  typename SourceType::Pointer source = SourceType::New();
-  typename InputImageType::SizeValueType randomSize[3] = {18, 17, 23};
-  source->SetSize( randomSize );
-
-  source->UpdateLargestPossibleRegion();
-  typename InputImageType::Pointer randomSourceImagePtr = source->GetOutput();
+  typename SourceType::Pointer randomValuesImageSource = SourceType::New();
   {
-    typename InputImageType::IndexType Index000 {0,0,0};
-    typename InputImageType::IndexType Index100 {1,0,0};
-    typename InputImageType::IndexType Index200 {2,0,0};
-    typename InputImageType::IndexType Index300 {3,0,0};
-    typename InputImageType::IndexType Index400 {4,0,0};
+    typename InputImageType::SizeValueType randomSize[3] = {18, 17, 23};
+    randomValuesImageSource->SetSize(randomSize);
+  }
+  randomValuesImageSource->UpdateLargestPossibleRegion();
+  typename InputImageType::Pointer randomSourceImagePtr = randomValuesImageSource->GetOutput();
+  {
+    typename InputImageType::IndexType Index000{{0,0,0}};
+    typename InputImageType::IndexType Index100{{1,0,0}};
+    typename InputImageType::IndexType Index200{{2,0,0}};
+    typename InputImageType::IndexType Index300{{3,0,0}};
+    typename InputImageType::IndexType Index400{{4,0,0}};
 
     /* Exercise input image type domain values (important for float -> integer conversions)
      *
@@ -101,8 +102,8 @@ bool TestCastFromTo()
   using InputIteratorType = itk::ImageRegionConstIterator< InputImageType >;
   using OutputIteratorType = itk::ImageRegionConstIterator< OutputImageType >;
 
-  InputIteratorType  it( source->GetOutput(),
-                         source->GetOutput()->GetLargestPossibleRegion() );
+  InputIteratorType  it( randomValuesImageSource->GetOutput(),
+                         randomValuesImageSource->GetOutput()->GetLargestPossibleRegion() );
   OutputIteratorType ot( filter->GetOutput(),
                          filter->GetOutput()->GetLargestPossibleRegion() );
 
@@ -115,9 +116,10 @@ bool TestCastFromTo()
   ot.GoToBegin();
   while ( !it.IsAtEnd() )
     {
-    TInputPixelType  inValue  = it.Value();
-    TOutputPixelType outValue = ot.Value();
-    auto expectedValue = static_cast< TOutputPixelType >( inValue );
+    const TInputPixelType  inValue  = it.Value();
+    const TOutputPixelType outValue = ot.Value();
+
+    const auto expectedValue = static_cast< TOutputPixelType >( inValue );
 
     if (std::is_floating_point<TInputPixelType>() && std::is_integral<TOutputPixelType>()
       && ( inValue > std::numeric_limits<TOutputPixelType>::max()
@@ -202,12 +204,8 @@ bool TestVectorImageCast()
   // Create a 1x3 image of 2D vectors
   FloatVectorImageType::Pointer image = FloatVectorImageType::New();
 
-  itk::Size<2> size;
-  size[0] = 1;
-  size[1] = 3;
-
-  itk::Index<2> start;
-  start.Fill(0);
+  const itk::Size<2> size{ { 1, 3 } };
+  const itk::Index<2> start{ { 0, 0 } };
 
   itk::ImageRegion<2> region(start,size);
   image->SetNumberOfComponentsPerPixel(2);
