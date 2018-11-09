@@ -18,12 +18,10 @@
 #ifndef itkPhaseCorrelationOperator_hxx
 #define itkPhaseCorrelationOperator_hxx
 
-#include "itkImageRegionIterator.h"
+#include "itkPhaseCorrelationOperator.h"
+
 #include "itkImageScanlineIterator.h"
 #include "itkMetaDataObject.h"
-#include "itkObjectFactory.h"
-#include "itkPhaseCorrelationOperator.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -93,10 +91,10 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
     while ( !outIt.IsAtEndOfLine() )
       {
       // compute the phase correlation
-      const PixelType real =
-        fixedIt.Value().real() * movingIt.Value().real() + fixedIt.Value().imag() * movingIt.Value().imag();
-      const PixelType imag =
-        fixedIt.Value().imag() * movingIt.Value().real() - fixedIt.Value().real() * movingIt.Value().imag();
+      const PixelType real = fixedIt.Value().real() * movingIt.Value().real()
+        + fixedIt.Value().imag() * movingIt.Value().imag();
+      const PixelType imag = fixedIt.Value().imag() * movingIt.Value().real()
+        - fixedIt.Value().real() * movingIt.Value().imag();
       const PixelType magn = std::sqrt( real * real + imag * imag );
 
       if ( magn != 0 )
