@@ -19,9 +19,11 @@
 #ifndef itkTileMontage_hxx
 #define itkTileMontage_hxx
 
+#include "itkTileMontage.h"
+
 #include "itkMultiThreaderBase.h"
 #include "itkNumericTraits.h"
-#include "itkTileMontage.h"
+
 #include <algorithm>
 #include <cassert>
 
