@@ -105,40 +105,11 @@ else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
   else()
     itk_module_impl()
   endif()
-
-  # Appending proxTV to PUBLIC_DEPENDS. Used by itk_module_link_dependencies() in itk_add_library()
-  list(APPEND ITK_MODULE_TotalVariation_PUBLIC_DEPENDS ${_proxTV_lib})
-  message(
-    STATUS
-    "ITK_MODULE_TotalVariation_PUBLIC_DEPENDS: ${ITK_MODULE_TotalVariation_PUBLIC_DEPENDS}"
-  )
-  # At build time, a proxTVTargets.cmake is generated. We will export append this to the module TotalVariationTargets.cmake. This will include Eigen, and all the dependencies.
-  # Export 'proxTVTargets.cmake' for a build tree
-  message(
-    STATUS
-    "Exporting proxTV targets to: ${itk-module}-targets-build: ${${itk-module}-targets-build}."
-  )
-  if(NOT EXISTS ${${itk-module}-targets-build})
-    message(
-      SEND_ERROR
-      "External module targets_file ${itk-module}-targets-build not found in: ${${itk-module}-targets-build}."
-    )
-  endif()
-
-  export(
-    TARGETS
-      ${_proxTV_lib}
-    APPEND
-    FILE ${${itk-module}-targets-build}
-    NAMESPACE proxTV::
-  )
-
-  ############ INSTALL UNHANDLED in EXTERNAL modules: #########
-  # Tell CPack to install proxTV stuff
-  # list(APPEND CPACK_INSTALL_CMAKE_PROJECTS
-  #   "${CMAKE_CURRENT_BINARY_DIR}/${proxTV_EPNAME}-build;proxTV;ALL;/")
-  #
-  # # run proxTV's cmake install script
-  # install(SCRIPT
-  #   ${CMAKE_CURRENT_BINARY_DIR}/${proxTV_EPNAME}-build/cmake_install.cmake)
 endif(ITK_USE_SYSTEM_proxTV)
+
+# Appending proxTV to PRIVATE_DEPENDS. Used by itk_module_link_dependencies() in itk_add_library()
+list(APPEND ITK_MODULE_TotalVariation_PRIVATE_DEPENDS ${_proxTV_lib})
+message(
+  STATUS
+  "ITK_MODULE_TotalVariation_PRIVATE_DEPENDS: ${ITK_MODULE_TotalVariation_PRIVATE_DEPENDS}"
+)
