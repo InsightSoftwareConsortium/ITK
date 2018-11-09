@@ -349,15 +349,19 @@ namespace itk
     }
 
 //
-// A macro to disallow the copy constructor and operator= functions
-// This should be used in the private: declarations for a class
+// A macro to disallow the copy constructor, copy assignment,
+// move constructor, and move assignment functions.
+// This should be used in the public: declarations for a class
 //
 // ITK's paradigm for smart pointer and pipeline consistency
-// prohibits the use of copy construction and operator= functions.
+// prohibits the use of copy/move construction and copy/move assignment
+// functions.
 //
-#define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName)  \
-  TypeName(const TypeName&) = delete;           \
-  TypeName& operator=(const TypeName&) = delete
+#define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName)   \
+  TypeName(const TypeName&) = delete;            \
+  TypeName& operator=(const TypeName&) = delete; \
+  TypeName(TypeName&&) = delete;                 \
+  TypeName& operator=(TypeName&&) = delete
 
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
