@@ -1,6 +1,6 @@
 project(TotalVariation)
 
-set(TotalVariation_LIBRARIES IsotropicWavelets)
+set(TotalVariation_LIBRARIES TotalVariation)
 
 set(${PROJECT_NAME}_THIRD_PARTY 1)
 
@@ -107,9 +107,20 @@ else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
   endif()
 endif(ITK_USE_SYSTEM_proxTV)
 
-# Appending proxTV to PRIVATE_DEPENDS. Used by itk_module_link_dependencies() in itk_add_library()
-list(APPEND ITK_MODULE_TotalVariation_PRIVATE_DEPENDS ${_proxTV_lib})
-message(
-  STATUS
-  "ITK_MODULE_TotalVariation_PRIVATE_DEPENDS: ${ITK_MODULE_TotalVariation_PRIVATE_DEPENDS}"
-)
+# # Appending proxTV to PRIVATE_DEPENDS. Used by itk_module_link_dependencies() in itk_add_library()
+# list(APPEND ITK_MODULE_TotalVariation_PRIVATE_DEPENDS ${_proxTV_lib})
+# message(STATUS "ITK_MODULE_TotalVariation_PRIVATE_DEPENDS: ${ITK_MODULE_TotalVariation_PRIVATE_DEPENDS}")
+# Appending proxTV to PUBLIC_DEPENDS. Used by itk_module_link_dependencies() in itk_add_library()
+# list(APPEND ITK_MODULE_TotalVariation_PUBLIC_DEPENDS ${_proxTV_lib})
+# message(STATUS "ITK_MODULE_TotalVariation_PUBLIC_DEPENDS: ${ITK_MODULE_TotalVariation_PUBLIC_DEPENDS}")
+
+set(arg_module_target "")
+if(CMAKE_VERSION VERSION_LESS 3.13)
+  # Hits lack of feature: install TARGETS given target "proxTV" which does not exist in this directory.
+  list(
+    arg_module_target
+    APPEND
+    "NO_INSTALL"
+  )
+endif()
+itk_module_target(${_proxTV_lib} ${arg_module_target})
