@@ -170,7 +170,7 @@ actual file is desired in the build tree. Stage the new file to your commit:
 [ITK Examples]: https://itk.org/ITKExamples/index.html
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
-[UploadTestingData.sh]: ../Utilities/UploadTestingData.sh
+[UploadBinaryData.sh]: ../Utilities/UploadBinaryData.sh
 
 [Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
 [MD5 hash]: https://en.wikipedia.org/wiki/MD5
