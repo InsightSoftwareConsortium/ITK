@@ -32,7 +32,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   this->SetNumberOfRequiredInputs(2);
   m_UseHistograms = false;
   m_NumBins.SetSize(1);
-  m_NumBins[0] = 20;
+  m_NumBins[0] = 256;
   m_LowerBound = static_cast< RealType >( NumericTraits< PixelType >::NonpositiveMin() );
   m_UpperBound = static_cast< RealType >( NumericTraits< PixelType >::max() );
   m_ValidLabelValues.clear();
