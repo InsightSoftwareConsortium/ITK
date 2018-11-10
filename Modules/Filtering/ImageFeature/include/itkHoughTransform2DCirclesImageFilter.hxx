@@ -39,6 +39,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   m_NumberOfCircles( 1 ),
   m_DiscRadiusRatio( 1 ),
   m_Variance( 10 ),
+  m_UseImageSpacing{ true },
   m_OldModifiedTime( 0 )
 {
   this->SetNumberOfRequiredInputs( 1 );
@@ -108,6 +109,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   const auto DoGFunction = DoGFunctionType::New();
   DoGFunction->SetInputImage(inputImage);
   DoGFunction->SetSigma(m_SigmaGradient);
+  DoGFunction->SetUseImageSpacing(m_UseImageSpacing);
 
   m_RadiusImage = RadiusImageType::New();
 
@@ -229,6 +231,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
     gaussianFilter->SetInput(outputImage); // The output is the accumulator image
     gaussianFilter->SetVariance(m_Variance);
+    gaussianFilter->SetUseImageSpacing(m_UseImageSpacing);
+
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
@@ -315,6 +319,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   os << indent << "Disc Radius Ratio: " << m_DiscRadiusRatio << std::endl;
   os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
   os << indent << "Sweep angle : " << m_SweepAngle << std::endl;
+  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 
   itkPrintSelfObjectMacro( RadiusImage );
 
