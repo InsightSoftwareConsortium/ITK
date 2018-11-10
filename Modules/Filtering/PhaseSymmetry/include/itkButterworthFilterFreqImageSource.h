@@ -31,6 +31,8 @@ template <typename TOutputImage>
 class ButterworthFilterFreqImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ButterworthFilterFreqImageSource);
+
   /** Standard class type alias. */
   using Self = ButterworthFilterFreqImageSource;
   using Superclass = GenerateImageSource<TOutputImage>;
@@ -74,10 +76,6 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  ButterworthFilterFreqImageSource(const ButterworthFilterFreqImageSource &); // purposely not implemented
-  void
-  operator=(const ButterworthFilterFreqImageSource &); // purposely not implemented
-
   double m_Cutoff;
   double m_Order;
 };

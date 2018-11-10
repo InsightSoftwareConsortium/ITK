@@ -31,6 +31,8 @@ template <typename TOutputImage>
 class LogGaborFreqImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LogGaborFreqImageSource);
+
   /** Standard class type alias. */
   using Self = LogGaborFreqImageSource;
   using Superclass = GenerateImageSource<TOutputImage>;
@@ -77,10 +79,6 @@ private:
 
   // The wavelengths in each direction
   ArrayType m_Wavelengths;
-
-  LogGaborFreqImageSource(const LogGaborFreqImageSource &); // purposely not implemented
-  void
-  operator=(const LogGaborFreqImageSource &); // purposely not implemented
 };
 
 } // end namespace itk
