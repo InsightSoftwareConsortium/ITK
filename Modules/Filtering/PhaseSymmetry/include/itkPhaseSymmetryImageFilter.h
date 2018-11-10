@@ -66,6 +66,8 @@ template <typename TInputImage, typename TOutputImage>
 class PhaseSymmetryImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseSymmetryImageFilter);
+
   /** Standard class type alias. */
   using Self = PhaseSymmetryImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -179,10 +181,6 @@ protected:
   using AbsImageFilterType = AbsImageFilter<FloatImageType, FloatImageType>;
 
 private:
-  PhaseSymmetryImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   MatrixType m_Wavelengths;
   MatrixType m_Orientations;
 

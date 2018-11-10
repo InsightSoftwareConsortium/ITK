@@ -34,6 +34,8 @@ template <typename TOutputImage>
 class SteerableFilterFreqImageSource : public ImageSource<TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SteerableFilterFreqImageSource);
+
   /** Standard class type alias. */
   using Self = SteerableFilterFreqImageSource;
   using Superclass = ImageSource<TOutputImage>;
@@ -136,10 +138,6 @@ protected:
   GenerateOutputInformation();
 
 private:
-  SteerableFilterFreqImageSource(const SteerableFilterFreqImageSource &); // purposely not implemented
-  void
-  operator=(const SteerableFilterFreqImageSource &); // purposely not implemented
-
   SizeValueType m_Size[NDimensions]; // size of the output image
   SpacingType   m_Spacing;           // spacing
   PointType     m_Origin;            // origin
