@@ -1,24 +1,11 @@
-set(
-  DOCUMENTATION
-  "An ITK-based implementation of intensity-based 2D/3D
-rigid image registration for patient setup assessment in external beam
-radiotherapy. The registration framework was designed to simultaneously
-register two projection images to a 3D image volume. The projection geometry
-was set up to simulate the x-ray imaging system that attached to a medical
-linear accelerator for cancer treatment. The normalized correlation was used
-as the similarity measure and the Powell's optimizer was used as the
-optimization method. Siddon-Jacobs fast ray-tracing algorithm was implemented
-to compute projection images from a 3D image volume.
+# the top-level README is used for describing this module, just
+# re-used it for documentation here
+# itk_module() defines the module dependencies in TwoProjectionRegistration
+# The testing module in TwoProjectionRegistration depends on ITKTestKernel
+# By convention those modules outside of ITK are not prefixed with
+# ITK
 
-A more detailed description can be found in the Insight Journal article::
-
-Wu, J. \"ITK-Based Implementation of Two-Projection 2D/3D Registration Method with an Application in Patient Setup for External Beam Radiotherapy\".
-  http://hdl.handle.net/10380/3245
-  http://www.insight-journal.org/browse/publication/784
-  December, 2010.
-"
-)
-
+# define the dependencies of the include module and the tests
 itk_module(
   TwoProjectionRegistration
   DEPENDS
@@ -31,5 +18,5 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "${DOCUMENTATION}"
+  DESCRIPTION "Module ingested from upstream."
 )
