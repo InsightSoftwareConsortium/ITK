@@ -1,9 +1,11 @@
-set(
-  DOCUMENTATION
-  "This modules contains classes for the reading of transforms
-stored in DICOM files."
-)
+# the top-level README is used for describing this module, just
+# re-used it for documentation here
+# itk_module() defines the module dependencies in IOTransformDCMTK
+# The testing module in IOTransformDCMTK depends on ITKTestKernel
+# By convention those modules outside of ITK are not prefixed with
+# ITK
 
+# define the dependencies of the include module and the tests
 itk_module(
   IOTransformDCMTK
   ENABLE_SHARED
@@ -17,5 +19,5 @@ itk_module(
     ITKIOGDCM
     ITKImageGrid
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "${DOCUMENTATION}"
+  DESCRIPTION "Module ingested from upstream."
 )
