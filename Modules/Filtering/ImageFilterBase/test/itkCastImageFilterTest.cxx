@@ -16,11 +16,16 @@
  *
  *=========================================================================*/
 
+#include <iostream>
+#include <limits>
+#include <stdexcept>
+#include <type_traits>
+
 #include "itkCastImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkVectorImage.h"
-#include <iostream>
 #include "itkFloatingPointExceptions.h"
+
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
@@ -52,6 +57,44 @@ std::string GetCastTypeName()
   return name;
 }
 
+// A reference defining C++ behavior:
+// http://www.cplusplus.com/doc/tutorial/typecasting/
+// static_cast_is_well_defined function returns true if the result of the static cast is well defined
+// and false if the result is undefined.
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_integral<TOutput>::value
+                            && std::is_integral<TInput>::value, bool>::type
+static_cast_is_well_defined(TInput ) {
+  return true; // casting from int to int types employes deterministic 2's complement behavior
+}
+
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_floating_point<TOutput>::value
+                            && ( std::is_floating_point<TInput>::value || std::is_integral<TInput>::value ), bool>::type
+static_cast_is_well_defined(TInput ) {
+  return true; //Floating point to floating point static casts are always consistently defined.
+}
+
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_integral<TOutput>::value && std::is_unsigned<TOutput>::value
+                            && std::is_floating_point<TInput>::value, bool>::type
+static_cast_is_well_defined(TInput value) {
+  if (value < 0.0 || value > static_cast<TInput>( std::numeric_limits<TOutput>::max() )) {
+    return false;
+  }
+  return true;
+}
+
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_integral<TOutput>::value && std::is_signed<TOutput>::value
+                            && std::is_floating_point<TInput>::value, bool>::type
+static_cast_is_well_defined(TInput value) {
+  if (value < static_cast<TInput>( std::numeric_limits<TOutput>::min() )
+    || value > static_cast<TInput>( std::numeric_limits<TOutput>::max() )) {
+    return false;
+  }
+  return true;
+}
 
 template < typename TInputPixelType, typename TOutputPixelType >
 bool TestCastFromTo()
@@ -118,13 +161,9 @@ bool TestCastFromTo()
     {
     const TInputPixelType  inValue  = it.Value();
     const TOutputPixelType outValue = ot.Value();
-
     const auto expectedValue = static_cast< TOutputPixelType >( inValue );
 
-    if (std::is_floating_point<TInputPixelType>() && std::is_integral<TOutputPixelType>()
-      && ( inValue > std::numeric_limits<TOutputPixelType>::max()
-        || inValue < std::numeric_limits<TOutputPixelType>::min() )
-      )
+    if ( ! static_cast_is_well_defined<TInputPixelType,TOutputPixelType> ( inValue ) )
     {
       ++it;
       ++ot;
@@ -136,6 +175,7 @@ bool TestCastFromTo()
       //         << std::flush << std::endl;
       continue;  // Simply skip the case where where the conversion is undefined.
     }
+
 
     /** Warning:
      * expectedValue == static_cast< TOutputPixelType( inValue ) is
