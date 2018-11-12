@@ -133,7 +133,7 @@ protected:
   ~HessianToObjectnessMeasureImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void VerifyPreconditions() const override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 

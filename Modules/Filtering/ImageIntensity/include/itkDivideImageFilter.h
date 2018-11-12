@@ -100,7 +100,7 @@ protected:
 
   ~DivideImageFilter() override = default;
 
-  void VerifyPreconditions() const override
+  void VerifyPreconditions() ITKv5_CONST override
   {
     Superclass::VerifyPreconditions();
 

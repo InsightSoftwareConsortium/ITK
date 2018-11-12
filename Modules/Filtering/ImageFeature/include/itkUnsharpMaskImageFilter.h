@@ -156,7 +156,7 @@ protected:
   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
 
-  void VerifyPreconditions() const override;
+  void VerifyPreconditions() ITKv5_CONST override;
   void GenerateData() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

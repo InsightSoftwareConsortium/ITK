@@ -36,7 +36,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation() const
+::VerifyInputInformation() ITKv5_CONST
 {
 
   Superclass::VerifyInputInformation();

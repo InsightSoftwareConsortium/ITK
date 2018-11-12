@@ -179,7 +179,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() const override {}
+  void VerifyInputInformation() ITKv5_CONST override {}
 
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean(const InputImageType *image,

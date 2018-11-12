@@ -1400,7 +1400,7 @@ ProcessObject
 
 void
 ProcessObject
-::VerifyPreconditions() const
+::VerifyPreconditions() ITKv5_CONST
 {
   /**
    * Make sure that all the required named inputs are there and non null
@@ -1446,7 +1446,7 @@ ProcessObject
 
 void
 ProcessObject
-::VerifyInputInformation() const
+::VerifyInputInformation() ITKv5_CONST
 {
 }
 
