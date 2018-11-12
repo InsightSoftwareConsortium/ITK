@@ -81,7 +81,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::VerifyPreconditions() const
+::VerifyPreconditions() ITKv5_CONST
 {
   Superclass::VerifyPreconditions();
 

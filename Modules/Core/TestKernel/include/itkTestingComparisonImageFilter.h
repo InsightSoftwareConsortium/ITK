@@ -129,7 +129,7 @@ protected:
 
   void AfterThreadedGenerateData() override;
 
-  void VerifyInputInformation() const override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
   OutputPixelType m_DifferenceThreshold;
 

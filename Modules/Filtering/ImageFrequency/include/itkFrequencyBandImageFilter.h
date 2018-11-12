@@ -179,7 +179,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /* Checks the logic of FrequencyThresholds. */
-  void VerifyPreconditions() const override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
   /* This is the box functor, which implements the filter's behavior. */
   void BandPass( FrequencyIteratorType& frequency );

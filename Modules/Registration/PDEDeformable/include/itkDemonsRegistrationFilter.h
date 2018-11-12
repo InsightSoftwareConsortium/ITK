@@ -139,7 +139,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() const override {}
+  void VerifyInputInformation() ITKv5_CONST override {}
 
 private:
   bool m_UseMovingImageGradient;

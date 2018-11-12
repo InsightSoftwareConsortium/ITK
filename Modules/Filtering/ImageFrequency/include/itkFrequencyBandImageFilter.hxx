@@ -123,7 +123,7 @@ FrequencyBandImageFilter< TImageType, TFrequencyIterator >
 template< typename TImageType, typename TFrequencyIterator >
 void
 FrequencyBandImageFilter< TImageType, TFrequencyIterator >
-::VerifyPreconditions() const
+::VerifyPreconditions() ITKv5_CONST
 {
   this->Superclass::VerifyPreconditions();
 

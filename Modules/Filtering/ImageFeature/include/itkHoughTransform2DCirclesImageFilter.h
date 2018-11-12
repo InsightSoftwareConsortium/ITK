@@ -107,7 +107,7 @@ public:
   itkNewMacro(Self);
 
   /** Verifies the preconditions of this filter. */
-  void VerifyPreconditions() const override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() override;

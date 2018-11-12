@@ -41,7 +41,7 @@ template< typename TInputImage, typename TOutputImage, typename TInputFilter, ty
 void
 SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType,
                          TInternalOutputImageType >
-::VerifyInputInformation() const
+::VerifyInputInformation() ITKv5_CONST
 {
 
   Superclass::VerifyInputInformation();

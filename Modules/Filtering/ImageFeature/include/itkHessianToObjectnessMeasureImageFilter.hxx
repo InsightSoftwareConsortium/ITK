@@ -46,7 +46,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
-::VerifyPreconditions() const
+::VerifyPreconditions() ITKv5_CONST
 {
   Superclass::VerifyPreconditions();
   if ( m_ObjectDimension >= ImageDimension )
