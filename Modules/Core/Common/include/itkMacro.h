@@ -1299,6 +1299,9 @@ class kernel                                \
 #define ITK_ITERATOR_FINAL
 #endif
 
+// A macro for methods which are const in ITKv5, but not in ITKv4
+#define ITKv5_CONST
+
 #include "itkExceptionObject.h"
 
 /** itkDynamicCastInDebugMode
