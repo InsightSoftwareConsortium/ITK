@@ -405,6 +405,8 @@ Class changes
 [itk::FilterWatcher](../Modules/Core/TestKernel/include/itkFilterWatcher.h) was deleted.
 It should be replaced by [itk::SimpleFilterWatcher](../Modules/Core/Common/include/itkSimpleFilterWatcher.h).
 
+`itksys::hash_map` has been removed. It should be replaced by `std::unordered_map`.
+
 Since `itk::ProgressReporter` does not work well with the new threading model,
 it should be replaced by `itk::ProgressTransformer`.
 This only applies to classes which use `GenerateData()` method, and either

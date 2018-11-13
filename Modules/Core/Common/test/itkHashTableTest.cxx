@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itksys/hash_set.hxx"
-#include "itksys/hash_map.hxx"
+#include <unordered_set>
+#include <unordered_map>
 #include <iostream>
 #include <cstring>
 
@@ -37,10 +37,10 @@ struct eqstr
   }
 };
 
-void lookup(const itksys::hash_set<const char*, itksys::hash<const char*>, eqstr>& Set,
+void lookup(const std::unordered_set<const char*, std::hash<const char*>, eqstr>& Set,
             const char* word)
 {
-  itksys::hash_set<const char*, itksys::hash<const char*>, eqstr>::const_iterator it
+  std::unordered_set<const char*, std::hash<const char*>, eqstr>::const_iterator it
     = Set.find(word);
   std::cout << word << ": "
        << (it != Set.end() ? "present" : "not present")
@@ -52,19 +52,19 @@ inline void println(const char *s)
 
 int itkHashTableTest(int, char* [] )
 {
-  println("Testing itksys::hash");
-  itksys::hash<const char*> H;
+  println("Testing std::hash");
+  std::hash<const char*> H;
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
-  itksys::hash<int> H1;
+  std::hash<int> H1;
   std::cout << "1 -> " << H1(1) << std::endl;
   std::cout << "234 -> " << H1(234) << std::endl;
-  itksys::hash<char> H2;
+  std::hash<char> H2;
   std::cout << "a -> " << H2('a') << std::endl;
   std::cout << "Z -> " << H2('Z') << std::endl;
 
-  println("Testing itksys::hash_set");
-  using HashSetType = itksys::hash_set<const char*, itksys::hash<const char*>, eqstr>;
+  println("Testing std::unordered_set");
+  using HashSetType = std::unordered_set<const char*, std::hash<const char*>, eqstr>;
   HashSetType Set;
   Set.insert("kiwi");
   Set.insert("plum");
@@ -85,7 +85,7 @@ int itkHashTableTest(int, char* [] )
   // This is to prevent the user from calling empty() when they mean clear().
   if (Set.empty()) std::cout << "Set is empty." << std::endl;
   Set.bucket_count();
-  Set.resize(50);
+  Set.rehash(50);
   Set.insert("the horror");
   Set.count("apple");
   Set.find("kiwi");
@@ -95,8 +95,8 @@ int itkHashTableTest(int, char* [] )
   HashSetType SetCopy;
   SetCopy = Set;
 
-  println("Testing itksys::hash_map");
-  using HashMapType = itksys::hash_map<const char*, int, itksys::hash<const char*>, eqstr>;
+  println("Testing std::unordered_map");
+  using HashMapType = std::unordered_map<const char*, int, std::hash<const char*>, eqstr>;
 
   HashMapType months;
   months["january"] = 31;
@@ -125,7 +125,7 @@ int itkHashTableTest(int, char* [] )
   // This is to prevent the user from calling empty() when they mean clear().
   if (months.empty()) std::cout << "Set is empty." << std::endl;
   months.bucket_count();
-  months.resize(50);
+  months.rehash(50);
   HashMapType::value_type p("psychotic break", 2);
   months.insert(p);
   months.count("january");

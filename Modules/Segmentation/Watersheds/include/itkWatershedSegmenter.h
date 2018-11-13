@@ -244,7 +244,7 @@ protected:
   };
 
   /** Table for storing flat region information.  */
-  using flat_region_table_t = itksys::hash_map< IdentifierType, flat_region_t, itksys::hash< IdentifierType > >;
+  using flat_region_table_t = std::unordered_map< IdentifierType, flat_region_t >;
 
   struct connectivity_t {
     unsigned int size;
@@ -256,9 +256,9 @@ protected:
    * generating the segment table,  even though the edge tables
    * are stored as ordered lists.  An "edge" in this context
    * is synonymous with a segment "adjacency".   */
-  using edge_table_t = itksys::hash_map< IdentifierType, InputPixelType, itksys::hash< IdentifierType > >;
+  using edge_table_t = std::map< IdentifierType, InputPixelType >;
 
-  using edge_table_hash_t = itksys::hash_map< IdentifierType, edge_table_t, itksys::hash< IdentifierType > >;
+  using edge_table_hash_t = std::unordered_map< IdentifierType, edge_table_t >;
 
   Segmenter();
   Segmenter(const Self &) {}

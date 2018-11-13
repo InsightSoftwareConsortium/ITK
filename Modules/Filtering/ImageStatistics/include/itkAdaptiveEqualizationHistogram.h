@@ -18,7 +18,7 @@
 #ifndef itkAdaptiveEqualizationHistogram_h
 #define itkAdaptiveEqualizationHistogram_h
 
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 #include "itkStructHashFunction.h"
 #include "itkMath.h"
 #include <cmath>
@@ -122,7 +122,7 @@ private:
   }
 
 private:
-  using MapType = typename itksys::hash_map< TInputPixel,
+  using MapType = typename std::unordered_map< TInputPixel,
                                      size_t,
                                      StructHashFunction< TInputPixel > >;
 

@@ -219,8 +219,7 @@ private:
   double m_FloodLevel{0.0};
   bool   m_ConsumeInput{false};
 
-  using HashMapType = itksys::hash_map< IdentifierType, bool,
-                            itksys::hash< IdentifierType > >;
+  using HashMapType = std::unordered_map< IdentifierType, bool >;
 
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
 

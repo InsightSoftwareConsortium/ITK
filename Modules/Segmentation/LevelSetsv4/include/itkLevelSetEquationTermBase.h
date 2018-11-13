@@ -21,7 +21,7 @@
 
 #include "itkObject.h"
 #include "itkHeavisideStepFunctionBase.h"
-#include "itksys/hash_set.hxx"
+#include <unordered_set>
 
 namespace itk
 {
@@ -129,7 +129,7 @@ public:
   /** Update the term parameter values at end of iteration */
   virtual void Update() = 0;
 
-  using RequiredDataType = itksys::hash_set< std::string >;
+  using RequiredDataType = std::unordered_set< std::string >;
 
   const RequiredDataType & GetRequiredData() const;
 

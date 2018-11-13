@@ -22,7 +22,7 @@
 #include "itkLevelSetEquationTermBase.h"
 #include "itkObject.h"
 
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 
 #include <map>
 #include <string>
@@ -279,7 +279,7 @@ protected:
 
   InputImagePointer         m_Input;
 
-  using HashMapStringTermContainerType = itksys::hash_map< std::string, TermPointer >;
+  using HashMapStringTermContainerType = std::unordered_map< std::string, TermPointer >;
 
   HashMapStringTermContainerType m_NameContainer;
 

@@ -23,7 +23,7 @@
 
 #include "itkConceptChecking.h"
 
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 
 namespace itk {
 /** \class LaplacianDeformationQuadEdgeMeshFilter
@@ -180,11 +180,11 @@ protected:
   LaplacianDeformationQuadEdgeMeshFilter();
   ~LaplacianDeformationQuadEdgeMeshFilter() override = default;
 
-  using OutputMapPointIdentifier = itksys::hash_map< OutputPointIdentifier, OutputPointIdentifier >;
+  using OutputMapPointIdentifier = std::unordered_map< OutputPointIdentifier, OutputPointIdentifier >;
   using OutputMapPointIdentifierIterator = typename OutputMapPointIdentifier::iterator;
   using OutputMapPointIdentifierConstIterator = typename OutputMapPointIdentifier::const_iterator;
 
-  using ConstraintMapType = itksys::hash_map< OutputPointIdentifier, OutputVectorType >;
+  using ConstraintMapType = std::unordered_map< OutputPointIdentifier, OutputVectorType >;
   using ConstraintMapConstIterator = typename ConstraintMapType::const_iterator;
 
   struct HashOutputQEPrimal
@@ -195,13 +195,13 @@ protected:
     }
   };
 
-  using CoefficientMapType = itksys::hash_map< OutputQEPrimal*, OutputCoordRepType, HashOutputQEPrimal >;
+  using CoefficientMapType = std::unordered_map< OutputQEPrimal*, OutputCoordRepType, HashOutputQEPrimal >;
   using CoefficientMapConstIterator = typename CoefficientMapType::const_iterator;
 
-  using AreaMapType = itksys::hash_map< OutputPointIdentifier, OutputCoordRepType >;
+  using AreaMapType = std::unordered_map< OutputPointIdentifier, OutputCoordRepType >;
   using AreaMapConstIterator = typename AreaMapType::const_iterator;
 
-  using RowType = itksys::hash_map< OutputPointIdentifier, OutputCoordRepType >;
+  using RowType = std::unordered_map< OutputPointIdentifier, OutputCoordRepType >;
   using RowIterator = typename RowType::iterator;
   using RowConstIterator = typename RowType::const_iterator;
 
