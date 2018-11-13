@@ -378,7 +378,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 
   for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    validArrayOfImages &= ( images[0].IsNotNull() );
+    validArrayOfImages &= ( images[j].IsNotNull() );
     }
 
   if( validArrayOfImages )
