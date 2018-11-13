@@ -24,6 +24,7 @@
 #include "itkBSplineControlPointImageFilter.h"
 #include "itkDivideImageFilter.h"
 #include "itkExpImageFilter.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImportImageFilter.h"
@@ -242,7 +243,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealType binMaximum = NumericTraits<RealType>::NonpositiveMin();
   RealType binMinimum = NumericTraits<RealType>::max();
 
-  ImageRegionConstIterator<RealImageType> ItU(
+  ImageRegionConstIteratorWithIndex<RealImageType> ItU(
     unsharpenedImage, unsharpenedImage->GetLargestPossibleRegion() );
 
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
