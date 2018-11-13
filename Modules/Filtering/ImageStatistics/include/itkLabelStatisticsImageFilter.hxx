@@ -165,7 +165,11 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       }
 
     // sigma
-    labelStats.m_Sigma = std::sqrt( labelStats.m_Variance );
+    labelStats.m_Sigma = 0.0;
+    if ( labelStats.m_Variance >= 0.0 )
+      {
+      labelStats.m_Sigma = std::sqrt( labelStats.m_Variance );
+      }
     }
 
     {
