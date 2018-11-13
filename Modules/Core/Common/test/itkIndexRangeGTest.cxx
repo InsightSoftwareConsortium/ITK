@@ -140,7 +140,7 @@ TEST(IndexRange, IteratorsCanBePassedToStdForEach)
 
   std::for_each(range.begin(), range.end(), [](const IndexType index)
   {
-    EXPECT_TRUE(index >= IndexType{});
+    EXPECT_TRUE(index >= IndexType());
   });
 }
 
@@ -155,7 +155,7 @@ TEST(IndexRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 
   for (auto&& index : range)
   {
-    EXPECT_TRUE(index >= IndexType{});
+    EXPECT_TRUE(index >= IndexType());
   }
 }
 

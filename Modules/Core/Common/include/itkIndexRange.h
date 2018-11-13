@@ -294,12 +294,12 @@ public:
 
   /** Constructs a range of indices for the specified grid size.
    */
-  explicit IndexRange(const SizeType& size)
+  explicit IndexRange(const SizeType& gridSize)
     :
     // Note: Use parentheses instead of curly braces to initialize data members,
     // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
     m_MinIndex(),
-    m_MaxIndex(CalculateMaxIndex({}, size))
+    m_MaxIndex(CalculateMaxIndex({}, gridSize))
   {
   }
 
