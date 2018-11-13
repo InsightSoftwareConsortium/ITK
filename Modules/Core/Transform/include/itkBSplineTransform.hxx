@@ -381,56 +381,54 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     validArrayOfImages &= ( images[j].IsNotNull() );
     }
 
-  if( validArrayOfImages )
-    {
-    using PointType = typename ImageType::PointType;
-    PointType origin;
-    origin.Fill( 0.0 );
-    for( unsigned int i = 0; i < SpaceDimension; i++ )
-      {
-      this->m_TransformDomainMeshSize[i] =
-        images[0]->GetLargestPossibleRegion().GetSize()[i] - SplineOrder;
-      this->m_TransformDomainPhysicalDimensions[i] = static_cast<ScalarType>(
-        this->m_TransformDomainMeshSize[i] ) * images[0]->GetSpacing()[i];
-      origin[i] += ( images[0]->GetSpacing()[i] * 0.5 * ( SplineOrder - 1 ) );
-      }
-    origin = this->m_TransformDomainDirection * origin;
-
-    const SizeValueType numberOfPixels =
-      images[0]->GetLargestPossibleRegion().GetNumberOfPixels();
-
-    const SizeValueType totalParameters = numberOfPixels * SpaceDimension;
-    this->m_InternalParametersBuffer.SetSize( totalParameters );
-    for( unsigned int j = 0; j < SpaceDimension; j++ )
-      {
-      const SizeValueType numberOfPixels_j = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
-      this->m_TransformDomainOrigin[j] = images[0]->GetOrigin()[j] + origin[j];
-      if( numberOfPixels_j * SpaceDimension != totalParameters )
-        {
-        itkExceptionMacro( << "SetCoefficientImage() has array of images that are "
-          << "not the correct size. "
-          << numberOfPixels_j * SpaceDimension << " != " << totalParameters
-          << " for image at index " << j << "  \n" << images[j]
-          );
-        }
-      const ParametersValueType * const baseImagePointer = images[j]->GetBufferPointer();
-
-      ParametersValueType *dataPointer = this->m_InternalParametersBuffer.data_block();
-      std::copy(baseImagePointer,
-                baseImagePointer+numberOfPixels,
-                dataPointer + j * numberOfPixels);
-
-      this->m_CoefficientImages[j]->CopyInformation( images[j] );
-      this->m_CoefficientImages[j]->SetRegions( images[j]->GetLargestPossibleRegion() );
-      }
-    this->SetFixedParametersFromTransformDomainInformation();
-    this->SetParameters( this->m_InternalParametersBuffer );
-    }
-  else
+  if( !validArrayOfImages )
     {
     itkExceptionMacro( << "SetCoefficientImage() requires that an array of "
                        << "correctly sized images be supplied.");
     }
+
+  using PointType = typename ImageType::PointType;
+  PointType origin;
+  origin.Fill( 0.0 );
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    this->m_TransformDomainMeshSize[i] =
+      images[0]->GetLargestPossibleRegion().GetSize()[i] - SplineOrder;
+    this->m_TransformDomainPhysicalDimensions[i] = static_cast<ScalarType>(
+      this->m_TransformDomainMeshSize[i] ) * images[0]->GetSpacing()[i];
+    origin[i] += ( images[0]->GetSpacing()[i] * 0.5 * ( SplineOrder - 1 ) );
+    }
+  origin = this->m_TransformDomainDirection * origin;
+
+  const SizeValueType numberOfPixels =
+    images[0]->GetLargestPossibleRegion().GetNumberOfPixels();
+
+  const SizeValueType totalParameters = numberOfPixels * SpaceDimension;
+  this->m_InternalParametersBuffer.SetSize( totalParameters );
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
+    {
+    const SizeValueType numberOfPixels_j = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
+    this->m_TransformDomainOrigin[j] = images[0]->GetOrigin()[j] + origin[j];
+    if( numberOfPixels_j * SpaceDimension != totalParameters )
+      {
+      itkExceptionMacro( << "SetCoefficientImage() has array of images that are "
+                         << "not the correct size. "
+                         << numberOfPixels_j * SpaceDimension << " != " << totalParameters
+                         << " for image at index " << j << "  \n" << images[j]
+        );
+      }
+    const ParametersValueType * const baseImagePointer = images[j]->GetBufferPointer();
+
+    ParametersValueType *dataPointer = this->m_InternalParametersBuffer.data_block();
+    std::copy(baseImagePointer,
+              baseImagePointer+numberOfPixels,
+              dataPointer + j * numberOfPixels);
+
+    this->m_CoefficientImages[j]->CopyInformation( images[j] );
+    this->m_CoefficientImages[j]->SetRegions( images[j]->GetLargestPossibleRegion() );
+    }
+  this->SetFixedParametersFromTransformDomainInformation();
+  this->SetParameters( this->m_InternalParametersBuffer );
 }
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
