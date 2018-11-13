@@ -361,11 +361,21 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     {
     if ( Math::NotAlmostEquals( principalMoments[0], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
       {
-      flatness = std::sqrt(principalMoments[1] / principalMoments[0]);
+      const double flatnessRatio = principalMoments[1] / principalMoments[0];
+      flatness = 0.0;
+      if ( flatnessRatio > 0.0 )
+        {
+        flatness = std::sqrt( flatnessRatio);
+        }
       }
     if ( Math::NotAlmostEquals( principalMoments[ImageDimension - 2], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
       {
-      elongation = std::sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
+      const double elongationRatio = principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2];
+      elongation = 0.0;
+      if ( elongationRatio > 0.0 )
+        {
+        elongation = std::sqrt( elongationRatio );
+        }
       }
     }
 
@@ -383,13 +393,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   edet = std::pow(edet, 1.0 / ImageDimension);
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    if ( edet != 0.0 )
+    ellipsoidDiameter[i] = 0.0;
+    if ( edet != 0.0 &&  principalMoments[i] / edet > 0.0 )
       {
       ellipsoidDiameter[i] = 2.0 *equivalentRadius *std::sqrt(principalMoments[i] / edet);
-      }
-    else
-      {
-      ellipsoidDiameter[i] = 0.0;
       }
     }
 
