@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 
 namespace itk {
 
@@ -116,7 +116,7 @@ public:
     };
 
   /** Type of the map used to store data per label */
-  using MapType = itksys::hash_map<LabelType, LabelSetMeasures>;
+  using MapType = std::unordered_map<LabelType, LabelSetMeasures>;
   using MapIterator = typename MapType::iterator;
   using MapConstIterator = typename MapType::const_iterator;
 

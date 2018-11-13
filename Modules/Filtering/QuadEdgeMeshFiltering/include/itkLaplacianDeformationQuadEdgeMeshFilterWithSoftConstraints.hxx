@@ -154,7 +154,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< TInputMesh, TOutputMe
 
       OutputCoordRepType l2 = m_LambdaSquare;
 
-      typename itksys::hash_map< OutputPointIdentifier, OutputCoordRepType >::const_iterator lambdaIt = this->m_LocalLambdaSquare.find( vId );
+      typename std::unordered_map< OutputPointIdentifier, OutputCoordRepType >::const_iterator lambdaIt = this->m_LocalLambdaSquare.find( vId );
       if( lambdaIt != this->m_LocalLambdaSquare.end() )
         {
         l2 = lambdaIt->second;

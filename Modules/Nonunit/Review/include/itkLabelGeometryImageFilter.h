@@ -22,7 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itksys/hash_map.hxx"
+#include <map>
 #include <vector>
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/vnl_det.h"
@@ -245,9 +245,9 @@ public:
 
   /** Type of the map used to store data per label */
   // Map from the label to the class storing all of the geometry information.
-  using MapType = itksys::hash_map< LabelPixelType, LabelGeometry >;
-  using MapIterator = typename itksys::hash_map< LabelPixelType, LabelGeometry >::iterator;
-  using MapConstIterator = typename itksys::hash_map< LabelPixelType, LabelGeometry >::const_iterator;
+  using MapType = std::map< LabelPixelType, LabelGeometry >;
+  using MapIterator = typename std::map< LabelPixelType, LabelGeometry >::iterator;
+  using MapConstIterator = typename std::map< LabelPixelType, LabelGeometry >::const_iterator;
 
   // Macros for enabling the calculation of additional features.
   itkGetMacro(CalculatePixelIndices, bool);

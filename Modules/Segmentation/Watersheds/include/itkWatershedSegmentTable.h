@@ -90,12 +90,11 @@ public:
   };
 
   /** Define the container type for the table */
-  using HashMapType = itksys::hash_map< IdentifierType, segment_t,
-    itksys::hash< IdentifierType > >;
+  using HashMapType = std::unordered_map< IdentifierType, segment_t >;
   using Iterator = typename HashMapType::iterator;
   using ConstIterator = typename HashMapType::const_iterator;
   using ValueType = typename HashMapType::value_type;
-  using DataType = typename HashMapType::data_type;
+  using DataType = typename HashMapType::mapped_type;
 
   /** Inserts a segment into the table  */
   bool Add(IdentifierType a, const segment_t & t);

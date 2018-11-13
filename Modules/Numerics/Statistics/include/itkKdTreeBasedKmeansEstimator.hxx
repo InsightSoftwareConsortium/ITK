@@ -404,7 +404,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     {
     m_GenerateClusterLabels = true;
     m_ClusterLabels.clear();
-    m_ClusterLabels.resize( m_KdTree->GetSample()->Size() );
+    m_ClusterLabels.rehash( m_KdTree->GetSample()->Size() );
     for ( i = 0; i < (unsigned int)( m_Parameters.size() / m_MeasurementVectorSize ); i++ )
       {
       validIndexes.push_back(i);

@@ -110,7 +110,7 @@ protected:
   OutputCoordRepType m_Lambda;
   OutputCoordRepType m_LambdaSquare;
 
-  itksys::hash_map< OutputPointIdentifier, OutputCoordRepType > m_LocalLambdaSquare;
+  std::unordered_map< OutputPointIdentifier, OutputCoordRepType > m_LocalLambdaSquare;
 
 };
 } // end namespace itk
