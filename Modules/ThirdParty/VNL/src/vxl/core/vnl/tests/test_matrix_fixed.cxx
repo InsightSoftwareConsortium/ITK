@@ -4,7 +4,8 @@
 #include <cmath>
 #include <iostream>
 
-#include <vnl/vnl_matrix_fixed.hxx>
+#include <vnl/vnl_matrix_fixed.h>
+
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_double_2x2.h>

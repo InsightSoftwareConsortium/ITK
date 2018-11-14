@@ -172,7 +172,7 @@ class VNL_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
 
 //: operator<<
 // \relatesalso vnl_quaternion
-template <class T> VNL_EXPORT
+template <class T>
 std::istream& operator>> (std::istream& is, vnl_quaternion<T> &q)
 {
   vnl_vector_fixed<T,4> v;
