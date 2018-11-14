@@ -49,7 +49,7 @@ itk_add_test(NAME itkConnectedComponentImageFilterTest3
     itkConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Shapes.png} ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png 128 255 1)
 itk_add_test(NAME itkConnectedComponentImageFilterBackgroundTest1
       COMMAND ITKConnectedComponentsTestDriver
-    itkConnectedComponentImageFilterBackgroundTest 3)
+    itkConnectedComponentImageFilterBackgroundTest 1)
 itk_add_test(NAME itkConnectedComponentImageFilterBackgroundTest2
       COMMAND ITKConnectedComponentsTestDriver
     itkConnectedComponentImageFilterBackgroundTest -1)

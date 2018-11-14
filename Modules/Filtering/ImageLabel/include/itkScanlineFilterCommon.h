@@ -214,7 +214,12 @@ protected:
       const auto label = static_cast< size_t >( m_UnionFind[i] );
       if ( label == i )
         {
-        m_Consecutive[label] = ++consecutiveLabel;
+        if ( consecutiveLabel == backgroundValue )
+          {
+          ++consecutiveLabel;
+          }
+        m_Consecutive[label] = consecutiveLabel;
+        ++consecutiveLabel;
         ++count;
         }
       }
