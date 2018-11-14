@@ -252,6 +252,7 @@ MINCImageIO::MINCImageIO()
     }
 
   this->m_UseCompression = true;
+  this->m_ConvertCoordinatesToLPS = true;
   this->m_MINCPImpl->m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 =
                                 // maximum file compression
   this->m_MINCPImpl->m_Volume_type = MI_TYPE_FLOAT;
@@ -456,6 +457,14 @@ void MINCImageIO::ReadImageInformation()
   dir_cos.Fill(0.0);
   dir_cos.SetIdentity();
 
+  //MINC stores direction cosines in RAS, need to convert to LPS for ITK
+  Matrix< double, 3,3 > RAS_tofrom_LPS;
+  RAS_tofrom_LPS.Fill(0.0);
+  RAS_tofrom_LPS.SetIdentity();
+  RAS_tofrom_LPS(0,0) = -1.0;
+  RAS_tofrom_LPS(1,1) = -1.0;
+  std::vector< double > dir_cos_temp(3);
+
   Vector< double,3> origin,sep;
   Vector< double,3> o_origin;
   origin.Fill(0.0);
@@ -497,6 +506,9 @@ void MINCImageIO::ReadImageInformation()
       }
     }
 
+  if(this->m_ConvertCoordinatesToLPS)
+    dir_cos = RAS_tofrom_LPS*dir_cos;
+
   if(this->m_MINCPImpl->m_DimensionIndices[0]!=-1) // have vector dimension
     {
     //micopy_dimension(this->m_MINCPImpl->m_MincFileDims[this->m_MINCPImpl->m_DimensionIndices[0]],&apparent_dimension_order[usable_dimensions]);
@@ -530,7 +542,17 @@ void MINCImageIO::ReadImageInformation()
   o_origin=dir_cos*origin;
 
   for(int i=0; i<spatial_dimension_count; i++)
+  {
     this->SetOrigin(i,o_origin[i]);
+    if(this->m_ConvertCoordinatesToLPS)
+    {
+      for( unsigned int j=0; j<3; j++ )
+      {
+        dir_cos_temp[j] = dir_cos[j][i];
+      }
+      this->SetDirection(i,dir_cos_temp);
+    }
+  }
 
   miclass_t volume_data_class;
 
@@ -924,6 +946,12 @@ void MINCImageIO::WriteImageInformation()
   dircosmatrix.set_identity();
   vnl_vector<double> origin(nDims);
 
+  //MINC stores direction cosines in RAS, need to convert to LPS for ITK
+  vnl_matrix< double > RAS_tofrom_LPS(nDims, nDims);
+  RAS_tofrom_LPS.set_identity();
+  RAS_tofrom_LPS(0,0) = -1.0;
+  RAS_tofrom_LPS(1,1) = -1.0;
+
   for (unsigned int i = 0; i < nDims; i++ )
     {
     for (unsigned int j = 0; j < nDims; j++ )
@@ -935,6 +963,9 @@ void MINCImageIO::WriteImageInformation()
 
   vnl_matrix< double > inverseDirectionCosines = vnl_matrix_inverse< double >(dircosmatrix);
   origin *= inverseDirectionCosines; //transform to minc convention
+
+  if(this->m_ConvertCoordinatesToLPS)
+    dircosmatrix *= RAS_tofrom_LPS;
 
   for (unsigned int i = 0; i < nDims; i++ )
     {
