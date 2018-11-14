@@ -20,6 +20,8 @@
 
 #include "itkSpatialFunction.h"
 #include "itkFixedArray.h"
+#include "itkFloatTypes.h"
+
 
 namespace itk
 {
@@ -38,6 +40,7 @@ namespace itk
  * \ingroup SpatialFunctions
  * \ingroup PhaseSymmetry
  */
+
 template <typename TOutput = double,
           unsigned int VImageDimension = 3,
           typename TInput = Point<SpacePrecisionType, VImageDimension>>
