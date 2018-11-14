@@ -46,4 +46,5 @@ double angle_minuspi_to_pi(double angle)
   if (angle<-vnl_math::pi) angle += vnl_math::twopi;
   return angle;
 }
+
 }; // end namespace vnl_math

@@ -265,8 +265,7 @@ bool operator==(const vnl_matrix<T> &a, const vnl_sym_matrix<T> &b);
 
 //: Swap the contents of a and b.
 // \relatesalso vnl_sym_matrix
-template <class T> VNL_EXPORT
-void swap(vnl_sym_matrix<T> &a, vnl_sym_matrix<T> &b)
+template <class T> void swap(vnl_sym_matrix<T> &a, vnl_sym_matrix<T> &b)
 { a.swap(b); }
 
 #endif // vnl_sym_matrix_h_

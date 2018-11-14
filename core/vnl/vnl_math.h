@@ -36,6 +36,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <complex>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif

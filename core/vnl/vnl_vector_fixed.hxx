@@ -16,6 +16,46 @@
 #include <vnl/vnl_math.h>  // for vnl_math::isfinite
 
 template<class T, unsigned int n>
+T       &
+vnl_vector_fixed<T, n>::operator() (unsigned int i)
+  {
+#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
+  assert(i < n);   // Check the index is valid.
+#endif
+  return data_[i];
+  }
+
+template<class T, unsigned int n>
+T const &
+vnl_vector_fixed<T, n>::operator() (unsigned int i) const
+{
+#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
+	assert(i < n);   // Check the index is valid
+#endif
+	return data_[i];
+}
+
+template<class T, unsigned int n>
+T&
+vnl_vector_fixed<T, n>::operator[] (const size_t i)
+{ return data_[i]; }
+
+template<class T, unsigned int n>
+const T&
+vnl_vector_fixed<T, n>::operator[] (const size_t i) const
+{ return data_[i]; }
+
+template<class T, unsigned int n>
+T const*
+vnl_vector_fixed<T, n>::data_block() const
+{ return data_; }
+
+template<class T, unsigned int n>
+T      *
+vnl_vector_fixed<T, n>::data_block()
+{ return data_; }
+
+template<class T, unsigned int n>
 vnl_vector_fixed<T,n>
 vnl_vector_fixed<T,n>::apply( T (*f)(T) )
 {
@@ -111,6 +151,16 @@ vnl_vector_fixed<T,n>::print(std::ostream& s) const
     s << ' ' << (*this)[i];
 }
 
+template <class T, unsigned int n>
+T
+vnl_vector_fixed<T, n>::get(unsigned int i) const
+{
+#if VNL_CONFIG_CHECK_BOUNDS
+	if (i >= this->size())            // If invalid index specified
+		vnl_error_vector_index("get", i);  // Raise exception
+#endif
+	return this->data_[i];
+}
 
 // we don't need to explicitly instantiate all the operator+ and such
 // since they appear in the .h file and are inline.
