@@ -20,12 +20,15 @@
 
 #include "itkConstantPadImageFilter.h"
 #include "itkDataObjectDecorator.h"
+#include "itkFrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkImage.h"
 #include "itkMirrorPadImageFilter.h"
 #include "itkProcessObject.h"
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkTranslationTransform.h"
+#include "itkUnaryFrequencyDomainFilter.h"
+#include <cmath>
 #include <complex>
 
 #include "itkPhaseCorrelationOperator.h"
@@ -45,15 +48,16 @@ namespace itk
  *    0. Resampling and padding the images to the same spacing and size.
  *    1. Compute FFT of the two images.
  *    2. Compute the ratio of the two spectrums.
- *    3. Compute the inverse FFT of the cross-power spectrum.
- *    4. Find the maximum peak in cross-power spectrum and estimate the shift.
+      3. Apply Butterworth band-pass filter in frequency domain
+ *    4. Compute the inverse FFT of the cross-power spectrum.
+ *    5. Find the maximum peak in cross-power spectrum and estimate the shift.
  *
- *  Resampling (step 0a) is not included in the method itself - it is a prerequisite of PCM.
+ *  Resampling (step 0) is not included in the method itself - it is a prerequisite of PCM.
  *  It is required that the input itk::Image's have the same Spacing and
  *  Direction. If that is not the case, resample one of the images with the
  *  ResampleImageFilter prior to applying this method.
  *
- *  This class will zero-pad the imagesso they have the same real size
+ *  This class will zero-pad the images so they have the same real size
  *  (in all dimensions) and are multiples of FFT's supported prime factors.
  *
  *  Step 1. is performed by this class too using FFT filters supplied by
@@ -67,11 +71,14 @@ namespace itk
  *  correlation surface, while the others compute the shift from real
  *  correlation surface.
  *
- *  Step 3. is carried by this class only when necessary.
+ *  Step 3. is there to ease registration in case of significant
+ *  low and/or high frequency artifcats, such as uneven lighting or high noise.
+ *
+ *  Step 4. is carried by this class only when necessary.
  *  The IFFT filter is created using
  *  itk::HalfHermitianToRealInverseFFTImageFilter::New() factory.
  *
- *  Step 4. is performed with the run-time supplied PhaseCorrelationOptimizer. It has
+ *  Step 5. is performed with the run-time supplied PhaseCorrelationOptimizer. It has
  *  to determine the shift from the real or complex correlation surface
  *  and fixed and moving image's origins.
  *
@@ -242,6 +249,47 @@ public:
   itkGetConstMacro( PaddingMethod, PaddingMethod );
   void SetPaddingMethod( const PaddingMethod paddingMethod );
 
+  /** Set/Get the order for Butterworth band-pass filtering
+   * of complex correlation surface. Greater than zero. Default is 3. */
+  itkSetMacro( ButterworthOrder, unsigned );
+  itkGetConstMacro( ButterworthOrder, unsigned );
+
+  /** Set/Get low frequency threshold for Butterworth band-pass.
+   * Expressed in Hertz. Valid range (0.0, 1.0).
+   * If equal to 0.0 it means low pass filtering is disabled.*/
+  virtual void SetButterworthLowFrequency( double f_Hz )
+  {
+    double f2 = f_Hz * f_Hz; // square of frequency
+    // we save per-pixel computation by recording the square
+    if ( this->m_LowFrequency2 != f2 )
+      {
+      this->m_LowFrequency2 = f2;
+      this->Modified();
+      }
+  }
+  virtual double GetButterworthLowFrequency()
+  {
+    return std::sqrt( m_LowFrequency2 );
+  }
+
+  /** Set/Get high frequency threshold for Butterworth band-pass.
+   * Expressed in Hertz. Valid range (0.0, 1.0).
+   * If equal to 0.0 it means high pass filtering is disabled.*/
+  virtual void SetButterworthHighFrequency( double f_Hz )
+  {
+    double f2 = f_Hz * f_Hz; //square of frequency
+    // we save per-pixel computation by recording the square
+    if ( this->m_HighFrequency2 != f2 )
+      {
+      this->m_HighFrequency2 = f2;
+      this->Modified();
+      }
+  }
+  virtual double GetButterworthHighFrequency()
+  {
+    return std::sqrt( m_HighFrequency2 );
+  }
+
   /** Get the correlation surface.
    *
    *  Use method appropriate to the type (real/complex) of optimizer. If the
@@ -325,6 +373,30 @@ protected:
   using FixedMirrorPadderType = MirrorPadImageFilter< FixedImageType, RealImageType >;
   using MovingMirrorPadderType = MirrorPadImageFilter< MovingImageType, RealImageType >;
   using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< ComplexImageType, RealImageType >;
+  using BandBassFilterType = UnaryFrequencyDomainFilter< ComplexImageType,
+    FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex< ComplexImageType > >;
+  using FrequencyFunctorType = std::function< typename BandBassFilterType::ValueFunctionType >;
+
+  const FrequencyFunctorType m_IdentityFunctor = []( typename BandBassFilterType::FrequencyIteratorType& ){};
+
+  const FrequencyFunctorType m_BandPassFunctor = [this]( typename BandBassFilterType::FrequencyIteratorType& freqIt )
+  {
+    double f2 = freqIt.GetFrequencyModuloSquare(); // square of scalar frequency
+    freqIt.Value() *= 1.0 - 1.0 / ( 1.0 + std::pow( f2 / this->m_LowFrequency2, this->m_ButterworthOrder ) );
+    freqIt.Value() /= 1.0 + std::pow( f2 / this->m_HighFrequency2, this->m_ButterworthOrder );
+  };
+
+  const FrequencyFunctorType m_HighPassFunctor = [this]( typename BandBassFilterType::FrequencyIteratorType& freqIt )
+  {
+    double f2 = freqIt.GetFrequencyModuloSquare(); // square of scalar frequency
+    freqIt.Value() *= 1.0 - 1.0 / ( 1.0 + std::pow( f2 / this->m_LowFrequency2, this->m_ButterworthOrder ) );
+  };
+
+  const FrequencyFunctorType m_LowPassFunctor = [this]( typename BandBassFilterType::FrequencyIteratorType& freqIt )
+  {
+    double f2 = freqIt.GetFrequencyModuloSquare(); // square of scalar frequency
+    freqIt.Value() /= 1.0 + std::pow( f2 / this->m_HighFrequency2, this->m_ButterworthOrder );
+  };
 
 private:
   OperatorPointer         m_Operator;
@@ -350,6 +422,11 @@ private:
   typename MovingMirrorPadderType::Pointer   m_MovingMirrorPadder;
   typename FixedMirrorPadderType::Pointer    m_FixedMirrorWEDPadder;
   typename MovingMirrorPadderType::Pointer   m_MovingMirrorWEDPadder;
+  typename BandBassFilterType::Pointer       m_BandPassFilter;
+
+  unsigned m_ButterworthOrder;
+  double   m_LowFrequency2; //square of low frequency threshold
+  double   m_HighFrequency2; // square of high frequency threshold
 
   typename FFTFilterType::Pointer  m_FixedFFT;
   typename FFTFilterType::Pointer  m_MovingFFT;

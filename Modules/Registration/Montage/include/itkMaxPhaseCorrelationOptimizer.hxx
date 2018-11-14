@@ -19,6 +19,7 @@
 #define itkMaxPhaseCorrelationOptimizer_hxx
 
 #include "itkMaxPhaseCorrelationOptimizer.h"
+
 #include <cmath>
 #include <type_traits>
 
