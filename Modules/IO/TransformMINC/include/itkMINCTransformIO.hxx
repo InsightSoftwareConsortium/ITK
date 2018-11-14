@@ -98,14 +98,44 @@ MINCTransformIOTemplate<TParametersValueType>
       ParametersType parameterArray;
       parameterArray.SetSize(12);
 
+
+      Matrix< double, 3,3 > RAS_affine_transform;
+      Matrix< double, 3,3 > LPS_affine_transform;
+      RAS_affine_transform.Fill(0.0);
+      RAS_affine_transform.SetIdentity();
+      //MINC stores transforms in RAS, need to convert to LPS for ITK
+      Matrix< double, 3,3 > RAS_tofrom_LPS;
+      RAS_tofrom_LPS.Fill(0.0);
+      RAS_tofrom_LPS.SetIdentity();
+      RAS_tofrom_LPS(0,0) = -1.0;
+      RAS_tofrom_LPS(1,1) = -1.0;
+
       for(int j = 0; j < 3; ++j)
         {
         for(int i = 0; i < 3; ++i)
           {
-          parameterArray.SetElement(i+j*3, Transform_elem(*lin,j,i));
+          RAS_affine_transform(i,j) = Transform_elem(*lin,j,i);
           }
-        parameterArray.SetElement(j+9, Transform_elem(*lin,j,3));
         }
+
+      LPS_affine_transform = RAS_tofrom_LPS*RAS_affine_transform*RAS_tofrom_LPS;
+
+      for(int j = 0; j < 3; ++j)
+      {
+        for(int i = 0; i < 3; ++i)
+        {
+          parameterArray.SetElement(i+j*3, LPS_affine_transform(i,j));
+        }
+        //Here, again, RAS to LPS for the translations
+        if( (j == 2) )
+        {
+          parameterArray.SetElement(j+9, Transform_elem(*lin,j,3));
+        }
+        else
+        {
+          parameterArray.SetElement(j+9, -Transform_elem(*lin,j,3));
+        }
+      }
 
       if(xfm->inverse_flag)
         {
@@ -231,14 +261,43 @@ MINCTransformIOTemplate<TParametersValueType>
       MatrixType matrix = matrixOffsetTransform->GetMatrix();
       OffsetType offset = matrixOffsetTransform->GetOffset();
 
+      //MINC stores everything in RAS, need to convert from LPS
+      Matrix< double, 3,3 > RAS_tofrom_LPS;
+      Matrix< double, 3,3 > RAS_affine_transform;
+      Matrix< double, 3,3 > LPS_affine_transform;
+      RAS_tofrom_LPS.Fill(0.0);
+      RAS_tofrom_LPS.SetIdentity();
+      RAS_tofrom_LPS(0,0) = -1.0;
+      RAS_tofrom_LPS(1,1) = -1.0;
+
+
       for(int j=0; j < 3; ++j)
         {
         for(int i=0; i < 3; ++i)
           {
-          Transform_elem(lin,j,i)=matrix(j,i);
+          LPS_affine_transform(j,i) = matrix(j,i);
           }
-        Transform_elem(lin,j,3)=offset[j];
         }
+
+      RAS_affine_transform = RAS_tofrom_LPS * LPS_affine_transform * RAS_tofrom_LPS;
+
+      for(int j=0; j < 3; ++j)
+      {
+        for(int i=0; i < 3; ++i)
+        {
+          Transform_elem(lin,j,i)=RAS_affine_transform(j,i);
+        }
+
+        //Here, again RAS to LPS for the translations
+        if( (j == 2) )
+        {
+          Transform_elem(lin,j,3)=offset[j];
+        }
+        else
+        {
+          Transform_elem(lin,j,3)=-offset[j];
+        }
+      }
       //add 4th normalization row (not stored)
       Transform_elem(lin,3,3)=1.0;
 
