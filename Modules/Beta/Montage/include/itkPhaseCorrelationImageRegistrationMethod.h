@@ -377,22 +377,22 @@ protected:
     FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex< ComplexImageType > >;
   using FrequencyFunctorType = std::function< typename BandBassFilterType::ValueFunctionType >;
 
-  const FrequencyFunctorType m_IdentityFunctor = []( BandBassFilterType::FrequencyIteratorType& ){};
+  const FrequencyFunctorType m_IdentityFunctor = []( typename BandBassFilterType::FrequencyIteratorType& ){};
 
-  const FrequencyFunctorType m_BandPassFunctor = [this]( BandBassFilterType::FrequencyIteratorType& freqIt )
+  const FrequencyFunctorType m_BandPassFunctor = [this]( typename BandBassFilterType::FrequencyIteratorType& freqIt )
   {
     double f2 = freqIt.GetFrequencyModuloSquare(); // square of scalar frequency
     freqIt.Value() *= 1.0 - 1.0 / ( 1.0 + std::pow( f2 / this->m_LowFrequency2, this->m_ButterworthOrder ) );
     freqIt.Value() /= 1.0 + std::pow( f2 / this->m_HighFrequency2, this->m_ButterworthOrder );
   };
 
-  const FrequencyFunctorType m_HighPassFunctor = [this]( BandBassFilterType::FrequencyIteratorType& freqIt )
+  const FrequencyFunctorType m_HighPassFunctor = [this]( typename BandBassFilterType::FrequencyIteratorType& freqIt )
   {
     double f2 = freqIt.GetFrequencyModuloSquare(); // square of scalar frequency
     freqIt.Value() *= 1.0 - 1.0 / ( 1.0 + std::pow( f2 / this->m_LowFrequency2, this->m_ButterworthOrder ) );
   };
 
-  const FrequencyFunctorType m_LowPassFunctor = [this]( BandBassFilterType::FrequencyIteratorType& freqIt )
+  const FrequencyFunctorType m_LowPassFunctor = [this]( typename BandBassFilterType::FrequencyIteratorType& freqIt )
   {
     double f2 = freqIt.GetFrequencyModuloSquare(); // square of scalar frequency
     freqIt.Value() /= 1.0 + std::pow( f2 / this->m_HighFrequency2, this->m_ButterworthOrder );
