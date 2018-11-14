@@ -19,9 +19,11 @@
 #ifndef itkTileMergeImageFilter_hxx
 #define itkTileMergeImageFilter_hxx
 
+#include "itkTileMergeImageFilter.h"
+
 #include "itkMultiThreaderBase.h"
 #include "itkNumericTraits.h"
-#include "itkTileMergeImageFilter.h"
+
 #include <algorithm>
 #include <cassert>
 #include <cmath>
