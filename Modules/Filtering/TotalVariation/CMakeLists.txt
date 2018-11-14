@@ -117,10 +117,6 @@ endif(ITK_USE_SYSTEM_proxTV)
 set(arg_module_target "")
 if(CMAKE_VERSION VERSION_LESS 3.13)
   # Hits lack of feature: install TARGETS given target "proxTV" which does not exist in this directory.
-  list(
-    arg_module_target
-    APPEND
-    "NO_INSTALL"
-  )
+  list(APPEND arg_module_target "NO_INSTALL")
 endif()
 itk_module_target(${_proxTV_lib} ${arg_module_target})
