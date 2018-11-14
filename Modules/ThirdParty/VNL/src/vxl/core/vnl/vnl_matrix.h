@@ -202,25 +202,11 @@ class VNL_EXPORT vnl_matrix
 
   //: Access an element for reading or writing
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T       & operator()(unsigned r, unsigned c)
-  {
-#if VNL_CONFIG_CHECK_BOUNDS
-    assert(r<rows());   // Check the row index is valid
-    assert(c<cols());   // Check the column index is valid
-#endif
-    return this->data[r][c];
-  }
+  T       & operator()(unsigned r, unsigned c);
 
   //: Access an element for reading
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T const & operator()(unsigned r, unsigned c) const
-  {
-#if VNL_CONFIG_CHECK_BOUNDS
-    assert(r<rows());   // Check the row index is valid
-    assert(c<cols());   // Check the column index is valid
-#endif
-    return this->data[r][c];
-  }
+  T const & operator()(unsigned r, unsigned c) const;
 
 
   // ----------------------- Filling and copying -----------------------

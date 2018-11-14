@@ -49,7 +49,7 @@
 // but all other operations remain valid.
 //
 template <int N>
-class VNL_EXPORT vnl_finite_int
+class vnl_finite_int
 {
  private:
   int val_; //!< value of this number (smallest nonnegative representation)
@@ -182,7 +182,7 @@ class VNL_EXPORT vnl_finite_int
   //: Return true only when x is a unit in this ring.
   //  In a field, all numbers except 0 are units.
   //  The total number of units is given by the Euler totient function.
-  inline bool is_unit() const { return gcd(val_) == 1; }
+  bool is_unit() const { return gcd(val_) == 1; }
 
   //: Return true only when x is a zero divisor, i.e., is not a unit.
   inline bool is_zero_divisor() const { return gcd(val_) != 1; }
@@ -428,7 +428,7 @@ namespace vnl_math
 // anything more than that.
 //
 template <int N, int M>
-class VNL_EXPORT vnl_finite_int_poly
+class vnl_finite_int_poly
 {
   typedef vnl_finite_int_poly<N,M> Base;
   typedef vnl_finite_int<N> Scalar;

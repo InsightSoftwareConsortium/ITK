@@ -24,28 +24,20 @@ template <class T>
 class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
 {
  public:
-  typedef vnl_vector<T> Base;
+  using Base = vnl_vector<T>;
 
   //: Constructor
   // Do \e not call anything else than the default constructor of vnl_vector<T>
-  vnl_vector_ref(unsigned n, T *space) : vnl_vector<T>() {
-    Base::data = space;
-    Base::num_elmts = n;
-  }
+  vnl_vector_ref(unsigned n, T *space);
 
   //: Copy constructor
   // Do \e not call anything else than the default constructor of vnl_vector<T>
   // (That is why the default copy constructor is \e not good.)
-  vnl_vector_ref(vnl_vector_ref<T> const& v) : vnl_vector<T>() {
-    Base::data = const_cast<T*>(v.data_block()); // const incorrect!
-    Base::num_elmts = v.size();
-  }
+  vnl_vector_ref(vnl_vector_ref<T> const& v);
 
   //: Destructor
   // Prevents base destructor from releasing memory we don't own
-  ~vnl_vector_ref() {
-    Base::data = nullptr;
-  }
+  ~vnl_vector_ref();
 
   //: Reference to self to make non-const temporaries.
   // This is intended for passing vnl_vector_fixed objects to
@@ -61,13 +53,11 @@ class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
   // \attention Use this only to pass the reference to a
   // function. Otherwise, the underlying object will be destructed and
   // you'll be left with undefined behaviour.
-  vnl_vector_ref& non_const() { return *this; }
+  vnl_vector_ref& non_const();
 
- private:
-
-  //: Copy constructor from vnl_vector<T> is disallowed:
-  vnl_vector_ref(vnl_vector<T> const&) {}
-
+  //: Copy and move constructor from vnl_vector<T> is disallowed:
+  vnl_vector_ref(vnl_vector<T> const&) = delete;
+  vnl_vector_ref(vnl_vector<T> && ) = delete;
 };
 
 //: Create a reference vector with part of an existing vector.

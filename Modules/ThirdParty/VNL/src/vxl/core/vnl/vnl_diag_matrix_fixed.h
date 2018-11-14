@@ -105,11 +105,11 @@ class VNL_EXPORT vnl_diag_matrix_fixed
   // iterators
 
   typedef typename vnl_vector_fixed<T,N>::iterator iterator;
-  inline iterator begin() { return diagonal_.begin(); }
-  inline iterator end() { return diagonal_.end(); }
+  iterator begin();
+  iterator end();
   typedef typename vnl_vector_fixed<T,N>::const_iterator const_iterator;
-  inline const_iterator begin() const { return diagonal_.begin(); }
-  inline const_iterator end() const { return diagonal_.end(); }
+  const_iterator begin() const;
+  const_iterator end() const;
 
   //: Return the total number of elements stored by the matrix.
   // Since vnl_diag_matrix_fixed only stores values on the diagonal
