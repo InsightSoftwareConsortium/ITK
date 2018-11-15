@@ -299,7 +299,7 @@ public:
     // Note: Use parentheses instead of curly braces to initialize data members,
     // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
     m_MinIndex(),
-    m_MaxIndex(CalculateMaxIndex({}, gridSize))
+    m_MaxIndex(CalculateMaxIndex(typename iterator::MinIndexType(), gridSize))
   {
   }
 
