@@ -16,11 +16,16 @@
  *
  *=========================================================================*/
 
+#include <iostream>
+#include <limits>
+#include <stdexcept>
+#include <type_traits>
+
 #include "itkCastImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkVectorImage.h"
-#include <iostream>
 #include "itkFloatingPointExceptions.h"
+
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
@@ -52,6 +57,44 @@ std::string GetCastTypeName()
   return name;
 }
 
+// A reference defining C++ behavior:
+// http://www.cplusplus.com/doc/tutorial/typecasting/
+// static_cast_is_well_defined function returns true if the result of the static cast is well defined
+// and false if the result is undefined.
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_integral<TOutput>::value
+                            && std::is_integral<TInput>::value, bool>::type
+static_cast_is_well_defined(TInput ) {
+  return true; // casting from int to int types employes deterministic 2's complement behavior
+}
+
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_floating_point<TOutput>::value
+                            && ( std::is_floating_point<TInput>::value || std::is_integral<TInput>::value ), bool>::type
+static_cast_is_well_defined(TInput ) {
+  return true; //Floating point to floating point static casts are always consistently defined.
+}
+
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_integral<TOutput>::value && std::is_unsigned<TOutput>::value
+                            && std::is_floating_point<TInput>::value, bool>::type
+static_cast_is_well_defined(TInput value) {
+  if (value < 0.0 || value > static_cast<TInput>( std::numeric_limits<TOutput>::max() )) {
+    return false;
+  }
+  return true;
+}
+
+template <typename TInput, typename TOutput>
+static typename std::enable_if<std::is_integral<TOutput>::value && std::is_signed<TOutput>::value
+                            && std::is_floating_point<TInput>::value, bool>::type
+static_cast_is_well_defined(TInput value) {
+  if (value < static_cast<TInput>( std::numeric_limits<TOutput>::min() )
+    || value > static_cast<TInput>( std::numeric_limits<TOutput>::max() )) {
+    return false;
+  }
+  return true;
+}
 
 template < typename TInputPixelType, typename TOutputPixelType >
 bool TestCastFromTo()
@@ -61,20 +104,49 @@ bool TestCastFromTo()
   using FilterType = itk::CastImageFilter< InputImageType, OutputImageType >;
 
   using SourceType = itk::RandomImageSource< InputImageType >;
-  typename SourceType::Pointer source = SourceType::New();
+  typename SourceType::Pointer randomValuesImageSource = SourceType::New();
+  {
+    typename InputImageType::SizeValueType randomSize[3] = {18, 17, 23};
+    randomValuesImageSource->SetSize(randomSize);
+  }
+  randomValuesImageSource->UpdateLargestPossibleRegion();
+  typename InputImageType::Pointer randomSourceImagePtr = randomValuesImageSource->GetOutput();
+  {
+    typename InputImageType::IndexType Index000{{0,0,0}};
+    typename InputImageType::IndexType Index100{{1,0,0}};
+    typename InputImageType::IndexType Index200{{2,0,0}};
+    typename InputImageType::IndexType Index300{{3,0,0}};
+    typename InputImageType::IndexType Index400{{4,0,0}};
 
-  typename InputImageType::SizeValueType randomSize[3] = {18, 17, 23};
-  source->SetSize( randomSize );
+    /* Exercise input image type domain values (important for float -> integer conversions)
+     *
+     * Casting a float/double to an integer when integer isn't big enough to hold the value yields undefined behaviour.
+     *
+     * [n3290: 4.9/1]: A prvalue of a floating point type can be converted to a prvalue of an integer type.
+     *  The conversion truncates; that is, the fractional part is discarded.
+     *
+     *  The behavior is undefined if the truncated value cannot be represented in the destination type.
+     *                  ^^^^^^^^^
+     * With scanline based optimization, SSE instructions can be used for converting blocks of
+     * floats to integer, which results in different 'undefined' behavior for values
+     * than an isolated static_cast<short>(outOfRangeFloat).
+    */
+    randomSourceImagePtr->SetPixel(Index000, std::numeric_limits<TInputPixelType>::max());
+    randomSourceImagePtr->SetPixel(Index100, std::numeric_limits<TInputPixelType>::min());
+    randomSourceImagePtr->SetPixel(Index200, std::numeric_limits<TInputPixelType>::epsilon() );
+    randomSourceImagePtr->SetPixel(Index300, std::numeric_limits<TInputPixelType>::denorm_min() );
+    randomSourceImagePtr->SetPixel(Index400, std::numeric_limits<TInputPixelType>::round_error() );
+  }
 
   typename FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( source->GetOutput() );
+  filter->SetInput( randomSourceImagePtr );
   filter->UpdateLargestPossibleRegion();
 
   using InputIteratorType = itk::ImageRegionConstIterator< InputImageType >;
   using OutputIteratorType = itk::ImageRegionConstIterator< OutputImageType >;
 
-  InputIteratorType  it( source->GetOutput(),
-                         source->GetOutput()->GetLargestPossibleRegion() );
+  InputIteratorType  it( randomValuesImageSource->GetOutput(),
+                         randomValuesImageSource->GetOutput()->GetLargestPossibleRegion() );
   OutputIteratorType ot( filter->GetOutput(),
                          filter->GetOutput()->GetLargestPossibleRegion() );
 
@@ -87,20 +159,36 @@ bool TestCastFromTo()
   ot.GoToBegin();
   while ( !it.IsAtEnd() )
     {
-    TInputPixelType  inValue  = it.Value();
-    TOutputPixelType outValue = ot.Value();
-    auto expectedValue = static_cast< TOutputPixelType >( inValue );
+    const TInputPixelType  inValue  = it.Value();
+    const TOutputPixelType outValue = ot.Value();
+    const auto expectedValue = static_cast< TOutputPixelType >( inValue );
+
+    if ( ! static_cast_is_well_defined<TInputPixelType,TOutputPixelType> ( inValue ) )
+    {
+      ++it;
+      ++ot;
+      std::cout << std::flush;
+      //Debugging code left here for testing __MINGW32__ behavior below that may be redundant with this code
+      //std::cout << "NOTICE: static_cast<" << GetCastTypeName< TOutputPixelType >() << ">(" << inValue << ") => "
+      //         << outValue << " may not equal " << expectedValue
+      //         << "  Casting out of range floating point values to integers is 'undefined' behavior."
+      //         << std::flush << std::endl;
+      continue;  // Simply skip the case where where the conversion is undefined.
+    }
+
 
     /** Warning:
      * expectedValue == static_cast< TOutputPixelType( inValue ) is
      * false on some systems and compilers with some values of inValue. */
-#if defined(__MINGW32__)
+#if defined(__MINGW32__)  // NOTE:  This may be thee same problem identified above related to 'undefined' behavior
     if ( itk::Math::NotAlmostEquals(outValue, expectedValue) )
 #else
     if ( itk::Math::NotExactlyEquals(outValue, expectedValue) )
 #endif
       {
-      std::cerr << "ERROR: " << outValue << " != " << expectedValue << std::endl;
+      std::cout << std::flush;
+      std::cerr << "ERROR: staic_cast<" << GetCastTypeName< TOutputPixelType >() << ">(" << inValue << ") => "
+                << outValue << " != " << expectedValue << std::flush << std::endl;
       success = false;
       break;
       }
@@ -156,12 +244,8 @@ bool TestVectorImageCast()
   // Create a 1x3 image of 2D vectors
   FloatVectorImageType::Pointer image = FloatVectorImageType::New();
 
-  itk::Size<2> size;
-  size[0] = 1;
-  size[1] = 3;
-
-  itk::Index<2> start;
-  start.Fill(0);
+  const itk::Size<2> size{ { 1, 3 } };
+  const itk::Index<2> start{ { 0, 0 } };
 
   itk::ImageRegion<2> region(start,size);
   image->SetNumberOfComponentsPerPixel(2);
