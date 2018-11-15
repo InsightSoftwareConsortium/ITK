@@ -229,6 +229,9 @@ namespace itk
 #endif
 //-*-*-*
 
+// A macro for methods which are const in ITKv5, but not in ITKv4
+#define ITKv5_CONST
+
 // DEPRECATED: These macros are left here for compatibility with remote modules.
 // Once they have been removed from all known remote modules, this code should
 // be removed.
