@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.10.2)
 project(LabelErodeDilate)
 
 if(NOT ITK_SOURCE_DIR)
