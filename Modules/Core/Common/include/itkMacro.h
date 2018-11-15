@@ -252,6 +252,8 @@ namespace itk
   #define ITK_HAS_CPP11_ALIGNAS error "Replace ITK_HAS_CPP11_ALIGNAS with ITK_COMPILER_CXX_ALIGNAS"
 #endif
 
+// A macro for methods which are const in ITKv5, but not in ITKv4
+#define ITKv5_CONST
 
 #if ITK_COMPILER_CXX_CONSTEXPR
   #define ITK_CONSTEXPR_FUNC constexpr
