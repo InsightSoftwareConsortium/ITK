@@ -674,7 +674,7 @@ protected:
    * NumberOfRequiredInputs are set and not null.
    *
    */
-  virtual void VerifyPreconditions() const;
+  virtual void VerifyPreconditions() ITKv5_CONST;
 
   /** \brief Verifies that the inputs meta-data is consistent and valid
    * for continued execution of the pipeline, throws an exception if
@@ -686,7 +686,7 @@ protected:
    * check if all the inputs are in the same coordinate frame.
    *
    */
-  virtual void VerifyInputInformation() const;
+  virtual void VerifyInputInformation() ITKv5_CONST;
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is

@@ -161,7 +161,7 @@ protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() override = default;
 
-  void VerifyInputInformation() const override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
   void GenerateData() override;
 

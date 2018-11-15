@@ -165,7 +165,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation() const
+::VerifyInputInformation() ITKv5_CONST
 {
 
   using ImageBaseType = const ImageBase< InputImageDimension >;

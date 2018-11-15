@@ -8,7 +8,7 @@
 #include "vnl_integrant_fnct.h"
 #include "vnl/vnl_export.h"
 
-class VNL_EXPORT vnl_analytic_integrant : public vnl_integrant_fnct
+class vnl_analytic_integrant : public vnl_integrant_fnct
 {
  public:
   vnl_analytic_integrant() = default;

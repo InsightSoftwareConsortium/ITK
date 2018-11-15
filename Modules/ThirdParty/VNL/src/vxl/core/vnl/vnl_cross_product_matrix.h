@@ -28,7 +28,7 @@
 //     e_3   0    -e_1
 //    -e_2   e_1   0
 // \endverbatim
-class VNL_EXPORT vnl_cross_product_matrix : public vnl_double_3x3
+class vnl_cross_product_matrix : public vnl_double_3x3
 {
  public:
   typedef vnl_double_3x3 base;

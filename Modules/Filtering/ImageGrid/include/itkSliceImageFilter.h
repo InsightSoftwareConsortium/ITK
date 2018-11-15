@@ -148,7 +148,7 @@ protected:
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  void VerifyInputInformation() const override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
 private:
   IndexType m_Start;

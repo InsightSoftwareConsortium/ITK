@@ -15,7 +15,7 @@
 #include "vnl/vnl_export.h"
 
 template <class TValue, class TIndex>
-class VNL_EXPORT vnl_index_sort
+class vnl_index_sort
 {
  public:
 

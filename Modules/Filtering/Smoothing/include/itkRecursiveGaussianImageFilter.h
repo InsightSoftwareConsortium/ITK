@@ -168,7 +168,7 @@ protected:
 
   /* See superclass for doxygen. This method adds the additional check
    * that sigma is greater than zero. */
-  void VerifyPreconditions() const override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
 private:
   /** Compute the N coefficients in the recursive filter. */

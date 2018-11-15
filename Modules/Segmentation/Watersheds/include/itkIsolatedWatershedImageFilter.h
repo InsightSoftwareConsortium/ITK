@@ -138,7 +138,7 @@ protected:
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
-  void VerifyInputInformation() const override;
+  void VerifyInputInformation() ITKv5_CONST override;
   void GenerateData() override;
 };
 } // end namespace itk

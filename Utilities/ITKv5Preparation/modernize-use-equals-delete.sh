@@ -30,17 +30,21 @@ CMTMSG=$(mktemp -q /tmp/${this_script_name}.XXXXXX)
 FILES_TO_CHECK=$(mktemp -q /tmp/${this_script_name}_files.XXXXXX)
 
 cat > ${CMTMSG} << EOF
-COMP: Use nullptr instead of 0 or NULL
+STYLE: Pefer = delete to explicitly trivial implementations
 
-The check converts the usage of null pointer constants (eg. NULL, 0) to
-use the new C++11 nullptr keyword.
+This check replaces undefined special member functions with
+= delete;. The explicitly deleted function declarations enable more
+opportunities in optimization, because the compiler might treat
+explicitly delted functions as noops.
+
+Additionally, the C++11 use of = delete more clearly expreses the
+intent for the special member functions.
 
 SRCDIR=${SRCDIR} #My local SRC
 BLDDIR=${BLDDIR} #My local BLD
 
 cd ${BLDDIR}
 run-clang-tidy.py -extra-arg=-D__clang__ -checks=-*,modernize-use-equals-delete  -header-filter=.* -fix
-
 EOF
 
 export CC=/Users/johnsonhj/local/ccache/bin/clang_ccache

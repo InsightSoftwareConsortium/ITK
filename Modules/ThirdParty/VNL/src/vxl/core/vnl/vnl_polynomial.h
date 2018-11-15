@@ -164,7 +164,7 @@ class VNL_EXPORT vnl_polynomial
   std::vector<T> coeffs_;
 };
 
-template <class T> VNL_EXPORT
+template <class T>
 std::ostream& operator<<(std::ostream& os, vnl_polynomial<T> const& p) { p.print(os); return os; }
 
 #define VNL_POLYNOMIAL_INSTANTIATE(T) extern "please #include vnl/vnl_polynomial.hxx instead"

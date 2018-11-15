@@ -103,7 +103,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() const override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
   /** Overrides GenerateOutputInformation() in order to produce
    * an image which has a different information than the first input.

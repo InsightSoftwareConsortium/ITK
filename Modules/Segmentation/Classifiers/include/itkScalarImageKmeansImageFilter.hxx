@@ -46,7 +46,7 @@ void ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
-::VerifyPreconditions() const
+::VerifyPreconditions() ITKv5_CONST
 {
   this->Superclass::VerifyPreconditions();
 

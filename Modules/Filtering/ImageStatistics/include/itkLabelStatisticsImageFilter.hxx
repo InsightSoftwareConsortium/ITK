@@ -32,7 +32,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   this->SetNumberOfRequiredInputs(2);
   m_UseHistograms = false;
   m_NumBins.SetSize(1);
-  m_NumBins[0] = 20;
+  m_NumBins[0] = 256;
   m_LowerBound = static_cast< RealType >( NumericTraits< PixelType >::NonpositiveMin() );
   m_UpperBound = static_cast< RealType >( NumericTraits< PixelType >::max() );
   m_ValidLabelValues.clear();
@@ -147,16 +147,14 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
     {
     typename MapType::mapped_type &labelStats = mapValue.second;
 
-    // mean
-    labelStats.m_Mean = labelStats.m_Sum
-                               / static_cast< RealType >( labelStats.m_Count );
+    labelStats.m_Mean = labelStats.m_Sum / static_cast< RealType >( labelStats.m_Count );
 
     // variance
     if ( labelStats.m_Count > 1 )
       {
       // unbiased estimate of variance
       LabelStatistics & ls = mapValue.second;
-      const RealType    sumSquared  = ls.m_Sum * ls.m_Sum;
+      const RealType sumSquared  = ls.m_Sum * ls.m_Sum;
       const auto count = static_cast< RealType >( ls.m_Count );
 
       ls.m_Variance = ( ls.m_SumOfSquares - sumSquared / count ) / ( count - 1.0 );
@@ -167,7 +165,11 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       }
 
     // sigma
-    labelStats.m_Sigma = std::sqrt( labelStats.m_Variance );
+    labelStats.m_Sigma = 0.0;
+    if ( labelStats.m_Variance >= 0.0 )
+      {
+      labelStats.m_Sigma = std::sqrt( labelStats.m_Variance );
+      }
     }
 
     {
@@ -502,13 +504,13 @@ typename LabelStatisticsImageFilter< TInputImage, TLabelImage >::RealType
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::GetMedian(LabelPixelType label) const
 {
-  RealType         median = 0.0;
+  RealType median = 0.0;
   MapConstIterator mapIt;
 
   mapIt = m_LabelStatistics.find(label);
   if ( mapIt == m_LabelStatistics.end() || !m_UseHistograms )
     {
-    // label does not exist OR histograms not enabled, return a default value
+    // label does not exist OR histograms not enabled, return the default value
     return median;
     }
   else

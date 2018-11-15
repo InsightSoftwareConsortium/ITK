@@ -368,7 +368,7 @@ TileImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 TileImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation() const
+::VerifyInputInformation() ITKv5_CONST
 {
 
   // Do not call superclass's VerifyInputInformation method.

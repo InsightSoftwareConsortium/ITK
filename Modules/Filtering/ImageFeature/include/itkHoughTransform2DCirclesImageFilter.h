@@ -107,7 +107,7 @@ public:
   itkNewMacro(Self);
 
   /** Verifies the preconditions of this filter. */
-  void VerifyPreconditions() const override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() override;
@@ -167,6 +167,12 @@ public:
   itkSetMacro(SweepAngle, double);
   itkGetConstMacro(SweepAngle, double);
 
+  /** Specifies whether to use the spacing of the input image internally, when
+  * doing Gaussian Derivative calculation and Gaussian image filtering. */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( IntConvertibleToOutputCheck,
@@ -212,6 +218,7 @@ private:
   CirclesListSizeType   m_NumberOfCircles;
   double                m_DiscRadiusRatio;
   double                m_Variance;
+  bool                  m_UseImageSpacing;
   ModifiedTimeType      m_OldModifiedTime;
 };
 } // end namespace itk

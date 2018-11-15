@@ -285,7 +285,7 @@ protected:
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  void VerifyPreconditions() const override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
   /** enum to indicate if the gradient image is specified as a single multi-
    * component image or as several separate images */
