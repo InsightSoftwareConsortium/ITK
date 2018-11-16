@@ -31,6 +31,7 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkDisplacementFieldTransform.h"
+#include "itkInvertDisplacementFieldImageFilter.h"
 #include "itkMetaDataObject.h"
 
 namespace itk
@@ -143,6 +144,10 @@ MINCTransformIOTemplate<TParametersValueType>
         using DisplacementFieldTransformType = DisplacementFieldTransform<TParametersValueType, 3>;
         using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
         using MincReaderType = ImageFileReader< GridImageType >;
+        using InverterType = itk::InvertDisplacementFieldImageFilter<
+          GridImageType,
+          GridImageType
+        >;
 
         MINCImageIO::Pointer mincIO             = MINCImageIO::New();
         typename MincReaderType::Pointer reader = MincReaderType::New();
@@ -158,9 +163,25 @@ MINCTransformIOTemplate<TParametersValueType>
         transformTypeName += "_3_3";
         this->CreateTransform(transform, transformTypeName);
         auto * gridTransform = static_cast< DisplacementFieldTransformType* >( transform.GetPointer());
-        if( xfm->inverse_flag ) //TODO: invert grid transform?
+        if( xfm->inverse_flag )
           {
-          gridTransform->SetInverseDisplacementField( grid );
+            typename InverterType::Pointer inverter = FilterType::New();
+            inverter->SetInput( grid );
+            inverter->SetMaximumNumberOfIterations( 50 );
+            inverter->SetMeanErrorToleranceThreshold( 0.001 );
+            inverter->SetMaxErrorToleranceThreshold( 0.1 );
+            inverter->SetEnforceBoundaryCondition( false );
+            try
+            {
+              inverter->Update();
+            }
+              catch( itk::ExceptionObject & excp )
+            {
+            std::cerr << "Exception thrown " << std::endl;
+            std::cerr << excp << std::endl;
+            }
+
+            gridTransform->SetDisplacementField( inverter->GetOutput() );
           }
         else
           {
