@@ -17,7 +17,7 @@ class my_test_integrant : public vnl_analytic_integrant
 class gaussian_integrant : public vnl_analytic_integrant
 {
  public:
-  gaussian_integrant(double sr, double sz,  vnl_double_3 p0) : sr_(sr), sz_(sz), p0_(std::move(p0))
+  gaussian_integrant(double sr, double sz,  vnl_double_3 p0) : sr_(sr), sz_(sz), p0_(p0)
   {
     oneoversr2_ = 1.0 / sr_ / sr_;
     oneoversz2_ = 1.0 / sz_ / sz_;

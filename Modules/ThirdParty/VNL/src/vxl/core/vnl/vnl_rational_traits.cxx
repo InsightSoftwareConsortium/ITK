@@ -30,7 +30,7 @@ namespace vnl_math
   }
 }
 
-std::ostream& operator<<(std::ostream& os, std::complex<vnl_rational> x)
+std::ostream& operator<<(std::ostream& os, const std::complex<vnl_rational>& x)
 {
   return os << x.real() << '+' << x.imag() << 'j';
 }
