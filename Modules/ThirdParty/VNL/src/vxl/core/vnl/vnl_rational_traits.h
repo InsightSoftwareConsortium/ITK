@@ -39,7 +39,7 @@ class vnl_numeric_traits<vnl_rational const> : public vnl_numeric_traits<vnl_rat
 {
 };
 
-std::ostream& operator<<(std::ostream&, std::complex<vnl_rational>);
+std::ostream& operator<<(std::ostream&, const std::complex<vnl_rational>&);
 
 template <>
 class vnl_numeric_traits<std::complex<vnl_rational> >
