@@ -1,3 +1,0 @@
-itk_wrap_class("itk::BinaryGrindPeakImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_INT}" 1 2+)
-itk_end_wrap_class()
