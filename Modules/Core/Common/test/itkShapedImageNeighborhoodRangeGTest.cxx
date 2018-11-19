@@ -727,3 +727,20 @@ TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
   EXPECT_EQ(reversedStdVector1, reversedStdVector2);
   EXPECT_EQ(reversedStdVector1, reversedStdVector3);
 }
+
+
+TEST(ShapedImageNeighborhoodRange, ConstructorSupportsRValueShapeOffsets)
+{
+  using ImageType = itk::Image<unsigned char>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType>;
+  using OffsetType = ImageType::OffsetType;
+
+  const auto image = CreateImage<ImageType>(1, 2);
+  const ImageType::IndexType location{ { 1, 1 } };
+
+  // Note that the expression 'std::vector<OffsetType>{1}' is an rvalue.
+  // The code is carefully written so that this rvalue remains alive while
+  // the range 'RangeType{...}' is being used.
+  ASSERT_EQ(
+    (RangeType{ *image, location, std::vector<OffsetType>{1} }).size(), 1);
+}
