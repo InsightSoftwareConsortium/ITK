@@ -1,14 +1,14 @@
-LabelErodeDilate
-================
+ITKLabelErodeDilate
+===================
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/LabelErodeDilate.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/LabelErodeDilate
+.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKLabelErodeDilate.svg?style=shield
+    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKLabelErodeDilate
 
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/LabelErodeDilate.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/LabelErodeDilate
+.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKLabelErodeDilate.svg?branch=master
+    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKLabelErodeDilate
 
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/labelerodedilate.svg
-    :target: https://ci.appveyor.com/project/itkrobot/labelerodedilate
+.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/itklabelerodedilate.svg
+    :target: https://ci.appveyor.com/project/itkrobot/itklabelerodedilate
 
 =========== =========== ===========
    Linux      macOS       Windows
