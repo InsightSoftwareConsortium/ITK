@@ -106,7 +106,7 @@ public:
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  GenerateInputRequestedRegion();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
