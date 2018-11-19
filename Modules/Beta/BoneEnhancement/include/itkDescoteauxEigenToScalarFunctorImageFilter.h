@@ -84,9 +84,9 @@ public:
 
     /* Multiply together to get sheetness */
     sheetness = 1.0;
-    sheetness *= vcl_exp(-(Rsheet * Rsheet) / (2 * m_Alpha * m_Alpha));
-    sheetness *= (1.0 - vcl_exp(-(Rblob * Rblob) / (2 * m_Beta * m_Beta)));
-    sheetness *= (1.0 - vcl_exp(-(Rnoise * Rnoise) / (2 * m_C * m_C)));
+    sheetness *= std::exp(-(Rsheet * Rsheet) / (2 * m_Alpha * m_Alpha));
+    sheetness *= (1.0 - std::exp(-(Rblob * Rblob) / (2 * m_Beta * m_Beta)));
+    sheetness *= (1.0 - std::exp(-(Rnoise * Rnoise) / (2 * m_C * m_C)));
 
     return static_cast<TOutputPixel>( sheetness );
   }
