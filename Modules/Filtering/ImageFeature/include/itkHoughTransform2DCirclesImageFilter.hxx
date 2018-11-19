@@ -107,9 +107,11 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
   using DoGFunctionType = GaussianDerivativeImageFunction< InputImageType >;
   const auto DoGFunction = DoGFunctionType::New();
-  DoGFunction->SetInputImage(inputImage);
   DoGFunction->SetSigma(m_SigmaGradient);
   DoGFunction->SetUseImageSpacing(m_UseImageSpacing);
+  // Set input image _after_ setting the other GaussianDerivative properties,
+  // to avoid multiple kernel recomputation within GaussianDerivativeImageFunction.
+  DoGFunction->SetInputImage(inputImage);
 
   m_RadiusImage = RadiusImageType::New();
 
