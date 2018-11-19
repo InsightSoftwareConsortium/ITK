@@ -544,6 +544,9 @@ public:
   /** Specifies a range for the neighborhood of a pixel at the specified
    * location. The shape of the neighborhood is specified by a pointer to a
    * contiguous sequence of offsets, relative to the location index.
+   * \note The caller (the client code) should ensure that both the specified
+   * image and the specified shape offsets remain alive while the range (or one
+   * of its iterators) is being used.
    */
   ShapedImageNeighborhoodRange(
     ImageType& image,
@@ -575,12 +578,15 @@ public:
    * offsets, relative to the location index. This container of offsets must be
    * a contiguous container, for example std::vector<OffsetType> or
    * std::array<OffsetType>.
+   * \note The caller (the client code) should ensure that both the specified
+   * image and the specified shape offsets remain alive while the range (or one
+   * of its iterators) is being used.
    */
   template <typename TContainerOfOffsets>
   ShapedImageNeighborhoodRange(
     ImageType& image,
     const IndexType& location,
-    TContainerOfOffsets&& shapeOffsets)
+    const TContainerOfOffsets& shapeOffsets)
     :
   ShapedImageNeighborhoodRange{
     image,
@@ -588,8 +594,6 @@ public:
     shapeOffsets.data(),
     shapeOffsets.size()}
   {
-    static_assert(!std::is_rvalue_reference<decltype(shapeOffsets)>::value,
-      "The container of offsets should not be a temporary (rvalue) object!");
   }
 
   /** Returns an iterator to the first neighborhood pixel. */
