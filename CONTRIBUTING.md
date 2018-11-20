@@ -153,7 +153,8 @@ Push commits in your topic branch for review by the community:
    $ git review-push --force
 ```
 
-(*If the topic adds data see [this note](Documentation/Data.md#push).*)
+A URL will be provided in the terminal -- visit this url to review the topic
+and open a pull request.
 
 Optionally, discuss the change by opening a topic on [ITK's Discourse].
 
