@@ -18,9 +18,9 @@ setup(
     author_email='Richard.Beare@med.monash.edu.au',
     packages=['itk'],
     package_dir={'itk': 'itk'},
-    download_url=r'https://github.com/InsightSoftwareConsortium/LabelErodeDilate',
+    download_url=r'https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate',
     description=r'An ITK module for erode and dilate operations on label images',
-    long_description='LabelErodeDilate provides classes for morphological math'
+    long_description='ITKLabelErodeDilate provides classes for morphological math'
                      'erode and dilate operations on label images.\n'
                      'Please refer to:'
                      'Beare, R. and Jackway, P.'
@@ -50,7 +50,7 @@ setup(
         ],
     license='Apache',
     keywords='ITK InsightToolkit',
-    url=r'https://itk.org/',
+    url=r'https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate',
     install_requires=[
         r'itk>=5.0b01'
     ]

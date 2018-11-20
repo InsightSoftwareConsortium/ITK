@@ -1,12 +1,12 @@
 version: 2
 jobs:
   build-and-test:
-    working_directory: /LabelErodeDilate-build
+    working_directory: /ITKLabelErodeDilate-build
     docker:
       - image: insighttoolkit/module-ci:latest
     steps:
       - checkout:
-          path: /LabelErodeDilate
+          path: /ITKLabelErodeDilate
       - run:
           name: Fetch CTest driver script
           command: |
@@ -17,12 +17,12 @@ jobs:
             SHASNIP=$(echo $CIRCLE_SHA1 | cut -c1-7)
             cat > dashboard.cmake << EOF
             set(CTEST_SITE "CircleCI")
-            set(CTEST_BUILD_NAME "External-LabelErodeDilate-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-${SHASNIP}")
+            set(CTEST_BUILD_NAME "External-ITKLabelErodeDilate-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-${SHASNIP}")
             set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
             set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
             set(CTEST_BUILD_FLAGS: "-j5")
-            set(CTEST_SOURCE_DIRECTORY /LabelErodeDilate)
-            set(CTEST_BINARY_DIRECTORY /LabelErodeDilate-build)
+            set(CTEST_SOURCE_DIRECTORY /ITKLabelErodeDilate)
+            set(CTEST_BINARY_DIRECTORY /ITKLabelErodeDilate-build)
             set(dashboard_model Experimental)
             set(dashboard_no_clean 1)
             set(dashboard_cache "
@@ -37,7 +37,7 @@ jobs:
           command: |
             ctest -j 2 -VV -S dashboard.cmake
   package:
-    working_directory: ~/ITKBoneMorphometry
+    working_directory: ~/ITKLabelErodeDilate
     machine: true
     steps:
       - checkout
