@@ -45,6 +45,7 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
     output->Set( 0.5 );
     this->ProcessObject::SetNthOutput( i,  output.GetPointer() );
   }
+  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage, typename TMaskImage >
