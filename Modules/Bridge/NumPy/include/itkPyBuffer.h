@@ -66,7 +66,7 @@ public:
    /** Image dimension. */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
-  using OutputImagePointer = typename Image< ComponentType, ImageDimension >::Pointer;
+  using OutputImagePointer = typename Image< PixelType, ImageDimension >::Pointer;
 
   /**
    * Get an Array with the content of the image buffer
