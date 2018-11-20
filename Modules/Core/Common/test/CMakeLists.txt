@@ -628,6 +628,7 @@ set(ITKCommonGTests
       itkBuildInformationTest.cxx
       itkConnectedImageNeighborhoodShapeGTest.cxx
       itkImageNeighborhoodOffsetsGTest.cxx
+      itkImageRangeGTest.cxx
       itkIndexRangeGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSmartPointerGTest.cxx
