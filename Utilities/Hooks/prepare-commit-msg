@@ -40,7 +40,7 @@ instructions='#\
 #   WIP:    - Work In Progress not ready for merge\
 # To have an automatic link created between this patch set\
 # and the issue referenced at issues.itk.org, simply\
-# add ITK-#### in somewhere in the commit message.
+# add #NNN somewhere in the commit message.
 #' &&
 sed '/^# On branch.*$/ a\
 '"$instructions"'
