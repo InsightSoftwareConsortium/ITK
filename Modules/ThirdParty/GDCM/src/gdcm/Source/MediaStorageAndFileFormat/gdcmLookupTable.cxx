@@ -12,8 +12,11 @@
 
 =========================================================================*/
 #include "gdcmLookupTable.h"
+#include "gdcmSwapper.h"
 #include <vector>
 #include <set>
+#include <iomanip>
+#include <algorithm>
 
 #include <string.h>
 
@@ -550,6 +553,62 @@ bool LookupTable::Decode(char *output, size_t outlen, const char *input, size_t 
   return success;
 }
 
+bool LookupTable::Decode8(char *output, size_t outlen, const char *input, size_t inlen ) const
+{
+  bool success = false;
+  if( outlen < 3 * inlen )
+    {
+    gdcmDebugMacro( "Out buffer too small" );
+    return false;
+    }
+  if( !Initialized() )
+    {
+    gdcmDebugMacro( "Not Initialized" );
+    return false;
+    }
+  if ( BitSample == 8 )
+    {
+    const unsigned char * end = (const unsigned char*)input + inlen;
+    unsigned char * rgb = (unsigned char*)output;
+    for( const unsigned char * idx = (const unsigned char*)input; idx != end; ++idx )
+      {
+      if( IncompleteLUT )
+        {
+        assert( *idx < Internal->Length[RED] );
+        assert( *idx < Internal->Length[GREEN] );
+        assert( *idx < Internal->Length[BLUE] );
+        }
+      rgb[RED]   = Internal->RGB[3 * *idx+RED];
+      rgb[GREEN] = Internal->RGB[3 * *idx+GREEN];
+      rgb[BLUE]  = Internal->RGB[3 * *idx+BLUE];
+      rgb += 3;
+      }
+    success = true;
+    }
+  else if ( BitSample == 16 )
+    {
+    const uint16_t *rgb16 = (const uint16_t*)&Internal->RGB[0];
+    assert( inlen % 2 == 0 );
+    const uint16_t * end = (const uint16_t*)(input + inlen);
+    uint8_t * rgb = (uint8_t*)output;
+    for( const uint16_t * idx = (const uint16_t*)input; idx != end; ++idx )
+      {
+      if( IncompleteLUT )
+        {
+        assert( *idx < Internal->Length[RED] );
+        assert( *idx < Internal->Length[GREEN] );
+        assert( *idx < Internal->Length[BLUE] );
+        }
+      rgb[RED]   = rgb16[3 * *idx+RED] >> 8;
+      rgb[GREEN] = rgb16[3 * *idx+GREEN] >> 8;
+      rgb[BLUE]  = rgb16[3 * *idx+BLUE] >> 8;
+      rgb += 3;
+      }
+    success = true;
+    }
+  return success;
+}
+
 const unsigned char *LookupTable::GetPointer() const
 {
   if ( BitSample == 8 )
@@ -667,6 +726,63 @@ bool LookupTable::WriteBufferAsRGBA(const unsigned char *rgba)
     //ret = false;
     }
   return ret;
+}
+
+void LookupTable::Print(std::ostream &os) const
+{
+  if( BitSample == 16 )
+    {
+    uint16_t maxlut[3] = { 0 , 0 , 0};
+    uint16_t minlut[3] = { 0xffff, 0xffff, 0xffff };
+    uint16_t *uchar16 = (uint16_t*)&Internal->RGB[0];
+    if( Internal->Length[BLUE] != Internal->Length[RED]
+    || Internal->Length[RED] != Internal->Length[GREEN] ) return;
+    for( unsigned int i = 0; i < Internal->Length[BLUE]; ++i)
+      {
+      os << std::dec <<std::setw( 5 ) << std::setfill( '0' ) << i << " : ";
+      for(int type = RED; type <= BLUE; ++type )
+        {
+        assert( 2*(3*i+type) < Internal->RGB.size() );
+        const uint16_t val = SwapperDoOp::Swap(uchar16[3*i+type]);
+        minlut[type] = std::min( minlut[type], val );
+        maxlut[type] = std::max( maxlut[type], val );
+        os << std::hex << std::setw( 4 ) << std::setfill( '0' ) << val << ",";
+        }
+      os << std::endl;
+      }
+    os << "MINLUT: ";
+    for(int type = RED; type <= BLUE; ++type )
+      os << std::hex << std::setw( 4 ) << std::setfill( '0' ) << minlut[type] << ",";
+    os << std::endl;
+    os << "MAXLUT: ";
+    for(int type = RED; type <= BLUE; ++type )
+      os << std::hex << std::setw( 4 ) << std::setfill( '0' ) << maxlut[type] << ",";
+    os << std::endl;
+    }
+}
+
+bool LookupTable::IsRGB8() const
+{
+  if( BitSample == 16 )
+    {
+    uint16_t maxlut[3] = { 0 , 0 , 0};
+    uint16_t minlut[3] = { 0xffff, 0xffff, 0xffff };
+    uint16_t *uchar16 = (uint16_t*)&Internal->RGB[0];
+    if( Internal->Length[BLUE] != Internal->Length[RED]
+    || Internal->Length[RED] != Internal->Length[GREEN] ) return false;
+    for( unsigned int i = 0; i < Internal->Length[BLUE]; ++i)
+      {
+      for(int type = RED; type <= BLUE; ++type )
+        {
+        assert( 2*(3*i+type) < Internal->RGB.size() );
+        const uint16_t val = SwapperDoOp::Swap(uchar16[3*i+type]);
+        minlut[type] = std::min( minlut[type], val );
+        maxlut[type] = std::max( maxlut[type], val );
+        if( maxlut[type] > 0xff ) return false;
+        }
+      }
+    }
+  return true;
 }
 
 } // end namespace gdcm

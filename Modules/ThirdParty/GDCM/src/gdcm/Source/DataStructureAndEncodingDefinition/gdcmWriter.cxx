@@ -166,9 +166,12 @@ void Writer::SetFileName(const char *filename)
 {
     //std::cerr << "Stream: " << filename << std::endl;
     //std::cerr << "Ofstream: " << Ofstream << std::endl;
-    if (Ofstream && Ofstream->is_open())
+    if (Ofstream)
       {
-      Ofstream->close();
+      if (Ofstream->is_open())
+        {
+        Ofstream->close();
+        }
       delete Ofstream;
       }
     Ofstream = new std::ofstream();
