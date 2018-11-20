@@ -20,31 +20,45 @@ if(NOT DEFINED TotalVariation_proxTV_USE_EIGEN)
     ON
   )
 endif()
-# Add the option to use Eigen from outside, or the reduced Eigen install in ITK.
-if(NOT DEFINED ITK_USE_SYSTEM_EIGEN3)
+# Add the option to use Eigen3 from outside, or the internal Eigen3 install in ITK.
+if(NOT DEFINED ITK_USE_SYSTEM_EIGEN)
   option(
-    ITK_USE_SYSTEM_Eigen3
+    ITK_USE_SYSTEM_EIGEN
     "Uses external Eigen3, when OFF uses the internal Eigen3 from ITK."
-    ON
+    OFF
   )
 endif()
 
 if(TotalVariation_proxTV_USE_EIGEN)
-  if(NOT ITK_USE_SYSTEM_EIGEN3)
-    # TODO(phcerdan): Set Eigen3_DIR to the internal ITK.
-    # Requires "installing" Eigen3 in ITK to generate the Config.cmake
-    # The good thing is that find_package is compatible with both, external and internal usage.
-    # XXX ${ITKEigen3_INCLUDE_DIRECTORIES} might include 2 folders in build mode, we are interested in the SOURCE (not BINARY) one.
-    # set(Eigen3_DIR "${ITKEigen3_INCLUDE_DIRECTORIES}/itkeigen")
-  else()
-    # We do nothing, Eigen3_DIR can be populated by the user, or found in the system.
+  if(NOT ITK_USE_SYSTEM_EIGEN)
+    # Set Eigen3_DIR to the internal ITKEigen3 module.
+    set(_internal_cmake_eigen3)
+    list(GET ITKEigen3_INCLUDE_DIRS 0 _internal_cmake_eigen3)
+    set(Eigen3_DIR "${_internal_cmake_eigen3}/itkeigen")
   endif()
+  find_package(Eigen3 REQUIRED)
+  set(
+    ${PROJECT_NAME}_EXPORT_CODE_INSTALL
+    "${${PROJECT_NAME}_EXPORT_CODE_INSTALL}
+set(Eigen3_DIR \"${Eigen3_DIR}\")
+find_package(Eigen3 REQUIRED CONFIG)
+"
+  )
+  set(
+    ${PROJECT_NAME}_EXPORT_CODE_BUILD
+    "${${PROJECT_NAME}_EXPORT_CODE_BUILD}
+if(NOT ITK_BINARY_DIR)
+  set(Eigen3_DIR \"${Eigen3_DIR}\")
+  find_package(Eigen3 REQUIRED CONFIG)
+endif()
+"
+  )
 else()
   # proxTV will be build with external system LAPACK instead of Eigen3
   set(proxTV_USE_LAPACK 1)
 endif()
 
-# This will have `proxTV::proxTV` when find_package, and `proxTV` when add_subdirectory(proxTV_folder)
+# _proxTV_lib will have `proxTV::proxTV` when find_package, and `proxTV` when add_subdirectory(proxTV_folder)
 set(_proxTV_lib "")
 # if proxTV is built elsewhere
 if(ITK_USE_SYSTEM_proxTV)
@@ -54,17 +68,15 @@ if(ITK_USE_SYSTEM_proxTV)
   # When this module is loaded by an app, load proxTV too.
   set(
     ${PROJECT_NAME}_EXPORT_CODE_INSTALL
-    "
+    "${${PROJECT_NAME}_EXPORT_CODE_INSTALL}
 set(proxTV_DIR \"${proxTV_DIR}\")
 find_package(proxTV REQUIRED CONFIG)
 "
   )
   set(
     ${PROJECT_NAME}_EXPORT_CODE_BUILD
-    "
+    "${${PROJECT_NAME}_EXPORT_CODE_BUILD}
 if(NOT ITK_BINARY_DIR)
-  set(CMAKE_MODULE_PATH
-    \"${CMAKE_CURRENT_SOURCE_DIR}/CMake\" \${CMAKE_MODULE_PATH})
   set(proxTV_DIR \"${proxTV_DIR}\")
   find_package(proxTV REQUIRED CONFIG)
 endif()
@@ -107,16 +119,11 @@ else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
   endif()
 endif(ITK_USE_SYSTEM_proxTV)
 
-# # Appending proxTV to PRIVATE_DEPENDS. Used by itk_module_link_dependencies() in itk_add_library()
-# list(APPEND ITK_MODULE_TotalVariation_PRIVATE_DEPENDS ${_proxTV_lib})
-# message(STATUS "ITK_MODULE_TotalVariation_PRIVATE_DEPENDS: ${ITK_MODULE_TotalVariation_PRIVATE_DEPENDS}")
-# Appending proxTV to PUBLIC_DEPENDS. Used by itk_module_link_dependencies() in itk_add_library()
-# list(APPEND ITK_MODULE_TotalVariation_PUBLIC_DEPENDS ${_proxTV_lib})
-# message(STATUS "ITK_MODULE_TotalVariation_PUBLIC_DEPENDS: ${ITK_MODULE_TotalVariation_PUBLIC_DEPENDS}")
-
-set(arg_module_target "")
-if(CMAKE_VERSION VERSION_LESS 3.13)
-  # Hits lack of feature: install TARGETS given target "proxTV" which does not exist in this directory.
-  list(APPEND arg_module_target "NO_INSTALL")
+if(NOT ITK_USE_SYSTEM_proxTV)
+  set(arg_module_target "")
+  if(CMAKE_VERSION VERSION_LESS 3.13)
+    # Hits lack of feature: install TARGETS given target "proxTV" which does not exist in this directory.
+    list(APPEND arg_module_target "NO_INSTALL")
+  endif()
+  itk_module_target(${_proxTV_lib} ${arg_module_target})
 endif()
-itk_module_target(${_proxTV_lib} ${arg_module_target})
