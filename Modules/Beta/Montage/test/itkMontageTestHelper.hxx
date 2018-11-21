@@ -113,6 +113,8 @@ montageTest( const PositionTableType& stageCoords, const PositionTableType& actu
 
     using MontageType = itk::TileMontage< ScalarImageType >;
     typename MontageType::Pointer montage = MontageType::New();
+    auto paddingMethod = static_cast< typename PCMType::PaddingMethod >( padMethod );
+    montage->GetModifiablePCM()->SetPaddingMethod( paddingMethod );
     montage->SetMontageSize( { xMontageSize, yMontageSize } );
     montage->SetOriginAdjustment( stageCoords[1][1] );
     montage->SetForcedSpacing( sp );
