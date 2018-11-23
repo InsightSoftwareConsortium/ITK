@@ -79,4 +79,3 @@ bool vnl_nonlinear_minimizer::is_class(std::string const& s) const
 {
   return s==vnl_nonlinear_minimizer::is_a();
 }
-
