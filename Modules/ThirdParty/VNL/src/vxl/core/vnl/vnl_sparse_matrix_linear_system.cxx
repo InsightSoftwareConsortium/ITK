@@ -76,4 +76,3 @@ void vnl_sparse_matrix_linear_system<T>::apply_preconditioner(vnl_vector<double>
 
 template class vnl_sparse_matrix_linear_system<double>;
 template class vnl_sparse_matrix_linear_system<float>;
-

@@ -265,4 +265,3 @@ vnl_matrix<double> vnl_ldl_cholesky::inverse() const
 
   return R;
 }
-

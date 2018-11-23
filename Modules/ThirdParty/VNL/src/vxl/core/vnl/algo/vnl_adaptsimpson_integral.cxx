@@ -48,4 +48,3 @@ double vnl_adaptsimpson_integral::adaptivesimpson(double(*f)(double*),
   }
   return result;
 }
-
