@@ -1,4 +1,4 @@
-itk_wrap_module(DVMeshNoise)
+itk_wrap_module(MeshNoise)
 
 set(WRAPPER_SUBMODULE_ORDER
    AdditiveGaussianNoiseMeshFilter
