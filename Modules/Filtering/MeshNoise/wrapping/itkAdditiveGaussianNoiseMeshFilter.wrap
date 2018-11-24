@@ -1,4 +1,6 @@
-itk_wrap_include("itkMeshToMeshFilter.h")
+itk_wrap_include("itkMesh.h")
+itk_wrap_include("itkDefaultStaticMeshTraits.h")
+itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 
 itk_wrap_class("itk::AdditiveGaussianNoiseMeshFilter" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
