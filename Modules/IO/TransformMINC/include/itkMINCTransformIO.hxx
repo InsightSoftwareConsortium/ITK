@@ -32,6 +32,8 @@
 #include "itkVector.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkMetaDataObject.h"
+#include "itkImageRegionIterator.h"
+#include "vnl/vnl_vector_fixed.h"
 
 namespace itk
 {
@@ -173,6 +175,8 @@ MINCTransformIOTemplate<TParametersValueType>
         using DisplacementFieldTransformType = DisplacementFieldTransform<TParametersValueType, 3>;
         using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
         using MincReaderType = ImageFileReader< GridImageType >;
+        using OutputPixelType = vnl_vector_fixed<TParametersValueType, 3>;
+        const OutputPixelType RAS_tofrom_LPS_vector = {-1, -1, 1};
 
         MINCImageIO::Pointer mincIO             = MINCImageIO::New();
         typename MincReaderType::Pointer reader = MincReaderType::New();
@@ -182,6 +186,26 @@ MINCTransformIOTemplate<TParametersValueType>
 
         typename GridImageType::Pointer grid = reader->GetOutput();
 
+        typename GridImageType::Pointer LPSgrid = GridImageType::New();
+        LPSgrid->CopyInformation(grid);
+        LPSgrid->SetRegions(grid->GetBufferedRegion());
+        LPSgrid->Allocate(true);
+
+        itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
+        mt->ParallelizeImageRegion<3>(grid->GetBufferedRegion(),
+        [grid, LPSgrid, RAS_tofrom_LPS_vector](const typename GridImageType::RegionType & region)
+        {
+          itk::Vector<TParametersValueType, 3> p;
+          itk::ImageRegionConstIterator< GridImageType > iIt(grid, region);
+          itk::ImageRegionIterator< GridImageType > oIt(LPSgrid, region);
+          for (; !iIt.IsAtEnd(); ++iIt, ++oIt)
+            {
+            p.SetVnlVector(element_product(iIt.Get().GetVnlVector(),RAS_tofrom_LPS_vector));
+            oIt.Set(p);
+            }
+        },
+        nullptr);
+
         TransformPointer transform;
         std::string transformTypeName = "DisplacementFieldTransform_";
         transformTypeName += typeNameString;
@@ -190,11 +214,11 @@ MINCTransformIOTemplate<TParametersValueType>
         auto * gridTransform = static_cast< DisplacementFieldTransformType* >( transform.GetPointer());
         if( xfm->inverse_flag ) //TODO: invert grid transform?
           {
-          gridTransform->SetInverseDisplacementField( grid );
+          gridTransform->SetInverseDisplacementField( LPSgrid );
           }
         else
           {
-          gridTransform->SetDisplacementField( grid );
+          gridTransform->SetDisplacementField( LPSgrid );
           }
 
         this->GetReadTransformList().push_back( transform );
@@ -313,6 +337,10 @@ MINCTransformIOTemplate<TParametersValueType>
       using DisplacementFieldTransformType = DisplacementFieldTransform<TParametersValueType, 3>;
       using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
       using MincWriterType = ImageFileWriter< GridImageType >;
+      typename GridImageType::Pointer RASgrid = GridImageType::New();
+      typename GridImageType::Pointer LPSgrid = GridImageType::New();
+      using OutputPixelType = vnl_vector_fixed<TParametersValueType, 3>;
+      const OutputPixelType RAS_tofrom_LPS_vector = {-1, -1, 1};
       auto * _grid_transform = static_cast< DisplacementFieldTransformType* >( const_cast< TransformType* >( curTransform ));
       char tmp[1024];
       sprintf(tmp,"%s_grid_%d.mnc",xfm_file_base,serial);
@@ -325,17 +353,38 @@ MINCTransformIOTemplate<TParametersValueType>
 
       if( _grid_transform->GetDisplacementField() )
         {
-        writer->SetInput( _grid_transform->GetModifiableDisplacementField() );
+          LPSgrid = _grid_transform->GetModifiableDisplacementField();
         }
       else if( _grid_transform->GetInverseDisplacementField() )
         {
-        writer->SetInput( _grid_transform->GetModifiableInverseDisplacementField() );
-        _inverse_grid=true;
+          LPSgrid = _grid_transform->GetModifiableInverseDisplacementField();
+          _inverse_grid=true;
         }
       else
         {
         itkExceptionMacro(<< "Trying to write-out displacement transform without displacement field");
         }
+
+      RASgrid->CopyInformation(LPSgrid);
+      RASgrid->SetRegions(LPSgrid->GetBufferedRegion());
+      RASgrid->Allocate(true);
+
+      itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
+      mt->ParallelizeImageRegion<3>(LPSgrid->GetBufferedRegion(),
+      [LPSgrid, RASgrid, RAS_tofrom_LPS_vector](const typename GridImageType::RegionType & region)
+      {
+        itk::Vector<TParametersValueType, 3> p;
+        itk::ImageRegionConstIterator< GridImageType > iIt(LPSgrid, region);
+        itk::ImageRegionIterator< GridImageType > oIt(RASgrid, region);
+        for (; !iIt.IsAtEnd(); ++iIt, ++oIt)
+          {
+          p.SetVnlVector(element_product(iIt.Get().GetVnlVector(),RAS_tofrom_LPS_vector));
+          oIt.Set(p);
+          }
+      },
+      nullptr);
+
+      writer->SetInput( RASgrid );
       writer->Update();
 
       xfm.push_back( VIO_General_transform() );
