@@ -111,7 +111,10 @@
                   + "`ascontiguousarray()` or `copy()` or use `GetImageFromArray()`"
 
         if ( ndarr.ndim == 3 and is_vector ) or (ndarr.ndim == 4):
-            imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-2::-1], ndarr.shape[-1] )
+            if( ndarr.flags['C_CONTIGUOUS'] ):
+                imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-2::-1], ndarr.shape[-1] )
+            else:
+                imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-1:0:-1], ndarr.shape[0] )
         elif ndarr.ndim in ( 2, 3 ):
             imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[::-1], 1)
 
