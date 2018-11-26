@@ -118,50 +118,51 @@ testCpuFilter(std::string &                                 filterLabel,
               std::string                                   parameters,
               itk::TimeProbesCollectorBase *                timeCollector)
 {
-  typedef typename FilterType::InputImageType InputImage;
-  typename InputImage::Pointer                src;
-  void *                                      imgPtr = &src;
-
   using InputImage = typename FilterType::InputImageType;
   typename InputImage::Pointer src;
   void *                       imgPtr = &src;
 
-  std::ostringstream sizeStream;
-
-  sizeStream << size[0];
-  for (unsigned int i = 1; i < InputImage::ImageDimension; ++i)
+  if (inputFilename.empty())
   {
-    sizeStream << "x" << size[i];
+    createWhiteImage<InputImage>(imgPtr, size);
+    // createStepImage< InputImage >( imgPtr, size );
+
+    std::ostringstream sizeStream;
+
+    sizeStream << size[0];
+    for (unsigned int i = 1; i < InputImage::ImageDimension; ++i)
+    {
+      sizeStream << "x" << size[i];
+    }
+    parameters += sizeStream.str();
   }
-  parameters += sizeStream.str();
-}
-else
-{
-  getSourceImage<InputImage>(imgPtr, inputFilename);
-}
+  else
+  {
+    getSourceImage<InputImage>(imgPtr, inputFilename);
+  }
 
-typename FilterType::Pointer filter = FilterType::New();
-filter->SetSigma(sigma);
-filter->SetInput(src);
-filter->Update();
-
-{
-  src->Modified();
-  filter->Modified();
-
-  timeCollector->Start(filterLabel.c_str());
+  typename FilterType::Pointer filter = FilterType::New();
+  filter->SetSigma(sigma);
+  filter->SetInput(src);
   filter->Update();
-  filter->GetOutput();
-  timeCollector->Stop(filterLabel.c_str());
 
-  writeImage<typename FilterType::InputImageType>(filterLabel + parameters, filter->GetOutput());
-}
+  {
+    src->Modified();
+    filter->Modified();
 
-src->DisconnectPipeline();
-src = nullptr;
-filter = nullptr;
-imgPtr = nullptr;
-return EXIT_SUCCESS;
+    timeCollector->Start(filterLabel.c_str());
+    filter->Update();
+    filter->GetOutput();
+    timeCollector->Stop(filterLabel.c_str());
+
+    writeImage<typename FilterType::InputImageType>(filterLabel + parameters, filter->GetOutput());
+  }
+
+  src->DisconnectPipeline();
+  src = nullptr;
+  filter = nullptr;
+  imgPtr = nullptr;
+  return EXIT_SUCCESS;
 }
 
 
