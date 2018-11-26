@@ -17,7 +17,7 @@ jobs:
 
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv
+        sudo apt-get install -y python3-venv python-venv python3-numpy python-numpy
 
         c++ --version
         cmake --version
