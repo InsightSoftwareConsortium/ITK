@@ -41,6 +41,7 @@ macro(install_library library)
       EXPORT ${GDCM_TARGETS_NAME}
       RUNTIME DESTINATION ${GDCM_INSTALL_BIN_DIR} COMPONENT Applications
       LIBRARY DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Libraries ${NAMELINK_SKIP}
+      INCLUDES DESTINATION ${GDCM_INSTALL_INCLUDE_DIR}
       ARCHIVE DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT DebugDevel
       )
     # need recent cmake: http://cmake.org/gitweb?p=cmake.git;a=commitdiff;h=cbe7e8fa
