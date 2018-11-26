@@ -173,7 +173,7 @@ protected:
   /** Input images do not occupy the same physical space.
    * Remove the check. */
   void
-  VerifyInputInformation() const override {};
+  VerifyInputInformation() ITKv5_CONST override {};
 
 private:
   unsigned int             m_Levels;
