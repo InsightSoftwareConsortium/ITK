@@ -13,7 +13,7 @@ jobs:
     - script: |
         git clone -b dashboard --single-branch https://github.com/thewtex/ITK.git ITK-dashboard
 
-        pip3 install ninja
+        pip3 install ninja numpy
 
         cmake --version
 
