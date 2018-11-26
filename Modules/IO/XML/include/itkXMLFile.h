@@ -88,7 +88,7 @@ protected:
  * \ingroup ITKIOXML
  */
 template< typename T >
-class XMLReader: public XMLReaderBase
+class ITK_TEMPLATE_EXPORT XMLReader: public XMLReaderBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(XMLReader);
@@ -123,7 +123,7 @@ protected:
  * \ingroup ITKIOXML
  */
 template< typename T >
-class XMLWriterBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT XMLWriterBase:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(XMLWriterBase);
