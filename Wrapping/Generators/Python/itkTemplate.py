@@ -440,13 +440,14 @@ class itkTemplate(object):
         componentAsString = imageIO.GetComponentTypeAsString(imageIO.GetComponentType())
         component = componentTypeDic[componentAsString]
         pixel = imageIO.GetPixelTypeAsString(imageIO.GetPixelType())
-        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, dimension)
+        numberOfComponents = imageIO.GetNumberOfComponents()
+        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
         ImageType = itk.Image[PixelType, dimension]
         ReaderType = itk.ImageFileReader[ImageType]
         return ReaderType.New(*args, **kwargs)
 
     @staticmethod
-    def _pixelTypeFromIO(pixel, component, dimension):
+    def _pixelTypeFromIO(pixel, component, numberOfComponents):
         import itk
         if pixel == 'scalar':
             PixelType = component
@@ -455,23 +456,23 @@ class itkTemplate(object):
         elif pixel == 'rgba':
             PixelType = itk.RGBAPixel[component]
         elif pixel == 'offset':
-            PixelType = itk.Offset[dimension]
+            PixelType = itk.Offset[numberOfComponents]
         elif pixel == 'vector':
-            PixelType = itk.Vector[component, dimension]
+            PixelType = itk.Vector[component, numberOfComponents]
         elif pixel == 'point':
-            PixelType = itk.Point[component, dimension]
+            PixelType = itk.Point[component, numberOfComponents]
         elif pixel == 'covariant_vector':
-            PixelType = itk.CovariantVector[component, dimension]
+            PixelType = itk.CovariantVector[component, numberOfComponents]
         elif pixel == 'symmetric_second_rank_tensor':
-            PixelType = itk.SymmetricSecondRankTensor[component, dimension]
+            PixelType = itk.SymmetricSecondRankTensor[component, numberOfComponents]
         elif pixel == 'diffusion_tensor_3D':
             PixelType = itk.DiffusionTensor3D[component]
         elif pixel == 'complex':
             PixelType = itk.complex[component]
         elif pixel == 'fixed_array':
-            PixelType = itk.FixedArray[component, dimension]
+            PixelType = itk.FixedArray[component, numberOfComponents]
         elif pixel == 'matrix':
-            PixelType = itk.Matrix[component, dimension, dimension]
+            PixelType = itk.Matrix[component, int(sqrt(numberOfComponents)), int(sqrt(numberOfComponents))]
         else:
             raise RuntimeError("Unknown pixel type: %s." % pixel)
         return PixelType
