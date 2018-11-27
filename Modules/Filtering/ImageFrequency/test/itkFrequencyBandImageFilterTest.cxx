@@ -63,7 +63,7 @@ createImage( typename ImageType::SizeType size )
   image->Allocate( false );
 
   typename ImageType::PixelType value = itk::NumericTraits< typename ImageType::PixelType >::Zero;
-  itk::ImageRegionIterator< ImageType > iter;
+  itk::ImageRegionIterator< ImageType > iter( image, region );
   while ( !iter.IsAtEnd() )
     {
     iter.Set( ++value );
