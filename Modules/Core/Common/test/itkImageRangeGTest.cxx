@@ -20,6 +20,7 @@
 #include "itkImageRange.h"
 
 #include "itkImage.h"
+#include "itkVectorImage.h"
 
 #include <gtest/gtest.h>
 #include <algorithm>  // For std::reverse_copy, std::equal, etc.
@@ -31,6 +32,7 @@ template class itk::Experimental::ImageRange<itk::Image<short, 2>>;
 template class itk::Experimental::ImageRange<itk::Image<short, 3>>;
 template class itk::Experimental::ImageRange<itk::Image<short, 4>>;
 template class itk::Experimental::ImageRange<const itk::Image<short>>;
+template class itk::Experimental::ImageRange<itk::VectorImage<short>>;
 
 using itk::Experimental::ImageRange;
 
@@ -322,6 +324,42 @@ TEST(ImageRange, IteratorReferenceActsLikeARealReference)
   reference2 = 0;
   EXPECT_EQ(reference1, 42);
   EXPECT_EQ(reference2, 0);
+}
+
+
+// Tests that ImageRange<VectorImage<T>> is supported well.
+TEST(ImageRange, SupportsVectorImage)
+{
+  using ImageType = itk::VectorImage<unsigned char>;
+  using PixelType = ImageType::PixelType;
+  enum { vectorLength = 2, sizeX = 2, sizeY = 2, sizeZ = 2 };
+  const auto image = ImageType::New();
+  const typename ImageType::SizeType imageSize = { { sizeX , sizeY, sizeZ } };
+  image->SetRegions(imageSize);
+  image->SetVectorLength(vectorLength);
+  image->Allocate(true);
+  PixelType fillPixelValue(vectorLength);
+  fillPixelValue.Fill(42);
+  image->FillBuffer(fillPixelValue);
+
+  using RangeType = ImageRange<ImageType>;
+  RangeType range{ *image };
+
+  for (PixelType pixelValue : range)
+  {
+    EXPECT_EQ(pixelValue, fillPixelValue);
+  }
+
+  PixelType otherPixelValue(vectorLength);
+  otherPixelValue.Fill(1);
+  image->SetPixel({ {} }, otherPixelValue);
+
+  RangeType::const_iterator it = range.begin();
+  const PixelType firstPixelValueFromRange = *it;
+  EXPECT_EQ(firstPixelValueFromRange, otherPixelValue);
+  ++it;
+  const PixelType secondPixelValueFromRange = *it;
+  EXPECT_EQ(secondPixelValueFromRange, fillPixelValue);
 }
 
 
