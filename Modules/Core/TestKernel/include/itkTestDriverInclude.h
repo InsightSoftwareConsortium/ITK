@@ -45,6 +45,7 @@
 #include <iostream>
 #include <fstream>
 #include "itksys/SystemTools.hxx"
+#include "ITKCommonExport.h"
 #include "itkFloatingPointExceptions.h"
 #include "itkImageIOBase.h"
 #include "itkIntTypes.h"
@@ -82,12 +83,12 @@ typedef struct
   double directionTolerance;
 } RegressionTestParameters;
 
-extern RegressionTestParameters regressionTestParameters;
+extern ITKCommon_EXPORT RegressionTestParameters regressionTestParameters;
 
 
 using HashPairType = std::pair< const char *, std::vector<std::string> >;
 
-extern std::vector< HashPairType > hashTestList;
+extern ITKCommon_EXPORT std::vector< HashPairType > hashTestList;
 
 using ArgumentStringType = char **;
 
@@ -112,7 +113,7 @@ typedef struct
   std::string fileName;
 } RedirectOutputParameters;
 
-extern RedirectOutputParameters redirectOutputParameters;
+extern ITKCommon_EXPORT RedirectOutputParameters redirectOutputParameters;
 
 void usage();
 
