@@ -503,11 +503,12 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     vnl_matrix< ParametersValueType > eigenVectors(4, 4);
     vnl_vector< ParametersValueType > eigenValues(4);
 
-    using SymmetricEigenAnalysisType = itk::SymmetricEigenAnalysis<
+    using SymmetricEigenAnalysisType = itk::SymmetricEigenAnalysisFixedDimension<
+      4,
       itk::Matrix< ParametersValueType, 4, 4 >,
       vnl_vector< ParametersValueType >,
       vnl_matrix< ParametersValueType > >;
-    SymmetricEigenAnalysisType symmetricEigenSystem(4);
+    SymmetricEigenAnalysisType symmetricEigenSystem;
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
 

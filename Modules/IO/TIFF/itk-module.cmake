@@ -3,8 +3,9 @@ files in the Tagged Image File Format (TIFF).")
 
 itk_module(ITKIOTIFF
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOImageBase
+  PRIVATE_DEPENDS
     ITKTIFF
   TEST_DEPENDS
     ITKTestKernel

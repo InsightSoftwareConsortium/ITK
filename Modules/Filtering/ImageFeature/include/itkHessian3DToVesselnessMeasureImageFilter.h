@@ -102,8 +102,8 @@ public:
       FixedArray< double, Self::InputPixelDimension >;
   using EigenValueImageType =
       Image< EigenValueArrayType, Self::ImageDimension >;
-  using EigenAnalysisFilterType = SymmetricEigenAnalysisImageFilter<
-    InputImageType, EigenValueImageType >;
+  using EigenAnalysisFilterType = SymmetricEigenAnalysisFixedDimensionImageFilter<
+    ImageDimension, InputImageType, EigenValueImageType >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(Hessian3DToVesselnessMeasureImageFilter, ImageToImageFilter);

@@ -6,8 +6,9 @@ format.")
 
 
 itk_module(ITKIOSpatialObjects
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKSpatialObjects
+  PRIVATE_DEPENDS
     ITKIOXML
     ITKMesh
   TEST_DEPENDS

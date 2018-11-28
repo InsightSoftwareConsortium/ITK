@@ -64,8 +64,8 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
   const InputImageType* input = this->GetInput();
 
   // Calculator for computation of the eigen values
-  using CalculatorType = SymmetricEigenAnalysis< InputPixelType, EigenValueArrayType >;
-  CalculatorType eigenCalculator(ImageDimension);
+  using CalculatorType = SymmetricEigenAnalysisFixedDimension< ImageDimension, InputPixelType, EigenValueArrayType >;
+  CalculatorType eigenCalculator;
 
   // Walk the region of eigen values and get the objectness measure
   ImageRegionConstIterator< InputImageType > it(input, outputRegionForThread);
