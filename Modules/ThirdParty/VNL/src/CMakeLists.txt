@@ -20,6 +20,9 @@ set(BUILD_EXAMPLES ${BUILD_EXAMPLES} CACHE BOOL "Build the examples from the ITK
 
 foreach(lib itkvcl itkv3p_netlib itktestlib itkvnl itkvnl_algo itknetlib)
   itk_module_target(${lib} NO_INSTALL)
+  if (MSVC)
+    target_compile_definitions(${lib} PRIVATE "/MP") # enable object level parallel compilation
+  endif()
 endforeach()
 
 foreach(exe
