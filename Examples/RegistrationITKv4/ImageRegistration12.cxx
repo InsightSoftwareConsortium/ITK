@@ -30,7 +30,7 @@
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkRegularStepGradientDescentOptimizerv4.h"
 
-#include "itkCenteredRigid2DTransform.h"
+#include "itkEuler2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 
 #include "itkImageFileReader.h"
@@ -109,7 +109,7 @@ int main( int argc, char *argv[] )
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  using TransformType = itk::CenteredRigid2DTransform< double >;
+  using TransformType = itk::Euler2DTransform< double >;
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using MetricType = itk::MeanSquaresImageToImageMetricv4<
@@ -166,8 +166,6 @@ int main( int argc, char *argv[] )
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;
   optimizerScales[2] = translationScale;
-  optimizerScales[3] = translationScale;
-  optimizerScales[4] = translationScale;
 
   optimizer->SetScales( optimizerScales );
 
@@ -315,10 +313,11 @@ int main( int argc, char *argv[] )
                                       transform->GetParameters();
 
   const double finalAngle           = finalParameters[0];
-  const double finalRotationCenterX = finalParameters[1];
-  const double finalRotationCenterY = finalParameters[2];
-  const double finalTranslationX    = finalParameters[3];
-  const double finalTranslationY    = finalParameters[4];
+  const double finalTranslationX    = finalParameters[1];
+  const double finalTranslationY    = finalParameters[2];
+
+  const double rotationCenterX = registration->GetOutput()->Get()->GetFixedParameters()[0];
+  const double rotationCenterY = registration->GetOutput()->Get()->GetFixedParameters()[1];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   const double bestValue = optimizer->GetValue();
@@ -330,12 +329,12 @@ int main( int argc, char *argv[] )
   std::cout << "Result = " << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;
   std::cout << " Angle (degrees) " << finalAngleInDegrees  << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
-  std::cout << " Translation X = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY  << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Translation X  = " << finalTranslationX  << std::endl;
+  std::cout << " Translation Y  = " << finalTranslationY  << std::endl;
+  std::cout << " Fixed Center X = " << rotationCenterX  << std::endl;
+  std::cout << " Fixed Center Y = " << rotationCenterY  << std::endl;
+  std::cout << " Iterations     = " << numberOfIterations << std::endl;
+  std::cout << " Metric value   = " << bestValue          << std::endl;
 
   //  Software Guide : BeginLatex
   //
@@ -352,17 +351,15 @@ int main( int argc, char *argv[] )
   //  $Y$. Both images have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingImageRegistration5}.
   //
-  //  The registration converges after $23$ iterations and produces the
+  //  The registration converges after $20$ iterations and produces the
   //  following results:
   //
   //  \begin{verbatim}
   //
-  //  Angle (radians) 0.174407
-  //  Angle (degrees) 9.99281
-  //  Center X      = 111.172
-  //  Center Y      = 131.563
-  //  Translation X = 12.4584
-  //  Translation Y = 16.0726
+  //  Angle (radians) 0.174712
+  //  Angle (degrees) 10.0103
+  //  Translation X = 12.4521
+  //  Translation Y = 16.0765
   //
   //  \end{verbatim}
   //

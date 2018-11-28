@@ -274,9 +274,20 @@ def _GetImageFromArray(arr, function, is_vector):
     PixelType = _get_itk_pixelid(arr)
     if is_vector:
         Dimension = arr.ndim - 1
+        if arr.flags['C_CONTIGUOUS']:
+            VectorDimension = arr.shape[-1]
+        else:
+            VectorDimension = arr.shape[0]
+        if PixelType == itk.UC:
+            if VectorDimension == 3:
+                ImageType = itk.Image[ itk.RGBPixel[itk.UC], Dimension ]
+            elif VectorDimension == 4:
+                ImageType = itk.Image[ itk.RGBAPixel[itk.UC], Dimension ]
+        else:
+            ImageType = itk.Image[ itk.Vector[PixelType, VectorDimension] , Dimension]
     else:
         Dimension = arr.ndim
-    ImageType = itk.Image[PixelType, Dimension]
+        ImageType = itk.Image[PixelType, Dimension]
     templatedFunction = getattr(itk.PyBuffer[ImageType], function)
     return templatedFunction(arr, is_vector)
 
