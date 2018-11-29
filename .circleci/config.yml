@@ -36,8 +36,8 @@ jobs:
       - *restore-data-step
       - restore_cache:
           keys:
-            - ccache-{{ arch }}-{{ .Branch }}-
-            - ccache-{{ arch }}-master-
+            - 'ccache-{{ arch }}-{{ .Branch }}-'
+            - 'ccache-{{ arch }}-master-'
       - run:
           name: Cloning dashboard branch
           command: |
