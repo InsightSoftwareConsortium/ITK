@@ -60,7 +60,7 @@
 //  eigensystems, which cannot be members of just one matrix.
 
 template <class T>
-class vnl_svd
+class VNL_ALGO_EXPORT vnl_svd
 {
  public:
   //: The singular values of a matrix of complex<T> are of type T, not complex<T>

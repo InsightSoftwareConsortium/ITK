@@ -104,7 +104,7 @@ function(_print_footer _index_html)
     )
   set(index_html "${index_html}
 <h2>Download</h2>
-See the <a href=\"http://vxl.sourceforge.net/\">VXL Homepage</a>.
+See the <a href=\"https://vxl.github.io/\">VXL Homepage</a>.
 The source for VXL can be downloaded from
 <a href=\"http://sourceforge.net/projects/vxl\">
   sourceforge.net/projects/vxl
@@ -324,7 +324,7 @@ else()
   _print_header(index_html)
   set(index_html "${index_html}
 <h2>Overview Documentation</h2>
-<a href=\"http://vxl.sourceforge.net\">VXL Homepage</a>
+<a href=\"https://vxl.github.io\">VXL Homepage</a>
 <br />
 <br />
 <p>
