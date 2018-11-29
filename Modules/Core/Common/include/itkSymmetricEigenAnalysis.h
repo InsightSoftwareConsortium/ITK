@@ -22,6 +22,11 @@
 #include "itk_eigen.h"
 #include ITK_EIGEN(Eigenvalues)
 #include <numeric>
+#include <vector>
+// For GetPointerToMatrixData
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "itkMatrix.h"
 
 namespace itk
 {
