@@ -1,0 +1,3 @@
+* -whitespace
+Eigen/src/misc/lapacke.h hooks-max-size=1500000
+Eigen/src/misc/lapacke.h hooks.MaxObjectKiB=2048
