@@ -426,7 +426,10 @@ class itkTemplate(object):
         if not inputFileName:
             raise RuntimeError("No FileName specified.")
         import itk
-        imageIO = itk.ImageIOFactory.CreateImageIO( inputFileName, itk.ImageIOFactory.ReadMode )
+        if "ImageIO" in kwargs:
+            imageIO = kwargs["ImageIO"]
+        else:
+            imageIO = itk.ImageIOFactory.CreateImageIO( inputFileName, itk.ImageIOFactory.ReadMode )
         if not imageIO:
             raise RuntimeError("No ImageIO is registered to handle the given file.")
         componentTypeDic= {"float": itk.F, "double": itk.D,

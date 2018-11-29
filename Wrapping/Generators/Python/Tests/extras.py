@@ -154,6 +154,13 @@ down_casted = itk.down_cast(obj)
 assert down_casted == reader
 assert down_casted.__class__ == ReaderType
 
+# test setting the IO manually
+png_io = itk.PNGImageIO.New()
+assert png_io.GetFileName() == ''
+reader=itk.ImageFileReader.New(FileName=fileName, ImageIO=png_io)
+reader.Update()
+assert png_io.GetFileName() == fileName
+
 # pipeline, auto_pipeline and templated class are tested in other files
 
 # BridgeNumPy
