@@ -1,6 +1,8 @@
 project(ITKEigen3)
 set(ITKEigen3_THIRD_PARTY 1)
 set(ITKEigen3_LIBRARIES Eigen3::Eigen)
+# Assume that Eigen generates a Eigen3Config.cmake
+set(_Eigen3_min_version 3.3)
 
 option(ITK_USE_SYSTEM_EIGEN "Use an outside build of Eigen3." ${ITK_USE_SYSTEM_LIBRARIES})
 mark_as_advanced(ITK_USE_SYSTEM_EIGEN)
@@ -9,7 +11,7 @@ if(ITK_USE_SYSTEM_EIGEN)
   set(Eigen3_DIR_INSTALL ${Eigen3_DIR})
   set(Eigen3_DIR_BUILD ${Eigen3_DIR})
   set(Eigen3_DIR ${Eigen3_DIR_BUILD})
-  find_package(Eigen3 REQUIRED)
+  find_package(Eigen3 ${_Eigen3_min_version} REQUIRED CONFIG)
 else()
   set(Eigen3_DIR_INSTALL "${CMAKE_INSTALL_PREFIX}/${ITK_INSTALL_LIBRARY_DIR}/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Modules")
   set(Eigen3_DIR_BUILD "${CMAKE_CURRENT_BINARY_DIR}/src/itkeigen")
@@ -34,12 +36,12 @@ endif()
 # When this module is loaded by an app, load Eigen too.
 set(ITKEigen3_EXPORT_CODE_INSTALL "
 set(Eigen3_DIR \"${Eigen3_DIR_INSTALL}\")
-find_package(Eigen3 REQUIRED)
+find_package(Eigen3 ${_Eigen3_min_version} REQUIRED CONFIG)
 ")
 set(ITKEigen3_EXPORT_CODE_BUILD "
 if(NOT ITK_BINARY_DIR)
   set(Eigen3_DIR \"${Eigen3_DIR_BUILD}\")
-  find_package(Eigen3 REQUIRED)
+  find_package(Eigen3 ${_Eigen3_min_version} REQUIRED CONFIG)
 endif()
 ")
 
