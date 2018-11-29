@@ -42,6 +42,24 @@ RegressionTestParameters regressionTestParameters;
 std::vector< HashPairType > hashTestList;
 RedirectOutputParameters redirectOutputParameters;
 
+RegressionTestParameters&
+GetRegressionTestParameters()
+{
+  return regressionTestParameters;
+}
+
+std::vector< HashPairType >&
+GetHashTestList()
+{
+  return hashTestList;
+}
+
+RedirectOutputParameters&
+GetRedirectOutputParameters()
+{
+  return redirectOutputParameters;
+}
+
 namespace
 {
 char my_to_lower(const char c)
