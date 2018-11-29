@@ -91,11 +91,11 @@ private:
   class PixelProxy<true, TDummy> final
   {
   private:
-    // The accessor functor of the image.
-    const AccessorFunctorType m_AccessorFunctor;
-
     // Reference to the internal representation of the pixel, located in the image buffer.
     const InternalPixelType& m_InternalPixel;
+
+    // The accessor functor of the image.
+    const AccessorFunctorType m_AccessorFunctor;
 
   public:
     // Deleted member functions:
@@ -108,11 +108,11 @@ private:
 
     // Constructor, called directly by operator*() of the iterator class.
     PixelProxy(
-      const AccessorFunctorType& accessorFunctor,
-      const InternalPixelType& internalPixel) ITK_NOEXCEPT
+      const InternalPixelType& internalPixel,
+      const AccessorFunctorType& accessorFunctor) ITK_NOEXCEPT
       :
-    m_AccessorFunctor(accessorFunctor),
-    m_InternalPixel{ internalPixel }
+    m_InternalPixel{ internalPixel },
+    m_AccessorFunctor(accessorFunctor)
     {
     }
 
@@ -142,11 +142,11 @@ private:
     // a non-const proxy to a const proxy.
     friend class PixelProxy<true>;
 
-    // The accessor functor of the image.
-    const AccessorFunctorType m_AccessorFunctor;
-
     // Reference to the internal representation of the pixel, located in the image buffer.
     InternalPixelType& m_InternalPixel;
+
+    // The accessor functor of the image.
+    const AccessorFunctorType m_AccessorFunctor;
 
   public:
     // Deleted member functions:
@@ -158,11 +158,11 @@ private:
 
     // Constructor, called directly by operator*() of the iterator class.
     PixelProxy(
-      const AccessorFunctorType& accessorFunctor,
-      InternalPixelType& internalPixel) ITK_NOEXCEPT
+      InternalPixelType& internalPixel,
+      const AccessorFunctorType& accessorFunctor) ITK_NOEXCEPT
       :
-    m_AccessorFunctor(accessorFunctor),
-    m_InternalPixel{ internalPixel }
+    m_InternalPixel{ internalPixel },
+    m_AccessorFunctor(accessorFunctor)
     {
     }
 
@@ -289,7 +289,7 @@ private:
     reference operator*() const ITK_NOEXCEPT
     {
       assert(m_InternalPixelPointer != nullptr);
-      return reference{ m_AccessorFunctor, *m_InternalPixelPointer };
+      return reference{ *m_InternalPixelPointer, m_AccessorFunctor };
     }
 
 
