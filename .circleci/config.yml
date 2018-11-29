@@ -36,8 +36,8 @@ jobs:
       - *restore-data-step
       - restore_cache:
           keys:
-            - ccache-{{ arch }}-{{ .Branch }}
-            - ccache-{{ arch }}-master
+            - ccache-{{ arch }}-{{ .Branch }}-
+            - ccache-{{ arch }}-master-
       - run:
           name: Cloning dashboard branch
           command: |
@@ -86,7 +86,7 @@ jobs:
           path: /tmp/test-results
           destination: ctest
       - save_cache:
-          key: 'ccache-{{ arch }}-{{ .Branch }}-{{ epoch }}'
+          key: 'ccache-{{ arch }}-{{ .Branch }}-{{ .BuildNum }}'
           paths: [ "/home/circleci/.ccache" ]
       - save_cache:
           key: 'v1-external-data-{{ checksum "/home/circleci/external-data.hashable" }}'
