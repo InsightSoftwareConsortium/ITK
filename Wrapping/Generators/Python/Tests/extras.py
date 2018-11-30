@@ -31,6 +31,7 @@ itkConfig.ImportCallback = custom_callback
 
 import itk
 import sys
+import os
 
 # test the force load function
 itk.force_load()
@@ -160,6 +161,26 @@ assert png_io.GetFileName() == ''
 reader=itk.ImageFileReader.New(FileName=fileName, ImageIO=png_io)
 reader.Update()
 assert png_io.GetFileName() == fileName
+
+# test reading image series
+series_reader = itk.ImageSeriesReader.New(FileNames=[fileName,fileName])
+series_reader.Update()
+assert series_reader.GetOutput().GetImageDimension() == 3
+assert series_reader.GetOutput().GetLargestPossibleRegion().GetSize()[2] == 2
+
+# test reading image series and check that dimension is not increased if
+# last dimension is 1.
+image_series = itk.Image[itk.UC, 3].New()
+image_series.SetRegions([10, 7, 1])
+image_series.Allocate()
+image_series.FillBuffer(0)
+image_series3d_filename = os.path.join(
+    sys.argv[3], "image_series_extras_py.mha")
+itk.imwrite(image_series, image_series3d_filename)
+series_reader = itk.ImageSeriesReader.New(
+    FileNames=[image_series3d_filename, image_series3d_filename])
+series_reader.Update()
+assert series_reader.GetOutput().GetImageDimension() == 3
 
 # pipeline, auto_pipeline and templated class are tested in other files
 
