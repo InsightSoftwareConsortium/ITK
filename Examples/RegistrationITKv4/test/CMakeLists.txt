@@ -396,7 +396,7 @@ itk_add_test(NAME DeformableRegistration5Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration6Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{Baseline/DeformableRegistration1v4Test.png}
+  --compare DATA{Baseline/DeformableRegistration6v4Test.png}
             ${TEMP}/DeformableRegistration6Test.png
   --compareNumberOfPixelsTolerance 20
   --compareIntensityTolerance 70
