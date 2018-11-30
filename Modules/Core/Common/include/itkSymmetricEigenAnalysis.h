@@ -198,7 +198,7 @@ public:
    * matrix will be accessed. (Both itk::Matrix and vnl_matrix
    * overload [][] operator.)
    *
-   * 'EigenValues' is any type that overloads the [][] operator and will contain
+   * 'EigenValues' is any type that overloads the [] operator and will contain
    * the eigen values.
    *
    * 'EigenVectors' is any type that provides access to its elements with the
@@ -700,7 +700,7 @@ public:
    * matrix will be accessed. (Both itk::Matrix and vnl_matrix
    * overload [][] operator.)
    *
-   * 'EigenValues' is any type that overloads the [][] operator and will contain
+   * 'EigenValues' is any type that overloads the [] operator and will contain
    * the eigen values.
    *
    * No size checking is performed. A is expected to be a square matrix of size
@@ -721,7 +721,7 @@ public:
    * matrix will be accessed. (Both itk::Matrix and vnl_matrix
    * overload [][] operator.)
    *
-   * 'EigenValues' is any type that overloads the [][] operator and will contain
+   * 'EigenValues' is any type that overloads the [] operator and will contain
    * the eigen values.
    *
    * 'EigenVectors' is any type that provides access to its elements with the
