@@ -704,7 +704,7 @@ public:
    * the eigen values.
    *
    * No size checking is performed. A is expected to be a square matrix of size
-   * m_Dimension.  'EigenValues' is expected to be of length m_Dimension.
+   * TMatrixDimension.  'EigenValues' is expected to be of length TMatrixDimension.
    * The matrix is not checked to see if it is symmetric.
    */
   unsigned int ComputeEigenValues(
@@ -725,10 +725,10 @@ public:
    * the eigen values.
    *
    * 'EigenVectors' is any type that provides access to its elements with the
-   * [][] operator. It is expected be of size m_Dimension * m_Dimension.
+   * [][] operator. It is expected be of size TMatrixDimension * TMatrixDimension.
    *
    * No size checking is performed. A is expected to be a square matrix of size
-   * m_Dimension.  'EigenValues' is expected to be of length m_Dimension.
+   * TMatrixDimension.  'EigenValues' is expected to be of length TMatrixDimension.
    * The matrix is not checked to see if it is symmetric.
    *
    * Each row of the matrix 'EigenVectors' represents an eigen vector. (unlike MATLAB
@@ -756,15 +756,12 @@ public:
     else   { m_OrderEigenValues = DoNotOrder;       }
   }
   bool GetOrderEigenMagnitudes() const { return ( m_OrderEigenValues == OrderByMagnitude ); }
-  constexpr unsigned int GetOrder() const { return m_Order; }
-  constexpr unsigned int GetDimension() const { return m_Dimension; }
-  constexpr bool GetUseEigenLibrary() const { return m_UseEigenLibrary; }
+  constexpr unsigned int GetOrder() const { return TMatrixDimension; }
+  constexpr unsigned int GetDimension() const { return TMatrixDimension; }
+  constexpr bool GetUseEigenLibrary() const { return true; }
 
 private:
-  static constexpr bool         m_UseEigenLibrary = true;
-  static constexpr unsigned int m_Dimension = TMatrixDimension;
-  static constexpr unsigned int m_Order = TMatrixDimension;
-  EigenValueOrderType           m_OrderEigenValues;
+  EigenValueOrderType m_OrderEigenValues;
 
   /* Helper to get the matrix value type for EigenLibMatrix typename.
    *
@@ -809,9 +806,9 @@ private:
     using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
     using ValueType = typename std::remove_cv<ValueTypeCV>::type;
     using EigenLibMatrixType =
-      Eigen::Matrix< ValueType, m_Dimension, m_Dimension, Eigen::RowMajor>;
+      Eigen::Matrix< ValueType, TMatrixDimension, TMatrixDimension, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
-    EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
+    EigenConstMatrixMap inputMatrix(pointerToData, TMatrixDimension, TMatrixDimension);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
     const auto & eigenValues = solver.eigenvalues();
@@ -823,12 +820,12 @@ private:
       {
       auto copyEigenValues = eigenValues;
       auto copyEigenVectors = eigenVectors;
-      auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, m_Dimension);
+      auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, TMatrixDimension);
       detail::permuteColumnsWithSortIndices(copyEigenVectors, indicesSortPermutations);
-      for (unsigned int row = 0; row < m_Dimension; ++row)
+      for (unsigned int row = 0; row < TMatrixDimension; ++row)
         {
         EigenValues[row] = copyEigenValues[row];
-        for (unsigned int col = 0; col < m_Dimension; ++col)
+        for (unsigned int col = 0; col < TMatrixDimension; ++col)
           {
           EigenVectors[row][col] = copyEigenVectors(col, row);
           }
@@ -836,10 +833,10 @@ private:
       }
     else
       {
-      for (unsigned int row = 0; row < m_Dimension; ++row)
+      for (unsigned int row = 0; row < TMatrixDimension; ++row)
         {
         EigenValues[row] = eigenValues[row];
-        for (unsigned int col = 0; col < m_Dimension; ++col)
+        for (unsigned int col = 0; col < TMatrixDimension; ++col)
           {
           EigenVectors[row][col] = eigenVectors(col, row);
           }
@@ -865,11 +862,11 @@ private:
   {
   using ValueType = decltype(GetMatrixValueType(true));
   using EigenLibMatrixType =
-    Eigen::Matrix< ValueType, m_Dimension, m_Dimension, Eigen::RowMajor>;
-  EigenLibMatrixType inputMatrix( m_Dimension, m_Dimension);
-  for (unsigned int row = 0; row < m_Dimension; ++row)
+    Eigen::Matrix< ValueType, TMatrixDimension, TMatrixDimension, Eigen::RowMajor>;
+  EigenLibMatrixType inputMatrix( TMatrixDimension, TMatrixDimension);
+  for (unsigned int row = 0; row < TMatrixDimension; ++row)
     {
-    for (unsigned int col = 0; col < m_Dimension; ++col)
+    for (unsigned int col = 0; col < TMatrixDimension; ++col)
       {
       inputMatrix(row, col) = A(row, col);
       }
@@ -886,13 +883,13 @@ private:
     {
     auto copyEigenValues = eigenValues;
     auto copyEigenVectors = eigenVectors;
-    auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, m_Dimension);
+    auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, TMatrixDimension);
     detail::permuteColumnsWithSortIndices(copyEigenVectors, indicesSortPermutations);
 
-    for (unsigned int row = 0; row < m_Dimension; ++row)
+    for (unsigned int row = 0; row < TMatrixDimension; ++row)
       {
       EigenValues[row] = copyEigenValues[row];
-      for (unsigned int col = 0; col < m_Dimension; ++col)
+      for (unsigned int col = 0; col < TMatrixDimension; ++col)
         {
         EigenVectors[row][col] = copyEigenVectors(col, row);
         }
@@ -900,10 +897,10 @@ private:
     }
   else
     {
-    for (unsigned int row = 0; row < m_Dimension; ++row)
+    for (unsigned int row = 0; row < TMatrixDimension; ++row)
       {
       EigenValues[row] = eigenValues[row];
-      for (unsigned int col = 0; col < m_Dimension; ++col)
+      for (unsigned int col = 0; col < TMatrixDimension; ++col)
         {
         EigenVectors[row][col] = eigenVectors(col, row);
         }
@@ -928,11 +925,11 @@ private:
     {
     using ValueType = decltype(GetMatrixValueType(true));
     using EigenLibMatrixType =
-      Eigen::Matrix< ValueType, m_Dimension, m_Dimension, Eigen::RowMajor>;
-    EigenLibMatrixType inputMatrix(m_Dimension, m_Dimension);
-    for (unsigned int row = 0; row < m_Dimension; ++row)
+      Eigen::Matrix< ValueType, TMatrixDimension, TMatrixDimension, Eigen::RowMajor>;
+    EigenLibMatrixType inputMatrix(TMatrixDimension, TMatrixDimension);
+    for (unsigned int row = 0; row < TMatrixDimension; ++row)
       {
-      for (unsigned int col = 0; col < m_Dimension; ++col)
+      for (unsigned int col = 0; col < TMatrixDimension; ++col)
         {
         inputMatrix(row, col) = A(row, col);
         }
@@ -942,9 +939,9 @@ private:
     auto eigenValues = solver.eigenvalues();
     if(m_OrderEigenValues == OrderByMagnitude)
       {
-      detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
+      detail::sortEigenValuesByMagnitude(eigenValues, TMatrixDimension);
       }
-    for (unsigned int i = 0; i < m_Dimension; ++i)
+    for (unsigned int i = 0; i < TMatrixDimension; ++i)
       {
       EigenValues[i] = eigenValues[i];
       }
@@ -974,17 +971,17 @@ private:
     using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
     using ValueType = typename std::remove_cv<ValueTypeCV>::type;
     using EigenLibMatrixType =
-      Eigen::Matrix< ValueType, m_Dimension, m_Dimension, Eigen::RowMajor>;
+      Eigen::Matrix< ValueType, TMatrixDimension, TMatrixDimension, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
-    EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
+    EigenConstMatrixMap inputMatrix(pointerToData, TMatrixDimension, TMatrixDimension);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
     auto eigenValues = solver.eigenvalues();
     if(m_OrderEigenValues == OrderByMagnitude)
       {
-      detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
+      detail::sortEigenValuesByMagnitude(eigenValues, TMatrixDimension);
       }
-    for (unsigned int i = 0; i < m_Dimension; ++i)
+    for (unsigned int i = 0; i < TMatrixDimension; ++i)
       {
       EigenValues[i] = eigenValues[i];
       }
