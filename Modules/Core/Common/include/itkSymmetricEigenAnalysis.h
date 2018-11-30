@@ -807,7 +807,7 @@ private:
     using ValueType = typename std::remove_cv<ValueTypeCV>::type;
     using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
-    EigenConstMatrixMap inputMatrix(pointerToData, VDimension, VDimension);
+    EigenConstMatrixMap inputMatrix(pointerToData);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
     const auto & eigenValues = solver.eigenvalues();
@@ -861,7 +861,7 @@ private:
   {
   using ValueType = decltype(GetMatrixValueType(true));
   using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
-  EigenLibMatrixType inputMatrix( VDimension, VDimension);
+  EigenLibMatrixType inputMatrix;
   for (unsigned int row = 0; row < VDimension; ++row)
     {
     for (unsigned int col = 0; col < VDimension; ++col)
@@ -923,7 +923,7 @@ private:
     {
     using ValueType = decltype(GetMatrixValueType(true));
     using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
-    EigenLibMatrixType inputMatrix(VDimension, VDimension);
+    EigenLibMatrixType inputMatrix;
     for (unsigned int row = 0; row < VDimension; ++row)
       {
       for (unsigned int col = 0; col < VDimension; ++col)
@@ -969,7 +969,7 @@ private:
     using ValueType = typename std::remove_cv<ValueTypeCV>::type;
     using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
-    EigenConstMatrixMap inputMatrix(pointerToData, VDimension, VDimension);
+    EigenConstMatrixMap inputMatrix(pointerToData);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
     auto eigenValues = solver.eigenvalues();
