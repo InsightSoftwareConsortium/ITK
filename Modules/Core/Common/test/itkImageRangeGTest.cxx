@@ -25,6 +25,7 @@
 #include <gtest/gtest.h>
 #include <algorithm>  // For std::reverse_copy, std::equal, etc.
 #include <numeric>  // For std::inner_product
+#include <type_traits>  // For std::is_reference.
 
 // Test template instantiations for various ImageDimension values, and const Image:
 template class itk::Experimental::ImageRange<itk::Image<short, 1>>;
@@ -39,6 +40,27 @@ using itk::Experimental::ImageRange;
 
 namespace
 {
+  // Tells whether or not ImageRange<TImage>::iterator::operator*() returns a reference.
+  // (If it does not return a reference, it actually returns a proxy to the pixel.)
+  template <typename TImage>
+  constexpr bool DoesImageRangeIteratorDereferenceOperatorReturnReference()
+  {
+    using IteratorType = typename ImageRange<TImage>::iterator;
+
+    return std::is_reference<decltype(*std::declval<IteratorType>())>::value;
+  }
+
+
+  static_assert(DoesImageRangeIteratorDereferenceOperatorReturnReference<itk::Image<int>>(),
+    "ImageRange::iterator::operator*() should return a reference for an itk::Image.");
+  static_assert(DoesImageRangeIteratorDereferenceOperatorReturnReference<const itk::Image<int>>(),
+    "ImageRange::iterator::operator*() should return a reference for a 'const' itk::Image.");
+  static_assert(!DoesImageRangeIteratorDereferenceOperatorReturnReference<itk::VectorImage<int>>(),
+    "ImageRange::iterator::operator*() should not return a reference for an itk::VectorImage.");
+  static_assert(!DoesImageRangeIteratorDereferenceOperatorReturnReference<const itk::VectorImage<int>>(),
+    "ImageRange::iterator::operator*() should not return a reference for a 'const' itk::VectorImage.");
+
+
   template<typename TImage>
   typename TImage::Pointer CreateImage(const unsigned sizeX, const unsigned sizeY)
   {
