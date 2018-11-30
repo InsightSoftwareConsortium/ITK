@@ -103,11 +103,10 @@ MINCTransformIOTemplate<TParametersValueType>
 
       Matrix< double, 3,3 > RAS_affine_transform;
       Matrix< double, 3,3 > LPS_affine_transform;
-      RAS_affine_transform.Fill(0.0);
       RAS_affine_transform.SetIdentity();
+
       //MINC stores transforms in RAS, need to convert to LPS for ITK
       Matrix< double, 3,3 > RAS_tofrom_LPS;
-      RAS_tofrom_LPS.Fill(0.0);
       RAS_tofrom_LPS.SetIdentity();
       RAS_tofrom_LPS(0,0) = -1.0;
       RAS_tofrom_LPS(1,1) = -1.0;
@@ -289,7 +288,6 @@ MINCTransformIOTemplate<TParametersValueType>
       Matrix< double, 3,3 > RAS_tofrom_LPS;
       Matrix< double, 3,3 > RAS_affine_transform;
       Matrix< double, 3,3 > LPS_affine_transform;
-      RAS_tofrom_LPS.Fill(0.0);
       RAS_tofrom_LPS.SetIdentity();
       RAS_tofrom_LPS(0,0) = -1.0;
       RAS_tofrom_LPS(1,1) = -1.0;
