@@ -60,6 +60,11 @@ EM_ASM(
     FUNCTION  ProcessArgumentsAndRegisterRequiredFactories
     )
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})
+
+  set_target_properties(${KIT}TestDriver PROPERTIES CXX_VISIBILITY_PRESET hidden)
+  set_target_properties(${KIT}TestDriver PROPERTIES C_VISIBILITY_PRESET hidden)
+  set_target_properties(${KIT}TestDriver PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+
   target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
   itk_module_target_label(${KIT}TestDriver)
 endmacro()
@@ -114,6 +119,11 @@ EM_ASM(
     FUNCTION  ProcessArgumentsAndRegisterBuiltInFactories
     )
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})
+
+  set_target_properties(${KIT}TestDriver PROPERTIES CXX_VISIBILITY_PRESET hidden)
+  set_target_properties(${KIT}TestDriver PROPERTIES C_VISIBILITY_PRESET hidden)
+  set_target_properties(${KIT}TestDriver PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+
   target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
   itk_module_target_label(${KIT}TestDriver)
 endmacro()
