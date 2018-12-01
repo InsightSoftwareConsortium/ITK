@@ -759,4 +759,30 @@ private:
 #include "itkImageBase.hxx"
 #endif
 
+namespace itk
+{
+/** Explicit instantiations */
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
+extern template class ITKCommon_EXPORT ImageBase< 1u >;
+extern template class ITKCommon_EXPORT ImageBase< 2u >;
+extern template class ITKCommon_EXPORT ImageBase< 3u >;
+extern template class ITKCommon_EXPORT ImageBase< 4u >;
+extern template class ITKCommon_EXPORT ImageBase< 5u >;
+extern template class ITKCommon_EXPORT ImageBase< 6u >;
+extern template class ITKCommon_EXPORT ImageBase< 7u >;
+extern template class ITKCommon_EXPORT ImageBase< 8u >;
+extern template class ITKCommon_EXPORT ImageBase< 9u >;
+extern template class ITKCommon_EXPORT ImageBase< 10u >;
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
+#endif
+}
+
 #endif

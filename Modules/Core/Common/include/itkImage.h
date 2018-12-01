@@ -300,4 +300,22 @@ private:
 #include "itkImage.hxx"
 #endif
 
+namespace itk
+{
+/** Explicit instantiations */
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
+extern template class ITKCommon_EXPORT Image< float, 2u >; // required by python wrappings
+extern template class ITKCommon_EXPORT Image< unsigned char, 2u >; // required by python wrappings
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
+#endif
+}
+
 #endif

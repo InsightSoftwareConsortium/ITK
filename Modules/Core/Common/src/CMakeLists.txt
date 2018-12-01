@@ -59,6 +59,8 @@ set(ITKCommon_SRCS
   itkProgressAccumulator.cxx
   itkNumericTraits.cxx
   itkHexahedronCellTopology.cxx
+  itkImageBase.cxx
+  itkImage.cxx
   itkIndent.cxx
   itkEventObject.cxx
   itkFileOutputWindow.cxx
