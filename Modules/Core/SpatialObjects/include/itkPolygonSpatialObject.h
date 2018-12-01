@@ -27,7 +27,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT PolygonSpatialObject:
+class ITKSpatialObjects_EXPORT PolygonSpatialObject:
   public BlobSpatialObject< TDimension >
 {
 public:

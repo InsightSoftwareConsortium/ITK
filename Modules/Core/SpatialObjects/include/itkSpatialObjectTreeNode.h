@@ -21,6 +21,8 @@
 #include "itkTreeNode.h"
 #include "itkSpatialObject.h"
 
+#include "ITKSpatialObjectsExport.h"
+
 namespace itk
 {
 
@@ -33,7 +35,7 @@ class ITK_FORWARD_EXPORT SpatialObject;
  * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension >
-class ITK_TEMPLATE_EXPORT SpatialObjectTreeNode:public TreeNode< SpatialObject< TDimension > * >
+class ITKSpatialObjects_EXPORT SpatialObjectTreeNode:public TreeNode< SpatialObject< TDimension > * >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectTreeNode);

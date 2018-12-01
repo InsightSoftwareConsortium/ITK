@@ -40,7 +40,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT GaussianSpatialObject:
+class ITKSpatialObjects_EXPORT GaussianSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

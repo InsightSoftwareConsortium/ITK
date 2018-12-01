@@ -35,7 +35,7 @@ namespace itk
  */
 
 template< unsigned int TSpaceDimension = 3 >
-class ITK_TEMPLATE_EXPORT SceneSpatialObject:
+class ITKSpatialObjects_EXPORT SceneSpatialObject:
   public Object
 {
 public:

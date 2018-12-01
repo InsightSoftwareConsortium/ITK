@@ -21,6 +21,8 @@
 #include "itkMacro.h"
 #include "metaEvent.h"
 
+#include "ITKSpatialObjectsExport.h"
+
 namespace itk
 {
 /** \class MetaEvent
@@ -32,9 +34,9 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 #if (METAIO_USE_NAMESPACE)
-class MetaEvent : public METAIO_NAMESPACE::MetaEvent
+class ITKSpatialObjects_EXPORT MetaEvent : public METAIO_NAMESPACE::MetaEvent
 #else
-class MetaEvent : public ::MetaEvent
+class ITKSpatialObjects_EXPORT MetaEvent : public ::MetaEvent
 #endif
 {
 public:

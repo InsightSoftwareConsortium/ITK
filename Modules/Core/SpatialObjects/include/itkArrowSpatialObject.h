@@ -34,7 +34,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT ArrowSpatialObject:
+class ITKSpatialObjects_EXPORT ArrowSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

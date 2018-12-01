@@ -30,6 +30,8 @@
 #include "itkImageRegion.h"
 #include "itkSpatialObjectTreeNode.h"
 
+#include "ITKSpatialObjectsExport.h"
+
 namespace itk
 {
 /**
@@ -57,7 +59,7 @@ template< unsigned int VDimension >
 class ITK_FORWARD_EXPORT SpatialObjectTreeNode;
 
 template< unsigned int VDimension = 3 >
-class ITK_TEMPLATE_EXPORT SpatialObject:
+class ITKSpatialObjects_EXPORT SpatialObject:
   public DataObject
 {
 public:
