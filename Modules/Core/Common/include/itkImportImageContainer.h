@@ -42,7 +42,7 @@ namespace itk
  */
 
 template< typename TElementIdentifier, typename TElement >
-class ITK_TEMPLATE_EXPORT ImportImageContainer:public Object
+class ITKCommon_EXPORT ImportImageContainer:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainer);
