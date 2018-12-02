@@ -92,7 +92,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TPixel >
-class ITK_TEMPLATE_EXPORT PhasedArray3DSpecialCoordinatesImage:
+class ITKCommon_EXPORT PhasedArray3DSpecialCoordinatesImage:
   public SpecialCoordinatesImage< TPixel, 3 >
 {
 public:

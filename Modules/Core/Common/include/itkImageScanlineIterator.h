@@ -39,7 +39,7 @@ namespace itk
  *
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageScanlineIterator:public ImageScanlineConstIterator< TImage >
+class ITKCommon_EXPORT ImageScanlineIterator:public ImageScanlineConstIterator< TImage >
 {
 public:
   /** Standard class type aliases. */

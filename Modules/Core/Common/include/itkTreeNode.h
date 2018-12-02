@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TValue >
-class ITK_TEMPLATE_EXPORT TreeNode:public Object
+class ITKCommon_EXPORT TreeNode:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TreeNode);

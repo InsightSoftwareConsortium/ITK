@@ -74,7 +74,7 @@ template<
   typename TPointsContainer =
     VectorContainer< TPointIdentifier, Point< TCoordRep, VPointDimension > >
   >
-class ITK_TEMPLATE_EXPORT BoundingBox:public Object
+class ITKCommon_EXPORT BoundingBox:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoundingBox);

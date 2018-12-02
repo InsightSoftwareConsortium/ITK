@@ -78,7 +78,7 @@ namespace itk
  * \endwiki
  */
 template< typename TPixel, unsigned int VImageDimension = 3 >
-class ITK_TEMPLATE_EXPORT VectorImage:
+class ITKCommon_EXPORT VectorImage:
   public ImageBase< VImageDimension >
 {
 public:

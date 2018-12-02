@@ -60,7 +60,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TObjectType >
-class ITK_TEMPLATE_EXPORT ObjectStore:public Object
+class ITKCommon_EXPORT ObjectStore:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectStore);

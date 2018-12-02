@@ -55,7 +55,7 @@ namespace itk
  */
 
 template< typename TComponent = unsigned short >
-class ITK_TEMPLATE_EXPORT RGBPixel:public FixedArray< TComponent, 3 >
+class ITKCommon_EXPORT RGBPixel:public FixedArray< TComponent, 3 >
 {
 public:
   /** Standard class type aliases. */

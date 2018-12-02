@@ -36,7 +36,7 @@ namespace itk
  */
 
 template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT QuadrilateralCell:public TCellInterface, private QuadrilateralCellTopology
+class ITKCommon_EXPORT QuadrilateralCell:public TCellInterface, private QuadrilateralCellTopology
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadrilateralCell);

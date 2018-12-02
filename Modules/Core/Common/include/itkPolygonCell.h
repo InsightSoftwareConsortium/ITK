@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT PolygonCell:public TCellInterface
+class ITKCommon_EXPORT PolygonCell:public TCellInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonCell);

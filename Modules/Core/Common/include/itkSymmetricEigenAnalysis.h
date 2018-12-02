@@ -146,7 +146,7 @@ namespace detail
  */
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
-class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysis
+class ITKCommon_EXPORT SymmetricEigenAnalysis
 {
 public:
   typedef enum
@@ -676,7 +676,7 @@ std::ostream & operator<<(std::ostream & os,
 }
 
 template< unsigned int VDimension, typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
-class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
+class ITKCommon_EXPORT SymmetricEigenAnalysisFixedDimension
 {
 public:
   typedef enum

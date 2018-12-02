@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename MetaDataObjectType >
-class ITK_TEMPLATE_EXPORT MetaDataObject:public MetaDataObjectBase
+class ITKCommon_EXPORT MetaDataObject:public MetaDataObjectBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObject);
@@ -256,7 +256,7 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
 //
 #  if defined( ITKCommon_EXPORTS )
 //   We are building this library
-#    define ITKCommon_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKCommon_EXPORT_EXPLICIT ITKCommon_EXPORT
 #  else
 //   We are using this library
 #    define ITKCommon_EXPORT_EXPLICIT ITKCommon_EXPORT

@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT QuadraticEdgeCell:public TCellInterface
+class ITKCommon_EXPORT QuadraticEdgeCell:public TCellInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticEdgeCell);

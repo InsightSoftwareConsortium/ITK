@@ -41,7 +41,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT MinimumMaximumImageCalculator:public Object
+class ITKCommon_EXPORT MinimumMaximumImageCalculator:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageCalculator);

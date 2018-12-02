@@ -28,7 +28,7 @@ template<
   typename TPixelType,
   typename TCellTraits
   >
-class ITK_TEMPLATE_EXPORT CellInterface;
+class ITKCommon_EXPORT CellInterface;
 
 /** \class CellInterfaceVisitor
  *  \brief Abstract interface for a visitor class that can visit the
@@ -47,7 +47,7 @@ template<
   typename TPixelType,
   typename TCellTraits
   >
-class ITK_TEMPLATE_EXPORT CellInterfaceVisitor:public LightObject
+class ITKCommon_EXPORT CellInterfaceVisitor:public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitor);

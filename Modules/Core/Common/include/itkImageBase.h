@@ -107,7 +107,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< unsigned int VImageDimension = 2 >
-class ITK_TEMPLATE_EXPORT ImageBase:public DataObject
+class ITKCommon_EXPORT ImageBase:public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageBase);

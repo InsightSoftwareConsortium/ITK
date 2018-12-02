@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT LevelOrderTreeIterator:public TreeIteratorBase< TTreeType >
+class ITKCommon_EXPORT LevelOrderTreeIterator:public TreeIteratorBase< TTreeType >
 {
 public:
 

@@ -111,7 +111,7 @@ public:
  * \ingroup ITKCommon
  */
 template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
-class ITK_TEMPLATE_EXPORT Octree:public OctreeBase
+class ITKCommon_EXPORT Octree:public OctreeBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Octree);

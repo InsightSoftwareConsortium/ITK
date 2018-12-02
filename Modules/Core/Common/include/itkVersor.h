@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename T >
-class ITK_TEMPLATE_EXPORT Versor
+class ITKCommon_EXPORT Versor
 {
 public:
   /** Standard class type aliases. */

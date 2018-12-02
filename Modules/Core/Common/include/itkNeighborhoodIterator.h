@@ -209,7 +209,7 @@ std::cout << *iterator[c]              << std::endl;
  */
 template< typename TImage, typename TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >
-class ITK_TEMPLATE_EXPORT NeighborhoodIterator:
+class ITKCommon_EXPORT NeighborhoodIterator:
   public ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 {
 public:

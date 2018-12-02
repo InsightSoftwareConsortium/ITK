@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename T >
-class ITK_TEMPLATE_EXPORT DataObjectDecorator:public DataObject
+class ITKCommon_EXPORT DataObjectDecorator:public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DataObjectDecorator);

@@ -50,7 +50,7 @@ namespace itk
  */
 
 template< typename T, unsigned int NRows = 3, unsigned int NColumns = 3 >
-class ITK_TEMPLATE_EXPORT Matrix
+class ITKCommon_EXPORT Matrix
 {
 public:
   /** Standard class type aliases. */

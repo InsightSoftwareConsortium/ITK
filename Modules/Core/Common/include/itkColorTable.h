@@ -37,7 +37,7 @@ namespace itk
  */
 
 template< typename TPixel >
-class ITK_TEMPLATE_EXPORT ColorTable:public Object
+class ITKCommon_EXPORT ColorTable:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ColorTable);

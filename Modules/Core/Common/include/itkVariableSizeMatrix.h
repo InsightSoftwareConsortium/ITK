@@ -41,7 +41,7 @@ namespace itk
  */
 
 template< typename T >
-class ITK_TEMPLATE_EXPORT VariableSizeMatrix
+class ITKCommon_EXPORT VariableSizeMatrix
 {
 public:
   /** Standard class type aliases. */

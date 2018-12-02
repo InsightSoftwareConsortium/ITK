@@ -38,7 +38,7 @@ namespace itk
   * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT NeighborhoodAccessorFunctor final
+class ITKCommon_EXPORT NeighborhoodAccessorFunctor final
 {
 public:
   using Self = NeighborhoodAccessorFunctor;

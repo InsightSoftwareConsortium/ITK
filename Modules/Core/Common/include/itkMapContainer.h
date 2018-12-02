@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TElementIdentifier, typename TElement >
-class ITK_TEMPLATE_EXPORT MapContainer:
+class ITKCommon_EXPORT MapContainer:
   public Object,
   private std::map< TElementIdentifier, TElement >
 {

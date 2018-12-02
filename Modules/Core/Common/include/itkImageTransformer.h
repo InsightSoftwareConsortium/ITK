@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ImageTransformer:public ProcessObject
+class ITKCommon_EXPORT ImageTransformer:public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageTransformer);

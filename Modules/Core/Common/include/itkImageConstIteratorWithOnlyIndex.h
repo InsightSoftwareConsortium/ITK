@@ -92,7 +92,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageConstIteratorWithOnlyIndex
+class ITKCommon_EXPORT ImageConstIteratorWithOnlyIndex
 {
 public:
   /** Standard class type aliases. */

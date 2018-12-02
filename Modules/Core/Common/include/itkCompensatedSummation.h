@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template < typename TFloat >
-class ITK_TEMPLATE_EXPORT CompensatedSummation
+class ITKCommon_EXPORT CompensatedSummation
 {
 public:
   /** Type of the input elements. */

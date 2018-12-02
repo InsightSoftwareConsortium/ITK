@@ -64,7 +64,7 @@ namespace itk
  */
 
 template <unsigned int VDimension = 2>
-struct ITK_TEMPLATE_EXPORT  Size final
+struct ITKCommon_EXPORT  Size final
 {
 public:
   /** Standard class type aliases. */

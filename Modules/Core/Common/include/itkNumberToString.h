@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TValue>
-class ITK_TEMPLATE_EXPORT NumberToString
+class ITKCommon_EXPORT NumberToString
 {
 public:
   std::string operator() (TValue val);

@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TDomain >
-class ITK_TEMPLATE_EXPORT ThreadedDomainPartitioner : public Object
+class ITKCommon_EXPORT ThreadedDomainPartitioner : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedDomainPartitioner);

@@ -57,7 +57,7 @@ namespace itk
  *
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT ConstNeighborhoodIteratorWithOnlyIndex:
+class ITKCommon_EXPORT ConstNeighborhoodIteratorWithOnlyIndex:
   public Neighborhood< char, TImage::ImageDimension >
 {
 public:

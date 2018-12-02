@@ -24,16 +24,16 @@
  * and TreeIteratorBase that cause the HeaderTest to fail without these forward
  * declarations. */
 template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreeNodeChangeEvent;
+class ITKCommon_EXPORT TreeNodeChangeEvent;
 
 template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreeAddEvent;
+class ITKCommon_EXPORT TreeAddEvent;
 
 template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreePruneEvent;
+class ITKCommon_EXPORT TreePruneEvent;
 
 template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreeRemoveEvent;
+class ITKCommon_EXPORT TreeRemoveEvent;
 
 namespace itk
 {

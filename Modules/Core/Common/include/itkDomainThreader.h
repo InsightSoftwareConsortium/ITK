@@ -63,7 +63,7 @@ namespace itk
  *  \ingroup ITKCommon
  */
 template< typename TDomainPartitioner, typename TAssociate >
-class ITK_TEMPLATE_EXPORT DomainThreader: public Object
+class ITKCommon_EXPORT DomainThreader: public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DomainThreader);

@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TNodeType >
-class ITK_TEMPLATE_EXPORT ConstSparseFieldLayerIterator
+class ITKCommon_EXPORT ConstSparseFieldLayerIterator
 {
 public:
   const TNodeType & operator*() const
@@ -86,7 +86,7 @@ protected:
  * \ingroup ITKCommon
  */
 template< typename TNodeType >
-class ITK_TEMPLATE_EXPORT SparseFieldLayerIterator:
+class ITKCommon_EXPORT SparseFieldLayerIterator:
   public ConstSparseFieldLayerIterator< TNodeType >
 {
 public:
@@ -149,7 +149,7 @@ public:
  * \ingroup ITKCommon
  */
 template< typename TNodeType >
-class ITK_TEMPLATE_EXPORT SparseFieldLayer:
+class ITKCommon_EXPORT SparseFieldLayer:
   public Object
 {
 public:

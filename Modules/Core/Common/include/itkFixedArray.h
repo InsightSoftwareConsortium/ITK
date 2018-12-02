@@ -48,7 +48,7 @@ namespace itk
  * \endwiki
  */
 template< typename TValue, unsigned int VLength = 3 >
-class ITK_TEMPLATE_EXPORT FixedArray
+class ITKCommon_EXPORT FixedArray
 {
 public:
   /** Length constant */

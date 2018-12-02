@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInput = float, typename TOutput = double >
-class ITK_TEMPLATE_EXPORT RegularizedHeavisideStepFunction:
+class ITKCommon_EXPORT RegularizedHeavisideStepFunction:
     public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:

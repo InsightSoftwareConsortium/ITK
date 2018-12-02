@@ -62,7 +62,7 @@ namespace itk
  */
 
 template <unsigned int VDimension = 2>
-struct ITK_TEMPLATE_EXPORT Index final
+struct ITKCommon_EXPORT Index final
 {
 public:
   /** Standard class type aliases. */

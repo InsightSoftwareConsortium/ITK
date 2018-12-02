@@ -31,7 +31,7 @@ namespace itk
  */
 
 template< typename TValue >
-class ITK_TEMPLATE_EXPORT OptimizerParametersHelper
+class ITKCommon_EXPORT OptimizerParametersHelper
 {
 public:
 

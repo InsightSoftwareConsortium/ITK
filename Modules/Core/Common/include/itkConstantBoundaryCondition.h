@@ -64,7 +64,7 @@ template <typename TValue> class VariableLengthVector;
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT ConstantBoundaryCondition:
+class ITKCommon_EXPORT ConstantBoundaryCondition:
     public ImageBoundaryCondition< TInputImage, TOutputImage >
 {
 public:

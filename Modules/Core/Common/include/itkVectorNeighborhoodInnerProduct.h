@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT VectorNeighborhoodInnerProduct
+class ITKCommon_EXPORT VectorNeighborhoodInnerProduct
 {
 public:
   /** Standard type alias */

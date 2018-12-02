@@ -51,7 +51,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ImageDuplicator:public Object
+class ITKCommon_EXPORT ImageDuplicator:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageDuplicator);

@@ -53,7 +53,7 @@ namespace itk
  * \endwiki
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT LineConstIterator
+class ITKCommon_EXPORT LineConstIterator
 {
 public:
   /** Standard class type aliases. */

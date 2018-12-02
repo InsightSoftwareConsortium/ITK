@@ -60,7 +60,7 @@ while ( !it.IsAtEnd() )
  *
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageScanlineConstIterator:
+class ITKCommon_EXPORT ImageScanlineConstIterator:
     public ImageConstIterator< TImage >
 {
 public:

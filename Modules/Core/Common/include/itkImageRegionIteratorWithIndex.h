@@ -68,7 +68,7 @@ namespace itk
  * \endwiki
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageRegionIteratorWithIndex:public ImageRegionConstIteratorWithIndex< TImage >
+class ITKCommon_EXPORT ImageRegionIteratorWithIndex:public ImageRegionConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class type aliases. */

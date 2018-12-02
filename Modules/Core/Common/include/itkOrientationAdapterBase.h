@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename OrientationType, unsigned int Dimension = 3 >
-class ITK_TEMPLATE_EXPORT OrientationAdapterBase
+class ITKCommon_EXPORT OrientationAdapterBase
 {
 public:
   /** type alias for matching ImageBase */

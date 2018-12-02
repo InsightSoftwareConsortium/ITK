@@ -92,7 +92,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
-class ITK_TEMPLATE_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
+class ITKCommon_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpecialCoordinatesImage);

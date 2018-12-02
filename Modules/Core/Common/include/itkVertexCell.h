@@ -36,7 +36,7 @@ namespace itk
  */
 
 template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT VertexCell:public TCellInterface
+class ITKCommon_EXPORT VertexCell:public TCellInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VertexCell);

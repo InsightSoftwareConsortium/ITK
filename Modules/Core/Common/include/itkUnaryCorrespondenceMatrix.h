@@ -33,7 +33,7 @@ namespace itk
  */
 
 template< typename TItemType >
-class ITK_TEMPLATE_EXPORT UnaryCorrespondenceMatrix:public DataObject, public vnl_matrix< TItemType >
+class ITKCommon_EXPORT UnaryCorrespondenceMatrix:public DataObject, public vnl_matrix< TItemType >
 {
 public:
 

@@ -24,7 +24,6 @@
 #include <string>
 #include <vector>
 
-#include "ITKCommonExport.h"
 
 namespace itk
 {
@@ -40,7 +39,7 @@ namespace itk
   * \ingroup ITKCommon
   */
 template< typename ValueType, typename MeanType >
-class ITK_TEMPLATE_EXPORT ResourceProbe
+class ITKCommon_EXPORT ResourceProbe
 {
 public:
 

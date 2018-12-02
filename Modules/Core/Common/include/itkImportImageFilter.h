@@ -40,7 +40,7 @@ namespace itk
  * \endwiki
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
-class ITK_TEMPLATE_EXPORT ImportImageFilter:
+class ITKCommon_EXPORT ImportImageFilter:
   public ImageSource< Image< TPixel, VImageDimension > >
 {
 public:

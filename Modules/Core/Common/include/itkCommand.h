@@ -80,7 +80,7 @@ protected:
  * \ingroup ITKCommon
  */
 template< typename T >
-class ITK_TEMPLATE_EXPORT MemberCommand:public Command
+class ITKCommon_EXPORT MemberCommand:public Command
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MemberCommand);
@@ -157,7 +157,7 @@ protected:
  * \ingroup ITKCommon
  */
 template< typename T >
-class ITK_TEMPLATE_EXPORT ReceptorMemberCommand:public Command
+class ITKCommon_EXPORT ReceptorMemberCommand:public Command
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReceptorMemberCommand);
@@ -224,7 +224,7 @@ protected:
  * \ingroup ITKCommon
  */
 template< typename T >
-class ITK_TEMPLATE_EXPORT SimpleMemberCommand:public Command
+class ITKCommon_EXPORT SimpleMemberCommand:public Command
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimpleMemberCommand);
@@ -289,7 +289,7 @@ protected:
  * \ingroup ITKCommon
  */
 template< typename T >
-class ITK_TEMPLATE_EXPORT SimpleConstMemberCommand:public Command
+class ITKCommon_EXPORT SimpleConstMemberCommand:public Command
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimpleConstMemberCommand);

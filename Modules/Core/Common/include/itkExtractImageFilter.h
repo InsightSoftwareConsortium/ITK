@@ -87,7 +87,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ExtractImageFilter:
+class ITKCommon_EXPORT ExtractImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

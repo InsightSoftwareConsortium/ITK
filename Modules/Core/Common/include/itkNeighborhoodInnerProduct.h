@@ -45,7 +45,7 @@ namespace itk
  */
 
 template< typename TImage, typename TOperator = typename TImage::PixelType, typename TComputation = TOperator >
-class ITK_TEMPLATE_EXPORT NeighborhoodInnerProduct
+class ITKCommon_EXPORT NeighborhoodInnerProduct
 {
 public:
   /** Standard type alias */

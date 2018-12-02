@@ -41,7 +41,7 @@ namespace itk
  */
 
 template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT HexahedronCell:public TCellInterface, private HexahedronCellTopology
+class ITKCommon_EXPORT HexahedronCell:public TCellInterface, private HexahedronCellTopology
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HexahedronCell);

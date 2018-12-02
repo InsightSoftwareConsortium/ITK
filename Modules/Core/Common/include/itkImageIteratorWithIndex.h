@@ -65,7 +65,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
+class ITKCommon_EXPORT ImageIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class type aliases. */

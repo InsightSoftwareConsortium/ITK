@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TStructureType >
-class ITK_TEMPLATE_EXPORT CorrespondenceDataStructureIterator
+class ITKCommon_EXPORT CorrespondenceDataStructureIterator
 {
 public:
   /** Standard class type aliases. */

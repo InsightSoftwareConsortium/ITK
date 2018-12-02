@@ -64,7 +64,7 @@ namespace itk
  * \endwiki
  */
 template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ImageSource
+class ITKCommon_EXPORT ImageSource
   : public ProcessObject, private ImageSourceCommon
 {
 public:

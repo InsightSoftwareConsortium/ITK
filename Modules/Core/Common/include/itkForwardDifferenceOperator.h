@@ -42,7 +42,7 @@ namespace itk
  */
 template< typename TPixel, unsigned int VDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT ForwardDifferenceOperator:
+class ITKCommon_EXPORT ForwardDifferenceOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:

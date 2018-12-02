@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInput, typename TOutput >
-class ITK_TEMPLATE_EXPORT FunctionBase:public Object
+class ITKCommon_EXPORT FunctionBase:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FunctionBase);

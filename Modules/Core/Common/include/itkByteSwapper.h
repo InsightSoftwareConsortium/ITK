@@ -47,7 +47,7 @@ namespace itk
  */
 
 template< typename T >
-class ITK_TEMPLATE_EXPORT ByteSwapper:public Object
+class ITKCommon_EXPORT ByteSwapper:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ByteSwapper);

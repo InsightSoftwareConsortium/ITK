@@ -49,7 +49,7 @@ namespace itk
  * \endwiki
  */
 template< typename TCoordRep, unsigned int NPointDimension = 3 >
-class ITK_TEMPLATE_EXPORT Point:public FixedArray< TCoordRep, NPointDimension >
+class ITKCommon_EXPORT Point:public FixedArray< TCoordRep, NPointDimension >
 {
 public:
   /** Standard class type aliases. */
@@ -295,7 +295,7 @@ std::istream & operator>>(std::istream & is,
  * \ingroup ITKCommon
  */
 template< typename TPointContainer, typename TWeightContainer >
-class ITK_TEMPLATE_EXPORT BarycentricCombination
+class ITKCommon_EXPORT BarycentricCombination
 {
 public:
   /** Convenient type alias. */

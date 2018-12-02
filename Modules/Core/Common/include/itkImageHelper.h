@@ -49,7 +49,7 @@ namespace itk
 template<
   unsigned int NImageDimension
   >
-class ITK_TEMPLATE_EXPORT ImageBase;
+class ITKCommon_EXPORT ImageBase;
 
 template< unsigned int NImageDimension, unsigned int NLoop >
 class ImageHelper

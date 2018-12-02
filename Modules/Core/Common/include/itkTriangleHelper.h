@@ -28,7 +28,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TPoint >
-class ITK_TEMPLATE_EXPORT TriangleHelper
+class ITKCommon_EXPORT TriangleHelper
 {
 public:
   using Self = TriangleHelper;

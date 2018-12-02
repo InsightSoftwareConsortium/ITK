@@ -34,7 +34,7 @@ namespace itk
 // queue.
 template< typename TElement,
           typename TElementIdentifier = IdentifierType >
-class ITK_TEMPLATE_EXPORT ElementWrapperInterface
+class ITKCommon_EXPORT ElementWrapperInterface
 {
 public:
   using ElementType = TElement;
@@ -66,7 +66,7 @@ public:
 //
 template< typename TElementWrapperPointer,
           typename TElementIdentifier = IdentifierType >
-class ITK_TEMPLATE_EXPORT ElementWrapperPointerInterface
+class ITKCommon_EXPORT ElementWrapperPointerInterface
 {
 public:
   using ElementWrapperPointerType = TElementWrapperPointer;
@@ -104,7 +104,7 @@ template<
   typename TElementPriority = double,
   typename TElementIdentifier = IdentifierType
   >
-class ITK_TEMPLATE_EXPORT MinPriorityQueueElementWrapper:
+class ITKCommon_EXPORT MinPriorityQueueElementWrapper:
   public ElementWrapperInterface<
     MinPriorityQueueElementWrapper< TElement,
                                     TElementPriority,
@@ -161,7 +161,7 @@ template<
   typename TElementPriority = double,
   typename TElementIdentifier = IdentifierType
   >
-class ITK_TEMPLATE_EXPORT MaxPriorityQueueElementWrapper:
+class ITKCommon_EXPORT MaxPriorityQueueElementWrapper:
   public MinPriorityQueueElementWrapper< TElement,
                                          TElementPriority,
                                          TElementIdentifier >
@@ -206,7 +206,7 @@ template<
   typename TElementPriority = double,
   typename TElementIdentifier = IdentifierType
   >
-class ITK_TEMPLATE_EXPORT PriorityQueueContainer:
+class ITKCommon_EXPORT PriorityQueueContainer:
   public VectorContainer< TElementIdentifier, TElementWrapper >
 {
 public:

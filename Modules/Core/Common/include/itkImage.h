@@ -72,7 +72,7 @@ namespace itk
  * \endwiki
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
-class ITK_TEMPLATE_EXPORT Image:public ImageBase< VImageDimension >
+class ITKCommon_EXPORT Image:public ImageBase< VImageDimension >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Image);

@@ -98,7 +98,7 @@ template<
   typename TPixelType,
   typename TCellTraits
   >
-class ITK_TEMPLATE_EXPORT CellInterface
+class ITKCommon_EXPORT CellInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CellInterface);
@@ -463,7 +463,7 @@ template< int VPointDimension, typename TCoordRep,
           typename TCellIdentifier, typename TCellFeatureIdentifier,
           typename TPoint, typename TPointsContainer,
           typename TUsingCellsContainer >
-class ITK_TEMPLATE_EXPORT CellTraitsInfo
+class ITKCommon_EXPORT CellTraitsInfo
 {
 public:
   static constexpr unsigned int PointDimension = VPointDimension;

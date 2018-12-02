@@ -70,7 +70,7 @@ namespace itk
 template< typename TImage,
           typename TBoundaryCondition = ZeroFluxNeumannBoundaryCondition< TImage >
           >
-class ITK_TEMPLATE_EXPORT ConstShapedNeighborhoodIterator:
+class ITKCommon_EXPORT ConstShapedNeighborhoodIterator:
     private NeighborhoodIterator< TImage, TBoundaryCondition >
 {
 public:

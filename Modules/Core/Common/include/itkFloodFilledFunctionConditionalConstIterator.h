@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage, typename TFunction >
-class ITK_TEMPLATE_EXPORT FloodFilledFunctionConditionalConstIterator:
+class ITKCommon_EXPORT FloodFilledFunctionConditionalConstIterator:
   public ConditionalConstIterator< TImage >
 {
 public:

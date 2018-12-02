@@ -39,7 +39,7 @@ namespace itk
  */
 
 template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT LineCell:public TCellInterface
+class ITKCommon_EXPORT LineCell:public TCellInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LineCell);

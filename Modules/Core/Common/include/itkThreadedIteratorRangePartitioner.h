@@ -26,7 +26,7 @@ namespace itk
 
 // Forward reference because of circular dependencies
 template< typename TIterator >
-class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitioner;
+class ITKCommon_EXPORT ThreadedIteratorRangePartitioner;
 
 /** \class ThreadedIteratorRangePartitionerDomain
  * \brief Domain type for the ThreadedIteratorRangePartitioner.
@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitioner;
  * \ingroup ITKCommon
  */
 template< typename TIterator >
-class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitionerDomain
+class ITKCommon_EXPORT ThreadedIteratorRangePartitionerDomain
 {
 public:
   using IteratorType = TIterator;
@@ -106,7 +106,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename TIterator >
-class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitioner
+class ITKCommon_EXPORT ThreadedIteratorRangePartitioner
   : public ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >
 {
 public:
