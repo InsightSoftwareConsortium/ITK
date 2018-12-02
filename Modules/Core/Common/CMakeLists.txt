@@ -138,10 +138,22 @@ endif()
 option(ITK_TEMPLATE_VISIBILITY_DEFAULT "Set symbol visibility to default for template class declarations. https://itk.org/Wiki/ITK/FAQ" "${_template_visibility_init}")
 mark_as_advanced(ITK_TEMPLATE_VISIBILITY_DEFAULT)
 
+if(ITK_TEMPLATE_VISIBILITY_DEFAULT AND (CMAKE_CXX_VISIBILITY_PRESET STREQUAL "hidden") )
+  message(FATAL_ERROR "ERROR: ITK_TEMPLATE_VISIBILITY_DEFAULT=${ITK_TEMPLATE_VISIBILITY_DEFAULT} conflicts with CMAKE_CXX_VISIBILITY_PRESET=hidden")
+endif()
+
+if(ITK_TEMPLATE_VISIBILITY_DEFAULT) # if true, then propogate cmake flags for consistent cmake constrolled build behavior
+  if(NOT CMAKE_CXX_VISIBILITY_PRESET)
+    set(CMAKE_CXX_VISIBILITY_PRESET default)
+  endif()
+  if(NOT CMAKE_VISIBILITY_INLINES_HIDDEN)
+    set(CMAKE_VISIBILITY_INLINES_HIDDEN 0)
+  endif()
+endif()
+
 # Configuration variable is named ITK_USE_TBB instead of simply using the
 # TBB module name (Module_ITKTBB) for code readability.
 set(ITK_USE_TBB ${Module_ITKTBB})
-
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 configure_file(src/itkConfigurePrivate.h.in itkConfigurePrivate.h)
