@@ -18,6 +18,7 @@
 #ifndef itkSpatialObjectDuplicator_h
 #define itkSpatialObjectDuplicator_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkObject.h"
 #include "itkSpatialObject.h"
 
@@ -29,7 +30,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< typename TInputSpatialObject >
-class ITK_TEMPLATE_EXPORT SpatialObjectDuplicator:public Object
+class ITKSpatialObjects_EXPORT SpatialObjectDuplicator:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectDuplicator);

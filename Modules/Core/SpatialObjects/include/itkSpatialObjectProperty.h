@@ -18,6 +18,7 @@
 #ifndef itkSpatialObjectProperty_h
 #define itkSpatialObjectProperty_h
 
+#include "ITKSpatialObjectsExport.h"
 #include <string>
 
 #include "itkRGBAPixel.h"
@@ -32,7 +33,7 @@ namespace itk
  */
 
 template< typename TComponentType = float >
-class ITK_TEMPLATE_EXPORT SpatialObjectProperty:
+class ITKSpatialObjects_EXPORT SpatialObjectProperty:
   public LightObject
 {
 public:

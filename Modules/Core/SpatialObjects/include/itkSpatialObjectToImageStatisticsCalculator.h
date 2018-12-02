@@ -18,6 +18,7 @@
 #ifndef itkSpatialObjectToImageStatisticsCalculator_h
 #define itkSpatialObjectToImageStatisticsCalculator_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkObject.h"
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 #include "itkMatrix.h"
@@ -34,7 +35,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension = 1 >
-class ITK_TEMPLATE_EXPORT SpatialObjectToImageStatisticsCalculator:public Object
+class ITKSpatialObjects_EXPORT SpatialObjectToImageStatisticsCalculator:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageStatisticsCalculator);

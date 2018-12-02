@@ -18,6 +18,7 @@
 #ifndef itkLineSpatialObjectPoint_h
 #define itkLineSpatialObjectPoint_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 #include "itkFixedArray.h"
@@ -39,7 +40,7 @@ namespace itk
  */
 
 template< unsigned int TPointDimension = 3 >
-class ITK_TEMPLATE_EXPORT LineSpatialObjectPoint:
+class ITKSpatialObjects_EXPORT LineSpatialObjectPoint:
   public SpatialObjectPoint< TPointDimension >
 {
 public:

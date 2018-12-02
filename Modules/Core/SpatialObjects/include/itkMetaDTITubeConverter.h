@@ -18,6 +18,7 @@
 #ifndef itkMetaDTITubeConverter_h
 #define itkMetaDTITubeConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkMetaConverterBase.h"
 #include "metaDTITube.h"
 #include "itkDTITubeSpatialObject.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaDTITubeConverter :
+class ITKSpatialObjects_EXPORT MetaDTITubeConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

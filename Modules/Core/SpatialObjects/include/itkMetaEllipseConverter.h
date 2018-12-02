@@ -18,6 +18,7 @@
 #ifndef itkMetaEllipseConverter_h
 #define itkMetaEllipseConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkMetaConverterBase.h"
 #include "itkEllipseSpatialObject.h"
 #include "metaEllipse.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaEllipseConverter :
+class ITKSpatialObjects_EXPORT MetaEllipseConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

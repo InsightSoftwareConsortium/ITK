@@ -18,6 +18,7 @@
 #ifndef itkMetaVesselTubeConverter_h
 #define itkMetaVesselTubeConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "metaVesselTube.h"
 #include "itkMetaConverterBase.h"
 #include "itkVesselTubeSpatialObject.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaVesselTubeConverter :
+class ITKSpatialObjects_EXPORT MetaVesselTubeConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkSpatialObjectToPointSetFilter_h
 #define itkSpatialObjectToPointSetFilter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkPointSet.h"
 #include "itkMeshSource.h"
 #include "itkPointBasedSpatialObject.h"
@@ -31,7 +32,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< typename TInputSpatialObject, typename TOutputPointSet >
-class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
+class ITKSpatialObjects_EXPORT SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);

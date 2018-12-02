@@ -28,8 +28,8 @@
 #ifndef itkSpatialObjectFactoryBase_h
 #define itkSpatialObjectFactoryBase_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkObjectFactoryBase.h"
-#include "itkSpatialObjectExport.h"
 
 namespace itk
 {
@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-class SpatialObjectFactoryBase:public ObjectFactoryBase
+class ITKSpatialObjects_EXPORT SpatialObjectFactoryBase:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectFactoryBase);
@@ -92,7 +92,7 @@ protected:
   ~SpatialObjectFactoryBase() override;
 
 private:
-  static ITKSpatialObjectExport SpatialObjectFactoryBase *m_Factory;
+  static ITKSpatialObjects_EXPORT SpatialObjectFactoryBase *m_Factory;
 };
 } // end namespace itk
 #endif

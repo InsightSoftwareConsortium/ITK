@@ -18,6 +18,7 @@
 #ifndef itkBoxSpatialObject_h
 #define itkBoxSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
 #include "itkFixedArray.h"
@@ -33,7 +34,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT BoxSpatialObject:
+class ITKSpatialObjects_EXPORT BoxSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkPlaneSpatialObject_h
 #define itkPlaneSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
 
@@ -34,7 +35,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3  >
-class ITK_TEMPLATE_EXPORT PlaneSpatialObject:
+class ITKSpatialObjects_EXPORT PlaneSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

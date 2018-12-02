@@ -18,6 +18,7 @@
 #ifndef itkSpatialObjectPoint_h
 #define itkSpatialObjectPoint_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkPoint.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkRGBAPixel.h"
@@ -34,7 +35,7 @@ namespace itk
  */
 
 template< unsigned int TPointDimension = 3 >
-class ITK_TEMPLATE_EXPORT SpatialObjectPoint
+class ITKSpatialObjects_EXPORT SpatialObjectPoint
 {
 public:
 

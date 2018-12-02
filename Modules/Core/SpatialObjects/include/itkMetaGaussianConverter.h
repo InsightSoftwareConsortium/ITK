@@ -18,6 +18,7 @@
 #ifndef itkMetaGaussianConverter_h
 #define itkMetaGaussianConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkMetaConverterBase.h"
 #include "itkGaussianSpatialObject.h"
 #include "metaGaussian.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaGaussianConverter :
+class ITKSpatialObjects_EXPORT MetaGaussianConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkMetaBlobConverter_h
 #define itkMetaBlobConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "metaBlob.h"
 #include "itkBlobSpatialObject.h"
 #include "itkMetaConverterBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaBlobConverter :
+class ITKSpatialObjects_EXPORT MetaBlobConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

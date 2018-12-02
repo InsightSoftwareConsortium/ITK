@@ -18,6 +18,7 @@
 #ifndef itkAffineGeometryFrame_h
 #define itkAffineGeometryFrame_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkObject.h"
 #include "itkMacro.h"
 #include "itkScalableAffineTransform.h"
@@ -30,7 +31,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< typename TScalar = double, unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT AffineGeometryFrame:public Object
+class ITKSpatialObjects_EXPORT AffineGeometryFrame:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AffineGeometryFrame);

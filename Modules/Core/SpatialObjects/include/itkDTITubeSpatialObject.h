@@ -18,6 +18,7 @@
 #ifndef itkDTITubeSpatialObject_h
 #define itkDTITubeSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include <list>
 
 #include "itkTubeSpatialObject.h"
@@ -39,7 +40,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT DTITubeSpatialObject:
+class ITKSpatialObjects_EXPORT DTITubeSpatialObject:
   public TubeSpatialObject< TDimension,
                             DTITubeSpatialObjectPoint< TDimension >  >
 {

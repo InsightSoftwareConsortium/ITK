@@ -18,6 +18,7 @@
 #ifndef itkGroupSpatialObject_h
 #define itkGroupSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include <list>
 
 #include "itkSpatialObject.h"
@@ -36,7 +37,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT GroupSpatialObject:
+class ITKSpatialObjects_EXPORT GroupSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

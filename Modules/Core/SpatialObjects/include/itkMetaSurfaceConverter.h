@@ -18,6 +18,7 @@
 #ifndef itkMetaSurfaceConverter_h
 #define itkMetaSurfaceConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "metaSurface.h"
 #include "itkSurfaceSpatialObject.h"
 #include "itkMetaConverterBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaSurfaceConverter :
+class ITKSpatialObjects_EXPORT MetaSurfaceConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

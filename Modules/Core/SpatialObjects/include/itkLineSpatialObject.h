@@ -18,6 +18,7 @@
 #ifndef itkLineSpatialObject_h
 #define itkLineSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include <list>
 
 #include "itkPointBasedSpatialObject.h"
@@ -40,7 +41,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT LineSpatialObject:
+class ITKSpatialObjects_EXPORT LineSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:

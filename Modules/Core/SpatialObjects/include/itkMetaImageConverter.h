@@ -19,6 +19,7 @@
 #define itkMetaImageConverter_h
 
 // to avoid an Internal Compiler Error in Visual Studio 6.0
+#include "ITKSpatialObjectsExport.h"
 #include "metaImage.h"
 #include "itkMetaConverterBase.h"
 #include "itkImageSpatialObject.h"
@@ -36,7 +37,7 @@ namespace itk
 template< unsigned int NDimensions = 3,
           typename TPixel = unsigned char,
           typename TSpatialObjectType = ImageSpatialObject< NDimensions,TPixel > >
-class ITK_TEMPLATE_EXPORT MetaImageConverter :
+class ITKSpatialObjects_EXPORT MetaImageConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

@@ -19,6 +19,7 @@
 #define itkPolygonGroupSpatialObject_h
 
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkGroupSpatialObject.h"
 #include "itkPolygonSpatialObject.h"
 
@@ -47,7 +48,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT PolygonGroupSpatialObject:
+class ITKSpatialObjects_EXPORT PolygonGroupSpatialObject:
   public GroupSpatialObject< TDimension >
 {
 public:

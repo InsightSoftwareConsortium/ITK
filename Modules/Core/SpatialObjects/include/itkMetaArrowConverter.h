@@ -18,6 +18,7 @@
 #ifndef itkMetaArrowConverter_h
 #define itkMetaArrowConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkMetaConverterBase.h"
 #include "itkArrowSpatialObject.h"
 #include "metaArrow.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaArrowConverter :
+class ITKSpatialObjects_EXPORT MetaArrowConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

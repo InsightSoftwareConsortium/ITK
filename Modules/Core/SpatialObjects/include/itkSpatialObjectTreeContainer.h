@@ -18,6 +18,7 @@
 #ifndef itkSpatialObjectTreeContainer_h
 #define itkSpatialObjectTreeContainer_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkTreeContainer.h"
 #include "itkSpatialObjectTreeNode.h"
 
@@ -46,7 +47,7 @@ class ITK_FORWARD_EXPORT SpatialObject;
  * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension >
-class ITK_TEMPLATE_EXPORT SpatialObjectTreeContainer:
+class ITKSpatialObjects_EXPORT SpatialObjectTreeContainer:
   public TreeContainer< itk::SpatialObject< TDimension > * >
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkSurfaceSpatialObject_h
 #define itkSurfaceSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include <list>
 
 #include "itkPointBasedSpatialObject.h"
@@ -36,7 +37,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT SurfaceSpatialObject:
+class ITKSpatialObjects_EXPORT SurfaceSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkSpatialObjectToImageFilter_h
 #define itkSpatialObjectToImageFilter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
 
@@ -37,7 +38,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputSpatialObject, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT SpatialObjectToImageFilter:public ImageSource< TOutputImage >
+class ITKSpatialObjects_EXPORT SpatialObjectToImageFilter:public ImageSource< TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageFilter);

@@ -18,6 +18,7 @@
 #ifndef itkMetaSceneConverter_h
 #define itkMetaSceneConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "metaScene.h"
 #include "itkMetaEvent.h"
 #include "itkSceneSpatialObject.h"
@@ -43,7 +44,7 @@ template< unsigned int NDimensions,
           typename TMeshTraits =
             DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
           >
-class ITK_TEMPLATE_EXPORT MetaSceneConverter
+class ITKSpatialObjects_EXPORT MetaSceneConverter
 {
 public:
 

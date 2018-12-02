@@ -18,6 +18,7 @@
 #ifndef itkMetaLandmarkConverter_h
 #define itkMetaLandmarkConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "metaLandmark.h"
 #include "itkLandmarkSpatialObject.h"
 #include "itkMetaConverterBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaLandmarkConverter :
+class ITKSpatialObjects_EXPORT MetaLandmarkConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

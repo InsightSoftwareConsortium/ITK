@@ -18,6 +18,7 @@
 #ifndef itkEllipseSpatialObject_h
 #define itkEllipseSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
 #include "itkFixedArray.h"
@@ -35,7 +36,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT EllipseSpatialObject:
+class ITKSpatialObjects_EXPORT EllipseSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

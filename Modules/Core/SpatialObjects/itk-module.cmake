@@ -6,6 +6,7 @@ approximations of shape by combining them into hierarchical structures similar
 to scene graphs.")
 
 itk_module(ITKSpatialObjects
+  ENABLE_SHARED
   DEPENDS
     ITKTransform
   PRIVATE_DEPENDS

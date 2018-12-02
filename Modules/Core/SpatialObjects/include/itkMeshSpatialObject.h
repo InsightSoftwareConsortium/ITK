@@ -18,6 +18,7 @@
 #ifndef itkMeshSpatialObject_h
 #define itkMeshSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkMesh.h"
 #include "itkSpatialObject.h"
 
@@ -34,7 +35,7 @@ namespace itk
  */
 
 template< typename TMesh = Mesh< int > >
-class ITK_TEMPLATE_EXPORT MeshSpatialObject:
+class ITKSpatialObjects_EXPORT MeshSpatialObject:
   public SpatialObject< TMesh::PointDimension >
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkDTITubeSpatialObjectPoint_h
 #define itkDTITubeSpatialObjectPoint_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkTubeSpatialObjectPoint.h"
 #include "itkDiffusionTensor3D.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -34,7 +35,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< unsigned int TPointDimension = 3 >
-class ITK_TEMPLATE_EXPORT DTITubeSpatialObjectPoint:
+class ITKSpatialObjects_EXPORT DTITubeSpatialObjectPoint:
   public TubeSpatialObjectPoint< TPointDimension >
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkMetaLineConverter_h
 #define itkMetaLineConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "metaLine.h"
 #include "itkLineSpatialObject.h"
 #include "itkMetaConverterBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaLineConverter :
+class ITKSpatialObjects_EXPORT MetaLineConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

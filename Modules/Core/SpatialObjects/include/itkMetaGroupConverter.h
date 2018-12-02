@@ -18,6 +18,7 @@
 #ifndef itkMetaGroupConverter_h
 #define itkMetaGroupConverter_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkGroupSpatialObject.h"
 #include "metaGroup.h"
 #include "itkMetaConverterBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaGroupConverter :
+class ITKSpatialObjects_EXPORT MetaGroupConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

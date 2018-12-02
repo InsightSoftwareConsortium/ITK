@@ -18,6 +18,7 @@
 #ifndef itkArrowSpatialObject_h
 #define itkArrowSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkSpatialObject.h"
 
 namespace itk
@@ -34,7 +35,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT ArrowSpatialObject:
+class ITKSpatialObjects_EXPORT ArrowSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

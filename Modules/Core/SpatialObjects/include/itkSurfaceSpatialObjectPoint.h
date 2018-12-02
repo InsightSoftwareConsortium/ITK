@@ -18,6 +18,7 @@
 #ifndef itkSurfaceSpatialObjectPoint_h
 #define itkSurfaceSpatialObjectPoint_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 
@@ -35,7 +36,7 @@ namespace itk
  */
 
 template< unsigned int TPointDimension = 3 >
-class ITK_TEMPLATE_EXPORT SurfaceSpatialObjectPoint:
+class ITKSpatialObjects_EXPORT SurfaceSpatialObjectPoint:
   public SpatialObjectPoint< TPointDimension >
 {
 public:

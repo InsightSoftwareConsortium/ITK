@@ -18,6 +18,7 @@
 #ifndef itkLandmarkSpatialObject_h
 #define itkLandmarkSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include <list>
 
 #include "itkPointBasedSpatialObject.h"
@@ -35,7 +36,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT LandmarkSpatialObject:
+class ITKSpatialObjects_EXPORT LandmarkSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:

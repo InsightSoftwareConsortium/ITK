@@ -20,6 +20,7 @@
 
 // Disable warning for lengthy symbol names in this file only
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkAffineGeometryFrame.h"
 #include "itkCovariantVector.h"
 #include "itkExceptionObject.h"
@@ -57,7 +58,7 @@ template< unsigned int VDimension >
 class ITK_FORWARD_EXPORT SpatialObjectTreeNode;
 
 template< unsigned int VDimension = 3 >
-class ITK_TEMPLATE_EXPORT SpatialObject:
+class ITKSpatialObjects_EXPORT SpatialObject:
   public DataObject
 {
 public:

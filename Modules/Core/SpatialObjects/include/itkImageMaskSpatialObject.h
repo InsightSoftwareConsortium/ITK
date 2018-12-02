@@ -18,6 +18,7 @@
 #ifndef itkImageMaskSpatialObject_h
 #define itkImageMaskSpatialObject_h
 
+#include "ITKSpatialObjectsExport.h"
 #include "itkImageSpatialObject.h"
 #include "itkImageSliceConstIteratorWithIndex.h"
 
@@ -35,7 +36,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject:
+class ITKSpatialObjects_EXPORT ImageMaskSpatialObject:
   public ImageSpatialObject< TDimension, unsigned char >
 {
 public:
