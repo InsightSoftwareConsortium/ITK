@@ -72,7 +72,7 @@ namespace itk
  * \ingroup ITKPolynomials
  */
 
-class ITKPolynomials_EXPORT MultivariateLegendrePolynomial
+class ITK_TEMPLATE_EXPORT MultivariateLegendrePolynomial
 {
 public:
   using Self = MultivariateLegendrePolynomial;
@@ -299,7 +299,7 @@ private:
   IndexValueType  m_PrevZ;
 }; // end of class
 
- ITKPolynomials_EXPORT std::ostream & operator<<(std::ostream & os,
+ ITK_TEMPLATE_EXPORT std::ostream & operator<<(std::ostream & os,
                           MultivariateLegendrePolynomial & poly);
 } // end of namespace itk
 #endif

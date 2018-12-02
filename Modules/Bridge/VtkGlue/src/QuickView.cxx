@@ -57,45 +57,45 @@ using LongImageType = itk::Image<long, 2>;
 using FloatImageType = itk::Image<float, 2>;
 using DoubleImageType = itk::Image<double, 2>;
 
-template void ITKVtkGlue_EXPORT QuickView::AddImage<CharImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<CharImageType>(
   CharImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedShortImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<UnsignedShortImageType>(
   UnsignedShortImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<ShortImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<ShortImageType>(
   ShortImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedIntImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<UnsignedIntImageType>(
   UnsignedIntImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<IntImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<IntImageType>(
   IntImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedLongImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<UnsignedLongImageType>(
   UnsignedLongImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<LongImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<LongImageType>(
   LongImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<FloatImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<FloatImageType>(
   FloatImageType *image,
   bool FlipVertical,
   std::string Description);
-template void ITKVtkGlue_EXPORT QuickView::AddImage<DoubleImageType>(
+template void ITK_TEMPLATE_EXPORT QuickView::AddImage<DoubleImageType>(
   DoubleImageType *image,
   bool FlipVertical,
   std::string Description);
 
 template< >
-void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedCharImageType>(
+void ITK_TEMPLATE_EXPORT QuickView::AddImage<UnsignedCharImageType>(
   UnsignedCharImageType *image,
   bool FlipVertical,
   std::string Description)
@@ -120,7 +120,7 @@ void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedCharImageType>(
 }
 
 template<typename TImage>
-void ITKVtkGlue_EXPORT QuickView::AddImage(
+void ITK_TEMPLATE_EXPORT QuickView::AddImage(
   TImage *image,
   bool FlipVertical,
   std::string Description)
@@ -138,7 +138,7 @@ void ITKVtkGlue_EXPORT QuickView::AddImage(
 }
 
 template< >
-void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedCharRGBImageType>(
+void ITK_TEMPLATE_EXPORT QuickView::AddImage<UnsignedCharRGBImageType>(
   UnsignedCharRGBImageType *image,
   bool FlipVertical,
   std::string Description)
@@ -163,7 +163,7 @@ void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedCharRGBImageType>(
 }
 
 template< >
-void ITKVtkGlue_EXPORT QuickView::AddRGBImage<UnsignedCharRGBImageType>(
+void ITK_TEMPLATE_EXPORT QuickView::AddRGBImage<UnsignedCharRGBImageType>(
   UnsignedCharRGBImageType *image,
   bool FlipVertical,
   std::string Description)
@@ -188,7 +188,7 @@ void ITKVtkGlue_EXPORT QuickView::AddRGBImage<UnsignedCharRGBImageType>(
 }
 
 template< >
-void ITKVtkGlue_EXPORT QuickView::AddRGBImage<FloatRGBImageType>(
+void ITK_TEMPLATE_EXPORT QuickView::AddRGBImage<FloatRGBImageType>(
   FloatRGBImageType *image,
   bool FlipVertical,
   std::string Description)
@@ -206,7 +206,7 @@ void ITKVtkGlue_EXPORT QuickView::AddRGBImage<FloatRGBImageType>(
 }
 
 template< >
-void ITKVtkGlue_EXPORT QuickView::AddImage<FloatRGBImageType>(
+void ITK_TEMPLATE_EXPORT QuickView::AddImage<FloatRGBImageType>(
   FloatRGBImageType *image,
   bool FlipVertical,
   std::string Description)

@@ -59,7 +59,7 @@ StimulateImageIOFactory::GetDescription() const
 
 static bool StimulateImageIOFactoryHasBeenRegistered;
 
-void ITKIOStimulate_EXPORT StimulateImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT StimulateImageIOFactoryRegister__Private()
 {
   if( ! StimulateImageIOFactoryHasBeenRegistered )
     {

@@ -41,7 +41,7 @@ namespace itk
  * \ingroup WatershedSegmentation
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT EquivalencyTable:public DataObject
+class ITK_TEMPLATE_EXPORT EquivalencyTable:public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EquivalencyTable);

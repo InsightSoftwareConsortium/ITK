@@ -36,7 +36,7 @@ namespace fem
  * and one rotational, degree of freedom.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element2DC1Beam : public ElementStd<2, 2>
+class ITK_TEMPLATE_EXPORT Element2DC1Beam : public ElementStd<2, 2>
 {
 public:
   /** Standard class type aliases. */

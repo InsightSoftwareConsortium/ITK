@@ -29,7 +29,7 @@ namespace itk
    * \brief Create instances of NiftiImageIO objects using an object factory.
    * \ingroup ITKIONIFTI
    */
-class ITKIONIFTI_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIOFactory);

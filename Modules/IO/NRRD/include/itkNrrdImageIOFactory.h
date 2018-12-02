@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of NrrdImageIO objects using an object factory.
  * \ingroup ITKIONRRD
  */
-class ITKIONRRD_EXPORT NrrdImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT NrrdImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIOFactory);

@@ -32,7 +32,7 @@ namespace fem
  * \brief 2-noded finite element class in 2D space for linear elasticity problem.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element2DC0LinearLineStress : public Element1DStress<Element2DC0LinearLine>
+class ITK_TEMPLATE_EXPORT Element2DC0LinearLineStress : public Element1DStress<Element2DC0LinearLine>
 {
 public:
   /** Standard class type aliases. */

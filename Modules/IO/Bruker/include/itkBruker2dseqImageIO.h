@@ -75,7 +75,7 @@ namespace itk
  * \author Tobias C Wood, King's College London 2017
  */
 
-class ITKIOBruker_EXPORT Bruker2dseqImageIO : public ImageIOBase
+class ITK_TEMPLATE_EXPORT Bruker2dseqImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2dseqImageIO);

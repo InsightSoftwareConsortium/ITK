@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class ITKIOMesh_EXPORT GiftiMeshIO:public MeshIOBase
+class ITK_TEMPLATE_EXPORT GiftiMeshIO:public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIO);

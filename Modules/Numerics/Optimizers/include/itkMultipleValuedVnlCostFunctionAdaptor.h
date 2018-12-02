@@ -34,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT MultipleValuedVnlCostFunctionAdaptor:
+class ITK_TEMPLATE_EXPORT MultipleValuedVnlCostFunctionAdaptor:
   public vnl_least_squares_function
 {
 public:

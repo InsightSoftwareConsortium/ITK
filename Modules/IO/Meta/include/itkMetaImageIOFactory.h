@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of MetaImageIO objects using an object factory.
  * \ingroup ITKIOMeta
  */
-class ITKIOMeta_EXPORT MetaImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT MetaImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIOFactory);

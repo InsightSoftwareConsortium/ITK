@@ -35,7 +35,7 @@ namespace itk
  */
 bool Object:: m_GlobalWarningDisplay = true;
 
-class ITKCommon_HIDDEN Observer
+class ITK_TEMPLATE_NO_EXPORT Observer
 {
 public:
   Observer(Command *c,
@@ -52,7 +52,7 @@ public:
 /* Create Out-of-line Definition */
 Observer::~Observer() { delete m_Event; }
 
-class ITKCommon_HIDDEN SubjectImplementation
+class ITK_TEMPLATE_NO_EXPORT SubjectImplementation
 {
 public:
   SubjectImplementation() : m_ListModified(false) { m_Count = 0; }

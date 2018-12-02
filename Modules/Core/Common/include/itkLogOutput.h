@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT LogOutput:public Object
+class ITK_TEMPLATE_EXPORT LogOutput:public Object
 {
 public:
 

@@ -38,7 +38,7 @@ namespace itk
  * \sa ProgressReporter, ProcessObject
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ProgressTransformer
+class ITK_TEMPLATE_EXPORT ProgressTransformer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN( ProgressTransformer );

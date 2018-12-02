@@ -35,7 +35,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class ITKStatistics_EXPORT MinimumDecisionRule:public DecisionRule
+class ITK_TEMPLATE_EXPORT MinimumDecisionRule:public DecisionRule
 {
 public:
   /** Standard class type aliases */

@@ -70,7 +70,7 @@ template <typename TValue> class VariableLengthVector;
  *
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT ImageIOBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT ImageIOBase:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOBase);

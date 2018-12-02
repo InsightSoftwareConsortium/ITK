@@ -62,7 +62,7 @@ PhilipsRECImageIOFactory::GetDescription() const
 
 static bool PhilipsRECImageIOFactoryHasBeenRegistered;
 
-void ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT PhilipsRECImageIOFactoryRegister__Private()
 {
   if( ! PhilipsRECImageIOFactoryHasBeenRegistered )
     {

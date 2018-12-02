@@ -29,7 +29,7 @@ namespace itk
  *  object factory.
  * \ingroup ITKIOTransformMatlab
  */
-class ITKIOTransformMatlab_EXPORT MatlabTransformIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT MatlabTransformIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MatlabTransformIOFactory);

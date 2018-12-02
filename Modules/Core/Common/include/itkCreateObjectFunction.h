@@ -28,7 +28,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT CreateObjectFunctionBase:public Object
+class ITK_TEMPLATE_EXPORT CreateObjectFunctionBase:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunctionBase);

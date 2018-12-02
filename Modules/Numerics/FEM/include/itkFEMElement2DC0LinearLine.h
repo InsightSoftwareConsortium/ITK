@@ -32,7 +32,7 @@ namespace fem
  *  takes loads only along the length of the axis
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element2DC0LinearLine : public ElementStd<2, 2>
+class ITK_TEMPLATE_EXPORT Element2DC0LinearLine : public ElementStd<2, 2>
 {
 public:
   /** Standard class type aliases. */

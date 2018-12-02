@@ -70,7 +70,7 @@ namespace itk
 #define FFTWPathSep "/"
 #endif
 
-class ITKFFT_EXPORT WisdomFilenameGeneratorBase
+class ITK_TEMPLATE_EXPORT WisdomFilenameGeneratorBase
 {
   public:
     //The baseCacheDirectory from which to build the cache hierarchy
@@ -80,7 +80,7 @@ class ITKFFT_EXPORT WisdomFilenameGeneratorBase
   private:
 };
 
-class ITKFFT_EXPORT ManualWisdomFilenameGenerator:
+class ITK_TEMPLATE_EXPORT ManualWisdomFilenameGenerator:
   public WisdomFilenameGeneratorBase
 {
   public:
@@ -91,19 +91,19 @@ class ITKFFT_EXPORT ManualWisdomFilenameGenerator:
     std::string m_WisdomFilename;
 };
 
-class ITKFFT_EXPORT SimpleWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
+class ITK_TEMPLATE_EXPORT SimpleWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
     std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
 };
 
-class ITKFFT_EXPORT HostnameWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
+class ITK_TEMPLATE_EXPORT HostnameWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
   std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
 };
 
-class ITKFFT_EXPORT HardwareWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
+class ITK_TEMPLATE_EXPORT HardwareWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
 public:
     HardwareWisdomFilenameGenerator();
@@ -167,7 +167,7 @@ private:
  *
  * \ingroup ITKFFT
  */
-class ITKFFT_EXPORT FFTWGlobalConfiguration
+class ITK_TEMPLATE_EXPORT FFTWGlobalConfiguration
   : public Object
 {
 public:

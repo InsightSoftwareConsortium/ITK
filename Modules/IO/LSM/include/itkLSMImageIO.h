@@ -44,7 +44,7 @@ namespace itk
  *
  * \ingroup ITKIOLSM
  */
-class ITKIOLSM_EXPORT LSMImageIO:public TIFFImageIO
+class ITK_TEMPLATE_EXPORT LSMImageIO:public TIFFImageIO
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LSMImageIO);

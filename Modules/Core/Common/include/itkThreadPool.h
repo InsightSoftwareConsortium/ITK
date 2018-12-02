@@ -50,7 +50,7 @@ namespace itk
 
 struct ThreadPoolGlobals;
 
-class ITKCommon_EXPORT ThreadPool : public Object
+class ITK_TEMPLATE_EXPORT ThreadPool : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadPool);

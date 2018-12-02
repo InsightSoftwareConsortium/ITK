@@ -36,7 +36,7 @@ class GiplImageIOInternals;
  *
  * \ingroup ITKIOGIPL
  */
-class ITKIOGIPL_EXPORT GiplImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT GiplImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIO);

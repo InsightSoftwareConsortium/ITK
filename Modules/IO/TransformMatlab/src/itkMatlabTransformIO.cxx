@@ -28,8 +28,8 @@ namespace itk
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKIOTransformMatlab_EXPORT MatlabTransformIOTemplate< double >;
-template class ITKIOTransformMatlab_EXPORT MatlabTransformIOTemplate< float >;
+template class ITK_TEMPLATE_EXPORT MatlabTransformIOTemplate< double >;
+template class ITK_TEMPLATE_EXPORT MatlabTransformIOTemplate< float >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()

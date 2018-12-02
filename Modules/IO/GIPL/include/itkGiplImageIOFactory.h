@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of GiplImageIO objects using an object factory.
  * \ingroup ITKIOGIPL
  */
-class ITKIOGIPL_EXPORT GiplImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT GiplImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIOFactory);

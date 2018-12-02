@@ -33,7 +33,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadPoint : public LoadElement
+class ITK_TEMPLATE_EXPORT LoadPoint : public LoadElement
 {
 public:
   /** Standard class type aliases. */

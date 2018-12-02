@@ -30,7 +30,7 @@ namespace itk
  * \class ImageFileWriterException
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT ImageFileWriterException:public ExceptionObject
+class ITK_TEMPLATE_EXPORT ImageFileWriterException:public ExceptionObject
 {
 public:
   /** Run-time information. */

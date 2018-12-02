@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT StdStreamLogOutput:public LogOutput
+class ITK_TEMPLATE_EXPORT StdStreamLogOutput:public LogOutput
 {
 public:
 

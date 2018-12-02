@@ -43,7 +43,7 @@ namespace fem
  * Integrates function f(x) from x=a to x=b in n points.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT GaussIntegrate
+class ITK_TEMPLATE_EXPORT GaussIntegrate
 {
 public:
   static constexpr double zero = 0.0;

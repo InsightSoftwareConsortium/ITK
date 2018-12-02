@@ -27,8 +27,8 @@ namespace itk
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKTransform_EXPORT TransformBaseTemplate< double >;
-template class ITKTransform_EXPORT TransformBaseTemplate< float >;
+template class ITK_TEMPLATE_EXPORT TransformBaseTemplate< double >;
+template class ITK_TEMPLATE_EXPORT TransformBaseTemplate< float >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()

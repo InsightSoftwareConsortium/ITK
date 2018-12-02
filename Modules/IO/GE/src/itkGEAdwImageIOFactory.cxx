@@ -52,7 +52,7 @@ GEAdwImageIOFactory::GetDescription() const
 
 static bool GEAdwImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GEAdwImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT GEAdwImageIOFactoryRegister__Private()
 {
   if( ! GEAdwImageIOFactoryHasBeenRegistered )
     {

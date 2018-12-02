@@ -69,7 +69,7 @@ namespace Statistics
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITKStatistics
  */
-class ITKStatistics_EXPORT ProbabilityDistribution:
+class ITK_TEMPLATE_EXPORT ProbabilityDistribution:
   public Object
 {
 public:

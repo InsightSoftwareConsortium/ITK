@@ -29,7 +29,7 @@ namespace itk
  * \brief Base exception class for IO conflicts.
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT ImageFileReaderException:public ExceptionObject
+class ITK_TEMPLATE_EXPORT ImageFileReaderException:public ExceptionObject
 {
 public:
   /** Run-time information. */

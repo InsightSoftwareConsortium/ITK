@@ -76,7 +76,7 @@ inline int Sign(double x)
  *  \brief Converts SpatialOrientation flags to/from direction cosines.
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT SpatialOrientationAdapter:
+class ITK_TEMPLATE_EXPORT SpatialOrientationAdapter:
   public OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >
 {
 public:

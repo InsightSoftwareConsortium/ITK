@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-class ITKOptimizersv4_EXPORT SingleValuedNonLinearVnlOptimizerv4 :
+class ITK_TEMPLATE_EXPORT SingleValuedNonLinearVnlOptimizerv4 :
     public ObjectToObjectOptimizerBaseTemplate<double>
 {
 public:

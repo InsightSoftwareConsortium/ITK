@@ -49,7 +49,7 @@ GiplImageIOFactory::GetDescription() const
 
 static bool GiplImageIOFactoryHasBeenRegistered;
 
-void ITKIOGIPL_EXPORT GiplImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT GiplImageIOFactoryRegister__Private()
 {
   if( ! GiplImageIOFactoryHasBeenRegistered )
     {

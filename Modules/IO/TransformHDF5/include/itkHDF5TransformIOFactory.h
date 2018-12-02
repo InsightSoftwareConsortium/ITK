@@ -29,7 +29,7 @@ namespace itk
    *
    * \ingroup ITKIOTransformHDF5
    */
-class ITKIOTransformHDF5_EXPORT HDF5TransformIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT HDF5TransformIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HDF5TransformIOFactory);

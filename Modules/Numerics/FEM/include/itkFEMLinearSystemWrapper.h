@@ -51,7 +51,7 @@ namespace fem
  * \sa Solver::SetLinearSystemWrapper
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LinearSystemWrapper : public Solution
+class ITK_TEMPLATE_EXPORT LinearSystemWrapper : public Solution
 {
 public:
   using Self = LinearSystemWrapper;

@@ -60,7 +60,7 @@ class ITK_FORWARD_EXPORT LBFGSBOptimizerHelper;
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT LBFGSBOptimizer:
+class ITK_TEMPLATE_EXPORT LBFGSBOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:

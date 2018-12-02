@@ -55,7 +55,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT ImageRegionSplitterMultidimensional
+class ITK_TEMPLATE_EXPORT ImageRegionSplitterMultidimensional
   : public ImageRegionSplitterBase
 {
 public:

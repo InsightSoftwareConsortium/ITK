@@ -29,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKIOMeshBase
  */
-class ITKIOMeshBase_EXPORT MeshFileWriterException:public ExceptionObject
+class ITK_TEMPLATE_EXPORT MeshFileWriterException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */

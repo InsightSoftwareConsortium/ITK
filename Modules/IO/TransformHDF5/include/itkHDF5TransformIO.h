@@ -53,7 +53,7 @@ namespace itk
  * \ingroup ITKIOTransformHDF5
  *
  */
-struct ITKIOTransformHDF5_EXPORT HDF5CommonPathNames
+struct ITK_TEMPLATE_EXPORT HDF5CommonPathNames
   {
   //
   // HDF uses hierarchical paths to find particular data
@@ -152,7 +152,7 @@ private:
   H5::PredType GetH5TypeFromString( ) const;
 };
 
-const std::string ITKIOTransformHDF5_EXPORT GetTransformName(int);
+const std::string ITK_TEMPLATE_EXPORT GetTransformName(int);
 
 /** This helps to meet backward compatibility */
 using HDF5TransformIO = HDF5TransformIOTemplate<double>;
@@ -178,7 +178,7 @@ using HDF5TransformIO = HDF5TransformIOTemplate<double>;
 #    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
-#    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITKIOTransformHDF5_EXPORT
+#    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  endif
 namespace itk
 {

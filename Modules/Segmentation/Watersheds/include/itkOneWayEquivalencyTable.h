@@ -43,7 +43,7 @@ namespace itk
  * \sa EquivalencyTable
  * \ingroup ITKWatersheds
  */
-class ITKWatersheds_EXPORT OneWayEquivalencyTable:public DataObject
+class ITK_TEMPLATE_EXPORT OneWayEquivalencyTable:public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OneWayEquivalencyTable);

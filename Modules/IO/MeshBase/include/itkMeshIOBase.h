@@ -66,7 +66,7 @@ namespace itk
  *
  */
 
-class ITKIOMeshBase_EXPORT MeshIOBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT MeshIOBase:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOBase);

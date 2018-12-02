@@ -34,7 +34,7 @@ namespace itk
  *  \ingroup IOFilters
  * \ingroup ITKIONRRD
  */
-class ITKIONRRD_EXPORT NrrdImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT NrrdImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIO);

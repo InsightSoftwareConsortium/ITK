@@ -35,7 +35,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadNoisyLandmark : public LoadLandmark
+class ITK_TEMPLATE_EXPORT LoadNoisyLandmark : public LoadLandmark
 {
 public:
   /** Standard class type aliases. */

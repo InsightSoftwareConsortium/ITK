@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of GDCMImageIO objects using an object factory.
  * \ingroup ITKIOGDCM
  */
-class ITKIOGDCM_EXPORT GDCMImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT GDCMImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIOFactory);

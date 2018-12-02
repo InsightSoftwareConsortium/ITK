@@ -54,7 +54,7 @@ namespace fem
 // forward declaratons...
 // class Solver;
 
-class ITKFEM_EXPORT LoadBCMFC : public Load
+class ITK_TEMPLATE_EXPORT LoadBCMFC : public Load
 {
 public:
   /** Standard class type aliases. */

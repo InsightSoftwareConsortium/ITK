@@ -64,7 +64,7 @@ VTKPolyDataMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool VTKPolyDataMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshVTK_EXPORT VTKPolyDataMeshIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT VTKPolyDataMeshIOFactoryRegister__Private()
 {
   if( ! VTKPolyDataMeshIOFactoryHasBeenRegistered )
     {

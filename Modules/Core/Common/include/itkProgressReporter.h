@@ -57,7 +57,7 @@ namespace itk
  *  - Object::AddObserver()
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ProgressReporter
+class ITK_TEMPLATE_EXPORT ProgressReporter
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN( ProgressReporter );

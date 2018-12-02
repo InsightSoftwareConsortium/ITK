@@ -49,7 +49,7 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKMesh
  */
-class ITKMesh_EXPORT MeshRegion:public Region
+class ITK_TEMPLATE_EXPORT MeshRegion:public Region
 {
 public:
   /** Standard class type aliases. */

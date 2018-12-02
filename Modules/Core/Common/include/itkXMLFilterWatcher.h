@@ -28,7 +28,7 @@ namespace itk
  * with xml.
  * \ingroup ITKCommon
  */
-class  ITKCommon_EXPORT XMLFilterWatcher
+class  ITK_TEMPLATE_EXPORT XMLFilterWatcher
   : public SimpleFilterWatcher
 {
 public:

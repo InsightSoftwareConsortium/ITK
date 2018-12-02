@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKIOBMP
  */
-class ITKIOBMP_EXPORT BMPImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT BMPImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIO);

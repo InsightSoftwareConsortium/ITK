@@ -30,7 +30,7 @@ namespace itk
  *  \brief Base exception class for IO problems during writing.
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT ImageSeriesWriterException:public ExceptionObject
+class ITK_TEMPLATE_EXPORT ImageSeriesWriterException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */

@@ -89,7 +89,7 @@ namespace itk
 // Forward reference because of circular dependencies
 class ITK_FORWARD_EXPORT KLMSegmentationBorder;
 
-class ITKKLMRegionGrowing_EXPORT KLMSegmentationRegion:public SegmentationRegion
+class ITK_TEMPLATE_EXPORT KLMSegmentationRegion:public SegmentationRegion
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationRegion);

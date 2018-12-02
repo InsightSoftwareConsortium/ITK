@@ -28,8 +28,8 @@ namespace itk
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate< double >;
-template class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate< float >;
+template class ITK_TEMPLATE_EXPORT MINCTransformIOTemplate< double >;
+template class ITK_TEMPLATE_EXPORT MINCTransformIOTemplate< float >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()

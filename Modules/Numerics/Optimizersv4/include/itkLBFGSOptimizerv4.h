@@ -82,7 +82,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 
-class ITKOptimizersv4_EXPORT LBFGSOptimizerv4:
+class ITK_TEMPLATE_EXPORT LBFGSOptimizerv4:
     public LBFGSOptimizerBasev4< vnl_lbfgs >
 {
 public:

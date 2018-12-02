@@ -46,7 +46,7 @@ namespace itk
  */
 
 // Critical Section object that is not a itkObject.
-class ITKCommon_EXPORT SimpleFastMutexLock
+class ITK_TEMPLATE_EXPORT SimpleFastMutexLock
 {
 public:
   /** Standard class type aliases.  */

@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of BMPImageIO objects using an object factory.
  * \ingroup ITKIOBMP
  */
-class ITKIOBMP_EXPORT BMPImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT BMPImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIOFactory);

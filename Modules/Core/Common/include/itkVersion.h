@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT Version:public Object
+class ITK_TEMPLATE_EXPORT Version:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Version);

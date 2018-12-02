@@ -59,7 +59,7 @@ namespace fem
  * This element is combined from Element2DC0LinearTriangular and Element2DStrain.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element2DC0QuadraticTriangularStrain : public Element2DStrain<Element2DC0QuadraticTriangular>
+class ITK_TEMPLATE_EXPORT Element2DC0QuadraticTriangularStrain : public Element2DStrain<Element2DC0QuadraticTriangular>
 {
 public:
   /** Standard class type aliases. */

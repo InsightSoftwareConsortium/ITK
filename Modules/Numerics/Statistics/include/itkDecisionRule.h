@@ -44,7 +44,7 @@ namespace Statistics
  *  \ingroup ITKStatistics
  */
 
-class ITKStatistics_EXPORT DecisionRule : public Object
+class ITK_TEMPLATE_EXPORT DecisionRule : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DecisionRule);

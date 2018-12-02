@@ -47,7 +47,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT LoggerOutput:public OutputWindow
+class ITK_TEMPLATE_EXPORT LoggerOutput:public OutputWindow
 {
 public:
   /** Standard class type aliases. */

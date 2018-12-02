@@ -29,7 +29,7 @@ namespace itk
    * \brief Create instances of GE4ImageIO objects using an object factory.
    * \ingroup ITKIOGE
    */
-class ITKIOGE_EXPORT GE4ImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT GE4ImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GE4ImageIOFactory);

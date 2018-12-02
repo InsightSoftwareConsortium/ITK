@@ -46,7 +46,7 @@ enum OctreePlaneType {
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT OctreeBase:public Object
+class ITK_TEMPLATE_EXPORT OctreeBase:public Object
 {
 public:
   /** Standard class type aliases. */

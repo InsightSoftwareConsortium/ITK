@@ -727,17 +727,17 @@ NotExactlyEquals( const TInput1 & x1, const TInput2 & x2 )
  *
  * \note Negative numbers cannot be prime.
  */
-ITKCommon_EXPORT bool IsPrime( unsigned short n );
-ITKCommon_EXPORT bool IsPrime( unsigned int n );
-ITKCommon_EXPORT bool IsPrime( unsigned long n );
-ITKCommon_EXPORT bool IsPrime( unsigned long long n );
+ITK_TEMPLATE_EXPORT bool IsPrime( unsigned short n );
+ITK_TEMPLATE_EXPORT bool IsPrime( unsigned int n );
+ITK_TEMPLATE_EXPORT bool IsPrime( unsigned long n );
+ITK_TEMPLATE_EXPORT bool IsPrime( unsigned long long n );
 
 
 /** Return the greatest factor of the decomposition in prime numbers. */
-ITKCommon_EXPORT unsigned short     GreatestPrimeFactor( unsigned short n );
-ITKCommon_EXPORT unsigned int       GreatestPrimeFactor( unsigned int n );
-ITKCommon_EXPORT unsigned long      GreatestPrimeFactor( unsigned long n );
-ITKCommon_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
+ITK_TEMPLATE_EXPORT unsigned short     GreatestPrimeFactor( unsigned short n );
+ITK_TEMPLATE_EXPORT unsigned int       GreatestPrimeFactor( unsigned int n );
+ITK_TEMPLATE_EXPORT unsigned long      GreatestPrimeFactor( unsigned long n );
+ITK_TEMPLATE_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
 
 
 /*==========================================

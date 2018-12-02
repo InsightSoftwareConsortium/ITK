@@ -51,7 +51,7 @@ namespace itk
  * \wikiexample{Utilities/NumericSeriesFileNames,Create a list of file names}
  * \endwiki
  */
-class ITKIOImageBase_EXPORT NumericSeriesFileNames:public Object
+class ITK_TEMPLATE_EXPORT NumericSeriesFileNames:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NumericSeriesFileNames);

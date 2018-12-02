@@ -35,7 +35,7 @@ extern "C" {
 namespace LibraryB
 {
 
-class ClientTestLibraryB_EXPORT ITKObjectProducer
+class ITK_TEMPLATE_EXPORT ITKObjectProducer
 {
 public:
   ITKObjectProducer();

@@ -45,7 +45,7 @@ namespace itk
  *
  * \ingroup ITKIOMRC
  */
-class ITKIOMRC_EXPORT MRCImageIOFactory
+class ITK_TEMPLATE_EXPORT MRCImageIOFactory
   : public ObjectFactoryBase
 {
 public:

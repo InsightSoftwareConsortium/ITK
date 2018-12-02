@@ -268,13 +268,13 @@ template< typename T, unsigned int NVectorDimension >
 std::istream & operator>>(std::istream & is,
                           Vector< T, NVectorDimension > & v);
 
-ITKCommon_EXPORT Vector< double, 3 > CrossProduct(const Vector< double, 3 > &,
+ITK_TEMPLATE_EXPORT Vector< double, 3 > CrossProduct(const Vector< double, 3 > &,
                                                   const Vector< double, 3 > &);
 
-ITKCommon_EXPORT Vector< float, 3 > CrossProduct(const Vector< float, 3 > &,
+ITK_TEMPLATE_EXPORT Vector< float, 3 > CrossProduct(const Vector< float, 3 > &,
                                                  const Vector< float, 3 > &);
 
-ITKCommon_EXPORT Vector< int, 3 > CrossProduct(const Vector< int, 3 > &,
+ITK_TEMPLATE_EXPORT Vector< int, 3 > CrossProduct(const Vector< int, 3 > &,
                                                const Vector< int, 3 > &);
 
 

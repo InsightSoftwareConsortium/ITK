@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT EventObject
+class ITK_TEMPLATE_EXPORT EventObject
 {
 public:
   /** Constructor and copy constructor.  Note that these functions will be
@@ -105,7 +105,7 @@ inline std::ostream & operator<<(std::ostream & os, EventObject & e)
 }
 
 
-#define ITKEvent_EXPORT ITKCommon_EXPORT
+#define ITKEvent_EXPORT ITK_TEMPLATE_EXPORT
 
 /**
  *  Macros for creating new Events
@@ -113,7 +113,7 @@ inline std::ostream & operator<<(std::ostream & os, EventObject & e)
 
 #define itkEventMacroDeclaration(classname, super)                   \
   /** \class classname */                                            \
-  class ITKEvent_EXPORT classname:public super                       \
+  class ITK_TEMPLATE_EXPORT classname:public super                       \
   {                                                                  \
 public:                                                              \
     using Self = classname;                                          \
@@ -148,7 +148,7 @@ bool classname::CheckEvent(const::itk::EventObject * e) const               \
 //
 #define itkEventMacro(classname, super)                              \
   /** \class classname */                                            \
-  class ITKEvent_EXPORT classname:public super                       \
+  class ITK_TEMPLATE_EXPORT classname:public super                       \
   {                                                                  \
 public:                                                              \
     using Self = classname;                                          \

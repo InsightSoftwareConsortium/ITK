@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of OBJMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class ITKIOMesh_EXPORT OBJMeshIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT OBJMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OBJMeshIOFactory);

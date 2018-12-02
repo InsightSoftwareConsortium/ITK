@@ -49,7 +49,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT StreamingImageIOBase:public ImageIOBase
+class ITK_TEMPLATE_EXPORT StreamingImageIOBase:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageIOBase);

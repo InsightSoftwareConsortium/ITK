@@ -251,15 +251,15 @@ operator*(const Vector< T, NVectorDimension > & contravariant, const CovariantVe
   return covariant.operator*( contravariant );
 }
 
-ITKCommon_EXPORT void CrossProduct(CovariantVector< double, 3 > &,
+ITK_TEMPLATE_EXPORT void CrossProduct(CovariantVector< double, 3 > &,
                                    const Vector< double, 3 > &,
                                    const Vector< double, 3 > &);
 
-ITKCommon_EXPORT void CrossProduct(CovariantVector< float, 3 > &,
+ITK_TEMPLATE_EXPORT void CrossProduct(CovariantVector< float, 3 > &,
                                    const Vector< float, 3 > &,
                                    const Vector< float, 3 > &);
 
-ITKCommon_EXPORT void CrossProduct(CovariantVector< int, 3 >,
+ITK_TEMPLATE_EXPORT void CrossProduct(CovariantVector< int, 3 >,
                                    const Vector< int, 3 > &,
                                    const Vector< int, 3 > &);
 

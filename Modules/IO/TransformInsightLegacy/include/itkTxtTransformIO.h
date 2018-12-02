@@ -102,7 +102,7 @@ using TxtTransformIO = TxtTransformIOTemplate<double>;
 #    define ITKIOTransformInsightLegacy_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
-#    define ITKIOTransformInsightLegacy_EXPORT_EXPLICIT ITKIOTransformInsightLegacy_EXPORT
+#    define ITKIOTransformInsightLegacy_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  endif
 namespace itk
 {

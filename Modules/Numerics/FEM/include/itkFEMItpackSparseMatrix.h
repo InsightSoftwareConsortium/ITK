@@ -37,7 +37,7 @@ namespace fem
 // Forward declaration of friend class
 class ItpackLinearSystemWrapper;
 
-class ITKFEM_EXPORT ItpackSparseMatrix
+class ITK_TEMPLATE_EXPORT ItpackSparseMatrix
 {
 public:
 

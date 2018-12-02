@@ -49,7 +49,7 @@ TIFFImageIOFactory::GetDescription() const
 
 static bool TIFFImageIOFactoryHasBeenRegistered;
 
-void ITKIOTIFF_EXPORT TIFFImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT TIFFImageIOFactoryRegister__Private()
 {
   if( ! TIFFImageIOFactoryHasBeenRegistered )
     {

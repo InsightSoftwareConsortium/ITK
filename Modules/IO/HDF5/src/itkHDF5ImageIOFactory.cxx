@@ -52,7 +52,7 @@ HDF5ImageIOFactory::GetDescription() const
 
 static bool HDF5ImageIOFactoryHasBeenRegistered;
 
-void ITKIOHDF5_EXPORT HDF5ImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT HDF5ImageIOFactoryRegister__Private()
 {
   if( ! HDF5ImageIOFactoryHasBeenRegistered )
     {

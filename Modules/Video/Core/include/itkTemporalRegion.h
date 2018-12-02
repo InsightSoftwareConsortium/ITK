@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKVideoCore
  */
-class ITKVideoCore_EXPORT TemporalRegion : public Region
+class ITK_TEMPLATE_EXPORT TemporalRegion : public Region
 {
 public:
 
@@ -101,7 +101,7 @@ protected:
 };  // end class TemporalRegion
 
 /** ostream operator */
-ITKVideoCore_EXPORT std::ostream & operator<<(std::ostream & os, const TemporalRegion & region);
+ITK_TEMPLATE_EXPORT std::ostream & operator<<(std::ostream & os, const TemporalRegion & region);
 
 } // end namespace itk
 

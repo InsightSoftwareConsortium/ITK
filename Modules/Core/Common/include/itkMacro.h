@@ -40,7 +40,6 @@
 
 #include "itkWin32Header.h"
 #include "itkConfigure.h"
-#include "ITKCommonExport.h"
 #include "ITKExport.h"
 
 #include <typeinfo>
@@ -358,15 +357,15 @@ namespace itk
  * OutputWindow::GetInstance()->DisplayText();
  * This is to avoid Object \#include of OutputWindow
  * while OutputWindow \#includes Object. */
-extern ITKCommon_EXPORT void OutputWindowDisplayText(const char *);
+extern ITK_TEMPLATE_EXPORT void OutputWindowDisplayText(const char *);
 
-extern ITKCommon_EXPORT void OutputWindowDisplayErrorText(const char *);
+extern ITK_TEMPLATE_EXPORT void OutputWindowDisplayErrorText(const char *);
 
-extern ITKCommon_EXPORT void OutputWindowDisplayWarningText(const char *);
+extern ITK_TEMPLATE_EXPORT void OutputWindowDisplayWarningText(const char *);
 
-extern ITKCommon_EXPORT void OutputWindowDisplayGenericOutputText(const char *);
+extern ITK_TEMPLATE_EXPORT void OutputWindowDisplayGenericOutputText(const char *);
 
-extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
+extern ITK_TEMPLATE_EXPORT void OutputWindowDisplayDebugText(const char *);
 } // end namespace itk
 
 /** This macro is used to print debug (or other information). They are

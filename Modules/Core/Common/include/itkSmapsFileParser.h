@@ -35,7 +35,7 @@ namespace itk
  * \todo Add documentation
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MapRecord
+class ITK_TEMPLATE_EXPORT MapRecord
 {
 public:
   using MemoryLoadType = SizeValueType;
@@ -61,7 +61,7 @@ public:
  *  It is filled by operator>>(istream&,SmapsRecord&).
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT SmapsRecord:public MapRecord
+class ITK_TEMPLATE_EXPORT SmapsRecord:public MapRecord
 {
   /** Input operator to fill a SmapsRecord
    *  The format has to be the following:
@@ -79,7 +79,7 @@ class ITKCommon_EXPORT SmapsRecord:public MapRecord
    *  Private_Clean:        0 kB
    *  Private_Dirty:        0 kB
    */
-  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & record);
+  friend ITK_TEMPLATE_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & record);
 };
 
 /** \class VMMapSummaryRecord
@@ -88,14 +88,14 @@ class ITKCommon_EXPORT SmapsRecord:public MapRecord
  *  It is filled by operator>>(istream&,VMMapRecord&).
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT VMMapSummaryRecord:public MapRecord
+class ITK_TEMPLATE_EXPORT VMMapSummaryRecord:public MapRecord
 {
   /** Input operator to fill a VMMapRecord
    *  recordName             [ numberK]
    *  Example
    *  MALLOC                  [  18536K]
    */
-  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, VMMapSummaryRecord & record);
+  friend ITK_TEMPLATE_EXPORT std::istream &  operator>>(std::istream & in, VMMapSummaryRecord & record);
 };
 
 /** \class VMMapRecord
@@ -104,14 +104,14 @@ class ITKCommon_EXPORT VMMapSummaryRecord:public MapRecord
  *  It is filled by operator>>(istream&,SmapsRecord&).
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT VMMapRecord:public MapRecord
+class ITK_TEMPLATE_EXPORT VMMapRecord:public MapRecord
 {
   /** Input operator to fill a VMMapRecord
    *  recordName address [ numberK] permissions mode
    *  Example
    *  __DATA                         8fe51000 [   4K] rw-/rwx SM=COW /usr/lib/dyld
    */
-  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, VMMapRecord & record);
+  friend ITK_TEMPLATE_EXPORT std::istream &  operator>>(std::istream & in, VMMapRecord & record);
 };
 
 /** MAP DATA **/
@@ -122,7 +122,7 @@ class ITKCommon_EXPORT VMMapRecord:public MapRecord
  *  Inherited classes must implement their own
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MapData
+class ITK_TEMPLATE_EXPORT MapData
 {
 public:
   /** need a large enough type to be able to accumulate the SmapsRecord */
@@ -161,7 +161,7 @@ protected:
  *  Smaps files have been added since the linux kernel 2.6
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT SmapsData_2_6:public MapData
+class ITK_TEMPLATE_EXPORT SmapsData_2_6:public MapData
 {
 public:
   using MemoryLoadType = MapData::MemoryLoadType;
@@ -175,7 +175,7 @@ public:
   MemoryLoadType GetStackUsage() override;
 
   /** fill the smaps data */
-  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & smapsStream,
+  friend ITK_TEMPLATE_EXPORT std::istream &  operator>>(std::istream & smapsStream,
                                                      SmapsData_2_6 & data);
 
 protected:
@@ -190,7 +190,7 @@ protected:
  *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg,
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT VMMapData_10_2:public MapData
+class ITK_TEMPLATE_EXPORT VMMapData_10_2:public MapData
 {
 public:
   using MemoryLoadType = MapData::MemoryLoadType;
@@ -204,7 +204,7 @@ public:
   MemoryLoadType GetStackUsage() override;
 
   /** fill the smaps data */
-  friend ITKCommon_EXPORT std::istream & operator>>(std::istream & stream,
+  friend ITK_TEMPLATE_EXPORT std::istream & operator>>(std::istream & stream,
                                                     VMMapData_10_2 & data);
 
 protected:

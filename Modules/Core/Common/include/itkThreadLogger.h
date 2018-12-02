@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT ThreadLogger:public Logger
+class ITK_TEMPLATE_EXPORT ThreadLogger:public Logger
 {
 public:
 

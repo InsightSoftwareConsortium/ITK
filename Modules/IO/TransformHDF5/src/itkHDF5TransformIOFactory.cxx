@@ -59,7 +59,7 @@ HDF5TransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool HDF5TransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformHDF5_EXPORT HDF5TransformIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT HDF5TransformIOFactoryRegister__Private()
 {
   if( ! HDF5TransformIOFactoryHasBeenRegistered )
     {

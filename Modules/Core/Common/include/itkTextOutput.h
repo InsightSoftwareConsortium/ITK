@@ -24,7 +24,7 @@
 namespace itk
 {
 // this class is used to send output to stdout and not the itk window
-class ITKCommon_EXPORT TextOutput:public OutputWindow
+class ITK_TEMPLATE_EXPORT TextOutput:public OutputWindow
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TextOutput);

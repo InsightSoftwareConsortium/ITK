@@ -38,7 +38,7 @@ namespace itk
  * \brief Create instances of BioRadImageIO objects using an object factory.
  * \ingroup ITKIOBioRad
  */
-class ITKIOBioRad_EXPORT BioRadImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT BioRadImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BioRadImageIOFactory);

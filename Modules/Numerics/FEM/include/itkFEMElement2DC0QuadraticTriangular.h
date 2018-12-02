@@ -55,7 +55,7 @@ namespace fem
  * \sa Element2DC0QuadraticTriangularStrain
  * \sa Element2DC0QuadraticTriangularStress
  */
-class ITKFEM_EXPORT Element2DC0QuadraticTriangular : public ElementStd<6, 2>
+class ITK_TEMPLATE_EXPORT Element2DC0QuadraticTriangular : public ElementStd<6, 2>
 {
 public:
   /** Standard class type aliases. */

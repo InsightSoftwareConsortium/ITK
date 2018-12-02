@@ -59,7 +59,7 @@ Bruker2dseqImageIOFactory::GetDescription() const
 
 static bool Bruker2dseqImageIOFactoryHasBeenRegistered;
 
-void ITKIOBruker_EXPORT Bruker2dseqImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT Bruker2dseqImageIOFactoryRegister__Private()
 {
   if( ! Bruker2dseqImageIOFactoryHasBeenRegistered )
     {

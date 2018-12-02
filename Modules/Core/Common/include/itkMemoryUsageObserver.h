@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT MemoryUsageObserverBase
+class ITK_TEMPLATE_EXPORT MemoryUsageObserverBase
 {
 public:
   /** Define the type for the memory usage */
@@ -57,7 +57,7 @@ public:
 };
 
 #if defined( WIN32 ) || defined( _WIN32 )
-class ITKCommon_EXPORT WindowsMemoryUsageObserver:public MemoryUsageObserverBase
+class ITK_TEMPLATE_EXPORT WindowsMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   WindowsMemoryUsageObserver();
@@ -80,7 +80,7 @@ protected:
 #endif // defined(WIN32) || defined(_WIN32)
 
 #ifdef __linux__
-class ITKCommon_EXPORT LinuxMemoryUsageObserver:public MemoryUsageObserverBase
+class ITK_TEMPLATE_EXPORT LinuxMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -90,7 +90,7 @@ public:
 #endif // __linux__
 
 #if defined( __APPLE__ )
-class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
+class ITK_TEMPLATE_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -100,7 +100,7 @@ public:
 #endif // Mac OS X
 
 #if defined( __SUNPRO_CC ) || defined ( __sun__ )
-class ITKCommon_EXPORT SunSolarisMemoryUsageObserver:public MemoryUsageObserverBase
+class ITK_TEMPLATE_EXPORT SunSolarisMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -110,7 +110,7 @@ public:
 #endif // Sun Solaris
 
 #if !defined( WIN32 ) && !defined( _WIN32 )
-class ITKCommon_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
+class ITK_TEMPLATE_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -123,7 +123,7 @@ public:
  * \brief The MallinfoMemoryUsageObserver
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
+class ITK_TEMPLATE_EXPORT MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -140,7 +140,7 @@ public:
  * For FreeBSD, some alternatives would be to parse the output of
  * "sysctl vm.vmtotal" or "sysctl -a | grep -i memory"
 */
-class ITKCommon_EXPORT MemoryUsageObserver:
+class ITK_TEMPLATE_EXPORT MemoryUsageObserver:
 #if defined( WIN32 ) || defined( _WIN32 )
   public WindowsMemoryUsageObserver
 #elif defined( __linux__ )

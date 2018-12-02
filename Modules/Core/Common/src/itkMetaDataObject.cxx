@@ -26,30 +26,30 @@ namespace itk
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKCommon_EXPORT MetaDataObject< bool >;
-template class ITKCommon_EXPORT MetaDataObject< unsigned char >;
-template class ITKCommon_EXPORT MetaDataObject< char >;
-template class ITKCommon_EXPORT MetaDataObject< signed char >;
-template class ITKCommon_EXPORT MetaDataObject< unsigned short >;
-template class ITKCommon_EXPORT MetaDataObject< short >;
-template class ITKCommon_EXPORT MetaDataObject< unsigned int >;
-template class ITKCommon_EXPORT MetaDataObject< int >;
-template class ITKCommon_EXPORT MetaDataObject< unsigned long >;
-template class ITKCommon_EXPORT MetaDataObject< long >;
-template class ITKCommon_EXPORT MetaDataObject< unsigned long long >;
-template class ITKCommon_EXPORT MetaDataObject< long long >;
-template class ITKCommon_EXPORT MetaDataObject< float >;
-template class ITKCommon_EXPORT MetaDataObject< double >;
-template class ITKCommon_EXPORT MetaDataObject< std::string >;
-template class ITKCommon_EXPORT MetaDataObject< Array<char> >;
-template class ITKCommon_EXPORT MetaDataObject< Array<int> >;
-template class ITKCommon_EXPORT MetaDataObject< Array<float> >;
-template class ITKCommon_EXPORT MetaDataObject< Array<double> >;
-template class ITKCommon_EXPORT MetaDataObject< Matrix<double> >;
-template class ITKCommon_EXPORT MetaDataObject< std::vector<float> >;
-template class ITKCommon_EXPORT MetaDataObject< std::vector<double> >;
-template class ITKCommon_EXPORT MetaDataObject< std::vector<std::vector<double> > >;
-template class ITKCommon_EXPORT MetaDataObject< std::vector<std::vector<float> > >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< bool >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< unsigned char >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< char >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< signed char >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< unsigned short >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< short >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< unsigned int >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< int >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< unsigned long >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< long >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< unsigned long long >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< long long >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< float >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< double >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< std::string >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< Array<char> >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< Array<int> >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< Array<float> >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< Array<double> >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< Matrix<double> >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< std::vector<float> >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< std::vector<double> >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< std::vector<std::vector<double> > >;
+template class ITK_TEMPLATE_EXPORT MetaDataObject< std::vector<std::vector<float> > >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()

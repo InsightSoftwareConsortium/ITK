@@ -259,7 +259,7 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
 #    define ITKCommon_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  else
 //   We are using this library
-#    define ITKCommon_EXPORT_EXPLICIT ITKCommon_EXPORT
+#    define ITKCommon_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  endif
 namespace itk
 {

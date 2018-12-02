@@ -28,8 +28,8 @@ namespace itk
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< double >;
-template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< float >;
+template class ITK_TEMPLATE_EXPORT TransformFileReaderTemplate< double >;
+template class ITK_TEMPLATE_EXPORT TransformFileReaderTemplate< float >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()

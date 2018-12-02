@@ -59,7 +59,7 @@ namespace itk
  *
  * \ingroup ITKIOStimulate
  */
-class ITKIOStimulate_EXPORT StimulateImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT StimulateImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIO);

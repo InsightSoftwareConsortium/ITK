@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of FreeSurferAsciiMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT FreeSurferAsciiMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIOFactory);

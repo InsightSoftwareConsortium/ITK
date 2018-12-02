@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKFEM
  */
 
-class ITKFEM_EXPORT FEMFactoryBase : public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT FEMFactoryBase : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMFactoryBase);

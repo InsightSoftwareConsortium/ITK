@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT TimeStamp
+class ITK_TEMPLATE_EXPORT TimeStamp
 {
 public:
   /** Standard class type aliases. */

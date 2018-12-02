@@ -56,7 +56,7 @@ namespace fem
  * \sa Element2DC0LinearTriangularStrain
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element2DC0QuadraticTriangularStress : public Element2DStress<Element2DC0QuadraticTriangular>
+class ITK_TEMPLATE_EXPORT Element2DC0QuadraticTriangularStress : public Element2DStress<Element2DC0QuadraticTriangular>
 {
 public:
   /** Standard class type aliases. */

@@ -82,7 +82,7 @@ namespace itk
  *
  */
 
-class ITKIOHDF5_EXPORT HDF5ImageIO: public StreamingImageIOBase
+class ITK_TEMPLATE_EXPORT HDF5ImageIO: public StreamingImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIO);

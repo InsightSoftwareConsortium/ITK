@@ -30,7 +30,7 @@ namespace Statistics
  * \ingroup Common
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT RandomVariateGeneratorBase:public Object
+class ITK_TEMPLATE_EXPORT RandomVariateGeneratorBase:public Object
 {
 public:
   /** Standard class type aliases. */

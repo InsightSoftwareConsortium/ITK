@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT FileOutputWindow:public OutputWindow
+class ITK_TEMPLATE_EXPORT FileOutputWindow:public OutputWindow
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FileOutputWindow);

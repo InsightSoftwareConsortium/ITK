@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of BYUMeshIO objects using an object factory.
    * \ingroup ITKIOMeshBYU
    */
-class ITKIOMeshBYU_EXPORT BYUMeshIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT BYUMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIOFactory);

@@ -61,7 +61,7 @@ namespace itk
  * \ingroup ITKIOCSV
  */
 
-class ITKIOCSV_EXPORT CSVFileReaderBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT CSVFileReaderBase:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CSVFileReaderBase);

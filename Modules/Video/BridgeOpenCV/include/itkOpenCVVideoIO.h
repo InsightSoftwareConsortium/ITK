@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIO : public VideoIOBase
+class ITK_TEMPLATE_EXPORT OpenCVVideoIO : public VideoIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIO);

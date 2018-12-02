@@ -39,7 +39,7 @@ namespace fem
  * \sa Element3DC0LinearTetrahedronMembrane
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element3DC0LinearTetrahedronStrain : public Element3DStrain<Element3DC0LinearTetrahedron>
+class ITK_TEMPLATE_EXPORT Element3DC0LinearTetrahedronStrain : public Element3DStrain<Element3DC0LinearTetrahedron>
 {
 public:
   /** Standard class type aliases. */

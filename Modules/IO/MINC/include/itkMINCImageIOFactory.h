@@ -38,7 +38,7 @@ namespace itk
  * And Modified by Vladimir S. FONOV during ITK-MINC Hackathon
  *
  */
-class ITKIOMINC_EXPORT MINCImageIOFactory : public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT MINCImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIOFactory);

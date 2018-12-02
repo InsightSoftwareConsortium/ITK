@@ -29,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIOFactory: public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT OpenCVVideoIOFactory: public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIOFactory);

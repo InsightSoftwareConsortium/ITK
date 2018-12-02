@@ -32,7 +32,7 @@ namespace fem
  * Objects of this class specify, which DOFs in a system are fixed.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadBC : public Load
+class ITK_TEMPLATE_EXPORT LoadBC : public Load
 {
 public:
   /** Standard class type aliases. */

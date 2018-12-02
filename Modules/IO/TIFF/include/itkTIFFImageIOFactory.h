@@ -29,7 +29,7 @@ namespace itk
  * \brief Create instances of TIFFImageIO objects using an object factory.
  * \ingroup ITKIOTIFF
  */
-class ITKIOTIFF_EXPORT TIFFImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT TIFFImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TIFFImageIOFactory);

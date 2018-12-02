@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT RealTimeStamp
+class ITK_TEMPLATE_EXPORT RealTimeStamp
 {
 public:
 
@@ -83,7 +83,7 @@ public:
   bool operator>=( const Self & ) const;
 
   /** Default print out of a RealTimeStamp */
-  friend ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const RealTimeStamp & v);
+  friend ITK_TEMPLATE_EXPORT std::ostream & operator<<(std::ostream & os, const RealTimeStamp & v);
 
 private:
 

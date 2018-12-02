@@ -26,7 +26,7 @@
 namespace itk
 {
 
-class ITKIOTIFF_HIDDEN TIFFReaderInternal
+class ITK_TEMPLATE_NO_EXPORT TIFFReaderInternal
 {
 public:
   TIFFReaderInternal();

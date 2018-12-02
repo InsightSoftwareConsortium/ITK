@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-class ITKIOXML_EXPORT StringTools
+class ITK_TEMPLATE_EXPORT StringTools
 {
 public:
   /////////////////////////////////////////////////////////////////////////////

@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of ImageIO objects using an object factory.
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT ImageIOFactory:public Object
+class ITK_TEMPLATE_EXPORT ImageIOFactory:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOFactory);

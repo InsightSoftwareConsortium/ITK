@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT RealTimeClock:public Object
+class ITK_TEMPLATE_EXPORT RealTimeClock:public Object
 {
 public:
   using Self = RealTimeClock;

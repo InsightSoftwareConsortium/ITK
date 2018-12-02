@@ -30,7 +30,7 @@ namespace itk
    *
    * \ingroup ITKIOTransformMINC
    */
-  class ITKIOTransformMINC_EXPORT MINCTransformIOFactory:public ObjectFactoryBase
+  class ITK_TEMPLATE_EXPORT MINCTransformIOFactory:public ObjectFactoryBase
   {
   public:
     ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformIOFactory);

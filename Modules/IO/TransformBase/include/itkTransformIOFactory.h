@@ -88,7 +88,7 @@ using TransformIOFactory = TransformIOFactoryTemplate<double>;
 #    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  endif
 namespace itk
 {

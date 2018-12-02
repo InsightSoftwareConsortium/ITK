@@ -39,7 +39,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element3DC0LinearTriangularLaplaceBeltrami : public Element3DMembrane1DOF<Element3DC0LinearTriangular>
+class ITK_TEMPLATE_EXPORT Element3DC0LinearTriangularLaplaceBeltrami : public Element3DMembrane1DOF<Element3DC0LinearTriangular>
 {
 public:
   /** Standard class type aliases. */

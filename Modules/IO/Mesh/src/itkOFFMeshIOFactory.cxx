@@ -59,7 +59,7 @@ OFFMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OFFMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT OFFMeshIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT OFFMeshIOFactoryRegister__Private()
 {
   if( ! OFFMeshIOFactoryHasBeenRegistered )
     {

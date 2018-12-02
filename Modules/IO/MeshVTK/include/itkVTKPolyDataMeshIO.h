@@ -37,7 +37,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOMeshVTK
  */
-class ITKIOMeshVTK_EXPORT VTKPolyDataMeshIO:public MeshIOBase
+class ITK_TEMPLATE_EXPORT VTKPolyDataMeshIO:public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataMeshIO);

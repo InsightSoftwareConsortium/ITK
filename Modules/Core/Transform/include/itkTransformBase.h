@@ -153,7 +153,7 @@ using TransformBase = TransformBaseTemplate< double >;
 #    define ITKTransform_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  else
 //   We are using this library
-#    define ITKTransform_EXPORT_EXPLICIT ITKTransform_EXPORT
+#    define ITKTransform_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  endif
 namespace itk
 {

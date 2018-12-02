@@ -37,7 +37,7 @@ namespace fem
  * defined at the point. Derived LoadClasses must define this function.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadGrav : public LoadElement
+class ITK_TEMPLATE_EXPORT LoadGrav : public LoadElement
 {
 public:
   /** Standard class type aliases. */
@@ -64,7 +64,7 @@ protected:
  * every point in space.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadGravConst : public LoadGrav
+class ITK_TEMPLATE_EXPORT LoadGravConst : public LoadGrav
 {
 public:
   /** Standard class type aliases. */

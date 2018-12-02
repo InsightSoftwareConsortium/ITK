@@ -34,7 +34,7 @@ namespace itk
  * \sa VTKImageExport
  * \ingroup ITKVTK
  */
-class ITKVTK_EXPORT VTKImageExportBase:public ProcessObject
+class ITK_TEMPLATE_EXPORT VTKImageExportBase:public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExportBase);

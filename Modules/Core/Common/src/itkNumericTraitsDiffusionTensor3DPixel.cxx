@@ -28,10 +28,10 @@ namespace itk
 
 #define DIFFUSIONTENSOR3DPIXELSTATICTRAITSMACRO(T)                                                      \
   template< >                                                                                           \
-  ITKCommon_EXPORT const DiffusionTensor3D< T >  NumericTraits< DiffusionTensor3D< T > >::Zero = DiffusionTensor3D< T >( \
+  ITK_TEMPLATE_EXPORT const DiffusionTensor3D< T >  NumericTraits< DiffusionTensor3D< T > >::Zero = DiffusionTensor3D< T >( \
     NumericTraits< T >::Zero);                                                                          \
   template< >                                                                                           \
-  ITKCommon_EXPORT const DiffusionTensor3D< T >  NumericTraits< DiffusionTensor3D< T > >::One = DiffusionTensor3D< T >( \
+  ITK_TEMPLATE_EXPORT const DiffusionTensor3D< T >  NumericTraits< DiffusionTensor3D< T > >::One = DiffusionTensor3D< T >( \
     NumericTraits< T >::One);
 
 //

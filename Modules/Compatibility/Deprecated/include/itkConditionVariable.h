@@ -55,7 +55,7 @@ namespace itk
  *
  * \ingroup ITKDeprecated
  */
-class ITKCommon_EXPORT ConditionVariable:public LightObject
+class ITK_TEMPLATE_EXPORT ConditionVariable:public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConditionVariable);

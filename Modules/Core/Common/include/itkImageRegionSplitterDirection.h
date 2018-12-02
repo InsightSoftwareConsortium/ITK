@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ImageRegionSplitterDirection
+class ITK_TEMPLATE_EXPORT ImageRegionSplitterDirection
   :public ImageRegionSplitterBase
 {
 public:

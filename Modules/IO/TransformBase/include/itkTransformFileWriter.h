@@ -36,7 +36,7 @@ namespace itk
    * \endwiki
    */
 template<typename TParametersValueType>
-class ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate:public LightProcessObject
+class ITK_TEMPLATE_EXPORT TransformFileWriterTemplate:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformFileWriterTemplate);
@@ -123,8 +123,8 @@ using TransformFileWriter = itk::TransformFileWriterTemplate<double>;
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 /** Declare specializations */
-template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< double >::PushBackTransformList(const Object *transObj);
-template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< float >::PushBackTransformList(const Object *transObj);
+template<> void ITK_TEMPLATE_EXPORT TransformFileWriterTemplate< double >::PushBackTransformList(const Object *transObj);
+template<> void ITK_TEMPLATE_EXPORT TransformFileWriterTemplate< float >::PushBackTransformList(const Object *transObj);
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()
@@ -154,10 +154,10 @@ template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< 
 //
 #  if defined( ITKIOTransformBase_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_TEMPLATE_EXPORT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  else
 //   We are using this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  endif
 namespace itk
 {

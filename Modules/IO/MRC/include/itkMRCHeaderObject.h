@@ -45,7 +45,7 @@ namespace itk
  * \sa MetaDataDictionary
  * \ingroup ITKIOMRC
  */
-class ITKIOMRC_EXPORT MRCHeaderObject:
+class ITK_TEMPLATE_EXPORT MRCHeaderObject:
   public LightObject
 {
 public:

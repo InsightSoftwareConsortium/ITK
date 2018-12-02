@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT Barrier
+class ITK_TEMPLATE_EXPORT Barrier
   : public LightObject
 {
 public:

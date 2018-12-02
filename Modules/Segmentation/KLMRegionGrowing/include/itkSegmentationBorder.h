@@ -43,7 +43,7 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKKLMRegionGrowing
  */
-class ITKKLMRegionGrowing_EXPORT SegmentationBorder:public Object
+class ITK_TEMPLATE_EXPORT SegmentationBorder:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationBorder);

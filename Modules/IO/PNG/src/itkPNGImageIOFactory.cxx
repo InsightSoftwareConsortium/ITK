@@ -49,7 +49,7 @@ PNGImageIOFactory::GetDescription() const
 
 static bool PNGImageIOFactoryHasBeenRegistered;
 
-void ITKIOPNG_EXPORT PNGImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT PNGImageIOFactoryRegister__Private()
 {
   if( ! PNGImageIOFactoryHasBeenRegistered )
     {

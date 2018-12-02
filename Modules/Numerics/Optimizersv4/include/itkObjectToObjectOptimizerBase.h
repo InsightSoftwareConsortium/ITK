@@ -293,12 +293,12 @@ using ObjectToObjectOptimizerBase = ObjectToObjectOptimizerBaseTemplate<double>;
 //            need to be considered. This code *MUST* be *OUTSIDE* the header
 //            guards.
 //
-#  if defined( ITKOptimizersv4_EXPORTS )
+#  if defined( ITK_TEMPLATE_EXPORTS )
 //   We are building this library
-#    define ITKOptimizersv4_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
+#    define ITK_TEMPLATE_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
-#    define ITKOptimizersv4_EXPORT_EXPLICIT ITKOptimizersv4_EXPORT
+#    define ITK_TEMPLATE_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  endif
 namespace itk
 {
@@ -308,8 +308,8 @@ namespace itk
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<double>;
-extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<float>;
+extern template class ITK_TEMPLATE_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<double>;
+extern template class ITK_TEMPLATE_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<float>;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()
@@ -318,5 +318,5 @@ extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBas
 #endif
 
 } // end namespace itk
-#  undef ITKOptimizersv4_EXPORT_EXPLICIT
+#  undef ITK_TEMPLATE_EXPORT_EXPLICIT
 #endif

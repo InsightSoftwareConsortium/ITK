@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT TriangleCellTopology
+class ITK_TEMPLATE_EXPORT TriangleCellTopology
 {
 public:
   TriangleCellTopology();

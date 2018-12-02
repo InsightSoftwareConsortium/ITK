@@ -41,7 +41,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT OutputWindow:public Object
+class ITK_TEMPLATE_EXPORT OutputWindow:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OutputWindow);

@@ -35,7 +35,7 @@ namespace itk
   *
   * \ingroup ITKCommon
 */
-class ITKCommon_EXPORT StoppingCriterionBase : public Object
+class ITK_TEMPLATE_EXPORT StoppingCriterionBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StoppingCriterionBase);

@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class ITKIOMesh_EXPORT OFFMeshIO:public MeshIOBase
+class ITK_TEMPLATE_EXPORT OFFMeshIO:public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIO);

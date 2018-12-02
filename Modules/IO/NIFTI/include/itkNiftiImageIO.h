@@ -39,7 +39,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIONIFTI
  */
-class ITKIONIFTI_EXPORT NiftiImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT NiftiImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIO);

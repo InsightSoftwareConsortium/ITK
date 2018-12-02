@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ImageToImageFilterCommon
+class ITK_TEMPLATE_EXPORT ImageToImageFilterCommon
 {
 public:
   static void SetGlobalDefaultCoordinateTolerance(double);

@@ -41,7 +41,7 @@ namespace itk
  */
 
 // The superclass that all commands should be subclasses of
-class ITKCommon_EXPORT Command:public Object
+class ITK_TEMPLATE_EXPORT Command:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Command);
@@ -356,7 +356,7 @@ protected:
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT CStyleCommand:public Command
+class ITK_TEMPLATE_EXPORT CStyleCommand:public Command
 {
 public:
   /** Typedefs for C-style callbacks. */

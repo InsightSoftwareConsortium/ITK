@@ -69,7 +69,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT InitializationBiasedParticleSwarmOptimizer :
+class ITK_TEMPLATE_EXPORT InitializationBiasedParticleSwarmOptimizer :
   public ParticleSwarmOptimizerBase
 {
 public:

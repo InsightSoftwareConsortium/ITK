@@ -63,7 +63,7 @@ BYUMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool BYUMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshBYU_EXPORT BYUMeshIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT BYUMeshIOFactoryRegister__Private()
 {
   if( ! BYUMeshIOFactoryHasBeenRegistered )
     {

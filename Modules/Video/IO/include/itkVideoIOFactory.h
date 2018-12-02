@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-class ITKVideoIO_EXPORT VideoIOFactory : public Object
+class ITK_TEMPLATE_EXPORT VideoIOFactory : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VideoIOFactory);

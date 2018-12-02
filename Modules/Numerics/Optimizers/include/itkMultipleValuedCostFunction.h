@@ -32,7 +32,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT MultipleValuedCostFunction:
+class ITK_TEMPLATE_EXPORT MultipleValuedCostFunction:
   public CostFunction
 {
 public:

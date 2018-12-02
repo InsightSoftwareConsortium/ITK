@@ -38,7 +38,7 @@ namespace fem
  * element->GetNumberOfDegreesOfFreedomPerNode() dimensions.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadNode : public Load
+class ITK_TEMPLATE_EXPORT LoadNode : public Load
 {
 public:
   /** Standard class type aliases. */

@@ -61,7 +61,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element3DC0LinearHexahedron : public ElementStd<8, 3>
+class ITK_TEMPLATE_EXPORT Element3DC0LinearHexahedron : public ElementStd<8, 3>
 {
 public:
   /** Standard class type aliases. */

@@ -54,7 +54,7 @@ namespace fem
  * \sa Element2DC0LinearQuadrilateralStress
  */
 
-class ITKFEM_EXPORT Element2DC0LinearQuadrilateral : public ElementStd<4, 2>
+class ITK_TEMPLATE_EXPORT Element2DC0LinearQuadrilateral : public ElementStd<4, 2>
 {
 public:
   /** Standard class type aliases. */

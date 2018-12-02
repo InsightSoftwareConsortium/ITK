@@ -59,7 +59,7 @@ FreeSurferAsciiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferAsciiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private()
 {
   if( ! FreeSurferAsciiMeshIOFactoryHasBeenRegistered )
     {

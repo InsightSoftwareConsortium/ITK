@@ -49,7 +49,7 @@ BMPImageIOFactory::GetDescription() const
 
 static bool BMPImageIOFactoryHasBeenRegistered;
 
-void ITKIOBMP_EXPORT BMPImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT BMPImageIOFactoryRegister__Private()
 {
   if( ! BMPImageIOFactoryHasBeenRegistered )
     {

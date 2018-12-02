@@ -99,7 +99,7 @@ namespace itk
  */
 
 
-class ITKOptimizersv4_EXPORT LBFGS2Optimizerv4:
+class ITK_TEMPLATE_EXPORT LBFGS2Optimizerv4:
     public ObjectToObjectOptimizerBaseTemplate<double>{
 
 public:

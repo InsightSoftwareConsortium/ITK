@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT Logger:public LoggerBase
+class ITK_TEMPLATE_EXPORT Logger:public LoggerBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Logger);

@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKVideoIO
  *
  */
-class ITKVideoIO_EXPORT FileListVideoIO : public VideoIOBase
+class ITK_TEMPLATE_EXPORT FileListVideoIO : public VideoIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIO);

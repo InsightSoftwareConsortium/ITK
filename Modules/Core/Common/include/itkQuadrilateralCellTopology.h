@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT QuadrilateralCellTopology
+class ITK_TEMPLATE_EXPORT QuadrilateralCellTopology
 {
 public:
   QuadrilateralCellTopology();

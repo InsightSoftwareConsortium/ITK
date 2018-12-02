@@ -58,7 +58,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-class ITKIOXML_EXPORT DOMNodeXMLWriter : public Object
+class ITK_TEMPLATE_EXPORT DOMNodeXMLWriter : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DOMNodeXMLWriter);

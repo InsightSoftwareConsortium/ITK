@@ -42,7 +42,7 @@ class ITK_FORWARD_EXPORT OctreeBase;
  * \todo FIXME copy & paste documentation in all methods.
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT OctreeNode
+class ITK_TEMPLATE_EXPORT OctreeNode
 {
 public:
   /**
@@ -120,7 +120,7 @@ private:
   OctreeBase *      m_Parent;
 };
 
-class ITKCommon_EXPORT OctreeNodeBranch
+class ITK_TEMPLATE_EXPORT OctreeNodeBranch
 {
 public:
   OctreeNodeBranch() = default;

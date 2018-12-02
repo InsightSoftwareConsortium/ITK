@@ -29,7 +29,7 @@ namespace itk
  * \brief Create instances of PNGImageIO objects using an object factory.
  * \ingroup ITKIOPNG
  */
-class ITKIOPNG_EXPORT PNGImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT PNGImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIOFactory);

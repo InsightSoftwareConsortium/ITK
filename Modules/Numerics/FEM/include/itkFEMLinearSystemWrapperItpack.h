@@ -45,7 +45,7 @@ namespace fem
  * \sa LinearSystemWrapper
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LinearSystemWrapperItpack : public LinearSystemWrapper
+class ITK_TEMPLATE_EXPORT LinearSystemWrapperItpack : public LinearSystemWrapper
 {
 public:
 

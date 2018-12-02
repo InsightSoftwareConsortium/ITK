@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT LoggerManager:public Object
+class ITK_TEMPLATE_EXPORT LoggerManager:public Object
 {
 public:
 

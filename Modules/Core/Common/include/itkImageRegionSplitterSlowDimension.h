@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT ImageRegionSplitterSlowDimension
+class ITK_TEMPLATE_EXPORT ImageRegionSplitterSlowDimension
   :public ImageRegionSplitterBase
 {
 public:

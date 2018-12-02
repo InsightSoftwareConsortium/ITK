@@ -53,7 +53,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT ParticleSwarmOptimizerBase :
+class ITK_TEMPLATE_EXPORT ParticleSwarmOptimizerBase :
   public SingleValuedNonLinearOptimizer
 {
 public:

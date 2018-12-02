@@ -221,7 +221,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMesh
  */
 
-class ITKQuadEdgeMesh_EXPORT QuadEdge
+class ITK_TEMPLATE_EXPORT QuadEdge
 {
 public:
   /** Hierarchy type alias & values. */

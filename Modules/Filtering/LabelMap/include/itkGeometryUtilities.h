@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKLabelMap
  */
-class ITKLabelMap_EXPORT GeometryUtilities
+class ITK_TEMPLATE_EXPORT GeometryUtilities
 {
 public:
 

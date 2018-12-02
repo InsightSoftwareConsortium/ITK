@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKIOMeshBase
  */
-class ITKIOMeshBase_EXPORT MeshIOFactory:public Object
+class ITK_TEMPLATE_EXPORT MeshIOFactory:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOFactory);

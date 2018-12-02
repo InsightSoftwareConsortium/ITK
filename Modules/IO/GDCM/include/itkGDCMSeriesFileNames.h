@@ -53,7 +53,7 @@ namespace itk
 using FilenamesContainer = std::vector< std::string >;
 using SerieUIDContainer = std::vector< std::string >;
 
-class ITKIOGDCM_EXPORT GDCMSeriesFileNames:public ProcessObject
+class ITK_TEMPLATE_EXPORT GDCMSeriesFileNames:public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GDCMSeriesFileNames);

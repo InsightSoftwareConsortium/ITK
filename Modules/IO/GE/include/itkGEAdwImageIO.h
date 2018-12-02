@@ -46,7 +46,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOGE
  */
-class ITKIOGE_EXPORT GEAdwImageIO:public IPLCommonImageIO
+class ITK_TEMPLATE_EXPORT GEAdwImageIO:public IPLCommonImageIO
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIO);

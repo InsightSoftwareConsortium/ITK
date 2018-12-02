@@ -91,7 +91,7 @@ using MatlabTransformIO = MatlabTransformIOTemplate<double>;
 #    define ITKIOTransformMatlab_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
-#    define ITKIOTransformMatlab_EXPORT_EXPLICIT ITKIOTransformMatlab_EXPORT
+#    define ITKIOTransformMatlab_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  endif
 namespace itk
 {

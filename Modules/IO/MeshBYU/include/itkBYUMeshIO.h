@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKIOMeshBYU
  */
 
-class ITKIOMeshBYU_EXPORT BYUMeshIO:public MeshIOBase
+class ITK_TEMPLATE_EXPORT BYUMeshIO:public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIO);

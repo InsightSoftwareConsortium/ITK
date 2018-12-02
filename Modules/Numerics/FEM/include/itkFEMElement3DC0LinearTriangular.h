@@ -49,7 +49,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 
-class ITKFEM_EXPORT Element3DC0LinearTriangular : public ElementStd<3, 3>
+class ITK_TEMPLATE_EXPORT Element3DC0LinearTriangular : public ElementStd<3, 3>
 {
 public:
   /** Standard class type aliases. */

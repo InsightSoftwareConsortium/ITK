@@ -42,7 +42,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element3DC0LinearHexahedronStrain : public Element3DStrain<Element3DC0LinearHexahedron>
+class ITK_TEMPLATE_EXPORT Element3DC0LinearHexahedronStrain : public Element3DStrain<Element3DC0LinearHexahedron>
 {
 public:
   /** Standard class type aliases. */

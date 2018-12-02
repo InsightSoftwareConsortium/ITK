@@ -45,7 +45,7 @@ class ITK_FORWARD_EXPORT DataObject;
  * \brief Exception object for DataObject exceptions.
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT DataObjectError:public ExceptionObject
+class ITK_TEMPLATE_EXPORT DataObjectError:public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
@@ -93,7 +93,7 @@ private:
  * Exception object for invalid requested region.
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT InvalidRequestedRegionError:public DataObjectError
+class ITK_TEMPLATE_EXPORT InvalidRequestedRegionError:public DataObjectError
 {
 public:
   /** Default constructor. Needed to ensure the exception object can be copied.

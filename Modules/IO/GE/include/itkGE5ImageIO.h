@@ -47,7 +47,7 @@ namespace itk
  *
  * \ingroup ITKIOGE
  */
-class ITKIOGE_EXPORT GE5ImageIO:public IPLCommonImageIO
+class ITK_TEMPLATE_EXPORT GE5ImageIO:public IPLCommonImageIO
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GE5ImageIO);

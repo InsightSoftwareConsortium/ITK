@@ -42,7 +42,7 @@ namespace fem
  * load class, which it can handle and return the element's force vector.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadElement : public Load
+class ITK_TEMPLATE_EXPORT LoadElement : public Load
 {
 public:
   /** Standard class type aliases. */

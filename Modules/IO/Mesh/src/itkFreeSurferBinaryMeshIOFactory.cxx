@@ -59,7 +59,7 @@ FreeSurferBinaryMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferBinaryMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private()
 {
   if( ! FreeSurferBinaryMeshIOFactoryHasBeenRegistered )
     {

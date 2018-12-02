@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT HexahedronCellTopology
+class ITK_TEMPLATE_EXPORT HexahedronCellTopology
 {
 public:
   HexahedronCellTopology();

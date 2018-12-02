@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup ITKIODCMTK
  */
-class ITKIODCMTK_EXPORT DCMTKImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT DCMTKImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIO);

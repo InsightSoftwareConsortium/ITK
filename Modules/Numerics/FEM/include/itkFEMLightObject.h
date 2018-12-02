@@ -43,7 +43,7 @@ namespace fem
  * FEMLightObject class.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT FEMLightObject : public itk::LightObject
+class ITK_TEMPLATE_EXPORT FEMLightObject : public itk::LightObject
 {
 public:
   /** Standard class type aliases. */

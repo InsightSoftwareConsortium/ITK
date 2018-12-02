@@ -38,7 +38,7 @@ namespace itk
 
 // Structure for "Pointer to Implementation" or "Private
 // Implementation" to hide MINC data from the ITK interface.
-struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
+struct ITK_TEMPLATE_NO_EXPORT MINCImageIOPImpl;
 
 /** \class MINCImageIO
  *
@@ -64,7 +64,7 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
  * \ingroup IOFilters
  *
  */
-class ITKIOMINC_EXPORT MINCImageIO : public ImageIOBase
+class ITK_TEMPLATE_EXPORT MINCImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIO);

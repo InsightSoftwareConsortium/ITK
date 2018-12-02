@@ -52,7 +52,7 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT LightObject
+class ITK_TEMPLATE_EXPORT LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LightObject);
@@ -148,7 +148,7 @@ protected:
  * PrintSelf method that all objects should define, if they have anything
  * interesting to print out.
  */
-ITKCommon_EXPORT std::ostream &
+ITK_TEMPLATE_EXPORT std::ostream &
 operator<<(std::ostream & os, const LightObject & o);
 
 } // end namespace itk

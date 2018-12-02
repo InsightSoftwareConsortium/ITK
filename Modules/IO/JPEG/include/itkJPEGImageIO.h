@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKIOJPEG
  */
-class ITKIOJPEG_EXPORT JPEGImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT JPEGImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIO);

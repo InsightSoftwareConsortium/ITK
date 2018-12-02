@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT MultipleLogOutput:public LogOutput
+class ITK_TEMPLATE_EXPORT MultipleLogOutput:public LogOutput
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);

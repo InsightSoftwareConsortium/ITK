@@ -53,7 +53,7 @@ namespace fem
  *
  * \sa Element2DC0LinearQuadrilateralMembrane
  */
-class ITKFEM_EXPORT Element2DC0LinearQuadrilateralStrain : public Element2DStrain<Element2DC0LinearQuadrilateral>
+class ITK_TEMPLATE_EXPORT Element2DC0LinearQuadrilateralStrain : public Element2DStrain<Element2DC0LinearQuadrilateral>
 {
 public:
   /** Standard class type aliases. */

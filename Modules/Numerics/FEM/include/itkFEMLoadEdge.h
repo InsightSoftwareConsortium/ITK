@@ -37,7 +37,7 @@ namespace fem
  * prescribed values of the BC.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadEdge : public LoadElement
+class ITK_TEMPLATE_EXPORT LoadEdge : public LoadElement
 {
 public:
   /** Standard class type aliases. */

@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT Directory:public Object
+class ITK_TEMPLATE_EXPORT Directory:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Directory);

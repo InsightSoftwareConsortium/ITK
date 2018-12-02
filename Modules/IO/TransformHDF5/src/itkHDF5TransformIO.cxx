@@ -61,8 +61,8 @@ GetTransformName(int i)
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate< double >;
-template class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate< float >;
+template class ITK_TEMPLATE_EXPORT HDF5TransformIOTemplate< double >;
+template class ITK_TEMPLATE_EXPORT HDF5TransformIOTemplate< float >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()

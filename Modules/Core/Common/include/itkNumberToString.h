@@ -49,8 +49,8 @@ private:
 };
 
 // declaration of specialization
-template<> ITKCommon_EXPORT std::string NumberToString<double>::operator()(double val);
-template<> ITKCommon_EXPORT std::string NumberToString<float>::operator()(float val);
+template<> ITK_TEMPLATE_EXPORT std::string NumberToString<double>::operator()(double val);
+template<> ITK_TEMPLATE_EXPORT std::string NumberToString<float>::operator()(float val);
 
 } // namespace itk
 

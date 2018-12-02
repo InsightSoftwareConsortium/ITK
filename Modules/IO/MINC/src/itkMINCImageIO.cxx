@@ -29,7 +29,7 @@
 namespace itk
 {
 
-struct ITKIOMINC_HIDDEN MINCImageIOPImpl
+struct ITK_TEMPLATE_NO_EXPORT MINCImageIOPImpl
 {
   int  m_NDims; /*Number of dimensions*/
 

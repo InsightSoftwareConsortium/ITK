@@ -37,7 +37,7 @@ namespace itk
  * associate arbitrary data elements with itk DataObjects.
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MetaDataDictionary
+class ITK_TEMPLATE_EXPORT MetaDataDictionary
 {
 public:
   using Self = MetaDataDictionary;

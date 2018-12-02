@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ExceptionObject:public std::exception
+class ITK_TEMPLATE_EXPORT ExceptionObject:public std::exception
 {
 public:
   using Superclass = std::exception;
@@ -163,7 +163,7 @@ inline std::ostream & operator<<(std::ostream & os, ExceptionObject & e)
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MemoryAllocationError:public ExceptionObject
+class ITK_TEMPLATE_EXPORT MemoryAllocationError:public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
@@ -194,7 +194,7 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT RangeError:public ExceptionObject
+class ITK_TEMPLATE_EXPORT RangeError:public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
@@ -220,7 +220,7 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT InvalidArgumentError:public ExceptionObject
+class ITK_TEMPLATE_EXPORT InvalidArgumentError:public ExceptionObject
 {
 public:
   /**
@@ -251,7 +251,7 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT IncompatibleOperandsError:public ExceptionObject
+class ITK_TEMPLATE_EXPORT IncompatibleOperandsError:public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
@@ -276,7 +276,7 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ProcessAborted:public ExceptionObject
+class ITK_TEMPLATE_EXPORT ProcessAborted:public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be

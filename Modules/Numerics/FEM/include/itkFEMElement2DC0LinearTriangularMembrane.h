@@ -59,7 +59,7 @@ namespace fem
  * This element is combined from Element2DC0LinearTriangular and Element2DMembrane.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element2DC0LinearTriangularMembrane : public Element2DMembrane<Element2DC0LinearTriangular>
+class ITK_TEMPLATE_EXPORT Element2DC0LinearTriangularMembrane : public Element2DMembrane<Element2DC0LinearTriangular>
 {
 public:
   /** Standard class type aliases. */

@@ -42,7 +42,7 @@ namespace itk
  * \sa IndexedContainerInterface
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ThreadedIndexedContainerPartitioner
+class ITK_TEMPLATE_EXPORT ThreadedIndexedContainerPartitioner
   : public ThreadedDomainPartitioner< Index<2> >
 {
 public:

@@ -246,8 +246,8 @@ void TransformFileWriterTemplate<float>
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKIOTransformBase_EXPORT TransformFileWriterTemplate< double >;
-template class ITKIOTransformBase_EXPORT TransformFileWriterTemplate< float >;
+template class ITK_TEMPLATE_EXPORT TransformFileWriterTemplate< double >;
+template class ITK_TEMPLATE_EXPORT TransformFileWriterTemplate< float >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()

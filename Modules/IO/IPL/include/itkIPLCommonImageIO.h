@@ -47,7 +47,7 @@ namespace itk
   * \ingroup IOFilters
   * \ingroup ITKIOIPL
   */
-class ITKIOIPL_EXPORT IPLCommonImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT IPLCommonImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IPLCommonImageIO);

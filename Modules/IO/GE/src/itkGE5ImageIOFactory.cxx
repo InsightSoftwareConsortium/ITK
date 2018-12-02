@@ -52,7 +52,7 @@ GE5ImageIOFactory::GetDescription() const
 
 static bool GE5ImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GE5ImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT GE5ImageIOFactoryRegister__Private()
 {
   if( ! GE5ImageIOFactoryHasBeenRegistered )
     {

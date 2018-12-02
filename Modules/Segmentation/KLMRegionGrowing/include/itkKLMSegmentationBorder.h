@@ -136,7 +136,7 @@ public:
 // Forward reference because of circular dependencies
 class ITK_FORWARD_EXPORT KLMSegmentationRegion;
 
-class ITKKLMRegionGrowing_EXPORT KLMSegmentationBorder:public SegmentationBorder
+class ITK_TEMPLATE_EXPORT KLMSegmentationBorder:public SegmentationBorder
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationBorder);

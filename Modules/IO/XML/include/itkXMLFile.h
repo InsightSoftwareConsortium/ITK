@@ -31,7 +31,7 @@ namespace itk
  * are implemented here.
  * \ingroup ITKIOXML
  */
-class ITKIOXML_EXPORT XMLReaderBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT XMLReaderBase:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(XMLReaderBase);

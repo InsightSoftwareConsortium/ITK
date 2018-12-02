@@ -36,7 +36,7 @@ namespace fem
  * configuration to a deformed configuration.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LoadLandmark : public LoadElement
+class ITK_TEMPLATE_EXPORT LoadLandmark : public LoadElement
 {
 public:
   /** Standard class type aliases. */

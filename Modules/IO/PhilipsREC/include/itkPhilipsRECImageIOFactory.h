@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKIOPhilipsREC
  */
-class ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT PhilipsRECImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIOFactory);

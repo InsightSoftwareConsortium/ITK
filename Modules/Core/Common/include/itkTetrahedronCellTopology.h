@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT TetrahedronCellTopology
+class ITK_TEMPLATE_EXPORT TetrahedronCellTopology
 {
 public:
   TetrahedronCellTopology();

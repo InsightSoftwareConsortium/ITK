@@ -56,7 +56,7 @@ class ITK_FORWARD_EXPORT Command;
  * \wikiexample{Utilities/CreateAnother,Copy a filter}
  * \endwiki
  */
-class ITKCommon_EXPORT Object:public LightObject
+class ITK_TEMPLATE_EXPORT Object:public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Object);

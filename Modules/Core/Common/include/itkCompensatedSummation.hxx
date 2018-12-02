@@ -23,8 +23,8 @@
 namespace itk
 {
 
-void ITKCommon_EXPORT CompensatedSummationAddElement( float& compensation, float& sum, const float& element );
-void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, double& sum, const double& element );
+void ITK_TEMPLATE_EXPORT CompensatedSummationAddElement( float& compensation, float& sum, const float& element );
+void ITK_TEMPLATE_EXPORT CompensatedSummationAddElement( double& compensation, double& sum, const double& element );
 
 #ifndef itkCompensatedSummation_cxx
 // We try the looser pragma guards if we don't have an explicit instantiation.

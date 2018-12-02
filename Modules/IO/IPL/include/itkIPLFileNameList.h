@@ -120,7 +120,7 @@ private:
  *  \brief -- stores filename+info to be enumerated for IPLCommonImageIO
  * \ingroup ITKIOIPL
  */
-class ITKIOIPL_EXPORT IPLFileNameList
+class ITK_TEMPLATE_EXPORT IPLFileNameList
 {
 public:
   using ListType = std::vector< IPLFileSortInfo * >;

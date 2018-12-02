@@ -38,7 +38,7 @@ namespace itk
  * \brief Create instances of VTKImageIO objects using an object factory.
  * \ingroup ITKIOVTK
  */
-class ITKIOVTK_EXPORT VTKImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT VTKImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIOFactory);

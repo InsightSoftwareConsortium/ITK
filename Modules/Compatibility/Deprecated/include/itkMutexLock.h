@@ -45,7 +45,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKDeprecated
  */
-class ITKCommon_EXPORT SimpleMutexLock
+class ITK_TEMPLATE_EXPORT SimpleMutexLock
 {
 public:
   /** Standard class type aliases.  */
@@ -99,7 +99,7 @@ protected:
  * \ingroup OSSystemObjects
  * \ingroup ITKDeprecated
  */
-class ITKCommon_EXPORT MutexLock:public Object
+class ITK_TEMPLATE_EXPORT MutexLock:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MutexLock);

@@ -19,7 +19,7 @@
 
 namespace itk
 {
-bool ITKCommon_EXPORT ci_equal(char a, char b)
+bool ITK_TEMPLATE_EXPORT ci_equal(char a, char b)
 {
   return tolower( static_cast< int >( a ) ) == tolower( static_cast< int >( b ) );
 }
@@ -34,7 +34,7 @@ void MapRecord::Reset()
 
 /* SmapsRecord implementation */
 
-ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & record)
+ITK_TEMPLATE_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & record)
 {
   record.Reset();
 
@@ -98,7 +98,7 @@ ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & rec
   return in;
 }
 
-ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapSummaryRecord & record)
+ITK_TEMPLATE_EXPORT std::istream & operator>>(std::istream & in, VMMapSummaryRecord & record)
 {
   record.Reset();
 
@@ -172,7 +172,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapSummaryRecord
  *  __DATA                         a0003000 [  20K] rw-/rw- SM=COW ...System.B.dylib
 */
 
-ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapRecord & record)
+ITK_TEMPLATE_EXPORT std::istream & operator>>(std::istream & in, VMMapRecord & record)
 {
   record.Reset();
   bool submapFound = false;
@@ -279,7 +279,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapRecord & reco
   return in;
 }
 
-//bool ITKCommon_EXPORT ci_equal(char a, char b); // located in
+//bool ITK_TEMPLATE_EXPORT ci_equal(char a, char b); // located in
 // itkSmapsFileParser.cxx
 
 /** Binary functor to accumulate memory usage in kB

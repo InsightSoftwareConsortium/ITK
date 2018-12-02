@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of DCMTKImageIO objects using an object factory.
  * \ingroup ITKIODCMTK
  */
-class ITKIODCMTK_EXPORT DCMTKImageIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT DCMTKImageIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIOFactory);

@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ProgressAccumulator:public Object
+class ITK_TEMPLATE_EXPORT ProgressAccumulator:public Object
 {
 public:
   /** Standard class type aliases. */

@@ -32,7 +32,7 @@
  * \brief A container for an image and its descriptiom
  * \ingroup ITKVtkGlue
  */
-class ITKVtkGlue_EXPORT ImageInfo
+class ITK_TEMPLATE_EXPORT ImageInfo
 {
 public:
   using ImageType = itk::Image<unsigned char, 2>;
@@ -51,7 +51,7 @@ public:
  * \brief A container for an rgb image and its descriptiom
  * \ingroup ITKVtkGlue
  */
-class ITKVtkGlue_EXPORT RGBImageInfo
+class ITK_TEMPLATE_EXPORT RGBImageInfo
 {
 public:
   using ImageType = itk::Image<itk::RGBPixel<unsigned char>, 2>;
@@ -104,7 +104,7 @@ public:
  *
  * \ingroup ITKVtkGlue
  */
-class ITKVtkGlue_EXPORT QuickView
+class ITK_TEMPLATE_EXPORT QuickView
 {
 public:
   QuickView()

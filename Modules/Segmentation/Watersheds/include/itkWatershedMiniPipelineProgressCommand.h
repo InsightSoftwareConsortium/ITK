@@ -31,7 +31,7 @@ namespace itk
  * implementing the mini-pipeline).
  * \ingroup ITKWatersheds
  */
-class ITKWatersheds_EXPORT WatershedMiniPipelineProgressCommand:public Command
+class ITK_TEMPLATE_EXPORT WatershedMiniPipelineProgressCommand:public Command
 {
 public:
   /** Smart pointer declaration methods */

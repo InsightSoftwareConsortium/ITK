@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of OFFMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class ITKIOMesh_EXPORT OFFMeshIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT OFFMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIOFactory);

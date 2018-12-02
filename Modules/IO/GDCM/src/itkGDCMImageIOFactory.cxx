@@ -47,7 +47,7 @@ const char * GDCMImageIOFactory::GetDescription() const
 
 static bool GDCMImageIOFactoryHasBeenRegistered;
 
-void ITKIOGDCM_EXPORT GDCMImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT GDCMImageIOFactoryRegister__Private()
 {
   if( ! GDCMImageIOFactoryHasBeenRegistered )
     {

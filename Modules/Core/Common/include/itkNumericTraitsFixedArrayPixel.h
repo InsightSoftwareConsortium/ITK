@@ -177,8 +177,8 @@ public:
   /** \note: the functions are preferred over the member variables as
    * they are defined for all partial specialization
    */
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 };
 
 // a macro to define and initialize static member variables,
@@ -188,10 +188,10 @@ public:
 //       to the GENERIC_ARRAY<T,D> constructor.
 #define itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, D)                                 \
   template< >                                                                                        \
-  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::Zero =       \
+  ITK_TEMPLATE_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::Zero =       \
                    GENERIC_ARRAY< T, D >( (T)(NumericTraits< T >::Zero) );                           \
   template< >                                                                                        \
-  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::One =        \
+  ITK_TEMPLATE_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::One =        \
                    GENERIC_ARRAY< T, D >( (T)(NumericTraits< T >::One) );
 
 //

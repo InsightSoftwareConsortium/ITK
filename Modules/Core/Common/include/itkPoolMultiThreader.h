@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT PoolMultiThreader : public MultiThreaderBase
+class ITK_TEMPLATE_EXPORT PoolMultiThreader : public MultiThreaderBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PoolMultiThreader);

@@ -40,7 +40,7 @@ class TIFFReaderInternal;
  * \wikiexample{IO/TIFFImageIO,Write a TIFF image}
  * \endwiki
  */
-class ITKIOTIFF_EXPORT TIFFImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT TIFFImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TIFFImageIO);

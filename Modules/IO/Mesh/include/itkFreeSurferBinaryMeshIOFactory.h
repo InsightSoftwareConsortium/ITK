@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of FreeSurferBinaryMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class ITKIOMesh_EXPORT FreeSurferBinaryMeshIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT FreeSurferBinaryMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferBinaryMeshIOFactory);

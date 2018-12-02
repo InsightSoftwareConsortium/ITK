@@ -209,7 +209,7 @@ struct par_parameter  //par_parameter
  *
  * \ingroup ITKIOPhilipsREC
  */
-class ITKIOPhilipsREC_EXPORT PhilipsPAR:public LightProcessObject
+class ITK_TEMPLATE_EXPORT PhilipsPAR:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsPAR);

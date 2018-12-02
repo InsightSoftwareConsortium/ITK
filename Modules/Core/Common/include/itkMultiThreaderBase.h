@@ -58,7 +58,7 @@ struct MultiThreaderBaseGlobals;
 
 class ProcessObject;
 
-class ITKCommon_EXPORT MultiThreaderBase : public Object
+class ITK_TEMPLATE_EXPORT MultiThreaderBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreaderBase);
@@ -418,7 +418,7 @@ private:
   friend class ProcessObject;
 };
 
-ITKCommon_EXPORT std::ostream& operator << (std::ostream& os,
+ITK_TEMPLATE_EXPORT std::ostream& operator << (std::ostream& os,
     const MultiThreaderBase::ThreaderType& threader);
 
 } // end namespace itk

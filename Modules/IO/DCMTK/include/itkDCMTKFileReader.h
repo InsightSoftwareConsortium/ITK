@@ -60,7 +60,7 @@ namespace itk
 // Forward reference because of circular dependencies
 class ITK_FORWARD_EXPORT DCMTKSequence;
 
-class ITKIODCMTK_EXPORT DCMTKItem
+class ITK_TEMPLATE_EXPORT DCMTKItem
 {
 public:
   DCMTKItem() : m_DcmItem(nullptr)
@@ -76,7 +76,7 @@ private:
   DcmItem *m_DcmItem;
 };
 
-class ITKIODCMTK_EXPORT DCMTKSequence
+class ITK_TEMPLATE_EXPORT DCMTKSequence
 {
 public:
   DCMTKSequence() : m_DcmSequenceOfItems(nullptr) {}
@@ -232,7 +232,7 @@ private:
   DcmSequenceOfItems *m_DcmSequenceOfItems;
 };
 
-class ITKIODCMTK_EXPORT DCMTKFileReader
+class ITK_TEMPLATE_EXPORT DCMTKFileReader
 {
 public:
   using Self = DCMTKFileReader;

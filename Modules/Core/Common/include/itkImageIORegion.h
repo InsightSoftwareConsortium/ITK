@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT ImageIORegion:public Region
+class ITK_TEMPLATE_EXPORT ImageIORegion:public Region
 {
 public:
   /** Standard class type aliases. */
@@ -162,7 +162,7 @@ private:
 
 
 // Declare operator<<
-extern ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const ImageIORegion & region);
+extern ITK_TEMPLATE_EXPORT std::ostream & operator<<(std::ostream & os, const ImageIORegion & region);
 
 
 /** \class ImageIORegionAdaptor

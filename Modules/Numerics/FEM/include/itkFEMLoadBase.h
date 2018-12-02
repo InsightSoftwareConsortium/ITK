@@ -37,7 +37,7 @@ namespace fem
  * which defines the base for all loads that act on a specific element in a system.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Load : public FEMLightObject
+class ITK_TEMPLATE_EXPORT Load : public FEMLightObject
 {
 public:
   /** Standard class type aliases. */

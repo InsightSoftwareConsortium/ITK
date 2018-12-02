@@ -29,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-class ITKVideoIO_EXPORT FileListVideoIOFactory : public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT FileListVideoIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIOFactory);

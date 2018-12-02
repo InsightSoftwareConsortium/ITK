@@ -70,7 +70,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 
-class ITKFEM_EXPORT Element : public FEMLightObject
+class ITK_TEMPLATE_EXPORT Element : public FEMLightObject
 {
 public:
   /** Standard class type aliases. */
@@ -144,7 +144,7 @@ public:
  * \note Possibly move this class to its own file
  * \ingroup ITKFEM
  */
-  class ITKFEM_EXPORT Node : public FEMLightObject
+  class ITK_TEMPLATE_EXPORT Node : public FEMLightObject
   {
   public:
     /** Standard class type aliases. */

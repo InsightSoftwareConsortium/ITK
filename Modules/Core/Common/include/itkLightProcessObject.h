@@ -69,7 +69,7 @@ namespace itk
  * \ingroup DataProcessing
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT LightProcessObject:public Object
+class ITK_TEMPLATE_EXPORT LightProcessObject:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LightProcessObject);

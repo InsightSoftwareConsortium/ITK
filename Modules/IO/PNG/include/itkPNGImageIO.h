@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKIOPNG
  */
-class ITKIOPNG_EXPORT PNGImageIO:public ImageIOBase
+class ITK_TEMPLATE_EXPORT PNGImageIO:public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIO);

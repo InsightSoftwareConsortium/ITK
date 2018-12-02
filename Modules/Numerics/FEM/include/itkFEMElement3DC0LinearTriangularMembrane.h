@@ -38,7 +38,7 @@ namespace fem
  * degrees of freedom at each node.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT Element3DC0LinearTriangularMembrane : public Element3DMembrane<Element3DC0LinearTriangular>
+class ITK_TEMPLATE_EXPORT Element3DC0LinearTriangularMembrane : public Element3DMembrane<Element3DC0LinearTriangular>
 {
 public:
   /** Standard class type aliases. */

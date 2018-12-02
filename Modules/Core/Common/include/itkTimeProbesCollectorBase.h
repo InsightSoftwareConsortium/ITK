@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT TimeProbesCollectorBase:public ResourceProbesCollectorBase< TimeProbe >
+class ITK_TEMPLATE_EXPORT TimeProbesCollectorBase:public ResourceProbesCollectorBase< TimeProbe >
 {
 public:
   /** Constructor */

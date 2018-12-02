@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-class ITKIOXML_EXPORT FancyString
+class ITK_TEMPLATE_EXPORT FancyString
 {
 public:
   FancyString();
@@ -190,13 +190,13 @@ private:
 // helper function to compare FancyString with std::string and char*
 /////////////////////////////////////////////////////////////////////////////
 
-bool ITKIOXML_EXPORT operator!=( itk::FancyString& s, const std::string& );
-bool ITKIOXML_EXPORT operator!=( itk::FancyString& s, const char* );
-bool ITKIOXML_EXPORT operator!=( itk::FancyString& s, const itk::FancyString&);
+bool ITK_TEMPLATE_EXPORT operator!=( itk::FancyString& s, const std::string& );
+bool ITK_TEMPLATE_EXPORT operator!=( itk::FancyString& s, const char* );
+bool ITK_TEMPLATE_EXPORT operator!=( itk::FancyString& s, const itk::FancyString&);
 
-bool ITKIOXML_EXPORT operator==( itk::FancyString& s, const std::string& );
-bool ITKIOXML_EXPORT operator==( itk::FancyString& s, const char* );
-bool ITKIOXML_EXPORT operator==( itk::FancyString& s, const itk::FancyString&);
+bool ITK_TEMPLATE_EXPORT operator==( itk::FancyString& s, const std::string& );
+bool ITK_TEMPLATE_EXPORT operator==( itk::FancyString& s, const char* );
+bool ITK_TEMPLATE_EXPORT operator==( itk::FancyString& s, const itk::FancyString&);
 
 namespace itk
 {

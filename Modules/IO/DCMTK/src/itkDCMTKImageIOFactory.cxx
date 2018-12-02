@@ -50,7 +50,7 @@ DCMTKImageIOFactory::GetDescription() const
 
 static bool DCMTKImageIOFactoryHasBeenRegistered;
 
-void ITKIODCMTK_EXPORT DCMTKImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT DCMTKImageIOFactoryRegister__Private()
 {
   if( ! DCMTKImageIOFactoryHasBeenRegistered )
     {

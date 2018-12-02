@@ -35,7 +35,7 @@ namespace fem
  * elasticity problems in FEM toolkit.
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT MaterialLinearElasticity : public Material
+class ITK_TEMPLATE_EXPORT MaterialLinearElasticity : public Material
 {
 public:
   /** Standard class type aliases. */

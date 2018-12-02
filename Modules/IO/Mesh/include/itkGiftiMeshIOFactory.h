@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of GiftiMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class ITKIOMesh_EXPORT GiftiMeshIOFactory:public ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT GiftiMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIOFactory);

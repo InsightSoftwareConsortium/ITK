@@ -59,7 +59,7 @@ OBJMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OBJMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT OBJMeshIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT OBJMeshIOFactoryRegister__Private()
 {
   if( ! OBJMeshIOFactoryHasBeenRegistered )
     {

@@ -37,7 +37,7 @@ namespace fem
  * \sa LinearSystemWrapper
  * \ingroup ITKFEM
  */
-class ITKFEM_EXPORT LinearSystemWrapperDenseVNL : public LinearSystemWrapper
+class ITK_TEMPLATE_EXPORT LinearSystemWrapperDenseVNL : public LinearSystemWrapper
 {
 public:
 

@@ -26,7 +26,7 @@
 namespace LibraryC
 {
 
-class ClientTestLibraryC_EXPORT ITKObjectProducer
+class ITK_TEMPLATE_EXPORT ITKObjectProducer
 {
 public:
   ITKObjectProducer();
@@ -41,10 +41,10 @@ private:
 };
 
 int
-ClientTestLibraryC_EXPORT dynamic_castDownCastEquivalencyTable( const char * type, const char * instanceSource, itk::Object const * base );
+ITK_TEMPLATE_EXPORT dynamic_castDownCastEquivalencyTable( const char * type, const char * instanceSource, itk::Object const * base );
 
 int
-ClientTestLibraryC_EXPORT dynamic_castDownCastImage( const char * type, const char * instanceSource, itk::Object const * base );
+ITK_TEMPLATE_EXPORT dynamic_castDownCastImage( const char * type, const char * instanceSource, itk::Object const * base );
 
 } // end namespace LibraryC
 

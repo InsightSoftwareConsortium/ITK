@@ -65,7 +65,7 @@ namespace itk
  * \ingroup ITKIOImageBase
  */
 
-class ITKIOImageBase_EXPORT ArchetypeSeriesFileNames:public Object
+class ITK_TEMPLATE_EXPORT ArchetypeSeriesFileNames:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ArchetypeSeriesFileNames);

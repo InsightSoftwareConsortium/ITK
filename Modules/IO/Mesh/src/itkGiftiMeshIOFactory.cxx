@@ -59,7 +59,7 @@ GiftiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool GiftiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT GiftiMeshIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT GiftiMeshIOFactoryRegister__Private()
 {
   if( ! GiftiMeshIOFactoryHasBeenRegistered )
     {

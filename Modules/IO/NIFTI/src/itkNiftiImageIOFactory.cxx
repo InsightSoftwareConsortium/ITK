@@ -52,7 +52,7 @@ NiftiImageIOFactory::GetDescription() const
 
 static bool NiftiImageIOFactoryHasBeenRegistered;
 
-void ITKIONIFTI_EXPORT NiftiImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT NiftiImageIOFactoryRegister__Private()
 {
   if( ! NiftiImageIOFactoryHasBeenRegistered )
     {

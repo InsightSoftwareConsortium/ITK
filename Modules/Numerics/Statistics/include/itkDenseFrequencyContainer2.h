@@ -39,7 +39,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class ITKStatistics_EXPORT DenseFrequencyContainer2:
+class ITK_TEMPLATE_EXPORT DenseFrequencyContainer2:
   public Object
 {
 public:

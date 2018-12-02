@@ -55,7 +55,7 @@ namespace Statistics
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITKStatistics
  */
-class ITKStatistics_EXPORT ChiSquareDistribution:
+class ITK_TEMPLATE_EXPORT ChiSquareDistribution:
   public ProbabilityDistribution
 {
 public:

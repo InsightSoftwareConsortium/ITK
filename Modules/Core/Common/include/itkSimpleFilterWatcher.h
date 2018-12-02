@@ -64,7 +64,7 @@ namespace itk
  * \wikiexample{Utilities/SimpleFilterWatcher,Monitor a filter}
  * \endwiki
  */
-class ITKCommon_EXPORT SimpleFilterWatcher
+class ITK_TEMPLATE_EXPORT SimpleFilterWatcher
 {
 public:
   /** Constructor. Takes a ProcessObject to monitor and an optional

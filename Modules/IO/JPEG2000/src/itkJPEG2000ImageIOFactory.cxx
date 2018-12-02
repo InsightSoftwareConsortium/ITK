@@ -51,7 +51,7 @@ JPEG2000ImageIOFactory::GetDescription() const
 
 static bool JPEG2000ImageIOFactoryHasBeenRegistered;
 
-void ITKIOJPEG2000_EXPORT JPEG2000ImageIOFactoryRegister__Private()
+void ITK_TEMPLATE_EXPORT JPEG2000ImageIOFactoryRegister__Private()
 {
   if( ! JPEG2000ImageIOFactoryHasBeenRegistered )
     {

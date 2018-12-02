@@ -98,10 +98,10 @@ public:
   using ScalarRealType = RealType;
 
   /** Additive identity. */
-  static const T ITKCommon_EXPORT Zero;
+  static const T ITK_TEMPLATE_EXPORT Zero;
 
   /** Multiplicative identity. */
-  static const T ITKCommon_EXPORT One;
+  static const T ITK_TEMPLATE_EXPORT One;
 
   /** Smallest (most nonpositive) value */
   static constexpr T NonpositiveMin() { return TraitsType::lowest(); }
@@ -236,8 +236,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr bool ITKCommon_EXPORT Zero = false;
-  static constexpr bool ITKCommon_EXPORT One = true;
+  static constexpr bool ITK_TEMPLATE_EXPORT Zero = false;
+  static constexpr bool ITK_TEMPLATE_EXPORT One = true;
 
   static constexpr bool min() { return false; }
   static constexpr bool max() { return true; }
@@ -293,8 +293,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr char ITKCommon_EXPORT Zero = 0;
-  static constexpr char ITKCommon_EXPORT One = 1;
+  static constexpr char ITK_TEMPLATE_EXPORT Zero = 0;
+  static constexpr char ITK_TEMPLATE_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
@@ -349,8 +349,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr signed char ITKCommon_EXPORT Zero = 0;
-  static constexpr signed char ITKCommon_EXPORT One = 1;
+  static constexpr signed char ITK_TEMPLATE_EXPORT Zero = 0;
+  static constexpr signed char ITK_TEMPLATE_EXPORT One = 1;
 
   static constexpr signed char min() { return -128; }
   static constexpr signed char max() { return 127; }
@@ -405,8 +405,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr unsigned char ITKCommon_EXPORT Zero = 0;
-  static constexpr unsigned char ITKCommon_EXPORT One = 1;
+  static constexpr unsigned char ITK_TEMPLATE_EXPORT Zero = 0;
+  static constexpr unsigned char ITK_TEMPLATE_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
@@ -458,8 +458,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr short ITKCommon_EXPORT Zero = 0;
-  static constexpr short ITKCommon_EXPORT One = 1;
+  static constexpr short ITK_TEMPLATE_EXPORT Zero = 0;
+  static constexpr short ITK_TEMPLATE_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr short NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -511,8 +511,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr unsigned short ITKCommon_EXPORT Zero = 0;
-  static constexpr unsigned short ITKCommon_EXPORT One = 1;
+  static constexpr unsigned short ITK_TEMPLATE_EXPORT Zero = 0;
+  static constexpr unsigned short ITK_TEMPLATE_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr unsigned short NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -563,8 +563,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr int ITKCommon_EXPORT Zero = 0;
-  static constexpr int ITKCommon_EXPORT One = 1;
+  static constexpr int ITK_TEMPLATE_EXPORT Zero = 0;
+  static constexpr int ITK_TEMPLATE_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr int NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -616,8 +616,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr unsigned int ITKCommon_EXPORT Zero = 0;
-  static constexpr unsigned int ITKCommon_EXPORT One = 1;
+  static constexpr unsigned int ITK_TEMPLATE_EXPORT Zero = 0;
+  static constexpr unsigned int ITK_TEMPLATE_EXPORT One = 1;
 
   static constexpr unsigned int min() { return 0; }
   static constexpr unsigned int max() { return static_cast< unsigned int >( -1 ); }
@@ -672,8 +672,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr long ITKCommon_EXPORT Zero = 0L;
-  static constexpr long ITKCommon_EXPORT One = 1L;
+  static constexpr long ITK_TEMPLATE_EXPORT Zero = 0L;
+  static constexpr long ITK_TEMPLATE_EXPORT One = 1L;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr long NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -725,8 +725,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr unsigned long ITKCommon_EXPORT Zero = 0UL;
-  static constexpr unsigned long ITKCommon_EXPORT One = 1UL;
+  static constexpr unsigned long ITK_TEMPLATE_EXPORT Zero = 0UL;
+  static constexpr unsigned long ITK_TEMPLATE_EXPORT One = 1UL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr unsigned long NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -779,8 +779,8 @@ public:
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
 
-  static constexpr float ITKCommon_EXPORT Zero =0.0f;
-  static constexpr float ITKCommon_EXPORT One =1.0f;
+  static constexpr float ITK_TEMPLATE_EXPORT Zero =0.0f;
+  static constexpr float ITK_TEMPLATE_EXPORT One =1.0f;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr float NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -832,8 +832,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr double ITKCommon_EXPORT Zero = 0.0;
-  static constexpr double ITKCommon_EXPORT One  = 1.0;
+  static constexpr double ITK_TEMPLATE_EXPORT Zero = 0.0;
+  static constexpr double ITK_TEMPLATE_EXPORT One  = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr double NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -893,8 +893,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr long double ITKCommon_EXPORT Zero = 0.0;
-  static constexpr long double ITKCommon_EXPORT One = 1.0;
+  static constexpr long double ITK_TEMPLATE_EXPORT Zero = 0.0;
+  static constexpr long double ITK_TEMPLATE_EXPORT One = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr long double NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -948,8 +948,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr ValueType ITKCommon_EXPORT Zero = 0LL;
-  static constexpr ValueType ITKCommon_EXPORT One = 1LL;
+  static constexpr ValueType ITK_TEMPLATE_EXPORT Zero = 0LL;
+  static constexpr ValueType ITK_TEMPLATE_EXPORT One = 1LL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -1002,8 +1002,8 @@ public:
   using FloatType = float;
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
-  static constexpr ValueType ITKCommon_EXPORT Zero = 0ULL;
-  static constexpr ValueType ITKCommon_EXPORT One = 1ULL;
+  static constexpr ValueType ITK_TEMPLATE_EXPORT Zero = 0ULL;
+  static constexpr ValueType ITK_TEMPLATE_EXPORT One = 1ULL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
@@ -1059,8 +1059,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<char, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1123,8 +1123,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<unsigned char, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1186,8 +1186,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<short, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1249,8 +1249,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<unsigned short, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1312,8 +1312,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<int, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1375,8 +1375,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<unsigned int, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1438,8 +1438,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<long, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1501,8 +1501,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<unsigned long, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1564,8 +1564,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<float, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< Self >::min(); }
   static Self max() { return std::numeric_limits< Self >::max(); }
@@ -1627,8 +1627,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<double, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< ValueType >::min(); }
   static Self max() { return std::numeric_limits< ValueType >::max(); }
@@ -1690,8 +1690,8 @@ public:
   using FloatType = std::complex< float >;
   using MeasurementVectorType = FixedArray<long double, 2>;
 
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
+  static const Self ITK_TEMPLATE_EXPORT Zero;
+  static const Self ITK_TEMPLATE_EXPORT One;
 
   static Self min() { return std::numeric_limits< ValueType >::min(); }
   static Self max() { return std::numeric_limits< ValueType >::max(); }

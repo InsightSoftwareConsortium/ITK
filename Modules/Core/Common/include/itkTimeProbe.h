@@ -41,7 +41,7 @@ namespace itk
  * \wikiexample{Utilities/TimeProbe,Time probe}
  * \endwiki
  */
-class ITKCommon_EXPORT TimeProbe:public
+class ITK_TEMPLATE_EXPORT TimeProbe:public
   ResourceProbe< RealTimeClock::TimeStampType, RealTimeClock::TimeStampType >
 {
 public:
