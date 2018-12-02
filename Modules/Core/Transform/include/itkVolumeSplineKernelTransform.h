@@ -18,6 +18,7 @@
 #ifndef itkVolumeSplineKernelTransform_h
 #define itkVolumeSplineKernelTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkKernelTransform.h"
 
 namespace itk
@@ -33,7 +34,7 @@ namespace itk
 template<typename TParametersValueType,
          unsigned int NDimensions=3>
 // Number of dimensions
-class ITK_TEMPLATE_EXPORT VolumeSplineKernelTransform:
+class ITKTransform_EXPORT VolumeSplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkVersorTransform_h
 #define itkVersorTransform_h
 
+#include "ITKTransformExport.h"
 #include <iostream>
 #include "itkRigid3DTransform.h"
 #include "vnl/vnl_quaternion.h"
@@ -44,7 +45,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT VersorTransform : public Rigid3DTransform<TParametersValueType>
+class ITKTransform_EXPORT VersorTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransform);

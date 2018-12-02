@@ -18,6 +18,7 @@
 #ifndef itkEuler3DTransform_h
 #define itkEuler3DTransform_h
 
+#include "ITKTransformExport.h"
 #include <iostream>
 #include "itkRigid3DTransform.h"
 
@@ -44,7 +45,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double >
-class ITK_TEMPLATE_EXPORT Euler3DTransform :
+class ITKTransform_EXPORT Euler3DTransform :
   public Rigid3DTransform<TParametersValueType>
 {
 public:

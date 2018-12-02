@@ -18,6 +18,7 @@
 #ifndef itkBSplineTransformInitializer_h
 #define itkBSplineTransformInitializer_h
 
+#include "ITKTransformExport.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
@@ -38,7 +39,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TTransform, typename TImage>
-class ITK_TEMPLATE_EXPORT BSplineTransformInitializer
+class ITKTransform_EXPORT BSplineTransformInitializer
 : public Object
 {
 public:

@@ -19,6 +19,7 @@
 #define itkTransformBase_h
 
 #include "ITKTransformExport.h"
+#include "ITKTransformExport.h"
 
 #include "itkObject.h"
 #include "itkPoint.h"
@@ -150,7 +151,7 @@ using TransformBase = TransformBaseTemplate< double >;
 //
 #  if defined( ITKTransform_EXPORTS )
 //   We are building this library
-#    define ITKTransform_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKTransform_EXPORT_EXPLICIT ITKTransform_EXPORT
 #  else
 //   We are using this library
 #    define ITKTransform_EXPORT_EXPLICIT ITKTransform_EXPORT

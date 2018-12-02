@@ -19,6 +19,7 @@
 #define itkMatrixOffsetTransformBase_h
 
 
+#include "ITKTransformExport.h"
 #include "itkMacro.h"
 #include "itkMatrix.h"
 #include "itkTransform.h"
@@ -39,14 +40,14 @@ template<typename T>
 class MatrixOrthogonalityTolerance;
 
 template <>
-class ITK_TEMPLATE_EXPORT MatrixOrthogonalityTolerance<double>
+class ITKTransform_EXPORT MatrixOrthogonalityTolerance<double>
 {
 public:
   static double GetTolerance() { return 1e-10; }
 };
 
 template <>
-class ITK_TEMPLATE_EXPORT MatrixOrthogonalityTolerance<float>
+class ITKTransform_EXPORT MatrixOrthogonalityTolerance<float>
 {
 public:
   static float GetTolerance() { return 1e-5f; }
@@ -96,7 +97,7 @@ public:
 template<typename TParametersValueType=double,
          unsigned int NInputDimensions = 3,
          unsigned int NOutputDimensions = 3>
-class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase :
+class ITKTransform_EXPORT MatrixOffsetTransformBase :
   public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkKernelTransform_h
 #define itkKernelTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkTransform.h"
 #include "itkMatrix.h"
 #include "itkPointSet.h"
@@ -58,7 +59,7 @@ namespace itk
  */
 template<typename TParametersValueType,
           unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT KernelTransform :
+class ITKTransform_EXPORT KernelTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:

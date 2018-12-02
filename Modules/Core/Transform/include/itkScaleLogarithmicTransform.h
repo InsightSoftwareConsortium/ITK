@@ -18,6 +18,7 @@
 #ifndef itkScaleLogarithmicTransform_h
 #define itkScaleLogarithmicTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkScaleTransform.h"
 
 namespace itk
@@ -33,7 +34,7 @@ namespace itk
  */
 template<typename TParametersValueType=float,
   unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform :
+class ITKTransform_EXPORT ScaleLogarithmicTransform :
   public ScaleTransform<TParametersValueType, NDimensions>
 {
 public:

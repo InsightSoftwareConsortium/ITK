@@ -18,6 +18,7 @@
 #ifndef itkIdentityTransform_h
 #define itkIdentityTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkObject.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
@@ -48,7 +49,7 @@ namespace itk
  */
 template<typename TParametersValueType,
           unsigned int NDimensions=3>
-class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
+class ITKTransform_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IdentityTransform);

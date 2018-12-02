@@ -18,6 +18,7 @@
 #ifndef itkAffineTransform_h
 #define itkAffineTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkMatrixOffsetTransformBase.h"
 #include <iostream>
 
@@ -99,7 +100,7 @@ template<
   typename TParametersValueType = double,
   unsigned int NDimensions = 3 >
 // Number of dimensions in the input space
-class ITK_TEMPLATE_EXPORT AffineTransform:
+class ITKTransform_EXPORT AffineTransform:
   public MatrixOffsetTransformBase< TParametersValueType, NDimensions, NDimensions>
 {
 public:

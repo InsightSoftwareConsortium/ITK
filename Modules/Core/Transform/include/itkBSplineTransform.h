@@ -18,6 +18,7 @@
 #ifndef itkBSplineTransform_h
 #define itkBSplineTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkBSplineBaseTransform.h"
 
 namespace itk
@@ -108,7 +109,7 @@ namespace itk
 template<typename TParametersValueType=double,
           unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
-class ITK_TEMPLATE_EXPORT BSplineTransform :
+class ITKTransform_EXPORT BSplineTransform :
   public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
 {
 public:

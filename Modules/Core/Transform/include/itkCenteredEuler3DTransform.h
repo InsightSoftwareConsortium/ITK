@@ -18,6 +18,7 @@
 #ifndef itkCenteredEuler3DTransform_h
 #define itkCenteredEuler3DTransform_h
 
+#include "ITKTransformExport.h"
 #include <iostream>
 #include "itkEuler3DTransform.h"
 #include "itkMacro.h"
@@ -34,7 +35,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT CenteredEuler3DTransform :
+class ITKTransform_EXPORT CenteredEuler3DTransform :
   public Euler3DTransform<TParametersValueType>
 {
 public:

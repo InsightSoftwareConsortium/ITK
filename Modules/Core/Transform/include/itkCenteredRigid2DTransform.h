@@ -18,6 +18,7 @@
 #ifndef itkCenteredRigid2DTransform_h
 #define itkCenteredRigid2DTransform_h
 
+#include "ITKTransformExport.h"
 #include <iostream>
 #include "itkRigid2DTransform.h"
 
@@ -49,7 +50,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT CenteredRigid2DTransform :
+class ITKTransform_EXPORT CenteredRigid2DTransform :
   public Rigid2DTransform<TParametersValueType>
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkCompositeTransform_h
 #define itkCompositeTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkMultiTransform.h"
 
 #include <deque>
@@ -84,7 +85,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double, unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT CompositeTransform :
+class ITKTransform_EXPORT CompositeTransform :
   public MultiTransform<TParametersValueType, NDimensions, NDimensions>
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkCenteredAffineTransform_h
 #define itkCenteredAffineTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkAffineTransform.h"
 
 namespace itk
@@ -32,7 +33,7 @@ namespace itk
  */
 template<typename TParametersValueType=double,
          unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType,
+class ITKTransform_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType,
                                              NDimensions>
 {
 public:

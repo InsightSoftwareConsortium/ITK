@@ -18,6 +18,7 @@
 #ifndef itkTransform_h
 #define itkTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkTransformBase.h"
 #include "itkVector.h"
 #include "itkSymmetricSecondRankTensor.h"
@@ -80,7 +81,7 @@ namespace itk
 template<typename TParametersValueType,
           unsigned int NInputDimensions = 3,
           unsigned int NOutputDimensions = 3>
-class ITK_TEMPLATE_EXPORT Transform : public TransformBaseTemplate<TParametersValueType>
+class ITKTransform_EXPORT Transform : public TransformBaseTemplate<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Transform);

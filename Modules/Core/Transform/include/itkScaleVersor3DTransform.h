@@ -18,6 +18,7 @@
 #ifndef itkScaleVersor3DTransform_h
 #define itkScaleVersor3DTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkVersorRigid3DTransform.h"
 
 namespace itk
@@ -46,7 +47,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT ScaleVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
+class ITKTransform_EXPORT ScaleVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScaleVersor3DTransform);

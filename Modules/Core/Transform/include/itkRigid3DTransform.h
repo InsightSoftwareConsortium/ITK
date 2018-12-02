@@ -18,6 +18,7 @@
 #ifndef itkRigid3DTransform_h
 #define itkRigid3DTransform_h
 
+#include "ITKTransformExport.h"
 #include <iostream>
 #include "itkMatrixOffsetTransformBase.h"
 #include "itkVersor.h"
@@ -54,7 +55,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Rigid3DTransform:
+class ITKTransform_EXPORT Rigid3DTransform:
   public MatrixOffsetTransformBase<TParametersValueType, 3, 3>
 {
 public:

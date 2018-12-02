@@ -18,6 +18,7 @@
 #ifndef itkTranslationTransform_h
 #define itkTranslationTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkTransform.h"
 #include "itkMacro.h"
 #include "itkMatrix.h"
@@ -42,7 +43,7 @@ namespace itk
  */
 template<typename TParametersValueType=double,
            unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT TranslationTransform :
+class ITKTransform_EXPORT TranslationTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:

@@ -18,6 +18,7 @@
 #ifndef itkRigid3DPerspectiveTransform_h
 #define itkRigid3DPerspectiveTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkMacro.h"
 #include "vnl/vnl_quaternion.h"
 #include <iostream>
@@ -35,7 +36,7 @@ namespace itk
  */
 
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Rigid3DPerspectiveTransform :
+class ITKTransform_EXPORT Rigid3DPerspectiveTransform :
   public Transform<TParametersValueType, 3, 2>
 {
 public:

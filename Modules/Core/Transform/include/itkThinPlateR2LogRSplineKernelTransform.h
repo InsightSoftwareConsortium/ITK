@@ -18,6 +18,7 @@
 #ifndef itkThinPlateR2LogRSplineKernelTransform_h
 #define itkThinPlateR2LogRSplineKernelTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkKernelTransform.h"
 
 namespace itk
@@ -35,7 +36,7 @@ namespace itk
 template<typename TParametersValueType,
           unsigned int NDimensions = 3>
 // Number of dimensions
-class ITK_TEMPLATE_EXPORT ThinPlateR2LogRSplineKernelTransform:
+class ITKTransform_EXPORT ThinPlateR2LogRSplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:

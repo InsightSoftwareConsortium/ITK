@@ -18,6 +18,7 @@
 #ifndef itkQuaternionRigidTransform_h
 #define itkQuaternionRigidTransform_h
 
+#include "ITKTransformExport.h"
 #include <iostream>
 #include "itkRigid3DTransform.h"
 #include "vnl/vnl_quaternion.h"
@@ -45,7 +46,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT QuaternionRigidTransform :
+class ITKTransform_EXPORT QuaternionRigidTransform :
   public Rigid3DTransform<TParametersValueType>
 {
 public:

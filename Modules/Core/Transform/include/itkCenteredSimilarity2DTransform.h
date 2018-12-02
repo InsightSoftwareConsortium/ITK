@@ -18,6 +18,7 @@
 #ifndef itkCenteredSimilarity2DTransform_h
 #define itkCenteredSimilarity2DTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkSimilarity2DTransform.h"
 
 namespace itk
@@ -52,7 +53,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT CenteredSimilarity2DTransform :
+class ITKTransform_EXPORT CenteredSimilarity2DTransform :
   public Similarity2DTransform<TParametersValueType>
 {
 public:

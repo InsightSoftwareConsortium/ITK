@@ -18,6 +18,7 @@
 #ifndef itkMultiTransform_h
 #define itkMultiTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkTransform.h"
 
 #include <deque>
@@ -61,7 +62,7 @@ namespace itk
  */
 template
 <typename TParametersValueType=double, unsigned int NDimensions=3, unsigned int NSubDimensions=NDimensions>
-class ITK_TEMPLATE_EXPORT MultiTransform :
+class ITKTransform_EXPORT MultiTransform :
   public Transform<TParametersValueType, NDimensions, NSubDimensions>
 {
 public:

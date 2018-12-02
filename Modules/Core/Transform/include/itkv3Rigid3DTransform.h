@@ -18,6 +18,7 @@
 #ifndef itkv3Rigid3DTransform_h
 #define itkv3Rigid3DTransform_h
 
+#include "ITKTransformExport.h"
 #include <iostream>
 #include "itkRigid3DTransform.h"
 #include "itkVersor.h"
@@ -60,7 +61,7 @@ namespace v3
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Rigid3DTransform:
+class ITKTransform_EXPORT Rigid3DTransform:
     public itk::Rigid3DTransform<TParametersValueType>
 {
 public:

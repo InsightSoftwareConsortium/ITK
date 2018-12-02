@@ -18,6 +18,7 @@
 #ifndef itkElasticBodySplineKernelTransform_h
 #define itkElasticBodySplineKernelTransform_h
 
+#include "ITKTransformExport.h"
 #include "itkKernelTransform.h"
 
 namespace itk
@@ -38,7 +39,7 @@ namespace itk
  */
 template<typename TParametersValueType=double,
           unsigned int NDimensions=3>
-class ITK_TEMPLATE_EXPORT ElasticBodySplineKernelTransform:
+class ITKTransform_EXPORT ElasticBodySplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
