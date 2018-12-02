@@ -184,3 +184,8 @@ if(UNIX)
     target_link_libraries(ITKCommon LINK_PUBLIC ${CMAKE_DL_LIBS})
   endif()
 endif()
+
+set(ITKCommon_INCLUDE_DIRS
+  ${ITKCommon_BINARY_DIR}
+  )
+set(ITKCommon_LIBRARIES ITKCommon)
