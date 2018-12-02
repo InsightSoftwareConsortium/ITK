@@ -220,18 +220,6 @@ macro(itk_module_impl)
       else()
         set(_export_header_file "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h")
       endif()
-
-      # Generate the export macro header for symbol visibility/Windows DLL declspec
-      generate_export_header(${itk-module}
-        EXPORT_FILE_NAME ${_export_header_file}
-        EXPORT_MACRO_NAME ${itk-module}_EXPORT
-        NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
-        STATIC_DEFINE ITK_STATIC )
-      install(FILES
-        ${_export_header_file}
-        DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
-        COMPONENT Development
-        )
     endif()
     if( (ITK_MODULE_${itk-module}_ENABLE_SHARED AND BUILD_SHARED_LIBS) OR (APPLE AND NOT BUILD_SHARED_LIBS) )
       if (USE_COMPILER_HIDDEN_VISIBILITY)
