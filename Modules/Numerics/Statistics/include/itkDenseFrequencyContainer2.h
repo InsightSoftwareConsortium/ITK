@@ -21,7 +21,6 @@
 #include <map>
 #include "itkValarrayImageContainer.h"
 #include "itkMeasurementVectorTraits.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMetaImageIOFactory_h
 #define itkMetaImageIOFactory_h
-#include "ITKIOMetaExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

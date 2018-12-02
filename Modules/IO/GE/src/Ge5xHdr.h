@@ -53,7 +53,6 @@
 
 #ifndef Ge5xHdr_h
 #define Ge5xHdr_h
-#include "ITKIOGEExport.h"
 
 #define GE_5X_MAGIC_NUMBER       0x494d4746
 

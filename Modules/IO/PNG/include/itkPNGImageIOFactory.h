@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkPNGImageIOFactory_h
 #define itkPNGImageIOFactory_h
-#include "ITKIOPNGExport.h"
 
 
 #include "itkObjectFactoryBase.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVTKPolyDataMeshIO_h
 #define itkVTKPolyDataMeshIO_h
-#include "ITKIOMeshVTKExport.h"
 
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"

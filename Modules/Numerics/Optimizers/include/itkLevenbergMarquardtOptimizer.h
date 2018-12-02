@@ -20,7 +20,6 @@
 
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_levenberg_marquardt.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

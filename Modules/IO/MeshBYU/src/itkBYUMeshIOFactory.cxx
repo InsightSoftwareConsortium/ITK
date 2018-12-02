@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshBYUExport.h"
 
 #include "itkBYUMeshIOFactory.h"
 #include "itkBYUMeshIO.h"

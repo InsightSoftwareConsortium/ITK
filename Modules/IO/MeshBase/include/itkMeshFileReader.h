@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMeshFileReader_h
 #define itkMeshFileReader_h
-#include "ITKIOMeshExport.h"
 
 #include "itkMeshFileReaderException.h"
 #include "itkMacro.h"

@@ -19,7 +19,6 @@
 #define itkQuaternionRigidTransformGradientDescentOptimizer_h
 
 #include "itkGradientDescentOptimizer.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

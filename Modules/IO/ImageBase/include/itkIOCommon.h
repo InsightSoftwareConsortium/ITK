@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkIOCommon_h
 #define itkIOCommon_h
-#include "ITKIOImageBaseExport.h"
 
 
 #include "itkIntTypes.h"

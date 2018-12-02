@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkBruker2dseqImageIOFactory_h
 #define itkBruker2dseqImageIOFactory_h
-#include "ITKIOBrukerExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

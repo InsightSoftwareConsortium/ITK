@@ -23,7 +23,6 @@
 #include <vector>
 #include <map>
 #include "itkArray.h"
-#include "ITKIOXMLExport.h"
 
 namespace itk
 {

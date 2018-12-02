@@ -18,7 +18,6 @@
 #ifndef itkTransformFileWriter_h
 #define itkTransformFileWriter_h
 
-#include "ITKIOTransformBaseExport.h"
 
 #include "itkTransformIOBase.h"
 #include <iostream>

@@ -21,7 +21,6 @@
 
 #include "itkDOMNode.h"
 #include "itkObject.h"
-#include "ITKIOXMLExport.h"
 
 #include <ostream>
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMetaImageIO_h
 #define itkMetaImageIO_h
-#include "ITKIOMetaExport.h"
 
 
 #include <fstream>

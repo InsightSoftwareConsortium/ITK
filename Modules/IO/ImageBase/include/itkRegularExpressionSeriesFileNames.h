@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkRegularExpressionSeriesFileNames_h
 #define itkRegularExpressionSeriesFileNames_h
-#include "ITKIOImageBaseExport.h"
 
 
 #include "itkObject.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageSeriesWriter_h
 #define itkImageSeriesWriter_h
-#include "ITKIOImageBaseExport.h"
 
 #include "itkImageRegion.h"
 #include "itkImageFileWriter.h"

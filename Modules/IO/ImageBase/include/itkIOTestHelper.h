@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkIOTestHelper_h
 #define itkIOTestHelper_h
-#include "ITKIOImageBaseExport.h"
 #include <string>
 
 #include "itksys/SystemTools.hxx"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGiplImageIOFactory_h
 #define itkGiplImageIOFactory_h
-#include "ITKIOGIPLExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

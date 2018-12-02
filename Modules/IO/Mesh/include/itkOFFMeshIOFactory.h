@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkOFFMeshIOFactory_h
 #define itkOFFMeshIOFactory_h
-#include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"

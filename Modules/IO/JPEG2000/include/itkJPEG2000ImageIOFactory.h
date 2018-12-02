@@ -19,7 +19,6 @@
 #define itkJPEG2000ImageIOFactory_h
 
 
-#include "ITKIOJPEG2000Export.h"
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
 

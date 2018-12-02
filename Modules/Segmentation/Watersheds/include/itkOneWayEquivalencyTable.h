@@ -21,7 +21,6 @@
 
 #include "itkProcessObject.h"
 #include "itksys/hash_map.hxx"
-#include "ITKWatershedsExport.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkStreamingImageIOBase_h
 #define itkStreamingImageIOBase_h
-#include "ITKIOImageBaseExport.h"
 
 #include "itkImageIOBase.h"
 

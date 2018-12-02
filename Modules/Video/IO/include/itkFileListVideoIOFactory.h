@@ -20,7 +20,6 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkVideoIOBase.h"
-#include "ITKVideoIOExport.h"
 
 namespace itk
 {

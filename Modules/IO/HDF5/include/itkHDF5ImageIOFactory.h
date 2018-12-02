@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHDF5ImageIOFactory_h
 #define itkHDF5ImageIOFactory_h
-#include "ITKIOHDF5Export.h"
 
 
 #include "itkObjectFactoryBase.h"

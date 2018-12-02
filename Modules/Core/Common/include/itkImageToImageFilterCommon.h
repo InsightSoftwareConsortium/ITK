@@ -18,7 +18,6 @@
 #ifndef itkImageToImageFilterCommon_h
 #define itkImageToImageFilterCommon_h
 
-#include "ITKCommonExport.h"
 
 namespace itk
 {

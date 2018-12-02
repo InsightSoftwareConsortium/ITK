@@ -24,7 +24,6 @@
 
 #ifndef itkHDF5ImageIO_h
 #define itkHDF5ImageIO_h
-#include "ITKIOHDF5Export.h"
 #include "itkMetaDataObjectBase.h"
 #include "itkMetaDataDictionary.h"
 

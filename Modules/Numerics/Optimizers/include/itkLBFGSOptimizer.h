@@ -20,7 +20,6 @@
 
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_lbfgs.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

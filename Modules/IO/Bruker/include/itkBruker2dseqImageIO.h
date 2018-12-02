@@ -19,7 +19,6 @@
 #ifndef itkBruker2dseqImageIO_h
 #define itkBruker2dseqImageIO_h
 
-#include "ITKIOBrukerExport.h"
 
 #include "itkImageIOBase.h"
 #include "itkVectorContainer.h"

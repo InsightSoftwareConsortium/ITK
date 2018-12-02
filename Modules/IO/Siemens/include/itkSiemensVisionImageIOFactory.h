@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkSiemensVisionImageIOFactory_h
 #define itkSiemensVisionImageIOFactory_h
-#include "ITKIOSiemensExport.h"
 
 
 #include "itkObjectFactoryBase.h"

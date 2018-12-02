@@ -20,7 +20,6 @@
 
 
 #include <fstream>
-#include "ITKIOJPEG2000Export.h"
 #include "itkStreamingImageIOBase.h"
 #include "memory"
 

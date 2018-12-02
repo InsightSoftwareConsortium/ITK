@@ -19,7 +19,6 @@
 #define itkGaussianDistribution_h
 
 #include "itkProbabilityDistribution.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkJPEGImageIOFactory_h
 #define itkJPEGImageIOFactory_h
-#include "ITKIOJPEGExport.h"
 
 
 #include "itkObjectFactoryBase.h"

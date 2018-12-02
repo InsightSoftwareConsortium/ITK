@@ -19,7 +19,6 @@
 #define itkCompositeValleyFunction_h
 
 #include "itkCacheableScalarFunction.h"
-#include "ITKBiasCorrectionExport.h"
 #include <vector>
 
 namespace itk

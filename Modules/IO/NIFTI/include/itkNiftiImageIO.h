@@ -18,7 +18,6 @@
 
 #ifndef itkNiftiImageIO_h
 #define itkNiftiImageIO_h
-#include "ITKIONIFTIExport.h"
 
 
 #include <fstream>

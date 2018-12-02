@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMvtSunf_h
 #define itkMvtSunf_h
-#include "ITKIOGEExport.h"
 namespace itk
 {
 extern float MvtSunf(int numb);

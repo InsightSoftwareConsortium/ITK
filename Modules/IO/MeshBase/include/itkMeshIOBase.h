@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMeshIOBase_h
 #define itkMeshIOBase_h
-#include "ITKIOMeshBaseExport.h"
 
 #include "itkByteSwapper.h"
 #include "itkCellInterface.h"

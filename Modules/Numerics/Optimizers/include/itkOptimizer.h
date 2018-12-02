@@ -22,7 +22,6 @@
 #include "itkObjectFactory.h"
 #include "itkArray.h"
 #include "itkOptimizerParameters.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

@@ -23,7 +23,6 @@
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include <set>
-#include "ITKMeshExport.h"
 
 namespace itk
 {

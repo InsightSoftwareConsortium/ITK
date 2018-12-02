@@ -20,7 +20,6 @@
 
 #include "itkSingleValuedNonLinearVnlOptimizerv4.h"
 #include "vnl/algo/vnl_amoeba.h"
-#include "ITKOptimizersv4Export.h"
 
 namespace itk
 {

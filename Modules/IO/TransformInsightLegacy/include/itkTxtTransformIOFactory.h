@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkTxtTransformIOFactory_h
 #define itkTxtTransformIOFactory_h
-#include "ITKIOTransformInsightLegacyExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"

@@ -18,7 +18,6 @@
 
 #ifndef itkOFFMeshIO_h
 #define itkOFFMeshIO_h
-#include "ITKIOMeshExport.h"
 
 #include "itkMeshIOBase.h"
 

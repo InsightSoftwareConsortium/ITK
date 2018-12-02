@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMeshFileWriter_h
 #define itkMeshFileWriter_h
-#include "ITKIOMeshBaseExport.h"
 
 #include "itkMeshFileWriterException.h"
 #include "itkProcessObject.h"

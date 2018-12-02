@@ -24,7 +24,6 @@
 #include "itkMacro.h"
 #include "itkSize.h"
 #include <fstream>
-#include "ITKIOCSVExport.h"
 
 namespace itk
 {

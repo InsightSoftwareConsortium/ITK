@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkInternationalizationIOHelpers_h
 #define itkInternationalizationIOHelpers_h
-#include "ITKIOImageBaseExport.h"
 
 // This header provides some helper functions to deal with unicode filenames
 // It is mainly directed towards being able to use utf-8 encoded filenames

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkVTKImageIO_h
 #define itkVTKImageIO_h
-#include "ITKIOVTKExport.h"
 
 
 #include <fstream>

@@ -21,7 +21,6 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "ITKIOXMLExport.h"
 
 #include <string>
 #include <vector>

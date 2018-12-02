@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMetaArrayReader_h
 #define itkMetaArrayReader_h
-#include "ITKIOMetaExport.h"
 
 #include "itkLightProcessObject.h"
 #include "itkArray.h"

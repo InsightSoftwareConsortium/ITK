@@ -20,7 +20,6 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
-#include "ITKIOGDCMExport.h"
 
 namespace itk
 {

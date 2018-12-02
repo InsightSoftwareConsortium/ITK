@@ -18,7 +18,6 @@
 #ifndef itkTxtTransformIO_h
 #define itkTxtTransformIO_h
 
-#include "ITKIOTransformInsightLegacyExport.h"
 
 #include "itkTransformIOBase.h"
 

@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
 
 #include "itkGiftiMeshIO.h"
 #include "itkGiftiMeshIOFactory.h"

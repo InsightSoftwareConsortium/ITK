@@ -18,7 +18,6 @@
 #ifndef itkSingleValuedNonLinearVnlOptimizerv4_h
 #define itkSingleValuedNonLinearVnlOptimizerv4_h
 
-#include "ITKOptimizersv4Export.h"
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkSingleValuedVnlCostFunctionAdaptorv4.h"

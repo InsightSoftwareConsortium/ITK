@@ -19,7 +19,6 @@
 #ifndef ClientTestLibraryB_h
 #define ClientTestLibraryB_h
 
-#include "ClientTestLibraryBExport.h"
 
 #include "itkObject.h"
 

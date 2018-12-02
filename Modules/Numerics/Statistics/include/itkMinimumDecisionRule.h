@@ -19,7 +19,6 @@
 #define itkMinimumDecisionRule_h
 
 #include "itkDecisionRule.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {

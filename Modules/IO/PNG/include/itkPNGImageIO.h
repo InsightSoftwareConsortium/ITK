@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkPNGImageIO_h
 #define itkPNGImageIO_h
-#include "ITKIOPNGExport.h"
 
 
 #include "itkImageIOBase.h"

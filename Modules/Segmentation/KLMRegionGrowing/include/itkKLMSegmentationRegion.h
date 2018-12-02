@@ -20,7 +20,6 @@
 
 #include "itkKLMSegmentationBorder.h"
 #include "itkSegmentationRegion.h"
-#include "ITKKLMRegionGrowingExport.h"
 
 #include "vnl/vnl_vector.h"
 

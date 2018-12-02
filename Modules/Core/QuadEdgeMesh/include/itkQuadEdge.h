@@ -19,7 +19,6 @@
 #define itkQuadEdge_h
 
 #include "itkQuadEdgeMeshBaseIterator.h"
-#include "ITKQuadEdgeMeshExport.h"
 
 #include "itkMacro.h"
 

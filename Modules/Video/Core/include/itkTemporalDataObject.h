@@ -21,7 +21,6 @@
 #include "itkDataObject.h"
 #include "itkRingBuffer.h"
 #include "itkTemporalRegion.h"
-#include "ITKVideoCoreExport.h"
 
 namespace itk
 {

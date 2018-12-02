@@ -20,7 +20,6 @@
 
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {

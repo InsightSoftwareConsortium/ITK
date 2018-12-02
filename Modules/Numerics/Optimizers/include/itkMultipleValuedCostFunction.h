@@ -21,7 +21,6 @@
 #include "itkCostFunction.h"
 #include "itkArray2D.h"
 #include "itkNumericTraits.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMatlabTransformIOFactory_h
 #define itkMatlabTransformIOFactory_h
-#include "ITKIOTransformMatlabExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"

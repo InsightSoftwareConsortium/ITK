@@ -20,7 +20,6 @@
 
 #include "itkLBFGSOptimizerBasev4.h"
 #include "vnl/algo/vnl_lbfgs.h"
-#include "ITKOptimizersv4Export.h"
 
 namespace itk
 {

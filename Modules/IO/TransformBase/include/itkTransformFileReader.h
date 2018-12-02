@@ -18,7 +18,6 @@
 #ifndef itkTransformFileReader_h
 #define itkTransformFileReader_h
 
-#include "ITKIOTransformBaseExport.h"
 
 #include "itkTransformIOBase.h"
 

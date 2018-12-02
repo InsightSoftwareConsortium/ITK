@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkStimulateImageIOFactory_h
 #define itkStimulateImageIOFactory_h
-#include "ITKIOStimulateExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

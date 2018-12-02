@@ -23,7 +23,6 @@
 #include "itkObject.h"
 #include "itkNumericTraits.h"
 #include "itkMeasurementVectorTraits.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {

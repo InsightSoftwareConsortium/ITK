@@ -41,7 +41,6 @@
 
 #ifndef itkGE4ImageIO_h
 #define itkGE4ImageIO_h
-#include "ITKIOGEExport.h"
 
 #include "itkIPLCommonImageIO.h"
 

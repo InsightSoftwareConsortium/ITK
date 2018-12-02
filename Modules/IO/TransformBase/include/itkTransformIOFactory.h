@@ -18,7 +18,6 @@
 #ifndef itkTransformIOFactory_h
 #define itkTransformIOFactory_h
 
-#include "ITKIOTransformBaseExport.h"
 
 #include "itkObject.h"
 #include "itkTransformIOBase.h"

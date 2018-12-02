@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGE5ImageIOFactory_h
 #define itkGE5ImageIOFactory_h
-#include "ITKIOGEExport.h"
 
 
 #include "itkObjectFactoryBase.h"

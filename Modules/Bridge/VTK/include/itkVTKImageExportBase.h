@@ -19,7 +19,6 @@
 #define itkVTKImageExportBase_h
 
 #include "itkProcessObject.h"
-#include "ITKVTKExport.h"
 
 namespace itk
 {

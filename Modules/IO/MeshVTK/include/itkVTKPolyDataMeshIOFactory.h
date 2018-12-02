@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVTKPolyDataMeshIOFactory_h
 #define itkVTKPolyDataMeshIOFactory_h
-#include "ITKIOMeshVTKExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"

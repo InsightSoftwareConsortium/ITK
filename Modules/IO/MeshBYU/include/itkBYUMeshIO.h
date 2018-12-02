@@ -18,7 +18,6 @@
 
 #ifndef itkBYUMeshIO_h
 #define itkBYUMeshIO_h
-#include "ITKIOMeshBYUExport.h"
 
 #include "itkMeshIOBase.h"
 #include "itkNumberToString.h"

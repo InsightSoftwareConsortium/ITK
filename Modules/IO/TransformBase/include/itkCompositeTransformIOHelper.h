@@ -18,7 +18,6 @@
 #ifndef itkCompositeTransformIOHelper_h
 #define itkCompositeTransformIOHelper_h
 
-#include "ITKIOTransformBaseExport.h"
 
 #include "itkTransformIOBase.h"
 #include "itkCompositeTransform.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkNiftiImageIOFactory_h
 #define itkNiftiImageIOFactory_h
-#include "ITKIONIFTIExport.h"
 
 
 #include "itkObjectFactoryBase.h"

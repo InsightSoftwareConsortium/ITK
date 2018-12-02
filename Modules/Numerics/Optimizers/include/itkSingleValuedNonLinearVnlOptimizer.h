@@ -21,7 +21,6 @@
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedVnlCostFunctionAdaptor.h"
 #include "itkCommand.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

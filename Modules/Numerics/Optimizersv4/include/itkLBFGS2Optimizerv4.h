@@ -20,7 +20,6 @@
 
 
 #include "itkObjectToObjectOptimizerBase.h"
-#include "ITKOptimizersv4Export.h"
 #include <memory>
 
 

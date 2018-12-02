@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkNumericSeriesFileNames_h
 #define itkNumericSeriesFileNames_h
-#include "ITKIOImageBaseExport.h"
 
 
 #include "itkObject.h"

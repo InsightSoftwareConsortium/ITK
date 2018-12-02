@@ -18,7 +18,6 @@
 
 #ifndef itkFreeSurferAsciiMeshIO_h
 #define itkFreeSurferAsciiMeshIO_h
-#include "ITKIOMeshExport.h"
 
 #include "itkMeshIOBase.h"
 

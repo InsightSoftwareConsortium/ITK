@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageFileWriter_h
 #define itkImageFileWriter_h
-#include "ITKIOImageBaseExport.h"
 
 #include "itkProcessObject.h"
 #include "itkImageIOBase.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkFreeSurferAsciiMeshIOFactory_h
 #define itkFreeSurferAsciiMeshIOFactory_h
-#include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"

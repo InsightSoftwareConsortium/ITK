@@ -20,7 +20,6 @@
 
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkCumulativeGaussianCostFunction.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

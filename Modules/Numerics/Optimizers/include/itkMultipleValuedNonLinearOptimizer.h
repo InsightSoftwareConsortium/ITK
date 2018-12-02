@@ -20,7 +20,6 @@
 
 #include "itkNonLinearOptimizer.h"
 #include "itkMultipleValuedCostFunction.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

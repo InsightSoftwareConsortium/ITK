@@ -23,7 +23,6 @@
 #include "itkMacro.h"
 #include <vector>
 #include "gdcmSerieHelper.h"
-#include "ITKIOGDCMExport.h"
 
 namespace itk
 {

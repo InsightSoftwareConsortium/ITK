@@ -19,7 +19,6 @@
 #define itkNonLinearOptimizer_h
 
 #include "itkOptimizer.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

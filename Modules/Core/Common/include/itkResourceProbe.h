@@ -24,7 +24,6 @@
 #include <string>
 #include <vector>
 
-#include "ITKCommonExport.h"
 
 namespace itk
 {

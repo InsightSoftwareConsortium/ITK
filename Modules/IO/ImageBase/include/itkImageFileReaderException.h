@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageFileReaderException_h
 #define itkImageFileReaderException_h
-#include "ITKIOImageBaseExport.h"
 
 #include "itkMacro.h"
 #include "itkExceptionObject.h"

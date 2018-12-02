@@ -32,7 +32,6 @@
 
 #ifndef itkSiemensVisionImageIO_h
 #define itkSiemensVisionImageIO_h
-#include "ITKIOSiemensExport.h"
 
 
 #include "itkIPLCommonImageIO.h"

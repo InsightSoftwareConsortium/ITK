@@ -20,7 +20,6 @@
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkRandomVariateGeneratorBase.h"
-#include "ITKOptimizersExport.h"
 #include <string>
 
 namespace itk

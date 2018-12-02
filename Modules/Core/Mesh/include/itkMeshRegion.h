@@ -32,7 +32,6 @@
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkIntTypes.h"
-#include "ITKMeshExport.h"
 
 namespace itk
 {

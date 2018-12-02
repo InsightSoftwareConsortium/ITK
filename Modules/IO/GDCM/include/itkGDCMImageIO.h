@@ -31,7 +31,6 @@
 #define ITKIO_DEPRECATED_GDCM1_API
 
 #include "itkImageIOBase.h"
-#include "ITKIOGDCMExport.h"
 #include <fstream>
 #include <string>
 

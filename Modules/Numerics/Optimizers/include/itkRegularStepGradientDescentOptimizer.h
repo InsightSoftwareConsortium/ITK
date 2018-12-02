@@ -19,7 +19,6 @@
 #define itkRegularStepGradientDescentOptimizer_h
 
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

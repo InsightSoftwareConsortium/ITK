@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHDF5TransformIOFactory_h
 #define itkHDF5TransformIOFactory_h
-#include "ITKIOTransformHDF5Export.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"

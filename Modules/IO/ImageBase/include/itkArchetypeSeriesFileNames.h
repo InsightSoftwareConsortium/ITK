@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkArchetypeSeriesFileNames_h
 #define itkArchetypeSeriesFileNames_h
-#include "ITKIOImageBaseExport.h"
 
 
 #include "itkObject.h"

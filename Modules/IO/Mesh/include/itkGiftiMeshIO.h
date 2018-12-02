@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGiftiMeshIO_h
 #define itkGiftiMeshIO_h
-#include "ITKIOMeshExport.h"
 
 #include <memory>
 #include "itkMapContainer.h"

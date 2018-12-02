@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkStimulateImageIO_h
 #define itkStimulateImageIO_h
-#include "ITKIOStimulateExport.h"
 
 
 #include <fstream>

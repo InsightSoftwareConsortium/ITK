@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMRCHeaderObject_h
 #define itkMRCHeaderObject_h
-#include "ITKIOMRCExport.h"
 
 #include "itkObjectFactory.h"
 #include "itkLightObject.h"

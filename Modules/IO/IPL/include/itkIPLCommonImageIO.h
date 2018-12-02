@@ -31,7 +31,6 @@
 
 #ifndef itkIPLCommonImageIO_h
 #define itkIPLCommonImageIO_h
-#include "ITKIOIPLExport.h"
 
 #include "itkImageIOBase.h"
 #include "itkIPLFileNameList.h"

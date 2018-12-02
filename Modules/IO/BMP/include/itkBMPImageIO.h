@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkBMPImageIO_h
 #define itkBMPImageIO_h
-#include "ITKIOBMPExport.h"
 
 
 #include <fstream>

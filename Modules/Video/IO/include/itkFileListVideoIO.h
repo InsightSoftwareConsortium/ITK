@@ -19,7 +19,6 @@
 #define itkFileListVideoIO_h
 
 #include "itkVideoIOBase.h"
-#include "ITKVideoIOExport.h"
 
 namespace itk
 {

@@ -20,7 +20,6 @@
 
 #include "itkMultipleValuedCostFunction.h"
 #include "vnl/vnl_least_squares_function.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

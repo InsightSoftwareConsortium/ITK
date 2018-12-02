@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkBioRadImageIO_h
 #define itkBioRadImageIO_h
-#include "ITKIOBioRadExport.h"
 
 #include "itkImageIOBase.h"
 #include <fstream>

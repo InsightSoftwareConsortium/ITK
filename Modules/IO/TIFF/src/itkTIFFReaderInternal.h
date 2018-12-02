@@ -18,7 +18,6 @@
 #ifndef itkTIFFReaderInternal_h
 #define itkTIFFReaderInternal_h
 
-#include "ITKIOTIFFExport.h"
 #include "itkIntTypes.h"
 #include "itk_tiff.h"
 

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkIPLFileNameList_h
 #define itkIPLFileNameList_h
-#include "ITKIOIPLExport.h"
 
 #include "itkMath.h"
 #include "itkMacro.h"

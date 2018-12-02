@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkBioRadImageIOFactory_h
 #define itkBioRadImageIOFactory_h
-#include "ITKIOBioRadExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

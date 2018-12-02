@@ -52,7 +52,6 @@
 
 #ifndef Ge4xHdr_h
 #define Ge4xHdr_h
-#include "ITKIOGEExport.h"
 
 enum GE_4X_STUDYHDR_OFFSET
 {

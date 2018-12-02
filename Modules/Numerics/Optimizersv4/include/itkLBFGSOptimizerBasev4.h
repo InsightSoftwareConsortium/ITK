@@ -22,7 +22,6 @@
 #include "vnl/algo/vnl_lbfgs.h"
 #include "vnl/algo/vnl_lbfgsb.h"
 #include <memory>
-#include "ITKOptimizersv4Export.h"
 
 namespace itk
 {

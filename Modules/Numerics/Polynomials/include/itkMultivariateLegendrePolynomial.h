@@ -22,7 +22,6 @@
 #include "itkIndent.h"
 #include <vector>
 #include "itkArray.h"
-#include "ITKPolynomialsExport.h"
 
 namespace itk
 {

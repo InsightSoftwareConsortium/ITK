@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMRCImageIO_h
 #define itkMRCImageIO_h
-#include "ITKIOMRCExport.h"
 #include "itkStreamingImageIOBase.h"
 #include "itkMRCHeaderObject.h"
 #include <numeric>

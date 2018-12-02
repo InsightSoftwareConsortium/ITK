@@ -20,7 +20,6 @@
 
 #include "itkCostFunction.h"
 #include "itkNumericTraits.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

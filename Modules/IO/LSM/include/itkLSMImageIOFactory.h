@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkLSMImageIOFactory_h
 #define itkLSMImageIOFactory_h
-#include "ITKIOLSMExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

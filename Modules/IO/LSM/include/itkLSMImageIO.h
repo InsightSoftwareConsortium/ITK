@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkLSMImageIO_h
 #define itkLSMImageIO_h
-#include "ITKIOLSMExport.h"
 
 #include "itkTIFFImageIO.h"
 #include <fstream>

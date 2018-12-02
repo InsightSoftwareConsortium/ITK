@@ -19,7 +19,6 @@
 #define itkFRPROptimizer_h
 
 #include "itkPowellOptimizer.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

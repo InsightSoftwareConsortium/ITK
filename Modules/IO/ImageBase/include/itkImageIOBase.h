@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageIOBase_h
 #define itkImageIOBase_h
-#include "ITKIOImageBaseExport.h"
 
 #include "itkIOConfigure.h"
 

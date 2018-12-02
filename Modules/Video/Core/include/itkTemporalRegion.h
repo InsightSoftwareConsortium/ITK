@@ -23,7 +23,6 @@
 #include "itkRealTimeInterval.h"
 #include "itkNumericTraits.h"
 #include <climits>
-#include "ITKVideoCoreExport.h"
 
 /** Define representations of infinite duration for frames and real time */
 #define ITK_INFINITE_FRAME_DURATION itk::NumericTraits<itk::SizeValueType>::max()

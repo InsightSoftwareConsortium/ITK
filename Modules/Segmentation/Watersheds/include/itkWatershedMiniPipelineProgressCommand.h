@@ -20,7 +20,6 @@
 
 #include "itkProcessObject.h"
 #include "itkCommand.h"
-#include "ITKWatershedsExport.h"
 
 namespace itk
 {

@@ -31,7 +31,6 @@
 
 #include "itkMatrix.h"
 
-#include "ITKIOMINCExport.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkMatlabTransformIO_h
 #define itkMatlabTransformIO_h
 
-#include "ITKIOTransformMatlabExport.h"
 
 #include "itkTransformIOBase.h"
 

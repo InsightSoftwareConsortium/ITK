@@ -19,7 +19,6 @@
 #define itkCumulativeGaussianCostFunction_h
 
 #include "itkMultipleValuedCostFunction.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

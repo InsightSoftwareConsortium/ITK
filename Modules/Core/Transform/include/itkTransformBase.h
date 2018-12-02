@@ -18,7 +18,6 @@
 #ifndef itkTransformBase_h
 #define itkTransformBase_h
 
-#include "ITKTransformExport.h"
 
 #include "itkObject.h"
 #include "itkPoint.h"

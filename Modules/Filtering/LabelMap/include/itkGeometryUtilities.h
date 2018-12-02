@@ -19,7 +19,6 @@
 #define itkGeometryUtilities_h
 
 #include "itkObject.h"
-#include "ITKLabelMapExport.h"
 
 namespace itk
 {

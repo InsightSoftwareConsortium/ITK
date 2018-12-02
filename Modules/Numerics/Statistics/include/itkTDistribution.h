@@ -20,7 +20,6 @@
 
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {

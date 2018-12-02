@@ -18,7 +18,6 @@
 #ifndef itkTransformIOBase_h
 #define itkTransformIOBase_h
 
-#include "ITKIOTransformBaseExport.h"
 
 #include "itkLightProcessObject.h"
 #include "itkTransformBase.h"

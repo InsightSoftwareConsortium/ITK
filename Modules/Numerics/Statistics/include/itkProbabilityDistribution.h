@@ -22,7 +22,6 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkArray.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {

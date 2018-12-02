@@ -20,7 +20,6 @@
 #define itkInitializationBiasedParticleSwarmOptimizer_h
 
 #include "itkParticleSwarmOptimizerBase.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

@@ -20,7 +20,6 @@
 
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

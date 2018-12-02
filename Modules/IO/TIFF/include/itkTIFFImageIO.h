@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkTIFFImageIO_h
 #define itkTIFFImageIO_h
-#include "ITKIOTIFFExport.h"
 
 #include "itkImageIOBase.h"
 #include <fstream>

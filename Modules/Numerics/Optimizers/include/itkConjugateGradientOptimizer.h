@@ -21,7 +21,6 @@
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_conjugate_gradient.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

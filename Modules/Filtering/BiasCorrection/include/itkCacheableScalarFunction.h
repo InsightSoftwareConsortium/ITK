@@ -20,7 +20,6 @@
 
 #include "itkArray.h"
 #include "itkIntTypes.h"
-#include "ITKBiasCorrectionExport.h"
 
 namespace itk
 {

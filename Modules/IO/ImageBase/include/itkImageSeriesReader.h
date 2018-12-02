@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageSeriesReader_h
 #define itkImageSeriesReader_h
-#include "ITKIOImageBaseExport.h"
 
 #include "itkSize.h"
 #include <vector>

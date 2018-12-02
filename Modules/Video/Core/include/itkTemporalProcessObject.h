@@ -20,7 +20,6 @@
 
 #include "itkProcessObject.h"
 #include "itkTemporalRegion.h"
-#include "ITKVideoCoreExport.h"
 
 namespace itk
 {

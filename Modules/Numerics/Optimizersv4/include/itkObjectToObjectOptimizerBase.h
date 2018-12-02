@@ -18,7 +18,6 @@
 #ifndef itkObjectToObjectOptimizerBase_h
 #define itkObjectToObjectOptimizerBase_h
 
-#include "ITKOptimizersv4Export.h"
 
 #include "itkOptimizerParameters.h"
 #include "itkOptimizerParameterScalesEstimator.h"

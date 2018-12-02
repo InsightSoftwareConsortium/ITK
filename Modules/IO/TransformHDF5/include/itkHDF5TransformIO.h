@@ -18,7 +18,6 @@
 #ifndef itkHDF5TransformIO_h
 #define itkHDF5TransformIO_h
 
-#include "ITKIOTransformHDF5Export.h"
 
 #include "itkTransformIOBase.h"
 #include <memory>

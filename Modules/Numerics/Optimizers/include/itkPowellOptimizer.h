@@ -21,7 +21,6 @@
 #include "itkVector.h"
 #include "itkMatrix.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

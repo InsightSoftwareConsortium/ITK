@@ -21,7 +21,6 @@
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedVnlCostFunctionAdaptor.h"
 #include "itkCommand.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkNrrdImageIO_h
 #define itkNrrdImageIO_h
-#include "ITKIONRRDExport.h"
 
 
 #include "itkImageIOBase.h"

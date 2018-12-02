@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGiplImageIO_h
 #define itkGiplImageIO_h
-#include "ITKIOGIPLExport.h"
 
 
 #include <fstream>

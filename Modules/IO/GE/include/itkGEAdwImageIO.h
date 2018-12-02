@@ -31,7 +31,6 @@
 
 #ifndef itkGEAdwImageIO_h
 #define itkGEAdwImageIO_h
-#include "ITKIOGEExport.h"
 
 
 #include "itkIPLCommonImageIO.h"

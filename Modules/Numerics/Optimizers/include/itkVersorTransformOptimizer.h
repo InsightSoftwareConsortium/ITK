@@ -20,7 +20,6 @@
 
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkVersor.h"
-#include "ITKOptimizersExport.h"
 
 namespace itk
 {

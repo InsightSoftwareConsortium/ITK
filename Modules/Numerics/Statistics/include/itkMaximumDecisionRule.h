@@ -19,7 +19,6 @@
 #define itkMaximumDecisionRule_h
 
 #include "itkDecisionRule.h"
-#include "ITKStatisticsExport.h"
 
 namespace itk
 {
