@@ -67,7 +67,7 @@ LogGaborFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageReg
   using OutputIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
   OutputIteratorType outIt(outputPtr, outputRegionForThread);
 
-  double sigma = vcl_log(m_Sigma);
+  double sigma = std::log(m_Sigma);
   sigma *= sigma;
   sigma *= 2;
 
@@ -93,10 +93,10 @@ LogGaborFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageReg
     radius = std::sqrt(radius);
     // std::cout << "radius: " << radius << std::endl;
 
-    radius = vcl_log(radius);
+    radius = std::log(radius);
     radius *= radius;
 
-    double logGaborValue = vcl_exp(-radius / sigma);
+    double logGaborValue = std::exp(-radius / sigma);
     outIt.Set(static_cast<typename TOutputImage::PixelType>(logGaborValue));
   }
 }
