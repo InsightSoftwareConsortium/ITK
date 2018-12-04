@@ -396,6 +396,7 @@ private:
       m_ImageSize(arg.m_ImageSize),
       m_OffsetTable(arg.m_OffsetTable),
       m_NeighborhoodAccessor(arg.m_NeighborhoodAccessor),
+      m_OptionalPixelAccessParameter(arg.m_OptionalPixelAccessParameter),
       m_Location(arg.m_Location),
       m_CurrentOffset{arg.m_CurrentOffset}
     {

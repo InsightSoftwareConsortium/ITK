@@ -113,13 +113,24 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsSpecifiedConstant
   const itk::Size<ImageType::ImageDimension> radius = { {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+  const auto numberOfExpectedNeighbors = offsets.size();
 
   for (PixelType constantValue = -1; constantValue <= 2; ++constantValue)
   {
     const RangeType range{ *image, locationOutsideImage, offsets, constantValue };
 
+    // Test by using a range-based for-loop:
     for (const PixelType pixel : range)
     {
+      EXPECT_EQ(pixel, constantValue);
+    }
+
+    ASSERT_EQ(range.size(), numberOfExpectedNeighbors);
+
+    // Test by using RangeType::operator[]:
+    for (std::size_t i = 0; i < numberOfExpectedNeighbors; ++i)
+    {
+      const PixelType pixel = range[i];
       EXPECT_EQ(pixel, constantValue);
     }
   }
