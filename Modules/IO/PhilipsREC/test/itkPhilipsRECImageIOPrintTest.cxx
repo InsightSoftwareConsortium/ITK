@@ -20,8 +20,7 @@
 #include "itkMetaDataObject.h"
 
 #include <vxl_version.h>
-#include "vnl/vnl_vector_fixed.hxx" // Get the templates
-VNL_VECTOR_FIXED_INSTANTIATE(int,8);
+#include "vnl/vnl_vector_fixed.h"
 
 int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
 {
