@@ -19,6 +19,8 @@
  // First include the header file to be tested:
 #include "itkShapedImageNeighborhoodRange.h"
 
+#include "itkConstantBoundaryCondition.h"
+#include "itkConstantBoundaryImageNeighborhoodPixelAccessPolicy.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkImage.h"
 #include "itkImageNeighborhoodOffsets.h"
@@ -743,4 +745,68 @@ TEST(ShapedImageNeighborhoodRange, ConstructorSupportsRValueShapeOffsets)
   // the range 'RangeType{...}' is being used.
   ASSERT_EQ(
     (RangeType{ *image, location, std::vector<OffsetType>{1} }).size(), 1);
+}
+
+
+// Tests that an arbitrary (possibly non-zero) index of the buffered region is supported.
+TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
+{
+  using ImageType = itk::Image<int>;
+
+  // Do zero-padding for neighborhood pixels outside the image:
+  using PolicyType = itk::Experimental::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<ImageType>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType, PolicyType>;
+
+  // A minimal radius, and trivial shape offsets (n = 1), just for the test.
+  const itk::Size<ImageType::ImageDimension> radius = { {0} };
+  const auto offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+
+  const ImageType::IndexType zeroIndex{ {0} };
+  const ImageType::IndexType arbitraryIndex{ {10, -1} };
+  const ImageType::SizeType imageSize{ {2, 3} };
+
+  const ImageType::RegionType bufferedRegion{ arbitraryIndex, imageSize };
+
+  const auto image = ImageType::New();
+  image->SetRegions(bufferedRegion);
+  image->Allocate(true);
+
+  // Set a 'magic value' at the begin of the buffered region.
+  const ImageType::PixelType magicPixelValue = 42;
+  ImageType::PixelType* const bufferPointer = image->GetBufferPointer();
+  *bufferPointer = magicPixelValue;
+
+  RangeType range{ *image, zeroIndex, offsets };
+
+  // Expect zero, because zeroIndex is outside the buffered region.
+  EXPECT_EQ(range[0], 0);
+
+  range.SetLocation(arbitraryIndex);
+
+  // Expect the magic value as the first range value, because the range is now
+  // located at the arbitrary index, which corresponds to the begin of the
+  // image buffer.
+  EXPECT_EQ(range[0], magicPixelValue);
+
+  // Expect the magic value also when a range is constructed with
+  // the arbitrary index as its location.
+  EXPECT_EQ((RangeType{ *image, arbitraryIndex, offsets })[0], magicPixelValue);
+
+  // Check to see that this range yields the same pixel value as an
+  // itk::ConstNeighborhoodIterator with this arbitrary buffered region index.
+  using ConstNeighborhoodIteratorType =
+    itk::ConstNeighborhoodIterator<ImageType, itk::ConstantBoundaryCondition<ImageType>>;
+  ConstNeighborhoodIteratorType neighborhoodIterator(radius, image, image->GetRequestedRegion());
+
+  // Note: Set NeedToUseBoundaryCondition, to ensure that 'neighborhoodIterator'
+  // also supports any arbitrary buffered region index at any location!
+  neighborhoodIterator.NeedToUseBoundaryConditionOn();
+
+  range.SetLocation(zeroIndex);
+  neighborhoodIterator.SetLocation(zeroIndex);
+  EXPECT_EQ(range[0], neighborhoodIterator.GetPixel(0));
+
+  range.SetLocation(arbitraryIndex);
+  neighborhoodIterator.SetLocation(arbitraryIndex);
+  EXPECT_EQ(range[0], neighborhoodIterator.GetPixel(0));
 }
