@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkSinusoidImageSource.h"
 #include "itkTestingMacros.h"
 #include "itkImageFileWriter.h"
@@ -62,7 +62,7 @@ itkSinusoidImageSourceTest(int argc, char * argv[])
   // Create a gaussian image source
   using SinusoidSourceType = itk::SinusoidImageSource<ImageType>;
   SinusoidSourceType::Pointer source = SinusoidSourceType::New();
-  FilterWatcher               watcher(source, "source");
+  itk::SimpleFilterWatcher    watcher(source, "source");
 
   ImageType::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
   ImageType::PointValueType   origin[] = { 1.0f, 4.0f, 2.0f };
