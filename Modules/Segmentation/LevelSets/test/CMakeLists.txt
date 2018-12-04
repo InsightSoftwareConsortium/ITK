@@ -98,7 +98,8 @@ itk_add_test(NAME itkCurvesLevelSetImageFilterZeroSigmaTest
 
 itk_python_add_test(NAME PythonLazyLoadingImage COMMAND LazyLoadingImageTest.py)
 
-if(ITK_WRAP_float AND WRAP_2)
+list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
+if(ITK_WRAP_float AND wrap_2_index GREATER -1)
 # TODO: reenable the geodesic test once we get why the result is not the
 # same than with c++
 # keep just one to be sure it run, but don't compare the images

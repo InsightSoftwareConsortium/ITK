@@ -246,7 +246,8 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo
 )
 set_property(TEST itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo APPEND PROPERTY LABELS RUNS_LONG)
 
-if(ITK_WRAP_float AND WRAP_2)
+list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
+if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonFastMarchingLeftVentricleTest
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingLeftVentricleTest.png
