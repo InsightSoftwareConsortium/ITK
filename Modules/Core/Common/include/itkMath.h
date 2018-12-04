@@ -38,9 +38,6 @@
  * supported.
  */
 #include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL <= 20121114
-# error "VXL version must support vnl_math:: namespace versions of functions"
-#endif
 
 namespace itk
 {

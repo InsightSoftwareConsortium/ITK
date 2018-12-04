@@ -19,10 +19,7 @@
 #include "itkMath.h"
 
 #include "vxl_version.h"
-#if VXL_VERSION_DATE_FULL > 20040406
 #include "vnl/vnl_cross.h"
-#define cross_3d vnl_cross_3d
-#endif
 
 namespace itk
 {
@@ -75,12 +72,12 @@ SimplexMeshGeometry
   b = this->neighbors[2] - this->neighbors[0];
   c = this->neighbors[1] - this->neighbors[0];
 
-  cXb.SetVnlVector( cross_3d< double >( c.GetVnlVector(), b.GetVnlVector() ) );
+  cXb.SetVnlVector( vnl_cross_3d< double >( c.GetVnlVector(), b.GetVnlVector() ) );
 
   tmp.SetVnlVector( b.GetSquaredNorm()
-                    * cross_3d< double >( cXb.GetVnlVector(), c.GetVnlVector() )
+                    * vnl_cross_3d< double >( cXb.GetVnlVector(), c.GetVnlVector() )
                     + c.GetSquaredNorm()
-                    * cross_3d< double >( b.GetVnlVector(), cXb.GetVnlVector() ) );
+                    * vnl_cross_3d< double >( b.GetVnlVector(), cXb.GetVnlVector() ) );
 
   double cXbSquaredNorm = 2 * cXb.GetSquaredNorm();
 
@@ -94,8 +91,8 @@ SimplexMeshGeometry
   VectorType d, dXc, bXd, sphereTmp;
 
   d = pos - this->neighbors[0];
-  dXc.SetVnlVector( cross_3d< double >( d.GetVnlVector(), c.GetVnlVector() ) );
-  bXd.SetVnlVector( cross_3d< double >( b.GetVnlVector(), d.GetVnlVector() ) );
+  dXc.SetVnlVector( vnl_cross_3d< double >( d.GetVnlVector(), c.GetVnlVector() ) );
+  bXd.SetVnlVector( vnl_cross_3d< double >( b.GetVnlVector(), d.GetVnlVector() ) );
 
   sphereTmp.SetVnlVector( d.GetSquaredNorm() * cXb.GetVnlVector()
                           + b.GetSquaredNorm() * dXc.GetVnlVector()
