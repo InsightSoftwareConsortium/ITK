@@ -33,7 +33,7 @@ int RunTest( int argc, char* argv[] )
   using InImageType = itk::Image< InputImagePixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< InImageType >;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
 
   TRY_EXPECT_NO_EXCEPTION( reader->Update() );
