@@ -21,10 +21,6 @@
 #include "itkMacro.h"
 
 #include "vxl_version.h"
-#if VXL_VERSION_DATE_FULL < 20110428
-#error "System installed VXL version is too old. Please make sure the version date is later than 2011-04-28."
-#endif
-
 #include "vnl/vnl_vector.h"
 
 namespace itk

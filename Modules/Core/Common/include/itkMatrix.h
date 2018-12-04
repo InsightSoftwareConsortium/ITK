@@ -22,11 +22,7 @@
 #include "itkCovariantVector.h"
 
 #include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_matrix_fixed.txx" // Get the templates
-#else
 #include "vnl/vnl_matrix_fixed.hxx" // Get the templates
-#endif
 #include "vnl/vnl_transpose.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_matrix.h"

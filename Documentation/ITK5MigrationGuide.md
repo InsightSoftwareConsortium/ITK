@@ -33,7 +33,8 @@ and/or warnings should be addressed.  Once dependent code builds and passes
 tests without legacy options, migration to v5 is complete.
 
 Support for for pre-20160229 `VXL_VERSION_DATE_FULL` system installed
-versions of VXL has been removed.
+versions of VXL has been removed.  VXL now supports more common Semantic Versioning
+conventions with the minimum supported version for ITKv5 being 2.0.2 (as of 2018-11-30).
 
 C++11
 -----
