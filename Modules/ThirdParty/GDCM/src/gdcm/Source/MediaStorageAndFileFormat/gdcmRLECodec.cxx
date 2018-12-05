@@ -847,7 +847,7 @@ bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
         }
       //assert( numberOfReadBytes + frame.Header.Offset[i] - is.tellg() + start == 0);
       }
-    assert( numOutBytes == length );
+    if( numOutBytes != length ) return false;
     }
 
   return ImageCodec::DecodeByStreams(tmpos,os);

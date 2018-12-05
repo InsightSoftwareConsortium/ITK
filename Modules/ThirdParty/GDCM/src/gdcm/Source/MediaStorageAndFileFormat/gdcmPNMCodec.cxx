@@ -46,10 +46,15 @@ bool PNMCodec::Write(const char *filename, const DataElement &out) const
   std::ofstream os(filename, std::ios::binary);
   const unsigned int *dims = this->GetDimensions();
   const PhotometricInterpretation &pi = this->GetPhotometricInterpretation();
+  const PixelFormat& pf = GetPixelFormat();
   if( pi == PhotometricInterpretation::MONOCHROME2
     || pi == PhotometricInterpretation::MONOCHROME1 ) // warning viz will be surprising
     {
-    os << "P5\n";
+    // FIXME possible mismatch pi vs pf (eg. pbm with mono2)
+    if( pf == PixelFormat::SINGLEBIT)
+      os << "P4\n";
+    else
+      os << "P5\n";
     }
   else if( pi == PhotometricInterpretation::RGB
     || pi == PhotometricInterpretation::PALETTE_COLOR )
@@ -70,22 +75,22 @@ bool PNMCodec::Write(const char *filename, const DataElement &out) const
     return false;
     }
 
-  const PixelFormat& pf = GetPixelFormat();
   switch(pf)
     {
+  case PixelFormat::SINGLEBIT:
+    break;
   case PixelFormat::UINT8:
   //case PixelFormat::INT8:
-    os << "255";
+    os << "255\n";
     break;
   case PixelFormat::UINT16:
   //case PixelFormat::INT16:
-    os << "65535";
+    os << "65535\n";
     break;
   default:
     gdcmErrorMacro( "Unhandled PF: " << pf );
     return false;
     }
-  os << "\n";
 
   const ByteValue *bv = out.GetByteValue();
   // FIXME: PNM Codec cannot handle encapsulated syntax... sigh
@@ -236,7 +241,9 @@ bool PNMCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
   std::string type, str;
   std::getline(is,type);
   PhotometricInterpretation pi;
-  if( type == "P5" )
+  if( type == "P4" ) // P4 => mono W/B !
+    pi = PhotometricInterpretation::MONOCHROME1;
+  else if( type == "P5" )
     pi = PhotometricInterpretation::MONOCHROME2;
   else if( type == "P6" ) // P3 => ASCII
     pi = PhotometricInterpretation::RGB;
@@ -255,7 +262,10 @@ bool PNMCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
   unsigned int dims[3] = {};
   is >> dims[0]; is >> dims[1];
   unsigned int maxval;
-  is >> maxval;
+  if( type == "P4" )
+    maxval = 1;
+  else
+    is >> maxval;
   // http://netpbm.sourceforge.net/doc/pgm.html
   // some kind of empty line...
   if( is.peek() == '\n' )
@@ -266,7 +276,14 @@ bool PNMCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
   //assert(len < INT_MAX);
   //assert(pos < INT_MAX);
   size_t m = ((size_t)len - (size_t)pos ) / ( dims[0]*dims[1] );
-  if( m * dims[0] * dims[1] != (size_t)len - pos )
+  bool cond;
+  if( type == "P4" ) {
+    const size_t bytesPerRow = dims[0] / 8 + (dims[0] % 8 != 0 ? 1 : 0);
+    cond = bytesPerRow * dims[1] != ((size_t)len - (size_t)pos);
+  }
+  else
+    cond = m * dims[0] * dims[1] != (size_t)len - (size_t)pos;
+  if( cond )
     {
     std::cerr << "Problem computing length" << std::endl;
     std::cerr << "Pos: " << len - pos << std::endl;
@@ -302,7 +319,11 @@ bool PNMCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
 #else
   const int nbits = log2( maxval );
   // handle case where nbits = 0 also:
-  if( nbits > 0 && nbits <= 8 )
+  if( nbits > 0 && nbits <= 1 )
+    {
+    pf.SetBitsAllocated( 1 );
+    }
+  else if( nbits > 1 && nbits <= 8 )
     {
     pf.SetBitsAllocated( 8 );
     pf.SetBitsStored( (unsigned short)nbits );
@@ -332,11 +353,11 @@ bool PNMCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
   //image.SetTransferSyntax( TransferSyntax::ExplicitVRBigEndian ); // PGM are big endian
   //image.SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian ); // PGM are big endian
   //image.SetTransferSyntax( TransferSyntax::ImplicitVRBigEndianPrivateGE ); // PGM are big endian
-  if( pf.GetBitsAllocated() == 8 )
+  if( pf.GetBitsAllocated() > 8 )
+    ts = TransferSyntax::ImplicitVRBigEndianPrivateGE;
+  else
     //ts = TransferSyntax::ImplicitVRLittleEndian; // nicer to handle than private GE
     ts = TransferSyntax::ExplicitVRLittleEndian; // nicer to handle than private GE
-  else
-    ts = TransferSyntax::ImplicitVRBigEndianPrivateGE;
 
   SetPhotometricInterpretation( pi );
   SetPixelFormat( pf );
