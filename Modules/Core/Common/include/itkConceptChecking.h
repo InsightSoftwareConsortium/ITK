@@ -726,7 +726,7 @@ struct SameDimensionOrMinusOneOrTwo {
 template< typename T >
 struct IsInteger {
   using Self = IsInteger;
-  static constexpr bool Integral = NumericTraits< T >::is_integer;
+  static constexpr bool Integral = NumericTraits< T >::IsInteger;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
     using IntegralT = Detail::UniqueType_bool< Self::Integral >;
@@ -766,7 +766,7 @@ struct IsUnsignedInteger {
 template< typename T >
 struct IsNonInteger {
   using Self = IsNonInteger;
-  static constexpr bool NonIntegral = NumericTraits< T >::is_integer;
+  static constexpr bool NonIntegral = NumericTraits< T >::IsInteger;
   struct Constraints {
     using FalseT = Detail::UniqueType_bool< false >;
     using NonIntegralT = Detail::UniqueType_bool< Self::NonIntegral >;
@@ -785,8 +785,8 @@ struct IsNonInteger {
 template< typename T >
 struct IsFloatingPoint {
   using Self = IsFloatingPoint;
-  static constexpr bool Integral = NumericTraits< T >::is_integer;
-  static constexpr bool IsExact = NumericTraits< T >::is_exact;
+  static constexpr bool Integral = NumericTraits< T >::IsInteger;
+  static constexpr bool IsExact = std::numeric_limits< typename NumericTraits< T >::ValueType >::is_exact;
   struct Constraints {
     using FalseT = Detail::UniqueType_bool< false >;
     using IntegralT = Detail::UniqueType_bool< Self::Integral >;
@@ -808,8 +808,8 @@ struct IsFloatingPoint {
 template< typename T >
 struct IsFixedPoint {
   using Self = IsFixedPoint;
-  static constexpr bool Integral = NumericTraits< T >::is_integer;
-  static constexpr bool IsExact = NumericTraits< T >::is_exact;
+  static constexpr bool Integral = NumericTraits< T >::IsInteger;
+  static constexpr bool IsExact = std::numeric_limits< typename NumericTraits< T >::ValueType >::is_exact;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
     using FalseT = Detail::UniqueType_bool< false >;
