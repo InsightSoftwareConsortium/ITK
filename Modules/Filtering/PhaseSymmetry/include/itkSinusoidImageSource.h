@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSinusoidImageSource_h
-#define __itkSinusoidImageSource_h
+#ifndef itkSinusoidImageSource_h
+#define itkSinusoidImageSource_h
 
 #include "itkParametricImageSource.h"
 #include "itkFixedArray.h"
@@ -73,8 +73,8 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get the sinusoid phase shift in radians. */
-  itkSetMacro(phaseOffset, double);
-  itkGetConstMacro(phaseOffset, double);
+  itkSetMacro(PhaseOffset, double);
+  itkGetConstMacro(PhaseOffset, double);
   /** Set/Get the per-direction frequency in cycles / spatial unit. */
   itkSetMacro(Frequency, ArrayType);
   itkGetConstReferenceMacro(Frequency, ArrayType);
@@ -110,7 +110,7 @@ private:
   ArrayType m_Frequency;
 
   /** The phase shift. */
-  double m_phaseOffset;
+  double m_PhaseOffset;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Really only want to use a floating point pixel because the domain of the

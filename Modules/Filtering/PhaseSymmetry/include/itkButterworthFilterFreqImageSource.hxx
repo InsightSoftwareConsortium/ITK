@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkButterworthFilterFreqImageSource_hxx
-#define __itkButterworthFilterFreqImageSource_hxx
+#ifndef itkButterworthFilterFreqImageSource_hxx
+#define itkButterworthFilterFreqImageSource_hxx
 
 #include "itkButterworthFilterFreqImageSource.h"
 #include "itkImageRegionIteratorWithIndex.h"

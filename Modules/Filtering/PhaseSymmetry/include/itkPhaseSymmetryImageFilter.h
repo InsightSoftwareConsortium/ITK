@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPhaseSymmetryImageFilter_h
-#define __itkPhaseSymmetryImageFilter_h
+#ifndef itkPhaseSymmetryImageFilter_h
+#define itkPhaseSymmetryImageFilter_h
 
 #include "itkFFTShiftImageFilter.h"
 #include "itkArray2D.h"

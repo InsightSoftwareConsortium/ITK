@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLogGaborFreqImageSource_h
-#define __itkLogGaborFreqImageSource_h
+#ifndef itkLogGaborFreqImageSource_h
+#define itkLogGaborFreqImageSource_h
 
 #include "itkGenerateImageSource.h"
 

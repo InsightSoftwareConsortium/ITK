@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkButterworthFilterFreqImageSource_h
-#define __itkButterworthFilterFreqImageSource_h
+#ifndef itkButterworthFilterFreqImageSource_h
+#define itkButterworthFilterFreqImageSource_h
 
 #include "itkGenerateImageSource.h"
 
