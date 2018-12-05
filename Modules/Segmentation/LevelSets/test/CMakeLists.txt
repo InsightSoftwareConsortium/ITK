@@ -108,7 +108,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
 #     --compare GeodesicActiveContourLeftVentricleTest.png
 #             DATA{${WrapITK_SOURCE_DIR}/images/GeodesicActiveContourLeftVentricleTest.png}
     COMMAND GeodesicActiveContourImageFilterTest.py
-      DATA{INput/BrainProtonDensitySlice.png}
+      DATA{Input/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/GeodesicActiveContourLeftVentricleTest.png
       81 114 5.0 1.0 -0.5 3.0 2.0
     )
@@ -116,7 +116,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetVentricleTest
     TEST_DRIVER_ARGS
     --compare ${ITK_TEST_OUTPUT_DIR}/PythonThresholdSegmentationLevelSetVentricleTest.png
-              DATA{Baseline/PythonThresholdSegmentationLevelSetVentricleTest.png}
+              DATA{PythonThresholdSegmentationLevelSetVentricleTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilterTest.py
       DATA{Input/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonThresholdSegmentationLevelSetVentricleTest.png
@@ -126,7 +126,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetWhiteMatterTest
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetWhiteMatterTest.png
-        DATA{Baseline/PythonThresholdSegmentationLevelSetWhiteMatterTest.png}
+        DATA{PythonThresholdSegmentationLevelSetWhiteMatterTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilterTest.py
       DATA{Input/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetWhiteMatterTest.png
