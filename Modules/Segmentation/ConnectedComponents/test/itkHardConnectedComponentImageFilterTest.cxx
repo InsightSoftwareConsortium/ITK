@@ -38,14 +38,14 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
   using PixelType = TPixel;
   using InputImageType = itk::Image< bool, Dimension >;
   using OutputImageType = itk::Image< PixelType, Dimension >;
-  using IndexType = InputImageType::IndexType;
+  using IndexType = typename InputImageType::IndexType;
 
-  InputImageType::Pointer inputimg = InputImageType::New();
+  typename InputImageType::Pointer inputimg = InputImageType::New();
   IndexType index;
   index.Fill(0);
-  InputImageType::RegionType region;
+  typename InputImageType::RegionType region;
 
-  InputImageType::SizeType size;
+  typename InputImageType::SizeType size;
   size[0] = width;
   size[1] = height;
 

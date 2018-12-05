@@ -26,8 +26,6 @@ namespace Statistics
 {
 namespace Algorithm
 {
-#if !defined( _MSC_VER )
-
 template< typename TSize >
 TSize FloorLog(TSize size);
 
@@ -182,7 +180,6 @@ void IntrospectiveSort(TSubsample *sample,
                        int beginIndex, int endIndex,
                        int sizeThreshold);
 
-#endif // #if defined(_MSC_VER)
 } // end of namespace Algorithm
 } // end of namespace Statistics
 } // end of namespace itk
