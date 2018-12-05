@@ -52,8 +52,7 @@ LogGaborFreqImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent inden
 
 template <typename TOutputImage>
 void
-LogGaborFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                                            ThreadIdType                  itkNotUsed(threadId))
+LogGaborFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   OutputImageType * outputPtr = this->GetOutput();
   const SizeType    size = this->GetSize();

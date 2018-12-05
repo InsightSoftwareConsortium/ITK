@@ -127,18 +127,18 @@ protected:
   PhaseSymmetryImageFilter();
   virtual ~PhaseSymmetryImageFilter() {};
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply changes to the output image information. */
-  virtual void
-  GenerateOutputInformation();
+  void
+  GenerateOutputInformation() override;
 
   /** Apply changes to the input image requested region. */
-  virtual void
-  GenerateInputRequestedRegion();
+  void
+  GenerateInputRequestedRegion() override;
 
   void
-  GenerateData(void);
+  GenerateData() override;
 
   static const int FFT_FORWARD = -1;
   static const int FFT_BACKWARD = 1;

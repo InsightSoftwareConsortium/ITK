@@ -133,8 +133,8 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType tid) override;
-  virtual void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
   GenerateOutputInformation() override;
 
 private:

@@ -80,8 +80,8 @@ SteerableFilterFreqImageSource<TOutputImage>::GenerateOutputInformation()
 
 template <typename TOutputImage>
 void
-SteerableFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                                                   ThreadIdType                  itkNotUsed(threadId))
+SteerableFilterFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // The a pointer to the output image
 
