@@ -83,25 +83,25 @@ public:
    * templated over an N-dimensional output image type, the first N
    * values in the parameter array are the Frequency parameters in each
    * dimension, and the last value is the phaseOffset. */
-  virtual void
-  SetParameters(const ParametersType & parameters);
-  virtual ParametersType
-  GetParameters() const;
+  void
+  SetParameters(const ParametersType & parameters) override;
+  ParametersType
+  GetParameters() const override;
 
   /** Get the number of parameters for this image source. When this
    * source is templated over an N-dimensional output image type, the
    * number of parameters is 2*N+1. */
-  virtual unsigned int
-  GetNumberOfParameters() const;
+  unsigned int
+  GetNumberOfParameters() const override;
 
 protected:
   SinusoidImageSource();
   // ~SinusoidImageSource(); default implementation ok
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  GenerateData() ITK_OVERRIDE;
+  void
+  GenerateData() override;
 
 private:
   /** Parameters for the Sinusoid. */

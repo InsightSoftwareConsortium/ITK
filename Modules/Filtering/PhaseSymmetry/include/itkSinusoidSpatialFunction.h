@@ -72,7 +72,7 @@ public:
 
   /** Evaluate the function at a given position. */
   OutputType
-  Evaluate(const TInput & position) const;
+  Evaluate(const TInput & position) const override;
 
   /** Set/Get the sinusoid phase shift in radians. */
   itkSetMacro(phaseOffset, double);
@@ -85,7 +85,7 @@ protected:
   SinusoidSpatialFunction();
   virtual ~SinusoidSpatialFunction();
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The spatial frequency in each direction. */
