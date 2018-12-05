@@ -42,7 +42,7 @@ set(ITKImageFilterBaseGTests
 CreateGoogleTestDriver(ITKImageFilterBase "${ITKImageFilterBase-Test_LIBRARIES}" "${ITKImageFilterBaseGTests}")
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
-list(FIND "${ITK_WRAP_IMAGE_DIMS}" 2 wrap_2_index)
+list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
 if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonCastImageFilterTest
     TEST_DRIVER_ARGS

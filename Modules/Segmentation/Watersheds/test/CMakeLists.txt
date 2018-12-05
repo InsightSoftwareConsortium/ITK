@@ -159,7 +159,8 @@ itk_add_test(NAME itkMorphologicalWatershedImageFilterTestLevel50
               ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel50.png
     itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel50.png 1 0 50)
 
-if(ITK_WRAP_float AND WRAP_2)
+list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
+if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonWatershedSegmentation1Test
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonWatershedSegmentation1Test.png
