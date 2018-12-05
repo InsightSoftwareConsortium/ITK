@@ -252,7 +252,7 @@ MINCImageIO::MINCImageIO()
     }
 
   this->m_UseCompression = true;
-  this->m_ConvertCoordinatesToLPS = true;
+  this->m_ConvertCoordinatesToLPS = false;
   this->m_MINCPImpl->m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 =
                                 // maximum file compression
   this->m_MINCPImpl->m_Volume_type = MI_TYPE_FLOAT;
