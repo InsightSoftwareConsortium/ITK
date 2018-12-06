@@ -1,9 +1,3 @@
 itk_wrap_class("itk::ButterworthFilterFreqImageSource" POINTER)
-foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  foreach(t ${WRAP_ITK_COMPLEX_REAL})
-    itk_wrap_template("${ITKM_VI${t}${d}}"
-        "${ITKT_VI${t}${d}}"
-    )
-  endforeach()
-endforeach()
+itk_wrap_image_filter("${WRAP_ITK_REAL}" 1)
 itk_end_wrap_class()
