@@ -21,7 +21,8 @@ jobs:
         cmake --version
 
         export BUILD_SHARED_LIBS=ON
+        export CTEST_OUTPUT_ON_FAILURE=1
 
-        ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
+        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
       displayName: Build and Test
       workingDirectory: $(Agent.BuildDirectory)
