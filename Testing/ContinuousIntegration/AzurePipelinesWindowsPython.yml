@@ -25,7 +25,8 @@ jobs:
         set ITK_BUILD_DEFAULT_MODULES=OFF
         set CC=cl.exe
         set CXX=cl.exe
+        set CTEST_OUTPUT_ON_FAILURE=1
 
-        ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
+        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
       displayName: Build and Test
       workingDirectory: $(Agent.BuildDirectory)
