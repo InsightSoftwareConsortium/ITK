@@ -612,8 +612,19 @@ def set_inputs(new_itk_object, args=[], kargs={}):
             if attribName.islower():
                 attribName = _snake_to_camel(attribName)
             attrib = getattr(new_itk_object, 'Set' + attribName)
-            attrib(output(value))
 
+           # Do not use try-except mechanism as this leads to
+            # segfaults. Instead limit the number of types that are
+            # tested. The list of tested type could maybe be replaced by
+            # a test that would check for iterables.
+            if type(value) in [list, tuple]:
+                try:
+                    output_value = [output(x) for x in value]
+                    attrib(*output_value)
+                except:
+                    attrib(output(value))
+            else:
+                attrib(output(value))
 
 class templated_class:
 
