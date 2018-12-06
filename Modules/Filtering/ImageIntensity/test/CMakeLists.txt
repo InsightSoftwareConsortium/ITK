@@ -368,4 +368,8 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
       ${ITK_TEST_OUTPUT_DIR}/PythonSigmoidImageFilterTest.png
       10 240 10 170
     )
+    itk_python_add_test(NAME PythonIntensityWindowingImageFilterTest
+      COMMAND itkIntensityWindowingImageFilterTest.py
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      )
 endif()
