@@ -1,13 +1,13 @@
-itk_wrap_module(PhaseSymmetryFilter)
+itk_wrap_module(PhaseSymmetry)
 
 set(
   WRAPPER_SUBMODULE_ORDER
+  itkSinusoidSpatialFunction
+  itkSinusoidImageSource
+  itkSteerableFilterFreqImageSource
   itkButterworthFilterFreqImageSource
   itkLogGaborFreqImageSource
   itkPhaseSymmetryImageFilter
-  itkSinusoidImageSource
-  itkSinusoidSpatialFunction
-  itkSteerableFilterFreqImageSource
 )
 
 itk_auto_load_submodules()
