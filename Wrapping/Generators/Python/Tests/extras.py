@@ -182,6 +182,28 @@ series_reader = itk.ImageSeriesReader.New(
 series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 
+# test reading image series with itk.imread()
+image_series = itk.imread([fileName, fileName])
+assert image_series.GetImageDimension() == 3
+
+# Numeric series filename generation without any integer index. It is
+# only to produce an ITK object that users could set as an input to
+# `itk.ImageSeriesReader.New()` or `itk.imread()` and test that it works.
+numeric_series_filename = itk.NumericSeriesFileNames.New()
+numeric_series_filename.SetStartIndex(0)
+numeric_series_filename.SetEndIndex(3)
+numeric_series_filename.SetIncrementIndex(1)
+numeric_series_filename.SetSeriesFormat(fileName)
+image_series = itk.imread(numeric_series_filename.GetFileNames())
+number_of_files = len(numeric_series_filename.GetFileNames())
+assert image_series.GetImageDimension() == 3
+assert image_series.GetLargestPossibleRegion().GetSize()[2] == number_of_files
+
+# test reading image series with `itk.imread()` and check that dimension is
+# not increased if last dimension is 1.
+image_series = itk.imread([image_series3d_filename, image_series3d_filename])
+assert image_series.GetImageDimension() == 3
+
 # pipeline, auto_pipeline and templated class are tested in other files
 
 # BridgeNumPy

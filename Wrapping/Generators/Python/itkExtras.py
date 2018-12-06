@@ -454,22 +454,38 @@ def imwrite(image_or_filter, filename, compression=False):
     writer.Update()
 
 def imread(filename, pixel_type=None):
-    """Read an image from a file and return an itk.Image.
+    """Read an image from a file or series of files and return an itk.Image.
 
-    The reader is instantiated with the image type of the image file.
+    The reader is instantiated with the image type of the image file if
+    `pixel_type` is not provided (default). The dimension of the image is
+    automatically found. If the given filename is a list or a tuple, the
+    reader will use an itk.ImageSeriesReader object to read the files.
     """
     import itk
+    if type(filename) in [list, tuple]:
+        TemplateReaderType=itk.ImageSeriesReader
+        io_filename=filename[0]
+        increase_dimension=True
+        kwargs={'FileNames':filename}
+    else:
+        TemplateReaderType=itk.ImageFileReader
+        io_filename=filename
+        increase_dimension=False
+        kwargs={'FileName':filename}
     if pixel_type:
-        imageIO = itk.ImageIOFactory.CreateImageIO(filename, itk.ImageIOFactory.ReadMode)
+        imageIO = itk.ImageIOFactory.CreateImageIO(io_filename, itk.ImageIOFactory.ReadMode)
         if not imageIO:
             raise RuntimeError("No ImageIO is registered to handle the given file.")
-        imageIO.SetFileName( filename )
+        imageIO.SetFileName(io_filename)
         imageIO.ReadImageInformation()
         dimension = imageIO.GetNumberOfDimensions()
+        # Increase dimension if last dimension is not of size one.
+        if increase_dimension and imageIO.GetDimensions(dimension-1) != 1:
+            dimension += 1
         ImageType=itk.Image[pixel_type,dimension]
-        reader = itk.ImageFileReader[ImageType].New(FileName=filename)
+        reader = TemplateReaderType[ImageType].New(**kwargs)
     else:
-        reader = itk.ImageFileReader.New(FileName=filename)
+        reader = TemplateReaderType.New(**kwargs)
     reader.Update()
     return reader.GetOutput()
 
