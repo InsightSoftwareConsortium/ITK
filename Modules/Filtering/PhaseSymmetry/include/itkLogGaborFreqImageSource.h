@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLogGaborFreqImageSource_h
-#define __itkLogGaborFreqImageSource_h
+#ifndef itkLogGaborFreqImageSource_h
+#define itkLogGaborFreqImageSource_h
 
 #include "itkGenerateImageSource.h"
 
@@ -68,10 +68,10 @@ public:
 protected:
   LogGaborFreqImageSource();
   virtual ~LogGaborFreqImageSource();
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-  virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   // Ratio of k/wo in each direction

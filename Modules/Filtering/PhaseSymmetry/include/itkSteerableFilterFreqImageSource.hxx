@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSteerableFilterFreqImageSource_hxx
-#define __itkSteerableFilterFreqImageSource_hxx
+#ifndef itkSteerableFilterFreqImageSource_hxx
+#define itkSteerableFilterFreqImageSource_hxx
 
 #include "itkSteerableFilterFreqImageSource.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -80,8 +80,8 @@ SteerableFilterFreqImageSource<TOutputImage>::GenerateOutputInformation()
 
 template <typename TOutputImage>
 void
-SteerableFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                                                   ThreadIdType                  itkNotUsed(threadId))
+SteerableFilterFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // The a pointer to the output image
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSinusoidSpatialFunction_h
-#define __itkSinusoidSpatialFunction_h
+#ifndef itkSinusoidSpatialFunction_h
+#define itkSinusoidSpatialFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkFixedArray.h"
@@ -72,11 +72,11 @@ public:
 
   /** Evaluate the function at a given position. */
   OutputType
-  Evaluate(const TInput & position) const;
+  Evaluate(const TInput & position) const override;
 
   /** Set/Get the sinusoid phase shift in radians. */
-  itkSetMacro(phaseOffset, double);
-  itkGetConstMacro(phaseOffset, double);
+  itkSetMacro(PhaseOffset, double);
+  itkGetConstMacro(PhaseOffset, double);
   /** Set/Get the per-direction frequency in cycles / spatial unit. */
   itkSetMacro(Frequency, ArrayType);
   itkGetConstReferenceMacro(Frequency, ArrayType);
@@ -85,14 +85,14 @@ protected:
   SinusoidSpatialFunction();
   virtual ~SinusoidSpatialFunction();
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The spatial frequency in each direction. */
   ArrayType m_Frequency;
 
   /** The phase shift. */
-  double m_phaseOffset;
+  double m_PhaseOffset;
 };
 } // end namespace itk
 

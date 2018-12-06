@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSteerableFilterFreqImageSource_h
-#define __itkSteerableFilterFreqImageSource_h
+#ifndef itkSteerableFilterFreqImageSource_h
+#define itkSteerableFilterFreqImageSource_h
 
 #include "itkImageSource.h"
 #include "itkFixedArray.h"
@@ -131,11 +131,11 @@ protected:
   SteerableFilterFreqImageSource();
   ~SteerableFilterFreqImageSource();
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType tid);
-  virtual void
-  GenerateOutputInformation();
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  GenerateOutputInformation() override;
 
 private:
   SizeValueType m_Size[NDimensions]; // size of the output image

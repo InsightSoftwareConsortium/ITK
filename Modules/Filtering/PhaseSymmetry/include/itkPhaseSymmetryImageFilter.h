@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPhaseSymmetryImageFilter_h
-#define __itkPhaseSymmetryImageFilter_h
+#ifndef itkPhaseSymmetryImageFilter_h
+#define itkPhaseSymmetryImageFilter_h
 
 #include "itkFFTShiftImageFilter.h"
 #include "itkArray2D.h"
@@ -127,18 +127,18 @@ protected:
   PhaseSymmetryImageFilter();
   virtual ~PhaseSymmetryImageFilter() {};
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply changes to the output image information. */
-  virtual void
-  GenerateOutputInformation();
+  void
+  GenerateOutputInformation() override;
 
   /** Apply changes to the input image requested region. */
-  virtual void
-  GenerateInputRequestedRegion();
+  void
+  GenerateInputRequestedRegion() override;
 
   void
-  GenerateData(void);
+  GenerateData() override;
 
   static const int FFT_FORWARD = -1;
   static const int FFT_BACKWARD = 1;

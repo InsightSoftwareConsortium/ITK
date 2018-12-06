@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSinusoidImageSource_hxx
-#define __itkSinusoidImageSource_hxx
+#ifndef itkSinusoidImageSource_hxx
+#define itkSinusoidImageSource_hxx
 
 #include "itkSinusoidImageSource.h"
 #include "itkSinusoidSpatialFunction.h"
@@ -28,7 +28,7 @@ namespace itk
 
 template <typename TOutputImage>
 SinusoidImageSource<TOutputImage>::SinusoidImageSource()
-  : m_phaseOffset(0.0)
+  : m_PhaseOffset(0.0)
 {
   m_Frequency.Fill(1.0);
 }
@@ -51,7 +51,7 @@ SinusoidImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) c
   }
   os << "]" << std::endl;
 
-  os << indent << "Sinusoid phase shift: " << m_phaseOffset << std::endl;
+  os << indent << "Sinusoid phase shift: " << m_PhaseOffset << std::endl;
 }
 
 
@@ -67,7 +67,7 @@ SinusoidImageSource<TOutputImage>::SetParameters(const ParametersType & paramete
   this->SetFrequency(frequency);
 
   const double phaseOffset = parameters[ArrayType::Length];
-  this->SetphaseOffset(phaseOffset);
+  this->SetPhaseOffset(phaseOffset);
 }
 
 
@@ -80,7 +80,7 @@ SinusoidImageSource<TOutputImage>::GetParameters() const
   {
     parameters[ii] = m_Frequency[ii];
   }
-  parameters[ArrayType::Length] = m_phaseOffset;
+  parameters[ArrayType::Length] = m_PhaseOffset;
 
   return parameters;
 }
@@ -109,7 +109,7 @@ SinusoidImageSource<TOutputImage>::GenerateData()
   typename FunctionType::Pointer sinusoid = FunctionType::New();
 
   sinusoid->SetFrequency(m_Frequency);
-  sinusoid->SetphaseOffset(m_phaseOffset);
+  sinusoid->SetPhaseOffset(m_PhaseOffset);
 
   // Create an iterator that will walk the output region
   using OutputIterator = ImageRegionIterator<TOutputImage>;

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkButterworthFilterFreqImageSource_h
-#define __itkButterworthFilterFreqImageSource_h
+#ifndef itkButterworthFilterFreqImageSource_h
+#define itkButterworthFilterFreqImageSource_h
 
 #include "itkGenerateImageSource.h"
 
@@ -70,10 +70,10 @@ protected:
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-  virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   double m_Cutoff;

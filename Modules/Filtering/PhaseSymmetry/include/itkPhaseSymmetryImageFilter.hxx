@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPhaseSymmetryImageFilter_hxx
-#define __itkPhaseSymmetryImageFilter_hxx
+#ifndef itkPhaseSymmetryImageFilter_hxx
+#define itkPhaseSymmetryImageFilter_hxx
 
 #include "itkPhaseSymmetryImageFilter.h"
 #include <string>

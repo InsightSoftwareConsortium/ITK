@@ -77,7 +77,7 @@ itkSinusoidImageSourceTest(int argc, char * argv[])
   source->SetOrigin(origin);
   source->SetSpacing(spacing);
   source->SetFrequency(frequency);
-  source->SetphaseOffset(0.3);
+  source->SetPhaseOffset(0.3);
 
   // Test the get macros as well (booorrring...)
   source->GetSize();
@@ -85,7 +85,7 @@ itkSinusoidImageSourceTest(int argc, char * argv[])
   source->GetOrigin();
   source->GetDirection();
   source->GetFrequency();
-  source->GetphaseOffset();
+  source->GetPhaseOffset();
 
   // Test the get/set parameters
   SinusoidSourceType::ParametersType params = source->GetParameters();
@@ -122,10 +122,10 @@ itkSinusoidImageSourceTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  if (source->GetphaseOffset() != params[3])
+  if (source->GetPhaseOffset() != params[3])
   {
     std::cerr << "phaseOffset disagrees with parameters array." << std::endl;
-    std::cerr << "phaseOffset: " << source->GetphaseOffset() << ", parameters: " << params[3] << std::endl;
+    std::cerr << "phaseOffset: " << source->GetPhaseOffset() << ", parameters: " << params[3] << std::endl;
     return EXIT_FAILURE;
   }
 

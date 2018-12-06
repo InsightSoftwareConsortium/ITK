@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSinusoidImageSource_h
-#define __itkSinusoidImageSource_h
+#ifndef itkSinusoidImageSource_h
+#define itkSinusoidImageSource_h
 
 #include "itkParametricImageSource.h"
 #include "itkFixedArray.h"
@@ -73,8 +73,8 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get the sinusoid phase shift in radians. */
-  itkSetMacro(phaseOffset, double);
-  itkGetConstMacro(phaseOffset, double);
+  itkSetMacro(PhaseOffset, double);
+  itkGetConstMacro(PhaseOffset, double);
   /** Set/Get the per-direction frequency in cycles / spatial unit. */
   itkSetMacro(Frequency, ArrayType);
   itkGetConstReferenceMacro(Frequency, ArrayType);
@@ -83,25 +83,25 @@ public:
    * templated over an N-dimensional output image type, the first N
    * values in the parameter array are the Frequency parameters in each
    * dimension, and the last value is the phaseOffset. */
-  virtual void
-  SetParameters(const ParametersType & parameters);
-  virtual ParametersType
-  GetParameters() const;
+  void
+  SetParameters(const ParametersType & parameters) override;
+  ParametersType
+  GetParameters() const override;
 
   /** Get the number of parameters for this image source. When this
    * source is templated over an N-dimensional output image type, the
    * number of parameters is 2*N+1. */
-  virtual unsigned int
-  GetNumberOfParameters() const;
+  unsigned int
+  GetNumberOfParameters() const override;
 
 protected:
   SinusoidImageSource();
   // ~SinusoidImageSource(); default implementation ok
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
-  GenerateData() ITK_OVERRIDE;
+  void
+  GenerateData() override;
 
 private:
   /** Parameters for the Sinusoid. */
@@ -110,7 +110,7 @@ private:
   ArrayType m_Frequency;
 
   /** The phase shift. */
-  double m_phaseOffset;
+  double m_PhaseOffset;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Really only want to use a floating point pixel because the domain of the
