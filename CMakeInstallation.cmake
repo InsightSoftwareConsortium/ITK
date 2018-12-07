@@ -125,7 +125,7 @@ else ()
 endif ()
 configure_file (
     ${HDF_RESOURCES_DIR}/libhdf5.settings.cmake.in
-    ${HDF5_BINARY_DIR}/libhdf5.settings @ONLY
+    ${HDF5_BINARY_DIR}/libhdf5.settings ESCAPE_QUOTES @ONLY
 )
 install (
     FILES ${HDF5_BINARY_DIR}/libhdf5.settings
@@ -215,6 +215,7 @@ if (NOT HDF5_EXTERNALLY_CONFIGURED)
     if (HDF5_PACK_INSTALL_DOCS)
       set (release_files
           ${release_files}
+          ${HDF5_SOURCE_DIR}/release_docs/INSTALL_Warnings.txt
           ${HDF5_SOURCE_DIR}/release_docs/INSTALL_CMake.txt
           ${HDF5_SOURCE_DIR}/release_docs/HISTORY-1_8.txt
           ${HDF5_SOURCE_DIR}/release_docs/INSTALL

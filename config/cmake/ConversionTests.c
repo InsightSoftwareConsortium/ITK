@@ -9,7 +9,7 @@
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-+
+
 #if defined(__has_attribute)
 #if __has_attribute(no_sanitize)
 #define HDF_NO_UBSAN __attribute__((no_sanitize("undefined")))

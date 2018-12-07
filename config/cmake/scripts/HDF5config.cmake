@@ -34,8 +34,8 @@ cmake_minimum_required (VERSION 3.10)
 #     CTEST_SOURCE_NAME  -  source folder
 ##############################################################################
 
-set (CTEST_SOURCE_VERSION "1.10.3")
-set (CTEST_SOURCE_VERSEXT "")
+set (CTEST_SOURCE_VERSION "1.10.5")
+set (CTEST_SOURCE_VERSEXT "-snap1")
 
 ##############################################################################
 # handle input parameters to script.
@@ -184,7 +184,7 @@ set (MODEL "Experimental")
 #####       Following controls source update                  #####
 #set (LOCAL_UPDATE "TRUE")
 set (REPOSITORY_URL "https://git@bitbucket.hdfgroup.org/scm/hdffv/hdf5.git")
-set (REPOSITORY_BRANCH "hdf5_1_10_3")
+set (REPOSITORY_BRANCH "hdf5_1_10_4")
 
 #uncomment to use a compressed source file: *.tar on linux or mac *.zip on windows
 #set(CTEST_USE_TAR_SOURCE "${CTEST_SOURCE_VERSION}")
