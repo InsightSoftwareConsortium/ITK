@@ -265,6 +265,13 @@ Otsu filters now return correct threshold (bin's maximum value instead of mid-po
 To keep old behavior, use `filter->SetReturnBinMidpoint( true );`.
 This change should be relevant only in tests.
 
+`HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>` no longer
+has a default argument for its last template parameter. Instead, users of the filter should now
+explicitly specify all three template arguments. Earlier versions of ITK assumed that the radius
+pixel type should be the same as `TOutputPixelType`. However, it appears that for the radius pixel
+type (`TRadiusPixelType`), a floating point type is often preferred, whereas for the accumulator
+output pixel type (`TOutputPixelType`), an unsigned integer type is often more appropriate.
+
 With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
 `itk::ProcessObject::VerifyInputInformation` are now declared `const`,
 so if you have overridden these virtual member function, make sure that you
