@@ -174,7 +174,7 @@ private:
     PixelProxy(const PixelProxy&) ITK_NOEXCEPT = default;
 
     // Constructor, called directly by operator*() of the iterator class.
-    PixelProxy(
+    explicit PixelProxy(
       InternalPixelType& internalPixel,
       const AccessorFunctorType& accessorFunctor) ITK_NOEXCEPT
       :
@@ -260,12 +260,21 @@ private:
     public:
       QualifiedPixelType& m_Pixel;
 
-      explicit PixelReferenceWrapper(QualifiedPixelType& pixel, ...) ITK_NOEXCEPT
+      // Wraps the pixel reference that is specified by the first argument.
+      // Note: the second parameter is unused, but it is there just to support
+      // the use case of iterator::operator*(), which uses either
+      // PixelReferenceWrapper or PixelProxy, interchangeable, in a generic way.
+      // (PixelProxy has an explicit constructor for which the second parameter
+      // is its essential AccessorFunctor parameter!)
+      explicit PixelReferenceWrapper(
+        QualifiedPixelType& pixel,
+        EmptyAccessorFunctor) ITK_NOEXCEPT
         :
       m_Pixel(pixel)
       {
       }
 
+      // Converts implicitly to a reference to the pixel.
       operator QualifiedPixelType&() const ITK_NOEXCEPT
       {
         return m_Pixel;
