@@ -93,7 +93,7 @@ public:
   using typename Superclass::ImageIndexType;
   using typename Superclass::OffsetType;
   using typename Superclass::PointType;
-  using typename Superclass::RegionType; // using RegionType = typename Superclass::RegionType;
+  using RegionType = typename Superclass::RegionType;
   using typename Superclass::SpacingType;
 
   /**  Type for the transform. */
