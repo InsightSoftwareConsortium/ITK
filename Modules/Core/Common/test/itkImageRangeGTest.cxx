@@ -20,6 +20,7 @@
 #include "itkImageRange.h"
 
 #include "itkImage.h"
+#include "itkMacro.h" // For itkNotUsed.
 #include "itkVectorImage.h"
 
 #include <gtest/gtest.h>
@@ -88,6 +89,63 @@ namespace
       bufferPointer[i] =  static_cast<typename TImage::PixelType>(i + 1);
     }
     return image;
+  }
+
+
+  template< typename TPixel, unsigned VImageDimension >
+  void SetVectorLengthIfImageIsVectorImage(
+    itk::VectorImage<TPixel, VImageDimension>& image,
+    const unsigned vectorLength)
+  {
+    image.SetVectorLength(vectorLength);
+  }
+
+
+  template< typename TPixel, unsigned VImageDimension >
+  void SetVectorLengthIfImageIsVectorImage(
+    itk::Image<TPixel, VImageDimension>& itkNotUsed(image),
+    const unsigned itkNotUsed(vectorLength))
+  {
+    // Do not set the VectorLength. The specified image is not a VectorImage.
+  }
+
+
+  template <typename TRange>
+  void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(defaultConstructedRange.begin(), defaultConstructedRange.end());
+  }
+
+
+  template <typename TRange>
+  void ExpectZeroSizeWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(defaultConstructedRange.size(), 0);
+  }
+
+
+  template <typename TRange>
+  void ExpectRangeIsEmptyWhenDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_TRUE(defaultConstructedRange.empty());
+  }
+
+
+  template <typename TImage>
+  void ExpectRangeIsNotEmptyForNonEmptyImage()
+  {
+    // First create a non-empty image:
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(1);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate();
+
+    EXPECT_FALSE(ImageRange<TImage>{ *image }.empty());
   }
 
 }  // namespace
@@ -642,4 +700,36 @@ TEST(ImageRange, ProvidesReverseIterators)
   // The real tests:
   EXPECT_EQ(reversedStdVector1, reversedStdVector2);
   EXPECT_EQ(reversedStdVector1, reversedStdVector3);
+}
+
+
+// Tests that begin() == end() for a default-constructed range.
+TEST(ImageRange, BeginIsEndWhenDefaultConstructed)
+{
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageRange<itk::Image<int>>>();
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests that size() returns 0 for a default-constructed range.
+TEST(ImageRange, SizeIsZeroWhenDefaultConstructed)
+{
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageRange<itk::Image<int>>>();
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests empty() for a default-constructed range.
+TEST(ImageRange, IsEmptyWhenDefaultConstructed)
+{
+  ExpectRangeIsEmptyWhenDefaultConstructed<ImageRange<itk::Image<int>>>();
+  ExpectRangeIsEmptyWhenDefaultConstructed<ImageRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests that range.empty() returns false for a non-empty image.
+TEST(ImageRange, IsNotEmptyWhenImageIsNonEmpty)
+{
+  ExpectRangeIsNotEmptyForNonEmptyImage<itk::Image<int>>();
+  ExpectRangeIsNotEmptyForNonEmptyImage<itk::VectorImage<int>>();
 }

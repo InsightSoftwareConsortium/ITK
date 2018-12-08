@@ -521,17 +521,23 @@ private:
   // The accessor functor of the image.
   OptionalAccessorFunctorType m_OptionalAccessorFunctor;
 
-  // Pointer to the buffer of the image. Should not be null.
-  QualifiedInternalPixelType* m_ImageBufferPointer;
+  // Pointer to the buffer of the image.
+  QualifiedInternalPixelType* m_ImageBufferPointer = nullptr;
 
   // Image size.
-  SizeValueType m_NumberOfPixels;
+  SizeValueType m_NumberOfPixels = 0;
 
 public:
   using const_iterator = QualifiedIterator<true>;
   using iterator = QualifiedIterator<false>;
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+
+  /** Constructs an empty range
+   */
+  ImageRange() = default;
+
 
   /** Specifies a range of the pixels of an image.
    */
@@ -549,14 +555,12 @@ public:
   /** Returns an iterator to the first pixel. */
   iterator begin() const ITK_NOEXCEPT
   {
-    assert(m_ImageBufferPointer != nullptr);
     return iterator{ m_OptionalAccessorFunctor, m_ImageBufferPointer };
   }
 
   /** Returns an 'end iterator' for this range. */
   iterator end() const ITK_NOEXCEPT
   {
-    assert(m_ImageBufferPointer != nullptr);
     return iterator{ m_OptionalAccessorFunctor, m_ImageBufferPointer + m_NumberOfPixels, };
   }
 
@@ -602,6 +606,13 @@ public:
   std::size_t size() const ITK_NOEXCEPT
   {
     return m_NumberOfPixels;
+  }
+
+
+  /** Tells whether the range is empty. */
+  bool empty() const ITK_NOEXCEPT
+  {
+    return m_NumberOfPixels == 0;
   }
 
 
