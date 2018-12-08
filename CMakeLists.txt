@@ -1,14 +1,31 @@
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-
-foreach(p
-    CMP0025 # CMake 3.0
-    CMP0028
-    CMP0042 # CMake 3.0
-    CMP0048
-    CMP0054 # CMake 3.1
-    CMP0056 # CMake 3.2
-    CMP0058 # CMake 3.3
-    CMP0063 # CMake 3.3.2
+# ==== Define cmake build policies that affect compilation and linkage default behaviors
+#
+# Set the ITK_NEWEST_VALIDATED_POLICIES_VERSION string to the newest cmake version
+# policies that provide successful builds. By setting ITK_NEWEST_VALIDATED_POLICIES_VERSION
+# to a value greater than the oldest policies, all policies between
+# ITK_OLDEST_VALIDATED_POLICIES_VERSION and CMAKE_VERSION (used for this build)
+# are set to their NEW behaivor, thereby suppressing policy warnings related to policies
+# between the ITK_OLDEST_VALIDATED_POLICIES_VERSION and CMAKE_VERSION.
+#
+# CMake versions greater than the ITK_NEWEST_VALIDATED_POLICIES_VERSION policies will
+# continue to generate policy warnings "CMake Warning (dev)...Policy CMP0XXX is not set:"
+#
+set(ITK_OLDEST_VALIDATED_POLICIES_VERSION "2.8.12")
+# Released Nov 10, 2017 before v4.13.0
+set(ITK_NEWEST_VALIDATED_POLICIES_VERSION "3.9.6")
+cmake_minimum_required(VERSION ${ITK_OLDEST_VALIDATED_POLICIES_VERSION} FATAL_ERROR)
+if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "${ITK_NEWEST_VALIDATED_POLICIES_VERSION}")
+  #Set and use the newest available cmake policies that are validated to work
+  set(ITK_CMAKE_POLICY_VERSION "${CMAKE_VERSION}")
+else()
+  set(ITK_CMAKE_POLICY_VERSION "${ITK_NEWEST_VALIDATED_POLICIES_VERSION}")
+endif()
+cmake_policy(VERSION ${ITK_CMAKE_POLICY_VERSION})
+#
+# Now enumerate specific policies newer than ITK_NEWEST_VALIDATED_POLICIES_VERSION
+# that may need to be individually set to NEW/OLD
+#
+foreach(p ""
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
