@@ -18,6 +18,8 @@ itk_module(Montage
     ITKTransform
     ITKIOImageBase
     ITKImageFrequency
+  COMPILE_DEPENDS
+    ITKDoubleConversion
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
     # ITKIOHDF5 # hdf5 is another format which supports streaming
