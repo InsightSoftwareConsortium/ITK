@@ -18,6 +18,7 @@
 
 #include "itkMockMontageHelper.hxx"
 #include "itkMontageTestHelper.hxx"
+#include "itkParseTileConfiguration.h"
 
 int itkMontageTestOMC(int argc, char* argv[])
 {
@@ -39,6 +40,10 @@ int itkMontageTestOMC(int argc, char* argv[])
 
   PositionTableType stageCoords, actualCoords;
   FilenameTableType filenames;
+
+  std::vector< std::vector< itk::Tile< 2 > > > tc =
+    itk::ParseTileConfiguration2D( std::string( argv[1] ) + "/TileConfiguration.txt" );
+  tc = itk::ParseTileConfiguration2D( std::string( argv[1] ) + "/TileConfiguration.registered.txt" );
 
   // read coordinates from files
   std::ifstream fStage( std::string( argv[1] ) + "/TileConfiguration.txt" );
