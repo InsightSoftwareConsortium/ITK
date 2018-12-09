@@ -135,6 +135,7 @@ static gxml_data GXD = {
     GIFTI_B64_CHECK_SKIPNCOUNT, /* b64_check, for b64 errors  */
     1,          /* assume it is okay to update metadata       */
     GZ_DEFAULT_COMPRESSION, /* zlevel, compress level, -1..9  */
+    1,          /* perm_by_iord: permute by index order       */
 
     NULL,       /* da_list, list of DA indices to store       */
     0,          /* da_len, length of da_list                  */
@@ -285,7 +286,7 @@ gifti_image * gxml_read_image(const char * fname, int read_data,
             { gifti_free_image(xd->gim); xd->gim = NULL; break; }
 
         blen = fread(buf, 1, bsize, fp);
-        done = blen < sizeof(buf);
+        done = blen < bsize;
 
         if(xd->verb > 3) fprintf(stderr,"-- XML_Parse # %d\n", pcount);
         pcount++;
@@ -308,6 +309,113 @@ gifti_image * gxml_read_image(const char * fname, int read_data,
     }
 
     fclose(fp);
+    if( buf ) free(buf);        /* parser buffer */
+    XML_ParserFree(parser);
+
+    if( dalist && xd->da_list )
+        if( apply_da_list_order(xd, dalist, dalen) ) {
+            fprintf(stderr,"** failed apply_da_list_order\n");
+            gifti_free_image(xd->gim);
+            xd->gim = NULL;
+        }
+
+    free_xd_data(xd);  /* free data buffers */
+
+    /* if auto-permute, convert to row major order (appropriate for C) */
+    if( xd->perm_by_iord && read_data ) {
+      if( gifti_convert_ind_ord(xd->gim, GIFTI_IND_ORD_ROW_MAJOR) > 0 )
+        if( xd->verb > 0 )
+          fprintf(stderr,"++ converted data to row major order: %s\n",fname);
+    }
+
+    return xd->gim;
+}
+
+
+/* note: the buffer needs to be large enough to contain any contiguous
+         piece of (CDATA?) text, o.w. it will require parsing in pieces */
+gifti_image * gxml_read_image_buf(const char * buf_in, long long bin_len,
+                                  const int * dalist, int dalen)
+{
+    gxml_data  * xd = &GXD;     /* point to global struct */
+    XML_Parser   parser;
+    long long    bin_remain = bin_len;  /* remaining bytes to process */
+    const char * bin_ptr = buf_in;      /* current buffer location */
+    const char * fname = "FROM_BUFFER";
+    unsigned     blen;
+    char       * buf = NULL;
+    int          bsize;    /* be sure it doesn't change at some point */
+    int          done = 0, pcount = 1;
+
+    if( init_gxml_data(xd, 0, dalist, dalen) ) /* reset non-user variables */
+        return NULL;
+
+    xd->dstore = 1;  /* store for global access */
+
+    if( !buf_in || bin_len < 0 ) {
+        fprintf(stderr,"** gxml_read_image_buf: missing buffer\n");
+        return NULL;
+    }
+
+    /* create a new buffer */
+    bsize = 0;
+    if( reset_xml_buf(xd, &buf, &bsize) ) return NULL;
+
+    if(xd->verb > 1) {
+        fprintf(stderr,"-- reading gifti image '%s'\n", fname);
+        if(xd->da_list) fprintf(stderr,"   (length %d DA list)\n", xd->da_len);
+        fprintf(stderr,"-- using %d byte XML buffer\n",bsize);
+        if(xd->verb > 4) show_enames(stderr);
+    }
+
+    /* allocate return structure */
+    xd->gim = (gifti_image *)calloc(1,sizeof(gifti_image));
+    if( !xd->gim ) {
+        fprintf(stderr,"** failed to alloc initial gifti_image\n");
+        free(buf);
+        return NULL;
+    }
+
+    /* create parser, init handlers */
+    parser = init_xml_parser((void *)xd);
+
+    while( !done )
+    {
+        if( reset_xml_buf(xd, &buf, &bsize) )  /* fail out */
+            { gifti_free_image(xd->gim); xd->gim = NULL; break; }
+
+        /*--- replace fread with buffer copy ---*/
+
+        /* decide how much to copy and copy */
+        if( bin_remain >= bsize ) blen = bsize;
+        else                      blen = bin_remain;
+
+        memcpy(buf, bin_ptr, bsize);
+
+        /* update bytes remaining to process and decide if done */
+        bin_remain -= bsize;
+        done = bin_remain <= 0;
+
+        if(xd->verb > 3) fprintf(stderr,"-- XML_Parse # %d\n", pcount);
+        pcount++;
+        if( XML_Parse(parser, buf, blen, done) == XML_STATUS_ERROR) {
+            fprintf(stderr,"** %s at line %u\n",
+                    XML_ErrorString(XML_GetErrorCode(parser)),
+                    (unsigned int)XML_GetCurrentLineNumber(parser));
+            gifti_free_image(xd->gim);
+            xd->gim = NULL;
+            break;
+        }
+    }
+
+    if(xd->verb > 1) {
+        if(xd->gim)
+            fprintf(stderr,"-- have gifti image '%s', "
+                           "(%d DA elements = %lld MB)\n",
+                    fname, xd->gim->numDA, gifti_gim_DA_size(xd->gim,1));
+        else fprintf(stderr,"** gifti image '%s', failure\n", fname);
+    }
+
     if( buf ) free(buf);        /* parser buffer */
     XML_ParserFree(parser);
 
@@ -553,6 +661,20 @@ int gxml_set_zlevel( int val )
     else return 1;      /* failure - no action */
     return 0;
 }
+
+/*! perm_by_iord specifies whether to permute the data to row major
+    index order (since this is C) upon read
+    (-1 is used to initialize to the default)      28 Apr 2017 [rickr] */
+int gxml_get_perm_by_iord( void    ){ return GXD.perm_by_iord; }
+int gxml_set_perm_by_iord( int val )
+{
+    if( val == -1 )
+        GXD.perm_by_iord = 1;
+    else if ( val >= 0 && val <= 1 )
+        GXD.perm_by_iord = val;
+    else return 1;      /* failure - no action */
+    return 0;
+}
 /*----------------------- END accessor functions -----------------------*/
 
 
@@ -568,6 +690,7 @@ static int init_gxml_data(gxml_data *dp, int doall, const int *dalist, int len)
         dp->b64_check = GIFTI_B64_CHECK_SKIPNCOUNT;
         dp->update_ok = 1;
         dp->zlevel    = GZ_DEFAULT_COMPRESSION;
+        dp->perm_by_iord = 1;
     }
 
     if( dalist && len > 0 ) {
@@ -1510,7 +1633,11 @@ static void XMLCALL cb_char(void *udata, const char * cdata, int length)
         case GXML_ETYPE_XFORMSPACE :
             if( xd->verb > 4 )
                 fprintf(stderr,"++ append cdata, parent %s\n",enames[parent]);
+            /* append only if cdata   23 Fef 2016 [rdvincent] */
+            if( xd->cdata )
             (void)append_to_cdata(xd, cdata, length);
+            else if ( xd->verb > 4 )
+                fprintf(stderr, "   missing cdata...\n");
             break;
 
         case GXML_ETYPE_CDATA      :
@@ -2166,6 +2293,26 @@ static int decode_ascii(gxml_data * xd, char * cdata, int cdlen, int type,
             if(xd->verb > 6) fputc('\n', stderr);
             break;
         }
+        case NIFTI_TYPE_COMPLEX64: {
+            /* there are 2 pieces to each complex, so read and insert 1 at a
+               time, and increment 'vals' only after each second piece */
+            static int piece = 0;
+            float * ptr = (float *)dptr;
+            p1 = cdata;
+            prev = p1;
+            while( (vals < 0 || vals < *nvals) && p1 ) {
+                dval = strtod(p1, &p2); /* try to read next value */
+                if( p1 == p2 ) break;   /* nothing read, terminate loop */
+                prev = p1;              /* store old success ptr */
+                p1 = p2;                /* move to next posn */
+                ptr[2*vals+piece] = dval; /* assign new value  */
+                if(xd->verb>6) fprintf(stderr,"  v %f (%f)", ptr[2*vals],dval);
+                if( piece == 1 ) vals++; /* have a complete data value */
+                piece = 1-piece;
+            }
+            if(xd->verb > 6) fputc('\n', stderr);
+            break;
+        }
         case NIFTI_TYPE_FLOAT64: {
             double * ptr = (double *)dptr;
             p1 = cdata;
@@ -2178,6 +2325,28 @@ static int decode_ascii(gxml_data * xd, char * cdata, int cdlen, int type,
                 ptr[vals] = dval;       /* assign new value  */
                 if(xd->verb>6)fprintf(stderr,"  v %f (%f)",ptr[vals],dval);
                 vals++;                 /* count new value   */
+            }
+            if(xd->verb > 6) fputc('\n', stderr);
+            break;
+        }
+        case NIFTI_TYPE_RGB24: {
+            /* there are 3 pieces to each RGB24, so read and insert 1 at a
+               time, and increment 'vals' only after each third piece */
+            static int piece = 0;
+            unsigned char * ptr = (unsigned char *)dptr;
+            p1 = cdata;
+            prev = p1;
+            /* vals could be < 0, but we must care for promotion to size_t */
+            while( (vals < 0 || vals < *nvals) && p1 ) {
+                lval = strtol(p1, &p2, 10);   /* try to read next value */
+                if( p1 == p2 ) break;   /* nothing read, terminate loop */
+                prev = p1;              /* store old success ptr */
+                p1 = p2;                /* move to next posn */
+                ptr[3*vals+piece] = lval; /* assign new value  */
+                if(xd->verb>6)
+                    fprintf(stderr,"  v %u (%ld)", ptr[3*vals],lval);
+                if( piece == 2 ) vals++; /* have a complete data value */
+                piece = (piece + 1) % 3;
             }
             if(xd->verb > 6) fputc('\n', stderr);
             break;
@@ -2232,6 +2401,26 @@ static int decode_ascii(gxml_data * xd, char * cdata, int cdlen, int type,
                 ptr[vals] = llval;      /* assign new value  */
                 if(xd->verb>6)fprintf(stderr,"  v %lld (%lld)",ptr[vals],llval);
                 vals++;                 /* count new value   */
+            }
+            if(xd->verb > 6) fputc('\n', stderr);
+            break;
+        }
+        case NIFTI_TYPE_COMPLEX128: {
+            /* there are 2 pieces to each complex, so read and insert 1 at a
+               time, and increment 'vals' only after each second piece */
+            static int piece = 0;
+            double * ptr = (double *)dptr;
+            p1 = cdata;
+            prev = p1;
+            while( (vals < 0 || vals < *nvals) && p1 ) {
+                dval = strtod(p1, &p2); /* try to read next value */
+                if( p1 == p2 ) break;   /* nothing read, terminate loop */
+                prev = p1;              /* store old success ptr */
+                p1 = p2;                /* move to next posn */
+                ptr[2*vals+piece] = dval; /* assign new value  */
+                if(xd->verb>6) fprintf(stderr,"  v %f (%f)", ptr[2*vals],dval);
+                if( piece == 1 ) vals++; /* have a complete data value */
+                piece = 1-piece;
             }
             if(xd->verb > 6) fputc('\n', stderr);
             break;
@@ -2840,7 +3029,7 @@ static int ewrite_data_line(void * data, int type, long long row,
             break;
         }
         case NIFTI_TYPE_COMPLEX64: {
-            float * ptr = (float *)data + row * cols;
+            float * ptr = (float *)data + row * 2 * cols;
             for(c = 0; c < 2*cols; c+=2)fprintf(fp, "%f %f   ",ptr[c],ptr[c+1]);
             break;
         }
@@ -2850,7 +3039,7 @@ static int ewrite_data_line(void * data, int type, long long row,
             break;
         }
         case NIFTI_TYPE_RGB24: {
-            unsigned char * ptr = (unsigned char *)data + row * cols;
+            unsigned char * ptr = (unsigned char *)data + row * 3 * cols;
             for( c = 0; c < 3*cols; c+=3 )
                 fprintf(fp, "%u %u %u   ", ptr[c], ptr[c+1], ptr[c+2]);
             break;
@@ -2886,12 +3075,12 @@ static int ewrite_data_line(void * data, int type, long long row,
             break;
         }
         case NIFTI_TYPE_COMPLEX128: {
-            double * ptr = (double *)data + row * cols;
+            double * ptr = (double *)data + row * 2 * cols;
             for(c = 0; c < 2*cols; c+=2)fprintf(fp, "%f %f   ",ptr[c],ptr[c+1]);
             break;
         }
         case NIFTI_TYPE_COMPLEX256: {
-            long double * ptr = (long double *)data + row * cols;
+            long double * ptr = (long double *)data + row * 2 * cols;
             for(c = 0; c<2*cols; c+=2)fprintf(fp, "%Lf %Lf   ",ptr[c],ptr[c+1]);
             break;
         }
@@ -3086,9 +3275,10 @@ static int disp_gxml_data(char * mesg, gxml_data * dp, int show_all )
                 "   buf_size    : %d\n"
                 "   b64_check   : %d\n"
                 "   zlevel      : %d\n"
+                "   perm_by_iord: %d\n"
                 "   da_len      : %d\n"
            , dp->verb, dp->dstore, dp->indent, dp->buf_size, dp->b64_check,
-             dp->zlevel, dp->da_len);
+             dp->zlevel, dp->perm_by_iord, dp->da_len);
 
     if( show_all )
         fprintf(stderr,

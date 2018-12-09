@@ -4,10 +4,13 @@
 #include <itk_zlib.h>
 #include <expat.h>
 #include <nifti1_io.h>
-/* also #include "gifti_xml.h", but at the end */
+
 #ifdef  __cplusplus
 extern "C" {
 #endif
+
+/* also #include "gifti_xml.h", but at the end */
+
 /* ---------------------------------------------------------------------- */
 /* These must be 0-based and sequential.
         - 0 matches _UNDEF
@@ -147,6 +150,7 @@ typedef struct {
 
 /* main interface protos */
 gifti_image * gifti_read_image  (const char * fname, int read_data );
+gifti_image * gifti_read_image_buf(const char * buf, long long bisze);
 gifti_image * gifti_read_da_list(const char * fname, int read_data,
                                  const int * dalist, int len );
 int    gifti_free_image         (gifti_image * gim);
@@ -169,9 +173,13 @@ int    gifti_get_update_ok      (void);
 int    gifti_set_update_ok      (int level);
 int    gifti_get_zlevel         (void);
 int    gifti_set_zlevel         (int level);
+int    gifti_get_perm_by_iord   (void);
+int    gifti_set_perm_by_iord   (int level);
 
 /* data copy routines */
 int     gifti_convert_to_float(gifti_image * gim);
+int     gifti_convert_ind_ord (gifti_image * gim, int new_ord);
+int     gifti_convert_DA_ind_ord(giiDataArray * da, int new_ord);
 char ** gifti_copy_char_list  (char ** list, int len);
 int     gifti_copy_all_DA_meta(giiDataArray *dest, giiDataArray *src);
 int     gifti_copy_DA_meta    (giiDataArray *dest, giiDataArray *src,
@@ -196,6 +204,7 @@ int    gifti_check_swap         (void *data, int endian, long long nsets,
                                  int swapsize);
 int    gifti_datatype_sizes     (int datatype, int *nbyper, int *swapsize);
 char * gifti_datatype2str       (int type);
+char * gifti_ind_ord2str        (int ind_ord);
 char * gifti_get_meta_value     (const nvpairs * nvp, const char * name);
 int    gifti_get_this_endian    (void);
 int    gifti_image_has_data     (const gifti_image * gim);
@@ -221,6 +230,7 @@ int    gifti_swap_Nbytes        (void *data, long long nsets, int swapsize);
 int    gifti_alloc_DA_data      (gifti_image * gim, const int *dalist, int len);
 int    gifti_add_empty_CS       (giiDataArray * da);
 int    gifti_add_empty_darray   (gifti_image * gim, int num_to_add);
+int    gifti_rotate_DAs_to_front(gifti_image * gim, int nrot);
 int    gifti_add_to_meta        (giiMetaData * md, const char * name,
                                  const char * value, int replace);
 int    gifti_add_to_nvpairs     (nvpairs * p, const char * name,
@@ -324,7 +334,6 @@ char * gifticlib_version         (void);
 
 #undef G_CHECK_NULL_STR
 #define G_CHECK_NULL_STR(s) (s ? s : "NULL")
-
 
 #ifdef  __cplusplus
 }
