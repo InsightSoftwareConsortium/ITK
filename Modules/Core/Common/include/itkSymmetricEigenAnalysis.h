@@ -87,7 +87,7 @@ namespace detail
   /** Permute a eigenVectors matrix according to the permutation indices
    * computed from the output of a sort function like \sa detail::sortEigenValuesByMagnitude
    *
-   * @tparam QMatrix a Eigen3 matrix
+   * @param QMatrix a Eigen3 matrix
    * @param eigenVectors eigen vectors are stored in columns
    * @param std::vector container with the permutations from the output of
    * a sort function.
