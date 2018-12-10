@@ -22,9 +22,12 @@
 #include <itkComposeImageFilter.h>
 #include <itkProgressAccumulator.h>
 
+namespace itk
+{
+
 template <typename TInputImage, typename TOutputImage>
 void
-itk::VectorInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
+VectorInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   auto progress = ProgressAccumulator::New();
@@ -34,11 +37,11 @@ itk::VectorInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   this->AllocateOutputs();
 
-  using InputSingleImageType = itk::Image<typename InputImageType::PixelType::ComponentType, ImageDimension>;
-  using VectorCastFilterType = itk::VectorIndexSelectionCastImageFilter<InputImageType, InputSingleImageType>;
-  using FFTInverseFilterType = itk::InverseFFTImageFilter<InputSingleImageType>;
+  using InputSingleImageType = Image<typename InputImageType::PixelType::ComponentType, ImageDimension>;
+  using VectorCastFilterType = VectorIndexSelectionCastImageFilter<InputImageType, InputSingleImageType>;
+  using FFTInverseFilterType = InverseFFTImageFilter<InputSingleImageType>;
   using OutputSingleImageType = typename FFTInverseFilterType::OutputImageType;
-  using ComposeFilterType = itk::ComposeImageFilter<OutputSingleImageType, OutputImageType>;
+  using ComposeFilterType = ComposeImageFilter<OutputSingleImageType, OutputImageType>;
 
   auto vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(this->GetInput());
@@ -65,9 +68,11 @@ itk::VectorInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
-itk::VectorInverseFFTImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+VectorInverseFFTImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
+
+} // end namespace itk
 
 #endif
