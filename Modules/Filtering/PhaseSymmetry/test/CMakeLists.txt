@@ -15,6 +15,9 @@ itk_add_test(
   NAME itkPhaseSymmetryImageFilterTest
   COMMAND
     PhaseSymmetryTestDriver
+    --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkPhaseSymmetryImageFilterTest.mha
+    DATA{Baseline/itkPhaseSymmetryImageFilterTest.mha}
     itkPhaseSymmetryImageFilterTest
     DATA{Input/HeartUltrasound.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkPhaseSymmetryImageFilterTest.mha

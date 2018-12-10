@@ -32,7 +32,7 @@ itkPhaseSymmetryImageFilterTest(int argc, char * argv[])
   const char * outputImageFileName = argv[2];
 
   using PixelType = float;
-  const unsigned int Dimension = 2;
+  const unsigned int Dimension = 3;
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -49,9 +49,28 @@ itkPhaseSymmetryImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  using FilterType = itk::PhaseSymmetryImageFilter<ImageType, ImageType>;
+  FilterType::Pointer filter = FilterType::New();
+  filter->SetInput(reader->GetOutput());
+  filter->SetPolarity(1);
+  filter->SetNoiseThreshold(10.0);
+  filter->SetSigma(0.25);
+  FilterType::MatrixType wavelengths(3, Dimension);
+  for (unsigned int dim = 0; dim < Dimension; ++dim)
+  {
+    wavelengths(0, dim) = 10.0;
+    wavelengths(1, dim) = 20.0;
+    wavelengths(2, dim) = 30.0;
+  }
+  filter->SetWavelengths(wavelengths);
+  filter->Initialize();
+
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputImageFileName);
+  writer->SetInput(filter->GetOutput());
+
+  writer->Update();
 
   return EXIT_SUCCESS;
 }

@@ -108,7 +108,7 @@ public:
   itkSetMacro(Orientations, MatrixType);
   itkSetMacro(AngleBandwidth, double);
   itkSetMacro(Sigma, double);
-  itkSetMacro(T, double);
+  itkSetMacro(NoiseThreshold, double);
   itkSetMacro(Polarity, int);
 
 
@@ -186,7 +186,7 @@ private:
 
   double m_AngleBandwidth;
   double m_Sigma;
-  double m_T;
+  double m_NoiseThreshold;
   int    m_Polarity;
 
   typename MultiplyImageFilterType::Pointer m_MultiplyImageFilter;
@@ -200,7 +200,7 @@ private:
   typename FFTFilterType::Pointer  m_FFTFilter;
   typename IFFTFilterType::Pointer m_IFFTFilter;
 
-  typename ShiftScaleImageFilterType::Pointer            m_SSFilter;
+  typename ShiftScaleImageFilterType::Pointer            m_ShiftScaleFilter;
   typename ShiftScaleImageFilterType::Pointer            m_NegateFilter;
   typename ShiftScaleImageFilterType::Pointer            m_NegateFilter2;
   typename ComplexToRealFilterType::Pointer              m_C2RFilter;
