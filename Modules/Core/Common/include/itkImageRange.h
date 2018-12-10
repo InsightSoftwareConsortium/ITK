@@ -88,6 +88,9 @@ private:
     std::is_same<typename TImage::AccessorType, DefaultPixelAccessor<PixelType>>::value &&
     std::is_same<AccessorFunctorType, DefaultPixelAccessorFunctor<typename std::remove_const<TImage>::type>>::value;
 
+  // Tells whether or not this range is using a pointer as iterator.
+  constexpr static bool UsingPointerAsIterator = SupportsDirectPixelAccess;
+
   struct EmptyAccessorFunctor {};
 
   using OptionalAccessorFunctorType = typename std::conditional<SupportsDirectPixelAccess,
@@ -516,6 +519,38 @@ private:
     }
   };
 
+
+  // Helper class for begin() and end(), to ease proper initialization of an
+  // ImageRange iterator (either a 'QualifiedIterator' or a raw pixel pointer).
+  class IteratorInitializer final
+  {
+  private:
+    OptionalAccessorFunctorType m_OptionalAccessorFunctor;
+    QualifiedInternalPixelType* m_InternalPixelPointer;
+  public:
+    explicit IteratorInitializer(
+      OptionalAccessorFunctorType optionalAccessorFunctor,
+      QualifiedInternalPixelType* internalPixelPointer) ITK_NOEXCEPT
+      :
+      m_OptionalAccessorFunctor(optionalAccessorFunctor),
+      m_InternalPixelPointer(internalPixelPointer)
+    {
+    }
+
+    // Converts to a 'QualifiedIterator' object.
+    operator QualifiedIterator<false>() const ITK_NOEXCEPT
+    {
+      return QualifiedIterator<false>{m_OptionalAccessorFunctor, m_InternalPixelPointer};
+    }
+
+    // Converts to a raw pixel pointer.
+    operator QualifiedInternalPixelType*() const ITK_NOEXCEPT
+    {
+      return m_InternalPixelPointer;
+    }
+  };
+
+
   // ImageRange data members (strictly private):
 
   // The accessor functor of the image.
@@ -528,8 +563,10 @@ private:
   SizeValueType m_NumberOfPixels = 0;
 
 public:
-  using const_iterator = QualifiedIterator<true>;
-  using iterator = QualifiedIterator<false>;
+  using const_iterator = typename std::conditional<UsingPointerAsIterator,
+    const InternalPixelType*, QualifiedIterator<true>>::type;
+  using iterator = typename std::conditional<UsingPointerAsIterator,
+    QualifiedInternalPixelType*, QualifiedIterator<false>>::type;
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
@@ -555,13 +592,13 @@ public:
   /** Returns an iterator to the first pixel. */
   iterator begin() const ITK_NOEXCEPT
   {
-    return iterator{ m_OptionalAccessorFunctor, m_ImageBufferPointer };
+    return IteratorInitializer{ m_OptionalAccessorFunctor, m_ImageBufferPointer };
   }
 
   /** Returns an 'end iterator' for this range. */
   iterator end() const ITK_NOEXCEPT
   {
-    return iterator{ m_OptionalAccessorFunctor, m_ImageBufferPointer + m_NumberOfPixels, };
+    return IteratorInitializer{ m_OptionalAccessorFunctor, m_ImageBufferPointer + m_NumberOfPixels, };
   }
 
   /** Returns a const iterator to the first pixel.
