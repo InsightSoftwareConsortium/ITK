@@ -91,7 +91,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
 
 template <typename TInputImage, typename TOutputImage>
 void
-PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize(void)
+PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize()
 {
   typename TInputImage::SizeType          inputSize;
   typename TInputImage::IndexType         inputIndex;
@@ -189,7 +189,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize(void)
 
 template <typename TInputImage, typename TOutputImage>
 void
-PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   typename TInputImage::SizeType          inputSize;
   typename TInputImage::IndexType         inputIndex;
@@ -408,19 +408,15 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
     InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegion(RequestedRegion);
   }
-
-
-  itkDebugMacro("GenerateInputRequestedRegion End");
 }
 
 
-/**
- * GenerateData Performs the accumulation
- */
 template <typename TInputImage, typename TOutputImage>
 void
-PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(void)
+PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
+  Superclass::GenerateOutputInformation();
+
   typename TOutputImage::RegionType  outputRegion;
   typename TInputImage::IndexType    inputIndex;
   typename TInputImage::SizeType     inputSize;
