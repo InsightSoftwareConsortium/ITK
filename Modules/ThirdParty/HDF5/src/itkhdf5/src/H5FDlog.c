@@ -117,7 +117,7 @@ typedef struct H5FD_log_t {
      * Whether to eliminate the family driver info and convert this file to
      * a single file
      */
-    hbool_t     fam_to_sec2;
+    hbool_t     fam_to_single;
 
     /* Fields for tracking I/O operations */
     unsigned char       *nread;                 /* Number of reads from a file location             */
@@ -635,13 +635,13 @@ H5FD_log_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
     /* Check for non-default FAPL */
     if(H5P_FILE_ACCESS_DEFAULT != fapl_id) {
         /* This step is for h5repart tool only. If user wants to change file driver from
-         * family to sec2 while using h5repart, this private property should be set so that
-         * in the later step, the library can ignore the family driver information saved
-         * in the superblock.
+         * family to one that uses single files (sec2, etc.) while using h5repart, this
+         * private property should be set so that in the later step, the library can ignore
+         * the family driver information saved in the superblock.
          */
-        if(H5P_exist_plist(plist, H5F_ACS_FAMILY_TO_SEC2_NAME) > 0)
-            if(H5P_get(plist, H5F_ACS_FAMILY_TO_SEC2_NAME, &file->fam_to_sec2) < 0)
-                HGOTO_ERROR(H5E_VFL, H5E_CANTGET, NULL, "can't get property of changing family to sec2")
+        if(H5P_exist_plist(plist, H5F_ACS_FAMILY_TO_SINGLE_NAME) > 0)
+            if(H5P_get(plist, H5F_ACS_FAMILY_TO_SINGLE_NAME, &file->fam_to_single) < 0)
+                HGOTO_ERROR(H5E_VFL, H5E_CANTGET, NULL, "can't get property of changing family to single")
     } /* end if */
 
     /* Set return value */
@@ -900,7 +900,7 @@ H5FD_log_query(const H5FD_t *_file, unsigned long *flags /* out */)
         *flags |= H5FD_FEAT_DEFAULT_VFD_COMPATIBLE; /* VFD creates a file which can be opened with the default VFD      */
 
         /* Check for flags that are set by h5repart */
-        if(file && file->fam_to_sec2)
+        if(file && file->fam_to_single)
             *flags |= H5FD_FEAT_IGNORE_DRVRINFO; /* Ignore the driver info when file is opened (which eliminates it) */
     } /* end if */
 

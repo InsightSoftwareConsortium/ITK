@@ -14,7 +14,8 @@
 ########################################################
 
 # To use this option, copy both the macro and option code
-# into the root UserMacros.cmake file.
+# into the root UserMacros.cmake file. Then enable the option,
+# using the command line add "-DBUILD_STATIC_CRT_LIBS:BOOL=ON"
 # OR add an include to the root UserMacros.cmake file:
 # INCLUDE(path_to_file/WINDOWS_MT.cmake)
 
