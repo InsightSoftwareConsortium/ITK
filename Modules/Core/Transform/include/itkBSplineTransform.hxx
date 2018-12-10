@@ -175,6 +175,34 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
+::SetTransformDomainInformationFromCoefficientImageInformation()
+{
+
+  this->m_TransformDomainDirection = this->m_CoefficientImages[0]->GetDirection();
+
+  typename ImageType::PointType origin;
+  origin.Fill( 0.0 );
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    this->m_TransformDomainMeshSize[i] =
+      this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize()[i] - SplineOrder;
+
+    this->m_TransformDomainPhysicalDimensions[i] = static_cast<ScalarType>(
+      this->m_TransformDomainMeshSize[i] ) * this->m_CoefficientImages[0]->GetSpacing()[i];
+
+    origin[i] += ( this->m_CoefficientImages[0]->GetSpacing()[i] * 0.5 * ( SplineOrder - 1 ) );
+    }
+  origin = this->m_TransformDomainDirection * origin;
+
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
+    {
+    this->m_TransformDomainOrigin[j] = this->m_CoefficientImages[0]->GetOrigin()[j] + origin[j];
+    }
+}
+
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::SetCoefficientImageInformationFromFixedParameters()
 {
   // Fixed Parameters store the following information:
@@ -366,26 +394,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
       this->m_CoefficientImages[0]->GetLargestPossibleRegion() );
     }
 
-  // Update TransformDomain parameters.
-  this->m_TransformDomainDirection = this->m_CoefficientImages[0]->GetDirection();
 
-  typedef typename ImageType::PointType PointType;
-  PointType origin2;
-  origin2.Fill( 0.0 );
-  for( unsigned int i = 0; i < SpaceDimension; i++ )
-    {
-    this->m_TransformDomainMeshSize[i] =
-      this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize()[i] - SplineOrder;
-    this->m_TransformDomainPhysicalDimensions[i] = static_cast<ScalarType>(
-      this->m_TransformDomainMeshSize[i] ) * this->m_CoefficientImages[0]->GetSpacing()[i];
-    origin2[i] += ( this->m_CoefficientImages[0]->GetSpacing()[i] * 0.5 * ( SplineOrder - 1 ) );
-    }
-  origin2 = this->m_TransformDomainDirection * origin2;
+  this->SetTransformDomainInformationFromCoefficientImageInformation();
 
-  for( unsigned int j = 0; j < SpaceDimension; j++ )
-    {
-    this->m_TransformDomainOrigin[j] = this->m_CoefficientImages[0]->GetOrigin()[j] + origin2[j];
-    }
 }
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
@@ -406,21 +417,8 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
                        << "correctly sized images be supplied.");
     }
 
-  this->m_TransformDomainDirection = images[0]->GetDirection();
 
-  using PointType = typename ImageType::PointType;
-  PointType origin;
-  origin.Fill( 0.0 );
-  for( unsigned int i = 0; i < SpaceDimension; i++ )
-    {
-    this->m_TransformDomainMeshSize[i] =
-      images[0]->GetLargestPossibleRegion().GetSize()[i] - SplineOrder;
-    this->m_TransformDomainPhysicalDimensions[i] = static_cast<ScalarType>(
-      this->m_TransformDomainMeshSize[i] ) * images[0]->GetSpacing()[i];
-    origin[i] += ( images[0]->GetSpacing()[i] * 0.5 * ( SplineOrder - 1 ) );
-    }
-  origin = this->m_TransformDomainDirection * origin;
-
+  // update coefficient images and internal parameter buffer
   const SizeValueType numberOfPixels =
     images[0]->GetLargestPossibleRegion().GetNumberOfPixels();
 
@@ -429,7 +427,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     const SizeValueType numberOfPixels_j = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
-    this->m_TransformDomainOrigin[j] = images[0]->GetOrigin()[j] + origin[j];
     if( numberOfPixels_j * SpaceDimension != totalParameters )
       {
       itkExceptionMacro( << "SetCoefficientImage() has array of images that are "
@@ -448,6 +445,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     this->m_CoefficientImages[j]->CopyInformation( images[j] );
     this->m_CoefficientImages[j]->SetRegions( images[j]->GetLargestPossibleRegion() );
     }
+
+  // synchronize parameters
+  this->SetTransformDomainInformationFromCoefficientImageInformation();
   this->SetFixedParametersFromTransformDomainInformation();
   this->SetParameters( this->m_InternalParametersBuffer );
 }
