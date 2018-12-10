@@ -310,7 +310,6 @@ private:
   OriginType             m_TransformDomainOrigin;
   PhysicalDimensionsType m_TransformDomainPhysicalDimensions;
   DirectionType          m_TransformDomainDirection;
-  DirectionType          m_TransformDomainDirectionInverse;
 
   MeshSizeType m_TransformDomainMeshSize;
 }; // class BSplineTransform

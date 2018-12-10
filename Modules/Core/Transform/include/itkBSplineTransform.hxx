@@ -51,7 +51,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   this->m_TransformDomainOrigin.Fill( 0.0 );
   this->m_TransformDomainPhysicalDimensions.Fill( 1.0 );
   this->m_TransformDomainDirection.SetIdentity();
-  this->m_TransformDomainDirectionInverse.SetIdentity();
 
   SizeType meshSize;
   meshSize.Fill( 1 );
@@ -143,7 +142,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   if( this->m_TransformDomainDirection != direction )
     {
     this->m_TransformDomainDirection = direction;
-    this->m_TransformDomainDirectionInverse = direction.GetInverse();
     this->SetFixedParametersFromTransformDomainInformation();
     this->SetCoefficientImageInformationFromFixedParameters();
 
