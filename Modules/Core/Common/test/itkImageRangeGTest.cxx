@@ -374,16 +374,16 @@ TEST(ImageRange, IteratorReferenceActsLikeARealReference)
   RangeType range{ *image };
   RangeType::iterator it = range.begin();
 
-  RangeType::iterator::reference reference1 = *it;
-  RangeType::iterator::reference reference2 = *(++it);
-  RangeType::const_iterator::reference reference3 = *(++it);
+  std::iterator_traits<RangeType::iterator>::reference reference1 = *it;
+  std::iterator_traits<RangeType::iterator>::reference reference2 = *(++it);
+  std::iterator_traits<RangeType::const_iterator>::reference reference3 = *(++it);
   EXPECT_EQ(reference1, 1);
   EXPECT_EQ(reference2, 2);
   EXPECT_EQ(reference3, 3);
 
-  RangeType::const_iterator::reference reference4 = reference1;
-  RangeType::const_iterator::reference reference5 = reference2;
-  RangeType::const_iterator::reference reference6 = reference3;
+  std::iterator_traits<RangeType::const_iterator>::reference reference4 = reference1;
+  std::iterator_traits<RangeType::const_iterator>::reference reference5 = reference2;
+  std::iterator_traits<RangeType::const_iterator>::reference reference6 = reference3;
   EXPECT_EQ(reference4, 1);
   EXPECT_EQ(reference5, 2);
   EXPECT_EQ(reference6, 3);
@@ -502,7 +502,7 @@ TEST(ImageRange, IteratorIsDefaultConstructible)
 {
   using RangeType = ImageRange<itk::Image<int>>;
 
-  RangeType::iterator defaultConstructedIterator;
+  RangeType::iterator defaultConstructedIterator{};
 
   // Test that a default-constructed iterator behaves according to C++ proposal
   // N3644, "Null Forward Iterators" by Alan Talbot, which is accepted with
@@ -540,14 +540,12 @@ TEST(ImageRange, IteratorsSupportRandomAccess)
   X mutableIterator = initialIterator;
   X& r = mutableIterator;
 
-  using difference_type = X::difference_type;
-  using reference = X::reference;
+  using difference_type = std::iterator_traits<X>::difference_type;
+  using reference = std::iterator_traits<X>::reference;
 
   {
     // Expression to be tested: 'r += n'
     difference_type n = 3;
-
-    static_assert(std::is_same<decltype(r += n), X&>::value, "Return type tested");
 
     r = initialIterator;
     const auto expectedResult = [&r, n]
@@ -559,8 +557,9 @@ TEST(ImageRange, IteratorsSupportRandomAccess)
       return r;
     }();
     r = initialIterator;
-    const auto actualResult = r += n;
+    auto&& actualResult = r += n;
     EXPECT_EQ(actualResult, expectedResult);
+    static_assert(std::is_same<decltype(actualResult), X&>::value, "Type of result 'r += n' tested");
   }
   {
     // Expressions to be tested: 'a + n' and 'n + a'
@@ -583,8 +582,6 @@ TEST(ImageRange, IteratorsSupportRandomAccess)
     // Expression to be tested: 'r -= n'
     difference_type n = 3;
 
-    static_assert(std::is_same<decltype(r -= n), X&>::value, "Return type tested");
-
     r = initialIterator;
     const auto expectedResult = [&r, n]
     {
@@ -592,8 +589,9 @@ TEST(ImageRange, IteratorsSupportRandomAccess)
       return r += -n;
     }();
     r = initialIterator;
-    const auto actualResult = r -= n;
+    auto&& actualResult = r -= n;
     EXPECT_EQ(actualResult, expectedResult);
+    static_assert(std::is_same<decltype(actualResult), X&>::value, "Type of result 'r -= n' tested");
   }
   {
     // Expression to be tested: 'a - n'
@@ -655,7 +653,7 @@ TEST(ImageRange, SupportsSubscript)
 
   for (std::size_t i = 0; i < numberOfNeighbors; ++i)
   {
-    RangeType::iterator::reference neighbor = range[i];
+    std::iterator_traits<RangeType::iterator>::reference neighbor = range[i];
     EXPECT_EQ(neighbor, *it);
     ++it;
   }
