@@ -35,7 +35,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
   m_AddImageFilter2 = AddImageFilterType::New();
   m_MaxImageFilter = MaxImageFilterType::New();
   m_AtanImageFilter = Atan2ImageFilterType::New();
-  m_SSFilter = ShiftScaleImageFilterType::New();
+  m_ShiftScaleFilter = ShiftScaleImageFilterType::New();
   m_NegateFilter = ShiftScaleImageFilterType::New();
   m_NegateFilter2 = ShiftScaleImageFilterType::New();
   m_AcosImageFilter = AcosImageFilterType::New();
@@ -84,7 +84,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
   // Defaults
   m_AngleBandwidth = 3.14159265;
   m_Sigma = 0.55;
-  m_T = 10.0;
+  m_NoiseThreshold = 10.0;
   m_Polarity = 0;
 }
 
@@ -102,9 +102,9 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize(void)
   inputSize = input->GetLargestPossibleRegion().GetSize();
   int ndims = int(TInputImage::ImageDimension);
 
-  m_SSFilter->SetInput(input);
-  m_SSFilter->SetScale(0.0);
-  m_SSFilter->SetShift(0.0);
+  m_ShiftScaleFilter->SetInput(input);
+  m_ShiftScaleFilter->SetScale(0.0);
+  m_ShiftScaleFilter->SetShift(0.0);
 
   typename LogGaborFreqImageSourceType::Pointer         LogGaborKernel = LogGaborFreqImageSourceType::New();
   typename SteerableFiltersFreqImageSourceType::Pointer SteerableFilterKernel =
@@ -225,19 +225,19 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 
   // Matlab style initalization, because these images accumulate over each loop
   // Therefore, they initially all zeros
-  m_SSFilter->SetScale(0.0);
-  m_SSFilter->SetShift(0.0);
+  m_ShiftScaleFilter->SetScale(0.0);
+  m_ShiftScaleFilter->SetShift(0.0);
 
-  m_SSFilter->Update();
-  totalAmplitude = m_SSFilter->GetOutput();
+  m_ShiftScaleFilter->Update();
+  totalAmplitude = m_ShiftScaleFilter->GetOutput();
   totalAmplitude->DisconnectPipeline();
 
-  m_SSFilter->Update();
-  totalEnergy = m_SSFilter->GetOutput();
+  m_ShiftScaleFilter->Update();
+  totalEnergy = m_ShiftScaleFilter->GetOutput();
   totalEnergy->DisconnectPipeline();
 
 
-  m_SSFilter->ReleaseDataFlagOn();
+  m_ShiftScaleFilter->ReleaseDataFlagOn();
   m_C2MFilter->ReleaseDataFlagOn();
   m_C2AFilter->ReleaseDataFlagOn();
   m_MultiplyImageFilter->ReleaseDataFlagOn();
@@ -253,10 +253,10 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
   for (int o = 0; o < m_Orientations.rows(); ++o)
   {
     // Reset the energy value
-    m_SSFilter->SetScale(0.0);
-    m_SSFilter->SetShift(0.0);
-    m_SSFilter->Update();
-    EnergyThisOrient = m_SSFilter->GetOutput();
+    m_ShiftScaleFilter->SetScale(0.0);
+    m_ShiftScaleFilter->SetShift(0.0);
+    m_ShiftScaleFilter->Update();
+    EnergyThisOrient = m_ShiftScaleFilter->GetOutput();
     EnergyThisOrient->DisconnectPipeline();
 
     for (int w = 0; w < m_Wavelengths.rows(); ++w)
@@ -264,12 +264,12 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
       // Multiply filters by the input image in fourier domain
       m_C2MFilter->SetInput(finput);
       m_C2AFilter->SetInput(finput);
-      m_SSFilter->SetScale(1 / pxlCount);
-      m_SSFilter->SetShift(0.0);
+      m_ShiftScaleFilter->SetScale(1 / pxlCount);
+      m_ShiftScaleFilter->SetShift(0.0);
       // Normalize the magnitude by the number of pixels
-      m_SSFilter->SetInput(m_C2MFilter->GetOutput());
+      m_ShiftScaleFilter->SetInput(m_C2MFilter->GetOutput());
 
-      m_MultiplyImageFilter->SetInput1(m_SSFilter->GetOutput());
+      m_MultiplyImageFilter->SetInput1(m_ShiftScaleFilter->GetOutput());
       m_MultiplyImageFilter->SetInput2(m_FilterBank[w][o]);
 
       m_MultiplyImageFilter->Update();
@@ -346,11 +346,11 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     }
 
     // Subtract the values below the noise threshold
-    m_SSFilter->SetInput(EnergyThisOrient);
-    m_SSFilter->SetScale(1.0);
-    m_SSFilter->SetShift(-m_T);
+    m_ShiftScaleFilter->SetInput(EnergyThisOrient);
+    m_ShiftScaleFilter->SetScale(1.0);
+    m_ShiftScaleFilter->SetShift(-m_NoiseThreshold);
 
-    m_AddImageFilter->SetInput1(m_SSFilter->GetOutput());
+    m_AddImageFilter->SetInput1(m_ShiftScaleFilter->GetOutput());
     m_AddImageFilter->SetInput2(totalEnergy);
     m_AddImageFilter->Update();
 
@@ -359,10 +359,10 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
   }
 
   // Set negative values to zero
-  m_SSFilter->SetScale(0.0);
-  m_SSFilter->SetShift(0.0);
+  m_ShiftScaleFilter->SetScale(0.0);
+  m_ShiftScaleFilter->SetShift(0.0);
   m_MaxImageFilter->SetInput1(totalEnergy);
-  m_MaxImageFilter->SetInput2(m_SSFilter->GetOutput());
+  m_MaxImageFilter->SetInput2(m_ShiftScaleFilter->GetOutput());
 
   // Divide total energy by total amplitude over all scles and orientations
   m_DivideImageFilter->SetInput1(m_MaxImageFilter->GetOutput());
