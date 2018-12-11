@@ -47,6 +47,8 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
   m_AbsImageFilter2 = AbsImageFilterType::New();
   m_MP2CFilter = MagnitudeAndPhaseToComplexFilterType::New();
 
+  m_FlipFilter = FlipImageFilterType::New();
+
   m_FFTFilter = FFTFilterType::New();
   m_IFFTFilter = IFFTFilterType::New();
 
@@ -55,6 +57,11 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
 
   m_NegateFilter2->SetScale(-1.0);
   m_NegateFilter2->SetShift(0.0);
+
+  typename FlipImageFilterType::FlipAxesArrayType flipAxesArray;
+  flipAxesArray.Fill(true);
+  m_FlipFilter->SetFlipAxes(flipAxesArray);
+  m_FlipFilter->FlipAboutOriginOff();
 
   // Create 2 initialze wavelengths
   m_Wavelengths.SetSize(2, InputImageDimension);
@@ -168,7 +175,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize()
   }
 
   // Create filter bank by multiplying log gabor filters with directional filters
-  typename DoubleFFTShiftImageFilterType::Pointer FFTShiftFilter = DoubleFFTShiftImageFilterType::New();
+  typename DoubleFFTShiftImageFilterType::Pointer fftShiftFilter = DoubleFFTShiftImageFilterType::New();
 
   for (unsigned int w = 0; w < m_Wavelengths.rows(); w++)
   {
@@ -177,9 +184,9 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize()
     {
       m_MultiplyImageFilter->SetInput1(lgStack[w]);
       m_MultiplyImageFilter->SetInput2(sfStack[o]);
-      FFTShiftFilter->SetInput(m_MultiplyImageFilter->GetOutput());
-      FFTShiftFilter->Update();
-      tempStack.push_back(FFTShiftFilter->GetOutput());
+      fftShiftFilter->SetInput(m_MultiplyImageFilter->GetOutput());
+      fftShiftFilter->Update();
+      tempStack.push_back(fftShiftFilter->GetOutput());
       tempStack[o]->DisconnectPipeline();
     }
     m_FilterBank.push_back(tempStack);
@@ -368,9 +375,11 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_DivideImageFilter->SetInput1(m_MaxImageFilter->GetOutput());
   m_DivideImageFilter->SetInput2(totalAmplitude);
 
-  m_DivideImageFilter->GraftOutput(this->GetOutput());
-  m_DivideImageFilter->Update();
-  m_PhaseSymmetry = m_DivideImageFilter->GetOutput();
+  m_FlipFilter->SetInput(m_DivideImageFilter->GetOutput());
+
+  m_FlipFilter->GraftOutput(this->GetOutput());
+  m_FlipFilter->Update();
+  m_PhaseSymmetry = m_FlipFilter->GetOutput();
   this->GraftOutput(m_PhaseSymmetry);
 }
 
