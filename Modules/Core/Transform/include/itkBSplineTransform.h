@@ -299,7 +299,10 @@ private:
   /** Construct control point grid direction from transform domain information. */
   void SetFixedParametersGridDirectionFromTransformDomainInformation() const override;
 
-  /** Construct control point grid size from transform domain information. */
+  /** Set TransformDomain member variables from the coefficient images */
+  void SetTransformDomainInformationFromCoefficientImageInformation();
+
+  /** Construct control point grid size from transform domain information in the fixed parameters. */
   void SetCoefficientImageInformationFromFixedParameters() override;
 
   /** Check if a continuous index is inside the valid region. */
@@ -310,7 +313,6 @@ private:
   OriginType             m_TransformDomainOrigin;
   PhysicalDimensionsType m_TransformDomainPhysicalDimensions;
   DirectionType          m_TransformDomainDirection;
-  DirectionType          m_TransformDomainDirectionInverse;
 
   MeshSizeType m_TransformDomainMeshSize;
 }; // class BSplineTransform
