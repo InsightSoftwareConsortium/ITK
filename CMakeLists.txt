@@ -221,26 +221,8 @@ mark_as_advanced(ITK_DYNAMIC_LOADING)
 
 #-----------------------------------------------------------------------------
 # Wrapping options
-option(ITK_WRAP_PYTHON "Build Python support" OFF)
-option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
-option(ITK_WRAP_RUBY "Build Ruby support (Currently not supported)" OFF)
-option(ITK_WRAP_PERL "Build Perl support (Currently not supported)" OFF)
-option(ITK_WRAP_TCL "Build Tcl support (Currently not supported)" OFF)
-mark_as_advanced(ITK_WRAP_JAVA)
-mark_as_advanced(ITK_WRAP_RUBY)
-mark_as_advanced(ITK_WRAP_PERL)
-mark_as_advanced(ITK_WRAP_TCL)
-
-if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRAP_TCL)
-  if(NOT ITK_DYNAMIC_LOADING)
-    message(FATAL_ERROR "Wrapping requires ITK_DYNAMIC_LOADING to be ON")
-  endif()
-  # ITK_WRAPPING is an internal variable
-  set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
-else()
-  set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
-endif()
-
+include(Wrapping/CMakeUtilityFunctions.cmake)
+include(Wrapping/WrappingOptions.cmake)
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
 
