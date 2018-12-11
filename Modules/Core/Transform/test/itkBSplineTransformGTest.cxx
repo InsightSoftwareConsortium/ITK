@@ -30,20 +30,21 @@ template<typename TParametersValueType,
          unsigned int VSplineOrder>
 void bspline_eq( const itk::BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>  *bspline1,
                  const itk::BSplineTransform<TParametersValueType, NDimensions, VSplineOrder> *bspline2,
-                 const std::string & description = "")
+                 const std::string & description = "",
+                 double tolerance = 1e-15)
 {
   using BSplineType = itk::BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>;
   // Compare Transform Domain interface
 
   EXPECT_EQ( bspline1->GetNumberOfFixedParameters(), bspline2->GetNumberOfFixedParameters() ) << description;
-  EXPECT_EQ( bspline1->GetTransformDomainOrigin(), bspline2->GetTransformDomainOrigin() ) << description;
-  EXPECT_EQ( bspline1->GetTransformDomainDirection(), bspline2->GetTransformDomainDirection() ) << description;
+  EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainOrigin(), bspline2->GetTransformDomainOrigin(), tolerance  ) << description;
+  EXPECT_EQ( bspline1->GetTransformDomainDirection(), bspline2->GetTransformDomainDirection()) << description;
   EXPECT_EQ( bspline1->GetTransformDomainMeshSize(), bspline2->GetTransformDomainMeshSize() ) << description;
-  EXPECT_EQ( bspline1->GetTransformDomainPhysicalDimensions(), bspline2->GetTransformDomainPhysicalDimensions() ) << description;
+  EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainPhysicalDimensions(), bspline2->GetTransformDomainPhysicalDimensions(), tolerance  ) << description;
 
   // check transform parameters interface
-  EXPECT_EQ( bspline1->GetParameters(), bspline2->GetParameters() ) << description;
-  EXPECT_EQ( bspline1->GetFixedParameters(), bspline2->GetFixedParameters() ) << description;
+  EXPECT_VECTOR_NEAR( bspline1->GetParameters(), bspline2->GetParameters(), tolerance  ) << description;
+  EXPECT_VECTOR_NEAR( bspline1->GetFixedParameters(), bspline2->GetFixedParameters(), tolerance  ) << description;
 
   ASSERT_EQ( bspline1->GetCoefficientImages().Size(), NDimensions ) << description;
   ASSERT_EQ( bspline2->GetCoefficientImages().Size(), NDimensions ) << description;
@@ -56,9 +57,9 @@ void bspline_eq( const itk::BSplineTransform<TParametersValueType, NDimensions, 
     typename ImageType::Pointer coeffImage1 = bspline1->GetCoefficientImages()[i];
     typename ImageType::Pointer coeffImage2 = bspline2->GetCoefficientImages()[i];
 
-    EXPECT_EQ( coeffImage1->GetOrigin(), coeffImage2->GetOrigin() ) << description;
-    EXPECT_EQ( coeffImage1->GetDirection(), coeffImage2->GetDirection() ) << description;
-    EXPECT_EQ( coeffImage1->GetSpacing(), coeffImage2->GetSpacing() ) << description;
+    EXPECT_VECTOR_NEAR( coeffImage1->GetOrigin(), coeffImage2->GetOrigin(), tolerance ) << description;
+    EXPECT_EQ( coeffImage1->GetDirection(), coeffImage2->GetDirection()) << description;
+    EXPECT_VECTOR_NEAR( coeffImage1->GetSpacing(), coeffImage2->GetSpacing(), tolerance  ) << description;
     EXPECT_EQ( coeffImage1->GetLargestPossibleRegion(), coeffImage2->GetLargestPossibleRegion() ) << description;
     EXPECT_EQ( coeffImage1->GetBufferedRegion(), coeffImage2->GetBufferedRegion() ) << description;
 

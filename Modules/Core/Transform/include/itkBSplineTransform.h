@@ -258,25 +258,25 @@ public:
   virtual void SetTransformDomainOrigin( const OriginType & );
 
   /** Function to retrieve the transform domain origin. */
-  itkGetConstMacro( TransformDomainOrigin, OriginType );
+  virtual OriginType GetTransformDomainOrigin( void ) const;
 
   /** Function to specify the transform domain physical dimensions. */
   virtual void SetTransformDomainPhysicalDimensions( const PhysicalDimensionsType & );
 
   /** Function to retrieve the transform domain physical dimensions. */
-  itkGetConstMacro( TransformDomainPhysicalDimensions, PhysicalDimensionsType );
+  virtual PhysicalDimensionsType GetTransformDomainPhysicalDimensions(void) const;
 
   /** Function to specify the transform domain direction. */
   virtual void SetTransformDomainDirection( const DirectionType & );
 
   /** Function to retrieve the transform domain direction. */
-  itkGetConstMacro( TransformDomainDirection, DirectionType );
+  virtual DirectionType GetTransformDomainDirection( void ) const;
 
   /** Function to specify the transform domain mesh size. */
   virtual void SetTransformDomainMeshSize( const MeshSizeType & );
 
   /** Function to retrieve the transform domain mesh size. */
-  itkGetConstMacro( TransformDomainMeshSize, MeshSizeType );
+  virtual MeshSizeType GetTransformDomainMeshSize( void ) const;
 
 protected:
   /** Print contents of an BSplineTransform. */
@@ -287,34 +287,25 @@ protected:
 
 private:
 
-  /** Construct control point grid size from transform domain information. */
-  void SetFixedParametersGridSizeFromTransformDomainInformation() const override;
-
-  /** Construct control point grid origin from transform domain information. */
-  void SetFixedParametersGridOriginFromTransformDomainInformation() const override;
-
-  /** Construct control point grid spacing from transform domain information. */
-  void SetFixedParametersGridSpacingFromTransformDomainInformation() const override;
-
-  /** Construct control point grid direction from transform domain information. */
-  void SetFixedParametersGridDirectionFromTransformDomainInformation() const override;
-
-  /** Set TransformDomain member variables from the coefficient images */
-  void SetTransformDomainInformationFromCoefficientImageInformation();
-
   /** Construct control point grid size from transform domain information in the fixed parameters. */
   void SetCoefficientImageInformationFromFixedParameters() override;
+
+  /** Methods have empty implementations */
+  virtual void SetFixedParametersGridSizeFromTransformDomainInformation() const override { };
+  virtual void SetFixedParametersGridOriginFromTransformDomainInformation() const override { };
+  virtual void SetFixedParametersGridSpacingFromTransformDomainInformation() const override { }
+  virtual void SetFixedParametersGridDirectionFromTransformDomainInformation() const override { };
 
   /** Check if a continuous index is inside the valid region. */
   bool InsideValidRegion( ContinuousIndexType & ) const override;
 
-private:
+  void SetFixedParametersFromCoefficientImageInformation();
 
-  OriginType             m_TransformDomainOrigin;
-  PhysicalDimensionsType m_TransformDomainPhysicalDimensions;
-  DirectionType          m_TransformDomainDirection;
+  void SetFixedParametersFromTransformDomainInformation( const OriginType &meshOrigin,
+                                                         const PhysicalDimensionsType & meshPhysical,
+                                                         const DirectionType &meshDirection,
+                                                         const MeshSizeType &meshSize);
 
-  MeshSizeType m_TransformDomainMeshSize;
 }; // class BSplineTransform
 }  // namespace itk
 
