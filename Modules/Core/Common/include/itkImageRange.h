@@ -25,6 +25,7 @@
 #include <limits>
 #include <type_traits> // For conditional, is_same, and is_const.
 
+#include "itkMacro.h" // For itkNotUsed.
 #include "itkDefaultPixelAccessor.h"
 #include "itkDefaultPixelAccessorFunctor.h"
 #include "itkDefaultVectorPixelAccessor.h"
@@ -271,7 +272,7 @@ private:
       // is its essential AccessorFunctor parameter!)
       explicit PixelReferenceWrapper(
         QualifiedPixelType& pixel,
-        EmptyAccessorFunctor) ITK_NOEXCEPT
+        EmptyAccessorFunctor itkNotUsed(accessorFunctor)) ITK_NOEXCEPT
         :
       m_Pixel(pixel)
       {
@@ -670,6 +671,22 @@ public:
   ~ImageRange() = default;
 };
 
+/** Creates a range to iterate over the pixels of the specified image.
+ * Returns an empty range when the specified argument is a nullptr (which
+ * is a valid use case).
+ */
+template<typename TImage>
+ImageRange<TImage> MakeImageRange(TImage* const image)
+{
+  if (image == nullptr)
+  {
+    return {};
+  }
+  else
+  {
+    return ImageRange<TImage>{*image};
+  }
+}
 
 } // namespace Experimental
 } // namespace itk

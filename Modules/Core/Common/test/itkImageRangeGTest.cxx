@@ -37,6 +37,7 @@ template class itk::Experimental::ImageRange<const itk::Image<short>>;
 template class itk::Experimental::ImageRange<itk::VectorImage<short>>;
 
 using itk::Experimental::ImageRange;
+using itk::Experimental::MakeImageRange;
 
 
 namespace
@@ -146,6 +147,35 @@ namespace
     image->Allocate();
 
     EXPECT_FALSE(ImageRange<TImage>{ *image }.empty());
+  }
+
+
+  template <typename TImage>
+  void ExpectMakeImageRangeReturnsEmptyRangeForNullptr()
+  {
+    TImage* const imageNullptr = nullptr;
+    EXPECT_TRUE(MakeImageRange(imageNullptr).empty());
+  }
+
+
+  template <typename TImage>
+  void ExpectMakeImageRangeReturnsCorrectImageRangeForNonEmptyImage()
+  {
+    // First create a non-empty image:
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(1);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate();
+
+    auto&& imageRef = *image;
+
+    const auto expectedImageRange = ImageRange<TImage>{ imageRef };
+    const auto actualImageRange = MakeImageRange(&imageRef);
+
+    EXPECT_EQ(actualImageRange.begin(), expectedImageRange.begin());
+    EXPECT_EQ(actualImageRange.end(), expectedImageRange.end());
   }
 
 }  // namespace
@@ -730,4 +760,21 @@ TEST(ImageRange, IsNotEmptyWhenImageIsNonEmpty)
 {
   ExpectRangeIsNotEmptyForNonEmptyImage<itk::Image<int>>();
   ExpectRangeIsNotEmptyForNonEmptyImage<itk::VectorImage<int>>();
+}
+
+
+// Tests that MakeImageRange(imagePtr) returns an empty range when the argument (imagePtr) is a nullptr.
+TEST(ImageRange, MakeImageRangeReturnsEmptyRangeForNullptr)
+{
+  ExpectMakeImageRangeReturnsEmptyRangeForNullptr<itk::Image<int>>();
+  ExpectMakeImageRangeReturnsEmptyRangeForNullptr<itk::VectorImage<int>>();
+}
+
+
+// Tests that MakeImageRange(image) returns the correct ImageRange for a non-empty image:
+// For a non-empty image, MakeImageRange(&image) should be equivalent to ImageRange{image}.
+TEST(ImageRange, MakeImageRangeReturnsCorrectImageRangeForNonEmptyImage)
+{
+  ExpectMakeImageRangeReturnsCorrectImageRangeForNonEmptyImage<itk::Image<int>>();
+  ExpectMakeImageRangeReturnsCorrectImageRangeForNonEmptyImage<itk::VectorImage<int>>();
 }
