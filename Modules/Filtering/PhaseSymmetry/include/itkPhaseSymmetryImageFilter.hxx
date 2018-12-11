@@ -93,6 +93,9 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
   m_Sigma = 0.55;
   m_NoiseThreshold = 10.0;
   m_Polarity = 0;
+
+  // Avoid using too much memory by default.
+  this->ReleaseDataFlagOn();
 }
 
 
@@ -191,6 +194,25 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize()
     }
     m_FilterBank.push_back(tempStack);
   }
+
+  const bool releaseData = this->GetReleaseDataFlag();
+  m_ShiftScaleFilter->SetReleaseDataFlag(releaseData);
+  m_C2MFilter->SetReleaseDataFlag(releaseData);
+  m_C2AFilter->SetReleaseDataFlag(releaseData);
+  m_MultiplyImageFilter->SetReleaseDataFlag(releaseData);
+  m_DivideImageFilter->SetReleaseDataFlag(releaseData);
+  m_MP2CFilter->SetReleaseDataFlag(releaseData);
+  m_FFTFilter->SetReleaseDataFlag(releaseData);
+  m_IFFTFilter->SetReleaseDataFlag(releaseData);
+  m_C2RFilter->SetReleaseDataFlag(releaseData);
+  m_C2IFilter->SetReleaseDataFlag(releaseData);
+  m_MaxImageFilter->SetReleaseDataFlag(releaseData);
+  m_NegateFilter->SetReleaseDataFlag(releaseData);
+  m_NegateFilter2->SetReleaseDataFlag(releaseData);
+  m_AbsImageFilter->SetReleaseDataFlag(releaseData);
+  m_AbsImageFilter2->SetReleaseDataFlag(releaseData);
+  m_MaxImageFilter->SetReleaseDataFlag(releaseData);
+  m_AcosImageFilter->SetReleaseDataFlag(releaseData);
 }
 
 
@@ -242,20 +264,6 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_ShiftScaleFilter->Update();
   totalEnergy = m_ShiftScaleFilter->GetOutput();
   totalEnergy->DisconnectPipeline();
-
-
-  m_ShiftScaleFilter->ReleaseDataFlagOn();
-  m_C2MFilter->ReleaseDataFlagOn();
-  m_C2AFilter->ReleaseDataFlagOn();
-  m_MultiplyImageFilter->ReleaseDataFlagOn();
-  m_MP2CFilter->ReleaseDataFlagOn();
-  m_IFFTFilter->ReleaseDataFlagOn();
-  m_C2RFilter->ReleaseDataFlagOn();
-  m_C2IFilter->ReleaseDataFlagOn();
-  m_MaxImageFilter->ReleaseDataFlagOn();
-  m_NegateFilter->ReleaseDataFlagOn();
-  m_AbsImageFilter->ReleaseDataFlagOn();
-  m_AbsImageFilter2->ReleaseDataFlagOn();
 
   for (int o = 0; o < m_Orientations.rows(); ++o)
   {
