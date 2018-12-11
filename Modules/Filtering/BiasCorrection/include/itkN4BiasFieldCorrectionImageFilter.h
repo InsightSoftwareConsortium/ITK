@@ -137,6 +137,9 @@ public:
   using BiasFieldControlPointLatticeType = typename BSplineFilterType::PointDataImageType;
   using ArrayType = typename BSplineFilterType::ArrayType;
 
+  /** Ensures that this filter can compute the entire output at once.  */
+  void EnlargeOutputRequestedRegion(DataObject*) override;
+
   /**
    * The image expected for input for bias correction.
    */
