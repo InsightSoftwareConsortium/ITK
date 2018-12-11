@@ -56,6 +56,15 @@ as well as [range-based loops](https://github.com/InsightSoftwareConsortium/ITK/
 are also now used in ITK. As a consequence, due to limitations in C++11 support
 Visual Studio 2013 (MSVC 12.0) and other older C++ complilers cannot be used to build ITK from 5.0 and forward.
 
+Errors similar to `error: conversion from 'int' to 'typename InterpolatorType::Pointer'` are a result of further
+type safty for dealing with pointers. Enhancements in nullptr behavior in ITKv5 provide more clear
+type checking and respect the nullptr identifier.  The 'long 0' value
+known as NULL causes an abiguity for overload compilations of the ITKv5 smartpointers. To be backwards compatible
+with pre C++11 compilers use the `ITK_NULLPTR` designation, otherwise replace NULL and 0 initialization of
+`itk::SmartPointer` with nullptr.
+
+
+
 Availability of the C++11 standard allows use of many Standard Library
 features. These were previously implemented as portable ITK classes.
 The standard library classes are preferred over ITK's implementations.
@@ -65,6 +74,12 @@ The most notable examples of this are:
 and related classes should be replaced by the similarly named classes from
 [<mutex>](https://en.cppreference.com/w/cpp/header/mutex) header.
  * itksys::hash_map should be replaced by [std::unordered_map](https://en.cppreference.com/w/cpp/container/unordered_map).
+
+To modernize your code base, replace:
+  * `SimpleFastMutexLock` with `std::mutex`, and `#include "itkSimpleFastMutexLock.h"`  with `#include <mutex>`.
+  * `FastMutexLock` with `std::mutex`, and `#include "itkFastMutexLock.h"`  with `#include <mutex>`.
+  * `MutexLock` with `std::mutex`, and `#include "itkMutexLock.h"`  with `#include <mutex>`.
+
 
 Modern CMake requirement
 ------------------------
@@ -141,6 +156,34 @@ if (threadId==0)
   //code2 single-threaded
 //code3 (parallel)
 }
+
+-  ITK_THREAD_RETURN_TYPE is now in the itk:: namespace
+```
+#if ITK_VERSION_MAJOR >= 5
+  static itk::ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+#else
+  static ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+#endif
+```
+
+- ITK_THREAD_RETURN_VALUE is named itk::ITK_THREAD_RETURN_DEFAULT_VALUE
+```
+#if ITK_VERSION_MAJOR >= 5
+  return itk::ITK_THREAD_RETURN_DEFAULT_VALUE;
+#else
+  return ITK_THREAD_RETURN_VALUE;
+#endif
+```
+
+- ThreadInfoStruct is renamed to WorkUnitInfo
+```
+#if ITK_VERSION_MAJOR >= 5
+    (((itk::PlatformMultiThreader::WorkUnitInfo *)(arg))->UserData);
+#else
+    (((itk::MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+#endif
+```
+
 ```
 after refactoring to not use barrier:
 ```C++
@@ -190,6 +233,7 @@ AfterThreadedGenerateData()
     numVoxelsInsideMask += m_NumVoxelsInsideMask[i];
     }
 }
+
 ```
 After, using `std::atomic`:
 ```C++
