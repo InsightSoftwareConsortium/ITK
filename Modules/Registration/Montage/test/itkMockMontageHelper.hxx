@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkParseTileConfiguration.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
 #include <array>
@@ -30,31 +31,33 @@
 #include <type_traits>
 
 // do the registration and calculate error for two images
-template< typename PixelType, unsigned Dimension, typename PositionTableType, typename FilenameTableType >
-double calculateError(const PositionTableType& initalCoords, const PositionTableType& actualCoords,
-    const FilenameTableType& filenames, int paddingMethod,
-    std::ostream& out, unsigned xF, unsigned yF, unsigned xM, unsigned yM)
+template< typename PixelType, unsigned Dimension >
+double
+calculateError( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
+                const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
+                const std::string& inputPath, int paddingMethod, std::ostream& out,
+                unsigned xF, unsigned yF, unsigned xM, unsigned yM)
 {
   double translationError = 0.0;
-  std::cout << filenames[yF][xF] << " <- " << filenames[yM][xM] << std::endl;
+  std::cout << stageTiles[yF][xF].FileName << " <- " << stageTiles[yM][xM].FileName << std::endl;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( filenames[yF][xF] );
+  reader->SetFileName( inputPath + stageTiles[yF][xF].FileName );
   reader->Update();
   typename ImageType::Pointer fixedImage = reader->GetOutput();
   fixedImage->DisconnectPipeline();
 
-  reader->SetFileName( filenames[yM][xM] );
+  reader->SetFileName( inputPath + stageTiles[yM][xM].FileName );
   reader->Update();
   typename ImageType::Pointer movingImage = reader->GetOutput();
   movingImage->DisconnectPipeline();
 
   // adjust origins (assume 0 origins in files)
-  fixedImage->SetOrigin( initalCoords[yF][xF] );
-  movingImage->SetOrigin( initalCoords[yM][xM] );
+  fixedImage->SetOrigin( stageTiles[yF][xF].Position );
+  movingImage->SetOrigin( stageTiles[yM][xM].Position );
 
   // execute registration
   using PhaseCorrelationMethodType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
@@ -110,8 +113,8 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
     // calculate error
     using VectorType = itk::Vector< double, Dimension >;
     VectorType tr = regTr->GetOffset(); // translation measured by registration
-    VectorType ta = ( actualCoords[yF][xF] - initalCoords[yF][xF] ) -
-                    ( actualCoords[yM][xM] - initalCoords[yM][xM] ); // translation (actual)
+    VectorType ta = ( actualTiles[yF][xF].Position - stageTiles[yF][xF].Position ) -
+                    ( actualTiles[yM][xM].Position - stageTiles[yM][xM].Position ); // translation (actual)
     for ( unsigned d = 0; d < Dimension; d++ )
       {
       out << '\t' << ( tr[d] - ta[d] );
@@ -127,10 +130,11 @@ double calculateError(const PositionTableType& initalCoords, const PositionTable
 } // calculateError
 
 // do the registrations and calculate registration errors
-template< typename PixelType, unsigned xMontageSize, unsigned yMontageSize, typename PositionTableType, typename FilenameTableType >
+template< typename PixelType >
 int
-mockMontageTest( const PositionTableType& stageCoords, const PositionTableType& actualCoords,
-                 const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods )
+mockMontageTest( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
+                 const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
+                 const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods )
 {
   int result = EXIT_SUCCESS;
   constexpr unsigned Dimension = 2;
@@ -155,6 +159,8 @@ mockMontageTest( const PositionTableType& stageCoords, const PositionTableType& 
       }
     registrationErrors << std::endl;
 
+    unsigned yMontageSize = stageTiles.size();
+    unsigned xMontageSize = stageTiles[0].size();
     double totalError = 0.0;
     for ( unsigned y = 0; y < yMontageSize; y++ )
       {
@@ -163,12 +169,12 @@ mockMontageTest( const PositionTableType& stageCoords, const PositionTableType& 
         if ( x > 0 )
           {
           totalError += calculateError< PixelType, Dimension >(
-            stageCoords, actualCoords, filenames, padMethod, registrationErrors, x - 1, y, x, y );
+              stageTiles, actualTiles, inputPath, padMethod, registrationErrors, x - 1, y, x, y );
           }
         if ( y > 0 )
           {
           totalError += calculateError< PixelType, Dimension >(
-            stageCoords, actualCoords, filenames, padMethod, registrationErrors, x, y - 1, x, y );
+              stageTiles, actualTiles, inputPath, padMethod, registrationErrors, x, y - 1, x, y );
           }
         }
       }
