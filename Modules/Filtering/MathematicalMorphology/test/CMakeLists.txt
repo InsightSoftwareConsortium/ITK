@@ -528,7 +528,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonGrayscaleDilateImageFilterTest.png
       DATA{Baseline/PythonGrayscaleDilateImageFilterTest.png}
-    COMMAND GrayscaleDilateImageFilter.py
+    COMMAND GrayscaleDilateImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonGrayscaleDilateImageFilterTest.png
       5
@@ -537,7 +537,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonGrayscaleErodeImageFilterTest.png
       DATA{Baseline/PythonGrayscaleErodeImageFilterTest.png}
-    COMMAND GrayscaleErodeImageFilter.py
+    COMMAND GrayscaleErodeImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonGrayscaleErodeImageFilterTest.png
       5
@@ -549,6 +549,6 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
       DATA{Baseline/PythonBoxGrayscaleDilateImageFilterTest.png}
     COMMAND BoxGrayscaleDilateImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-      ${ITK_TEST_OUTPUT_DIR}/BoxGrayscaleDilateImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/PythonBoxGrayscaleDilateImageFilterTest.png
     )
 endif()
