@@ -15,6 +15,8 @@ else()
 endif()
 include(${ITK_USE_FILE})
 
-add_executable(PhaseCorrelationImageRegistration
-  PhaseCorrelationImageRegistration.cxx)
+add_executable(PhaseCorrelationImageRegistration PhaseCorrelationImageRegistration.cxx)
 target_link_libraries(PhaseCorrelationImageRegistration ${ITK_LIBRARIES})
+
+add_executable(Montage2D Montage2D.cxx)
+target_link_libraries(Montage2D ${ITK_LIBRARIES})
