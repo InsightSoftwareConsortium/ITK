@@ -55,6 +55,15 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   m_CurrentLevel( 0 ),
   m_SplineOrder( 3 )
 {
+  // implicit:
+  // #0 "Primary" required
+
+  // #1 "MaskImage" optional
+  Self::AddOptionalInputName("MaskImage",1);
+
+  // #2 "ConfidenceImage" optional
+  Self::AddOptionalInputName("ConfidenceImage",2);
+
   this->SetNumberOfRequiredInputs( 1 );
 
   this->m_LogBiasFieldControlPointLattice = nullptr;
