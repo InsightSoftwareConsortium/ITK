@@ -142,16 +142,12 @@ public:
    */
   void SetInput1( const InputImageType *image ) { this->SetInput( image ); }
 
-
   /**
    * Set mask image function.  If a binary mask image is specified, only
    * those input image voxels inside the mask image values are used in
    * estimating the bias field.
    */
-  void SetMaskImage( const MaskImageType *mask )
-    {
-    this->SetNthInput( 1, const_cast<MaskImageType *>( mask ) );
-    }
+  itkSetInputMacro(MaskImage, MaskImageType);
   void SetInput2( const MaskImageType *mask ) { this->SetMaskImage( mask ); }
 
   /**
@@ -159,10 +155,7 @@ public:
    * those input image voxels inside the mask image values are used in
    * estimating the bias field.
    */
-  const MaskImageType* GetMaskImage() const
-    {
-    return static_cast<const MaskImageType*>( this->ProcessObject::GetInput( 1 ) );
-    }
+  itkGetInputMacro(MaskImage, MaskImageType);
 
   /**
    * Set/Get mask label value. If a binary mask image is specified and if
@@ -192,10 +185,7 @@ public:
    * been done in the literature) as an alternative strategy to estimating the
    * bias field.
    */
-  void SetConfidenceImage( const RealImageType *image )
-    {
-    this->SetNthInput( 2, const_cast<RealImageType *>( image ) );
-    }
+  itkSetInputMacro(ConfidenceImage, RealImageType);
   void SetInput3( const RealImageType *image ) { this->SetConfidenceImage( image ); }
 
   /**
@@ -208,10 +198,7 @@ public:
    * been done in the literature) as an alternative strategy to estimating the
    * bias field.
    */
-  const RealImageType* GetConfidenceImage() const
-    {
-    return static_cast<const RealImageType*>( this->ProcessObject::GetInput( 2 ) );
-    }
+  itkGetInputMacro(ConfidenceImage, RealImageType);
 
   // Sharpen histogram parameters: in estimating the bias field, the
   // first step is to sharpen the intensity histogram by Wiener deconvolution
