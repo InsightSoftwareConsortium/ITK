@@ -54,48 +54,44 @@ namespace itk
  * in the buffer; the N arrays are then concatentated together on form
  * a single array.
  *
- * For efficiency, this transform does not make a copy of the parameters.
- * It only keeps a pointer to the input parameters and assumes that the memory
- * is managed by the caller.
- *
  * The following illustrates the typical usage of this class:
- * \verbatim
- * using TransformType = BSplineTransform<double,2,3>;
- * TransformType::Pointer transform = TransformType::New();
- *
- * transform->SetTransformDomainOrigin( origin );
- * transform->SetTransformDomainPhysicalDimensions( physicalDimensions );
- * transform->SetTransformDomainDirection( direction );
- * transform->SetTransformDomainMeshSize( meshSize );
- *
- * // NB: the region must be set first before setting the parameters
- *
- * TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
- *
- * // Fill the parameters with values
- *
- * transform->SetParameters( parameters )
- *
- * outputPoint = transform->TransformPoint( inputPoint );
- *
- * \endverbatim
+ * \code
+   using TransformType = BSplineTransform<double,2,3>;
+   TransformType::Pointer transform = TransformType::New();
+
+   transform->SetTransformDomainOrigin( origin );
+   transform->SetTransformDomainPhysicalDimensions( physicalDimensions );
+   transform->SetTransformDomainDirection( direction );
+   transform->SetTransformDomainMeshSize( meshSize );
+
+   // NB: The region must be set first before setting the parameters
+
+   TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
+
+   // Fill the parameters with values
+
+   transform->SetParameters( parameters )
+
+   outputPoint = transform->TransformPoint( inputPoint );
+
+   \endcode
  *
  * An alternative way to set the B-spline coefficients is via array of
  * images. The fixed parameters of the transform are taken
  * directly from the first image. It is assumed that the subsequent images
  * are the same buffered region. The following illustrates the API:
- * \verbatim
+ * \code
+
+   TransformType::ImageConstPointer images[2];
+
+   // Fill the images up with values
+
+   transform->SetCoefficientImages( images );
+   outputPoint = transform->TransformPoint( inputPoint );
+
+   \endcode
  *
- * TransformType::ImageConstPointer images[2];
- *
- * // Fill the images up with values
- *
- * transform->SetCoefficientImages( images );
- * outputPoint = transform->TransformPoint( inputPoint );
- *
- * \endverbatim
- *
- * Warning: use either the SetParameters() or SetCoefficientImages()
+ * \warning Use either the SetParameters() or SetCoefficientImages()
  * API. Mixing the two modes may results in unexpected results.
  *
  * The class is templated coordinate representation type (float or double),
