@@ -46,9 +46,9 @@ int itkMontageTest2D(int argc, char* argv[])
     setMontageDirectly = std::stoi( argv[6] );
     }
   unsigned streamSubdivisions = 1;
-  if ( argc > 5 )
+  if ( argc > 7 )
     {
-    peakMethod = std::stoul( argv[5] );
+    streamSubdivisions = std::stoul( argv[7] );
     }
 
   constexpr unsigned Dimension = 2;
