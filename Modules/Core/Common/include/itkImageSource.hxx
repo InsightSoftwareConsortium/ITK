@@ -182,7 +182,7 @@ ImageSource< TOutputImage >
   typename ImageBaseType::Pointer outputPtr;
 
   // Allocate the output memory
-  for ( OutputDataObjectIterator it(this); !it.IsAtEnd(); it++ )
+  for ( OutputDataObjectIterator it(this); !it.IsAtEnd(); ++it )
     {
     // Check whether the output is an image of the appropriate
     // dimension (use ProcessObject's version of the GetInput()

@@ -83,7 +83,7 @@ void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
       itkExceptionMacro(<< "Assertion failed for test of GetElementIfIndexExists()");
       }
 
-    pointsIt++;
+    ++pointsIt;
     }
 
   this->ProcessObject::SetNthOutput( 0,  meshSource->GetOutput() );

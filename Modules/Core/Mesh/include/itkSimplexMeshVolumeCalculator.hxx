@@ -263,7 +263,7 @@ void SimplexMeshVolumeCalculator< TInputMesh >
       {
       CalculateTriangleVolume(p1, p2, p3);
       }
-    pointsIt++;
+    ++pointsIt;
     }
   this->Finalize();
 }

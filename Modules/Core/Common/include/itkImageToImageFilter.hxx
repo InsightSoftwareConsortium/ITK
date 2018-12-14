@@ -105,7 +105,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 {
   Superclass::GenerateInputRequestedRegion();
 
-  for( InputDataObjectIterator it( this ); !it.IsAtEnd(); it++ )
+  for( InputDataObjectIterator it( this ); !it.IsAtEnd(); ++it )
     {
     // Check whether the input is an image of the appropriate dimension
     using ImageBaseType = ImageBase< InputImageDimension >;

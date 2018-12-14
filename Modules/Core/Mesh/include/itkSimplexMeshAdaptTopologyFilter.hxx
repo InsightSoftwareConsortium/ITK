@@ -295,8 +295,8 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       this->ModifyNeighborCells(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);
 
       } // end if cell must be modified
-    areaIt++;
-    curvatureIt++;
+    ++areaIt;
+    ++curvatureIt;
     }
 }
 

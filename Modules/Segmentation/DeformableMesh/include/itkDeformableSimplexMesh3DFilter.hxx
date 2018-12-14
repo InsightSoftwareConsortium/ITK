@@ -146,7 +146,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     data = this->m_Data->GetElement(idx);
     delete data->neighborSet;
     data->neighborSet = nullptr;
-    pointItr++;
+    ++pointItr;
     }
 
   this->ComputeOutput();
@@ -224,7 +224,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     delete neighborsList;
     data->neighborSet =  neighborSet;
 
-    pointItr++;
+    ++pointItr;
     }
 
 }
@@ -317,7 +317,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
     data->eps = ComputeBarycentricCoordinates(Foot, data);
     dataIt.Value() = data;
-    dataIt++;
+    ++dataIt;
     }
 }
 
@@ -353,7 +353,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     data->pos += displacement;
     nonConstPoints->InsertElement(dataIt.Index(), data->pos);
 
-    dataIt++;
+    ++dataIt;
     }
 }
 
@@ -568,7 +568,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     nonConstInputMesh->SetPointData(dataIt->Index(), H);
     dataIt.Value() = data;
     //      m_Data->InsertElement(dataIt->Index(),data);
-    dataIt++;
+    ++dataIt;
     }
 }
 
