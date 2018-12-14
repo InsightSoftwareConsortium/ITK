@@ -178,18 +178,14 @@ public:
   bool
   operator==(const Self & region) const
   {
-    bool same = ( m_Index == region.m_Index );
-    same = same && ( m_Size == region.m_Size );
-    return same;
+    return (m_Index == region.m_Index) && (m_Size == region.m_Size);
   }
 
   /** Compare two regions. */
   bool
   operator!=(const Self & region) const
   {
-    bool same = ( m_Index == region.m_Index );
-    same = same && ( m_Size == region.m_Size );
-    return !same;
+    return !(*this == region);
   }
 
   /** Test if an index is inside */

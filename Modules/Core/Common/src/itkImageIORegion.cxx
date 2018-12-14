@@ -251,12 +251,9 @@ bool
 ImageIORegion
 ::operator==(const Self & region) const
 {
-  bool same;
-
-  same = ( m_Index == region.m_Index );
-  same = same && ( m_Size == region.m_Size );
-  same = same && ( m_ImageDimension == region.m_ImageDimension );
-  return same;
+  return (m_Index == region.m_Index) &&
+    (m_Size == region.m_Size) &&
+    (m_ImageDimension == region.m_ImageDimension);
 }
 
 /** Compare two regions. */
@@ -264,12 +261,7 @@ bool
 ImageIORegion
 ::operator!=(const Self & region) const
 {
-  bool same;
-
-  same = ( m_Index == region.m_Index );
-  same = same && ( m_Size == region.m_Size );
-  same = same && ( m_ImageDimension == region.m_ImageDimension );
-  return !same;
+  return !(*this == region);
 }
 
 void
