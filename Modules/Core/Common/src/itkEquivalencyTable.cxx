@@ -88,7 +88,7 @@ void EquivalencyTable::Flatten()
   while ( it != this->End() )
     {
     ( *it ).second = this->RecursiveLookup( ( *it ).second );
-    it++;
+    ++it;
     }
 }
 

@@ -249,7 +249,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
       {
       OutputImage->SetPixel(index, m_InsideValue);
       }
-    pointItr++;
+    ++pointItr;
     }
 
   itkDebugMacro(<< "PointSetToImageFilter::Update() finished");

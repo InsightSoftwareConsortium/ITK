@@ -284,7 +284,7 @@ RegularSphereMeshSource< TOutputMesh >
         }
 
       // for all cells
-      cells++;
+      ++cells;
       }
 
     // Release input memory
@@ -293,7 +293,7 @@ RegularSphereMeshSource< TOutputMesh >
       {
       const CellInterfaceType *cellToBeDeleted = cells->Value();
       delete cellToBeDeleted;
-      cells++;
+      ++cells;
       }
 
     // set output

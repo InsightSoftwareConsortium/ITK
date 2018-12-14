@@ -136,7 +136,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   using InternalRunLengthFeatureName = typename RunLengthFeaturesFilterType::RunLengthFeatureName;
 
   for( offsetIt = this->m_Offsets->Begin(), offsetNum = 0;
-    offsetIt != this->m_Offsets->End(); offsetIt++, offsetNum++ )
+    offsetIt != this->m_Offsets->End(); ++offsetIt, offsetNum++ )
     {
     this->m_RunLengthMatrixGenerator->SetOffset( offsetIt.Value() );
     this->m_RunLengthMatrixGenerator->Update();
@@ -148,7 +148,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 
     typename FeatureNameVector::ConstIterator fnameIt;
     for( fnameIt = this->m_RequestedFeatures->Begin(), featureNum = 0;
-      fnameIt != this->m_RequestedFeatures->End(); fnameIt++, featureNum++ )
+      fnameIt != this->m_RequestedFeatures->End(); ++fnameIt, featureNum++ )
       {
       features[offsetNum][featureNum] = runLengthMatrixCalculator->GetFeature(
         ( InternalRunLengthFeatureName )fnameIt.Value() );
@@ -241,7 +241,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->m_FeatureStandardDeviations->clear();
   typename FeatureNameVector::ConstIterator fnameIt;
   for( fnameIt = this->m_RequestedFeatures->Begin();
-    fnameIt != this->m_RequestedFeatures->End(); fnameIt++ )
+    fnameIt != this->m_RequestedFeatures->End(); ++fnameIt )
     {
     this->m_FeatureMeans->push_back( runLengthMatrixCalculator->GetFeature(
       ( InternalRunLengthFeatureName )fnameIt.Value() ) );
