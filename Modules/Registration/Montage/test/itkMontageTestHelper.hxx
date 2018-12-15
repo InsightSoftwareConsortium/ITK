@@ -22,13 +22,13 @@
 #include "itkAffineTransform.h"
 #include "itkImageFileWriter.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkParseTileConfiguration.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTileMergeImageFilter.h"
 #include "itkTileMontage.h"
 #include "itkTransformFileWriter.h"
 #include "itkTxtTransformIOFactory.h"
 
-#include <array>
 #include <fstream>
 #include <iomanip>
 #include <type_traits>
@@ -64,11 +64,11 @@ WriteTransform( const TransformType* transform, std::string filename )
 // do the registrations and calculate registration errors
 // negative peakMethodToUse means to try them all
 // streamSubdivisions of 1 disables streaming (higher memory useage, less cluttered debug output)
-template< typename PixelType, typename AccumulatePixelType, unsigned xMontageSize, unsigned yMontageSize,
-          typename PositionTableType, typename FilenameTableType >
+template< typename PixelType, typename AccumulatePixelType >
 int
-montageTest( const PositionTableType& stageCoords, const PositionTableType& actualCoords,
-             const FilenameTableType& filenames, const std::string& outFilename, bool varyPaddingMethods,
+montageTest( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
+             const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
+             const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods,
              int peakMethodToUse, bool setMontageDirectly, unsigned streamSubdivisions )
 {
   int result = EXIT_SUCCESS;
@@ -79,12 +79,13 @@ montageTest( const PositionTableType& stageCoords, const PositionTableType& actu
   using TransformType = itk::TranslationTransform< double, Dimension >;
   using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
   using OriginalImageType = itk::Image< PixelType, Dimension >; // possibly RGB instead of scalar
-  using ImageTypePointer = typename ScalarImageType::Pointer;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ScalarImageType, ScalarImageType >;
   using PadMethodUnderlying = typename std::underlying_type< typename PCMType::PaddingMethod >::type;
   typename ScalarImageType::SpacingType sp;
   sp.Fill( 1.0 ); // OMC test assumes unit spacing, tiles test has explicit unit spacing
   itk::ObjectFactoryBase::RegisterFactory( itk::TxtTransformIOFactory::New() );
+  unsigned yMontageSize = stageTiles.size();
+  unsigned xMontageSize = stageTiles[0].size();
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
@@ -116,7 +117,7 @@ montageTest( const PositionTableType& stageCoords, const PositionTableType& actu
     auto paddingMethod = static_cast< typename PCMType::PaddingMethod >( padMethod );
     montage->GetModifiablePCM()->SetPaddingMethod( paddingMethod );
     montage->SetMontageSize( { xMontageSize, yMontageSize } );
-    montage->SetOriginAdjustment( stageCoords[1][1] );
+    montage->SetOriginAdjustment( stageTiles[1][1].Position );
     montage->SetForcedSpacing( sp );
 
     typename MontageType::TileIndexType ind;
@@ -126,7 +127,7 @@ montageTest( const PositionTableType& stageCoords, const PositionTableType& actu
         for ( unsigned x = 0; x < xMontageSize; x++ )
           {
             ind[0] = x;
-            montage->SetInputTile( ind, filenames[y][x] );
+            montage->SetInputTile( ind, inputPath + stageTiles[y][x].FileName );
           }
       }
 
@@ -162,10 +163,10 @@ montageTest( const PositionTableType& stageCoords, const PositionTableType& actu
 
           // calculate error
           VectorType tr = regTr->GetOffset(); // translation measured by registration
-          VectorType ta = stageCoords[y][x] - actualCoords[y][x]; // translation (actual)
+          VectorType ta = stageTiles[y][x].Position - actualTiles[y][x].Position; // translation (actual)
           PointType  p0;
           p0.Fill( 0 );
-          ta += actualCoords[0][0] - p0; // account for tile zero maybe not being at coordinates 0
+          ta += actualTiles[0][0].Position - p0; // account for tile zero maybe not being at coordinates 0
           double singleError = 0.0;
           for ( unsigned d = 0; d < Dimension; d++ )
             {
@@ -190,29 +191,21 @@ montageTest( const PositionTableType& stageCoords, const PositionTableType& actu
       // write generated mosaic
       using Resampler = itk::TileMergeImageFilter< OriginalImageType, AccumulatePixelType >;
       typename Resampler::Pointer resampleF = Resampler::New();
-      itk::SimpleFilterWatcher    fw2( resampleF, "resampler" );
-#ifndef DISABLE_SETTING_MONTAGE_DIRECTLY
-      if ( setMontageDirectly )
+      itk::SimpleFilterWatcher fw2( resampleF, "resampler" );
+      resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
+      resampleF->SetOriginAdjustment( stageTiles[1][1].Position );
+      resampleF->SetForcedSpacing( sp );
+      for ( unsigned y = 0; y < yMontageSize; y++ )
         {
-        resampleF->SetMontage( montage );
-        }
-      else
-#endif
-        {
-        resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
-        resampleF->SetOriginAdjustment( stageCoords[1][1] );
-        resampleF->SetForcedSpacing( sp );
-        for ( unsigned y = 0; y < yMontageSize; y++ )
+        ind[1] = y;
+        for ( unsigned x = 0; x < xMontageSize; x++ )
           {
-          ind[1] = y;
-          for ( unsigned x = 0; x < xMontageSize; x++ )
-            {
-            ind[0] = x;
-            resampleF->SetInputTile( ind, filenames[y][x] );
-            resampleF->SetTileTransform( ind, montage->GetOutputTransform( ind ) );
-            }
+          ind[0] = x;
+          resampleF->SetInputTile( ind, inputPath + stageTiles[y][x].FileName );
+          resampleF->SetTileTransform( ind, montage->GetOutputTransform( ind ) );
           }
         }
+
       // resampleF->Update();
       using WriterType = itk::ImageFileWriter< OriginalImageType >;
       typename WriterType::Pointer w = WriterType::New();
