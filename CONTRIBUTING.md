@@ -88,8 +88,7 @@ For new development, start the topic from `upstream/master`:
    $ git checkout -b my-topic upstream/master
 ```
 
-For release branch fixes, start the topic from `upstream/release`, and by
-convention use a topic name starting in `release-`:
+For release branch fixes, start the topic from `upstream/release`:
 
 ```sh
    $ git checkout -b my-topic upstream/release
