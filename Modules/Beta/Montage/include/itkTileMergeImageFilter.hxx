@@ -22,7 +22,6 @@
 #include "itkTileMergeImageFilter.h"
 
 #include "itkMultiThreaderBase.h"
-#include "itkNumericTraits.h"
 
 #include <algorithm>
 #include <cassert>

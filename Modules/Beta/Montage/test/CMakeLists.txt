@@ -5,11 +5,8 @@ add_compile_options(-D_SCL_SECURE_NO_WARNINGS) # disable non-standard warning on
 set(MontageTests
   itkMontagePCMTestSynthetic.cxx
   itkMontagePCMTestFiles.cxx
-  itkMontageTestTiles.cxx
-  itkMontageTestOMC.cxx
-  itkMontageTestRGB.cxx
-  itkMontageTestTi7.cxx
   itkMontageGenericTests.cxx
+  itkMontageTest2D.cxx
   )
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
@@ -128,10 +125,11 @@ itk_add_test(NAME itkMontagePCMTestFilesSynthetic3D
 function(AddTestOMC slicerNumber)
   itk_add_test(NAME itkMontageTestOMC${slicerNumber}
     COMMAND MontageTestDriver
-    itkMontageTestOMC
+    itkMontageTest2D
       DATA{${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC${slicerNumber}_
       ${TESTING_OUTPUT_PATH}/itkMontageTestOMC${slicerNumber}_
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC${slicerNumber}_
+      1 -1 0 1
     )
 endfunction()
 
@@ -145,10 +143,11 @@ itk_add_test(NAME itkMontageTestRGB
   COMMAND MontageTestDriver
   --compare DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/VisibleHumanMale1608.png}
                  ${TESTING_OUTPUT_PATH}/itkMontageTestRGB0_1.mha
-  itkMontageTestRGB
+  itkMontageTest2D
     DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/,REGEX:.*}
-    ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGB
     ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
+    ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGB
+    1 -1 0 1
   )
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
@@ -183,38 +182,41 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
 
   itk_add_test(NAME itkMontageTestTi7Slice36flat
     COMMAND MontageTestDriver
-    itkMontageTestTi7
+    itkMontageTest2D
       ${flatFolder}
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7flat36_
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7flat36_
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7flat36_
+      0 1 0 5
     )
 
   itk_add_test(NAME itkMontageTestTi7Slice36raw
     COMMAND MontageTestDriver
-    itkMontageTestTi7
+    itkMontageTest2D
       ${rawFolder}
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7raw36_
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7raw36_
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7raw36_
+      0 1 0 5
     )
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
   itk_add_test(NAME itkMontageTestTiles
     COMMAND MontageTestDriver
-    itkMontageTestTiles
+    itkMontageTest2D
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTiles
       ${TESTING_OUTPUT_PATH}/itkMontageTestTiles
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTiles
+      0 -1 1 1
     )
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
   itk_add_test(NAME itkMontageTestNoisyTiles
     COMMAND MontageTestDriver
-    itkMontageTestTiles
+    itkMontageTest2D
       ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles
-      ${TESTING_OUTPUT_PATH}/itkMockMontageTestNoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMontageTestNoisyTiles
-      NoisyImage
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestNoisyTiles
+      0 -1 1 1
     )
 endif()
