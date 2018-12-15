@@ -36,15 +36,18 @@ struct Tile
   std::string FileName;
 };
 
+using Tile2D = Tile< 2 >;
+using TileRow2D = std::vector< Tile2D >;
+using TileLayout2D = std::vector< TileRow2D >;
+
 /** The tile filenames are taken directly from the configuration file.
  * Path is NOT prepended to them, and they are not otherwise modified. */
-Montage_EXPORT std::vector< std::vector< Tile< 2 > > >
+Montage_EXPORT TileLayout2D
 ParseTileConfiguration2D( const std::string pathToFile );
 
 /** The path is NOT prepended to tile filenames. */
 Montage_EXPORT void
-WriteTileConfiguration2D( const std::string pathToFile,
-                          const std::vector< std::vector< Tile< 2 > > >& tileConfiguration2D );
+WriteTileConfiguration2D( const std::string pathToFile, const TileLayout2D& tileConfiguration2D );
 
 } // namespace itk
 

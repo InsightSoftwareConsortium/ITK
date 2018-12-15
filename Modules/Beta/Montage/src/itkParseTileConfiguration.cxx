@@ -117,16 +117,14 @@ static double_conversion::DoubleToStringConverter doubleConverter(
 
 namespace itk
 {
-std::vector< std::vector< Tile< 2 > > >
+TileLayout2D
 ParseTileConfiguration2D( const std::string pathToFile )
 {
   constexpr unsigned Dimension = 2;
   using PointType = itk::Point< double, Dimension >;
-  using TileRow = std::vector< Tile< Dimension > >;
-  using TileLayout = std::vector< TileRow >;
 
   unsigned xMontageSize = 0;
-  TileLayout tiles;
+  TileLayout2D tiles;
   std::string timePointID; // just to make sure all lines specify the same time point
 
   std::ifstream tileFile( pathToFile );
@@ -144,7 +142,7 @@ ParseTileConfiguration2D( const std::string pathToFile )
   // read coordinates from files
   while ( tileFile )
     {
-    TileRow tileRow = parseRow< Dimension >( temp, tileFile, timePointID );
+    TileRow2D tileRow = parseRow< Dimension >( temp, tileFile, timePointID );
     if (xMontageSize == 0)
       {
       xMontageSize = tileRow.size(); // we get size from the first row
@@ -160,8 +158,7 @@ ParseTileConfiguration2D( const std::string pathToFile )
 }
 
 void
-WriteTileConfiguration2D( const std::string pathToFile,
-                          const std::vector< std::vector< Tile< 2 > > >& tileConfiguration2D )
+WriteTileConfiguration2D( const std::string pathToFile, const TileLayout2D& tileConfiguration2D )
 {
   std::ofstream tileFile( pathToFile );
   if (!tileFile)
