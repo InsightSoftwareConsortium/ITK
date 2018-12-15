@@ -18,7 +18,6 @@ itk_module(Montage
     ITKTransform
     ITKIOImageBase
     ITKImageFrequency
-  COMPILE_DEPENDS
     ITKDoubleConversion
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
