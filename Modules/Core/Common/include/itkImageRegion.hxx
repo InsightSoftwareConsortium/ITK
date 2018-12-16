@@ -32,24 +32,6 @@
 
 namespace itk
 {
-/**
- * Instantiate object.
- */
-template< unsigned int VImageDimension >
-ImageRegion< VImageDimension >
-::ImageRegion()
-{
-  m_Index.Fill(0);
-  m_Size.Fill(0);
-}
-
-/**
- * Destructor for the ImageRegion class.
- */
-template< unsigned int VImageDimension >
-ImageRegion< VImageDimension >
-::~ImageRegion() = default;
-
 template< unsigned int VImageDimension >
 typename ImageRegion< VImageDimension >::IndexType
 ImageRegion< VImageDimension >
