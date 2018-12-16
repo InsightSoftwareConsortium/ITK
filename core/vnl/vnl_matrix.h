@@ -114,12 +114,7 @@ class VNL_EXPORT vnl_matrix
 {
  public:
   //: Default constructor creates an empty matrix of size 0,0.
-  vnl_matrix() :
-    num_rows(0),
-    num_cols(0),
-    data(nullptr)
-  {
-  }
+  vnl_matrix();
 
   //: Construct a matrix of size r rows by c columns
   // Contents are unspecified.

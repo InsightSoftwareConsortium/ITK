@@ -130,9 +130,18 @@ do { \
   } \
 } while (false)
 
+
+//: Default constructor creates an empty matrix of size 0,0.
+template< class T >
+vnl_matrix< T >::vnl_matrix()
+  : num_rows( 0 )
+  , num_cols( 0 )
+  , data( nullptr )
+{
+}
+
 //: Creates a matrix with given number of rows and columns.
 // Elements are not initialized. O(m*n).
-
 template <class T>
 vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz)
 : num_rows(rowz), num_cols(colz)
@@ -142,7 +151,6 @@ vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz)
 }
 
 //: Creates a matrix with given number of rows and columns, and initialize all elements to value. O(m*n).
-
 template <class T>
 vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz, T const& value)
 : num_rows(rowz), num_cols(colz)
@@ -177,7 +185,6 @@ vnl_matrix<T>::vnl_matrix(unsigned r, unsigned c, vnl_matrix_type t)
 
 #if 1 // fsm: who uses this?
 //: Creates a matrix with given dimension (rows, cols) and initialize first n elements, row-wise, to values. O(m*n).
-
 template <class T>
 vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz, unsigned n, T const values[])
 : num_rows(rowz), num_cols(colz)
@@ -192,7 +199,6 @@ vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz, unsigned n, T const val
 
 //: Creates a matrix from a block array of data, stored row-wise.
 // O(m*n).
-
 template <class T>
 vnl_matrix<T>::vnl_matrix (T const* datablck, unsigned rowz, unsigned colz)
 : num_rows(rowz), num_cols(colz)
@@ -205,7 +211,6 @@ vnl_matrix<T>::vnl_matrix (T const* datablck, unsigned rowz, unsigned colz)
 
 //: Creates a new matrix and copies all the elements.
 // O(m*n).
-
 template <class T>
 vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const& from)
 : num_rows(from.num_rows), num_cols(from.num_cols)
