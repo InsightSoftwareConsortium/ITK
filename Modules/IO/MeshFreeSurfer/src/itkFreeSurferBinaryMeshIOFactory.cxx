@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshFreeSurferExport.h"
 
 #include "itkFreeSurferBinaryMeshIO.h"
 #include "itkFreeSurferBinaryMeshIOFactory.h"
@@ -59,7 +59,7 @@ FreeSurferBinaryMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferBinaryMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private()
+void ITKIOMeshFreeSurfer_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private()
 {
   if( ! FreeSurferBinaryMeshIOFactoryHasBeenRegistered )
     {

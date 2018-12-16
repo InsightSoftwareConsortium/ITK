@@ -16,41 +16,44 @@
  *
  *=========================================================================*/
 
-#ifndef itkFreeSurferAsciiMeshIO_h
-#define itkFreeSurferAsciiMeshIO_h
-#include "ITKIOMeshExport.h"
+#ifndef itkFreeSurferBinaryMeshIO_h
+#define itkFreeSurferBinaryMeshIO_h
+#include "ITKIOMeshFreeSurferExport.h"
 
+#include "itkByteSwapper.h"
 #include "itkMeshIOBase.h"
+#include "itkIntTypes.h"
 
 #include <fstream>
 
 namespace itk
 {
-/** \class FreeSurferAsciiMeshIO
- * \brief This class defines how to read and write freesurfer ASCII surface format.
- * To use IO factory, define the suffix as *.fsa.
+/** \class FreeSurferBinaryMeshIO
+ * \brief This class defins how to read Freesurfer binary surface file format.
+ * To use IO factory, define the suffix as *.fsb.
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshFreeSurfer
  */
 
-class ITKIOMesh_EXPORT FreeSurferAsciiMeshIO:public MeshIOBase
+class ITKIOMeshFreeSurfer_EXPORT FreeSurferBinaryMeshIO:public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIO);
+  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferBinaryMeshIO);
 
   /** Standard class type aliases. */
-  using Self = FreeSurferAsciiMeshIO;
+  using Self = FreeSurferBinaryMeshIO;
   using Superclass = MeshIOBase;
   using ConstPointer = SmartPointer< const Self >;
   using Pointer = SmartPointer< Self >;
 
   using SizeValueType = Superclass::SizeValueType;
+  using StreamOffsetType = Superclass::StreamOffsetType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FreeSurferAsciiMeshIO, MeshIOBase);
+  itkTypeMacro(FreeSurferBinaryMeshIO, MeshIOBase);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -100,61 +103,73 @@ public:
 protected:
   /** Write points to output stream */
   template< typename T >
-  void WritePoints(T *buffer, std::ofstream & outputFile, T label = itk::NumericTraits< T >::ZeroValue())
+  void WritePoints(T *buffer, std::ofstream & outputFile)
   {
-    outputFile.precision(6);
-    SizeValueType index = 0;
+    auto * data = new float[this->m_NumberOfPoints * this->m_PointDimension];
+
     for ( SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++ )
       {
       for ( unsigned int jj = 0; jj < this->m_PointDimension; jj++ )
         {
-        outputFile << std::fixed << buffer[index++] << "  ";
+        data[ii * this->m_PointDimension + jj] = static_cast< float >( buffer[ii * this->m_PointDimension + jj] );
         }
-      outputFile << label << '\n';
       }
-  }
 
-  template< typename T >
-  void WriteCells(T *buffer, std::ofstream & outputFile, T label = itk::NumericTraits< T >::ZeroValue())
-  {
-    constexpr unsigned int numberOfCellPoints = 3;
-    SizeValueType      index = 0;
-
-    auto * data = new T[this->m_NumberOfCells * numberOfCellPoints];
-
-    ReadCellsBuffer(buffer, data);
-
-    for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
-      {
-      for ( unsigned int jj = 0; jj < numberOfCellPoints; jj++ )
-        {
-        outputFile << data[index++] << "  ";
-        }
-      outputFile << label << '\n';
-      }
+    itk::ByteSwapper< float >::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
     delete[] data;
   }
 
-  /** Read cells from a data buffer, used when writting cells */
+  /** Write cells to utput stream */
+  template< typename T >
+  void WriteCells(T *buffer, std::ofstream & outputFile)
+  {
+    constexpr itk::uint32_t numberOfCellPoints  = 3;
+
+    auto * data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
+
+    ReadCellsBuffer(buffer, data);
+    itk::ByteSwapper< itk::uint32_t >::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfCells * numberOfCellPoints, &outputFile);
+
+    delete[] data;
+  }
+
+  /** Read cells from a data buffer, used when writting mesh */
   template< typename TInput, typename TOutput >
   void ReadCellsBuffer(TInput *input, TOutput *output)
-    {
+  {
     if ( input && output )
       {
       for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
         {
         for ( unsigned int jj = 0; jj < 3; jj++ )
           {
-          /** point identifiers start from the third elements, first element is cellType, the second is numberOfPoints */
+          /** point identifiers start from the third elements, first element is
+            cellType, the second is numberOfPoints. */
           output[ii * 3 + jj] = static_cast< TOutput >( input[5 * ii + jj + 2] );
           }
         }
       }
-    }
+  }
+
+  /** Write points to output stream */
+  template< typename T >
+  void WritePointData(T *buffer, std::ofstream & outputFile)
+  {
+    auto * data = new float[this->m_NumberOfPointPixels];
+
+    for ( SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
+      {
+      data[ii] = static_cast< float >( buffer[ii] );
+      }
+
+    itk::ByteSwapper< float >::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfPointPixels, &outputFile);
+    delete[] data;
+  }
 
 protected:
-  FreeSurferAsciiMeshIO();
-  ~FreeSurferAsciiMeshIO() override;
+  FreeSurferBinaryMeshIO();
+  ~FreeSurferBinaryMeshIO() override;
+
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void OpenFile();
@@ -162,7 +177,9 @@ protected:
   void CloseFile();
 
 private:
-  std::ifstream m_InputFile;
+  StreamOffsetType m_FilePosition;
+  itk::uint32_t    m_FileTypeIdentifier;
+  std::ifstream    m_InputFile;
 };
 } // end namespace itk
 

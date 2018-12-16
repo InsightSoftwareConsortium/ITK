@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkFreeSurferAsciiMeshIOFactory_h
 #define itkFreeSurferAsciiMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshFreeSurferExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -26,9 +26,9 @@ namespace itk
 {
 /** \class FreeSurferAsciiMeshIOFactory
    * \brief Create instances of FreeSurferAsciiMeshIO objects using an object factory.
-   * \ingroup ITKIOMesh
+   * \ingroup ITKIOMeshFreeSurfer
    */
-class ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactory:public ObjectFactoryBase
+class ITKIOMeshFreeSurfer_EXPORT FreeSurferAsciiMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIOFactory);
