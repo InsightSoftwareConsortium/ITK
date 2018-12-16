@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshFreeSurferExport.h"
 
 #include "itkFreeSurferAsciiMeshIO.h"
 #include "itkFreeSurferAsciiMeshIOFactory.h"
@@ -59,7 +59,7 @@ FreeSurferAsciiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferAsciiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private()
+void ITKIOMeshFreeSurfer_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private()
 {
   if( ! FreeSurferAsciiMeshIOFactoryHasBeenRegistered )
     {
