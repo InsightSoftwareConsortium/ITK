@@ -254,7 +254,7 @@ class VNL_EXPORT vnl_numeric_traits<long>
   //: Multiplicative identity
   static constexpr long one = 1;
   //: Maximum value which this type can assume
-  static constexpr long maxval = sizeof(long)==8?(vxl_uint_64)(-1)/2:0x7fffffffL; // = 0x7fffffffL or 0x7fffffffffffffffL;
+  static constexpr long maxval = sizeof(long)==8?static_cast<long>((vxl_uint_64)(-1)/2):0x7fffffffL; // = 0x7fffffffL or 0x7fffffffffffffffL;
   //: Return value of abs()
   typedef unsigned long abs_t;
   //: Name of a type twice as long as this one for accumulators and products.
@@ -275,7 +275,7 @@ class VNL_EXPORT vnl_numeric_traits<unsigned long>
   //: Multiplicative identity
   static constexpr unsigned long one = 1;
   //: Maximum value which this type can assume
-  static constexpr unsigned long maxval =  sizeof(unsigned long)==8?((vxl_uint_64)(-1)):0xffffffffL ;
+  static constexpr unsigned long maxval =  sizeof(unsigned long)==8?static_cast<unsigned long>((vxl_uint_64)(-1)):0xffffffffL ;
   // = 0xffffffffL or 0xffffffffffffffffL;
   //: Return value of abs()
   typedef unsigned long abs_t;
