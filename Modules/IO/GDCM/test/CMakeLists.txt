@@ -11,6 +11,7 @@ itkGDCMImagePositionPatientTest.cxx
 itkGDCMImageIOOrthoDirTest.cxx
 itkGDCMImageOrientationPatientTest.cxx
 itkGDCMLoadImageSpacingTest.cxx
+itkGDCMLegacyMultiFrameTest.cxx
 )
 
 CreateTestDriver(ITKIOGDCM  "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
@@ -142,4 +143,17 @@ itk_add_test(NAME itkGDCMLoadImageNoSpacingTest
   DATA{Input/gdcmNoSpacingTest.dcm}
     1.0
     1.0
+  )
+
+itk_add_test(NAME itkGDCMLegacyMultiFrameTest
+  COMMAND ITKIOGDCMTestDriver
+    --compare ${ITK_TEST_OUTPUT_DIR}/itkGDCMLegacyMultiFrameTest.mha
+      DATA{Baseline/itkGDCMLegacyMultiFrameTest.mha}
+    itkGDCMLegacyMultiFrameTest
+      # This dataset was derived from
+      # https://www.dropbox.com/s/8m7ugu4cmw83fvd/dicoms-anon.zip?dl=0
+      # per the discussion here
+      # https://discourse.slicer.org/t/dicom-multiframe-support/4806/9
+      DATA{Input/LegacyMultiFrame.dcm}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCMLegacyMultiFrameTest.mha
   )
