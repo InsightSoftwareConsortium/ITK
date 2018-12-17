@@ -222,6 +222,35 @@ StructureTensor<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 }
 
 template <typename TInputImage, typename TOutputImage>
+typename StructureTensor<TInputImage, TOutputImage>::EigenMatrixType
+StructureTensor<TInputImage, TOutputImage>::GetRotationMatrixFromOutputMatrix(
+  const EigenMatrixType & outputMatrix,
+  bool                    reOrderLargestEigenvectorInFirstRow) const
+{
+  unsigned int nInputs = this->GetNumberOfInputs();
+  // Pre condition (output matrix is populated)
+  assert(outputMatrix.Rows() == nInputs);
+  EigenMatrixType rotationMatrix(nInputs, nInputs);
+  // transpose at copy
+  if (!reOrderLargestEigenvectorInFirstRow)
+  {
+    for (unsigned int n = 0; n < nInputs; ++n)
+    {
+      rotationMatrix.GetVnlMatrix().set_row(n, outputMatrix.GetVnlMatrix().get_column(n));
+    }
+  }
+  // reOrder and transpose at copy
+  else
+  {
+    for (unsigned int n = 0; n < nInputs; ++n)
+    {
+      rotationMatrix.GetVnlMatrix().set_row(nInputs - 1 - n, outputMatrix.GetVnlMatrix().get_column(n));
+    }
+  }
+  return rotationMatrix;
+}
+
+template <typename TInputImage, typename TOutputImage>
 typename StructureTensor<TInputImage, TOutputImage>::InputImagePointer
 StructureTensor<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int eigen_number) const
 {
@@ -260,9 +289,10 @@ StructureTensor<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int 
     while (!outIt.IsAtEndOfLine())
     {
       InputImagePixelType value = 0;
+      auto                outputMatrix = outIt.Get();
       for (unsigned int r = 0; r < nInputs; r++)
       {
-        value += outIt.Get()[r][eigen_number] * inputIts[r].Get();
+        value += outputMatrix[r][eigen_number] * inputIts[r].Get();
         ++inputIts[r];
       }
       projectIt.Set(value);

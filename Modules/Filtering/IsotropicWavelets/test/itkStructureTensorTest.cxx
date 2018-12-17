@@ -130,15 +130,39 @@ runStructureTensorTest()
   tensor->SetInputs(inputs);
   tensor->Update();
 
-  auto     eigenImage = tensor->GetOutput();
-  unsigned eigenMatrixRows = eigenImage->GetPixel(start).Rows();
-  unsigned eigenMatrixCols = eigenImage->GetPixel(start).Cols();
+  auto eigenImage = tensor->GetOutput();
+
+  auto     outMatrixAtStart = eigenImage->GetPixel(start);
+  unsigned eigenMatrixRows = outMatrixAtStart.Rows();
+  unsigned eigenMatrixCols = outMatrixAtStart.Cols();
   if (eigenMatrixRows != nInputs || eigenMatrixCols != nInputs + 1)
   {
     testFailed = true;
     std::cout << "The resulting eigenMatrix size is wrong. Rows: " << eigenMatrixRows
               << " . Columns: " << eigenMatrixCols << std::endl;
   }
+  auto rotationMatrix = tensor->GetRotationMatrixFromOutputMatrix(outMatrixAtStart);
+  auto rotationMatrixReOrdered = tensor->GetRotationMatrixFromOutputMatrix(outMatrixAtStart, true);
+  for (unsigned int r = 0; r < nInputs; ++r)
+  {
+    for (unsigned int c = 0; c < nInputs; ++c)
+    {
+      if (rotationMatrix[r][c] != outMatrixAtStart[c][r])
+      {
+        testFailed = true;
+        std::cout << "GetRotationMatrixFromOutputMatrix fails. rotationMatrix[r][c] " << rotationMatrix[r][c]
+                  << " !=  outMatrixAtStart[c][r] " << outMatrixAtStart[c][r] << std::endl;
+      }
+      if (rotationMatrixReOrdered[r][c] != outMatrixAtStart[nInputs - 1 - c][r])
+      {
+        testFailed = true;
+        std::cout << "GetRotationMatrixFromOutputMatrix fails. rotationMatrixReOrdered[r][c] "
+                  << rotationMatrixReOrdered[r][c] << " !=  outMatrixAtStart[nInputs - 1 - c][r] "
+                  << outMatrixAtStart[nInputs - 1 - c][r] << std::endl;
+      }
+    }
+  }
+
 #ifdef ITK_VISUALIZE_TESTS
   itk::ViewImage<ImageType>::View(tensor->GetGaussianSource()->GetOutput(), "Gaussian");
 #endif
