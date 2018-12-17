@@ -65,6 +65,9 @@ template <unsigned int VDimension = 2>
 struct ITK_TEMPLATE_EXPORT Index final
 {
 public:
+  // Using the `rule of zero` to this aggregate type
+  // C++20 changes the definition of aggregate such that classes with any user-declared ctors are no longer aggregates.
+
   /** Standard class type aliases. */
   using Self = Index;
 
@@ -267,13 +270,6 @@ public:
    */
   static_assert( VDimension > 0, "Error: Only positive value sized VDimension allowed" );
   alignas(IndexValueType) IndexValueType m_InternalArray[VDimension];
-
-  // Explicitly require constructors
-  Index() = default;
-  Index( const Self & ) = default;
-  Index( Self && ) = default;
-  Self & operator=( const Self & ) = default;
-  Self & operator=( Self && ) = default;
 
   /** Copy values from a FixedArray by rounding each one of the components */
   template <typename TCoordRep>

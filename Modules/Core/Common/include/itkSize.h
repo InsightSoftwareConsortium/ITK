@@ -67,6 +67,9 @@ template <unsigned int VDimension = 2>
 struct ITK_TEMPLATE_EXPORT  Size final
 {
 public:
+  // Using the `rule of zero` to this aggregate type
+  // C++20 changes the definition of aggregate such that classes with any user-declared ctors are no longer aggregates.
+
   /** Standard class type aliases. */
   using Self = Size;
 
@@ -212,13 +215,6 @@ public:
    */
   static_assert( VDimension > 0, "Error: Only positive value sized VDimension allowed" );
   alignas(SizeValueType) SizeValueType m_InternalArray[VDimension];
-
-  // Explicitly require constructors
-  Size() = default;
-  Size( const Self & ) = default;
-  Size( Self && ) = default;
-  Self & operator=( const Self & ) = default;
-  Self & operator=( Self && ) = default;
 
   // ======================= Mirror the access pattern behavior of the std::array class
   /**
