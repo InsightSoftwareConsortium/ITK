@@ -1,15 +1,21 @@
 ITKBoneMorphometry
 ==================
 
-
-.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry.svg?style=shield
+.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry
 
-.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry.svg?branch=master
+.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry.svg?branch=master
     :target: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry
 
-.. image:: https://img.shields.io/appveyor/ci/jbvimort/ITKBoneMorphometry.svg
+.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/jbvimort/ITKBoneMorphometry.svg
     :target: https://ci.appveyor.com/project/jbvimort/ITKBoneMorphometry
+
+=========== =========== ===========
+   Linux      macOS       Windows
+=========== =========== ===========
+|CircleCI|  |TravisCI|  |AppVeyor|
+=========== =========== ===========
+
 
 Overview
 --------
