@@ -395,10 +395,10 @@ protected:
   CStyleCommand();
   ~CStyleCommand() override;
 
-  void *                    m_ClientData;
-  FunctionPointer           m_Callback;
-  ConstFunctionPointer      m_ConstCallback;
-  DeleteDataFunctionPointer m_ClientDataDeleteCallback;
+  void *                    m_ClientData{ nullptr };
+  FunctionPointer           m_Callback{ nullptr };
+  ConstFunctionPointer      m_ConstCallback{ nullptr };
+  DeleteDataFunctionPointer m_ClientDataDeleteCallback{ nullptr };
 };
 } // end namespace itk
 

@@ -25,8 +25,8 @@ namespace itk
 /** Constructor */
 template< typename TFixedImage, typename TMovingSpatialObject >
 ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
-::ImageToSpatialObjectMetric():
-  m_MatchMeasure(0)
+::ImageToSpatialObjectMetric()
+
 {
   m_FixedImage          = nullptr; // has to be provided by the user.
   m_MovingSpatialObject = nullptr; // has to be provided by the user.

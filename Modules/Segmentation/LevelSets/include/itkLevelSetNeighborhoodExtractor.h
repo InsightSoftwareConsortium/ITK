@@ -156,15 +156,15 @@ private:
 
   void      GenerateDataNarrowBand();
 
-  double m_LevelSetValue;
+  double m_LevelSetValue{0.0};
 
   NodeContainerPointer m_InsidePoints;
   NodeContainerPointer m_OutsidePoints;
 
   LevelSetConstPointer m_InputLevelSet;
 
-  bool                 m_NarrowBanding;
-  double               m_NarrowBandwidth;
+  bool                 m_NarrowBanding{false};
+  double               m_NarrowBandwidth{12.0};
   NodeContainerPointer m_InputNarrowBand;
 
   typename LevelSetImageType::RegionType m_ImageRegion;
@@ -172,7 +172,7 @@ private:
 
   std::vector< NodeType > m_NodesUsed;
 
-  bool m_LastPointIsInside;
+  bool m_LastPointIsInside{false};
 };
 } // namespace itk
 

@@ -84,7 +84,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  DataObject *m_DataObject;
+  DataObject *m_DataObject{nullptr};
 };
 
 /** \class InvalidRequestRegionError

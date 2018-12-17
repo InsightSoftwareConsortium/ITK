@@ -109,8 +109,8 @@ protected:
 
 
 private:
-  double m_Mean;
-  double m_StandardDeviation;
+  double m_Mean{ 0.0 };
+  double m_StandardDeviation{ 1.0 };
 
 };
 } // end namespace itk

@@ -20,8 +20,8 @@
 namespace itk
 {
 SegmentationBorder
-::SegmentationBorder(void):
-  m_BorderLength(0)
+::SegmentationBorder(void)
+
 {}
 
 SegmentationBorder

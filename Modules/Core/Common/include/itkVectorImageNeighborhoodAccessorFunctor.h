@@ -56,7 +56,7 @@ public:
   VectorImageNeighborhoodAccessorFunctor(VectorLengthType length):
     m_VectorLength(length), m_OffsetMultiplier(length - 1), m_Begin(nullptr) {}
   VectorImageNeighborhoodAccessorFunctor():
-    m_VectorLength(0), m_OffsetMultiplier(0), m_Begin(nullptr) {}
+     m_Begin(nullptr) {}
 
   /** Set the pointer index to the start of the buffer.
    * This must be set by the iterators to the starting location of the buffer.
@@ -126,8 +126,8 @@ public:
   }
 
 private:
-  VectorLengthType m_VectorLength;
-  VectorLengthType m_OffsetMultiplier; // m_OffsetMultiplier = m_VectorLength-1
+  VectorLengthType m_VectorLength{0};
+  VectorLengthType m_OffsetMultiplier{0}; // m_OffsetMultiplier = m_VectorLength-1
                                        // (precomputed for speedup).
   InternalPixelType *m_Begin;          // Begin of the buffer.
 };

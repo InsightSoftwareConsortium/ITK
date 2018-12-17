@@ -473,7 +473,7 @@ private:
   using OffsetTableType = std::vector< InstanceIdentifier >;
   OffsetTableType           m_OffsetTable;
   FrequencyContainerPointer m_FrequencyContainer;
-  unsigned int              m_NumberOfInstances;
+  unsigned int              m_NumberOfInstances{0};
 
   // This method is provided here just to avoid a "hidden" warning
   // related to the virtual method available in DataObject.
@@ -488,7 +488,7 @@ private:
   mutable MeasurementVectorType m_TempMeasurementVector;
   mutable IndexType             m_TempIndex;
 
-  bool m_ClipBinsAtEnds;
+  bool m_ClipBinsAtEnds{true};
 };
 } // end of namespace Statistics
 } // end of namespace itk

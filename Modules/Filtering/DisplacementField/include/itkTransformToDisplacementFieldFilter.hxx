@@ -30,8 +30,8 @@ namespace itk
 
 template< typename TOutputImage, typename TParametersValueType>
 TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::TransformToDisplacementFieldFilter():
-  m_UseReferenceImage( false )
+::TransformToDisplacementFieldFilter()
+
 {
   this->m_OutputSpacing.Fill(1.0);
   this->m_OutputOrigin.Fill(0.0);

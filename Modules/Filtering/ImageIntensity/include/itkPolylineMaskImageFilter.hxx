@@ -40,8 +40,8 @@ PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   m_ViewVector( 1 ),
   m_UpVector( 1 ),
   m_CameraCenterPoint( 0 ),
-  m_FocalPoint( 0.0 ),
-  m_FocalDistance( 0.0 )
+  m_FocalPoint( 0.0 )
+
 {
   this->SetNumberOfRequiredInputs( 2 );
 

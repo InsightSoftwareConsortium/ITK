@@ -24,7 +24,7 @@ namespace itk
 {
 template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 Octree< TPixel, ColorTableSize,
-        MappingFunctionType >::Octree():m_Plane(UNKNOWN_PLANE), m_Width(0), m_Depth(0), m_Tree()
+        MappingFunctionType >::Octree(): m_Tree()
 {
   m_TrueDims[0] = 0;
   m_TrueDims[1] = 1;

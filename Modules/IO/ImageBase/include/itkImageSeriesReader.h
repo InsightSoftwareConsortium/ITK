@@ -164,12 +164,8 @@ public:
 
 protected:
   ImageSeriesReader() :
-    m_ImageIO(nullptr),
-    m_ReverseOrder(false),
-    m_ForceOrthogonalDirection(true),
-    m_NumberOfDimensionsInImage(0),
-    m_UseStreaming(true),
-    m_MetaDataDictionaryArrayUpdate(true)
+    m_ImageIO(nullptr)
+
       {}
   ~ImageSeriesReader() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
@@ -181,10 +177,10 @@ protected:
   ImageIOBase::Pointer m_ImageIO;
 
   /** Select the traversal order. */
-  bool m_ReverseOrder;
+  bool m_ReverseOrder{false};
 
   /** Do we want to force orthogonal direction cosines? */
-  bool m_ForceOrthogonalDirection;
+  bool m_ForceOrthogonalDirection{true};
 
   /** A list of filenames to be processed. */
   FileNamesContainer m_FileNames;
@@ -194,13 +190,13 @@ protected:
    *  index for the output image. That is for reading a series of 2D
    *  images into  a 3D image, the moving dimension index is 2.
    */
-  unsigned int m_NumberOfDimensionsInImage;
+  unsigned int m_NumberOfDimensionsInImage{0};
 
   /** Array of MetaDataDictionaries. This allows to hold information from the
    * ImageIO objects after reading every sub image in the series */
   DictionaryArrayType m_MetaDataDictionaryArray;
 
-  bool m_UseStreaming;
+  bool m_UseStreaming{true};
 
 private:
   using ReaderType = ImageFileReader< TOutputImage >;
@@ -211,7 +207,7 @@ private:
   TimeStamp m_MetaDataDictionaryArrayMTime;
 
   /** Indicated if the MMDA should be updated */
-  bool m_MetaDataDictionaryArrayUpdate;
+  bool m_MetaDataDictionaryArrayUpdate{true};
 };
 } //namespace ITK
 

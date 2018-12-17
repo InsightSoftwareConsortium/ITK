@@ -192,17 +192,17 @@ private:
   // counts, etc.
   friend class LBFGSBOptimizerHelper;
 
-  bool         m_Trace;
-  bool         m_OptimizerInitialized;
-  double       m_CostFunctionConvergenceFactor;
-  double       m_ProjectedGradientTolerance;
-  unsigned int m_MaximumNumberOfIterations;
-  unsigned int m_MaximumNumberOfEvaluations;
-  unsigned int m_MaximumNumberOfCorrections;
-  unsigned int m_CurrentIteration;
-  double       m_InfinityNormOfProjectedGradient;
+  bool         m_Trace{false};
+  bool         m_OptimizerInitialized{false};
+  double       m_CostFunctionConvergenceFactor{1e+7};
+  double       m_ProjectedGradientTolerance{1e-5};
+  unsigned int m_MaximumNumberOfIterations{500};
+  unsigned int m_MaximumNumberOfEvaluations{500};
+  unsigned int m_MaximumNumberOfCorrections{5};
+  unsigned int m_CurrentIteration{0};
+  double       m_InfinityNormOfProjectedGradient{0.0};
 
-  InternalOptimizerType * m_VnlOptimizer;
+  InternalOptimizerType * m_VnlOptimizer{nullptr};
   BoundValueType          m_LowerBound;
   BoundValueType          m_UpperBound;
   BoundSelectionType      m_BoundSelection;

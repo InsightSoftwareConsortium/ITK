@@ -44,9 +44,8 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
 ::ConnectedRegionsMeshFilter() :
   m_ExtractionMode(Self::LargestRegion),
   m_NumberOfCellsInRegion(NumericTraits< SizeValueType >::ZeroValue()),
-  m_RegionNumber(NumericTraits< IdentifierType >::ZeroValue()),
-  m_Wave(nullptr),
-  m_Wave2(nullptr)
+  m_RegionNumber(NumericTraits< IdentifierType >::ZeroValue())
+
 {
   m_ClosestPoint.Fill(0);
 }

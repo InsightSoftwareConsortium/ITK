@@ -134,7 +134,7 @@ protected:
   DerivativeType m_Gradient;
   DerivativeType m_PreviousGradient;
 
-  bool               m_Stop;
+  bool               m_Stop{false};
   bool               m_Maximize;
   MeasureType        m_Value;
   double             m_GradientMagnitudeTolerance;

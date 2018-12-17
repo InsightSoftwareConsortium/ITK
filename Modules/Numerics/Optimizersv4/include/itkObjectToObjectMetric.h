@@ -338,7 +338,7 @@ protected:
   /** Store the number of points used during most recent value and derivative
    * calculation.
    * \sa VerifyNumberOfValidPoints() */
-  mutable SizeValueType                   m_NumberOfValidPoints;
+  mutable SizeValueType                   m_NumberOfValidPoints{0};
 };
 } // end namespace itk
 

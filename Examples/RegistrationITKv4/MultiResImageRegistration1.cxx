@@ -281,7 +281,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate(): m_CumulativeIterationIndex(0) {};
+  CommandIterationUpdate() {};
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
@@ -305,7 +305,7 @@ public:
   std::cout << m_CumulativeIterationIndex++ << std::endl;
   }
 private:
-  unsigned int m_CumulativeIterationIndex;
+  unsigned int m_CumulativeIterationIndex{0};
 };
 
 

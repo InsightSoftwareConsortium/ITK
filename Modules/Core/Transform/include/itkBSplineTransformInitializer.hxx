@@ -30,8 +30,8 @@ namespace itk
 template<typename TTransform, typename TImage>
 BSplineTransformInitializer<TTransform, TImage>
 ::BSplineTransformInitializer() :
-  m_Transform( nullptr ),
-  m_SetTransformDomainMeshSizeViaInitializer( false )
+  m_Transform( nullptr )
+
 {
   this->m_TransformDomainMeshSize.Fill( 1 );
 }

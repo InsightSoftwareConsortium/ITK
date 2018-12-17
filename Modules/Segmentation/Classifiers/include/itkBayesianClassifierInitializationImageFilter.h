@@ -176,8 +176,8 @@ protected:
   void GenerateData() override;
 
 private:
-  bool         m_UserSuppliesMembershipFunctions;
-  unsigned int m_NumberOfClasses;
+  bool         m_UserSuppliesMembershipFunctions{false};
+  unsigned int m_NumberOfClasses{0};
 
   typename MembershipFunctionContainerType::Pointer m_MembershipFunctionContainer;
 };

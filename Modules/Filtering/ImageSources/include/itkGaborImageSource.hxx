@@ -29,10 +29,8 @@ namespace itk
 
 template< typename TOutputImage >
 GaborImageSource< TOutputImage >
-::GaborImageSource() :
-  m_CalculateImaginaryPart( false ),
-  m_Frequency( 0.4 ),
-  m_PhaseOffset( 0.0 )
+::GaborImageSource()
+
 {
   // Gabor parameters, defined so that the Gaussian
   // is centered in the default image

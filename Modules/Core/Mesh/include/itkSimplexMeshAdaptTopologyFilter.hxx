@@ -35,9 +35,7 @@ namespace itk
 template< typename TInputMesh, typename TOutputMesh >
 SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >::SimplexMeshAdaptTopologyFilter() :
   m_IdOffset(0),
-  m_Threshold(0.5),
-  m_SelectionMethod(0),
-  m_ModifiedCount(0),
+
   m_Output(TOutputMesh::New())
 {
   this->ProcessObject::SetNumberOfRequiredOutputs(1);

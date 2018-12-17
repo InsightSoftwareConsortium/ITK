@@ -168,7 +168,7 @@ private:
    * the number allocated by the threader if the object does not split
    * well into that number.
    * This value is determined at the beginning of \c Execute(). */
-  ThreadIdType                             m_NumberOfWorkUnitsUsed;
+  ThreadIdType                             m_NumberOfWorkUnitsUsed{0};
   ThreadIdType                             m_NumberOfWorkUnits;
   typename DomainPartitionerType::Pointer  m_DomainPartitioner;
   DomainType                               m_CompleteDomain;

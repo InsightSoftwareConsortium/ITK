@@ -25,8 +25,8 @@ namespace itk
 
 template< typename TInputPath, typename TOutputChainCodePath >
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::PathToChainCodePathFilter() :
-  m_MaximallyConnected( false )
+::PathToChainCodePathFilter()
+
 {
   this->SetNumberOfRequiredInputs(1);
 }

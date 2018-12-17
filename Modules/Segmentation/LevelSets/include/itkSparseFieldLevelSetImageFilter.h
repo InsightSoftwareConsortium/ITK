@@ -422,7 +422,7 @@ protected:
 
   /** The constant gradient to maintain between isosurfaces in the
       sparse-field of the level-set image.  This value defaults to 1.0 */
-  double m_ConstantGradientValue;
+  double m_ConstantGradientValue{1.0};
 
   /** Multiplicative identity of the ValueType. */
   static ValueType m_ValueOne;
@@ -465,7 +465,7 @@ protected:
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
    * This active layer is the interface of interest, i.e. the zero
    * level set. */
-  unsigned int m_NumberOfLayers;
+  unsigned int m_NumberOfLayers{2};
 
   /** An image of status values used internally by the algorithm. */
   typename StatusImageType::Pointer m_StatusImage;
@@ -489,7 +489,7 @@ protected:
       surface location when calculating change at each active layer node.  By
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
-  bool m_InterpolateSurfaceLocation;
+  bool m_InterpolateSurfaceLocation{true};
 
   const InputImageType *m_InputImage;
   OutputImageType      *m_OutputImage;
@@ -497,7 +497,7 @@ protected:
 private:
   /** This flag is true when methods need to check boundary conditions and
       false when methods do not need to check for boundary conditions. */
-  bool m_BoundsCheckingActive;
+  bool m_BoundsCheckingActive{false};
 };
 } // end namespace itk
 

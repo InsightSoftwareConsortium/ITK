@@ -51,7 +51,7 @@ public:
   using Self = AutoPointer;
 
   /** Constructor.  */
-  AutoPointer ():m_Pointer(nullptr), m_IsOwner(false)
+  AutoPointer ():m_Pointer(nullptr)
   {}
 
   /** Copy constructor.  */
@@ -201,7 +201,7 @@ private:
 
   /** The pointer to the object referred to by this smart pointer. */
   ObjectType *m_Pointer;
-  bool        m_IsOwner;
+  bool        m_IsOwner{false};
 };
 
 template< typename T >

@@ -169,7 +169,7 @@ private:
   ArrayType                               m_NumberOfControlPointsForTheConstantVelocityField;
   ArrayType                               m_NumberOfControlPointsForTheUpdateField;
 
-  SplineOrderType                         m_SplineOrder;
+  SplineOrderType                         m_SplineOrder{ 3 };
 };
 
 } // end namespace itk

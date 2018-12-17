@@ -108,8 +108,8 @@ public:
   itkBooleanMacro(ReturnBinMidpoint);
 
 protected:
-  OtsuThresholdImageFilter() :
-      m_ReturnBinMidpoint( false )
+  OtsuThresholdImageFilter()
+
   {
     this->SetCalculator( CalculatorType::New() );
   }
@@ -121,7 +121,7 @@ protected:
     calc->SetReturnBinMidpoint(m_ReturnBinMidpoint);
     this->Superclass::GenerateData();
   }
-  bool m_ReturnBinMidpoint;
+  bool m_ReturnBinMidpoint{ false };
 };
 
 } // end namespace itk

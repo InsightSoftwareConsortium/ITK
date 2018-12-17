@@ -499,32 +499,32 @@ private:
   /** The buffer that holds the updates for an iteration of the algorithm. */
   typename OutputImageType::Pointer m_UpdateBuffer;
 
-  unsigned int m_NumPixelComponents;
-  unsigned int m_NumIndependentComponents;
-  unsigned int m_TotalNumberPixels;
+  unsigned int m_NumPixelComponents{ 0 };
+  unsigned int m_NumIndependentComponents{ 0 };
+  unsigned int m_TotalNumberPixels{ 0 };
 
-  bool m_UseSmoothDiscPatchWeights;
+  bool m_UseSmoothDiscPatchWeights{ true };
 
-  bool m_UseFastTensorComputations;
+  bool m_UseFastTensorComputations{ true };
 
   RealArrayType  m_KernelBandwidthSigma;
-  bool           m_KernelBandwidthSigmaIsSet;
+  bool           m_KernelBandwidthSigmaIsSet{ false };
   RealArrayType  m_IntensityRescaleInvFactor;
   PixelType      m_ZeroPixel;
   PixelArrayType m_ImageMin;
   PixelArrayType m_ImageMax;
-  double         m_KernelBandwidthFractionPixelsForEstimation;
-  bool           m_ComputeConditionalDerivatives;
+  double         m_KernelBandwidthFractionPixelsForEstimation{ 0.20 };
+  bool           m_ComputeConditionalDerivatives{ false };
   double         m_MinSigma;
   double         m_MinProbability;
   unsigned int   m_SigmaUpdateDecimationFactor;
-  double         m_SigmaUpdateConvergenceTolerance;
+  double         m_SigmaUpdateConvergenceTolerance{ 0.01 };
   ShortArrayType m_SigmaConverged;
-  double         m_KernelBandwidthMultiplicationFactor;
+  double         m_KernelBandwidthMultiplicationFactor{ 1.0 };
 
   RealType m_NoiseSigma;
   RealType m_NoiseSigmaSquared;
-  bool     m_NoiseSigmaIsSet;
+  bool     m_NoiseSigmaIsSet{ false };
 
   BaseSamplerPointer                m_Sampler;
   typename ListAdaptorType::Pointer m_SearchSpaceList;

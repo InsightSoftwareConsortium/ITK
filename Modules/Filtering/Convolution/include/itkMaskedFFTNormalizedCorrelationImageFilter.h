@@ -219,7 +219,7 @@ public:
 #endif
 
 protected:
-  MaskedFFTNormalizedCorrelationImageFilter():m_TotalForwardAndInverseFFTs(12)
+  MaskedFFTNormalizedCorrelationImageFilter()
   {
     // #0 "FixedImage" required
     Self::SetPrimaryInputName("FixedImage");
@@ -316,7 +316,7 @@ private:
   SizeValueType m_MaximumNumberOfOverlappingPixels;
 
   /** This is used for the progress reporter */
-  const unsigned int m_TotalForwardAndInverseFFTs;
+  const unsigned int m_TotalForwardAndInverseFFTs{12};
   /** The total accumulated progress */
   float m_AccumulatedProgress;
 };

@@ -27,8 +27,8 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SmoothingRecursiveGaussianImageFilter() :
-  m_NormalizeAcrossScale( false )
+::SmoothingRecursiveGaussianImageFilter()
+
 {
   // NB: The first filter is the last dimension because it does not
   // always run in-place. As this dimension provides the least amount

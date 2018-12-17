@@ -28,11 +28,11 @@ namespace itk
 {
   struct ThreadPoolGlobals
   {
-    ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
+    ThreadPoolGlobals(){};
     // To lock on the internal variables.
     std::mutex          m_Mutex;
     ThreadPool::Pointer m_ThreadPoolInstance;
-    bool                m_DoNotWaitForThreads;
+    bool                m_DoNotWaitForThreads{false};
   };
 }//end of itk namespace
 
@@ -173,7 +173,7 @@ ThreadPool
 
 ThreadPool
 ::ThreadPool()
-  : m_Stopping( false )
+
 {
   m_ThreadPoolGlobals->m_ThreadPoolInstance = this; //threads need this
   m_ThreadPoolGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference

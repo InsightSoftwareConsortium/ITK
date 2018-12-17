@@ -172,7 +172,7 @@ protected:
   class CandidateVector
   {
 public:
-    CandidateVector() : m_MeasurementVectorSize(0) {}
+    CandidateVector()  {}
 
     struct Candidate {
       CentroidType Centroid;
@@ -249,7 +249,7 @@ private:
     std::vector< Candidate > m_Candidates;
 
     /** Length of each measurement vector */
-    MeasurementVectorSizeType m_MeasurementVectorSize;
+    MeasurementVectorSizeType m_MeasurementVectorSize{0};
   };  // end of class
 
   /** gets the sum of squared difference between the previous position
@@ -294,14 +294,14 @@ private:
 
 private:
   /** current number of iteration */
-  int m_CurrentIteration;
+  int m_CurrentIteration{0};
   /** maximum number of iteration. termination criterion */
-  int m_MaximumIteration;
+  int m_MaximumIteration{100};
   /** sum of squared centroid position changes at the current iteration */
-  double m_CentroidPositionChanges;
+  double m_CentroidPositionChanges{0.0};
   /** threshold for the sum of squared centroid position changes.
    * termination criterion */
-  double m_CentroidPositionChangesThreshold;
+  double m_CentroidPositionChangesThreshold{0.0};
   /** pointer to the k-d tree */
   typename TKdTree::Pointer m_KdTree;
   /** pointer to the euclidean distance function */
@@ -314,10 +314,10 @@ private:
 
   ParameterType m_TempVertex;
 
-  bool                                  m_UseClusterLabels;
-  bool                                  m_GenerateClusterLabels;
+  bool                                  m_UseClusterLabels{false};
+  bool                                  m_GenerateClusterLabels{false};
   ClusterLabelsType                     m_ClusterLabels;
-  MeasurementVectorSizeType             m_MeasurementVectorSize;
+  MeasurementVectorSizeType             m_MeasurementVectorSize{0};
   MembershipFunctionVectorObjectPointer m_MembershipFunctionsObject;
 };  // end of class
 } // end of namespace Statistics

@@ -150,12 +150,12 @@ private:
     }
   };
 
-  double       m_Alpha;
-  double       m_Beta;
-  double       m_Gamma;
-  unsigned int m_ObjectDimension;
-  bool         m_BrightObject;
-  bool         m_ScaleObjectnessMeasure;
+  double       m_Alpha{0.5};
+  double       m_Beta{0.5};
+  double       m_Gamma{5.0};
+  unsigned int m_ObjectDimension{1};
+  bool         m_BrightObject{true};
+  bool         m_ScaleObjectnessMeasure{true};
 };
 } // end namespace itk
 

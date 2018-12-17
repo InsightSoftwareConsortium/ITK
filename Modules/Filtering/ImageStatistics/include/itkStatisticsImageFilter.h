@@ -181,7 +181,7 @@ private:
   CompensatedSummation<RealType> m_ThreadSum;
   CompensatedSummation<RealType> m_SumOfSquares;
 
-  SizeValueType m_Count;
+  SizeValueType m_Count{1};
   PixelType     m_ThreadMin;
   PixelType     m_ThreadMax;
 

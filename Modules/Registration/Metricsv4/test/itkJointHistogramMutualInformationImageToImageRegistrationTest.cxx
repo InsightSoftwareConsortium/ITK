@@ -115,8 +115,8 @@ public:
 
 protected:
   JointPDFStatus() :
-    m_MIMetric( nullptr ),
-    m_Count( 0 )
+    m_MIMetric( nullptr )
+
     {
     this->m_Writer = WriterType::New();
     }
@@ -124,7 +124,7 @@ protected:
 private:
   const MIMetricType * m_MIMetric;
 
-  unsigned int m_Count;
+  unsigned int m_Count{ 0 };
   std::string  m_OutputFileNameBase;
 
   using WriterType = typename itk::ImageFileWriter< typename MIMetricType::JointPDFType >;

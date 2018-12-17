@@ -25,9 +25,8 @@ namespace itk
 
 template< typename TInputSpatialObject, typename TOutputPointSet >
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::SpatialObjectToPointSetFilter() :
-  m_ChildrenDepth( 0 ),
-  m_SamplingFactor( 1 )
+::SpatialObjectToPointSetFilter()
+
 {
   this->SetNumberOfRequiredInputs(1);
 }

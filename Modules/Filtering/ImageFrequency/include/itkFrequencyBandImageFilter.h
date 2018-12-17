@@ -190,12 +190,12 @@ private:
   FrequencyValueType m_LowFrequencyThreshold;
   FrequencyValueType m_HighFrequencyThreshold;
 
-  bool m_PassBand;
-  bool m_PassLowFrequencyThreshold;
-  bool m_PassHighFrequencyThreshold;
-  bool m_RadialBand;
-  bool m_PassNegativeLowFrequencyThreshold;
-  bool m_PassNegativeHighFrequencyThreshold;
+  bool m_PassBand{true};
+  bool m_PassLowFrequencyThreshold{true};
+  bool m_PassHighFrequencyThreshold{true};
+  bool m_RadialBand{true};
+  bool m_PassNegativeLowFrequencyThreshold{true};
+  bool m_PassNegativeHighFrequencyThreshold{true};
 };
 } // end namespace itk
 

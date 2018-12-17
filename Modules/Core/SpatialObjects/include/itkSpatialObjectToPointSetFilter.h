@@ -98,8 +98,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_ChildrenDepth;
-  unsigned int m_SamplingFactor;
+  unsigned int m_ChildrenDepth{ 0 };
+  unsigned int m_SamplingFactor{ 1 };
 };
 } // end namespace itk
 

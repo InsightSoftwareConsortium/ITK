@@ -112,10 +112,10 @@ protected:
 
 private:
 
-  SizeValueType m_NumberOfThresholds;
+  SizeValueType m_NumberOfThresholds{ 1 };
   OutputType    m_Output;
-  bool          m_ValleyEmphasis;
-  bool          m_ReturnBinMidpoint;
+  bool          m_ValleyEmphasis{ false };
+  bool          m_ReturnBinMidpoint{ false };
 };
 } // end of namespace itk
 

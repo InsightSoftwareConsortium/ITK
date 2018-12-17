@@ -65,7 +65,7 @@ public:
   using InternalType = unsigned char;
   using ExternalType = unsigned char;
 
-  ThresholdingPixelAccessor() : m_Threshold(0) {};
+  ThresholdingPixelAccessor()  {};
 
   ExternalType Get( const InternalType & input ) const
     {
@@ -80,7 +80,7 @@ public:
     operator=( const ThresholdingPixelAccessor & vpa ) = default;
 
 private:
-  InternalType m_Threshold;
+  InternalType m_Threshold{0};
 };
 }
 

@@ -559,23 +559,23 @@ private:
   int m_SlicingDirection;
 
   /** Bias Field character if true, multiplicative.  if false, additive. */
-  bool m_BiasFieldMultiplicative;
+  bool m_BiasFieldMultiplicative{ true };
 
   /** operation selection flags. */
   bool m_UsingInterSliceIntensityCorrection;
-  bool m_UsingSlabIdentification;
-  bool m_UsingBiasFieldCorrection;
-  bool m_GeneratingOutput;
+  bool m_UsingSlabIdentification{ false };
+  bool m_UsingBiasFieldCorrection{ true };
+  bool m_GeneratingOutput{ true };
 
-  unsigned int        m_SlabNumberOfSamples;
+  unsigned int        m_SlabNumberOfSamples{ 200 };
   InputImagePixelType m_SlabBackgroundMinimumThreshold;
-  double              m_SlabTolerance;
+  double              m_SlabTolerance{ 0.0 };
 
   /** The degree of the bias field estimate. */
-  int m_BiasFieldDegree;
+  int m_BiasFieldDegree{ 3 };
 
   /** The number of levels for the multires schedule. */
-  unsigned int m_NumberOfLevels;
+  unsigned int m_NumberOfLevels{ 0 };
 
   /** The multires schedule */
   ScheduleType m_Schedule;
@@ -588,15 +588,15 @@ private:
    * after optimization. */
   BiasFieldType::CoefficientArrayType m_EstimatedBiasFieldCoefficients;
 
-  int m_VolumeCorrectionMaximumIteration;
+  int m_VolumeCorrectionMaximumIteration{ 2000 };
 
-  int m_InterSliceCorrectionMaximumIteration;
+  int m_InterSliceCorrectionMaximumIteration{ 4000 };
 
   /** Storage for the optimizer's initial search radius. */
-  double m_OptimizerInitialRadius;
+  double m_OptimizerInitialRadius{ 1.01 };
 
   /** Storage for the optimizer's search radius grow factor. */
-  double m_OptimizerGrowthFactor;
+  double m_OptimizerGrowthFactor{ 1.05 };
 
   /** Storage for the optimizer's search radius shrink factor. */
   double m_OptimizerShrinkFactor;

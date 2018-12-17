@@ -140,8 +140,8 @@ public:
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
   FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex() :
-    ImageRegionConstIteratorWithIndex< TImage >(),
-    m_ActualXDimensionIsOdd(false)
+    ImageRegionConstIteratorWithIndex< TImage >()
+
   {
     this->Init();
   }
@@ -324,7 +324,7 @@ private:
   IndexType     m_MaxIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
-  bool          m_ActualXDimensionIsOdd;
+  bool          m_ActualXDimensionIsOdd{false};
 };
 } // end namespace itk
 #endif

@@ -32,13 +32,8 @@ namespace itk
  */
 template<typename TInputImage, typename TInputPointSet, typename TOutputImage>
 DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
-::DisplacementFieldToBSplineImageFilter() :
-  m_EstimateInverse( false ),
-  m_EnforceStationaryBoundary( true ),
-  m_SplineOrder( 3 ),
-  m_UsePointWeights( false ),
-  m_BSplineDomainIsDefined( true ),
-  m_UseInputFieldToDefineTheBSplineDomain( false )
+::DisplacementFieldToBSplineImageFilter()
+
 {
   this->SetNumberOfRequiredInputs( 0 );
 

@@ -29,8 +29,8 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 SpeckleNoiseImageFilter<TInputImage, TOutputImage>
-::SpeckleNoiseImageFilter() :
-  m_StandardDeviation( 1.0 )
+::SpeckleNoiseImageFilter()
+
 {
   this->DynamicMultiThreadingOn();
 }

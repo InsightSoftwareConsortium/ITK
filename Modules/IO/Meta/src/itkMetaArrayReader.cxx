@@ -22,8 +22,8 @@ namespace itk
 
 MetaArrayReader
 ::MetaArrayReader() :
-  m_FileName( "" ),
-  m_Buffer( nullptr )
+  m_FileName( "" )
+
 {
 }
 

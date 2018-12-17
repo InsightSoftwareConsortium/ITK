@@ -36,7 +36,7 @@ template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::InvertDisplacementFieldImageFilter() :
   m_Interpolator(DefaultInterpolatorType::New()),
-  m_MaximumNumberOfIterations(20),
+
   m_MaxErrorToleranceThreshold(0.1),
   m_MeanErrorToleranceThreshold(0.001),
 
@@ -44,9 +44,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   m_ScaledNormImage(RealImageType::New()),
   m_MaxErrorNorm(0.0),
   m_MeanErrorNorm(0.0),
-  m_Epsilon(0.0),
-  m_DoThreadedEstimateInverse(false),
-  m_EnforceBoundaryCondition(true)
+  m_Epsilon(0.0)
+
 {
   this->SetNumberOfRequiredInputs( 1 );
   this->DynamicMultiThreadingOn();

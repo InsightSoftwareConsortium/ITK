@@ -25,10 +25,8 @@ namespace itk
 {
 template< typename TInputHistogram >
 OtsuMultipleThresholdsCalculator< TInputHistogram >
-::OtsuMultipleThresholdsCalculator() :
-  m_NumberOfThresholds( 1 ),
-  m_ValleyEmphasis( false ),
-  m_ReturnBinMidpoint( false )
+::OtsuMultipleThresholdsCalculator()
+
 {
   m_Output.resize(m_NumberOfThresholds);
   std::fill(m_Output.begin(), m_Output.end(), NumericTraits< MeasurementType >::ZeroValue());

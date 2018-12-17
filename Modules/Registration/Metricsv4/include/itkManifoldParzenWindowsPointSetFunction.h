@@ -186,14 +186,14 @@ protected:
 private:
   typename PointsLocatorType::Pointer           m_PointsLocator;
 
-  unsigned int                                  m_CovarianceKNeighborhood;
-  unsigned int                                  m_EvaluationKNeighborhood;
+  unsigned int                                  m_CovarianceKNeighborhood{ 5 };
+  unsigned int                                  m_EvaluationKNeighborhood{ 50 };
   RealType                                      m_RegularizationSigma;
   RealType                                      m_KernelSigma;
 
   GaussianContainerType                         m_Gaussians;
-  bool                                          m_Normalize;
-  bool                                          m_UseAnisotropicCovariances;
+  bool                                          m_Normalize{ true };
+  bool                                          m_UseAnisotropicCovariances{ true };
 };
 
 } // end namespace itk

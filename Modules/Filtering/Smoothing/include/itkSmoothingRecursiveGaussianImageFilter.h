@@ -167,7 +167,7 @@ private:
   FirstGaussianFilterPointer    m_FirstSmoothingFilter;
   CastingFilterPointer          m_CastingFilter;
 
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{ false };
 
   SigmaArrayType m_Sigma;
 };

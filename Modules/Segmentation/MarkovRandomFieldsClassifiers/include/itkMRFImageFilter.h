@@ -359,18 +359,18 @@ private:
   LabelledImageNeighborhoodRadiusType    m_LabelledImageNeighborhoodRadius;
   LabelStatusImageNeighborhoodRadiusType m_LabelStatusImageNeighborhoodRadius;
 
-  unsigned int m_NumberOfClasses;
-  unsigned int m_MaximumNumberOfIterations;
+  unsigned int m_NumberOfClasses{0};
+  unsigned int m_MaximumNumberOfIterations{50};
   unsigned int m_KernelSize;
 
-  int               m_ErrorCounter;
-  int               m_NeighborhoodSize;
-  int               m_TotalNumberOfValidPixelsInOutputImage;
-  int               m_TotalNumberOfPixelsInInputImage;
-  double            m_ErrorTolerance;
-  double            m_SmoothingFactor;
-  double *          m_ClassProbability;         //Class liklihood
-  unsigned int      m_NumberOfIterations;
+  int               m_ErrorCounter{0};
+  int               m_NeighborhoodSize{27};
+  int               m_TotalNumberOfValidPixelsInOutputImage{1};
+  int               m_TotalNumberOfPixelsInInputImage{1};
+  double            m_ErrorTolerance{0.2};
+  double            m_SmoothingFactor{1};
+  double *          m_ClassProbability{nullptr};         //Class liklihood
+  unsigned int      m_NumberOfIterations{0};
   StopConditionType m_StopCondition;
 
   LabelStatusImagePointer m_LabelStatusImage;

@@ -138,7 +138,7 @@ protected:
   /**
    * Constructor
    */
-  CommandIterationUpdatev4() : m_PrintParameters( false ) {};
+  CommandIterationUpdatev4()  {};
 
 private:
 
@@ -147,7 +147,7 @@ private:
    */
   WeakPointer<OptimizerType>   m_Optimizer;
 
-  bool m_PrintParameters;
+  bool m_PrintParameters{ false };
 };
 
 } // end namespace itk

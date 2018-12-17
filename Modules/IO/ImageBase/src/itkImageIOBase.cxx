@@ -25,12 +25,8 @@
 
 namespace itk
 {
-ImageIOBase::ImageIOBase():
-  m_PixelType(SCALAR),
-  m_ComponentType(UNKNOWNCOMPONENTTYPE),
-  m_ByteOrder(OrderNotApplicable),
-  m_FileType(TypeNotApplicable),
-  m_NumberOfDimensions(0)
+ImageIOBase::ImageIOBase()
+
 {
   Reset(false);
 }

@@ -115,7 +115,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** A unique ID assigned to this SpatialObjectPoint */
-  int m_ID;
+  int m_ID{-1};
 
   /** Position of the point */
   PointType m_X;

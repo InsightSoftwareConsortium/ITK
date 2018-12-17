@@ -25,7 +25,7 @@ namespace itk
 template< typename TImage >
 LevelSetDomainPartitionImageWithKdTree< TImage >
 ::LevelSetDomainPartitionImageWithKdTree() :
-  m_KdTree(nullptr), m_NumberOfNeighbors( 10 )
+  m_KdTree(nullptr)
 {
 }
 

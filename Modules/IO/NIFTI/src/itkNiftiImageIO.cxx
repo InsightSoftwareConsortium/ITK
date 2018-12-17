@@ -412,11 +412,8 @@ public:
 
 NiftiImageIO::NiftiImageIO() :
   m_NiftiImageHolder(new NiftiImageProxy(nullptr)),
-  m_NiftiImage(*m_NiftiImageHolder.get()),
-  m_RescaleSlope(1.0),
-  m_RescaleIntercept(0.0),
-  m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE),
-  m_LegacyAnalyze75Mode(true)
+  m_NiftiImage(*m_NiftiImageHolder.get())
+
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages

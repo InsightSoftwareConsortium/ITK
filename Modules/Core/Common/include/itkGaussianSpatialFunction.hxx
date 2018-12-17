@@ -26,9 +26,8 @@ namespace itk
 {
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
 GaussianSpatialFunction< TOutput, VImageDimension, TInput >
-::GaussianSpatialFunction() :
-  m_Scale( 1.0 ),
-  m_Normalized( false )
+::GaussianSpatialFunction()
+
 {
   m_Mean = ArrayType::Filled(10.0);
   m_Sigma = ArrayType::Filled(5.0);

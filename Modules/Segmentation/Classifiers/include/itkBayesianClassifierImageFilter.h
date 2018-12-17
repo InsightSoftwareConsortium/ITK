@@ -230,13 +230,13 @@ protected:
 private:
 
 
-  bool m_UserProvidedPriors;
+  bool m_UserProvidedPriors{ false };
 
-  bool m_UserProvidedSmoothingFilter;
+  bool m_UserProvidedSmoothingFilter{ false };
 
   SmoothingFilterPointer m_SmoothingFilter;
 
-  unsigned int m_NumberOfSmoothingIterations;
+  unsigned int m_NumberOfSmoothingIterations{ 0 };
 };
 } // end namespace itk
 

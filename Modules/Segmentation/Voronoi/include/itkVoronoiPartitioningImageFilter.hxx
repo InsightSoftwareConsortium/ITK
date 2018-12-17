@@ -26,8 +26,8 @@ namespace itk
 /* constructor: seting the default value of the parameters */
 template< typename TInputImage, typename TOutputImage >
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::VoronoiPartitioningImageFilter():
-  m_SigmaThreshold(10)
+::VoronoiPartitioningImageFilter()
+
 {}
 
 /* destructor */

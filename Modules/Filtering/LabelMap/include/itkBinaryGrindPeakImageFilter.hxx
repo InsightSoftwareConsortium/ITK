@@ -30,8 +30,8 @@ template <typename TInputImage>
 BinaryGrindPeakImageFilter<TInputImage>
 ::BinaryGrindPeakImageFilter() :
   m_ForegroundValue( NumericTraits<InputImagePixelType>::max() ),
-  m_BackgroundValue( NumericTraits<InputImagePixelType>::ZeroValue() ),
-  m_FullyConnected ( false )
+  m_BackgroundValue( NumericTraits<InputImagePixelType>::ZeroValue() )
+
 {
 }
 

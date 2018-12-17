@@ -140,18 +140,18 @@ protected:
 
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
-  bool                         m_OptimizerInitialized;
+  bool                         m_OptimizerInitialized{false};
 
   using InternalOptimizerAutoPointer = std::unique_ptr<InternalOptimizerType>;
   InternalOptimizerAutoPointer  m_VnlOptimizer;
 
   mutable std::ostringstream    m_StopConditionDescription;
 
-  bool         m_Trace;
-  unsigned int m_MaximumNumberOfFunctionEvaluations;
-  double       m_GradientConvergenceTolerance;
-  double       m_InfinityNormOfProjectedGradient;
-  double       m_CostFunctionConvergenceFactor;
+  bool         m_Trace{false};
+  unsigned int m_MaximumNumberOfFunctionEvaluations{2000};
+  double       m_GradientConvergenceTolerance{1e-5};
+  double       m_InfinityNormOfProjectedGradient{0.0};
+  double       m_CostFunctionConvergenceFactor{1e+7};
 
   // give the helper access to member variables, to update iteration
   // counts, etc.

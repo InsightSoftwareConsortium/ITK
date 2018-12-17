@@ -78,7 +78,7 @@ CLANG_PRAGMA_POP    \
 
 template< typename TInputImage >
 WatershedImageFilter< TInputImage >
-::WatershedImageFilter():m_Threshold(0.0), m_Level(0.0)
+::WatershedImageFilter()
 {
   // Set up the mini-pipeline for the first execution.
   m_Segmenter    = watershed::Segmenter< InputImageType >::New();

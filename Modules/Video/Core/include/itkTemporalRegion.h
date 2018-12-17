@@ -95,8 +95,8 @@ protected:
   /** Time boundaries */
   RealTimeStamp    m_RealStart;
   RealTimeInterval m_RealDuration;
-  FrameOffsetType  m_FrameStart;
-  FrameOffsetType  m_FrameDuration;
+  FrameOffsetType  m_FrameStart{0};
+  FrameOffsetType  m_FrameDuration{0};
 
 };  // end class TemporalRegion
 

@@ -23,7 +23,7 @@
 namespace itk
 {
 
-DOMNode::DOMNode() : m_Parent( nullptr )
+DOMNode::DOMNode()
 {
 }
 

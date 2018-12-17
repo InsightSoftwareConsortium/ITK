@@ -127,7 +127,7 @@ protected:
 
 private:
   RealType m_ForegroundValue;
-  bool     m_Complement;
+  bool     m_Complement{ false };
 };
 } // end namespace itk
 

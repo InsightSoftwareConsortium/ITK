@@ -198,10 +198,10 @@ private:
 
   ImageSizeType m_InputImageSize;
 
-  unsigned int m_NumberOfPixels;
+  unsigned int m_NumberOfPixels{0};
 
   // The number of input images for PCA
-  unsigned int m_NumberOfTrainingImages;
+  unsigned int m_NumberOfTrainingImages{0};
 
   // The number of output Principal Components
   unsigned int m_NumberOfPrincipalComponentsRequired;

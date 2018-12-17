@@ -146,7 +146,7 @@ protected:
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  double m_FloodLevel;
+  double m_FloodLevel{0.0};
   void GenerateOutputRequestedRegion(DataObject *output) override;
 
   void GenerateInputRequestedRegion() override;

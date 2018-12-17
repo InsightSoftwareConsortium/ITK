@@ -111,7 +111,7 @@ protected: //made protected so other iterators can access
   RegionType m_Region;
 
   /** Is the iterator at the end of its walk? */
-  bool m_IsAtEnd;
+  bool m_IsAtEnd{false};
 };
 } // end namespace itk
 

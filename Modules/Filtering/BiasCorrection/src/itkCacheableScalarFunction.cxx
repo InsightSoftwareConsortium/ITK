@@ -21,12 +21,9 @@ namespace itk
 {
 CacheableScalarFunction
 ::CacheableScalarFunction() :
-  m_NumberOfSamples(0),
-  m_CacheTable(0),
-  m_CacheUpperBound(0.0),
-  m_CacheLowerBound(0.0),
-  m_TableInc(0.0),
-  m_CacheAvailable(false)
+
+  m_CacheTable(0)
+
 {
 }
 

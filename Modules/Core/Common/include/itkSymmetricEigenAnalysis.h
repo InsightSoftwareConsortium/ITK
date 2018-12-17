@@ -158,9 +158,7 @@ public:
   EigenValueOrderType;
 
   SymmetricEigenAnalysis():
-  m_UseEigenLibrary(false),
-  m_Dimension(0),
-  m_Order(0),
+
   m_OrderEigenValues(OrderByValue) {}
 
   SymmetricEigenAnalysis(const unsigned int dimension):
@@ -281,9 +279,9 @@ public:
   }
   bool GetUseEigenLibrary() const { return m_UseEigenLibrary; }
 private:
-  bool                m_UseEigenLibrary;
-  unsigned int        m_Dimension;
-  unsigned int        m_Order;
+  bool                m_UseEigenLibrary{false};
+  unsigned int        m_Dimension{0};
+  unsigned int        m_Order{0};
   EigenValueOrderType m_OrderEigenValues;
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using

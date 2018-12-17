@@ -29,8 +29,8 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 ShotNoiseImageFilter<TInputImage, TOutputImage>
-::ShotNoiseImageFilter() :
-  m_Scale( 1.0 )
+::ShotNoiseImageFilter()
+
 {
   this->DynamicMultiThreadingOn();
 }
