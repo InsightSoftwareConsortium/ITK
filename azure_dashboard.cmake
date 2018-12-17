@@ -52,7 +52,7 @@ if(NOT CTEST_BUILD_NAME)
     set(branch "-nightly-master")
     set(dashboard_model "Nightly")
   else()
-    set(branch "-ENV{BUILD_SOURCEBRANCHNAME}")
+    set(branch "-$ENV{BUILD_SOURCEBRANCHNAME}")
     set(dashboard_model "Experimental")
   endif()
 
