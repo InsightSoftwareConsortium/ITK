@@ -76,7 +76,7 @@ protected:
   void GenerateData() override;
 
 private:
-  bool m_MaximallyConnected;
+  bool m_MaximallyConnected{ false };
 };
 } // end namespace itk
 

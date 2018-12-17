@@ -252,7 +252,7 @@ private:
 
   std::string m_FileName;
 
-  void *m_Buffer;
+  void *m_Buffer{ nullptr };
 };
 } // namespace itk
 

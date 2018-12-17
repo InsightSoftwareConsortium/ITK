@@ -170,7 +170,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  MeasureType              m_MatchMeasure;
+  MeasureType              m_MatchMeasure{0};
   DerivativeType           m_MatchMeasureDerivatives;
   mutable TransformPointer m_Transform;
   InterpolatorPointer      m_Interpolator;

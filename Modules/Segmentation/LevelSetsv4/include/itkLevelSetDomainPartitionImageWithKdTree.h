@@ -87,7 +87,7 @@ protected:
 
 private:
   KdTreePointer     m_KdTree;
-  NeighborsIdType   m_NumberOfNeighbors;
+  NeighborsIdType   m_NumberOfNeighbors{ 10 };
 };
 
 } //end namespace itk

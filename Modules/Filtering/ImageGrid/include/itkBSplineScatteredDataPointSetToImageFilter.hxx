@@ -35,14 +35,8 @@ namespace itk
 
 template<typename TInputPointSet, typename TOutputImage>
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::BSplineScatteredDataPointSetToImageFilter() :
-  m_DoMultilevel( false ),
-  m_GenerateOutputImage( true ),
-  m_UsePointWeights( false ),
-  m_MaximumNumberOfLevels( 1 ),
-  m_CurrentLevel( 0 ),
-  m_BSplineEpsilon( 1e-3 ),
-  m_IsFittingComplete( false )
+::BSplineScatteredDataPointSetToImageFilter()
+
 {
   this->m_SplineOrder.Fill( 3 );
   this->DynamicMultiThreadingOff();

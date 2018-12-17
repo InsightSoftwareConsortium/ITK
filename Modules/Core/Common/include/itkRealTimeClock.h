@@ -76,7 +76,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  FrequencyType m_Frequency;
+  FrequencyType m_Frequency{1};
   TimeStampType m_Difference;
   TimeStampType m_Origin;
 

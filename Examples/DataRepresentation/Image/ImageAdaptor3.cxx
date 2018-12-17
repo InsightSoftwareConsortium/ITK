@@ -69,7 +69,7 @@ public:
   using InternalType = itk::CovariantVector<float,2>;
   using ExternalType = float;
 
-  VectorPixelAccessor() : m_Index(0) {}
+  VectorPixelAccessor()  {}
 
   VectorPixelAccessor & operator=( const VectorPixelAccessor & vpa ) = default;
   ExternalType Get( const InternalType & input ) const
@@ -82,7 +82,7 @@ public:
     }
 
 private:
-  unsigned int m_Index;
+  unsigned int m_Index{0};
 };
 // Software Guide : EndCodeSnippet
 }

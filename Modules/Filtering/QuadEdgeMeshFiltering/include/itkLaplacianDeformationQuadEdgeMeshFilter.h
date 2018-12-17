@@ -212,7 +212,7 @@ protected:
 
   CoefficientsComputationType* m_CoefficientsMethod;
 
-  unsigned int              m_Order;
+  unsigned int              m_Order{1};
   AreaType                  m_AreaComputationType;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

@@ -29,8 +29,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
-::GrayscaleFillholeImageFilter():
-  m_NumberOfIterationsUsed(1)
+::GrayscaleFillholeImageFilter()
+
 {
   m_FullyConnected = false;
 }

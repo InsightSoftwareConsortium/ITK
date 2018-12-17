@@ -202,7 +202,7 @@ private:
   LandmarkPointContainer m_MovingLandmarks;
   /** weights for affine landmarks */
   LandmarkWeightType     m_LandmarkWeight;
-  unsigned int           m_BSplineNumberOfControlPoints;
+  unsigned int           m_BSplineNumberOfControlPoints{4};
 
 }; //class LandmarkBasedTransformInitializer
 }  // namespace itk

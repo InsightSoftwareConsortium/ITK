@@ -38,10 +38,8 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
-::BSplineDecompositionImageFilter() :
-  m_SplineOrder( 0 ),
-  m_Tolerance( 1e-10 ),   // Need some guidance on this one...what is reasonable?
-  m_IteratorDirection( 0 )
+::BSplineDecompositionImageFilter()
+
 {
   this->SetSplineOrder( 3 );
 

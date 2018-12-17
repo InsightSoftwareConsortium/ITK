@@ -104,7 +104,7 @@ protected:
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  double m_StandardDeviation;
+  double m_StandardDeviation{ 1.0 };
 
 };
 } // end namespace itk

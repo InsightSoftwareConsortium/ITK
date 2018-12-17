@@ -28,7 +28,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::MattesMutualInformationImageToImageMetricv4() :
-  m_NumberOfHistogramBins(50),
+
   m_MovingImageNormalizedMin(0.0),
   m_FixedImageNormalizedMin(0.0),
   m_FixedImageTrueMin(0.0),

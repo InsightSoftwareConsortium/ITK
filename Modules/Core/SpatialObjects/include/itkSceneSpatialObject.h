@@ -123,7 +123,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Parent ID : default = -1 */
-  int m_ParentId;
+  int m_ParentId{0};
 };
 } // end of namespace itk
 

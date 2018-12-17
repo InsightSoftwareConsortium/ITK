@@ -34,8 +34,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   m_Transform(nullptr),
   m_FixedLandmarks(0),
   m_MovingLandmarks(0),
-  m_LandmarkWeight(0),
-  m_BSplineNumberOfControlPoints(4)
+  m_LandmarkWeight(0)
+
 {}
 
 /** default transform initializer, if transform type isn't

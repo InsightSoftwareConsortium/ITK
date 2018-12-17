@@ -227,11 +227,11 @@ private:
   RealType                                            m_LearningRate;
 
   RealType                                            m_ConvergenceThreshold;
-  unsigned int                                        m_ConvergenceWindowSize;
+  unsigned int                                        m_ConvergenceWindowSize{ 10 };
 
   NumberOfIterationsArrayType                         m_NumberOfIterationsPerLevel;
 
-  SizeValueType                                       m_NumberOfTimePointSamples;
+  SizeValueType                                       m_NumberOfTimePointSamples{ 4 };
 
   WeightsElementType                                  m_BoundaryWeight;
 };

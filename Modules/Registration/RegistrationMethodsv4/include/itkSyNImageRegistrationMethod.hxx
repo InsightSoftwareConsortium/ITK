@@ -40,7 +40,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 ::SyNImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-6 ),
-  m_ConvergenceWindowSize( 10 ),
+
   m_GaussianSmoothingVarianceForTheUpdateField( 3.0 ),
   m_GaussianSmoothingVarianceForTheTotalField( 0.5 )
 {

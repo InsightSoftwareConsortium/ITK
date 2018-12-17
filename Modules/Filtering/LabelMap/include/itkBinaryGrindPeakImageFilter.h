@@ -130,7 +130,7 @@ private:
 
   InputImagePixelType m_BackgroundValue;
 
-  bool                m_FullyConnected;
+  bool                m_FullyConnected{ false };
 
 }; // end of class
 

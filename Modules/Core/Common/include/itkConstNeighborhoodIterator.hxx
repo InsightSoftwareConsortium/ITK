@@ -212,10 +212,8 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 
 template< typename TImage, typename TBoundaryCondition >
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
-::ConstNeighborhoodIterator() :
-  m_IsInBounds(false),
-  m_IsInBoundsValid(false),
-  m_NeedToUseBoundaryCondition(false)
+::ConstNeighborhoodIterator()
+
 {
   IndexType zeroIndex; zeroIndex.Fill(0);
   SizeType zeroSize; zeroSize.Fill(0);

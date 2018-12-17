@@ -33,9 +33,8 @@ namespace itk
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>
-::BSplineSmoothingOnUpdateDisplacementFieldTransform() :
-  m_SplineOrder( 3 ),
-  m_EnforceStationaryBoundary( true )
+::BSplineSmoothingOnUpdateDisplacementFieldTransform()
+
 {
   this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
   this->m_NumberOfControlPointsForTheTotalField.Fill( 0 );

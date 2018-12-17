@@ -170,7 +170,7 @@ public:
   VectorLengthType GetVectorLength() const { return Superclass::GetVectorLength(); }
 
   NthElementPixelAccessor( unsigned int length = 1)
-    :m_ElementNumber(0)
+
     {
     Superclass::SetVectorLength( length );
     }
@@ -194,7 +194,7 @@ protected:
   using Superclass = DefaultVectorPixelAccessor< TPixelType >;
 
 private:
-  VectorLengthType m_ElementNumber;
+  VectorLengthType m_ElementNumber{0};
 };
 
 }  // end namespace itk

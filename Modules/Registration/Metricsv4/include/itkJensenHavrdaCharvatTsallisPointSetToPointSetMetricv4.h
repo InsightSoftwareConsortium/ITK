@@ -228,7 +228,7 @@ private:
   DensityFunctionPointer                   m_MovingDensityFunction;
   DensityFunctionPointer                   m_FixedDensityFunction;
 
-  bool                                     m_UseAnisotropicCovariances;
+  bool                                     m_UseAnisotropicCovariances{ false };
 
   RealType                                 m_PointSetSigma;
   RealType                                 m_KernelSigma;

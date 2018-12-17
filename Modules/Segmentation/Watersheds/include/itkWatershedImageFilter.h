@@ -265,13 +265,13 @@ private:
   /** A Percentage of the maximum depth (max - min pixel value) in the input
    *  image.  This percentage will be used to threshold the minimum values in
    *  the image. */
-  double m_Threshold;
+  double m_Threshold{0.0};
 
   /** The percentage of the maximum saliency value among adjacencies in the
    *  segments of the initial segmentation to which "flooding" of the image
    *  should occur.  A tree of segment merges is calculated up to this
    *  level. */
-  double m_Level;
+  double m_Level{0.0};
 
   /** The component parts of the segmentation algorithm.  These objects
    * must save state between calls to GenerateData() so that the

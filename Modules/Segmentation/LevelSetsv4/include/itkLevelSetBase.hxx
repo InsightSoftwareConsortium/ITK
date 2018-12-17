@@ -29,12 +29,8 @@ namespace itk
 
 template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::LevelSetBase() :
-  m_MaximumNumberOfRegions(0),
-  m_NumberOfRegions(0),
-  m_RequestedNumberOfRegions(0),
-  m_BufferedRegion(0),
-  m_RequestedRegion(0)
+::LevelSetBase()
+
 {}
 
 // ----------------------------------------------------------------------------

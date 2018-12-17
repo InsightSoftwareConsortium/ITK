@@ -194,7 +194,7 @@ protected:
 private:
   std::function< void( const ImageRegionType& ) > m_DynamicThreadedGenerateDataFunction;
 
-  bool m_ActualXDimensionIsOdd;
+  bool m_ActualXDimensionIsOdd{false};
 };
 } // end namespace itk
 

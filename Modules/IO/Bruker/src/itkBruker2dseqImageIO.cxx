@@ -321,8 +321,8 @@ void ReadJCAMPDX(const std::string &filename, MetaDataDictionary &dict)
 }
 }
 
-Bruker2dseqImageIO::Bruker2dseqImageIO() :
-  m_OnDiskComponentType( UCHAR )
+Bruker2dseqImageIO::Bruker2dseqImageIO()
+
 {
   // By default, only have 3 dimensions
   this->SetNumberOfDimensions(3);

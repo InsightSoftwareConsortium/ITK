@@ -32,8 +32,8 @@ namespace itk
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage,
  typename TParametersValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::ObjectToObjectMetric():
-  m_NumberOfValidPoints(0)
+::ObjectToObjectMetric()
+
 {
   /* Both transforms default to an identity transform */
   using MovingIdentityTransformType = IdentityTransform<TParametersValueType, Self::MovingDimension  >;

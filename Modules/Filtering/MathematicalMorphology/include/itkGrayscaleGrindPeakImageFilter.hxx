@@ -39,8 +39,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
-::GrayscaleGrindPeakImageFilter():
-  m_NumberOfIterationsUsed(1)
+::GrayscaleGrindPeakImageFilter()
+
 {
   m_FullyConnected = false;
 }

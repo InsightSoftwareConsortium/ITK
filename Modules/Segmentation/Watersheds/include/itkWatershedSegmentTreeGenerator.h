@@ -215,9 +215,9 @@ protected:
   void GenerateInputRequestedRegion() override;
 
 private:
-  bool   m_Merge;
-  double m_FloodLevel;
-  bool   m_ConsumeInput;
+  bool   m_Merge{false};
+  double m_FloodLevel{0.0};
+  bool   m_ConsumeInput{false};
 
   using HashMapType = itksys::hash_map< IdentifierType, bool,
                             itksys::hash< IdentifierType > >;
@@ -228,7 +228,7 @@ private:
    *  calculated.  m_FloodLevel can be manipulated anywhere below this
    *  level without re-executing the filter, preventing unnecessary
    *  updates. */
-  double m_HighestCalculatedFloodLevel;
+  double m_HighestCalculatedFloodLevel{0.0};
 };
 } // end namespace watershed
 } // end namespace itk

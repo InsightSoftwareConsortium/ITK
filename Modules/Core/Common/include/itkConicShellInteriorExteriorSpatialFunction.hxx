@@ -24,11 +24,8 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
-::ConicShellInteriorExteriorSpatialFunction() :
-  m_DistanceMin( 0.0 ),
-  m_DistanceMax( 0.0 ),
-  m_Epsilon( 0.0 ),
-  m_Polarity( false )
+::ConicShellInteriorExteriorSpatialFunction()
+
 {
   m_Origin.Fill(0.0);
   m_OriginGradient.Fill(0.0);

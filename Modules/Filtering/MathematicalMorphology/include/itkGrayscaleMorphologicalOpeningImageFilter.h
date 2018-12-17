@@ -153,7 +153,7 @@ private:
   // and the name of the filter
   int m_Algorithm;
 
-  bool m_SafeBorder;
+  bool m_SafeBorder{true};
 }; // end of class
 } // end namespace itk
 

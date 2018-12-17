@@ -178,7 +178,7 @@ private:
 
   PathIndexType GetBitRange( const PathIndexType, const PathIndexType, const PathIndexType, const PathIndexType );
 
-  HilbertOrderType             m_HilbertOrder;
+  HilbertOrderType             m_HilbertOrder{ 1 };
   HilbertPathType              m_HilbertPath;
 };
 } // end namespace itk

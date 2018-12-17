@@ -186,7 +186,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Count of the number of valid histogram points. */
-  SizeValueType   m_JointHistogramTotalCount;
+  SizeValueType   m_JointHistogramTotalCount{0};
 
 private:
   /** The fixed image marginal PDF */

@@ -32,13 +32,8 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
-::HessianToObjectnessMeasureImageFilter() :
-  m_Alpha(0.5),
-  m_Beta(0.5),
-  m_Gamma(5.0),
-  m_ObjectDimension(1),
-  m_BrightObject(true),
-  m_ScaleObjectnessMeasure(true)
+::HessianToObjectnessMeasureImageFilter()
+
 {
   this->DynamicMultiThreadingOn();
 }

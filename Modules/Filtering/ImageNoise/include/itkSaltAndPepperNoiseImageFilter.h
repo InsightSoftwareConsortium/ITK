@@ -128,7 +128,7 @@ protected:
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  double               m_Probability;
+  double               m_Probability{ 0.01 };
   OutputImagePixelType m_SaltValue;
   OutputImagePixelType m_PepperValue;
 

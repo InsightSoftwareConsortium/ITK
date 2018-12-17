@@ -90,8 +90,8 @@ protected:
   EdgeDecimationQuadEdgeMeshFilter();
   ~EdgeDecimationQuadEdgeMeshFilter() override;
 
-  bool m_Relocate;
-  bool m_CheckOrientation;
+  bool m_Relocate{true};
+  bool m_CheckOrientation{false};
 
   PriorityQueuePointer m_PriorityQueue;
   QueueMapType         m_QueueMapper;

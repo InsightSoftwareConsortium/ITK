@@ -27,9 +27,8 @@
 namespace itk
 {
 
-HDF5ImageIO::HDF5ImageIO() : m_H5File(nullptr),
-                             m_VoxelDataSet(nullptr),
-                             m_ImageInformationWritten(false)
+HDF5ImageIO::HDF5ImageIO()
+
 {
 
   const char *extensions[] =

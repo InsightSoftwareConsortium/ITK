@@ -28,8 +28,7 @@ namespace watershed
 {
 template< typename TScalar >
 SegmentTreeGenerator< TScalar >
-::SegmentTreeGenerator():m_Merge(false), m_FloodLevel(0.0),
-  m_ConsumeInput(false), m_HighestCalculatedFloodLevel(0.0)
+::SegmentTreeGenerator()
 {
   typename SegmentTreeType::Pointer st =
     static_cast< SegmentTreeType * >( this->MakeOutput(0).GetPointer() );

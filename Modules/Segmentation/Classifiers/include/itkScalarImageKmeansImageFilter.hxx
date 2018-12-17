@@ -29,9 +29,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
-::ScalarImageKmeansImageFilter() :
-  m_UseNonContiguousLabels( false ),
-  m_ImageRegionDefined( false )
+::ScalarImageKmeansImageFilter()
+
 {
 }
 

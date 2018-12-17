@@ -49,15 +49,7 @@ namespace itk
   struct MultiThreaderBaseGlobals
   {
     // Initialize static members.
-    MultiThreaderBaseGlobals():GlobalDefaultThreaderTypeIsInitialized(false),
-#if defined(ITK_USE_TBB)
-    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderType::TBB),
-#else
-    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderType::Pool),
-#endif
-    m_GlobalMaximumNumberOfThreads(ITK_MAX_THREADS),
-    // Global default number of threads : 0 => Not initialized.
-    m_GlobalDefaultNumberOfThreads(0)
+    MultiThreaderBaseGlobals()
     {};
     // GlobalDefaultThreaderTypeIsInitialized is used only in this
     // file to ensure that the ITK_GLOBAL_DEFAULT_THREADER or
@@ -65,26 +57,33 @@ namespace itk
     // only used as a fall back option.  If the SetGlobalDefaultThreaderType
     // API is ever used by the developer, the developers choice is
     // respected over the environmental variable.
-    bool GlobalDefaultThreaderTypeIsInitialized;
+    bool GlobalDefaultThreaderTypeIsInitialized{false};
     std::mutex globalDefaultInitializerLock;
 
     // Global value to control weather the threadpool implementation should
     // be used. This defaults to the environmental variable
     // ITK_GLOBAL_DEFAULT_THREADER. If that is not present, then
     // ITK_USE_THREADPOOL is examined.
-    MultiThreaderBase::ThreaderType m_GlobalDefaultThreader;
+    MultiThreaderBase::ThreaderType m_GlobalDefaultThreader{
+#if defined(ITK_USE_TBB)
+    MultiThreaderBase::ThreaderType::TBB
+#else
+    MultiThreaderBase::ThreaderType::Pool
+#endif
+};
 
     // Global variable defining the maximum number of threads that can be used.
     //  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
     //  ITK_MAX_THREADS and greater than zero. */
-    ThreadIdType m_GlobalMaximumNumberOfThreads;
+    ThreadIdType m_GlobalMaximumNumberOfThreads{ITK_MAX_THREADS};
 
     //  Global variable defining the default number of threads to set at
     //  construction time of a MultiThreaderBase instance.  The
     //  m_GlobalDefaultNumberOfThreads must always be less than or equal to the
     //  m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
     //  initialized in the constructor of the first MultiThreaderBase instantiation.
-    ThreadIdType m_GlobalDefaultNumberOfThreads;
+    // Global default number of threads : 0 => Not initialized.
+    ThreadIdType m_GlobalDefaultNumberOfThreads{0};
   };
 }//end of itk namespace
 

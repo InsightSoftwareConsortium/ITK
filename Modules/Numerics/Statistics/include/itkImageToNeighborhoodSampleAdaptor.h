@@ -309,7 +309,7 @@ private:
   mutable IndexType                  m_NeighborIndexInternal;
   NeighborhoodRadiusType             m_Radius;
   RegionType                         m_Region;
-  bool                               m_UseImageRegion;
+  bool                               m_UseImageRegion{true};
   OffsetTableType                    m_OffsetTable;
 
 }; // end of class ImageToNeighborhoodSampleAdaptor

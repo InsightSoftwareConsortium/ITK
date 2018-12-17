@@ -123,7 +123,7 @@ protected:
   /** Track when the temporary displacement field used during smoothing
    * was last modified/initialized. We only want to change it if the
    * main displacement field is also changed, i.e. assigned to a new object */
-  ModifiedTimeType                  m_GaussianSmoothingTempFieldModifiedTime;
+  ModifiedTimeType                  m_GaussianSmoothingTempFieldModifiedTime{0};
 
   /** Used in GaussianSmoothTimeVaryingVelocityField as variance for the
    * GaussianOperator

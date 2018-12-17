@@ -77,7 +77,7 @@ protected:
   static OutputImagePixelType ClampCast(const double &value);
 
 private:
-  uint32_t m_Seed;
+  uint32_t m_Seed{0};
 
 };
 } // end namespace itk

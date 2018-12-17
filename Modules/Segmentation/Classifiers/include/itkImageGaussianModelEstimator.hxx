@@ -28,8 +28,8 @@ template< typename TInputImage,
           typename TMembershipFunction,
           typename TTrainingImage >
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
-::ImageGaussianModelEstimator(void):
-  m_Covariance(nullptr)
+::ImageGaussianModelEstimator(void)
+
 {}
 
 template< typename TInputImage,

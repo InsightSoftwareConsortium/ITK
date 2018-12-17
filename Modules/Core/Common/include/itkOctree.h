@@ -163,11 +163,11 @@ private:
                                   unsigned y, unsigned z, unsigned xsize,
                                   unsigned ysize, unsigned zsize);
 
-  enum OctreePlaneType m_Plane; // The orientation of the plane for this octree
-  unsigned int         m_Width; // The width of the Octree
+  enum OctreePlaneType m_Plane{UNKNOWN_PLANE}; // The orientation of the plane for this octree
+  unsigned int         m_Width{0}; // The width of the Octree
                                 // ( This is always a power of 2, and large
                                 // enough to contain MAX(DIMS[1,2,3]))
-  unsigned int          m_Depth;         // < The depth of the Octree
+  unsigned int          m_Depth{0};         // < The depth of the Octree
   unsigned int          m_TrueDims[3];   // The true dimensions of the image
   OctreeNodeBranch      m_ColorTable[ColorTableSize];
   OctreeNode   m_Tree;

@@ -104,7 +104,7 @@ protected:
   /**-PROTECTED MEMBERS------------------------------------------------------*/
 
   /** Pointer to the current active buffer */
-  SizeValueType               m_HeadIndex;
+  SizeValueType               m_HeadIndex{0};
 
   /** Vector of pointers to elements */
   std::vector<ElementPointer> m_PointerVector;

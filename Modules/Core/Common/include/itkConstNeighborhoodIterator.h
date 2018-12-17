@@ -524,12 +524,12 @@ protected:
   mutable bool m_InBounds[Dimension];
 
   /** Denotes if iterator is entirely within bounds */
-  mutable bool m_IsInBounds;
+  mutable bool m_IsInBounds{false};
 
   /** Is the m_InBounds and m_IsInBounds variables up to date? Set to
    * false whenever the iterator is repositioned.  Set to true within
    * InBounds(). */
-  mutable bool m_IsInBoundsValid;
+  mutable bool m_IsInBoundsValid{false};
 
   /** Lower threshold of in-bounds loop counter values. */
   IndexType m_InnerBoundsLow;
@@ -541,7 +541,7 @@ protected:
   TBoundaryCondition m_InternalBoundaryCondition;
 
   /** Does the specified region need to worry about boundary conditions? */
-  bool m_NeedToUseBoundaryCondition;
+  bool m_NeedToUseBoundaryCondition{false};
 
   /** Functor type used to access neighborhoods of pixel pointers */
   NeighborhoodAccessorFunctorType m_NeighborhoodAccessorFunctor;

@@ -119,7 +119,7 @@ protected:
 
 private:
   DistanceMapPointer m_DistanceMap;
-  bool               m_ComputeSquaredDistance;
+  bool               m_ComputeSquaredDistance{ false };
 };
 } // end namespace itk
 

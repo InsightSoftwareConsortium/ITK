@@ -28,8 +28,8 @@ namespace itk
  */
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 DiffeomorphicDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::DiffeomorphicDemonsRegistrationFilter():
-  m_UseFirstOrderExp(false)
+::DiffeomorphicDemonsRegistrationFilter()
+
 {
   typename DemonsRegistrationFunctionType::Pointer drfp;
   drfp = DemonsRegistrationFunctionType::New();

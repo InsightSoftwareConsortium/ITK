@@ -75,8 +75,8 @@ public:
   }
 
 protected:
-  OtsuThresholdCalculator() :
-    m_ReturnBinMidpoint( false )
+  OtsuThresholdCalculator()
+
   {
     m_OtsuMultipleThresholdsCalculator = OtsuMultipleThresholdsCalculator<THistogram>::New();
   }
@@ -87,7 +87,7 @@ protected:
 private:
   typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator;
 
-  bool m_ReturnBinMidpoint;
+  bool m_ReturnBinMidpoint{ false };
 };
 
 } // end namespace itk

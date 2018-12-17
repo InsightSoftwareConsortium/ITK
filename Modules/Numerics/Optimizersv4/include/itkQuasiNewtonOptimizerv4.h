@@ -123,7 +123,7 @@ public:
 protected:
 
   /** The maximum tolerable number of iteration without any progress */
-  SizeValueType m_MaximumIterationsWithoutProgress;
+  SizeValueType m_MaximumIterationsWithoutProgress{30};
 
   /** The information about the current step */
   ParametersType m_CurrentPosition;
@@ -136,7 +136,7 @@ protected:
   /** The best value so far and relevant information */
   MeasureType    m_BestValue;
   ParametersType m_BestPosition;
-  SizeValueType  m_BestIteration;
+  SizeValueType  m_BestIteration{0};
 
   /** The Quasi-Newton step */
   DerivativeType m_NewtonStep;

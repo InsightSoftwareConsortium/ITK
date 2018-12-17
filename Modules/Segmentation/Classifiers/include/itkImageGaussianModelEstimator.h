@@ -142,7 +142,7 @@ private:
 
   MatrixType  m_NumberOfSamples;
   MatrixType  m_Means;
-  MatrixType *m_Covariance;
+  MatrixType *m_Covariance{nullptr};
 
   TrainingImagePointer m_TrainingImage;
 

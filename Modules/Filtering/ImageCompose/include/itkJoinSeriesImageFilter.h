@@ -127,8 +127,8 @@ private:
    * is used as the index value of the new dimension */
   using IndexValueType = unsigned int;
 
-  double m_Spacing;
-  double m_Origin;
+  double m_Spacing{ 1.0 };
+  double m_Origin{ 0.0 };
 };
 } // end namespace itk
 

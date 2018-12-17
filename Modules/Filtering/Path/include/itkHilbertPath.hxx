@@ -26,8 +26,8 @@ namespace itk
 /** Constructor */
 template<typename TIndexValue, unsigned int VDimension>
 HilbertPath<TIndexValue, VDimension>
-::HilbertPath() :
-  m_HilbertOrder( 1 )
+::HilbertPath()
+
 {
 }
 

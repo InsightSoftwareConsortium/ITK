@@ -31,8 +31,8 @@ template< unsigned int VDimension, typename TEquationContainer >
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::UpdateMalcolmSparseLevelSet() :
   m_CurrentLevelSetId( NumericTraits< IdentifierType >::ZeroValue() ),
-  m_RMSChangeAccumulator( NumericTraits< LevelSetOutputRealType >::ZeroValue() ),
-  m_IsUsingUnPhasedPropagation( true )
+  m_RMSChangeAccumulator( NumericTraits< LevelSetOutputRealType >::ZeroValue() )
+
 {
   this->m_Offset.Fill( 0 );
   this->m_OutputLevelSet = LevelSetType::New();
