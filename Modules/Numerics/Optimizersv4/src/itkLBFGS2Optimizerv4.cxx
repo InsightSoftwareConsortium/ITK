@@ -158,8 +158,7 @@ LBFGS2Optimizerv4::EvaluateCost( const LBFGS2Optimizerv4::PrecisionType *x,
                                  const LBFGS2Optimizerv4::PrecisionType
                                )
 {
-
-  static ParametersType xItk(n);
+  ParametersType xItk(n);
   std::memcpy(xItk.data_block(), x, n * sizeof(LBFGS2Optimizerv4::PrecisionType) );
 
   DerivativeType gItk(n);

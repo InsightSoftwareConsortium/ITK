@@ -369,6 +369,27 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     this->m_CoefficientImages[i]->SetRegions(
       this->m_CoefficientImages[0]->GetLargestPossibleRegion() );
     }
+
+  // Update TransformDomain parameters.
+  this->m_TransformDomainDirection = this->m_CoefficientImages[0]->GetDirection();
+
+  typedef typename ImageType::PointType PointType;
+  PointType origin2;
+  origin2.Fill( 0.0 );
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    this->m_TransformDomainMeshSize[i] =
+      this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize()[i] - SplineOrder;
+    this->m_TransformDomainPhysicalDimensions[i] = static_cast<ScalarType>(
+      this->m_TransformDomainMeshSize[i] ) * this->m_CoefficientImages[0]->GetSpacing()[i];
+    origin2[i] += ( this->m_CoefficientImages[0]->GetSpacing()[i] * 0.5 * ( SplineOrder - 1 ) );
+    }
+  origin2 = this->m_TransformDomainDirection * origin2;
+
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
+    {
+    this->m_TransformDomainOrigin[j] = this->m_CoefficientImages[0]->GetOrigin()[j] + origin2[j];
+    }
 }
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
