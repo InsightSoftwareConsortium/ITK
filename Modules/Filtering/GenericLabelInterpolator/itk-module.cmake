@@ -1,14 +1,16 @@
-set(DOCUMENTATION "The basic idea of this generic interpolator for label images is to interpolate each label with an ordinary image interpolator, and return the label with the highest value. This is the idea used by the itk::LabelImageGaussianInterpolateImageFunction interpolator. Unfortunately, this class is currently limited to Gaussian interpolation. Using generic programming, our proposed interpolator extends this idea to any image interpolator. Combined with linear interpolation, this results in similar or better accuracy and much improved computation speeds on a test image.
+# the top-level README is used for describing this module, just
+# re-used it for documentation here
+get_filename_component(MY_CURENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+file(READ "${MY_CURENT_DIR}/README.rst" DOCUMENTATION)
 
-A more detailed description can be found in the Insight Journal article::
+# itk_module() defines the module dependencies in GenericLabelInterpolator
+# The testing module in GenericLabelInterpolator depends on ITKTestKernel
+# By convention those modules outside of ITK are not prefixed with
+# ITK
 
-Schaerer, J., Roche, F., Belaroussi, B. \"A generic interpolator for multi-label images\".
-  http://hdl.handle.net/10380/3506
-  http://www.insight-journal.org/browse/publication/950
-  December, 2014.
-")
-
-itk_module(GenericLabelInterpolator
+# define the dependencies of the include module and the tests
+itk_module(
+  GenericLabelInterpolator
   DEPENDS
     ITKSmoothing
     ITKImageAdaptors
@@ -16,6 +18,5 @@ itk_module(GenericLabelInterpolator
     ITKTestKernel
     ITKImageGrid
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
 )
