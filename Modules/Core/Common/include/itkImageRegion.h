@@ -117,7 +117,7 @@ public:
 
   /** Copy constructor. ImageRegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
-  ImageRegion(const Self & region) ITK_NOEXCEPT = default;
+  ImageRegion(const Self & ) ITK_NOEXCEPT = default;
 
   /** Constructor that takes an index and size. ImageRegion is a lightweight
    * object that is not reference counted, so this constructor is public. */
@@ -142,7 +142,7 @@ public:
 
   /** operator=. ImageRegion is a lightweight object that is not reference
    * counted, so operator= is public. */
-  Self& operator=(const Self & region) ITK_NOEXCEPT = default;
+  Self& operator=(const Self & ) ITK_NOEXCEPT = default;
 
   /** Set the index defining the corner of the region. */
   void SetIndex(const IndexType & index)
