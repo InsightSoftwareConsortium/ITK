@@ -20,12 +20,13 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry',
     description=r'An ITK module to compute bone morphometry features and feature maps',
-    long_description='ITK is an open-source, cross-platform library that '
-                     'provides developers with an extensive suite of software '
-                     'tools for image analysis. Developed through extreme '
-                     'programming methodologies, ITK employs leading-edge '
-                     'algorithms for registering and segmenting '
-                     'multidimensional scientific images.',
+    long_description='ITKBoneMorphometry provides bone analysis filters that '
+                     'compute features from N-dimensional images that '
+                     'represent the internal architecture of bone.\n'
+                     'Please refer to:'
+                     'Vimort J., McCormick M., Paniagua B.,'
+                     '“Computing Bone Morphometric Feature Maps from 3-Dimensional Images”, '
+                     'Insight Journal, January-December 2017, http://hdl.handle.net/10380/3588.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
@@ -46,8 +47,8 @@ setup(
         "Operating System :: MacOS"
         ],
     license='Apache',
-    keywords='ITK InsightToolkit',
-    url=r'https://itk.org/',
+    keywords='ITK InsightToolkit bones morphometry',
+    url=r'https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry',
     install_requires=[
         r'itk>=5.0b01'
     ]
