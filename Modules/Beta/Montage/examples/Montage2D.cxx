@@ -59,9 +59,9 @@ WriteTransform( const TransformType* transform, std::string filename )
 template< typename PixelType, typename AccumulatePixelType >
 void
 montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
-           const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles, const std::string& inputPath,
-           const std::string& outputPath, const std::string& outFilename, int peakMethodToUse, bool setMontageDirectly,
-           unsigned streamSubdivisions )
+           const std::string& inputPath, const std::string& outputPath,
+           const std::string& outFilename, int peakMethodToUse,
+           bool setMontageDirectly, unsigned streamSubdivisions )
 {
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
   constexpr unsigned Dimension = 2;
@@ -144,25 +144,25 @@ montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
 template< typename ComponentType, typename AccumulatePixelType >
 void
 montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
-           const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles, const std::string& inputPath,
-           const std::string& outputPath, const std::string& outFilename, int peakMethodToUse, bool setMontageDirectly,
+           const std::string& inputPath, const std::string& outputPath,
+           const std::string& outFilename, int peakMethodToUse, bool setMontageDirectly,
            unsigned streamSubdivisions, itk::ImageIOBase::IOPixelType pixelType )
 {
   switch ( pixelType )
     {
       case itk::ImageIOBase::IOPixelType::SCALAR:
         montage2D< ComponentType, AccumulatePixelType >(
-          stageTiles, actualTiles, inputPath, outputPath, outFilename,
+          stageTiles, inputPath, outputPath, outFilename,
           peakMethodToUse, setMontageDirectly, streamSubdivisions );
         break;
       case itk::ImageIOBase::IOPixelType::RGB:
         montage2D< itk::RGBPixel< ComponentType >, itk::RGBPixel< AccumulatePixelType > >(
-          stageTiles, actualTiles, inputPath, outputPath, outFilename,
+          stageTiles, inputPath, outputPath, outFilename,
           peakMethodToUse, setMontageDirectly, streamSubdivisions );
         break;
       case itk::ImageIOBase::IOPixelType::RGBA:
         montage2D< itk::RGBAPixel< ComponentType >, itk::RGBAPixel< AccumulatePixelType > >(
-          stageTiles, actualTiles, inputPath, outputPath, outFilename,
+          stageTiles, inputPath, outputPath, outFilename,
           peakMethodToUse, setMontageDirectly, streamSubdivisions );
         break;
       default:
@@ -194,8 +194,6 @@ int main( int argc, char *argv[] )
 
   std::vector< std::vector< itk::Tile< Dimension > > > stageTiles =
     itk::ParseTileConfiguration2D( inputPath + "TileConfiguration.txt" );
-  std::vector< std::vector< itk::Tile< Dimension > > > actualTiles =
-    itk::ParseTileConfiguration2D( inputPath + "TileConfiguration.registered.txt" );
 
   try
     {
@@ -219,10 +217,10 @@ int main( int argc, char *argv[] )
     switch ( componentType )
       {
         case itk::ImageIOBase::IOComponentType::UCHAR:
-          montage2D< unsigned char, unsigned int >( stageTiles, actualTiles, inputPath, outputPath, argv[3], 1, true, 1, pixelType );
+          montage2D< unsigned char, unsigned int >( stageTiles, inputPath, outputPath, argv[3], 1, true, 1, pixelType );
           break;
         case itk::ImageIOBase::IOComponentType::USHORT:
-          montage2D< unsigned short, double >( stageTiles, actualTiles, inputPath, outputPath, argv[3], 1, true, 1, pixelType );
+          montage2D< unsigned short, double >( stageTiles, inputPath, outputPath, argv[3], 1, true, 1, pixelType );
           break;
         default: // instantiating too many types leads to long compileation time and big executable
           itkGenericExceptionMacro( "Only unsigned char and unsigned short are supported!" );
