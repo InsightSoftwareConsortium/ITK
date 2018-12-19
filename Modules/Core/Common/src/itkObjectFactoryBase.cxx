@@ -68,7 +68,7 @@ class ObjectFactoryBasePrivateInitializer
 public:
   using Self = ObjectFactoryBasePrivateInitializer;
 
-  ObjectFactoryBasePrivateInitializer() {}
+  ObjectFactoryBasePrivateInitializer() = default;
 
   /** Delete the time stamp if it was created. */
   ~ObjectFactoryBasePrivateInitializer()
@@ -908,7 +908,7 @@ ObjectFactoryBase
       return ( *i ).second.m_EnabledFlag;
       }
     }
-  return 0;
+  return false;
 }
 
 /**
@@ -923,7 +923,7 @@ ObjectFactoryBase
 
   for ( auto i = start; i != end; ++i )
     {
-    ( *i ).second.m_EnabledFlag = 0;
+    ( *i ).second.m_EnabledFlag = false;
     }
 }
 

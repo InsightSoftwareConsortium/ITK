@@ -27,10 +27,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
 ::OtsuMultipleThresholdsImageFilter() :
-  m_NumberOfHistogramBins( 128 ),
-  m_NumberOfThresholds( 1 ),
-  m_LabelOffset( NumericTraits< OutputPixelType >::ZeroValue() ),
-  m_ValleyEmphasis( false )
+
+  m_LabelOffset( NumericTraits< OutputPixelType >::ZeroValue() )
+
 {
   m_Thresholds.clear();
 }
@@ -54,6 +53,7 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
   otsuHistogramThresholdCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuHistogramThresholdCalculator->SetNumberOfThresholds(m_NumberOfThresholds);
   otsuHistogramThresholdCalculator->SetValleyEmphasis(m_ValleyEmphasis);
+  otsuHistogramThresholdCalculator->SetReturnBinMidpoint(m_ReturnBinMidpoint);
   otsuHistogramThresholdCalculator->Compute();
 
   m_Thresholds = otsuHistogramThresholdCalculator->GetOutput();

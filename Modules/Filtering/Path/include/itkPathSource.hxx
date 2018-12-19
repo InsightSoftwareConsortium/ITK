@@ -46,7 +46,7 @@ PathSource< TOutputPath >
 template< typename TOutputPath >
 typename PathSource< TOutputPath >::OutputPathType *
 PathSource< TOutputPath >
-::GetOutput(void)
+::GetOutput()
 {
   return itkDynamicCastInDebugMode< TOutputPath * >( this->GetPrimaryOutput() );
 }

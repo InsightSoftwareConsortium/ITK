@@ -25,8 +25,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
-#include "itkMutexLockHolder.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -156,7 +155,7 @@ public:
   itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
-  void Initialize(void) override;
+  void Initialize() override;
 
   /** The marginal PDFs are stored as std::vector. */
   //NOTE:  floating point precision is not as stable.
@@ -226,7 +225,7 @@ protected:
   OffsetValueType ComputeSingleFixedImageParzenWindowIndex( const FixedImagePixelType & value ) const;
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType m_NumberOfHistogramBins;
+  SizeValueType m_NumberOfHistogramBins{50};
   PDFValueType  m_MovingImageNormalizedMin;
   PDFValueType  m_FixedImageNormalizedMin;
   PDFValueType  m_FixedImageTrueMin;
@@ -276,20 +275,18 @@ public:
     /* All these methods are thread safe except ReduceBuffer */
 
     void Initialize( size_t maxBufferLength, const size_t cachedNumberOfLocalParameters,
-                     SimpleFastMutexLock * parentDerivativeLockPtr,
+                     std::mutex * parentDerivativeLockPtr,
                      typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
 
     void DoubleBufferSize();
 
     DerivativeBufferManager() :
-      m_CurrentFillSize(0),
+
       m_MemoryBlock(0)
     {
     }
 
-    ~DerivativeBufferManager()
-    {
-    }
+    ~DerivativeBufferManager() = default;
 
     size_t GetCachedNumberOfLocalParameters() const
     {
@@ -324,7 +321,7 @@ public:
 
 private:
     // How many AccumlatorElements used
-    size_t                       m_CurrentFillSize;
+    size_t                       m_CurrentFillSize{0};
     // Continguous chunk of memory for efficiency
     std::vector<PDFValueType>    m_MemoryBlock;
     // The (number of lines in the buffer) * (cells per line)
@@ -334,13 +331,13 @@ private:
     size_t                       m_CachedNumberOfLocalParameters;
     size_t                       m_MaxBufferSize;
     // Pointer handle to parent version
-    SimpleFastMutexLock *   m_ParentJointPDFDerivativesLockPtr;
+    std::mutex *   m_ParentJointPDFDerivativesLockPtr;
     // Smart pointer handle to parent version
     typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
   };
 
   std::vector<DerivativeBufferManager>      m_ThreaderDerivativeManager;
-  SimpleFastMutexLock                       m_JointPDFDerivativesLock;
+  std::mutex                                m_JointPDFDerivativesLock;
   typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
 
   PDFValueType m_JointPDFSum;

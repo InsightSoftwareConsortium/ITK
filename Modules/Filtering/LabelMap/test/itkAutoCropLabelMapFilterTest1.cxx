@@ -62,7 +62,7 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
     ImageToLabelMapFilterType::New();
   imageToLabelMapFilter->SetInput( reader->GetOutput() );
 
-  PixelType backgroundValue = atoi( argv[3] );
+  PixelType backgroundValue = std::stoi( argv[3] );
 
   imageToLabelMapFilter->SetBackgroundValue( backgroundValue );
 
@@ -75,8 +75,8 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   autoCropFilter->SetInput( imageToLabelMapFilter->GetOutput() );
 
   AutoCropLabelMapFilterType::SizeType size;
-  size[0] = atoi( argv[4] );
-  size[1] = atoi( argv[5] );
+  size[0] = std::stoi( argv[4] );
+  size[1] = std::stoi( argv[5] );
   autoCropFilter->SetCropBorder( size );
   TEST_SET_GET_VALUE( size, autoCropFilter->GetCropBorder() );
 

@@ -15,7 +15,7 @@
 template<class T>
 void vsl_b_write(vsl_b_ostream & os, const vnl_matrix<T> & p)
 {
-  const short version_no = 2;
+  constexpr short version_no = 2;
   vsl_b_write(os, version_no);
   vsl_b_write(os, p.rows());
   vsl_b_write(os, p.cols());
@@ -92,8 +92,8 @@ void vsl_print_summary(std::ostream & os,const vnl_matrix<T> & p)
 
 
 #define VNL_IO_MATRIX_INSTANTIATE(T) \
-template VNL_TEMPLATE_EXPORT void vsl_print_summary(std::ostream &, const vnl_matrix<T > &); \
-template VNL_TEMPLATE_EXPORT void vsl_b_read(vsl_b_istream &, vnl_matrix<T > &); \
-template VNL_TEMPLATE_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_matrix<T > &)
+template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_matrix<T > &); \
+template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_matrix<T > &); \
+template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_matrix<T > &)
 
 #endif // vnl_io_matrix_hxx_

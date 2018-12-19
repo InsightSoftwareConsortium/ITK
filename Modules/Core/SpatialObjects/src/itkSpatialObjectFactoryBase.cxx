@@ -26,11 +26,9 @@ namespace itk
 {
 SpatialObjectFactoryBase *SpatialObjectFactoryBase:: m_Factory = nullptr;
 
-SpatialObjectFactoryBase::SpatialObjectFactoryBase()
-{}
+SpatialObjectFactoryBase::SpatialObjectFactoryBase() = default;
 
-SpatialObjectFactoryBase::~SpatialObjectFactoryBase()
-{}
+SpatialObjectFactoryBase::~SpatialObjectFactoryBase() = default;
 
 void SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
 {
@@ -47,7 +45,7 @@ void SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
 }
 
 const char *
-SpatialObjectFactoryBase::GetITKSourceVersion(void) const
+SpatialObjectFactoryBase::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }

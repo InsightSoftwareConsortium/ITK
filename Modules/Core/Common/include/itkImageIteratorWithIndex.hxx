@@ -27,8 +27,7 @@ namespace itk
 //----------------------------------------------------------------------
 template< typename TImage >
 ImageIteratorWithIndex< TImage >
-::ImageIteratorWithIndex()
-{}
+::ImageIteratorWithIndex() = default;
 
 //----------------------------------------------------------------------
 //  Constructor

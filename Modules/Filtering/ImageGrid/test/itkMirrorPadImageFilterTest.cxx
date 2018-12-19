@@ -32,7 +32,7 @@ int RunTest( int argc, char* argv[] )
   using InImageType = itk::Image< InputImagePixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< InImageType >;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
   TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
@@ -46,19 +46,19 @@ int RunTest( int argc, char* argv[] )
 
   if( argc > 4 )
     {
-    double decayFactor = atof( argv[4] );
+    double decayFactor = std::stod( argv[4] );
     filter->SetDecayBase( decayFactor );
     }
 
   typename OutImageType::SizeType pad;
   if( argc > 5 )
     {
-    pad.Fill( atoi( argv[5] ) );
+    pad.Fill( std::stoi( argv[5] ) );
     filter->SetPadLowerBound(pad);
     }
   if( argc > 6 )
     {
-    pad.Fill( atoi( argv[6] ) );
+    pad.Fill( std::stoi( argv[6] ) );
     filter->SetPadUpperBound(pad);
     }
 

@@ -94,7 +94,7 @@ public:
   ReflectiveImageRegionConstIterator();
 
   /** Default destructor.  */
-  ~ReflectiveImageRegionConstIterator() override {}
+  ~ReflectiveImageRegionConstIterator() override = default;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
@@ -132,7 +132,7 @@ public:
   void GoToBegin();
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtBegin(void) const
+  bool IsAtBegin() const
   {
     return !this->m_Remaining;
   }

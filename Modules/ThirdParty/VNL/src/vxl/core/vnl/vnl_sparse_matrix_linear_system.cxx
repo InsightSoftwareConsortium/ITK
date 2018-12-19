@@ -1,10 +1,7 @@
 // This is core/vnl/vnl_sparse_matrix_linear_system.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 
+#include <cassert>
 #include "vnl_sparse_matrix_linear_system.h"
-#include <vcl_cassert.h>
 #include <vnl/vnl_copy.h>
 
 template <>
@@ -79,4 +76,3 @@ void vnl_sparse_matrix_linear_system<T>::apply_preconditioner(vnl_vector<double>
 
 template class vnl_sparse_matrix_linear_system<double>;
 template class vnl_sparse_matrix_linear_system<float>;
-

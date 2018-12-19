@@ -47,18 +47,18 @@ namespace itk
  * A new image with the foreground object placed on the background can be obtained
  * as follows:
  *
- * \code
- *
- * using TernaryType = itk::TernaryOperatorImageFilter< MaskType, ImageType >;
- * TernaryType::Pointer ternaryFilter = TernaryType::New();
- *
- * ternaryFilter->SetInput1( maskImage );
- * ternaryFilter->SetInput2( foregroundImage );
- * ternaryFilter->SetInput3( backgroundImage );
- *
- * ImageType::Pointer objectOnBackground = ternaryFilter->GetOutput();
- *
- * \endcode
+   \code
+
+   using TernaryType = itk::TernaryOperatorImageFilter< MaskType, ImageType >;
+   TernaryType::Pointer ternaryFilter = TernaryType::New();
+
+   ternaryFilter->SetInput1( maskImage );
+   ternaryFilter->SetInput2( foregroundImage );
+   ternaryFilter->SetInput3( backgroundImage );
+
+   ImageType::Pointer objectOnBackground = ternaryFilter->GetOutput();
+
+   \endcode
  *
  * \ingroup ITKImageIntensity
  */
@@ -94,8 +94,8 @@ public:
                TernaryFunctorImageFilter);
 
 protected:
-  TernaryOperatorImageFilter() {}
-  ~TernaryOperatorImageFilter() override {}
+  TernaryOperatorImageFilter() = default;
+  ~TernaryOperatorImageFilter() override = default;
 };
 } // end namespace itk
 

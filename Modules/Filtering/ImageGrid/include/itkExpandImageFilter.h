@@ -144,7 +144,7 @@ public:
 
 protected:
   ExpandImageFilter();
-  ~ExpandImageFilter() override {}
+  ~ExpandImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ExpandImageFilter is implemented as a multithreaded filter.  Therefore,

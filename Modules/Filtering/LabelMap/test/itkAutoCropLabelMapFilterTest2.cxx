@@ -89,13 +89,13 @@ int itkAutoCropLabelMapFilterTest2( int argc, char * argv [] )
   writer->SetInput( labelMapToLabelImageFilter->GetOutput() );
 
   // First label
-  select->SetLabel( atoi(argv[4]) );
+  select->SetLabel( std::stoi(argv[4]) );
   labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
   writer->SetFileName( argv[2] );
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Second label
-  select->SetLabel( atoi(argv[5]) );
+  select->SetLabel( std::stoi(argv[5]) );
   labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
   writer->SetFileName( argv[3] );
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );

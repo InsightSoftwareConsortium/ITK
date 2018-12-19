@@ -29,7 +29,7 @@ namespace itk
 template<typename THistogram, typename TOutput>
 void
 MomentsThresholdCalculator<THistogram, TOutput>
-::GenerateData(void)
+::GenerateData()
 {
   const HistogramType * histogram = this->GetInput();
 

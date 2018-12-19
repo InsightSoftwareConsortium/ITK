@@ -99,7 +99,7 @@ public:
 
 protected:
   NormalizedCorrelationImageToImageMetric();
-  ~NormalizedCorrelationImageToImageMetric() override {}
+  ~NormalizedCorrelationImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

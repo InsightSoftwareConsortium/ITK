@@ -20,6 +20,7 @@
 
 #include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -32,7 +33,9 @@ template< typename TInputImage, typename TOutputImage >
 FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWRealToHalfHermitianForwardFFTImageFilter()
 {
+#ifndef ITK_USE_CUFFTW
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -93,7 +96,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
     }
 
   plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in, out, flags,
-                                    this->GetNumberOfWorkUnits());
+                                     MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 }
@@ -117,7 +120,9 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
+#ifndef ITK_USE_CUFFTW
   os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >

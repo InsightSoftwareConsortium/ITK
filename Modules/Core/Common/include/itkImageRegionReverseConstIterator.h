@@ -58,15 +58,15 @@ namespace itk
  * pixel in the row that is part of the region. This allows for simple
  * processing loops of the form:
  *
- * \code
- *
- *      it.GoToBegin();
- *      for (; !it.IsAtEnd(); ++it)
- *         {
- *         std::cout << it.Value() << std::endl;
- *         }
- *
- *  \endcode
+   \code
+
+        it.GoToBegin();
+        for (; !it.IsAtEnd(); ++it)
+           {
+           std::cout << it.Value() << std::endl;
+           }
+
+    \endcode
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please

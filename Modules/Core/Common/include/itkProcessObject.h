@@ -536,7 +536,7 @@ protected:
 
   /** Set/Get the name associated with the Primary input.  Defaults to "Primary". */
   virtual void SetPrimaryInputName(const DataObjectIdentifierType & key);
-  virtual const char *GetPrimaryInputName( void ) const
+  virtual const char *GetPrimaryInputName() const
   { return this->m_IndexedInputs[0]->first.c_str(); }
 
   /** Set the main input */
@@ -615,7 +615,7 @@ protected:
 
   /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
   virtual void SetPrimaryOutputName(const DataObjectIdentifierType & key);
-  virtual const char *GetPrimaryOutputName( void ) const
+  virtual const char *GetPrimaryOutputName() const
   { return this->m_IndexedOutputs[0]->first.c_str(); }
 
   /** Method used internally for getting an indexed output. */
@@ -674,7 +674,7 @@ protected:
    * NumberOfRequiredInputs are set and not null.
    *
    */
-  virtual void VerifyPreconditions();
+  virtual void VerifyPreconditions() ITKv5_CONST;
 
   /** \brief Verifies that the inputs meta-data is consistent and valid
    * for continued execution of the pipeline, throws an exception if
@@ -686,7 +686,7 @@ protected:
    * check if all the inputs are in the same coordinate frame.
    *
    */
-  virtual void VerifyInputInformation();
+  virtual void VerifyInputInformation() ITKv5_CONST;
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is

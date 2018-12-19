@@ -151,7 +151,7 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
   return true;
 }
 
-SizeValueType MRCHeaderObject::GetExtendedHeaderSize(void) const
+SizeValueType MRCHeaderObject::GetExtendedHeaderSize() const
 {
   return this->m_ExtendedHeaderSize;
 }
@@ -187,21 +187,20 @@ bool MRCHeaderObject::SetExtendedHeader(const void *buffer)
   return true;
 }
 
-bool MRCHeaderObject::IsOriginalHeaderBigEndian(void) const
+bool MRCHeaderObject::IsOriginalHeaderBigEndian() const
 {
   return this->m_BigEndianHeader;
 }
 
-MRCHeaderObject::MRCHeaderObject(void)
-  : m_ExtendedHeaderSize(0),
-    m_ExtendedHeader(nullptr),
-    m_ExtendedFeiHeader(nullptr)
+MRCHeaderObject::MRCHeaderObject()
+
+
 {
   memset( &this->m_Header, 0, sizeof( Header ) );
   this->m_BigEndianHeader = ByteSwapper< void * >::SystemIsBE();
 }
 
-MRCHeaderObject::~MRCHeaderObject(void)
+MRCHeaderObject::~MRCHeaderObject()
 {
   delete[] static_cast< char * >( this->m_ExtendedHeader );
 }

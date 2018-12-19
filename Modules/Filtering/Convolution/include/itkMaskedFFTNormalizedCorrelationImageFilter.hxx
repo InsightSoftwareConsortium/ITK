@@ -58,7 +58,7 @@ public:
   {
     m_RequiredNumberOfOverlappingPixels = 0;
   }
-  ~PostProcessCorrelation() {}
+  ~PostProcessCorrelation() = default;
 
   void SetRequiredNumberOfOverlappingPixels( SizeValueType value )
   {
@@ -579,7 +579,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
-::VerifyInputInformation()
+::VerifyInputInformation() ITKv5_CONST
  {
   // Call the superclass' implementation of this method.
   Superclass::VerifyInputInformation();

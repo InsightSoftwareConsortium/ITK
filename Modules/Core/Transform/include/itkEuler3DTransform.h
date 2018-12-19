@@ -97,7 +97,7 @@ public:
    * last three represents the offset. */
   void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   const FixedParametersType & GetFixedParameters() const override;
   void SetFixedParameters(const FixedParametersType & parameters) override;
@@ -125,14 +125,14 @@ public:
   virtual void SetComputeZYX (const bool flag);
   itkGetConstMacro(ComputeZYX, bool);
 
-  void SetIdentity(void) override;
+  void SetIdentity() override;
 
 protected:
   Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
   Euler3DTransform(unsigned int paramsSpaceDims);
   Euler3DTransform();
 
-  ~Euler3DTransform() override {}
+  ~Euler3DTransform() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -140,9 +140,9 @@ protected:
   void SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void) override;
+  void ComputeMatrix() override;
 
-  void ComputeMatrixParameters(void) override;
+  void ComputeMatrixParameters() override;
 
 private:
   ScalarType m_AngleX;

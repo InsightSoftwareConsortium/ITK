@@ -100,11 +100,11 @@ public:
   virtual ~MultivariateLegendrePolynomial();
 
   /** Gets the dimension. */
-  unsigned int GetDimension(void) const
+  unsigned int GetDimension() const
   { return m_Dimension; }
 
   /** Gets the degree (the degree of Legendre polynomials). */
-  unsigned int GetDegree(void) const
+  unsigned int GetDegree() const
   { return m_Degree; }
 
   /** Returns the number of coefficients of the polynomial
@@ -113,11 +113,11 @@ public:
    *  size, an exception is thrown otherwise
    *  \sa SetCoefficients
    */
-  unsigned int GetNumberOfCoefficients(void) const
+  unsigned int GetNumberOfCoefficients() const
   { return m_NumberOfCoefficients; }
 
   /** Gets each dimesion's size. */
-  const DomainSizeType & GetDomainSize(void) const
+  const DomainSizeType & GetDomainSize() const
   { return m_DomainSize; }
 
   /** \class CoefficientVectorSizeMismatch
@@ -222,7 +222,7 @@ public:
       std::fill(m_Index.begin(), m_Index.end(), 0);
     }
 
-    void Begin(void)
+    void Begin()
     {
       m_IsAtEnd = false;
       for ( unsigned int dim = 0; dim < m_Dimension; dim++ )
@@ -231,7 +231,7 @@ public:
         }
     }
 
-    bool IsAtEnd()
+    bool IsAtEnd() const
     { return m_IsAtEnd; }
 
     SimpleForwardIterator & operator++()

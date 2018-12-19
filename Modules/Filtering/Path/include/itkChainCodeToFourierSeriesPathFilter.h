@@ -80,10 +80,10 @@ public:
 
 protected:
   ChainCodeToFourierSeriesPathFilter();
-  ~ChainCodeToFourierSeriesPathFilter() override {}
+  ~ChainCodeToFourierSeriesPathFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   unsigned int m_NumberOfHarmonics;

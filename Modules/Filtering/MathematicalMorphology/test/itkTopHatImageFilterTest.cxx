@@ -68,12 +68,12 @@ int itkTopHatImageFilterTest(int argc, char* argv [] )
   // Create the structuring element
   KernelType ball;
   KernelType::SizeType ballSize;
-  ballSize[0] = atoi(argv[4]);
-  ballSize[1] = atoi(argv[4]);
+  ballSize[0] = std::stoi(argv[4]);
+  ballSize[1] = std::stoi(argv[4]);
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 
-  switch (atoi(argv[3]))
+  switch (std::stoi(argv[3]))
     {
     case 0:
     {
@@ -108,7 +108,7 @@ int itkTopHatImageFilterTest(int argc, char* argv [] )
     break;
     }
     default:
-      std::cerr << "Invalid filter selector: " << atoi(argv[3]) << std::endl;
+      std::cerr << "Invalid filter selector: " << std::stoi(argv[3]) << std::endl;
       return EXIT_FAILURE;
 
     }

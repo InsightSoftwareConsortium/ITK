@@ -85,7 +85,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
 template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension >
 void
 SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSampleDimension >
-::Update(void)
+::Update()
 {
   if ( !m_Image || !m_SpatialObject )
     {

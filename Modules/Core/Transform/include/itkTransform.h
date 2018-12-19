@@ -102,13 +102,13 @@ public:
   itkCloneMacro(Self);
 
   /** Get the size of the input space */
-  unsigned int GetInputSpaceDimension(void) const override
+  unsigned int GetInputSpaceDimension() const override
   {
     return NInputDimensions;
   }
 
   /** Get the size of the output space */
-  unsigned int GetOutputSpaceDimension(void) const override
+  unsigned int GetOutputSpaceDimension() const override
   {
     return NOutputDimensions;
   }
@@ -374,7 +374,7 @@ public:
                                      const FixedParametersValueType * const end) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters(void) const override
+  const ParametersType & GetParameters() const override
   {
     return m_Parameters;
   }
@@ -383,7 +383,7 @@ public:
   void SetFixedParameters(const FixedParametersType &) override = 0;
 
   /** Get the Fixed Parameters. */
-  const FixedParametersType & GetFixedParameters(void) const override
+  const FixedParametersType & GetFixedParameters() const override
   {
     return m_FixedParameters;
   }
@@ -406,13 +406,13 @@ public:
    *  the number of image dimensions. If it is an affine transform, this will
    *  be the same as the GetNumberOfParameters().
    */
-  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const
+  virtual NumberOfParametersType GetNumberOfLocalParameters() const
   {
     return this->GetNumberOfParameters();
   }
 
   /** Return the number of parameters that completely define the Transfom  */
-  NumberOfParametersType GetNumberOfParameters(void) const override
+  NumberOfParametersType GetNumberOfParameters() const override
   {
     return this->m_Parameters.Size();
   }
@@ -541,7 +541,7 @@ protected:
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
-  ~Transform() override { }
+  ~Transform() override = default;
 
   mutable ParametersType      m_Parameters;
   mutable FixedParametersType m_FixedParameters;

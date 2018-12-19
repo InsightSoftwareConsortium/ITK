@@ -32,11 +32,10 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   this->SetNumberOfRequiredInputs(2);
   m_UseHistograms = false;
   m_NumBins.SetSize(1);
-  m_NumBins[0] = 20;
+  m_NumBins[0] = 256;
   m_LowerBound = static_cast< RealType >( NumericTraits< PixelType >::NonpositiveMin() );
   m_UpperBound = static_cast< RealType >( NumericTraits< PixelType >::max() );
   m_ValidLabelValues.clear();
-  this->DynamicMultiThreadingOff();
 }
 
 template< typename TInputImage, typename TLabelImage >
@@ -73,91 +72,52 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   m_UseHistograms = true;
 }
 
-template< typename TInputImage, typename TLabelImage >
-void
-LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::BeforeThreadedGenerateData()
-{
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
-  // Resize the thread temporaries
-  m_LabelStatisticsPerThread.resize(numberOfThreads);
-
-  // Initialize the temporaries
-  for ( ThreadIdType i = 0; i < numberOfThreads; ++i )
-    {
-    m_LabelStatisticsPerThread[i].clear();
-    }
-
-  // Initialize the final map
-  m_LabelStatistics.clear();
-}
 
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::AfterThreadedGenerateData()
+::MergeMap( MapType &m1, MapType &m2 ) const
 {
-  MapIterator      mapIt;
-  MapConstIterator threadIt;
-  ThreadIdType     i;
-  ThreadIdType     numberOfThreads = this->GetNumberOfWorkUnits();
 
-  // Run through the map for each thread and accumulate the count,
-  // sum, and sumofsquares
-  for ( i = 0; i < numberOfThreads; i++ )
+  for ( auto &m2_value : m2 )
     {
-    // iterate over the map for this thread
-    for ( threadIt = m_LabelStatisticsPerThread[i].begin();
-          threadIt != m_LabelStatisticsPerThread[i].end();
-          ++threadIt )
+    // does this label exist in the cumulative structure yet?
+    MapIterator m1It = m1.find( m2_value.first );
+    if ( m1It == m1.end() )
       {
-      // does this label exist in the cumulative structure yet?
-      mapIt = m_LabelStatistics.find( ( *threadIt ).first );
-      if ( mapIt == m_LabelStatistics.end() )
-        {
-        // create a new entry
-        using MapValueType = typename MapType::value_type;
-        if ( m_UseHistograms )
-          {
-          mapIt = m_LabelStatistics.insert( MapValueType( ( *threadIt ).first,
-                                                          LabelStatistics(m_NumBins[0], m_LowerBound,
-                                                                          m_UpperBound) ) ).first;
-          }
-        else
-          {
-          mapIt = m_LabelStatistics.insert( MapValueType( ( *threadIt ).first,
-                                                          LabelStatistics() ) ).first;
-          }
-        }
+      // move m2 entry into m1, this reuses the histogram if needed.
+      m1.emplace( m2_value.first, std::move(m2_value.second) );
+      }
+    else
+      {
 
 
-      typename MapType::mapped_type &labelStats = ( *mapIt ).second;
+      typename MapType::mapped_type &labelStats = ( *m1It ).second;
 
       // accumulate the information from this thread
-      labelStats.m_Count += ( *threadIt ).second.m_Count;
-      labelStats.m_Sum += ( *threadIt ).second.m_Sum;
-      labelStats.m_SumOfSquares += ( *threadIt ).second.m_SumOfSquares;
+      labelStats.m_Count += m2_value.second.m_Count;
+      labelStats.m_Sum += m2_value.second.m_Sum;
+      labelStats.m_SumOfSquares += m2_value.second.m_SumOfSquares;
 
-      if ( labelStats.m_Minimum > ( *threadIt ).second.m_Minimum )
+      if ( labelStats.m_Minimum > m2_value.second.m_Minimum )
         {
-        labelStats.m_Minimum = ( *threadIt ).second.m_Minimum;
+        labelStats.m_Minimum = m2_value.second.m_Minimum;
         }
-      if ( labelStats.m_Maximum < ( *threadIt ).second.m_Maximum )
+      if ( labelStats.m_Maximum < m2_value.second.m_Maximum )
         {
-        labelStats.m_Maximum = ( *threadIt ).second.m_Maximum;
+        labelStats.m_Maximum = m2_value.second.m_Maximum;
         }
 
       //bounding box is min,max pairs
       for ( unsigned int ii = 0; ii < ( ImageDimension * 2 ); ii += 2 )
         {
-        if ( labelStats.m_BoundingBox[ii] > ( *threadIt ).second.m_BoundingBox[ii] )
+        if ( labelStats.m_BoundingBox[ii] > m2_value.second.m_BoundingBox[ii] )
           {
-          labelStats.m_BoundingBox[ii] = ( *threadIt ).second.m_BoundingBox[ii];
+          labelStats.m_BoundingBox[ii] = m2_value.second.m_BoundingBox[ii];
           }
-        if ( labelStats.m_BoundingBox[ii + 1] < ( *threadIt ).second.m_BoundingBox[ii + 1] )
+        if ( labelStats.m_BoundingBox[ii + 1] < m2_value.second.m_BoundingBox[ii + 1] )
           {
-          labelStats.m_BoundingBox[ii + 1] = ( *threadIt ).second.m_BoundingBox[ii + 1];
+          labelStats.m_BoundingBox[ii + 1] = m2_value.second.m_BoundingBox[ii + 1];
           }
         }
 
@@ -169,29 +129,32 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
         for ( unsigned int bin = 0; bin < m_NumBins[0]; bin++ )
           {
           index[0] = bin;
-          labelStats.m_Histogram->IncreaseFrequency( bin, ( *threadIt ).second.m_Histogram->GetFrequency(bin) );
+          labelStats.m_Histogram->IncreaseFrequency( bin, m2_value.second.m_Histogram->GetFrequency(bin) );
           }
         }
-      } // end of thread map iterator loop
-    }   // end of thread loop
 
+      }
+    }
+}
+
+template< typename TInputImage, typename TLabelImage >
+void
+LabelStatisticsImageFilter< TInputImage, TLabelImage >
+::AfterThreadedGenerateData()
+{
   // compute the remainder of the statistics
-  for ( mapIt = m_LabelStatistics.begin();
-        mapIt != m_LabelStatistics.end();
-        ++mapIt )
+  for ( auto &mapValue : m_LabelStatistics )
     {
-    typename MapType::mapped_type &labelStats = ( *mapIt ).second;
+    typename MapType::mapped_type &labelStats = mapValue.second;
 
-    // mean
-    labelStats.m_Mean = labelStats.m_Sum
-                               / static_cast< RealType >( labelStats.m_Count );
+    labelStats.m_Mean = labelStats.m_Sum / static_cast< RealType >( labelStats.m_Count );
 
     // variance
     if ( labelStats.m_Count > 1 )
       {
       // unbiased estimate of variance
-      LabelStatistics & ls = mapIt->second;
-      const RealType    sumSquared  = ls.m_Sum * ls.m_Sum;
+      LabelStatistics & ls = mapValue.second;
+      const RealType sumSquared  = ls.m_Sum * ls.m_Sum;
       const auto count = static_cast< RealType >( ls.m_Count );
 
       ls.m_Variance = ( ls.m_SumOfSquares - sumSquared / count ) / ( count - 1.0 );
@@ -202,18 +165,20 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       }
 
     // sigma
-    labelStats.m_Sigma = std::sqrt( labelStats.m_Variance );
+    labelStats.m_Sigma = 0.0;
+    if ( labelStats.m_Variance >= 0.0 )
+      {
+      labelStats.m_Sigma = std::sqrt( labelStats.m_Variance );
+      }
     }
 
     {
     //Now update the cached vector of valid labels.
     m_ValidLabelValues.resize(0);
     m_ValidLabelValues.reserve(m_LabelStatistics.size());
-    for ( mapIt = m_LabelStatistics.begin();
-      mapIt != m_LabelStatistics.end();
-      ++mapIt )
+    for ( auto &mapValue : m_LabelStatistics )
       {
-      m_ValidLabelValues.push_back(mapIt->first);
+      m_ValidLabelValues.push_back(mapValue.first);
       }
     }
 }
@@ -221,9 +186,10 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
 {
+
+  MapType localStatistics;
 
   typename HistogramType::IndexType histogramIndex(1);
   typename HistogramType::MeasurementVectorType histogramMeasurement(1);
@@ -240,11 +206,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   ImageScanlineConstIterator< TLabelImage > labelIt (this->GetLabelInput(),
                                                      outputRegionForThread);
 
-  MapIterator mapIt;
-
-  // support progress methods/callbacks
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
+  MapIterator mapIt = localStatistics.end();
 
   // do the work
   while ( !it.IsAtEnd() )
@@ -256,25 +218,24 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       const LabelPixelType & label = labelIt.Get();
 
       // is the label already in this thread?
-      mapIt = m_LabelStatisticsPerThread[threadId].find(label);
-      if ( mapIt == m_LabelStatisticsPerThread[threadId].end() )
+      mapIt = localStatistics.find(label);
+      if ( mapIt == localStatistics.end() )
         {
         // create a new statistics object
-        using MapValueType = typename MapType::value_type;
         if ( m_UseHistograms )
           {
-          mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType( label,
-                                                                             LabelStatistics(m_NumBins[0], m_LowerBound,
-                                                                                             m_UpperBound) ) ).first;
+          mapIt = localStatistics.emplace( label,
+                                           LabelStatistics(m_NumBins[0],
+                                                           m_LowerBound,
+                                                           m_UpperBound) ).first;
           }
         else
           {
-          mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType( label,
-                                                                             LabelStatistics() ) ).first;
+          mapIt = localStatistics.emplace( label, LabelStatistics() ).first;
           }
         }
 
-      typename MapType::mapped_type &labelStats = ( *mapIt ).second;
+      typename MapType::mapped_type &labelStats = mapIt->second;
 
       // update the values for this label and this thread
       if ( value < labelStats.m_Minimum )
@@ -318,9 +279,37 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       }
     labelIt.NextLine();
     it.NextLine();
-    progress.CompletedPixel();
     }
 
+
+  // Merge localStatistics and m_LabelStatistics concurrently safe in a
+  // local copy, this thread may do multiple merges.
+  while ( true )
+    {
+
+    {
+    std::unique_lock<std::mutex> lock(m_Mutex);
+
+    if (m_LabelStatistics.empty())
+      {
+      swap( m_LabelStatistics, localStatistics );
+      break;
+      }
+    else
+      {
+      // copy the output map to thread local storage
+      MapType tomerge;
+      swap( m_LabelStatistics, tomerge );
+
+      // allow other threads to merge data
+      lock.unlock();
+
+      // Merge tomerge into localStatistics, locally
+      MergeMap( localStatistics, tomerge );
+      }
+    } // release lock
+
+    }
 }
 
 template< typename TInputImage, typename TLabelImage >
@@ -515,13 +504,13 @@ typename LabelStatisticsImageFilter< TInputImage, TLabelImage >::RealType
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::GetMedian(LabelPixelType label) const
 {
-  RealType         median = 0.0;
+  RealType median = 0.0;
   MapConstIterator mapIt;
 
   mapIt = m_LabelStatistics.find(label);
   if ( mapIt == m_LabelStatistics.end() || !m_UseHistograms )
     {
-    // label does not exist OR histograms not enabled, return a default value
+    // label does not exist OR histograms not enabled, return the default value
     return median;
     }
   else

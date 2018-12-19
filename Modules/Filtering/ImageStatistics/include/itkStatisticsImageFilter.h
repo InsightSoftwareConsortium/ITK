@@ -22,7 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 #include "itkCompensatedSummation.h"
 
 namespace itk
@@ -154,7 +154,7 @@ public:
 
 protected:
   StatisticsImageFilter();
-  ~StatisticsImageFilter() override {}
+  ~StatisticsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Pass the input through unmodified. Do this by Grafting in the
@@ -181,11 +181,11 @@ private:
   CompensatedSummation<RealType> m_ThreadSum;
   CompensatedSummation<RealType> m_SumOfSquares;
 
-  SizeValueType m_Count;
+  SizeValueType m_Count{1};
   PixelType     m_ThreadMin;
   PixelType     m_ThreadMax;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 }; // end of class
 } // end namespace itk
 

@@ -53,7 +53,7 @@ public:
   itkTypeMacro(ParticleSwarmOptimizerDOMWriter, DOMWriter);
 
 protected:
-  ParticleSwarmOptimizerDOMWriter() {}
+  ParticleSwarmOptimizerDOMWriter() = default;
 
   /**
    * This function is called automatically when update functions are performed.

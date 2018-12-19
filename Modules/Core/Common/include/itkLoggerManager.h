@@ -93,10 +93,10 @@ public:
 protected:
 
   /** Constructor */
-  LoggerManager() {}
+  LoggerManager() = default;
 
   /** Destructor */
-  ~LoggerManager() override {}
+  ~LoggerManager() override = default;
 
   /** Print contents of a LoggerManager */
   void PrintSelf(std::ostream & s, Indent indent) const override;

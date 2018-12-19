@@ -49,8 +49,6 @@ public:
 
   /** Disable floating point exceptions.
    *
-   * \copydetails Enable
-   *
    * \sa Enable, SetEnabled, GetEnabled
    */
   static void Disable();
@@ -59,8 +57,6 @@ public:
   static bool GetEnabled();
 
   /** Set the state to specified value.
-   *
-   * \copydetails Enable
    *
    * \sa Enable, Disable, GetEnabled
    */
@@ -76,10 +72,9 @@ public:
   static bool HasFloatingPointExceptionsSupport();
 
 private:
-  FloatingPointExceptions();                                // Not implemented.
-  FloatingPointExceptions(const FloatingPointExceptions &); // Not
-                                                            // implemented.
-  void operator=(const FloatingPointExceptions &);          // Not implemented.
+  FloatingPointExceptions() = default;
+  FloatingPointExceptions(const FloatingPointExceptions &) = delete;
+  void operator=(const FloatingPointExceptions &) = delete;
 
   /** static member that controls what happens during an exception */
   static ExceptionAction m_ExceptionAction;

@@ -49,9 +49,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
-::~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor()
-{
-}
+::~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor() = default;
 
 template<typename TTransform>
 void

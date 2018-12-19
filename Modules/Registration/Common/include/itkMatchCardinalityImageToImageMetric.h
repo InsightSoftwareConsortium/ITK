@@ -130,7 +130,7 @@ public:
 
 protected:
   MatchCardinalityImageToImageMetric();
-  ~MatchCardinalityImageToImageMetric() override {}
+  ~MatchCardinalityImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
@@ -159,7 +159,7 @@ protected:
   /** Static function used as a "callback" by the MultiThreaderBase.  The threading
    * library will call this routine for each thread, which will delegate the
    * control to ThreadedGetValue(). */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback(void *arg);
 
   /** Internal structure used for passing image data into the threading library
     */

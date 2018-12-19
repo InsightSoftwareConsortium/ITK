@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 #include <vector>
 
@@ -114,7 +114,7 @@ public:
 
 protected:
   MinimumMaximumImageFilter();
-  ~MinimumMaximumImageFilter() override {}
+  ~MinimumMaximumImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Pass the input through unmodified. Do this by Grafting in the
@@ -140,7 +140,7 @@ private:
   PixelType m_ThreadMin;
   PixelType m_ThreadMax;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 };
 } // end namespace itk
 

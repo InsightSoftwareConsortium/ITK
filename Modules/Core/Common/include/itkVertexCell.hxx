@@ -36,7 +36,7 @@ VertexCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 VertexCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -46,7 +46,7 @@ VertexCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 VertexCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -124,7 +124,7 @@ VertexCell< TCellInterface >
 template< typename TCellInterface >
 typename VertexCell< TCellInterface >::PointIdIterator
 VertexCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -135,7 +135,7 @@ VertexCell< TCellInterface >
 template< typename TCellInterface >
 typename VertexCell< TCellInterface >::PointIdConstIterator
 VertexCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -145,7 +145,7 @@ VertexCell< TCellInterface >
 template< typename TCellInterface >
 typename VertexCell< TCellInterface >::PointIdIterator
 VertexCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -156,7 +156,7 @@ VertexCell< TCellInterface >
 template< typename TCellInterface >
 typename VertexCell< TCellInterface >::PointIdConstIterator
 VertexCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -176,7 +176,7 @@ VertexCell< TCellInterface >
 template< typename TCellInterface >
 typename VertexCell< TCellInterface >::PointIdentifier
 VertexCell< TCellInterface >
-::GetPointId(void)
+::GetPointId()
 {
   return m_PointIds[0];
 }
@@ -234,7 +234,7 @@ VertexCell< TCellInterface >
       {
       pcoord[0] = -10.0;
       }
-    return 0;
+    return false;
     }
 }
 } // end namespace itk

@@ -356,7 +356,7 @@ public:
    * with self; that is the resulting transformation consists of
    * first applying self to the source, followed by other.
    * This updates the Translation based on current center. */
-  void Compose(const Self *other, bool pre = 0);
+  void Compose(const Self *other, bool pre = false);
 
   /** Transform by an affine transformation
    *
@@ -427,10 +427,10 @@ public:
    * Note that by default the inverese transform is centered at
    * the origin. If you need to compute the inverse centered at a point, p,
    *
-   * \code
-   * transform2->SetCenter( p );
-   * transform1->GetInverse( transform2 );
-   * \endcode
+     \code
+     transform2->SetCenter( p );
+     transform1->GetInverse( transform2 );
+     \endcode
    *
    * transform2 will now contain the inverse of transform1 and will
    * with its center set to p. Flipping the two statements will produce an
@@ -526,8 +526,8 @@ protected:
   itkGetConstMacro(Singular, bool);
 private:
 
-  MatrixOffsetTransformBase(const Self & other);
-  const Self & operator=(const Self &);
+  MatrixOffsetTransformBase(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 
   MatrixType                m_Matrix;           // Matrix of the transformation
   OutputVectorType          m_Offset;           // Offset of the transformation

@@ -90,7 +90,7 @@ public:
 
 protected:
   VectorGradientNDAnisotropicDiffusionFunction();
-  ~VectorGradientNDAnisotropicDiffusionFunction() override {}
+  ~VectorGradientNDAnisotropicDiffusionFunction() override = default;
 
 private:
   /** Inner product function. */

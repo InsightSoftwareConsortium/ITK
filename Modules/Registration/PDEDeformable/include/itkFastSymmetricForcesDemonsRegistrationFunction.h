@@ -23,6 +23,7 @@
 #include "itkInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkWarpImageFilter.h"
+#include <mutex>
 
 namespace itk
 {
@@ -117,7 +118,7 @@ public:
   }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator(void)
+  InterpolatorType * GetMovingImageInterpolator()
   {
     return m_MovingImageInterpolator;
   }
@@ -176,7 +177,7 @@ public:
 
 protected:
   FastSymmetricForcesDemonsRegistrationFunction();
-  ~FastSymmetricForcesDemonsRegistrationFunction() override {}
+  ~FastSymmetricForcesDemonsRegistrationFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
@@ -225,7 +226,7 @@ private:
   mutable double        m_SumOfSquaredChange;
 
   /** Mutex lock to protect modification to metric. */
-  mutable SimpleFastMutexLock m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock;
 };
 } // end namespace itk
 

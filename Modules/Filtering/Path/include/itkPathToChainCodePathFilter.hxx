@@ -25,8 +25,8 @@ namespace itk
 
 template< typename TInputPath, typename TOutputChainCodePath >
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::PathToChainCodePathFilter() :
-  m_MaximallyConnected( false )
+::PathToChainCodePathFilter()
+
 {
   this->SetNumberOfRequiredInputs(1);
 }
@@ -34,7 +34,7 @@ PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
 template< typename TInputPath, typename TOutputChainCodePath >
 void
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::GenerateData(void)
+::GenerateData()
 {
   OffsetType offset;
   OffsetType tempOffset;

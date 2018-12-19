@@ -136,7 +136,7 @@ protected:
   ~NiftiImageIO() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual bool GetUseLegacyModeForTwoFileWriting(void) const { return false; }
+  virtual bool GetUseLegacyModeForTwoFileWriting() const { return false; }
 
 private:
   //Try to use the Q and S form codes from MetaDataDictionary if they are specified
@@ -166,12 +166,12 @@ private:
 
   NiftiImageProxy& m_NiftiImage;
 
-  double m_RescaleSlope;
-  double m_RescaleIntercept;
+  double m_RescaleSlope{1.0};
+  double m_RescaleIntercept{0.0};
 
-  IOComponentType m_OnDiskComponentType;
+  IOComponentType m_OnDiskComponentType{UNKNOWNCOMPONENTTYPE};
 
-  bool m_LegacyAnalyze75Mode;
+  bool m_LegacyAnalyze75Mode{true};
 
 };
 } // end namespace itk

@@ -26,12 +26,11 @@ MetaImageIOFactory::MetaImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkMetaImageIO",
                           "Meta Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< MetaImageIO >::New() );
 }
 
-MetaImageIOFactory::~MetaImageIOFactory()
-{}
+MetaImageIOFactory::~MetaImageIOFactory() = default;
 
 const char *
 MetaImageIOFactory::GetITKSourceVersion() const
@@ -50,7 +49,7 @@ MetaImageIOFactory::GetDescription() const
 
 static bool MetaImageIOFactoryHasBeenRegistered;
 
-void ITKIOMeta_EXPORT MetaImageIOFactoryRegister__Private(void)
+void ITKIOMeta_EXPORT MetaImageIOFactoryRegister__Private()
 {
   if( ! MetaImageIOFactoryHasBeenRegistered )
     {

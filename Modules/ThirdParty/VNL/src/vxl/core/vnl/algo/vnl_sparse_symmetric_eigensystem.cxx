@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_sparse_symmetric_eigensystem.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 
@@ -9,15 +6,14 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <cassert>
 #include "vnl_sparse_symmetric_eigensystem.h"
 #include "vnl_sparse_lu.h"
 #include <vnl/vnl_vector_ref.h>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_netlib.h> // dnlaso_() dseupd_() dsaupd_()
 
-static vnl_sparse_symmetric_eigensystem * current_system = VXL_NULLPTR;
+static vnl_sparse_symmetric_eigensystem * current_system = nullptr;
 
 //------------------------------------------------------------
 //: Callback for multiplying our matrix by a number of vectors.
@@ -29,7 +25,7 @@ void sse_op_callback(const long* n,
                      const double* p,
                      double* q)
 {
-  assert(current_system != VXL_NULLPTR);
+  assert(current_system != nullptr);
 
   current_system->CalculateProduct(*n,*m,p,q);
 }
@@ -46,7 +42,7 @@ void sse_iovect_callback(const long* n,
                          const long* j,
                          const long* k)
 {
-  assert(current_system != VXL_NULLPTR);
+  assert(current_system != nullptr);
 
   if (*k==0)
     current_system->SaveVectors(*n,*m,q,*j-*m);
@@ -55,16 +51,16 @@ void sse_iovect_callback(const long* n,
 }
 
 vnl_sparse_symmetric_eigensystem::vnl_sparse_symmetric_eigensystem()
-  : nvalues(0), vectors(VXL_NULLPTR), values(VXL_NULLPTR)
+  : nvalues(0), vectors(nullptr), values(nullptr)
 {
 }
 
 vnl_sparse_symmetric_eigensystem::~vnl_sparse_symmetric_eigensystem()
 {
-  delete[] vectors; vectors = VXL_NULLPTR;
-  delete[] values; values = VXL_NULLPTR;
-  for (unsigned i=0; i<temp_store.size(); ++i)
-    delete temp_store[i];
+  delete[] vectors; vectors = nullptr;
+  delete[] values; values = nullptr;
+  for (auto & i : temp_store)
+    delete i;
   temp_store.clear();
 }
 
@@ -84,8 +80,8 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
 
   // Clear current vectors.
   if (vectors) {
-    delete[] vectors; vectors = VXL_NULLPTR;
-    delete[] values; values = VXL_NULLPTR;
+    delete[] vectors; vectors = nullptr;
+    delete[] values; values = nullptr;
   }
   nvalues = 0;
 
@@ -188,8 +184,8 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   }
 
   // Delete temporary space.
-  for (unsigned i=0; i<temp_store.size(); ++i)
-    delete [] temp_store[i];
+  for (auto & i : temp_store)
+    delete [] i;
   temp_store.clear();
 
   return ierr;
@@ -217,12 +213,12 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
 
   // Clear current vectors.
   if (vectors) {
-    delete[] vectors; vectors = VXL_NULLPTR;
-    delete[] values; values = VXL_NULLPTR;
+    delete[] vectors; vectors = nullptr;
+    delete[] values; values = nullptr;
   }
   nvalues = 0;
 
-  const long whichLength = 2;
+  constexpr long whichLength = 2;
   char which[whichLength + 1];
   which[whichLength] = '\0';
   if (smallest)
@@ -242,7 +238,7 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
   long  numberLanczosVecsL = numberLanczosVecs;    // number of vectors to calc
   long  nEVL = nEV;    // long number of EVs to calc
 
-  double *resid = new double[matSize];
+  auto *resid = new double[matSize];
   std::memset((void*) resid, 0, sizeof(double)*matSize);
 
   if (maxIterations <= 0)
@@ -251,10 +247,10 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
   if (numberLanczosVecsL <= 0)
     numberLanczosVecsL = 2 * nEVL + 1;
   numberLanczosVecsL = (numberLanczosVecsL > matSize ? matSize : numberLanczosVecsL);
-  double *V = new double[matSize * numberLanczosVecsL + 1];
+  auto *V = new double[matSize * numberLanczosVecsL + 1];
 
 #define DONE 99
-  const int genEigProblemLength = 1;
+  constexpr int genEigProblemLength = 1;
   char genEigProblem = 'G';
   long    info = 0;   // Initialization info (INPUT) and error flag (OUTPUT)
 
@@ -317,17 +313,17 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
   // by the solver
   // use FORTRAN indexing again...
   long iPntr[IPARAMSIZE];
-  for (int clrIx = 0; clrIx < IPARAMSIZE; clrIx++)
-    iPntr[clrIx]= 0;
+  for (long & clrIx : iPntr)
+    clrIx= 0;
 
   // Double precision work array of length 3*N.
-  double *workd = new double[3 * matSize + 1];
+  auto *workd = new double[3 * matSize + 1];
 
   // Double precision work array of length 3*N.
   long lworkl = numberLanczosVecsL * (numberLanczosVecsL+9);
 
   // Double precision work array of length at least NCV**2 + 8*NCV
-  double *workl = new double[lworkl + 1];
+  auto *workl = new double[lworkl + 1];
 
   vnl_vector<double> workVector;
 
@@ -397,10 +393,10 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
     }
   }
 
-  long rvec   = 1;  // get the values and vectors
+  long rvec = 1;  // get the values and vectors
 
   // which Ritz vctors do we want?
-  const int howMnyLength = 1;
+  constexpr int howMnyLength = 1;
   char howMny = 'A';  // all
 
   // selection vector for which Ritz vectors to calc.
@@ -413,7 +409,7 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
   vectors = new vnl_vector<double>[nvalues];
 
   // hold the eigenvectors
-  double *Z = new double[nvalues * matSize];
+  auto *Z = new double[nvalues * matSize];
 
   v3p_netlib_dseupd_(&rvec, &howMny, select.data_block(), values, Z, &matSize, &sigma, &genEigProblem,
                      &matSize, which, &nEVL, &tolerance, resid, &numberLanczosVecsL, &V[1], &matSize, &iParam[1],
@@ -460,12 +456,12 @@ int vnl_sparse_symmetric_eigensystem::SaveVectors(int n, int m,
   // Store the contents of q.  Basically this is a fifo.  When a write
   // with base=0 is called, we start another fifo.
   if (base == 0) {
-    for (unsigned i=0; i<temp_store.size(); ++i)
-      delete temp_store[i];
+    for (auto & i : temp_store)
+      delete i;
     temp_store.clear();
   }
 
-  double* temp = new double[n*m];
+  auto* temp = new double[n*m];
   std::memcpy(temp,q,n*m*sizeof(double));
 #ifdef DEBUG
     std::cout << "Save vectors " << base << ' ' << temp << '\n';

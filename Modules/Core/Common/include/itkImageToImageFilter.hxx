@@ -29,6 +29,7 @@
 #define itkImageToImageFilter_hxx
 #include "itkImageToImageFilter.h"
 #include "itkInputDataObjectIterator.h"
+#include "itkInputDataObjectConstIterator.h"
 
 #include <cmath>
 
@@ -47,8 +48,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
-::~ImageToImageFilter()
-{}
+::~ImageToImageFilter() = default;
 
 
 template< typename TInputImage, typename TOutputImage >
@@ -76,7 +76,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
-::GetInput(void) const
+::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
@@ -105,7 +105,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 {
   Superclass::GenerateInputRequestedRegion();
 
-  for( InputDataObjectIterator it( this ); !it.IsAtEnd(); it++ )
+  for( InputDataObjectIterator it( this ); !it.IsAtEnd(); ++it )
     {
     // Check whether the input is an image of the appropriate dimension
     using ImageBaseType = ImageBase< InputImageDimension >;
@@ -165,13 +165,13 @@ ImageToImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation()
+::VerifyInputInformation() ITKv5_CONST
 {
 
-  using ImageBaseType = ImageBase< InputImageDimension >;
+  using ImageBaseType = const ImageBase< InputImageDimension >;
 
   ImageBaseType *inputPtr1 = nullptr;
-  InputDataObjectIterator it(this);
+  InputDataObjectConstIterator it(this);
 
   for(; !it.IsAtEnd(); ++it )
     {
@@ -188,8 +188,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
       }
     }
 
-
-  for (; !it.IsAtEnd(); ++it )
+    for (; !it.IsAtEnd(); ++it )
     {
     auto * inputPtrN = dynamic_cast< ImageBaseType * >( it.GetInput() );
 

@@ -29,8 +29,7 @@ CylinderSpatialObject::CylinderSpatialObject()
 }
 
 /** Destructor */
-CylinderSpatialObject::~CylinderSpatialObject()
-{}
+CylinderSpatialObject::~CylinderSpatialObject() = default;
 
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not

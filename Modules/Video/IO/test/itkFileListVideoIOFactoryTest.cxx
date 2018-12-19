@@ -87,5 +87,5 @@ int itkFileListVideoIOFactoryTest( int argc, char *argv[] )
       inFile = inFile + std::string(",");
       }
     }
-  return test_FileListVideoIOFactory(inFile.c_str(), argv[6], atoi(argv[7]) );
+  return test_FileListVideoIOFactory(inFile.c_str(), argv[6], std::stoi(argv[7]) );
 }

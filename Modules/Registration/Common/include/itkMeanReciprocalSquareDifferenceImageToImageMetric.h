@@ -99,7 +99,7 @@ public:
 
 protected:
   MeanReciprocalSquareDifferenceImageToImageMetric();
-  ~MeanReciprocalSquareDifferenceImageToImageMetric() override {}
+  ~MeanReciprocalSquareDifferenceImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

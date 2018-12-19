@@ -31,7 +31,7 @@ class lsqrDense : public lsqrBase
 public:
 
   lsqrDense();
-  virtual ~lsqrDense();
+  ~lsqrDense() override;
 
   /**
    * computes y = y + A*x without altering x,
@@ -39,7 +39,7 @@ public:
    * The size of the vector x is n.
    * The size of the vector y is m.
    */
-  void Aprod1(unsigned int m, unsigned int n, const double * x, double * y ) const;
+  void Aprod1(unsigned int m, unsigned int n, const double * x, double * y ) const override;
 
   /**
    * computes x = x + A'*y without altering y,
@@ -47,7 +47,7 @@ public:
    * The size of the vector x is n.
    * The size of the vector y is m.
    */
-  void Aprod2(unsigned int m, unsigned int n, double * x, const double * y ) const;
+  void Aprod2(unsigned int m, unsigned int n, double * x, const double * y ) const override;
 
   /** Householder Transformation: reflects the vector "x" across the
    * hyperplane whose normal is defined by vector "z". The dimension of

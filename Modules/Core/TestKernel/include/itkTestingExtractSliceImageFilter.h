@@ -227,7 +227,7 @@ public:
 
 protected:
   ExtractSliceImageFilter();
-  ~ExtractSliceImageFilter() override {}
+  ~ExtractSliceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ExtractSliceImageFilter can produce an image which is a different

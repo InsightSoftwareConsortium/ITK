@@ -26,8 +26,7 @@ namespace Statistics
 {
 template< typename TSample >
 WeightedCentroidKdTreeGenerator< TSample >
-::WeightedCentroidKdTreeGenerator()
-{}
+::WeightedCentroidKdTreeGenerator() = default;
 
 template< typename TSample >
 void

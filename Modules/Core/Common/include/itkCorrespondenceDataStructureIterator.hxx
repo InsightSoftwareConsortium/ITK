@@ -41,14 +41,13 @@ CorrespondenceDataStructureIterator< TStructureType >
 /** Destructor. */
 template< typename TStructureType >
 CorrespondenceDataStructureIterator< TStructureType >
-::~CorrespondenceDataStructureIterator()
-{}
+::~CorrespondenceDataStructureIterator() = default;
 
 /** Used to verify that the iterator is at the end of the data structure. */
 template< typename TStructureType >
 bool
 CorrespondenceDataStructureIterator< TStructureType >
-::IsAtEnd()
+::IsAtEnd() const
 {
   return m_IsAtEnd;
 }

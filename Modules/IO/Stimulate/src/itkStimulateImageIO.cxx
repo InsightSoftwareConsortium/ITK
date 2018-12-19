@@ -40,12 +40,20 @@ StimulateImageIO::StimulateImageIO()
   m_ByteOrder = BigEndian;
   m_FileType = Binary;
 
-  this->AddSupportedReadExtension(".spr");
-  this->AddSupportedWriteExtension(".spr");
+  const char *extensions[] =
+    {
+      ".spr"
+    };
+
+
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
-StimulateImageIO::~StimulateImageIO()
-{}
+StimulateImageIO::~StimulateImageIO() = default;
 
 // This method will only test if the header looks like a
 //Stimulate image file.
@@ -61,13 +69,7 @@ bool StimulateImageIO::CanReadFile(const char *filename)
     return false;
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type sprPos = fname.rfind(".spr");
-  if ( ( sprPos != std::string::npos )
-       && ( sprPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedReadExtension(filename, false);
 
   if ( !extensionFound )
     {
@@ -463,13 +465,8 @@ bool StimulateImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type sprPos = filename.rfind(".spr");
-  if ( ( sprPos != std::string::npos )
-       && ( sprPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+
+  bool extensionFound = this->HasSupportedWriteExtension(name);
 
   if ( !extensionFound )
     {

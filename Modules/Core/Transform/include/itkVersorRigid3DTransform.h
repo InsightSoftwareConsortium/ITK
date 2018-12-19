@@ -107,7 +107,7 @@ public:
    * versor, the last three represent the translation. */
   void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** Update the transform's parameters by the values in \c update.
    * \param update must be of the same length as returned by
@@ -128,7 +128,7 @@ protected:
   VersorRigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   VersorRigid3DTransform(unsigned int paramDim);
   VersorRigid3DTransform();
-  ~VersorRigid3DTransform() override {}
+  ~VersorRigid3DTransform() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };                                      // class VersorRigid3DTransform

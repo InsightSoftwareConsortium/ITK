@@ -123,7 +123,7 @@ int main( int argc, char* argv[] )
 
     filter->SetInput( reader->GetOutput() );
 
-    const double sigma = atof( argv[3] );
+    const double sigma = std::stod( argv[3] );
     filter->SetSigma( sigma );
 
     using WriterType = itk::ImageFileWriter< ImageType >;

@@ -134,7 +134,7 @@ public:
 
   void SetNumberOfWorkUnits(ThreadIdType nb) override;
 
-  bool CanRunInPlace( void ) const override;
+  bool CanRunInPlace() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -146,10 +146,10 @@ public:
 
 protected:
   SmoothingRecursiveGaussianImageFilter();
-  ~SmoothingRecursiveGaussianImageFilter() override {}
+  ~SmoothingRecursiveGaussianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   /** SmoothingRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, SmoothingRecursiveGaussianImageFilter needs to provide
@@ -167,7 +167,7 @@ private:
   FirstGaussianFilterPointer    m_FirstSmoothingFilter;
   CastingFilterPointer          m_CastingFilter;
 
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{ false };
 
   SigmaArrayType m_Sigma;
 };

@@ -103,7 +103,7 @@ public:
   ConstNeighborhoodIterator();
 
   /** Virtual destructor */
-  ~ConstNeighborhoodIterator() override {}
+  ~ConstNeighborhoodIterator() override = default;
 
   /** Copy constructor */
   ConstNeighborhoodIterator(const ConstNeighborhoodIterator &);
@@ -151,12 +151,12 @@ public:
   { return m_NeighborhoodAccessorFunctor.Get( this->GetCenterPointer() ); }
 
   /** Returns a smartpointer to the image on which this iterator operates. */
-  const ImageType * GetImagePointer(void) const
+  const ImageType * GetImagePointer() const
   { return m_ConstImage; }
 
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
-  ITK_ITERATOR_VIRTUAL IndexType GetIndex(void) const ITK_ITERATOR_FINAL
+  ITK_ITERATOR_VIRTUAL IndexType GetIndex() const ITK_ITERATOR_FINAL
   { return m_Loop;  }
 
   inline IndexType GetFastIndexPlusOffset(const OffsetType & o) const
@@ -167,14 +167,19 @@ public:
   ITK_ITERATOR_VIRTUAL NeighborhoodType GetNeighborhood() const ITK_ITERATOR_FINAL;
 
   /** Returns the pixel value located at a linear array location i. */
-  ITK_ITERATOR_VIRTUAL PixelType GetPixel(NeighborIndexType i) const ITK_ITERATOR_FINAL
+  ITK_ITERATOR_VIRTUAL PixelType GetPixel(const NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
-    if ( !m_NeedToUseBoundaryCondition )
+    if ( !m_NeedToUseBoundaryCondition || this->InBounds() )
       {
       return ( m_NeighborhoodAccessorFunctor.Get( this->operator[](i) ) );
       }
-    bool inbounds;
-    return this->GetPixel(i, inbounds);
+
+    OffsetType internalIndex;
+    OffsetType offset;
+
+    return this->IndexInBounds(i, internalIndex, offset) ?
+      m_NeighborhoodAccessorFunctor.Get(this->operator[](i)) :
+      m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, m_BoundaryCondition);
   }
 
   /** Return the pixel value located at a linear array location i.
@@ -519,12 +524,12 @@ protected:
   mutable bool m_InBounds[Dimension];
 
   /** Denotes if iterator is entirely within bounds */
-  mutable bool m_IsInBounds;
+  mutable bool m_IsInBounds{false};
 
   /** Is the m_InBounds and m_IsInBounds variables up to date? Set to
    * false whenever the iterator is repositioned.  Set to true within
    * InBounds(). */
-  mutable bool m_IsInBoundsValid;
+  mutable bool m_IsInBoundsValid{false};
 
   /** Lower threshold of in-bounds loop counter values. */
   IndexType m_InnerBoundsLow;
@@ -536,7 +541,7 @@ protected:
   TBoundaryCondition m_InternalBoundaryCondition;
 
   /** Does the specified region need to worry about boundary conditions? */
-  bool m_NeedToUseBoundaryCondition;
+  bool m_NeedToUseBoundaryCondition{false};
 
   /** Functor type used to access neighborhoods of pixel pointers */
   NeighborhoodAccessorFunctorType m_NeighborhoodAccessorFunctor;

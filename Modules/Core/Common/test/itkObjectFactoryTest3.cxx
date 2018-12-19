@@ -27,8 +27,8 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
 protected:
-  FakeObject3() {}
-  ~FakeObject3() override {}
+  FakeObject3() = default;
+  ~FakeObject3() override = default;
 };
 
 class TestFactory3 : public itk::ObjectFactoryBase
@@ -52,7 +52,7 @@ public:
   itkTypeMacro(TestFactory3, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     TestFactory3::Pointer factory = TestFactory3::New();
     itk::ObjectFactoryBase::RegisterFactory(factory);

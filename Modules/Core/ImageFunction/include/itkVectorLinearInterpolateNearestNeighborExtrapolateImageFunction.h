@@ -130,17 +130,13 @@ public:
 
 protected:
   VectorLinearInterpolateNearestNeighborExtrapolateImageFunction();
-  ~VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() override {}
+  ~VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  VectorLinearInterpolateNearestNeighborExtrapolateImageFunction(const Self &); //purposely
-                                                                                // not
-                                                                                // implemented
-  void operator=(const Self &);                                                 //purposely
-                                                                                // not
-                                                                                // implemented
+  VectorLinearInterpolateNearestNeighborExtrapolateImageFunction(const Self &) = delete;
+  void operator=(const Self &) = delete;
 
   /** Number of neighbors used in the interpolation */
   static const unsigned int m_Neighbors;

@@ -47,7 +47,7 @@ public:
   TreeChangeEvent(const TreeIteratorBase< TTreeType > & position) { m_ChangePosition = &position; }
 
   /** Destructor */
-  ~TreeChangeEvent() override {}
+  ~TreeChangeEvent() override = default;
 
   /** Get the event name */
   const char * GetEventName() const override { return "TreeChangeEvent"; }
@@ -69,7 +69,7 @@ protected:
   const TreeIteratorBase< TTreeType > *m_ChangePosition;
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /**  \class TreeNodeChangeEvent
@@ -84,7 +84,7 @@ public:
   using Self = TreeNodeChangeEvent;
   using Superclass = TreeChangeEvent< TTreeType >;
 
-  TreeNodeChangeEvent() {}
+  TreeNodeChangeEvent() = default;
 
   TreeNodeChangeEvent(const TreeIteratorBase< TTreeType > & position):
     TreeChangeEvent< TTreeType >(position) {}
@@ -98,7 +98,7 @@ public:
   TreeNodeChangeEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /** \class TreeAddEvent
@@ -115,7 +115,7 @@ public:
   using Superclass = TreeChangeEvent< TTreeType >;
 
   /** Constructor */
-  TreeAddEvent() {}
+  TreeAddEvent() = default;
 
   /** Copy constructor */
   TreeAddEvent(const TreeIteratorBase< TTreeType > & position):
@@ -133,7 +133,7 @@ public:
   TreeAddEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /** \class TreeRemoveEvent
@@ -150,7 +150,7 @@ public:
   using Superclass = TreeChangeEvent< TTreeType >;
 
   /** Constructor */
-  TreeRemoveEvent(){}
+  TreeRemoveEvent()= default;
 
   /** Copy constructor */
   TreeRemoveEvent(const TreeIteratorBase< TTreeType > & position):
@@ -168,7 +168,7 @@ public:
   TreeRemoveEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 
 /** \class TreePruneEvent
@@ -183,7 +183,7 @@ public:
   using Self = TreePruneEvent;
   using Superclass = TreeRemoveEvent< TTreeType >;
 
-  TreePruneEvent(){}
+  TreePruneEvent()= default;
 
   TreePruneEvent(const TreeIteratorBase< TTreeType > & position):
   TreeRemoveEvent< TTreeType >(position) {}
@@ -197,7 +197,7 @@ public:
   TreePruneEvent(const Self & s):TreeRemoveEvent< TTreeType >(s) {}
 
 private:
-  void operator=(const Self &);
+  void operator=(const Self &) = delete;
 };
 } // namespace itk
 

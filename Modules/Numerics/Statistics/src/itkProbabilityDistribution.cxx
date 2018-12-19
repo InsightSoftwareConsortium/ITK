@@ -31,9 +31,9 @@ void ProbabilityDistribution::SetParameters(const ParametersType & params)
     }
 }
 
-ProbabilityDistribution::ProbabilityDistribution(void) {}
+ProbabilityDistribution::ProbabilityDistribution() = default;
 
-ProbabilityDistribution::~ProbabilityDistribution(void) {}
+ProbabilityDistribution::~ProbabilityDistribution() = default;
 
 void ProbabilityDistribution::PrintSelf(std::ostream & os, Indent indent) const
 {

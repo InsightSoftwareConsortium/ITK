@@ -24,10 +24,9 @@ bool ITKCommon_EXPORT ci_equal(char a, char b)
   return tolower( static_cast< int >( a ) ) == tolower( static_cast< int >( b ) );
 }
 
-MapRecord::~MapRecord()
-{}
+MapRecord::~MapRecord() = default;
 
-void MapRecord::Reset(void)
+void MapRecord::Reset()
 {
   m_Tokens.clear();
   m_RecordName = "";
@@ -253,7 +252,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapRecord & reco
       }
     if ( bracket.length() > 1 )
       { //bracket contains the size, ie "[1024K]"
-      record.m_Tokens["Size"] = static_cast<itk::SizeValueType>( atoi( bracket.substr(1, bracket.length() - 3).c_str() ) );
+      record.m_Tokens["Size"] = static_cast<itk::SizeValueType>( std::stoi( bracket.substr(1, bracket.length() - 3).c_str() ) );
       }
     else
       {
@@ -365,8 +364,7 @@ void MapData::Reset()
 
 /**              ---            SmapsData               ---              **/
 
-SmapsData_2_6::~SmapsData_2_6()
-{}
+SmapsData_2_6::~SmapsData_2_6() = default;
 
 std::istream & operator>>(std::istream & smapsStream, SmapsData_2_6 & data)
 {
@@ -418,13 +416,12 @@ SmapsData_2_6::GetStackUsage()
 /**              ---            VMMapData               ---              **/
 
 VMMapData_10_2
-::VMMapData_10_2():
-  m_UsingSummary(false)
+::VMMapData_10_2()
+
 {}
 
 VMMapData_10_2
-::~VMMapData_10_2()
-{}
+::~VMMapData_10_2() = default;
 
 std::istream & operator>>(std::istream & stream, VMMapData_10_2 & data)
 {

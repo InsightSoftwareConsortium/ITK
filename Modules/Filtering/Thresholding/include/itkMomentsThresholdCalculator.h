@@ -67,9 +67,9 @@ public:
   using OutputType = TOutput;
 
 protected:
-  MomentsThresholdCalculator() {};
-  ~MomentsThresholdCalculator() override {};
-  void GenerateData(void) override;
+  MomentsThresholdCalculator() = default;
+  ~MomentsThresholdCalculator() override = default;
+  void GenerateData() override;
 };
 
 } // end namespace itk

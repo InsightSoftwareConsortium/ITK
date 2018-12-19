@@ -30,15 +30,20 @@ namespace itk
 NrrdImageIO::NrrdImageIO()
 {
   this->SetNumberOfDimensions(3);
-  this->AddSupportedWriteExtension(".nrrd");
-  this->AddSupportedReadExtension(".nrrd");
-  this->AddSupportedWriteExtension(".nhdr");
-  this->AddSupportedReadExtension(".nhdr");
+
+  const char *extensions[] =
+    {
+      ".nrrd",".nhdr"
+    };
+
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
-NrrdImageIO::~NrrdImageIO()
-{
-}
+NrrdImageIO::~NrrdImageIO() = default;
 
 bool NrrdImageIO::SupportsDimension(unsigned long dim)
 {
@@ -160,20 +165,7 @@ bool NrrdImageIO::CanReadFile(const char *filename)
   // recognized.
   std::string fname = filename;
 
-  bool                   extensionFound = false;
-  std::string::size_type nrrdPos = fname.rfind(".nrrd");
-  if ( ( nrrdPos != std::string::npos )
-       && ( nrrdPos == fname.length() - 5 ) )
-    {
-    extensionFound = true;
-    }
-
-  std::string::size_type nhdrPos = fname.rfind(".nhdr");
-  if ( ( nhdrPos != std::string::npos )
-       && ( nhdrPos == fname.length() - 5 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedReadExtension(filename);
 
   if ( !extensionFound )
     {
@@ -233,7 +225,7 @@ void NrrdImageIO::ReadImageInformation()
   try
     {
     // nrrd causes exceptions on purpose, so mask them
-    bool saveFPEState(0);
+    bool saveFPEState(false);
     if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
       {
       saveFPEState = FloatingPointExceptions::GetEnabled();
@@ -545,8 +537,8 @@ void NrrdImageIO::ReadImageInformation()
     // Store key/value pairs in MetaDataDictionary
     char                 key[AIR_STRLEN_SMALL];
     const char *         val;
-    char *               keyPtr = ITK_NULLPTR;
-    char *               valPtr = ITK_NULLPTR;
+    char *               keyPtr = nullptr;
+    char *               valPtr = nullptr;
     MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
     // Necessary to clear dict if ImageIO object is re-used
     thisDic.Clear();
@@ -745,7 +737,7 @@ void NrrdImageIO::Read(void *buffer)
 
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
-  if ( nrrdLoad(nrrd, this->GetFileName(), ITK_NULLPTR) != 0 )
+  if ( nrrdLoad(nrrd, this->GetFileName(), nullptr) != 0 )
     {
     char *err =  biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Read: Error reading "
@@ -845,24 +837,10 @@ bool NrrdImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  std::string::size_type nrrdPos = filename.rfind(".nrrd");
-  if ( ( nrrdPos != std::string::npos )
-       && ( nrrdPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  std::string::size_type nhdrPos = filename.rfind(".nhdr");
-  if ( ( nhdrPos != std::string::npos )
-       && ( nhdrPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name);
 }
 
-void NrrdImageIO::WriteImageInformation(void)
+void NrrdImageIO::WriteImageInformation()
 {
   // Nothing needs doing here.
 }

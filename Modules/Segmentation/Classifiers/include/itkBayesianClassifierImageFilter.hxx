@@ -39,10 +39,9 @@ template< typename TInputVectorImage, typename TLabelsType,
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::BayesianClassifierImageFilter() :
-  m_UserProvidedPriors( false ),
-  m_UserProvidedSmoothingFilter( false ),
-  m_SmoothingFilter( nullptr ),
-  m_NumberOfSmoothingIterations( 0 )
+
+  m_SmoothingFilter( nullptr )
+
 {
   this->SetNumberOfRequiredOutputs( 2 );
   PosteriorsImagePointer p =
@@ -117,7 +116,7 @@ template< typename TInputVectorImage, typename TLabelsType,
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 

@@ -63,42 +63,42 @@ public:
   itkTypeMacro(VXLVideoIO, Superclass);
 
   /** Close the reader and writer and reset members */
-  virtual void FinishReadingOrWriting();
+  void FinishReadingOrWriting() override;
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Set to reading from file */
-  virtual void SetReadFromFile();
+  void SetReadFromFile() override;
 
   /** Set to reading from a camera */
-  virtual void SetReadFromCamera();
+  void SetReadFromCamera() override;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *);
+  bool CanReadFile(const char *) override;
 
   /** Return whether or not the VideoIO can read from a camera */
-  virtual bool CanReadCamera( CameraIDType cameraID ) const;
+  bool CanReadCamera( CameraIDType cameraID ) const override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation();
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  void Read(void *buffer) override;
 
 
   /** Set the next frame that should be read. Return true if you operation
    * successful */
-  virtual bool SetNextFrameToRead( FrameOffsetType frameNumber);
+  bool SetNextFrameToRead( FrameOffsetType frameNumber) override;
 
   /** Accessor functions for video specific information */
-  virtual TemporalOffsetType GetPositionInMSec() const;
-  virtual TemporalRatioType GetRatio() const;
-  virtual FrameOffsetType GetFrameTotal() const;
-  virtual TemporalRatioType GetFramesPerSecond() const;
-  virtual FrameOffsetType  GetCurrentFrame() const;
+  TemporalOffsetType GetPositionInMSec() const override;
+  TemporalRatioType GetRatio() const override;
+  FrameOffsetType GetFrameTotal() const override;
+  TemporalRatioType GetFramesPerSecond() const override;
+  FrameOffsetType  GetCurrentFrame() const override;
+  FrameOffsetType  GetLastIFrame() const override;
   virtual FrameOffsetType GetIFrameInterval() const;
-  virtual FrameOffsetType  GetLastIFrame() const;
 
   /** Get/Set the camera index */
   virtual void SetCameraIndex(int idx);
@@ -109,19 +109,19 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char *);
+  bool CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation();
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void *buffer);
+  void Write(const void *buffer) override;
 
   /** Set Writer Parameters */
-  virtual void SetWriterParameters(TemporalRatioType fps, const std::vector<SizeValueType>& dim, const char* fourCC,
-                                   unsigned int nChannels, IOComponentType componentType);
+  void SetWriterParameters(TemporalRatioType fps, const std::vector<SizeValueType>& dim, const char* fourCC,
+                                   unsigned int nChannels, IOComponentType componentType) override;
 
 protected:
   VXLVideoIO();

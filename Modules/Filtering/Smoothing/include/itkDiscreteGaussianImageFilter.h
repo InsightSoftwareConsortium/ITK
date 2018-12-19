@@ -210,7 +210,7 @@ public:
    * This parameter was introduced to reduce the memory used by images
    * internally, at the cost of performance.
    */
-  itkLegacyMacro(unsigned int GetInternalNumberOfStreamDivisions(void) const);
+  itkLegacyMacro(unsigned int GetInternalNumberOfStreamDivisions() const);
   itkLegacyMacro(void SetInternalNumberOfStreamDivisions(unsigned int));
 
   /** DiscreteGaussianImageFilter needs a larger input requested region
@@ -240,7 +240,7 @@ protected:
     m_FilterDimensionality = ImageDimension;
   }
 
-  ~DiscreteGaussianImageFilter() override {}
+  ~DiscreteGaussianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard pipeline method. While this class does not implement a

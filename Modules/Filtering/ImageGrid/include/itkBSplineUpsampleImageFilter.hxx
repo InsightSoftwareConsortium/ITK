@@ -36,8 +36,7 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
-::BSplineUpsampleImageFilter()
-{}
+::BSplineUpsampleImageFilter() = default;
 
 /**
  * Standard "PrintSelf" method

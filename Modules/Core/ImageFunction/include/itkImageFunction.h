@@ -213,7 +213,7 @@ public:
 
 protected:
   ImageFunction();
-  ~ImageFunction() override {}
+  ~ImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Const pointer to the input image. */

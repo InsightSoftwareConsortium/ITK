@@ -101,7 +101,7 @@ protected:
       NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin() );
   }
 
-  ~ValuedRegionalMaximaImageFilter() override {}
+  ~ValuedRegionalMaximaImageFilter() override = default;
 };                                               // end
                                                  // ValuedRegionalMaximaImageFilter
 } //end namespace itk

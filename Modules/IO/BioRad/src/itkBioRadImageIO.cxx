@@ -123,8 +123,7 @@ BioRadImageIO::BioRadImageIO()
   this->AddSupportedReadExtension(".pic");
 }
 
-BioRadImageIO::~BioRadImageIO()
-{}
+BioRadImageIO::~BioRadImageIO() = default;
 
 // This method will only test if the header looks like a
 // BioRad image file.
@@ -139,19 +138,8 @@ bool BioRadImageIO::CanReadFile(const char *filename)
     return false;
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type sprPos = fname.rfind(".pic");
-  if ( ( sprPos != std::string::npos )
-       && ( sprPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
-  sprPos = fname.rfind(".PIC");
-  if ( ( sprPos != std::string::npos )
-       && ( sprPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+
+  bool extensionFound = this->HasSupportedReadExtension(filename, false);
 
   if ( !extensionFound )
     {
@@ -407,13 +395,7 @@ bool BioRadImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type sprPos = filename.rfind(".pic");
-  if ( ( sprPos != std::string::npos )
-       && ( sprPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedWriteExtension(name, false);
 
   if ( !extensionFound )
     {

@@ -206,12 +206,12 @@ public:
 protected:
 
   BayesianClassifierImageFilter();
-  ~BayesianClassifierImageFilter() override {}
+  ~BayesianClassifierImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;
 
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 
   /** Compute the posteriors using the Bayes rule. If no priors are available,
    *  then the posteriors are just a copy of the memberships.
@@ -230,13 +230,13 @@ protected:
 private:
 
 
-  bool m_UserProvidedPriors;
+  bool m_UserProvidedPriors{ false };
 
-  bool m_UserProvidedSmoothingFilter;
+  bool m_UserProvidedSmoothingFilter{ false };
 
   SmoothingFilterPointer m_SmoothingFilter;
 
-  unsigned int m_NumberOfSmoothingIterations;
+  unsigned int m_NumberOfSmoothingIterations{ 0 };
 };
 } // end namespace itk
 

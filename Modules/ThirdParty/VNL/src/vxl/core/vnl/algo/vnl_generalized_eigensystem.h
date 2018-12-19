@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_generalized_eigensystem.h
 #ifndef vnl_generalized_eigensystem_h_
 #define vnl_generalized_eigensystem_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief  Solves the generalized eigenproblem Ax=La

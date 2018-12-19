@@ -72,7 +72,7 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  filter->SetForegroundValue( atoi(argv[3]) );
+  filter->SetForegroundValue( std::stoi(argv[3]) );
 
   //Exercise Set/Get methods for Background Value
   filter->SetBackgroundValue( 0 );
@@ -83,7 +83,7 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  filter->SetBackgroundValue( atoi(argv[4]) );
+  filter->SetBackgroundValue( std::stoi(argv[4]) );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 

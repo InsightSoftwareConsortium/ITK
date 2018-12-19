@@ -121,7 +121,7 @@ public:
 protected:
   Euler2DTransform(unsigned int parametersDimension);
   Euler2DTransform();
-  ~Euler2DTransform() override {}
+  ~Euler2DTransform() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };                                //class Euler2DTransform

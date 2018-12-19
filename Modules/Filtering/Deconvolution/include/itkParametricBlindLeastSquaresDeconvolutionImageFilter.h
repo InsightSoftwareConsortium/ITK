@@ -125,8 +125,8 @@ private:
     class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionDifference
   {
   public:
-    ParametricBlindLeastSquaresDeconvolutionDifference() {}
-    ~ParametricBlindLeastSquaresDeconvolutionDifference() {}
+    ParametricBlindLeastSquaresDeconvolutionDifference() = default;
+    ~ParametricBlindLeastSquaresDeconvolutionDifference() = default;
 
     bool operator!=(const ParametricBlindLeastSquaresDeconvolutionDifference &) const
     {
@@ -150,8 +150,8 @@ private:
     class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionImageUpdate
   {
   public:
-    ParametricBlindLeastSquaresDeconvolutionImageUpdate() : m_Alpha(0.01) {}
-    ~ParametricBlindLeastSquaresDeconvolutionImageUpdate() {}
+    ParametricBlindLeastSquaresDeconvolutionImageUpdate()  {}
+    ~ParametricBlindLeastSquaresDeconvolutionImageUpdate() = default;
 
     bool operator!=(const ParametricBlindLeastSquaresDeconvolutionImageUpdate &) const
     {
@@ -182,7 +182,7 @@ private:
     }
 
   private:
-    double m_Alpha;
+    double m_Alpha{0.01};
   };
 
   KernelSourcePointer             m_KernelSource;

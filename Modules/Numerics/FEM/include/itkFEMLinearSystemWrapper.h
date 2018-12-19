@@ -312,7 +312,7 @@ public:
    * \note This function can only be called after the linear system was
    *       properly assembled.
    */
-  virtual void Solve(void) = 0;
+  virtual void Solve() = 0;
 
   /**
    * Swaps access indices of any 2 matrices in the linear system

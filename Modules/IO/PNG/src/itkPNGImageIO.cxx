@@ -48,9 +48,9 @@ bool wrapSetjmp( png_structp & png_ptr )
 {
   if( setjmp( png_jmpbuf( png_ptr ) ) )
     {
-    return 1;
+    return true;
     }
-  return 0;
+  return false;
 }
 }
 
@@ -279,7 +279,7 @@ void PNGImageIO::Read(void *buffer)
 }
 
 PNGImageIO::PNGImageIO() :
-  m_CompressionLevel( 4 ),
+
   m_ColorPalette( 0 )// palette has no elements by default
 {
   this->SetNumberOfDimensions( 2 );
@@ -294,25 +294,26 @@ PNGImageIO::PNGImageIO() :
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  this->AddSupportedWriteExtension(".png");
-  this->AddSupportedWriteExtension(".PNG");
+  const char *extensions[] =
+    {
+      ".png",".PNG"
+    };
 
-  this->AddSupportedReadExtension(".png");
-  this->AddSupportedReadExtension(".PNG");
+
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
-PNGImageIO::~PNGImageIO()
-{}
+PNGImageIO::~PNGImageIO() = default;
 
 void PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
-  if ( m_IsReadAsScalarPlusPalette )
-    {
-    os << "Read as Scalar Image plus palette" << "\n";
-    }
   if( m_ColorPalette.size() > 0  )
     {
     os << indent << "ColorPalette:" << std::endl;
@@ -424,6 +425,11 @@ void PNGImageIO::ReadImageInformation()
 
       }
     }
+  if( !m_IsReadAsScalarPlusPalette )
+    {
+    // make sure not palette is left
+    m_ColorPalette.resize(0);
+    }
 
   // minimum of a byte per pixel
   if ( colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8 )
@@ -501,24 +507,10 @@ bool PNGImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  std::string::size_type pngPos = filename.rfind(".png");
-  if ( ( pngPos != std::string::npos )
-       && ( pngPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  pngPos = filename.rfind(".PNG");
-  if ( ( pngPos != std::string::npos )
-       && ( pngPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, false);
 }
 
-void PNGImageIO::WriteImageInformation(void)
+void PNGImageIO::WriteImageInformation()
 {}
 
 void PNGImageIO::Write(const void *buffer)

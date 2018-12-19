@@ -34,8 +34,7 @@ LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 
 template< typename TLevelSetContainer >
 LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
-::~LevelSetEvolutionStoppingCriterion()
-{}
+::~LevelSetEvolutionStoppingCriterion() = default;
 
 }
 #endif

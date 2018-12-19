@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_fastops.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
@@ -13,8 +10,6 @@
 #include <cstring>
 #include <iostream>
 #include "vnl_fastops.h"
-
-#include <vcl_compiler.h>
 
 //: Compute $A^\top A$.
 void vnl_fastops::AtA(vnl_matrix<double>& out, const vnl_matrix<double>& A)

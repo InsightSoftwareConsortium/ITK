@@ -113,7 +113,7 @@ Euler3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 const typename Euler3DTransform<TParametersValueType>::ParametersType
 & Euler3DTransform<TParametersValueType>
-::GetParameters(void) const
+::GetParameters() const
   {
   this->m_Parameters[0] = m_AngleX;
   this->m_Parameters[1] = m_AngleY;
@@ -176,7 +176,7 @@ Euler3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 Euler3DTransform<TParametersValueType>
-::SetIdentity(void)
+::SetIdentity()
 {
   Superclass::SetIdentity();
   m_AngleX = 0;
@@ -188,7 +188,7 @@ Euler3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 Euler3DTransform<TParametersValueType>
-::ComputeMatrixParameters(void)
+::ComputeMatrixParameters()
 {
   if( m_ComputeZYX )
     {
@@ -240,7 +240,7 @@ Euler3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 Euler3DTransform<TParametersValueType>
-::ComputeMatrix(void)
+::ComputeMatrix()
 {
   // need to check if angles are in the right order
   const ScalarType cx = std::cos(m_AngleX);

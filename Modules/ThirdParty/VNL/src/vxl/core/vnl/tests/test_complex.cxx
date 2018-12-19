@@ -6,8 +6,6 @@
 //:
 // \file
 
-#include <vcl_compiler.h>
-
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_random.h>
 #include <vnl/vnl_math.h>
@@ -67,8 +65,8 @@ static void test_vector()
   TEST_NEAR("dot_product() does not conjugate", dot_product(a,i*b), i*dot_product(a,b), 1e-12);
 
   double norma=0;
-  for (unsigned n=0; n<a.size(); ++n)
-    norma += std::real(a[n])*std::real(a[n]) + std::imag(a[n])*std::imag(a[n]);
+  for (auto n : a)
+    norma += std::real(n)*std::real(n) + std::imag(n)*std::imag(n);
   norma = std::sqrt(norma);
   TEST_NEAR("correct magnitude", norma, a.magnitude(), 1e-12);
 }
@@ -104,7 +102,7 @@ std::complex<double> tc_acos(std::complex<double> x)
   double a = std::real(x), b = std::imag(x);
   // special cases:
   if (b==0 && a > 1)
-    return std::complex<double>(0.0, std::log(a+std::sqrt(a*a-1))); // == acosh(a)
+    return {0.0, std::log(a+std::sqrt(a*a-1))}; // == acosh(a)
   else if (b==0 && a >= -1.0)
     return std::acos(a);
 
@@ -117,5 +115,5 @@ std::complex<double> tc_acos(std::complex<double> x)
   double aa = a/std::sqrt(t), bb = b/std::sqrt(1-t);
   double r_real = std::acos(std::sqrt(t));
   double r_imag = std::log(std::fabs(aa-bb));
-  return std::complex<double>(r_real, r_imag);
+  return {r_real, r_imag};
 }

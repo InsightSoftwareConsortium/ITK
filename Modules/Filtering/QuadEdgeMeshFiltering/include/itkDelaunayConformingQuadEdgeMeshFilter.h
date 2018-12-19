@@ -205,11 +205,9 @@ protected:
 
 private:
 
-  DelaunayConformingQuadEdgeMeshFilter(const Self &); // Purposely not
-                                                      // implemented
-  void operator=(const Self &);                       // Purposely not
-                                                      // implemented
-};                                                    //
+  DelaunayConformingQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
+};
 } // end namespace itk
 
 #include "itkDelaunayConformingQuadEdgeMeshFilter.hxx"

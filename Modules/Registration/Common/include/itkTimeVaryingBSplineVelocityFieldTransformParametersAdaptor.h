@@ -36,26 +36,26 @@ namespace itk
  * the displacement field resolution for greater flexibility in optimizing the
  * transform.  As defined in the base class, the user can change the resolution via
  *
- *   \code
- *   transformAdaptor->SetTransform( transform );
- *   transformAdaptor->SetRequiredFixedParameters( fixedParameters );
- *   transformAdaptor->AdaptTransformParameters();
- *   \endcode
+     \code
+     transformAdaptor->SetTransform( transform );
+     transformAdaptor->SetRequiredFixedParameters( fixedParameters );
+     transformAdaptor->AdaptTransformParameters();
+     \endcode
  *
  * or the user can use the more intuitive API for setting the fixed parameters.
  * E.g., often the user will want to maintain the same transform domain spatial
  * extent but only increase the field size and decrease the spacing.  This can
  * be done as follows:
  *
- *   \code
- *   transformAdaptor->SetRequiredTransformDomainOrigin( displacementField->GetOrigin() );
- *   transformAdaptor->SetRequiredTransformDomainDirection( displacementField->GetDirection() );
- *   transformAdaptor->SetRequiredTransformDomainSize( requiredSize );
- *   transformAdaptor->SetRequiredTransformDomainSpacing( requiredSpacing );
- *   transformAdaptor->SetRequiredTransformDomainMeshSize( requiredMeshSize );
- *   transformAdaptor->SetSplineOrder( transform->GetSplineOrder() );
- *   transformAdaptor->AdaptTransformParameters();
- *   \endcode
+     \code
+     transformAdaptor->SetRequiredTransformDomainOrigin( displacementField->GetOrigin() );
+     transformAdaptor->SetRequiredTransformDomainDirection( displacementField->GetDirection() );
+     transformAdaptor->SetRequiredTransformDomainSize( requiredSize );
+     transformAdaptor->SetRequiredTransformDomainSpacing( requiredSpacing );
+     transformAdaptor->SetRequiredTransformDomainMeshSize( requiredMeshSize );
+     transformAdaptor->SetSplineOrder( transform->GetSplineOrder() );
+     transformAdaptor->AdaptTransformParameters();
+     \endcode
  *
  * \author Nick Tustison
  * \author Brian Avants

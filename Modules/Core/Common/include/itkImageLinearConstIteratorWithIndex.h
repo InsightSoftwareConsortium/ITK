@@ -47,23 +47,23 @@ namespace itk
  *
  * This is the typical use of this iterator in a loop:
  *
- * \code
- *
- * ImageLinearConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetDirection(2);
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   while( !it.IsAtEndOfLine() )
- *   {
- *      value = it.Get();  // it.Set() doesn't exist in the Const Iterator
- *      ++it;
- *   }
- *   it.NextLine();
- *  }
- *
- *  \endcode
+   \code
+
+   ImageLinearConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetDirection(2);
+   it.GoToBegin();
+   while( !it.IsAtEnd() )
+   {
+     while( !it.IsAtEndOfLine() )
+     {
+        value = it.Get();  // it.Set() doesn't exist in the Const Iterator
+        ++it;
+     }
+     it.NextLine();
+    }
+
+    \endcode
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
@@ -131,9 +131,8 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageLinearConstIteratorWithIndex() :
-    ImageConstIteratorWithIndex< TImage >(),
-    m_Jump(0),
-    m_Direction(0)
+    ImageConstIteratorWithIndex< TImage >()
+
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -170,13 +169,13 @@ public:
   void GoToEndOfLine();
 
   /** Test if the index is at the end of line */
-  inline bool IsAtEndOfLine(void)
+  inline bool IsAtEndOfLine() const
   {
     return this->m_PositionIndex[m_Direction] >= this->m_EndIndex[m_Direction];
   }
 
   /** Test if the index is at the begin of line */
-  inline bool IsAtReverseEndOfLine(void)
+  inline bool IsAtReverseEndOfLine() const
   {
     return this->m_PositionIndex[m_Direction] < this->m_BeginIndex[m_Direction];
   }
@@ -218,8 +217,8 @@ public:
   }
 
 private:
-  OffsetValueType m_Jump;
-  unsigned int    m_Direction;
+  OffsetValueType m_Jump{0};
+  unsigned int    m_Direction{0};
 };
 
 //----------------------------------------------------------------------
@@ -229,7 +228,7 @@ template< typename TImage >
 inline
 void
 ImageLinearConstIteratorWithIndex< TImage >
-::NextLine(void)
+::NextLine()
 {
   this->m_Position -= this->m_OffsetTable[m_Direction]
                       * ( this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction] );
@@ -267,7 +266,7 @@ template< typename TImage >
 inline
 void
 ImageLinearConstIteratorWithIndex< TImage >
-::PreviousLine(void)
+::PreviousLine()
 {
   this->m_Position += this->m_OffsetTable[m_Direction]
                       * ( this->m_EndIndex[m_Direction] - 1 - this->m_PositionIndex[m_Direction] );

@@ -117,9 +117,9 @@ public:
 
 protected:
   EigenAnalysis2DImageFilter();
-  ~EigenAnalysis2DImageFilter() override {}
+  ~EigenAnalysis2DImageFilter() override = default;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 };
 } // end namespace itk
 

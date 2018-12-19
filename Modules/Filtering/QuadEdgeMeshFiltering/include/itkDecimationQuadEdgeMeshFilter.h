@@ -62,7 +62,7 @@ protected:
     this->m_OutputMesh = nullptr;
   }
 
-  ~DecimationQuadEdgeMeshFilter() override {}
+  ~DecimationQuadEdgeMeshFilter() override = default;
 
   CriterionPointer m_Criterion;
   SizeValueType    m_Iteration;
@@ -112,8 +112,8 @@ protected:
   OutputMeshType *m_OutputMesh;
 
 private:
-  DecimationQuadEdgeMeshFilter(const Self &);
-  void operator=(const Self &);
+  DecimationQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 }
 

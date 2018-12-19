@@ -599,7 +599,7 @@ register  ElementPtr  pElement, pColumn;
 register  int  Step, Size;
 register  int  *Nc, *No;
 register  long  *Nm;
-BOOLEAN *DoRealDirect, *DoCmplxDirect;
+BOOLEAN *DoRealDirect;
 
 /* Begin `spPartition'. */
     ASSERT_IS_SPARSE( Matrix );

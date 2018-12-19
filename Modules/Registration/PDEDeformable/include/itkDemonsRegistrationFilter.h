@@ -125,7 +125,7 @@ public:
 
 protected:
   DemonsRegistrationFilter();
-  // ~DemonsRegistrationFilter() {} default implementation ok
+  ~DemonsRegistrationFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
@@ -139,7 +139,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() ITKv5_CONST override {}
 
 private:
   bool m_UseMovingImageGradient;

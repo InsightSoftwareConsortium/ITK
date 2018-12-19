@@ -149,9 +149,9 @@ public:
 #endif
 
 protected:
-  MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::ZeroValue()),
-    m_UseDefaultValue(true) {}
-  ~MaskNeighborhoodOperatorImageFilter() override {}
+  MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::ZeroValue())
+    {}
+  ~MaskNeighborhoodOperatorImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MaskNeighborhoodOperatorImageFilter needs to request enough of an
@@ -177,7 +177,7 @@ protected:
 
 private:
   OutputPixelType m_DefaultValue;
-  bool            m_UseDefaultValue;
+  bool            m_UseDefaultValue{true};
 };
 } // end namespace itk
 

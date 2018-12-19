@@ -380,6 +380,10 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   houghFilter->SetMaximumRadius( maximumRadius );
   TEST_SET_GET_VALUE( maximumRadius, houghFilter->GetMaximumRadius() );
 
+  const double gradientNormThreshold = 1.1;
+  houghFilter->SetGradientNormThreshold(gradientNormThreshold);
+  TEST_SET_GET_VALUE(gradientNormThreshold, houghFilter->GetGradientNormThreshold());
+
   double sigmaGradient = 1.2;
   houghFilter->SetSigmaGradient( sigmaGradient );
   TEST_SET_GET_VALUE( sigmaGradient, houghFilter->GetSigmaGradient() );
@@ -399,6 +403,10 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   auto numberOfCircles = static_cast< HoughTransformFilterType::CirclesListSizeType >( circles );
   houghFilter->SetNumberOfCircles( numberOfCircles );
   TEST_SET_GET_VALUE( numberOfCircles, houghFilter->GetNumberOfCircles() );
+
+  bool useImageSpacing = false;
+  houghFilter->SetUseImageSpacing( useImageSpacing );
+  TEST_SET_GET_VALUE( useImageSpacing, houghFilter->GetUseImageSpacing() );
 
   houghFilter->SetInput( caster->GetOutput() );
 

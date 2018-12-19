@@ -105,7 +105,7 @@ public:
   void SetInitialPosition(const ParametersType & param);
 
   /** Get the position to initialize the optimization. */
-  ParametersType & GetInitialPosition(void)
+  ParametersType & GetInitialPosition()
   {
   return m_InitialPosition;
   }
@@ -171,7 +171,7 @@ protected:
   friend class LBFGSBOptimizerHelperv4;
 
 private:
-  unsigned int m_MaximumNumberOfCorrections;
+  unsigned int m_MaximumNumberOfCorrections{5};
 
   ParametersType          m_InitialPosition;
   BoundValueType          m_LowerBound;

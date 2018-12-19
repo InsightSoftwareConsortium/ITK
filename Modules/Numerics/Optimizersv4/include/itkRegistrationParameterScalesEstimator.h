@@ -154,7 +154,7 @@ public:
 
 protected:
   RegistrationParameterScalesEstimator();
-  ~RegistrationParameterScalesEstimator() override {};
+  ~RegistrationParameterScalesEstimator() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

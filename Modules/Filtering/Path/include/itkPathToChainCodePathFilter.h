@@ -70,13 +70,13 @@ public:
 
 protected:
   PathToChainCodePathFilter();
-  ~PathToChainCodePathFilter() override {}
+  ~PathToChainCodePathFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
-  bool m_MaximallyConnected;
+  bool m_MaximallyConnected{ false };
 };
 } // end namespace itk
 

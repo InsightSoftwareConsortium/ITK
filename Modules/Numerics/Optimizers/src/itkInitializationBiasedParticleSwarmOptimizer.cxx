@@ -21,7 +21,7 @@ namespace itk
 {
 
 InitializationBiasedParticleSwarmOptimizer
-::InitializationBiasedParticleSwarmOptimizer(void)
+::InitializationBiasedParticleSwarmOptimizer()
 {
   //magic numbers from Wachowiak et al. "An approach to multimodal biomedical
   //image registration utilizing particle swarm optimization"
@@ -45,7 +45,7 @@ InitializationBiasedParticleSwarmOptimizer
 
 void
 InitializationBiasedParticleSwarmOptimizer
-::UpdateSwarm( void )
+::UpdateSwarm()
 {
   unsigned int j, k, n;
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer

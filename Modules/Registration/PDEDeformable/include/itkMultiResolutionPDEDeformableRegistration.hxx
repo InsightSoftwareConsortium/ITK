@@ -80,7 +80,7 @@ template< typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 const typename MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::MovingImageType *
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
-::GetMovingImage(void) const
+::GetMovingImage() const
 {
   return dynamic_cast< const MovingImageType * >
          ( this->ProcessObject::GetInput(2) );
@@ -105,7 +105,7 @@ template< typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 const typename MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::FixedImageType *
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
-::GetFixedImage(void) const
+::GetFixedImage() const
 {
   return dynamic_cast< const FixedImageType * >
          ( this->ProcessObject::GetInput(1) );

@@ -161,7 +161,7 @@ protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   HistogramImageToImageMetric();
-  ~HistogramImageToImageMetric() override {}
+  ~HistogramImageToImageMetric() override = default;
 
   /** The histogram size. */
   HistogramSizeType m_HistogramSize;

@@ -65,7 +65,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputGradientImageFile ";
     std::cerr << "outputSmoothedGradientImageFile ";
-    std::cerr << "numberOfIterations  timeStep  " << std::endl;
+    std::cerr << "numberOfIterations timeStep" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -129,8 +129,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int numberOfIterations = atoi( argv[4] );
-  const double       timeStep = atof( argv[5] );
+  const unsigned int numberOfIterations = std::stoi( argv[4] );
+  const double       timeStep = std::stod( argv[5] );
 
 
   //  Software Guide : BeginLatex

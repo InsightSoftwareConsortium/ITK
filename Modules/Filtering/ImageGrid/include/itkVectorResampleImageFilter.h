@@ -197,7 +197,7 @@ public:
   void AfterThreadedGenerateData() override;
 
   /** Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -210,7 +210,7 @@ public:
 
 protected:
   VectorResampleImageFilter();
-  ~VectorResampleImageFilter() override {}
+  ~VectorResampleImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VectorResampleImageFilter can be implemented as a multithreaded filter. Therefore,

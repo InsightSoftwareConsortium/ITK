@@ -145,7 +145,7 @@ public:
   }
 
   /** Default Destructor. */
-  virtual ~ImageReverseConstIterator() {}
+  virtual ~ImageReverseConstIterator() = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
@@ -317,7 +317,7 @@ public:
   { return m_Region; }
 
   /** Get the pixel value */
-  const PixelType Get(void) const
+  const PixelType Get() const
   { return m_PixelAccessorFunctor.Get( *( m_Buffer + m_Offset ) ); }
 
   /** Set the pixel value */
@@ -330,13 +330,13 @@ public:
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value(void) const
+  const PixelType & Value() const
   { return *( m_Buffer + m_Offset ); }
 
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value(void)
+  const PixelType & Value()
   { return *( m_Buffer + m_Offset ); }
 
   /** Move an iterator to the beginning of the region. "Begin" for a reverse
@@ -355,14 +355,14 @@ public:
 
   /** Is the iterator at the beginning of the (reverse) region? "Begin" for
    * a reverse iterator is the last pixel in the region. */
-  bool IsAtBegin()
+  bool IsAtBegin() const
   {
     return ( m_Offset == m_BeginOffset );
   }
 
   /** Is the iterator at the end of the (reverse) region? "End" for a reverse
    * iterator is one pixel before the first pixel in the region. */
-  bool IsAtEnd()
+  bool IsAtEnd() const
   {
     return ( m_Offset == m_EndOffset );
   }

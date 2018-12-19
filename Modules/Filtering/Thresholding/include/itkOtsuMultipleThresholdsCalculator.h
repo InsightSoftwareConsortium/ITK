@@ -92,9 +92,16 @@ public:
   itkGetConstReferenceMacro(ValleyEmphasis, bool);
   itkBooleanMacro(ValleyEmphasis);
 
+  /** Should the threshold value be mid-point of the bin or the maximum?
+   * Default is to return bin maximum. */
+  itkSetMacro(ReturnBinMidpoint, bool);
+  itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
+  itkBooleanMacro(ReturnBinMidpoint);
+
+
 protected:
   OtsuMultipleThresholdsCalculator();
-  ~OtsuMultipleThresholdsCalculator() override {}
+  ~OtsuMultipleThresholdsCalculator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Increment the thresholds of one position along the histogram. */
@@ -105,9 +112,10 @@ protected:
 
 private:
 
-  SizeValueType m_NumberOfThresholds;
+  SizeValueType m_NumberOfThresholds{ 1 };
   OutputType    m_Output;
-  bool          m_ValleyEmphasis;
+  bool          m_ValleyEmphasis{ false };
+  bool          m_ReturnBinMidpoint{ false };
 };
 } // end of namespace itk
 

@@ -160,7 +160,7 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double sigma = atof( argv[3] );
+  const double sigma = std::stod( argv[3] );
 
   // Software Guide : BeginCodeSnippet
   filter->SetSigma( sigma );

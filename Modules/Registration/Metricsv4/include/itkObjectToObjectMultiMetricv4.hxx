@@ -38,9 +38,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 /** Destructor */
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
-::~ObjectToObjectMultiMetricv4()
-{
-}
+::~ObjectToObjectMultiMetricv4() = default;
 
 /** Add a metric to the queue. */
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
@@ -338,7 +336,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 bool
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
-::SupportsArbitraryVirtualDomainSamples( void ) const
+::SupportsArbitraryVirtualDomainSamples() const
 {
   for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
     {

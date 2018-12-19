@@ -80,7 +80,7 @@ public:
   /** Set and Get the center of rotation */
   void SetCenterOfRotationComponent(const InputPointType & cor)
   { this->SetCenter(cor); }
-  InputPointType GetCenterOfRotationComponent(void) const
+  InputPointType GetCenterOfRotationComponent() const
   { return this->GetCenter(); }
 
   /** Set the matrix of the transform. The matrix should not include
@@ -96,7 +96,7 @@ public:
   { this->SetTranslation(offset); }
 
   /** Get offset of the transform. */
-  const OffsetType & GetOffsetComponent(void) const
+  const OffsetType & GetOffsetComponent() const
   { return this->GetTranslation(); }
 
 protected:
@@ -111,8 +111,8 @@ protected:
   ~FixedCenterOfRotationAffineTransform() override;
 
 private:
-  FixedCenterOfRotationAffineTransform(const Self & other);
-  const Self & operator=(const Self &);
+  FixedCenterOfRotationAffineTransform(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 }; //class FixedCenterOfRotationAffineTransform
 }  // namespace itk
 

@@ -121,7 +121,7 @@ public:
    *  are present and plugged together correctly, and initializing
    *  internal variables as required. This is for one-time initialization,
    *  e.g. before starting an optimization process. */
-  virtual void Initialize(void) = 0;
+  virtual void Initialize() = 0;
 
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */

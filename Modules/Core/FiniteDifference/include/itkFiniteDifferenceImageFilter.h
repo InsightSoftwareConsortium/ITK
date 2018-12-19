@@ -38,12 +38,12 @@ namespace itk
  * The high-level algorithm implemented by the framework can be described by
  * the following pseudocode.
  *
- * \code
- *  WHILE NOT convergence:
- *     FOR ALL pixels i
- *        time_step = calculate_change(i)
- *        update(i, time_step)
- * \endcode
+   \code
+    WHILE NOT convergence:
+       FOR ALL pixels i
+          time_step = calculate_change(i)
+          update(i, time_step)
+   \endcode
  *
  * \par
  * The following equation describes update \f$ n+1 \f$ at pixel \f$ i \f$ on

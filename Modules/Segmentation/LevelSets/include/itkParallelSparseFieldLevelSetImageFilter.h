@@ -18,13 +18,14 @@
 #ifndef itkParallelSparseFieldLevelSetImageFilter_h
 #define itkParallelSparseFieldLevelSetImageFilter_h
 
-#include <vector>
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkSparseFieldLayer.h"
 #include "itkObjectStore.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkMultiThreaderBase.h"
 #include "itkBarrier.h"
+#include <condition_variable>
+#include <vector>
 
 namespace itk
 {
@@ -61,13 +62,13 @@ public:
  * Order of reference is lowest index to highest index in the neighborhood.
  * For example, for 4 connectivity, the indices refer to the following
  * neighbors:
- * \code
- *
- *  * 1 *
- *  2 * 3
- *  * 4 *
- *
- * \endcode
+   \code
+
+    * 1 *
+    2 * 3
+    * 4 *
+
+   \endcode
  *
  * \ingroup ITKLevelSets
  */
@@ -342,7 +343,7 @@ public:
 
 protected:
   ParallelSparseFieldLevelSetImageFilter();
-  ~ParallelSparseFieldLevelSetImageFilter() override {}
+  ~ParallelSparseFieldLevelSetImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Connectivity information for examining neighbor pixels.   */
@@ -351,7 +352,7 @@ protected:
 
   /** The constant gradient to maintain between isosurfaces in the
       spare-field of the level-set image.  This value defaults to 1.0 */
-  double m_ConstantGradientValue;
+  double m_ConstantGradientValue{1.0};
 
   /** Multiplicative identity of the ValueType. */
   static ValueType m_ValueOne;
@@ -516,7 +517,7 @@ protected:
    *  executing simultaneously.  */
   void Iterate();
 
-  static ITK_THREAD_RETURN_TYPE IterateThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION IterateThreaderCallback(void *arg);
 
   /** This method allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
@@ -683,31 +684,31 @@ protected:
   //  void WriteActivePointsToFile ();
 
   /** The number of threads to use. */
-  ThreadIdType m_NumOfThreads;
+  ThreadIdType m_NumOfThreads{0};
 
   /** The dimension along which to distribute the load. */
-  unsigned int m_SplitAxis;
+  unsigned int m_SplitAxis{0};
 
   /** The length of the dimension along which to distribute the load. */
-  unsigned int m_ZSize;
+  unsigned int m_ZSize{0};
 
   /** A boolean variable stating if the boundaries had been changed during
    *  CheckLoadBalance() */
-  bool m_BoundaryChanged;
+  bool m_BoundaryChanged{false};
 
   /** The boundaries defining thread regions */
-  unsigned int *m_Boundary;
+  unsigned int *m_Boundary{nullptr};
 
   /** Histogram of number of pixels in each Z plane for the entire 3D volume */
-  int *m_GlobalZHistogram;
+  int *m_GlobalZHistogram{nullptr};
 
   /** The mapping from a z-value to the thread in whose region the z-value lies
     */
-  unsigned int *m_MapZToThreadNumber;
+  unsigned int *m_MapZToThreadNumber{nullptr};
 
   /** Cumulative frequency of number of pixels in each Z plane for the entire 3D
    *  volume  */
-  int *m_ZCumulativeFrequency;
+  int *m_ZCumulativeFrequency{nullptr};
 
   /** A global barrier used for synchronization between all threads. */
   typename Barrier::Pointer m_Barrier;
@@ -750,8 +751,8 @@ protected:
      *  BUT also by the thread's neighbors. So they are NOT truly "local" data. */
     int m_Semaphore[2];
 
-    SimpleMutexLock            m_Lock[2];
-    ConditionVariable::Pointer m_Condition[2];
+    std::mutex              m_Lock[2];
+    std::condition_variable m_Condition[2];
 
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for
       signalling/waiting */
@@ -766,19 +767,19 @@ protected:
 
   /** Used to check if there are too few pixels remaining. If yes, then we can
    *  stop iterating. */
-  bool m_Stop;
+  bool m_Stop{false};
 
   /** This flag tells the solver whether or not to interpolate for the actual
       surface location when calculating change at each active layer node.  By
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
-  bool m_InterpolateSurfaceLocation;
+  bool m_InterpolateSurfaceLocation{true};
 
 private:
 
   /** This flag is true when methods need to check boundary conditions and
    *  false when methods do not need to check for boundary conditions. */
-  bool m_BoundsCheckingActive;
+  bool m_BoundsCheckingActive{false};
 };
 } // end namespace itk
 

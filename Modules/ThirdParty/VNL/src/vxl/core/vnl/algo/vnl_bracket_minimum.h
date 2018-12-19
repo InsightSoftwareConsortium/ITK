@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_bracket_minimum.h
 #ifndef vnl_bracket_minimum_h_
 #define vnl_bracket_minimum_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Function to bracket a minimum

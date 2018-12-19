@@ -42,7 +42,7 @@ MRASlabIdentifier< TInputImage >
 template< typename TInputImage >
 void
 MRASlabIdentifier< TInputImage >
-::GenerateSlabRegions(void)
+::GenerateSlabRegions()
 {
   // this method only works with 3D MRI image
   if ( ImageType::ImageDimension != 3 )
@@ -173,7 +173,7 @@ MRASlabIdentifier< TInputImage >
 template< typename TInputImage >
 typename MRASlabIdentifier< TInputImage >::SlabRegionVectorType
 MRASlabIdentifier< TInputImage >
-::GetSlabRegionVector(void)
+::GetSlabRegionVector()
 {
   return m_Slabs;
 }

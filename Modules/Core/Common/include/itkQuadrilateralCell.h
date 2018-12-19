@@ -64,13 +64,13 @@ public:
   static constexpr unsigned int NumberOfDerivatives = 8;
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType(void) const override
+  CellGeometry GetType() const override
   { return Superclass::QUADRILATERAL_CELL; }
   void MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension(void) const override;
+  unsigned int GetDimension() const override;
 
-  unsigned int GetNumberOfPoints(void) const override;
+  unsigned int GetNumberOfPoints() const override;
 
   CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
@@ -81,13 +81,13 @@ public:
                            PointIdConstIterator last) override;
 
   void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin(void) override;
+  PointIdIterator      PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin(void) const override;
+  PointIdConstIterator PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd(void) override;
+  PointIdIterator      PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd(void) const override;
+  PointIdConstIterator PointIdsEnd() const override;
 
   /** Quadrilateral-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;
@@ -117,7 +117,11 @@ public:
       }
   }
 
-  ~QuadrilateralCell() override {}
+#if defined(__GNUC__) && (__GNUC__ > 5)
+  ~QuadrilateralCell() override = default;
+#else
+  ~QuadrilateralCell() override {};
+#endif
 
 protected:
   /** Store the number of points needed for a quadrilateral. */

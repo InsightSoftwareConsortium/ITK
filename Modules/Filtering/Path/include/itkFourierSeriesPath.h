@@ -107,14 +107,14 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  void Initialize(void) override
+  void Initialize() override
   {
     this->Clear();
   }
 
 protected:
   FourierSeriesPath();
-  ~FourierSeriesPath() override {}
+  ~FourierSeriesPath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

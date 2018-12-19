@@ -61,8 +61,8 @@ int main( int argc, char * argv[] )
   GFunctionType::ErrorArrayType setError;
   setError.Fill( 0.01 );
   gaussianFunction->SetMaximumError( setError );
-  gaussianFunction->SetSigma( atof( argv[3] ) );
-  gaussianFunction->SetMaximumKernelWidth( atoi( argv[4] ) );
+  gaussianFunction->SetSigma( std::stod( argv[3] ) );
+  gaussianFunction->SetMaximumKernelWidth( std::stoi( argv[4] ) );
 
   it.GoToBegin();
   out.GoToBegin();

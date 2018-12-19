@@ -49,7 +49,7 @@ CompositeValleyFunction
   this->Initialize();
 }
 
-CompositeValleyFunction::~CompositeValleyFunction() {}
+CompositeValleyFunction::~CompositeValleyFunction() = default;
 
 void CompositeValleyFunction
 ::Initialize()

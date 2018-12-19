@@ -29,15 +29,14 @@ NiftiImageIOFactory::NiftiImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkNiftiImageIO",
                           "Nifti Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< NiftiImageIO >::New() );
 }
 
-NiftiImageIOFactory::~NiftiImageIOFactory()
-{}
+NiftiImageIOFactory::~NiftiImageIOFactory() = default;
 
 const char *
-NiftiImageIOFactory::GetITKSourceVersion(void) const
+NiftiImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -53,7 +52,7 @@ NiftiImageIOFactory::GetDescription() const
 
 static bool NiftiImageIOFactoryHasBeenRegistered;
 
-void ITKIONIFTI_EXPORT NiftiImageIOFactoryRegister__Private(void)
+void ITKIONIFTI_EXPORT NiftiImageIOFactoryRegister__Private()
 {
   if( ! NiftiImageIOFactoryHasBeenRegistered )
     {

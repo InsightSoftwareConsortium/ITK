@@ -183,7 +183,7 @@ public:
 
 protected:
   ImageToSpatialObjectRegistrationMethod();
-  ~ImageToSpatialObjectRegistrationMethod() override {}
+  ~ImageToSpatialObjectRegistrationMethod() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of

@@ -7,10 +7,12 @@ doxygen_add_library(core/testlib
 
 find_file(TESTLIB_VCL_WHERE_ROOT_DIR_H
           vcl_where_root_dir.h
-          ${PROJECT_BINARY_DIR} )
+          ${VXL_BINARY_DIR}/vcl )
 
 if(TESTLIB_VCL_WHERE_ROOT_DIR_H)
   add_definitions(-DVCL_WHERE_ROOT_DIR_H_EXISTS)
+else()
+  unset(TESTLIB_VCL_WHERE_ROOT_DIR_H)
 endif()
 
 set(testlib_sources

@@ -29,15 +29,14 @@ GEAdwImageIOFactory::GEAdwImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGEAdwImageIO",
                           "GEAdw Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GEAdwImageIO >::New() );
 }
 
-GEAdwImageIOFactory::~GEAdwImageIOFactory()
-{}
+GEAdwImageIOFactory::~GEAdwImageIOFactory() = default;
 
 const char *
-GEAdwImageIOFactory::GetITKSourceVersion(void) const
+GEAdwImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -53,7 +52,7 @@ GEAdwImageIOFactory::GetDescription() const
 
 static bool GEAdwImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GEAdwImageIOFactoryRegister__Private(void)
+void ITKIOGE_EXPORT GEAdwImageIOFactoryRegister__Private()
 {
   if( ! GEAdwImageIOFactoryHasBeenRegistered )
     {

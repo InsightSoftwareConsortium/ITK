@@ -44,7 +44,7 @@ public:
 
   itkNewMacro(Derived1);
 
-  void Register(void) const override
+  void Register() const override
     {
       ++m_RegisterCount;
       Superclass::Register();
@@ -53,11 +53,11 @@ public:
     { return m_RegisterCount;}
 
 protected:
-  Derived1() : m_RegisterCount(0) {}
+  Derived1()  {}
 
   ~Derived1() override = default;
 
-  mutable unsigned int m_RegisterCount;
+  mutable unsigned int m_RegisterCount{0};
  };
 
 
@@ -128,10 +128,10 @@ TEST(SmartPointer, EmptyAndNull)
   cptr = nullptr;
   EXPECT_TRUE(cptr.IsNull());
 
-  ptr = NULL;
+  ptr = NULL;  // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
   EXPECT_TRUE(ptr.IsNull());
 
-  cptr = NULL;
+  cptr = NULL;  // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
   EXPECT_TRUE(cptr.IsNull());
 
 

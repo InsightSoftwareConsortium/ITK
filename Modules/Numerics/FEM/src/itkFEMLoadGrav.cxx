@@ -29,7 +29,7 @@ void LoadGrav::PrintSelf(std::ostream& os, Indent indent) const
 }
 
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadGravConst::CreateAnother(void) const
+::itk::LightObject::Pointer LoadGravConst::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();

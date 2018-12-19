@@ -1,18 +1,13 @@
 // This is core/vnl/vnl_na.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 
 #include <istream>
 #include <sstream>
 #include <cctype>
-#include <string>
 #include "vnl_na.h"
 
 #include <vxl_config.h>
-#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 
 //: A particular qNaN to indicate not available.

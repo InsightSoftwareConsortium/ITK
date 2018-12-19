@@ -89,7 +89,7 @@ public:
   ElementStd();
 
   /** Methods that define the geometry of an element. */
-  unsigned int GetNumberOfNodes(void) const override
+  unsigned int GetNumberOfNodes() const override
   {
     return NumberOfNodes;
   }

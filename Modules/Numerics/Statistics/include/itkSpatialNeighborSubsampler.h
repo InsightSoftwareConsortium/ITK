@@ -113,7 +113,7 @@ protected:
   typename LightObject::Pointer InternalClone() const override;
 
   SpatialNeighborSubsampler();
-  ~SpatialNeighborSubsampler() override {};
+  ~SpatialNeighborSubsampler() override = default;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

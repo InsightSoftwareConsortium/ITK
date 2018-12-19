@@ -62,14 +62,14 @@ SingleValuedNonLinearVnlOptimizer
 
 const SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizer
-::GetCostFunctionAdaptor(void) const
+::GetCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }
 
 SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizer
-::GetCostFunctionAdaptor(void)
+::GetCostFunctionAdaptor()
 {
   return m_CostFunctionAdaptor;
 }
@@ -78,7 +78,7 @@ SingleValuedNonLinearVnlOptimizer
  *  const-correctness in VNL cost-functions and optimizers */
 SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizer
-::GetNonConstCostFunctionAdaptor(void) const
+::GetNonConstCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }

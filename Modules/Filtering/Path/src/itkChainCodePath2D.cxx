@@ -58,7 +58,7 @@ ChainCodePath2D
 
 std::string
 ChainCodePath2D
-::GetChainCodeAsString(void) const
+::GetChainCodeAsString() const
 {
   std::string printableChain;
 
@@ -130,8 +130,7 @@ ChainCodePath2D
   m_ReverseFreemanCode[8] = offset;
 }
 
-ChainCodePath2D::~ChainCodePath2D()
-{}
+ChainCodePath2D::~ChainCodePath2D() = default;
 
 /** Standard "PrintSelf" method */
 void

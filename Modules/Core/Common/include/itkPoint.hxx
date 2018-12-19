@@ -25,18 +25,6 @@
 namespace itk
 {
 /**
- * Assignment Operator
- */
-template< typename T, unsigned int TPointDimension >
-Point< T, TPointDimension > &
-Point< T, TPointDimension >
-::operator=(const Self & r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-/**
  * Assignment from a plain array
  */
 template< typename T, unsigned int TPointDimension >
@@ -135,7 +123,7 @@ Point< T, TPointDimension >
 template< typename T, unsigned int TPointDimension >
 vnl_vector_ref< T >
 Point< T, TPointDimension >
-::GetVnlVector(void)
+::GetVnlVector()
 {
   return vnl_vector_ref< T >( TPointDimension, this->GetDataPointer() );
 }
@@ -146,7 +134,7 @@ Point< T, TPointDimension >
 template< typename T, unsigned int TPointDimension >
 vnl_vector< T >
 Point< T, TPointDimension >
-::GetVnlVector(void) const
+::GetVnlVector() const
 {
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally

@@ -26,21 +26,20 @@ PNGImageIOFactory::PNGImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkPNGImageIO",
                           "PNG Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< PNGImageIO >::New() );
 }
 
-PNGImageIOFactory::~PNGImageIOFactory()
-{}
+PNGImageIOFactory::~PNGImageIOFactory() = default;
 
 const char *
-PNGImageIOFactory::GetITKSourceVersion(void) const
+PNGImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-PNGImageIOFactory::GetDescription(void) const
+PNGImageIOFactory::GetDescription() const
 {
   return "PNG ImageIO Factory, allows the loading of PNG images into insight";
 }
@@ -50,7 +49,7 @@ PNGImageIOFactory::GetDescription(void) const
 
 static bool PNGImageIOFactoryHasBeenRegistered;
 
-void ITKIOPNG_EXPORT PNGImageIOFactoryRegister__Private(void)
+void ITKIOPNG_EXPORT PNGImageIOFactoryRegister__Private()
 {
   if( ! PNGImageIOFactoryHasBeenRegistered )
     {

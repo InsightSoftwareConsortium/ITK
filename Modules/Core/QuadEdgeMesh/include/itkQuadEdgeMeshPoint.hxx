@@ -23,6 +23,7 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
+// ResetEdge would be a better name than Initialize.
 template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 void
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
@@ -42,29 +43,9 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 // ---------------------------------------------------------------------
 template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
-::QuadEdgeMeshPoint(const Self & r):Superclass(r)
-{
-  this->Initialize();
-  m_Edge = r.m_Edge;
-}
-
-// ---------------------------------------------------------------------
-template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
-QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::QuadEdgeMeshPoint(const Superclass & r):Superclass(r)
 {
   this->Initialize();
-}
-
-// ---------------------------------------------------------------------
-template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
-QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge > &
-QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
-::operator=(const Self & r)
-{
-  this->Superclass::operator=(r);
-  m_Edge = r.m_Edge;
-  return ( *this );
 }
 
 // ---------------------------------------------------------------------

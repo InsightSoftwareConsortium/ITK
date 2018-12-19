@@ -172,3 +172,9 @@ itk_add_test(NAME itkMultiTransformTest
       COMMAND ITKTransformTestDriver itkMultiTransformTest)
 itk_add_test(NAME itkTestTransformGetInverse
   COMMAND ITKTransformTestDriver itkTestTransformGetInverse)
+
+
+set(ITKTransformGTests
+  itkBSplineTransformGTest.cxx
+)
+CreateGoogleTestDriver(ITKTransform "${ITKTransform-Test_LIBRARIES}" "${ITKTransformGTests}")

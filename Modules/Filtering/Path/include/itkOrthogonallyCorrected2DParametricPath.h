@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  void Initialize(void) override
+  void Initialize() override
   {
     this->m_OriginalPath = nullptr;
     this->m_OrthogonalCorrectionTable = nullptr;
@@ -112,7 +112,7 @@ public:
 
 protected:
   OrthogonallyCorrected2DParametricPath();
-  ~OrthogonallyCorrected2DParametricPath() override {}
+  ~OrthogonallyCorrected2DParametricPath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

@@ -248,7 +248,7 @@ public:
 protected:
   VectorContainerToListSampleAdaptor();
 
-  ~VectorContainerToListSampleAdaptor() override {}
+  ~VectorContainerToListSampleAdaptor() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:

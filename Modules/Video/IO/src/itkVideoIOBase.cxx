@@ -25,22 +25,16 @@ namespace itk
 {
 
 VideoIOBase::VideoIOBase() :
-  m_ReadType(ReadFromFile),
-  m_FramesPerSecond(0.0),
+
   m_FrameTotal(NumericTraits<SizeValueType>::ZeroValue()),
   m_CurrentFrame(NumericTraits<SizeValueType>::ZeroValue()),
   m_IFrameInterval(NumericTraits<SizeValueType>::ZeroValue()),
-  m_LastIFrame(NumericTraits<SizeValueType>::ZeroValue()),
-  m_Ratio(0.0),
-  m_PositionInMSec(0.0),
-  m_WriterOpen(false),
-  m_ReaderOpen(false)
+  m_LastIFrame(NumericTraits<SizeValueType>::ZeroValue())
+
 {
 }
 
-VideoIOBase::~VideoIOBase()
-{
-}
+VideoIOBase::~VideoIOBase() = default;
 
 void VideoIOBase::PrintSelf(std::ostream & os, Indent indent) const
 {

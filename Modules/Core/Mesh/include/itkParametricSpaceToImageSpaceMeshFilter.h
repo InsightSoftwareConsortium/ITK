@@ -72,14 +72,14 @@ public:
 
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
-  ~ParametricSpaceToImageSpaceMeshFilter() override {}
+  ~ParametricSpaceToImageSpaceMeshFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate requested data. */
   void GenerateData() override;
 
   /** Generate additional information in the output  */
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 };
 } // end namespace itk
 

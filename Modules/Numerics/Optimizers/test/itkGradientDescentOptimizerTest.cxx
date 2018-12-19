@@ -53,9 +53,7 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  gradientCostFunction()
-  {
-  }
+  gradientCostFunction() = default;
 
 
   MeasureType  GetValue( const ParametersType & parameters ) const override
@@ -98,7 +96,7 @@ public:
   }
 
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
     {
     return SpaceDimension;
     }

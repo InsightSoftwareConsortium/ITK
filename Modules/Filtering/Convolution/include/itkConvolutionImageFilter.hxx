@@ -33,9 +33,7 @@ namespace itk
 {
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
-::ConvolutionImageFilter()
-{
-}
+::ConvolutionImageFilter() = default;
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void

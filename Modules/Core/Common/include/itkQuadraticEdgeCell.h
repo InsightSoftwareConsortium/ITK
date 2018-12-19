@@ -56,13 +56,13 @@ public:
   static constexpr unsigned int CellDimension = 1;
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType(void) const override
+  CellGeometry GetType() const override
   { return Superclass::QUADRATIC_EDGE_CELL; }
   void MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension(void) const override;
+  unsigned int GetDimension() const override;
 
-  unsigned int GetNumberOfPoints(void) const override;
+  unsigned int GetNumberOfPoints() const override;
 
   CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
@@ -73,13 +73,13 @@ public:
                            PointIdConstIterator last) override;
 
   void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin(void) override;
+  PointIdIterator      PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin(void) const override;
+  PointIdConstIterator PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd(void) override;
+  PointIdIterator      PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd(void) const override;
+  PointIdConstIterator PointIdsEnd() const override;
 
   /** QuadraticEdge-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;
@@ -97,7 +97,7 @@ public:
       }
   }
 
-  ~QuadraticEdgeCell() override {}
+  ~QuadraticEdgeCell() override = default;
 
   /** Given the parametric coordinates of a point in the cell
    * returned the values of its ShapeFunctions */

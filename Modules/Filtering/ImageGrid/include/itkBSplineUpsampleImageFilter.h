@@ -132,7 +132,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   BSplineUpsampleImageFilter();
-  ~BSplineUpsampleImageFilter() override {}
+  ~BSplineUpsampleImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // namespace itk

@@ -31,9 +31,9 @@ namespace itk
 /** Default constructor  */
 template< typename TValue >
 VariableLengthVector< TValue >
-::VariableLengthVector():m_LetArrayManageMemory(true),
-  m_Data(nullptr),
-  m_NumElements(0)
+::VariableLengthVector():
+  m_Data(nullptr)
+
 {}
 
 /** Constructor with size */
@@ -440,7 +440,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
-::GetNorm(void) const
+::GetNorm() const
 {
   using std::sqrt;
   return static_cast<RealValueType>(sqrt( this->GetSquaredNorm() ) );
@@ -452,7 +452,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
-::GetSquaredNorm(void) const
+::GetSquaredNorm() const
 {
   RealValueType sum = 0.0;
 

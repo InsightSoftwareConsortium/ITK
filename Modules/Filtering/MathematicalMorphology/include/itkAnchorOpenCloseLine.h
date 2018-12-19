@@ -39,9 +39,7 @@ public:
   /** Some convenient type alias. */
   using InputImagePixelType = TInputPix;
   AnchorOpenCloseLine();
-  ~AnchorOpenCloseLine()
-  {
-  }
+  ~AnchorOpenCloseLine() = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 

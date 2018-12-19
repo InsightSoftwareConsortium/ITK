@@ -22,10 +22,19 @@ deprecations and API changes. The new behavior is activated by setting
 `ITK_LEGACY_REMOVE` to `ON`. By default, compatibility with v4 is retained
 (`ITK_LEGACY_REMOVE=OFF`).
 
-Once external code builds successfully with the default configuration,
+The first step is to get the external code building against ITK compiled with
+`ITKV4_COMPATIBILITY` set to `ON`. Once that is accomplished, turn this
+option `OFF`. It is `OFF` by default.
+
+Once external code builds successfully with the default configuration
+(`ITKV4_COMPATIBILITY` and `ITK_LEGACY_REMOVE` both `OFF`),
 `ITK_LEGACY_REMOVE` should be set to `ON`.  Possible additional build errors
 and/or warnings should be addressed.  Once dependent code builds and passes
 tests without legacy options, migration to v5 is complete.
+
+Support for for pre-20160229 `VXL_VERSION_DATE_FULL` system installed
+versions of VXL has been removed.  VXL now supports more common Semantic Versioning
+conventions with the minimum supported version for ITKv5 being 2.0.2 (as of 2018-11-30).
 
 C++11
 -----
@@ -47,6 +56,15 @@ as well as [range-based loops](https://github.com/InsightSoftwareConsortium/ITK/
 are also now used in ITK. As a consequence, due to limitations in C++11 support
 Visual Studio 2013 (MSVC 12.0) and other older C++ complilers cannot be used to build ITK from 5.0 and forward.
 
+Errors similar to `error: conversion from 'int' to 'typename InterpolatorType::Pointer'` are a result of further
+type safty for dealing with pointers. Enhancements in nullptr behavior in ITKv5 provide more clear
+type checking and respect the nullptr identifier.  The 'long 0' value
+known as NULL causes an abiguity for overload compilations of the ITKv5 smartpointers. To be backwards compatible
+with pre C++11 compilers use the `ITK_NULLPTR` designation, otherwise replace NULL and 0 initialization of
+`itk::SmartPointer` with nullptr.
+
+
+
 Availability of the C++11 standard allows use of many Standard Library
 features. These were previously implemented as portable ITK classes.
 The standard library classes are preferred over ITK's implementations.
@@ -56,6 +74,12 @@ The most notable examples of this are:
 and related classes should be replaced by the similarly named classes from
 [<mutex>](https://en.cppreference.com/w/cpp/header/mutex) header.
  * itksys::hash_map should be replaced by [std::unordered_map](https://en.cppreference.com/w/cpp/container/unordered_map).
+
+To modernize your code base, replace:
+  * `SimpleFastMutexLock` with `std::mutex`, and `#include "itkSimpleFastMutexLock.h"`  with `#include <mutex>`.
+  * `FastMutexLock` with `std::mutex`, and `#include "itkFastMutexLock.h"`  with `#include <mutex>`.
+  * `MutexLock` with `std::mutex`, and `#include "itkMutexLock.h"`  with `#include <mutex>`.
+
 
 Modern CMake requirement
 ------------------------
@@ -132,6 +156,34 @@ if (threadId==0)
   //code2 single-threaded
 //code3 (parallel)
 }
+
+-  ITK_THREAD_RETURN_TYPE is now in the itk:: namespace
+```
+#if ITK_VERSION_MAJOR >= 5
+  static itk::ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+#else
+  static ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+#endif
+```
+
+- ITK_THREAD_RETURN_VALUE is named itk::ITK_THREAD_RETURN_DEFAULT_VALUE
+```
+#if ITK_VERSION_MAJOR >= 5
+  return itk::ITK_THREAD_RETURN_DEFAULT_VALUE;
+#else
+  return ITK_THREAD_RETURN_VALUE;
+#endif
+```
+
+- ThreadInfoStruct is renamed to WorkUnitInfo
+```
+#if ITK_VERSION_MAJOR >= 5
+    (((itk::PlatformMultiThreader::WorkUnitInfo *)(arg))->UserData);
+#else
+    (((itk::MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+#endif
+```
+
 ```
 after refactoring to not use barrier:
 ```C++
@@ -181,6 +233,7 @@ AfterThreadedGenerateData()
     numVoxelsInsideMask += m_NumVoxelsInsideMask[i];
     }
 }
+
 ```
 After, using `std::atomic`:
 ```C++
@@ -231,6 +284,14 @@ If your class needs to also work with legacy code where
 an external module that transitioned to the new threading model can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITKTextureFeatures/commit/f794baa7546f9bb8b7d89ae3a083c9a432d55df0).
 
+The variables `ITK_MAX_THREADS` and `ITK_DEFAULT_THREAD_ID` are now in the `itk::` namespace.
+Backwards compatibility is currently supported by exposing these to the global namespace
+with
+```C++
+  using itk::ITK_MAX_THREADS;
+  using itk::ITK_DEFAULT_THREAD_ID;
+```
+
 Class changes
 -------------
 
@@ -243,6 +304,25 @@ This only applies to classes which use `GenerateData()` method, and either
 have multiple `ParallelizeRegion` calls or a long single-threaded section.
 An example of how to add progress reporting can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITK/commit/dd0b0d128d6c0760cefd8a958107cb0e841b51b4).
+
+Otsu filters now return correct threshold (bin's maximum value instead of mid-point) by default.
+To keep old behavior, use `filter->SetReturnBinMidpoint( true );`.
+This change should be relevant only in tests.
+
+`HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>` no longer
+has a default argument for its last template parameter. Instead, users of the filter should now
+explicitly specify all three template arguments. Earlier versions of ITK assumed that the radius
+pixel type should be the same as `TOutputPixelType`. However, it appears that for the radius pixel
+type (`TRadiusPixelType`), a floating point type is often preferred, whereas for the accumulator
+output pixel type (`TOutputPixelType`), an unsigned integer type is often more appropriate.
+
+With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
+`itk::ProcessObject::VerifyInputInformation` are now declared `const`,
+so if you have overridden these virtual member function, make sure that you
+also add `const`. If your application needs to compile with both ITKv4 and ITKv5,
+you should use macro `ITKv5_CONST` instead of `const` keyword.
+This macro is present in ITKv4 since commit
+b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
 
 Update scripts
 --------------

@@ -12,8 +12,6 @@
 
 #include <string>
 #include <iostream>
-#include <cstdlib>
-#include <vcl_compiler.h>
 #include <vsl/vsl_binary_io.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/io/vnl_io_vector.h>
@@ -43,7 +41,7 @@ static void golden_test_vnl_io(bool save_file)
   //------------------------------------------------------------------------------------
 
   // vnl_vector
-  const int n_vec = 50;
+  constexpr int n_vec = 50;
   vnl_vector<double> v_out(n_vec),v_in;
 
   for (int i=0; i<n_vec; i++)
@@ -52,8 +50,8 @@ static void golden_test_vnl_io(bool save_file)
   }
 
   // vnl_matrix
-  const int m_mat = 10;
-  const int n_mat = 6;
+  constexpr int m_mat = 10;
+  constexpr int n_mat = 6;
   vnl_matrix<double> m_out(m_mat, n_mat), m_in;
 
   for (int i=0; i<m_mat; i++)

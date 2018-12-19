@@ -135,7 +135,7 @@ public:
   }
 
   /** Needed for Pipelining */
-  void Initialize(void) override
+  void Initialize() override
   {
     m_Start = this->GetZeroIndex();
     this->Clear();
@@ -143,7 +143,7 @@ public:
 
 protected:
   ChainCodePath();
-  ~ChainCodePath() override {}
+  ~ChainCodePath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

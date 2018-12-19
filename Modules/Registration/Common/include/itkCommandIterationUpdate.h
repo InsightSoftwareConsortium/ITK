@@ -123,7 +123,7 @@ protected:
   /**
    * Constructor
    */
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 private:
 

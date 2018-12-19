@@ -87,7 +87,7 @@ public:
 
 protected:
   StatisticsOpeningLabelMapFilter();
-  ~StatisticsOpeningLabelMapFilter() override {}
+  ~StatisticsOpeningLabelMapFilter() override = default;
 
   void GenerateData() override;
 };                                               // end of class

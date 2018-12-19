@@ -412,28 +412,22 @@ public:
 
 NiftiImageIO::NiftiImageIO() :
   m_NiftiImageHolder(new NiftiImageProxy(nullptr)),
-  m_NiftiImage(*m_NiftiImageHolder.get()),
-  m_RescaleSlope(1.0),
-  m_RescaleIntercept(0.0),
-  m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE),
-  m_LegacyAnalyze75Mode(true)
+  m_NiftiImage(*m_NiftiImageHolder.get())
+
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages
-  this->AddSupportedWriteExtension(".nia");
-  this->AddSupportedWriteExtension(".nii");
-  this->AddSupportedWriteExtension(".nii.gz");
 
-  this->AddSupportedReadExtension(".nia");
-  this->AddSupportedReadExtension(".nii");
-  this->AddSupportedReadExtension(".nii.gz");
+   const char *extensions[] =
+    {
+      ".nia", ".nii", ".nii.gz", ".hdr", ".img", ".img.gz"
+    };
 
-  this->AddSupportedWriteExtension(".hdr");
-  this->AddSupportedWriteExtension(".img");
-  this->AddSupportedWriteExtension(".img.gz");
-  this->AddSupportedReadExtension(".hdr");
-  this->AddSupportedReadExtension(".img");
-  this->AddSupportedReadExtension(".img.gz");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 NiftiImageIO::~NiftiImageIO()
@@ -1360,7 +1354,7 @@ inline mat44 mat44_transpose(const mat44 & in)
 
 void
 NiftiImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {
   //  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   //
@@ -1838,7 +1832,7 @@ unsigned int NiftiImageIO::getQFormCodeFromDictionary() const
   // Convert the numeric code from string to int
   if ( itk::ExposeMetaData< std::string >(thisDic, "qform_code", temp) )
   {
-    return atoi(temp.c_str());
+    return std::stoi(temp.c_str());
   }
   return NIFTI_XFORM_SCANNER_ANAT; // Guess NIFTI_XFORM_SCANNER_ANAT if no other information provided.
 }
@@ -1855,7 +1849,7 @@ unsigned int NiftiImageIO::getSFormCodeFromDictionary() const
   // Convert the numeric code from string to int
   if ( itk::ExposeMetaData< std::string >(thisDic, "sform_code", temp) )
   {
-    return atoi(temp.c_str());
+    return std::stoi(temp.c_str());
   }
   return NIFTI_XFORM_UNKNOWN; // Guess NIFTI_XFORM_UNKNOWN to indicate that only qform is relevant.
 }

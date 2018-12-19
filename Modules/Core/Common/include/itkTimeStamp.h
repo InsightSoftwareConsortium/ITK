@@ -30,7 +30,7 @@
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
-#include "itkAtomicInt.h"
+#include <atomic>
 
 namespace itk
 {
@@ -62,7 +62,7 @@ public:
   /** Standard class type aliases. */
   using Self = TimeStamp;
 
-  using GlobalTimeStampType = AtomicInt< ModifiedTimeType >;
+  using GlobalTimeStampType = std::atomic< ModifiedTimeType >;
 
   /** Create an instance of this class. We don't want to use reference
    * counting. */
@@ -106,7 +106,7 @@ public:
 
   /** Assignment operator, allows to initialize one time stamp by copying from
    * another. */
-  const Self & operator=( const Self & other );
+  Self & operator=( const Self & other ) = default;
 
   /** Set/Get the pointer to GlobalTimeStamp.
    * Note that SetGlobalTimeStamp is not concurrent thread safe. */

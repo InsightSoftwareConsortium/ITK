@@ -68,14 +68,14 @@ MultipleValuedNonLinearVnlOptimizer
 
 const MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 MultipleValuedNonLinearVnlOptimizer
-::GetCostFunctionAdaptor(void) const
+::GetCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }
 
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 MultipleValuedNonLinearVnlOptimizer
-::GetCostFunctionAdaptor(void)
+::GetCostFunctionAdaptor()
 {
   return m_CostFunctionAdaptor;
 }
@@ -84,7 +84,7 @@ MultipleValuedNonLinearVnlOptimizer
  * correctness in vnl cost_functions and optimizers */
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 MultipleValuedNonLinearVnlOptimizer
-::GetNonConstCostFunctionAdaptor(void) const
+::GetNonConstCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }

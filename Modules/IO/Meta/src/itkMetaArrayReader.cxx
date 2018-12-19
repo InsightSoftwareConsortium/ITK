@@ -22,14 +22,13 @@ namespace itk
 
 MetaArrayReader
 ::MetaArrayReader() :
-  m_FileName( "" ),
-  m_Buffer( nullptr )
+  m_FileName( "" )
+
 {
 }
 
 MetaArrayReader
-::~MetaArrayReader()
-{}
+::~MetaArrayReader() = default;
 
 void MetaArrayReader
 ::SetBuffer(void *_buffer)
@@ -38,7 +37,7 @@ void MetaArrayReader
 }
 
 MetaArray * MetaArrayReader
-::GetMetaArrayPointer(void)
+::GetMetaArrayPointer()
 {
   return &m_MetaArray;
 }

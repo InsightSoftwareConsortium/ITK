@@ -39,7 +39,6 @@ extern "C" {
     /* Local variables */
     integer j, k, n, iterating;
     doublereal sum1, sum2;
-    integer done;
     doublereal srvec[11];
     extern /* Subroutine */ int srule_(
       v3p_netlib_doublereal (*f)(v3p_netlib_doublereal*),
@@ -121,9 +120,8 @@ extern "C" {
     /* Local variables */
     doublereal a, b, c__;
     integer j, k;
-    doublereal s;
     integer iterating;
-    doublereal s2, fa, fb, fc, err, tol, tol2;
+    doublereal err, tol, tol2;
     integer done;
     doublereal check;
     extern /* Subroutine */ int srule_(

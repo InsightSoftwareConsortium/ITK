@@ -41,16 +41,16 @@ namespace itk
  * be used to create the sparse equivalent of an itk::Image<unsigned char, 2>
  * is shown below:
  *
- * \code
- * struct NodeType
- * {
- * NodeType* Next;
- * NodeType* Previous;
- * ImageType::IndexType m_Index;
- * unsigned char m_Data;
- * };
- * using SparseImageType = itk::SparseImage<NodeType, 2>;
- * \endcode
+   \code
+   struct NodeType
+   {
+   NodeType* Next;
+   NodeType* Previous;
+   ImageType::IndexType m_Index;
+   unsigned char m_Data;
+   };
+   using SparseImageType = itk::SparseImage<NodeType, 2>;
+   \endcode
  *
  * \par
  * This class provides the method AddNode which allocates a node variable,
@@ -135,7 +135,7 @@ public:
 
 protected:
   SparseImage();
-  ~SparseImage() override {}
+  ~SparseImage() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -1,13 +1,9 @@
 // This is core/vnl/tests/test_matrix_interface.cxx
 #include <iostream>
-#include <cmath>
-#include <exception>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_copy.h>
+
 #include <testlib/testlib_test.h>
-#include <vcl_compiler.h>
 
 template< typename TValue >
 TValue square(TValue v)
@@ -31,9 +27,6 @@ typename TVector::element_type sum(TVector v)
 template< class TContainer >
 void test_common_interface()
 {
-  {
-  TContainer m;
-  }
   TContainer m(2,2);
   m.size();
   m.rows();
@@ -138,7 +131,6 @@ void test_common_interface()
     TEST("swap left-right", l.is_equal(r_swap, 10e-6), true);
     TEST("swap right-left", r.is_equal(l_swap, 10e-6), true);
     }
-  typename TContainer::abs_t a = 25;
   m.array_one_norm();
   m.array_two_norm();
   m.array_inf_norm();
@@ -178,7 +170,6 @@ void test_common_interface()
   m.assert_finite();
   m.data_block();
   m.as_ref();
-  typename TContainer::element_type value = 7;
   typename TContainer::iterator it = m.begin();
   it = m.end();
   typename TContainer::const_iterator cit = m.begin();
@@ -188,10 +179,10 @@ void test_common_interface()
 static
 void test_container_interface()
 {
-  vcl_cout << "Testing vnl_matrix<int>" << std::endl;
+  std::cout << "Testing vnl_matrix<int>" << std::endl;
   test_common_interface< vnl_matrix<int> >();
 
-  vcl_cout << "Testing vnl_matrix_fixed<int, 2, 2>" << std::endl;
+  std::cout << "Testing vnl_matrix_fixed<int, 2, 2>" << std::endl;
   test_common_interface< vnl_matrix_fixed<int, 2, 2> >();
 }
 

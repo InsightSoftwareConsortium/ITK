@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_real_polynomial.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \brief Evaluation of real polynomials - the implementation
@@ -12,9 +9,7 @@
 
 #include <iostream>
 #include <complex>
-#include <cmath>
 #include "vnl_real_polynomial.h"
-#include <vcl_compiler.h>
 
 // This is replacing a member template...
 template <class T>
@@ -34,7 +29,7 @@ T vnl_real_polynomial_evaluate(double const *a, int n, T const& x)
 // The following code confuses doxygen, causing it to link every
 // mention of double to vnl_real_polynomial::evaluate
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-# ifdef VCL_WIN32
+# ifdef _WIN32
 #  define SELECT(T) <T >
 # else
 #  define SELECT(T)

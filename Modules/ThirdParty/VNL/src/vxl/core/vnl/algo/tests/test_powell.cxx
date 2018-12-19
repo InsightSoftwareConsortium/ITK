@@ -5,16 +5,12 @@
 
 #include <iostream>
 #include <cmath>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_double_2.h>
 #include <vnl/algo/vnl_powell.h>
-#include <vnl/vnl_cost_function.h>
-
 #include <testlib/testlib_test.h>
-
 
 //-------------------------------------------------------------------------
 // nD quadratic function with minimum at min{x[i]} = i;
@@ -24,7 +20,7 @@ class vnl_test_powell_quadratic : public vnl_cost_function
  public:
   vnl_test_powell_quadratic(int n) : vnl_cost_function(n) {}
 
-  double f(const vnl_vector<double>& x)
+  double f(const vnl_vector<double>& x) override
   {
     assert((int)x.size()==dim);
     double sum = 0;
@@ -44,14 +40,14 @@ class vnl_test_powell_rosenbrock : public vnl_cost_function
  public:
   vnl_test_powell_rosenbrock() : vnl_cost_function(2) {}
 
-  double f(const vnl_vector<double>& x)
+  double f(const vnl_vector<double>& x) override
   {
     double a = 10*(x[1] - x[0]*x[0]);
     double b = 1 - x[0];
     return a*a + b*b;
   }
 
-  void gradf(const vnl_vector<double>& x, vnl_vector<double>& g)
+  void gradf(const vnl_vector<double>& x, vnl_vector<double>& g) override
   {
     double a = 10*(x[1] - x[0]*x[0]);
     double b = 1 - x[0];
@@ -71,7 +67,7 @@ static void test_quadratic_2d()
            << "---------------------\n";
 
   // No. of dimensions
-  const unsigned n = 2;
+  constexpr unsigned n = 2;
 
   // Start at (1,...,1)
   {
@@ -110,7 +106,7 @@ static void test_quadratic_2d()
 static void test_quadratic_nd()
 {
   // Max. no. of dimensions
-  const unsigned max_n = 16;
+  constexpr unsigned max_n = 16;
   for (unsigned n=1; n<max_n; ++n)
   {
     std::cout << "-------------------\n"

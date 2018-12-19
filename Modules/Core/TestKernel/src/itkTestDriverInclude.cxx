@@ -42,6 +42,24 @@ RegressionTestParameters regressionTestParameters;
 std::vector< HashPairType > hashTestList;
 RedirectOutputParameters redirectOutputParameters;
 
+RegressionTestParameters&
+GetRegressionTestParameters()
+{
+  return regressionTestParameters;
+}
+
+std::vector< HashPairType >&
+GetHashTestList()
+{
+  return hashTestList;
+}
+
+RedirectOutputParameters&
+GetRedirectOutputParameters()
+{
+  return redirectOutputParameters;
+}
+
 namespace
 {
 char my_to_lower(const char c)
@@ -159,7 +177,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.compareList.push_back( ComparePairType((*av)[i + 1], (*av)[i + 2]) );
+      regressionTestParameters.compareList.emplace_back((*av)[i + 1], (*av)[i + 2] );
       (*av) += 3;
       *ac -= 3;
       }
@@ -214,7 +232,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
        }
 
 
-     hashTestList.push_back( HashPairType( filename, hashVector )  );
+     hashTestList.emplace_back( filename, hashVector  );
 
       }
     else if ( !skip && strcmp((*av)[i], "--") == 0 )
@@ -239,7 +257,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       threadEnv += (*av)[i + 1];
       itksys::SystemTools::PutEnv( threadEnv.c_str() );
       // and set the number of threads locally for the comparison
-      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(atoi((*av)[i + 1]));
+      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(std::stoi((*av)[i + 1]));
       *av += 2;
       *ac -= 2;
       }
@@ -257,7 +275,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.numberOfPixelsTolerance = atoi((*av)[i + 1]);
+      regressionTestParameters.numberOfPixelsTolerance = std::stoi((*av)[i + 1]);
       *av += 2;
       *ac -= 2;
       }
@@ -268,7 +286,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-     regressionTestParameters.radiusTolerance = atoi((*av)[i + 1]);
+     regressionTestParameters.radiusTolerance = std::stoi((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -279,7 +297,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.intensityTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.intensityTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -290,7 +308,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.coordinateTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.coordinateTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }
@@ -301,7 +319,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         usage();
         return 1;
         }
-      regressionTestParameters.directionTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.directionTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
       }

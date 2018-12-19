@@ -79,7 +79,7 @@ public:
   }
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension(void)
+  static unsigned int GetIteratorDimension()
   {
     return Self::NDimension;
   }
@@ -88,10 +88,10 @@ public:
   virtual const IndexType GetIndex() = 0;
 
   /** Get the pixel value at the current iterator location. */
-  virtual const PixelType Get(void) const = 0;
+  virtual const PixelType Get() const = 0;
 
   /** Is the iterator at the end of the region? */
-  virtual bool IsAtEnd() = 0;
+  virtual bool IsAtEnd() const = 0;
 
   /** Walk forward one index. */
   virtual void operator++() = 0;
@@ -111,7 +111,7 @@ protected: //made protected so other iterators can access
   RegionType m_Region;
 
   /** Is the iterator at the end of its walk? */
-  bool m_IsAtEnd;
+  bool m_IsAtEnd{false};
 };
 } // end namespace itk
 

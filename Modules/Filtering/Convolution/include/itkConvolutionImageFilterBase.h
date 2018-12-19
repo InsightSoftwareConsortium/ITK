@@ -107,7 +107,7 @@ public:
 
 protected:
   ConvolutionImageFilterBase();
-  ~ConvolutionImageFilterBase() override {}
+  ~ConvolutionImageFilterBase() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -120,10 +120,10 @@ protected:
 
   /** Default superclass implementation ensures that input images
    * occupy same physical space. This is not needed for this filter. */
-  void VerifyInputInformation() override {};
+  void VerifyInputInformation() ITKv5_CONST override {};
 
 private:
-  bool m_Normalize;
+  bool m_Normalize{ false };
 
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;
   BoundaryConditionPointerType m_BoundaryCondition;

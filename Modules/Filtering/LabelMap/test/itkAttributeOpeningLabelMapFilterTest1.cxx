@@ -74,7 +74,7 @@ int itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
 
   //testing get and set macros for Lambda
-  auto lambda = static_cast<LabelOpeningType::AttributeValueType>(atof( argv[3] ));
+  auto lambda = static_cast<LabelOpeningType::AttributeValueType>(std::stod( argv[3] ));
   opening->SetLambda( lambda );
   TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 
@@ -86,7 +86,7 @@ int itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
   opening->ReverseOrderingOff();
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
-  bool reverseOrdering = atoi( argv[4] );
+  bool reverseOrdering = std::stoi( argv[4] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 

@@ -35,7 +35,7 @@ VoxBoCUBImageIOFactory::VoxBoCUBImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkVoxBoCUBImageIO",
                           "VoxBo CUB Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< VoxBoCUBImageIO >::New() );
 }
 
@@ -43,7 +43,7 @@ VoxBoCUBImageIOFactory::~VoxBoCUBImageIOFactory()
 {}
 
 const char *
-VoxBoCUBImageIOFactory::GetITKSourceVersion(void) const
+VoxBoCUBImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }

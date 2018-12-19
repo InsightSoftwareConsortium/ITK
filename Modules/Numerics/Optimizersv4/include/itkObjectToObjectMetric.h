@@ -175,7 +175,7 @@ public:
   /** DisplacementFieldTransform types for working with local-support transforms */
   using MovingDisplacementFieldTransformType = DisplacementFieldTransform<CoordinateRepresentationType, Self::MovingDimension  >;
 
-  void Initialize(void) override;
+  void Initialize() override;
 
   NumberOfParametersType GetNumberOfParameters() const override;
   NumberOfParametersType GetNumberOfLocalParameters() const override;
@@ -234,7 +234,7 @@ public:
    *  always correspond to data points. False if not. For example,
    *  point-set metrics return false because only some virtual domain
    *  points will correspond to points within the point sets. */
-  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const = 0;
+  virtual bool SupportsArbitraryVirtualDomainSamples() const = 0;
 
   /** Return a timestamp relating to the virtual domain.
    * This returns the greater of the metric timestamp and the
@@ -338,7 +338,7 @@ protected:
   /** Store the number of points used during most recent value and derivative
    * calculation.
    * \sa VerifyNumberOfValidPoints() */
-  mutable SizeValueType                   m_NumberOfValidPoints;
+  mutable SizeValueType                   m_NumberOfValidPoints{0};
 };
 } // end namespace itk
 

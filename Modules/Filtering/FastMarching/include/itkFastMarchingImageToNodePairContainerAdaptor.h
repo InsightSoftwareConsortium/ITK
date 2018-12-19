@@ -125,7 +125,7 @@ protected:
   FastMarchingImageToNodePairContainerAdaptor();
 
   /** \brief Destructor */
-  ~FastMarchingImageToNodePairContainerAdaptor() override {}
+  ~FastMarchingImageToNodePairContainerAdaptor() override = default;
 
   ImageConstPointer m_AliveImage;
   ImageConstPointer m_TrialImage;
@@ -138,7 +138,7 @@ protected:
   OutputPixelType m_AliveValue;
   OutputPixelType m_TrialValue;
 
-  bool m_IsForbiddenImageBinaryMask;
+  bool m_IsForbiddenImageBinaryMask{ false };
 
   virtual void GenerateData();
 

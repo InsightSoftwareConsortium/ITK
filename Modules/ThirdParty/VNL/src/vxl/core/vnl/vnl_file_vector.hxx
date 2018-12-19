@@ -9,7 +9,9 @@
 #include <cstring>
 #include "vnl_file_vector.h"
 
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: Load vector from filename.
 template <class T>

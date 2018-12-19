@@ -121,7 +121,7 @@ public:
 
 protected:
   ClosingByReconstructionImageFilter();
-  ~ClosingByReconstructionImageFilter() override {}
+  ~ClosingByReconstructionImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ClosingByReconstructionImageFilter needs the entire input be

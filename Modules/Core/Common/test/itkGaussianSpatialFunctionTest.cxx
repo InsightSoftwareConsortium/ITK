@@ -59,11 +59,11 @@ int itkGaussianSpatialFunctionTest( int argc, char* argv[] )
   gaussianSpatialFunction->SetSigma( sigma );
   TEST_SET_GET_VALUE( sigma, gaussianSpatialFunction->GetSigma() );
 
-  double scale = atof( argv[1] );
+  double scale = std::stod( argv[1] );
   gaussianSpatialFunction->SetScale( scale );
   TEST_SET_GET_VALUE( scale, gaussianSpatialFunction->GetScale() );
 
-  auto normalized = static_cast< bool >( atoi( argv[2] ) );
+  auto normalized = static_cast< bool >( std::stoi( argv[2] ) );
   gaussianSpatialFunction->SetNormalized( normalized );
   TEST_SET_GET_VALUE( normalized, gaussianSpatialFunction->GetNormalized() );
 

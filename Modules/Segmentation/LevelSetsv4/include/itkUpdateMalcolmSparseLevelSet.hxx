@@ -19,6 +19,7 @@
 #ifndef itkUpdateMalcolmSparseLevelSet_hxx
 #define itkUpdateMalcolmSparseLevelSet_hxx
 
+#include "itkConnectedImageNeighborhoodShape.h"
 #include "itkMath.h"
 #include "itkUpdateMalcolmSparseLevelSet.h"
 
@@ -30,8 +31,8 @@ template< unsigned int VDimension, typename TEquationContainer >
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::UpdateMalcolmSparseLevelSet() :
   m_CurrentLevelSetId( NumericTraits< IdentifierType >::ZeroValue() ),
-  m_RMSChangeAccumulator( NumericTraits< LevelSetOutputRealType >::ZeroValue() ),
-  m_IsUsingUnPhasedPropagation( true )
+  m_RMSChangeAccumulator( NumericTraits< LevelSetOutputRealType >::ZeroValue() )
+
 {
   this->m_Offset.Fill( 0 );
   this->m_OutputLevelSet = LevelSetType::New();
@@ -39,8 +40,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 
 template< unsigned int VDimension, typename TEquationContainer >
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
-::~UpdateMalcolmSparseLevelSet()
-{}
+::~UpdateMalcolmSparseLevelSet() = default;
 
 
 template< unsigned int VDimension, typename TEquationContainer >
@@ -188,18 +188,8 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
                                     this->m_InternalImage->GetLargestPossibleRegion() );
 
   neighIt.OverrideBoundaryCondition( &sp_nbc );
-
-  typename NeighborhoodIteratorType::OffsetType sparse_offset;
-  sparse_offset.Fill( 0 );
-
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
-    sparse_offset[dim] = -1;
-    neighIt.ActivateOffset( sparse_offset );
-    sparse_offset[dim] = 1;
-    neighIt.ActivateOffset( sparse_offset );
-    sparse_offset[dim] = 0;
-    }
+  neighIt.ActivateOffsets(
+    Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( this->m_CurrentLevelSetId );
 
@@ -296,18 +286,8 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
                                     this->m_InternalImage->GetLargestPossibleRegion() );
 
   neighIt.OverrideBoundaryCondition( &sp_nbc );
-
-  typename NeighborhoodIteratorType::OffsetType sparse_offset;
-  sparse_offset.Fill( 0 );
-
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
-    sparse_offset[dim] = -1;
-    neighIt.ActivateOffset( sparse_offset );
-    sparse_offset[dim] = 1;
-    neighIt.ActivateOffset( sparse_offset );
-    sparse_offset[dim] = 0;
-    }
+  neighIt.ActivateOffsets(
+    Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( this->m_CurrentLevelSetId );
 
@@ -409,18 +389,8 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
                                     this->m_InternalImage->GetLargestPossibleRegion() );
 
   neighIt.OverrideBoundaryCondition( &sp_nbc );
-
-  typename NeighborhoodIteratorType::OffsetType sparse_offset;
-  sparse_offset.Fill( 0 );
-
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
-    sparse_offset[dim] = -1;
-    neighIt.ActivateOffset( sparse_offset );
-    sparse_offset[dim] = 1;
-    neighIt.ActivateOffset( sparse_offset );
-    sparse_offset[dim] = 0;
-    }
+  neighIt.ActivateOffsets(
+    Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   auto nodeIt   = listZero.begin();
   auto nodeEnd  = listZero.end();

@@ -74,7 +74,7 @@ int itkAttributeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   LabelKeepNObjectsType::Pointer opening = LabelKeepNObjectsType::New();
 
   //testing get and set macros for NumberOfObjects
-  unsigned long nbOfObjects = atoi( argv[3] );
+  unsigned long nbOfObjects = std::stoi( argv[3] );
   opening->SetNumberOfObjects( nbOfObjects );
   TEST_SET_GET_VALUE( nbOfObjects , opening->GetNumberOfObjects() );
 
@@ -86,7 +86,7 @@ int itkAttributeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   opening->ReverseOrderingOff();
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
-  bool reverseOrdering = atoi( argv[4] );
+  bool reverseOrdering = std::stoi( argv[4] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 

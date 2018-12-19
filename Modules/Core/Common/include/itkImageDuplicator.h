@@ -30,15 +30,15 @@ namespace itk
  * is not intended to be used in a pipeline. Instead, the typical use will be like
  * it is illustrated in the following code:
  *
- * \code
- *     medianFilter->Update();
- *     ImageType::Pointer image = medianFilter->GetOutput();
- *     using DuplicatorType = itk::ImageDuplicator< ImageType >;
- *     DuplicatorType::Pointer duplicator = DuplicatorType::New();
- *     duplicator->SetInputImage(image);
- *     duplicator->Update();
- *     ImageType::Pointer clonedImage = duplicator->GetOutput();
- * \endcode
+   \code
+       medianFilter->Update();
+       ImageType::Pointer image = medianFilter->GetOutput();
+       using DuplicatorType = itk::ImageDuplicator< ImageType >;
+       DuplicatorType::Pointer duplicator = DuplicatorType::New();
+       duplicator->SetInputImage(image);
+       duplicator->Update();
+       ImageType::Pointer clonedImage = duplicator->GetOutput();
+   \endcode
  *
  * Note that the Update() method must be called explicitly in the filter
  * that provides the input to the ImageDuplicator object. This is needed
@@ -103,7 +103,7 @@ public:
 
 protected:
   ImageDuplicator();
-  ~ImageDuplicator() override {}
+  ~ImageDuplicator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

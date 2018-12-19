@@ -167,7 +167,7 @@ public:
   }
 
   /** Get output deformation field. */
-  const DisplacementFieldType * GetDisplacementField(void)
+  const DisplacementFieldType * GetDisplacementField()
   { return this->GetOutput(); }
 
   /** Get the number of valid inputs.  For
@@ -215,7 +215,7 @@ public:
 
 protected:
   MultiResolutionPDEDeformableRegistration();
-  // ~MultiResolutionPDEDeformableRegistration() {} default implementation ok
+  ~MultiResolutionPDEDeformableRegistration() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -250,7 +250,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() ITKv5_CONST override {}
 
 private:
   RegistrationPointer       m_RegistrationFilter;

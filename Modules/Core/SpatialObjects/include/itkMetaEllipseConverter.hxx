@@ -25,8 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int NDimensions >
 MetaEllipseConverter< NDimensions >
-::MetaEllipseConverter()
-{}
+::MetaEllipseConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaEllipseConverter< NDimensions >::MetaObjectType *

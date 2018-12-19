@@ -117,7 +117,7 @@ public:
 
 protected:
   InitializationBiasedParticleSwarmOptimizer();
-  ~InitializationBiasedParticleSwarmOptimizer() override {};
+  ~InitializationBiasedParticleSwarmOptimizer() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
   void UpdateSwarm() override;
 

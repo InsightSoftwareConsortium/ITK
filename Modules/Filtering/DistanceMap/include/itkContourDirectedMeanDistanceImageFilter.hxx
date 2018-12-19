@@ -65,7 +65,7 @@ template< typename TInputImage1, typename TInputImage2 >
 const typename ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::InputImage1Type *
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
-::GetInput1(void)
+::GetInput1()
 {
   return this->GetInput();
 }

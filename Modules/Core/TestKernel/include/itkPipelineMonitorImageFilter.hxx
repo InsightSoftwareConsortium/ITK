@@ -24,7 +24,7 @@ namespace itk {
 
 template <typename TImageType>
 PipelineMonitorImageFilter<TImageType>
-::PipelineMonitorImageFilter(void)
+::PipelineMonitorImageFilter()
 {
   m_NumberOfClearPipeline = 0;
   m_ClearPipelineOnGenerateOutputInformation = true;
@@ -35,7 +35,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>
-::VerifyDownStreamFilterExecutedPropagation(void)
+::VerifyDownStreamFilterExecutedPropagation()
 {
   bool ret = true;
   // we expect that the propagation is not going to be called
@@ -77,7 +77,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>
-::VerifyInputFilterMatchedUpdateOutputInformation(void)
+::VerifyInputFilterMatchedUpdateOutputInformation()
 {
   InputImageConstPointer input =  this->GetInput();
   if (input->GetSpacing() != m_UpdatedOutputSpacing)
@@ -113,7 +113,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>
-::VerifyInputFilterBufferedRequestedRegions(void)
+::VerifyInputFilterBufferedRequestedRegions()
 {
   // we expect that the input filter's output image's buffered
   // region is going to match it's requested region
@@ -134,7 +134,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>
-::VerifyInputFilterMatchedRequestedRegions(void)
+::VerifyInputFilterMatchedRequestedRegions()
 {
   // we expect that the input filter's output image's buffered
   // region is going to match it's requested region, which is going
@@ -160,7 +160,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>
-::VerifyInputFilterRequestedLargestRegion(void)
+::VerifyInputFilterRequestedLargestRegion()
 {
   if (m_InputRequestedRegions.back() != m_UpdatedOutputLargestPossibleRegion)
     {
@@ -187,7 +187,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>
-::VerifyAllInputCanNotStream(void)
+::VerifyAllInputCanNotStream()
 {
   return VerifyDownStreamFilterExecutedPropagation() &&
     VerifyInputFilterRequestedLargestRegion() &&
@@ -198,7 +198,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>
-::VerifyAllNoUpdate(void)
+::VerifyAllNoUpdate()
 {
   return VerifyDownStreamFilterExecutedPropagation() &&
     m_NumberOfUpdates == 0;
@@ -208,7 +208,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 void
 PipelineMonitorImageFilter<TImageType>
-::ClearPipelineSavedInformation(void)
+::ClearPipelineSavedInformation()
 {
   m_NumberOfUpdates = 0;
   m_OutputRequestedRegions.clear();
@@ -227,7 +227,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 void
 PipelineMonitorImageFilter<TImageType>
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   if ( m_ClearPipelineOnGenerateOutputInformation )
     {
@@ -275,7 +275,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 void
 PipelineMonitorImageFilter<TImageType>
-::GenerateInputRequestedRegion(void)
+::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
@@ -289,7 +289,7 @@ PipelineMonitorImageFilter<TImageType>
 template <typename TImageType>
 void
 PipelineMonitorImageFilter<TImageType>
-::GenerateData(void)
+::GenerateData()
 {
   // Get pointers to the input and output
   InputImagePointer output = this->GetOutput();

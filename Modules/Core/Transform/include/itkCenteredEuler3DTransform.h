@@ -101,7 +101,7 @@ public:
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
    * translation. */
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or

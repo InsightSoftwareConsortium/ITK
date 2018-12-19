@@ -43,12 +43,12 @@ namespace itk
  * No need to reimplement CopyLinesFrom() since all derived class share the same type line data members.
  *
  * The pixels locations belonging to the LabelObject can be obtained using:
- * \code
- * for(unsigned int pixelId = 0; pixelId < labelObject->Size(); pixelId++)
- *   {
- *   std::cout << labelObject->GetIndex(pixelId);
- *   }
- * \endcode
+   \code
+   for(unsigned int pixelId = 0; pixelId < labelObject->Size(); pixelId++)
+     {
+     std::cout << labelObject->GetIndex(pixelId);
+     }
+   \endcode
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -189,7 +189,7 @@ public:
   {
   public:
 
-    ConstLineIterator() {}
+    ConstLineIterator() = default;
 
     ConstLineIterator(const Self *lo)
     {

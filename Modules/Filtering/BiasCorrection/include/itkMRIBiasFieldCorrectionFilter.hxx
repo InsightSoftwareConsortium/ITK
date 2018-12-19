@@ -57,7 +57,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 template< typename TImage, typename TImageMask, typename TBiasField >
 unsigned int
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
-::GetNumberOfParameters(void) const
+::GetNumberOfParameters() const
 {
   if ( m_BiasField == nullptr )
     {
@@ -210,19 +210,9 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   m_InputMask( nullptr ),
   m_OutputMask( nullptr ),
   m_InternalInput( InternalImageType::New() ),
-  m_BiasFieldMultiplicative( true ),
-  m_UsingSlabIdentification( false ),
-  m_UsingBiasFieldCorrection( true ),
-  m_GeneratingOutput( true ),
-  m_SlabNumberOfSamples( 200 ),
+
   m_SlabBackgroundMinimumThreshold( NumericTraits< InputImagePixelType >::min() ),
-  m_SlabTolerance( 0.0 ),
-  m_BiasFieldDegree( 3 ),
-  m_NumberOfLevels( 0 ),
-  m_VolumeCorrectionMaximumIteration( 2000 ),
-  m_InterSliceCorrectionMaximumIteration( 4000 ),
-  m_OptimizerInitialRadius( 1.01 ),
-  m_OptimizerGrowthFactor( 1.05 ),
+
   m_OptimizerShrinkFactor( std::pow(m_OptimizerGrowthFactor, -0.25) )
 {
   m_NormalVariateGenerator->Initialize( time(nullptr) );
@@ -393,8 +383,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
-::~MRIBiasFieldCorrectionFilter()
-{}
+::~MRIBiasFieldCorrectionFilter() = default;
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void

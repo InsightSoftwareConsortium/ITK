@@ -153,7 +153,7 @@ public:
 
 protected:
   ScalarImageKmeansImageFilter();
-  ~ScalarImageKmeansImageFilter() override {}
+  ~ScalarImageKmeansImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method runs the statistical methods that identify the means of the
@@ -165,7 +165,7 @@ protected:
 
   /* See superclass for doxygen. This methods additionally checks that
    * the number of means is not 0. */
-  void VerifyPreconditions() override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
 private:
   using MeansContainer = std::vector< RealPixelType >;
@@ -174,11 +174,11 @@ private:
 
   ParametersType m_FinalMeans;
 
-  bool m_UseNonContiguousLabels;
+  bool m_UseNonContiguousLabels{ false };
 
   ImageRegionType m_ImageRegion;
 
-  bool m_ImageRegionDefined;
+  bool m_ImageRegionDefined{ false };
 };
 } // end namespace itk
 

@@ -102,7 +102,7 @@ public:
 
 protected:
   LabelToRGBImageFilter();
-  ~LabelToRGBImageFilter() override {}
+  ~LabelToRGBImageFilter() override = default;
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData() override;

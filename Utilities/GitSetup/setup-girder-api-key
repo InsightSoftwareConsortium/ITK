@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+#=============================================================================
+# Copyright 2018 Kitware, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#=============================================================================
+
+# Run this script to set up the Girder API keys. This is used by the
+# Utilities/UploadBinaryData.sh script to perform authenticated uploads of
+# binary testing data.
+
+die() {
+	echo 1>&2 "$@" ; exit 1
+}
+
+json_field() {
+  local key=$1
+  local json=$2
+  echo $json | awk 'BEGIN { FS="\""; RS="," }; { if ($2 == "'$key'") {print $4} }'
+}
+
+
+# Make sure we are inside the repository.
+cd "${BASH_SOURCE%/*}" &&
+
+protocol=$(git config -f config --get girder.protocol || echo "https") &&
+host=$(git config -f config --get girder.host || echo "data.kitware.com") &&
+site=$(git config -f config --get girder.site || echo "$protocol://$host")
+
+api_key=$(git config --get girder.api-key || echo '')
+
+# Tell user about current configuration.
+if test -n "$api_key"; then
+	echo 'The Girder API key is currently set to "'"${api_key:0:5}"'..."' &&
+	read -ep 'Reconfigure Girder API key? [y/N]: ' ans &&
+	if [ "$ans" == "y" ] || [ "$ans" == "Y" ]; then
+		setup=1
+	else
+		setup=''
+	fi
+else
+	echo 'A Girder API key is not configured to upload testing data.
+' &&
+	read -ep 'Configure Git to contribute testing data to '"$host"'? [Y/n]: ' ans &&
+	if [ "$ans" == "n" ] || [ "$ans" == "N" ]; then
+		exit 0
+	else
+		setup=1
+	fi
+fi &&
+
+setup_instructions='Once registered, login to Girder at
+
+  '"$site/#?dialog=login"'
+
+Then visit
+
+  <username> (upper right) > My account > API keys > Create new key
+
+To create a new API key.
+'
+
+# Perform setup if necessary.
+if test -n "$setup"; then
+	echo 'Register for an account at
+
+  '"$site/#?dialog=register"'
+
+'"$setup_instructions" &&
+	read -ep "Girder API key?: " gak &&
+	git config girder.api-key "$gak" &&
+        api_key=$(git config --get girder.api-key) &&
+	echo 'The Girder API key is now configured to
+
+  '"${api_key:0:5}..."'
+'
+fi &&
+
+# Optionally test GitHub access.
+if test -n "$api_key"; then
+  read -ep 'Test access to Girder via API key? [y/N]: ' ans &&
+  if [ "$ans" == "y" ] || [ "$ans" == "Y" ]; then
+    echo -n 'Testing Girder access via API key...'
+    token=""
+    token_response=$(curl -s -X POST --header 'Content-Length: 0' --header 'Content-Type: application/json' --header 'Accept: application/json' "https://data.kitware.com/api/v1/api_key/token?key=${api_key}&duration=1" || die "Could not retrieve token from API key.")
+    token=$(json_field "token" "${token_response}")
+    if test -z "$token"; then
+      echo 'failed.' &&
+      die 'Could not access Girder via your API key.'
+    else
+      echo 'passed.'
+    fi
+  fi
+fi

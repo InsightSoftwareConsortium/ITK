@@ -84,7 +84,7 @@ public:
 
 protected:
   SpatialObjectDuplicator();
-  ~SpatialObjectDuplicator() override {}
+  ~SpatialObjectDuplicator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Recursive function to copy the objects */

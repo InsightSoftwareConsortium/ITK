@@ -19,8 +19,11 @@
 #define itkFrequencyBandImageFilter_hxx
 
 #include <itkFrequencyBandImageFilter.h>
+
 #include <itkMath.h>
 #include <itkImageAlgorithm.h>
+#include <algorithm>
+#include <cmath>
 
 namespace itk
 {
@@ -28,16 +31,12 @@ template< typename TImageType, typename TFrequencyIterator >
 FrequencyBandImageFilter< TImageType, TFrequencyIterator >
 ::FrequencyBandImageFilter()
   : m_LowFrequencyThreshold(0),
-  m_HighFrequencyThreshold(0.5), // Nyquist in hertz
-  m_PassBand(true),
-  m_PassLowFrequencyThreshold(true),
-  m_PassHighFrequencyThreshold(true),
-  m_RadialBand(true),
-  m_PassNegativeLowFrequencyThreshold(true),
-  m_PassNegativeHighFrequencyThreshold(true)
+  m_HighFrequencyThreshold(0.5)
+
 {
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
+  this->SetFunctor( [this]( FrequencyIteratorType& f ) { this->BandPass( f ); } );
 }
 
 template< typename TImageType, typename TFrequencyIterator >
@@ -119,7 +118,7 @@ FrequencyBandImageFilter< TImageType, TFrequencyIterator >
 template< typename TImageType, typename TFrequencyIterator >
 void
 FrequencyBandImageFilter< TImageType, TFrequencyIterator >
-::VerifyPreconditions()
+::VerifyPreconditions() ITKv5_CONST
 {
   this->Superclass::VerifyPreconditions();
 
@@ -133,100 +132,83 @@ FrequencyBandImageFilter< TImageType, TFrequencyIterator >
 template< typename TImageType, typename TFrequencyIterator >
 void
 FrequencyBandImageFilter< TImageType, TFrequencyIterator >
-::DynamicThreadedGenerateData(
-  const ImageRegionType & outputRegionForThread)
+::BandPass( FrequencyIteratorType& freqIt )
 {
-  const ImageType *inputPtr = this->GetInput();
-  ImageType *outputPtr = this->GetOutput();
-
-  // Define the portion of the input to walk for this thread
-  ImageRegionType inputRegionForThread;
-  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
-  // copy the input pixel to the output
-  ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
-
-  FrequencyIteratorType freqIt(outputPtr, outputRegionForThread);
-
-  freqIt.GoToBegin();
-  FrequencyValueType f;
-  typename FrequencyIteratorType::FrequencyType w;
-  FrequencyValueType wMax;
-  FrequencyValueType wMin;
+  FrequencyValueType scalarFrequency;
+  typename FrequencyIteratorType::FrequencyType vectorFrequency;
+  FrequencyValueType maxFrequency;
+  FrequencyValueType minFrequency;
   bool freqIsNegative = false;
 
-  while ( !freqIt.IsAtEnd() )
+  if ( this->m_RadialBand )
     {
-    if ( this->m_RadialBand )
+    scalarFrequency = sqrt(freqIt.GetFrequencyModuloSquare());
+    }
+  else // Cut-off box taking into account max absolute scalar frequency.
+    {
+    vectorFrequency = freqIt.GetFrequency();
+    maxFrequency = std::abs( *std::max_element(vectorFrequency.Begin(), vectorFrequency.End()) );
+    minFrequency = std::abs( *std::min_element(vectorFrequency.Begin(), vectorFrequency.End()) );
+    scalarFrequency = std::max(maxFrequency, minFrequency);
+    if ( minFrequency < maxFrequency )
       {
-      f = sqrt(freqIt.GetFrequencyModuloSquare());
+      freqIsNegative = true;
       }
-    else // Cut-off box taking into account max absolute frequency.
-      {
-      w = freqIt.GetFrequency();
-      wMax = std::abs( *std::max_element(w.Begin(), w.End()) );
-      wMin = std::abs( *std::min_element(w.Begin(), w.End()) );
-      f = std::max(wMax, wMin);
-      if ( wMin < wMax )
-        {
-        freqIsNegative = true;
-        }
-      }
+    }
 
-    if ( this->m_PassBand )
+  if ( this->m_PassBand )
+    {
+    if ( scalarFrequency < this->m_LowFrequencyThreshold || scalarFrequency > this->m_HighFrequencyThreshold )
       {
-      if ( f < this->m_LowFrequencyThreshold || f > this->m_HighFrequencyThreshold )
+      freqIt.Set( NumericTraits< PixelType >::ZeroValue() );
+      }
+    }
+  else // Stop Band
+    {
+    if ( scalarFrequency > this->m_LowFrequencyThreshold && scalarFrequency < this->m_HighFrequencyThreshold )
+      {
+      freqIt.Set( NumericTraits< PixelType >::ZeroValue() );
+      }
+    }
+
+  // Boundaries: Do not pass threshold frequencies if requested.
+  if ( !this->m_PassLowFrequencyThreshold )
+    {
+    if ( Math::FloatAlmostEqual(scalarFrequency, this->m_LowFrequencyThreshold) )
+      {
+      // Different boundaries when negative frequencies in the non-radial case.
+      if ( !this->m_RadialBand
+           && this->m_PassNegativeLowFrequencyThreshold
+           && freqIsNegative )
+        {
+        return;
+        }
+      else
         {
         freqIt.Set( NumericTraits< PixelType >::ZeroValue() );
         }
       }
-    else // Stop Band
+    }
+
+  if ( !this->m_PassHighFrequencyThreshold )
+    {
+    if ( Math::FloatAlmostEqual(scalarFrequency, this->m_HighFrequencyThreshold) )
       {
-      if ( f > this->m_LowFrequencyThreshold && f < this->m_HighFrequencyThreshold )
+      // Different boundaries when negative frequencies in the non-radial case.
+      if ( !this->m_RadialBand
+           && this->m_PassNegativeHighFrequencyThreshold
+           && freqIsNegative )
+        {
+        return;
+        }
+      else
         {
         freqIt.Set( NumericTraits< PixelType >::ZeroValue() );
         }
       }
-
-    // Boundaries: Do not pass threshold frequencies if requested.
-    if ( !this->m_PassLowFrequencyThreshold )
-      {
-      if ( Math::FloatAlmostEqual(f, this->m_LowFrequencyThreshold) )
-        {
-        // Different boundaries when negative frequencies in the non-radial case.
-        if ( !this->m_RadialBand
-             && this->m_PassNegativeLowFrequencyThreshold
-             && freqIsNegative )
-          {
-          continue;
-          }
-        else
-          {
-          freqIt.Set( NumericTraits< PixelType >::ZeroValue() );
-          }
-        }
-      }
-
-    if ( !this->m_PassHighFrequencyThreshold )
-      {
-      if ( Math::FloatAlmostEqual(f, this->m_HighFrequencyThreshold) )
-        {
-        // Different boundaries when negative frequencies in the non-radial case.
-        if ( !this->m_RadialBand
-             && this->m_PassNegativeHighFrequencyThreshold
-             && freqIsNegative )
-          {
-          continue;
-          }
-        else
-          {
-          freqIt.Set( NumericTraits< PixelType >::ZeroValue() );
-          }
-        }
-      }
-
-    ++freqIt;
     }
 }
+
 } // end namespace itk
 
 #endif

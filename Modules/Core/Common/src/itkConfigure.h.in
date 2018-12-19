@@ -85,6 +85,7 @@
 #cmakedefine ITK_USE_CONCEPT_CHECKING
 #cmakedefine ITK_USE_FFTWF
 #cmakedefine ITK_USE_FFTWD
+#cmakedefine ITK_USE_CUFFTW
 #cmakedefine ITK_USE_64BITS_IDS
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64

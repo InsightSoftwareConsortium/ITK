@@ -113,7 +113,7 @@ public:
 
 protected:
   ExtensionVelocitiesImageFilter();
-  ~ExtensionVelocitiesImageFilter() override {}
+  ~ExtensionVelocitiesImageFilter() override = default;
 
   void GenerateDataFull() override;
 

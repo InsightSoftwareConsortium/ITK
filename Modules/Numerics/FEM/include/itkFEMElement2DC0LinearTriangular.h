@@ -114,7 +114,7 @@ public:
   static const unsigned int Nip[6];
 
 protected:
-  void PopulateEdgeIds(void) override;
+  void PopulateEdgeIds() override;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

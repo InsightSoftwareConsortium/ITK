@@ -125,7 +125,7 @@ public:
 
 protected:
   GenerateImageSource();
-  // virtual ~GenerateImageSource() default implementation ok
+  ~GenerateImageSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateOutputInformation() override;
@@ -136,7 +136,7 @@ private:
   PointType     m_Origin;
   DirectionType m_Direction;
   IndexType     m_StartIndex;
-  bool          m_UseReferenceImage;
+  bool          m_UseReferenceImage{ false };
 
 };
 

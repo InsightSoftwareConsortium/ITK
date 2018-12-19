@@ -26,15 +26,14 @@ NrrdImageIOFactory::NrrdImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkNrrdImageIO",
                           "Nrrd Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< NrrdImageIO >::New() );
 }
 
-NrrdImageIOFactory::~NrrdImageIOFactory()
-{}
+NrrdImageIOFactory::~NrrdImageIOFactory() = default;
 
 const char *
-NrrdImageIOFactory::GetITKSourceVersion(void) const
+NrrdImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +49,7 @@ NrrdImageIOFactory::GetDescription() const
 
 static bool NrrdImageIOFactoryHasBeenRegistered;
 
-void ITKIONRRD_EXPORT NrrdImageIOFactoryRegister__Private(void)
+void ITKIONRRD_EXPORT NrrdImageIOFactoryRegister__Private()
 {
   if( ! NrrdImageIOFactoryHasBeenRegistered )
     {

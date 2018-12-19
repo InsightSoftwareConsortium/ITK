@@ -156,7 +156,7 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Get the number of pixels considered in the computation. */
-  SizeValueType GetNumberOfMovingImageSamples(void)
+  SizeValueType GetNumberOfMovingImageSamples()
   {
     return this->GetNumberOfPixelsCounted();
   }
@@ -206,17 +206,17 @@ public:
   void SetTransformParameters(const ParametersType & parameters) const;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return m_Transform->GetNumberOfParameters();
   }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void);
+  virtual void Initialize();
 
   /** Initialize the components related to supporting multiple threads */
-  virtual void MultiThreadingInitialize(void);
+  virtual void MultiThreadingInitialize();
 
   /** Number of spatial samples to used to compute metric
    *   This sets the number of samples.  */
@@ -230,7 +230,7 @@ public:
     this->SetNumberOfFixedImageSamples(num);
   }
 
-  SizeValueType GetNumberOfSpatialSamples(void)
+  SizeValueType GetNumberOfSpatialSamples()
   {
     return this->GetNumberOfFixedImageSamples();
   }
@@ -250,12 +250,12 @@ public:
    * This value override IntensityThreshold, Masks, and SequentialSampling. */
   void SetUseAllPixels(bool useAllPixels);
 
-  void UseAllPixelsOn(void)
+  void UseAllPixelsOn()
   {
     this->SetUseAllPixels(true);
   }
 
-  void UseAllPixelsOff(void)
+  void UseAllPixelsOff()
   {
     this->SetUseAllPixels(false);
   }
@@ -331,7 +331,7 @@ public:
       valueIndex = 0;
     }
 
-    ~FixedImageSamplePoint() {}
+    ~FixedImageSamplePoint() = default;
 
 public:
     FixedImagePointType point;
@@ -339,10 +339,10 @@ public:
     unsigned int        valueIndex;
   };
 
-  bool                     m_UseFixedImageIndexes;
+  bool                     m_UseFixedImageIndexes{false};
   FixedImageIndexContainer m_FixedImageIndexes;
 
-  bool                m_UseFixedImageSamplesIntensityThreshold;
+  bool                m_UseFixedImageSamplesIntensityThreshold{false};
   FixedImagePixelType m_FixedImageSamplesIntensityThreshold;
 
   /** FixedImageSamplePoint type alias support */
@@ -360,13 +360,13 @@ public:
   /** Container to store a set of points and fixed image values. */
   FixedImageSampleContainer m_FixedImageSamples;
 
-  SizeValueType          m_NumberOfParameters;
+  SizeValueType          m_NumberOfParameters{0};
 
-  SizeValueType m_NumberOfFixedImageSamples;
+  SizeValueType m_NumberOfFixedImageSamples{50000};
   //m_NumberOfPixelsCounted must be mutable because the const
   //thread consolidation functions merge each work unit's values
   //onto this accumulator variable.
-  mutable SizeValueType m_NumberOfPixelsCounted;
+  mutable SizeValueType m_NumberOfPixelsCounted{0};
 
   FixedImageConstPointer  m_FixedImage;
   MovingImageConstPointer m_MovingImage;
@@ -379,18 +379,18 @@ public:
 
   InterpolatorPointer m_Interpolator;
 
-  bool                 m_ComputeGradient;
+  bool                 m_ComputeGradient{true};
   GradientImagePointer m_GradientImage;
 
   FixedImageMaskConstPointer  m_FixedImageMask;
   MovingImageMaskConstPointer m_MovingImageMask;
 
-  ThreadIdType m_NumberOfWorkUnits;
+  ThreadIdType m_NumberOfWorkUnits{1};
 
-  bool m_UseAllPixels;
-  bool m_UseSequentialSampling;
+  bool m_UseAllPixels{false};
+  bool m_UseSequentialSampling{false};
 
-  bool m_ReseedIterator;
+  bool m_ReseedIterator{false};
 
   mutable int m_RandomSeed;
 
@@ -401,11 +401,11 @@ public:
     * of a mapped point.  */
 
   /** Boolean to indicate if the transform is BSpline deformable. */
-  bool m_TransformIsBSpline;
+  bool m_TransformIsBSpline{false};
 
   /** The number of BSpline transform weights is the number of
     * of parameter in the support region (per dimension ). */
-  SizeValueType m_NumBSplineWeights;
+  SizeValueType m_NumBSplineWeights{0};
 
   static constexpr unsigned int DeformationSplineOrder = 3;
 
@@ -448,7 +448,7 @@ public:
 
   // Variables needed for optionally caching values when using a BSpline
   // transform.
-  bool                                   m_UseCachingOfBSplineWeights;
+  bool                                   m_UseCachingOfBSplineWeights{true};
   mutable BSplineTransformWeightsType    m_BSplineTransformWeights;
   mutable BSplineTransformIndexArrayType m_BSplineTransformIndices;
 
@@ -473,7 +473,7 @@ public:
                                              ThreadIdType threadId) const;
 
   /** Boolean to indicate if the interpolator BSpline. */
-  bool m_InterpolatorIsBSpline;
+  bool m_InterpolatorIsBSpline{false};
   /** Pointer to BSplineInterpolator. */
   typename BSplineInterpolatorType::Pointer m_BSplineInterpolator;
 
@@ -495,9 +495,9 @@ public:
 
   MultiThreaderType::Pointer m_Threader;
   MultiThreaderParameterType m_ThreaderParameter;
-  mutable unsigned int *     m_ThreaderNumberOfMovingImageSamples;
-  bool                       m_WithinThreadPreProcess;
-  bool                       m_WithinThreadPostProcess;
+  mutable unsigned int *     m_ThreaderNumberOfMovingImageSamples{nullptr};
+  bool                       m_WithinThreadPreProcess{false};
+  bool                       m_WithinThreadPostProcess{false};
 
   void                           GetValueMultiThreadedPreProcessInitiate() const;
 
@@ -505,11 +505,11 @@ public:
 
   void                           GetValueMultiThreadedPostProcessInitiate() const;
 
-  static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPreProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreadedPreProcess(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE  GetValueMultiThreaded(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreaded(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPostProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreadedPostProcess(void *arg);
 
   virtual inline void       GetValueThread(ThreadIdType threadId) const;
 
@@ -534,11 +534,11 @@ public:
 
   void                          GetValueAndDerivativeMultiThreadedPostProcessInitiate() const;
 
-  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPreProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreadedPreProcess(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreaded(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreaded(void *arg);
 
-  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPostProcess(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreadedPostProcess(void *arg);
 
   virtual inline void  GetValueAndDerivativeThread(ThreadIdType threadId) const;
 

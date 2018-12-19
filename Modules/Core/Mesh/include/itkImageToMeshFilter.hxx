@@ -42,8 +42,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
  */
 template< typename TInputImage, typename TOutputMesh >
 ImageToMeshFilter< TInputImage, TOutputMesh >
-::~ImageToMeshFilter()
-{}
+::~ImageToMeshFilter() = default;
 
 /**
  *   Make Ouput
@@ -90,7 +89,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 template< typename TInputImage, typename TOutputMesh >
 typename ImageToMeshFilter< TInputImage, TOutputMesh >::OutputMeshType *
 ImageToMeshFilter< TInputImage, TOutputMesh >
-::GetOutput(void)
+::GetOutput()
 {
   return dynamic_cast< OutputMeshType * >
          ( this->ProcessObject::GetOutput(0) );

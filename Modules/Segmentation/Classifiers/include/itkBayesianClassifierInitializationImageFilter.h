@@ -161,7 +161,7 @@ public:
 
 protected:
   BayesianClassifierInitializationImageFilter();
-  ~BayesianClassifierInitializationImageFilter() override {}
+  ~BayesianClassifierInitializationImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the membership functions. This will be called only if the membership
@@ -176,8 +176,8 @@ protected:
   void GenerateData() override;
 
 private:
-  bool         m_UserSuppliesMembershipFunctions;
-  unsigned int m_NumberOfClasses;
+  bool         m_UserSuppliesMembershipFunctions{false};
+  unsigned int m_NumberOfClasses{0};
 
   typename MembershipFunctionContainerType::Pointer m_MembershipFunctionContainer;
 };

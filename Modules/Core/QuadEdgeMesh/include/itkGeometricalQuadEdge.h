@@ -109,9 +109,12 @@ public:
   itkQEAccessorsMacro(Superclass, Self, DualType);
 
 public:
-  /** Memory creation methods. */
   GeometricalQuadEdge();
-  ~GeometricalQuadEdge() override {}
+  GeometricalQuadEdge(const GeometricalQuadEdge &) = default;
+  GeometricalQuadEdge(GeometricalQuadEdge &&) = default;
+  GeometricalQuadEdge & operator=(const GeometricalQuadEdge &) = default;
+  GeometricalQuadEdge & operator=(GeometricalQuadEdge &&) = default;
+  virtual ~GeometricalQuadEdge() override = default;
 
   /** Set methods. */
   inline void SetOrigin(const OriginRefType v)
@@ -245,7 +248,7 @@ public:
 protected:
   OriginRefType      m_Origin;    // Geometrical information
   PrimalDataType     m_Data;      // User data associated to this edge.
-  bool               m_DataSet;   // Indicates if the data is set.
+  bool               m_DataSet{false};   // Indicates if the data is set.
   LineCellIdentifier m_LineCellIdent;
 };
 }

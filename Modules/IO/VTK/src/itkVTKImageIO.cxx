@@ -31,12 +31,10 @@ VTKImageIO::VTKImageIO()
   m_HeaderSize = 0;
 
   this->AddSupportedReadExtension(".vtk");
-
   this->AddSupportedWriteExtension(".vtk");
 }
 
-VTKImageIO::~VTKImageIO()
-{}
+VTKImageIO::~VTKImageIO() = default;
 
 int VTKImageIO::GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCase, SizeValueType count)
 {
@@ -75,10 +73,8 @@ bool VTKImageIO::CanReadFile(const char *filename)
   std::ifstream file;
   std::string   fname(filename);
 
-  if ( fname.find(".vtk") >= fname.length() )
-    {
+  if ( !this->HasSupportedReadExtension(filename))
     return false;
-    }
 
   try
     {
@@ -106,7 +102,7 @@ bool VTKImageIO::CanReadFile(const char *filename)
 }
 
 
-bool VTKImageIO::CanStreamRead(void)
+bool VTKImageIO::CanStreamRead()
 {
   bool canStreamRead = true;
   canStreamRead &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;
@@ -114,7 +110,7 @@ bool VTKImageIO::CanStreamRead(void)
   return canStreamRead;
 }
 
-bool VTKImageIO::CanStreamWrite(void)
+bool VTKImageIO::CanStreamWrite()
 {
   bool canStreamWrite = true;
   canStreamWrite &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;
@@ -611,7 +607,7 @@ void VTKImageIO::ReadImageInformation()
 
 bool VTKImageIO::CanWriteFile(const char *name)
 {
-  return itksys::SystemTools::GetFilenameLastExtension(name) == ".vtk";
+  return this->HasSupportedWriteExtension(name);
 }
 
 void VTKImageIO::WriteImageInformation( const void *itkNotUsed(buffer) )

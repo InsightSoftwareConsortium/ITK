@@ -106,6 +106,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Verifies the preconditions of this filter. */
+  void VerifyPreconditions() ITKv5_CONST override;
+
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() override;
 
@@ -126,6 +129,11 @@ public:
 
   /** Get the threshold value. */
   itkGetConstMacro(Threshold, double);
+
+  /** Threshold for the norm of the gradient: Only pixels whose gradient norm is
+   * above this threshold are processed by the filter. The threshold must be >= 0. */
+  itkSetMacro(GradientNormThreshold, double);
+  itkGetConstMacro(GradientNormThreshold, double);
 
   /** Get the radius image. */
   itkGetModifiableObjectMacro(RadiusImage, RadiusImageType);
@@ -159,6 +167,12 @@ public:
   itkSetMacro(SweepAngle, double);
   itkGetConstMacro(SweepAngle, double);
 
+  /** Specifies whether to use the spacing of the input image internally, when
+  * doing Gaussian Derivative calculation and Gaussian image filtering. */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( IntConvertibleToOutputCheck,
@@ -175,7 +189,7 @@ public:
 protected:
 
   HoughTransform2DCirclesImageFilter();
-  ~HoughTransform2DCirclesImageFilter() override {}
+  ~HoughTransform2DCirclesImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -192,18 +206,20 @@ protected:
 
 private:
 
-  double                m_SweepAngle;
-  double                m_MinimumRadius;
-  double                m_MaximumRadius;
-  double                m_Threshold;
-  double                m_SigmaGradient;
+  double                m_SweepAngle{ 0.0 };
+  double                m_MinimumRadius{ 0.0 };
+  double                m_MaximumRadius{ 10.0 };
+  double                m_Threshold{ 0.0 };
+  double                m_GradientNormThreshold;
+  double                m_SigmaGradient{ 1.0 };
 
   RadiusImagePointer    m_RadiusImage;
   CirclesListType       m_CirclesList;
-  CirclesListSizeType   m_NumberOfCircles;
-  double                m_DiscRadiusRatio;
-  double                m_Variance;
-  ModifiedTimeType      m_OldModifiedTime;
+  CirclesListSizeType   m_NumberOfCircles{ 1 };
+  double                m_DiscRadiusRatio{ 1 };
+  double                m_Variance{ 10 };
+  bool                  m_UseImageSpacing;
+  ModifiedTimeType      m_OldModifiedTime{ 0 };
 };
 } // end namespace itk
 

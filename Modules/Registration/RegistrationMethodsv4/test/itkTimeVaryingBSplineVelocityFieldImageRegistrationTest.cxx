@@ -39,7 +39,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 
@@ -78,23 +78,23 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
 
   if( argc >= 6 )
     {
-    numberOfAffineIterations = atoi( argv[5] );
+    numberOfAffineIterations = std::stoi( argv[5] );
     }
   if( argc >= 7 )
     {
-    numberOfDeformableIterationsLevel0 = atoi( argv[6] );
+    numberOfDeformableIterationsLevel0 = std::stoi( argv[6] );
     }
   if( argc >= 8 )
     {
-    numberOfDeformableIterationsLevel1 = atoi( argv[7] );
+    numberOfDeformableIterationsLevel1 = std::stoi( argv[7] );
     }
   if( argc >= 9 )
     {
-    numberOfDeformableIterationsLevel2 = atoi( argv[8] );
+    numberOfDeformableIterationsLevel2 = std::stoi( argv[8] );
     }
   if( argc >= 10 )
     {
-    learningRate = atof( argv[9] );
+    learningRate = std::stod( argv[9] );
     }
 
   const unsigned int ImageDimension = TDimension;
@@ -443,7 +443,7 @@ int itkTimeVaryingBSplineVelocityFieldImageRegistrationTest( int argc, char *arg
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      PerformTimeVaryingBSplineVelocityFieldImageRegistration<2>( argc, argv );

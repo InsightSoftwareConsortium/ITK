@@ -33,9 +33,7 @@ ScaleVersor3DTransform<TParametersValueType>
 // Destructor
 template<typename TParametersValueType>
 ScaleVersor3DTransform<TParametersValueType>
-::~ScaleVersor3DTransform()
-{
-}
+::~ScaleVersor3DTransform() = default;
 
 // Constructor with arguments
 template<typename TParametersValueType>
@@ -150,7 +148,7 @@ ScaleVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 const typename ScaleVersor3DTransform<TParametersValueType>::ParametersType
 & ScaleVersor3DTransform<TParametersValueType>
-::GetParameters(void) const
+::GetParameters() const
   {
   itkDebugMacro(<< "Getting parameters ");
 
@@ -195,7 +193,7 @@ ScaleVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 ScaleVersor3DTransform<TParametersValueType>
-::ComputeMatrix(void)
+::ComputeMatrix()
 {
   this->Superclass::ComputeMatrix();
 
@@ -211,7 +209,7 @@ ScaleVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 ScaleVersor3DTransform<TParametersValueType>
-::ComputeMatrixParameters(void)
+::ComputeMatrixParameters()
 {
   itkExceptionMacro(<< "Setting the matrix of a ScaleVersor3D transform is not supported at this time.");
 }

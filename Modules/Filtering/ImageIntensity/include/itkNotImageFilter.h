@@ -38,13 +38,13 @@ namespace itk
  *
  * The total operation over one pixel will be
  *
- * \code
- *   if( !A )
- *     {
- *     return this->m_ForegroundValue;
- *     }
- *   return this->m_BackgroundValue;
- * \endcode
+   \code
+     if( !A )
+       {
+       return this->m_ForegroundValue;
+       }
+     return this->m_BackgroundValue;
+   \endcode
  *
  * Where "!" is the unary Logical NOT operator in C++.
  *
@@ -135,7 +135,7 @@ protected:
     this->GetFunctor().SetForegroundValue(true);
     this->GetFunctor().SetBackgroundValue(false);
   }
-  ~NotImageFilter() override {}
+  ~NotImageFilter() override = default;
 };
 } // end namespace itk
 

@@ -274,9 +274,20 @@ def _GetImageFromArray(arr, function, is_vector):
     PixelType = _get_itk_pixelid(arr)
     if is_vector:
         Dimension = arr.ndim - 1
+        if arr.flags['C_CONTIGUOUS']:
+            VectorDimension = arr.shape[-1]
+        else:
+            VectorDimension = arr.shape[0]
+        if PixelType == itk.UC:
+            if VectorDimension == 3:
+                ImageType = itk.Image[ itk.RGBPixel[itk.UC], Dimension ]
+            elif VectorDimension == 4:
+                ImageType = itk.Image[ itk.RGBAPixel[itk.UC], Dimension ]
+        else:
+            ImageType = itk.Image[ itk.Vector[PixelType, VectorDimension] , Dimension]
     else:
         Dimension = arr.ndim
-    ImageType = itk.Image[PixelType, Dimension]
+        ImageType = itk.Image[PixelType, Dimension]
     templatedFunction = getattr(itk.PyBuffer[ImageType], function)
     return templatedFunction(arr, is_vector)
 
@@ -443,22 +454,38 @@ def imwrite(image_or_filter, filename, compression=False):
     writer.Update()
 
 def imread(filename, pixel_type=None):
-    """Read an image from a file and return an itk.Image.
+    """Read an image from a file or series of files and return an itk.Image.
 
-    The reader is instantiated with the image type of the image file.
+    The reader is instantiated with the image type of the image file if
+    `pixel_type` is not provided (default). The dimension of the image is
+    automatically found. If the given filename is a list or a tuple, the
+    reader will use an itk.ImageSeriesReader object to read the files.
     """
     import itk
+    if type(filename) in [list, tuple]:
+        TemplateReaderType=itk.ImageSeriesReader
+        io_filename=filename[0]
+        increase_dimension=True
+        kwargs={'FileNames':filename}
+    else:
+        TemplateReaderType=itk.ImageFileReader
+        io_filename=filename
+        increase_dimension=False
+        kwargs={'FileName':filename}
     if pixel_type:
-        imageIO = itk.ImageIOFactory.CreateImageIO(filename, itk.ImageIOFactory.ReadMode)
+        imageIO = itk.ImageIOFactory.CreateImageIO(io_filename, itk.ImageIOFactory.ReadMode)
         if not imageIO:
             raise RuntimeError("No ImageIO is registered to handle the given file.")
-        imageIO.SetFileName( filename )
+        imageIO.SetFileName(io_filename)
         imageIO.ReadImageInformation()
         dimension = imageIO.GetNumberOfDimensions()
+        # Increase dimension if last dimension is not of size one.
+        if increase_dimension and imageIO.GetDimensions(dimension-1) != 1:
+            dimension += 1
         ImageType=itk.Image[pixel_type,dimension]
-        reader = itk.ImageFileReader[ImageType].New(FileName=filename)
+        reader = TemplateReaderType[ImageType].New(**kwargs)
     else:
-        reader = itk.ImageFileReader.New(FileName=filename)
+        reader = TemplateReaderType.New(**kwargs)
     reader.Update()
     return reader.GetOutput()
 
@@ -585,8 +612,19 @@ def set_inputs(new_itk_object, args=[], kargs={}):
             if attribName.islower():
                 attribName = _snake_to_camel(attribName)
             attrib = getattr(new_itk_object, 'Set' + attribName)
-            attrib(output(value))
 
+           # Do not use try-except mechanism as this leads to
+            # segfaults. Instead limit the number of types that are
+            # tested. The list of tested type could maybe be replaced by
+            # a test that would check for iterables.
+            if type(value) in [list, tuple]:
+                try:
+                    output_value = [output(x) for x in value]
+                    attrib(*output_value)
+                except:
+                    attrib(output(value))
+            else:
+                attrib(output(value))
 
 class templated_class:
 

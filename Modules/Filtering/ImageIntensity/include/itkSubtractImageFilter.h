@@ -29,16 +29,16 @@ namespace itk
  * Subtract each pixel from image2 from its corresponding pixel in
  * image1:
  *
- * \code
- * Output = Input1 - Input2.
- * \endcode
+   \code
+   Output = Input1 - Input2.
+   \endcode
  *
  * This is done using
  *
- * \code
- * SetInput1( image1 );
- * SetInput2( image2 );
- * \endcode
+   \code
+   SetInput1( image1 );
+   SetInput2( image2 );
+   \endcode
  *
  * This class is templated over the types of the two
  * input images and the type of the output image.
@@ -46,10 +46,10 @@ namespace itk
  *
  * Additionally, a constant can be subtracted from every pixel in an image using:
  *
- * \code
- * SetInput1( image1 );
- * SetConstant2( constant );
- * \endcode
+   \code
+   SetInput1( image1 );
+   SetConstant2( constant );
+   \endcode
  *
  * \note The result of AddImageFilter with a negative constant is not
  * necessarily the same as SubtractImageFilter. This would be the case when
@@ -104,7 +104,7 @@ protected:
 #endif
     }
 
-  ~SubtractImageFilter() override {}
+  ~SubtractImageFilter() override = default;
 };
 } // end namespace itk
 

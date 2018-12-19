@@ -90,7 +90,7 @@ public:
 
 protected:
   GaussianMixtureModelComponent();
-  ~GaussianMixtureModelComponent() override {}
+  ~GaussianMixtureModelComponent() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Returns the sum of squared changes in parameters between

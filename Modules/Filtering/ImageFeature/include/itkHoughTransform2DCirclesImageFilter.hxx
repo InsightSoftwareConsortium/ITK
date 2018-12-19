@@ -30,15 +30,11 @@ namespace itk
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::HoughTransform2DCirclesImageFilter() :
-  m_SweepAngle( 0.0 ),
-  m_MinimumRadius( 0.0 ),
-  m_MaximumRadius( 10.0 ),
-  m_Threshold( 0.0 ),
-  m_SigmaGradient( 1.0 ),
-  m_NumberOfCircles( 1 ),
-  m_DiscRadiusRatio( 1 ),
-  m_Variance( 10 ),
-  m_OldModifiedTime( 0 )
+
+  m_GradientNormThreshold{ 1.0 },
+
+  m_UseImageSpacing{ true }
+
 {
   this->SetNumberOfRequiredInputs( 1 );
 }
@@ -75,6 +71,21 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
     }
 }
 
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+void
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::VerifyPreconditions() ITKv5_CONST
+{
+  Superclass::VerifyPreconditions();
+
+  if ( ! (m_GradientNormThreshold >= 0.0) )
+  {
+    itkExceptionMacro("Failed precondition: GradientNormThreshold >= 0.");
+  }
+}
+
+
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
@@ -90,8 +101,11 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
   using DoGFunctionType = GaussianDerivativeImageFunction< InputImageType >;
   const auto DoGFunction = DoGFunctionType::New();
-  DoGFunction->SetInputImage(inputImage);
   DoGFunction->SetSigma(m_SigmaGradient);
+  DoGFunction->SetUseImageSpacing(m_UseImageSpacing);
+  // Set input image _after_ setting the other GaussianDerivative properties,
+  // to avoid multiple kernel recomputation within GaussianDerivativeImageFunction.
+  DoGFunction->SetInputImage(inputImage);
 
   m_RadiusImage = RadiusImageType::New();
 
@@ -118,10 +132,11 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       double Vx = grad[0];
       double Vy = grad[1];
 
-      // if the gradient is not flat
-      if ( ( std::fabs(Vx) > 1 ) || ( std::fabs(Vy) > 1 ) )
+      const double norm = std::sqrt(Vx * Vx + Vy * Vy);
+
+      // if the gradient is not flat (using GradientNormThreshold to estimate flatness)
+      if ( norm > m_GradientNormThreshold )
         {
-        const double norm = std::sqrt(Vx * Vx + Vy * Vy);
         Vx /= norm;
         Vy /= norm;
 
@@ -212,6 +227,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
     gaussianFilter->SetInput(outputImage); // The output is the accumulator image
     gaussianFilter->SetVariance(m_Variance);
+    gaussianFilter->SetUseImageSpacing(m_UseImageSpacing);
+
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
@@ -290,6 +307,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Gradient Norm Threshold: " << m_GradientNormThreshold << std::endl;
   os << indent << "Minimum Radius:  " << m_MinimumRadius << std::endl;
   os << indent << "Maximum Radius: " << m_MaximumRadius << std::endl;
   os << indent << "Derivative Scale : " << m_SigmaGradient << std::endl;
@@ -297,6 +315,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   os << indent << "Disc Radius Ratio: " << m_DiscRadiusRatio << std::endl;
   os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
   os << indent << "Sweep angle : " << m_SweepAngle << std::endl;
+  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 
   itkPrintSelfObjectMacro( RadiusImage );
 

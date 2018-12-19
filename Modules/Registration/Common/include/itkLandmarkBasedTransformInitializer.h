@@ -178,7 +178,7 @@ public:
 
 protected:
   LandmarkBasedTransformInitializer();
-  ~LandmarkBasedTransformInitializer() override {}
+  ~LandmarkBasedTransformInitializer() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -202,7 +202,7 @@ private:
   LandmarkPointContainer m_MovingLandmarks;
   /** weights for affine landmarks */
   LandmarkWeightType     m_LandmarkWeight;
-  unsigned int           m_BSplineNumberOfControlPoints;
+  unsigned int           m_BSplineNumberOfControlPoints{4};
 
 }; //class LandmarkBasedTransformInitializer
 }  // namespace itk

@@ -46,10 +46,10 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   FilterType::IndexType seed1;
 
 #if ! defined ( ITK_LEGACY_REMOVE )
-  seed1[0] = atoi(av[4]); seed1[1] = atoi(av[5]);
+  seed1[0] = std::stoi(av[4]); seed1[1] = std::stoi(av[5]);
   filter->SetSeed1(seed1); // deprecated method
 
-  seed1[0] = atoi(av[6]); seed1[1] = atoi(av[7]);
+  seed1[0] = std::stoi(av[6]); seed1[1] = std::stoi(av[7]);
   filter->SetSeed2(seed1); // deprecated method
 #endif
 
@@ -58,10 +58,10 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   filter->ClearSeeds2();
   for (int i=4; i<ac; i+=4)
     {
-    seed1[0] = atoi(av[i]); seed1[1] = atoi(av[i+1]);
+    seed1[0] = std::stoi(av[i]); seed1[1] = std::stoi(av[i+1]);
     filter->AddSeed1(seed1);
 
-    seed1[0] = atoi(av[i+2]); seed1[1] = atoi(av[i+3]);
+    seed1[0] = std::stoi(av[i+2]); seed1[1] = std::stoi(av[i+3]);
     filter->AddSeed2(seed1);
     }
 

@@ -23,9 +23,7 @@ namespace itk
 {
 
 ImageRegionSplitterBase
-::ImageRegionSplitterBase()
-{
-}
+::ImageRegionSplitterBase() = default;
 
 void
 ImageRegionSplitterBase

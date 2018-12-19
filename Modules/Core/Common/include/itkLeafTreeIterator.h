@@ -100,8 +100,7 @@ LeafTreeIterator< TTreeType >::LeafTreeIterator(TTreeType *tree):
 
 /** Destructor */
 template< typename TTreeType >
-LeafTreeIterator< TTreeType >::~LeafTreeIterator()
-{}
+LeafTreeIterator< TTreeType >::~LeafTreeIterator() = default;
 
 /** Return the type of iterator */
 template< typename TTreeType >

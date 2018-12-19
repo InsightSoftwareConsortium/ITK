@@ -104,23 +104,23 @@ public:
    * particular ProcessObjects involved are filters.  The same
    * examples apply to non-image (e.g. Mesh) data as well.
    *
-   * \code
-   *   anotherFilter->SetInput( someFilter->GetOutput() );
-   *   anotherFilter->Update();
-   * \endcode
+     \code
+       anotherFilter->SetInput( someFilter->GetOutput() );
+       anotherFilter->Update();
+     \endcode
    *
    * In this situation, \a someFilter and \a anotherFilter are said
    * to constitute a \b pipeline.
    *
-   * \code
-   *   image = someFilter->GetOutput();
-   *   image->Update();
-   * \endcode
+     \code
+       image = someFilter->GetOutput();
+       image->Update();
+     \endcode
    *
-   * \code
-   *   someFilter->Update();
-   *   image = someFilter->GetOutput();
-   * \endcode
+     \code
+       someFilter->Update();
+       image = someFilter->GetOutput();
+     \endcode
    * (In the above example, the two lines of code can be in
    * either order.)
    *
@@ -157,24 +157,24 @@ public:
    * process object is implemented using a mini-pipeline which is
    * defined in its GenerateData() method.  The usage is:
    *
-   * \code
-   *    // Setup the mini-pipeline to process the input to this filter
-   *    // The input is not connected to the pipeline.
-   *    typename InputImageType::Pointer input = InputImageType::New();
-   *    input->Graft( const_cast< InputImageType * >( this->GetInput() );
-   *    firstFilterInMiniPipeline->SetInput( input );
-   *
-   *    // setup the mini-pipeline to calculate the correct regions
-   *    // and write to the appropriate bulk data block
-   *    lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
-   *
-   *    // execute the mini-pipeline
-   *    lastFilterInMiniPipeline->Update();
-   *
-   *    // graft the mini-pipeline output back onto this filter's output.
-   *    // this is needed to get the appropriate regions passed back.
-   *    this->GraftOutput( lastFilterInMiniPipeline->GetOutput() );
-   * \endcode
+     \code
+        // Setup the mini-pipeline to process the input to this filter
+        // The input is not connected to the pipeline.
+        typename InputImageType::Pointer input = InputImageType::New();
+        input->Graft( const_cast< InputImageType * >( this->GetInput() );
+        firstFilterInMiniPipeline->SetInput( input );
+
+        // setup the mini-pipeline to calculate the correct regions
+        // and write to the appropriate bulk data block
+        lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
+
+        // execute the mini-pipeline
+        lastFilterInMiniPipeline->Update();
+
+        // graft the mini-pipeline output back onto this filter's output.
+        // this is needed to get the appropriate regions passed back.
+        this->GraftOutput( lastFilterInMiniPipeline->GetOutput() );
+     \endcode
    *
    * For proper pipeline execution, a filter using a mini-pipeline
    * must implement the GenerateInputRequestedRegion(),
@@ -219,7 +219,7 @@ public:
 
 protected:
   ImageSource();
-  ~ImageSource() override {}
+  ~ImageSource() override = default;
 
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across
@@ -361,7 +361,7 @@ protected:
   /** Static function used as a "callback" by the classic MultiThreader.
   * The threading library will call this routine for each thread,
   * which will delegate the control to ThreadedGenerateData(). */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback(void *arg);
 
   /** Internal structure used for passing image data into the threading library */
   struct ThreadStruct

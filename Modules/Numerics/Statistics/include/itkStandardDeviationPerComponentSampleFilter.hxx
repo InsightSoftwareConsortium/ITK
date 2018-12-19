@@ -39,8 +39,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
 
 template< typename TSample >
 StandardDeviationPerComponentSampleFilter< TSample >
-::~StandardDeviationPerComponentSampleFilter()
-{}
+::~StandardDeviationPerComponentSampleFilter() = default;
 
 template< typename TSample >
 void

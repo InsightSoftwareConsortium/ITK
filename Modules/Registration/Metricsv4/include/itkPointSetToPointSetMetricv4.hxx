@@ -60,15 +60,13 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 /** Destructor */
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::~PointSetToPointSetMetricv4()
-{
-}
+::~PointSetToPointSetMetricv4() = default;
 
 /** Initialize the metric */
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::Initialize( void )
+::Initialize()
 {
   if ( !this->m_FixedPointSet )
     {
@@ -507,7 +505,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 const typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::VirtualPointSetType *
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetVirtualTransformedPointSet( void ) const
+::GetVirtualTransformedPointSet() const
 {
   // First make sure the virtual point set is current.
   this->TransformFixedAndCreateVirtualPointSet();

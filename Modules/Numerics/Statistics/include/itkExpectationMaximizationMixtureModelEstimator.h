@@ -162,7 +162,7 @@ public:
 
 protected:
   ExpectationMaximizationMixtureModelEstimator();
-  ~ExpectationMaximizationMixtureModelEstimator() override {}
+  ~ExpectationMaximizationMixtureModelEstimator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   bool CalculateDensities();
@@ -180,8 +180,8 @@ private:
   /** Target data sample pointer*/
   const TSample *m_Sample;
 
-  int m_MaxIteration;
-  int m_CurrentIteration;
+  int m_MaxIteration{100};
+  int m_CurrentIteration{0};
 
   TERMINATION_CODE     m_TerminationCode;
   ComponentVectorType  m_ComponentVector;

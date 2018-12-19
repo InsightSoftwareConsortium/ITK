@@ -1,7 +1,8 @@
-option(BUILD_DOCUMENTATION
+option(VXL_BUILD_DOCUMENTATION
   "Build doxygen-based code documentation." OFF)
 
-# Dummy stubs to avoid BUILD_DOCUMENTATION ocnditionals around calls.
+mark_as_advanced(VXL_BUILD_DOCUMENTATION)
+# Dummy stubs to avoid VXL_BUILD_DOCUMENTATION ocnditionals around calls.
 function(doxygen_add_book)
 endfunction()
 function(doxygen_add_package)
@@ -9,7 +10,7 @@ endfunction()
 function(doxygen_add_library)
 endfunction()
 
-if(BUILD_DOCUMENTATION)
+if(VXL_BUILD_DOCUMENTATION)
   #-------------------------------------------------------------------
   # helper functions
   #-------------------------------------------------------------------

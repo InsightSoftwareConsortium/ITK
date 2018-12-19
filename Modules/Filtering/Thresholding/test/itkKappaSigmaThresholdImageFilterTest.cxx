@@ -63,8 +63,8 @@ int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
   filter->SetOutsideValue( 0 );
   filter->SetInsideValue( 255 );
   filter->SetMaskValue( 255 );
-  filter->SetSigmaFactor( atof( argv[3] ) );
-  filter->SetNumberOfIterations( atoi( argv[4] ) );
+  filter->SetSigmaFactor( std::stod( argv[3] ) );
+  filter->SetNumberOfIterations( std::stoi( argv[4] ) );
 
   filter->Print( std::cout );
 

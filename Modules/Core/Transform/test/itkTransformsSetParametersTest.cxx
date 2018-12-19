@@ -35,6 +35,7 @@
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 #include "itkIntTypes.h"
+#include <vnl/vnl_sample.h>
 
 
 // Generic Kernel Transform Tester

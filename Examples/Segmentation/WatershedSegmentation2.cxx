@@ -89,8 +89,8 @@ int main( int argc, char *argv[] )
 
   watershedFilter->SetInput( gradienMagnitudeFilter->GetOutput() );
 
-  watershedFilter->SetThreshold( atof( argv[3] ) );
-  watershedFilter->SetLevel(     atof( argv[4] ) );
+  watershedFilter->SetThreshold( std::stod( argv[3] ) );
+  watershedFilter->SetLevel(     std::stod( argv[4] ) );
 
 
   //

@@ -76,9 +76,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
-::~BSplineDeformableTransform()
-{
-}
+::~BSplineDeformableTransform() = default;
 
 // Get the number of parameters
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>

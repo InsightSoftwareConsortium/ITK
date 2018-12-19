@@ -30,16 +30,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::VoronoiSegmentationImageFilterBase() :
-  m_NumberOfSeeds(200),
-  m_MinRegion(20),
-  m_Steps(0),
-  m_LastStepSeeds(0),
-  m_NumberOfSeedsToAdded(0),
-  m_NumberOfBoundary(0),
-  m_MeanDeviation(0.8),
-  m_UseBackgroundInAPrior(false),
-  m_OutputBoundary(false),
-  m_InteractiveSegmentation(false),
+
   m_WorkingVD(VoronoiDiagram::New()),
   m_VDGenerator(VoronoiDiagramGenerator::New())
 {
@@ -49,8 +40,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 /* Destructor. */
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::~VoronoiSegmentationImageFilterBase()
-{}
+::~VoronoiSegmentationImageFilterBase() = default;
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
@@ -144,12 +134,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   int    i;
   if ( leftendy > rightendy )
     {
-    RorL = 1;
+    RorL = true;
     endy = rightendy;
     }
   else
     {
-    RorL = 0;
+    RorL = false;
     endy = leftendy;
     }
   if ( Math::AlmostEquals(leftP[1], beginy) )
@@ -263,12 +253,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     rightendy = rightP[1];
     if ( leftendy > rightendy )
       {
-      RorL = 1;
+      RorL = true;
       endy = rightendy;
       }
     else
       {
-      RorL = 0;
+      RorL = false;
       endy = leftendy;
       }
 
@@ -366,7 +356,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::ClassifyDiagram(void)
+::ClassifyDiagram()
 {
   PointIdIterator currPit;
   PointIdIterator currPitEnd;
@@ -400,7 +390,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       {
       auto itend = m_WorkingVD->NeighborIdsEnd(i);
       auto it = m_WorkingVD->NeighborIdsBegin(i);
-      bool               bnd = 0;
+      bool               bnd = false;
       // and any adjacent region is homogeneous
       while ( ( it != itend ) && ( !bnd ) )
         {
@@ -420,7 +410,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::GenerateAddingSeeds(void)
+::GenerateAddingSeeds()
 {
   EdgeIterator eit;
   auto eitend = m_WorkingVD->EdgeEnd();
@@ -445,7 +435,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::RunSegmentOneStep(void)
+::RunSegmentOneStep()
 {
   m_NumberOfPixels.resize(m_NumberOfSeeds);
   m_Label.resize(m_NumberOfSeeds);
@@ -472,9 +462,9 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::RunSegment(void)
+::RunSegment()
 {
-  bool ok = 1;
+  bool ok = true;
 
   if ( m_Steps == 0 )
     {
@@ -485,7 +475,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
                           / static_cast< float >( NumericTraits< SizeValueType >::max() ) );
     if ( m_NumberOfBoundary == 0 )
       {
-      ok = 0;
+      ok = false;
       }
     while ( ( m_NumberOfSeedsToAdded != 0 ) && ok )
       {
@@ -517,7 +507,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       }
     if ( m_NumberOfBoundary == 0 )
       {
-      ok = 0;
+      ok = false;
       }
     int i = 1;
     while ( ( i < m_Steps ) && ok )
@@ -535,7 +525,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::GenerateData(void)
+::GenerateData()
 {
   // Allocate the output
   this->GetOutput()
@@ -565,7 +555,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::BeforeNextStep(void)
+::BeforeNextStep()
 {
   m_VDGenerator->AddSeeds( m_NumberOfSeedsToAdded, m_SeedsToAdded.begin() );
   m_LastStepSeeds = m_NumberOfSeeds;
@@ -575,7 +565,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::MakeSegmentBoundary(void)
+::MakeSegmentBoundary()
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
 
@@ -607,7 +597,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::MakeSegmentObject(void)
+::MakeSegmentObject()
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
 
@@ -708,12 +698,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   int    i;
   if ( leftendy > rightendy )
     {
-    RorL = 1;
+    RorL = true;
     endy = rightendy;
     }
   else
     {
-    RorL = 0;
+    RorL = false;
     endy = leftendy;
     }
   if (Math::AlmostEquals( leftP[1], beginy ))
@@ -825,12 +815,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     rightendy = rightP[1];
     if ( leftendy > rightendy )
       {
-      RorL = 1;
+      RorL = true;
       endy = rightendy;
       }
     else
       {
-      RorL = 0;
+      RorL = false;
       endy = leftendy;
       }
 
@@ -1012,7 +1002,6 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 
   EdgeIterator    eit;
   auto eitend = m_WorkingVD->EdgeEnd();
-  PointType       adds;
   Point< int, 2 > seeds;
   for ( eit = m_WorkingVD->EdgeBegin(); eit != eitend; ++eit )
     {

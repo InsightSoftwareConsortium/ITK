@@ -83,7 +83,7 @@ public:
   using RealType = typename TFilter::OutputTransformType::ScalarType;
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 
@@ -332,7 +332,7 @@ int itkSimpleImageRegistrationTest3( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
     {
     case 2:
       return PerformCompositeImageRegistration<2>( argc, argv );

@@ -33,7 +33,7 @@ class ITK_TEMPLATE_EXPORT VectorMagnitudeLinearTransform
 public:
   using RealType = typename NumericTraits< typename TInput::ValueType >::RealType;
   VectorMagnitudeLinearTransform() : m_Factor(0.0) {}
-  ~VectorMagnitudeLinearTransform() {}
+  ~VectorMagnitudeLinearTransform() = default;
   void SetFactor(RealType a) { m_Factor = a; }
   static constexpr unsigned int VectorDimension = TInput::Dimension;
   bool operator!=(const VectorMagnitudeLinearTransform & other) const
@@ -156,7 +156,7 @@ public:
 
 protected:
   VectorRescaleIntensityImageFilter();
-  ~VectorRescaleIntensityImageFilter() override {}
+  ~VectorRescaleIntensityImageFilter() override = default;
 
 private:
   InputRealType m_Scale;

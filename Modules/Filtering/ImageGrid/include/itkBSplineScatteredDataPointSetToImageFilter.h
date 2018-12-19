@@ -87,22 +87,22 @@ namespace itk
  * coordinates of the point are set via SetPointData. For example, to compute a
  * spline through the (ordered) 2D points (5,6) and (7,8), you should use:
  *
- * \code
- * using DataType = itk::Vector< float, 2 >;
- * PointSetType::PointType param0;
- * param0[0] = 0.0;
- * DataType p0;
- * p0[0] =  10.0; p0[1]= 10.0;
- * pointSet->SetPoint(0, param0);
- * pointSet->SetPointData( 0, p0 );
- *
- * PointSetType::PointType param1;
- * param1[0] = 1.0;
- * DataType p1;
- * p1[0] =  80.0; p1[1]= 50.0;
- * pointSet->SetPoint(1, param1);
- * pointSet->SetPointData( 1, p1 );
- * \endcode
+   \code
+   using DataType = itk::Vector< float, 2 >;
+   PointSetType::PointType param0;
+   param0[0] = 0.0;
+   DataType p0;
+   p0[0] =  10.0; p0[1]= 10.0;
+   pointSet->SetPoint(0, param0);
+   pointSet->SetPointData( 0, p0 );
+
+   PointSetType::PointType param1;
+   param1[0] = 1.0;
+   DataType p1;
+   p1[0] =  80.0; p1[1]= 50.0;
+   pointSet->SetPoint(1, param1);
+   pointSet->SetPointData( 1, p1 );
+   \endcode
  *
  * \author Nicholas J. Tustison
  *
@@ -328,11 +328,11 @@ private:
    * the local control point neighborhoods. */
   IndexType NumberToIndex( const unsigned int, const SizeType );
 
-  bool                                         m_DoMultilevel;
-  bool                                         m_GenerateOutputImage;
-  bool                                         m_UsePointWeights;
-  unsigned int                                 m_MaximumNumberOfLevels;
-  unsigned int                                 m_CurrentLevel;
+  bool                                         m_DoMultilevel{ false };
+  bool                                         m_GenerateOutputImage{ true };
+  bool                                         m_UsePointWeights{ false };
+  unsigned int                                 m_MaximumNumberOfLevels{ 1 };
+  unsigned int                                 m_CurrentLevel{ 0 };
   ArrayType                                    m_NumberOfControlPoints;
   ArrayType                                    m_CurrentNumberOfControlPoints;
   ArrayType                                    m_CloseDimension;
@@ -359,8 +359,8 @@ private:
   std::vector<RealImagePointer>                m_OmegaLatticePerThread;
   std::vector<PointDataImagePointer>           m_DeltaLatticePerThread;
 
-  RealType                                     m_BSplineEpsilon;
-  bool                                         m_IsFittingComplete;
+  RealType                                     m_BSplineEpsilon{ 1e-3 };
+  bool                                         m_IsFittingComplete{ false };
 };
 } // end namespace itk
 

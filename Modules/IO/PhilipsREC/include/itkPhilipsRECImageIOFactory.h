@@ -62,7 +62,7 @@ public:
   itkTypeMacro(PhilipsRECImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     PhilipsRECImageIOFactory::Pointer factory =
       PhilipsRECImageIOFactory::New();

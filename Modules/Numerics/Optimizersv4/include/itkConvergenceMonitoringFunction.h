@@ -97,7 +97,7 @@ protected:
     this->m_EnergyValues.clear();
     }
 
-  ~ConvergenceMonitoringFunction() override {}
+  ~ConvergenceMonitoringFunction() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override
     {

@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+usage() {
+  echo "git pr <pull-request-number>"
+}
+
+egrep-q() {
+  egrep "$@" >/dev/null 2>/dev/null
+}
+
+if [[ "$1" = "-h" || "$1" = "--help" ]] ; then
+  usage
+  exit 0
+fi
+
+have_python3=false
+python_exe=python
+if type python3 >/dev/null 2>&1; then
+  have_python3=true
+  python_exe=python3
+elif type python >/dev/null 2>&1; then
+  if echo $(python --version 2>&1) | egrep-q 'Python 3'; then
+    have_python3=true
+    python_exe=python
+  fi
+fi
+if [[ $# -lt 1 ]]; then
+  if $have_python3 && type curl >/dev/null 2>&1; then
+    config="${BASH_SOURCE%/*}/config" &&
+    host=$(git config -f "$config" --get github.host || echo "github.com")
+    organization_name=$(git config -f "$config" --get github.organization-name)
+    repo_name=$(git config -f "$config" --get github.repo-name)
+    url="https://api.$host/repos/$organization_name/$repo_name/pulls?sort=updated;direction=desc"
+    pr_prompt=$(curl -s "https://api.$host/repos/$organization_name/$repo_name/pulls?sort=updated;direction=desc" \
+      | $python_exe -c "import sys, json; res = json.load(sys.stdin); [print(str(pr['number']) + ': ' + str(pr['title'])) for pr in res] if 'pr' in res else sys.exit(1);")
+    if [ $? -ne 0 ]; then
+      usage
+      exit 1
+    fi
+    echo "$pr_prompt"
+    echo ""
+    pr_number=$(echo "$pr_prompt" | sed -n -e "s/\([[:alnum:]]\+\).*/\1/p" | tail -n1)
+    read -ep "Pull request number? [$pr_number]: " ans &&
+    if [ -n "$ans" ]; then
+      pr_number="$ans"
+    fi
+  else
+    usage
+    exit 1
+  fi
+else
+  pr_number=$1
+fi
+
+git fetch -fu ${2:-upstream} refs/pull/$pr_number/head:pr/$pr_number && \
+  git checkout pr/$pr_number;

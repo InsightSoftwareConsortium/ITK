@@ -75,7 +75,7 @@ public:
   /** Set/Get the image to relabel.   */
   void SetInputImage(ImageType *img)
   { this->ProcessObject::SetNthInput(0, img); }
-  const ImageType * GetInputImage(void)
+  const ImageType * GetInputImage()
   {
     return static_cast< ImageType * >
            ( this->ProcessObject::GetInput(0) );
@@ -122,7 +122,7 @@ protected:
     this->ProcessObject::SetNthOutput( 0, img.GetPointer() );
   }
 
-  ~EquivalenceRelabeler() override {}
+  ~EquivalenceRelabeler() override = default;
   EquivalenceRelabeler(const Self &) {}
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;

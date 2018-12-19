@@ -34,11 +34,11 @@ namespace itk
  *
  * 1) Set the direction by calling  \code SetDirection \endcode
  * 2) call
- * \code
- * itk::Size<2> radius;
- * radius.Fill(1);
- * sobelOperator.CreateToRadius(radius);
- * \endcode
+   \code
+   itk::Size<2> radius;
+   radius.Fill(1);
+   sobelOperator.CreateToRadius(radius);
+   \endcode
  * 3) You may optionally scale the coefficients of this operator using the
  * \code ScaleCoefficients \endcode method.  This is useful if you
  * want to take the spacing of the image into account when computing
@@ -103,7 +103,7 @@ public:
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
 
-  SobelOperator() {}
+  SobelOperator() = default;
   SobelOperator(const Self & other):
     NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
   {}

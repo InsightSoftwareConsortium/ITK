@@ -53,7 +53,7 @@ int itkVtkMedianFilterTest(int argc, char * argv[])
   radius.Fill(2);
   if (argc > 2)
     {
-    radius.Fill(atoi(argv[2]));
+    radius.Fill(std::stoi(argv[2]));
     }
 
   medianFilter->SetRadius(radius);

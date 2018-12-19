@@ -139,11 +139,11 @@ public:
   void GenerateOutputInformation() override;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
 protected:
   LandmarkDisplacementFieldSource();
-  ~LandmarkDisplacementFieldSource() override {}
+  ~LandmarkDisplacementFieldSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

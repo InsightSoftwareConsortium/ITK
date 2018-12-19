@@ -85,7 +85,7 @@ public:
 
 protected:
   BoxMeanImageFilter();
-  ~BoxMeanImageFilter() override {}
+  ~BoxMeanImageFilter() override = default;
 
   /** Multi-thread version GenerateData. */
   void  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

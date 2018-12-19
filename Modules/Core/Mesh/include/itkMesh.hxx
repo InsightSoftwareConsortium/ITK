@@ -176,7 +176,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 const typename Mesh< TPixelType, VDimension, TMeshTraits >::BoundingBoxType *
 Mesh< TPixelType, VDimension, TMeshTraits >
-::GetBoundingBox(void) const
+::GetBoundingBox() const
 {
   m_BoundingBox->SetPoints( this->m_PointsContainer.GetPointer() );
   if ( m_BoundingBox->GetMTime() > this->GetMTime() )

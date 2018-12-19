@@ -21,6 +21,7 @@
 #include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -29,7 +30,9 @@ template< typename TInputImage, typename TOutputImage >
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWHalfHermitianToRealInverseFFTImageFilter()
 {
+#ifndef ITK_USE_CUFFTW
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+#endif
   this->DynamicMultiThreadingOn();
 }
 
@@ -95,7 +98,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
     sizes[(ImageDimension - 1) - i] = outputSize[i];
     }
   plan = FFTWProxyType::Plan_dft_c2r( ImageDimension, sizes, in, out, m_PlanRigor,
-                                      this->GetNumberOfWorkUnits(),
+                                      MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
                                       !m_CanUseDestructiveAlgorithm );
   if( !m_CanUseDestructiveAlgorithm )
     {
@@ -150,8 +153,10 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 {
   Superclass::PrintSelf( os, indent );
 
+#ifndef ITK_USE_CUFFTW
   os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName( m_PlanRigor )
      << " (" << m_PlanRigor << ")" << std::endl;
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >

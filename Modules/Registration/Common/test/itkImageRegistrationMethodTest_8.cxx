@@ -131,22 +131,22 @@ int itkImageRegistrationMethodTest_8(int argc, char* argv[] )
     }
   if( argc > 2 )
     {
-    translationScale = atof( argv[2] );
+    translationScale = std::stod( argv[2] );
     std::cout << "translationScale = " << translationScale << std::endl;
     }
   if( argc > 3 )
     {
-    maximumStepLenght = atof( argv[3] );
+    maximumStepLenght = std::stod( argv[3] );
     std::cout << "maximumStepLenght = " << maximumStepLenght << std::endl;
     }
   if( argc > 4 )
     {
-    minimumStepLenght = atof( argv[4] );
+    minimumStepLenght = std::stod( argv[4] );
     std::cout << "minimumStepLenght = " << minimumStepLenght << std::endl;
     }
   if( argc > 5 )
     {
-    gradientTolerance = atof( argv[5] );
+    gradientTolerance = std::stod( argv[5] );
     std::cout << "gradientTolerance = " << gradientTolerance << std::endl;
     }
   for( unsigned int i=0; i<dimension; i++)

@@ -8,8 +8,10 @@
 #include <iostream>
 #include "vnl_sparse_matrix.h"
 
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex_traits.h>

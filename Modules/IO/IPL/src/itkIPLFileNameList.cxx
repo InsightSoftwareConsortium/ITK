@@ -126,7 +126,7 @@ public:
   }
 };
 
-IPLFileSortInfo::~IPLFileSortInfo() {}
+IPLFileSortInfo::~IPLFileSortInfo() = default;
 
 IPLSetMacroDefinition(IPLFileSortInfo, ImageFileName, std::string);
 IPLGetMacroDefinition(IPLFileSortInfo, ImageFileName, std::string);

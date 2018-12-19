@@ -51,7 +51,7 @@ int itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest( int argc, 
   filter->SetInput( reader->GetOutput() );
   filter->SetOrder( 2 );
 
-  if( atoi( argv[3] ) == 1 )
+  if( std::stoi( argv[3] ) == 1 )
     {
     filter->SetAreaComputationType( FilterType::MIXEDAREA );
     }

@@ -124,7 +124,7 @@ public:
 
 protected:
   BinaryErodeImageFilter();
-  ~BinaryErodeImageFilter() override {}
+  ~BinaryErodeImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

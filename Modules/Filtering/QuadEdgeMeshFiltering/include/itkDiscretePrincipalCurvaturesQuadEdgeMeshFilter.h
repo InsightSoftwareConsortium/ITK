@@ -73,7 +73,7 @@ public:
 protected:
   DiscretePrincipalCurvaturesQuadEdgeMeshFilter():
     m_Gaussian(0.0), m_Mean(0.0){}
-  ~DiscretePrincipalCurvaturesQuadEdgeMeshFilter() override {}
+  ~DiscretePrincipalCurvaturesQuadEdgeMeshFilter() override = default;
 
   OutputCurvatureType m_Gaussian;
   OutputCurvatureType m_Mean;
@@ -153,12 +153,8 @@ protected:
   }
 
 private:
-  DiscretePrincipalCurvaturesQuadEdgeMeshFilter(const Self &); // purposely
-                                                                  // not
-                                                                  // implemented
-  void operator=(const Self &);                                   // purposely
-                                                                  // not
-                                                                  // implemented
+  DiscretePrincipalCurvaturesQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 }
 

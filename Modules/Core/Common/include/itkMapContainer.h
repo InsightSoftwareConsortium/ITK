@@ -161,7 +161,7 @@ public:
     using pointer = typename MapIterator::pointer;
     using reference = typename MapIterator::reference;
 
-    Iterator() {}
+    Iterator() = default;
     Iterator(const Iterator & i):m_Iter(i.m_Iter) {}
     Iterator(const MapIterator & i):m_Iter(i) {}
     Iterator & operator=(const Iterator & r ) { m_Iter = r.m_Iter; return *this; }
@@ -179,10 +179,10 @@ public:
     bool operator!=(const ConstIterator & r) const { return m_Iter != r.m_Iter; }
 
     /** Get the index into the MapContainer associated with this iterator.   */
-    ElementIdentifier Index(void) const { return m_Iter->first; }
+    ElementIdentifier Index() const { return m_Iter->first; }
 
     /** Get the value at this iterator's location in the MapContainer.   */
-    Element & Value(void) { return m_Iter->second; }
+    Element & Value() { return m_Iter->second; }
 
 private:
     MapIterator m_Iter;
@@ -202,7 +202,7 @@ public:
     using pointer = typename MapConstIterator::pointer;
     using reference = typename MapConstIterator::reference;
 
-    ConstIterator() {}
+    ConstIterator() = default;
     ConstIterator(const MapConstIterator & ci):m_Iter(ci) {}
     ConstIterator(const Iterator & r) : m_Iter( r.m_Iter ) {}
     ConstIterator & operator=(const ConstIterator & r ) { m_Iter = r.m_Iter; return *this; }
@@ -220,10 +220,10 @@ public:
     bool operator!=(const ConstIterator & r) const { return m_Iter != r.m_Iter; }
 
     /** Get the index into the MapContainer associated with this iterator.   */
-    ElementIdentifier Index(void) const { return m_Iter->first; }
+    ElementIdentifier Index() const { return m_Iter->first; }
 
     /** Get the value at this iterator's location in the MapContainer.   */
-    const Element & Value(void) const { return m_Iter->second; }
+    const Element & Value() const { return m_Iter->second; }
 
 private:
     MapConstIterator m_Iter;

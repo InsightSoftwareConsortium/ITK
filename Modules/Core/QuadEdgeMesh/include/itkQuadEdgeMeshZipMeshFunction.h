@@ -61,8 +61,8 @@ public:
   virtual OutputType Evaluate(QEType *e);
 
 protected:
-  QuadEdgeMeshZipMeshFunction(){}
-  ~QuadEdgeMeshZipMeshFunction() override {}
+  QuadEdgeMeshZipMeshFunction()= default;
+  ~QuadEdgeMeshZipMeshFunction() override = default;
 };
 } // end namespace itk
 

@@ -65,7 +65,7 @@ protected:
 
   /** Constructor and Destructor */
   DecimateFramesVideoFilter();
-  ~DecimateFramesVideoFilter() override {}
+  ~DecimateFramesVideoFilter() override = default;
 
   /** PrintSelf */
   void PrintSelf(std::ostream & os, Indent indent) const override;

@@ -112,17 +112,16 @@ public:
 protected:
   RegularExpressionSeriesFileNames():
     m_Directory("."),
-    m_SubMatch(1),
-    m_NumericSort(false),
+
     m_RegularExpression(".*\\.([0-9]+)")
   {}
-  ~RegularExpressionSeriesFileNames() override {}
+  ~RegularExpressionSeriesFileNames() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   std::string  m_Directory;
-  unsigned int m_SubMatch;
-  bool         m_NumericSort;
+  unsigned int m_SubMatch{1};
+  bool         m_NumericSort{false};
   std::string  m_RegularExpression;
 
   std::vector< std::string > m_FileNames;

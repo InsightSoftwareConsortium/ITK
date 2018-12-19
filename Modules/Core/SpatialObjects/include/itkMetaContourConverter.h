@@ -71,7 +71,7 @@ protected:
   MetaObjectType *CreateMetaObject() override;
 
   MetaContourConverter();
-  ~MetaContourConverter() override {}
+  ~MetaContourConverter() override = default;
 };
 } // end namespace itk
 

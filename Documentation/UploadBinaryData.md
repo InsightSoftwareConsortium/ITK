@@ -13,8 +13,8 @@ download the files at build time with [CMake].
 
 A "content link" file contains an identifying [SHA512 hash]. The content
 link is stored in the [Git] repository at the path where the file would exist,
-but with a `.sha512` extension appended to the file name. CMake will find these
-content link files at **build** time, download them from a list of server
+but with a `.sha512` extension appended to the file name. [CMake] will find
+these content link files at **build** time, download them from a list of server
 resources, and create symlinks or copies of the original files at the
 corresponding location in the **build tree**.
 
@@ -52,9 +52,10 @@ Using Girder to get the SHA512 hash
 ### Prerequisites
 
 The [data.kitware.com] server is an ITK community resource where any community
-member can upload binary data files. There are two methods available to upload
-data files:
+member can upload binary data files. There are three methods available to
+upload data files:
 
+  1. The [UploadBinaryData.sh] shell script.
   1. The [Girder web interface].
   2. The `girder-cli` command line executable that comes with the
      [girder-client] Python package.
@@ -63,9 +64,39 @@ Before uploading data, please visit [data.kitware.com] and register for an
 account.
 
 Once files have been uploaded to your account, they will be publicly available
-and accessible since data is content addressed. At release time, the release
-manager will upload and archive repository data references in the
-[ITK collection] and other redundant storage locations.
+and accessible since data is content addressed. Specifically, the
+[hashsum_download] plugin in Girder looks through all public (or private if
+authenticated) data for files with the given hash. Thus, so as long as the file
+is publically available somewhere on [data.kitware.com], ITK will be able to
+retrieve the corresponding file.
+
+At release time, the release manager will upload and archive repository data
+references in the [ITK collection] and other redundant storage locations.
+
+
+### Upload via the shell script
+
+The [UploadBinaryData.sh] script will authenticate to [data.kitware.com],
+upload the file to your user account's *Public* folder, and create a
+`*.sha512` [CMake] `ExternalData` content link file. After the content link
+has been created, you will need to add the `*.sha512` file to your commit.
+
+When `./Utilities/SetupForDevelopment.sh` is executed, as described in
+[CONTRIBUTING.md], authentication to Girder is configured in Git. If the Git
+`girder.api-key` config or `GIRDER_API_KEY` environmental variable is not set,
+a prompt will appear for your username and password. The API key can be
+created in the data.kitware.com user account web browser interface.
+
+To upload new binary testing data:
+
+  1. Place the binary file at the desired location in the Git repository.
+  2. Run the `git data-upload` alias, and pass in the binary file(s) as arguments. E.g.
+     `cd ITK; git data-upload ./Modules/Core/Common/test/Input/cthead1.png`.
+  3. In the corresponding `test/CMakeLists.txt` file, use the
+     `itk_add_test` macro and reference the relative file path with `DATA` and braces.
+     E.g.: `DATA{Input/cthead1.png}`.
+  4. Re-build ITK, the `ITKData` target specifically, and the testing data will be
+     downloaded into the build tree. The path in the build tree is used in test execution.
 
 
 ### Upload via the web interface
@@ -135,11 +166,14 @@ actual file is desired in the build tree. Stage the new file to your commit:
 [girder-client]: https://girder.readthedocs.io/en/latest/python-client.html#the-command-line-interface
 [Girder web interface]: https://girder.readthedocs.io/en/latest/user-guide.html
 [Git]: https://git-scm.com/
+[hashsum_download]: https://girder.readthedocs.io/en/latest/plugins.html#hashsum-download
 [ITK collection]: https://data.kitware.com/#collection/57b5c9e58d777f126827f5a1
 [ITK community]: https://discourse.itk.org/
 [ITK Examples]: https://itk.org/ITKExamples/index.html
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
+[UploadBinaryData.sh]: ../Utilities/UploadBinaryData.sh
+[CONTRIBUTING.md]: ../../CONTRIBUTING.md
 
 [Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
 [MD5 hash]: https://en.wikipedia.org/wiki/MD5

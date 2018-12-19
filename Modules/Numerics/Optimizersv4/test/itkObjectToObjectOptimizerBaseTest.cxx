@@ -73,7 +73,7 @@ public:
 
   void SetParameters( ParametersType & ) override {}
 
-  void Initialize(void) throw ( itk::ExceptionObject ) override {}
+  void Initialize() throw ( itk::ExceptionObject ) override {}
 
   void PrintSelf(std::ostream& os, itk::Indent indent) const override
   { Superclass::PrintSelf( os, indent ); }
@@ -81,8 +81,8 @@ public:
   ParametersType  m_Parameters;
 
 private:
-  ObjectToObjectOptimizerBaseTestMetric() {}
-  ~ObjectToObjectOptimizerBaseTestMetric() override {}
+  ObjectToObjectOptimizerBaseTestMetric() = default;
+  ~ObjectToObjectOptimizerBaseTestMetric() override = default;
 };
 
 /* Define a simple derived optimizer class.

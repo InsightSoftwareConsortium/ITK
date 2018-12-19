@@ -90,8 +90,8 @@ protected:
   EdgeDecimationQuadEdgeMeshFilter();
   ~EdgeDecimationQuadEdgeMeshFilter() override;
 
-  bool m_Relocate;
-  bool m_CheckOrientation;
+  bool m_Relocate{true};
+  bool m_CheckOrientation{false};
 
   PriorityQueuePointer m_PriorityQueue;
   QueueMapType         m_QueueMapper;
@@ -299,8 +299,8 @@ protected:
   bool IsCriterionSatisfied() override;
 
 private:
-  EdgeDecimationQuadEdgeMeshFilter(const Self &);
-  void operator=(const Self &);
+  EdgeDecimationQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 
 };
 }

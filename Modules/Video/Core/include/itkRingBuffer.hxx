@@ -32,7 +32,7 @@ namespace itk
 template< typename TElement >
 RingBuffer< TElement >
 ::RingBuffer()
-  : m_HeadIndex(0),
+  :
     m_PointerVector()
 {
   // Default to 3 buffers
@@ -41,9 +41,7 @@ RingBuffer< TElement >
 
 template< typename TElement >
 RingBuffer< TElement >
-::~RingBuffer()
-{
-}
+::~RingBuffer() = default;
 
 
 //

@@ -130,13 +130,12 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::SparseFieldLevelSetImageFilter() :
-  m_ConstantGradientValue(1.0),
-  m_NumberOfLayers(2),
+
   m_IsoSurfaceValue(m_ValueZero),
-  m_InterpolateSurfaceLocation(true),
+
   m_InputImage(nullptr),
-  m_OutputImage(nullptr),
-  m_BoundsCheckingActive(false)
+  m_OutputImage(nullptr)
+
 {
   m_LayerNodeStore = LayerNodeStorageType::New();
   m_LayerNodeStore->SetGrowthStrategyToExponential();
@@ -145,8 +144,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::~SparseFieldLevelSetImageFilter()
-{}
+::~SparseFieldLevelSetImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

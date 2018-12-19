@@ -56,8 +56,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 /** Destructor */
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-::~MetaSceneConverter()
-{}
+::~MetaSceneConverter() = default;
 
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 void

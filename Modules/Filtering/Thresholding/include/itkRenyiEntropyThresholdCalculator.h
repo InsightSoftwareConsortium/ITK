@@ -71,9 +71,9 @@ public:
 
 protected:
   RenyiEntropyThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
-  ~RenyiEntropyThresholdCalculator() override {}
+  ~RenyiEntropyThresholdCalculator() override = default;
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

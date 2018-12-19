@@ -114,7 +114,7 @@ protected:
     m_LowerBoundaryCropSize.Fill(0);
   }
 
-  ~CropLabelMapFilter() override {}
+  ~CropLabelMapFilter() override = default;
 
   void GenerateOutputInformation() override;
 

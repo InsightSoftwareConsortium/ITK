@@ -18,13 +18,7 @@
 #ifndef itkConnectedComponentImageFilter_h
 #define itkConnectedComponentImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include <vector>
-#include <map>
-#include "itkProgressReporter.h"
-#include "itkBarrier.h"
-#include "itkPlatformMultiThreader.h"
+#include "itkScanlineFilterCommon.h"
 
 namespace itk
 {
@@ -38,8 +32,11 @@ namespace itk
  * Each distinct object is assigned a unique label. The filter experiments
  * with some improvements to the existing implementation, and is based on
  * run length encoding along raster lines.
- * The final object labels start with 1 and are consecutive. Objects
- * that are reached earlier by a raster order scan have a lower
+ * If the output background value is set to zero (the default), the final
+ * object labels start with 1 and are consecutive. If the output background
+ * is set to a non-zero value (by calling the SetBackgroundValue() routine of the filter),
+ * the final labels start at 0, and remain consecutive except for skipping the background
+ * value as needed. Objects that are reached earlier by a raster order scan have a lower
  * label. This is different to the behaviour of the original connected
  * component image filter which did not produce consecutive labels or
  * impose any particular ordering.
@@ -59,6 +56,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage >
 class ITK_TEMPLATE_EXPORT ConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
+  , protected ScanlineFilterCommon< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedComponentImageFilter);
@@ -68,6 +66,8 @@ public:
    */
   using Self = ConnectedComponentImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass::Register;
+  using Superclass::UnRegister;
 
   /**
    * Types from the Superclass
@@ -138,10 +138,6 @@ public:
   // only set after completion
   itkGetConstReferenceMacro(ObjectCount, LabelType);
 
-  // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
   itkConceptMacro( OutputImagePixelTypeIsInteger, ( Concept::IsInteger< OutputImagePixelType > ) );
 
   itkSetInputMacro(MaskImage, MaskImageType);
@@ -156,37 +152,27 @@ public:
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
 protected:
-  ConnectedComponentImageFilter()
+  ConnectedComponentImageFilter() :
+    ScanlineFilterCommon< TInputImage, TOutputImage >(this),
+    m_BackgroundValue( NumericTraits< OutputPixelType >::NonpositiveMin() )
   {
-    m_FullyConnected = false;
     m_ObjectCount = 0;
-    m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
 
     // implicit
     // #0 "Primary" required
 
     //  #1 "MaskImage" optional
     Self::AddOptionalInputName("MaskImage",1);
-    this->DynamicMultiThreadingOff();
-    this->SetMultiThreader(PlatformMultiThreader::New());
   }
 
-  ~ConnectedComponentImageFilter() override {}
+  ~ConnectedComponentImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /**
-   * Standard pipeline methods.
-   */
-  void BeforeThreadedGenerateData() override;
+  void GenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void DynamicThreadedGenerateData( const RegionType & ) override;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-  void DynamicThreadedGenerateData( const RegionType & ) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  void ThreadedWriteOutput( const RegionType & );
 
   /** ConnectedComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -199,80 +185,26 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
-  bool m_FullyConnected;
+  using ScanlineFunctions = ScanlineFilterCommon< TInputImage, TOutputImage >;
+
+  using InternalLabelType         = typename ScanlineFunctions::InternalLabelType;
+  using OutSizeType               = typename ScanlineFunctions::OutSizeType;
+  using RunLength                 = typename ScanlineFunctions::RunLength;
+  using LineEncodingType          = typename ScanlineFunctions::LineEncodingType;
+  using LineEncodingIterator      = typename ScanlineFunctions::LineEncodingIterator;
+  using LineEncodingConstIterator = typename ScanlineFunctions::LineEncodingConstIterator;
+  using OffsetVectorType          = typename ScanlineFunctions::OffsetVectorType;
+  using OffsetVectorConstIterator = typename ScanlineFunctions::OffsetVectorConstIterator;
+  using LineMapType               = typename ScanlineFunctions::LineMapType;
+  using UnionFindType             = typename ScanlineFunctions::UnionFindType;
+  using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+  using WorkUnitData              = typename ScanlineFunctions::WorkUnitData;
 
 private:
-  LabelType            m_ObjectCount;
-  OutputImagePixelType m_BackgroundValue;
-
-  // some additional types
-  using OutSizeType = typename TOutputImage::RegionType::SizeType;
-
-  // types to support the run length encoding of lines
-  class runLength
-  {
-public:
-    // run length information - may be a more type safe way of doing this
-    typename TInputImage::OffsetValueType   length;
-    typename TInputImage::IndexType         where;   // Index of the start of the run
-    LabelType                               label;   // the initial label of the run
-  };
-
-  using lineEncoding = std::vector< runLength >;
-
-  // the map storing lines
-  using LineMapType = std::vector< lineEncoding >;
-
-  using OffsetVec = std::vector< typename TInputImage::OffsetValueType >;
-
-  // the types to support union-find operations
-  using UnionFindType = std::vector< LabelType >;
-  UnionFindType m_UnionFind;
-  UnionFindType m_Consecutive;
-
-  // functions to support union-find operations
-  void InitUnion( SizeValueType size )
-  {
-    m_UnionFind = UnionFindType(size + 1);
-  }
-
-  void InsertSet(const LabelType label);
-
-  SizeValueType LookupSet(const LabelType label);
-
-  void LinkLabels(const LabelType lab1, const LabelType lab2);
-
-  SizeValueType CreateConsecutive();
-
-  //////////////////
-  bool CheckNeighbors(const OutputIndexType & A,
-                      const OutputIndexType & B);
-
-  void CompareLines(lineEncoding & current, const lineEncoding & Neighbour);
-
-  void FillOutput(const LineMapType & LineMap,
-                  ProgressReporter & progress);
-
-  void SetupLineOffsets(OffsetVec & LineOffsets);
-
-  void Wait()
-  {
-    // use m_NumberOfLabels.size() to get the number of thread used
-    if ( m_NumberOfLabels.size() > 1 )
-      {
-      m_Barrier->Wait();
-      }
-  }
-
-  typename std::vector< IdentifierType > m_NumberOfLabels;
-  typename std::vector< IdentifierType > m_FirstLineIdToJoin;
-
-  typename Barrier::Pointer m_Barrier;
+  OutputPixelType m_BackgroundValue;
+  LabelType       m_ObjectCount;
 
   typename TInputImage::ConstPointer m_Input;
-#if !defined( ITK_WRAPPING_PARSER )
-  LineMapType m_LineMap;
-#endif
 };
 } // end namespace itk
 

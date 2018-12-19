@@ -131,14 +131,14 @@ protected:
     m_Spacing[0] = m_Spacing[1] = 1.0;
   }
 
-  ~ExtractOrthogonalSwath2DImageFilter() override {}
+  ~ExtractOrthogonalSwath2DImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   //--------------------------------------------------------------------------
   //
 
   /** GenerateOutputInformation does not rely on input information */
-  void GenerateOutputInformation(void) override;
+  void GenerateOutputInformation() override;
 
   /** Request the largest possible region on all inputs. */
   void GenerateInputRequestedRegion() override
@@ -148,7 +148,7 @@ protected:
     this->GetNonConstPathInput()->SetRequestedRegionToLargestPossibleRegion();
   }
 
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   //
   //--------------------------------------------------------------------------

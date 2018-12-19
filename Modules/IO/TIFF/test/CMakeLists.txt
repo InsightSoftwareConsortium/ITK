@@ -171,6 +171,11 @@ itk_add_test(NAME itkTIFFImageIOInfoTest2
       itkTIFFImageIOInfoTest DATA{Input/ps-separated.tif})
 set_tests_properties( itkTIFFImageIOInfoTest2
     PROPERTIES PASS_REGULAR_EXPRESSION "2014:09:24 14:16:01")
+itk_add_test(NAME itkTIFFImageIOInfoTest3
+      COMMAND ITKIOTIFFTestDriver
+      itkTIFFImageIOInfoTest DATA{Input/3d_spacing.tif})
+set_tests_properties( itkTIFFImageIOInfoTest3
+    PROPERTIES PASS_REGULAR_EXPRESSION "17 19 1")
 
 
 ######################

@@ -62,9 +62,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 VelocityFieldTransform<TParametersValueType, NDimensions>::
-~VelocityFieldTransform()
-{
-}
+~VelocityFieldTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 void

@@ -82,7 +82,7 @@ public:
 protected:
 
   LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints();
-  ~LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints() override {}
+  ~LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

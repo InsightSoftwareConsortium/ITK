@@ -52,12 +52,12 @@ int itkLabelStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetFeatureImage( reader2->GetOutput() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[4]) );
+  int BackgroundValue = ( std::stoi(argv[4]) );
   KeepNObjects->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
   //testing get and set macros for Lambda
-  unsigned int numberOfObjects = atoi( argv[5] );
+  unsigned int numberOfObjects = std::stoi( argv[5] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
   TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
 
@@ -69,12 +69,12 @@ int itkLabelStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[6] );
+  bool reverseOrdering = std::stoi( argv[6] );
   KeepNObjects->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  LabelKeepNObjectsType::AttributeType attribute = atoi( argv[7] );
+  LabelKeepNObjectsType::AttributeType attribute = std::stoi( argv[7] );
   KeepNObjects->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
 

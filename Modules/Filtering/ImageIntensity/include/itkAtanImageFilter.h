@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Atan
 {
 public:
-  Atan() {}
-  ~Atan() {}
+  Atan() = default;
+  ~Atan() = default;
   bool operator!=(const Atan &) const
   {
     return false;
@@ -112,7 +112,7 @@ protected:
 #endif
     }
 
-  ~AtanImageFilter() override {}
+  ~AtanImageFilter() override = default;
 };
 } // end namespace itk
 

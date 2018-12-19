@@ -43,7 +43,7 @@ public:
   using CommonContainerType = Array< TValue >;
 
   /** Default constructor. Nothing to do. */
-  OptimizerParametersHelper(){}
+  OptimizerParametersHelper()= default;
 
   /** Set a new data pointer for the parameter data, pointing it to a different
    * memory block. The size of the new memory block must equal the current
@@ -77,7 +77,7 @@ public:
       "Not implemented for base class.");
     }
 
-  virtual ~OptimizerParametersHelper(){}
+  virtual ~OptimizerParametersHelper()= default;
 
 };
 

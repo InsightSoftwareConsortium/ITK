@@ -105,7 +105,7 @@ protected:
   void GenerateInputRequestedRegion() override;
 
   PermuteAxesImageFilter();
-  ~PermuteAxesImageFilter() override {}
+  ~PermuteAxesImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PermuteAxesImageFilter can be implemented as a multithreaded filter.

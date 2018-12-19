@@ -37,15 +37,15 @@ namespace itk
  *
  * Example usage:
  *
- * \code
- *   ProgressReporter progress(this, threadId,
- *                             threadRegion.GetNumberOfPixels(), 100);
- *   for( each pixel )
- *     {
- *     ...
- *     progress.CompletedPixel();
- *     }
- * \endcode
+   \code
+     ProgressReporter progress(this, threadId,
+                               threadRegion.GetNumberOfPixels(), 100);
+     for( each pixel )
+       {
+       ...
+       progress.CompletedPixel();
+       }
+   \endcode
  *
  * When used in a non-threaded filter, the threadId argument should be 0.
  *

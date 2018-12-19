@@ -156,9 +156,9 @@ public:
   /** A PCAShape is defined by a set of shape and pose parameters. */
   void SetParameters(const ParametersType &) override;
 
-  unsigned int GetNumberOfShapeParameters(void) const override
+  unsigned int GetNumberOfShapeParameters() const override
   { return m_NumberOfPrincipalComponents; }
-  unsigned int GetNumberOfPoseParameters(void) const override
+  unsigned int GetNumberOfPoseParameters() const override
   { return m_Transform ? m_Transform->GetNumberOfParameters() : 0; }
 
   /** Evaluate the signed distance from a shape at a given position. */
@@ -170,7 +170,7 @@ public:
 
 protected:
   PCAShapeSignedDistanceFunction();
-  ~PCAShapeSignedDistanceFunction() override {}
+  ~PCAShapeSignedDistanceFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

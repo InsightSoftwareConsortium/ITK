@@ -864,7 +864,7 @@ RobustSolver<VDimension>
 template <unsigned int VDimension>
 float
 RobustSolver<VDimension>
-::GetLandmarkTensorPonderation(void) const
+::GetLandmarkTensorPonderation() const
 {
   const LoadContainerType * loadContainer = this->m_FEMObject->GetLoadContainer();
 

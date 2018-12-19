@@ -153,16 +153,16 @@ protected:
   template <typename UComponentType>
   static typename DisableIfC<
     NumericTraits< UComponentType >::IsInteger, UComponentType>::Type
-  DefaultAlphaValue( void );
+  DefaultAlphaValue();
 
   template <typename UComponentType>
   static typename EnableIfC<
     NumericTraits< UComponentType >::IsInteger, UComponentType>::Type
-  DefaultAlphaValue( void );
+  DefaultAlphaValue();
 
 private:
-  ConvertPixelBuffer();
-  ~ConvertPixelBuffer();
+  ConvertPixelBuffer() = delete;
+  ~ConvertPixelBuffer() = delete;
 
 };
 } //namespace ITK

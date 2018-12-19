@@ -89,7 +89,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
   using BSplineInterpolatorFunctionType =
       itk::BSplineInterpolateImageFunction< ImageType, double, double >;
 
-  unsigned int splineOrder = atoi( argv[1] );
+  unsigned int splineOrder = std::stoi( argv[1] );
   BSplineInterpolatorFunctionType::Pointer interpolator =
     makeRandomImageInterpolator< BSplineInterpolatorFunctionType >( splineOrder );
   ImageType::ConstPointer randImage = interpolator->GetInputImage();

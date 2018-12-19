@@ -44,9 +44,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 
 template<typename InputImage, typename TOutputImage>
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
-::~ComposeDisplacementFieldsImageFilter()
-{
-}
+::~ComposeDisplacementFieldsImageFilter() = default;
 
 template<typename InputImage, typename TOutputImage>
 void

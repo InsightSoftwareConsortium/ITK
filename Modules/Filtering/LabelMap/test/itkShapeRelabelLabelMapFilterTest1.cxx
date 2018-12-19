@@ -58,7 +58,7 @@ int itkShapeRelabelLabelMapFilterTest1(int argc, char * argv[])
   RelabelType::Pointer relabel = RelabelType::New();
 
   //testing get and set macros for ReverseOrdering
-  bool reverseOrdering = atoi( argv[3] );
+  bool reverseOrdering = std::stoi( argv[3] );
   relabel->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , relabel->GetReverseOrdering() );
 
@@ -70,7 +70,7 @@ int itkShapeRelabelLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( true, relabel->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  unsigned int attribute = atoi( argv[4] );
+  unsigned int attribute = std::stoi( argv[4] );
   relabel->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, relabel->GetAttribute() );
 

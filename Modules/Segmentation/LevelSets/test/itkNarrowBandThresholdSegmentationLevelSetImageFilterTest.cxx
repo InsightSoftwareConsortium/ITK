@@ -94,8 +94,8 @@ public:
   }
 
 protected:
-  NBRMSCommand()  {}
-  ~NBRMSCommand() override {}
+  NBRMSCommand()  = default;
+  ~NBRMSCommand() override = default;
 };
 
 }

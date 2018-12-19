@@ -37,8 +37,8 @@ public:
   using InputCoordRepType = typename InputMeshType::CoordRepType;
   using InputQEType = typename InputMeshType::QEType;
 
-  MatrixCoefficients(){}
-  virtual ~MatrixCoefficients() {}
+  MatrixCoefficients()= default;
+  virtual ~MatrixCoefficients() = default;
 
   virtual InputCoordRepType operator()
     (const InputMeshType *iMesh, InputQEType *iEdge) const = 0;
@@ -61,7 +61,7 @@ public:
   using InputCoordRepType = typename InputMeshType::CoordRepType;
   using InputQEType = typename InputMeshType::QEType;
 
-  OnesMatrixCoefficients() {}
+  OnesMatrixCoefficients() = default;
 
   /**
    * \return \f$ 1 \f$
@@ -94,7 +94,7 @@ public:
   using InputQEType = typename InputMeshType::QEType;
   using InputVectorType = typename InputMeshType::VectorType;
 
-  InverseEuclideanDistanceMatrixCoefficients() {}
+  InverseEuclideanDistanceMatrixCoefficients() = default;
 
   /**
    * \param[in] iMesh
@@ -134,7 +134,7 @@ public:
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
 
-  ConformalMatrixCoefficients() {}
+  ConformalMatrixCoefficients() = default;
 
   /**
    * \param[in] iMesh
@@ -187,7 +187,7 @@ public:
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
 
-  AuthalicMatrixCoefficients() {}
+  AuthalicMatrixCoefficients() = default;
 
   /**
    * \param[in] iMesh
@@ -282,7 +282,7 @@ public:
 
   static constexpr unsigned int PointDimension = InputPointType::PointDimension;
 
-  HarmonicMatrixCoefficients() {}
+  HarmonicMatrixCoefficients() = default;
 
   InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const override
   {

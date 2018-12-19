@@ -59,9 +59,7 @@ public:
 
   using MeasureType = double;
 
-  LBFGSCostFunction()
-  {
-  }
+  LBFGSCostFunction() = default;
 
   double GetValue( const ParametersType & position ) const override
   {
@@ -98,7 +96,7 @@ public:
   }
 
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
     {
     return SpaceDimension;
     }

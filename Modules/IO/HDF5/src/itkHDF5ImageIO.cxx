@@ -22,13 +22,27 @@
 #include "itksys/SystemTools.hxx"
 #include "itk_H5Cpp.h"
 
+#include <algorithm>
+
 namespace itk
 {
 
-HDF5ImageIO::HDF5ImageIO() : m_H5File(nullptr),
-                             m_VoxelDataSet(nullptr),
-                             m_ImageInformationWritten(false)
+HDF5ImageIO::HDF5ImageIO()
+
 {
+
+  const char *extensions[] =
+    {
+      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5"
+    };
+
+
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
+
 }
 
 HDF5ImageIO::~HDF5ImageIO()
@@ -665,21 +679,9 @@ HDF5ImageIO
 
 bool
 HDF5ImageIO
-::CanWriteFile(const char *FileNameToWrite)
+::CanWriteFile(const char *name)
 {
-  const char *extensions[] =
-    {
-      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",nullptr,
-    };
-  std::string ext(itksys::SystemTools::GetFilenameLastExtension(FileNameToWrite));
-  for(unsigned i = 0; extensions[i] != nullptr; i++)
-    {
-    if(ext == extensions[i])
-      {
-      return true;
-      }
-    }
-  return false;
+  return this->HasSupportedWriteExtension(name);
 }
 
 // This method will only test if the header looks like an
@@ -696,44 +698,34 @@ HDF5ImageIO
     return false;
     }
 
-  //Do not read if it is a MINC file.
-  std::string filename(FileNameToRead);
-  std::string::size_type mncPos = filename.rfind(".mnc");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 4) )
-    {
-    return false;
-    }
-
-  mncPos = filename.rfind(".MNC");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 4) )
-    {
-    return false;
-    }
-
-  mncPos = filename.rfind(".mnc2");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 5) )
-    {
-    return false;
-    }
-
-  mncPos = filename.rfind(".MNC2");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 5) )
-    {
-    return false;
-    }
-
-  // call standard method to determine HDF-ness
-  bool rval;
   // HDF5 is so exception happy, we have to worry about
   // it throwing a wobbly here if the file doesn't exist
   // or has some other problem.
+  bool rval = true;
   try
     {
-    rval = H5::H5File::isHdf5(FileNameToRead);
+
+    htri_t ishdf5 = H5Fis_hdf5(FileNameToRead);
+
+    if (ishdf5 <= 0)
+      {
+      return false;
+      }
+
+    H5::H5File h5file(FileNameToRead, H5F_ACC_RDONLY);
+
+#if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
+    // check the file has the ITK ImageGroup
+    htri_t exists = H5Lexists( h5file.getId(),
+                               ImageGroup.c_str(),
+                               H5P_DEFAULT);
+    if ( exists <= 0 )
+#else
+    if(! h5file.exists(ImageGroup) )
+#endif
+      {
+      rval = false;
+      }
     }
   catch(...)
     {
@@ -1160,7 +1152,7 @@ HDF5ImageIO
  */
 void
 HDF5ImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {
   //
   // guard so that image information
@@ -1477,7 +1469,7 @@ HDF5ImageIO
 // GetHeaderSize -- return 0
 ImageIOBase::SizeType
 HDF5ImageIO
-::GetHeaderSize(void) const
+::GetHeaderSize() const
 {
   return 0;
 }

@@ -58,15 +58,15 @@ namespace itk
  * wraps to the next row, starting at the first pixel in the row that is
  * part of the region. This allows for simple processing loops of the form:
  *
- * \code
- *
- *      it = it.Begin();
- *      for (; !it.IsAtEnd(); ++it)
- *         {
- *         *it += 100.0;
- *         }
- *
- * \endcode
+   \code
+
+        it = it.Begin();
+        for (; !it.IsAtEnd(); ++it)
+           {
+           *it += 100.0;
+           }
+
+   \endcode
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please

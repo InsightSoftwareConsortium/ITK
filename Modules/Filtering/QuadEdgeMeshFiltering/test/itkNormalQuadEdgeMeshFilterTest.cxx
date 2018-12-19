@@ -51,7 +51,7 @@ int itkNormalQuadEdgeMeshFilterTest( int argc, char* argv[] )
   using NormalFilterType = itk::NormalQuadEdgeMeshFilter< InputMeshType, OutputMeshType >;
   NormalFilterType::WeightType weight_type;
 
-  int param = atoi( argv[2] );
+  int param = std::stoi( argv[2] );
 
   if( ( param < 0 ) || ( param > 2 ) )
     {

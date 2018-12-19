@@ -62,11 +62,9 @@ namespace TransformFactoryBasePrivate
 bool DefaultTransformsRegistered = false;
 }
 
-TransformFactoryBase::TransformFactoryBase()
-{}
+TransformFactoryBase::TransformFactoryBase() = default;
 
-TransformFactoryBase::~TransformFactoryBase()
-{}
+TransformFactoryBase::~TransformFactoryBase() = default;
 
 void TransformFactoryBase::RegisterDefaultTransforms()
 {
@@ -108,7 +106,7 @@ TransformFactoryBase * TransformFactoryBase::GetFactory()
 }
 
 const char *
-TransformFactoryBase::GetITKSourceVersion(void) const
+TransformFactoryBase::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }

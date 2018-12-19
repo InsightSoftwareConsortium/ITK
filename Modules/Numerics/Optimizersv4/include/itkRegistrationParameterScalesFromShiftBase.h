@@ -86,7 +86,7 @@ public:
 
 protected:
   RegistrationParameterScalesFromShiftBase();
-  ~RegistrationParameterScalesFromShiftBase() override {};
+  ~RegistrationParameterScalesFromShiftBase() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -55,7 +55,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
 
   if( argc >= 5 )
     {
-    convoluter->SetNormalize( static_cast<bool>( atoi( argv[4] ) ) );
+    convoluter->SetNormalize( static_cast<bool>( std::stoi( argv[4] ) ) );
     }
 
   using WriterType = itk::ImageFileWriter<ImageType>;

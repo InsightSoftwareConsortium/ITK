@@ -87,13 +87,13 @@ int itkOpenCVVideoCaptureTest ( int argc, char *argv[] )
     }
 
   // Check width and height
-  if ((int)(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH)) != atoi(argv[4]) ||
-      (int)(scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)) != atoi(argv[5]))
+  if ((int)(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH)) != std::stoi(argv[4]) ||
+      (int)(scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)) != std::stoi(argv[5]))
     {
     std::cerr << "Frame dimensions not reporting correctly. Got ["
               << scalarCap->get(CV_CAP_PROP_FRAME_WIDTH) << ","
               << scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT) << "] Expected: ["
-              << atoi(argv[4]) << "," << atoi(argv[5]) << "]" << std::endl;
+              << std::stoi(argv[4]) << "," << std::stoi(argv[5]) << "]" << std::endl;
     return EXIT_FAILURE;
     }
 

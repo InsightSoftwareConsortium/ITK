@@ -21,7 +21,7 @@
 
 
 #include "itkImageScanlineIterator.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 namespace itk
 {
@@ -30,7 +30,7 @@ StatisticsImageFilter< TInputImage >
 ::StatisticsImageFilter()
   :m_ThreadSum(1),
    m_SumOfSquares(1),
-   m_Count(1),
+
    m_ThreadMin(1),
    m_ThreadMax(1)
 {
@@ -315,7 +315,7 @@ StatisticsImageFilter< TInputImage >
 
     }
 
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_ThreadSum += sum;
   m_SumOfSquares += sumOfSquares;
   m_Count += count;

@@ -30,9 +30,8 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 LabelVotingImageFilter< TInputImage, TOutputImage >
 ::LabelVotingImageFilter() :
-  m_LabelForUndecidedPixels( 0 ),
-  m_HasLabelForUndecidedPixels( false ),
-  m_TotalLabelCount( 0 )
+  m_LabelForUndecidedPixels( 0 )
+
 {
 }
 

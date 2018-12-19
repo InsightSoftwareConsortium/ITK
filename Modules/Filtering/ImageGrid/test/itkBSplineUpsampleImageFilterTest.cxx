@@ -64,7 +64,7 @@ int itkBSplineUpsampleImageFilterTest( int argc, char * argv [] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  const unsigned int splineOrder = atoi( argv[3] );
+  const unsigned int splineOrder = std::stoi( argv[3] );
 
   filter->SetSplineOrder( splineOrder );
 

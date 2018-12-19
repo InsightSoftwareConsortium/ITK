@@ -1,12 +1,12 @@
 #include <iostream>
 #include <iomanip>
-#include <string>
-#include <limits>
-#include <vcl_compiler.h>
-#include <vxl_config.h> // for VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN
+#include <type_traits>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex.h> // for vnl_math::abs(std::complex)
 #include <testlib/testlib_test.h>
+
+static constexpr double vnl_math_test_20_epsilon = 2*10*std::numeric_limits<double>::epsilon();
+static constexpr double vnl_math_test_2_epsilon = 2*std::numeric_limits<double>::epsilon();
 
 //Utility function for printing hex representations
 template<typename T>
@@ -14,25 +14,22 @@ std::string print_hex(const T p)
   {
   std::stringstream str;
   str << std::hex<<std::setfill('0')<<std::setw(2);
-  for(int i = 0; i < (16-sizeof(p) ); ++i)
+  for(int i = 0; i < static_cast<int>(16-sizeof(p) ); ++i)
     {
     str << ".." ;
     }
   for (int i=(sizeof(p) -1 ); i>=0; --i)
     {
     str<<std::setfill('0')<<std::setw(2);
-    const short curr_value = static_cast<short>( (reinterpret_cast<unsigned char const *>(&p))[i] );
+    const auto curr_value = static_cast<short>( (reinterpret_cast<unsigned char const *>(&p))[i] );
     str<<curr_value;
     }
   str<<std::dec;
   return str.str();
   }
 
-#if !VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN
 static
-void check_pointer( const void * )
-{
-}
+void check_pointer( const void * ) { }
 
 static
 void test_static_const_definition()
@@ -60,7 +57,6 @@ void test_static_const_definition()
   check_pointer( &vnl_math::eps );
   check_pointer( &vnl_math::sqrteps );
 }
-#endif
 
 // Test that the vnl_math constants don't have weird values
 static void test_math_constants()
@@ -108,10 +104,8 @@ static void test_math_constants()
 
 static void test_math()
 {
-#if !VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN
   // Call it to avoid compiler warnings
   test_static_const_definition();
-#endif
   test_math_constants();
 
   int n = -11;
@@ -392,14 +386,14 @@ static void test_math()
 
   // test vnl_math::angle_0_to_2pi() for "extreme values":
   TEST("vnl_math::angle_0_to_2pi(2pi)", vnl_math::angle_0_to_2pi(vnl_math::twopi), 0.0);
-  double eps = 2e-16; // which is smaller than the precision of vnl_math::pi
+  double eps = vnl_math_test_2_epsilon; // which is smaller than the precision of vnl_math::pi
   double conv_eps = vnl_math::angle_0_to_2pi(-eps);
   std::cout << "conv_eps = " << conv_eps << " = 2pi - " << vnl_math::twopi-conv_eps << std::endl;
   TEST("vnl_math::angle_0_to_2pi(-eps)", conv_eps < vnl_math::twopi && conv_eps > 6.283, true);
-  eps = 2e-15; // which is larger than the precision of vnl_math::pi
+  eps = vnl_math_test_20_epsilon; // which is larger than the precision of vnl_math::pi
   conv_eps = vnl_math::angle_0_to_2pi(-eps);
   std::cout << "conv_eps = " << conv_eps << " = 2pi - " << vnl_math::twopi-conv_eps << std::endl;
-  TEST("vnl_math::angle_0_to_2pi(-10eps)", conv_eps < vnl_math::twopi - 1e-15 && conv_eps > 6.283, true);
+  TEST("vnl_math::angle_0_to_2pi(-10eps)", conv_eps < vnl_math::twopi - vnl_math_test_2_epsilon && conv_eps > 6.283, true);
   double ang = vnl_math::twopi - eps;
   double conv_ang = vnl_math::angle_0_to_2pi(ang);
   std::cout << "conv_ang = " << conv_ang << " = 2pi - " << vnl_math::twopi-conv_ang << std::endl;
@@ -408,11 +402,11 @@ static void test_math()
   TEST("vnl_math::angle_minuspi_to_pi(2pi)", vnl_math::angle_minuspi_to_pi(vnl_math::twopi), 0.0);
   TEST("vnl_math::angle_minuspi_to_pi(pi)", vnl_math::angle_minuspi_to_pi(vnl_math::pi), vnl_math::pi);
   TEST("vnl_math::angle_minuspi_to_pi(-pi)", vnl_math::angle_minuspi_to_pi(-vnl_math::pi), -vnl_math::pi);
-  eps = 2e-16; // which is smaller than the precision of vnl_math::pi
+  eps = vnl_math_test_2_epsilon; // which is smaller than the precision of vnl_math::pi
   conv_eps = vnl_math::angle_minuspi_to_pi(-eps);
   std::cout << "conv_eps = " << conv_eps << std::endl;
   TEST("vnl_math::angle_minuspi_to_pi(-eps)", conv_eps, -eps);
-  eps = 2e-15; // which is larger than the precision of vnl_math::pi
+  eps = vnl_math_test_20_epsilon; // which is larger than the precision of vnl_math::pi
   conv_eps = vnl_math::angle_minuspi_to_pi(-eps);
   std::cout << "conv_eps = " << conv_eps << std::endl;
   TEST("vnl_math::angle_minuspi_to_pi(-10eps)", conv_eps, -eps);
@@ -630,6 +624,27 @@ static void test_math()
 #endif
     }
 
+#define RETURN_TYPE_TEST( funcname, argtypename, returntypename ) \
+  { \
+  const bool test_return_type = std::is_same< decltype( vnl_math :: funcname( static_cast< argtypename >(123.4) ) ), returntypename >(); \
+  TEST("vnl_math::" #funcname "<" #argtypename "> returns " #returntypename " type", test_return_type, true); \
+  } void()
+
+  RETURN_TYPE_TEST(isinf,int, bool);
+  RETURN_TYPE_TEST(isinf,float, bool);
+  RETURN_TYPE_TEST(isinf,double, bool);
+
+  RETURN_TYPE_TEST(isnan,int, bool);
+  RETURN_TYPE_TEST(isnan,float, bool);
+  RETURN_TYPE_TEST(isnan,double, bool);
+
+  RETURN_TYPE_TEST(isfinite,int, bool);
+  RETURN_TYPE_TEST(isfinite,float, bool);
+  RETURN_TYPE_TEST(isfinite,double, bool);
+
+  RETURN_TYPE_TEST(isnormal,int, bool);
+  RETURN_TYPE_TEST(isnormal,float, bool);
+  RETURN_TYPE_TEST(isnormal,double, bool);
 }
 
 TESTMAIN(test_math);

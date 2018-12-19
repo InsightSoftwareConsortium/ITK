@@ -55,8 +55,8 @@ class ITK_TEMPLATE_EXPORT DefaultPixelAccessor
 {
 public:
 
-  DefaultPixelAccessor() {}
-  virtual ~DefaultPixelAccessor() {}
+  DefaultPixelAccessor() = default;
+  ~DefaultPixelAccessor() = default;
 
   /** External type alias. It defines the external aspect
    * that this class will exhibit. */

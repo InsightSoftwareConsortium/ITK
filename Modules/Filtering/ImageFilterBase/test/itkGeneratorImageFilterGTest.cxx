@@ -36,7 +36,7 @@ template<unsigned int D, typename TPixelType = float>
     using ImageType = itk::Image<PixelType, Dimension>;
     using IndexType = typename ImageType::IndexType;
 
-    static typename ImageType::Pointer CreateImage(void)
+    static typename ImageType::Pointer CreateImage()
       {
         typename ImageType::Pointer image = ImageType::New();
 

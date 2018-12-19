@@ -86,17 +86,17 @@ template <typename TType> struct DisableIfC<false, TType> { using Type = TType; 
  * policy instead of the standard snake_case policy.
  *
  * Example:
- * \code
- * template< typename TType>
- *   typename EnableIf<
- *     IsSame<TType, typename NumericTraits<TType>::ValueType>,
- *     TType >::Type
- * GetComponent(const TType pix,
- *              unsigned int itkNotUsed( idx ) ) const
- * {
- *   return pix;
- * }
- * \endcode
+   \code
+   template< typename TType>
+     typename EnableIf<
+       IsSame<TType, typename NumericTraits<TType>::ValueType>,
+       TType >::Type
+   GetComponent(const TType pix,
+                unsigned int itkNotUsed( idx ) ) const
+   {
+     return pix;
+   }
+   \endcode
  * \sa \c EnableIfC
  * \sa \c DisableIf
  */
@@ -116,17 +116,17 @@ struct EnableIf : public EnableIfC<TCondition::Value, TType> {};
  * policy instead of the standard snake_case policy.
  *
  * Example:
- * \code
- * template< typename TType>
- *   typename DisableIf<
- *     mpl::Not_<IsSame<TType, typename NumericTraits<TType>::ValueType>>,
- *     TType >::Type
- * GetComponent(const TType pix,
- *              unsigned int itkNotUsed( idx ) ) const
- * {
- *   return pix;
- * }
- * \endcode
+   \code
+   template< typename TType>
+     typename DisableIf<
+       mpl::Not_<IsSame<TType, typename NumericTraits<TType>::ValueType>>,
+       TType >::Type
+   GetComponent(const TType pix,
+                unsigned int itkNotUsed( idx ) ) const
+   {
+     return pix;
+   }
+   \endcode
  * \sa \c EnableIfC
  * \sa \c DisableIf
  */

@@ -30,8 +30,7 @@ HeavisideStepFunction< TInput, TOutput >
 
 template< typename TInput, typename TOutput >
 HeavisideStepFunction< TInput, TOutput >
-::~HeavisideStepFunction()
-{}
+::~HeavisideStepFunction() = default;
 
 template< typename TInput, typename TOutput >
 typename HeavisideStepFunction< TInput, TOutput >::OutputType

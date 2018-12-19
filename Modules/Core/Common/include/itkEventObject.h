@@ -59,12 +59,12 @@ class ITKCommon_EXPORT EventObject
 public:
   /** Constructor and copy constructor.  Note that these functions will be
    * called when children are instantiated. */
-  EventObject() {}
+  EventObject() = default;
 
-  EventObject(const EventObject &){}
+  EventObject(const EventObject &)= default;
 
   /** Virtual destructor needed  */
-  virtual ~EventObject() {}
+  virtual ~EventObject() = default;
 
   /**  Create an Event of this type This method work as a Factory for
    *  creating events of each particular type. */
@@ -76,7 +76,7 @@ public:
   virtual void Print(std::ostream & os) const;
 
   /** Return the StringName associated with the event. */
-  virtual const char * GetEventName(void) const = 0;
+  virtual const char * GetEventName() const = 0;
 
   /** Check if given event matches or derives from this event. */
   virtual bool CheckEvent(const EventObject *) const = 0;
@@ -94,7 +94,7 @@ protected:
 
 private:
   using EventFactoryFunction = EventObject *();
-  void operator=(const EventObject &);
+  void operator=(const EventObject &) = delete;
 };
 
 /** Generic inserter operator for EventObject and its subclasses. */

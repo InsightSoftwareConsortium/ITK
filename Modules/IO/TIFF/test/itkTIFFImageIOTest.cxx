@@ -110,12 +110,12 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     }
   else if( argc == 4 )
     {
-    dimension = atoi( argv[3] );
+    dimension = std::stoi( argv[3] );
     }
   else if( argc == 5 )
     {
-    dimension = atoi( argv[3] );
-    pixelType = atoi( argv[4] );
+    dimension = std::stoi( argv[3] );
+    pixelType = std::stoi( argv[4] );
     }
 
   if( dimension == 2 && pixelType == 1 )

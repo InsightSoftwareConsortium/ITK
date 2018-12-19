@@ -30,7 +30,7 @@ namespace Statistics
 {
 //constructor
 template< typename THistogram >
-HistogramToTextureFeaturesFilter< THistogram >::HistogramToTextureFeaturesFilter(void)
+HistogramToTextureFeaturesFilter< THistogram >::HistogramToTextureFeaturesFilter()
 {
   this->ProcessObject::SetNumberOfRequiredInputs(1);
 
@@ -70,7 +70,7 @@ HistogramToTextureFeaturesFilter< THistogram >
 
 template< typename THistogram >
 void
-HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
+HistogramToTextureFeaturesFilter< THistogram >::GenerateData()
 {
   using HistogramIterator = typename HistogramType::ConstIterator;
 

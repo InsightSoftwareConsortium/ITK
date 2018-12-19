@@ -4,7 +4,7 @@ Git Help
 Additional information about [Git] may be obtained at these sites:
 
   * ITK Git cheat sheet
-    * [ITK one page Git PDF desk reference](https://itk.org/Wiki/images/1/10/GitITKCheatSheet.pdf)
+    * [ITK Git PDF desk reference](./GitCheatSheet.pdf)
   * General resources
     * [Git Homepage][Git]
     * [GitHub Try Git In Your Browser](https://try.github.io/)

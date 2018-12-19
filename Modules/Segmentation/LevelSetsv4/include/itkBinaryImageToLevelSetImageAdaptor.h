@@ -178,7 +178,7 @@ public:
 
 protected:
   BinaryImageToSparseLevelSetImageAdaptorBase() : Superclass() {}
-  ~BinaryImageToSparseLevelSetImageAdaptorBase() override {}
+  ~BinaryImageToSparseLevelSetImageAdaptorBase() override = default;
 
   LevelSetLabelMapPointer m_LabelMap;
 

@@ -121,7 +121,7 @@ public:
 
 protected:
   PolylineMaskImageFilter();
-  ~PolylineMaskImageFilter() override {}
+  ~PolylineMaskImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;
@@ -136,7 +136,7 @@ private:
 
   ProjPlanePointType m_FocalPoint;
 
-  double m_FocalDistance;
+  double m_FocalDistance{ 0.0 };
 };
 } // end namespace itk
 

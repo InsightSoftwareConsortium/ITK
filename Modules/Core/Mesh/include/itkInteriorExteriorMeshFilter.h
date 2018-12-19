@@ -81,23 +81,18 @@ public:
 
 protected:
   InteriorExteriorMeshFilter();
-  ~InteriorExteriorMeshFilter() override {}
+  ~InteriorExteriorMeshFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate requested data. */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer m_SpatialFunction;
 
 private:
-  InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter &); //purposely
-                                                                  // not
-                                                                  // implemented
-  void operator=(const InteriorExteriorMeshFilter &);             //purposely
-
-  // not
-  // implemented
+  InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter &) = delete;
+  void operator=(const InteriorExteriorMeshFilter &) = delete;
 };
 } // end namespace itk
 

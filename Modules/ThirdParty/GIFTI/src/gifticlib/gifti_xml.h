@@ -74,6 +74,7 @@ typedef struct {
     int            b64_check;       /* 0=no, 1=check, 2=count, 3=skip */
     int            update_ok;       /* library can update metadata  */
     int            zlevel;          /* compression level -1..9      */
+    int            perm_by_iord;    /* do we permute by index order */
 
     int          * da_list;         /* DA index list to store       */
     int            da_len;          /* DA index list length         */
@@ -105,6 +106,8 @@ typedef struct {
 /* main interface */
 gifti_image * gxml_read_image (const char * fname, int read_data,
                                const int * dalist, int len);
+gifti_image * gxml_read_image_buf(const char * buf_in, long long bin_len,
+                                  const int * dalist, int dalen);
 int           gxml_write_image(gifti_image * gim, const char * fname,
                                int write_data);
 
@@ -122,6 +125,8 @@ int   gxml_set_update_ok   ( int val );
 int   gxml_get_update_ok   ( void    );
 int   gxml_set_zlevel      ( int val );
 int   gxml_get_zlevel      ( void    );
+int   gxml_set_perm_by_iord( int val );
+int   gxml_get_perm_by_iord( void    );
 
 
 #endif /* GIFTI_XML_H */

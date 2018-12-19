@@ -58,7 +58,7 @@ public:
     m_Values.reserve(size);
   }
 
-  ~StandardDeviationAccumulator(){}
+  ~StandardDeviationAccumulator()= default;
 
   inline void Initialize()
   {
@@ -146,8 +146,8 @@ public:
 #endif
 
 protected:
-  StandardDeviationProjectionImageFilter() {}
-  ~StandardDeviationProjectionImageFilter() override {}
+  StandardDeviationProjectionImageFilter() = default;
+  ~StandardDeviationProjectionImageFilter() override = default;
 };                              // end StandardDeviationProjectionImageFilter
 } //end namespace itk
 

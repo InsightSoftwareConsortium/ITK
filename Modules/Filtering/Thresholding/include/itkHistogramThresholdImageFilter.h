@@ -190,7 +190,7 @@ public:
 
 protected:
   HistogramThresholdImageFilter();
-  ~HistogramThresholdImageFilter() override {};
+  ~HistogramThresholdImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   void GenerateInputRequestedRegion() override;
@@ -202,9 +202,9 @@ private:
   InputPixelType      m_Threshold;
   MaskPixelType       m_MaskValue;
   CalculatorPointer   m_Calculator;
-  unsigned            m_NumberOfHistogramBins;
+  unsigned            m_NumberOfHistogramBins{ 256 };
   bool                m_AutoMinimumMaximum;
-  bool                m_MaskOutput;
+  bool                m_MaskOutput{ true };
 };
 
 } // end namespace itk

@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_matrix_inverse.h
 #ifndef vnl_matrix_inverse_h_
 #define vnl_matrix_inverse_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Calculates inverse of a matrix (wrapper around vnl_svd<double>)
@@ -35,7 +32,7 @@ template <class T>
 struct vnl_matrix_inverse : public vnl_svd<T>
 {
   vnl_matrix_inverse(vnl_matrix<T> const & M): vnl_svd<T>(M) { }
-  ~vnl_matrix_inverse() VXL_OVERRIDE {}
+  ~vnl_matrix_inverse() override = default;
 
   operator vnl_matrix<T> () const { return this->inverse(); }
 };

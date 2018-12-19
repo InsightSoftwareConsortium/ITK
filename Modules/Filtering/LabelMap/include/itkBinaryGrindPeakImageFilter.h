@@ -110,7 +110,7 @@ public:
 
 protected:
   BinaryGrindPeakImageFilter();
-  ~BinaryGrindPeakImageFilter() override {};
+  ~BinaryGrindPeakImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryGrindPeakImageFilter needs the entire input be
@@ -130,7 +130,7 @@ private:
 
   InputImagePixelType m_BackgroundValue;
 
-  bool                m_FullyConnected;
+  bool                m_FullyConnected{ false };
 
 }; // end of class
 

@@ -22,7 +22,7 @@
 ## ** On Mac, it is:
 ## `/opt/intel/compilers_and_libraries/mac/mkl`
 ##
-## If the compiler supports it, `ITK_USE_TBB_WITH_MKL` is automatically
+## '''Disabled''': If the compiler supports it, `ITK_USE_TBB_WITH_MKL` is automatically
 ## set to ON and MKL is linked against `TBB`. Otherwise it is linked against
 ## `mkl_sequential`.
 ##
@@ -56,26 +56,48 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     )
   endif()
 
-  find_path(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
+  if(ITK_USE_CUFFTW)
+    find_path(CUFFTW_INCLUDE_PATH cufftw.h ${FFTW_INC_SEARCHPATH})
+  else()
+    find_path(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
+  endif()
 
   if(FFTW_INCLUDE_PATH)
-    file(TO_CMAKE_PATH "${FFTW_INCLUDE_PATH}" FFTW_INCLUDE_PATH)
-    set(FFTW_INCLUDE ${FFTW_INCLUDE_PATH})
+    if(ITK_USE_CUFFTW)
+      file(TO_CMAKE_PATH "${CUFFTW_INCLUDE_PATH}" CUFFTW_INCLUDE_PATH)
+      set(FFTW_INCLUDE ${CUFFTW_INCLUDE_PATH})
+    else()
+      file(TO_CMAKE_PATH "${FFTW_INCLUDE_PATH}" FFTW_INCLUDE_PATH)
+      set(FFTW_INCLUDE ${FFTW_INCLUDE_PATH})
+    endif()
   endif()
 
   if(FFTW_INCLUDE)
     include_directories(${FFTW_INCLUDE})
   endif()
 
-  if(ITK_USE_MKL)
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-      # See MKL configuration help page:
-      # https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
-      message("TBB threading option not available with Clang compiler.")
-      set(ITK_USE_TBB_WITH_MKL OFF CACHE BOOL "Use TBB threading in MKL" FORCE)
-    else()
-      option(ITK_USE_TBB_WITH_MKL "Use TBB threading in MKL" ON)
-    endif()
+  if(ITK_USE_CUFFTW)
+    find_library(CUFFTW_LIB cufftw ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
+    find_library(CUFFT_LIB cufft ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
+    unset(FFTWD_LIB CACHE)
+    unset(FFTWF_LIB CACHE)
+    unset(FFTWD_THREADS_LIB CACHE)
+    unset(FFTWF_THREADS_LIB CACHE)
+    set(FFTWF_LIB ${CUFFT_LIB} ${CUFFTW_LIB})
+    set(FFTWD_LIB ${CUFFT_LIB} ${CUFFTW_LIB})
+  elseif(ITK_USE_MKL)
+    # '''Disabled''': `ITK_USE_TBB_WITH_MKL`. To configure MKL with TBB, the TBB library
+    # has to be found. This is not currently taken care of as part of this file and may
+    # result in conflicts if `Module_ITKTBB` is ON.
+#    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+#      # See MKL configuration help page:
+#      # https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
+#      message("TBB threading option not available with Clang compiler.")
+#      set(ITK_USE_TBB_WITH_MKL OFF CACHE BOOL "Use TBB threading in MKL" FORCE)
+#    else()
+#      option(ITK_USE_TBB_WITH_MKL "Use TBB threading in MKL" ON)
+#      mark_as_advanced(ITK_USE_TBB_WITH_MKL)
+#    endif()
 
     if(CMAKE_SIZEOF_VOID_P EQUAL "8")
       if(APPLE)
@@ -98,11 +120,13 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       endif()
     endif()
     set(MKL_EXTRA_LIBRARIES mkl_core)
-    if(ITK_USE_TBB_WITH_MKL)
-      list(APPEND MKL_EXTRA_LIBRARIES mkl_tbb_thread)
-    else()
-        list(APPEND MKL_EXTRA_LIBRARIES mkl_sequential)
-    endif()
+    # Force to sequential for now.
+    list(APPEND MKL_EXTRA_LIBRARIES mkl_sequential)
+#    if(ITK_USE_TBB_WITH_MKL)
+#      list(APPEND MKL_EXTRA_LIBRARIES mkl_tbb_thread)
+#    else()
+#        list(APPEND MKL_EXTRA_LIBRARIES mkl_sequential)
+#    endif()
     set(FFTW_LIBRARY_NAMES ${MKL_LIBRARY} ${MKL_EXTRA_LIBRARIES})
 
     macro(FFTWD_LIB_START)
@@ -118,9 +142,10 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     macro(FFTWD_LIB_END)
       if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         list(APPEND FFTWD_LIB -Wl,--end-group -lpthread -lm -ldl)
-        if(ITK_USE_TBB_WITH_MKL)
-          list(APPEND FFTWD_LIB -ltbb -lstdc++)
-        endif()
+         # Force to sequential for now.
+#        if(ITK_USE_TBB_WITH_MKL)
+#          list(APPEND FFTWD_LIB -ltbb -lstdc++)
+#        endif()
       endif()
     endmacro()
 

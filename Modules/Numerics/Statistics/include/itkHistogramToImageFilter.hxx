@@ -35,8 +35,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
 /** Destructor */
 template< typename THistogram, typename TImage, typename TFunction >
 HistogramToImageFilter< THistogram, TImage, TFunction >
-::~HistogramToImageFilter()
-{}
+::~HistogramToImageFilter() = default;
 
 /** Set the Input Histogram */
 template< typename THistogram, typename TImage, typename TFunction >
@@ -52,7 +51,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
 template< typename THistogram, typename TImage, typename TFunction >
 const typename HistogramToImageFilter< THistogram, TImage, TFunction >::HistogramType *
 HistogramToImageFilter< THistogram, TImage, TFunction >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< const HistogramType * >( this->GetPrimaryInput() );
 }
@@ -129,7 +128,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
 template< typename THistogram, typename TImage, typename TFunction >
 void
 HistogramToImageFilter< THistogram, TImage, TFunction >
-::GenerateData(void)
+::GenerateData()
 {
   itkDebugMacro(<< "HistogramToImageFilter::Update() called");
 

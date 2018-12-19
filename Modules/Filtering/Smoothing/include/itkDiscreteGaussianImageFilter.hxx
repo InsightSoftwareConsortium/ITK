@@ -307,7 +307,7 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 unsigned int
 DiscreteGaussianImageFilter< TInputImage, TOutputImage >
-::GetInternalNumberOfStreamDivisions(void) const
+::GetInternalNumberOfStreamDivisions() const
 {
   return 1;
 }

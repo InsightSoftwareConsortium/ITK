@@ -63,8 +63,8 @@ public:
   using PixelContainerConstPointer = typename Superclass::PixelContainerConstPointer;
 
 protected:
-  VectorToRGBImageAdaptor() {}
-  ~VectorToRGBImageAdaptor() override {}
+  VectorToRGBImageAdaptor() = default;
+  ~VectorToRGBImageAdaptor() override = default;
 };
 } // end namespace itk
 

@@ -94,7 +94,7 @@ int itkFEMLinearSystemWrapperItpackTest2(int argc, char *argv[])
 
   if( argc > 1 )
     {
-    int method = atoi(argv[1]);
+    int method = std::stoi(argv[1]);
 
     switch( method )
       {

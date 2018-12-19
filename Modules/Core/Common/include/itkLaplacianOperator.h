@@ -31,11 +31,11 @@ namespace itk
  *  kernel.
  *
  *  For example, the simplest Laplacian Operator for 2D has the form:
- *  \code
- *              0   1   0
- *              1  -4   1
- *              0   1   0
- *  \endcode
+    \code
+                0   1   0
+                1  -4   1
+                0   1   0
+    \endcode
  *
  *  \par
  *  The LaplacianOperator is a non-directional NeighborhoodOperator that

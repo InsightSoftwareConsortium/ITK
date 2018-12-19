@@ -33,8 +33,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 
 template<unsigned int VSplineOrder, typename TRealValueType>
 CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
-::~CoxDeBoorBSplineKernelFunction()
-{}
+::~CoxDeBoorBSplineKernelFunction() = default;
 
 template<unsigned int VSplineOrder, typename TRealValueType>
 void

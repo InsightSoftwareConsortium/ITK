@@ -14,8 +14,8 @@ double vnl_erfc(double x)
 {
   // Initialized data
 
-  const double thresh = .46875;
-  const double xbig = 26.543;
+  constexpr double thresh = .46875;
+  constexpr double xbig = 26.543;
   const double xhuge = 6.71e7;
   const double xmax = 2.53e307;
 
@@ -31,7 +31,7 @@ double vnl_erfc(double x)
     .0163153871373020978 };
   const double q[5] = { 2.56852019228982242,1.87295284992346047,
     .527905102951428412,.0605183413124413191,.00233520497626869185 };
-  const double sqrpi = .56418958354775628695;
+  constexpr double sqrpi = .56418958354775628695;
 
 
   // Local variables

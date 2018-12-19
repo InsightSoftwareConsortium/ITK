@@ -27,7 +27,7 @@ public:
 
   itk::Barrier::Pointer m_FirstBarrier;
   itk::Barrier::Pointer m_SecondBarrier;
-  unsigned int          m_Counter[ITK_MAX_THREADS];
+  unsigned int          m_Counter[itk::ITK_MAX_THREADS];
   unsigned int          m_NumberOfIterations;
   unsigned int          m_NumberOfWorkUnits;
   bool                  m_TestFailure;
@@ -44,10 +44,10 @@ public:
     m_FirstBarrier->Initialize(number_of_threads);
     m_SecondBarrier->Initialize(number_of_threads);
   }
-  ~BarrierTestUserData() {}
+  ~BarrierTestUserData() = default;
 };
 
-ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION BarrierTestIncrement( void *ptr )
 {
   itk::ThreadIdType threadId = ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->WorkUnitID;
   auto * data = static_cast<BarrierTestUserData *>(
@@ -63,10 +63,10 @@ ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
     data->m_SecondBarrier->Wait();
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION BarrierCheckIncrement( void *ptr )
 {
   auto * data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
@@ -87,10 +87,10 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
     data->m_SecondBarrier->Wait();
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION BarrierTestCallback( void *ptr )
 {
   itk::ThreadIdType threadId = ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->WorkUnitID;
   auto * data = static_cast<BarrierTestUserData *>(
@@ -105,10 +105,10 @@ ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
     BarrierTestIncrement( ptr );
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ITK_THREAD_RETURN_TYPE BarrierSpecialTest( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION BarrierSpecialTest( void *ptr )
 {
   auto * data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreaderBase::WorkUnitInfo *)(ptr) )->UserData );
@@ -118,7 +118,7 @@ ITK_THREAD_RETURN_TYPE BarrierSpecialTest( void *ptr )
     data->m_FirstBarrier->Wait();
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 int itkBarrierTest(int argc, char *argv[])
@@ -129,7 +129,7 @@ int itkBarrierTest(int argc, char *argv[])
   itk::ThreadIdType number_of_threads = 4;
   if (argc > 1)
     {
-    number_of_threads = ::atoi(argv[1]);
+    number_of_threads = ::std::stoi(argv[1]);
     }
 
   BarrierTestUserData data(number_of_threads);

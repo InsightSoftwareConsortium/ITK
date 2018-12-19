@@ -194,7 +194,7 @@ public:
 
 protected:
   IsolatedConnectedImageFilter();
-  ~IsolatedConnectedImageFilter() override {}
+  ~IsolatedConnectedImageFilter() override = default;
   SeedsContainerType m_Seeds1;
   SeedsContainerType m_Seeds2;
 

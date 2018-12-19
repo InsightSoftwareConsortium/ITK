@@ -36,9 +36,7 @@ namespace itk
 
 template<typename TInputImage, typename TCoordRep, typename TPixelCompare>
 LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>
-::LabelImageGaussianInterpolateImageFunction()
-{
-}
+::LabelImageGaussianInterpolateImageFunction() = default;
 
 template<typename TInputImage, typename TCoordRep, typename TPixelCompare>
 typename LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>

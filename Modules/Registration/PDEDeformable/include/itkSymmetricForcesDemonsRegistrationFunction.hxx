@@ -265,7 +265,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 
   // update the squared change value
   PointType newMappedCenterPoint;
-  bool      IsOutsideRegion = 0;
+  bool      IsOutsideRegion = false;
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if ( globalData )
@@ -274,7 +274,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
       newMappedCenterPoint[j] = mappedCenterPoint[j] + update[j];
       if ( index[j] < ( FirstIndex[j] + 2 ) || index[j] > ( LastIndex[j] - 3 ) )
         {
-        IsOutsideRegion = 1;
+        IsOutsideRegion = true;
         }
       }
     }
@@ -309,7 +309,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 {
   auto * globalData = (GlobalDataStruct *)gd;
 
-  m_MetricCalculationLock.Lock();
+  m_MetricCalculationLock.lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
@@ -320,7 +320,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
     m_RMSChange = std::sqrt( m_SumOfSquaredChange
                             / static_cast< double >( m_NumberOfPixelsProcessed ) );
     }
-  m_MetricCalculationLock.Unlock();
+  m_MetricCalculationLock.unlock();
 
   delete globalData;
 }

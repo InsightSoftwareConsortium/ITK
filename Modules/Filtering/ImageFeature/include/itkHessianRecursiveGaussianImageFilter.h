@@ -149,11 +149,11 @@ public:
 protected:
 
   HessianRecursiveGaussianImageFilter();
-  ~HessianRecursiveGaussianImageFilter() override {}
+  ~HessianRecursiveGaussianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output) override;

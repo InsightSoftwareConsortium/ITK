@@ -86,7 +86,6 @@ itkModifiedTimeTest.cxx
 itkMultipleLogOutputTest.cxx
 itkVectorTest.cxx
 itkImageTest.cxx
-itkConditionVariableTest.cxx
 itkPointSetTest.cxx
 itkBresenhamLineTest.cxx
 itkSparseFieldLayerTest.cxx
@@ -139,6 +138,7 @@ itkConstNeighborhoodIteratorTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
 itkMatrixTest.cxx
 itkAutoPointerTest.cxx
+itkBarrierTest.cxx
 itkNeighborhoodIteratorTest.cxx
 itkLoggerManagerTest.cxx
 itkBSplineInterpolationWeightFunctionTest.cxx
@@ -183,23 +183,15 @@ itkImageToImageToleranceTest.cxx
 itkImageRegionSplitterSlowDimensionTest.cxx
 itkImageRegionSplitterDirectionTest.cxx
 itkImageRegionSplitterMultidimensionalTest.cxx
-itkSimpleFastMutexLockTest.cxx
 itkMetaDataObjectTest.cxx
 # itkVectorMultiplyTest.cxx
 itkThreadPoolTest.cxx
-itkAtomicIntTest.cxx
 )
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon2Tests itkDownCastTest.cxx)
 endif()
-if(NOT ITK_LEGACY_REMOVE)
-  list(APPEND ITKCommon2Tests itkSpawnThreadTest.cxx)
-endif()
 
-# Notes:
-# (1) Tests are arbitrarly split into two drivers to avoid memory issues.
-# (2) itkFloatingPointExceptionsExtern.cxx is associated with the first driver.
-#     only because it is indeed to build itkFloatingPointExceptionsTest.
+# Note: Tests are arbitrarly split into two drivers to avoid memory issues.
 CreateTestDriver(ITKCommon1 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
 CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}" itkFloatingPointExceptionsExtern.cxx)
 
@@ -274,7 +266,6 @@ itk_add_test(NAME itkAutoPointerTest COMMAND ITKCommon2TestDriver itkAutoPointer
 if(NOT MINGW)
 itk_add_test(NAME itkBarrierTest COMMAND ITKCommon2TestDriver itkBarrierTest)
 itk_add_test(NAME itkBarrierTest107 COMMAND ITKCommon2TestDriver itkBarrierTest 107)
-itk_add_test(NAME itkConditionVariableTest COMMAND ITKCommon1TestDriver itkConditionVariableTest)
 endif()
 itk_add_test(NAME itkTimeStampTest COMMAND ITKCommon2TestDriver itkTimeStampTest)
 itk_add_test(NAME itkBoundingBoxTest COMMAND ITKCommon1TestDriver itkBoundingBoxTest)
@@ -385,11 +376,11 @@ itk_add_test(NAME itkMetaDataDictionaryTest COMMAND ITKCommon2TestDriver itkMeta
 itk_add_test(NAME itkMultiThreaderBaseTestPlatform
   COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
 set_tests_properties(itkMultiThreaderBaseTestPlatform
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Platform")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Platform")
 itk_add_test(NAME itkMultiThreaderBaseTestPool
   COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
 set_tests_properties(itkMultiThreaderBaseTestPool
-  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=Pool")
+  PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=Pool")
 itk_add_test(NAME itkMultiThreaderBaseTest3
   COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest 3) # test with 3 threads
 
@@ -407,7 +398,7 @@ if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
   itk_add_test(NAME itkMultiThreaderBaseTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderBaseTest)
   set_tests_properties(itkMultiThreaderBaseTestTBB
-    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THEADER=TBB")
+    PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_THREADER=TBB")
 
   itk_add_test(NAME itkMultiThreaderTypeFromEnvironmentTestTBB
     COMMAND ITKCommon2TestDriver itkMultiThreaderTypeFromEnvironmentTest TBB)
@@ -595,19 +586,9 @@ itk_add_test(NAME itkRegionSplitterSlowDimensionTest COMMAND ITKCommon2TestDrive
 itk_add_test(NAME itkRegionSplitterDirectionTest COMMAND ITKCommon2TestDriver itkImageRegionSplitterDirectionTest)
 itk_add_test(NAME itkRegionSplitterMultidimensionalTest COMMAND ITKCommon2TestDriver itkImageRegionSplitterMultidimensionalTest)
 
-itk_add_test(NAME itkSimpleFastMutexLockTest COMMAND ITKCommon2TestDriver itkSimpleFastMutexLockTest)
-# short timeout because failing test will hang and test is quite small
-set_tests_properties(itkSimpleFastMutexLockTest PROPERTIES TIMEOUT 60)
-
 itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaDataObjectTest)
 
 itk_add_test(NAME itkThreadPoolTest COMMAND ITKCommon2TestDriver itkThreadPoolTest 100)
-
-if(NOT ITK_LEGACY_REMOVE)
-  itk_add_test(NAME itkSpawnThreadTest COMMAND ITKCommon2TestDriver itkSpawnThreadTest 100)
-endif()
-
-itk_add_test(NAME itkAtomicIntTest COMMAND ITKCommon2TestDriver itkAtomicIntTest)
 
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   macro(BuildClientTestLibrary _name _type)
@@ -643,11 +624,15 @@ itk_python_expression_add_test(NAME itkObjectPythonTest EXPRESSION "itkObject = 
 itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
 
 set(ITKCommonGTests
-      itkAggregateTypesTest.cxx
-      itkBuildInformationTest.cxx
+      itkAggregateTypesGTest.cxx
+      itkBuildInformationGTest.cxx
       itkConnectedImageNeighborhoodShapeGTest.cxx
+      itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
       itkImageNeighborhoodOffsetsGTest.cxx
+      itkImageRangeGTest.cxx
+      itkIndexRangeGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSmartPointerGTest.cxx
+      itkCommonTypeTraitsGTest.cxx
 )
 CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")

@@ -37,9 +37,9 @@ namespace itk
  * of using integer pixel type.
  *
  * The total operation over one pixel will be
- * \code
- *  output_pixel = static_cast<OutputPixelType>( input1_pixel & input2_pixel )
- * \endcode
+   \code
+    output_pixel = static_cast<OutputPixelType>( input1_pixel & input2_pixel )
+   \endcode
  * Where "&" is the bitwise AND operator in C++.
  *
  * \ingroup IntensityImageFilters
@@ -91,7 +91,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~AndImageFilter() override {}
+  ~AndImageFilter() override = default;
 };
 } // end namespace itk
 

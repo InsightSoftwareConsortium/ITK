@@ -70,12 +70,12 @@ public:
   /** This method resets the estimator. It set all the parameters to null.
    * The covariance matrix is not changed.
    * \sa Estimator \sa Variance \sa ClearVariance */
-  void ClearEstimation(void)
+  void ClearEstimation()
   { m_Estimator = VectorType( T(0) ); }
 
   /** This method resets the covariance matrix. It is set to an identity matrix
    * \sa Estimator \sa Variance \sa ClearEstimation */
-  void ClearVariance(void)
+  void ClearVariance()
   {
     m_Variance.set_identity();
   }
@@ -102,12 +102,12 @@ public:
 
   /** This method returns the vector of estimated parameters
    * \sa Estimator */
-  const VectorType & GetEstimator(void) const
+  const VectorType & GetEstimator() const
   { return m_Estimator; }
 
   /** This method returns the covariance matrix of the estimated parameters
    * \sa Variance */
-  const MatrixType & GetVariance(void) const
+  const MatrixType & GetVariance() const
   { return m_Variance; }
 
 private:

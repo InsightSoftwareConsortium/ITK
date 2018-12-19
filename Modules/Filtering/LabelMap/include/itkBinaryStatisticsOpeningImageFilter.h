@@ -182,7 +182,7 @@ public:
 
 protected:
   BinaryStatisticsOpeningImageFilter();
-  ~BinaryStatisticsOpeningImageFilter() override {}
+  ~BinaryStatisticsOpeningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryStatisticsOpeningImageFilter needs the entire input to be available.

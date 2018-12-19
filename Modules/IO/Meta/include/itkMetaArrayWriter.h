@@ -160,16 +160,16 @@ protected:
 
 private:
 
-  bool          m_Binary;
+  bool          m_Binary{ false };
 
-  unsigned int  m_Precision;
+  unsigned int  m_Precision{ 6 };
 
   std::string   m_FileName;
   std::string   m_DataFileName;
 
   MetaArray     m_MetaArray;
 
-  const void   *m_Buffer;
+  const void   *m_Buffer{ nullptr };
 };
 } // namespace itk
 

@@ -164,7 +164,7 @@ public:
 
 protected:
   LabelVotingImageFilter();
-  ~LabelVotingImageFilter() override {}
+  ~LabelVotingImageFilter() override = default;
 
   /** Determine maximum label value in all input images and initialize
    * global data. */
@@ -180,8 +180,8 @@ protected:
 
 private:
   OutputPixelType m_LabelForUndecidedPixels;
-  bool            m_HasLabelForUndecidedPixels;
-  size_t          m_TotalLabelCount;
+  bool            m_HasLabelForUndecidedPixels{ false };
+  size_t          m_TotalLabelCount{ 0 };
 };
 } // end namespace itk
 

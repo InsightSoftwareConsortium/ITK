@@ -90,8 +90,8 @@ public:
   itkTypeMacro(ExpNegativeImageAdaptor, ImageAdaptor);
 
 protected:
-  ExpNegativeImageAdaptor() {}
-  ~ExpNegativeImageAdaptor() override {}
+  ExpNegativeImageAdaptor() = default;
+  ~ExpNegativeImageAdaptor() override = default;
 };
 } // end namespace itk
 

@@ -57,7 +57,7 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   unsigned int numberOfIterations = 10;
   if( argc >= 5 )
     {
-    numberOfIterations = atoi( argv[4] );
+    numberOfIterations = std::stoi( argv[4] );
     }
   std::cout << " iterations "<< numberOfIterations << std::endl;
 
@@ -114,7 +114,7 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->SetNumberOfHistogramBins(20);
   MetricType2::Pointer metric2 = MetricType2::New();
 
-  if( 0 )
+  if( false )
     {
     std::cout << "Dense sampling." << std::endl;
     metric->SetUseSampledPointSet( false );

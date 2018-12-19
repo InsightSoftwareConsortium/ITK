@@ -25,9 +25,7 @@ namespace itk
  *
  */
 ImageRegionSplitterMultidimensional
-::ImageRegionSplitterMultidimensional()
-{
-}
+::ImageRegionSplitterMultidimensional() = default;
 
 void
 ImageRegionSplitterMultidimensional

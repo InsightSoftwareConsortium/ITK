@@ -33,10 +33,10 @@ namespace itk
  * The input image's scalar pixel values are mapped into a color map.
  * The color map is specified by passing the SetColormap function one of the
  * predefined maps. The following selects the "Hot" colormap:
- * \code
- * RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
- * colormapImageFilter->SetColormap( RGBFilterType::Hot );
- * \endcode
+   \code
+   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
+   colormapImageFilter->SetColormap( RGBFilterType::Hot );
+   \endcode
  *
  * You can also specify a custom color map. This is done by creating
  * a CustomColormapFunction, and then creating lists of values for
@@ -44,16 +44,16 @@ namespace itk
  * of a colormap with only 2 colors is given below. The blue and green channels
  * should be specified in the same manner.
  *
- * \code
- * // Create the custom colormap
- * using ColormapType = itk::Function::CustomColormapFunction<RealImageType::PixelType,
- * RGBImageType::PixelType>;
- * ColormapType::Pointer colormap = ColormapType::New();
- * // Setup the red channel of the colormap
- * ColormapType::ChannelType redChannel;
- * redChannel.push_back(0); redChannel.push_back(255);
- * colormap->SetRedChannel( channel );
- * \endcode
+   \code
+   // Create the custom colormap
+   using ColormapType = itk::Function::CustomColormapFunction<RealImageType::PixelType,
+   RGBImageType::PixelType>;
+   ColormapType::Pointer colormap = ColormapType::New();
+   // Setup the red channel of the colormap
+   ColormapType::ChannelType redChannel;
+   redChannel.push_back(0); redChannel.push_back(255);
+   colormap->SetRedChannel( channel );
+   \endcode
  *
  * The range of values present in the input image is the range that is mapped to the entire
  * range of colors.
@@ -124,7 +124,7 @@ public:
 
 protected:
   ScalarToRGBColormapImageFilter();
-  ~ScalarToRGBColormapImageFilter() override {}
+  ~ScalarToRGBColormapImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

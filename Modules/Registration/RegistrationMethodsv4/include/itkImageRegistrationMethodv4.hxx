@@ -132,9 +132,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
-::~ImageRegistrationMethodv4()
-{
-}
+::~ImageRegistrationMethodv4() = default;
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void

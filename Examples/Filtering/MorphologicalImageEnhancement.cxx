@@ -90,7 +90,7 @@ int main( int argc, char * argv[] )
   // Create structuring element
   StructuringElementType  structuringElement;
   // (argv[3]+1) x (argv[3]+1) structuring element
-  structuringElement.SetRadius( atoi(argv[3]) );
+  structuringElement.SetRadius( std::stoi(argv[3]) );
   structuringElement.CreateStructuringElement();
 
   // Setup the input and output files

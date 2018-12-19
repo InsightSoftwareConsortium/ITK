@@ -122,12 +122,12 @@ public:
 
 protected:
   KappaStatisticImageToImageMetric();
-  ~KappaStatisticImageToImageMetric() override {}
+  ~KappaStatisticImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   RealType m_ForegroundValue;
-  bool     m_Complement;
+  bool     m_Complement{ false };
 };
 } // end namespace itk
 

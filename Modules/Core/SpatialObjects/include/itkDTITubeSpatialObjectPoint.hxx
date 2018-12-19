@@ -26,7 +26,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TPointDimension >
 DTITubeSpatialObjectPoint< TPointDimension >
-::DTITubeSpatialObjectPoint(void)
+::DTITubeSpatialObjectPoint()
 {
   // Initialize the tensor matrix to identity
   for (auto & i : m_TensorMatrix)
@@ -41,8 +41,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 DTITubeSpatialObjectPoint< TPointDimension >
-::~DTITubeSpatialObjectPoint(void)
-{}
+::~DTITubeSpatialObjectPoint() = default;
 
 template< unsigned int TPointDimension >
 void

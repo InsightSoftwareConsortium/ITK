@@ -128,7 +128,7 @@ public:
 
 protected:
   RegionalMaximaImageFilter();
-  ~RegionalMaximaImageFilter() override {}
+  ~RegionalMaximaImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** RegionalMaximaImageFilter needs the entire input be
@@ -144,8 +144,8 @@ protected:
   void GenerateData() override;
 
 private:
-  bool                 m_FullyConnected;
-  bool                 m_FlatIsMaxima;
+  bool                 m_FullyConnected{ false };
+  bool                 m_FlatIsMaxima{ true };
   OutputImagePixelType m_ForegroundValue;
   OutputImagePixelType m_BackgroundValue;
 }; // end of class

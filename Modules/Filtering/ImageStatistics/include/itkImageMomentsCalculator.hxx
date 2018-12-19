@@ -50,7 +50,7 @@ public:
 //----------------------------------------------------------------------
 // Construct without computing moments
 template< typename TImage >
-ImageMomentsCalculator< TImage >::ImageMomentsCalculator(void)
+ImageMomentsCalculator< TImage >::ImageMomentsCalculator()
 {
   m_Valid = false;
   m_Image = nullptr;
@@ -68,8 +68,7 @@ ImageMomentsCalculator< TImage >::ImageMomentsCalculator(void)
 // Destructor
 template< typename TImage >
 ImageMomentsCalculator< TImage >::
-~ImageMomentsCalculator()
-{}
+~ImageMomentsCalculator() = default;
 
 template< typename TInputImage >
 void
@@ -302,7 +301,7 @@ ImageMomentsCalculator< TImage >::GetPrincipalAxes() const
 // Get principal axes to physical axes transform
 template< typename TImage >
 typename ImageMomentsCalculator< TImage >::AffineTransformPointer
-ImageMomentsCalculator< TImage >::GetPrincipalAxesToPhysicalAxesTransform(void) const
+ImageMomentsCalculator< TImage >::GetPrincipalAxesToPhysicalAxesTransform() const
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;
@@ -328,7 +327,7 @@ ImageMomentsCalculator< TImage >::GetPrincipalAxesToPhysicalAxesTransform(void) 
 
 template< typename TImage >
 typename ImageMomentsCalculator< TImage >::AffineTransformPointer
-ImageMomentsCalculator< TImage >::GetPhysicalAxesToPrincipalAxesTransform(void) const
+ImageMomentsCalculator< TImage >::GetPhysicalAxesToPrincipalAxesTransform() const
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;

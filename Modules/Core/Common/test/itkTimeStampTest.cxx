@@ -29,7 +29,7 @@ typedef struct {
   std::vector<unsigned long> counters;
 } TimeStampTestHelper;
 
-ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION modified_function( void *ptr )
 {
   using ThreadInfoType = itk::MultiThreaderBase::WorkUnitInfo;
 
@@ -42,7 +42,7 @@ ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
   helper->timestamps[threadId].Modified();
   helper->counters[threadId]++;
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 int itkTimeStampTest(int, char*[])
@@ -55,13 +55,13 @@ int itkTimeStampTest(int, char*[])
 
     // Set up the multithreader
     itk::MultiThreaderBase::Pointer multithreader = itk::MultiThreaderBase::New();
-    multithreader->SetNumberOfWorkUnits( ITK_MAX_THREADS+10 );// this will be clamped
+    multithreader->SetNumberOfWorkUnits( itk::ITK_MAX_THREADS+10 );// this will be clamped
     multithreader->SetSingleMethod( modified_function, &helper);
 
     // Test that the number of threads has actually been clamped
     const itk::ThreadIdType numberOfThreads = multithreader->GetMaximumNumberOfThreads();
 
-    if( numberOfThreads > ITK_MAX_THREADS )
+    if( numberOfThreads > itk::ITK_MAX_THREADS )
       {
       std::cerr << "[TEST FAILED]" << std::endl;
       std::cerr << "numberOfThreads > ITK_MAX_THREADS" << std::endl;

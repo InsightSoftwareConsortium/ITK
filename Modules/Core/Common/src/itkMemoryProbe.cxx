@@ -25,12 +25,11 @@ MemoryProbe
 {}
 
 MemoryProbe
-::~MemoryProbe()
-{}
+::~MemoryProbe() = default;
 
 MemoryProbe::MemoryLoadType
 MemoryProbe
-::GetInstantValue(void) const
+::GetInstantValue() const
 {
   return static_cast< MemoryProbe::MemoryLoadType >( m_MemoryObserver.GetMemoryUsage() );
 }

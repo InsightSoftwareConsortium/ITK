@@ -69,7 +69,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
@@ -170,7 +170,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 7 )
     {
-    numberOfBins = atoi( argv[7] );
+    numberOfBins = std::stoi( argv[7] );
     }
 
 
@@ -452,7 +452,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 4 )
     {
-    defaultPixelValue = atoi( argv[4] );
+    defaultPixelValue = std::stoi( argv[4] );
     }
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );

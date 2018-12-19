@@ -172,7 +172,7 @@ protected:
   }
 
 private:
-  bool m_InPlace;
+  bool m_InPlace{true};
 };
 } // end namespace itk
 

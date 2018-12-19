@@ -560,9 +560,9 @@ public:
   Self & operator=(TValue const & v);
 
   /** Return the number of elements in the Array  */
-  unsigned int Size(void) const { return m_NumElements; }
-  unsigned int GetSize(void) const { return m_NumElements; }
-  unsigned int GetNumberOfElements(void) const { return m_NumElements; }
+  unsigned int Size() const { return m_NumElements; }
+  unsigned int GetSize() const { return m_NumElements; }
+  unsigned int GetNumberOfElements() const { return m_NumElements; }
 
   /** Return reference to the element at specified index. No range checking. */
   TValue       & operator[](unsigned int i) { return this->m_Data[i]; }
@@ -915,10 +915,10 @@ public:
   bool IsAProxy() const { return ! m_LetArrayManageMemory;}
 
 private:
-  bool              m_LetArrayManageMemory; // if true, the array is responsible
+  bool              m_LetArrayManageMemory{true}; // if true, the array is responsible
                                             // for memory of data
   TValue *          m_Data;                 // Array to hold data
-  ElementIdentifier m_NumElements;
+  ElementIdentifier m_NumElements{0};
 };
 
 /// \cond HIDE_META_PROGRAMMING

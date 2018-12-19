@@ -90,7 +90,7 @@ public:
 
 protected:
   RealToHalfHermitianForwardFFTImageFilter();
-  ~RealToHalfHermitianForwardFFTImageFilter() override {}
+  ~RealToHalfHermitianForwardFFTImageFilter() override = default;
 
   /** The output is a different size from the input because of
    * Hermitian symmetry. */

@@ -256,7 +256,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
 template< typename TFixedImage, typename TMovingImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::ThreaderCallback(void *arg)
 {
@@ -284,7 +284,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   //   few threads idle.
   //   }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**

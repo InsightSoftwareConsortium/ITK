@@ -165,7 +165,7 @@ int main( int argc, char *argv[] )
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[6] ) );
+    metric->SetUseExplicitPDFDerivatives( std::stoi( argv[6] ) );
     }
 
 
@@ -203,8 +203,8 @@ int main( int argc, char *argv[] )
 
   if( argc > 5 )
     {
-    initialParameters[0] = atof( argv[4] );
-    initialParameters[1] = atof( argv[5] );
+    initialParameters[0] = std::stod( argv[4] );
+    initialParameters[1] = std::stod( argv[5] );
     }
 
   registration->SetInitialTransformParameters( initialParameters  );

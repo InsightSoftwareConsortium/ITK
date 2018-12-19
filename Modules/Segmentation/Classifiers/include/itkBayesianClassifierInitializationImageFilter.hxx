@@ -37,9 +37,8 @@ namespace itk
 {
 template< typename TInputImage, typename TProbabilityPrecisionType >
 BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionType >
-::BayesianClassifierInitializationImageFilter():
-  m_UserSuppliesMembershipFunctions(false),
-  m_NumberOfClasses(0)
+::BayesianClassifierInitializationImageFilter()
+
 {
   m_MembershipFunctionContainer = nullptr;
 }

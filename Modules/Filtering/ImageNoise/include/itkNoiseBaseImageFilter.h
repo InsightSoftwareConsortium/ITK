@@ -19,9 +19,6 @@
 #define itkNoiseBaseImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include <vcl_ctime.h>
-#endif
 #include <ctime>
 
 namespace itk
@@ -80,7 +77,7 @@ protected:
   static OutputImagePixelType ClampCast(const double &value);
 
 private:
-  uint32_t m_Seed;
+  uint32_t m_Seed{0};
 
 };
 } // end namespace itk

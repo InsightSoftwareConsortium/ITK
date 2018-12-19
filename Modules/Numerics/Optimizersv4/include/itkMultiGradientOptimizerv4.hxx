@@ -26,8 +26,8 @@ namespace itk
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 MultiGradientOptimizerv4Template<TInternalComputationValueType>
-::MultiGradientOptimizerv4Template():
-  m_Stop(false)
+::MultiGradientOptimizerv4Template()
+
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
   this->m_StopCondition      = Superclass::MAXIMUM_NUMBER_OF_ITERATIONS;
@@ -40,9 +40,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 MultiGradientOptimizerv4Template<TInternalComputationValueType>
-::~MultiGradientOptimizerv4Template()
-{
-}
+::~MultiGradientOptimizerv4Template() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
@@ -99,7 +97,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro( "StopOptimization called with a description - "
                 << this->GetStopConditionDescription() );

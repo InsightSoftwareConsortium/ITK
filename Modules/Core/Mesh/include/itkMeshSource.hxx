@@ -58,7 +58,7 @@ MeshSource< TOutputMesh >
 template< typename TOutputMesh >
 typename MeshSource< TOutputMesh >::OutputMeshType *
 MeshSource< TOutputMesh >
-::GetOutput(void)
+::GetOutput()
 {
   return itkDynamicCastInDebugMode< TOutputMesh * >( this->GetPrimaryOutput() );
 }

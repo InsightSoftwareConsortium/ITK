@@ -135,7 +135,7 @@ public:
   ImageConstIteratorWithOnlyIndex(const TImage *ptr,const RegionType & region);
 
   /** Default Destructor. */
-  virtual ~ImageConstIteratorWithOnlyIndex() {};
+  virtual ~ImageConstIteratorWithOnlyIndex() = default;
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -233,13 +233,13 @@ public:
   void GoToReverseBegin();
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtReverseEnd(void) const
+  bool IsAtReverseEnd() const
   {
     return !m_Remaining;
   }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd(void) const
+  bool IsAtEnd() const
   {
     return !m_Remaining;
   }

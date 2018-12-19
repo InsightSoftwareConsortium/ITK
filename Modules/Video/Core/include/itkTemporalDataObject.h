@@ -113,7 +113,7 @@ protected:
   TemporalRegionType m_RequestedTemporalRegion;
   TemporalRegionType m_BufferedTemporalRegion;
 
-  TemporalUnitType m_TemporalUnit;
+  TemporalUnitType m_TemporalUnit{Frame};
 };  // end class TemporalDataObject
 
 } // end namespace itk

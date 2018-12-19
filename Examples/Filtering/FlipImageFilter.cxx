@@ -126,8 +126,8 @@ int main( int argc, char * argv[] )
 
   FlipAxesArrayType flipArray;
 
-  flipArray[0] = atoi( argv[3] );
-  flipArray[1] = atoi( argv[4] );
+  flipArray[0] = std::stoi( argv[3] );
+  flipArray[1] = std::stoi( argv[4] );
 
   filter->SetFlipAxes( flipArray );
   // Software Guide : EndCodeSnippet

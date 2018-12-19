@@ -61,7 +61,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 PolygonCell< TCellInterface >
-::GetDimension(void) const
+::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -73,7 +73,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 unsigned int
 PolygonCell< TCellInterface >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   return static_cast< unsigned int >( m_PointIds.size() );
 }
@@ -166,7 +166,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 void
 PolygonCell< TCellInterface >
-::BuildEdges(void)
+::BuildEdges()
 {
   if ( m_PointIds.size() > 0 )
     {
@@ -237,7 +237,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 void
 PolygonCell< TCellInterface >
-::ClearPoints(void)
+::ClearPoints()
 {
   m_PointIds.clear();
   m_Edges.clear();
@@ -289,7 +289,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
-::PointIdsBegin(void)
+::PointIdsBegin()
 {
   if ( m_PointIds.size() > 0 )
     {
@@ -309,7 +309,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
-::PointIdsBegin(void) const
+::PointIdsBegin() const
 {
   if ( m_PointIds.size() > 0 )
     {
@@ -328,7 +328,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
-::PointIdsEnd(void)
+::PointIdsEnd()
 {
   if ( m_PointIds.size() > 0 )
     {
@@ -348,7 +348,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
-::PointIdsEnd(void) const
+::PointIdsEnd() const
 {
   if ( m_PointIds.size() > 0 )
     {
@@ -367,7 +367,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 typename PolygonCell< TCellInterface >::CellFeatureCount
 PolygonCell< TCellInterface >
-::GetNumberOfVertices(void) const
+::GetNumberOfVertices() const
 {
   return static_cast< CellFeatureCount >( m_PointIds.size() );
 }
@@ -379,7 +379,7 @@ PolygonCell< TCellInterface >
 template< typename TCellInterface >
 typename PolygonCell< TCellInterface >::CellFeatureCount
 PolygonCell< TCellInterface >
-::GetNumberOfEdges(void) const
+::GetNumberOfEdges() const
 {
   return static_cast< CellFeatureCount >( m_Edges.size() );
 }

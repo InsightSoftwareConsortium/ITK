@@ -85,7 +85,7 @@ int itkQuadEdgeMeshAddFaceTest1( int argc, char* argv[] )
     pid[i] = mesh->AddPoint( points[i] );
     }
 
-  int test_type = atoi( argv[1] );
+  int test_type = std::stoi( argv[1] );
   if( test_type == 0 )
     {
 

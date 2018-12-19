@@ -155,7 +155,7 @@ public:
 
     /** Method for creation through the object factory. */
     // itkNewMacro(Self);
-    static Pointer New(void)
+    static Pointer New()
       {
         Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 
@@ -172,7 +172,7 @@ public:
 
     /** CreateAnother method will clone the existing instance of this type,
      * including its internal member variables. */
-    ::itk::LightObject::Pointer CreateAnother(void) const override;
+    ::itk::LightObject::Pointer CreateAnother() const override;
 
     /**
      * Floating point precision type.
@@ -203,7 +203,7 @@ public:
      * Return a reference to a vector that contains coordinates
      * of this node.
      */
-    const VectorType & GetCoordinates(void) const
+    const VectorType & GetCoordinates() const
       {
         return m_coordinates;
       }
@@ -240,7 +240,7 @@ public:
         m_dof[i] = dof;
       }
 
-    virtual void ClearDegreesOfFreedom(void) const;
+    virtual void ClearDegreesOfFreedom() const;
 
   public:
     /**
@@ -413,7 +413,7 @@ public:
    *
    * \sa SetMaterial
    */
-  virtual Material::ConstPointer GetMaterial(void) const;
+  virtual Material::ConstPointer GetMaterial() const;
 
   /**
    * Set the pointer to the Material object used by the element.
@@ -513,7 +513,7 @@ public:
   /**
    * Return the total number of nodes in an elememnt.
    */
-  virtual unsigned int GetNumberOfNodes(void) const = 0;
+  virtual unsigned int GetNumberOfNodes() const = 0;
 
   /**
    * Returns the ID (pointer) of n-th node in an element.
@@ -654,12 +654,12 @@ public:
    * element class. By default this is equal to number of points in a cell
    * multiplied by number of degrees of freedom at each point.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedom(void) const;
+  virtual unsigned int GetNumberOfDegreesOfFreedom() const;
 
   /**
    * Access the edge ids vector. The vector in turn contains a list of edge ids.
    */
-  virtual std::vector<std::vector<int> > GetEdgeIds(void) const;
+  virtual std::vector<std::vector<int> > GetEdgeIds() const;
 
   /**
    * Return the number of degrees of freedom at each node. This is also
@@ -668,10 +668,10 @@ public:
    *
    * \note This function must be overriden in all derived classes.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const = 0;
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode() const = 0;
 
   /** Set the edge order and the points defining each edge */
-  virtual void PopulateEdgeIds(void) = 0;
+  virtual void PopulateEdgeIds() = 0;
 
 protected:
 

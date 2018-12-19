@@ -88,7 +88,7 @@ public:
 
 protected:
   StatisticsKeepNObjectsLabelMapFilter();
-  ~StatisticsKeepNObjectsLabelMapFilter() override {}
+  ~StatisticsKeepNObjectsLabelMapFilter() override = default;
 
   void GenerateData() override;
 };                                                    // end of class

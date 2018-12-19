@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_lbfgs.h
 #ifndef vnl_lbfgs_h_
 #define vnl_lbfgs_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Limited memory Broyden Fletcher Goldfarb Shannon minimization

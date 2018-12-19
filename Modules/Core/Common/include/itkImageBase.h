@@ -39,12 +39,7 @@
 #include "itkFloatTypes.h"
 
 #include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_matrix_fixed.txx" // Get the templates
-#else
 #include "vnl/vnl_matrix_fixed.hxx" // Get the templates
-#endif
-
 
 namespace itk
 {
@@ -634,10 +629,10 @@ public:
    * Filters that override the ProcessObject's GenerateOutputInformation()
    * should generally have the following line if they want to propagate meta-
    * data for both Image and VectorImage
-   * \code
-   * outputImage->SetNumberOfComponentsPerPixel(
-   *    inputImage->GetNumberOfComponentsPerPixel() )
-   * \endcode
+     \code
+     outputImage->SetNumberOfComponentsPerPixel(
+        inputImage->GetNumberOfComponentsPerPixel() )
+     \endcode
    *
    * \sa ImageBase, VectorImage
    *

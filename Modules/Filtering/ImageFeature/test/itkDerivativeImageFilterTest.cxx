@@ -58,8 +58,8 @@ int itkDerivativeImageFilterTest(int argc, char *argv [] )
   FilterType::Pointer filter = FilterType::New();
 
   // setup the filter
-  filter->SetOrder(     atoi( argv[3] ) );
-  filter->SetDirection( atoi( argv[4] ) );
+  filter->SetOrder(     std::stoi( argv[3] ) );
+  filter->SetDirection( std::stoi( argv[4] ) );
 
   itk::SimpleFilterWatcher watcher(filter, "Derivative");
 

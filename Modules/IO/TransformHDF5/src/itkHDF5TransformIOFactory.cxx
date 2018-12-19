@@ -30,21 +30,20 @@ HDF5TransformIOFactory::HDF5TransformIOFactory()
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkHDF5TransformIO",
                           "HD5 Transform float IO",
-                          1,
+                          true,
                           CreateObjectFunction< HDF5TransformIOTemplate< float > >::New() );
 
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkHDF5TransformIO",
                           "HD5 Transform double IO",
-                          1,
+                          true,
                           CreateObjectFunction< HDF5TransformIOTemplate< double > >::New() );
 }
 
-HDF5TransformIOFactory::~HDF5TransformIOFactory()
-{}
+HDF5TransformIOFactory::~HDF5TransformIOFactory() = default;
 
 const char *
-HDF5TransformIOFactory::GetITKSourceVersion(void) const
+HDF5TransformIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -60,7 +59,7 @@ HDF5TransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool HDF5TransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformHDF5_EXPORT HDF5TransformIOFactoryRegister__Private(void)
+void ITKIOTransformHDF5_EXPORT HDF5TransformIOFactoryRegister__Private()
 {
   if( ! HDF5TransformIOFactoryHasBeenRegistered )
     {

@@ -26,7 +26,7 @@ DCMTKImageIOFactory::DCMTKImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkDCMTKImageIO",
                           "DICOM Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< DCMTKImageIO >::New() );
 }
 
@@ -34,7 +34,7 @@ DCMTKImageIOFactory::~DCMTKImageIOFactory()
 {}
 
 const char *
-DCMTKImageIOFactory::GetITKSourceVersion(void) const
+DCMTKImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +50,7 @@ DCMTKImageIOFactory::GetDescription() const
 
 static bool DCMTKImageIOFactoryHasBeenRegistered;
 
-void ITKIODCMTK_EXPORT DCMTKImageIOFactoryRegister__Private(void)
+void ITKIODCMTK_EXPORT DCMTKImageIOFactoryRegister__Private()
 {
   if( ! DCMTKImageIOFactoryHasBeenRegistered )
     {

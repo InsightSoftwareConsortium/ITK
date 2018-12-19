@@ -116,7 +116,7 @@ public:
   { m_MovingImageInterpolator = ptr; }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator(void)
+  InterpolatorType * GetMovingImageInterpolator()
   { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
@@ -147,7 +147,7 @@ public:
 
 protected:
   MeanSquareRegistrationFunction();
-  ~MeanSquareRegistrationFunction() override {}
+  ~MeanSquareRegistrationFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */

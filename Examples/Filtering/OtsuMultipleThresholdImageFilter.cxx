@@ -120,8 +120,10 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   scalarImageToHistogramGenerator->SetNumberOfBins( 128 );
-  calculator->SetNumberOfThresholds( atoi( argv[4] ) );
+  calculator->SetNumberOfThresholds( std::stoi( argv[4] ) );
   // Software Guide : EndCodeSnippet
+
+  calculator->SetReturnBinMidpoint( true ); //regression test requires this
 
   constexpr OutputPixelType outsideValue  = 0;
   constexpr OutputPixelType insideValue  = 255;

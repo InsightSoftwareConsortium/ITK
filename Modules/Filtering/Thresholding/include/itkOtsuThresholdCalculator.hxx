@@ -26,12 +26,13 @@ namespace itk
 template< typename THistogram, typename TOutput >
 void
 OtsuThresholdCalculator< THistogram, TOutput >
-::GenerateData(void)
+::GenerateData()
 {
   this->UpdateProgress(0.0);
   // Compute the Otsu threshold using the OtsuMultipleThresholdsCalculator to ensure code reusability.
   m_OtsuMultipleThresholdsCalculator->SetInputHistogram( this->GetInput() );
   m_OtsuMultipleThresholdsCalculator->SetNumberOfThresholds( 1 );
+  m_OtsuMultipleThresholdsCalculator->SetReturnBinMidpoint( m_ReturnBinMidpoint );
   m_OtsuMultipleThresholdsCalculator->Compute();
   this->GetOutput()->Set( static_cast<OutputType>( m_OtsuMultipleThresholdsCalculator->GetOutput()[0] ) );
   this->UpdateProgress(1.0);

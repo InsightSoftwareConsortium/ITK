@@ -25,7 +25,7 @@ namespace Statistics
 
 // Static/Global variables
 MersenneTwisterRandomVariateGenerator::Pointer MersenneTwisterRandomVariateGenerator::m_StaticInstance = nullptr;
-SimpleFastMutexLock MersenneTwisterRandomVariateGenerator::m_StaticInstanceLock;
+std::recursive_mutex MersenneTwisterRandomVariateGenerator::m_StaticInstanceLock;
 MersenneTwisterRandomVariateGenerator::IntegerType MersenneTwisterRandomVariateGenerator::m_StaticDiffer = 0;
 
 MersenneTwisterRandomVariateGenerator::Pointer
@@ -61,7 +61,7 @@ MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator
 ::GetInstance()
 {
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
+  std::lock_guard< std::recursive_mutex > mutexHolder( m_StaticInstanceLock );
 
   if ( !m_StaticInstance )
     {
@@ -79,7 +79,7 @@ MersenneTwisterRandomVariateGenerator
 }
 
 MersenneTwisterRandomVariateGenerator
-::~MersenneTwisterRandomVariateGenerator() {}
+::~MersenneTwisterRandomVariateGenerator() = default;
 
 MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator
@@ -108,7 +108,7 @@ MersenneTwisterRandomVariateGenerator
     h2 += p[j];
     }
   // lock for m_StaticDiffer
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
+  std::lock_guard< std::recursive_mutex > mutexHolder( m_StaticInstanceLock );
   return ( h1 + m_StaticDiffer++ ) ^ h2;
 }
 
@@ -118,7 +118,7 @@ MersenneTwisterRandomVariateGenerator
 {
   IntegerType newSeed = GetInstance()->GetSeed();
   {
-    MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
+    std::lock_guard< std::recursive_mutex > mutexHolder( m_StaticInstanceLock );
     newSeed += m_StaticDiffer++;
   }
   return newSeed;

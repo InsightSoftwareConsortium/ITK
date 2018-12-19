@@ -121,14 +121,14 @@ public:
 
 protected:
   SaltAndPepperNoiseImageFilter();
-  ~SaltAndPepperNoiseImageFilter() override {}
+  ~SaltAndPepperNoiseImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  double               m_Probability;
+  double               m_Probability{ 0.01 };
   OutputImagePixelType m_SaltValue;
   OutputImagePixelType m_PepperValue;
 

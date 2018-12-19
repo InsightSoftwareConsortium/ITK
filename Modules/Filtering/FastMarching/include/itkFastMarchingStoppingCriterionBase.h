@@ -79,7 +79,7 @@ public:
   }
 
   /** Destructor */
-  ~FastMarchingStoppingCriterionBase() override {}
+  ~FastMarchingStoppingCriterionBase() override = default;
 
   OutputDomainPointer m_Domain;
 

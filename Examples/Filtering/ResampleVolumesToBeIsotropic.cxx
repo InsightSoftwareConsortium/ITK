@@ -211,8 +211,8 @@ int main( int argc, char * argv[] )
 
   IntensityFilterType::Pointer intensityWindowing = IntensityFilterType::New();
 
-  intensityWindowing->SetWindowMinimum( atoi( argv[3] ) );
-  intensityWindowing->SetWindowMaximum( atoi( argv[4] ) );
+  intensityWindowing->SetWindowMinimum( std::stoi( argv[3] ) );
+  intensityWindowing->SetWindowMaximum( std::stoi( argv[4] ) );
 
   intensityWindowing->SetOutputMinimum(   0.0 );
   intensityWindowing->SetOutputMaximum( 255.0 ); // floats but in the range of chars.

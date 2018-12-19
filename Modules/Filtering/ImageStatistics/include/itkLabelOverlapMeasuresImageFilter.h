@@ -132,11 +132,11 @@ public:
   { this->SetNthInput( 1, const_cast<LabelImageType *>( image ) ); }
 
   /** Get the source image. */
-  const LabelImageType * GetSourceImage( void )
+  const LabelImageType * GetSourceImage()
   { return this->GetInput( 0 ); }
 
   /** Get the target image. */
-  const LabelImageType * GetTargetImage( void )
+  const LabelImageType * GetTargetImage()
   { return this->GetInput( 1 ); }
 
   /** Get the label set measures. */
@@ -202,7 +202,7 @@ public:
 
 protected:
   LabelOverlapMeasuresImageFilter();
-  ~LabelOverlapMeasuresImageFilter() override {};
+  ~LabelOverlapMeasuresImageFilter() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /**

@@ -144,7 +144,7 @@ public:
 
 protected:
   MaskedMovingHistogramImageFilter();
-  ~MaskedMovingHistogramImageFilter() override {}
+  ~MaskedMovingHistogramImageFilter() override = default;
 
   /** Multi-thread version GenerateData. */
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

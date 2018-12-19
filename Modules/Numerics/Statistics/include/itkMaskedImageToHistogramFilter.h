@@ -82,10 +82,10 @@ public:
 
 protected:
   MaskedImageToHistogramFilter();
-  ~MaskedImageToHistogramFilter() override {}
+  ~MaskedImageToHistogramFilter() override = default;
 
-  void ThreadedGenerateData( const RegionType & inputRegionForThread, ThreadIdType threadId ) override;
-  void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId ) override;
+  void ThreadedComputeHistogram( const RegionType & inputRegionForThread ) override;
+  void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread) override;
 };
 } // end of namespace Statistics
 } // end of namespace itk

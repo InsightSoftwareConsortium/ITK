@@ -188,7 +188,7 @@ public:
   void StartOptimization( bool doOnlyInitialization = false ) override;
 
   /** Stop the optimization. */
-  void StopOptimization(void) override;
+  void StopOptimization() override;
 
   /** Resume the optimization. */
   void ResumeOptimization() override;
@@ -225,7 +225,7 @@ protected:
   MeasureType                   m_CurrentBestValue;
   ParametersType                m_BestParameters;
 
-  bool                          m_ReturnBestParametersAndValue;
+  bool                          m_ReturnBestParametersAndValue{ false };
 
   /** Store the previous gradient value at each iteration,
    * so we can detect the changes in gradient direction.

@@ -108,7 +108,7 @@ private:
   TransformPointer                m_Transform;
 
   MeshSizeType                    m_TransformDomainMeshSize;
-  bool                            m_SetTransformDomainMeshSizeViaInitializer;
+  bool                            m_SetTransformDomainMeshSizeViaInitializer{ false };
 
 }; //class BSplineTransformInitializer
 }  // namespace itk

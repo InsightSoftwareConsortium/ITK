@@ -131,8 +131,8 @@ protected:
   void GenerateData() override;
 
 private:
-  SmoothingQuadEdgeMeshFilter(const Self &);
-  void operator=(const Self &);
+  SmoothingQuadEdgeMeshFilter(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 }
 

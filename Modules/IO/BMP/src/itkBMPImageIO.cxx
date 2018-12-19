@@ -24,13 +24,7 @@ namespace itk
 {
 /** Constructor */
 BMPImageIO::BMPImageIO() :
-  m_BitMapOffset( 0 ),
-  m_FileLowerLeft( 0 ),
-  m_Depth( 8 ),
-  m_NumberOfColors( 0 ),
-  m_ColorPaletteSize( 0 ),
-  m_BMPCompression( 0 ),
-  m_BMPDataSize( 0 ),
+
   m_ColorPalette( 0 ) // palette has no element by default
 {
   this->SetNumberOfDimensions( 2 );
@@ -45,16 +39,20 @@ BMPImageIO::BMPImageIO() :
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  this->AddSupportedWriteExtension(".bmp");
-  this->AddSupportedWriteExtension(".BMP");
+  const char *extensions[] =
+    {
+      ".bmp",".BMP",
+    };
 
-  this->AddSupportedReadExtension(".bmp");
-  this->AddSupportedReadExtension(".BMP");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 /** Destructor */
-BMPImageIO::~BMPImageIO()
-{}
+BMPImageIO::~BMPImageIO() = default;
 
 bool BMPImageIO::CanReadFile(const char *filename)
 {
@@ -66,20 +64,8 @@ bool BMPImageIO::CanReadFile(const char *filename)
     itkDebugMacro(<< "No filename specified.");
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type BMPPos = fname.rfind(".bmp");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
 
-  BMPPos = fname.rfind(".BMP");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedReadExtension(filename, false);
 
   if ( !extensionFound )
     {
@@ -172,20 +158,7 @@ bool BMPImageIO::CanWriteFile(const char *name)
     itkDebugMacro(<< "No filename specified.");
     }
 
-  bool                   extensionFound = false;
-  std::string::size_type BMPPos = filename.rfind(".bmp");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
-
-  BMPPos = filename.rfind(".BMP");
-  if ( ( BMPPos != std::string::npos )
-       && ( BMPPos == filename.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
+  bool extensionFound = this->HasSupportedWriteExtension(name, false);
 
   if ( !extensionFound )
     {
@@ -484,11 +457,11 @@ void BMPImageIO::ReadImageInformation()
   if ( ysize < 0 )
     {
     ysize = -ysize;
-    m_FileLowerLeft = 0;
+    m_FileLowerLeft = false;
     }
   else
     {
-    m_FileLowerLeft = 1;
+    m_FileLowerLeft = true;
     }
 
   this->SetNumberOfDimensions(2);
@@ -738,7 +711,7 @@ BMPImageIO
 
 void
 BMPImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {}
 
 /** The write function is not implemented */

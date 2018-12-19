@@ -109,7 +109,7 @@ public:
 
 protected:
   MorphologicalWatershedImageFilter();
-  ~MorphologicalWatershedImageFilter() override {}
+  ~MorphologicalWatershedImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MorphologicalWatershedImageFilter needs the entire input be
@@ -125,9 +125,9 @@ protected:
   void GenerateData() override;
 
 private:
-  bool m_FullyConnected;
+  bool m_FullyConnected{ false };
 
-  bool m_MarkWatershedLine;
+  bool m_MarkWatershedLine{ true };
 
   InputImagePixelType m_Level;
 }; // end of class

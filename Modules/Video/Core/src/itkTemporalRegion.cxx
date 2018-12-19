@@ -26,9 +26,8 @@ namespace itk
 TemporalRegion
 ::TemporalRegion()
   : m_RealStart(),
-    m_RealDuration(0,0),
-    m_FrameStart(0),
-    m_FrameDuration(0)
+    m_RealDuration(0,0)
+
 {
 }
 
@@ -36,9 +35,7 @@ TemporalRegion
 // Destructor
 //
 TemporalRegion
-::~TemporalRegion()
-{
-}
+::~TemporalRegion() = default;
 
 // ---------------------------------------------------------------------------
 void

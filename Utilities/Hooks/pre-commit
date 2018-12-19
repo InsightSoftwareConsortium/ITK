@@ -29,65 +29,9 @@ die() {
   exit 1
 }
 
-ExternalData_stage_linked_content() {
-  # Identify the hash algorithm used.
-  case "$file" in
-    *.md5) algo=MD5 ; base="${file/.md5}" ; validate="^[0-9a-fA-F]{32}$" ;;
-    *) die "$file: invalid content link (unrecognized extension)" ;;
-  esac
-
-  # Load and validate the hash stored in the staged blob.
-  hash=$(git cat-file blob $dst_obj) || hash=""
-  echo "$hash" | egrep-q "$validate" ||
-  die "$file: invalid content link (does not match '$validate')"
-
-  # Reject simultaneous raw file and content link.
-  files=$(git ls-files -- "$base")
-  if test -n "$files"; then
-    die "$file: content link may not coexist with $files"
-  fi
-
-  # Find the content referenced by the link.
-  staged="$(dirname "$file")/.ExternalData_${algo}_${hash}"
-  stored="${ExternalData_STORE}/$algo/$hash"
-  ref="refs/data/$algo/$hash"
-  obj=$(git rev-parse --verify -q "$ref") || obj=""
-  if test -z "$obj" -a -f "$staged"; then
-    # Content is staged by the ExternalData module.  Store it in Git.
-    obj=$(git hash-object -w -- "$staged") ||
-    die "$file: git hash-object failed to load $staged"
-    git update-ref "$ref" "$obj" "" ||
-    die "$file: git update-ref failed to create $ref = $obj"
-    echo "$file: Added content to Git at $ref"
-  fi
-
-  # Move staged object to local store if it is in Git.
-  if test -f "$staged" && test -n "$obj"; then
-    mkdir -p "${stored%/*}" &&
-    mv -n "$staged" "$stored" &&
-    rm -f "$staged" &&
-    echo "$file: Added content to local store at $stored"
-  fi
-
-  # Report destination of content link.
-  if test -f "$stored"; then
-    echo "Content link $file -> $stored"
-  else
-    echo "Content link $file -> (object not in local store)"
-  fi
-}
-
-ExternalData_non_content_link() {
-  # Reject simultaneous raw file and content link.
-  files=$(git ls-files -- "$file.md5")
-  if test -n "$files"; then
-    die "$file: file may not coexist with $files"
-  fi
-}
-
 #-----------------------------------------------------------------------------
 
-# Check that developmer setup is up-to-date.
+# Check that developer setup is up-to-date.
 lastSetupForDevelopment=$(git config --get hooks.SetupForDevelopment || echo 0)
 eval $(grep '^SetupForDevelopment_VERSION=' "${BASH_SOURCE%/*}/../SetupForDevelopment.sh")
 top_level_dir=$(git rev-parse --show-toplevel)
@@ -98,90 +42,6 @@ if test $lastSetupForDevelopment -lt $SetupForDevelopment_VERSION; then
   \"$top_level_dir/Utilities/SetupForDevelopment.sh\"
 "
 fi
-
-#-----------------------------------------------------------------------------
-
-# Local ExternalData object repository.
-ExternalData_STORE=".ExternalData"
-
-# Process content links created by/for the CMake ExternalData module.
-git diff-index --cached HEAD --diff-filter=A |
-while read src_mode dst_mode src_obj dst_obj status file; do
-  if echo "$dst_mode $file" | egrep-q '^100644 .*\.(md5)$'; then
-    ExternalData_stage_linked_content
-  else
-    ExternalData_non_content_link
-  fi
-done || exit 1
-
-git diff-index --cached HEAD --diff-filter=M |
-while read src_mode dst_mode src_obj dst_obj status file; do
-  if echo "$dst_mode $file" | egrep-q '^100644 .*\.(md5)$'; then
-    if ! git diff-index --cached HEAD --diff-filter=DM -- "${file/.md5}".sha512 | egrep-q '\.(sha512)$'; then
-      if git ls-tree -r HEAD~1 --name-only | grep "${file/.md5}".sha512; then # sha512 exists in git tree
-          die "The $file content link was updated without
-updating its .sha512 counterpart. Please run
-
-  cd \"$top_level_dir\"
-  git rm -- ${file/.md5}.sha512
-"
-      fi
-    fi
-    ExternalData_stage_linked_content
-  elif echo "$dst_mode $file" | egrep-q '^100644 .*\.(sha512)$'; then
-    if ! git diff-index --cached HEAD --diff-filter=DM -- "${file/.sha512}".md5 | egrep-q '\.(md5)$'; then
-      die "The $file content link was updated without
-updating its .md5 counterpart. Please run
-
-  cd \"$top_level_dir\"
-  git rm -- ${file/.sha512}.md5
-"
-    fi
-    ExternalData_non_content_link
-  else
-    ExternalData_non_content_link
-  fi
-done || exit 1
-
-#-----------------------------------------------------------------------------
-
-validate_migration_xml_with_xmllint() {
-  dtd='Documentation/Migration/ITKMigration.dtd' &&
-  changes=$(git diff-files -- "$1" "$dtd") &&
-  if test -n "$changes"; then
-    die "Cannot validate '$1' against '$dtd' with work tree changes."
-  fi &&
-  if ! out=$("$xmllint" --dtdvalid "$dtd" --noout "$1" 2>&1); then
-    die "$out"
-  fi
-}
-
-# Validate migration guide xml files.
-files=$(git diff-index --cached HEAD --diff-filter=AM -- Documentation/Migration) &&
-if test -n "$files"; then
-  validate=$(git config --get --bool hooks.ValidateMigrationXML || echo true) &&
-  if test "$validate" = "true"; then
-    xmllint=$(git config hooks.xmllint.path || type -p xmllint || true) &&
-    if test -z "$xmllint"; then
-      die 'Cannot validate Documentation/Migration files without xmllint.
-Install xmllint in the PATH or configure its location:
-
-  git config hooks.xmllint.path "/path/to/xmllint"
-
-Alternatively, disable this check:
-
-  git config hooks.ValidateMigrationXML false
-
-and manually validate the xml files at "http://validator.w3.org/".'
-    fi &&
-    echo "$files" |
-    while read src_mode dst_mode src_obj dst_obj status file; do
-      if echo "$file" | egrep-q '\.xml$'; then
-        validate_migration_xml_with_xmllint "$file"
-      fi
-    done
-  fi
-fi || exit
 
 #-----------------------------------------------------------------------------
 # Check files added by commit

@@ -42,9 +42,9 @@ int itkTileImageFilterTest(int argc, char *argv[] )
     }
 
   itk::FixedArray<unsigned int,3> layout;
-  layout[0] = atoi(argv[1]);
-  layout[1] = atoi(argv[2]);
-  layout[2] = atoi(argv[3]);
+  layout[0] = std::stoi(argv[1]);
+  layout[1] = std::stoi(argv[2]);
+  layout[2] = std::stoi(argv[3]);
 
   // Tile the input images
   TilerType::Pointer tiler = TilerType::New();

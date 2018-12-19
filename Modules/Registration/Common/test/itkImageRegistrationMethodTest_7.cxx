@@ -129,12 +129,12 @@ int itkImageRegistrationMethodTest_7(int argc, char* argv[] )
     }
   if( argc > 2 )
     {
-    translationScale = atof( argv[2] );
+    translationScale = std::stod( argv[2] );
     std::cout << "translationScale = " << translationScale << std::endl;
     }
   if( argc > 3 )
     {
-    learningRate = atof( argv[3] );
+    learningRate = std::stod( argv[3] );
     std::cout << "learningRate = " << learningRate << std::endl;
     }
   for( unsigned int i=0; i<dimension; i++)

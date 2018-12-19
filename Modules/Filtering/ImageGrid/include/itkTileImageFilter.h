@@ -94,9 +94,9 @@ public:
   class TileInfo
   {
 public:
-    int                   m_ImageNumber;
+    int                   m_ImageNumber{-1};
     OutputImageRegionType m_Region;
-    TileInfo():m_ImageNumber(-1) {}
+    TileInfo() {}
   };
 
   using TileImageType = Image< TileInfo, Self::OutputImageDimension >;
@@ -131,7 +131,7 @@ public:
 
 protected:
   TileImageFilter();
-  // ~TileImageFilter(){} default implementation ok
+  ~TileImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -146,7 +146,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
 private:
   typename TileImageType::Pointer m_TileImage;

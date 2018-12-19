@@ -36,7 +36,7 @@
 //  then vnl_convolve_cyclic() is applied.
 //
 template <class T1, class T2, class U>
-VNL_TEMPLATE_EXPORT
+VNL_EXPORT
 vnl_vector<U>
 vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
              U*, int use_fft = 0);
@@ -49,7 +49,7 @@ vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
 //
 //  \relatesalso vnl_vector
 template <class T>
-VNL_TEMPLATE_EXPORT
+VNL_EXPORT
 vnl_vector<T>
 vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
              int use_fft = 0);
@@ -74,7 +74,7 @@ vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
 //  \relatesalso vnl_vector
 
 template <class T1, class T2, class U>
-VNL_TEMPLATE_EXPORT
+VNL_EXPORT
 vnl_vector<U>
 vnl_convolve_cyclic(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
                     U*, bool use_fft = false);

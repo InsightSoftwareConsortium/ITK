@@ -24,8 +24,6 @@
 // \author Peter Vanroose, KULeuven/ESAT.
 // \date 20 September 2003
 
-#include <vcl_compiler.h>
-
 #include <vnl/algo/vnl_adjugate.h>
 #include <vnl/algo/vnl_conjugate_gradient.h>
 #include <vnl/algo/vnl_discrete_diff.h>
@@ -88,9 +86,9 @@ class F_test_powell : public vnl_cost_function
  public:
   // Local min near (0,0) is at (1,1) and has value 1.
   F_test_powell() : vnl_cost_function(2) {}
-  double f(vnl_vector<double> const& x)
+  double f(vnl_vector<double> const& x) override
     { double u=x[0]-x[1]*x[1], v=x[1]-1; return u*u+v*v+1; }
-  void gradf(vnl_vector<double> const& x, vnl_vector<double>& g)
+  void gradf(vnl_vector<double> const& x, vnl_vector<double>& g) override
     { g[0]=2*x[0]-2*x[1]*x[1]; g[1]=4*x[1]*x[1]*x[1]-4*x[0]*x[1]+2*x[1]-2; }
 };
 
@@ -99,11 +97,11 @@ class F_broken : public vnl_cost_function
 {
  public:
   F_broken() : vnl_cost_function(1) {}
-  double f(vnl_vector<double> const& )
+  double f(vnl_vector<double> const& ) override
   {
     return 0;
   }
-  void gradf(vnl_vector<double> const& , vnl_vector<double>& gradient)
+  void gradf(vnl_vector<double> const& , vnl_vector<double>& gradient) override
   {
     gradient[0] = 1;
   }
@@ -159,7 +157,7 @@ class F_test_discrete_diff : public vnl_least_squares_function
 {
  public:
   F_test_discrete_diff(): vnl_least_squares_function(2, 2, no_gradient) {}
-  void f(vnl_vector<double> const& x, vnl_vector<double>& fx) { fx[0]=x[0]-x[1]*x[1]; fx[1]=x[1]-1; }
+  void f(vnl_vector<double> const& x, vnl_vector<double>& fx) override { fx[0]=x[0]-x[1]*x[1]; fx[1]=x[1]-1; }
 };
 
 static void test_discrete_diff()

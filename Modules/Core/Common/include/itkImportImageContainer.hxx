@@ -102,7 +102,7 @@ ImportImageContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 void
 ImportImageContainer< TElementIdentifier, TElement >
-::Squeeze(void)
+::Squeeze()
 {
   if ( m_ImportPointer )
     {
@@ -133,7 +133,7 @@ ImportImageContainer< TElementIdentifier, TElement >
 template< typename TElementIdentifier, typename TElement >
 void
 ImportImageContainer< TElementIdentifier, TElement >
-::Initialize(void)
+::Initialize()
 {
   if ( m_ImportPointer )
     {

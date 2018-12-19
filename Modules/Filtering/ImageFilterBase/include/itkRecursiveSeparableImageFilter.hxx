@@ -47,8 +47,8 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   m_BM1( 0.0 ),
   m_BM2( 0.0 ),
   m_BM3( 0.0 ),
-  m_BM4( 0.0 ),
-  m_Direction( 0 )
+  m_BM4( 0.0 )
+
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
@@ -75,7 +75,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::GetInputImage(void)
+::GetInputImage()
 {
   return dynamic_cast< const TInputImage * >(
            ( ProcessObject::GetInput(0) ) );

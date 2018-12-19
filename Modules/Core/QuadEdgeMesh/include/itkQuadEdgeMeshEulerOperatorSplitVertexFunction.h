@@ -75,7 +75,7 @@ protected:
     m_NewPoint = (PointIdentifier)0;
   }
 
-  ~QuadEdgeMeshEulerOperatorSplitVertexFunction() override {}
+  ~QuadEdgeMeshEulerOperatorSplitVertexFunction() override = default;
 
 private:
   PointIdentifier m_NewPoint; // stock newly created point ID for user.

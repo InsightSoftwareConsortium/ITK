@@ -141,7 +141,7 @@ int main(int argc, char * argv [] )
 
   if( argc > 3 )
     {
-    const float sigma = atof( argv[3] );
+    const float sigma = std::stod( argv[3] );
     ga->SetSigma( sigma );
     gb->SetSigma( sigma );
     gc->SetSigma( sigma );

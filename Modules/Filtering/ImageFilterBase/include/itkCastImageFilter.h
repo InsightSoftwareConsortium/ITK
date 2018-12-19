@@ -36,8 +36,8 @@ template< typename TInput, typename TOutput >
 class ITK_TEMPLATE_EXPORT Cast
 {
 public:
-  Cast() {}
-  virtual ~Cast() {}
+  Cast() = default;
+  virtual ~Cast() = default;
   bool operator!=(const Cast &) const
   {
     return false;
@@ -64,22 +64,22 @@ public:
  * and the output image type.
  *
  * A typical use is to cast a
- * \code
- * itk::Image<type1, dim>
- * \endcode
+   \code
+   itk::Image<type1, dim>
+   \endcode
  * to a
- * \code
- * itk::Image<type2, dim>
- * \endcode
+   \code
+   itk::Image<type2, dim>
+   \endcode
  *
  * This filter can also be used to cast a
- * \code
- * itk::VectorImage<type1, dim>
- * \endcode
+   \code
+   itk::VectorImage<type1, dim>
+   \endcode
  * to a
- * \code
- * itk::VectorImage<type2, dim>
- * \endcode
+   \code
+   itk::VectorImage<type2, dim>
+   \endcode
  *
  * If you need to perform a dimensionaly reduction, you may want
  * to use the ExtractImageFilter instead of the CastImageFilter.

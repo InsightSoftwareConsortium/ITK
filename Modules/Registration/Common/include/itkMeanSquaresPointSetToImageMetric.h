@@ -89,7 +89,7 @@ public:
 
 protected:
   MeanSquaresPointSetToImageMetric();
-  ~MeanSquaresPointSetToImageMetric() override {}
+  ~MeanSquaresPointSetToImageMetric() override = default;
 };
 } // end namespace itk
 

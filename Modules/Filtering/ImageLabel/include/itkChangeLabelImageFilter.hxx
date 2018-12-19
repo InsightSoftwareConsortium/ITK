@@ -37,8 +37,7 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage >
 ChangeLabelImageFilter< TInputImage, TOutputImage >
-::ChangeLabelImageFilter()
-{}
+::ChangeLabelImageFilter() = default;
 
 /**
  *

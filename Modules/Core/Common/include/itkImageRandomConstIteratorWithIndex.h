@@ -43,35 +43,35 @@ namespace itk
  *
  * This is the typical use of this iterator in a loop:
  *
- * \code
- *
- * ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetNumberOfSamples(200);
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   it.Get();
- *   ++it;  // here it jumps to another random position inside the region
- *  }
- *
- *  \endcode
+   \code
+
+   ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetNumberOfSamples(200);
+   it.GoToBegin();
+   while( !it.IsAtEnd() )
+   {
+     it.Get();
+     ++it;  // here it jumps to another random position inside the region
+    }
+
+    \endcode
  *
  * or
  *
- * \code
- *
- * ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetNumberOfSamples(200);
- * it.GoToEnd();
- * while( !it.IsAtBegin() )
- * {
- *   it.Get();
- *   --it;  // here it jumps to another random position inside the region
- *  }
- *
- *  \endcode
+   \code
+
+   ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetNumberOfSamples(200);
+   it.GoToEnd();
+   while( !it.IsAtBegin() )
+   {
+     it.Get();
+     --it;  // here it jumps to another random position inside the region
+    }
+
+    \endcode
  *
  * \warning Incrementing the iterator (++it) followed by a decrement (--it)
  * or vice versa does not in general return the iterator to the same position.
@@ -137,7 +137,7 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomConstIteratorWithIndex();
-  ~ImageRandomConstIteratorWithIndex() override {}
+  ~ImageRandomConstIteratorWithIndex() override = default;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
@@ -155,27 +155,27 @@ public:
   }
 
   /** Move an iterator to the beginning of the region. */
-  void GoToBegin(void)
+  void GoToBegin()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = 0L;
   }
 
   /** Move an iterator to one position past the End of the region. */
-  void GoToEnd(void)
+  void GoToEnd()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = m_NumberOfSamplesRequested;
   }
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtBegin(void) const
+  bool IsAtBegin() const
   {
     return ( m_NumberOfSamplesDone == 0L );
   }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd(void) const
+  bool IsAtEnd() const
   {
     return ( m_NumberOfSamplesDone >= m_NumberOfSamplesRequested );
   }

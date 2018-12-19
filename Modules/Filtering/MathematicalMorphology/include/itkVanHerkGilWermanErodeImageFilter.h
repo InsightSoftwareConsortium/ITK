@@ -28,8 +28,8 @@ template< typename TPixel >
 class MinFunctor
 {
 public:
-  MinFunctor(){}
-  ~MinFunctor(){}
+  MinFunctor()= default;
+  ~MinFunctor()= default;
   inline TPixel operator()(const TPixel & A, const TPixel & B) const
   {
     return std::min(A, B);
@@ -65,7 +65,7 @@ protected:
   {
     this->m_Boundary = NumericTraits< PixelType >::max();
   }
-  ~VanHerkGilWermanErodeImageFilter() override {}
+  ~VanHerkGilWermanErodeImageFilter() override = default;
 
 private:
 

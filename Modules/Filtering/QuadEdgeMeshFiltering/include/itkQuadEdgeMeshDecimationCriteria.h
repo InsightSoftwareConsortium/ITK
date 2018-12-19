@@ -79,7 +79,7 @@ protected:
     this->m_MeasureBound = itk::NumericTraits< MeasureType >::ZeroValue();
   }
 
-  ~QuadEdgeMeshDecimationCriterion() override {}
+  ~QuadEdgeMeshDecimationCriterion() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
@@ -105,8 +105,8 @@ protected:
   MeasureType m_MeasureBound;
 
 private:
-  QuadEdgeMeshDecimationCriterion(const Self &);
-  void operator=(const Self &);
+  QuadEdgeMeshDecimationCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -151,12 +151,12 @@ public:
   }
 
 protected:
-  NumberOfPointsCriterion() {}
-  ~NumberOfPointsCriterion() {}
+  NumberOfPointsCriterion() = default;
+  ~NumberOfPointsCriterion() = default;
 
 private:
-  NumberOfPointsCriterion(const Self &);
-  void operator=(const Self &);
+  NumberOfPointsCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -202,12 +202,12 @@ public:
   }
 
 protected:
-  NumberOfFacesCriterion() {}
-  ~NumberOfFacesCriterion() override {}
+  NumberOfFacesCriterion() = default;
+  ~NumberOfFacesCriterion() override = default;
 
 private:
-  NumberOfFacesCriterion(const Self &);
-  void operator=(const Self &);
+  NumberOfFacesCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -254,11 +254,11 @@ public:
 
 protected:
   MaxMeasureBoundCriterion():Superclass() {}
-  ~MaxMeasureBoundCriterion() override {}
+  ~MaxMeasureBoundCriterion() override = default;
 
 private:
-  MaxMeasureBoundCriterion(const Self &);
-  void operator=(const Self &);
+  MaxMeasureBoundCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 
 /**
@@ -304,12 +304,12 @@ public:
   }
 
 protected:
-  MinMeasureBoundCriterion() {}
-  ~MinMeasureBoundCriterion() {}
+  MinMeasureBoundCriterion() = default;
+  ~MinMeasureBoundCriterion() = default;
 
 private:
-  MinMeasureBoundCriterion(const Self &);
-  void operator=(const Self &);
+  MinMeasureBoundCriterion(const Self &) = delete;
+  void operator=(const Self &) = delete;
 };
 }
 

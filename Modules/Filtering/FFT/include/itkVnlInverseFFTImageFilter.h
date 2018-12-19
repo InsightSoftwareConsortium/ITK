@@ -88,8 +88,8 @@ public:
 #endif
 
 protected:
-  VnlInverseFFTImageFilter()  {}
-  ~VnlInverseFFTImageFilter() override {}
+  VnlInverseFFTImageFilter()  = default;
+  ~VnlInverseFFTImageFilter() override = default;
 
   void GenerateData() override;  // generates output from input
 

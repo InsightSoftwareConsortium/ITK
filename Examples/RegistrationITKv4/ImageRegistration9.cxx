@@ -31,7 +31,7 @@
 // for performing registration in $2D$. The example code is, for the most part,
 // identical to that in \ref{sec:InitializingRegistrationWithMoments}.
 // The main difference is the use of the AffineTransform here instead of the
-// \doxygen{CenteredRigid2DTransform}. We will focus on the most
+// \doxygen{Euler2DTransform}. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
 // explained in previous examples.
 //
@@ -82,7 +82,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
@@ -263,7 +263,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 8 )
     {
-    translationScale = atof( argv[8] );
+    translationScale = std::stod( argv[8] );
     }
 
 
@@ -297,7 +297,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 6 )
     {
-    steplength = atof( argv[6] );
+    steplength = std::stod( argv[6] );
     }
 
 
@@ -305,7 +305,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 7 )
     {
-    maxNumberOfIterations = atoi( argv[7] );
+    maxNumberOfIterations = std::stoi( argv[7] );
     }
 
 

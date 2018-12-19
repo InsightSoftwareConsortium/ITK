@@ -23,7 +23,7 @@
 class MetaDummy : public MetaObject
 {
 public:
-  MetaDummy(unsigned int dims = 3) : m_Value(0.0)
+  MetaDummy(unsigned int dims = 3)
     {
       strcpy(m_ObjectTypeName,"Dummy");
       m_NDims = dims;
@@ -32,7 +32,7 @@ public:
   void SetValue(float val) { m_Value = val; }
 
 protected:
-  void M_SetupReadFields(void) override
+  void M_SetupReadFields() override
     {
       MetaObject::M_SetupReadFields();
       auto * mf = new MET_FieldRecordType;
@@ -40,7 +40,7 @@ protected:
       mf->terminateRead = false;
       m_Fields.push_back(mf);
     }
-  void M_SetupWriteFields(void) override
+  void M_SetupWriteFields() override
     {
       strcpy(m_ObjectTypeName,"Dummy");
       MetaObject::M_SetupWriteFields();
@@ -49,7 +49,7 @@ protected:
       MET_InitWriteField(mf, "Value", MET_FLOAT, m_Value);
       m_Fields.push_back(mf);
     }
-  bool M_Read(void) override
+  bool M_Read() override
     {
       if(!MetaObject::M_Read())
         {
@@ -65,7 +65,7 @@ protected:
     }
 
 private:
-  float m_Value;
+  float m_Value{0.0};
 };
 
 namespace itk
@@ -98,7 +98,7 @@ public:
     }
 
 protected:
-  DummySpatialObject() : m_Value(0.0)
+  DummySpatialObject()
     {
       this->SetDimension(TDimension);
       this->SetTypeName ("DummySpatialObject");
@@ -107,10 +107,10 @@ protected:
       this->GetProperty()->SetBlue(0);
       this->GetProperty()->SetAlpha(1);
     }
-  ~DummySpatialObject() override {}
+  ~DummySpatialObject() override = default;
 
 private:
-  float m_Value;
+  float m_Value{0.0};
 };
 
 /** \class MetaConverterBase
@@ -195,8 +195,8 @@ protected:
     return dynamic_cast<MetaObjectType *>(new DummyMetaObjectType);
   }
 
-  MetaDummyConverter() {}
-  ~MetaDummyConverter() override {}
+  MetaDummyConverter() = default;
+  ~MetaDummyConverter() override = default;
 };
 
 }

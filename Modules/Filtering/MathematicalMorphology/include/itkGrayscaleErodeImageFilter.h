@@ -131,7 +131,7 @@ public:
 
 protected:
   GrayscaleErodeImageFilter();
-  ~GrayscaleErodeImageFilter() override {}
+  ~GrayscaleErodeImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

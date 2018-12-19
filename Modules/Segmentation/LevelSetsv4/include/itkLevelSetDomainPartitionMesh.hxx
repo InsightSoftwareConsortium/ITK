@@ -24,15 +24,11 @@ namespace itk
 {
 template< typename TMesh >
 LevelSetDomainPartitionMesh <TMesh>
-::LevelSetDomainPartitionMesh()
-{
-}
+::LevelSetDomainPartitionMesh() = default;
 
 template< typename TMesh >
 LevelSetDomainPartitionMesh <TMesh>
-::~LevelSetDomainPartitionMesh()
-{
-}
+::~LevelSetDomainPartitionMesh() = default;
 
 template< typename TMesh >
 void

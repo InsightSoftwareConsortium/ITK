@@ -87,13 +87,13 @@ public:
   /** A shape is defined by a set of shape parameters. */
   virtual void SetParameters(const ParametersType &) = 0;
 
-  virtual ParametersType & GetParameters(void)
+  virtual ParametersType & GetParameters()
   { return m_Parameters; }
-  virtual unsigned int GetNumberOfShapeParameters(void) const = 0;
+  virtual unsigned int GetNumberOfShapeParameters() const = 0;
 
-  virtual unsigned int GetNumberOfPoseParameters(void) const = 0;
+  virtual unsigned int GetNumberOfPoseParameters() const = 0;
 
-  virtual unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters() const
   { return this->GetNumberOfShapeParameters() + this->GetNumberOfPoseParameters(); }
 
   /** Evaluate the signed distance from a shape at a given position. */
@@ -105,9 +105,9 @@ public:
 
 protected:
 
-  ShapeSignedDistanceFunction() {}
+  ShapeSignedDistanceFunction() = default;
 
-  ~ShapeSignedDistanceFunction() override {}
+  ~ShapeSignedDistanceFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

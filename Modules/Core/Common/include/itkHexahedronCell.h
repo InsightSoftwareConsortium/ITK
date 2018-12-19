@@ -24,9 +24,9 @@
 namespace itk
 {
 /** \class HexahedronCell
- *  \brief Represents a hexahedron for a Mesh.
+ *  \brief Represents a hexahedron (cuboid) for a Mesh.
  *
- * HexahedronCell represents a hexahedron for a Mesh.
+ * HexahedronCell represents a hexahedron, more precisely, a cuboid, for a Mesh.
  *
  * \tparam TPixelType The type associated with a point, cell, or boundary
  * for use in storing its data.
@@ -73,13 +73,13 @@ public:
   static constexpr unsigned int CellDimension = 3;
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType(void) const override
+  CellGeometry GetType() const override
   { return Superclass::HEXAHEDRON_CELL; }
   void MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension(void) const override;
+  unsigned int GetDimension() const override;
 
-  unsigned int GetNumberOfPoints(void) const override;
+  unsigned int GetNumberOfPoints() const override;
 
   CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
@@ -89,13 +89,13 @@ public:
   void SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
   void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin(void) override;
+  PointIdIterator      PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin(void) const override;
+  PointIdConstIterator PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd(void) override;
+  PointIdIterator      PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd(void) const override;
+  PointIdConstIterator PointIdsEnd() const override;
 
   /** Hexahedron-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;
@@ -123,10 +123,14 @@ protected:
   /** Store the number of points needed for a hexahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
-  void InterpolationDerivs(CoordRepType pcoords[3], CoordRepType derivs[24]);
-  void InterpolationFunctions(CoordRepType pcoords[3], InterpolationWeightType sf[8]);
-  void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[3],
-                        CoordRepType x[3], InterpolationWeightType * weights);
+  void
+  InterpolationDerivs( CoordRepType pcoords[Self::CellDimension],
+                       CoordRepType derivs[Self::CellDimension * Self::NumberOfPoints] );
+  void
+  InterpolationFunctions( CoordRepType pcoords[Self::CellDimension], InterpolationWeightType sf[Self::NumberOfPoints] );
+  void
+  EvaluateLocation( int& itkNotUsed( subId ), PointsContainer* points, CoordRepType pcoords[Self::CellDimension],
+                    CoordRepType x[Self::CellDimension], InterpolationWeightType* weights );
 
 public:
   HexahedronCell()
@@ -137,7 +141,7 @@ public:
       }
   }
 
-  ~HexahedronCell() override {}
+  ~HexahedronCell() override = default;
 };
 } // end namespace itk
 

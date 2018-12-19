@@ -15,5 +15,5 @@ For more information, see::
   http://insight-journal.org/browse/publication/972
 "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPerformanceBenchmarking.git
-  GIT_TAG 2438846aefc08b29dc4746b3f99333255289aa24
+  GIT_TAG 2c2fc8cbe7f3283f2d595c11771fd145cf753e7d
   )

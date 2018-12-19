@@ -24,7 +24,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 
 namespace itk
@@ -162,7 +162,7 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  void Initialize(void) override;
+  void Initialize() override;
 
   /**  Get the value. */
   MeasureType GetValue(const ParametersType & parameters) const override;
@@ -291,15 +291,15 @@ private:
                                                                movingImageGradientValue) const override;
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType m_NumberOfHistogramBins;
-  PDFValueType  m_MovingImageNormalizedMin;
-  PDFValueType  m_FixedImageNormalizedMin;
-  PDFValueType  m_FixedImageTrueMin;
-  PDFValueType  m_FixedImageTrueMax;
-  PDFValueType  m_MovingImageTrueMin;
-  PDFValueType  m_MovingImageTrueMax;
-  PDFValueType  m_FixedImageBinSize;
-  PDFValueType  m_MovingImageBinSize;
+  SizeValueType m_NumberOfHistogramBins{50};
+  PDFValueType  m_MovingImageNormalizedMin{0.0};
+  PDFValueType  m_FixedImageNormalizedMin{0.0};
+  PDFValueType  m_FixedImageTrueMin{0.0};
+  PDFValueType  m_FixedImageTrueMax{0.0};
+  PDFValueType  m_MovingImageTrueMin{0.0};
+  PDFValueType  m_MovingImageTrueMax{0.0};
+  PDFValueType  m_FixedImageBinSize{0.0};
+  PDFValueType  m_MovingImageBinSize{0.0};
 
   /** Cubic BSpline kernel for computing Parzen histograms. */
   typename CubicBSplineFunctionType::Pointer           m_CubicBSplineKernel;
@@ -347,8 +347,8 @@ private:
   mutable AlignedMMIMetricPerThreadStruct * m_MMIMetricPerThreadVariables;
 #endif
 
-  bool         m_UseExplicitPDFDerivatives;
-  mutable bool m_ImplicitDerivativesSecondPass;
+  bool         m_UseExplicitPDFDerivatives{true};
+  mutable bool m_ImplicitDerivativesSecondPass{false};
 };
 } // end namespace itk
 

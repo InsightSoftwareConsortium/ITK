@@ -26,20 +26,14 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
-::VoronoiSegmentationImageFilter() :
-  m_Mean( 0.0 ),
-  m_STD( 0.0 ),
-  m_MeanTolerance( 0.0 ),
-  m_STDTolerance( 0.0 ),
-  m_MeanPercentError( 0.10 ),
-  m_STDPercentError( 1.5 )
+::VoronoiSegmentationImageFilter()
+
 {
 }
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
-::~VoronoiSegmentationImageFilter()
-{}
+::~VoronoiSegmentationImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
@@ -102,11 +96,11 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
   if ( ( savemean > -m_MeanTolerance ) && ( savemean < m_MeanTolerance )
        && ( saveSTD < m_STDTolerance ) )
     {
-    return 1;
+    return true;
     }
   else
     {
-    return 0;
+    return false;
     }
 }
 
@@ -129,7 +123,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 
   unsigned int i, j;
   unsigned int minx = 0, miny = 0, maxx = 0, maxy = 0;
-  bool         status = 0;
+  bool         status = false;
   for ( i = 0; i < this->m_Size[1]; i++ )
     {
     for ( j = 0; j < this->m_Size[0]; j++ )
@@ -140,7 +134,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
         minx = j;
         maxy = i;
         maxx = j;
-        status = 1;
+        status = true;
         }
       else if ( ( status == 1 ) && ( ait.Get() ) )
         {

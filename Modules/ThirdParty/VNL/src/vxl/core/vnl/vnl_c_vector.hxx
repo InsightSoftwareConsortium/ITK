@@ -11,7 +11,7 @@
 #include <cmath>
 #include <new>
 #include "vnl_c_vector.h"
-#include <vcl_cassert.h>
+#include <cassert>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex_traits.h>
 #include <vnl/vnl_numeric_traits.h>
@@ -296,20 +296,13 @@ T vnl_c_vector<T>::sum_sq_diff_means(T const* v, unsigned n)
 template <class T, class S>
 void vnl_c_vector_two_norm_squared(T const *p, unsigned n, S *out)
 {
-#if 1
   // IMS: MSVC's optimiser does much better with *p++ than with p[i];
   // consistently about 30% better over vectors from 4 to 20000 dimensions.
-  // PVr: with gcc 3.0 on alpha this is even a factor 3 faster!
   S val = S(0);
   T const* end = p+n;
   while (p != end)
     val += S(vnl_math::squared_magnitude(*p++));
   *out = val;
-#else
-  *out = 0;
-  for (unsigned i=0; i<n; ++i)
-    *out += vnl_math::squared_magnitude(p[i]);
-#endif
 }
 
 template <class T, class S>
@@ -378,7 +371,9 @@ void vnl_c_vector<T>::deallocate(T** v, const std::size_t n)
 }
 
 // "T *" is POD, but "T" might not be.
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 template <class T> inline void vnl_c_vector_construct(T *p, std::size_t n)
 {
   for (std::size_t i=0; i<n; ++i)
@@ -446,10 +441,10 @@ template VNL_EXPORT std::ostream& print_vector(std::ostream &,T const *,unsigned
 
 #undef VNL_C_VECTOR_INSTANTIATE_unordered
 #define VNL_C_VECTOR_INSTANTIATE_unordered(T) \
-VCL_DO_NOT_INSTANTIATE(T vnl_c_vector<T >::max_value(T const *, unsigned), T(0)); \
-VCL_DO_NOT_INSTANTIATE(T vnl_c_vector<T >::min_value(T const *, unsigned), T(0)); \
-VCL_DO_NOT_INSTANTIATE(unsigned vnl_c_vector<T >::arg_max(T const *, unsigned), 0U); \
-VCL_DO_NOT_INSTANTIATE(unsigned vnl_c_vector<T >::arg_min(T const *, unsigned), 0U); \
+template <> T vnl_c_vector<T >::max_value(T const *, unsigned) { return T(0); } \
+template <> T vnl_c_vector<T >::min_value(T const *, unsigned) { return T(0); } \
+template <> unsigned vnl_c_vector<T >::arg_max(T const *, unsigned) { return  0U; } \
+template <> unsigned vnl_c_vector<T >::arg_min(T const *, unsigned) { return  0U; } \
 template class vnl_c_vector<T >; \
 VNL_C_VECTOR_INSTANTIATE_norm(T, vnl_c_vector<T >::abs_t);
 

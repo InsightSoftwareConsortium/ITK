@@ -62,7 +62,7 @@ int itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char* argv [] )
 
   // Create the marker image for erosion
   shiftDilate->SetInput( reader->GetOutput());
-  shiftDilate->SetShift( -1 * atoi(argv[3]) );
+  shiftDilate->SetShift( -1 * std::stoi(argv[3]) );
 
   // Dilate
   dilate->SetMarkerImage ( shiftDilate-> GetOutput() );
@@ -71,7 +71,7 @@ int itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char* argv [] )
 
   // Create the marker image for erode
   shiftErode->SetInput( dilate->GetOutput());
-  shiftErode->SetShift( atoi(argv[3]) );
+  shiftErode->SetShift( std::stoi(argv[3]) );
 
   // Erode
   erode->SetMarkerImage ( shiftErode->GetOutput() );

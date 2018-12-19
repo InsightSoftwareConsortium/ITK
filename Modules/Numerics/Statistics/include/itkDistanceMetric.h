@@ -131,7 +131,7 @@ public:
 
 protected:
   DistanceMetric();
-  ~DistanceMetric() override {}
+  ~DistanceMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

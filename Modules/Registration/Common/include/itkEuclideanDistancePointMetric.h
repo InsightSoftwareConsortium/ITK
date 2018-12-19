@@ -113,13 +113,13 @@ public:
 
 protected:
   EuclideanDistancePointMetric();
-  ~EuclideanDistancePointMetric() override {}
+  ~EuclideanDistancePointMetric() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   DistanceMapPointer m_DistanceMap;
-  bool               m_ComputeSquaredDistance;
+  bool               m_ComputeSquaredDistance{ false };
 };
 } // end namespace itk
 

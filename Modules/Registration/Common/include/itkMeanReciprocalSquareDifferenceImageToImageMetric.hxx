@@ -62,9 +62,6 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
     itkExceptionMacro(<< "Fixed image has not been assigned");
     }
 
-  const unsigned int              dimension = FixedImageType::ImageDimension;
-  itk::Point< double, dimension > Point;
-
   double MovingValue;
   double FixedValue;
 

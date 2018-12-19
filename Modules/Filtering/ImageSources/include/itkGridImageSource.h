@@ -122,7 +122,7 @@ public:
 
 protected:
   GridImageSource();
-  // ~GridImageSource(){} default implementation ok
+  ~GridImageSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
@@ -144,7 +144,7 @@ private:
 
   BoolArrayType m_WhichDimensions;
 
-  RealType m_Scale;
+  RealType m_Scale{ 255.0 };
 };
 } // end namespace itk
 

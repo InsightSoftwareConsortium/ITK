@@ -55,11 +55,11 @@ public:
   /** Return the number of parameters required to compute
    *  this cost function.
    *  This method MUST be overloaded by derived classes. */
-  virtual unsigned int GetNumberOfParameters(void) const  = 0;
+  virtual unsigned int GetNumberOfParameters() const  = 0;
 
 protected:
-  CostFunctionTemplate() {}
-  ~CostFunctionTemplate() override {}
+  CostFunctionTemplate() = default;
+  ~CostFunctionTemplate() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 

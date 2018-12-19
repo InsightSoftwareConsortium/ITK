@@ -83,7 +83,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother(void) const override;
+  ::itk::LightObject::Pointer CreateAnother() const override;
 
   // Necessary type alias for dealing with images BEGIN
   using Float = typename LoadElement::Float;
@@ -293,7 +293,7 @@ public:
    */
   VectorType Fe(VectorType, VectorType);
 
-  static Baseclass * NewImageMetricLoad(void)
+  static Baseclass * NewImageMetricLoad()
   {
     return new ImageMetricLoad;
   }

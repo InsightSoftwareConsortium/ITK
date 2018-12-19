@@ -133,7 +133,7 @@ public:
   }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator(void)
+  InterpolatorType * GetMovingImageInterpolator()
   {
     return m_MovingImageInterpolator;
   }
@@ -277,7 +277,7 @@ private:
   mutable GPUReduction<float>::Pointer m_GPUSquaredDifference;
 
   /** Mutex lock to protect modification to metric. */
-  mutable SimpleFastMutexLock m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock;
 
 };
 } // end namespace itk

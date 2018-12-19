@@ -18,14 +18,9 @@
 #ifndef itkBinaryImageToLabelMapFilter_h
 #define itkBinaryImageToLabelMapFilter_h
 
-#include "itkImageToImageFilter.h"
-#include <deque>
-#include <map>
-#include <mutex>
-#include <vector>
+#include "itkScanlineFilterCommon.h"
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
-#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -61,6 +56,7 @@ template< typename TInputImage,
             LabelMap< LabelObject< SizeValueType, TInputImage::ImageDimension > > >
 class ITK_TEMPLATE_EXPORT BinaryImageToLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
+  , protected ScanlineFilterCommon< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLabelMapFilter);
@@ -72,6 +68,8 @@ public:
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using Superclass::Register;
+  using Superclass::UnRegister;
 
   /**
    * Method for creation through the object factory.
@@ -142,23 +140,12 @@ public:
   itkSetMacro(InputForegroundValue, InputPixelType);
   itkGetConstMacro(InputForegroundValue, InputPixelType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
-#endif
-
 protected:
   BinaryImageToLabelMapFilter();
-  ~BinaryImageToLabelMapFilter() override {}
+  ~BinaryImageToLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using InternalLabelType = SizeValueType;
-
   void DynamicThreadedGenerateData( const RegionType & outputRegionForThread ) override;
-  void ComputeEquivalence( const SizeValueType workUnitResultsIndex );
-  void MergeLabels( const SizeValueType workUnitResultsIndex );
 
   void GenerateData() override;
 
@@ -173,68 +160,25 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
+  using ScanlineFunctions = ScanlineFilterCommon< TInputImage, TOutputImage >;
+
+  using InternalLabelType         = typename ScanlineFunctions::InternalLabelType;
+  using OutSizeType               = typename ScanlineFunctions::OutSizeType;
+  using RunLength                 = typename ScanlineFunctions::RunLength;
+  using LineEncodingType          = typename ScanlineFunctions::LineEncodingType;
+  using LineEncodingIterator      = typename ScanlineFunctions::LineEncodingIterator;
+  using LineEncodingConstIterator = typename ScanlineFunctions::LineEncodingConstIterator;
+  using OffsetVectorType          = typename ScanlineFunctions::OffsetVectorType;
+  using OffsetVectorConstIterator = typename ScanlineFunctions::OffsetVectorConstIterator;
+  using LineMapType               = typename ScanlineFunctions::LineMapType;
+  using UnionFindType             = typename ScanlineFunctions::UnionFindType;
+  using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+  using WorkUnitData              = typename ScanlineFunctions::WorkUnitData;
+
 private:
-  using OutSizeType = typename TOutputImage::RegionType::SizeType;
-
-  // types to support the run length encoding of lines
-  struct runLength
-  {
-    // run length information - may be a more type safe way of doing this
-    SizeValueType length;
-    typename InputImageType::IndexType where; // Index of the start of the run
-    InternalLabelType label;                  // the initial label of the run
-  };
-
-  using lineEncoding = std::vector< runLength >;
-
-  // the map storing lines
-  using LineMapType = std::vector< lineEncoding >;
-
-  using OffsetVectorType = std::vector< OffsetValueType >;
-  OffsetVectorType m_LineOffsets;
-
-  // the types to support union-find operations
-  using UnionFindType = std::vector< InternalLabelType >;
-  UnionFindType m_UnionFind;
-
-  using ConsecutiveVectorType = std::vector< OutputPixelType >;
-  ConsecutiveVectorType m_Consecutive;
-
-  InternalLabelType LookupSet(const InternalLabelType label);
-
-  void LinkLabels(const InternalLabelType lab1, const InternalLabelType lab2);
-
-  SizeValueType CreateConsecutive();
-
-  bool CheckNeighbors(const OutputIndexType & A,
-                      const OutputIndexType & B);
-
-  void CompareLines(lineEncoding & current, const lineEncoding & Neighbour);
-
-  void SetupLineOffsets();
-
   OutputPixelType m_OutputBackgroundValue;
   InputPixelType  m_InputForegroundValue;
-
-  SizeValueType m_NumberOfObjects;
-
-  std::mutex m_Mutex;
-
-  bool m_FullyConnected;
-
-  struct WorkUnitData
-  {
-    SizeValueType numberOfLabels;
-    SizeValueType firstLineIdForThread;
-    SizeValueType firstLineIdToJoin;
-    SizeValueType numberOfLineIdsToJoin;
-  };
-
-  std::deque< WorkUnitData > m_WorkUnitResults;
-
-#if !defined( ITK_WRAPPING_PARSER )
-  LineMapType m_LineMap;
-#endif
+  SizeValueType   m_NumberOfObjects;
 };
 } // end namespace itk
 

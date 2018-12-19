@@ -68,8 +68,8 @@ public:
   itkTypeMacro(LineSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the Line points. */
-  PointListType & GetPoints(void) { return m_Points; }
-  ConstPointListType & GetPoints(void) const { return m_Points; }
+  PointListType & GetPoints() { return m_Points; }
+  ConstPointListType & GetPoints() const { return m_Points; }
 
   /** Set the list of line points. */
   void SetPoints(PointListType & newPoints);
@@ -84,7 +84,7 @@ public:
   SpatialObjectPointType * GetPoint(IdentifierType id) override { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints(void) const override
+  SizeValueType GetNumberOfPoints() const override
   {
     return static_cast<SizeValueType>( m_Points.size() );
   }

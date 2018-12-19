@@ -36,8 +36,7 @@ VesselTubeSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 VesselTubeSpatialObject< TDimension >
-::~VesselTubeSpatialObject()
-{}
+::~VesselTubeSpatialObject() = default;
 
 /** Print the object */
 template< unsigned int TDimension >

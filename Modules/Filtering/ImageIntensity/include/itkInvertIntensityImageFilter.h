@@ -35,7 +35,7 @@ class ITK_TEMPLATE_EXPORT InvertIntensityTransform
 public:
   using RealType = typename NumericTraits< TInput >::RealType;
   InvertIntensityTransform() { m_Maximum = NumericTraits< TInput >::max(); }
-  ~InvertIntensityTransform() {}
+  ~InvertIntensityTransform() = default;
 
   void SetMaximum(TOutput max) { m_Maximum = max; }
 
@@ -134,7 +134,7 @@ public:
 
 protected:
   InvertIntensityImageFilter();
-  ~InvertIntensityImageFilter() override {}
+  ~InvertIntensityImageFilter() override = default;
 
 private:
   InputPixelType m_Maximum;

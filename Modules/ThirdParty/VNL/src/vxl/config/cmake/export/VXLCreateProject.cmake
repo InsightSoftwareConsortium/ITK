@@ -38,6 +38,8 @@ endif()
 # Create the VXLConfig.cmake file for the build tree.
 configure_file(${VXL_CMAKE_DIR}/VXLConfig.cmake.in
                ${PROJECT_BINARY_DIR}/VXLConfig.cmake @ONLY)
+configure_file(${VXL_CMAKE_DIR}/VXLConfigVersion.cmake.in
+               ${PROJECT_BINARY_DIR}/VXLConfigVersion.cmake @ONLY)
 
 configure_file(${VXL_CMAKE_DIR}/VXLConfig_export.cmake.in
                ${PROJECT_BINARY_DIR}/config/cmake/export/VXLConfig.cmake
@@ -45,6 +47,7 @@ configure_file(${VXL_CMAKE_DIR}/VXLConfig_export.cmake.in
 
 install(FILES
   ${PROJECT_BINARY_DIR}/config/cmake/export/VXLConfig.cmake
+  ${PROJECT_BINARY_DIR}/VXLConfigVersion.cmake
   ${VXL_CMAKE_DIR}/VXLStandardOptions.cmake
   ${VXL_CMAKE_DIR}/UseVXL.cmake
   ${VXL_CMAKE_DIR}/UseVGUI.cmake

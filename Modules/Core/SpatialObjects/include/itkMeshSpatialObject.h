@@ -94,7 +94,7 @@ public:
   bool ComputeLocalBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
   /** Return the type of pixel used */
   const char * GetPixelType()

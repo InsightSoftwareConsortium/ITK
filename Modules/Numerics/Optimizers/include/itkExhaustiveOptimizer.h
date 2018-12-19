@@ -38,28 +38,28 @@ namespace itk
  * application:
  *     Here it is assumed that the transform is Euler3DTransform.
  *
- * \code
- *  OptimizerType::StepsType steps( m_Transform->GetNumberOfParameters() );
- *  steps[0] = 10;
- *  steps[1] = 10;
- *  steps[2] = 10;
- *  m_Optimizer->SetNumberOfSteps( steps );
- *  m_Optimizer->SetStepLength( 2 );
- * \endcode
+   \code
+    OptimizerType::StepsType steps( m_Transform->GetNumberOfParameters() );
+    steps[0] = 10;
+    steps[1] = 10;
+    steps[2] = 10;
+    m_Optimizer->SetNumberOfSteps( steps );
+    m_Optimizer->SetStepLength( 2 );
+   \endcode
  *
  * The optimizer throws IterationEvents after every iteration. We use this to plot
  * the metric space in an image as follows:
  *
- * \code
- *  if( itk::IterationEvent().CheckEvent(& event ) )
- *  {
- *    IndexType index;
- *    index[0] = m_Optimizer->GetCurrentIndex()[0];
- *    index[1] = m_Optimizer->GetCurrentIndex()[1];
- *    index[2] = m_Optimizer->GetCurrentIndex()[2];
- *    image->SetPixel( index, m_Optimizer->GetCurrentValue() );
- *  }
- * \endcode
+   \code
+    if( itk::IterationEvent().CheckEvent(& event ) )
+    {
+      IndexType index;
+      index[0] = m_Optimizer->GetCurrentIndex()[0];
+      index[1] = m_Optimizer->GetCurrentIndex()[1];
+      index[2] = m_Optimizer->GetCurrentIndex()[2];
+      image->SetPixel( index, m_Optimizer->GetCurrentValue() );
+    }
+   \endcode
  *
  * The image size is expected to be 11 x 11 x 11.
  *
@@ -95,7 +95,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
 
-  void    StartOptimization(void) override;
+  void    StartOptimization() override;
 
   void StartWalking();
 
@@ -120,7 +120,7 @@ public:
 
 protected:
   ExhaustiveOptimizer();
-  ~ExhaustiveOptimizer() override {}
+  ~ExhaustiveOptimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance to the next grid position. */

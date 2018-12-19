@@ -90,7 +90,7 @@ public:
 
 protected:
   MeanImageFilter();
-  ~MeanImageFilter() override {}
+  ~MeanImageFilter() override = default;
 
   /** MeanImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

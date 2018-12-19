@@ -95,7 +95,7 @@ public:
 
 protected:
   JoinSeriesImageFilter();
-  ~JoinSeriesImageFilter() override {}
+  ~JoinSeriesImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VeriyInputInformation() to add the additional check
@@ -103,7 +103,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
   /** Overrides GenerateOutputInformation() in order to produce
    * an image which has a different information than the first input.
@@ -127,8 +127,8 @@ private:
    * is used as the index value of the new dimension */
   using IndexValueType = unsigned int;
 
-  double m_Spacing;
-  double m_Origin;
+  double m_Spacing{ 1.0 };
+  double m_Origin{ 0.0 };
 };
 } // end namespace itk
 

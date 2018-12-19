@@ -84,7 +84,7 @@ public:
   /**
    * 3D strain elements have 3 DOFs per node.
    */
-  unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const override
+  unsigned int GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 3;
   }
@@ -92,7 +92,7 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer GetMaterial(void) const override
+  Material::ConstPointer GetMaterial() const override
   {
     return m_mat;
   }

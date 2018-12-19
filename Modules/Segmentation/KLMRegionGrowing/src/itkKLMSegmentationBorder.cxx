@@ -20,7 +20,7 @@
 namespace itk
 {
 KLMSegmentationBorder
-::KLMSegmentationBorder(void)
+::KLMSegmentationBorder()
 {
   m_Lambda = 0.0;
   m_Region1 = nullptr;
@@ -28,8 +28,7 @@ KLMSegmentationBorder
 }
 
 KLMSegmentationBorder
-::~KLMSegmentationBorder()
-{}
+::~KLMSegmentationBorder() = default;
 
 /**
  * PrintSelf

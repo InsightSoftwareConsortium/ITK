@@ -29,9 +29,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
-::ScalarImageKmeansImageFilter() :
-  m_UseNonContiguousLabels( false ),
-  m_ImageRegionDefined( false )
+::ScalarImageKmeansImageFilter()
+
 {
 }
 
@@ -46,7 +45,7 @@ void ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
-::VerifyPreconditions()
+::VerifyPreconditions() ITKv5_CONST
 {
   this->Superclass::VerifyPreconditions();
 

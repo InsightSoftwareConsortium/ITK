@@ -31,30 +31,17 @@ constexpr double DIFF_TOLERENCE = 0.001;
 
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
-  m_NumberOfSeeds( 0 ),
-  m_OutputVD( Self::GetOutput() ), // Note: this line is suspicious
-  m_Pxmin( 0.0 ),
-  m_Pxmax( 0.0 ),
-  m_Pymin( 0.0 ),
-  m_Pymax( 0.0 ),
-  m_Deltax( 0.0 ),
-  m_Deltay( 0.0 ),
-  m_SqrtNSites( 0.0 ),
-  m_PQcount( 0 ),
-  m_PQmin( 0 ),
-  m_PQhashsize( 0 ),
-  m_Nedges( 0 ),
-  m_Nvert( 0 ),
-  m_BottomSite( nullptr ),
-  m_ELhashsize( 0 )
+
+  m_OutputVD( Self::GetOutput() ),
+  m_BottomSite( nullptr )
+
 {
   m_VorBoundary.Fill( 0.0 );
 }
 
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::
-~VoronoiDiagram2DGenerator()
-{}
+~VoronoiDiagram2DGenerator() = default;
 
 template< typename TCoordRepType >
 void
@@ -111,31 +98,31 @@ VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
 {
   if ( arg1[1] < arg2[1] )
     {
-    return 1;
+    return true;
     }
   else if ( arg1[1] > arg2[1] )
     {
-    return 0;
+    return false;
     }
   // arg1[1] == arg2[1]
   else if ( arg1[0] < arg2[0] )
     {
-    return 1;
+    return true;
     }
   else if ( arg1[0] > arg2[0] )
     {
-    return 0;
+    return false;
     }
   // arg1[0] == arg2[0]
   else
     {
-    return 0;
+    return false;
     }
 }
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::SortSeeds(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::SortSeeds()
 {
   std::sort(m_Seeds.begin(), m_Seeds.end(), comp);
 }
@@ -174,7 +161,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GetSeed(int SeedID)
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::GenerateData(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::GenerateData()
 {
   SortSeeds();
   m_OutputVD->SetSeeds( m_NumberOfSeeds, m_Seeds.begin() );
@@ -184,7 +171,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateData(void)
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::UpdateDiagram(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::UpdateDiagram()
 {
   this->GenerateData();
 }
@@ -241,7 +228,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::Pointonbnd(int VertID)
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram()
 {
   auto * rawEdges = new EdgeInfoDQ[m_NumberOfSeeds];
 
@@ -449,15 +436,15 @@ VoronoiDiagram2DGenerator< TCoordRepType >::right_of(FortuneHalfEdge *el, PointT
 
   bool right_of_site = ( ( ( *p )[0] ) > ( topsite->m_Coord[0] ) );
 
-  if ( right_of_site && ( !( el->m_RorL ) ) ) { return ( 1 ); }
-  if ( ( !right_of_site ) && ( el->m_RorL ) ) { return ( 0 ); }
+  if ( right_of_site && ( !( el->m_RorL ) ) ) { return ( true ); }
+  if ( ( !right_of_site ) && ( el->m_RorL ) ) { return ( false ); }
   bool above;
   bool fast;
   if ( e->m_A == 1.0 )
     {
     double dyp = ( ( *p )[1] ) - ( topsite->m_Coord[1] );
     double dxp = ( ( *p )[0] ) - ( topsite->m_Coord[0] );
-    fast = 0;
+    fast = false;
     if ( ( ( !right_of_site ) && ( ( e->m_B ) < 0.0 ) )
          || ( right_of_site && ( ( e->m_B ) >= 0.0 ) ) )
       {
@@ -468,7 +455,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::right_of(FortuneHalfEdge *el, PointT
       {
       above = ( ( ( ( *p )[0] ) + ( ( *p )[1] ) * ( e->m_B ) ) > e->m_C );
       if ( e->m_B < 0.0 ) { above = !above; }
-      if ( !above ) { fast = 1; }
+      if ( !above ) { fast = true; }
       }
     if ( !fast )
       {
@@ -636,7 +623,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::findLeftHE(PointType *p)
   FortuneHalfEdge *he = ELgethash(bucket);
   if ( he == nullptr )
     {
-    for ( i = 1; 1; i++ )
+    for ( i = 1; true; i++ )
       {
       if ( ( he = ELgethash(bucket - i) ) != nullptr ) { break; }
       if ( ( he = ELgethash(bucket + i) ) != nullptr ) { break; }
@@ -811,7 +798,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::intersect(FortuneSite *newV, Fortune
 
 template< typename TCoordRepType >
 typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneHalfEdge *
-VoronoiDiagram2DGenerator< TCoordRepType >::getPQmin(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::getPQmin()
 {
   FortuneHalfEdge *curr = m_PQHash[m_PQmin].m_Next;
 
@@ -1031,7 +1018,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::makeEndPoint(FortuneEdge *task, bool
 
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune()
 {
   unsigned int i;
 
@@ -1111,7 +1098,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
   int Siteid = 0;
 
   i = 2;
-  bool ok = 1;
+  bool ok = true;
   while ( ok )
     {
     if ( m_PQcount != 0 )
@@ -1188,13 +1175,13 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
       deletePQ(rightHalfEdge);
       deleteEdgeList(rightHalfEdge);
 
-      saveBool = 0;
+      saveBool = false;
       if ( ( findSite->m_Coord[1] ) > ( topSite->m_Coord[1] ) )
         {
         saveSite = findSite;
         findSite = topSite;
         topSite = saveSite;
-        saveBool = 1;
+        saveBool = true;
         }
 
       bisect(&( Edgepool[Edgeid] ), findSite, topSite);
@@ -1228,7 +1215,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
       }
     else
       {
-      ok = 0;
+      ok = false;
       }
     }
 

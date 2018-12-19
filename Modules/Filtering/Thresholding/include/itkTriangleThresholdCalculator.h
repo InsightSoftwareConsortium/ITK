@@ -71,9 +71,9 @@ public:
   using OutputType = TOutput;
 
 protected:
-  TriangleThresholdCalculator() {};
-  ~TriangleThresholdCalculator() override {};
-  void GenerateData(void) override;
+  TriangleThresholdCalculator() = default;
+  ~TriangleThresholdCalculator() override = default;
+  void GenerateData() override;
 };
 
 } // end namespace itk

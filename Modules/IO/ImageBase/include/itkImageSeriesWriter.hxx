@@ -39,9 +39,8 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::ImageSeriesWriter():
-  m_ImageIO(nullptr), m_UserSpecifiedImageIO(false),
-  m_SeriesFormat("%d"),
-  m_StartIndex(1), m_IncrementIndex(1), m_MetaDataDictionaryArray(nullptr)
+  m_ImageIO(nullptr),
+  m_SeriesFormat("%d")
 {
   m_UseCompression = false;
 }
@@ -49,8 +48,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 //---------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >
 ImageSeriesWriter< TInputImage, TOutputImage >
-::~ImageSeriesWriter()
-{}
+::~ImageSeriesWriter() = default;
 
 //---------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >
@@ -67,7 +65,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 const typename ImageSeriesWriter< TInputImage, TOutputImage >::InputImageType *
 ImageSeriesWriter< TInputImage, TOutputImage >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< TInputImage * >( this->GetPrimaryInput() );
 }
@@ -85,7 +83,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
-::Write(void)
+::Write()
 {
   const InputImageType *inputImage = this->GetInput();
 
@@ -123,7 +121,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
-::GenerateNumericFileNamesAndWrite(void)
+::GenerateNumericFileNamesAndWrite()
 {
   itkWarningMacro("This functionality has been DEPRECATED. Use NumericSeriesFileName for generating the filenames");
   this->GenerateNumericFileNames();
@@ -134,7 +132,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
-::GenerateNumericFileNames(void)
+::GenerateNumericFileNames()
 {
   const InputImageType *inputImage = this->GetInput();
 
@@ -170,7 +168,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   itkDebugMacro(<< "Writing a series of files");
   if ( m_FileNames.empty() )

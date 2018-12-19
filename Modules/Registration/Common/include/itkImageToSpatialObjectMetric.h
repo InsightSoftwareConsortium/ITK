@@ -151,10 +151,10 @@ public:
                                      DerivativeType  & Derivative) const override = 0;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters( void ) const override;
+  unsigned int GetNumberOfParameters() const override;
 
   /** Initialize the metric */
-  virtual void Initialize(void);
+  virtual void Initialize();
 
   /** Get the last transformation parameters visited by
    * the optimizer. This function overload the superclass's one */
@@ -166,11 +166,11 @@ public:
 protected:
 
   ImageToSpatialObjectMetric();
-  ~ImageToSpatialObjectMetric() override {}
+  ~ImageToSpatialObjectMetric() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  MeasureType              m_MatchMeasure;
+  MeasureType              m_MatchMeasure{0};
   DerivativeType           m_MatchMeasureDerivatives;
   mutable TransformPointer m_Transform;
   InterpolatorPointer      m_Interpolator;

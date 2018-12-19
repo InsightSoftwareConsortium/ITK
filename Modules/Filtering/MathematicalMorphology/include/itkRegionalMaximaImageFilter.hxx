@@ -31,8 +31,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 RegionalMaximaImageFilter< TInputImage, TOutputImage >
 ::RegionalMaximaImageFilter():
-  m_FullyConnected( false ),
-  m_FlatIsMaxima( true ),
+
   m_ForegroundValue( NumericTraits< OutputImagePixelType >::max() ),
   m_BackgroundValue( NumericTraits< OutputImagePixelType >::NonpositiveMin() )
 {

@@ -38,7 +38,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 
@@ -195,7 +195,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
 #ifdef NDEBUG
-  affineOptimizer->SetNumberOfIterations( atoi( argv[6] ) );
+  affineOptimizer->SetNumberOfIterations( std::stoi( argv[6] ) );
 #else
   affineOptimizer->SetNumberOfIterations( 1 );
 #endif
@@ -261,7 +261,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
 #ifdef NDEBUG
-  optimizer->SetNumberOfIterations( atoi( argv[7] ) );
+  optimizer->SetNumberOfIterations( std::stoi( argv[7] ) );
 #else
   optimizer->SetNumberOfIterations( 1 );
 #endif
@@ -399,7 +399,7 @@ int itkSimpleImageRegistrationTest( int argc, char *argv[] )
 
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 121212 );
 
-  switch( atoi( argv[2] ) )
+  switch( std::stoi( argv[2] ) )
    {
    case 2:
      if( strcmp( argv[1], "float") == 0 )

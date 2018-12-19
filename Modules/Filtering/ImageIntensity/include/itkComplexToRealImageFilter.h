@@ -35,8 +35,8 @@ template< typename TInput, typename TOutput >
 class ComplexToReal
 {
 public:
-  ComplexToReal() {}
-  ~ComplexToReal() {}
+  ComplexToReal() = default;
+  ~ComplexToReal() = default;
   bool operator!=(const ComplexToReal &) const
   {
     return false;
@@ -96,7 +96,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~ComplexToRealImageFilter() override {}
+  ~ComplexToRealImageFilter() override = default;
 };
 } // end namespace itk
 

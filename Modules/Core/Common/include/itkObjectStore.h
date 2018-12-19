@@ -135,12 +135,12 @@ protected:
   SizeValueType GetGrowthSize();
 
   struct MemoryBlock {
-    MemoryBlock():Size(0), Begin(0) {}
+    MemoryBlock(): Begin(0) {}
 
     MemoryBlock(SizeValueType n):Size(n)
     { Begin = new ObjectType[n];  }
 
-    ~MemoryBlock()  {}   // Purposely does *not* free memory
+    ~MemoryBlock()  = default;   // Purposely does *not* free memory
 
     void Delete()
     {
@@ -148,7 +148,7 @@ protected:
     }
 
     ObjectType *Begin;
-    SizeValueType Size;
+    SizeValueType Size{0};
   };
 
 private:

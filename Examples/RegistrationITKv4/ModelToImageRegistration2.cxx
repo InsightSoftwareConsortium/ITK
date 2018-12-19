@@ -89,7 +89,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -247,8 +247,8 @@ int main( int argc, char * argv [] )
 
   if( argc > 6 )
     {
-    boxSize[0] = atof( argv[5] );
-    boxSize[1] = atof( argv[6] );
+    boxSize[0] = std::stod( argv[5] );
+    boxSize[1] = std::stod( argv[6] );
     }
 
   //
@@ -316,8 +316,8 @@ int main( int argc, char * argv [] )
 
   if( argc >= 4 )
     {
-    initialTranslation[0] = atof( argv[2] );
-    initialTranslation[1] = atof( argv[3] );
+    initialTranslation[0] = std::stod( argv[2] );
+    initialTranslation[1] = std::stod( argv[3] );
     }
 
 

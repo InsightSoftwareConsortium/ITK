@@ -133,8 +133,8 @@ public:
 #endif
 
 protected:
-  NormalizedCorrelationImageFilter() {}
-  ~NormalizedCorrelationImageFilter() override {}
+  NormalizedCorrelationImageFilter() = default;
+  ~NormalizedCorrelationImageFilter() override = default;
 
   /** NormalizedCorrelationImageFilter needs to request enough of an
    * input image to account for template size.  The input requested

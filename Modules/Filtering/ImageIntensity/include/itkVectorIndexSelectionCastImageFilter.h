@@ -29,7 +29,7 @@ class VectorIndexSelectionCast
 {
 public:
   VectorIndexSelectionCast() { m_Index = 0; }
-  ~VectorIndexSelectionCast() {}
+  ~VectorIndexSelectionCast() = default;
 
   unsigned int GetIndex() const { return m_Index; }
   void SetIndex(unsigned int i) { m_Index = i; }
@@ -117,7 +117,7 @@ public:
       }
   }
 
-  unsigned int GetIndex(void) const
+  unsigned int GetIndex() const
   {
     return this->GetFunctor().GetIndex();
   }
@@ -130,8 +130,8 @@ public:
 #endif
 
 protected:
-  VectorIndexSelectionCastImageFilter() {}
-  ~VectorIndexSelectionCastImageFilter() override {}
+  VectorIndexSelectionCastImageFilter() = default;
+  ~VectorIndexSelectionCastImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override
   {

@@ -56,8 +56,8 @@ int itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
 
   if (argc >= 5)
     {
-    double expectedValue = atof(argv[3]);
-    double tolerance = atof(argv[4]);
+    double expectedValue = std::stod(argv[3]);
+    double tolerance = std::stod(argv[4]);
 
     std::cout << "<DartMeasurement name=\"PSNR\" type=\"numeric/double\">";
     std::cout <<  psnr->GetOutput();

@@ -38,7 +38,7 @@ public:
   using AccumulatorType = typename NumericTraits< TInput1 >::AccumulateType;
   using RealType = typename NumericTraits< TInput1 >::RealType;
   WeightedAdd2() : m_Alpha(0.0), m_Beta(0.0) {}
-  ~WeightedAdd2() {}
+  ~WeightedAdd2() = default;
   bool operator!=(const WeightedAdd2 & other) const
   {
     if ( Math::NotExactlyEquals(m_Alpha, other.m_Alpha) )
@@ -89,19 +89,19 @@ private:
  * the operator+ with a pixel type of the image 2. This condition is
  * required because internally this filter will perform the operation
  *
- * \code
- *        pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
- * \endcode
+   \code
+          pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
+   \endcode
  *
  * Additionally the type resulting from the sum will be cast to
  * the pixel type of the output image.
  *
  * The total operation over one pixel will be
  *
- * \code
- *  output_pixel = static_cast<OutputPixelType>(
- *      input1_pixel * alpha + input2_pixel * (1-alpha) )
- * \endcode
+   \code
+    output_pixel = static_cast<OutputPixelType>(
+        input1_pixel * alpha + input2_pixel * (1-alpha) )
+   \endcode
  *
  * The alpha parameter is set using SetAlpha.
  *
@@ -168,8 +168,8 @@ public:
 #endif
 
 protected:
-  WeightedAddImageFilter() {}
-  ~WeightedAddImageFilter() override {}
+  WeightedAddImageFilter() = default;
+  ~WeightedAddImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override
     {

@@ -18,8 +18,7 @@
 
 #include "itkImageIOFactory.h"
 
-#include "itkMutexLockHolder.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 
 namespace itk
@@ -27,7 +26,7 @@ namespace itk
 
 namespace
 {
-SimpleFastMutexLock createImageIOLock;
+std::mutex createImageIOLock;
 }
 
 ImageIOBase::Pointer
@@ -35,14 +34,14 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
 {
   std::list< ImageIOBase::Pointer > possibleImageIO;
 
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(createImageIOLock);
+  std::lock_guard< std::mutex > mutexHolder( createImageIOLock );
 
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
     {
     auto * io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
     if ( io )
       {
-      possibleImageIO.push_back(io);
+      possibleImageIO.emplace_back(io);
       }
     else
       {

@@ -88,7 +88,7 @@ public:
 
 protected:
   SpatialFunctionImageEvaluatorFilter();
-  ~SpatialFunctionImageEvaluatorFilter() override {}
+  ~SpatialFunctionImageEvaluatorFilter() override = default;
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() override;

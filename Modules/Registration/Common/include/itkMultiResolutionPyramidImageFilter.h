@@ -219,7 +219,7 @@ public:
 
 protected:
   MultiResolutionPyramidImageFilter();
-  ~MultiResolutionPyramidImageFilter() override {}
+  ~MultiResolutionPyramidImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate the output data. */

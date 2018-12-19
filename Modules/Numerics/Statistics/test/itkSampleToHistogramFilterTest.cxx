@@ -107,6 +107,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     filter->Update();
     std::cerr << "Failure to throw expected exception due to lack";
     std::cerr << " of calling SetMeasurementVectorSize() in the sample";
+    return EXIT_FAILURE;
     }
   catch( itk::NullSizeHistogramInputMeasurementVectorSize &e )
     {

@@ -25,13 +25,11 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
-::ImageShapeModelEstimatorBase(void)
-{}
+::ImageShapeModelEstimatorBase() = default;
 
 template< typename TInputImage, typename TOutputImage >
 ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
-::~ImageShapeModelEstimatorBase()
-{}
+::~ImageShapeModelEstimatorBase() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

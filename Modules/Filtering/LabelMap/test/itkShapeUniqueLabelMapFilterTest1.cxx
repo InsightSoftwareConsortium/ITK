@@ -57,7 +57,7 @@ int itkShapeUniqueLabelMapFilterTest1(int argc, char * argv[])
   LabelUniqueType::Pointer Unique = LabelUniqueType::New();
 
   //testing get and set macros for ReverseOrdering
-  bool reverseOrdering = atoi( argv[3] );
+  bool reverseOrdering = std::stoi( argv[3] );
   Unique->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , Unique->GetReverseOrdering() );
 
@@ -69,7 +69,7 @@ int itkShapeUniqueLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, Unique->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  LabelUniqueType::AttributeType attribute = atoi( argv[4] );
+  LabelUniqueType::AttributeType attribute = std::stoi( argv[4] );
   Unique->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, Unique->GetAttribute() );
 

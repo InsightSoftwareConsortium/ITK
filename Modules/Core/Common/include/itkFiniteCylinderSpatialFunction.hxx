@@ -40,8 +40,7 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
 
 template< unsigned int VDimension, typename TInput >
 FiniteCylinderSpatialFunction< VDimension, TInput >
-::~FiniteCylinderSpatialFunction()
-{}
+::~FiniteCylinderSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 void
@@ -80,7 +79,6 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
 {
   const double halfAxisLength = 0.5 * m_AxisLength;
 
-  Vector< double, VDimension > orientationVector;
   Vector< double, VDimension > pointVector;
   Vector< double, VDimension > medialAxisVector;
 

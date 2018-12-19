@@ -24,7 +24,7 @@ namespace itk
 {
 BYUMeshIO
 ::BYUMeshIO() :
-  m_FilePosition(0),
+
   m_PartId(NumericTraits< SizeValueType >::max()),
   m_FirstCellId(NumericTraits< SizeValueType >::OneValue()),
   m_LastCellId(NumericTraits< SizeValueType >::max())
@@ -33,9 +33,7 @@ BYUMeshIO
 }
 
 BYUMeshIO
-::~BYUMeshIO()
-{
-}
+::~BYUMeshIO() = default;
 
 bool
 BYUMeshIO

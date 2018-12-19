@@ -138,7 +138,7 @@ public:
 
 protected:
   ShotNoiseImageFilter();
-  ~ShotNoiseImageFilter() override {}
+  ~ShotNoiseImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -146,7 +146,7 @@ protected:
 
 
 private:
-  double m_Scale;
+  double m_Scale{ 1.0 };
 
 };
 } // end namespace itk

@@ -107,7 +107,7 @@ public:
 
 protected:
   HConvexImageFilter();
-  ~HConvexImageFilter() override {}
+  ~HConvexImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** HConvexImageFilter needs the entire input be
@@ -124,8 +124,8 @@ protected:
 
 private:
   InputImagePixelType m_Height;
-  unsigned long       m_NumberOfIterationsUsed;
-  bool                m_FullyConnected;
+  unsigned long       m_NumberOfIterationsUsed{ 1 };
+  bool                m_FullyConnected{ false };
 }; // end of class
 } // end namespace itk
 

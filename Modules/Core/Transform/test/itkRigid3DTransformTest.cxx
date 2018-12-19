@@ -45,14 +45,14 @@ public:
     }
 
 private:
-  Rigid3DTransformSurrogate() {}
-  ~Rigid3DTransformSurrogate() override {}
+  Rigid3DTransformSurrogate() = default;
+  ~Rigid3DTransformSurrogate() override = default;
 
 };
 
 }
 
-bool TestSettingTranslation(void)
+bool TestSettingTranslation()
 {
 
     itk::Matrix<double, 3, 3> R;

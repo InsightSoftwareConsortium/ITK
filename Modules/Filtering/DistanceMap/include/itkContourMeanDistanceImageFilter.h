@@ -133,7 +133,7 @@ public:
 
 protected:
   ContourMeanDistanceImageFilter();
-  ~ContourMeanDistanceImageFilter() override {}
+  ~ContourMeanDistanceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GenerateData. */

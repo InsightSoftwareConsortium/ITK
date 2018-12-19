@@ -87,7 +87,7 @@ public:
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer). */
-  FunctorType & GetFunctor(void) { return m_Functor; }
+  FunctorType & GetFunctor() { return m_Functor; }
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
@@ -132,7 +132,7 @@ public:
 
 protected:
   TernaryFunctorImageFilter();
-  ~TernaryFunctorImageFilter() override {}
+  ~TernaryFunctorImageFilter() override = default;
 
   /** Validate the presence of all three inputs. If one or more inputs
    * are missing, throw an exception. */

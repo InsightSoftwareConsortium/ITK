@@ -101,11 +101,16 @@ public:
   using AccumulateValueType = typename NumericTraits< ValueType >::RealType;
   using RealValueType = typename NumericTraits< ValueType >::RealType;
 
-  using SymmetricEigenAnalysisType = SymmetricEigenAnalysis< MatrixType,
-                                  EigenValuesArrayType, EigenVectorsMatrixType >;
+  using SymmetricEigenAnalysisType = SymmetricEigenAnalysisFixedDimension<
+    Dimension, MatrixType, EigenValuesArrayType, EigenVectorsMatrixType >;
 
-  /** Default constructor has nothing to do. */
+  /** Constructors */
   SymmetricSecondRankTensor() { this->Fill(0); }
+  SymmetricSecondRankTensor(const SymmetricSecondRankTensor &) = default;
+  SymmetricSecondRankTensor(SymmetricSecondRankTensor &&) = default;
+  SymmetricSecondRankTensor& operator=(const SymmetricSecondRankTensor &) = default;
+  SymmetricSecondRankTensor& operator=(SymmetricSecondRankTensor &&) = default;
+  ~SymmetricSecondRankTensor() = default;
 
   SymmetricSecondRankTensor (const ComponentType & r) { this->Fill(r); }
 

@@ -111,7 +111,7 @@ public:
   }
 
   /** Get the number of elements currently stored in the container. */
-  unsigned long Size(void) const
+  unsigned long Size() const
   { return static_cast< unsigned long >( this->ValarrayType::size() ); }
 
   /** Tell the container to allocate enough memory to allow at least
@@ -124,11 +124,11 @@ public:
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
-  void Squeeze(void)
+  void Squeeze()
   { this->ValarrayType::resize( this->ValarrayType::size() ); }
 
   /** Tell the container to release any of its allocated memory. */
-  void Initialize(void)
+  void Initialize()
   { this->ValarrayType::resize(0); }
 
   /** Tell the container to release any of its allocated memory. */

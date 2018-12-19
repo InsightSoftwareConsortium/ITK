@@ -116,8 +116,8 @@ public:
 #endif
 
 protected:
-  SobelEdgeDetectionImageFilter() {}
-  ~SobelEdgeDetectionImageFilter() override {}
+  SobelEdgeDetectionImageFilter() = default;
+  ~SobelEdgeDetectionImageFilter() override = default;
 
   /**
    * Standard pipeline method. While this class does not implement a

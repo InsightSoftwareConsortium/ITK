@@ -7,8 +7,25 @@
 #include <iostream>
 #include "vnl_diag_matrix_fixed.h"
 
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
+template <class T, unsigned int N>
+typename vnl_diag_matrix_fixed<T, N>::iterator
+vnl_diag_matrix_fixed<T, N>::begin() { return diagonal_.begin(); }
+
+template <class T, unsigned int N>
+typename vnl_diag_matrix_fixed<T, N>::iterator
+vnl_diag_matrix_fixed<T, N>::end() { return diagonal_.end(); }
+
+template <class T, unsigned int N>
+typename vnl_diag_matrix_fixed<T, N>::const_iterator
+vnl_diag_matrix_fixed<T, N>::begin() const { return diagonal_.begin(); }
+
+template <class T, unsigned int N>
+typename vnl_diag_matrix_fixed<T, N>::const_iterator
+vnl_diag_matrix_fixed<T, N>::end() const { return diagonal_.end(); }
 
 //: Return inv(D) * b.
 template <class T, unsigned int N>

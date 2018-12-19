@@ -63,8 +63,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  OverUnderColormapFunction() {}
-  ~OverUnderColormapFunction() override {}
+  OverUnderColormapFunction() = default;
+  ~OverUnderColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

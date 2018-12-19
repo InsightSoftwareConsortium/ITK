@@ -156,7 +156,7 @@ public:
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise.
    * This updates Translation based on current center. */
-  void Translate(const OutputVectorType & offset, bool pre = 0);
+  void Translate(const OutputVectorType & offset, bool pre = false);
 
   /** Compose affine transformation with a scaling
    *
@@ -169,9 +169,9 @@ public:
    * and is not invertible.  The scaling is precomposed with self if
    * pre is true, and postcomposed otherwise.
    * Note that the scaling is applied centered at the origin. */
-  void Scale(const OutputVectorType & factor, bool pre = 0);
+  void Scale(const OutputVectorType & factor, bool pre = false);
 
-  void Scale(const TParametersValueType & factor, bool pre = 0);
+  void Scale(const TParametersValueType & factor, bool pre = false);
 
   /** Compose affine transformation with an elementary rotation
    *
@@ -188,7 +188,7 @@ public:
    * The rotation is precomposed with self if pre is true, and
    * postcomposed otherwise.
    * Note that the rotation is applied centered at the origin. */
-  void Rotate(int axis1, int axis2, TParametersValueType angle, bool pre = 0);
+  void Rotate(int axis1, int axis2, TParametersValueType angle, bool pre = false);
 
   /** Compose 2D affine transformation with a rotation
    *
@@ -203,7 +203,7 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    *       is this is used with NDimensions != 2. */
-  void Rotate2D(TParametersValueType angle, bool pre = 0);
+  void Rotate2D(TParametersValueType angle, bool pre = false);
 
   /** Compose 3D affine transformation with a rotation
    *
@@ -218,7 +218,7 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    * is this is used with NDimensions != 3. */
-  void Rotate3D(const OutputVectorType & axis, TParametersValueType angle, bool pre = 0);
+  void Rotate3D(const OutputVectorType & axis, TParametersValueType angle, bool pre = false);
 
   /** Compose affine transformation with a shear
    *
@@ -231,7 +231,7 @@ public:
    * y[axis2] =                 x[axis2].
    *
    * Note that the shear is applied centered at the origin. */
-  void Shear(int axis1, int axis2, TParametersValueType coef, bool pre = 0);
+  void Shear(int axis1, int axis2, TParametersValueType coef, bool pre = false);
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
@@ -278,8 +278,8 @@ protected:
 
 private:
 
-  AffineTransform(const Self & other);
-  const Self & operator=(const Self &);
+  AffineTransform(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 }; //class AffineTransform
 
 }  // namespace itk

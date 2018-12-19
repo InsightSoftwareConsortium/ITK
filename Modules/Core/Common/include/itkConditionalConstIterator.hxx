@@ -24,13 +24,12 @@ namespace itk
 {
 template< typename TImageType >
 ConditionalConstIterator< TImageType >
-::ConditionalConstIterator() : m_IsAtEnd(false)
+::ConditionalConstIterator()
 {}
 
 template< typename TImageType >
 ConditionalConstIterator< TImageType >
-::~ConditionalConstIterator()
-{}
+::~ConditionalConstIterator() = default;
 } // end namespace itk
 
 #endif

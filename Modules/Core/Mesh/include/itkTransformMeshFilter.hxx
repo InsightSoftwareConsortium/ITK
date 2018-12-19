@@ -54,7 +54,7 @@ TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 template< typename TInputMesh, typename TOutputMesh, typename TTransform >
 void
 TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
-::GenerateData(void)
+::GenerateData()
 {
   using InputPointsContainer = typename TInputMesh::PointsContainer;
   using OutputPointsContainer = typename TOutputMesh::PointsContainer;

@@ -126,7 +126,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numberOfHistogramBins = atoi( argv[2] );
+  const unsigned int numberOfHistogramBins = std::stoi( argv[2] );
 
   histogramGenerator->SetNumberOfBins( numberOfHistogramBins );
   histogramGenerator->SetMarginalScale( 10.0 );

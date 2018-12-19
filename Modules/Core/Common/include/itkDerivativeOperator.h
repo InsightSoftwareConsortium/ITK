@@ -35,20 +35,20 @@ namespace itk
  *
  * An example operator to compute X derivatives of a 2D image can be
  * created with:
- * \code
- *       using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
- *       DerivativeOperatorType derivativeOperator;
- *       derivativeOperator.SetDirection(0); // X dimension
- *       itk::Size<2> radius;
- *       radius.Fill(1); // A radius of 1 in both dimensions is a 3x3 operator
- *       derivativeOperator.CreateToRadius(radius);
- * \endcode
+   \code
+         using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
+         DerivativeOperatorType derivativeOperator;
+         derivativeOperator.SetDirection(0); // X dimension
+         itk::Size<2> radius;
+         radius.Fill(1); // A radius of 1 in both dimensions is a 3x3 operator
+         derivativeOperator.CreateToRadius(radius);
+   \endcode
  * and creates a kernel that looks like:
- * \code
- *       0        0 0
- *       0.5  0   -0.5
- *       0    0   0
- * \endcode
+   \code
+         0        0 0
+         0.5  0   -0.5
+         0    0   0
+   \endcode
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
@@ -77,7 +77,7 @@ public:
   using PixelRealType = typename Superclass::PixelRealType;
 
   /** Constructor. */
-  DerivativeOperator():m_Order(1) {}
+  DerivativeOperator() {}
 
   /** Copy constructor. */
   DerivativeOperator(const Self & other):
@@ -126,7 +126,7 @@ protected:
 
 private:
   /** Order of the derivative. */
-  unsigned int m_Order;
+  unsigned int m_Order{1};
 };
 } // namespace itk
 

@@ -68,7 +68,7 @@ public:
   const ParametersType & GetParameters() const override
   { return m_Parameters; }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) override {}
+  void Initialize() throw ( itk::ExceptionObject ) override {}
 
   ParametersType  m_Parameters;
 
@@ -89,8 +89,8 @@ public:
 
 private:
 
-  RegistrationParameterScalesFromPhysicalShiftTestMetric() {}
-  ~RegistrationParameterScalesFromPhysicalShiftTestMetric() override {}
+  RegistrationParameterScalesFromPhysicalShiftTestMetric() = default;
+  ~RegistrationParameterScalesFromPhysicalShiftTestMetric() override = default;
 
 };
 

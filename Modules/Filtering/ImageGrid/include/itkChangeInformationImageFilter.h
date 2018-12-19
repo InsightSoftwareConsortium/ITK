@@ -219,7 +219,7 @@ public:
 
 protected:
   ChangeInformationImageFilter();
-  //~ChangeInformationImageFilter() {} default implementation ok
+  ~ChangeInformationImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -228,7 +228,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() ITKv5_CONST override {}
 
 private:
   InputImagePointer m_ReferenceImage;

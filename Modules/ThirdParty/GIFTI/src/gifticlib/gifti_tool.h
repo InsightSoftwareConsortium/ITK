@@ -27,6 +27,7 @@ typedef struct {
     int           mod_gim_meta; /* modify gifti meta data               */
     int           mod_DA_atr;   /* modify DataArray attribute           */
     int           mod_DA_meta;  /* modify DataArray meta data           */
+    int           mod_ind_ord;  /* modify index order                   */
     int           mod_to_float; /* convert all input data to FLOAT32    */
 
     /* compare options */
@@ -46,6 +47,7 @@ typedef struct {
     int           b64_check;    /* check level */
     int           update_ok;    /* okay for library to update metadata  */
     int           zlevel;       /* compression level for output data    */
+    int           perm_by_iord; /* permute by index order               */
 
     int           dstore;       /* whether to store read data           */
     int           encoding;     /* encoding for output data             */

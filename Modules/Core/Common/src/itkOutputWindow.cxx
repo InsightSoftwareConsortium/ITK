@@ -38,12 +38,11 @@ OutputWindow::Pointer OutputWindow:: m_Instance = nullptr;
 OutputWindow
 ::OutputWindow()
 {
-  m_PromptUser = 0;
+  m_PromptUser = false;
 }
 
 OutputWindow
-::~OutputWindow()
-{}
+::~OutputWindow() = default;
 
 void
 OutputWindowDisplayText(const char *message)

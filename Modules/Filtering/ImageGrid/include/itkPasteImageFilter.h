@@ -133,11 +133,11 @@ public:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() ITKv5_CONST override {}
 
 protected:
   PasteImageFilter();
-  ~PasteImageFilter() override {}
+  ~PasteImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PasteImageFilter can be implemented as a multithreaded filter.

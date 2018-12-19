@@ -70,7 +70,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  static Pointer New(void);
+  static Pointer New();
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiThreaderBase, Object);
@@ -177,10 +177,13 @@ public:
   ITK_GCC_PRAGMA_DIAG_PUSH()
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+INTEL_PRAGMA_WARN_PUSH
+INTEL_SUPPRESS_warning_1292
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wc__14_extensions
   struct [[deprecated( "Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0" )]] ThreadInfoStruct
 CLANG_PRAGMA_POP
+INTEL_PRAGMA_WARN_POP
   {
     ThreadIdType ThreadID;
     ThreadIdType NumberOfThreads;
@@ -364,7 +367,7 @@ protected:
     std::atomic<SizeValueType> progress;
   };
 
-  static ITK_THREAD_RETURN_TYPE ParallelizeArrayHelper(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ParallelizeArrayHelper(void *arg);
 
   struct RegionAndCallback
   {
@@ -378,7 +381,7 @@ protected:
     std::atomic<SizeValueType> pixelProgress;
   };
 
-  static ITK_THREAD_RETURN_TYPE ParallelizeImageRegionHelper(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ParallelizeImageRegionHelper(void *arg);
 
   /** The number of work units to create. */
   ThreadIdType m_NumberOfWorkUnits;
@@ -399,7 +402,7 @@ protected:
    * routine acts as an intermediary between the multi-threaders and the
    * user supplied callback (SingleMethod) in order to catch any
    * exceptions thrown by the threads. */
-  static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION SingleMethodProxy(void *arg);
 
   /** The method to invoke. */
   ThreadFunctionType m_SingleMethod;

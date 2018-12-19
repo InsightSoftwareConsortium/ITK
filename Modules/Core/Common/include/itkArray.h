@@ -21,10 +21,6 @@
 #include "itkMacro.h"
 
 #include "vxl_version.h"
-#if VXL_VERSION_DATE_FULL < 20110428
-#error "System installed VXL version is too old. Please make sure the version date is later than 2011-04-28."
-#endif
-
 #include "vnl/vnl_vector.h"
 
 namespace itk
@@ -120,9 +116,9 @@ public:
   const Self & operator=(const VnlVectorType & rhs);
 
   /** Return the number of elements in the Array  */
-  SizeValueType Size(void) const
+  SizeValueType Size() const
   { return static_cast<SizeValueType >( this->size() ); }
-  unsigned int GetNumberOfElements(void) const
+  unsigned int GetNumberOfElements() const
   { return static_cast<SizeValueType >( this->size() ); }
 
   /** Get one element */
@@ -136,7 +132,7 @@ public:
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(SizeValueType sz);
 
-  SizeValueType GetSize(void) const
+  SizeValueType GetSize() const
   { return static_cast< SizeValueType >( this->size() ); }
 
   /** Set the pointer from which the data is imported.

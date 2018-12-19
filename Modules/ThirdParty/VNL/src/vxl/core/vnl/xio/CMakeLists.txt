@@ -18,3 +18,7 @@ target_link_libraries(${VXL_LIB_PREFIX}vnl_xio ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PR
 if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
+
+if (VXL_BUILD_OBJECT_LIBRARIES)
+  add_library(vnl_xio-obj OBJECT ${vnl_xio_sources})
+endif()

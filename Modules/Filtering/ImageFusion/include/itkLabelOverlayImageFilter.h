@@ -131,7 +131,7 @@ public:
 
 protected:
   LabelOverlayImageFilter();
-  ~LabelOverlayImageFilter() override {}
+  ~LabelOverlayImageFilter() override = default;
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData() override;

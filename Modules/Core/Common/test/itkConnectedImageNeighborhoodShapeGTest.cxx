@@ -19,9 +19,10 @@
 // First include the header file to be tested:
 #include "itkConnectedImageNeighborhoodShape.h"
 
+#include "itkConstShapedNeighborhoodIterator.h"
+#include "itkImage.h"
 #include "itkImageNeighborhoodOffsets.h"
 #include "itkLexicographicCompare.h"
-
 #include "itkOffset.h"
 #include "itkSize.h"
 
@@ -136,7 +137,7 @@ namespace
 } // namespace
 
 
-TEST(ConnectedImageNeighborhoodShape, GetNumberOfOffsets_returns_expected_value)
+TEST(ConnectedImageNeighborhoodShape, GetNumberOfOffsetsReturnsExpectedValue)
 {
   // 0-dimensional:
   Assert_GetNumberOfOffsets_returns_expected_number<0, 0, 0>();
@@ -166,7 +167,7 @@ TEST(ConnectedImageNeighborhoodShape, GetNumberOfOffsets_returns_expected_value)
 }
 
 
-TEST(ConnectedImageNeighborhoodShape, GenerateImageNeighborhoodOffsets_returns_expected_offsets)
+TEST(ConnectedImageNeighborhoodShape, GenerateImageNeighborhoodOffsetsReturnsExpectedOffsets)
 {
   Assert_GenerateImageNeighborhoodOffsets_returns_expected_offsets_excluding_center_pixel<1, 1>(
   {
@@ -213,7 +214,7 @@ TEST(ConnectedImageNeighborhoodShape, GenerateImageNeighborhoodOffsets_returns_e
 }
 
 
-TEST(ConnectedImageNeighborhoodShape, The_middle_offset_is_all_zero_when_center_pixel_is_included)
+TEST(ConnectedImageNeighborhoodShape, TheMiddleOffsetIsAllZeroWhenCenterPixelIsIncluded)
 {
   Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included<1>();
   Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included<2>();
@@ -221,9 +222,67 @@ TEST(ConnectedImageNeighborhoodShape, The_middle_offset_is_all_zero_when_center_
 }
 
 
-TEST(ConnectedImageNeighborhoodShape, Offsets_are_unique_and_colexicographically_ordered)
+TEST(ConnectedImageNeighborhoodShape, OffsetsAreUniqueAndColexicographicallyOrdered)
 {
   Assert_Offsets_are_unique_and_colexicographically_ordered<1>();
   Assert_Offsets_are_unique_and_colexicographically_ordered<2>();
   Assert_Offsets_are_unique_and_colexicographically_ordered<3>();
+}
+
+
+// Tests that the shape class supports a typical use case of itk::ConstShapedNeighborhoodIterator,
+// allowing to set the active offsets directly by GenerateImageNeighborhoodOffsets(shape).
+TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
+{
+  using ImageType = itk::Image<int>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = itk::Size<ImageDimension>;
+  using OffsetType = itk::Offset<ImageDimension>;
+
+  // Create a "dummy" image.
+  const auto image = ImageType::New();
+  SizeType imageSize;
+  imageSize.Fill(1);
+  image->SetRegions(imageSize);
+  image->Allocate(true);
+
+  // Create a radius, (just) large enough for all offsets activated below here.
+  SizeType radius;
+  radius.Fill(1);
+
+  itk::ConstShapedNeighborhoodIterator<ImageType> shapedNeighborhoodIterator{ radius, image, image->GetRequestedRegion() };
+
+  // Obvious initial expectation.
+  EXPECT_TRUE(shapedNeighborhoodIterator.GetActiveIndexList().empty());
+
+  // Activate offsets one by one (the "old-fashioned" way):
+  OffsetType offset = { {} };
+  for (auto& offsetValue: offset)
+  {
+    offsetValue = -1;
+    shapedNeighborhoodIterator.ActivateOffset(offset);
+    offsetValue = 1;
+    shapedNeighborhoodIterator.ActivateOffset(offset);
+    offsetValue = 0;
+  }
+
+  const auto activeIndexList = shapedNeighborhoodIterator.GetActiveIndexList();
+
+  // Obvious expectation after the previous ActivateOffset(offset) calls.
+  EXPECT_FALSE(activeIndexList.empty());
+
+  shapedNeighborhoodIterator.ClearActiveList();
+
+  // Obvious expectation after having called ClearActiveList().
+  EXPECT_TRUE(shapedNeighborhoodIterator.GetActiveIndexList().empty());
+
+  // Define a shape that should generate the same offsets as in the
+  // previous ActivateOffset(offset) calls.
+  constexpr std::size_t cityBlockDistance = 1;
+  constexpr bool includeCenterPixel = false;
+
+  shapedNeighborhoodIterator.ActivateOffsets(
+    itk::Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, cityBlockDistance, includeCenterPixel>());
+
+  ASSERT_EQ(shapedNeighborhoodIterator.GetActiveIndexList(), activeIndexList);
 }

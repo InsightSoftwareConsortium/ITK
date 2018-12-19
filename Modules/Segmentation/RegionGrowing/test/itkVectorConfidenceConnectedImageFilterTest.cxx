@@ -62,18 +62,18 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   FilterType::IndexType seed1;
   FilterType::IndexType seed2;
 
-  seed1[0] = atoi( av[3] );
-  seed1[1] = atoi( av[4] );
+  seed1[0] = std::stoi( av[3] );
+  seed1[1] = std::stoi( av[4] );
 
-  seed2[0] = atoi( av[5] );
-  seed2[1] = atoi( av[6] );
+  seed2[0] = std::stoi( av[5] );
+  seed2[1] = std::stoi( av[6] );
 
   filter->AddSeed( seed1 );
   filter->AddSeed( seed2 );
 
   filter->SetReplaceValue( 255 );
-  filter->SetMultiplier(  atof( av[7] ) );
-  filter->SetNumberOfIterations( atoi( av[8] ) );
+  filter->SetMultiplier(  std::stod( av[7] ) );
+  filter->SetNumberOfIterations( std::stoi( av[8] ) );
 
   try
     {
@@ -133,8 +133,8 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   vFilter->AddSeed( seed1 );
   vFilter->AddSeed( seed2 );
   vFilter->SetReplaceValue( 255 );
-  vFilter->SetMultiplier(  atof( av[7] ) );
-  vFilter->SetNumberOfIterations( atoi( av[8] ) );
+  vFilter->SetMultiplier(  std::stod( av[7] ) );
+  vFilter->SetNumberOfIterations( std::stoi( av[8] ) );
   vFilter->Update();
 
 

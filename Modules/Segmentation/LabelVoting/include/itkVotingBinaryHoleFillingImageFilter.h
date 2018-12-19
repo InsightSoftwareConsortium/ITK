@@ -97,7 +97,7 @@ public:
 
 protected:
   VotingBinaryHoleFillingImageFilter();
-  ~VotingBinaryHoleFillingImageFilter() override {}
+  ~VotingBinaryHoleFillingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Make protected the methods SetBirthThreshold() and

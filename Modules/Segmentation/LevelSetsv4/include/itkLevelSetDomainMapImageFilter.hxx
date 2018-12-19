@@ -36,9 +36,7 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 
 template < typename TInputImage, typename TOutputImage >
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
-::~LevelSetDomainMapImageFilter()
-{
-}
+::~LevelSetDomainMapImageFilter() = default;
 
 
 template < typename TInputImage, typename TOutputImage >

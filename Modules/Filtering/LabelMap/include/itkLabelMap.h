@@ -44,13 +44,13 @@ namespace itk
  * image).
  *
  * To iterate over the LabelObjects in the map, use:
- * \code
- * for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
- *   {
- *   FilterType::OutputImageType::LabelObjectType* labelObject =
- *     filter->GetOutput()->GetNthLabelObject(i);
- *   }
- * \endcode
+   \code
+   for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
+     {
+     FilterType::OutputImageType::LabelObjectType* labelObject =
+       filter->GetOutput()->GetNthLabelObject(i);
+     }
+   \endcode
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -289,7 +289,7 @@ public:
   {
   public:
 
-    ConstIterator() {}
+    ConstIterator() = default;
 
     ConstIterator(const Self *lm)
     {
@@ -371,7 +371,7 @@ public:
   {
   public:
 
-    Iterator() {}
+    Iterator() = default;
 
     Iterator(Self *lm)
     {
@@ -449,7 +449,7 @@ public:
 
 protected:
   LabelMap();
-  ~LabelMap() override {}
+  ~LabelMap() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
   void Graft(const DataObject *data) override;
   using Superclass::Graft;

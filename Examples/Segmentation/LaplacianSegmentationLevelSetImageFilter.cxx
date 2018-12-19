@@ -150,9 +150,9 @@ int main( int argc, char *argv[] )
     itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
                                                   InternalImageType >;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
-  diffusion->SetNumberOfIterations( atoi(argv[4]) );
+  diffusion->SetNumberOfIterations( std::stoi(argv[4]) );
   diffusion->SetTimeStep(0.125);
-  diffusion->SetConductanceParameter( atof(argv[5]) );
+  diffusion->SetConductanceParameter( std::stod(argv[5]) );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -185,7 +185,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   laplacianSegmentation->SetCurvatureScaling( 1.0 );
-  laplacianSegmentation->SetPropagationScaling( ::atof(argv[6]) );
+  laplacianSegmentation->SetPropagationScaling( ::std::stod(argv[6]) );
   //  Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   laplacianSegmentation->SetMaximumRMSError( 0.002 );
-  laplacianSegmentation->SetNumberOfIterations( ::atoi(argv[8]) );
+  laplacianSegmentation->SetNumberOfIterations( ::std::stoi(argv[8]) );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -210,7 +210,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  laplacianSegmentation->SetIsoSurfaceValue( ::atof(argv[7]) );
+  laplacianSegmentation->SetIsoSurfaceValue( ::std::stod(argv[7]) );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

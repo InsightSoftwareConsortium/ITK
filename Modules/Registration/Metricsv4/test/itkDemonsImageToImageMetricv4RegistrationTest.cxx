@@ -55,7 +55,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate() {};
+  itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate() = default;
 
 public:
 
@@ -99,15 +99,15 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   bool useImageGradientFilter = false;
   if( argc >= 5 )
     {
-    numberOfIterations = atoi( argv[4] );
+    numberOfIterations = std::stoi( argv[4] );
     }
   if( argc >= 6 )
     {
-    doSampling = atoi( argv[5] );
+    doSampling = std::stoi( argv[5] );
     }
   if( argc >= 7 )
     {
-    useImageGradientFilter = atoi( argv[6] );
+    useImageGradientFilter = std::stoi( argv[6] );
     }
 
   std::cout << " iterations "<< numberOfIterations << std::endl;

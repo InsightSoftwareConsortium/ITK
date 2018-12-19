@@ -400,7 +400,7 @@ public:
     return Self::DisplacementField;
   }
 
-  NumberOfParametersType GetNumberOfLocalParameters(void) const override
+  NumberOfParametersType GetNumberOfLocalParameters() const override
   {
     return Dimension;
   }
@@ -441,7 +441,7 @@ protected:
 
   /** Track when the displacement field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
-  ModifiedTimeType m_DisplacementFieldSetTime;
+  ModifiedTimeType m_DisplacementFieldSetTime{ 0 };
 
   /** Create an identity jacobian for use in
    * ComputeJacobianWithRespectToParameters. */

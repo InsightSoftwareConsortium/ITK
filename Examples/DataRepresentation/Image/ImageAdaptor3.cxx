@@ -69,13 +69,9 @@ public:
   using InternalType = itk::CovariantVector<float,2>;
   using ExternalType = float;
 
-  VectorPixelAccessor() : m_Index(0) {}
+  VectorPixelAccessor()  {}
 
-  VectorPixelAccessor & operator=( const VectorPixelAccessor & vpa )
-    {
-      m_Index = vpa.m_Index;
-      return *this;
-    }
+  VectorPixelAccessor & operator=( const VectorPixelAccessor & vpa ) = default;
   ExternalType Get( const InternalType & input ) const
     {
     return static_cast<ExternalType>( input[ m_Index ] );
@@ -86,7 +82,7 @@ public:
     }
 
 private:
-  unsigned int m_Index;
+  unsigned int m_Index{0};
 };
 // Software Guide : EndCodeSnippet
 }
@@ -171,7 +167,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   itk::VectorPixelAccessor  accessor;
-  accessor.SetIndex( atoi( argv[3] ) );
+  accessor.SetIndex( std::stoi( argv[3] ) );
   adaptor->SetPixelAccessor( accessor );
 // Software Guide : EndCodeSnippet
 

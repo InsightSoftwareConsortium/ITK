@@ -78,22 +78,26 @@ public:
   /** VectorType define the difference between two Points */
   using VectorType = Vector< ValueType, NPointDimension >;
 
-  /** Default constructor has nothing to do. */
-  Point() {}
-
-  /** Pass-through constructors for the Array base class. */
+  /** Default constructor, assignments */
+  Point() = default;
+  Point(const Point &) = default;
+  Point(Point &&) = default;
+  Point & operator=(const Point &) = default;
+  Point & operator=(Point &&) = default;
+  ~Point() = default;
+  /** Pass-through constructors for different type points. */
   template< typename TPointValueType >
   Point(const Point< TPointValueType, NPointDimension > & r):BaseArray(r) {}
+  /** Pass-through constructors for plain arrays. */
   template< typename TPointValueType >
   Point(const TPointValueType r[NPointDimension]):BaseArray(r) {}
   Point(const ValueType r[NPointDimension]):BaseArray(r) {}
+  /** Pass-through constructors for single values */
   template< typename TPointValueType >
   Point(const TPointValueType & v):BaseArray(v) {}
   Point(const ValueType & v):BaseArray(v) {}
 
-  /** Pass-through assignment operator for the Array base class. */
-  Point & operator=(const Self & r);
-
+  /** Pass-through assignment operator for a plain array. */
   Point & operator=(const ValueType r[NPointDimension]);
 
   /** Compare two points for equality. */
@@ -300,8 +304,8 @@ public:
   using PointType = typename PointContainerType::Element;
   using WeightContainerType = TWeightContainer;
 
-  BarycentricCombination() {}
-  ~BarycentricCombination() {}
+  BarycentricCombination() = default;
+  ~BarycentricCombination() = default;
 
   static PointType Evaluate(
     const PointContainerPointer & points,

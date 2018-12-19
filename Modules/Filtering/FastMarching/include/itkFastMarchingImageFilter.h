@@ -142,14 +142,14 @@ public:
   class AxisNodeType:public NodeType
   {
 public:
-    AxisNodeType() : m_Axis(0) {}
+    AxisNodeType()  {}
     int GetAxis() const { return m_Axis; }
     void SetAxis(int axis) { m_Axis = axis; }
     const AxisNodeType & operator=(const NodeType & node)
     { this->NodeType::operator=(node); return *this; }
 
 private:
-    int m_Axis;
+    int m_Axis{0};
   };
 
   /** SpeedImage type alias support */
@@ -335,7 +335,7 @@ private:
 
 protected:
   FastMarchingImageFilter();
-  ~FastMarchingImageFilter() override {}
+  ~FastMarchingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void Initialize(LevelSetImageType *);

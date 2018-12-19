@@ -26,8 +26,7 @@ namespace itk
 /** Constructor */
 template< unsigned int NDimensions >
 MetaContourConverter< NDimensions >
-::MetaContourConverter()
-{}
+::MetaContourConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaContourConverter< NDimensions >::MetaObjectType *
@@ -126,9 +125,6 @@ MetaContourConverter< NDimensions >
 
     using PointType = typename ControlPointType::PointType;
     PointType point;
-
-    using VectorType = typename ControlPointType::VectorType;
-    VectorType normal;
 
     for ( unsigned int i = 0; i < ndims; i++ )
       {

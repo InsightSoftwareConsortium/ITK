@@ -1,14 +1,13 @@
 #include <iostream>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_crs_index.h>
-#include <vcl_compiler.h>
 
 
 void display_mask(const std::vector<std::vector<bool> >& mask)
 {
-  for (unsigned int i=0; i<mask.size(); ++i) {
-    for (unsigned int j=0; j<mask[i].size(); ++j) {
-      std::cout << (mask[i][j]?'1':'0') << ' ';
+  for (const auto & i : mask) {
+    for (unsigned int j=0; j<i.size(); ++j) {
+      std::cout << (i[j]?'1':'0') << ' ';
     }
     std::cout << '\n';
   }
@@ -63,8 +62,8 @@ static void test_crs_index()
   // test column extraction
   vnl_crs_index::sparse_vector col = crs.sparse_col(1);
   valid = true;
-  for (unsigned int i=0; i<col.size(); ++i) {
-    if (col[i].first != crs(col[i].second,1))
+  for (auto & i : col) {
+    if (i.first != crs(i.second,1))
       valid = false;
   }
   TEST("sparse_col",col.size() == 2 && valid, true);
@@ -74,8 +73,8 @@ static void test_crs_index()
   // test row extraction
   vnl_crs_index::sparse_vector row = crs.sparse_row(6);
   valid = true;
-  for (unsigned int i=0; i<row.size(); ++i) {
-    if (row[i].first != crs(6,row[i].second))
+  for (auto & i : row) {
+    if (i.first != crs(6,i.second))
       valid = false;
   }
   TEST("sparse_row", row.size() == 6 && valid, true);

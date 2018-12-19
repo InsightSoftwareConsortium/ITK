@@ -30,18 +30,14 @@ namespace itk
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
-::TimeVaryingVelocityFieldTransform()
-{
-}
+::TimeVaryingVelocityFieldTransform() = default;
 
 /**
  * Destructor
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
-~TimeVaryingVelocityFieldTransform()
-{
-}
+~TimeVaryingVelocityFieldTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 void

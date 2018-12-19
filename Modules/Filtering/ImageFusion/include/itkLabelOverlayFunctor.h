@@ -99,7 +99,7 @@ public:
     return !(*this != l);
   }
 
-  ~LabelOverlayFunctor() {}
+  ~LabelOverlayFunctor() = default;
 
   void SetOpacity(double opacity)
   {

@@ -34,8 +34,7 @@ LightProcessObject
  * UnRegister() the use of any input classes.
  */
 LightProcessObject
-::~LightProcessObject()
-{}
+::~LightProcessObject() = default;
 
 /**
  * Update the progress of the process object. If a ProgressMethod exists,
@@ -76,7 +75,7 @@ LightProcessObject
    * GenerateData this object - we have not aborted yet, and our progress
    * before we start to execute is 0.0.
    */
-  m_AbortGenerateData = 0;
+  m_AbortGenerateData = false;
   m_Progress = 0.0f;
 
   this->GenerateData();

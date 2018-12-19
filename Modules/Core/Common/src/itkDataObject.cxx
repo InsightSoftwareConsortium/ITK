@@ -34,7 +34,7 @@ bool DataObject:: m_GlobalReleaseDataFlag = false;
 
 DataObjectError
 ::DataObjectError() noexcept:
-  ExceptionObject(), m_DataObject(nullptr)
+  ExceptionObject()
 {}
 
 DataObjectError
@@ -56,12 +56,7 @@ DataObjectError
 
 DataObjectError &
 DataObjectError
-::operator=(const DataObjectError & orig) noexcept
-{
-  ExceptionObject::operator=(orig);
-  m_DataObject = orig.m_DataObject;
-  return *this;
-}
+::operator=(const DataObjectError &) noexcept = default;
 
 void
 DataObjectError
@@ -111,17 +106,11 @@ InvalidRequestedRegionError
 {}
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError(const InvalidRequestedRegionError & orig) noexcept:
-  DataObjectError(orig)
-{}
+::InvalidRequestedRegionError(const InvalidRequestedRegionError &) noexcept = default;
 
 InvalidRequestedRegionError &
 InvalidRequestedRegionError
-::operator=(const InvalidRequestedRegionError & orig) noexcept
-{
-  DataObjectError::operator=(orig);
-  return *this;
-}
+::operator=(const InvalidRequestedRegionError &) noexcept = default;
 
 void
 InvalidRequestedRegionError
@@ -146,8 +135,7 @@ DataObject::DataObject():m_UpdateMTime()
 
 //----------------------------------------------------------------------------
 DataObject
-::~DataObject()
-{}
+::~DataObject() = default;
 
 //----------------------------------------------------------------------------
 void
@@ -423,7 +411,7 @@ void
 DataObject
 ::DataHasBeenGenerated()
 {
-  this->m_DataReleased = 0;
+  this->m_DataReleased = false;
   this->Modified();
   this->m_UpdateMTime.Modified();
 }

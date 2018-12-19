@@ -14,10 +14,9 @@
 
 #include <string>
 #include <complex>
-#include <vcl_compiler.h>
 
 //: initialise test counters, check test name 'name' exists
-void testlib_test_start(const char* name = VXL_NULLPTR);
+void testlib_test_start(const char* name = nullptr);
 //: increment number of tests, then output msg
 void testlib_test_begin(const char* msg);
 //: increment success/failure counters

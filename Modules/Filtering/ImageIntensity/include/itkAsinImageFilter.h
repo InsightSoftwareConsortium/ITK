@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Asin
 {
 public:
-  Asin() {}
-  ~Asin() {}
+  Asin() = default;
+  ~Asin() = default;
   bool operator!=(const Asin &) const
   {
     return false;
@@ -119,7 +119,7 @@ protected:
 #endif
     }
 
-  ~AsinImageFilter() override {}
+  ~AsinImageFilter() override = default;
 };
 } // end namespace itk
 

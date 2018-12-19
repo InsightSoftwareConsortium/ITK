@@ -26,14 +26,13 @@ namespace itk
 /** Constructor */
 template< unsigned int TSpaceDimension >
 SceneSpatialObject< TSpaceDimension >
-::SceneSpatialObject() : m_ParentId(0)
+::SceneSpatialObject()
 {}
 
 /** Destructor */
 template< unsigned int TSpaceDimension >
 SceneSpatialObject< TSpaceDimension >
-::~SceneSpatialObject()
-{}
+::~SceneSpatialObject() = default;
 
 /** Add a spatial object to the SceneSpatialObject */
 template< unsigned int TSpaceDimension >
@@ -74,7 +73,7 @@ SceneSpatialObject< TSpaceDimension >
 template< unsigned int TSpaceDimension >
 ModifiedTimeType
 SceneSpatialObject< TSpaceDimension >
-::GetMTime(void) const
+::GetMTime() const
 {
   auto it = m_Objects.begin();
   auto itEnd = m_Objects.end();
@@ -252,7 +251,7 @@ SceneSpatialObject< TSpaceDimension >
 template< unsigned int TSpaceDimension >
 bool
 SceneSpatialObject< TSpaceDimension >
-::FixHierarchy(void)
+::FixHierarchy()
 {
   auto it = m_Objects.begin();
   typename ObjectListType::iterator oldIt;
@@ -293,7 +292,7 @@ SceneSpatialObject< TSpaceDimension >
 template< unsigned int TSpaceDimension >
 bool
 SceneSpatialObject< TSpaceDimension >
-::CheckIdValidity(void)
+::CheckIdValidity()
 {
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
@@ -327,7 +326,7 @@ SceneSpatialObject< TSpaceDimension >
 template< unsigned int TSpaceDimension >
 void
 SceneSpatialObject< TSpaceDimension >
-::FixIdValidity(void)
+::FixIdValidity()
 {
   auto it = m_Objects.begin();
   auto itEnd = m_Objects.end();

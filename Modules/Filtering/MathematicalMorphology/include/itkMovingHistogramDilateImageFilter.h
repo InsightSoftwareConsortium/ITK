@@ -87,7 +87,7 @@ protected:
     this->m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
   }
 
-  ~MovingHistogramDilateImageFilter() override {}
+  ~MovingHistogramDilateImageFilter() override = default;
 };                                                // end of class
 } // end namespace itk
 

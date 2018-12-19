@@ -18,9 +18,13 @@
 #ifndef itkFFTWCommon_h
 #define itkFFTWCommon_h
 
-#include "itkFFTWGlobalConfiguration.h"
 #if defined( ITK_USE_FFTWF ) || defined( ITK_USE_FFTWD )
+#if defined( ITK_USE_CUFFTW )
+#include "cufftw.h"
+#else
+#include "itkFFTWGlobalConfiguration.h"
 #include "fftw3.h"
+#endif
 #if !defined(FFTW_WISDOM_ONLY)
 // FFTW_WISDOM_ONLY is a "beyond guru" option that is only available in fftw 3.2.2
 // to be compatible with all the fftw 3.x API, we need to define this away here:
@@ -29,7 +33,7 @@
 
 #endif
 
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 namespace itk
 {
@@ -69,7 +73,11 @@ public:
   using Self = Proxy<float>;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
+#ifdef ITK_USE_CUFFTW
+  static constexpr SizeValueType GREATEST_PRIME_FACTOR = 7;
+#else
   static constexpr SizeValueType GREATEST_PRIME_FACTOR = 13;
+#endif
 
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,
@@ -123,8 +131,12 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftwf_plan_with_nthreads(threads);
+#else
+    (void)threads;
+#endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
     unsigned roflags = flags;
@@ -155,7 +167,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_c2r(rank,n,in,out,roflags);
         }
+#ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#endif
       }
     itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
@@ -215,8 +229,12 @@ public:
                                bool canDestroyInput=false)
   {
     //
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftwf_plan_with_nthreads(threads);
+#else
+    (void)threads;
+#endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
     unsigned roflags = flags;
@@ -247,7 +265,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_r2c(rank,n,in,out,roflags);
         }
+#ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#endif
       }
     itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
@@ -309,8 +329,12 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftwf_plan_with_nthreads(threads);
+#else
+    (void)threads;
+#endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
     unsigned roflags = flags;
@@ -341,7 +365,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft(rank,n,in,out,sign,roflags);
         }
+#ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#endif
       }
     itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
@@ -354,7 +380,9 @@ public:
   }
   static void DestroyPlan(PlanType p)
   {
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#endif
     fftwf_destroy_plan(p);
   }
 };
@@ -373,7 +401,11 @@ public:
   using Self = Proxy<double>;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
+#ifdef ITK_USE_CUFFTW
+  static constexpr SizeValueType GREATEST_PRIME_FACTOR = 7;
+#else
   static constexpr SizeValueType GREATEST_PRIME_FACTOR = 13;
+#endif
 
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,
@@ -427,8 +459,12 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftw_plan_with_nthreads(threads);
+#else
+    (void)threads;
+#endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
     unsigned roflags = flags;
@@ -459,7 +495,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_c2r(rank,n,in,out,roflags);
         }
+#ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#endif
       }
     itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
@@ -518,8 +556,12 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftw_plan_with_nthreads(threads);
+#else
+    (void)threads;
+#endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
     unsigned roflags = flags;
@@ -550,7 +592,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_r2c(rank,n,in,out,roflags);
         }
+#ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#endif
       }
     itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
@@ -612,8 +656,12 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftw_plan_with_nthreads(threads);
+#else
+    (void)threads;
+#endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
     unsigned roflags = flags;
@@ -644,7 +692,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft(rank,n,in,out,sign,roflags);
         }
+#ifndef ITK_USE_CUFFTW
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#endif
       }
     itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
@@ -657,7 +707,9 @@ public:
   }
   static void DestroyPlan(PlanType p)
   {
-    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#ifndef ITK_USE_CUFFTW
+    std::lock_guard< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
+#endif
     fftw_destroy_plan(p);
   }
 };

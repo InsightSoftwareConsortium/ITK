@@ -166,7 +166,7 @@ public:
 
 protected:
   BinaryFunctorImageFilter();
-  ~BinaryFunctorImageFilter() override {}
+  ~BinaryFunctorImageFilter() override = default;
 
   /** BinaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData() routine

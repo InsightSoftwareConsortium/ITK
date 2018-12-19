@@ -678,12 +678,12 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
 
   if( argc > 1 )
     {
-    useExplicitJointPDFDerivatives = atoi( argv[1] );
+    useExplicitJointPDFDerivatives = std::stoi( argv[1] );
     }
 
   if( argc > 2 )
     {
-    useCachingBSplineWeights = atoi( argv[2] );
+    useCachingBSplineWeights = std::stoi( argv[2] );
     }
 
   int failed;

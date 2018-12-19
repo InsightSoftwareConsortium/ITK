@@ -157,7 +157,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 StretchIntensityImageFilter< TInputImage, TOutputImage >
-::GetInput(void) const
+::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }

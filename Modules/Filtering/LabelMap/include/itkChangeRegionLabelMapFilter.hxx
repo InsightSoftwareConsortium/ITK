@@ -150,9 +150,8 @@ ChangeRegionLabelMapFilter< TInputImage >
   // remove the object if it is empty
   if ( labelObject->Empty() )
     {
-    this->m_LabelObjectContainerLock->Lock();
+    std::lock_guard< std::mutex > mutexHolder( this->m_LabelObjectContainerLock );
     this->GetOutput()->RemoveLabelObject(labelObject);
-    this->m_LabelObjectContainerLock->Unlock();
     }
 }
 

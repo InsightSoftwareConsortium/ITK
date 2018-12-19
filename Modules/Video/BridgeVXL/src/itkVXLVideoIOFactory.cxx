@@ -34,7 +34,7 @@ VXLVideoIOFactory::~VXLVideoIOFactory()
 {}
 
 const char *
-VXLVideoIOFactory::GetITKSourceVersion(void) const
+VXLVideoIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +50,7 @@ VXLVideoIOFactory::GetDescription() const
 
 static bool VXLVideoIOFactoryHasBeenRegistered;
 
-void VXLVideoIOFactoryRegister__Private(void)
+void VXLVideoIOFactoryRegister__Private()
 {
   if( ! VXLVideoIOFactoryHasBeenRegistered )
     {

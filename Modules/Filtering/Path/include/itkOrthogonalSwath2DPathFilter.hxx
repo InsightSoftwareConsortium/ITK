@@ -61,7 +61,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 template< typename TParametricPath, typename TSwathMeritImage >
 void
 OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
-::GenerateData(void)
+::GenerateData()
 {
   // Get a convenience pointer
   ImageConstPointer swathMeritImage = this->GetImageInput();

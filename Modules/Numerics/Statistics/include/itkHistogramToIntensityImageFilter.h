@@ -46,10 +46,10 @@ public:
   //Intensity function returns pixels of SizeValueType.
   using OutputPixelType = TOutput;
 
-  HistogramIntensityFunction():
-    m_TotalFrequency(1) {}
+  HistogramIntensityFunction()
+    {}
 
-  ~HistogramIntensityFunction() {}
+  ~HistogramIntensityFunction() = default;
 
   inline OutputPixelType operator()(const TInput & A) const
   {
@@ -67,7 +67,7 @@ public:
   }
 
 private:
-  SizeValueType m_TotalFrequency;
+  SizeValueType m_TotalFrequency{1};
 };
 }
 
@@ -97,8 +97,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  HistogramToIntensityImageFilter() {}
-  ~HistogramToIntensityImageFilter() override {}
+  HistogramToIntensityImageFilter() = default;
+  ~HistogramToIntensityImageFilter() override = default;
 };
 } // end namespace itk
 

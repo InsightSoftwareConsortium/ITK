@@ -44,8 +44,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
-::~ObjectToObjectOptimizerBaseTemplate()
-{}
+::~ObjectToObjectOptimizerBaseTemplate() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
@@ -223,7 +222,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 bool
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
-::GetScalesInitialized( void ) const
+::GetScalesInitialized() const
 {
   return m_Scales.Size() > 0;
 }

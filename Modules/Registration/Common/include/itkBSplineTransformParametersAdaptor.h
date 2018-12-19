@@ -37,24 +37,24 @@ namespace itk
  * the B-spline grid resolution for greater flexibility in optimizing the
  * transform.  As defined in the base class, the user can change the resolution via
  *
- *   \code
- *   transformAdaptor->SetTransform( transform );
- *   transformAdaptor->SetRequiredFixedParameters( fixedParameters );
- *   transformAdaptor->AdaptTransformParameters();
- *   \endcode
+     \code
+     transformAdaptor->SetTransform( transform );
+     transformAdaptor->SetRequiredFixedParameters( fixedParameters );
+     transformAdaptor->AdaptTransformParameters();
+     \endcode
  *
  * or the user can use the more intuitive API for setting the fixed parameters.
  * E.g., often the user will want to maintain the same transform domain spatial
  * extent but only increase the mesh size.  This can be done as follows:
  *
- *   \code
- *   transformAdaptor->SetTransform( transform );
- *   transformAdaptor->SetRequiredTransformDomainOrigin( transform->GetTransformDomainOrigin() );
- *   transformAdaptor->SetRequiredTransformDomainDirection( transform->GetTransformDomainDirection() );
- *   transformAdaptor->SetRequiredTransformDomainPhysicalDimensions( transform->GetTransformDomainPhysicalDimensions() );
- *   transformAdaptor->SetRequiredTransformDomainMeshSize( newMeshSize );
- *   transformAdaptor->AdaptTransformParameters();
- *   \endcode
+     \code
+     transformAdaptor->SetTransform( transform );
+     transformAdaptor->SetRequiredTransformDomainOrigin( transform->GetTransformDomainOrigin() );
+     transformAdaptor->SetRequiredTransformDomainDirection( transform->GetTransformDomainDirection() );
+     transformAdaptor->SetRequiredTransformDomainPhysicalDimensions( transform->GetTransformDomainPhysicalDimensions() );
+     transformAdaptor->SetRequiredTransformDomainMeshSize( newMeshSize );
+     transformAdaptor->AdaptTransformParameters();
+     \endcode
  *
  * \author Nick Tustison
  * \author Marius Staring

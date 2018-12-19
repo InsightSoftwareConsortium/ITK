@@ -154,7 +154,7 @@ public:
 
 protected:
   DiffeomorphicDemonsRegistrationFilter();
-  ~DiffeomorphicDemonsRegistrationFilter() override {}
+  ~DiffeomorphicDemonsRegistrationFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
@@ -204,7 +204,7 @@ private:
   FieldExponentiatorPointer m_Exponentiator;
   VectorWarperPointer       m_Warper;
   AdderPointer              m_Adder;
-  bool                      m_UseFirstOrderExp;
+  bool                      m_UseFirstOrderExp{false};
 };
 } // end namespace itk
 

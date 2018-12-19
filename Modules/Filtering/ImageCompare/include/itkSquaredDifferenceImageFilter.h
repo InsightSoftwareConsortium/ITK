@@ -56,8 +56,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class SquaredDifference2
 {
 public:
-  SquaredDifference2() {}
-  ~SquaredDifference2() {}
+  SquaredDifference2() = default;
+  ~SquaredDifference2() = default;
   bool operator!=(const SquaredDifference2 &) const
   {
     return false;
@@ -124,7 +124,7 @@ protected:
     Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~SquaredDifferenceImageFilter() override {}
+  ~SquaredDifferenceImageFilter() override = default;
 };
 } // end namespace itk
 

@@ -1,15 +1,11 @@
 #include <iostream>
+#include <cassert>
 #include <testlib/testlib_test.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-#include <vnl/vnl_vector_ref.h>
-#include <vnl/vnl_matrix_ref.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
-
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
 
 
 // --- dynamic ------------------------------

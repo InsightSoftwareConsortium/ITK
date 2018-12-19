@@ -93,7 +93,7 @@ public:
 
 protected:
   NoiseImageFilter();
-  ~NoiseImageFilter() override {}
+  ~NoiseImageFilter() override = default;
 
   /** NoiseImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()

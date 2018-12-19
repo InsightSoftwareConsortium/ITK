@@ -106,7 +106,7 @@ public:
 
 protected:
   ProjectionImageFilter();
-  ~ProjectionImageFilter() override {}
+  ~ProjectionImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply changes to the output image information. */

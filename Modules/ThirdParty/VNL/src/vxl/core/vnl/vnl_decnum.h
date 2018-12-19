@@ -76,8 +76,11 @@
 
 #include <iostream>
 #include <string>
-#include <vcl_compiler.h>
+#include <utility>
 #include "vnl/vnl_export.h"
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 class VNL_EXPORT vnl_decnum
 {
@@ -90,7 +93,7 @@ class VNL_EXPORT vnl_decnum
   long exp_;       // The exponent; nonnegative for integers. Zero for Inf and NaN.
 
   // private constructor: arguments should satisfy the above constraints
-  vnl_decnum(char s, std::string const& d, long e) : sign_(s), data_(d), exp_(e) {}
+  vnl_decnum(char s, std::string  d, long e) : sign_(s), data_(std::move(d)), exp_(e) {}
  public:
   std::string data() const { return data_; }
   char       sign() const { return sign_; }
@@ -98,8 +101,7 @@ class VNL_EXPORT vnl_decnum
   //: Default constructor - creates the number zero.
   vnl_decnum() : sign_(' '), data_(""), exp_(0L) {}
   // Copy constructor
-  vnl_decnum(vnl_decnum const& r)
-  : sign_(r.sign_), data_(r.data_), exp_(r.exp_) {}
+  vnl_decnum(vnl_decnum const& r) = default;
   //: Constructor from string
   //  This is the principal constructor for vnl_decnum; it essentially parses
   //  the input into (in that order) the sign, the mantissa, and the exponent,
@@ -130,7 +132,7 @@ class VNL_EXPORT vnl_decnum
   // Integers will be correctly converted, though.
   vnl_decnum(double);
 
-  ~vnl_decnum() {}    // Destructor
+  ~vnl_decnum() = default;    // Destructor
 
   //: Implicit type conversion to a decimal string
   operator std::string() const;

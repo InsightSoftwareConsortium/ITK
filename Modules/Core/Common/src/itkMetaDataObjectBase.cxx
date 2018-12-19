@@ -21,15 +21,11 @@ namespace itk
 {
 
 MetaDataObjectBase
-::MetaDataObjectBase()
-{
-}
+::MetaDataObjectBase() = default;
 
 
 MetaDataObjectBase
-::~MetaDataObjectBase()
-{
-}
+::~MetaDataObjectBase() = default;
 
 
 const char *

@@ -96,7 +96,7 @@ public:
         m_Value( iData.m_Value ), m_Computed( iData.m_Computed )
       {}
 
-      ~DataType() {}
+      ~DataType() = default;
 
       std::string m_Name;
       T           m_Value;
@@ -110,7 +110,7 @@ public:
         }
 
     private:
-      DataType();
+      DataType() = delete;
     };
 
   /** \struct LevelSetDataType
@@ -140,7 +140,7 @@ public:
       MeanCurvature( iData.MeanCurvature ), ForwardGradient( iData.ForwardGradient ),
       BackwardGradient( iData.BackwardGradient ) {}
 
-    ~LevelSetDataType() {}
+    ~LevelSetDataType() = default;
 
     void operator = ( const LevelSetDataType& iData )
       {
@@ -215,7 +215,7 @@ public:
 
 protected:
   LevelSetBase();
-  ~LevelSetBase() override {}
+  ~LevelSetBase() override = default;
 
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
   // variables represent the maximum number of region that the data
@@ -227,11 +227,11 @@ protected:
   // RequestedRegion are used to define the currently requested
   // region. The LargestPossibleRegion is always requested region = 0
   // and number of regions = 1;
-  RegionType m_MaximumNumberOfRegions;
-  RegionType m_NumberOfRegions;
-  RegionType m_RequestedNumberOfRegions;
-  RegionType m_BufferedRegion;
-  RegionType m_RequestedRegion;
+  RegionType m_MaximumNumberOfRegions{0};
+  RegionType m_NumberOfRegions{0};
+  RegionType m_RequestedNumberOfRegions{0};
+  RegionType m_BufferedRegion{0};
+  RegionType m_RequestedRegion{0};
 };
 }
 

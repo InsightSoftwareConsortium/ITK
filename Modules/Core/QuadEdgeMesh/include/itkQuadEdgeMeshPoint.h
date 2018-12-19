@@ -60,15 +60,19 @@ public:
 
 public:
   QuadEdgeMeshPoint();
-  virtual ~QuadEdgeMeshPoint() {}
-  QuadEdgeMeshPoint(const Self & r);
+  QuadEdgeMeshPoint(const Self &) = default;
+  QuadEdgeMeshPoint(QuadEdgeMeshPoint &&) = default;
+  QuadEdgeMeshPoint & operator=(const QuadEdgeMeshPoint &) = default;
+  QuadEdgeMeshPoint & operator=(QuadEdgeMeshPoint &&) = default;
+  ~QuadEdgeMeshPoint() = default;
+
   QuadEdgeMeshPoint(const Superclass & r);
+
   QuadEdgeMeshPoint(const ValueType r[VPointDimension]):Superclass(r)
   {
     this->Initialize();
   }
 
-  Self & operator=(const Self & r);
 
   Self & operator=(const Superclass & r);
 
@@ -85,13 +89,20 @@ public:
 
   TQuadEdge * GetEdge() const;
 
-  /** FIXME Documentation missing */
+  /** Return IsOriginalInternal of the edge.
+   * @sa GeometricalQuadEdge::isOriginInternal
+   */
   bool IsInternal() const;
 
-  /** FIXME Documentation missing */
+  /** Return the valence of this QuadEdgeMeshPoint i.e. the number of edges constituting
+   *  the Onext ring to which this point belongs.
+   *  @return the valence when an entry in the Onext ring is present,
+   *          and -1 otherwise.
+   */
   int GetValence() const;
 
 protected:
+  /** Resets the state of m_Edge to nullptr. */
   void Initialize();
 
 protected:

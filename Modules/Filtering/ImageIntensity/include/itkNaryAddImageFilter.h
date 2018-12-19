@@ -35,8 +35,8 @@ class Add1
 {
 public:
   using AccumulatorType = typename NumericTraits< TInput >::AccumulateType;
-  Add1() {}
-  ~Add1() {}
+  Add1() = default;
+  ~Add1() = default;
   inline TOutput operator()(const std::vector< TInput > & B) const
   {
     AccumulatorType sum = NumericTraits< TOutput >::ZeroValue();
@@ -71,18 +71,18 @@ public:
  * the operator+ with each other. This condition is
  * required because internally this filter will perform the operation
  *
- * \code
- *        pixel_from_image_N + pixel_from_image_(N+1)
- * \endcode
+   \code
+          pixel_from_image_N + pixel_from_image_(N+1)
+   \endcode
  *
  * Additionally the type resulting from the sum, will be cast to
  * the pixel type of the output image.
  *
  * The total operation over one pixel will be
  *
- * \code
- *  output_pixel = static_cast<OutputPixelType>( input_pixel_N + input_pixel_(N+1) )
- * \endcode
+   \code
+    output_pixel = static_cast<OutputPixelType>( input_pixel_N + input_pixel_(N+1) )
+   \endcode
  *
  * For example, this filter could be used directly for adding images whose
  * pixels are vectors of the same dimension, and to store the resulting vector
@@ -131,8 +131,8 @@ public:
 #endif
 
 protected:
-  NaryAddImageFilter() {}
-  ~NaryAddImageFilter() override {}
+  NaryAddImageFilter() = default;
+  ~NaryAddImageFilter() override = default;
 };
 } // end namespace itk
 

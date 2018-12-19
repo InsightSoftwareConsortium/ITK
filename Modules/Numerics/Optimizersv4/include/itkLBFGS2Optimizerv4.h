@@ -204,7 +204,7 @@ public:
   PrecisionType GetSolutionAccuracy() const;
 
   /**
-  * Set/Ger distance for delta-based convergence test.
+  * Set/Get distance for delta-based convergence test.
   * This parameter determines the distance, in iterations, to compute
   * the rate of decrease of the objective function. If the value of this
   * parameter is zero, the library does not perform the delta-based

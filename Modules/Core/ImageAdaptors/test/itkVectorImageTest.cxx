@@ -119,7 +119,7 @@ bool testVectorImageAdaptor( typename TAdaptor::Pointer & vectorImageAdaptor,
 }
 
 template< typename TPixel, unsigned int VDimension >
-bool testVectorImageBasicMethods( void )
+bool testVectorImageBasicMethods()
 {
   const unsigned int VectorLength = 3 * VDimension;
 

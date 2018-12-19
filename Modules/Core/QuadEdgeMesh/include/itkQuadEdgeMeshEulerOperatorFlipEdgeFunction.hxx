@@ -67,7 +67,7 @@ void
 QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::CheckStatus(QEType *h)
 {
 #ifndef NDEBUG
-  if ( h == (QEType *)0 )
+  if ( h == (QEType *)nullptr )
     {
     m_EdgeStatus = EDGE_NULL;
     return;

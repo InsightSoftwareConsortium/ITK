@@ -31,51 +31,51 @@ namespace itk
  * defined as a 2D plane spanned by two vectors pointing along orthogonal
  * coordinate axes. The slice orientation of the iterator is defined by
  * specifying its two spanning axes using the methods:
- * \code
- * SetFirstDirection(n)
- * SetSecondDirection(n)
- * \endcode
+   \code
+   SetFirstDirection(n)
+   SetSecondDirection(n)
+   \endcode
  * where n is the number of the axis.
  *
  * Use the following methods to move the iterator between slices:
- * \code
- * NextSlice()
- * PreviousSlice()
- * \endcode
+   \code
+   NextSlice()
+   PreviousSlice()
+   \endcode
  *
  * To test the position of the iterator with respect to the end or beginning of
  * the slice use the following methods:
- * \code
- * IsAtReverseEndOfSlice()
- * IsAtEndOfSlice()
- * \endcode
+   \code
+   IsAtReverseEndOfSlice()
+   IsAtEndOfSlice()
+   \endcode
  *
  * The following code, for example, illustrates the typical use of this
  * iterator.  For more information please see the Software Guide.
  *
- * \code
- *
- * ImageSliceConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- *
- * it.SetFirstDirection(2);
- * it.SetSecondDirection(0);
- *
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   while( !it.IsAtEndOfSlice() )
- *   {
- *     while( !it.IsAtEndOfLine() )
- *     {
- *        value = it.Get();  // it.Set() doesn't exist in the Const Iterator
- *        ++it;
- *     }
- *     it.NextLine();
- *   }
- *   it.NextSlice();
- *  }
- *
- *  \endcode
+   \code
+
+   ImageSliceConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+
+   it.SetFirstDirection(2);
+   it.SetSecondDirection(0);
+
+   it.GoToBegin();
+   while( !it.IsAtEnd() )
+   {
+     while( !it.IsAtEndOfSlice() )
+     {
+       while( !it.IsAtEndOfLine() )
+       {
+          value = it.Get();  // it.Set() doesn't exist in the Const Iterator
+          ++it;
+       }
+       it.NextLine();
+     }
+     it.NextSlice();
+    }
+
+    \endcode
  *
  *
  * \par MORE INFORMATION
@@ -173,16 +173,16 @@ public:
   void PreviousSlice();
 
   /** Test if the index is at the end of line */
-  bool IsAtEndOfLine();
+  bool IsAtEndOfLine() const;
 
   /** Test if the index is at the end of the slice */
-  bool IsAtEndOfSlice();
+  bool IsAtEndOfSlice() const;
 
   /** Test if the index is at the begin of line */
-  bool IsAtReverseEndOfLine();
+  bool IsAtReverseEndOfLine() const;
 
   /** Test if the index is at the begin of the slice */
-  bool IsAtReverseEndOfSlice();
+  bool IsAtReverseEndOfSlice() const;
 
   /** Set the fastest direction of movement */
   void SetFirstDirection(unsigned int direction);

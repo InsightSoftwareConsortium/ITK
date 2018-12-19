@@ -100,7 +100,7 @@ public:
 protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  void PopulateEdgeIds(void) override; // HACK:  Should PopulateEdgeIds
+  void PopulateEdgeIds() override; // HACK:  Should PopulateEdgeIds
                                       // be const or not in this
                                       // hierarchy. Sometimes it is,
                                       // sometimes it is not.

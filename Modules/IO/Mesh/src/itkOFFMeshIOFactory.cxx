@@ -34,17 +34,16 @@ OFFMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkOFFMeshIO",
                          "OFF Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< OFFMeshIO >::New() );
 }
 
 OFFMeshIOFactory
-::~OFFMeshIOFactory()
-{}
+::~OFFMeshIOFactory() = default;
 
 const char *
 OFFMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -60,7 +59,7 @@ OFFMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OFFMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT OFFMeshIOFactoryRegister__Private(void)
+void ITKIOMesh_EXPORT OFFMeshIOFactoryRegister__Private()
 {
   if( ! OFFMeshIOFactoryHasBeenRegistered )
     {

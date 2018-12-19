@@ -69,7 +69,7 @@ public:
   }
 
   /** Get the CostFunction deriving from SingleValuedCostFunction */
-  const ObjectToObjectMetricBase * GetCostFunction(void) const
+  const ObjectToObjectMetricBase * GetCostFunction() const
   {
     return m_ObjectMetric;
   }

@@ -55,35 +55,35 @@ namespace itk
  * wraps to the next row, starting at the first pixel in the row that is
  * part of the region. This allows for simple processing loops of the form:
  *
- * \code
- *
- *  IteratorType it( image, image->GetRequestedRegion() );
- *
- *  it.Begin();
- *
- *  while( ! it.IsAtEnd() )
- *  {
- *    std::cout << it.GetIndex() << std::endl;
- *    ++it;
- *  }
- *
- * \endcode
+   \code
+
+    IteratorType it( image, image->GetRequestedRegion() );
+
+    it.Begin();
+
+    while( ! it.IsAtEnd() )
+    {
+      std::cout << it.GetIndex() << std::endl;
+      ++it;
+    }
+
+   \endcode
  *
  *  It also can be used for walking in the reverse direction like
  *
- * \code
- *
- *  IteratorType it( image, image->GetRequestedRegion() );
- *
- *  it.End();
- *
- *  while( !it.IsAtBegin() )
- *  {
- *    std::cout << it.GetIndex() << std::endl;
- *    --it;
- *  }
- *
- * \endcode
+   \code
+
+    IteratorType it( image, image->GetRequestedRegion() );
+
+    it.End();
+
+    while( !it.IsAtBegin() )
+    {
+      std::cout << it.GetIndex() << std::endl;
+      --it;
+    }
+
+   \endcode
  *
  * \par MORE INFORMATION
  *

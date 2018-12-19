@@ -36,19 +36,21 @@
 // command line options prior to invoking the test.
 //
 
-#include "itksys/Process.h"
-
-#include "itkWin32Header.h"
-#include <map>
 #include <algorithm>
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+
+#include "itksys/Process.h"
 #include "itksys/SystemTools.hxx"
+#include "vnl/vnl_sample.h"
+
 #include "itkFloatingPointExceptions.h"
 #include "itkImageIOBase.h"
 #include "itkIntTypes.h"
-#include "vnl/vnl_sample.h"
+#include "itkWin32Header.h"
 
 #define ITK_TEST_DIMENSION_MAX 6
 
@@ -82,12 +84,12 @@ typedef struct
   double directionTolerance;
 } RegressionTestParameters;
 
-extern RegressionTestParameters regressionTestParameters;
+RegressionTestParameters& GetRegressionTestParameters();
 
 
 using HashPairType = std::pair< const char *, std::vector<std::string> >;
 
-extern std::vector< HashPairType > hashTestList;
+std::vector< HashPairType >& GetHashTestList();
 
 using ArgumentStringType = char **;
 
@@ -112,7 +114,7 @@ typedef struct
   std::string fileName;
 } RedirectOutputParameters;
 
-extern RedirectOutputParameters redirectOutputParameters;
+RedirectOutputParameters& GetRedirectOutputParameters();
 
 void usage();
 

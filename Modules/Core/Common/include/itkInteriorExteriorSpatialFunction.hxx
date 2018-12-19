@@ -24,13 +24,11 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 InteriorExteriorSpatialFunction< VDimension, TInput >
-::InteriorExteriorSpatialFunction()
-{}
+::InteriorExteriorSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 InteriorExteriorSpatialFunction< VDimension, TInput >
-::~InteriorExteriorSpatialFunction()
-{}
+::~InteriorExteriorSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 void

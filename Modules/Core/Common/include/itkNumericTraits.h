@@ -41,9 +41,6 @@
     return std::numeric_limits< ValueType >::max(); \
     }
 
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_limits.h"
-#endif
 #include <limits> // for std::numeric_limits
 #include <complex>
 
@@ -107,7 +104,7 @@ public:
   static const T ITKCommon_EXPORT One;
 
   /** Smallest (most nonpositive) value */
-  static constexpr T NonpositiveMin() { return TraitsType::min(); }
+  static constexpr T NonpositiveMin() { return TraitsType::lowest(); }
 
   /** Is a given value positive? */
   static bool IsPositive(T val) { return val > Zero; }
@@ -301,20 +298,15 @@ public:
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
-  static constexpr char NonpositiveMin() { return min(); }
+  static constexpr char NonpositiveMin() { return lowest(); }
   static constexpr bool IsPositive(char val) { return val > Zero; }
   static constexpr bool IsNonpositive(char val) { return val <= Zero; }
-// char on PowerPC, for example, is not signed
-#if VCL_CHAR_IS_SIGNED
-  static constexpr bool IsNegative(char val) { return val < Zero; }
-  static constexpr bool IsNonnegative(char val) { return val >= Zero; }
-  static constexpr bool IsSigned = true;
-#else
+
   static constexpr bool IsNegative(char) { return false; }
   static constexpr bool IsNonnegative(char) { return true; }
-  static constexpr bool IsSigned = false;
-#endif
-  static constexpr bool IsInteger = true;
+  static constexpr bool IsSigned = std::numeric_limits<char>::is_signed;
+
+  static constexpr bool IsInteger = std::numeric_limits<char>::is_integer;
   static constexpr bool IsComplex = false;
   static constexpr char ZeroValue() { return Zero; }
   static constexpr char OneValue() { return One; }
@@ -364,7 +356,7 @@ public:
   static constexpr signed char max() { return 127; }
   static constexpr signed char min(signed char) { return min(); }
   static constexpr signed char max(signed char) { return max(); }
-  static constexpr signed char NonpositiveMin() { return min(); }
+  static constexpr signed char NonpositiveMin() { return lowest(); }
   static constexpr bool IsPositive(signed char val) { return val > Zero; }
   static constexpr bool IsNonpositive(signed char val) { return val <= Zero; }
   static constexpr bool IsNegative(signed char val) { return val < Zero; }
@@ -418,7 +410,7 @@ public:
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
-  static constexpr unsigned char NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr unsigned char NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(unsigned char val) { return val != Zero; }
   static constexpr bool IsNonpositive(unsigned char val) { return val == Zero; }
   static constexpr bool IsNegative(unsigned char val) { return val ? false : false; }
@@ -470,7 +462,7 @@ public:
   static constexpr short ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr short NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr short NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(short val) { return val > Zero; }
   static constexpr bool IsNonpositive(short val) { return val <= Zero; }
   static constexpr bool IsNegative(short val) { return val < Zero; }
@@ -523,7 +515,7 @@ public:
   static constexpr unsigned short ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr unsigned short NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr unsigned short NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(unsigned short val) { return val != Zero; }
   static constexpr bool IsNonpositive(unsigned short val) { return val == Zero; }
   static constexpr bool IsNegative(unsigned short val) { return val ? false : false; }
@@ -575,7 +567,7 @@ public:
   static constexpr int ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr int NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr int NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(int val) { return val > Zero; }
   static constexpr bool IsNonpositive(int val) { return val <= Zero; }
   static constexpr bool IsNegative(int val) { return val < Zero; }
@@ -627,8 +619,8 @@ public:
   static constexpr unsigned int ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned int ITKCommon_EXPORT One = 1;
 
-  static constexpr unsigned int min(void) { return 0; }
-  static constexpr unsigned int max(void) { return static_cast< unsigned int >( -1 ); }
+  static constexpr unsigned int min() { return 0; }
+  static constexpr unsigned int max() { return static_cast< unsigned int >( -1 ); }
   static constexpr unsigned int min(unsigned int) { return std::numeric_limits< ValueType >::min(); }
   static constexpr unsigned int max(unsigned int) { return std::numeric_limits< ValueType >::max(); }
   static constexpr unsigned int NonpositiveMin() { return 0; }
@@ -684,7 +676,7 @@ public:
   static constexpr long ITKCommon_EXPORT One = 1L;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr long NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr long NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(long val) { return val > Zero; }
   static constexpr bool IsNonpositive(long val) { return val <= Zero; }
   static constexpr bool IsNegative(long val) { return val < Zero; }
@@ -737,7 +729,7 @@ public:
   static constexpr unsigned long ITKCommon_EXPORT One = 1UL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr unsigned long NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr unsigned long NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(unsigned long val) { return val != Zero; }
   static constexpr bool IsNonpositive(unsigned long val) { return val == Zero; }
   static constexpr bool IsNegative(unsigned long) { return false; }
@@ -791,7 +783,7 @@ public:
   static constexpr float ITKCommon_EXPORT One =1.0f;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr float NonpositiveMin() { return -std::numeric_limits< ValueType >::max(); }
+  static constexpr float NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(float val) { return val > Zero; }
   static constexpr bool IsNonpositive(float val) { return val <= Zero; }
   static constexpr bool IsNegative(float val) { return val < Zero; }
@@ -844,7 +836,7 @@ public:
   static constexpr double ITKCommon_EXPORT One  = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr double NonpositiveMin() { return -std::numeric_limits< ValueType >::max(); }
+  static constexpr double NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(double val) { return val > Zero; }
   static constexpr bool IsNonpositive(double val) { return val <= Zero; }
   static constexpr bool IsNegative(double val) { return val < Zero; }
@@ -905,7 +897,7 @@ public:
   static constexpr long double ITKCommon_EXPORT One = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr long double NonpositiveMin() { return -std::numeric_limits< ValueType >::max(); }
+  static constexpr long double NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(long double val) { return val > Zero; }
   static constexpr bool IsNonpositive(long double val) { return val <= Zero; }
   static constexpr bool IsNegative(long double val) { return val < Zero; }
@@ -960,7 +952,7 @@ public:
   static constexpr ValueType ITKCommon_EXPORT One = 1LL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(ValueType val) { return val > Zero; }
   static constexpr bool IsNonpositive(ValueType val) { return val <= Zero; }
   static constexpr bool IsNegative(ValueType val) { return val < Zero; }
@@ -1014,7 +1006,7 @@ public:
   static constexpr ValueType ITKCommon_EXPORT One = 1ULL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
   static constexpr bool IsPositive(ValueType val) { return val != Zero; }
   static constexpr bool IsNonpositive(ValueType val) { return val == Zero; }
   static constexpr bool IsNegative(ValueType) { return false; }
@@ -1081,14 +1073,9 @@ public:
 
   static bool IsPositive(Self val) { return val.real() > 0; }
   static bool IsNonpositive(Self val) { return val.real() <= 0; }
-// char on PowerPC, for example, is not signed
-#if VCL_CHAR_IS_SIGNED
   static bool IsNegative(Self val) { return val.real() < 0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0; }
-#else
-  static bool IsNegative(Self) { return false; }
-  static bool IsNonnegative(Self) { return true; }
-#endif
+
   static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;

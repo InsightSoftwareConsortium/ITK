@@ -32,7 +32,7 @@ int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  int dim = atoi(argv[1]);
+  int dim = std::stoi(argv[1]);
 
   using PixelType = unsigned char;
 

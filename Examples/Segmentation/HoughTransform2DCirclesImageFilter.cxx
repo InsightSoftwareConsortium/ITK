@@ -145,25 +145,25 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   houghFilter->SetInput( reader->GetOutput() );
 
-  houghFilter->SetNumberOfCircles( atoi(argv[3]) );
-  houghFilter->SetMinimumRadius(   atof(argv[4]) );
-  houghFilter->SetMaximumRadius(   atof(argv[5]) );
+  houghFilter->SetNumberOfCircles( std::stoi(argv[3]) );
+  houghFilter->SetMinimumRadius(   std::stod(argv[4]) );
+  houghFilter->SetMaximumRadius(   std::stod(argv[5]) );
 
   if( argc > 6 )
     {
-    houghFilter->SetSweepAngle( atof(argv[6]) );
+    houghFilter->SetSweepAngle( std::stod(argv[6]) );
     }
   if( argc > 7 )
     {
-    houghFilter->SetSigmaGradient( atoi(argv[7]) );
+    houghFilter->SetSigmaGradient( std::stoi(argv[7]) );
     }
   if( argc > 8 )
     {
-    houghFilter->SetVariance( atof(argv[8]) );
+    houghFilter->SetVariance( std::stod(argv[8]) );
     }
   if( argc > 9 )
     {
-    houghFilter->SetDiscRadiusRatio( atof(argv[9]) );
+    houghFilter->SetDiscRadiusRatio( std::stod(argv[9]) );
     }
 
   houghFilter->Update();

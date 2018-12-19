@@ -6,7 +6,6 @@
 #include <vnl/vnl_polynomial.h>
 #include <vnl/vnl_decnum.h>
 #include <vnl/vnl_rational.h>
-#include <vcl_compiler.h>
 
 void test_polynomial_double()
 {
@@ -310,7 +309,7 @@ void test_polynomial_rational()
 
   TEST("Polynomial of degree 0", vnl_polynomial<vnl_rational>(vnl_rational(1)).evaluate(vnl_rational(7,9)),1);
   TEST("Polynomial of degree -1", vnl_polynomial<vnl_rational>().evaluate(vnl_rational(7,9)),0);
-  std::vector<vnl_rational> v; v.push_back(1); v.push_back(2); v.push_back(3);
+  std::vector<vnl_rational> v; v.emplace_back(1); v.emplace_back(2); v.emplace_back(3);
   vnl_polynomial<vnl_rational> f4(v);
   TEST("Vector initialisation", f4.evaluate(vnl_rational(7,9)),vnl_rational(354,81));
   TEST("Degree", f4.degree(),2);
@@ -415,7 +414,7 @@ void test_polynomial_decnum()
 
   TEST("Polynomial of degree 0", vnl_polynomial<vnl_decnum>("12").evaluate("35e19"),vnl_decnum("12"));
   TEST("Polynomial of degree -1", vnl_polynomial<vnl_decnum>().evaluate("35e19"),0L);
-  std::vector<vnl_decnum> v; v.push_back(1L); v.push_back(2L); v.push_back(3L);
+  std::vector<vnl_decnum> v; v.emplace_back(1L); v.emplace_back(2L); v.emplace_back(3L);
   vnl_polynomial<vnl_decnum> f4(v);
   TEST("Vector initialisation", f4.evaluate(2L),17L);
   TEST("Degree", f4.degree(),2);

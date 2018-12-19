@@ -77,7 +77,7 @@ public:
   virtual TElement * GetBufferPointer() = 0;
 
   /** Get the number of elements currently stored in the container. */
-  virtual ElementIdentifier Size(void) const = 0;
+  virtual ElementIdentifier Size() const = 0;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
@@ -88,7 +88,7 @@ public:
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
-  virtual void Squeeze(void) = 0;
+  virtual void Squeeze() = 0;
 };
 } // end namespace itk
 

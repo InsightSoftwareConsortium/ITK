@@ -23,6 +23,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -31,7 +32,9 @@ template< typename TInputImage, typename TOutputImage >
 FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWInverseFFTImageFilter()
 {
+#ifndef ITK_USE_CUFFTW
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+#endif
   this->DynamicMultiThreadingOn();
 }
 
@@ -92,7 +95,8 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 
   plan = FFTWProxyType::Plan_dft_c2r( ImageDimension, sizes, in, out, m_PlanRigor,
-                                      this->GetNumberOfWorkUnits(), false );
+                                      MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
+                                      false );
   FFTWProxyType::Execute( plan );
 
   // Some cleanup.
@@ -121,8 +125,10 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 {
   Superclass::PrintSelf( os, indent );
 
+#ifndef ITK_USE_CUFFTW
   os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName( m_PlanRigor )
      << " (" << m_PlanRigor << ")" << std::endl;
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >

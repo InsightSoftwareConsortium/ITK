@@ -48,7 +48,7 @@ public:
   itkTypeMacro(FileFreeImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     FileFreeImageIOFactory::Pointer fileFreeFactory = FileFreeImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(fileFreeFactory);

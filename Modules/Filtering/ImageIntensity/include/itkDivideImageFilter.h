@@ -98,9 +98,9 @@ protected:
 #endif
     }
 
-  ~DivideImageFilter() override {}
+  ~DivideImageFilter() override = default;
 
-  void VerifyPreconditions() override
+  void VerifyPreconditions() ITKv5_CONST override
   {
     Superclass::VerifyPreconditions();
 

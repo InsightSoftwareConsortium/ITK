@@ -34,17 +34,16 @@ GiftiMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkGiftiMeshIO",
                          "Gifti Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< GiftiMeshIO >::New() );
 }
 
 GiftiMeshIOFactory
-::~GiftiMeshIOFactory()
-{}
+::~GiftiMeshIOFactory() = default;
 
 const char *
 GiftiMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -60,7 +59,7 @@ GiftiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool GiftiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT GiftiMeshIOFactoryRegister__Private(void)
+void ITKIOMesh_EXPORT GiftiMeshIOFactoryRegister__Private()
 {
   if( ! GiftiMeshIOFactoryHasBeenRegistered )
     {

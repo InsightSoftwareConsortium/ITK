@@ -67,9 +67,9 @@ public:
   using OutputType = TOutput;
 
 protected:
-  ShanbhagThresholdCalculator() {};
-  ~ShanbhagThresholdCalculator() override {};
-  void GenerateData(void) override;
+  ShanbhagThresholdCalculator() = default;
+  ~ShanbhagThresholdCalculator() override = default;
+  void GenerateData() override;
 };
 
 } // end namespace itk

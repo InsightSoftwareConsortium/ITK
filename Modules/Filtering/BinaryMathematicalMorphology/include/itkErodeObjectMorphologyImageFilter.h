@@ -84,7 +84,7 @@ public:
 
   /** Set the object's value. Added for API consistency with itkBinaryErode
     filter */
-  PixelType GetErodeValue(void)
+  PixelType GetErodeValue()
   {
     return this->GetObjectValue();
   }
@@ -107,7 +107,7 @@ public:
 
 protected:
   ErodeObjectMorphologyImageFilter();
-  ~ErodeObjectMorphologyImageFilter() override {}
+  ~ErodeObjectMorphologyImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply the kernel to the neighborhood given.

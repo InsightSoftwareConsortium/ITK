@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_matrix_fixed.h
 #ifndef vnl_matrix_fixed_h_
 #define vnl_matrix_fixed_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief fixed size matrix
@@ -28,8 +25,11 @@
 
 #include <cstring>
 #include <iosfwd>
-#include <vcl_cassert.h>
+#include <cassert>
 #include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 #include "vnl_matrix.h"
 #include "vnl_matrix_ref.h"
@@ -39,7 +39,7 @@
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 #include "vnl/vnl_export.h"
 
-VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
+template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
 // This mess is for a MSVC6 workaround.
 //
@@ -101,7 +101,7 @@ vnl_matrix_fixed<T, M, O> vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T
 // Read the overview documentation of vnl_vector_fixed.
 // The text there applies here.
 template <class T, unsigned int num_rows, unsigned int num_cols>
-class VNL_TEMPLATE_EXPORT vnl_matrix_fixed
+class VNL_EXPORT vnl_matrix_fixed
 {
   T data_[num_rows][num_cols]; // Local storage
 
@@ -110,7 +110,16 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed
   typedef size_t size_type;
 
   //: Construct an empty num_rows*num_cols matrix
-  vnl_matrix_fixed() {}
+  vnl_matrix_fixed() = default;
+  //: Construct an m*n Matrix and copy rhs into it.
+  //  Abort if rhs is not the same size.
+  vnl_matrix_fixed(const vnl_matrix_fixed& rhs) = default;
+  vnl_matrix_fixed(vnl_matrix_fixed&& other) = default;
+  //: Copy another vnl_matrix_fixed<T,m,n> into this.
+  vnl_matrix_fixed& operator=(const vnl_matrix_fixed& rhs) = default;
+  vnl_matrix_fixed& operator=(vnl_matrix_fixed&& rhs) = default;
+  ~vnl_matrix_fixed() = default;
+
 
   //: Construct an empty num_rows*num_cols matrix
   //
@@ -140,44 +149,20 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed
 
   //: Construct an m*n Matrix and copy rhs into it.
   //  Abort if rhs is not the same size.
-  vnl_matrix_fixed(const vnl_matrix_fixed& rhs)
-  {
-    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
-  }
-
-  //: Construct an m*n Matrix and copy rhs into it.
-  //  Abort if rhs is not the same size.
   vnl_matrix_fixed(const vnl_matrix<T>& rhs)
   {
     assert(rhs.rows() == num_rows && rhs.columns() == num_cols);
     std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
   }
 
-  //  Destruct the m*n matrix.
-  // An explicit destructor seems to be necessary, at least for gcc 3.0.0,
-  // to avoid the compiler generating multiple versions of it.
-  // (This way, a weak symbol is generated; otherwise not.  A bug of gcc 3.0.)
-  ~vnl_matrix_fixed() {}
 
   //: Set all elements to value v
   // Complexity $O(r.c)$
-  vnl_matrix_fixed& operator= (T const&v) { fill(v); return *this; }
+  vnl_matrix_fixed& operator= (T const&v);
 
   //: Copy a vnl_matrix into this.
   //  Abort if rhs is not the same size.
-  vnl_matrix_fixed& operator=(const vnl_matrix<T>& rhs)
-  {
-    assert(rhs.rows() == num_rows && rhs.columns() == num_cols);
-    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
-    return *this;
-  }
-
-  //: Copy another vnl_matrix_fixed<T,m,n> into this.
-  vnl_matrix_fixed& operator=(const vnl_matrix_fixed& rhs)
-  {
-    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
-    return *this;
-  }
+  vnl_matrix_fixed& operator=(const vnl_matrix<T>& rhs);
 
 // Basic 2D-Array functionality-------------------------------------------
 
@@ -233,25 +218,11 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed
 
   //: Access an element for reading or writing
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T       & operator() (unsigned r, unsigned c)
-  {
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-    assert(r<rows());   // Check the row index is valid
-    assert(c<cols());   // Check the column index is valid
-#endif
-    return this->data_[r][c];
-  }
+  T       & operator() (unsigned r, unsigned c);
 
   //: Access an element for reading
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T const & operator() (unsigned r, unsigned c) const
-  {
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-    assert(r<rows());   // Check the row index is valid
-    assert(c<cols());   // Check the column index is valid
-#endif
-    return this->data_[r][c];
-  }
+  T const & operator() (unsigned r, unsigned c) const;
 
   // ----------------------- Filling and copying -----------------------
 
@@ -669,11 +640,11 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed
 
   //: Access the contiguous block storing the elements in the matrix row-wise. O(1).
   // 1d array, row-major order.
-  T const* data_block () const { return data_[0]; }
+  T const* data_block() const;
 
   //: Access the contiguous block storing the elements in the matrix row-wise. O(1).
   // 1d array, row-major order.
-  T      * data_block () { return data_[0]; }
+  T      * data_block();
 
 
   //----------------------------------------------------------------------
@@ -689,23 +660,23 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed
   // for vnl_matrix but not for vnl_matrix_fixed. There is also a
   // conversion operator that should work most of the time.
   // \sa vnl_matrix_ref::non_const
-  vnl_matrix_ref<T> as_ref() { return vnl_matrix_ref<T>( num_rows, num_cols, data_block() ); }
+  inline vnl_matrix_ref<T> as_ref() { return vnl_matrix_ref<T>( num_rows, num_cols, data_block() ); }
 
   //: Explicit conversion to a vnl_matrix_ref.
   // This is a cheap conversion for those functions that have an interface
   // for vnl_matrix but not for vnl_matrix_fixed. There is also a
   // conversion operator that should work most of the time.
   // \sa vnl_matrix_ref::non_const
-  const vnl_matrix_ref<T> as_ref() const { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
+  inline const vnl_matrix_ref<T> as_ref() const { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
 
   //: Cheap conversion to vnl_matrix_ref
   // Sometimes, such as with templated functions, the compiler cannot
   // use this user-defined conversion. For those cases, use the
   // explicit as_ref() method instead.
-  operator const vnl_matrix_ref<T>() const { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
+  inline operator const vnl_matrix_ref<T>() const { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
 
   //: Convert to a vnl_matrix.
-  const vnl_matrix<T> as_matrix() const { return vnl_matrix<T>(const_cast<T*>(data_block()),num_rows,num_cols); }
+  inline const vnl_matrix<T> as_matrix() const { return vnl_matrix<T>(const_cast<T*>(data_block()),num_rows,num_cols); }
 
   //----------------------------------------------------------------------
 
@@ -714,16 +685,16 @@ class VNL_TEMPLATE_EXPORT vnl_matrix_fixed
   //: Iterators
   typedef T       *iterator;
   //: Iterator pointing to start of data
-  iterator       begin() { return data_[0]; }
+  inline iterator       begin() { return data_[0]; }
   //: Iterator pointing to element beyond end of data
-  iterator       end() { return begin() + size(); }
+  inline iterator       end() { return begin() + size(); }
 
   //: Const iterators
   typedef T const *const_iterator;
   //: Iterator pointing to start of data
-  const_iterator begin() const { return data_[0]; }
+  inline const_iterator begin() const { return data_[0]; }
   //: Iterator pointing to element beyond end of data
-  const_iterator end() const { return begin() + size(); }
+  inline const_iterator end() const { return begin() + size(); }
 
   //--------------------------------------------------------------------------------
 
@@ -1047,7 +1018,7 @@ std::istream& operator>> (std::istream& is, vnl_matrix_fixed<T,m,n>& mat)
 
 //:
 // \relatesalso vnl_vector_fixed
-template <class T, unsigned m, unsigned n> VNL_TEMPLATE_EXPORT
+template <class T, unsigned m, unsigned n> VNL_EXPORT
 vnl_matrix_fixed<T,m,n> outer_product(vnl_vector_fixed<T,m> const& a, vnl_vector_fixed<T,n> const& b);
 
 #define VNL_MATRIX_FIXED_INSTANTIATE(T, M, N) \

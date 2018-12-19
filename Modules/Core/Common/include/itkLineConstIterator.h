@@ -35,13 +35,13 @@ namespace itk
  * the two indices is closed.  So, a line iterator specified with
  * the same start and end index will visit exactly one pixel.
  *
- * \code
- * LineConstIterator<ImageType> it(image, I1, I2);
- * while (!it.IsAtEnd())
- * {
- *    // visits at least 1 pixel
- * }
- * \endcode
+   \code
+   LineConstIterator<ImageType> it(image, I1, I2);
+   while (!it.IsAtEnd())
+   {
+      // visits at least 1 pixel
+   }
+   \endcode
  *
  * \author Benjamin King, Experimentelle Radiologie, Medizinische
  * Hochschule Hannover.
@@ -118,13 +118,13 @@ public:
   }
 
   /** Get the pixel value */
-  const PixelType Get(void) const
+  const PixelType Get() const
   {
     return m_Image->GetPixel(m_CurrentImageIndex);
   }
 
   /** Is the iterator at the end of the line? */
-  bool IsAtEnd()
+  bool IsAtEnd() const
   {
     return m_IsAtEnd;
   }
@@ -143,7 +143,7 @@ public:
   LineConstIterator(const ImageType *imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
 
   /** Default Destructor. */
-  virtual ~LineConstIterator() {}
+  virtual ~LineConstIterator() = default;
 
 protected: //made protected so other iterators can access
   /** Smart pointer to the source image. */

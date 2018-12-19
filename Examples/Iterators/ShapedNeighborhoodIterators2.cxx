@@ -51,7 +51,7 @@ int main( int argc, char ** argv )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  unsigned int element_radius = ::atoi( argv[3] );
+  unsigned int element_radius = ::std::stoi( argv[3] );
 
   try
     {

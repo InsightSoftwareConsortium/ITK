@@ -120,7 +120,7 @@ public:
 protected:
 
   CSVArray2DFileReader();
-  ~CSVArray2DFileReader () override {}
+  ~CSVArray2DFileReader () override = default;
 
   /** Print the reader. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

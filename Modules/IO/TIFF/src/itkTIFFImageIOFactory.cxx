@@ -26,21 +26,20 @@ TIFFImageIOFactory::TIFFImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkTIFFImageIO",
                           "TIFF Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< TIFFImageIO >::New() );
 }
 
-TIFFImageIOFactory::~TIFFImageIOFactory()
-{}
+TIFFImageIOFactory::~TIFFImageIOFactory() = default;
 
 const char *
-TIFFImageIOFactory::GetITKSourceVersion(void) const
+TIFFImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-TIFFImageIOFactory::GetDescription(void) const
+TIFFImageIOFactory::GetDescription() const
 {
   return "TIFF ImageIO Factory, allows the loading of TIFF images into insight";
 }
@@ -50,7 +49,7 @@ TIFFImageIOFactory::GetDescription(void) const
 
 static bool TIFFImageIOFactoryHasBeenRegistered;
 
-void ITKIOTIFF_EXPORT TIFFImageIOFactoryRegister__Private(void)
+void ITKIOTIFF_EXPORT TIFFImageIOFactoryRegister__Private()
 {
   if( ! TIFFImageIOFactoryHasBeenRegistered )
     {

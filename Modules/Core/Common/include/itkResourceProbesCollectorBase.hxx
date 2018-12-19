@@ -26,8 +26,7 @@ namespace itk
 
 template< typename TProbe >
 ResourceProbesCollectorBase< TProbe >
-::~ResourceProbesCollectorBase()
-{}
+::~ResourceProbesCollectorBase() = default;
 
 
 template< typename TProbe >
@@ -236,7 +235,7 @@ ResourceProbesCollectorBase< TProbe >
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
-::Clear(void)
+::Clear()
 {
   this->m_Probes.clear();
 }

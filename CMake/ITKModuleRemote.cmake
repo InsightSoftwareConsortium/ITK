@@ -45,6 +45,31 @@ endfunction()
 # Helper to perform a git update.  Checks the current Git revision against the
 # desired revision and only performs a fetch and checkout if needed.
 function(_git_update git_executable git_repository git_tag module_dir)
+  # Verify that remote url are the same
+  execute_process(
+    COMMAND "${git_executable}" config --get remote.origin.url
+    WORKING_DIRECTORY "${module_dir}"
+    RESULT_VARIABLE error_code
+    OUTPUT_VARIABLE remote_origin_url
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if ( NOT "${remote_origin_url}" STREQUAL "${git_repository}")
+    message(WARNING "Remote URL changed from ${git_repository} to ${remote_origin_url}")
+    execute_process(
+      COMMAND "${git_executable}" remote rename origin old_origin
+      WORKING_DIRECTORY "${module_dir}"
+      RESULT_VARIABLE error_code
+      OUTPUT_VARIABLE ignored
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    execute_process(
+      COMMAND "${git_executable}" remote add origin "${git_repository}"
+      WORKING_DIRECTORY "${module_dir}"
+      RESULT_VARIABLE error_code
+      OUTPUT_VARIABLE ignored
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+  endif()
   execute_process(
     COMMAND "${git_executable}" rev-parse --verify "${git_tag}"
     WORKING_DIRECTORY "${module_dir}"

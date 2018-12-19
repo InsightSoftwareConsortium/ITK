@@ -49,16 +49,19 @@ DCMTKImageIO::DCMTKImageIO()
   m_UseJPEGCodec = false;
   m_UseJPLSCodec = false;
   m_UseRLECodec  = false;
-  m_DicomImageSetByUser = 0;
-  this->AddSupportedWriteExtension(".dcm");
-  this->AddSupportedWriteExtension(".DCM");
-  this->AddSupportedWriteExtension(".dicom");
-  this->AddSupportedWriteExtension(".DICOM");
+  m_DicomImageSetByUser = false;
 
-  // this->AddSupportedReadExtension(".dcm");
-  // this->AddSupportedReadExtension(".DCM");
-  // this->AddSupportedReadExtension(".dicom");
-  // this->AddSupportedReadExtension(".DICOM");
+
+  const char *readExtensions[] =
+    {
+      ".dcm",".DCM", ".dicom", ".DICOM"
+    };
+
+
+  for(auto ext : readExtensions)
+    {
+    this->AddSupportedReadExtension(ext);
+    }
 
   // DCMTK loves printing warnings, turn off by default.
   this->SetLogLevel(FATAL_LOG_LEVEL);
@@ -149,52 +152,7 @@ bool DCMTKImageIO::CanReadFile(const char *filename)
 
 bool DCMTKImageIO::CanWriteFile(const char *name)
 {
-  std::string fname = name;
-
-  if ( fname == "" )
-    {
-    itkDebugMacro(<< "No filename specified.");
-    }
-
-  bool                   extensionFound = false;
-  std::string::size_type dcmPos = fname.rfind(".dcm");
-  if ( ( dcmPos != std::string::npos )
-       && ( dcmPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
-
-  dcmPos = fname.rfind(".DCM");
-  if ( ( dcmPos != std::string::npos )
-       && ( dcmPos == fname.length() - 4 ) )
-    {
-    extensionFound = true;
-    }
-
-  dcmPos = fname.rfind(".dicom");
-  if ( ( dcmPos != std::string::npos )
-       && ( dcmPos == fname.length() - 6 ) )
-    {
-    extensionFound = true;
-    }
-
-  dcmPos = fname.rfind(".DICOM");
-  if ( ( dcmPos != std::string::npos )
-       && ( dcmPos == fname.length() - 6 ) )
-    {
-    extensionFound = true;
-    }
-
-  if ( !extensionFound )
-    {
-    itkDebugMacro(<< "The filename extension is not recognized");
-    return false;
-    }
-
-  if ( extensionFound )
-    {
-    return true;
-    }
+  // writing is currently not implemented
   return false;
 }
 
@@ -479,7 +437,7 @@ void DCMTKImageIO::ReadImageInformation()
 
 void
 DCMTKImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {}
 
 /** */

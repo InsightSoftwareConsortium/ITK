@@ -29,11 +29,9 @@
 #include "itkNumericTraits.h"
 #include "itkProcessObject.h"
 #include "itkImageSourceCommon.h"
+#include <algorithm>
 #include <iostream>
 #include <string>
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_algorithm.h"
-#endif
 #include <algorithm>
 
 namespace itk
@@ -47,19 +45,15 @@ PoolMultiThreader::PoolMultiThreader() :
     m_ThreadInfoArray[i].WorkUnitID = i;
     }
 
-  ThreadIdType idleCount = std::max<ThreadIdType>(1u, m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
-#if defined( ITKV4_COMPATIBILITY )
-  m_NumberOfWorkUnits = std::min( defaultThreads, idleCount );
-#else
-  m_NumberOfWorkUnits = std::min( 3 * defaultThreads, idleCount );
+#if !defined( ITKV4_COMPATIBILITY )
+  defaultThreads *= 4;
 #endif
+  m_NumberOfWorkUnits = std::min< ThreadIdType >( ITK_MAX_THREADS, defaultThreads );
   m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }
 
-PoolMultiThreader::~PoolMultiThreader()
-{
-}
+PoolMultiThreader::~PoolMultiThreader() = default;
 
 void PoolMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 {
@@ -191,7 +185,7 @@ PoolMultiThreader
             aFunc( ii );
           }
           // make this lambda have the same signature as m_SingleMethod
-          return (ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER)0;
+          return ITK_THREAD_RETURN_DEFAULT_VALUE;
         },
         i,
         std::min( i + chunkSize, lastIndexPlus1 ) );
@@ -262,7 +256,7 @@ PoolMultiThreader
             {
               funcP( &iRegion.GetIndex()[0], &iRegion.GetSize()[0] );
               // make this lambda have the same signature as m_SingleMethod
-              return (ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER)0;
+              return ITK_THREAD_RETURN_DEFAULT_VALUE;
             }
             );
           }

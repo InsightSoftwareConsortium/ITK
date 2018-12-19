@@ -48,9 +48,7 @@ ImportImageFilter< TPixel, VImageDimension >
  */
 template< typename TPixel, unsigned int VImageDimension >
 ImportImageFilter< TPixel, VImageDimension >
-::~ImportImageFilter()
-{
-}
+::~ImportImageFilter() = default;
 
 /**
  *

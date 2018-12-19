@@ -120,7 +120,7 @@ public:
 
 protected:
   LabelMapToBinaryImageFilter();
-  ~LabelMapToBinaryImageFilter() override {}
+  ~LabelMapToBinaryImageFilter() override = default;
 
   /** LabelMapToBinaryImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

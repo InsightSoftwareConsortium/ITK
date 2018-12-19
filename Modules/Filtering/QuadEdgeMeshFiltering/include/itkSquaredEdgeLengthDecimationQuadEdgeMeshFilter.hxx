@@ -29,8 +29,7 @@ SquaredEdgeLengthDecimationQuadEdgeMeshFilter< TInput, TOutput,
 
 template< typename TInput, typename TOutput, typename TCriterion >
 SquaredEdgeLengthDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::
-~SquaredEdgeLengthDecimationQuadEdgeMeshFilter()
-{}
+~SquaredEdgeLengthDecimationQuadEdgeMeshFilter() = default;
 
 template< typename TInput, typename TOutput, typename TCriterion >
 typename

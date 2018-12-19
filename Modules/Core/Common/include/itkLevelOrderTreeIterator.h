@@ -49,7 +49,7 @@ public:
   /** Constructor with end level specification */
   LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = nullptr);
 
-  ~LevelOrderTreeIterator() override {}
+  ~LevelOrderTreeIterator() override = default;
 
   /** Get the type of the iterator */
   NodeType GetType() const override;

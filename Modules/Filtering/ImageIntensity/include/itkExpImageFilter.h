@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Exp
 {
 public:
-  Exp() {}
-  ~Exp() {}
+  Exp() = default;
+  ~Exp() = default;
   bool operator!=(const Exp &) const
   {
     return false;
@@ -103,7 +103,7 @@ protected:
 #endif
     }
 
-  ~ExpImageFilter() override {}
+  ~ExpImageFilter() override = default;
 };
 } // end namespace itk
 

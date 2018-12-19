@@ -27,5 +27,5 @@ void SingleValuedCostFunction::GetValueAndDerivative(const ParametersType & para
     this->GetDerivative(parameters, derivative);
 }
 
-SingleValuedCostFunction::~SingleValuedCostFunction() {}
+SingleValuedCostFunction::~SingleValuedCostFunction() = default;
 }

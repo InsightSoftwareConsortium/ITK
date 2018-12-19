@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_vector_fixed.h
 #ifndef vnl_vector_fixed_h_
 #define vnl_vector_fixed_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Fixed length stack-stored vector
@@ -30,8 +27,10 @@
 
 #include <cstring>
 #include <iosfwd>
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
+#include <cassert>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl_vector.h"
 #include "vnl_vector_ref.h"
 #include <vnl/vnl_c_vector.h>
@@ -40,8 +39,8 @@
 #include <vnl/vnl_error.h>
 #include "vnl/vnl_export.h"
 
-VCL_TEMPLATE_EXPORT template <class T, unsigned int n> class vnl_vector_fixed;
-VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
+template <class T, unsigned int n> class vnl_vector_fixed;
+template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
 //: Fixed length stack-stored, space-efficient vector.
 // vnl_vector_fixed is a fixed-length, stack storage vector. It has
@@ -85,7 +84,7 @@ VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_c
 // vnl_vector_fixed and vnl_vector, however, you will probably get a
 // vnl_vector result, with the corresponding malloc cost.
 template <class T, unsigned int n>
-class VNL_TEMPLATE_EXPORT vnl_vector_fixed
+class VNL_EXPORT vnl_vector_fixed
 {
  protected:
   T data_[n];
@@ -101,14 +100,16 @@ class VNL_TEMPLATE_EXPORT vnl_vector_fixed
   // couple of assembly instructions.)
 
   //: Construct an uninitialized n-vector
-  vnl_vector_fixed() {}
+  vnl_vector_fixed() = default;
 
   //: Copy constructor
   //  The dimensions must match.
-  vnl_vector_fixed( const vnl_vector_fixed<T,n>& rhs )
-  {
-    std::memcpy( data_, rhs.data_, sizeof data_ );
-  }
+  vnl_vector_fixed( const vnl_vector_fixed<T,n>& rhs ) = default;
+  vnl_vector_fixed( vnl_vector_fixed<T,n>&& rhs ) = default;
+  //: Copy operator
+  vnl_vector_fixed<T,n>& operator=( const vnl_vector_fixed<T,n>& rhs ) = default;
+  vnl_vector_fixed<T,n>& operator=( vnl_vector_fixed<T,n>&& rhs ) = default;
+
 
   //: Construct a fixed-n-vector copy of \a rhs.
   //  The dimensions must match.
@@ -172,12 +173,6 @@ class VNL_TEMPLATE_EXPORT vnl_vector_fixed
     data_[0] = x0; data_[1] = x1; data_[2] = x2; data_[3] = x3;
   }
 
-  //: Copy operator
-  vnl_vector_fixed<T,n>& operator=( const vnl_vector_fixed<T,n>& rhs ) {
-    std::memcpy( data_, rhs.data_, sizeof data_ );
-    return *this;
-  }
-
   //: Copy data from a dynamic vector
   // The dimensions must match.
   vnl_vector_fixed<T,n>& operator=( const vnl_vector<T>& rhs) {
@@ -201,14 +196,7 @@ class VNL_TEMPLATE_EXPORT vnl_vector_fixed
   }
 
   //: Get value at element i
-  inline T get (unsigned int i) const
-  {
-#if VNL_CONFIG_CHECK_BOUNDS
-    if (i >= this->size())            // If invalid index specified
-      vnl_error_vector_index("get", i);  // Raise exception
-#endif
-    return this->data_[i];
-  }
+  T get(unsigned int i) const;
 
   //: Set all values to v
   vnl_vector_fixed& fill( T const& v )
@@ -241,39 +229,28 @@ class VNL_TEMPLATE_EXPORT vnl_vector_fixed
 
   //: Return reference to the element at specified index.
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T       & operator() (unsigned int i)
-  {
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-    assert(i<n);   // Check the index is valid.
-#endif
-    return data_[i];
-  }
+  T       & operator() (unsigned int i);
 
   //: Return reference to the element at specified index.
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T const & operator() (unsigned int i) const
-  {
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-    assert(i<n);   // Check the index is valid
-#endif
-    return data_[i];
-  }
+  T const & operator() (unsigned int i) const;
+
 
   //: Return the i-th element
-  T& operator[] ( const size_t i ) { return data_[i]; }
+  T& operator[] (const size_t i);
 
   //: Return the i-th element
-  const T& operator[] ( const size_t i ) const { return data_[i]; }
+  const T& operator[] (const size_t i) const;
 
   //: Access the contiguous block storing the elements in the vector.
   //  O(1).
   //  data_block()[0] is the first element of the vector
-  T const* data_block() const { return data_; }
+  T const* data_block() const;
 
   //: Access the contiguous block storing the elements in the vector.
   //  O(1).
   //  data_block()[0] is the first element of the vector
-  T      * data_block() { return data_; }
+  T      * data_block();
 
   //----------------------------------------------------------------------
   // Conversion to vnl_vector_ref.

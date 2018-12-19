@@ -63,7 +63,7 @@ int itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   i2l->SetInput( 1, constOutput );
 
   //testing get/set FullyConnected macro
-  bool fullyConnected =  atoi(argv[4]);
+  bool fullyConnected =  std::stoi(argv[4]);
   i2l->SetFullyConnected( fullyConnected );
   TEST_SET_GET_VALUE( fullyConnected, i2l->GetFullyConnected() );
 
@@ -75,17 +75,17 @@ int itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( true, i2l->GetFullyConnected() );
 
   //testing get/set InputForegroundValue macro
-  int inputForegroundValue = ( atoi(argv[5]) );
+  int inputForegroundValue = ( std::stoi(argv[5]) );
   i2l->SetInputForegroundValue( inputForegroundValue );
   TEST_SET_GET_VALUE( inputForegroundValue, i2l->GetInputForegroundValue() );
 
   //testing get/set OutputBackgroundValue macro
-  unsigned int outputBackgroundValue = ( atoi(argv[6]) );
+  unsigned int outputBackgroundValue = ( std::stoi(argv[6]) );
   i2l->SetOutputBackgroundValue( outputBackgroundValue );
   TEST_SET_GET_VALUE( outputBackgroundValue, i2l->GetOutputBackgroundValue() );
 
   //testing get/set ComputeFeretDiameter macro
-  bool computeFeretDiameter =  ( atoi(argv[7]) );
+  bool computeFeretDiameter =  ( std::stoi(argv[7]) );
   i2l->SetComputeFeretDiameter( computeFeretDiameter );
   TEST_SET_GET_VALUE( computeFeretDiameter, i2l->GetComputeFeretDiameter() );
 
@@ -97,7 +97,7 @@ int itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( true, i2l->GetComputeFeretDiameter() );
 
   //testing get/set ComputePerimeter macro
-  bool computePerimeter =  atoi(argv[8]);
+  bool computePerimeter =  std::stoi(argv[8]);
   i2l->SetComputePerimeter( computePerimeter );
   TEST_SET_GET_VALUE( computePerimeter, i2l->GetComputePerimeter() );
 
@@ -109,7 +109,7 @@ int itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( true, i2l->GetComputePerimeter() );
 
   //testing get/set ComputeHistogram macro
-  bool computeHistogram =  ( atoi(argv[9]) );
+  bool computeHistogram =  ( std::stoi(argv[9]) );
   i2l->SetComputeHistogram( computeHistogram );
   TEST_SET_GET_VALUE( computeHistogram, i2l->GetComputeHistogram() );
 
@@ -121,7 +121,7 @@ int itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( true, i2l->GetComputeHistogram() );
 
   //testing get/set NumberOfBins macro
-  unsigned int numberOfBins = ( atoi(argv[10]) );
+  unsigned int numberOfBins = ( std::stoi(argv[10]) );
   i2l->SetNumberOfBins( numberOfBins );
   TEST_SET_GET_VALUE( numberOfBins, i2l->GetNumberOfBins() );
 

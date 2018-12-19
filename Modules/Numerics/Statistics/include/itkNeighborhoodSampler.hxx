@@ -26,13 +26,11 @@ namespace Statistics
 {
 template< typename TSample >
 NeighborhoodSampler< TSample >
-::NeighborhoodSampler()
-{}
+::NeighborhoodSampler() = default;
 
 template< typename TSample >
 NeighborhoodSampler< TSample >
-::~NeighborhoodSampler()
-{}
+::~NeighborhoodSampler() = default;
 
 template< typename TSample >
 void

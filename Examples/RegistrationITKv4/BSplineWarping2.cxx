@@ -49,7 +49,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandProgressUpdate() {};
+  CommandProgressUpdate() = default;
 
 public:
   void Execute(itk::Object *caller, const itk::EventObject & event) override

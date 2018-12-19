@@ -26,12 +26,11 @@ TimeProbe
 }
 
 TimeProbe
-::~TimeProbe()
-{}
+::~TimeProbe() = default;
 
 TimeProbe::TimeStampType
 TimeProbe
-::GetInstantValue(void) const
+::GetInstantValue() const
 {
   return m_RealTimeClock->GetTimeInSeconds();
 }

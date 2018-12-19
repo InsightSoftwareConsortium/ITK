@@ -51,8 +51,7 @@ PowellOptimizer
 }
 
 PowellOptimizer
-::~PowellOptimizer()
-{}
+::~PowellOptimizer() = default;
 
 void
 PowellOptimizer

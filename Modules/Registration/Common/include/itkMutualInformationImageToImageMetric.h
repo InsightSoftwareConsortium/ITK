@@ -181,7 +181,7 @@ public:
 
 protected:
   MutualInformationImageToImageMetric();
-  ~MutualInformationImageToImageMetric() override {}
+  ~MutualInformationImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
@@ -193,13 +193,13 @@ private:
   class SpatialSample
   {
 public:
-    SpatialSample():FixedImageValue(0.0), MovingImageValue(0.0)
+    SpatialSample()
     { FixedImagePointValue.Fill(0.0); }
-    ~SpatialSample(){}
+    ~SpatialSample()= default;
 
     FixedImagePointType FixedImagePointValue;
-    double              FixedImageValue;
-    double              MovingImageValue;
+    double              FixedImageValue{0.0};
+    double              MovingImageValue{0.0};
   };
 
   /** SpatialSampleContainer type alias support */

@@ -21,10 +21,6 @@ include (CheckTypeSize)
 include (CheckVariableExists)
 include (TestBigEndian)
 
-if(POLICY CMP0075)
-  cmake_policy(SET CMP0075 NEW)
-endif()
-
 #-----------------------------------------------------------------------------
 # APPLE/Darwin setup
 #-----------------------------------------------------------------------------

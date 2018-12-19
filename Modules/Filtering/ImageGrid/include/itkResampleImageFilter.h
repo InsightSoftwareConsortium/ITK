@@ -284,7 +284,7 @@ public:
   void AfterThreadedGenerateData() override;
 
   /** Compute the Modified Time based on the changed components. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -295,7 +295,7 @@ public:
 
 protected:
   ResampleImageFilter();
-  ~ResampleImageFilter() override {}
+  ~ResampleImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VeriyInputInformation() since this filter's inputs do
@@ -303,7 +303,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override { }
+  void VerifyInputInformation() ITKv5_CONST override { }
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
@@ -326,11 +326,22 @@ protected:
   virtual void LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
   /** Cast pixel from interpolator output to PixelType. */
+  itkLegacyMacro(
   virtual PixelType CastPixelWithBoundsChecking( const InterpolatorOutputType value,
                                                  const ComponentType minComponent,
-                                                 const ComponentType maxComponent) const;
+                                                 const ComponentType maxComponent) const);
 
 private:
+  static PixelComponentType CastComponentWithBoundsChecking(const PixelComponentType value);
+
+  template <typename TComponent>
+  static PixelComponentType CastComponentWithBoundsChecking(const TComponent value);
+
+  static PixelType CastPixelWithBoundsChecking(const ComponentType value);
+
+  template <typename TPixel>
+  static PixelType CastPixelWithBoundsChecking(const TPixel value);
+
   SizeType                m_Size;         // Size of the output image
   InterpolatorPointerType m_Interpolator; // Image function for
                                           // interpolation
@@ -343,7 +354,7 @@ private:
   OriginPointType m_OutputOrigin;         // output image origin
   DirectionType   m_OutputDirection;      // output image direction cosines
   IndexType       m_OutputStartIndex;     // output image start index
-  bool            m_UseReferenceImage;
+  bool            m_UseReferenceImage{ false };
 
 };
 } // end namespace itk

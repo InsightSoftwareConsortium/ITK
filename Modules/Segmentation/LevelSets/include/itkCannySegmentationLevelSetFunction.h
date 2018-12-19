@@ -107,7 +107,7 @@ protected:
     m_Distance = DanielssonDistanceMapImageFilter< ImageType, ImageType >::New();
   }
 
-  ~CannySegmentationLevelSetFunction() override {}
+  ~CannySegmentationLevelSetFunction() override = default;
 
 private:
   ScalarValueType m_Variance;

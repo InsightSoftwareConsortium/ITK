@@ -23,7 +23,7 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadBCMFC::CreateAnother(void) const
+::itk::LightObject::Pointer LoadBCMFC::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();

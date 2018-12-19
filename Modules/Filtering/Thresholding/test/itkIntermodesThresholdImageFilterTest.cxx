@@ -60,7 +60,7 @@ int itkIntermodesThresholdImageFilterTest(int argc, char* argv[] )
 
   reader->SetFileName( argv[1] );
   filter->SetInput( reader->GetOutput() );
-  // filter->SetNumberOfHistogramBins (atoi(argv[3]));
+  // filter->SetNumberOfHistogramBins (std::stoi(argv[3]));
   writer->SetInput( filter->GetOutput() );
   filter->Update();
   std::cout << "Computed Threshold is: "

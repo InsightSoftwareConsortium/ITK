@@ -32,6 +32,7 @@ int itkVnlFFTWF_RealFFTTest(int argc, char *argv[])
   using ImageF2 = itk::Image< float, 2>;
   using ImageF3 = itk::Image< float, 3>;
 
+#ifndef ITK_USE_CUFFTW
   itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
   itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
   itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
@@ -44,6 +45,11 @@ int itkVnlFFTWF_RealFFTTest(int argc, char *argv[])
   std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
   std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
   std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+#endif
+  // Avoid unused parameter warnings.
+  (void)argc;
+  (void)argv;
+
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
   int rval = 0;

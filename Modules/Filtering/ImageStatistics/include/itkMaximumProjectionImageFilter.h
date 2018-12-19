@@ -50,7 +50,7 @@ class MaximumAccumulator
 {
 public:
   MaximumAccumulator( SizeValueType ) {}
-  ~MaximumAccumulator(){}
+  ~MaximumAccumulator()= default;
 
   inline void Initialize()
   {
@@ -105,8 +105,8 @@ public:
 #endif
 
 protected:
-  MaximumProjectionImageFilter() {}
-  ~MaximumProjectionImageFilter() override {}
+  MaximumProjectionImageFilter() = default;
+  ~MaximumProjectionImageFilter() override = default;
 };                                            // end
                                               // MaximumProjectionImageFilter
 } //end namespace itk

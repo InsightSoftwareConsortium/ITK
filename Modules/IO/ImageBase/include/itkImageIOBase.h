@@ -79,6 +79,7 @@ public:
   using Self = ImageIOBase;
   using Superclass = LightProcessObject;
   using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOBase, Superclass);
@@ -109,6 +110,10 @@ public:
    * refers to the actual storage class associated with either a
    * SCALAR pixel type or elements of a compound pixel.
    */
+   // NOTE unsigned char, char, and signed char are 3 distinct types in C++
+   // the enum value UCHAR represents 'unsigned char'
+   // the enum value CHAR represents  'signed char'
+   // and the 'char' type maps to one of UCHAR or CHAR based on the platforms 'signededness'
   typedef  enum { UNKNOWNCOMPONENTTYPE, UCHAR, CHAR, USHORT, SHORT, UINT, INT,
                   ULONG, LONG, ULONGLONG, LONGLONG, FLOAT, DOUBLE } IOComponentType;
 
@@ -547,17 +552,24 @@ protected:
 
   virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
 
+  /** Check fileName as an extensions contained in the supported
+   * extension list. If ignoreCase is true, the case of the characters
+   * is ignored.
+   */
+  virtual bool HasSupportedReadExtension( const char * fileName, bool ignoreCase = true );
+  virtual bool HasSupportedWriteExtension( const char * fileName, bool ignoreCase = true );
+
   /** Used internally to keep track of the type of the pixel. */
-  IOPixelType m_PixelType;
+  IOPixelType m_PixelType{SCALAR};
 
   /** Used internally to keep track of the type of the component. It is set
    * when ComputeStrides() is invoked. */
-  IOComponentType m_ComponentType;
+  IOComponentType m_ComponentType{UNKNOWNCOMPONENTTYPE};
 
   /** Big or Little Endian, and the type of the file. (May be ignored.) */
-  ByteOrder m_ByteOrder;
+  ByteOrder m_ByteOrder{OrderNotApplicable};
 
-  FileType m_FileType;
+  FileType m_FileType{TypeNotApplicable};
 
   /** Does the ImageIOBase object have enough info to be of use? */
   bool m_Initialized;
@@ -570,7 +582,7 @@ protected:
   unsigned int m_NumberOfComponents;
 
   /** The number of independent dimensions in the image. */
-  unsigned int m_NumberOfDimensions;
+  unsigned int m_NumberOfDimensions{0};
 
   /** Should we compress the data? */
   bool m_UseCompression;
@@ -703,6 +715,9 @@ protected:
                                                                const ImageIORegion & pasteRegion) const;
 
 private:
+
+  bool HasSupportedExtension( const char * , const ArrayOfExtensionsType &, bool tolower = true );
+
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };
@@ -714,23 +729,20 @@ private:
   }
 
 // the following typemaps are not platform independent
-#if  VCL_CHAR_IS_SIGNED
-IMAGEIOBASE_TYPEMAP(signed char, CHAR);
-#endif // VCL_CHAR_IS_SIGNED
-IMAGEIOBASE_TYPEMAP(char, CHAR);
-IMAGEIOBASE_TYPEMAP(unsigned char, UCHAR);
-IMAGEIOBASE_TYPEMAP(short, SHORT);
-IMAGEIOBASE_TYPEMAP(unsigned short, USHORT);
-IMAGEIOBASE_TYPEMAP(int, INT);
-IMAGEIOBASE_TYPEMAP(unsigned int, UINT);
-IMAGEIOBASE_TYPEMAP(long, LONG);
-IMAGEIOBASE_TYPEMAP(unsigned long, ULONG);
-IMAGEIOBASE_TYPEMAP(long long, LONGLONG);
-IMAGEIOBASE_TYPEMAP(unsigned long long, ULONGLONG);
-IMAGEIOBASE_TYPEMAP(float, FLOAT);
-IMAGEIOBASE_TYPEMAP(double, DOUBLE);
+IMAGEIOBASE_TYPEMAP(signed char, IOComponentType::CHAR);
+IMAGEIOBASE_TYPEMAP(char, std::numeric_limits<char>::is_signed ? IOComponentType::CHAR : IOComponentType::UCHAR);
+IMAGEIOBASE_TYPEMAP(unsigned char, IOComponentType::UCHAR);
+IMAGEIOBASE_TYPEMAP(short, IOComponentType::SHORT);
+IMAGEIOBASE_TYPEMAP(unsigned short, IOComponentType::USHORT);
+IMAGEIOBASE_TYPEMAP(int, IOComponentType::INT);
+IMAGEIOBASE_TYPEMAP(unsigned int, IOComponentType::UINT);
+IMAGEIOBASE_TYPEMAP(long, IOComponentType::LONG);
+IMAGEIOBASE_TYPEMAP(unsigned long, IOComponentType::ULONG);
+IMAGEIOBASE_TYPEMAP(long long, IOComponentType::LONGLONG);
+IMAGEIOBASE_TYPEMAP(unsigned long long, IOComponentType::ULONGLONG);
+IMAGEIOBASE_TYPEMAP(float, IOComponentType::FLOAT);
+IMAGEIOBASE_TYPEMAP(double, IOComponentType::DOUBLE);
 #undef IMAGIOBASE_TYPEMAP
-
 
 } // end namespace itk
 

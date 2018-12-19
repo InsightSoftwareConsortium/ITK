@@ -26,15 +26,14 @@ namespace itk
 template< typename TInputImage,
           typename TMembershipFunction >
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::ImageModelEstimatorBase(void):
-  m_NumberOfModels(0)
+::ImageModelEstimatorBase(void)
+
 {}
 
 template< typename TInputImage,
           typename TMembershipFunction >
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::~ImageModelEstimatorBase()
-{}
+::~ImageModelEstimatorBase() = default;
 
 template< typename TInputImage,
           typename TMembershipFunction >

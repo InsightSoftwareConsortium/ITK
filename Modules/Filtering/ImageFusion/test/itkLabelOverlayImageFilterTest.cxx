@@ -84,7 +84,7 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
   filter->SetBackgroundValue( 13 );
 
   //Set opacity
-  filter->SetOpacity( atof(argv[3]) );
+  filter->SetOpacity( std::stod(argv[3]) );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 

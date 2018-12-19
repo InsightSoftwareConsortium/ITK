@@ -29,7 +29,7 @@
 namespace itk
 {
 
-RealTimeClock::RealTimeClock():m_Frequency(1)
+RealTimeClock::RealTimeClock()
 {
 #if defined( WIN32 ) || defined( _WIN32 )
   LARGE_INTEGER frequency;
@@ -87,7 +87,7 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
 }
 
 
-RealTimeClock::~RealTimeClock() {}
+RealTimeClock::~RealTimeClock() = default;
 
 RealTimeClock::TimeStampType
 RealTimeClock::GetTimeInSeconds() const

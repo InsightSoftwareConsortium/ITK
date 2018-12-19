@@ -36,18 +36,17 @@ VTKPolyDataMeshIOFactory
   this->RegisterOverride("itkMeshIOBase",
                          "itkVTKPolyDataMeshIO",
                          "VTK Polydata IO",
-                         1,
+                         true,
                          CreateObjectFunction< VTKPolyDataMeshIO >::New() );
 }
 
 VTKPolyDataMeshIOFactory
-::~VTKPolyDataMeshIOFactory()
-{}
+::~VTKPolyDataMeshIOFactory() = default;
 
 
 const char *
 VTKPolyDataMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -65,7 +64,7 @@ VTKPolyDataMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool VTKPolyDataMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshVTK_EXPORT VTKPolyDataMeshIOFactoryRegister__Private(void)
+void ITKIOMeshVTK_EXPORT VTKPolyDataMeshIOFactoryRegister__Private()
 {
   if( ! VTKPolyDataMeshIOFactoryHasBeenRegistered )
     {

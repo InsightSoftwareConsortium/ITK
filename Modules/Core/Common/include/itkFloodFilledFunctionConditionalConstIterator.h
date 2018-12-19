@@ -109,7 +109,7 @@ public:
   void InitializeIterator();
 
   /** Default Destructor. */
-  ~FloodFilledFunctionConditionalConstIterator() override {}
+  ~FloodFilledFunctionConditionalConstIterator() override = default;
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const override = 0;
@@ -148,11 +148,11 @@ public:
   { return m_IndexStack.front(); }
 
   /** Get the pixel value */
-  const PixelType Get(void) const override
+  const PixelType Get() const override
   { return this->m_Image->GetPixel( m_IndexStack.front() ); }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd() override
+  bool IsAtEnd() const override
   { return this->m_IsAtEnd; }
 
   /** Put more seeds on the list */

@@ -59,7 +59,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Default constructor. */
-  PeriodicBoundaryCondition() {}
+  PeriodicBoundaryCondition() = default;
 
   /** Runtime information support. */
   const char * GetNameOfClass() const override

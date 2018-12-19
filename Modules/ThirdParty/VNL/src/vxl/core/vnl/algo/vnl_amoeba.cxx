@@ -1,7 +1,4 @@
 // This is core/vnl/algo/vnl_amoeba.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
@@ -14,9 +11,7 @@
 #include <vector>
 #include "vnl_amoeba.h"
 
-#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
-#include <vnl/vnl_vector.h>
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_least_squares_function.h>
 
@@ -140,8 +135,8 @@ std::ostream& operator<<(std::ostream& s, const vnl_amoeba_SimplexCorner& simple
 
 std::ostream& operator<<(std::ostream& s, const std::vector<vnl_amoeba_SimplexCorner>& simplex)
 {
-  for (unsigned i = 0; i < simplex.size(); ++i)
-    s << simplex[i].fv << ' ';
+  for (const auto & i : simplex)
+    s << i.fv << ' ';
   return s;
 }
 
@@ -405,9 +400,9 @@ class vnl_amoeba_LSCF : public vnl_cost_function
    : vnl_cost_function(ls.get_number_of_unknowns()),
      ls_(&ls), fx(ls.get_number_of_residuals()) {}
 
-  ~vnl_amoeba_LSCF() {}
+  ~vnl_amoeba_LSCF() override = default;
 
-  double f(vnl_vector<double> const& x) {
+  double f(vnl_vector<double> const& x) override {
     ls_->f(x, fx);
     return fx.squared_magnitude();
   }
@@ -422,11 +417,6 @@ void vnl_amoeba::minimize(vnl_least_squares_function& f, vnl_vector<double>& x)
 /////////////////////////////////////////////////////////////////////////////
 vnl_amoeba_SimplexCorner::vnl_amoeba_SimplexCorner(int n) : v(n) {}
 
-vnl_amoeba_SimplexCorner& vnl_amoeba_SimplexCorner::operator=(const vnl_amoeba_SimplexCorner& that)
-{
-  v = that.v;
-  fv = that.fv;
-  return *this;
-}
+vnl_amoeba_SimplexCorner& vnl_amoeba_SimplexCorner::operator=(const vnl_amoeba_SimplexCorner& that) = default;
 
 //--------------------------------------------------------------------------------

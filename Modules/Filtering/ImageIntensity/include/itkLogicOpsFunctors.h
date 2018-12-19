@@ -65,7 +65,7 @@ public:
     m_BackgroundValue=itk::NumericTraits<TOutput>::ZeroValue();
   }
 
-  ~LogicOpBase(){};
+  ~LogicOpBase()= default;
 
 
   bool operator!=( const Self & ) const
@@ -116,10 +116,8 @@ class ITK_TEMPLATE_EXPORT Equal : public LogicOpBase<TInput1, TInput2, TOutput>
 public:
   using Self = Equal;
 
-  Equal()
-  {};
-  ~Equal()
-  {};
+  Equal() = default;
+  ~Equal() = default;
 
   bool operator!=( const Self & ) const
   {
@@ -154,8 +152,8 @@ class ITK_TEMPLATE_EXPORT NotEqual : public LogicOpBase<TInput1, TInput2, TOutpu
 public:
   using Self = NotEqual;
 
-  NotEqual() {};
-  ~NotEqual() {};
+  NotEqual() = default;
+  ~NotEqual() = default;
   bool operator!=( const Self & ) const
   {
     return false;
@@ -189,8 +187,8 @@ class ITK_TEMPLATE_EXPORT GreaterEqual : public LogicOpBase<TInput1, TInput2, TO
 {
 public:
   using Self = GreaterEqual;
-  GreaterEqual() {};
-  ~GreaterEqual() {};
+  GreaterEqual() = default;
+  ~GreaterEqual() = default;
 
   bool operator!=( const Self & ) const
   {
@@ -225,8 +223,8 @@ class ITK_TEMPLATE_EXPORT Greater : public LogicOpBase<TInput1, TInput2, TOutput
 {
 public:
   using Self = Greater;
-  Greater() {};
-  ~Greater() {};
+  Greater() = default;
+  ~Greater() = default;
   bool operator!=( const Self & ) const
   {
     return false;
@@ -260,8 +258,8 @@ class ITK_TEMPLATE_EXPORT LessEqual : public LogicOpBase<TInput1, TInput2, TOutp
 public:
   using Self = LessEqual;
 
-  LessEqual(){};
-  ~LessEqual(){};
+  LessEqual()= default;
+  ~LessEqual()= default;
   bool operator!=( const Self & ) const
   {
     return false;
@@ -295,8 +293,8 @@ class ITK_TEMPLATE_EXPORT Less : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   using Self = Less;
-  Less() {};
-  ~Less() {};
+  Less() = default;
+  ~Less() = default;
   bool operator!=( const Self  & ) const
   {
     return false;
@@ -326,8 +324,8 @@ template< typename TInput, typename TOutput = TInput >
 class ITK_TEMPLATE_EXPORT NOT : public LogicOpBase<TInput, TInput, TOutput>
 {
 public:
-  NOT() {}
-  ~NOT() {}
+  NOT() = default;
+  ~NOT() = default;
   bool operator!=(const NOT &) const
   {
     return false;
@@ -357,8 +355,8 @@ template< typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class ITK_TEMPLATE_EXPORT TernaryOperator
 {
 public:
-  TernaryOperator() {}
-  ~TernaryOperator() {}
+  TernaryOperator() = default;
+  ~TernaryOperator() = default;
   bool operator!=(const TernaryOperator &) const
   {
     return false;

@@ -95,7 +95,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   std::cout << "OK" << std::endl;
 
   std::cout << "     " << "Test No QE Input";
-  if( joinFacet->Evaluate( (QEType*)0 ) )
+  if( joinFacet->Evaluate( (QEType*)nullptr ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;

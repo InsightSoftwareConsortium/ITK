@@ -151,7 +151,7 @@ public:
 
 protected:
   GrayscaleGeodesicErodeImageFilter();
-  ~GrayscaleGeodesicErodeImageFilter() override {}
+  ~GrayscaleGeodesicErodeImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleGeodesicErodeImageFilter needs to request enough of the

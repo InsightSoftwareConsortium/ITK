@@ -104,7 +104,7 @@ public:
 
 protected:
   BinaryFillholeImageFilter();
-  ~BinaryFillholeImageFilter() override {};
+  ~BinaryFillholeImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryFillholeImageFilter needs the entire input be

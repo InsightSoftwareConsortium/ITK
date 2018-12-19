@@ -165,7 +165,7 @@ protected:
     m_UseLookupTable = false;
   }
 
-  ~AdaptiveHistogramEqualizationImageFilter() override {}
+  ~AdaptiveHistogramEqualizationImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

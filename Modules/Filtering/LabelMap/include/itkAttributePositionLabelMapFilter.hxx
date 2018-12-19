@@ -37,9 +37,7 @@ namespace itk {
 
 template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
-::AttributePositionLabelMapFilter()
-{
-}
+::AttributePositionLabelMapFilter() = default;
 
 template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 void

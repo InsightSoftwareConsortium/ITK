@@ -23,13 +23,11 @@
 namespace itk
 {
 template< typename TInputMesh, typename TOutputMesh >
-SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >::SimplexMeshToTriangleMeshFilter()
-{}
+SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >::SimplexMeshToTriangleMeshFilter() = default;
 
 template< typename TInputMesh, typename TOutputMesh >
 SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
-::~SimplexMeshToTriangleMeshFilter()
-{}
+::~SimplexMeshToTriangleMeshFilter() = default;
 
 template< typename TInputMesh, typename TOutputMesh >
 void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
@@ -85,7 +83,7 @@ void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
       itkExceptionMacro(<< "Assertion failed for test of GetElementIfIndexExists()");
       }
 
-    pointsIt++;
+    ++pointsIt;
     }
 
   this->ProcessObject::SetNthOutput( 0,  meshSource->GetOutput() );

@@ -53,7 +53,7 @@ public:
   DataObjectError() noexcept;
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  ~DataObjectError() noexcept override {}
+  ~DataObjectError() noexcept override = default;
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
@@ -84,7 +84,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  DataObject *m_DataObject;
+  DataObject *m_DataObject{nullptr};
 };
 
 /** \class InvalidRequestRegionError
@@ -101,7 +101,7 @@ public:
   InvalidRequestedRegionError() noexcept;
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  ~InvalidRequestedRegionError() noexcept override {}
+  ~InvalidRequestedRegionError() noexcept override = default;
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);

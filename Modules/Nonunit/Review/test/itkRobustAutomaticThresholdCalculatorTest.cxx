@@ -62,7 +62,7 @@ int itkRobustAutomaticThresholdCalculatorTest( int argc, char *argv[] )
 
   calculator->SetGradient( gradient->GetOutput() );
 
-  double pow = atof( argv[2] );
+  double pow = std::stod( argv[2] );
   calculator->SetPow( pow );
   TEST_SET_GET_VALUE( pow, calculator->GetPow() );
 
@@ -79,7 +79,7 @@ int itkRobustAutomaticThresholdCalculatorTest( int argc, char *argv[] )
 
 
   // Regression test
-  auto expectedOutput = static_cast< CalculatorType::InputPixelType >( atof( argv[3] ) );
+  auto expectedOutput = static_cast< CalculatorType::InputPixelType >( std::stod( argv[3] ) );
   CalculatorType::InputPixelType computedOutput = calculator->GetOutput();
   if( itk::Math::NotAlmostEquals( expectedOutput, computedOutput ) )
     {

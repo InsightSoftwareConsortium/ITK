@@ -38,8 +38,8 @@ public:
   // not sure if this type alias really makes things more clear... could just use
   // TOutput?
 
-  Maximum1() {}
-  ~Maximum1() {}
+  Maximum1() = default;
+  ~Maximum1() = default;
   inline TOutput operator()(const std::vector< TInput > & B) const
   {
     OutputValueType A = NumericTraits< TOutput >::NonpositiveMin();
@@ -77,13 +77,13 @@ public:
  * operator<. This condition is required because internally this filter will
  * perform an operation similar to:
  *
- * \code
- *    const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
- *    if(current_maximum < query_value)
- *      {
- *      current_maximum = query_value;
- *      }
- * \endcode
+   \code
+      const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
+      if(current_maximum < query_value)
+        {
+        current_maximum = query_value;
+        }
+   \endcode
  * (where current_maximum is also of type OutputPixelType)
  *
  * for each of the n input images.
@@ -141,8 +141,8 @@ public:
 #endif
 
 protected:
-  NaryMaximumImageFilter() {}
-  ~NaryMaximumImageFilter() override {}
+  NaryMaximumImageFilter() = default;
+  ~NaryMaximumImageFilter() override = default;
 };
 } // end namespace itk
 

@@ -30,13 +30,13 @@ QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::Evaluate(QEType *e
   if ( !e )
     {
     itkDebugMacro("Input is not an edge.");
-    return ( (QEType *)0 );
+    return ( (QEType *)nullptr );
     }
 
   if ( !this->m_Mesh )
     {
     itkDebugMacro("No mesh present.");
-    return ( (QEType *)0 );
+    return ( (QEType *)nullptr );
     }
 #endif
 

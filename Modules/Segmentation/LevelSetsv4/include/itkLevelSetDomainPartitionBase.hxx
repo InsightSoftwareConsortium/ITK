@@ -33,9 +33,7 @@ LevelSetDomainPartitionBase()
 
 template< typename TDomain >
 LevelSetDomainPartitionBase< TDomain >::
-~LevelSetDomainPartitionBase()
-{
-}
+~LevelSetDomainPartitionBase() = default;
 
 } //end namespace itk
 

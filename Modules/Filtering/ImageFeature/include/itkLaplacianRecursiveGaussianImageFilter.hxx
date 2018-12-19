@@ -136,7 +136,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   itkDebugMacro(<< "LaplacianRecursiveGaussianImageFilter generating data ");
 

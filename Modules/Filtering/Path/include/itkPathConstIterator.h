@@ -152,7 +152,7 @@ public:
   }
 
   /** Get the pixel value */
-  const PixelType & Get(void) const
+  const PixelType & Get() const
   {
     return m_Image->GetPixel(m_CurrentImageIndex);
   }
@@ -160,7 +160,7 @@ public:
   /** Is the iterator at the end of the path?
    * Note that for a closed path, it may be possible to increment back to the
    * start of the path. */
-  bool IsAtEnd()
+  bool IsAtEnd() const
   {
     return m_IsAtEnd;
   }
@@ -192,7 +192,7 @@ public:
   PathConstIterator(const ImageType *imagePtr, const PathType  *pathPtr);
 
   /** Default Destructor. */
-  virtual ~PathConstIterator() {}
+  virtual ~PathConstIterator() = default;
 
 protected: //made protected so other iterators can access
   // This "constant" is initialized in the constructor

@@ -1,7 +1,4 @@
 // This is core/vnl/vnl_real_npolynomial.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 //  \file
 //  \brief a degree n real polynomial
@@ -11,9 +8,8 @@
 
 #include <iostream>
 #include <sstream>
+#include <cassert>
 #include "vnl_real_npolynomial.h"
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
 
 //: Constructor
 // \verbatim

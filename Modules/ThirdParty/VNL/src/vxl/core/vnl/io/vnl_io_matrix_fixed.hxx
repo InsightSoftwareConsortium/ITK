@@ -15,7 +15,7 @@
 template<class T, unsigned m, unsigned n>
 void vsl_b_write(vsl_b_ostream & os, const vnl_matrix_fixed<T,m,n> & p)
 {
-  const short version_no = 2;
+  constexpr short version_no = 2;
   vsl_b_write(os, version_no);
   vsl_b_write(os, p.rows());
   vsl_b_write(os, p.cols());

@@ -88,8 +88,8 @@ public:
 #endif
 
 protected:
-  ComplexConjugateImageAdaptor() {}
-  ~ComplexConjugateImageAdaptor() override {}
+  ComplexConjugateImageAdaptor() = default;
+  ~ComplexConjugateImageAdaptor() override = default;
 };
 } // end namespace itk
 

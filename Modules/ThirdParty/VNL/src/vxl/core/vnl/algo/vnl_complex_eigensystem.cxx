@@ -1,10 +1,8 @@
 // This is core/vnl/algo/vnl_complex_eigensystem.cxx
 #include <iostream>
+#include <cassert>
 #include "vnl_complex_eigensystem.h"
 // \author fsm
-
-#include <vcl_cassert.h>
-#include <vcl_compiler.h>
 
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/vnl_complexify.h>
@@ -50,9 +48,9 @@ void vnl_complex_eigensystem::compute(vnl_matrix<std::complex<double> > const & 
          tmp.data_block(),           // a
          &tmpN,                      // lda
          W.data_block(),             // w
-         right ? R.data_block() : VXL_NULLPTR, // vl
+         right ? R.data_block() : nullptr, // vl
          &tmpN,                      // ldvl
-         left  ? L.data_block() : VXL_NULLPTR, // vr
+         left  ? L.data_block() : nullptr, // vr
          &tmpN,                      // ldvr
          work.data_block(),          // work
          &work_space,                // lwork

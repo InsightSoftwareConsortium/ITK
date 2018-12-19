@@ -71,7 +71,7 @@ public:
   { return static_cast<ExternalType>( DefaultConvertPixelTraits<InternalType>::GetNthComponent( m_ElementNumber, input ) ); }
 
   /** Get the element number to access in the container */
-  unsigned int GetElementNumber(void) const
+  unsigned int GetElementNumber() const
   { return m_ElementNumber; }
 
   /** Set the element number to access in the container */
@@ -153,7 +153,7 @@ public:
 
 
   /** Get the element number to access in the container */
-  unsigned int GetElementNumber(void) const
+  unsigned int GetElementNumber() const
   { return m_ElementNumber; }
 
   /** Set the element number to access in the container */
@@ -170,7 +170,7 @@ public:
   VectorLengthType GetVectorLength() const { return Superclass::GetVectorLength(); }
 
   NthElementPixelAccessor( unsigned int length = 1)
-    :m_ElementNumber(0)
+
     {
     Superclass::SetVectorLength( length );
     }
@@ -194,7 +194,7 @@ protected:
   using Superclass = DefaultVectorPixelAccessor< TPixelType >;
 
 private:
-  VectorLengthType m_ElementNumber;
+  VectorLengthType m_ElementNumber{0};
 };
 
 }  // end namespace itk

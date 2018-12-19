@@ -71,7 +71,7 @@ protected:
   MetaObjectType *CreateMetaObject() override;
 
   MetaBlobConverter();
-  ~MetaBlobConverter() override {}
+  ~MetaBlobConverter() override = default;
 };
 } // end namespace itk
 

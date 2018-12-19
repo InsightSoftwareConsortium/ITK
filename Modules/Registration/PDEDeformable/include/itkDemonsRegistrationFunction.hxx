@@ -265,7 +265,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 {
   auto * globalData = (GlobalDataStruct *)gd;
 
-  m_MetricCalculationLock.Lock();
+  m_MetricCalculationLock.lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
@@ -276,7 +276,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     m_RMSChange = std::sqrt( m_SumOfSquaredChange
                             / static_cast< double >( m_NumberOfPixelsProcessed ) );
     }
-  m_MetricCalculationLock.Unlock();
+  m_MetricCalculationLock.unlock();
 
   delete globalData;
 }

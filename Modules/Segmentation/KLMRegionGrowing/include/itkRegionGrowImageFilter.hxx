@@ -32,8 +32,7 @@ RegionGrowImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 RegionGrowImageFilter< TInputImage, TOutputImage >
-::~RegionGrowImageFilter()
-{}
+::~RegionGrowImageFilter() = default;
 
 /**
  * PrintSelf

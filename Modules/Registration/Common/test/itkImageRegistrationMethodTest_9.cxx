@@ -123,7 +123,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
 
   if( argc > 1 )
     {
-    translationScale = atof( argv[2] );
+    translationScale = std::stod( argv[2] );
     std::cout << "translationScale = " << translationScale << std::endl;
     }
 

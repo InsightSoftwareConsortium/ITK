@@ -92,7 +92,7 @@ public:
    * center and the translation parameters. */
   void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** Compute the Jacobian of the transformation
    *
@@ -116,8 +116,8 @@ protected:
   ~CenteredAffineTransform() override;
 
 private:
-  CenteredAffineTransform(const Self & other);
-  const Self & operator=(const Self &);
+  CenteredAffineTransform(const Self & other) = delete;
+  const Self & operator=(const Self &) = delete;
 
 }; // class CenteredAffineTransform
 }  // namespace itk

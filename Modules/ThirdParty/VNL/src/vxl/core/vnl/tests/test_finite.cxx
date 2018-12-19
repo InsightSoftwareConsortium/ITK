@@ -3,8 +3,6 @@
 // Tests for vnl_finite.h, written by Peter Vanroose, 6 May 2002.
 
 #include <iostream>
-#include <cstdlib>
-#include <vcl_compiler.h>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_finite.h>
 
@@ -177,7 +175,7 @@ void test_finite_int(vnl_finite_int<N>)
 }
 
 template <int N, int M>
-void test_finite_poly(vnl_finite_int_poly<N,M>, std::string s)
+void test_finite_poly(vnl_finite_int_poly<N,M>, const std::string& s)
 {
   std::cout << "\n --- Testing vnl_finite_int_poly<" << N << ',' << M << "> ---\n";
 

@@ -110,7 +110,7 @@ public:
 
 protected:
   AccumulateImageFilter();
-  ~AccumulateImageFilter() override {}
+  ~AccumulateImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply changes to the output image information. */
@@ -123,7 +123,7 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   unsigned int m_AccumulateDimension;

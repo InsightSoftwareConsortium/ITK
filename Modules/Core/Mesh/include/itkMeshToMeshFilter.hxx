@@ -82,7 +82,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
-::CopyInputMeshToOutputMeshPoints(void)
+::CopyInputMeshToOutputMeshPoints()
 {
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
@@ -116,7 +116,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
-::CopyInputMeshToOutputMeshPointData(void)
+::CopyInputMeshToOutputMeshPointData()
 {
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
@@ -150,7 +150,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
-::CopyInputMeshToOutputMeshCellLinks(void)
+::CopyInputMeshToOutputMeshCellLinks()
 {
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
@@ -184,7 +184,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
-::CopyInputMeshToOutputMeshCells(void)
+::CopyInputMeshToOutputMeshCells()
 {
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
@@ -228,7 +228,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
-::CopyInputMeshToOutputMeshCellData(void)
+::CopyInputMeshToOutputMeshCellData()
 {
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();

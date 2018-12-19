@@ -19,5 +19,5 @@
 
 namespace itk
 {
-MemoryProbesCollectorBase::~MemoryProbesCollectorBase() {}
+MemoryProbesCollectorBase::~MemoryProbesCollectorBase() = default;
 }

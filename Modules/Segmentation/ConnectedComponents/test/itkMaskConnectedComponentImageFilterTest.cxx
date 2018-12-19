@@ -66,8 +66,8 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
   reader->SetFileName( argv[1] );
 
   InternalPixelType threshold_low, threshold_hi;
-  threshold_low = atoi( argv[3]);
-  threshold_hi = atoi( argv[4]);
+  threshold_low = std::stoi( argv[3]);
+  threshold_hi = std::stoi( argv[4]);
 
   threshold->SetInput (reader->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
@@ -128,13 +128,13 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
 
   if (argc > 5)
     {
-    int fullyConnected = atoi( argv[5] );
+    int fullyConnected = std::stoi( argv[5] );
     filter->SetFullyConnected( fullyConnected );
     }
   relabel->SetInput( filter->GetOutput() );
   if (argc > 6)
     {
-    int minSize = atoi( argv[6] );
+    int minSize = std::stoi( argv[6] );
     relabel->SetMinimumObjectSize( minSize );
     std::cerr << "minSize: " << minSize << std::endl;
     }

@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~IsoDataThresholdImageFilter() override {};
+  ~IsoDataThresholdImageFilter() override = default;
 };
 
 } // end namespace itk

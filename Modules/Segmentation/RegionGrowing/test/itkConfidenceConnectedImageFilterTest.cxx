@@ -50,7 +50,7 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
 
-  FilterType::IndexType seed; seed[0] = atoi(av[3]); seed[1] = atoi(av[4]);
+  FilterType::IndexType seed; seed[0] = std::stoi(av[3]); seed[1] = std::stoi(av[4]);
   //  FilterType::IndexType seed; seed[0] = 56; seed[1] = 90;
   //  FilterType::IndexType seed; seed[0] = 96; seed[1] = 214;
   filter->SetSeed(seed);

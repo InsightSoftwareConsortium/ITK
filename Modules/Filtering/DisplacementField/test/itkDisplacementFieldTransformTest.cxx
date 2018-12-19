@@ -215,12 +215,12 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   TEST_SET_GET_VALUE( inverseInterpolator,
     displacementTransform->GetInverseInterpolator() );
 
-  double coordinateTolerance = atof( argv[1] );
+  double coordinateTolerance = std::stod( argv[1] );
   displacementTransform->SetCoordinateTolerance( coordinateTolerance );
   TEST_SET_GET_VALUE( coordinateTolerance,
     displacementTransform->GetCoordinateTolerance() );
 
-  double directionTolerance = atof( argv[2] );
+  double directionTolerance = std::stod( argv[2] );
   displacementTransform->SetDirectionTolerance( directionTolerance );
   TEST_SET_GET_VALUE( directionTolerance,
     displacementTransform->GetDirectionTolerance() );

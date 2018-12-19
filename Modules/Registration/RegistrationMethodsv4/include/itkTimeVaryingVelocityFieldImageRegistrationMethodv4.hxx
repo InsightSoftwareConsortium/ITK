@@ -40,8 +40,8 @@ template<typename TFixedImage, typename TMovingImage, typename TOutputTransform,
 TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::TimeVaryingVelocityFieldImageRegistrationMethodv4() :
   m_LearningRate( 0.25 ),
-  m_ConvergenceThreshold( 1.0e-7 ),
-  m_ConvergenceWindowSize( 10 )
+  m_ConvergenceThreshold( 1.0e-7 )
+
 {
   this->m_NumberOfIterationsPerLevel.SetSize( 3 );
   this->m_NumberOfIterationsPerLevel[0] = 20;
@@ -51,9 +51,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
-::~TimeVaryingVelocityFieldImageRegistrationMethodv4()
-{
-}
+::~TimeVaryingVelocityFieldImageRegistrationMethodv4() = default;
 
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.

@@ -41,19 +41,19 @@ namespace itk
  * \par Inputs and Usage
  * There are two ways to use this class. When you have one reference image and \c n
  * gradient images, you would use the class as
- * \code
- *       filter->SetReferenceImage( image0 );
- *       filter->AddGradientImage( direction1, image1 );
- *       filter->AddGradientImage( direction2, image2 );
- *   ...
- * \endcode
+   \code
+         filter->SetReferenceImage( image0 );
+         filter->AddGradientImage( direction1, image1 );
+         filter->AddGradientImage( direction2, image2 );
+     ...
+   \endcode
  *
  * \par
  * When you have the 'n' gradient and one or more reference images in a single
  * multi-component image (VectorImage), you can specify the images simply as
- * \code
- *       filter->SetGradientImage( directionsContainer, vectorImage );
- * \endcode
+   \code
+         filter->SetGradientImage( directionsContainer, vectorImage );
+   \endcode
  * Note that this method is used to specify both the reference and gradient images.
  * This is convenient when the DWI images are read in using the
  * <a href="http://wiki.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:Nrrd_format">NRRD</a>
@@ -63,9 +63,9 @@ namespace itk
  *
  * \par Outputs
  * The output image is an image of Tensors:
- * \code
- *       Image< DiffusionTensor3D< TTensorPixelType >, 3 >
- * \endcode
+   \code
+         Image< DiffusionTensor3D< TTensorPixelType >, 3 >
+   \endcode
  *
  * \par Parameters
  * \li Threshold -  Threshold on the reference image data. The output tensor will
@@ -92,9 +92,9 @@ namespace itk
  * \warning
  * Although this filter has been written to support multiple threads, please
  * set the number of threads to 1.
- * \code
- *         filter->SetNumberOfWorkUnits(1);
- * \endcode
+   \code
+           filter->SetNumberOfWorkUnits(1);
+   \endcode
  * This is due to buggy code in netlib/dsvdc, that is called by vnl_svd.
  * (used to compute the pseudo-inverse to find the dual tensor basis).
  *
@@ -276,7 +276,7 @@ public:
 
 protected:
   DiffusionTensor3DReconstructionImageFilter();
-  ~DiffusionTensor3DReconstructionImageFilter() override {}
+  ~DiffusionTensor3DReconstructionImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void ComputeTensorBasis();
@@ -285,7 +285,7 @@ protected:
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  void VerifyPreconditions() override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
   /** enum to indicate if the gradient image is specified as a single multi-
    * component image or as several separate images */

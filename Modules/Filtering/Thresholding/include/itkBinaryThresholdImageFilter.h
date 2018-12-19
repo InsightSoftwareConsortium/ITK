@@ -74,7 +74,7 @@ public:
     m_InsideValue    = NumericTraits< TOutput >::max();
   }
 
-  ~BinaryThreshold() {}
+  ~BinaryThreshold() = default;
 
   void SetLowerThreshold(const TInput & thresh)
   { m_LowerThreshold = thresh; }
@@ -207,7 +207,7 @@ public:
 
 protected:
   BinaryThresholdImageFilter();
-  ~BinaryThresholdImageFilter() override {}
+  ~BinaryThresholdImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method is used to set the state of the filter before

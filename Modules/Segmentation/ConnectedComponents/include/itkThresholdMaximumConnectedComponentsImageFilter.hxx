@@ -103,7 +103,7 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
  */
 template< typename TInputImage, typename TOutputImage >
 void ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   //
   //  Setup pointers to get input image and send info to output image

@@ -43,9 +43,7 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 // Destructor
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
-::~BSplineBaseTransform()
-{
-}
+::~BSplineBaseTransform() = default;
 
 
 // Set the parameters
@@ -318,7 +316,7 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::CoefficientImageArray
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
-::ArrayOfImagePointerGeneratorHelper(void)
+::ArrayOfImagePointerGeneratorHelper()
 {
   CoefficientImageArray tempArrayOfPointers;
 

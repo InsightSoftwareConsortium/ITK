@@ -18,7 +18,8 @@
 #ifndef itkImageHelper_h
 #define itkImageHelper_h
 
-#include "itkConceptChecking.h"
+#include "itkMacro.h" // For ITK_TEMPLATE_EXPORT.
+#include <type_traits> // For true_type, false_type, and integral_constant.
 
 namespace itk
 {
@@ -60,8 +61,6 @@ public:
   using OffsetType = typename ImageType::OffsetType;
   using OffsetValueType = typename ImageType::OffsetValueType;
   using IndexValueType = typename ImageType::IndexValueType;
-  using UniqueTypeBoolFalse = Concept::Detail::UniqueType_bool< false >;
-  using UniqueTypeBoolTrue = Concept::Detail::UniqueType_bool< true >;
 
   /** ComputeIndex with recursive templates */
   inline static void ComputeIndex(const IndexType & bufferedRegionIndex,
@@ -74,31 +73,31 @@ public:
                        offset,
                        offsetTable,
                        index,
-                       Concept::Detail::UniqueType_bool< ( NLoop == 1 ) >() );
+                       std::integral_constant<bool, NLoop == 1>{} );
   }
 
   inline static void ComputeIndexInner(const IndexType & bufferedRegionIndex,
                                        OffsetValueType & offset,
                                        const OffsetValueType offsetTable[],
                                        IndexType & index,
-                                       const UniqueTypeBoolFalse &)
+                                       std::false_type)
   {
     index[NLoop] = static_cast< IndexValueType >( offset / offsetTable[NLoop] );
-    offset = offset - ( index[NLoop] * offsetTable[NLoop] );
-    index[NLoop] = index[NLoop] + bufferedRegionIndex[NLoop];
+    offset -= ( index[NLoop] * offsetTable[NLoop] );
+    index[NLoop] += bufferedRegionIndex[NLoop];
     ImageHelper< NImageDimension, NLoop - 1 >::
     ComputeIndexInner( bufferedRegionIndex,
                        offset,
                        offsetTable,
                        index,
-                       Concept::Detail::UniqueType_bool< ( NLoop == 1 ) >() );
+                       std::integral_constant<bool, NLoop == 1>{} );
   }
 
   inline static void ComputeIndexInner(const IndexType & bufferedRegionIndex,
                                        OffsetValueType & offset,
                                        const OffsetValueType[],
                                        IndexType & index,
-                                       const UniqueTypeBoolTrue &)
+                                       std::true_type)
   {
     // Do last
     index[0] = bufferedRegionIndex[0] + static_cast< IndexValueType >( offset );
@@ -116,32 +115,32 @@ public:
                         index,
                         offsetTable,
                         offset,
-                        Concept::Detail::UniqueType_bool< ( NLoop == 1 ) >() );
+                        std::integral_constant<bool, NLoop == 1>{} );
   }
 
   inline static void ComputeOffsetInner(const IndexType & bufferedRegionIndex,
                                         const IndexType & index,
                                         const OffsetValueType offsetTable[],
                                         OffsetValueType & offset,
-                                        const UniqueTypeBoolFalse &)
+                                        std::false_type)
   {
-    offset = offset + ( index[NLoop] - bufferedRegionIndex[NLoop] ) * offsetTable[NLoop];
+    offset += ( index[NLoop] - bufferedRegionIndex[NLoop] ) * offsetTable[NLoop];
     ImageHelper< NImageDimension, NLoop - 1 >::
     ComputeOffsetInner( bufferedRegionIndex,
                         index,
                         offsetTable,
                         offset,
-                        Concept::Detail::UniqueType_bool< ( NLoop == 1 ) >() );
+                        std::integral_constant<bool, NLoop == 1>{} );
   }
 
   inline static void ComputeOffsetInner(const IndexType & bufferedRegionIndex,
                                         const IndexType & index,
                                         const OffsetValueType[],
                                         OffsetValueType & offset,
-                                        const UniqueTypeBoolTrue &)
+                                        std::true_type)
   {
     // Do last
-    offset = offset + index[0] - bufferedRegionIndex[0];
+    offset += index[0] - bufferedRegionIndex[0];
   }
 };
 } // end namespace itk

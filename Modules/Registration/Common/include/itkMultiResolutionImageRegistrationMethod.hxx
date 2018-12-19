@@ -121,7 +121,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
-::StopRegistration(void)
+::StopRegistration()
 {
   m_Stop = true;
 }
@@ -183,7 +183,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
-::PreparePyramids(void)
+::PreparePyramids()
 {
   if ( !m_Transform )
     {

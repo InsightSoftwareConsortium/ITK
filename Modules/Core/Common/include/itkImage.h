@@ -259,11 +259,11 @@ public:
   virtual void Graft(const Self *data);
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor(void)
+  AccessorType GetPixelAccessor()
   { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor(void) const
+  const AccessorType GetPixelAccessor() const
   { return AccessorType(); }
 
   /** Return the NeighborhoodAccessor functor */
@@ -281,7 +281,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
   void Graft(const DataObject *data) override;
 
-  ~Image() override {}
+  ~Image() override = default;
 
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be

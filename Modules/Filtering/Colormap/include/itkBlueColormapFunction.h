@@ -62,8 +62,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  BlueColormapFunction() {}
-  ~BlueColormapFunction() override {}
+  BlueColormapFunction() = default;
+  ~BlueColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

@@ -64,7 +64,7 @@ public:
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
 protected:
-  MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader() = default;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.

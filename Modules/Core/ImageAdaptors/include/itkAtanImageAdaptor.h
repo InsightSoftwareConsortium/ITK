@@ -96,8 +96,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  AtanImageAdaptor() {}
-  ~AtanImageAdaptor() override {}
+  AtanImageAdaptor() = default;
+  ~AtanImageAdaptor() override = default;
 };
 } // end namespace itk
 

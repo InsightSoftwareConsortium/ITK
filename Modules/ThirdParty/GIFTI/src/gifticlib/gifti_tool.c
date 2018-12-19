@@ -37,9 +37,10 @@ static char * g_history[] =
   "1.1  02 Oct, 2008: mention NITRC web site in help\n"
   "1.2  17 Apr, 2009: added -set_extern_filelist help and more examples\n",
   "1.3  24 Dec, 2009: added -approx_gifti option\n"
+  "1.4  02 May, 2017: added -mod_ind_ord, -perm_by_iord options\n"
 };
 
-static char g_version[] = "gifti_tool version 1.3, 24 December 2009";
+static char g_version[] = "gifti_tool version 1.4, 2 May 2017";
 
 /* globals: verbosity, for now */
 typedef struct { int verb; } gt_globs;
@@ -275,6 +276,10 @@ static int process_opts(int argc, char *argv[], gt_opts * opts)
                 add_to_str_list(&opts->gim_meta, argv[ac+1] ) )
                 return -1;
             ac++;  /* and consume last arg */
+        } else if( !strcmp(argv[ac], "-mod_ind_ord") ) {
+            ac++;
+            CHECK_NEXT_OPT(ac, argc, "-mod_ind_ord");
+            opts->mod_ind_ord = atol(argv[ac]);
         } else if( !strcmp(argv[ac], "-mod_to_float") ) {
             opts->mod_to_float = 1;
         } else if( !strcmp(argv[ac], "-new_dset") ) {
@@ -320,6 +325,10 @@ static int process_opts(int argc, char *argv[], gt_opts * opts)
             opts->dstore = 0;
         } else if( !strcmp(argv[ac], "-no_updates") ) {
             opts->update_ok = 0;
+        } else if( !strcmp(argv[ac], "-perm_by_iord") ) {
+            ac++;
+            CHECK_NEXT_OPT(ac, argc, "-perm_by_iord");
+            opts->perm_by_iord = atoi(argv[ac]);
         } else if( !strcmp(argv[ac], "-read_DAs") ) {
             ac++;
             for( c = 0; (ac < argc) && (argv[ac][0] != '-'); ac++, c++ )
@@ -375,7 +384,7 @@ static int process_opts(int argc, char *argv[], gt_opts * opts)
     opts->gt_modify = opts->mod_add_data ||
                       opts->mod_gim_atr  || opts->mod_gim_meta ||
                       opts->mod_DA_atr   || opts->mod_DA_meta  ||
-                      opts->mod_to_float;
+                      opts->mod_ind_ord  || opts->mod_to_float;
 
     /* flag whether we have a copying operation */
     opts->gt_copy = opts->copy_gim_meta || opts->copy_DA_meta;
@@ -405,15 +414,20 @@ static int process_opts(int argc, char *argv[], gt_opts * opts)
         return 1;
     }
 
-    /* apply any XML user options
-     * (non-zero defaults: verb, zlevel -1)
-     */
+    /* for gifti_tool, non-writing functions will default to keeping the
+     * original Array Index Order (so we overwrite the gifti_xml library
+     * default), while writing functions default to rearranging
+     *                                                1 May 2017 [rickr] */
+    gifti_set_perm_by_iord(0);
+
+    /* apply any XML user options (non-zero defaults: verb, zlevel -1) */
     if( opts->verb      !=  1 ) gifti_set_verb(opts->verb);
     if( opts->indent    != -1 ) gifti_set_indent(opts->indent);
     if( opts->buf_size        ) gifti_set_xml_buf_size(opts->buf_size);
     if( opts->b64_check       ) gifti_set_b64_check(opts->b64_check);
     if( opts->update_ok != -1 ) gifti_set_update_ok(opts->update_ok);
     if( opts->zlevel    != -1 ) gifti_set_zlevel(opts->zlevel);
+    if( opts->perm_by_iord!=-1) gifti_set_perm_by_iord(opts->perm_by_iord);
 
     return 0;
 }
@@ -640,6 +654,11 @@ int gt_write(gt_opts * opts)
         return 1;
     }
 
+    /* since we plan to write a dataset, default to converting to RowMajor
+     * order, unless the user specified otherwise       1 May 2017 [rickr] */
+    if( opts->perm_by_iord == -1)
+       gifti_set_perm_by_iord(1);
+
     /* actually read the dataset */
     gim = gt_read_dataset(opts, opts->infiles.list[0]);
     if( !gim ){ fprintf(stderr,"** failed gifti_read_da_list()\n"); return 1; }
@@ -841,6 +860,7 @@ static int init_opts(gt_opts * opts)
     opts->dstore = 1;
     opts->update_ok = -1;
     opts->zlevel = -1;
+    opts->perm_by_iord = -1;
 
     return 0;
 }
@@ -879,6 +899,7 @@ static int disp_gt_opts(char * mesg, gt_opts * opts, FILE * stream)
         "    mod_gim_meta  : %d\n"
         "    mod_DA_atr    : %d\n"
         "    mod_DA_meta   : %d\n"
+        "    mod_ind_ord   : %d\n"
         "    mod_to_float  : %d\n"
         "\n"
         "    comp_data     : %d\n"
@@ -890,6 +911,7 @@ static int disp_gt_opts(char * mesg, gt_opts * opts, FILE * stream)
         "    b64_check     : %d\n"
         "    update_ok     : %d\n"
         "    zlevel        : %d\n"
+        "    perm_by_iord  : %d\n"
         "\n"
         "    dstore        : %d\n"
         "    encoding      : %d\n"
@@ -899,10 +921,10 @@ static int disp_gt_opts(char * mesg, gt_opts * opts, FILE * stream)
         "    ofile_gifti   : %s\n\n",
         opts->new_data, opts->mod_add_data, opts->mod_gim_atr,
         opts->mod_gim_meta, opts->mod_DA_atr, opts->mod_DA_meta,
-        opts->mod_to_float,
+        opts->mod_ind_ord, opts->mod_to_float,
         opts->comp_data, opts->comp_verb,
         opts->verb, opts->indent, opts->buf_size, opts->b64_check,
-        opts->update_ok, opts->zlevel,
+        opts->update_ok, opts->zlevel, opts->perm_by_iord,
         opts->dstore, opts->encoding, opts->show_gifti,
         G_CHECK_NULL_STR(opts->ofile_1D),
         G_CHECK_NULL_STR(opts->ofile_asc),
@@ -1299,6 +1321,25 @@ static int show_help()
     "           This operation can also be performed via -mod_DA_atr:\n"
     "           e.g. -mod_DA_atr Encoding BASE64GZIP\n"
     "\n"
+    "     -perm_by_iord 0/1 : do we permute based on index order (default=1)\n"
+    "\n"
+    "           e.g. -perm_by_iord 0\n"
+    "\n"
+    "           This option simply controls whether datasets are forced into\n"
+    "           row-major data storage order upon read.  It is typically\n"
+    "           desirable, since this is a C library, and so conversion of\n"
+    "           indices to data (D[a][b][c]) assumes row-major ordering.\n"
+    "           But Matlab and Fortran use column-major order.\n"
+    "\n"
+    "           For the GIFTI library, the default is to permute the data\n"
+    "           to row major order (if not already in it).\n"
+    "\n"
+    "           For gifti_tool, the default is to convert to row major order\n"
+    "           when any of the -write_* options are applied, but to leave\n"
+    "           the order unchanged otherwise (for inspection and such).\n"
+    "\n"
+    "           See also -mod_ind_ord.\n"
+    "\n"
     "     -set_extern_filelist F1 F2 ... : store data in external files\n"
     "\n"
     "           e.g. -set_extern_filelist run.1.data run.2.data run.3.data\n"
@@ -1433,6 +1474,15 @@ static int show_help()
     "           Add a MetaData entry to each DataArray element for this\n"
     "           NAME and VALUE pair.  If NAME exists, VALUE will replace\n"
     "           the old value.\n"
+    "\n"
+    "     -mod_ind_ord ORD : modify the index order (1=RowMajor, 2=ColMajor)\n"
+    "\n"
+    "           e.g. -mod_ind_ord 2\n"
+    "\n"
+    "           Arrange the data by the given ArrayIndexingOrder.\n"
+    "\n"
+    "              ORD = 1 : convert to row major order\n"
+    "              ORD = 2 : convert to column major order\n"
     "\n"
     "     -mod_to_float            : change all DataArray data to float\n"
     "\n"
@@ -1589,22 +1639,19 @@ int write_1D_file(giiDataArray ** dlist, int len, char * prefix, int add_suf)
             return 1;
         }
 
-        if( !(fp = fopen(name, "w")) ) {
+        if( !strcmp(prefix, "-") || !strcmp(prefix,"stdout") )
+            fp = stdout;
+        else if( !(fp = fopen(name, "w")) ) {
             fprintf(stderr,"** failed to open '%s' for 'w'\n",name);
             if( nbuf ) free(nbuf);
             return 1;
         }
 
         fprintf(stderr,"++ 1D write, RxC = %lld x %lld\n", rows, cols);
-        if( da->ind_ord == GIFTI_IND_ORD_COL_MAJOR ) {
-            fprintf(stderr,"-- writing data rows in reverse order\n");
-            for(c = rows-1; c >= 0; c-- )
-                ewrite_data_line(da->data, da->datatype, c, cols, 0, 0, fp);
-        } else {
-            fprintf(stderr,"-- writing data rows in normal order\n");
+        /* no longer re-order output for column major order, which was */
+        /* probably a mistake to begin with        25 Apr 2017 [rickr] */
             for(c = 0; c < rows; c++ )
                 ewrite_data_line(da->data, da->datatype, c, cols, 0, 0, fp);
-        }
     } else {            /* write da->nvals lines of 'num values */
         void ** vlist = (void **)malloc(len * sizeof(void *));
         int     fail = 0;
@@ -1635,7 +1682,9 @@ int write_1D_file(giiDataArray ** dlist, int len, char * prefix, int add_suf)
         }
 
         /* good to go */
-        if( !(fp = fopen(name, "w")) ) {
+        if( !strcmp(prefix, "-") || !strcmp(prefix,"stdout") )
+            fp = stdout;
+        else if( !(fp = fopen(name, "w")) ) {
             fprintf(stderr,"** failed to open '%s' for 'w'\n",name);
             if( nbuf ) free(nbuf);
             return 1;
@@ -1651,7 +1700,7 @@ int write_1D_file(giiDataArray ** dlist, int len, char * prefix, int add_suf)
     if( G.verb > 1 ) fprintf(stderr,"++ 1D write, apparent success\n");
 
     if( nbuf ) free(nbuf);
-    fclose(fp);
+    if( fp && fp != stdout ) fclose(fp);
 
     return 0;
 }
@@ -1699,15 +1748,10 @@ int write_surf_file(giiDataArray * dc, giiDataArray * dt, char * prefix,
     rows = crows;
     cols = ccols;
 
-    if( da->ind_ord == GIFTI_IND_ORD_COL_MAJOR ) {
-        fprintf(stderr,"-- writing coord rows in reverse order\n");
-        for(c = rows-1; c >= 0; c-- )
-            ewrite_data_line(da->data, da->datatype, c, cols, 0, 1, fp);
-    } else {
-        fprintf(stderr,"-- writing coord rows in normal order\n");
+    /* no longer re-order output for column major order, which was */
+    /* probably a mistake to begin with        25 Apr 2017 [rickr] */
         for(c = 0; c < rows; c++ )
             ewrite_data_line(da->data, da->datatype, c, cols, 0, 1, fp);
-    }
 
     /* write out the triangles */
 
@@ -1715,16 +1759,8 @@ int write_surf_file(giiDataArray * dc, giiDataArray * dt, char * prefix,
     rows = trows;
     cols = tcols;
 
-    if( da->ind_ord == GIFTI_IND_ORD_COL_MAJOR ) {
-        fprintf(stderr,"-- writing triangle rows in reverse order\n");
-        for(c = rows-1; c >= 0; c-- )
-            ewrite_data_line(da->data, da->datatype, c, cols, 0, 1, fp);
-    } else {
-        fprintf(stderr,"-- writing triangle rows in normal order\n");
         for(c = 0; c < rows; c++ )
             ewrite_data_line(da->data, da->datatype, c, cols, 0, 1, fp);
-    }
-
 
     fclose(fp);
 
@@ -1835,7 +1871,14 @@ int ewrite_data_line(void * data, int type, int row, int cols, int spaces,
 }
 
 
-/* write out as cols by rows (else we'd use ewrite_data_line) */
+/* write out as cols by rows (else we'd use ewrite_data_line)
+ *
+ * This essentially transposes DA elements and DA data (Row/Column major
+ * order is not handled, as that is within each DA element).  The point is
+ * to print the time series for each node on a single line.
+ *
+ * Time points are the likely cols here, where each col is a DA element.
+ */
 int ewrite_many_lines(void ** data, int type, long long cols, long long rows,
                       int spaces, FILE * fp)
 {
@@ -2045,6 +2088,14 @@ int gt_modify_dset(gt_opts * opts, gifti_image * gim)
                                 opts->DAmodlist.list, opts->DAmodlist.len, 1);
 
     /* for data manipulation functions, do not proceed if there there errors */
+
+    /* if desired, convert the ArrayIndexingOrder to the given type */
+    if( !errs && opts->mod_ind_ord ) {
+        c = gifti_convert_ind_ord(gim, opts->mod_ind_ord);
+        if( c > 0 ) fprintf(stderr,"++ converted data to %s\n",
+                            gifti_ind_ord2str(opts->mod_ind_ord));
+        if( c < 0 ) errs++;
+    }
 
     /* if desired, convert any existing data to float */
     if( !errs && opts->mod_to_float ) errs += gifti_convert_to_float(gim);

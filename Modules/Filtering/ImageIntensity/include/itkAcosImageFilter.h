@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Acos
 {
 public:
-  Acos() {}
-  ~Acos() {}
+  Acos() = default;
+  ~Acos() = default;
   bool operator!=(const Acos &) const
   {
     return false;
@@ -116,7 +116,7 @@ protected:
 #endif
     }
 
-  ~AcosImageFilter() override {}
+  ~AcosImageFilter() override = default;
 };
 } // end namespace itk
 

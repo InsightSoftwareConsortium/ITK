@@ -28,7 +28,6 @@
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/algo/vnl_svd.h"
-#include "vnl/vnl_sample.h"
 
 namespace itk
 {

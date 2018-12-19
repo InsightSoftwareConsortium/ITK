@@ -92,8 +92,8 @@ public:
   itkTypeMacro(RGBToLuminanceImageAdaptor, ImageAdaptor);
 
 protected:
-  RGBToLuminanceImageAdaptor() {}
-  ~RGBToLuminanceImageAdaptor() override {}
+  RGBToLuminanceImageAdaptor() = default;
+  ~RGBToLuminanceImageAdaptor() override = default;
 };
 } // end namespace itk
 

@@ -92,7 +92,7 @@ int main(int argc, char* argv[] )
 
   if( argv[3] )
     {
-    filter->SetNumberOfSmoothingIterations( atoi( argv[3] ));
+    filter->SetNumberOfSmoothingIterations( std::stoi( argv[3] ));
     using ExtractedComponentImageType = ClassifierFilterType::ExtractedComponentImageType;
     using SmoothingFilterType = itk::GradientAnisotropicDiffusionImageFilter<
       ExtractedComponentImageType, ExtractedComponentImageType >;

@@ -39,7 +39,7 @@ MultipleLogOutput::AddLogOutput(OutputType *output)
 
 /** The Flush method flushes all the streams. */
 void
-MultipleLogOutput::Flush(void)
+MultipleLogOutput::Flush()
 {
   auto itr = m_Output.begin();
   auto end = m_Output.end();

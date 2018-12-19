@@ -55,12 +55,12 @@ int itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   opening->SetInput2( reader2->GetOutput() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[4]) );
+  int BackgroundValue = ( std::stoi(argv[4]) );
   opening->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
 
   //testing get and set macros for Lambda
-  double lambda = atof( argv[5] );
+  double lambda = std::stod( argv[5] );
   opening->SetLambda( lambda );
   TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 
@@ -72,14 +72,18 @@ int itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[6] );
+  bool reverseOrdering = std::stoi( argv[6] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
-  LabelOpeningType::AttributeType attribute = atoi( argv[7] );
-  opening->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
+  opening->SetAttribute(LabelOpeningType::LabelObjectType::PERIMETER_ON_BORDER);
+  TEST_SET_GET_VALUE( LabelOpeningType::LabelObjectType::PERIMETER_ON_BORDER, opening->GetAttribute() );
+
+  const std::string attributeByName{ argv[7] };
+  opening->SetAttribute( attributeByName ); // SetAttribute accepts a string for conversion to internal label code
+  const LabelOpeningType::AttributeType attributeByCode = LabelOpeningType::LabelObjectType::LABEL;
+  TEST_SET_GET_VALUE( attributeByCode, opening->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 

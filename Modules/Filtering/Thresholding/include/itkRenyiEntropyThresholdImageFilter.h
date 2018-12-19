@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~RenyiEntropyThresholdImageFilter() override {};
+  ~RenyiEntropyThresholdImageFilter() override = default;
 };
 
 } // end namespace itk

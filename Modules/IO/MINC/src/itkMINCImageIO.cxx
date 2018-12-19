@@ -52,58 +52,16 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl
 };
 
 
-bool MINCImageIO::CanReadFile(const char *file)
+bool MINCImageIO::CanReadFile(const char *name)
 {
-  if ( *file == 0 )
+  if ( *name == 0 )
     {
     itkDebugMacro( << "No filename specified.");
     return false;
     }
-  std::string filename(file);
 
-  std::string::size_type mncPos = filename.rfind(".mnc");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 4) )
-    {
-    return true;
-    }
+  return this->HasSupportedReadExtension(name, false);
 
-  mncPos = filename.rfind(".MNC");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 4) )
-    {
-    return true;
-    }
-#ifdef HAVE_MINC1
-  mncPos = filename.rfind(".mnc.gz");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 7) )
-    {
-    return true;
-    }
-
-  mncPos = filename.rfind(".MNC.GZ");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 7) )
-    {
-    return true;
-    }
-#endif //HAVE_MINC1
-  mncPos = filename.rfind(".mnc2");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 5) )
-    {
-    return true;
-    }
-
-  mncPos = filename.rfind(".MNC2");
-  if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 5) )
-    {
-    return true;
-    }
-
-  return false;
 }
 
 void MINCImageIO::Read(void *buffer)
@@ -183,7 +141,7 @@ void MINCImageIO::Read(void *buffer)
   delete[] count;
 }
 
-void MINCImageIO::CleanupDimensions(void)
+void MINCImageIO::CleanupDimensions()
 {
   if( this->m_MINCPImpl->m_DimensionName )
     {
@@ -238,7 +196,7 @@ void MINCImageIO::AllocateDimensions(int nDims)
 }
 
 // close existing volume, cleanup internal structures
-void MINCImageIO::CloseVolume(void)
+void MINCImageIO::CloseVolume()
 {
   this->CleanupDimensions();
 
@@ -266,13 +224,34 @@ MINCImageIO::MINCImageIO()
     dimensionIndex = -1;
     }
 
-  this->AddSupportedWriteExtension(".mnc");
-  this->AddSupportedWriteExtension(".MNC");
+  const char *readExtensions[] =
+    {
+      ".mnc",".MNC",
+#ifdef HAVE_MINC1
+      ".mnc.gz", ".MNC.GZ",
+#endif //HAVE_MINC1
+      ".mnc2", ".MNC2"
+    };
 
-  this->AddSupportedReadExtension(".mnc");
-  this->AddSupportedReadExtension(".MNC");
 
-  this->m_UseCompression = false;
+  for(auto ext : readExtensions)
+    {
+    this->AddSupportedReadExtension(ext);
+    }
+
+
+  const char *writeExtensions[] =
+    {
+      ".mnc",".MNC",
+      ".mnc2", ".MNC2"
+    };
+
+  for(auto ext : writeExtensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    }
+
+  this->m_UseCompression = true;
   this->m_MINCPImpl->m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 =
                                 // maximum file compression
   this->m_MINCPImpl->m_Volume_type = MI_TYPE_FLOAT;
@@ -861,46 +840,21 @@ void MINCImageIO::ReadImageInformation()
     }
 }
 
-bool MINCImageIO::CanWriteFile(const char *file)
+bool MINCImageIO::CanWriteFile(const char *name)
 {
-  std::string filename = file;
-
-#ifdef _MSC_VER
-  // transform filename to lower case to make checks case-insensitive
-  std::transform(filename.begin(), filename.end(), filename.begin(), ( int ( * )(int) )tolower);
-#else
-  // transform filename to lower case to make checks case-insensitive
-  std::transform(filename.begin(), filename.end(), filename.begin(), ( int ( * )(int) ) std::tolower);
-#endif //_MSC_VER
-  if (  filename == "" )
+  if (  name[0] == '\0' )
     {
     itkDebugMacro( << "No filename specified.");
     return false;
     }
 
-  std::string::size_type mncPos = filename.rfind(".mnc");
-  if ( ( mncPos != std::string::npos )
-       && ( mncPos > 0 )
-       && ( mncPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  mncPos = filename.rfind(".mnc2");
-  if ( ( mncPos != std::string::npos )
-       && ( mncPos > 0 )
-       && ( mncPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, true);
 }
 
 /*
  * fill out the appropriate header information
 */
-void MINCImageIO::WriteImageInformation(void)
+void MINCImageIO::WriteImageInformation()
 {
   const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int nComp = this->GetNumberOfComponents();

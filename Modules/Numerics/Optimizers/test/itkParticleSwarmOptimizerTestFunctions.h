@@ -48,9 +48,7 @@ public:
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
 
-  ParticleSwarmTestF1()
-  {
-  }
+  ParticleSwarmTestF1() = default;
 
   double GetValue( const ParametersType & parameters ) const override
   {
@@ -74,7 +72,7 @@ public:
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return 1;
   }
@@ -138,7 +136,7 @@ public:
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return 2;
   }
@@ -167,9 +165,7 @@ public:
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
 
-  ParticleSwarmTestF3()
-  {
-  }
+  ParticleSwarmTestF3() = default;
 
   double GetValue( const ParametersType & parameters ) const override
   {
@@ -185,7 +181,7 @@ public:
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return 2;
   }

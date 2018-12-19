@@ -149,7 +149,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 AccumulateImageFilter< TInputImage, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   if ( m_AccumulateDimension >= TInputImage::ImageDimension )
     {

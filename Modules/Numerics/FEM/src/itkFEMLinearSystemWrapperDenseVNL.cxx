@@ -153,7 +153,7 @@ LinearSystemWrapperDenseVNL::Float LinearSystemWrapperDenseVNL::GetSolutionValue
     }
 }
 
-void LinearSystemWrapperDenseVNL::Solve(void)
+void LinearSystemWrapperDenseVNL::Solve()
 {
   if( ( m_Matrices->size() == 0 ) || ( m_Vectors->size() == 0 ) || ( m_Solutions->size() == 0 ) )
     {

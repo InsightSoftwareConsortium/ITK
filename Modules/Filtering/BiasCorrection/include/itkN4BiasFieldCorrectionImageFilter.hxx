@@ -24,6 +24,7 @@
 #include "itkBSplineControlPointImageFilter.h"
 #include "itkDivideImageFilter.h"
 #include "itkExpImageFilter.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImportImageFilter.h"
@@ -44,16 +45,19 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::N4BiasFieldCorrectionImageFilter() :
   m_MaskLabel( NumericTraits< MaskPixelType >::OneValue() ),
-  m_UseMaskLabel( false ),
-  m_NumberOfHistogramBins( 200 ),
-  m_WienerFilterNoise( 0.01 ),
-  m_BiasFieldFullWidthAtHalfMaximum( 0.15 ),
-  m_ElapsedIterations( 0 ),
-  m_ConvergenceThreshold( 0.001 ),
-  m_CurrentConvergenceMeasurement( NumericTraits<RealType>::ZeroValue() ),
-  m_CurrentLevel( 0 ),
-  m_SplineOrder( 3 )
+
+  m_CurrentConvergenceMeasurement( NumericTraits<RealType>::ZeroValue() )
+
 {
+  // implicit:
+  // #0 "Primary" required
+
+  // #1 "MaskImage" optional
+  Self::AddOptionalInputName("MaskImage",1);
+
+  // #2 "ConfidenceImage" optional
+  Self::AddOptionalInputName("ConfidenceImage",2);
+
   this->SetNumberOfRequiredInputs( 1 );
 
   this->m_LogBiasFieldControlPointLattice = nullptr;
@@ -82,18 +86,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   logInputImage->SetRegions( inputRegion );
   logInputImage->Allocate( false );
 
-  ImageRegionConstIterator<InputImageType> inpItr( inputImage, inputRegion );
-  ImageRegionIterator<RealImageType> outItr( logInputImage, inputRegion );
-
-  inpItr.GoToBegin();
-  outItr.GoToBegin();
-
-  while( !inpItr.IsAtEnd() )
-    {
-    outItr.Set( static_cast< RealType >( inpItr.Get() ) );
-    ++inpItr;
-    ++outItr;
-    }
+  ImageAlgorithm::Copy( inputImage, logInputImage.GetPointer(), inputRegion, inputRegion);
 
   const MaskImageType * maskImage = this->GetMaskImage();
   const RealImageType * confidenceImage = this->GetConfidenceImage();
@@ -218,22 +211,20 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       RefineControlPointLattice( numberOfLevels );
     }
 
-  using ExpImageFilterType = ExpImageFilter<RealImageType, RealImageType>;
-  typename ExpImageFilterType::Pointer expFilter = ExpImageFilterType::New();
-  expFilter->SetInput( logBiasField );
-  expFilter->Update();
+  using CustomBinaryFilter = itk::BinaryGeneratorImageFilter<InputImageType, RealImageType, OutputImageType>;
+  typename CustomBinaryFilter::Pointer expAndDivFilter = CustomBinaryFilter::New();
+  auto expAndDivLambda = [](const typename InputImageType::PixelType &input,
+                            const typename RealImageType::PixelType &biasField) ->
+    typename OutputImageType::PixelType
+    {
+      return static_cast<typename OutputImageType::PixelType>(input / std::exp( biasField ));
+    };
+  expAndDivFilter->SetFunctor( expAndDivLambda );
+  expAndDivFilter->SetInput1( inputImage );
+  expAndDivFilter->SetInput2( logBiasField );
+  expAndDivFilter->Update();
 
-  // Divide the input image by the bias field to get the final image.
-
-  using DividerType =
-      DivideImageFilter<InputImageType, RealImageType, OutputImageType>;
-  typename DividerType::Pointer divider = DividerType::New();
-  divider->SetInput1( inputImage );
-  divider->SetInput2( expFilter->GetOutput() );
-  divider->GraftOutput( this->GetOutput() );
-  divider->Update();
-
-  this->GraftOutput( divider->GetOutput() );
+  this->GraftOutput( expAndDivFilter->GetOutput() );
 }
 
 template<typename TInputImage, typename TMaskImage, typename TOutputImage>
@@ -255,7 +246,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealType binMaximum = NumericTraits<RealType>::NonpositiveMin();
   RealType binMinimum = NumericTraits<RealType>::max();
 
-  ImageRegionConstIterator<RealImageType> ItU(
+  ImageRegionConstIteratorWithIndex<RealImageType> ItU(
     unsharpenedImage, unsharpenedImage->GetLargestPossibleRegion() );
 
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )

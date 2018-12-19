@@ -26,12 +26,11 @@ GDCMImageIOFactory::GDCMImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGDCMImageIO",
                           "GDCM Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GDCMImageIO >::New() );
 }
 
-GDCMImageIOFactory::~GDCMImageIOFactory()
-{}
+GDCMImageIOFactory::~GDCMImageIOFactory() = default;
 
 const char * GDCMImageIOFactory::GetITKSourceVersion() const
 {
@@ -48,7 +47,7 @@ const char * GDCMImageIOFactory::GetDescription() const
 
 static bool GDCMImageIOFactoryHasBeenRegistered;
 
-void ITKIOGDCM_EXPORT GDCMImageIOFactoryRegister__Private(void)
+void ITKIOGDCM_EXPORT GDCMImageIOFactoryRegister__Private()
 {
   if( ! GDCMImageIOFactoryHasBeenRegistered )
     {

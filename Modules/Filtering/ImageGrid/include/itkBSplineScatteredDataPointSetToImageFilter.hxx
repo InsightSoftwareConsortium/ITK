@@ -35,14 +35,8 @@ namespace itk
 
 template<typename TInputPointSet, typename TOutputImage>
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::BSplineScatteredDataPointSetToImageFilter() :
-  m_DoMultilevel( false ),
-  m_GenerateOutputImage( true ),
-  m_UsePointWeights( false ),
-  m_MaximumNumberOfLevels( 1 ),
-  m_CurrentLevel( 0 ),
-  m_BSplineEpsilon( 1e-3 ),
-  m_IsFittingComplete( false )
+::BSplineScatteredDataPointSetToImageFilter()
+
 {
   this->m_SplineOrder.Fill( 3 );
   this->DynamicMultiThreadingOff();
@@ -79,8 +73,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
 template<typename TInputPointSet, typename TOutputImage>
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::~BSplineScatteredDataPointSetToImageFilter()
-{}
+::~BSplineScatteredDataPointSetToImageFilter() = default;
 
 template<typename TInputPointSet, typename TOutputImage>
 void
@@ -292,12 +285,13 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   typename ImageSource<TOutputImage>::ThreadStruct str1;
   str1.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
-  this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str1 );
+  MultiThreaderBase* multiThreader = this->GetMultiThreader();
+  multiThreader->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  multiThreader->SetSingleMethod( this->ThreaderCallback, &str1 );
 
   // Multithread the generation of the control point lattice.
   this->BeforeThreadedGenerateData();
-  this->GetMultiThreader()->SingleMethodExecute();
+  multiThreader->SingleMethodExecute();
   this->AfterThreadedGenerateData();
 
   this->UpdatePointSet();
@@ -369,7 +363,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
     // Multithread the generation of the control point lattice.
     this->BeforeThreadedGenerateData();
-    this->GetMultiThreader()->SingleMethodExecute();
+    multiThreader->SingleMethodExecute();
     this->AfterThreadedGenerateData();
 
     this->UpdatePointSet();
@@ -401,7 +395,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   if( this->m_GenerateOutputImage )
     {
 //    this->BeforeThreadedGenerateData();
-    this->GetMultiThreader()->SingleMethodExecute();
+    multiThreader->SingleMethodExecute();
 //    this->AfterThreadedGenerateData();
     }
 

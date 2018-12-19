@@ -66,8 +66,8 @@ public:
   virtual void CharacterDataHandler(const char *inData, int inLength) = 0;
 
 protected:
-  XMLReaderBase() {}
-  ~XMLReaderBase() override {}
+  XMLReaderBase() = default;
+  ~XMLReaderBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Instantiates and invokes the XML parser for the file named by
@@ -88,7 +88,7 @@ protected:
  * \ingroup ITKIOXML
  */
 template< typename T >
-class XMLReader: public XMLReaderBase
+class ITK_TEMPLATE_EXPORT XMLReader: public XMLReaderBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(XMLReader);
@@ -101,14 +101,14 @@ public:
   void SetOutputObject(T *obj) { m_OutputObject = obj; }
   /** Get the output object, after an XML File has been successfully parsed.
    */
-  T * GetOutputObject(void) { return m_OutputObject; }
+  T * GetOutputObject() { return m_OutputObject; }
 
 protected:
   XMLReader() :
     m_OutputObject(nullptr)
   {}
 
-  ~XMLReader() override {}
+  ~XMLReader() override = default;
 
   T *m_OutputObject;
 };
@@ -123,7 +123,7 @@ protected:
  * \ingroup ITKIOXML
  */
 template< typename T >
-class XMLWriterBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT XMLWriterBase:public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(XMLWriterBase);

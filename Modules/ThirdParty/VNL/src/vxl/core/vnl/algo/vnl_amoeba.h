@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_amoeba.h
 #ifndef vnl_amoeba_h_
 #define vnl_amoeba_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Nelder-Meade downhill simplex.

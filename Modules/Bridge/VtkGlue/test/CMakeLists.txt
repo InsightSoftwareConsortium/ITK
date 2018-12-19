@@ -43,6 +43,7 @@ itk_add_test(
   COMMAND ITKVtkGlueTestDriver
            --compare DATA{Baseline/QuickViewTest.png,:}
                      ${ITK_TEST_OUTPUT_DIR}/QuickViewTest0.png
+           --compareNumberOfPixelsTolerance 1500
     QuickViewTest DATA{${ITK_DATA_ROOT}/Input/peppers.png} ${ITK_TEST_OUTPUT_DIR})
 set_property(TEST QuickViewTest APPEND PROPERTY LABELS REQUIRES_DISPLAY)
 

@@ -18,19 +18,15 @@
 
 #include "itkImageIOBase.h"
 #include "itkImageRegionSplitterSlowDimension.h"
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
-
+#include <mutex>
 #include "itksys/SystemTools.hxx"
+
+#include <iterator>
 
 namespace itk
 {
-ImageIOBase::ImageIOBase():
-  m_PixelType(SCALAR),
-  m_ComponentType(UNKNOWNCOMPONENTTYPE),
-  m_ByteOrder(OrderNotApplicable),
-  m_FileType(TypeNotApplicable),
-  m_NumberOfDimensions(0)
+ImageIOBase::ImageIOBase()
+
 {
   Reset(false);
 }
@@ -54,8 +50,7 @@ void ImageIOBase::Reset(const bool)
 
 }
 
-ImageIOBase::~ImageIOBase()
-{}
+ImageIOBase::~ImageIOBase() = default;
 
 const ImageIOBase::ArrayOfExtensionsType &
 ImageIOBase::GetSupportedWriteExtensions() const
@@ -913,25 +908,91 @@ void ImageIOBase::ReadBufferAsASCII(std::istream & is, void *buffer,
 
 namespace
 {
-SimpleFastMutexLock ioDefaultSplitterLock;
+std::mutex ioDefaultSplitterLock;
 ImageRegionSplitterBase::Pointer ioDefaultSplitter;
 
 }
 
 const ImageRegionSplitterBase*
-ImageIOBase::GetImageRegionSplitter(void) const
+ImageIOBase::GetImageRegionSplitter() const
 {
   if ( ioDefaultSplitter.IsNull() )
     {
     // thread safe lazy initialization,  prevent race condition on
     // setting, with an atomic set if null.
-    MutexLockHolder< SimpleFastMutexLock > lock(ioDefaultSplitterLock);
+    std::lock_guard< std::mutex > lock( ioDefaultSplitterLock );
     if ( ioDefaultSplitter.IsNull() )
       {
       ioDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer();
       }
     }
   return ioDefaultSplitter;
+}
+
+
+bool
+ImageIOBase::HasSupportedReadExtension( const char *fileName, bool ignoreCase )
+{
+  return this->HasSupportedExtension( fileName,
+                                      this->GetSupportedReadExtensions(),
+                                      ignoreCase );
+}
+
+
+bool
+ImageIOBase::HasSupportedWriteExtension( const char *fileName, bool ignoreCase )
+{
+
+  return this->HasSupportedExtension( fileName,
+                                      this->GetSupportedWriteExtensions(),
+                                      ignoreCase );
+}
+
+
+bool
+ImageIOBase::HasSupportedExtension( const char * filename,
+                                    const ImageIOBase::ArrayOfExtensionsType &supportedExtensions,
+                                    bool ignoreCase )
+{
+
+  std::string ext = itksys::SystemTools::GetFilenameLastExtension(filename);
+  if ( ignoreCase )
+    {
+    std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+    }
+
+  for ( auto && candidate : supportedExtensions )
+    {
+    if ( ignoreCase )
+      {
+      size_t n = candidate.size();
+      if ( n == ext.size() && n > 0)
+        {
+
+        while ( true )
+          {
+          --n;
+          if (ext[n] != ::tolower(candidate[n]))
+            {
+            break;
+            }
+          if ( n == 0 )
+            {
+            return true;
+            }
+          }
+
+        }
+      }
+    else
+      {
+      if ( candidate == ext )
+        {
+        return true;
+        }
+      }
+    }
+  return false;
 }
 
 unsigned int
@@ -1070,6 +1131,22 @@ ImageIOBase
   return axis;
 }
 
+namespace
+{
+template <typename T>
+std::ostream & operator<<( std::ostream & os, const std::vector<T>& v)
+{
+  if ( v.empty() )
+    {
+    return os << "( )";
+    }
+
+  os << "( ";
+  std::copy( v.begin(), v.end()-1, std::ostream_iterator<T>(os, ", ") );
+  return os << v.back() << " )";
+}
+}
+
 void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -1083,19 +1160,14 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Pixel Type: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
   os << indent << "Component Type: " << this->GetComponentTypeAsString(m_ComponentType)
      << std::endl;
-  os << indent << "Dimensions: ( ";
-  for( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
+  os << indent << "Dimensions: " << m_Dimensions << std::endl;
+  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Direction: " << std::endl;
+  for( const auto & direction : m_Direction )
     {
-    os << m_Dimensions[i] << " ";
+    os << indent << direction << std::endl;
     }
-  os << ")" << std::endl;
-  os << indent << "Origin: ( ";
-  for( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
-    {
-    os << m_Origin[i] << " ";
-    }
-  os << ")" << std::endl;
-
   if( m_UseCompression )
     {
     os << indent << "UseCompression: On" << std::endl;

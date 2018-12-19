@@ -178,7 +178,7 @@ protected:
 
   /** Default constructor*/
   LaplacianDeformationQuadEdgeMeshFilter();
-  ~LaplacianDeformationQuadEdgeMeshFilter() override {}
+  ~LaplacianDeformationQuadEdgeMeshFilter() override = default;
 
   using OutputMapPointIdentifier = itksys::hash_map< OutputPointIdentifier, OutputPointIdentifier >;
   using OutputMapPointIdentifierIterator = typename OutputMapPointIdentifier::iterator;
@@ -212,7 +212,7 @@ protected:
 
   CoefficientsComputationType* m_CoefficientsMethod;
 
-  unsigned int              m_Order;
+  unsigned int              m_Order{1};
   AreaType                  m_AreaComputationType;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
@@ -260,7 +260,7 @@ protected:
 private:
   struct Triple
   {
-    Triple() {}
+    Triple() = default;
     Triple(OutputPointIdentifier iV, OutputCoordRepType iWeight, unsigned int iDegree):
       m_Id(iV), m_Weight(iWeight), m_Degree(iDegree) {}
 

@@ -99,7 +99,7 @@ public:
    * There are 4 parameters. The first one represents the
    * rotation, the second one the scale and the last
    * two represent the offset. */
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */

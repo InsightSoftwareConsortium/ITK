@@ -36,12 +36,11 @@ BioRadImageIOFactory::BioRadImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkBioRadImageIO",
                           "BioRad Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< BioRadImageIO >::New() );
 }
 
-BioRadImageIOFactory::~BioRadImageIOFactory()
-{}
+BioRadImageIOFactory::~BioRadImageIOFactory() = default;
 
 const char *
 BioRadImageIOFactory::GetITKSourceVersion() const
@@ -60,7 +59,7 @@ BioRadImageIOFactory::GetDescription() const
 
 static bool BioRadImageIOFactoryHasBeenRegistered;
 
-void ITKIOBioRad_EXPORT BioRadImageIOFactoryRegister__Private(void)
+void ITKIOBioRad_EXPORT BioRadImageIOFactoryRegister__Private()
 {
   if( ! BioRadImageIOFactoryHasBeenRegistered )
     {

@@ -104,11 +104,8 @@ public:
    * \warning When setting the desired number of work units, it might be clamped by
    * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads().
    * */
-  ThreadIdType GetNumberOfWorkUnits() const
-  {
-    return this->m_MultiThreader->GetNumberOfWorkUnits();
-  }
-  void SetNumberOfWorkUnits( const ThreadIdType workUnits );
+  itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
+  itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
 
   /** Convenience methods to set/get the maximum number of threads to use.
    * \warning When setting the maximum number of threads, it will be clamped by
@@ -154,7 +151,7 @@ protected:
   /** Static function used as a "callback" by the MultiThreaderBase.  The threading
    * library will call this routine for each thread, which will delegate the
    * control to the ThreadFunctor. */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback( void *arg );
 
   AssociateType * m_Associate;
 
@@ -171,7 +168,8 @@ private:
    * the number allocated by the threader if the object does not split
    * well into that number.
    * This value is determined at the beginning of \c Execute(). */
-  ThreadIdType                             m_NumberOfWorkUnitsUsed;
+  ThreadIdType                             m_NumberOfWorkUnitsUsed{0};
+  ThreadIdType                             m_NumberOfWorkUnits;
   typename DomainPartitionerType::Pointer  m_DomainPartitioner;
   DomainType                               m_CompleteDomain;
   MultiThreaderBase::Pointer               m_MultiThreader;

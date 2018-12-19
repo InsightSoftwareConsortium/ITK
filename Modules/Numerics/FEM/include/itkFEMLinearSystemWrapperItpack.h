@@ -604,7 +604,7 @@ public:
 
   void  AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex) override;
 
-  void  Solve(void) override;
+  void  Solve() override;
 
   /* matrix & vector manipulation routines */
   void  SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) override;

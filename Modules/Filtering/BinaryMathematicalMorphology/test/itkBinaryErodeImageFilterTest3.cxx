@@ -42,7 +42,7 @@ int itkBinaryErodeImageFilterTest3(int argc, char * argv[])
 
   using SRType = itk::BinaryBallStructuringElement< PType, dim >;
   SRType kernel;
-  kernel.SetRadius( atoi(argv[6]) );
+  kernel.SetRadius( std::stoi(argv[6]) );
   kernel.CreateStructuringElement();
 
   using FilterType = itk::BinaryErodeImageFilter< IType, IType, SRType >;
@@ -73,30 +73,30 @@ int itkBinaryErodeImageFilterTest3(int argc, char * argv[])
     }
 
   //Exercise Set/Get methods for Background Value
-  filter->SetForegroundValue( atoi(argv[3]) );
-  if ( filter->GetForegroundValue( ) != atoi(argv[3]) )
+  filter->SetForegroundValue( std::stoi(argv[3]) );
+  if ( filter->GetForegroundValue( ) != std::stoi(argv[3]) )
     {
     std::cerr << "Set/Get Foreground value problem." << std::endl;
     return EXIT_FAILURE;
     }
 
   // the same with the alias
-  filter->SetErodeValue( atoi(argv[3]) );
-  if ( filter->GetErodeValue( ) != atoi(argv[3]) )
+  filter->SetErodeValue( std::stoi(argv[3]) );
+  if ( filter->GetErodeValue( ) != std::stoi(argv[3]) )
     {
     std::cerr << "Set/Get Erode value problem." << std::endl;
     return EXIT_FAILURE;
     }
 
-  filter->SetBackgroundValue( atoi(argv[4]) );
-  if ( filter->GetBackgroundValue( ) != atoi(argv[4]) )
+  filter->SetBackgroundValue( std::stoi(argv[4]) );
+  if ( filter->GetBackgroundValue( ) != std::stoi(argv[4]) )
     {
     std::cerr << "Set/Get Background value problem." << std::endl;
     return EXIT_FAILURE;
     }
 
-  filter->SetBoundaryToForeground( atoi(argv[5]) );
-  if ( filter->GetBoundaryToForeground( ) != (bool)atoi(argv[5]) )
+  filter->SetBoundaryToForeground( std::stoi(argv[5]) );
+  if ( filter->GetBoundaryToForeground( ) != (bool)std::stoi(argv[5]) )
     {
     std::cerr << "Set/Get BoundaryToForeground value problem." << std::endl;
     return EXIT_FAILURE;

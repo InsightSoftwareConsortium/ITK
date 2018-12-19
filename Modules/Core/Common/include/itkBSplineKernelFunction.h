@@ -67,8 +67,8 @@ public:
   }
 
 protected:
-  BSplineKernelFunction(){}
-  ~BSplineKernelFunction() override {}
+  BSplineKernelFunction()= default;
+  ~BSplineKernelFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);

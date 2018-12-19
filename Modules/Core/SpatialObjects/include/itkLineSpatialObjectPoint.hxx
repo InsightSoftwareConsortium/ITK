@@ -25,7 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TPointDimension >
 LineSpatialObjectPoint< TPointDimension >
-::LineSpatialObjectPoint(void)
+::LineSpatialObjectPoint()
 {
   this->m_ID = 0;
   unsigned int ii = 0;
@@ -41,8 +41,7 @@ LineSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 LineSpatialObjectPoint< TPointDimension >
-::~LineSpatialObjectPoint(void)
-{}
+::~LineSpatialObjectPoint() = default;
 
 /** Get the specified normal */
 template< unsigned int TPointDimension >

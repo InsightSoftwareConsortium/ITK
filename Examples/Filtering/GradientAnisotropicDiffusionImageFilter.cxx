@@ -128,11 +128,11 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int numberOfIterations = atoi( argv[3] );
+  const unsigned int numberOfIterations = std::stoi( argv[3] );
 
-  const double       timeStep = atof( argv[4] );
+  const double       timeStep = std::stod( argv[4] );
 
-  const double       conductance = atof( argv[5] );
+  const double       conductance = std::stod( argv[5] );
 
 
   //  Software Guide : BeginLatex

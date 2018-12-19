@@ -125,8 +125,8 @@ public:
   }
 
 protected:
-  InterpolateImageFunction(){}
-  ~InterpolateImageFunction() override {}
+  InterpolateImageFunction()= default;
+  ~InterpolateImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 };

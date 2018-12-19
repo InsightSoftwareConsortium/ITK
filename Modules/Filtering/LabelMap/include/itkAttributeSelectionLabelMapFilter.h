@@ -143,7 +143,7 @@ public:
 
 protected:
   AttributeSelectionLabelMapFilter();
-  ~AttributeSelectionLabelMapFilter() override {};
+  ~AttributeSelectionLabelMapFilter() override = default;
 
   void GenerateData() override;
 

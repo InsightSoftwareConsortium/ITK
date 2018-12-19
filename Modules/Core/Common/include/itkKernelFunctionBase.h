@@ -65,8 +65,8 @@ public:
 #endif
 
 protected:
-  KernelFunctionBase() {};
-  ~KernelFunctionBase() override {};
+  KernelFunctionBase() = default;
+  ~KernelFunctionBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 };

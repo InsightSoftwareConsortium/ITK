@@ -75,9 +75,9 @@ public:
   using OutputType = TOutput;
 
 protected:
-  LiThresholdCalculator() {};
-  ~LiThresholdCalculator() override {};
-  void GenerateData(void) override;
+  LiThresholdCalculator() = default;
+  ~LiThresholdCalculator() override = default;
+  void GenerateData() override;
 };
 
 } // end namespace itk

@@ -60,7 +60,7 @@ UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 template< typename TInputImage, typename TOutputImage, typename TInternalPrecision >
 void
 UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
-::VerifyPreconditions()
+::VerifyPreconditions() ITKv5_CONST
 {
   Superclass::VerifyPreconditions();
   if (m_Threshold < 0.0)

@@ -62,10 +62,10 @@ public:
   // Returns pixels of float..
   using OutputPixelType = TOutput;
 
-  HistogramEntropyFunction():
-    m_TotalFrequency(1) {}
+  HistogramEntropyFunction()
+    {}
 
-  ~HistogramEntropyFunction() {}
+  ~HistogramEntropyFunction() = default;
 
   inline OutputPixelType operator()(const TInput & A) const
   {
@@ -94,7 +94,7 @@ public:
   }
 
 private:
-  SizeValueType m_TotalFrequency;
+  SizeValueType m_TotalFrequency{1};
 };
 }
 
@@ -123,8 +123,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  HistogramToEntropyImageFilter() {}
-  ~HistogramToEntropyImageFilter() override {}
+  HistogramToEntropyImageFilter() = default;
+  ~HistogramToEntropyImageFilter() override = default;
 };
 } // end namespace itk
 

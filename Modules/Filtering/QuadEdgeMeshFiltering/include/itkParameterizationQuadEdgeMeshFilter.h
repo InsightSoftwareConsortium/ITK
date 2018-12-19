@@ -135,7 +135,7 @@ public:
 protected:
 
   ParameterizationQuadEdgeMeshFilter();
-  ~ParameterizationQuadEdgeMeshFilter() override {}
+  ~ParameterizationQuadEdgeMeshFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   CoefficientsComputation *m_CoefficientsMethod;

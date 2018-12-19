@@ -18,6 +18,7 @@
 #ifndef itkThreadSupport_h
 #define itkThreadSupport_h
 
+#include <cstdlib>
 
 // This implementation uses a routine called SignalObjectAndWait()
 // which is only defined on WinNT 4.0 or greater systems.  We need to
@@ -42,41 +43,41 @@ namespace itk
   /** Platform specific type alias for simple types
    */
 #if defined(ITK_USE_PTHREADS)
-#define ITK_MAX_THREADS              128
+  constexpr std::size_t ITK_MAX_THREADS = 128;
   using MutexType = pthread_mutex_t;
   using FastMutexType = pthread_mutex_t;
   using ThreadFunctionType = void *(*)(void *);
   using ThreadProcessIdType = pthread_t;
-#define ITK_DEFAULT_THREAD_ID    0
-#define ITK_THREAD_RETURN_VALUE  NULL /* This is from a c library, and always needs to be NULL, not nullptr */
-#define ITK_THREAD_RETURN_TYPE   void *
-#define ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER void *
-
+  constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
+  using ITK_THREAD_RETURN_TYPE = void *;
+  constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = NULL; /* This is from a c library, and always needs to be NULL, not nullptr */
+  using itk::ITK_THREAD_RETURN_DEFAULT_VALUE;  //We need this out of the itk namespace for #define to work below
+  using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 #elif defined(ITK_USE_WIN32_THREADS)
 
-#define ITK_MAX_THREADS              128
+  constexpr std::size_t ITK_MAX_THREADS = 128;
   using MutexType = HANDLE;
   using FastMutexType = CRITICAL_SECTION;
   typedef unsigned(__stdcall * ThreadFunctionType)(void *);
   using ThreadProcessIdType = HANDLE;
-#define ITK_DEFAULT_THREAD_ID   INVALID_HANDLE_VALUE
-#define ITK_THREAD_RETURN_VALUE 0
-#define ITK_THREAD_RETURN_TYPE unsigned __stdcall
-#define ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER unsigned
-
+  static const ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
+  using ITK_THREAD_RETURN_TYPE = unsigned;
+  constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = 0;
+  // WINAPI expands to __stdcall which specifies a function call convention and has little no meaning on variable declarations
+  #define ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION itk::ITK_THREAD_RETURN_TYPE __stdcall
 #else
 
-#define ITK_MAX_THREADS              1
+  constexpr std::size_t ITK_MAX_THREADS = 1;
   using MutexType = int;
   using FastMutexType = int;
   typedef void ( *ThreadFunctionType )(void *);
   using ThreadProcessIdType = int;
-#define ITK_DEFAULT_THREAD_ID    0
-#define ITK_THREAD_RETURN_VALUE
-#define ITK_THREAD_RETURN_TYPE void
-#define ITK_THREAD_RETURN_TYPE_WITHOUT_MODIFIER void
-
+  constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
+  using ITK_THREAD_RETURN_TYPE = void;
+  #define ITK_THREAD_RETURN_DEFAULT_VALUE
+  using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 #endif
+
 
   /** Platform specific Conditional Variable type alias
    */
@@ -104,6 +105,26 @@ namespace itk
   using ConditionVariableType = struct { };
 #endif
 
-
 }
+
+// Compile-time conditional code for different threading models
+// require that some items are #defines (always global scope) or
+// can sometimes be rigorously typed.  When rigorously typed,
+// we need to re-exposed to the global namespace to keep the
+// use of these items consistent.
+#if defined(ITK_USE_PTHREADS)
+using itk::ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION;
+using itk::ITK_THREAD_RETURN_DEFAULT_VALUE;  //We need this out of the itk namespace for #define to work below
+#elif defined(ITK_USE_WIN32_THREADS)
+using itk::ITK_THREAD_RETURN_DEFAULT_VALUE;  //We need this out of the itk namespace for #define to work below
+#else
+using itk::ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION;
+#endif
+
+// For backwards compatiblity
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+  using itk::ITK_MAX_THREADS;
+  using itk::ITK_DEFAULT_THREAD_ID;
+#endif
+
 #endif

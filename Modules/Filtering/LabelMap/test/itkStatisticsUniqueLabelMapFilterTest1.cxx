@@ -45,8 +45,8 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   const char * featureImage = argv[2];
   const char * outputImage = argv[3];
   const char * dilationOutput = argv[4];
-  const bool reverseOrdering = atoi( argv[5] );
-  const unsigned int attribute = atoi( argv[6] );
+  const bool reverseOrdering = std::stoi( argv[5] );
+  const unsigned int attribute = std::stoi( argv[6] );
 
   constexpr unsigned int Dimension = 2;
 

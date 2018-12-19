@@ -30,7 +30,7 @@
 
 #include "itkImageBase.h"
 
-#include "itkFastMutexLock.h"
+#include <mutex>
 #include "itkProcessObject.h"
 #include "itkSpatialOrientation.h"
 #include <cstring>
@@ -86,8 +86,7 @@ ImageBase< VImageDimension >
 
 template< unsigned int VImageDimension >
 ImageBase< VImageDimension >
-::~ImageBase()
-{}
+::~ImageBase() = default;
 
 
 template< unsigned int VImageDimension >
@@ -457,7 +456,7 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::InitializeBufferedRegion(void)
+::InitializeBufferedRegion()
 {
   //
   // We don't modify ourselves because the "ReleaseData" methods depend upon

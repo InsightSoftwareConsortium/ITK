@@ -52,17 +52,17 @@ int itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetFeatureImage( reader2->GetOutput() );
 
   //testing get/set ForegroundValue macro
-  int ForegroundValue = ( atoi(argv[4]) );
+  int ForegroundValue = ( std::stoi(argv[4]) );
   KeepNObjects->SetForegroundValue( ForegroundValue );
   TEST_SET_GET_VALUE( ForegroundValue, KeepNObjects->GetForegroundValue() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[5]) );
+  int BackgroundValue = ( std::stoi(argv[5]) );
   KeepNObjects->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
   //testing get and set macros for NumberOfObjects
-  unsigned int numberOfObjects = atoi( argv[6] );
+  unsigned int numberOfObjects = std::stoi( argv[6] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
   TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
 
@@ -74,7 +74,7 @@ int itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[7] );
+  bool reverseOrdering = std::stoi( argv[7] );
   KeepNObjects->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
 
@@ -86,12 +86,12 @@ int itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, KeepNObjects->GetFullyConnected() );
 
   //testing get and set macros or FullyConnected
-  bool fullyConnected = atoi( argv[8] );
+  bool fullyConnected = std::stoi( argv[8] );
   KeepNObjects->SetFullyConnected( fullyConnected );
   TEST_SET_GET_VALUE( fullyConnected , KeepNObjects->GetFullyConnected() );
 
   //testing get and set macros for Attribute
-  BinaryKeepNObjectsType::AttributeType attribute = atoi( argv[9] );
+  BinaryKeepNObjectsType::AttributeType attribute = std::stoi( argv[9] );
   KeepNObjects->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
 

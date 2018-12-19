@@ -24,19 +24,14 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 FrustumSpatialFunction< VDimension, TInput >::FrustumSpatialFunction() :
-  m_AngleZ( 0.0f ),
-  m_ApertureAngleX( 0.0f ),
-  m_ApertureAngleY( 0.0f ),
-  m_TopPlane( 0.0f ),
-  m_BottomPlane( 0.0f ),
+
   m_RotationPlane( RotateInXZPlane )
 {
   m_Apex.Fill( 0.0f );
 }
 
 template< unsigned int VDimension, typename TInput >
-FrustumSpatialFunction< VDimension, TInput >::~FrustumSpatialFunction()
-{}
+FrustumSpatialFunction< VDimension, TInput >::~FrustumSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 typename FrustumSpatialFunction< VDimension, TInput >::OutputType

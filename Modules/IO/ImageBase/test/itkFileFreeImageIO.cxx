@@ -74,7 +74,7 @@ FileFreeImageIO
     this->SplitString(findSize.match(1), ",", tempVector);
     for (std::vector<std::string>::size_type i = 0; i < tempVector.size(); i++)
       {
-      sizeVector.push_back(atoi(tempVector[i].c_str()));
+      sizeVector.push_back(std::stoi(tempVector[i].c_str()));
       }
     }
 
@@ -86,7 +86,7 @@ FileFreeImageIO
     this->SplitString(findSpacing.match(1), ",", tempVector);
     for (std::vector<std::string>::size_type i = 0; i < tempVector.size(); i++)
       {
-      spacingVector.push_back(atof(tempVector[i].c_str()));
+      spacingVector.push_back(std::stod(tempVector[i].c_str()));
       }
     }
 
@@ -98,7 +98,7 @@ FileFreeImageIO
     this->SplitString(findOrigin.match(1), ",", tempVector);
     for (std::vector<std::string>::size_type i = 0; i < tempVector.size(); i++)
       {
-      originVector.push_back(atof(tempVector[i].c_str()));
+      originVector.push_back(std::stod(tempVector[i].c_str()));
       }
     }
 
@@ -115,7 +115,7 @@ FileFreeImageIO
       for (std::vector<std::string>::size_type j = 0; j < tempVector.size() / 2; j++)
         {
 
-        directionVector[i].push_back(atof(tempVector[ii].c_str()));
+        directionVector[i].push_back(std::stod(tempVector[ii].c_str()));
         ii++;
         }
       }

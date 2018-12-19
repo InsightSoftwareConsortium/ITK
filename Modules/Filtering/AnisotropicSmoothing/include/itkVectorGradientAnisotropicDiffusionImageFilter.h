@@ -101,7 +101,7 @@ protected:
     this->SetDifferenceFunction(p);
   }
 
-  ~VectorGradientAnisotropicDiffusionImageFilter() override {}
+  ~VectorGradientAnisotropicDiffusionImageFilter() override = default;
 };
 } // end namspace itk
 

@@ -39,7 +39,7 @@ public:
     m_OutputMinimum(0),
     m_WindowMaximum(0),
     m_WindowMinimum(0) {}
-  ~IntensityWindowingTransform() {}
+  ~IntensityWindowingTransform() = default;
   bool operator!=(const IntensityWindowingTransform & other) const
   {
     if (    Math::NotExactlyEquals( m_Factor     , other.m_Factor )
@@ -182,7 +182,7 @@ public:
   itkGetConstReferenceMacro(Shift, RealType);
 
   /** Process to execute before entering the multithreaded section. */
-  void BeforeThreadedGenerateData(void) override;
+  void BeforeThreadedGenerateData() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -195,7 +195,7 @@ public:
 
 protected:
   IntensityWindowingImageFilter();
-  ~IntensityWindowingImageFilter() override {}
+  ~IntensityWindowingImageFilter() override = default;
 
 private:
   RealType m_Scale;

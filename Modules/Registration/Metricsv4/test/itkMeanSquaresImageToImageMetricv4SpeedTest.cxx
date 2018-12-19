@@ -29,8 +29,8 @@ int itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char *argv[] )
     std::cerr << "usage: " << argv[0] << ": image-dimension number-of-reps" << std::endl;
     return EXIT_FAILURE;
     }
-  int imageSize = atoi( argv[1] );
-  int numberOfReps = atoi( argv[2] );
+  int imageSize = std::stoi( argv[1] );
+  int numberOfReps = std::stoi( argv[2] );
 
   std::cout << "image dim: " << imageSize << ", reps: " << numberOfReps << std::endl;
 

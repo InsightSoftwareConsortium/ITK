@@ -325,7 +325,7 @@ public:
       destRegion, srcRegion);
   }
 
-  virtual ~ImageRegionCopier() {}
+  virtual ~ImageRegionCopier() = default;
 };
 
 /** Stream operator for ImageRegionCopier objects. Just prints the RTTI
@@ -447,7 +447,7 @@ public:
       destImage, srcImage);
   }
 
-  virtual ~ImageInformationCopier() {}
+  virtual ~ImageInformationCopier() = default;
 };
 
 

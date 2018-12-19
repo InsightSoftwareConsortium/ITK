@@ -92,7 +92,7 @@ public:
    * Initialize the metric by making sure that all the components
    *  are present and plugged together correctly.
    */
-  void Initialize( void ) override;
+  void Initialize() override;
 
   /**
    * Calculates the local metric value for a single point.  The label type

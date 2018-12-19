@@ -71,7 +71,7 @@ public:
   virtual void AdvanceOneStep();
 
   /** Start optimization. */
-  void StartOptimization(void) override;
+  void StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
@@ -201,7 +201,7 @@ public:
 protected:
 
   SPSAOptimizer();
-  ~SPSAOptimizer() override {}
+  ~SPSAOptimizer() override = default;
 
   /** PrintSelf method. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
@@ -213,7 +213,7 @@ protected:
 
   DerivativeType m_Delta;
 
-  bool m_Stop;
+  bool m_Stop{false};
 
   StopConditionType m_StopCondition;
 

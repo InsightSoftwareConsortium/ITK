@@ -143,7 +143,7 @@ public:
 
 protected:
   ShapePriorMAPCostFunction();
-  ~ShapePriorMAPCostFunction() override {}
+  ~ShapePriorMAPCostFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

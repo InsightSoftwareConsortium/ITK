@@ -23,6 +23,7 @@
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkProgressReporter.h"
+#include "itkMultiThreaderBase.h"
 
 #include <iostream>
 
@@ -37,7 +38,9 @@ template< typename TInputImage, typename TOutputImage >
 FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWForwardFFTImageFilter()
 {
+#ifndef ITK_USE_CUFFTW
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -112,7 +115,7 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
   plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in,
                                      (typename FFTWProxyType::ComplexType*)
                                      fftwOutput->GetBufferPointer(), flags,
-                                     this->GetNumberOfWorkUnits());
+                                     MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 
@@ -146,7 +149,9 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
+#ifndef ITK_USE_CUFFTW
   os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
+#endif
 }
 
 template< typename TInputImage, typename TOutputImage >

@@ -78,7 +78,7 @@ ImageTransformer< TInputImage >
 template< typename TInputImage >
 const typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
-::GetInput(void) const
+::GetInput() const
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
@@ -95,7 +95,7 @@ ImageTransformer< TInputImage >
 template< typename TInputImage >
 typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
-::GetInput(void)
+::GetInput()
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
@@ -330,7 +330,7 @@ ImageTransformer< TInputImage >
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
 template< typename TInputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageTransformer< TInputImage >
 ::ThreaderCallback(void *arg)
 {
@@ -351,6 +351,20 @@ ImageTransformer< TInputImage >
   if ( threadId < total )
     {
     str->Filter->ThreadedGenerateData(splitRegion, threadId);
+#if defined( ITKV4_COMPATIBILITY )
+    if ( str->Filter->GetAbortGenerateData() )
+      {
+      std::string msg;
+      ProcessAborted e( __FILE__, __LINE__ );
+      msg += "Object " + std::string( str->Filter->GetNameOfClass() ) + ": AbortGenerateData was set!";
+      e.SetDescription( msg );
+      throw e;
+      }
+    else if ( str->Filter->GetProgress() == 0.0f ) // progress was not set after at least the first chunk finished
+      {
+      str->Filter->UpdateProgress( float( threadId + 1 ) / total ); // this will be the only progress update
+      }
+#endif
     }
   // else
   //   {
@@ -359,7 +373,7 @@ ImageTransformer< TInputImage >
   //   few threads idle.
   //   }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 } // end namespace itk
 

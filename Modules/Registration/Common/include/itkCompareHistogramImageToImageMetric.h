@@ -124,7 +124,7 @@ public:
   itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   { return this->GetTransform()->GetNumberOfParameters(); }
 
   /** Forms the histogram of the training images to prepare to evaluate the
@@ -135,7 +135,7 @@ protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   CompareHistogramImageToImageMetric();
-  ~CompareHistogramImageToImageMetric() override {}
+  ~CompareHistogramImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Form the Histogram for the Training data */

@@ -43,8 +43,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 ::TimeVaryingBSplineVelocityFieldImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-7 ),
-  m_ConvergenceWindowSize( 10 ),
-  m_NumberOfTimePointSamples( 4 ),
+
   m_BoundaryWeight( 1e10 )
 {
   this->m_NumberOfIterationsPerLevel.SetSize( 3 );
@@ -55,9 +54,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
-::~TimeVaryingBSplineVelocityFieldImageRegistrationMethod()
-{
-}
+::~TimeVaryingBSplineVelocityFieldImageRegistrationMethod() = default;
 
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.

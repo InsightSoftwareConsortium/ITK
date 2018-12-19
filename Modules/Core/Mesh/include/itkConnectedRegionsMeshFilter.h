@@ -122,32 +122,32 @@ public:
   itkSetMacro(ExtractionMode, int);
   itkGetConstMacro(ExtractionMode, int);
 
-  void SetExtractionModeToPointSeededRegions(void)
+  void SetExtractionModeToPointSeededRegions()
   {
     this->SetExtractionMode(Self::PointSeededRegions);
   }
 
-  void SetExtractionModeToCellSeededRegions(void)
+  void SetExtractionModeToCellSeededRegions()
   {
     this->SetExtractionMode(Self::CellSeededRegions);
   }
 
-  void SetExtractionModeToSpecifiedRegions(void)
+  void SetExtractionModeToSpecifiedRegions()
   {
     this->SetExtractionMode(Self::SpecifiedRegions);
   }
 
-  void SetExtractionModeToLargestRegion(void)
+  void SetExtractionModeToLargestRegion()
   {
     this->SetExtractionMode(Self::LargestRegion);
   }
 
-  void SetExtractionModeToAllRegions(void)
+  void SetExtractionModeToAllRegions()
   {
     this->SetExtractionMode(Self::AllRegions);
   }
 
-  void SetExtractionModeToClosestPointRegion(void)
+  void SetExtractionModeToClosestPointRegion()
   {
     this->SetExtractionMode(Self::ClosestPointRegion);
   }
@@ -155,7 +155,7 @@ public:
   /**
    * Initialize list of point ids/cell ids used to seed regions.
    */
-  void InitializeSeedList(void)
+  void InitializeSeedList()
   {
     this->Modified();
     m_SeedList.clear();
@@ -178,7 +178,7 @@ public:
   /**
    * Initialize list of region ids to extract.
    */
-  void InitializeSpecifiedRegionList(void)
+  void InitializeSpecifiedRegionList()
   {
     this->Modified();
     m_RegionList.clear();
@@ -227,7 +227,7 @@ public:
 protected:
 
   ConnectedRegionsMeshFilter();
-  ~ConnectedRegionsMeshFilter() override {}
+  ~ConnectedRegionsMeshFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -246,8 +246,8 @@ private:
   std::vector< OffsetValueType > m_Visited;
   SizeValueType                  m_NumberOfCellsInRegion;
   IdentifierType                 m_RegionNumber;
-  std::vector< IdentifierType > *m_Wave;
-  std::vector< IdentifierType > *m_Wave2;
+  std::vector< IdentifierType > *m_Wave{nullptr};
+  std::vector< IdentifierType > *m_Wave2{nullptr};
 }; // class declaration
 } // end namespace itk
 

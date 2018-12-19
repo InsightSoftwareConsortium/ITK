@@ -40,8 +40,7 @@ LineSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 LineSpatialObject< TDimension >
-::~LineSpatialObject()
-{}
+::~LineSpatialObject() = default;
 
 /** Set the list of Line points. */
 template< unsigned int TDimension >

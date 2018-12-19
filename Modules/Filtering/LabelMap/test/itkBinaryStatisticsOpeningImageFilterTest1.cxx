@@ -52,17 +52,17 @@ int itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   opening->SetFeatureImage( reader2->GetOutput() );
 
   //testing get/set ForegroundValue macro
-  int ForegroundValue = ( atoi(argv[4]) );
+  int ForegroundValue = ( std::stoi(argv[4]) );
   opening->SetForegroundValue( ForegroundValue );
   TEST_SET_GET_VALUE( ForegroundValue, opening->GetForegroundValue() );
 
   //testing get/set BackgroundValue macro
-  int BackgroundValue = ( atoi(argv[5]) );
+  int BackgroundValue = ( std::stoi(argv[5]) );
   opening->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
 
   //testing get and set macros for Lambda
-  double lambda = atof( argv[6] );
+  double lambda = std::stod( argv[6] );
   opening->SetLambda( lambda );
   TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 
@@ -74,7 +74,7 @@ int itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = atoi( argv[7] );
+  bool reverseOrdering = std::stoi( argv[7] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
@@ -86,12 +86,12 @@ int itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, opening->GetFullyConnected() );
 
   //testing get and set macros or FullyConnected
-  bool fullyConnected = atoi( argv[8] );
+  bool fullyConnected = std::stoi( argv[8] );
   opening->SetFullyConnected( fullyConnected );
   TEST_SET_GET_VALUE( fullyConnected , opening->GetFullyConnected() );
 
   //testing get and set macros for Attribute
-  BinaryOpeningType::AttributeType attribute = atoi( argv[9] );
+  BinaryOpeningType::AttributeType attribute = std::stoi( argv[9] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
 

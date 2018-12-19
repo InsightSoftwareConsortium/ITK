@@ -25,16 +25,12 @@ namespace itk
 // Constructor with default arguments
 template<typename TParametersValueType, unsigned int NDimensions>
 ScaleLogarithmicTransform<TParametersValueType, NDimensions>
-::ScaleLogarithmicTransform()
-{
-}
+::ScaleLogarithmicTransform() = default;
 
 // Destructor
 template<typename TParametersValueType, unsigned int NDimensions>
 ScaleLogarithmicTransform<TParametersValueType, NDimensions>::
-~ScaleLogarithmicTransform()
-{
-}
+~ScaleLogarithmicTransform() = default;
 
 // Set the parameters
 template<typename TParametersValueType, unsigned int NDimensions>
@@ -64,7 +60,7 @@ ScaleLogarithmicTransform<TParametersValueType, NDimensions>
 template<typename TParametersValueType, unsigned int NDimensions>
 const typename ScaleLogarithmicTransform<TParametersValueType, NDimensions>::ParametersType
 & ScaleLogarithmicTransform<TParametersValueType, NDimensions>
-::GetParameters(void) const
+::GetParameters() const
   {
   itkDebugMacro(<< "Getting parameters ");
 

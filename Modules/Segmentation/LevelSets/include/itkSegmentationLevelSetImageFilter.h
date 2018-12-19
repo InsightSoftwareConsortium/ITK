@@ -475,7 +475,7 @@ public:
 #endif
 
 protected:
-  ~SegmentationLevelSetImageFilter() override {}
+  ~SegmentationLevelSetImageFilter() override = default;
   SegmentationLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

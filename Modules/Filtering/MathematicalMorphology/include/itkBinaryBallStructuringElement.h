@@ -94,10 +94,10 @@ public:
   using SliceIteratorType = SliceIterator< TPixel, Self >;
 
   /** Default constructor. */
-  BinaryBallStructuringElement() {}
+  BinaryBallStructuringElement() = default;
 
   /** Default destructor. */
-  ~BinaryBallStructuringElement() override {}
+  ~BinaryBallStructuringElement() override = default;
 
   /** Copy constructor. */
   BinaryBallStructuringElement(const Self & other):

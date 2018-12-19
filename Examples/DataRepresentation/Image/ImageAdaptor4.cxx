@@ -65,7 +65,7 @@ public:
   using InternalType = unsigned char;
   using ExternalType = unsigned char;
 
-  ThresholdingPixelAccessor() : m_Threshold(0) {};
+  ThresholdingPixelAccessor()  {};
 
   ExternalType Get( const InternalType & input ) const
     {
@@ -77,14 +77,10 @@ public:
     }
 
   ThresholdingPixelAccessor &
-    operator=( const ThresholdingPixelAccessor & vpa )
-    {
-    m_Threshold = vpa.m_Threshold;
-    return *this;
-    }
+    operator=( const ThresholdingPixelAccessor & vpa ) = default;
 
 private:
-  InternalType m_Threshold;
+  InternalType m_Threshold{0};
 };
 }
 
@@ -162,7 +158,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   itk::ThresholdingPixelAccessor  accessor;
-  accessor.SetThreshold( atoi( argv[3] ) );
+  accessor.SetThreshold( std::stoi( argv[3] ) );
   adaptor->SetPixelAccessor( accessor );
 // Software Guide : EndCodeSnippet
 

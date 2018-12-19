@@ -124,7 +124,7 @@ public:
 
   /** Get the container of outside points. The outside points are
    * stored in a VectorContainer of LevelSetNodes. */
-  NodeContainerPointer GetOutsidePoints(void)
+  NodeContainerPointer GetOutsidePoints()
   { return m_OutsidePoints; }
 
   /** Locate the level set. This method evokes the level set
@@ -133,7 +133,7 @@ public:
 
 protected:
   LevelSetNeighborhoodExtractor();
-  ~LevelSetNeighborhoodExtractor() override {}
+  ~LevelSetNeighborhoodExtractor() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typename LevelSetImageType::PixelType GetLargeValue() const
@@ -156,15 +156,15 @@ private:
 
   void      GenerateDataNarrowBand();
 
-  double m_LevelSetValue;
+  double m_LevelSetValue{0.0};
 
   NodeContainerPointer m_InsidePoints;
   NodeContainerPointer m_OutsidePoints;
 
   LevelSetConstPointer m_InputLevelSet;
 
-  bool                 m_NarrowBanding;
-  double               m_NarrowBandwidth;
+  bool                 m_NarrowBanding{false};
+  double               m_NarrowBandwidth{12.0};
   NodeContainerPointer m_InputNarrowBand;
 
   typename LevelSetImageType::RegionType m_ImageRegion;
@@ -172,7 +172,7 @@ private:
 
   std::vector< NodeType > m_NodesUsed;
 
-  bool m_LastPointIsInside;
+  bool m_LastPointIsInside{false};
 };
 } // namespace itk
 

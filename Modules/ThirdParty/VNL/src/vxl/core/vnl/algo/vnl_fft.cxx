@@ -1,12 +1,7 @@
 // This is core/vnl/algo/vnl_fft.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
 //:
 // \file
 // \author fsm
-
-#include "vnl_fft.h"
 
 #include <vnl/algo/vnl_netlib.h> // dgpfa_()
 

@@ -702,7 +702,7 @@ GiplImageIO
 
 void
 GiplImageIO
-::WriteImageInformation(void)
+::WriteImageInformation()
 {
   //not possible to write a Gipl file
 }

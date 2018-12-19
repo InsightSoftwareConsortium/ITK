@@ -129,7 +129,7 @@ public:
 
 protected:
   GrayscaleMorphologicalOpeningImageFilter();
-  ~GrayscaleMorphologicalOpeningImageFilter() override {}
+  ~GrayscaleMorphologicalOpeningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;
@@ -153,7 +153,7 @@ private:
   // and the name of the filter
   int m_Algorithm;
 
-  bool m_SafeBorder;
+  bool m_SafeBorder{true};
 }; // end of class
 } // end namespace itk
 

@@ -26,7 +26,7 @@
  *
  *=========================================================================*/
 #include "itkProcessObject.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 #include <cstdio>
 #include <sstream>
@@ -1383,7 +1383,7 @@ ProcessObject
   // Reset this object.
   //
   // Clear the updating flag.
-  m_Updating = 0;
+  m_Updating = false;
 
   //
   // Loop through the inputs
@@ -1400,7 +1400,7 @@ ProcessObject
 
 void
 ProcessObject
-::VerifyPreconditions()
+::VerifyPreconditions() ITKv5_CONST
 {
   /**
    * Make sure that all the required named inputs are there and non null
@@ -1446,7 +1446,7 @@ ProcessObject
 
 void
 ProcessObject
-::VerifyInputInformation()
+::VerifyInputInformation() ITKv5_CONST
 {
 }
 

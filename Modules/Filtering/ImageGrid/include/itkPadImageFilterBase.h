@@ -91,7 +91,7 @@ public:
 
 protected:
   PadImageFilterBase();
-  ~PadImageFilterBase() override {}
+  ~PadImageFilterBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PadImageFilterBase needs a smaller input requested region than

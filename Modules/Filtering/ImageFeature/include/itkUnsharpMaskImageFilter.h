@@ -145,7 +145,7 @@ public:
 
 protected:
   UnsharpMaskImageFilter();
-  ~UnsharpMaskImageFilter() override {}
+  ~UnsharpMaskImageFilter() override = default;
 
   /**
   * UnsharpMaskImageFilter needs a larger input requested region than
@@ -156,7 +156,7 @@ protected:
   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
 
-  void VerifyPreconditions() override;
+  void VerifyPreconditions() ITKv5_CONST override;
   void GenerateData() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
@@ -174,13 +174,13 @@ private:
   private:
     FunctorRealType m_Amount;
     FunctorRealType m_Threshold;
-    bool m_Clamp;
+    bool m_Clamp{false};
 
   public:
     UnsharpMaskingFunctor()
       : m_Amount(0.5),
-      m_Threshold(0.0),
-      m_Clamp(false)
+      m_Threshold(0.0)
+
     {
     }
 

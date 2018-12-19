@@ -150,7 +150,7 @@ public:
 
 protected:
   GrayscaleGeodesicDilateImageFilter();
-  ~GrayscaleGeodesicDilateImageFilter() override {}
+  ~GrayscaleGeodesicDilateImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleGeodesicDilateImageFilter needs to request enough of the

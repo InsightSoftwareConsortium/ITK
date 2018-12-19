@@ -157,7 +157,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 const typename ScaleSkewVersor3DTransform<TParametersValueType>::ParametersType
 & ScaleSkewVersor3DTransform<TParametersValueType>
-::GetParameters(void) const
+::GetParameters() const
   {
   itkDebugMacro(<< "Getting parameters ");
 
@@ -217,7 +217,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 ScaleSkewVersor3DTransform<TParametersValueType>
-::ComputeMatrix(void)
+::ComputeMatrix()
 {
   this->Superclass::ComputeMatrix();
 
@@ -239,7 +239,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 ScaleSkewVersor3DTransform<TParametersValueType>
-::ComputeMatrixParameters(void)
+::ComputeMatrixParameters()
 {
   itkExceptionMacro(<< "Setting the matrix of a ScaleSkewVersor3D transform is not supported at this time.");
 }

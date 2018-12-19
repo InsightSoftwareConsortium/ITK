@@ -132,7 +132,7 @@ public:
 
 protected:
   DoubleThresholdImageFilter();
-  ~DoubleThresholdImageFilter() override {}
+  ~DoubleThresholdImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DoubleThresholdImageFilter needs all of the input. So it must
@@ -157,7 +157,7 @@ private:
   OutputPixelType m_InsideValue;
   OutputPixelType m_OutsideValue;
 
-  unsigned long m_NumberOfIterationsUsed;
+  unsigned long m_NumberOfIterationsUsed{1};
 
   bool m_FullyConnected;
 };

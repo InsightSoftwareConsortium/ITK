@@ -138,7 +138,6 @@ unsigned int TIFFImageIO::GetFormat()
            m_ImageFormat = TIFFImageIO::PALETTE_RGB;
            return m_ImageFormat;
           }
-
         }
     }
   m_ImageFormat = TIFFImageIO::OTHER;
@@ -209,11 +208,9 @@ void TIFFImageIO::Read(void *buffer)
 }
 
 TIFFImageIO::TIFFImageIO() :
-  m_Compression( TIFFImageIO::PackBits ),
-  m_JPEGQuality( 75 ),
-  m_ColorPalette( 0 ), // palette has no element by default
-  m_TotalColors( -1 ),
-  m_ImageFormat( TIFFImageIO::NOFORMAT )
+
+  m_ColorPalette( 0 )
+
 {
   this->SetNumberOfDimensions( 2 );
 
@@ -232,15 +229,16 @@ TIFFImageIO::TIFFImageIO() :
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  this->AddSupportedWriteExtension(".tif");
-  this->AddSupportedWriteExtension(".TIF");
-  this->AddSupportedWriteExtension(".tiff");
-  this->AddSupportedWriteExtension(".TIFF");
+  const char *extensions[] =
+    {
+      ".tif", ".TIF", ".tiff", ".TIFF"
+    };
 
-  this->AddSupportedReadExtension(".tif");
-  this->AddSupportedReadExtension(".TIF");
-  this->AddSupportedReadExtension(".tiff");
-  this->AddSupportedReadExtension(".TIFF");
+  for(auto ext : extensions)
+    {
+    this->AddSupportedWriteExtension(ext);
+    this->AddSupportedReadExtension(ext);
+    }
 }
 
 TIFFImageIO::~TIFFImageIO()
@@ -321,6 +319,26 @@ void TIFFImageIO::ReadImageInformation()
     }
 
   ReadTIFFTags();
+
+  // if the tiff file is multi-pages
+  if ( m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles > 1 )
+    {
+    this->SetNumberOfDimensions(3);
+    if ( m_InternalImage->m_SubFiles > 0 )
+      {
+      m_Dimensions[2] = m_InternalImage->m_SubFiles;
+      }
+    else
+      {
+      m_Dimensions[2] = m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles;
+      }
+    m_Spacing[2] = 1.0;
+    m_Origin[2] = 0.0;
+    }
+  else
+    {
+    this->SetNumberOfDimensions(2);
+    }
 
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
@@ -433,6 +451,11 @@ void TIFFImageIO::ReadImageInformation()
         }
       }
     }
+  if( !m_IsReadAsScalarPlusPalette )
+    {
+    // make sure the palette is empty
+    m_ColorPalette.resize(0);
+    }
 
 
   if ( !m_InternalImage->CanRead() )
@@ -465,22 +488,6 @@ void TIFFImageIO::ReadImageInformation()
       }
     }
 
-  // if the tiff file is multi-pages
-  if ( m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles > 1 )
-    {
-    this->SetNumberOfDimensions(3);
-    if ( m_InternalImage->m_SubFiles > 0 )
-      {
-      m_Dimensions[2] = m_InternalImage->m_SubFiles;
-      }
-    else
-      {
-      m_Dimensions[2] = m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles;
-      }
-    m_Spacing[2] = 1.0;
-    m_Origin[2] = 0.0;
-    }
-
 }
 
 bool TIFFImageIO::CanWriteFile(const char *name)
@@ -492,35 +499,7 @@ bool TIFFImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  std::string::size_type TIFFPos = filename.rfind(".TIFF");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  TIFFPos = filename.rfind(".tiff");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 5 ) )
-    {
-    return true;
-    }
-
-  TIFFPos = filename.rfind(".tif");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  TIFFPos = filename.rfind(".TIF");
-  if ( ( TIFFPos != std::string::npos )
-       && ( TIFFPos == filename.length() - 4 ) )
-    {
-    return true;
-    }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, false);
 }
 
 void TIFFImageIO::WriteImageInformation()
@@ -983,8 +962,13 @@ void TIFFImageIO::ReadTIFFTags()
 
   this->InitializeColors();
   if ( m_TotalColors > -1 )
-    {// if a palette have been found
+    {// if a palette have been found store it in m_ColorPalette
     PopulateColorPalette();
+    }
+  else
+    {
+    // otherwise make sure that the stored palette is empty in the case it was already set
+    m_ColorPalette.resize(0);
     }
 
   for (int i = 0; i < tagCount; ++i)
@@ -1334,7 +1318,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
           }
         break;
       case TIFFImageIO::PALETTE_RGB:
-        if ( this->GetExpandRGBPalette() || (!this->GetIsReadAsScalarPlusPalette()) )
+        if ( !this->GetIsReadAsScalarPlusPalette() )
           {
           switch ( m_InternalImage->m_BitsPerSample )
             {

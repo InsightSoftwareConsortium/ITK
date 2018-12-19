@@ -34,7 +34,6 @@ static int oneTest(const char *goodname,const char *badname)
   using AffineTransformType = itk::AffineTransform<TParametersValueType,4>;
   using AffineTransformTypeNotRegistered = itk::AffineTransform<TParametersValueType,10>;
   typename AffineTransformType::Pointer        affine = AffineTransformType::New();
-  typename AffineTransformType::InputPointType cor;
   using TransformWriterType = itk::TransformFileWriterTemplate<TParametersValueType>;
   using TransformReaderType = itk::TransformFileReaderTemplate<TParametersValueType>;
 

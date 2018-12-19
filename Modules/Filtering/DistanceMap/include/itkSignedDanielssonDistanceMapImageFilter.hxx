@@ -79,7 +79,7 @@ template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::OutputImageType *
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::GetDistanceMap(void)
+::GetDistanceMap()
 {
   return dynamic_cast< OutputImageType * >(
            this->ProcessObject::GetOutput(0) );
@@ -92,7 +92,7 @@ template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::VoronoiImageType *
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::GetVoronoiMap(void)
+::GetVoronoiMap()
 {
   return dynamic_cast< VoronoiImageType * >(
            this->ProcessObject::GetOutput(1) );
@@ -105,7 +105,7 @@ template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::VectorImageType *
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::GetVectorDistanceMap(void)
+::GetVectorDistanceMap()
 {
   return dynamic_cast< VectorImageType * >(
            this->ProcessObject::GetOutput(2) );

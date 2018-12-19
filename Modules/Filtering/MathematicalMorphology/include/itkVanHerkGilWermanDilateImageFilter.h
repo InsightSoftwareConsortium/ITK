@@ -27,8 +27,8 @@ template< typename TPixel >
 class MaxFunctor
 {
 public:
-  MaxFunctor(){}
-  ~MaxFunctor(){}
+  MaxFunctor()= default;
+  ~MaxFunctor()= default;
   inline TPixel operator()(const TPixel & A, const TPixel & B) const
   {
     return std::max(A, B);
@@ -64,7 +64,7 @@ protected:
   {
     this->m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
   }
-  ~VanHerkGilWermanDilateImageFilter() override {}
+  ~VanHerkGilWermanDilateImageFilter() override = default;
 
 private:
 

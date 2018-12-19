@@ -33,8 +33,8 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class Minimum
 {
 public:
-  Minimum() {}
-  ~Minimum() {}
+  Minimum() = default;
+  ~Minimum() = default;
   bool operator!=(const Minimum &) const
   {
     return false;
@@ -115,7 +115,7 @@ protected:
 #endif
     }
 
-  ~MinimumImageFilter() override {}
+  ~MinimumImageFilter() override = default;
 };
 } // end namespace itk
 

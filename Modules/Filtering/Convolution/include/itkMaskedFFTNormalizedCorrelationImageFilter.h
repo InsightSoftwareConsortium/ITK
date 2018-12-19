@@ -109,16 +109,16 @@ namespace itk
  * size(fixedImage) + size(movingImage) - 1.
  *
  * Example filter usage:
- * \code
- * using FilterType = itk::MaskedFFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
- * FilterType::Pointer filter = FilterType::New();
- * filter->SetFixedImage( fixedImage );
- * filter->SetMovingImage( movingImage );
- * filter->SetFixedImageMask( fixedMask );
- * filter->SetMovingImageMask( movingMask );
- * filter->SetRequiredNumberOfOverlappingPixels(20);
- * filter->Update();
- * \endcode
+   \code
+   using FilterType = itk::MaskedFFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
+   FilterType::Pointer filter = FilterType::New();
+   filter->SetFixedImage( fixedImage );
+   filter->SetMovingImage( movingImage );
+   filter->SetFixedImageMask( fixedMask );
+   filter->SetMovingImageMask( movingMask );
+   filter->SetRequiredNumberOfOverlappingPixels(20);
+   filter->Update();
+   \endcode
  *
  * \warning The pixel type of the output image must be of real type
  * (float or double). ConceptChecking is used to enforce the output pixel
@@ -219,7 +219,7 @@ public:
 #endif
 
 protected:
-  MaskedFFTNormalizedCorrelationImageFilter():m_TotalForwardAndInverseFFTs(12)
+  MaskedFFTNormalizedCorrelationImageFilter()
   {
     // #0 "FixedImage" required
     Self::SetPrimaryInputName("FixedImage");
@@ -238,11 +238,11 @@ protected:
     m_MaximumNumberOfOverlappingPixels = 0;
     m_AccumulatedProgress = 0.0;
   }
-  ~MaskedFFTNormalizedCorrelationImageFilter() override {}
+  ~MaskedFFTNormalizedCorrelationImageFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Overlap the VerifyInputInformation method */
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
   /** Standard pipeline method.*/
   void GenerateData() override;
@@ -316,7 +316,7 @@ private:
   SizeValueType m_MaximumNumberOfOverlappingPixels;
 
   /** This is used for the progress reporter */
-  const unsigned int m_TotalForwardAndInverseFFTs;
+  const unsigned int m_TotalForwardAndInverseFFTs{12};
   /** The total accumulated progress */
   float m_AccumulatedProgress;
 };

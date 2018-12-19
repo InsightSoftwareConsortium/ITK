@@ -41,6 +41,9 @@ zutil.h
 
 zconf.h.cmakein
 
+win32/zlib1.rc
+win32/DLL_FAQ.txt
+
 .gitattributes
 ChangeLog
 README

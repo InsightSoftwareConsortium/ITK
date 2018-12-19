@@ -43,8 +43,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 
 template< typename TInputPointSet, typename TOutputImage >
 PointSetToImageFilter< TInputPointSet, TOutputImage >
-::~PointSetToImageFilter()
-{}
+::~PointSetToImageFilter() = default;
 
 template< typename TInputPointSet, typename TOutputImage >
 void
@@ -71,7 +70,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 template< typename TInputPointSet, typename TOutputImage >
 const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPointSetType *
 PointSetToImageFilter< TInputPointSet, TOutputImage >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< const TInputPointSet * >( this->GetPrimaryInput() );
 }
@@ -138,7 +137,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   unsigned int i;
 
@@ -250,7 +249,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
       {
       OutputImage->SetPixel(index, m_InsideValue);
       }
-    pointItr++;
+    ++pointItr;
     }
 
   itkDebugMacro(<< "PointSetToImageFilter::Update() finished");

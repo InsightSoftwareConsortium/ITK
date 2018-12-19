@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Cos
 {
 public:
-  Cos() {}
-  ~Cos() {}
+  Cos() = default;
+  ~Cos() = default;
   bool operator!=(const Cos &) const
   {
     return false;
@@ -113,7 +113,7 @@ protected:
       Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~CosImageFilter() override {}
+  ~CosImageFilter() override = default;
 };
 } // end namespace itk
 

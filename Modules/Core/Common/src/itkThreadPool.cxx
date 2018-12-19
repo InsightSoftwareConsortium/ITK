@@ -20,6 +20,7 @@
 #include "itkThreadPool.h"
 #include "itksys/SystemTools.hxx"
 #include "itkThreadSupport.h"
+#include "itkNumericTraits.h"
 
 #include <algorithm>
 
@@ -27,11 +28,11 @@ namespace itk
 {
   struct ThreadPoolGlobals
   {
-    ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
+    ThreadPoolGlobals(){};
     // To lock on the internal variables.
     std::mutex          m_Mutex;
     ThreadPool::Pointer m_ThreadPoolInstance;
-    bool                m_DoNotWaitForThreads;
+    bool                m_DoNotWaitForThreads{false};
   };
 }//end of itk namespace
 
@@ -66,7 +67,7 @@ class ThreadPoolGlobalsInitializer
 public:
   using Self = ThreadPoolGlobalsInitializer;
 
-  ThreadPoolGlobalsInitializer() {}
+  ThreadPoolGlobalsInitializer() = default;
 
   /** Delete the thread pool globals if it was created. */
   ~ThreadPoolGlobalsInitializer()
@@ -172,7 +173,7 @@ ThreadPool
 
 ThreadPool
 ::ThreadPool()
-  : m_Stopping( false )
+
 {
   m_ThreadPoolGlobals->m_ThreadPoolInstance = this; //threads need this
   m_ThreadPoolGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
@@ -245,7 +246,7 @@ ThreadPool
     {
     if( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
       {
-      threadCount = static_cast<ThreadIdType>( atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
+      threadCount = static_cast<ThreadIdType>( std::stoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
       }
     }
 

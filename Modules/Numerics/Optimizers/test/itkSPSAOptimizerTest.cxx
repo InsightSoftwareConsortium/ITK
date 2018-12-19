@@ -51,9 +51,7 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
   using MeasureType = Superclass::MeasureType;
 
 
-  SPSACostFunction()
-  {
-  }
+  SPSACostFunction() = default;
 
 
   MeasureType  GetValue( const ParametersType & parameters ) const override
@@ -91,7 +89,7 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
   }
 
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }

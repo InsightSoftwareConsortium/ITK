@@ -75,8 +75,8 @@ protected:
 private:
   ScalarType          m_GaussianSmoothingVarianceForTheConstantVelocityField;
   ScalarType          m_GaussianSmoothingVarianceForTheUpdateField;
-  ModifiedTimeType    m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime;
-  ModifiedTimeType    m_GaussianSmoothingVarianceForTheUpdateFieldSetTime;
+  ModifiedTimeType    m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime{ 0 };
+  ModifiedTimeType    m_GaussianSmoothingVarianceForTheUpdateFieldSetTime{ 0 };
 
 }; //class GaussianExponentialDiffeomorphicTransformParametersAdaptor
 }  // namespace itk

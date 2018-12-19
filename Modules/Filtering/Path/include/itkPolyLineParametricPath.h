@@ -113,7 +113,7 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  void Initialize(void) override
+  void Initialize() override
   {
     m_VertexList->Initialize();
   }
@@ -134,7 +134,7 @@ public:
 
 protected:
   PolyLineParametricPath();
-  ~PolyLineParametricPath() override {}
+  ~PolyLineParametricPath() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

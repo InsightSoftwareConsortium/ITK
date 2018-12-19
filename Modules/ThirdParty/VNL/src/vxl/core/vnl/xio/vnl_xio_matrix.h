@@ -24,18 +24,20 @@
 #include <string>
 #include <iosfwd>
 #include <vnl/vnl_matrix.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: XML save vnl_matrix to stream.
 // \relatesalso vnl_matrix
 template <class T>
-void x_write(std::ostream & os, vnl_matrix<T> const& v,
+void VNL_EXPORT x_write(std::ostream & os, vnl_matrix<T> const& v,
              std::string name="vnl_matrix");
 
 //: XML save vnl_matrix as a 3-level tree to stream.
 // \relatesalso vnl_matrix
 template <class T>
-void x_write_tree(std::ostream & os, vnl_matrix<T> const& v,
+void VNL_EXPORT x_write_tree(std::ostream & os, vnl_matrix<T> const& v,
                   std::string name="vnl_matrix");
 
 #define VNL_XIO_MATRIX_INSTANTIATE(T) extern "Please #include <vnl/xio/vnl_xio_matrix.hxx> first"

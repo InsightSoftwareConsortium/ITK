@@ -34,7 +34,7 @@ public:
 
   virtual int Test(int argc, char* argv[] );
 
-  virtual ~VTKImageIOTester(){};
+  virtual ~VTKImageIOTester()= default;
 
   static std::string
   SetupFileName( const std::string &filePrefix,

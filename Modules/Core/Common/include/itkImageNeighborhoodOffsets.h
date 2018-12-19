@@ -19,7 +19,7 @@
 #ifndef itkImageNeighborhoodOffsets_h
 #define itkImageNeighborhoodOffsets_h
 
-#include "itkHyperrectangularImageNeighborhoodShape.h"
+#include "itkRectangularImageNeighborhoodShape.h"
 #include <vector>
 
 namespace itk
@@ -40,9 +40,9 @@ std::vector<Offset<TImageNeighborhoodShape::ImageDimension>> GenerateImageNeighb
 
 /** Generates the offsets for a hyperrectangular (box shaped) neighborhood. */
 template <unsigned VImageDimension>
-std::vector<Offset<VImageDimension> > GenerateHyperrectangularImageNeighborhoodOffsets(const Size<VImageDimension>& radius)
+std::vector<Offset<VImageDimension> > GenerateRectangularImageNeighborhoodOffsets(const Size<VImageDimension>& radius)
 {
-  const HyperrectangularImageNeighborhoodShape<VImageDimension> shape(radius);
+  const RectangularImageNeighborhoodShape<VImageDimension> shape(radius);
   return GenerateImageNeighborhoodOffsets(shape);
 }
 

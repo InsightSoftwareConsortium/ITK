@@ -233,9 +233,18 @@ public:
    * input image, and cannot be modified. */
   itkGetConstReferenceMacro(FrequencySpacing, FrequencyType);
 
+  /** Does nothing. This member only affects HalfHermitianFrequencyIterator.
+   * Provided for homogeneous interface between iterators. */
+  void SetActualXDimensionIsOdd(bool value)
+    {
+    this->m_ActualXDimensionIsOdd = value;
+    };
+  itkGetMacro(ActualXDimensionIsOdd, bool);
+  itkBooleanMacro(ActualXDimensionIsOdd);
+
 private:
   /** Calculate m_ZeroFrequencyIndex, and frequency spacing/origin.
-   * Called at constructors.  */
+   * Called by constructors.  */
   void Init()
   {
     IndexType minIndex =
@@ -258,6 +267,7 @@ private:
   IndexType     m_ZeroFrequencyIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
+  bool          m_ActualXDimensionIsOdd;
 };
 } // end namespace itk
 #endif

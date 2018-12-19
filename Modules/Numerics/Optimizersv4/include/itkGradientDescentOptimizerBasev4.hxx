@@ -28,8 +28,8 @@ namespace itk
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
-::GradientDescentOptimizerBasev4Template():
-  m_Stop(false)
+::GradientDescentOptimizerBasev4Template()
+
 {
   /** Threader for apply scales to gradient */
   typename GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::Pointer modifyGradientByScalesThreader =
@@ -56,8 +56,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
-::~GradientDescentOptimizerBasev4Template()
-{}
+::~GradientDescentOptimizerBasev4Template() = default;
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
@@ -110,7 +109,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro( "StopOptimization called with a description - "
     << this->GetStopConditionDescription() );

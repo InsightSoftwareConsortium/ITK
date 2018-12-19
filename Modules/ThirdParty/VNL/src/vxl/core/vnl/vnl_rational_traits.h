@@ -8,7 +8,9 @@
 #include <iosfwd>
 #include <vnl/vnl_rational.h>
 #include <vnl/vnl_numeric_traits.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_export.h>
 
 template <>
@@ -37,7 +39,7 @@ class vnl_numeric_traits<vnl_rational const> : public vnl_numeric_traits<vnl_rat
 {
 };
 
-std::ostream& operator<<(std::ostream&, std::complex<vnl_rational>);
+std::ostream& operator<<(std::ostream&, const std::complex<vnl_rational>&);
 
 template <>
 class vnl_numeric_traits<std::complex<vnl_rational> >

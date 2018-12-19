@@ -76,8 +76,8 @@ public:
   using PointsIterator = typename Superclass::PointsIterator;
 
 protected:
-  ThinPlateSplineKernelTransform() {}
-  ~ThinPlateSplineKernelTransform() override {}
+  ThinPlateSplineKernelTransform() = default;
+  ~ThinPlateSplineKernelTransform() override = default;
 
   /** These (rather redundant) type alias are needed because type alias are not inherited. */
   using GMatrixType = typename Superclass::GMatrixType;

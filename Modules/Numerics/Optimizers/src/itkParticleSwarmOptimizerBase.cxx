@@ -23,9 +23,8 @@ namespace itk
 
 
 ParticleSwarmOptimizerBase
-::ParticleSwarmOptimizerBase(void):
-  m_FunctionBestValue(0),
-  m_IterationIndex(0)
+::ParticleSwarmOptimizerBase()
+
 {
   this->m_PrintSwarm = false;
   this->m_InitializeNormalDistribution = false;
@@ -40,9 +39,7 @@ ParticleSwarmOptimizerBase
 }
 
 ParticleSwarmOptimizerBase
-::~ParticleSwarmOptimizerBase()
-{
-}
+::~ParticleSwarmOptimizerBase() = default;
 
 
 void
@@ -231,7 +228,7 @@ ParticleSwarmOptimizerBase
 
 void
 ParticleSwarmOptimizerBase
-::StartOptimization( void )
+::StartOptimization()
 {
   unsigned int j, k, n, index, prevIndex;
   bool converged = false;

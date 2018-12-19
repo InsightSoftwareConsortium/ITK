@@ -59,7 +59,7 @@ public:
     m_OutputMaximum = NumericTraits< TOutput >::max();
   }
 
-  ~Sigmoid() {}
+  ~Sigmoid() = default;
   bool operator!=(const Sigmoid & other) const
   {
     if ( Math::NotExactlyEquals(m_Alpha, other.m_Alpha)
@@ -240,8 +240,8 @@ public:
 #endif
 
 protected:
-  SigmoidImageFilter() {}
-  ~SigmoidImageFilter() override {}
+  SigmoidImageFilter() = default;
+  ~SigmoidImageFilter() override = default;
 };
 } // end namespace itk
 

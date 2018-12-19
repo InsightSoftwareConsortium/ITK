@@ -66,7 +66,7 @@ struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, float >
 template< typename TInputImage, typename TOutputImage >
 typename InverseFFTImageFilter< TInputImage, TOutputImage >::Pointer
 InverseFFTImageFilter< TInputImage, TOutputImage >
-::New(void)
+::New()
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
 

@@ -200,7 +200,7 @@ int main( int argc, char *argv[] )
   thresholdSegmentation->SetPropagationScaling( 1.0 );
   if ( argc > 8 )
     {
-    thresholdSegmentation->SetCurvatureScaling( atof(argv[8]) );
+    thresholdSegmentation->SetCurvatureScaling( std::stod(argv[8]) );
     }
   else
     {
@@ -218,8 +218,8 @@ int main( int argc, char *argv[] )
     thresholdSegmentation->SetMaximumRMSError( 0.02 );
     thresholdSegmentation->SetNumberOfIterations( 1200 );
 
-  //    thresholdSegmentation->SetMaximumRMSError( atof(argv[8]) );
-  //    thresholdSegmentation->SetNumberOfIterations( atoi(argv[9]) );
+  //    thresholdSegmentation->SetMaximumRMSError( std::stod(argv[8]) );
+  //    thresholdSegmentation->SetNumberOfIterations( std::stoi(argv[9]) );
 
   // Software Guide : BeginLatex
   //
@@ -231,8 +231,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  thresholdSegmentation->SetUpperThreshold( ::atof(argv[7]) );
-  thresholdSegmentation->SetLowerThreshold( ::atof(argv[6]) );
+  thresholdSegmentation->SetUpperThreshold( ::std::stod(argv[7]) );
+  thresholdSegmentation->SetLowerThreshold( ::std::stod(argv[6]) );
   thresholdSegmentation->SetIsoSurfaceValue(0.0);
   // Software Guide : EndCodeSnippet
 
@@ -273,8 +273,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType  seedPosition;
 
-  seedPosition[0] = atoi( argv[3] );
-  seedPosition[1] = atoi( argv[4] );
+  seedPosition[0] = std::stoi( argv[3] );
+  seedPosition[1] = std::stoi( argv[4] );
 
   //  Nodes are created as stack variables and initialized with a value and an
   //  \doxygen{Index} position. Note that here we assign the value of minus the
@@ -287,7 +287,7 @@ int main( int argc, char *argv[] )
   //  value as the distance from the seed points at which he want the initial
   //  contour to be.
 
-  const double initialDistance = atof( argv[5] );
+  const double initialDistance = std::stod( argv[5] );
 
   NodeType node;
 

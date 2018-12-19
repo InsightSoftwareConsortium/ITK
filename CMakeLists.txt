@@ -1,5 +1,41 @@
-cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
+# ==== Define cmake build policies that affect compilation and linkage default behaviors
+#
+# Set the ITK_NEWEST_VALIDATED_POLICIES_VERSION string to the newest cmake version
+# policies that provide successful builds. By setting ITK_NEWEST_VALIDATED_POLICIES_VERSION
+# to a value greater than the oldest policies, all policies between
+# ITK_OLDEST_VALIDATED_POLICIES_VERSION and CMAKE_VERSION (used for this build)
+# are set to their NEW behaivor, thereby suppressing policy warnings related to policies
+# between the ITK_OLDEST_VALIDATED_POLICIES_VERSION and CMAKE_VERSION.
+#
+# CMake versions greater than the ITK_NEWEST_VALIDATED_POLICIES_VERSION policies will
+# continue to generate policy warnings "CMake Warning (dev)...Policy CMP0XXX is not set:"
+#
+set(ITK_OLDEST_VALIDATED_POLICIES_VERSION "3.10.2")
+set(ITK_NEWEST_VALIDATED_POLICIES_VERSION "3.13.1")
+cmake_minimum_required(VERSION ${ITK_OLDEST_VALIDATED_POLICIES_VERSION} FATAL_ERROR)
+if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "${ITK_NEWEST_VALIDATED_POLICIES_VERSION}")
+  #Set and use the newest available cmake policies that are validated to work
+  set(ITK_CMAKE_POLICY_VERSION "${CMAKE_VERSION}")
+else()
+  set(ITK_CMAKE_POLICY_VERSION "${ITK_NEWEST_VALIDATED_POLICIES_VERSION}")
+endif()
+cmake_policy(VERSION ${ITK_CMAKE_POLICY_VERSION})
+#
+# Now enumerate specific policies newer than ITK_NEWEST_VALIDATED_POLICIES_VERSION
+# that may need to be individually set to NEW/OLD
+#
+foreach(pnew "") # Currently Empty
+  if(POLICY ${pnew})
+    cmake_policy(SET ${pnew} NEW)
+  endif()
+endforeach()
+foreach(pold "") # Currently Empty
+  if(POLICY ${pold})
+    cmake_policy(SET ${pold} OLD)
+  endif()
+endforeach()
 
+# ==== Define language standard configurations requiring at least c++11 standard
 if(CMAKE_CXX_STANDARD EQUAL "98" )
    message(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=98 is not supported in ITK version 5 and greater.")
 endif()
@@ -16,17 +52,7 @@ if(NOT CMAKE_CXX_EXTENSIONS)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
-foreach(p
-    ## Only policies introduced after the cmake_minimum_required
-    ## version need to explicitly be set to NEW.
-    CMP0070 #3.10.0 Define ``file(GENERATE)`` behavior for relative paths.
-    CMP0071 #3.10.0 Let ``AUTOMOC`` and ``AUTOUIC`` process ``GENERATED`` files.
-    )
-  if(POLICY ${p})
-    cmake_policy(SET ${p} NEW)
-  endif()
-endforeach()
-
+# ====
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
@@ -195,26 +221,8 @@ mark_as_advanced(ITK_DYNAMIC_LOADING)
 
 #-----------------------------------------------------------------------------
 # Wrapping options
-option(ITK_WRAP_PYTHON "Build Python support" OFF)
-option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
-option(ITK_WRAP_RUBY "Build Ruby support (Currently not supported)" OFF)
-option(ITK_WRAP_PERL "Build Perl support (Currently not supported)" OFF)
-option(ITK_WRAP_TCL "Build Tcl support (Currently not supported)" OFF)
-mark_as_advanced(ITK_WRAP_JAVA)
-mark_as_advanced(ITK_WRAP_RUBY)
-mark_as_advanced(ITK_WRAP_PERL)
-mark_as_advanced(ITK_WRAP_TCL)
-
-if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRAP_TCL)
-  if(NOT ITK_DYNAMIC_LOADING)
-    message(FATAL_ERROR "Wrapping requires ITK_DYNAMIC_LOADING to be ON")
-  endif()
-  # ITK_WRAPPING is an internal variable
-  set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
-else()
-  set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
-endif()
-
+include(Wrapping/CMakeUtilityFunctions.cmake)
+include(Wrapping/WrappingOptions.cmake)
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
 
@@ -301,7 +309,8 @@ endif()
 #-----------------------------------------------------------------------------
 # Manage FFT v3 Options
 #
-option(ITK_USE_MKL "Use system MKL" OFF)
+option(ITK_USE_MKL "Use system Intel Math Kernel Library (MKL) for FFT computation." OFF)
+mark_as_advanced(ITK_USE_MKL)
 if(ITK_USE_MKL)
   # The following lines are only useful if one sets `ITK_USE_MKL` to ON in
   # the command line. Otherwise, the first CMake run will always initialize
@@ -312,7 +321,22 @@ if(ITK_USE_MKL)
   set(ITK_USE_SYSTEM_FFTW ON CACHE BOOL "Use an installed version of fftw")
   if(NOT ITK_USE_FFTWD OR NOT ITK_USE_FFTWF OR NOT ITK_USE_SYSTEM_FFTW)
     message(FATAL_ERROR "ITK_USE_MKL is set to ON. ITK_USE_FFTWD, ITK_USE_FFTWF\
- and ITK_USE_SYSTEM_FFTW must be set to ON too.")
+ and ITK_USE_SYSTEM_FFTW must be set to ON, too.")
+  endif()
+endif()
+option(ITK_USE_CUFFTW "Use NVidia CUDA cuFFT with its FFTW interface for FFT computation." OFF)
+mark_as_advanced(ITK_USE_CUFFTW)
+if(ITK_USE_CUFFTW)
+  # The following lines are only useful if one sets `ITK_USE_CUFFTW` to ON in
+  # the command line. Otherwise, the first CMake run will always initialize
+  # these variables to false. The error message will help the user to set
+  # the appropriate values.
+  set(ITK_USE_FFTWD ON CACHE BOOL "Use double precision fftw if found")
+  set(ITK_USE_FFTWF ON CACHE BOOL "Use single precision fftw if found")
+  set(ITK_USE_SYSTEM_FFTW ON CACHE BOOL "Use an installed version of fftw")
+  if(NOT ITK_USE_FFTWD OR NOT ITK_USE_FFTWF OR NOT ITK_USE_SYSTEM_FFTW)
+    message(FATAL_ERROR "ITK_USE_CUFFTW is set to ON. ITK_USE_FFTWD, ITK_USE_FFTWF\
+ and ITK_USE_SYSTEM_FFTW must be set to ON, too.")
   endif()
 endif()
 # ITK_USE_FFTWD -- use double precision fftw
@@ -347,15 +371,13 @@ if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
   include(itkExternal_FFTW)
 endif()
 
-if(NOT ITKV4_COMPATIBILITY)
-  set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
-  # Note WIN32 is true when targeting any windows system
-  if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)
-    set(ITK_USE_64BITS_IDS_DEFAULT "ON")
-  endif()
-  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64-bit integer types instead of long types for sizes and indexes. This is needed for managing images larger than 4Gb in some platforms." "${ITK_USE_64BITS_IDS_DEFAULT}")
-  mark_as_advanced(ITK_USE_64BITS_IDS)
+set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
+# Note WIN32 is true when targeting any windows system
+if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)
+  set(ITK_USE_64BITS_IDS_DEFAULT "ON")
 endif()
+option(ITK_USE_64BITS_IDS "When ON, ITK will use 64-bit integer types instead of long types for sizes and indexes. This is needed for managing images larger than 4Gb in some platforms." "${ITK_USE_64BITS_IDS_DEFAULT}")
+mark_as_advanced(ITK_USE_64BITS_IDS)
 
 # ITK turn on concept checking
 option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)

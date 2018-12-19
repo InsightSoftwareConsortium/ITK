@@ -22,17 +22,13 @@
 namespace itk
 {
 LBFGSOptimizerv4
-  ::LBFGSOptimizerv4():
-  m_Verbose(false),
-  m_LineSearchAccuracy(0.9),
-  m_DefaultStepLength(1.0)
+  ::LBFGSOptimizerv4()
+
 {
 }
 
 LBFGSOptimizerv4
-::~LBFGSOptimizerv4()
-{
-}
+::~LBFGSOptimizerv4() = default;
 
 void
 LBFGSOptimizerv4

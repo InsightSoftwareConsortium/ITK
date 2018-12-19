@@ -33,15 +33,13 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::CenteredAffineTransf
 // Destructor
 template<typename TParametersValueType, unsigned int NDimensions>
 CenteredAffineTransform<TParametersValueType, NDimensions>::
-~CenteredAffineTransform()
-{
-}
+~CenteredAffineTransform() = default;
 
 // Get parameters
 template<typename TParametersValueType, unsigned int NDimensions>
 const typename CenteredAffineTransform<TParametersValueType,
                                        NDimensions>::ParametersType
-& CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters(void) const
+& CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters() const
   {
   // Transfer the linear part
   unsigned int par = 0;

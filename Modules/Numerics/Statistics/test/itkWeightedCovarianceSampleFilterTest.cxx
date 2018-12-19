@@ -81,15 +81,15 @@ public:
   /**Evaluate at the specified input position */
   OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
     {
-    MeasurementVectorType measurements;
+    // MeasurementVectorType measurements;
     // set the weight factor of the measurment
     // vector with valuev[2, 2] to 0.5.
     return 1.0;
     }
 
 protected:
-  WeightedCovarianceTestFunction() {}
-  ~WeightedCovarianceTestFunction() override {}
+  WeightedCovarianceTestFunction() = default;
+  ~WeightedCovarianceTestFunction() override = default;
 }; // end of class
 
 

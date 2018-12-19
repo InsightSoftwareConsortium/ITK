@@ -27,11 +27,9 @@
  *=========================================================================*/
 #include "itkPlatformMultiThreader.h"
 #include "itkNumericTraits.h"
+#include <algorithm>
 #include <iostream>
 #include <string>
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_algorithm.h"
-#endif
 #include <algorithm>
 
 #if defined(ITK_USE_PTHREADS)
@@ -64,14 +62,12 @@ PlatformMultiThreader::PlatformMultiThreader()
     }
 }
 
-PlatformMultiThreader::~PlatformMultiThreader()
-{
-}
+PlatformMultiThreader::~PlatformMultiThreader() = default;
 
 void PlatformMultiThreader::SetMaximumNumberOfThreads( ThreadIdType numberOfThreads )
 {
   Superclass::SetMaximumNumberOfThreads( numberOfThreads );
-  Superclass::SetNumberOfWorkUnits( numberOfThreads );
+  Superclass::SetNumberOfWorkUnits( this->GetMaximumNumberOfThreads() );
 }
 
 void PlatformMultiThreader::SetNumberOfWorkUnits( ThreadIdType numberOfWorkUnits )
@@ -122,7 +118,7 @@ void PlatformMultiThreader::SingleMethodExecute()
   // checked in the WaitForSingleMethodThread loops
   for( thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
     {
-    process_id[thread_loop] = 0;
+    process_id[thread_loop] = ITK_DEFAULT_THREAD_ID;
     }
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions

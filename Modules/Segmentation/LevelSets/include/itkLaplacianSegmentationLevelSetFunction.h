@@ -94,7 +94,7 @@ protected:
     this->SetCurvatureWeight(1.0);
   }
 
-  ~LaplacianSegmentationLevelSetFunction() override {}
+  ~LaplacianSegmentationLevelSetFunction() override = default;
 
 };
 } // end namespace itk

@@ -125,7 +125,7 @@ protected:
 
   using NeighborhoodIteratorType = ShapedNeighborhoodIterator< LabelImageType >;
 
-  bool m_IsUsingUnPhasedPropagation;
+  bool m_IsUsingUnPhasedPropagation{ true };
 
   /** Compute the updates for all points in the 0 layer and store in UpdateContainer */
   void FillUpdateContainer();

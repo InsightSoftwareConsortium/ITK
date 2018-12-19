@@ -52,8 +52,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 /** Destructor */
 template< typename TInputMesh, typename TOutputImage >
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
-::~TriangleMeshToBinaryImageFilter()
-{}
+::~TriangleMeshToBinaryImageFilter() = default;
 
 /** Set the Input Mesh */
 template< typename TInputMesh, typename TOutputImage >
@@ -68,7 +67,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 template< typename TInputMesh, typename TOutputImage >
 typename TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >::InputMeshType *
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
-::GetInput(void)
+::GetInput()
 {
   return static_cast< TInputMesh * >( this->GetInput() );
 }
@@ -162,7 +161,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 template< typename TInputMesh, typename TOutputImage >
 void
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() called");
 
@@ -428,7 +427,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
     OutputImage->TransformPhysicalPointToContinuousIndex(p, ind);
     NewPoints->InsertElement(pointId++, ind);
 
-    points++;
+    ++points;
     }
   NewPointSet->SetPoints(NewPoints);
 
@@ -476,7 +475,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
       default:
         itkExceptionMacro(<< "Need Triangle or Polygon cells ONLY");
       }
-    cellIt++;
+    ++cellIt;
     }
 
   //create the equivalent of vtkStencilData from our zymatrix

@@ -65,44 +65,44 @@ namespace fem
  * which does the concrete work on finding the solution. See FEMRobustSolver for
  * details.
  *
- * \code
- *
- *  const unsigned int ParametricDimension = 3;
- *  const unsigned int DataDimension = 3;
- *
- *  using PixelType = int;
- *  using InputImageType = itk::Image<PixelType, ParametricDimension>;
- *  using RealType = float;
- *  using VectorType = itk::Vector<RealType, DataDimension>;
- *  using MatrixType = itk::Matrix<RealType, DataDimension,
- *  DataDimension>;
- *  using VectorImageType = itk::Image<VectorType, ParametricDimension>;
- *  using PointSetType = itk::PointSet <VectorType,
- *  ParametricDimension>;
- *
- *  using TensorPointSetType = itk::PointSet <MatrixType,
- *   ParametricDimension>;
- *
- *  using ConfidencePointSetType = itk::PointSet <RealType, ParametricDimension>;
- *
- *
- *  using MeshType = itk::Mesh< VectorType, ParametricDimension >;
- *
- *  using FilterType = itk::FEMScatteredDataPointSetToImageFilter
- *  <PointSetType, MeshType, VectorImageType,
- *  ConfidencePointSetType, TensorPointSetType>;
- *
- *  FilterType::Pointer filter = FilterType::New();
- *
- *  filter->SetInput(displacementPointSet);
- *  filter->SetConfidencePointSet(confidencePointSet); //optional
- *  filter->SetTensorPointSet(tensorPointSet); //optional
- *  filter->SetMesh(aITKMesh);
- *  filter->Update();
- *
- *  DeformationField::Pointer = filter->GetOutput();
- *
- * \endcode
+   \code
+
+    const unsigned int ParametricDimension = 3;
+    const unsigned int DataDimension = 3;
+
+    using PixelType = int;
+    using InputImageType = itk::Image<PixelType, ParametricDimension>;
+    using RealType = float;
+    using VectorType = itk::Vector<RealType, DataDimension>;
+    using MatrixType = itk::Matrix<RealType, DataDimension,
+    DataDimension>;
+    using VectorImageType = itk::Image<VectorType, ParametricDimension>;
+    using PointSetType = itk::PointSet <VectorType,
+    ParametricDimension>;
+
+    using TensorPointSetType = itk::PointSet <MatrixType,
+     ParametricDimension>;
+
+    using ConfidencePointSetType = itk::PointSet <RealType, ParametricDimension>;
+
+
+    using MeshType = itk::Mesh< VectorType, ParametricDimension >;
+
+    using FilterType = itk::FEMScatteredDataPointSetToImageFilter
+    <PointSetType, MeshType, VectorImageType,
+    ConfidencePointSetType, TensorPointSetType>;
+
+    FilterType::Pointer filter = FilterType::New();
+
+    filter->SetInput(displacementPointSet);
+    filter->SetConfidencePointSet(confidencePointSet); //optional
+    filter->SetTensorPointSet(tensorPointSet); //optional
+    filter->SetMesh(aITKMesh);
+    filter->Update();
+
+    DeformationField::Pointer = filter->GetOutput();
+
+   \endcode
  *
  * \author Yixun Liu
  *

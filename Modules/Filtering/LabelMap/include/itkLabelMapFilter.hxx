@@ -28,24 +28,21 @@
 #ifndef itkLabelMapFilter_hxx
 #define itkLabelMapFilter_hxx
 #include "itkLabelMapFilter.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 LabelMapFilter< TInputImage, TOutputImage >
-::LabelMapFilter():
-  m_InverseNumberOfLabelObjects( 1.0f ),
-  m_NumberOfLabelObjectsProcessed( 1 )
+::LabelMapFilter()
+
 {
   this->DynamicMultiThreadingOn();
 }
 
 template< typename TInputImage, typename TOutputImage >
 LabelMapFilter< TInputImage, TOutputImage >
-::~LabelMapFilter()
-{
-}
+::~LabelMapFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -78,7 +75,6 @@ LabelMapFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   m_LabelObjectIterator =  typename InputImageType::Iterator(this->GetLabelMap());
-  m_LabelObjectContainerLock = FastMutexLock::New();
 
   if(Math::ExactlyEquals(this->GetLabelMap()->GetNumberOfLabelObjects(), 0.0))
     {
@@ -110,7 +106,7 @@ LabelMapFilter< TInputImage, TOutputImage >
     LabelObjectType *labelObject;
     // begin mutex lock
     {
-    MutexLockHolder< FastMutexLock > lock(*m_LabelObjectContainerLock );
+    std::lock_guard< std::mutex > lock( m_LabelObjectContainerLock );
 
     if ( m_LabelObjectIterator.IsAtEnd() )
       {

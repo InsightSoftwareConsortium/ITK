@@ -67,8 +67,8 @@ int itkCropLabelMapFilterTest1(int argc, char * argv[])
 
   crop->SetInput( i2l->GetOutput() );
   CropType::SizeType size;
-  size[0] = atoi( argv[3] );
-  size[1] = atoi( argv[4] );
+  size[0] = std::stoi( argv[3] );
+  size[1] = std::stoi( argv[4] );
 
   crop->SetCropSize( size );
   TEST_SET_GET_VALUE( size, crop->GetUpperBoundaryCropSize() );

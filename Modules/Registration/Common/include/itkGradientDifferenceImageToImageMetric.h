@@ -132,7 +132,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  void Initialize(void) override;
+  void Initialize() override;
 
   /** Write gradient images to a files for debugging purposes. */
   void WriteGradientImagesToFiles() const;
@@ -144,7 +144,7 @@ public:
 
 protected:
   GradientDifferenceImageToImageMetric();
-  ~GradientDifferenceImageToImageMetric() override {}
+  ~GradientDifferenceImageToImageMetric() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute the range of the moved image gradients. */

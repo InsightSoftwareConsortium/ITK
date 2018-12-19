@@ -31,7 +31,7 @@
 namespace
 {
 template <typename T>
-bool TemplatedRoundTest( void )
+bool TemplatedRoundTest()
 {
    bool ok = true;
 

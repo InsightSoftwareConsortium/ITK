@@ -230,7 +230,7 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   this->InvokeEvent( StartEvent() );
 

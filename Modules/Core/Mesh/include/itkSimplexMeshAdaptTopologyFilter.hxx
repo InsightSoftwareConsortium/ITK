@@ -35,9 +35,7 @@ namespace itk
 template< typename TInputMesh, typename TOutputMesh >
 SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >::SimplexMeshAdaptTopologyFilter() :
   m_IdOffset(0),
-  m_Threshold(0.5),
-  m_SelectionMethod(0),
-  m_ModifiedCount(0),
+
   m_Output(TOutputMesh::New())
 {
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
@@ -46,8 +44,7 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >::SimplexMeshAdaptTopol
 
 template< typename TInputMesh, typename TOutputMesh >
 SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
-::~SimplexMeshAdaptTopologyFilter()
-{}
+::~SimplexMeshAdaptTopologyFilter() = default;
 
 template< typename TInputMesh, typename TOutputMesh >
 void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
@@ -296,8 +293,8 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       this->ModifyNeighborCells(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);
 
       } // end if cell must be modified
-    areaIt++;
-    curvatureIt++;
+    ++areaIt;
+    ++curvatureIt;
     }
 }
 
@@ -404,7 +401,7 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
   InputPolygonPointIdIterator pointIt =  simplexCell->PointIdsBegin();
 
   InputVectorType tmp;
-  InputPointType  p1, p2, cellCenter;
+  InputPointType  p1, cellCenter;
 
   p1.Fill(0);
   cellCenter.Fill(0);

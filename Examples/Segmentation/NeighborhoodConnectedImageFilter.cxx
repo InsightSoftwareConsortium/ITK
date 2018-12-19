@@ -209,8 +209,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const InternalPixelType lowerThreshold = atof( argv[5] );
-  const InternalPixelType upperThreshold = atof( argv[6] );
+  const InternalPixelType lowerThreshold = std::stod( argv[5] );
+  const InternalPixelType upperThreshold = std::stod( argv[6] );
 
   // Software Guide : BeginCodeSnippet
   neighborhoodConnected->SetLower( lowerThreshold );
@@ -251,8 +251,8 @@ int main( int argc, char *argv[] )
 
   InternalImageType::IndexType index;
 
-  index[0] = atoi( argv[3] );
-  index[1] = atoi( argv[4] );
+  index[0] = std::stoi( argv[3] );
+  index[1] = std::stoi( argv[4] );
 
 
   // Software Guide : BeginCodeSnippet

@@ -25,13 +25,13 @@ namespace itk
      * ====================================================================================
      * ====================================================================================
      */
-OctreeNode::OctreeNode(void)
+OctreeNode::OctreeNode()
 {
   m_Parent = nullptr;
   m_Branch = nullptr;
 }
 
-OctreeNode::~OctreeNode(void)
+OctreeNode::~OctreeNode()
 {
   this->RemoveChildren();
 }
@@ -46,7 +46,7 @@ OctreeNode & OctreeNode::GetChild(const enum LeafIdentifier ChildID)
   return *m_Branch->GetLeaf(ChildID);
 }
 
-long int OctreeNode::GetColor(void) const
+long int OctreeNode::GetColor() const
 {
   if ( m_Parent != nullptr )
     {
@@ -83,7 +83,7 @@ void OctreeNode::SetBranch(OctreeNodeBranch *NewBranch)
  * \param void
  * \return  bool true if this node is colored
  */
-bool OctreeNode::IsNodeColored(void) const
+bool OctreeNode::IsNodeColored() const
 {
   if ( m_Parent != nullptr )
     {
@@ -99,7 +99,7 @@ bool OctreeNode::IsNodeColored(void) const
     }
 }
 
-void OctreeNode::RemoveChildren(void)
+void OctreeNode::RemoveChildren()
 {
   if ( !this->IsNodeColored() )
     {

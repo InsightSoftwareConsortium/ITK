@@ -34,8 +34,8 @@ class SLICFixture
 {
 public:
 
-  SLICFixture() {}
-  ~SLICFixture() override {}
+  SLICFixture() = default;
+  ~SLICFixture() override = default;
 
 protected:
 

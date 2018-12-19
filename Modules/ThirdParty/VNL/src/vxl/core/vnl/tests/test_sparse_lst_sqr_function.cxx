@@ -1,8 +1,6 @@
 #include <iostream>
-#include <limits>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_sparse_lst_sqr_function.h>
-#include <vcl_compiler.h>
 
 
 // all ai.size() == 2, all bj.size() == 3, c.size() == 2, all eij.size() == 2
@@ -19,17 +17,17 @@ class test_func1 : public vnl_sparse_lst_sqr_function
            vnl_vector<double> const& ai,
            vnl_vector<double> const& bj,
            vnl_vector<double> const& c,
-           vnl_vector<double>& eij)
+           vnl_vector<double>& eij) override
   {
     eij[0] = (ai[0]*ai[0]-bj[0]*ai[1])*bj[2]*bj[2]*bj[2] + c[0]*ai[0];
     eij[1] = (ai[1]*ai[1]-bj[1]*ai[0])*bj[2]*bj[2]*bj[2] + c[1]*ai[1];
   }
 
-  void jac_Aij(int /*i*/, int /*j*/,
+  void jac_Aij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
                vnl_vector<double> const& bj,
                vnl_vector<double> const& c,
-               vnl_matrix<double>& Aij)
+               vnl_matrix<double>& Aij) override
   {
     Aij[0][0] = 2.0*ai[0]*bj[2]*bj[2]*bj[2] + c[0];
     Aij[0][1] = -bj[0]*bj[2]*bj[2]*bj[2];
@@ -37,11 +35,11 @@ class test_func1 : public vnl_sparse_lst_sqr_function
     Aij[1][1] = 2.0*ai[1]*bj[2]*bj[2]*bj[2] + c[1];
   }
 
-  void jac_Bij(int /*i*/, int /*j*/,
+  void jac_Bij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
                vnl_vector<double> const& bj,
-               vnl_vector<double> const& c,
-               vnl_matrix<double>& Bij)
+               vnl_vector<double> const&  /*c*/,
+               vnl_matrix<double>& Bij) override
   {
     Bij[0][0] = -ai[1]*bj[2]*bj[2]*bj[2];
     Bij[0][1] = 0.0;
@@ -51,11 +49,11 @@ class test_func1 : public vnl_sparse_lst_sqr_function
     Bij[1][2] = (ai[1]*ai[1]-bj[1]*ai[0])*3.0*bj[2]*bj[2];
   }
 
-  void jac_Cij(int /*i*/, int /*j*/,
+  void jac_Cij(unsigned int /*i*/, unsigned int /*j*/,
                vnl_vector<double> const& ai,
-               vnl_vector<double> const& bj,
-               vnl_vector<double> const& c,
-               vnl_matrix<double>& Cij)
+               vnl_vector<double> const&  /*bj*/,
+               vnl_vector<double> const&  /*c*/,
+               vnl_matrix<double>& Cij) override
   {
     Cij[0][0] = ai[0];
     Cij[0][1] = 0.0;
@@ -68,7 +66,7 @@ class test_func1 : public vnl_sparse_lst_sqr_function
                          vnl_vector<double> const& /*bj*/,
                          vnl_vector<double> const& /*c*/,
                          vnl_vector<double> const& /*fij*/,
-                         double& weight)
+                         double& weight) override
   {
     weight = double((i+1)*(j+1))/(this->number_of_a()*this->number_of_b());
   }
@@ -132,7 +130,7 @@ static void test_sparse_lst_sqr_function()
    ai[0] = 5.0;  ai[1] = -1.0;
    bj[0] = 1.2;  bj[1] = 1.5;  bj[2] = 2.2;
    c[0] = 1.0;   c[1] = 2.0;
-   const double step = 0.001;
+   constexpr double step = 0.001;
 
    my_func.fij(0,0,ai,bj,c,e);
    std::cout << "e  = " << e << std::endl;

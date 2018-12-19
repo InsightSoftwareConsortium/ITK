@@ -21,6 +21,7 @@
 
 #include "itkOffset.h"
 
+#include <array>
 #include <cassert>
 #include <cstdint> // For uintmax_t
 #include <limits>
@@ -57,7 +58,7 @@ namespace Experimental
  * The following example generates the offsets for a 3-dimensional 18-connected
  * neighborhood shape, including the center pixel, and asserts that the result
  * is as expected:
- * \code
+   \code
    std::size_t maximumCityblockDistance = 2;
    bool includeCenterPixel = true;
    ConnectedImageNeighborhoodShape<3> shape{ maximumCityblockDistance, includeCenterPixel };
@@ -77,7 +78,7 @@ namespace Experimental
  *
  * The following code shows how to create 4-connected, 8-connected,
  * 6-connected, 18-connected, and 26-connected neighborhood shapes:
- * \code
+   \code
    // 2-dimensional:
    ConnectedImageNeighborhoodShape<2> _4_connectedShape{ 1, includeCenterPixel };
    ConnectedImageNeighborhoodShape<2> _8_connectedShape{ 2, includeCenterPixel };
@@ -288,7 +289,29 @@ private:
     return (includeCenterPixel ? 1 : 0) +
       CalculateNumberOfConnectedNeighbors(maximumCityblockDistance);
   }
+
+
+  template <unsigned int VImageDimensionOfFriend, std::size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>
+  friend
+  std::array<
+    Offset<VImageDimensionOfFriend>,
+    ConnectedImageNeighborhoodShape<VImageDimensionOfFriend>::CalculateNumberOfOffsets(VMaximumCityblockDistance, VIncludeCenterPixel)>
+    GenerateConnectedImageNeighborhoodShapeOffsets() ITK_NOEXCEPT;
 };
+
+
+/** Generates the offsets for a connected image neighborhood shape. */
+template <unsigned int VImageDimension, std::size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>
+std::array<
+  Offset<VImageDimension>,
+  ConnectedImageNeighborhoodShape<VImageDimension>::CalculateNumberOfOffsets(VMaximumCityblockDistance, VIncludeCenterPixel)>
+GenerateConnectedImageNeighborhoodShapeOffsets() ITK_NOEXCEPT
+{
+  constexpr ConnectedImageNeighborhoodShape<VImageDimension> shape{ VMaximumCityblockDistance, VIncludeCenterPixel };
+  std::array<Offset<VImageDimension>, shape.GetNumberOfOffsets()> offsets;
+  shape.FillOffsets(offsets.data());
+  return offsets;
+}
 
 } // namespace Experimental
 } // namespace itk

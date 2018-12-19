@@ -53,7 +53,7 @@ public:
   using PixelType = typename Superclass::PixelType;
 
   /** Constructor. */
-  ForwardDifferenceOperator() {}
+  ForwardDifferenceOperator() = default;
 
   /** Copy constructor */
   ForwardDifferenceOperator(const Self & other):

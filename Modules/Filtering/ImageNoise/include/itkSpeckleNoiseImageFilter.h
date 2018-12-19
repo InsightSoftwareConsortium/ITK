@@ -97,14 +97,14 @@ public:
 
 protected:
   SpeckleNoiseImageFilter();
-  ~SpeckleNoiseImageFilter()  override {}
+  ~SpeckleNoiseImageFilter()  override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  double m_StandardDeviation;
+  double m_StandardDeviation{ 1.0 };
 
 };
 } // end namespace itk

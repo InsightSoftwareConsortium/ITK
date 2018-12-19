@@ -90,8 +90,8 @@ public:
   itkTypeMacro(ExpImageAdaptor, ImageAdaptor);
 
 protected:
-  ExpImageAdaptor() {}
-  ~ExpImageAdaptor() override {}
+  ExpImageAdaptor() = default;
+  ~ExpImageAdaptor() override = default;
 };
 } // end namespace itk
 

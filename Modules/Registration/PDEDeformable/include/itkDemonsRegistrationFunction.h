@@ -22,7 +22,7 @@
 #include "itkPoint.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -122,7 +122,7 @@ public:
   { m_MovingImageInterpolator = ptr; }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator(void)
+  InterpolatorType * GetMovingImageInterpolator()
   { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
@@ -182,7 +182,7 @@ public:
 
 protected:
   DemonsRegistrationFunction();
-  ~DemonsRegistrationFunction() override {}
+  ~DemonsRegistrationFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
@@ -232,7 +232,7 @@ private:
   mutable double        m_SumOfSquaredChange;
 
   /** Mutex lock to protect modification to metric. */
-  mutable SimpleFastMutexLock m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock;
 };
 } // end namespace itk
 

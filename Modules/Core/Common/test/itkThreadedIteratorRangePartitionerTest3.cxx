@@ -55,7 +55,7 @@ namespace
         }
 
     protected:
-      TestDomainThreader() {};
+      TestDomainThreader() = default;
 
     private:
       void BeforeThreadedExecution() override

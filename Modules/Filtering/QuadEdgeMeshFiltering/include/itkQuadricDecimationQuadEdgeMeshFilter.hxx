@@ -24,13 +24,11 @@ namespace itk
 {
 template< typename TInput, typename TOutput, typename TCriterion >
 QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
-::QuadricDecimationQuadEdgeMeshFilter()
-{}
+::QuadricDecimationQuadEdgeMeshFilter() = default;
 
 template< typename TInput, typename TOutput, typename TCriterion >
 QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
-::~QuadricDecimationQuadEdgeMeshFilter()
-{}
+::~QuadricDecimationQuadEdgeMeshFilter() = default;
 
 
 template< typename TInput, typename TOutput, typename TCriterion >

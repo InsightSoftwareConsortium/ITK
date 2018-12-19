@@ -62,8 +62,8 @@ public:
   RGBPixelType operator()(const TScalar &) const override;
 
 protected:
-  CoolColormapFunction() {}
-  ~CoolColormapFunction() override {}
+  CoolColormapFunction() = default;
+  ~CoolColormapFunction() override = default;
 };
 } // end namespace Function
 } // end namespace itk

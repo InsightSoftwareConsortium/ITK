@@ -61,7 +61,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 
@@ -209,7 +209,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
     }
   rigidOptimizer->SetLearningRate( 0.1 );
 #ifdef NDEBUG
-  rigidOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+  rigidOptimizer->SetNumberOfIterations( std::stoi( argv[5] ) );
 #else
   rigidOptimizer->SetNumberOfIterations( 1 );
 #endif
@@ -285,7 +285,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
     }
 
 #ifdef NDEBUG
-  affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+  affineOptimizer->SetNumberOfIterations( std::stoi( argv[5] ) );
 #else
   affineOptimizer->SetNumberOfIterations( 1 );
 #endif
@@ -347,7 +347,7 @@ int itkSimpleImageRegistrationTest2( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      return PerformSimpleImageRegistration2<2>( argc, argv );

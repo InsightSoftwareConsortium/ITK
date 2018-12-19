@@ -3,12 +3,15 @@
 */
 
 // The purpose of this is to check there are no
-// clashes between vcl_sqrt() and vcl_abs().
-#include <vcl_complex.h>
-#include <vcl_cmath.h>
-#include <vcl_cstdlib.h>
+// clashes between std::sqrt() and std::abs().
+#include <complex>
+#include <iostream>
+#include <cmath>
+#include <cstdlib>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
-#include <vcl_iostream.h>
 
 int test_cmath_main(int /*argc*/,char* /*argv*/[])
 {
@@ -20,14 +23,14 @@ int test_cmath_main(int /*argc*/,char* /*argv*/[])
 #ifdef INCLUDE_LONG_DOUBLE_TESTS
     long double ld = xd;
 #endif
-    vcl_complex<double> xc(xd,0.0);
+    std::complex<double> xc(xd,0.0);
 
 #define macro(var, type) \
 do { \
-  if (vcl_abs(var) == (var) && vcl_abs(- (var)) == (var)) \
-    vcl_cout << "vcl_abs(" #type ") PASSED" << vcl_endl; \
+  if (std::abs(var) == (var) && std::abs(- (var)) == (var)) \
+    std::cout << "std::abs(" #type ") PASSED" << std::endl; \
   else \
-    vcl_cerr << "vcl_abs(" #type ") *** FAILED *** " << vcl_endl; \
+    std::cerr << "std::abs(" #type ") *** FAILED *** " << std::endl; \
 } while (false)
     macro(xi, int);
     macro(xl, long);
@@ -36,32 +39,32 @@ do { \
 #ifdef INCLUDE_LONG_DOUBLE_TESTS
     macro(ld, long double);
 #endif
-    macro(xc, vcl_complex<double>);
+    macro(xc, std::complex<double>);
 #undef macro
   }
 
   {
     // This shows why
-    //   #define vcl_cos cos
+    //   #define std::cos cos
     // isn't good enough. It has to be
-    //   #define vcl_cos ::cos
+    //   #define std::cos ::cos
     // or
-    //   #define vcl_cos std::cos
+    //   #define std::cos std::cos
     double theta = 0.1234;
-    double cos = vcl_cos(theta);
-    double sin = vcl_sin(theta);
-    double tan = vcl_tan(theta);
+    double cos = std::cos(theta);
+    double sin = std::sin(theta);
+    double tan = std::tan(theta);
     (void)theta; (void)cos; (void)sin; (void)tan; // quell 'unused variable' warning.
   }
 
 #define macro(T, eps) \
   do { \
     T x = 2; \
-    T y = vcl_sqrt(x); \
-    if (vcl_abs(x - y*y) < (eps)) \
-      vcl_cout << "vcl_sqrt(" #T ") PASSED" << vcl_endl; \
+    T y = std::sqrt(x); \
+    if (std::abs(x - y*y) < (eps)) \
+      std::cout << "std::sqrt(" #T ") PASSED" << std::endl; \
     else \
-      vcl_cout << "vcl_sqrt(" #T ") *** FAILED *** " << vcl_endl; \
+      std::cout << "std::sqrt(" #T ") *** FAILED *** " << std::endl; \
   } while (false)
   macro(float, 1e-6);        // actually sqrtf()
   macro(double, 1e-14);

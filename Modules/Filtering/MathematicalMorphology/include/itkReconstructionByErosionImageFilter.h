@@ -107,7 +107,7 @@ protected:
     this->m_MarkerValue = NumericTraits< typename TOutputImage::PixelType >::max();
   }
 
-  ~ReconstructionByErosionImageFilter() override {}
+  ~ReconstructionByErosionImageFilter() override = default;
 };                                                  // end
                                                     //
                                                     //

@@ -29,15 +29,14 @@ GE5ImageIOFactory::GE5ImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGE5ImageIO",
                           "GE5 Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GE5ImageIO >::New() );
 }
 
-GE5ImageIOFactory::~GE5ImageIOFactory()
-{}
+GE5ImageIOFactory::~GE5ImageIOFactory() = default;
 
 const char *
-GE5ImageIOFactory::GetITKSourceVersion(void) const
+GE5ImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -53,7 +52,7 @@ GE5ImageIOFactory::GetDescription() const
 
 static bool GE5ImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GE5ImageIOFactoryRegister__Private(void)
+void ITKIOGE_EXPORT GE5ImageIOFactoryRegister__Private()
 {
   if( ! GE5ImageIOFactoryHasBeenRegistered )
     {

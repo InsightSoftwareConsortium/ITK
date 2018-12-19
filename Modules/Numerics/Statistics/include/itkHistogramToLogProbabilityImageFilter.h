@@ -57,10 +57,10 @@ public:
   // Returns pixels of float..
   using OutputPixelType = TOutput;
 
-  HistogramLogProbabilityFunction():
-    m_TotalFrequency(1) {}
+  HistogramLogProbabilityFunction()
+    {}
 
-  ~HistogramLogProbabilityFunction() {}
+  ~HistogramLogProbabilityFunction() = default;
 
   inline OutputPixelType operator()(const TInput & A) const
   {
@@ -89,7 +89,7 @@ public:
   }
 
 private:
-  SizeValueType m_TotalFrequency;
+  SizeValueType m_TotalFrequency{1};
 };
 }
 
@@ -118,8 +118,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  HistogramToLogProbabilityImageFilter() {}
-  ~HistogramToLogProbabilityImageFilter() override {}
+  HistogramToLogProbabilityImageFilter() = default;
+  ~HistogramToLogProbabilityImageFilter() override = default;
 };
 } // end namespace itk
 

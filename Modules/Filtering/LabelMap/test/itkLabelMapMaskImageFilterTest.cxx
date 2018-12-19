@@ -82,15 +82,15 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
 
   maskFilter->SetFeatureImage( reader2->GetOutput() );
 
-  MaskFilterType::InputImagePixelType label = atoi( argv[4] );
+  MaskFilterType::InputImagePixelType label = std::stoi( argv[4] );
   maskFilter->SetLabel( label );
   TEST_SET_GET_VALUE( label, maskFilter->GetLabel() );
 
-  MaskFilterType::OutputImagePixelType backgroundValue = atoi( argv[5] );
+  MaskFilterType::OutputImagePixelType backgroundValue = std::stoi( argv[5] );
   maskFilter->SetBackgroundValue( backgroundValue );
   TEST_SET_GET_VALUE( backgroundValue, maskFilter->GetBackgroundValue() );
 
-  auto negated = static_cast< bool >(atoi( argv[6] ) );
+  auto negated = static_cast< bool >(std::stoi( argv[6] ) );
   maskFilter->SetNegated( negated );
   TEST_SET_GET_VALUE( negated, maskFilter->GetNegated() );
   if( negated )
@@ -104,7 +104,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
     TEST_SET_GET_VALUE( false, maskFilter->GetNegated() );
     }
 
-  auto crop = static_cast< bool >( atoi( argv[7] ) );
+  auto crop = static_cast< bool >( std::stoi( argv[7] ) );
   maskFilter->SetCrop( crop );
   TEST_SET_GET_VALUE( crop, maskFilter->GetCrop() );
   if( crop )
@@ -119,7 +119,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
     }
 
   MaskFilterType::SizeType border;
-  border.Fill( atoi(argv[8]) );
+  border.Fill( std::stoi(argv[8]) );
   maskFilter->SetCropBorder( border );
   TEST_SET_GET_VALUE( border, maskFilter->GetCropBorder() );
 

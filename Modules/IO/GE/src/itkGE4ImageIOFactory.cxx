@@ -29,15 +29,14 @@ GE4ImageIOFactory::GE4ImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkGE4ImageIO",
                           "GE4 Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< GE4ImageIO >::New() );
 }
 
-GE4ImageIOFactory::~GE4ImageIOFactory()
-{}
+GE4ImageIOFactory::~GE4ImageIOFactory() = default;
 
 const char *
-GE4ImageIOFactory::GetITKSourceVersion(void) const
+GE4ImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -53,7 +52,7 @@ GE4ImageIOFactory::GetDescription() const
 
 static bool GE4ImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GE4ImageIOFactoryRegister__Private(void)
+void ITKIOGE_EXPORT GE4ImageIOFactoryRegister__Private()
 {
   if( ! GE4ImageIOFactoryHasBeenRegistered )
     {

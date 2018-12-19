@@ -80,12 +80,12 @@ int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFo
   // Check width and height
   unsigned int width = istream->width();
   unsigned int height = istream->height();
-  if (width != static_cast<unsigned int>(atoi(argv[3])) ||
-      height != static_cast<unsigned int>(atoi(argv[4])))
+  if (width != static_cast<unsigned int>(std::stoi(argv[3])) ||
+      height != static_cast<unsigned int>(std::stoi(argv[4])))
     {
     std::cerr << "(px: " << typeid(PixelType).name()
               << ") dimensions not reporting correctly. Got [" << width << "," << height
-              << "] Expected [" << atoi(argv[3]) << "," << atoi(argv[4]) << "]" << std::endl;
+              << "] Expected [" << std::stoi(argv[3]) << "," << std::stoi(argv[4]) << "]" << std::endl;
     delete istream;
     return EXIT_FAILURE;
     }

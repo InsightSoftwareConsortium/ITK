@@ -71,8 +71,8 @@ public:
   virtual FloatType EstimateMaximumStepSize() = 0;
 
 protected:
-  OptimizerParameterScalesEstimatorTemplate(){};
-  ~OptimizerParameterScalesEstimatorTemplate() override {};
+  OptimizerParameterScalesEstimatorTemplate()= default;
+  ~OptimizerParameterScalesEstimatorTemplate() override = default;
 
   void PrintSelf(std::ostream &os, Indent indent) const override
     {

@@ -39,7 +39,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate() {};
+  itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate() = default;
 
 public:
 
@@ -184,7 +184,7 @@ int itkLabeledPointSetMetricRegistrationTest( int argc, char *argv[] )
   unsigned int numberOfIterations = 10;
   if( argc > 1 )
     {
-    numberOfIterations = atoi( argv[1] );
+    numberOfIterations = std::stoi( argv[1] );
     }
 
   constexpr unsigned int Dimension = 2;

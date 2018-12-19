@@ -16,13 +16,63 @@
  *
  *=========================================================================*/
 
-#include "itkAddImageFilter.h"
 #include "itkFrequencyBandImageFilter.h"
+#include "itkUnaryFrequencyDomainFilter.h"
+
+#include "itkAddImageFilter.h"
 #include "itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingComparisonImageFilter.h"
 #include "itkTestingMacros.h"
+
+namespace
+{
+template< typename ImageType >
+bool
+compareImages( ImageType* baseline, ImageType* test )
+{
+  using DifferenceFilterType = itk::Testing::ComparisonImageFilter< ImageType, ImageType >;
+  auto differenceFilter = DifferenceFilterType::New();
+
+  differenceFilter->SetToleranceRadius( 0 );
+  differenceFilter->SetDifferenceThreshold( 0 );
+  differenceFilter->SetValidInput( baseline );
+  differenceFilter->SetTestInput( test );
+
+  differenceFilter->Update();
+
+  unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  if ( numberOfDiffPixels > 0 )
+    {
+    std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels << "unequal pixels" << std::endl;
+    return false;
+    }
+
+  return true;
+}
+
+template< typename ImageType >
+typename ImageType::Pointer
+createImage( typename ImageType::SizeType size )
+{
+  auto image = ImageType::New();
+  typename ImageType::RegionType region;
+  region.SetSize( size );
+  image->SetRegions( region );
+  image->Allocate( false );
+
+  typename ImageType::PixelType value = itk::NumericTraits< typename ImageType::PixelType >::Zero;
+  itk::ImageRegionIterator< ImageType > iter( image, region );
+  while ( !iter.IsAtEnd() )
+    {
+    iter.Set( ++value );
+    ++iter;
+    }
+
+  return image;
+}
+} // namespace
 
 int
 itkFrequencyBandImageFilterTest( int argc, char* argv[] )
@@ -31,8 +81,7 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
 
   if ( argc != 2 )
     {
-    std::cerr << "Usage: " << argv[0]
-              << " Even|Odd" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " Even|Odd" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -64,22 +113,13 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
       }
     }
 
-  // Create an image
-  auto image = ImageType3D::New();
-  ImageType3D::RegionType region;
-  region.SetSize( size );
+  auto image = createImage< ImageType3D >( size );
 
-  image->SetRegions(region);
-  image->SetLargestPossibleRegion( region );
-  image->SetBufferedRegion( region );
-  image->Allocate();
-  image->FillBuffer( 1.0 );
 
   using BandFilterType = itk::FrequencyBandImageFilter< ImageType3D >;
   auto passBandFilter = BandFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( passBandFilter, FrequencyBandImageFilter,
-    InPlaceImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( passBandFilter, FrequencyBandImageFilter, UnaryFrequencyDomainFilter );
 
   passBandFilter->SetInput( image );
 
@@ -105,13 +145,13 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   TEST_SET_GET_VALUE( highFreqThreshold, passBandFilter->GetHighFrequencyThreshold() );
 
   bool passBand = true;
-  TEST_SET_GET_BOOLEAN(passBandFilter, PassBand, passBand);
+  TEST_SET_GET_BOOLEAN( passBandFilter, PassBand, passBand );
 
   bool passLowFreqThreshold = true;
-  TEST_SET_GET_BOOLEAN(passBandFilter, PassLowFrequencyThreshold, passLowFreqThreshold);
+  TEST_SET_GET_BOOLEAN( passBandFilter, PassLowFrequencyThreshold, passLowFreqThreshold );
 
   bool passHighFreqThreshold = true;
-  TEST_SET_GET_BOOLEAN(passBandFilter, PassHighFrequencyThreshold, passHighFreqThreshold);
+  TEST_SET_GET_BOOLEAN( passBandFilter, PassHighFrequencyThreshold, passHighFreqThreshold );
 
   passBandFilter->SetPassBand( passLowFreqThreshold, passHighFreqThreshold );
   TEST_SET_GET_VALUE( passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold() );
@@ -123,7 +163,7 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   // Stop-band
   auto stopBandFilter = BandFilterType::New();
 
-  stopBandFilter->SetInput(image);
+  stopBandFilter->SetInput( image );
 
   stopBandFilter->SetLowFrequencyThreshold( lowFreqThreshold );
   stopBandFilter->SetHighFrequencyThreshold( highFreqThreshold );
@@ -144,24 +184,8 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   addFilter->SetInput1( passBandFilter->GetOutput() );
   addFilter->SetInput2( stopBandFilter->GetOutput() );
 
-  using DifferenceFilterType = itk::Testing::ComparisonImageFilter< ImageType3D, ImageType3D >;
-  auto differenceFilter = DifferenceFilterType::New();
-
-  differenceFilter->SetToleranceRadius( 0 );
-  differenceFilter->SetDifferenceThreshold( 0 );
-  differenceFilter->SetValidInput( image );
-  differenceFilter->SetTestInput( addFilter->GetOutput() );
-
-  differenceFilter->Update();
-
-  unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
-  if ( numberOfDiffPixels > 0 )
-    {
-    std::cerr << "Test failed! " << std::endl;
-    std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels
-              << "unequal pixels" << std::endl;
-    return EXIT_FAILURE;
-    }
+  std::cout << "Comparing the original and sum of bandPass and stopBand images" << std::endl;
+  bool success = compareImages( image.GetPointer(), addFilter->GetOutput() );
 
   // Tests with radians
 
@@ -171,19 +195,15 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   BandFilterType::FrequencyValueType highFreqThresholdRadians = itk::Math::pi_over_2;
   passBandFilter->SetHighFrequencyThresholdInRadians( highFreqThresholdRadians );
 
-  BandFilterType::FrequencyValueType knownLowFrequencyHertz =
-    lowFreqThresholdRadians / (2 * itk::Math::pi);
-  BandFilterType::FrequencyValueType knownHighFrequencyHertz =
-    highFreqThresholdRadians / (2 * itk::Math::pi);
+  BandFilterType::FrequencyValueType knownLowFrequencyHertz = lowFreqThresholdRadians / ( 2 * itk::Math::pi );
+  BandFilterType::FrequencyValueType knownHighFrequencyHertz = highFreqThresholdRadians / ( 2 * itk::Math::pi );
 
-  if ( itk::Math::NotAlmostEquals( knownLowFrequencyHertz,
-         passBandFilter->GetLowFrequencyThreshold())
-       || itk::Math::NotAlmostEquals( knownHighFrequencyHertz,
-         passBandFilter->GetHighFrequencyThreshold()) )
+  if ( itk::Math::NotAlmostEquals( knownLowFrequencyHertz, passBandFilter->GetLowFrequencyThreshold() ) ||
+       itk::Math::NotAlmostEquals( knownHighFrequencyHertz, passBandFilter->GetHighFrequencyThreshold() ) )
     {
     std::cerr << "Test failed! " << std::endl;
     std::cerr << "Setting frequency in radians failed." << std::endl;
-    return EXIT_FAILURE;
+    success = false;
     }
 
   TRY_EXPECT_NO_EXCEPTION( passBandFilter->Update() );
@@ -192,11 +212,11 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   // Don't pass negative frequency thresholds.
 
   bool radialBand = false;
-  TEST_SET_GET_BOOLEAN(passBandFilter, RadialBand, radialBand);
+  TEST_SET_GET_BOOLEAN( passBandFilter, RadialBand, radialBand );
   bool passNegativeLowFrequencyThreshold = false;
-  TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeLowFrequencyThreshold, passNegativeLowFrequencyThreshold);
+  TEST_SET_GET_BOOLEAN( passBandFilter, PassNegativeLowFrequencyThreshold, passNegativeLowFrequencyThreshold );
   bool passNegativeHighFrequencyThreshold = false;
-  TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeHighFrequencyThreshold, passNegativeHighFrequencyThreshold);
+  TEST_SET_GET_BOOLEAN( passBandFilter, PassNegativeHighFrequencyThreshold, passNegativeHighFrequencyThreshold );
   passBandFilter->Update();
 
   // Test with ShiftedIterator.
@@ -207,7 +227,7 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   passBandShiftedFilter->SetInput( image );
   passBandShiftedFilter->SetLowFrequencyThreshold( lowFreqThreshold );
   passBandShiftedFilter->SetHighFrequencyThreshold( highFreqThreshold );
-  passBandShiftedFilter->SetPassBand(true);
+  passBandShiftedFilter->SetPassBand( true );
   passLowFreqThreshold = false;
   passHighFreqThreshold = true;
   passBandShiftedFilter->SetPassBand( passLowFreqThreshold, passHighFreqThreshold );
@@ -217,7 +237,7 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   auto stopBandInPlaceFilter = BandFilterType::New();
   stopBandInPlaceFilter->InPlaceOn();
 
-  stopBandInPlaceFilter->SetInput(image);
+  stopBandInPlaceFilter->SetInput( image );
 
   stopBandInPlaceFilter->SetLowFrequencyThreshold( lowFreqThreshold );
   stopBandInPlaceFilter->SetHighFrequencyThreshold( highFreqThreshold );
@@ -227,23 +247,95 @@ itkFrequencyBandImageFilterTest( int argc, char* argv[] )
   stopBandInPlaceFilter->SetStopBand( passLowFreqThreshold, passHighFreqThreshold );
 
   TRY_EXPECT_NO_EXCEPTION( stopBandInPlaceFilter->Update() );
+  std::cout << "Comparing stopBand and stopBandInPlaceFilter results" << std::endl;
+  success &= compareImages( stopBandFilter->GetOutput(), stopBandInPlaceFilter->GetOutput() );
 
-  auto differenceInPlaceFilter = DifferenceFilterType::New();
 
-  differenceInPlaceFilter->SetToleranceRadius( 0 );
-  differenceInPlaceFilter->SetDifferenceThreshold( 0 );
-  differenceInPlaceFilter->SetValidInput( stopBandFilter->GetOutput() );
-  differenceInPlaceFilter->SetTestInput( stopBandInPlaceFilter->GetOutput() );
+  // Custom functor UnaryFrequencyDomainFilter
+  using UnaryFilterType = itk::UnaryFrequencyDomainFilter< ImageType3D >;
+  using ValueFunctionType = UnaryFilterType::ValueFunctionType;
+  using ConstRefFunctionType = UnaryFilterType::ConstRefFunctionType;
 
-  differenceInPlaceFilter->Update();
+  auto testFilter = UnaryFilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( testFilter, UnaryFrequencyDomainFilter, InPlaceImageFilter );
 
-  if ( numberOfDiffPixels > 0 )
+  struct TestStruct
+  {
+    static double
+    ConstUnaryFunction( const UnaryFilterType::FrequencyIteratorType& freqIt )
     {
-    std::cerr << "Test failed! " << std::endl;
-    std::cerr << "Expected images to be equal, but got " << differenceInPlaceFilter->GetNumberOfPixelsWithDifferences()
-              << "unequal pixels" << std::endl;
-    return EXIT_FAILURE;
+      return std::sin( freqIt.GetFrequencyModuloSquare() * 10 );
     }
 
-  return EXIT_SUCCESS;
+    static void
+    UnaryFunction( UnaryFilterType::FrequencyIteratorType& freqIt )
+    {
+      freqIt.Value() *= std::sin( freqIt.GetFrequencyModuloSquare() * 10 );
+    }
+  };
+
+  auto inPlaceLambda = []( UnaryFilterType::FrequencyIteratorType& freqIt )
+  {
+    freqIt.Value() *= std::sin( freqIt.GetFrequencyModuloSquare() * 10 );
+  };
+
+  image = createImage< ImageType3D >( size ); // stopBandInPlaceFilter has modified the original one
+
+
+  // Test with lambda function
+  auto lambdaFilter = UnaryFilterType::New();
+  lambdaFilter->SetInput( image );
+  lambdaFilter->SetFunctor( inPlaceLambda );
+  TRY_EXPECT_NO_EXCEPTION( lambdaFilter->Update() );
+
+  // Test with C style function pointer
+  auto cfpFilter = UnaryFilterType::New();
+  cfpFilter->SetInput( image );
+  cfpFilter->SetFunctor( static_cast< ConstRefFunctionType* >( TestStruct::ConstUnaryFunction ) );
+  TRY_EXPECT_NO_EXCEPTION( cfpFilter->Update() );
+
+  // Test with std::functional
+  auto stdFilter = UnaryFilterType::New();
+  stdFilter->SetInput( image );
+  std::function< double( const UnaryFilterType::FrequencyIteratorType& ) > func1 =
+    static_cast< ConstRefFunctionType* >( TestStruct::ConstUnaryFunction );
+  stdFilter->SetFunctor( func1 );
+  TRY_EXPECT_NO_EXCEPTION( stdFilter->Update() );
+
+  // Test with C style function pointer (in-place variant)
+  auto cfpFilterIP = UnaryFilterType::New();
+  cfpFilterIP->SetInput( image );
+  cfpFilterIP->SetFunctor( static_cast< ValueFunctionType* >( TestStruct::UnaryFunction ) );
+  TRY_EXPECT_NO_EXCEPTION( cfpFilterIP->Update() );
+
+  // Test with std::functional (in-place variant)
+  auto stdFilterIP = UnaryFilterType::New();
+  stdFilterIP->SetInput( image );
+  std::function< void( UnaryFilterType::FrequencyIteratorType& ) > func2 =
+    static_cast< ValueFunctionType* >( TestStruct::UnaryFunction );
+  stdFilterIP->SetFunctor( func2 );
+  TRY_EXPECT_NO_EXCEPTION( stdFilterIP->Update() );
+
+  std::cout << "Comparing lambdaFilter and cfpFilter (const functor) results" << std::endl;
+  success &= compareImages( lambdaFilter->GetOutput(), cfpFilter->GetOutput() );
+
+  std::cout << "Comparing lambdaFilter and stdFilter (const functor) results" << std::endl;
+  success &= compareImages( lambdaFilter->GetOutput(), stdFilter->GetOutput() );
+
+  std::cout << "Comparing lambdaFilter and cfpFilter (in-place functor) results" << std::endl;
+  success &= compareImages( lambdaFilter->GetOutput(), cfpFilterIP->GetOutput() );
+
+  std::cout << "Comparing lambdaFilter and stdFilter (in-place functor) results" << std::endl;
+  success &= compareImages( lambdaFilter->GetOutput(), stdFilterIP->GetOutput() );
+
+  if ( success )
+    {
+      std::cout << "Test PASSED!" << std::endl;
+      return EXIT_SUCCESS;
+    }
+  else
+    {
+      std::cout << "Test FAILED!" << std::endl;
+      return EXIT_FAILURE;
+    }
 }

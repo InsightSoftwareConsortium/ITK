@@ -95,7 +95,7 @@ public:
   { m_Points.erase(m_Points.begin() + ind); }
 
   /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints(void) const override
+  SizeValueType GetNumberOfPoints() const override
   {
     return static_cast<SizeValueType>(m_Points.size());
   }
@@ -105,7 +105,7 @@ public:
   itkGetConstMacro(EndType, unsigned int);
 
   /** Remove the list of tube points */
-  void Clear(void) override;
+  void Clear() override;
 
   /** Calculate the normalized tangent */
   bool ComputeTangentAndNormals();

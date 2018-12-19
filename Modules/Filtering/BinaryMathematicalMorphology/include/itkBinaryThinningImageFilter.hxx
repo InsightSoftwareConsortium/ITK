@@ -46,7 +46,7 @@ template< typename TInputImage, typename TOutputImage >
 typename BinaryThinningImageFilter<
   TInputImage, TOutputImage >::OutputImageType *
 BinaryThinningImageFilter< TInputImage, TOutputImage >
-::GetThinning(void)
+::GetThinning()
 {
   return dynamic_cast< OutputImageType * >(
            this->ProcessObject::GetOutput(0) );
@@ -60,7 +60,7 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryThinningImageFilter< TInputImage, TOutputImage >
-::PrepareData(void)
+::PrepareData()
 {
   itkDebugMacro(<< "PrepareData Start");
   OutputImagePointer thinImage = GetThinning();

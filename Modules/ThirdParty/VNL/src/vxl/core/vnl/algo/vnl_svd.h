@@ -1,9 +1,6 @@
 // This is core/vnl/algo/vnl_svd.h
 #ifndef vnl_svd_h_
 #define vnl_svd_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Holds the singular value decomposition of a vnl_matrix.
@@ -24,7 +21,9 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
 #include <vnl/algo/vnl_algo_export.h>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: Holds the singular value decomposition of a vnl_matrix.
 //
@@ -60,8 +59,8 @@
 //  It extends readily to n-ary operations, such as generalized
 //  eigensystems, which cannot be members of just one matrix.
 
-VCL_TEMPLATE_EXPORT template <class T>
-class vnl_svd
+template <class T>
+class VNL_ALGO_EXPORT vnl_svd
 {
  public:
   //: The singular values of a matrix of complex<T> are of type T, not complex<T>
@@ -83,7 +82,7 @@ class vnl_svd
   // zeroing is relative to |zero_out_tol| * sigma_max();
 
   vnl_svd(vnl_matrix<T> const &M, double zero_out_tol = 0.0);
- virtual ~vnl_svd() {}
+ virtual ~vnl_svd() = default;
 
   // Data Access---------------------------------------------------------------
 
@@ -203,7 +202,7 @@ vnl_matrix<T> vnl_svd_inverse(vnl_matrix<T> const& m)
   return vnl_svd<T>(m).inverse();
 }
 
-VCL_TEMPLATE_EXPORT template <class T>
+template <class T>
 std::ostream& operator<<(std::ostream&, vnl_svd<T> const& svd);
 
 #endif // vnl_svd_h_

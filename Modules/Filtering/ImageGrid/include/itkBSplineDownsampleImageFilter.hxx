@@ -36,8 +36,7 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
-::BSplineDownsampleImageFilter()
-{}
+::BSplineDownsampleImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void

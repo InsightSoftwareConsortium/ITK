@@ -140,7 +140,7 @@ public:
 
 protected:
   FastSymmetricForcesDemonsRegistrationFilter();
-  ~FastSymmetricForcesDemonsRegistrationFilter() override {}
+  ~FastSymmetricForcesDemonsRegistrationFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */

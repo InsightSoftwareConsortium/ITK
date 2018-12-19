@@ -96,7 +96,7 @@ public:
     this->ProcessObject::SetNthInput(0, img);
   }
 
-  ImageType * GetInputImage(void)
+  ImageType * GetInputImage()
   {
     return itkDynamicCastInDebugMode< ImageType * >
            ( this->ProcessObject::GetInput(0) );
@@ -108,7 +108,7 @@ public:
     this->ProcessObject::SetNthOutput(0, img);
   }
 
-  ImageType * GetOutputImage(void)
+  ImageType * GetOutputImage()
   {
     return itkDynamicCastInDebugMode< ImageType * >
            ( this->ProcessObject::GetOutput(0) );
@@ -120,7 +120,7 @@ public:
     this->ProcessObject::SetNthInput(1, et);
   }
 
-  SegmentTreeType * GetInputSegmentTree(void)
+  SegmentTreeType * GetInputSegmentTree()
   {
     return itkDynamicCastInDebugMode< SegmentTreeType * >
            ( this->ProcessObject::GetInput(1) );
@@ -141,12 +141,12 @@ public:
 
 protected:
   Relabeler();
-  ~Relabeler() override {}
+  ~Relabeler() override = default;
   Relabeler(const Self &) {}
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  double m_FloodLevel;
+  double m_FloodLevel{0.0};
   void GenerateOutputRequestedRegion(DataObject *output) override;
 
   void GenerateInputRequestedRegion() override;

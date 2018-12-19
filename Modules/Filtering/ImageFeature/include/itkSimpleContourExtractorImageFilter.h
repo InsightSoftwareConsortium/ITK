@@ -126,7 +126,7 @@ public:
 
 protected:
   SimpleContourExtractorImageFilter();
-  ~SimpleContourExtractorImageFilter() override {}
+  ~SimpleContourExtractorImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** SimpleContourExtractorImageFilter can be implemented as a

@@ -1,16 +1,18 @@
 set(DOCUMENTATION "This is a collection of classes that are intended to be
 removed from the toolkit.")
 
+set(ITKDeprecatedOnByDefault EXCLUDE_FROM_DEFAULT)
+if (ITKV4_COMPATIBILITY)
+  set(ITKDeprecatedOnByDefault "")
+endif()
+
 itk_module(ITKDeprecated
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKCommon
-    ITKIOImageBase
-    ITKZLIB
-  COMPILE_DEPENDS
-    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
-  EXCLUDE_FROM_DEFAULT
+  ${ITKDeprecatedOnByDefault}
+  ENABLE_SHARED
   DESCRIPTION
     "${DOCUMENTATION}"
 )

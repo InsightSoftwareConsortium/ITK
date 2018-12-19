@@ -114,6 +114,12 @@ public:
   itkGetConstReferenceMacro(ValleyEmphasis, bool);
   itkBooleanMacro(ValleyEmphasis);
 
+  /** Should the threshold value be mid-point of the bin or the maximum?
+   * Default is to return bin maximum. */
+  itkSetMacro(ReturnBinMidpoint, bool);
+  itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
+  itkBooleanMacro(ReturnBinMidpoint);
+
   /** Get the computed threshold. */
   const ThresholdVectorType & GetThresholds() const
   {
@@ -131,7 +137,7 @@ public:
 
 protected:
   OtsuMultipleThresholdsImageFilter();
-  ~OtsuMultipleThresholdsImageFilter() override {}
+  ~OtsuMultipleThresholdsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateInputRequestedRegion() override;
@@ -139,11 +145,12 @@ protected:
   void GenerateData() override;
 
 private:
-  SizeValueType       m_NumberOfHistogramBins;
-  SizeValueType       m_NumberOfThresholds;
+  SizeValueType       m_NumberOfHistogramBins{ 128 };
+  SizeValueType       m_NumberOfThresholds{ 1 };
   OutputPixelType     m_LabelOffset;
   ThresholdVectorType m_Thresholds;
-  bool                m_ValleyEmphasis;
+  bool                m_ValleyEmphasis{ false };
+  bool                m_ReturnBinMidpoint{ false };
 };
 } // end namespace itk
 

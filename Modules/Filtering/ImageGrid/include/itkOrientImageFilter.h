@@ -74,67 +74,67 @@ namespace itk
  * orientation corresponding to the Analyze file format's 'CORONAL' orientation
  * you could do something like the following
  *
- * \code
- * // DEPRECATED -- using metadata for orientation is no longer supported
- * //
- * #include "itkAnalyzeImageIO.h"
- * #include "itkMetaDataObject.h"
- * #include "itkImage.h"
- * #include "itkOrientImageFilter.h"
- * using ImageType = itk::Image<unsigned char,3>;
- * using ImageReaderType = itk::ImageFileReader< TstImageType >;
- * ImageType::Pointer ReadAnalyzeFile(const char *path)
- * {
- *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
- *   ImageReaderType::Pointer fileReader = ImageReaderType::New();
- *   fileReader->SetImageIO(io);
- *   fileReader->SetFileName(path);
- *   fileReader->Update();
- *   ImageType::Pointer rval = fileReader->GetOutput();
- *
- * // DEPRECATED -- use direction cosines
- * //
- *  itk::SpatialOrientation::ValidCoordinateOrientationFlags fileOrientation;
- *  itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
- *    (rval->GetMetaDataDictionary(),itk::ITK_CoordinateOrientation,fileOrientation);
- *   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
- *     itk::OrientImageFilter<ImageType,ImageType>::New();
- *   orienter->SetGivenCoordinateOrientation(fileOrientation); // deprecated
- *
- *   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
- *   orienter->SetInput(rval);
- *   orienter->Update();
- *   rval = orienter->GetOutput();
- *   return rval;
- * }
- * \endcode
+   \code
+   // DEPRECATED -- using metadata for orientation is no longer supported
+   //
+   #include "itkAnalyzeImageIO.h"
+   #include "itkMetaDataObject.h"
+   #include "itkImage.h"
+   #include "itkOrientImageFilter.h"
+   using ImageType = itk::Image<unsigned char,3>;
+   using ImageReaderType = itk::ImageFileReader< TstImageType >;
+   ImageType::Pointer ReadAnalyzeFile(const char *path)
+   {
+     itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+     ImageReaderType::Pointer fileReader = ImageReaderType::New();
+     fileReader->SetImageIO(io);
+     fileReader->SetFileName(path);
+     fileReader->Update();
+     ImageType::Pointer rval = fileReader->GetOutput();
+
+   // DEPRECATED -- use direction cosines
+   //
+    itk::SpatialOrientation::ValidCoordinateOrientationFlags fileOrientation;
+    itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+      (rval->GetMetaDataDictionary(),itk::ITK_CoordinateOrientation,fileOrientation);
+     itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
+       itk::OrientImageFilter<ImageType,ImageType>::New();
+     orienter->SetGivenCoordinateOrientation(fileOrientation); // deprecated
+
+     orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+     orienter->SetInput(rval);
+     orienter->Update();
+     rval = orienter->GetOutput();
+     return rval;
+   }
+   \endcode
  *
  * Or, using the direction cosines of the image,
- * \code
- * #include "itkAnalyzeImageIO.h"
- * #include "itkImage.h"
- * #include "itkOrientImageFilter.h"
- * using ImageType = itk::Image<unsigned char,3>;
- * using ImageReaderType = itk::ImageFileReader< TstImageType >;
- * ImageType::Pointer ReadAnalyzeFile(const char *path)
- * {
- *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
- *   ImageReaderType::Pointer fileReader = ImageReaderType::New();
- *   fileReader->SetImageIO(io);
- *   fileReader->SetFileName(path);
- *   fileReader->Update();
- *   ImageType::Pointer rval = fileReader->GetOutput();
- *
- *   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
- *     itk::OrientImageFilter<ImageType,ImageType>::New();
- *   orienter->UseImageDirectionOn();
- *   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
- *   orienter->SetInput(rval);
- *   orienter->Update();
- *   rval = orienter->GetOutput();
- *   return rval;
- * }
- * \endcode
+   \code
+   #include "itkAnalyzeImageIO.h"
+   #include "itkImage.h"
+   #include "itkOrientImageFilter.h"
+   using ImageType = itk::Image<unsigned char,3>;
+   using ImageReaderType = itk::ImageFileReader< TstImageType >;
+   ImageType::Pointer ReadAnalyzeFile(const char *path)
+   {
+     itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+     ImageReaderType::Pointer fileReader = ImageReaderType::New();
+     fileReader->SetImageIO(io);
+     fileReader->SetFileName(path);
+     fileReader->Update();
+     ImageType::Pointer rval = fileReader->GetOutput();
+
+     itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
+       itk::OrientImageFilter<ImageType,ImageType>::New();
+     orienter->UseImageDirectionOn();
+     orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+     orienter->SetInput(rval);
+     orienter->Update();
+     rval = orienter->GetOutput();
+     return rval;
+   }
+   \endcode
  * \ingroup ITKImageGrid
  */
 template< typename TInputImage, typename TOutputImage >
@@ -267,7 +267,7 @@ public:
 
 protected:
   OrientImageFilter();
-  ~OrientImageFilter() override {}
+  ~OrientImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** OrientImageFilter needs the entire input be
@@ -295,9 +295,9 @@ protected:
 private:
   std::string GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
 
-  CoordinateOrientationCode m_GivenCoordinateOrientation;
-  CoordinateOrientationCode m_DesiredCoordinateOrientation;
-  bool                      m_UseImageDirection;
+  CoordinateOrientationCode m_GivenCoordinateOrientation{SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP};
+  CoordinateOrientationCode m_DesiredCoordinateOrientation{SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP};
+  bool                      m_UseImageDirection{false};
 
   PermuteOrderArrayType m_PermuteOrder;
   FlipAxesArrayType     m_FlipAxes;

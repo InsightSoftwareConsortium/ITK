@@ -60,9 +60,9 @@ namespace Statistics
  * conveniently be obtained from MeasurementVectorTraits. For instance,
  * instantiate a histogram as below:
  *
- * \code
- * using HistogramType = Histogram< THistogramMeasurement, typename TFrequencyContainer >;
- * \endcode
+   \code
+   using HistogramType = Histogram< THistogramMeasurement, typename TFrequencyContainer >;
+   \endcode
  *
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer, VariableDimensionHistogram
  * \ingroup ITKStatistics
@@ -464,7 +464,7 @@ private:
 
 protected:
   Histogram();
-  ~Histogram() override {}
+  ~Histogram() override = default;
 
   // The number of bins for each dimension
   SizeType m_Size;
@@ -473,7 +473,7 @@ private:
   using OffsetTableType = std::vector< InstanceIdentifier >;
   OffsetTableType           m_OffsetTable;
   FrequencyContainerPointer m_FrequencyContainer;
-  unsigned int              m_NumberOfInstances;
+  unsigned int              m_NumberOfInstances{0};
 
   // This method is provided here just to avoid a "hidden" warning
   // related to the virtual method available in DataObject.
@@ -488,7 +488,7 @@ private:
   mutable MeasurementVectorType m_TempMeasurementVector;
   mutable IndexType             m_TempIndex;
 
-  bool m_ClipBinsAtEnds;
+  bool m_ClipBinsAtEnds{true};
 };
 } // end of namespace Statistics
 } // end of namespace itk

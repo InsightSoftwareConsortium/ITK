@@ -64,7 +64,7 @@ struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, float >
 template< typename TInputImage, typename TOutputImage >
 typename RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >::Pointer
 RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
-::New(void)
+::New()
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
 
@@ -80,7 +80,7 @@ RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
-::RealToHalfHermitianForwardFFTImageFilter(void)
+::RealToHalfHermitianForwardFFTImageFilter()
 {
   this->SetActualXDimensionIsOdd(false);
 }

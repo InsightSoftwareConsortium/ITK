@@ -91,16 +91,16 @@ public:
  *
  * Typical usage:
  *
- * \code
- *  QuickView viewer;
- *  viewer.AddImage(someFilter->GetOutput().
- *                  true (to flip image) or false.
- *                  "text to display with the image");
- *
- *  viewer.AddRGBImage(someFilter->GetOutput().
- *                     true (to flip image) or false.
- *                     "text to display with the image");
- *  \endcode
+   \code
+    QuickView viewer;
+    viewer.AddImage(someFilter->GetOutput().
+                    true (to flip image) or false.
+                    "text to display with the image");
+
+    viewer.AddRGBImage(someFilter->GetOutput().
+                       true (to flip image) or false.
+                       "text to display with the image");
+    \endcode
  *
  * \ingroup ITKVtkGlue
  */

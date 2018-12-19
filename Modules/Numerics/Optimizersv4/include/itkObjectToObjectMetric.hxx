@@ -32,8 +32,8 @@ namespace itk
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage,
  typename TParametersValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::ObjectToObjectMetric():
-  m_NumberOfValidPoints(0)
+::ObjectToObjectMetric()
+
 {
   /* Both transforms default to an identity transform */
   using MovingIdentityTransformType = IdentityTransform<TParametersValueType, Self::MovingDimension  >;
@@ -52,9 +52,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage,
  typename TParametersValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::~ObjectToObjectMetric()
-{
-}
+::~ObjectToObjectMetric() = default;
 
 /*
  * Initialize
@@ -267,7 +265,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 const TimeStamp&
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualDomainTimeStamp( void ) const
+::GetVirtualDomainTimeStamp() const
 {
   if( ! this->GetVirtualImage() )
     {
@@ -360,7 +358,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualSpacingType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualSpacing( void ) const
+::GetVirtualSpacing() const
 {
   if( this->m_VirtualImage )
     {
@@ -378,7 +376,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualDirectionType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualDirection( void ) const
+::GetVirtualDirection() const
 {
   if( this->m_VirtualImage )
     {
@@ -396,7 +394,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualOriginType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualOrigin( void ) const
+::GetVirtualOrigin() const
 {
   if( this->m_VirtualImage )
     {
@@ -414,7 +412,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualRegionType &
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::GetVirtualRegion( void ) const
+::GetVirtualRegion() const
 {
   if( this->m_VirtualImage )
     {

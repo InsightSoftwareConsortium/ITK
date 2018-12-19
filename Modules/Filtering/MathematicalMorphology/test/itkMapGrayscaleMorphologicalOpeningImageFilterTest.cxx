@@ -76,7 +76,7 @@ int itkMapGrayscaleMorphologicalOpeningImageFilterTest(int ac, char* av[] )
   try
     {
     filter->SetRadius( 20 );
-    filter->SetSafeBorder( atoi(av[6]) );
+    filter->SetSafeBorder( std::stoi(av[6]) );
 
     using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();

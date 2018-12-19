@@ -39,18 +39,18 @@ namespace fem
  * noises in landmarks and advancing approximation to interpolation.
  * This solver takes a FEMObject as input and outputs a deformed FEMObject.
  *
- * \code
- *       using FEMObjectType = itk::fem::FEMObject<3>;
- *       FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
- *       ...
- *       using FEMSolverType = itk::fem::RobustSolver<3>;
- *       FEMSolverType::Pointer solver = FEMSolverType::New();
- *
- *       solver->SetInput( fem );
- *       solver->Update();
- *       FEMSolverType::Pointer defem = solver->GetOutput();
- *   ...
- * \endcode
+   \code
+         using FEMObjectType = itk::fem::FEMObject<3>;
+         FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
+         ...
+         using FEMSolverType = itk::fem::RobustSolver<3>;
+         FEMSolverType::Pointer solver = FEMSolverType::New();
+
+         solver->SetInput( fem );
+         solver->Update();
+         FEMSolverType::Pointer defem = solver->GetOutput();
+     ...
+   \endcode
  *
  * For simplicity reasons, a FEMScatteredDataPointSetToImageFilter is
  * developed to facilitate the use of this solver by hiding the details about
@@ -177,7 +177,7 @@ protected:
   void GenerateData() override;
 
   /** Run the solver and produce a warped FEM object. */
-  void RunSolver(void) override;
+  void RunSolver() override;
 
   /** Initialize matrix, vector, solution, interpolation grid, and landmark. */
   void Initialization();

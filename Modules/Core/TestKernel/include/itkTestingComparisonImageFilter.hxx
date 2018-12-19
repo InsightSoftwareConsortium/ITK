@@ -276,7 +276,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation()
+::VerifyInputInformation() ITKv5_CONST
 {
   if(m_VerifyInputInformation)
     {

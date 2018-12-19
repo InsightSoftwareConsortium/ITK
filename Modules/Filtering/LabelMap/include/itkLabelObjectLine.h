@@ -49,7 +49,7 @@ public:
 
   LabelObjectLine();
   LabelObjectLine(const IndexType & idx, const LengthType & length);
-  virtual ~LabelObjectLine() {}
+  virtual ~LabelObjectLine() = default;
 
   /**
    * Set/Get Index

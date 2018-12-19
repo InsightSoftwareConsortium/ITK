@@ -322,15 +322,7 @@ char * nifti_makehdrname  (const char * prefix, int nifti_type, int check,
 char * nifti_makeimgname  (const char * prefix, int nifti_type, int check,
                            int comp);
 int    is_nifti_file      (const char *hname);
-/*
- * Note that in ITK, the function nifti_find_file_extension
- * is const-correct (i.e. preserve the mutability status
- * of the name variable through the function call.
- * This deviation is due to a difference of opion regarding
- * the benifits/detrement of using const judiciously to
- * avoid compiler warnings.
- */
-const char * nifti_find_file_extension(const char * name);
+char * nifti_find_file_extension(const char * name);
 int    nifti_is_complete_filename(const char* fname);
 int    nifti_validfilename(const char* fname);
 
@@ -343,7 +335,7 @@ int    valid_nifti_brick_list(nifti_image * nim , int nbricks,
                               const int * blist, int disp_error);
 
 /* znzFile operations */
-znzFile nifti_image_open(const char * hname, char * opts, nifti_image ** nim);
+znzFile nifti_image_open(const char * hname, const char * opts, nifti_image ** nim);
 znzFile nifti_image_write_hdr_img(nifti_image *nim, int write_data,
                                   const char* opts);
 znzFile nifti_image_write_hdr_img2( nifti_image *nim , int write_opts ,
@@ -439,7 +431,7 @@ int    valid_nifti_extensions(const nifti_image *nim);
 #define NIFTI_ECODE_DICOM            2  /* intended for raw DICOM attributes  */
 
 #define NIFTI_ECODE_AFNI             4  /* Robert W Cox: rwcox@nih.gov
-                                           http://afni.nimh.nih.gov/afni      */
+                                           https://afni.nimh.nih.gov/afni     */
 
 #define NIFTI_ECODE_COMMENT          6  /* plain ASCII text only              */
 
@@ -477,7 +469,19 @@ int    valid_nifti_extensions(const nifti_image *nim);
                                              /index.php/Caret:Documentation
                                              :CaretNiftiExtension             */
 
-#define NIFTI_MAX_ECODE             30  /******* maximum extension code *******/
+#define NIFTI_ECODE_CIFTI           32  /* CIFTI-2_Main_FINAL_1March2014.pdf */
+
+#define NIFTI_ECODE_VARIABLE_FRAME_TIMING 34
+
+/* 36 is currently unassigned, waiting on NIFTI_ECODE_AGILENT_PROCPAR */
+
+#define NIFTI_ECODE_EVAL            38  /* Munster University Hospital */
+
+/* http://www.mathworks.com/matlabcentral/fileexchange/42997-dicom-to-nifti-converter */
+#define NIFTI_ECODE_MATLAB          40  /* MATLAB extension */
+
+
+#define NIFTI_MAX_ECODE             40  /******* maximum extension code *******/
 
 /* nifti_type file codes */
 #define NIFTI_FTYPE_ANALYZE   0

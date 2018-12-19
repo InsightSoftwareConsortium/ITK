@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Tan
 {
 public:
-  Tan() {}
-  ~Tan() {}
+  Tan() = default;
+  ~Tan() = default;
   bool operator!=(const Tan &) const
   {
     return false;
@@ -101,7 +101,7 @@ protected:
     }
 
 
-  ~TanImageFilter() override {}
+  ~TanImageFilter() override = default;
 };
 } // end namespace itk
 

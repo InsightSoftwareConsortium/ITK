@@ -177,7 +177,7 @@ public:
 
   /** Get the Canny image that was used to create the speed and
       advection images */
-  OutputImageType * GetCannyImage(void)
+  OutputImageType * GetCannyImage()
   { return this->m_CannyFunction->GetCannyImage(); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -188,7 +188,7 @@ public:
 #endif
 
 protected:
-  ~CannySegmentationLevelSetImageFilter() override {}
+  ~CannySegmentationLevelSetImageFilter() override = default;
   CannySegmentationLevelSetImageFilter();
 
 private:

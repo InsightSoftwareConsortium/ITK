@@ -62,7 +62,7 @@ public:
   int WriteFile() override;
 
 protected:
-  ParticleSwarmOptimizerSAXWriter() {}
+  ParticleSwarmOptimizerSAXWriter() = default;
 };
 
 } // namespace itk

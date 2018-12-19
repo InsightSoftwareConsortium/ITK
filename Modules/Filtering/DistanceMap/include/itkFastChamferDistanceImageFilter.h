@@ -147,7 +147,7 @@ public:
 
 protected:
   FastChamferDistanceImageFilter();
-  ~FastChamferDistanceImageFilter() override {}
+  ~FastChamferDistanceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute a Signed Chamfer Distance Map up to the specified maximal

@@ -74,8 +74,8 @@ public:
 #endif
 
 protected:
-  DiscreteMinimumCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteMinimumCurvatureQuadEdgeMeshFilter() override {}
+  DiscreteMinimumCurvatureQuadEdgeMeshFilter() = default;
+  ~DiscreteMinimumCurvatureQuadEdgeMeshFilter() override = default;
 
   OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
   {

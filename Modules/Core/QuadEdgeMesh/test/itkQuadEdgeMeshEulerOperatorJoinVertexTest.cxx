@@ -227,7 +227,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
 
 #ifndef NDEBUG
   std::cout << "     " << "Test No QE Input.";
-  if( joinVertex->Evaluate( (QEType*)0 ) )
+  if( joinVertex->Evaluate( (QEType*)nullptr ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;

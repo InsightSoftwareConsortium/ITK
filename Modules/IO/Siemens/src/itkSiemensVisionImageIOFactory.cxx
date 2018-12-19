@@ -29,15 +29,14 @@ SiemensVisionImageIOFactory::SiemensVisionImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkSiemensVisionImageIO",
                           "SiemensVision Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< SiemensVisionImageIO >::New() );
 }
 
-SiemensVisionImageIOFactory::~SiemensVisionImageIOFactory()
-{}
+SiemensVisionImageIOFactory::~SiemensVisionImageIOFactory() = default;
 
 const char *
-SiemensVisionImageIOFactory::GetITKSourceVersion(void) const
+SiemensVisionImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -53,7 +52,7 @@ SiemensVisionImageIOFactory::GetDescription() const
 
 static bool SiemensVisionImageIOFactoryHasBeenRegistered;
 
-void ITKIOSiemens_EXPORT SiemensVisionImageIOFactoryRegister__Private(void)
+void ITKIOSiemens_EXPORT SiemensVisionImageIOFactoryRegister__Private()
 {
   if( ! SiemensVisionImageIOFactoryHasBeenRegistered )
     {

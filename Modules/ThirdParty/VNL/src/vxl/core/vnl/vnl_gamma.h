@@ -7,7 +7,9 @@
 //  \author Tim Cootes
 
 #include <cmath>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 //: Approximate log of gamma function

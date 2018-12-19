@@ -85,11 +85,11 @@ public:
 
   /** Returns the latest modified time of all the objects contained
    *  in this SceneSpatialObject object. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
   /** Get/Set the ParentID */
   void SetParentId(int parentid) { m_ParentId = parentid; }
-  int  GetParentId(void) { return m_ParentId; }
+  int  GetParentId() { return m_ParentId; }
 
   /** Return a SpatialObject in the SceneSpatialObject given its ID */
   SpatialObject< TSpaceDimension > * GetObjectById(int Id);
@@ -123,7 +123,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Parent ID : default = -1 */
-  int m_ParentId;
+  int m_ParentId{0};
 };
 } // end of namespace itk
 

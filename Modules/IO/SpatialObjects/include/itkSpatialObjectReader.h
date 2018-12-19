@@ -73,8 +73,8 @@ public:
   itkGetStringMacro(FileName);
 
   /** Get the output */
-  ScenePointer GetScene(void) { return m_Scene; }
-  GroupPointer GetGroup(void) { return m_Group; }
+  ScenePointer GetScene() { return m_Scene; }
+  GroupPointer GetGroup() { return m_Group; }
 
   /** Set/GetEvent */
   const MetaEvent * GetEvent() { return m_MetaToSpatialConverter.GetEvent(); }

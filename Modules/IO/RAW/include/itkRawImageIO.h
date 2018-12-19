@@ -128,7 +128,7 @@ public:
   bool CanWriteFile(const char *) override;
 
   /** Binary files have no image information to read.  */
-  void WriteImageInformation(void) override { return; }
+  void WriteImageInformation() override { return; }
 
   /** Writes the data to disk from the memory buffer provided. */
   void Write(const void *buffer) override;
@@ -162,12 +162,12 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion(void) const override
+  const char * GetITKSourceVersion() const override
   {
     return ITK_SOURCE_VERSION;
   }
 
-  const char * GetDescription(void) const override
+  const char * GetDescription() const override
   {
     return "Raw ImageIO Factory, allows the loading of Raw images into insight";
   }
@@ -179,14 +179,14 @@ public:
   itkTypeMacro(RawImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     ObjectFactoryBase::RegisterFactory( Self::New() );
   }
 
 protected:
-  RawImageIOFactory() {}
-  ~RawImageIOFactory() override {}
+  RawImageIOFactory() = default;
+  ~RawImageIOFactory() override = default;
   using myProductType = RawImageIO< TPixel, VImageDimension >;
   const myProductType *m_MyProduct;
 };

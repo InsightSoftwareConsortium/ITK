@@ -112,7 +112,7 @@ public:
 protected:
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  void AdvanceOneStep(void) override;
+  void AdvanceOneStep() override;
 
   /** Default constructor */
   GradientDescentLineSearchOptimizerv4Template();
@@ -122,7 +122,10 @@ protected:
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
-  TInternalComputationValueType GoldenSectionSearch( TInternalComputationValueType a, TInternalComputationValueType b, TInternalComputationValueType c );
+  TInternalComputationValueType GoldenSectionSearch( TInternalComputationValueType a,
+                                                     TInternalComputationValueType b,
+                                                     TInternalComputationValueType c,
+                                                     TInternalComputationValueType metricb = NumericTraits<TInternalComputationValueType>::max());
 
   TInternalComputationValueType m_LowerLimit;
   TInternalComputationValueType m_UpperLimit;

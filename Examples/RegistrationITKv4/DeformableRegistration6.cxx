@@ -35,6 +35,13 @@
 // concept of an adaptor may be nonsensical since the number of transform
 // parameters does not change between resolution levels.
 //
+// This examples use the \doxygen{LBFGS2Optimizerv4}, which is the new
+// implementation of the quasi-Newtown unbounded limited-memory
+// Broyden Fletcher Goldfarb Shannon (LBFGS) optimizer. The unbounded
+// version does not require specification of the bounds of the
+// parameters space, since the number of parameters change at each
+// B-Spline resolution this implementation is preferred.
+//
 // Since this example is quite similar to the previous example on the use
 // of the \code{BSplineTransform} we omit most of the details already
 // discussed and will focus on the aspects related to the multi-resolution
@@ -42,7 +49,7 @@
 //
 // \index{itk::BSplineTransform}
 // \index{itk::BSplineTransform!DeformableRegistration}
-// \index{itk::LBFGSOptimizerv4}
+// \index{itk::LBFGS2Optimizerv4}
 // \index{itk::BSplineTransformParametersAdaptor}
 //
 //
@@ -56,13 +63,13 @@
 //  We include the header files for the transform, optimizer and adaptor.
 //
 //  \index{itk::BSplineTransform!header}
-//  \index{itk::LBFGSOptimizer!header}
+//  \index{itk::LBFGS2Optimizer!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkBSplineTransform.h"
-#include "itkLBFGSOptimizerv4.h"
+#include "itkLBFGS2Optimizerv4.h"
 #include "itkBSplineTransformParametersAdaptor.h"
 // Software Guide : EndCodeSnippet
 
@@ -79,7 +86,46 @@
 #include "itkBSplineTransformInitializer.h"
 #include "itkTransformToDisplacementFieldFilter.h"
 
-// NOTE: the LBFGSOptimizer does not invoke events
+
+class CommandIterationUpdate : public itk::Command
+{
+public:
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro( Self );
+
+protected:
+  CommandIterationUpdate() = default;
+
+public:
+
+  using OptimizerType = itk::LBFGS2Optimizerv4;
+
+  using OptimizerPointer = const OptimizerType*;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
+  {
+    Execute( (const itk::Object *)caller, event);
+  }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    auto optimizer = static_cast< OptimizerPointer >( object );
+
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+
+    std::cout << optimizer->GetCurrentIteration() << " = ";
+    std::cout << optimizer->GetValue() << std::endl;
+    std::cout << "\t" <<  optimizer->GetCurrentGradientNorm()
+              << " " << optimizer->GetCurrentParameterNorm()
+              << " " << optimizer->GetCurrentStepSize() << std::endl;
+  }
+
+};
 
 
 int main( int argc, char *argv[] )
@@ -124,7 +170,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  using OptimizerType = itk::LBFGSOptimizerv4;
+  using OptimizerType = itk::LBFGS2Optimizerv4;
 
 
   using MetricType = itk::MeanSquaresImageToImageMetricv4<
@@ -295,11 +341,14 @@ int main( int argc, char *argv[] )
 
   // Set Optimizer
   optimizer->SetScalesEstimator( scalesEstimator );
-  optimizer->SetGradientConvergenceTolerance( 0.05 );
-  optimizer->SetLineSearchAccuracy( 0.9 );
-  optimizer->SetDefaultStepLength( 1.5 );
-  optimizer->TraceOn();
-  optimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
+  optimizer->SetSolutionAccuracy( 1e-4 );
+  optimizer->SetHessianApproximationAccuracy( 5 );
+  optimizer->SetMaximumIterations( 100 );
+  optimizer->SetMaximumLineSearchEvaluations( 10 );
+
+  // Connect an observer
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  optimizer->AddObserver( itk::IterationEvent(), observer );
 
   std::cout << "Starting Registration "
             << std::endl;

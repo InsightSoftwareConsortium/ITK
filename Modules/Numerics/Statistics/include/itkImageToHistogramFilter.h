@@ -18,6 +18,8 @@
 #ifndef itkImageToHistogramFilter_h
 #define itkImageToHistogramFilter_h
 
+#include <mutex>
+
 #include "itkHistogram.h"
 #include "itkImageTransformer.h"
 #include "itkSimpleDataObjectDecorator.h"
@@ -117,28 +119,35 @@ public:
 
 protected:
   ImageToHistogramFilter();
-  ~ImageToHistogramFilter() override {}
+  ~ImageToHistogramFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;
-  void BeforeThreadedGenerateData(void) override;
-  void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId) override;
-  void AfterThreadedGenerateData(void) override;
-  static ITK_THREAD_RETURN_TYPE ThreaderMinMaxCallback(void *arg);
+  void BeforeThreadedGenerateData() override;
+  void AfterThreadedGenerateData() override;
 
   /** Method that construct the outputs */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType) override;
 
-  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId );
+  virtual void ThreadedComputeHistogram(const RegionType &);
+  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread );
 
-  std::vector< HistogramPointer >               m_Histograms;
-  std::vector< HistogramMeasurementVectorType > m_Minimums;
-  std::vector< HistogramMeasurementVectorType > m_Maximums;
+
+  virtual void ThreadedMergeHistogram( HistogramPointer &&histogram );
+
+  std::mutex m_Mutex;
+
+  HistogramPointer m_MergeHistogram;
+
+  HistogramMeasurementVectorType m_Minimum;
+  HistogramMeasurementVectorType m_Maximum;
 
 private:
   void ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size );
+
+
 };
 } // end of namespace Statistics
 } // end of namespace itk

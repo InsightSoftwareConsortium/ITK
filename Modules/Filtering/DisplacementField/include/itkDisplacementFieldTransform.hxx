@@ -32,7 +32,7 @@ namespace itk
 template<typename TParametersValueType, unsigned int NDimensions>
 DisplacementFieldTransform<TParametersValueType, NDimensions>::DisplacementFieldTransform()
 : Superclass( 0 ),
-  m_DisplacementFieldSetTime( 0 ),
+
   m_CoordinateTolerance(ImageToImageFilterCommon::GetGlobalDefaultCoordinateTolerance()),
   m_DirectionTolerance(ImageToImageFilterCommon::GetGlobalDefaultDirectionTolerance())
 {
@@ -65,9 +65,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::DisplacementField
 
 template<typename TParametersValueType, unsigned int NDimensions>
 DisplacementFieldTransform<TParametersValueType, NDimensions>::
-~DisplacementFieldTransform()
-{
-}
+~DisplacementFieldTransform() = default;
 
 template<typename TParametersValueType, unsigned int NDimensions>
 typename DisplacementFieldTransform<TParametersValueType, NDimensions>::OutputPointType

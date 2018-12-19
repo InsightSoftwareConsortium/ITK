@@ -40,9 +40,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>
 // Destructor
 template<typename TParametersValueType>
 Rigid3DPerspectiveTransform<TParametersValueType>::
-~Rigid3DPerspectiveTransform()
-{
-}
+~Rigid3DPerspectiveTransform() = default;
 
 // Print self
 template<typename TParametersValueType>
@@ -205,7 +203,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPoi
 // Transform a point
 template<typename TParametersValueType>
 void
-Rigid3DPerspectiveTransform<TParametersValueType>::ComputeMatrix(void)
+Rigid3DPerspectiveTransform<TParametersValueType>::ComputeMatrix()
 {
   m_RotationMatrix = m_Versor.GetMatrix();
 }

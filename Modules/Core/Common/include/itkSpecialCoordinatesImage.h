@@ -240,10 +240,10 @@ public:
   void SetPixelContainer(PixelContainer *container);
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor(void) { return AccessorType(); }
+  AccessorType GetPixelAccessor() { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor(void) const { return AccessorType(); }
+  const AccessorType GetPixelAccessor() const { return AccessorType(); }
 
   /** These functions do NOTHING!  They exist only to not break the pipeline.
    * It is vital that the user specify any and all physical-spacing parameters
@@ -285,7 +285,7 @@ protected:
   SpecialCoordinatesImage();
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  ~SpecialCoordinatesImage() override {}
+  ~SpecialCoordinatesImage() override = default;
 
 private:
   /** Memory for the current buffer. */

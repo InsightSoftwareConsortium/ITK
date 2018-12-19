@@ -37,9 +37,8 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage >
 InPlaceImageFilter< TInputImage, TOutputImage >
-::InPlaceImageFilter():
-  m_InPlace(true),
-  m_RunningInPlace(false)
+::InPlaceImageFilter()
+
 {}
 
 /**
@@ -47,8 +46,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
  */
 template< typename TInputImage, typename TOutputImage >
 InPlaceImageFilter< TInputImage, TOutputImage >
-::~InPlaceImageFilter()
-{}
+::~InPlaceImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

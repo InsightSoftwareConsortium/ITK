@@ -49,7 +49,7 @@ int itkVectorGradientMagnitudeImageFilterTest3(int ac, char* av[] )
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( monitor1->GetOutput() );
 
-  const int mode = ::atoi( av[3] );
+  const int mode = ::std::stoi( av[3] );
 
   if ( mode == 1)
     {

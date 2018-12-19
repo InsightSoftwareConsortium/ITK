@@ -93,6 +93,7 @@
 #endif
 
 #define VXL_INT_64_IS_LONG @VXL_INT_64_IS_LONG@
+#define VXL_INT_64_IS_LONGLONG @VXL_INT_64_IS_LONGLONG@
 
 #define VXL_HAS_IEEE_32 @VXL_HAS_IEEE_32@
 #define VXL_IEEE_32_STRING "@VXL_IEEE_32@"
@@ -150,42 +151,6 @@
 #define VXL_UNISTD_HAS_GETPID     @VXL_UNISTD_HAS_GETPID@
 #define VXL_UNISTD_HAS_GETHOSTNAME      @VXL_UNISTD_HAS_GETHOSTNAME@
 
-/* true if <stdlib.h> declares qsort() */
-#define VXL_STDLIB_HAS_QSORT      @VXL_STDLIB_HAS_QSORT@
-
-/* true if <stdlib.h> declares lrand48() */
-#define VXL_STDLIB_HAS_LRAND48    @VXL_STDLIB_HAS_LRAND48@
-
-/* true if <stdlib.h> declares drand48() */
-#define VXL_STDLIB_HAS_DRAND48    @VXL_STDLIB_HAS_DRAND48@
-
-/* true if <stdlib.h> declares srand48() */
-#define VXL_STDLIB_HAS_SRAND48    @VXL_STDLIB_HAS_SRAND48@
-
-/* Check for C99 versions of is[finite|inf|nan|normal] in <math.h> */
-#define VXL_HAS_STD_ISFINITE @VXL_HAS_STD_ISFINITE@
-#define VXL_HAS_STD_ISINF    @VXL_HAS_STD_ISINF@
-#define VXL_HAS_STD_ISNAN    @VXL_HAS_STD_ISNAN@
-#define VXL_HAS_STD_ISNORMAL @VXL_HAS_STD_ISNORMAL@
-
-/* true if <ieeefp.h> declares finite() */
-#define VXL_IEEEFP_HAS_FINITE     @VXL_IEEEFP_HAS_FINITE@
-
-/* true if <math.h> declares finitef() */
-#define VXL_C_MATH_HAS_FINITEF     @VXL_C_MATH_HAS_FINITEF@
-
-/* true if <math.h> declares finite() */
-#define VXL_C_MATH_HAS_FINITE     @VXL_C_MATH_HAS_FINITE@
-
-/* true if <math.h> declares finitel() */
-#define VXL_C_MATH_HAS_FINITEL     @VXL_C_MATH_HAS_FINITEL@
-
-/* true if <math.h> declares sqrtf() for the C compiler */
-#define VXL_C_MATH_HAS_SQRTF      @VXL_C_MATH_HAS_SQRTF@
-
-/* true if <math.h> declares lround() */
-#define VXL_C_MATH_HAS_LROUND      @VXL_C_MATH_HAS_LROUND@
-
 /* true if usleep() returns void */
 #define VXL_UNISTD_USLEEP_IS_VOID @VXL_UNISTD_USLEEP_IS_VOID@
 
@@ -211,6 +176,13 @@
 #define VXL_USE_WIN_WCHAR_T @VXL_USE_WIN_WCHAR_T@
 
 /* true if VXL is built shared */
-#cmakedefine VXL_BUILD_SHARED_LIBS
+#cmakedefine BUILD_SHARED_LIBS
+
+/* Version numbering. */
+#define VXL_VERSION_MAJOR @VXL_VERSION_MAJOR@
+#define VXL_VERSION_MINOR @VXL_VERSION_MINOR@
+#define VXL_VERSION_PATCH @VXL_VERSION_PATCH@
+#define VXL_VERSION_TWEAK @VXL_VERSION_TWEAK@
+
 
 #endif /* vxl_config_h_ */

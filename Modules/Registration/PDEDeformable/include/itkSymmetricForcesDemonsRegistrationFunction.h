@@ -22,7 +22,7 @@
 #include "itkPoint.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -31,7 +31,7 @@ namespace itk
  *
  * This class encapsulate the PDE which drives the demons registration
  * algorithm (formula (5) in J.-P. Thirions's paper "Fast Non-Rigid Matching of
- * 3D MEdical Images", May 1995). It is used by SymmetricForcesDemonsRegistrationFilter
+ * 3D Medical Images", May 1995). It is used by SymmetricForcesDemonsRegistrationFilter
  * to compute the output displacement field which will map a moving image onto a
  * a fixed image.
  *
@@ -124,7 +124,7 @@ public:
   { m_MovingImageInterpolator = ptr; }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator(void)
+  InterpolatorType * GetMovingImageInterpolator()
   { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
@@ -175,7 +175,7 @@ public:
 
 protected:
   SymmetricForcesDemonsRegistrationFunction();
-  ~SymmetricForcesDemonsRegistrationFunction() override {}
+  ~SymmetricForcesDemonsRegistrationFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
@@ -220,7 +220,7 @@ private:
   mutable double        m_SumOfSquaredChange;
 
   /** Mutex lock to protect modification to metric. */
-  mutable SimpleFastMutexLock m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock;
 };
 } // end namespace itk
 

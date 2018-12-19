@@ -46,7 +46,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate19() {};
+  CommandIterationUpdate19() = default;
 
 public:
   using OptimizerType = itk::AmoebaOptimizer;
@@ -225,8 +225,8 @@ int main( int argc, char *argv[] )
 
   if( argc > 6 )
     {
-    tx = atof( argv[5] );
-    ty = atof( argv[6] );
+    tx = std::stod( argv[5] );
+    ty = std::stod( argv[6] );
     }
 
   initialParameters[4] = tx;  // Initial offset in mm along X

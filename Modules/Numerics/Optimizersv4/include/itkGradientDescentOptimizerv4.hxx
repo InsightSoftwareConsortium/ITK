@@ -29,16 +29,15 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
   m_LearningRate( NumericTraits<TInternalComputationValueType>::OneValue() ),
   m_MinimumConvergenceValue( 1e-8 ),
   m_ConvergenceValue( NumericTraits<TInternalComputationValueType>::max() ),
-  m_CurrentBestValue( NumericTraits<MeasureType>::max() ),
-  m_ReturnBestParametersAndValue( false )
+  m_CurrentBestValue( NumericTraits<MeasureType>::max() )
+
 {
   this->m_PreviousGradient.Fill( NumericTraits<TInternalComputationValueType>::ZeroValue() );
 }
 
 template<typename TInternalComputationValueType>
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
-::~GradientDescentOptimizerv4Template()
-{}
+::~GradientDescentOptimizerv4Template() = default;
 
 template<typename TInternalComputationValueType>
 void
@@ -66,7 +65,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
-::StopOptimization(void)
+::StopOptimization()
 {
   if( this->m_ReturnBestParametersAndValue )
     {

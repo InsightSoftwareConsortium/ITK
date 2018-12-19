@@ -123,7 +123,7 @@ template< typename TInputImage, typename TOutputImage, typename TDisplacementFie
 typename WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::DisplacementFieldType *
 WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::GetDisplacementField(void)
+::GetDisplacementField()
 {
   return itkDynamicCastInDebugMode< DisplacementFieldType * >
          ( this->ProcessObject::GetInput(1) );

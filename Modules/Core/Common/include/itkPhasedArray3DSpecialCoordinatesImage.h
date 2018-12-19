@@ -355,11 +355,11 @@ public:
     {}
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor(void)
+  AccessorType GetPixelAccessor()
   { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor(void) const
+  const AccessorType GetPixelAccessor() const
   { return AccessorType(); }
 
   /** Return the NeighborhoodAccessor functor */
@@ -381,7 +381,7 @@ protected:
     m_FirstSampleDistance = 0;
   }
 
-  ~PhasedArray3DSpecialCoordinatesImage() override {}
+  ~PhasedArray3DSpecialCoordinatesImage() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

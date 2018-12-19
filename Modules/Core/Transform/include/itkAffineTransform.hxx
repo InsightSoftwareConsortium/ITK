@@ -45,9 +45,7 @@ AffineTransform<TParametersValueType, NDimensions>::AffineTransform(const Matrix
 /**  Destructor */
 template<typename TParametersValueType, unsigned int NDimensions>
 AffineTransform<TParametersValueType, NDimensions>::
-~AffineTransform()
-{
-}
+~AffineTransform() = default;
 
 /** Print self */
 template<typename TParametersValueType, unsigned int NDimensions>
@@ -325,7 +323,7 @@ AffineTransform<TParametersValueType, NDimensions>
 template<typename TParametersValueType, unsigned int NDimensions>
 typename AffineTransform<TParametersValueType, NDimensions>::ScalarType
 AffineTransform<TParametersValueType, NDimensions>
-::Metric(void) const
+::Metric() const
 {
   ScalarType result = 0.0, term;
 

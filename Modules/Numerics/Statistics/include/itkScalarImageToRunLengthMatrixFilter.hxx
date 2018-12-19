@@ -175,7 +175,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 
   typename OffsetVector::ConstIterator offsets;
   for( offsets = this->GetOffsets()->Begin();
-    offsets != this->GetOffsets()->End(); offsets++ )
+    offsets != this->GetOffsets()->End(); ++offsets )
     {
 
     alreadyVisitedImage->FillBuffer( false );

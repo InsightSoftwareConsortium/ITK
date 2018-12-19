@@ -145,7 +145,7 @@ public:
   /** PointSet-level operation interface. */
   void PassStructure(Self *inputPointSet);
 
-  void Initialize(void) override;
+  void Initialize() override;
 
   PointIdentifier GetNumberOfPoints() const;
 
@@ -207,7 +207,7 @@ public:
 protected:
   /** Constructor for use by New() method. */
   PointSet();
-  ~PointSet() override {}
+  ~PointSet() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following

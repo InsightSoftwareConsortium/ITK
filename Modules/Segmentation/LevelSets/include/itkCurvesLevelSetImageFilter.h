@@ -146,7 +146,7 @@ public:
 #endif
 
 protected:
-  ~CurvesLevelSetImageFilter() override {}
+  ~CurvesLevelSetImageFilter() override = default;
   CurvesLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

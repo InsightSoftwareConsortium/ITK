@@ -43,9 +43,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 
 template< typename TImage, typename TMask, typename TFeatures >
 MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
-::~MaskFeaturePointSelectionFilter()
-{
-}
+::~MaskFeaturePointSelectionFilter() = default;
 
 template< typename TImage, typename TMask, typename TFeatures >
 void
@@ -77,7 +75,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 template< typename TImage, typename TMask, typename TFeatures >
 void
 MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
-::ComputeConnectivityOffsets( void )
+::ComputeConnectivityOffsets()
 {
   if ( m_NonConnectivity < ImageDimension )
     {

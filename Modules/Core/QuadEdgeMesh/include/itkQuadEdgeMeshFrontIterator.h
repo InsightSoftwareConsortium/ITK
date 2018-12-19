@@ -114,7 +114,7 @@ public:
     FrontAtom(QEType *e = (QEType *)0, const CoordRepType c = 0):
       m_Edge(e), m_Cost(c)
     {}
-    virtual ~FrontAtom() {}
+    virtual ~FrontAtom() = default;
     FrontAtom & operator=(const FrontAtom & r)
     { m_Edge = r.m_Edge; m_Cost = r.m_Cost; return *this; }
     bool operator==(const FrontAtom & r) const
@@ -239,7 +239,7 @@ public:
                             bool start = true,
                             QEType *seed  = (QEType *)nullptr):
     Superclass(mesh, start, seed) {}
-  ~QuadEdgeMeshFrontIterator() override {}
+  ~QuadEdgeMeshFrontIterator() override = default;
   QEType * Value() { return ( this->m_CurrentEdge ); }
 };
 
@@ -273,7 +273,7 @@ public:
   }
 
   /** \todo do we need here a    : Superclass( mesh, start, seed ) { } */
-  ~QuadEdgeMeshConstFrontIterator() override {}
+  ~QuadEdgeMeshConstFrontIterator() override = default;
   Self & operator=(const NoConstType & r)
   {
     this->m_Mesh  = r.GetMesh();

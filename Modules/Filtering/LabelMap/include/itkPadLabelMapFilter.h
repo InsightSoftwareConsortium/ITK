@@ -114,7 +114,7 @@ protected:
     m_LowerBoundaryPadSize.Fill(0);
   }
 
-  ~PadLabelMapFilter() override {}
+  ~PadLabelMapFilter() override = default;
 
   void GenerateOutputInformation() override;
 

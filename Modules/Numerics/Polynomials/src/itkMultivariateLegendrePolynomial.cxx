@@ -59,8 +59,7 @@ MultivariateLegendrePolynomial
 }
 
 MultivariateLegendrePolynomial
-::~MultivariateLegendrePolynomial()
-{}
+::~MultivariateLegendrePolynomial() = default;
 
 void MultivariateLegendrePolynomial
 ::Print(std::ostream & os)
@@ -167,7 +166,7 @@ void MultivariateLegendrePolynomial
 
 const MultivariateLegendrePolynomial::CoefficientArrayType &
 MultivariateLegendrePolynomial
-::GetCoefficients(void) const
+::GetCoefficients() const
 {
   return m_CoefficientArray;
 }

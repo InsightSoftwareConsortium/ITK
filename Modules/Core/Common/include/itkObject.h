@@ -202,7 +202,7 @@ protected:
 
 private:
   /** Enable/Disable debug messages. */
-  mutable bool m_Debug;
+  mutable bool m_Debug{false};
 
   /** Keep track of modification time. */
   mutable TimeStamp m_MTime;
@@ -212,7 +212,7 @@ private:
 
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
-  SubjectImplementation *m_SubjectImplementation;
+  SubjectImplementation *m_SubjectImplementation{nullptr};
   /**
    * Implementation for holding Object MetaData
    * @see itk::MetaDataDictionary
@@ -220,7 +220,7 @@ private:
    * @see itk::MetaDataObject
    * This is only allocated if used.
    */
-  mutable MetaDataDictionary *m_MetaDataDictionary;
+  mutable MetaDataDictionary *m_MetaDataDictionary{nullptr};
 
   std::string m_ObjectName;
 };

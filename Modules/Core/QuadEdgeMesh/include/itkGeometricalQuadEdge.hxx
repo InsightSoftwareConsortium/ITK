@@ -18,9 +18,6 @@
 #ifndef itkGeometricalQuadEdge_hxx
 #define itkGeometricalQuadEdge_hxx
 #include "itkGeometricalQuadEdge.h"
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "vcl_limits.h"
-#endif
 #include <limits>
 #include <iostream>
 
@@ -44,7 +41,7 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::GeometricalQuadEdge() :
   m_Origin(m_NoPoint),
   m_Data(),
-  m_DataSet(false),
+
   m_LineCellIdent(0)
 {
 }

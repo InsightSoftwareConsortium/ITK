@@ -111,7 +111,7 @@ public:
 
 protected:
   InterpolateImageFilter();
-  ~InterpolateImageFilter() override {}
+  ~InterpolateImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** InterpolateImageFilter can be implemented as a multithreaded filter. */

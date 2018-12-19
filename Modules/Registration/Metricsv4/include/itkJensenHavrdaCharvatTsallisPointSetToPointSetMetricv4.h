@@ -121,7 +121,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  void Initialize( void ) override;
+  void Initialize() override;
 
   /**
    * Set the alpha parameter used to tune the point-set metric from
@@ -228,7 +228,7 @@ private:
   DensityFunctionPointer                   m_MovingDensityFunction;
   DensityFunctionPointer                   m_FixedDensityFunction;
 
-  bool                                     m_UseAnisotropicCovariances;
+  bool                                     m_UseAnisotropicCovariances{ false };
 
   RealType                                 m_PointSetSigma;
   RealType                                 m_KernelSigma;

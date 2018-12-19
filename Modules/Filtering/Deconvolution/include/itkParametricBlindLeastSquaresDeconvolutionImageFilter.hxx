@@ -37,9 +37,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
-::~ParametricBlindLeastSquaresDeconvolutionImageFilter()
-{
-}
+::~ParametricBlindLeastSquaresDeconvolutionImageFilter() = default;
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void

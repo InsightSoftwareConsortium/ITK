@@ -26,15 +26,11 @@ namespace itk
 {
 template< typename TTermContainer >
 LevelSetEquationContainer< TTermContainer >
-::LevelSetEquationContainer()
-{
-}
+::LevelSetEquationContainer() = default;
 
 template< typename TTermContainer >
 LevelSetEquationContainer< TTermContainer >
-::~LevelSetEquationContainer()
-{
-}
+::~LevelSetEquationContainer() = default;
 
 template< typename TTermContainer >
 void

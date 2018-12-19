@@ -37,8 +37,7 @@ GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
 GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
-::~GaussianDerivativeSpatialFunction()
-{}
+::~GaussianDerivativeSpatialFunction() = default;
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
 typename GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >::OutputType

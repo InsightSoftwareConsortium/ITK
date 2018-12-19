@@ -43,9 +43,9 @@ namespace itk
  *
  * The output generated from a ForwardFFTImageFilter is in the
  * dual space or frequency domain.
- * Refer to \ref FrequencyFFTLayoutImageRegionConstIteratorWithIndex
+ * Refer to FrequencyFFTLayoutImageRegionConstIteratorWithIndex
  * for a description of the layout of frequencies generated after a forward FFT.
- * Also see \ref ITKImageFrequency for a set of filters requiring input images in the frequency domain.
+ * Also see ITKImageFrequency for a set of filters requiring input images in the frequency domain.
  *
  * \ingroup FourierTransform
  *
@@ -87,8 +87,8 @@ public:
   virtual SizeValueType GetSizeGreatestPrimeFactor() const;
 
 protected:
-  ForwardFFTImageFilter() {}
-  ~ForwardFFTImageFilter() override {}
+  ForwardFFTImageFilter() = default;
+  ~ForwardFFTImageFilter() override = default;
 
   /** This class requires the entire input. */
   void GenerateInputRequestedRegion() override;

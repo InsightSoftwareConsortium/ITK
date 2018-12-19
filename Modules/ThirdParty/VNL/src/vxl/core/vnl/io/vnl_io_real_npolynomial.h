@@ -1,9 +1,6 @@
 // This is core/vnl/io/vnl_io_real_npolynomial.h
 #ifndef vnl_io_real_npolynomial_h
 #define vnl_io_real_npolynomial_h
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author dac

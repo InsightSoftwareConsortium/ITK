@@ -102,8 +102,8 @@ public:
       FixedArray< double, Self::InputPixelDimension >;
   using EigenValueImageType =
       Image< EigenValueArrayType, Self::ImageDimension >;
-  using EigenAnalysisFilterType = SymmetricEigenAnalysisImageFilter<
-    InputImageType, EigenValueImageType >;
+  using EigenAnalysisFilterType = SymmetricEigenAnalysisFixedDimensionImageFilter<
+    ImageDimension, InputImageType, EigenValueImageType >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(Hessian3DToVesselnessMeasureImageFilter, ImageToImageFilter);
@@ -130,11 +130,11 @@ public:
 
 protected:
   Hessian3DToVesselnessMeasureImageFilter();
-  ~Hessian3DToVesselnessMeasureImageFilter() override {}
+  ~Hessian3DToVesselnessMeasureImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
-  void GenerateData(void) override;
+  void GenerateData() override;
 
 private:
   typename EigenAnalysisFilterType::Pointer m_SymmetricEigenValueFilter;

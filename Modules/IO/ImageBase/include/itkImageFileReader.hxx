@@ -42,8 +42,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 
 template< typename TOutputImage, typename ConvertPixelTraits >
 ImageFileReader< TOutputImage, ConvertPixelTraits >
-::~ImageFileReader()
-{}
+::~ImageFileReader() = default;
 
 template< typename TOutputImage, typename ConvertPixelTraits >
 void ImageFileReader< TOutputImage, ConvertPixelTraits >
@@ -74,7 +73,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 template< typename TOutputImage, typename ConvertPixelTraits >
 void
 ImageFileReader< TOutputImage, ConvertPixelTraits >
-::GenerateOutputInformation(void)
+::GenerateOutputInformation()
 {
   typename TOutputImage::Pointer output = this->GetOutput();
 
@@ -529,7 +528,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
       }                                                                 \
     }
 
-  if(0) {}
+  if(false) {}
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR,unsigned char)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::CHAR,char)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT,unsigned short)

@@ -123,8 +123,8 @@ public:
     }
 
 protected:
-  LabelSelectionLabelMapFilter() {};
-  ~LabelSelectionLabelMapFilter() override {};
+  LabelSelectionLabelMapFilter() = default;
+  ~LabelSelectionLabelMapFilter() override = default;
 }; // end of class
 
 } // end namespace itk

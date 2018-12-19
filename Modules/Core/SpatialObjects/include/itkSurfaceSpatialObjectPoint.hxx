@@ -25,7 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TPointDimension >
 SurfaceSpatialObjectPoint< TPointDimension >
-::SurfaceSpatialObjectPoint(void)
+::SurfaceSpatialObjectPoint()
 {
   this->m_ID = 0;
   m_Normal.Fill(0);
@@ -34,8 +34,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 SurfaceSpatialObjectPoint< TPointDimension >
-::~SurfaceSpatialObjectPoint(void)
-{}
+::~SurfaceSpatialObjectPoint() = default;
 
 /** Set the normal : N-D case */
 template< unsigned int TPointDimension >
@@ -71,7 +70,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename SurfaceSpatialObjectPoint< TPointDimension >::VectorType &
 SurfaceSpatialObjectPoint< TPointDimension >
-::GetNormal(void) const
+::GetNormal() const
 {
   return m_Normal;
 }

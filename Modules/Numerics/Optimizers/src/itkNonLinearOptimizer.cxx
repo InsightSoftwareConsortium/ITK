@@ -19,5 +19,5 @@
 
 namespace itk
 {
-NonLinearOptimizer::~NonLinearOptimizer() {}
+NonLinearOptimizer::~NonLinearOptimizer() = default;
 }

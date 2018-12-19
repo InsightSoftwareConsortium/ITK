@@ -91,9 +91,9 @@ public:
 
 protected:
   /** Constructor */
-  SimpleLogger() {};
+  SimpleLogger() = default;
   /** Destructor */
-  ~SimpleLogger() override {};
+  ~SimpleLogger() override = default;
 };  // class Logger
 
 class LogTester
@@ -124,7 +124,7 @@ private:
   itk::LoggerBase* m_Logger;
 };
 
-ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreadedGenerateLogMessages2(void* arg)
 {
   const auto* threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo*>(arg);
   if (threadInfo)
@@ -154,13 +154,13 @@ ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
       // do stuff
       } else {
         std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
-        return ITK_THREAD_RETURN_VALUE;
+        return ITK_THREAD_RETURN_DEFAULT_VALUE;
       }
     } else {
       std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::WorkUnitInfo*" << std::endl;
-      return ITK_THREAD_RETURN_VALUE;
+      return ITK_THREAD_RETURN_DEFAULT_VALUE;
     }
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 ThreadDataVec create_threaded_data2(int num_threads, itk::LoggerBase* logger)
@@ -187,7 +187,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     int numthreads = 10;
     if (argc > 2)
       {
-      numthreads = atoi(argv[2]);
+      numthreads = std::stoi(argv[2]);
       }
 
     // Create an ITK StdStreamLogOutputs

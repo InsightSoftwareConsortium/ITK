@@ -195,9 +195,9 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
   ReaderType::OutputImageType::Pointer inputImage = reader->GetOutput();
 
   char* outputFilename = argv[2];
-  unsigned int numberOfClasses = atoi( argv[3] );
-  unsigned int numberOfSmoothingIterations = atoi( argv[4] );
-  bool testPriors = atoi( argv[5] );
+  unsigned int numberOfClasses = std::stoi( argv[3] );
+  unsigned int numberOfSmoothingIterations = std::stoi( argv[4] );
+  bool testPriors = std::stoi( argv[5] );
 
 
   using LabelType = unsigned char;

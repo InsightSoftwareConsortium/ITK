@@ -1,9 +1,6 @@
 // This is core/vnl/vnl_block.h
 #ifndef vnl_block_h_
 #define vnl_block_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \author fsm
@@ -13,7 +10,9 @@
 //   2009-03-30 Peter Vanroose - Added arg_min() & arg_max() and reimplemented min_value() & max_value()
 // \endverbatim
 //
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include "vnl/vnl_export.h"
 
 VNL_EXPORT void vnl_block_raise_exception(char const *FILE, int LINE, char const *why);

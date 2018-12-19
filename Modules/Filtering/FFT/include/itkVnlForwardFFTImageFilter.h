@@ -85,8 +85,8 @@ public:
 #endif
 
 protected:
-  VnlForwardFFTImageFilter() {}
-  ~VnlForwardFFTImageFilter() override {}
+  VnlForwardFFTImageFilter() = default;
+  ~VnlForwardFFTImageFilter() override = default;
 
   void GenerateData() override;
 

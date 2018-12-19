@@ -155,7 +155,7 @@ public:
   }
 
 protected:
-  ~VectorThresholdSegmentationLevelSetImageFilter() override {}
+  ~VectorThresholdSegmentationLevelSetImageFilter() override = default;
   VectorThresholdSegmentationLevelSetImageFilter();
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

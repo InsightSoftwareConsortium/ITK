@@ -164,7 +164,7 @@ public:
   void GenerateInputRequestedRegion() override;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime(void) const override;
+  ModifiedTimeType GetMTime() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -175,7 +175,7 @@ public:
 
 protected:
   InverseDisplacementFieldImageFilter();
-  ~InverseDisplacementFieldImageFilter() override {}
+  ~InverseDisplacementFieldImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

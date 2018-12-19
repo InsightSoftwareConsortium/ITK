@@ -649,7 +649,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,
                                                  TMaskImageType >
-::VerifyPreconditions()
+::VerifyPreconditions() ITKv5_CONST
 {
   Superclass::VerifyPreconditions();
 

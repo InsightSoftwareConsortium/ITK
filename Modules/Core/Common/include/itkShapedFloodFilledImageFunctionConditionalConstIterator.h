@@ -101,7 +101,7 @@ public:
     FunctionType *fnPtr):Superclass(imagePtr,
                                     fnPtr) {}
   /** Default Destructor. */
-  ~ShapedFloodFilledImageFunctionConditionalConstIterator() override {}
+  ~ShapedFloodFilledImageFunctionConditionalConstIterator() override = default;
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const override;

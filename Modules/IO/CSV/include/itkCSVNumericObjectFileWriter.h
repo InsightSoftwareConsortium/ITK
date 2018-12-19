@@ -115,7 +115,7 @@ public:
 protected:
 
   CSVNumericObjectFileWriter();
-  ~CSVNumericObjectFileWriter() override {}
+  ~CSVNumericObjectFileWriter() override = default;
   void PrintSelf(std::ostream &os, Indent indent) const override;
 
 private:

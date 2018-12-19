@@ -67,13 +67,13 @@ public:
   { return !m_Maximize; }
   void SetMinimize(bool v)
   { this->SetMaximize(!v); }
-  void    MinimizeOn(void)
+  void    MinimizeOn()
   { SetMaximize(false); }
-  void    MinimizeOff(void)
+  void    MinimizeOff()
   { SetMaximize(true); }
 
   /** Start optimization. */
-  void    StartOptimization(void) override;
+  void    StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters.
    * \sa StopOptimization */
@@ -105,7 +105,7 @@ public:
 
 protected:
   RegularStepGradientDescentBaseOptimizer();
-  ~RegularStepGradientDescentBaseOptimizer() override {}
+  ~RegularStepGradientDescentBaseOptimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance one step following the gradient direction
@@ -134,7 +134,7 @@ protected:
   DerivativeType m_Gradient;
   DerivativeType m_PreviousGradient;
 
-  bool               m_Stop;
+  bool               m_Stop{false};
   bool               m_Maximize;
   MeasureType        m_Value;
   double             m_GradientMagnitudeTolerance;

@@ -146,7 +146,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  RegistrationInterfaceCommand() {};
+  RegistrationInterfaceCommand() = default;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -281,7 +281,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate(): m_CumulativeIterationIndex(0) {};
+  CommandIterationUpdate() {};
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
@@ -305,7 +305,7 @@ public:
   std::cout << m_CumulativeIterationIndex++ << std::endl;
   }
 private:
-  unsigned int m_CumulativeIterationIndex;
+  unsigned int m_CumulativeIterationIndex{0};
 };
 
 
@@ -328,10 +328,10 @@ int main( int argc, const char *argv[] )
   const std::string fixedImageFile  = argv[1];
   const std::string movingImageFile = argv[2];
   const std::string outImagefile    = argv[3];
-  const PixelType backgroundGrayLevel  = (argc >4 )? atoi(argv[4]): 100;
+  const PixelType backgroundGrayLevel  = (argc >4 )? std::stoi(argv[4]): 100;
   const std::string checkerBoardBefore = (argc >5 )?      argv[5]: "";
   const std::string checkerBoardAfter  = (argc >6 )?      argv[6]: "";
-  const int numberOfBins               = (argc >7 )? atoi(argv[7]): 0;
+  const int numberOfBins               = (argc >7 )? std::stoi(argv[7]): 0;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;

@@ -43,7 +43,7 @@ public:
     m_MaskingValue = NumericTraits< TMask >::ZeroValue();
     InitializeOutsideValue( static_cast<TOutput*>( nullptr ) );
   }
-  ~MaskInput() {}
+  ~MaskInput() = default;
   bool operator!=(const MaskInput &) const
   {
     return false;
@@ -120,12 +120,12 @@ private:
  * operator != with zero. This condition is required because internally this
  * filter will perform the operation
  *
- * \code
- *        if pixel_from_mask_image != masking_value
- *             pixel_output_image = pixel_input_image
- *        else
- *             pixel_output_image = outside_value
- * \endcode
+   \code
+          if pixel_from_mask_image != masking_value
+               pixel_output_image = pixel_input_image
+          else
+               pixel_output_image = outside_value
+   \endcode
  *
  * The pixel from the input 1 is cast to the pixel type of the output image.
  *
@@ -228,8 +228,8 @@ public:
 #endif
 
 protected:
-  MaskImageFilter() {}
-  ~MaskImageFilter() override {}
+  MaskImageFilter() = default;
+  ~MaskImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override
   {

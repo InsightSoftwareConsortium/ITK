@@ -84,8 +84,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  RegionLabelType m_RegionLabel;
-  double          m_RegionArea;
+  RegionLabelType m_RegionLabel{0};
+  double          m_RegionArea{0};
 };
 } // end namespace itk
 

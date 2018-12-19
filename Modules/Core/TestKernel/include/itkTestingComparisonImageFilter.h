@@ -104,7 +104,7 @@ public:
 
 protected:
   ComparisonImageFilter();
-  ~ComparisonImageFilter() override {}
+  ~ComparisonImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -129,7 +129,7 @@ protected:
 
   void AfterThreadedGenerateData() override;
 
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
   OutputPixelType m_DifferenceThreshold;
 

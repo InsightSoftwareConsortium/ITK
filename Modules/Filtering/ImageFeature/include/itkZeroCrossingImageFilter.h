@@ -128,7 +128,7 @@ public:
 
 protected:
   ZeroCrossingImageFilter();
-  ~ZeroCrossingImageFilter() override {}
+  ~ZeroCrossingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputImagePixelType m_BackgroundValue;

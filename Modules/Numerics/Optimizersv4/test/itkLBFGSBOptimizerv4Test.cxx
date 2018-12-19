@@ -68,7 +68,7 @@ public:
     m_HasLocalSupport = false;
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) override
+  void Initialize() throw ( itk::ExceptionObject ) override
   {
     m_Parameters.SetSize( SpaceDimension );
   }
@@ -78,7 +78,7 @@ public:
     return SpaceDimension;
   }
 
-  Superclass::NumberOfParametersType GetNumberOfParameters(void) const override
+  Superclass::NumberOfParametersType GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }
@@ -192,15 +192,14 @@ public:
     }
 
 protected:
-  EventChecker(): m_HadStartEvent( false ),
-    m_HadIterationEvent( false ),
-    m_HadEndEvent( false )
+  EventChecker()
+
   {}
 
 private:
-  bool m_HadStartEvent;
-  bool m_HadIterationEvent;
-  bool m_HadEndEvent;
+  bool m_HadStartEvent{ false };
+  bool m_HadIterationEvent{ false };
+  bool m_HadEndEvent{ false };
 };
 
 

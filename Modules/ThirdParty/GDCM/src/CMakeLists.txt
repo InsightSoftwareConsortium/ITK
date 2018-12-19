@@ -10,6 +10,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-ipa-cp-clone")
   endif()
 endif()
+if(CMAKE_LINKER MATCHES "link.exe$")
+  # Suppress undefined public symbols warning
+  set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /IGNORE:4221")
+endif()
 
 
 set(GDCM_TARGETS_NAME ${ITKGDCM-targets})

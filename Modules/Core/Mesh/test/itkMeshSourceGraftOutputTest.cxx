@@ -59,7 +59,7 @@ public:
 
 protected:
   MeshSourceGraftOutputFilter();
-  ~MeshSourceGraftOutputFilter() override {};
+  ~MeshSourceGraftOutputFilter() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Generate Requested Data */
@@ -100,7 +100,7 @@ MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
  */
 template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
-::GenerateData(void)
+::GenerateData()
 {
   const InputMeshType * inputMesh = this->GetInput();
   OutputMeshPointer   outputMesh  = this->GetOutput();

@@ -93,12 +93,16 @@ public:
    * The parameter is one of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
    * FFTW_PATIENT, FFTW_EXHAUSTIVE provided by FFTWGlobalConfiguration.
    *
+   * This has no effect with ITK_USE_CUFFTW enabled.
+   *
    * /sa FFTWGlobalConfiguration
    */
   virtual void SetPlanRigor( const int & value )
   {
+#ifndef ITK_USE_CUFFTW
     // Use that method to check the value
     FFTWGlobalConfiguration::GetPlanRigorName( value );
+#endif
     if( m_PlanRigor != value )
       {
       m_PlanRigor = value;

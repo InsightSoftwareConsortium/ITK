@@ -134,19 +134,19 @@ public:
   }
 
   /** Return the matrix. */
-  inline InternalMatrixType & GetVnlMatrix(void)
+  inline InternalMatrixType & GetVnlMatrix()
   {
     return m_Matrix;
   }
 
   /** Return the matrix. */
-  inline const InternalMatrixType & GetVnlMatrix(void) const
+  inline const InternalMatrixType & GetVnlMatrix() const
   {
     return m_Matrix;
   }
 
   /** Set the matrix to identity. */
-  inline void SetIdentity(void)
+  inline void SetIdentity()
   {
     m_Matrix.set_identity();
   }
@@ -180,14 +180,14 @@ public:
   }
 
   /** Return the inverse matrix. */
-  inline vnl_matrix< T > GetInverse(void) const
+  inline vnl_matrix< T > GetInverse() const
   {
     vnl_matrix< T > temp = vnl_matrix_inverse< T >(m_Matrix);
     return temp;
   }
 
   /** Return the transposed matrix. */
-  inline vnl_matrix< T > GetTranspose(void) const
+  inline vnl_matrix< T > GetTranspose() const
   {
     return m_Matrix.transpose();
   }

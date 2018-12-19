@@ -20,7 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkObject.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -44,6 +44,8 @@ namespace itk
 class ITKCommon_EXPORT BuildInformation final: public Object
 {
 public:
+  // Using the `rule of zero` to this aggregate type
+  // C++20 changes the definition of aggregate such that classes with any user-declared ctors are no longer aggregates.
   ITK_DISALLOW_COPY_AND_ASSIGN(BuildInformation);
 
   /** Standard class type aliases. */
@@ -64,10 +66,6 @@ private:
   class InformationValueType
   {
   public:
-    InformationValueType() = default;
-    InformationValueType( const InformationValueType & ) = default;
-    InformationValueType( InformationValueType && ) = default;
-
     const MapValueType            m_Value;
     const MapValueDescriptionType m_Description;
   };
@@ -93,9 +91,9 @@ private:
   BuildInformation();
 
   /** To lock on the internal variables */
-  static SimpleFastMutexLock m_Mutex;
-  static Pointer             m_InformationInstance;
-  static MapType             m_Map;
+  static std::mutex m_Mutex;
+  static Pointer    m_InformationInstance;
+  static MapType    m_Map;
 };  // end of class
 } // end namespace itk
 #endif

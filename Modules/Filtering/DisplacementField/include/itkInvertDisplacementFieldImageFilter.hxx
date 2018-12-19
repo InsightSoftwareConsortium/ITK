@@ -23,7 +23,7 @@
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 #include "itkProgressTransformer.h"
 
 namespace itk
@@ -36,7 +36,7 @@ template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::InvertDisplacementFieldImageFilter() :
   m_Interpolator(DefaultInterpolatorType::New()),
-  m_MaximumNumberOfIterations(20),
+
   m_MaxErrorToleranceThreshold(0.1),
   m_MeanErrorToleranceThreshold(0.001),
 
@@ -44,9 +44,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   m_ScaledNormImage(RealImageType::New()),
   m_MaxErrorNorm(0.0),
   m_MeanErrorNorm(0.0),
-  m_Epsilon(0.0),
-  m_DoThreadedEstimateInverse(false),
-  m_EnforceBoundaryCondition(true)
+  m_Epsilon(0.0)
+
 {
   this->SetNumberOfRequiredInputs( 1 );
   this->DynamicMultiThreadingOn();
@@ -54,9 +53,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 
 template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
-::~InvertDisplacementFieldImageFilter()
-{
-}
+::~InvertDisplacementFieldImageFilter() = default;
 
 template<typename TInputImage, typename TOutputImage>
 void
@@ -247,7 +244,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
       ItE.Set( -displacement );
       }
       {
-      MutexLockHolder<SimpleFastMutexLock> holder(m_Mutex);
+      std::lock_guard<std::mutex> holder(m_Mutex);
       this->m_MeanErrorNorm += localMean;
       if( this->m_MaxErrorNorm < localMax )
         {

@@ -78,8 +78,8 @@ public:
 #endif
 
 protected:
-  DiscreteGaussianCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() override {}
+  DiscreteGaussianCurvatureQuadEdgeMeshFilter() = default;
+  ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() override = default;
 
   OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
   {

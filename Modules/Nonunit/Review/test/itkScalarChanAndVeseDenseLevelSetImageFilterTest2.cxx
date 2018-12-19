@@ -37,11 +37,11 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   unsigned int nb_iteration = 500;
   double rms = 0.;
   double epsilon = 1.;
-  double curvature_weight = atof( argv[4] );
-  double area_weight = atof( argv[5] );
-  double reinitialization_weight = atof( argv[6] );
-  double volume_weight = atof( argv[7] );
-  double volume = atof( argv[8] );
+  double curvature_weight = std::stod( argv[4] );
+  double area_weight = std::stod( argv[5] );
+  double reinitialization_weight = std::stod( argv[6] );
+  double volume_weight = std::stod( argv[7] );
+  double volume = std::stod( argv[8] );
   double l1 = 1.;
   double l2 = 1.;
 
@@ -80,7 +80,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   levelSetFilter->SetLevelSet( 0, levelSetReader1->GetOutput() );
   levelSetFilter->SetNumberOfIterations( nb_iteration );
   levelSetFilter->SetMaximumRMSError( rms );
-  levelSetFilter->SetUseImageSpacing( 0 );
+  levelSetFilter->SetUseImageSpacing( false );
   levelSetFilter->SetInPlace( false );
 
   MultiLevelSetType::FunctionType * function = levelSetFilter->GetDifferenceFunction(0);

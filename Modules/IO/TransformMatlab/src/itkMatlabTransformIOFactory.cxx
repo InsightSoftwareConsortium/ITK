@@ -30,20 +30,19 @@ MatlabTransformIOFactory::MatlabTransformIOFactory()
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkMatlabTransformIO",
                           "Matlab Transform float IO",
-                          1,
+                          true,
                           CreateObjectFunction< MatlabTransformIOTemplate< float > >::New() );
   this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkMatlabTransformIO",
                           "Matlab Transform double IO",
-                          1,
+                          true,
                           CreateObjectFunction< MatlabTransformIOTemplate< double >  >::New() );
 }
 
-MatlabTransformIOFactory::~MatlabTransformIOFactory()
-{}
+MatlabTransformIOFactory::~MatlabTransformIOFactory() = default;
 
 const char *
-MatlabTransformIOFactory::GetITKSourceVersion(void) const
+MatlabTransformIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -59,7 +58,7 @@ MatlabTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool MatlabTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformMatlab_EXPORT MatlabTransformIOFactoryRegister__Private(void)
+void ITKIOTransformMatlab_EXPORT MatlabTransformIOFactoryRegister__Private()
 {
   if( ! MatlabTransformIOFactoryHasBeenRegistered )
     {

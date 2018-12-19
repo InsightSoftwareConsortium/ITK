@@ -21,7 +21,7 @@
 #include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
-#include "itkMutexLockHolder.h"
+#include <mutex>
 
 namespace itk
 {
@@ -135,7 +135,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 
 
 template<typename TInputImage, typename TOutputImage>
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 ::ThreaderFullCallback(void *arg)
 {
@@ -165,7 +165,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
       }
     }
   // else don't use this thread. Threads were not split conveniently.
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
@@ -410,7 +410,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 
         PixelRealType valNew0 = val0 * val;
         PixelRealType valNew1 = val1 * val;
-        MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+        std::lock_guard<std::mutex> mutexHolder(m_Mutex);
         if ( std::fabs( static_cast< double >( valNew0 ) ) < std::fabs( static_cast< double >( outNeigIt.GetNext(n, 0) ) ) )
           {
           outNeigIt.SetNext( n, 0, static_cast< PixelType >( valNew0 ) );

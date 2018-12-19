@@ -108,7 +108,7 @@ public:
   void SetParameters(const ParametersType & parameters) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** Set the rotational part of the transform */
   void SetRotation(const VersorType & versor);
@@ -118,7 +118,7 @@ public:
   itkGetConstReferenceMacro(Versor, VersorType);
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity(void) override;
+  void SetIdentity() override;
 
   /** Compute the Jacobian of the transformation
    *  This method computes the Jacobian matrix of the transformation.
@@ -135,7 +135,7 @@ protected:
   VersorTransform();
 
   /** Destroy an VersorTransform object */
-  ~VersorTransform() override {}
+  ~VersorTransform() override = default;
 
   void SetVarVersor(const VersorType & newVersor)
   {
@@ -147,9 +147,9 @@ protected:
 
   /** Compute Matrix
    *  Compute the components of the rotation matrix in the superclass */
-  void ComputeMatrix(void) override;
+  void ComputeMatrix() override;
 
-  void ComputeMatrixParameters(void) override;
+  void ComputeMatrixParameters() override;
 
 private:
   /** Versor containing the rotation */

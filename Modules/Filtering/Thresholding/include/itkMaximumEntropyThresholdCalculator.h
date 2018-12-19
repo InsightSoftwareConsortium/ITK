@@ -71,9 +71,9 @@ public:
   using OutputType = TOutput;
 
 protected:
-  MaximumEntropyThresholdCalculator() {};
-  ~MaximumEntropyThresholdCalculator() override {};
-  void GenerateData(void) override;
+  MaximumEntropyThresholdCalculator() = default;
+  ~MaximumEntropyThresholdCalculator() override = default;
+  void GenerateData() override;
 };
 
 } // end namespace itk

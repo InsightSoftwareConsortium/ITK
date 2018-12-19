@@ -36,7 +36,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 
@@ -144,7 +144,7 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
     {
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
-  affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+  affineOptimizer->SetNumberOfIterations( std::stoi( argv[5] ) );
   affineOptimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
 
@@ -206,7 +206,7 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
 
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
-  optimizer->SetNumberOfIterations( atoi( argv[6] ) );
+  optimizer->SetNumberOfIterations( std::stoi( argv[6] ) );
   optimizer->SetScalesEstimator( scalesEstimator );
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );
@@ -353,7 +353,7 @@ int itkBSplineImageRegistrationTest( int argc, char *argv[] )
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
    {
    case 2:
      PerformBSplineImageRegistration<2>( argc, argv );

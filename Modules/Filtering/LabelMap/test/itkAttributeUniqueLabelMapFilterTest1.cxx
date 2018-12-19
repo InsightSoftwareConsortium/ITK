@@ -69,7 +69,7 @@ int itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
   using UniqueType = itk::AttributeUniqueLabelMapFilter< LabelMapType, itk::Functor::NumberOfPixelsLabelObjectAccessor< LabelObjectType > >;
   UniqueType::Pointer unique = UniqueType::New();
   unique->SetInput( oi->GetOutput() );
-  unique->SetReverseOrdering( atoi(argv[3]) );
+  unique->SetReverseOrdering( std::stoi(argv[3]) );
   itk::SimpleFilterWatcher watcher(unique, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;

@@ -77,7 +77,7 @@ public:
    * The type PixelAccessorType is obtained from the ImageType over which the iterators
    * are templated.
    * */
-  inline void SetPixelAccessor(PixelAccessorType & accessor)
+  inline void SetPixelAccessor(const PixelAccessorType & accessor)
   {
     m_PixelAccessor = accessor;
   }

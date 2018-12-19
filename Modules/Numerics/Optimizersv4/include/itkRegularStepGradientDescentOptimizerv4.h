@@ -115,7 +115,7 @@ protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  void AdvanceOneStep(void) override;
+  void AdvanceOneStep() override;
 
   /** Modify the input gradient over a given index range. */
   void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) override;

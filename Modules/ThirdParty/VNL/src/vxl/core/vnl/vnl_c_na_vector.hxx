@@ -10,7 +10,9 @@
 
 #include <cmath>
 #include "vnl_c_na_vector.h"
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_na.h>
 #include <vnl/vnl_complex_traits.h>

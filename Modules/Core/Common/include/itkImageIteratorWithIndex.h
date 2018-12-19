@@ -97,7 +97,7 @@ public:
   ImageIteratorWithIndex();
 
   /** Default Destructor */
-  ~ImageIteratorWithIndex() override {}
+  ~ImageIteratorWithIndex() override = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
@@ -118,7 +118,7 @@ public:
   /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void)
+  PixelType & Value()
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 
 protected:

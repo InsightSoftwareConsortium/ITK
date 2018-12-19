@@ -101,7 +101,7 @@ public:
 
 protected:
   ScalarImageToHistogramGenerator();
-  ~ScalarImageToHistogramGenerator() override {}
+  ~ScalarImageToHistogramGenerator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

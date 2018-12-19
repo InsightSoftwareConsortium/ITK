@@ -82,8 +82,8 @@ public:
 #endif
 
 protected:
-  VnlRealToHalfHermitianForwardFFTImageFilter() {}
-  ~VnlRealToHalfHermitianForwardFFTImageFilter() override {}
+  VnlRealToHalfHermitianForwardFFTImageFilter() = default;
+  ~VnlRealToHalfHermitianForwardFFTImageFilter() override = default;
 
   void GenerateData() override;
 

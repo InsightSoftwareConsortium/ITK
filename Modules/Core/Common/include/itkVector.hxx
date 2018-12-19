@@ -113,7 +113,7 @@ Vector< T, TVectorDimension >
 template< typename T, unsigned int TVectorDimension >
 typename Vector< T, TVectorDimension >::RealValueType
 Vector< T, TVectorDimension >
-::GetSquaredNorm(void) const
+::GetSquaredNorm() const
 {
   typename NumericTraits< RealValueType >::AccumulateType sum = NumericTraits< T >::ZeroValue();
   for ( unsigned int i = 0; i < TVectorDimension; i++ )
@@ -127,7 +127,7 @@ Vector< T, TVectorDimension >
 template< typename T, unsigned int TVectorDimension >
 typename Vector< T, TVectorDimension >::RealValueType
 Vector< T, TVectorDimension >
-::GetNorm(void) const
+::GetNorm() const
 {
   return RealValueType( std::sqrt( double( this->GetSquaredNorm() ) ) );
 }
@@ -135,7 +135,7 @@ Vector< T, TVectorDimension >
 template< typename T, unsigned int TVectorDimension >
 typename Vector< T, TVectorDimension >::RealValueType
 Vector< T, TVectorDimension >
-::Normalize(void)
+::Normalize()
 {
   const RealValueType norm = this->GetNorm();
   if (norm < NumericTraits< RealValueType >::epsilon())
@@ -155,7 +155,7 @@ Vector< T, TVectorDimension >
 template< typename T, unsigned int TVectorDimension >
 vnl_vector_ref< T >
 Vector< T, TVectorDimension >
-::GetVnlVector(void)
+::GetVnlVector()
 {
   return vnl_vector_ref< T >( TVectorDimension, this->GetDataPointer() );
 }
@@ -163,7 +163,7 @@ Vector< T, TVectorDimension >
 template< typename T, unsigned int TVectorDimension >
 vnl_vector< T >
 Vector< T, TVectorDimension >
-::GetVnlVector(void) const
+::GetVnlVector() const
 {
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally

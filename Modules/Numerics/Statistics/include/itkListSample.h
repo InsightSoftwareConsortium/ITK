@@ -273,7 +273,7 @@ private:
 protected:
 
   ListSample();
-  ~ListSample() override {}
+  ~ListSample() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

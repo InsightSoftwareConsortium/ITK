@@ -13,15 +13,15 @@ Purpose
 
 The primary goal of the ITK community is to be inclusive of the largest number
 of contributors, with the most varied and diverse backgrounds. Please read our
-[Motivation](Motivation.md) statement.
+[Motivation](Documentation/CodeOfConduct/Motivation.md) statement.
 
 Our community is build upon [values](#our-values), and we welcome and encourage
 members to [lead by example](#lead-by-example). However, we are aware that we
 must ensure a safe, welcoming and productive environment, where all people
 should feel safe to participate, introduce new ideas and inspire others. Hence,
 we acknowledge the importance of providing mechanisms for participants to
-[report](Reporting.md) [unacceptable behavior](#unacceptable-behavior), and the
-responsibility of the community to [enforce](Enforcement.md) these guidelines.
+[report](Documentation/CodeOfConduct/Reporting.md) [unacceptable behavior](#unacceptable-behavior), and the
+responsibility of the community to [enforce](Documentation/CodeOfConduct/Enforcement.md) these guidelines.
 
 Our Values
 ----------
@@ -342,7 +342,7 @@ Harassment will not be tolerated in any of its forms either. Specifically:
 
 Although the above list cannot be exhaustive, we will not tolerate
 discrimination based on any of the protected characteristics in our
-[Diversity Statement](Motivation.md#diversity-statement).
+[Diversity Statement](Documentation/CodeOfConduct/Motivation.md#diversity-statement).
 
 The relative anonymity (if any) in the discussion forums is no shelter for
 unacceptable behavior.

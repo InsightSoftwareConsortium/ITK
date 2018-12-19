@@ -155,7 +155,7 @@ protected:
     m_BoundsCondition = static_cast< ImageBoundaryConditionPointerType >( &m_DefaultBoundaryCondition );
     this->DynamicMultiThreadingOn();
   }
-  ~NeighborhoodOperatorImageFilter() override {}
+  ~NeighborhoodOperatorImageFilter() override = default;
 
   /** NeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

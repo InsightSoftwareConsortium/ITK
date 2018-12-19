@@ -82,8 +82,8 @@ public:
   }
 
 protected:
-  NthElementImageAdaptor() {}
-  ~NthElementImageAdaptor() override {}
+  NthElementImageAdaptor() = default;
+  ~NthElementImageAdaptor() override = default;
 };
 } // end namespace itk
 

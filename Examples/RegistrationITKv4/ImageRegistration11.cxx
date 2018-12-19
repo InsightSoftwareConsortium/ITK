@@ -158,7 +158,7 @@ int main( int argc, char *argv[] )
   double samplingPercentage = 0.20;
   if( argc > 4 )
     {
-    samplingPercentage = atof( argv[4] );
+    samplingPercentage = std::stod( argv[4] );
     }
 
   //  Software Guide : BeginLatex

@@ -77,7 +77,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 typename PointSet< TPixelType, VDimension, TMeshTraits >::PointsContainer *
 PointSet< TPixelType, VDimension, TMeshTraits >
-::GetPoints(void)
+::GetPoints()
 {
   itkDebugMacro("Starting GetPoints()");
   if ( !m_PointsContainer )
@@ -94,7 +94,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 const typename PointSet< TPixelType, VDimension, TMeshTraits >::PointsContainer *
 PointSet< TPixelType, VDimension, TMeshTraits >
-::GetPoints(void) const
+::GetPoints() const
 {
   itkDebugMacro("returning Points container of " << m_PointsContainer);
   return m_PointsContainer.GetPointer();
@@ -122,7 +122,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 typename PointSet< TPixelType, VDimension, TMeshTraits >::PointDataContainer *
 PointSet< TPixelType, VDimension, TMeshTraits >
-::GetPointData(void)
+::GetPointData()
 {
   if ( !m_PointDataContainer )
     {
@@ -138,7 +138,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 const typename PointSet< TPixelType, VDimension, TMeshTraits >::PointDataContainer *
 PointSet< TPixelType, VDimension, TMeshTraits >
-::GetPointData(void) const
+::GetPointData() const
 {
   itkDebugMacro("returning PointData container of "
                 << m_PointDataContainer);
@@ -288,7 +288,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 typename PointSet< TPixelType, VDimension, TMeshTraits >::PointIdentifier
 PointSet< TPixelType, VDimension, TMeshTraits >
-::GetNumberOfPoints(void) const
+::GetNumberOfPoints() const
 {
   if ( m_PointsContainer )
     {
@@ -304,7 +304,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 void
 PointSet< TPixelType, VDimension, TMeshTraits >
-::Initialize(void)
+::Initialize()
 {
   Superclass::Initialize();
 

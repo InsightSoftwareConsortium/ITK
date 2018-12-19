@@ -35,9 +35,7 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
 
 template< typename TOutput, unsigned int VDimension >
 WhitakerSparseLevelSetImage< TOutput, VDimension >
-::~WhitakerSparseLevelSetImage()
-{
-}
+::~WhitakerSparseLevelSetImage() = default;
 
 
 template< typename TOutput, unsigned int VDimension >

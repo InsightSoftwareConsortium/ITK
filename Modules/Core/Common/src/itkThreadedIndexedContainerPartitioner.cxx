@@ -22,14 +22,10 @@ namespace itk
 {
 
 ThreadedIndexedContainerPartitioner
-::ThreadedIndexedContainerPartitioner()
-{
-}
+::ThreadedIndexedContainerPartitioner() = default;
 
 ThreadedIndexedContainerPartitioner
-::~ThreadedIndexedContainerPartitioner()
-{
-}
+::~ThreadedIndexedContainerPartitioner() = default;
 
 ThreadIdType
 ThreadedIndexedContainerPartitioner

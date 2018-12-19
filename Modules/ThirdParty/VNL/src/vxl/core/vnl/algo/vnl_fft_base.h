@@ -1,25 +1,24 @@
 // This is core/vnl/algo/vnl_fft_base.h
 #ifndef vnl_fft_base_h_
 #define vnl_fft_base_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief In-place n-D fast Fourier transform
 // \author fsm
 
 #include <complex>
-#include <vcl_compiler.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #include <vnl/algo/vnl_algo_export.h>
 #include <vnl/algo/vnl_fft_prime_factors.h>
 
 //: Base class for in-place ND fast Fourier transform.
 
-VCL_TEMPLATE_EXPORT template <int D, class T>
-struct vnl_fft_base
+template <int D, class T>
+struct VNL_ALGO_EXPORT vnl_fft_base
 {
-  vnl_fft_base() { }
+  vnl_fft_base() = default;
 
   //: dir = +1/-1 according to direction of transform.
   void transform(std::complex<T> *signal, int dir);

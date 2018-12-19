@@ -26,13 +26,11 @@ MINCImageIOFactory::MINCImageIOFactory()
   this->RegisterOverride( "itkImageIOBase",
                           "itkMINCImageIO",
                           "MINC Image IO",
-                          1,
+                          true,
                           CreateObjectFunction< MINCImageIO >::New() );
 }
 
-MINCImageIOFactory::~MINCImageIOFactory()
-{
-}
+MINCImageIOFactory::~MINCImageIOFactory() = default;
 
 const char *
 MINCImageIOFactory::GetITKSourceVersion() const
@@ -51,7 +49,7 @@ MINCImageIOFactory::GetDescription() const
 
 static bool MINCImageIOFactoryHasBeenRegistered;
 
-void ITKIOMINC_EXPORT MINCImageIOFactoryRegister__Private(void)
+void ITKIOMINC_EXPORT MINCImageIOFactoryRegister__Private()
 {
   if( !MINCImageIOFactoryHasBeenRegistered )
     {

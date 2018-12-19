@@ -67,9 +67,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
 template<typename TTimeVaryingVelocityField, typename TDisplacementField>
 TimeVaryingVelocityFieldIntegrationImageFilter
   <TTimeVaryingVelocityField, TDisplacementField>
-::~TimeVaryingVelocityFieldIntegrationImageFilter()
-{
-}
+::~TimeVaryingVelocityFieldIntegrationImageFilter() = default;
 
 template<typename TTimeVaryingVelocityField, typename TDisplacementField>
 void

@@ -73,11 +73,11 @@ public:
   using ParametersType = Superclass::ParametersType;
 
   /** Advance one step following the gradient direction. */
-  void AdvanceOneStep(void) override;
+  void AdvanceOneStep() override;
 
 protected:
-  QuaternionRigidTransformGradientDescentOptimizer() {}
-  ~QuaternionRigidTransformGradientDescentOptimizer() override {}
+  QuaternionRigidTransformGradientDescentOptimizer() = default;
+  ~QuaternionRigidTransformGradientDescentOptimizer() override = default;
 };
 } // end namespace itk
 

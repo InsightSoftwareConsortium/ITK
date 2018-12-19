@@ -102,7 +102,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~YenThresholdImageFilter() override {};
+  ~YenThresholdImageFilter() override = default;
 };
 
 } // end namespace itk

@@ -28,7 +28,7 @@ class TestObject
     using ConstAutoPointer = itk::AutoPointer<const Self>;
     TestObject() { std::cout << "TestObject Contructed" << std::endl; }
     virtual ~TestObject() { std::cout << "TestObject Destructed" << std::endl; }
-    const char * GetClassName(void) const { return "my Class name is TestObject"; }
+    const char * GetClassName() const { return "my Class name is TestObject"; }
   };
 
 

@@ -157,7 +157,7 @@ public:
 
 protected:
   RecursiveGaussianImageFilter();
-  ~RecursiveGaussianImageFilter() override {}
+  ~RecursiveGaussianImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
@@ -168,7 +168,7 @@ protected:
 
   /* See superclass for doxygen. This method adds the additional check
    * that sigma is greater than zero. */
-  void VerifyPreconditions() override;
+  void VerifyPreconditions() ITKv5_CONST override;
 
 private:
   /** Compute the N coefficients in the recursive filter. */

@@ -108,7 +108,7 @@ public:
   /** Set/Get the source image. */
   void SetSourceImage(const InputImageType *source)
   { this->SetInput(source); }
-  const InputImageType * GetSourceImage(void)
+  const InputImageType * GetSourceImage()
   { return this->GetInput(); }
 
   /** Set/Get the reference image. */
@@ -164,7 +164,7 @@ public:
 
 protected:
   HistogramMatchingImageFilter();
-  ~HistogramMatchingImageFilter() override {}
+  ~HistogramMatchingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void BeforeThreadedGenerateData() override;
@@ -179,7 +179,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() ITKv5_CONST override {}
 
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean(const InputImageType *image,
@@ -193,9 +193,9 @@ protected:
                           const THistogramMeasurement maxValue);
 
 private:
-  SizeValueType m_NumberOfHistogramLevels;
-  SizeValueType m_NumberOfMatchPoints;
-  bool          m_ThresholdAtMeanIntensity;
+  SizeValueType m_NumberOfHistogramLevels{256};
+  SizeValueType m_NumberOfMatchPoints{1};
+  bool          m_ThresholdAtMeanIntensity{true};
 
   InputPixelType  m_SourceIntensityThreshold;
   InputPixelType  m_ReferenceIntensityThreshold;
@@ -220,8 +220,8 @@ private:
 
   using GradientArrayType = vnl_vector< double >;
   GradientArrayType m_Gradients;
-  double            m_LowerGradient;
-  double            m_UpperGradient;
+  double            m_LowerGradient{0.0};
+  double            m_UpperGradient{0.0};
 };
 } // end namespace itk
 

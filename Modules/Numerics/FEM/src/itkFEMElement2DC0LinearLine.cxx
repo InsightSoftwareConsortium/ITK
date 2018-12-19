@@ -183,7 +183,7 @@ itk::fem::Element::Float Element2DC0LinearLine::DistanceToLine(
   return dist;
 }
 
-void Element2DC0LinearLine::PopulateEdgeIds(void)
+void Element2DC0LinearLine::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 

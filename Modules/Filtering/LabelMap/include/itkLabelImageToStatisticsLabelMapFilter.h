@@ -165,7 +165,7 @@ public:
 
 protected:
   LabelImageToStatisticsLabelMapFilter();
-  ~LabelImageToStatisticsLabelMapFilter() override {}
+  ~LabelImageToStatisticsLabelMapFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelImageToStatisticsLabelMapFilter needs the entire input be

@@ -54,7 +54,7 @@ int itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
   double probability = 0.01;
   if( argc >= 4 )
     {
-    probability = atof( argv[3] );
+    probability = std::stod( argv[3] );
     }
   saltAndPepperNoiseImageFilter->SetProbability( probability );
   TEST_SET_GET_VALUE( probability, saltAndPepperNoiseImageFilter->GetProbability() );

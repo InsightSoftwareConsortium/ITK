@@ -55,7 +55,7 @@ int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  filter->SetThresholdValue( atoi(argv[3]) );
+  filter->SetThresholdValue( std::stoi(argv[3]) );
 
   //Exercise Set/Get methods for Foreground Value
   filter->SetForegroundValue( 255 );
@@ -67,7 +67,7 @@ int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  filter->SetForegroundValue( atoi(argv[4]) );
+  filter->SetForegroundValue( std::stoi(argv[4]) );
 
   //Exercise Set/Get methods for Background Value
   filter->SetBackgroundValue( 0 );
@@ -78,7 +78,7 @@ int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  filter->SetBackgroundValue( atoi(argv[5]) );
+  filter->SetBackgroundValue( std::stoi(argv[5]) );
 
 
   itk::SimpleFilterWatcher watcher(filter, "filter");

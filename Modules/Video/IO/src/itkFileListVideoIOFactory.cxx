@@ -26,15 +26,14 @@ FileListVideoIOFactory::FileListVideoIOFactory()
   this->RegisterOverride( "itkVideoIOBase",
                           "itkFileListVideoIO",
                           "FileList Video IO",
-                          1,
+                          true,
                           CreateObjectFunction< FileListVideoIO >::New() );
 }
 
-FileListVideoIOFactory::~FileListVideoIOFactory()
-{}
+FileListVideoIOFactory::~FileListVideoIOFactory() = default;
 
 const char *
-FileListVideoIOFactory::GetITKSourceVersion(void) const
+FileListVideoIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +49,7 @@ FileListVideoIOFactory::GetDescription() const
 
 static bool FileListVideoIOFactoryHasBeenRegistered;
 
-void FileListVideoIOFactoryRegister__Private(void)
+void FileListVideoIOFactoryRegister__Private()
 {
   if( ! FileListVideoIOFactoryHasBeenRegistered )
     {

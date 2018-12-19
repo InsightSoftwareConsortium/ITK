@@ -52,7 +52,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::AnalyzeKernel(void)
+::AnalyzeKernel()
 {
   // Sure clearing
   m_KernelDifferenceSets.clear();

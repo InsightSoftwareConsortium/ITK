@@ -68,15 +68,15 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
 
   filter->SetGradientImage( gradient->GetOutput() );
 
-  double pow = atof( argv[3] );
+  double pow = std::stod( argv[3] );
   filter->SetPow( pow );
   TEST_SET_GET_VALUE( pow, filter->GetPow() );
 
-  auto insideValue = static_cast< FilterType::InputPixelType >( atof( argv[4] ) );
+  auto insideValue = static_cast< FilterType::InputPixelType >( std::stod( argv[4] ) );
   filter->SetInsideValue( insideValue );
   TEST_SET_GET_VALUE( insideValue, filter->GetInsideValue() );
 
-  auto outsideValue = static_cast< FilterType::InputPixelType >( atof( argv[5] ) );
+  auto outsideValue = static_cast< FilterType::InputPixelType >( std::stod( argv[5] ) );
   filter->SetOutsideValue( outsideValue );
   TEST_SET_GET_VALUE( outsideValue, filter->GetOutsideValue() );
 
@@ -87,7 +87,7 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
 
 
   // Regression test
-  auto expectedThreshold = static_cast< FilterType::InputPixelType >( atof( argv[6] ) );
+  auto expectedThreshold = static_cast< FilterType::InputPixelType >( std::stod( argv[6] ) );
   FilterType::InputPixelType computedThreshold = filter->GetThreshold();
   if( itk::Math::NotAlmostEquals( expectedThreshold, computedThreshold ) )
     {

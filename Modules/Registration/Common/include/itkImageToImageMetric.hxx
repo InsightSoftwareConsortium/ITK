@@ -30,64 +30,31 @@ namespace itk
 template< typename TFixedImage, typename TMovingImage >
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::ImageToImageMetric():
-  m_UseFixedImageIndexes(false),
   m_FixedImageIndexes(0),
-
-  m_UseFixedImageSamplesIntensityThreshold(false),
   m_FixedImageSamplesIntensityThreshold(0),
-
   m_FixedImageSamples(0),
-  m_NumberOfParameters(0),
-
-  m_NumberOfFixedImageSamples(50000),
-
-  m_NumberOfPixelsCounted(0),
-
   m_FixedImage(nullptr), // has to be provided by the user.
   m_MovingImage(nullptr), // has to be provided by the user.
-
   m_Transform(nullptr), // has to be provided by the user.
   m_ThreaderTransform(nullptr), // constructed at initialization.
-
-  m_Interpolator(nullptr), // has to be provided by the user.
-
-  m_ComputeGradient(true), // metric computes gradient by default
+  m_Interpolator(nullptr),  // metric computes gradient by default
   m_GradientImage(nullptr),   // computed at initialization
-
   m_FixedImageMask(nullptr),
   m_MovingImageMask(nullptr),
-
-  m_NumberOfWorkUnits(1),
-
-  m_UseAllPixels(false),
-  m_UseSequentialSampling(false),
-  m_ReseedIterator(false),
   m_RandomSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed()),
-
-  m_TransformIsBSpline(false),
-  m_NumBSplineWeights(0),
-
   m_BSplineTransform(nullptr),
   m_BSplineTransformWeightsArray(),
   m_BSplineTransformIndicesArray(),
   m_BSplinePreTransformPointsArray(0),
   m_WithinBSplineSupportRegionArray(0),
   m_BSplineParametersOffset(),
-
-  m_UseCachingOfBSplineWeights(true),
   m_BSplineTransformWeights(),
   m_BSplineTransformIndices(),
   m_ThreaderBSplineTransformWeights(nullptr),
   m_ThreaderBSplineTransformIndices(nullptr),
-
-  m_InterpolatorIsBSpline(false),
   m_BSplineInterpolator(nullptr),
   m_DerivativeCalculator(nullptr),
-
-  m_Threader(MultiThreaderType::New()),
-  m_ThreaderNumberOfMovingImageSamples(nullptr),
-  m_WithinThreadPreProcess(false),
-  m_WithinThreadPostProcess(false)
+  m_Threader(MultiThreaderType::New())
 {
   this->m_ThreaderParameter.metric = this;
   this->m_NumberOfWorkUnits = this->m_Threader->GetNumberOfWorkUnits();
@@ -292,7 +259,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize(void)
+::Initialize()
 {
   if ( !m_Transform )
     {
@@ -369,7 +336,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::MultiThreadingInitialize(void)
+::MultiThreadingInitialize()
 {
   this->SetNumberOfWorkUnits(m_NumberOfWorkUnits);
 
@@ -1167,7 +1134,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedPreProcessInitiate(void) const
+::GetValueMultiThreadedPreProcessInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1179,7 +1146,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedInitiate(void) const
+::GetValueMultiThreadedInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1196,7 +1163,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedPostProcessInitiate(void) const
+::GetValueMultiThreadedPostProcessInitiate() const
 {
   m_Threader->SetSingleMethod( GetValueMultiThreadedPostProcess,
                                const_cast< void * >( static_cast< const void * >( &m_ThreaderParameter ) ) );
@@ -1207,7 +1174,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedPreProcess(void *arg)
 {
@@ -1221,14 +1188,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueThreadPreProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreaded(void *arg)
 {
@@ -1242,14 +1209,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueThread(threadId);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedPostProcess(void *arg)
 {
@@ -1263,7 +1230,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueThreadPostProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TFixedImage, typename TMovingImage  >
@@ -1330,7 +1297,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedPreProcessInitiate(void) const
+::GetValueAndDerivativeMultiThreadedPreProcessInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1342,7 +1309,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedInitiate(void) const
+::GetValueAndDerivativeMultiThreadedInitiate() const
 {
   this->SynchronizeTransforms();
 
@@ -1359,7 +1326,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedPostProcessInitiate(void) const
+::GetValueAndDerivativeMultiThreadedPostProcessInitiate() const
 {
   m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreadedPostProcess,
                                (void *)( &m_ThreaderParameter ) );
@@ -1370,7 +1337,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedPreProcess(void *arg)
 {
@@ -1384,14 +1351,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueAndDerivativeThreadPreProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreaded(void *arg)
 {
@@ -1405,14 +1372,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueAndDerivativeThread(threadId);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
  * Get the match Measure
  */
 template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedPostProcess(void *arg)
 {
@@ -1426,7 +1393,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   mtParam->metric->GetValueAndDerivativeThreadPostProcess(threadId, false);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TFixedImage, typename TMovingImage  >

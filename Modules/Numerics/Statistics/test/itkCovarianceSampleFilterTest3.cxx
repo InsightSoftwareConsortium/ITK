@@ -49,8 +49,8 @@ public:
     }
 
 private:
-  MyCovarianceSampleFilter() {}
-  ~MyCovarianceSampleFilter() override {}
+  MyCovarianceSampleFilter() = default;
+  ~MyCovarianceSampleFilter() override = default;
 };
 }
 }

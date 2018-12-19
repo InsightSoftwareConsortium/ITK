@@ -285,8 +285,7 @@ int itkPointGeometryTest(int, char* [] )
     w[1] = 1/3.0;
 
     using BarycentricCalculatorType = itk::BarycentricCombination< VectorOfPoints, double * >;
-    BarycentricCalculatorType barycentreCalculator;
-    combination = barycentreCalculator.Evaluate( points, w );
+    combination = BarycentricCalculatorType::Evaluate( points, w );
     std::cout << "Test for Barycentric combination of a VectorContainer of Points" << std::endl;
     for(unsigned int i=0; i<N; i++ )
     {

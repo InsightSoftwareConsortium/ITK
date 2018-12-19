@@ -180,7 +180,7 @@ int itkLabelOverlapMeasuresImageFilterTest( int argc, char *argv[] )
     LabelOverlapMeasuresImageFilter, ImageToImageFilter );
 
 
-  switch( atoi( argv[1] ) )
+  switch( std::stoi( argv[1] ) )
     {
     case 2:
       LabelOverlapMeasures<2>( argc, argv );

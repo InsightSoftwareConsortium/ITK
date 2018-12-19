@@ -26,12 +26,7 @@
 #include "itkVectorContainer.h"
 
 #include "vxl_version.h"
-#if VXL_VERSION_DATE_FULL > 20040406
 #include "vnl/vnl_cross.h"
-#define itk_cross_3d vnl_cross_3d
-#else
-#define itk_cross_3d cross_3d
-#endif
 
 namespace itk
 {
@@ -183,7 +178,7 @@ public:
       mesh->GetPoint(p1, &v1);
       mesh->GetPoint(p2, &v2);
       mesh->GetPoint(p3, &v3);
-      return std::abs (itk_cross_3d( ( v2 - v1 ).GetVnlVector(), ( v3 - v1 ).GetVnlVector() ).two_norm() / 2.0);
+      return std::abs (vnl_cross_3d( ( v2 - v1 ).GetVnlVector(), ( v3 - v1 ).GetVnlVector() ).two_norm() / 2.0);
     }
 
     typename DoubleValueMapType::Pointer GetAreaMap()
@@ -291,18 +286,18 @@ protected:
    * threshold controls the percentage of cells
    * to satify the selection criteria
    */
-  double m_Threshold;
+  double m_Threshold{0.5};
 
   /**
    * different criteria for cell refinement selection
    */
-  int m_SelectionMethod;
+  int m_SelectionMethod{0};
 
   /**
    * atttribute contains the number of cells
    * which were modified during the last Update()
    */
-  int m_ModifiedCount;
+  int m_ModifiedCount{0};
 
   /**
    * \brief member for accessing the filter result during

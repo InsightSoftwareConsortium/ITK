@@ -96,7 +96,7 @@ public:
 
 protected:
   AttributeRelabelLabelMapFilter();
-  ~AttributeRelabelLabelMapFilter() override {};
+  ~AttributeRelabelLabelMapFilter() override = default;
 
   void GenerateData() override;
 

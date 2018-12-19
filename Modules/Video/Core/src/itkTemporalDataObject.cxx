@@ -35,16 +35,15 @@ namespace itk
 TemporalDataObject::TemporalDataObject()
   : m_LargestPossibleTemporalRegion(),
     m_RequestedTemporalRegion(),
-    m_BufferedTemporalRegion(),
-    m_TemporalUnit(Frame)
+    m_BufferedTemporalRegion()
+
 {
   m_DataObjectBuffer = BufferType::New();
 }
 
 //----------------------------------------------------------------------------
 TemporalDataObject
-::~TemporalDataObject()
-{}
+::~TemporalDataObject() = default;
 
 //----------------------------------------------------------------------------
 TemporalDataObject::TemporalUnitType

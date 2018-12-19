@@ -19,8 +19,7 @@
 #define itkLabelContourImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
-#include "itkImage.h"
-#include "itkConceptChecking.h"
+#include "itkScanlineFilterCommon.h"
 #include <vector>
 
 namespace itk
@@ -54,6 +53,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT LabelContourImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
+  , protected ScanlineFilterCommon< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelContourImageFilter);
@@ -65,6 +65,8 @@ public:
   using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using Superclass::Register;
+  using Superclass::UnRegister;
 
   /**
    * Method for creation through the object factory.
@@ -77,18 +79,6 @@ public:
   itkTypeMacro(LabelContourImageFilter, InPlaceImageFilter);
 
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
-
-  itkConceptMacro( SameDimension,
-    ( Concept::SameDimension< Self::InputImageDimension,
-                              Self::OutputImageDimension > ) );
-
-#endif
 
   /**
    * Image type alias support
@@ -130,11 +120,9 @@ public:
 protected:
 
   LabelContourImageFilter();
-  ~LabelContourImageFilter() override {}
+  ~LabelContourImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  SizeValueType IndexToLinearIndex(OutputIndexType index);
 
   void GenerateData() override;
 
@@ -158,40 +146,24 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
+  using ScanlineFunctions = ScanlineFilterCommon< TInputImage, TOutputImage >;
+
+  using InternalLabelType         = typename ScanlineFunctions::InternalLabelType;
+  using OutSizeType               = typename ScanlineFunctions::OutSizeType;
+  using RunLength                 = typename ScanlineFunctions::RunLength;
+  using LineEncodingType          = typename ScanlineFunctions::LineEncodingType;
+  using LineEncodingIterator      = typename ScanlineFunctions::LineEncodingIterator;
+  using LineEncodingConstIterator = typename ScanlineFunctions::LineEncodingConstIterator;
+  using OffsetVectorType          = typename ScanlineFunctions::OffsetVectorType;
+  using OffsetVectorConstIterator = typename ScanlineFunctions::OffsetVectorConstIterator;
+  using LineMapType               = typename ScanlineFunctions::LineMapType;
+  using UnionFindType             = typename ScanlineFunctions::UnionFindType;
+  using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+
 private:
-  /** types to support the run length encoding of lines */
-  struct RunLength
-  {
-    /** run length information - may be a more type safe way of doing this */
-    SizeValueType length;
+  OutputImagePixelType m_BackgroundValue;
 
-    /** Index of the start of the run */
-    InputIndexType where;
-
-    InputImagePixelType label;
-  };
-
-  using LineEncodingType = std::vector< RunLength >;
-  using LineEncodingIterator = typename LineEncodingType::iterator;
-  using LineEncodingConstIterator = typename LineEncodingType::const_iterator;
-
-  using OffsetVectorType = std::vector< OffsetValueType >;
-  using OffsetVectorConstIterator = typename OffsetVectorType::const_iterator;
-
-  // the map storing lines
-  using LineMapType = std::vector< LineEncodingType >;
-
-  LineMapType           m_LineMap;
-  OutputImagePixelType  m_BackgroundValue;
-  ThreadIdType          m_NumberOfWorkUnits;
-  bool                  m_FullyConnected;
-
-  bool CheckNeighbors(const OutputIndexType & A,
-                      const OutputIndexType & B) const;
-
-  void CompareLines(TOutputImage *output, LineEncodingType & current, const LineEncodingType & Neighbour);
-
-  void SetupLineOffsets(OffsetVectorType & LineOffsets);
+  LineMapType m_LineMap;
 };
 } // end namespace itk
 

@@ -65,11 +65,15 @@ public:
   using Iterator = typename BaseArray::Iterator;
   using ConstIterator = typename BaseArray::ConstIterator;
 
-  /** Default constructor has nothing to do. */
-  ContinuousIndex() {}
+  /** Constructors */
+  ContinuousIndex() = default;
+  ContinuousIndex(const ContinuousIndex &) = default;
+  ContinuousIndex(ContinuousIndex &&) = default;
+  ContinuousIndex & operator=(const ContinuousIndex &) = default;
+  ContinuousIndex & operator=(ContinuousIndex &&) = default;
+  ~ContinuousIndex() = default;
 
   /** Pass-through constructor to the Point base class. */
-  ContinuousIndex(const Self & r):Superclass(r) {}
   ContinuousIndex(const ValueType r[IndexDimension]):Superclass(r) {}
 
   /** Construct from discrete index type */

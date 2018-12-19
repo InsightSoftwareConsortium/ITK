@@ -29,12 +29,12 @@ namespace itk
  *
  * Here's a usage example of STLContainerAdaptor:
  *
- * \code
- *     itk::STLContainerAdaptor<itk::VectorContainer<size_t, ElementType>> vecAdaptor(aContainer);
- *     std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
- *     // do things with vec ...
- *     // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
- * \endcode
+   \code
+       itk::STLContainerAdaptor<itk::VectorContainer<size_t, ElementType>> vecAdaptor(aContainer);
+       std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
+       // do things with vec ...
+       // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
+   \endcode
  *
  * \ingroup ITKCommon
  */
@@ -55,10 +55,10 @@ private:
 
   /** hide the copy constructor to allow only direct construction of the adapter
     */
-  STLContainerAdaptor(const STLContainerAdaptor & r);
+  STLContainerAdaptor(const STLContainerAdaptor & r) = delete;
 
   /* hide and avoid operator= */
-  const STLContainerAdaptor & operator=(const STLContainerAdaptor & r);
+  const STLContainerAdaptor & operator=(const STLContainerAdaptor & r) = delete;
 
 public:
   STLContainerAdaptor(AdapteeType & adaptee):m_AdapteeRef(adaptee) {}

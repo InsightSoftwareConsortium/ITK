@@ -111,7 +111,7 @@ public:
 
 protected:
   ConstantPadImageFilter();
-  ~ConstantPadImageFilter() override {}
+  ~ConstantPadImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

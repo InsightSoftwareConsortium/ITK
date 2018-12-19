@@ -25,7 +25,7 @@ namespace itk
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::ConvolutionImageFilterBase() :
-  m_Normalize( false ),
+
   m_OutputRegionMode( Self::SAME )
 {
   this->AddRequiredInputName("KernelImage");

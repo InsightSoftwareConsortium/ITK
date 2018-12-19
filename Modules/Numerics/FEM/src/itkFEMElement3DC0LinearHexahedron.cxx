@@ -293,7 +293,7 @@ Element3DC0LinearHexahedron
         pc[i] = localPt[i];
         }
       }
-    return 0;
+    return false;
     }
 }
 
@@ -365,7 +365,7 @@ itk::fem::Element::Float Element3DC0LinearHexahedron::Determinant3x3(const Vecto
          - c1[0] * c3[1] * c2[2] - c2[0] * c1[1] * c3[2] - c3[0] * c2[1] * c1[2];
 }
 
-void Element3DC0LinearHexahedron::PopulateEdgeIds(void)
+void Element3DC0LinearHexahedron::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 

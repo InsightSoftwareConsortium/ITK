@@ -22,9 +22,7 @@
 namespace itk
 {
 
-FancyString::FancyString()// : std::string()
-{
-}
+FancyString::FancyString() = default; // : std::string()
 
 FancyString::FancyString( const std::string& str )// : std::string( str )
 {

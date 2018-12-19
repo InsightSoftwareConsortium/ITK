@@ -29,7 +29,7 @@ int itkListSampleTest(int argc, char *argv[] )
   using MeasurementVectorType = itk::Array< float >;
   using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  SampleType::MeasurementVectorSizeType measurementVectorSize = atoi(argv[1]);
+  SampleType::MeasurementVectorSizeType measurementVectorSize = std::stoi(argv[1]);
   std::cerr << "Measurement vector size: " << measurementVectorSize
             << std::endl;
 

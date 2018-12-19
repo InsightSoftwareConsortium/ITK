@@ -90,7 +90,7 @@ public:
   virtual void AdvanceOneStep();
 
   /** Start optimization. */
-  void    StartOptimization(void) override;
+  void    StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
@@ -127,22 +127,22 @@ public:
 
 protected:
   GradientDescentOptimizer();
-  ~GradientDescentOptimizer() override {}
+  ~GradientDescentOptimizer() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // made protected so subclass can access
   DerivativeType m_Gradient;
 
-  bool m_Maximize;
+  bool m_Maximize{false};
 
-  double m_LearningRate;
+  double m_LearningRate{1.0};
 
 private:
-  bool               m_Stop;
-  double             m_Value;
-  StopConditionType  m_StopCondition;
-  SizeValueType      m_NumberOfIterations;
-  SizeValueType      m_CurrentIteration;
+  bool               m_Stop{false};
+  double             m_Value{0.0};
+  StopConditionType  m_StopCondition{MaximumNumberOfIterations};
+  SizeValueType      m_NumberOfIterations{100};
+  SizeValueType      m_CurrentIteration{0};
   std::ostringstream m_StopConditionDescription;
 };
 } // end namespace itk

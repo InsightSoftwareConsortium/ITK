@@ -19,17 +19,12 @@
 
 namespace itk
 {
-  Command::Command()
-    {}
+  Command::Command() = default;
 
-  Command::~Command()
-    {}
+  Command::~Command() = default;
 
-  CStyleCommand::CStyleCommand() :
-    m_ClientData( nullptr ),
-    m_Callback( nullptr ),
-    m_ConstCallback( nullptr ),
-    m_ClientDataDeleteCallback( nullptr )
+  CStyleCommand::CStyleCommand()
+
   {}
 
   CStyleCommand::~CStyleCommand()

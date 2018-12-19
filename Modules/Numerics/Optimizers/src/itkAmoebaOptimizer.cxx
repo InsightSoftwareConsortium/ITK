@@ -147,7 +147,7 @@ AmoebaOptimizer
 
 void
 AmoebaOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   const ScalesType & scales = GetScales();
   const ParametersType &initialPosition = GetInitialPosition();

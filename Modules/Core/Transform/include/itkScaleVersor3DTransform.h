@@ -113,7 +113,7 @@ public:
    **  */
   void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const override;
+  const ParametersType & GetParameters() const override;
 
   /** Set/Get the scale vector. These scale factors are associated to the axis
    * of coordinates. */
@@ -145,9 +145,9 @@ protected:
   }
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void) override;
+  void ComputeMatrix() override;
 
-  void ComputeMatrixParameters(void) override;
+  void ComputeMatrixParameters() override;
 
 private:
   /**  Vector containing the scale. */

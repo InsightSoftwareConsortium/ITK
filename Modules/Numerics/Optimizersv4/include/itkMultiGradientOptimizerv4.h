@@ -102,7 +102,7 @@ public:
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  void StopOptimization(void) override;
+  void StopOptimization() override;
 
   /** Resume the optimization. Can be called after StopOptimization to
    * resume. The bulk of the optimization work loop is here. */
@@ -129,7 +129,7 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /* Common variables for optimization control and reporting */
-  bool                          m_Stop;
+  bool                          m_Stop{false};
   StopConditionType             m_StopCondition;
   StopConditionDescriptionType  m_StopConditionDescription;
   OptimizersListType            m_OptimizersList;

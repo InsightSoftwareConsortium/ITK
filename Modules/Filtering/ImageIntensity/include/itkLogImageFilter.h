@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Log
 {
 public:
-  Log() {}
-  ~Log() {}
+  Log() = default;
+  ~Log() = default;
   bool operator!=(const Log &) const
   {
     return false;
@@ -100,7 +100,7 @@ protected:
 #endif
     }
 
-  ~LogImageFilter() override {}
+  ~LogImageFilter() override = default;
 };
 } // end namespace itk
 

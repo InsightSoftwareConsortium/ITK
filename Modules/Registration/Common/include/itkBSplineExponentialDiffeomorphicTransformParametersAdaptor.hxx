@@ -35,9 +35,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 
 template<typename TTransform>
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::~BSplineExponentialDiffeomorphicTransformParametersAdaptor()
-{
-}
+::~BSplineExponentialDiffeomorphicTransformParametersAdaptor() = default;
 
 /**
  * set mesh size for velocity field

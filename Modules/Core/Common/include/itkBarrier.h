@@ -18,7 +18,10 @@
 #ifndef itkBarrier_h
 #define itkBarrier_h
 
-#include "itkConditionVariable.h"
+#include "itkLightObject.h"
+#include "itkObjectFactory.h"
+#include <condition_variable>
+#include <mutex>
 
 namespace itk
 {
@@ -38,6 +41,8 @@ namespace itk
  * barrier as the argument.
  *
  * NOTE: This class is only compatible with PlatformMultiThreader!
+ *
+ * NOTE: This class is deprecated since ITK 5.0!
  *
  * \ingroup ITKCommon
  */
@@ -71,10 +76,11 @@ private:
   Barrier();
   ~Barrier() override;
 
-  unsigned int               m_NumberArrived;
-  unsigned int               m_NumberExpected;
-  ConditionVariable::Pointer m_ConditionVariable;
-  SimpleMutexLock            m_Mutex;
+  unsigned int            m_NumberArrived{0};
+  unsigned int            m_NumberExpected{0};
+  unsigned int            m_Generation{0}; // Allows successive waits
+  std::condition_variable m_ConditionVariable;
+  std::mutex              m_Mutex;
 };
 } // end namespace itk
 

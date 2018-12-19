@@ -66,9 +66,9 @@ public:
   using NeighborIdIterator = typename Superclass::NeighborIdIterator;
 
   /** Create the output results.  */
-  void MakeSegmentBoundary(void) override;
+  void MakeSegmentBoundary() override;
 
-  void MakeSegmentObject(void) override;
+  void MakeSegmentObject() override;
 
   /** Set/Get the threshold used to determine if a Voronoi region is
    * homogeneous. If the standard deviation of the intensities in the
@@ -96,16 +96,16 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // Classify all the voronoi cells as interior , exterior or boundary.
-  void ClassifyDiagram(void) override;
+  void ClassifyDiagram() override;
 
   // Generate the seeds to be added by dividing the boundary cells.
-  void GenerateAddingSeeds(void) override;
+  void GenerateAddingSeeds() override;
 
   // Are the pixels specified in the index list homogeneous?
   bool TestHomogeneity(IndexList & Plist) override;
 
   // Threshold for homogeneity criterion
-  double m_SigmaThreshold;
+  double m_SigmaThreshold{10};
 };
 } //end namespace
 

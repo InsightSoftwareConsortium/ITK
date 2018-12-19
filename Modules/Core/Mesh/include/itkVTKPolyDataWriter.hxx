@@ -41,8 +41,7 @@ VTKPolyDataWriter< TInputMesh >
 //
 template< typename TInputMesh >
 VTKPolyDataWriter< TInputMesh >
-::~VTKPolyDataWriter()
-{}
+::~VTKPolyDataWriter() = default;
 
 //
 // Set the input mesh
@@ -137,7 +136,7 @@ VTKPolyDataWriter< TInputMesh >
       outputFile << std::endl;
 
       IdMap[pointIterator.Index()] = k++;
-      pointIterator++;
+      ++pointIterator;
       }
     }
 
@@ -172,7 +171,7 @@ VTKPolyDataWriter< TInputMesh >
         default:
           std::cerr << "Unhandled cell (volumic?)." << std::endl;
         }
-      cellIterator++;
+      ++cellIterator;
       }
 
     // VERTICES should go here
@@ -208,7 +207,7 @@ VTKPolyDataWriter< TInputMesh >
           default:
             break;
           }
-        cellIterator++;
+        ++cellIterator;
         }
       }
 
@@ -228,7 +227,7 @@ VTKPolyDataWriter< TInputMesh >
           {
           totalNumberOfPointsInPolygons += cellPointer->GetNumberOfPoints();
           }
-        cellIterator++;
+        ++cellIterator;
         }
       outputFile << "POLYGONS " << numberOfPolygons << " ";
       outputFile << totalNumberOfPointsInPolygons + numberOfPolygons; // FIXME: Is this right ?
@@ -259,7 +258,7 @@ VTKPolyDataWriter< TInputMesh >
           default:
             break;
           }
-        cellIterator++;
+        ++cellIterator;
         }
       }
     }

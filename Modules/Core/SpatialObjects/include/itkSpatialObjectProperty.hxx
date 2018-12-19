@@ -36,13 +36,12 @@ SpatialObjectProperty< TComponentType >
 
 template< typename TComponentType >
 SpatialObjectProperty< TComponentType >
-::~SpatialObjectProperty()
-{}
+::~SpatialObjectProperty() = default;
 
 template< typename TComponentType >
 const typename SpatialObjectProperty< TComponentType >::PixelType &
 SpatialObjectProperty< TComponentType >
-::GetColor(void) const
+::GetColor() const
 {
   return m_Color;
 }
@@ -79,7 +78,7 @@ SpatialObjectProperty< TComponentType >
 template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
-::GetRed(void) const
+::GetRed() const
 {
   return m_Color.GetRed();
 }
@@ -96,7 +95,7 @@ SpatialObjectProperty< TComponentType >
 template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
-::GetGreen(void) const
+::GetGreen() const
 {
   return m_Color.GetGreen();
 }
@@ -113,7 +112,7 @@ SpatialObjectProperty< TComponentType >
 template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
-::GetBlue(void) const
+::GetBlue() const
 {
   return m_Color.GetBlue();
 }
@@ -130,7 +129,7 @@ SpatialObjectProperty< TComponentType >
 template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
-::GetAlpha(void) const
+::GetAlpha() const
 {
   return m_Color.GetAlpha();
 }
@@ -147,7 +146,7 @@ SpatialObjectProperty< TComponentType >
 template< typename TComponentType >
 typename SpatialObjectProperty< TComponentType >::StringType
 SpatialObjectProperty< TComponentType >
-::GetName(void) const
+::GetName() const
 {
   return m_Name;
 }

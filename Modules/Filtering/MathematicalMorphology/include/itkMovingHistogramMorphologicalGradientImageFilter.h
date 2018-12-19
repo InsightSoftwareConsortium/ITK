@@ -29,11 +29,9 @@ template< typename TInputPixel >
 class MorphologicalGradientHistogram
 {
 public:
-  MorphologicalGradientHistogram()
-  {
-  }
+  MorphologicalGradientHistogram() = default;
 
-  ~MorphologicalGradientHistogram(){}
+  ~MorphologicalGradientHistogram()= default;
 
   inline void AddBoundary() {}
 
@@ -108,7 +106,7 @@ public:
     m_Count = 0;
   }
 
-  ~VectorMorphologicalGradientHistogram(){}
+  ~VectorMorphologicalGradientHistogram()= default;
 
   inline void AddBoundary() {}
 
@@ -267,8 +265,8 @@ public:
   { return Function::MorphologicalGradientHistogram< typename TInputImage::PixelType >::UseVectorBasedAlgorithm(); }
 
 protected:
-  MovingHistogramMorphologicalGradientImageFilter() {}
-  ~MovingHistogramMorphologicalGradientImageFilter() override {}
+  MovingHistogramMorphologicalGradientImageFilter() = default;
+  ~MovingHistogramMorphologicalGradientImageFilter() override = default;
 };                                                               // end of class
 } // end namespace itk
 

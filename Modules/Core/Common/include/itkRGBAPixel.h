@@ -37,12 +37,12 @@ namespace itk
  *
  * The following syntax for assigning an index is allowed/suggested:
  *
- * \code
- *    RGBAPixel<float> pixel; pixel = 1.0f, 0.0f, .5f, .8;
- *    RGBAPixel<char> pixelArray[2];
- *    pixelArray[0] = 255, 255, 255, 230;
- *    pixelArray[1] = 255, 255, 244, 255;
- * \endcode
+   \code
+      RGBAPixel<float> pixel; pixel = 1.0f, 0.0f, .5f, .8;
+      RGBAPixel<char> pixelArray[2];
+      pixelArray[0] = 255, 255, 255, 230;
+      pixelArray[1] = 255, 255, 244, 255;
+   \endcode
  *
  * Since RGBAPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2], pixel[3]
@@ -76,18 +76,21 @@ public:
   using ComponentType = TComponent;
   using LuminanceType = typename NumericTraits< ComponentType >::RealType;
 
-  /** Default constructor has nothing to do. */
+  /** Default constructors */
   RGBAPixel() { this->Fill(0); }
-  RGBAPixel (const ComponentType & r) { this->Fill(r); }
+  RGBAPixel(const RGBAPixel &) = default;
+  RGBAPixel & operator=(const RGBAPixel &) = default;
+  RGBAPixel( RGBAPixel &&) = default;
+  RGBAPixel & operator=(RGBAPixel &&) = default;
+  ~RGBAPixel() = default;
 
   /** Pass-through constructor for the Array base class. */
   template< typename TRGBAPixelValueType >
   RGBAPixel(const RGBAPixel< TRGBAPixelValueType > & r):BaseArray(r) {}
   RGBAPixel(const ComponentType r[4]):BaseArray(r) {}
+  RGBAPixel(const ComponentType & r) { this->Fill(r); }
 
   /** Pass-through assignment operator for the Array base class. */
-  RGBAPixel & operator=(const Self & r);
-
   RGBAPixel & operator=(const ComponentType r[4]);
 
   /** Aritmetic operations between pixels. Return a new RGBAPixel. */
@@ -150,16 +153,16 @@ public:
   }
 
   /** Get the Red component. */
-  const ComponentType & GetRed(void) const { return this->operator[](0); }
+  const ComponentType & GetRed() const { return this->operator[](0); }
 
   /** Get the Green component. */
-  const ComponentType & GetGreen(void) const { return this->operator[](1); }
+  const ComponentType & GetGreen() const { return this->operator[](1); }
 
   /** Get the Blue component. */
-  const ComponentType & GetBlue(void) const { return this->operator[](2); }
+  const ComponentType & GetBlue() const { return this->operator[](2); }
 
   /** Get the Alpha component. */
-  const ComponentType & GetAlpha(void) const { return this->operator[](3); }
+  const ComponentType & GetAlpha() const { return this->operator[](3); }
 
   /** Get Luminance out of RGB */
   LuminanceType GetLuminance() const;

@@ -120,7 +120,7 @@ protected:
   /**
    * Constructor
    */
-  CommandVnlIterationUpdate() {};
+  CommandVnlIterationUpdate() = default;
 
 private:
 

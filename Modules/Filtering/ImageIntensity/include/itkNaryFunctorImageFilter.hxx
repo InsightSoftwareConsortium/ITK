@@ -28,9 +28,8 @@ template< typename TInputImage, typename TOutputImage, typename TFunction >
 NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::NaryFunctorImageFilter()
 {
-  // This number will be incremented each time an image
-  // is added over the two minimum required
-  this->SetNumberOfRequiredInputs(2);
+  // This number will be incremented each time an image is added.
+  this->SetNumberOfRequiredInputs(1);
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
 }

@@ -116,7 +116,7 @@ public:
 
 protected:
   IsolatedWatershedImageFilter();
-  ~IsolatedWatershedImageFilter() override {}
+  ~IsolatedWatershedImageFilter() override = default;
   IndexType m_Seed1;
   IndexType m_Seed2;
 
@@ -138,7 +138,7 @@ protected:
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() ITKv5_CONST override;
   void GenerateData() override;
 };
 } // end namespace itk

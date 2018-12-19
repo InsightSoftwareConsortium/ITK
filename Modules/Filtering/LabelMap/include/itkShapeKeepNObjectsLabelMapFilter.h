@@ -112,7 +112,7 @@ public:
 
 protected:
   ShapeKeepNObjectsLabelMapFilter();
-  ~ShapeKeepNObjectsLabelMapFilter() override {}
+  ~ShapeKeepNObjectsLabelMapFilter() override = default;
 
   void GenerateData() override;
 

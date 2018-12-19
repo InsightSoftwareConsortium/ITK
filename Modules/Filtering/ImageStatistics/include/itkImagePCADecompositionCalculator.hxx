@@ -59,7 +59,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::Compute(void)
+::Compute()
 {
   if ( !m_BasisMatrixCalculated )
     {
@@ -75,7 +75,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::CalculateBasisMatrix(void)
+::CalculateBasisMatrix()
 {
   m_Size = m_BasisImages[0]->GetRequestedRegion().GetSize();
   m_NumPixels = 1;
@@ -114,7 +114,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::CalculateRecenteredImageAsVector(void)
+::CalculateRecenteredImageAsVector()
 {
   if ( m_Image->GetRequestedRegion().GetSize() != m_Size )
     {

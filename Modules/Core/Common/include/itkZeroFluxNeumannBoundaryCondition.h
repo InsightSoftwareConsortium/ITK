@@ -30,21 +30,21 @@ namespace itk
  *
  * For example, invoking this function object on a 7x5 iterator that masks
  * a region at an image corner (iterator is centered on the 2):
- * \code
- *               * * * * * * *
- *               * * * * * * *
- *               * * 1 2 3 4 5  (where * denotes pixels that lie
- *               * * 3 3 5 5 6          outside of the image boundary)
- *               * * 4 4 6 7 8
- * \endcode
+   \code
+                 * * * * * * *
+                 * * * * * * *
+                 * * 1 2 3 4 5  (where * denotes pixels that lie
+                 * * 3 3 5 5 6          outside of the image boundary)
+                 * * 4 4 6 7 8
+   \endcode
  * returns the following neighborhood of values:
- * \code
- *               1 1 1 2 3 4 5
- *               1 1 1 2 3 4 5
- *               1 1 1 2 3 4 5
- *               3 3 3 3 5 5 6   (note the corner values)
- *               4 4 4 4 6 7 8
- * \endcode
+   \code
+                 1 1 1 2 3 4 5
+                 1 1 1 2 3 4 5
+                 1 1 1 2 3 4 5
+                 3 3 3 3 5 5 6   (note the corner values)
+                 4 4 4 4 6 7 8
+   \endcode
  * The input to this function object is a neighborhood iterator.  This boundary
  * condition object is designed to be given as a template argument to a
  * NeighborhoodIterator or any of the NeighborhoodIterator
@@ -79,7 +79,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Default constructor. */
-  ZeroFluxNeumannBoundaryCondition() {}
+  ZeroFluxNeumannBoundaryCondition() = default;
 
   /** Runtime information support. */
   const char * GetNameOfClass() const override

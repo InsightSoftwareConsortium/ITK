@@ -70,7 +70,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
 template< typename TInputImage >
 void
 WarpHarmonicEnergyCalculator< TInputImage >
-::Compute(void)
+::Compute()
 {
   if ( !m_RegionSetByUser )
     {

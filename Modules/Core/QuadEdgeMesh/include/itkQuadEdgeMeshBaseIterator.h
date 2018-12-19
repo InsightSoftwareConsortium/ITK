@@ -111,7 +111,7 @@ public:
     m_StartEdge(e), m_Iterator(e),
     m_OpType(op), m_Start(start) {}
 
-  virtual ~QuadEdgeMeshBaseIterator() {}
+  virtual ~QuadEdgeMeshBaseIterator() = default;
 
   Self & operator=(const Self & r)
   {
@@ -258,7 +258,7 @@ public:
                        bool start = true):
     Superclass(e, op, start) {}
 
-  ~QuadEdgeMeshIterator() override {}
+  ~QuadEdgeMeshIterator() override = default;
 
   QuadEdgeType * Value() { return ( this->m_Iterator ); }
   const QuadEdgeType * Value() const { return ( this->m_Iterator ); }
@@ -314,7 +314,7 @@ public:
                             bool start = true):
     Superclass(const_cast< QuadEdgeType * >( e ), op, start) {}
 
-  ~QuadEdgeMeshConstIterator() override {}
+  ~QuadEdgeMeshConstIterator() override = default;
 
   Self & operator=(const NoConstType & r)
   {
@@ -354,7 +354,7 @@ public:
                                 bool start = true):
     Superclass(e, op, start) {}
 
-  ~QuadEdgeMeshConstIteratorGeom() override {}
+  ~QuadEdgeMeshConstIteratorGeom() override = default;
 
   Self & operator=(const NoConstType & r)
   {

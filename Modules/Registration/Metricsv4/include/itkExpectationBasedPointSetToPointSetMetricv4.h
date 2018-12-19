@@ -104,7 +104,7 @@ public:
    */
   itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
 
-  void Initialize( void ) override;
+  void Initialize() override;
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
@@ -124,7 +124,7 @@ private:
   CoordRepType                               m_PointSetSigma;
   MeasureType                                m_PreFactor;
   MeasureType                                m_Denominator;
-  unsigned int                               m_EvaluationKNeighborhood;
+  unsigned int                               m_EvaluationKNeighborhood{ 50 };
 
 };
 } // end namespace itk

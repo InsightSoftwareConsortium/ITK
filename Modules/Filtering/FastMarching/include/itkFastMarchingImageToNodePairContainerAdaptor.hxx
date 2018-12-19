@@ -32,8 +32,8 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   m_AliveImage( nullptr ), m_TrialImage( nullptr ), m_ForbiddenImage( nullptr ),
   m_AlivePoints( nullptr ), m_TrialPoints( nullptr ), m_ForbiddenPoints( nullptr ),
   m_AliveValue( NumericTraits< OutputPixelType >::ZeroValue() ),
-  m_TrialValue( NumericTraits< OutputPixelType >::ZeroValue() ),
-  m_IsForbiddenImageBinaryMask( false )
+  m_TrialValue( NumericTraits< OutputPixelType >::ZeroValue() )
+
 {}
 
 template< typename TInput, typename TOutput, typename TImage >

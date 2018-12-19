@@ -70,7 +70,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 
@@ -436,7 +436,7 @@ int main( int argc, char *argv[] )
   bool useEstimator = false;
   if( argc > 6 )
     {
-    useEstimator = atoi(argv[6]) != 0;
+    useEstimator = std::stoi(argv[6]) != 0;
     }
 
   if( useEstimator )

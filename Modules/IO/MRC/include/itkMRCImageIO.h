@@ -73,7 +73,7 @@ public:
   itkTypeMacro(MRCImageIO, StreamingImageIOBase);
 
   // we don't use this method
-  void WriteImageInformation(void) override {}
+  void WriteImageInformation() override {}
 
   //-------- This part of the interface deals with reading data. ------
 
@@ -114,7 +114,7 @@ protected:
    * specified. The header must be read before this methods is
    * called.
    */
-  SizeType GetHeaderSize(void) const override;
+  SizeType GetHeaderSize() const override;
 
 private:
 

@@ -869,7 +869,7 @@ endif ()
 
 add_custom_command (
     OUTPUT ${HDF5_BINARY_DIR}/H5Tinit.c
-    COMMAND $<TARGET_FILE:H5detect>
+    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5detect>
     ARGS > ${HDF5_BINARY_DIR}/H5Tinit.c
     DEPENDS ${INTERNAL_BUILD_PREFIX}H5detect
 )
@@ -888,7 +888,7 @@ endif ()
 
 add_custom_command (
     OUTPUT ${HDF5_BINARY_DIR}/H5lib_settings.c
-    COMMAND $<TARGET_FILE:H5make_libsettings>
+    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5make_libsettings>
     ARGS > ${HDF5_BINARY_DIR}/H5lib_settings.c
     DEPENDS ${INTERNAL_BUILD_PREFIX}H5make_libsettings
     WORKING_DIRECTORY ${HDF5_BINARY_DIR}
@@ -934,14 +934,14 @@ if (BUILD_SHARED_LIBS)
   file (MAKE_DIRECTORY "${HDF5_BINARY_DIR}/shared")
   add_custom_command (
       OUTPUT ${HDF5_BINARY_DIR}/shared/H5Tinit.c
-      COMMAND $<TARGET_FILE:H5detect>
+      COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5detect>
       ARGS > ${HDF5_BINARY_DIR}/shared/H5Tinit.c
       DEPENDS H5detect
       WORKING_DIRECTORY ${HDF5_BINARY_DIR}/shared
   )
   add_custom_command (
       OUTPUT ${HDF5_BINARY_DIR}/shared/H5lib_settings.c
-      COMMAND $<TARGET_FILE:H5make_libsettings>
+      COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5make_libsettings>
       ARGS > ${HDF5_BINARY_DIR}/shared/H5lib_settings.c
       DEPENDS H5make_libsettings
       WORKING_DIRECTORY ${HDF5_BINARY_DIR}
@@ -997,8 +997,9 @@ endif ()
 if (HDF5_EXPORTED_TARGETS)
   if (BUILD_SHARED_LIBS)
     INSTALL_TARGET_PDB (${HDF5_LIBSH_TARGET} ${HDF5_INSTALL_BIN_DIR} libraries)
-  endif ()
+  else () # ITK: We only build the static library if BUILD_SHARED_LIBS is OFF
   INSTALL_TARGET_PDB (${HDF5_LIB_TARGET} ${HDF5_INSTALL_BIN_DIR} libraries)
+  endif () # ITK
 
   install (
       TARGETS

@@ -208,7 +208,7 @@ public:
                                                     VMMapData_10_2 & data);
 
 protected:
-  bool m_UsingSummary;
+  bool m_UsingSummary{false};
 };
 
 /** \class MapFileParser

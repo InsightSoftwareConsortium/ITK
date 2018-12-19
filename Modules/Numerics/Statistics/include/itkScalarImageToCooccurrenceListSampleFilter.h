@@ -102,7 +102,7 @@ public:
 
 protected:
   ScalarImageToCooccurrenceListSampleFilter();
-  ~ScalarImageToCooccurrenceListSampleFilter() override {}
+  ~ScalarImageToCooccurrenceListSampleFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   using DataObjectPointer = DataObject::Pointer;

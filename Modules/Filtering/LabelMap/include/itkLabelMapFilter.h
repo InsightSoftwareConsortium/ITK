@@ -29,7 +29,7 @@
 #define itkLabelMapFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -126,12 +126,12 @@ protected:
     return static_cast< InputImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(0) ) );
   }
 
-  typename FastMutexLock::Pointer m_LabelObjectContainerLock;
+  std::mutex m_LabelObjectContainerLock;
 
 private:
   typename InputImageType::Iterator m_LabelObjectIterator;
-  float                             m_InverseNumberOfLabelObjects;
-  SizeValueType                     m_NumberOfLabelObjectsProcessed;
+  float                             m_InverseNumberOfLabelObjects{ 1.0f };
+  SizeValueType                     m_NumberOfLabelObjectsProcessed{ 1 };
 };
 } // end namespace itk
 

@@ -6,9 +6,7 @@
 //-----------------------------------------------------------------------------
 
 #include <complex>
-#include <cmath>
 #include "vnl_rational_traits.h"
-#include <vcl_compiler.h>
 
 const vnl_rational vnl_numeric_traits<vnl_rational>::zero = vnl_rational(0L,1L);
 const vnl_rational vnl_numeric_traits<vnl_rational>::one = vnl_rational(1L,1L);
@@ -32,7 +30,7 @@ namespace vnl_math
   }
 }
 
-std::ostream& operator<<(std::ostream& os, std::complex<vnl_rational> x)
+std::ostream& operator<<(std::ostream& os, const std::complex<vnl_rational>& x)
 {
   return os << x.real() << '+' << x.imag() << 'j';
 }

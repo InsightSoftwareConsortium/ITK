@@ -20,14 +20,12 @@
 namespace itk
 {
 SegmentationRegion
-::SegmentationRegion(void):
-  m_RegionLabel(0),
-  m_RegionArea(0)
+::SegmentationRegion(void)
+
 {}
 
 SegmentationRegion
-::~SegmentationRegion()
-{}
+::~SegmentationRegion() = default;
 
 /**
  * PrintSelf

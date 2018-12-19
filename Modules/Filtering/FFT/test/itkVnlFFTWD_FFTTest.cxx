@@ -32,11 +32,13 @@ int itkVnlFFTWD_FFTTest(int, char *[])
   using ImageD2 = itk::Image< double, 2>;
   using ImageD3 = itk::Image< double, 3>;
 
+#ifndef ITK_USE_CUFFTW
   std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
   std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
   std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
   std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
   std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+#endif
 
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };

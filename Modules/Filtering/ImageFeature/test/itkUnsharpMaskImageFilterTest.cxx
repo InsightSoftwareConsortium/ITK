@@ -33,7 +33,7 @@ int RunTest( int argc, char* argv[] )
   using InImageType = itk::Image< InputImagePixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< InImageType >;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
 
   TRY_EXPECT_NO_EXCEPTION( reader->Update() );
@@ -54,15 +54,15 @@ int RunTest( int argc, char* argv[] )
 
   if( argc > 4 )
     {
-    filter->SetAmount( atof( argv[4] ) );
+    filter->SetAmount( std::stod( argv[4] ) );
     }
   if( argc > 5 )
     {
-    filter->SetSigma( atof( argv[5] ) );
+    filter->SetSigma( std::stod( argv[5] ) );
     }
   if( argc > 6 )
     {
-    filter->SetThreshold( atof( argv[6] ) );
+    filter->SetThreshold( std::stod( argv[6] ) );
     }
 
   bool clamp = itk::NumericTraits< typename FilterType::OutputPixelType >::IsInteger;

@@ -36,8 +36,7 @@ PlaneSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 PlaneSpatialObject< TDimension >
-::~PlaneSpatialObject()
-{}
+::~PlaneSpatialObject() = default;
 
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
@@ -103,7 +102,7 @@ PlaneSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PlaneSpatialObject< TDimension >
-::ComputeLocalBoundingBox(void) const
+::ComputeLocalBoundingBox() const
 {
   itkDebugMacro("Computing tube bounding box");
 

@@ -75,7 +75,7 @@ public:
   void SetParametersObject(CommonContainerType * container,
                                    LightObject * ) override;
 
-  ~ImageVectorOptimizerParametersHelper() override {}
+  ~ImageVectorOptimizerParametersHelper() override = default;
 
 private:
   /** The parameter image used by the class */

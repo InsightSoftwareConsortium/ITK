@@ -26,8 +26,8 @@ namespace itk
  * Constructor
  */
 RegularStepGradientDescentBaseOptimizer
-::RegularStepGradientDescentBaseOptimizer():
-  m_Stop(false)
+::RegularStepGradientDescentBaseOptimizer()
+
 {
   itkDebugMacro("Constructor");
 
@@ -52,7 +52,7 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::StartOptimization(void)
+::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
 
@@ -86,7 +86,7 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::ResumeOptimization(void)
+::ResumeOptimization()
 {
   itkDebugMacro("ResumeOptimization");
 
@@ -140,7 +140,7 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::StopOptimization(void)
+::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
 
@@ -153,7 +153,7 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::AdvanceOneStep(void)
+::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 

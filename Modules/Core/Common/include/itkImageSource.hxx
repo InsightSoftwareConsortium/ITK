@@ -152,7 +152,7 @@ ImageSource< TOutputImage >
 template< typename TOutputImage >
 const ImageRegionSplitterBase*
 ImageSource< TOutputImage >
-::GetImageRegionSplitter(void) const
+::GetImageRegionSplitter() const
 {
   return this->GetGlobalDefaultSplitter();
 }
@@ -182,7 +182,7 @@ ImageSource< TOutputImage >
   typename ImageBaseType::Pointer outputPtr;
 
   // Allocate the output memory
-  for ( OutputDataObjectIterator it(this); !it.IsAtEnd(); it++ )
+  for ( OutputDataObjectIterator it(this); !it.IsAtEnd(); ++it )
     {
     // Check whether the output is an image of the appropriate
     // dimension (use ProcessObject's version of the GetInput()
@@ -283,7 +283,7 @@ before Update() is called. The best place is in class constructor.");
 // Callback routine used by the classic threading library. This routine just calls
 // the ThreadedGenerateData method after invoking (possibly) overloaded split region routine.
 template< typename TOutputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageSource< TOutputImage >
 ::ThreaderCallback(void *arg)
 {
@@ -301,9 +301,24 @@ ImageSource< TOutputImage >
   if ( threadId < total )
     {
     str->Filter->ThreadedGenerateData(splitRegion, threadId);
+#if defined( ITKV4_COMPATIBILITY )
+    if ( str->Filter->GetAbortGenerateData() )
+      {
+      std::string msg;
+      ProcessAborted e( __FILE__, __LINE__ );
+      msg += "Object " + std::string( str->Filter->GetNameOfClass() ) + ": AbortGenerateData was set!";
+      e.SetDescription( msg );
+      throw e;
+      }
+    else if ( !str->Filter->GetDynamicMultiThreading() // progress reporting is not done in MultiThreaders
+      && str->Filter->GetProgress() == 0.0f ) // and progress was not set after at least the first chunk finished
+      {
+      str->Filter->UpdateProgress( float( threadId + 1 ) / total ); // this will be the only progress update
+      }
+#endif
     }
   // else don't use this thread. Threads were not split conveniently.
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template<typename TOutputImage>

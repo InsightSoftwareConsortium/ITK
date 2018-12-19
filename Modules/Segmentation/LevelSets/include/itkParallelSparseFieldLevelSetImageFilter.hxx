@@ -131,21 +131,12 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ParallelSparseFieldLevelSetImageFilter() :
-  m_ConstantGradientValue(1.0),
+
   m_NumberOfLayers(ImageDimension),
   m_IsoSurfaceValue(m_ValueZero),
-  m_NumOfThreads(0),
-  m_SplitAxis(0),
-  m_ZSize(0),
-  m_BoundaryChanged(false),
-  m_Boundary(nullptr),
-  m_GlobalZHistogram(nullptr),
-  m_MapZToThreadNumber(nullptr),
-  m_ZCumulativeFrequency(nullptr),
-  m_Data(nullptr),
-  m_Stop(false),
-  m_InterpolateSurfaceLocation(true),
-  m_BoundsCheckingActive(false)
+
+  m_Data(nullptr)
+
 {
   this->SetRMSChange( static_cast< double >( m_ValueOne ) );
   this->DynamicMultiThreadingOff();
@@ -814,10 +805,8 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedAllocateData(ThreadIdType ThreadId)
 {
   static constexpr float SAFETY_FACTOR = 4.0;
-  unsigned int       i, j;
+  unsigned int i, j;
 
-  m_Data[ThreadId].m_Condition[0] = ConditionVariable::New();
-  m_Data[ThreadId].m_Condition[1] = ConditionVariable::New();
   m_Data[ThreadId].m_Semaphore[0] = 0;
   m_Data[ThreadId].m_Semaphore[1] = 0;
 
@@ -1149,7 +1138,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-ITK_THREAD_RETURN_TYPE
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
 {
@@ -1323,7 +1312,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     // The active layer is too small => stop iterating
     if ( str->Filter->m_Stop == true )
       {
-      return ITK_THREAD_RETURN_VALUE;
+      return ITK_THREAD_RETURN_DEFAULT_VALUE;
       }
 
     // Threaded Apply Update
@@ -1358,7 +1347,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   str->Filter->ThreadedPostProcessOutput(
     str->Filter->m_Data[ThreadId].ThreadRegion);
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -2578,8 +2567,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     {
     if ( m_Boundary[ThreadId - 1] == m_Boundary[ThreadId] )
       {
-      m_Data[ThreadId].m_SemaphoreArrayNumber =  1
-                                                - m_Data[ThreadId].m_SemaphoreArrayNumber;
+      m_Data[ThreadId].m_SemaphoreArrayNumber =  1 - m_Data[ThreadId].m_SemaphoreArrayNumber;
       return;
       }
     }
@@ -2628,10 +2616,10 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ThreadIdType ThreadId)
 {
   ThreadData &td = m_Data[ThreadId];
-  td.m_Lock[SemaphoreArrayNumber].Lock();
+  td.m_Lock[SemaphoreArrayNumber].lock();
   ++td.m_Semaphore[SemaphoreArrayNumber];
-  td.m_Condition[SemaphoreArrayNumber]->Signal();
-  td.m_Lock[SemaphoreArrayNumber].Unlock();
+  td.m_Condition[SemaphoreArrayNumber].notify_one();
+  td.m_Lock[SemaphoreArrayNumber].unlock();
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -2640,13 +2628,13 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::WaitForNeighbor(unsigned int SemaphoreArrayNumber, ThreadIdType ThreadId)
 {
   ThreadData &td = m_Data[ThreadId];
-  td.m_Lock[SemaphoreArrayNumber].Lock();
+  std::unique_lock< std::mutex > mutexHolder( td.m_Lock[SemaphoreArrayNumber] );
   if ( td.m_Semaphore[SemaphoreArrayNumber] == 0 )
     {
-    td.m_Condition[SemaphoreArrayNumber]->Wait( & td.m_Lock[SemaphoreArrayNumber]);
+    td.m_Condition[SemaphoreArrayNumber].wait( mutexHolder, [&td, SemaphoreArrayNumber]
+      { return (td.m_Semaphore[SemaphoreArrayNumber] != 0); } );
     }
   --td.m_Semaphore[SemaphoreArrayNumber];
-  td.m_Lock[SemaphoreArrayNumber].Unlock();
 }
 
 template< typename TInputImage, typename TOutputImage >

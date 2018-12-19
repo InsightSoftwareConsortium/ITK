@@ -20,9 +20,6 @@
 #define itkCSVFileReaderBase_h
 
 #include "itkLightProcessObject.h"
-#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include <vcl_limits.h>
-#endif
 #include <limits>
 #include "itkMacro.h"
 #include "itkSize.h"
@@ -173,7 +170,7 @@ protected:
   std::string                  m_Line;
 
   CSVFileReaderBase();
-  ~CSVFileReaderBase() override {}
+  ~CSVFileReaderBase() override = default;
   /** Print method */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

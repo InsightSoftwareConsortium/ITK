@@ -91,8 +91,8 @@ public:
   itkTypeMacro(SinImageAdaptor, ImageAdaptor);
 
 protected:
-  SinImageAdaptor() {}
-  ~SinImageAdaptor() override {}
+  SinImageAdaptor() = default;
+  ~SinImageAdaptor() override = default;
 };
 } // end namespace itk
 

@@ -48,8 +48,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 /** Destructor */
 template< typename TInputPath, typename TOutputImage >
 PathToImageFilter< TInputPath, TOutputImage >
-::~PathToImageFilter()
-{}
+::~PathToImageFilter() = default;
 
 /** Set the Input SpatialObject */
 template< typename TInputPath, typename TOutputImage >
@@ -75,7 +74,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 template< typename TInputPath, typename TOutputImage >
 const typename PathToImageFilter< TInputPath, TOutputImage >::InputPathType *
 PathToImageFilter< TInputPath, TOutputImage >
-::GetInput(void)
+::GetInput()
 {
   return itkDynamicCastInDebugMode< const TInputPath * >( this->GetPrimaryInput() );
 }
@@ -204,7 +203,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   unsigned int i;
 

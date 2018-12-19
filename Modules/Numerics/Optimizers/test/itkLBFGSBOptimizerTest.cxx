@@ -61,9 +61,7 @@ public:
 
   using MeasureType = double;
 
-  LBFGSBCostFunction()
-  {
-  }
+  LBFGSBCostFunction() = default;
 
   double GetValue( const ParametersType & position ) const override
   {
@@ -103,7 +101,7 @@ public:
   }
 
 
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
     {
     return SpaceDimension;
     }
@@ -151,15 +149,14 @@ public:
     }
 
 protected:
-  EventChecker(): m_HadStartEvent( false ),
-    m_HadIterationEvent( false ),
-    m_HadEndEvent( false )
+  EventChecker()
+
   {}
 
 private:
-  bool m_HadStartEvent;
-  bool m_HadIterationEvent;
-  bool m_HadEndEvent;
+  bool m_HadStartEvent{ false };
+  bool m_HadIterationEvent{ false };
+  bool m_HadEndEvent{ false };
 };
 
 

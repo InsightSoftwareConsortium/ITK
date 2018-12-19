@@ -53,8 +53,8 @@ int itkBMPImageIOTestPalette( int argc, char* argv[] )
 
   EXERCISE_BASIC_OBJECT_METHODS( io, BMPImageIO, ImageIOBase );
 
-  const auto expandRGBPalette = static_cast< bool >( atoi(argv[3]) );
-  const auto isPaletteImage   = static_cast< bool >( atoi(argv[4]) );
+  const auto expandRGBPalette = static_cast< bool >( std::stoi(argv[3]) );
+  const auto isPaletteImage   = static_cast< bool >( std::stoi(argv[4]) );
   TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   // Exercise exception cases

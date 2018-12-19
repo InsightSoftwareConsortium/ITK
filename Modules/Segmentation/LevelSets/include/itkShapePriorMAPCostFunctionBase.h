@@ -116,7 +116,7 @@ public:
   { itkExceptionMacro(<< "This function is currently not supported."); }
 
   /** Return the number of parameters. */
-  unsigned int GetNumberOfParameters(void) const override
+  unsigned int GetNumberOfParameters() const override
   { return m_ShapeFunction->GetNumberOfParameters(); }
 
   /** Compute the inside term component of the MAP cost function.
@@ -137,11 +137,11 @@ public:
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */
-  virtual void Initialize(void);
+  virtual void Initialize();
 
 protected:
   ShapePriorMAPCostFunctionBase();
-  ~ShapePriorMAPCostFunctionBase() override {}
+  ~ShapePriorMAPCostFunctionBase() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -100,7 +100,7 @@ public:
 
   ThreadIdType GetMaximumNumberOfThreads() const
   {
-    return m_Threads.size();
+    return static_cast< ThreadIdType >( m_Threads.size() );
   }
 
   /** The approximate number of idle threads. */
@@ -149,7 +149,7 @@ private:
   std::vector< std::thread > m_Threads;
 
   /* Has destruction started? */
-  bool m_Stopping;
+  bool m_Stopping{ false };
 
   /** To lock on the internal variables */
   static ThreadPoolGlobals * m_ThreadPoolGlobals;

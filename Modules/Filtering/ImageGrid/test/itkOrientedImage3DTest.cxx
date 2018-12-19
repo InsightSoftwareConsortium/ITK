@@ -106,7 +106,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
 
     for( unsigned int dim=0; dim < Dimension; ++dim )
       {
-      const double expectedValue = atof( av[ element++ ] );
+      const double expectedValue = std::stod( av[ element++ ] );
       const double currentValue = physicalPoint[dim];
       const double difference = currentValue - expectedValue;
       if( itk::Math::abs( difference ) > tolerance )
@@ -149,7 +149,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
 
   for( unsigned int dim=0; dim < Dimension; ++dim )
     {
-    const double expectedValue = atof( av[ element++ ] );
+    const double expectedValue = std::stod( av[ element++ ] );
     const double currentValue = gradient1a[dim];
     const double difference = currentValue - expectedValue;
     if( itk::Math::abs( difference ) > tolerance )
@@ -174,7 +174,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
 
   for( unsigned int dim=0; dim < Dimension; ++dim )
     {
-    const double expectedValue = atof( av[ element++ ] );
+    const double expectedValue = std::stod( av[ element++ ] );
     const double currentValue = gradient1b[dim];
     const double difference = currentValue - expectedValue;
     if( itk::Math::abs( difference ) > tolerance )

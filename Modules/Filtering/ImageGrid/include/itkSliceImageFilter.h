@@ -124,7 +124,7 @@ public:
 
 protected:
   SliceImageFilter();
-  ~SliceImageFilter() override {}
+  ~SliceImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
  /** SliceImageFilter produces an image which is a different
@@ -148,7 +148,7 @@ protected:
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  void VerifyInputInformation() override;
+  void VerifyInputInformation() ITKv5_CONST override;
 
 private:
   IndexType m_Start;

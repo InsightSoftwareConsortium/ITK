@@ -160,7 +160,7 @@ public:
 
 protected:
   MorphologicalWatershedFromMarkersImageFilter();
-  ~MorphologicalWatershedFromMarkersImageFilter() override {}
+  ~MorphologicalWatershedFromMarkersImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MorphologicalWatershedFromMarkersImageFilter needs to request the
@@ -177,9 +177,9 @@ protected:
   void GenerateData() override;
 
 private:
-  bool m_FullyConnected;
+  bool m_FullyConnected{ false };
 
-  bool m_MarkWatershedLine;
+  bool m_MarkWatershedLine{ true };
 }; // end of class
 } // end namespace itk
 

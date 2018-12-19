@@ -31,8 +31,8 @@ class ShapeLabelMapFixture
   : public ::testing::Test
 {
 public:
-  ShapeLabelMapFixture() {}
-  ~ShapeLabelMapFixture() override {}
+  ShapeLabelMapFixture() = default;
+  ~ShapeLabelMapFixture() override = default;
 
 protected:
   void SetUp() override {}
@@ -50,7 +50,7 @@ protected:
     using ShapeLabelMapType = itk::LabelMap<LabelObjectType>;
 
 
-    static typename ImageType::Pointer CreateImage(void)
+    static typename ImageType::Pointer CreateImage()
       {
         typename ImageType::Pointer image = ImageType::New();
 

@@ -78,8 +78,8 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
-  MeanSquaresHistogramImageToImageMetric(){}
-  ~MeanSquaresHistogramImageToImageMetric() override {}
+  MeanSquaresHistogramImageToImageMetric()= default;
+  ~MeanSquaresHistogramImageToImageMetric() override = default;
 
   /** Evaluates the sum of squared differences from the histogram. */
   MeasureType EvaluateMeasure(HistogramType & histogram) const override;

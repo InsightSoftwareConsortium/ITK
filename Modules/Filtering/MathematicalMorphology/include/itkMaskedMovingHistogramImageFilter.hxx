@@ -120,7 +120,7 @@ template< typename TInputImage, typename TMaskImage, typename TOutputImage, type
 typename MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
                                            THistogram >::MaskImageType *
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
-::GetOutputMask(void)
+::GetOutputMask()
 {
   typename MaskImageType::Pointer res = dynamic_cast< MaskImageType * >( this->ProcessObject::GetOutput(1) );
   return res;

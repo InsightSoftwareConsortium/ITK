@@ -150,12 +150,12 @@ int main( int argc, char *argv[] )
 
   if( argc > 4 )
     {
-    initialParameters[0] = atof( argv[4] );
+    initialParameters[0] = std::stod( argv[4] );
     }
 
   if( argc > 5 )
     {
-    initialParameters[1] = atof( argv[5] );
+    initialParameters[1] = std::stod( argv[5] );
     }
 
   std::cout << "Initial parameters = " << initialParameters << std::endl;

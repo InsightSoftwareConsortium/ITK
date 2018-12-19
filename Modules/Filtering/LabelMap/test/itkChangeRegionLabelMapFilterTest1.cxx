@@ -53,11 +53,11 @@ int itkChangeRegionLabelMapFilterTest1(int argc, char * argv[])
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
   ChangeType::IndexType idx;
-  idx[0] = atoi( argv[3] );
-  idx[1] = atoi( argv[4] );
+  idx[0] = std::stoi( argv[3] );
+  idx[1] = std::stoi( argv[4] );
   ChangeType::SizeType size;
-  size[0] = atoi( argv[5] );
-  size[1] = atoi( argv[6] );
+  size[0] = std::stoi( argv[5] );
+  size[1] = std::stoi( argv[6] );
   ChangeType::RegionType region;
   region.SetSize( size );
   region.SetIndex( idx );

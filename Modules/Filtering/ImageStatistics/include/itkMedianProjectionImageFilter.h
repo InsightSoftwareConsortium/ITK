@@ -57,7 +57,7 @@ public:
     m_Values.reserve(size);
   }
 
-  ~MedianAccumulator(){}
+  ~MedianAccumulator()= default;
 
   inline void Initialize()
   {
@@ -108,8 +108,8 @@ public:
 #endif
 
 protected:
-  MedianProjectionImageFilter() {}
-  ~MedianProjectionImageFilter() override {}
+  MedianProjectionImageFilter() = default;
+  ~MedianProjectionImageFilter() override = default;
 };                                           // end MedianProjectionImageFilter
 } //end namespace itk
 

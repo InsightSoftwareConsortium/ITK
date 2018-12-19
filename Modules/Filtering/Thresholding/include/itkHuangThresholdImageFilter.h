@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~HuangThresholdImageFilter() override {};
+  ~HuangThresholdImageFilter() override = default;
 };
 
 } // end namespace itk

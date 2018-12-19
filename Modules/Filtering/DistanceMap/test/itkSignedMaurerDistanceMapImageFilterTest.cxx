@@ -68,7 +68,7 @@ int itkSignedMaurerDistanceMapImageFilterTest( int argc, char * argv[] )
   int ImageDimension = 3;
   if( argc == 4 )
   {
-    ImageDimension = atoi(argv[3]);
+    ImageDimension = std::stoi(argv[3]);
   }
 
   int result;

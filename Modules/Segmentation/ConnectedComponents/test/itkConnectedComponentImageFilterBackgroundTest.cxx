@@ -33,7 +33,7 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
   constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension >;
 
-  auto background = static_cast< PixelType >( atoi( argv[ 1 ] ) );
+  auto background = static_cast< PixelType >( std::stoi( argv[ 1 ] ) );
 
   // Create an image with an arbitrary background value and a number
   // of islands with pixel values above and below the background value
@@ -75,11 +75,9 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
 
   if ( filter->GetObjectCount() != 2 )
     {
-    std::cerr << "Expected two objects, got " << filter->GetObjectCount()
-              << " instead.\n";
+    std::cerr << "Expected 2 objects, got " << filter->GetObjectCount() << " instead.\n";
     }
 
-  // Check results
   ImageType * output = filter->GetOutput();
 
   using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
@@ -94,7 +92,7 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
       if ( value == background )
         {
         std::cerr << "Pixel at index " << index << " has background value "
-                  << "but have an object label instead.\n";
+                  << "but should have an object label instead.\n";
         return EXIT_FAILURE;
         }
       }
@@ -103,7 +101,7 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
       if ( value != background )
         {
         std::cerr << "Pixel at index " << index << " has value " << value
-                  << " but should have value " << background << "\n";
+                  << " but should have bacground value: " << background << "\n";
         return EXIT_FAILURE;
         }
       }

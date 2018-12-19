@@ -36,34 +36,34 @@ namespace itk
  * the operator+ with a pixel type of the image 2. This condition is
  * required because internally this filter will perform the operation
  *
- * \code
- *        pixel_from_image_1 + pixel_from_image_2
- * \endcode
+   \code
+          pixel_from_image_1 + pixel_from_image_2
+   \endcode
  *
  * Additionally the type resulting from the sum, will be cast to
  * the pixel type of the output image.
  *
  * The total operation over one pixel will be
- * \code
- * output_pixel = static_cast<OutputPixelType>( input1_pixel + input2_pixel )
- * \endcode
+   \code
+   output_pixel = static_cast<OutputPixelType>( input1_pixel + input2_pixel )
+   \endcode
  *
  * For example, this filter could be used directly for adding images whose
  * pixels are vectors of the same dimension, and to store the resulting vector
  * in an output image of vector pixels.
  *
  * The images to be added are set using the methods:
- * \code
- * SetInput1( image1 );
- * SetInput2( image2 );
- * \endcode
+   \code
+   SetInput1( image1 );
+   SetInput2( image2 );
+   \endcode
  *
  * Additionally, this filter can be used to add a constant to every pixel of an
  * image by using
- * \code
- * SetInput1( image1 );
- * SetConstant2( constant );
- * \endcode
+   \code
+   SetInput1( image1 );
+   SetConstant2( constant );
+   \endcode
  *
  * \warning No numeric overflow checking is performed in this filter.
  *
@@ -120,7 +120,7 @@ protected:
     Superclass::SetFunctor(FunctorType());
 #endif
     }
-  ~AddImageFilter() override {}
+  ~AddImageFilter() override = default;
 };
 } // end namespace itk
 

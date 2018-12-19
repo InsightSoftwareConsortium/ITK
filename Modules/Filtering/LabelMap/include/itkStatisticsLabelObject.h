@@ -491,7 +491,7 @@ public:
    * This method returns an affine transform which transforms from
    * the physical coordinate system to the principal axes coordinate
    * system. */
-  AffineTransformPointer GetPhysicalAxesToWeightedPrincipalAxesTransform(void) const
+  AffineTransformPointer GetPhysicalAxesToWeightedPrincipalAxesTransform() const
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;

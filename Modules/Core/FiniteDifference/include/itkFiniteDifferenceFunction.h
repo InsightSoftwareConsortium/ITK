@@ -183,7 +183,7 @@ public:
 
 protected:
   FiniteDifferenceFunction();
-  ~FiniteDifferenceFunction() override {}
+  ~FiniteDifferenceFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

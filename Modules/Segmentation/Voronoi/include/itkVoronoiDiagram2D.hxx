@@ -20,7 +20,6 @@
 #include "itkVoronoiDiagram2D.h"
 
 #include <algorithm>
-#include "vnl/vnl_sample.h"
 
 namespace itk
 {
@@ -35,9 +34,7 @@ VoronoiDiagram2D< TCoordRepType >
 
 template< typename TCoordRepType >
 VoronoiDiagram2D< TCoordRepType >
-::~VoronoiDiagram2D()
-{
-}
+::~VoronoiDiagram2D() = default;
 
 
 template< typename TCoordRepType >

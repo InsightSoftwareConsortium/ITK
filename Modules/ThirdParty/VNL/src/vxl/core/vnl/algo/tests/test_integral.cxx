@@ -1,17 +1,17 @@
 // not used? #include <iostream>
 #include <cmath>
-#include <vcl_compiler.h>
+#include <utility>
+#include <testlib/testlib_test.h>
+#include <vnl/algo/vnl_adaptsimpson_integral.h>
+#include <vnl/algo/vnl_simpson_integral.h>
+#include <vnl/vnl_analytic_integrant.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_math.h>
-#include <vnl/vnl_analytic_integrant.h>
-#include <vnl/algo/vnl_simpson_integral.h>
-#include <vnl/algo/vnl_adaptsimpson_integral.h>
-#include <testlib/testlib_test.h>
 
 class my_test_integrant : public vnl_analytic_integrant
 {
  public:
-   double f_(double x) { return x/(1+x*x); }
+   double f_(double x) override { return x/(1+x*x); }
 };
 
 class gaussian_integrant : public vnl_analytic_integrant
@@ -30,7 +30,7 @@ class gaussian_integrant : public vnl_analytic_integrant
     phi_ = phi;
   }
 
-  double f_(double rho)
+  double f_(double rho) override
   {
     double x2 = std::pow( p0_.get(0) + rho * std::sin(theta_) * std::cos(phi_), 2 );
     double y2 = std::pow( p0_.get(1) + rho * std::sin(theta_) * std::sin(phi_), 2 );

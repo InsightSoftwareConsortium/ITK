@@ -53,7 +53,7 @@ int itkBinaryGrindPeakImageFilterTest1( int argc, char * argv[] )
 
   binaryGrindPeakImageFilter->SetInput( reader->GetOutput() );
 
-  bool fullyConnected = atoi( argv[3] ) != 0;
+  bool fullyConnected = std::stoi( argv[3] ) != 0;
   binaryGrindPeakImageFilter->SetFullyConnected( fullyConnected );
   TEST_SET_GET_VALUE( fullyConnected, binaryGrindPeakImageFilter->GetFullyConnected() );
 
@@ -68,11 +68,11 @@ int itkBinaryGrindPeakImageFilterTest1( int argc, char * argv[] )
     TEST_SET_GET_VALUE( false, binaryGrindPeakImageFilter->GetFullyConnected() );
     }
 
-  auto foregroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atof( argv[4] ) );
+  auto foregroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( std::stod( argv[4] ) );
   binaryGrindPeakImageFilter->SetForegroundValue( foregroundValue );
   TEST_SET_GET_VALUE( foregroundValue, binaryGrindPeakImageFilter->GetForegroundValue() );
 
-  auto backgroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atoi( argv[5] ) );
+  auto backgroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( std::stoi( argv[5] ) );
   binaryGrindPeakImageFilter->SetBackgroundValue( backgroundValue );
   TEST_SET_GET_VALUE( backgroundValue, binaryGrindPeakImageFilter->GetBackgroundValue() );
 

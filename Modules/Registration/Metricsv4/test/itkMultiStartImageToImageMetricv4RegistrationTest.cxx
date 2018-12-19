@@ -59,12 +59,12 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   unsigned int numberOfIterations = 10;
   if( argc >= 5 )
     {
-    numberOfIterations = atoi( argv[4] );
+    numberOfIterations = std::stoi( argv[4] );
     }
   std::cout << " iterations "<< numberOfIterations << std::endl;
   bool rotateinput=false;
   if( argc > 5 )
-  if ( atoi(argv[5]) == 1 ) rotateinput=true;
+  if ( std::stoi(argv[5]) == 1 ) rotateinput=true;
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned short; //I assume png is unsigned short
   using InternalPixelType = double;

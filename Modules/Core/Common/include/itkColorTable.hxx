@@ -29,8 +29,7 @@ namespace itk
 {
 template< typename TPixel >
 ColorTable< TPixel >
-::ColorTable() :
-  m_NumberOfColors( 0 )
+::ColorTable()
 {
 }
 
@@ -46,7 +45,7 @@ ColorTable< TPixel >
 template< typename TPixel >
 void
 ColorTable< TPixel >
-::UseDiscreteColors(void)
+::UseDiscreteColors()
 {
   this->DeleteColors();
 

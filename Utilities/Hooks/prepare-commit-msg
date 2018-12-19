@@ -38,9 +38,16 @@ instructions='#\
 #   PERF:   - performance improvement\
 #   STYLE:  - no logic impact (indentation, comments)\
 #   WIP:    - Work In Progress not ready for merge\
+#
+# The first line of the commit message should preferably be 72 characters
+# or less; the maximum allowed is 78 characters.
+#
+# Follow the first line commit summary with an empty line, then a detailed
+# description in one or more paragraphs.
+#
 # To have an automatic link created between this patch set\
 # and the issue referenced at issues.itk.org, simply\
-# add ITK-#### in somewhere in the commit message.
+# add #NNN somewhere in the commit message.
 #' &&
 sed '/^# On branch.*$/ a\
 '"$instructions"'

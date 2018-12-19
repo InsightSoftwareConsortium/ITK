@@ -27,7 +27,7 @@ namespace itk {
 template<typename TPointSet, class TInternalComputationValueType>
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() :
-  m_UseAnisotropicCovariances( false ),
+
   m_PointSetSigma( static_cast<RealType>( 1.0 ) ),
   m_KernelSigma( static_cast<RealType>( 10.0 ) ),
   m_CovarianceKNeighborhood( static_cast<unsigned int>( 5 ) ),
@@ -42,15 +42,13 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 /** Destructor */
 template<typename TPointSet, class TInternalComputationValueType>
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
-::~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4()
-{
-}
+::~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() = default;
 
 /** Initialize the metric */
 template<typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
-::Initialize( void )
+::Initialize()
 {
   Superclass::Initialize();
 
@@ -189,7 +187,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 template<typename TPointSet, class TInternalComputationValueType>
 typename LightObject::Pointer
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
-::InternalClone( void ) const
+::InternalClone() const
 {
   typename Self::Pointer rval = Self::New();
   rval->SetMovingPointSet( this->m_MovingPointSet );

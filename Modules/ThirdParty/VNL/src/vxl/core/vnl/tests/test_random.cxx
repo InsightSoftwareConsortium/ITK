@@ -1,7 +1,6 @@
 // This is core/vnl/tests/test_random.cxx
 #include <iostream>
 #include <cmath>
-#include <vcl_compiler.h>
 #include <vnl/vnl_random.h>
 #include <testlib/testlib_test.h>
 

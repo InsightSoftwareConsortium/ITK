@@ -109,7 +109,7 @@ public:
 
 protected:
   SpatialObjectToImageStatisticsCalculator();
-  ~SpatialObjectToImageStatisticsCalculator() override {}
+  ~SpatialObjectToImageStatisticsCalculator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   bool ComputeStatistics();

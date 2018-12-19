@@ -45,7 +45,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
 
 template <typename TMoving, typename TFixed>
 ::itk::LightObject::Pointer
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();
@@ -79,8 +79,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
 
   if( !m_DifferenceFunction )
     {
-    typename defaultRegistrationFunctionType::Pointer drfp
-      = defaultRegistrationFunctionType::New();
+    typename defaultRegistrationFunctionType::Pointer drfp = defaultRegistrationFunctionType::New();
     this->SetMetric(static_cast<FiniteDifferenceFunctionType *>(drfp) );
     }
 

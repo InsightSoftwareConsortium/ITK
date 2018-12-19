@@ -36,8 +36,6 @@
 
 #include "itkMath.h"
 
-#include "itkMutexLockHolder.h"
-
 #include <numeric>
 
 
@@ -48,9 +46,7 @@ template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 ::SLICImageFilter()
   : m_MaximumNumberOfIterations( (ImageDimension > 2) ? 5 : 10),
-    m_SpatialProximityWeight( 10.0 ),
-    m_EnforceConnectivity(true),
-    m_InitializationPerturbation(true),
+
     m_AverageResidual(NumericTraits<double>::max())
 {
   this->DynamicMultiThreadingOff();
@@ -61,9 +57,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::~SLICImageFilter()
-{
-}
+::~SLICImageFilter() = default;
 
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
@@ -192,7 +186,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     }
   itkDebugMacro("Initial Clustering Completed");
 
-  shrunkImage = ITK_NULLPTR;
+  shrunkImage = nullptr;
 
   m_DistanceImage = DistanceImageType::New();
   m_DistanceImage->CopyInformation(inputImage);
@@ -344,7 +338,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
     }
 
   // TODO improve merge algoithm
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_UpdateClusterPerThread.push_back(clusterMap);
 }
 
@@ -390,7 +384,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   // cluster is a reference to array
   ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
   typename InputImageType::RegionType localRegion;
-  typename InputImageType::PointType pt;
   IndexType idx;
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
@@ -491,7 +484,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 
   ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex*numberOfClusterComponents]);
   typename InputImageType::RegionType localRegion;
-  typename InputImageType::PointType pt;
   IndexType idx;
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
@@ -712,7 +704,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   if (m_EnforceConnectivity)
     {
 
-    m_DistanceImage = ITK_NULLPTR;
+    m_DistanceImage = nullptr;
 
     m_MarkerImage = MarkerImageType::New();
     m_MarkerImage->CopyInformation(inputImage);
@@ -739,8 +731,8 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   itkDebugMacro("Starting AfterThreadedGenerateData");
 
 
-  m_DistanceImage = ITK_NULLPTR;
-  m_MarkerImage = ITK_NULLPTR;
+  m_DistanceImage = nullptr;
+  m_MarkerImage = nullptr;
 
   // cleanup
   std::vector<ClusterComponentType>().swap(m_Clusters);

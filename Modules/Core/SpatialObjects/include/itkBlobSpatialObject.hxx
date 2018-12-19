@@ -41,8 +41,7 @@ BlobSpatialObject< TDimension >
 /** Destructor */
 template< unsigned int TDimension >
 BlobSpatialObject< TDimension >
-::~BlobSpatialObject()
-{}
+::~BlobSpatialObject() = default;
 
 /** Get the list of points that defines the blob */
 template< unsigned int TDimension >

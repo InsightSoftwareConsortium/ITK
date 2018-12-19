@@ -130,7 +130,7 @@ public:
     }
 
   /** Needed for Pipelining */
-  void Initialize( void ) override
+  void Initialize() override
     {
     this->Clear();
     this->ConstructHilbertPath();
@@ -150,7 +150,7 @@ public:
 
 protected:
   HilbertPath();
-  ~HilbertPath() override {}
+  ~HilbertPath() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
@@ -178,7 +178,7 @@ private:
 
   PathIndexType GetBitRange( const PathIndexType, const PathIndexType, const PathIndexType, const PathIndexType );
 
-  HilbertOrderType             m_HilbertOrder;
+  HilbertOrderType             m_HilbertOrder{ 1 };
   HilbertPathType              m_HilbertPath;
 };
 } // end namespace itk

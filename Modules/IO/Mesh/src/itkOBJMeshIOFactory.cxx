@@ -34,17 +34,16 @@ OBJMeshIOFactory
   this->RegisterOverride( "itkMeshIOBase",
                          "itkOBJMeshIO",
                          "OBJ Mesh IO",
-                         1,
+                         true,
                          CreateObjectFunction< OBJMeshIO >::New() );
 }
 
 OBJMeshIOFactory
-::~OBJMeshIOFactory()
-{}
+::~OBJMeshIOFactory() = default;
 
 const char *
 OBJMeshIOFactory
-::GetITKSourceVersion(void) const
+::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -60,7 +59,7 @@ OBJMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OBJMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT OBJMeshIOFactoryRegister__Private(void)
+void ITKIOMesh_EXPORT OBJMeshIOFactoryRegister__Private()
 {
   if( ! OBJMeshIOFactoryHasBeenRegistered )
     {
