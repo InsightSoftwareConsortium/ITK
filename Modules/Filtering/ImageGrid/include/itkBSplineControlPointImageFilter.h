@@ -260,7 +260,7 @@ private:
   typename KernelOrder2Type::Pointer           m_KernelOrder2;
   typename KernelOrder3Type::Pointer           m_KernelOrder3;
 
-  RealType                                     m_BSplineEpsilon{ 1e-3 };
+  RealType                                     m_BSplineEpsilon{ static_cast< RealType >( 1e-3 ) };
 
   inline typename RealImageType::IndexType
   NumberToIndex( unsigned int number, typename RealImageType::SizeType size )
