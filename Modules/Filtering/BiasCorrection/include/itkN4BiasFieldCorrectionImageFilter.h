@@ -405,14 +405,14 @@ private:
   // Parameters for deconvolution with Wiener filter
 
   unsigned int m_NumberOfHistogramBins{ 200 };
-  RealType     m_WienerFilterNoise{ 0.01 };
-  RealType     m_BiasFieldFullWidthAtHalfMaximum{ 0.15 };
+  RealType     m_WienerFilterNoise{ static_cast< RealType >( 0.01 ) };
+  RealType     m_BiasFieldFullWidthAtHalfMaximum{ static_cast< RealType >( 0.15 ) };
 
   // Convergence parameters
 
   VariableSizeArrayType m_MaximumNumberOfIterations;
   unsigned int          m_ElapsedIterations{ 0 };
-  RealType              m_ConvergenceThreshold{ 0.001 };
+  RealType              m_ConvergenceThreshold{ static_cast< RealType >( 0.001 ) };
   RealType              m_CurrentConvergenceMeasurement;
   unsigned int          m_CurrentLevel{ 0 };
 
