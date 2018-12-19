@@ -427,7 +427,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
       this->m_CoefficientImages[0]->GetLargestPossibleRegion() );
     }
 
-
   // Check if we need to resize the default parameter buffer.
   if( this->m_InternalParametersBuffer.GetSize() != this->GetNumberOfParameters() )
     {
@@ -466,7 +465,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 
 
   this->SetCoefficientImageInformationFromFixedParameters();
-
 }
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
