@@ -66,8 +66,7 @@ WriteTransform( const TransformType* transform, std::string filename )
 // streamSubdivisions of 1 disables streaming (higher memory useage, less cluttered debug output)
 template< typename PixelType, typename AccumulatePixelType >
 int
-montageTest( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
-             const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
+montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
              const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods,
              int peakMethodToUse, bool setMontageDirectly, unsigned streamSubdivisions )
 {
