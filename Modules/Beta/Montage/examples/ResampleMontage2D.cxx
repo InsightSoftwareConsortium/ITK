@@ -28,8 +28,8 @@
 //taken from test/itkMontageTestHelper.hxx and simplified
 template< typename PixelType, typename AccumulatePixelType >
 void
-montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
-  const std::string& inputPath, const std::string& outFilename,  unsigned streamSubdivisions )
+montage2D( const itk::TileLayout2D& actualTiles, const std::string& inputPath,
+           const std::string& outFilename, unsigned streamSubdivisions )
 {
   constexpr unsigned Dimension = 2;
   using TransformType = itk::TranslationTransform< double, Dimension >;
@@ -43,7 +43,6 @@ montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
   using Resampler = itk::TileMergeImageFilter< OriginalImageType, AccumulatePixelType >;
   typename Resampler::Pointer resampleF = Resampler::New();
   resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
-  //resampleF->SetOriginAdjustment( actualTiles[1][1].Position );
   resampleF->SetForcedSpacing( sp );
   typename Resampler::TileIndexType ind;
   for ( unsigned y = 0; y < yMontageSize; y++ )
@@ -79,7 +78,7 @@ montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
 // dispatches to main implementation based on pixel type
 template< typename ComponentType, typename AccumulatePixelType >
 void
-montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles, const std::string& inputPath,
+montage2D( const itk::TileLayout2D& actualTiles, const std::string& inputPath,
            const std::string& outFilename, unsigned streamSubdivisions, itk::ImageIOBase::IOPixelType pixelType )
 {
   switch ( pixelType )
@@ -111,17 +110,11 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  constexpr unsigned Dimension = 2;
-
   std::string inputPath = itksys::SystemTools::GetFilenamePath( argv[1] ) + '/';
-  std::vector< std::vector< itk::Tile< Dimension > > > actualTiles = itk::ParseTileConfiguration2D( argv[1] );
+  itk::TileLayout2D actualTiles = itk::ParseTileConfiguration2D( argv[1] );
 
   try
     {
-    // simplest case would be just calling this:
-    // montage2D< unsigned short >( stageTiles, actualTiles, inputPath, outputPath, argv[3], 1, true, 1 );
-    // but we examine what is the input type of the first tile and instantiate that
-
     itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
       ( inputPath + actualTiles[0][0].FileName ).c_str(), itk::ImageIOFactory::ReadMode );
     imageIO->SetFileName( inputPath + actualTiles[0][0].FileName );

@@ -28,8 +28,7 @@
 //taken from test/itkMontageTestHelper.hxx and simplified
 template< typename PixelType, typename AccumulatePixelType >
 void
-montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
-           std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
+montage2D( const itk::TileLayout2D& stageTiles, itk::TileLayout2D& actualTiles,
            const std::string& inputPath, int peakMethodToUse )
 {
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
@@ -42,6 +41,7 @@ montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
   sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
   unsigned yMontageSize = stageTiles.size();
   unsigned xMontageSize = stageTiles[0].size();
+  const itk::Point< double, Dimension > stageStrideXY = stageTiles[1][1].Position;
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
@@ -49,7 +49,7 @@ montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
   using MontageType = itk::TileMontage< ScalarImageType >;
   typename MontageType::Pointer montage = MontageType::New();
   montage->SetMontageSize( { xMontageSize, yMontageSize } );
-  montage->SetOriginAdjustment( stageTiles[1][1].Position );
+  montage->SetOriginAdjustment( stageStrideXY );
   montage->SetForcedSpacing( sp );
 
   typename MontageType::TileIndexType ind;
@@ -72,11 +72,12 @@ montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
       {
       ind[0] = x;
       const TransformType* regTr = montage->GetOutputTransform( ind );
-      itk::Point< double, Dimension > pos;
-      pos[0] = x * stageTiles[1][1].Position[0];
-      pos[1] = y * stageTiles[1][1].Position[1];
-      actualTiles[y][x].Position[0] = pos[0] - regTr->GetParameters()[0];
-      actualTiles[y][x].Position[1] = pos[1] - regTr->GetParameters()[1];
+      itk::Point< double, Dimension > stagePos;
+      // we need to compensate for origin adjustment
+      stagePos[0] = x * stageStrideXY[0];
+      stagePos[1] = y * stageStrideXY[1];
+      actualTiles[y][x].Position[0] = stagePos[0] - regTr->GetParameters()[0];
+      actualTiles[y][x].Position[1] = stagePos[1] - regTr->GetParameters()[1];
       }
     }
 
@@ -96,8 +97,8 @@ int main( int argc, char *argv[] )
 
   std::string inputPath = itksys::SystemTools::GetFilenamePath( argv[1] ) + '/';
 
-  std::vector< std::vector< itk::Tile< Dimension > > > stageTiles = itk::ParseTileConfiguration2D( argv[1] );
-  std::vector< std::vector< itk::Tile< Dimension > > > actualTiles = stageTiles; // result goes here
+  itk::TileLayout2D stageTiles = itk::ParseTileConfiguration2D( argv[1] );
+  itk::TileLayout2D actualTiles = stageTiles; // result - only positions need to be updated
 
   try
     {

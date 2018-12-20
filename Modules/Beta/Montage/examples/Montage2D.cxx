@@ -58,7 +58,7 @@ WriteTransform( const TransformType* transform, std::string filename )
 //taken from test/itkMontageTestHelper.hxx and simplified
 template< typename PixelType, typename AccumulatePixelType >
 void
-montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
+montage2D( const itk::TileLayout2D& stageTiles,
            const std::string& inputPath, const std::string& outputPath,
            const std::string& outFilename, int peakMethodToUse,
            bool setMontageDirectly, unsigned streamSubdivisions )
@@ -143,7 +143,7 @@ montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
 // dispatches to main implementation based on pixel type
 template< typename ComponentType, typename AccumulatePixelType >
 void
-montage2D( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
+montage2D( const itk::TileLayout2D& stageTiles,
            const std::string& inputPath, const std::string& outputPath,
            const std::string& outFilename, int peakMethodToUse, bool setMontageDirectly,
            unsigned streamSubdivisions, itk::ImageIOBase::IOPixelType pixelType )
@@ -192,8 +192,7 @@ int main( int argc, char *argv[] )
     outputPath += '/';
     }
 
-  std::vector< std::vector< itk::Tile< Dimension > > > stageTiles =
-    itk::ParseTileConfiguration2D( inputPath + "TileConfiguration.txt" );
+  itk::TileLayout2D stageTiles = itk::ParseTileConfiguration2D( inputPath + "TileConfiguration.txt" );
 
   try
     {
