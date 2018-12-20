@@ -4,7 +4,7 @@ trigger:
     - master
     - release*
 variables:
-  ExternalDataVersion: 5.0b01
+  ExternalDataVersion: 5.0b03
 jobs:
 - job: Linux
   timeoutInMinutes: 0
