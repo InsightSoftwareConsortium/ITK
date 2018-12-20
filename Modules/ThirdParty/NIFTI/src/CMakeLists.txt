@@ -15,6 +15,7 @@ set( NIFTI_BUILD_APPLICATIONS OFF CACHE BOOL "Do not build applications provided
 set( NIFTI_BUILD_TESTING OFF CACHE BOOL "Do not build nifit testing applications" FORCE)
 
 add_definitions(-DITKZLIB)
+set(NIFTI_INSTALL_EXPORT_NAME ${ITKNIFTI-targets} CACHE STRING "Set the nifti package export target name " FORCE)
 set(NIFTI_PACKAGE_PREFIX "ITK" CACHE STRING "Set the nifti package prefix" FORCE)
 set(NIFTI_LIBRARY_PROPERTIES ${ITK_LIBRARY_PROPERTIES} CACHE STRING "Set the nifti library properties to match ITK" FORCE)
 set(NIFTI_INSTALL_RUNTIME_DIR "${ITKNIFTI_INSTALL_RUNTIME_DIR}" CACHE PATH "Set nifti install binaries directory" FORCE)

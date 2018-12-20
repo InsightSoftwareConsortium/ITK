@@ -141,40 +141,42 @@ if(USE_FSL_CODE)
   add_subdirectory(fsliolib)
 endif()
 
+set_if_not_defined(NIFTI_INSTALL_EXPORT_NAME "NIFTITargets")
+if(NIFTI_INSTALL_EXPORT_NAME EQUAL "NIFTITargets")
+  #######################################################################
+  # CMake itself and can use some CMake facilities for creating the package files.
+  # This allows for find_package(NIFTI 2.1.0 NO_MODULE) to work for pulling in
+  # NIFTI libraries into an external project
+  include(CMakePackageConfigHelpers)
 
-#######################################################################
-# CMake itself and can use some CMake facilities for creating the package files.
-# This allows for find_package(NIFTI 2.1.0 NO_MODULE) to work for pulling in
-# NIFTI libraries into an external project
-include(CMakePackageConfigHelpers)
-
-write_basic_package_version_file(
+  write_basic_package_version_file(
         "${CMAKE_CURRENT_BINARY_DIR}/NIFTI/NIFTIConfigVersion.cmake"
         VERSION ${NIFTI_VERSION}
         COMPATIBILITY AnyNewerVersion
-)
+  )
 
-export(EXPORT NIFTITargets
+  export(EXPORT NIFTITargets
         FILE "${CMAKE_CURRENT_BINARY_DIR}/NIFTI/NIFTITargets.cmake"
         NAMESPACE ${NIFTI_PACKAGE_PREFIX}NIFTI::
         )
-configure_file(cmake/NIFTIConfig.cmake
+  configure_file(cmake/NIFTIConfig.cmake
         "${CMAKE_CURRENT_BINARY_DIR}/NIFTI/NIFTIConfig.cmake"
         COPYONLY
         )
 
-set(ConfigPackageLocation lib/cmake/NIFTI)
-install(EXPORT NIFTITargets
+  set(ConfigPackageLocation lib/cmake/NIFTI)
+  install(EXPORT NIFTITargets
         FILE          NIFTITargets.cmake
         NAMESPACE     ${NIFTI_PACKAGE_PREFIX}NIFTI::
         DESTINATION   ${ConfigPackageLocation}
         )
-install(FILES
+  install(FILES
            cmake/NIFTIConfig.cmake
            "${CMAKE_CURRENT_BINARY_DIR}/NIFTI/NIFTIConfigVersion.cmake"
         DESTINATION   ${ConfigPackageLocation}
         COMPONENT     Development
-)
+  )
+endif()
 
 #######################################################################
 ## Add the cpack configuration settings last

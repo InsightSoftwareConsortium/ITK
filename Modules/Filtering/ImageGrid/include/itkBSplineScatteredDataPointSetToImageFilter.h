@@ -359,7 +359,7 @@ private:
   std::vector<RealImagePointer>                m_OmegaLatticePerThread;
   std::vector<PointDataImagePointer>           m_DeltaLatticePerThread;
 
-  RealType                                     m_BSplineEpsilon{ 1e-3 };
+  RealType                                     m_BSplineEpsilon{ static_cast< RealType >( 1e-3 ) };
   bool                                         m_IsFittingComplete{ false };
 };
 } // end namespace itk

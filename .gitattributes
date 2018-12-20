@@ -44,3 +44,4 @@ Modules/ThirdParty/** hooks-max-size=300000
 Modules/ThirdParty/NIFTI/src/nifti/nifti2/nifti2_io.c hooks-max-size=400000
 Modules/ThirdParty/VNL/src/vxl/v3p/netlib/triangle.c hooks-max-size=670000
 Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-max-size=120000
+Documentation/ReleaseNotes/* hooks-max-size=300000
