@@ -175,14 +175,12 @@ public:
 
   /**
    * Get/Set the Gaussian smoothing variance for the update field.
-   * Default = 1.75.
    */
   itkSetMacro( GaussianSmoothingVarianceForTheUpdateField, RealType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, RealType );
 
   /**
    * Get/Set the Gaussian smoothing variance for the total field.
-   * Default = 0.5.
    */
   itkSetMacro( GaussianSmoothingVarianceForTheTotalField, RealType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheTotalField, RealType );
@@ -224,21 +222,21 @@ protected:
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
   virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = nullptr );
 
-  RealType                                                        m_LearningRate;
+  RealType                                                        m_LearningRate{ 0.25 };
 
-  OutputTransformPointer                                          m_MovingToMiddleTransform;
-  OutputTransformPointer                                          m_FixedToMiddleTransform;
+  OutputTransformPointer                                          m_MovingToMiddleTransform{ nullptr };
+  OutputTransformPointer                                          m_FixedToMiddleTransform{ nullptr };
 
-  RealType                                                        m_ConvergenceThreshold;
+  RealType                                                        m_ConvergenceThreshold{ static_cast<RealType>(1.0e-6) };
   unsigned int                                                    m_ConvergenceWindowSize{ 10 };
 
   NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
-  bool                                                            m_DownsampleImagesForMetricDerivatives;
-  bool                                                            m_AverageMidPointGradients;
+  bool                                                            m_DownsampleImagesForMetricDerivatives{ true };
+  bool                                                            m_AverageMidPointGradients{ false };
 
 private:
-  RealType                                                        m_GaussianSmoothingVarianceForTheUpdateField;
-  RealType                                                        m_GaussianSmoothingVarianceForTheTotalField;
+  RealType                                                        m_GaussianSmoothingVarianceForTheUpdateField{ 3.0 };
+  RealType                                                        m_GaussianSmoothingVarianceForTheTotalField{ 0.5 };
 };
 } // end namespace itk
 
