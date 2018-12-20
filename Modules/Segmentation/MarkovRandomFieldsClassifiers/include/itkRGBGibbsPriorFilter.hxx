@@ -35,11 +35,8 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   m_InputImage(nullptr),
   m_TrainingImage(nullptr),
   m_LabelledImage(nullptr),
-
   m_ClassifierPtr(nullptr),
-
   m_MediumImage(nullptr),
-
   m_LowPoint()
 
 {

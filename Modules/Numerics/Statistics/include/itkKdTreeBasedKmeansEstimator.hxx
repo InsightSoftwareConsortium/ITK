@@ -28,10 +28,8 @@ namespace Statistics
 template< typename TKdTree >
 KdTreeBasedKmeansEstimator< TKdTree >
 ::KdTreeBasedKmeansEstimator() :
-
   m_KdTree(nullptr),
   m_DistanceMetric(EuclideanDistanceMetric< ParameterType >::New()),
-
   m_MembershipFunctionsObject(MembershipFunctionVectorObjectType::New())
 {
   m_TempVertex.Fill(0.0);

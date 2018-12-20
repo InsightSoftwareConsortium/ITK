@@ -21,7 +21,6 @@ namespace itk
 {
 MetaArrayWriter
 ::MetaArrayWriter() :
-
   m_FileName( "" ),
   m_DataFileName( "" )
 

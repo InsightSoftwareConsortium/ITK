@@ -36,10 +36,8 @@ template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::InvertDisplacementFieldImageFilter() :
   m_Interpolator(DefaultInterpolatorType::New()),
-
   m_MaxErrorToleranceThreshold(0.1),
   m_MeanErrorToleranceThreshold(0.001),
-
   m_ComposedField(DisplacementFieldType::New()),
   m_ScaledNormImage(RealImageType::New()),
   m_MaxErrorNorm(0.0),

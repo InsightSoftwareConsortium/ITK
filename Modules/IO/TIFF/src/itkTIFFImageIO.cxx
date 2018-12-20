@@ -208,7 +208,6 @@ void TIFFImageIO::Read(void *buffer)
 }
 
 TIFFImageIO::TIFFImageIO() :
-
   m_ColorPalette( 0 )
 
 {

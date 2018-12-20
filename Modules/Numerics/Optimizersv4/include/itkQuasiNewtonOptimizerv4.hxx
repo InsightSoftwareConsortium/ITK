@@ -26,8 +26,7 @@ namespace itk
 
 template<typename TInternalComputationValueType>
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
-::QuasiNewtonOptimizerv4Template():
-
+::QuasiNewtonOptimizerv4Template() :
   m_PreviousValue(0.0),
   m_BestValue(0.0),
   m_BestPosition(0)

@@ -49,7 +49,6 @@ SimpleFilterWatcher
 
 SimpleFilterWatcher
 ::SimpleFilterWatcher() :
-
   m_Comment("Not watching an object"),
   m_Process(nullptr)
 

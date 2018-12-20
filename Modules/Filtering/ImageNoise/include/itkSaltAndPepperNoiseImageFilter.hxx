@@ -29,7 +29,6 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
 ::SaltAndPepperNoiseImageFilter() :
-
   m_SaltValue( NumericTraits<OutputImagePixelType>::max() ),
   m_PepperValue( NumericTraits<OutputImagePixelType>::NonpositiveMin() )
 {

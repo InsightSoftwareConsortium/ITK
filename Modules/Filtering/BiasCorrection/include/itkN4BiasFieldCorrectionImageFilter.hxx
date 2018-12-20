@@ -45,7 +45,6 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::N4BiasFieldCorrectionImageFilter() :
   m_MaskLabel( NumericTraits< MaskPixelType >::OneValue() ),
-
   m_CurrentConvergenceMeasurement( NumericTraits<RealType>::ZeroValue() )
 
 {

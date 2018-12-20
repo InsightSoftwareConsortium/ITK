@@ -281,7 +281,6 @@ public:
     void DoubleBufferSize();
 
     DerivativeBufferManager() :
-
       m_MemoryBlock(0)
     {
     }

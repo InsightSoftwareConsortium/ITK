@@ -30,7 +30,6 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::VoronoiSegmentationImageFilterBase() :
-
   m_WorkingVD(VoronoiDiagram::New()),
   m_VDGenerator(VoronoiDiagramGenerator::New())
 {

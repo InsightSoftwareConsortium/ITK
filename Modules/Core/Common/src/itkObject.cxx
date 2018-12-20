@@ -593,7 +593,6 @@ Object
 Object
 ::Object():
   LightObject(),
-
   m_ObjectName()
 {
   this->Modified();

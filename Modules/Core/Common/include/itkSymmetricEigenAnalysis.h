@@ -158,8 +158,7 @@ public:
   }
   EigenValueOrderType;
 
-  SymmetricEigenAnalysis():
-
+  SymmetricEigenAnalysis() :
   m_OrderEigenValues(OrderByValue) {}
 
   SymmetricEigenAnalysis(const unsigned int dimension):

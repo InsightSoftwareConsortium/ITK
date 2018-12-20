@@ -26,10 +26,8 @@ namespace itk
 template< typename TInputImage, typename TFeatureImage >
 BinaryStatisticsKeepNObjectsImageFilter< TInputImage, TFeatureImage >
 ::BinaryStatisticsKeepNObjectsImageFilter() :
-
   m_BackgroundValue(NumericTraits< OutputImagePixelType >::NonpositiveMin()),
   m_ForegroundValue(NumericTraits< OutputImagePixelType >::max()),
-
   m_Attribute(LabelObjectType::MEAN)
 {
   this->SetNumberOfRequiredInputs(2);

@@ -24,7 +24,6 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 FrustumSpatialFunction< VDimension, TInput >::FrustumSpatialFunction() :
-
   m_RotationPlane( RotateInXZPlane )
 {
   m_Apex.Fill( 0.0f );

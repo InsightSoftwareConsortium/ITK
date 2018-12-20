@@ -29,7 +29,6 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::HistogramMatchingImageFilter() :
-
   m_SourceIntensityThreshold(NumericTraits<InputPixelType>::ZeroValue()),
   m_ReferenceIntensityThreshold(NumericTraits<InputPixelType>::ZeroValue()),
   m_OutputIntensityThreshold(NumericTraits<OutputPixelType>::ZeroValue()),

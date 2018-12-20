@@ -62,13 +62,10 @@ public:
   enum FileType {
     /** 2-file Nifti (consisting of .hdr and .img file). */
     TwoFileNifti = 2,
-
     /** 1-file Nifti (consisting of .nii file). */
     OneFileNifti = 1,
-
     /** Legacy Analyze 7.5 format (consisting of .hdr and .img file). */
     Analyze75 = 0,
-
     /** Some other file format, or file system error. */
     OtherOrError = -1,
   };

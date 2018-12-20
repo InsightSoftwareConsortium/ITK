@@ -39,7 +39,6 @@ template< typename TInputVectorImage, typename TLabelsType,
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::BayesianClassifierImageFilter() :
-
   m_SmoothingFilter( nullptr )
 
 {

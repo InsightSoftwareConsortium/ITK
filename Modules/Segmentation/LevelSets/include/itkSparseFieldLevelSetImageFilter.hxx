@@ -130,9 +130,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::SparseFieldLevelSetImageFilter() :
-
   m_IsoSurfaceValue(m_ValueZero),
-
   m_InputImage(nullptr),
   m_OutputImage(nullptr)
 

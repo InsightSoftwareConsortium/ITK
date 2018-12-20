@@ -26,7 +26,6 @@ template< typename TInput, typename TOutput, typename TCriterion >
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput,TCriterion >::
 EdgeDecimationQuadEdgeMeshFilter() :
   Superclass(),
-
   m_Element(nullptr)
 
 {

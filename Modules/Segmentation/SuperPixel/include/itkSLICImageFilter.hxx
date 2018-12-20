@@ -46,7 +46,6 @@ template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 ::SLICImageFilter()
   : m_MaximumNumberOfIterations( (ImageDimension > 2) ? 5 : 10),
-
     m_AverageResidual(NumericTraits<double>::max())
 {
   this->DynamicMultiThreadingOff();

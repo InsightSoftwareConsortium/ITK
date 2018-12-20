@@ -29,8 +29,7 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 OrientImageFilter< TInputImage, TOutputImage >
-::OrientImageFilter():
-
+::OrientImageFilter() :
   m_FlipAxes(false)
 {
   // Map between axis string labels and SpatialOrientation
