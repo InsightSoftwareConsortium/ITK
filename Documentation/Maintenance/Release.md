@@ -1,5 +1,3 @@
-Releasing ITK
-=============
 
 There are typically two feature releases a year, around June and December, and
 one to three bug fix release between feature releases. Releasing ITK has many
@@ -82,7 +80,7 @@ When releasing a new ITK version, the following steps are be taken:
 Initial steps
 -------------
 
-Check the [ITK issue tracking] for critical bugs, or [gerrit] for critical
+Check the [ITK issue tracking] for critical bugs, or [GitHub] for critical
 fixes.
 
 ### Announcements
@@ -119,14 +117,14 @@ This ITK [blog post] describes the Linux distributions that package ITK.
 Integrate bug fixes in the release branch
 -----------------------------------------
 
-Update master and release branches:
+Update `master` and `release` branches:
 
 ```sh
-   $ git fetch
+   $ git fetch upstream
    $ git checkout master
-   $ git reset --hard origin/master
+   $ git reset --hard upstream/master
    $ git checkout release
-   $ git reset --hard origin/release
+   $ git reset --hard upstream/release
 ```
 
 List differences between last release and current release branch:
@@ -138,9 +136,9 @@ List differences between last release and current release branch:
 Merge bug fix commits in release. The topic branch should be named
 `<bug-name>-for-release`:
   * If topic branch was created from the `release` branch, `checkout` topic
-    in new branch (see command lines on [gerrit]).
+    in new branch.
   * If topic branch was created on `master`, `cherry-pick` commit (see
-    command line on [gerrit]) on a topic branch created off `release`. The
+    command line on [GitHub]) on a topic branch created off `release`. The
     commit will be visible twice in the history once release in merged into
     `master`.
   * Merge new branch on `release`:
@@ -149,9 +147,17 @@ Merge bug fix commits in release. The topic branch should be named
    $ git merge <bug-name>-for-release --no-ff
 ```
 
-   * Update the gerrit topic: write "Merged to release." in the merged topic.
+Merge `release-4.13` into `release` (so that `release` keeps track of release history):
+Similarly for the `release-4.13` branch:
 
-Merge `release` into `master` (so that `master` keeps track of release history):
+```sh
+   $ git checkout release-4.13
+   $ git pull upstream release-4.13
+   $ git checkout release
+   $ git merge release-4.13
+   $ git push origin release release-4.13
+```
+Similarly for the `master` and `release` branches:
 
 ```sh
    $ git checkout master
@@ -179,9 +185,9 @@ The following must be ensured before tagging the ITK repository:
 ### Increment the version number
 
 If the version number in `CMakeLists.txt` is not already set accordingly,
-submit a merge request to update ITK's version number in the `master` branch to
-what the new release is to be called by. Any point beyond that in the `master`
-branch could serve as the start of the new release branch.
+submit a pull request to update ITK's version number in the `master` branch to
+what the new release is called. Any point beyond that in the `master` branch
+could serve as the start of the new release branch.
 
 After creating the release branch, submit another merge request to update the
 master branch's minor version number.
@@ -290,7 +296,7 @@ number and $commit_hash_to_be_tagged` to the correct commit hash.
 Push it to the repository
 
 ```sh
-   $ git push origin v$version
+   $ git push upstream v$version
 ```
 
 Note that only trusted GPG key holders may do this step.
@@ -302,9 +308,9 @@ release. Perform a `fast-forward` merge of `master` into release:
 
 ```sh
    $ git checkout release
-   $ git reset --hard origin/release
+   $ git reset --hard upstream/release
    $ git merge --ff-only v$version
-   $ git push origin release
+   $ git push upstream release
    $ git checkout master
 ```
 
@@ -706,6 +712,14 @@ This should include
 2. Python packages
 3. Python builds
 
+Update the testing data cache used for CI testing
+-------------------------------------------------
+
+In the *ITK/Testing/ContinuousIntegration* Azure Pipelines continuous
+integration testing configuration script. Update the `ExternalDataVersion` to
+point to data archive for the most recently created release. Commit and create
+a PR.
+
 Update the Website
 ------------------
 
@@ -721,31 +735,13 @@ maintainer group.
 Contact Communications at <comm@kitware.com> in order to update the above pages
 and to produce a press release.
 
-Update the Wiki
----------------
+Update Issue Tracker
+--------------------
 
-The [ITK wiki] hosts several pages that:
-
-  * Store information about release versions
-  * List API changes between two versions
-  * Store the release schedule
-
-Every time a new ITK version is released, the following steps must be taken to
-keep the wiki information up-to-date:
-
-  * **Add entry for next planned release**: delete the old entry and add a new
-    entry in the [release schedule] page.
-  * **Update the Releases page**: add the *What is new* and *What changed*
-    entries to the [releases page].
-  * **Update *What is new in release x.x* Wiki Page**: update this webpage with
-    the message sent to the [ITK discussion] indicating the notable changes and
-    other important information about the release.
-  * **Update *What changed since x.x***: From a Linux system:
-
-```sh
-   $ cd ITK
-   $ git shortlog --topo-order --no-merges v$old_version..v$new_version
-```
+In the [ITK GitHub
+Milestones](https://github.com/InsightSoftwareConsortium/ITK/milestones),
+create a new milestone for the next release. Migrate issues to the new
+milestone, and close the current release's milestone.
 
 Delete the `kwrobot` time stamp commits.
 
@@ -761,6 +757,13 @@ configurations as possible.
 
 Release Notes Posts
 -------------------
+
+```sh
+   $ cd ITK
+   $ git shortlog --topo-order --no-merges v$old_version..v$new_version
+```
+
+TODO: update for ITK
 
 In `Utilities/Maintenance/release`, there are the following scripts:
 
@@ -807,7 +810,7 @@ Announcing
 For the final release, the release notes produced should be used to
 
   * Post a message in the [ITK discussion]
-  * Create a post in the [kitware blog]
+  * Create a post in the [Kitware blog]
   * Create a post in ITK project on [ResearchGate]
 
 Finally, inform Communications at <comm@kitware.com>.
@@ -824,13 +827,13 @@ excellent packaging.
 
 
 
-[kitware blog]: https://blog.kitware.com/
+[Kitware blog]: https://blog.kitware.com/
 [blog post]: https://blog.kitware.com/itk-packages-in-linux-distributions/
 [Dashboard]: https://open.cdash.org/index.php?project=Insight
 [community]: https://discourse.itk.org/
 [documentation page]: http://www.itk.org/ITK/help/documentation.html
 [download page]: https://itk.org/ITK/resources/software.html
-[gerrit]: http://review.source.kitware.com/
+[GitHub]: http://github.com/InsightSoftwareConsortium/ITK
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK discussion]: https://discourse.itk.org/
 [ITK issue tracking]: http://issues.itk.org/
@@ -851,3 +854,4 @@ excellent packaging.
 [SourceForge]: https://sourceforge.net/downloads/itk/itk/
 [ITK GitHub Releases]: https://github.com/InsightSoftwareConsortium/ITK/releases
 [ITK data.kitware.com Releases]: https://data.kitware.com/#item/5b22a47f8d777f2e622564d8
+[ITK GitHub Milestones]: https://github.com/InsightSoftwareConsortium/ITK/milestones
