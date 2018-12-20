@@ -59,6 +59,7 @@ namespace detail
    * The permutations indices is used to order the matrix of eigenVectors.
    * \sa permuteEigenVectorsWithSortPermutations
    *
+   * @tparam TArray  array type with operator []
    * @param eigenValues input array, requires operator []
    * @param numberOfElements size of array
    *
@@ -87,9 +88,9 @@ namespace detail
   /** Permute a eigenVectors matrix according to the permutation indices
    * computed from the output of a sort function like \sa detail::sortEigenValuesByMagnitude
    *
-   * @param QMatrix a Eigen3 matrix
-   * @param eigenVectors eigen vectors are stored in columns
-   * @param std::vector container with the permutations from the output of
+   * @tparam QMatrix a Eigen3 matrix
+   * @param eigenVectors stored in columns
+   * @param indicesSortPermutations container with the permutations from the output of
    * a sort function.
    */
   template<typename QMatrix>
