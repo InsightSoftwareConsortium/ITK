@@ -27,6 +27,7 @@ itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
 itkCurvesLevelSetImageFilterTest.cxx
 itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
+itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
 )
 
 CreateTestDriver(ITKLevelSets  "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsTests}")
@@ -95,6 +96,8 @@ itk_add_test(NAME itkCurvesLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver itkCurvesLevelSetImageFilterTest)
 itk_add_test(NAME itkCurvesLevelSetImageFilterZeroSigmaTest
       COMMAND ITKLevelSetsTestDriver itkCurvesLevelSetImageFilterZeroSigmaTest)
+itk_add_test(NAME itkBinaryMaskToNarrowBandPointSetFilterTest
+      COMMAND ITKLevelSetsTestDriver itkBinaryMaskToNarrowBandPointSetFilterTest)
 
 itk_python_add_test(NAME PythonLazyLoadingImage COMMAND LazyLoadingImageTest.py)
 
