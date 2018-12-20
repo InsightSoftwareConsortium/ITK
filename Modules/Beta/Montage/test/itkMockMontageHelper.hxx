@@ -31,16 +31,16 @@
 #include <type_traits>
 
 // do the registration and calculate error for two images
-template< typename PixelType, unsigned Dimension >
+template< typename PixelType >
 double
-calculateError( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
-                const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
+calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
                 const std::string& inputPath, int paddingMethod, std::ostream& out,
                 unsigned xF, unsigned yF, unsigned xM, unsigned yM)
 {
   double translationError = 0.0;
   std::cout << stageTiles[yF][xF].FileName << " <- " << stageTiles[yM][xM].FileName << std::endl;
 
+  constexpr unsigned Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -132,8 +132,7 @@ calculateError( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
 // do the registrations and calculate registration errors
 template< typename PixelType >
 int
-mockMontageTest( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
-                 const std::vector< std::vector< itk::Tile< 2 > > >& actualTiles,
+mockMontageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
                  const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods )
 {
   int result = EXIT_SUCCESS;
@@ -168,12 +167,12 @@ mockMontageTest( const std::vector< std::vector< itk::Tile< 2 > > >& stageTiles,
         {
         if ( x > 0 )
           {
-          totalError += calculateError< PixelType, Dimension >(
+          totalError += calculateError< PixelType >(
               stageTiles, actualTiles, inputPath, padMethod, registrationErrors, x - 1, y, x, y );
           }
         if ( y > 0 )
           {
-          totalError += calculateError< PixelType, Dimension >(
+          totalError += calculateError< PixelType >(
               stageTiles, actualTiles, inputPath, padMethod, registrationErrors, x, y - 1, x, y );
           }
         }
