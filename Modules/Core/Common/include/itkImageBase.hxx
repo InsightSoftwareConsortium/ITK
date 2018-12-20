@@ -42,8 +42,9 @@ namespace itk
 template< unsigned int VImageDimension >
 ImageBase< VImageDimension >
 ::ImageBase()
+:
+m_OffsetTable{}
 {
-  memset(m_OffsetTable, 0, sizeof(m_OffsetTable));
   m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);
   m_Direction.SetIdentity();
@@ -474,10 +475,7 @@ void
 ImageBase< VImageDimension >
 ::SetRequestedRegion(const RegionType & region)
 {
-  if ( m_RequestedRegion != region )
-    {
-    m_RequestedRegion = region;
-    }
+  m_RequestedRegion = region;
 }
 
 
@@ -547,7 +545,7 @@ ImageBase< VImageDimension >
 
   os << indent << "Spacing: " << this->GetSpacing() << std::endl;
 
-  os << indent << "Origin: " << this->GetOrigin() << std::endl; \
+  os << indent << "Origin: " << this->GetOrigin() << std::endl;
 
   os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
 
